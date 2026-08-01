@@ -1,0 +1,9541 @@
+[
+ {
+  "name": "test::test_version_flag_prints_version_to_stdout_and_exit_0::0",
+  "argv": [
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_mentions_usage_and_exit_0::1",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_post_with_kv_sends_json_body_and_sets_content_type_application_json::2",
+  "argv": [
+   "POST",
+   "hello=world"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_form_mode_with_value_from_file_sends_form_encoded_body::3",
+  "argv": [
+   "-f",
+   "POST"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_connection_error_goes_to_stderr_and_exit_1::4",
+  "argv": [
+   "http://127.0.0.1:1/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_args_prints_help_and_exit_0::5",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_exact_matches_golden::6",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_false_prints_help::7",
+  "argv": [
+   "-v=false"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_exits_2_and_prints_error::8",
+  "argv": [
+   "--definitely-not-a-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unreachable_host_exits_1_and_logs_error_to_stderr::9",
+  "argv": [
+   "http://nonexistent.invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::10",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_format::11",
+  "argv": [
+   "-version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bench_flag::12",
+  "argv": [
+   "-bench=true",
+   "-b.N=10",
+   "-b.C=2",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bench_short_flag::13",
+  "argv": [
+   "-b",
+   "-b.N=5",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bench_shows_timing_stats::14",
+  "argv": [
+   "-bench=true",
+   "-b.N=10",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bench_shows_requests_per_sec::15",
+  "argv": [
+   "-b",
+   "-b.N=10",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bench_shows_latency_distribution::16",
+  "argv": [
+   "-bench=true",
+   "-b.N=20",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bench_shows_histogram::17",
+  "argv": [
+   "-b",
+   "-b.N=20",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bench_n_parameter::18",
+  "argv": [
+   "-b",
+   "-b.N=3",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bench_c_parameter::19",
+  "argv": [
+   "-b",
+   "-b.N=10",
+   "-b.C=5",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bench_with_post::20",
+  "argv": [
+   "-bench=true",
+   "-b.N=5",
+   "POST",
+   "key=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bench_csv_output::21",
+  "argv": [
+   "-bench=true",
+   "-b.N=5",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_response::22",
+  "argv": [
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cookie_header::23",
+  "argv": [
+   "GET",
+   "Cookie:test=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_cookies::24",
+  "argv": [
+   "GET",
+   "Cookie:cookie1=val1; cookie2=val2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_user_agent::25",
+  "argv": [
+   "GET",
+   "User-Agent:TestAgent/1.0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_integer_parsing::26",
+  "argv": [
+   "POST",
+   "count=42"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_float_parsing::27",
+  "argv": [
+   "POST",
+   "price=19.99"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_boolean_string_parsing::28",
+  "argv": [
+   "POST",
+   "enabled=true",
+   "disabled=false"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_string_parsing::29",
+  "argv": [
+   "POST",
+   "items=[1,2,3]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_string_value::30",
+  "argv": [
+   "POST",
+   "empty="
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quoted_values::31",
+  "argv": [
+   "POST",
+   "message=\"hello world\""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_string::32",
+  "argv": [
+   "POST",
+   "value=null"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_numeric_strings::33",
+  "argv": [
+   "POST",
+   "id=123",
+   "code=456"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_data_types::34",
+  "argv": [
+   "POST",
+   "name=John",
+   "age=30",
+   "active=true",
+   "score=98.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_chars_in_values::35",
+  "argv": [
+   "POST",
+   "data=test<>value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_encoded_values::36",
+  "argv": [
+   "POST",
+   "http://httpbin.org/post",
+   "website=example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_like_string::37",
+  "argv": [
+   "POST",
+   "http://httpbin.org/post",
+   "data=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_with_strings::38",
+  "argv": [
+   "POST",
+   "tags=[\"red\",\"blue\",\"green\"]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_download_various_sizes::39",
+  "argv": [
+   "-d",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_download_with_headers::40",
+  "argv": [
+   "-d",
+   "GET",
+   "User-Agent:TestDownloader/1.0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_download_image_types::41",
+  "argv": [
+   "-download=true",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_download_with_auth::42",
+  "argv": [
+   "-d",
+   "-auth=user:pass",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_header_value::43",
+  "argv": [
+   "GET",
+   "X-Empty:"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_header_value_with_spaces::44",
+  "argv": [
+   "GET",
+   "X-Spaced:value with spaces"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_data::45",
+  "argv": [
+   "POST",
+   "message=Hello世界"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_same_headers::46",
+  "argv": [
+   "GET",
+   "X-Custom:value1",
+   "X-Custom:value2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_param_with_special_chars::47",
+  "argv": [
+   "GET",
+   "q=hello world"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_with_nested_objects::48",
+  "argv": [
+   "POST",
+   "username=John",
+   "age:=30"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_boolean_values_in_json::49",
+  "argv": [
+   "POST",
+   "enabled:=true",
+   "disabled:=false"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_value_in_json::50",
+  "argv": [
+   "POST",
+   "value:=null"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_float_values_in_json::51",
+  "argv": [
+   "POST",
+   "price:=19.99"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_numbers_in_json::52",
+  "argv": [
+   "POST",
+   "temperature:=-15"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_array_in_json::53",
+  "argv": [
+   "POST",
+   "items:=[]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_with_mixed_types::54",
+  "argv": [
+   "POST",
+   "mixed:=[1,\"two\",true]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_with_port_80::55",
+  "argv": [
+   "GET",
+   "http://httpbin.org:80/get"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_with_port_443::56",
+  "argv": [
+   "GET",
+   "https://httpbin.org:443/get"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_localhost_with_path::57",
+  "argv": [
+   ":8080/api/test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deflate_content_encoding::58",
+  "argv": [
+   "GET",
+   "http://httpbin.org/deflate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_form_and_json_flags::59",
+  "argv": [
+   "-f=true",
+   "POST",
+   "key=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_data_with_equals_in_value::60",
+  "argv": [
+   "POST",
+   "equation=x=y+z"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_header_with_multiple_colons::61",
+  "argv": [
+   "GET",
+   "X-URI:http://example.com:8080/path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_proxy_url::62",
+  "argv": [
+   "-proxy=not-a-valid-url",
+   "GET",
+   "http://httpbin.org/get"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_connection_refused::63",
+  "argv": [
+   "GET",
+   "http://localhost:9999/nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_host::64",
+  "argv": [
+   "GET",
+   "http://this-host-does-not-exist-12345.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_not_found_for_upload::65",
+  "argv": [
+   "-f",
+   "-json=false",
+   "POST",
+   "http://httpbin.org/post",
+   "file@/nonexistent/file.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_not_found_for_data::66",
+  "argv": [
+   "POST",
+   "http://httpbin.org/post",
+   "field=@/tmp/nonexistent123456.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_malformed_auth_flag::67",
+  "argv": [
+   "-auth=justusername",
+   "GET",
+   "http://httpbin.org/headers"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_network_error_handling::68",
+  "argv": [
+   "GET",
+   "http://192.0.2.1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_and_pretty_flags::69",
+  "argv": [
+   "-json=true",
+   "-pretty=true",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_form_and_print_flags::70",
+  "argv": [
+   "-f",
+   "-print=hb",
+   "POST",
+   "key=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_auth_and_print_flags::71",
+  "argv": [
+   "-auth=user:pass",
+   "-print=H",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pretty_false_with_json::72",
+  "argv": [
+   "-pretty=false",
+   "-json=true",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_headers_with_data::73",
+  "argv": [
+   "POST",
+   "X-Custom-1:value1",
+   "X-Custom-2:value2",
+   "data=test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_form_with_multiple_fields::74",
+  "argv": [
+   "-f",
+   "POST",
+   "field1=val1",
+   "field2=val2",
+   "field3=val3",
+   "field4=val4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_with_multiple_fields::75",
+  "argv": [
+   "POST",
+   "name=John",
+   "email=john@test.com",
+   "age=30",
+   "city=Boston"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_get_with_multiple_query_params::76",
+  "argv": [
+   "GET",
+   "param1=val1",
+   "param2=val2",
+   "param3=val3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_method_flag_with_data::77",
+  "argv": [
+   "-method=POST",
+   "data=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_body_only_with_post::78",
+  "argv": [
+   "-print=b",
+   "POST",
+   "key=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_false_with_get::79",
+  "argv": [
+   "-json=false",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_various_http_methods_with_print::80",
+  "argv": [
+   "-print=b"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_form_flag::81",
+  "argv": [
+   "-form=true",
+   "POST",
+   "name=John",
+   "email=john@example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_form_flag::82",
+  "argv": [
+   "-f",
+   "POST",
+   "key=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_form_with_spaces::83",
+  "argv": [
+   "-f=true",
+   "POST",
+   "name=John Smith"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_form_file_upload::84",
+  "argv": [
+   "-f",
+   "-json=false",
+   "POST",
+   "name=John"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_form_file_upload_requires_form_flag::85",
+  "argv": [
+   "-json=false",
+   "POST"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_form_multiple_fields::86",
+  "argv": [
+   "-f",
+   "POST",
+   "username=johndoe",
+   "password=secret123",
+   "remember=true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_form_special_characters::87",
+  "argv": [
+   "-f=true",
+   "POST",
+   "email=test@example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_form_vs_json_content_type::88",
+  "argv": [
+   "POST",
+   "key=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_form_empty_value::89",
+  "argv": [
+   "-f",
+   "POST",
+   "empty=",
+   "filled=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_header::90",
+  "argv": [
+   "GET",
+   "X-Custom-Header:test-value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_headers::91",
+  "argv": [
+   "GET",
+   "X-Header-One:value1",
+   "X-Header-Two:value2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_user_agent_header::92",
+  "argv": [
+   "GET",
+   "User-Agent:CustomAgent/1.0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_host_header::93",
+  "argv": [
+   "GET",
+   "Host:example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_accept_header::94",
+  "argv": [
+   "GET",
+   "Accept:text/html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_content_type_header::95",
+  "argv": [
+   "-body=<xml>data</xml>",
+   "POST",
+   "http://httpbin.org/post",
+   "Content-Type:application/xml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_header_with_colon_in_value::96",
+  "argv": [
+   "GET",
+   "X-Time:12:30:45"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cookie_header::97",
+  "argv": [
+   "GET",
+   "Cookie:session=abc123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_referer_header::98",
+  "argv": [
+   "GET",
+   "Referer:http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_authorization_header_manual::99",
+  "argv": [
+   "GET",
+   "Authorization:Bearer token123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_auth_with_flag::100",
+  "argv": [
+   "-auth=testuser:testpass",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_auth_short_flag::101",
+  "argv": [
+   "-a=user:pass",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_auth_username_only::102",
+  "argv": [
+   "-auth=onlyuser",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_auth_in_url::103",
+  "argv": [
+   "GET",
+   "http://testuser:testpass@httpbin.org/basic-auth/testuser/testpass"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_header_overrides_default::104",
+  "argv": [
+   "GET",
+   "Accept:*/*"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_post_method_explicit::105",
+  "argv": [
+   "POST",
+   "name=John"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_post_method_implicit_with_data::106",
+  "argv": [
+   "key=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_put_method::107",
+  "argv": [
+   "PUT",
+   "name=Updated"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_method::108",
+  "argv": [
+   "DELETE"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_patch_method::109",
+  "argv": [
+   "PATCH",
+   "field=patched"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_head_method::110",
+  "argv": [
+   "HEAD",
+   "http://httpbin.org/get"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_options_method::111",
+  "argv": [
+   "OPTIONS"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_method::112",
+  "argv": [
+   "-method=TRACE"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_method_case_insensitive::113",
+  "argv": [
+   "get"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_post_with_body_flag::114",
+  "argv": [
+   "-body=raw data",
+   "POST"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_method_flag_overrides_implicit::115",
+  "argv": [
+   "-method=PUT",
+   "data=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_data_fields::116",
+  "argv": [
+   "POST",
+   "name=John",
+   "age=30"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_flag_sets_accept_header::117",
+  "argv": [
+   "-json=true",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_json_field_with_number::118",
+  "argv": [
+   "POST",
+   "num=42"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_json_field_with_boolean::119",
+  "argv": [
+   "POST",
+   "enabled=true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_from_file::120",
+  "argv": [
+   "POST",
+   "field=filedata"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_text_from_file::121",
+  "argv": [
+   "POST"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pretty_json_output::122",
+  "argv": [
+   "-pretty=true",
+   "POST",
+   "name=John"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_stdin::123",
+  "argv": [
+   "POST"
+  ],
+  "stdin": "{\"key\": \"value\", \"number\": 42}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_json_fields::124",
+  "argv": [
+   "POST",
+   "name=John",
+   "age=30",
+   "active=true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_with_special_characters::125",
+  "argv": [
+   "POST",
+   "message=Hello World!",
+   "email=test@example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_array_detection::126",
+  "argv": [
+   "POST",
+   "tags=[\"tag1\",\"tag2\"]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_implicit_post_with_at_symbol::127",
+  "argv": [
+   "field@data"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_body_flag_with_explicit_post::128",
+  "argv": [
+   "-body=testdata",
+   "POST"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_get_with_query_params::129",
+  "argv": [
+   "GET",
+   "param=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explicit_method_overrides_detection::130",
+  "argv": [
+   "PUT",
+   "data=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_method_detection_with_multiple_items::131",
+  "argv": [
+   "key1=val1",
+   "key2=val2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_request_headers_flag::132",
+  "argv": [
+   "-print=H",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_request_body_flag::133",
+  "argv": [
+   "-print=B",
+   "POST",
+   "data=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_response_headers_flag::134",
+  "argv": [
+   "-print=h",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_response_body_only::135",
+  "argv": [
+   "-print=b",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_multiple_flags::136",
+  "argv": [
+   "-print=Hh",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_request_only::137",
+  "argv": [
+   "-print=HB",
+   "POST",
+   "key=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_response_only::138",
+  "argv": [
+   "-print=hb",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pretty_flag_formats_json::139",
+  "argv": [
+   "-pretty=true",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pretty_disabled::140",
+  "argv": [
+   "-pretty=false",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_empty_flag::141",
+  "argv": [
+   "-print=",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_anything_with_data::142",
+  "argv": [
+   "POST",
+   "test=data"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stream_endpoint::143",
+  "argv": [
+   "GET",
+   "http://httpbin.org/stream/5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_insecure_flag::144",
+  "argv": [
+   "-insecure=true",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_insecure_short_flag::145",
+  "argv": [
+   "-i",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_proxy_flag_invalid::146",
+  "argv": [
+   "-proxy=http://invalid-proxy:9999",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_json_data::147",
+  "argv": [
+   "POST"
+  ],
+  "stdin": "{\"name\": \"John\", \"age\": 30}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_raw_data::148",
+  "argv": [
+   "POST"
+  ],
+  "stdin": "Plain text data",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_binary_data::149",
+  "argv": [
+   "POST"
+  ],
+  "stdin": "\u0000\u0001\u0002\u0003�",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_body_flag_raw_data::150",
+  "argv": [
+   "-body=raw text here",
+   "POST"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_body_flag_overrides_items::151",
+  "argv": [
+   "-body=body data",
+   "POST",
+   "ignored=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_overrides_items::152",
+  "argv": [
+   "POST",
+   "param=value"
+  ],
+  "stdin": "{\"stdin\": \"data\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_body_with_get_method::153",
+  "argv": [
+   "-body=data",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_stdin::154",
+  "argv": [
+   "GET"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_multiline::155",
+  "argv": [
+   "POST"
+  ],
+  "stdin": "line1\nline2\nline3",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_json_detection::156",
+  "argv": [
+   "POST"
+  ],
+  "stdin": "{\"valid\": true, \"number\": 42}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_body_flag_empty::157",
+  "argv": [
+   "-body=",
+   "POST"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_body_flag_with_special_chars::158",
+  "argv": [
+   "-body=special<>&chars",
+   "POST"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_full_https_url::159",
+  "argv": [
+   "https://httpbin.org/get"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_without_scheme::160",
+  "argv": [
+   "httpbin.org/get"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_localhost_shorthand_with_port::161",
+  "argv": [
+   ":9999/test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_localhost_shorthand_root::162",
+  "argv": [
+   ":"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_query_params_via_items::163",
+  "argv": [
+   "GET",
+   "foo=bar",
+   "baz=qux"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_with_trailing_slash::164",
+  "argv": [
+   "GET",
+   "http://httpbin.org/anything/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_with_multiple_slashes::165",
+  "argv": [
+   "GET",
+   "http://httpbin.org/anything/multiple"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_with_subdomain::166",
+  "argv": [
+   "GET",
+   "https://httpbin.org/get"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_localhost_variations::167",
+  "argv": [
+   ":8080"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_TestGet_bytes_equals_string::168",
+  "argv": [
+   "-print=b",
+   "https://httpbin.org/get"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_TestSimplePost_includes_param_value::169",
+  "argv": [
+   "-print=b",
+   "POST",
+   "https://httpbin.org/post",
+   "username=smallfish"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_TestSimplePut_returns_json::170",
+  "argv": [
+   "-print=b",
+   "PUT",
+   "https://httpbin.org/put"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_TestSimpleDelete_returns_json::171",
+  "argv": [
+   "-print=b",
+   "DELETE",
+   "https://httpbin.org/delete"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_TestWithBasicAuth_authenticated_true::172",
+  "argv": [
+   "-print=b",
+   "-a",
+   "user:passwd",
+   "https://httpbin.org/basic-auth/user/passwd"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_TestWithUserAgent_header_propagates::173",
+  "argv": [
+   "-print=b",
+   "https://httpbin.org/headers",
+   "User-Agent:beego"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_TestWithCookie_cookie_roundtrip::174",
+  "argv": [
+   "-print=b",
+   "GET",
+   "https://httpbin.org/cookies",
+   "Cookie:k1=smallfish"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_TestToJson_response_has_origin_ipv4_like::175",
+  "argv": [
+   "-print=b",
+   "https://httpbin.org/ip"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_TestHeader_custom_user_agent_long_value::176",
+  "argv": [
+   "-print=b",
+   "https://httpbin.org/headers"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_proxy_env_vars_by_default::177",
+  "argv": [
+   "http://httpbin.org/get"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "CLEAN_ENV": "1"
+  }
+ },
+ {
+  "name": "test::test_cli_proxy_overrides_env::178",
+  "argv": [
+   "--proxy=http://cli-proxy:8888",
+   "http://httpbin.org/get"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "HTTP_PROXY": "http://env-proxy:9999",
+   "CLEAN_ENV": "1"
+  }
+ },
+ {
+  "name": "test::test_json_flag_default_behavior::179",
+  "argv": [
+   "-j=true",
+   "http://httpbin.org/get"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_form_flag_changes_content_type::180",
+  "argv": [
+   "-f",
+   "POST",
+   "http://httpbin.org/post",
+   "key=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_insecure_flag::181",
+  "argv": [
+   "-i",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_auth_flag_format::182",
+  "argv": [
+   "-a=testuser:testpass",
+   "http://httpbin.org/basic-auth/testuser/testpass"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pretty_flag::183",
+  "argv": [
+   "-p=true",
+   "http://httpbin.org/get"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_body_flag_raw_data::184",
+  "argv": [
+   "-body=test body data",
+   "POST",
+   "http://httpbin.org/post"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_localhost_shorthand_port::185",
+  "argv": [
+   ":3000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_prefix_added::186",
+  "argv": [
+   "example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_header_item_format::187",
+  "argv": [
+   "http://httpbin.org/get",
+   "X-Custom-Header:TestValue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_data_item_json_format::188",
+  "argv": [
+   "POST",
+   "http://httpbin.org/post",
+   "name=John"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_json_item_format::189",
+  "argv": [
+   "POST",
+   "http://httpbin.org/post",
+   "count:=42"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_param_with_get::190",
+  "argv": [
+   "GET",
+   "http://httpbin.org/get",
+   "search=test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_method_post_with_data::191",
+  "argv": [
+   "http://httpbin.org/post",
+   "key=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_json_input::192",
+  "argv": [
+   "POST",
+   "http://httpbin.org/post"
+  ],
+  "stdin": "{\"key\": \"value\", \"number\": 42}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_url::193",
+  "argv": [
+   "ht!tp://invalid url with spaces"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_connection_refused::194",
+  "argv": [
+   ":9999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cli_method_explicit::195",
+  "argv": [
+   "PUT",
+   "http://httpbin.org/put",
+   "key=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cli_json_false_overrides_default::196",
+  "argv": [
+   "-j=false",
+   "http://httpbin.org/get"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_header_overrides_default::197",
+  "argv": [
+   "http://httpbin.org/get",
+   "User-Agent:CustomAgent/1.0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_host_header_override::198",
+  "argv": [
+   "http://httpbin.org/get",
+   "Host:custom.example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_put_method_with_data::199",
+  "argv": [
+   "PUT",
+   "https://httpbin.org/put",
+   "field=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_patch_method_with_data::200",
+  "argv": [
+   "PATCH",
+   "https://httpbin.org/patch",
+   "update=data"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_method::201",
+  "argv": [
+   "DELETE",
+   "https://httpbin.org/delete"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_options_method::202",
+  "argv": [
+   "OPTIONS",
+   "https://httpbin.org/get"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_get_with_query_params::203",
+  "argv": [
+   "GET",
+   "https://httpbin.org/get",
+   "param1=value1",
+   "param2=value2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_post_json_body::204",
+  "argv": [
+   "POST",
+   "https://httpbin.org/post",
+   "name=test",
+   "value=123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_form_post::205",
+  "argv": [
+   "-f",
+   "POST",
+   "https://httpbin.org/post",
+   "field1=value1",
+   "field2=value2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_user_agent::206",
+  "argv": [
+   "GET",
+   "https://httpbin.org/user-agent",
+   "User-Agent:MyCustomAgent/1.0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_headers::207",
+  "argv": [
+   "GET",
+   "https://httpbin.org/headers",
+   "X-Header-1:value1",
+   "X-Header-2:value2",
+   "X-Header-3:value3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cookie_header::208",
+  "argv": [
+   "GET",
+   "https://httpbin.org/cookies",
+   "Cookie:session=abc123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_referer_header::209",
+  "argv": [
+   "GET",
+   "https://httpbin.org/headers",
+   "Referer:https://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_authorization_header::210",
+  "argv": [
+   "GET",
+   "https://httpbin.org/headers",
+   "Authorization:Bearer token123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_accept_language_header::211",
+  "argv": [
+   "GET",
+   "https://httpbin.org/headers",
+   "Accept-Language:en-US,en;q=0.9"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cache_control_header::212",
+  "argv": [
+   "GET",
+   "https://httpbin.org/headers",
+   "Cache-Control:no-cache"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_with_path::213",
+  "argv": [
+   "GET",
+   "https://httpbin.org/anything/test/path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_with_fragment::214",
+  "argv": [
+   "GET",
+   "https://httpbin.org/get#fragment"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_value_field::215",
+  "argv": [
+   "POST",
+   "https://httpbin.org/post",
+   "empty=",
+   "filled=data"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_chars_in_value::216",
+  "argv": [
+   "POST",
+   "https://httpbin.org/post",
+   "special=!@#$%"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_value::217",
+  "argv": [
+   "POST",
+   "https://httpbin.org/post",
+   "unicode=café"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_long_field_value::218",
+  "argv": [
+   "POST",
+   "https://httpbin.org/post"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_method_case_variations::219",
+  "argv": [
+   "get",
+   "https://httpbin.org/get"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_implicit_post_method::220",
+  "argv": [
+   "https://httpbin.org/post",
+   "data=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_code_200::221",
+  "argv": [
+   "GET",
+   "https://httpbin.org/status/200"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_code_201::222",
+  "argv": [
+   "POST",
+   "https://httpbin.org/status/201"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_code_204::223",
+  "argv": [
+   "DELETE",
+   "https://httpbin.org/status/204"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_response_with_json::224",
+  "argv": [
+   "GET",
+   "https://httpbin.org/json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delay_endpoint::225",
+  "argv": [
+   "GET",
+   "https://httpbin.org/delay/1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gzip_response::226",
+  "argv": [
+   "GET",
+   "https://httpbin.org/gzip"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bytes_response::227",
+  "argv": [
+   "GET",
+   "https://httpbin.org/bytes/100"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stream_response::228",
+  "argv": [
+   "GET",
+   "https://httpbin.org/stream-bytes/100"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_response::229",
+  "argv": [
+   "GET",
+   "https://httpbin.org/html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xml_response::230",
+  "argv": [
+   "GET",
+   "https://httpbin.org/xml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_robots_txt::231",
+  "argv": [
+   "GET",
+   "https://httpbin.org/robots.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_uuid_endpoint::232",
+  "argv": [
+   "GET",
+   "https://httpbin.org/uuid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base64_decode::233",
+  "argv": [
+   "GET",
+   "https://httpbin.org/base64/SGVsbG8gV29ybGQ="
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_redirect_multiple_times::234",
+  "argv": [
+   "GET",
+   "https://httpbin.org/redirect/3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_absolute_redirect::235",
+  "argv": [
+   "GET",
+   "https://httpbin.org/absolute-redirect/1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_redirect::236",
+  "argv": [
+   "GET",
+   "https://httpbin.org/relative-redirect/1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_image_response::237",
+  "argv": [
+   "GET",
+   "https://httpbin.org/image/png"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_svg_image::238",
+  "argv": [
+   "GET",
+   "https://httpbin.org/image/svg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_forms_endpoint::239",
+  "argv": [
+   "GET",
+   "https://httpbin.org/forms/post"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_etag_header::240",
+  "argv": [
+   "GET",
+   "https://httpbin.org/etag/test",
+   "If-None-Match:test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cache_endpoint::241",
+  "argv": [
+   "GET",
+   "https://httpbin.org/cache"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_response_headers_endpoint::242",
+  "argv": [
+   "GET",
+   "https://httpbin.org/response-headers",
+   "Custom-Header=custom-value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_drip_endpoint::243",
+  "argv": [
+   "GET",
+   "https://httpbin.org/drip?numbytes=10&duration=1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_range_request::244",
+  "argv": [
+   "GET",
+   "https://httpbin.org/range/100",
+   "Range:bytes=0-99"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_links_endpoint::245",
+  "argv": [
+   "GET",
+   "https://httpbin.org/links/5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_image_jpeg::246",
+  "argv": [
+   "GET",
+   "https://httpbin.org/image/jpeg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_image_webp::247",
+  "argv": [
+   "GET",
+   "https://httpbin.org/image/webp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_content_negotiation::248",
+  "argv": [
+   "GET",
+   "https://httpbin.org/image",
+   "Accept:image/png"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encoding_utf8::249",
+  "argv": [
+   "GET",
+   "https://httpbin.org/encoding/utf8"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_post_form_urlencoded::250",
+  "argv": [
+   "-f",
+   "POST",
+   "https://httpbin.org/post",
+   "key1=value1",
+   "key2=value2",
+   "key3=value3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_put_with_body::251",
+  "argv": [
+   "PUT",
+   "https://httpbin.org/put",
+   "updated=true",
+   "version=2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_patch_with_body::252",
+  "argv": [
+   "PATCH",
+   "https://httpbin.org/patch",
+   "patch=data",
+   "id=123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_anything_endpoint::253",
+  "argv": [
+   "POST",
+   "https://httpbin.org/anything",
+   "test=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_anything_with_path::254",
+  "argv": [
+   "GET",
+   "https://httpbin.org/anything/some/path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_get_with_auth::255",
+  "argv": [
+   "-a=user:pass",
+   "https://httpbin.org/basic-auth/user/pass"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_get_with_bearer_token::256",
+  "argv": [
+   "GET",
+   "https://httpbin.org/bearer",
+   "Authorization:Bearer mytoken123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_digest_auth::257",
+  "argv": [
+   "-a=user:pass",
+   "https://httpbin.org/digest-auth/auth/user/pass"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hidden_basic_auth::258",
+  "argv": [
+   "-a=user:pass",
+   "https://httpbin.org/hidden-basic-auth/user/pass"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_418::259",
+  "argv": [
+   "GET",
+   "https://httpbin.org/status/418"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unstable_endpoint::260",
+  "argv": [
+   "GET",
+   "https://httpbin.org/unstable"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_auth_flag_accepted::261",
+  "argv": [
+   "-a=user:pass",
+   "http://httpbin.org/status/401"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_auth_long_flag::262",
+  "argv": [
+   "--auth=user:pass",
+   "http://httpbin.org/status/200"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_auth_username_only::263",
+  "argv": [
+   "-a=user",
+   "http://httpbin.org/status/200"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_https_connection::264",
+  "argv": [
+   "https://httpbin.org/status/200"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_insecure_flag_accepted::265",
+  "argv": [
+   "-i",
+   "https://httpbin.org/status/200"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_insecure_long_flag::266",
+  "argv": [
+   "--insecure=true",
+   "https://httpbin.org/status/200"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_proxy_flag_format::267",
+  "argv": [
+   "--proxy=http://invalid-proxy:8080",
+   "http://httpbin.org/status/200"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_proxy_with_credentials::268",
+  "argv": [
+   "--proxy=http://user:pass@proxy.example.com:8080",
+   "http://httpbin.org/status/200"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssl_works_by_default::269",
+  "argv": [
+   "https://httpbin.org/anything"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bench_minimal::270",
+  "argv": [
+   "-b",
+   "-b.N=2",
+   "-b.C=1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bench_with_different_n_values::271",
+  "argv": [
+   "-b",
+   "-b.C=1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bench_with_different_c_values::272",
+  "argv": [
+   "-b",
+   "-b.N=5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bench_post_request::273",
+  "argv": [
+   "-b",
+   "-b.N=3",
+   "POST",
+   "data=test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bench_with_headers::274",
+  "argv": [
+   "-b",
+   "-b.N=3",
+   "X-Test:value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bench_with_json_data::275",
+  "argv": [
+   "-b",
+   "-b.N=3",
+   "field=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bench_with_form_data::276",
+  "argv": [
+   "-b",
+   "-b.N=3",
+   "-f",
+   "field=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bench_https::277",
+  "argv": [
+   "-b",
+   "-b.N=2",
+   "-b.C=1",
+   "https://httpbin.org/get"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bench_with_auth::278",
+  "argv": [
+   "-b",
+   "-b.N=2",
+   "-a=user:pass",
+   "https://httpbin.org/basic-auth/user/pass"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bench_flag_variations::279",
+  "argv": [
+   "-bench=true",
+   "-b.N=2",
+   "-b.C=1",
+   "https://httpbin.org/get"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bench_single_request::280",
+  "argv": [
+   "-b",
+   "-b.N=1",
+   "-b.C=1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bench_with_method_override::281",
+  "argv": [
+   "-b",
+   "-b.N=3",
+   "-method=POST"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bench_flag_accepted::282",
+  "argv": [
+   "-b",
+   "-b.N=5",
+   "-b.C=2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bench_custom_request_count::283",
+  "argv": [
+   "-b",
+   "-b.N=10",
+   "-b.C=5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bench_custom_concurrency::284",
+  "argv": [
+   "-b",
+   "-b.N=10",
+   "-b.C=3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bench_with_post::285",
+  "argv": [
+   "-b",
+   "-b.N=5",
+   "-b.C=2",
+   "POST",
+   "data=test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_post_with_query_params::286",
+  "argv": [
+   "POST",
+   "data=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_redirect_handling::287",
+  "argv": [
+   "GET",
+   "https://httpbin.org/redirect/1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_user_agent_header::288",
+  "argv": [
+   "GET",
+   "https://httpbin.org/user-agent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_accept_header::289",
+  "argv": [
+   "GET",
+   "https://httpbin.org/headers"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_accept_header::290",
+  "argv": [
+   "Accept:text/plain"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_content_type_in_post::291",
+  "argv": [
+   "POST",
+   "data=test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_content_type::292",
+  "argv": [
+   "POST",
+   "https://httpbin.org/post",
+   "field=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_form_content_type::293",
+  "argv": [
+   "-f",
+   "POST",
+   "https://httpbin.org/post",
+   "field=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_method_override::294",
+  "argv": [
+   "PUT",
+   "data=test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_download_basic::295",
+  "argv": [
+   "-d",
+   "https://httpbin.org/image/png"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_download_with_content_disposition::296",
+  "argv": [
+   "-d",
+   "https://httpbin.org/get"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_download_short_flag::297",
+  "argv": [
+   "-d",
+   "https://httpbin.org/bytes/100"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_download_shows_status::298",
+  "argv": [
+   "-d",
+   "https://httpbin.org/status/200"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_download_large_file::299",
+  "argv": [
+   "-d",
+   "https://httpbin.org/bytes/1000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_download_json::300",
+  "argv": [
+   "-d",
+   "https://httpbin.org/json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_download_html::301",
+  "argv": [
+   "-d",
+   "https://httpbin.org/html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_download_xml::302",
+  "argv": [
+   "-d",
+   "https://httpbin.org/xml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_download_with_query_params::303",
+  "argv": [
+   "-d",
+   "https://httpbin.org/get?param=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_download_with_auth::304",
+  "argv": [
+   "-d",
+   "-a=user:pass",
+   "https://httpbin.org/basic-auth/user/pass"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_download_with_headers::305",
+  "argv": [
+   "-d",
+   "https://httpbin.org/get",
+   "X-Custom:value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_download_from_post::306",
+  "argv": [
+   "-d",
+   "POST",
+   "https://httpbin.org/post",
+   "data=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_download_flag_long::307",
+  "argv": [
+   "--download=true",
+   "https://httpbin.org/get"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_connection_refused_error::308",
+  "argv": [
+   "http://localhost:9"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_host::309",
+  "argv": [
+   "http://this-host-does-not-exist-12345.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_file_for_value::310",
+  "argv": [
+   "POST",
+   "http://httpbin.org/post",
+   "data=@/nonexistent/file.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_header_value::311",
+  "argv": [
+   "X-Empty:"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_same_header::312",
+  "argv": [
+   "X-Test:value1",
+   "X-Test:value2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_with_percent_encoding::313",
+  "argv": [
+   "GET",
+   "https://httpbin.org/anything/hello%20world"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_with_special_chars::314",
+  "argv": [
+   "GET",
+   "https://httpbin.org/anything/test?query=hello+world"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_value_with_newline::315",
+  "argv": [
+   "POST",
+   "multi=line1\nline2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_value_with_tab::316",
+  "argv": [
+   "POST",
+   "tabbed=value\twith\ttabs"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_value_with_quotes::317",
+  "argv": [
+   "POST",
+   "quoted=\"hello world\""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_header_with_spaces::318",
+  "argv": [
+   "X-Custom:value with spaces"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_form_with_special_chars::319",
+  "argv": [
+   "-f",
+   "POST",
+   "special=!@#$%^&*()"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_with_username_no_password::320",
+  "argv": [
+   "http://user@httpbin.org/basic-auth/user/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_with_empty_path::321",
+  "argv": [
+   "https://httpbin.org"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_slash_in_path::322",
+  "argv": [
+   "https://httpbin.org//get"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_method_with_get_data_becomes_post::323",
+  "argv": [
+   "data=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explicit_get_with_body_becomes_post::324",
+  "argv": [
+   "GET",
+   "--body=test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concurrent_headers_and_params::325",
+  "argv": [
+   "GET",
+   "param=value",
+   "X-Header:headervalue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_post_to_get_endpoint::326",
+  "argv": [
+   "POST",
+   "https://httpbin.org/get"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_get_to_post_endpoint::327",
+  "argv": [
+   "GET",
+   "https://httpbin.org/post"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_method_propfind::328",
+  "argv": [
+   "-method=PROPFIND",
+   "https://httpbin.org/anything"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_method_mkcol::329",
+  "argv": [
+   "-method=MKCOL",
+   "https://httpbin.org/anything"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_method_copy::330",
+  "argv": [
+   "-method=COPY",
+   "https://httpbin.org/anything"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_method_move::331",
+  "argv": [
+   "-method=MOVE",
+   "https://httpbin.org/anything"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_method_lock::332",
+  "argv": [
+   "-method=LOCK",
+   "https://httpbin.org/anything"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_method_unlock::333",
+  "argv": [
+   "-method=UNLOCK",
+   "https://httpbin.org/anything"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explicit_post_method::334",
+  "argv": [
+   "POST",
+   "name=test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explicit_put_method::335",
+  "argv": [
+   "PUT",
+   "name=test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explicit_head_method::336",
+  "argv": [
+   "HEAD"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_implicit_post_with_data::337",
+  "argv": [
+   "name=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_method_via_method_flag::338",
+  "argv": [
+   "-method=PROPFIND"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_localhost_path_shortcut::339",
+  "argv": [
+   ":/testpath"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_method_case_insensitive::340",
+  "argv": [
+   "get",
+   "https://httpbin.org/status/200"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_patch_method::341",
+  "argv": [
+   "PATCH",
+   "field=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_post_method_explicit::342",
+  "argv": [
+   "POST",
+   "https://httpbin.org/post",
+   "data=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_put_method_explicit::343",
+  "argv": [
+   "PUT",
+   "https://httpbin.org/put"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_head_method_explicit::344",
+  "argv": [
+   "HEAD",
+   "https://httpbin.org/get"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_patch_method_explicit::345",
+  "argv": [
+   "PATCH",
+   "https://httpbin.org/patch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_method_mixed_case::346",
+  "argv": [
+   "Post",
+   "https://httpbin.org/post"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_post_with_equals_data::347",
+  "argv": [
+   "https://httpbin.org/post",
+   "key=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_get_stays_get_with_query::348",
+  "argv": [
+   "GET",
+   "https://httpbin.org/get",
+   "query=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explicit_get_with_data_becomes_post::349",
+  "argv": [
+   "GET",
+   "https://httpbin.org/anything",
+   "field=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_body_flag_triggers_post::350",
+  "argv": [
+   "--body=test",
+   "https://httpbin.org/anything"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_method_with_data_is_post::351",
+  "argv": [
+   "https://httpbin.org/post",
+   "field=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_option_H_only::352",
+  "argv": [
+   "-print=H",
+   "https://httpbin.org/get"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_option_B_only::353",
+  "argv": [
+   "-print=B",
+   "POST",
+   "https://httpbin.org/post",
+   "data=test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_option_h_only::354",
+  "argv": [
+   "-print=h",
+   "https://httpbin.org/get"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_option_Hh::355",
+  "argv": [
+   "-print=Hh",
+   "https://httpbin.org/get"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_option_Bb::356",
+  "argv": [
+   "-print=Bb",
+   "POST",
+   "https://httpbin.org/post",
+   "data=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_option_HB::357",
+  "argv": [
+   "-print=HB",
+   "POST",
+   "https://httpbin.org/post",
+   "data=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_option_hb::358",
+  "argv": [
+   "-print=hb",
+   "https://httpbin.org/get"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_option_HBhb::359",
+  "argv": [
+   "-print=HBhb",
+   "POST",
+   "https://httpbin.org/post",
+   "data=test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_option_A::360",
+  "argv": [
+   "-print=A",
+   "https://httpbin.org/get"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_option_empty::361",
+  "argv": [
+   "-print=",
+   "https://httpbin.org/get"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_option_invalid_chars::362",
+  "argv": [
+   "-print=XYZ",
+   "https://httpbin.org/get"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_multiple_fields::363",
+  "argv": [
+   "POST",
+   "name=John",
+   "email=john@test.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_form_mode_basic::364",
+  "argv": [
+   "-f",
+   "POST",
+   "name=John"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_form_mode_long_flag::365",
+  "argv": [
+   "--form=true",
+   "POST",
+   "field=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_form_multiple_fields::366",
+  "argv": [
+   "-f",
+   "POST",
+   "name=John",
+   "email=john@example.org"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_header_single::367",
+  "argv": [
+   "X-Custom-Header:test-value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_header_multiple::368",
+  "argv": [
+   "X-Header-1:value1",
+   "X-Header-2:value2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_header_with_colons::369",
+  "argv": [
+   "Authorization:Bearer:token:data"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_host_header::370",
+  "argv": [
+   "Host:example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_headers_and_data::371",
+  "argv": [
+   "POST",
+   "X-Token:abc123",
+   "name=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_params_in_get::372",
+  "argv": [
+   "GET",
+   "search=test",
+   "page=1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_data_field_with_equals::373",
+  "argv": [
+   "POST",
+   "formula=a=b+c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_data_field_with_at_symbol::374",
+  "argv": [
+   "POST",
+   "email=user@domain.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_form_data_urlencoding::375",
+  "argv": [
+   "-f",
+   "POST",
+   "message=hello world"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_data::376",
+  "argv": [
+   "POST",
+   "name=José"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_value::377",
+  "argv": [
+   "POST",
+   "empty=",
+   "filled=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_large_json::378",
+  "argv": [
+   "https://httpbin.org/post"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_body_flag_with_special_chars::379",
+  "argv": [
+   "--body=Special chars: !@#$%^&*()",
+   "https://httpbin.org/post"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_body_flag_with_newlines::380",
+  "argv": [
+   "--body=Line1\nLine2\nLine3",
+   "https://httpbin.org/post"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_body_flag_with_unicode::381",
+  "argv": [
+   "--body=Unicode: café résumé",
+   "https://httpbin.org/post"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_body_flag_empty::382",
+  "argv": [
+   "--body=",
+   "https://httpbin.org/post"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_body_flag_causes_post::383",
+  "argv": [
+   "--body=data",
+   "https://httpbin.org/anything"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_causes_post::384",
+  "argv": [
+   "https://httpbin.org/anything"
+  ],
+  "stdin": "data",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_body_and_data_fields::385",
+  "argv": [
+   "--body=body data",
+   "https://httpbin.org/post",
+   "field=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_invalid_json_as_raw::386",
+  "argv": [
+   "https://httpbin.org/post"
+  ],
+  "stdin": "not valid json {",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_body_with_equals::387",
+  "argv": [
+   "--body=equation=x=y+z",
+   "https://httpbin.org/post"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_body_with_colons::388",
+  "argv": [
+   "--body=time:12:34:56",
+   "https://httpbin.org/post"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_body_with_at_sign::389",
+  "argv": [
+   "--body=email@domain.com",
+   "https://httpbin.org/post"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_string_values::390",
+  "argv": [
+   "POST",
+   "name=John",
+   "city=NYC"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_value_with_numbers::391",
+  "argv": [
+   "POST",
+   "code=12345"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_value_with_special_chars::392",
+  "argv": [
+   "POST",
+   "email=test@example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_value_with_spaces::393",
+  "argv": [
+   "POST",
+   "name=John Doe"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_encoded_values::394",
+  "argv": [
+   "POST",
+   "message=hello world"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_numeric_string::395",
+  "argv": [
+   "POST",
+   "id=999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_boolean_string::396",
+  "argv": [
+   "POST",
+   "flag=true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_stops_flag_parsing_and_treats_following_as_positional_url::397",
+  "argv": [
+   "--",
+   "-json=false",
+   "example.org"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_can_be_set_false_and_then_url_is_required::398",
+  "argv": [
+   "-version=false"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_auth_flag_short::399",
+  "argv": [
+   "-a=user:pass"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_version::1",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cache_help::4",
+  "argv": [
+   "cache",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_file_output::5",
+  "argv": [
+   "--paging=never",
+   "--color=never"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_dash::6",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "-"
+  ],
+  "stdin": "foo\nbar\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_implicit::7",
+  "argv": [
+   "--paging=never",
+   "--color=never"
+  ],
+  "stdin": "implicit stdin content",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concatenate_file_stdin_file::8",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "-"
+  ],
+  "stdin": "stdin_content\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file_error::9",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "/nonexistent/path/file.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concatenate_single_line_no_extra_newline::10",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--style=plain"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_file_default::11",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "test.bin"
+  ],
+  "stdin": null,
+  "files": {
+   "test.bin": "\u0000\u0001\u0002\u0003hello�"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_style_numbers::12",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--decorations=always",
+   "--style=numbers"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_style_numbers_header::13",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--decorations=always",
+   "--style=numbers,header"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_style_grid::14",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--decorations=always",
+   "--style=numbers,grid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_style_header_filename::15",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--decorations=always",
+   "--style=header-filename"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_style_header_filesize::16",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--decorations=always",
+   "--style=header-filesize"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_style_full::17",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--decorations=always",
+   "--style=full"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_style_default::18",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--decorations=always",
+   "--style=default"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_plain_flag::19",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "-p"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_plain_flag_twice_disables_paging::20",
+  "argv": [
+   "-pp",
+   "--color=never"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_number_flag::21",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "-n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_number_flag_in_pipe_mode::22",
+  "argv": [
+   "--color=never",
+   "-n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_range_start_to_end::23",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--style=plain",
+   "--line-range=2:4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_range_up_to::24",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--style=plain",
+   "--line-range=:3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_range_from::25",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--style=plain",
+   "--line-range=8:"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_range_single::26",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--style=plain",
+   "--line-range=5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_range_relative_plus::27",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--style=plain",
+   "--line-range=3:+2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_range_from_back::28",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--style=plain",
+   "--line-range=-3:"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_range_with_context::29",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--style=plain",
+   "--line-range=3:5:1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_line_ranges::30",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--style=plain",
+   "--line-range=1:2",
+   "--line-range=9:10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_range_with_context_notation::31",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--style=plain",
+   "--line-range=5::2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_line::32",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--highlight-line=2",
+   "--decorations=always",
+   "--style=numbers"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_line_range::33",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--highlight-line=2:4",
+   "--decorations=always"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_line_to_end::34",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--highlight-line=8:"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_languages::35",
+  "argv": [
+   "--paging=never",
+   "--list-languages"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explicit_language::36",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--language=python"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explicit_language_short::37",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "-l",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_language_by_extension::38",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "test.py"
+  ],
+  "stdin": null,
+  "files": {
+   "test.py": "def hello():\n    pass\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fallback_syntax::39",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--fallback-syntax=python"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fallback_syntax_alias::40",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--fallback-language=python"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_map_syntax::41",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--map-syntax=*.cfg:INI",
+   "config.cfg"
+  ],
+  "stdin": null,
+  "files": {
+   "config.cfg": "[section]\nkey=value\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignored_suffix::42",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--ignored-suffix=.bak",
+   "script.py.bak"
+  ],
+  "stdin": null,
+  "files": {
+   "script.py.bak": "import os\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_themes::43",
+  "argv": [
+   "--paging=never",
+   "--list-themes",
+   "--color=never"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_option::44",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--theme=GitHub"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_env_var::45",
+  "argv": [
+   "--paging=never",
+   "--color=always"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "BAT_THEME": "Dracula",
+   "BAT_PAGING": "never"
+  }
+ },
+ {
+  "name": "test::test_theme_dark::46",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--theme-dark=Dracula"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_light::47",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--theme-light=GitHub"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_auto::48",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--theme=auto"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decorations_never::49",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--decorations=never",
+   "--style=numbers"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_force_colorization::50",
+  "argv": [
+   "--paging=never",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_italic_text_always::51",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--italic-text=always"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_italic_text_never::52",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--italic-text=never"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_all::53",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "-A",
+   "nonprint.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "nonprint.txt": "hello\tworld\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_all_newlines::54",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "-A"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonprintable_notation_unicode::55",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "-A",
+   "--nonprintable-notation=unicode"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonprintable_notation_caret::56",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "-A",
+   "--nonprintable-notation=caret"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_no_printing::57",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--binary=no-printing",
+   "binary.bin"
+  ],
+  "stdin": null,
+  "files": {
+   "binary.bin": "before\u0000\u0001\u0002after\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_as_text::58",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--binary=as-text",
+   "binary.bin"
+  ],
+  "stdin": null,
+  "files": {
+   "binary.bin": "visible text��"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_squeeze_blank::59",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--style=plain",
+   "--squeeze-blank",
+   "blanks.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "blanks.txt": "line1\n\n\n\nline2\n\n\nline3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_squeeze_blank_with_limit::60",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--style=plain",
+   "--squeeze-blank",
+   "--squeeze-limit=2",
+   "blanks.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "blanks.txt": "line1\n\n\n\n\nline2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_squeeze_blank_line_numbers::61",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--decorations=always",
+   "--style=numbers",
+   "--squeeze-blank",
+   "blanks.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "blanks.txt": "line1\n\n\n\nline2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wrap_never::62",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--wrap=never"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_chop_long_lines::63",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--chop-long-lines"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_chop_long_lines_short_flag::64",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "-S"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wrap_character::65",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--wrap=character",
+   "--terminal-width=20"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wrap_word::66",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--wrap=word",
+   "--terminal-width=20"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_terminal_width::67",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--terminal-width=40",
+   "--decorations=always",
+   "--style=numbers,grid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tabs_option::68",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--style=plain",
+   "--decorations=always",
+   "--tabs=4",
+   "tabs.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "tabs.txt": "a\tb\tc\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tabs_zero_passes_through::69",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--style=plain",
+   "--tabs=0",
+   "tabs.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "tabs.txt": "a\tb\tc\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bat_tabs_env::70",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--style=plain",
+   "--decorations=always",
+   "tabs.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "tabs.txt": "a\tb\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "BAT_TABS": "4",
+   "BAT_PAGING": "never"
+  }
+ },
+ {
+  "name": "test::test_no_paging_short::71",
+  "argv": [
+   "-P",
+   "--color=never"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paging_never_long_flag::72",
+  "argv": [
+   "--no-paging",
+   "--color=never"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strip_ansi_always::73",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--style=plain",
+   "--decorations=always",
+   "--strip-ansi=always"
+  ],
+  "stdin": "\u001b[33mYellow\u001b[m plain",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strip_ansi_never::74",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--style=plain",
+   "--decorations=always",
+   "--strip-ansi=never"
+  ],
+  "stdin": "\u001b[33mYellow\u001b[m",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strip_ansi_auto_plain_text::75",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--style=plain",
+   "--strip-ansi=auto",
+   "plain.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "plain.txt": "\u001b[31mred text\u001b[0m"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_name_option::76",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--decorations=always",
+   "--style=header",
+   "--file-name=custom.py"
+  ],
+  "stdin": "print('hello')",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_name_affects_syntax::77",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--file-name=script.py",
+   "--decorations=always",
+   "--style=header"
+  ],
+  "stdin": "import os\nprint(os.getcwd())",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_file_names::78",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--decorations=always",
+   "--style=header",
+   "--file-name=custom1.txt",
+   "file1.txt",
+   "--file-name=custom2.txt",
+   "file2.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.txt": "content1\n",
+   "file2.txt": "content2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_empty_stdin::79",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--quiet-empty"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_empty_short_flag::80",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "-E"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_empty_nonempty::81",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "-E"
+  ],
+  "stdin": "non-empty content",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_empty_file::82",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "-E"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diagnostic::83",
+  "argv": [
+   "--diagnostic"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_acknowledgements::84",
+  "argv": [
+   "--acknowledgements"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_path::85",
+  "argv": [
+   "--config-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_dir_path::86",
+  "argv": [
+   "--config-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cache_dir_path::87",
+  "argv": [
+   "--cache-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_bash::88",
+  "argv": [
+   "--completion=bash"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_zsh::89",
+  "argv": [
+   "--completion=zsh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_fish::90",
+  "argv": [
+   "--completion=fish"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_ps1::91",
+  "argv": [
+   "--completion=ps1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_config_file::92",
+  "argv": [
+   "--generate-config-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bat_style_env::93",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--decorations=always"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "BAT_STYLE": "numbers",
+   "BAT_PAGING": "never"
+  }
+ },
+ {
+  "name": "test::test_bat_paging_env_never::94",
+  "argv": [
+   "--color=never"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "BAT_PAGING": "never"
+  }
+ },
+ {
+  "name": "test::test_no_color_env::95",
+  "argv": [
+   "--paging=never"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "NO_COLOR": "1",
+   "BAT_PAGING": "never"
+  }
+ },
+ {
+  "name": "test::test_style_add_component::96",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--decorations=always",
+   "--style=+header-filesize"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_style_remove_component::97",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--decorations=always",
+   "--style=-numbers"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unbuffered_flag::98",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--unbuffered"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unbuffered_disables_line_numbers::99",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--unbuffered",
+   "--decorations=always",
+   "--style=numbers"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_flag::100",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--diff"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_context::101",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--diff",
+   "--diff-context=3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignored_suffix_in_file::102",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--ignored-suffix=~"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_config_flag::103",
+  "argv": [
+   "--no-config",
+   "--paging=never",
+   "--color=never"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_custom_assets::104",
+  "argv": [
+   "--no-custom-assets",
+   "--paging=never",
+   "--color=never"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rule_style::105",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--decorations=always",
+   "--style=rule"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_grid_overrides_rule::106",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--decorations=always",
+   "--style=numbers,grid,rule"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_snip_separator::107",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--decorations=always",
+   "--style=numbers,snip",
+   "--line-range=1:2",
+   "--line-range=9:10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_header_padding::108",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--decorations=always",
+   "--style=header,grid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rust_syntax_highlighting::109",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "main.rs"
+  ],
+  "stdin": null,
+  "files": {
+   "main.rs": "fn main() {\n    println!(\"Hello\");\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_syntax_highlighting::110",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "data.json"
+  ],
+  "stdin": null,
+  "files": {
+   "data.json": "{\"key\": \"value\", \"num\": 42}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_syntax_highlighting::111",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "script.py"
+  ],
+  "stdin": null,
+  "files": {
+   "script.py": "import os\ndef hello():\n    return 'world'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_syntax_highlighting::112",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "script.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "script.sh": "#!/bin/bash\necho 'hello'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shebang_detection::113",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--file-name=unknown_file"
+  ],
+  "stdin": "#!/usr/bin/env python3\nprint('hello')\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_line_range_beyond_file::114",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--style=plain",
+   "--line-range=1:1000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_stdin_no_quiet::115",
+  "argv": [
+   "--paging=never",
+   "--color=never"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_file_name_for_syntax::116",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--file-name=test.rs"
+  ],
+  "stdin": "fn main() { println!(\"hello\"); }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_highlight_lines::117",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--highlight-line=1",
+   "--highlight-line=3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_line_range_format::118",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--line-range=invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_terminal_title_flag::119",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--set-terminal-title"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cache_clear::120",
+  "argv": [
+   "cache",
+   "--clear"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "BAT_PAGING": "never"
+  }
+ },
+ {
+  "name": "test::test_cache_clear_with_target::121",
+  "argv": [
+   "cache",
+   "--clear",
+   "--target"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_file_shows_warning_in_decorated::122",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--decorations=always",
+   "--style=numbers,grid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_all_control_chars_unicode::123",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--style=plain",
+   "--show-all",
+   "--nonprintable-notation=unicode"
+  ],
+  "stdin": "\u0001\u0007\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_all_control_chars_caret::124",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--style=plain",
+   "--show-all",
+   "--nonprintable-notation=caret"
+  ],
+  "stdin": "\u0001\u0007\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_all_spaces::125",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--style=plain",
+   "--show-all"
+  ],
+  "stdin": "hello world\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_map_syntax_format::126",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--map-syntax=invalid_format"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_fallback_syntax::127",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--style=plain",
+   "--file-name=unknown.fallbacksyntax",
+   "--fallback-syntax=InvalidSyntax"
+  ],
+  "stdin": "foo\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_terminal_width_positive_offset::128",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--decorations=always",
+   "--style=numbers,grid",
+   "--terminal-width=+10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_terminal_width_negative_offset::129",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--decorations=always",
+   "--style=numbers,grid",
+   "--terminal-width=-10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_themes_colored::130",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--list-themes"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_themes_plain::131",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--list-themes",
+   "-p"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_languages_plain::132",
+  "argv": [
+   "--paging=never",
+   "--list-languages",
+   "-p"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_languages_with_colors::133",
+  "argv": [
+   "--paging=never",
+   "--list-languages",
+   "--color=always"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ansi_with_word_wrap::134",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--wrap=word",
+   "--terminal-width=40",
+   "--decorations=always",
+   "--style=plain"
+  ],
+  "stdin": "\u001b[1mbold text here and more text to force wrapping\u001b[0m\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ansi_passthrough_with_character_wrap::135",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--wrap=character",
+   "--terminal-width=20",
+   "--decorations=always",
+   "--style=plain"
+  ],
+  "stdin": "\u001b[31mred text here with more content\u001b[0m\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strip_ansi_auto_strips_for_non_plain_text::136",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--style=plain",
+   "--decorations=always",
+   "--strip-ansi=auto",
+   "--file-name=test.py"
+  ],
+  "stdin": "\u001b[33mYellow\u001b[m plain",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strip_ansi_auto_keeps_for_plain_text::137",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--style=plain",
+   "--decorations=always",
+   "--strip-ansi=auto",
+   "--file-name=test.txt"
+  ],
+  "stdin": "\u001b[33mYellow\u001b[m plain",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_as_text_with_show_all::138",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--style=plain",
+   "-A"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_file_names_mismatch::139",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--file-name=name1.txt",
+   "--file-name=name2.txt",
+   "file.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file.txt": "content\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_word_wrap_with_numbers::140",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--decorations=always",
+   "--style=numbers",
+   "--wrap=word",
+   "--terminal-width=20"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_shows_changes::141",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--style=plain",
+   "--decorations=always",
+   "--diff"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_changes_style::142",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--decorations=always",
+   "--style=numbers,changes"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_with_context::143",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--style=plain",
+   "--decorations=always",
+   "--diff",
+   "--diff-context=2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ansi_sgr_wrapping::144",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--terminal-width=20",
+   "--wrap=character",
+   "--decorations=always",
+   "--style=plain"
+  ],
+  "stdin": "\u001b[33mColor...............Also color.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ansi_hyperlink_wrapping::145",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--terminal-width=20",
+   "--wrap=character",
+   "--decorations=always",
+   "--style=plain"
+  ],
+  "stdin": "\u001b]8;;http://example.com/\u001b\\Hyperlinks..........Wrap across lines.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ansi_sgr_bold_wrapping::146",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--terminal-width=20",
+   "--wrap=character",
+   "--decorations=always",
+   "--style=plain"
+  ],
+  "stdin": "\u001b[33mColor. \u001b[1mBold.........Also bold and color.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ansi_bold_italic_underline_wrapping::147",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--terminal-width=20",
+   "--wrap=character",
+   "--decorations=always",
+   "--style=plain"
+  ],
+  "stdin": "\u001b[1;3;4mBoldItalicUnderline...long text to wrap\u001b[0m\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_all_unicode_escape::148",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--style=plain",
+   "--show-all"
+  ],
+  "stdin": "Ã©test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_all_invalid_utf8::149",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--style=plain",
+   "--show-all"
+  ],
+  "stdin": "�� test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_all_with_ansi_and_tabs::150",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--style=plain",
+   "--show-all"
+  ],
+  "stdin": "\u001b[31mred\u001b[0m\thello\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_all_tab_markers::151",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--style=plain",
+   "--decorations=always",
+   "--show-all"
+  ],
+  "stdin": "a\tb\tc\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_numbers_continuation_lines::152",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--decorations=always",
+   "--style=numbers",
+   "--wrap=character",
+   "--terminal-width=20"
+  ],
+  "stdin": "This is a very long line that will definitely wrap around\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_auto_dark::153",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--theme=auto",
+   "--theme-dark=Dracula"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_auto_with_dark_light::154",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--theme=auto",
+   "--theme-dark=Dracula",
+   "--theme-light=GitHub"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dim_italic_underline_wrap::155",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--terminal-width=20",
+   "--wrap=character",
+   "--decorations=always",
+   "--style=plain"
+  ],
+  "stdin": "\u001b[2;3;4mbold+italic+underlin\u001b[22;23;24m clear all\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_background_color_wrap::156",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--terminal-width=20",
+   "--wrap=character",
+   "--decorations=always",
+   "--style=plain"
+  ],
+  "stdin": "\u001b[42mgreen background text longer than 20 chars\u001b[0m\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bright_foreground_color_wrap::157",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--terminal-width=20",
+   "--wrap=character",
+   "--decorations=always",
+   "--style=plain"
+  ],
+  "stdin": "\u001b[91mbright red text longer than twenty chars\u001b[0m\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bright_background_color_wrap::158",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--terminal-width=20",
+   "--wrap=character",
+   "--decorations=always",
+   "--style=plain"
+  ],
+  "stdin": "\u001b[103mbright yellow bg that wraps\u001b[0m\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_underline_color_wrap::159",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--terminal-width=20",
+   "--wrap=character",
+   "--decorations=always",
+   "--style=plain"
+  ],
+  "stdin": "\u001b[58;5;196munderlined color long enough to wrap\u001b[59m\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_osc_hyperlink_with_bel_termination_wrap::160",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--terminal-width=20",
+   "--wrap=character",
+   "--decorations=always",
+   "--style=plain"
+  ],
+  "stdin": "\u001b]8;;http://example.com/\u0007linked text longer than 20 chars\u001b]8;;\u0007\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nf_escape_sequence_wrap::161",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--terminal-width=20",
+   "--wrap=character",
+   "--decorations=always",
+   "--style=plain"
+  ],
+  "stdin": "\u001b(Bnormal text that is long enough to wrap around\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_escape_sequence_wrap::162",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--terminal-width=20",
+   "--wrap=character",
+   "--decorations=always",
+   "--style=plain"
+  ],
+  "stdin": "\u001bX unknown sequence text that wraps around the line\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_range_too_many_colons::163",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--line-range=1:2:3:4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_range_invalid_context_format::164",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--line-range=abc:def"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_range_last_n_lines::165",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--style=plain",
+   "--line-range=-5:"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_all_binary_as_text::166",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--style=plain",
+   "--show-all",
+   "--binary=as-text"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_themes_default_marker::167",
+  "argv": [
+   "--paging=never",
+   "--list-themes",
+   "--color=never",
+   "--decorations=always"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_no_filename_in_header::168",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--decorations=always",
+   "--style=header-filename"
+  ],
+  "stdin": "some content",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_changes_shows_modifications::169",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--decorations=always",
+   "--style=changes,numbers"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_only_modified_lines::170",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--decorations=always",
+   "--style=plain",
+   "--diff"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cache_build::171",
+  "argv": [
+   "cache",
+   "--build",
+   "--blank",
+   "--target"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cache_build_with_acknowledgements::172",
+  "argv": [
+   "cache",
+   "--build",
+   "--blank",
+   "--acknowledgements",
+   "--source",
+   "--target"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cache_build_with_source::173",
+  "argv": [
+   "cache",
+   "--build",
+   "--blank",
+   "--source",
+   "--target"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_dark_preference::174",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--theme=dark"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_light_preference::175",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--theme=light"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_auto_always::176",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--theme=auto:always"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_auto_system::177",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--theme=auto:system"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_errors_partial_success::178",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "good.txt",
+   "/nonexistent/file.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "good.txt": "content\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_terminal_title_with_pager::179",
+  "argv": [
+   "--color=never",
+   "--paging=always",
+   "--set-terminal-title"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "BAT_PAGER": "echo",
+   "BAT_PAGING": "always"
+  }
+ },
+ {
+  "name": "test::test_list_languages_with_decorations::180",
+  "argv": [
+   "--paging=never",
+   "--list-languages",
+   "--color=never",
+   "--decorations=always"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_name_sets_description_title::181",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--decorations=always",
+   "--style=header-filename",
+   "--file-name=my_custom_script.py"
+  ],
+  "stdin": "print('hello')",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_snip_with_diff_and_no_changes::182",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--decorations=always",
+   "--style=snip",
+   "--diff"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_with_ansi_theme::183",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--theme=ansi",
+   "--highlight-line=1",
+   "--decorations=always",
+   "--style=numbers"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_with_actual_git_changes::184",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--decorations=always",
+   "--style=changes"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_range_up_to_from_end::185",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--style=plain",
+   "--line-range=:-3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_range_from_n_to_offset_from_end::186",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--style=plain",
+   "--line-range=5:-2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_range_invalid_negative_plus::187",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--line-range=5:-+3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_custom_assets_forces_binary::188",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--no-custom-assets"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_map_syntax_case_insensitive::189",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--map-syntax=*.Config:INI",
+   "test.Config"
+  ],
+  "stdin": null,
+  "files": {
+   "test.Config": "[section]\nkey=value\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deprecated_theme_ansi::190",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--theme=ansi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_style_auto::191",
+  "argv": [
+   "--color=never",
+   "--style=auto"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_style_snip_component::192",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--decorations=always",
+   "--style=numbers,snip",
+   "--line-range=1:2",
+   "--line-range=8:10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_header_grid_for_long_filename::193",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--decorations=always",
+   "--style=header-filename,grid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_removed_below::194",
+  "argv": [
+   "git",
+   "init"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_directory_as_input_errors::195",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "/tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_partial_errors::196",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "good.txt",
+   "/nonexistent_xyz.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "good.txt": "content\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_config_existing_file::197",
+  "argv": [
+   "--generate-config-file"
+  ],
+  "stdin": "N\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csi_cursor_movement_wrap::198",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--terminal-width=20",
+   "--wrap=character",
+   "--decorations=always",
+   "--style=plain"
+  ],
+  "stdin": "\u001b[2A\u001b[2Blong text here to force character wrapping at 20 cols\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_truecolor_sgr_wrap::199",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--terminal-width=20",
+   "--wrap=character",
+   "--decorations=always",
+   "--style=plain"
+  ],
+  "stdin": "\u001b[38;2;255;100;0mtruecolor text here to wrap\u001b[0m\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_osc_title_sequence_wrap::200",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--terminal-width=20",
+   "--wrap=character",
+   "--decorations=always",
+   "--style=plain"
+  ],
+  "stdin": "\u001b]0;window title\u0007text here that wraps around\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nf_charset_sequence::201",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--terminal-width=20",
+   "--wrap=character",
+   "--decorations=always",
+   "--style=plain"
+  ],
+  "stdin": "\u001b)0text that should wrap at 20 cols here\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unsupported_sgr_wrap::202",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--terminal-width=20",
+   "--wrap=character",
+   "--decorations=always",
+   "--style=plain"
+  ],
+  "stdin": "\u001b[200mtext here to wrap around the terminal width\u001b[0m\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hyperlink_end_osc_wrap::203",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--terminal-width=20",
+   "--wrap=character",
+   "--decorations=always",
+   "--style=plain"
+  ],
+  "stdin": "\u001b]8;;\u0007text after hyperlink that wraps at 20 chars\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_name_title_used_in_header::204",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--decorations=always",
+   "--style=header-filename,header-filesize",
+   "--file-name=myfile.txt"
+  ],
+  "stdin": "test content\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paging_always_with_cat_pager::205",
+  "argv": [
+   "--paging=always",
+   "--pager=cat",
+   "--color=always",
+   "--decorations=always"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pager_not_found_falls_back_to_stdout::206",
+  "argv": [
+   "--paging=always",
+   "--pager=nonexistent_pager_xyz",
+   "--color=never"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paging_always_with_echo_pager::207",
+  "argv": [
+   "--paging=always",
+   "--pager=echo pager_output",
+   "--color=never"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paging_quit_if_one_screen_with_pager::208",
+  "argv": [
+   "--paging=auto",
+   "--pager=cat",
+   "--color=never",
+   "--decorations=always"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "BAT_PAGING": "always"
+  }
+ },
+ {
+  "name": "test::test_paging_always_with_wrapping::209",
+  "argv": [
+   "--paging=always",
+   "--pager=cat",
+   "--color=always",
+   "--chop-long-lines"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cache_build_with_integrated_themes::210",
+  "argv": [
+   "cache",
+   "--build",
+   "--target"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_builtin_pager::211",
+  "argv": [
+   "--paging=always",
+   "--pager=builtin",
+   "--color=never",
+   "--style=plain"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pager_env_var_with_more::212",
+  "argv": [
+   "--paging=always",
+   "--color=never",
+   "--style=plain"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "PAGER": "more"
+  }
+ },
+ {
+  "name": "test::test_ansi_osc_non_hyperlink_wrap_mode::213",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--terminal-width=20",
+   "--wrap=character",
+   "--decorations=always",
+   "--style=plain",
+   "--strip-ansi=never"
+  ],
+  "stdin": "\u001b]2;my window title\u0007some text that wraps long",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ansi_nf_sequence_non_paren_wrap::214",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--terminal-width=20",
+   "--wrap=character",
+   "--decorations=always",
+   "--style=plain",
+   "--strip-ansi=never"
+  ],
+  "stdin": "\u001b!Asome long text that needs to wrap at 20 columns",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ansi_256_color_non_5_2::215",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--terminal-width=40",
+   "--wrap=character",
+   "--decorations=always",
+   "--style=plain",
+   "--strip-ansi=never"
+  ],
+  "stdin": "\u001b[38;7;200mhello world text content here\u001b[0m\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ansi_csi_cursor_movement_in_wrap::216",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--terminal-width=20",
+   "--wrap=character",
+   "--decorations=always",
+   "--style=plain",
+   "--strip-ansi=never"
+  ],
+  "stdin": "\u001b[Asome content that will wrap at 20 column boundary",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pager_paging_env_never::217",
+  "argv": [
+   "--paging=auto",
+   "--color=never",
+   "--style=plain"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "BAT_PAGING": "never"
+  }
+ },
+ {
+  "name": "test::test_pager_paging_env_always_with_cat::218",
+  "argv": [
+   "--color=never",
+   "--style=plain"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "BAT_PAGING": "always",
+   "BAT_PAGER": "cat"
+  }
+ },
+ {
+  "name": "test::test_fallback_syntax_with_unrecognized_file::219",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--decorations=never",
+   "--fallback-syntax=YAML",
+   "unknown_file.xyz123"
+  ],
+  "stdin": null,
+  "files": {
+   "unknown_file.xyz123": "key: value\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fallback_language_alias::220",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--decorations=never",
+   "--fallback-language=Python",
+   "myfile.unknownext"
+  ],
+  "stdin": null,
+  "files": {
+   "myfile.unknownext": "hello = world\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_header_filesize_with_stdin::221",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--decorations=always",
+   "--style=header-filesize"
+  ],
+  "stdin": "test content\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_highlight_ranges::222",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--decorations=always",
+   "--style=numbers",
+   "--highlight-line=1",
+   "--highlight-line=3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_range_with_context::223",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--decorations=always",
+   "--style=numbers",
+   "--line-range=5::2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_auto_preference::224",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--style=plain",
+   "--theme=auto"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_dark_preference::225",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--style=plain",
+   "--theme=dark"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_light_preference::226",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--style=plain",
+   "--theme=light"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_color_env_var::227",
+  "argv": [
+   "--paging=never",
+   "--style=plain"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "NO_COLOR": "1"
+  }
+ },
+ {
+  "name": "test::test_map_syntax_option::228",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--decorations=never",
+   "--map-syntax=*.customext:INI",
+   "myconfig.customext"
+  ],
+  "stdin": null,
+  "files": {
+   "myconfig.customext": "key = value\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignored_suffix_option::229",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--decorations=never",
+   "--ignored-suffix=.suffix"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_empty_flag::230",
+  "argv": [
+   "--paging=never",
+   "--quiet-empty"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_not_quiet_empty_by_default::231",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--decorations=always",
+   "--style=grid,header-filename"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_file_with_show_all::232",
+  "argv": [
+   "--paging=never",
+   "--show-all"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deprecated_theme_ansi_dark::233",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--theme=ansi-dark"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deprecated_theme_ansi_light::234",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--theme=ansi-light"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_theme_warning::235",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--theme=nonexistent_theme_xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pager_with_less_args::236",
+  "argv": [
+   "--paging=always",
+   "--pager=cat -v",
+   "--color=never",
+   "--style=plain"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_file_set_title::237",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--decorations=always",
+   "--style=header-filename",
+   "--file-name=custom_title.txt",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "content here\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_syntax_detection_by_first_line::238",
+  "argv": [
+   "--paging=never",
+   "--color=always",
+   "--decorations=never",
+   "script_no_ext"
+  ],
+  "stdin": null,
+  "files": {
+   "script_no_ext": "#!/usr/bin/env python3\nprint('hello')\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strip_ansi_auto_mode::239",
+  "argv": [
+   "--paging=never",
+   "--color=never",
+   "--style=plain",
+   "--strip-ansi=auto",
+   "--language=Python"
+  ],
+  "stdin": "\u001b[31mred text\u001b[0m\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_config_flag_ignores_config_file::240",
+  "argv": [
+   "--no-config",
+   "--decorations=always",
+   "--paging=never",
+   "--color=always"
+  ],
+  "stdin": "hello world\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_with_theme_and_style::241",
+  "argv": [
+   "--decorations=always",
+   "--paging=never",
+   "--color=always"
+  ],
+  "stdin": "test line\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bat_theme_env_variable::242",
+  "argv": [
+   "--decorations=always",
+   "--paging=never",
+   "--style=numbers",
+   "--color=always"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bat_style_env_variable::243",
+  "argv": [
+   "--decorations=always",
+   "--paging=never",
+   "--color=always"
+  ],
+  "stdin": "line1\nline2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bat_tabs_env_variable_4_spaces::244",
+  "argv": [
+   "--decorations=never",
+   "--paging=never",
+   "--color=never",
+   "--show-all"
+  ],
+  "stdin": "a\tb\tc\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bat_opts_env_variable::245",
+  "argv": [
+   "--decorations=always",
+   "--paging=never"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cli_flag_overrides_config_file::246",
+  "argv": [
+   "--tabs=8",
+   "--decorations=never",
+   "--paging=never",
+   "--color=never",
+   "--show-all"
+  ],
+  "stdin": "a\tb",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_with_comments::247",
+  "argv": [
+   "--decorations=always",
+   "--paging=never",
+   "--color=always"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_config_file_is_ignored::248",
+  "argv": [
+   "--paging=never",
+   "--decorations=never"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bat_pager_env_variable::249",
+  "argv": [
+   "--paging=always",
+   "--decorations=never"
+  ],
+  "stdin": "test line for pager\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_config_file_creates_file::250",
+  "argv": [
+   "--generate-config-file"
+  ],
+  "stdin": "y\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_precedence_cli_over_env::251",
+  "argv": [
+   "--tabs=2",
+   "--decorations=never",
+   "--paging=never",
+   "--color=never",
+   "--show-all"
+  ],
+  "stdin": "a\tb",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_config_directives_same_option::252",
+  "argv": [
+   "--decorations=never",
+   "--paging=never",
+   "--color=never",
+   "--show-all"
+  ],
+  "stdin": "a\tb",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_pager_option::253",
+  "argv": [
+   "--paging=always",
+   "--decorations=never"
+  ],
+  "stdin": "test content for pager check\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bat_width_env_variable::254",
+  "argv": [
+   "--decorations=always",
+   "--paging=never",
+   "--style=grid"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bat_opts_with_quoted_theme::255",
+  "argv": [
+   "--decorations=always",
+   "--paging=never",
+   "--color=always",
+   "--style=numbers"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bat_paging_env_variable::256",
+  "argv": [
+   "--decorations=never"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_with_inline_comments::257",
+  "argv": [
+   "--decorations=never",
+   "--paging=never"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_precedence_full_chain::258",
+  "argv": [
+   "--tabs=16",
+   "--decorations=never",
+   "--paging=never",
+   "--color=never",
+   "--show-all"
+  ],
+  "stdin": "a\tb",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_overwrite_prompt::259",
+  "argv": [
+   "--generate-config-file"
+  ],
+  "stdin": "n\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_file_name_header::260",
+  "argv": [
+   "--color=never",
+   "--decorations=always",
+   "--style=header-filename,numbers",
+   "--file-name=test.py"
+  ],
+  "stdin": "print('hello')\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_empty_flag_with_empty_stdin::261",
+  "argv": [
+   "--color=never",
+   "-E"
+  ],
+  "stdin": "\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_shows_modified_lines_only::262",
+  "argv": [
+   "git",
+   "add",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_multiple_files_with_changes::263",
+  "argv": [
+   "git",
+   "add",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_complex_changes_with_additions_and_modifications::264",
+  "argv": [
+   "git",
+   "add",
+   "sample.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_empty_file_to_content::265",
+  "argv": [
+   "git",
+   "add",
+   "empty.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_content_to_empty_file::266",
+  "argv": [
+   "git",
+   "add",
+   "content.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_large_context_value::267",
+  "argv": [
+   "git",
+   "add",
+   "large.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_with_binary_content_graceful::268",
+  "argv": [
+   "git",
+   "add",
+   "binary.dat"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_symlink_handling::269",
+  "argv": [
+   "git",
+   "add",
+   "real.txt",
+   "link.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_with_unicode_content::270",
+  "argv": [
+   "git",
+   "add",
+   "unicode.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_no_newline_at_eof::271",
+  "argv": [
+   "git",
+   "add",
+   "no_newline.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_with_tabs_and_spaces::272",
+  "argv": [
+   "git",
+   "add",
+   "tabs.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_with_very_long_lines::273",
+  "argv": [
+   "git",
+   "add",
+   "long.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_with_only_whitespace_changes::274",
+  "argv": [
+   "git",
+   "add",
+   "whitespace.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_windows_line_endings::275",
+  "argv": [
+   "git",
+   "add",
+   "crlf.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_file_path_with_spaces::276",
+  "argv": [
+   "git",
+   "add",
+   "file with spaces.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_multiple_added_lines_mark_section::277",
+  "argv": [
+   "git",
+   "add",
+   "added.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_removed_above_at_file_start::278",
+  "argv": [
+   "git",
+   "add",
+   "removed_start.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_removed_below_in_middle::279",
+  "argv": [
+   "git",
+   "add",
+   "removed_middle.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_modified_multiple_lines::280",
+  "argv": [
+   "git",
+   "add",
+   "modified.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_multiple_hunks_separate_changes::281",
+  "argv": [
+   "git",
+   "add",
+   "multi_hunk.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_single_line_file_add::282",
+  "argv": [
+   "git",
+   "add",
+   "single.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_subdirectory_file_path_matching::283",
+  "argv": [
+   "git",
+   "add",
+   "subdir/file.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_large_range_added_lines::284",
+  "argv": [
+   "git",
+   "add",
+   "large_add.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_combination_of_all_change_types::285",
+  "argv": [
+   "git",
+   "add",
+   "combo.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_multiple_removals_different_positions::286",
+  "argv": [
+   "git",
+   "add",
+   "multi_remove.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_style_error::287",
+  "argv": [
+   "--style=InvalidStyleName"
+  ],
+  "stdin": "test content\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_syntax_via_fallback::288",
+  "argv": [
+   "--color=always",
+   "--style=plain",
+   "--file-name=unknown.fallbacksyntax",
+   "--fallback-syntax=NonExistentSyntax"
+  ],
+  "stdin": "some code here\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yaml_parsing_error_metadata::289",
+  "argv": [
+   "test.txt"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_parseint_error::290",
+  "argv": [
+   "--terminal-width=notanumber"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_glob_parsing_error::291",
+  "argv": [
+   "--map-syntax=[invalid:Python"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pager_bat_recursion_error::292",
+  "argv": [
+   "--paging=always"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_from_string::293",
+  "argv": [
+   "--terminal-width=0"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pager_invalid_version_output::294",
+  "argv": [
+   "--paging=always"
+  ],
+  "stdin": "test line\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pager_empty_version_output::295",
+  "argv": [
+   "--paging=always"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concatenate_stdin::296",
+  "argv": [
+   "test.txt",
+   "-",
+   "test.txt"
+  ],
+  "stdin": "stdin\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_piped_output_with_line_number_flag::297",
+  "argv": [
+   "--number"
+  ],
+  "stdin": "hello\nworld\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_piped_output_with_line_numbers_style_flag::298",
+  "argv": [
+   "--style=numbers"
+  ],
+  "stdin": "hello\nworld\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_piped_output_with_line_numbers_with_header_grid_style_flag::299",
+  "argv": [
+   "--style=header,grid,numbers"
+  ],
+  "stdin": "hello\nworld\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_piped_output_with_auto_style::300",
+  "argv": [
+   "--style=auto"
+  ],
+  "stdin": "hello\nworld\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_piped_output_with_default_style_flag::301",
+  "argv": [
+   "--style=default",
+   "--decorations=always"
+  ],
+  "stdin": "hello\nworld\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filename_stdin::302",
+  "argv": [
+   "--decorations=always",
+   "--style=header",
+   "-r=0:0",
+   "-",
+   "--file-name=foo"
+  ],
+  "stdin": "stdin\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filename_stdin_binary::303",
+  "argv": [
+   "--file-name=test.binary"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_fallback_syntax_returns_error::304",
+  "argv": [
+   "--color=always",
+   "--style=plain",
+   "--file-name=unknown.fallbacksyntax",
+   "--fallback-syntax=InvalidSyntax"
+  ],
+  "stdin": "foo\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wrap_never_flag_respected_with_paging_always::305",
+  "argv": [
+   "--pager=cat",
+   "--paging=always",
+   "--wrap=never",
+   "--color=never",
+   "--decorations=never",
+   "--style=plain"
+  ],
+  "stdin": "abcdefghigklmnopqrstuvxyzabcdefghigklmnopqrstuvxyzabcdefghigklmnopqrstuvxyzabcdefghigklmnopqrstuvxyz\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_s_flag_respected_with_paging_always::306",
+  "argv": [
+   "--pager=cat",
+   "--paging=always",
+   "-S",
+   "--color=never",
+   "--decorations=never",
+   "--style=plain"
+  ],
+  "stdin": "abcdefghigklmnopqrstuvxyzabcdefghigklmnopqrstuvxyzabcdefghigklmnopqrstuvxyzabcdefghigklmnopqrstuvxyz\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strip_ansi_never_does_not_strip_ansi::307",
+  "argv": [
+   "--style=plain",
+   "--decorations=always",
+   "--color=never",
+   "--strip-ansi=never"
+  ],
+  "stdin": "\\x1B[33mYellow\\x1B[m",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strip_ansi_does_not_affect_simple_printer::308",
+  "argv": [
+   "--style=plain",
+   "--decorations=never",
+   "--color=never",
+   "--strip-ansi=always"
+  ],
+  "stdin": "\\x1B[33mYellow\\x1B[m",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strip_ansi_does_not_strip_when_show_nonprintable::309",
+  "argv": [
+   "--style=plain",
+   "--decorations=never",
+   "--color=always",
+   "--strip-ansi=always",
+   "--show-nonprintable"
+  ],
+  "stdin": "\\x1B[33mY",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strip_ansi_auto_does_not_strip_when_plain_text_by_filename::310",
+  "argv": [
+   "--style=plain",
+   "--decorations=always",
+   "--color=never",
+   "--strip-ansi=auto",
+   "--file-name=ansi.txt"
+  ],
+  "stdin": "\\x1B[33mYellow\\x1B[m",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strip_ansi_auto_does_not_strip_ansi_when_plain_text_by_option::311",
+  "argv": [
+   "--style=plain",
+   "--decorations=always",
+   "--color=never",
+   "--strip-ansi=auto",
+   "--language=txt"
+  ],
+  "stdin": "\\x1B[33mYellow\\x1B[m",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_style_components_can_be_overidden::312",
+  "argv": [
+   "--style=full",
+   "--style=header,numbers",
+   "--decorations=always",
+   "--color=never"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_style_components_will_merge::313",
+  "argv": [
+   "--style=header,grid",
+   "--style=-grid,+numbers",
+   "--decorations=always",
+   "--color=never"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_empty_does_not_affect_non_empty_input::314",
+  "argv": [
+   "--quiet-empty"
+  ],
+  "stdin": "hello\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_languages_piped_loop_through_format::315",
+  "argv": [
+   "--list-languages"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_themes_piped_loop_through_format::316",
+  "argv": [
+   "--list-themes"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unbuffered_mode_stdin::317",
+  "argv": [
+   "--unbuffered",
+   "--plain"
+  ],
+  "stdin": "test content line 1\ntest content line 2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unbuffered_disables_line_numbers::318",
+  "argv": [
+   "--unbuffered",
+   "-n"
+  ],
+  "stdin": "line 1\nline 2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unbuffered_with_decorations_disabled::319",
+  "argv": [
+   "--unbuffered",
+   "--decorations=never"
+  ],
+  "stdin": "test line content\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_type_stdout_creation::320",
+  "argv": [
+   "--plain"
+  ],
+  "stdin": "test line for stdout\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_empty_flag_with_empty_input::321",
+  "argv": [
+   "--plain",
+   "--quiet-empty"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_empty_flag_with_content::322",
+  "argv": [
+   "--plain",
+   "--quiet-empty"
+  ],
+  "stdin": "content line here\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pager_nonexistent_fallback_to_stdout::323",
+  "argv": [
+   "--paging=always"
+  ],
+  "stdin": "test output line\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "BAT_PAGER": "nonexistent-pager-xyz-123"
+  }
+ },
+ {
+  "name": "test::test_pager_empty_string_no_paging::324",
+  "argv": [
+   "--paging=always"
+  ],
+  "stdin": "test content\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "BAT_PAGER": ""
+  }
+ },
+ {
+  "name": "test::test_output_stdin_with_language_hint::325",
+  "argv": [
+   "--color=always",
+   "--language=python"
+  ],
+  "stdin": "def test():\n    pass\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_input::326",
+  "argv": [
+   "--color=never",
+   "--decorations=always",
+   "--style=numbers"
+  ],
+  "stdin": "Hello from stdin\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_language_by_extension_name_py::327",
+  "argv": [
+   "--color=always",
+   "--theme=ansi",
+   "--language=py"
+  ],
+  "stdin": "print(\"test\")",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_language_by_extension_name_rs::328",
+  "argv": [
+   "--color=always",
+   "--theme=ansi",
+   "--language=rs"
+  ],
+  "stdin": "fn main() { println!(\"test\"); }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_language_case_insensitive::329",
+  "argv": [
+   "--color=always",
+   "--theme=ansi",
+   "--language=PYTHON"
+  ],
+  "stdin": "print(\"test\")",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_github::330",
+  "argv": [
+   "--color=always",
+   "--theme=GitHub",
+   "--language=python"
+  ],
+  "stdin": "print(\"test\")",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_explicit_language::331",
+  "argv": [
+   "--color=always",
+   "--theme=ansi",
+   "--language=python"
+  ],
+  "stdin": "def hello(): pass",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_language_fallback_to_plain::332",
+  "argv": [
+   "--language=nonexistent"
+  ],
+  "stdin": "print(\"test\")",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_solarized_dark::333",
+  "argv": [
+   "--color=always",
+   "--theme=Solarized (dark)",
+   "--language=python"
+  ],
+  "stdin": "print(\"test\")",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_base16::334",
+  "argv": [
+   "--color=always",
+   "--theme=base16",
+   "--language=rust"
+  ],
+  "stdin": "let x = 42;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_language_java::335",
+  "argv": [
+   "--color=always",
+   "--theme=ansi",
+   "--language=java"
+  ],
+  "stdin": "class Test { }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explicit_language_by_full_name::336",
+  "argv": [
+   "--color=always",
+   "--theme=ansi",
+   "--language=Bourne Again Shell (bash)"
+  ],
+  "stdin": "echo \"test\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

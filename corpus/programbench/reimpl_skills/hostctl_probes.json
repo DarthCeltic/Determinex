@@ -1,0 +1,6055 @@
+[
+ {
+  "name": "test::test_top_level_command_help_is_routable::0",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_errors_and_is_reported_in_output::1",
+  "argv": [
+   "nonexistent_subcommand"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_host_file_flag_accepts_before_subcommand::2",
+  "argv": [
+   "--host-file",
+   "hosts",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "127.0.0.1 localhost\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_host_file_flag_accepts_after_subcommand::3",
+  "argv": [
+   "--help",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "127.0.0.1 localhost\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_output_flag_accepts_before_subcommand::4",
+  "argv": [
+   "--out",
+   "json",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_output_flag_accepts_after_subcommand::5",
+  "argv": [
+   "--help",
+   "--out",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_raw_flag_accepts_before_subcommand::6",
+  "argv": [
+   "--raw",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_raw_flag_accepts_after_subcommand::7",
+  "argv": [
+   "--help",
+   "--raw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_top_level_alias_rm_routes_to_remove_help::8",
+  "argv": [
+   "rm",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_required_arg_reports_error_message_add::9",
+  "argv": [
+   "add"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_required_arg_reports_error_message_replace::10",
+  "argv": [
+   "replace"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_from_file::11",
+  "argv": [
+   "add",
+   "test-profile",
+   "--from",
+   "profile.txt",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {
+   "profile.txt": "# profile: test-profile\n127.0.0.1 test1.local\n127.0.0.1 test2.local\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_missing_from_flag::12",
+  "argv": [
+   "add",
+   "test-profile",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_domains_default_ip::13",
+  "argv": [
+   "add",
+   "domains",
+   "myprofile",
+   "example.com",
+   "example.org",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_domains_custom_ip::14",
+  "argv": [
+   "add",
+   "domains",
+   "customip",
+   "custom.local",
+   "--ip",
+   "192.168.1.100",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_domains_multiple::15",
+  "argv": [
+   "add",
+   "domains",
+   "multi",
+   "site1.test",
+   "site2.test",
+   "site3.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_domains_appends_to_existing::16",
+  "argv": [
+   "add",
+   "domains",
+   "append-test",
+   "first.local",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_quiet::17",
+  "argv": [
+   "add",
+   "domains",
+   "quiet-profile",
+   "quiet.test",
+   "--host-file",
+   "--quiet"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_domains_with_json_output::18",
+  "argv": [
+   "add",
+   "domains",
+   "json-profile",
+   "json.test",
+   "--host-file",
+   "--out",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backup_creates_file::19",
+  "argv": [
+   "backup",
+   "--host-file",
+   "--path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backup_with_quiet_flag::20",
+  "argv": [
+   "backup",
+   "--host-file",
+   "--path",
+   "--quiet"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backup_default_path::21",
+  "argv": [
+   "backup",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_restore_from_file::22",
+  "argv": [
+   "restore",
+   "--host-file",
+   "--from",
+   "backup.hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "backup.hosts": "# Restored content\n127.0.0.1 restored-host\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_restore_missing_from_flag::23",
+  "argv": [
+   "restore",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_restore_invalid_file::24",
+  "argv": [
+   "restore",
+   "--host-file",
+   "--from",
+   "/nonexistent/file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_restore_with_quiet::25",
+  "argv": [
+   "restore",
+   "--host-file",
+   "--from",
+   "backup2.hosts",
+   "--quiet"
+  ],
+  "stdin": null,
+  "files": {
+   "backup2.hosts": "# Quiet restore\n127.0.0.1 quiet-host\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_h_flag::26",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::27",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_v_flag::28",
+  "argv": [
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_command::29",
+  "argv": [
+   "invalidcommand"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_command::30",
+  "argv": [
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_column_filter_profile::31",
+  "argv": [
+   "add",
+   "domains",
+   "col-test",
+   "col.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_column_filter_ip::32",
+  "argv": [
+   "add",
+   "domains",
+   "col-ip",
+   "colip.test",
+   "--ip",
+   "192.168.1.1",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_column_filter_domain::33",
+  "argv": [
+   "add",
+   "domains",
+   "col-domain",
+   "coldomain.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_multiple_columns::34",
+  "argv": [
+   "add",
+   "domains",
+   "multicol",
+   "multicol.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_with_column_filter::35",
+  "argv": [
+   "add",
+   "domains",
+   "status-col",
+   "statuscol.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_help::36",
+  "argv": [
+   "completion",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_completion::37",
+  "argv": [
+   "completion",
+   "bash"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zsh_completion::38",
+  "argv": [
+   "completion",
+   "zsh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_completion_help::39",
+  "argv": [
+   "completion",
+   "bash",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zsh_completion_help::40",
+  "argv": [
+   "completion",
+   "zsh",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_shows_default_profile::41",
+  "argv": [
+   "list",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_profile_in_status::42",
+  "argv": [
+   "status",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_specific_default_profile::43",
+  "argv": [
+   "list",
+   "default",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_default_and_custom_profiles::44",
+  "argv": [
+   "add",
+   "domains",
+   "custom",
+   "custom.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_profile_markers::45",
+  "argv": [
+   "add",
+   "domains",
+   "marked",
+   "marked.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_hosts_file_operations::46",
+  "argv": [
+   "list",
+   "--host-file",
+   "empty.hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.hosts": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_duplicate_domain::47",
+  "argv": [
+   "add",
+   "domains",
+   "dup",
+   "duplicate.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_profile_with_special_characters::48",
+  "argv": [
+   "add",
+   "domains",
+   "test-profile_2.0",
+   "special.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_whitespace_in_profile_name::49",
+  "argv": [
+   "add",
+   "domains",
+   "test profile",
+   "whitespace.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_domain::50",
+  "argv": [
+   "add",
+   "domains",
+   "unicode",
+   "тест.local",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_many_domains_in_profile::51",
+  "argv": [
+   "add",
+   "domains",
+   "manydomains",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ipv6_address::52",
+  "argv": [
+   "add",
+   "domains",
+   "ipv6",
+   "ipv6.test",
+   "--ip",
+   "::1",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_localhost_domain::53",
+  "argv": [
+   "add",
+   "domains",
+   "local",
+   "localhost",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wildcard_domain::54",
+  "argv": [
+   "add",
+   "domains",
+   "wildcard",
+   "*.example.com",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_domain_with_port::55",
+  "argv": [
+   "add",
+   "domains",
+   "port",
+   "example.com:8080",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_enable_disable_operations::56",
+  "argv": [
+   "add",
+   "domains",
+   "p1",
+   "p1.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_length_file::57",
+  "argv": [
+   "add",
+   "domains",
+   "zero",
+   "zero.test",
+   "--host-file",
+   "zero.hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "zero.hosts": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_only_comments::58",
+  "argv": [
+   "add",
+   "domains",
+   "comments",
+   "comment.test",
+   "--host-file",
+   "comments.hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "comments.hosts": "# Just comments\n# More comments\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_consecutive_operations::59",
+  "argv": [
+   "add",
+   "domains",
+   "consecutive",
+   "c1.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_single_profile::60",
+  "argv": [
+   "add",
+   "domains",
+   "enable-test",
+   "enable.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_multiple_profiles::61",
+  "argv": [
+   "add",
+   "domains",
+   "en1",
+   "en1.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_all_flag::62",
+  "argv": [
+   "add",
+   "domains",
+   "all1",
+   "all1.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_only_flag::63",
+  "argv": [
+   "add",
+   "domains",
+   "only1",
+   "only1.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_single_profile::64",
+  "argv": [
+   "add",
+   "domains",
+   "disable-test",
+   "disable.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_multiple_profiles::65",
+  "argv": [
+   "add",
+   "domains",
+   "dis1",
+   "dis1.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_all_flag::66",
+  "argv": [
+   "add",
+   "domains",
+   "da1",
+   "da1.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_only_flag::67",
+  "argv": [
+   "add",
+   "domains",
+   "donly1",
+   "donly1.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_with_quiet::68",
+  "argv": [
+   "add",
+   "domains",
+   "quiet-en",
+   "quiet.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_with_quiet::69",
+  "argv": [
+   "add",
+   "domains",
+   "quiet-dis",
+   "quiet.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_command_shows_error::70",
+  "argv": [
+   "notarealcommand"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_required_argument::71",
+  "argv": [
+   "add",
+   "domains"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::72",
+  "argv": [
+   "list",
+   "--not-a-real-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_hosts_file::73",
+  "argv": [
+   "list",
+   "--host-file",
+   "/nonexistent/path/to/hosts"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_profile_name::74",
+  "argv": [
+   "add",
+   "domains",
+   "",
+   "test.local",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_ip_address::75",
+  "argv": [
+   "add",
+   "domains",
+   "test",
+   "example.com",
+   "--ip",
+   "999.999.999.999",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_domain_name::76",
+  "argv": [
+   "add",
+   "domains",
+   "test",
+   "",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_malformed_profile_file::77",
+  "argv": [
+   "add",
+   "test",
+   "--from",
+   "bad.txt",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.txt": "this is not\na valid profile\nformat!!!"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_domain::78",
+  "argv": [
+   "add",
+   "domains",
+   "special",
+   "test!@#.local",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_domain_name::79",
+  "argv": [
+   "add",
+   "domains",
+   "long",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_nonexistent_domain::80",
+  "argv": [
+   "remove",
+   "domains",
+   "nonexistent",
+   "nothere.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_nonexistent_profile::81",
+  "argv": [
+   "enable",
+   "doesntexist",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_nonexistent_profile::82",
+  "argv": [
+   "disable",
+   "doesntexist",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_flags::83",
+  "argv": [
+   "--help",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_output_formats::84",
+  "argv": [
+   "list",
+   "--host-file",
+   "-o",
+   "json",
+   "-o",
+   "table"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_host_file_path::85",
+  "argv": [
+   "add",
+   "domains",
+   "custom",
+   "custom.test",
+   "--host-file",
+   "custom.hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "custom.hosts": "127.0.0.1 localhost\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_color_flag::86",
+  "argv": [
+   "add",
+   "domains",
+   "color-test",
+   "color.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_flag_reduces_output::87",
+  "argv": [
+   "add",
+   "domains",
+   "quiet",
+   "quiet.test",
+   "--host-file",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_out_flag_json::88",
+  "argv": [
+   "add",
+   "domains",
+   "outjson",
+   "outjson.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_out_flag_table::89",
+  "argv": [
+   "add",
+   "domains",
+   "outtable",
+   "outtable.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_out_flag_raw::90",
+  "argv": [
+   "add",
+   "domains",
+   "outraw",
+   "outraw.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_out_flag_markdown::91",
+  "argv": [
+   "add",
+   "domains",
+   "outmd",
+   "outmd.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_flag_shortcut::92",
+  "argv": [
+   "add",
+   "domains",
+   "rawflag",
+   "rawflag.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_column_flag_filters_output::93",
+  "argv": [
+   "add",
+   "domains",
+   "column-test",
+   "column.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_on_subcommand::94",
+  "argv": [
+   "add",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_output_format::95",
+  "argv": [
+   "list",
+   "--host-file",
+   "-o",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_flags_order_independence::96",
+  "argv": [
+   "list",
+   "--host-file",
+   "--no-color"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_basic::97",
+  "argv": [
+   "info"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_help::98",
+  "argv": [
+   "info",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_with_quiet::99",
+  "argv": [
+   "info",
+   "--quiet"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_all_profiles::100",
+  "argv": [
+   "add",
+   "domains",
+   "list1",
+   "list1.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_specific_profile::101",
+  "argv": [
+   "add",
+   "domains",
+   "specific",
+   "specific.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_multiple_profiles::102",
+  "argv": [
+   "add",
+   "domains",
+   "multi1",
+   "multi1.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_table_format::103",
+  "argv": [
+   "add",
+   "domains",
+   "table-test",
+   "table.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_raw_format::104",
+  "argv": [
+   "add",
+   "domains",
+   "raw-test",
+   "raw.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_raw_flag::105",
+  "argv": [
+   "add",
+   "domains",
+   "raw-flag",
+   "rawflag.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_json_format::106",
+  "argv": [
+   "add",
+   "domains",
+   "json-test",
+   "json.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_markdown_format::107",
+  "argv": [
+   "add",
+   "domains",
+   "md-test",
+   "md.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_enabled_subcommand::108",
+  "argv": [
+   "add",
+   "domains",
+   "enabled1",
+   "en1.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_disabled_subcommand::109",
+  "argv": [
+   "add",
+   "domains",
+   "enabled2",
+   "en2.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_on_alias::110",
+  "argv": [
+   "add",
+   "domains",
+   "on-test",
+   "on.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_off_alias::111",
+  "argv": [
+   "add",
+   "domains",
+   "off-test",
+   "off.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_quiet::112",
+  "argv": [
+   "add",
+   "domains",
+   "quiet-list",
+   "quiet.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_json_structure::113",
+  "argv": [
+   "add",
+   "domains",
+   "json-struct",
+   "json1.test",
+   "json2.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_json_structure::114",
+  "argv": [
+   "add",
+   "domains",
+   "status-json",
+   "statusjson.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_markdown_table_format::115",
+  "argv": [
+   "add",
+   "domains",
+   "md-table",
+   "mdtable.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_markdown_format::116",
+  "argv": [
+   "add",
+   "domains",
+   "status-md",
+   "statusmd.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_raw_no_borders::117",
+  "argv": [
+   "add",
+   "domains",
+   "raw-noborder",
+   "rawnoborder.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_profiles_table_output::118",
+  "argv": [
+   "add",
+   "domains",
+   "table1",
+   "table1.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_table_with_color::119",
+  "argv": [
+   "add",
+   "domains",
+   "color-table",
+   "colortable.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_table_with_color::120",
+  "argv": [
+   "add",
+   "domains",
+   "status-color",
+   "statuscolor.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_from_stdin::121",
+  "argv": [
+   "add",
+   "stdin-test",
+   "--from",
+   "-",
+   "--host-file"
+  ],
+  "stdin": "# profile: stdin-test\n127.0.0.1 stdin1.test\n127.0.0.1 stdin2.test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_replace_from_stdin::122",
+  "argv": [
+   "add",
+   "domains",
+   "replace-stdin",
+   "old.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_pipe_like_file::123",
+  "argv": [
+   "add",
+   "pipe-test",
+   "--from",
+   "-",
+   "--host-file"
+  ],
+  "stdin": "# profile: pipe-test\n127.0.0.1 pipe.test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_single_profile::124",
+  "argv": [
+   "add",
+   "domains",
+   "to-remove",
+   "remove.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_multiple_profiles::125",
+  "argv": [
+   "add",
+   "domains",
+   "profile1",
+   "p1.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_domains_from_profile::126",
+  "argv": [
+   "add",
+   "domains",
+   "multi-domain",
+   "keep.test",
+   "remove1.test",
+   "remove2.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_nonexistent_profile::127",
+  "argv": [
+   "remove",
+   "nonexistent",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_with_quiet::128",
+  "argv": [
+   "add",
+   "domains",
+   "quiet-remove",
+   "quiet.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_command_basic::129",
+  "argv": [
+   "add",
+   "domains",
+   "rm-test",
+   "rm.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_replace_profile::130",
+  "argv": [
+   "add",
+   "domains",
+   "replace-test",
+   "old.local",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_replace_missing_from_flag::131",
+  "argv": [
+   "replace",
+   "test-profile",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_replace_nonexistent_file::132",
+  "argv": [
+   "replace",
+   "test",
+   "--from",
+   "/nonexistent/file.txt",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_replace_creates_if_not_exists::133",
+  "argv": [
+   "replace",
+   "newprofile",
+   "--from",
+   "brand_new.txt",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {
+   "brand_new.txt": "# profile: newprofile\n127.0.0.1 brand-new.local\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_replace_with_quiet::134",
+  "argv": [
+   "replace",
+   "quiet-replace",
+   "--from",
+   "quiet.txt",
+   "--host-file",
+   "--quiet"
+  ],
+  "stdin": null,
+  "files": {
+   "quiet.txt": "# profile: quiet-replace\n127.0.0.1 quiet.local\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_shows_all_profiles::135",
+  "argv": [
+   "add",
+   "domains",
+   "status1",
+   "s1.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_specific_profile::136",
+  "argv": [
+   "add",
+   "domains",
+   "specific-status",
+   "spec.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_multiple_profiles::137",
+  "argv": [
+   "add",
+   "domains",
+   "st1",
+   "st1.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_with_table_format::138",
+  "argv": [
+   "add",
+   "domains",
+   "table-status",
+   "table.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_with_json_format::139",
+  "argv": [
+   "add",
+   "domains",
+   "json-status",
+   "json.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_with_raw_format::140",
+  "argv": [
+   "add",
+   "domains",
+   "raw-status",
+   "raw.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_with_markdown_format::141",
+  "argv": [
+   "add",
+   "domains",
+   "md-status",
+   "md.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_with_quiet::142",
+  "argv": [
+   "add",
+   "domains",
+   "quiet-status",
+   "quiet.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_with_no_color::143",
+  "argv": [
+   "add",
+   "domains",
+   "nocolor",
+   "nocolor.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backup_help::144",
+  "argv": [
+   "backup",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_help::145",
+  "argv": [
+   "disable",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_help::146",
+  "argv": [
+   "enable",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_help::147",
+  "argv": [
+   "list",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_help::148",
+  "argv": [
+   "remove",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_replace_help::149",
+  "argv": [
+   "replace",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_restore_help::150",
+  "argv": [
+   "restore",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_help::151",
+  "argv": [
+   "status",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toggle_help::152",
+  "argv": [
+   "toggle",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sync_help::153",
+  "argv": [
+   "sync",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_domains_help::154",
+  "argv": [
+   "add",
+   "domains",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_domains_help::155",
+  "argv": [
+   "remove",
+   "domains",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toggle_enabled_to_disabled::156",
+  "argv": [
+   "add",
+   "domains",
+   "toggle-test",
+   "toggle.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toggle_disabled_to_enabled::157",
+  "argv": [
+   "add",
+   "domains",
+   "toggle-test2",
+   "toggle2.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toggle_with_quiet::158",
+  "argv": [
+   "add",
+   "domains",
+   "quiet-toggle",
+   "quiet.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toggle_nonexistent_profile::159",
+  "argv": [
+   "toggle",
+   "nonexistent",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_with_wait_accepts_duration::160",
+  "argv": [
+   "add",
+   "domains",
+   "wait-test",
+   "wait.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_with_wait_accepts_duration::161",
+  "argv": [
+   "add",
+   "domains",
+   "wait-disable",
+   "waitdis.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toggle_with_wait_accepts_duration::162",
+  "argv": [
+   "add",
+   "domains",
+   "wait-toggle",
+   "waittog.test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_add_from_stdin::163",
+  "argv": [
+   "add",
+   "awesome",
+   "--host-file",
+   "--no-color"
+  ],
+  "stdin": "3.3.3.3 stdin.loc\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_replace_from_stdin::164",
+  "argv": [
+   "replace",
+   "profile1",
+   "--host-file",
+   "--no-color"
+  ],
+  "stdin": "3.3.3.3 stdin.replaced.loc\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_replace_file_via_stdin::165",
+  "argv": [
+   "replace",
+   "awesome",
+   "--host-file",
+   "--no-color"
+  ],
+  "stdin": "5.5.5.5 replaced.loc\n5.5.5.6 replaced2.loc\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hosts_file_permissions_readable::166",
+  "argv": [
+   "list",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on test\n127.0.0.1 test.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_line_in_profile::167",
+  "argv": [
+   "list",
+   "longline",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_profile_name_with_spaces_error::168",
+  "argv": [
+   "list",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on name with spaces\n127.0.0.1 test.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_malformed_ip_addresses::169",
+  "argv": [
+   "list",
+   "malformed",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on malformed\n999.999.999.999 invalid.loc\n256.1.1.1 toohigh.loc\n1.2.3 incomplete.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_various_places::170",
+  "argv": [
+   "list",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on tëst\n127.0.0.1 tëst.löc\n# Çömmênt with ünïçödé\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_content_in_hosts::171",
+  "argv": [
+   "list",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_domain_names::172",
+  "argv": [
+   "list",
+   "empty",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on empty\n127.0.0.1\n127.0.0.1   \n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_profile_header_variations::173",
+  "argv": [
+   "list",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on normal\n127.0.0.1 test1.loc\n# end\n#profile.on nospace\n127.0.0.1 test2.loc\n# end\n#  profile.on  extraspaces  \n127.0.0.1 test3.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_profile_markers::174",
+  "argv": [
+   "list",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on outer\n127.0.0.1 test.loc\n# This comment mentions # profile.on inner\n127.0.0.1 test2.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_end_markers::175",
+  "argv": [
+   "list",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on test\n127.0.0.1 test.loc\n# end\n# end\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_profile_without_entries::176",
+  "argv": [
+   "list",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on empty1\n# end\n# profile.on empty2\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_domains_with_empty_profile_name::177",
+  "argv": [
+   "add",
+   "domains",
+   "-",
+   "test.loc",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "127.0.0.1 localhost\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_domains_all::178",
+  "argv": [
+   "remove",
+   "domains",
+   "test",
+   "domain1.loc",
+   "domain2.loc",
+   "domain3.loc",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on test\n127.0.0.1 domain1.loc domain2.loc domain3.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toggle_between_all_profiles::179",
+  "argv": [
+   "toggle",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on p1\n127.0.0.1 test1.loc\n# end\n# profile.off p2\n127.0.0.1 test2.loc\n# end\n# profile.on p3\n127.0.0.1 test3.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_output_formats_comprehensive::180",
+  "argv": [
+   "-o",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on p1\n127.0.0.1 test1.loc\n192.168.1.1 test2.loc\n# end\n# profile.off p2\n10.0.0.1 test3.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_column_combinations::181",
+  "argv": [
+   "list",
+   "-c",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on test\n127.0.0.1 test.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_flag_vs_raw_output::182",
+  "argv": [
+   "list",
+   "--raw",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on test\n127.0.0.1 test.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_color_consistency::183",
+  "argv": [
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on test\n127.0.0.1 test.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_consistency::184",
+  "argv": [
+   "list",
+   "--quiet",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on test\n127.0.0.1 test.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_from_file::185",
+  "argv": [
+   "add",
+   "myprofile",
+   "-f",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_domains_directly::186",
+  "argv": [
+   "add",
+   "domains",
+   "testprofile",
+   "test.local",
+   "api.test.local",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_domains_with_custom_ip::187",
+  "argv": [
+   "add",
+   "domains",
+   "customip",
+   "custom.local",
+   "--ip",
+   "192.168.100.50",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_to_existing_profile::188",
+  "argv": [
+   "add",
+   "development",
+   "-f",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_quiet_flag::189",
+  "argv": [
+   "add",
+   "domains",
+   "quietprofile",
+   "quiet.local",
+   "--host-file",
+   "--quiet"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_creates_new_profile::190",
+  "argv": [
+   "add",
+   "domains",
+   "newprofile",
+   "new.local",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_multiple_domains::191",
+  "argv": [
+   "add",
+   "domains",
+   "multiprofile",
+   "domain1.local",
+   "domain2.local",
+   "domain3.local",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_json_output::192",
+  "argv": [
+   "add",
+   "domains",
+   "jsonprofile",
+   "json.local",
+   "--host-file",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_missing_file_error::193",
+  "argv": [
+   "add",
+   "failprofile",
+   "-f",
+   "/nonexistent/file.txt",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_without_from_flag_error::194",
+  "argv": [
+   "add",
+   "testprofile",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "127.0.0.1 localhost\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_replace_without_from_flag_error::195",
+  "argv": [
+   "replace",
+   "testprofile",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "127.0.0.1 localhost\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_with_nonexistent_file::196",
+  "argv": [
+   "remove",
+   "test",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_and_disable_same_profile_repeatedly::197",
+  "argv": [
+   "enable",
+   "test",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.off test\n127.0.0.1 test.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_domains_all_from_profile::198",
+  "argv": [
+   "remove",
+   "domains",
+   "test",
+   "test1.loc",
+   "test2.loc",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on test\n127.0.0.1 test1.loc test2.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_and_replace_comparison::199",
+  "argv": [
+   "add",
+   "test",
+   "-f",
+   "input.txt",
+   "--host-file",
+   "hosts1"
+  ],
+  "stdin": null,
+  "files": {
+   "input.txt": "192.168.1.1 new.loc\n",
+   "hosts1": "\n# profile.on test\n127.0.0.1 existing.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_with_json_format::200",
+  "argv": [
+   "status",
+   "-o",
+   "json",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on test1\n127.0.0.1 test1.loc\n# end\n# profile.off test2\n127.0.0.1 test2.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_raw_and_no_color::201",
+  "argv": [
+   "list",
+   "--raw",
+   "--no-color",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on test\n127.0.0.1 test.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_operations_sequence::202",
+  "argv": [
+   "add",
+   "profile1",
+   "-f",
+   "input1.txt",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "input1.txt": "192.168.1.1 test1.loc\n",
+   "hosts": "127.0.0.1 localhost\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_file_and_domains_conflict::203",
+  "argv": [
+   "add",
+   "test",
+   "-f",
+   "input.txt",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "input.txt": "127.0.0.1 test.loc\n",
+   "hosts": "127.0.0.1 localhost\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_profile_with_only_whitespace_lines::204",
+  "argv": [
+   "list",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n127.0.0.1 localhost\n# profile.on whitespace\n   \n\t\n    \t    \n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_ordered_output::205",
+  "argv": [
+   "status",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on zebra\n127.0.0.1 test1.loc\n# end\n# profile.on alpha\n127.0.0.1 test2.loc\n# end\n# profile.on beta\n127.0.0.1 test3.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_enabled_vs_disabled_comparison::206",
+  "argv": [
+   "list",
+   "enabled",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on enabled1\n127.0.0.1 test1.loc\n# end\n# profile.off disabled1\n127.0.0.1 test2.loc\n# end\n# profile.on enabled2\n127.0.0.1 test3.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backup_preserves_file_permissions::207",
+  "argv": [
+   "backup",
+   "--path",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "127.0.0.1 localhost\n# Some comment\n# profile.on test\n127.0.0.1 test.loc\n# Another comment inside profile\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_profile_that_is_enabled::208",
+  "argv": [
+   "remove",
+   "enabled",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on enabled\n127.0.0.1 test.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_profile_that_is_disabled::209",
+  "argv": [
+   "remove",
+   "disabled",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.off disabled\n127.0.0.1 test.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_profile_with_mixed_content::210",
+  "argv": [
+   "add",
+   "mixed",
+   "-f",
+   "input.txt",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "input.txt": "\n127.0.0.1 local.loc\n192.168.1.1 internal.loc\n10.0.0.1 vpn.loc\n::1 ipv6local.loc\nfe80::1 ipv6link.loc\n",
+   "hosts": "127.0.0.1 localhost\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hosts_file_banner_preserved::211",
+  "argv": [
+   "disable",
+   "test",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n127.0.0.1 localhost\n\n##################################################################\n# Content under this line is handled by hostctl. DO NOT EDIT.\n##################################################################\n\n# profile.on test\n127.0.0.1 test.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_specific_nonexistent_profile::212",
+  "argv": [
+   "list",
+   "nonexistent",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on exists\n127.0.0.1 test.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_already_enabled_profile::213",
+  "argv": [
+   "enable",
+   "alreadyon",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on alreadyon\n127.0.0.1 test.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_already_disabled_profile::214",
+  "argv": [
+   "disable",
+   "alreadyoff",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.off alreadyoff\n127.0.0.1 test.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_multiple_filters::215",
+  "argv": [
+   "list",
+   "--host-file",
+   "--column",
+   "profile"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_with_multiple_profiles::216",
+  "argv": [
+   "status",
+   "development",
+   "staging",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_from_file_to_new_profile::217",
+  "argv": [
+   "add",
+   "servers",
+   "-f",
+   "input.txt",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {
+   "input.txt": "192.168.1.1 server1.local\n192.168.1.2 server2.local\n192.168.1.3 server3.local\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_replace_from_file::218",
+  "argv": [
+   "replace",
+   "development",
+   "-f",
+   "new_dev.txt",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {
+   "new_dev.txt": "10.0.0.100 newdev.local\n10.0.0.101 newapi.local\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_output_structure::219",
+  "argv": [
+   "status",
+   "--host-file",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_output_format_structure::220",
+  "argv": [
+   "status",
+   "--host-file",
+   "-o",
+   "markdown"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_output_no_borders::221",
+  "argv": [
+   "list",
+   "--host-file",
+   "-o",
+   "raw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_disable_workflow::222",
+  "argv": [
+   "add",
+   "domains",
+   "profile1",
+   "p1.local",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_multiple_domains::223",
+  "argv": [
+   "add",
+   "domains",
+   "multi",
+   "d1.local",
+   "d2.local",
+   "d3.local",
+   "d4.local",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_column_filtering_various_columns::224",
+  "argv": [
+   "list",
+   "--host-file",
+   "--column"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_ipv4_ipv6::225",
+  "argv": [
+   "add",
+   "domains",
+   "mixed",
+   "ipv4.local",
+   "--ip",
+   "192.168.1.1",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_restore_nonexistent_file::226",
+  "argv": [
+   "restore",
+   "--host-file",
+   "hosts",
+   "--from",
+   "/nonexistent/backup.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "127.0.0.1 localhost\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::227",
+  "argv": [
+   "--invalid-flag-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_without_profiles::228",
+  "argv": [
+   "enable",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_without_profiles::229",
+  "argv": [
+   "disable",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toggle_without_profile::230",
+  "argv": [
+   "toggle",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_without_profiles_or_all::231",
+  "argv": [
+   "remove",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_to_profile_named_default::232",
+  "argv": [
+   "add",
+   "domains",
+   "default",
+   "default.local",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_profile_named_default::233",
+  "argv": [
+   "status",
+   "default",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_consecutive_operations::234",
+  "argv": [
+   "list",
+   "--host-file",
+   "consecutive"
+  ],
+  "stdin": null,
+  "files": {
+   "consecutive": "127.0.0.1 localhost\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_disable_race::235",
+  "argv": [
+   "status",
+   "--host-file",
+   "race"
+  ],
+  "stdin": null,
+  "files": {
+   "race": "127.0.0.1 localhost\n\n# profile.on test\n192.168.1.1 test.local\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_profile_name::236",
+  "argv": [
+   "add",
+   "domains",
+   "long.local",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_profile_with_spaces_in_name::237",
+  "argv": [
+   "add",
+   "domains",
+   "name with spaces",
+   "space.local",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_profile_with_from_file_and_ip::238",
+  "argv": [
+   "add",
+   "servers",
+   "-f",
+   "input.txt",
+   "--ip",
+   "10.0.0.1",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {
+   "input.txt": "server1.local\nserver2.local\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_invalid_column_name::239",
+  "argv": [
+   "list",
+   "--host-file",
+   "--column",
+   "invalidcolumn"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hosts_file_with_invalid_profile_markers::240",
+  "argv": [
+   "list",
+   "--host-file",
+   "malformed"
+  ],
+  "stdin": null,
+  "files": {
+   "malformed": "127.0.0.1 localhost\n\n# profile.start broken\n192.168.1.1 broken.local\n# profile.end\n\n# profile.on incomplete\n192.168.1.2 incomplete.local\n\n# profile another\n192.168.1.3 another.local\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_and_list_immediately::241",
+  "argv": [
+   "enable",
+   "test",
+   "--host-file",
+   "immediate"
+  ],
+  "stdin": null,
+  "files": {
+   "immediate": "127.0.0.1 localhost\n\n# profile.off test\n# 192.168.1.1 test.local\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_and_list_immediately::242",
+  "argv": [
+   "disable",
+   "test",
+   "--host-file",
+   "immediate2"
+  ],
+  "stdin": null,
+  "files": {
+   "immediate2": "127.0.0.1 localhost\n\n# profile.on test\n192.168.1.1 test.local\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_replace_with_empty_file::243",
+  "argv": [
+   "replace",
+   "emptyreplace",
+   "-f",
+   "empty.txt",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.txt": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_profile_with_ipv4_and_ipv6_mixed::244",
+  "argv": [
+   "list",
+   "mixed",
+   "--host-file",
+   "mixed_ip"
+  ],
+  "stdin": null,
+  "files": {
+   "mixed_ip": "127.0.0.1 localhost\n::1 localhost\n\n# profile.on mixed\n192.168.1.1 ipv4.local\n::1 ipv6.local\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_all_output_formats_on_complex_file::245",
+  "argv": [
+   "status",
+   "--host-file",
+   "complex",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "complex": "127.0.0.1 localhost\n\n# profile.on p1\n192.168.1.1 p1.local\n# end\n\n# profile.off p2\n# 192.168.1.2 p2.local\n# end\n\n# profile.on p3\n192.168.1.3 p3.local\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_all_output_formats_on_complex_file::246",
+  "argv": [
+   "list",
+   "--host-file",
+   "complex2",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "complex2": "127.0.0.1 localhost\n\n# profile.on web\n192.168.1.10 web1.local\n192.168.1.11 web2.local\n# end\n\n# profile.on db\n192.168.1.20 db1.local\n192.168.1.21 db2.local\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_with_color_disabled::247",
+  "argv": [
+   "status",
+   "--host-file",
+   "--no-color"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hosts_file_with_windows_line_endings::248",
+  "argv": [
+   "list",
+   "--host-file",
+   "windows"
+  ],
+  "stdin": null,
+  "files": {
+   "windows": "127.0.0.1 localhost\r\n\r\n# profile.on test\r\n192.168.1.1 test.local\r\n# end\r\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concurrent_profile_modifications::249",
+  "argv": [
+   "add",
+   "domains",
+   "p1",
+   "p1.local",
+   "--host-file",
+   "concurrent"
+  ],
+  "stdin": null,
+  "files": {
+   "concurrent": "127.0.0.1 localhost\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backup_restore_cycle_preserves_state::250",
+  "argv": [
+   "backup",
+   "--host-file",
+   "stateful",
+   "--path"
+  ],
+  "stdin": null,
+  "files": {
+   "stateful": "127.0.0.1 localhost\n\n# profile.on test\n192.168.1.1 test.local\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_from_url_fails_gracefully::251",
+  "argv": [
+   "add",
+   "urltest",
+   "-f",
+   "http://example.com/nonexistent",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_profile_with_various_ips::252",
+  "argv": [
+   "add",
+   "domains",
+   "ipv4test",
+   "ipv4.local",
+   "--ip",
+   "10.0.0.1",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_already_enabled::253",
+  "argv": [
+   "enable",
+   "development",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_already_disabled::254",
+  "argv": [
+   "disable",
+   "testing",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_and_readd_profile::255",
+  "argv": [
+   "add",
+   "domains",
+   "temp",
+   "temp.local",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toggle_multiple_times::256",
+  "argv": [
+   "add",
+   "domains",
+   "toggletest",
+   "toggle.local",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_various_output_formats::257",
+  "argv": [
+   "list",
+   "--host-file",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_with_various_output_formats::258",
+  "argv": [
+   "status",
+   "--host-file",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_custom_ip_various_ranges::259",
+  "argv": [
+   "add",
+   "domains",
+   "--ip",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_replace_multiple_times::260",
+  "argv": [
+   "replace",
+   "replacetest",
+   "-f",
+   "content1.txt",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {
+   "content1.txt": "192.168.1.1 first.local\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hosts_file_with_mixed_line_endings::261",
+  "argv": [
+   "status",
+   "--host-file",
+   "mixed_endings"
+  ],
+  "stdin": null,
+  "files": {
+   "mixed_endings": "127.0.0.1 localhost\r\n192.168.1.1 test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_profile_names_with_special_chars::262",
+  "argv": [
+   "add",
+   "domains",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_after_various_operations::263",
+  "argv": [
+   "add",
+   "domains",
+   "p1",
+   "p1.local",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_after_various_operations::264",
+  "argv": [
+   "add",
+   "domains",
+   "s1",
+   "s1.local",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_with_no_color::265",
+  "argv": [
+   "info",
+   "--no-color"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_replace_multiple_profiles_error::266",
+  "argv": [
+   "replace",
+   "profile1",
+   "profile2",
+   "-f",
+   "input.txt",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "input.txt": "127.0.0.1 test.loc\n",
+   "hosts": "127.0.0.1 localhost\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toggle_multiple_profiles_error::267",
+  "argv": [
+   "toggle",
+   "profile1",
+   "profile2",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n127.0.0.1 localhost\n# profile.on profile1\n127.0.0.1 test1.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_from_stdin::268",
+  "argv": [
+   "add",
+   "testprofile",
+   "-f",
+   "-",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": "127.0.0.1 test.loc\n192.168.1.1 test2.loc\n",
+  "files": {
+   "hosts": "127.0.0.1 localhost\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_replace_from_stdin::269",
+  "argv": [
+   "replace",
+   "existing",
+   "-f",
+   "-",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": "192.168.1.1 new.loc\n",
+  "files": {
+   "hosts": "\n127.0.0.1 localhost\n# profile.on existing\n127.0.0.1 old.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_nonexistent_profile::270",
+  "argv": [
+   "disable",
+   "nonexistent",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "127.0.0.1 localhost\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_domains_nonexistent::271",
+  "argv": [
+   "remove",
+   "domains",
+   "test",
+   "nonexistent.loc",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n127.0.0.1 localhost\n# profile.on test\n127.0.0.1 test.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_domains_with_ipv6::272",
+  "argv": [
+   "add",
+   "domains",
+   "ipv6test",
+   "test.loc",
+   "--ip",
+   "::1",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "127.0.0.1 localhost\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_multiple_specific_profiles::273",
+  "argv": [
+   "status",
+   "profile1",
+   "profile2",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n127.0.0.1 localhost\n# profile.on profile1\n127.0.0.1 test1.loc\n# end\n# profile.off profile2\n127.0.0.1 test2.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_specific_multiple_profiles::274",
+  "argv": [
+   "list",
+   "profile1",
+   "profile2",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n127.0.0.1 localhost\n# profile.on profile1\n127.0.0.1 test1.loc\n# end\n# profile.on profile2\n192.168.1.1 test2.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_multiple_profiles_at_once::275",
+  "argv": [
+   "enable",
+   "profile1",
+   "profile2",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n127.0.0.1 localhost\n# profile.off profile1\n127.0.0.1 test1.loc\n# end\n# profile.off profile2\n127.0.0.1 test2.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_multiple_profiles_at_once::276",
+  "argv": [
+   "disable",
+   "profile1",
+   "profile2",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n127.0.0.1 localhost\n# profile.on profile1\n127.0.0.1 test1.loc\n# end\n# profile.on profile2\n127.0.0.1 test2.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_ipv4_validation::277",
+  "argv": [
+   "add",
+   "domains",
+   "test",
+   "test.loc",
+   "--ip",
+   "192.168.1.100",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "127.0.0.1 localhost\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backup_creates_file_with_timestamp::278",
+  "argv": [
+   "backup",
+   "--path",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "127.0.0.1 localhost\ntest content\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_domains_with_multiple_hostnames::279",
+  "argv": [
+   "add",
+   "domains",
+   "multi",
+   "host1.loc",
+   "host2.loc",
+   "host3.loc",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "127.0.0.1 localhost\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_domains_multiple_at_once::280",
+  "argv": [
+   "remove",
+   "domains",
+   "test",
+   "host1.loc",
+   "host2.loc",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n127.0.0.1 localhost\n# profile.on test\n127.0.0.1 host1.loc host2.loc host3.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_markdown_output_format::281",
+  "argv": [
+   "list",
+   "-o",
+   "markdown",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n127.0.0.1 localhost\n# profile.on test\n127.0.0.1 test.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_markdown_output::282",
+  "argv": [
+   "status",
+   "-o",
+   "markdown",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on test\n127.0.0.1 test.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_profile_in_list::283",
+  "argv": [
+   "list",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n127.0.0.1 localhost\n127.0.0.1 unmanaged.loc\n# profile.on test\n127.0.0.1 test.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_to_disabled_profile::284",
+  "argv": [
+   "add",
+   "test",
+   "-f",
+   "input.txt",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "input.txt": "192.168.1.1 new.loc\n",
+   "hosts": "\n127.0.0.1 localhost\n# profile.off test\n127.0.0.1 old.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_column_filter_with_invalid_column::285",
+  "argv": [
+   "list",
+   "-c",
+   "invalid,nonexistent",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on test\n127.0.0.1 test.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_with_only_flag::286",
+  "argv": [
+   "enable",
+   "profile3",
+   "--only",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on profile1\n127.0.0.1 test1.loc\n# end\n# profile.on profile2\n127.0.0.1 test2.loc\n# end\n# profile.off profile3\n127.0.0.1 test3.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_with_only_flag::287",
+  "argv": [
+   "disable",
+   "profile1",
+   "--only",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on profile1\n127.0.0.1 test1.loc\n# end\n# profile.off profile2\n127.0.0.1 test2.loc\n# end\n# profile.off profile3\n127.0.0.1 test3.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_json_with_profiles::288",
+  "argv": [
+   "list",
+   "test",
+   "-o",
+   "json",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on test\n127.0.0.1 test.loc test2.loc\n192.168.1.1 test3.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_multiple_ips_same_profile::289",
+  "argv": [
+   "add",
+   "multiip",
+   "-f",
+   "input.txt",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "input.txt": "\n127.0.0.1 local1.loc\n192.168.1.1 remote1.loc\n10.0.0.1 internal.loc\n",
+   "hosts": "127.0.0.1 localhost\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_replace_existing_profile_changes_content::290",
+  "argv": [
+   "replace",
+   "test",
+   "-f",
+   "input.txt",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "input.txt": "10.0.0.1 new.loc\n",
+   "hosts": "\n# profile.on test\n127.0.0.1 old1.loc old2.loc\n192.168.1.1 old3.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_all_flag::291",
+  "argv": [
+   "enable",
+   "--all",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.off profile1\n127.0.0.1 test1.loc\n# end\n# profile.off profile2\n127.0.0.1 test2.loc\n# end\n# profile.off profile3\n127.0.0.1 test3.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_all_flag::292",
+  "argv": [
+   "disable",
+   "--all",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on profile1\n127.0.0.1 test1.loc\n# end\n# profile.on profile2\n127.0.0.1 test2.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_profile_name::293",
+  "argv": [
+   "add",
+   "domains",
+   "test-profile_123",
+   "test.local",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_domain_name::294",
+  "argv": [
+   "add",
+   "domains",
+   "longtest",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_ip_address::295",
+  "argv": [
+   "add",
+   "domains",
+   "badip",
+   "test.local",
+   "--ip",
+   "999.999.999.999",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_domain::296",
+  "argv": [
+   "add",
+   "domains",
+   "unicode",
+   "tëst.local",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_malformed_hosts_file::297",
+  "argv": [
+   "status",
+   "--host-file",
+   "bad_hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "bad_hosts": "this is not\na valid hosts file\n!!!@#$\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_data_in_hosts_file::298",
+  "argv": [
+   "status",
+   "--host-file",
+   "binary_hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "binary_hosts": "\u0000\u0001\u0002���"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_large_hosts_file::299",
+  "argv": [
+   "status",
+   "--host-file",
+   "large_hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "large_hosts": "127.0.0.1 localhost\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_hosts_file_operations::300",
+  "argv": [
+   "status",
+   "--host-file",
+   "empty"
+  ],
+  "stdin": null,
+  "files": {
+   "empty": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hosts_file_with_only_whitespace::301",
+  "argv": [
+   "status",
+   "--host-file",
+   "whitespace"
+  ],
+  "stdin": null,
+  "files": {
+   "whitespace": "   \n\t\n  \n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hosts_file_with_only_comments::302",
+  "argv": [
+   "status",
+   "--host-file",
+   "comments"
+  ],
+  "stdin": null,
+  "files": {
+   "comments": "# Comment 1\n# Comment 2\n# Comment 3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duplicate_profile_names::303",
+  "argv": [
+   "status",
+   "--host-file",
+   "dup_hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "dup_hosts": "127.0.0.1 localhost\n\n# profile.on duplicate\n127.0.0.1 dup1.local\n# end\n\n# profile.on duplicate\n127.0.0.1 dup2.local\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_profile_without_end_marker::304",
+  "argv": [
+   "status",
+   "--host-file",
+   "no_end"
+  ],
+  "stdin": null,
+  "files": {
+   "no_end": "127.0.0.1 localhost\n\n# profile.on incomplete\n127.0.0.1 test.local\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_profile::305",
+  "argv": [
+   "enable",
+   "testing",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_multiple_profiles::306",
+  "argv": [
+   "enable",
+   "development",
+   "testing",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_all_profiles::307",
+  "argv": [
+   "enable",
+   "--all",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_with_only_flag::308",
+  "argv": [
+   "enable",
+   "testing",
+   "--only",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_profile::309",
+  "argv": [
+   "disable",
+   "development",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_multiple_profiles::310",
+  "argv": [
+   "disable",
+   "development",
+   "staging",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_all_profiles::311",
+  "argv": [
+   "disable",
+   "--all",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_with_only_flag::312",
+  "argv": [
+   "disable",
+   "testing",
+   "--only",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toggle_enabled_to_disabled::313",
+  "argv": [
+   "toggle",
+   "development",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toggle_disabled_to_enabled::314",
+  "argv": [
+   "toggle",
+   "testing",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_with_quiet::315",
+  "argv": [
+   "add",
+   "domains",
+   "test",
+   "test.local",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_nonexistent_profile_error::316",
+  "argv": [
+   "enable",
+   "nonexistent",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_malformed_profile_header::317",
+  "argv": [
+   "list",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n127.0.0.1 localhost\n# profile.\n127.0.0.1 test.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_profile_without_end_marker::318",
+  "argv": [
+   "list",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n127.0.0.1 localhost\n# profile.on incomplete\n127.0.0.1 test.loc\n# profile.on another\n127.0.0.1 test2.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_profile_name_with_special_characters::319",
+  "argv": [
+   "list",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n127.0.0.1 localhost\n# profile.on test-profile_123\n127.0.0.1 test.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duplicate_profile_names::320",
+  "argv": [
+   "list",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n127.0.0.1 localhost\n# profile.on duplicate\n127.0.0.1 test1.loc\n# end\n# profile.on duplicate\n127.0.0.1 test2.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_ip_address::321",
+  "argv": [
+   "add",
+   "domains",
+   "test",
+   "test.loc",
+   "--ip",
+   "999.999.999.999",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "127.0.0.1 localhost\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_domain_with_invalid_characters::322",
+  "argv": [
+   "add",
+   "domains",
+   "test",
+   "test_domain.loc",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "127.0.0.1 localhost\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hosts_file_with_very_long_lines::323",
+  "argv": [
+   "list",
+   "manydomains",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hosts_file_only_comments::324",
+  "argv": [
+   "list",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# This is a comment\n# Another comment\n# Yet another comment\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hosts_file_with_blank_lines::325",
+  "argv": [
+   "list",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n127.0.0.1 localhost\n\n\n# profile.on test\n\n\n127.0.0.1 test.loc\n\n\n# end\n\n\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_domains_from_nonexistent_profile::326",
+  "argv": [
+   "remove",
+   "domains",
+   "nonexistent",
+   "test.loc",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "127.0.0.1 localhost\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_all_with_no_profiles::327",
+  "argv": [
+   "enable",
+   "--all",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "127.0.0.1 localhost\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_all_with_no_profiles::328",
+  "argv": [
+   "disable",
+   "--all",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "127.0.0.1 localhost\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toggle_nonexistent_profile::329",
+  "argv": [
+   "toggle",
+   "nonexistent",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "127.0.0.1 localhost\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_with_mixed_profile_states::330",
+  "argv": [
+   "status",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on enabled1\n127.0.0.1 test1.loc\n# end\n# profile.off disabled1\n127.0.0.1 test2.loc\n# end\n# profile.on enabled2\n127.0.0.1 test3.loc\n# end\n# profile.off disabled2\n127.0.0.1 test4.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_profile_filter::331",
+  "argv": [
+   "list",
+   "profile1",
+   "profile3",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on profile1\n127.0.0.1 test1.loc\n# end\n# profile.on profile2\n127.0.0.1 test2.loc\n# end\n# profile.on profile3\n127.0.0.1 test3.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backup_and_list_backups::332",
+  "argv": [
+   "backup",
+   "--path",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n127.0.0.1 localhost\n# profile.on test\n127.0.0.1 test.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_restore_modifies_current_file::333",
+  "argv": [
+   "backup",
+   "--path",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "127.0.0.1 localhost\n# profile.on original\n127.0.0.1 original.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_same_domain_twice::334",
+  "argv": [
+   "add",
+   "domains",
+   "test",
+   "test.loc",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n127.0.0.1 localhost\n# profile.on test\n127.0.0.1 test.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_replace_with_different_ips::335",
+  "argv": [
+   "replace",
+   "test",
+   "-f",
+   "input.txt",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "input.txt": "192.168.1.100 test.loc\n10.0.0.1 other.loc\n",
+   "hosts": "\n# profile.on test\n127.0.0.1 test.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_output_is_parseable::336",
+  "argv": [
+   "list",
+   "-o",
+   "json",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on test1\n127.0.0.1 test1.loc\n# end\n# profile.off test2\n192.168.1.1 test2.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_column_specification::337",
+  "argv": [
+   "list",
+   "-c",
+   "profile",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on test\n127.0.0.1 test.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hosts_file_with_unicode_domains::338",
+  "argv": [
+   "list",
+   "unicode",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n127.0.0.1 localhost\n# profile.on unicode\n127.0.0.1 tëst.loc\n127.0.0.1 日本.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_profile_name_with_numbers::339",
+  "argv": [
+   "list",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n127.0.0.1 localhost\n# profile.on 12345\n127.0.0.1 test.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hosts_file_huge_profile::340",
+  "argv": [
+   "list",
+   "large",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_formats_same_session::341",
+  "argv": [
+   "list",
+   "-o",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on test\n127.0.0.1 test.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_profile_names_edge_cases::342",
+  "argv": [
+   "list",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on x\n127.0.0.1 test.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ip_edge_cases::343",
+  "argv": [
+   "list",
+   "ips",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on ips\n0.0.0.0 zero.loc\n255.255.255.255 max.loc\n127.0.0.1 loopback.loc\n::1 ipv6loop.loc\n:: ipv6zero.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_domain_edge_cases::344",
+  "argv": [
+   "list",
+   "domains",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on domains\n127.0.0.1 a\n127.0.0.1 very-long-domain-name-with-many-hyphens.example.com\n127.0.0.1 with_underscores.loc\n127.0.0.1 with123numbers.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_operations_on_empty_profile::345",
+  "argv": [
+   "disable",
+   "empty",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on empty\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_to_profile_multiple_times::346",
+  "argv": [
+   "add",
+   "accumulate",
+   "-f",
+   "input1.txt",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "input1.txt": "192.168.1.1 test1.loc\n",
+   "hosts": "127.0.0.1 localhost\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_and_readd_profile::347",
+  "argv": [
+   "remove",
+   "cycle",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on cycle\n127.0.0.1 test.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_all_disabled_profiles::348",
+  "argv": [
+   "status",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.off profile1\n127.0.0.1 test1.loc\n# end\n# profile.off profile2\n127.0.0.1 test2.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_enabled_when_all_disabled::349",
+  "argv": [
+   "list",
+   "enabled",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.off profile1\n127.0.0.1 test1.loc\n# end\n# profile.off profile2\n127.0.0.1 test2.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_disabled_when_all_enabled::350",
+  "argv": [
+   "list",
+   "disabled",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on profile1\n127.0.0.1 test1.loc\n# end\n# profile.on profile2\n127.0.0.1 test2.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_add_replace_sequence::351",
+  "argv": [
+   "add",
+   "versioned",
+   "-f",
+   "v1.txt",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "v1.txt": "127.0.0.1 v1.loc\n",
+   "hosts": "127.0.0.1 localhost\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_restore_multiple_times::352",
+  "argv": [
+   "backup",
+   "--path",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n127.0.0.1 localhost\n# profile.on original\n127.0.0.1 original.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_ipv4_ipv6_profile::353",
+  "argv": [
+   "list",
+   "mixed",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on mixed\n127.0.0.1 local4.loc\n::1 local6.loc\n192.168.1.1 lan4.loc\nfe80::1 lan6.loc\n10.0.0.1 vpn4.loc\n2001:db8::1 vpn6.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_profile_state_transitions::354",
+  "argv": [
+   "disable",
+   "test",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on test\n127.0.0.1 test.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_operations_preserve_blank_lines::355",
+  "argv": [
+   "disable",
+   "test",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n127.0.0.1 localhost\n\n\n# profile.on test\n\n\n127.0.0.1 test.loc\n\n\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_simultaneous_profile_operations::356",
+  "argv": [
+   "disable",
+   "p1",
+   "p2",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on p1\n127.0.0.1 test1.loc\n# end\n# profile.on p2\n127.0.0.1 test2.loc\n# end\n# profile.on p3\n127.0.0.1 test3.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_profile_completely::357",
+  "argv": [
+   "remove",
+   "test",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n127.0.0.1 localhost\n# profile.on test\n127.0.0.1 test.loc\n192.168.1.1 test2.loc\n# end\n# profile.on other\n127.0.0.1 other.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_all_profiles::358",
+  "argv": [
+   "remove",
+   "--all",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n127.0.0.1 localhost\n# profile.on profile1\n127.0.0.1 test1.loc\n# end\n# profile.on profile2\n127.0.0.1 test2.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_enabled_profiles_only::359",
+  "argv": [
+   "list",
+   "enabled",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n127.0.0.1 localhost\n# profile.on enabled1\n127.0.0.1 test1.loc\n# end\n# profile.off disabled1\n127.0.0.1 test2.loc\n# end\n# profile.on enabled2\n127.0.0.1 test3.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_disabled_profiles_only::360",
+  "argv": [
+   "list",
+   "disabled",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n127.0.0.1 localhost\n# profile.on enabled1\n127.0.0.1 test1.loc\n# end\n# profile.off disabled1\n127.0.0.1 test2.loc\n# end\n# profile.off disabled2\n127.0.0.1 test3.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_domains_no_file_flag::361",
+  "argv": [
+   "add",
+   "domains",
+   "testprof",
+   "domain1.loc",
+   "domain2.loc",
+   "--ip",
+   "192.168.1.1",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "127.0.0.1 localhost\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_profile_with_comments_in_content::362",
+  "argv": [
+   "list",
+   "test",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n127.0.0.1 localhost\n# profile.on test\n127.0.0.1 test.loc\n# This is a comment inside the profile\n192.168.1.1 test2.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_profile_handling::363",
+  "argv": [
+   "list",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n127.0.0.1 localhost\n# profile.on empty\n# end\n# profile.on nonempty\n127.0.0.1 test.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_replace_with_empty_content::364",
+  "argv": [
+   "replace",
+   "test",
+   "-f",
+   "empty.txt",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.txt": "",
+   "hosts": "\n# profile.on test\n127.0.0.1 test.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_restore_backup_preserves_profiles::365",
+  "argv": [
+   "backup",
+   "--path",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n127.0.0.1 localhost\n# profile.on profile1\n127.0.0.1 test1.loc\n# end\n# profile.off profile2\n127.0.0.1 test2.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_shows_on_off_correctly::366",
+  "argv": [
+   "status",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on enabled_profile\n127.0.0.1 test1.loc\n# end\n# profile.off disabled_profile\n127.0.0.1 test2.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_column_filter_with_valid_columns::367",
+  "argv": [
+   "list",
+   "-c",
+   "profile,domain",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on test\n127.0.0.1 test.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_color_flag_on_various_commands::368",
+  "argv": [
+   "list",
+   "--no-color",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on test\n127.0.0.1 test.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_flag_on_various_commands::369",
+  "argv": [
+   "enable",
+   "test",
+   "-q",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on test\n127.0.0.1 test.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_output_vs_table_output::370",
+  "argv": [
+   "list",
+   "-o",
+   "table",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.on test\n127.0.0.1 test.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_to_new_profile_creates_it::371",
+  "argv": [
+   "add",
+   "newprofile",
+   "-f",
+   "input.txt",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "input.txt": "192.168.1.1 newtest.loc\n",
+   "hosts": "127.0.0.1 localhost\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_domains_on_same_line::372",
+  "argv": [
+   "list",
+   "multi",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n127.0.0.1 localhost localhost.localdomain\n# profile.on multi\n192.168.1.1 app.loc api.loc web.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ipv6_addresses_in_profiles::373",
+  "argv": [
+   "list",
+   "ipv6test",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n::1 localhost\n# profile.on ipv6test\n::1 test.loc\nfe80::1 link-local.loc\n2001:db8::1 ipv6.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_profile_cannot_be_disabled::374",
+  "argv": [
+   "disable",
+   "default",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "127.0.0.1 localhost\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_profile_cannot_be_removed::375",
+  "argv": [
+   "remove",
+   "default",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "127.0.0.1 localhost\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_hosts_file_parsing::376",
+  "argv": [
+   "list",
+   "--host-file",
+   "complex"
+  ],
+  "stdin": null,
+  "files": {
+   "complex": "# This is a comment\n127.0.0.1 localhost\n::1 localhost ip6-localhost ip6-loopback\n\n# Some random content\n192.168.1.1 gateway\n\n# profile.on web\n192.168.1.10 web1.local\n192.168.1.11 web2.local web2-alias.local\n# end\n\n# profile.off database\n# 192.168.1.20 db1.local\n# 192.168.1.21 db2.local\n# end\n\n# profile.on cache\n10.0.0.30 redis.local\n10.0.0.31 memcached.local\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hosts_file_with_tabs::377",
+  "argv": [
+   "status",
+   "--host-file",
+   "tabs"
+  ],
+  "stdin": null,
+  "files": {
+   "tabs": "127.0.0.1\tlocalhost\n192.168.1.1\tserver.local\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hosts_file_with_multiple_spaces::378",
+  "argv": [
+   "status",
+   "--host-file",
+   "spaces"
+  ],
+  "stdin": null,
+  "files": {
+   "spaces": "127.0.0.1     localhost\n192.168.1.1       server.local\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_domain_with_multiple_aliases::379",
+  "argv": [
+   "add",
+   "domains",
+   "aliases",
+   "main.local",
+   "alias1.local",
+   "alias2.local",
+   "--ip",
+   "192.168.1.50",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_profile_with_comments::380",
+  "argv": [
+   "list",
+   "test",
+   "--host-file",
+   "comments"
+  ],
+  "stdin": null,
+  "files": {
+   "comments": "127.0.0.1 localhost\n\n# profile.on test\n# This is a comment within profile\n192.168.1.1 test.local\n# Another comment\n192.168.1.2 test2.local\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_replace_with_different_content_types::381",
+  "argv": [
+   "add",
+   "domains",
+   "rep",
+   "rep1.local",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_domains_one_by_one::382",
+  "argv": [
+   "add",
+   "domains",
+   "multi",
+   "d1.local",
+   "d2.local",
+   "d3.local",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_table_structure::383",
+  "argv": [
+   "list",
+   "--host-file",
+   "-o",
+   "markdown"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_disable_cycle::384",
+  "argv": [
+   "add",
+   "domains",
+   "cycle",
+   "cycle.local",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toggle_cycle::385",
+  "argv": [
+   "add",
+   "domains",
+   "toggle",
+   "toggle.local",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_from_http_url::386",
+  "argv": [
+   "add",
+   "urlprofile",
+   "-f",
+   "http://localhost/nonexistent.txt",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_from_https_url::387",
+  "argv": [
+   "add",
+   "urlprofile2",
+   "-f",
+   "https://raw.githubusercontent.com/nonexistent",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_replace_from_url::388",
+  "argv": [
+   "replace",
+   "urlrep",
+   "-f",
+   "http://example.com/hosts.txt",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_all_columns::389",
+  "argv": [
+   "list",
+   "--host-file",
+   "--column",
+   "profile,status,ip,domain"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_invalid_file_path::390",
+  "argv": [
+   "add",
+   "badfile",
+   "-f",
+   "/tmp/this/path/does/not/exist.txt",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_replace_with_invalid_file::391",
+  "argv": [
+   "replace",
+   "badrep",
+   "-f",
+   "/invalid/path.txt",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_restore_with_invalid_backup::392",
+  "argv": [
+   "restore",
+   "--host-file",
+   "--from",
+   "/invalid/backup.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_profiles_same_domain::393",
+  "argv": [
+   "list",
+   "--host-file",
+   "overlap"
+  ],
+  "stdin": null,
+  "files": {
+   "overlap": "127.0.0.1 localhost\n\n# profile.on p1\n192.168.1.1 shared.local\n# end\n\n# profile.on p2\n192.168.1.2 shared.local\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_without_domains::394",
+  "argv": [
+   "add",
+   "domains",
+   "nodomain",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_nonexistent_profile::395",
+  "argv": [
+   "list",
+   "doesnotexist",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_nonexistent_profile::396",
+  "argv": [
+   "status",
+   "doesnotexist",
+   "--host-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_workflow::397",
+  "argv": [
+   "add",
+   "domains",
+   "web",
+   "web.local",
+   "--host-file",
+   "workflow"
+  ],
+  "stdin": null,
+  "files": {
+   "workflow": "127.0.0.1 localhost\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hosts_file_permissions::398",
+  "argv": [
+   "add",
+   "domains",
+   "test",
+   "test.local",
+   "--host-file",
+   "readonly"
+  ],
+  "stdin": null,
+  "files": {
+   "readonly": "127.0.0.1 localhost\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_all_with_no_profile_args::399",
+  "argv": [
+   "enable",
+   "--all",
+   "--host-file",
+   "hosts"
+  ],
+  "stdin": null,
+  "files": {
+   "hosts": "\n# profile.off profile1\n127.0.0.1 test1.loc\n# end\n# profile.off profile2\n127.0.0.1 test2.loc\n# end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

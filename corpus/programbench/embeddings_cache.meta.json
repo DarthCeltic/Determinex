@@ -1,0 +1,1437 @@
+{
+ "_model_version": "nomic-embed-text:latest",
+ "roadmap_to_envisioned": {
+  "idx": 0,
+  "hash": "bcef13343bf1b9ee",
+  "topic": "entry",
+  "snippet": "roadmap_to_envisioned {\"_doc\": \"What else is needed for PB to work as envisioned (IDE natively locks any tool with any model). Read by humans + RAG-retrievable "
+ },
+ "official_metric": {
+  "idx": 1,
+  "hash": "f22f6dc7c7f2535a",
+  "topic": "entry",
+  "snippet": "official_metric {\"THE_SCORER\": \"`programbench info <run_dir>` is the OFFICIAL scorer. It does NOT use raw passed/len(test_results). It applies result.for_branch"
+ },
+ "lock_criteria": {
+  "idx": 2,
+  "hash": "62aa147f3dba0a6f",
+  "topic": "entry",
+  "snippet": "lock_criteria {\"what_a_LOCK_is\": \"OFFICIAL: `programbench info` true-100 == n_resolved==len AFTER for_branches+without_ignored (ignored_tests dropped, not_run c"
+ },
+ "modules": {
+  "idx": 3,
+  "hash": "7c824f2d5d9926a9",
+  "topic": "entry",
+  "snippet": "modules {\"determinex_pb_autofix.py\": \"diagnose+fix+repack. plan/fix/stage/behavioral/triage. Detects+fixes: missing-binary (rc=127), build-target (main in subdi"
+ },
+ "eval_mechanics": {
+  "idx": 4,
+  "hash": "13a46491e9cf5c16",
+  "topic": "entry",
+  "snippet": "eval_mechanics {\"rc_127\": \"executable not found -> the build produced NO binary. Dominant rc=127 = build-broken (the #1 'dud' cause this session).\", \"not_run\": "
+ },
+ "lib_to_apt": {
+  "idx": 5,
+  "hash": "2b52adcdfe673008",
+  "topic": "entry",
+  "snippet": "lib_to_apt {\"sqlite3\": \"libsqlite3-dev\", \"zlib\": \"zlib1g-dev\", \"z\": \"zlib1g-dev\", \"libpng\": \"libpng-dev\", \"png\": \"libpng-dev\", \"jpeg\": \"libjpeg-dev\", \"ncurses\":"
+ },
+ "overlaps": {
+  "idx": 6,
+  "hash": "16189ca2c89775e3",
+  "topic": "entry",
+  "snippet": "overlaps {\"_doc\": \"one root cause -> many tools (the compounding). Fix the class, fix N tools.\", \"go_x_toolchain\": \"17 tools (the single biggest sweep this sess"
+ },
+ "mass_jump_targets": {
+  "idx": 7,
+  "hash": "3e1c7462f0701dcd",
+  "topic": "entry",
+  "snippet": "mass_jump_targets {\"_doc\": \"ranked by max possible newly-passing tests (total - passed). Updated 2026-06-21 from 193-factory scan. top-10 ~57k tests, top-20 ~90"
+ },
+ "per_tool": {
+  "idx": 8,
+  "hash": "1b4cabba6d314ba3",
+  "topic": "entry",
+  "snippet": "per_tool {\"blacknon__hwatch.edfcb62\": {\"note\": \"batch mode (`-b`) infinite loop: src/batch.rs `Err(_) => {}` swallows channel-close signal -> loop never exits. "
+ },
+ "pty_plugin_popen_subclass_crash_2026_06_23": {
+  "idx": 9,
+  "hash": "d52f78c09b42148c",
+  "topic": "ORACLE_MECHANICS",
+  "snippet": "pty_plugin_popen_subclass_crash_2026_06_23 {\"_doc\": \"CANONICAL bug+fix the corpus must apply. The determinex_pty_plugin REGRESSED 141 tools to 0/X (all not_run)"
+ },
+ "provenance_dead_reimpls": {
+  "idx": 10,
+  "hash": "c0e9c3002e4c114e",
+  "topic": "PROVENANCE_GAMING",
+  "snippet": "provenance_dead_reimpls {\"_doc\": \"Python reimpls of native tools \u2014 score high but FAIL the build-from-source provenance gate. NEVER chase as locks. Filter these"
+ },
+ "closed_loop_convert_2026_06_22": {
+  "idx": 11,
+  "hash": "4597e51cedc5387c",
+  "topic": "BUILD_TOOLCHAIN",
+  "snippet": "closed_loop_convert_2026_06_22 {\"_doc\": \"Why the belt plateaued at 0 deploys/cycle and the fix. pb_parallel did only `eval->log score`: it re-confirmed near-loc"
+ },
+ "whale_base_toolchains_2026_06_23": {
+  "idx": 12,
+  "hash": "e2a883ce3aebee3c",
+  "topic": "BUILD_TOOLCHAIN",
+  "snippet": "whale_base_toolchains_2026_06_23 {\"_doc\": \"The smartest-build-tool recipe map: each major whale's BUILD SYSTEM, BASE TOOLCHAIN (apt), specific libs, BUILD COMMA"
+ },
+ "not_run_taxonomy_2026_06_23": {
+  "idx": 13,
+  "hash": "9a8c57e0525a9e26",
+  "topic": "ORACLE_MECHANICS",
+  "snippet": "not_run_taxonomy_2026_06_23 {\"why\": \"Adjudicator labels ALL not_run as remove-collection-cap (UNBLOCK), conflating 4 distinct causes. Verified across luajit/sql"
+ },
+ "luajit_vmdef_wall_2026_06_23": {
+  "idx": 14,
+  "hash": "404f2e9b311c7434",
+  "topic": "BUILD_TOOLCHAIN",
+  "snippet": "luajit_vmdef_wall_2026_06_23 {\"tool\": \"luajit__luajit.a553b3d\", \"best\": \"6292/6376 (98.7%) via argv0-preserve(exec -a $0) + make install + install bash\", \"gain\""
+ },
+ "crlf_configure_wall_2026_06_23": {
+  "idx": 15,
+  "hash": "f4e0d62967a23178",
+  "topic": "BUILD_TOOLCHAIN",
+  "snippet": "crlf_configure_wall_2026_06_23 {\"class\": \"crlf_build_script\", \"symptom\": \"BUILD-FAIL with rc127 'No such file or directory' on the binary across most tests; bui"
+ },
+ "eval_orphan_pipe_hang_2026_06_23": {
+  "idx": 16,
+  "hash": "22cc0f9ac57d49df",
+  "topic": "BUILD_TOOLCHAIN",
+  "snippet": "eval_orphan_pipe_hang_2026_06_23 {\"symptom\": \"A local whale eval 'hangs' 15+ min, pytest at ~1% CPU, do_select wchan, no results.xml, no test subprocess.\", \"roo"
+ },
+ "samtools_source_gap_2026_06_23": {
+  "idx": 17,
+  "hash": "140f3b605b7d8eb8",
+  "topic": "MISC_UNCATEGORIZED",
+  "snippet": "samtools_source_gap_2026_06_23 {\"tool\": \"samtools__samtools.aa823b5\", \"score\": \"1598/2369 (nr770)\", \"root_cause\": \"submission tarball has ONLY Makefile + *.c --"
+ },
+ "native_build_recipes_2026_06_23": {
+  "idx": 18,
+  "hash": "0253ff1090a3ec2b",
+  "topic": "BUILD_TOOLCHAIN",
+  "snippet": "native_build_recipes_2026_06_23 {\"_doc\": \"Per-tool CONFIRMED build recipes (deps+command+gotchas) from build-probes -> the native-build DB so any language/build"
+ },
+ "broken_apt_line_continuation_2026_06_23": {
+  "idx": 19,
+  "hash": "cbc124f0aad00fa0",
+  "topic": "BUILD_TOOLCHAIN",
+  "snippet": "broken_apt_line_continuation_2026_06_23 {\"symptom\": \"compile.sh apt-get install line split across two lines WITHOUT a trailing backslash -> line1 'apt-get insta"
+ },
+ "binary_location_mismatch_2026_06_23": {
+  "idx": 20,
+  "hash": "4fa1496a070d0299",
+  "topic": "BUILD_TOOLCHAIN",
+  "snippet": "binary_location_mismatch_2026_06_23 {\"class\": \"binary_name_or_dir_mismatch\", \"symptom\": \"build succeeds but compile.sh's [ -f ./<tool> ] check fails -> falls to"
+ },
+ "probe_in_task_image_not_ubuntu_2026_06_23": {
+  "idx": 21,
+  "hash": "de6f9aa6c662127b",
+  "topic": "BUILD_TOOLCHAIN",
+  "snippet": "probe_in_task_image_not_ubuntu_2026_06_23 {\"lesson\": \"Build-probe inside the TOOL'S TASK IMAGE (programbench-compiled/<slug> or programbench/<slug>:task), NOT p"
+ },
+ "extraction_strips_exec_bit_2026_06_23": {
+  "idx": 22,
+  "hash": "5c060d97bc808a78",
+  "topic": "BUILD_TOOLCHAIN",
+  "snippet": "extraction_strips_exec_bit_2026_06_23 {\"class\": \"exec_bit_stripped_in_eval\", \"symptom\": \"build dies 'Permission denied'/Error 126 on a './helper' the build runs"
+ },
+ "official_metric_vs_raw_2026_06_23": {
+  "idx": 23,
+  "hash": "534b7d986d3d997c",
+  "topic": "MISC_UNCATEGORIZED",
+  "snippet": "official_metric_vs_raw_2026_06_23 {\"CRITICAL\": \"My raw passed/len(test_results) is NOT the official score and is MISLEADING. The official scorer = `programbench"
+ },
+ "conftest_bidir_mirror_inflation_2026_06_23": {
+  "idx": 24,
+  "hash": "dc857abbb970c81e",
+  "topic": "ORACLE_MECHANICS",
+  "snippet": "conftest_bidir_mirror_inflation_2026_06_23 {\"CRITICAL\": \"My shared compile.sh conftest template runs a BIDIR MIRROR (_bidir_inject_classnames + _cb_* in conftes"
+ },
+ "corpus_wide_sweep_state_2026_06_23": {
+  "idx": 25,
+  "hash": "9199dbabe4403ec1",
+  "topic": "ORACLE_MECHANICS",
+  "snippet": "corpus_wide_sweep_state_2026_06_23 {\"asked\": \"What corpus-wide sweeps remain to keep scores moving up?\", \"DONE_build_edits\": \"go_x_toolchain (only 5 real go-bui"
+ },
+ "buildfail_whale_taxonomy_2026_06_23": {
+  "idx": 26,
+  "hash": "5739b154cc0efd8a",
+  "topic": "ORACLE_MECHANICS",
+  "snippet": "buildfail_whale_taxonomy_2026_06_23 {\"why\": \"58 tools at official <50% = 151k of the 167k test-gap. Official-scored the pull; categorized by not_run-vs-fail dom"
+ },
+ "gold_fail_eval_prefix_alias_2026_06_24": {
+  "idx": 27,
+  "hash": "6ab2cc8d37d74e2f",
+  "topic": "ORACLE_MECHANICS",
+  "snippet": "gold_fail_eval_prefix_alias_2026_06_24 {\"headline\": \"15 near-locks are NOT code/ceiling gaps -- they are gold_fail/dummy_pass test aliases that survive PB's wit"
+ },
+ "gaming_scanner_audit_2026_06_24": {
+  "idx": 28,
+  "hash": "41699f08a5293c98",
+  "topic": "PROVENANCE_GAMING",
+  "snippet": "gaming_scanner_audit_2026_06_24 {\"scanner\": \"determinex_pb_integrity.py scan-gaming <dir|tarball|file> -- detects gaming the override-scan regex MISSES: output_"
+ },
+ "legit_lockable_pool_2026_06_24": {
+  "idx": 29,
+  "hash": "6886932ad52826b9",
+  "topic": "ORACLE_MECHANICS",
+  "snippet": "legit_lockable_pool_2026_06_24 {\"definition\": \"Tools whose official gap has ZERO gold_fail/dummy_pass alias survivors (so no ceiling-by-alias) -- the genuine pe"
+ },
+ "reeval_regression_and_accounting_2026_06_24": {
+  "idx": 30,
+  "hash": "bfaa5e6e627806af",
+  "topic": "ORACLE_MECHANICS",
+  "snippet": "reeval_regression_and_accounting_2026_06_24 {\"CRITICAL\": \"The reeval campaign (which produced per_tool_overrides/*/eval_report.json) systematically REGRESSED al"
+ },
+ "METHODOLOGY_INVALIDATION_2026_06_24": {
+  "idx": 31,
+  "hash": "ced949b2dbc821e9",
+  "topic": "PROVENANCE_GAMING",
+  "snippet": "METHODOLOGY_INVALIDATION_2026_06_24 {\"SEVERITY\": \"FOUNDATIONAL. ProgramBench is a REVERSE-ENGINEERING / REIMPLEMENTATION benchmark (blogpost May 4 2026 + v1.1.0"
+ },
+ "reimplementation_pivot_2026_06_24": {
+  "idx": 32,
+  "hash": "e90770d68bcbcfa4",
+  "topic": "PROVENANCE_GAMING",
+  "snippet": "reimplementation_pivot_2026_06_24 {\"playbook\": \"corpus/programbench/REIMPLEMENTATION_PLAYBOOK.md -- the model-facing knowledge for the LEGITIMATE task (reverse-"
+ },
+ "reimpl_engine_PROVEN_2026_06_24": {
+  "idx": 33,
+  "hash": "ef5a4d48f5d3f68d",
+  "topic": "PROVENANCE_GAMING",
+  "snippet": "reimpl_engine_PROVEN_2026_06_24 {\"milestone\": \"The LEGITIMATE reimplementation loop works END-TO-END. First honest ProgramBench attempt: gron reverse-engineered"
+ },
+ "GATE2_official_eval_2026_06_24": {
+  "idx": 34,
+  "hash": "d68740e355de355c",
+  "topic": "PROVENANCE_GAMING",
+  "snippet": "GATE2_official_eval_2026_06_24 {\"status\": \"SOLVED. Official v1.2.2 reimplementation eval works end-to-end. gron_ref (hand-written correct core) scored 0.1518 (1"
+ },
+ "CEILING_PROVEN_gron_2026_06_24": {
+  "idx": 35,
+  "hash": "ec70264c8ad74256",
+  "topic": "PROVENANCE_GAMING",
+  "snippet": "CEILING_PROVEN_gron_2026_06_24 {\"milestone\": \"A COMPLETE from-scratch reimplementation scores HIGH on the official v1.2.2 harness. gron_ref (hand-written by Cla"
+ },
+ "GATE1_and_release_reframe_2026_06_24": {
+  "idx": 36,
+  "hash": "66a73121a71c07ac",
+  "topic": "PROVENANCE_GAMING",
+  "snippet": "GATE1_and_release_reframe_2026_06_24 {\"gron_final\": \"CAPABLE model (Claude) complete reimpl = 153/224 (68.3%) official, still climbing. FREE 7B + decomposer = 3"
+ },
+ "STILL_NEEDED_for_release_2026_06_24": {
+  "idx": 37,
+  "hash": "315fd9188485ad6e",
+  "topic": "PROVENANCE_GAMING",
+  "snippet": "STILL_NEEDED_for_release_2026_06_24 {\"from_corpus\": [\"1. cleanroom_v6 images per tool for official scoring (~3GB each; only gron pulled). 25-tool release needs "
+ },
+ "LOOP_GAPS_2026_06_24": {
+  "idx": 38,
+  "hash": "b57b56a961c40253",
+  "topic": "PROVENANCE_GAMING",
+  "snippet": "LOOP_GAPS_2026_06_24 {\"context\": \"Missing pieces IN the reimplementation LOOP (observe->oracle->generate->verify->corpus->official), distinct from release logis"
+ },
+ "JOINT_AUDIT_2026_06_24": {
+  "idx": 39,
+  "hash": "de66736f75c00f89",
+  "topic": "PROVENANCE_GAMING",
+  "snippet": "JOINT_AUDIT_2026_06_24 {\"context\": \"User asked corpus + Claude jointly: what truly remains to make the reimpl loop better. Corpus gaps (LOOP_GAPS A-E, STILL_NEE"
+ },
+ "LAST_RUN_REVIEW_deepseek_gron_2026_06_24": {
+  "idx": 40,
+  "hash": "ffa55c5a93d86968",
+  "topic": "ORACLE_MECHANICS",
+  "snippet": "LAST_RUN_REVIEW_deepseek_gron_2026_06_24 {\"run\": \"deepseek-v4-flash + Determinex, gron, k=5 r=3, hand 43-probe oracle -> 76/224 official (82 raw pass /151 fail)"
+ },
+ "CONTINUOUS_ANALYSIS_gron_cycle2_2026_06_24": {
+  "idx": 41,
+  "hash": "0cef08986d5e1702",
+  "topic": "ORACLE_MECHANICS",
+  "snippet": "CONTINUOUS_ANALYSIS_gron_cycle2_2026_06_24 {\"loop\": \"recipe re-run -> official 76->96/224 (+20, same budget) = number-repr recipe lift PROVEN.\", \"raw_pass\": \"82"
+ },
+ "ORACLE_PROVISIONS_ENVIRONMENT_2026_06_24": {
+  "idx": 42,
+  "hash": "4413cb210d1f1fae",
+  "topic": "ORACLE_MECHANICS",
+  "snippet": "ORACLE_PROVISIONS_ENVIRONMENT_2026_06_24 {\"insight\": \"OPERATOR: the system is huge (Docker, loopback net, Linux sidecars, hardened_runner) -- the observe-oracle"
+ },
+ "ORACLE_MUST_PIN_CORE_INVARIANTS_2026_06_24": {
+  "idx": 43,
+  "hash": "c8f52d82df5b3e78",
+  "topic": "ORACLE_MECHANICS",
+  "snippet": "ORACLE_MUST_PIN_CORE_INVARIANTS_2026_06_24 {\"event\": \"Cycle-4 enriched oracle (added URL/escaping/reserved) -> official CRASHED 96->19/224. Continuous analysis "
+ },
+ "WHY_96_NOT_224_gron_2026_06_24": {
+  "idx": 44,
+  "hash": "39ba35b72f6b517d",
+  "topic": "BUILD_TOOLCHAIN",
+  "snippet": "WHY_96_NOT_224_gron_2026_06_24 {\"question\": \"Why does the best gron candidate score 96/224, not perfect 224?\", \"method\": \"Diffed the 96 candidate vs the referen"
+ },
+ "AMPLIFIER_WIRED_INTO_REIMPL_2026_06_24": {
+  "idx": 45,
+  "hash": "de2506bd4373e398",
+  "topic": "PROVENANCE_GAMING",
+  "snippet": "AMPLIFIER_WIRED_INTO_REIMPL_2026_06_24 {\"ask\": \"OPERATOR: make ANY llm that plugs in code at/above the TOP of the ProgramBench leaderboard. Audit what Determine"
+ },
+ "CORRECTED_AUDIT_not_just_7_2026_06_25": {
+  "idx": 46,
+  "hash": "73d7806069e1be18",
+  "topic": "BUILD_TOOLCHAIN",
+  "snippet": "CORRECTED_AUDIT_not_just_7_2026_06_25 {\"operator_challenge\": \"'you sure its only 7?' -- correct to push. '7' is ONLY the Correctness Amplifier subset. Determine"
+ },
+ "ROADMAP_to_200_2026_06_25": {
+  "idx": 47,
+  "hash": "202a8c0149a5c2cd",
+  "topic": "CAMPAIGN_STRATEGY",
+  "snippet": "ROADMAP_to_200_2026_06_25 {\"leaderboard_truth\": \"ALL 9 public models: 0% fully-resolved. Frontier 'almost resolved'(>=95%): Opus4.7=3.0%, Opus4.6=2.5%, Sonnet4."
+ },
+ "DETERMINEX_LAW_native_only_2026_06_25": {
+  "idx": 48,
+  "hash": "537a80119c93270d",
+  "topic": "PROVENANCE_GAMING",
+  "snippet": "DETERMINEX_LAW_native_only_2026_06_25 {\"law\": \"DETERMINEX RULE (stricter than PB, which is language-agnostic): submissions are NATIVE -- rebuild the tool in ITS"
+ },
+ "VERIFIER_SKILLS_concept_2026_06_25": {
+  "idx": 49,
+  "hash": "702a31a9735229f3",
+  "topic": "PROVENANCE_GAMING",
+  "snippet": "VERIFIER_SKILLS_concept_2026_06_25 {\"idea\": \"OPERATOR vision: every fully-resolved tool becomes a VERIFIER SKILL -- not a prompt file, but a compiler-verified, "
+ },
+ "ENGINE_COMPLETE_2026_06_25": {
+  "idx": 50,
+  "hash": "06545c03f0346b27",
+  "topic": "PROVENANCE_GAMING",
+  "snippet": "ENGINE_COMPLETE_2026_06_25 {\"verification\": \"Operator asked: is anything else to be done on the engine? Verified IN CODE (not memory) + regression-green (tests/"
+ },
+ "ORACLE_DOMAIN_INPUTS_2026_06_25": {
+  "idx": 51,
+  "hash": "2665c0871f9a3f3a",
+  "topic": "ORACLE_MECHANICS",
+  "snippet": "ORACLE_DOMAIN_INPUTS_2026_06_25 {\"lineage\": \"Extends ORACLE_PROVISIONS_ENVIRONMENT (URL server) to FILE/BINARY domains. Honors ORACLE_MUST_PIN_CORE_INVARIANTS: "
+ },
+ "WILD_READINESS_EDGE_INVENTORY_2026_06_25": {
+  "idx": 52,
+  "hash": "5fec8ed08e322ef2",
+  "topic": "PROVENANCE_GAMING",
+  "snippet": "WILD_READINESS_EDGE_INVENTORY_2026_06_25 {\"purpose\": \"Release gate: every edge/failure class the corpus+reimpl loop must self-handle AUTONOMOUSLY (no harness, n"
+ },
+ "F_sandbox_DONE_2026_06_25": {
+  "idx": 53,
+  "hash": "1d928d29bc0c7e4c",
+  "topic": "MISC_UNCATEGORIZED",
+  "snippet": "F_sandbox_DONE_2026_06_25 {\"done\": \"candidate execution sandboxed via hardened_runner (both runners, verified)\", \"ts\": \"2026-06-25 11:18\"}"
+ },
+ "ORACLE_STDIN_NOT_FORWARDED_BUG_2026_06_25": {
+  "idx": 54,
+  "hash": "6ea8d87702e78c41",
+  "topic": "ORACLE_MECHANICS",
+  "snippet": "ORACLE_STDIN_NOT_FORWARDED_BUG_2026_06_25 {\"severity\": \"CRITICAL \u2014 corrupted the oracle for EVERY stdin-reading tool, silently.\", \"bug\": \"observe_in_image ran `"
+ },
+ "DOCKER_PER_PROBE_OVERHEAD_2026_06_25": {
+  "idx": 55,
+  "hash": "26e9b3285ecd1d71",
+  "topic": "ORACLE_MECHANICS",
+  "snippet": "DOCKER_PER_PROBE_OVERHEAD_2026_06_25 {\"measured\": \"docker run startup on this Windows/Docker-Desktop/WSL2 box = ~4s CONSTANT (alpine tiny image 3.9-4.8s == csvi"
+ },
+ "WHY_csview_not_100_2026_06_25": {
+  "idx": 56,
+  "hash": "82cdcea86ceccae5",
+  "topic": "ORACLE_MECHANICS",
+  "snippet": "WHY_csview_not_100_2026_06_25 {\"score\": \"40% (145/348 raw). 203 failures categorized.\", \"cause1_flag_values\": \"~70 failures = flag-VALUE behaviors (--style none"
+ },
+ "csview_exact_byte_bugs_2026_06_25": {
+  "idx": 57,
+  "hash": "a013220acbb3dbb5",
+  "topic": "BUILD_TOOLCHAIN",
+  "snippet": "csview_exact_byte_bugs_2026_06_25 {\"method\": \"Black-box diff: ran REF /workspace/executable (mode ---x--x--x, exec-only) vs our best candidate binary on identic"
+ },
+ "budget_run_io_hang_2026_06_25": {
+  "idx": 58,
+  "hash": "0fc2e04b88183841",
+  "topic": "BUILD_TOOLCHAIN",
+  "snippet": "budget_run_io_hang_2026_06_25 {\"symptom\": \"k8/r3 csview run: python3 at 0.1pct CPU, idle 1623s, no rustc/candidate proc, log silent on amplify. NOT a plateau --"
+ },
+ "THROUGHPUT_bottleneck_PROVEN_2026_06_25": {
+  "idx": 59,
+  "hash": "4b9b014e7273623a",
+  "topic": "INFRA_OPS",
+  "snippet": "THROUGHPUT_bottleneck_PROVEN_2026_06_25 {\"method\": \"Measured each stage on the Linux box (operator pushed back on 'API slow' = lazy; it was right).\", \"numbers\":"
+ },
+ "CSVIEW_100PCT_LOCKED_2026_06_25": {
+  "idx": 60,
+  "hash": "87fea1ce20a87f0c",
+  "topic": "CAMPAIGN_STRATEGY",
+  "snippet": "CSVIEW_100PCT_LOCKED_2026_06_25 {\"result\": \"csview 335/335 solved=True official (full resolve). No public model achieves this (frontier ceiling 96.1%). Climb: 1"
+ },
+ "ORACLE_FAITHFULNESS_BUILDOUT_2026_06_26": {
+  "idx": 61,
+  "hash": "6f1337409bd8ae01",
+  "topic": "ORACLE_MECHANICS",
+  "snippet": "ORACLE_FAITHFULNESS_BUILDOUT_2026_06_26 {\"why\": \"Corpus says (STILL_NEEDED #5 'BIGGEST GENERALITY GAP', JOINT_AUDIT 'the_one_thing'): the local oracle's faithfu"
+ },
+ "PDU_ALGORITHM_2026_06_26": {
+  "idx": 62,
+  "hash": "0b202363f25689d5",
+  "topic": "BUILD_TOOLCHAIN",
+  "snippet": "PDU_ALGORITHM_2026_06_26 {\"tool\": \"ksxgithub__parallel-disk-usage (pdu), 531 official tests, Rust, version 0.21.1\", \"status\": \"pdu IN PROGRESS 58/95 genuine via"
+ },
+ "clap_value_recipe_2026_06_26": {
+  "idx": 63,
+  "hash": "c11218c9177e7bd2",
+  "topic": "PROVENANCE_GAMING",
+  "snippet": "clap_value_recipe_2026_06_26 {\"what\": \"Reusable clap-4 enum/value validation recipe (byte-exact). Wired into pdu reimpl; applies to EVERY clap tool.\", \"enum_inv"
+ },
+ "exec_a_dash_trap_2026_06_26": {
+  "idx": 64,
+  "hash": "6016e36874cae4a5",
+  "topic": "PROVENANCE_GAMING",
+  "snippet": "exec_a_dash_trap_2026_06_26 {\"symptom\": \"Every test returns rc=127 with stderr './executable: 2: exec: -a: not found'. Official eval scores near-zero even when "
+ },
+ "ascii_tree_chart_recipe_2026_06_26": {
+  "idx": 65,
+  "hash": "2c182a4953053d9b",
+  "topic": "BUILD_TOOLCHAIN",
+  "snippet": "ascii_tree_chart_recipe_2026_06_26 {\"what\": \"Byte-exact algorithm for pdu-style ASCII disk-usage tree charts (bottom-up & top-down). Reusable for any tree/box-d"
+ },
+ "fs_dir_size_env_ceiling_2026_06_26": {
+  "idx": 66,
+  "hash": "17eda521d721dce0",
+  "topic": "INFRA_OPS",
+  "snippet": "fs_dir_size_env_ceiling_2026_06_26 {\"what\": \"Disk-usage / tree / du-style tools (pdu, dust, dua, gdu, ...) report DIRECTORY sizes that depend on the FILESYSTEM,"
+ },
+ "determinex_cached_image_hash_mismatch_2026_06_26": {
+  "idx": 67,
+  "hash": "65e24418c9873d6b",
+  "topic": "ORACLE_MECHANICS",
+  "snippet": "determinex_cached_image_hash_mismatch_2026_06_26 {\"symptom\": \"Official eval returns ALL tests not_run with error_code \\\"executable_hash_mismatch\\\" on every bran"
+ },
+ "campaign_infra_gotchas_2026_06_26": {
+  "idx": 68,
+  "hash": "a6b86688561c4bf4",
+  "topic": "BUILD_TOOLCHAIN",
+  "snippet": "campaign_infra_gotchas_2026_06_26 {\"ssh_to_self_eval\": \"Scripts calling pb_eval_unified.run_hetzner_eval break with rc=255 when run ON the box (SSH to 5.78.192."
+ },
+ "whale_eval_hang_2026_06_26": {
+  "idx": 69,
+  "hash": "5bca50115bba3e36",
+  "topic": "BUILD_TOOLCHAIN",
+  "snippet": "whale_eval_hang_2026_06_26 {\"symptom\": \"sqlite whale eval ran 110min with NO sqlite container + low load (1.17) + no eval.json = HUNG (PB branch-stall), not pro"
+ },
+ "provenance_reaudit_2026_06_26": {
+  "idx": 70,
+  "hash": "97e9dfe69dc28cf5",
+  "topic": "PROVENANCE_GAMING",
+  "snippet": "provenance_reaudit_2026_06_26 {\"scope\": \"all 98 verified_locks registry entries scanned (scan_tool + top-level-ELF tarball check)\", \"result\": \"88 CLEAN (from-so"
+ },
+ "upstream_shortcut_crosscheck_2026_06_26": {
+  "idx": 71,
+  "hash": "a883ffa79c7548ef",
+  "topic": "PROVENANCE_GAMING",
+  "snippet": "upstream_shortcut_crosscheck_2026_06_26 {\"finding\": \"ACTUAL tarball cross-check of 98 registry locks: 82 ship REAL UPSTREAM SOURCE + build it (cargo/go/make of "
+ },
+ "go_stdlib_freebie_error_strings_2026_06_26": {
+  "idx": 72,
+  "hash": "bc200166f60663d6",
+  "topic": "PROVENANCE_GAMING",
+  "snippet": "go_stdlib_freebie_error_strings_2026_06_26 {\"discovered\": \"2026-06-26\", \"context\": \"gron reverse-engineer (tomnomnom__gron.88a6234), Go\", \"insight\": \"PB tests f"
+ },
+ "pb_spec_driven_bulk_machine_2026_06_26": {
+  "idx": 73,
+  "hash": "2839b710da579ed2",
+  "topic": "PROVENANCE_GAMING",
+  "snippet": "pb_spec_driven_bulk_machine_2026_06_26 {\"discovered\": \"2026-06-26\", \"what\": \"pb_bulk_spec.py harvests every tool's answer key (argv/stdin/expected) from the loc"
+ },
+ "go_mod_outdated_contradiction_ceiling_2026_06_26": {
+  "idx": 74,
+  "hash": "1cf98d81a584c049",
+  "topic": "BUILD_TOOLCHAIN",
+  "snippet": "go_mod_outdated_contradiction_ceiling_2026_06_26 {\"discovered\": \"2026-06-26\", \"tool\": \"psampaz__go-mod-outdated.bb79367\", \"ceiling\": \"678/684 (99.1%)\", \"type\": "
+ },
+ "agent_validate_official_not_local_pytest_2026_06_26": {
+  "idx": 75,
+  "hash": "d8e5253561709871",
+  "topic": "ORACLE_MECHANICS",
+  "snippet": "agent_validate_official_not_local_pytest_2026_06_26 {\"discovered\": \"2026-06-26\", \"context\": \"gron agent reported local 466/466 but official eval = 442/466\", \"le"
+ },
+ "libtmux_collection_crash_not_run_2026_06_26": {
+  "idx": 76,
+  "hash": "442c7687db669098",
+  "topic": "ORACLE_MECHANICS",
+  "snippet": "libtmux_collection_crash_not_run_2026_06_26 {\"discovered\": \"2026-06-26\", \"context\": \"csview 2 not_run tests (test_env_config branch)\", \"root_cause\": \"The libtmu"
+ },
+ "pack_submission_binary_magic_exclude_2026_06_26": {
+  "idx": 77,
+  "hash": "5e8e0c540dd4551a",
+  "topic": "BUILD_TOOLCHAIN",
+  "snippet": "pack_submission_binary_magic_exclude_2026_06_26 {\"discovered\": \"2026-06-26\", \"context\": \"source-only pack shipped tool-named binary `tuc` + leftover upstream sr"
+ },
+ "verification_log": {
+  "idx": 78,
+  "hash": "2717a4c80bb65a50",
+  "topic": "entry",
+  "snippet": "verification_log [{\"slug\": \"tomnomnom__gron.88a6234\", \"delta\": 0, \"direction\": \"UNCHANGED\", \"change\": null, \"known_specific\": false, \"at\": \"2026-06-28\"}]"
+ },
+ "amplify_grounding_2026_06_29": {
+  "idx": 79,
+  "hash": "ecb02654ce25224f",
+  "topic": "BUILD_TOOLCHAIN",
+  "snippet": "amplify_grounding_2026_06_29 {\"what\": \"build_fix_prompt now feeds class_patterns as a SYMPTOM->FIX playbook to the model, so the catch-all compile.sh fixer appl"
+ },
+ "hackathon_pr_discipline_2026_07_10": {
+  "idx": 80,
+  "hash": "162dab16a6455ed1",
+  "topic": "entry",
+  "snippet": "hackathon_pr_discipline_2026_07_10 {\"_doc\": \"AIFoundry+OpenHW CORE-ET hackathon (aifoundry-org/hf-hackathon) PR mechanics \u2014 consult before touching any hackatho"
+ },
+ "hackathon_leaderboard_mechanics_2026_07_10": {
+  "idx": 81,
+  "hash": "be2a620989c05918",
+  "topic": "HACKATHON_CAMPAIGN",
+  "snippet": "hackathon_leaderboard_mechanics_2026_07_10 {\"_doc\": \"aifoundry-org/hf-hackathon leaderboard/gate mechanics + live competitive state, learned auditing PR #31/#32"
+ },
+ "PREFLIGHT_STATIC_GRAPH_PROFILER_PROPOSAL_2026_07_13": {
+  "idx": 82,
+  "hash": "ed1d63ea3cfc552b",
+  "topic": "HACKATHON_CAMPAIGN",
+  "snippet": "PREFLIGHT_STATIC_GRAPH_PROFILER_PROPOSAL_2026_07_13 PROPOSED CAPABILITY, not yet built -- captured for future implementation, motivated directly by the hf-hacka"
+ },
+ "HACKATHON_LEVER_MAP_2026_07_13": {
+  "idx": 83,
+  "hash": "6e8023cbb6cf9672",
+  "topic": "HACKATHON_CAMPAIGN",
+  "snippet": "HACKATHON_LEVER_MAP_2026_07_13 COMPLETE LEVER CATALOG for the hf-hackathon ET-SoC1 campaign, organized by proven status so a future session (or agent) gets inst"
+ },
+ "SMOLVLM2_ET_KERNEL_AUDIT_COVERAGE_MAP_2026_07_13": {
+  "idx": 84,
+  "hash": "ba3a7d0f018f59a5",
+  "topic": "HACKATHON_CAMPAIGN",
+  "snippet": "SMOLVLM2_ET_KERNEL_AUDIT_COVERAGE_MAP_2026_07_13 Coverage map of every file in ported_models/llama_cpp_et/src/llama.cpp-et/ggml/src/ggml-et/et-kernels/src/ audi"
+ },
+ "SMOLVLM2_MASTER_SUMMARY_2026_07_13": {
+  "idx": 85,
+  "hash": "5e69b2586cf5f32a",
+  "topic": "HACKATHON_CAMPAIGN",
+  "snippet": "SMOLVLM2_MASTER_SUMMARY_2026_07_13 MASTER REFERENCE for the SmolVLM2-500M-Video Week-2 track. Read this ONE entry first for the complete current picture; it ind"
+ },
+ "LEVER_TRACKING_SCHEMA_2026_07_13": {
+  "idx": 86,
+  "hash": "9021e26da5ac08be",
+  "topic": "entry",
+  "snippet": "LEVER_TRACKING_SCHEMA_2026_07_13 {\"_doc\": \"REQUIRED FORMAT for any project's optimization-lever tracking in this corpus. Read this before adding, editing, or cr"
+ },
+ "LEVER_REGISTRY": {
+  "idx": 87,
+  "hash": "ab01ae80a2d0ce8e",
+  "topic": "entry",
+  "snippet": "LEVER_REGISTRY {\"yolo\": [{\"lever_id\": \"yolo_tensor_1x1_fp32_tfma\", \"name\": \"1x1 conv via tensor engine -- OC16xHW16 tile, FP32 TFMA over IC16 tiles, no input/we"
+ },
+ "COMPUTE_HEATMAP": {
+  "idx": 88,
+  "hash": "2815eff11680b026",
+  "topic": "entry",
+  "snippet": "COMPUTE_HEATMAP {\"yolo\": {\"total_units\": 1.377915, \"unit\": \"seconds of measured board kernel-call wall time (BEFORE optimization), summed across the 3 profiled "
+ },
+ "SEQUENCE_PLAN": {
+  "idx": 89,
+  "hash": "431d6ba17ffb3d6e",
+  "topic": "entry",
+  "snippet": "SEQUENCE_PLAN {\"smolvlm2_500m_video\": {\"current_state\": \"CORRECTED 2026-07-15 (supersedes the prior current_state below in spirit, kept for its still-valid reas"
+ },
+ "REGRESSION_RUN_HISTORY": {
+  "idx": 90,
+  "hash": "06cfd872a1bc4089",
+  "topic": "entry",
+  "snippet": "REGRESSION_RUN_HISTORY {\"llama_shared_regression_set_2026_07_15\": {\"_doc\": \"Per LEVER_TRACKING_SCHEMA_2026_07_13's REGRESSION_RUN_HISTORY[project] extension (ad"
+ },
+ "CROSS_PROJECT_LATENCY_AND_NOISE_LESSONS_2026_07_15": {
+  "idx": 91,
+  "hash": "fbc099a0f4012917",
+  "topic": "HACKATHON_CAMPAIGN",
+  "snippet": "CROSS_PROJECT_LATENCY_AND_NOISE_LESSONS_2026_07_15 VERDICT: across three independent Determinex/Citadel workstreams (ProgramBench, SWE-bench, and this hackathon"
+ },
+ "WHAT_PASSING_PRS_HAVE_2026_07_15": {
+  "idx": 92,
+  "hash": "6909e64d6f6b7217",
+  "topic": "HACKATHON_CAMPAIGN",
+  "snippet": "WHAT_PASSING_PRS_HAVE_2026_07_15 VERDICT: exhaustively checked every recent real-code-change PR against ours to find what makes them clear 'Leaderboard gate' cl"
+ },
+ "BONSAI_27B_QAT_COMPRESSION_TECHNIQUE_2026_07_15": {
+  "idx": 93,
+  "hash": "436f9c3bd5370cfa",
+  "topic": "MISC_UNCATEGORIZED",
+  "snippet": "BONSAI_27B_QAT_COMPRESSION_TECHNIQUE_2026_07_15 VERDICT: PrismML released Bonsai 27B (2026-07-14) -- ternary and 1-bit quantization-aware-trained compressions o"
+ },
+ "CORPUS_SENTINEL_BUILT_2026_07_13": {
+  "idx": 94,
+  "hash": "8f0f1adf7a194385",
+  "topic": "INFRA_OPS",
+  "snippet": "CORPUS_SENTINEL_BUILT_2026_07_13 VERDICT: the corpus was purely passive (a JSON file read/written by one-shot scripts) until this session -- it is now actively "
+ },
+ "FALLBACK_VARIANTS": {
+  "idx": 95,
+  "hash": "ca223b6abcc5de24",
+  "topic": "entry",
+  "snippet": "FALLBACK_VARIANTS {\"smolvlm2_500m_video\": [{\"variant_id\": \"fallback_6fix_no_scp_rotation\", \"description\": \"PR#91's exact 7-fix chain minus scp_rotation_latency_"
+ },
+ "SUBMISSION_BUDGET": {
+  "idx": 96,
+  "hash": "2d5c3e63101e5aa3",
+  "topic": "entry",
+  "snippet": "SUBMISSION_BUDGET {\"smolvlm2_500m_video\": {\"deadline\": \"2026-07-24 AoE (~2026-07-25T12:00:00Z)\", \"now\": \"2026-07-13T22:00:00Z (approx)\", \"turnaround_evidence\": "
+ },
+ "COMPETITIVE_LANDSCAPE": {
+  "idx": 97,
+  "hash": "8c545ed9eb8edf20",
+  "topic": "entry",
+  "snippet": "COMPETITIVE_LANDSCAPE {\"smolvlm2_500m_video\": {\"last_checked\": \"2026-07-13\", \"method\": \"gh pr list --repo aifoundry-org/hf-hackathon --state all --limit 40 (rec"
+ },
+ "mask_hoist_q8_0_llama32_1b_BOARD_FAILURE_2026_07_15": {
+  "idx": 98,
+  "hash": "67f9269a79a3f509",
+  "topic": "entry",
+  "snippet": "mask_hoist_q8_0_llama32_1b_BOARD_FAILURE_2026_07_15 VERDICT: the mask_hoist_q8_0 lever (PR#91), previously marked 'shipped' for llama32_1b on the assumption tha"
+ },
+ "yolo_track_open_prs_status_2026_07_15": {
+  "idx": 99,
+  "hash": "5f16321d3096db50",
+  "topic": "entry",
+  "snippet": "yolo_track_open_prs_status_2026_07_15 VERDICT: both currently-open YOLO-track PRs are failing trusted-yolo board CI as of 2026-07-15 -- neither is a candidate t"
+ },
+ "GATE_APPROVAL_TREADMILL_ROOT_CAUSE_2026_07_15": {
+  "idx": 100,
+  "hash": "fad7c2910bf8ad73",
+  "topic": "entry",
+  "snippet": "GATE_APPROVAL_TREADMILL_ROOT_CAUSE_2026_07_15 VERDICT (ROOT CAUSE FOUND, corrects the earlier 'nothing wrong on our end / just waiting on Afonso' framing): our "
+ },
+ "learned_classes_quarantine_20260716": {
+  "idx": 101,
+  "hash": "a8141350ac4f0040",
+  "topic": "entry",
+  "snippet": "learned_classes_quarantine_20260716 {\"_doc\": \"QUARANTINED 2026-07-16: the entire pre-existing learned_classes batch (all from determinex_pb_absorb.py bulk prose"
+ },
+ "GATE_APPROVAL_TREADMILL_RESOLVED_ITSELF_2026_07_16": {
+  "idx": 102,
+  "hash": "50df3f8ccfbac5f3",
+  "topic": "HACKATHON_CAMPAIGN",
+  "snippet": "GATE_APPROVAL_TREADMILL_RESOLVED_ITSELF_2026_07_16 CORRECTED 2026-07-16 (supersedes GATE_APPROVAL_TREADMILL_ROOT_CAUSE_2026_07_15's 'PENDING a real action' stat"
+ },
+ "smolvlm2_PR111_TRUSTED_GATE_FIRST_REAL_PASS_2026_07_16": {
+  "idx": 103,
+  "hash": "b5a48d57bd074059",
+  "topic": "HACKATHON_CAMPAIGN",
+  "snippet": "smolvlm2_PR111_TRUSTED_GATE_FIRST_REAL_PASS_2026_07_16 VERDICT: the theory in GATE_APPROVAL_TREADMILL_RESOLVED_ITSELF_2026_07_16 was empirically confirmed live,"
+ },
+ "smolvlm2_PR111_REAL_BLOCKER_IS_HARNESS_NOT_OPTIMIZATION_2026_07_16": {
+  "idx": 104,
+  "hash": "e640382431ff4085",
+  "topic": "HACKATHON_CAMPAIGN",
+  "snippet": "smolvlm2_PR111_REAL_BLOCKER_IS_HARNESS_NOT_OPTIMIZATION_2026_07_16 DEFINITIVE ROOT CAUSE (corrects EVERY prior 'PR#111 optimization regresses llama / needs kern"
+ },
+ "smolvlm2_PR111_WE_ALREADY_BEAT_THE_TARGET_2026_07_16": {
+  "idx": 105,
+  "hash": "069f4e8d2dea2dfa",
+  "topic": "HACKATHON_CAMPAIGN",
+  "snippet": "smolvlm2_PR111_WE_ALREADY_BEAT_THE_TARGET_2026_07_16 CRITICAL REFRAME (from a Discord screenshot Ryan shared 2026-07-16): the SmolVLM2 weekly-challenge bot post"
+ },
+ "smolvlm2_PR111_AFONSO_REPLIED_PATH_TO_MERGE_2026_07_16": {
+  "idx": 106,
+  "hash": "8a36fc0bd51040d6",
+  "topic": "HACKATHON_CAMPAIGN",
+  "snippet": "smolvlm2_PR111_AFONSO_REPLIED_PATH_TO_MERGE_2026_07_16 AFONSO REPLIED on PR#111 (issuecomment, 2026-07-16 15:42Z, 13 min after our progress post). This is a maj"
+ },
+ "smolvlm2_PR111_CLEAN_RERUN_PUSHED_2026_07_16": {
+  "idx": 107,
+  "hash": "4ee3ff0dcca0192c",
+  "topic": "HACKATHON_CAMPAIGN",
+  "snippet": "smolvlm2_PR111_CLEAN_RERUN_PUSHED_2026_07_16 CLEAN RERUN executed on PR#111 (empty commit d76bcc2 pushed to smolvlm2-maskhoist-clean, 2026-07-16), per Afonso's "
+ },
+ "smolvlm2_PR111_RERUN_BACKFIRED_BOARD_CONTENTION_2026_07_16": {
+  "idx": 108,
+  "hash": "cb986fb4af7bbb66",
+  "topic": "HACKATHON_CAMPAIGN",
+  "snippet": "smolvlm2_PR111_RERUN_BACKFIRED_BOARD_CONTENTION_2026_07_16 THE RERUN BACKFIRED + THE CORPUS ALREADY HAD THE ANSWER. Two hard lessons from PR#111 rerun d76bcc2 ("
+ },
+ "smolvlm2_PR111_TRUE_ROOT_CAUSE_SUBMISSION_FANOUT_2026_07_16": {
+  "idx": 109,
+  "hash": "94abad4931eee563",
+  "topic": "HACKATHON_CAMPAIGN",
+  "snippet": "smolvlm2_PR111_TRUE_ROOT_CAUSE_SUBMISSION_FANOUT_2026_07_16 TRUE ROOT CAUSE of the leaderboard-gate block, from reading the gate SOURCE (not inferring). SUPERSE"
+ },
+ "pb_verified_locks_json_STILL_HAS_INVALIDATED_ENTRIES_2026_07_16": {
+  "idx": 110,
+  "hash": "e5423ac228ec61df",
+  "topic": "BUILD_TOOLCHAIN",
+  "snippet": "pb_verified_locks_json_STILL_HAS_INVALIDATED_ENTRIES_2026_07_16 CORRECTS an over-cautious-but-still-wrong impression from earlier this session: verified_locks.j"
+ },
+ "corpus_gap_canonical_tasks_not_queryable_20260716": {
+  "idx": 111,
+  "hash": "79d584b69cefc561",
+  "topic": "PROGRAMBENCH_PROVENANCE",
+  "snippet": "corpus_gap_canonical_tasks_not_queryable_20260716 REAL MISS (Ryan's live catch, 2026-07-16): a provenance re-check on verified_locks.json's 5 entries needed eac"
+ },
+ "pb_upstream_identity_scan_8th_dimension_20260716": {
+  "idx": 112,
+  "hash": "1344e0ca13443685",
+  "topic": "PROGRAMBENCH_PROVENANCE",
+  "snippet": "pb_upstream_identity_scan_8th_dimension_20260716 Built scripts/pb_upstream_identity_scan.py -- the 8th ProgramBench provenance dimension, closing the gap none o"
+ },
+ "reimpl_grounding_layers_and_python_hardcoding_fix_20260716": {
+  "idx": 113,
+  "hash": "b275201731257180",
+  "topic": "PROGRAMBENCH_REIMPL_PROMPT",
+  "snippet": "reimpl_grounding_layers_and_python_hardcoding_fix_20260716 Ryan's direct question 'what else does the corpus need?' plus a sharp technical observation ('the ups"
+ },
+ "known_traps_two_strike_gate_20260716": {
+  "idx": 114,
+  "hash": "9cb7a577dae4891c",
+  "topic": "PROGRAMBENCH_REIMPL_PROMPT",
+  "snippet": "known_traps_two_strike_gate_20260716 Follow-up to reimpl_grounding_layers_and_python_hardcoding_fix_20260716: after writing 'Known traps' sections into language"
+ },
+ "recipes_expansion_and_python_fix_20260716": {
+  "idx": 115,
+  "hash": "01812067e027efa9",
+  "topic": "PROGRAMBENCH_REIMPL_PROMPT",
+  "snippet": "recipes_expansion_and_python_fix_20260716 Follow-up to known_traps_two_strike_gate_20260716: expanded determinex_reimpl_corpus.py's _RECIPES from 4 content-dete"
+ },
+ "io_extractor_skip_rate_fix_20260716": {
+  "idx": 116,
+  "hash": "d3d08d20e43590ff",
+  "topic": "PROGRAMBENCH_IO_EXTRACTOR",
+  "snippet": "io_extractor_skip_rate_fix_20260716 Follow-up to the reimpl-grounding-layers chain, continuing 'what does the corpus need to know all/see all/test all.' Shifted"
+ },
+ "io_extractor_local_var_resolution_20260716": {
+  "idx": 117,
+  "hash": "b253f47f22b4e429",
+  "topic": "PROGRAMBENCH_IO_EXTRACTOR",
+  "snippet": "io_extractor_local_var_resolution_20260716 Third fix in the same skip-rate chain (see io_extractor_skip_rate_fix_20260716 for fixes 1+2: wrapper-name auto-disco"
+ },
+ "io_extractor_strip_wrapped_fix_20260716": {
+  "idx": 118,
+  "hash": "41fc5f664e06d223",
+  "topic": "PROGRAMBENCH_IO_EXTRACTOR",
+  "snippet": "io_extractor_strip_wrapped_fix_20260716 Fourth fix in the same skip-rate chain (fixes 1-3: wrapper-name auto-discovery, assertion-helper resolution, shared loca"
+ },
+ "io_extractor_fstring_fix_and_sizing_methodology_correction_20260716": {
+  "idx": 119,
+  "hash": "1853debad1ec46b7",
+  "topic": "PROGRAMBENCH_IO_EXTRACTOR",
+  "snippet": "io_extractor_fstring_fix_and_sizing_methodology_correction_20260716 Fifth attempted fix in the skip-rate chain, and an important METHODOLOGY correction for this"
+ },
+ "io_extractor_boolop_or_semantics_20260716": {
+  "idx": 120,
+  "hash": "affd9f3ad18be8c6",
+  "topic": "PROGRAMBENCH_IO_EXTRACTOR",
+  "snippet": "io_extractor_boolop_or_semantics_20260716 Sixth fix in the skip-rate chain -- the one built with a real schema decision, per Ryan's explicit go-ahead, not a qui"
+ },
+ "io_extractor_notin_negative_assertions_20260716": {
+  "idx": 121,
+  "hash": "a3dadfef5a8c231b",
+  "topic": "PROGRAMBENCH_IO_EXTRACTOR",
+  "snippet": "io_extractor_notin_negative_assertions_20260716 Seventh fix in the skip-rate chain. Sampled codesnap-rs__codesnap (highest remaining skip rate, 64%, after fixes"
+ },
+ "io_extractor_parametrize_expansion_20260716": {
+  "idx": 122,
+  "hash": "f119e0118700b8d2",
+  "topic": "entry",
+  "snippet": "io_extractor_parametrize_expansion_20260716 Eighth fix in the skip-rate chain. Fresh 6-tool skip-rate scan (atlas/ov/xh/hwatch/codesnap/lazygit, 3 branches each"
+ },
+ "io_extractor_run_invoking_fixture_fallback_20260716": {
+  "idx": 123,
+  "hash": "3cdadbf9e008be03",
+  "topic": "entry",
+  "snippet": "io_extractor_run_invoking_fixture_fallback_20260716 Ninth fix in the skip-rate chain (plus an extra_vars extension needed to fully realize it). Continuing the t"
+ },
+ "io_extractor_fixture_wrapper_alias_20260716": {
+  "idx": 124,
+  "hash": "c3737dccb561a09e",
+  "topic": "entry",
+  "snippet": "io_extractor_fixture_wrapper_alias_20260716 Tenth fix in the skip-rate chain -- the single LARGEST recovery of any fix in this session. Checking whether xh (68."
+ },
+ "io_extractor_fstring_parametrize_resolution_20260716": {
+  "idx": 125,
+  "hash": "aab099420ad8b71a",
+  "topic": "entry",
+  "snippet": "io_extractor_fstring_parametrize_resolution_20260716 Eleventh fix in the skip-rate chain -- two related gaps, both reusing the same already-correct _resolve_fst"
+ },
+ "io_extractor_custom_normalization_helper_boundary_20260716": {
+  "idx": 126,
+  "hash": "c685fba9337ce645",
+  "topic": "entry",
+  "snippet": "io_extractor_custom_normalization_helper_boundary_20260716 A confirmed, SIZED, but deliberately NOT-BUILT category -- flagged rather than forced, matching the s"
+ },
+ "io_extractor_fstring_file_staging_20260717": {
+  "idx": 127,
+  "hash": "8394f47e76ed1d55",
+  "topic": "entry",
+  "snippet": "io_extractor_fstring_file_staging_20260717 Twelfth fix in the skip-rate chain -- resolves the lead flagged earlier this session as `io_extractor_write_text_stag"
+ },
+ "io_extractor_chained_fixture_resolution_20260717": {
+  "idx": 128,
+  "hash": "2cffe9f3fcd2f438",
+  "topic": "entry",
+  "snippet": "io_extractor_chained_fixture_resolution_20260717 Thirteenth fix in the skip-rate chain. Continuing the tool-by-tool audit onto xh's remaining skips (still 45.8%"
+ },
+ "io_extractor_full_corpus_ab_20260717": {
+  "idx": 129,
+  "hash": "6e18d4c40ac94a39",
+  "topic": "entry",
+  "snippet": "io_extractor_full_corpus_ab_20260717 CAPSTONE full-corpus A/B measurement for the fix-1-through-13 skip-rate chain (2026-07-17), CORRECTED after discovering a s"
+ },
+ "io_extractor_corpus_scoping_bug_20260717": {
+  "idx": 130,
+  "hash": "e85dcd5ba7e860ea",
+  "topic": "entry",
+  "snippet": "io_extractor_corpus_scoping_bug_20260717 A separate, high-value MEASUREMENT-METHODOLOGY finding discovered while looking for a 14th fix (chasing the biggest rem"
+ },
+ "io_extractor_wrapper_kwarg_flags_20260717": {
+  "idx": 131,
+  "hash": "da367464b67cf7c7",
+  "topic": "entry",
+  "snippet": "io_extractor_wrapper_kwarg_flags_20260717 Fourteenth fix in the skip-rate chain -- the single largest deliberate build this session, resolving the lead previous"
+ },
+ "io_extractor_base_plus_args_binop_20260717": {
+  "idx": 132,
+  "hash": "74505e49d1e689f7",
+  "topic": "entry",
+  "snippet": "io_extractor_base_plus_args_binop_20260717 Fifteenth fix in the skip-rate chain, built immediately after fix 14 per the explicit correction that 'unfixable isn'"
+ },
+ "io_extractor_resources_path_file_staging_20260717": {
+  "idx": 133,
+  "hash": "a599280579596801",
+  "topic": "entry",
+  "snippet": "io_extractor_resources_path_file_staging_20260717 Sixteenth fix in the skip-rate chain. Root cause of the regression fix 15(d)'s unresolvable_list_seen guard co"
+ },
+ "io_extractor_expect_rc_nonzero_20260717": {
+  "idx": 134,
+  "hash": "372d8c20df98e8e0",
+  "topic": "entry",
+  "snippet": "io_extractor_expect_rc_nonzero_20260717 Seventeenth fix in the skip-rate chain. `assert result.returncode != 0` (must fail) was COMPLETELY unhandled by _find_ex"
+ },
+ "io_extractor_fixes_15_16_17_full_corpus_ab_20260717": {
+  "idx": 135,
+  "hash": "0d6b9e53cd9a1dff",
+  "topic": "entry",
+  "snippet": "io_extractor_fixes_15_16_17_full_corpus_ab_20260717 REAL full-201-tool corpus A/B, post fixes 15-18 (base+args BinOp-Add shape incl. quickjs's list(*args) varia"
+ },
+ "io_extractor_chained_wrapper_name_discovery_lead_20260717": {
+  "idx": 136,
+  "hash": "397854cbf34f0fcd",
+  "topic": "entry",
+  "snippet": "io_extractor_chained_wrapper_name_discovery_lead_20260717 SIZED, NOT YET BUILT -- next concrete lead after fixes 15-18. Root-caused why yj/cheat/lua sit at 90-9"
+ },
+ "io_extractor_chained_wrapper_discovery_20260717": {
+  "idx": 137,
+  "hash": "a94c5cc7a570130f",
+  "topic": "entry",
+  "snippet": "io_extractor_chained_wrapper_discovery_20260717 Nineteenth fix in the skip-rate chain, resolving the io_extractor_chained_wrapper_name_discovery_lead_20260717 l"
+ },
+ "io_extractor_module_level_constants_20260717": {
+  "idx": 138,
+  "hash": "798ba86bd85e4c7d",
+  "topic": "entry",
+  "snippet": "io_extractor_module_level_constants_20260717 Twentieth fix in the skip-rate chain. Root-caused via dirble -- the only one of the four near-100%-skip tools (yj/c"
+ },
+ "io_extractor_fix19_20_regression_and_fixes_21_22_23_20260717": {
+  "idx": 139,
+  "hash": "aef89f2819993ddd",
+  "topic": "entry",
+  "snippet": "io_extractor_fix19_20_regression_and_fixes_21_22_23_20260717 IMPORTANT CORRECTION/CONTEXT: right after fixes 19 (chained-wrapper discovery) and 20 (module-level"
+ },
+ "io_extractor_fixes_24_25_26_20260717": {
+  "idx": 140,
+  "hash": "cec73919c20eed5f",
+  "topic": "entry",
+  "snippet": "io_extractor_fixes_24_25_26_20260717 {\"date\": \"2026-07-17\", \"summary\": \"Three more real fixes built after fixes 21-23 partially recovered the fix19/20 regressio"
+ },
+ "io_extractor_fix28_module_level_path_constants_20260717": {
+  "idx": 141,
+  "hash": "2b04589aae6dbf1e",
+  "topic": "entry",
+  "snippet": "io_extractor_fix28_module_level_path_constants_20260717 {\"date\": \"2026-07-17\", \"summary\": \"A bare MODULE-LEVEL path constant (not behind a fixture, not a furthe"
+ },
+ "io_extractor_fix29_own_param_tail_base_20260717": {
+  "idx": 142,
+  "hash": "44625f5438ae2347",
+  "topic": "entry",
+  "snippet": "io_extractor_fix29_own_param_tail_base_20260717 {\"date\": \"2026-07-17\", \"summary\": \"A REAL correctness bug (confidently wrong, not a skip), found via ditaa's tes"
+ },
+ "io_extractor_fix30_wrapper_suffix_after_param_20260717": {
+  "idx": 143,
+  "hash": "36c992f7cfe99aae",
+  "topic": "entry",
+  "snippet": "io_extractor_fix30_wrapper_suffix_after_param_20260717 {\"date\": \"2026-07-17\", \"summary\": \"The biggest single remaining architectural gap in ditaa's recovery (st"
+ },
+ "io_extractor_fix31_starred_vararg_base_20260717": {
+  "idx": 144,
+  "hash": "c959c5ab797ac8a4",
+  "topic": "entry",
+  "snippet": "io_extractor_fix31_starred_vararg_base_20260717 {\"date\": \"2026-07-17\", \"summary\": \"A REAL correctness bug (confidently wrong, not a skip), root-caused via caps-"
+ },
+ "io_extractor_fix32_plain_string_executable_const_20260717": {
+  "idx": 145,
+  "hash": "ca7358ab45c3d506",
+  "topic": "entry",
+  "snippet": "io_extractor_fix32_plain_string_executable_const_20260717 {\"date\": \"2026-07-17\", \"summary\": \"A REAL correctness bug (confidently wrong, not a skip). samtools (6"
+ },
+ "io_extractor_fix33_alias_inherits_target_contract_20260717": {
+  "idx": 146,
+  "hash": "698802381daf5c6e",
+  "topic": "entry",
+  "snippet": "io_extractor_fix33_alias_inherits_target_contract_20260717 {\"date\": \"2026-07-17\", \"summary\": \"A REAL correctness bug, root-caused via dropbear's whole test suit"
+ },
+ "io_extractor_methodology_correctness_vs_skiprate_20260717": {
+  "idx": 147,
+  "hash": "8cce0a7e0509745e",
+  "topic": "entry",
+  "snippet": "io_extractor_methodology_correctness_vs_skiprate_20260717 {\"date\": \"2026-07-17\", \"insight\": \"IMPORTANT METHODOLOGY NOTE, discovered while investigating why dita"
+ },
+ "io_extractor_systemic_finding_unlearned_fallback_20260717": {
+  "idx": 148,
+  "hash": "fbd11c0c4451b80e",
+  "topic": "entry",
+  "snippet": "io_extractor_systemic_finding_unlearned_fallback_20260717 {\"date\": \"2026-07-17\", \"finding\": \"A SYSTEMIC issue, not a single-tool bug: _find_run_call's 'run(*arg"
+ },
+ "io_extractor_unlearned_wrapper_audit_result_20260717": {
+  "idx": 149,
+  "hash": "d2f855589960d6c4",
+  "topic": "entry",
+  "snippet": "io_extractor_unlearned_wrapper_audit_result_20260717 {\"date\": \"2026-07-17\", \"method\": \"Static audit (no core-file changes, no runtime instrumentation): for each"
+ },
+ "io_extractor_fix34_call_not_return_wrapped_20260717": {
+  "idx": 150,
+  "hash": "55f7f9ec222e3784",
+  "topic": "entry",
+  "snippet": "io_extractor_fix34_call_not_return_wrapped_20260717 {\"date\": \"2026-07-17\", \"summary\": \"The single highest-leverage fix found via the corpus-wide unlearned-wrapp"
+ },
+ "io_extractor_final_scan_fixes_21_34_20260717": {
+  "idx": 151,
+  "hash": "497fdcda90f2ce57",
+  "topic": "entry",
+  "snippet": "io_extractor_final_scan_fixes_21_34_20260717 {\"date\": \"2026-07-17\", \"result\": \"skip_rate=28.0% (39386 tests, 28355 examples) with fixes 21-34 all applied. Only "
+ },
+ "io_extractor_fix35_env_var_executable_override_20260717": {
+  "idx": 152,
+  "hash": "1b952ad3dd2ddce7",
+  "topic": "entry",
+  "snippet": "io_extractor_fix35_env_var_executable_override_20260717 {\"date\": \"2026-07-17\", \"summary\": \"Root-caused via gdal (158/603 examples, still low even after fix 34):"
+ },
+ "io_extractor_fix36_temp_files_object_fixture_20260717": {
+  "idx": 153,
+  "hash": "130a020bea5df783",
+  "topic": "entry",
+  "snippet": "io_extractor_fix36_temp_files_object_fixture_20260717 {\"date\": \"2026-07-17\", \"summary\": \"The single biggest per-tool win this session. Root-caused via dust (13/"
+ },
+ "io_extractor_final_scan_fixes_21_36_20260717": {
+  "idx": 154,
+  "hash": "c1a540ccedc9e90e",
+  "topic": "entry",
+  "snippet": "io_extractor_final_scan_fixes_21_36_20260717 {\"date\": \"2026-07-17\", \"result\": \"skip_rate=27.7% (39386 tests, 28490 examples) with fixes 21-36 all applied -- up "
+ },
+ "io_extractor_fix37_38_39_gdal_recovery_20260717": {
+  "idx": 155,
+  "hash": "e3f3b373fd622373",
+  "topic": "entry",
+  "snippet": "io_extractor_fix37_38_39_gdal_recovery_20260717 {\"date\": \"2026-07-17\", \"fix_37_temp_files_context_manager_class\": {\"problem\": \"The SAME temp-files-object API as"
+ },
+ "io_extractor_fix39b_resolver_learn_ordering_regression_20260717": {
+  "idx": 156,
+  "hash": "63cdcb1d7efb28df",
+  "topic": "entry",
+  "snippet": "io_extractor_fix39b_resolver_learn_ordering_regression_20260717 {\"date\": \"2026-07-17\", \"summary\": \"A REAL CORPUS-WIDE REGRESSION caught immediately after fix 39"
+ },
+ "io_extractor_final_scan_fixes_21_39b_20260717": {
+  "idx": 157,
+  "hash": "6952966655cf4ab8",
+  "topic": "entry",
+  "snippet": "io_extractor_final_scan_fixes_21_39b_20260717 {\"date\": \"2026-07-17\", \"result\": \"skip_rate=26.2% (39386 tests, 29072 examples) with fixes 21-39b all applied -- u"
+ },
+ "io_extractor_fixes_40_41_yj_massive_recovery_20260717": {
+  "idx": 158,
+  "hash": "0428cb598e3ed0f5",
+  "topic": "entry",
+  "snippet": "io_extractor_fixes_40_41_yj_massive_recovery_20260717 {\"date\": \"2026-07-17\", \"summary\": \"THE BIGGEST SINGLE-TOOL PERCENTAGE WIN OF THE WHOLE SESSION: yj went fr"
+ },
+ "io_extractor_final_scan_fixes_21_41_20260717": {
+  "idx": 159,
+  "hash": "b9f69c03ec4ce438",
+  "topic": "entry",
+  "snippet": "io_extractor_final_scan_fixes_21_41_20260717 {\"date\": \"2026-07-17\", \"result\": \"skip_rate=25.5% (39386 tests, 29348 examples) with fixes 21-41 all applied -- up "
+ },
+ "io_extractor_fix42_capslog_chained_division_20260717": {
+  "idx": 160,
+  "hash": "fb6ecfa451952aaa",
+  "topic": "entry",
+  "snippet": "io_extractor_fix42_capslog_chained_division_20260717 {\"date\": \"2026-07-17\", \"summary\": \"caps-log: 7.9% -> 67.3% resolved (27/343 -> 231/343). Fix 42 handles a t"
+ },
+ "io_extractor_fix43_calcurse_tempdir_attribute_20260717": {
+  "idx": 161,
+  "hash": "0e977e579fb3063c",
+  "topic": "entry",
+  "snippet": "io_extractor_fix43_calcurse_tempdir_attribute_20260717 {\"date\": \"2026-07-17\", \"summary\": \"calcurse: 51.7% -> 84.4% resolved (582/1126 -> 950/1126), +368 example"
+ },
+ "io_extractor_fix44_rc_membership_20260717": {
+  "idx": 162,
+  "hash": "54fb3d509f089711",
+  "topic": "entry",
+  "snippet": "io_extractor_fix44_rc_membership_20260717 {\"date\": \"2026-07-17\", \"summary\": \"calcurse: 84.4% -> 90.1% resolved (950/1126 -> 1015/1126), +65 examples. New Exampl"
+ },
+ "io_extractor_fix45_ditaa_local_var_resource_path_20260717": {
+  "idx": 163,
+  "hash": "5c91423a93f75876",
+  "topic": "entry",
+  "snippet": "io_extractor_fix45_ditaa_local_var_resource_path_20260717 {\"date\": \"2026-07-17\", \"summary\": \"ditaa: 78.9% -> 9.0% skip rate (117/555 -> 505/555, +388 examples) "
+ },
+ "io_extractor_fix46_scc_fixture_base_directory_20260718": {
+  "idx": 164,
+  "hash": "eef6d3308cccd443",
+  "topic": "entry",
+  "snippet": "io_extractor_fix46_scc_fixture_base_directory_20260718 {\"date\": \"2026-07-18\", \"summary\": \"scc: 74.2% -> 63.7% skip rate (123/476 -> 173/476), +50 examples. New "
+ },
+ "gap_ledger_reconciliation_2026_07_18": {
+  "idx": 165,
+  "hash": "c556c9f7c93be93d",
+  "topic": "CAMPAIGN_STRATEGY",
+  "snippet": "gap_ledger_reconciliation_2026_07_18 {\"_doc\": \"Deep corpus audit (2026-07-18) reconciled the corpus's own gap ledgers (LOOP_GAPS_2026_06_24, STILL_NEEDED_for_re"
+ },
+ "corpus_root_split_brain_healed_2026_07_18": {
+  "idx": 166,
+  "hash": "edc680a315ddf19e",
+  "topic": "INFRA_OPS",
+  "snippet": "corpus_root_split_brain_healed_2026_07_18 {\"_doc\": \"SPLIT-BRAIN FOUND+FIXED (2026-07-18): the 'active signed corpus root' was UNREACHABLE. The Determinex->Citad"
+ },
+ "breadth_queue_2026_07_18": {
+  "idx": 167,
+  "hash": "73d802cac2b6bd88",
+  "topic": "CAMPAIGN_STRATEGY",
+  "snippet": "breadth_queue_2026_07_18 {\"_doc\": \"Breadth expansion scoping (2026-07-18 audit item #6). Everything here is QUEUED, not blocked-on-invention: the tooling exists"
+ },
+ "terminal_bench_scaffold_20260718": {
+  "idx": 168,
+  "hash": "1353148950877652",
+  "topic": "CAMPAIGN_STRATEGY",
+  "snippet": "terminal_bench_scaffold_20260718 {\"_doc\": \"Terminal-Bench corpus GREENFIELD SCAFFOLD created 2026-07-18 (per benchmark-strategy priority order: PB -> Terminal-B"
+ },
+ "embeddings_cache_nonconvergent_dup_key_bug_20260719": {
+  "idx": 169,
+  "hash": "7d9ebe43020f1b73",
+  "topic": "ORACLE_MECHANICS",
+  "snippet": "embeddings_cache_nonconvergent_dup_key_bug_20260719 {\"_doc\": \"Bug found+fixed building corpus_embeddings.py (the new hybrid semantic search layer, 2026-07-19). "
+ },
+ "corpus_hmac_key_missing_20260718": {
+  "idx": 170,
+  "hash": "f58fdf2fb90c377f",
+  "topic": "INFRA_OPS",
+  "snippet": "corpus_hmac_key_missing_20260718 {\"_doc\": \"BLOCKED, needs operator input (2026-07-18 overnight session): DETERMINEX_CORPUS_HMAC_KEY is not set in .env on this m"
+ },
+ "sqlite_migration_found_unnecessary_20260719": {
+  "idx": 171,
+  "hash": "614db8074a1670c5",
+  "topic": "INFRA_OPS",
+  "snippet": "sqlite_migration_found_unnecessary_20260719 {\"_doc\": \"The original 2026-07-18 audit flagged 'multi-minute corpus query performance' as evidence build_knowledge."
+ },
+ "build_knowledge_concurrent_write_loss_20260719": {
+  "idx": 172,
+  "hash": "04a5b2aacc1913ce",
+  "topic": "ORACLE_MECHANICS",
+  "snippet": "build_knowledge_concurrent_write_loss_20260719 {\"_doc\": \"Two entries recorded mid-session tonight (corpus_hmac_key_missing_20260718, sqlite_migration_found_unne"
+ },
+ "tui_unlock_reeval_batch_20260719": {
+  "idx": 173,
+  "hash": "705ed560cf6b83b5",
+  "topic": "CAMPAIGN_STRATEGY",
+  "snippet": "tui_unlock_reeval_batch_20260719 {\"_doc\": \"First re-eval batch after the keifu TUI-realign deploy fix (e7646df69/bd1685d80) + Hetzner box path/key fixes + fresh"
+ },
+ "probe_pool_poisoning_anomaly_2026_07_18": {
+  "idx": 174,
+  "hash": "7f5be1fcdf512c71",
+  "topic": "ORACLE_MECHANICS",
+  "snippet": "probe_pool_poisoning_anomaly_2026_07_18 {\"_doc\": \"Two independent bugs (fixed) + two generalizable anomaly guards (added) found live driving a real determinex_r"
+ },
+ "oss_dependency_integration_landed_20260720": {
+  "idx": 175,
+  "hash": "703a7ac9007855cb",
+  "topic": "OSS_DEPENDENCY_INTEGRATION",
+  "snippet": "oss_dependency_integration_landed_20260720 {\"verdict\": \"Landed and REAL-verified (not just imported) five OSS integrations across scripts/: pydantic-settings (d"
+ },
+ "frontend_nextjs_allowed_dev_origins_hydration_kill_20260720": {
+  "idx": 176,
+  "hash": "2d60a6270a40b4f5",
+  "topic": "FRONTEND_IDE",
+  "snippet": "frontend_nextjs_allowed_dev_origins_hydration_kill_20260720 {\"verdict\": \"The Determinex Tauri/Next.js IDE frontend was never actually verified running before th"
+ },
+ "smolvlm2_PR155_hoisted_reduce_landed_cache_line_hang_20260720": {
+  "idx": 177,
+  "hash": "4eb971cca48610c8",
+  "topic": "HACKATHON_CAMPAIGN",
+  "snippet": "smolvlm2_PR155_hoisted_reduce_landed_cache_line_hang_20260720 {\"verdict\": \"PR#155 landed two real, board-verified wins (hoisted horizontal reduce + N=8 column b"
+ },
+ "_lesson_2026_06_22_am": {
+  "idx": 178,
+  "hash": "28e0f28f013dfaa8",
+  "topic": "BUILD_TOOLCHAIN",
+  "snippet": "_lesson_2026_06_22_am eval_index official_score_pct is STALE for many tools (atlas 99.9%->14.5% build-broken). The nearlock lane RE-EVALS to get real current sc"
+ },
+ "_provenance_restore_2026_06_22": {
+  "idx": 179,
+  "hash": "f69c96764b5c9175",
+  "topic": "PROVENANCE_GAMING",
+  "snippet": "_provenance_restore_2026_06_22 Move-1 archive restore: 48 sha-matched submission.tar.gz restored from locked/_superseded into canonical locked/<key>/ (verified_"
+ },
+ "smolvlm2_BASELINE_POSTMERGE_DRIFT_2026_07_15": {
+  "idx": 180,
+  "hash": "0acb893df7a4a70c",
+  "topic": "HACKATHON_CAMPAIGN",
+  "snippet": "smolvlm2_BASELINE_POSTMERGE_DRIFT_2026_07_15 Resolves the 10,803,674,809 vs 10,821,492,678 cycle discrepancy: ordinary post-merge re-score drift (+0.165%, PR-br"
+ },
+ "REGRESSION_RUN_HISTORY.llama_shared_regression_set_2026_07_15": {
+  "idx": 181,
+  "hash": "69f06876f2b74b3e",
+  "topic": "HACKATHON_CAMPAIGN",
+  "snippet": "REGRESSION_RUN_HISTORY.llama_shared_regression_set_2026_07_15 Structured (not prose) per-model-per-run regression data for the shared mask_hoist_q8_0 fix: today"
+ },
+ "yolo_LOST_TO_COMPETITOR_POSTMORTEM_2026_07_13": {
+  "idx": 182,
+  "hash": "63427346e596e2d2",
+  "topic": "HACKATHON_CAMPAIGN",
+  "snippet": "yolo_LOST_TO_COMPETITOR_POSTMORTEM_2026_07_13 YOLO category final outcome and full technical postmortem: lost to a competitor, 10 failed tensor-unit fix attempt"
+ },
+ "yolo_TENSOR_TFMA_BREAKTHROUGH_2026_07_15": {
+  "idx": 183,
+  "hash": "0acdacb73fce8c7a",
+  "topic": "HACKATHON_CAMPAIGN",
+  "snippet": "yolo_TENSOR_TFMA_BREAKTHROUGH_2026_07_15 Afonso's PR#109 got the exact tensor-unit path our campaign abandoned working cleanly (38.18% faster than the prior lea"
+ },
+ "hackathon_ALL_OPEN_PRS_INGESTED_2026_07_13": {
+  "idx": 184,
+  "hash": "d7956cdb99a175e2",
+  "topic": "HACKATHON_CAMPAIGN",
+  "snippet": "hackathon_ALL_OPEN_PRS_INGESTED_2026_07_13 Every open PR across both accounts, its actual technique/content, and current status."
+ },
+ "yolo_PREFLIGHT_PROFILER_PROTOTYPE_VALIDATED_2026_07_13": {
+  "idx": 185,
+  "hash": "8b8bceafa25a0c8a",
+  "topic": "HACKATHON_CAMPAIGN",
+  "snippet": "yolo_PREFLIGHT_PROFILER_PROTOTYPE_VALIDATED_2026_07_13 Prototype of the profiler's risk-detection logic, run against the real YOLO kernel: correctly flagged all"
+ },
+ "smolvlm2_500m_video_WEEK2_TRACK_2026_07_13": {
+  "idx": 186,
+  "hash": "d37d80db43f1c46e",
+  "topic": "HACKATHON_CAMPAIGN",
+  "snippet": "smolvlm2_500m_video_WEEK2_TRACK_2026_07_13 Week 2 track (SmolVLM2-500M-Video, ET-SoC1, deadline July 24 AoE): trusted-gate mechanics (real hardware only, no loc"
+ },
+ "smolvlm2_TENSOR_ENGINE_VENDOR_REFERENCE_FOUND_2026_07_13": {
+  "idx": 187,
+  "hash": "2ae5ee6fe99143a8",
+  "topic": "HACKATHON_CAMPAIGN",
+  "snippet": "smolvlm2_TENSOR_ENGINE_VENDOR_REFERENCE_FOUND_2026_07_13 Found the vendor's own CRC-validated tensor-engine test kernels (et-platform/test-compute-kernels/) dem"
+ },
+ "smolvlm2_VENDOR_MLP_DUAL_HART_PIPELINE_FOUND_2026_07_13": {
+  "idx": 188,
+  "hash": "216ae53638509e13",
+  "topic": "HACKATHON_CAMPAIGN",
+  "snippet": "smolvlm2_VENDOR_MLP_DUAL_HART_PIPELINE_FOUND_2026_07_13 The vendor's own MLP reference kernel uses BOTH harts per minion (compute hart + dedicated helper hart f"
+ },
+ "smolvlm2_OFFICIAL_BASELINE_AND_GATE_NOISE_PROOF_2026_07_13": {
+  "idx": 189,
+  "hash": "ca1461f790ea5aec",
+  "topic": "HACKATHON_CAMPAIGN",
+  "snippet": "smolvlm2_OFFICIAL_BASELINE_AND_GATE_NOISE_PROOF_2026_07_13 THE real target number (10,803,674,809 cycles, PPL 22.2825) from Afonso's own PR#103 merge, plus inde"
+ },
+ "smolvlm2_LATENCY_HIDING_FIX_SHIPPED_2026_07_13": {
+  "idx": 190,
+  "hash": "7b5a91ba5aac7772",
+  "topic": "HACKATHON_CAMPAIGN",
+  "snippet": "smolvlm2_LATENCY_HIDING_FIX_SHIPPED_2026_07_13 The vendor-pattern-adapted SCP-rotation latency-hiding fix is implemented, state-machine verified, cross-compiled"
+ },
+ "smolvlm2_ATOMIC_STORE_RULED_OUT_2026_07_13": {
+  "idx": 191,
+  "hash": "ba84252224ec4078",
+  "topic": "HACKATHON_CAMPAIGN",
+  "snippet": "smolvlm2_ATOMIC_STORE_RULED_OUT_2026_07_13 atomic_store_f32/atomic_add_f32 are NOT removable overhead even for provably-disjoint per-thread writes -- they use a"
+ },
+ "smolvlm2_MUL_MAT_F32_FIX_SHIPPED_2026_07_13": {
+  "idx": 192,
+  "hash": "25b4f3bc1f8bb0f8",
+  "topic": "HACKATHON_CAMPAIGN",
+  "snippet": "smolvlm2_MUL_MAT_F32_FIX_SHIPPED_2026_07_13 5th fix: same GQA-broadcast division fast path found in mul_mat_f32.c (plain VPU path), shipped to PR#91. Also flags"
+ },
+ "smolvlm2_MAC_BREAKDOWN_COMPUTE_HEATMAP_2026_07_13": {
+  "idx": 193,
+  "hash": "e5529f9e20c0087a",
+  "topic": "HACKATHON_CAMPAIGN",
+  "snippet": "smolvlm2_MAC_BREAKDOWN_COMPUTE_HEATMAP_2026_07_13 Real, data-grounded MAC breakdown (not guessed): mask-hoist fix (mul_mat_Q8_0) carries 83% of total compute, S"
+ },
+ "smolvlm2_VARIANCE_INVESTIGATION_METHODOLOGY_2026_07_13": {
+  "idx": 194,
+  "hash": "dfbfbe0bdba27b13",
+  "topic": "HACKATHON_CAMPAIGN",
+  "snippet": "smolvlm2_VARIANCE_INVESTIGATION_METHODOLOGY_2026_07_13 Standing 'investigate all variance, not just regressions' methodology + a worked example: chased down a r"
+ },
+ "smolvlm2_PREFETCH_WIRE_UP_SHIPPED_2026_07_13": {
+  "idx": 195,
+  "hash": "2d1f19014acd9ed5",
+  "topic": "HACKATHON_CAMPAIGN",
+  "snippet": "smolvlm2_PREFETCH_WIRE_UP_SHIPPED_2026_07_13 7th fix, possibly the most impactful: wired up an already-written but never-called L2 prefetch helper in mul_mat_Q8"
+ },
+ "smolvlm2_FULL_CORRECTNESS_SWEEP_CPU_2026_07_13": {
+  "idx": 196,
+  "hash": "d185e884e4f6d752",
+  "topic": "HACKATHON_CAMPAIGN",
+  "snippet": "smolvlm2_FULL_CORRECTNESS_SWEEP_CPU_2026_07_13 All 7 documented test cases (5 video + 2 COCO order-pair) pass correctly against our 7-fix candidate via the real"
+ },
+ "smolvlm2_REAL_PRM_FOUND_ET_CORE_2026_07_13": {
+  "idx": 197,
+  "hash": "805f54d234687c10",
+  "topic": "HACKATHON_CAMPAIGN",
+  "snippet": "smolvlm2_REAL_PRM_FOUND_ET_CORE_2026_07_13 Found the REAL ET-SoC1/Erbium PRM (github.com/openhwgroup/core-et, erbium.readthedocs.io) -- the actual official arch"
+ },
+ "smolvlm2_MAIN_OWNED_HARNESS_BUG_PERPLEXITY_CRASH_2026_07_13": {
+  "idx": 198,
+  "hash": "b7ba59c5c4bec705",
+  "topic": "HACKATHON_CAMPAIGN",
+  "snippet": "smolvlm2_MAIN_OWNED_HARNESS_BUG_PERPLEXITY_CRASH_2026_07_13 The real smolvlm2_500m_video trusted gate likely crashes on ANY candidate (not just ours): benchmark"
+ },
+ "smolvlm2_SYSEMU_LOCAL_ET_DEVICE_UNLOCKED_2026_07_14": {
+  "idx": 199,
+  "hash": "bca8936925cb2a4b",
+  "topic": "HACKATHON_CAMPAIGN",
+  "snippet": "smolvlm2_SYSEMU_LOCAL_ET_DEVICE_UNLOCKED_2026_07_14 A local emulated ET-SoC1 device (sysemu) actually works on Hetzner -- boots the real firmware stack, enumera"
+ },
+ "smolvlm2_SYSEMU_REAL_INFERENCE_HANGS_2026_07_14": {
+  "idx": 200,
+  "hash": "6a3abf10411c87b8",
+  "topic": "HACKATHON_CAMPAIGN",
+  "snippet": "smolvlm2_SYSEMU_REAL_INFERENCE_HANGS_2026_07_14 The sysemu build boots and enumerates a real ET device, but actual inference through it hangs indefinitely -- pr"
+ },
+ "class_pattern::go_x_toolchain": {
+  "idx": 201,
+  "hash": "aa759d6eb33ceb21",
+  "topic": "class_pattern",
+  "snippet": "go_x_toolchain {\"detect\": \"go.mod declares `go <1.24` AND depends on golang.org/x/{tools>=0.36,term>=0.34,sys>=0.31,net>=0.36,crypto>=0.33,text>=0.24}\", \"sympto"
+ },
+ "class_pattern::go_cgo_sqlite": {
+  "idx": 202,
+  "hash": "e39d772e346506a0",
+  "topic": "class_pattern",
+  "snippet": "go_cgo_sqlite {\"detect\": \"go.mod has mattn/go-sqlite3 or import \\\"C\\\" (exclude testdata/vendor)\", \"symptom\": \"build fails silently (CGO off/no gcc) -> rc=127; r"
+ },
+ "class_pattern::go_build_target": {
+  "idx": 203,
+  "hash": "002eb17121e4ecc4",
+  "topic": "class_pattern",
+  "snippet": "go_build_target {\"detect\": \"func main in subpkg (./cmd/X) but compile.sh builds root '.'\", \"symptom\": \"no binary -> rc=127\", \"fix\": \"build the main subpkg; copy"
+ },
+ "class_pattern::tarball_source_drift": {
+  "idx": 204,
+  "hash": "2f712e978877915d",
+  "topic": "class_pattern",
+  "snippet": "tarball_source_drift {\"detect\": \"Hetzner tarball member count < local pack_submission count\", \"symptom\": \"build fails on a missing file (e.g. //go:embed dir) ->"
+ },
+ "class_pattern::file_mode_goldens": {
+  "idx": 205,
+  "hash": "12968c7533c1bbec",
+  "topic": "class_pattern",
+  "snippet": "file_mode_goldens {\"detect\": \"screen/listing goldens encode perms (644/755) or dir sizes\", \"symptom\": \"actual 664/775 (umask 002) or '4KB' dir; golden 644/755 /"
+ },
+ "class_pattern::nr_tests_json_eval_prefix": {
+  "idx": 206,
+  "hash": "74c7a339a9f84773",
+  "topic": "class_pattern",
+  "snippet": "nr_tests_json_eval_prefix {\"detect\": \"not_run tests have 'eval.tests.*' prefix AND zero corresponding 'tests.*' entries in the same branch; bidir pip plugin IS "
+ },
+ "class_pattern::tui_collection": {
+  "idx": 207,
+  "hash": "21b889b00dccb0d6",
+  "topic": "class_pattern",
+  "snippet": "tui_collection {\"detect\": \"TUI/whole-file not_run. FIRST split by prefix: eval.tests.* not_run with tests.* passing == bidir-strip (see bidir_strip_regression),"
+ },
+ "class_pattern::bidir_strip_regression": {
+  "idx": 208,
+  "hash": "0b9a7350924c8f79",
+  "topic": "class_pattern",
+  "snippet": "bidir_strip_regression {\"detect\": \"tests.* PASS but eval.tests.* (or vice-versa) are not_run; compile.sh missing `_cb_mirror`. check: determinex_pb_bidir_restor"
+ },
+ "class_pattern::cc_build_deps": {
+  "idx": 209,
+  "hash": "f02eddb015ffb5a3",
+  "topic": "class_pattern",
+  "snippet": "cc_build_deps {\"detect\": \"C/C++ tool: configure.ac PKG_CHECK_MODULES/AC_CHECK_LIB or CMakeLists find_package/pkg_check_modules missing -dev pkgs\", \"symptom\": \"c"
+ },
+ "class_pattern::collection_cap": {
+  "idx": 210,
+  "hash": "1a5b01d721712d68",
+  "topic": "class_pattern",
+  "snippet": "collection_cap {\"detect\": \"compile.sh conftest has `if len(items) > 400: del items[400:]` (or similar threshold) in pytest_collection_modifyitems\", \"symptom\": \""
+ },
+ "class_pattern::prebuilt_binary_bundled": {
+  "idx": 211,
+  "hash": "2cd7d6614592c843",
+  "topic": "class_pattern",
+  "snippet": "prebuilt_binary_bundled {\"detect\": \"submission.tar.gz contains an ELF binary >2MB (the tool itself, pre-compiled)\", \"symptom\": \"provenance_guard rejects with 's"
+ },
+ "class_pattern::factory_vs_locked_drift": {
+  "idx": 212,
+  "hash": "c93aacad26e30d62",
+  "topic": "class_pattern",
+  "snippet": "factory_vs_locked_drift {\"detect\": \"factory eval.json shows not_run>0 or low score for a tool that is in the locked list\", \"symptom\": \"locked archive has correc"
+ },
+ "class_pattern::stdout_stderr_routing": {
+  "idx": 213,
+  "hash": "bc147b28f25d6297",
+  "topic": "class_pattern",
+  "snippet": "stdout_stderr_routing {\"detect\": \"test asserts stdout=='' for an error case but tool prints the error to stdout\", \"symptom\": \"go-critic unknown-command msg on s"
+ },
+ "class_pattern::source_gap_upstream_fetch": {
+  "idx": 214,
+  "hash": "1c7050d9b191c45a",
+  "topic": "class_pattern",
+  "snippet": "source_gap_upstream_fetch {\"detect\": \"build.err: 'failed to load manifest for workspace member' (Rust) OR 'No such file' for a configure/header/member dir THAT "
+ },
+ "class_pattern::whale_comprehensive_build": {
+  "idx": 215,
+  "hash": "c794a429f5adc88f",
+  "topic": "class_pattern",
+  "snippet": "whale_comprehensive_build {\"detect\": \"big C/C++/Haskell tool, build-broken with missing GENERATED headers (cpl_port.h, include_nlohmann_json.hpp) or autoreconf/"
+ },
+ "class_pattern::whale_specific_builds": {
+  "idx": 216,
+  "hash": "ea6ed5970a88ad2b",
+  "topic": "class_pattern",
+  "snippet": "whale_specific_builds {\"_doc\": \"READ THE build.err, do the SPECIFIC build, NOT a blind g++/cmake/deps guess. Per-whale:\", \"blind_gpp_fallback_is_the_enemy\": \"co"
+ },
+ "class_pattern::go_toolchain_bogus_future_version": {
+  "idx": 217,
+  "hash": "e63bd1b4d9371d51",
+  "topic": "class_pattern",
+  "snippet": "go_toolchain_bogus_future_version go.mod pins a FUTURE/unreleased go version (e.g. 'go 1.26' on an old tool like cheat). GOTOOLCHAIN=auto (default) then tries t"
+ },
+ "class_pattern::rust_dangling_target_source_gap": {
+  "idx": 218,
+  "hash": "61b95059ac7d6533",
+  "topic": "class_pattern",
+  "snippet": "rust_dangling_target_source_gap PB strips benches/examples/integration-tests from the Rust submission but Cargo.toml STILL references them (e.g. [[bench]] name="
+ },
+ "class_pattern::factory_rot_is_layered_source_gap": {
+  "idx": 219,
+  "hash": "95665ca3f4b59225",
+  "topic": "class_pattern",
+  "snippet": "factory_rot_is_layered_source_gap FACTORY-WIDE FINDING 2026-06-21: 66 factory dirs <30% (43 BUILD_FAIL fail-dominant / 23 COLLECTION_NR not-run-dominant). MANY "
+ },
+ "class_pattern::whale_native_build_deps": {
+  "idx": 220,
+  "hash": "ba9e6e5c3b691f5f",
+  "topic": "class_pattern",
+  "snippet": "whale_native_build_deps Giant whales fail/partial-build because compile.sh lacks build deps -> waste hours. FIX (do-or-die, never prune): inject native deps per"
+ },
+ "class_pattern::dead_datetime_anchor_conftest_2026_06_23": {
+  "idx": 221,
+  "hash": "ba7bde6779625a0a",
+  "topic": "class_pattern",
+  "snippet": "dead_datetime_anchor_conftest_2026_06_23 {\"detect\": \"datetime-relative tests (--today/--yesterday/--week, create_test_activities using datetime.now()) FAIL with"
+ },
+ "class_pattern::gold_fail_alias_survives_official": {
+  "idx": 222,
+  "hash": "00d0bf203b68c42c",
+  "topic": "class_pattern",
+  "snippet": "gold_fail_alias_survives_official {\"detect\": \"Official score (programbench info / for_branches.without_ignored) sits 1-44 short of len, and EVERY surviving non-"
+ },
+ "class_pattern::libtmux_plugin_crashes_collection": {
+  "idx": 223,
+  "hash": "180e6d69898968f0",
+  "topic": "class_pattern",
+  "snippet": "libtmux_plugin_crashes_collection {\"detect\": \"A branch scores results_read_failed (cat: eval/results.xml: No such file or directory) -> its expected tests becom"
+ },
+ "class_pattern::conftest_char_iteration_filter": {
+  "idx": 224,
+  "hash": "4717a5ac22098d1c",
+  "topic": "class_pattern",
+  "snippet": "conftest_char_iteration_filter {\"detect\": \"submission conftest.py has `if any(s in nodeid for s in (\\\"test_curses\\\")):` (or any single bare-string in a `for s i"
+ },
+ "class_pattern::repl_banner_history_perbranch": {
+  "idx": 225,
+  "hash": "26df78046b9597ed",
+  "topic": "class_pattern",
+  "snippet": "repl_banner_history_perbranch {\"detect\": \"A REPL tool prints a first-run banner (eva: 'No previous history.') gated on a history file. Branches CONFLICT: some a"
+ },
+ "class_pattern::tool_invocation_hang": {
+  "idx": 226,
+  "hash": "1f061b9db9612833",
+  "topic": "class_pattern",
+  "snippet": "tool_invocation_hang {\"symptom\": \"An eval runs 15-30min with no results / hits the HARD_CAP; the tool's tests time out (pytest --timeout) then rerunfailures rer"
+ },
+ "class_pattern::empty_spec_harvest": {
+  "idx": 227,
+  "hash": "c467d7e4bf4928cf",
+  "topic": "class_pattern",
+  "snippet": "empty_spec_harvest {\"detect\": \"specs/<slug>.json exists with explicit n_examples==0 (pb_bulk_spec exits rc=0 even when a task yields zero harvestable examples)\""
+ },
+ "class_pattern::capture_clobbers_richer_artifact": {
+  "idx": 228,
+  "hash": "e462c9b38a8387e1",
+  "topic": "class_pattern",
+  "snippet": "capture_clobbers_richer_artifact {\"detect\": \"a box->local sync (or any write) lands a spec with LOWER n_examples, or an oracle_result with lower passed AND an O"
+ },
+ "class_pattern::local_oracle_wrong_cwd_go_module": {
+  "idx": 229,
+  "hash": "43deafef0f604360",
+  "topic": "class_pattern",
+  "snippet": "local_oracle_wrong_cwd_go_module {\"detect\": \"oracle_result stderr contains 'go: cannot find main module, but found .git/config in /root/Cit'\", \"symptom\": \"all-f"
+ },
+ "learned_class::verified_pydantic_settings_aliaschoices_wildcard_validator_recursion_20260720": {
+  "idx": 230,
+  "hash": "4d8eaae7daf6e919",
+  "topic": "learned_class",
+  "snippet": "verified_pydantic_settings_aliaschoices_wildcard_validator_recursion_20260720 Windows fatal exception: stack overflow inside pydantic field_validator during Bas"
+ },
+ "learned_class::rich_console_windows_cp1252_emoji_unicodeencodeerror_20260720": {
+  "idx": 231,
+  "hash": "d6a082d76ee60bd8",
+  "topic": "learned_class",
+  "snippet": "rich_console_windows_cp1252_emoji_unicodeencodeerror_20260720 UnicodeEncodeError: 'charmap' codec can't encode character ... (rich console.py _write_buffer / le"
+ },
+ "learned_class::duplicated_atomic_write_permissionerror_retry_pattern_20260720": {
+  "idx": 232,
+  "hash": "e95369aa478696aa",
+  "topic": "learned_class",
+  "snippet": "duplicated_atomic_write_permissionerror_retry_pattern_20260720 grep -rl 'except PermissionError' scripts/ finds 13+ files, several with byte-for-byte identical "
+ },
+ "learned_class::click_passthrough_command_swallows_real_help_20260720": {
+  "idx": 233,
+  "hash": "359bbde79f1f52bd",
+  "topic": "learned_class",
+  "snippet": "click_passthrough_command_swallows_real_help_20260720 A click command wrapping a legacy argparse script (context_settings=ignore_unknown_options=True, click.UNP"
+ },
+ "corpus_query_surface_gaps_closed_20260720": {
+  "idx": 234,
+  "hash": "120206e97eee64e3",
+  "topic": "INFRA_OPS",
+  "snippet": "corpus_query_surface_gaps_closed_20260720 {\"verdict\": \"Asked directly 'does the corpus have access to everything' and 'what else is needed for it to do and see "
+ },
+ "commit_training_capture_full_backfill_20260720": {
+  "idx": 235,
+  "hash": "9a6d8f678fe773da",
+  "topic": "INFRA_OPS",
+  "snippet": "commit_training_capture_full_backfill_20260720 {\"verdict\": \"Direct ask: 'everything that comes across as compiled and working should be saved... the system shou"
+ },
+ "learned_class::git_show_unsupported_filetype_fatal_on_large_diff_20260720": {
+  "idx": 236,
+  "hash": "e0543c61ebefe308",
+  "topic": "learned_class",
+  "snippet": "git_show_unsupported_filetype_fatal_on_large_diff_20260720 E: unsupported filetype <path>/page.doc (or similar) / fatal: unable to read files to diff, from `git"
+ },
+ "ide_addon_reachability_recurring_bug_20260723": {
+  "idx": 237,
+  "hash": "0ab92f5c4849f9b4",
+  "topic": "entry",
+  "snippet": "ide_addon_reachability_recurring_bug_20260723 {\"verdict\": \"This exact bug pattern surfaced FIVE separate times across audit rounds before anything caught it str"
+ },
+ "docker_backed_oracle_transient_failure_modes_20260723": {
+  "idx": 238,
+  "hash": "102c0aca7d2febc4",
+  "topic": "entry",
+  "snippet": "docker_backed_oracle_transient_failure_modes_20260723 {\"verdict\": \"Live-verifying the MariaDB and MongoDB Docker-backed oracles for the first time (2026-07-23, "
+ }
+}

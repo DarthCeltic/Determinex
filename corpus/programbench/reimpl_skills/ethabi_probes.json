@@ -1,0 +1,5484 @@
+[
+ {
+  "name": "test::test_help_flag_long::0",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_short::1",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_long::2",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_short::3",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_subcommand::4",
+  "argv": [
+   "invalid-command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_subcommand::5",
+  "argv": [
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_with_eip20_abi::6",
+  "argv": [
+   "encode",
+   "function",
+   "res/eip20.abi",
+   "transfer",
+   "-p",
+   "1111111111111111111111111111111111111111",
+   "-p",
+   "100",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_with_constructor_abi::7",
+  "argv": [
+   "encode",
+   "function",
+   "res/constructor.abi",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_with_eip20_abi::8",
+  "argv": [
+   "decode",
+   "function",
+   "res/eip20.abi",
+   "balanceOf",
+   "0000000000000000000000000000000000000000000000000000000000000064"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_allowance_function::9",
+  "argv": [
+   "encode",
+   "function",
+   "res/eip20.abi",
+   "allowance",
+   "-p",
+   "1111111111111111111111111111111111111111",
+   "-p",
+   "2222222222222222222222222222222222222222"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_approve_function::10",
+  "argv": [
+   "encode",
+   "function",
+   "res/eip20.abi",
+   "approve",
+   "-p",
+   "1111111111111111111111111111111111111111",
+   "-p",
+   "1000",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_transferFrom_function::11",
+  "argv": [
+   "encode",
+   "function",
+   "res/eip20.abi",
+   "transferFrom",
+   "-p",
+   "1111111111111111111111111111111111111111",
+   "-p",
+   "2222222222222222222222222222222222222222",
+   "-p",
+   "500",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_totalSupply::12",
+  "argv": [
+   "decode",
+   "function",
+   "res/eip20.abi",
+   "totalSupply",
+   "00000000000000000000000000000000000000000000000000000000000f4240"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_with_operations_abi::13",
+  "argv": [
+   "encode",
+   "function",
+   "res/Operations.abi",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_with_validators_abi::14",
+  "argv": [
+   "encode",
+   "function",
+   "res/Validators.abi",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_event_from_eip20::15",
+  "argv": [
+   "decode",
+   "log",
+   "res/eip20.abi",
+   "Transfer",
+   "-l",
+   "000000000000000000000000111111111111111111111111111111111111111",
+   "-l",
+   "0000000000000000000000002222222222222222222222222222222222222222",
+   "0000000000000000000000000000000000000000000000000000000000000064"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_function_with_event_signature_style::16",
+  "argv": [
+   "encode",
+   "function",
+   "res/eip20.abi",
+   "transfer(address,uint256):(bool)",
+   "-p",
+   "1111111111111111111111111111111111111111",
+   "-p",
+   "100",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_params_same_function::17",
+  "argv": [
+   "encode",
+   "function",
+   "res/eip20.abi",
+   "transferFrom",
+   "-p",
+   "0000000000000000000000000000000000000001",
+   "-p",
+   "0000000000000000000000000000000000000002",
+   "-p",
+   "1",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_uint8::18",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "uint8",
+   "255",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_uint16::19",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "uint16",
+   "65535",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_uint32::20",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "uint32",
+   "4294967295",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_int8::21",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "int8",
+   "127",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_int8_negative::22",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "int8",
+   "-128",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_bytes1::23",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "bytes1",
+   "ff"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_bytes4::24",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "bytes4",
+   "12345678"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_bytes8::25",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "bytes8",
+   "1234567890abcdef"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_uint8::26",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "uint8",
+   "00000000000000000000000000000000000000000000000000000000000000ff"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_uint16::27",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "uint16",
+   "000000000000000000000000000000000000000000000000000000000000ffff"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_int8_negative::28",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "int8",
+   "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff80"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_bytes1::29",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "bytes1",
+   "ff00000000000000000000000000000000000000000000000000000000000000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_bytes4::30",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "bytes4",
+   "1234567800000000000000000000000000000000000000000000000000000000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_string_with_spaces::31",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "string",
+   "hello world"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_string_with_special_chars::32",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "string",
+   "test!@#"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_nested_array::33",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "uint256[][]",
+   "[[1,2],[3,4]]",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_address_array::34",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "address[]",
+   "[1111111111111111111111111111111111111111,2222222222222222222222222222222222222222]",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_string_array::35",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "string[]",
+   "[hello,world]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_address_array::36",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "address[]",
+   "0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000200000000000000000000000011111111111111111111111111111111111111110000000000000000000000002222222222222222222222222222222222222222"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_complex_tuple::37",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "(uint256,address,bool)",
+   "(42,1111111111111111111111111111111111111111,true)",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_tuple_with_array::38",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "(uint256,uint256[])",
+   "(1,[2,3])",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_value::39",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "uint256",
+   "0",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_uint256::40",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "uint256",
+   "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_function_help::41",
+  "argv": [
+   "decode",
+   "function",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_function_by_name::42",
+  "argv": [
+   "decode",
+   "function",
+   "res/foo.abi",
+   "bar",
+   "0000000000000000000000000000000000000000000000000000000000000001"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_function_by_signature::43",
+  "argv": [
+   "decode",
+   "function",
+   "res/foo.abi",
+   "bar(address):(bool)",
+   "0000000000000000000000000000000000000000000000000000000000000001"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_function_false_value::44",
+  "argv": [
+   "decode",
+   "function",
+   "res/foo.abi",
+   "bar",
+   "0000000000000000000000000000000000000000000000000000000000000000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_function_nonexistent::45",
+  "argv": [
+   "decode",
+   "function",
+   "res/foo.abi",
+   "nonexistent",
+   "0000000000000000000000000000000000000000000000000000000000000001"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_log_help::46",
+  "argv": [
+   "decode",
+   "log",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_log_by_name::47",
+  "argv": [
+   "decode",
+   "log",
+   "res/event.abi",
+   "Event",
+   "-l",
+   "0000000000000000000000000000000000000000000000000000000000000001",
+   "0000000000000000000000004444444444444444444444444444444444444444"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_log_by_signature::48",
+  "argv": [
+   "decode",
+   "log",
+   "res/event.abi",
+   "Event(bool,address)",
+   "-l",
+   "0000000000000000000000000000000000000000000000000000000000000001",
+   "0000000000000000000000004444444444444444444444444444444444444444"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_log_false_value::49",
+  "argv": [
+   "decode",
+   "log",
+   "res/event.abi",
+   "Event",
+   "-l",
+   "0000000000000000000000000000000000000000000000000000000000000000",
+   "0000000000000000000000004444444444444444444444444444444444444444"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_log_nonexistent_event::50",
+  "argv": [
+   "decode",
+   "log",
+   "res/event.abi",
+   "Nope(bool,address)",
+   "-l",
+   "0000000000000000000000000000000000000000000000000000000000000000",
+   "0000000000000000000000004444444444444444444444444444444444444444"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_log_missing_abi::51",
+  "argv": [
+   "decode",
+   "log",
+   "res/missing.abi",
+   "Event",
+   "-l",
+   "0000000000000000000000000000000000000000000000000000000000000001",
+   "0000000000000000000000004444444444444444444444444444444444444444"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_log_invalid_hex_topic::52",
+  "argv": [
+   "decode",
+   "log",
+   "res/event.abi",
+   "Event",
+   "-l",
+   "ZZZZ",
+   "0000000000000000000000004444444444444444444444444444444444444444"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_log_invalid_hex_data::53",
+  "argv": [
+   "decode",
+   "log",
+   "res/event.abi",
+   "Event",
+   "-l",
+   "0000000000000000000000000000000000000000000000000000000000000001",
+   "ZZZZ"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_log_missing_topic::54",
+  "argv": [
+   "decode",
+   "log",
+   "res/event.abi",
+   "Event",
+   "0000000000000000000000004444444444444444444444444444444444444444"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_params_help::55",
+  "argv": [
+   "decode",
+   "params",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_single_bool_true::56",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "bool",
+   "0000000000000000000000000000000000000000000000000000000000000001"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_single_bool_false::57",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "bool",
+   "0000000000000000000000000000000000000000000000000000000000000000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_uint256::58",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "uint256",
+   "000000000000000000000000000000000000000000000000000000000000002a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_int256_negative::59",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "int256",
+   "fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_multiple_params::60",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "bool",
+   "-t",
+   "string",
+   "-t",
+   "bool",
+   "00000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000060000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000096761766f66796f726b0000000000000000000000000000000000000000000000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_address::61",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "address",
+   "0000000000000000000000001111111111111111111111111111111111111111"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_string::62",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "string"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_bool_array::63",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "bool[]",
+   "00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000003000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_uint_array::64",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "uint256[]",
+   "00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000003000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000003"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_tuple::65",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "(string,bool,string)",
+   "00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000060000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000a00000000000000000000000000000000000000000000000000000000000000006737069726163000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000067175617361720000000000000000000000000000000000000000000000000000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_bytes::66",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "bytes",
+   "000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000021234000000000000000000000000000000000000000000000000000000000000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_bytes32::67",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "bytes32",
+   "1234000000000000000000000000000000000000000000000000000000000000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_empty_string::68",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "string",
+   "00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_empty_array::69",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "uint256[]",
+   "00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_params_invalid_hex::70",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "bool",
+   "ZZZZ"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_params_short_data::71",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "uint256",
+   "1234"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_params_no_data_arg::72",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "bool"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_params_with_no_types_outputs_empty::73",
+  "argv": [
+   "decode",
+   "params",
+   "0000000000000000000000000000000000000000000000000000000000000001"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_function_with_invalid_json_abi::74",
+  "argv": [
+   "encode",
+   "function",
+   "bad.abi",
+   "foo",
+   "-p",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.abi": "{ invalid json"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_function_empty_abi::75",
+  "argv": [
+   "encode",
+   "function",
+   "empty.abi",
+   "foo",
+   "-p",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.abi": "[]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_function_empty_data::76",
+  "argv": [
+   "decode",
+   "function",
+   "res/foo.abi",
+   "bar",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_very_long_string::77",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "string"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_very_long_data::78",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "bytes"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_address_requires_full_length::79",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "address",
+   "1111"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_multiple_same_type::80",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "uint256",
+   "1",
+   "-v",
+   "uint256",
+   "2",
+   "-v",
+   "uint256",
+   "3",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_multiple_same_type::81",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "uint256",
+   "-t",
+   "uint256",
+   "-t",
+   "uint256",
+   "000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000003"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_bool_variations::82",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "bool"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_empty_bytes::83",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "bytes",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_wrong_type_for_data::84",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "uint256",
+   "0000000000000000000000000000000000000000000000000000000000000001"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_hex_string_as_param::85",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "string",
+   "0x1234"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_params_version_flag::86",
+  "argv": [
+   "encode",
+   "params",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_params_version_flag::87",
+  "argv": [
+   "decode",
+   "params",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_function_version_flag::88",
+  "argv": [
+   "encode",
+   "function",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_function_version_flag::89",
+  "argv": [
+   "decode",
+   "function",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_log_version_flag::90",
+  "argv": [
+   "decode",
+   "log",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_with_0x_prefix::91",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "address",
+   "0x1111111111111111111111111111111111111111"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_with_0x_prefix::92",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "bool",
+   "0x0000000000000000000000000000000000000000000000000000000000000001"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_function_help::93",
+  "argv": [
+   "encode",
+   "function",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_function_by_name::94",
+  "argv": [
+   "encode",
+   "function",
+   "res/test.abi",
+   "foo",
+   "-p",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_function_by_signature::95",
+  "argv": [
+   "encode",
+   "function",
+   "res/test.abi",
+   "foo(bool)",
+   "-p",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_overloaded_function_by_name_should_fail::96",
+  "argv": [
+   "encode",
+   "function",
+   "res/test.abi",
+   "bar",
+   "-p",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_overloaded_function_by_first_signature::97",
+  "argv": [
+   "encode",
+   "function",
+   "res/test.abi",
+   "bar(bool)",
+   "-p",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_overloaded_function_by_second_signature::98",
+  "argv": [
+   "encode",
+   "function",
+   "res/test.abi",
+   "bar(string):(uint256)",
+   "-p",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_function_multiple_params::99",
+  "argv": [
+   "encode",
+   "function",
+   "res/test.abi",
+   "foo",
+   "-p",
+   "true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_function_with_lenient::100",
+  "argv": [
+   "encode",
+   "function",
+   "res/test.abi",
+   "foo",
+   "-p",
+   "1",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_function_nonexistent::101",
+  "argv": [
+   "encode",
+   "function",
+   "res/test.abi",
+   "nonexistent",
+   "-p",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_function_missing_abi_file::102",
+  "argv": [
+   "encode",
+   "function",
+   "res/missing.abi",
+   "foo",
+   "-p",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_function_invalid_signature::103",
+  "argv": [
+   "encode",
+   "function",
+   "res/test.abi",
+   "bar(invalid)",
+   "-p",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_function_wrong_param_count::104",
+  "argv": [
+   "encode",
+   "function",
+   "res/test.abi",
+   "foo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_function_address_param::105",
+  "argv": [
+   "encode",
+   "function",
+   "res/foo.abi",
+   "bar",
+   "-p",
+   "0x1111111111111111111111111111111111111111"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_params_help::106",
+  "argv": [
+   "encode",
+   "params",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_single_bool_true::107",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "bool",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_single_bool_false::108",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "bool",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_single_bool_false_word::109",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "bool",
+   "false"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_single_bool_true_word::110",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "bool",
+   "true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_multiple_params::111",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "bool",
+   "1",
+   "-v",
+   "string",
+   "gavofyork",
+   "-v",
+   "bool",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_uint256_hex::112",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "uint256",
+   "000000000000000000000000000000000000000000000000000000000000002a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_uint256_lenient::113",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "uint256",
+   "42",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_uint256_large_lenient::114",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "uint256",
+   "123456789",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_address_no_prefix::115",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "address",
+   "1111111111111111111111111111111111111111"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_string::116",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "string",
+   "hello"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_bytes::117",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "bytes",
+   "1234"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_bytes32::118",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "bytes32",
+   "1234000000000000000000000000000000000000000000000000000000000000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_int256_positive_lenient::119",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "int256",
+   "42",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_int256_negative_lenient::120",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "int256",
+   "-1",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_bool_array::121",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "bool[]",
+   "[1,0,false]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_uint_array_lenient::122",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "uint256[]",
+   "[1,2,3]",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_fixed_array_lenient::123",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "uint256[3]",
+   "[1,2,3]",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_tuple::124",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "(string,bool,string)",
+   "(test,1,cyborg)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_empty_string::125",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "string",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_empty_array::126",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "uint256[]",
+   "[]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_with_lenient_flag::127",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "uint256",
+   "1",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_params_invalid_bool_value::128",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "bool",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_uint_without_lenient::129",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "uint256",
+   "42"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_int128::130",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "int128",
+   "1000",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_int128_negative::131",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "int128",
+   "-1000",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_uint128::132",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "uint128",
+   "1000000",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_uint64::133",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "uint64",
+   "18446744073709551615",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_int64::134",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "int64",
+   "9223372036854775807",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_bytes16::135",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "bytes16",
+   "1234567890abcdef1234567890abcdef"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_uint128::136",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "uint128",
+   "00000000000000000000000000000000000000000000000000000000000f4240"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_int128::137",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "int128",
+   "00000000000000000000000000000000000000000000000000000000000003e8"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_int128_negative::138",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "int128",
+   "fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc18"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_address_zero::139",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "address",
+   "0000000000000000000000000000000000000000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_address_zero::140",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "address",
+   "0000000000000000000000000000000000000000000000000000000000000000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_string_with_newline::141",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "string",
+   "hello\nworld"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_string_with_unicode::142",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "string",
+   "hello🌍"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_bool_array_long::143",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "bool[]",
+   "[true,false,true,false,true,false,true,false,true,false]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_mixed_params::144",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "address",
+   "1111111111111111111111111111111111111111",
+   "-v",
+   "uint256",
+   "100",
+   "-v",
+   "string",
+   "test",
+   "-v",
+   "bool",
+   "true",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_mixed_params::145",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "address",
+   "-t",
+   "uint256",
+   "-t",
+   "string",
+   "-t",
+   "bool",
+   "00000000000000000000000011111111111111111111111111111111111111110000000000000000000000000000000000000000000000000000000000000064000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000004746573740000000000000000000000000000000000000000000000000000000000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_nested_tuple::146",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "((uint256,bool),string)",
+   "((42,true),test)",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_tuple_array::147",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "(uint256,bool)[]",
+   "[(1,true),(2,false)]",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_subcommand_help::148",
+  "argv": [
+   "encode",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_subcommand_help::149",
+  "argv": [
+   "decode",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_with_no_params::150",
+  "argv": [
+   "encode",
+   "function",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_with_no_outputs::151",
+  "argv": [
+   "decode",
+   "function",
+   "test",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_bytes_with_0x_prefix::152",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "bytes",
+   "0x1234"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_rejects_0x_prefix::153",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "uint256",
+   "0x0000000000000000000000000000000000000000000000000000000000000001"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_urlhint_abi_operations::154",
+  "argv": [
+   "encode",
+   "function",
+   "res/urlhint.abi",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_rust_keywords_abi::155",
+  "argv": [
+   "encode",
+   "function",
+   "res/test_rust_keywords.abi",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_function_missing_abi_shows_error::156",
+  "argv": [
+   "decode",
+   "function",
+   "res/nonexistent_file.abi",
+   "bar",
+   "0000000000000000000000000000000000000000000000000000000000000001"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_function_invalid_hex_shows_error::157",
+  "argv": [
+   "decode",
+   "function",
+   "res/foo.abi",
+   "bar",
+   "ZZZZ"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_function_short_data_shows_error::158",
+  "argv": [
+   "decode",
+   "function",
+   "res/foo.abi",
+   "bar",
+   "1234"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_log_missing_abi_shows_error::159",
+  "argv": [
+   "decode",
+   "log",
+   "res/nonexistent.abi",
+   "Event",
+   "-l",
+   "0000000000000000000000000000000000000000000000000000000000000001",
+   "0000000000000000000000004444444444444444444444444444444444444444"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_params_invalid_bool_value_shows_error::160",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "bool",
+   "notabool"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_subcommand_has_usage_hint_and_nonzero_exit_code::161",
+  "argv": [
+   "nonsense"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_top_level_flag_errors_and_prints_usage::162",
+  "argv": [
+   "--nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_too_many_positionals_for_decode_params_errors::163",
+  "argv": [
+   "decode",
+   "params",
+   "0x00",
+   "-t",
+   "uint256",
+   "extra"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_option_requires_value_decode_params_t::164",
+  "argv": [
+   "decode",
+   "params",
+   "0x00",
+   "-t"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_in_subcommand_errors::165",
+  "argv": [
+   "decode",
+   "params",
+   "--unknown",
+   "0x00"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_stops_option_parsing_for_decode_params_and_changes_error::166",
+  "argv": [
+   "decode",
+   "params",
+   "--",
+   "0x00"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_params_rejects_extra_positional_args::167",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "bool",
+   "true",
+   "-v",
+   "uint256",
+   "1",
+   "extra"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_params_lenient_flag_changes_numeric_parsing::168",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "uint256",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_params_bool_is_case_sensitive::169",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "bool",
+   "TRUE"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_cli_int_encode_negative_two_lenient::170",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "int256",
+   "-2",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_cli_int_encode_negative_zero_lenient::171",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "int256",
+   "-0",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_cli_uint_encode_must_be_positive_errors::172",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "uint256",
+   "-2",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_cli_uint_requires_decimal_input_error_message::173",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "uint256",
+   "123abc",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_cli_uint_encode_big_numbers::174",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "uint256",
+   "100000000000000000000000000000000022222222222222221111111111111",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_cli_int_encode_min_value_ok_lenient::175",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "int256",
+   "-57896044618658097711785492504343953926634992332820282019728792003956564819968",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_cli_int_encode_below_min_underflow_message::176",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "int256",
+   "-57896044618658097711785492504343953926634992332820282019728792003956564819969",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_cli_int_encode_overflow_message::177",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "int256",
+   "100000000000000000000000000000000022222222222222221111111111111333333333344556",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_cli_int_encode_max_value_ok_lenient::178",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "int256",
+   "57896044618658097711785492504343953926634992332820282019728792003956564819967",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_cli_int_encode_above_max_overflow_message::179",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "int256",
+   "57896044618658097711785492504343953926634992332820282019728792003956564819968",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_cli_function_encode_by_name::180",
+  "argv": [
+   "encode",
+   "function",
+   "foo",
+   "-p",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_cli_function_encode_by_signature::181",
+  "argv": [
+   "encode",
+   "function",
+   "foo(bool)",
+   "-p",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_cli_nonexistent_function_errors::182",
+  "argv": [
+   "encode",
+   "function",
+   "nope",
+   "-p",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_cli_overloaded_function_encode_by_name_errors::183",
+  "argv": [
+   "encode",
+   "function",
+   "bar",
+   "-p",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_cli_overloaded_function_encode_by_first_signature::184",
+  "argv": [
+   "encode",
+   "function",
+   "bar(bool)",
+   "-p",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_cli_overloaded_function_encode_by_second_signature::185",
+  "argv": [
+   "encode",
+   "function",
+   "bar(string):(uint256)",
+   "-p",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_cli_int_decode_negative_two::186",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "int256"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_cli_abi_decode_function_output::187",
+  "argv": [
+   "decode",
+   "function",
+   "bar",
+   "0000000000000000000000000000000000000000000000000000000000000001"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_cli_log_decode_by_name::188",
+  "argv": [
+   "decode",
+   "log",
+   "Event",
+   "-l",
+   "0000000000000000000000000000000000000000000000000000000000000001",
+   "0000000000000000000000004444444444444444444444444444444444444444"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_cli_log_decode_by_signature::189",
+  "argv": [
+   "decode",
+   "log",
+   "Event(bool,address)",
+   "-l",
+   "0000000000000000000000000000000000000000000000000000000000000001",
+   "0000000000000000000000004444444444444444444444444444444444444444"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_cli_nonexistent_event_errors::190",
+  "argv": [
+   "decode",
+   "log",
+   "Nope(bool,address)",
+   "-l",
+   "0000000000000000000000000000000000000000000000000000000000000000",
+   "0000000000000000000000004444444444444444444444444444444444444444"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_params_invalid_bool_goes_to_stderr_and_nonzero_exit::191",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "bool",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_function_requires_existing_abi_file::192",
+  "argv": [
+   "decode",
+   "function",
+   "foo(bool)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_version_before_subcommand_shortcircuits_routing::193",
+  "argv": [
+   "--version",
+   "decode"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_subcommand_accepts_args_but_not_help_flag::194",
+  "argv": [
+   "help",
+   "decode"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_is_error_and_mentions_usage::195",
+  "argv": [
+   "nope"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_function_empty_output::196",
+  "argv": [
+   "decode",
+   "function",
+   "test.abi",
+   "test",
+   ""
+  ],
+  "stdin": null,
+  "files": {
+   "test.abi": "[{\n            \"type\": \"function\",\n            \"name\": \"test\",\n            \"inputs\": [],\n            \"outputs\": [{\"name\": \"value\", \"type\": \"uint256\"}]\n        }]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_array_empty_elements::197",
+  "argv": [
+   "encode",
+   "params",
+   "-l",
+   "-v",
+   "uint256[]",
+   "[]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_string_array::198",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "string[]",
+   "0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000080000000000000000000000000000000000000000000000000000000000000000568656c6c6f000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005776f726c64000000000000000000000000000000000000000000000000000000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_address_array::199",
+  "argv": [
+   "encode",
+   "params",
+   "-l",
+   "-v",
+   "address[]",
+   "[1111111111111111111111111111111111111111,2222222222222222222222222222222222222222]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_bool_array::200",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "bool[]",
+   "00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000003000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_uint_array_hex::201",
+  "argv": [
+   "encode",
+   "params",
+   "-l",
+   "-v",
+   "uint256[]",
+   "[10,20,30]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_bytes_arrays::202",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "bytes[]",
+   "[1234,5678]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_mixed_array_tuple::203",
+  "argv": [
+   "encode",
+   "params",
+   "-l",
+   "-v",
+   "(uint256,uint256[])",
+   "(42,[1,2,3])"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_mixed_array_tuple::204",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "(uint256,uint256)",
+   "000000000000000000000000000000000000000000000000000000000000002a0000000000000000000000000000000000000000000000000000000000000064"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_nested_tuple::205",
+  "argv": [
+   "encode",
+   "params",
+   "-l",
+   "-v",
+   "(uint256,(bool,uint256))",
+   "(42,(true,100))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_nested_tuple::206",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "(uint256,(bool,uint256))",
+   "000000000000000000000000000000000000000000000000000000000000002a00000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000064"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_function_with_array_param::207",
+  "argv": [
+   "encode",
+   "function",
+   "-l",
+   "test.abi",
+   "test",
+   "-p",
+   "[1,2,3]"
+  ],
+  "stdin": null,
+  "files": {
+   "test.abi": "[{\n            \"type\": \"function\",\n            \"name\": \"test\",\n            \"inputs\": [{\"name\": \"values\", \"type\": \"uint256[]\"}],\n            \"outputs\": []\n        }]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_function_with_array_return::208",
+  "argv": [
+   "decode",
+   "function",
+   "test.abi",
+   "test",
+   "00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000003000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000003"
+  ],
+  "stdin": null,
+  "files": {
+   "test.abi": "[{\n            \"type\": \"function\",\n            \"name\": \"test\",\n            \"inputs\": [],\n            \"outputs\": [{\"name\": \"values\", \"type\": \"uint256[]\"}]\n        }]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_uint32_value::209",
+  "argv": [
+   "encode",
+   "params",
+   "-l",
+   "-v",
+   "uint32",
+   "4294967295"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_uint32_value::210",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "uint32",
+   "00000000000000000000000000000000000000000000000000000000ffffffff"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_int32_value::211",
+  "argv": [
+   "encode",
+   "params",
+   "-l",
+   "-v",
+   "int32",
+   "-2147483648"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_int32_value::212",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "int32",
+   "ffffffffffffffffffffffffffffffffffffffffffffffffffffffff80000000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_bytes8::213",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "bytes8",
+   "1122334455667788000000000000000000000000000000000000000000000000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_tuple_with_string::214",
+  "argv": [
+   "encode",
+   "params",
+   "-l",
+   "-v",
+   "(string,uint256)",
+   "(hello,42)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_simple_tuple_alternative::215",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "(uint256,bool)",
+   "000000000000000000000000000000000000000000000000000000000000002a0000000000000000000000000000000000000000000000000000000000000001"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_decode_roundtrip_simple::216",
+  "argv": [
+   "encode",
+   "params",
+   "-l",
+   "-v",
+   "uint256",
+   "12345"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_decode_string_roundtrip::217",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "string",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_subcommand::218",
+  "argv": [
+   "invalid_command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_function_uint256::219",
+  "argv": [
+   "decode",
+   "function",
+   "res/test.abi",
+   "bar(string):(uint256)",
+   "000000000000000000000000000000000000000000000000000000000000002a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_function_multiple_returns::220",
+  "argv": [
+   "decode",
+   "function",
+   "test.abi",
+   "test",
+   "000000000000000000000000000000000000000000000000000000000000002a0000000000000000000000000000000000000000000000000000000000000001"
+  ],
+  "stdin": null,
+  "files": {
+   "test.abi": "[{\n            \"type\": \"function\",\n            \"name\": \"test\",\n            \"inputs\": [],\n            \"outputs\": [\n                {\"name\": \"a\", \"type\": \"uint256\"},\n                {\"name\": \"b\", \"type\": \"bool\"}\n            ]\n        }]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_function_string_return::221",
+  "argv": [
+   "decode",
+   "function",
+   "test.abi",
+   "test"
+  ],
+  "stdin": null,
+  "files": {
+   "test.abi": "[{\n            \"type\": \"function\",\n            \"name\": \"test\",\n            \"inputs\": [],\n            \"outputs\": [{\"name\": \"s\", \"type\": \"string\"}]\n        }]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_function_no_returns::222",
+  "argv": [
+   "decode",
+   "function",
+   "test.abi",
+   "test",
+   ""
+  ],
+  "stdin": null,
+  "files": {
+   "test.abi": "[{\n            \"type\": \"function\",\n            \"name\": \"test\",\n            \"inputs\": [],\n            \"outputs\": []\n        }]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_function_missing_abi::223",
+  "argv": [
+   "decode",
+   "function",
+   "nonexistent.abi",
+   "foo",
+   "0000000000000000000000000000000000000000000000000000000000000001"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_function_invalid_abi::224",
+  "argv": [
+   "decode",
+   "function",
+   "invalid.abi",
+   "foo",
+   "0000000000000000000000000000000000000000000000000000000000000001"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.abi": "not json"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_function_invalid_data::225",
+  "argv": [
+   "decode",
+   "function",
+   "res/foo.abi",
+   "bar",
+   "zzz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_function_insufficient_data::226",
+  "argv": [
+   "decode",
+   "function",
+   "res/foo.abi",
+   "bar",
+   "00"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_function_with_0x_prefix::227",
+  "argv": [
+   "decode",
+   "function",
+   "res/foo.abi",
+   "bar",
+   "0x0000000000000000000000000000000000000000000000000000000000000001"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_function_address_return::228",
+  "argv": [
+   "decode",
+   "function",
+   "test.abi",
+   "test",
+   "0000000000000000000000001234567890123456789012345678901234567890"
+  ],
+  "stdin": null,
+  "files": {
+   "test.abi": "[{\n            \"type\": \"function\",\n            \"name\": \"test\",\n            \"inputs\": [],\n            \"outputs\": [{\"name\": \"addr\", \"type\": \"address\"}]\n        }]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_log_basic_event::229",
+  "argv": [
+   "decode",
+   "log",
+   "res/event.abi",
+   "Event",
+   "-l",
+   "0000000000000000000000000000000000000000000000000000000000000000",
+   "0000000000000000000000001111111111111111111111111111111111111111"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_log_missing_abi::230",
+  "argv": [
+   "decode",
+   "log",
+   "nonexistent.abi",
+   "Event",
+   "0000000000000000000000000000000000000000000000000000000000000001"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_log_invalid_abi::231",
+  "argv": [
+   "decode",
+   "log",
+   "invalid.abi",
+   "Event",
+   "0000000000000000000000000000000000000000000000000000000000000001"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.abi": "not json"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_log_nonexistent_event::232",
+  "argv": [
+   "decode",
+   "log",
+   "res/event.abi",
+   "NonExistent",
+   "0000000000000000000000000000000000000000000000000000000000000001"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_log_invalid_data::233",
+  "argv": [
+   "decode",
+   "log",
+   "res/event.abi",
+   "Event",
+   "-l",
+   "0000000000000000000000000000000000000000000000000000000000000001",
+   "zzz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_log_insufficient_data::234",
+  "argv": [
+   "decode",
+   "log",
+   "res/event.abi",
+   "Event",
+   "-l",
+   "0000000000000000000000000000000000000000000000000000000000000001",
+   "00"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_log_with_0x_prefix::235",
+  "argv": [
+   "decode",
+   "log",
+   "res/event.abi",
+   "Event",
+   "-l",
+   "0x0000000000000000000000000000000000000000000000000000000000000001",
+   "0x0000000000000000000000004444444444444444444444444444444444444444"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_log_multiple_topics::236",
+  "argv": [
+   "decode",
+   "log",
+   "res/event.abi",
+   "Event",
+   "-l",
+   "0000000000000000000000000000000000000000000000000000000000000000",
+   "0000000000000000000000002222222222222222222222222222222222222222"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_params_uint256_large::237",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "uint256",
+   "00000000000000000000000000000000000000000000000000000000075bcd15"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_params_int256_positive::238",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "int256",
+   "000000000000000000000000000000000000000000000000000000000000002a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_params_int256_negative::239",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "int256",
+   "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_params_multiple_bools::240",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "bool",
+   "-t",
+   "bool",
+   "00000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_params_string::241",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "string",
+   "00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000009676176666f796f726b0000000000000000000000000000000000000000000000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_params_address::242",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "address",
+   "0000000000000000000000001234567890123456789012345678901234567890"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_params_bytes32::243",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "bytes32",
+   "0000000000000000000000000000000000000000000000000000000000000001"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_params_tuple::244",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "(string,bool,string)",
+   "00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000060000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000a00000000000000000000000000000000000000000000000000000000000000006737069726c000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000671756173617200000000000000000000000000000000000000000000000000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_params_zero_uint::245",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "uint256",
+   "0000000000000000000000000000000000000000000000000000000000000000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_params_invalid_hex::246",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "bool",
+   "zzz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_params_insufficient_data::247",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "bool",
+   "00"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_params_invalid_type_fallback::248",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "invalid_type",
+   "0000000000000000000000000000000000000000000000000000000000000001"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_max_uint256::249",
+  "argv": [
+   "encode",
+   "params",
+   "-l",
+   "-v",
+   "uint256",
+   "115792089237316195423570985008687907853269984665640564039457584007913129639935"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_nested_array::250",
+  "argv": [
+   "encode",
+   "params",
+   "-l",
+   "-v",
+   "uint256[][]",
+   "[[1,2],[3,4]]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_fixed_array::251",
+  "argv": [
+   "encode",
+   "params",
+   "-l",
+   "-v",
+   "uint256[3]",
+   "[1,2,3]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_bytes16::252",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "bytes16",
+   "00112233445566778899aabbccddeeff"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_fixed_array::253",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "uint256[3]",
+   "000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000003"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_unicode_string::254",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "string",
+   "Hello 世界"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_string_with_quotes::255",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "string",
+   "test\"quote"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_address_checksum::256",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "address",
+   "5aAeb6053f3E94C9b9A09f33669435E7Ef1BeAed"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_negative_int128::257",
+  "argv": [
+   "encode",
+   "params",
+   "-l",
+   "-v",
+   "int128",
+   "-100"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_int8_boundary::258",
+  "argv": [
+   "encode",
+   "params",
+   "-l",
+   "-v",
+   "int8",
+   "127"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_bytes_dynamic::259",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "bytes",
+   "00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000002123400000000000000000000000000000000000000000000000000000000000000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_tuple_complex::260",
+  "argv": [
+   "encode",
+   "params",
+   "-l",
+   "-v",
+   "(uint256,string,bool)",
+   "(42,hello,true)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_multiple_strings::261",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "string",
+   "first",
+   "-v",
+   "string",
+   "second"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_address_with_leading_zeros::262",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "address",
+   "000000000000000000000000000000000000000000000000000000000000000a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_function_with_signature_full::263",
+  "argv": [
+   "encode",
+   "function",
+   "res/test.abi",
+   "bar(string):(uint256)",
+   "-p",
+   "hello"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_function_multiple_params::264",
+  "argv": [
+   "encode",
+   "function",
+   "-l",
+   "test.abi",
+   "test",
+   "-p",
+   "42",
+   "-p",
+   "true"
+  ],
+  "stdin": null,
+  "files": {
+   "test.abi": "[{\n            \"type\": \"function\",\n            \"name\": \"test\",\n            \"inputs\": [\n                {\"name\": \"a\", \"type\": \"uint256\"},\n                {\"name\": \"b\", \"type\": \"bool\"}\n            ],\n            \"outputs\": []\n        }]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_function_lenient_mode::265",
+  "argv": [
+   "encode",
+   "function",
+   "-l",
+   "res/test.abi",
+   "foo",
+   "-p",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_function_no_params::266",
+  "argv": [
+   "encode",
+   "function",
+   "test.abi",
+   "test"
+  ],
+  "stdin": null,
+  "files": {
+   "test.abi": "[{\n            \"type\": \"function\",\n            \"name\": \"test\",\n            \"inputs\": [],\n            \"outputs\": []\n        }]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_function_missing_abi::267",
+  "argv": [
+   "encode",
+   "function",
+   "nonexistent.abi",
+   "foo",
+   "-p",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_function_invalid_abi::268",
+  "argv": [
+   "encode",
+   "function",
+   "invalid.abi",
+   "foo",
+   "-p",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.abi": "not json"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_function_extra_params_ignored::269",
+  "argv": [
+   "encode",
+   "function",
+   "res/test.abi",
+   "foo",
+   "-p",
+   "1",
+   "-p",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_function_with_address::270",
+  "argv": [
+   "encode",
+   "function",
+   "test.abi",
+   "test",
+   "-p",
+   "1234567890123456789012345678901234567890"
+  ],
+  "stdin": null,
+  "files": {
+   "test.abi": "[{\n            \"type\": \"function\",\n            \"name\": \"test\",\n            \"inputs\": [{\"name\": \"addr\", \"type\": \"address\"}],\n            \"outputs\": []\n        }]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_function_empty_string::271",
+  "argv": [
+   "encode",
+   "function",
+   "res/test.abi",
+   "bar(string):(uint256)",
+   "-p",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_function_real_abi_files::272",
+  "argv": [
+   "encode",
+   "function",
+   "res/foo.abi",
+   "bar",
+   "-p",
+   "1234567890123456789012345678901234567890"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_params_multiple_bools::273",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "bool",
+   "1",
+   "-v",
+   "bool",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_params_uint256_lenient::274",
+  "argv": [
+   "encode",
+   "params",
+   "-l",
+   "-v",
+   "uint256",
+   "42"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_params_uint256_large_lenient::275",
+  "argv": [
+   "encode",
+   "params",
+   "-l",
+   "-v",
+   "uint256",
+   "123456789"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_params_uint8_lenient::276",
+  "argv": [
+   "encode",
+   "params",
+   "-l",
+   "-v",
+   "uint8",
+   "255"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_params_uint16_lenient::277",
+  "argv": [
+   "encode",
+   "params",
+   "-l",
+   "-v",
+   "uint16",
+   "65535"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_params_int256_positive_lenient::278",
+  "argv": [
+   "encode",
+   "params",
+   "-l",
+   "-v",
+   "int256",
+   "42"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_params_int256_negative_lenient::279",
+  "argv": [
+   "encode",
+   "params",
+   "-l",
+   "-v",
+   "int256",
+   "-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_params_address::280",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "address",
+   "1234567890123456789012345678901234567890"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_params_bytes32::281",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "bytes32",
+   "0000000000000000000000000000000000000000000000000000000000000001"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_params_bool_array::282",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "bool[]",
+   "[true,false,true]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_params_uint_array_lenient::283",
+  "argv": [
+   "encode",
+   "params",
+   "-l",
+   "-v",
+   "uint256[]",
+   "[1,2,3]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_params_tuple_lenient::284",
+  "argv": [
+   "encode",
+   "params",
+   "-l",
+   "-v",
+   "(uint256,bool)",
+   "(42,true)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_params_mixed_types::285",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "bool",
+   "1",
+   "-v",
+   "string",
+   "test",
+   "-v",
+   "bool",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_params_lenient_mode::286",
+  "argv": [
+   "encode",
+   "params",
+   "-l",
+   "-v",
+   "uint256",
+   "100"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_params_zero_uint_lenient::287",
+  "argv": [
+   "encode",
+   "params",
+   "-l",
+   "-v",
+   "uint256",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_params_invalid_type::288",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "invalid_type",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_params_no_params::289",
+  "argv": [
+   "encode",
+   "params"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_params_address_with_0x::290",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "address",
+   "0x1234567890123456789012345678901234567890"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_extra_data_at_end::291",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "bool",
+   "00000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000001"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_truncated_data::292",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "bool",
+   "000000000000000000000000000000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_string_truncated::293",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "string",
+   "00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000064test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_array_invalid_length::294",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "uint256[]",
+   "00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000003000000000000000000000000000000000000000000000000000000000000000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_invalid_offset::295",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "string",
+   "00000000000000000000000000000000000000000000000000000000000000ff"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_invalid_uint_value::296",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "uint256",
+   "not_a_number"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_uint_overflow::297",
+  "argv": [
+   "encode",
+   "params",
+   "-l",
+   "-v",
+   "uint256",
+   "115792089237316195423570985008687907853269984665640564039457584007913129639936"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_invalid_address_length::298",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "address",
+   "1234"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_invalid_hex_chars::299",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "bytes32",
+   "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_bytes_invalid_padding::300",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "bytes",
+   "0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000212340000000000000000000000000000000000000000000000000000000000ff"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_negative_uint::301",
+  "argv": [
+   "encode",
+   "params",
+   "-l",
+   "-v",
+   "uint256",
+   "-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_array_mismatched_brackets::302",
+  "argv": [
+   "encode",
+   "params",
+   "-l",
+   "-v",
+   "uint256[]",
+   "[1,2,3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_tuple_mismatched_parens::303",
+  "argv": [
+   "encode",
+   "params",
+   "-l",
+   "-v",
+   "(uint256,bool)",
+   "(42,true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_invalid_type_name::304",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "not_a_real_type",
+   "0000000000000000000000000000000000000000000000000000000000000001"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_uint8_overflow::305",
+  "argv": [
+   "encode",
+   "params",
+   "-l",
+   "-v",
+   "uint8",
+   "256"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_int8_overflow::306",
+  "argv": [
+   "encode",
+   "params",
+   "-l",
+   "-v",
+   "int8",
+   "128"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_int8_underflow::307",
+  "argv": [
+   "encode",
+   "params",
+   "-l",
+   "-v",
+   "int8",
+   "-129"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_very_large_array_length::308",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "uint256[]",
+   "0000000000000000000000000000000000000000000000000000000000000020ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_nested_offset_overflow::309",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "(string,bool)",
+   "00000000000000000000000000000000000000000000000000000000ffffffff0000000000000000000000000000000000000000000000000000000000000001"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_empty_type_specification::310",
+  "argv": [
+   "encode",
+   "params",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_bytes32_wrong_length::311",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "bytes32",
+   "1234"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_fixed_bytes_too_long::312",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "bytes2",
+   "123456"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_uint16_lenient::313",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "uint16",
+   "1234",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_int16_lenient::314",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "int16",
+   "-100",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_int16::315",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "int16",
+   "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_bytes3::316",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "bytes3",
+   "0xaabbcc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_bytes3::317",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "bytes3",
+   "aabbcc0000000000000000000000000000000000000000000000000000000000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_bytes5::318",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "bytes5",
+   "0x0102030405"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_bytes5::319",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "bytes5",
+   "0102030405000000000000000000000000000000000000000000000000000000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_bytes10::320",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "bytes10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_bytes10::321",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "bytes10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_bytes20::322",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "bytes20"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_bytes20::323",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "bytes20"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_bytes24::324",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "bytes24"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_bytes24::325",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "bytes24"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_int64_lenient::326",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "int64",
+   "-999",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_int64::327",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "int64",
+   "fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc19"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_uint128_lenient::328",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "uint128",
+   "999999999",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_uint128::329",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "uint128",
+   "000000000000000000000000000000000000000000000000000000003b9ac9ff"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_very_long_string::330",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "string",
+   "0000000000000000000000000000000000000000000000000000000000000020"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_empty_bytes_dynamic::331",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "bytes",
+   "0x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_address_lowercase::332",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "address",
+   "0xabcdefabcdefabcdefabcdefabcdefabcdefabcd"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_address_uppercase::333",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "address",
+   "000000000000000000000000abcdefabcdefabcdefabcdefabcdefabcdefabcd"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_multiple_addresses::334",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "address",
+   "0x1111111111111111111111111111111111111111",
+   "-v",
+   "address",
+   "0x2222222222222222222222222222222222222222",
+   "-v",
+   "address",
+   "0x3333333333333333333333333333333333333333"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_multiple_addresses::335",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "address",
+   "-t",
+   "address",
+   "-t",
+   "address"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_tuple_two_uints::336",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "(uint256,uint256)",
+   "(10,20)",
+   "--lenient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_tuple_two_uints::337",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "(uint256,uint256)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_bool_array_all_true::338",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "bool[]",
+   "[true,true,true]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_bool_array_all_true::339",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "bool[]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_bool_array_mixed::340",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "bool[]",
+   "[true,false,true,false]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_empty_bool_array::341",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "bool[]",
+   "[]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eip20_abi_functions::342",
+  "argv": [
+   "encode",
+   "function",
+   "res/eip20.abi",
+   "transfer(address,uint256):(bool)",
+   "-l",
+   "-p",
+   "1234567890123456789012345678901234567890",
+   "-p",
+   "1000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eip20_abi_balanceOf::343",
+  "argv": [
+   "encode",
+   "function",
+   "res/eip20.abi",
+   "balanceOf(address):(uint256)",
+   "-p",
+   "1234567890123456789012345678901234567890"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_eip20_balance::344",
+  "argv": [
+   "decode",
+   "function",
+   "res/eip20.abi",
+   "balanceOf(address):(uint256)",
+   "0000000000000000000000000000000000000000000000000000000000000064"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eip20_abi_approval_event::345",
+  "argv": [
+   "decode",
+   "log",
+   "res/eip20.abi",
+   "Approval",
+   "-l",
+   "0000000000000000000000001111111111111111111111111111111111111111",
+   "-l",
+   "0000000000000000000000002222222222222222222222222222222222222222",
+   "0000000000000000000000000000000000000000000000000000000000000064"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_operations_abi::346",
+  "argv": [
+   "encode",
+   "function",
+   "res/Operations.abi",
+   "create(address,uint256,bytes)",
+   "-l",
+   "-p",
+   "1234567890123456789012345678901234567890",
+   "-p",
+   "100",
+   "-p",
+   "abcd"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_validators_abi::347",
+  "argv": [
+   "encode",
+   "function",
+   "res/Validators.abi",
+   "finalizeChange()",
+   "-l"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_urlhint_abi::348",
+  "argv": [
+   "encode",
+   "function",
+   "res/urlhint.abi",
+   "register(string,bytes32,address)",
+   "-l",
+   "-p",
+   "test",
+   "-p",
+   "0000000000000000000000000000000000000000000000000000000000000001",
+   "-p",
+   "1234567890123456789012345678901234567890"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_with_constructor_abi::349",
+  "argv": [
+   "encode",
+   "function",
+   "res/constructor.abi",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_complex_types::350",
+  "argv": [
+   "encode",
+   "params",
+   "-l",
+   "-v",
+   "address[]",
+   "[1111111111111111111111111111111111111111,2222222222222222222222222222222222222222,3333333333333333333333333333333333333333]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decode_complex_types::351",
+  "argv": [
+   "decode",
+   "params",
+   "-t",
+   "address[]",
+   "00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000001"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encode_bytes_array_multiple::352",
+  "argv": [
+   "encode",
+   "params",
+   "-v",
+   "bytes",
+   "1234",
+   "-v",
+   "bytes",
+   "5678"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_signature_variations::353",
+  "argv": [
+   "encode",
+   "function",
+   "res/test.abi",
+   "bar(string):(uint256)",
+   "-p",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

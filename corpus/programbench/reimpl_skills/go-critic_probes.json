@@ -1,0 +1,2655 @@
+[
+ {
+  "name": "test::test_help_golden_exact::0",
+  "argv": [
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_golden_exact::1",
+  "argv": [
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_command_errors_are_stable::2",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_help_contains_core_flags_and_exit_code::3",
+  "argv": [
+   "check",
+   "-help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_doc_list_golden_exact::4",
+  "argv": [
+   "doc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_doc_help_behavior::5",
+  "argv": [
+   "doc",
+   "-help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gocritic_ruleguard_debug_env_enables_debug_output::6",
+  "argv": [
+   "check",
+   "-@ruleguard.rules",
+   "nonexistent_*.go",
+   "fmt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "GOCRITIC_RULEGUARD_DEBUG": "1"
+  }
+ },
+ {
+  "name": "test::test_invalid_command::7",
+  "argv": [
+   "invalid_command_xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_not_supported::8",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_doc_specific_checker::9",
+  "argv": [
+   "doc",
+   "appendAssign"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_doc_nonexistent_checker::10",
+  "argv": [
+   "doc",
+   "nonExistentCheckerXYZ123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_help_flag::11",
+  "argv": [
+   "check",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_doc_with_help_flag::12",
+  "argv": [
+   "doc",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_with_help_flag::13",
+  "argv": [
+   "version",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_message::14",
+  "argv": [
+   "nonexistent_command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_suggests_help::15",
+  "argv": [
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_similar_subcommand_suggestion::16",
+  "argv": [
+   "chek"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_subcommand::17",
+  "argv": [
+   "check"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_doc_with_invalid_checker::18",
+  "argv": [
+   "doc",
+   "nonexistentChecker123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_enable_flag::19",
+  "argv": [
+   "check",
+   "-enable",
+   "appendAssign"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_disable_flag::20",
+  "argv": [
+   "check",
+   "-disable",
+   "appendAssign"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_ignores_extra_args::21",
+  "argv": [
+   "version",
+   "extra",
+   "args"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_with_subcommand_arg::22",
+  "argv": [
+   "help",
+   "check"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_string_subcommand::23",
+  "argv": [
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_subcommand::24",
+  "argv": [
+   "check@#$"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_numeric_subcommand::25",
+  "argv": [
+   "12345"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_flags_not_in_version::26",
+  "argv": [
+   "version",
+   "-enable",
+   "appendAssign"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_exitcode_flag_controls_exit_status::27",
+  "argv": [
+   "check",
+   "-exitCode",
+   "7"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_args_produces_specific_error_message::28",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_command_error_message::29",
+  "argv": [
+   "nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_ignores_extra_args_rather_than_erroring::30",
+  "argv": [
+   "version",
+   "-x",
+   "--whatever"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_unknown_flag_errors_and_prints_usage::31",
+  "argv": [
+   "check",
+   "-unknown"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_enable_and_disable_are_order_sensitive_last_write_wins_via_effect::32",
+  "argv": [
+   "check",
+   "-enable=caseOrder",
+   "-disable=caseOrder"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_allows_unknown_flag_like_token_after_double_dash::33",
+  "argv": [
+   "check",
+   "--",
+   "-unknown"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_rejects_negative_concurrency_by_panicking::34",
+  "argv": [
+   "check",
+   "-concurrency=-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_doc_with_too_many_arguments::35",
+  "argv": [
+   "doc",
+   "assignOp",
+   "badCall"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_memprofile_flag::36",
+  "argv": [
+   "check",
+   "-memprofile",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "\npackage main\nfunc main() {\n    x := 1\n    x = x + 1\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_go_version_flag::37",
+  "argv": [
+   "check",
+   "-go",
+   "1.20",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "\npackage main\nfunc main() {\n    x := 1\n    _ = x\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_invalid_go_version::38",
+  "argv": [
+   "check",
+   "-go",
+   "invalid.version",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "\npackage main\nfunc main() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_shorterErrLocation_false::39",
+  "argv": [
+   "check",
+   "-shorterErrLocation=false",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "\npackage main\nfunc main() {\n    if true == true {\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_experimental_checkers::40",
+  "argv": [
+   "check",
+   "-enable=#experimental",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "\npackage main\nimport \"regexp\"\nfunc main() {\n    _ = regexp.MustCompile(\"test\")\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_badRegexp_checker::41",
+  "argv": [
+   "check",
+   "-enable=badRegexp",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "\npackage main\nimport \"regexp\"\nfunc main() {\n    // Bad regexp with nested quantifiers\n    _ = regexp.MustCompile(\"a**\")\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_boolExprSimplify_checker::42",
+  "argv": [
+   "check",
+   "-enable=boolExprSimplify",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "\npackage main\nfunc main() {\n    x := 5\n    // Double negation\n    if !(!( x > 3)) {\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_commentedOutCode_checker::43",
+  "argv": [
+   "check",
+   "-enable=commentedOutCode",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "\npackage main\nfunc main() {\n    x := 1\n    // fmt.Println(\"commented out code\")\n    // var y = someFunction()\n    _ = x\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_builtinShadowDecl_checker::44",
+  "argv": [
+   "check",
+   "-enable=builtinShadowDecl",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "\npackage main\nvar len int = 5\nfunc main() {\n    _ = len\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_deprecatedComment_checker_variations::45",
+  "argv": [
+   "check",
+   "-enable=deprecatedComment",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "\npackage main\n\n// Deprecated: use NewFunc instead\nfunc OldFunc() {}\n\n// DEPRECATED this is wrong casing\nfunc OldFunc2() {}\n\n// deprecated, should have colon\nfunc OldFunc3() {}\n\nfunc main() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_caseOrder_checker_typeswitch::46",
+  "argv": [
+   "check",
+   "-enable=caseOrder",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "\npackage main\nfunc f(v interface{}) {\n    switch v.(type) {\n    case interface{}:\n    case int:\n    }\n}\nfunc main() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_commentedOutImport_checker::47",
+  "argv": [
+   "check",
+   "-enable=commentedOutImport",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "\npackage main\nimport \"fmt\"\n// import \"strings\"\nfunc main() {\n    fmt.Println(\"test\")\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_defaultCaseOrder_checker::48",
+  "argv": [
+   "check",
+   "-enable=defaultCaseOrder",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "\npackage main\nfunc main() {\n    x := 5\n    switch x {\n    default:\n    case 1:\n    case 2:\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_deferInLoop_checker::49",
+  "argv": [
+   "check",
+   "-enable=deferInLoop",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "\npackage main\nimport \"os\"\nfunc main() {\n    for i := 0; i < 10; i++ {\n        f, _ := os.Open(\"file\")\n        defer f.Close()\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_multiple_experimental_together::50",
+  "argv": [
+   "check",
+   "-enable=badLock,badRegexp,deferInLoop",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "\npackage main\nfunc main() {\n    x := 5\n    if x > 0 {\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_ruleguard_empty_rules::51",
+  "argv": [
+   "check",
+   "-enable=ruleguard",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "\npackage main\nfunc main() {\n    x := 1\n    _ = x\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_paramTypeCombine_checker::52",
+  "argv": [
+   "check",
+   "-enable=paramTypeCombine",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "\npackage main\nfunc foo(a int, b int, c int) {\n}\nfunc main() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_typeUnparen_checker::53",
+  "argv": [
+   "check",
+   "-enable=typeUnparen",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "\npackage main\nfunc main() {\n    type MyInt (int)\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_unnamedResult_checker::54",
+  "argv": [
+   "check",
+   "-enable=unnamedResult",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "\npackage main\nfunc foo() (int, error) {\n    return 0, nil\n}\nfunc main() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_security_tag::55",
+  "argv": [
+   "check",
+   "-enable=#security",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "\npackage main\nfunc main() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_appendAssign_variations::56",
+  "argv": [
+   "check",
+   "-enable=appendAssign",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "\npackage main\nfunc main() {\n    s := []int{1, 2, 3}\n    s = append(s, 4)\n    // Different slice operations\n    s = append(s[:1], s[2:]...)\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_command::57",
+  "argv": [
+   "invalid_command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_command::58",
+  "argv": [
+   "invalidcmd"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_h_flag_suggests_help_command::59",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_recursive_all::60",
+  "argv": [
+   "check",
+   "./..."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_nonexistent_file::61",
+  "argv": [
+   "check",
+   "/nonexistent/file.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_non_go_file::62",
+  "argv": [
+   "check",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "not go code"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_invalid_go_syntax::63",
+  "argv": [
+   "check",
+   "bad.go"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.go": "package main\n\nthis is not valid go syntax!!!"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_flag::64",
+  "argv": [
+   "check",
+   "-v",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_checkTests_false::65",
+  "argv": [
+   "check",
+   "-checkTests=false"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_checkGenerated_true::66",
+  "argv": [
+   "check",
+   "-checkGenerated"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exitCode_custom::67",
+  "argv": [
+   "check",
+   "-exitCode=42",
+   "bad.go"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.go": "package main\n\nfunc foo() {\n\tx := 10\n\tx = x + 1\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exitCode_zero_with_issues::68",
+  "argv": [
+   "check",
+   "-exitCode=0",
+   "bad.go"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.go": "package main\n\nfunc foo() {\n\tx := 10\n\tx = x + 1\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shorterErrLocation_default::69",
+  "argv": [
+   "check",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc foo() {\n\tx := 10\n\tx = x + 1\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shorterErrLocation_false::70",
+  "argv": [
+   "check",
+   "-shorterErrLocation=false",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc foo() {\n\tx := 10\n\tx = x + 1\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concurrency_flag::71",
+  "argv": [
+   "check",
+   "-concurrency=1",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_go_version_flag::72",
+  "argv": [
+   "check",
+   "-go=1.20",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cpuprofile_flag::73",
+  "argv": [
+   "check",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_configure_int_parameter::74",
+  "argv": [
+   "check",
+   "-enable=hugeParam",
+   "-@hugeParam.sizeThreshold=50"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_configure_higher_threshold::75",
+  "argv": [
+   "check",
+   "-enable=hugeParam",
+   "-@hugeParam.sizeThreshold=1000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_configure_bool_parameter::76",
+  "argv": [
+   "check",
+   "-enable=captLocal",
+   "-@captLocal.paramsOnly=true",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc foo(x, y, z int) {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_configure_multiple_parameters::77",
+  "argv": [
+   "check",
+   "-enable=hugeParam,rangeExprCopy",
+   "-@hugeParam.sizeThreshold=50",
+   "-@rangeExprCopy.sizeThreshold=256"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_configure_string_parameter::78",
+  "argv": [
+   "check",
+   "-enable=ruleguard",
+   "-@ruleguard.rules="
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rangeExprCopy_threshold::79",
+  "argv": [
+   "check",
+   "-enable=rangeExprCopy",
+   "-@rangeExprCopy.sizeThreshold=256"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rangeValCopy_threshold::80",
+  "argv": [
+   "check",
+   "-enable=rangeValCopy",
+   "-@rangeValCopy.sizeThreshold=100",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc main() {\n\ttype Big [200]byte\n\tslice := []Big{{}}\n\tfor _, v := range slice {\n\t\t_ = v\n\t}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ifElseChain_minThreshold::81",
+  "argv": [
+   "check",
+   "-enable=ifElseChain",
+   "-@ifElseChain.minThreshold=2",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc foo(x int) {\n\tif x == 1 {\n\t\treturn\n\t} else if x == 2 {\n\t\treturn\n\t} else if x == 3 {\n\t\treturn\n\t}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_single_checker::82",
+  "argv": [
+   "check",
+   "-enable=assignOp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_multiple_checkers::83",
+  "argv": [
+   "check",
+   "-enable=assignOp,elseif"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_diagnostic_tag::84",
+  "argv": [
+   "check",
+   "-enable=#diagnostic",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_style_tag::85",
+  "argv": [
+   "check",
+   "-enable=#style"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_performance_tag::86",
+  "argv": [
+   "check",
+   "-enable=#performance",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_single_checker::87",
+  "argv": [
+   "check",
+   "-disable=assignOp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_multiple_checkers::88",
+  "argv": [
+   "check",
+   "-disable=assignOp,elseif"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enableAll_flag::89",
+  "argv": [
+   "check",
+   "-enableAll",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\nfunc main() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enableAll_with_disable::90",
+  "argv": [
+   "check",
+   "-enableAll",
+   "-disable=assignOp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_experimental_tag::91",
+  "argv": [
+   "check",
+   "-enableAll",
+   "-disable=#experimental",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_opinionated_tag::92",
+  "argv": [
+   "check",
+   "-enableAll",
+   "-disable=#opinionated",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_multiple_tags::93",
+  "argv": [
+   "check",
+   "-enable=#diagnostic,#style"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_badCond_checker::94",
+  "argv": [
+   "check",
+   "-enable=badCond",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\nfunc main() {\n\tx := 5\n\tif x == 5 && x == 10 {\n\t\treturn\n\t}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dupSubExpr_checker::95",
+  "argv": [
+   "check",
+   "-enable=dupSubExpr",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\nfunc main() {\n\tx := 5\n\ty := 10\n\tif x > 0 || x > 0 {\n\t\t_ = y\n\t}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dupCase_checker::96",
+  "argv": [
+   "check",
+   "-enable=dupCase",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\nfunc main() {\n\tx := 5\n\tswitch x {\n\tcase 1:\n\t\treturn\n\tcase 1:\n\t\treturn\n\t}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dupBranchBody_checker::97",
+  "argv": [
+   "check",
+   "-enable=dupBranchBody",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\nfunc main() {\n\tx := 5\n\tif x > 0 {\n\t\tprintln(\"positive\")\n\t} else {\n\t\tprintln(\"positive\")\n\t}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flagDeref_checker::98",
+  "argv": [
+   "check",
+   "-enable=flagDeref",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\nimport \"flag\"\nfunc main() {\n\tx := *flag.Bool(\"test\", false, \"test flag\")\n\t_ = x\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_offBy1_checker::99",
+  "argv": [
+   "check",
+   "-enable=offBy1",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\nfunc main() {\n\tslice := []int{1, 2, 3}\n\tif len(slice) >= 1 {\n\t\t_ = slice[len(slice)]\n\t}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sloppyLen_checker::100",
+  "argv": [
+   "check",
+   "-enable=sloppyLen",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\nfunc main() {\n\tif len(\"hello\") >= 0 {\n\t\treturn\n\t}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sloppyTypeAssert_checker::101",
+  "argv": [
+   "check",
+   "-enable=sloppyTypeAssert",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\nfunc main() {\n\tvar x interface{} = \"hello\"\n\t_ = x.(interface{})\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_switchTrue_checker::102",
+  "argv": [
+   "check",
+   "-enable=switchTrue",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\nfunc main() {\n\tx := 5\n\tswitch true {\n\tcase x > 0:\n\t\treturn\n\tcase x < 0:\n\t\treturn\n\t}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_valSwap_checker::103",
+  "argv": [
+   "check",
+   "-enable=valSwap",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\nfunc main() {\n\tx, y := 1, 2\n\ttmp := x\n\tx = y\n\ty = tmp\n\t_, _ = x, y\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_singleCaseSwitch_checker::104",
+  "argv": [
+   "check",
+   "-enable=singleCaseSwitch",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\nfunc main() {\n\tx := 5\n\tswitch x {\n\tcase 5:\n\t\treturn\n\t}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exitAfterDefer_checker::105",
+  "argv": [
+   "check",
+   "-enable=exitAfterDefer",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\nimport \"os\"\nfunc main() {\n\tdefer func() {\n\t\tprintln(\"cleanup\")\n\t}()\n\tos.Exit(1)\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_newDeref_checker::106",
+  "argv": [
+   "check",
+   "-enable=newDeref",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\nfunc main() {\n\tx := *new(int)\n\t_ = x\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_elseif_checker::107",
+  "argv": [
+   "check",
+   "-enable=elseif",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\nfunc main() {\n\tx := 5\n\tif x > 10 {\n\t\treturn\n\t} else {\n\t\tif x < 0 {\n\t\t\treturn\n\t\t}\n\t}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commentFormatting_checker::108",
+  "argv": [
+   "check",
+   "-enable=commentFormatting",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n//comment without space\nfunc main() {\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_captLocal_checker::109",
+  "argv": [
+   "check",
+   "-enable=captLocal",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\nfunc foo(MyParam int) {\n\t_ = MyParam\n}\nfunc main() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_appendAssign_checker::110",
+  "argv": [
+   "check",
+   "-enable=appendAssign",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\nfunc main() {\n\tslice := []int{1, 2, 3}\n\tslice = append(slice, slice[0])\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_argOrder_checker::111",
+  "argv": [
+   "check",
+   "-enable=argOrder",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\nimport \"bytes\"\nfunc main() {\n\tbytes.Equal(nil, []byte{})\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deprecatedComment_checker::112",
+  "argv": [
+   "check",
+   "-enable=deprecatedComment",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n// deprecated: use NewFunc instead\nfunc OldFunc() {\n}\nfunc main() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_codegenComment_checker::113",
+  "argv": [
+   "check",
+   "-enable=codegenComment",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "// This file was automatically generated\npackage main\nfunc main() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_checkers_on_bad_code::114",
+  "argv": [
+   "check",
+   "-enable=assignOp,dupSubExpr",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\nfunc main() {\n\tx := 10\n\tx = x + 1\n\tif x > 0 || x > 0 {\n\t\treturn\n\t}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_performance_checkers::115",
+  "argv": [
+   "check",
+   "-enable=#performance",
+   "-@rangeValCopy.sizeThreshold=100",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\nfunc main() {\n\ttype Big [200]byte\n\tslice := []Big{{}}\n\tfor _, v := range slice {\n\t\t_ = v\n\t}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_multiple_issues_different_checkers::116",
+  "argv": [
+   "check",
+   "-enable=assignOp,dupSubExpr,captLocal,sloppyLen",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc main() {\n\t// Assign op issue\n\tx := 10\n\tx = x + 1\n\t\n\t// DupSubExpr issue\n\tif x > 0 || x > 0 {\n\t\t// CapLocal issue (in params)\n\t\thelper(x)\n\t}\n\t\n\t// SloppyLen issue\n\tif len(\"test\") >= 0 {\n\t\treturn\n\t}\n}\n\nfunc helper(MyParam int) {\n\t_ = MyParam\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_long_package_path::117",
+  "argv": [
+   "check",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package test\n\nfunc Foo() {\n\tx := 10\n\tx = x + 1\n\t_ = x\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_unicode_content::118",
+  "argv": [
+   "check",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc main() {\n\t// 日本語のコメント\n\tx := 10\n\tx = x + 1\n\ts := \"Hello 世界\"\n\t_ = s\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_verbose_with_issue::119",
+  "argv": [
+   "check",
+   "-v",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc main() {\n\tx := 10\n\tx = x + 1\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_enabled_and_disabled_together::120",
+  "argv": [
+   "check",
+   "-enable=assignOp,dupSubExpr",
+   "-disable=dupSubExpr",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc main() {\n\tx := 10\n\tx = x + 1\n\tif x > 0 || x > 0 {\n\t\treturn\n\t}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_tag_and_specific_checker::121",
+  "argv": [
+   "check",
+   "-enable=#style,assignOp",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc main() {\n\tx := 10\n\tx = x + 1\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_different_exit_codes::122",
+  "argv": [
+   "check",
+   "-exitCode=10",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc main() {\n\tx := 10\n\tx = x + 1\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_different_go_versions::123",
+  "argv": [
+   "check",
+   "-go=1.20",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc main() {\n\tx := 10\n\tx = x + 1\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_doc_all_diagnostic_checkers::124",
+  "argv": [
+   "doc",
+   "badCond"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_doc_all_performance_checkers::125",
+  "argv": [
+   "doc",
+   "rangeValCopy"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_concurrency_values::126",
+  "argv": [
+   "check",
+   "-concurrency=1",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc main() {\n\tx := 10\n\tx = x + 1\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_mixed_valid_invalid_files::127",
+  "argv": [
+   "check",
+   "valid.go",
+   "invalid.go"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.go": "package main\n\nfunc Good() {\n\tx := 10\n\tx++\n}\n",
+   "invalid.go": "package main\n\nfunc Bad() {\n\tx := 10\n\tx = x + 1\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_package_level_variables::128",
+  "argv": [
+   "check",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nvar globalVar int\n\nfunc init() {\n\tglobalVar = globalVar + 1\n}\n\nfunc main() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_commented_out_code::129",
+  "argv": [
+   "check",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc main() {\n\t// x := 10\n\t// x = x + 1\n\ty := 20\n\ty = y + 1\n\t_ = y\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_doc_specific_checker::130",
+  "argv": [
+   "doc",
+   "assignOp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_doc_checker_with_parameters::131",
+  "argv": [
+   "doc",
+   "ruleguard"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_doc_checker_with_threshold::132",
+  "argv": [
+   "doc",
+   "hugeParam"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_doc_invalid_checker::133",
+  "argv": [
+   "doc",
+   "invalidCheckerName"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_doc_diagnostic_checker::134",
+  "argv": [
+   "doc",
+   "badCall"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_doc_performance_checker::135",
+  "argv": [
+   "doc",
+   "rangeExprCopy"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_doc_experimental_checker::136",
+  "argv": [
+   "doc",
+   "badLock"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_build_tags::137",
+  "argv": [
+   "check",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "// +build linux\n\npackage main\n\nfunc main() {\n\tx := 10\n\tx = x + 1\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_package_import::138",
+  "argv": [
+   "check",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n)\n\nfunc main() {\n\tx := 10\n\tx = x + 1\n\tfmt.Println(strings.ToUpper(\"hello\"))\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_blank_imports::139",
+  "argv": [
+   "check",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nimport _ \"fmt\"\n\nfunc main() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_type_alias::140",
+  "argv": [
+   "check",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\ntype MyInt = int\n\nfunc main() {\n\tvar x MyInt = 5\n\tx = x + 1\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_struct_methods::141",
+  "argv": [
+   "check",
+   "-enable=assignOp",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\ntype Counter struct {\n\tvalue int\n}\n\nfunc (c *Counter) Inc() {\n\tc.value = c.value + 1\n}\n\nfunc main() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_interface::142",
+  "argv": [
+   "check",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\ntype Reader interface {\n\tRead() string\n}\n\nfunc main() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_goroutine::143",
+  "argv": [
+   "check",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc worker() {\n\tx := 10\n\tx = x + 1\n\t_ = x\n}\n\nfunc main() {\n\tgo worker()\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_channels::144",
+  "argv": [
+   "check",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc main() {\n\tch := make(chan int)\n\tgo func() {\n\t\tch <- 42\n\t}()\n\tx := <-ch\n\tx = x + 1\n\t_ = x\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_defer::145",
+  "argv": [
+   "check",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc main() {\n\tdefer func() {\n\t\tprintln(\"cleanup\")\n\t}()\n\tx := 10\n\tx = x + 1\n\t_ = x\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_init_function::146",
+  "argv": [
+   "check",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc init() {\n\tx := 10\n\tx = x + 1\n\t_ = x\n}\n\nfunc main() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_variadic_function::147",
+  "argv": [
+   "check",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc sum(nums ...int) int {\n\ttotal := 0\n\tfor _, n := range nums {\n\t\ttotal = total + n\n\t}\n\treturn total\n}\n\nfunc main() {\n\tsum(1, 2, 3)\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_constants::148",
+  "argv": [
+   "check",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nconst (\n\tPi = 3.14159\n\tE  = 2.71828\n)\n\nfunc main() {\n\tx := Pi\n\tx = x + 1\n\t_ = x\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_anonymous_func::149",
+  "argv": [
+   "check",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc main() {\n\tfn := func(x int) int {\n\t\tx = x + 1\n\t\treturn x\n\t}\n\tfn(5)\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_closures::150",
+  "argv": [
+   "check",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc makeCounter() func() int {\n\tcount := 0\n\treturn func() int {\n\t\tcount = count + 1\n\t\treturn count\n\t}\n}\n\nfunc main() {\n\tcounter := makeCounter()\n\tcounter()\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_select_statement::151",
+  "argv": [
+   "check",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc main() {\n\tch1 := make(chan int)\n\tch2 := make(chan int)\n\tselect {\n\tcase x := <-ch1:\n\t\tx = x + 1\n\t\t_ = x\n\tcase y := <-ch2:\n\t\ty = y + 1\n\t\t_ = y\n\t}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_type_switch::152",
+  "argv": [
+   "check",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc process(v interface{}) {\n\tswitch x := v.(type) {\n\tcase int:\n\t\t_ = x\n\tcase string:\n\t\t_ = x\n\t}\n}\n\nfunc main() {\n\tprocess(42)\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_embedded_struct::153",
+  "argv": [
+   "check",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\ntype Base struct {\n\tvalue int\n}\n\ntype Derived struct {\n\tBase\n\textra string\n}\n\nfunc main() {\n\td := Derived{}\n\td.value = d.value + 1\n\t_ = d\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_generic_type_syntax::154",
+  "argv": [
+   "check",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc min[T int | float64](a, b T) T {\n\tif a < b {\n\t\treturn a\n\t}\n\treturn b\n}\n\nfunc main() {\n\tmin(1, 2)\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_appendCombine_checker::155",
+  "argv": [
+   "check",
+   "-enable=appendCombine",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc main() {\n\tslice := []int{}\n\tslice = append(slice, 1)\n\tslice = append(slice, 2)\n\tslice = append(slice, 3)\n\t_ = slice\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_badCall_with_strings::156",
+  "argv": [
+   "check",
+   "-enable=badCall",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nimport \"strings\"\n\nfunc main() {\n\ts := \"hello world\"\n\t_ = strings.Index(s, \"o\")\n\t_ = strings.Replace(s, \"l\", \"L\", -1)\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rangeValCopy_on_large_struct::157",
+  "argv": [
+   "check",
+   "-enable=rangeValCopy",
+   "-@rangeValCopy.sizeThreshold=200",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc main() {\n\ttype Big [300]byte\n\tslice := []Big{{}, {}}\n\tfor _, v := range slice {\n\t\t_ = v\n\t}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hugeParam_with_custom_threshold::158",
+  "argv": [
+   "check",
+   "-enable=hugeParam",
+   "-@hugeParam.sizeThreshold=500",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\ntype LargeStruct struct {\n\tData [1000]byte\n}\n\nfunc process(s LargeStruct) {\n\t_ = s\n}\n\nfunc main() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_builtinShadow_checker::159",
+  "argv": [
+   "check",
+   "-enable=builtinShadow",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc main() {\n\tlen := 5\n\t_ = len\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_importShadow_checker::160",
+  "argv": [
+   "check",
+   "-enable=importShadow",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nimport \"fmt\"\n\nfunc main() {\n\tfmt := 5\n\t_ = fmt\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paramTypeCombine_checker::161",
+  "argv": [
+   "check",
+   "-enable=paramTypeCombine",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc foo(a int, b int, c int) {\n\t_, _, _ = a, b, c\n}\n\nfunc main() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_emptyStringTest_checker::162",
+  "argv": [
+   "check",
+   "-enable=emptyStringTest",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc main() {\n\ts := \"hello\"\n\tif len(s) == 0 {\n\t\treturn\n\t}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hexLiteral_checker::163",
+  "argv": [
+   "check",
+   "-enable=hexLiteral",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc main() {\n\tx := 0xAbCd\n\t_ = x\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_octalLiteral_checker::164",
+  "argv": [
+   "check",
+   "-enable=octalLiteral",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc main() {\n\tx := 0755\n\t_ = x\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stringXbytes_checker::165",
+  "argv": [
+   "check",
+   "-enable=stringXbytes",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nimport \"bytes\"\n\nfunc main() {\n\ts := \"hello\"\n\t_ = bytes.Equal([]byte(s), []byte(\"hello\"))\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_indexAlloc_checker::166",
+  "argv": [
+   "check",
+   "-enable=indexAlloc",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc main() {\n\tm := make(map[int]string)\n\tfor i := 0; i < 10; i++ {\n\t\tm[i] = \"value\"\n\t}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_equalFold_checker::167",
+  "argv": [
+   "check",
+   "-enable=equalFold",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nimport \"strings\"\n\nfunc main() {\n\ta := \"Hello\"\n\tb := \"hello\"\n\tif strings.ToLower(a) == strings.ToLower(b) {\n\t\treturn\n\t}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preferStringWriter_checker::168",
+  "argv": [
+   "check",
+   "-enable=preferStringWriter",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nimport (\n\t\"bytes\"\n)\n\nfunc main() {\n\tvar buf bytes.Buffer\n\tbuf.Write([]byte(\"hello\"))\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preferFprint_checker::169",
+  "argv": [
+   "check",
+   "-enable=preferFprint",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nimport (\n\t\"bytes\"\n\t\"fmt\"\n)\n\nfunc main() {\n\tvar buf bytes.Buffer\n\tfmt.Fprint(&buf, \"hello\")\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_docStub_checker::170",
+  "argv": [
+   "check",
+   "-enable=docStub",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\n// TODO: document this\nfunc Foo() {}\n\nfunc main() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_emptyFallthrough_checker::171",
+  "argv": [
+   "check",
+   "-enable=emptyFallthrough",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc main() {\n\tx := 5\n\tswitch x {\n\tcase 1:\n\t\tfallthrough\n\tcase 2:\n\t\treturn\n\t}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zeroByteRepeat_checker::172",
+  "argv": [
+   "check",
+   "-enable=zeroByteRepeat",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nimport \"bytes\"\n\nfunc main() {\n\t_ = bytes.Repeat([]byte{0}, 10)\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_appendAssign_with_slice_append::173",
+  "argv": [
+   "check",
+   "-enable=appendAssign",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc main() {\n\ts := []int{1, 2, 3}\n\ts = append(s[:len(s)-1], s[0])\n\t_ = s\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_badCond_with_less_and_greater::174",
+  "argv": [
+   "check",
+   "-enable=badCond",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc main() {\n\tx := 5\n\tif x < 10 && x > 10 {\n\t\treturn\n\t}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_badCond_with_greater_and_less::175",
+  "argv": [
+   "check",
+   "-enable=badCond",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc main() {\n\tx := 5\n\tif x > 10 && x < 10 {\n\t\treturn\n\t}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_badCond_with_for_loop::176",
+  "argv": [
+   "check",
+   "-enable=badCond",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc main() {\n\tfor i := 0; i < 10 && i > 10; i++ {\n\t\tprintln(i)\n\t}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_appendCombine_multiple_appends::177",
+  "argv": [
+   "check",
+   "-enable=appendCombine",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc main() {\n\tvar s []int\n\ts = append(s, 1)\n\ts = append(s, 2)\n\ts = append(s, 3)\n\ts = append(s, 4)\n\t_ = s\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_appendCombine_with_same_slice::178",
+  "argv": [
+   "check",
+   "-enable=appendCombine",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc build() []string {\n\tresult := []string{}\n\tresult = append(result, \"a\")\n\tresult = append(result, \"b\")\n\tresult = append(result, \"c\")\n\treturn result\n}\n\nfunc main() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nestingReduce_checker::179",
+  "argv": [
+   "check",
+   "-enable=nestingReduce",
+   "-@nestingReduce.bodyWidth=5",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc main() {\n\tx := 5\n\tif x > 0 {\n\t\tprintln(\"a\")\n\t\tprintln(\"b\")\n\t\tprintln(\"c\")\n\t\tprintln(\"d\")\n\t\tprintln(\"e\")\n\t\tprintln(\"f\")\n\t\tif x < 10 {\n\t\t\tprintln(\"nested\")\n\t\t}\n\t}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commentedOutCode_checker::180",
+  "argv": [
+   "check",
+   "-enable=commentedOutCode",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc main() {\n\t// x := someFunction()\n\t// y := anotherFunction(x)\n\t// return processResult(y)\n\tprintln(\"actual code\")\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deferInLoop_checker::181",
+  "argv": [
+   "check",
+   "-enable=deferInLoop",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nimport \"os\"\n\nfunc main() {\n\tfor i := 0; i < 10; i++ {\n\t\tf, _ := os.Open(\"test.txt\")\n\t\tdefer f.Close()\n\t}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deferUnlambda_checker::182",
+  "argv": [
+   "check",
+   "-enable=deferUnlambda",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc cleanup() {\n\tprintln(\"cleanup\")\n}\n\nfunc main() {\n\tdefer func() {\n\t\tcleanup()\n\t}()\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dupImport_checker::183",
+  "argv": [
+   "check",
+   "-enable=dupImport",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nimport (\n\t\"fmt\"\n\tf \"fmt\"\n)\n\nfunc main() {\n\tfmt.Println(\"hello\")\n\tf.Println(\"world\")\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_emptyDecl_checker::184",
+  "argv": [
+   "check",
+   "-enable=emptyDecl",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nvar ()\n\nfunc main() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exposedSyncMutex_checker::185",
+  "argv": [
+   "check",
+   "-enable=exposedSyncMutex",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nimport \"sync\"\n\ntype Counter struct {\n\tsync.Mutex\n\tvalue int\n}\n\nfunc main() {\n\tvar c Counter\n\tc.Lock()\n\tc.value++\n\tc.Unlock()\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_initClause_checker::186",
+  "argv": [
+   "check",
+   "-enable=initClause",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc foo() int {\n\treturn 5\n}\n\nfunc main() {\n\tif foo(); true {\n\t\treturn\n\t}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_methodExprCall_checker::187",
+  "argv": [
+   "check",
+   "-enable=methodExprCall",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\ntype T struct{}\n\nfunc (t T) Method() {}\n\nfunc main() {\n\tvar t T\n\t(T).Method(t)\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_cmd_gocritic_shorten_location_workdir_relative::188",
+  "argv": [
+   "check",
+   "file.go"
+  ],
+  "stdin": null,
+  "files": {
+   "file.go": "package p\n\nfunc f() {\n\tpositives := []int{}\n\tnegatives := []int{}\n\tx := 1\n\tpositives = append(negatives, x)\n\t_ = positives\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_go_version_parse_and_compare_via_flag_guard::189",
+  "argv": [
+   "check",
+   "-go=goBAD"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_message_matches_original_style::190",
+  "argv": [
+   "definitely_not_a_real_subcommand"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

@@ -1,0 +1,16 @@
+{
+  "schema": "determinex-repair-loop-transcript-v1",
+  "tool": "sympy", "family": "python", "pinned_commit": "39e29cd3",
+  "repair_type": "seeded_defect (behavioral) - verifier is the project's OWN pytest suite (no Docker, no build)",
+  "toolchain": "python 3.11 venv, pip install -e . + pytest + hypothesis",
+  "oracle": "the real sympy/sympy repo's own test suite: `pytest sympy/core/tests/test_numbers.py`",
+  "defect": {"file": "sympy/core/numbers.py", "function": "Rational.__abs__",
+    "seed": "`return Rational(abs(self.p), self.q)` -> `return Rational(self.p, self.q)` (drop abs)",
+    "intent": "break the absolute-value contract for Rational/Integer"},
+  "detect": {"baseline": "112 passed, 1 skipped", "after_seed": "1 failed, 111 passed, 1 skipped", "oracle_caught": true,
+    "failure_signature": "abs() test for rationals/integers failed once the abs() fold was removed"},
+  "repair": {"fix": "restore `Rational(abs(self.p), self.q)`", "oracle_guided": "the failing abs test points at __abs__"},
+  "reverify": {"after": "112 passed, 1 skipped (== baseline; repaired source == upstream @39e29cd3)", "passed": 112, "failures": 0},
+  "repair_loop_status": "passed",
+  "proves": "closed-loop repair on a real external Python project (sympy): its OWN pytest suite detects the injected abs() defect -> targeted fix -> re-verify green. Reproducible locally with pip + pytest, no Docker."
+}

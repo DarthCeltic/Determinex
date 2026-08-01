@@ -1,0 +1,29 @@
+{
+  "schema": "determinex-repair-loop-transcript-v1",
+  "tool": "boltons",
+  "family": "rust",
+  "pinned_commit": "207651e",
+  "repair_type": "seeded_defect (behavioral) - verifier is the project's OWN test suite in a python:3.12 image (toolchain via provider; Docker-OPTIONAL)",
+  "toolchain": "python:3.12",
+  "oracle": "the real mahmoud/boltons repo's own tests: python -m pytest tests/test_iterutils.py -q",
+  "defect": {
+    "file": "boltons/iterutils.py",
+    "seed": "        cur_chunk = list(itertools.islice(src_iter, size)) ->         cur_chunk = list(itertools.islice(src_iter, size + 1))"
+  },
+  "detect": {
+    "baseline": "43 passed in 0.19s",
+    "after_seed": "test suite FAILED (exit 1)",
+    "oracle_caught": true,
+    "failure_signature": "seeded defect made the project's own test suite exit non-zero"
+  },
+  "repair": {
+    "fix": "git checkout (restore upstream source)"
+  },
+  "reverify": {
+    "after": "43 passed in 0.11s",
+    "passed": 43,
+    "failures": 0
+  },
+  "repair_loop_status": "passed",
+  "proves": "closed-loop repair on a real external rust project (boltons): its OWN test suite detects the injected defect -> fix -> re-verify (43 passed in 0.11s). Reproducible."
+}

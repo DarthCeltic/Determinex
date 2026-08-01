@@ -1,0 +1,963 @@
+[
+ {
+  "name": "test::test_help_flag_shows_help_on_stdout::0",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_flag::1",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::2",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_short_flag::3",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_subcommand::4",
+  "argv": [
+   "invalid_subcommand"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_help::5",
+  "argv": [
+   "add",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_version_flag::6",
+  "argv": [
+   "add",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_existing_directory::7",
+  "argv": [
+   "add",
+   "/tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_nonexistent_directory_fails::8",
+  "argv": [
+   "add",
+   "/nonexistent_xyz_abc_123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_multiple_paths::9",
+  "argv": [
+   "add",
+   "/tmp",
+   "/home"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_custom_score::10",
+  "argv": [
+   "add",
+   "/tmp",
+   "--score",
+   "10.0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_short_score_flag::11",
+  "argv": [
+   "add",
+   "/tmp",
+   "-s",
+   "3.0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_increments_existing_rank::12",
+  "argv": [
+   "add",
+   "/tmp",
+   "--score",
+   "5.0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_no_args_fails::13",
+  "argv": [
+   "add"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_file_not_directory_fails::14",
+  "argv": [
+   "add",
+   "test_file.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test_file.txt": "hello"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_help::15",
+  "argv": [
+   "query",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_version_flag::16",
+  "argv": [
+   "query",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_empty_database::17",
+  "argv": [
+   "query",
+   "anything"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_multiple_keywords::18",
+  "argv": [
+   "add",
+   "/usr/local/bin"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_all_flag_shows_nonexistent::19",
+  "argv": [
+   "import",
+   "--from",
+   "z"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_interactive_and_list_conflict::20",
+  "argv": [
+   "query",
+   "--interactive",
+   "--list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_help::21",
+  "argv": [
+   "remove",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_version_flag::22",
+  "argv": [
+   "remove",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_nonexistent_entry_fails::23",
+  "argv": [
+   "remove",
+   "/nonexistent_xyz_abc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_error_message_contains_path::24",
+  "argv": [
+   "remove",
+   "/some/nonexistent/path/xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_help::25",
+  "argv": [
+   "import",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_version_flag::26",
+  "argv": [
+   "import",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_from_autojump::27",
+  "argv": [
+   "import",
+   "--from",
+   "autojump",
+   "autojump.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "autojump.txt": "7.0\t/tmp\n5.0\t/home\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_from_z::28",
+  "argv": [
+   "import",
+   "--from",
+   "z",
+   "z_data.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "z_data.txt": "/tmp|10|1700000000\n/home|5|1600000000\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_from_fasd_alias::29",
+  "argv": [
+   "import",
+   "--from",
+   "fasd",
+   "fasd_data.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "fasd_data.txt": "/tmp|10|1700000000\n/home|5|1600000000\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_nonexistent_file_fails::30",
+  "argv": [
+   "import",
+   "--from",
+   "autojump",
+   "/nonexistent_file_xyz.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_invalid_from_value::31",
+  "argv": [
+   "import",
+   "--from",
+   "invalid_app",
+   "import.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "import.txt": "data"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_missing_from_flag::32",
+  "argv": [
+   "import",
+   "import.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "import.txt": "data"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_autojump_rank_normalized_via_sigmoid::33",
+  "argv": [
+   "import",
+   "--from",
+   "autojump",
+   "autojump.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "autojump.txt": "100.0\t/tmp\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_z_format_empty_lines_ignored::34",
+  "argv": [
+   "import",
+   "--from",
+   "z",
+   "z_data.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "z_data.txt": "/tmp|10|1700000000\n\n/home|5|1600000000\n\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_z_invalid_format::35",
+  "argv": [
+   "import",
+   "--from",
+   "z",
+   "z_data.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "z_data.txt": "invalid_no_pipes\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_autojump_invalid_format::36",
+  "argv": [
+   "import",
+   "--from",
+   "autojump",
+   "autojump.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "autojump.txt": "no_tab_here\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_autojump_empty_lines_ignored::37",
+  "argv": [
+   "import",
+   "--from",
+   "autojump",
+   "autojump.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "autojump.txt": "7.0\t/tmp\n\n5.0\t/home\n\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_z_deduplicates::38",
+  "argv": [
+   "import",
+   "--from",
+   "z",
+   "z.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "z.txt": "/tmp|5|1700000000\n/tmp|3|1600000000\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_autojump_deduplicates::39",
+  "argv": [
+   "import",
+   "--from",
+   "autojump",
+   "autojump.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "autojump.txt": "5.0\t/tmp\n3.0\t/tmp\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_help::40",
+  "argv": [
+   "init",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_version_flag::41",
+  "argv": [
+   "init",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_bash::42",
+  "argv": [
+   "init",
+   "bash"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_zsh::43",
+  "argv": [
+   "init",
+   "zsh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_fish::44",
+  "argv": [
+   "init",
+   "fish"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_nushell::45",
+  "argv": [
+   "init",
+   "nushell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_posix::46",
+  "argv": [
+   "init",
+   "posix"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_powershell::47",
+  "argv": [
+   "init",
+   "powershell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_tcsh::48",
+  "argv": [
+   "init",
+   "tcsh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_xonsh::49",
+  "argv": [
+   "init",
+   "xonsh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_elvish::50",
+  "argv": [
+   "init",
+   "elvish"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_bash_no_cmd::51",
+  "argv": [
+   "init",
+   "bash",
+   "--no-cmd"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_bash_custom_cmd::52",
+  "argv": [
+   "init",
+   "bash",
+   "--cmd",
+   "j"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_bash_hook_none::53",
+  "argv": [
+   "init",
+   "bash",
+   "--hook",
+   "none"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_bash_hook_prompt::54",
+  "argv": [
+   "init",
+   "bash",
+   "--hook",
+   "prompt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_bash_hook_pwd::55",
+  "argv": [
+   "init",
+   "bash",
+   "--hook",
+   "pwd"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_invalid_shell::56",
+  "argv": [
+   "init",
+   "invalidshell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_invalid_hook::57",
+  "argv": [
+   "init",
+   "bash",
+   "--hook",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_posix_alias_ksh::58",
+  "argv": [
+   "init",
+   "ksh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_output_is_not_empty_all_shells::59",
+  "argv": [
+   "init"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_help::60",
+  "argv": [
+   "edit",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_version_flag::61",
+  "argv": [
+   "edit",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_adds_accumulate::62",
+  "argv": [
+   "query",
+   "--list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_higher_score_ranked_first::63",
+  "argv": [
+   "add",
+   "/tmp",
+   "--score",
+   "1.0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_score_clamped_at_maximum_9999::64",
+  "argv": [
+   "add",
+   "/tmp",
+   "--score",
+   "99999.0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_messages_prefixed_with_zoxide::65",
+  "argv": [
+   "add",
+   "/nonexistent_xyz_abc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "_ZO_DATA_DIR": "/tmp/test_errors"
+  }
+ },
+ {
+  "name": "test::test_query_error_on_no_match::66",
+  "argv": [
+   "query",
+   "definitely_not_matching_anything_xyz_abc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_error_message_contains_path::67",
+  "argv": [
+   "add",
+   "/nonexistent_xyz_path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_home_directory::68",
+  "argv": [
+   "add",
+   "/home"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_empty_file::69",
+  "argv": [
+   "import",
+   "--from",
+   "z",
+   "empty.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.txt": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_z_invalid_rank::70",
+  "argv": [
+   "import",
+   "--from",
+   "z",
+   "z.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "z.txt": "/tmp|notanumber|1700000000\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_autojump_invalid_rank::71",
+  "argv": [
+   "import",
+   "--from",
+   "autojump",
+   "autojump.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "autojump.txt": "notanumber\t/tmp\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_z_missing_epoch::72",
+  "argv": [
+   "import",
+   "--from",
+   "z",
+   "z.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "z.txt": "/tmp|10\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

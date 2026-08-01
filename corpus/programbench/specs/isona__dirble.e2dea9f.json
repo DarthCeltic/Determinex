@@ -1,0 +1,2385 @@
+{
+ "slug": "isona__dirble.e2dea9f",
+ "language": "",
+ "n_branches": 13,
+ "n_tests_total": 1015,
+ "n_examples": 105,
+ "n_with_exact_stdout": 4,
+ "n_with_rc": 83,
+ "n_skipped": 884,
+ "examples": [
+  {
+   "test": "test_basic_scan",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "--max-threads",
+    "2",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "admin",
+    "config",
+    "localhost"
+   ],
+   "files": {
+    "wordlist.txt": "admin\nconfig\nnotfound\n"
+   },
+   "ci": false,
+   "source": "test_actual_scanning.py:98"
+  },
+  {
+   "test": "test_scan_with_extension",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "-x",
+    ".php,.html",
+    "--max-threads",
+    "2",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "localhost"
+   ],
+   "files": {
+    "wordlist.txt": "admin\nconfig\n"
+   },
+   "ci": false,
+   "source": "test_actual_scanning.py:114"
+  },
+  {
+   "test": "test_disable_recursion_scan",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "-r",
+    "--max-threads",
+    "2",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "localhost"
+   ],
+   "files": {
+    "wordlist.txt": "admin\nhidden\n"
+   },
+   "ci": false,
+   "source": "test_actual_scanning.py:190"
+  },
+  {
+   "test": "test_scan_with_head_verb",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "--verb",
+    "head",
+    "--max-threads",
+    "2",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "localhost"
+   ],
+   "files": {
+    "wordlist.txt": "admin\nconfig\n"
+   },
+   "ci": false,
+   "source": "test_actual_scanning.py:234"
+  },
+  {
+   "test": "test_scan_with_post_verb",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "--verb",
+    "post",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "localhost"
+   ],
+   "files": {
+    "wordlist.txt": "admin\n"
+   },
+   "ci": false,
+   "source": "test_actual_scanning.py:248"
+  },
+  {
+   "test": "test_scan_with_prefixes",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "-p",
+    "ad,c",
+    "--max-threads",
+    "2",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "localhost"
+   ],
+   "files": {
+    "wordlist.txt": "min\nonfig\n"
+   },
+   "ci": false,
+   "source": "test_actual_scanning.py:262"
+  },
+  {
+   "test": "test_scan_with_multiple_extensions",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "-x",
+    ".php,.html,.jsp,.txt",
+    "--max-threads",
+    "2",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "localhost"
+   ],
+   "files": {
+    "wordlist.txt": "admin\n"
+   },
+   "ci": false,
+   "source": "test_actual_scanning.py:276"
+  },
+  {
+   "test": "test_scan_with_throttle",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "-z",
+    "50",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "localhost"
+   ],
+   "files": {
+    "wordlist.txt": "admin\nconfig\n"
+   },
+   "ci": false,
+   "source": "test_actual_scanning.py:290"
+  },
+  {
+   "test": "test_scan_with_silent_mode",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "-S",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wordlist.txt": "admin\n"
+   },
+   "ci": false,
+   "source": "test_actual_scanning.py:304"
+  },
+  {
+   "test": "test_scan_with_no_color",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "--no-color",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "localhost"
+   ],
+   "files": {
+    "wordlist.txt": "admin\n"
+   },
+   "ci": false,
+   "source": "test_actual_scanning.py:322"
+  },
+  {
+   "test": "test_scan_with_custom_timeout",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "--timeout",
+    "10",
+    "--max-threads",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "localhost"
+   ],
+   "files": {
+    "wordlist.txt": "admin\n"
+   },
+   "ci": false,
+   "source": "test_actual_scanning.py:336"
+  },
+  {
+   "test": "test_scan_with_wordlist_split",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "-T",
+    "2",
+    "--max-threads",
+    "4",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "localhost"
+   ],
+   "files": {
+    "wordlist.txt": "admin\nconfig\ntest\npage\n"
+   },
+   "ci": false,
+   "source": "test_actual_scanning.py:379"
+  },
+  {
+   "test": "test_scan_with_cookies",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "-c",
+    "session=test123",
+    "-c",
+    "token=abc",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "localhost"
+   ],
+   "files": {
+    "wordlist.txt": "admin\n"
+   },
+   "ci": false,
+   "source": "test_actual_scanning.py:393"
+  },
+  {
+   "test": "test_scan_with_custom_headers",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "-H",
+    "X-Custom-Header:value",
+    "-H",
+    "Authorization:Bearer token",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "localhost"
+   ],
+   "files": {
+    "wordlist.txt": "admin\n"
+   },
+   "ci": false,
+   "source": "test_actual_scanning.py:408"
+  },
+  {
+   "test": "test_scan_with_user_agent",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "-a",
+    "CustomBot/1.0",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "localhost"
+   ],
+   "files": {
+    "wordlist.txt": "admin\n"
+   },
+   "ci": false,
+   "source": "test_actual_scanning.py:423"
+  },
+  {
+   "test": "test_scan_all_output_formats",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "--output-all",
+    "--max-threads",
+    "2",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "admin"
+   ],
+   "files": {
+    "wordlist.txt": "admin\nconfig\n"
+   },
+   "ci": true,
+   "source": "test_actual_scanning.py:437"
+  },
+  {
+   "test": "test_scan_with_forced_extensions",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "-x",
+    ".php",
+    "-f",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "localhost"
+   ],
+   "files": {
+    "wordlist.txt": "admin\nconfig\n"
+   },
+   "ci": false,
+   "source": "test_actual_scanning.py:471"
+  },
+  {
+   "test": "test_scan_with_high_threads",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "--max-threads",
+    "20",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "localhost"
+   ],
+   "files": {
+    "wordlist.txt": "admin\nconfig\ntest\npage\nuser\n"
+   },
+   "ci": false,
+   "source": "test_actual_scanning.py:486"
+  },
+  {
+   "test": "test_htaccess_filtering",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "2",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".ht"
+   ],
+   "files": {
+    "wordlist.txt": ".htaccess\n.htpasswd\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:97"
+  },
+  {
+   "test": "test_401_directory_scanning",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "2",
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "admin",
+    "admin"
+   ],
+   "files": {
+    "wordlist.txt": "admin\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:129"
+  },
+  {
+   "test": "test_403_directory_scanning",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "2",
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "protected",
+    "protected"
+   ],
+   "files": {
+    "wordlist.txt": "protected\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:160"
+  },
+  {
+   "test": "test_redirect_detection",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "2",
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "redirect-test"
+   ],
+   "files": {
+    "wordlist.txt": "redirect-test\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:189"
+  },
+  {
+   "test": "test_validator_disabled",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "--disable-validator",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wordlist.txt": "test\nnonexist\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:208"
+  },
+  {
+   "test": "test_varying_length_detection",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "--max-threads",
+    "1",
+    "--wordlist-split",
+    "1",
+    "--timeout",
+    "2",
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wordlist.txt": "varying-length\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:225"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Dirble",
+    "."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:242"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "wordlist",
+    "extension"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_additional_coverage.py:252"
+  },
+  {
+   "test": "test_code_blacklist_multiple_codes",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "-B",
+    "401,403,404",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wordlist.txt": "admin\nprotected\n.htaccess\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:293"
+  },
+  {
+   "test": "test_code_whitelist",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "-W",
+    "401,403",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wordlist.txt": "admin\nprotected\ntest\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:310"
+  },
+  {
+   "test": "test_length_blacklist_single",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "--hide-lengths",
+    "40",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wordlist.txt": "test1\ntest2\ntest3\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:327"
+  },
+  {
+   "test": "test_length_blacklist_range",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "--hide-lengths",
+    "30-50",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wordlist.txt": "test1\ntest2\ntest3\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:342"
+  },
+  {
+   "test": "test_multiple_length_ranges",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "--hide-lengths",
+    "10-20,30-40,50",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wordlist.txt": "test1\ntest2\ntest3\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:357"
+  },
+  {
+   "test": "test_extension_substitution",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "-x",
+    ".php,.html",
+    "--ext-sub",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wordlist.txt": "file%EXT%\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:372"
+  },
+  {
+   "test": "test_wordlist_with_force_extension",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "-x",
+    ".php",
+    "-f",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wordlist.txt": "test\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:389"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Fast directory scanning",
+    "Usage:",
+    "Options:",
+    "--wordlist",
+    "--extensions",
+    "--max-threads",
+    "OUTPUT FORMAT:",
+    "EXAMPLE USE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:14"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Fast directory scanning",
+    "Usage:",
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:27"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Dirble"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:35"
+  },
+  {
+   "test": "test_version_short_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Dirble"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:45"
+  },
+  {
+   "test": "test_help_takes_precedence",
+   "argv": [
+    "--help",
+    "--max-threads",
+    "5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Fast directory scanning"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:58"
+  },
+  {
+   "test": "test_varying_404_length_validator",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "--max-threads",
+    "1",
+    "--wordlist-split",
+    "1",
+    "--timeout",
+    "3",
+    "-v",
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wordlist.txt": "test-a\ntest-bb\ntest-ccc\ntest-dddd\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:64"
+  },
+  {
+   "test": "test_https_redirect_detection",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "3",
+    "-v",
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wordlist.txt": "http-dir\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:99"
+  },
+  {
+   "test": "test_duplicate_detection",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "-x",
+    ".php,.html",
+    "--max-threads",
+    "2",
+    "--timeout",
+    "2",
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wordlist.txt": "test\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:132"
+  },
+  {
+   "test": "test_xml_output_format",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "--xml-file",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wordlist.txt": "test\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:183"
+  },
+  {
+   "test": "test_text_output_format",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "--output-file",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wordlist.txt": "test\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:200"
+  },
+  {
+   "test": "test_multiple_hosts_from_file",
+   "argv": [
+    "-U",
+    "-w",
+    "wordlist.txt",
+    "--max-threads",
+    "2",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wordlist.txt": "test\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:217"
+  },
+  {
+   "test": "test_cookie_and_header_combination",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "-c",
+    "session=abc123",
+    "-c",
+    "token=xyz789",
+    "-H",
+    "X-Custom:value",
+    "-H",
+    "Authorization:Bearer test",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wordlist.txt": "test\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:231"
+  },
+  {
+   "test": "test_basic_auth_credentials",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "--username",
+    "admin",
+    "--password",
+    "secret",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wordlist.txt": "test\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:248"
+  },
+  {
+   "test": "test_url_with_path",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wordlist.txt": "test\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:305"
+  },
+  {
+   "test": "test_complex_html1_parsing",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "--scrape-listable",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "3",
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wordlist.txt": "html1\n"
+   },
+   "ci": false,
+   "source": "test_html_parsing.py:175"
+  },
+  {
+   "test": "test_multiple_html_directories",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "--scrape-listable",
+    "--max-threads",
+    "2",
+    "--wordlist-split",
+    "2",
+    "--timeout",
+    "3",
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wordlist.txt": "html1\nhtml2\nhtml3\nhtml4\nhtml5\n"
+   },
+   "ci": false,
+   "source": "test_html_parsing.py:260"
+  },
+  {
+   "test": "test_recursive_html_scraping",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "--scrape-listable",
+    "--max-recursion-depth",
+    "2",
+    "--max-threads",
+    "2",
+    "--timeout",
+    "3",
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wordlist.txt": "html1\nhtml2\n"
+   },
+   "ci": false,
+   "source": "test_html_parsing.py:278"
+  },
+  {
+   "test": "test_html_with_images_and_links",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "--scrape-listable",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wordlist.txt": "test\n"
+   },
+   "ci": false,
+   "source": "test_html_parsing.py:296"
+  },
+  {
+   "test": "test_very_large_html",
+   "argv": [
+    "-w",
+    "--scrape-listable",
+    "--max-threads",
+    "3",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_html_parsing.py:367"
+  },
+  {
+   "test": "test_listable_directory_detection",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "--scan-listable",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "2",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "listable"
+   ],
+   "files": {
+    "wordlist.txt": "listable\n"
+   },
+   "ci": true,
+   "source": "test_listable_scraping.py:135"
+  },
+  {
+   "test": "test_listable_relative_paths",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "--scrape-listable",
+    "--scan-listable",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wordlist.txt": "listable\n"
+   },
+   "ci": false,
+   "source": "test_listable_scraping.py:171"
+  },
+  {
+   "test": "test_listable_with_subdirectory",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "--scrape-listable",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wordlist.txt": "listable\n"
+   },
+   "ci": false,
+   "source": "test_listable_scraping.py:189"
+  },
+  {
+   "test": "test_listable_filters_parent_links",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "--scrape-listable",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "2",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wordlist.txt": "listable\n"
+   },
+   "ci": false,
+   "source": "test_listable_scraping.py:206"
+  },
+  {
+   "test": "test_listable_directory_listing_marker",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "--scan-listable",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "2",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wordlist.txt": "listable\nlistable3\n"
+   },
+   "ci": false,
+   "source": "test_listable_scraping.py:274"
+  },
+  {
+   "test": "test_listable_https_urls",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "--scrape-listable",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "2",
+    "-r",
+    "-k"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wordlist.txt": "listable\n"
+   },
+   "ci": false,
+   "source": "test_listable_scraping.py:341"
+  },
+  {
+   "test": "test_complex_listable_scraping",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "--scrape-listable",
+    "--max-threads",
+    "2",
+    "--wordlist-split",
+    "1",
+    "--timeout",
+    "2",
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wordlist.txt": "listable-complex\n"
+   },
+   "ci": false,
+   "source": "test_more_coverage.py:116"
+  },
+  {
+   "test": "test_varying_length_404_detection",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "--max-threads",
+    "1",
+    "--wordlist-split",
+    "1",
+    "--timeout",
+    "2",
+    "-v",
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wordlist.txt": "varying-404-a\nvarying-404-bb\nvarying-404-ccc\n"
+   },
+   "ci": false,
+   "source": "test_more_coverage.py:153"
+  },
+  {
+   "test": "test_recursive_scanning_depth",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "--scrape-listable",
+    "--max-recursion-depth",
+    "0",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wordlist.txt": "listable-complex\n"
+   },
+   "ci": false,
+   "source": "test_more_coverage.py:187"
+  },
+  {
+   "test": "test_http_head_request_method",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "--verb",
+    "head",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wordlist.txt": "test\nnonexist\n"
+   },
+   "ci": false,
+   "source": "test_more_coverage.py:214"
+  },
+  {
+   "test": "test_http_post_request_method",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "--verb",
+    "post",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wordlist.txt": "test\nnonexist\n"
+   },
+   "ci": false,
+   "source": "test_more_coverage.py:229"
+  },
+  {
+   "test": "test_very_verbose_output",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "-v",
+    "-v",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wordlist.txt": "test\n"
+   },
+   "ci": false,
+   "source": "test_more_coverage.py:244"
+  },
+  {
+   "test": "test_single_verbose_output",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "-v",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wordlist.txt": "test\n"
+   },
+   "ci": false,
+   "source": "test_more_coverage.py:260"
+  },
+  {
+   "test": "test_multiple_wordlist_files",
+   "argv": [
+    "-w",
+    "wl1.txt",
+    "-w",
+    "wl2.txt",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wl1.txt": "test1\n",
+    "wl2.txt": "test2\n"
+   },
+   "ci": false,
+   "source": "test_more_coverage.py:275"
+  },
+  {
+   "test": "test_prefix_and_extension_combination",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "-p",
+    "test_,backup_",
+    "-x",
+    ".php,.html",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wordlist.txt": "file\n"
+   },
+   "ci": false,
+   "source": "test_more_coverage.py:291"
+  },
+  {
+   "test": "test_prefix_file",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "-P",
+    "prefixes.txt",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wordlist.txt": "file\n",
+    "prefixes.txt": "old_\nnew_\n"
+   },
+   "ci": false,
+   "source": "test_more_coverage.py:308"
+  },
+  {
+   "test": "test_extension_file",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "-X",
+    "extensions.txt",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wordlist.txt": "file\n",
+    "extensions.txt": ".php\n.html\n.asp\n"
+   },
+   "ci": false,
+   "source": "test_more_coverage.py:324"
+  },
+  {
+   "test": "test_multiple_uri_sources",
+   "argv": [
+    "-u",
+    "-w",
+    "wordlist.txt",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wordlist.txt": "test\n"
+   },
+   "ci": false,
+   "source": "test_more_coverage.py:340"
+  },
+  {
+   "test": "test_uri_file",
+   "argv": [
+    "-U",
+    "-w",
+    "wordlist.txt",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wordlist.txt": "test\n"
+   },
+   "ci": false,
+   "source": "test_more_coverage.py:355"
+  },
+  {
+   "test": "test_mixed_response_codes",
+   "argv": [
+    "-w",
+    "wordlist.txt",
+    "--max-threads",
+    "2",
+    "--timeout",
+    "2",
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wordlist.txt": "listable-complex\nvarying-404-a\nsame-length-404-a\n"
+   },
+   "ci": false,
+   "source": "test_more_coverage.py:370"
+  },
+  {
+   "test": "test_default_wordlist",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dirble_wordlist.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wordlist.py:6"
+  },
+  {
+   "test": "test_wordlist_with_comments",
+   "argv": [
+    "http://localhost:9999",
+    "-w",
+    "wordlist.txt",
+    "--max-threads",
+    "1",
+    "--timeout",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wordlist.txt": "admin\n\nconfig\ntest\n  spaces  \n"
+   },
+   "ci": false,
+   "source": "test_wordlist.py:49"
+  },
+  {
+   "test": "test_architecture_summary",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable [OPTIONS]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:324"
+  },
+  {
+   "test": "test_help_shows_no_subcommands",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:41"
+  },
+  {
+   "test": "test_version_flag_works",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:54"
+  },
+  {
+   "test": "test_help_flag_is_not_subcommand",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:121"
+  },
+  {
+   "test": "test_h_short_flag_works",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage:"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:131"
+  },
+  {
+   "test": "test_help_flag_position_invariant",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage:",
+    "usage:"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:151"
+  },
+  {
+   "test": "test_no_persubcommand_help",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:238"
+  },
+  {
+   "test": "test_help_describes_single_mode",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:266"
+  },
+  {
+   "test": "test_dash_h_matches_dash_dash_help_exactly",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:151"
+  },
+  {
+   "test": "test_help_takes_precedence_over_unknown_flags",
+   "argv": [
+    "--help",
+    "--definitely-not-a-real-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:159"
+  },
+  {
+   "test": "test_help_after_double_dash_is_not_parsed_as_help",
+   "argv": [
+    "--",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "For more information, try '--help'."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:167"
+  },
+  {
+   "test": "test_invalid_uri_error_message_points_to_help",
+   "argv": [
+    "--",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error:",
+    "try '--help'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:175"
+  },
+  {
+   "test": "test_help_prints_and_exits_0",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--wordlist"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_version_and_errors.py:11"
+  },
+  {
+   "test": "test_invalid_url_is_error_exit_2_and_on_stderr",
+   "argv": [
+    "not_a_url"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_version_and_errors.py:19"
+  },
+  {
+   "test": "test_scan_prints_expected_lines_to_stdout_and_exit_0",
+   "argv": [
+    "-w",
+    "wl.txt",
+    "-t",
+    "1",
+    "-T",
+    "1",
+    "--timeout",
+    "1",
+    "-r",
+    "--disable-validator"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wl.txt": "admin\ndir\nmissing\n"
+   },
+   "ci": false,
+   "source": "test_scan_local_http_server.py:58"
+  },
+  {
+   "test": "test_silent_writes_reports_to_files_and_no_stdout",
+   "argv": [
+    "-w",
+    "wl.txt",
+    "-t",
+    "1",
+    "-T",
+    "1",
+    "--timeout",
+    "1",
+    "-r",
+    "--disable-validator",
+    "-S",
+    "-o",
+    "--json-file",
+    "--xml-file"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "wl.txt": "admin\n"
+   },
+   "ci": false,
+   "source": "test_scan_local_http_server.py:92"
+  },
+  {
+   "test": "test_extensions_optional_if_omitted_scan_starts_and_exits_0",
+   "argv": [
+    "--uri",
+    "http://example.com",
+    "--timeout",
+    "0",
+    "--wordlist-split",
+    "0",
+    "--max-threads",
+    "1",
+    "--max-recursion-depth",
+    "0",
+    "--disable-recursion",
+    "--silent"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:138"
+  },
+  {
+   "test": "test_ext_integration_basic_test_report_matches_snapshot",
+   "argv": [
+    "-w",
+    "-o",
+    "--no-color",
+    "-S"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:66"
+  },
+  {
+   "test": "test_ext_test_server_startup_endpoints_behave",
+   "argv": [
+    "-w",
+    "-o",
+    "--no-color",
+    "-S"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "/ok (CODE:200|SIZE:10)",
+    "/201 (CODE:201|SIZE:11)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:108"
+  },
+  {
+   "test": "test_ext_hide_lengths_filters_report_entries",
+   "argv": [
+    "-w",
+    "-o",
+    "--no-color",
+    "-S",
+    "--hide-lengths",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "/201"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:142"
+  },
+  {
+   "test": "test_ext_show_htaccess_controls_inclusion",
+   "argv": [
+    "-w",
+    "-o",
+    "--no-color",
+    "-S"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".htaccess",
+    "(CODE:403|SIZE:6)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:177"
+  },
+  {
+   "test": "test_ext_verbose_and_silent_are_mutually_exclusive",
+   "argv": [
+    "http://example.com",
+    "-w",
+    "-v",
+    "-S",
+    "--no-color"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cannot be used with"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:251"
+  },
+  {
+   "test": "test_no_args_errors_and_prints_usage",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basics.py:27"
+  },
+  {
+   "test": "test_help_flag_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Fast directory scanning and scraping tool",
+    "Usage: executable",
+    "--help",
+    "--version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:16"
+  },
+  {
+   "test": "test_help_flag_long",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Fast directory scanning and scraping tool",
+    "Usage: executable",
+    "Arguments:",
+    "Options:",
+    "OUTPUT FORMAT:",
+    "EXAMPLE USE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:25"
+  },
+  {
+   "test": "test_help_shows_all_major_options",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--json-file",
+    "--xml-file",
+    "--proxy",
+    "--burp"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:37"
+  },
+  {
+   "test": "test_version_output_format",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Dirble",
+    "commit",
+    "build"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:75"
+  },
+  {
+   "test": "test_help_output_format_sections",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "+ [url] - File",
+    "D [url] - Directory",
+    "L [url] - Listable Directory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:87"
+  },
+  {
+   "test": "test_help_shows_example_usage",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "EXAMPLE USE:",
+    "dirble [address]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:96"
+  },
+  {
+   "test": "test_invalid_flag_shows_error",
+   "argv": [
+    "--invalid-flag-that-does-not-exist"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:104"
+  },
+  {
+   "test": "test_missing_uri_shows_help",
+   "argv": [
+    "-w",
+    "wordlist.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {
+    "wordlist.txt": "admin\n"
+   },
+   "ci": false,
+   "source": "test_target_specification.py:15"
+  }
+ ]
+}

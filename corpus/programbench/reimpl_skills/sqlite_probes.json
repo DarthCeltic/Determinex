@@ -1,0 +1,4771 @@
+[
+ {
+  "name": "test::test_help_output::0",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short::1",
+  "argv": [
+   "-help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::2",
+  "argv": [
+   "-version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_memory_db_explicit::3",
+  "argv": [
+   ":memory:",
+   "SELECT sqlite_version();"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_option_error::4",
+  "argv": [
+   "-invalid_option_xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exit_code_sql_error::5",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "INVALID SQL HERE;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_stops_option_parsing::6",
+  "argv": [
+   "--",
+   ":memory:"
+  ],
+  "stdin": "SELECT 1;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_list::7",
+  "argv": [
+   "-list",
+   ":memory:",
+   "SELECT 1 as a, 'hello' as b;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_csv::8",
+  "argv": [
+   "-csv",
+   ":memory:",
+   "SELECT 1 as a, 'hello' as b;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_json::9",
+  "argv": [
+   "-json",
+   ":memory:",
+   "SELECT 1 as a, 'hello' as b;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_table::10",
+  "argv": [
+   "-table",
+   ":memory:",
+   "SELECT 1 as a, 'hello' as b;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_box::11",
+  "argv": [
+   "-box",
+   ":memory:",
+   "SELECT 1 as a, 2 as b;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_markdown::12",
+  "argv": [
+   "-markdown",
+   ":memory:",
+   "SELECT 1 as a, 2 as b;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_line::13",
+  "argv": [
+   "-line",
+   ":memory:",
+   "SELECT 1 as num, 'test' as str;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_column::14",
+  "argv": [
+   "-column",
+   ":memory:",
+   "SELECT 1 as num, 'test' as str;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_quote::15",
+  "argv": [
+   "-quote",
+   ":memory:",
+   "SELECT 1, 'hello';"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_html::16",
+  "argv": [
+   "-html",
+   ":memory:",
+   "SELECT 1 as col;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_tabs::17",
+  "argv": [
+   "-tabs",
+   ":memory:",
+   "SELECT 1, 'hello';"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_ascii_output::18",
+  "argv": [
+   "-ascii",
+   ":memory:",
+   "SELECT 1, 2;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_mode_command::19",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".mode csv\nSELECT 1,2;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_mode_json::20",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".mode json\nSELECT 1 as a, 'b' as c;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_header_csv::21",
+  "argv": [
+   "-csv",
+   "-header",
+   ":memory:",
+   "SELECT 1 as col1, 'hello' as col2;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_noheader::22",
+  "argv": [
+   "-csv",
+   "-noheader",
+   ":memory:",
+   "SELECT 1 as col1, 'hello' as col2;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_headers_on::23",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".headers on\n.mode csv\nSELECT 1 as x;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_headers_off::24",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".headers off\n.mode csv\nSELECT 1 as x;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_separator_option::25",
+  "argv": [
+   "-separator",
+   ";",
+   ":memory:",
+   "SELECT 1, 2, 3;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nullvalue_option::26",
+  "argv": [
+   "-nullvalue",
+   "N/A",
+   ":memory:",
+   "SELECT NULL, 1;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_newline_option::27",
+  "argv": [
+   "-newline",
+   ";",
+   ":memory:",
+   "SELECT 1; SELECT 2; SELECT 3;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_create_database_file::28",
+  "argv": [
+   "CREATE TABLE t (a, b); INSERT INTO t VALUES (1, 'x');"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_readonly_option::29",
+  "argv": [
+   "CREATE TABLE t (a); INSERT INTO t VALUES (1);"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ifexists_nonexistent::30",
+  "argv": [
+   "-ifexists",
+   "SELECT 1;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backup_dot_command::31",
+  "argv": [
+   "CREATE TABLE t (a); INSERT INTO t VALUES (99);"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_restore_dot_command::32",
+  "argv": [
+   "CREATE TABLE t (a); INSERT INTO t VALUES (77);"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_save_dot_command::33",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_select::34",
+  "argv": [
+   ":memory:",
+   "SELECT 1+1 as result;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_create_and_insert::35",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t (id INT, name TEXT); INSERT INTO t VALUES (1, 'Alice'); SELECT * FROM t;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_functions::36",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t (val INT); INSERT INTO t VALUES (1),(2),(3),(4),(5); SELECT count(*), sum(val), avg(val) FROM t;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_functions::37",
+  "argv": [
+   ":memory:",
+   "SELECT upper('hello'), lower('WORLD'), length('test');"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_math_functions::38",
+  "argv": [
+   ":memory:",
+   "SELECT abs(-5), round(3.14159, 2);"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_handling::39",
+  "argv": [
+   ":memory:",
+   "SELECT NULL IS NULL, NULL IS NOT NULL, coalesce(NULL, 42);"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_transactions_commit::40",
+  "argv": [
+   "CREATE TABLE t (a);"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_transactions_rollback::41",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t (a); BEGIN; INSERT INTO t VALUES(1); ROLLBACK; SELECT count(*) FROM t;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_join_query::42",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE a (id INT, val TEXT); CREATE TABLE b (id INT, desc TEXT); INSERT INTO a VALUES (1,'x'),(2,'y'); INSERT INTO b VALUES (1,'first'),(2,'second'); SELECT a.val, b.desc FROM a JOIN b ON a.id = b.id;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_left_join::43",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE a (id INT); CREATE TABLE b (id INT, desc TEXT); INSERT INTO a VALUES (1),(2),(3); INSERT INTO b VALUES (1,'first'); SELECT a.id, b.desc FROM a LEFT JOIN b ON a.id = b.id;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_window_functions::44",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t (name TEXT, val INT); INSERT INTO t VALUES ('Alice',3),('Bob',1),('Charlie',2); SELECT name, rank() OVER (ORDER BY val) as r FROM t;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_functions::45",
+  "argv": [
+   ":memory:",
+   "SELECT json_object('name', 'Alice', 'age', 30);"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_extract::46",
+  "argv": [
+   ":memory:",
+   "SELECT json_extract('{\"key\":\"value\"}', '$.key');"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pragma_integrity_check::47",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t (a); INSERT INTO t VALUES(1); PRAGMA integrity_check;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subquery::48",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t (a INT); INSERT INTO t VALUES(1),(2),(3),(4),(5); SELECT * FROM t WHERE a > (SELECT avg(a) FROM t);\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_typeof_function::49",
+  "argv": [
+   ":memory:",
+   "SELECT typeof(1), typeof(1.5), typeof('hello'), typeof(NULL), typeof(x'deadbeef');"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_tables::50",
+  "argv": [
+   "CREATE TABLE alpha (a); CREATE TABLE beta (b); CREATE TABLE gamma (c);"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_tables_pattern::51",
+  "argv": [
+   "CREATE TABLE alpha (a); CREATE TABLE beta (b);"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_schema::52",
+  "argv": [
+   "CREATE TABLE t (id INTEGER PRIMARY KEY, name TEXT);"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_schema_pattern::53",
+  "argv": [
+   "CREATE TABLE t1 (a); CREATE TABLE t2 (b);"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_indexes::54",
+  "argv": [
+   "CREATE TABLE t (a, b); CREATE INDEX idx_a ON t(a); CREATE INDEX idx_b ON t(b);"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_echo::55",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".echo on\nSELECT 1;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_print::56",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".print Hello World\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_bail::57",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".bail on\nINVALID SQL;\nSELECT 1;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_timer::58",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".timer on\nSELECT 1;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_changes::59",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".changes on\nCREATE TABLE t (a);\nINSERT INTO t VALUES (1);\nINSERT INTO t VALUES (2);\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_stats::60",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".stats on\nSELECT 1;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_cd::61",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".cd /tmp\n.shell pwd\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_shell::62",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".shell echo hello_from_shell\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_quit::63",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".quit\nSELECT 1;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_timeout::64",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".timeout 1000\nSELECT 1;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_explain_on::65",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".explain on\nEXPLAIN SELECT 1;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_eqp_on::66",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".eqp on\nSELECT 1;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_vfsinfo_with_db::67",
+  "argv": [
+   "CREATE TABLE t(a);"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_vfslist::68",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".vfslist\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_dbconfig::69",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".dbconfig\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_dbconfig_set::70",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".dbconfig defensive off\n.dbconfig defensive\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_clone::71",
+  "argv": [
+   "CREATE TABLE t (a, b); INSERT INTO t VALUES (1, 'x'); INSERT INTO t VALUES (2, 'y');"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_auth::72",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".auth on\nSELECT 1;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_progress::73",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".progress 1\nSELECT 1;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_parameter_set_list::74",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".parameter set :x 42\n.parameter set :name 'World'\n.parameter list\nSELECT :x;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_parameter_unset::75",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".parameter set :x 42\n.parameter set :y 99\n.parameter unset :x\n.parameter list\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_parameter_clear::76",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".parameter set :x 42\n.parameter clear\n.parameter list\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_limit::77",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".limit length 100\nSELECT 1;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_connection::78",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".connection 1\nCREATE TABLE t(a);\nINSERT INTO t VALUES(42);\nSELECT * FROM t;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_lint::79",
+  "argv": [
+   "CREATE TABLE t (a, b);"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_filectrl::80",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".filectrl size_limit\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_csv_mode::81",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t (a, b); INSERT INTO t VALUES (1,'x'),(2,'y');\n.mode csv\nSELECT * FROM t;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cmd_option::82",
+  "argv": [
+   "-cmd",
+   "SELECT 1;",
+   ":memory:",
+   "SELECT 2;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_echo_option::83",
+  "argv": [
+   "-echo",
+   ":memory:",
+   "SELECT 1+1;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bail_option::84",
+  "argv": [
+   "-bail",
+   ":memory:"
+  ],
+  "stdin": "INVALID SQL; SELECT 2;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_option::85",
+  "argv": [
+   "-stats",
+   ":memory:",
+   "SELECT 1;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_noinit_option::86",
+  "argv": [
+   "-noinit",
+   ":memory:",
+   "SELECT 1;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_option::87",
+  "argv": [
+   "-init",
+   "init.sql",
+   ":memory:"
+  ],
+  "stdin": "SELECT * FROM init_test;\n",
+  "files": {
+   "init.sql": "CREATE TABLE init_test (id INT, name TEXT);\nINSERT INTO init_test VALUES (1, 'init_row');\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_nonexistent_file::88",
+  "argv": [
+   "-init",
+   "/nonexistent/file.sql",
+   ":memory:",
+   "SELECT 1;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_safe_mode::89",
+  "argv": [
+   "-safe",
+   ":memory:"
+  ],
+  "stdin": ".read /etc/passwd\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vfs_option::90",
+  "argv": [
+   "-vfs",
+   "unix",
+   ":memory:",
+   "SELECT 1;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mmap_option::91",
+  "argv": [
+   "-mmap",
+   "1048576",
+   ":memory:",
+   "SELECT 1;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lookaside_option::92",
+  "argv": [
+   "-lookaside",
+   "64",
+   "100",
+   ":memory:",
+   "SELECT 1;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pagecache_option::93",
+  "argv": [
+   "-pagecache",
+   "4096",
+   "10",
+   ":memory:",
+   "SELECT 1;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_create_list::94",
+  "argv": [
+   "-A",
+   "--create",
+   "file1.txt",
+   "file2.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.txt": "content1",
+   "file2.txt": "content2"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_verbose_list::95",
+  "argv": [
+   "-A",
+   "--create",
+   "file1.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.txt": "content1"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zip_mode_tables::96",
+  "argv": [
+   "-zip"
+  ],
+  "stdin": ".tables\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zip_mode_select::97",
+  "argv": [
+   "-zip",
+   "SELECT name, data FROM zip;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zip_mode_schema::98",
+  "argv": [
+   "-zip"
+  ],
+  "stdin": ".schema\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_query::99",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "EXPLAIN SELECT 1;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_syntax_error_message::100",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "BAD SQL;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_not_found_error::101",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "SELECT * FROM nonexistent_table;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_column_not_found_error::102",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t (a); SELECT b FROM t;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_open_failed_error::103",
+  "argv": [
+   "-ifexists",
+   "/nonexistent/path/db.sqlite",
+   "SELECT 1;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read_nonexistent_file_error::104",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".read /nonexistent/file.sql\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_open_failed_dot_command::105",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".open /nonexistent/path/db.sqlite\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rtree_virtual_table::106",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE VIRTUAL TABLE geo USING rtree(id, minX, maxX, minY, maxY); INSERT INTO geo VALUES(1, 0, 10, 0, 10); SELECT * FROM geo WHERE minX >= 0;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dbstat_virtual_table::107",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t (a); INSERT INTO t VALUES(1); SELECT name FROM dbstat;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cte::108",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "WITH cte AS (SELECT 1 as x UNION ALL SELECT x+1 FROM cte WHERE x<5) SELECT * FROM cte;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_foreign_keys::109",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "PRAGMA foreign_keys=ON; CREATE TABLE parent (id INT PRIMARY KEY); CREATE TABLE child (id INT, pid INT REFERENCES parent(id)); INSERT INTO parent VALUES (1); INSERT INTO child VALUES (1, 1); SELECT * FROM child;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trigger::110",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t (a); CREATE TABLE log (msg TEXT); CREATE TRIGGER trig AFTER INSERT ON t BEGIN INSERT INTO log VALUES('inserted'); END; INSERT INTO t VALUES(1); SELECT * FROM log;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_view::111",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t (a, b); INSERT INTO t VALUES (1,2),(3,4); CREATE VIEW v AS SELECT a+b as sum FROM t; SELECT * FROM v;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pragma_journal_mode::112",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "PRAGMA journal_mode;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pragma_page_size::113",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "PRAGMA page_size;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inline_sql_arg::114",
+  "argv": [
+   ":memory:",
+   "SELECT upper('hello world');"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_inline_sql::115",
+  "argv": [
+   ":memory:",
+   "CREATE TABLE t(a); INSERT INTO t VALUES(42); SELECT * FROM t;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inline_sql_parse_error::116",
+  "argv": [
+   "-bail",
+   ":memory:",
+   "BAD SQL HERE;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_database::117",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".tables\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_data::118",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "SELECT 'héllo wörld';\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_result::119",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "WITH RECURSIVE cnt(x) AS (SELECT 1 UNION ALL SELECT x+1 FROM cnt WHERE x<100) SELECT count(*) FROM cnt;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_blob_data::120",
+  "argv": [
+   ":memory:",
+   "SELECT hex(x'deadbeef');"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_real_arithmetic::121",
+  "argv": [
+   ":memory:",
+   "SELECT 1.5 + 2.5, 10.0 / 3;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_functions::122",
+  "argv": [
+   ":memory:",
+   "SELECT date('2023-01-15'), strftime('%Y', '2023-01-15');"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_like_operator::123",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t (name TEXT); INSERT INTO t VALUES ('Alice'),('Bob'),('Alicia'); SELECT * FROM t WHERE name LIKE 'Ali%';\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_in_operator::124",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t (val INT); INSERT INTO t VALUES (1),(2),(3),(4),(5); SELECT * FROM t WHERE val IN (2,4);\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_case_expression::125",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "SELECT CASE WHEN 1=1 THEN 'yes' ELSE 'no' END;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_group_by::126",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t (cat TEXT, val INT); INSERT INTO t VALUES ('a',1),('b',2),('a',3); SELECT cat, sum(val) FROM t GROUP BY cat ORDER BY cat;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_order_by::127",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t (a INT); INSERT INTO t VALUES (3),(1),(2); SELECT * FROM t ORDER BY a;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_limit_offset::128",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t (a INT); INSERT INTO t VALUES (1),(2),(3),(4),(5); SELECT * FROM t LIMIT 2 OFFSET 1;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_insert_or_replace::129",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t (id INT PRIMARY KEY, val TEXT); INSERT INTO t VALUES (1,'a'); INSERT OR REPLACE INTO t VALUES (1,'b'); SELECT * FROM t;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_update_statement::130",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t (id INT, val TEXT); INSERT INTO t VALUES (1,'old'); UPDATE t SET val='new' WHERE id=1; SELECT * FROM t;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_statement::131",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t (id INT, val TEXT); INSERT INTO t VALUES (1,'a'),(2,'b'); DELETE FROM t WHERE id=1; SELECT * FROM t;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_expert::132",
+  "argv": [
+   "CREATE TABLE t (a INT, b TEXT); INSERT INTO t VALUES(1,'x');"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_scanstats::133",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".scanstats on\nSELECT 1;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pragma_foreign_keys::134",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "PRAGMA foreign_keys;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pragma_auto_vacuum::135",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "PRAGMA auto_vacuum;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pragma_encoding::136",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "PRAGMA encoding;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pragma_cache_size::137",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "PRAGMA cache_size;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonce_option::138",
+  "argv": [
+   "-nonce",
+   "testnonce",
+   ":memory:",
+   "SELECT 1;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_screenwidth_option::139",
+  "argv": [
+   "-screenwidth",
+   "80",
+   ":memory:",
+   "SELECT 1;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_mode::140",
+  "argv": [
+   "-batch",
+   ":memory:",
+   "SELECT 1;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_rows::141",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t (a, b); INSERT INTO t VALUES (1,'x'),(2,'y'),(3,'z'); SELECT * FROM t;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_prompt::142",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".prompt '>>' '>>'\nSELECT 1;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_testcase::143",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".testcase mytest\nSELECT 1;\nSELECT 2;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fts4_virtual_table::144",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE VIRTUAL TABLE ft USING fts4(content); INSERT INTO ft VALUES('hello world'); INSERT INTO ft VALUES('world peace'); SELECT * FROM ft WHERE ft MATCH 'hello';\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stmtvtab::145",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "SELECT count(*) FROM sqlite_stmt;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_crlf::146",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".crlf on\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sha3_function::147",
+  "argv": [
+   ":memory:",
+   "SELECT hex(sha3('hello'));"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sha3_sizes::148",
+  "argv": [
+   ":memory:",
+   "SELECT length(sha3('x', 224)), length(sha3('x', 256)), length(sha3('x', 384)), length(sha3('x', 512));"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sha3_agg_function::149",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t (a); INSERT INTO t VALUES ('x'),('y'),('z');\nSELECT hex(sha3_agg(a)) FROM t;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sha3_query_function::150",
+  "argv": [
+   ":memory:",
+   "SELECT hex(sha3_query('SELECT 1'));"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decimal_functions::151",
+  "argv": [
+   ":memory:",
+   "SELECT decimal_add('1.5', '2.3'), decimal_mul('3.14', '2.0');"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decimal_sub::152",
+  "argv": [
+   ":memory:",
+   "SELECT decimal_sub('10.5', '3.2');"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decimal_cmp::153",
+  "argv": [
+   ":memory:",
+   "SELECT decimal_cmp('10.5', '3.2'), decimal_cmp('1.0', '1.0'), decimal_cmp('0.5', '2.0');"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ieee754_functions::154",
+  "argv": [
+   ":memory:",
+   "SELECT ieee754(3.14), ieee754_mantissa(3.14), ieee754_exponent(3.14);"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_function::155",
+  "argv": [
+   ":memory:",
+   "SELECT regexp('hel+o', 'hello'), regexp('xyz', 'hello');"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexpi_function::156",
+  "argv": [
+   ":memory:",
+   "SELECT regexpi('HEL+O', 'hello');"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_operator::157",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t (txt TEXT); INSERT INTO t VALUES ('hello'),('world');\nSELECT txt FROM t WHERE txt REGEXP 'w.*ld';\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_uint_collation::158",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "SELECT '10' > '9' COLLATE uint;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_series::159",
+  "argv": [
+   ":memory:",
+   "SELECT value FROM generate_series(1, 5);"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_series_step::160",
+  "argv": [
+   ":memory:",
+   "SELECT value FROM generate_series(10, 1, -2);"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_jobject::161",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".mode jobject\nSELECT 1 as a, 'hello' as b;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_jatom::162",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".mode jatom\nSELECT 1, 'hello';\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_count::163",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".mode count\nSELECT 1; SELECT 2; SELECT 3;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_psql::164",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".mode psql\nSELECT 1 as a, 2 as b;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_qbox::165",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".mode qbox\nSELECT 1 as a, 2 as b;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_column_wrap::166",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".mode column --wrap 5\nSELECT 'Hello World' as txt;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_column_charlimit::167",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".mode column --charlimit 5\nSELECT 'Hello World' as txt;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_column_widths::168",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".mode column --widths 3,10\nSELECT 'ab' as x, 'cdefgh' as y;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_insert_tablename::169",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".mode insert mytable\nCREATE TABLE t(a,b);\nINSERT INTO t VALUES(1,'x'),(2,'y');\nSELECT * FROM t;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_list_quote::170",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".mode list --quote sql\nSELECT 'hello', 42, NULL;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_border_off::171",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".mode table --border off\nSELECT 1 as a, 2 as b;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sha3sum_multiple_tables::172",
+  "argv": [
+   "CREATE TABLE t1 (a); CREATE TABLE t2 (b); INSERT INTO t1 VALUES(1); INSERT INTO t2 VALUES(2);"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sha3sum_with_size::173",
+  "argv": [
+   "CREATE TABLE t (a); INSERT INTO t VALUES(1);"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_mode_list_command::174",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".mode --list\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_vfsinfo_memory::175",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".vfsinfo\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_trace_stderr::176",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".trace stderr\nSELECT 1+1;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_system_command::177",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".system echo test_system_output\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_dbconfig_enable_fkey::178",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".dbconfig enable_fkey on\n.dbconfig enable_fkey\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deserialize_option::179",
+  "argv": [
+   "CREATE TABLE t (a); INSERT INTO t VALUES(42);"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pcachetrace_option::180",
+  "argv": [
+   "-pcachetrace",
+   ":memory:",
+   "SELECT 1;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_memtrace_option::181",
+  "argv": [
+   "-memtrace",
+   ":memory:",
+   "SELECT 1;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_chars_in_data::182",
+  "argv": [
+   ":memory:",
+   "SELECT 'it''s a test';"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiline_string::183",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "SELECT 'line1\nline2';\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_string::184",
+  "argv": [
+   ":memory:",
+   "SELECT '';"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_integer_overflow::185",
+  "argv": [
+   ":memory:",
+   "SELECT 9223372036854775807;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_math_functions_extended::186",
+  "argv": [
+   ":memory:",
+   "SELECT sin(0), cos(0), tan(0);"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sqrt_function::187",
+  "argv": [
+   ":memory:",
+   "SELECT sqrt(4.0), sqrt(9.0);"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_power_function::188",
+  "argv": [
+   ":memory:",
+   "SELECT pow(2, 10);"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_function::189",
+  "argv": [
+   ":memory:",
+   "SELECT log(1), log10(100);"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fts4_multiple_columns::190",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE VIRTUAL TABLE docs USING fts4(title, body);\nINSERT INTO docs VALUES('Test Title', 'Body content here');\nSELECT title FROM docs WHERE docs MATCH 'content';\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fts4_rank::191",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE VIRTUAL TABLE docs USING fts4(content);\nINSERT INTO docs VALUES('the quick brown fox');\nINSERT INTO docs VALUES('the lazy dog');\nSELECT count(*) FROM docs WHERE content MATCH 'the';\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_timer_once::192",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".timer once\nSELECT 1;\nSELECT 2;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_explain_auto::193",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".explain auto\nSELECT 1;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parameter_in_query::194",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".parameter set :val 42\nSELECT :val * 2;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parameter_string::195",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".parameter set :name 'Alice'\nSELECT upper(:name);\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base64_blob_roundtrip::196",
+  "argv": [
+   ":memory:",
+   "SELECT hex(base64(base64(x'deadbeef')));"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base64_text_input::197",
+  "argv": [
+   ":memory:",
+   "SELECT hex(base64('aGVsbG8='));"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base64_type_detection::198",
+  "argv": [
+   ":memory:",
+   "SELECT typeof(base64(x'cafebabe')), typeof(base64('Y2FmZWJhYmU='));"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base85_function::199",
+  "argv": [
+   ":memory:",
+   "SELECT base85(randomblob(10));"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sha1_function::200",
+  "argv": [
+   ":memory:",
+   "SELECT sha1('hello');"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decimal_exp_function::201",
+  "argv": [
+   ":memory:",
+   "SELECT decimal_exp('123.456', 3);"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decimal_sum_aggregate::202",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t (val TEXT); INSERT INTO t VALUES ('1.5'),('2.3'),('0.2');\nSELECT decimal_sum(val) FROM t;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decimal_negative::203",
+  "argv": [
+   ":memory:",
+   "SELECT decimal_add('-1.5', '2.3');"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decimal_scientific::204",
+  "argv": [
+   ":memory:",
+   "SELECT decimal_add('1e3', '2e2');"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decimal_collation::205",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t (val TEXT); INSERT INTO t VALUES ('10.5'),('2.3'),('100'); SELECT val FROM t ORDER BY val COLLATE decimal;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_series_with_step::206",
+  "argv": [
+   ":memory:",
+   "SELECT value FROM generate_series(0, 10, 2);"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_series_descending::207",
+  "argv": [
+   ":memory:",
+   "SELECT value FROM generate_series(5, 1, -1);"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_series_sum::208",
+  "argv": [
+   ":memory:",
+   "SELECT sum(value) FROM generate_series(1, 100);"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_character_class::209",
+  "argv": [
+   ":memory:",
+   "SELECT regexp('[a-z]+', 'hello'), regexp('[^a-z]+', '123ABC');"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_anchors::210",
+  "argv": [
+   ":memory:",
+   "SELECT regexp('^hello', 'hello world'), regexp('world$', 'hello world');"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_quantifiers::211",
+  "argv": [
+   ":memory:",
+   "SELECT regexp('ab+c', 'abbbbbc'), regexp('ab?c', 'ac');"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_in_where_clause::212",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t (name TEXT); INSERT INTO t VALUES ('Alice'),('Bob'),('Alicia'),('Carol');\nSELECT name FROM t WHERE name REGEXP '^A';\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_hex_escape::213",
+  "argv": [
+   ":memory:",
+   "SELECT regexp('\\x41', 'A');"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_uint_collation_numbers::214",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t (val TEXT); INSERT INTO t VALUES ('10a'),('9a'),('1a'),('100b');\nSELECT val FROM t ORDER BY val COLLATE uint;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_uint_comparison::215",
+  "argv": [
+   ":memory:",
+   "SELECT '10' > '9' COLLATE uint, '2' > '10' COLLATE uint;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lsmode_function::216",
+  "argv": [
+   ":memory:",
+   "SELECT lsmode(33188);"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sha1_query_function::217",
+  "argv": [
+   ":memory:",
+   "SELECT length(sha1_query('SELECT 1'));"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sha3_query_256::218",
+  "argv": [
+   ":memory:",
+   "SELECT length(sha3_query('SELECT 1'));"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sha3_blob_input::219",
+  "argv": [
+   ":memory:",
+   "SELECT hex(sha3(x'deadbeef'));"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ieee754_two_args::220",
+  "argv": [
+   ":memory:",
+   "SELECT ieee754(7070651414971679, -51);"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ieee754_negative::221",
+  "argv": [
+   ":memory:",
+   "SELECT ieee754(-3.14);"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pragma_synchronous::222",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "PRAGMA synchronous;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pragma_temp_store::223",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "PRAGMA temp_store;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pragma_compile_options::224",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "SELECT * FROM pragma_compile_options LIMIT 5;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_schema_with_virtual::225",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE VIRTUAL TABLE ft USING fts4(content);\n.schema\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_with_tag::226",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".mode csv --tag mycsv\n.mode mycsv\nSELECT 1, 2;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_window_sum::227",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t (val INT, grp TEXT); INSERT INTO t VALUES (1,'a'),(2,'a'),(3,'b'),(4,'b');\nSELECT grp, val, sum(val) OVER (PARTITION BY grp) as tot FROM t ORDER BY grp, val;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_window_row_number::228",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t (val INT); INSERT INTO t VALUES (10),(20),(30);\nSELECT val, row_number() OVER (ORDER BY val) as rn FROM t;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_window_lag_lead::229",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t (val INT); INSERT INTO t VALUES (1),(2),(3),(4);\nSELECT val, lag(val) OVER (ORDER BY val), lead(val) OVER (ORDER BY val) FROM t;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_output_pipe::230",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".output |cat\nSELECT 'pipe_test';\n.output stdout\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_once_pipe::231",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".once |cat\nSELECT 'once_pipe';\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_databases::232",
+  "argv": [
+   "CREATE TABLE t1 (a); INSERT INTO t1 VALUES(1);"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vfsname_on_memory_database::233",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "\nCREATE TABLE t(x);\n.vfsname\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sql_syntax_error_with_bail::234",
+  "argv": [
+   "-bail",
+   ":memory:",
+   "SLECT 1;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unique_constraint_violation_with_bail::235",
+  "argv": [
+   "-bail",
+   ":memory:",
+   "CREATE TABLE users(id INTEGER PRIMARY KEY, email TEXT UNIQUE); INSERT INTO users VALUES(1, 'user@example.com'); INSERT INTO users VALUES(2, 'user@example.com');"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiline_sql_via_stdin::236",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE items(id INT, name TEXT); INSERT INTO items VALUES(1, 'Item A'), (2, 'Item B'); SELECT name FROM items WHERE id = 2;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explicit_transaction_commit::237",
+  "argv": [
+   ":memory:",
+   "BEGIN TRANSACTION; CREATE TABLE t1(x); INSERT INTO t1 VALUES(1), (2); COMMIT; SELECT * FROM t1;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cmd_flag_json_mode::238",
+  "argv": [
+   "-cmd",
+   ".mode json",
+   ":memory:",
+   "SELECT 1 as num, 'test' as str;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_cmd_flags_csv_with_header::239",
+  "argv": [
+   "-cmd",
+   ".mode csv",
+   "-cmd",
+   ".header on",
+   ":memory:",
+   "SELECT 1 as id, 'Alice' as name UNION SELECT 2, 'Bob';"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sql_from_stdin_file_redirect::240",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE books(id INTEGER PRIMARY KEY, title TEXT, author TEXT, year INTEGER);\nINSERT INTO books VALUES(1, '1984', 'George Orwell', 1949);\nINSERT INTO books VALUES(2, 'To Kill a Mockingbird', 'Harper Lee', 1960);\nINSERT INTO books VALUES(3, 'The Great Gatsby', 'F. Scott Fitzgerald', 1925);\nSELECT title, author FROM books WHERE year < 1950 ORDER BY year;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_not_null_constraint_violation::241",
+  "argv": [
+   "-bail",
+   ":memory:",
+   "CREATE TABLE persons(id INT, name TEXT NOT NULL); INSERT INTO persons VALUES(1, NULL);"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_database_path_does_not_exist::242",
+  "argv": [
+   "/nonexistent/dir/test.db",
+   "SELECT 1;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_sql_statement_arguments::243",
+  "argv": [
+   ":memory:",
+   "CREATE TABLE t1(x); INSERT INTO t1 VALUES(10);",
+   "CREATE TABLE t2(y); INSERT INTO t2 VALUES(20);",
+   "SELECT x FROM t1 UNION SELECT y FROM t2;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_separator_flag::244",
+  "argv": [
+   "-separator",
+   ", ",
+   ":memory:",
+   "SELECT 'A' as col1, 'B' as col2, 'C' as col3;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nullvalue_flag::245",
+  "argv": [
+   "-nullvalue",
+   "NULL",
+   ":memory:",
+   "SELECT 1 as a, NULL as b, 3 as c;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_join_with_aggregation::246",
+  "argv": [
+   ":memory:",
+   "CREATE TABLE customers(id INT, name TEXT); CREATE TABLE orders(id INT, customer_id INT, amount REAL); INSERT INTO customers VALUES(1, 'Alice'), (2, 'Bob'), (3, 'Charlie'); INSERT INTO orders VALUES(101, 1, 50.0), (102, 1, 75.5), (103, 2, 100.0); SELECT c.name, SUM(o.amount) as total FROM customers c LEFT JOIN orders o ON c.id = o.customer_id GROUP BY c.name ORDER BY c.name;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_mode::247",
+  "argv": [
+   "-batch",
+   ":memory:",
+   "SELECT 1; SELECT 2;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_foreign_key_constraint_violation::248",
+  "argv": [
+   "-bail",
+   ":memory:",
+   "PRAGMA foreign_keys = ON; CREATE TABLE parent(id INTEGER PRIMARY KEY); CREATE TABLE child(id INTEGER, parent_id INTEGER, FOREIGN KEY(parent_id) REFERENCES parent(id)); INSERT INTO parent VALUES(1); INSERT INTO child VALUES(1, 1); INSERT INTO child VALUES(2, 999);"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_result_set::249",
+  "argv": [
+   ":memory:",
+   "CREATE TABLE t(x); SELECT * FROM t;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_order_by_with_nulls::250",
+  "argv": [
+   ":memory:",
+   "CREATE TABLE vals(x); INSERT INTO vals VALUES(3), (NULL), (1), (NULL), (2); SELECT x FROM vals ORDER BY x;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_distinct_query::251",
+  "argv": [
+   ":memory:",
+   "CREATE TABLE items(category TEXT); INSERT INTO items VALUES('A'), ('B'), ('A'), ('C'), ('B'), ('A'); SELECT DISTINCT category FROM items ORDER BY category;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_limit_and_offset::252",
+  "argv": [
+   ":memory:",
+   "CREATE TABLE nums(n); INSERT INTO nums VALUES(1),(2),(3),(4),(5),(6),(7),(8),(9),(10); SELECT n FROM nums ORDER BY n LIMIT 3 OFFSET 2;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_case_expression::253",
+  "argv": [
+   ":memory:",
+   "CREATE TABLE scores(name TEXT, score INT); INSERT INTO scores VALUES('Alice',85),('Bob',92),('Charlie',78); SELECT name, CASE WHEN score >= 90 THEN 'A' WHEN score >= 80 THEN 'B' ELSE 'C' END as grade FROM scores ORDER BY name;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subquery::254",
+  "argv": [
+   ":memory:",
+   "CREATE TABLE products(id INT, price REAL); INSERT INTO products VALUES(1,10.0),(2,20.0),(3,15.0),(4,25.0); SELECT id, price FROM products WHERE price > (SELECT AVG(price) FROM products) ORDER BY id;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_create_index_and_query::255",
+  "argv": [
+   ":memory:",
+   "CREATE TABLE users(id INT, email TEXT); CREATE INDEX idx_email ON users(email); INSERT INTO users VALUES(1,'a@test.com'),(2,'b@test.com'); SELECT * FROM users WHERE email='a@test.com';"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_update_statement::256",
+  "argv": [
+   ":memory:",
+   "CREATE TABLE inventory(id INT, quantity INT); INSERT INTO inventory VALUES(1,10),(2,20),(3,15); UPDATE inventory SET quantity = quantity + 5 WHERE id = 2; SELECT * FROM inventory ORDER BY id;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_statement::257",
+  "argv": [
+   ":memory:",
+   "CREATE TABLE logs(id INT, message TEXT); INSERT INTO logs VALUES(1,'msg1'),(2,'msg2'),(3,'msg3'); DELETE FROM logs WHERE id = 2; SELECT * FROM logs ORDER BY id;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_alter_table_add_column::258",
+  "argv": [
+   ":memory:",
+   "CREATE TABLE items(id INT); INSERT INTO items VALUES(1); ALTER TABLE items ADD COLUMN name TEXT; UPDATE items SET name = 'Item 1' WHERE id = 1; SELECT * FROM items;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_create_view::259",
+  "argv": [
+   ":memory:",
+   "CREATE TABLE employees(id INT, name TEXT, salary REAL); INSERT INTO employees VALUES(1,'Alice',50000),(2,'Bob',60000),(3,'Charlie',55000); CREATE VIEW high_earners AS SELECT name, salary FROM employees WHERE salary > 55000; SELECT * FROM high_earners ORDER BY name;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_math_functions::260",
+  "argv": [
+   ":memory:",
+   "SELECT ROUND(3.14159, 2) as pi, SQRT(16) as root, ABS(-42) as absolute, POWER(2, 3) as power;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_functions::261",
+  "argv": [
+   ":memory:",
+   "SELECT UPPER('hello') as upper, LOWER('WORLD') as lower, LENGTH('test') as len, SUBSTR('abcdef', 2, 3) as sub;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_union_query::262",
+  "argv": [
+   ":memory:",
+   "CREATE TABLE set1(val INT); CREATE TABLE set2(val INT); INSERT INTO set1 VALUES(1),(2),(3); INSERT INTO set2 VALUES(3),(4),(5); SELECT val FROM set1 UNION SELECT val FROM set2 ORDER BY val;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_intersect_query::263",
+  "argv": [
+   ":memory:",
+   "CREATE TABLE a(val INT); CREATE TABLE b(val INT); INSERT INTO a VALUES(1),(2),(3),(4); INSERT INTO b VALUES(3),(4),(5),(6); SELECT val FROM a INTERSECT SELECT val FROM b ORDER BY val;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_except_query::264",
+  "argv": [
+   ":memory:",
+   "CREATE TABLE x(val INT); CREATE TABLE y(val INT); INSERT INTO x VALUES(1),(2),(3),(4); INSERT INTO y VALUES(3),(4); SELECT val FROM x EXCEPT SELECT val FROM y ORDER BY val;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_having_clause::265",
+  "argv": [
+   ":memory:",
+   "CREATE TABLE sales(product TEXT, quantity INT); INSERT INTO sales VALUES('A',10),('B',5),('A',15),('C',8),('B',20); SELECT product, SUM(quantity) as total FROM sales GROUP BY product HAVING total > 10 ORDER BY product;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_joins::266",
+  "argv": [
+   ":memory:",
+   "CREATE TABLE users(id INT, name TEXT); CREATE TABLE orders(id INT, user_id INT, total REAL); CREATE TABLE payments(order_id INT, amount REAL); INSERT INTO users VALUES(1,'Alice'),(2,'Bob'); INSERT INTO orders VALUES(101,1,100.0),(102,1,50.0),(103,2,75.0); INSERT INTO payments VALUES(101,100.0),(103,75.0); SELECT u.name, o.id as order_id, p.amount FROM users u JOIN orders o ON u.id = o.user_id JOIN payments p ON o.id = p.order_id ORDER BY u.name, o.id;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_autoincrement::267",
+  "argv": [
+   ":memory:",
+   "CREATE TABLE items(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT); INSERT INTO items(name) VALUES('Item A'),('Item B'),('Item C'); SELECT * FROM items;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_values::268",
+  "argv": [
+   ":memory:",
+   "CREATE TABLE settings(key TEXT, value TEXT DEFAULT 'default_val'); INSERT INTO settings(key) VALUES('key1'); INSERT INTO settings VALUES('key2','custom'); SELECT * FROM settings ORDER BY key;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_constraint_violation::269",
+  "argv": [
+   "-bail",
+   ":memory:",
+   "CREATE TABLE accounts(id INT, balance REAL CHECK(balance >= 0)); INSERT INTO accounts VALUES(1, 100.0); INSERT INTO accounts VALUES(2, -50.0);"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_in_clause::270",
+  "argv": [
+   ":memory:",
+   "CREATE TABLE items(id INT, status TEXT); INSERT INTO items VALUES(1,'active'),(2,'pending'),(3,'inactive'),(4,'active'); SELECT id FROM items WHERE status IN ('active','pending') ORDER BY id;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_between_operator::271",
+  "argv": [
+   ":memory:",
+   "CREATE TABLE dates(id INT, year INT); INSERT INTO dates VALUES(1,2018),(2,2019),(3,2020),(4,2021),(5,2022); SELECT id FROM dates WHERE year BETWEEN 2019 AND 2021 ORDER BY id;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_like_operator::272",
+  "argv": [
+   ":memory:",
+   "CREATE TABLE files(name TEXT); INSERT INTO files VALUES('test.txt'),('data.csv'),('test.log'),('readme.txt'); SELECT name FROM files WHERE name LIKE '%.txt' ORDER BY name;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_with_group_by::273",
+  "argv": [
+   ":memory:",
+   "CREATE TABLE events(type TEXT, count INT); INSERT INTO events VALUES('login',5),('logout',3),('login',2),('error',1); SELECT type, COUNT(*) as occurrences FROM events GROUP BY type ORDER BY type;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_max_avg_aggregates::274",
+  "argv": [
+   ":memory:",
+   "CREATE TABLE temps(day INT, temp REAL); INSERT INTO temps VALUES(1,20.5),(2,22.0),(3,19.5),(4,23.5),(5,21.0); SELECT MIN(temp) as coldest, MAX(temp) as warmest, AVG(temp) as average FROM temps;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coalesce_function::275",
+  "argv": [
+   ":memory:",
+   "CREATE TABLE prefs(id INT, pref1 TEXT, pref2 TEXT); INSERT INTO prefs VALUES(1,NULL,'default'),(2,'custom',NULL),(3,NULL,NULL); SELECT id, COALESCE(pref1, pref2, 'fallback') as value FROM prefs ORDER BY id;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cast_type_conversions::276",
+  "argv": [
+   ":memory:",
+   "SELECT CAST('123' AS INTEGER) as int_val, CAST(45.67 AS INTEGER) as truncated, CAST(89 AS REAL) as real_val;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_null_predicate::277",
+  "argv": [
+   ":memory:",
+   "CREATE TABLE records(id INT, data TEXT); INSERT INTO records VALUES(1,'text'),(2,NULL),(3,'more'),(4,NULL); SELECT id FROM records WHERE data IS NULL ORDER BY id;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_where_with_and_or::278",
+  "argv": [
+   ":memory:",
+   "CREATE TABLE products(id INT, price REAL, stock INT); INSERT INTO products VALUES(1,10.0,5),(2,20.0,0),(3,15.0,10),(4,25.0,2); SELECT id FROM products WHERE (price > 15.0 AND stock > 0) OR (price <= 15.0 AND stock >= 5) ORDER BY id;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rollback_transaction::279",
+  "argv": [
+   ":memory:",
+   "CREATE TABLE t(x); BEGIN; INSERT INTO t VALUES(1); ROLLBACK; SELECT * FROM t;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_option::280",
+  "argv": [
+   "--unknown-option"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_init_argument::281",
+  "argv": [
+   "--init"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_separator_argument::282",
+  "argv": [
+   "--separator"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cannot_open_nonexistent_database::283",
+  "argv": [
+   "/nonexistent/path/db.db",
+   "SELECT 1;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_constraint_violation_without_bail::284",
+  "argv": [
+   ":memory:",
+   "CREATE TABLE t(id INTEGER PRIMARY KEY); INSERT INTO t VALUES (1); INSERT INTO t VALUES (1);"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_constraint_violation_with_bail::285",
+  "argv": [
+   "-bail",
+   ":memory:",
+   "CREATE TABLE t(id INTEGER PRIMARY KEY); INSERT INTO t VALUES (1); INSERT INTO t VALUES (1);"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_screenwidth_below_minimum::286",
+  "argv": [
+   "--screenwidth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_input::287",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_whitespace_only_input::288",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "   \n  \n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comment_only_input::289",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "-- comment only\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_not_found::290",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "SELECT * FROM nonexistent;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_syntax_error_near_semicolon::291",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "SELECT ;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_file_not_found::292",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".import /nonexistent/file.csv mytable",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_file_cannot_create::293",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".output /nonexistent/dir/file.txt",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read_file_not_found::294",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".read /nonexistent.sql",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_too_many_attached_databases::295",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "SELECT 1;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_begin_transaction::296",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "BEGIN; BEGIN;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commit_without_transaction::297",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "COMMIT;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_drop_nonexistent_table::298",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t(id); DROP TABLE nonexist;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_insert_into_nonexistent_table::299",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "INSERT INTO t VALUES (1);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_column_count_mismatch::300",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t(a, b); INSERT INTO t VALUES (1);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_foreign_key_constraint_violation::301",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "PRAGMA foreign_keys=ON; CREATE TABLE p(id PRIMARY KEY); ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_not_null_constraint_violation::302",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t(id NOT NULL); INSERT INTO t VALUES (NULL);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_constraint_violation::303",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t(age CHECK(age >= 0)); INSERT INTO t VALUES (-1);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_alter_nonexistent_table::304",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "ALTER TABLE nonexist ADD COLUMN x;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_detach_nonexistent_database::305",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "DETACH DATABASE nonexist;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rollback_without_transaction::306",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "ROLLBACK;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_sql_and_bad_metacommand::307",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "SELECT 1;\n.badcommand\nSELECT 2;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reserved_keyword_as_table_name::308",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE select(id);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_errors_no_bail::309",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "SELECT * FROM t1;\nSELECT * FROM t2;\nSELECT * FROM t3;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_errors_with_bail::310",
+  "argv": [
+   "-bail",
+   ":memory:"
+  ],
+  "stdin": "SELECT * FROM t1;\nSELECT * FROM t2;\nSELECT * FROM t3;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duplicate_column_name::311",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t(id, id);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_echo_shows_commands_before_output::312",
+  "argv": [
+   "-echo",
+   ":memory:"
+  ],
+  "stdin": "SELECT 'test'; SELECT 1+1;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bail_stops_on_first_error_stdin::313",
+  "argv": [
+   "-bail",
+   ":memory:"
+  ],
+  "stdin": "SELECT 1;\nSELECT * FROM nonexistent;\nSELECT 2;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_bail_continues_after_error_stdin::314",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": "SELECT 1;\nSELECT * FROM nonexistent;\nSELECT 2;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_echo_and_bail_combination::315",
+  "argv": [
+   "-echo",
+   "-bail",
+   ":memory:"
+  ],
+  "stdin": "SELECT 'first';\nSELECT * FROM nonexistent;\nSELECT 'should not appear';",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_load_command_exists_but_no_extensions::316",
+  "argv": [],
+  "stdin": ".help",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inline_content_heredoc_syntax::317",
+  "argv": [
+   "test.sql"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sql": "\n.import --csv <<END inline_data\nname,value\ninline1,10\ninline2,20\nEND\nSELECT * FROM inline_data;\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_mode_basic::318",
+  "argv": [
+   "-list",
+   ":memory:"
+  ],
+  "stdin": "SELECT 1 as a, 2 as b, 3 as c;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_mode_with_header::319",
+  "argv": [
+   "-list",
+   "-header",
+   ":memory:"
+  ],
+  "stdin": "SELECT 1 as a, 2 as b, 3 as c;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_mode_basic::320",
+  "argv": [
+   "-csv",
+   ":memory:"
+  ],
+  "stdin": "SELECT 1 as a, 2 as b, 3 as c;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_mode_with_header::321",
+  "argv": [
+   "-csv",
+   "-header",
+   ":memory:"
+  ],
+  "stdin": "SELECT 1 as a, 2 as b, 3 as c;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_mode_multirow::322",
+  "argv": [
+   "-csv",
+   "-header",
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t(name TEXT, value INT); INSERT INTO t VALUES('Alice', 100), ('Bob', 200); SELECT * FROM t;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_mode_quoting::323",
+  "argv": [
+   "-csv",
+   "-header",
+   ":memory:"
+  ],
+  "stdin": "SELECT 'Test,Value' as col1, 'Quote\"Test' as col2;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_mode_basic::324",
+  "argv": [
+   "-json",
+   ":memory:"
+  ],
+  "stdin": "SELECT 1 as a, 2 as b, 3 as c;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_mode_multirow::325",
+  "argv": [
+   "-json",
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t(id INT, name TEXT); INSERT INTO t VALUES(1, 'Alice'), (2, 'Bob'); SELECT * FROM t ORDER BY id;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_mode_null_values::326",
+  "argv": [
+   "-json",
+   ":memory:"
+  ],
+  "stdin": "SELECT 1 as num, NULL as nullable, 'text' as str;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_mode_basic::327",
+  "argv": [
+   "-table",
+   ":memory:"
+  ],
+  "stdin": "SELECT 1 as a, 2 as b, 3 as c;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_mode_noheader::328",
+  "argv": [
+   "-table",
+   "-noheader",
+   ":memory:"
+  ],
+  "stdin": "SELECT 1 as a, 2 as b, 3 as c;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_box_mode_basic::329",
+  "argv": [
+   "-box",
+   ":memory:"
+  ],
+  "stdin": "SELECT 1 as a, 2 as b, 3 as c;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_mode_basic::330",
+  "argv": [
+   "-html",
+   ":memory:"
+  ],
+  "stdin": "SELECT 1 as a, 2 as b, 3 as c;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_mode_noheader::331",
+  "argv": [
+   "-html",
+   "-noheader",
+   ":memory:"
+  ],
+  "stdin": "SELECT 1 as a, 2 as b, 3 as c;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_mode_escaping::332",
+  "argv": [
+   "-html",
+   ":memory:"
+  ],
+  "stdin": "SELECT '<script>' as tag, '&' as ampersand;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_mode_basic::333",
+  "argv": [
+   "-markdown",
+   ":memory:"
+  ],
+  "stdin": "SELECT 1 as a, 2 as b, 3 as c;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_mode_basic::334",
+  "argv": [
+   "-line",
+   ":memory:"
+  ],
+  "stdin": "SELECT 1 as a, 2 as b, 3 as c;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_mode_multirow::335",
+  "argv": [
+   "-line",
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t(id INT, name TEXT); INSERT INTO t VALUES(1, 'Alice'), (2, 'Bob'); SELECT * FROM t ORDER BY id;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quote_mode_basic::336",
+  "argv": [
+   "-quote",
+   ":memory:"
+  ],
+  "stdin": "SELECT 1 as a, 'text' as b, NULL as c;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_column_mode_basic::337",
+  "argv": [
+   "-column",
+   ":memory:"
+  ],
+  "stdin": "SELECT 1 as a, 2 as b, 3 as c;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tabs_mode_basic::338",
+  "argv": [
+   "-tabs",
+   ":memory:"
+  ],
+  "stdin": "SELECT 1 as a, 2 as b, 3 as c;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ascii_mode_basic::339",
+  "argv": [
+   "-ascii",
+   ":memory:"
+  ],
+  "stdin": "SELECT 1 as a, 2 as b, 3 as c;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ascii_mode_multirow::340",
+  "argv": [
+   "-ascii",
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t(id INT, name TEXT); INSERT INTO t VALUES(1, 'Alice'), (2, 'Bob'); SELECT * FROM t ORDER BY id;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_null_values::341",
+  "argv": [
+   "-list",
+   "-nullvalue",
+   "NULL",
+   ":memory:"
+  ],
+  "stdin": "SELECT 1 as a, NULL as b, 'text' as c;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_empty_result::342",
+  "argv": [
+   "-list",
+   ":memory:"
+  ],
+  "stdin": "SELECT * FROM (SELECT 1) WHERE 0;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_separator::343",
+  "argv": [
+   "-separator",
+   ";",
+   ":memory:"
+  ],
+  "stdin": "SELECT 1 as a, 2 as b, 3 as c;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_null_default::344",
+  "argv": [
+   "-table",
+   ":memory:"
+  ],
+  "stdin": "SELECT 1 as num, NULL as nullable, 'text' as str;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_nullvalue_flag::345",
+  "argv": [
+   "-table",
+   "-nullvalue",
+   "NULL",
+   ":memory:"
+  ],
+  "stdin": "SELECT 1 as num, NULL as nullable, 'text' as str;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_empty_result::346",
+  "argv": [
+   "-json",
+   ":memory:"
+  ],
+  "stdin": "SELECT * FROM (SELECT 1) WHERE 0;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_empty_result::347",
+  "argv": [
+   "-table",
+   ":memory:"
+  ],
+  "stdin": "SELECT * FROM (SELECT 1) WHERE 0;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_wide_columns::348",
+  "argv": [
+   "-table",
+   ":memory:"
+  ],
+  "stdin": "SELECT 'This is a very long string value that should test column width handling' as longcol, 'short' as shortcol;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_box_mode_multirow::349",
+  "argv": [
+   "-box",
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t(id INT, name TEXT, value INT); INSERT INTO t VALUES(1, 'Alice', 100), (2, 'Bob', 200), (3, 'Charlie', 300); SELECT * FROM t ORDER BY id;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_multirow::350",
+  "argv": [
+   "-markdown",
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t(id INT, name TEXT); INSERT INTO t VALUES(1, 'Alice'), (2, 'Bob'), (3, 'Charlie'); SELECT * FROM t ORDER BY id;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_column_mode_multirow::351",
+  "argv": [
+   "-column",
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t(id INT, name TEXT); INSERT INTO t VALUES(1, 'Alice'), (2, 'Bob'); SELECT * FROM t ORDER BY id;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_column_mode_noheader::352",
+  "argv": [
+   "-column",
+   "-noheader",
+   ":memory:"
+  ],
+  "stdin": "SELECT 1 as a, 2 as b, 3 as c;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_special_characters::353",
+  "argv": [
+   "-json",
+   ":memory:"
+  ],
+  "stdin": "SELECT 'line1\nline2' as multiline, 'tab\there' as withtab;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quote_mode_complex::354",
+  "argv": [
+   "-quote",
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t(id INT, name TEXT, value REAL); INSERT INTO t VALUES(1, 'Alice', 10.5), (2, 'Bob''s data', NULL); SELECT * FROM t ORDER BY id;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_custom_separator::355",
+  "argv": [
+   "-csv",
+   "-separator",
+   ";",
+   ":memory:"
+  ],
+  "stdin": "SELECT 1 as a, 2 as b, 3 as c;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_custom_newline::356",
+  "argv": [
+   "-list",
+   "-newline",
+   ";",
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t(id INT); INSERT INTO t VALUES(1), (2); SELECT * FROM t;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tabs_with_header::357",
+  "argv": [
+   "-tabs",
+   "-header",
+   ":memory:"
+  ],
+  "stdin": "SELECT 1 as a, 2 as b, 3 as c;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_numeric_types::358",
+  "argv": [
+   "-json",
+   ":memory:"
+  ],
+  "stdin": "SELECT 1.0 as one, 1.5 as onehalf, 1.123456789 as precise, 1e10 as scientific;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_newline_in_data::359",
+  "argv": [
+   "-csv",
+   "-header",
+   ":memory:"
+  ],
+  "stdin": "SELECT 'line1\nline2' as multiline;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_multirow_with_null::360",
+  "argv": [
+   "-html",
+   ":memory:"
+  ],
+  "stdin": "CREATE TABLE t(id INT, name TEXT, value INT); INSERT INTO t VALUES(1, 'Alice', 100), (2, NULL, 200); SELECT * FROM t ORDER BY id;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_box_null_display::361",
+  "argv": [
+   "-box",
+   ":memory:"
+  ],
+  "stdin": "SELECT 1 as a, NULL as b, 'text' as c;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_null_display::362",
+  "argv": [
+   "-markdown",
+   ":memory:"
+  ],
+  "stdin": "SELECT 1 as a, NULL as b, 'text' as c;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_null_default::363",
+  "argv": [
+   "-line",
+   ":memory:"
+  ],
+  "stdin": "SELECT 1 as a, NULL as b, 'text' as c;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_nullvalue_flag::364",
+  "argv": [
+   "-line",
+   "-nullvalue",
+   "NULL",
+   ":memory:"
+  ],
+  "stdin": "SELECT 1 as a, NULL as b, 'text' as c;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quote_special_characters::365",
+  "argv": [
+   "-quote",
+   ":memory:"
+  ],
+  "stdin": "SELECT 'line1\nline2' as multiline, 'tab\there' as withtab;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_column_null_display::366",
+  "argv": [
+   "-column",
+   ":memory:"
+  ],
+  "stdin": "SELECT 1 as a, NULL as b, 'text' as c;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_varying_column_widths::367",
+  "argv": [
+   "-table",
+   ":memory:"
+  ],
+  "stdin": "SELECT 1 as tiny, 100 as small, 10000 as med, 1000000 as large;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_empty_string_vs_null::368",
+  "argv": [
+   "-csv",
+   "-header",
+   ":memory:"
+  ],
+  "stdin": "SELECT 1 as a, '' as empty, NULL as nullable;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_empty_string_vs_null::369",
+  "argv": [
+   "-json",
+   ":memory:"
+  ],
+  "stdin": "SELECT 1 as a, '' as empty, NULL as nullable;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_all_empty_strings::370",
+  "argv": [
+   "-csv",
+   "-header",
+   ":memory:"
+  ],
+  "stdin": "SELECT '' as a, '' as b, '' as c;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_all_empty_strings::371",
+  "argv": [
+   "-json",
+   ":memory:"
+  ],
+  "stdin": "SELECT '' as a, '' as b, '' as c;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_box_long_column_name::372",
+  "argv": [
+   "-box",
+   ":memory:"
+  ],
+  "stdin": "SELECT 1 as this_is_a_very_long_column_name_that_tests_width_handling;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_single_column::373",
+  "argv": [
+   "-markdown",
+   ":memory:"
+  ],
+  "stdin": "SELECT 42;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quote_blob_data::374",
+  "argv": [
+   "-quote",
+   ":memory:"
+  ],
+  "stdin": "SELECT x'48656c6c6f' as hex_blob;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_blob_data::375",
+  "argv": [
+   "-json",
+   ":memory:"
+  ],
+  "stdin": "SELECT x'48656c6c6f' as hex_blob;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_many_columns::376",
+  "argv": [
+   "-list",
+   "-header",
+   ":memory:"
+  ],
+  "stdin": "SELECT 1 as a, 2 as b, 3 as c, 4 as d, 5 as e, 6 as f, 7 as g, 8 as h;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::377",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_simple_query_memory_db::378",
+  "argv": [
+   ":memory:",
+   "SELECT 1+1;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_create_and_query_table::379",
+  "argv": [
+   ":memory:",
+   "CREATE TABLE t(x); INSERT INTO t VALUES(1),(2),(3); SELECT * FROM t;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_substr_all_variations::380",
+  "argv": [
+   "-cmd",
+   ".mode json",
+   ":memory:",
+   "SELECT \n          substr('SQLite Database', 1, 6) as substr_normal,\n          substr('SQLite Database', -8, 5) as substr_negative,\n          substr('SQLite Database', 100, 5) as substr_oob,\n          substr('SQLite', 1) as substr_no_len,\n          substr(NULL, 1, 3) as substr_null,\n          substr('Hello', 0, 3) as substr_zero_start;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trim_ltrim_rtrim_variations::381",
+  "argv": [
+   "-cmd",
+   ".mode json",
+   ":memory:",
+   "SELECT \n          trim('  Hello World  ') as trim_spaces,\n          ltrim('  Hello World  ') as ltrim_spaces,\n          rtrim('  Hello World  ') as rtrim_spaces,\n          trim('xxxHello Worldxxx', 'x') as trim_custom,\n          ltrim('xxxHello Worldxxx', 'x') as ltrim_custom,\n          rtrim('xxxHello Worldxxx', 'x') as rtrim_custom,\n          trim('') as trim_empty,\n          trim(NULL) as trim_null;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_replace_all_variations::382",
+  "argv": [
+   "-cmd",
+   ".mode json",
+   ":memory:",
+   "SELECT \n          replace('Hello World', 'World', 'SQLite') as replace_simple,\n          replace('aaabbbaaaccc', 'aa', 'XX') as replace_multiple,\n          replace('Hello World', '', 'X') as replace_empty_search,\n          replace('Hello World', 'xyz', 'ABC') as replace_not_found,\n          replace('', 'x', 'y') as replace_empty_string,\n          replace(NULL, 'x', 'y') as replace_null,\n          replace('test', NULL, 'x') as replace_null_search,\n          replace('test', 'e', NULL) as replace_null_replacement;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_upper_lower_case_conversion::383",
+  "argv": [
+   "-cmd",
+   ".mode json",
+   ":memory:",
+   "SELECT \n          upper('Hello World') as upper_normal,\n          lower('Hello World') as lower_normal,\n          upper('café') as upper_unicode,\n          lower('CAFÉ') as lower_unicode,\n          upper(NULL) as upper_null,\n          lower(NULL) as lower_null,\n          upper('') as upper_empty,\n          lower('123!@#') as lower_symbols;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_length_and_octet_length::384",
+  "argv": [
+   "-cmd",
+   ".mode json",
+   ":memory:",
+   "SELECT \n          length('Hello World') as length_ascii,\n          length('café') as length_unicode,\n          length('日本語') as length_multibyte,\n          length('') as length_empty,\n          length(NULL) as length_null,\n          octet_length('Hello') as octet_length_ascii,\n          octet_length('café') as octet_length_unicode,\n          octet_length('日本語') as octet_length_multibyte;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_instr_substring_search::385",
+  "argv": [
+   "-cmd",
+   ".mode json",
+   ":memory:",
+   "SELECT \n          instr('Hello World', 'World') as instr_found,\n          instr('Hello World', 'xyz') as instr_not_found,\n          instr('Hello World Hello', 'Hello') as instr_first_match,\n          instr('', 'x') as instr_empty_haystack,\n          instr('Hello', '') as instr_empty_needle,\n          instr(NULL, 'x') as instr_null_haystack,\n          instr('test', NULL) as instr_null_needle;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_printf_format_specifiers::386",
+  "argv": [
+   "-cmd",
+   ".mode json",
+   ":memory:",
+   "SELECT \n          printf('%s %d', 'Count:', 42) as printf_mixed,\n          printf('%05d', 123) as printf_zero_pad,\n          printf('%.2f', 3.14159) as printf_precision,\n          printf('%x', 255) as printf_hex,\n          printf('%X', 255) as printf_hex_upper,\n          printf('%%test%%') as printf_escaped_percent,\n          printf('%s', NULL) as printf_null;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_char_hex_quote_functions::387",
+  "argv": [
+   "-cmd",
+   ".mode json",
+   ":memory:",
+   "SELECT \n          char(72, 101, 108, 108, 111) as char_hello,\n          char(9731, 9733) as char_unicode,\n          hex('Hello') as hex_text,\n          hex(X'48656C6C6F') as hex_blob,\n          unhex('48656C6C6F') as unhex_basic,\n          unhex('48656c6c6f') as unhex_lowercase,\n          quote('Hello') as quote_text,\n          quote(123) as quote_number,\n          quote(NULL) as quote_null,\n          quote(X'48656C6C6F') as quote_blob;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_like_pattern_matching::388",
+  "argv": [
+   "-cmd",
+   ".mode json",
+   ":memory:",
+   "SELECT \n          'Hello World' LIKE 'Hello%' as like_percent_end,\n          'Hello World' LIKE '%World' as like_percent_start,\n          'Hello World' LIKE '%llo Wo%' as like_percent_both,\n          'Hello World' LIKE 'Hello_World' as like_underscore,\n          'Hello World' LIKE 'hello%' as like_case_insensitive,\n          'test123' LIKE 'test___' as like_exact_chars,\n          'test' LIKE 'test%xyz' as like_no_match,\n          NULL LIKE 'test%' as like_null_string;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_glob_pattern_matching::389",
+  "argv": [
+   "-cmd",
+   ".mode json",
+   ":memory:",
+   "SELECT \n          'Hello World' GLOB 'Hello*' as glob_star_end,\n          'Hello World' GLOB '*World' as glob_star_start,\n          'Hello World' GLOB 'Hello?World' as glob_question,\n          'Hello World' GLOB 'hello*' as glob_case_sensitive,\n          'test123' GLOB 'test[0-9][0-9][0-9]' as glob_bracket_range,\n          'testABC' GLOB 'test[A-Z]*' as glob_bracket_alpha,\n          'test1' GLOB 'test[^0-9]' as glob_bracket_negate,\n          'test_file.txt' GLOB '*.txt' as glob_extension;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_like_escape_clause::390",
+  "argv": [
+   "-cmd",
+   ".mode json",
+   ":memory:",
+   "SELECT \n          'test%file' LIKE 'test%' as like_percent_literal_no_escape,\n          'test%file' LIKE 'test#%%' ESCAPE '#' as like_percent_literal_escape,\n          'test_file' LIKE 'test#_file' ESCAPE '#' as like_underscore_literal_escape,\n          '50%' LIKE '%#%%' ESCAPE '#' as like_match_percent_end;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_concatenation_operator::391",
+  "argv": [
+   "-cmd",
+   ".mode json",
+   ":memory:",
+   "SELECT \n          'Hello' || ' ' || 'World' as concat_strings,\n          'Value: ' || 42 as concat_string_int,\n          'Pi: ' || 3.14159 as concat_string_float,\n          'Test' || NULL as concat_null,\n          '' || 'test' as concat_empty_left,\n          'test' || '' as concat_empty_right,\n          NULL || NULL as concat_both_null;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_multibyte_comprehensive::392",
+  "argv": [
+   "-cmd",
+   ".mode json",
+   ":memory:",
+   "CREATE TABLE unicode_test(text TEXT);\n        INSERT INTO unicode_test VALUES \n          ('Hello 世界'),\n          ('Emoji: 🚀🌟'),\n          ('Greek: αβγδ'),\n          ('Arabic: مرحبا');\n        SELECT \n          text,\n          length(text) as char_length,\n          octet_length(text) as byte_length,\n          upper(text) as upper_text,\n          substr(text, 1, 5) as first_5_chars\n        FROM unicode_test;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_substr_edge_cases_negative_and_bounds::393",
+  "argv": [
+   "-cmd",
+   ".mode json",
+   ":memory:",
+   "SELECT \n          substring('SQLite', 1, 3) as substring_alias,\n          substring('SQLite', -3, 2) as substring_negative,\n          substr('0123456789', 5) as substr_from_middle,\n          substr('0123456789', -5) as substr_negative_no_len,\n          substr('0123456789', 1, 100) as substr_len_exceeds,\n          substr('test', 3, 0) as substr_zero_length;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_printf_advanced_formatting::394",
+  "argv": [
+   "-cmd",
+   ".mode json",
+   ":memory:",
+   "SELECT \n          printf('%10s', 'test') as printf_width,\n          printf('%-10s', 'test') as printf_left_align,\n          printf('%*s', 10, 'test') as printf_dynamic_width,\n          printf('%.*s', 3, 'testing') as printf_dynamic_precision,\n          printf('%c', 65) as printf_char,\n          printf('%o', 64) as printf_octal,\n          printf('%e', 123.456) as printf_scientific;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_handling_in_table_queries::395",
+  "argv": [
+   "-cmd",
+   ".mode json",
+   ":memory:",
+   "CREATE TABLE test_nulls(a TEXT, b TEXT, c TEXT);\n        INSERT INTO test_nulls VALUES ('hello', NULL, 'world'), (NULL, 'test', NULL);\n        SELECT \n          a || b || c as concat_with_nulls,\n          coalesce(a, 'DEFAULT') as coalesce_test,\n          substr(b, 1, 3) as substr_null,\n          upper(c) as upper_null,\n          length(a) as length_null\n        FROM test_nulls;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trim_replace_special_edge_cases::396",
+  "argv": [
+   "-cmd",
+   ".mode json",
+   ":memory:",
+   "SELECT \n          trim('   ') as trim_only_spaces,\n          ltrim('   ') as ltrim_only_spaces,\n          rtrim('   ') as rtrim_only_spaces,\n          trim('   hello   ', ' ') as trim_spaces_explicit,\n          replace('test test test', 'test', 'TEST') as replace_all_occurrences,\n          replace('aaaa', 'aa', 'b') as replace_overlapping;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_like_empty_strings_and_special_cases::397",
+  "argv": [
+   "-cmd",
+   ".mode json",
+   ":memory:",
+   "SELECT \n          '' LIKE '' as like_empty_both,\n          'test' LIKE '' as like_empty_pattern,\n          '' LIKE '%' as like_empty_string_percent,\n          'a' LIKE '_' as like_single_char_match,\n          'ab' LIKE '_' as like_single_char_no_match,\n          'test' LIKE 't%t' as like_start_end,\n          '%' LIKE '#%' ESCAPE '#' as like_literal_percent_match,\n          '_' LIKE '#_' ESCAPE '#' as like_literal_underscore_match;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_glob_empty_strings_and_special_cases::398",
+  "argv": [
+   "-cmd",
+   ".mode json",
+   ":memory:",
+   "SELECT \n          '' GLOB '' as glob_empty_both,\n          'test' GLOB '' as glob_empty_pattern,\n          '' GLOB '*' as glob_empty_string_star,\n          'a' GLOB '?' as glob_single_char_match,\n          'ab' GLOB '?' as glob_single_char_no_match,\n          'test.txt' GLOB 'test.*' as glob_literal_dot,\n          '[' GLOB '[[]' as glob_bracket_literal;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_string_operations::399",
+  "argv": [
+   "-cmd",
+   ".mode json",
+   ":memory:",
+   "SELECT \n          length(replace('x', '', 'y')) as replace_empty_search_length,\n          substr('abcdefghij', 5, 3) as substr_middle,\n          instr('abcabcabc', 'abc') as instr_multiple_first,\n          printf('%s', replace('test', '', '')) as nested_operations;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

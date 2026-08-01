@@ -1,0 +1,1910 @@
+{
+ "slug": "elkowar__pipr.fae0b17",
+ "language": "",
+ "n_branches": 11,
+ "n_tests_total": 815,
+ "n_examples": 96,
+ "n_with_exact_stdout": 1,
+ "n_with_rc": 83,
+ "n_skipped": 695,
+ "examples": [
+  {
+   "test": "test_help_prints_usage_and_exits_zero",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--config-reference"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:9"
+  },
+  {
+   "test": "test_config_reference_prints_default_config_to_stdout_only",
+   "argv": [
+    "--config-reference"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pipr",
+    "help_viewers"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_io_behavior.py:17"
+  },
+  {
+   "test": "test_in_file_nonexistent_shows_os_error_message",
+   "argv": [
+    "--no-isolation",
+    "--in-file",
+    "definitely_missing_123.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "No such file or directory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:55"
+  },
+  {
+   "test": "test_unknown_long_option_errors_and_exit_code_1",
+   "argv": [
+    "--unknown"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Unrecognized option: 'unknown'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:30"
+  },
+  {
+   "test": "test_positional_argument_is_rejected_and_triggers_dependency_message",
+   "argv": [
+    "positional"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bubblewrap installation not found",
+    "--no-isolation"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:95"
+  },
+  {
+   "test": "test_double_dash_does_not_allow_unknown_options_as_positional",
+   "argv": [
+    "--",
+    "--unknown"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bubblewrap installation not found"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:104"
+  },
+  {
+   "test": "test_double_dash_does_not_enable_config_reference_as_positional",
+   "argv": [
+    "--",
+    "--config-reference"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bubblewrap installation not found"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:111"
+  },
+  {
+   "test": "test_ext_help_menu_lists_expected_flags",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--default",
+    "--out-file",
+    "--in-file",
+    "--config-reference",
+    "--no-isolation"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_config_reference.py:21"
+  },
+  {
+   "test": "test_help_shows_options_only_no_subcommands_listing",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:21"
+  },
+  {
+   "test": "test_help_after_positional_token_prints_main_help_not_subcommand_help",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:39"
+  },
+  {
+   "test": "test_help_output",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Options:",
+    "--default",
+    "--out-file",
+    "--in-file",
+    "--config-reference",
+    "--no-isolation",
+    "--raw-mode",
+    "--help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:38"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Options:",
+    "--help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:53"
+  },
+  {
+   "test": "test_config_reference_output",
+   "argv": [
+    "--config-reference"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "finish_hook",
+    "paranoid_history_mode_default",
+    "autoeval_mode_default",
+    "history_size",
+    "cmd_timeout_millis",
+    "highlighting_enabled",
+    "[snippets]",
+    "[help_viewers]",
+    "[output_viewers]",
+    "eval_environment"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:62"
+  },
+  {
+   "test": "test_invalid_flag_error",
+   "argv": [
+    "--invalid-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:81"
+  },
+  {
+   "test": "test_missing_bwrap_without_no_isolation",
+   "argv": [
+    "which",
+    "bwrap"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--no-isolation"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:92"
+  },
+  {
+   "test": "test_help_overrides_other_args",
+   "argv": [
+    "--help",
+    "--default",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Options:",
+    "--default"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:113"
+  },
+  {
+   "test": "test_config_reference_overrides_other_args",
+   "argv": [
+    "--config-reference",
+    "--default",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "finish_hook",
+    "[snippets]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:123"
+  },
+  {
+   "test": "test_help_flag_shows_all_options",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Options:",
+    "--in-file",
+    "--config-reference",
+    "--no-isolation",
+    "text inserted into the textfield",
+    "write final command to file",
+    "read initial command from file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_comprehensive.py:38"
+  },
+  {
+   "test": "test_config_reference_shows_all_sections",
+   "argv": [
+    "--config-reference"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "finish_hook",
+    "paranoid_history_mode_default",
+    "autoeval_mode_default",
+    "history_size",
+    "cmd_timeout_millis",
+    "highlighting_enabled",
+    "[snippets]",
+    "[help_viewers]",
+    "[output_viewers]",
+    "eval_environment",
+    "="
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_comprehensive.py:66"
+  },
+  {
+   "test": "test_invalid_flag_shows_error",
+   "argv": [
+    "--this-flag-does-not-exist"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_comprehensive.py:88"
+  },
+  {
+   "test": "test_missing_flag_value_shows_error",
+   "argv": [
+    "--default"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_comprehensive.py:97"
+  },
+  {
+   "test": "test_help_exits_immediately",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_comprehensive.py:105"
+  },
+  {
+   "test": "test_config_reference_exits_immediately",
+   "argv": [
+    "--config-reference"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[snippets]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_comprehensive.py:115"
+  },
+  {
+   "test": "test_help_precedence_over_other_flags",
+   "argv": [
+    "--help",
+    "--default",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_comprehensive.py:239"
+  },
+  {
+   "test": "test_config_reference_precedence",
+   "argv": [
+    "--config-reference",
+    "--default",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[snippets]",
+    "finish_hook"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_comprehensive.py:250"
+  },
+  {
+   "test": "test_config_reference_has_all_main_fields",
+   "argv": [
+    "--config-reference"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_comprehensive.py:39"
+  },
+  {
+   "test": "test_config_reference_has_examples",
+   "argv": [
+    "--config-reference"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "man",
+    "less"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_comprehensive.py:67"
+  },
+  {
+   "test": "test_config_reference_is_valid_toml",
+   "argv": [
+    "--config-reference"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "=",
+    "["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_comprehensive.py:78"
+  },
+  {
+   "test": "test_help_takes_precedence",
+   "argv": [
+    "--help",
+    "-d",
+    "test",
+    "-o",
+    "/tmp/out",
+    "--raw-mode"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Options:",
+    "--default"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:37"
+  },
+  {
+   "test": "test_config_reference_takes_precedence",
+   "argv": [
+    "--config-reference",
+    "-d",
+    "test",
+    "-o",
+    "/tmp/out"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[snippets]",
+    "finish_hook",
+    "history_size"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:47"
+  },
+  {
+   "test": "test_multiple_invalid_flags_show_error",
+   "argv": [
+    "--invalid1",
+    "--invalid2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:57"
+  },
+  {
+   "test": "test_flag_missing_required_value",
+   "argv": [
+    "-d"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:66"
+  },
+  {
+   "test": "test_out_file_flag_missing_value",
+   "argv": [
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:76"
+  },
+  {
+   "test": "test_in_file_flag_missing_value",
+   "argv": [
+    "--in-file"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:85"
+  },
+  {
+   "test": "test_very_long_default_text",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--default"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:112"
+  },
+  {
+   "test": "test_default_with_control_characters",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--default",
+    "text inserted into the textfield"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:119"
+  },
+  {
+   "test": "test_help_format_consistency",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-d",
+    "-o",
+    "-h"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:152"
+  },
+  {
+   "test": "test_help_exact_match",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_behavior.py:24"
+  },
+  {
+   "test": "test_unknown_option_errors",
+   "argv": [
+    "--definitely-not-a-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unrecognized option"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_behavior.py:32"
+  },
+  {
+   "test": "test_config_reference_contains_expected_sections_and_keys",
+   "argv": [
+    "--config-reference"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "A commandline utility",
+    "paranoid_history_mode_default",
+    "autoeval_mode_default",
+    "cmd_timeout_millis",
+    "[snippets]",
+    "[help_viewers]",
+    "[output_viewers]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_behavior.py:38"
+  },
+  {
+   "test": "test_isolation_missing_bwrap_message_if_no_isolation_flag_not_given",
+   "argv": [
+    "-d",
+    "echo hi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bubblewrap installation not found"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_behavior.py:71"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Options:",
+    "--default",
+    "--out-file",
+    "--in-file",
+    "--config-reference",
+    "--raw-mode",
+    "--no-isolation",
+    "--help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:6"
+  },
+  {
+   "test": "test_help_output_identical",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:28"
+  },
+  {
+   "test": "test_config_reference_flag",
+   "argv": [
+    "--config-reference"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "# A commandline utility by",
+    "Leon Kowarschick",
+    "paranoid_history_mode_default",
+    "autoeval_mode_default",
+    "history_size",
+    "cmd_timeout_millis",
+    "highlighting_enabled",
+    "eval_environment",
+    "[snippets]",
+    "[help_viewers]",
+    "[output_viewers]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:36"
+  },
+  {
+   "test": "test_config_reference_has_comments",
+   "argv": [
+    "--config-reference"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "finish_hook",
+    "Snippets can be used to quickly insert",
+    "||"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:52"
+  },
+  {
+   "test": "test_config_reference_default_values",
+   "argv": [
+    "--config-reference"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "paranoid_history_mode_default = false",
+    "autoeval_mode_default = true",
+    "history_size = 500",
+    "cmd_timeout_millis = 2000",
+    "highlighting_enabled = true",
+    "eval_environment = [\"bash\", \"-c\"]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:61"
+  },
+  {
+   "test": "test_config_reference_default_snippets",
+   "argv": [
+    "--config-reference"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[snippets]",
+    "sed -r 's/||//g'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:74"
+  },
+  {
+   "test": "test_config_reference_default_help_viewers",
+   "argv": [
+    "--config-reference"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[help_viewers]",
+    "man ??",
+    "?? --help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:81"
+  },
+  {
+   "test": "test_config_reference_default_output_viewers",
+   "argv": [
+    "--config-reference"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[output_viewers]",
+    "less"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:89"
+  },
+  {
+   "test": "test_invalid_flag",
+   "argv": [
+    "--invalid-flag-that-does-not-exist"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:96"
+  },
+  {
+   "test": "test_invalid_short_flag",
+   "argv": [
+    "-z"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:102"
+  },
+  {
+   "test": "test_config_reference_complete_structure",
+   "argv": [
+    "--config-reference"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "paranoid_history_mode_default",
+    "autoeval_mode_default",
+    "history_size",
+    "cmd_timeout_millis",
+    "highlighting_enabled",
+    "eval_environment",
+    "[snippets]",
+    "[help_viewers]",
+    "[output_viewers]",
+    "#",
+    "Leon Kowarschick"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_system.py:36"
+  },
+  {
+   "test": "test_multiple_default_flags",
+   "argv": [
+    "--default",
+    "first",
+    "--default",
+    "second",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "default"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_edge_cases.py:6"
+  },
+  {
+   "test": "test_multiple_in_file_flags",
+   "argv": [
+    "--in-file",
+    "file1.txt",
+    "--in-file",
+    "file2.txt",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "file1.txt": "content1",
+    "file2.txt": "content2"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:17"
+  },
+  {
+   "test": "test_empty_file_input",
+   "argv": [
+    "--in-file",
+    "empty.txt",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--in-file"
+   ],
+   "files": {
+    "empty.txt": ""
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:30"
+  },
+  {
+   "test": "test_binary_file_input",
+   "argv": [
+    "--in-file",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:44"
+  },
+  {
+   "test": "test_large_default_text",
+   "argv": [
+    "--default",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--default"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:53"
+  },
+  {
+   "test": "test_default_with_newlines",
+   "argv": [
+    "--default",
+    "echo hello\necho world\necho test",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:62"
+  },
+  {
+   "test": "test_special_characters_in_default",
+   "argv": [
+    "--default",
+    "echo 'test' | grep \"pattern\" && ls -la; cat /etc/hosts",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--default"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:71"
+  },
+  {
+   "test": "test_unicode_in_default",
+   "argv": [
+    "--default",
+    "echo '你好世界 🌍 café'",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--default"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:79"
+  },
+  {
+   "test": "test_flag_after_value",
+   "argv": [
+    "--default",
+    "echo test",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:88"
+  },
+  {
+   "test": "test_raw_mode_with_default_multiline",
+   "argv": [
+    "-r",
+    "--default",
+    "line1\nline2\nline3",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--raw-mode",
+    "keep linebreaks"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:96"
+  },
+  {
+   "test": "test_double_dash_separator",
+   "argv": [
+    "--",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:117"
+  },
+  {
+   "test": "test_output_file_in_nonexistent_dir",
+   "argv": [
+    "--out-file",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--out-file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:130"
+  },
+  {
+   "test": "test_help_with_all_flags",
+   "argv": [
+    "-h",
+    "-r",
+    "-d",
+    "test",
+    "--in-file",
+    "input.txt",
+    "--out-file",
+    "--no-isolation"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--default",
+    "--in-file",
+    "--out-file",
+    "--raw-mode"
+   ],
+   "files": {
+    "input.txt": "test"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:139"
+  },
+  {
+   "test": "test_config_reference_with_all_flags",
+   "argv": [
+    "--config-reference",
+    "-r",
+    "-d",
+    "test",
+    "--in-file",
+    "input.txt",
+    "--no-isolation"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "paranoid_history_mode_default",
+    "autoeval_mode_default",
+    "[snippets]",
+    "[help_viewers]"
+   ],
+   "files": {
+    "input.txt": "test"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:153"
+  },
+  {
+   "test": "test_very_long_filename",
+   "argv": [
+    "--in-file",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--in-file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:164"
+  },
+  {
+   "test": "test_in_file_with_special_chars_in_path",
+   "argv": [
+    "--in-file",
+    "test file with spaces.txt",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--in-file"
+   ],
+   "files": {
+    "test file with spaces.txt": "content"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:189"
+  },
+  {
+   "test": "test_default_only_whitespace",
+   "argv": [
+    "--default",
+    "   \t\n  ",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--default",
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:198"
+  },
+  {
+   "test": "test_no_isolation_flag",
+   "argv": [
+    "--no-isolation",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--no-isolation",
+    "disable isolation",
+    "Usage:",
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_execution_modes.py:5"
+  },
+  {
+   "test": "test_isolated_mode_requires_bubblewrap",
+   "argv": [
+    "--default",
+    "echo test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "no-isolation"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_execution_modes.py:15"
+  },
+  {
+   "test": "test_unsafe_mode_bypasses_bubblewrap",
+   "argv": [
+    "--no-isolation",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--no-isolation"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_execution_modes.py:32"
+  },
+  {
+   "test": "test_multiple_flags_combination",
+   "argv": [
+    "--no-isolation",
+    "--raw-mode",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--raw-mode",
+    "--no-isolation",
+    "keep linebreaks",
+    "disable isolation"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_execution_modes.py:42"
+  },
+  {
+   "test": "test_default_with_no_isolation",
+   "argv": [
+    "--default",
+    "echo hello",
+    "--no-isolation",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--default"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_execution_modes.py:53"
+  },
+  {
+   "test": "test_config_reference_with_no_isolation",
+   "argv": [
+    "--config-reference",
+    "--no-isolation"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "paranoid_history_mode_default",
+    "eval_environment",
+    "[snippets]",
+    "[help_viewers]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_execution_modes.py:64"
+  },
+  {
+   "test": "test_help_takes_precedence_over_execution",
+   "argv": [
+    "--help",
+    "--no-isolation",
+    "--default",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Options:",
+    "--default",
+    "--no-isolation"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_execution_modes.py:74"
+  },
+  {
+   "test": "test_config_reference_takes_precedence",
+   "argv": [
+    "--config-reference",
+    "--default",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "paranoid_history_mode_default",
+    "[snippets]",
+    "[help_viewers]",
+    "[output_viewers]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_execution_modes.py:84"
+  },
+  {
+   "test": "test_in_file_basic",
+   "argv": [
+    "--in-file",
+    "input.txt",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--in-file"
+   ],
+   "files": {
+    "input.txt": "echo hello"
+   },
+   "ci": false,
+   "source": "test_file_operations.py:6"
+  },
+  {
+   "test": "test_in_file_multiline",
+   "argv": [
+    "--in-file",
+    "multiline.txt",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--in-file"
+   ],
+   "files": {
+    "multiline.txt": "echo hello |\ngrep hello"
+   },
+   "ci": false,
+   "source": "test_file_operations.py:35"
+  },
+  {
+   "test": "test_default_text_basic",
+   "argv": [
+    "--default",
+    "echo test",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--default"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_operations.py:47"
+  },
+  {
+   "test": "test_default_text_with_pipes",
+   "argv": [
+    "--default",
+    "cat file | grep pattern",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--default"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_operations.py:57"
+  },
+  {
+   "test": "test_default_text_with_quotes",
+   "argv": [
+    "--default",
+    "echo 'hello world'",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--default"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_operations.py:67"
+  },
+  {
+   "test": "test_default_text_empty",
+   "argv": [
+    "--default",
+    "",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--default",
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_operations.py:76"
+  },
+  {
+   "test": "test_out_file_flag_parsing",
+   "argv": [
+    "--out-file",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--out-file",
+    "write final command to file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_operations.py:85"
+  },
+  {
+   "test": "test_in_file_and_default_together",
+   "argv": [
+    "--in-file",
+    "input.txt",
+    "--default",
+    "from default",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--in-file",
+    "--default"
+   ],
+   "files": {
+    "input.txt": "from file"
+   },
+   "ci": false,
+   "source": "test_file_operations.py:95"
+  },
+  {
+   "test": "test_raw_mode_flag",
+   "argv": [
+    "--raw-mode",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--raw-mode",
+    "keep linebreaks"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_operations.py:105"
+  },
+  {
+   "test": "test_raw_mode_short_flag",
+   "argv": [
+    "-r",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--raw-mode",
+    "keep linebreaks"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_operations.py:113"
+  },
+  {
+   "test": "test_in_file_reads_content",
+   "argv": [
+    "--in-file",
+    "test.txt",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--in-file"
+   ],
+   "files": {
+    "test.txt": "echo 'test content with special chars: @#$%'"
+   },
+   "ci": false,
+   "source": "test_file_operations.py:121"
+  },
+  {
+   "test": "test_default_option_short",
+   "argv": [
+    "-d",
+    "echo test",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--default",
+    "-d"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_operations.py:135"
+  },
+  {
+   "test": "test_out_file_short_option",
+   "argv": [
+    "-o",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--out-file",
+    "-o"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_operations.py:144"
+  },
+  {
+   "test": "test_tui_text_input",
+   "argv": [
+    "tmux",
+    "kill-session",
+    "-t",
+    "pipr_test_input"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ls"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_tui_interaction.py:148"
+  },
+  {
+   "test": "test_tui_ctrl_a_ctrl_e",
+   "argv": [
+    "tmux",
+    "kill-session",
+    "-t",
+    "pipr_test_nav"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "start"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_tui_interaction.py:190"
+  },
+  {
+   "test": "test_tui_backspace",
+   "argv": [
+    "tmux",
+    "kill-session",
+    "-t",
+    "pipr_test_backspace"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "echo"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_tui_interaction.py:234"
+  },
+  {
+   "test": "test_tui_ctrl_u_clear",
+   "argv": [
+    "tmux",
+    "kill-session",
+    "-t",
+    "pipr_test_clear"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "newcmd"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_tui_interaction.py:284"
+  },
+  {
+   "test": "test_help_flag_works",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:101"
+  },
+  {
+   "test": "test_no_isolation_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--no-isolation"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:129"
+  }
+ ]
+}

@@ -1,0 +1,650 @@
+[
+ {
+  "name": "test::test_h_and_help_outputs_match_exactly::0",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_takes_precedence_over_other_flags::1",
+  "argv": [
+   "--help",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_before_help_is_error_and_shows_usage_hint::2",
+  "argv": [
+   "--foo",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_ignores_parquet_test_data_env_if_invalid_dir::3",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "PARQUET_TEST_DATA": "/does/not/exist"
+  }
+ },
+ {
+  "name": "test::test_help_short_flag::4",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_short_flag::5",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::6",
+  "argv": [
+   "--invalid-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_paths::7",
+  "argv": [
+   "file1.parquet",
+   "file2.parquet"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_path::8",
+  "argv": [
+   "./parquet-testing/data/alltypes_plain.parquet"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_with_extra_args::9",
+  "argv": [
+   "--help",
+   "extra_arg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_with_extra_args::10",
+  "argv": [
+   "--version",
+   "extra_arg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dash_dash_help::11",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_string_path::12",
+  "argv": [
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_path::13",
+  "argv": [
+   "test!@#$.parquet"
+  ],
+  "stdin": null,
+  "files": {
+   "test!@#$.parquet": "not a parquet file"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_path::14",
+  "argv": [
+   "文件.parquet"
+  ],
+  "stdin": null,
+  "files": {
+   "文件.parquet": "not a parquet"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_path::15",
+  "argv": [
+   "file.parquet"
+  ],
+  "stdin": null,
+  "files": {
+   "file.parquet": "not parquet"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file::16",
+  "argv": [
+   "/nonexistent/path/file.parquet"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_file::17",
+  "argv": [
+   "empty.parquet"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.parquet": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_parquet_file::18",
+  "argv": [
+   "invalid.parquet"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.parquet": "This is not a parquet file"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_text_file_as_parquet::19",
+  "argv": [
+   "text.parquet"
+  ],
+  "stdin": null,
+  "files": {
+   "text.parquet": "Hello World\nThis is text\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_rejected::20",
+  "argv": [
+   "--unknown-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_looks_like_subcommand_add::21",
+  "argv": [
+   "add"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_looks_like_subcommand_remove::22",
+  "argv": [
+   "remove"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_looks_like_subcommand_list::23",
+  "argv": [
+   "list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file::24",
+  "argv": [
+   "nonexistent.parquet"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_takes_precedence::25",
+  "argv": [
+   "--help",
+   "somefile.parquet"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_takes_precedence::26",
+  "argv": [
+   "--version",
+   "somefile.parquet"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_case_sensitive_flags::27",
+  "argv": [
+   "-H"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_verbose_flag::28",
+  "argv": [
+   "--verbose"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_quiet_flag::29",
+  "argv": [
+   "--quiet"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_debug_flag::30",
+  "argv": [
+   "--debug"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file::31",
+  "argv": [
+   "/nonexistent/file.parquet"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_file_path::32",
+  "argv": [
+   "/dev/null"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_directory_instead_of_file::33",
+  "argv": [
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_non_parquet_text_file::34",
+  "argv": [
+   "fake.parquet"
+  ],
+  "stdin": null,
+  "files": {
+   "fake.parquet": "This is just plain text, not parquet data"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parquet_magic_only::35",
+  "argv": [
+   "magic_only.parquet"
+  ],
+  "stdin": null,
+  "files": {
+   "magic_only.parquet": "PAR1"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_path::36",
+  "argv": [
+   "test.parquet"
+  ],
+  "stdin": null,
+  "files": {
+   "test.parquet": "fake"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_special_chars_in_name::37",
+  "argv": [
+   "file with spaces & special!@#$%.parquet"
+  ],
+  "stdin": null,
+  "files": {
+   "file with spaces & special!@#$%.parquet": "fake"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_directory_as_file::38",
+  "argv": [
+   "./parquet-testing/data"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parent_directory::39",
+  "argv": [
+   ".."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_root_directory::40",
+  "argv": [
+   "/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_device_zero::41",
+  "argv": [
+   "/dev/zero"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_proc_file::42",
+  "argv": [
+   "/proc/self/stat"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_after_argument::43",
+  "argv": [
+   "file.parquet",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_equals_syntax_for_path::44",
+  "argv": [
+   "--path=file.parquet"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dash_as_stdin::45",
+  "argv": [
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_environment::46",
+  "argv": [
+   "./parquet-testing/data/binary.parquet"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dotdot_in_path::47",
+  "argv": [
+   "./parquet-testing/../parquet-testing/data/binary.parquet"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trailing_slash_in_path::48",
+  "argv": [
+   "./parquet-testing/data/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_args_errors_missing_required_path::49",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_too_many_positionals_errors_on_unexpected_argument::50",
+  "argv": [
+   "a",
+   "b"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_tip_about_double_dash::51",
+  "argv": [
+   "--unknown"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_causes_value_not_flag_but_then_app_runs_and_fails_no_tty::52",
+  "argv": [
+   "--",
+   "--unknown"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_allows_extra_args_ignored::53",
+  "argv": [
+   "--version",
+   "extra"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_rejects_value_form::54",
+  "argv": [
+   "--version=1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_errors_to_stderr_and_exit_2::55",
+  "argv": [
+   "--definitely-not-a-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

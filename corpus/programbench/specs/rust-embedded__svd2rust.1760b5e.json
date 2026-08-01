@@ -1,0 +1,3566 @@
+{
+ "slug": "rust-embedded__svd2rust.1760b5e",
+ "language": "",
+ "n_branches": 10,
+ "n_tests_total": 735,
+ "n_examples": 178,
+ "n_with_exact_stdout": 8,
+ "n_with_rc": 155,
+ "n_skipped": 514,
+ "examples": [
+  {
+   "test": "test_ext_help_succeeds",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_help_version.py:11"
+  },
+  {
+   "test": "test_ext_version_succeeds",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "svd2rust"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_help_version.py:22"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Generate a Rust API from SVD files",
+    "Usage: executable [OPTIONS]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svd2rust.py:68"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable [OPTIONS]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svd2rust.py:75"
+  },
+  {
+   "test": "test_version_short_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "svd2rust"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svd2rust.py:87"
+  },
+  {
+   "test": "test_input_from_stdin",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Parsing device from SVD file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svd2rust.py:106"
+  },
+  {
+   "test": "test_help_structure_and_key_lines",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Allowed values of `type` are [",
+    "  -i <FILE>\n          Input SVD file\n",
+    "  -o, --output-dir <PATH>\n          Directory to place generated files\n",
+    "  -c, --config <TOML_FILE>\n          Config TOML file\n",
+    "      --settings <YAML_FILE>\n          Target-specific settings YAML file\n",
+    "      --edition <YEAR>\n          Rust edition of generated code\n",
+    "      --target <ARCH>\n          Target architecture\n",
+    "      --atomics\n          Generate atomic register modification API\n",
+    "  -l, --log <log_level>\n          Choose which messages to log (overrides RUST_LOG)\n",
+    "  -V, --version\n          Print version\n"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_help_version.py:9"
+  },
+  {
+   "test": "test_version_exact",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "svd2rust 0.37.1 (e29353d 2026-03-03)\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_help_version.py:40"
+  },
+  {
+   "test": "test_unknown_flag_has_usage_and_exit_code_zero",
+   "argv": [
+    "-z"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument '-z' found",
+    "Usage: executable [OPTIONS]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:9"
+  },
+  {
+   "test": "test_base_address_shift",
+   "argv": [
+    "-i",
+    "test.svd",
+    "-c",
+    "config.toml",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pub mod"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+    "config.toml": "base_address_shift = 4096\n"
+   },
+   "ci": false,
+   "source": "test_advanced.py:5"
+  },
+  {
+   "test": "test_base_address_shift_long",
+   "argv": [
+    "-i",
+    "test.svd",
+    "--config",
+    "config.toml",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pub mod"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+    "config.toml": "base_address_shift = 8192\n"
+   },
+   "ci": false,
+   "source": "test_advanced.py:21"
+  },
+  {
+   "test": "test_source_type_flag",
+   "argv": [
+    "-i",
+    "test.svd",
+    "--source-type",
+    "xml",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pub mod"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_advanced.py:46"
+  },
+  {
+   "test": "test_complex_device_generation",
+   "argv": [
+    "-i",
+    "test.svd",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GPIOA",
+    "pub mod",
+    "PROVIDE"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>ComplexDevice</name>\n  <version>1.0</version>\n  <description>Complex Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <cpu>\n    <name>CM4</name>\n    <revision>r0p1</revision>\n    <endian>little</endian>\n    <mpuPresent>true</mpuPresent>\n    <fpuPresent>true</fpuPresent>\n    <nvicPrioBits>4</nvicPrioBits>\n    <vendorSystickConfig>false</vendorSystickConfig>\n  </cpu>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O A</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <interrupt>\n        <name>GPIOA_IRQ</name>\n        <value>0</value>\n      </interrupt>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n        </register>\n      </registers>\n    </peripheral>\n    <peripheral>\n      <name>GPIOB</name>\n      <description>General Purpose I/O B</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010400</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <interrupt>\n        <name>GPIOB_IRQ</name>\n        <value>1</value>\n      </interrupt>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n        </register>\n      </registers>\n    </peripheral>\n    <peripheral derivedFrom=\"GPIOA\">\n      <name>GPIOC</name>\n      <baseAddress>0x40010800</baseAddress>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_advanced.py:57"
+  },
+  {
+   "test": "test_combination_flags",
+   "argv": [
+    "-i",
+    "test.svd",
+    "--target",
+    "cortex-m",
+    "--atomics",
+    "--impl-debug",
+    "--edition",
+    "2021",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pub mod"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_advanced.py:77"
+  },
+  {
+   "test": "test_output_overwrite",
+   "argv": [
+    "-i",
+    "test.svd",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pub mod"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_advanced.py:93"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Generate a Rust API from SVD files",
+    "Usage:",
+    "Options:",
+    "-i",
+    "--output-dir",
+    "--target",
+    "--version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:21"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:35"
+  },
+  {
+   "test": "test_default_config_toml",
+   "argv": [
+    "-i",
+    "test.svd",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_config.py:37"
+  },
+  {
+   "test": "test_missing_config_file_ignored",
+   "argv": [
+    "-i",
+    "test.svd",
+    "-c",
+    "/nonexistent/config.toml",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pub mod"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_config.py:70"
+  },
+  {
+   "test": "test_edition_2021",
+   "argv": [
+    "-i",
+    "test.svd",
+    "--edition",
+    "2021",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_edition.py:18"
+  },
+  {
+   "test": "test_ident_format_single",
+   "argv": [
+    "-i",
+    "test.svd",
+    "-f",
+    "peripheral::p:",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_edition.py:28"
+  },
+  {
+   "test": "test_ident_format_multiple",
+   "argv": [
+    "-i",
+    "test.svd",
+    "-f",
+    "peripheral::p:",
+    "-f",
+    "register::s:",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_edition.py:39"
+  },
+  {
+   "test": "test_ident_formats_theme_legacy",
+   "argv": [
+    "-i",
+    "test.svd",
+    "--ident-formats-theme",
+    "legacy",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_edition.py:52"
+  },
+  {
+   "test": "test_atomics_flag",
+   "argv": [
+    "-i",
+    "test.svd",
+    "--atomics",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_flags.py:5"
+  },
+  {
+   "test": "test_atomics_feature_flag",
+   "argv": [
+    "-i",
+    "test.svd",
+    "--atomics-feature",
+    "atomics",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_flags.py:17"
+  },
+  {
+   "test": "test_ignore_groups_flag",
+   "argv": [
+    "-i",
+    "test.svd",
+    "--ignore-groups",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_flags.py:27"
+  },
+  {
+   "test": "test_keep_list_flag",
+   "argv": [
+    "-i",
+    "test.svd",
+    "--keep-list",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_flags.py:37"
+  },
+  {
+   "test": "test_generic_mod_flag",
+   "argv": [
+    "-i",
+    "test.svd",
+    "-g",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_flags.py:47"
+  },
+  {
+   "test": "test_skip_crate_attributes_flag",
+   "argv": [
+    "-i",
+    "test.svd",
+    "--skip-crate-attributes",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_flags.py:69"
+  },
+  {
+   "test": "test_impl_debug_flag",
+   "argv": [
+    "-i",
+    "test.svd",
+    "--impl-debug",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_flags.py:79"
+  },
+  {
+   "test": "test_impl_debug_feature_flag",
+   "argv": [
+    "-i",
+    "test.svd",
+    "--impl-debug-feature",
+    "debug",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_flags.py:89"
+  },
+  {
+   "test": "test_impl_defmt_flag",
+   "argv": [
+    "-i",
+    "test.svd",
+    "--impl-defmt",
+    "defmt",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_flags.py:99"
+  },
+  {
+   "test": "test_max_cluster_size_flag",
+   "argv": [
+    "-i",
+    "test.svd",
+    "--max-cluster-size",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_flags.py:109"
+  },
+  {
+   "test": "test_field_names_for_enums_flag",
+   "argv": [
+    "-i",
+    "test.svd",
+    "--field-names-for-enums",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_flags.py:119"
+  },
+  {
+   "test": "test_reexport_core_peripherals_flag",
+   "argv": [
+    "-i",
+    "test.svd",
+    "--reexport-core-peripherals",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_flags.py:129"
+  },
+  {
+   "test": "test_reexport_interrupt_flag",
+   "argv": [
+    "-i",
+    "test.svd",
+    "--reexport-interrupt",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_flags.py:139"
+  },
+  {
+   "test": "test_input_via_stdin",
+   "argv": [
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:20"
+  },
+  {
+   "test": "test_stdin_input_xml",
+   "argv": [
+    "-o"
+   ],
+   "stdin": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_lib_api.py:5"
+  },
+  {
+   "test": "test_multiple_peripherals_same_group",
+   "argv": [
+    "-i",
+    "test.svd",
+    "--feature-group",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SPI1",
+    "SPI2",
+    "SPI3",
+    "spi"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>MultiGroupTest</name>\n  <version>1.0</version>\n  <description>Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>SPI1</name>\n      <groupName>SPI</groupName>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>DR</name>\n          <addressOffset>0x0</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n    <peripheral>\n      <name>SPI2</name>\n      <groupName>SPI</groupName>\n      <baseAddress>0x40001000</baseAddress>\n      <registers>\n        <register>\n          <name>DR</name>\n          <addressOffset>0x0</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n    <peripheral>\n      <name>SPI3</name>\n      <groupName>SPI</groupName>\n      <baseAddress>0x40002000</baseAddress>\n      <registers>\n        <register>\n          <name>DR</name>\n          <addressOffset>0x0</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": true,
+   "source": "test_lib_api.py:13"
+  },
+  {
+   "test": "test_large_register_size",
+   "argv": [
+    "-i",
+    "test.svd",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TIMER",
+    "COUNTER"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>LargeRegTest</name>\n  <version>1.0</version>\n  <description>Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>64</width>\n  <size>64</size>\n  <peripherals>\n    <peripheral>\n      <name>TIMER</name>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>COUNTER</name>\n          <addressOffset>0x0</addressOffset>\n          <size>64</size>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_lib_api.py:75"
+  },
+  {
+   "test": "test_log_off",
+   "argv": [
+    "-i",
+    "test.svd",
+    "--log",
+    "off",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_logging.py:4"
+  },
+  {
+   "test": "test_log_error",
+   "argv": [
+    "-i",
+    "test.svd",
+    "--log",
+    "error",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pub mod"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_logging.py:18"
+  },
+  {
+   "test": "test_log_warn",
+   "argv": [
+    "-i",
+    "test.svd",
+    "--log",
+    "warn",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_logging.py:33"
+  },
+  {
+   "test": "test_log_info",
+   "argv": [
+    "-i",
+    "test.svd",
+    "--log",
+    "info",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_logging.py:46"
+  },
+  {
+   "test": "test_log_debug",
+   "argv": [
+    "-i",
+    "test.svd",
+    "--log",
+    "debug",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_logging.py:58"
+  },
+  {
+   "test": "test_log_trace",
+   "argv": [
+    "-i",
+    "test.svd",
+    "--log",
+    "trace",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_logging.py:72"
+  },
+  {
+   "test": "test_log_short_flag",
+   "argv": [
+    "-i",
+    "test.svd",
+    "-l",
+    "error",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_logging.py:86"
+  },
+  {
+   "test": "test_output_long_flag",
+   "argv": [
+    "-i",
+    "test.svd",
+    "--output-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_output.py:28"
+  },
+  {
+   "test": "test_default_output_current_dir",
+   "argv": [
+    "-i",
+    "test.svd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_output.py:47"
+  },
+  {
+   "test": "test_make_mod_flag",
+   "argv": [
+    "-i",
+    "test.svd",
+    "-m",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_output.py:62"
+  },
+  {
+   "test": "test_feature_group_flag",
+   "argv": [
+    "-i",
+    "test.svd",
+    "--feature-group",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[features]",
+    "all-groups"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_output.py:79"
+  },
+  {
+   "test": "test_feature_peripheral_flag",
+   "argv": [
+    "-i",
+    "test.svd",
+    "--feature-peripheral",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[features]",
+    "all-peripherals"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>ComplexDevice</name>\n  <version>1.0</version>\n  <description>Complex Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <cpu>\n    <name>CM4</name>\n    <revision>r0p1</revision>\n    <endian>little</endian>\n    <mpuPresent>true</mpuPresent>\n    <fpuPresent>true</fpuPresent>\n    <nvicPrioBits>4</nvicPrioBits>\n    <vendorSystickConfig>false</vendorSystickConfig>\n  </cpu>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O A</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <interrupt>\n        <name>GPIOA_IRQ</name>\n        <value>0</value>\n      </interrupt>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n        </register>\n      </registers>\n    </peripheral>\n    <peripheral>\n      <name>GPIOB</name>\n      <description>General Purpose I/O B</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010400</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <interrupt>\n        <name>GPIOB_IRQ</name>\n        <value>1</value>\n      </interrupt>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n        </register>\n      </registers>\n    </peripheral>\n    <peripheral derivedFrom=\"GPIOA\">\n      <name>GPIOC</name>\n      <baseAddress>0x40010800</baseAddress>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_output.py:96"
+  },
+  {
+   "test": "test_riscv_core_interrupts_config",
+   "argv": [
+    "-i",
+    "test.svd",
+    "--target",
+    "riscv",
+    "--settings",
+    "settings.yaml",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pub"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+    "settings.yaml": "\nriscv_config:\n  core_interrupts:\n    - name: MachineSoftware\n      value: 3\n      description: \"Machine software interrupt\"\n    - name: MachineTimer\n      value: 7\n      description: \"Machine timer interrupt\"\n"
+   },
+   "ci": false,
+   "source": "test_riscv_advanced.py:5"
+  },
+  {
+   "test": "test_riscv_interrupt_generation",
+   "argv": [
+    "-i",
+    "test.svd",
+    "--target",
+    "riscv",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>RiscvTest</name>\n  <version>1.0</version>\n  <description>RISC-V Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>UART0</name>\n      <baseAddress>0x10000000</baseAddress>\n      <interrupt>\n        <name>UART0_IRQ</name>\n        <value>3</value>\n      </interrupt>\n      <registers>\n        <register>\n          <name>TXDATA</name>\n          <addressOffset>0x0</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n    <peripheral>\n      <name>GPIO</name>\n      <baseAddress>0x10010000</baseAddress>\n      <interrupt>\n        <name>GPIO_IRQ</name>\n        <value>7</value>\n      </interrupt>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <addressOffset>0x0</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_riscv_features.py:5"
+  },
+  {
+   "test": "test_riscv_with_yaml_settings",
+   "argv": [
+    "-i",
+    "test.svd",
+    "--target",
+    "riscv",
+    "--settings",
+    "settings.yaml",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TIMER",
+    "yaml"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>RiscvSettingsTest</name>\n  <version>1.0</version>\n  <description>Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>TIMER</name>\n      <baseAddress>0x10020000</baseAddress>\n      <registers>\n        <register>\n          <name>MTIME</name>\n          <addressOffset>0x0</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+    "settings.yaml": "\nriscv_config:\n  base_isa: rv32imac\n  mtvec_align: 128\n"
+   },
+   "ci": true,
+   "source": "test_riscv_features.py:61"
+  },
+  {
+   "test": "test_riscv_core_interrupts",
+   "argv": [
+    "-i",
+    "test.svd",
+    "--target",
+    "riscv",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "PLIC"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>RiscvCore</name>\n  <version>1.0</version>\n  <description>Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>PLIC</name>\n      <description>Platform-Level Interrupt Controller</description>\n      <baseAddress>0x0C000000</baseAddress>\n      <registers>\n        <register>\n          <name>PRIORITY</name>\n          <addressOffset>0x0</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_riscv_features.py:107"
+  },
+  {
+   "test": "test_derived_peripheral",
+   "argv": [
+    "-i",
+    "test.svd",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "UART0",
+    "UART1",
+    "UART2"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>DerivedTest</name>\n  <version>1.0</version>\n  <description>Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>UART0</name>\n      <description>UART 0</description>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>DR</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n        </register>\n        <register>\n          <name>SR</name>\n          <description>Status Register</description>\n          <addressOffset>0x4</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n    <peripheral derivedFrom=\"UART0\">\n      <name>UART1</name>\n      <description>UART 1</description>\n      <baseAddress>0x40001000</baseAddress>\n    </peripheral>\n    <peripheral derivedFrom=\"UART0\">\n      <name>UART2</name>\n      <baseAddress>0x40002000</baseAddress>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_special_cases.py:5"
+  },
+  {
+   "test": "test_derived_register",
+   "argv": [
+    "-i",
+    "test.svd",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CR1"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>DerivedRegTest</name>\n  <version>1.0</version>\n  <description>Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>TIM</name>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>CR1</name>\n          <description>Control Register 1</description>\n          <addressOffset>0x0</addressOffset>\n          <fields>\n            <field>\n              <name>CEN</name>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n        <register derivedFrom=\"CR1\">\n          <name>CR2</name>\n          <addressOffset>0x4</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_special_cases.py:58"
+  },
+  {
+   "test": "test_alternate_group",
+   "argv": [
+    "-i",
+    "test.svd",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GPIO"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>AltGroupTest</name>\n  <version>1.0</version>\n  <description>Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>GPIO_A</name>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>MODE</name>\n          <addressOffset>0x0</addressOffset>\n          <alternateGroup>config</alternateGroup>\n        </register>\n        <register>\n          <name>CONFIG</name>\n          <addressOffset>0x0</addressOffset>\n          <alternateGroup>config</alternateGroup>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_special_cases.py:105"
+  },
+  {
+   "test": "test_register_with_resetValue",
+   "argv": [
+    "-i",
+    "test.svd",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CONFIG"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>ResetTest</name>\n  <version>1.0</version>\n  <description>Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>CTRL</name>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>CONFIG</name>\n          <addressOffset>0x0</addressOffset>\n          <resetValue>0x12345678</resetValue>\n          <resetMask>0xFFFF0000</resetMask>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_special_cases.py:146"
+  },
+  {
+   "test": "test_field_array",
+   "argv": [
+    "-i",
+    "test.svd",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "MODE"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>FieldArrayTest</name>\n  <version>1.0</version>\n  <description>Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>GPIO</name>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>MODE</name>\n          <addressOffset>0x0</addressOffset>\n          <fields>\n            <field>\n              <name>MODE%s</name>\n              <description>Mode for pin</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>2</bitWidth>\n              <dim>16</dim>\n              <dimIncrement>2</dimIncrement>\n              <dimIndex>0-15</dimIndex>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_special_cases.py:183"
+  },
+  {
+   "test": "test_peripheral_array",
+   "argv": [
+    "-i",
+    "test.svd",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "UART"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>ArrayTest</name>\n  <version>1.0</version>\n  <description>Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>UART%s</name>\n      <description>UART Array</description>\n      <baseAddress>0x40000000</baseAddress>\n      <dim>4</dim>\n      <dimIncrement>0x1000</dimIncrement>\n      <dimIndex>0,1,2,3</dimIndex>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <addressOffset>0x0</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_svd_features.py:5"
+  },
+  {
+   "test": "test_cluster",
+   "argv": [
+    "-i",
+    "test.svd",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TIM"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>ClusterTest</name>\n  <version>1.0</version>\n  <description>Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>TIM</name>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <cluster>\n          <name>CH%s</name>\n          <description>Channel cluster</description>\n          <dim>4</dim>\n          <dimIncrement>0x10</dimIncrement>\n          <dimIndex>0-3</dimIndex>\n          <addressOffset>0x0</addressOffset>\n          <register>\n            <name>CCR</name>\n            <description>Capture/Compare Register</description>\n            <addressOffset>0x0</addressOffset>\n          </register>\n          <register>\n            <name>CNT</name>\n            <description>Counter</description>\n            <addressOffset>0x4</addressOffset>\n          </register>\n        </cluster>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_svd_features.py:81"
+  },
+  {
+   "test": "test_riscv_with_settings",
+   "argv": [
+    "-i",
+    "test.svd",
+    "--target",
+    "riscv",
+    "--settings",
+    "settings.yaml",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pub mod"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+    "settings.yaml": "\nriscv_config:\n  base_isa: rv32i\n  mtvec_align: 4\n"
+   },
+   "ci": false,
+   "source": "test_target_specific.py:5"
+  },
+  {
+   "test": "test_cortex_m_with_cpu_info",
+   "argv": [
+    "-i",
+    "test.svd",
+    "--target",
+    "cortex-m",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GPIO",
+    "GPIO_IRQ",
+    "PROVIDE"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>CortexMTest</name>\n  <version>1.0</version>\n  <description>Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <cpu>\n    <name>CM4</name>\n    <revision>r0p1</revision>\n    <endian>little</endian>\n    <mpuPresent>true</mpuPresent>\n    <fpuPresent>true</fpuPresent>\n    <nvicPrioBits>4</nvicPrioBits>\n    <vendorSystickConfig>false</vendorSystickConfig>\n  </cpu>\n  <peripherals>\n    <peripheral>\n      <name>GPIO</name>\n      <baseAddress>0x40000000</baseAddress>\n      <interrupt>\n        <name>GPIO_IRQ</name>\n        <value>5</value>\n      </interrupt>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <addressOffset>0x0</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_target_specific.py:26"
+  },
+  {
+   "test": "test_msp430_generation",
+   "argv": [
+    "-i",
+    "test.svd",
+    "--target",
+    "msp430",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pub mod"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_target_specific.py:78"
+  },
+  {
+   "test": "test_xtensa_generation",
+   "argv": [
+    "-i",
+    "test.svd",
+    "--target",
+    "xtensa-lx",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>XtensaTest</name>\n  <version>1.0</version>\n  <description>Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>GPIO</name>\n      <baseAddress>0x60000000</baseAddress>\n      <interrupt>\n        <name>GPIO_INTR</name>\n        <value>10</value>\n      </interrupt>\n      <registers>\n        <register>\n          <name>OUT</name>\n          <addressOffset>0x0</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_target_specific.py:95"
+  },
+  {
+   "test": "test_none_target_no_device_x",
+   "argv": [
+    "-i",
+    "test.svd",
+    "--target",
+    "none",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pub mod"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_target_specific.py:137"
+  },
+  {
+   "test": "test_interrupt_priorities",
+   "argv": [
+    "-i",
+    "test.svd",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "PROVIDE"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>IntrTest</name>\n  <version>1.0</version>\n  <description>Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>TIM1</name>\n      <baseAddress>0x40000000</baseAddress>\n      <interrupt>\n        <name>TIM1_UP</name>\n        <value>10</value>\n      </interrupt>\n      <interrupt>\n        <name>TIM1_CC</name>\n        <value>11</value>\n      </interrupt>\n      <registers>\n        <register>\n          <name>CR1</name>\n          <addressOffset>0x0</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_target_specific.py:153"
+  },
+  {
+   "test": "test_target_cortex_m",
+   "argv": [
+    "-i",
+    "test.svd",
+    "--target",
+    "cortex-m",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pub mod"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_targets.py:5"
+  },
+  {
+   "test": "test_target_xtensa_lx",
+   "argv": [
+    "-i",
+    "test.svd",
+    "--target",
+    "xtensa-lx",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pub mod"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_targets.py:44"
+  },
+  {
+   "test": "test_interrupts_cortex_m",
+   "argv": [
+    "-i",
+    "-o",
+    "--target",
+    "cortex-m"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "interrupt"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_advanced.py:193"
+  },
+  {
+   "test": "test_interrupts_riscv",
+   "argv": [
+    "-i",
+    "-o",
+    "--target",
+    "riscv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "interrupt"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_advanced.py:208"
+  },
+  {
+   "test": "test_enum_generation",
+   "argv": [
+    "-i",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced.py:225"
+  },
+  {
+   "test": "test_enum_with_defmt",
+   "argv": [
+    "-i",
+    "-o",
+    "--impl-defmt",
+    "defmt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "defmt"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_advanced.py:241"
+  },
+  {
+   "test": "test_derived_peripheral",
+   "argv": [
+    "-i",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "i2c1",
+    "i2c2"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_advanced.py:258"
+  },
+  {
+   "test": "test_access_with_debug",
+   "argv": [
+    "-i",
+    "-o",
+    "--impl-debug"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Debug",
+    "impl"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced.py:293"
+  },
+  {
+   "test": "test_atomics_with_debug",
+   "argv": [
+    "-i",
+    "-o",
+    "--atomics",
+    "--impl-debug"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced.py:311"
+  },
+  {
+   "test": "test_feature_group_with_peripheral",
+   "argv": [
+    "-i",
+    "-o",
+    "--feature-group",
+    "--feature-peripheral"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced.py:325"
+  },
+  {
+   "test": "test_help_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Options:",
+    "--help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:87"
+  },
+  {
+   "test": "test_help_long",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Generate a Rust API from SVD files",
+    "--output-dir",
+    "-i",
+    "Input SVD file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:96"
+  },
+  {
+   "test": "test_input_from_file",
+   "argv": [
+    "-i",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pub mod gpio"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic.py:144"
+  },
+  {
+   "test": "test_input_from_stdin",
+   "argv": [
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pub mod gpio"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic.py:160"
+  },
+  {
+   "test": "test_conflicting_flags",
+   "argv": [
+    "-i",
+    "-o",
+    "-m",
+    "-g"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:103"
+  },
+  {
+   "test": "test_output_file_collision",
+   "argv": [
+    "-i",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "gpio"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_edge_cases.py:240"
+  },
+  {
+   "test": "test_atomics_flag",
+   "argv": [
+    "-i",
+    "-o",
+    "--atomics"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "gpio"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_features.py:109"
+  },
+  {
+   "test": "test_atomics_feature_flag",
+   "argv": [
+    "-i",
+    "-o",
+    "--atomics",
+    "--atomics-feature",
+    "atomic_support"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_features.py:124"
+  },
+  {
+   "test": "test_impl_debug_feature_flag",
+   "argv": [
+    "-i",
+    "-o",
+    "--impl-debug",
+    "--impl-debug-feature",
+    "debug_support"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_features.py:154"
+  },
+  {
+   "test": "test_impl_defmt_flag",
+   "argv": [
+    "-i",
+    "-o",
+    "--impl-defmt",
+    "defmt_feature"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_features.py:168"
+  },
+  {
+   "test": "test_feature_group_flag",
+   "argv": [
+    "-i",
+    "-o",
+    "--feature-group"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "adc",
+    "[features]",
+    "all-groups"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_features.py:182"
+  },
+  {
+   "test": "test_feature_peripheral_flag",
+   "argv": [
+    "-i",
+    "-o",
+    "--feature-peripheral"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[features]",
+    "all-peripherals"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_features.py:199"
+  },
+  {
+   "test": "test_skip_crate_attributes_flag",
+   "argv": [
+    "-i",
+    "-o",
+    "--skip-crate-attributes"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_features.py:215"
+  },
+  {
+   "test": "test_reexport_core_peripherals_flag",
+   "argv": [
+    "-i",
+    "-o",
+    "--target",
+    "cortex-m",
+    "--reexport-core-peripherals"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_features.py:230"
+  },
+  {
+   "test": "test_reexport_interrupt_flag",
+   "argv": [
+    "-i",
+    "-o",
+    "--reexport-interrupt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_features.py:245"
+  },
+  {
+   "test": "test_ident_format_flag",
+   "argv": [
+    "-i",
+    "-o",
+    "-f",
+    "peripheral_mod::s:"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "mod"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_formatting.py:68"
+  },
+  {
+   "test": "test_ident_formats_theme_legacy",
+   "argv": [
+    "-i",
+    "-o",
+    "--ident-formats-theme",
+    "legacy"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "gpio"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_formatting.py:85"
+  },
+  {
+   "test": "test_field_names_for_enums_flag",
+   "argv": [
+    "-i",
+    "-o",
+    "--field-names-for-enums"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_formatting.py:114"
+  },
+  {
+   "test": "test_edition_2021",
+   "argv": [
+    "-i",
+    "-o",
+    "--edition",
+    "2021"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_formatting.py:132"
+  },
+  {
+   "test": "test_edition_2024",
+   "argv": [
+    "-i",
+    "-o",
+    "--edition",
+    "2024"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_formatting.py:145"
+  },
+  {
+   "test": "test_log_level_off",
+   "argv": [
+    "-i",
+    "-o",
+    "-l",
+    "off"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_logging.py:68"
+  },
+  {
+   "test": "test_log_level_error",
+   "argv": [
+    "-i",
+    "-o",
+    "-l",
+    "error"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_logging.py:81"
+  },
+  {
+   "test": "test_log_level_warn",
+   "argv": [
+    "-i",
+    "-o",
+    "-l",
+    "warn"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_logging.py:93"
+  },
+  {
+   "test": "test_log_level_info",
+   "argv": [
+    "-i",
+    "-o",
+    "-l",
+    "info"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "device"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_logging.py:105"
+  },
+  {
+   "test": "test_log_level_debug",
+   "argv": [
+    "-i",
+    "-o",
+    "-l",
+    "debug"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_logging.py:118"
+  },
+  {
+   "test": "test_log_level_trace",
+   "argv": [
+    "-i",
+    "-o",
+    "-l",
+    "trace"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_logging.py:133"
+  },
+  {
+   "test": "test_config_file_toml",
+   "argv": [
+    "-i",
+    "-o",
+    "-c",
+    "config.toml"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "config.toml": "\ntarget = \"cortex-m\"\natomics = true\n"
+   },
+   "ci": false,
+   "source": "test_logging.py:167"
+  },
+  {
+   "test": "test_make_mod_flag",
+   "argv": [
+    "-i",
+    "-o",
+    "-m"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "gpio"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_output.py:108"
+  },
+  {
+   "test": "test_generic_mod_flag",
+   "argv": [
+    "-i",
+    "-o",
+    "-g"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "generic"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_output.py:128"
+  },
+  {
+   "test": "test_stdout_output_default",
+   "argv": [
+    "-i"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pub mod gpio"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_output.py:145"
+  },
+  {
+   "test": "test_build_rs_content",
+   "argv": [
+    "-i",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "fn main"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output.py:160"
+  },
+  {
+   "test": "test_ignore_groups_flag",
+   "argv": [
+    "-i",
+    "-o",
+    "--ignore-groups"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "adc"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_svd_options.py:149"
+  },
+  {
+   "test": "test_keep_list_flag",
+   "argv": [
+    "-i",
+    "-o",
+    "--keep-list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dma"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_svd_options.py:164"
+  },
+  {
+   "test": "test_max_cluster_size_flag",
+   "argv": [
+    "-i",
+    "-o",
+    "--max-cluster-size"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "uart",
+    "channel"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_svd_options.py:179"
+  },
+  {
+   "test": "test_target_cortex_m",
+   "argv": [
+    "-i",
+    "-o",
+    "--target",
+    "cortex-m"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_targets.py:68"
+  },
+  {
+   "test": "test_target_riscv",
+   "argv": [
+    "-i",
+    "-o",
+    "--target",
+    "riscv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_targets.py:85"
+  },
+  {
+   "test": "test_target_msp430",
+   "argv": [
+    "-i",
+    "-o",
+    "--target",
+    "msp430"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_targets.py:101"
+  },
+  {
+   "test": "test_target_xtensa_lx",
+   "argv": [
+    "-i",
+    "-o",
+    "--target",
+    "xtensa-lx"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_targets.py:119"
+  },
+  {
+   "test": "test_target_mips",
+   "argv": [
+    "-i",
+    "-o",
+    "--target",
+    "mips"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_targets.py:137"
+  },
+  {
+   "test": "test_target_none",
+   "argv": [
+    "-i",
+    "-o",
+    "--target",
+    "none"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_targets.py:155"
+  },
+  {
+   "test": "test_default_config_file_is_loaded_from_cwd",
+   "argv": [
+    "-i",
+    "t.svd",
+    "-o",
+    "out"
+   ],
+   "stdin": null,
+   "env": {
+    "RUST_LOG": "off"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:65"
+  },
+  {
+   "test": "test_cli_config_path_overrides_default_config_file",
+   "argv": [
+    "-i",
+    "t.svd",
+    "-o",
+    "out",
+    "--config",
+    "explicit.toml"
+   ],
+   "stdin": null,
+   "env": {
+    "RUST_LOG": "off"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "explicit.toml": "target = \"none\"\n"
+   },
+   "ci": false,
+   "source": "test_config_env.py:78"
+  },
+  {
+   "test": "test_cli_flag_overrides_config_file_value",
+   "argv": [
+    "-i",
+    "t.svd",
+    "-o",
+    "out",
+    "--target",
+    "riscv"
+   ],
+   "stdin": null,
+   "env": {
+    "RUST_LOG": "off"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:98"
+  },
+  {
+   "test": "test_help_to_stdout_exit0",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "-i <FILE>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svd2rust_io.py:42"
+  },
+  {
+   "test": "test_version_to_stdout_exit0",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_svd2rust_io.py:51"
+  },
+  {
+   "test": "test_reads_from_stdin_when_no_input_file",
+   "argv": [
+    "-o"
+   ],
+   "stdin": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<device schemaVersion=\"1.1\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD_Schema_1_1.xsd\">\n  <name>TESTDEV</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose IO</description>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>CTRL</name>\n          <description>Control register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0x0</resetValue>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Parsing device from SVD file",
+    "Rendering device",
+    "Peripheral access API for TESTDEV"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svd2rust_io.py:59"
+  },
+  {
+   "test": "test_input_file_and_output_dir_creates_lib_rs",
+   "argv": [
+    "-i",
+    "dev.svd",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Parsing device from SVD file",
+    "Rendering device"
+   ],
+   "files": {
+    "dev.svd": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<device schemaVersion=\"1.1\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD_Schema_1_1.xsd\">\n  <name>TESTDEV</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose IO</description>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>CTRL</name>\n          <description>Control register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0x0</resetValue>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_svd2rust_io.py:75"
+  },
+  {
+   "test": "test_default_output_is_current_directory",
+   "argv": [
+    "-i",
+    "dev.svd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "dev.svd": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<device schemaVersion=\"1.1\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD_Schema_1_1.xsd\">\n  <name>TESTDEV</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose IO</description>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>CTRL</name>\n          <description>Control register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0x0</resetValue>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_svd2rust_io.py:92"
+  },
+  {
+   "test": "test_make_mod_writes_mod_rs_instead_of_lib_rs",
+   "argv": [
+    "-i",
+    "dev.svd",
+    "-o",
+    "--make-mod"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "dev.svd": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<device schemaVersion=\"1.1\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD_Schema_1_1.xsd\">\n  <name>TESTDEV</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose IO</description>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>CTRL</name>\n          <description>Control register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0x0</resetValue>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_svd2rust_io.py:104"
+  },
+  {
+   "test": "test_nonexistent_input_file_is_error_exit1",
+   "argv": [
+    "-i",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Cannot open the SVD file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svd2rust_io.py:118"
+  },
+  {
+   "test": "test_invalid_xml_from_stdin_is_error_exit1",
+   "argv": [
+    "-o"
+   ],
+   "stdin": "not xml\n",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Error parsing SVD XML file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svd2rust_io.py:130"
+  },
+  {
+   "test": "test_log_off_suppresses_info_logs",
+   "argv": [
+    "-o",
+    "--log",
+    "off"
+   ],
+   "stdin": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<device schemaVersion=\"1.1\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD_Schema_1_1.xsd\">\n  <name>TESTDEV</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose IO</description>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>CTRL</name>\n          <description>Control register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0x0</resetValue>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_svd2rust_io.py:142"
+  },
+  {
+   "test": "test_help_precedence_over_invalid_flag",
+   "argv": [
+    "--help",
+    "--definitely-not-a-real-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:160"
+  },
+  {
+   "test": "test_help_after_double_dash_is_treated_as_positional_and_errors",
+   "argv": [
+    "--",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "--help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:167"
+  },
+  {
+   "test": "test_help_with_invalid_subcommand_style_argument_errors",
+   "argv": [
+    "foo",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "foo"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:176"
+  },
+  {
+   "test": "test_invalid_flag_error",
+   "argv": [
+    "--invalid-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument '--invalid-flag' found",
+    "--help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:7"
+  },
+  {
+   "test": "test_nonexistent_settings_file_error",
+   "argv": [
+    "--settings",
+    "/nonexistent/settings.yaml"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "could not read settings file",
+    "No such file or directory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:230"
+  },
+  {
+   "test": "test_ident_formats_theme_invalid_error",
+   "argv": [
+    "--ident-formats-theme",
+    "unknown"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unknown variant",
+    "legacy"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:636"
+  },
+  {
+   "test": "test_empty_stdin_error",
+   "argv": [],
+   "stdin": "",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[ERROR"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:692"
+  },
+  {
+   "test": "test_invalid_xml_error",
+   "argv": [],
+   "stdin": "<invalid><xml>",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[ERROR",
+    "Error parsing SVD XML file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:701"
+  },
+  {
+   "test": "test_empty_input",
+   "argv": [],
+   "stdin": "",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error parsing SVD XML file",
+    "root node"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_parsing.py:48"
+  },
+  {
+   "test": "test_malformed_xml_unclosed_tag",
+   "argv": [],
+   "stdin": "<?xml version=\"1.0\"?>\n<device>\n  <name>Test</name>\n  <peripherals></peripherals>\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error parsing SVD XML file",
+    "opened but never closed"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_parsing.py:57"
+  },
+  {
+   "test": "test_malformed_xml_not_xml",
+   "argv": [],
+   "stdin": "not xml at all",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error parsing SVD XML file",
+    "unknown token"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_parsing.py:71"
+  },
+  {
+   "test": "test_missing_device_name",
+   "argv": [],
+   "stdin": "<?xml version=\"1.0\"?>\n<device>\n  <version>1.0</version>\n  <peripherals></peripherals>\n</device>\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error parsing SVD XML file",
+    "Expected a <name> tag"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_parsing.py:80"
+  },
+  {
+   "test": "test_empty_peripherals_list",
+   "argv": [],
+   "stdin": "<?xml version=\"1.0\"?>\n<device>\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <peripherals></peripherals>\n</device>\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error parsing SVD XML file",
+    "must contain at least one peripheral"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_parsing.py:95"
+  },
+  {
+   "test": "test_invalid_base_address_non_numeric",
+   "argv": [],
+   "stdin": "<?xml version=\"1.0\"?>\n<device>\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <peripherals>\n    <peripheral>\n      <name>GPIO</name>\n      <baseAddress>INVALID</baseAddress>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <addressOffset>0x0</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error parsing SVD XML file",
+    "invalid digit found in string"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_parsing.py:113"
+  },
+  {
+   "test": "test_negative_address_offset",
+   "argv": [],
+   "stdin": "<?xml version=\"1.0\"?>\n<device>\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <peripherals>\n    <peripheral>\n      <name>GPIO</name>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <addressOffset>-4</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error parsing SVD XML file",
+    "invalid digit found in string"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_parsing.py:142"
+  },
+  {
+   "test": "test_missing_peripheral_name",
+   "argv": [],
+   "stdin": "<?xml version=\"1.0\"?>\n<device>\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <peripherals>\n    <peripheral>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error parsing SVD XML file",
+    "Expected a <name> tag"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_parsing.py:171"
+  },
+  {
+   "test": "test_missing_peripheral_base_address",
+   "argv": [],
+   "stdin": "<?xml version=\"1.0\"?>\n<device>\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <peripherals>\n    <peripheral>\n      <name>GPIO</name>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error parsing SVD XML file",
+    "Expected a <baseAddress> tag"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_parsing.py:200"
+  },
+  {
+   "test": "test_missing_register_name",
+   "argv": [],
+   "stdin": "<?xml version=\"1.0\"?>\n<device>\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <peripherals>\n    <peripheral>\n      <name>GPIO</name>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error parsing SVD XML file",
+    "Expected a <name> tag"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_parsing.py:229"
+  },
+  {
+   "test": "test_strict_mode_requires_descriptions",
+   "argv": [
+    "--strict"
+   ],
+   "stdin": "<?xml version=\"1.0\"?>\n<device>\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <peripherals>\n    <peripheral>\n      <name>GPIO</name>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error parsing SVD XML file",
+    "description"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_parsing.py:258"
+  },
+  {
+   "test": "test_missing_register_size_error",
+   "argv": [],
+   "stdin": "<?xml version=\"1.0\"?>\n<device>\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <addressUnitBits>8</addressUnitBits>\n  <peripherals>\n    <peripheral>\n      <name>GPIO</name>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <addressOffset>0x0</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error rendering device",
+    "Register DATA has no `size` field"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_parsing.py:522"
+  },
+  {
+   "test": "test_missing_register_address_offset",
+   "argv": [],
+   "stdin": "<?xml version=\"1.0\"?>\n<device>\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <peripherals>\n    <peripheral>\n      <name>GPIO</name>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <size>32</size>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error parsing SVD XML file",
+    "addressOffset"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_parsing.py:550"
+  },
+  {
+   "test": "test_register_block_padding_between_registers",
+   "argv": [
+    "-i",
+    "test.svd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "_reserved",
+    "[u8 ; 0x0c]"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<device schemaVersion=\"1.1\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>PERIPH</name>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>REG0</name>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n        </register>\n        <register>\n          <name>REG1</name>\n          <addressOffset>0x10</addressOffset>\n          <size>32</size>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_peripheral.py:458"
+  },
+  {
+   "test": "test_peripheral_with_no_registers_omitted",
+   "argv": [
+    "-i",
+    "test.svd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pub type Nonempty",
+    "pub mod nonempty"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<device schemaVersion=\"1.1\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>EMPTY</name>\n      <baseAddress>0x40000000</baseAddress>\n    </peripheral>\n    <peripheral>\n      <name>NONEMPTY</name>\n      <baseAddress>0x40001000</baseAddress>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_peripheral.py:531"
+  },
+  {
+   "test": "test_peripheral_html_url_generates_doc_link",
+   "argv": [
+    "-i",
+    "test.svd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#[doc = \"\"]",
+    "See peripheral [structure](https://example.com/peripheral-doc#UART)"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<device schemaVersion=\"1.1\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>UART</name>\n      <description>Universal Asynchronous Receiver Transmitter</description>\n      <baseAddress>0x40001000</baseAddress>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <addressOffset>0x0</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_peripheral_gaps.py:24"
+  },
+  {
+   "test": "test_peripheral_array_derived_with_feature_any",
+   "argv": [
+    "-i",
+    "test.svd",
+    "--feature-peripheral"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#[cfg (feature = \"uart1\")]",
+    "#[cfg (feature = \"uart2\")]",
+    "#[cfg (feature = \"uart3\")]",
+    "#[cfg (any (feature = \"uart1\" , feature = \"uart2\" , feature = \"uart3\"))]",
+    "pub use self :: uart0 as uart"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<device schemaVersion=\"1.1\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>UART0</name>\n      <baseAddress>0x40001000</baseAddress>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <addressOffset>0x0</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n    <peripheral derivedFrom=\"UART0\">\n      <name>UART%s</name>\n      <baseAddress>0x40002000</baseAddress>\n      <dim>3</dim>\n      <dimIncrement>0x1000</dimIncrement>\n      <dimIndex>1-3</dimIndex>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_peripheral_gaps.py:72"
+  },
+  {
+   "test": "test_empty_peripheral_generates_nothing",
+   "argv": [
+    "-i",
+    "test.svd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pub type Gpio",
+    "GpioSpec",
+    "pub mod gpio"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<device schemaVersion=\"1.1\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>RESERVED</name>\n      <description>Reserved peripheral with no registers</description>\n      <baseAddress>0x40001000</baseAddress>\n    </peripheral>\n    <peripheral>\n      <name>GPIO</name>\n      <description>Working peripheral</description>\n      <baseAddress>0x40002000</baseAddress>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <addressOffset>0x0</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_peripheral_gaps.py:126"
+  },
+  {
+   "test": "test_cluster_array_generates_accessor_method_and_iterator",
+   "argv": [
+    "-i",
+    "test.svd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pub const fn ch (& self , n : usize) -> & Ch",
+    "pub fn ch_iter (& self) -> impl Iterator",
+    "pub struct Ch",
+    "ctrl : Ctrl",
+    "status : Status"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<device schemaVersion=\"1.1\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>DMA</name>\n      <baseAddress>0x40001000</baseAddress>\n      <registers>\n        <cluster>\n          <name>CH%s</name>\n          <description>Channel configuration</description>\n          <addressOffset>0x0</addressOffset>\n          <dim>4</dim>\n          <dimIncrement>0x10</dimIncrement>\n          <dimIndex>0-3</dimIndex>\n          <register>\n            <name>CTRL</name>\n            <addressOffset>0x0</addressOffset>\n            <size>32</size>\n          </register>\n          <register>\n            <name>STATUS</name>\n            <addressOffset>0x4</addressOffset>\n            <size>32</size>\n          </register>\n        </cluster>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_peripheral_gaps.py:179"
+  },
+  {
+   "test": "test_union_region_generates_raw_accessor_not_normal_field",
+   "argv": [
+    "-i",
+    "test.svd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "_reserved_0_data : [u8 ; 0x04]",
+    "pub const fn data_read (& self) -> & DataRead",
+    "pub const fn data_write (& self) -> & DataWrite",
+    "core :: ptr :: from_ref (self)",
+    "status : Status",
+    "pub const fn status (& self) -> & Status"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<device schemaVersion=\"1.1\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>GPIO</name>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>DATA_READ</name>\n          <description>Read data</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-only</access>\n        </register>\n        <register>\n          <name>DATA_WRITE</name>\n          <description>Write data</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>write-only</access>\n        </register>\n        <register>\n          <name>STATUS</name>\n          <addressOffset>0x4</addressOffset>\n          <size>32</size>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_peripheral_gaps.py:241"
+  },
+  {
+   "test": "test_impl_debug_feature_conditional_derive",
+   "argv": [
+    "-i",
+    "test.svd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#[cfg_attr (feature = \"debug-support\" , derive (Debug))]",
+    "pub struct RegisterBlock"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<device schemaVersion=\"1.1\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>UART</name>\n      <baseAddress>0x40001000</baseAddress>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <addressOffset>0x0</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_peripheral_gaps.py:306"
+  },
+  {
+   "test": "test_register_implicit_array_derivation",
+   "argv": [
+    "-i",
+    "test.svd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pub type Ch = crate :: Reg < ch :: ChSpec >",
+    "pub use Ch as Ch4 ;",
+    "pub use ch as ch4 ;"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<device schemaVersion=\"1.1\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>DMA</name>\n      <baseAddress>0x40001000</baseAddress>\n      <registers>\n        <register>\n          <name>CH%s</name>\n          <description>Channel control</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <dim>4</dim>\n          <dimIncrement>0x10</dimIncrement>\n          <dimIndex>0-3</dimIndex>\n          <fields>\n            <field>\n              <name>EN</name>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n            <field>\n              <name>SIZE</name>\n              <bitOffset>8</bitOffset>\n              <bitWidth>8</bitWidth>\n            </field>\n          </fields>\n        </register>\n        <register>\n          <name>CH4</name>\n          <description>Channel 4 control</description>\n          <addressOffset>0x40</addressOffset>\n          <size>32</size>\n          <fields>\n            <field>\n              <name>EN</name>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n            <field>\n              <name>SIZE</name>\n              <bitOffset>8</bitOffset>\n              <bitWidth>8</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_peripheral_gaps.py:351"
+  },
+  {
+   "test": "test_peripheral_group_without_feature_flag_no_gate",
+   "argv": [
+    "-i",
+    "test.svd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pub type Uart = crate :: Periph < UartSpec >"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<device schemaVersion=\"1.1\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>UART</name>\n      <groupName>UART_GROUP</groupName>\n      <baseAddress>0x40001000</baseAddress>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <addressOffset>0x0</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_peripheral_gaps.py:430"
+  },
+  {
+   "test": "test_doc_alias_for_peripheral_array_elements",
+   "argv": [
+    "-i",
+    "test.svd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pub type Tim1 = crate :: Periph < Tim1Spec >",
+    "pub type Tim2 = crate :: Periph < Tim2Spec >",
+    "pub type Tim10 = crate :: Periph < Tim10Spec >"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<device schemaVersion=\"1.1\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>TIM%s</name>\n      <description>Timer</description>\n      <baseAddress>0x40001000</baseAddress>\n      <dim>3</dim>\n      <dimIncrement>0x1000</dimIncrement>\n      <dimIndex>1,2,10</dimIndex>\n      <registers>\n        <register>\n          <name>CNT</name>\n          <addressOffset>0x0</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_peripheral_gaps.py:476"
+  },
+  {
+   "test": "test_register_properties_inheritance",
+   "argv": [
+    "-i",
+    "test.svd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "impl crate :: Readable for DataSpec",
+    "impl crate :: Writable for DataSpec",
+    "impl crate :: Readable for ReadonlyRegSpec"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<device schemaVersion=\"1.1\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>16</size>\n  <access>read-only</access>\n  <peripherals>\n    <peripheral>\n      <name>GPIO</name>\n      <baseAddress>0x40000000</baseAddress>\n      <size>32</size>\n      <access>read-write</access>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Should inherit 32-bit size and RW access</description>\n          <addressOffset>0x0</addressOffset>\n        </register>\n        <register>\n          <name>READONLY_REG</name>\n          <description>Explicit read-only</description>\n          <addressOffset>0x4</addressOffset>\n          <access>read-only</access>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_peripheral_gaps.py:526"
+  },
+  {
+   "test": "test_cluster_derivation_reuses_type",
+   "argv": [
+    "-i",
+    "test.svd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pub struct Ch0",
+    "ctrl : Ctrl",
+    "count : Count",
+    "pub use Ch0 as Ch1 ;",
+    "pub use ch0 as ch1 ;",
+    "pub const fn ch0 (& self) -> & Ch0",
+    "pub const fn ch1 (& self) -> & Ch1"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<device schemaVersion=\"1.1\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>TIMER</name>\n      <baseAddress>0x40001000</baseAddress>\n      <registers>\n        <cluster>\n          <name>CH0</name>\n          <description>Channel 0</description>\n          <addressOffset>0x0</addressOffset>\n          <register>\n            <name>CTRL</name>\n            <addressOffset>0x0</addressOffset>\n          </register>\n          <register>\n            <name>COUNT</name>\n            <addressOffset>0x4</addressOffset>\n          </register>\n        </cluster>\n        <cluster derivedFrom=\"CH0\">\n          <name>CH1</name>\n          <description>Channel 1</description>\n          <addressOffset>0x10</addressOffset>\n        </cluster>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_peripheral_gaps.py:583"
+  },
+  {
+   "test": "test_register_array_with_non_sequential_dimIndex",
+   "argv": [
+    "-i",
+    "test.svd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pub const fn ch0 (& self) -> & Ch",
+    "pub const fn ch2 (& self) -> & Ch",
+    "pub const fn ch5 (& self) -> & Ch",
+    "pub const fn ch9 (& self) -> & Ch"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<device schemaVersion=\"1.1\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>ADC</name>\n      <baseAddress>0x40001000</baseAddress>\n      <registers>\n        <register>\n          <name>CH%s</name>\n          <description>Channel control</description>\n          <addressOffset>0x0</addressOffset>\n          <dim>4</dim>\n          <dimIncrement>0x4</dimIncrement>\n          <dimIndex>0,2,5,9</dimIndex>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_peripheral_gaps.py:647"
+  },
+  {
+   "test": "test_peripheral_with_multiple_overlapping_regions",
+   "argv": [
+    "-i",
+    "test.svd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pub const fn mode_a (& self) -> & ModeA",
+    "pub const fn mode_b (& self) -> & ModeB",
+    "pub const fn mode_c (& self) -> & ModeC",
+    "_reserved_0_mode",
+    "core :: ptr :: from_ref (self)",
+    "status : Status"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<device schemaVersion=\"1.1\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>CTRL</name>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>MODE_A</name>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n        </register>\n        <register>\n          <name>MODE_B</name>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n        </register>\n        <register>\n          <name>MODE_C</name>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n        </register>\n        <register>\n          <name>STATUS</name>\n          <addressOffset>0x4</addressOffset>\n          <size>32</size>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_peripheral_gaps.py:694"
+  },
+  {
+   "test": "test_register_with_writeConstraint_range",
+   "argv": [
+    "-i",
+    "test.svd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pub type Duty = crate :: Reg < duty :: DutySpec >",
+    "impl crate :: Writable for DutySpec"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<device schemaVersion=\"1.1\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>PWM</name>\n      <baseAddress>0x40001000</baseAddress>\n      <registers>\n        <register>\n          <name>DUTY</name>\n          <description>Duty cycle (0-1000 valid)</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <writeConstraint>\n            <range>\n              <minimum>0</minimum>\n              <maximum>1000</maximum>\n            </range>\n          </writeConstraint>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_peripheral_gaps.py:759"
+  },
+  {
+   "test": "test_peripheral_array_with_feature_group_and_peripheral",
+   "argv": [
+    "-i",
+    "test.svd",
+    "--feature-group",
+    "--feature-peripheral"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#[cfg (feature = \"comm\")]",
+    "#[cfg (feature = \"uart0\")]",
+    "#[cfg (feature = \"uart1\")]"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<device schemaVersion=\"1.1\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>UART%s</name>\n      <groupName>COMM</groupName>\n      <description>UART</description>\n      <baseAddress>0x40001000</baseAddress>\n      <dim>2</dim>\n      <dimIncrement>0x1000</dimIncrement>\n      <dimIndex>0-1</dimIndex>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <addressOffset>0x0</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_peripheral_gaps.py:811"
+  },
+  {
+   "test": "test_cluster_with_nested_clusters",
+   "argv": [
+    "-i",
+    "test.svd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pub struct Ch0",
+    "pub const fn ch0 (& self) -> & Ch0",
+    "pub struct Src",
+    "src : Src",
+    "pub const fn src (& self) -> & Src",
+    "addr : Addr",
+    "size : Size"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<device schemaVersion=\"1.1\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>DMA</name>\n      <baseAddress>0x40001000</baseAddress>\n      <registers>\n        <cluster>\n          <name>CH0</name>\n          <description>Channel 0</description>\n          <addressOffset>0x0</addressOffset>\n          <register>\n            <name>CTRL</name>\n            <addressOffset>0x0</addressOffset>\n          </register>\n          <cluster>\n            <name>SRC</name>\n            <description>Source configuration</description>\n            <addressOffset>0x10</addressOffset>\n            <register>\n              <name>ADDR</name>\n              <addressOffset>0x0</addressOffset>\n            </register>\n            <register>\n              <name>SIZE</name>\n              <addressOffset>0x4</addressOffset>\n            </register>\n          </cluster>\n        </cluster>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_peripheral_gaps.py:863"
+  },
+  {
+   "test": "test_register_alternateGroup_creates_union",
+   "argv": [
+    "-i",
+    "test.svd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pub const fn modeselect_mode1_ctrl (& self) -> & ModeselectMode1Ctrl",
+    "pub const fn modeselect_mode2_ctrl (& self) -> & ModeselectMode2Ctrl",
+    "_reserved_0_modeselect",
+    "core :: ptr :: from_ref (self)"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<device schemaVersion=\"1.1\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>CONFIG</name>\n      <baseAddress>0x40001000</baseAddress>\n      <registers>\n        <register>\n          <name>MODE1_CTRL</name>\n          <description>Control in mode 1</description>\n          <alternateGroup>modeselect</alternateGroup>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n        </register>\n        <register>\n          <name>MODE2_CTRL</name>\n          <description>Control in mode 2</description>\n          <alternateGroup>modeselect</alternateGroup>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_peripheral_gaps.py:931"
+  },
+  {
+   "test": "test_explicit_register_derivation_with_derived_from_path",
+   "argv": [
+    "-i",
+    "test.svd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pub mod uart0",
+    "pub type Ctrl = crate :: Reg < ctrl :: CtrlSpec >",
+    "pub mod uart1"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<device schemaVersion=\"1.1\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>UART0</name>\n      <baseAddress>0x40001000</baseAddress>\n      <registers>\n        <register>\n          <name>CTRL</name>\n          <description>Control register</description>\n          <addressOffset>0x0</addressOffset>\n          <fields>\n            <field>\n              <name>EN</name>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n            <field>\n              <name>MODE</name>\n              <bitOffset>1</bitOffset>\n              <bitWidth>2</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n    <peripheral>\n      <name>UART1</name>\n      <baseAddress>0x40002000</baseAddress>\n      <registers>\n        <register derivedFrom=\"UART0.CTRL\">\n          <name>CTRL</name>\n          <description>Control register (derived)</description>\n          <addressOffset>0x0</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_peripheral_gaps.py:988"
+  },
+  {
+   "test": "test_register_reset_value_and_mask_generation",
+   "argv": [
+    "-i",
+    "test.svd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pub type Mode = crate :: Reg < mode :: ModeSpec >",
+    "pub type Data = crate :: Reg < data :: DataSpec >",
+    "impl crate :: Writable for ModeSpec",
+    "impl crate :: Writable for DataSpec"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<device schemaVersion=\"1.1\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIO</name>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>MODE</name>\n          <description>Mode register</description>\n          <addressOffset>0x0</addressOffset>\n          <resetValue>0x12345678</resetValue>\n          <resetMask>0x0000FFFF</resetMask>\n        </register>\n        <register>\n          <name>DATA</name>\n          <description>Data register (default reset)</description>\n          <addressOffset>0x4</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_peripheral_gaps.py:1058"
+  },
+  {
+   "test": "test_peripheral_interrupt_generation",
+   "argv": [
+    "-i",
+    "test.svd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pub enum Interrupt",
+    "UART_RX = 16",
+    "UART_TX = 17",
+    "Vector { _handler : UART_RX }",
+    "Vector { _handler : UART_TX }"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<device schemaVersion=\"1.1\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>UART</name>\n      <baseAddress>0x40001000</baseAddress>\n      <interrupt>\n        <name>UART_RX</name>\n        <description>UART receive interrupt</description>\n        <value>16</value>\n      </interrupt>\n      <interrupt>\n        <name>UART_TX</name>\n        <description>UART transmit interrupt</description>\n        <value>17</value>\n      </interrupt>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <addressOffset>0x0</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_peripheral_gaps.py:1113"
+  },
+  {
+   "test": "test_register_read_only_generates_readable_only",
+   "argv": [
+    "-i",
+    "test.svd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "impl crate :: Readable for StatusSpec",
+    "impl crate :: Writable for CommandSpec",
+    "impl crate :: Readable for ControlSpec",
+    "impl crate :: Writable for ControlSpec"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<device schemaVersion=\"1.1\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>STATUS_BLOCK</name>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>STATUS</name>\n          <description>Status register (read-only)</description>\n          <addressOffset>0x0</addressOffset>\n          <access>read-only</access>\n        </register>\n        <register>\n          <name>COMMAND</name>\n          <description>Command register (write-only)</description>\n          <addressOffset>0x4</addressOffset>\n          <access>write-only</access>\n        </register>\n        <register>\n          <name>CONTROL</name>\n          <description>Control register (read-write)</description>\n          <addressOffset>0x8</addressOffset>\n          <access>read-write</access>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_peripheral_gaps.py:1171"
+  },
+  {
+   "test": "test_cluster_size_calculation_for_padding",
+   "argv": [
+    "-i",
+    "test.svd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pub struct Ch0",
+    "pub struct Ch1",
+    "_reserved"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<device schemaVersion=\"1.1\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>DMA</name>\n      <baseAddress>0x40001000</baseAddress>\n      <registers>\n        <cluster>\n          <name>CH0</name>\n          <description>Channel 0</description>\n          <addressOffset>0x0</addressOffset>\n          <register>\n            <name>CTRL</name>\n            <addressOffset>0x0</addressOffset>\n          </register>\n          <register>\n            <name>ADDR</name>\n            <addressOffset>0x4</addressOffset>\n          </register>\n        </cluster>\n        <cluster>\n          <name>CH1</name>\n          <description>Channel 1</description>\n          <addressOffset>0x20</addressOffset>\n          <register>\n            <name>CTRL</name>\n            <addressOffset>0x0</addressOffset>\n          </register>\n          <register>\n            <name>ADDR</name>\n            <addressOffset>0x4</addressOffset>\n          </register>\n        </cluster>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_peripheral_gaps.py:1236"
+  },
+  {
+   "test": "test_register_array_zero_index_no_note",
+   "argv": [
+    "-i",
+    "test.svd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pub const fn ch (& self , n : usize) -> & Ch",
+    "pub fn ch_iter (& self) -> impl Iterator"
+   ],
+   "files": {
+    "test.svd": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<device schemaVersion=\"1.1\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>TIMER</name>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>CH%s</name>\n          <description>Channel %s</description>\n          <addressOffset>0x0</addressOffset>\n          <dim>4</dim>\n          <dimIncrement>4</dimIncrement>\n          <dimIndex>0-3</dimIndex>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+   },
+   "ci": false,
+   "source": "test_peripheral_gaps.py:1494"
+  },
+  {
+   "test": "test_help_command",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Generate a Rust API from SVD files",
+    "Usage:",
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_smoke.py:4"
+  }
+ ]
+}

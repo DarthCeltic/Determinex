@@ -1,0 +1,922 @@
+[
+ {
+  "name": "test::test_help_prints_usage_and_exits_zero::0",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_reference_prints_default_config_to_stdout_only::1",
+  "argv": [
+   "--config-reference"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_in_file_nonexistent_shows_os_error_message::2",
+  "argv": [
+   "--no-isolation",
+   "--in-file",
+   "definitely_missing_123.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_long_option_errors_and_exit_code_1::3",
+  "argv": [
+   "--unknown"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_positional_argument_is_rejected_and_triggers_dependency_message::4",
+  "argv": [
+   "positional"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_does_not_allow_unknown_options_as_positional::5",
+  "argv": [
+   "--",
+   "--unknown"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_does_not_enable_config_reference_as_positional::6",
+  "argv": [
+   "--",
+   "--config-reference"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_token_is_not_reported_as_unknown_subcommand::7",
+  "argv": [
+   "definitely_not_a_real_subcommand"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_flag::8",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_error::9",
+  "argv": [
+   "--invalid-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_bwrap_without_no_isolation::10",
+  "argv": [
+   "which",
+   "bwrap"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_overrides_other_args::11",
+  "argv": [
+   "--help",
+   "--default",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_reference_overrides_other_args::12",
+  "argv": [
+   "--config-reference",
+   "--default",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_shows_error::13",
+  "argv": [
+   "--this-flag-does-not-exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_flag_value_shows_error::14",
+  "argv": [
+   "--default"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_takes_precedence::15",
+  "argv": [
+   "--help",
+   "-d",
+   "test",
+   "-o",
+   "/tmp/out",
+   "--raw-mode"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_reference_takes_precedence::16",
+  "argv": [
+   "--config-reference",
+   "-d",
+   "test",
+   "-o",
+   "/tmp/out"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_invalid_flags_show_error::17",
+  "argv": [
+   "--invalid1",
+   "--invalid2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_missing_required_value::18",
+  "argv": [
+   "-d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_out_file_flag_missing_value::19",
+  "argv": [
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_in_file_flag_missing_value::20",
+  "argv": [
+   "--in-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_in_file_nonexistent::21",
+  "argv": [
+   "--in-file",
+   "/nonexistent/path/to/file.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_option_errors::22",
+  "argv": [
+   "--definitely-not-a-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_isolation_missing_bwrap_message_if_no_isolation_flag_not_given::23",
+  "argv": [
+   "-d",
+   "echo hi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::24",
+  "argv": [
+   "--invalid-flag-that-does-not-exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_short_flag::25",
+  "argv": [
+   "-z"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_default_flags::26",
+  "argv": [
+   "--default",
+   "first",
+   "--default",
+   "second",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_in_file_flags::27",
+  "argv": [
+   "--in-file",
+   "file1.txt",
+   "--in-file",
+   "file2.txt",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.txt": "content1",
+   "file2.txt": "content2"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_file_input::28",
+  "argv": [
+   "--in-file",
+   "empty.txt",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.txt": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_file_input::29",
+  "argv": [
+   "--in-file",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_default_text::30",
+  "argv": [
+   "--default",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_with_newlines::31",
+  "argv": [
+   "--default",
+   "echo hello\necho world\necho test",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_default::32",
+  "argv": [
+   "--default",
+   "echo 'test' | grep \"pattern\" && ls -la; cat /etc/hosts",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_default::33",
+  "argv": [
+   "--default",
+   "echo '你好世界 🌍 café'",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_after_value::34",
+  "argv": [
+   "--default",
+   "echo test",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_mode_with_default_multiline::35",
+  "argv": [
+   "-r",
+   "--default",
+   "line1\nline2\nline3",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_short_flags::36",
+  "argv": [
+   "-rh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_separator::37",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_file_in_nonexistent_dir::38",
+  "argv": [
+   "--out-file",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_with_all_flags::39",
+  "argv": [
+   "-h",
+   "-r",
+   "-d",
+   "test",
+   "--in-file",
+   "input.txt",
+   "--out-file",
+   "--no-isolation"
+  ],
+  "stdin": null,
+  "files": {
+   "input.txt": "test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_reference_with_all_flags::40",
+  "argv": [
+   "--config-reference",
+   "-r",
+   "-d",
+   "test",
+   "--in-file",
+   "input.txt",
+   "--no-isolation"
+  ],
+  "stdin": null,
+  "files": {
+   "input.txt": "test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_in_file_with_special_chars_in_path::41",
+  "argv": [
+   "--in-file",
+   "test file with spaces.txt",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {
+   "test file with spaces.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_only_whitespace::42",
+  "argv": [
+   "--default",
+   "   \t\n  ",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_isolation_flag::43",
+  "argv": [
+   "--no-isolation",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_isolated_mode_requires_bubblewrap::44",
+  "argv": [
+   "--default",
+   "echo test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_flags_combination::45",
+  "argv": [
+   "--no-isolation",
+   "--raw-mode",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_with_no_isolation::46",
+  "argv": [
+   "--default",
+   "echo hello",
+   "--no-isolation",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_reference_with_no_isolation::47",
+  "argv": [
+   "--config-reference",
+   "--no-isolation"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_takes_precedence_over_execution::48",
+  "argv": [
+   "--help",
+   "--no-isolation",
+   "--default",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_in_file_basic::49",
+  "argv": [
+   "--in-file",
+   "input.txt",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {
+   "input.txt": "echo hello"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_in_file_multiline::50",
+  "argv": [
+   "--in-file",
+   "multiline.txt",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {
+   "multiline.txt": "echo hello |\ngrep hello"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_text_with_pipes::51",
+  "argv": [
+   "--default",
+   "cat file | grep pattern",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_text_with_quotes::52",
+  "argv": [
+   "--default",
+   "echo 'hello world'",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_text_empty::53",
+  "argv": [
+   "--default",
+   "",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_in_file_and_default_together::54",
+  "argv": [
+   "--in-file",
+   "input.txt",
+   "--default",
+   "from default",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {
+   "input.txt": "from file"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_mode_flag::55",
+  "argv": [
+   "--raw-mode",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_mode_short_flag::56",
+  "argv": [
+   "-r",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_in_file_reads_content::57",
+  "argv": [
+   "--in-file",
+   "test.txt",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "echo 'test content with special chars: @#$%'"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_option_short::58",
+  "argv": [
+   "-d",
+   "echo test",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_out_file_short_option::59",
+  "argv": [
+   "-o",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_launches_and_quits::60",
+  "argv": [
+   "tmux",
+   "kill-session",
+   "-t",
+   "pipr_test_quit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_shows_default_text::61",
+  "argv": [
+   "tmux",
+   "kill-session",
+   "-t",
+   "pipr_test_default"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_with_enter_key::62",
+  "argv": [
+   "tmux",
+   "kill-session",
+   "-t",
+   "pipr_test_enter"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_text_input::63",
+  "argv": [
+   "tmux",
+   "kill-session",
+   "-t",
+   "pipr_test_input"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_ctrl_a_ctrl_e::64",
+  "argv": [
+   "tmux",
+   "kill-session",
+   "-t",
+   "pipr_test_nav"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_backspace::65",
+  "argv": [
+   "tmux",
+   "kill-session",
+   "-t",
+   "pipr_test_backspace"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_ctrl_u_clear::66",
+  "argv": [
+   "tmux",
+   "kill-session",
+   "-t",
+   "pipr_test_clear"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_arrow_keys::67",
+  "argv": [
+   "tmux",
+   "kill-session",
+   "-t",
+   "pipr_test_arrows"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_help_subcommand::68",
+  "argv": [
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_ignored::69",
+  "argv": [
+   "--",
+   "something"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_positional_args_not_subcommands::70",
+  "argv": [
+   "some_random_word"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

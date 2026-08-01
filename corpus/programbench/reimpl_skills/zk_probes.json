@@ -1,0 +1,1806 @@
+[
+ {
+  "name": "test::test_no_subcommand_shows_main_help_and_exit_zero::0",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_is_rejected_with_nonzero_exit::1",
+  "argv": [
+   "nonexistent_subcommand"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subcommand_specific_flag_not_accepted_globally_before_subcommand::2",
+  "argv": [
+   "--force",
+   "list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subcommand_specific_flag_not_accepted_after_wrong_subcommand::3",
+  "argv": [
+   "list",
+   "--force"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_flag_before_subcommand_is_accepted::4",
+  "argv": [
+   "--no-input",
+   "list",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_flag_after_subcommand_is_accepted::5",
+  "argv": [
+   "list",
+   "--no-input",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_subcommand_help_for_tag_list::6",
+  "argv": [
+   "tag",
+   "list",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tag_without_subcommand_shows_tag_help::7",
+  "argv": [
+   "tag",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_mentions_commands_and_exit_0::8",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_prints_to_stdout_exit_0::9",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_without_no_input_prompts_and_fails_with_eof::10",
+  "argv": [
+   "init"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_no_input_creates_skeleton_and_reports_fts5_error::11",
+  "argv": [
+   "--no-input",
+   "init"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_command_exit_nonzero_and_stderr_message::12",
+  "argv": [
+   "definitely-not-a-command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_takes_precedence_over_other_flags::13",
+  "argv": [
+   "--help",
+   "--no-input"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_separator_makes_help_be_treated_as_argument_error::14",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_help_has_arguments_section::15",
+  "argv": [
+   "init",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_with_help_is_error_and_mentions_unexpected_argument::16",
+  "argv": [
+   "nosuchcmd",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_bool_flag_does_not_accept_equals_syntax_and_falls_back_to_usage::17",
+  "argv": [
+   "--no-input=1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_required_flag_missing_for_graph::18",
+  "argv": [
+   "graph"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_short_flags_conflict_vq_for_index::19",
+  "argv": [
+   "index",
+   "-vq"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_stops_flag_parsing_unknown_flag_after_is_positional::20",
+  "argv": [
+   "list",
+   "--",
+   "--bogus"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_value_starting_with_dash_needs_equals_or_quotes_for_value_flags::21",
+  "argv": [
+   "list",
+   "--limit",
+   "-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_accepts_multiple_positionals_after_required_flags::22",
+  "argv": [
+   "graph",
+   "--format=json",
+   "a",
+   "b",
+   "c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_created_date_filter::23",
+  "argv": [
+   "list",
+   "--created-after",
+   "2020-01-01",
+   "--format",
+   "json",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_modified_date_filter::24",
+  "argv": [
+   "list",
+   "--modified-before",
+   "2030-01-01",
+   "--format",
+   "json",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_recursive_links::25",
+  "argv": [
+   "list",
+   "--linked-by",
+   "note1",
+   "--recursive",
+   "--format",
+   "json",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_max_distance::26",
+  "argv": [
+   "list",
+   "--linked-by",
+   "note1",
+   "--max-distance",
+   "2",
+   "--format",
+   "json",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_related_notes::27",
+  "argv": [
+   "list",
+   "--related",
+   "note1",
+   "--format",
+   "json",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_mention_filter::28",
+  "argv": [
+   "list",
+   "--mention",
+   "note1",
+   "--format",
+   "json",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_mentioned_by_filter::29",
+  "argv": [
+   "list",
+   "--mentioned-by",
+   "note1",
+   "--format",
+   "json",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_no_link_to::30",
+  "argv": [
+   "list",
+   "--no-link-to",
+   "note1",
+   "--format",
+   "json",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_no_linked_by::31",
+  "argv": [
+   "list",
+   "--no-linked-by",
+   "note1",
+   "--format",
+   "json",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_exclude_path::32",
+  "argv": [
+   "list",
+   "--exclude",
+   "orphan",
+   "--format",
+   "json",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_format_short::33",
+  "argv": [
+   "list",
+   "--format",
+   "short",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_format_long::34",
+  "argv": [
+   "list",
+   "--format",
+   "long",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_format_full::35",
+  "argv": [
+   "list",
+   "--format",
+   "full",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_delimiter0::36",
+  "argv": [
+   "list",
+   "--delimiter0",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_new_with_group::37",
+  "argv": [
+   "new",
+   "--title",
+   "Group Note",
+   "--group",
+   "default",
+   "--print-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_tags_filter::38",
+  "argv": [
+   "list",
+   "--tag",
+   "test",
+   "--tag",
+   "sample",
+   "--format",
+   "json",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tag_list_format_full::39",
+  "argv": [
+   "tag",
+   "list",
+   "--format",
+   "full",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tag_list_format_name::40",
+  "argv": [
+   "tag",
+   "list",
+   "--format",
+   "name",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tag_list_delimiter0::41",
+  "argv": [
+   "tag",
+   "list",
+   "--delimiter0",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tag_list_no_pager::42",
+  "argv": [
+   "tag",
+   "list",
+   "--no-pager",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_command::43",
+  "argv": [
+   "invalid-command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_template::44",
+  "argv": [
+   "new",
+   "--title",
+   "Custom",
+   "--template",
+   "custom.md",
+   "--print-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_missing_backlink::45",
+  "argv": [
+   "list",
+   "--missing-backlink",
+   "--format",
+   "json",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_notebook_with_subdirectories::46",
+  "argv": [
+   "new",
+   "projects/work",
+   "--title",
+   "Work Note",
+   "--print-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_multiple_match_terms::47",
+  "argv": [
+   "list",
+   "--match",
+   "note",
+   "--match",
+   "test",
+   "--format",
+   "json",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_sort_by_created::48",
+  "argv": [
+   "list",
+   "--sort",
+   "created",
+   "--format",
+   "json",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_sort_by_modified::49",
+  "argv": [
+   "list",
+   "--sort",
+   "modified",
+   "--format",
+   "json",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_sort_by_path::50",
+  "argv": [
+   "list",
+   "--sort",
+   "path",
+   "--format",
+   "json",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_sort_by_word_count::51",
+  "argv": [
+   "list",
+   "--sort",
+   "word-count",
+   "--format",
+   "json",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_with_multiple_filters::52",
+  "argv": [
+   "graph",
+   "--format",
+   "json",
+   "--tag",
+   "test",
+   "--limit",
+   "5",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_with_sort::53",
+  "argv": [
+   "graph",
+   "--format",
+   "json",
+   "--sort",
+   "title",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_with_match::54",
+  "argv": [
+   "graph",
+   "--format",
+   "json",
+   "--match",
+   "Note",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_help::55",
+  "argv": [
+   "edit",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_with_editor_unset::56",
+  "argv": [
+   "edit",
+   "note1.md",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_with_match_filter::57",
+  "argv": [
+   "edit",
+   "--match",
+   "First",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_without_notebook::58",
+  "argv": [
+   "list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_new_without_notebook::59",
+  "argv": [
+   "new",
+   "--title",
+   "Test",
+   "--print-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_date_format::60",
+  "argv": [
+   "list",
+   "--created-after",
+   "invalid-date"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_match_strategy::61",
+  "argv": [
+   "list",
+   "--match-strategy",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_required_format_for_graph::62",
+  "argv": [
+   "init",
+   "--no-input"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_notebook_dir::63",
+  "argv": [
+   "list",
+   "--notebook-dir",
+   "/nonexistent/path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_help::64",
+  "argv": [
+   "graph",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_json_format::65",
+  "argv": [
+   "graph",
+   "--format",
+   "json",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_with_filters::66",
+  "argv": [
+   "graph",
+   "--format",
+   "json",
+   "--tag",
+   "test",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_quiet::67",
+  "argv": [
+   "graph",
+   "--format",
+   "json",
+   "--quiet",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_with_limit::68",
+  "argv": [
+   "graph",
+   "--format",
+   "json",
+   "--limit",
+   "2",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_help::69",
+  "argv": [
+   "index",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_basic::70",
+  "argv": [
+   "index"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_force::71",
+  "argv": [
+   "index",
+   "--force"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_verbose::72",
+  "argv": [
+   "index",
+   "--verbose"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_quiet::73",
+  "argv": [
+   "index",
+   "--quiet"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_help::74",
+  "argv": [
+   "list",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_basic::75",
+  "argv": [
+   "list",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_format_json::76",
+  "argv": [
+   "list",
+   "--format",
+   "json",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_format_jsonl::77",
+  "argv": [
+   "list",
+   "--format",
+   "jsonl",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_quiet::78",
+  "argv": [
+   "list",
+   "--quiet",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_limit::79",
+  "argv": [
+   "list",
+   "--limit",
+   "2",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_match::80",
+  "argv": [
+   "list",
+   "--match",
+   "test",
+   "--format",
+   "json",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_tag::81",
+  "argv": [
+   "list",
+   "--tag",
+   "test",
+   "--format",
+   "json",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_orphan::82",
+  "argv": [
+   "list",
+   "--orphan",
+   "--format",
+   "json",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_tagless::83",
+  "argv": [
+   "list",
+   "--tagless",
+   "--format",
+   "json",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_link_to::84",
+  "argv": [
+   "list",
+   "--link-to",
+   "note2",
+   "--format",
+   "json",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_linked_by::85",
+  "argv": [
+   "list",
+   "--linked-by",
+   "note1",
+   "--format",
+   "json",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_sort::86",
+  "argv": [
+   "list",
+   "--sort",
+   "title",
+   "--format",
+   "json",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_delimiter::87",
+  "argv": [
+   "list",
+   "--delimiter",
+   ",",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_header_footer::88",
+  "argv": [
+   "list",
+   "--header",
+   "START",
+   "--footer",
+   "END",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_path::89",
+  "argv": [
+   "list",
+   "note1.md",
+   "--format",
+   "json",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_match_strategy_exact::90",
+  "argv": [
+   "list",
+   "--match",
+   "First Note",
+   "--match-strategy",
+   "exact",
+   "--format",
+   "json",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_match_strategy_re::91",
+  "argv": [
+   "list",
+   "--match",
+   ".*Note",
+   "--match-strategy",
+   "re",
+   "--format",
+   "json",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_no_pager::92",
+  "argv": [
+   "list",
+   "--no-pager",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_new_help::93",
+  "argv": [
+   "new",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_new_with_title_print_path::94",
+  "argv": [
+   "new",
+   "--title",
+   "Test Note",
+   "--print-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_new_dry_run::95",
+  "argv": [
+   "new",
+   "--title",
+   "Dry Run Note",
+   "--dry-run"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_new_with_interactive_input::96",
+  "argv": [
+   "new",
+   "--title",
+   "Interactive",
+   "--interactive",
+   "--print-path"
+  ],
+  "stdin": "# Interactive Note\n\nThis was typed interactively.",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_new_with_custom_id::97",
+  "argv": [
+   "new",
+   "--title",
+   "Custom ID Note",
+   "--id",
+   "custom123",
+   "--print-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_new_with_date::98",
+  "argv": [
+   "new",
+   "--title",
+   "Dated Note",
+   "--date",
+   "2023-01-15",
+   "--print-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_new_with_extra_variables::99",
+  "argv": [
+   "new",
+   "--title",
+   "Extra Vars",
+   "--extra",
+   "author=TestUser",
+   "--print-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_new_in_subdirectory::100",
+  "argv": [
+   "new",
+   "subdir",
+   "--title",
+   "Subdir Note",
+   "--print-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tag_list_basic::101",
+  "argv": [
+   "tag",
+   "list",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tag_list_json::102",
+  "argv": [
+   "tag",
+   "list",
+   "--format",
+   "json",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tag_list_jsonl::103",
+  "argv": [
+   "tag",
+   "list",
+   "--format",
+   "jsonl",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tag_list_quiet::104",
+  "argv": [
+   "tag",
+   "list",
+   "--quiet",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tag_list_sort::105",
+  "argv": [
+   "tag",
+   "list",
+   "--sort",
+   "name",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tag_list_delimiter::106",
+  "argv": [
+   "tag",
+   "list",
+   "--delimiter",
+   ",",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tag_list_header_footer::107",
+  "argv": [
+   "tag",
+   "list",
+   "--header",
+   "TAGS:",
+   "--footer",
+   "END",
+   "--notebook-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_database_locked_timeout_handling::108",
+  "argv": [
+   "BEGIN EXCLUSIVE"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_malformed_metadata_json_warning_not_crash::109",
+  "argv": [
+   "UPDATE notes SET metadata = '{invalid json [[[' WHERE path = 'test.md'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_transaction_rollback_preserves_consistency::110",
+  "argv": [
+   "SELECT COUNT(*) FROM notes"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_collection_tag_association_persists::111",
+  "argv": [
+   "SELECT name FROM collections WHERE kind = 'tag' ORDER BY name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_collection_cascade_delete_on_note_removal::112",
+  "argv": [
+   "\n        SELECT COUNT(*) FROM notes_collections nc\n        WHERE nc.note_id NOT IN (SELECT id FROM notes)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_link_target_null_on_target_deletion::113",
+  "argv": [
+   "\n        SELECT COUNT(*) FROM links\n        WHERE target_id IS NULL AND href LIKE '%target%'\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_database_schema_version_correct::114",
+  "argv": [
+   "PRAGMA user_version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_checksum_detects_content_changes::115",
+  "argv": [
+   "SELECT checksum, modified FROM notes WHERE path = 'test.md'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_word_count_accurate_calculation::116",
+  "argv": [
+   "SELECT word_count FROM notes WHERE path = 'test.md'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filename_indexed_for_search::117",
+  "argv": [
+   "SELECT filename FROM notes WHERE path LIKE '%readme.md' ORDER BY path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_metadata_table_key_value_storage::118",
+  "argv": [
+   "SELECT name FROM sqlite_master WHERE type='table' AND name='metadata'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_verifies_database_schema::119",
+  "argv": [
+   "SELECT name FROM sqlite_master WHERE type='table'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_creates_all_required_database_tables::120",
+  "argv": [
+   "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lsp_initialize_protocol::121",
+  "argv": [
+   "lsp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interactive_content_from_stdin::122",
+  "argv": [
+   "new",
+   "--title",
+   "With Content",
+   "--interactive",
+   "--print-path",
+   "--no-input"
+  ],
+  "stdin": "This is custom content\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_title_and_content::123",
+  "argv": [
+   "new",
+   "--title",
+   "日本語タイトル with émojis 🎉",
+   "--interactive",
+   "--print-path",
+   "--no-input"
+  ],
+  "stdin": "Ñoño piñata café 世界",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiline_interactive_content::124",
+  "argv": [
+   "new",
+   "--title",
+   "Multiline",
+   "--interactive",
+   "--print-path",
+   "--no-input"
+  ],
+  "stdin": "First paragraph here.\n\nSecond paragraph with blank line above.\n\nThird paragraph with special chars: $VAR, `code`, *emphasis*.\n\nFinal paragraph.",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_interactive_content::125",
+  "argv": [
+   "new",
+   "--title",
+   "Empty Content",
+   "--interactive",
+   "--print-path",
+   "--no-input"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_whitespace_only_interactive_content::126",
+  "argv": [
+   "new",
+   "--title",
+   "Whitespace",
+   "--interactive",
+   "--print-path",
+   "--no-input"
+  ],
+  "stdin": "   \n\n\t\n   ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dry_run_with_interactive_content::127",
+  "argv": [
+   "new",
+   "--title",
+   "Dry Interactive",
+   "--interactive",
+   "--dry-run",
+   "--no-input"
+  ],
+  "stdin": "Interactive dry run content\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_content_variable_in_template::128",
+  "argv": [
+   "new",
+   "--title",
+   "Content",
+   "--template",
+   "content-test.md",
+   "--dry-run",
+   "--no-input"
+  ],
+  "stdin": "Custom body text",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_not_tty_when_input_redirected::129",
+  "argv": [
+   "edit",
+   "bulk"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

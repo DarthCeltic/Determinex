@@ -1,0 +1,2450 @@
+[
+ {
+  "name": "test::test_explicit_config_flag_overrides_auto_discovery::0",
+  "argv": [
+   "-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_shows_no_subcommands::1",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_help_subcommand::2",
+  "argv": [
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_version_subcommand::3",
+  "argv": [
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_works::4",
+  "argv": [
+   "-version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_argument_treated_as_path::5",
+  "argv": [
+   "nonexistent_path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_flag_syntax::6",
+  "argv": [
+   "-config",
+   "/nonexistent/config.toml",
+   "-version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_argument::7",
+  "argv": [
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dotdotdot_argument::8",
+  "argv": [
+   "./..."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_path_arguments::9",
+  "argv": [
+   ".",
+   "./..."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_flag_with_path::10",
+  "argv": [
+   "-exclude",
+   "test/...",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_is_global_flag::11",
+  "argv": [
+   "-config",
+   "nonexistent.toml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_formatter_is_global_flag::12",
+  "argv": [
+   "-formatter",
+   "json",
+   "-version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_exit_status_is_global_flag::13",
+  "argv": [
+   "-set_exit_status",
+   "-version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_constant_rule::14",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.add-constant]\n",
+   "test.go": "package test\n\nfunc test() {\n    x := 42\n    y := 100\n    z := x + y\n    _ = z\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cognitive_complexity_rule::15",
+  "argv": [
+   "-config",
+   "config.toml",
+   "complex.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.cognitive-complexity]\narguments = [5]\n",
+   "complex.go": "package test\n\nfunc veryComplex() {\n    if true {\n        for i := 0; i < 10; i++ {\n            if i > 5 {\n                switch i {\n                case 6:\n                    if true {\n                        for j := 0; j < 5; j++ {\n                            if j > 2 {\n                                println(\"complex\")\n                            }\n                        }\n                    }\n                }\n            }\n        }\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_banned_characters_rule::16",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.banned-characters]\narguments = [\"\t\"]\n",
+   "test.go": "package test\n\nfunc test() {\n\tx := 1  // Has tab character\n\t_ = x\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bare_return_rule::17",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.bare-return]\n",
+   "test.go": "package test\n\nfunc test() (x int, y int) {\n    x = 1\n    y = 2\n    return\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bool_literal_in_expr_rule::18",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.bool-literal-in-expr]\n",
+   "test.go": "package test\n\nfunc test() {\n    if x == true {\n        println(\"bad\")\n    }\n    if y != false {\n        println(\"also bad\")\n    }\n}\n\nvar x, y bool\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_call_to_gc_rule::19",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.call-to-gc]\n",
+   "test.go": "package test\n\nimport \"runtime\"\n\nfunc test() {\n    runtime.GC()\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_confusing_naming_rule::20",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.confusing-naming]\n",
+   "test.go": "package test\n\ntype T struct{}\n\nfunc (t T) Method() {}\nfunc (t T) method() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_confusing_results_rule::21",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.confusing-results]\n",
+   "test.go": "package test\n\nfunc test() (int, int) {\n    return 1, 2\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_constant_logical_expr_rule::22",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.constant-logical-expr]\n",
+   "test.go": "package test\n\nfunc test() {\n    if true && someFunc() {\n        println(\"ok\")\n    }\n    if false || someFunc() {\n        println(\"ok\")\n    }\n}\n\nfunc someFunc() bool { return true }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_datarace_rule::23",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.datarace]\n",
+   "test.go": "package test\n\nfunc test() {\n    m := make(map[string]int)\n    go func() {\n        m[\"key\"] = 1\n    }()\n    m[\"key2\"] = 2\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deep_exit_rule::24",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.deep-exit]\n",
+   "test.go": "package test\n\nimport \"os\"\n\nfunc test() {\n    os.Exit(1)\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_defer_rule::25",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.defer]\n",
+   "test.go": "package test\n\nfunc test() {\n    for i := 0; i < 10; i++ {\n        defer func() {\n            println(i)\n        }()\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_imports_rule::26",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.dot-imports]\n",
+   "test.go": "package test\n\nimport . \"fmt\"\n\nfunc test() {\n    Println(\"test\")\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duplicated_imports_rule::27",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.duplicated-imports]\n",
+   "test.go": "package test\n\nimport \"fmt\"\nimport \"os\"\nimport \"fmt\"\n\nfunc test() {\n    fmt.Println(\"test\")\n    _ = os.Args\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_block_rule::28",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.empty-block]\n",
+   "test.go": "package test\n\nfunc test() {\n    if true {\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_lines_rule::29",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.empty-lines]\n",
+   "test.go": "package test\n\nfunc test() {\n\n    x := 1\n    _ = x\n\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_naming_rule::30",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.error-naming]\n",
+   "test.go": "package test\n\nimport \"errors\"\n\nvar badError = errors.New(\"bad\")\nvar errGood = errors.New(\"good\")\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_strings_rule::31",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.error-strings]\n",
+   "test.go": "package test\n\nimport \"errors\"\n\nvar err1 = errors.New(\"Bad error message\")\nvar err2 = errors.New(\"good error message\")\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_revive_disable_directive::32",
+  "argv": [
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package test\n\n//revive:disable\n\nfunc Test() {}\nfunc Another() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_revive_disable_enable_directive::33",
+  "argv": [
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package test\n\nfunc Before() {}\n\n//revive:disable\nfunc Disabled() {}\n//revive:enable\n\nfunc After() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_revive_disable_line_directive::34",
+  "argv": [
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package test\n\nfunc Test() {} //revive:disable-line\nfunc Another() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_revive_disable_next_line_directive::35",
+  "argv": [
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package test\n\n//revive:disable-next-line\nfunc Test() {}\n\nfunc Another() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_revive_disable_specific_rule::36",
+  "argv": [
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package test\n\n//revive:disable:exported\nfunc Test() {}\n//revive:enable:exported\n\nfunc Another() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_directive_with_reason::37",
+  "argv": [
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package test\n\n//revive:disable Until code is stable\nfunc Test() {}\n//revive:enable\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_multiple_rules::38",
+  "argv": [
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package test\n\n//revive:disable:exported\n//revive:disable:package-comments\nfunc Test() {}\n//revive:enable:exported\n//revive:enable:package-comments\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_in_middle_of_file::39",
+  "argv": [
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package test\n\nfunc Before() {}\n\n//revive:disable\nfunc During1() {}\nfunc During2() {}\n// Rest of file is disabled\n\nfunc After() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_default_rules::40",
+  "argv": [
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package test\n\nimport _ \"fmt\"\n\nfunc test() {\n\tx := 1\n\tx = x + 1\n\tprintln(x)\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_superfluous_else::41",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.superfluous-else]\n",
+   "test.go": "package test\n\nfunc test(x int) int {\n    if x > 0 {\n        return 1\n    } else {\n        return 0\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_naming::42",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.time-naming]\n",
+   "test.go": "package test\n\nimport \"time\"\n\nvar seconds time.Duration = 1\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unexported_return::43",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.unexported-return]\n",
+   "test.go": "package test\n\ntype unexported struct{}\n\nfunc Public() unexported {\n    return unexported{}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unused_parameter::44",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.unused-parameter]\n",
+   "test.go": "package test\n\nfunc test(unused int) {\n    println(\"test\")\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unused_receiver::45",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.unused-receiver]\n",
+   "test.go": "package test\n\ntype T struct{}\n\nfunc (t T) Method() {\n    println(\"method\")\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_var_declaration::46",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.var-declaration]\n",
+   "test.go": "package test\n\nvar x int = 0\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_waitgroup_by_value::47",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.waitgroup-by-value]\n",
+   "test.go": "package test\n\nimport \"sync\"\n\nfunc test(wg sync.WaitGroup) {\n    wg.Done()\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_keys_type::48",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.context-keys-type]\n",
+   "test.go": "package test\n\nimport \"context\"\n\nfunc test() {\n    ctx := context.WithValue(context.Background(), \"key\", \"value\")\n    _ = ctx\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_early_return::49",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.early-return]\n",
+   "test.go": "package test\n\nfunc test(x bool) {\n    if x {\n        println(\"true\")\n    } else {\n        println(\"false\")\n        return\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enforce_map_style::50",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.enforce-map-style]\narguments = [\"make\"]\n",
+   "test.go": "package test\n\nfunc test() {\n    m := map[string]int{}\n    _ = m\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enforce_slice_style::51",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.enforce-slice-style]\narguments = [\"make\"]\n",
+   "test.go": "package test\n\nfunc test() {\n    s := []int{}\n    _ = s\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_header::52",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.file-header]\narguments = [\"Copyright\"]\n",
+   "test.go": "package test\n\nfunc test() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_parameter::53",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.flag-parameter]\n",
+   "test.go": "package test\n\nfunc test(flag bool) {\n    if flag {\n        println(\"true\")\n    } else {\n        println(\"false\")\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_imports_blocklist::54",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.imports-blocklist]\narguments = [\"crypto/md5\"]\n",
+   "test.go": "package test\n\nimport \"crypto/md5\"\n\nfunc test() {\n    _ = md5.New()\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_control_nesting::55",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.max-control-nesting]\narguments = [2]\n",
+   "test.go": "package test\n\nfunc test() {\n    for i := 0; i < 10; i++ {\n        if i > 5 {\n            for j := 0; j < 5; j++ {\n                println(j)\n            }\n        }\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_structs::56",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.nested-structs]\n",
+   "test.go": "package test\n\ntype Outer struct {\n    inner struct {\n        value int\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_optimize_operands_order::57",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.optimize-operands-order]\n",
+   "test.go": "package test\n\nfunc test(x int) bool {\n    return 5 == x\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_range_val_address::58",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.range-val-address]\n",
+   "test.go": "package test\n\nfunc test() {\n    s := []int{1, 2, 3}\n    var ptrs []*int\n    for _, v := range s {\n        ptrs = append(ptrs, &v)\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_range_val_in_closure::59",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.range-val-in-closure]\n",
+   "test.go": "package test\n\nfunc test() {\n    s := []int{1, 2, 3}\n    for _, v := range s {\n        go func() {\n            println(v)\n        }()\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_struct_tag::60",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.struct-tag]\n",
+   "test.go": "package test\n\ntype T struct {\n    Field int `json:\"field\" invalid`\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unchecked_type_assertion::61",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.unchecked-type-assertion]\n",
+   "test.go": "package test\n\nfunc test(i interface{}) {\n    s := i.(string)\n    _ = s\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unconditional_recursion::62",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.unconditional-recursion]\n",
+   "test.go": "package test\n\nfunc recursive() {\n    recursive()\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unhandled_error::63",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.unhandled-error]\narguments = [[\"os.Create\"]]\n",
+   "test.go": "package test\n\nimport \"os\"\n\nfunc test() {\n    os.Create(\"test.txt\")\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_use_any::64",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.use-any]\n",
+   "test.go": "package test\n\nfunc test(x interface{}) {\n    _ = x\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_useless_break::65",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.useless-break]\n",
+   "test.go": "package test\n\nfunc test(x int) {\n    switch x {\n    case 1:\n        println(\"one\")\n        break\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_valid_toml::66",
+  "argv": [
+   "-config",
+   "revive.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "revive.toml": "\nignoreGeneratedHeader = true\nseverity = \"error\"\nconfidence = 0.9\n\n[rule.blank-imports]\n[rule.exported]\n",
+   "test.go": "package test\nfunc Test() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_nonexistent_file::67",
+  "argv": [
+   "-config",
+   "/nonexistent/config.toml",
+   "testdata/atomic.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_invalid_toml::68",
+  "argv": [
+   "-config",
+   "bad.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.toml": "\nthis is not valid toml [[[\n",
+   "test.go": "package test\nfunc Test() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_severity_levels::69",
+  "argv": [
+   "-config",
+   "severity.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "severity.toml": "\nseverity = \"error\"\n[rule.exported]\n",
+   "test.go": "package test\nfunc Test() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_confidence_threshold::70",
+  "argv": [
+   "-config",
+   "confidence.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "confidence.toml": "\nconfidence = 0.0\n[rule.exported]\n",
+   "test.go": "package test\nfunc Test() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_ignore_generated::71",
+  "argv": [
+   "-config",
+   "ignore_gen.toml",
+   "generated.go"
+  ],
+  "stdin": null,
+  "files": {
+   "ignore_gen.toml": "\nignoreGeneratedHeader = true\n[rule.exported]\n",
+   "generated.go": "// Code generated by tool. DO NOT EDIT.\npackage test\nfunc Test() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_rule_arguments::72",
+  "argv": [
+   "-config",
+   "rule_args.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "rule_args.toml": "\n[rule.argument-limit]\narguments = [5]\n\n[rule.cyclomatic]\narguments = [15]\n",
+   "test.go": "package test\nfunc Test(a, b, c, d, e, f int) {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_error_and_warning_codes::73",
+  "argv": [
+   "-config",
+   "codes.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "codes.toml": "\nerrorCode = 2\nwarningCode = 1\n[rule.exported]\n",
+   "test.go": "package test\nfunc Test() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_enable_specific_rules::74",
+  "argv": [
+   "-config",
+   "specific.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "specific.toml": "\n[rule.exported]\n[rule.package-comments]\n",
+   "test.go": "package test\nfunc Test() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_config_location::75",
+  "argv": [
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package test\nimport _ \"fmt\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_disable_all_rules::76",
+  "argv": [
+   "-config",
+   "norules.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "norules.toml": "\nignoreGeneratedHeader = false\n",
+   "test.go": "package test\nfunc test() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_files_with_different_packages::77",
+  "argv": [
+   "main.go",
+   "main.go"
+  ],
+  "stdin": null,
+  "files": {
+   "main.go": "package pkg2\n\nfunc Func2() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_severity_error::78",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\nseverity = \"error\"\nerrorCode = 2\n\n[rule.exported]\n",
+   "test.go": "package test\n\nfunc Test() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rule_with_low_confidence::79",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\nconfidence = 1.0\n\n[rule.exported]\n",
+   "test.go": "package test\n\nfunc Test() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_linting_test_files::80",
+  "argv": [
+   "test_test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test_test.go": "package test\n\nimport \"testing\"\n\nfunc TestSomething(t *testing.T) {\n    t.Log(\"test\")\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_files_with_build_tags::81",
+  "argv": [
+   "tagged.go"
+  ],
+  "stdin": null,
+  "files": {
+   "tagged.go": "//go:build linux\n// +build linux\n\npackage test\n\nfunc LinuxOnly() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generated_file::82",
+  "argv": [
+   "generated.go"
+  ],
+  "stdin": null,
+  "files": {
+   "generated.go": "// Code generated by tool. DO NOT EDIT.\n\npackage test\n\nfunc Generated() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_cgo::83",
+  "argv": [
+   "cgo.go"
+  ],
+  "stdin": null,
+  "files": {
+   "cgo.go": "package test\n\n/*\n#include <stdio.h>\n*/\nimport \"C\"\n\nfunc UseCGO() {\n    C.printf(C.CString(\"hello\"))\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deeply_nested_if_statements::84",
+  "argv": [
+   "nested.go"
+  ],
+  "stdin": null,
+  "files": {
+   "nested.go": "package test\n\nfunc deeplyNested(a, b, c, d, e bool) {\n    if a {\n        if b {\n            if c {\n                if d {\n                    if e {\n                        println(\"deep\")\n                    }\n                }\n            }\n        }\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_type_definitions::85",
+  "argv": [
+   "types.go"
+  ],
+  "stdin": null,
+  "files": {
+   "types.go": "package test\n\ntype ComplexType struct {\n    Field1 map[string]interface{}\n    Field2 chan []byte\n    Field3 func(int) (string, error)\n}\n\nfunc (c ComplexType) Method() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interface_definitions::86",
+  "argv": [
+   "interface.go"
+  ],
+  "stdin": null,
+  "files": {
+   "interface.go": "package test\n\ntype MyInterface interface {\n    Method1()\n    Method2(int) string\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_with_many_parameters::87",
+  "argv": [
+   "-config",
+   "config.toml",
+   "params.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.argument-limit]\narguments = [3]\n",
+   "params.go": "package test\n\nfunc ManyParams(a, b, c, d, e, f, g int) {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_method_receivers::88",
+  "argv": [
+   "receivers.go"
+  ],
+  "stdin": null,
+  "files": {
+   "receivers.go": "package test\n\ntype T struct{}\n\nfunc (t T) ValueReceiver() {}\nfunc (t *T) PointerReceiver() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_variadic_functions::89",
+  "argv": [
+   "variadic.go"
+  ],
+  "stdin": null,
+  "files": {
+   "variadic.go": "package test\n\nfunc Variadic(args ...int) {\n    _ = args\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_anonymous_functions::90",
+  "argv": [
+   "anon.go"
+  ],
+  "stdin": null,
+  "files": {
+   "anon.go": "package test\n\nvar fn = func() {\n    println(\"anonymous\")\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_closures::91",
+  "argv": [
+   "closure.go"
+  ],
+  "stdin": null,
+  "files": {
+   "closure.go": "package test\n\nfunc outer() func() int {\n    x := 0\n    return func() int {\n        x++\n        return x\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_goroutines::92",
+  "argv": [
+   "goroutine.go"
+  ],
+  "stdin": null,
+  "files": {
+   "goroutine.go": "package test\n\nfunc test() {\n    go func() {\n        println(\"goroutine\")\n    }()\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_channels::93",
+  "argv": [
+   "channel.go"
+  ],
+  "stdin": null,
+  "files": {
+   "channel.go": "package test\n\nfunc test() {\n    ch := make(chan int)\n    ch <- 1\n    <-ch\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_statement::94",
+  "argv": [
+   "select.go"
+  ],
+  "stdin": null,
+  "files": {
+   "select.go": "package test\n\nfunc test() {\n    ch1 := make(chan int)\n    ch2 := make(chan int)\n    select {\n    case <-ch1:\n        println(\"ch1\")\n    case <-ch2:\n        println(\"ch2\")\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_revive_force_color_env::95",
+  "argv": [
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package test\nfunc Test() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "REVIVE_FORCE_COLOR": "1"
+  }
+ },
+ {
+  "name": "test::test_large_file_handling::96",
+  "argv": [
+   "large.go"
+  ],
+  "stdin": null,
+  "files": {
+   "large.go": "package test\n\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_source::97",
+  "argv": [
+   "unicode.go"
+  ],
+  "stdin": null,
+  "files": {
+   "unicode.go": "package test\n\n// This is a comment with unicode: 你好世界 🚀\nfunc Test() {\n    s := \"Hello 世界\"\n    _ = s\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_single_file::98",
+  "argv": [
+   "-exclude",
+   "test1.go",
+   "test1.go",
+   "test2.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test1.go": "package test\nfunc Test1() {}\n",
+   "test2.go": "package test\nfunc Test2() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_multiple_files::99",
+  "argv": [
+   "-exclude",
+   "exclude1.go",
+   "-exclude",
+   "exclude2.go",
+   "exclude1.go",
+   "exclude2.go",
+   "include.go"
+  ],
+  "stdin": null,
+  "files": {
+   "exclude1.go": "package test\nfunc E1() {}\n",
+   "exclude2.go": "package test\nfunc E2() {}\n",
+   "include.go": "package test\nfunc I() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_directory_pattern::100",
+  "argv": [
+   "-exclude"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_pattern_glob::101",
+  "argv": [
+   "-exclude",
+   "*_test.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_exclude_processes_all::102",
+  "argv": [
+   "test1.go",
+   "test2.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test1.go": "package test\nfunc Test1() {}\n",
+   "test2.go": "package test\nfunc Test2() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_nonexistent_file::103",
+  "argv": [
+   "-exclude",
+   "/nonexistent/file.go",
+   "testdata/atomic.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_with_package_pattern::104",
+  "argv": [
+   "-exclude",
+   "testdata/...",
+   "testdata/atomic.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_exit_status_with_issues::105",
+  "argv": [
+   "-set_exit_status",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\nfunc main() {\n    println(\"test\")\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_exit_status_no_issues::106",
+  "argv": [
+   "-config",
+   "revive.toml",
+   "-set_exit_status",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "revive.toml": "\nignoreGeneratedHeader = false\n",
+   "test.go": "package main\n\nfunc main() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_without_set_exit_status::107",
+  "argv": [
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\nfunc test() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_open_files_flag::108",
+  "argv": [
+   "-max_open_files",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_flags_combination::109",
+  "argv": [
+   "-config",
+   "config.toml",
+   "-formatter",
+   "json",
+   "-set_exit_status",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.exported]\n",
+   "test.go": "package test\nfunc Test() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_formatter_and_exclude_combination::110",
+  "argv": [
+   "-formatter",
+   "json",
+   "-exclude",
+   "exclude.go",
+   "exclude.go",
+   "include.go"
+  ],
+  "stdin": null,
+  "files": {
+   "exclude.go": "package test\nfunc E() {}\n",
+   "include.go": "package test\nfunc I() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_and_set_exit_status::111",
+  "argv": [
+   "-config",
+   "config.toml",
+   "-set_exit_status",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\nerrorCode = 0\nwarningCode = 0\n[rule.exported]\n",
+   "test.go": "package test\nfunc Test() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_flags_together::112",
+  "argv": [
+   "-config",
+   "config.toml",
+   "-formatter",
+   "friendly",
+   "-exclude",
+   "exclude.go",
+   "-set_exit_status",
+   "-max_open_files",
+   "10",
+   "exclude.go",
+   "include.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.exported]\n",
+   "exclude.go": "package test\nfunc E() {}\n",
+   "include.go": "package test\nfunc I() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_formatter::113",
+  "argv": [
+   "testdata/atomic.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_friendly_formatter::114",
+  "argv": [
+   "-formatter",
+   "friendly",
+   "testdata/atomic.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stylish_formatter::115",
+  "argv": [
+   "-formatter",
+   "stylish",
+   "testdata/atomic.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_plain_formatter::116",
+  "argv": [
+   "-formatter",
+   "plain",
+   "testdata/atomic.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unix_formatter::117",
+  "argv": [
+   "-formatter",
+   "unix",
+   "testdata/atomic.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_formatter::118",
+  "argv": [
+   "-formatter",
+   "json",
+   "testdata/atomic.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ndjson_formatter::119",
+  "argv": [
+   "-formatter",
+   "ndjson",
+   "testdata/atomic.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_checkstyle_formatter::120",
+  "argv": [
+   "-formatter",
+   "checkstyle",
+   "testdata/atomic.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sarif_formatter::121",
+  "argv": [
+   "-formatter",
+   "sarif",
+   "testdata/atomic.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_formatter::122",
+  "argv": [
+   "-formatter",
+   "nonexistent",
+   "testdata/atomic.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_formatter_with_no_issues::123",
+  "argv": [
+   "-config",
+   "revive.toml",
+   "-formatter",
+   "json",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "revive.toml": "ignoreGeneratedHeader = false\n",
+   "test.go": "package main\n\nfunc main() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_go_file::124",
+  "argv": [
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc main() {\n    println(\"hello\")\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_go_files::125",
+  "argv": [
+   "test1.go",
+   "test2.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test1.go": "package main\nfunc F1() {}\n",
+   "test2.go": "package main\nfunc F2() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file::126",
+  "argv": [
+   "/nonexistent/file.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_non_go_file::127",
+  "argv": [
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "not a go file"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_go_file::128",
+  "argv": [
+   "empty.go"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.go": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_go_file_with_syntax_error::129",
+  "argv": [
+   "bad.go"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.go": "package main\nfunc bad( {\n    this is not valid go\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_valid_go_code_minimal_issues::130",
+  "argv": [
+   "good.go"
+  ],
+  "stdin": null,
+  "files": {
+   "good.go": "// Package good is a test package.\npackage good\n\n// Add adds two numbers.\nfunc Add(a, b int) int {\n    return a + b\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_errorf_rule::131",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.errorf]\n",
+   "test.go": "package test\n\nimport \"errors\"\n\nfunc test() error {\n    return errors.New(\"something went wrong\")\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_length_rule::132",
+  "argv": [
+   "-config",
+   "config.toml"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.function-length]\narguments = [10, 5]\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_result_limit_rule::133",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.function-result-limit]\narguments = [2]\n",
+   "test.go": "package test\n\nfunc tooManyResults() (int, int, int, error) {\n    return 1, 2, 3, nil\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_get_return_rule::134",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.get-return]\n",
+   "test.go": "package test\n\ntype T struct{}\n\nfunc (t T) GetValue() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_identical_branches_rule::135",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.identical-branches]\n",
+   "test.go": "package test\n\nfunc test(x int) {\n    if x > 0 {\n        println(\"same\")\n    } else {\n        println(\"same\")\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_if_return_rule::136",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.if-return]\n",
+   "test.go": "package test\n\nfunc test(x bool) bool {\n    if x {\n        return true\n    }\n    return false\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_shadowing_rule::137",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.import-shadowing]\n",
+   "test.go": "package test\n\nimport \"fmt\"\n\nfunc test() {\n    fmt := \"shadowed\"\n    _ = fmt\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_increment_decrement_rule::138",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.increment-decrement]\n",
+   "test.go": "package test\n\nfunc test() {\n    x := 0\n    x = x + 1\n    x = x - 1\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_length_limit_rule::139",
+  "argv": [
+   "-config",
+   "config.toml"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.line-length-limit]\narguments = [80]\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_public_structs_rule::140",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.max-public-structs]\narguments = [1]\n",
+   "test.go": "package test\n\ntype Public1 struct {}\ntype Public2 struct {}\ntype Public3 struct {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_modifies_param_rule::141",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.modifies-parameter]\n",
+   "test.go": "package test\n\nfunc test(x int) {\n    x = x + 1\n    _ = x\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_modifies_value_receiver_rule::142",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.modifies-value-receiver]\n",
+   "test.go": "package test\n\ntype T struct {\n    value int\n}\n\nfunc (t T) Modify() {\n    t.value = 42\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_package_comments_rule_detailed::143",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.package-comments]\n",
+   "test.go": "package test\n\nfunc test() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_range_rule::144",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.range]\n",
+   "test.go": "package test\n\nfunc test() {\n    s := []int{1, 2, 3}\n    for i, _ := range s {\n        _ = i\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_receiver_naming_rule::145",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.receiver-naming]\n",
+   "test.go": "package test\n\ntype MyType struct{}\n\nfunc (self MyType) Method1() {}\nfunc (this MyType) Method2() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_redefines_builtin_id_rule::146",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.redefines-builtin-id]\n",
+   "test.go": "package test\n\nfunc test() {\n    len := 42\n    _ = len\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_of_int_rule::147",
+  "argv": [
+   "-config",
+   "config.toml",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.string-of-int]\n",
+   "test.go": "package test\n\nfunc test() {\n    s := string(65)\n    _ = s\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exported_rule::148",
+  "argv": [
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package test\n\n// This is missing documentation\ntype MyType struct {}\n\nfunc MyFunc() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_package_comments_rule::149",
+  "argv": [
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package test\n\nfunc test() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_use_fmt_print_rule::150",
+  "argv": [
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package test\n\nfunc test() {\n    println(\"hello\")\n    print(\"world\")\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_blank_imports_rule::151",
+  "argv": [
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package test\n\nimport _ \"fmt\"\nimport _ \"os\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_var_naming_rule::152",
+  "argv": [
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package test\n\nvar MyVar = 1  // Should be myVar or MY_VAR\nvar bad_name = 2  // Snake case not allowed\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cyclomatic_complexity_rule::153",
+  "argv": [
+   "-config",
+   "config.toml",
+   "complex.go"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[rule.cyclomatic]\narguments = [3]\n",
+   "complex.go": "package test\n\nfunc complex() {\n    if true {\n        if true {\n            if true {\n                if true {\n                    if true {\n                    }\n                }\n            }\n        }\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_as_argument_rule::154",
+  "argv": [
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package test\n\nimport \"context\"\n\nfunc bad(name string, ctx context.Context) {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_return_rule::155",
+  "argv": [
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package test\n\nfunc bad() (int, string, error) {\n    return 0, \"\", nil\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_indent_error_flow_rule::156",
+  "argv": [
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package test\n\nfunc test() error {\n    if err := doSomething(); err == nil {\n        return nil\n    } else {\n        return err\n    }\n}\n\nfunc doSomething() error { return nil }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unreachable_code_rule::157",
+  "argv": [
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package test\n\nfunc test() {\n    return\n    println(\"unreachable\")\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_exits_zero_short_flag::158",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_combined_with_other_flags_still_shows_help::159",
+  "argv": [
+   "--help",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_cli_unknown_formatter_errors::160",
+  "argv": [
+   "-formatter",
+   "unknown",
+   "./..."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_cli_missing_config_file_errors::161",
+  "argv": [
+   "-config",
+   "does-not-exist.toml",
+   "./..."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_cli_malformed_config_file_errors::162",
+  "argv": [
+   "-config",
+   "bad.toml",
+   "./..."
+  ],
+  "stdin": null,
+  "files": {
+   "bad.toml": "[rule\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_cli_rule_configure_error_surfaces::163",
+  "argv": [
+   "-config",
+   "./..."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_cli_set_exit_status_makes_warnings_fail::164",
+  "argv": [
+   "-config",
+   "c.toml",
+   "-formatter",
+   "friendly",
+   "-set_exit_status"
+  ],
+  "stdin": null,
+  "files": {
+   "c.toml": "enableAllRules = true\nseverity = \"warning\"\nconfidence = 0.0\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lint_single_file_emits_issue_on_stdout_and_exit_one::165",
+  "argv": [
+   "bad.go"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.go": "package p\n\nfunc f( ) {\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_formatter_json_outputs_valid_json_array_and_exit_one::166",
+  "argv": [
+   "-formatter",
+   "json",
+   "bad.go"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.go": "package p\n\nfunc f( ) {\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_formatter_ndjson_outputs_one_json_object_per_line::167",
+  "argv": [
+   "-formatter",
+   "ndjson",
+   "bad.go"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.go": "package p\n\nfunc f( ) {\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_target_emits_error_on_stderr_and_exit_one::168",
+  "argv": [
+   "-formatter",
+   "friendly",
+   "does-not-exist.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

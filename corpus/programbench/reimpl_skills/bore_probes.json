@@ -1,0 +1,1061 @@
+[
+ {
+  "name": "test::test_subcommand_recognized_via_help_flag::0",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_subcommand_requires_target_or_no_extra_args::1",
+  "argv": [
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_errors::2",
+  "argv": [
+   "nonexistent_subcommand"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_help_routing_and_position::3",
+  "argv": [
+   "--help",
+   "local"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subcommand_flag_does_not_work_globally::4",
+  "argv": [
+   "--to",
+   "127.0.0.1:1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_local_missing_required_args_errors_and_mentions_requirements::5",
+  "argv": [
+   "local"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_rejects_unknown_flag::6",
+  "argv": [
+   "server",
+   "--unknown"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_port_range::7",
+  "argv": [
+   "./executable",
+   "server",
+   "--min-port",
+   "5000",
+   "--max-port",
+   "3000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_port_range_validation::8",
+  "argv": [
+   "./executable",
+   "server",
+   "--min-port",
+   "50000",
+   "--max-port",
+   "40000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_missing_required_arguments::9",
+  "argv": [
+   "./executable",
+   "local"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_missing_to_flag::10",
+  "argv": [
+   "./executable",
+   "local",
+   "8080"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_invalid_port_number::11",
+  "argv": [
+   "./executable",
+   "local",
+   "99999",
+   "--to",
+   "127.0.0.1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_non_numeric_port::12",
+  "argv": [
+   "./executable",
+   "local",
+   "abc",
+   "--to",
+   "127.0.0.1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_help_shows_usage::13",
+  "argv": [
+   "./executable",
+   "server",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_exact::14",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_local_help_exact::15",
+  "argv": [
+   "local",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_help_exact::16",
+  "argv": [
+   "server",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_subcommand_has_nonzero_exit_and_usage::17",
+  "argv": [
+   "does-not-exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_local_requires_to_flag::18",
+  "argv": [
+   "local",
+   "8000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_local_port_from_env_BORE_LOCAL_PORT::19",
+  "argv": [
+   "local",
+   "--to",
+   "127.0.0.1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "BORE_LOCAL_PORT": "5555"
+  }
+ },
+ {
+  "name": "test::test_invalid_to_address_fails_quickly::20",
+  "argv": [
+   "local",
+   "8000",
+   "--to",
+   "malformed !$uri$%"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_local_invalid_host_name_exit_1_and_shows_name_or_service_not_known::21",
+  "argv": [
+   "local",
+   "--to",
+   "foo",
+   "8000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_empty_port_range_is_clap_invalid_value_exit_2::22",
+  "argv": [
+   "server",
+   "--min-port",
+   "9000",
+   "--max-port",
+   "8000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_flag::23",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_short_flag::24",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_command::25",
+  "argv": [
+   "unknown-command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::26",
+  "argv": [
+   "--invalid-flag-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_local_help_short_flag::27",
+  "argv": [
+   "local",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_help_short_flag::28",
+  "argv": [
+   "server",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_local::29",
+  "argv": [
+   "help",
+   "local"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_server::30",
+  "argv": [
+   "help",
+   "server"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_local_missing_port_shows_error::31",
+  "argv": [
+   "local",
+   "--to",
+   "example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_local_invalid_port_non_numeric::32",
+  "argv": [
+   "local",
+   "abc",
+   "--to",
+   "example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_local_invalid_port_negative::33",
+  "argv": [
+   "local",
+   "-1",
+   "--to",
+   "example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_local_invalid_port_zero::34",
+  "argv": [
+   "local",
+   "0",
+   "--to",
+   "example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_local_invalid_port_too_large::35",
+  "argv": [
+   "local",
+   "99999",
+   "--to",
+   "example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_local_valid_port_formats::36",
+  "argv": [
+   "local",
+   "--to",
+   "nonexistent.invalid.test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_local_empty_server_address::37",
+  "argv": [
+   "local",
+   "8000",
+   "--to",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_local_invalid_server_connection::38",
+  "argv": [
+   "local",
+   "8000",
+   "--to",
+   "invalid.nonexistent.local.test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_local_with_port_flag::39",
+  "argv": [
+   "local",
+   "8000",
+   "--to",
+   "invalid.test",
+   "--port",
+   "9000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_local_with_port_short_flag::40",
+  "argv": [
+   "local",
+   "8000",
+   "--to",
+   "invalid.test",
+   "-p",
+   "9000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_local_with_local_host_flag::41",
+  "argv": [
+   "local",
+   "8000",
+   "--to",
+   "invalid.test",
+   "--local-host",
+   "127.0.0.1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_local_with_local_host_short_flag::42",
+  "argv": [
+   "local",
+   "8000",
+   "--to",
+   "invalid.test",
+   "-l",
+   "127.0.0.1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_local_with_secret_flag::43",
+  "argv": [
+   "local",
+   "8000",
+   "--to",
+   "invalid.test",
+   "--secret",
+   "my-secret"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_local_with_secret_short_flag::44",
+  "argv": [
+   "local",
+   "8000",
+   "--to",
+   "invalid.test",
+   "-s",
+   "my-secret"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_local_with_to_short_flag::45",
+  "argv": [
+   "local",
+   "8000",
+   "-t",
+   "invalid.test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_no_args_attempts_start::46",
+  "argv": [
+   "server"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_min_port_flag::47",
+  "argv": [
+   "server",
+   "--min-port",
+   "2000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_max_port_flag::48",
+  "argv": [
+   "server",
+   "--max-port",
+   "8000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_both_port_flags::49",
+  "argv": [
+   "server",
+   "--min-port",
+   "3000",
+   "--max-port",
+   "4000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_invalid_port_range_reversed::50",
+  "argv": [
+   "server",
+   "--min-port",
+   "5000",
+   "--max-port",
+   "3000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_port_range_equal::51",
+  "argv": [
+   "server",
+   "--min-port",
+   "3000",
+   "--max-port",
+   "3000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_invalid_min_port_negative::52",
+  "argv": [
+   "server",
+   "--min-port",
+   "-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_invalid_max_port_too_large::53",
+  "argv": [
+   "server",
+   "--max-port",
+   "99999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_bind_addr_flag::54",
+  "argv": [
+   "server",
+   "--bind-addr",
+   "127.0.0.1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_bind_addr_ipv6::55",
+  "argv": [
+   "server",
+   "--bind-addr",
+   "::1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_bind_addr_invalid_format::56",
+  "argv": [
+   "server",
+   "--bind-addr",
+   "not-an-ip"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_bind_tunnels_flag::57",
+  "argv": [
+   "server",
+   "--bind-tunnels",
+   "127.0.0.1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_bind_addr_and_tunnels::58",
+  "argv": [
+   "server",
+   "--bind-addr",
+   "127.0.0.1",
+   "--bind-tunnels",
+   "127.0.0.1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_with_secret_flag::59",
+  "argv": [
+   "server",
+   "--secret",
+   "my-secret-key"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_with_secret_short_flag::60",
+  "argv": [
+   "server",
+   "-s",
+   "my-secret-key"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_with_empty_secret::61",
+  "argv": [
+   "server",
+   "--secret",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_all_flags_together::62",
+  "argv": [
+   "server",
+   "--min-port",
+   "10000",
+   "--max-port",
+   "10100",
+   "--secret",
+   "test-secret",
+   "--bind-addr",
+   "127.0.0.1",
+   "--bind-tunnels",
+   "127.0.0.1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_local_port_from_env_var::63",
+  "argv": [
+   "local",
+   "--to",
+   "invalid.test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "BORE_LOCAL_PORT": "8000"
+  }
+ },
+ {
+  "name": "test::test_local_secret_from_env_var::64",
+  "argv": [
+   "local",
+   "8000",
+   "--to",
+   "invalid.test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "BORE_SECRET": "my-secret"
+  }
+ },
+ {
+  "name": "test::test_local_env_var_overridden_by_flag::65",
+  "argv": [
+   "local",
+   "8000",
+   "--to",
+   "override.test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "BORE_SERVER": "env.test"
+  }
+ },
+ {
+  "name": "test::test_server_env_var_overridden_by_flag::66",
+  "argv": [
+   "server",
+   "--min-port",
+   "20000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "BORE_MIN_PORT": "10000"
+  }
+ },
+ {
+  "name": "test::test_local_invalid_port_in_env_var::67",
+  "argv": [
+   "local",
+   "--to",
+   "test.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "BORE_LOCAL_PORT": "not-a-port"
+  }
+ },
+ {
+  "name": "test::test_client_server_mismatched_secrets::68",
+  "argv": [
+   "local",
+   "--to",
+   "127.0.0.1",
+   "--secret",
+   "wrong-secret"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_with_secret_server_without_secret::69",
+  "argv": [
+   "local",
+   "--to",
+   "127.0.0.1",
+   "--secret",
+   "extra-secret"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_fails_on_unreachable_server::70",
+  "argv": [
+   "local",
+   "--to",
+   "192.0.2.1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_fails_on_invalid_local_port::71",
+  "argv": [
+   "local",
+   "1",
+   "--to",
+   "127.0.0.1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_with_different_local_hosts::72",
+  "argv": [
+   "local",
+   "9000",
+   "--to",
+   "nonexistent.invalid.test",
+   "--local-host"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_with_port_selection::73",
+  "argv": [
+   "local",
+   "8000",
+   "--to",
+   "nonexistent.invalid.test",
+   "--port"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_with_various_secrets::74",
+  "argv": [
+   "local",
+   "8000",
+   "--to",
+   "nonexistent.invalid.test",
+   "--secret"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_global_flag_shows_error_on_stderr_and_usage_hint::75",
+  "argv": [
+   "--bogus",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_precedes_other_flags::76",
+  "argv": [
+   "--help",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_local_help_ignores_unknown_flag_after_help::77",
+  "argv": [
+   "local",
+   "--help",
+   "--bogus"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

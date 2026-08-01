@@ -1,0 +1,5728 @@
+{
+ "slug": "epistates__treemd.825c6dd",
+ "language": "",
+ "n_branches": 13,
+ "n_tests_total": 1872,
+ "n_examples": 315,
+ "n_with_exact_stdout": 29,
+ "n_with_rc": 300,
+ "n_skipped": 1510,
+ "examples": [
+  {
+   "test": "test_version_flag_long",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "treemd"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:74"
+  },
+  {
+   "test": "test_version_flag_short",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "treemd"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:81"
+  },
+  {
+   "test": "test_stdin_with_dash",
+   "argv": [
+    "-l",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test Heading"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:155"
+  },
+  {
+   "test": "test_stdin_with_explicit_dash",
+   "argv": [
+    "--list",
+    "-"
+   ],
+   "stdin": "# Test Heading\n\n## Subheading\n\nContent here.\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "# Test Heading\n## Subheading\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_atline.py:62"
+  },
+  {
+   "test": "test_truly_empty_stdin_error",
+   "argv": [
+    "--list",
+    "-"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Empty input provided"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_atline.py:243"
+  },
+  {
+   "test": "test_list_from_stdin_single_heading",
+   "argv": [
+    "--list",
+    "-"
+   ],
+   "stdin": "# Test Heading\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "# Test Heading\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_commands.py:231"
+  },
+  {
+   "test": "test_tree_from_stdin_complex_document",
+   "argv": [
+    "--tree",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "├──# Level 1 First\n│  ├──## Level 2 First\n│  │  └──### Level 3 First\n│  │     └──#### Level 4 First\n│  │        └──##### Level 5 First\n│  │           └──###### Level 6 First\n│  └──## Level 2 Second\n└──# Level 1 Second\n   └──## Level 2 Third\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_commands.py:239"
+  },
+  {
+   "test": "test_truly_empty_stdin_error",
+   "argv": [
+    "--list",
+    "-"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_commands_gap.py:158"
+  },
+  {
+   "test": "test_stdin_with_only_newline_creates_default_heading",
+   "argv": [
+    "--list",
+    "-"
+   ],
+   "stdin": "\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_commands_gap.py:166"
+  },
+  {
+   "test": "test_stdin_input_with_dash",
+   "argv": [
+    "-",
+    "-l"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "# From Stdin\n## Subheading\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_commands_remaining.py:400"
+  },
+  {
+   "test": "test_stdin_input",
+   "argv": [
+    "--list",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "# Introduction\n## Getting Started\n### Installation\n### Configuration\n## Advanced Usage\n### Performance Tuning\n### Security Considerations\n## Conclusion\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_output.py:107"
+  },
+  {
+   "test": "test_stdin_tree_mode",
+   "argv": [
+    "--tree",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "└──# Introduction\n   ├──## Getting Started\n   │  ├──### Installation\n   │  └──### Configuration\n   ├──## Advanced Usage\n   │  ├──### Performance Tuning\n   │  └──### Security Considerations\n   └──## Conclusion\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_output.py:355"
+  },
+  {
+   "test": "test_setup_completions_bash_detection",
+   "argv": [
+    "--setup-completions"
+   ],
+   "stdin": "n\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_setup_config.py:11"
+  },
+  {
+   "test": "test_setup_completions_add_to_bashrc",
+   "argv": [
+    "--setup-completions"
+   ],
+   "stdin": "y\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "✓ Added completions",
+    "Restart your shell",
+    "# treemd shell completion",
+    "source <(COMPLETE=bash treemd)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_setup_config.py:94"
+  },
+  {
+   "test": "test_setup_completions_decline",
+   "argv": [
+    "--setup-completions"
+   ],
+   "stdin": "n\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Manually add the line above to enable completions."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_setup_config.py:144"
+  },
+  {
+   "test": "test_setup_completions_append_to_existing_bashrc",
+   "argv": [
+    "--setup-completions"
+   ],
+   "stdin": "y\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "# My existing config",
+    "export PATH=/custom/path:$PATH",
+    "alias ll='ls -la'",
+    "# treemd shell completion",
+    "source <(COMPLETE=bash treemd)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_setup_config.py:164"
+  },
+  {
+   "test": "test_shell_path_variants_bash",
+   "argv": [
+    "--setup-completions"
+   ],
+   "stdin": "n\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Detected shell: bash",
+    "source <(COMPLETE=bash treemd)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_setup_config.py:194"
+  },
+  {
+   "test": "test_shell_path_variants_zsh",
+   "argv": [
+    "--setup-completions"
+   ],
+   "stdin": "n\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Detected shell: zsh",
+    "source <(COMPLETE=zsh treemd)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_setup_config.py:214"
+  },
+  {
+   "test": "test_setup_completions_with_spaces_in_home",
+   "argv": [
+    "--setup-completions"
+   ],
+   "stdin": "y\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "# treemd shell completion",
+    "source <(COMPLETE=bash treemd)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_setup_config.py:233"
+  },
+  {
+   "test": "test_setup_completions_fish_config_directory",
+   "argv": [
+    "--setup-completions"
+   ],
+   "stdin": "y\n",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error setting up completions",
+    "Shell Completion Setup Instructions"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_setup_config.py:252"
+  },
+  {
+   "test": "test_setup_completions_zsh_adds_to_zshrc",
+   "argv": [
+    "--setup-completions"
+   ],
+   "stdin": "y\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "# treemd shell completion",
+    "source <(COMPLETE=zsh treemd)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_setup_config.py:272"
+  },
+  {
+   "test": "test_setup_completions_case_insensitive_yes",
+   "argv": [
+    "--setup-completions"
+   ],
+   "stdin": "Y\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "source <(COMPLETE=bash treemd)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_setup_config.py:297"
+  },
+  {
+   "test": "test_setup_completions_whitespace_in_response",
+   "argv": [
+    "--setup-completions"
+   ],
+   "stdin": " y \n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "source <(COMPLETE=bash treemd)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_setup_config.py:315"
+  },
+  {
+   "test": "test_setup_completions_empty_input_declines",
+   "argv": [
+    "--setup-completions"
+   ],
+   "stdin": "\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Manually add the line"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_setup_config.py:333"
+  },
+  {
+   "test": "test_setup_completions_no_duplicate_on_rerun",
+   "argv": [
+    "--setup-completions"
+   ],
+   "stdin": "y\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "✓ Shell completions are already set up"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_setup_config.py:352"
+  },
+  {
+   "test": "test_setup_completions_fish_with_existing_dir",
+   "argv": [
+    "--setup-completions"
+   ],
+   "stdin": "y\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "# treemd shell completion",
+    "COMPLETE=fish treemd | source"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_setup_config.py:383"
+  },
+  {
+   "test": "test_stdin_dash_explicit",
+   "argv": [
+    "--list",
+    "-"
+   ],
+   "stdin": "# Valid Markdown\n\n## Section One\n\nContent here.\n\n## Section Two\n\nMore content.",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "# Valid Markdown\n## Section One\n## Section Two\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:9"
+  },
+  {
+   "test": "test_stdin_plain_text_wrapping",
+   "argv": [
+    "--list",
+    "-"
+   ],
+   "stdin": "Plain text without any markdown heading",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "# Input\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:18"
+  },
+  {
+   "test": "test_line_too_long_error",
+   "argv": [
+    "--list",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error reading input: Line too long:",
+    "bytes (max 10 MB)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:45"
+  },
+  {
+   "test": "test_input_too_large_error",
+   "argv": [
+    "--list",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:63"
+  },
+  {
+   "test": "test_stdin_multiline_markdown",
+   "argv": [
+    "--list",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "# Main Title\n## Section A\n### Subsection A1\n### Subsection A2\n## Section B\n# Another Top Level\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:75"
+  },
+  {
+   "test": "test_stdin_utf8_characters",
+   "argv": [
+    "--list",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "# Unicode Test 测试 🎯\n## Section with émojis 🎨\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:85"
+  },
+  {
+   "test": "test_stdin_tree_format",
+   "argv": [
+    "--tree",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "├──# Main Title\n│  ├──## Section A\n│  │  ├──### Subsection A1\n│  │  └──### Subsection A2\n│  └──## Section B\n└──# Another Top Level\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:104"
+  },
+  {
+   "test": "test_stdin_utf8_tree",
+   "argv": [
+    "--tree",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "└──# Unicode Test 测试 🎯\n   └──## Section with émojis 🎨\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:114"
+  },
+  {
+   "test": "test_stdin_plain_multiline_text",
+   "argv": [
+    "--list",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "# Input\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:124"
+  },
+  {
+   "test": "test_markdown_with_mid_document_heading",
+   "argv": [
+    "--list",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "# First Heading\n## Subsection\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:134"
+  },
+  {
+   "test": "test_stdin_json_output",
+   "argv": [
+    "--list",
+    "--output",
+    "json",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "{\n  \"document\": {\n    \"metadata\": {\n      \"source\": null,\n      \"headingCount\": 6,\n      \"maxDepth\": 3,\n      \"wordCount\": 35\n    },\n    \"sections\": [\n      {\n        \"id\": \"main-title\",\n        \"level\": 1,\n        \"title\": \"Main Title\",\n        \"slug\": \"main-title\",\n        \"position\": {\n          \"line\": 2,\n          \"offset\": 13\n        },\n        \"content\": {\n          \"raw\": \"Introduction content.\",\n          \"blocks\": [\n            {\n              \"type\": \"paragraph\",\n              \"content\": \"Introduction content.\",\n              \"inline\": [\n                {\n                  \"type\": \"text\",\n                  \"value\": \"Introduction content.\"\n                }\n              ]\n            }\n          ]\n        },\n        \"children\": [\n          {\n            \"id\": \"section-a\",\n            \"level\": 2,\n            \"title\": \"Section A\",\n            \"slug\": \"section-a\",\n            \"position\": {\n              \"line\": 6,\n              \"offset\": 50\n            },\n            \"content\": {\n              \"raw\": \"Content for section A.\",\n              \"blocks\": [\n                {\n                  \"type\": \"paragraph\",\n                  \"content\": \"Content for section A.\",\n                  \"inline\": [\n                    {\n                      \"type\": \"text\",\n                      \"value\": \"Content for section A.\"\n                    }\n                  ]\n                }\n              ]\n            },\n            \"children\": [\n              {\n                \"id\": \"subsection-a1\",\n                \"level\": 3,\n                \"title\": \"Subsection A1\",\n                \"slug\": \"subsection-a1\",\n                \"position\": {\n                  \"line\": 10,\n                  \"offset\": 93\n                },\n                \"content\": {\n                  \"raw\": \"Details here.\",\n                  \"blocks\": [\n                    {\n                      \"type\": \"paragraph\",\n                      \"content\": \"Details here.\",\n                      \"inline\": [\n                        {\n                          \"type\": \"text\",\n                          \"value\": \"Details here.\"\n                        }\n                      ]\n                    }\n                  ]\n                },\n                \"children\": []\n              },\n              {\n                \"id\": \"subsection-a2\",\n                \"level\": 3,\n                \"title\": \"Subsection A2\",\n                \"slug\": \"subsection-a2\",\n                \"position\": {\n                  \"line\": 14,\n                  \"offset\": 127\n                },\n                \"content\": {\n                  \"raw\": \"More details.\",\n                  \"blocks\": [\n                    {\n                      \"type\": \"paragraph\",\n                      \"content\": \"More details.\",\n                      \"inline\": [\n                        {\n                          \"type\": \"text\",\n                          \"value\": \"More details.\"\n                        }\n                      ]\n                    }\n                  ]\n                },\n                \"children\": []\n              }\n            ]\n          },\n          {\n            \"id\": \"section-b\",\n            \"level\": 2,\n            \"title\": \"Section B\",\n            \"slug\": \"section-b\",\n            \"position\": {\n              \"line\": 18,\n              \"offset\": 156\n            },\n            \"content\": {\n              \"raw\": \"Content for section B.\",\n              \"blocks\": [\n                {\n                  \"type\": \"paragraph\",\n                  \"content\": \"Content for section B.\",\n                  \"inline\": [\n                    {\n                      \"type\": \"text\",\n                      \"value\": \"Content for section B.\"\n                    }\n                  ]\n                }\n              ]\n            },\n            \"children\": []\n          }\n        ]\n      },\n      {\n        \"id\": \"another-top-level\",\n        \"level\": 1,\n        \"title\": \"Another Top Level\",\n        \"slug\": \"another-top-level\",\n        \"position\": {\n          \"line\": 22,\n          \"offset\": 201\n        },\n        \"content\": {\n          \"raw\": \"Final content.\",\n          \"blocks\": [\n            {\n              \"type\": \"paragraph\",\n              \"content\": \"Final content.\",\n              \"inline\": [\n                {\n                  \"type\": \"text\",\n                  \"value\": \"Final content.\"\n                }\n              ]\n            }\n          ]\n        },\n        \"children\": []\n      }\n    ]\n  }\n}\n",
+   "expect_stderr": null,
+   "expect_in": [
+    "document"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:144"
+  },
+  {
+   "test": "test_stdin_with_query_expression",
+   "argv": [
+    "-q",
+    ".h2",
+    "-"
+   ],
+   "stdin": "# Test\n\n## Section",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "## Section\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:159"
+  },
+  {
+   "test": "test_stdin_with_filter_flag",
+   "argv": [
+    "--list",
+    "--filter",
+    "Section",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "## Section A\n### Subsection A1\n### Subsection A2\n## Section B\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:167"
+  },
+  {
+   "test": "test_stdin_with_level_flag",
+   "argv": [
+    "--list",
+    "--level",
+    "2",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "## Section A\n## Section B\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:177"
+  },
+  {
+   "test": "test_file_vs_stdin_consistency",
+   "argv": [
+    "--tree",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "└──# Valid Markdown\n   ├──## Section One\n   └──## Section Two\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:186"
+  },
+  {
+   "test": "test_stdin_count_command",
+   "argv": [
+    "--count",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Heading counts:\n  #: 2\n  ##: 2\n  ###: 2\n\nTotal: 6\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:201"
+  },
+  {
+   "test": "test_stdin_section_extraction",
+   "argv": [
+    "--section",
+    "Section A",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "## Section A\n\nContent for section A.\n\n### Subsection A1\n\nDetails here.\n\n### Subsection A2\n\nMore details.\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:210"
+  },
+  {
+   "test": "test_stdin_hash_mid_line_not_heading",
+   "argv": [
+    "--list",
+    "-"
+   ],
+   "stdin": "Text with # in middle but not at line start",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "# Input\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:219"
+  },
+  {
+   "test": "test_stdin_heading_after_plain_text",
+   "argv": [
+    "--list",
+    "-"
+   ],
+   "stdin": "First line plain\n# Heading\nNext line",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "# Heading\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:227"
+  },
+  {
+   "test": "test_stdin_large_valid_content",
+   "argv": [
+    "--count",
+    "-"
+   ],
+   "stdin": "# Test\n\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Heading counts:\n  #: 1\n  ##: 1000\n\nTotal: 1001\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:235"
+  },
+  {
+   "test": "test_stdin_whitespace_only",
+   "argv": [
+    "--list",
+    "-"
+   ],
+   "stdin": "   \n\t\n  ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "# Input\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:246"
+  },
+  {
+   "test": "test_stdin_with_single_heading",
+   "argv": [
+    "--list",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "# Test Heading\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_main_entry.py:207"
+  },
+  {
+   "test": "test_empty_document_no_links",
+   "argv": [
+    "-q",
+    ".link",
+    "--query-output",
+    "json",
+    "-"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_parser_links.py:298"
+  },
+  {
+   "test": "test_document_with_no_links",
+   "argv": [
+    "-q",
+    ".link",
+    "--query-output",
+    "json",
+    "-"
+   ],
+   "stdin": "# Plain Document\n\nThis is just plain text.\n\n## Another Section\n\nMore plain text here with no links at all.\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_parser_links.py:313"
+  },
+  {
+   "test": "test_anchor_link_formats",
+   "argv": [
+    "-q",
+    ".link",
+    "--query-output",
+    "json-pretty",
+    "-"
+   ],
+   "stdin": "# Test\n\n[Pure anchor](#installation)\n[With dash](#install-guide)\n[With underscore](#setup_instructions)\n[File with anchor](./docs/api.md#endpoints)\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_parser_links.py:338"
+  },
+  {
+   "test": "test_relative_link_paths",
+   "argv": [
+    "-q",
+    ".link",
+    "--query-output",
+    "json-pretty",
+    "-"
+   ],
+   "stdin": "# Test\n\n[Same dir](./file.md)\n[Parent](../docs/guide.md)\n[Nested](./src/parser/links.md)\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "./file.md",
+    "../docs/guide.md",
+    "./src/parser/links.md"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_parser_links.py:378"
+  },
+  {
+   "test": "test_wikilink_with_alias",
+   "argv": [
+    "-q",
+    ".link",
+    "--query-output",
+    "json-pretty",
+    "-"
+   ],
+   "stdin": "# Test\n\n[[simple-target]]\n[[complex-target|Display Name]]\n[[another|Name With Spaces]]\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_parser_links.py:409"
+  },
+  {
+   "test": "test_multiple_links_on_same_line",
+   "argv": [
+    "-q",
+    ".link",
+    "--query-output",
+    "json-pretty",
+    "-"
+   ],
+   "stdin": "# Test\n\nCheck [first](https://a.com) and [second](https://b.com) and [[third]].\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_parser_links.py:445"
+  },
+  {
+   "test": "test_link_sorting_by_offset",
+   "argv": [
+    "-q",
+    ".link",
+    "--query-output",
+    "json",
+    "-"
+   ],
+   "stdin": "# Doc\n\n[Z Link](https://z.com)\n[A Link](https://a.com)\n[[m-wiki]]\n[B Link](https://b.com)\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_parser_links.py:490"
+  },
+  {
+   "test": "test_help_screen_display",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_help_display",
+    "?"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "treemd - Keyboard Shortcuts",
+    "Navigation",
+    "Press Esc or ? to close",
+    "Interactive Elements Sample"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_help_interactive.py:305"
+  },
+  {
+   "test": "test_tmux_available",
+   "argv": [
+    "tmux",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tmux"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_infra_proof.py:13"
+  },
+  {
+   "test": "test_session_exists_after_short_wait",
+   "argv": [
+    "tmux",
+    "has-session",
+    "-t",
+    "test_lifecycle_01"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_lifecycle.py:11"
+  },
+  {
+   "test": "test_session_exists_after_medium_wait",
+   "argv": [
+    "tmux",
+    "has-session",
+    "-t",
+    "test_lifecycle_10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_lifecycle.py:38"
+  },
+  {
+   "test": "test_pane_alive_after_start",
+   "argv": [
+    "tmux",
+    "display-message",
+    "-t",
+    "test_pane_status",
+    "-p",
+    "#{pane_dead}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_pane_status.py:11"
+  },
+  {
+   "test": "test_default_config_is_compact_tree_style",
+   "argv": [
+    "--tree"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "└──# Title",
+    "├──## A"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_handling.py:59"
+  },
+  {
+   "test": "test_config_file_tree_style_spaced_changes_tree_rendering",
+   "argv": [
+    "--tree"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "└─ # Title",
+    "├─ ## A"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_handling.py:71"
+  },
+  {
+   "test": "test_env_xdg_config_home_controls_config_lookup",
+   "argv": [
+    "--tree"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "└─ # Title"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_handling.py:87"
+  },
+  {
+   "test": "test_invalid_toml_config_is_ignored_and_defaults_apply",
+   "argv": [
+    "--tree"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "└──# Title"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_handling.py:102"
+  },
+  {
+   "test": "test_subcommand_help_recognized",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:65"
+  },
+  {
+   "test": "test_unknown_subcommand_is_treated_as_file_positional_not_a_command",
+   "argv": [
+    "definitely_not_a_real_subcommand_xyz"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:81"
+  },
+  {
+   "test": "test_unknown_global_flag_errors_and_shows_usage",
+   "argv": [
+    "--definitely-bad-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument",
+    "usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:106"
+  },
+  {
+   "test": "test_global_flags_are_not_accepted_after_subcommand_as_subcommands",
+   "argv": [
+    "help",
+    "at-line",
+    "--verbose"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unrecognized subcommand"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:114"
+  },
+  {
+   "test": "test_subcommand_missing_required_args_shows_usage",
+   "argv": [
+    "at-line"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage:",
+    "at-line"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:123"
+  },
+  {
+   "test": "test_executable_exists",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "treemd"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_config_env.py:70"
+  },
+  {
+   "test": "test_no_config_uses_defaults",
+   "argv": [
+    "-l"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "# Main Title"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:78"
+  },
+  {
+   "test": "test_minimal_config_loads",
+   "argv": [
+    "-l"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:97"
+  },
+  {
+   "test": "test_cli_theme_overrides_config",
+   "argv": [
+    "--theme",
+    "Dracula",
+    "-l"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:178"
+  },
+  {
+   "test": "test_cli_color_mode_overrides_config",
+   "argv": [
+    "--color-mode",
+    "256",
+    "-l"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:189"
+  },
+  {
+   "test": "test_multiple_cli_overrides",
+   "argv": [
+    "--theme",
+    "Gruvbox",
+    "--color-mode",
+    "rgb",
+    "-l"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:200"
+  },
+  {
+   "test": "test_all_valid_themes",
+   "argv": [
+    "--theme",
+    "-l"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:368"
+  },
+  {
+   "test": "test_all_valid_color_modes",
+   "argv": [
+    "--color-mode",
+    "-l"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:380"
+  },
+  {
+   "test": "test_query_with_config",
+   "argv": [
+    "-q",
+    ".h2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:495"
+  },
+  {
+   "test": "test_query_output_format_with_config",
+   "argv": [
+    "-q",
+    ".h",
+    "--query-output",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:505"
+  },
+  {
+   "test": "test_cli_images_flag_overrides_config",
+   "argv": [
+    "--images",
+    "-l"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:544"
+  },
+  {
+   "test": "test_cli_no_images_flag_overrides_config",
+   "argv": [
+    "--no-images",
+    "-l"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:554"
+  },
+  {
+   "test": "test_version_prints_to_stdout_and_exit_0",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_version.py:4"
+  },
+  {
+   "test": "test_help_mentions_cli_modes_and_exit_0",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--list",
+    "--tree"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_version.py:12"
+  },
+  {
+   "test": "test_list_plain_from_stdin_dash_matches_expected",
+   "argv": [
+    "-l",
+    "-o",
+    "plain",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "# T\n## A\n## B\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_and_list.py:7"
+  },
+  {
+   "test": "test_list_json_from_file_parses_and_has_metadata",
+   "argv": [
+    "-l",
+    "-o",
+    "json",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_and_list.py:14"
+  },
+  {
+   "test": "test_tree_from_stdin_has_box_drawing_and_headings",
+   "argv": [
+    "--tree",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "└──# T",
+    "├──## A",
+    "└──## B"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tree_count_section_errors.py:6"
+  },
+  {
+   "test": "test_count_from_stdin_prints_stats",
+   "argv": [
+    "--count",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Heading counts:",
+    "#: 1",
+    "##: 2",
+    "Total: 3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tree_count_section_errors.py:15"
+  },
+  {
+   "test": "test_section_extract_prints_heading_and_content",
+   "argv": [
+    "-s",
+    "A",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "## A\ntext\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tree_count_section_errors.py:25"
+  },
+  {
+   "test": "test_nonexistent_file_exit_1_and_error_on_stderr",
+   "argv": [
+    "nonexistent_file_please_dont_create.md",
+    "-l"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Error reading input"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tree_count_section_errors.py:31"
+  },
+  {
+   "test": "test_help_subcommand_recognized",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:44"
+  },
+  {
+   "test": "test_at_line_subcommand_recognized",
+   "argv": [
+    "at-line",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:50"
+  },
+  {
+   "test": "test_help_with_at_line_shows_subcommand_help",
+   "argv": [
+    "help",
+    "at-line"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "line"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommands.py:56"
+  },
+  {
+   "test": "test_file_path_not_confused_with_subcommand",
+   "argv": [
+    "--list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:179"
+  },
+  {
+   "test": "test_dash_h_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:227"
+  },
+  {
+   "test": "test_dash_dash_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:233"
+  },
+  {
+   "test": "test_main_help_lists_subcommands",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "at-line",
+    "help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:249"
+  },
+  {
+   "test": "test_help_shows_subcommand_descriptions",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "line"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommands.py:262"
+  },
+  {
+   "test": "test_help_precedence_with_other_flags_list_help_long_wins",
+   "argv": [
+    "-l",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable",
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_edge_cases.py:26"
+  },
+  {
+   "test": "test_help_precedence_with_invalid_flag_still_prints_help",
+   "argv": [
+    "--definitely-not-a-flag",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_edge_cases.py:34"
+  },
+  {
+   "test": "test_subcommand_help_at_line_exits_zero_and_stdout_only",
+   "argv": [
+    "help",
+    "at-line"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable at-line <LINE>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_subcommands.py:26"
+  },
+  {
+   "test": "test_subcommand_help_at_line_documents_line_argument",
+   "argv": [
+    "help",
+    "at-line"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Arguments:",
+    "<LINE>",
+    "Line number"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_subcommands.py:34"
+  },
+  {
+   "test": "test_subcommand_help_at_line_has_help_flag",
+   "argv": [
+    "help",
+    "at-line"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-h, --help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_subcommands.py:42"
+  },
+  {
+   "test": "test_unknown_first_arg_with_help_prints_main_help",
+   "argv": [
+    "no_such_subcommand",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_subcommands.py:48"
+  },
+  {
+   "test": "test_at_line_basic",
+   "argv": [
+    "at-line",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_at_line_subcommand.py:6"
+  },
+  {
+   "test": "test_at_line_middle",
+   "argv": [
+    "at-line",
+    "5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_at_line_subcommand.py:16"
+  },
+  {
+   "test": "test_at_line_large_number",
+   "argv": [
+    "at-line",
+    "1000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_at_line_subcommand.py:25"
+  },
+  {
+   "test": "test_at_line_help",
+   "argv": [
+    "at-line",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Show heading at specific line",
+    "LINE"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_at_line_subcommand.py:46"
+  },
+  {
+   "test": "test_at_line_with_headings",
+   "argv": [
+    "at-line",
+    "3"
+   ],
+   "stdin": "# Title\ntext\n## Section\nmore text\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_at_line_subcommand.py:68"
+  },
+  {
+   "test": "test_help_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "markdown",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:7"
+  },
+  {
+   "test": "test_help_long",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--list",
+    "--tree",
+    "--section",
+    "--query"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:17"
+  },
+  {
+   "test": "test_version_short",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:29"
+  },
+  {
+   "test": "test_version_long",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.5.7"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:37"
+  },
+  {
+   "test": "test_help_precedence",
+   "argv": [
+    "--help",
+    "--invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:52"
+  },
+  {
+   "test": "test_version_precedence",
+   "argv": [
+    "--version",
+    "--invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:59"
+  },
+  {
+   "test": "test_subcommand_help",
+   "argv": [
+    "at-line",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Show heading at specific line number",
+    "LINE"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:67"
+  },
+  {
+   "test": "test_query_help",
+   "argv": [
+    "--query-help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ELEMENT SELECTORS",
+    ".h1",
+    ".code",
+    "EXAMPLES"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:75"
+  },
+  {
+   "test": "test_cli_stdin_with_count",
+   "argv": [
+    "--count",
+    "-"
+   ],
+   "stdin": "# H1\n## H2a\n## H2b\n### H3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#: 1",
+    "##: 2",
+    "###: 1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_commands.py:14"
+  },
+  {
+   "test": "test_cli_filter_with_tree",
+   "argv": [
+    "--tree",
+    "--filter",
+    "Install",
+    "/workspace/README.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Install"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_commands.py:24"
+  },
+  {
+   "test": "test_cli_level_with_tree",
+   "argv": [
+    "--tree",
+    "-L",
+    "2",
+    "/workspace/README.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_commands.py:31"
+  },
+  {
+   "test": "test_cli_list_json_structure",
+   "argv": [
+    "-l",
+    "-o",
+    "json",
+    "/workspace/README.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "document",
+    "metadata",
+    "sections"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_commands.py:45"
+  },
+  {
+   "test": "test_cli_tree_json_structure",
+   "argv": [
+    "--tree",
+    "-o",
+    "json",
+    "/workspace/README.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_commands.py:63"
+  },
+  {
+   "test": "test_cli_filter_case_variations",
+   "argv": [
+    "-l",
+    "--filter",
+    "InStAlL",
+    "/workspace/README.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_commands.py:79"
+  },
+  {
+   "test": "test_cli_section_extraction_boundary",
+   "argv": [
+    "-s",
+    "License",
+    "/workspace/README.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_commands.py:87"
+  },
+  {
+   "test": "test_cli_count_metadata",
+   "argv": [
+    "--count",
+    "/workspace/README.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Total:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_commands.py:101"
+  },
+  {
+   "test": "test_cli_nested_heading_levels",
+   "argv": [
+    "-l"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "# L1",
+    "###### L6"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_commands.py:114"
+  },
+  {
+   "test": "test_cli_special_markdown_chars",
+   "argv": [
+    "-l",
+    "special.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "special.md": "# Test: A Title\n## [Bracketed]\n### **Bold**\n#### _Italic_\n"
+   },
+   "ci": false,
+   "source": "test_cli_commands.py:124"
+  },
+  {
+   "test": "test_cli_mixed_heading_styles",
+   "argv": [
+    "-l",
+    "mixed.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ATX"
+   ],
+   "files": {
+    "mixed.md": "# ATX H1\n\nSetext H1\n=========\n\n## ATX H2\n\nSetext H2\n---------\n"
+   },
+   "ci": false,
+   "source": "test_cli_commands.py:133"
+  },
+  {
+   "test": "test_cli_heading_with_code",
+   "argv": [
+    "-l",
+    "code_title.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "code"
+   ],
+   "files": {
+    "code_title.md": "# Using `code` in title\n## Another `inline` code\n"
+   },
+   "ci": false,
+   "source": "test_cli_commands.py:151"
+  },
+  {
+   "test": "test_cli_heading_with_links",
+   "argv": [
+    "-l",
+    "link_title.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "link_title.md": "# [Link Title](http://example.com)\n## See [here](test.md)\n"
+   },
+   "ci": false,
+   "source": "test_cli_commands.py:160"
+  },
+  {
+   "test": "test_cli_blank_lines_between_headings",
+   "argv": [
+    "-l",
+    "blanks.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "# H1",
+    "## H2",
+    "### H3"
+   ],
+   "files": {
+    "blanks.md": "# H1\n\n\n\n## H2\n\n### H3\n"
+   },
+   "ci": false,
+   "source": "test_cli_commands.py:169"
+  },
+  {
+   "test": "test_cli_heading_id_attributes",
+   "argv": [
+    "-l",
+    "ids.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Heading"
+   ],
+   "files": {
+    "ids.md": "# Heading {#custom-id}\n## Another {#another}\n"
+   },
+   "ci": false,
+   "source": "test_cli_commands.py:180"
+  },
+  {
+   "test": "test_count_basic",
+   "argv": [
+    "--count"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Heading counts:",
+    "Total:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_count_mode.py:6"
+  },
+  {
+   "test": "test_count_shows_all_levels",
+   "argv": [
+    "--count",
+    "/workspace/README.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#:",
+    "##:",
+    "Total:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_count_mode.py:15"
+  },
+  {
+   "test": "test_count_displays_numbers",
+   "argv": [
+    "--count",
+    "/workspace/README.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_count_mode.py:25"
+  },
+  {
+   "test": "test_count_with_stdin",
+   "argv": [
+    "--count",
+    "-"
+   ],
+   "stdin": "# Title\n## Section 1\n## Section 2\n### Subsection\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#: 1",
+    "##: 2",
+    "###: 1",
+    "Total: 4"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_count_mode.py:41"
+  },
+  {
+   "test": "test_count_empty_file",
+   "argv": [
+    "--count",
+    "empty.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "empty.md": ""
+   },
+   "ci": false,
+   "source": "test_count_mode.py:52"
+  },
+  {
+   "test": "test_count_no_headings",
+   "argv": [
+    "--count",
+    "no_headings.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "no_headings.md": "Just plain text.\nNo headings.\n"
+   },
+   "ci": false,
+   "source": "test_count_mode.py:61"
+  },
+  {
+   "test": "test_count_only_one_level",
+   "argv": [
+    "--count",
+    "one_level.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "##: 3",
+    "Total: 3"
+   ],
+   "files": {
+    "one_level.md": "## Heading 1\n## Heading 2\n## Heading 3\n"
+   },
+   "ci": false,
+   "source": "test_count_mode.py:70"
+  },
+  {
+   "test": "test_count_all_levels",
+   "argv": [
+    "--count",
+    "all_levels.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#: 1",
+    "##: 1",
+    "###: 1",
+    "####: 1",
+    "#####: 1",
+    "######: 1",
+    "Total: 6"
+   ],
+   "files": {
+    "all_levels.md": "# H1\n## H2\n### H3\n#### H4\n##### H5\n###### H6\n"
+   },
+   "ci": false,
+   "source": "test_count_mode.py:79"
+  },
+  {
+   "test": "test_query_complex_nesting",
+   "argv": [
+    "-q",
+    "[.h2] | limit(5) | reverse | first"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "H2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:7"
+  },
+  {
+   "test": "test_query_empty_array_operations",
+   "argv": [
+    "-q",
+    "[.h2] | count",
+    "empty.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0"
+   ],
+   "files": {
+    "empty.md": "# Only H1\nNo h2 here."
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:17"
+  },
+  {
+   "test": "test_query_with_special_quotes",
+   "argv": [
+    "-q",
+    ".h1",
+    "quotes.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "quotes.md": "# Test \"quoted\" title\n## Another 'single' quote\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:26"
+  },
+  {
+   "test": "test_list_with_very_long_filter",
+   "argv": [
+    "-l",
+    "--filter",
+    "/workspace/README.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:35"
+  },
+  {
+   "test": "test_query_output_formats_all",
+   "argv": [
+    "-q",
+    ".h2",
+    "--query-output"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:54"
+  },
+  {
+   "test": "test_list_output_formats_valid",
+   "argv": [
+    "-l",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:62"
+  },
+  {
+   "test": "test_tree_output_formats_valid",
+   "argv": [
+    "--tree",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:70"
+  },
+  {
+   "test": "test_heading_with_trailing_hashes",
+   "argv": [
+    "-l",
+    "trailing.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "H1",
+    "H2"
+   ],
+   "files": {
+    "trailing.md": "# H1 #\n## H2 ##\n### H3 ###\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:78"
+  },
+  {
+   "test": "test_heading_with_no_space",
+   "argv": [
+    "-l",
+    "nospace.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "nospace.md": "#NoSpace\n## HasSpace\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:88"
+  },
+  {
+   "test": "test_extremely_long_document",
+   "argv": [
+    "--count"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "##: 500"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:98"
+  },
+  {
+   "test": "test_document_with_only_whitespace",
+   "argv": [
+    "-l",
+    "whitespace.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "whitespace.md": "   \n\n\t\t\n   \n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:107"
+  },
+  {
+   "test": "test_heading_levels_ascending",
+   "argv": [
+    "-l",
+    "ascending.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "# H1",
+    "###### H6"
+   ],
+   "files": {
+    "ascending.md": "# H1\n## H2\n### H3\n#### H4\n##### H5\n###### H6\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:115"
+  },
+  {
+   "test": "test_heading_levels_descending",
+   "argv": [
+    "-l",
+    "descending.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "###### H6"
+   ],
+   "files": {
+    "descending.md": "###### H6\n##### H5\n#### H4\n### H3\n## H2\n# H1\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:125"
+  },
+  {
+   "test": "test_heading_levels_random",
+   "argv": [
+    "-l",
+    "random.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "### H3"
+   ],
+   "files": {
+    "random.md": "### H3\n# H1\n##### H5\n## H2\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:134"
+  },
+  {
+   "test": "test_filter_with_regex_chars",
+   "argv": [
+    "-l",
+    "--filter",
+    ".*"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:143"
+  },
+  {
+   "test": "test_filter_with_numbers",
+   "argv": [
+    "-l",
+    "--filter",
+    "0.5",
+    "/workspace/README.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:150"
+  },
+  {
+   "test": "test_section_first_in_document",
+   "argv": [
+    "-s",
+    "First",
+    "first.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "First"
+   ],
+   "files": {
+    "first.md": "# First\nContent\n## Second\nMore content\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:164"
+  },
+  {
+   "test": "test_section_last_in_document",
+   "argv": [
+    "-s",
+    "Last",
+    "last.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Last"
+   ],
+   "files": {
+    "last.md": "# First\nContent\n## Last\nFinal content\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:173"
+  },
+  {
+   "test": "test_count_with_unbalanced_levels",
+   "argv": [
+    "--count",
+    "unbalanced.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Total: 3"
+   ],
+   "files": {
+    "unbalanced.md": "# H1\n### H3\n##### H5\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:182"
+  },
+  {
+   "test": "test_list_with_unicode_filter",
+   "argv": [
+    "-l",
+    "--filter",
+    "日本語",
+    "/workspace/README.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:191"
+  },
+  {
+   "test": "test_very_long_heading",
+   "argv": [
+    "-l"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "A"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:22"
+  },
+  {
+   "test": "test_malformed_markdown",
+   "argv": [
+    "-l",
+    "malformed.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#"
+   ],
+   "files": {
+    "malformed.md": "### Not properly nested\n# After h3\n"
+   },
+   "ci": false,
+   "source": "test_error_handling.py:31"
+  },
+  {
+   "test": "test_query_on_empty_file",
+   "argv": [
+    "-q",
+    ".h2",
+    "empty.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "empty.md": ""
+   },
+   "ci": false,
+   "source": "test_error_handling.py:56"
+  },
+  {
+   "test": "test_count_handles_duplicate_headings",
+   "argv": [
+    "--count",
+    "dups.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "##: 3",
+    "Total: 3"
+   ],
+   "files": {
+    "dups.md": "## Same\n## Same\n## Same\n"
+   },
+   "ci": false,
+   "source": "test_error_handling.py:65"
+  },
+  {
+   "test": "test_tree_with_no_headings",
+   "argv": [
+    "--tree",
+    "no_h.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "no_h.md": "Just text"
+   },
+   "ci": false,
+   "source": "test_error_handling.py:74"
+  },
+  {
+   "test": "test_filter_no_matches_list",
+   "argv": [
+    "-l",
+    "--filter",
+    "ZZZZNONEXISTENT"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:83"
+  },
+  {
+   "test": "test_level_filter_no_matches",
+   "argv": [
+    "-l",
+    "-L",
+    "5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:91"
+  },
+  {
+   "test": "test_query_empty_result",
+   "argv": [
+    "-q",
+    ".h6"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:99"
+  },
+  {
+   "test": "test_multiple_flags_combination",
+   "argv": [
+    "-l",
+    "--filter",
+    "Section",
+    "-L",
+    "2",
+    "-o",
+    "plain"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Section"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:107"
+  },
+  {
+   "test": "test_single_file_list",
+   "argv": [
+    "-l"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "# Main Title",
+    "## Section One",
+    "## Section Two",
+    "### Subsection 1.1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_handling.py:7"
+  },
+  {
+   "test": "test_stdin_dash",
+   "argv": [
+    "-l",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "# Main Title",
+    "## Section One"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_handling.py:17"
+  },
+  {
+   "test": "test_stdin_piped",
+   "argv": [
+    "-l",
+    "-"
+   ],
+   "stdin": "# Title\n## Section\nContent here.\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "# Title",
+    "## Section"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_handling.py:26"
+  },
+  {
+   "test": "test_empty_file",
+   "argv": [
+    "-l",
+    "empty.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "empty.md": ""
+   },
+   "ci": false,
+   "source": "test_input_handling.py:42"
+  },
+  {
+   "test": "test_file_with_no_headings",
+   "argv": [
+    "-l",
+    "no_headings.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "no_headings.md": "Just some text.\nNo headings here.\n"
+   },
+   "ci": false,
+   "source": "test_input_handling.py:51"
+  },
+  {
+   "test": "test_markdown_extension_variants",
+   "argv": [
+    "-l",
+    "test.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "# Test MD",
+    "# Test Markdown"
+   ],
+   "files": {
+    "test.md": "# Test MD\n"
+   },
+   "ci": false,
+   "source": "test_input_handling.py:75"
+  },
+  {
+   "test": "test_unicode_content",
+   "argv": [
+    "-l",
+    "unicode.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#"
+   ],
+   "files": {
+    "unicode.md": "# 日本語タイトル\n## Émojis 🚀\n### Spëcial Chärs\n"
+   },
+   "ci": false,
+   "source": "test_input_handling.py:89"
+  },
+  {
+   "test": "test_large_file",
+   "argv": [
+    "-l"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "## Heading 0",
+    "## Heading 99"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_handling.py:97"
+  },
+  {
+   "test": "test_list_basic",
+   "argv": [
+    "--list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "# Main Title",
+    "## Section One",
+    "### Subsection 1.1",
+    "#### Deep Section 2.1.1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_list_mode.py:6"
+  },
+  {
+   "test": "test_list_short_flag",
+   "argv": [
+    "-l"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "# Main Title",
+    "## Section"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_list_mode.py:16"
+  },
+  {
+   "test": "test_list_with_filter_case_insensitive",
+   "argv": [
+    "-l",
+    "--filter",
+    "section"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_list_mode.py:24"
+  },
+  {
+   "test": "test_list_with_filter_uppercase",
+   "argv": [
+    "-l",
+    "--filter",
+    "SECTION"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Section"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_list_mode.py:36"
+  },
+  {
+   "test": "test_list_with_filter_no_matches",
+   "argv": [
+    "-l",
+    "--filter",
+    "nonexistent"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_list_mode.py:43"
+  },
+  {
+   "test": "test_list_with_level_1",
+   "argv": [
+    "-l",
+    "--level",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "# Main Title"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_list_mode.py:51"
+  },
+  {
+   "test": "test_list_with_level_2",
+   "argv": [
+    "-l",
+    "--level",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "## Section One",
+    "## Section Two"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_list_mode.py:59"
+  },
+  {
+   "test": "test_list_with_level_3",
+   "argv": [
+    "-l",
+    "-L",
+    "3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "### Subsection 1.1",
+    "### Subsection 2.1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_list_mode.py:69"
+  },
+  {
+   "test": "test_list_with_level_4",
+   "argv": [
+    "-l",
+    "-L",
+    "4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#### Deep Section"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_list_mode.py:78"
+  },
+  {
+   "test": "test_list_level_short_flag",
+   "argv": [
+    "-l",
+    "-L",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "## Section",
+    "#"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_list_mode.py:86"
+  },
+  {
+   "test": "test_list_with_filter_and_level",
+   "argv": [
+    "-l",
+    "--filter",
+    "section",
+    "--level",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "## Section"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_list_mode.py:95"
+  },
+  {
+   "test": "test_list_output_plain",
+   "argv": [
+    "-l",
+    "-o",
+    "plain"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "# Main Title",
+    "## Section"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_list_mode.py:104"
+  },
+  {
+   "test": "test_list_output_json",
+   "argv": [
+    "-l",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "document"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_list_mode.py:112"
+  },
+  {
+   "test": "test_list_output_tree_invalid",
+   "argv": [
+    "-l",
+    "-o",
+    "tree",
+    "/workspace/README.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Use --tree"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_list_mode.py:123"
+  },
+  {
+   "test": "test_list_invalid_level_zero",
+   "argv": [
+    "-l",
+    "-L",
+    "0",
+    "/workspace/README.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_list_mode.py:131"
+  },
+  {
+   "test": "test_list_invalid_level_seven",
+   "argv": [
+    "-l",
+    "-L",
+    "7",
+    "/workspace/README.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_list_mode.py:139"
+  },
+  {
+   "test": "test_list_stdin_with_filter",
+   "argv": [
+    "-l",
+    "--filter",
+    "Good",
+    "-"
+   ],
+   "stdin": "# Title\n## Good Section\n## Bad Section\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Good Section"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_list_mode.py:147"
+  },
+  {
+   "test": "test_output_plain_default",
+   "argv": [
+    "-l"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#",
+    "Main Title"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:7"
+  },
+  {
+   "test": "test_output_format_plain_explicit",
+   "argv": [
+    "-l",
+    "-o",
+    "plain"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:16"
+  },
+  {
+   "test": "test_output_format_tree_use_tree_flag",
+   "argv": [
+    "--tree"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:35"
+  },
+  {
+   "test": "test_query_output_json",
+   "argv": [
+    "-q",
+    ".h2",
+    "--query-output",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:53"
+  },
+  {
+   "test": "test_query_output_jsonp",
+   "argv": [
+    "-q",
+    ".h2",
+    "--query-output",
+    "json-pretty"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\n"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:61"
+  },
+  {
+   "test": "test_query_output_plain",
+   "argv": [
+    "-q",
+    ".h2",
+    "--query-output",
+    "plain"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Section"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:71"
+  },
+  {
+   "test": "test_query_output_md",
+   "argv": [
+    "-q",
+    ".h2",
+    "--query-output",
+    "md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:78"
+  },
+  {
+   "test": "test_query_output_tree",
+   "argv": [
+    "-q",
+    ".h",
+    "--query-output",
+    "tree"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:86"
+  },
+  {
+   "test": "test_query_output_jsonl",
+   "argv": [
+    "-q",
+    ".h2",
+    "--query-output",
+    "jsonl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:93"
+  },
+  {
+   "test": "test_atx_headings_without_closing_hashes",
+   "argv": [
+    "-l",
+    "atx.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "# H1",
+    "## H2"
+   ],
+   "files": {
+    "atx.md": "# H1\n## H2\n### H3\n"
+   },
+   "ci": false,
+   "source": "test_parser_edge_cases.py:6"
+  },
+  {
+   "test": "test_setext_heading_style",
+   "argv": [
+    "-l",
+    "setext.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Heading"
+   ],
+   "files": {
+    "setext.md": "Heading 1\n=========\n\nHeading 2\n---------\n"
+   },
+   "ci": false,
+   "source": "test_parser_edge_cases.py:16"
+  },
+  {
+   "test": "test_mixed_atx_setext",
+   "argv": [
+    "-l",
+    "mixed.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "mixed.md": "# ATX H1\n\nSetext H1\n=========\n\n## ATX H2\n\nSetext H2\n---------\n"
+   },
+   "ci": false,
+   "source": "test_parser_edge_cases.py:30"
+  },
+  {
+   "test": "test_heading_after_code_block",
+   "argv": [
+    "-l",
+    "after_code.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Heading After Code"
+   ],
+   "files": {
+    "after_code.md": "```\ncode here\n```\n\n## Heading After Code\n"
+   },
+   "ci": false,
+   "source": "test_parser_edge_cases.py:48"
+  },
+  {
+   "test": "test_heading_after_table",
+   "argv": [
+    "-l",
+    "after_table.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Heading After Table"
+   ],
+   "files": {
+    "after_table.md": "| Col1 | Col2 |\n|------|------|\n| A    | B    |\n\n## Heading After Table\n"
+   },
+   "ci": false,
+   "source": "test_parser_edge_cases.py:62"
+  },
+  {
+   "test": "test_heading_in_list_not_parsed",
+   "argv": [
+    "-l",
+    "list_heading.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "list_heading.md": "- Item 1\n  # Not a heading\n- Item 2\n"
+   },
+   "ci": false,
+   "source": "test_parser_edge_cases.py:76"
+  },
+  {
+   "test": "test_heading_in_blockquote",
+   "argv": [
+    "-l",
+    "quote_heading.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "quote_heading.md": "> # Quoted Heading\n> Content\n"
+   },
+   "ci": false,
+   "source": "test_parser_edge_cases.py:87"
+  },
+  {
+   "test": "test_heading_with_html",
+   "argv": [
+    "-l",
+    "html.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "html.md": "# Heading with <em>HTML</em>\n"
+   },
+   "ci": false,
+   "source": "test_parser_edge_cases.py:97"
+  },
+  {
+   "test": "test_heading_with_emoji",
+   "argv": [
+    "-l",
+    "emoji.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "emoji.md": "# Test 🚀 Rocket\n## Section 👍\n"
+   },
+   "ci": false,
+   "source": "test_parser_edge_cases.py:106"
+  },
+  {
+   "test": "test_heading_with_math",
+   "argv": [
+    "-l",
+    "math.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "math.md": "# E = mc²\n## x ≥ 0\n"
+   },
+   "ci": false,
+   "source": "test_parser_edge_cases.py:115"
+  },
+  {
+   "test": "test_consecutive_headings",
+   "argv": [
+    "-l",
+    "consecutive.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "consecutive.md": "# H1\n## H2\n### H3\n#### H4\n"
+   },
+   "ci": false,
+   "source": "test_parser_edge_cases.py:123"
+  },
+  {
+   "test": "test_heading_with_reference_link",
+   "argv": [
+    "-l",
+    "reflink.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "reflink.md": "# Test [link][ref]\n\n[ref]: https://example.com\n"
+   },
+   "ci": false,
+   "source": "test_parser_edge_cases.py:132"
+  },
+  {
+   "test": "test_heading_with_footnote",
+   "argv": [
+    "-l",
+    "footnote.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Heading"
+   ],
+   "files": {
+    "footnote.md": "# Heading[^1]\n\n[^1]: Footnote text\n"
+   },
+   "ci": false,
+   "source": "test_parser_edge_cases.py:144"
+  },
+  {
+   "test": "test_heading_with_abbreviation",
+   "argv": [
+    "-l",
+    "abbr.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "HTML"
+   ],
+   "files": {
+    "abbr.md": "# Using HTML and CSS\n"
+   },
+   "ci": false,
+   "source": "test_parser_edge_cases.py:153"
+  },
+  {
+   "test": "test_indented_code_block_not_heading",
+   "argv": [
+    "-l",
+    "indented.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Real Heading"
+   ],
+   "files": {
+    "indented.md": "    # Not a heading\n    code here\n\n## Real Heading\n"
+   },
+   "ci": false,
+   "source": "test_parser_edge_cases.py:162"
+  },
+  {
+   "test": "test_fenced_code_block_language",
+   "argv": [
+    "-l",
+    "fenced.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "After Code"
+   ],
+   "files": {
+    "fenced.md": "```python\ndef test():\n    pass\n```\n\n## After Code\n"
+   },
+   "ci": false,
+   "source": "test_parser_edge_cases.py:175"
+  },
+  {
+   "test": "test_horizontal_rules",
+   "argv": [
+    "-l",
+    "hr.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "# H1"
+   ],
+   "files": {
+    "hr.md": "# H1\n\n---\n\n## H2\n\n***\n\n### H3\n"
+   },
+   "ci": false,
+   "source": "test_parser_edge_cases.py:190"
+  },
+  {
+   "test": "test_definition_list",
+   "argv": [
+    "-l",
+    "deflist.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Heading"
+   ],
+   "files": {
+    "deflist.md": "Term\n: Definition\n\n## Heading\n"
+   },
+   "ci": false,
+   "source": "test_parser_edge_cases.py:208"
+  },
+  {
+   "test": "test_task_list_items",
+   "argv": [
+    "-l",
+    "tasks.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Heading"
+   ],
+   "files": {
+    "tasks.md": "- [x] Done\n- [ ] Todo\n\n## Heading\n"
+   },
+   "ci": false,
+   "source": "test_parser_edge_cases.py:221"
+  },
+  {
+   "test": "test_strikethrough_in_heading",
+   "argv": [
+    "-l",
+    "strike.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "strike.md": "# ~~Strikethrough~~ Text\n"
+   },
+   "ci": false,
+   "source": "test_parser_edge_cases.py:234"
+  },
+  {
+   "test": "test_superscript_subscript",
+   "argv": [
+    "-l",
+    "script.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "script.md": "# H^2^O and CO~2~\n"
+   },
+   "ci": false,
+   "source": "test_parser_edge_cases.py:243"
+  },
+  {
+   "test": "test_multiple_blank_lines",
+   "argv": [
+    "-l",
+    "blanks.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "# H1",
+    "## H2"
+   ],
+   "files": {
+    "blanks.md": "# H1\n\n\n\n\n\n## H2\n"
+   },
+   "ci": false,
+   "source": "test_parser_edge_cases.py:251"
+  },
+  {
+   "test": "test_windows_line_endings",
+   "argv": [
+    "-l",
+    "windows.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "H1"
+   ],
+   "files": {
+    "windows.md": "# H1\r\n## H2\r\n### H3\r\n"
+   },
+   "ci": false,
+   "source": "test_parser_edge_cases.py:261"
+  },
+  {
+   "test": "test_mixed_line_endings",
+   "argv": [
+    "-l",
+    "mixed_endings.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "mixed_endings.md": "# H1\r\n## H2\n### H3\r\n"
+   },
+   "ci": false,
+   "source": "test_parser_edge_cases.py:270"
+  },
+  {
+   "test": "test_heading_with_autolink",
+   "argv": [
+    "-l",
+    "autolink.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "autolink.md": "# Visit <https://example.com>\n"
+   },
+   "ci": false,
+   "source": "test_parser_edge_cases.py:278"
+  },
+  {
+   "test": "test_query_range_indexing",
+   "argv": [
+    "-q",
+    ".h2[0:2]"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Section One",
+    "Section Two"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_advanced.py:7"
+  },
+  {
+   "test": "test_query_skip_function",
+   "argv": [
+    "-q",
+    "[.h2] | skip(1)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_query_advanced.py:16"
+  },
+  {
+   "test": "test_query_take_function",
+   "argv": [
+    "-q",
+    "[.h2] | take(1)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Section One"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_advanced.py:24"
+  },
+  {
+   "test": "test_query_reverse_function",
+   "argv": [
+    "-q",
+    "[.h2] | reverse"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_query_advanced.py:33"
+  },
+  {
+   "test": "test_query_length_function",
+   "argv": [
+    "-q",
+    "[.h2] | length"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_query_advanced.py:45"
+  },
+  {
+   "test": "test_query_size_function",
+   "argv": [
+    "-q",
+    "[.h2] | size"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_query_advanced.py:53"
+  },
+  {
+   "test": "test_query_head_function",
+   "argv": [
+    "-q",
+    "[.h2] | head"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Section One"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_advanced.py:61"
+  },
+  {
+   "test": "test_query_nth_function",
+   "argv": [
+    "-q",
+    "[.h2] | nth(1)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Section Two"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_advanced.py:68"
+  },
+  {
+   "test": "test_query_trim_function",
+   "argv": [
+    "-q",
+    ".h2 | text | trim",
+    "trim.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Heading With Spaces"
+   ],
+   "files": {
+    "trim.md": "# Title  \n##  Heading With Spaces  \n"
+   },
+   "ci": false,
+   "source": "test_query_advanced.py:75"
+  },
+  {
+   "test": "test_query_split_function",
+   "argv": [
+    "-q",
+    ".h1 | text | split(\"-\")",
+    "split.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "split.md": "# One-Two-Three\n"
+   },
+   "ci": false,
+   "source": "test_query_advanced.py:84"
+  },
+  {
+   "test": "test_query_endswith_function",
+   "argv": [
+    "-q",
+    ".h2 | text | select(endswith(\"One\"))"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Section One"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_advanced.py:94"
+  },
+  {
+   "test": "test_query_content_function",
+   "argv": [
+    "-q",
+    ".h2[0] | content"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_query_advanced.py:111"
+  },
+  {
+   "test": "test_query_md_function",
+   "argv": [
+    "-q",
+    ".h2[0] | md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_query_advanced.py:119"
+  },
+  {
+   "test": "test_query_slugify_function",
+   "argv": [
+    "-q",
+    ".h1 | text | slugify",
+    "slug.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "slug.md": "# Hello World Test\n"
+   },
+   "ci": false,
+   "source": "test_query_advanced.py:126"
+  },
+  {
+   "test": "test_query_levels_aggregation",
+   "argv": [
+    "-q",
+    ". | levels",
+    "/workspace/README.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_query_advanced.py:135"
+  },
+  {
+   "test": "test_query_table_selector",
+   "argv": [
+    "-q",
+    ".table"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_query_advanced.py:151"
+  },
+  {
+   "test": "test_query_list_selector",
+   "argv": [
+    "-q",
+    ".list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_query_advanced.py:159"
+  },
+  {
+   "test": "test_query_link_external",
+   "argv": [
+    "-q",
+    ".link[external]"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_query_advanced.py:175"
+  },
+  {
+   "test": "test_query_flatten_function",
+   "argv": [
+    "-q",
+    "[[.h1], [.h2]] | flatten",
+    "flatten.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "flatten.md": "# Test\n## One\n## Two\n"
+   },
+   "ci": false,
+   "source": "test_query_advanced.py:201"
+  },
+  {
+   "test": "test_query_unique_function",
+   "argv": [
+    "-q",
+    "[.h] | text | unique",
+    "unique.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "unique.md": "# Test\n## Test\n### Test\n"
+   },
+   "ci": false,
+   "source": "test_query_advanced.py:211"
+  },
+  {
+   "test": "test_query_where_alias",
+   "argv": [
+    "-q",
+    ".h | where(contains(\"One\"))"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "One"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_advanced.py:221"
+  },
+  {
+   "test": "test_query_filter_alias",
+   "argv": [
+    "-q",
+    ".h | filter(contains(\"Two\"))"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Two"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_advanced.py:228"
+  },
+  {
+   "test": "test_query_includes_alias",
+   "argv": [
+    "-q",
+    ".h | select(includes(\"Section\"))"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Section"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_advanced.py:235"
+  },
+  {
+   "test": "test_query_len_alias",
+   "argv": [
+    "-q",
+    "[.h2] | len"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_query_advanced.py:242"
+  },
+  {
+   "test": "test_query_drop_function",
+   "argv": [
+    "-q",
+    "[.h2] | drop(1)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_query_advanced.py:250"
+  },
+  {
+   "test": "test_query_not_function",
+   "argv": [
+    "-q",
+    "[.h2] | select(not(contains(\"XYZ\")))",
+    "not.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Section"
+   ],
+   "files": {
+    "not.md": "# Test\n## Section\n"
+   },
+   "ci": false,
+   "source": "test_query_advanced.py:257"
+  },
+  {
+   "test": "test_query_join_function",
+   "argv": [
+    "-q",
+    "[.h] | text | join(\", \")",
+    "join.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "join.md": "# One\n## Two\n### Three\n"
+   },
+   "ci": false,
+   "source": "test_query_advanced.py:266"
+  },
+  {
+   "test": "test_query_lines_function",
+   "argv": [
+    "-q",
+    ".h1 | content | lines",
+    "lines.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "lines.md": "# Test\nLine 1\nLine 2\nLine 3\n"
+   },
+   "ci": false,
+   "source": "test_query_advanced.py:276"
+  },
+  {
+   "test": "test_query_words_function",
+   "argv": [
+    "-q",
+    ".h1 | text | words",
+    "words.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "words.md": "# One Two Three Four Five\n"
+   },
+   "ci": false,
+   "source": "test_query_advanced.py:286"
+  },
+  {
+   "test": "test_query_h2_selector",
+   "argv": [
+    "-q",
+    ".h2",
+    "/workspace/README.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "##"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_language.py:7"
+  },
+  {
+   "test": "test_query_h1_selector",
+   "argv": [
+    "-q",
+    ".h1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "# Main Title"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_language.py:15"
+  },
+  {
+   "test": "test_query_h3_selector",
+   "argv": [
+    "-q",
+    ".h3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "### Subsection"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_language.py:22"
+  },
+  {
+   "test": "test_query_all_headings",
+   "argv": [
+    "-q",
+    ".h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Main Title",
+    "Section"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_language.py:29"
+  },
+  {
+   "test": "test_query_text_pipe",
+   "argv": [
+    "-q",
+    ".h2 | text"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Section One"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_language.py:37"
+  },
+  {
+   "test": "test_query_count_function",
+   "argv": [
+    "-q",
+    "[.h2] | count"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_query_language.py:46"
+  },
+  {
+   "test": "test_query_first_function",
+   "argv": [
+    "-q",
+    "[.h2] | first"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Section One"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_language.py:56"
+  },
+  {
+   "test": "test_query_last_function",
+   "argv": [
+    "-q",
+    "[.h2] | last"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Section Three"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_language.py:64"
+  },
+  {
+   "test": "test_query_limit_function",
+   "argv": [
+    "-q",
+    "[.h] | limit(2)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_query_language.py:71"
+  },
+  {
+   "test": "test_query_select_filter",
+   "argv": [
+    "-q",
+    ".h | select(contains(\"Code\"))"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Code"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_language.py:79"
+  },
+  {
+   "test": "test_query_code_selector",
+   "argv": [
+    "-q",
+    ".code"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_query_language.py:86"
+  },
+  {
+   "test": "test_query_code_by_language",
+   "argv": [
+    "-q",
+    ".code[rust]"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_query_language.py:94"
+  },
+  {
+   "test": "test_query_link_selector",
+   "argv": [
+    "-q",
+    ".link"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_query_language.py:102"
+  },
+  {
+   "test": "test_query_link_url_pipe",
+   "argv": [
+    "-q",
+    ".link | url"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_query_language.py:109"
+  },
+  {
+   "test": "test_query_json_output",
+   "argv": [
+    "-q",
+    ".h2",
+    "--query-output",
+    "json",
+    "/workspace/README.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_query_language.py:116"
+  },
+  {
+   "test": "test_query_jsonp_output",
+   "argv": [
+    "-q",
+    ".h2",
+    "--query-output",
+    "json-pretty",
+    "/workspace/README.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_query_language.py:125"
+  },
+  {
+   "test": "test_query_plain_output",
+   "argv": [
+    "-q",
+    ".h2",
+    "--query-output",
+    "plain",
+    "/workspace/README.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "##"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_language.py:135"
+  },
+  {
+   "test": "test_query_stdin",
+   "argv": [
+    "-q",
+    ".h2",
+    "-"
+   ],
+   "stdin": "# Title\n## Section\nContent\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Section"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_language.py:142"
+  },
+  {
+   "test": "test_query_stats_function",
+   "argv": [
+    "-q",
+    ". | stats",
+    "/workspace/README.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_query_language.py:157"
+  },
+  {
+   "test": "test_query_upper_function",
+   "argv": [
+    "-q",
+    ".h2 | text | upper"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SECTION"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_language.py:165"
+  },
+  {
+   "test": "test_query_lower_function",
+   "argv": [
+    "-q",
+    ".h2 | text | lower"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "section"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_language.py:172"
+  },
+  {
+   "test": "test_query_indexing",
+   "argv": [
+    "-q",
+    ".h2[0]"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Section One"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_language.py:180"
+  },
+  {
+   "test": "test_query_negative_indexing",
+   "argv": [
+    "-q",
+    ".h2[-1]"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Section Three"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_language.py:188"
+  },
+  {
+   "test": "test_query_text_filter",
+   "argv": [
+    "-q",
+    ".h2[One]"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_query_language.py:195"
+  },
+  {
+   "test": "test_query_hierarchy_direct_child",
+   "argv": [
+    "-q",
+    ".h1 > .h2",
+    "/workspace/README.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_query_language.py:203"
+  },
+  {
+   "test": "test_query_contains_filter",
+   "argv": [
+    "-q",
+    ".h | select(contains(\"Sub\"))"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Subsection"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_language.py:210"
+  },
+  {
+   "test": "test_query_startswith_filter",
+   "argv": [
+    "-q",
+    ".h2 | text | select(startswith(\"Section\"))"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Section"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_language.py:217"
+  },
+  {
+   "test": "test_section_basic",
+   "argv": [
+    "-s",
+    "Section One"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "## Section One",
+    "Content of section one",
+    "### Subsection 1.1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_section_extraction.py:6"
+  },
+  {
+   "test": "test_section_long_flag",
+   "argv": [
+    "--section",
+    "Section Two"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "## Section Two",
+    "Content of section two"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_section_extraction.py:15"
+  },
+  {
+   "test": "test_section_case_insensitive",
+   "argv": [
+    "-s",
+    "section one"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Section One"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_section_extraction.py:23"
+  },
+  {
+   "test": "test_section_requires_exact_or_fuzzy_match",
+   "argv": [
+    "-s",
+    "Subsection 1.1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Subsection 1.1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_section_extraction.py:30"
+  },
+  {
+   "test": "test_section_exact_heading",
+   "argv": [
+    "-s",
+    "Installation",
+    "/workspace/README.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Installation"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_section_extraction.py:38"
+  },
+  {
+   "test": "test_section_nonexistent",
+   "argv": [
+    "-s",
+    "NonexistentSection"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "not found"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_section_extraction.py:46"
+  },
+  {
+   "test": "test_section_includes_subsections",
+   "argv": [
+    "-s",
+    "Section Two"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "## Section Two",
+    "### Subsection 2.1",
+    "#### Deep Section 2.1.1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_section_extraction.py:54"
+  },
+  {
+   "test": "test_section_stops_at_next_same_level",
+   "argv": [
+    "-s",
+    "Overview",
+    "/workspace/README.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Overview"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_section_extraction.py:63"
+  },
+  {
+   "test": "test_section_from_stdin_with_match",
+   "argv": [
+    "-s",
+    "Target Section",
+    "-"
+   ],
+   "stdin": "# Doc\n## Target Section\nContent here.\n## Other\nOther content.\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Target Section",
+    "Content here"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_section_extraction.py:77"
+  },
+  {
+   "test": "test_section_with_exact_name",
+   "argv": [
+    "-s",
+    "Section-With-Dashes",
+    "special.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Section-With-Dashes",
+    "Content"
+   ],
+   "files": {
+    "special.md": "# Main\n## Section-With-Dashes\nContent\n## Other\n"
+   },
+   "ci": false,
+   "source": "test_section_extraction.py:86"
+  },
+  {
+   "test": "test_section_top_level",
+   "argv": [
+    "-s",
+    "Main Title"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_section_extraction.py:96"
+  },
+  {
+   "test": "test_tree_basic",
+   "argv": [
+    "--tree"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tree_mode.py:6"
+  },
+  {
+   "test": "test_tree_structure_hierarchy",
+   "argv": [
+    "--tree"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Main Title",
+    "Section One",
+    "Subsection"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tree_mode.py:15"
+  },
+  {
+   "test": "test_tree_with_filter",
+   "argv": [
+    "--tree",
+    "--filter",
+    "section"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Section"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tree_mode.py:26"
+  },
+  {
+   "test": "test_tree_with_level",
+   "argv": [
+    "--tree",
+    "--level",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tree_mode.py:33"
+  },
+  {
+   "test": "test_tree_output_plain",
+   "argv": [
+    "--tree",
+    "-o",
+    "plain"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tree_mode.py:40"
+  },
+  {
+   "test": "test_tree_output_json",
+   "argv": [
+    "--tree",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tree_mode.py:47"
+  },
+  {
+   "test": "test_tree_stdin",
+   "argv": [
+    "--tree",
+    "-"
+   ],
+   "stdin": "# Root\n## Child1\n### Grandchild\n## Child2\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Root",
+    "Child"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tree_mode.py:56"
+  },
+  {
+   "test": "test_tree_empty_file",
+   "argv": [
+    "--tree",
+    "empty.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "empty.md": ""
+   },
+   "ci": false,
+   "source": "test_tree_mode.py:65"
+  },
+  {
+   "test": "test_tree_single_heading",
+   "argv": [
+    "--tree",
+    "single.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Only One"
+   ],
+   "files": {
+    "single.md": "# Only One\n"
+   },
+   "ci": false,
+   "source": "test_tree_mode.py:72"
+  },
+  {
+   "test": "test_tree_deep_nesting",
+   "argv": [
+    "--tree",
+    "deep.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "L1",
+    "L6"
+   ],
+   "files": {
+    "deep.md": "# L1\n## L2\n### L3\n#### L4\n##### L5\n###### L6\n"
+   },
+   "ci": false,
+   "source": "test_tree_mode.py:80"
+  },
+  {
+   "test": "test_theme_option_valid",
+   "argv": [
+    "--theme",
+    "Nord",
+    "-l",
+    "/workspace/README.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_options.py:6"
+  },
+  {
+   "test": "test_theme_option_dracula",
+   "argv": [
+    "--theme",
+    "Dracula",
+    "-l",
+    "/workspace/README.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_options.py:14"
+  },
+  {
+   "test": "test_color_mode_auto",
+   "argv": [
+    "--color-mode",
+    "auto",
+    "-l",
+    "/workspace/README.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_options.py:28"
+  },
+  {
+   "test": "test_color_mode_rgb",
+   "argv": [
+    "--color-mode",
+    "rgb",
+    "-l",
+    "/workspace/README.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_options.py:35"
+  },
+  {
+   "test": "test_color_mode_256",
+   "argv": [
+    "--color-mode",
+    "256",
+    "-l",
+    "/workspace/README.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_options.py:42"
+  },
+  {
+   "test": "test_no_images_flag",
+   "argv": [
+    "--no-images",
+    "-l",
+    "/workspace/README.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_options.py:56"
+  },
+  {
+   "test": "test_images_flag",
+   "argv": [
+    "--images",
+    "-l",
+    "/workspace/README.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_options.py:63"
+  },
+  {
+   "test": "test_unknown_flag_errors_nonzero",
+   "argv": [
+    "--definitely-not-a-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--definitely-not-a-flag"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:29"
+  },
+  {
+   "test": "test_setup_completions_errors_without_shell_detection",
+   "argv": [
+    "--setup-completions"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "complet"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:128"
+  },
+  {
+   "test": "test_list_mode_with_no_file_prints_selector_prompt_and_exits_zero",
+   "argv": [
+    "--list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "select"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argparse_validation.py:135"
+  },
+  {
+   "test": "test_dash_as_stdin_works_for_list_mode",
+   "argv": [
+    "--list",
+    "-"
+   ],
+   "stdin": "# A\n\n## B\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:141"
+  }
+ ]
+}

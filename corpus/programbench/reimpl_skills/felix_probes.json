@@ -1,0 +1,1506 @@
+[
+ {
+  "name": "test::test_log_flag_short::0",
+  "argv": [
+   "-l"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_flag_long::1",
+  "argv": [
+   "--log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_flag_with_invalid_path::2",
+  "argv": [
+   "-l",
+   "/nonexistent/path/that/does/not/exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_three_arguments_invalid::3",
+  "argv": [
+   "arg1",
+   "arg2",
+   "arg3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_four_or_more_arguments::4",
+  "argv": [
+   "arg1",
+   "arg2",
+   "arg3",
+   "arg4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_utf8_in_path::5",
+  "argv": [
+   "/tmp/test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_not_directory::6",
+  "argv": [
+   "testfile.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "testfile.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_path_dot::7",
+  "argv": [
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_path_dotdot::8",
+  "argv": [
+   ".."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_short::9",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_long::10",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_flag::11",
+  "argv": [
+   "--init"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::12",
+  "argv": [
+   "--invalid-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_path_argument::13",
+  "argv": [
+   "/nonexistent/path/that/does/not/exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_as_argument_not_directory::14",
+  "argv": [
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_not_supported::15",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_path_argument::16",
+  "argv": [
+   "subdir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_arguments::17",
+  "argv": [
+   "extra_arg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_flag_with_relative_path::18",
+  "argv": [
+   "--log",
+   "testdir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_with_log_flag::19",
+  "argv": [
+   "--help",
+   "--log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_log_flag::20",
+  "argv": [
+   "--init",
+   "--log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_path_error_format::21",
+  "argv": [
+   "/nonexistent/invalid/path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tilde_home_directory::22",
+  "argv": [
+   "~"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_with_help::23",
+  "argv": [
+   "-l",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_help_flags::24",
+  "argv": [
+   "--help",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_multiple_times::25",
+  "argv": [
+   "--init",
+   "--init"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_messages_go_to_stderr::26",
+  "argv": [
+   "/nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_string_argument::27",
+  "argv": [
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_whitespace_only_argument::28",
+  "argv": [
+   "   "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_argument_with_newline::29",
+  "argv": [
+   "path\nwith\nnewline"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_with_empty_directory::30",
+  "argv": [
+   "tmux",
+   "capture-pane",
+   "-t",
+   "test_felix",
+   "-p"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_with_files::31",
+  "argv": [
+   "tmux",
+   "capture-pane",
+   "-t",
+   "test_fx2",
+   "-p"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_help_command::32",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx3",
+   ":h",
+   "Enter"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_hidden_files_toggle::33",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx4",
+   "BSpace"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_sort_toggle::34",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx5",
+   "t"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_reload_command::35",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx6",
+   ":e",
+   "Enter"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_go_to_top_bottom::36",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx7",
+   "G"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_search_functionality::37",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx8",
+   "/ban",
+   "Enter"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_with_subdirectories::38",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx9",
+   "j",
+   "l"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_cd_home_command::39",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx10",
+   ":cd",
+   "Enter"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_create_new_file::40",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx11",
+   "i",
+   "newfile.txt",
+   "Enter"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_create_new_directory::41",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx12",
+   "I",
+   "newdir",
+   "Enter"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_yank_operation::42",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx13",
+   "y",
+   "y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_delete_and_undo::43",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx14",
+   "d",
+   "d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_visual_mode::44",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx15",
+   "V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_rename_mode::45",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx16",
+   "c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_preview_toggle::46",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx17",
+   "v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_split_toggle::47",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx18",
+   "v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_half_page_scroll::48",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx19",
+   "C-d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_z_home_directory::49",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx20",
+   "z",
+   "Enter"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_multiple_operations::50",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx21",
+   ":q",
+   "Enter"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_nested_navigation::51",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx22",
+   "l"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_cd_path_command::52",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx23",
+   ":q",
+   "Enter"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_with_symlinks::53",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx24",
+   "j",
+   "j",
+   "k"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_visual_yank_multiple::54",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx25",
+   "V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_register_operations::55",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx26",
+   "\"",
+   "a",
+   "y",
+   "y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_redo_operation::56",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx27",
+   "d",
+   "d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_escape_key::57",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx28",
+   ":"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_arrow_keys_navigation::58",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx29",
+   "Down",
+   "Down",
+   "Up"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_enter_key_open::59",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx30",
+   "Enter"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_jumplist_forward_back::60",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx31",
+   "l"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_search_next_prev::61",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx32",
+   "/test",
+   "Enter"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_preview_scroll::62",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx33",
+   "v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_with_many_files::63",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx34",
+   "G"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_put_operation::64",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx35",
+   "y",
+   "y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_visual_delete::65",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx36",
+   "V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_ZZ_exit::66",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx37",
+   "Z",
+   "Z"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_command_line_mode::67",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx38",
+   ":"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_with_log_flag::68",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx39",
+   "j",
+   "k"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_no_args_current_dir::69",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx40",
+   "j",
+   "j",
+   "k"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_complex_workflow::70",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx41",
+   ":q",
+   "Enter"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_file_operations_comprehensive::71",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx42",
+   "y",
+   "y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_all_navigation_methods::72",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx43",
+   ":q",
+   "Enter"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_register_put_operations::73",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx44",
+   "\"",
+   "a",
+   "y",
+   "y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_preview_modes::74",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx45",
+   "v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_extensive_jumplist_usage::75",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx46",
+   ":q",
+   "Enter"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_visual_append_to_register::76",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx47",
+   "V",
+   "j",
+   "\"",
+   "a",
+   "y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_multiple_undo_redo::77",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx48",
+   ":q",
+   "Enter"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_mixed_operations_stress::78",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx49",
+   ":q",
+   "Enter"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_cd_various_paths::79",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_fx50",
+   ":cd",
+   "Enter"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_terminal_too_small_3x3_columns::80",
+  "argv": [
+   "sleep",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minimum_terminal_size_4x4_accepted::81",
+  "argv": [
+   "sleep",
+   "0.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_operations::82",
+  "argv": [
+   "sleep",
+   "0.1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_repo_branch_display_color::83",
+  "argv": [
+   "git",
+   "init"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_three_args_not_log_flag::84",
+  "argv": [
+   "notaflag",
+   "arg2",
+   "arg3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_five_args_shows_help::85",
+  "argv": [
+   "a",
+   "b",
+   "c",
+   "d",
+   "e"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_output_to_stderr::86",
+  "argv": [
+   "/nonexistent/path/xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_case_sensitive_flags::87",
+  "argv": [
+   "-H"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_case_flag::88",
+  "argv": [
+   "--Help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_path_with_special_pattern::89",
+  "argv": [
+   "/path/../../../invalid/nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_path_shows_error_message::90",
+  "argv": [
+   "/this/path/absolutely/does/not/exist/anywhere"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_instead_of_directory_error::91",
+  "argv": [
+   "not_a_dir.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "not_a_dir.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_directory::92",
+  "argv": [
+   "/this/path/definitely/does/not/exist/anywhere"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_flag_with_invalid_path::93",
+  "argv": [
+   "--log",
+   "/nonexistent/path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_l_flag_with_invalid_path::94",
+  "argv": [
+   "-l",
+   "/nonexistent/path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_not_directory_error_message::95",
+  "argv": [
+   "regular_file.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "regular_file.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_valid_invalid_args::96",
+  "argv": [
+   "--log",
+   "--invalid-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_flag_with_invalid_path::97",
+  "argv": [
+   "--log",
+   "/nonexistent/path/12345"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_flag_short::98",
+  "argv": [
+   "-l",
+   "/nonexistent/path/12345"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::99",
+  "argv": [
+   "--unknown-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_directory_path::100",
+  "argv": [
+   "/nonexistent/directory/path/12345"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_valid_directory_testfiles::101",
+  "argv": [
+   "testfiles"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_global_flags_before_subcommand::102",
+  "argv": [
+   "--log",
+   "add"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_position_matters::103",
+  "argv": [
+   ".",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_path_error_no_subcommand_suggestion::104",
+  "argv": [
+   "nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_not_separator::105",
+  "argv": [
+   "--",
+   "something"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_argument_dispatch::106",
+  "argv": [
+   "src"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_argument_is_treated_as_path_error::107",
+  "argv": [
+   "--definitely-not-a-real-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_flag_followed_by_help_is_treated_as_path::108",
+  "argv": [
+   "--log",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_shown_even_if_unknown_flag_present::109",
+  "argv": [
+   "--badflag",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_separator_does_not_block_help::110",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

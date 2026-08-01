@@ -1,0 +1,3254 @@
+{
+ "slug": "yassinebridi__serpl.c48a9d7",
+ "language": "",
+ "n_branches": 8,
+ "n_tests_total": 527,
+ "n_examples": 170,
+ "n_with_exact_stdout": 21,
+ "n_with_rc": 60,
+ "n_skipped": 255,
+ "examples": [
+  {
+   "test": "test_rapid_invocations",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "serpl",
+    "0.3.4",
+    "Config directory:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_scenarios.py:10"
+  },
+  {
+   "test": "test_various_path_formats",
+   "argv": [
+    "--project-root"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error",
+    "serpl error"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_scenarios.py:45"
+  },
+  {
+   "test": "test_help_and_version_alternating",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--project-root",
+    "--help",
+    "--version",
+    "serpl",
+    "0.3.4",
+    "Config directory:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_scenarios.py:67"
+  },
+  {
+   "test": "test_output_encoding",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "serpl",
+    "0.3.4"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_scenarios.py:84"
+  },
+  {
+   "test": "test_very_long_flag",
+   "argv": [
+    "--project-root"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_advanced_scenarios.py:97"
+  },
+  {
+   "test": "test_binary_stdout_stderr",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "serpl",
+    "0.3.4"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_scenarios.py:106"
+  },
+  {
+   "test": "test_exit_code_categories",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_advanced_scenarios.py:115"
+  },
+  {
+   "test": "test_stderr_vs_stdout_separation",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "serpl"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_scenarios.py:133"
+  },
+  {
+   "test": "test_multiple_flag_combinations",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Usage:",
+    "serpl",
+    "serpl",
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_advanced_scenarios.py:148"
+  },
+  {
+   "test": "test_relative_vs_absolute_paths",
+   "argv": [
+    "--project-root"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error",
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_advanced_scenarios.py:200"
+  },
+  {
+   "test": "test_help_long_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Options:",
+    "--project-root",
+    "--help",
+    "--version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:7"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Options:",
+    "--project-root"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:19"
+  },
+  {
+   "test": "test_version_long_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "serpl",
+    "Authors:",
+    "Config directory:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:32"
+  },
+  {
+   "test": "test_version_short_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "serpl"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:46"
+  },
+  {
+   "test": "test_help_mentions_project_root",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "project-root",
+    "path",
+    "default"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:83"
+  },
+  {
+   "test": "test_help_shows_description",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:93"
+  },
+  {
+   "test": "test_double_dash_separator",
+   "argv": [
+    "--",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_cli_edge_cases.py:17"
+  },
+  {
+   "test": "test_short_flag_variations",
+   "argv": [
+    "-p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error",
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_cli_edge_cases.py:37"
+  },
+  {
+   "test": "test_repeated_flags",
+   "argv": [
+    "--project-root",
+    "--project-root"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_cli_edge_cases.py:53"
+  },
+  {
+   "test": "test_mixed_flags",
+   "argv": [
+    "-p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error",
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_cli_edge_cases.py:64"
+  },
+  {
+   "test": "test_null_bytes_in_args",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_edge_cases.py:99"
+  },
+  {
+   "test": "test_env_var_expansion",
+   "argv": [
+    "--project-root",
+    "$HOME/test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_cli_edge_cases.py:108"
+  },
+  {
+   "test": "test_tilde_in_path",
+   "argv": [
+    "--project-root",
+    "~/test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_cli_edge_cases.py:116"
+  },
+  {
+   "test": "test_dot_paths",
+   "argv": [
+    "--project-root",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error",
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_cli_edge_cases.py:124"
+  },
+  {
+   "test": "test_partial_flags",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_edge_cases.py:167"
+  },
+  {
+   "test": "test_project_root_paths",
+   "argv": [
+    "--project-root",
+    "/nonexistent/xyz/abc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error",
+    "error",
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_cli_edge_cases.py:178"
+  },
+  {
+   "test": "test_conflicting_flags",
+   "argv": [
+    "--help",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_edge_cases.py:197"
+  },
+  {
+   "test": "test_default_config_location",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Config directory:",
+    "serpl"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:9"
+  },
+  {
+   "test": "test_version_output_format",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.3.4",
+    "serpl",
+    "2026-03-09",
+    "Authors:",
+    "Config directory:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:19"
+  },
+  {
+   "test": "test_help_output_format",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Options:",
+    "--project-root",
+    "--help",
+    "--version",
+    "-p",
+    "-h",
+    "-V"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:51"
+  },
+  {
+   "test": "test_xdg_config_home",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Config directory:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:70"
+  },
+  {
+   "test": "test_missing_config_file",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "serpl",
+    "Config directory:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_parsing.py:97"
+  },
+  {
+   "test": "test_consecutive_help_calls",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--project-root",
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_parsing.py:122"
+  },
+  {
+   "test": "test_help_works_without_checking_dependencies",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--project-root"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dependencies.py:42"
+  },
+  {
+   "test": "test_version_components",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "serpl",
+    "Author",
+    "Config directory:"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_environment.py:140"
+  },
+  {
+   "test": "test_project_root_file_not_dir",
+   "argv": [
+    "--project-root",
+    "file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {
+    "file.txt": "content"
+   },
+   "ci": true,
+   "source": "test_error_handling.py:22"
+  },
+  {
+   "test": "test_project_root_nonexistent",
+   "argv": [
+    "--project-root",
+    "/nonexistent/path/xyz"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_error_handling.py:31"
+  },
+  {
+   "test": "test_empty_project_root_value",
+   "argv": [
+    "--project-root",
+    ""
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_error_handling.py:84"
+  },
+  {
+   "test": "test_help_overrides_errors",
+   "argv": [
+    "--help",
+    "--invalid-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:92"
+  },
+  {
+   "test": "test_version_overrides_errors",
+   "argv": [
+    "--version",
+    "--invalid-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "serpl",
+    "0.3.4"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:103"
+  },
+  {
+   "test": "test_ripgrep_available",
+   "argv": [
+    "rg",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ripgrep"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_initialization.py:114"
+  },
+  {
+   "test": "test_project_root_with_valid_directory",
+   "argv": [
+    "--project-root",
+    "/tmp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_project_root.py:9"
+  },
+  {
+   "test": "test_project_root_short_flag",
+   "argv": [
+    "-p",
+    "/tmp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_project_root.py:20"
+  },
+  {
+   "test": "test_project_root_with_relative_path",
+   "argv": [
+    "--project-root",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_project_root.py:29"
+  },
+  {
+   "test": "test_project_root_with_file_not_directory",
+   "argv": [
+    "--project-root",
+    "/dev/null"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_project_root.py:50"
+  },
+  {
+   "test": "test_tui_starts_in_tmux",
+   "argv": [
+    "serpl_test_start"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_interaction.py:32"
+  },
+  {
+   "test": "test_help_flag_long",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "A simple terminal UI for search and replace, ala VS Code\n\nUsage: executable [OPTIONS]\n\nOptions:\n  -p, --project-root <PATH>  Path to the project root [default: .]\n  -h, --help                 Print help\n  -V, --version              Print version\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:47"
+  },
+  {
+   "test": "test_help_flag_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "A simple terminal UI for search and replace, ala VS Code\n\nUsage: executable [OPTIONS]\n\nOptions:\n  -p, --project-root <PATH>  Path to the project root [default: .]\n  -h, --help                 Print help\n  -V, --version              Print version\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:57"
+  },
+  {
+   "test": "test_version_flag_long",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:66"
+  },
+  {
+   "test": "test_version_flag_short",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:77"
+  },
+  {
+   "test": "test_invalid_flag",
+   "argv": [
+    "--invalid-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:86"
+  },
+  {
+   "test": "test_missing_project_root_value",
+   "argv": [
+    "--project-root"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:97"
+  },
+  {
+   "test": "test_help_takes_precedence_over_version",
+   "argv": [
+    "--version",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:107"
+  },
+  {
+   "test": "test_version_takes_precedence_over_help",
+   "argv": [
+    "--help",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "A simple terminal UI for search and replace, ala VS Code\n\nUsage: executable [OPTIONS]\n\nOptions:\n  -p, --project-root <PATH>  Path to the project root [default: .]\n  -h, --help                 Print help\n  -V, --version              Print version\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:117"
+  },
+  {
+   "test": "test_unknown_short_flag",
+   "argv": [
+    "-x"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument '-x' found",
+    "For more information, try '--help'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:127"
+  },
+  {
+   "test": "test_multiple_invalid_flags",
+   "argv": [
+    "--bad1",
+    "--bad2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--bad1",
+    "unexpected argument"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:138"
+  },
+  {
+   "test": "test_project_root_with_relative_path",
+   "argv": [
+    "--project-root",
+    "project"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:150"
+  },
+  {
+   "test": "test_help_output_structure",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "A simple terminal UI for search and replace"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:237"
+  },
+  {
+   "test": "test_version_output_structure",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.3.4",
+    "Yassine Bridi",
+    "ybridi@gmail.com",
+    "Config directory:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:269"
+  },
+  {
+   "test": "test_no_arguments_attempts_tui_launch",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:292"
+  },
+  {
+   "test": "test_double_dash_ends_options",
+   "argv": [
+    "--",
+    "something"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_cli.py:325"
+  },
+  {
+   "test": "test_combined_short_flags_help_wins",
+   "argv": [
+    "-hp",
+    "/tmp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "A simple terminal UI for search and replace, ala VS Code\n\nUsage: executable [OPTIONS]\n\nOptions:\n  -p, --project-root <PATH>  Path to the project root [default: .]\n  -h, --help                 Print help\n  -V, --version              Print version\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:350"
+  },
+  {
+   "test": "test_combined_short_flags_version_wins",
+   "argv": [
+    "-Vp",
+    "/tmp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:359"
+  },
+  {
+   "test": "test_project_root_dot_path",
+   "argv": [
+    "--project-root",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:399"
+  },
+  {
+   "test": "test_project_root_double_dot_path",
+   "argv": [
+    "--project-root",
+    ".."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:410"
+  },
+  {
+   "test": "test_empty_string_project_root",
+   "argv": [
+    "--project-root",
+    ""
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:457"
+  },
+  {
+   "test": "test_help_ignores_other_flags",
+   "argv": [
+    "--help",
+    "--project-root",
+    "/tmp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "A simple terminal UI for search and replace, ala VS Code\n\nUsage: executable [OPTIONS]\n\nOptions:\n  -p, --project-root <PATH>  Path to the project root [default: .]\n  -h, --help                 Print help\n  -V, --version              Print version\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:501"
+  },
+  {
+   "test": "test_version_ignores_other_flags",
+   "argv": [
+    "--version",
+    "--project-root",
+    "/tmp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:511"
+  },
+  {
+   "test": "test_case_sensitive_flags",
+   "argv": [
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument '-v' found"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:554"
+  },
+  {
+   "test": "test_help_equals_syntax_rejected",
+   "argv": [
+    "--help=foo"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:565"
+  },
+  {
+   "test": "test_version_equals_syntax_rejected",
+   "argv": [
+    "--version=bar"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:576"
+  },
+  {
+   "test": "test_config_file_exists_check",
+   "argv": [
+    "./executable",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_color_edge_cases.py:291"
+  },
+  {
+   "test": "test_parse_color_named_black",
+   "argv": [
+    "/workspace/tui2cli",
+    "-n",
+    "test_parse_color_black",
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "╭Search────────[Simple]╮╭Preview───────────────────────────────────────────────╮\n│                      ││                                                      │\n╰──────────────────────╯│                                                      │\n╭Replace───────[Simple]╮│                                                      │\n│                      ││                                                      │\n╰──────────────────────╯│                                                      │\n╭Result List───────────╮│                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n╰──────────────────────╯╰──────────────────────────────────────────────────────╯\nHelp: <Ctrl-b> | Search: <Enter> | Toggle search mode:\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_color_parsing.py:15"
+  },
+  {
+   "test": "test_parse_color_bold_red",
+   "argv": [
+    "/workspace/tui2cli",
+    "-n",
+    "test_parse_bold_red",
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "╭Search────────[Simple]╮╭Preview───────────────────────────────────────────────╮\n│                      ││                                                      │\n╰──────────────────────╯│                                                      │\n╭Replace───────[Simple]╮│                                                      │\n│                      ││                                                      │\n╰──────────────────────╯│                                                      │\n╭Result List───────────╮│                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n╰──────────────────────╯╰──────────────────────────────────────────────────────╯\nHelp: <Ctrl-b> | Search: <Enter> | Toggle search mode:\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_color_parsing.py:57"
+  },
+  {
+   "test": "test_parse_color_index_format",
+   "argv": [
+    "/workspace/tui2cli",
+    "-n",
+    "test_parse_color_index",
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "╭Search────────[Simple]╮╭Preview───────────────────────────────────────────────╮\n│                      ││                                                      │\n╰──────────────────────╯│                                                      │\n╭Replace───────[Simple]╮│                                                      │\n│                      ││                                                      │\n╰──────────────────────╯│                                                      │\n╭Result List───────────╮│                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n╰──────────────────────╯╰──────────────────────────────────────────────────────╯\nHelp: <Ctrl-b> | Search: <Enter> | Toggle search mode:\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_color_parsing.py:98"
+  },
+  {
+   "test": "test_parse_color_bright_format",
+   "argv": [
+    "/workspace/tui2cli",
+    "-n",
+    "test_parse_bright",
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "╭Search────────[Simple]╮╭Preview───────────────────────────────────────────────╮\n│                      ││                                                      │\n╰──────────────────────╯│                                                      │\n╭Replace───────[Simple]╮│                                                      │\n│                      ││                                                      │\n╰──────────────────────╯│                                                      │\n╭Result List───────────╮│                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n╰──────────────────────╯╰──────────────────────────────────────────────────────╯\nHelp: <Ctrl-b> | Search: <Enter> | Toggle search mode:\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_color_parsing.py:139"
+  },
+  {
+   "test": "test_parse_color_gray_scale",
+   "argv": [
+    "/workspace/tui2cli",
+    "-n",
+    "test_parse_gray",
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "╭Search────────[Simple]╮╭Preview───────────────────────────────────────────────╮\n│                      ││                                                      │\n╰──────────────────────╯│                                                      │\n╭Replace───────[Simple]╮│                                                      │\n│                      ││                                                      │\n╰──────────────────────╯│                                                      │\n╭Result List───────────╮│                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n╰──────────────────────╯╰──────────────────────────────────────────────────────╯\nHelp: <Ctrl-b> | Search: <Enter> | Toggle search mode:\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_color_parsing.py:180"
+  },
+  {
+   "test": "test_parse_color_rgb_format",
+   "argv": [
+    "/workspace/tui2cli",
+    "-n",
+    "test_parse_rgb",
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "╭Search────────[Simple]╮╭Preview───────────────────────────────────────────────╮\n│                      ││                                                      │\n╰──────────────────────╯│                                                      │\n╭Replace───────[Simple]╮│                                                      │\n│                      ││                                                      │\n╰──────────────────────╯│                                                      │\n╭Result List───────────╮│                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n╰──────────────────────╯╰──────────────────────────────────────────────────────╯\nHelp: <Ctrl-b> | Search: <Enter> | Toggle search mode:\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_color_parsing.py:221"
+  },
+  {
+   "test": "test_parse_color_whitespace_trimming",
+   "argv": [
+    "/workspace/tui2cli",
+    "-n",
+    "test_parse_whitespace",
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "╭Search────────[Simple]╮╭Preview───────────────────────────────────────────────╮\n│                      ││                                                      │\n╰──────────────────────╯│                                                      │\n╭Replace───────[Simple]╮│                                                      │\n│                      ││                                                      │\n╰──────────────────────╯│                                                      │\n╭Result List───────────╮│                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n╰──────────────────────╯╰──────────────────────────────────────────────────────╯\nHelp: <Ctrl-b> | Search: <Enter> | Toggle search mode:\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_color_parsing.py:262"
+  },
+  {
+   "test": "test_parse_color_invalid_returns_none",
+   "argv": [
+    "/workspace/tui2cli",
+    "-n",
+    "test_parse_invalid",
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "╭Search────────[Simple]╮╭Preview───────────────────────────────────────────────╮\n│                      ││                                                      │\n╰──────────────────────╯│                                                      │\n╭Replace───────[Simple]╮│                                                      │\n│                      ││                                                      │\n╰──────────────────────╯│                                                      │\n╭Result List───────────╮│                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n╰──────────────────────╯╰──────────────────────────────────────────────────────╯\nHelp: <Ctrl-b> | Search: <Enter> | Toggle search mode:\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_color_parsing.py:303"
+  },
+  {
+   "test": "test_parse_color_index_max_value",
+   "argv": [
+    "/workspace/tui2cli",
+    "-n",
+    "test_color_255",
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "╭Search────────[Simple]╮╭Preview───────────────────────────────────────────────╮\n│                      ││                                                      │\n╰──────────────────────╯│                                                      │\n╭Replace───────[Simple]╮│                                                      │\n│                      ││                                                      │\n╰──────────────────────╯│                                                      │\n╭Result List───────────╮│                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n╰──────────────────────╯╰──────────────────────────────────────────────────────╯\nHelp: <Ctrl-b> | Search: <Enter> | Toggle search mode:\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_color_parsing.py:456"
+  },
+  {
+   "test": "test_parse_color_gray_min_value",
+   "argv": [
+    "/workspace/tui2cli",
+    "-n",
+    "test_gray0",
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "╭Search────────[Simple]╮╭Preview───────────────────────────────────────────────╮\n│                      ││                                                      │\n╰──────────────────────╯│                                                      │\n╭Replace───────[Simple]╮│                                                      │\n│                      ││                                                      │\n╰──────────────────────╯│                                                      │\n╭Result List───────────╮│                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n╰──────────────────────╯╰──────────────────────────────────────────────────────╯\nHelp: <Ctrl-b> | Search: <Enter> | Toggle search mode:\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_color_parsing.py:497"
+  },
+  {
+   "test": "test_parse_color_gray_max_value",
+   "argv": [
+    "/workspace/tui2cli",
+    "-n",
+    "test_gray23",
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "╭Search────────[Simple]╮╭Preview───────────────────────────────────────────────╮\n│                      ││                                                      │\n╰──────────────────────╯│                                                      │\n╭Replace───────[Simple]╮│                                                      │\n│                      ││                                                      │\n╰──────────────────────╯│                                                      │\n╭Result List───────────╮│                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n╰──────────────────────╯╰──────────────────────────────────────────────────────╯\nHelp: <Ctrl-b> | Search: <Enter> | Toggle search mode:\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_color_parsing.py:538"
+  },
+  {
+   "test": "test_parse_color_rgb_all_zeros",
+   "argv": [
+    "/workspace/tui2cli",
+    "-n",
+    "test_rgb000",
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "╭Search────────[Simple]╮╭Preview───────────────────────────────────────────────╮\n│                      ││                                                      │\n╰──────────────────────╯│                                                      │\n╭Replace───────[Simple]╮│                                                      │\n│                      ││                                                      │\n╰──────────────────────╯│                                                      │\n╭Result List───────────╮│                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n╰──────────────────────╯╰──────────────────────────────────────────────────────╯\nHelp: <Ctrl-b> | Search: <Enter> | Toggle search mode:\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_color_parsing.py:579"
+  },
+  {
+   "test": "test_parse_color_rgb_all_max",
+   "argv": [
+    "/workspace/tui2cli",
+    "-n",
+    "test_rgb555",
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "╭Search────────[Simple]╮╭Preview───────────────────────────────────────────────╮\n│                      ││                                                      │\n╰──────────────────────╯│                                                      │\n╭Replace───────[Simple]╮│                                                      │\n│                      ││                                                      │\n╰──────────────────────╯│                                                      │\n╭Result List───────────╮│                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n│                      ││                                                      │\n╰──────────────────────╯╰──────────────────────────────────────────────────────╯\nHelp: <Ctrl-b> | Search: <Enter> | Toggle search mode:\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_color_parsing.py:620"
+  },
+  {
+   "test": "test_deleteline_mode_removes_matched_lines",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Line 1: Hello world",
+    "Line 3: Hello again",
+    "Line 5: Hello there",
+    "Replace──[Delete Line]",
+    "file1.txt (3)",
+    "Line 2: Goodbye world",
+    "Line 4: Just a line"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_redux_utils.py:25"
+  },
+  {
+   "test": "test_preservecase_mode_maintains_case_patterns",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Word",
+    "word",
+    "WORD",
+    "WoRd",
+    "Replace[Preserve Case]",
+    "mixed.txt (4)",
+    "First line has Item in title case.",
+    "Second has item in lowercase.",
+    "Third has ITEM in all caps.",
+    "Fourth has Item in mixed case."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_redux_utils.py:106"
+  },
+  {
+   "test": "test_simple_mode_replaces_all_matches",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Replace───────[Simple]",
+    "data.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_redux_utils.py:192"
+  },
+  {
+   "test": "test_matchcase_search_mode_case_sensitive",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Hello world",
+    "hello world",
+    "HELLO WORLD",
+    "HeLLo WoRLd",
+    "Search────────[Simple]",
+    "case.txt (4)",
+    "Search────[Match Case]",
+    "case.txt (1)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_redux_utils.py:261"
+  },
+  {
+   "test": "test_matchwholeword_search_mode_word_boundaries",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "The cat sat",
+    "concatenate",
+    "catalog",
+    "scatter",
+    "Search────────[Simple]",
+    "text.txt (7)",
+    "Whole Word]",
+    "text.txt (1)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_redux_utils.py:334"
+  },
+  {
+   "test": "test_binary_file_skipped",
+   "argv": [
+    "test_binary_file"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u0000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_replace_errors.py:108"
+  },
+  {
+   "test": "test_very_long_line_handling",
+   "argv": [
+    "test_very_long_line"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hello",
+    "long.txt",
+    "(1)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_replace_errors.py:153"
+  },
+  {
+   "test": "test_unicode_text_handling",
+   "argv": [
+    "test_unicode_text"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "café",
+    "☕",
+    "日本茶",
+    "🍵",
+    "مرحبا",
+    "שלום",
+    "unicode.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_replace_errors.py:199"
+  },
+  {
+   "test": "test_symlink_handling",
+   "argv": [
+    "test_symlink_handling"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hello world",
+    "original.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_replace_errors.py:252"
+  },
+  {
+   "test": "test_file_disappears_during_operation",
+   "argv": [
+    "test_file_disappears"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test.txt",
+    "Search"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_replace_errors.py:302"
+  },
+  {
+   "test": "test_empty_file_handling",
+   "argv": [
+    "test_empty_file"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "nonempty.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_replace_errors.py:354"
+  },
+  {
+   "test": "test_newline_only_file_handling",
+   "argv": [
+    "test_newline_only"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "content.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_replace_errors.py:396"
+  },
+  {
+   "test": "test_multiple_consecutive_matches",
+   "argv": [
+    "test_consecutive"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "consecutive.txt",
+    "(3)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_replace_errors.py:470"
+  },
+  {
+   "test": "test_special_regex_characters_in_simple_mode",
+   "argv": [
+    "test_special_chars"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "special.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_replace_errors.py:507"
+  },
+  {
+   "test": "test_circular_symlink_handling",
+   "argv": [
+    "test_circular_symlink"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_replace_errors.py:544"
+  },
+  {
+   "test": "test_mixed_line_endings",
+   "argv": [
+    "test_mixed_lineendings"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "crlf.txt",
+    "lf.txt",
+    "mixed.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_replace_errors.py:583"
+  },
+  {
+   "test": "test_deeply_nested_directories",
+   "argv": [
+    "test_deep_nested"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "level0/level1/level2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_replace_errors.py:724"
+  },
+  {
+   "test": "test_very_large_file",
+   "argv": [
+    "test_large_file"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "large.txt",
+    "(1)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_replace_errors.py:768"
+  },
+  {
+   "test": "test_search_with_no_results",
+   "argv": [
+    "test_no_results"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Search",
+    "test.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_replace_errors.py:817"
+  },
+  {
+   "test": "test_case_sensitive_edge_cases",
+   "argv": [
+    "test_case_sensitivity"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "case.txt",
+    "(4)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_replace_errors.py:863"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "./executable",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_seed.py:6"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "./executable",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "serpl",
+    "0.3.4"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_seed.py:23"
+  },
+  {
+   "test": "test_tui_launches_successfully",
+   "argv": [
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_basic.py:21"
+  },
+  {
+   "test": "test_initial_screen_layout",
+   "argv": [
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Replace",
+    "Result List",
+    "Preview",
+    "Help: <Ctrl-b>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_basic.py:59"
+  },
+  {
+   "test": "test_quit_with_ctrl_c",
+   "argv": [
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<NOTE>The process has exited"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_basic.py:102"
+  },
+  {
+   "test": "test_help_dialog_shows_keybinding_reference",
+   "argv": [
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Ctrl-c: Quit",
+    "Ctrl-d: Quit",
+    "Ctrl-b: Help dialog",
+    "Ctrl-o: Process Replace For All Files",
+    "Ctrl-n: Loop through search and replace modes",
+    "Enter: Select/Deselect file",
+    "d: delete file/delete line from the replace process",
+    "r: Replace Selected File Or Line"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_basic.py:225"
+  },
+  {
+   "test": "test_small_help_widget_displays",
+   "argv": [
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Help: <Ctrl-b> | Search: <Enter>",
+    "Help: <Ctrl-b> | Replace: <C-o>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_basic.py:660"
+  },
+  {
+   "test": "test_git_dir_dialog_cancel",
+   "argv": [
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "This action will modify the files in this directory",
+    "Confirm Dialog"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_dialogs.py:270"
+  },
+  {
+   "test": "test_notification_disappears_after_duration",
+   "argv": [
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Notification",
+    "Search and replace completed successfully"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_dialogs.py:527"
+  },
+  {
+   "test": "test_empty_replace_dialog_message_content",
+   "argv": [
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Replace text is empty",
+    "replacing with an empty string will remove the",
+    "matched text",
+    "Continue",
+    "Cancel"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_dialogs.py:634"
+  },
+  {
+   "test": "test_git_dir_dialog_message_content",
+   "argv": [
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "This action will modify the files in this directory",
+    "Are you sure you want to continue?",
+    "Continue",
+    "Cancel"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_dialogs.py:677"
+  },
+  {
+   "test": "test_git_dialog_enter_on_cancel_button",
+   "argv": [
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Confirm Dialog",
+    "This action will modify the files in this directory",
+    "hello",
+    "world"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_git_dialog_navigation.py:99"
+  },
+  {
+   "test": "test_bulk_replace_simple_mode",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Hello World",
+    "hello test",
+    "hi World",
+    "hi test",
+    "def hi():",
+    "print(\"hi World\")",
+    "return \"hi\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_replace.py:167"
+  },
+  {
+   "test": "test_preserve_case_replace",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Hello World",
+    "HELLO WORLD",
+    "hello world",
+    "Goodbye World",
+    "GOODBYE WORLD",
+    "goodbye world",
+    "Goodbye everyone"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_replace.py:228"
+  },
+  {
+   "test": "test_replace_with_special_characters",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "$test bar",
+    "$test baz"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_replace.py:383"
+  },
+  {
+   "test": "test_replace_with_newline_character",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test result"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_replace.py:423"
+  },
+  {
+   "test": "test_multiline_file_replace",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "with REPLACED"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_replace.py:463"
+  },
+  {
+   "test": "test_backspace_in_replace_field",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "correct"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_replace.py:551"
+  },
+  {
+   "test": "test_tab_navigation_cycle",
+   "argv": [
+    "test_tab_cycle"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Search: <Enter>",
+    "Replace: <C-o>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_replace.py:598"
+  },
+  {
+   "test": "test_replace_mode_cycle_complete",
+   "argv": [
+    "test_mode_cycle_complete"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[Simple]",
+    "[Preserve Case]",
+    "[Delete Line]",
+    "[Simple]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_replace.py:637"
+  },
+  {
+   "test": "test_replace_at_line_boundaries",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "REPLACED\n",
+    "REPLACED at start\n",
+    "middle REPLACED end\n"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_replace.py:731"
+  },
+  {
+   "test": "test_replace_multiple_files_different_extensions",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "MATCH here",
+    "MATCH here",
+    "MATCH here",
+    "MATCH here"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_replace.py:771"
+  },
+  {
+   "test": "test_line_replace_single_match",
+   "argv": [
+    "test_line_replace_single_match"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file3.txt (3)",
+    "File three with target",
+    "More target instances",
+    "And yet another target",
+    ">    2 More target",
+    "file3.txt (2)",
+    "File three with target word",
+    "And yet another target",
+    "More REPLACED instances here"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_replace_advanced.py:21"
+  },
+  {
+   "test": "test_single_file_replace_all_matches",
+   "argv": [
+    "test_single_file_replace_all_matches"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file1.txt (3)",
+    "file2.txt (2)",
+    "file3.txt (3)",
+    "file3.txt",
+    "file1.txt",
+    "file2.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_replace_advanced.py:107"
+  },
+  {
+   "test": "test_line_replace_first_line",
+   "argv": [
+    "test_line_replace_first_line"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">    1 First line with target",
+    "First line with FIRST",
+    "Third line with target"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_replace_advanced.py:182"
+  },
+  {
+   "test": "test_line_replace_last_line",
+   "argv": [
+    "test_line_replace_last_line"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "First line with target",
+    "Last line with LAST"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_replace_advanced.py:239"
+  },
+  {
+   "test": "test_line_replace_multiple_sequential",
+   "argv": [
+    "test_line_replace_multiple_sequential"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "multi.txt (3)",
+    "multi.txt (2)",
+    "multi.txt (1)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_replace_advanced.py:295"
+  },
+  {
+   "test": "test_empty_results_list",
+   "argv": [
+    "test_empty_results"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "xyzpattern"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_results.py:448"
+  },
+  {
+   "test": "test_results_with_special_characters_in_filenames",
+   "argv": [
+    "test_special_chars"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file with spaces.txt",
+    "file-with-dashes.txt",
+    "file_underscore.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_results.py:576"
+  },
+  {
+   "test": "test_large_result_set_performance",
+   "argv": [
+    "test_large_set"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".txt (1)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_results.py:609"
+  },
+  {
+   "test": "test_search_within_results_highlights_matches",
+   "argv": [
+    "test_search_highlight"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "beta"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_results.py:691"
+  },
+  {
+   "test": "test_deletion_of_last_file_clears_selection",
+   "argv": [
+    "test_delete_last"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "only_file.txt (1)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_results.py:731"
+  },
+  {
+   "test": "test_results_list_with_nested_directories",
+   "argv": [
+    "test_nested_dirs"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "root.txt",
+    "subdir1/nested1.txt",
+    "subdir1/subdir2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_results.py:892"
+  },
+  {
+   "test": "test_search_and_immediate_navigation",
+   "argv": [
+    "test_immediate_nav"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "target"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_results.py:929"
+  },
+  {
+   "test": "test_search_case_sensitive_reduces_matches",
+   "argv": [
+    "test_case_sensitive"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[Simple]",
+    "[Match Case]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_search.py:170"
+  },
+  {
+   "test": "test_dialog_blocks_text_input",
+   "argv": [
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "│hello"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_state_edge_cases.py:174"
+  },
+  {
+   "test": "test_tab_navigation_with_empty_results",
+   "argv": [
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Help: <Ctrl-b> | Search: <Enter>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_state_edge_cases.py:325"
+  },
+  {
+   "test": "test_search_mode_toggle_cycles_correctly",
+   "argv": [
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[Simple]",
+    "[Match Case]",
+    "Whole Word"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_state_edge_cases.py:371"
+  },
+  {
+   "test": "test_replace_mode_toggle_cycles_correctly",
+   "argv": [
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[Simple]",
+    "[Preserve Case]",
+    "[Delete Line]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_state_edge_cases.py:423"
+  },
+  {
+   "test": "test_dialog_blocks_mode_changes",
+   "argv": [
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[Simple]",
+    "[Simple]",
+    "file",
+    ".txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_state_edge_cases.py:476"
+  },
+  {
+   "test": "test_state_maintained_across_multiple_searches",
+   "argv": [
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file3.txt (2)",
+    "file2.txt (1)",
+    "file1.txt (2)",
+    "│hello",
+    "[Simple]",
+    "file2.txt (1)",
+    "file1.txt (1)",
+    "│world",
+    "[Simple]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_state_edge_cases.py:531"
+  },
+  {
+   "test": "test_complete_search_and_replace_workflow",
+   "argv": [
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "calculate",
+    "README.md",
+    "test_utils.rs",
+    "src/main.rs",
+    "src/utils.rs",
+    "Result List",
+    "README.md",
+    "test_utils.rs",
+    "src/main.rs",
+    "src/utils.rs",
+    "Open File: <Enter>",
+    "Replace File: <r>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_workflows.py:21"
+  },
+  {
+   "test": "test_selective_file_deletion_from_results",
+   "argv": [
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "README.md",
+    "test_utils.rs",
+    "src/utils.rs",
+    "src/main.rs",
+    "Open File: <Enter>",
+    "Result List",
+    "Help: <Ctrl-b>",
+    "Result List",
+    "Help: <Ctrl-b>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_workflows.py:94"
+  },
+  {
+   "test": "test_selective_line_deletion_from_file_view",
+   "argv": [
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Back to list: <Enter>",
+    ">"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_workflows.py:162"
+  },
+  {
+   "test": "test_large_file_many_matches_navigation",
+   "argv": [
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "large.txt",
+    "Back to list: <Enter>",
+    "large.txt",
+    ">",
+    ">"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_workflows.py:292"
+  },
+  {
+   "test": "test_state_persistence_across_multiple_searches",
+   "argv": [
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "calculate",
+    "README.md",
+    "Search",
+    "test",
+    "test_utils.rs",
+    "Open File: <Enter>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_workflows.py:369"
+  },
+  {
+   "test": "test_search_mode_toggle_workflow",
+   "argv": [
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[Simple]",
+    "calculate",
+    "[Simple]",
+    "Result List"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_workflows.py:435"
+  },
+  {
+   "test": "test_empty_search_results_handling",
+   "argv": [
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "xyz123nonexistent",
+    "Result List",
+    "Help: <Ctrl-b>",
+    "Help: <Ctrl-b>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_workflows.py:487"
+  },
+  {
+   "test": "test_navigation_with_single_result",
+   "argv": [
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "uniqueterm123",
+    "unique.txt",
+    "(1)",
+    "unique.txt",
+    "Back to list: <Enter>",
+    "Help: <Ctrl-b>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_workflows.py:543"
+  },
+  {
+   "test": "test_deep_directory_navigation",
+   "argv": [
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "root_file.txt",
+    "level1/level2/level3",
+    "level1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_workflows.py:613"
+  },
+  {
+   "test": "test_git_directory_handling",
+   "argv": [
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "src_file.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_workflows.py:666"
+  },
+  {
+   "test": "test_multiple_file_deletion_workflow",
+   "argv": [
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Help: <Ctrl-b>",
+    "Result List"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_workflows.py:712"
+  },
+  {
+   "test": "test_file_with_special_characters_in_name",
+   "argv": [
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file with spaces.txt",
+    "file-dash.txt",
+    "file_underscore.txt",
+    "Back to list: <Enter>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_workflows.py:769"
+  },
+  {
+   "test": "test_line_replace_workflow",
+   "argv": [
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">",
+    "replace_test.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_workflows.py:823"
+  },
+  {
+   "test": "test_bulk_file_replace_workflow",
+   "argv": [
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file1.txt",
+    "file2.txt",
+    "Help: <Ctrl-b>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_workflows.py:885"
+  },
+  {
+   "test": "test_rapid_search_updates",
+   "argv": [
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "calculate",
+    "test.txt",
+    "Result List"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_workflows.py:941"
+  },
+  {
+   "test": "test_help_dialog_navigation_workflow",
+   "argv": [
+    "wait",
+    "--min-wait",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Help: <Ctrl-b>",
+    "Ctrl",
+    "Search",
+    "Result List"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_workflows.py:983"
+  },
+  {
+   "test": "test_help_takes_precedence_over_unknown_flag_when_before_it",
+   "argv": [
+    "--help",
+    "--badflag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable [OPTIONS]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:86"
+  },
+  {
+   "test": "test_unknown_flag_errors_and_suggests_help",
+   "argv": [
+    "--badflag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument",
+    "try '--help'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:94"
+  },
+  {
+   "test": "test_unknown_flag_then_help_is_still_error_and_prints_usage_in_stderr",
+   "argv": [
+    "--badflag",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable [OPTIONS]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:103"
+  },
+  {
+   "test": "test_double_dash_separator_makes_help_be_treated_as_positional_and_errors",
+   "argv": [
+    "--",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument",
+    "try '--help'"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_usage.py:111"
+  },
+  {
+   "test": "test_extra_args_are_ignored_for_version_subcommand_like_behavior",
+   "argv": [
+    "--version",
+    "extra-positional"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "serpl"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:61"
+  },
+  {
+   "test": "test_double_dash_after_version_is_ignored_and_does_not_error",
+   "argv": [
+    "--version",
+    "--",
+    "--nonexistent-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "serpl"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:68"
+  },
+  {
+   "test": "test_project_root_rejects_missing_value_even_if_next_looks_like_flag",
+   "argv": [
+    "--project-root",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a value is required for '--project-root <PATH>'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:74"
+  },
+  {
+   "test": "test_project_root_equal_empty_string_is_rejected_as_missing_value",
+   "argv": [
+    "--project-root=",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a value is required for '--project-root <PATH>'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:97"
+  }
+ ]
+}

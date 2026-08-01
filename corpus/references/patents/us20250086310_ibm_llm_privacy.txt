@@ -1,0 +1,20 @@
+US Patent Application 20250086310 A1
+Title: Large Language Model Privacy Preservation System
+Inventors: Gennaro Anthony Cuomo, Blaine H. Dolph, Christopher Hay
+Assignee: IBM (International Business Machines Corporation)
+Filed: September 13, 2023 | Published: March 13, 2025
+
+Abstract:
+A system that preserves user privacy by preprocessing prompt data through
+tokenization, stop-word removal, stemming, and lemmatization to remove PII.
+Topic modeling (LDA or NMF) categorizes the processed prompt into semantic topics.
+A normalized prompt is generated maintaining semantic meaning without sensitive details.
+Original inputs are discarded; normalized prompts are stored for model training.
+
+Relationship to Determinex Project Cloak:
+Both systems address privacy in LLM prompts. IBM's system uses statistical NLP
+preprocessing (stemming/lemmatization) on natural language prompts. Project Cloak
+uses AST-level identifier transformation on source code. IBM's approach is lossy
+and irreversible; Project Cloak uses a deterministic bidirectional SymbolMap
+enabling complete patch restoration. IBM's normalization destroys syntactic structure
+making compilation impossible; Project Cloak preserves compilability as a core invariant.

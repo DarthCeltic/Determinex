@@ -1,0 +1,1979 @@
+{
+ "slug": "simeg__eureka.df3796c",
+ "language": "",
+ "n_branches": 12,
+ "n_tests_total": 393,
+ "n_examples": 109,
+ "n_with_exact_stdout": 13,
+ "n_with_rc": 88,
+ "n_skipped": 202,
+ "examples": [
+  {
+   "test": "test_xdg_config_home_is_used_for_config",
+   "argv": [
+    "--view"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "from_xdg",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:60"
+  },
+  {
+   "test": "test_fallback_to_home_dotconfig_when_xdg_unset",
+   "argv": [
+    "--view"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "from_home",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:75"
+  },
+  {
+   "test": "test_clear_config_removes_config_file",
+   "argv": [
+    "--clear-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:92"
+  },
+  {
+   "test": "test_malformed_config_emits_error_to_stderr_and_empty_stdout",
+   "argv": [
+    "--view"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_config_env.py:107"
+  },
+  {
+   "test": "test_empty_config_file_results_in_os_error_logged",
+   "argv": [
+    "--view"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:122"
+  },
+  {
+   "test": "test_rejects_positional_args",
+   "argv": [
+    "somefile.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args_parsing.py:41"
+  },
+  {
+   "test": "test_double_dash_still_rejects_positional_after_separator",
+   "argv": [
+    "--",
+    "foo"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args_parsing.py:48"
+  },
+  {
+   "test": "test_combined_short_flags_vh_triggers_help_instead_of_parse_error",
+   "argv": [
+    "-vh"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args_parsing.py:85"
+  },
+  {
+   "test": "test_version_flag_accepted",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "eureka"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_args_parsing.py:94"
+  },
+  {
+   "test": "test_unicode_in_config_path",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:30"
+  },
+  {
+   "test": "test_git_commit_with_idea_summary",
+   "argv": [
+    "git",
+    "log",
+    "--oneline",
+    "-1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test commit message"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_idea_capture.py:108"
+  },
+  {
+   "test": "test_special_characters_in_idea_summary",
+   "argv": [
+    "git",
+    "log",
+    "--oneline",
+    "-1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "quotes"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_idea_capture.py:132"
+  },
+  {
+   "test": "test_complete_first_time_setup_to_idea_capture",
+   "argv": [
+    "git",
+    "log",
+    "--oneline",
+    "-1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Integration test idea"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:60"
+  },
+  {
+   "test": "test_git_error_no_remote_configured",
+   "argv": [],
+   "stdin": "test idea\n",
+   "env": {
+    "EDITOR": "true"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "remote 'origin' does not exist",
+    "Adding and committing your new idea to main..",
+    "Added and committed!",
+    "Pushing your new idea.."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_capture_git.py:27"
+  },
+  {
+   "test": "test_git_init_invalid_repo",
+   "argv": [],
+   "stdin": "test idea\n",
+   "env": {
+    "EDITOR": "true"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "could not find repository"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_capture_git.py:54"
+  },
+  {
+   "test": "test_git_checkout_and_commit_without_push",
+   "argv": [
+    "git",
+    "init",
+    "--bare"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_capture_git.py:75"
+  },
+  {
+   "test": "test_git_full_workflow_with_push",
+   "argv": [
+    "git",
+    "init",
+    "--bare"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Adding and committing your new idea to main..",
+    "Added and committed!",
+    "Pushing your new idea..",
+    "Pushed!"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_capture_git.py:132"
+  },
+  {
+   "test": "test_editor_fallback_to_vi_when_unset",
+   "argv": [
+    "git",
+    "init",
+    "--bare"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Added and committed!",
+    "Pushed!"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_capture_git.py:242"
+  },
+  {
+   "test": "test_git_add_only_readme_not_other_files",
+   "argv": [
+    "git",
+    "init",
+    "--bare"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "?? scratch.txt",
+    "?? .env",
+    "?? notes.md"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_capture_git.py:294"
+  },
+  {
+   "test": "test_push_refspec_format_correct",
+   "argv": [
+    "git",
+    "init",
+    "--bare"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "refs/heads/main"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_capture_git.py:437"
+  },
+  {
+   "test": "test_malformed_json_missing_closing_brace",
+   "argv": [
+    "--view"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ERROR eureka > EOF while parsing an object at line 1 column 21"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_format.py:12"
+  },
+  {
+   "test": "test_malformed_json_invalid_syntax",
+   "argv": [
+    "--view"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ERROR eureka > key must be a string at line 1 column 2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_format.py:37"
+  },
+  {
+   "test": "test_config_missing_repo_key",
+   "argv": [
+    "--view"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_format.py:62"
+  },
+  {
+   "test": "test_config_with_json_comment_fails",
+   "argv": [
+    "--view"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ERROR eureka > key must be a string at line 2 column 3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_format.py:143"
+  },
+  {
+   "test": "test_clear_config_with_existing_config",
+   "argv": [
+    "./executable",
+    "--clear-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_format.py:310"
+  },
+  {
+   "test": "test_view_reads_config_for_repo_path",
+   "argv": [
+    "./executable",
+    "--view"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_format.py:367"
+  },
+  {
+   "test": "test_multiple_idea_captures_in_sequence",
+   "argv": [
+    "git",
+    "log",
+    "--oneline",
+    "--format=%s"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "First brilliant idea",
+    "Second amazing idea"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:101"
+  },
+  {
+   "test": "test_setup_then_capture_then_clear_then_setup_again",
+   "argv": [
+    "--clear-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "First Time Setup"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:149"
+  },
+  {
+   "test": "test_very_long_idea_summary_1000_chars",
+   "argv": [
+    "git",
+    "log",
+    "-1",
+    "--format=%s"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:227"
+  },
+  {
+   "test": "test_idea_summary_with_special_characters_unicode_newlines",
+   "argv": [
+    "git",
+    "log",
+    "--format=%s"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:267"
+  },
+  {
+   "test": "test_git_repository_with_uncommitted_changes",
+   "argv": [
+    "git",
+    "add",
+    "modified.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "untracked.txt",
+    "modified.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:401"
+  },
+  {
+   "test": "test_config_file_with_extra_fields_forward_compatibility",
+   "argv": [
+    "git",
+    "log",
+    "-1",
+    "--format=%s"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Idea with future config"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:490"
+  },
+  {
+   "test": "test_both_editor_and_pager_set",
+   "argv": [
+    "git",
+    "add",
+    "README.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "New idea with both env vars"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:535"
+  },
+  {
+   "test": "test_readme_already_has_content_append_behavior",
+   "argv": [
+    "git",
+    "add",
+    "README.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "First Idea",
+    "Second Idea",
+    "This was here before"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:631"
+  },
+  {
+   "test": "test_git_push_fails_no_remote",
+   "argv": [
+    "git",
+    "remote",
+    "remove",
+    "origin"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:671"
+  },
+  {
+   "test": "test_empty_idea_summary_rejected",
+   "argv": [
+    "git",
+    "log",
+    "--format=%s"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Actual idea after empties"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:735"
+  },
+  {
+   "test": "test_clear_config_when_config_exists_success",
+   "argv": [
+    "--clear-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_io_errors.py:96"
+  },
+  {
+   "test": "test_clear_config_when_no_config_exits_zero",
+   "argv": [
+    "--clear-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ERROR eureka > No such file or directory (os error 2)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_io_errors.py:125"
+  },
+  {
+   "test": "test_view_flag_without_config_errors",
+   "argv": [
+    "--view"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ERROR eureka > No such file or directory (os error 2)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_io_errors.py:166"
+  },
+  {
+   "test": "test_git_error_no_remote_configured",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Adding and committing your new idea to main..",
+    "Added and committed!",
+    "Pushing your new idea..",
+    "remote 'origin' does not exist"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_io_errors.py:259"
+  },
+  {
+   "test": "test_version_flag_displays_version_info",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_io_errors.py:440"
+  },
+  {
+   "test": "test_help_flag_shows_all_options",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_io_errors.py:449"
+  },
+  {
+   "test": "test_git_commit_message_uses_idea_summary",
+   "argv": [
+    "git",
+    "log",
+    "-1",
+    "--pretty=format:%s"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Adding and committing your new idea to main..",
+    "Added and committed!"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_io_errors.py:620"
+  },
+  {
+   "test": "test_capture_commit_message_sequence",
+   "argv": [
+    "git",
+    "remote",
+    "add",
+    "origin",
+    "https://example.com/repo.git"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Adding and committing your new idea to main..",
+    "Added and committed!"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_messages.py:193"
+  },
+  {
+   "test": "test_capture_push_message_sequence",
+   "argv": [
+    "git",
+    "remote",
+    "add",
+    "origin",
+    "https://example.com/repo.git"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Pushing your new idea.."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_messages.py:223"
+  },
+  {
+   "test": "test_capture_message_ordering",
+   "argv": [
+    "git",
+    "remote",
+    "add",
+    "origin",
+    "https://example.com/repo.git"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_messages.py:251"
+  },
+  {
+   "test": "test_capture_empty_idea_re_prompts",
+   "argv": [
+    "git",
+    "remote",
+    "add",
+    "origin",
+    "https://example.com/repo.git"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Added and committed!"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_messages.py:291"
+  },
+  {
+   "test": "test_capture_flow_golden_comparison",
+   "argv": [
+    "git",
+    "remote",
+    "add",
+    "origin",
+    "https://example.com/repo.git"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "\u001b[0m\u001b[1m\u001b[32m>> Idea summary\n\u001b[0m> Adding and committing your new idea to main..\nAdded and committed!\nPushing your new idea..\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_messages.py:322"
+  },
+  {
+   "test": "test_capture_empty_reprompt_golden",
+   "argv": [
+    "git",
+    "remote",
+    "add",
+    "origin",
+    "https://example.com/repo.git"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "\u001b[0m\u001b[1m\u001b[32m>> Idea summary\n\u001b[0m> \u001b[0m\u001b[1m\u001b[32m>> Idea summary\n\u001b[0m> \u001b[0m\u001b[1m\u001b[32m>> Idea summary\n\u001b[0m> Adding and committing your new idea to main..\nAdded and committed!\nPushing your new idea..\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_messages.py:346"
+  },
+  {
+   "test": "test_clear_config_triggers_setup_on_next_run",
+   "argv": [
+    "--clear-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "First Time Setup",
+    "First time setup complete"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_setup_config.py:204"
+  },
+  {
+   "test": "test_config_survives_concurrent_setup_attempts",
+   "argv": [
+    "--clear-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "repo"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_setup_config.py:619"
+  },
+  {
+   "test": "test_view_with_empty_readme",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_view.py:265"
+  },
+  {
+   "test": "test_view_pager_with_arguments_fails",
+   "argv": [
+    "--view"
+   ],
+   "stdin": null,
+   "env": {
+    "PAGER": "head -n 3"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "No such file or directory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_view.py:326"
+  },
+  {
+   "test": "test_view_shorthand_flag",
+   "argv": [
+    "-v"
+   ],
+   "stdin": null,
+   "env": {
+    "PAGER": "cat"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_view.py:351"
+  },
+  {
+   "test": "test_help_has_no_subcommands",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage:",
+    "[options]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_no_subcommands.py:10"
+  },
+  {
+   "test": "test_ext_test_config_dir_is_missing",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "First time setup complete. Happy ideation!"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:75"
+  },
+  {
+   "test": "test_ext_test_setup_repo",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:95"
+  },
+  {
+   "test": "test_ext_test_setup_defaults_to_main_branch",
+   "argv": [
+    "git",
+    "init",
+    "-b",
+    "main"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Adding and committing your new idea to main.."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:115"
+  },
+  {
+   "test": "test_ext_test_idea_summary_asks_until_user_provides_value",
+   "argv": [
+    "git",
+    "init",
+    "-b",
+    "main"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:174"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Input and store your ideas without leaving the terminal",
+    "Usage:",
+    "--clear-config",
+    "--view",
+    "-v",
+    "--help",
+    "--version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:40"
+  },
+  {
+   "test": "test_help_flag_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Input and store your ideas without leaving the terminal",
+    "Usage:",
+    "--clear-config"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:52"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "eureka"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:60"
+  },
+  {
+   "test": "test_version_flag_short",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "eureka"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:70"
+  },
+  {
+   "test": "test_help_mentions_pager_env",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "$PAGER"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:86"
+  },
+  {
+   "test": "test_multiple_flags_together",
+   "argv": [
+    "--help",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:48"
+  },
+  {
+   "test": "test_view_and_clear_config_together",
+   "argv": [
+    "--clear-config",
+    "--view"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:55"
+  },
+  {
+   "test": "test_view_with_unicode_content",
+   "argv": [
+    "--view"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Ideas"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:107"
+  },
+  {
+   "test": "test_view_with_large_readme",
+   "argv": [
+    "--view"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Idea 0",
+    "Idea 999"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:147"
+  },
+  {
+   "test": "test_empty_config_file_is_valid",
+   "argv": [
+    "--view"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ERROR"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:191"
+  },
+  {
+   "test": "test_help_flag_exits_immediately",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:227"
+  },
+  {
+   "test": "test_idea_capture_with_git_repo",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Idea summary"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_git_operations.py:48"
+  },
+  {
+   "test": "test_idea_capture_prompts_for_summary",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Idea summary",
+    ">"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_git_operations.py:90"
+  },
+  {
+   "test": "test_view_flag_opens_pager",
+   "argv": [
+    "--view"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "My Ideas",
+    "Test idea"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_view_functionality.py:40"
+  },
+  {
+   "test": "test_view_flag_short",
+   "argv": [
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Short flag test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_view_functionality.py:64"
+  },
+  {
+   "test": "test_view_uses_pager_env_variable",
+   "argv": [
+    "--view"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Testing PAGER"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_view_functionality.py:84"
+  },
+  {
+   "test": "test_view_with_multiline_readme",
+   "argv": [
+    "--view"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "My Ideas",
+    "Idea 1",
+    "Idea 2",
+    "Idea 3",
+    "Third idea with details"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_view_functionality.py:191"
+  },
+  {
+   "test": "test_view_with_special_characters_in_readme",
+   "argv": [
+    "--view"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Ideas",
+    "@#$%^&*()"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_view_functionality.py:227"
+  },
+  {
+   "test": "test_version_exact_output",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "eureka 2.0.0\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_help_version.py:24"
+  },
+  {
+   "test": "test_unknown_flag_error",
+   "argv": [
+    "--definitely-not-a-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--definitely-not-a-flag"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_help_version.py:31"
+  },
+  {
+   "test": "test_first_time_setup_rejects_empty_and_relative_then_writes_config",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Absolute path to your idea repo",
+    "Path must be absolute"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_and_clear.py:14"
+  },
+  {
+   "test": "test_clear_config_when_missing_prints_error_and_exits_0",
+   "argv": [
+    "--clear-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "No such file or directory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_and_clear.py:54"
+  },
+  {
+   "test": "test_view_without_config_prints_error_and_exits_0",
+   "argv": [
+    "--view"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "No such file or directory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_view_and_capture_idea.py:48"
+  },
+  {
+   "test": "test_capture_idea_happy_path_commits_and_pushes",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Adding and committing your new idea to main..\n",
+    "Added and committed!\n",
+    "Pushing your new idea..\n",
+    "Pushed!\n"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_view_and_capture_idea.py:56"
+  },
+  {
+   "test": "test_clear_config_when_missing_is_error_on_stderr_but_exit_0",
+   "argv": [
+    "--clear-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "ERROR"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_and_clear.py:7"
+  },
+  {
+   "test": "test_help_mentions_flags",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--clear-config",
+    "--view"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_version.py:4"
+  },
+  {
+   "test": "test_view_prints_readme_to_stdout",
+   "argv": [
+    "--view"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "hello\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_view_outputs_readme.py:7"
+  },
+  {
+   "test": "test_invalid_flag_errors_and_prints_usage_hint",
+   "argv": [
+    "--bogus"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error:",
+    "Usage: executable [OPTIONS]",
+    "For more information, try '--help'."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:101"
+  },
+  {
+   "test": "test_invalid_flag_with_help_still_errors_but_shows_usage_hint",
+   "argv": [
+    "--bogus",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error:",
+    "Usage: executable [OPTIONS]",
+    "For more information, try '--help'."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:109"
+  },
+  {
+   "test": "test_double_dash_treats_help_as_positional_and_errors",
+   "argv": [
+    "--",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument '--help'",
+    "For more information, try '--help'."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:117"
+  },
+  {
+   "test": "test_reader_trimming_whitespace",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Adding and committing",
+    "trimmed idea"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:8"
+  },
+  {
+   "test": "test_printer_print_without_newline",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">",
+    "main"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:57"
+  },
+  {
+   "test": "test_multiple_empty_inputs_then_valid",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:126"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Input and store your ideas",
+    "Usage:",
+    "--clear-config",
+    "--view",
+    "-v",
+    "--help",
+    "--version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:6"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Input and store your ideas",
+    "Usage:",
+    "--clear-config",
+    "--view"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:18"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "eureka",
+    "2.0.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:27"
+  },
+  {
+   "test": "test_version_short_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "eureka",
+    "2.0.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:37"
+  },
+  {
+   "test": "test_help_contains_all_flags",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--clear-config"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:56"
+  },
+  {
+   "test": "test_help_does_not_require_config",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:143"
+  },
+  {
+   "test": "test_git_creates_main_branch_if_not_exists",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main",
+    "main"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_final_coverage_push.py:8"
+  },
+  {
+   "test": "test_git_handles_existing_main_branch",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main",
+    "Added and committed",
+    "main",
+    "Added and committed"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_final_coverage_push.py:52"
+  },
+  {
+   "test": "test_lib_ask_for_idea_pathway",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Adding and committing",
+    "Added and committed",
+    "main",
+    "Coverage test idea"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_final_coverage_push.py:108"
+  },
+  {
+   "test": "test_first_time_setup_banner_and_completion",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "First time setup complete"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_first_time_setup_complete.py:7"
+  },
+  {
+   "test": "test_view_and_clear_config_order_reversed",
+   "argv": [
+    "--view",
+    "--clear-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:26"
+  },
+  {
+   "test": "test_help_with_other_flags",
+   "argv": [
+    "--help",
+    "--view"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:42"
+  },
+  {
+   "test": "test_version_with_other_flags",
+   "argv": [
+    "--version",
+    "--clear-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "eureka",
+    "2.0.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:51"
+  },
+  {
+   "test": "test_short_and_long_flag_together",
+   "argv": [
+    "-h",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:60"
+  },
+  {
+   "test": "test_version_short_and_long",
+   "argv": [
+    "-V",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "eureka"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:68"
+  },
+  {
+   "test": "test_git_add_readme",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Adding and committing"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_git_operations.py:60"
+  },
+  {
+   "test": "test_view_with_custom_pager",
+   "argv": [
+    "--view"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CUSTOM_PAGER_USED"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_view_functionality.py:28"
+  }
+ ]
+}

@@ -1,0 +1,3338 @@
+{
+ "slug": "lh3__seqtk.94e7070",
+ "language": "",
+ "n_branches": 2,
+ "n_tests_total": 440,
+ "n_examples": 178,
+ "n_with_exact_stdout": 17,
+ "n_with_rc": 177,
+ "n_skipped": 250,
+ "examples": [
+  {
+   "test": "test_gap_stdin",
+   "argv": [
+    "gap",
+    "-l",
+    "3",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "scaffold1\t8\t18\nscaffold3_multiple\t9\t27\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_analysis.py:247"
+  },
+  {
+   "test": "test_listhet_stdin",
+   "argv": [
+    "listhet",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "seq1\t5\tW\nseq1\t6\tS\nseq1\t7\tM\nseq1\t8\tK\nseq1\t9\tR\nseq1\t10\tY\nseq3\t4\tW\nseq3\t5\tW\nseq3\t6\tW\nseq3\t7\tS\nseq3\t8\tS\nseq3\t9\tS\nseq3\t10\tM\nseq3\t11\tM\nseq3\t12\tM\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_analysis.py:260"
+  },
+  {
+   "test": "test_gc_stdin",
+   "argv": [
+    "gc",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "chr1_mixed_gc\t8\t48\t40\nchr3_high_gc_cluster\t5\t61\t54\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_analysis.py:271"
+  },
+  {
+   "test": "test_hety_stdin",
+   "argv": [
+    "hety",
+    "-w",
+    "50",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "seq1_short\t0\t27\t13.64\t22\t6\nseq2_longer\t0\t50\t0.00\t50\t0\nseq2_longer\t50\t60\t0.00\t50\t0\nseq2_longer\t60\t70\t0.00\t50\t0\nseq2_longer\t70\t80\t0.00\t50\t0\nseq2_longer\t80\t90\t0.00\t50\t0\nseq2_longer\t90\t100\t0.00\t50\t0\nseq2_longer\t100\t110\t0.00\t50\t0\nseq2_longer\t110\t120\t0.00\t50\t0\nseq2_longer\t120\t128\t0.00\t8\t0\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_analysis.py:281"
+  },
+  {
+   "test": "test_comp_stdin_input",
+   "argv": [
+    "comp",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_info.py:113"
+  },
+  {
+   "test": "test_size_stdin_input",
+   "argv": [
+    "size",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_info.py:180"
+  },
+  {
+   "test": "test_fqchk_stdin_input",
+   "argv": [
+    "fqchk",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_info.py:276"
+  },
+  {
+   "test": "test_dropse_stdin_input",
+   "argv": [
+    "dropse",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "@read1/1\nACGTACGT\n+\nIIIIIIII\n@read1/2\nTTTTTTTT\n+\nHHHHHHHH\n@read2/1\nGGGGGGGG\n+\nJJJJJJJJ\n@read2/2\nAAAAAAAA\n+\nKKKKKKKK\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pe_trim.py:190"
+  },
+  {
+   "test": "test_trimfq_stdin_input",
+   "argv": [
+    "trimfq",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "@read1\nACGTACGTACGTACGTACGTACGTACGTACGT\n+\nIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pe_trim.py:212"
+  },
+  {
+   "test": "test_stdin_input",
+   "argv": [
+    "seq",
+    "-a"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": ">read1\nATCGATCG\n>read2\nGCTAGCTA\n>read3\nTTAATTAA\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_seq.py:179"
+  },
+  {
+   "test": "test_empty_input_file",
+   "argv": [
+    "seq",
+    "-a"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_seq.py:188"
+  },
+  {
+   "test": "test_sample_stdin_with_twopass_error",
+   "argv": [
+    "sample",
+    "-2",
+    "-s100",
+    "-",
+    "3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "in the 2-pass mode, the input cannot be STDIN"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subseq_sample.py:313"
+  },
+  {
+   "test": "test_sample_stdin_streaming_mode",
+   "argv": [
+    "sample",
+    "-s100",
+    "-",
+    "3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": ">seq4\nATATATATATAT\n>seq2\nTTTTAAAACCCCGGGG\n>seq3\nGGGGCCCCAAAATTTT\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subseq_sample.py:325"
+  },
+  {
+   "test": "test_hrun_stdin_input",
+   "argv": [
+    "hrun",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "seq3\t0\t10\tA\nseq3\t10\t18\tC\nseq3\t18\t26\tG\nseq3\t26\t34\tT\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_undocumented.py:37"
+  },
+  {
+   "test": "test_kfreq_stdin_input",
+   "argv": [
+    "kfreq",
+    "ATG",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "seq1\t12\t+\t4\t4\nseq2\t17\t-\t3\t1\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_undocumented.py:121"
+  },
+  {
+   "test": "test_hrun_empty_sequence",
+   "argv": [
+    "hrun",
+    "-"
+   ],
+   "stdin": ">seq_with_run\nAAAAAAAA\n>empty\n\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "seq_with_run\t0\t8\tA"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_undocumented.py:264"
+  },
+  {
+   "test": "test_kfreq_empty_sequence",
+   "argv": [
+    "kfreq",
+    "ATG",
+    "-"
+   ],
+   "stdin": ">empty\n\n>seq\nATGATG\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_undocumented.py:284"
+  },
+  {
+   "test": "test_hrun_very_long_homopolymer",
+   "argv": [
+    "hrun",
+    "-",
+    "100"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_undocumented.py:302"
+  },
+  {
+   "test": "test_kfreq_very_long_kmer",
+   "argv": [
+    "kfreq",
+    "ATGCATGCAT",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_undocumented.py:358"
+  },
+  {
+   "test": "test_hrun_sequence_with_only_ns",
+   "argv": [
+    "hrun",
+    "-"
+   ],
+   "stdin": ">all_ns\nNNNNNNNNNN\n>normal\nAAAAAAAA\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "normal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_undocumented.py:375"
+  },
+  {
+   "test": "test_hrun_tab_and_whitespace_in_sequence_name",
+   "argv": [
+    "hrun",
+    "-"
+   ],
+   "stdin": ">seq with spaces\nAAAAAAAA\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_undocumented.py:406"
+  },
+  {
+   "test": "test_hpc_stdin_input",
+   "argv": [
+    "hpc",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_utilities.py:26"
+  },
+  {
+   "test": "test_randbase_stdin",
+   "argv": [
+    "randbase",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_utilities.py:186"
+  },
+  {
+   "test": "test_rename_stdin_input",
+   "argv": [
+    "rename",
+    "-",
+    "stdin_test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">stdin_test1\n",
+    ">stdin_test2\n",
+    "ATCGATCG"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_utilities.py:332"
+  },
+  {
+   "test": "test_unrecognized_command",
+   "argv": [
+    "unknowncmd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unrecognized command",
+    "unknowncmd"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:34"
+  },
+  {
+   "test": "test_help_flag_unrecognized",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unrecognized command"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:41"
+  },
+  {
+   "test": "test_seq_fasta_passthrough",
+   "argv": [
+    "seq"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">seq1",
+    "ACGTACGTACGT",
+    ">seq2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:51"
+  },
+  {
+   "test": "test_seq_fastq_passthrough",
+   "argv": [
+    "seq"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@read1",
+    "ACGTACGTACGT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:61"
+  },
+  {
+   "test": "test_seq_fastq_to_fasta",
+   "argv": [
+    "seq",
+    "-a"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">read1",
+    "ACGTACGTACGT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:70"
+  },
+  {
+   "test": "test_seq_A_flag_same_as_a",
+   "argv": [
+    "seq",
+    "-A"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">read1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:82"
+  },
+  {
+   "test": "test_seq_reverse_complement",
+   "argv": [
+    "seq",
+    "-r",
+    "in.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">seq1"
+   ],
+   "files": {
+    "in.fa": ">seq1\nACGT\n"
+   },
+   "ci": false,
+   "source": "test_basic.py:91"
+  },
+  {
+   "test": "test_seq_reverse_complement_acga",
+   "argv": [
+    "seq",
+    "-r",
+    "in.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "in.fa": ">seq1\nACGA\n"
+   },
+   "ci": false,
+   "source": "test_basic.py:102"
+  },
+  {
+   "test": "test_seq_reverse_both_strands",
+   "argv": [
+    "seq",
+    "-R",
+    "in.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "in.fa": ">seq1\nACGT\n"
+   },
+   "ci": false,
+   "source": "test_basic.py:113"
+  },
+  {
+   "test": "test_seq_line_length",
+   "argv": [
+    "seq",
+    "-l",
+    "4",
+    "in.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "in.fa": ">seq1\nACGTACGTACGTACGTACGT\n"
+   },
+   "ci": false,
+   "source": "test_basic.py:123"
+  },
+  {
+   "test": "test_seq_uppercase",
+   "argv": [
+    "seq",
+    "-U",
+    "in.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ACGTACGT"
+   ],
+   "files": {
+    "in.fa": ">seq1\nacgtacgt\n"
+   },
+   "ci": false,
+   "source": "test_basic.py:134"
+  },
+  {
+   "test": "test_seq_min_length_filter",
+   "argv": [
+    "seq",
+    "-L",
+    "10",
+    "in.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">long"
+   ],
+   "files": {
+    "in.fa": ">short\nACGT\n>long\nACGTACGTACGTACGT\n"
+   },
+   "ci": false,
+   "source": "test_basic.py:143"
+  },
+  {
+   "test": "test_seq_drop_comments",
+   "argv": [
+    "seq",
+    "-C",
+    "in.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">seq1"
+   ],
+   "files": {
+    "in.fa": ">seq1 this is a comment\nACGT\n"
+   },
+   "ci": false,
+   "source": "test_basic.py:153"
+  },
+  {
+   "test": "test_seq_drop_ambiguous",
+   "argv": [
+    "seq",
+    "-N",
+    "in.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">seq2"
+   ],
+   "files": {
+    "in.fa": ">seq1\nACGTN\n>seq2\nACGT\n"
+   },
+   "ci": false,
+   "source": "test_basic.py:163"
+  },
+  {
+   "test": "test_seq_quality_masking",
+   "argv": [
+    "seq",
+    "-q",
+    "20"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:173"
+  },
+  {
+   "test": "test_seq_quality_masking_with_n",
+   "argv": [
+    "seq",
+    "-q",
+    "20",
+    "-n",
+    "N"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "N"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:183"
+  },
+  {
+   "test": "test_seq_fake_quality",
+   "argv": [
+    "seq",
+    "-F",
+    "I"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@seq1",
+    "IIIIIIIIIIII"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:192"
+  },
+  {
+   "test": "test_seq_strip_whitespace",
+   "argv": [
+    "seq",
+    "-S",
+    "in.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ACGTACGT"
+   ],
+   "files": {
+    "in.fa": ">seq1\nACGT ACGT\n"
+   },
+   "ci": false,
+   "source": "test_basic.py:201"
+  },
+  {
+   "test": "test_seq_odd_reads_only",
+   "argv": [
+    "seq",
+    "-1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@read1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:210"
+  },
+  {
+   "test": "test_seq_even_reads_only",
+   "argv": [
+    "seq",
+    "-2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@read2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:219"
+  },
+  {
+   "test": "test_seq_mask_bed_regions",
+   "argv": [
+    "seq",
+    "-M",
+    "mask.bed",
+    "in.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "mask.bed": "chr1\t2\t6\n",
+    "in.fa": ">chr1\nACGTACGTACGT\n"
+   },
+   "ci": false,
+   "source": "test_basic.py:228"
+  },
+  {
+   "test": "test_seq_nonexistent_file",
+   "argv": [
+    "seq",
+    "/nonexistent/file.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "failed to open"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:240"
+  },
+  {
+   "test": "test_seq_fraction_sampling",
+   "argv": [
+    "seq",
+    "-f",
+    "0.1",
+    "-s",
+    "42"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:246"
+  },
+  {
+   "test": "test_seq_stdin",
+   "argv": [
+    "seq",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">seq1",
+    "ACGTACGTACGT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:258"
+  },
+  {
+   "test": "test_seq_x_lowercase_to_n",
+   "argv": [
+    "seq",
+    "-x",
+    "-n",
+    "N",
+    "in.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "in.fa": ">seq1\nACGTacgtACGT\n"
+   },
+   "ci": false,
+   "source": "test_basic.py:265"
+  },
+  {
+   "test": "test_seq_quality_shift",
+   "argv": [
+    "seq",
+    "-Q",
+    "64",
+    "in.fq"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ACGT"
+   ],
+   "files": {
+    "in.fq": "@read1\nACGT\n+\ngggg\n"
+   },
+   "ci": false,
+   "source": "test_basic.py:275"
+  },
+  {
+   "test": "test_size_basic",
+   "argv": [
+    "size"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:288"
+  },
+  {
+   "test": "test_size_empty_counts_zero",
+   "argv": [
+    "size",
+    "empty.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0\t0"
+   ],
+   "files": {
+    "empty.fa": ""
+   },
+   "ci": false,
+   "source": "test_basic.py:308"
+  },
+  {
+   "test": "test_size_stdin",
+   "argv": [
+    "size",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2\t24"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:316"
+  },
+  {
+   "test": "test_size_stdin_when_no_args",
+   "argv": [
+    "size"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2\t24"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:322"
+  },
+  {
+   "test": "test_size_nonexistent_file",
+   "argv": [
+    "size",
+    "/nonexistent/file.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "failed to open"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:328"
+  },
+  {
+   "test": "test_seq_complement_mask",
+   "argv": [
+    "seq",
+    "-M",
+    "mask.bed",
+    "-c",
+    "in.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "mask.bed": "chr1\t0\t4\n",
+    "in.fa": ">chr1\nACGTACGTACGT\n"
+   },
+   "ci": false,
+   "source": "test_basic.py:338"
+  },
+  {
+   "test": "test_seq_mask_with_n_char",
+   "argv": [
+    "seq",
+    "-M",
+    "mask.bed",
+    "-n",
+    "N",
+    "in.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "N"
+   ],
+   "files": {
+    "mask.bed": "chr1\t2\t6\n",
+    "in.fa": ">chr1\nACGTACGTACGT\n"
+   },
+   "ci": false,
+   "source": "test_basic.py:352"
+  },
+  {
+   "test": "test_seq_quality_shift_V",
+   "argv": [
+    "seq",
+    "-V",
+    "-Q",
+    "64",
+    "in.fq"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ACGT"
+   ],
+   "files": {
+    "in.fq": "@read1\nACGT\n+\ngggg\n"
+   },
+   "ci": false,
+   "source": "test_basic.py:363"
+  },
+  {
+   "test": "test_seq_max_quality_X",
+   "argv": [
+    "seq",
+    "-X",
+    "35",
+    "-q",
+    "1",
+    "in.fq"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "in.fq": "@read1\nACGTACGT\n+\nIIIIIIII\n"
+   },
+   "ci": false,
+   "source": "test_basic.py:372"
+  },
+  {
+   "test": "test_seq_reverse_complement_fastq",
+   "argv": [
+    "seq",
+    "-r",
+    "in.fq"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "in.fq": "@read1\nACGTA\n+\nIIIIJ\n"
+   },
+   "ci": false,
+   "source": "test_basic.py:384"
+  },
+  {
+   "test": "test_seq_preserves_comments",
+   "argv": [
+    "seq",
+    "in.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "gene=tp53"
+   ],
+   "files": {
+    "in.fa": ">seq1 gene=tp53 chr=17\nACGT\n"
+   },
+   "ci": false,
+   "source": "test_basic.py:400"
+  },
+  {
+   "test": "test_seq_split_output_comments",
+   "argv": [
+    "seq",
+    "-R",
+    "in.fq"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "read1"
+   ],
+   "files": {
+    "in.fq": "@read1 comment here\nACGT\n+\nIIII\n"
+   },
+   "ci": false,
+   "source": "test_basic.py:419"
+  },
+  {
+   "test": "test_comp_basic",
+   "argv": [
+    "comp",
+    "in.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "in.fa": ">seq1\nACGT\n"
+   },
+   "ci": false,
+   "source": "test_comp.py:9"
+  },
+  {
+   "test": "test_comp_stdin",
+   "argv": [
+    "comp",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "seq1",
+    "seq2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comp.py:33"
+  },
+  {
+   "test": "test_comp_multiple_seqs",
+   "argv": [
+    "comp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_comp.py:40"
+  },
+  {
+   "test": "test_comp_with_region_bed",
+   "argv": [
+    "comp",
+    "-r",
+    "region.bed",
+    "in.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "chr1"
+   ],
+   "files": {
+    "region.bed": "chr1\t0\t4\n",
+    "in.fa": ">chr1\nAAAACCCCGGGGTTTT\n"
+   },
+   "ci": false,
+   "source": "test_comp.py:63"
+  },
+  {
+   "test": "test_comp_nonexistent_file",
+   "argv": [
+    "comp",
+    "/nonexistent/file.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "failed to open"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comp.py:74"
+  },
+  {
+   "test": "test_fqchk_basic",
+   "argv": [
+    "fqchk"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "min_len",
+    "max_len",
+    "avg_len"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comp.py:94"
+  },
+  {
+   "test": "test_fqchk_output_format",
+   "argv": [
+    "fqchk"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "POS",
+    "%A",
+    "avgQ"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comp.py:104"
+  },
+  {
+   "test": "test_fqchk_quality_threshold",
+   "argv": [
+    "fqchk",
+    "-q",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "POS"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comp.py:114"
+  },
+  {
+   "test": "test_fqchk_stdin",
+   "argv": [
+    "fqchk",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "min_len"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comp.py:123"
+  },
+  {
+   "test": "test_fqchk_nonexistent_file",
+   "argv": [
+    "fqchk",
+    "/nonexistent/file.fq"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "failed to open"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comp.py:129"
+  },
+  {
+   "test": "test_fqchk_length_stats",
+   "argv": [
+    "fqchk",
+    "in.fq"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "min_len: 4",
+    "max_len: 8"
+   ],
+   "files": {
+    "in.fq": "@read1\nACGT\n+\nIIII\n@read2\nACGTACGT\n+\nIIIIIIII\n"
+   },
+   "ci": false,
+   "source": "test_comp.py:135"
+  },
+  {
+   "test": "test_fqchk_base_composition",
+   "argv": [
+    "fqchk"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "%A",
+    "%C",
+    "%G",
+    "%T"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comp.py:145"
+  },
+  {
+   "test": "test_hety_basic",
+   "argv": [
+    "hety"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_genomics.py:9"
+  },
+  {
+   "test": "test_hety_no_args_shows_usage",
+   "argv": [
+    "hety"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage",
+    "hety"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_genomics.py:19"
+  },
+  {
+   "test": "test_hety_window_size",
+   "argv": [
+    "hety",
+    "-w",
+    "500"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "chr1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_genomics.py:26"
+  },
+  {
+   "test": "test_hety_t_option",
+   "argv": [
+    "hety",
+    "-t",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "chr1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_genomics.py:63"
+  },
+  {
+   "test": "test_hety_nonexistent_file",
+   "argv": [
+    "hety",
+    "/nonexistent/file.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "failed to open"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_genomics.py:73"
+  },
+  {
+   "test": "test_gc_basic_high_gc",
+   "argv": [
+    "gc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_genomics.py:83"
+  },
+  {
+   "test": "test_gc_no_args_shows_usage",
+   "argv": [
+    "gc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage",
+    "gc"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_genomics.py:93"
+  },
+  {
+   "test": "test_gc_high_at",
+   "argv": [
+    "gc",
+    "-w"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_genomics.py:100"
+  },
+  {
+   "test": "test_gc_min_length",
+   "argv": [
+    "gc",
+    "-l",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_genomics.py:111"
+  },
+  {
+   "test": "test_gc_output_format",
+   "argv": [
+    "gc",
+    "-f",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_genomics.py:123"
+  },
+  {
+   "test": "test_gc_nonexistent_file",
+   "argv": [
+    "gc",
+    "/nonexistent/file.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "failed to open"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_genomics.py:136"
+  },
+  {
+   "test": "test_gc_xdropoff",
+   "argv": [
+    "gc",
+    "-x",
+    "5.0",
+    "-f",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "chr1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_genomics.py:142"
+  },
+  {
+   "test": "test_gap_detects_gaps",
+   "argv": [
+    "gap"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "chr1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_genomics.py:156"
+  },
+  {
+   "test": "test_gap_output_format",
+   "argv": [
+    "gap"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_genomics.py:165"
+  },
+  {
+   "test": "test_gap_min_size_custom",
+   "argv": [
+    "gap",
+    "-l",
+    "5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "chr1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_genomics.py:178"
+  },
+  {
+   "test": "test_gap_no_gaps",
+   "argv": [
+    "gap",
+    "in.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "in.fa": ">chr1\nACGTACGTACGT\n"
+   },
+   "ci": false,
+   "source": "test_genomics.py:190"
+  },
+  {
+   "test": "test_gap_stdin",
+   "argv": [
+    "gap",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "chr1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_genomics.py:199"
+  },
+  {
+   "test": "test_gap_no_args_shows_usage",
+   "argv": [
+    "gap"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_genomics.py:206"
+  },
+  {
+   "test": "test_cutn_basic",
+   "argv": [
+    "cutN"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">chr1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_genomics.py:225"
+  },
+  {
+   "test": "test_cutn_splits_sequences",
+   "argv": [
+    "cutN"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_genomics.py:234"
+  },
+  {
+   "test": "test_cutn_no_args_shows_usage",
+   "argv": [
+    "cutN"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_genomics.py:244"
+  },
+  {
+   "test": "test_cutn_gap_only",
+   "argv": [
+    "cutN",
+    "-g"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "chr1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_genomics.py:250"
+  },
+  {
+   "test": "test_cutn_min_n_tract",
+   "argv": [
+    "cutN",
+    "-n",
+    "3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_genomics.py:260"
+  },
+  {
+   "test": "test_cutn_stdin",
+   "argv": [
+    "cutN",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">chr1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_genomics.py:273"
+  },
+  {
+   "test": "test_cutn_nonexistent_file",
+   "argv": [
+    "cutN",
+    "/nonexistent/file.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "failed to open"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_genomics.py:280"
+  },
+  {
+   "test": "test_cutn_penalty",
+   "argv": [
+    "cutN",
+    "-p",
+    "5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">chr1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_genomics.py:286"
+  },
+  {
+   "test": "test_listhet_basic",
+   "argv": [
+    "listhet",
+    "in.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "seq1"
+   ],
+   "files": {
+    "in.fa": ">seq1\nACGTMRWS\n"
+   },
+   "ci": false,
+   "source": "test_genomics.py:299"
+  },
+  {
+   "test": "test_listhet_no_args_shows_usage",
+   "argv": [
+    "listhet"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_genomics.py:309"
+  },
+  {
+   "test": "test_listhet_no_hets",
+   "argv": [
+    "listhet",
+    "in.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "in.fa": ">seq1\nACGTACGT\n"
+   },
+   "ci": false,
+   "source": "test_genomics.py:315"
+  },
+  {
+   "test": "test_listhet_het_output_format",
+   "argv": [
+    "listhet",
+    "in.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "in.fa": ">seq1\nACGTMRWS\n"
+   },
+   "ci": false,
+   "source": "test_genomics.py:324"
+  },
+  {
+   "test": "test_mergefa_basic",
+   "argv": [
+    "mergefa",
+    "in1.fa",
+    "in2.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">seq1"
+   ],
+   "files": {
+    "in1.fa": ">seq1\nACGT\n",
+    "in2.fa": ">seq1\nACGT\n"
+   },
+   "ci": false,
+   "source": "test_merge_split.py:10"
+  },
+  {
+   "test": "test_mergefa_no_args_shows_usage",
+   "argv": [
+    "mergefa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage",
+    "mergefa"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_merge_split.py:21"
+  },
+  {
+   "test": "test_mergefa_intersection",
+   "argv": [
+    "mergefa",
+    "-i",
+    "in1.fa",
+    "in2.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">seq1"
+   ],
+   "files": {
+    "in1.fa": ">seq1\nACGT\n>seq2\nTTTT\n",
+    "in2.fa": ">seq1\nACGT\n>seq3\nGGGG\n"
+   },
+   "ci": false,
+   "source": "test_merge_split.py:28"
+  },
+  {
+   "test": "test_mergefa_quality_threshold",
+   "argv": [
+    "mergefa",
+    "-q",
+    "30",
+    "in1.fa",
+    "in2.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">seq1"
+   ],
+   "files": {
+    "in1.fa": ">seq1\nACGT\n",
+    "in2.fa": ">seq1\nACGT\n"
+   },
+   "ci": false,
+   "source": "test_merge_split.py:39"
+  },
+  {
+   "test": "test_mergefa_lowercase_mask",
+   "argv": [
+    "mergefa",
+    "-m",
+    "in1.fa",
+    "in2.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "in1.fa": ">seq1\nACGT\n",
+    "in2.fa": ">seq1\nNNNN\n"
+   },
+   "ci": false,
+   "source": "test_merge_split.py:50"
+  },
+  {
+   "test": "test_mergefa_suppress_hets",
+   "argv": [
+    "mergefa",
+    "-h",
+    "in1.fa",
+    "in2.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">seq1"
+   ],
+   "files": {
+    "in1.fa": ">seq1\nACGT\n",
+    "in2.fa": ">seq1\nACGT\n"
+   },
+   "ci": false,
+   "source": "test_merge_split.py:63"
+  },
+  {
+   "test": "test_famask_basic",
+   "argv": [
+    "famask",
+    "src.fa",
+    "mask.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">seq1"
+   ],
+   "files": {
+    "src.fa": ">seq1\nACGTACGT\n",
+    "mask.fa": ">seq1\nACGTXXXX\n"
+   },
+   "ci": false,
+   "source": "test_merge_split.py:78"
+  },
+  {
+   "test": "test_famask_no_args_shows_usage",
+   "argv": [
+    "famask"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage",
+    "famask"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_merge_split.py:89"
+  },
+  {
+   "test": "test_mutfa_basic",
+   "argv": [
+    "mutfa",
+    "in.fa",
+    "in.snp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">chr1"
+   ],
+   "files": {
+    "in.fa": ">chr1\nACGTACGT\n",
+    "in.snp": "chr1\t3\tA\tT\n"
+   },
+   "ci": false,
+   "source": "test_merge_split.py:100"
+  },
+  {
+   "test": "test_mutfa_no_args_shows_usage",
+   "argv": [
+    "mutfa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage",
+    "mutfa"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_merge_split.py:114"
+  },
+  {
+   "test": "test_split_basic",
+   "argv": [
+    "split",
+    "-n",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">seq0",
+    "ACGTACGT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_merge_split.py:125"
+  },
+  {
+   "test": "test_split_no_args_shows_usage",
+   "argv": [
+    "split"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage",
+    "split"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_merge_split.py:142"
+  },
+  {
+   "test": "test_split_default_n",
+   "argv": [
+    "split"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_merge_split.py:149"
+  },
+  {
+   "test": "test_split_contents",
+   "argv": [
+    "split",
+    "-n",
+    "1",
+    "in.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">seq1",
+    ">seq2"
+   ],
+   "files": {
+    "in.fa": ">seq1\nACGT\n>seq2\nGGGG\n"
+   },
+   "ci": false,
+   "source": "test_merge_split.py:166"
+  },
+  {
+   "test": "test_split_line_length",
+   "argv": [
+    "split",
+    "-n",
+    "1",
+    "-l",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_merge_split.py:180"
+  },
+  {
+   "test": "test_rename_with_prefix",
+   "argv": [
+    "rename",
+    "in.fq",
+    "new_prefix_"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "new_prefix_"
+   ],
+   "files": {
+    "in.fq": "@read1\nACGT\n+\nIIII\n@read2\nACGT\n+\nIIII\n"
+   },
+   "ci": false,
+   "source": "test_merge_split.py:198"
+  },
+  {
+   "test": "test_rename_sequential",
+   "argv": [
+    "rename",
+    "in.fq",
+    "seq"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "seq1",
+    "seq2"
+   ],
+   "files": {
+    "in.fq": "@read1\nACGT\n+\nIIII\n@read2\nGGGG\n+\nIIII\n"
+   },
+   "ci": false,
+   "source": "test_merge_split.py:207"
+  },
+  {
+   "test": "test_rename_no_prefix",
+   "argv": [
+    "rename",
+    "in.fq"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "in.fq": "@read1\nACGT\n+\nIIII\n@read2\nACGT\n+\nIIII\n"
+   },
+   "ci": false,
+   "source": "test_merge_split.py:217"
+  },
+  {
+   "test": "test_rename_no_args_reads_empty_stdin",
+   "argv": [
+    "rename"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_merge_split.py:226"
+  },
+  {
+   "test": "test_rename_fasta",
+   "argv": [
+    "rename",
+    "in.fa",
+    "chr"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "chr1",
+    "chr2"
+   ],
+   "files": {
+    "in.fa": ">seq1\nACGT\n>seq2\nGGGG\n"
+   },
+   "ci": false,
+   "source": "test_merge_split.py:232"
+  },
+  {
+   "test": "test_randbase_basic",
+   "argv": [
+    "randbase",
+    "in.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">seq1"
+   ],
+   "files": {
+    "in.fa": ">seq1\nMRWSYK\n"
+   },
+   "ci": false,
+   "source": "test_merge_split.py:246"
+  },
+  {
+   "test": "test_randbase_no_args_shows_usage",
+   "argv": [
+    "randbase"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_merge_split.py:259"
+  },
+  {
+   "test": "test_randbase_no_hets_unchanged",
+   "argv": [
+    "randbase",
+    "in.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "in.fa": ">seq1\nACGT\n"
+   },
+   "ci": false,
+   "source": "test_merge_split.py:265"
+  },
+  {
+   "test": "test_hpc_basic",
+   "argv": [
+    "hpc",
+    "in.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">seq1"
+   ],
+   "files": {
+    "in.fa": ">seq1\nAAAACCCCGGGGTTTT\n"
+   },
+   "ci": false,
+   "source": "test_merge_split.py:280"
+  },
+  {
+   "test": "test_hpc_no_homopolymers",
+   "argv": [
+    "hpc",
+    "in.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "in.fa": ">seq1\nACGTACGT\n"
+   },
+   "ci": false,
+   "source": "test_merge_split.py:292"
+  },
+  {
+   "test": "test_hpc_no_args_reads_empty_stdin",
+   "argv": [
+    "hpc"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_merge_split.py:303"
+  },
+  {
+   "test": "test_hpc_stdin",
+   "argv": [
+    "hpc",
+    "-"
+   ],
+   "stdin": ">seq1\nAAAACCCCGGGGTTTT\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_merge_split.py:309"
+  },
+  {
+   "test": "test_hpc_fastq",
+   "argv": [
+    "hpc",
+    "in.fq"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "read1"
+   ],
+   "files": {
+    "in.fq": "@read1\nAAAACCCC\n+\nIIIIIIII\n"
+   },
+   "ci": false,
+   "source": "test_merge_split.py:318"
+  },
+  {
+   "test": "test_hrun_basic",
+   "argv": [
+    "hrun",
+    "in.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "seq1"
+   ],
+   "files": {
+    "in.fa": ">seq1\nAAAAAAAAAAAACGGGGGGGGGG\n"
+   },
+   "ci": false,
+   "source": "test_merge_split.py:331"
+  },
+  {
+   "test": "test_hrun_output_format",
+   "argv": [
+    "hrun",
+    "in.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "in.fa": ">seq1\nAAAAAAAAAAAACGGGGGGGGGG\n"
+   },
+   "ci": false,
+   "source": "test_merge_split.py:340"
+  },
+  {
+   "test": "test_hrun_min_length",
+   "argv": [
+    "hrun",
+    "in.fa",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "seq1"
+   ],
+   "files": {
+    "in.fa": ">seq1\nAAAAAAAAAAAACGGGGGGGGGG\n"
+   },
+   "ci": false,
+   "source": "test_merge_split.py:354"
+  },
+  {
+   "test": "test_hrun_shows_usage",
+   "argv": [
+    "hrun"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage",
+    "hrun"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_merge_split.py:364"
+  },
+  {
+   "test": "test_hrun_stdin",
+   "argv": [
+    "hrun",
+    "-"
+   ],
+   "stdin": ">seq1\nAAAAAAAAAAAACGGGGGGGGGG\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "seq1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_merge_split.py:371"
+  },
+  {
+   "test": "test_kfreq_basic",
+   "argv": [
+    "kfreq",
+    "ACGT",
+    "in.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "seq1"
+   ],
+   "files": {
+    "in.fa": ">seq1\nACGTACGTACGT\n"
+   },
+   "ci": false,
+   "source": "test_merge_split.py:382"
+  },
+  {
+   "test": "test_kfreq_output_format",
+   "argv": [
+    "kfreq",
+    "ACGT",
+    "in.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "in.fa": ">seq1\nACGTACGTACGT\n"
+   },
+   "ci": false,
+   "source": "test_merge_split.py:391"
+  },
+  {
+   "test": "test_kfreq_shows_usage",
+   "argv": [
+    "kfreq"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage",
+    "kfreq"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_merge_split.py:402"
+  },
+  {
+   "test": "test_kfreq_stdin",
+   "argv": [
+    "kfreq",
+    "ACGT",
+    "-"
+   ],
+   "stdin": ">seq1\nACGTACGTACGT\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "seq1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_merge_split.py:409"
+  },
+  {
+   "test": "test_sample_by_fraction",
+   "argv": [
+    "sample",
+    "-s",
+    "42",
+    "0.1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sample_subseq.py:9"
+  },
+  {
+   "test": "test_sample_by_number",
+   "argv": [
+    "sample",
+    "-s",
+    "42",
+    "5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sample_subseq.py:22"
+  },
+  {
+   "test": "test_sample_fasta",
+   "argv": [
+    "sample",
+    "-s",
+    "42",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sample_subseq.py:60"
+  },
+  {
+   "test": "test_sample_no_args_shows_usage",
+   "argv": [
+    "sample"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage",
+    "sample"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sample_subseq.py:68"
+  },
+  {
+   "test": "test_sample_twopass_mode",
+   "argv": [
+    "sample",
+    "-2",
+    "-s",
+    "42",
+    "5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sample_subseq.py:75"
+  },
+  {
+   "test": "test_sample_all_sequences",
+   "argv": [
+    "sample",
+    "100"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">seq1",
+    ">seq2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sample_subseq.py:87"
+  },
+  {
+   "test": "test_subseq_by_name_list",
+   "argv": [
+    "subseq",
+    "in.fa",
+    "names.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">chr1",
+    ">chr3"
+   ],
+   "files": {
+    "in.fa": ">chr1\nACGTACGT\n>chr2\nGGGGGGGG\n>chr3\nTTTTTTTT\n",
+    "names.txt": "chr1\nchr3\n"
+   },
+   "ci": false,
+   "source": "test_sample_subseq.py:100"
+  },
+  {
+   "test": "test_subseq_by_bed",
+   "argv": [
+    "subseq",
+    "in.fa",
+    "regions.bed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "chr1"
+   ],
+   "files": {
+    "in.fa": ">chr1\nACGTACGTACGT\n",
+    "regions.bed": "chr1\t2\t6\n"
+   },
+   "ci": false,
+   "source": "test_sample_subseq.py:113"
+  },
+  {
+   "test": "test_subseq_tab_output",
+   "argv": [
+    "subseq",
+    "-t",
+    "in.fa",
+    "names.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\t"
+   ],
+   "files": {
+    "in.fa": ">chr1\nACGTACGT\n",
+    "names.txt": "chr1\n"
+   },
+   "ci": false,
+   "source": "test_sample_subseq.py:127"
+  },
+  {
+   "test": "test_subseq_no_args_shows_usage",
+   "argv": [
+    "subseq"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sample_subseq.py:139"
+  },
+  {
+   "test": "test_subseq_missing_region_file",
+   "argv": [
+    "subseq",
+    "/nonexistent/regions.bed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sample_subseq.py:145"
+  },
+  {
+   "test": "test_subseq_line_length",
+   "argv": [
+    "subseq",
+    "-l",
+    "4",
+    "in.fa",
+    "names.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "in.fa": ">chr1\nACGTACGTACGTACGTACGT\n",
+    "names.txt": "chr1\n"
+   },
+   "ci": false,
+   "source": "test_sample_subseq.py:153"
+  },
+  {
+   "test": "test_subseq_fastq",
+   "argv": [
+    "subseq",
+    "in.fq",
+    "names.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "read1"
+   ],
+   "files": {
+    "in.fq": "@read1\nACGTACGT\n+\nIIIIIIII\n@read2\nGGGGGGGG\n+\nIIIIIIII\n",
+    "names.txt": "read1\n"
+   },
+   "ci": false,
+   "source": "test_sample_subseq.py:166"
+  },
+  {
+   "test": "test_subseq_strand_aware",
+   "argv": [
+    "subseq",
+    "-s",
+    "in.fa",
+    "regions.bed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "in.fa": ">chr1\nACGTACGT\n",
+    "regions.bed": "chr1\t0\t4\t.\t.\t-\n"
+   },
+   "ci": false,
+   "source": "test_sample_subseq.py:178"
+  },
+  {
+   "test": "test_telo_detects_telomere",
+   "argv": [
+    "telo"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "chr1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_telo.py:19"
+  },
+  {
+   "test": "test_telo_no_telomere",
+   "argv": [
+    "telo"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_telo.py:27"
+  },
+  {
+   "test": "test_telo_reports_stats",
+   "argv": [
+    "telo"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_telo.py:35"
+  },
+  {
+   "test": "test_telo_custom_motif",
+   "argv": [
+    "telo",
+    "-m",
+    "CCCTAA"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "chr1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_telo.py:45"
+  },
+  {
+   "test": "test_telo_empty_stdin_zero_result",
+   "argv": [
+    "telo",
+    "-"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0\t0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_telo.py:67"
+  },
+  {
+   "test": "test_telo_min_score",
+   "argv": [
+    "telo",
+    "-s",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_telo.py:73"
+  },
+  {
+   "test": "test_telo_stdin",
+   "argv": [
+    "telo",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "chr1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_telo.py:83"
+  },
+  {
+   "test": "test_telo_show_profile",
+   "argv": [
+    "telo",
+    "-P"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_telo.py:89"
+  },
+  {
+   "test": "test_telo_max_drop",
+   "argv": [
+    "telo",
+    "-d",
+    "1000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "chr1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_telo.py:112"
+  },
+  {
+   "test": "test_trimfq_basic",
+   "argv": [
+    "trimfq"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@read1",
+    "@read2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_trimfq.py:9"
+  },
+  {
+   "test": "test_trimfq_quality_threshold",
+   "argv": [
+    "trimfq",
+    "-q",
+    "0.01"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@read1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_trimfq.py:18"
+  },
+  {
+   "test": "test_trimfq_left_trim",
+   "argv": [
+    "trimfq",
+    "-b",
+    "3",
+    "in.fq"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "in.fq": "@read1\nACGTACGTACGT\n+\nIIIIIIIIIIII\n"
+   },
+   "ci": false,
+   "source": "test_trimfq.py:26"
+  },
+  {
+   "test": "test_trimfq_right_trim",
+   "argv": [
+    "trimfq",
+    "-e",
+    "3",
+    "in.fq"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "in.fq": "@read1\nACGTACGTACGT\n+\nIIIIIIIIIIII\n"
+   },
+   "ci": false,
+   "source": "test_trimfq.py:37"
+  },
+  {
+   "test": "test_trimfq_both_trim",
+   "argv": [
+    "trimfq",
+    "-b",
+    "2",
+    "-e",
+    "2",
+    "in.fq"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "in.fq": "@read1\nACGTACGTACGT\n+\nIIIIIIIIIIII\n"
+   },
+   "ci": false,
+   "source": "test_trimfq.py:48"
+  },
+  {
+   "test": "test_trimfq_fixed_length",
+   "argv": [
+    "trimfq",
+    "-L",
+    "5",
+    "in.fq"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "in.fq": "@read1\nACGTACGTACGT\n+\nIIIIIIIIIIII\n"
+   },
+   "ci": false,
+   "source": "test_trimfq.py:59"
+  },
+  {
+   "test": "test_trimfq_preserves_fastq_format",
+   "argv": [
+    "trimfq"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_trimfq.py:70"
+  },
+  {
+   "test": "test_trimfq_stdin",
+   "argv": [
+    "trimfq",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@read1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_trimfq.py:80"
+  },
+  {
+   "test": "test_trimfq_nonexistent_file",
+   "argv": [
+    "trimfq",
+    "/nonexistent/file.fq"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "failed to open"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_trimfq.py:86"
+  },
+  {
+   "test": "test_trimfq_min_length",
+   "argv": [
+    "trimfq",
+    "-l",
+    "30"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_trimfq.py:105"
+  },
+  {
+   "test": "test_mergepe_basic",
+   "argv": [
+    "mergepe",
+    "r1.fq",
+    "r2.fq"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "r1.fq": "@read1/1\nACGT\n+\nIIII\n@read2/1\nTTTT\n+\nIIII\n",
+    "r2.fq": "@read1/2\nGGGG\n+\nIIII\n@read2/2\nCCCC\n+\nIIII\n"
+   },
+   "ci": false,
+   "source": "test_trimfq.py:120"
+  },
+  {
+   "test": "test_mergepe_no_args_shows_usage",
+   "argv": [
+    "mergepe"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage",
+    "mergepe"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_trimfq.py:134"
+  },
+  {
+   "test": "test_dropse_paired_output",
+   "argv": [
+    "dropse",
+    "in.fq"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "read1/1",
+    "read1/2"
+   ],
+   "files": {
+    "in.fq": "@read1/1\nACGT\n+\nIIII\n@read1/2\nACGT\n+\nIIII\n@read2/1\nACGT\n+\nIIII\n"
+   },
+   "ci": false,
+   "source": "test_trimfq.py:145"
+  },
+  {
+   "test": "test_dropse_stdin",
+   "argv": [
+    "dropse",
+    "-"
+   ],
+   "stdin": "@read1/1\nACGT\n+\nIIII\n@read1/2\nACGT\n+\nIIII\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "read1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_trimfq.py:156"
+  }
+ ]
+}

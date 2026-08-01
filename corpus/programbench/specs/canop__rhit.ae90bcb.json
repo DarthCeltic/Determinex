@@ -1,0 +1,4430 @@
+{
+ "slug": "canop__rhit.ae90bcb",
+ "language": "",
+ "n_branches": 14,
+ "n_tests_total": 878,
+ "n_examples": 220,
+ "n_with_exact_stdout": 2,
+ "n_with_rc": 208,
+ "n_skipped": 633,
+ "examples": [
+  {
+   "test": "test_missing_value_error_clarity",
+   "argv": [
+    "-k"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "value"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argument_parsing.py:519"
+  },
+  {
+   "test": "test_invalid_value_shows_valid_options",
+   "argv": [
+    "--color",
+    "invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argument_parsing.py:528"
+  },
+  {
+   "test": "test_changes_flag_with_sample_log",
+   "argv": [
+    "--silent-load",
+    "--changes",
+    "test.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /page1 HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n192.168.1.1 - - [22/Jan/2021:11:00:00 +0000] \"GET /page1 HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n192.168.1.1 - - [23/Jan/2021:10:00:00 +0000] \"GET /page2 HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n192.168.1.2 - - [23/Jan/2021:11:00:00 +0000] \"GET /page3 HTTP/1.1\" 200 100 \"http://example.com\" \"Mozilla\"\n192.168.1.3 - - [24/Jan/2021:10:00:00 +0000] \"GET /page4 HTTP/1.1\" 200 100 \"http://test.com\" \"Mozilla\"\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:14"
+  },
+  {
+   "test": "test_no_name_check_flag",
+   "argv": [
+    "--silent-load",
+    "--no-name-check",
+    "unusual_name.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "unusual_name.txt": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /test HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:32"
+  },
+  {
+   "test": "test_method_filter_none",
+   "argv": [
+    "--silent-load",
+    "--method",
+    "none",
+    "test.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /page1 HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n192.168.1.2 - - [22/Jan/2021:11:00:00 +0000] \"POST /page2 HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n192.168.1.3 - - [22/Jan/2021:12:00:00 +0000] \"- /page3 HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:44"
+  },
+  {
+   "test": "test_method_filter_other",
+   "argv": [
+    "--silent-load",
+    "--method",
+    "other",
+    "test.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /page1 HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n192.168.1.2 - - [22/Jan/2021:11:00:00 +0000] \"POST /page2 HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n192.168.1.3 - - [22/Jan/2021:12:00:00 +0000] \"OPTIONS /page3 HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:57"
+  },
+  {
+   "test": "test_path_filter_with_pipe_or",
+   "argv": [
+    "--silent-load",
+    "--path",
+    "blog|miaou",
+    "-o",
+    "raw",
+    "test.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /blog/post1 HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n192.168.1.2 - - [22/Jan/2021:11:00:00 +0000] \"GET /miaou/chat HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n192.168.1.3 - - [22/Jan/2021:12:00:00 +0000] \"GET /other/page HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:69"
+  },
+  {
+   "test": "test_unicode_in_paths",
+   "argv": [
+    "--silent-load"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:99"
+  },
+  {
+   "test": "test_key_bytes_shows_byte_statistics",
+   "argv": [
+    "--silent-load",
+    "--key",
+    "bytes",
+    "test.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bytes"
+   ],
+   "files": {
+    "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /small HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n192.168.1.2 - - [22/Jan/2021:11:00:00 +0000] \"GET /large HTTP/1.1\" 200 50000 \"-\" \"Mozilla\"\n"
+   },
+   "ci": true,
+   "source": "test_additional_coverage.py:121"
+  },
+  {
+   "test": "test_mixed_valid_invalid_lines",
+   "argv": [
+    "--silent-load",
+    "test.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /valid1 HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\nThis is not a valid log line\n192.168.1.2 - - [22/Jan/2021:11:00:00 +0000] \"GET /valid2 HTTP/1.1\" 200 200 \"-\" \"Mozilla\"\nAnother invalid line here\n192.168.1.3 - - [22/Jan/2021:12:00:00 +0000] \"GET /valid3 HTTP/1.1\" 200 300 \"-\" \"Mozilla\"\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:136"
+  },
+  {
+   "test": "test_date_range_multiple_months",
+   "argv": [
+    "--silent-load",
+    "--date",
+    "2021/01/25-2021/02/10",
+    "-o",
+    "raw",
+    "test.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.log": "192.168.1.1 - - [28/Jan/2021:10:00:00 +0000] \"GET /jan HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n192.168.1.2 - - [05/Feb/2021:11:00:00 +0000] \"GET /feb HTTP/1.1\" 200 200 \"-\" \"Mozilla\"\n192.168.1.3 - - [15/Mar/2021:12:00:00 +0000] \"GET /mar HTTP/1.1\" 200 300 \"-\" \"Mozilla\"\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:151"
+  },
+  {
+   "test": "test_output_json_with_filters",
+   "argv": [
+    "--silent-load",
+    "-o",
+    "json",
+    "-s",
+    "200",
+    "test.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /page1 HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n192.168.1.2 - - [22/Jan/2021:11:00:00 +0000] \"GET /page2 HTTP/1.1\" 404 200 \"-\" \"Mozilla\"\n192.168.1.3 - - [22/Jan/2021:12:00:00 +0000] \"GET /page3 HTTP/1.1\" 200 300 \"-\" \"Mozilla\"\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:185"
+  },
+  {
+   "test": "test_csv_output_with_filters",
+   "argv": [
+    "--silent-load",
+    "-o",
+    "csv",
+    "-m",
+    "GET",
+    "test.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GET"
+   ],
+   "files": {
+    "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /page1 HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n192.168.1.2 - - [22/Jan/2021:11:00:00 +0000] \"POST /page2 HTTP/1.1\" 201 200 \"-\" \"Mozilla\"\n192.168.1.3 - - [22/Jan/2021:12:00:00 +0000] \"GET /page3 HTTP/1.1\" 200 300 \"-\" \"Mozilla\"\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:205"
+  },
+  {
+   "test": "test_length_boundary_values",
+   "argv": [
+    "--silent-load",
+    "--length",
+    "0",
+    "test.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /page1 HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n192.168.1.2 - - [22/Jan/2021:11:00:00 +0000] \"GET /page2 HTTP/1.1\" 200 200 \"-\" \"Mozilla\"\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:224"
+  },
+  {
+   "test": "test_complex_path_patterns",
+   "argv": [
+    "--silent-load",
+    "--path",
+    "^/api/v[12]",
+    "-o",
+    "raw",
+    "test.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "/api/"
+   ],
+   "files": {
+    "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /api/v1/users HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n192.168.1.2 - - [22/Jan/2021:11:00:00 +0000] \"GET /api/v2/items HTTP/1.1\" 200 200 \"-\" \"Mozilla\"\n192.168.1.3 - - [22/Jan/2021:12:00:00 +0000] \"GET /page HTTP/1.1\" 200 300 \"-\" \"Mozilla\"\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:242"
+  },
+  {
+   "test": "test_status_filter_complex_exclusion",
+   "argv": [
+    "--silent-load",
+    "--status",
+    "5xx,!502",
+    "-o",
+    "raw",
+    "test.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "503"
+   ],
+   "files": {
+    "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /page1 HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n192.168.1.2 - - [22/Jan/2021:11:00:00 +0000] \"GET /page2 HTTP/1.1\" 502 200 \"-\" \"Mozilla\"\n192.168.1.3 - - [22/Jan/2021:12:00:00 +0000] \"GET /page3 HTTP/1.1\" 503 300 \"-\" \"Mozilla\"\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:258"
+  },
+  {
+   "test": "test_time_filter_boundaries",
+   "argv": [
+    "--silent-load",
+    "--time",
+    ">12:00",
+    "-o",
+    "raw",
+    "test.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.log": "192.168.1.1 - - [22/Jan/2021:00:00:00 +0000] \"GET /midnight HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n192.168.1.2 - - [22/Jan/2021:12:00:00 +0000] \"GET /noon HTTP/1.1\" 200 200 \"-\" \"Mozilla\"\n192.168.1.3 - - [22/Jan/2021:23:59:59 +0000] \"GET /late HTTP/1.1\" 200 300 \"-\" \"Mozilla\"\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:275"
+  },
+  {
+   "test": "test_status_range_custom",
+   "argv": [
+    "--silent-load",
+    "-s",
+    "300-350",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_filters.py:5"
+  },
+  {
+   "test": "test_status_5xx_range",
+   "argv": [
+    "--silent-load",
+    "-s",
+    "5xx",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_filters.py:25"
+  },
+  {
+   "test": "test_method_filter_uppercase",
+   "argv": [
+    "--silent-load",
+    "-m",
+    "GET",
+    "-o",
+    "csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GET"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_filters.py:42"
+  },
+  {
+   "test": "test_method_filter_put",
+   "argv": [
+    "--silent-load",
+    "-m",
+    "PUT",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_filters.py:54"
+  },
+  {
+   "test": "test_path_filter_multiple_patterns",
+   "argv": [
+    "--silent-load",
+    "-p",
+    "api|admin",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_filters.py:69"
+  },
+  {
+   "test": "test_path_filter_anchored_regex",
+   "argv": [
+    "--silent-load",
+    "-p",
+    "^/\\d+$",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "/123",
+    "/456"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_filters.py:87"
+  },
+  {
+   "test": "test_referer_filter_lowercase",
+   "argv": [
+    "--silent-load",
+    "-r",
+    "google",
+    "-o",
+    "csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "google"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_advanced_filters.py:106"
+  },
+  {
+   "test": "test_referer_filter_regex",
+   "argv": [
+    "--silent-load",
+    "-r",
+    "site[12]",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_filters.py:118"
+  },
+  {
+   "test": "test_combined_date_status_filters",
+   "argv": [
+    "--silent-load",
+    "-d",
+    "2021/01/22",
+    "-s",
+    "404",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_filters.py:133"
+  },
+  {
+   "test": "test_combined_time_method_filters",
+   "argv": [
+    "--silent-load",
+    "-t",
+    "<12:00",
+    "-m",
+    "GET",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "morning"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_filters.py:151"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "rhit"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic.py:5"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "rhit",
+    "output",
+    "date",
+    "status"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic.py:13"
+  },
+  {
+   "test": "test_help_mentions_filters",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "path",
+    "refer",
+    "method",
+    "time"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic.py:26"
+  },
+  {
+   "test": "test_help_mentions_output_formats",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "csv",
+    "json",
+    "raw",
+    "tables"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:35"
+  },
+  {
+   "test": "test_date_range_filter",
+   "argv": [
+    "--silent-load",
+    "-d",
+    "2021/01/21-2021/01/24",
+    "-o",
+    "csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2021/01/22"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_date_time_filters.py:5"
+  },
+  {
+   "test": "test_date_year_filter",
+   "argv": [
+    "--silent-load",
+    "-d",
+    "2021",
+    "-o",
+    "csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2021/01/22"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_date_time_filters.py:21"
+  },
+  {
+   "test": "test_date_month_filter",
+   "argv": [
+    "--silent-load",
+    "-d",
+    "2021/01",
+    "-o",
+    "csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2021/01/15"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_date_time_filters.py:34"
+  },
+  {
+   "test": "test_date_with_spaces",
+   "argv": [
+    "--silent-load",
+    "-d",
+    "> 2021/01/21",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_date_time_filters.py:47"
+  },
+  {
+   "test": "test_time_less_than",
+   "argv": [
+    "--silent-load",
+    "-t",
+    "<12:00",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "morning"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_date_time_filters.py:63"
+  },
+  {
+   "test": "test_time_range",
+   "argv": [
+    "--silent-load",
+    "-t",
+    "09:00-13:00",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "mid"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_date_time_filters.py:78"
+  },
+  {
+   "test": "test_date_not_equal",
+   "argv": [
+    "--silent-load",
+    "-d",
+    "!2021/01/22",
+    "-o",
+    "csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_date_time_filters.py:94"
+  },
+  {
+   "test": "test_date_iso_format",
+   "argv": [
+    "--silent-load",
+    "-o",
+    "csv",
+    "test.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "date"
+   ],
+   "files": {
+    "test.log": "2021-01-22T10:00:00.000Z 192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /test HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n"
+   },
+   "ci": true,
+   "source": "test_date_time_filters.py:108"
+  },
+  {
+   "test": "test_date_with_slash_format",
+   "argv": [
+    "--silent-load",
+    "-d",
+    "01/22",
+    "-o",
+    "csv",
+    "test.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "date"
+   ],
+   "files": {
+    "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /test HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n"
+   },
+   "ci": true,
+   "source": "test_date_time_filters.py:118"
+  },
+  {
+   "test": "test_fields_default",
+   "argv": [
+    "--silent-load",
+    "-o",
+    "csv",
+    "test-data/access.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "date",
+    "status",
+    "path"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_display_options.py:5"
+  },
+  {
+   "test": "test_fields_custom_selection",
+   "argv": [
+    "--silent-load",
+    "-f",
+    "date,time,method,status",
+    "-o",
+    "csv",
+    "test-data/access.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "date",
+    "time",
+    "method",
+    "status"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_display_options.py:17"
+  },
+  {
+   "test": "test_fields_add_ip",
+   "argv": [
+    "--silent-load",
+    "-f",
+    "+ip",
+    "-o",
+    "csv",
+    "test-data/access.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_display_options.py:29"
+  },
+  {
+   "test": "test_fields_all",
+   "argv": [
+    "--silent-load",
+    "-f",
+    "a",
+    "-o",
+    "csv",
+    "test-data/access.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "date",
+    "time",
+    "method",
+    "status",
+    "path"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_display_options.py:39"
+  },
+  {
+   "test": "test_length_option_0",
+   "argv": [
+    "--silent-load",
+    "-l",
+    "0",
+    "test-data/access.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_options.py:53"
+  },
+  {
+   "test": "test_length_option_6",
+   "argv": [
+    "--silent-load",
+    "-l",
+    "6",
+    "test-data/access.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_display_options.py:62"
+  },
+  {
+   "test": "test_key_hits",
+   "argv": [
+    "--silent-load",
+    "-k",
+    "hits",
+    "test-data/access.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_display_options.py:71"
+  },
+  {
+   "test": "test_key_bytes",
+   "argv": [
+    "--silent-load",
+    "-k",
+    "bytes",
+    "test-data/access.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bytes"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_display_options.py:79"
+  },
+  {
+   "test": "test_changes_flag",
+   "argv": [
+    "--silent-load",
+    "-c",
+    "test-data/access.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits",
+    "status"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_display_options.py:88"
+  },
+  {
+   "test": "test_changes_short_form",
+   "argv": [
+    "--silent-load",
+    "-c",
+    "test-data/access.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_display_options.py:98"
+  },
+  {
+   "test": "test_all_paths_flag",
+   "argv": [
+    "--silent-load",
+    "-a",
+    "test-data/access.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "path"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_display_options.py:104"
+  },
+  {
+   "test": "test_color_auto",
+   "argv": [
+    "--silent-load",
+    "--color",
+    "auto",
+    "test-data/access.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_display_options.py:114"
+  },
+  {
+   "test": "test_color_yes",
+   "argv": [
+    "--silent-load",
+    "--color",
+    "yes",
+    "test-data/access.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_options.py:120"
+  },
+  {
+   "test": "test_color_no",
+   "argv": [
+    "--silent-load",
+    "--color",
+    "no",
+    "test-data/access.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_display_options.py:128"
+  },
+  {
+   "test": "test_silent_load_flag",
+   "argv": [
+    "--silent-load",
+    "test-data/access.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_display_options.py:136"
+  },
+  {
+   "test": "test_fields_short_form",
+   "argv": [
+    "--silent-load",
+    "-f",
+    "date,status",
+    "-o",
+    "csv",
+    "test-data/access.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "date"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_display_options.py:145"
+  },
+  {
+   "test": "test_empty_filter_result",
+   "argv": [
+    "--silent-load",
+    "-s",
+    "500",
+    "-o",
+    "csv",
+    "test.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "date"
+   ],
+   "files": {
+    "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /page HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n"
+   },
+   "ci": true,
+   "source": "test_edge_cases.py:5"
+  },
+  {
+   "test": "test_very_large_status_code",
+   "argv": [
+    "--silent-load",
+    "-o",
+    "csv",
+    "test.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /page HTTP/1.1\" 999 100 \"-\" \"Mozilla\"\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:24"
+  },
+  {
+   "test": "test_zero_byte_response",
+   "argv": [
+    "--silent-load",
+    "-o",
+    "csv",
+    "test.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "204"
+   ],
+   "files": {
+    "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /page HTTP/1.1\" 204 0 \"-\" \"Mozilla\"\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:34"
+  },
+  {
+   "test": "test_very_long_path",
+   "argv": [
+    "--silent-load",
+    "-o",
+    "csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "date"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_edge_cases.py:43"
+  },
+  {
+   "test": "test_duplicate_logs",
+   "argv": [
+    "--silent-load"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "10 hit"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_edge_cases.py:80"
+  },
+  {
+   "test": "test_conflicting_filters",
+   "argv": [
+    "--silent-load",
+    "-d",
+    ">2021/01/25",
+    "-o",
+    "csv",
+    "test.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /page HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:117"
+  },
+  {
+   "test": "test_date_filter_exact",
+   "argv": [
+    "--silent-load",
+    "-d",
+    "2021/01/22",
+    "-o",
+    "csv",
+    "test-data/access.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2021/01/22"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_filters.py:5"
+  },
+  {
+   "test": "test_date_filter_greater_than",
+   "argv": [
+    "--silent-load",
+    "-d",
+    ">2021/01/21",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_filters.py:15"
+  },
+  {
+   "test": "test_date_filter_less_than",
+   "argv": [
+    "--silent-load",
+    "-d",
+    "<2021/01/23",
+    "-o",
+    "csv",
+    "test-data/access.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2021/01/22"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_filters.py:37"
+  },
+  {
+   "test": "test_status_filter_single",
+   "argv": [
+    "--silent-load",
+    "-s",
+    "200",
+    "-o",
+    "csv",
+    "test-data/access.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "200"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_filters.py:47"
+  },
+  {
+   "test": "test_status_filter_range_4xx",
+   "argv": [
+    "--silent-load",
+    "-s",
+    "4xx",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_filters.py:59"
+  },
+  {
+   "test": "test_status_filter_multiple",
+   "argv": [
+    "--silent-load",
+    "-s",
+    "200,404",
+    "-o",
+    "csv",
+    "test-data/access.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_filters.py:80"
+  },
+  {
+   "test": "test_status_filter_negative",
+   "argv": [
+    "--silent-load",
+    "-s",
+    "5xx,!502",
+    "-o",
+    "json",
+    "test-data/access.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_filters.py:88"
+  },
+  {
+   "test": "test_method_filter_get",
+   "argv": [
+    "--silent-load",
+    "-m",
+    "GET",
+    "-o",
+    "csv",
+    "test-data/access.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GET"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_filters.py:96"
+  },
+  {
+   "test": "test_method_filter_post",
+   "argv": [
+    "--silent-load",
+    "-m",
+    "POST",
+    "-o",
+    "csv",
+    "test-data/access.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "POST"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_filters.py:106"
+  },
+  {
+   "test": "test_method_filter_negative",
+   "argv": [
+    "--silent-load",
+    "-m",
+    "!DELETE",
+    "-o",
+    "csv",
+    "test-data/access.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_filters.py:116"
+  },
+  {
+   "test": "test_path_filter_string",
+   "argv": [
+    "--silent-load",
+    "-p",
+    "log",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "log"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_filters.py:124"
+  },
+  {
+   "test": "test_path_filter_regex",
+   "argv": [
+    "--silent-load",
+    "-p",
+    "^/[a-z]+$",
+    "-o",
+    "csv",
+    "test-data/access.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_filters.py:144"
+  },
+  {
+   "test": "test_referer_filter",
+   "argv": [
+    "--silent-load",
+    "-r",
+    "dystroy",
+    "-o",
+    "csv",
+    "test-data/access.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dystroy"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_filters.py:152"
+  },
+  {
+   "test": "test_time_filter_greater_than",
+   "argv": [
+    "--silent-load",
+    "-t",
+    ">19:00",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_filters.py:160"
+  },
+  {
+   "test": "test_combined_filters",
+   "argv": [
+    "--silent-load",
+    "-d",
+    "2021/01/22",
+    "-s",
+    "200",
+    "-m",
+    "GET",
+    "-o",
+    "csv",
+    "test-data/access.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2021/01/22",
+    "200",
+    "GET"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_filters.py:182"
+  },
+  {
+   "test": "test_single_log_file",
+   "argv": [
+    "--silent-load",
+    "-o",
+    "csv",
+    "test-data/access.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "date"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_input_handling.py:7"
+  },
+  {
+   "test": "test_multiple_log_files",
+   "argv": [
+    "--silent-load",
+    "-o",
+    "csv",
+    "log1.log",
+    "log2.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "log1.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /page1 HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n",
+    "log2.log": "192.168.1.2 - - [23/Jan/2021:11:00:00 +0000] \"GET /page2 HTTP/1.1\" 200 200 \"-\" \"Mozilla\"\n"
+   },
+   "ci": false,
+   "source": "test_input_handling.py:17"
+  },
+  {
+   "test": "test_gzipped_log_file",
+   "argv": [
+    "--silent-load",
+    "-o",
+    "csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_handling.py:45"
+  },
+  {
+   "test": "test_malformed_log_lines",
+   "argv": [
+    "--silent-load",
+    "-o",
+    "csv",
+    "mixed.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "mixed.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /valid HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\nThis is not a valid log line\nAnother invalid line without proper format\n192.168.1.2 - - [22/Jan/2021:10:00:01 +0000] \"GET /valid2 HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n"
+   },
+   "ci": false,
+   "source": "test_input_handling.py:69"
+  },
+  {
+   "test": "test_log_with_ipv6_addresses",
+   "argv": [
+    "--silent-load",
+    "-o",
+    "csv",
+    "ipv6.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "ipv6.log": "fe80::1 - - [22/Jan/2021:10:00:00 +0000] \"GET /ipv6 HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n"
+   },
+   "ci": false,
+   "source": "test_input_handling.py:84"
+  },
+  {
+   "test": "test_no_name_check_flag",
+   "argv": [
+    "--silent-load",
+    "--no-name-check",
+    "-o",
+    "csv",
+    "weird_name.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "date"
+   ],
+   "files": {
+    "weird_name.txt": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /test HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n"
+   },
+   "ci": true,
+   "source": "test_input_handling.py:93"
+  },
+  {
+   "test": "test_single_file_name_not_checked",
+   "argv": [
+    "--silent-load",
+    "-o",
+    "csv",
+    "not_a_log.xyz"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "date"
+   ],
+   "files": {
+    "not_a_log.xyz": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /test HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n"
+   },
+   "ci": true,
+   "source": "test_input_handling.py:129"
+  },
+  {
+   "test": "test_output_tables_default",
+   "argv": [
+    "--silent-load",
+    "test-data/access.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits",
+    "bytes",
+    "from",
+    "to"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:5"
+  },
+  {
+   "test": "test_output_csv",
+   "argv": [
+    "--silent-load",
+    "--output",
+    "csv",
+    "test-data/access.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "date",
+    ",",
+    ","
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_output_formats.py:17"
+  },
+  {
+   "test": "test_output_csv_has_expected_columns",
+   "argv": [
+    "--silent-load",
+    "--output",
+    "csv",
+    "test-data/access.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "date",
+    "time",
+    "method",
+    "path",
+    "status"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:33"
+  },
+  {
+   "test": "test_output_json_small_file",
+   "argv": [
+    "--silent-load",
+    "--output",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "date",
+    "method",
+    "path",
+    "status"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:46"
+  },
+  {
+   "test": "test_output_json_field_types",
+   "argv": [
+    "--silent-load",
+    "--output",
+    "json",
+    "test.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /test HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n"
+   },
+   "ci": false,
+   "source": "test_output_formats.py:72"
+  },
+  {
+   "test": "test_output_raw",
+   "argv": [
+    "--silent-load",
+    "--output",
+    "raw",
+    "test-data/access.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    " - - [",
+    "HTTP/",
+    "\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:89"
+  },
+  {
+   "test": "test_output_raw_preserves_format",
+   "argv": [
+    "--silent-load",
+    "--output",
+    "raw",
+    "test-data/access.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    " - - [",
+    "] \"",
+    "HTTP/"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:102"
+  },
+  {
+   "test": "test_output_short_form_json",
+   "argv": [
+    "--silent-load",
+    "-o",
+    "json",
+    "test.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /test HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n"
+   },
+   "ci": false,
+   "source": "test_output_formats.py:125"
+  },
+  {
+   "test": "test_output_short_form_raw",
+   "argv": [
+    "--silent-load",
+    "-o",
+    "r",
+    "test-data/access.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "HTTP/"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:138"
+  },
+  {
+   "test": "test_output_tables_shows_status_codes",
+   "argv": [
+    "--silent-load",
+    "test-data/access.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "status",
+    "%"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_output_formats.py:145"
+  },
+  {
+   "test": "test_output_tables_shows_referers",
+   "argv": [
+    "--silent-load",
+    "test-data/access.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "refer"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_output_formats.py:155"
+  },
+  {
+   "test": "test_output_tables_shows_paths",
+   "argv": [
+    "--silent-load",
+    "test-data/access.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "path",
+    "/"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_output_formats.py:164"
+  },
+  {
+   "test": "test_unknown_flag_tip_mentions_double_dash_separator",
+   "argv": [
+    "--nonexistent-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tip:",
+    "use '-- --nonexistent-flag'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:59"
+  },
+  {
+   "test": "test_invalid_enum_value_for_color_exit_2_mentions_choices",
+   "argv": [
+    "--color",
+    "maybe"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid value 'maybe'",
+    "possible values"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:82"
+  },
+  {
+   "test": "test_invalid_key_value_exit_2_mentions_unrecognized_key",
+   "argv": [
+    "--key",
+    "invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid value 'invalid'",
+    "unrecognized key"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:92"
+  },
+  {
+   "test": "test_double_dash_makes_unknown_flag_be_treated_as_positional_path",
+   "argv": [
+    "--silent-load",
+    "--",
+    "--nonexistent-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "PathNotFound",
+    "--nonexistent-flag"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:136"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "nginx",
+    "--help",
+    "vers",
+    "outp"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_rhit.py:56"
+  },
+  {
+   "test": "test_single_log_file",
+   "argv": [
+    "--silent-load"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits",
+    "2021/01/22"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:73"
+  },
+  {
+   "test": "test_directory_as_argument",
+   "argv": [
+    "--silent-load"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:90"
+  },
+  {
+   "test": "test_default_output_tables",
+   "argv": [
+    "--silent-load"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits",
+    "status"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_rhit.py:119"
+  },
+  {
+   "test": "test_output_tables_explicit",
+   "argv": [
+    "--silent-load",
+    "--output",
+    "tables"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits",
+    "status"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_rhit.py:128"
+  },
+  {
+   "test": "test_output_csv",
+   "argv": [
+    "--silent-load",
+    "--output",
+    "csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "date",
+    "status",
+    "2021/01/22",
+    ","
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:135"
+  },
+  {
+   "test": "test_output_json",
+   "argv": [
+    "--silent-load",
+    "--output",
+    "json",
+    "-s",
+    "404",
+    "-l",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"date\"",
+    "\"status\"",
+    "\"path\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:148"
+  },
+  {
+   "test": "test_output_raw",
+   "argv": [
+    "--silent-load",
+    "--output",
+    "raw"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[22/Jan/2021:",
+    "HTTP/1."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:161"
+  },
+  {
+   "test": "test_output_short_forms",
+   "argv": [
+    "--silent-load",
+    "-o",
+    "t"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits",
+    "date",
+    ",",
+    "HTTP/1."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:170"
+  },
+  {
+   "test": "test_color_auto",
+   "argv": [
+    "--silent-load",
+    "--color",
+    "auto"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:197"
+  },
+  {
+   "test": "test_color_yes",
+   "argv": [
+    "--silent-load",
+    "--color",
+    "yes"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:203"
+  },
+  {
+   "test": "test_color_no",
+   "argv": [
+    "--silent-load",
+    "--color",
+    "no"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:210"
+  },
+  {
+   "test": "test_key_bytes",
+   "argv": [
+    "--silent-load",
+    "--key",
+    "bytes"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bytes"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:228"
+  },
+  {
+   "test": "test_key_short_form",
+   "argv": [
+    "--silent-load",
+    "-k",
+    "hits"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits",
+    "bytes"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:235"
+  },
+  {
+   "test": "test_length_0_minimal",
+   "argv": [
+    "--silent-load",
+    "--length",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:249"
+  },
+  {
+   "test": "test_length_1_default",
+   "argv": [
+    "--silent-load",
+    "--length",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:258"
+  },
+  {
+   "test": "test_length_3",
+   "argv": [
+    "--silent-load",
+    "--length",
+    "3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:264"
+  },
+  {
+   "test": "test_length_6_maximum",
+   "argv": [
+    "--silent-load",
+    "--length",
+    "6"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:273"
+  },
+  {
+   "test": "test_length_short_form",
+   "argv": [
+    "--silent-load",
+    "-l",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:282"
+  },
+  {
+   "test": "test_fields_default",
+   "argv": [
+    "--silent-load",
+    "-o",
+    "csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "date",
+    "status",
+    "path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:292"
+  },
+  {
+   "test": "test_fields_all",
+   "argv": [
+    "--silent-load",
+    "-f",
+    "a",
+    "-o",
+    "csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "date",
+    "time",
+    "method",
+    "status"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:302"
+  },
+  {
+   "test": "test_fields_individual",
+   "argv": [
+    "--silent-load",
+    "-f",
+    "date",
+    "-o",
+    "csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "date",
+    "status"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:312"
+  },
+  {
+   "test": "test_fields_multiple",
+   "argv": [
+    "--silent-load",
+    "-f",
+    "date,method,status",
+    "-o",
+    "csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "date",
+    "method",
+    "status"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:324"
+  },
+  {
+   "test": "test_fields_add_to_default",
+   "argv": [
+    "--silent-load",
+    "-f",
+    "+ip",
+    "-o",
+    "csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "date",
+    "status"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:333"
+  },
+  {
+   "test": "test_fields_remove_from_all",
+   "argv": [
+    "--silent-load",
+    "-f",
+    "a,-ip",
+    "-o",
+    "csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "date",
+    "status"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:342"
+  },
+  {
+   "test": "test_changes_flag",
+   "argv": [
+    "--silent-load",
+    "--changes",
+    "-l",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:354"
+  },
+  {
+   "test": "test_changes_short_form",
+   "argv": [
+    "--silent-load",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:363"
+  },
+  {
+   "test": "test_date_exact",
+   "argv": [
+    "--silent-load",
+    "-d",
+    "2021/01/22",
+    "-o",
+    "csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2021/01/22"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:373"
+  },
+  {
+   "test": "test_date_year_only",
+   "argv": [
+    "--silent-load",
+    "-d",
+    "2021",
+    "-o",
+    "csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2021"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:381"
+  },
+  {
+   "test": "test_date_year_month",
+   "argv": [
+    "--silent-load",
+    "-d",
+    "2021/01",
+    "-o",
+    "csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2021/01"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:387"
+  },
+  {
+   "test": "test_date_greater_than",
+   "argv": [
+    "--silent-load",
+    "-d",
+    ">2021/01/15"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:393"
+  },
+  {
+   "test": "test_date_less_than",
+   "argv": [
+    "--silent-load",
+    "-d",
+    "<2021/01/25"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:399"
+  },
+  {
+   "test": "test_date_negative",
+   "argv": [
+    "--silent-load",
+    "-d",
+    "!2021/01/23"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:405"
+  },
+  {
+   "test": "test_time_greater_than",
+   "argv": [
+    "--silent-load",
+    "-t",
+    ">19:30"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:415"
+  },
+  {
+   "test": "test_time_less_than",
+   "argv": [
+    "--silent-load",
+    "-t",
+    "<06:00"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:422"
+  },
+  {
+   "test": "test_time_range",
+   "argv": [
+    "--silent-load",
+    "-t",
+    "09:00-17:00"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:429"
+  },
+  {
+   "test": "test_ip_exact",
+   "argv": [
+    "--silent-load",
+    "-i",
+    "208.225.221.135",
+    "-o",
+    "csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "208.225.221.135"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:439"
+  },
+  {
+   "test": "test_ip_pattern",
+   "argv": [
+    "--silent-load",
+    "-i",
+    "40.205",
+    "-o",
+    "raw"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:447"
+  },
+  {
+   "test": "test_ip_negative",
+   "argv": [
+    "--silent-load",
+    "-i",
+    "!1.2.3.4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:454"
+  },
+  {
+   "test": "test_method_get",
+   "argv": [
+    "--silent-load",
+    "-m",
+    "GET",
+    "-o",
+    "raw"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"GET"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:464"
+  },
+  {
+   "test": "test_method_post",
+   "argv": [
+    "--silent-load",
+    "-m",
+    "POST",
+    "-o",
+    "raw"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"POST"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:471"
+  },
+  {
+   "test": "test_method_negative",
+   "argv": [
+    "--silent-load",
+    "-m",
+    "!DELETE"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:477"
+  },
+  {
+   "test": "test_method_none",
+   "argv": [
+    "--silent-load",
+    "-m",
+    "none"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:483"
+  },
+  {
+   "test": "test_path_simple_string",
+   "argv": [
+    "--silent-load",
+    "-p",
+    "broot",
+    "-o",
+    "raw"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_rhit.py:493"
+  },
+  {
+   "test": "test_path_regex",
+   "argv": [
+    "--silent-load",
+    "-p",
+    "^/login",
+    "-o",
+    "raw"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "/login"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:499"
+  },
+  {
+   "test": "test_path_multiple_patterns",
+   "argv": [
+    "--silent-load",
+    "-p",
+    "login|webhook",
+    "-o",
+    "raw"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:505"
+  },
+  {
+   "test": "test_referer_simple",
+   "argv": [
+    "--silent-load",
+    "-r",
+    "github"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:515"
+  },
+  {
+   "test": "test_referer_regex",
+   "argv": [
+    "--silent-load",
+    "-r",
+    "dystroy|github"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:521"
+  },
+  {
+   "test": "test_status_single",
+   "argv": [
+    "--silent-load",
+    "-s",
+    "404",
+    "-o",
+    "raw"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\" 404 "
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:531"
+  },
+  {
+   "test": "test_status_range_4xx",
+   "argv": [
+    "--silent-load",
+    "-s",
+    "4xx",
+    "-o",
+    "csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ",4"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:537"
+  },
+  {
+   "test": "test_status_range_5xx",
+   "argv": [
+    "--silent-load",
+    "-s",
+    "5xx",
+    "-o",
+    "raw"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:546"
+  },
+  {
+   "test": "test_status_multiple",
+   "argv": [
+    "--silent-load",
+    "-s",
+    "404,500",
+    "-o",
+    "raw"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:554"
+  },
+  {
+   "test": "test_status_numeric_range",
+   "argv": [
+    "--silent-load",
+    "-s",
+    "400-450"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:560"
+  },
+  {
+   "test": "test_status_complex",
+   "argv": [
+    "--silent-load",
+    "-s",
+    "4xx,5xx"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:566"
+  },
+  {
+   "test": "test_status_negative",
+   "argv": [
+    "--silent-load",
+    "-s",
+    "5xx,!502"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:572"
+  },
+  {
+   "test": "test_all_flag",
+   "argv": [
+    "--silent-load",
+    "--all"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:582"
+  },
+  {
+   "test": "test_all_short_form",
+   "argv": [
+    "--silent-load",
+    "-a"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:588"
+  },
+  {
+   "test": "test_no_name_check",
+   "argv": [
+    "--silent-load",
+    "--no-name-check"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:594"
+  },
+  {
+   "test": "test_date_and_status",
+   "argv": [
+    "--silent-load",
+    "-d",
+    "2021/01/22",
+    "-s",
+    "404",
+    "-o",
+    "raw"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "404"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:615"
+  },
+  {
+   "test": "test_method_and_path",
+   "argv": [
+    "--silent-load",
+    "-m",
+    "GET",
+    "-p",
+    "login",
+    "-o",
+    "raw"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"GET",
+    "login"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:621"
+  },
+  {
+   "test": "test_status_and_ip",
+   "argv": [
+    "--silent-load",
+    "-s",
+    "200",
+    "-i",
+    "40.205"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:628"
+  },
+  {
+   "test": "test_multiple_filters_combined",
+   "argv": [
+    "--silent-load",
+    "-d",
+    "2021/01/22",
+    "-s",
+    "200",
+    "-m",
+    "GET",
+    "-o",
+    "csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "200"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:634"
+  },
+  {
+   "test": "test_no_matching_entries",
+   "argv": [
+    "--silent-load",
+    "-d",
+    "1999/01/01"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:685"
+  },
+  {
+   "test": "test_special_characters_in_paths",
+   "argv": [
+    "special.log",
+    "--silent-load",
+    "--no-name-check",
+    "-o",
+    "raw"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "query=value"
+   ],
+   "files": {
+    "special.log": "1.2.3.4 - - [22/Jan/2021:01:47:05 +0000] \"GET /path?query=value&x=1 HTTP/1.1\" 200 100 \"-\" \"Agent\"\n"
+   },
+   "ci": false,
+   "source": "test_rhit.py:692"
+  },
+  {
+   "test": "test_ipv6_addresses",
+   "argv": [
+    "--silent-load",
+    "-f",
+    "+ip",
+    "-o",
+    "csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:701"
+  },
+  {
+   "test": "test_output_format_consistency",
+   "argv": [
+    "--silent-load",
+    "-o",
+    "csv",
+    "-f",
+    "date,status,path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:742"
+  },
+  {
+   "test": "test_json_format_structure",
+   "argv": [
+    "--silent-load",
+    "-o",
+    "json",
+    "-s",
+    "200",
+    "-l",
+    "0",
+    "-p",
+    "^/login$"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"date\"",
+    "\"status\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:756"
+  },
+  {
+   "test": "test_histogram_in_tables",
+   "argv": [
+    "--silent-load",
+    "-l",
+    "3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:766"
+  },
+  {
+   "test": "test_bytes_vs_hits_sorting",
+   "argv": [
+    "--silent-load",
+    "-k",
+    "hits",
+    "-o",
+    "csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:774"
+  },
+  {
+   "test": "test_changes_with_ip_field",
+   "argv": [
+    "--silent-load",
+    "-c",
+    "-f",
+    "+ip"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:784"
+  },
+  {
+   "test": "test_time_histogram",
+   "argv": [
+    "--silent-load",
+    "-l",
+    "4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit.py:790"
+  },
+  {
+   "test": "test_status_code_statistics",
+   "argv": [
+    "--silent-load"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "status",
+    "200",
+    "404"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_rhit.py:799"
+  },
+  {
+   "test": "test_referrer_statistics",
+   "argv": [
+    "--silent-load",
+    "-l",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "refer"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_rhit.py:807"
+  },
+  {
+   "test": "test_path_statistics",
+   "argv": [
+    "--silent-load",
+    "-l",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "path",
+    "/"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_rhit.py:815"
+  },
+  {
+   "test": "test_date_histogram",
+   "argv": [
+    "--silent-load"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2021/01/22",
+    "date"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_rhit.py:822"
+  },
+  {
+   "test": "test_all_flag_increases_paths",
+   "argv": [
+    "--silent-load",
+    "-l",
+    "3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "path",
+    "path"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_rhit.py:841"
+  },
+  {
+   "test": "test_time_histogram_with_long_output",
+   "argv": [
+    "--silent-load",
+    "-l",
+    "5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit_coverage_boost.py:43"
+  },
+  {
+   "test": "test_time_filtering_with_hours",
+   "argv": [
+    "--silent-load",
+    "-t",
+    "01:00-02:00",
+    "-o",
+    "csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2021"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit_coverage_boost.py:53"
+  },
+  {
+   "test": "test_time_filtering_various_ranges",
+   "argv": [
+    "--silent-load",
+    "-t",
+    "00:00-06:00"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit_coverage_boost.py:60"
+  },
+  {
+   "test": "test_changes_with_multiple_dates",
+   "argv": [
+    "trend.log",
+    "--silent-load",
+    "--changes",
+    "-l",
+    "4",
+    "--no-name-check"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits"
+   ],
+   "files": {
+    "trend.log": ""
+   },
+   "ci": false,
+   "source": "test_rhit_coverage_boost.py:81"
+  },
+  {
+   "test": "test_changes_with_different_ips",
+   "argv": [
+    "ip_trend.log",
+    "--silent-load",
+    "--changes",
+    "-f",
+    "+ip",
+    "-l",
+    "3",
+    "--no-name-check"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits",
+    "192.168"
+   ],
+   "files": {
+    "ip_trend.log": ""
+   },
+   "ci": false,
+   "source": "test_rhit_coverage_boost.py:103"
+  },
+  {
+   "test": "test_changes_with_referers",
+   "argv": [
+    "ref_trend.log",
+    "--silent-load",
+    "--changes",
+    "-l",
+    "3",
+    "--no-name-check"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits"
+   ],
+   "files": {
+    "ref_trend.log": ""
+   },
+   "ci": false,
+   "source": "test_rhit_coverage_boost.py:120"
+  },
+  {
+   "test": "test_date_parsing_various_formats",
+   "argv": [
+    "--silent-load",
+    "--no-name-check",
+    "-o",
+    "raw"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit_coverage_boost.py:140"
+  },
+  {
+   "test": "test_date_range_filtering",
+   "argv": [
+    "--silent-load",
+    "-d",
+    "2021/01/15-2021/01/25"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit_coverage_boost.py:152"
+  },
+  {
+   "test": "test_date_with_time_precision",
+   "argv": [
+    "--silent-load",
+    "-d",
+    "2021/01/22"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2021/01/22",
+    "2021/01/22"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit_coverage_boost.py:158"
+  },
+  {
+   "test": "test_date_with_time_precision_disabled",
+   "argv": [
+    "--silent-load",
+    "-d",
+    "2021/01/22"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit_coverage_boost.py:165"
+  },
+  {
+   "test": "test_str_filter_regex_patterns",
+   "argv": [
+    "--silent-load",
+    "-p",
+    "(?i)LOGIN",
+    "-o",
+    "raw"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit_coverage_boost.py:174"
+  },
+  {
+   "test": "test_referer_filter_patterns",
+   "argv": [
+    "--silent-load",
+    "-r",
+    "dystroy",
+    "-o",
+    "raw"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit_coverage_boost.py:191"
+  },
+  {
+   "test": "test_ip_filter_patterns",
+   "argv": [
+    "--silent-load",
+    "-i",
+    "^40.",
+    "-o",
+    "raw"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit_coverage_boost.py:201"
+  },
+  {
+   "test": "test_output_with_grouping",
+   "argv": [
+    "--silent-load",
+    "-l",
+    "6"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit_coverage_boost.py:213"
+  },
+  {
+   "test": "test_histogram_rendering",
+   "argv": [
+    "--silent-load",
+    "-l",
+    "4",
+    "--key",
+    "bytes"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit_coverage_boost.py:224"
+  },
+  {
+   "test": "test_method_special_values",
+   "argv": [
+    "--silent-load",
+    "-m",
+    "other"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit_coverage_boost.py:235"
+  },
+  {
+   "test": "test_method_display_in_tables",
+   "argv": [
+    "--silent-load",
+    "-f",
+    "method",
+    "-o",
+    "csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "method"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_rhit_coverage_boost.py:257"
+  },
+  {
+   "test": "test_date_histogram_with_range",
+   "argv": [
+    "multiday.log",
+    "--silent-load",
+    "-l",
+    "3",
+    "--no-name-check"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2021/01"
+   ],
+   "files": {
+    "multiday.log": ""
+   },
+   "ci": false,
+   "source": "test_rhit_coverage_boost.py:268"
+  },
+  {
+   "test": "test_printer_with_all_fields",
+   "argv": [
+    "--silent-load",
+    "-f",
+    "all",
+    "-l",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit_coverage_boost.py:287"
+  },
+  {
+   "test": "test_printer_with_minimal_fields",
+   "argv": [
+    "--silent-load",
+    "-f",
+    "date"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2021"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit_coverage_boost.py:294"
+  },
+  {
+   "test": "test_printer_color_variations",
+   "argv": [
+    "--silent-load",
+    "--color",
+    "yes",
+    "-l",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit_coverage_boost.py:300"
+  },
+  {
+   "test": "test_filter_with_no_matches",
+   "argv": [
+    "--silent-load",
+    "-d",
+    "1990/01/01"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit_coverage_boost.py:315"
+  },
+  {
+   "test": "test_complex_filter_combinations",
+   "argv": [
+    "--silent-load",
+    "-d",
+    "2021/01/22",
+    "-t",
+    "01:00-12:00",
+    "-s",
+    "2xx,3xx",
+    "-m",
+    "GET",
+    "-p",
+    "login|auth",
+    "-l",
+    "3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit_coverage_boost.py:322"
+  },
+  {
+   "test": "test_status_filter_edge_cases",
+   "argv": [
+    "--silent-load",
+    "-s",
+    "200"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit_coverage_boost.py:334"
+  },
+  {
+   "test": "test_all_length_levels",
+   "argv": [
+    "--silent-load",
+    "-l"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit_coverage_boost.py:348"
+  },
+  {
+   "test": "test_key_bytes_with_filters",
+   "argv": [
+    "--silent-load",
+    "-k",
+    "bytes",
+    "-s",
+    "200",
+    "-l",
+    "3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bytes"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit_coverage_boost.py:355"
+  },
+  {
+   "test": "test_fields_time_column",
+   "argv": [
+    "--silent-load",
+    "-f",
+    "date,time",
+    "-o",
+    "csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "time"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit_coverage_boost.py:361"
+  },
+  {
+   "test": "test_mixed_ipv4_ipv6",
+   "argv": [
+    "--silent-load",
+    "-f",
+    "+ip",
+    "--no-name-check",
+    "-o",
+    "csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "192.168"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit_coverage_boost.py:368"
+  },
+  {
+   "test": "test_referer_with_special_chars",
+   "argv": [
+    "--silent-load",
+    "--no-name-check"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hits"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit_coverage_boost.py:381"
+  },
+  {
+   "test": "test_large_byte_values",
+   "argv": [
+    "--silent-load",
+    "--no-name-check",
+    "-k",
+    "bytes"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rhit_coverage_boost.py:403"
+  },
+  {
+   "test": "test_help_does_not_mention_subcommands",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:40"
+  },
+  {
+   "test": "test_version_flag_works",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:53"
+  },
+  {
+   "test": "test_help_contains_usage_and_options",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_version.py:5"
+  },
+  {
+   "test": "test_nonexistent_path_errors_to_stderr_and_nonzero",
+   "argv": [
+    "--silent-load",
+    "-o",
+    "raw"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "PathNotFound"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_io_files_and_errors.py:5"
+  },
+  {
+   "test": "test_no_args_uses_default_nginx_location_and_errors_when_missing",
+   "argv": [
+    "--silent-load",
+    "-o",
+    "raw"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "No nginx log found",
+    "PathNotFound"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_io_files_and_errors.py:14"
+  },
+  {
+   "test": "test_output_csv_has_header_and_first_row_quotes_path",
+   "argv": [
+    "--silent-load",
+    "-o",
+    "csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ",GET,\"/login\",200,654,\"-\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:7"
+  },
+  {
+   "test": "test_output_raw_includes_original_line_fragment",
+   "argv": [
+    "--silent-load",
+    "-o",
+    "raw"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"GET /login HTTP/1.1\" 200 654"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:17"
+  },
+  {
+   "test": "test_output_json_starts_like_json_array_and_contains_expected_keys_strings",
+   "argv": [
+    "--silent-load",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"date\":",
+    "\"time\":",
+    "\"status\":",
+    "\"path\":"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:24"
+  },
+  {
+   "test": "test_help_plain_output_matches_baseline_exactly",
+   "argv": [
+    "--help",
+    "--color",
+    "no"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_baseline.py:6"
+  },
+  {
+   "test": "test_help_contains_usage_line",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_behavior.py:19"
+  },
+  {
+   "test": "test_help_mentions_project_and_docs_url",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Rhit analyzes your nginx logs.",
+    "https://dystroy.org/rhit"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_behavior.py:26"
+  },
+  {
+   "test": "test_help_is_colorized_by_default",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_behavior.py:49"
+  },
+  {
+   "test": "test_help_precedence_over_other_options",
+   "argv": [
+    "--help",
+    "--output",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_behavior.py:64"
+  },
+  {
+   "test": "test_short_h_is_invalid_and_errors_with_usage_on_stderr",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument '-h'",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_behavior.py:82"
+  }
+ ]
+}

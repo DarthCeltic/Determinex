@@ -1,0 +1,4512 @@
+[
+ {
+  "name": "test::test_null_input_basic_math_stdout_newline_and_exit_0::0",
+  "argv": [
+   "-n",
+   "1+2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_json_pretty_default_formatting::1",
+  "argv": [
+   ".a"
+  ],
+  "stdin": "{\"a\":1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compact_output_multiple_inputs_preserves_order::2",
+  "argv": [
+   "-c",
+   "."
+  ],
+  "stdin": "{\"a\":1}\n{\"a\":2}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_keys_output::3",
+  "argv": [
+   "-S",
+   "."
+  ],
+  "stdin": "{\"b\":1,\"a\":2}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_input_relative_path::4",
+  "argv": [
+   ".a",
+   "in.json"
+  ],
+  "stdin": null,
+  "files": {
+   "in.json": "{\"a\":1}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_not_found_is_exit_2_and_goes_to_stderr_only::5",
+  "argv": [
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_output0_emits_nul_terminator_no_newline::6",
+  "argv": [
+   "-n",
+   "--raw-output0",
+   "\"hi\""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exit_status_flag_e_empty_is_exit_4::7",
+  "argv": [
+   "-e",
+   "-n",
+   "empty"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_args_positional_collects_strings::8",
+  "argv": [
+   "-n",
+   "--args",
+   "$ARGS.positional",
+   "a",
+   "b"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arg_sets_string_variable_with_n::9",
+  "argv": [
+   "-n",
+   "--arg",
+   "x",
+   "hello",
+   "$x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_argjson_sets_json_variable_with_n::10",
+  "argv": [
+   "-n",
+   "--argjson",
+   "x",
+   "[1,2]",
+   "$x|length"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_jsonargs_passes_positional_json_with_n::11",
+  "argv": [
+   "-n",
+   "--jsonargs",
+   "$ARGS.positional",
+   "1",
+   "{\"a\":2}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rawfile_reads_entire_file_as_string_with_n::12",
+  "argv": [
+   "-n",
+   "--rawfile",
+   "x",
+   "t.txt",
+   "$x"
+  ],
+  "stdin": null,
+  "files": {
+   "t.txt": "line1\nline2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slurpfile_reads_json_values_array_with_n::13",
+  "argv": [
+   "-n",
+   "--slurpfile",
+   "x",
+   "vals.json",
+   "$x"
+  ],
+  "stdin": null,
+  "files": {
+   "vals.json": "1\n2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_exact::14",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_exact::15",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_option_errors::16",
+  "argv": [
+   "--definitely-not-a-real-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_stdin_no_n_produces_no_output::17",
+  "argv": [
+   "."
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_json_values_on_stdin_processed_separately::18",
+  "argv": [
+   "."
+  ],
+  "stdin": "1\n2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slurp_collects_all_inputs::19",
+  "argv": [
+   "-s",
+   "."
+  ],
+  "stdin": "1\n2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_output_r_strips_json_quotes_and_unescapes::20",
+  "argv": [
+   "-r",
+   "."
+  ],
+  "stdin": "\"a\\nb\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_join_output_j_no_newline_between_results::21",
+  "argv": [
+   "-j",
+   ".[]"
+  ],
+  "stdin": "[\"a\",\"b\"]\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compact_output_c::22",
+  "argv": [
+   "-c",
+   "."
+  ],
+  "stdin": "{\"a\": 1, \"b\": [true, false]}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pretty_default_output_has_spaces_and_newlines::23",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"a\":1,\"b\":[true,false]}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_json_errors_nonzero::24",
+  "argv": [
+   "."
+  ],
+  "stdin": "{not json}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_roundtrip::25",
+  "argv": [
+   ".s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read_from_file_argument::26",
+  "argv": [
+   ".[]",
+   "in.json"
+  ],
+  "stdin": null,
+  "files": {
+   "in.json": "[1,2,3]\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_from_file_f_option::27",
+  "argv": [
+   "-f",
+   "prog.jq"
+  ],
+  "stdin": "{ \"a\": 2 }\n",
+  "files": {
+   "prog.jq": ".a + 1\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stream_basic_shape_pretty::28",
+  "argv": [
+   "--stream",
+   "."
+  ],
+  "stdin": "{\"a\":[1,2]}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_precedence_with_other_flags_shows_help_and_exits_zero::29",
+  "argv": [
+   "--help",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_after_double_dash_is_not_treated_as_help::30",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_object_construction_and_abs::31",
+  "argv": [
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_escape_normalization_literal_program::32",
+  "argv": [
+   "-a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_filters_pipe::33",
+  "argv": [
+   ". | keys | sort | reverse | .[0]"
+  ],
+  "stdin": "{\"z\":1,\"a\":2,\"m\":3}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_conditional::34",
+  "argv": [
+   "if . < 0 then \"negative\" elif . == 0 then \"zero\" else \"positive\" end"
+  ],
+  "stdin": "5",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_recursive_function_factorial::35",
+  "argv": [
+   "def fact: if . <= 1 then 1 else . * ((. - 1) | fact) end; fact"
+  ],
+  "stdin": "6",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_object_update::36",
+  "argv": [
+   ".a.b |= . + 10"
+  ],
+  "stdin": "{\"a\":{\"b\":5,\"c\":3},\"d\":1}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_update_with_filter::37",
+  "argv": [
+   ".[] |= if . > 5 then . * 2 else . end"
+  ],
+  "stdin": "[1,6,3,8,2]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_getpath_with_nested_arrays::38",
+  "argv": [
+   "getpath([0,1,0])"
+  ],
+  "stdin": "[[0,[1,2]],[3,[4,5]]]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_setpath_create_nested::39",
+  "argv": [
+   "setpath([\"a\",\"b\",\"c\"]; 42)"
+  ],
+  "stdin": "{}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paths_with_arrays::40",
+  "argv": [
+   "[paths]"
+  ],
+  "stdin": "{\"a\":[1,2],\"b\":3}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_walk_with_complex_structure::41",
+  "argv": [
+   "walk(if type == \"array\" then sort else . end)"
+  ],
+  "stdin": "{\"a\":[3,1,2],\"b\":{\"c\":[6,4,5]}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_fibonacci::42",
+  "argv": [
+   "[0,1] | until(length >= 10; . + [.[length-1] + .[length-2]]) | .[-1]"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_limit_with_infinite_stream::43",
+  "argv": [
+   "[limit(10; 1 | recurse(. + 1))]"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_first_with_select::44",
+  "argv": [
+   "first(.[] | select(. > 5))"
+  ],
+  "stdin": "[1,2,3,6,7,8]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_last_with_select::45",
+  "argv": [
+   "[.[] | select(. > 5)] | last"
+  ],
+  "stdin": "[1,2,3,6,7,8]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nth_with_filter::46",
+  "argv": [
+   "[.[] | select(. % 2 == 0)] | .[2]"
+  ],
+  "stdin": "[1,2,3,4,5,6,7,8]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_all_matches::47",
+  "argv": [
+   "[scan(\"[a-z]+\")]"
+  ],
+  "stdin": "\"123abc456def789ghi\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_match_all_flag::48",
+  "argv": [
+   "[match(\"[0-9]+\"; \"g\")]"
+  ],
+  "stdin": "\"a1b22c333\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_negative::49",
+  "argv": [
+   "test(\"[0-9]+\")"
+  ],
+  "stdin": "\"abcdef\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_capture_no_match::50",
+  "argv": [
+   "capture(\"(?<num>[0-9]+)\")? // {}"
+  ],
+  "stdin": "\"abcdef\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sub_no_match::51",
+  "argv": [
+   "sub(\"xyz\"; \"ABC\")"
+  ],
+  "stdin": "\"hello world\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gsub_no_match::52",
+  "argv": [
+   "gsub(\"xyz\"; \"ABC\")"
+  ],
+  "stdin": "\"hello world\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_indices_multiple_occurrences::53",
+  "argv": [
+   "indices(2)"
+  ],
+  "stdin": "[1,2,3,2,4,2,5]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_startswith_false::54",
+  "argv": [
+   "startswith(\"xyz\")"
+  ],
+  "stdin": "\"hello\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_endswith_false::55",
+  "argv": [
+   "endswith(\"xyz\")"
+  ],
+  "stdin": "\"hello\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inside_false::56",
+  "argv": [
+   "[5,6] | inside([1,2,3,4])"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_contains_false::57",
+  "argv": [
+   "contains([5])"
+  ],
+  "stdin": "[1,2,3,4]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_any_false::58",
+  "argv": [
+   "any(. > 10)"
+  ],
+  "stdin": "[1,2,3,4,5]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_false::59",
+  "argv": [
+   "all(. > 3)"
+  ],
+  "stdin": "[1,2,3,4,5]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flatten_deep::60",
+  "argv": [
+   "flatten"
+  ],
+  "stdin": "[[[[[1]]]],[[[[2]]]]]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flatten_mixed::61",
+  "argv": [
+   "flatten"
+  ],
+  "stdin": "[1,[2,3],[[4,5]],6]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_transpose_non_square::62",
+  "argv": [
+   "transpose"
+  ],
+  "stdin": "[[1,2,3],[4,5]]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_group_by_with_expression::63",
+  "argv": [
+   "group_by(. / 10 | floor)"
+  ],
+  "stdin": "[5,15,25,8,18,28]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unique_by_with_expression::64",
+  "argv": [
+   "unique_by(. / 10 | floor)"
+  ],
+  "stdin": "[5,15,25,8,18,28]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_by_with_expression::65",
+  "argv": [
+   "sort_by(- .)"
+  ],
+  "stdin": "[3,1,4,1,5,9]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_by_with_expression::66",
+  "argv": [
+   "min_by(. * -1)"
+  ],
+  "stdin": "[3,1,4,1,5,9]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_by_with_expression::67",
+  "argv": [
+   "max_by(. * -1)"
+  ],
+  "stdin": "[3,1,4,1,5,9]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combinations_multiple_arrays::68",
+  "argv": [
+   "[combinations]"
+  ],
+  "stdin": "[[1,2],[3,4],[5,6]]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ascii_downcase_numbers::69",
+  "argv": [
+   "ascii_downcase"
+  ],
+  "stdin": "\"HELLO123WORLD\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ascii_upcase_numbers::70",
+  "argv": [
+   "ascii_upcase"
+  ],
+  "stdin": "\"hello123world\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explode_empty_string::71",
+  "argv": [
+   "explode"
+  ],
+  "stdin": "\"\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_implode_empty_array::72",
+  "argv": [
+   "implode"
+  ],
+  "stdin": "[]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_csv::73",
+  "argv": [
+   "format(\"csv\")"
+  ],
+  "stdin": "[\"a\",\"b\",\"c\"]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_tsv::74",
+  "argv": [
+   "format(\"tsv\")"
+  ],
+  "stdin": "[\"a\",\"b\",\"c\"]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_at_base64_empty::75",
+  "argv": [
+   "@base64"
+  ],
+  "stdin": "\"\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_at_uri_empty::76",
+  "argv": [
+   "@uri"
+  ],
+  "stdin": "\"\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_at_html_special_chars::77",
+  "argv": [
+   "@html"
+  ],
+  "stdin": "\"<>&\\\"\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_at_sh_special_chars::78",
+  "argv": [
+   "@sh"
+  ],
+  "stdin": "\"test$var\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tojson_nested::79",
+  "argv": [
+   "tojson"
+  ],
+  "stdin": "{\"a\":{\"b\":[1,2,3]}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fromjson_nested::80",
+  "argv": [
+   "fromjson"
+  ],
+  "stdin": "\"{\\\"a\\\":1,\\\"b\\\":2}\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_now_timestamp::81",
+  "argv": [
+   "now"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gmtime_zero::82",
+  "argv": [
+   "gmtime"
+  ],
+  "stdin": "0",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mktime_epoch::83",
+  "argv": [
+   "mktime"
+  ],
+  "stdin": "[1970,0,1,0,0,0,4,0]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strftime_custom_format::84",
+  "argv": [
+   "gmtime | strftime(\"%Y-%m-%d\")"
+  ],
+  "stdin": "0",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strptime_custom_format::85",
+  "argv": [
+   "strptime(\"%Y-%m-%d\")"
+  ],
+  "stdin": "\"2020-12-25\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_todateiso8601_epoch::86",
+  "argv": [
+   "todateiso8601"
+  ],
+  "stdin": "0",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fromdateiso8601_epoch::87",
+  "argv": [
+   "fromdateiso8601"
+  ],
+  "stdin": "\"1970-01-01T00:00:00Z\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_location_info::88",
+  "argv": [
+   "$__loc__"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_output_format::89",
+  "argv": [
+   "{a:1} | debug"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stderr_message::90",
+  "argv": [
+   "\"test message\" | stderr"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_variable_access::91",
+  "argv": [
+   "env.HOME"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dollar_env_access::92",
+  "argv": [
+   "$ENV | type"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reduce_complex::93",
+  "argv": [
+   "reduce .[] as $x ({sum:0,count:0}; {sum:(.sum+$x),count:(.count+1)}) | .sum / .count"
+  ],
+  "stdin": "[1,2,3,4,5]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_foreach_with_extract::94",
+  "argv": [
+   "[foreach .[] as $x (0; . + $x; if . > 5 then . else empty end)]"
+  ],
+  "stdin": "[1,2,3,4,5]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_recurse_with_limit::95",
+  "argv": [
+   "[limit(10; . | recurse(. + 1))]"
+  ],
+  "stdin": "1",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_walk_identity::96",
+  "argv": [
+   "walk(.)"
+  ],
+  "stdin": "{\"a\":1,\"b\":[2,3]}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paths_depth::97",
+  "argv": [
+   "[paths | select(length == 2)]"
+  ],
+  "stdin": "{\"a\":{\"b\":1,\"c\":2},\"d\":3}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_getpath_null::98",
+  "argv": [
+   "getpath([\"nonexistent\",\"path\"])"
+  ],
+  "stdin": "{\"a\":1}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delpaths_empty::99",
+  "argv": [
+   "delpaths([])"
+  ],
+  "stdin": "{\"a\":1,\"b\":2}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_pipeline::100",
+  "argv": [
+   ". | to_entries | map(select(.value > 2)) | from_entries"
+  ],
+  "stdin": "{\"a\":1,\"b\":3,\"c\":2,\"d\":5}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_object_merge_conflict::101",
+  "argv": [
+   ". * ."
+  ],
+  "stdin": "{\"a\":1,\"b\":2}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_object_multiply::102",
+  "argv": [
+   "{\"a\":1} * {\"b\":2}"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_recursive_descent_all::103",
+  "argv": [
+   "[.. | type] | unique | sort"
+  ],
+  "stdin": "{\"a\":[1,\"x\",true]}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_expression::104",
+  "argv": [
+   "[path(..)]"
+  ],
+  "stdin": "{\"a\":{\"b\":1}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_getpath_with_variable::105",
+  "argv": [
+   ".path as $p | .data | getpath($p)"
+  ],
+  "stdin": "{\"path\":[\"a\",\"b\"],\"data\":{\"a\":{\"b\":42}}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_setpath_with_variable::106",
+  "argv": [
+   ".path as $p | .data | setpath($p; 99)"
+  ],
+  "stdin": "{\"path\":[\"a\",\"b\"],\"data\":{\"a\":{\"b\":42}}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delpaths_with_variable::107",
+  "argv": [
+   ".paths as $ps | .data | delpaths($ps)"
+  ],
+  "stdin": "{\"paths\":[[\"a\"],[\"b\"]],\"data\":{\"a\":1,\"b\":2,\"c\":3}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_has_with_expression::108",
+  "argv": [
+   "has(\"a\" + \"b\")"
+  ],
+  "stdin": "{\"ab\":1,\"cd\":2}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_in_with_expression::109",
+  "argv": [
+   "\"a\" | in({\"a\":1})"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_del_with_expression::110",
+  "argv": [
+   "del(.[\"a\" + \"b\"])"
+  ],
+  "stdin": "{\"ab\":1,\"cd\":2}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keys_sorted_object::111",
+  "argv": [
+   "keys"
+  ],
+  "stdin": "{\"z\":1,\"a\":2,\"m\":3}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keys_unsorted_object::112",
+  "argv": [
+   "keys_unsorted"
+  ],
+  "stdin": "{\"z\":1,\"a\":2,\"m\":3}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_map_values_object::113",
+  "argv": [
+   "map_values(. * 10)"
+  ],
+  "stdin": "{\"a\":1,\"b\":2,\"c\":3}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_map_values_array::114",
+  "argv": [
+   "map_values(. * 10)"
+  ],
+  "stdin": "[1,2,3]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_objects::115",
+  "argv": [
+   "[.[] | select(.x > 5)]"
+  ],
+  "stdin": "[{\"x\":1},{\"x\":6},{\"x\":3},{\"x\":8}]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arrays_type_filter::116",
+  "argv": [
+   "[.[] | arrays] | length"
+  ],
+  "stdin": "[1,[],{},\"str\",[1,2]]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_objects_type_filter::117",
+  "argv": [
+   "[.[] | objects] | length"
+  ],
+  "stdin": "[1,[],{},\"str\",{\"a\":1}]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_iterables_type_filter::118",
+  "argv": [
+   "[.[] | iterables] | length"
+  ],
+  "stdin": "[1,[],{},\"str\",{\"a\":1},[1]]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scalars_type_filter::119",
+  "argv": [
+   "[.[] | scalars] | length"
+  ],
+  "stdin": "[1,[],{},\"str\",null,true]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nulls_type_filter::120",
+  "argv": [
+   "[.[] | nulls] | length"
+  ],
+  "stdin": "[1,null,2,null,3]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_booleans_type_filter::121",
+  "argv": [
+   "[.[] | booleans] | length"
+  ],
+  "stdin": "[1,true,false,\"x\"]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_numbers_type_filter::122",
+  "argv": [
+   "[.[] | numbers] | length"
+  ],
+  "stdin": "[1,true,\"x\",2,3.5]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strings_type_filter::123",
+  "argv": [
+   "[.[] | strings] | length"
+  ],
+  "stdin": "[1,\"a\",true,\"b\",\"c\"]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_normals_type_filter::124",
+  "argv": [
+   "[.[] | normals] | length"
+  ],
+  "stdin": "[1,2,3]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_finites_type_filter::125",
+  "argv": [
+   "[.[] | finites] | length"
+  ],
+  "stdin": "[1,2,3]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_values_type_filter::126",
+  "argv": [
+   "[.[] | values] | length"
+  ],
+  "stdin": "[1,null,2,null,3]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_leaf_values::127",
+  "argv": [
+   "[paths(scalars) as $p | getpath($p)]"
+  ],
+  "stdin": "{\"a\":{\"b\":1},\"c\":2}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_update_all_leaves::128",
+  "argv": [
+   "walk(if type == \"number\" then . + 10 else . end)"
+  ],
+  "stdin": "{\"a\":1,\"b\":{\"c\":2}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_number_range_check::129",
+  "argv": [
+   ". >= 0 and . <= 100"
+  ],
+  "stdin": "50",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_check::130",
+  "argv": [
+   "length == 0"
+  ],
+  "stdin": "[]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_non_empty_check::131",
+  "argv": [
+   "length > 0"
+  ],
+  "stdin": "[1]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_same::132",
+  "argv": [
+   "unique | length == 1"
+  ],
+  "stdin": "[1,1,1,1]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_has_duplicates::133",
+  "argv": [
+   "length != (unique | length)"
+  ],
+  "stdin": "[1,2,1,3]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sum_array::134",
+  "argv": [
+   "add"
+  ],
+  "stdin": "[10,20,30,40,50]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_average_array::135",
+  "argv": [
+   "add / length"
+  ],
+  "stdin": "[10,20,30,40,50]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_product_array::136",
+  "argv": [
+   "reduce .[] as $x (1; . * $x)"
+  ],
+  "stdin": "[2,3,4]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concatenate_strings::137",
+  "argv": [
+   "add"
+  ],
+  "stdin": "[\"Hello\",\" \",\"World\",\"!\"]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_join_with_separator::138",
+  "argv": [
+   "join(\" | \")"
+  ],
+  "stdin": "[\"a\",\"b\",\"c\"]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_split_and_join_roundtrip::139",
+  "argv": [
+   "split(\",\") | join(\",\")"
+  ],
+  "stdin": "\"a,b,c\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keys_and_values_match::140",
+  "argv": [
+   "[to_entries[] | {k:.key, v:.value}] | length"
+  ],
+  "stdin": "{\"a\":1,\"b\":2}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_from_entries_to_entries_roundtrip::141",
+  "argv": [
+   "to_entries | from_entries"
+  ],
+  "stdin": "{\"a\":1,\"b\":2}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_then_reverse::142",
+  "argv": [
+   "sort | reverse"
+  ],
+  "stdin": "[3,1,4,1,5,9]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unique_then_sort::143",
+  "argv": [
+   "unique | sort"
+  ],
+  "stdin": "[3,1,4,1,5,9]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_map_then_add::144",
+  "argv": [
+   "map(. * 2) | add"
+  ],
+  "stdin": "[1,2,3,4,5]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_then_map::145",
+  "argv": [
+   "[.[] | select(. > 3) | . * 2]"
+  ],
+  "stdin": "[1,2,3,4,5]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_map_then_select::146",
+  "argv": [
+   "map(. * 2) | [.[] | select(. > 5)]"
+  ],
+  "stdin": "[1,2,3,4,5]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_group_then_map::147",
+  "argv": [
+   "group_by(. % 2) | map(add)"
+  ],
+  "stdin": "[1,2,3,4,5,6]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flatten_then_unique::148",
+  "argv": [
+   "flatten | unique"
+  ],
+  "stdin": "[[1,2],[2,3],[3,4]]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_transpose_then_map::149",
+  "argv": [
+   "transpose | map(add)"
+  ],
+  "stdin": "[[1,2,3],[4,5,6]]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_recursive_sum::150",
+  "argv": [
+   "[.. | numbers] | add"
+  ],
+  "stdin": "[[1,[2,3]],[[4],5]]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_recursive_find::151",
+  "argv": [
+   "[.. | select(. == \"target\")]"
+  ],
+  "stdin": "{\"a\":{\"b\":\"target\",\"c\":{\"d\":\"target\"}}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deep_path_access::152",
+  "argv": [
+   ".a.b.c.d.e.f"
+  ],
+  "stdin": "{\"a\":{\"b\":{\"c\":{\"d\":{\"e\":{\"f\":42}}}}}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deep_path_update::153",
+  "argv": [
+   ".a.b.c.d.e.f = 99"
+  ],
+  "stdin": "{\"a\":{\"b\":{\"c\":{\"d\":{\"e\":{\"f\":42}}}}}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conditional_deep_access::154",
+  "argv": [
+   ".a?.b?.c?.d? // \"default\""
+  ],
+  "stdin": "{\"a\":{\"b\":null}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_of_arrays_flatten::155",
+  "argv": [
+   "map(.[]) | flatten"
+  ],
+  "stdin": "[[[1]],[[2]],[[3]]]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_object_of_arrays_flatten::156",
+  "argv": [
+   "[.[] | .[]]"
+  ],
+  "stdin": "{\"a\":[1,2],\"b\":[3,4]}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_filter_chain::157",
+  "argv": [
+   ". | keys | sort | reverse | map(. + \"!\") | join(\", \")"
+  ],
+  "stdin": "{\"z\":1,\"a\":2,\"m\":3}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_limit_one::158",
+  "argv": [
+   "[limit(1; .[])]"
+  ],
+  "stdin": "[1,2,3]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_first_last_combination::159",
+  "argv": [
+   "[.[] | select(. % 2 == 0)] | first"
+  ],
+  "stdin": "[1,2,3,4,5]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_group_by_empty_result::160",
+  "argv": [
+   "group_by(.x)"
+  ],
+  "stdin": "[]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unique_by_empty_result::161",
+  "argv": [
+   "unique_by(.x)"
+  ],
+  "stdin": "[]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_by_empty_result::162",
+  "argv": [
+   "sort_by(.x)"
+  ],
+  "stdin": "[]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_map_values_empty::163",
+  "argv": [
+   "map_values(. * 2)"
+  ],
+  "stdin": "{}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_with_entries_empty::164",
+  "argv": [
+   "with_entries(.value = .value * 2)"
+  ],
+  "stdin": "{}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_empty::165",
+  "argv": [
+   "[path(..)]"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_getpath_root::166",
+  "argv": [
+   "getpath([])"
+  ],
+  "stdin": "42",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_setpath_root::167",
+  "argv": [
+   "setpath([]; 99)"
+  ],
+  "stdin": "42",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delpaths_root::168",
+  "argv": [
+   "delpaths([[]])"
+  ],
+  "stdin": "42",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_has_zero::169",
+  "argv": [
+   "has(0)"
+  ],
+  "stdin": "[10,20,30]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_in_zero::170",
+  "argv": [
+   "0 | in([10,20,30])"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_del_zero::171",
+  "argv": [
+   "del(.[0])"
+  ],
+  "stdin": "[10,20,30]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_startswith_self::172",
+  "argv": [
+   "startswith(.)"
+  ],
+  "stdin": "\"test\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_endswith_self::173",
+  "argv": [
+   "endswith(.)"
+  ],
+  "stdin": "\"test\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ltrimstr_self::174",
+  "argv": [
+   "ltrimstr(.)"
+  ],
+  "stdin": "\"test\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rtrimstr_self::175",
+  "argv": [
+   "rtrimstr(.)"
+  ],
+  "stdin": "\"test\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_split_empty::176",
+  "argv": [
+   "split(\"\")"
+  ],
+  "stdin": "\"\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_join_empty::177",
+  "argv": [
+   "join(\"\")"
+  ],
+  "stdin": "[]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_indices_empty::178",
+  "argv": [
+   "indices(\"\")"
+  ],
+  "stdin": "\"\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_contains_self::179",
+  "argv": [
+   "contains(.)"
+  ],
+  "stdin": "[1,2,3]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inside_self::180",
+  "argv": [
+   "inside(.)"
+  ],
+  "stdin": "[1,2,3]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_empty::181",
+  "argv": [
+   "add"
+  ],
+  "stdin": "[]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_single::182",
+  "argv": [
+   "min"
+  ],
+  "stdin": "[42]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_single::183",
+  "argv": [
+   "max"
+  ],
+  "stdin": "[42]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_transpose_empty::184",
+  "argv": [
+   "transpose"
+  ],
+  "stdin": "[]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flatten_zero_depth::185",
+  "argv": [
+   "flatten(0)"
+  ],
+  "stdin": "[[1,2]]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_range_single::186",
+  "argv": [
+   "[range(1)]"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_range_zero::187",
+  "argv": [
+   "[range(0)]"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_immediate_true::188",
+  "argv": [
+   "5 | until(. > 0; . + 1)"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_while_immediate_false::189",
+  "argv": [
+   "5 | [while(. < 0; . + 1)]"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repeat_limit_one::190",
+  "argv": [
+   "[limit(1; repeat(42))]"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_recurse_immediate_empty::191",
+  "argv": [
+   "[limit(1; 1 | recurse(empty))]"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_walk_identity_empty::192",
+  "argv": [
+   "walk(.)"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_walk_empty_array::193",
+  "argv": [
+   "walk(.)"
+  ],
+  "stdin": "[]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_walk_empty_object::194",
+  "argv": [
+   "walk(.)"
+  ],
+  "stdin": "{}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paths_null::195",
+  "argv": [
+   "[paths]"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paths_empty_array::196",
+  "argv": [
+   "[paths]"
+  ],
+  "stdin": "[]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paths_empty_object::197",
+  "argv": [
+   "[paths]"
+  ],
+  "stdin": "{}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_to_entries_empty::198",
+  "argv": [
+   "to_entries"
+  ],
+  "stdin": "{}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_from_entries_empty::199",
+  "argv": [
+   "from_entries"
+  ],
+  "stdin": "[]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ascii_upcase_empty::200",
+  "argv": [
+   "ascii_upcase"
+  ],
+  "stdin": "\"\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ascii_downcase_empty::201",
+  "argv": [
+   "ascii_downcase"
+  ],
+  "stdin": "\"\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reverse_empty::202",
+  "argv": [
+   "reverse"
+  ],
+  "stdin": "[]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unique_empty::203",
+  "argv": [
+   "unique"
+  ],
+  "stdin": "[]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keys_empty::204",
+  "argv": [
+   "keys"
+  ],
+  "stdin": "{}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keys_unsorted_empty::205",
+  "argv": [
+   "keys_unsorted"
+  ],
+  "stdin": "{}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_values_empty::206",
+  "argv": [
+   "[.[]]"
+  ],
+  "stdin": "{}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_length_string_empty::207",
+  "argv": [
+   "length"
+  ],
+  "stdin": "\"\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_length_array_empty::208",
+  "argv": [
+   "length"
+  ],
+  "stdin": "[]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_length_object_empty::209",
+  "argv": [
+   "length"
+  ],
+  "stdin": "{}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combinations_empty::210",
+  "argv": [
+   "[combinations]"
+  ],
+  "stdin": "[]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_always_false::211",
+  "argv": [
+   "[.[] | select(false)]"
+  ],
+  "stdin": "[1,2,3]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_always_true::212",
+  "argv": [
+   "[.[] | select(true)]"
+  ],
+  "stdin": "[1,2,3]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_map_identity::213",
+  "argv": [
+   "map(.)"
+  ],
+  "stdin": "[1,2,3]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_map_empty_input::214",
+  "argv": [
+   "map(. * 2)"
+  ],
+  "stdin": "[]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reduce_empty::215",
+  "argv": [
+   "reduce .[] as $x (0; . + $x)"
+  ],
+  "stdin": "[]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_foreach_empty::216",
+  "argv": [
+   "[foreach .[] as $x (0; . + $x)]"
+  ],
+  "stdin": "[]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_any_empty::217",
+  "argv": [
+   "any"
+  ],
+  "stdin": "[]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_empty::218",
+  "argv": [
+   "all"
+  ],
+  "stdin": "[]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_splits_with_limit::219",
+  "argv": [
+   "[splits(\",\"; \"\")]"
+  ],
+  "stdin": "\"a,b,c\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sub_with_flags::220",
+  "argv": [
+   "sub(\"HELLO\"; \"hi\"; \"i\")"
+  ],
+  "stdin": "\"hello world\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gsub_with_flags::221",
+  "argv": [
+   "gsub(\"O\"; \"0\"; \"i\")"
+  ],
+  "stdin": "\"Hello World\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_match_captures::222",
+  "argv": [
+   "match(\"([a-z]+)([0-9]+)\")"
+  ],
+  "stdin": "\"abc123\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_with_flags::223",
+  "argv": [
+   "test(\"HELLO\"; \"i\")"
+  ],
+  "stdin": "\"hello\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_multiple_matches::224",
+  "argv": [
+   "[scan(\"[a-z]+\")]"
+  ],
+  "stdin": "\"abc123def456ghi\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_capture_named_groups::225",
+  "argv": [
+   "capture(\"(?<word>[a-z]+)(?<num>[0-9]+)\")"
+  ],
+  "stdin": "\"abc123\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_limit_stream::226",
+  "argv": [
+   "[limit(100; range(1000))] | length"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_first_generator::227",
+  "argv": [
+   "first(range(100; 200))"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_last_generator::228",
+  "argv": [
+   "last(range(5))"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nth_generator::229",
+  "argv": [
+   "nth(10; range(100))"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_range_large::230",
+  "argv": [
+   "[range(1000)] | length"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_iteration::231",
+  "argv": [
+   "[0] | until(.[0] > 10; [.[0] + 1]) | .[0]"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repeat_limited::232",
+  "argv": [
+   "[limit(100; repeat(1))] | length"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_walk_deep::233",
+  "argv": [
+   "walk(if type == \"number\" then . + 1 else . end)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_transpose_non_rectangular::234",
+  "argv": [
+   "transpose"
+  ],
+  "stdin": "[[1,2,3],[4,5],[6]]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combinations_large::235",
+  "argv": [
+   "[combinations] | length"
+  ],
+  "stdin": "[[1,2],[3,4],[5,6]]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_group_by_complex::236",
+  "argv": [
+   "group_by(.a + .b)"
+  ],
+  "stdin": "[{\"a\":1,\"b\":1},{\"a\":2,\"b\":0},{\"a\":0,\"b\":2}]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unique_by_complex::237",
+  "argv": [
+   "unique_by(.a + .b)"
+  ],
+  "stdin": "[{\"a\":1,\"b\":1},{\"a\":2,\"b\":0},{\"a\":1,\"b\":1}]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_by_complex::238",
+  "argv": [
+   "sort_by(.a * .b)"
+  ],
+  "stdin": "[{\"a\":2,\"b\":3},{\"a\":1,\"b\":2},{\"a\":3,\"b\":1}]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_by_complex::239",
+  "argv": [
+   "min_by(.a + .b)"
+  ],
+  "stdin": "[{\"a\":1,\"b\":2},{\"a\":2,\"b\":1},{\"a\":0,\"b\":1}]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_by_complex::240",
+  "argv": [
+   "max_by(.a * .b)"
+  ],
+  "stdin": "[{\"a\":2,\"b\":3},{\"a\":4,\"b\":2},{\"a\":1,\"b\":10}]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_indices_string_multiple::241",
+  "argv": [
+   "indices(\"ll\")"
+  ],
+  "stdin": "\"hello hello\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_string::242",
+  "argv": [
+   "index(\"world\")"
+  ],
+  "stdin": "\"hello world\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rindex_string::243",
+  "argv": [
+   "rindex(\"o\")"
+  ],
+  "stdin": "\"hello world\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_contains_string::244",
+  "argv": [
+   "contains(\"world\")"
+  ],
+  "stdin": "\"hello world\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inside_string::245",
+  "argv": [
+   "inside(\"hello world\")"
+  ],
+  "stdin": "\"world\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_startswith_string::246",
+  "argv": [
+   "startswith(\"hello\")"
+  ],
+  "stdin": "\"hello world\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_endswith_string::247",
+  "argv": [
+   "endswith(\"world\")"
+  ],
+  "stdin": "\"hello world\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ltrimstr_string::248",
+  "argv": [
+   "ltrimstr(\"hello \")"
+  ],
+  "stdin": "\"hello world\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rtrimstr_string::249",
+  "argv": [
+   "rtrimstr(\" world\")"
+  ],
+  "stdin": "\"hello world\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_split_regex::250",
+  "argv": [
+   "split(\"[,;]\")"
+  ],
+  "stdin": "\"a,b;c\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_join_numbers::251",
+  "argv": [
+   "map(tostring) | join(\",\")"
+  ],
+  "stdin": "[1,2,3]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ascii_downcase_mixed::252",
+  "argv": [
+   "ascii_downcase"
+  ],
+  "stdin": "\"HeLLo WoRLd\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ascii_upcase_mixed::253",
+  "argv": [
+   "ascii_upcase"
+  ],
+  "stdin": "\"HeLLo WoRLd\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tostring_various::254",
+  "argv": [
+   "tostring"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tonumber_various::255",
+  "argv": [
+   "tonumber"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_all_types::256",
+  "argv": [
+   "type"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keys_array::257",
+  "argv": [
+   "keys"
+  ],
+  "stdin": "[3,1,2]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keys_unsorted_array::258",
+  "argv": [
+   "keys_unsorted"
+  ],
+  "stdin": "[3,1,2]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_values_array::259",
+  "argv": [
+   "[.[] | values]"
+  ],
+  "stdin": "[1,2,3]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_nulls::260",
+  "argv": [
+   "add"
+  ],
+  "stdin": "[1, null, 2, null, 3]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_any_with_condition::261",
+  "argv": [
+   "any(. > 5)"
+  ],
+  "stdin": "[1,2,3,4,5,6]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_with_condition::262",
+  "argv": [
+   "all(. > 0)"
+  ],
+  "stdin": "[1,2,3,4,5]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flatten_depth::263",
+  "argv": [
+   "flatten(2)"
+  ],
+  "stdin": "[1,[2,[3,[4]]]]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reverse_string_via_explode::264",
+  "argv": [
+   "[explode] | .[0] | reverse | implode"
+  ],
+  "stdin": "\"hello\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unique_strings::265",
+  "argv": [
+   "unique"
+  ],
+  "stdin": "[\"a\",\"b\",\"a\",\"c\",\"b\"]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_strings::266",
+  "argv": [
+   "min"
+  ],
+  "stdin": "[\"zebra\",\"apple\",\"mango\"]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_strings::267",
+  "argv": [
+   "max"
+  ],
+  "stdin": "[\"zebra\",\"apple\",\"mango\"]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_has_array_index::268",
+  "argv": [
+   "has(2)"
+  ],
+  "stdin": "[1,2,3]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_has_missing_index::269",
+  "argv": [
+   "has(10)"
+  ],
+  "stdin": "[1,2,3]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_in_array::270",
+  "argv": [
+   "2 | in([1,2,3])"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_none_match::271",
+  "argv": [
+   "[.[] | select(. > 100)]"
+  ],
+  "stdin": "[1,2,3]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_deep::272",
+  "argv": [
+   "path(.a.b.c.d)"
+  ],
+  "stdin": "{\"a\":{\"b\":{\"c\":{\"d\":1}}}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paths_no_filter::273",
+  "argv": [
+   "[paths]"
+  ],
+  "stdin": "{\"a\":1,\"b\":{\"c\":2}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_getpath_missing::274",
+  "argv": [
+   "getpath([\"x\",\"y\",\"z\"])"
+  ],
+  "stdin": "{}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_setpath_overwrite::275",
+  "argv": [
+   "setpath([\"a\"]; 99)"
+  ],
+  "stdin": "{\"a\":1,\"b\":2}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delpaths_multiple_paths::276",
+  "argv": [
+   "delpaths([[\"a\"],[\"b\",\"c\"]])"
+  ],
+  "stdin": "{\"a\":1,\"b\":{\"c\":2,\"d\":3}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_string_interpolation::277",
+  "argv": [
+   "\"Value: \\(.a), Sum: \\(.b + .c)\""
+  ],
+  "stdin": "{\"a\":10,\"b\":5,\"c\":3}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_string_interpolation::278",
+  "argv": [
+   "\"\\(\"nested: \\(.x)\")\""
+  ],
+  "stdin": "{\"x\":\"value\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_object_construction_computed_keys::279",
+  "argv": [
+   "{(.key): .value}"
+  ],
+  "stdin": "{\"key\":\"mykey\",\"value\":\"myvalue\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_slicing_negative_indices::280",
+  "argv": [
+   ".[-3:-1]"
+  ],
+  "stdin": "[0,1,2,3,4,5]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_optional_object_identifier::281",
+  "argv": [
+   ".foo?"
+  ],
+  "stdin": "{}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_object::282",
+  "argv": [
+   "$ENV.PATH"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "PATH": "/usr/bin"
+  }
+ },
+ {
+  "name": "test::test_args_positional::283",
+  "argv": [
+   "$ARGS.positional",
+   "--args",
+   "1",
+   "2",
+   "3"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_function::284",
+  "argv": [
+   "path(.a.b)"
+  ],
+  "stdin": "{\"a\":{\"b\":1}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paths_filter::285",
+  "argv": [
+   "[paths(type == \"number\")]"
+  ],
+  "stdin": "{\"a\":1,\"b\":{\"c\":2},\"d\":\"str\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_any_generator::286",
+  "argv": [
+   "any(. > 5)"
+  ],
+  "stdin": "[1,2,3,4,5,6,7]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_from_entries::287",
+  "argv": [
+   "from_entries"
+  ],
+  "stdin": "[{\"key\":\"a\",\"value\":1},{\"key\":\"b\",\"value\":2}]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_to_entries::288",
+  "argv": [
+   "to_entries"
+  ],
+  "stdin": "{\"a\":1,\"b\":2}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_with_entries::289",
+  "argv": [
+   "with_entries(.value *= 2)"
+  ],
+  "stdin": "{\"a\":1,\"b\":2}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tojson_fromjson::290",
+  "argv": [
+   "tojson | fromjson"
+  ],
+  "stdin": "{\"a\":1}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tonumber_tostring::291",
+  "argv": [
+   "tonumber + 1"
+  ],
+  "stdin": "\"42\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reduce_complex_accumulator::292",
+  "argv": [
+   "reduce .[] as $x ({sum: 0, product: 1}; {sum: (.sum + $x), product: (.product * $x)})"
+  ],
+  "stdin": "[2,3,4]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_foreach_basic::293",
+  "argv": [
+   "[foreach .[] as $x (0; . + $x)]"
+  ],
+  "stdin": "[1,2,3]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_update_assignment::294",
+  "argv": [
+   ".a |= . * 2"
+  ],
+  "stdin": "{\"a\":5,\"b\":3}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_plus_assignment::295",
+  "argv": [
+   ".a += 10"
+  ],
+  "stdin": "{\"a\":5,\"b\":3}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_alternative_assignment::296",
+  "argv": [
+   ".a //= 10"
+  ],
+  "stdin": "{\"b\":3}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_if_else::297",
+  "argv": [
+   "if . > 10 then \"big\" elif . > 5 then \"medium\" else \"small\" end"
+  ],
+  "stdin": "7",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_logical_and::298",
+  "argv": [
+   ".a and .b"
+  ],
+  "stdin": "{\"a\":true,\"b\":true}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_line_comment::299",
+  "argv": [
+   "# This is a comment\n."
+  ],
+  "stdin": "42",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_variable_binding_simple::300",
+  "argv": [
+   ". as $x | $x + $x"
+  ],
+  "stdin": "5",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_variables::301",
+  "argv": [
+   ".a as $x | .b as $y | $x + $y"
+  ],
+  "stdin": "{\"a\":3,\"b\":4}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_destructuring_array::302",
+  "argv": [
+   ". as [$a, $b] | $a + $b"
+  ],
+  "stdin": "[3, 4]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_match_named_captures::303",
+  "argv": [
+   "match(\"(?<word>[a-z]+)(?<num>[0-9]+)\")"
+  ],
+  "stdin": "\"test123\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_capture::304",
+  "argv": [
+   "capture(\"(?<a>[a-z]+)(?<b>[0-9]+)\")"
+  ],
+  "stdin": "\"abc123\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sub_regex::305",
+  "argv": [
+   "sub(\"[0-9]+\"; \"X\")"
+  ],
+  "stdin": "\"a1b2c3\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gsub_regex::306",
+  "argv": [
+   "gsub(\"[0-9]+\"; \"X\")"
+  ],
+  "stdin": "\"a1b2c3\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scientific_notation::307",
+  "argv": [
+   ". * 2"
+  ],
+  "stdin": "1.5e2",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_integers::308",
+  "argv": [
+   ". + 1"
+  ],
+  "stdin": "99999999999999",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_input_mode::309",
+  "argv": [
+   "-R",
+   "."
+  ],
+  "stdin": "not json\njust text",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_input_generator::310",
+  "argv": [
+   "-n",
+   "range(5)"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exit_status_mode::311",
+  "argv": [
+   "-e",
+   "."
+  ],
+  "stdin": "false",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_modulo_operator::312",
+  "argv": [
+   ". % 3"
+  ],
+  "stdin": "10",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comparison_operators::313",
+  "argv": [
+   ". > 5"
+  ],
+  "stdin": "7",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_strings::314",
+  "argv": [
+   "."
+  ],
+  "stdin": "\"Hello 世界\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explode_implode_unicode::315",
+  "argv": [
+   "explode"
+  ],
+  "stdin": "\"A\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_length_unicode::316",
+  "argv": [
+   "length"
+  ],
+  "stdin": "\"Hello\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_def_with_args::317",
+  "argv": [
+   "def f(x): . + x; f(10)"
+  ],
+  "stdin": "5",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_def_recursive::318",
+  "argv": [
+   "def fac: if . <= 1 then 1 else . * ((. - 1) | fac) end; fac"
+  ],
+  "stdin": "5",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_function::319",
+  "argv": [
+   "add"
+  ],
+  "stdin": "[1, 2, 3, 4, 5]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_function::320",
+  "argv": [
+   "min"
+  ],
+  "stdin": "[5, 2, 8, 1, 9]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_function::321",
+  "argv": [
+   "max"
+  ],
+  "stdin": "[5, 2, 8, 1, 9]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reverse_function::322",
+  "argv": [
+   "reverse"
+  ],
+  "stdin": "[1, 2, 3, 4, 5]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unique_function::323",
+  "argv": [
+   "unique"
+  ],
+  "stdin": "[1, 2, 2, 3, 1, 4, 3]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_group_by_function::324",
+  "argv": [
+   "group_by(.type)"
+  ],
+  "stdin": "[{\"type\":\"a\",\"val\":1},{\"type\":\"b\",\"val\":2},{\"type\":\"a\",\"val\":3}]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flatten_function::325",
+  "argv": [
+   "flatten"
+  ],
+  "stdin": "[[1, 2], [3, 4], [5]]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_range_function::326",
+  "argv": [
+   "[range(5)]"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_to_entries_function::327",
+  "argv": [
+   "to_entries"
+  ],
+  "stdin": "{\"a\": 1, \"b\": 2}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_with_entries_function::328",
+  "argv": [
+   "with_entries(.value += 10)"
+  ],
+  "stdin": "{\"a\": 1, \"b\": 2}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paths_function::329",
+  "argv": [
+   "[paths]"
+  ],
+  "stdin": "{\"a\": {\"b\": 1}, \"c\": 2}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paths_scalars_function::330",
+  "argv": [
+   "[paths(scalars)]"
+  ],
+  "stdin": "{\"a\": {\"b\": 1}, \"c\": 2}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_getpath_function::331",
+  "argv": [
+   "getpath([\"a\", \"b\"])"
+  ],
+  "stdin": "{\"a\": {\"b\": 42}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_setpath_function::332",
+  "argv": [
+   "setpath([\"x\", \"y\"]; 100)"
+  ],
+  "stdin": "{}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delpaths_function::333",
+  "argv": [
+   "delpaths([[\"a\"]])"
+  ],
+  "stdin": "{\"a\": 1, \"b\": 2}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_contains_function::334",
+  "argv": [
+   "contains({a: 1})"
+  ],
+  "stdin": "{\"a\": 1, \"b\": 2}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inside_function::335",
+  "argv": [
+   "inside({a: 1, b: 2})"
+  ],
+  "stdin": "{\"a\": 1}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_startswith_function::336",
+  "argv": [
+   "startswith(\"Hello\")"
+  ],
+  "stdin": "\"Hello, World!\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_endswith_function::337",
+  "argv": [
+   "endswith(\"World!\")"
+  ],
+  "stdin": "\"Hello, World!\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ltrimstr_function::338",
+  "argv": [
+   "ltrimstr(\"Hello, \")"
+  ],
+  "stdin": "\"Hello, World!\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rtrimstr_function::339",
+  "argv": [
+   "rtrimstr(\", World!\")"
+  ],
+  "stdin": "\"Hello, World!\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_split_function::340",
+  "argv": [
+   "split(\",\")"
+  ],
+  "stdin": "\"a,b,c\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_join_function::341",
+  "argv": [
+   "join(\",\")"
+  ],
+  "stdin": "[\"a\", \"b\", \"c\"]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ascii_downcase::342",
+  "argv": [
+   "ascii_downcase"
+  ],
+  "stdin": "\"HELLO\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ascii_upcase::343",
+  "argv": [
+   "ascii_upcase"
+  ],
+  "stdin": "\"hello\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tostring_function::344",
+  "argv": [
+   "tostring"
+  ],
+  "stdin": "42",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tonumber_function::345",
+  "argv": [
+   "tonumber"
+  ],
+  "stdin": "\"42\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_floor_function::346",
+  "argv": [
+   "floor"
+  ],
+  "stdin": "3.7",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ceil_function::347",
+  "argv": [
+   "ceil"
+  ],
+  "stdin": "3.2",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_round_function::348",
+  "argv": [
+   "round"
+  ],
+  "stdin": "3.5",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sqrt_function::349",
+  "argv": [
+   "sqrt"
+  ],
+  "stdin": "16",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_any_function::350",
+  "argv": [
+   "any"
+  ],
+  "stdin": "[false, true, false]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_function::351",
+  "argv": [
+   "all"
+  ],
+  "stdin": "[true, true, false]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_not_function::352",
+  "argv": [
+   "not"
+  ],
+  "stdin": "true",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_limit_function::353",
+  "argv": [
+   "[limit(3; range(10))]"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_first_function::354",
+  "argv": [
+   "first"
+  ],
+  "stdin": "[1, 2, 3]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_last_function::355",
+  "argv": [
+   "last"
+  ],
+  "stdin": "[1, 2, 3]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nth_function::356",
+  "argv": [
+   "nth(1)"
+  ],
+  "stdin": "[10, 20, 30]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_indices_function::357",
+  "argv": [
+   "indices(2)"
+  ],
+  "stdin": "[1, 2, 3, 2, 4]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_function::358",
+  "argv": [
+   "index(2)"
+  ],
+  "stdin": "[1, 2, 3, 2, 4]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rindex_function::359",
+  "argv": [
+   "rindex(2)"
+  ],
+  "stdin": "[1, 2, 3, 2, 4]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arg_flag::360",
+  "argv": [
+   "--arg",
+   "name",
+   "John",
+   ".name = $name"
+  ],
+  "stdin": "{}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_arg_flags::361",
+  "argv": [
+   "--arg",
+   "x",
+   "foo",
+   "--arg",
+   "y",
+   "bar",
+   "{x: $x, y: $y}"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_argjson_flag::362",
+  "argv": [
+   "--argjson",
+   "num",
+   "42",
+   ".value = $num"
+  ],
+  "stdin": "{}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_argjson_with_object::363",
+  "argv": [
+   "--argjson",
+   "obj",
+   "{\"a\": 1}",
+   "$obj"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slurpfile_flag::364",
+  "argv": [
+   "--slurpfile",
+   "nums",
+   "data.json",
+   "$nums"
+  ],
+  "stdin": "null",
+  "files": {
+   "data.json": "1\n2\n3"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rawfile_flag::365",
+  "argv": [
+   "--rawfile",
+   "content",
+   "text.txt",
+   "$content"
+  ],
+  "stdin": "null",
+  "files": {
+   "text.txt": "Hello, World!"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_args_flag::366",
+  "argv": [
+   "-n",
+   "--args",
+   "$ARGS.positional",
+   "arg1",
+   "arg2",
+   "arg3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_jsonargs_flag::367",
+  "argv": [
+   "-n",
+   "--jsonargs",
+   "$ARGS.positional",
+   "{\"a\": 1}",
+   "[1,2,3]",
+   "\"test\""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_args_named::368",
+  "argv": [
+   "--arg",
+   "x",
+   "hello",
+   "--arg",
+   "y",
+   "world",
+   "$ARGS.named"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_args_positional_empty::369",
+  "argv": [
+   "$ARGS.positional"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arg_and_argjson_combined::370",
+  "argv": [
+   "--arg",
+   "str",
+   "text",
+   "--argjson",
+   "num",
+   "100",
+   "{string: $str, number: $num}"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_variable_in_filter::371",
+  "argv": [
+   "--arg",
+   "prefix",
+   "item_",
+   "map($prefix + .)"
+  ],
+  "stdin": "[\"a\", \"b\", \"c\"]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_flag::372",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_short_flag::373",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_configuration::374",
+  "argv": [
+   "--build-configuration"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::375",
+  "argv": [
+   "--invalid-flag-xyz"
+  ],
+  "stdin": "{}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_recursive_object_merge::376",
+  "argv": [
+   ". * {a: {x: 2}}"
+  ],
+  "stdin": "{\"a\": {\"y\": 1}, \"b\": 3}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assignment_operator::377",
+  "argv": [
+   ".a |= . + 10"
+  ],
+  "stdin": "{\"a\": 5, \"b\": 3}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_update_operator::378",
+  "argv": [
+   ".a //= 10"
+  ],
+  "stdin": "{\"b\": 3}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arithmetic_assignment::379",
+  "argv": [
+   ".a += 5"
+  ],
+  "stdin": "{\"a\": 10}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arithmetic_assignment_minus::380",
+  "argv": [
+   ".a -= 3"
+  ],
+  "stdin": "{\"a\": 10}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arithmetic_assignment_multiply::381",
+  "argv": [
+   ".a *= 3"
+  ],
+  "stdin": "{\"a\": 4}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arithmetic_assignment_divide::382",
+  "argv": [
+   ".a /= 2"
+  ],
+  "stdin": "{\"a\": 10}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arithmetic_assignment_modulo::383",
+  "argv": [
+   ".a %= 3"
+  ],
+  "stdin": "{\"a\": 10}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_update::384",
+  "argv": [
+   ".a.b.c = 42"
+  ],
+  "stdin": "{\"a\": {\"b\": {}}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_assignment::385",
+  "argv": [
+   ".[1] = 99"
+  ],
+  "stdin": "[1, 2, 3]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_del_function::386",
+  "argv": [
+   "del(.a)"
+  ],
+  "stdin": "{\"a\": 1, \"b\": 2, \"c\": 3}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_del_array_element::387",
+  "argv": [
+   "del(.[1])"
+  ],
+  "stdin": "[1, 2, 3, 4]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_def_function::388",
+  "argv": [
+   "def double: . * 2; map(double)"
+  ],
+  "stdin": "[1, 2, 3]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_def_with_params::389",
+  "argv": [
+   "def add(x): . + x; map(add(10))"
+  ],
+  "stdin": "[1, 2, 3]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reduce_complex::390",
+  "argv": [
+   "reduce .[] as $x ({}; .[$x|tostring] = $x)"
+  ],
+  "stdin": "[1, 2, 3]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_foreach_with_extraction::391",
+  "argv": [
+   "[foreach .[] as $x (0; . + $x; if . > 3 then . else empty end)]"
+  ],
+  "stdin": "[1, 2, 3]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_limit_with_condition::392",
+  "argv": [
+   "[limit(3; .[] | select(. > 0))]"
+  ],
+  "stdin": "[-1, 1, -2, 2, -3, 3, 4]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_complex::393",
+  "argv": [
+   "[1] | until(length >= 5; . + [. | length + 1])"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_recurse_with_condition::394",
+  "argv": [
+   "[1 | recurse(if . < 100 then . * 2 else empty end)]"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_walk_complex::395",
+  "argv": [
+   "walk(if type == \"array\" then sort else . end)"
+  ],
+  "stdin": "{\"a\": [3, 1, 2], \"b\": {\"c\": [6, 4, 5]}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sql_style_operators::396",
+  "argv": [
+   "[.[] | select(.age > 25)]"
+  ],
+  "stdin": "[{\"name\":\"Alice\",\"age\":30},{\"name\":\"Bob\",\"age\":20},{\"name\":\"Charlie\",\"age\":35}]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_map_select_filter::397",
+  "argv": [
+   "map(select(. % 2 == 0))"
+  ],
+  "stdin": "[1, 2, 3, 4, 5, 6]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_map_values::398",
+  "argv": [
+   "map_values(. * 2)"
+  ],
+  "stdin": "{\"a\": 1, \"b\": 2, \"c\": 3}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_to_entries_modification::399",
+  "argv": [
+   "to_entries | map(.value += 10) | from_entries"
+  ],
+  "stdin": "{\"a\": 1, \"b\": 2}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

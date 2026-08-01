@@ -1,0 +1,5690 @@
+{
+ "slug": "ogham__dog.721440b",
+ "language": "",
+ "n_branches": 10,
+ "n_tests_total": 1677,
+ "n_examples": 298,
+ "n_with_exact_stdout": 23,
+ "n_with_rc": 236,
+ "n_skipped": 1353,
+ "examples": [
+  {
+   "test": "test_no_args_shows_usage_and_exit_3",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args_parsing.py:33"
+  },
+  {
+   "test": "test_txid_cannot_be_specified_more_than_once",
+   "argv": [
+    "--txid=1",
+    "--txid=2",
+    "example.net"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Option 'txid' given more than once"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args_parsing.py:56"
+  },
+  {
+   "test": "test_short_option_does_not_support_equals_form_for_type",
+   "argv": [
+    "-t=MX",
+    "example.net"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Invalid query type",
+    "\"=MX\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args_parsing.py:82"
+  },
+  {
+   "test": "test_unknown_flag_nonzero",
+   "argv": [
+    "--definitely-not-a-real-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:20"
+  },
+  {
+   "test": "test_help_matches_golden",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_meta_outputs.py:4"
+  },
+  {
+   "test": "test_version_matches_golden",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_meta_outputs.py:12"
+  },
+  {
+   "test": "test_help_succeeds_and_mentions_usage",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "dog"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_version_errors.py:6"
+  },
+  {
+   "test": "test_help_short_flag_question_mark_succeeds",
+   "argv": [
+    "-?"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_version_errors.py:14"
+  },
+  {
+   "test": "test_unknown_option_goes_to_stderr_and_exit_code_3",
+   "argv": [
+    "--does-not-exist"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Invalid options"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_version_errors.py:28"
+  },
+  {
+   "test": "test_missing_required_arguments_exits_3_and_prints_help_to_stdout",
+   "argv": [
+    "-J",
+    "-t",
+    "A",
+    "--color=never"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_json_output.py:43"
+  },
+  {
+   "test": "test_json_nxdomain_full_structure",
+   "argv": [
+    "--json",
+    "nonexistent-domain-xyz-12345.example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "responses"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_absolute_final.py:14"
+  },
+  {
+   "test": "test_table_display_multiple_sections",
+   "argv": [
+    "-t",
+    "NS",
+    "example.com",
+    "--edns=show"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "NS",
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_absolute_final.py:27"
+  },
+  {
+   "test": "test_resolve_system_default",
+   "argv": [
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_absolute_final.py:37"
+  },
+  {
+   "test": "test_invalid_txid_negative",
+   "argv": [
+    "--txid=-1",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Invalid transaction ID",
+    "\"-1\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_error_handling.py:19"
+  },
+  {
+   "test": "test_invalid_txid_too_large",
+   "argv": [
+    "--txid=70000",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Invalid transaction ID",
+    "\"70000\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_error_handling.py:26"
+  },
+  {
+   "test": "test_numeric_class_out_of_range",
+   "argv": [
+    "--class=70000",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_error_handling.py:110"
+  },
+  {
+   "test": "test_double_dash_separator",
+   "argv": [
+    "--",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_error_handling.py:140"
+  },
+  {
+   "test": "test_help_flag_long",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog",
+    "dns client",
+    "Usage:",
+    "Examples:",
+    "-q, --query=HOST",
+    "-t, --type=TYPE",
+    "-n, --nameserver=ADDR"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:16"
+  },
+  {
+   "test": "test_help_flag_short",
+   "argv": [
+    "-?"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog",
+    "Usage:",
+    "Query options:"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:28"
+  },
+  {
+   "test": "test_version_flag_long",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog",
+    "dns client",
+    "https://dns.lookup.dog/"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:36"
+  },
+  {
+   "test": "test_version_flag_short",
+   "argv": [
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog",
+    "dns client"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:46"
+  },
+  {
+   "test": "test_version_contains_build_info",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.lookup.dog"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:54"
+  },
+  {
+   "test": "test_very_large_txid",
+   "argv": [
+    "--txid=65534",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_coverage.py:25"
+  },
+  {
+   "test": "test_json_with_multiple_domains",
+   "argv": [
+    "--json",
+    "example.com",
+    "example.org"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "responses"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_coverage.py:51"
+  },
+  {
+   "test": "test_query_with_all_protocols",
+   "argv": [
+    "-U",
+    "example.com",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_coverage.py:90"
+  },
+  {
+   "test": "test_edns_disable_with_tcp",
+   "argv": [
+    "--edns=disable",
+    "-T",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_coverage.py:97"
+  },
+  {
+   "test": "test_edns_hide_with_udp",
+   "argv": [
+    "--edns=hide",
+    "-U",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_coverage.py:104"
+  },
+  {
+   "test": "test_query_mixed_case_domain",
+   "argv": [
+    "ExAmPlE.CoM"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_comprehensive_coverage.py:132"
+  },
+  {
+   "test": "test_trailing_dot_domain",
+   "argv": [
+    "example.com."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_comprehensive_coverage.py:167"
+  },
+  {
+   "test": "test_port_with_nameserver",
+   "argv": [
+    "@8.8.8.8:53",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_coverage.py:201"
+  },
+  {
+   "test": "test_simple_a_query",
+   "argv": [
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com",
+    "A"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dns_queries.py:6"
+  },
+  {
+   "test": "test_explicit_a_query",
+   "argv": [
+    "-t",
+    "A",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dns_queries.py:16"
+  },
+  {
+   "test": "test_aaaa_query",
+   "argv": [
+    "-t",
+    "AAAA",
+    "google.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "google.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dns_queries.py:23"
+  },
+  {
+   "test": "test_mx_query",
+   "argv": [
+    "-t",
+    "MX",
+    "gmail.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "gmail.com",
+    "MX",
+    "."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dns_queries.py:31"
+  },
+  {
+   "test": "test_txt_query",
+   "argv": [
+    "-t",
+    "TXT",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com",
+    "TXT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dns_queries.py:40"
+  },
+  {
+   "test": "test_ns_query",
+   "argv": [
+    "-t",
+    "NS",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com",
+    "NS"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dns_queries.py:47"
+  },
+  {
+   "test": "test_soa_query",
+   "argv": [
+    "-t",
+    "SOA",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com",
+    "SOA"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dns_queries.py:54"
+  },
+  {
+   "test": "test_cname_query",
+   "argv": [
+    "-t",
+    "CNAME",
+    "www.github.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dns_queries.py:61"
+  },
+  {
+   "test": "test_query_with_specific_nameserver",
+   "argv": [
+    "example.com",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dns_queries.py:67"
+  },
+  {
+   "test": "test_query_with_nameserver_flag",
+   "argv": [
+    "-n",
+    "8.8.8.8",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dns_queries.py:74"
+  },
+  {
+   "test": "test_query_with_tcp",
+   "argv": [
+    "-T",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dns_queries.py:81"
+  },
+  {
+   "test": "test_query_with_udp_explicit",
+   "argv": [
+    "-U",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dns_queries.py:88"
+  },
+  {
+   "test": "test_json_output",
+   "argv": [
+    "-J",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dns_queries.py:105"
+  },
+  {
+   "test": "test_time_flag",
+   "argv": [
+    "--time",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dns_queries.py:116"
+  },
+  {
+   "test": "test_seconds_flag",
+   "argv": [
+    "--seconds",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dns_queries.py:124"
+  },
+  {
+   "test": "test_color_never",
+   "argv": [
+    "--color",
+    "never",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dns_queries.py:130"
+  },
+  {
+   "test": "test_multiple_domains",
+   "argv": [
+    "example.com",
+    "example.net"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com",
+    "example.net"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dns_queries.py:138"
+  },
+  {
+   "test": "test_multiple_types",
+   "argv": [
+    "-t",
+    "A",
+    "-t",
+    "AAAA",
+    "google.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "google.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dns_queries.py:145"
+  },
+  {
+   "test": "test_class_in",
+   "argv": [
+    "--class",
+    "IN",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dns_queries.py:153"
+  },
+  {
+   "test": "test_edns_disable",
+   "argv": [
+    "--edns",
+    "disable",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dns_queries.py:159"
+  },
+  {
+   "test": "test_edns_show",
+   "argv": [
+    "--edns",
+    "show",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dns_queries.py:165"
+  },
+  {
+   "test": "test_protocol_tweak_bufsize",
+   "argv": [
+    "-Z",
+    "bufsize=4096",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dns_queries.py:171"
+  },
+  {
+   "test": "test_txid_setting",
+   "argv": [
+    "--txid",
+    "54321",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dns_queries.py:177"
+  },
+  {
+   "test": "test_localhost_query",
+   "argv": [
+    "localhost"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "localhost"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:5"
+  },
+  {
+   "test": "test_numeric_ip_query",
+   "argv": [
+    "8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8.8.8.8"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:11"
+  },
+  {
+   "test": "test_query_root_servers",
+   "argv": [
+    "-t",
+    "NS",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:18"
+  },
+  {
+   "test": "test_query_with_port_in_nameserver",
+   "argv": [
+    "-n",
+    "8.8.8.8:53",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:25"
+  },
+  {
+   "test": "test_query_with_trailing_dot",
+   "argv": [
+    "example.com."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:31"
+  },
+  {
+   "test": "test_query_subdomain",
+   "argv": [
+    "www.example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:37"
+  },
+  {
+   "test": "test_query_case_insensitive_domain",
+   "argv": [
+    "EXAMPLE.COM"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_edge_cases.py:51"
+  },
+  {
+   "test": "test_query_case_insensitive_type",
+   "argv": [
+    "-t",
+    "a",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:58"
+  },
+  {
+   "test": "test_query_mixed_case_type",
+   "argv": [
+    "-t",
+    "Mx",
+    "gmail.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "gmail.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:64"
+  },
+  {
+   "test": "test_multiple_flags_combined",
+   "argv": [
+    "-T",
+    "-J",
+    "--time",
+    "--seconds",
+    "--color",
+    "never",
+    "-n",
+    "8.8.8.8",
+    "-t",
+    "A",
+    "-q",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:169"
+  },
+  {
+   "test": "test_txid_max_value",
+   "argv": [
+    "--txid",
+    "65535",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:179"
+  },
+  {
+   "test": "test_bufsize_small",
+   "argv": [
+    "-Z",
+    "bufsize=512",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:185"
+  },
+  {
+   "test": "test_bufsize_large",
+   "argv": [
+    "-Z",
+    "bufsize=8192",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:191"
+  },
+  {
+   "test": "test_dog_debug_env_var",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {
+    "DOG_DEBUG": "1"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_environment_variables.py:4"
+  },
+  {
+   "test": "test_invalid_argument",
+   "argv": [
+    "--wibble"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "dog:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:4"
+  },
+  {
+   "test": "test_missing_parameter_value",
+   "argv": [
+    "--class"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "dog:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:12"
+  },
+  {
+   "test": "test_invalid_record_type",
+   "argv": [
+    "--type",
+    "XYZZY",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "dog:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:21"
+  },
+  {
+   "test": "test_invalid_class",
+   "argv": [
+    "--class",
+    "XYZZY",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "dog:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:29"
+  },
+  {
+   "test": "test_invalid_protocol_tweak",
+   "argv": [
+    "-Z",
+    "aoeu",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "dog:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:37"
+  },
+  {
+   "test": "test_opt_query_type_error",
+   "argv": [
+    "OPT",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "OPT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:45"
+  },
+  {
+   "test": "test_opt_query_type_lowercase",
+   "argv": [
+    "opt",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:54"
+  },
+  {
+   "test": "test_opt_with_type_flag",
+   "argv": [
+    "--type",
+    "OPT",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "OPT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:61"
+  },
+  {
+   "test": "test_https_without_nameserver",
+   "argv": [
+    "--https",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "dog:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:78"
+  },
+  {
+   "test": "test_invalid_edns_setting",
+   "argv": [
+    "--edns",
+    "invalid",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "dog:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:86"
+  },
+  {
+   "test": "test_invalid_txid_not_number",
+   "argv": [
+    "--txid",
+    "notanumber",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "dog:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:93"
+  },
+  {
+   "test": "test_tcp_multiple_queries",
+   "argv": [
+    "-T",
+    "-t",
+    "A",
+    "-t",
+    "NS",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_final_coverage_boost.py:5"
+  },
+  {
+   "test": "test_tcp_with_json",
+   "argv": [
+    "-T",
+    "--json",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "responses"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_final_coverage_boost.py:34"
+  },
+  {
+   "test": "test_authority_records_display",
+   "argv": [
+    "-t",
+    "SOA",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SOA",
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_final_coverage_boost.py:114"
+  },
+  {
+   "test": "test_multiple_record_types_json",
+   "argv": [
+    "--json",
+    "-t",
+    "A",
+    "-t",
+    "AAAA",
+    "-t",
+    "MX",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "responses"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_final_coverage_boost.py:155"
+  },
+  {
+   "test": "test_multiple_record_types_color",
+   "argv": [
+    "--color=always",
+    "-t",
+    "A",
+    "-t",
+    "AAAA",
+    "-t",
+    "NS",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_final_coverage_boost.py:165"
+  },
+  {
+   "test": "test_class_in_with_tcp",
+   "argv": [
+    "--class=IN",
+    "-T",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_final_coverage_boost.py:179"
+  },
+  {
+   "test": "test_color_variations_tcp",
+   "argv": [
+    "-T",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_final_three_lines.py:67"
+  },
+  {
+   "test": "test_comprehensive_final",
+   "argv": [
+    "-T",
+    "@8.8.8.8",
+    "-t",
+    "A",
+    "-t",
+    "AAAA",
+    "--class=IN",
+    "--edns=show",
+    "-Zaa",
+    "-Zcd",
+    "-Zbufsize=4096",
+    "--txid=12345",
+    "--color=always",
+    "--time",
+    "--seconds",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_one_more.py:4"
+  },
+  {
+   "test": "test_json_empty_result",
+   "argv": [
+    "--json",
+    "-t",
+    "AAAA",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "responses"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_edge_cases.py:62"
+  },
+  {
+   "test": "test_json_with_color",
+   "argv": [
+    "--json",
+    "--color=always",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "responses"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_edge_cases.py:72"
+  },
+  {
+   "test": "test_json_multiple_types",
+   "argv": [
+    "--json",
+    "-t",
+    "A",
+    "-t",
+    "AAAA",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "responses"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_edge_cases.py:132"
+  },
+  {
+   "test": "test_json_structure_validity",
+   "argv": [
+    "--json",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "responses"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_edge_cases.py:161"
+  },
+  {
+   "test": "test_json_with_multiple_queries",
+   "argv": [
+    "-J",
+    "-t",
+    "A",
+    "-t",
+    "NS",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:16"
+  },
+  {
+   "test": "test_color_always",
+   "argv": [
+    "--color",
+    "always",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:33"
+  },
+  {
+   "test": "test_color_automatic",
+   "argv": [
+    "--color",
+    "automatic",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:41"
+  },
+  {
+   "test": "test_combined_time_and_seconds",
+   "argv": [
+    "--time",
+    "--seconds",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:47"
+  },
+  {
+   "test": "test_json_with_tcp",
+   "argv": [
+    "-J",
+    "-T",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:64"
+  },
+  {
+   "test": "test_json_with_nameserver",
+   "argv": [
+    "-J",
+    "-n",
+    "8.8.8.8",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:71"
+  },
+  {
+   "test": "test_multiple_queries_with_json",
+   "argv": [
+    "-J",
+    "example.com",
+    "example.net"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:87"
+  },
+  {
+   "test": "test_output_with_multiple_nameservers",
+   "argv": [
+    "-n",
+    "8.8.8.8",
+    "-n",
+    "1.1.1.1",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:133"
+  },
+  {
+   "test": "test_edns_hide",
+   "argv": [
+    "--edns",
+    "hide",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:139"
+  },
+  {
+   "test": "test_protocol_tweak_aa",
+   "argv": [
+    "-Z",
+    "aa",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:145"
+  },
+  {
+   "test": "test_protocol_tweak_ad",
+   "argv": [
+    "-Z",
+    "ad",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:151"
+  },
+  {
+   "test": "test_protocol_tweak_cd",
+   "argv": [
+    "-Z",
+    "cd",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:157"
+  },
+  {
+   "test": "test_multiple_protocol_tweaks",
+   "argv": [
+    "-Z",
+    "aa",
+    "-Z",
+    "ad",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:163"
+  },
+  {
+   "test": "test_color_always_option",
+   "argv": [
+    "--color",
+    "always",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_output_options.py:5"
+  },
+  {
+   "test": "test_color_automatic_option",
+   "argv": [
+    "--color",
+    "automatic",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_output_options.py:12"
+  },
+  {
+   "test": "test_color_never_option",
+   "argv": [
+    "--color",
+    "never",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_output_options.py:18"
+  },
+  {
+   "test": "test_colour_spelling",
+   "argv": [
+    "--colour",
+    "never",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_output_options.py:24"
+  },
+  {
+   "test": "test_seconds_option_accepted",
+   "argv": [
+    "--seconds",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_output_options.py:30"
+  },
+  {
+   "test": "test_time_option_accepted",
+   "argv": [
+    "--time",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_output_options.py:36"
+  },
+  {
+   "test": "test_short_mode_flag_long",
+   "argv": [
+    "--short",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_output_options.py:42"
+  },
+  {
+   "test": "test_short_mode_flag_short",
+   "argv": [
+    "-1",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_output_options.py:48"
+  },
+  {
+   "test": "test_json_mode_flag_long",
+   "argv": [
+    "--json",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_output_options.py:54"
+  },
+  {
+   "test": "test_json_mode_flag_short",
+   "argv": [
+    "-J",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_output_options.py:60"
+  },
+  {
+   "test": "test_udp_flag_long",
+   "argv": [
+    "--udp",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_protocol_options.py:4"
+  },
+  {
+   "test": "test_udp_flag_short",
+   "argv": [
+    "-U",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_protocol_options.py:10"
+  },
+  {
+   "test": "test_tcp_flag_long",
+   "argv": [
+    "--tcp",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_protocol_options.py:16"
+  },
+  {
+   "test": "test_tcp_flag_short",
+   "argv": [
+    "-T",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_protocol_options.py:22"
+  },
+  {
+   "test": "test_tls_flag_long",
+   "argv": [
+    "--tls",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_protocol_options.py:28"
+  },
+  {
+   "test": "test_tls_flag_short",
+   "argv": [
+    "-S",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_protocol_options.py:34"
+  },
+  {
+   "test": "test_https_flag_long",
+   "argv": [
+    "--https",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_protocol_options.py:40"
+  },
+  {
+   "test": "test_https_flag_short",
+   "argv": [
+    "-H",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_protocol_options.py:46"
+  },
+  {
+   "test": "test_protocol_flags_combination",
+   "argv": [
+    "-T",
+    "-n",
+    "8.8.8.8",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_protocol_options.py:52"
+  },
+  {
+   "test": "test_edns_hide",
+   "argv": [
+    "--edns=hide",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_protocol_tweaks.py:24"
+  },
+  {
+   "test": "test_txid_custom_value",
+   "argv": [
+    "--txid=12345",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_protocol_tweaks.py:52"
+  },
+  {
+   "test": "test_class_in",
+   "argv": [
+    "--class=IN",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_protocol_tweaks.py:92"
+  },
+  {
+   "test": "test_class_case_insensitive",
+   "argv": [
+    "--class=in",
+    "example.com",
+    "@1.1.1.1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com",
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_protocol_tweaks.py:111"
+  },
+  {
+   "test": "test_numeric_class",
+   "argv": [
+    "--class=1",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_protocol_tweaks.py:125"
+  },
+  {
+   "test": "test_free_argument_nameserver",
+   "argv": [
+    "example.com",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_protocol_tweaks.py:132"
+  },
+  {
+   "test": "test_free_argument_class",
+   "argv": [
+    "example.com",
+    "IN"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_protocol_tweaks.py:146"
+  },
+  {
+   "test": "test_json_with_edns_show",
+   "argv": [
+    "--json",
+    "--edns=show",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "responses"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_push_to_70.py:5"
+  },
+  {
+   "test": "test_tcp_with_all_tweaks",
+   "argv": [
+    "-T",
+    "-Zaa",
+    "-Zcd",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_push_to_70.py:30"
+  },
+  {
+   "test": "test_udp_with_all_tweaks",
+   "argv": [
+    "-U",
+    "-Zaa",
+    "-Zrd",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_push_to_70.py:37"
+  },
+  {
+   "test": "test_color_with_all_tweaks",
+   "argv": [
+    "--color=always",
+    "-Zaa",
+    "-Zcd",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_push_to_70.py:59"
+  },
+  {
+   "test": "test_tcp_ipv4_explicit",
+   "argv": [
+    "-T",
+    "@8.8.4.4",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_push_to_70.py:95"
+  },
+  {
+   "test": "test_udp_ipv4_explicit",
+   "argv": [
+    "-U",
+    "@8.8.4.4",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_push_to_70.py:102"
+  },
+  {
+   "test": "test_multiple_domains_json",
+   "argv": [
+    "--json",
+    "example.com",
+    "google.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "responses"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_push_to_70.py:116"
+  },
+  {
+   "test": "test_comprehensive_combination",
+   "argv": [
+    "-T",
+    "@8.8.8.8",
+    "-t",
+    "A",
+    "--edns=show",
+    "--color=always",
+    "--time",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_push_to_70.py:140"
+  },
+  {
+   "test": "test_bufsize_with_tcp",
+   "argv": [
+    "-T",
+    "-Zbufsize=2048",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_push_to_70.py:147"
+  },
+  {
+   "test": "test_query_flag_long",
+   "argv": [
+    "--query",
+    "example.com",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_query_options.py:4"
+  },
+  {
+   "test": "test_query_flag_short",
+   "argv": [
+    "-q",
+    "example.com",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_query_options.py:10"
+  },
+  {
+   "test": "test_type_flag_long",
+   "argv": [
+    "--type",
+    "A",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_query_options.py:16"
+  },
+  {
+   "test": "test_type_flag_short",
+   "argv": [
+    "-t",
+    "MX",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_query_options.py:22"
+  },
+  {
+   "test": "test_nameserver_flag_long",
+   "argv": [
+    "--nameserver",
+    "8.8.8.8",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_query_options.py:28"
+  },
+  {
+   "test": "test_nameserver_flag_short",
+   "argv": [
+    "-n",
+    "1.1.1.1",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_query_options.py:34"
+  },
+  {
+   "test": "test_class_flag",
+   "argv": [
+    "--class",
+    "IN",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_query_options.py:40"
+  },
+  {
+   "test": "test_class_ch",
+   "argv": [
+    "--class",
+    "CH",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_query_options.py:46"
+  },
+  {
+   "test": "test_class_hs",
+   "argv": [
+    "--class",
+    "HS",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_query_options.py:52"
+  },
+  {
+   "test": "test_multiple_record_types",
+   "argv": [
+    "-t",
+    "A",
+    "-t",
+    "AAAA",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_query_options.py:58"
+  },
+  {
+   "test": "test_multiple_domains",
+   "argv": [
+    "-q",
+    "example.com",
+    "-q",
+    "example.net",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_query_options.py:64"
+  },
+  {
+   "test": "test_edns_disable",
+   "argv": [
+    "--edns",
+    "disable",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_sending_options.py:4"
+  },
+  {
+   "test": "test_edns_hide",
+   "argv": [
+    "--edns",
+    "hide",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_sending_options.py:10"
+  },
+  {
+   "test": "test_edns_show",
+   "argv": [
+    "--edns",
+    "show",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_sending_options.py:16"
+  },
+  {
+   "test": "test_txid_option",
+   "argv": [
+    "--txid",
+    "12345",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_sending_options.py:22"
+  },
+  {
+   "test": "test_txid_zero",
+   "argv": [
+    "--txid",
+    "0",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_sending_options.py:28"
+  },
+  {
+   "test": "test_protocol_tweak_aa",
+   "argv": [
+    "-Z",
+    "aa",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_sending_options.py:34"
+  },
+  {
+   "test": "test_protocol_tweak_ad",
+   "argv": [
+    "-Z",
+    "ad",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_sending_options.py:40"
+  },
+  {
+   "test": "test_protocol_tweak_cd",
+   "argv": [
+    "-Z",
+    "cd",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_sending_options.py:46"
+  },
+  {
+   "test": "test_protocol_tweak_bufsize",
+   "argv": [
+    "-Z",
+    "bufsize=4096",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_sending_options.py:52"
+  },
+  {
+   "test": "test_multiple_protocol_tweaks",
+   "argv": [
+    "-Z",
+    "aa",
+    "-Z",
+    "ad",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_sending_options.py:58"
+  },
+  {
+   "test": "test_protocol_tweak_bufsize_minimum",
+   "argv": [
+    "-Zbufsize=512",
+    "-T",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_three_more_lines.py:13"
+  },
+  {
+   "test": "test_protocol_tweak_bufsize_maximum",
+   "argv": [
+    "-Zbufsize=65535",
+    "-T",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_three_more_lines.py:20"
+  },
+  {
+   "test": "test_all_tweaks_together",
+   "argv": [
+    "-Zaa",
+    "-Zcd",
+    "-Zad",
+    "-Zbufsize=4096",
+    "-T",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_three_more_lines.py:27"
+  },
+  {
+   "test": "test_rd_tweak",
+   "argv": [
+    "-Zrd",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_three_more_lines.py:34"
+  },
+  {
+   "test": "test_json_with_opt_records",
+   "argv": [
+    "--json",
+    "--edns=show",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "responses",
+    "additionals"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_three_more_lines.py:48"
+  },
+  {
+   "test": "test_udp_with_rd",
+   "argv": [
+    "-U",
+    "-Zrd",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_three_more_lines.py:75"
+  },
+  {
+   "test": "test_https_cloudflare",
+   "argv": [
+    "--https",
+    "@https://1.1.1.1/dns-query",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tls_https_protocols.py:33"
+  },
+  {
+   "test": "test_https_google",
+   "argv": [
+    "--https",
+    "@https://8.8.8.8/dns-query",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tls_https_protocols.py:41"
+  },
+  {
+   "test": "test_dog_debug_enables_logging_to_stderr_and_uses_ansi_by_default",
+   "argv": [
+    "example.net",
+    "-1"
+   ],
+   "stdin": null,
+   "env": {
+    "DOG_DEBUG": "1"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Running with options",
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_env_config.py:20"
+  },
+  {
+   "test": "test_dog_debug_trace_is_more_verbose_than_nonempty_value",
+   "argv": [
+    "example.net",
+    "-1"
+   ],
+   "stdin": null,
+   "env": {
+    "DOG_DEBUG": "1"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_env_config.py:31"
+  },
+  {
+   "test": "test_ext_invalid_argument_error_message",
+   "argv": [
+    "--definitely-not-a-real-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Invalid options"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_options_from_xtests.py:37"
+  },
+  {
+   "test": "test_ext_invalid_protocol_tweak",
+   "argv": [
+    "-Z",
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Invalid protocol tweak"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_options_from_xtests.py:48"
+  },
+  {
+   "test": "test_ext_build_request_smoke_via_connection_refused",
+   "argv": [
+    "-q",
+    "example.net",
+    "-t",
+    "A",
+    "-n",
+    "127.0.0.1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error [network]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wire_unit_tests_externalized_as_cli_errors.py:34"
+  },
+  {
+   "test": "test_help_header_line_present",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog ● command-line DNS client"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:65"
+  },
+  {
+   "test": "test_help_has_usage_section",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:\n"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:70"
+  },
+  {
+   "test": "test_help_has_examples_section_with_known_example",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Examples:\n",
+    "dog example.net                          Query a domain using default settings"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:76"
+  },
+  {
+   "test": "test_help_documents_arguments_placeholder_and_description",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[--] <arguments>",
+    "<arguments>              Human-readable host names"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:125"
+  },
+  {
+   "test": "test_help_combined_with_other_flags_still_shows_help",
+   "argv": [
+    "--help",
+    "--udp",
+    "example.net"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:131"
+  },
+  {
+   "test": "test_invalid_short_h_errors_and_mentions_unrecognized_option",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unrecognized option"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:145"
+  },
+  {
+   "test": "test_help_mentions_subcommands_section_absent",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:25"
+  },
+  {
+   "test": "test_multiple_nameservers_different_protocols",
+   "argv": [
+    "example.com",
+    "@8.8.8.8",
+    "@1.1.1.1",
+    "-U"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_edge_cases.py:148"
+  },
+  {
+   "test": "test_double_dash_separator",
+   "argv": [
+    "--",
+    "example.com",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_edge_cases.py:157"
+  },
+  {
+   "test": "test_help_flag_shows_help",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog",
+    "command-line DNS client",
+    "Query options:",
+    "Protocol options:",
+    "Output options:",
+    "Meta options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:15"
+  },
+  {
+   "test": "test_help_short_flag_shows_help",
+   "argv": [
+    "-?"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog",
+    "command-line DNS client",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:27"
+  },
+  {
+   "test": "test_version_flag_shows_version",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog",
+    "command-line DNS client",
+    "dns.lookup.dog"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:36"
+  },
+  {
+   "test": "test_version_short_flag_shows_version",
+   "argv": [
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog",
+    "command-line DNS client"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:47"
+  },
+  {
+   "test": "test_help_contains_all_sections",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Query options:",
+    "Sending options:",
+    "Protocol options:",
+    "Output options:",
+    "Meta options:",
+    "-q, --query",
+    "-t, --type",
+    "-n, --nameserver",
+    "-U, --udp",
+    "-T, --tcp",
+    "-S, --tls",
+    "-H, --https",
+    "-1, --short",
+    "-J, --json"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:56"
+  },
+  {
+   "test": "test_help_contains_examples",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Examples:",
+    "dog example.net",
+    "dog example.net MX",
+    "@1.1.1.1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:78"
+  },
+  {
+   "test": "test_version_output_format",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "https://"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:88"
+  },
+  {
+   "test": "test_help_color_always",
+   "argv": [
+    "--help",
+    "--color=always"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_color_output.py:4"
+  },
+  {
+   "test": "test_help_color_never",
+   "argv": [
+    "--help",
+    "--color=never"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_color_output.py:13"
+  },
+  {
+   "test": "test_help_color_automatic",
+   "argv": [
+    "--help",
+    "--color=automatic"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_color_output.py:22"
+  },
+  {
+   "test": "test_help_colour_always_british",
+   "argv": [
+    "--help",
+    "--colour=always"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_color_output.py:30"
+  },
+  {
+   "test": "test_help_colour_never_british",
+   "argv": [
+    "--help",
+    "--colour=never"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_color_output.py:39"
+  },
+  {
+   "test": "test_help_colour_automatic_british",
+   "argv": [
+    "--help",
+    "--colour=automatic"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_color_output.py:48"
+  },
+  {
+   "test": "test_version_color_always",
+   "argv": [
+    "--version",
+    "--color=always"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_color_output.py:55"
+  },
+  {
+   "test": "test_version_color_never",
+   "argv": [
+    "--version",
+    "--color=never"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_color_output.py:64"
+  },
+  {
+   "test": "test_version_colour_always_british",
+   "argv": [
+    "--version",
+    "--colour=always"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_color_output.py:73"
+  },
+  {
+   "test": "test_version_colour_never_british",
+   "argv": [
+    "--version",
+    "--colour=never"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_color_output.py:82"
+  },
+  {
+   "test": "test_query_with_port_in_nameserver",
+   "argv": [
+    "dns.google",
+    "@8.8.8.8:53"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:5"
+  },
+  {
+   "test": "test_multiple_edns_flags",
+   "argv": [
+    "--edns=show",
+    "-Z",
+    "bufsize=4096",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:20"
+  },
+  {
+   "test": "test_txid_with_protocol_tweaks",
+   "argv": [
+    "--txid=42",
+    "-Z",
+    "aa",
+    "-Z",
+    "ad",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:26"
+  },
+  {
+   "test": "test_all_protocol_tweaks_combined",
+   "argv": [
+    "-Z",
+    "aa",
+    "-Z",
+    "ad",
+    "-Z",
+    "cd",
+    "-Z",
+    "bufsize=2048",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:32"
+  },
+  {
+   "test": "test_json_with_all_options",
+   "argv": [
+    "-J",
+    "--time",
+    "--seconds",
+    "--edns=show",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:57"
+  },
+  {
+   "test": "test_color_with_json",
+   "argv": [
+    "-J",
+    "--color=always",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:64"
+  },
+  {
+   "test": "test_short_mode_with_time",
+   "argv": [
+    "-1",
+    "--time",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:73"
+  },
+  {
+   "test": "test_query_with_dot_at_end",
+   "argv": [
+    "dns.google.",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:103"
+  },
+  {
+   "test": "test_multiple_at_signs",
+   "argv": [
+    "dns.google",
+    "@8.8.8.8",
+    "@1.1.1.1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:109"
+  },
+  {
+   "test": "test_type_before_domain",
+   "argv": [
+    "A",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google",
+    "A"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:116"
+  },
+  {
+   "test": "test_nameserver_before_domain",
+   "argv": [
+    "@8.8.8.8",
+    "dns.google"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:123"
+  },
+  {
+   "test": "test_class_before_domain",
+   "argv": [
+    "IN",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:129"
+  },
+  {
+   "test": "test_mixed_positional_order",
+   "argv": [
+    "@8.8.8.8",
+    "A",
+    "dns.google",
+    "IN"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:135"
+  },
+  {
+   "test": "test_udp_with_tcp_fallback_large_response",
+   "argv": [
+    "google.com",
+    "TXT",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:141"
+  },
+  {
+   "test": "test_edns_disable_with_bufsize",
+   "argv": [
+    "--edns=disable",
+    "-Z",
+    "bufsize=1024",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:151"
+  },
+  {
+   "test": "test_seconds_without_time",
+   "argv": [
+    "--seconds",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:158"
+  },
+  {
+   "test": "test_empty_type_argument",
+   "argv": [
+    "--type",
+    "",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:164"
+  },
+  {
+   "test": "test_empty_query_queries_root",
+   "argv": [
+    "--query",
+    "",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:171"
+  },
+  {
+   "test": "test_nameserver_without_at_sign",
+   "argv": [
+    "-n",
+    "8.8.8.8",
+    "dns.google"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:178"
+  },
+  {
+   "test": "test_uppercase_type",
+   "argv": [
+    "--type",
+    "AAAA",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:208"
+  },
+  {
+   "test": "test_lowercase_type",
+   "argv": [
+    "--type",
+    "aaaa",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:214"
+  },
+  {
+   "test": "test_root_domain_query",
+   "argv": [
+    ".",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:220"
+  },
+  {
+   "test": "test_dog_debug_enables_debug_output",
+   "argv": [
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {
+    "DOG_DEBUG": "1"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_environment_variables.py:4"
+  },
+  {
+   "test": "test_dog_debug_with_short_mode",
+   "argv": [
+    "-1",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {
+    "DOG_DEBUG": "1"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_environment_variables.py:20"
+  },
+  {
+   "test": "test_dog_debug_with_json_mode",
+   "argv": [
+    "-J",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {
+    "DOG_DEBUG": "1"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_environment_variables.py:27"
+  },
+  {
+   "test": "test_dog_debug_empty_string",
+   "argv": [
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {
+    "DOG_DEBUG": ""
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_environment_variables.py:45"
+  },
+  {
+   "test": "test_invalid_argument",
+   "argv": [
+    "--wibble"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "dog:",
+    "wibble"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:4"
+  },
+  {
+   "test": "test_missing_parameter_value",
+   "argv": [
+    "--class"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "dog:",
+    "class"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_error_handling.py:13"
+  },
+  {
+   "test": "test_invalid_record_type",
+   "argv": [
+    "--type",
+    "XYZZY",
+    "dns.google"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "dog:",
+    "type",
+    "XYZZY"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_error_handling.py:21"
+  },
+  {
+   "test": "test_invalid_class",
+   "argv": [
+    "--class",
+    "XYZZY",
+    "dns.google"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "dog:",
+    "class"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_error_handling.py:31"
+  },
+  {
+   "test": "test_invalid_protocol_tweak",
+   "argv": [
+    "-Z",
+    "aoeu",
+    "dns.google"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "dog:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:40"
+  },
+  {
+   "test": "test_opt_query_not_allowed",
+   "argv": [
+    "OPT",
+    "dns.google"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "dog:",
+    "OPT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:48"
+  },
+  {
+   "test": "test_opt_query_lowercase_not_allowed",
+   "argv": [
+    "opt",
+    "dns.google"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "dog:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:56"
+  },
+  {
+   "test": "test_opt_type_flag_not_allowed",
+   "argv": [
+    "--type",
+    "OPT",
+    "dns.google"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "dog:",
+    "OPT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:64"
+  },
+  {
+   "test": "test_opt_type_lowercase_not_allowed",
+   "argv": [
+    "--type",
+    "opt",
+    "dns.google"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "dog:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:72"
+  },
+  {
+   "test": "test_https_without_nameserver",
+   "argv": [
+    "--https",
+    "dns.google"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "dog:",
+    "nameserver"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_error_handling.py:88"
+  },
+  {
+   "test": "test_missing_query_argument",
+   "argv": [
+    "--type",
+    "A"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:104"
+  },
+  {
+   "test": "test_invalid_edns_value",
+   "argv": [
+    "--edns=invalid",
+    "dns.google"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:119"
+  },
+  {
+   "test": "test_invalid_txid_value",
+   "argv": [
+    "--txid=notanumber",
+    "dns.google"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dog:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:126"
+  },
+  {
+   "test": "test_multiple_domains",
+   "argv": [
+    "dns.google",
+    "google.com",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google",
+    "google.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_multiple_queries.py:4"
+  },
+  {
+   "test": "test_multiple_types",
+   "argv": [
+    "dns.google",
+    "A",
+    "AAAA",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google",
+    "A",
+    "AAAA"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_multiple_queries.py:12"
+  },
+  {
+   "test": "test_multiple_domains_and_types",
+   "argv": [
+    "dns.google",
+    "google.com",
+    "A",
+    "MX",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google",
+    "google.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_multiple_queries.py:21"
+  },
+  {
+   "test": "test_multiple_queries_with_explicit_flags",
+   "argv": [
+    "-q",
+    "dns.google",
+    "-q",
+    "google.com",
+    "-t",
+    "A",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_multiple_queries.py:30"
+  },
+  {
+   "test": "test_multiple_types_with_flag",
+   "argv": [
+    "-t",
+    "A",
+    "-t",
+    "MX",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_multiple_queries.py:38"
+  },
+  {
+   "test": "test_domain_with_multiple_nameservers",
+   "argv": [
+    "dns.google",
+    "@8.8.8.8",
+    "@1.1.1.1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_multiple_queries.py:45"
+  },
+  {
+   "test": "test_combination_positional_and_explicit",
+   "argv": [
+    "dns.google",
+    "-t",
+    "A",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google",
+    "A"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_multiple_queries.py:52"
+  },
+  {
+   "test": "test_multiple_queries_json_output",
+   "argv": [
+    "-J",
+    "dns.google",
+    "A",
+    "AAAA",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_multiple_queries.py:59"
+  },
+  {
+   "test": "test_multiple_queries_short_mode",
+   "argv": [
+    "-1",
+    "dns.google",
+    "A",
+    "AAAA",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_multiple_queries.py:70"
+  },
+  {
+   "test": "test_multiple_classes",
+   "argv": [
+    "--class",
+    "IN",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_multiple_queries.py:78"
+  },
+  {
+   "test": "test_short_mode_long_flag",
+   "argv": [
+    "--short",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_options.py:15"
+  },
+  {
+   "test": "test_json_mode_long_flag",
+   "argv": [
+    "--json",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_options.py:34"
+  },
+  {
+   "test": "test_time_flag_shows_response_time",
+   "argv": [
+    "--time",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_options.py:43"
+  },
+  {
+   "test": "test_json_with_time",
+   "argv": [
+    "-J",
+    "--time",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_options.py:59"
+  },
+  {
+   "test": "test_json_with_seconds",
+   "argv": [
+    "-J",
+    "--seconds",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_options.py:69"
+  },
+  {
+   "test": "test_short_mode_with_color",
+   "argv": [
+    "-1",
+    "--color=never",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_options.py:76"
+  },
+  {
+   "test": "test_normal_output_has_query_info",
+   "argv": [
+    "dns.google",
+    "A",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google",
+    "A"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_options.py:95"
+  },
+  {
+   "test": "test_color_never_with_normal_output",
+   "argv": [
+    "--color=never",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_options.py:104"
+  },
+  {
+   "test": "test_color_always_with_normal_output",
+   "argv": [
+    "--color=always",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_options.py:112"
+  },
+  {
+   "test": "test_udp_protocol_short_flag",
+   "argv": [
+    "-U",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_protocol_options.py:4"
+  },
+  {
+   "test": "test_udp_protocol_long_flag",
+   "argv": [
+    "--udp",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_protocol_options.py:11"
+  },
+  {
+   "test": "test_tcp_protocol_short_flag",
+   "argv": [
+    "-T",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_protocol_options.py:18"
+  },
+  {
+   "test": "test_tcp_protocol_long_flag",
+   "argv": [
+    "--tcp",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_protocol_options.py:25"
+  },
+  {
+   "test": "test_tls_protocol_short_flag",
+   "argv": [
+    "-S",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_protocol_options.py:32"
+  },
+  {
+   "test": "test_https_protocol_short_flag",
+   "argv": [
+    "-H",
+    "@https://dns.google/dns-query",
+    "dns.google"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_protocol_options.py:49"
+  },
+  {
+   "test": "test_protocol_udp_with_explicit_type",
+   "argv": [
+    "-U",
+    "-t",
+    "A",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google",
+    "A"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_protocol_options.py:65"
+  },
+  {
+   "test": "test_protocol_tcp_with_explicit_type",
+   "argv": [
+    "-T",
+    "-t",
+    "MX",
+    "google.com",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "google.com",
+    "MX"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_protocol_options.py:72"
+  },
+  {
+   "test": "test_query_with_explicit_query_flag",
+   "argv": [
+    "-q",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_options.py:17"
+  },
+  {
+   "test": "test_query_with_long_query_flag",
+   "argv": [
+    "--query",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_options.py:24"
+  },
+  {
+   "test": "test_query_with_type_flag",
+   "argv": [
+    "-t",
+    "A",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google",
+    "A"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_options.py:31"
+  },
+  {
+   "test": "test_query_with_long_type_flag",
+   "argv": [
+    "--type",
+    "A",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_options.py:39"
+  },
+  {
+   "test": "test_query_with_long_nameserver_flag",
+   "argv": [
+    "--nameserver",
+    "8.8.8.8",
+    "dns.google"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_options.py:53"
+  },
+  {
+   "test": "test_query_mx_record",
+   "argv": [
+    "google.com",
+    "MX",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "google.com",
+    "MX"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_options.py:60"
+  },
+  {
+   "test": "test_query_ns_record",
+   "argv": [
+    "dns.google",
+    "NS",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google",
+    "NS"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_options.py:68"
+  },
+  {
+   "test": "test_query_txt_record",
+   "argv": [
+    "dns.google",
+    "TXT",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google",
+    "TXT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_options.py:76"
+  },
+  {
+   "test": "test_query_soa_record",
+   "argv": [
+    "google.com",
+    "SOA",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "google.com",
+    "SOA"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_options.py:84"
+  },
+  {
+   "test": "test_query_aaaa_record",
+   "argv": [
+    "dns.google",
+    "AAAA",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_options.py:92"
+  },
+  {
+   "test": "test_query_cname_record",
+   "argv": [
+    "www.github.com",
+    "CNAME",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CNAME"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_options.py:100"
+  },
+  {
+   "test": "test_query_explicit_all_flags",
+   "argv": [
+    "-q",
+    "dns.google",
+    "-t",
+    "A",
+    "-n",
+    "8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_options.py:122"
+  },
+  {
+   "test": "test_a_record_query",
+   "argv": [
+    "dns.google",
+    "A",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google",
+    "A",
+    "."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_record_types.py:4"
+  },
+  {
+   "test": "test_aaaa_record_query",
+   "argv": [
+    "dns.google",
+    "AAAA",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google",
+    "AAAA",
+    ":"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_record_types.py:13"
+  },
+  {
+   "test": "test_ns_record_query",
+   "argv": [
+    "google.com",
+    "NS",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "google.com",
+    "NS"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_record_types.py:38"
+  },
+  {
+   "test": "test_txt_record_query",
+   "argv": [
+    "google.com",
+    "TXT",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "google.com",
+    "TXT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_record_types.py:47"
+  },
+  {
+   "test": "test_caa_record_query",
+   "argv": [
+    "google.com",
+    "CAA",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CAA"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_record_types.py:79"
+  },
+  {
+   "test": "test_record_type_case_insensitive",
+   "argv": [
+    "dns.google",
+    "a",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_record_types.py:87"
+  },
+  {
+   "test": "test_record_type_mixed_case",
+   "argv": [
+    "dns.google",
+    "Mx",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_record_types.py:94"
+  },
+  {
+   "test": "test_edns_disable",
+   "argv": [
+    "--edns=disable",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sending_options.py:4"
+  },
+  {
+   "test": "test_edns_hide",
+   "argv": [
+    "--edns=hide",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sending_options.py:11"
+  },
+  {
+   "test": "test_edns_show",
+   "argv": [
+    "--edns=show",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sending_options.py:18"
+  },
+  {
+   "test": "test_txid_custom_value",
+   "argv": [
+    "--txid=12345",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sending_options.py:26"
+  },
+  {
+   "test": "test_txid_zero",
+   "argv": [
+    "--txid=0",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sending_options.py:33"
+  },
+  {
+   "test": "test_txid_max_value",
+   "argv": [
+    "--txid=65535",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sending_options.py:40"
+  },
+  {
+   "test": "test_protocol_tweak_aa",
+   "argv": [
+    "-Z",
+    "aa",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sending_options.py:47"
+  },
+  {
+   "test": "test_protocol_tweak_ad",
+   "argv": [
+    "-Z",
+    "ad",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sending_options.py:54"
+  },
+  {
+   "test": "test_protocol_tweak_cd",
+   "argv": [
+    "-Z",
+    "cd",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sending_options.py:61"
+  },
+  {
+   "test": "test_protocol_tweak_bufsize",
+   "argv": [
+    "-Z",
+    "bufsize=512",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sending_options.py:68"
+  },
+  {
+   "test": "test_protocol_tweak_bufsize_large",
+   "argv": [
+    "-Z",
+    "bufsize=4096",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sending_options.py:75"
+  },
+  {
+   "test": "test_multiple_protocol_tweaks",
+   "argv": [
+    "-Z",
+    "aa",
+    "-Z",
+    "ad",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sending_options.py:82"
+  },
+  {
+   "test": "test_edns_with_protocol_tweaks",
+   "argv": [
+    "--edns=show",
+    "-Z",
+    "ad",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dns.google"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sending_options.py:89"
+  },
+  {
+   "test": "test_txid_with_json",
+   "argv": [
+    "--txid=54321",
+    "-J",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sending_options.py:96"
+  },
+  {
+   "test": "test_edns_show_with_json",
+   "argv": [
+    "--edns=show",
+    "-J",
+    "dns.google",
+    "@8.8.8.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sending_options.py:106"
+  }
+ ]
+}

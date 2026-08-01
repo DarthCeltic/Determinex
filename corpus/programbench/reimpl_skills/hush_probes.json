@@ -1,0 +1,2109 @@
+[
+ {
+  "name": "test::test_help_exact_output::0",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_exact_output::1",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_args_empty_stdin_exits_cleanly::2",
+  "argv": [],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lex_empty_stdin::3",
+  "argv": [
+   "--lex"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lex_simple_let::4",
+  "argv": [
+   "--lex"
+  ],
+  "stdin": "let x = 1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ast_empty_stdin::5",
+  "argv": [
+   "--ast"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ast_simple_let::6",
+  "argv": [
+   "--ast"
+  ],
+  "stdin": "let x = 1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_program_simple_let::7",
+  "argv": [
+   "--program"
+  ],
+  "stdin": "let x = 1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_valid_program_has_no_output::8",
+  "argv": [
+   "--check"
+  ],
+  "stdin": "let x = 1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_undeclared_variable_error_formatting::9",
+  "argv": [],
+  "stdin": "print(\"hi\")\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_std_print_no_newline::10",
+  "argv": [],
+  "stdin": "std.print(\"hi\")\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_std_println_adds_newline::11",
+  "argv": [],
+  "stdin": "std.println(\"hi\")\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_printing_preserves_text::12",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_export_roundtrip::13",
+  "argv": [],
+  "stdin": "std.export(\"FOO\",\"BAR\")\nstd.println(std.env(\"FOO\"))\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_capture_printed_dict_shape::14",
+  "argv": [],
+  "stdin": "let r = ${ echo hello }\nstd.println(r)\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duplicate_flag_rejected::15",
+  "argv": [
+   "--ast",
+   "--ast"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_do_not_accept_values_with_equals_syntax_but_are_ignored::16",
+  "argv": [
+   "--ast=1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_positional_arguments_are_accepted::17",
+  "argv": [
+   "foo.hsh",
+   "arg1",
+   "arg2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_after_positionals_are_rejected::18",
+  "argv": [
+   "foo.hsh",
+   "--ast"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_makes_following_tokens_positional_allowing_dash_values::19",
+  "argv": [
+   "--ast",
+   "-x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_while_loop_ast::20",
+  "argv": [
+   "--ast"
+  ],
+  "stdin": "let x = 0\nwhile x < 5 do\n  std.println(x)\n  x = x + 1\nend",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_loop_with_iterator_ast::21",
+  "argv": [
+   "--ast"
+  ],
+  "stdin": "for i in std.iter([1, 2, 3]) do\n  std.println(i)\nend",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_return_statement_in_function_ast::22",
+  "argv": [
+   "--ast"
+  ],
+  "stdin": "function add(a, b)\n  return a + b\nend\nlet result = add(10, 20)\nstd.println(result)",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_break_statement_ast::23",
+  "argv": [
+   "--ast"
+  ],
+  "stdin": "let x = 0\nwhile x < 10 do\n  if x == 5 then\n    break\n  end\n  std.println(x)\n  x = x + 1\nend",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deeply_nested_binary_expressions_ast::24",
+  "argv": [
+   "--ast"
+  ],
+  "stdin": "let result = ((10 + 20) * (30 - 5)) / ((2 + 3) * 4)\nstd.println(result)",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unary_operators_ast::25",
+  "argv": [
+   "--ast"
+  ],
+  "stdin": "let x = -42\nlet y = not true\nstd.println(x)\nstd.println(y)",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_try_operator_ast::26",
+  "argv": [
+   "--ast",
+   "--check"
+  ],
+  "stdin": "function test()\n  let result = std.int(\"not a number\")?\n  std.println(result)\nend",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_binary_operators_ast::27",
+  "argv": [
+   "--ast"
+  ],
+  "stdin": "let a = 10 + 5\nlet b = 10 - 5\nlet c = 10 * 5\nlet d = 10 / 5\nlet e = 10 % 3\nlet f = 10 == 5\nlet g = 10 != 5\nlet h = 10 > 5\nlet i = 10 >= 5\nlet j = 10 < 5\nlet k = 10 <= 5\nlet l = true and false\nlet m = true or false\nlet n = \"hello\" ++ \" world\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_literal_types_ast::28",
+  "argv": [
+   "--ast"
+  ],
+  "stdin": "let n = nil\nlet b = true\nlet i = 42\nlet f = 3.14\nlet s = \"hello world\"\nlet by = 'x'\nlet arr = [1, 2, 3]\nlet dict = @[key: \"value\", num: 42]\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_access_expressions_ast::29",
+  "argv": [
+   "--ast"
+  ],
+  "stdin": "let obj = @[x: 10, y: 20]\nlet a = obj.x\nlet b = obj[\"y\"]\nlet arr = [1, 2, 3]\nlet c = arr[0]\nstd.println(a)\nstd.println(b)\nstd.println(c)",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_block_types_ast::30",
+  "argv": [
+   "--ast",
+   "--check"
+  ],
+  "stdin": "let sync = { echo \"hello\"; echo \"world\" }\nlet async = &{ echo \"async\" }\nlet capture = ${ echo \"captured\" }\nstd.println(sync)\nstd.println(capture)",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commands_with_pipes_and_redirections_ast::31",
+  "argv": [
+   "--ast",
+   "--check"
+  ],
+  "stdin": "let output = ${ echo \"test\" | cat }\nlet redir = ${ echo \"file content\" > /tmp/test.txt }\nlet append = ${ echo \"more\" >> /tmp/test.txt }\nlet input = ${ cat < /tmp/test.txt }\nstd.println(output)",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commands_with_env_vars_ast::32",
+  "argv": [
+   "--ast",
+   "--check"
+  ],
+  "stdin": "let result = ${ FOO=bar BAZ=qux env | grep FOO }\nfunction test()\n  let try_cmd = ${ false }?\nend\nstd.println(result)",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_blocks_ast::33",
+  "argv": [
+   "--ast"
+  ],
+  "stdin": "if true then\nend\nwhile false do\nend\nfor x in std.iter([]) do\nend\nfunction empty()\nend",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_self_keyword_ast::34",
+  "argv": [
+   "--ast"
+  ],
+  "stdin": "let obj = @[\n  value: 10,\n  method: function() return self.value end\n]\nstd.println(obj.method())",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_if_else_chains_ast::35",
+  "argv": [
+   "--ast"
+  ],
+  "stdin": "let x = 10\nif x < 5 then\n  std.println(\"less than 5\")\nelse\n  if x < 15 then\n    std.println(\"between 5 and 15\")\n  else\n    std.println(\"15 or more\")\n  end\nend",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_if_without_else_ast::36",
+  "argv": [
+   "--ast"
+  ],
+  "stdin": "let x = 10\nif x > 5 then\n  std.println(\"greater than 5\")\nend\nstd.println(\"done\")",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_with_multiple_parameters_ast::37",
+  "argv": [
+   "--ast"
+  ],
+  "stdin": "function calc(a, b, c, d)\n  return (a + b) * (c - d)\nend\nlet result = calc(1, 2, 3, 4)\nstd.println(result)",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_argument_dollar_expansion_ast::38",
+  "argv": [
+   "--ast"
+  ],
+  "stdin": "let x = \"world\"\nlet result = ${ echo Hello${x}! }\nstd.println(result)",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_nested_recursive_function_ast::39",
+  "argv": [
+   "--ast"
+  ],
+  "stdin": "function fibonacci(n)\n  if n <= 1 then\n    return n\n  else\n    return fibonacci(n - 1) + fibonacci(n - 2)\n  end\nend\n\nlet result = fibonacci(8)\nstd.println(result)",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_array_literals_ast::40",
+  "argv": [
+   "--ast"
+  ],
+  "stdin": "let nested = [\n  [1, 2, 3],\n  [4, 5, 6],\n  [7, 8, 9]\n]\nstd.println(nested)",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_dict_literals_ast::41",
+  "argv": [
+   "--ast",
+   "--check"
+  ],
+  "stdin": "let nested = @[\n  user: @[\n    name: \"Alice\",\n    age: 30\n  ],\n  config: @[\n    theme: \"dark\",\n    lang: \"en\"\n  ]\n]\nstd.println(nested)",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_assignment_statements_ast::42",
+  "argv": [
+   "--ast"
+  ],
+  "stdin": "let x = 10\nx = x + 5\nx = x * 2\nstd.println(x)\nlet y = x / 3\nstd.println(y)",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fd_redirection_ast::43",
+  "argv": [
+   "--ast",
+   "--check"
+  ],
+  "stdin": "let result = ${ echo \"error\" 2>&1 }\nstd.println(result)",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_try_operator_ignore_errors_ast::44",
+  "argv": [
+   "--ast",
+   "--check"
+  ],
+  "stdin": "let result = ${ false ? }\nstd.println(result)",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_array_and_dict_literals_ast::45",
+  "argv": [
+   "--ast",
+   "--check"
+  ],
+  "stdin": "let empty_arr = []\nlet empty_dict = @[]\nstd.println(empty_arr)\nstd.println(empty_dict)",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_call_with_no_arguments_ast::46",
+  "argv": [
+   "--ast",
+   "--check"
+  ],
+  "stdin": "function greet()\n  std.println(\"Hello!\")\nend\ngreet()",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_commands_in_command_block_ast::47",
+  "argv": [
+   "--ast",
+   "--check"
+  ],
+  "stdin": "let result = ${\n  echo \"first\";\n  echo \"second\";\n  echo \"third\"\n}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_chained_access_expressions_ast::48",
+  "argv": [
+   "--ast",
+   "--check"
+  ],
+  "stdin": "let obj = @[\n  inner: @[\n    value: 42\n  ]\n]\nlet x = obj.inner.value\nlet y = obj[\"inner\"][\"value\"]\nstd.println(x)\nstd.println(y)",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_definition_no_parameters_ast::49",
+  "argv": [
+   "--ast",
+   "--check"
+  ],
+  "stdin": "function greet()\n  std.println(\"Hello\")\nend\ngreet()",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ill_formed_dict_entry_ast::50",
+  "argv": [
+   "--ast"
+  ],
+  "stdin": "let x = @[: \"value\"]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_flag::51",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_short_flag::52",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_rejected::53",
+  "argv": [
+   "--unknown-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lex_mode_valid_script::54",
+  "argv": [
+   "--lex"
+  ],
+  "stdin": "let x = 42\nstd.println(x)",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ast_mode_valid_script::55",
+  "argv": [
+   "--ast"
+  ],
+  "stdin": "let x = 42\nstd.println(x)",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_program_mode_valid_script::56",
+  "argv": [
+   "--program"
+  ],
+  "stdin": "let x = 42\nstd.println(x)",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lex_ast_combination::57",
+  "argv": [
+   "--lex",
+   "--ast"
+  ],
+  "stdin": "let x = 42\nstd.println(x)",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_mode_valid_no_execution::58",
+  "argv": [
+   "--check"
+  ],
+  "stdin": "std.println(\"side effect\")",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_mode_syntax_error_exit_2::59",
+  "argv": [
+   "--check"
+  ],
+  "stdin": "let x = ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_mode_semantic_error_exit_2::60",
+  "argv": [
+   "--check"
+  ],
+  "stdin": "std.println(undefined_var)",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lex_ast_check_combination_no_execution::61",
+  "argv": [
+   "--lex",
+   "--ast",
+   "--check"
+  ],
+  "stdin": "let x = 42\nstd.println(x)",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dash_stdin_explicit::62",
+  "argv": [
+   "-"
+  ],
+  "stdin": "std.println(\"from dash stdin\")",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_path_treated_as_script_arg::63",
+  "argv": [
+   "nonexistent.hsh"
+  ],
+  "stdin": "let args = std.args()\nstd.println(args)",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_program_lex_combination::64",
+  "argv": [
+   "--program",
+   "--lex"
+  ],
+  "stdin": "std.println(1 + 2 + 3)",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_debug_flags_together::65",
+  "argv": [
+   "--lex",
+   "--ast",
+   "--program"
+  ],
+  "stdin": "std.println(\"test\")",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lex_mode_with_syntax_error_still_outputs_lexemes::66",
+  "argv": [
+   "--lex"
+  ],
+  "stdin": "let x = ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_program_combination_no_execution::67",
+  "argv": [
+   "--check",
+   "--program"
+  ],
+  "stdin": "std.println(\"output\")",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lexer_error_with_lex_flag_outputs_both::68",
+  "argv": [
+   "--lex"
+  ],
+  "stdin": "\"unterminated string",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_identical_flags::69",
+  "argv": [
+   "--lex",
+   "--lex"
+  ],
+  "stdin": "std.println(\"test\")",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_all_debug_flags_no_execution::70",
+  "argv": [
+   "--check",
+   "--lex",
+   "--ast",
+   "--program"
+  ],
+  "stdin": "std.println(\"should not execute\")",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_positive_print::71",
+  "argv": [
+   "src/runtime/tests/data/positive/print.hsh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "FOO_HSH": "1"
+  }
+ },
+ {
+  "name": "test::test_let_declaration::72",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = 42",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assignment_statement::73",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = 0\nx = 10",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_if_statement::74",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "if true then let x = 1 end",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_if_else_statement::75",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "if true then let x = 1 else let y = 2 end",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_while_loop::76",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "while true do let x = 1 end",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_loop::77",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "for x in [1, 2, 3] do let y = x end",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_definition::78",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "function foo() return 42 end",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_break_statement::79",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "while true do break end",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_nil_literal::80",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = nil",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_bool_literal::81",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = false",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_int_literal::82",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = 123",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_float_literal::83",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = 3.14",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_string_literal::84",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = \"hello\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_char_literal::85",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = 'a'",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_array_literal::86",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = [1, 2, 3]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_dict_literal::87",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = @[a: 1, b: 2]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_empty_array::88",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = []",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_empty_dict::89",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = @[]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_binary_addition::90",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = 1 + 2",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_binary_multiplication::91",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = 5 * 3",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_binary_division::92",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = 10 / 2",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_binary_subtraction::93",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = 10 - 5",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_binary_modulo::94",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = 10 % 3",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_binary_equality::95",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = 5 == 5",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_binary_inequality::96",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = 5 != 10",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_binary_less_than::97",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = 5 < 10",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_binary_less_equal::98",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = 5 <= 10",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_binary_greater_than::99",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = 5 > 10",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_binary_greater_equal::100",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = 5 >= 10",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_binary_and::101",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = true and false",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_binary_or::102",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = true or false",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_unary_not::103",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = not true",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_unary_negation::104",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = -5",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_function_call::105",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "function foo(x)\n  return x\nend\nlet y = foo(42)",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_member_access::106",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = @[a: 1]\nlet y = x.a",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_index_access::107",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = [1, 2, 3]\nlet y = x[0]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_command_block_capture::108",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = ${ echo hello }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_command_block_exec::109",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "{ echo hello }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_string_escape_sequences::110",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = \"hello\\nworld\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_string_tabs_newlines::111",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = \"\\t\\n\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_unary_try::112",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "function foo()\n  return nil?\nend",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_binary_concat::113",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = \"hello\" ++ \"world\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_if_expression::114",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = if true then 1 else 2 end",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cmd_redirect_output::115",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = ${ echo hello > /tmp/out.txt }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cmd_redirect_input::116",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = ${ cat < /tmp/in.txt }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cmd_pipe::117",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = ${ echo hello | grep h }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cmd_env_var::118",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = ${ FOO=bar echo test }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_multi_params::119",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "function add(x, y)\n  return x + y\nend",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_nested_arrays::120",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = [[1, 2], [3, 4]]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_nested_dicts::121",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = @[a: @[b: 1], c: 2]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cmd_abort_on_error::122",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = ${ false? }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_chained_index_access::123",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = [[1, 2], [3, 4]]\nlet y = x[0][1]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_chained_member_access::124",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = @[a: @[b: 1]]\nlet y = x.a.b",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_operator_precedence::125",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = (1 + 2) * 3",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_dict_computed_key_access::126",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = @[a: 1, b: 2]\nlet y = x[\"a\"]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cmd_multiple_redirections::127",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = ${ cat < /tmp/in.txt > /tmp/out.txt }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stmt_expr::128",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = 1\nlet y = x",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_string_quote_escape::129",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = \"a\\\"b\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_large_integer::130",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = 999999999999",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_small_float::131",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = 0.00001",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_negative_int::132",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = -999",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_negative_float::133",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = -3.14",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cmd_redirect_append::134",
+  "argv": [
+   "--program",
+   "--check"
+  ],
+  "stdin": "let x = ${ echo hello >> /tmp/out.txt }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_runtime_panic_exit_127_and_stderr_contains_location::135",
+  "argv": [
+   "panic.hsh"
+  ],
+  "stdin": null,
+  "files": {
+   "panic.hsh": "std.eprintln(\"oops\")\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_syntax_error_exit_2_and_reports_error::136",
+  "argv": [
+   "bad.hsh"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.hsh": "let =\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_script_path_is_silent_success_exit_0::137",
+  "argv": [
+   "/no/such/file.hsh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_flag_suppresses_execution::138",
+  "argv": [
+   "--check"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_dash_argument::139",
+  "argv": [
+   "-"
+  ],
+  "stdin": "std.print(\"Via dash\")",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::140",
+  "argv": [
+   "--invalid-flag-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_redirect::141",
+  "argv": [
+   "test.hsh"
+  ],
+  "stdin": null,
+  "files": {
+   "test.hsh": "\n            let result = ${ echo \"test output\" > /tmp/test_redirect.txt }\n            std.println(\"done\")\n        "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lex_flag::142",
+  "argv": [
+   "--lex"
+  ],
+  "stdin": "let x = 42",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ast_flag::143",
+  "argv": [
+   "--ast"
+  ],
+  "stdin": "let x = 42",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_program_flag::144",
+  "argv": [
+   "--program"
+  ],
+  "stdin": "let x = 42",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_flag_valid_syntax::145",
+  "argv": [
+   "--check"
+  ],
+  "stdin": "let x = 42 std.println(x)",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_flag_invalid_syntax::146",
+  "argv": [
+   "--check"
+  ],
+  "stdin": "let x = @@@",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_script_file_execution::147",
+  "argv": [
+   "test.hsh"
+  ],
+  "stdin": null,
+  "files": {
+   "test.hsh": "std.print(\"Hello from file\")"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file_as_argument::148",
+  "argv": [
+   "/nonexistent/script.hsh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_script_with_multiple_lines::149",
+  "argv": [
+   "multi.hsh"
+  ],
+  "stdin": null,
+  "files": {
+   "multi.hsh": "let x = 10\nlet y = 20\nstd.print(x + y)"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_script_file::150",
+  "argv": [
+   "empty.hsh"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.hsh": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_script_with_syntax_error::151",
+  "argv": [
+   "syntax_error.hsh"
+  ],
+  "stdin": null,
+  "files": {
+   "syntax_error.hsh": "let x = "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_script_with_comments::152",
+  "argv": [
+   "comments.hsh"
+  ],
+  "stdin": null,
+  "files": {
+   "comments.hsh": "# This is a comment\nlet x = 5  # inline comment\nstd.print(x)"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_script_arguments::153",
+  "argv": [
+   "args.hsh",
+   "arg1",
+   "arg2"
+  ],
+  "stdin": null,
+  "files": {
+   "args.hsh": "let args = std.args()\nstd.print(args[0])\nstd.print(args[1])"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_flag_with_file::154",
+  "argv": [
+   "--check",
+   "check.hsh"
+  ],
+  "stdin": null,
+  "files": {
+   "check.hsh": "let x = 5\nstd.print(x)"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_script_relative_path::155",
+  "argv": [
+   "relative.hsh"
+  ],
+  "stdin": null,
+  "files": {
+   "relative.hsh": "std.print(\"relative\")"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_flag_valid::156",
+  "argv": [
+   "--check"
+  ],
+  "stdin": "let x = 5\nstd.print(x)",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_flag_static_error::157",
+  "argv": [
+   "--check"
+  ],
+  "stdin": "let x = undeclared_var",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lex_flag::158",
+  "argv": [
+   "--lex"
+  ],
+  "stdin": "std.print(\"test\")",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ast_flag::159",
+  "argv": [
+   "--ast"
+  ],
+  "stdin": "let x = 5",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_program_flag::160",
+  "argv": [
+   "--program"
+  ],
+  "stdin": "let x = 5",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_debug_flags::161",
+  "argv": [
+   "--lex",
+   "--ast"
+  ],
+  "stdin": "let x = 1",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_lex::162",
+  "argv": [
+   "--check",
+   "--lex"
+  ],
+  "stdin": "std.print(\"should not print\")",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_debug_flags::163",
+  "argv": [
+   "--lex",
+   "--ast",
+   "--program"
+  ],
+  "stdin": "let x = 7",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_argument::164",
+  "argv": [
+   "arg1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_arguments::165",
+  "argv": [
+   "arg1",
+   "arg2",
+   "arg3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arguments_with_spaces::166",
+  "argv": [
+   "hello world"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arguments_with_special_chars::167",
+  "argv": [
+   "$PATH"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_string_argument::168",
+  "argv": [
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_numeric_arguments::169",
+  "argv": [
+   "123",
+   "456"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_arguments::170",
+  "argv": [
+   "Hello, 世界"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arguments_preserve_order::171",
+  "argv": [
+   "first",
+   "second",
+   "third"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dash_argument_reads_stdin::172",
+  "argv": [
+   "-"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file_treated_as_argument::173",
+  "argv": [
+   "/nonexistent/file/path.hsh"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_flag_exists::174",
+  "argv": [
+   "--check"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_program_flag_exists::175",
+  "argv": [
+   "--program"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_flags_work_together::176",
+  "argv": [
+   "--check",
+   "--ast"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_produces_error::177",
+  "argv": [
+   "--nonexistent-flag-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_format::178",
+  "argv": [
+   "---invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_before_script_argument::179",
+  "argv": [
+   "--check",
+   "-"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_after_script_uses_trailing_var_arg::180",
+  "argv": [
+   "-",
+   "--check"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

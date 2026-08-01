@@ -1,0 +1,4750 @@
+{
+ "slug": "quinn-rs__quinn.bb359cc",
+ "language": "",
+ "n_branches": 8,
+ "n_tests_total": 574,
+ "n_examples": 246,
+ "n_with_exact_stdout": 18,
+ "n_with_rc": 227,
+ "n_skipped": 313,
+ "examples": [
+  {
+   "test": "test_help_takes_precedence_over_unknown_flag",
+   "argv": [
+    "--help",
+    "--no-such-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable <COMMAND>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_edge_cases.py:2"
+  },
+  {
+   "test": "test_double_dash_help_is_treated_as_subcommand_and_errors",
+   "argv": [
+    "--",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "error: unrecognized subcommand '--help'",
+    "Usage: executable <COMMAND>",
+    "For more information, try '--help'."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_edge_cases.py:9"
+  },
+  {
+   "test": "test_invalid_subcommand_errors_and_shows_usage",
+   "argv": [
+    "nosuch"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "error: unrecognized subcommand 'nosuch'",
+    "Usage: executable <COMMAND>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_edge_cases.py:18"
+  },
+  {
+   "test": "test_help_subcommand_prints_main_help",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_edge_cases.py:26"
+  },
+  {
+   "test": "test_help_subcommand_does_not_accept_help_flag",
+   "argv": [
+    "help",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "error: unrecognized subcommand '--help'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_edge_cases.py:33"
+  },
+  {
+   "test": "test_help_flag_exit_zero",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:4"
+  },
+  {
+   "test": "test_help_has_commands_section",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Commands:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:20"
+  },
+  {
+   "test": "test_help_has_options_section_and_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Options:",
+    "-h, --help",
+    "Print help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:33"
+  },
+  {
+   "test": "test_server_help_exit_zero",
+   "argv": [
+    "server",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_subcommands.py:4"
+  },
+  {
+   "test": "test_client_help_exit_zero",
+   "argv": [
+    "client",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_subcommands.py:9"
+  },
+  {
+   "test": "test_server_help_has_header_and_usage",
+   "argv": [
+    "server",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable server [OPTIONS]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_subcommands.py:14"
+  },
+  {
+   "test": "test_client_help_has_header_usage_and_host_argument",
+   "argv": [
+    "client",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable client [OPTIONS] [HOST]",
+    "Arguments:",
+    "Host to connect to"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_subcommands.py:20"
+  },
+  {
+   "test": "test_common_flags_documented_in_server_help",
+   "argv": [
+    "server",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--listen <LISTEN>",
+    "-k, --key <KEY>",
+    "-c, --cert <CERT>",
+    "--send-buffer-size <SEND_BUFFER_SIZE>",
+    "--recv-buffer-size <RECV_BUFFER_SIZE>",
+    "--conn-stats",
+    "--keylog",
+    "--initial-mtu <INITIAL_MTU>",
+    "--no-protection",
+    "--initial-rtt <INITIAL_RTT>",
+    "--ack-frequency",
+    "--congestion <CONG_ALG>",
+    "--stream-receive-window <STREAM_RECEIVE_WINDOW>",
+    "--receive-window <RECEIVE_WINDOW>",
+    "--send-window <SEND_WINDOW>",
+    "--max-udp-payload-size <MAX_UDP_PAYLOAD_SIZE>",
+    "--qlog <QLOG_FILE>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_subcommands.py:29"
+  },
+  {
+   "test": "test_common_flags_documented_in_client_help",
+   "argv": [
+    "client",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--ip <IP>",
+    "--local-addr <LOCAL_ADDR>",
+    "--uni-requests <UNI_REQUESTS>",
+    "--bi-requests <BI_REQUESTS>",
+    "--download-size <DOWNLOAD_SIZE>",
+    "--upload-size <UPLOAD_SIZE>",
+    "--duration <DURATION>",
+    "--interval <INTERVAL>",
+    "--json <JSON>",
+    "--send-buffer-size <SEND_BUFFER_SIZE>",
+    "--recv-buffer-size <RECV_BUFFER_SIZE>",
+    "--conn-stats",
+    "--keylog",
+    "--initial-mtu <INITIAL_MTU>",
+    "--no-protection",
+    "--initial-rtt <INITIAL_RTT>",
+    "--ack-frequency",
+    "--congestion <CONG_ALG>",
+    "--stream-receive-window <STREAM_RECEIVE_WINDOW>",
+    "--receive-window <RECEIVE_WINDOW>",
+    "--send-window <SEND_WINDOW>",
+    "--max-udp-payload-size <MAX_UDP_PAYLOAD_SIZE>",
+    "--qlog <QLOG_FILE>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_subcommands.py:53"
+  },
+  {
+   "test": "test_ext_help_top_level",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Commands:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_validation.py:21"
+  },
+  {
+   "test": "test_ext_client_rejects_fractional_duration",
+   "argv": [
+    "client",
+    "--duration",
+    "0.1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid value",
+    "--duration"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_validation.py:33"
+  },
+  {
+   "test": "test_ext_client_rejects_si_suffix_for_size",
+   "argv": [
+    "client",
+    "--download-size",
+    "1K",
+    "--upload-size",
+    "0",
+    "--duration",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--download-size"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_validation.py:50"
+  },
+  {
+   "test": "test_ext_unknown_subcommand",
+   "argv": [
+    "no_such_cmd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_validation.py:62"
+  },
+  {
+   "test": "test_server_listen_ipv4",
+   "argv": [
+    "server",
+    "--listen",
+    "127.0.0.1:14001",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf server",
+    "--listen"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:9"
+  },
+  {
+   "test": "test_server_listen_ipv6",
+   "argv": [
+    "server",
+    "--listen",
+    "[::1]:14002",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf server",
+    "--listen"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:17"
+  },
+  {
+   "test": "test_server_congestion_cubic",
+   "argv": [
+    "server",
+    "--congestion",
+    "cubic",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cubic"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:115"
+  },
+  {
+   "test": "test_server_congestion_bbr",
+   "argv": [
+    "server",
+    "--congestion",
+    "bbr",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bbr"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:122"
+  },
+  {
+   "test": "test_server_congestion_new_reno",
+   "argv": [
+    "server",
+    "--congestion",
+    "new-reno",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "new-reno"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:129"
+  },
+  {
+   "test": "test_client_default_host",
+   "argv": [
+    "client",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "localhost:4433",
+    "[default:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:145"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "server",
+    "client",
+    "Run as a perf server",
+    "Run as a perf client",
+    "--help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:16"
+  },
+  {
+   "test": "test_h_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "server",
+    "client"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:30"
+  },
+  {
+   "test": "test_help_subcommand",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "server",
+    "client",
+    "Run as a perf"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:50"
+  },
+  {
+   "test": "test_help_with_server",
+   "argv": [
+    "help",
+    "server"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf server",
+    "--listen",
+    "Address to listen on"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:60"
+  },
+  {
+   "test": "test_help_with_client",
+   "argv": [
+    "help",
+    "client"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf client",
+    "--download-size",
+    "--upload-size",
+    "--duration"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:71"
+  },
+  {
+   "test": "test_client_invalid_duration",
+   "argv": [
+    "client",
+    "--duration",
+    "not_a_number"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_client_errors.py:26"
+  },
+  {
+   "test": "test_client_invalid_interval",
+   "argv": [
+    "client",
+    "--interval",
+    "not_a_number"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_client_errors.py:33"
+  },
+  {
+   "test": "test_client_help_flag",
+   "argv": [
+    "client",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf client",
+    "HOST",
+    "Host to connect to",
+    "[default: localhost:4433]",
+    "--ip",
+    "Override DNS resolution",
+    "--local-addr",
+    "--uni-requests",
+    "--bi-requests",
+    "--download-size",
+    "--upload-size",
+    "--duration",
+    "--interval",
+    "--send-buffer-size",
+    "--recv-buffer-size",
+    "--conn-stats",
+    "--keylog",
+    "--initial-mtu",
+    "--no-protection",
+    "--initial-rtt",
+    "--ack-frequency",
+    "--congestion",
+    "--stream-receive-window",
+    "--receive-window",
+    "--send-window",
+    "--max-udp-payload-size"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_client_help.py:5"
+  },
+  {
+   "test": "test_client_h_flag",
+   "argv": [
+    "client",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf client",
+    "HOST"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_client_help.py:36"
+  },
+  {
+   "test": "test_client_help_shows_congestion_values",
+   "argv": [
+    "client",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cubic",
+    "bbr",
+    "new-reno"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_client_help.py:43"
+  },
+  {
+   "test": "test_client_help_shows_defaults",
+   "argv": [
+    "client",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[default:",
+    "localhost:4433",
+    "0",
+    "1",
+    "1M",
+    "60",
+    "2M",
+    "1200",
+    "1472"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_client_help.py:51"
+  },
+  {
+   "test": "test_client_help_shows_time_units",
+   "argv": [
+    "client",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "seconds",
+    "duration",
+    "interval"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_client_help.py:73"
+  },
+  {
+   "test": "test_server_invalid_mtu",
+   "argv": [
+    "server",
+    "--initial-mtu",
+    "not_a_number"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_server_errors.py:47"
+  },
+  {
+   "test": "test_server_help_flag",
+   "argv": [
+    "server",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf server",
+    "--listen <LISTEN>",
+    "Address to listen on",
+    "[default: [::]:4433]",
+    "TLS private key",
+    "TLS certificate",
+    "--send-buffer-size",
+    "--recv-buffer-size",
+    "--conn-stats",
+    "--keylog",
+    "--initial-mtu",
+    "--no-protection",
+    "--initial-rtt",
+    "--ack-frequency",
+    "--congestion",
+    "--stream-receive-window",
+    "--receive-window",
+    "--send-window",
+    "--max-udp-payload-size"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_server_help.py:5"
+  },
+  {
+   "test": "test_server_h_flag",
+   "argv": [
+    "server",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf server",
+    "--listen"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_server_help.py:31"
+  },
+  {
+   "test": "test_server_help_shows_congestion_values",
+   "argv": [
+    "server",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cubic",
+    "bbr",
+    "new-reno"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_server_help.py:38"
+  },
+  {
+   "test": "test_server_help_shows_defaults",
+   "argv": [
+    "server",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[default:",
+    "2M",
+    "1200",
+    "1472"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_server_help.py:54"
+  },
+  {
+   "test": "test_client_json_flag_rejects_non_pathish_value",
+   "argv": [
+    "client",
+    "127.0.0.1:1",
+    "--json",
+    ""
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "error:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_client_json_and_network.py:22"
+  },
+  {
+   "test": "test_client_json_to_stdout_option_is_present_in_help",
+   "argv": [
+    "client",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "If the file is '-', stdout will be used"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_client_json_and_network.py:32"
+  },
+  {
+   "test": "test_client_ip_override_invalid_is_error",
+   "argv": [
+    "client",
+    "example.com:4433",
+    "--ip",
+    "999.999.999.999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "error:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_client_json_and_network.py:38"
+  },
+  {
+   "test": "test_top_level_help_exact",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Usage: executable <COMMAND>\n\nCommands:\n  server  Run as a perf server\n  client  Run as a perf client\n  help    Print this message or the help of the given subcommand(s)\n\nOptions:\n  -h, --help  Print help\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_errors.py:18"
+  },
+  {
+   "test": "test_subcommand_help_contains_expected_sections",
+   "argv": [
+    "server",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable server [OPTIONS]",
+    "--listen <LISTEN>",
+    "--send-buffer-size <SEND_BUFFER_SIZE>",
+    "--recv-buffer-size <RECV_BUFFER_SIZE>",
+    "--congestion <CONG_ALG>",
+    "Usage: executable client [OPTIONS] [HOST]",
+    "[default: localhost:4433]",
+    "--json <JSON>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_errors.py:35"
+  },
+  {
+   "test": "test_unknown_subcommand_is_error",
+   "argv": [
+    "definitely-not-a-command"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "error:",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_errors.py:51"
+  },
+  {
+   "test": "test_client_invalid_size_suffix_rejected",
+   "argv": [
+    "client",
+    "127.0.0.1:1",
+    "--duration",
+    "1",
+    "--interval",
+    "1",
+    "--download-size",
+    "1K"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid value '1K'",
+    "For more information, try '--help'."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_errors.py:60"
+  },
+  {
+   "test": "test_client_duration_float_rejected",
+   "argv": [
+    "client",
+    "127.0.0.1:1",
+    "--duration",
+    "0.1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid value '0.1'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_errors.py:68"
+  },
+  {
+   "test": "test_client_invalid_congestion_value_rejected",
+   "argv": [
+    "client",
+    "127.0.0.1:1",
+    "--congestion",
+    "reno"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "possible values: cubic, bbr, new-reno"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_errors.py:75"
+  },
+  {
+   "test": "test_server_invalid_congestion_value_rejected",
+   "argv": [
+    "server",
+    "--congestion",
+    "reno"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "possible values: cubic, bbr, new-reno"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_errors.py:82"
+  },
+  {
+   "test": "test_help_output",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "server",
+    "client"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:15"
+  },
+  {
+   "test": "test_server_help",
+   "argv": [
+    "server",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--listen",
+    "--cert",
+    "--key"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:25"
+  },
+  {
+   "test": "test_client_help",
+   "argv": [
+    "client",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--download-size",
+    "--upload-size",
+    "--duration"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:36"
+  },
+  {
+   "test": "test_client_no_protection",
+   "argv": [
+    "--no-protection"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "RPS:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_client.py:663"
+  },
+  {
+   "test": "test_no_subcommand",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:12"
+  },
+  {
+   "test": "test_invalid_subcommand",
+   "argv": [
+    "invalid_command"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:22"
+  },
+  {
+   "test": "test_server_invalid_listen_address",
+   "argv": [
+    "server",
+    "--listen",
+    "not_an_address"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:33"
+  },
+  {
+   "test": "test_server_invalid_port_number",
+   "argv": [
+    "server",
+    "--listen",
+    "127.0.0.1:99999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:44"
+  },
+  {
+   "test": "test_server_key_without_cert",
+   "argv": [
+    "server",
+    "--key",
+    "/tmp/key.pem"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:54"
+  },
+  {
+   "test": "test_server_cert_without_key",
+   "argv": [
+    "server",
+    "--cert",
+    "/tmp/cert.pem"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:64"
+  },
+  {
+   "test": "test_server_nonexistent_key_file",
+   "argv": [
+    "server",
+    "--key",
+    "/nonexistent/path/key.pem",
+    "--cert",
+    "/nonexistent/path/cert.pem"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:74"
+  },
+  {
+   "test": "test_client_invalid_download_size",
+   "argv": [
+    "client",
+    "--download-size",
+    "invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:97"
+  },
+  {
+   "test": "test_client_invalid_upload_size",
+   "argv": [
+    "client",
+    "--upload-size",
+    "not_a_number"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:107"
+  },
+  {
+   "test": "test_client_invalid_si_suffix",
+   "argv": [
+    "client",
+    "--download-size",
+    "100X"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:117"
+  },
+  {
+   "test": "test_client_invalid_duration",
+   "argv": [
+    "client",
+    "--duration",
+    "forever"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:127"
+  },
+  {
+   "test": "test_client_invalid_interval",
+   "argv": [
+    "client",
+    "--interval",
+    "soon"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:137"
+  },
+  {
+   "test": "test_client_nonexistent_host_resolution",
+   "argv": [
+    "client",
+    "nonexistent.invalid.host:4433",
+    "--duration",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:147"
+  },
+  {
+   "test": "test_invalid_flag_combination_server",
+   "argv": [
+    "server",
+    "--unknown-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:170"
+  },
+  {
+   "test": "test_invalid_flag_combination_client",
+   "argv": [
+    "client",
+    "--invalid-option",
+    "value"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:180"
+  },
+  {
+   "test": "test_client_invalid_congestion_algorithm",
+   "argv": [
+    "client",
+    "--congestion",
+    "invalid_algorithm"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:196"
+  },
+  {
+   "test": "test_buffer_size_invalid",
+   "argv": [
+    "server",
+    "--send-buffer-size",
+    "invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:214"
+  },
+  {
+   "test": "test_multiple_listen_addresses",
+   "argv": [
+    "server",
+    "--listen",
+    "127.0.0.1:4433",
+    "--listen",
+    "127.0.0.1:4434"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:237"
+  },
+  {
+   "test": "test_negative_duration_workaround",
+   "argv": [
+    "client",
+    "--duration=-1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:247"
+  },
+  {
+   "test": "test_case_sensitivity_congestion_algorithm",
+   "argv": [
+    "client",
+    "--congestion",
+    "CUBIC"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:261"
+  },
+  {
+   "test": "test_byte_size_uppercase_k_invalid",
+   "argv": [
+    "client",
+    "--download-size",
+    "10K"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:275"
+  },
+  {
+   "test": "test_byte_size_no_number",
+   "argv": [
+    "client",
+    "--download-size",
+    "M"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:284"
+  },
+  {
+   "test": "test_byte_size_multiple_suffixes",
+   "argv": [
+    "client",
+    "--download-size",
+    "10MG"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:293"
+  },
+  {
+   "test": "test_byte_size_decimal_not_supported",
+   "argv": [
+    "client",
+    "--download-size",
+    "1.5M"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:302"
+  },
+  {
+   "test": "test_byte_size_negative_with_suffix",
+   "argv": [
+    "client",
+    "--download-size",
+    "-1M"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:312"
+  },
+  {
+   "test": "test_byte_size_space_before_suffix",
+   "argv": [
+    "client",
+    "--download-size",
+    "10 M"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:324"
+  },
+  {
+   "test": "test_uni_requests_non_numeric",
+   "argv": [
+    "client",
+    "--uni-requests",
+    "many"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:333"
+  },
+  {
+   "test": "test_bi_requests_negative",
+   "argv": [
+    "client",
+    "--bi-requests",
+    "-5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:342"
+  },
+  {
+   "test": "test_server_invalid_listen_ip_variant",
+   "argv": [
+    "server",
+    "--listen",
+    "invalid_ip"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:401"
+  },
+  {
+   "test": "test_server_nonexistent_cert_and_key_files",
+   "argv": [
+    "server",
+    "--cert",
+    "/nonexistent/cert.pem",
+    "--key",
+    "/nonexistent/key.pem"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:412"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Usage: executable <COMMAND>\n\nCommands:\n  server  Run as a perf server\n  client  Run as a perf client\n  help    Print this message or the help of the given subcommand(s)\n\nOptions:\n  -h, --help  Print help\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:16"
+  },
+  {
+   "test": "test_help_subcommand",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Usage: executable <COMMAND>\n\nCommands:\n  server  Run as a perf server\n  client  Run as a perf client\n  help    Print this message or the help of the given subcommand(s)\n\nOptions:\n  -h, --help  Print help\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:24"
+  },
+  {
+   "test": "test_help_server_via_subcommand",
+   "argv": [
+    "help",
+    "server"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Run as a perf server\n\nUsage: executable server [OPTIONS]\n\nOptions:\n      --listen <LISTEN>\n          Address to listen on\n          \n          [default: [::]:4433]\n\n  -k, --key <KEY>\n          TLS private key in DER format\n\n  -c, --cert <CERT>\n          TLS certificate in PEM format\n\n      --send-buffer-size <SEND_BUFFER_SIZE>\n          Send buffer size in bytes\n          \n          This can use SI suffixes for sizes. For example, 1M will request 1MiB, 10G will request 10GiB.\n          \n          [default: 2M]\n\n      --recv-buffer-size <RECV_BUFFER_SIZE>\n          Receive buffer size in bytes\n          \n          This can use SI suffixes for sizes. For example, 1M will request 1MiB, 10G will request 10GiB.\n          \n          [default: 2M]\n\n      --conn-stats\n          Whether to print connection statistics\n\n      --keylog\n          Perform NSS-compatible TLS key logging to the file specified in `SSLKEYLOGFILE`\n\n      --initial-mtu <INITIAL_MTU>\n          UDP payload size that the network must be capable of carrying\n          \n          [default: 1200]\n\n      --no-protection\n          Disable packet encryption/decryption (for debugging purpose)\n\n      --initial-rtt <INITIAL_RTT>\n          The initial round-trip-time (in msecs)\n\n      --ack-frequency\n          Ack Frequency mode\n\n      --congestion <CONG_ALG>\n          Congestion algorithm to use\n          \n          [possible values: cubic, bbr, new-reno]\n\n      --stream-receive-window <STREAM_RECEIVE_WINDOW>\n          Maximum number of bytes the peer may transmit without acknowledgement on any one stream before becoming blocked.\n          \n          This can use SI suffixes for sizes. For example, 1M will limit to 1MiB, 10G will limit to 10GiB.\n\n      --receive-window <RECEIVE_WINDOW>\n          Maximum number of bytes the peer may transmit across all streams of a connection before becoming blocked.\n          \n          This can use SI suffixes for sizes. For example, 1M will limit to 1MiB, 10G will limit to 10GiB.\n\n      --send-window <SEND_WINDOW>\n          Maximum number of bytes to transmit to a peer without acknowledgment\n          \n          This can use SI suffixes for sizes. For example, 1M will limit to 1MiB, 10G will limit to 10GiB.\n\n      --max-udp-payload-size <MAX_UDP_PAYLOAD_SIZE>\n          Max UDP payload size in bytes\n          \n          [default: 1472]\n\n      --qlog <QLOG_FILE>\n          qlog output file\n\n  -h, --help\n          Print help (see a summary with '-h')\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:32"
+  },
+  {
+   "test": "test_help_client_via_subcommand",
+   "argv": [
+    "help",
+    "client"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Run as a perf client\n\nUsage: executable client [OPTIONS] [HOST]\n\nArguments:\n  [HOST]\n          Host to connect to\n          \n          [default: localhost:4433]\n\nOptions:\n      --ip <IP>\n          Override DNS resolution for host\n\n      --local-addr <LOCAL_ADDR>\n          Specify the local socket address\n\n      --uni-requests <UNI_REQUESTS>\n          Number of unidirectional requests to maintain concurrently\n          \n          [default: 0]\n\n      --bi-requests <BI_REQUESTS>\n          Number of bidirectional requests to maintain concurrently\n          \n          [default: 1]\n\n      --download-size <DOWNLOAD_SIZE>\n          Number of bytes to request\n          \n          This can use SI suffixes for sizes. For example, 1M will transfer 1MiB, 10G will transfer 10GiB.\n          \n          [default: 1M]\n\n      --upload-size <UPLOAD_SIZE>\n          Number of bytes to transmit, in addition to the request header\n          \n          This can use SI suffixes for sizes. For example, 1M will transfer 1MiB, 10G will transfer 10GiB.\n          \n          [default: 1M]\n\n      --duration <DURATION>\n          The time to run in seconds\n          \n          [default: 60]\n\n      --interval <INTERVAL>\n          The interval in seconds at which stats are reported\n          \n          [default: 1]\n\n      --json <JSON>\n          File path to output JSON statistics to. If the file is '-', stdout will be used\n\n      --send-buffer-size <SEND_BUFFER_SIZE>\n          Send buffer size in bytes\n          \n          This can use SI suffixes for sizes. For example, 1M will request 1MiB, 10G will request 10GiB.\n          \n          [default: 2M]\n\n      --recv-buffer-size <RECV_BUFFER_SIZE>\n          Receive buffer size in bytes\n          \n          This can use SI suffixes for sizes. For example, 1M will request 1MiB, 10G will request 10GiB.\n          \n          [default: 2M]\n\n      --conn-stats\n          Whether to print connection statistics\n\n      --keylog\n          Perform NSS-compatible TLS key logging to the file specified in `SSLKEYLOGFILE`\n\n      --initial-mtu <INITIAL_MTU>\n          UDP payload size that the network must be capable of carrying\n          \n          [default: 1200]\n\n      --no-protection\n          Disable packet encryption/decryption (for debugging purpose)\n\n      --initial-rtt <INITIAL_RTT>\n          The initial round-trip-time (in msecs)\n\n      --ack-frequency\n          Ack Frequency mode\n\n      --congestion <CONG_ALG>\n          Congestion algorithm to use\n          \n          [possible values: cubic, bbr, new-reno]\n\n      --stream-receive-window <STREAM_RECEIVE_WINDOW>\n          Maximum number of bytes the peer may transmit without acknowledgement on any one stream before becoming blocked.\n          \n          This can use SI suffixes for sizes. For example, 1M will limit to 1MiB, 10G will limit to 10GiB.\n\n      --receive-window <RECEIVE_WINDOW>\n          Maximum number of bytes the peer may transmit across all streams of a connection before becoming blocked.\n          \n          This can use SI suffixes for sizes. For example, 1M will limit to 1MiB, 10G will limit to 10GiB.\n\n      --send-window <SEND_WINDOW>\n          Maximum number of bytes to transmit to a peer without acknowledgment\n          \n          This can use SI suffixes for sizes. For example, 1M will limit to 1MiB, 10G will limit to 10GiB.\n\n      --max-udp-payload-size <MAX_UDP_PAYLOAD_SIZE>\n          Max UDP payload size in bytes\n          \n          [default: 1472]\n\n      --qlog <QLOG_FILE>\n          qlog output file\n\n  -h, --help\n          Print help (see a summary with '-h')\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:40"
+  },
+  {
+   "test": "test_server_help_flag",
+   "argv": [
+    "server",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Run as a perf server\n\nUsage: executable server [OPTIONS]\n\nOptions:\n      --listen <LISTEN>\n          Address to listen on\n          \n          [default: [::]:4433]\n\n  -k, --key <KEY>\n          TLS private key in DER format\n\n  -c, --cert <CERT>\n          TLS certificate in PEM format\n\n      --send-buffer-size <SEND_BUFFER_SIZE>\n          Send buffer size in bytes\n          \n          This can use SI suffixes for sizes. For example, 1M will request 1MiB, 10G will request 10GiB.\n          \n          [default: 2M]\n\n      --recv-buffer-size <RECV_BUFFER_SIZE>\n          Receive buffer size in bytes\n          \n          This can use SI suffixes for sizes. For example, 1M will request 1MiB, 10G will request 10GiB.\n          \n          [default: 2M]\n\n      --conn-stats\n          Whether to print connection statistics\n\n      --keylog\n          Perform NSS-compatible TLS key logging to the file specified in `SSLKEYLOGFILE`\n\n      --initial-mtu <INITIAL_MTU>\n          UDP payload size that the network must be capable of carrying\n          \n          [default: 1200]\n\n      --no-protection\n          Disable packet encryption/decryption (for debugging purpose)\n\n      --initial-rtt <INITIAL_RTT>\n          The initial round-trip-time (in msecs)\n\n      --ack-frequency\n          Ack Frequency mode\n\n      --congestion <CONG_ALG>\n          Congestion algorithm to use\n          \n          [possible values: cubic, bbr, new-reno]\n\n      --stream-receive-window <STREAM_RECEIVE_WINDOW>\n          Maximum number of bytes the peer may transmit without acknowledgement on any one stream before becoming blocked.\n          \n          This can use SI suffixes for sizes. For example, 1M will limit to 1MiB, 10G will limit to 10GiB.\n\n      --receive-window <RECEIVE_WINDOW>\n          Maximum number of bytes the peer may transmit across all streams of a connection before becoming blocked.\n          \n          This can use SI suffixes for sizes. For example, 1M will limit to 1MiB, 10G will limit to 10GiB.\n\n      --send-window <SEND_WINDOW>\n          Maximum number of bytes to transmit to a peer without acknowledgment\n          \n          This can use SI suffixes for sizes. For example, 1M will limit to 1MiB, 10G will limit to 10GiB.\n\n      --max-udp-payload-size <MAX_UDP_PAYLOAD_SIZE>\n          Max UDP payload size in bytes\n          \n          [default: 1472]\n\n      --qlog <QLOG_FILE>\n          qlog output file\n\n  -h, --help\n          Print help (see a summary with '-h')\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:48"
+  },
+  {
+   "test": "test_client_help_flag",
+   "argv": [
+    "client",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Run as a perf client\n\nUsage: executable client [OPTIONS] [HOST]\n\nArguments:\n  [HOST]\n          Host to connect to\n          \n          [default: localhost:4433]\n\nOptions:\n      --ip <IP>\n          Override DNS resolution for host\n\n      --local-addr <LOCAL_ADDR>\n          Specify the local socket address\n\n      --uni-requests <UNI_REQUESTS>\n          Number of unidirectional requests to maintain concurrently\n          \n          [default: 0]\n\n      --bi-requests <BI_REQUESTS>\n          Number of bidirectional requests to maintain concurrently\n          \n          [default: 1]\n\n      --download-size <DOWNLOAD_SIZE>\n          Number of bytes to request\n          \n          This can use SI suffixes for sizes. For example, 1M will transfer 1MiB, 10G will transfer 10GiB.\n          \n          [default: 1M]\n\n      --upload-size <UPLOAD_SIZE>\n          Number of bytes to transmit, in addition to the request header\n          \n          This can use SI suffixes for sizes. For example, 1M will transfer 1MiB, 10G will transfer 10GiB.\n          \n          [default: 1M]\n\n      --duration <DURATION>\n          The time to run in seconds\n          \n          [default: 60]\n\n      --interval <INTERVAL>\n          The interval in seconds at which stats are reported\n          \n          [default: 1]\n\n      --json <JSON>\n          File path to output JSON statistics to. If the file is '-', stdout will be used\n\n      --send-buffer-size <SEND_BUFFER_SIZE>\n          Send buffer size in bytes\n          \n          This can use SI suffixes for sizes. For example, 1M will request 1MiB, 10G will request 10GiB.\n          \n          [default: 2M]\n\n      --recv-buffer-size <RECV_BUFFER_SIZE>\n          Receive buffer size in bytes\n          \n          This can use SI suffixes for sizes. For example, 1M will request 1MiB, 10G will request 10GiB.\n          \n          [default: 2M]\n\n      --conn-stats\n          Whether to print connection statistics\n\n      --keylog\n          Perform NSS-compatible TLS key logging to the file specified in `SSLKEYLOGFILE`\n\n      --initial-mtu <INITIAL_MTU>\n          UDP payload size that the network must be capable of carrying\n          \n          [default: 1200]\n\n      --no-protection\n          Disable packet encryption/decryption (for debugging purpose)\n\n      --initial-rtt <INITIAL_RTT>\n          The initial round-trip-time (in msecs)\n\n      --ack-frequency\n          Ack Frequency mode\n\n      --congestion <CONG_ALG>\n          Congestion algorithm to use\n          \n          [possible values: cubic, bbr, new-reno]\n\n      --stream-receive-window <STREAM_RECEIVE_WINDOW>\n          Maximum number of bytes the peer may transmit without acknowledgement on any one stream before becoming blocked.\n          \n          This can use SI suffixes for sizes. For example, 1M will limit to 1MiB, 10G will limit to 10GiB.\n\n      --receive-window <RECEIVE_WINDOW>\n          Maximum number of bytes the peer may transmit across all streams of a connection before becoming blocked.\n          \n          This can use SI suffixes for sizes. For example, 1M will limit to 1MiB, 10G will limit to 10GiB.\n\n      --send-window <SEND_WINDOW>\n          Maximum number of bytes to transmit to a peer without acknowledgment\n          \n          This can use SI suffixes for sizes. For example, 1M will limit to 1MiB, 10G will limit to 10GiB.\n\n      --max-udp-payload-size <MAX_UDP_PAYLOAD_SIZE>\n          Max UDP payload size in bytes\n          \n          [default: 1472]\n\n      --qlog <QLOG_FILE>\n          qlog output file\n\n  -h, --help\n          Print help (see a summary with '-h')\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:56"
+  },
+  {
+   "test": "test_invalid_top_level_flag",
+   "argv": [
+    "--invalid-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:64"
+  },
+  {
+   "test": "test_invalid_subcommand",
+   "argv": [
+    "invalid-subcommand"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:72"
+  },
+  {
+   "test": "test_invalid_server_flag",
+   "argv": [
+    "server",
+    "--invalid-server-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:80"
+  },
+  {
+   "test": "test_invalid_byte_size_letters",
+   "argv": [
+    "client",
+    "--download-size=abc",
+    "localhost:4433"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:88"
+  },
+  {
+   "test": "test_invalid_byte_size_negative",
+   "argv": [
+    "client",
+    "--download-size=-100",
+    "localhost:4433"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:96"
+  },
+  {
+   "test": "test_invalid_byte_size_decimal",
+   "argv": [
+    "client",
+    "--download-size=1.5M",
+    "localhost:4433"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:104"
+  },
+  {
+   "test": "test_invalid_byte_size_uppercase_b",
+   "argv": [
+    "client",
+    "--download-size=1MB",
+    "localhost:4433"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:112"
+  },
+  {
+   "test": "test_invalid_congestion_algorithm",
+   "argv": [
+    "server",
+    "--congestion=invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:120"
+  },
+  {
+   "test": "test_congestion_algorithm_case_sensitive",
+   "argv": [
+    "server",
+    "--congestion=CUBIC"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:128"
+  },
+  {
+   "test": "test_duplicate_flag",
+   "argv": [
+    "server",
+    "--initial-mtu=1000",
+    "--initial-mtu=2000",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:136"
+  },
+  {
+   "test": "test_mtu_overflow",
+   "argv": [
+    "server",
+    "--initial-mtu=65536",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:144"
+  },
+  {
+   "test": "test_whitespace_in_listen_address",
+   "argv": [
+    "server",
+    "--listen=  [::]:5000  ",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:152"
+  },
+  {
+   "test": "test_invalid_socket_address_format",
+   "argv": [
+    "server",
+    "--listen",
+    "invalid:address"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:160"
+  },
+  {
+   "test": "test_socket_address_missing_port",
+   "argv": [
+    "server",
+    "--listen",
+    "127.0.0.1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:168"
+  },
+  {
+   "test": "test_socket_address_missing_host",
+   "argv": [
+    "server",
+    "--listen",
+    ":4433"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:176"
+  },
+  {
+   "test": "test_socket_address_port_overflow",
+   "argv": [
+    "server",
+    "--listen",
+    "127.0.0.1:999999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:184"
+  },
+  {
+   "test": "test_invalid_ip_address",
+   "argv": [
+    "client",
+    "--ip",
+    "999.999.999.999",
+    "localhost:4433"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:192"
+  },
+  {
+   "test": "test_byte_size_u64_max_overflow",
+   "argv": [
+    "client",
+    "--download-size=18446744073709551616",
+    "localhost:4433"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:200"
+  },
+  {
+   "test": "test_negative_uni_requests",
+   "argv": [
+    "client",
+    "--uni-requests=-1",
+    "localhost:4433"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:208"
+  },
+  {
+   "test": "test_invalid_duration_format",
+   "argv": [
+    "client",
+    "--duration=abc",
+    "localhost:4433"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:216"
+  },
+  {
+   "test": "test_invalid_interval_format",
+   "argv": [
+    "client",
+    "--interval=abc",
+    "localhost:4433"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:224"
+  },
+  {
+   "test": "test_boolean_flag_with_value",
+   "argv": [
+    "server",
+    "--conn-stats=true"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:232"
+  },
+  {
+   "test": "test_initial_rtt_overflow",
+   "argv": [
+    "server",
+    "--initial-rtt=18446744073709551616"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:240"
+  },
+  {
+   "test": "test_flag_before_subcommand",
+   "argv": [
+    "--conn-stats",
+    "server"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:248"
+  },
+  {
+   "test": "test_empty_listen_address",
+   "argv": [
+    "server",
+    "--listen="
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:256"
+  },
+  {
+   "test": "test_empty_byte_size",
+   "argv": [
+    "client",
+    "--download-size=",
+    "localhost:4433"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:264"
+  },
+  {
+   "test": "test_empty_ip_address",
+   "argv": [
+    "client",
+    "--ip=",
+    "localhost:4433"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:272"
+  },
+  {
+   "test": "test_byte_size_suffix_only",
+   "argv": [
+    "client",
+    "--download-size=M",
+    "localhost:4433"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:280"
+  },
+  {
+   "test": "test_empty_host_argument",
+   "argv": [
+    "client",
+    ""
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid socket address"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:288"
+  },
+  {
+   "test": "test_help_flag_twice",
+   "argv": [
+    "--help",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Usage: executable <COMMAND>\n\nCommands:\n  server  Run as a perf server\n  client  Run as a perf client\n  help    Print this message or the help of the given subcommand(s)\n\nOptions:\n  -h, --help  Print help\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:297"
+  },
+  {
+   "test": "test_flag_format_equals_vs_space_mixed",
+   "argv": [
+    "client",
+    "--download-size=5M",
+    "--upload-size",
+    "3M",
+    "--duration=10",
+    "--interval",
+    "2",
+    "localhost:4433",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf client",
+    "Run as a perf client"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:305"
+  },
+  {
+   "test": "test_short_and_long_help_flags_together",
+   "argv": [
+    "server",
+    "-h",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf server"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:319"
+  },
+  {
+   "test": "test_multiple_host_arguments",
+   "argv": [
+    "client",
+    "localhost:4433",
+    "localhost:5000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:327"
+  },
+  {
+   "test": "test_byte_size_embedded_whitespace",
+   "argv": [
+    "client",
+    "--download-size=100 M",
+    "localhost:4433"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:335"
+  },
+  {
+   "test": "test_byte_size_uppercase_k",
+   "argv": [
+    "client",
+    "--download-size=100K",
+    "localhost:4433"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:343"
+  },
+  {
+   "test": "test_byte_size_lowercase_t",
+   "argv": [
+    "client",
+    "--download-size=1t",
+    "localhost:4433"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:351"
+  },
+  {
+   "test": "test_byte_size_lowercase_g",
+   "argv": [
+    "client",
+    "--download-size=1g",
+    "localhost:4433"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:359"
+  },
+  {
+   "test": "test_byte_size_lowercase_m",
+   "argv": [
+    "client",
+    "--download-size=1m",
+    "localhost:4433"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:367"
+  },
+  {
+   "test": "test_byte_size_leading_trailing_whitespace",
+   "argv": [
+    "client",
+    "--download-size=  100M  ",
+    "localhost:4433",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf client"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:375"
+  },
+  {
+   "test": "test_valid_byte_size_suffixes_combination",
+   "argv": [
+    "client",
+    "--download-size=1024",
+    "--upload-size=1k",
+    "--send-buffer-size=2M",
+    "--recv-buffer-size=1G",
+    "localhost:4433",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf client"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:383"
+  },
+  {
+   "test": "test_help_flag_position_before_host",
+   "argv": [
+    "client",
+    "--help",
+    "localhost:4433"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf client",
+    "Run as a perf client"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:393"
+  },
+  {
+   "test": "test_conn_stats_server_output",
+   "argv": [
+    "--conn-stats"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ConnectionStats",
+    "UdpStats { datagrams:",
+    "FrameStats { ACK:",
+    "PathStats { rtt:",
+    "STREAM:",
+    "CRYPTO:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:266"
+  },
+  {
+   "test": "test_congestion_algorithm_bbr",
+   "argv": [
+    "--congestion",
+    "bbr"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Overall stats:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:309"
+  },
+  {
+   "test": "test_congestion_algorithm_cubic",
+   "argv": [
+    "--congestion",
+    "cubic"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:348"
+  },
+  {
+   "test": "test_congestion_algorithm_new_reno",
+   "argv": [
+    "--congestion",
+    "new-reno"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:374"
+  },
+  {
+   "test": "test_no_protection_mode",
+   "argv": [
+    "--no-protection"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Overall stats:",
+    "Upload Throughput",
+    "Download Throughput"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:400"
+  },
+  {
+   "test": "test_different_buffer_sizes",
+   "argv": [
+    "--send-buffer-size",
+    "1M",
+    "--recv-buffer-size",
+    "1M"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:527"
+  },
+  {
+   "test": "test_different_mtu_settings",
+   "argv": [
+    "--initial-mtu",
+    "1300"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:557"
+  },
+  {
+   "test": "test_ack_frequency_mode",
+   "argv": [
+    "--ack-frequency"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:625"
+  },
+  {
+   "test": "test_flow_control_windows",
+   "argv": [
+    "--stream-receive-window",
+    "512k",
+    "--receive-window",
+    "2M"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:659"
+  },
+  {
+   "test": "test_send_window_setting",
+   "argv": [
+    "--send-window",
+    "1M"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:773"
+  },
+  {
+   "test": "test_initial_rtt_setting",
+   "argv": [
+    "--initial-rtt",
+    "100"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:799"
+  },
+  {
+   "test": "test_parse_byte_size_plain_number",
+   "argv": [
+    "server",
+    "--send-buffer-size",
+    "1024",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf server",
+    "--send-buffer-size"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lib.py:13"
+  },
+  {
+   "test": "test_parse_byte_size_lowercase_k",
+   "argv": [
+    "server",
+    "--send-buffer-size",
+    "10k",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf server",
+    "--send-buffer-size"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lib.py:24"
+  },
+  {
+   "test": "test_parse_byte_size_uppercase_M",
+   "argv": [
+    "server",
+    "--send-buffer-size",
+    "5M",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf server",
+    "--send-buffer-size"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lib.py:34"
+  },
+  {
+   "test": "test_parse_byte_size_uppercase_G",
+   "argv": [
+    "server",
+    "--send-buffer-size",
+    "2G",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf server",
+    "--send-buffer-size"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lib.py:43"
+  },
+  {
+   "test": "test_parse_byte_size_uppercase_T",
+   "argv": [
+    "server",
+    "--send-buffer-size",
+    "1T",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf server",
+    "--send-buffer-size"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lib.py:52"
+  },
+  {
+   "test": "test_parse_byte_size_rejects_invalid_suffix",
+   "argv": [
+    "server",
+    "--send-buffer-size",
+    "1X"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error: invalid value '1X' for '--send-buffer-size <SEND_BUFFER_SIZE>'",
+    "invalid digit found in string"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lib.py:70"
+  },
+  {
+   "test": "test_parse_byte_size_rejects_non_numeric",
+   "argv": [
+    "server",
+    "--send-buffer-size",
+    "invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error: invalid value 'invalid' for '--send-buffer-size <SEND_BUFFER_SIZE>'",
+    "invalid digit found in string"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lib.py:79"
+  },
+  {
+   "test": "test_parse_byte_size_rejects_decimal",
+   "argv": [
+    "server",
+    "--send-buffer-size",
+    "1.5M"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error: invalid value '1.5M' for '--send-buffer-size <SEND_BUFFER_SIZE>'",
+    "invalid digit found in string"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lib.py:115"
+  },
+  {
+   "test": "test_parse_byte_size_rejects_space_before_suffix",
+   "argv": [
+    "server",
+    "--send-buffer-size",
+    "1 M"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error: invalid value '1 M' for '--send-buffer-size <SEND_BUFFER_SIZE>'",
+    "invalid digit found in string"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lib.py:124"
+  },
+  {
+   "test": "test_parse_byte_size_rejects_double_suffix",
+   "argv": [
+    "server",
+    "--send-buffer-size",
+    "1MM"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error: invalid value '1MM' for '--send-buffer-size <SEND_BUFFER_SIZE>'",
+    "invalid digit found in string"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lib.py:133"
+  },
+  {
+   "test": "test_parse_byte_size_client_download_size",
+   "argv": [
+    "client",
+    "--download-size",
+    "5M",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf client",
+    "--download-size"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lib.py:142"
+  },
+  {
+   "test": "test_parse_byte_size_client_upload_size",
+   "argv": [
+    "client",
+    "--upload-size",
+    "3G",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf client",
+    "Number of bytes to transmit"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lib.py:151"
+  },
+  {
+   "test": "test_parse_byte_size_stream_receive_window",
+   "argv": [
+    "server",
+    "--stream-receive-window",
+    "10M",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf server",
+    "--stream-receive-window"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lib.py:160"
+  },
+  {
+   "test": "test_parse_byte_size_receive_window",
+   "argv": [
+    "server",
+    "--receive-window",
+    "20M",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf server",
+    "--receive-window"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lib.py:169"
+  },
+  {
+   "test": "test_parse_byte_size_send_window",
+   "argv": [
+    "server",
+    "--send-window",
+    "15M",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf server",
+    "Maximum number of bytes to transmit"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lib.py:178"
+  },
+  {
+   "test": "test_congestion_algorithm_cubic",
+   "argv": [
+    "server",
+    "--congestion",
+    "cubic",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf server",
+    "Congestion algorithm to use"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lib.py:187"
+  },
+  {
+   "test": "test_congestion_algorithm_bbr",
+   "argv": [
+    "server",
+    "--congestion",
+    "bbr",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf server",
+    "Congestion algorithm to use"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lib.py:196"
+  },
+  {
+   "test": "test_congestion_algorithm_new_reno",
+   "argv": [
+    "server",
+    "--congestion",
+    "new-reno",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf server",
+    "Congestion algorithm to use"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lib.py:205"
+  },
+  {
+   "test": "test_initial_mtu_valid",
+   "argv": [
+    "server",
+    "--initial-mtu",
+    "1500",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf server",
+    "UDP payload size that the network must be capable of carrying"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lib.py:232"
+  },
+  {
+   "test": "test_initial_mtu_small_valid",
+   "argv": [
+    "server",
+    "--initial-mtu",
+    "576",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf server",
+    "UDP payload size that the network must be capable of carrying"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lib.py:241"
+  },
+  {
+   "test": "test_max_udp_payload_size_valid",
+   "argv": [
+    "server",
+    "--max-udp-payload-size",
+    "1472",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf server",
+    "--max-udp-payload-size"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lib.py:250"
+  },
+  {
+   "test": "test_initial_rtt_valid",
+   "argv": [
+    "server",
+    "--initial-rtt",
+    "100",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf server",
+    "The initial round-trip-time (in msecs)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lib.py:259"
+  },
+  {
+   "test": "test_ack_frequency_flag",
+   "argv": [
+    "server",
+    "--ack-frequency",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf server",
+    "Ack Frequency mode"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lib.py:268"
+  },
+  {
+   "test": "test_conn_stats_flag",
+   "argv": [
+    "server",
+    "--conn-stats",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf server",
+    "Whether to print connection statistics"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lib.py:277"
+  },
+  {
+   "test": "test_keylog_flag",
+   "argv": [
+    "server",
+    "--keylog",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf server",
+    "Perform NSS-compatible TLS key logging"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lib.py:286"
+  },
+  {
+   "test": "test_no_protection_flag",
+   "argv": [
+    "server",
+    "--no-protection",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf server",
+    "Disable packet encryption/decryption"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lib.py:295"
+  },
+  {
+   "test": "test_parse_byte_size_max_u64",
+   "argv": [
+    "server",
+    "--send-buffer-size",
+    "18446744073709551615",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf server"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lib.py:313"
+  },
+  {
+   "test": "test_parse_byte_size_multiple_flags_combination",
+   "argv": [
+    "server",
+    "--send-buffer-size",
+    "1M",
+    "--recv-buffer-size",
+    "2M",
+    "--stream-receive-window",
+    "5M",
+    "--receive-window",
+    "10M",
+    "--send-window",
+    "8M",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf server"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lib.py:321"
+  },
+  {
+   "test": "test_parse_byte_size_recv_buffer_size_with_suffix",
+   "argv": [
+    "server",
+    "--recv-buffer-size",
+    "4M",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf server",
+    "--recv-buffer-size"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lib.py:337"
+  },
+  {
+   "test": "test_parse_byte_size_leading_zeros",
+   "argv": [
+    "server",
+    "--send-buffer-size",
+    "0001M",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf server"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lib.py:346"
+  },
+  {
+   "test": "test_parse_byte_size_large_k_value",
+   "argv": [
+    "server",
+    "--send-buffer-size",
+    "1024k",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf server"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lib.py:354"
+  },
+  {
+   "test": "test_parse_byte_size_large_M_value",
+   "argv": [
+    "server",
+    "--send-buffer-size",
+    "100M",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf server"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lib.py:362"
+  },
+  {
+   "test": "test_parse_byte_size_large_G_value",
+   "argv": [
+    "server",
+    "--send-buffer-size",
+    "10G",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf server"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lib.py:370"
+  },
+  {
+   "test": "test_initial_mtu_jumbo_frame",
+   "argv": [
+    "server",
+    "--initial-mtu",
+    "9000",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf server"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lib.py:378"
+  },
+  {
+   "test": "test_initial_rtt_zero",
+   "argv": [
+    "server",
+    "--initial-rtt",
+    "0",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf server"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lib.py:386"
+  },
+  {
+   "test": "test_initial_rtt_large_value",
+   "argv": [
+    "server",
+    "--initial-rtt",
+    "5000",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf server"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lib.py:394"
+  },
+  {
+   "test": "test_multiple_flags_combined",
+   "argv": [
+    "server",
+    "--send-buffer-size",
+    "1M",
+    "--recv-buffer-size",
+    "2M",
+    "--initial-mtu",
+    "1400",
+    "--initial-rtt",
+    "100",
+    "--congestion",
+    "bbr",
+    "--ack-frequency",
+    "--conn-stats",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf server"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lib.py:402"
+  },
+  {
+   "test": "test_client_all_size_flags",
+   "argv": [
+    "client",
+    "--download-size",
+    "10M",
+    "--upload-size",
+    "5M",
+    "--send-buffer-size",
+    "2M",
+    "--recv-buffer-size",
+    "2M",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf client"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lib.py:420"
+  },
+  {
+   "test": "test_parse_byte_size_one_byte",
+   "argv": [
+    "server",
+    "--send-buffer-size",
+    "1",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf server"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lib.py:435"
+  },
+  {
+   "test": "test_parse_byte_size_client_download_with_k",
+   "argv": [
+    "client",
+    "--download-size",
+    "512k",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf client"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lib.py:443"
+  },
+  {
+   "test": "test_parse_byte_size_client_upload_with_T",
+   "argv": [
+    "client",
+    "--upload-size",
+    "1T",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf client"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lib.py:451"
+  },
+  {
+   "test": "test_bidirectional_stream_basic_transfer",
+   "argv": [
+    "--bi-requests",
+    "1",
+    "--uni-requests",
+    "0",
+    "--download-size",
+    "4096",
+    "--upload-size",
+    "512",
+    "--duration",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TIMESTAMP  INFO perf::server: listening on 127.0.0.1:PORT",
+    "got req for 4096 bytes"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_server_protocol.py:80"
+  },
+  {
+   "test": "test_unidirectional_stream_basic_transfer",
+   "argv": [
+    "--uni-requests",
+    "2",
+    "--bi-requests",
+    "0",
+    "--download-size",
+    "2048",
+    "--upload-size",
+    "0",
+    "--duration",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TIMESTAMP  INFO perf::server: listening on 127.0.0.1:PORT",
+    "got req for 2048 bytes"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_server_protocol.py:152"
+  },
+  {
+   "test": "test_connection_statistics_output",
+   "argv": [
+    "--conn-stats"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ConnectionStats {",
+    "udp_tx: UdpStats {",
+    "udp_rx: UdpStats {",
+    "frame_tx: FrameStats {",
+    "frame_rx: FrameStats {",
+    "path: PathStats {"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_server_protocol.py:235"
+  },
+  {
+   "test": "test_multiple_concurrent_bidirectional_streams",
+   "argv": [
+    "--bi-requests",
+    "10",
+    "--uni-requests",
+    "0",
+    "--download-size",
+    "8192",
+    "--upload-size",
+    "1024",
+    "--duration",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_server_protocol.py:310"
+  },
+  {
+   "test": "test_multiple_concurrent_unidirectional_streams",
+   "argv": [
+    "--uni-requests",
+    "5",
+    "--bi-requests",
+    "0",
+    "--download-size",
+    "4096",
+    "--upload-size",
+    "0",
+    "--duration",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_server_protocol.py:370"
+  },
+  {
+   "test": "test_mixed_bidirectional_and_unidirectional_streams",
+   "argv": [
+    "--bi-requests",
+    "3",
+    "--uni-requests",
+    "3",
+    "--download-size",
+    "2048",
+    "--upload-size",
+    "512",
+    "--duration",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_server_protocol.py:437"
+  },
+  {
+   "test": "test_large_download_request",
+   "argv": [
+    "--bi-requests",
+    "1",
+    "--download-size",
+    "5M",
+    "--upload-size",
+    "0",
+    "--duration",
+    "3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "127.0.0.1:PORT connected",
+    "got req for 5242880 bytes",
+    "finished reading client bidirectional stream",
+    "finished responding on client bidirectional stream",
+    "Overall stats:",
+    "Stream metrics:",
+    "Download Throughput"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_server_protocol.py:508"
+  },
+  {
+   "test": "test_large_upload_draining",
+   "argv": [
+    "--bi-requests",
+    "1",
+    "--download-size",
+    "1024",
+    "--upload-size",
+    "3M",
+    "--duration",
+    "3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "127.0.0.1:PORT connected",
+    "got req for 1024 bytes",
+    "finished reading client bidirectional",
+    "finished responding on client bidirectional"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_server_protocol.py:574"
+  },
+  {
+   "test": "test_zero_byte_request",
+   "argv": [
+    "--bi-requests",
+    "1",
+    "--download-size",
+    "0",
+    "--upload-size",
+    "0",
+    "--duration",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "127.0.0.1:PORT connected",
+    "got req for 0 bytes on client bidirectional stream",
+    "finished responding on client bidirectional stream"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_server_protocol.py:612"
+  },
+  {
+   "test": "test_very_small_transfer",
+   "argv": [
+    "--bi-requests",
+    "1",
+    "--download-size",
+    "1",
+    "--upload-size",
+    "1",
+    "--duration",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "127.0.0.1:PORT connected",
+    "got req for 1 bytes on client bidirectional stream",
+    "finished reading client bidirectional stream",
+    "finished responding on client bidirectional stream"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_server_protocol.py:649"
+  },
+  {
+   "test": "test_exact_chunk_boundary",
+   "argv": [
+    "--bi-requests",
+    "1",
+    "--download-size",
+    "1M",
+    "--upload-size",
+    "0",
+    "--duration",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "127.0.0.1:PORT connected",
+    "got req for 1048576 bytes",
+    "finished responding on client bidirectional stream"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_server_protocol.py:684"
+  },
+  {
+   "test": "test_connection_close_during_transfer",
+   "argv": [
+    "--bi-requests",
+    "1",
+    "--download-size",
+    "1024",
+    "--duration",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "127.0.0.1:PORT connected",
+    "got req for 1024 bytes",
+    "finished responding"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_server_protocol.py:719"
+  },
+  {
+   "test": "test_rapid_connection_cycling",
+   "argv": [
+    "--bi-requests",
+    "1",
+    "--download-size",
+    "1024",
+    "--duration",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_server_protocol.py:755"
+  },
+  {
+   "test": "test_high_concurrent_stream_load",
+   "argv": [
+    "--bi-requests",
+    "50",
+    "--uni-requests",
+    "0",
+    "--download-size",
+    "4096",
+    "--upload-size",
+    "512",
+    "--duration",
+    "3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "listening on 127.0.0.1:PORT",
+    "Overall stats:",
+    "Stream metrics:",
+    "Upload Duration",
+    "Download Duration",
+    "Upload Throughput",
+    "Download Throughput"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_server_protocol.py:788"
+  },
+  {
+   "test": "test_server_handles_nonexistent_certificate_files",
+   "argv": [
+    "server",
+    "--listen",
+    "127.0.0.1:9994",
+    "--cert",
+    "/nonexistent/cert.pem",
+    "--key",
+    "/nonexistent/key.pem"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "reading private key: I/O error: No such file or directory (os error 2)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tls.py:198"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable <COMMAND>",
+    "Commands:",
+    "server",
+    "Run as a perf server",
+    "client",
+    "Run as a perf client"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:15"
+  },
+  {
+   "test": "test_help_flag_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable <COMMAND>",
+    "Commands:",
+    "server",
+    "client"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:26"
+  },
+  {
+   "test": "test_help_subcommand",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable <COMMAND>",
+    "Commands:",
+    "server",
+    "client"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:35"
+  },
+  {
+   "test": "test_invalid_subcommand",
+   "argv": [
+    "invalid_command"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid_command"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:44"
+  },
+  {
+   "test": "test_server_help_flag",
+   "argv": [
+    "server",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf server",
+    "--listen",
+    "--key",
+    "--cert",
+    "--send-buffer-size",
+    "--recv-buffer-size",
+    "--conn-stats",
+    "--keylog",
+    "--initial-mtu",
+    "--no-protection",
+    "--congestion"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:64"
+  },
+  {
+   "test": "test_server_help_subcommand",
+   "argv": [
+    "help",
+    "server"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf server",
+    "--listen",
+    "--key",
+    "--cert"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:80"
+  },
+  {
+   "test": "test_client_help_flag",
+   "argv": [
+    "client",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf client",
+    "Host to connect to",
+    "--ip",
+    "--local-addr",
+    "--uni-requests",
+    "--bi-requests",
+    "--download-size",
+    "--upload-size",
+    "--duration",
+    "--interval"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:89"
+  },
+  {
+   "test": "test_client_help_subcommand",
+   "argv": [
+    "help",
+    "client"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run as a perf client",
+    "Host to connect to",
+    "--uni-requests",
+    "--bi-requests"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:104"
+  },
+  {
+   "test": "test_client_invalid_uni_requests",
+   "argv": [
+    "client",
+    "--uni-requests",
+    "not_a_number"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_client_errors.py:13"
+  },
+  {
+   "test": "test_client_invalid_bi_requests",
+   "argv": [
+    "client",
+    "--bi-requests",
+    "abc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_client_errors.py:22"
+  },
+  {
+   "test": "test_client_invalid_upload_size",
+   "argv": [
+    "client",
+    "--upload-size",
+    "xyz"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_client_errors.py:38"
+  },
+  {
+   "test": "test_client_invalid_duration",
+   "argv": [
+    "client",
+    "--duration",
+    "not_a_number"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_client_errors.py:46"
+  },
+  {
+   "test": "test_client_invalid_interval",
+   "argv": [
+    "client",
+    "--interval",
+    "abc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_client_errors.py:54"
+  },
+  {
+   "test": "test_client_invalid_send_buffer_size",
+   "argv": [
+    "client",
+    "--send-buffer-size",
+    "bad"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_client_errors.py:62"
+  },
+  {
+   "test": "test_client_invalid_recv_buffer_size",
+   "argv": [
+    "client",
+    "--recv-buffer-size",
+    "xyz"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_client_errors.py:70"
+  },
+  {
+   "test": "test_client_invalid_initial_mtu",
+   "argv": [
+    "client",
+    "--initial-mtu",
+    "bad"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_client_errors.py:78"
+  },
+  {
+   "test": "test_client_invalid_initial_rtt",
+   "argv": [
+    "client",
+    "--initial-rtt",
+    "not_valid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_client_errors.py:86"
+  },
+  {
+   "test": "test_client_invalid_congestion_algorithm",
+   "argv": [
+    "client",
+    "--congestion",
+    "invalid_algo"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid_algo"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_client_errors.py:94"
+  },
+  {
+   "test": "test_client_invalid_max_udp_payload_size",
+   "argv": [
+    "client",
+    "--max-udp-payload-size",
+    "bad"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_client_errors.py:104"
+  },
+  {
+   "test": "test_client_invalid_stream_receive_window",
+   "argv": [
+    "client",
+    "--stream-receive-window",
+    "xyz"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_client_errors.py:112"
+  },
+  {
+   "test": "test_client_invalid_receive_window",
+   "argv": [
+    "client",
+    "--receive-window",
+    "bad"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_client_errors.py:120"
+  },
+  {
+   "test": "test_client_invalid_send_window",
+   "argv": [
+    "client",
+    "--send-window",
+    "xyz"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_client_errors.py:128"
+  },
+  {
+   "test": "test_server_handles_bidirectional_stream",
+   "argv": [
+    "14440"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_server_actual_traffic.py:53"
+  },
+  {
+   "test": "test_server_handles_unidirectional_stream",
+   "argv": [
+    "14441"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_server_actual_traffic.py:77"
+  },
+  {
+   "test": "test_server_with_no_protection_handles_traffic",
+   "argv": [
+    "--no-protection"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_server_actual_traffic.py:98"
+  },
+  {
+   "test": "test_server_handles_multiple_concurrent_streams",
+   "argv": [
+    "14443"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_server_actual_traffic.py:119"
+  },
+  {
+   "test": "test_server_with_congestion_bbr",
+   "argv": [
+    "--congestion",
+    "bbr"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_server_actual_traffic.py:157"
+  },
+  {
+   "test": "test_server_with_large_transfers",
+   "argv": [
+    "14450"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_server_actual_traffic.py:193"
+  },
+  {
+   "test": "test_server_with_conn_stats",
+   "argv": [
+    "--conn-stats"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_server_actual_traffic.py:212"
+  },
+  {
+   "test": "test_server_with_custom_buffer_and_window_sizes",
+   "argv": [
+    "--send-buffer-size",
+    "8M",
+    "--recv-buffer-size",
+    "8M",
+    "--stream-receive-window",
+    "2M",
+    "--receive-window",
+    "10M",
+    "--send-window",
+    "5M"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_server_actual_traffic.py:228"
+  },
+  {
+   "test": "test_server_key_without_cert",
+   "argv": [
+    "server",
+    "--key",
+    "key.der"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "key.der": "fake key"
+   },
+   "ci": false,
+   "source": "test_server_errors.py:6"
+  },
+  {
+   "test": "test_server_cert_without_key",
+   "argv": [
+    "server",
+    "--cert",
+    "cert.pem"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "cert.pem": "fake cert"
+   },
+   "ci": false,
+   "source": "test_server_errors.py:16"
+  },
+  {
+   "test": "test_server_invalid_send_buffer_size",
+   "argv": [
+    "server",
+    "--send-buffer-size",
+    "not_a_number"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_server_errors.py:34"
+  },
+  {
+   "test": "test_server_invalid_recv_buffer_size",
+   "argv": [
+    "server",
+    "--recv-buffer-size",
+    "abc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_server_errors.py:41"
+  },
+  {
+   "test": "test_server_invalid_initial_mtu",
+   "argv": [
+    "server",
+    "--initial-mtu",
+    "not_a_number"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_server_errors.py:48"
+  },
+  {
+   "test": "test_server_invalid_initial_rtt",
+   "argv": [
+    "server",
+    "--initial-rtt",
+    "invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_server_errors.py:55"
+  },
+  {
+   "test": "test_server_invalid_congestion_algorithm",
+   "argv": [
+    "server",
+    "--congestion",
+    "invalid_algo"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_server_errors.py:62"
+  },
+  {
+   "test": "test_server_invalid_max_udp_payload_size",
+   "argv": [
+    "server",
+    "--max-udp-payload-size",
+    "xyz"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_server_errors.py:69"
+  },
+  {
+   "test": "test_server_invalid_stream_receive_window",
+   "argv": [
+    "server",
+    "--stream-receive-window",
+    "bad_value"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_server_errors.py:76"
+  },
+  {
+   "test": "test_server_invalid_receive_window",
+   "argv": [
+    "server",
+    "--receive-window",
+    "xyz"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_server_errors.py:83"
+  },
+  {
+   "test": "test_server_invalid_send_window",
+   "argv": [
+    "server",
+    "--send-window",
+    "bad"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_server_errors.py:90"
+  },
+  {
+   "test": "test_server_help_shows_defaults",
+   "argv": [
+    "server",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[default:",
+    "[::]:4433",
+    "1200",
+    "1472"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_server_errors.py:97"
+  },
+  {
+   "test": "test_server_help_shows_required_options",
+   "argv": [
+    "server",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--key",
+    "--cert"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_server_errors.py:107"
+  },
+  {
+   "test": "test_client_download_size_with_suffix",
+   "argv": [
+    "client",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--download-size"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_size_parsing.py:86"
+  },
+  {
+   "test": "test_client_upload_size_with_suffix",
+   "argv": [
+    "client",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--upload-size"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_size_parsing.py:94"
+  },
+  {
+   "test": "test_help_mentions_sslkeylogfile_for_keylog_flag",
+   "argv": [
+    "client",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {
+    "SSLKEYLOGFILE": ""
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SSLKEYLOGFILE"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_env_config.py:36"
+  },
+  {
+   "test": "test_keylog_writes_to_path_from_sslkeylogfile",
+   "argv": [
+    "server",
+    "--keylog",
+    "--listen",
+    "127.0.0.1:4433"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_env_config.py:62"
+  }
+ ]
+}

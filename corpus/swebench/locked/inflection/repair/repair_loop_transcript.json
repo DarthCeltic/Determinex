@@ -1,0 +1,29 @@
+{
+  "schema": "determinex-repair-loop-transcript-v1",
+  "tool": "inflection",
+  "family": "python",
+  "pinned_commit": "88eefaa",
+  "repair_type": "seeded_defect (behavioral) - verifier is the project's OWN test suite in a python:3.12 image (toolchain via provider; Docker-OPTIONAL)",
+  "toolchain": "python:3.12",
+  "oracle": "the real jpvanhal/inflection repo's own tests: python -m pytest test_inflection.py -q",
+  "defect": {
+    "file": "inflection/__init__.py",
+    "seed": "uppercase_first_letter: bool = True -> uppercase_first_letter: bool = False"
+  },
+  "detect": {
+    "baseline": "455 passed in 0.41s",
+    "after_seed": "test suite FAILED (exit 1)",
+    "oracle_caught": true,
+    "failure_signature": "seeded defect made the project's own test suite exit non-zero"
+  },
+  "repair": {
+    "fix": "git checkout (restore upstream source)"
+  },
+  "reverify": {
+    "after": "455 passed in 0.40s",
+    "passed": 455,
+    "failures": 0
+  },
+  "repair_loop_status": "passed",
+  "proves": "closed-loop repair on a real external python project (inflection): its OWN test suite detects the injected defect -> fix -> re-verify (455 passed in 0.40s). Reproducible."
+}

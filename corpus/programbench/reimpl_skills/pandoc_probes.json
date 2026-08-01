@@ -1,0 +1,5601 @@
+[
+ {
+  "name": "test::test_version_output::0",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_short_flag::1",
+  "argv": [
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_output::2",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_flag::3",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_option_error::4",
+  "argv": [
+   "--invalid-option-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exit_code_missing_file::5",
+  "argv": [
+   "nonexistent_file_xyz.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_input_formats::6",
+  "argv": [
+   "--list-input-formats"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_output_formats::7",
+  "argv": [
+   "--list-output-formats"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_extensions::8",
+  "argv": [
+   "--list-extensions"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_extensions_for_format::9",
+  "argv": [
+   "--list-extensions=gfm"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_highlight_languages::10",
+  "argv": [
+   "--list-highlight-languages"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_highlight_styles::11",
+  "argv": [
+   "--list-highlight-styles"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_completion::12",
+  "argv": [
+   "--bash-completion"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_default_template_html::13",
+  "argv": [
+   "--print-default-template=html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_default_template_latex::14",
+  "argv": [
+   "--print-default-template=latex"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_default_template_short::15",
+  "argv": [
+   "-D",
+   "html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_default_data_file::16",
+  "argv": [
+   "--print-default-data-file=MANUAL.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_highlight_style::17",
+  "argv": [
+   "--print-highlight-style=pygments"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_html_heading::18",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "# Hello World\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_html_bold::19",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "**bold text**\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_html_italic::20",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "*italic text*\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_html_link::21",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "[example](http://example.com)\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_html_paragraph::22",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "Some paragraph text.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_html_unordered_list::23",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "- item 1\n- item 2\n- item 3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_html_ordered_list::24",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "1. first\n2. second\n3. third\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_html_code_block::25",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "```\ncode here\n```\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_html_inline_code::26",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "`inline code`\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_html_blockquote::27",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "> blockquote text\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_html_horizontal_rule::28",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "---\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_html_table::29",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "| Col1 | Col2 |\n|------|------|\n| A    | B    |\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_html_image::30",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "![alt text](image.png)\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_html_footnote::31",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "text[^1]\n\n[^1]: footnote content\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_standalone_html::32",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "-s"
+  ],
+  "stdin": "# Hello\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_standalone_adds_metadata::33",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "-s"
+  ],
+  "stdin": "---\ntitle: My Document\n---\n\n# Hello\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fragment_mode_no_doctype::34",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "# Hello\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_latex::35",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "latex"
+  ],
+  "stdin": "# Hello\n\n**bold**\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_rst::36",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "rst"
+  ],
+  "stdin": "# Hello\n\n**bold**\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_plain::37",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "plain"
+  ],
+  "stdin": "**bold** and *italic*\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_json::38",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "json"
+  ],
+  "stdin": "# Hello\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_native::39",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "native"
+  ],
+  "stdin": "# Hello\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_to_markdown::40",
+  "argv": [
+   "-f",
+   "html",
+   "-t",
+   "markdown"
+  ],
+  "stdin": "<h1>Hello</h1><p>World</p>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rst_to_html::41",
+  "argv": [
+   "-f",
+   "rst",
+   "-t",
+   "html"
+  ],
+  "stdin": "Hello\n=====\n\nSome text.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_latex_to_html::42",
+  "argv": [
+   "-f",
+   "latex",
+   "-t",
+   "html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_mediawiki::43",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "mediawiki"
+  ],
+  "stdin": "# Hello\n\n**bold**\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_docbook::44",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "docbook"
+  ],
+  "stdin": "# Hello\n\nSome text.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_org::45",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "org"
+  ],
+  "stdin": "# Hello\n\n**bold**\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_textile::46",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "textile"
+  ],
+  "stdin": "# Hello\n\n**bold**\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_dokuwiki::47",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "dokuwiki"
+  ],
+  "stdin": "# Hello\n\n**bold**\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_to_rst::48",
+  "argv": [
+   "-f",
+   "html",
+   "-t",
+   "rst"
+  ],
+  "stdin": "<h1>Title</h1><p>paragraph</p>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_to_file::49",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "-o"
+  ],
+  "stdin": "# Hello\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_to_docx::50",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "docx",
+   "-o"
+  ],
+  "stdin": "# Hello\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_to_epub::51",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "epub",
+   "-o"
+  ],
+  "stdin": "# Hello\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_to_latex_file::52",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "latex",
+   "-o"
+  ],
+  "stdin": "# Hello\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_from_file::53",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "input.md"
+  ],
+  "stdin": null,
+  "files": {
+   "input.md": "# Hello\n\nContent\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_input_files_concatenated::54",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "file1.md",
+   "file2.md"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.md": "# First\n\nContent 1.\n",
+   "file2.md": "# Second\n\nContent 2.\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_guessed_from_extension::55",
+  "argv": [
+   "-t",
+   "markdown",
+   "input.html"
+  ],
+  "stdin": null,
+  "files": {
+   "input.html": "<h1>Hello</h1><p>World</p>"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_metadata_title::56",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "-s",
+   "-M",
+   "title=My Title"
+  ],
+  "stdin": "# Hello\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_metadata_author::57",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "-s",
+   "-M",
+   "author=John Doe"
+  ],
+  "stdin": "# Hello\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_variable_substitution::58",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "-s",
+   "-V",
+   "lang=fr"
+  ],
+  "stdin": "# Hello\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_metadata_file::59",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "-s",
+   "--metadata-file",
+   "meta.yaml"
+  ],
+  "stdin": "# Hello\n",
+  "files": {
+   "meta.yaml": "title: My Title\nauthor: Test Author\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yaml_frontmatter_in_markdown::60",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "-s"
+  ],
+  "stdin": "---\ntitle: Test Document\nauthor: Jane\n---\n\n# Content\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_number_sections::61",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "-N"
+  ],
+  "stdin": "# Hello\n\n## World\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toc_generation::62",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "-s",
+   "--toc"
+  ],
+  "stdin": "# Hello\n\n## World\n\n## More\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toc_depth::63",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "-s",
+   "--toc",
+   "--toc-depth=2"
+  ],
+  "stdin": "# H1\n\n## H2\n\n### H3\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shift_heading_level::64",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "--shift-heading-level-by=1"
+  ],
+  "stdin": "# Hello\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shift_heading_level_negative::65",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "--shift-heading-level-by=-1"
+  ],
+  "stdin": "## Hello\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_top_level_division::66",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "latex",
+   "--top-level-division=chapter"
+  ],
+  "stdin": "# Hello\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wrap_none::67",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "--wrap=none"
+  ],
+  "stdin": "# Hello\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wrap_preserve::68",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "--wrap=preserve"
+  ],
+  "stdin": "# Hello\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wrap_auto::69",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "--wrap=auto"
+  ],
+  "stdin": "# Hello\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_syntax_highlighting_none::70",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "--syntax-highlighting=none"
+  ],
+  "stdin": "```python\nprint(\"hello\")\n```\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_syntax_highlighting_pygments::71",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "--syntax-highlighting=pygments"
+  ],
+  "stdin": "```python\nprint(\"hello\")\n```\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_syntax_highlighting_in_html::72",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "```bash\necho \"hello\"\n```\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reference_links::73",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "markdown",
+   "--reference-links"
+  ],
+  "stdin": "[example](http://example.com)\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_id_prefix::74",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "--id-prefix=pfx-"
+  ],
+  "stdin": "# Hello\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_section_divs::75",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "--section-divs"
+  ],
+  "stdin": "# Hello\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_q_tags::76",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "--html-q-tags"
+  ],
+  "stdin": "\"quoted text\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_email_obfuscation_references::77",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "--email-obfuscation=references"
+  ],
+  "stdin": "Contact: <test@example.com>\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_email_obfuscation_javascript::78",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "--email-obfuscation=javascript"
+  ],
+  "stdin": "<test@example.com>\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mathjax::79",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "-s",
+   "--mathjax"
+  ],
+  "stdin": "$E=mc^2$\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mathml::80",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "--mathml"
+  ],
+  "stdin": "$E=mc^2$\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_katex::81",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "-s",
+   "--katex"
+  ],
+  "stdin": "$E=mc^2$\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gladtex::82",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "--gladtex"
+  ],
+  "stdin": "$E=mc^2$\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_title_prefix::83",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "-s",
+   "-T",
+   "Site"
+  ],
+  "stdin": "---\ntitle: Page\n---\n# Hello\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_css_link::84",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "-s",
+   "-c",
+   "style.css"
+  ],
+  "stdin": "# Hello\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eol_crlf::85",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "--eol=crlf"
+  ],
+  "stdin": "# Hello\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eol_lf::86",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "--eol=lf"
+  ],
+  "stdin": "# Hello\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ascii_mode::87",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "--ascii"
+  ],
+  "stdin": "café résumé\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_headings_setext::88",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "markdown",
+   "--markdown-headings=setext"
+  ],
+  "stdin": "# Hello\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_headings_atx::89",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "markdown",
+   "--markdown-headings=atx"
+  ],
+  "stdin": "# Hello\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reference_location_block::90",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "markdown",
+   "--reference-links",
+   "--reference-location=block"
+  ],
+  "stdin": "[link1](http://a.com) and [link2](http://b.com)\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strip_comments::91",
+  "argv": [
+   "-f",
+   "html",
+   "-t",
+   "html",
+   "--strip-comments"
+  ],
+  "stdin": "<!-- comment --><p>Hello</p>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dump_args::92",
+  "argv": [
+   "--dump-args",
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "# Hello\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_mode::93",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "--verbose"
+  ],
+  "stdin": "# Hello\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_mode::94",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "--quiet"
+  ],
+  "stdin": "# Hello\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_include_in_header::95",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "-s",
+   "-H",
+   "header.html"
+  ],
+  "stdin": "# Hello\n",
+  "files": {
+   "header.html": "<meta name='test' content='value'>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_include_before_body::96",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "-s",
+   "-B",
+   "before.html"
+  ],
+  "stdin": "# Hello\n",
+  "files": {
+   "before.html": "<div id='before'>before content</div>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_include_after_body::97",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "-s",
+   "-A",
+   "after.html"
+  ],
+  "stdin": "# Hello\n",
+  "files": {
+   "after.html": "<div id='after'>after content</div>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_template::98",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "-s",
+   "--template",
+   "custom.html"
+  ],
+  "stdin": "# Hello\n",
+  "files": {
+   "custom.html": "$body$\n<!-- custom template -->\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_to_file::99",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "--log"
+  ],
+  "stdin": "# Hello\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ipynb_output_all::100",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "ipynb",
+   "--ipynb-output=all"
+  ],
+  "stdin": "# Hello\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ipynb_output_best::101",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "ipynb",
+   "--ipynb-output=best"
+  ],
+  "stdin": "# Hello\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_epub_title_page::102",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "epub",
+   "--epub-title-page=true",
+   "-o"
+  ],
+  "stdin": "---\ntitle: Test\n---\n# Hello\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_docbook4::103",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "docbook4",
+   "-s"
+  ],
+  "stdin": "# Hello\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_docbook5::104",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "docbook5",
+   "-s"
+  ],
+  "stdin": "# Hello\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_jats::105",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "jats"
+  ],
+  "stdin": "# Hello\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_input::106",
+  "argv": [
+   "-f",
+   "csv",
+   "-t",
+   "html"
+  ],
+  "stdin": "Name,Age,City\nAlice,30,NYC\nBob,25,LA\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tsv_input::107",
+  "argv": [
+   "-f",
+   "tsv",
+   "-t",
+   "html"
+  ],
+  "stdin": "Name\tAge\nAlice\t30\nBob\t25\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ansi_output::108",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "ansi"
+  ],
+  "stdin": "# Hello\n\n**bold**\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commonmark_input::109",
+  "argv": [
+   "-f",
+   "commonmark",
+   "-t",
+   "html"
+  ],
+  "stdin": "# Hello\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commonmark_x_input::110",
+  "argv": [
+   "-f",
+   "commonmark_x",
+   "-t",
+   "html"
+  ],
+  "stdin": "# Hello\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_djot_input::111",
+  "argv": [
+   "-f",
+   "djot",
+   "-t",
+   "html"
+  ],
+  "stdin": "# Hello\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_djot_output::112",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "djot"
+  ],
+  "stdin": "# Hello\n\n**bold**\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_typst::113",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "typst"
+  ],
+  "stdin": "# Hello\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_revealjs_output::114",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "revealjs",
+   "-s"
+  ],
+  "stdin": "# Slide 1\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_beamer_output::115",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "beamer"
+  ],
+  "stdin": "# Slide 1\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_number_offset::116",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "-N",
+   "--number-offset=5"
+  ],
+  "stdin": "# Hello\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_indented_code_classes::117",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "--indented-code-classes=python"
+  ],
+  "stdin": "    print('hello')\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_image_extension::118",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "--default-image-extension=svg"
+  ],
+  "stdin": "![img](image)\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preserve_tabs::119",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "-p"
+  ],
+  "stdin": "    code with tab\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_scope::120",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "--file-scope",
+   "file1.md",
+   "file2.md"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.md": "# File 1\n",
+   "file2.md": "# File 2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fail_if_warnings_no_warnings::121",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "--fail-if-warnings"
+  ],
+  "stdin": "# Hello\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_round_trip::122",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "json"
+  ],
+  "stdin": "# Hello\n\nSome **bold** text.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_org_input::123",
+  "argv": [
+   "-f",
+   "org",
+   "-t",
+   "html"
+  ],
+  "stdin": "* Hello\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rst_input::124",
+  "argv": [
+   "-f",
+   "rst",
+   "-t",
+   "html"
+  ],
+  "stdin": "Title\n=====\n\nSome text.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asciidoc_input::125",
+  "argv": [
+   "-f",
+   "asciidoc",
+   "-t",
+   "html"
+  ],
+  "stdin": "= Title\n\nSome content.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mediawiki_input::126",
+  "argv": [
+   "-f",
+   "mediawiki",
+   "-t",
+   "html"
+  ],
+  "stdin": "== Hello ==\n\nSome text.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dzslides_output::127",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "dzslides",
+   "-s"
+  ],
+  "stdin": "# Slide\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slidy_output::128",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "slidy",
+   "-s"
+  ],
+  "stdin": "# Slide\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_s5_output::129",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "s5",
+   "-s"
+  ],
+  "stdin": "# Slide\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_incremental_slides::130",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "revealjs",
+   "-s",
+   "-i"
+  ],
+  "stdin": "# Slide\n\n- item1\n- item2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_opml_output::131",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "opml",
+   "-s"
+  ],
+  "stdin": "# Hello\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_opml_input::132",
+  "argv": [
+   "-f",
+   "opml",
+   "-t",
+   "html"
+  ],
+  "stdin": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<opml version=\"1.0\">\n  <head><title>Test</title></head>\n  <body><outline text=\"Hello\" _note=\"Content\"/></body>\n</opml>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_track_changes_accept::133",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "--track-changes=accept"
+  ],
+  "stdin": "# Hello\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_html_definition_list::134",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "Term\n:   Definition\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_math_inline::135",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "$x^2 + y^2 = z^2$\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_fenced_div::136",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "::: note\nNote content\n:::\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_to_latex::137",
+  "argv": [
+   "-f",
+   "html",
+   "-t",
+   "latex"
+  ],
+  "stdin": "<h1>Title</h1><p>Some <strong>bold</strong> text.</p>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_ms::138",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "ms"
+  ],
+  "stdin": "# Hello\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_man::139",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "man"
+  ],
+  "stdin": "# Hello\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_texinfo::140",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "texinfo"
+  ],
+  "stdin": "# Hello\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_context::141",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "context"
+  ],
+  "stdin": "# Hello\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_fb2::142",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "fb2"
+  ],
+  "stdin": "# Hello\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_icml::143",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "icml"
+  ],
+  "stdin": "# Hello\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_tei::144",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "tei"
+  ],
+  "stdin": "# Hello\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_muse::145",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "muse"
+  ],
+  "stdin": "# Hello\n\n**bold**\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_asciidoc::146",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "asciidoc"
+  ],
+  "stdin": "# Hello\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_zimwiki::147",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "zimwiki"
+  ],
+  "stdin": "# Hello\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_xwiki::148",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "xwiki"
+  ],
+  "stdin": "# Hello\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_jira::149",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "jira"
+  ],
+  "stdin": "# Hello\n\n**bold**\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_bbcode::150",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "bbcode"
+  ],
+  "stdin": "**bold** and *italic*\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_haddock::151",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "haddock"
+  ],
+  "stdin": "# Hello\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rtf_input::152",
+  "argv": [
+   "-f",
+   "rtf",
+   "-t",
+   "html"
+  ],
+  "stdin": "{\\rtf1\\ansi{\\fonttbl\\f0\\fnil Helvetica;}\\f0\\pard Hello World\\par}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rtf_input_from_file::153",
+  "argv": [
+   "-f",
+   "rtf",
+   "-t",
+   "html",
+   "test.rtf"
+  ],
+  "stdin": null,
+  "files": {
+   "test.rtf": "{\\rtf1\\ansi{\\fonttbl\\f0\\fnil Helvetica;}\\f0\\pard Hello RTF World\\par}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rtf_bold_and_italic::154",
+  "argv": [
+   "-f",
+   "rtf",
+   "-t",
+   "html"
+  ],
+  "stdin": "{\\rtf1\\ansi\\f0\\pard\\b bold text\\b0\\i italic text\\i0\\par}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_docbook_input::155",
+  "argv": [
+   "-f",
+   "docbook",
+   "-t",
+   "html"
+  ],
+  "stdin": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<article xmlns=\"http://docbook.org/ns/docbook\">\n  <title>DocBook Test</title>\n  <para>Some content here.</para>\n  <sect1>\n    <title>Section One</title>\n    <para>Section content.</para>\n  </sect1>\n</article>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_docbook_with_emphasis::156",
+  "argv": [
+   "-f",
+   "docbook",
+   "-t",
+   "html"
+  ],
+  "stdin": "<article xmlns=\"http://docbook.org/ns/docbook\">\n<para>This has <emphasis>italic</emphasis> and <emphasis role=\"bold\">bold</emphasis>.</para>\n</article>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_textile_input::157",
+  "argv": [
+   "-f",
+   "textile",
+   "-t",
+   "html"
+  ],
+  "stdin": "h1. Hello Textile\n\np. This is *bold* and _italic_ text.\n\n* item one\n* item two\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_textile_input_links::158",
+  "argv": [
+   "-f",
+   "textile",
+   "-t",
+   "html"
+  ],
+  "stdin": "Visit \"example\":http://example.com for more.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dokuwiki_input::159",
+  "argv": [
+   "-f",
+   "dokuwiki",
+   "-t",
+   "html"
+  ],
+  "stdin": "====== Header Level 1 ======\n\nSome **bold** and //italic// text.\n\n===== Header Level 2 =====\n\n  * list item 1\n  * list item 2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_muse_input::160",
+  "argv": [
+   "-f",
+   "muse",
+   "-t",
+   "html"
+  ],
+  "stdin": "* Header\n\nSome text with *bold* and _italic_.\n\n** Subheader\n\nMore content here.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_twiki_input::161",
+  "argv": [
+   "-f",
+   "twiki",
+   "-t",
+   "html"
+  ],
+  "stdin": "---+ Hello TWiki\n\n---++ Level Two\n\n_emph_ *strong*\n\nSome paragraph text here.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tikiwiki_input::162",
+  "argv": [
+   "-f",
+   "tikiwiki",
+   "-t",
+   "html"
+  ],
+  "stdin": "! Hello TikiWiki\n\n!! Level Two\n\n''emph'' __strong__\n\nSome paragraph text.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vimwiki_input::163",
+  "argv": [
+   "-f",
+   "vimwiki",
+   "-t",
+   "html"
+  ],
+  "stdin": "= Header =\n\n== Subheader ==\n\nSome *bold* and _italic_ text.\n\n- list item 1\n- list item 2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_txt2tags_input::164",
+  "argv": [
+   "-f",
+   "t2t",
+   "-t",
+   "html"
+  ],
+  "stdin": "My Document\nauthor\n2024-01-01\n\n= Header =\n\nSome paragraph text.\n\n== Level 2 ==\n\nMore text here.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_typst_input::165",
+  "argv": [
+   "-f",
+   "typst",
+   "-t",
+   "html"
+  ],
+  "stdin": "= Hello Typst\n\n#strong[bold] text and #emph[italic] text.\n\nSome paragraph content here.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_jats_input::166",
+  "argv": [
+   "-f",
+   "jats",
+   "-t",
+   "html"
+  ],
+  "stdin": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<article xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n  <front>\n    <article-meta>\n      <title-group>\n        <article-title>JATS Test Article</article-title>\n      </title-group>\n    </article-meta>\n  </front>\n  <body>\n    <sec>\n      <title>Introduction</title>\n      <p>This is a test paragraph.</p>\n    </sec>\n  </body>\n</article>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_man_input::167",
+  "argv": [
+   "-f",
+   "man",
+   "-t",
+   "html"
+  ],
+  "stdin": ".TH TEST 1 \"2024\"\n.SH NAME\ntest \\- A test program\n.SH SYNOPSIS\n.B test\n[OPTIONS]\n.SH DESCRIPTION\nThis is a test man page.\n.SH OPTIONS\n.TP\n.B \\-h\nDisplay help.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mdoc_input::168",
+  "argv": [
+   "-f",
+   "mdoc",
+   "-t",
+   "html"
+  ],
+  "stdin": ".Dd 2024-01-01\n.Dt TEST 1\n.Os\n.Sh NAME\n.Nm test\n.Nd A test utility\n.Sh DESCRIPTION\nThis is a test mdoc document.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xml_input::169",
+  "argv": [
+   "-f",
+   "jats",
+   "-t",
+   "html"
+  ],
+  "stdin": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<article xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n  <front><article-meta><title-group><article-title>XML Test</article-title></title-group></article-meta></front>\n  <body><sec><title>Section</title><p>Some content here.</p></sec></body>\n</article>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_roff_input::170",
+  "argv": [
+   "-f",
+   "man",
+   "-t",
+   "markdown"
+  ],
+  "stdin": ".TH ROFF 7\n.SH NAME\nroff \\- roff test\n.SH DESCRIPTION\nTesting roff input format.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_muse_reader_links::171",
+  "argv": [
+   "-f",
+   "muse",
+   "-t",
+   "html"
+  ],
+  "stdin": "Visit [[http://example.com][example site]] for more information.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_muse_reader_tables::172",
+  "argv": [
+   "-f",
+   "muse",
+   "-t",
+   "html"
+  ],
+  "stdin": "|| Col1 || Col2 ||\n|  A   |  B   |\n|  C   |  D   |\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_opendocument_writer::173",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "opendocument"
+  ],
+  "stdin": "# Hello\n\n**Bold** and *italic*.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_odt_writer::174",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "odt",
+   "-o"
+  ],
+  "stdin": "# Hello\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pptx_writer::175",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "pptx",
+   "-o"
+  ],
+  "stdin": "# Slide 1\n\n- Point 1\n- Point 2\n\n# Slide 2\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vimdoc_writer::176",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "vimdoc"
+  ],
+  "stdin": "# Hello\n\nContent with *bold* text.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_openxml_writer::177",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "docx",
+   "-o"
+  ],
+  "stdin": "# Test\n\nContent here\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rtf_writer::178",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "rtf"
+  ],
+  "stdin": "# Hello\n\n**bold** and *italic*\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_chunkedhtml_writer::179",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "chunkedhtml",
+   "-o"
+  ],
+  "stdin": "# Chapter 1\n\nContent 1.\n\n# Chapter 2\n\nContent 2.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_selfcontained_html::180",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "-s",
+   "--embed-resources"
+  ],
+  "stdin": "# Hello\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_citeproc_basic::181",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "--citeproc"
+  ],
+  "stdin": "---\nbibliography: []\n---\n\nSome text [@citation2024].\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_biblatex_writer::182",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "biblatex",
+   "--bibliography=/dev/null"
+  ],
+  "stdin": "Test content\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bibtex_writer::183",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "bibtex"
+  ],
+  "stdin": "Test content\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csljson_output::184",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "csljson"
+  ],
+  "stdin": "Test content\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rst_with_directives::185",
+  "argv": [
+   "-f",
+   "rst",
+   "-t",
+   "html"
+  ],
+  "stdin": "Title\n=====\n\n.. note::\n\n   This is a note.\n\n.. code-block:: python\n\n   print(\"hello\")\n\nSome text after directive.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rst_with_tables::186",
+  "argv": [
+   "-f",
+   "rst",
+   "-t",
+   "html"
+  ],
+  "stdin": "=====  =====  ======\nA      B      A or B\n=====  =====  ======\nFalse  False  False\nTrue   False  True\n=====  =====  ======\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_reader_complex::187",
+  "argv": [
+   "-f",
+   "html",
+   "-t",
+   "markdown"
+  ],
+  "stdin": "<html><body>\n<h1>Title</h1>\n<p>Paragraph with <strong>bold</strong> and <em>italic</em>.</p>\n<ul>\n  <li>Item 1</li>\n  <li>Item 2</li>\n</ul>\n<blockquote><p>A quote</p></blockquote>\n<pre><code>code block</code></pre>\n</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_latex_reader_complex::188",
+  "argv": [
+   "-f",
+   "latex",
+   "-t",
+   "html"
+  ],
+  "stdin": "\n\\section{Introduction}\n\nThis has \\textbf{bold} and \\textit{italic} text.\n\n\\begin{itemize}\n\\item First item\n\\item Second item\n\\end{itemize}\n\n\\begin{equation}\nE = mc^2\n\\end{equation}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_with_citations::189",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "--citeproc",
+   "--bibliography",
+   "test.bib"
+  ],
+  "stdin": "According to @smith2023, this is true.\n",
+  "files": {
+   "test.bib": "@article{smith2023,\n  author = {Smith, John},\n  title = {Test Article},\n  year = {2023},\n  journal = {Test Journal}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_epub3_output::190",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "epub3",
+   "-o"
+  ],
+  "stdin": "---\ntitle: Test Book\n---\n# Chapter 1\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_epub2_output::191",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "epub2",
+   "-o"
+  ],
+  "stdin": "---\ntitle: Test Book\n---\n# Chapter 1\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html4_output::192",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html4",
+   "-s"
+  ],
+  "stdin": "# Hello\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html5_output::193",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html5",
+   "-s"
+  ],
+  "stdin": "# Hello\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xwiki_output::194",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "xwiki"
+  ],
+  "stdin": "# Hello\n\n**bold** and *italic*\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zimwiki_output::195",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "zimwiki"
+  ],
+  "stdin": "# Hello\n\n**bold** and *italic*\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markua_output::196",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "markua"
+  ],
+  "stdin": "# Hello\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asciidoc_legacy_output::197",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "asciidoc_legacy"
+  ],
+  "stdin": "# Hello\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asciidoctor_output::198",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "asciidoctor"
+  ],
+  "stdin": "# Hello\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_phpextra_output::199",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "markdown_phpextra"
+  ],
+  "stdin": "# Hello\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gfm_input::200",
+  "argv": [
+   "-f",
+   "gfm",
+   "-t",
+   "html"
+  ],
+  "stdin": "# Hello GFM\n\n**bold** and _italic_ text.\n\n- [x] Task 1\n- [ ] Task 2\n\n```python\nprint(\"hello\")\n```\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gfm_output::201",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "gfm"
+  ],
+  "stdin": "# Hello\n\n**bold**\n\n- item\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_strict_input::202",
+  "argv": [
+   "-f",
+   "markdown_strict",
+   "-t",
+   "html"
+  ],
+  "stdin": "# Hello\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_mmd_input::203",
+  "argv": [
+   "-f",
+   "markdown_mmd",
+   "-t",
+   "html"
+  ],
+  "stdin": "# Hello\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bbcode_fluxbb_output::204",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "bbcode_fluxbb"
+  ],
+  "stdin": "**bold** and *italic*\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bbcode_steam_output::205",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "bbcode_steam"
+  ],
+  "stdin": "**bold** and *italic*\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_footnotes::206",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "Text with a footnote[^1].\n\n[^1]: This is the footnote.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_definition_list::207",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "Term 1\n:   Definition 1\n\nTerm 2\n:   Definition 2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_math_display::208",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "$$E = mc^2$$\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_raw_html::209",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "Before <span class=\"test\">raw html</span> after.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_strikethrough::210",
+  "argv": [
+   "-f",
+   "markdown+strikeout",
+   "-t",
+   "html"
+  ],
+  "stdin": "~~strikethrough~~ text\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_superscript::211",
+  "argv": [
+   "-f",
+   "markdown+superscript",
+   "-t",
+   "html"
+  ],
+  "stdin": "x^2^ is superscript\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_subscript::212",
+  "argv": [
+   "-f",
+   "markdown+subscript",
+   "-t",
+   "html"
+  ],
+  "stdin": "H~2~O\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_smart_punctuation::213",
+  "argv": [
+   "-f",
+   "markdown+smart",
+   "-t",
+   "html"
+  ],
+  "stdin": "She said \"hello\" and it's fine.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_line_blocks::214",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "| Line one\n| Line two\n| Line three\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_pipe_table::215",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "| Col A | Col B | Col C |\n|-------|-------|-------|\n| 1     | 2     | 3     |\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_grid_table::216",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "+-------+-------+\n| Col A | Col B |\n+=======+=======+\n| 1     | 2     |\n+-------+-------+\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_tables_option::217",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "rst",
+   "--list-tables"
+  ],
+  "stdin": "| Col A | Col B |\n|-------|-------|\n| 1     | 2     |\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_jira_advanced::218",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "jira"
+  ],
+  "stdin": "# Title\n\n- item1\n- item2\n\n| Col | Val |\n|-----|-----|\n| A   | 1   |\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ipynb_to_html::219",
+  "argv": [
+   "-f",
+   "ipynb",
+   "-t",
+   "html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_jira_input::220",
+  "argv": [
+   "-f",
+   "jira",
+   "-t",
+   "html"
+  ],
+  "stdin": "h1. Hello Jira\n\n*bold* and _italic_ text.\n\n- item one\n- item two\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_creole_input::221",
+  "argv": [
+   "-f",
+   "creole",
+   "-t",
+   "html"
+  ],
+  "stdin": "= Hello Creole =\n\n== Level Two ==\n\n**bold** and //italic// text.\n\n* item one\n* item two\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_haddock_input::222",
+  "argv": [
+   "-f",
+   "haddock",
+   "-t",
+   "html"
+  ],
+  "stdin": "-- | A haddock module description.\n-- Module documentation goes here.\n-- \n-- This is 'bold' and /italic/.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fb2_input::223",
+  "argv": [
+   "-f",
+   "fb2",
+   "-t",
+   "html"
+  ],
+  "stdin": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<FictionBook xmlns=\"http://www.gribuser.ru/xml/fictionbook/2.0\">\n  <description>\n    <title-info>\n      <book-title>Test Book</book-title>\n      <author><first-name>John</first-name><last-name>Doe</last-name></author>\n    </title-info>\n  </description>\n  <body>\n    <section>\n      <title><p>Chapter 1</p></title>\n      <p>This is some content.</p>\n    </section>\n  </body>\n</FictionBook>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_opml_reader_complex::224",
+  "argv": [
+   "-f",
+   "opml",
+   "-t",
+   "markdown"
+  ],
+  "stdin": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<opml version=\"2.0\">\n  <head><title>Test OPML</title></head>\n  <body>\n    <outline text=\"First item\" _note=\"Some note about first item\"/>\n    <outline text=\"Parent\">\n      <outline text=\"Child item\"/>\n    </outline>\n  </body>\n</opml>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_epub_input::225",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "epub",
+   "-o"
+  ],
+  "stdin": "---\ntitle: Test\nauthor: Author\n---\n# Chapter One\n\nContent here.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_odt_input::226",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "odt",
+   "-o"
+  ],
+  "stdin": "# Hello ODT\n\nContent here.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_endnotexml_input::227",
+  "argv": [
+   "-f",
+   "endnotexml",
+   "-t",
+   "csljson"
+  ],
+  "stdin": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<xml>\n  <records>\n    <record>\n      <ref-type name=\"Journal Article\">17</ref-type>\n      <contributors>\n        <authors>\n          <author>Smith, John</author>\n        </authors>\n      </contributors>\n      <titles>\n        <title>Test Article Title</title>\n        <secondary-title>Test Journal</secondary-title>\n      </titles>\n      <dates>\n        <year>2023</year>\n      </dates>\n    </record>\n  </records>\n</xml>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ris_input::228",
+  "argv": [
+   "-f",
+   "ris",
+   "-t",
+   "csljson"
+  ],
+  "stdin": "TY  - JOUR\nAU  - Smith, John\nTI  - Test Article Title\nJO  - Test Journal\nPY  - 2023\nER  - \n\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csljson_input::229",
+  "argv": [
+   "-f",
+   "csljson",
+   "-t",
+   "html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_biblatex_input::230",
+  "argv": [
+   "-f",
+   "biblatex",
+   "-t",
+   "csljson"
+  ],
+  "stdin": "@article{smith2023,\n  author = {Smith, John},\n  title = {Test Article},\n  journal = {Test Journal},\n  year = {2023},\n  volume = {1},\n  pages = {1--10}\n}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bibtex_input::231",
+  "argv": [
+   "-f",
+   "bibtex",
+   "-t",
+   "csljson"
+  ],
+  "stdin": "@book{doe2023,\n  author = {Doe, Jane},\n  title = {A Great Book},\n  publisher = {Test Press},\n  year = {2023}\n}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mediainfo_formats::232",
+  "argv": [
+   "-f",
+   "mediawiki",
+   "-t",
+   "html"
+  ],
+  "stdin": "== Section One ==\n\n'''bold''' and ''italic'' text.\n\n=== Subsection ===\n\nContent here.\n\n{|\n|Cell 1||Cell 2\n|}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_org_complex::233",
+  "argv": [
+   "-f",
+   "org",
+   "-t",
+   "html"
+  ],
+  "stdin": "#+TITLE: Org Test\n#+AUTHOR: Test\n\n* Introduction\n\nSome *bold* and /italic/ text.\n\n** Sub-section\n\n- item 1\n- item 2\n\n| Col1 | Col2 |\n|------|------|\n| a    | b    |\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_docx_reader_complex::234",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "docx",
+   "-o"
+  ],
+  "stdin": "# Header\n\n**Bold** text.\n\n- item1\n- item2\n\n| A | B |\n|---|---|\n| 1 | 2 |\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xlsx_input::235",
+  "argv": [
+   "-f",
+   "xlsx",
+   "-t",
+   "html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rst_to_latex::236",
+  "argv": [
+   "-f",
+   "rst",
+   "-t",
+   "latex"
+  ],
+  "stdin": "Title\n=====\n\nSubtitle\n--------\n\nSome **bold** text and *italic* text.\n\n.. code-block:: python\n\n   def hello():\n       print(\"hello\")\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_docbook_to_latex::237",
+  "argv": [
+   "-f",
+   "docbook",
+   "-t",
+   "latex"
+  ],
+  "stdin": "<?xml version=\"1.0\"?>\n<article xmlns=\"http://docbook.org/ns/docbook\">\n  <title>Test Article</title>\n  <para>Some <emphasis>emphasized</emphasis> text.</para>\n</article>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_latex_reader_math::238",
+  "argv": [
+   "-f",
+   "latex",
+   "-t",
+   "html"
+  ],
+  "stdin": "\n\\section{Math Test}\n\nInline: $E = mc^2$\n\nDisplay:\n\\[\n\\int_0^\\infty e^{-x} dx = 1\n\\]\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_reader_with_metadata::239",
+  "argv": [
+   "-f",
+   "html",
+   "-t",
+   "markdown"
+  ],
+  "stdin": "<!DOCTYPE html>\n<html>\n<head>\n  <title>HTML Test</title>\n  <meta name=\"author\" content=\"Test Author\">\n</head>\n<body>\n<h1>Content</h1>\n<p>Some text.</p>\n</body>\n</html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_to_html_with_number_offset::240",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "-N",
+   "--number-offset=10"
+  ],
+  "stdin": "# Section One\n\n## Subsection\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slide_level_option::241",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "revealjs",
+   "-s",
+   "--slide-level=2"
+  ],
+  "stdin": "# Section\n\n## Slide Title\n\nSlide content.\n\n### Not a slide\n\nMore content.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dpi_option::242",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "--dpi=300"
+  ],
+  "stdin": "# Hello\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tab_stop_option::243",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "--tab-stop=4"
+  ],
+  "stdin": "    indented code\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sandbox_mode::244",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "--sandbox"
+  ],
+  "stdin": "# Hello\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_figure_caption_above::245",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "--figure-caption-position=above"
+  ],
+  "stdin": "![Caption](image.png)\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_caption_above::246",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "--table-caption-position=above"
+  ],
+  "stdin": "| A | B |\n|---|---|\n| 1 | 2 |\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_webtex_math::247",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "--webtex"
+  ],
+  "stdin": "$x^2 + y^2$\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extract_media::248",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "--extract-media"
+  ],
+  "stdin": "# Hello\n\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_listings_option::249",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "latex",
+   "--listings"
+  ],
+  "stdin": "```python\nprint(\"hello\")\n```\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_beamer_incremental::250",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "beamer",
+   "--incremental"
+  ],
+  "stdin": "# Slide\n\n- item 1\n- item 2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_revealjs_fragments::251",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "revealjs",
+   "-s",
+   "-i"
+  ],
+  "stdin": "# Slide 1\n\n- Point A\n- Point B\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bibtex_csljson_bibtex_roundtrip::252",
+  "argv": [
+   "--from=csljson",
+   "--to=bibtex"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_grid_table_with_colspan::253",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "\n+-------+-------+-------+\n| A     | B             |\n+=======+=======+=======+\n| 1     | 2     | 3     |\n+-------+-------+-------+\n| 4             | 5     |\n+-------+-------+-------+\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_caption_position_above::254",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "--table-caption-position=above"
+  ],
+  "stdin": "\n| Header 1 | Header 2 |\n|----------|----------|\n| Cell 1   | Cell 2   |\n\n: This is a caption\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_caption_position_below::255",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html",
+   "--table-caption-position=below"
+  ],
+  "stdin": "\n| Header 1 | Header 2 |\n|----------|----------|\n| Cell 1   | Cell 2   |\n\n: This is a caption\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_with_complex_formatting_bold_italic_code::256",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "\n| **Bold Header** | *Italic Header* | `Code Header` |\n|-----------------|-----------------|---------------|\n| **bold text**   | *italic text*   | `inline code` |\n| [link](url)     | ![img](i.png)   | math: $x^2$   |\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_alignment_left_center_right::257",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "\n| Left | Center | Right |\n|:-----|:------:|------:|\n| L1   | C1     | R1    |\n| L2   | C2     | R2    |\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_with_empty_cells::258",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "\n| A | B | C |\n|---|---|---|\n|   | 2 |   |\n| 4 |   | 6 |\n|   |   |   |\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_simple_table_format::259",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "\n  Right     Left     Center     Default\n-------     ------ ----------   -------\n     12     12        12            12\n    123     123       123          123\n      1     1          1             1\n\nTable: Demonstration of simple table syntax.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiline_table_format::260",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "\n-------------------------------------------------------------\n Centered   Default           Right Left\n  Header    Aligned         Aligned Aligned\n----------- ------- --------------- -------------------------\n   First    row                12.0 Example of a row that\n                                    spans multiple lines.\n\n  Second    row                 5.0 Here's another one. Note\n                                    the blank line between\n                                    rows.\n-------------------------------------------------------------\n\nTable: Here's the caption. It, too, may span\nmultiple lines.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pipe_table_to_markdown_conversion::261",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "markdown"
+  ],
+  "stdin": "\n| Name | Age | City |\n|------|-----|------|\n| Alice | 25 | NYC |\n| Bob | 30 | LA |\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pipe_table_to_rst_conversion::262",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "rst"
+  ],
+  "stdin": "\n| Name | Age | City |\n|------|-----|------|\n| Alice | 25 | NYC |\n| Bob | 30 | LA |\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pipe_table_to_latex_conversion::263",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "latex"
+  ],
+  "stdin": "\n| Name | Age | City |\n|------|-----|------|\n| Alice | 25 | NYC |\n| Bob | 30 | LA |\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_with_header_and_footer::264",
+  "argv": [
+   "-f",
+   "html",
+   "-t",
+   "html"
+  ],
+  "stdin": "\n<table>\n<thead>\n<tr><th>Header 1</th><th>Header 2</th></tr>\n</thead>\n<tbody>\n<tr><td>Cell 1</td><td>Cell 2</td></tr>\n<tr><td>Cell 3</td><td>Cell 4</td></tr>\n</tbody>\n<tfoot>\n<tr><td>Footer 1</td><td>Footer 2</td></tr>\n</tfoot>\n</table>\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_with_attributes_id_and_classes::265",
+  "argv": [
+   "-f",
+   "markdown+table_attributes",
+   "-t",
+   "html"
+  ],
+  "stdin": "\n| Name | Age |\n|------|-----|\n| Alice | 25 |\n| Bob | 30 |\n\n: My table {#mytable .table-striped .table-bordered}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_input_format_to_html_table::266",
+  "argv": [
+   "-f",
+   "csv",
+   "-t",
+   "html"
+  ],
+  "stdin": "Name,Age,City\nAlice,25,New York\nBob,30,Los Angeles\nCharlie,35,Chicago\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_table_without_thead::267",
+  "argv": [
+   "-f",
+   "html",
+   "-t",
+   "html"
+  ],
+  "stdin": "\n<table>\n<tr><td>A</td><td>B</td></tr>\n<tr><td>C</td><td>D</td></tr>\n</table>\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_table_with_line_breaks_in_cells::268",
+  "argv": [
+   "-f",
+   "html",
+   "-t",
+   "html"
+  ],
+  "stdin": "\n<table>\n<tr><th>Column 1</th><th>Column 2</th></tr>\n<tr><td>First line<br>Second line</td><td>Normal cell</td></tr>\n</table>\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_roundtrip_markdown_to_markdown::269",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "markdown"
+  ],
+  "stdin": "| Left | Center | Right |\n|:-----|:------:|------:|\n| A    | B      | C     |\n| D    | E      | F     |\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wide_table_exceeds_page_width::270",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_with_unicode_characters::271",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "\n| English | 中文 | 日本語 | العربية |\n|---------|------|--------|---------|\n| Hello   | 你好 | こんにちは | مرحبا |\n| Goodbye | 再见 | さようなら | وداعا |\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_with_nested_lists_in_cells::272",
+  "argv": [
+   "-f",
+   "html",
+   "-t",
+   "html"
+  ],
+  "stdin": "\n<table>\n<tr>\n  <th>Header</th>\n  <th>Items</th>\n</tr>\n<tr>\n  <td>A</td>\n  <td>\n    <ul>\n      <li>Item 1</li>\n      <li>Item 2</li>\n    </ul>\n  </td>\n</tr>\n</table>\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_table_with_headers_only::273",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "\n| Header 1 | Header 2 | Header 3 |\n|----------|----------|----------|\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_single_column::274",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "\n| Single |\n|--------|\n| A      |\n| B      |\n| C      |\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_input_with_ascii::275",
+  "argv": [
+   "--ascii",
+   "-t",
+   "html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_simple_markdown_to_html::276",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "# Hello World\n\nThis is a **test**.",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_captioned_and_uncaptioned_in_same_document::277",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "latex",
+   "--figure-caption-position=above",
+   "--table-caption-position=above"
+  ],
+  "stdin": "\n![Captioned figure.](img1.jpg)\n\n![](img2.jpg)\n\n![Another captioned figure.](img3.jpg)\n\n| A | B |\n|---|---|\n| 1 | 2 |\n\n: Captioned table.\n\n| X | Y |\n|---|---|\n| 3 | 4 |\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reference_sorting_with_year_disambiguation::278",
+  "argv": [
+   "--citeproc",
+   "-t",
+   "html"
+  ],
+  "stdin": "\n---\nreferences:\n- id: doe2020a\n  type: article-journal\n  author:\n  - family: Doe\n    given: John\n  title: First Article\n  issued:\n    date-parts:\n    - - 2020\n- id: doe2020b\n  type: article-journal\n  author:\n  - family: Doe\n    given: John\n  title: Second Article\n  issued:\n    date-parts:\n    - - 2020\n---\n\n# Document\n\nCitations [@doe2020a; @doe2020b].\n\n# References\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_authors_comma_separation::279",
+  "argv": [
+   "--citeproc",
+   "-t",
+   "html"
+  ],
+  "stdin": "\n---\nreferences:\n- id: multi2020\n  type: article-journal\n  author:\n  - family: Doe\n    given: John\n  - family: Smith\n    given: Jane\n  - family: Jones\n    given: Bob\n  title: Multi-author Article\n  issued:\n    date-parts:\n    - - 2020\n---\n\n# Document\n\nCitation [@multi2020].\n\n# References\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_input_extension_plus::280",
+  "argv": [
+   "-f",
+   "markdown+nonexistent_ext"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_input_extension_minus::281",
+  "argv": [
+   "-f",
+   "markdown-nonexistent_ext"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_output_extension_plus::282",
+  "argv": [
+   "-t",
+   "html+invalid_ext"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_output_extension_minus::283",
+  "argv": [
+   "-t",
+   "html-invalid_ext"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_non_numeric_columns::284",
+  "argv": [
+   "--columns=abc"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_non_numeric_dpi::285",
+  "argv": [
+   "--dpi=xyz"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_tab_stop::286",
+  "argv": [
+   "--tab-stop=0"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_tab_stop::287",
+  "argv": [
+   "--tab-stop=-5"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_non_numeric_tab_stop::288",
+  "argv": [
+   "--tab-stop=invalid"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_long_option::289",
+  "argv": [
+   "--this-option-does-not-exist"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_short_option::290",
+  "argv": [
+   "-x"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_top_level_division::291",
+  "argv": [
+   "--top-level-division=invalid"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_eol::292",
+  "argv": [
+   "--eol=invalid"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_track_changes::293",
+  "argv": [
+   "--track-changes=invalid"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_email_obfuscation::294",
+  "argv": [
+   "--email-obfuscation=invalid"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_lua_filter::295",
+  "argv": [
+   "--lua-filter=/nonexistent/filter.lua"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_wrap_options_last_wins::296",
+  "argv": [
+   "--wrap=none",
+   "--wrap=preserve",
+   "-t",
+   "plain"
+  ],
+  "stdin": "This is a very long line that would normally be wrapped at column boundaries but preserve mode should keep original wrapping.",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_standalone_flags::297",
+  "argv": [
+   "--standalone=true",
+   "--standalone=false"
+  ],
+  "stdin": "# Test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_number_offset::298",
+  "argv": [
+   "--number-offset=invalid"
+  ],
+  "stdin": "# Test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_shift_heading_level::299",
+  "argv": [
+   "--shift-heading-level-by=abc"
+  ],
+  "stdin": "# Test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_indented_code_classes_argument::300",
+  "argv": [
+   "--indented-code-classes"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_pdf_engine_argument::301",
+  "argv": [
+   "--pdf-engine"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_variable_argument_short_flag::302",
+  "argv": [
+   "-V"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_metadata_argument_short_flag::303",
+  "argv": [
+   "-M"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_json_in_variable_json::304",
+  "argv": [
+   "--variable-json=key:{invalid json}"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_highlight_style::305",
+  "argv": [
+   "--highlight-style=nonexistent_style_12345"
+  ],
+  "stdin": "# Test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_syntax_highlighting_style::306",
+  "argv": [
+   "--syntax-highlighting=invalid_style_xyz"
+  ],
+  "stdin": "# Test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_self_contained_embed_resources::307",
+  "argv": [
+   "--self-contained",
+   "--embed-resources=false"
+  ],
+  "stdin": "# Test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_to_flags_last_wins::308",
+  "argv": [
+   "-t",
+   "plain",
+   "-t",
+   "html"
+  ],
+  "stdin": "# Test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_from_flags_last_wins::309",
+  "argv": [
+   "-f",
+   "markdown",
+   "-f",
+   "html"
+  ],
+  "stdin": "<p>Test <strong>bold</strong></p>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_toc_options_last_wins::310",
+  "argv": [
+   "--toc=true",
+   "--toc=false",
+   "-s"
+  ],
+  "stdin": "# First\n\n## Second\n\n### Third\n\nContent.",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_ipynb_output_option::311",
+  "argv": [
+   "--ipynb-output=invalid"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_html_q_tags_option::312",
+  "argv": [
+   "--html-q-tags=invalid"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_dpi::313",
+  "argv": [
+   "--dpi=-100"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_columns::314",
+  "argv": [
+   "--columns=-50"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_extract_media_argument::315",
+  "argv": [
+   "--extract-media"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_data_dir_argument::316",
+  "argv": [
+   "--data-dir"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_resource_path_argument::317",
+  "argv": [
+   "--resource-path"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_reference_doc_argument::318",
+  "argv": [
+   "--reference-doc"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_columns_values_last_wins::319",
+  "argv": [
+   "--columns=50",
+   "--columns=20",
+   "-t",
+   "plain"
+  ],
+  "stdin": "This is a moderately long line of text that will be wrapped according to the column width specification.",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_dpi_values_last_wins::320",
+  "argv": [
+   "--dpi=72",
+   "--dpi=96"
+  ],
+  "stdin": "# Test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pdf_to_format_specific_help::321",
+  "argv": [
+   "-f",
+   "pdf"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_doc_to_format_specific_help::322",
+  "argv": [
+   "-f",
+   "doc"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_doc_from_format_specific_help::323",
+  "argv": [
+   "-t",
+   "doc"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pdf_from_format_specific_help::324",
+  "argv": [
+   "-t",
+   "pdf"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_input_processing::325",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "# Test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_smart_extension_processes_typography::326",
+  "argv": [
+   "-f",
+   "markdown-smart",
+   "-t",
+   "html"
+  ],
+  "stdin": "\"This\" is a test -- with smart quotes...",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_input_produces_empty_output::327",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_from_to_flags_last_wins::328",
+  "argv": [
+   "-f",
+   "html",
+   "-f",
+   "markdown",
+   "-t",
+   "json",
+   "-t",
+   "html"
+  ],
+  "stdin": "# Test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_basic_structure::329",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "context",
+   "-s"
+  ],
+  "stdin": "# Chapter One\n\nText.\n\n## Section 1.1\n\nMore text.",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_formatting_commands::330",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "context",
+   "-s"
+  ],
+  "stdin": "**bold** and *italic* and `code`",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_lists_itemize_enumerate::331",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "context",
+   "-s"
+  ],
+  "stdin": "\n* Item 1\n* Item 2\n\n1. First\n2. Second\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_math_inline_display::332",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "context",
+   "-s"
+  ],
+  "stdin": "Inline $E=mc^2$ and display:\n\n$$\\int_0^\\infty e^{-x} dx = 1$$",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_table_xtable_structure::333",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "context",
+   "-s"
+  ],
+  "stdin": "| A | B |\n|---|---|\n| 1 | 2 |",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_images_externalfigure::334",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "context",
+   "-s"
+  ],
+  "stdin": "![Caption](img.png)",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_complete_document_golden::335",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "context",
+   "-s"
+  ],
+  "stdin": "# Chapter One\n\nThis is the first chapter with **bold** and *italic* text.\n\n## Section 1.1\n\nSome regular text with `inline code`.\n\n## Section 1.2\n\nMore text here.\n\n# Chapter Two\n\nAnother chapter.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_lists_nested_golden::336",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "context",
+   "-s"
+  ],
+  "stdin": "# Lists\n\nBullet list:\n\n* First item\n* Second item\n* Third item\n\nNumbered list:\n\n1. First\n2. Second\n3. Third\n\nNested lists:\n\n* Outer 1\n  - Inner 1a\n  - Inner 1b\n* Outer 2\n  1. Numbered inner\n  2. Another numbered\n\nDefinition list:\n\nTerm 1\n:   Definition 1\n\nTerm 2\n:   Definition 2 with more text\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_math_formulas_golden::337",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "context",
+   "-s"
+  ],
+  "stdin": "# Mathematics\n\nInline math: $E = mc^2$ and $\\alpha + \\beta = \\gamma$.\n\nDisplay math:\n\n$$\\int_{0}^{\\infty} e^{-x^2} dx = \\frac{\\sqrt{\\pi}}{2}$$\n\nMore complex:\n\n$$\\sum_{i=1}^{n} i = \\frac{n(n+1)}{2}$$\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_table_with_caption_golden::338",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "context",
+   "-s"
+  ],
+  "stdin": "# Tables\n\n| Name | Age | City |\n|------|-----|------|\n| Alice | 30 | NYC |\n| Bob | 25 | LA |\n| Charlie | 35 | SF |\n\nTable with caption:\n\n: Employee Data\n\n| ID | Name | Department |\n|----|------|------------|\n| 1 | John | Sales |\n| 2 | Jane | Marketing |\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_code_highlighting_golden::339",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "context",
+   "-s"
+  ],
+  "stdin": "# Code Examples\n\nInline code: `print(\"hello\")`.\n\nCode block without highlighting:\n\n    def hello():\n        print(\"Hello, World!\")\n\nPython code block with highlighting:\n\n```python\ndef factorial(n):\n    if n <= 1:\n        return 1\n    return n * factorial(n-1)\n```\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_special_characters_golden::340",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "context",
+   "-s"
+  ],
+  "stdin": "# Special Characters\n\nText with special chars: $, %, &, #, _, {, }, ~, ^, \\\n\nSome unicode: café, résumé, naïve\n\nQuotes: \"double\" and 'single'\n\nEm-dash --- and en-dash --\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_blockquote_links_golden::341",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "context",
+   "-s"
+  ],
+  "stdin": "# Blockquotes and Links\n\n> This is a blockquote.\n> It can span multiple lines.\n\nLinks:\n\nThis is a [link to Google](https://www.google.com).\n\nReference link: [Pandoc][pandoc-ref].\n\n[pandoc-ref]: https://pandoc.org\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_image_sizes_golden::342",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "context",
+   "-s"
+  ],
+  "stdin": "# Images\n\nSimple image:\n\n![Alt text](image.png)\n\nImage with caption:\n\n![A nice diagram](diagram.jpg \"Diagram title\")\n\nImage with size attributes:\n\n![](logo.png){ width=50% }\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_beamer_basic_slides_golden::343",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "beamer",
+   "-s"
+  ],
+  "stdin": "---\ntitle: My Presentation\nauthor: John Doe\n---\n\n# First Slide\n\nThis is content.\n\n# Second Slide\n\n- Point 1\n- Point 2\n- Point 3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_beamer_incremental_lists_golden::344",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "beamer",
+   "-s"
+  ],
+  "stdin": "---\ntitle: Incremental Slides\n---\n\n# Slide with Incremental List\n\n::: incremental\n\n- Item 1\n- Item 2\n- Item 3\n\n:::\n\n# Another Slide\n\n::: nonincremental\n\n- All at once\n- Not incremental\n\n:::\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_beamer_incremental_detection::345",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "beamer",
+   "-s"
+  ],
+  "stdin": "::: incremental\n- A\n- B\n:::",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_beamer_nonincremental_detection::346",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "beamer",
+   "-s"
+  ],
+  "stdin": "::: nonincremental\n- A\n- B\n:::",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_beamer_alert_block::347",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "beamer"
+  ],
+  "stdin": "# Slide\n\n::: {.alert}\n\n## Title\n\nImportant!\n\n:::",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_beamer_notes_class::348",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "beamer",
+   "-s"
+  ],
+  "stdin": "::: notes\nPresenter notes here\n:::",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_beamer_pause_indicator::349",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "beamer"
+  ],
+  "stdin": "# Slide\n\nBefore\n\n. . .\n\nAfter",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_latex_natbib_citation_mode::350",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "latex",
+   "-s",
+   "--natbib"
+  ],
+  "stdin": "# Test\n\nSome text.",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_latex_biblatex_citation_mode::351",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "latex",
+   "-s",
+   "--biblatex"
+  ],
+  "stdin": "# Test\n\nSome text.",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_latex_longtable_for_long_tables::352",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "latex",
+   "-s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_latex_pdf_metadata_hypersetup::353",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "latex",
+   "-s"
+  ],
+  "stdin": "---\ntitle: My Document\nauthor: John Smith\nkeywords: [pandoc, latex, test]\nsubject: Testing PDF metadata\n---\n\n# Content\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_latex_hyperref_link_handling::354",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "latex"
+  ],
+  "stdin": "[Link text](https://example.com/path?q=1&x=2#anchor)",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_latex_internal_reference_hypertarget::355",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "latex"
+  ],
+  "stdin": "# Section {#mysec}\n\nSee [here](#mysec).",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_raw_context_passthrough::356",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "context"
+  ],
+  "stdin": "```{=context}\n\\definehighlight[important]\n```",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_raw_tex_passthrough::357",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "context"
+  ],
+  "stdin": "```{=tex}\n\\mycommand{test}\n```",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_strikeout_underline::358",
+  "argv": [
+   "-f",
+   "markdown+strikeout",
+   "-t",
+   "context"
+  ],
+  "stdin": "~~strikeout~~ and [underline]{.underline}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_superscript_subscript::359",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "context"
+  ],
+  "stdin": "H~2~O and E=mc^2^ (text mode)",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_smallcaps::360",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "context"
+  ],
+  "stdin": "[Small Caps]{.smallcaps}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_latex_beamer_columns_environment::361",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "beamer"
+  ],
+  "stdin": "::: columns\n\n::: column\nLeft\n:::\n\n::: column\nRight\n:::\n\n:::",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_latex_beamer_fragile_frame_detection::362",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "beamer"
+  ],
+  "stdin": "# Slide\n\n```python\nprint('hello')\n```",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_line_blocks::363",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "context"
+  ],
+  "stdin": "| Line one\n| Line two\n| Line three",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_footnotes::364",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "context"
+  ],
+  "stdin": "Text with footnote[^1].\n\n[^1]: This is the note.",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_citeproc_references::365",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "context",
+   "-s",
+   "--citeproc"
+  ],
+  "stdin": "---\nreferences:\n- id: smith2020\n  type: article-journal\n  author:\n  - family: Smith\n    given: John\n  issued:\n    date-parts:\n    - - 2020\n  title: Test Article\n---\n\nCitation: @smith2020\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_horizontal_rule::366",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "context"
+  ],
+  "stdin": "Text\n\n---\n\nMore text",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_latex_complex_math_amsmath::367",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "latex",
+   "-s"
+  ],
+  "stdin": "\n$$\n\\begin{aligned}\nx &= a + b \\\\\ny &= c + d\n\\end{aligned}\n$$\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_beamer_plain_frame_option::368",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "beamer"
+  ],
+  "stdin": "# Normal Slide\n\nContent\n\n# Plain Slide {.plain}\n\nNo header",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_alignment_rtl_ltr::369",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "context"
+  ],
+  "stdin": "::: {dir=\"rtl\"}\nRTL text\n:::",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_latex_section_numbering_control::370",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "latex",
+   "-s",
+   "--number-sections"
+  ],
+  "stdin": "# One\n\n## Two\n\n### Three",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_autodetection_from_stdin::371",
+  "argv": [
+   "-t",
+   "html"
+  ],
+  "stdin": "# Test Heading\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_reader_error_handling::372",
+  "argv": [
+   "-f",
+   "json",
+   "-t",
+   "markdown"
+  ],
+  "stdin": "{\"invalid\": \"json\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_input_format_error_message::373",
+  "argv": [
+   "-f",
+   "invalidformat",
+   "-t",
+   "html"
+  ],
+  "stdin": "# Test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_output_format_error_message::374",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "invalidformat"
+  ],
+  "stdin": "# Test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_citation_syntax_preservation_without_bibliography::375",
+  "argv": [
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "\n# Test\n\nCitation here [@smith2020].\n\nMultiple [@a; @b].\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_stdin_input::376",
+  "argv": [
+   "-f",
+   "csv",
+   "-t",
+   "html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_roundtrip_through_native::377",
+  "argv": [
+   "-f",
+   "native",
+   "-t",
+   "html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tsv_stdin_input::378",
+  "argv": [
+   "-f",
+   "tsv",
+   "-t",
+   "html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_data_dir_with_template_error::379",
+  "argv": [
+   "--data-dir=/nonexistent/path/to/data",
+   "--template=mytemplate",
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "# Test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_data_dir_option::380",
+  "argv": [
+   "--data-dir=",
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "# Test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_resource_path_option::381",
+  "argv": [
+   "--resource-path=",
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "# Test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_resource_path_directory::382",
+  "argv": [
+   "--resource-path=/nonexistent/path/one:/nonexistent/path/two",
+   "-f",
+   "markdown",
+   "-t",
+   "html"
+  ],
+  "stdin": "# Test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_defaults_file_error::383",
+  "argv": [
+   "--defaults=nonexistent_file.yaml"
+  ],
+  "stdin": "test content",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dump_args_with_stdin::384",
+  "argv": [
+   "--dump-args",
+   "-o",
+   "test.pdf"
+  ],
+  "stdin": "# Test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dump_args_ignores_stdin_content::385",
+  "argv": [
+   "--dump-args",
+   "-o",
+   "output.html"
+  ],
+  "stdin": "{{invalid}} [[markup]] <<<>>>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_djot_autolinks_and_email::386",
+  "argv": [
+   "--from=djot",
+   "--to=html"
+  ],
+  "stdin": "\n<https://example.com?query=test&other=value>\n\n<user@example.com>\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_djot_complex_table_with_multiline_cells::387",
+  "argv": [
+   "--from=djot",
+   "--to=html"
+  ],
+  "stdin": "\n| Column 1 | Column 2 |\n|:---------|:--------:|\n| Simple   | Also simple |\n| Cell with multiple words that wrap | Center aligned content |\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_djot_definition_list_with_multiple_terms::388",
+  "argv": [
+   "--from=djot",
+   "--to=html"
+  ],
+  "stdin": "\n: Term 1\n: Term 2\n\n  Shared definition\n\n: Term 3\n\n  Definition 3a\n  \n  Definition 3b\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_djot_writer_preserves_emphasis_style::389",
+  "argv": [
+   "--from=markdown",
+   "--to=djot"
+  ],
+  "stdin": "**bold text** and *italic text*",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_djot_footnote_with_multiline_content::390",
+  "argv": [
+   "--from=djot",
+   "--to=html"
+  ],
+  "stdin": "\nText with footnote[^complex].\n\n[^complex]: First paragraph in footnote.\n\n    Second paragraph in footnote.\n    \n    - List item\n    - Another item\n    \n    ```\n    code block\n    ```\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_djot_reference_link_with_attributes::391",
+  "argv": [
+   "--from=djot",
+   "--to=html"
+  ],
+  "stdin": "\n[Link text][myref]{.external #link1}\n\n[myref]: https://example.com\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_djot_invalid_syntax_graceful_handling::392",
+  "argv": [
+   "--from=djot",
+   "--to=html"
+  ],
+  "stdin": "\nInvalid emphasis: **not closed\n\nBroken attribute: {.class\n\nEmpty link: []() and [text]()\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_djot_list_with_mixed_markers::393",
+  "argv": [
+   "--from=djot",
+   "--to=html"
+  ],
+  "stdin": "\n- Bullet item 1\n- Bullet item 2\n\n1. Numbered item 1\n2. Numbered item 2\n\n- Another bullet\n- Another bullet 2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_djot_code_block_with_language_info::394",
+  "argv": [
+   "--from=djot",
+   "--to=html"
+  ],
+  "stdin": "\n```python\ndef hello():\n    return \"world\"\n```\n\n```javascript\nconsole.log(\"test\");\n```\n\n```\nno language\n```\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_djot_multiple_paragraph_blockquote::395",
+  "argv": [
+   "--from=djot",
+   "--to=html"
+  ],
+  "stdin": "\n> First paragraph in blockquote.\n>\n> Second paragraph in blockquote.\n>\n> Third paragraph in blockquote.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_djot_heading_with_inline_elements::396",
+  "argv": [
+   "--from=djot",
+   "--to=html"
+  ],
+  "stdin": "\n# Heading with *emphasis* and _italic_\n\n## Heading with [link](url) inside\n\n### Heading with `code` element\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_djot_standalone_to_fragment::397",
+  "argv": [
+   "--from=djot",
+   "--to=html"
+  ],
+  "stdin": "\n# Test heading\n\nSome paragraph.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_djot_special_attributes_preservation::398",
+  "argv": [
+   "--from=djot",
+   "--to=html"
+  ],
+  "stdin": "\n{title=\"Hover text\" style=\"color: red\" data-custom=\"value=123&test\"}\nThis paragraph has special attributes.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_djot_table_without_header::399",
+  "argv": [
+   "--from=djot",
+   "--to=html"
+  ],
+  "stdin": "\n|-----|-----|\n| A   | B   |\n| C   | D   |\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

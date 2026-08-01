@@ -1,0 +1,6693 @@
+[
+ {
+  "name": "test::test_basic_scan::0",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--max-threads",
+   "2",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "admin\nconfig\nnotfound\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_with_extension::1",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "-x",
+   ".php,.html",
+   "--max-threads",
+   "2",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "admin\nconfig\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_with_text_output::2",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "-o",
+   "--max-threads",
+   "2",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "admin\nconfig\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_with_json_output::3",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--json-file",
+   "--max-threads",
+   "2",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "admin\nconfig\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_with_xml_output::4",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--xml-file",
+   "--max-threads",
+   "2",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "admin\nconfig\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_recursion_scan::5",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "-r",
+   "--max-threads",
+   "2",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "admin\nhidden\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_with_verbose::6",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "-v",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "admin\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_with_code_filtering::7",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "-W",
+   "200",
+   "--max-threads",
+   "2",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "admin\nforbidden\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_with_head_verb::8",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--verb",
+   "head",
+   "--max-threads",
+   "2",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "admin\nconfig\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_with_post_verb::9",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--verb",
+   "post",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "admin\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_with_prefixes::10",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "-p",
+   "ad,c",
+   "--max-threads",
+   "2",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "min\nonfig\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_with_multiple_extensions::11",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "-x",
+   ".php,.html,.jsp,.txt",
+   "--max-threads",
+   "2",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "admin\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_with_throttle::12",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "-z",
+   "50",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "admin\nconfig\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_with_silent_mode::13",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "-S",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "admin\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_with_no_color::14",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--no-color",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "admin\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_with_custom_timeout::15",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--timeout",
+   "10",
+   "--max-threads",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "admin\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_with_max_errors::16",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--max-errors",
+   "2",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "admin\nnotfound1\nnotfound2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_with_blacklist::17",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "-B",
+   "404",
+   "--max-threads",
+   "2",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "admin\nnotfound\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_with_wordlist_split::18",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "-T",
+   "2",
+   "--max-threads",
+   "4",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "admin\nconfig\ntest\npage\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_with_cookies::19",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "-c",
+   "session=test123",
+   "-c",
+   "token=abc",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "admin\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_with_custom_headers::20",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "-H",
+   "X-Custom-Header:value",
+   "-H",
+   "Authorization:Bearer token",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "admin\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_with_user_agent::21",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "-a",
+   "CustomBot/1.0",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "admin\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_all_output_formats::22",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--output-all",
+   "--max-threads",
+   "2",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "admin\nconfig\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_with_forced_extensions::23",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "-x",
+   ".php",
+   "-f",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "admin\nconfig\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_with_high_threads::24",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--max-threads",
+   "20",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "admin\nconfig\ntest\npage\nuser\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_htaccess_filtering::25",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": ".htaccess\n.htpasswd\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_401_directory_scanning::26",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "admin\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_403_directory_scanning::27",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "protected\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_redirect_detection::28",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "redirect-test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_validator_disabled::29",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--disable-validator",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\nnonexist\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_varying_length_detection::30",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--max-threads",
+   "1",
+   "--wordlist-split",
+   "1",
+   "--timeout",
+   "2",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "varying-length\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::31",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag::32",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ctrl_c_handling::33",
+  "argv": [
+   "http://localhost:1",
+   "-w",
+   "wordlist.txt",
+   "--timeout",
+   "1",
+   "--max-errors",
+   "1",
+   "--max-threads",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test1\ntest2\ntest3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_code_blacklist_multiple_codes::34",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "-B",
+   "401,403,404",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "admin\nprotected\n.htaccess\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_code_whitelist::35",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "-W",
+   "401,403",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "admin\nprotected\ntest\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_length_blacklist_single::36",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--hide-lengths",
+   "40",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test1\ntest2\ntest3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_length_blacklist_range::37",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--hide-lengths",
+   "30-50",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test1\ntest2\ntest3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_length_ranges::38",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--hide-lengths",
+   "10-20,30-40,50",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test1\ntest2\ntest3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extension_substitution::39",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "-x",
+   ".php,.html",
+   "--ext-sub",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "file%EXT%\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wordlist_with_force_extension::40",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "-x",
+   ".php",
+   "-f",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_proxy_flag::41",
+  "argv": [
+   "http://localhost:1",
+   "-w",
+   "wordlist.txt",
+   "--no-proxy",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1",
+   "--max-errors",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_username_password::42",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--username",
+   "testuser",
+   "--password",
+   "testpass",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_username_only::43",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--username",
+   "testuser",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_cookie::44",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "-c",
+   "session=abc123",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_cookies::45",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "-c",
+   "session=abc123",
+   "-c",
+   "token=xyz789",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_header::46",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "-H",
+   "X-Custom-Header:value",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_headers::47",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "-H",
+   "X-Custom-Header:value",
+   "-H",
+   "Authorization:Bearer token123",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_header_without_value::48",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "-H",
+   "X-Custom-Header;",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_user_agent::49",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "-a",
+   "Mozilla/5.0 Custom Agent",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_user_agent_long::50",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--user-agent",
+   "CustomBot/1.0",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_flag::51",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_short_flag::52",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::53",
+  "argv": [
+   "--nonexistent-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_takes_precedence::54",
+  "argv": [
+   "--help",
+   "--max-threads",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_varying_404_length_validator::55",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--max-threads",
+   "1",
+   "--wordlist-split",
+   "1",
+   "--timeout",
+   "3",
+   "-v",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test-a\ntest-bb\ntest-ccc\ntest-dddd\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_redirect_validator::56",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--max-threads",
+   "1",
+   "--wordlist-split",
+   "1",
+   "--timeout",
+   "3",
+   "-v",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "redir-a\nredir-b\nredir-c\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_https_redirect_detection::57",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "3",
+   "-v",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "http-dir\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_wordlist::58",
+  "argv": [
+   "http://localhost:1",
+   "-w",
+   "--max-threads",
+   "5",
+   "--wordlist-split",
+   "3",
+   "--timeout",
+   "1",
+   "--max-errors",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duplicate_detection::59",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "-x",
+   ".php,.html",
+   "--max-threads",
+   "2",
+   "--timeout",
+   "2",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_output_formats::60",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--output-all",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_output_format::61",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--json-file",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xml_output_format::62",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--xml-file",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_text_output_format::63",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--output-file",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_hosts_from_file::64",
+  "argv": [
+   "-U",
+   "-w",
+   "wordlist.txt",
+   "--max-threads",
+   "2",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cookie_and_header_combination::65",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "-c",
+   "session=abc123",
+   "-c",
+   "token=xyz789",
+   "-H",
+   "X-Custom:value",
+   "-H",
+   "Authorization:Bearer test",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_auth_credentials::66",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--username",
+   "admin",
+   "--password",
+   "secret",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_auth_in_url::67",
+  "argv": [
+   "http://user:pass@localhost:1",
+   "-w",
+   "wordlist.txt",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1",
+   "--max-errors",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_url_format::68",
+  "argv": [
+   "not-a-valid-url",
+   "-w",
+   "wordlist.txt",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_with_port::69",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--timeout",
+   "1",
+   "--max-errors",
+   "1",
+   "--max-threads",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_with_path::70",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_high_wordlist_split::71",
+  "argv": [
+   "http://localhost:1",
+   "-w",
+   "wordlist.txt",
+   "--wordlist-split",
+   "10",
+   "--max-threads",
+   "5",
+   "--timeout",
+   "1",
+   "--max-errors",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_extension::72",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "-x",
+   ".php",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "index\nconfig\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_extensions_comma_separated::73",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "-x",
+   ".php,.html,.jsp",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "index\nconfig\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extensions_from_file::74",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "-X",
+   "extensions.txt",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "index\nconfig\n",
+   "extensions.txt": ".php\n.html\n.jsp\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_builtin_extension_file::75",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "-X",
+   "extensions/web.txt",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "index\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_force_extension::76",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "-x",
+   ".php",
+   "-f",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "index\nconfig\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extension_substitution::77",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "-x",
+   ".php,.html",
+   "--ext-sub",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "backup.%EXT%\nindex.%EXT%\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extensions_without_dot::78",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "-x",
+   "php,html",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "index\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_extension_file::79",
+  "argv": [
+   "http://localhost:9999",
+   "-X",
+   "/nonexistent/extensions.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_code_blacklist_short::80",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "-B",
+   "404,403",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_code_blacklist_long::81",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--code-blacklist",
+   "404,403,500",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_code_whitelist_short::82",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "-W",
+   "200,301,302",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_code_whitelist_long::83",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--code-whitelist",
+   "200",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hide_lengths_single::84",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--hide-lengths",
+   "348",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hide_lengths_range::85",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--hide-lengths",
+   "500-700",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hide_lengths_mixed::86",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--hide-lengths",
+   "348,500-700",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_htaccess::87",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--show-htaccess",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_validator::88",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--disable-validator",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_html1_parsing::89",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--scrape-listable",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "3",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "html1\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_table_parsing::90",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--scrape-listable",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "3",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "html2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_html_parsing::91",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--scrape-listable",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "3",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "html3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html5_semantic_parsing::92",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--scrape-listable",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "3",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "html4\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_malformed_html_parsing::93",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--scrape-listable",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "3",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "html5\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_html_directories::94",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--scrape-listable",
+   "--max-threads",
+   "2",
+   "--wordlist-split",
+   "2",
+   "--timeout",
+   "3",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "html1\nhtml2\nhtml3\nhtml4\nhtml5\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_recursive_html_scraping::95",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--scrape-listable",
+   "--max-recursion-depth",
+   "2",
+   "--max-threads",
+   "2",
+   "--timeout",
+   "3",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "html1\nhtml2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_with_images_and_links::96",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--scrape-listable",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_large_html::97",
+  "argv": [
+   "-w",
+   "--scrape-listable",
+   "--max-threads",
+   "3",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_verb_get::98",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--verb",
+   "get",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_verb_head::99",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--verb",
+   "head",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_verb_post::100",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--verb",
+   "post",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_http_verb::101",
+  "argv": [
+   "http://localhost:9999",
+   "--verb",
+   "DELETE"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_timeout_option::102",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--timeout",
+   "2",
+   "--max-threads",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_errors_option::103",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--max-errors",
+   "3",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_errors_zero_disables::104",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--max-errors",
+   "0",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_cert::105",
+  "argv": [
+   "https://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "-k",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_cert_long::106",
+  "argv": [
+   "https://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--ignore-cert",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_listable_short::107",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "-l",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_listable_long::108",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--scan-listable",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scrape_listable::109",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--scrape-listable",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_and_scrape_listable::110",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--scan-listable",
+   "--scrape-listable",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_listable_directory_detection::111",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--scan-listable",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "listable\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scrape_listable_urls::112",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--scrape-listable",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "listable\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_listable_relative_paths::113",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--scrape-listable",
+   "--scan-listable",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "listable\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_listable_with_subdirectory::114",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--scrape-listable",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "3"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "listable\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_listable_filters_parent_links::115",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--scrape-listable",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "listable\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_listable_directory_listing_marker::116",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--scan-listable",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "listable\nlistable3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_listable_up_to_marker::117",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--scan-listable",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "listable2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_non_listable_directory::118",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--scan-listable",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "notlistable\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_listable_directory::119",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--scrape-listable",
+   "--scan-listable",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "empty-listable\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_listable_https_urls::120",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--scrape-listable",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2",
+   "-r",
+   "-k"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "listable\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_listable_scraping::121",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--scrape-listable",
+   "--max-threads",
+   "2",
+   "--wordlist-split",
+   "1",
+   "--timeout",
+   "2",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "listable-complex\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fixed_length_404_detection::122",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--max-threads",
+   "1",
+   "--wordlist-split",
+   "1",
+   "--timeout",
+   "2",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "same-length-404-a\nsame-length-404-b\nsame-length-404-c\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_varying_length_404_detection::123",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--max-threads",
+   "1",
+   "--wordlist-split",
+   "1",
+   "--timeout",
+   "2",
+   "-v",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "varying-404-a\nvarying-404-bb\nvarying-404-ccc\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fixed_redirect_404_detection::124",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--max-threads",
+   "1",
+   "--wordlist-split",
+   "1",
+   "--timeout",
+   "2",
+   "-v",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "redir-fixed-test1\nredir-fixed-test2\nredir-fixed-test3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_recursive_scanning_depth::125",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--scrape-listable",
+   "--max-recursion-depth",
+   "0",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "listable-complex\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_head_request_method::126",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--verb",
+   "head",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\nnonexist\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_post_request_method::127",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--verb",
+   "post",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\nnonexist\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_verbose_output::128",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "-v",
+   "-v",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_verbose_output::129",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "-v",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_wordlist_files::130",
+  "argv": [
+   "-w",
+   "wl1.txt",
+   "-w",
+   "wl2.txt",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wl1.txt": "test1\n",
+   "wl2.txt": "test2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prefix_and_extension_combination::131",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "-p",
+   "test_,backup_",
+   "-x",
+   ".php,.html",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "file\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prefix_file::132",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "-P",
+   "prefixes.txt",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "file\n",
+   "prefixes.txt": "old_\nnew_\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extension_file::133",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "-X",
+   "extensions.txt",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "file\n",
+   "extensions.txt": ".php\n.html\n.asp\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_uri_sources::134",
+  "argv": [
+   "-u",
+   "-w",
+   "wordlist.txt",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_uri_file::135",
+  "argv": [
+   "-U",
+   "-w",
+   "wordlist.txt",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_response_codes::136",
+  "argv": [
+   "-w",
+   "wordlist.txt",
+   "--max-threads",
+   "2",
+   "--timeout",
+   "2",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "listable-complex\nvarying-404-a\nsame-length-404-a\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_timeout_behavior::137",
+  "argv": [
+   "http://192.0.2.1",
+   "-w",
+   "wordlist.txt",
+   "--timeout",
+   "1",
+   "--max-errors",
+   "1",
+   "--max-threads",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_cert_with_https::138",
+  "argv": [
+   "https://example.com",
+   "-w",
+   "wordlist.txt",
+   "-k",
+   "--timeout",
+   "2",
+   "--max-errors",
+   "2",
+   "--max-threads",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_text_output_short::139",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "-o",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_text_output_long::140",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--output-file",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_output::141",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--json-file",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xml_output::142",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--xml-file",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_all::143",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--output-all",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_output_formats::144",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "-o",
+   "--json-file",
+   "--xml-file",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_color::145",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--no-color",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_silent_mode_short::146",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "-S",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_silent_mode_long::147",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--silent",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_mode_once::148",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "-v",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_mode_twice::149",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "-vv",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_long::150",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--verbose",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_prefix::151",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "-p",
+   "old-",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "admin\nconfig\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_prefixes_comma_separated::152",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "-p",
+   "old-,new-,test-",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "admin\nconfig\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prefixes_from_file::153",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "-P",
+   "prefixes.txt",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "admin\n",
+   "prefixes.txt": "old-\nnew-\ntest-\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prefixes_and_extensions::154",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "-p",
+   "old-",
+   "-x",
+   ".php",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "admin\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_prefix_file::155",
+  "argv": [
+   "http://localhost:9999",
+   "-P",
+   "/nonexistent/prefixes.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_proxy_option::156",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--proxy",
+   "http://proxy.example.com:8080",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_proxy_with_auth::157",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--proxy",
+   "http://user:pass@proxy.example.com:8080",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_burp_proxy::158",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--burp",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_proxy::159",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--no-proxy",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_recursion_short::160",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "-r",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_recursion_long::161",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--disable-recursion",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_recursion_depth::162",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--max-recursion-depth",
+   "2",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_recursion_depth_zero::163",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--max-recursion-depth",
+   "0",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_401::164",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--scan-401",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_403::165",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--scan-403",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_401_and_403::166",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--scan-401",
+   "--scan-403",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_threads_option::167",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "-t",
+   "5",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_threads_long::168",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--max-threads",
+   "5",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wordlist_split_option::169",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "-T",
+   "2",
+   "--max-threads",
+   "4",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wordlist_split_long::170",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--wordlist-split",
+   "2",
+   "--max-threads",
+   "4",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_throttle_option::171",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "-z",
+   "100",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_throttle_long::172",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--throttle",
+   "100",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_thread::173",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_high_thread_count::174",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--max-threads",
+   "50",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_uri_required::175",
+  "argv": [
+   "--wordlist",
+   "dirble_wordlist.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_uri::176",
+  "argv": [
+   "not-a-valid-uri"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_uri::177",
+  "argv": [
+   "http://localhost:9999",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_https_uri::178",
+  "argv": [
+   "https://localhost:9999",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_uri_with_port::179",
+  "argv": [
+   "http://localhost:8080",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_uris_via_flag::180",
+  "argv": [
+   "http://localhost:9999",
+   "-u",
+   "http://localhost:9998",
+   "-w",
+   "wordlist.txt",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\npage\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_uri_file::181",
+  "argv": [
+   "--uri-file",
+   "uris.txt",
+   "-w",
+   "wordlist.txt",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "uris.txt": "http://localhost:9999\nhttp://localhost:9998\n",
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_uri_with_basic_auth::182",
+  "argv": [
+   "http://user:pass@localhost:9999",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_uri_with_path::183",
+  "argv": [
+   "http://localhost:9999/some/path",
+   "-w",
+   "wordlist.txt",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_uri_file::184",
+  "argv": [
+   "--uri-file",
+   "/nonexistent/file.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_wordlist::185",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "custom.txt",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "custom.txt": "admin\nconfig\ntest\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_wordlist::186",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "/nonexistent/wordlist.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_wordlist::187",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "empty.txt",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.txt": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wordlist_with_comments::188",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "admin\n\nconfig\ntest\n  spaces  \n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wordlist_with_special_chars::189",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "admin\nconfig-test\ntest_page\npage.old\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wordlist_with_paths::190",
+  "argv": [
+   "http://localhost:9999",
+   "-w",
+   "wordlist.txt",
+   "--max-threads",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "admin/\n/config\ntest/page\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_is_not_subcommand::191",
+  "argv": [
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_rejected::192",
+  "argv": [
+   "--nonexistent-flag-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_requires_valid_uri_not_subcommand::193",
+  "argv": [
+   "--wordlist",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_flag_exists::194",
+  "argv": [
+   "--verbose"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_silent_flag_exists::195",
+  "argv": [
+   "--silent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_uri_flag_not_subcommand::196",
+  "argv": [
+   "--uri"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_takes_precedence_over_unknown_flags::197",
+  "argv": [
+   "--help",
+   "--definitely-not-a-real-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_after_double_dash_is_not_parsed_as_help::198",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_url_is_error_exit_2_and_on_stderr::199",
+  "argv": [
+   "not_a_url"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_prints_expected_lines_to_stdout_and_exit_0::200",
+  "argv": [
+   "-w",
+   "wl.txt",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1",
+   "-r",
+   "--disable-validator"
+  ],
+  "stdin": null,
+  "files": {
+   "wl.txt": "admin\ndir\nmissing\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_silent_writes_reports_to_files_and_no_stdout::201",
+  "argv": [
+   "-w",
+   "wl.txt",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1",
+   "-r",
+   "--disable-validator",
+   "-S",
+   "-o",
+   "--json-file",
+   "--xml-file"
+  ],
+  "stdin": null,
+  "files": {
+   "wl.txt": "admin\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_positional_uri_does_not_satisfy_required_uri_group_when_extensions_used::202",
+  "argv": [
+   "-x",
+   ".php",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_number_is_rejected_without_double_dash_for_numeric_options::203",
+  "argv": [
+   "--uri",
+   "http://example.com",
+   "--extensions",
+   ".php",
+   "--timeout",
+   "-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_integer_range_validation_for_max_threads_zero::204",
+  "argv": [
+   "--uri",
+   "http://example.com",
+   "--extensions",
+   ".php",
+   "--max-threads",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_integer_overflow_validation_for_max_threads::205",
+  "argv": [
+   "--uri",
+   "http://example.com",
+   "--extensions",
+   ".php",
+   "--max-threads",
+   "999999999999999999999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mutual_exclusion_no_proxy_and_proxy::206",
+  "argv": [
+   "--uri",
+   "http://example.com",
+   "--extensions",
+   ".php",
+   "--no-proxy",
+   "--proxy",
+   "http://localhost:8080"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mutual_exclusion_burp_and_proxy::207",
+  "argv": [
+   "--uri",
+   "http://example.com",
+   "--extensions",
+   ".php",
+   "--burp",
+   "--proxy",
+   "http://localhost:8080"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extensions_optional_if_omitted_scan_starts_and_exits_0::208",
+  "argv": [
+   "--uri",
+   "http://example.com",
+   "--timeout",
+   "0",
+   "--wordlist-split",
+   "0",
+   "--max-threads",
+   "1",
+   "--max-recursion-depth",
+   "0",
+   "--disable-recursion",
+   "--silent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_aliases_oN_oJ_oX_require_equals_value_syntax::209",
+  "argv": [
+   "--uri",
+   "http://example.com",
+   "--extensions",
+   ".php",
+   "-oN",
+   "out.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_integration_basic_test_report_matches_snapshot::210",
+  "argv": [
+   "-w",
+   "-o",
+   "--no-color",
+   "-S"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_hide_lengths_filters_report_entries::211",
+  "argv": [
+   "-w",
+   "-o",
+   "--no-color",
+   "-S",
+   "--hide-lengths",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_verbose_and_silent_are_mutually_exclusive::212",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "-v",
+   "-S",
+   "--no-color"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_args_errors_and_prints_usage::213",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_errors::214",
+  "argv": [
+   "--definitely-not-a-real-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_shows_error::215",
+  "argv": [
+   "--invalid-flag-that-does-not-exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extensions_comma_separated::216",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-x",
+   ".php,.html,.txt",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "index\ntest\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extensions_single::217",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-x",
+   ".php",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "index\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extensions_without_dot::218",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-x",
+   "php,html",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "index\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extension_file::219",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-X",
+   "extensions.txt",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "index\n",
+   "extensions.txt": ".php\n.html\n.jsp\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extension_file_not_found::220",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-X",
+   "/nonexistent/ext.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "index\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_extension_files::221",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-X",
+   "ext1.txt",
+   "-X",
+   "ext2.txt",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "index\n",
+   "ext1.txt": ".php\n.html\n",
+   "ext2.txt": ".jsp\n.asp\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prefixes_comma_separated::222",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-p",
+   "old_,backup_,test_",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "index\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prefixes_single::223",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-p",
+   "backup_",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "index\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prefix_file::224",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-P",
+   "prefixes.txt",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "index\n",
+   "prefixes.txt": "old_\nbackup_\ntest_\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prefix_file_not_found::225",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-P",
+   "/nonexistent/prefix.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "index\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extensions_and_prefixes_combined::226",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-x",
+   ".php",
+   "-p",
+   "old_,backup_",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "index\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_force_extension_flag::227",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-x",
+   ".php,.html",
+   "-f",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "index\ntest\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_force_extension_without_extensions::228",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-f",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "index\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_extension_file::229",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-X",
+   "empty_ext.txt",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "index\n",
+   "empty_ext.txt": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_code_blacklist_single::230",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-B",
+   "404",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_code_blacklist_multiple::231",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-B",
+   "404,403,500",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_code_whitelist_single::232",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-W",
+   "200",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_code_whitelist_multiple::233",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-W",
+   "200,201,301,302",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_validator_flag::234",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "--disable-validator",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hide_lengths_single::235",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "--hide-lengths",
+   "348",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hide_lengths_range::236",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "--hide-lengths",
+   "500-700",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hide_lengths_multiple::237",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "--hide-lengths",
+   "348,500-700",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hide_lengths_repeated_flag::238",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "--hide-lengths",
+   "348",
+   "--hide-lengths",
+   "500-700",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_code_blacklist::239",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-B",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_length_format::240",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "--hide-lengths",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_blacklist_and_whitelist_conflict::241",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-B",
+   "404",
+   "-W",
+   "200",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_verb_get::242",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "--verb",
+   "get",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_verb_head::243",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "--verb",
+   "head",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_verb_post::244",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "--verb",
+   "post",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_verb_invalid::245",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "--verb",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_timeout_custom_value::246",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "--timeout",
+   "10",
+   "-t",
+   "1",
+   "-T",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_timeout_zero::247",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "--timeout",
+   "0",
+   "-t",
+   "1",
+   "-T",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_cert_flag::248",
+  "argv": [
+   "https://example.com",
+   "-w",
+   "wordlist.txt",
+   "-k",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_user_agent_custom::249",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-a",
+   "CustomBot/1.0",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cookie_single::250",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-c",
+   "session=abc123",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cookie_multiple::251",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-c",
+   "session=abc123",
+   "-c",
+   "user=test",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_header_single::252",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-H",
+   "X-Custom: value",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_header_multiple::253",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-H",
+   "X-Custom: value",
+   "-H",
+   "X-Another: test",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_header_without_value::254",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-H",
+   "X-Empty;",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_auth_username_password::255",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "--username",
+   "user",
+   "--password",
+   "pass",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_username_without_password::256",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "--username",
+   "user",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_errors_custom::257",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "--max-errors",
+   "10",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_errors_zero_disables::258",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "--max-errors",
+   "0",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_with_all_output_formats::259",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "--output-all",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_output_shows_detail::260",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-vv",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_silent_mode_minimal_output::261",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_code_blacklist_filters_output::262",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-B",
+   "404,403,500",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1",
+   "--max-errors",
+   "1",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extension_expansion::263",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-x",
+   ".php,.html",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "index\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prefix_expansion::264",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-p",
+   "old_,backup_",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "config\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_extensions_and_prefixes::265",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-x",
+   ".php",
+   "-p",
+   "old_",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "file\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_color_removes_ansi::266",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "--no-color",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_throttling_slows_requests::267",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-z",
+   "500",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "a\nb\nc\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_recursion_depth_limits_scanning::268",
+  "argv": [
+   "http://example.com/a/b/c",
+   "-w",
+   "wordlist.txt",
+   "--max-recursion-depth",
+   "1",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_uri_with_path_component::269",
+  "argv": [
+   "http://example.com/api/v1/",
+   "-w",
+   "wordlist.txt",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_targets_scanning::270",
+  "argv": [
+   "http://example.com",
+   "-u",
+   "http://example.org",
+   "-w",
+   "wordlist.txt",
+   "-t",
+   "2",
+   "-T",
+   "1",
+   "--timeout",
+   "1",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_validator_shows_all_results::271",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "--disable-validator",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_silent_mode::272",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-S",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_mode_single::273",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-v",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_mode_double::274",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-vv",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_color_flag::275",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "--no-color",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_file_text::276",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-o",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_file_output::277",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "--json-file",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xml_file_output::278",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "--xml-file",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_all_formats::279",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "--output-all",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_file_in_nonexistent_directory::280",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-o",
+   "/nonexistent/directory/output.txt",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_output_formats::281",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-o",
+   "--json-file",
+   "--xml-file",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_silent_and_verbose_conflict::282",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-S",
+   "-v",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_burp_proxy_flag::283",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "--burp",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_proxy::284",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "--proxy",
+   "http://proxy.example.com:8080",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_proxy_with_auth::285",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "--proxy",
+   "http://user:pass@proxy.example.com:8080",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_proxy_flag::286",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "--no-proxy",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_proxy_and_no_proxy_conflict::287",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "--proxy",
+   "http://proxy:8080",
+   "--no-proxy",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_burp_and_custom_proxy_conflict::288",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "--burp",
+   "--proxy",
+   "http://proxy:8080",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_proxy_url::289",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "--proxy",
+   "not-a-valid-url",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_recursion_enabled_by_default::290",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_recursion_flag::291",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-r",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_recursion_depth_custom::292",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "--max-recursion-depth",
+   "2",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_recursion_depth_zero::293",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "--max-recursion-depth",
+   "0",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_recursion_depth_one::294",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "--max-recursion-depth",
+   "1",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_listable_flag::295",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-l",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scrape_listable_flag::296",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "--scrape-listable",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_401_flag::297",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "--scan-401",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_403_flag::298",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "--scan-403",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_htaccess_flag::299",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "--show-htaccess",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": ".htaccess\n.htpasswd\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_options_combined::300",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "--scan-401",
+   "--scan-403",
+   "-l",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_recursion_with_disable_flag_conflict::301",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-r",
+   "--max-recursion-depth",
+   "2",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_uri_format::302",
+  "argv": [
+   "not-a-valid-uri",
+   "-w",
+   "wordlist.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "admin\ntest\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_uri_shows_help::303",
+  "argv": [
+   "-w",
+   "wordlist.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "admin\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_uri_file_not_found::304",
+  "argv": [
+   "-U",
+   "/nonexistent/file/that/does/not/exist.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_uri_file_format::305",
+  "argv": [
+   "-U",
+   "uris.txt",
+   "-w",
+   "wordlist.txt",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "uris.txt": "http://example.com\nhttp://example.org\n",
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_uri_flags::306",
+  "argv": [
+   "http://example.com",
+   "-u",
+   "http://example.org",
+   "-w",
+   "wordlist.txt",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_uri_with_basic_auth_format::307",
+  "argv": [
+   "http://user:pass@example.com",
+   "-w",
+   "wordlist.txt",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_uri_with_port::308",
+  "argv": [
+   "http://example.com:8080",
+   "-w",
+   "wordlist.txt",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_uri_with_path::309",
+  "argv": [
+   "http://example.com/some/path/",
+   "-w",
+   "wordlist.txt",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_uri_file::310",
+  "argv": [
+   "-U",
+   "empty_uris.txt",
+   "-w",
+   "wordlist.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "empty_uris.txt": "",
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_uri_file_with_comments::311",
+  "argv": [
+   "-U",
+   "uris_with_blanks.txt",
+   "-w",
+   "wordlist.txt",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "uris_with_blanks.txt": "http://example.com\n\n\nhttp://example.org\n",
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_threads_default::312",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_threads_custom::313",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-t",
+   "5",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_threads_large::314",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-t",
+   "100",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wordlist_split_default::315",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-t",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wordlist_split_custom::316",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-T",
+   "5",
+   "-t",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wordlist_split_one::317",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-T",
+   "1",
+   "-t",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_throttle_milliseconds::318",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-z",
+   "100",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_throttle_zero::319",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-z",
+   "0",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_threads_and_split_interaction::320",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-t",
+   "10",
+   "-T",
+   "10",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_thread_count::321",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-t",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_throttle_value::322",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "wordlist.txt",
+   "-z",
+   "not-a-number"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_wordlist_not_found::323",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "/nonexistent/wordlist.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_wordlist_path::324",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "custom.txt",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "custom.txt": "admin\ntest\nconfig\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wordlist_with_special_characters::325",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "special.txt",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "special.txt": "admin\ntest-file\nconfig_backup\nfile%20space\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_wordlist::326",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "empty.txt",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.txt": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wordlist_with_blank_lines::327",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "blanks.txt",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "blanks.txt": "admin\n\n\ntest\n\nconfig\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wordlist_with_slashes::328",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "slashes.txt",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "slashes.txt": "/admin/\n/test\nconfig/\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_sub_flag_without_pattern::329",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "no_ext.txt",
+   "--ext-sub",
+   "-x",
+   ".php",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "no_ext.txt": "admin\ntest\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_sub_flag_with_pattern::330",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "with_ext.txt",
+   "--ext-sub",
+   "-x",
+   ".php,.html",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "with_ext.txt": "admin%EXT%\ntest%EXT%\nconfig\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_wordlists::331",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "list1.txt",
+   "-w",
+   "list2.txt",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "list1.txt": "admin\ntest\n",
+   "list2.txt": "config\nbackup\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wordlist_with_unicode::332",
+  "argv": [
+   "http://example.com",
+   "-w",
+   "unicode.txt",
+   "-t",
+   "1",
+   "-T",
+   "1",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "unicode.txt": "admin\ntëst\n文件\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

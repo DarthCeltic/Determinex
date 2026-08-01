@@ -1,0 +1,1128 @@
+[
+ {
+  "name": "test::test_help_and_h_outputs_match_exactly::0",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_takes_precedence_over_other_options::1",
+  "argv": [
+   "--type-list",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_after_double_dash_not_treated_as_flag::2",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_errors_and_mentions_try_help::3",
+  "argv": [
+   "--badflag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_args_reports_missing_required::4",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_error_and_tip::5",
+  "argv": [
+   "--type-list",
+   "--unknown"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_long_option_missing_value_errors::6",
+  "argv": [
+   "--custom-command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enum_invalid_value_errors_and_lists_possible::7",
+  "argv": [
+   "--type-list",
+   "--editor",
+   "notaneditor"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_and_long_flag_equivalence_ignore_case::8",
+  "argv": [
+   "--type-list",
+   "--ignore-case"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_short_flags_equivalent::9",
+  "argv": [
+   "--type-list",
+   "-iS"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_conflict_type_list_with_pattern_is_error::10",
+  "argv": [
+   "--type-list",
+   "foo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repeatable_options_accept_multiple_occurrences::11",
+  "argv": [
+   "--type-list",
+   "--glob",
+   "*.rs",
+   "--glob=*.toml",
+   "--type",
+   "rust",
+   "--type-not",
+   "js"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_var_accepted_for_custom_command::12",
+  "argv": [
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "IGREP_CUSTOM_EDITOR": "echo {file_name} {line_number}"
+  }
+ },
+ {
+  "name": "test::test_help_short_flag::13",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::14",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_short_flag::15",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::16",
+  "argv": [
+   "--nonexistent-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_cli_override::17",
+  "argv": [
+   "--smart-case",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_editor_builtin_vim::18",
+  "argv": [
+   "--help",
+   "--editor",
+   "vim"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_editor_builtin_nvim::19",
+  "argv": [
+   "--help",
+   "--editor",
+   "nvim"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_editor_builtin_nano::20",
+  "argv": [
+   "--help",
+   "--editor",
+   "nano"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_editor_builtin_vscode::21",
+  "argv": [
+   "--help",
+   "--editor",
+   "code"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_editor_builtin_emacs::22",
+  "argv": [
+   "--help",
+   "--editor",
+   "emacs"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_editor_invalid_value::23",
+  "argv": [
+   "--editor",
+   "nonexistent",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_editor_all_supported::24",
+  "argv": [
+   "--help",
+   "--editor"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_command_valid::25",
+  "argv": [
+   "--custom-command",
+   "vim +{line_number} {file_name}",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_editor_and_custom_command_conflict::26",
+  "argv": [
+   "--editor",
+   "vim",
+   "--custom-command",
+   "emacs +{line_number} {file_name}",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_command_accepted_with_type_list::27",
+  "argv": [
+   "--custom-command",
+   "vim +{line_number}",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_dark::28",
+  "argv": [
+   "--theme",
+   "dark",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_light::29",
+  "argv": [
+   "--theme",
+   "light",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_invalid::30",
+  "argv": [
+   "--theme",
+   "invalid",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_viewer_none::31",
+  "argv": [
+   "--context-viewer",
+   "none",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_viewer_vertical::32",
+  "argv": [
+   "--context-viewer",
+   "vertical",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_viewer_horizontal::33",
+  "argv": [
+   "--context-viewer",
+   "horizontal",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_viewer_invalid::34",
+  "argv": [
+   "--context-viewer",
+   "invalid",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_single::35",
+  "argv": [
+   "-t",
+   "rust",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_long_flag::36",
+  "argv": [
+   "--type",
+   "python",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_multiple::37",
+  "argv": [
+   "-t",
+   "rust",
+   "-t",
+   "python",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_not_single::38",
+  "argv": [
+   "-T",
+   "rust",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_not_long_flag::39",
+  "argv": [
+   "--type-not",
+   "python",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_not_multiple::40",
+  "argv": [
+   "-T",
+   "rust",
+   "-T",
+   "python",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_and_type_not_combined::41",
+  "argv": [
+   "-t",
+   "rust",
+   "-T",
+   "python",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_invalid::42",
+  "argv": [
+   "-t",
+   "nonexistent_type_xyz",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_glob_single::43",
+  "argv": [
+   "-g",
+   "*.rs",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_glob_long_flag::44",
+  "argv": [
+   "--glob",
+   "*.py",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_glob_multiple::45",
+  "argv": [
+   "-g",
+   "*.rs",
+   "-g",
+   "*.py",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_glob_wildcard_patterns::46",
+  "argv": [
+   "-g",
+   "**/*.rs",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_glob_negation::47",
+  "argv": [
+   "-g",
+   "!*.tmp",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_glob_question_mark::48",
+  "argv": [
+   "-g",
+   "*.?s",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_glob_character_class::49",
+  "argv": [
+   "-g",
+   "*.[ch]",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_globs_and_types::50",
+  "argv": [
+   "-g",
+   "*.rs",
+   "-t",
+   "python",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_glob_with_search_options::51",
+  "argv": [
+   "-g",
+   "*.rs",
+   "-i",
+   "--hidden",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_case_flag::52",
+  "argv": [
+   "-i",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_case_long_flag::53",
+  "argv": [
+   "--ignore-case",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_smart_case_flag::54",
+  "argv": [
+   "-S",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hidden_flag::55",
+  "argv": [
+   "-.",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hidden_long_flag::56",
+  "argv": [
+   "--hidden",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_flag::57",
+  "argv": [
+   "-L",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_long_flag::58",
+  "argv": [
+   "--follow",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_word_regexp_flag::59",
+  "argv": [
+   "-w",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_word_regexp_long_flag::60",
+  "argv": [
+   "--word-regexp",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fixed_strings_flag::61",
+  "argv": [
+   "-F",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fixed_strings_long_flag::62",
+  "argv": [
+   "--fixed-strings",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiline_flag::63",
+  "argv": [
+   "-U",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiline_long_flag::64",
+  "argv": [
+   "--multiline",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_flags_combined::65",
+  "argv": [
+   "-i",
+   "-w",
+   "-F",
+   "--hidden",
+   "--follow",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_search_flags_combined::66",
+  "argv": [
+   "-i",
+   "-S",
+   "-w",
+   "-F",
+   "-U",
+   "-.",
+   "-L",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_by_path::67",
+  "argv": [
+   "--sort",
+   "path",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_by_modified::68",
+  "argv": [
+   "--sort",
+   "modified",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_by_created::69",
+  "argv": [
+   "--sort",
+   "created",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_by_accessed::70",
+  "argv": [
+   "--sort",
+   "accessed",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_reverse_path::71",
+  "argv": [
+   "--sortr",
+   "path",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_reverse_modified::72",
+  "argv": [
+   "--sortr",
+   "modified",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_reverse_created::73",
+  "argv": [
+   "--sortr",
+   "created",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_reverse_accessed::74",
+  "argv": [
+   "--sortr",
+   "accessed",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_invalid_value::75",
+  "argv": [
+   "--sort",
+   "invalid",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sortr_invalid_value::76",
+  "argv": [
+   "--sortr",
+   "invalid",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_and_sortr_together::77",
+  "argv": [
+   "--sort",
+   "path",
+   "--sortr",
+   "modified",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_errors::78",
+  "argv": [
+   "--definitely-not-a-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_command_requires_tokens::79",
+  "argv": [
+   "--custom-command",
+   "echo hi",
+   "foo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_enum_theme::80",
+  "argv": [
+   "--theme",
+   "nope",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_enum_context_viewer::81",
+  "argv": [
+   "--context-viewer",
+   "diagonal",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_enum_sort::82",
+  "argv": [
+   "--sort",
+   "size",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_enum_sortr::83",
+  "argv": [
+   "--sortr",
+   "size",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_editor::84",
+  "argv": [
+   "--editor",
+   "notaneditor",
+   "--type-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_produces_error::85",
+  "argv": [
+   "--unknown-flag-that-does-not-exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arbitrary_word_not_treated_as_subcommand::86",
+  "argv": [
+   "add"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_list_is_independent_of_stdin::87",
+  "argv": [
+   "--type-list"
+  ],
+  "stdin": "this should be ignored\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

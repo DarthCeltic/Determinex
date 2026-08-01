@@ -1,0 +1,6340 @@
+{
+ "slug": "samtools__samtools.aa823b5",
+ "language": "",
+ "n_branches": 2,
+ "n_tests_total": 1445,
+ "n_examples": 350,
+ "n_with_exact_stdout": 3,
+ "n_with_rc": 340,
+ "n_skipped": 1008,
+ "examples": [
+  {
+   "test": "test_help_option",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "samtools",
+    "Usage:",
+    "version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:44"
+  },
+  {
+   "test": "test_help_command",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "samtools",
+    "Commands:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:52"
+  },
+  {
+   "test": "test_version_command",
+   "argv": [
+    "version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "samtools",
+    "htslib"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:59"
+  },
+  {
+   "test": "test_version_contains_compilation_details",
+   "argv": [
+    "version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Samtools compilation details",
+    "CC:",
+    "CFLAGS:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:67"
+  },
+  {
+   "test": "test_version_htslib_info",
+   "argv": [
+    "version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:84"
+  },
+  {
+   "test": "test_flags_no_args_shows_usage",
+   "argv": [
+    "flags"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "PAIRED",
+    "SECONDARY",
+    "SUPPLEMENTARY"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:94"
+  },
+  {
+   "test": "test_flags_numeric_to_text",
+   "argv": [
+    "flags",
+    "4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "UNMAP",
+    "4",
+    "0x4"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:102"
+  },
+  {
+   "test": "test_flags_text_to_numeric",
+   "argv": [
+    "flags",
+    "PAIRED"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "PAIRED",
+    "0x1",
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:110"
+  },
+  {
+   "test": "test_flags_multiple_flags",
+   "argv": [
+    "flags",
+    "PAIRED",
+    "UNMAP"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "PAIRED",
+    "UNMAP"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:118"
+  },
+  {
+   "test": "test_flags_hex_input",
+   "argv": [
+    "flags",
+    "0x4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "UNMAP"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:125"
+  },
+  {
+   "test": "test_flags_supplementary",
+   "argv": [
+    "flags",
+    "2048"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SUPPLEMENTARY",
+    "0x800"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:131"
+  },
+  {
+   "test": "test_flags_combined_numeric",
+   "argv": [
+    "flags",
+    "65"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "PAIRED",
+    "READ1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:138"
+  },
+  {
+   "test": "test_flags_comma_separated",
+   "argv": [
+    "flags",
+    "PAIRED,READ1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "PAIRED",
+    "READ1",
+    "65"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:145"
+  },
+  {
+   "test": "test_flags_zero",
+   "argv": [
+    "flags",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:160"
+  },
+  {
+   "test": "test_consensus_basic",
+   "argv": [
+    "consensus"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">ref",
+    ">ref2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:69"
+  },
+  {
+   "test": "test_consensus_fasta_format",
+   "argv": [
+    "consensus",
+    "-f",
+    "FASTA"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">ref",
+    ">ref2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:84"
+  },
+  {
+   "test": "test_consensus_fastq_format",
+   "argv": [
+    "consensus",
+    "-f",
+    "FASTQ"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:95"
+  },
+  {
+   "test": "test_consensus_pileup_format",
+   "argv": [
+    "consensus",
+    "-f",
+    "PILEUP"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:103"
+  },
+  {
+   "test": "test_consensus_region",
+   "argv": [
+    "consensus",
+    "-r",
+    "ref"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">ref"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:110"
+  },
+  {
+   "test": "test_consensus_simple_mode",
+   "argv": [
+    "consensus",
+    "-m",
+    "simple"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">ref"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:119"
+  },
+  {
+   "test": "test_consensus_min_depth",
+   "argv": [
+    "consensus",
+    "-d",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:126"
+  },
+  {
+   "test": "test_consensus_output_file",
+   "argv": [
+    "consensus",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">ref"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:139"
+  },
+  {
+   "test": "test_consensus_line_length",
+   "argv": [
+    "consensus",
+    "-l",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:149"
+  },
+  {
+   "test": "test_consensus_all_bases",
+   "argv": [
+    "consensus"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:168"
+  },
+  {
+   "test": "test_consensus_bayesian_mode",
+   "argv": [
+    "consensus",
+    "-m",
+    "bayesian"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">ref"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:179"
+  },
+  {
+   "test": "test_consensus_ambig_codes",
+   "argv": [
+    "consensus",
+    "-A"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">ref"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:186"
+  },
+  {
+   "test": "test_cram_size_basic",
+   "argv": [
+    "cram-size"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "BLOCK"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:197"
+  },
+  {
+   "test": "test_cram_size_format",
+   "argv": [
+    "cram-size"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:205"
+  },
+  {
+   "test": "test_cram_size_output_file",
+   "argv": [
+    "cram-size",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "BLOCK"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:214"
+  },
+  {
+   "test": "test_cram_size_verbose",
+   "argv": [
+    "cram-size",
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:224"
+  },
+  {
+   "test": "test_depad_basic",
+   "argv": [
+    "view",
+    "-bS",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:235"
+  },
+  {
+   "test": "test_stats_with_region",
+   "argv": [
+    "stats",
+    "ref"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SN"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:269"
+  },
+  {
+   "test": "test_stats_remove_dups",
+   "argv": [
+    "stats",
+    "-d"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SN"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:276"
+  },
+  {
+   "test": "test_stats_insert_size",
+   "argv": [
+    "stats",
+    "-i",
+    "1000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SN"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:283"
+  },
+  {
+   "test": "test_stats_required_flag",
+   "argv": [
+    "stats",
+    "-f",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SN"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:290"
+  },
+  {
+   "test": "test_stats_filtering_flag",
+   "argv": [
+    "stats",
+    "-F",
+    "4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SN"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:297"
+  },
+  {
+   "test": "test_stats_coverage_distribution",
+   "argv": [
+    "stats"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "COV"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:304"
+  },
+  {
+   "test": "test_stats_with_ref",
+   "argv": [
+    "stats",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GCD"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:311"
+  },
+  {
+   "test": "test_stats_read_length_filter",
+   "argv": [
+    "stats",
+    "-l",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SN"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:318"
+  },
+  {
+   "test": "test_stats_target_regions",
+   "argv": [
+    "stats",
+    "-t",
+    "targets.bed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SN"
+   ],
+   "files": {
+    "targets.bed": "ref\t6\t20\n"
+   },
+   "ci": false,
+   "source": "test_coverage_gap.py:325"
+  },
+  {
+   "test": "test_sort_ascii_name",
+   "argv": [
+    "view",
+    "-H"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SO:queryname",
+    "SS:queryname:lexicographical"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:338"
+  },
+  {
+   "test": "test_sort_by_tag",
+   "argv": [
+    "view",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:350"
+  },
+  {
+   "test": "test_depth_bed_file",
+   "argv": [
+    "depth",
+    "-b",
+    "regions.bed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "regions.bed": "ref\t6\t20\n"
+   },
+   "ci": false,
+   "source": "test_coverage_gap.py:376"
+  },
+  {
+   "test": "test_depth_multiple_bams",
+   "argv": [
+    "depth"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:391"
+  },
+  {
+   "test": "test_depth_min_mapq",
+   "argv": [
+    "depth",
+    "-Q",
+    "20"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:401"
+  },
+  {
+   "test": "test_depth_include_deletions",
+   "argv": [
+    "depth",
+    "-J"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:408"
+  },
+  {
+   "test": "test_depth_no_overlap",
+   "argv": [
+    "depth",
+    "-s"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:415"
+  },
+  {
+   "test": "test_view_cram_input",
+   "argv": [
+    "view",
+    "-c",
+    "-T"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:426"
+  },
+  {
+   "test": "test_view_cram_output",
+   "argv": [
+    "view",
+    "-C",
+    "-T",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:433"
+  },
+  {
+   "test": "test_view_with_expr_filter",
+   "argv": [
+    "view",
+    "-e",
+    "flag & 16",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:445"
+  },
+  {
+   "test": "test_view_remove_tag",
+   "argv": [
+    "view",
+    "-x",
+    "XX"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:453"
+  },
+  {
+   "test": "test_view_fast_compression",
+   "argv": [
+    "view",
+    "-1",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:461"
+  },
+  {
+   "test": "test_view_add_flags",
+   "argv": [
+    "view",
+    "--add-flags",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:470"
+  },
+  {
+   "test": "test_view_save_counts",
+   "argv": [
+    "view",
+    "-c",
+    "--save-counts"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:477"
+  },
+  {
+   "test": "test_view_cram_region",
+   "argv": [
+    "view",
+    "-c",
+    "-T",
+    "ref"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:491"
+  },
+  {
+   "test": "test_index_cram_file",
+   "argv": [
+    "index"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:498"
+  },
+  {
+   "test": "test_flagstat_on_cram",
+   "argv": [
+    "flagstat"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "in total",
+    "12"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:512"
+  },
+  {
+   "test": "test_mpileup_no_baq",
+   "argv": [
+    "mpileup",
+    "-B",
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:525"
+  },
+  {
+   "test": "test_mpileup_output_bp",
+   "argv": [
+    "mpileup",
+    "-O",
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:532"
+  },
+  {
+   "test": "test_mpileup_count_orphans",
+   "argv": [
+    "mpileup",
+    "-A",
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:544"
+  },
+  {
+   "test": "test_mpileup_output_mq",
+   "argv": [
+    "mpileup",
+    "-s",
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:551"
+  },
+  {
+   "test": "test_mpileup_multiple_bams",
+   "argv": [
+    "mpileup",
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:562"
+  },
+  {
+   "test": "test_faidx_mark_strand",
+   "argv": [
+    "faidx",
+    "--mark-strand",
+    "sign",
+    "ref:1-5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">ref"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:573"
+  },
+  {
+   "test": "test_faidx_region_file",
+   "argv": [
+    "faidx",
+    "-r",
+    "regions.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">ref:1-10",
+    ">ref2:1-10"
+   ],
+   "files": {
+    "regions.txt": "ref:1-10\nref2:1-10\n"
+   },
+   "ci": false,
+   "source": "test_coverage_gap.py:580"
+  },
+  {
+   "test": "test_faidx_continue_on_error",
+   "argv": [
+    "faidx",
+    "-c",
+    "nonexistent",
+    "ref:1-5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "AGCAT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:590"
+  },
+  {
+   "test": "test_fqidx_help",
+   "argv": [
+    "fqidx",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:598"
+  },
+  {
+   "test": "test_addreplacerg_overwrite_mode",
+   "argv": [
+    "addreplacerg",
+    "-m",
+    "overwrite_all",
+    "-r",
+    "@RG\tID:rg1\tSM:s1",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "rg1",
+    "@RG"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:609"
+  },
+  {
+   "test": "test_addreplacerg_orphan_mode",
+   "argv": [
+    "addreplacerg",
+    "-m",
+    "orphan_only",
+    "-r",
+    "@RG\tID:rg2\tSM:s2",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@RG",
+    "rg2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:622"
+  },
+  {
+   "test": "test_stats_sparse",
+   "argv": [
+    "stats",
+    "-x"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SN"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:639"
+  },
+  {
+   "test": "test_stats_remove_overlaps",
+   "argv": [
+    "stats",
+    "-p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SN"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:646"
+  },
+  {
+   "test": "test_coverage_histogram",
+   "argv": [
+    "coverage",
+    "-m",
+    "-A"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:653"
+  },
+  {
+   "test": "test_coverage_min_read_len",
+   "argv": [
+    "coverage",
+    "-l",
+    "5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#rname"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:660"
+  },
+  {
+   "test": "test_coverage_depth_limit",
+   "argv": [
+    "coverage",
+    "-d",
+    "5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#rname"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:667"
+  },
+  {
+   "test": "test_fixmate_add_cigar_tag",
+   "argv": [
+    "fixmate",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:678"
+  },
+  {
+   "test": "test_fixmate_add_mate_score",
+   "argv": [
+    "fixmate",
+    "-m"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:690"
+  },
+  {
+   "test": "test_fixmate_uncompressed",
+   "argv": [
+    "fixmate",
+    "-u"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:702"
+  },
+  {
+   "test": "test_flags_all_standard",
+   "argv": [
+    "flags"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:716"
+  },
+  {
+   "test": "test_samples_indexed",
+   "argv": [
+    "samples",
+    "-i"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:743"
+  },
+  {
+   "test": "test_bedcov_min_mapq",
+   "argv": [
+    "bedcov",
+    "-Q",
+    "20",
+    "regions.bed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ref"
+   ],
+   "files": {
+    "regions.bed": "ref\t6\t20\n"
+   },
+   "ci": false,
+   "source": "test_coverage_gap.py:750"
+  },
+  {
+   "test": "test_merge_combine_rg",
+   "argv": [
+    "merge",
+    "-f",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:759"
+  },
+  {
+   "test": "test_cat_with_header_file",
+   "argv": [
+    "view",
+    "-H"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:768"
+  },
+  {
+   "test": "test_collate_with_prefix",
+   "argv": [
+    "collate",
+    "-T",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:779"
+  },
+  {
+   "test": "test_ampliconclip_basic",
+   "argv": [
+    "ampliconclip",
+    "-b",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:818"
+  },
+  {
+   "test": "test_ampliconclip_stats",
+   "argv": [
+    "ampliconclip",
+    "-b",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CLIPPED"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:828"
+  },
+  {
+   "test": "test_ampliconclip_hard_clip",
+   "argv": [
+    "ampliconclip",
+    "--hard-clip",
+    "-b",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:839"
+  },
+  {
+   "test": "test_ampliconclip_both_ends",
+   "argv": [
+    "ampliconclip",
+    "--both-ends",
+    "-b",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:849"
+  },
+  {
+   "test": "test_ampliconclip_reject_file",
+   "argv": [
+    "ampliconclip",
+    "-b",
+    "-o",
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:860"
+  },
+  {
+   "test": "test_ampliconstats_basic",
+   "argv": [
+    "ampliconstats"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SS",
+    "Number of amplicons"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:897"
+  },
+  {
+   "test": "test_ampliconstats_output_file",
+   "argv": [
+    "ampliconstats",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SS"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:906"
+  },
+  {
+   "test": "test_ampliconstats_min_depth",
+   "argv": [
+    "ampliconstats",
+    "-d",
+    "5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SS"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:917"
+  },
+  {
+   "test": "test_markdup_with_stats",
+   "argv": [
+    "markdup",
+    "-s"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1010"
+  },
+  {
+   "test": "test_markdup_stats_file",
+   "argv": [
+    "markdup",
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1019"
+  },
+  {
+   "test": "test_markdup_remove_dups",
+   "argv": [
+    "markdup",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1030"
+  },
+  {
+   "test": "test_markdup_uncompressed",
+   "argv": [
+    "markdup",
+    "-u"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1039"
+  },
+  {
+   "test": "test_markdup_optical_distance",
+   "argv": [
+    "markdup",
+    "-d",
+    "100"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1048"
+  },
+  {
+   "test": "test_phase_basic",
+   "argv": [
+    "phase"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CC"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1061"
+  },
+  {
+   "test": "test_phase_output_has_header",
+   "argv": [
+    "phase"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1069"
+  },
+  {
+   "test": "test_reference_basic",
+   "argv": [
+    "reference"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1082"
+  },
+  {
+   "test": "test_reference_output_file",
+   "argv": [
+    "reference",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1090"
+  },
+  {
+   "test": "test_view_min_qlen",
+   "argv": [
+    "view",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "12"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1133"
+  },
+  {
+   "test": "test_view_qname_file",
+   "argv": [
+    "view"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1144"
+  },
+  {
+   "test": "test_view_write_index",
+   "argv": [
+    "view",
+    "-b",
+    "-o",
+    "--write-index"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1158"
+  },
+  {
+   "test": "test_view_fetch_pairs",
+   "argv": [
+    "view",
+    "-P",
+    "ref"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1170"
+  },
+  {
+   "test": "test_fastq_pair_files",
+   "argv": [
+    "fastq",
+    "-1",
+    "-2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1183"
+  },
+  {
+   "test": "test_fastq_copy_rg_tag",
+   "argv": [
+    "fastq",
+    "-n",
+    "-t"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1196"
+  },
+  {
+   "test": "test_fastq_original_quality",
+   "argv": [
+    "fastq",
+    "-n",
+    "-O"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1203"
+  },
+  {
+   "test": "test_fasta_output_file",
+   "argv": [
+    "fasta",
+    "-n",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1210"
+  },
+  {
+   "test": "test_stats_coverage_min_max",
+   "argv": [
+    "stats",
+    "-c",
+    "1,100,1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SN"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1224"
+  },
+  {
+   "test": "test_stats_insert_size_filter",
+   "argv": [
+    "stats",
+    "-i",
+    "10000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SN",
+    "IS"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1231"
+  },
+  {
+   "test": "test_stats_GC_depth",
+   "argv": [
+    "stats",
+    "--GC-depth",
+    "1e4",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GCD"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1239"
+  },
+  {
+   "test": "test_stats_most_inserts",
+   "argv": [
+    "stats",
+    "-m",
+    "0.99"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SN"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1246"
+  },
+  {
+   "test": "test_cram_size_expanded",
+   "argv": [
+    "cram-size",
+    "-e"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1257"
+  },
+  {
+   "test": "test_checksum_all_flag",
+   "argv": [
+    "checksum",
+    "-a"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "# Checksum"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1278"
+  },
+  {
+   "test": "test_checksum_verbose",
+   "argv": [
+    "checksum",
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1285"
+  },
+  {
+   "test": "test_checksum_include_pos",
+   "argv": [
+    "checksum",
+    "-P"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "# Checksum"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1292"
+  },
+  {
+   "test": "test_checksum_in_order",
+   "argv": [
+    "checksum",
+    "-O"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "# Checksum"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1299"
+  },
+  {
+   "test": "test_checksum_bamseqchksum",
+   "argv": [
+    "checksum",
+    "-B"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1306"
+  },
+  {
+   "test": "test_fqidx_creates_index",
+   "argv": [
+    "fqidx"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1331"
+  },
+  {
+   "test": "test_collate_with_fast_mode",
+   "argv": [
+    "collate",
+    "-f",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1348"
+  },
+  {
+   "test": "test_reheader_with_command",
+   "argv": [
+    "reheader",
+    "-c",
+    "cat"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1364"
+  },
+  {
+   "test": "test_consensus_use_qual",
+   "argv": [
+    "consensus",
+    "-m",
+    "simple",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">ref"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1384"
+  },
+  {
+   "test": "test_consensus_pileup_region",
+   "argv": [
+    "consensus",
+    "-f",
+    "PILEUP",
+    "-r",
+    "ref"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1391"
+  },
+  {
+   "test": "test_consensus_high_mq_filter",
+   "argv": [
+    "consensus",
+    "--min-MQ",
+    "20"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">ref"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1398"
+  },
+  {
+   "test": "test_consensus_show_del",
+   "argv": [
+    "consensus",
+    "--show-del",
+    "yes"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">ref"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1405"
+  },
+  {
+   "test": "test_consensus_bayesian_cutoff",
+   "argv": [
+    "consensus",
+    "-C",
+    "5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">ref"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1412"
+  },
+  {
+   "test": "test_consensus_homopoly_fix",
+   "argv": [
+    "consensus",
+    "-p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">ref"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1419"
+  },
+  {
+   "test": "test_consensus_ref_qual",
+   "argv": [
+    "consensus",
+    "--ref-qual",
+    "30"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">ref"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1426"
+  },
+  {
+   "test": "test_split_with_rg_bam",
+   "argv": [
+    "split",
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1454"
+  },
+  {
+   "test": "test_split_unaccounted",
+   "argv": [
+    "split",
+    "-u"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "12"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1467"
+  },
+  {
+   "test": "test_split_verbose",
+   "argv": [
+    "split",
+    "-v",
+    "-u"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1478"
+  },
+  {
+   "test": "test_split_format_string",
+   "argv": [
+    "split",
+    "-f",
+    "-u"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1487"
+  },
+  {
+   "test": "test_cat_multiple_files",
+   "argv": [
+    "view",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "36"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1516"
+  },
+  {
+   "test": "test_merge_with_region",
+   "argv": [
+    "merge",
+    "-f",
+    "-R",
+    "ref"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "12"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1542"
+  },
+  {
+   "test": "test_merge_with_file_list",
+   "argv": [
+    "merge",
+    "-f",
+    "-b"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1553"
+  },
+  {
+   "test": "test_merge_uncompressed",
+   "argv": [
+    "merge",
+    "-f",
+    "-u"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1563"
+  },
+  {
+   "test": "test_fastq_default_quality",
+   "argv": [
+    "fastq",
+    "-n",
+    "-v",
+    "30"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1576"
+  },
+  {
+   "test": "test_fastq_barcode_tag",
+   "argv": [
+    "fastq",
+    "-n",
+    "--barcode-tag",
+    "BC"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1583"
+  },
+  {
+   "test": "test_fastq_all_tags",
+   "argv": [
+    "fastq",
+    "-n",
+    "-T",
+    "*"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1590"
+  },
+  {
+   "test": "test_fasta_singleton_output",
+   "argv": [
+    "fasta",
+    "-n",
+    "-s"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1597"
+  },
+  {
+   "test": "test_fastq_no_soft_clips",
+   "argv": [
+    "fastq",
+    "-n",
+    "--no-sc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1609"
+  },
+  {
+   "test": "test_samples_with_tag",
+   "argv": [
+    "samples",
+    "-T",
+    "SM"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1620"
+  },
+  {
+   "test": "test_samples_output_file",
+   "argv": [
+    "samples",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1627"
+  },
+  {
+   "test": "test_idxstats_from_stdin",
+   "argv": [
+    "idxstats"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1637"
+  },
+  {
+   "test": "test_view_rf_include_flags",
+   "argv": [
+    "view",
+    "--rf",
+    "1",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1650"
+  },
+  {
+   "test": "test_view_G_exclude_flags",
+   "argv": [
+    "view",
+    "-G",
+    "16",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1658"
+  },
+  {
+   "test": "test_view_subsample",
+   "argv": [
+    "view",
+    "--subsample",
+    "0.5",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1666"
+  },
+  {
+   "test": "test_view_sanitize",
+   "argv": [
+    "view",
+    "-z",
+    "all",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "12"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1674"
+  },
+  {
+   "test": "test_bedcov_depth_threshold",
+   "argv": [
+    "bedcov",
+    "-d",
+    "2",
+    "regions.bed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ref"
+   ],
+   "files": {
+    "regions.bed": "ref\t6\t20\n"
+   },
+   "ci": false,
+   "source": "test_coverage_gap.py:1685"
+  },
+  {
+   "test": "test_bedcov_multiple_bams",
+   "argv": [
+    "bedcov",
+    "regions.bed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "regions.bed": "ref\t6\t20\n"
+   },
+   "ci": false,
+   "source": "test_coverage_gap.py:1697"
+  },
+  {
+   "test": "test_depth_absolute_all_positions",
+   "argv": [
+    "depth",
+    "-aa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1727"
+  },
+  {
+   "test": "test_view_from_stdin_bam",
+   "argv": [
+    "view",
+    "-c",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "12"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1739"
+  },
+  {
+   "test": "test_flagstat_from_stdin",
+   "argv": [
+    "flagstat",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "in total"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1748"
+  },
+  {
+   "test": "test_stats_from_stdin",
+   "argv": [
+    "stats",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SN"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1757"
+  },
+  {
+   "test": "test_index_with_threads",
+   "argv": [
+    "index",
+    "-@",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1766"
+  },
+  {
+   "test": "test_markdup_json_stats",
+   "argv": [
+    "markdup",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1874"
+  },
+  {
+   "test": "test_markdup_include_fails",
+   "argv": [
+    "markdup",
+    "--include-fails"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1884"
+  },
+  {
+   "test": "test_markdup_mode_sequence",
+   "argv": [
+    "markdup",
+    "-m",
+    "s"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1893"
+  },
+  {
+   "test": "test_markdup_mark_tag",
+   "argv": [
+    "markdup",
+    "-t"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1902"
+  },
+  {
+   "test": "test_markdup_duplicate_count",
+   "argv": [
+    "markdup",
+    "--duplicate-count"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1911"
+  },
+  {
+   "test": "test_markdup_clear_existing",
+   "argv": [
+    "markdup",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1920"
+  },
+  {
+   "test": "test_markdup_supp_alignments",
+   "argv": [
+    "markdup",
+    "-S"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1929"
+  },
+  {
+   "test": "test_view_sanitize_all",
+   "argv": [
+    "view",
+    "-z",
+    "all",
+    "-b",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "12"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1942"
+  },
+  {
+   "test": "test_mpileup_output_qname",
+   "argv": [
+    "mpileup",
+    "--output-QNAME",
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1957"
+  },
+  {
+   "test": "test_mpileup_no_output_ins",
+   "argv": [
+    "mpileup",
+    "--no-output-ins",
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1969"
+  },
+  {
+   "test": "test_mpileup_output_mods",
+   "argv": [
+    "mpileup",
+    "-M",
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1975"
+  },
+  {
+   "test": "test_mpileup_reverse_del",
+   "argv": [
+    "mpileup",
+    "--reverse-del",
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1981"
+  },
+  {
+   "test": "test_mpileup_no_output_ends",
+   "argv": [
+    "mpileup",
+    "--no-output-ends",
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:1987"
+  },
+  {
+   "test": "test_stats_trim_quality",
+   "argv": [
+    "stats",
+    "-q",
+    "20"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SN"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:2007"
+  },
+  {
+   "test": "test_bedcov_read_count",
+   "argv": [
+    "bedcov",
+    "-c",
+    "regions.bed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "regions.bed": "ref\t6\t20\n"
+   },
+   "ci": false,
+   "source": "test_coverage_gap.py:2018"
+  },
+  {
+   "test": "test_bedcov_header",
+   "argv": [
+    "bedcov",
+    "-H",
+    "regions.bed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "regions.bed": "ref\t6\t20\n"
+   },
+   "ci": false,
+   "source": "test_coverage_gap.py:2028"
+  },
+  {
+   "test": "test_bedcov_filter_flags",
+   "argv": [
+    "bedcov",
+    "-G",
+    "16",
+    "regions.bed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ref"
+   ],
+   "files": {
+    "regions.bed": "ref\t6\t20\n"
+   },
+   "ci": false,
+   "source": "test_coverage_gap.py:2037"
+  },
+  {
+   "test": "test_bedcov_no_deletions",
+   "argv": [
+    "bedcov",
+    "-j",
+    "regions.bed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ref"
+   ],
+   "files": {
+    "regions.bed": "ref\t6\t20\n"
+   },
+   "ci": false,
+   "source": "test_coverage_gap.py:2046"
+  },
+  {
+   "test": "test_consensus_hifi_cal",
+   "argv": [
+    "consensus",
+    "-t",
+    ":hifi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">ref"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:2059"
+  },
+  {
+   "test": "test_consensus_hiseq_cal",
+   "argv": [
+    "consensus",
+    "-t",
+    ":hiseq"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">ref"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:2066"
+  },
+  {
+   "test": "test_consensus_flat_cal",
+   "argv": [
+    "consensus",
+    "-t",
+    ":flat"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">ref"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:2073"
+  },
+  {
+   "test": "test_consensus_r10_sup_cal",
+   "argv": [
+    "consensus",
+    "-t",
+    ":r10.4_sup"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">ref"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:2080"
+  },
+  {
+   "test": "test_consensus_ultima_cal",
+   "argv": [
+    "consensus",
+    "-t",
+    ":ultima"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">ref"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:2087"
+  },
+  {
+   "test": "test_consensus_use_MQ",
+   "argv": [
+    "consensus",
+    "--use-MQ"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">ref"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:2094"
+  },
+  {
+   "test": "test_consensus_adj_MQ",
+   "argv": [
+    "consensus",
+    "--adj-MQ"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">ref"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:2101"
+  },
+  {
+   "test": "test_consensus_scale_MQ",
+   "argv": [
+    "consensus",
+    "--scale-MQ",
+    "1.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">ref"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:2108"
+  },
+  {
+   "test": "test_consensus_low_mq",
+   "argv": [
+    "consensus",
+    "--low-MQ",
+    "5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">ref"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:2115"
+  },
+  {
+   "test": "test_consensus_high_mq",
+   "argv": [
+    "consensus",
+    "--high-MQ",
+    "40"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">ref"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:2122"
+  },
+  {
+   "test": "test_fastq_with_tag_filter",
+   "argv": [
+    "fastq",
+    "-n",
+    "-d",
+    "XX"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "processed"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:2133"
+  },
+  {
+   "test": "test_fastq_name_no_suffix",
+   "argv": [
+    "fastq",
+    "-n"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:2141"
+  },
+  {
+   "test": "test_fastq_always_suffix",
+   "argv": [
+    "fastq",
+    "-N"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:2149"
+  },
+  {
+   "test": "test_view_library_filter",
+   "argv": [
+    "view",
+    "-l",
+    "some_lib",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:2161"
+  },
+  {
+   "test": "test_view_read_group_filter",
+   "argv": [
+    "view",
+    "-r",
+    "nonexistent_rg",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:2169"
+  },
+  {
+   "test": "test_view_keep_tag",
+   "argv": [
+    "view",
+    "--keep-tag",
+    "XX"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:2178"
+  },
+  {
+   "test": "test_view_remove_b_cigar",
+   "argv": [
+    "view",
+    "-B",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "12"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:2185"
+  },
+  {
+   "test": "test_view_no_pg",
+   "argv": [
+    "view",
+    "--no-PG",
+    "-H"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@HD"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:2192"
+  },
+  {
+   "test": "test_view_regions_file",
+   "argv": [
+    "view",
+    "-c",
+    "--regions-file",
+    "regions.bed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "regions.bed": "ref\t6\t20\n"
+   },
+   "ci": false,
+   "source": "test_coverage_gap.py:2215"
+  },
+  {
+   "test": "test_stats_cov_threshold",
+   "argv": [
+    "stats",
+    "-g",
+    "5",
+    "-t",
+    "test.bed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SN"
+   ],
+   "files": {
+    "test.bed": "ref\t0\t45\n"
+   },
+   "ci": false,
+   "source": "test_coverage_gap.py:2230"
+  },
+  {
+   "test": "test_stats_with_id_filter",
+   "argv": [
+    "stats",
+    "-I",
+    "some_sample"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SN"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:2239"
+  },
+  {
+   "test": "test_mpileup_no_baq_3",
+   "argv": [
+    "mpileup",
+    "-Q",
+    "20",
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gap.py:2250"
+  },
+  {
+   "test": "test_mpileup_position_file",
+   "argv": [
+    "mpileup",
+    "-l",
+    "positions.txt",
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "positions.txt": "ref\t10\nref\t15\n"
+   },
+   "ci": false,
+   "source": "test_coverage_gap.py:2257"
+  },
+  {
+   "test": "test_quickcheck_valid_bam",
+   "argv": [
+    "quickcheck"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_editing.py:68"
+  },
+  {
+   "test": "test_quickcheck_verbose",
+   "argv": [
+    "quickcheck",
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_editing.py:86"
+  },
+  {
+   "test": "test_addreplacerg_basic",
+   "argv": [
+    "addreplacerg",
+    "-r",
+    "@RG\tID:test_rg\tSM:sample1\tLB:lib1\tPL:ILLUMINA",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@RG",
+    "test_rg",
+    "sample1",
+    "ILLUMINA"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_editing.py:114"
+  },
+  {
+   "test": "test_addreplacerg_output_is_bam",
+   "argv": [
+    "addreplacerg",
+    "-r",
+    "@RG\tID:rg_new\tSM:sample1",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_editing.py:128"
+  },
+  {
+   "test": "test_addreplacerg_sam_output",
+   "argv": [
+    "addreplacerg",
+    "-r",
+    "@RG\tID:myrg\tSM:s1",
+    "-O",
+    "SAM",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@RG",
+    "myrg"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_editing.py:137"
+  },
+  {
+   "test": "test_samples_basic",
+   "argv": [
+    "samples"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_editing.py:152"
+  },
+  {
+   "test": "test_samples_header_option",
+   "argv": [
+    "samples",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_editing.py:160"
+  },
+  {
+   "test": "test_bedcov_basic",
+   "argv": [
+    "bedcov",
+    "regions.bed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ref"
+   ],
+   "files": {
+    "regions.bed": "ref\t6\t20\n"
+   },
+   "ci": false,
+   "source": "test_editing.py:172"
+  },
+  {
+   "test": "test_bedcov_zero_coverage_region",
+   "argv": [
+    "bedcov",
+    "empty.bed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "empty.bed": "ref\t1\t3\n"
+   },
+   "ci": false,
+   "source": "test_editing.py:193"
+  },
+  {
+   "test": "test_fasta_basic",
+   "argv": [
+    "fasta",
+    "-n"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_editing.py:246"
+  },
+  {
+   "test": "test_fasta_format",
+   "argv": [
+    "fasta",
+    "-n"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_editing.py:256"
+  },
+  {
+   "test": "test_fastq_output_file",
+   "argv": [
+    "fastq",
+    "-n",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_editing.py:265"
+  },
+  {
+   "test": "test_fastq_singleton_output",
+   "argv": [
+    "fastq",
+    "-n",
+    "-s"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_editing.py:275"
+  },
+  {
+   "test": "test_collate_basic",
+   "argv": [
+    "collate",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_editing.py:292"
+  },
+  {
+   "test": "test_collate_output_stdout",
+   "argv": [
+    "collate",
+    "-O",
+    "-u"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_editing.py:304"
+  },
+  {
+   "test": "test_merge_two_bams",
+   "argv": [
+    "merge",
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_editing.py:329"
+  },
+  {
+   "test": "test_merge_output_has_header",
+   "argv": [
+    "merge",
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@HD",
+    "@SQ",
+    "ref",
+    "SO:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_editing.py:342"
+  },
+  {
+   "test": "test_checksum_basic",
+   "argv": [
+    "checksum"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "# Checksum",
+    "count",
+    "combined"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_editing.py:386"
+  },
+  {
+   "test": "test_checksum_deterministic",
+   "argv": [
+    "checksum"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_editing.py:395"
+  },
+  {
+   "test": "test_checksum_tabs_format",
+   "argv": [
+    "checksum",
+    "-T"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\t"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_editing.py:405"
+  },
+  {
+   "test": "test_checksum_count_field",
+   "argv": [
+    "checksum"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "12"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_editing.py:414"
+  },
+  {
+   "test": "test_index_csi_format",
+   "argv": [
+    "index",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_indexing.py:44"
+  },
+  {
+   "test": "test_index_multi_mode",
+   "argv": [
+    "index",
+    "-M"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_indexing.py:60"
+  },
+  {
+   "test": "test_index_output_file",
+   "argv": [
+    "index",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_indexing.py:76"
+  },
+  {
+   "test": "test_faidx_creates_index",
+   "argv": [
+    "faidx"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\t"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_indexing.py:107"
+  },
+  {
+   "test": "test_faidx_extract_sequence",
+   "argv": [
+    "faidx",
+    "ref"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">ref",
+    "AGCATGTTAGATAAGATAGCTGTGCTAGTAGGCAGTCAGCGCCAT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_indexing.py:134"
+  },
+  {
+   "test": "test_faidx_extract_region",
+   "argv": [
+    "faidx",
+    "ref:1-10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">ref:1-10",
+    "AGCATGTTAG"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_indexing.py:142"
+  },
+  {
+   "test": "test_faidx_extract_multiple_regions",
+   "argv": [
+    "faidx",
+    "ref",
+    "ref2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">ref",
+    ">ref2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_indexing.py:150"
+  },
+  {
+   "test": "test_faidx_line_length",
+   "argv": [
+    "faidx",
+    "-n",
+    "10",
+    "ref"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_indexing.py:158"
+  },
+  {
+   "test": "test_faidx_reverse_complement",
+   "argv": [
+    "faidx",
+    "ref:1-10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_indexing.py:168"
+  },
+  {
+   "test": "test_faidx_output_file",
+   "argv": [
+    "faidx",
+    "-o",
+    "ref"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">ref",
+    "AGCATGTTAGATAAGATAGCTGTGCTAGTAGGCAGTCAGCGCCAT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_indexing.py:181"
+  },
+  {
+   "test": "test_faidx_second_sequence",
+   "argv": [
+    "faidx",
+    "ref2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">ref2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_indexing.py:192"
+  },
+  {
+   "test": "test_dict_basic",
+   "argv": [
+    "dict"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@HD",
+    "@SQ",
+    "ref"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_indexing.py:214"
+  },
+  {
+   "test": "test_dict_header_format",
+   "argv": [
+    "dict"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "VN:",
+    "SO:unsorted"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_indexing.py:223"
+  },
+  {
+   "test": "test_dict_sq_entries",
+   "argv": [
+    "dict"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SN:",
+    "LN:",
+    "M5:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_indexing.py:234"
+  },
+  {
+   "test": "test_dict_assembly_option",
+   "argv": [
+    "dict",
+    "-a",
+    "hg38"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "AS:hg38"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_indexing.py:246"
+  },
+  {
+   "test": "test_dict_species_option",
+   "argv": [
+    "dict",
+    "-s",
+    "Homo sapiens"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SP:Homo sapiens"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_indexing.py:253"
+  },
+  {
+   "test": "test_dict_no_header",
+   "argv": [
+    "dict",
+    "-H"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@SQ"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_indexing.py:260"
+  },
+  {
+   "test": "test_dict_output_file",
+   "argv": [
+    "dict",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@HD",
+    "@SQ"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_indexing.py:268"
+  },
+  {
+   "test": "test_dict_uri_option",
+   "argv": [
+    "dict",
+    "-u",
+    "http://example.com/ref.fa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "UR:http://example.com/ref.fa"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_indexing.py:279"
+  },
+  {
+   "test": "test_dict_md5_checksums",
+   "argv": [
+    "dict"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_indexing.py:286"
+  },
+  {
+   "test": "test_rmdup_basic",
+   "argv": [
+    "rmdup"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bam_rmdup_core"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_low_coverage.py:64"
+  },
+  {
+   "test": "test_rmdup_no_args_shows_usage",
+   "argv": [
+    "rmdup"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "rmdup"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_low_coverage.py:79"
+  },
+  {
+   "test": "test_rmdup_single_end_mode",
+   "argv": [
+    "rmdup",
+    "-s"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_low_coverage.py:88"
+  },
+  {
+   "test": "test_rmdup_paired_as_se_mode",
+   "argv": [
+    "rmdup",
+    "-S"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_low_coverage.py:102"
+  },
+  {
+   "test": "test_rmdup_output_readable",
+   "argv": [
+    "rmdup"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@HD",
+    "SO:coordinate",
+    "@SQ",
+    "SN:ref"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_low_coverage.py:115"
+  },
+  {
+   "test": "test_targetcut_basic",
+   "argv": [
+    "targetcut"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_low_coverage.py:156"
+  },
+  {
+   "test": "test_targetcut_quality_threshold",
+   "argv": [
+    "targetcut",
+    "-Q",
+    "20"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_low_coverage.py:177"
+  },
+  {
+   "test": "test_tview_html_output",
+   "argv": [
+    "tview",
+    "-d",
+    "H",
+    "-p",
+    "ref:7"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<html>",
+    "</html>",
+    "tviewpre"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_low_coverage.py:200"
+  },
+  {
+   "test": "test_tview_html_contains_reads",
+   "argv": [
+    "tview",
+    "-d",
+    "H",
+    "-p",
+    "ref:7"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<span",
+    "ref:7"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_low_coverage.py:209"
+  },
+  {
+   "test": "test_tview_text_output",
+   "argv": [
+    "tview",
+    "-d",
+    "T",
+    "-p",
+    "ref:7",
+    "-w",
+    "60"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_low_coverage.py:219"
+  },
+  {
+   "test": "test_tview_text_contains_position",
+   "argv": [
+    "tview",
+    "-d",
+    "T",
+    "-p",
+    "ref:1",
+    "-w",
+    "80"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_low_coverage.py:228"
+  },
+  {
+   "test": "test_tview_html_with_ref",
+   "argv": [
+    "tview",
+    "-d",
+    "H",
+    "-p",
+    "ref:7"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<html>",
+    "ref:7"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_low_coverage.py:237"
+  },
+  {
+   "test": "test_tview_no_args_shows_usage",
+   "argv": [
+    "tview"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tview"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_low_coverage.py:259"
+  },
+  {
+   "test": "test_tview_text_width_option",
+   "argv": [
+    "tview",
+    "-d",
+    "T",
+    "-p",
+    "ref:7",
+    "-w",
+    "40"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_low_coverage.py:267"
+  },
+  {
+   "test": "test_md5fa_no_args",
+   "argv": [
+    "md5fa"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_low_coverage.py:305"
+  },
+  {
+   "test": "test_md5sum_lite_stdin",
+   "argv": [
+    "md5sum-lite"
+   ],
+   "stdin": "hello world\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_low_coverage.py:325"
+  },
+  {
+   "test": "test_rmdup_preserves_header",
+   "argv": [
+    "rmdup"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@SQ",
+    "SN:ref"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_low_coverage.py:436"
+  },
+  {
+   "test": "test_rmdup_stats_message",
+   "argv": [
+    "rmdup"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bam_rmdup_core",
+    "in library"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_low_coverage.py:446"
+  },
+  {
+   "test": "test_tview_hide_inserts",
+   "argv": [
+    "tview",
+    "-d",
+    "T",
+    "-p",
+    "ref:1",
+    "-i",
+    "-w",
+    "60"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_low_coverage.py:460"
+  },
+  {
+   "test": "test_tview_html_ref2_region",
+   "argv": [
+    "tview",
+    "-d",
+    "H",
+    "-p",
+    "ref2:1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<html>",
+    "ref2:1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_low_coverage.py:467"
+  },
+  {
+   "test": "test_tview_text_larger_view",
+   "argv": [
+    "tview",
+    "-d",
+    "T",
+    "-p",
+    "ref:1",
+    "-w",
+    "100"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_low_coverage.py:475"
+  },
+  {
+   "test": "test_tview_html_structure",
+   "argv": [
+    "tview",
+    "-d",
+    "H",
+    "-p",
+    "ref:7"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<head>",
+    "<body>",
+    "<style",
+    "</html>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_low_coverage.py:482"
+  },
+  {
+   "test": "test_cat_with_header_file",
+   "argv": [
+    "view",
+    "-H"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Custom header",
+    "@HD",
+    "@SQ"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_low_coverage.py:515"
+  },
+  {
+   "test": "test_cat_with_file_list",
+   "argv": [
+    "view",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@SQ"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_low_coverage.py:530"
+  },
+  {
+   "test": "test_split_by_rg_tag",
+   "argv": [
+    "view",
+    "-bS",
+    "-o",
+    "multi_rg.sam"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "multi_rg.sam": "@SQ\tSN:ref\tLN:45\n"
+   },
+   "ci": false,
+   "source": "test_low_coverage.py:553"
+  },
+  {
+   "test": "test_split_unaccounted_reads",
+   "argv": [
+    "split",
+    "-u"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_low_coverage.py:577"
+  },
+  {
+   "test": "test_markdup_with_optical_distance",
+   "argv": [
+    "markdup",
+    "-d",
+    "2500"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_low_coverage.py:648"
+  },
+  {
+   "test": "test_markdup_clear_previous",
+   "argv": [
+    "markdup",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@HD"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_low_coverage.py:670"
+  },
+  {
+   "test": "test_markdup_with_include_fails",
+   "argv": [
+    "markdup",
+    "--include-fails"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@SQ"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_low_coverage.py:693"
+  },
+  {
+   "test": "test_reheader_basic_stdin_stdout",
+   "argv": [
+    "reheader",
+    "new_header.sam"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "new_header.sam": "@HD\tVN:1.6\tSO:coordinate\n@SQ\tSN:ref\tLN:45\n@SQ\tSN:ref2\tLN:40\n@CO\tNew comment\n"
+   },
+   "ci": false,
+   "source": "test_low_coverage.py:719"
+  },
+  {
+   "test": "test_reheader_no_pg",
+   "argv": [
+    "reheader",
+    "-P",
+    "header.sam"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "header.sam": "@HD\tVN:1.6\tSO:coordinate\n@SQ\tSN:ref\tLN:45\n@SQ\tSN:ref2\tLN:40\n"
+   },
+   "ci": false,
+   "source": "test_low_coverage.py:732"
+  },
+  {
+   "test": "test_fixmate_disable_proper_pair_check",
+   "argv": [
+    "fixmate",
+    "-p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_low_coverage.py:783"
+  },
+  {
+   "test": "test_fixmate_remove_unmapped",
+   "argv": [
+    "fixmate",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_low_coverage.py:799"
+  },
+  {
+   "test": "test_samples_from_sam_with_rg",
+   "argv": [
+    "view",
+    "-bS",
+    "-o",
+    "rg.sam"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "rg.sam": "@SQ\tSN:ref\tLN:45\n@RG\tID:rg1\tSM:Sample1\n@RG\tID:rg2\tSM:Sample2\n"
+   },
+   "ci": false,
+   "source": "test_low_coverage.py:835"
+  },
+  {
+   "test": "test_import_single_fastq",
+   "argv": [
+    "import",
+    "-0",
+    "reads.fq"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "read1",
+    "read2"
+   ],
+   "files": {
+    "reads.fq": "@read1\nACGTACGTAC\n+\n??????????\n"
+   },
+   "ci": false,
+   "source": "test_low_coverage.py:915"
+  },
+  {
+   "test": "test_import_paired_fastq",
+   "argv": [
+    "import",
+    "-1",
+    "r1.fq",
+    "-2",
+    "r2.fq"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "read1"
+   ],
+   "files": {
+    "r1.fq": "@read1/1\nACGTACGTAC\n+\n??????????\n@read2/1\nGCATGCATGC\n+\n??????????\n",
+    "r2.fq": "@read1/2\nTGCATGCATG\n+\n??????????\n@read2/2\nCGTACGTACG\n+\n??????????\n"
+   },
+   "ci": false,
+   "source": "test_low_coverage.py:932"
+  },
+  {
+   "test": "test_import_output_to_file",
+   "argv": [
+    "import",
+    "-0",
+    "reads.fq",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "read1"
+   ],
+   "files": {
+    "reads.fq": "@read1\nACGTACGTAC\n+\n??????????\n"
+   },
+   "ci": false,
+   "source": "test_low_coverage.py:947"
+  },
+  {
+   "test": "test_import_with_rg_info",
+   "argv": [
+    "import",
+    "-R",
+    "RG001",
+    "-0",
+    "reads.fq"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@RG",
+    "RG001"
+   ],
+   "files": {
+    "reads.fq": "@read1\nACGTACGTAC\n+\n??????????\n"
+   },
+   "ci": false,
+   "source": "test_low_coverage.py:959"
+  },
+  {
+   "test": "test_reference_no_args_fails",
+   "argv": [
+    "reference"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_low_coverage.py:974"
+  },
+  {
+   "test": "test_reference_from_cram",
+   "argv": [
+    "view",
+    "-C",
+    "-T",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_low_coverage.py:983"
+  },
+  {
+   "test": "test_calmd_with_equals",
+   "argv": [
+    "calmd",
+    "-e"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_low_coverage.py:1004"
+  },
+  {
+   "test": "test_calmd_adds_md_tag",
+   "argv": [
+    "calmd",
+    "test.sam"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.sam": "@SQ\tSN:ref\tLN:45\n"
+   },
+   "ci": false,
+   "source": "test_low_coverage.py:1022"
+  },
+  {
+   "test": "test_help_for_rmdup",
+   "argv": [
+    "help",
+    "rmdup"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "rmdup"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_low_coverage.py:1041"
+  },
+  {
+   "test": "test_help_for_tview",
+   "argv": [
+    "help",
+    "tview"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tview"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_low_coverage.py:1055"
+  },
+  {
+   "test": "test_mpileup_without_reference",
+   "argv": [
+    "mpileup"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_mpileup_and_misc.py:28"
+  },
+  {
+   "test": "test_mpileup_min_mapq",
+   "argv": [
+    "mpileup",
+    "-q",
+    "25",
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_mpileup_and_misc.py:62"
+  },
+  {
+   "test": "test_mpileup_output_file",
+   "argv": [
+    "mpileup",
+    "-o",
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\t"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mpileup_and_misc.py:69"
+  },
+  {
+   "test": "test_fixmate_basic",
+   "argv": [
+    "fixmate"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_mpileup_and_misc.py:105"
+  },
+  {
+   "test": "test_fixmate_output_format",
+   "argv": [
+    "fixmate",
+    "-O",
+    "SAM"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@HD"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mpileup_and_misc.py:129"
+  },
+  {
+   "test": "test_import_from_fastq",
+   "argv": [
+    "import",
+    "-0",
+    "test.fq"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "read1",
+    "read2"
+   ],
+   "files": {
+    "test.fq": "@read1\nACGT\n+\nIIII\n@read2\nGCAT\n+\nIIII\n"
+   },
+   "ci": false,
+   "source": "test_mpileup_and_misc.py:181"
+  },
+  {
+   "test": "test_import_output_format",
+   "argv": [
+    "import",
+    "-0",
+    "test.fq"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.fq": "@read1\nACGT\n+\nIIII\n"
+   },
+   "ci": false,
+   "source": "test_mpileup_and_misc.py:194"
+  },
+  {
+   "test": "test_import_with_rg_line",
+   "argv": [
+    "import",
+    "-r",
+    "ID:rg1\tSM:sample1",
+    "-0",
+    "test.fq"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@RG",
+    "rg1"
+   ],
+   "files": {
+    "test.fq": "@read1\nACGT\n+\nIIII\n"
+   },
+   "ci": false,
+   "source": "test_mpileup_and_misc.py:207"
+  },
+  {
+   "test": "test_import_sequence_preserved",
+   "argv": [
+    "import",
+    "-0",
+    "test.fq"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ACGTACGT"
+   ],
+   "files": {
+    "test.fq": "@read1\nACGTACGT\n+\nIIIIIIII\n"
+   },
+   "ci": false,
+   "source": "test_mpileup_and_misc.py:217"
+  },
+  {
+   "test": "test_calmd_basic",
+   "argv": [
+    "calmd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_mpileup_and_misc.py:240"
+  },
+  {
+   "test": "test_reset_basic",
+   "argv": [
+    "reset"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_mpileup_and_misc.py:262"
+  },
+  {
+   "test": "test_sort_coordinate",
+   "argv": [
+    "view",
+    "-H"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SO:coordinate",
+    "@HD",
+    "@SQ"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sort_and_stats.py:20"
+  },
+  {
+   "test": "test_sort_by_name",
+   "argv": [
+    "view",
+    "-H"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SO:queryname",
+    "SS:queryname:natural"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sort_and_stats.py:33"
+  },
+  {
+   "test": "test_flagstat_basic",
+   "argv": [
+    "flagstat"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "in total",
+    "mapped",
+    "paired in sequencing"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sort_and_stats.py:104"
+  },
+  {
+   "test": "test_flagstat_format",
+   "argv": [
+    "flagstat"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sort_and_stats.py:113"
+  },
+  {
+   "test": "test_flagstat_totals",
+   "argv": [
+    "flagstat"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "12",
+    "in total"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sort_and_stats.py:121"
+  },
+  {
+   "test": "test_flagstat_json_format",
+   "argv": [
+    "flagstat",
+    "-O",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "QC-passed reads",
+    "QC-failed reads",
+    "total"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sort_and_stats.py:130"
+  },
+  {
+   "test": "test_flagstat_tsv_format",
+   "argv": [
+    "flagstat",
+    "-O",
+    "tsv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\t"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sort_and_stats.py:140"
+  },
+  {
+   "test": "test_flagstat_json_mapped_percent",
+   "argv": [
+    "flagstat",
+    "-O",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "mapped %"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sort_and_stats.py:159"
+  },
+  {
+   "test": "test_flagstat_output_file",
+   "argv": [
+    "flagstat"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "12 + 0 in total"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sort_and_stats.py:168"
+  },
+  {
+   "test": "test_stats_basic",
+   "argv": [
+    "stats"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "# This file was produced by samtools stats",
+    "SN"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sort_and_stats.py:182"
+  },
+  {
+   "test": "test_stats_summary_numbers",
+   "argv": [
+    "stats"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "12"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sort_and_stats.py:190"
+  },
+  {
+   "test": "test_stats_is_sorted",
+   "argv": [
+    "stats"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sort_and_stats.py:201"
+  },
+  {
+   "test": "test_stats_has_checksum",
+   "argv": [
+    "stats"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CHK"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sort_and_stats.py:210"
+  },
+  {
+   "test": "test_stats_gc_content",
+   "argv": [
+    "stats"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GCC"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sort_and_stats.py:217"
+  },
+  {
+   "test": "test_stats_help",
+   "argv": [
+    "stats",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "samtools stats"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sort_and_stats.py:224"
+  },
+  {
+   "test": "test_stats_sections",
+   "argv": [
+    "stats"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SN\t"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sort_and_stats.py:232"
+  },
+  {
+   "test": "test_depth_min_quality",
+   "argv": [
+    "depth",
+    "-q",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ref"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sort_and_stats.py:293"
+  },
+  {
+   "test": "test_depth_output_file",
+   "argv": [
+    "depth",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\t"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sort_and_stats.py:306"
+  },
+  {
+   "test": "test_depth_min_read_length",
+   "argv": [
+    "depth",
+    "-l",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sort_and_stats.py:318"
+  },
+  {
+   "test": "test_depth_with_header",
+   "argv": [
+    "depth",
+    "-H"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sort_and_stats.py:325"
+  },
+  {
+   "test": "test_coverage_basic",
+   "argv": [
+    "coverage"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#rname",
+    "ref"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sort_and_stats.py:338"
+  },
+  {
+   "test": "test_coverage_header_format",
+   "argv": [
+    "coverage"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "numreads",
+    "coverage",
+    "meandepth"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sort_and_stats.py:346"
+  },
+  {
+   "test": "test_coverage_data_format",
+   "argv": [
+    "coverage"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sort_and_stats.py:357"
+  },
+  {
+   "test": "test_coverage_no_header",
+   "argv": [
+    "coverage",
+    "-H"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sort_and_stats.py:370"
+  },
+  {
+   "test": "test_coverage_output_file",
+   "argv": [
+    "coverage",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#rname"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sort_and_stats.py:377"
+  },
+  {
+   "test": "test_coverage_region",
+   "argv": [
+    "coverage",
+    "-r",
+    "ref"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sort_and_stats.py:387"
+  },
+  {
+   "test": "test_coverage_min_mapq",
+   "argv": [
+    "coverage",
+    "-q",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ref"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sort_and_stats.py:396"
+  },
+  {
+   "test": "test_idxstats_basic",
+   "argv": [
+    "idxstats"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ref",
+    "ref2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sort_and_stats.py:417"
+  },
+  {
+   "test": "test_view_with_header",
+   "argv": [
+    "view",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@HD",
+    "@SQ",
+    "ref"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_view.py:40"
+  },
+  {
+   "test": "test_view_header_only",
+   "argv": [
+    "view",
+    "-H"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@HD",
+    "@SQ"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_view.py:49"
+  },
+  {
+   "test": "test_view_output_bam",
+   "argv": [
+    "view",
+    "-b",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_view.py:71"
+  },
+  {
+   "test": "test_view_specific_region",
+   "argv": [
+    "view",
+    "ref:7-20"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_view.py:93"
+  },
+  {
+   "test": "test_view_exclude_flags",
+   "argv": [
+    "view",
+    "-F",
+    "16",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_view.py:106"
+  },
+  {
+   "test": "test_view_require_flags",
+   "argv": [
+    "view",
+    "-f",
+    "16"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_view.py:115"
+  },
+  {
+   "test": "test_view_min_mapq",
+   "argv": [
+    "view",
+    "-c",
+    "-q",
+    "100"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_view.py:126"
+  },
+  {
+   "test": "test_view_stdin",
+   "argv": [
+    "view",
+    "-S",
+    "-c",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_view.py:135"
+  },
+  {
+   "test": "test_bam_to_sam_conversion",
+   "argv": [
+    "view",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@HD",
+    "ref"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_view.py:188"
+  },
+  {
+   "test": "test_output_format_sam",
+   "argv": [
+    "view",
+    "-O",
+    "SAM",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@HD"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_view.py:199"
+  },
+  {
+   "test": "test_output_format_bam",
+   "argv": [
+    "view",
+    "-O",
+    "BAM",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_view.py:205"
+  },
+  {
+   "test": "test_view_output_unselected",
+   "argv": [
+    "view",
+    "-F",
+    "16",
+    "-b",
+    "-U",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_view.py:231"
+  },
+  {
+   "test": "test_view_output_to_file",
+   "argv": [
+    "view",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\t"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_view.py:254"
+  },
+  {
+   "test": "test_view_uncompressed_bam",
+   "argv": [
+    "view",
+    "-u",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_view.py:265"
+  },
+  {
+   "test": "test_view_tag_filter",
+   "argv": [
+    "view",
+    "-d",
+    "XX"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "XX:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_view.py:276"
+  },
+  {
+   "test": "test_view_count_with_region",
+   "argv": [
+    "view",
+    "-c",
+    "ref"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_view.py:285"
+  },
+  {
+   "test": "test_soft_clip_5prime_default",
+   "argv": [
+    "view",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_ampliconclip.py:30"
+  },
+  {
+   "test": "test_original_tag_preservation",
+   "argv": [
+    "view",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "OA:Z:",
+    ",30,",
+    ",210M,"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ampliconclip.py:164"
+  },
+  {
+   "test": "test_no_pg_flag_suppresses_program_record",
+   "argv": [
+    "view",
+    "-h",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_ampliconclip.py:239"
+  },
+  {
+   "test": "test_combined_hard_clip_and_both_ends",
+   "argv": [
+    "view",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "H"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ampliconclip.py:306"
+  },
+  {
+   "test": "test_unmapped_reads_passthrough",
+   "argv": [
+    "view",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unmapped_read\t4\t*\t0\t0\t*\t*\t0\t0\tACGTACGT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ampliconclip.py:356"
+  },
+  {
+   "test": "test_import_with_read_group",
+   "argv": [
+    "view",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "RG:Z:TEST123"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_fastq_import_gaps.py:205"
+  },
+  {
+   "test": "test_import_with_index_files",
+   "argv": [
+    "view",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "BC:Z:AG-TTTG",
+    "QT:Z:12 ##12",
+    "BC:Z:AC-TTTC",
+    "QT:Z:34 ##34"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_fastq_import_gaps.py:234"
+  },
+  {
+   "test": "test_import_parse_arbitrary_tags",
+   "argv": [
+    "view",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "XX:i:10",
+    "XY:i:-257",
+    "XZ:i:4294967295",
+    "XA:i:-2147483648"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_fastq_import_gaps.py:415"
+  },
+  {
+   "test": "test_stdin_stdout_support",
+   "argv": [
+    "-",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fixmate.py:315"
+  },
+  {
+   "test": "test_reheader_command_flag_transforms_header",
+   "argv": [
+    "view",
+    "-h",
+    "--no-PG"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@HD\tVN:1.5\tSO:coordinate",
+    "chr17"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_reheader_advanced.py:108"
+  },
+  {
+   "test": "test_reheader_stdin_input",
+   "argv": [
+    "view",
+    "-h",
+    "--no-PG"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@HD\tVN:1.4\tSO:unknown"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_reheader_advanced.py:188"
+  },
+  {
+   "test": "test_reheader_with_pg_chaining",
+   "argv": [
+    "view",
+    "-H"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ID:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_reheader_advanced.py:427"
+  },
+  {
+   "test": "test_empty_stdin_no_tty",
+   "argv": [],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_samples.py:254"
+  },
+  {
+   "test": "test_dict_stdin_input",
+   "argv": [
+    "dict",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stats_metadata.py:457"
+  },
+  {
+   "test": "test_view_invalid_input_error",
+   "argv": [
+    "view",
+    "-"
+   ],
+   "stdin": "invalid\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[main_samview] fail to read the header from \"-\"."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_view.py:521"
+  }
+ ]
+}

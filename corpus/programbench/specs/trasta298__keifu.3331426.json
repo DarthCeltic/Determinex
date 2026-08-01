@@ -1,0 +1,2462 @@
+{
+ "slug": "trasta298__keifu.3331426",
+ "language": "",
+ "n_branches": 10,
+ "n_tests_total": 410,
+ "n_examples": 121,
+ "n_with_exact_stdout": 2,
+ "n_with_rc": 30,
+ "n_skipped": 276,
+ "examples": [
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TUI tool to visualize Git commit graphs",
+    "Usage:",
+    "Options:",
+    "--help",
+    "--version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:36"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TUI tool to visualize Git commit graphs",
+    "Usage:",
+    "Options:",
+    "-h, --help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:46"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "keifu"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:55"
+  },
+  {
+   "test": "test_version_short_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "keifu"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:63"
+  },
+  {
+   "test": "test_help_and_version_are_different",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:70"
+  },
+  {
+   "test": "test_version_format",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:92"
+  },
+  {
+   "test": "test_help_shows_all_flags",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-h, --help",
+    "-V, --version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:108"
+  },
+  {
+   "test": "test_help_output_structure",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:117"
+  },
+  {
+   "test": "test_help_contains_description",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "genealogy",
+    "commit",
+    "graph"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic.py:131"
+  },
+  {
+   "test": "test_help_displays_genealogy_term",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "genealogy"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_edge_cases.py:42"
+  },
+  {
+   "test": "test_multiple_help_flags",
+   "argv": [
+    "--help",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TUI tool"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:87"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TUI tool",
+    "visualize Git commit graphs",
+    "Usage:",
+    "Options:",
+    "--help",
+    "--version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:22"
+  },
+  {
+   "test": "test_help_flag_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TUI tool",
+    "visualize Git commit graphs",
+    "Usage:",
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:34"
+  },
+  {
+   "test": "test_help_output_format",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TUI tool",
+    "Git commit graphs",
+    "Usage:",
+    "executable",
+    "-h, --help",
+    "-V, --version",
+    "Print help",
+    "Print version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:63"
+  },
+  {
+   "test": "test_input_mode_escape_cancel",
+   "argv": [
+    "git",
+    "branch"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "New Branch Name",
+    "j/k move"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:126"
+  },
+  {
+   "test": "test_input_mode_backspace",
+   "argv": [
+    "git",
+    "branch"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:168"
+  },
+  {
+   "test": "test_checkout_remote_branch_when_local_diverged_not_current",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[origin/feature]",
+    "Feature work",
+    "[feature",
+    "origin"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_git_operations.py:25"
+  },
+  {
+   "test": "test_checkout_remote_branch_when_local_matches",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Feature work",
+    "[feature",
+    "[feature",
+    "   feature   "
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_git_operations.py:161"
+  },
+  {
+   "test": "test_create_branch_duplicate_name",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Failed to create branch 'existing'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_git_operations.py:230"
+  },
+  {
+   "test": "test_fetch_origin_without_origin_remote",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "git fetch failed: fatal: 'origin' does no"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_git_operations.py:272"
+  },
+  {
+   "test": "test_empty_lane_allocation",
+   "argv": [
+    "git",
+    "checkout",
+    "master"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[lane1]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_graph_edge_cases.py:363"
+  },
+  {
+   "test": "test_branch_ends_while_other_continues",
+   "argv": [
+    "git",
+    "checkout",
+    "-b",
+    "branch1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[branch1]",
+    "[branch2]",
+    "Branch2 work A",
+    "Branch2 work B",
+    "Branch2 work C",
+    "Merge branch1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_graph_edge_cases.py:479"
+  },
+  {
+   "test": "test_complex_lane_reuse_after_merge",
+   "argv": [
+    "git",
+    "checkout",
+    "-b",
+    "branch1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[branch2]",
+    "[branch4]",
+    "Merge branch1",
+    "Merge branch3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_graph_edge_cases.py:551"
+  },
+  {
+   "test": "test_fork_connector_row_generation",
+   "argv": [
+    "git",
+    "checkout",
+    "master"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[fork1]",
+    "[fork2]",
+    "[fork3]",
+    "Merge fork1 and fork2",
+    "Merge fork3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_graph_edge_cases.py:634"
+  },
+  {
+   "test": "test_pipe_color_inheritance_across_lanes",
+   "argv": [
+    "git",
+    "checkout",
+    "-b",
+    "color1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[color1]",
+    "[color2]",
+    "[color3]",
+    "Merge color1",
+    "Merge color2",
+    "Merge color3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_graph_edge_cases.py:699"
+  },
+  {
+   "test": "test_octopus_merge_three_branches",
+   "argv": [
+    "git",
+    "merge",
+    "branch1",
+    "branch2",
+    "branch3",
+    "-m",
+    "Octopus merge"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[master]",
+    "[branch1]",
+    "[branch2]",
+    "[branch3]",
+    "Octopus merge"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_graph_rendering.py:131"
+  },
+  {
+   "test": "test_uncommitted_changes_with_branches",
+   "argv": [
+    "git",
+    "checkout",
+    "-b",
+    "feature"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "uncommitted changes",
+    "[feature]",
+    "[master]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_graph_rendering.py:192"
+  },
+  {
+   "test": "test_fork_point_merged_into_multiple_branches",
+   "argv": [
+    "git",
+    "checkout",
+    "-b",
+    "hotfix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Hotfix",
+    "Release prep",
+    "Master work",
+    "[hotfix]",
+    "[master]",
+    "[release]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_graph_rendering.py:242"
+  },
+  {
+   "test": "test_deep_branch_nesting",
+   "argv": [
+    "git",
+    "checkout",
+    "-b",
+    "level1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Level 1 commit",
+    "Level 2 commit",
+    "Level 3 commit",
+    "Merge level3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_graph_rendering.py:549"
+  },
+  {
+   "test": "test_parallel_feature_branches_with_merge",
+   "argv": [
+    "git",
+    "checkout",
+    "-b",
+    "feature1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Feature 1",
+    "Feature 2",
+    "Feature 3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_graph_rendering.py:614"
+  },
+  {
+   "test": "test_branch_diverging_from_merge_commit",
+   "argv": [
+    "git",
+    "checkout",
+    "-b",
+    "feature"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Base",
+    "Feature work",
+    "Master work",
+    "Merge feature",
+    "From merge work",
+    "[from-merge]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_graph_rendering.py:699"
+  },
+  {
+   "test": "test_merge_commit_with_conflict_resolution",
+   "argv": [
+    "git",
+    "checkout",
+    "-b",
+    "branch-a"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Merge with conflict",
+    "Change A",
+    "Change B"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_graph_rendering.py:790"
+  },
+  {
+   "test": "test_three_parallel_branches_no_merge",
+   "argv": [
+    "git",
+    "rev-parse",
+    "HEAD"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Parallel 1",
+    "Parallel 2",
+    "Parallel 3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_graph_rendering.py:842"
+  },
+  {
+   "test": "test_branch_with_multiple_commits_then_merge",
+   "argv": [
+    "git",
+    "checkout",
+    "-b",
+    "feature"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Merge feature"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_graph_rendering.py:888"
+  },
+  {
+   "test": "test_octopus_merge_with_active_branches",
+   "argv": [
+    "git",
+    "checkout",
+    "-b",
+    "long-lived"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Long lived 1",
+    "Long lived 2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_graph_rendering.py:940"
+  },
+  {
+   "test": "test_merge_crossing_active_pipe",
+   "argv": [
+    "git",
+    "checkout",
+    "-b",
+    "long-lived"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Cross",
+    "Merge cross",
+    "│"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_graph_rendering.py:1107"
+  },
+  {
+   "test": "test_simple_branch_merge",
+   "argv": [
+    "git",
+    "checkout",
+    "-b",
+    "feature"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Commit c1",
+    "Commit c2",
+    "Commit c3",
+    "Commit c4",
+    "feature"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest_graph.py:190"
+  },
+  {
+   "test": "test_tui_multiple_branches_displayed",
+   "argv": [
+    "git",
+    "checkout",
+    "-b",
+    "main"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[main]",
+    "[feature]",
+    "Initial commit",
+    "Add feature"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_repository.py:222"
+  },
+  {
+   "test": "test_tui_shows_diverged_branches_with_graph",
+   "argv": [
+    "git",
+    "add",
+    "file1.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "●",
+    "│",
+    "branch-a",
+    "branch-b",
+    "Base commit"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_repository.py:258"
+  },
+  {
+   "test": "test_tui_initial_commit_no_parent",
+   "argv": [
+    "git",
+    "add",
+    "first.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Initial",
+    " A first.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_repository.py:300"
+  },
+  {
+   "test": "test_tui_merge_commit_multiple_parents",
+   "argv": [
+    "git",
+    "add",
+    "base.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Merge feature",
+    "Base",
+    "Add feature",
+    "Main work"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_repository.py:325"
+  },
+  {
+   "test": "test_tui_uncommitted_changes_shown",
+   "argv": [
+    "git",
+    "add",
+    "file1.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "uncommitted changes (2)",
+    "Initial commit"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_repository.py:367"
+  },
+  {
+   "test": "test_tui_file_changes_count_displayed",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "5 files changed",
+    "file0.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_repository.py:427"
+  },
+  {
+   "test": "test_tui_many_file_changes_truncated",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "60 files changed"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_repository.py:454"
+  },
+  {
+   "test": "test_tui_head_branch_marker_displayed",
+   "argv": [
+    "git",
+    "checkout",
+    "-b",
+    "main"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "◉",
+    "[feature]",
+    "feature",
+    "j/k move"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_repository.py:484"
+  },
+  {
+   "test": "test_tui_deletion_changes_displayed",
+   "argv": [
+    "git",
+    "add",
+    "delete_me.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    " D delete_me.txt",
+    "1 files changed"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_repository.py:522"
+  },
+  {
+   "test": "test_tui_modification_changes_displayed",
+   "argv": [
+    "git",
+    "add",
+    "modify_me.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    " M modify_me.txt",
+    "+1",
+    "-1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_repository.py:553"
+  },
+  {
+   "test": "test_tui_bare_repository_displays_commits",
+   "argv": [
+    "git",
+    "add",
+    "file1.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "First commit",
+    "Second commit",
+    "Commits",
+    "Commit Detail"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_repository_edge_cases.py:26"
+  },
+  {
+   "test": "test_tui_clean_working_tree_no_uncommitted_entry",
+   "argv": [
+    "git",
+    "add",
+    "committed.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Committed work",
+    "Commits"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_repository_edge_cases.py:74"
+  },
+  {
+   "test": "test_tui_only_staged_changes_counted",
+   "argv": [
+    "git",
+    "add",
+    "base.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "uncommitted changes (1)",
+    "Base commit"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_repository_edge_cases.py:108"
+  },
+  {
+   "test": "test_tui_only_unstaged_changes_counted",
+   "argv": [
+    "git",
+    "add",
+    "tracked.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "uncommitted changes (1)",
+    "Add tracked file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_repository_edge_cases.py:141"
+  },
+  {
+   "test": "test_tui_staged_deletion_shown",
+   "argv": [
+    "git",
+    "add",
+    "to_delete.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "uncommitted changes (1)",
+    "Add file to delete"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_repository_edge_cases.py:173"
+  },
+  {
+   "test": "test_tui_unstaged_deletion_shown",
+   "argv": [
+    "git",
+    "add",
+    "unstaged_delete.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "uncommitted changes (1)",
+    "Add file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_repository_edge_cases.py:206"
+  },
+  {
+   "test": "test_tui_staged_rename_shown",
+   "argv": [
+    "git",
+    "add",
+    "old_name.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "uncommitted changes (2)",
+    "A new_name.txt",
+    "D old_name.txt",
+    "Add file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_repository_edge_cases.py:237"
+  },
+  {
+   "test": "test_tui_mixed_staged_and_unstaged_changes_counted",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "uncommitted changes (2)",
+    "Add files"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_repository_edge_cases.py:274"
+  },
+  {
+   "test": "test_tab_moves_to_next_branch_forward",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[master] Fourth commit",
+    "Third commit",
+    "+1",
+    "Branches",
+    "▶ feature-c",
+    "  hotfix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_branch_navigation.py:18"
+  },
+  {
+   "test": "test_tab_at_last_branch_is_noop",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[feature-a] First commit",
+    "[feature-a] First commit"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_branch_navigation.py:91"
+  },
+  {
+   "test": "test_bracket_moves_to_prev_branch_backward",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[feature-a] First commit",
+    "[feature-b] Second commit",
+    "file2.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_branch_navigation.py:142"
+  },
+  {
+   "test": "test_h_key_moves_left_within_same_commit",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "▶ hotfix",
+    "▶ feature-c",
+    "  hotfix",
+    "First commit"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_branch_navigation.py:205"
+  },
+  {
+   "test": "test_l_key_moves_right_within_same_commit",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "▶ feature-c",
+    "  feature-c",
+    "▶ hotfix",
+    "First commit"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_branch_navigation.py:265"
+  },
+  {
+   "test": "test_h_at_leftmost_branch_is_noop",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "▶ feature-a",
+    "▶ feature-a"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_branch_navigation.py:320"
+  },
+  {
+   "test": "test_l_at_rightmost_branch_is_noop",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "▶ feature-b",
+    "▶ feature-b"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_branch_navigation.py:370"
+  },
+  {
+   "test": "test_h_l_at_single_branch_commit_is_noop",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[feature-a] First commit"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_branch_navigation.py:423"
+  },
+  {
+   "test": "test_bracket_at_first_branch_is_noop",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Second commit"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_branch_navigation.py:475"
+  },
+  {
+   "test": "test_left_right_arrows_work_same_as_h_l",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "▶ branch-a",
+    "▶ branch-b",
+    "▶ branch-a"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_branch_navigation.py:520"
+  },
+  {
+   "test": "test_complex_navigation_sequence",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Commit 4",
+    "Commit 3",
+    "▶ branch-3a",
+    "▶ branch-3c",
+    "Commit 2",
+    "branch-2",
+    "Commit 3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_branch_navigation.py:618"
+  },
+  {
+   "test": "test_navigation_with_single_branch_repo",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Only commit"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_branch_navigation.py:705"
+  },
+  {
+   "test": "test_tab_through_many_branches",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Commit 8",
+    "branch-7",
+    "Commit"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_branch_navigation.py:759"
+  },
+  {
+   "test": "test_navigation_preserves_commit_detail_panel",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Second unique commit",
+    "second.txt",
+    "First unique commit",
+    "first.txt",
+    "Second unique commit",
+    "second.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_branch_navigation.py:813"
+  },
+  {
+   "test": "test_multifile_commit_shows_all_changed_files",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "┌ Commits ─",
+    "┌ Commit Detail ─",
+    "┌ Changed Files ─",
+    "Add multiple files and modify existing",
+    "Initial commit",
+    "Author: Test User <test@example.com>",
+    "Date:",
+    "Commit:",
+    "3 files changed",
+    "+7 -0",
+    " M file1.txt +2 -0",
+    " A file2.txt +3 -0",
+    " A file3.txt +2 -0",
+    "j/k move",
+    "Enter checkout",
+    "[master]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_details.py:20"
+  },
+  {
+   "test": "test_merge_commit_shows_diff_vs_first_parent",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "◉─╮",
+    "Merge feature branch",
+    "1 files changed",
+    "+1 -0",
+    " A feature.txt +1 -0",
+    "[master]",
+    "[feature]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_details.py:90"
+  },
+  {
+   "test": "test_many_files_shows_truncation",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "60 files changed",
+    "+50 -0",
+    "file_1.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_details.py:155"
+  },
+  {
+   "test": "test_initial_commit_shows_diff_against_empty_tree",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Initial commit",
+    "[master]",
+    "1 files changed",
+    "+1 -0",
+    " A file.txt +1 -0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_details.py:209"
+  },
+  {
+   "test": "test_deleted_files_display_correctly",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Delete file2, add line to file1",
+    "2 files changed",
+    "+1 -3",
+    " M file1.txt +1 -0",
+    " D file2.txt +0 -3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_details.py:250"
+  },
+  {
+   "test": "test_large_diff_displays_correctly",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Add large file",
+    "1 files changed",
+    "+500 -0",
+    " A large.txt +500 -0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_details.py:303"
+  },
+  {
+   "test": "test_full_commit_message_in_detail_panel",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Short summary line",
+    "┌ Commit Detail ─",
+    "Author: Test User",
+    "Commit:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_details.py:349"
+  },
+  {
+   "test": "test_status_bar_shows_current_branch",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[feature-xyz]",
+    "j/k move",
+    "Enter checkout"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_details.py:399"
+  },
+  {
+   "test": "test_empty_commit_displays_correctly",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Empty commit for testing",
+    "0 files changed",
+    "+0 -0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_details.py:446"
+  },
+  {
+   "test": "test_uncommitted_changes_shown_in_list",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "uncommitted changes",
+    "┌ Commits ─",
+    "┌ Commit Detail ─"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_tui_details.py:489"
+  },
+  {
+   "test": "test_very_long_commit_message",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "┌ Commits ─",
+    "┌ Commit Detail ─",
+    "┌ Changed Files ─",
+    "AAA"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_details.py:534"
+  },
+  {
+   "test": "test_mixed_add_modify_delete_in_one_commit",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Mixed changes: add, modify, delete",
+    "3 files changed",
+    " M keep.txt",
+    " D delete_me.txt",
+    " A new_file.txt",
+    "+2 -1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_details.py:579"
+  },
+  {
+   "test": "test_checkout_branch",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "◉    [master]",
+    "●  [feature1]",
+    "master   j/k move",
+    "Feature 1 commit",
+    "feature.txt",
+    "●    [master]",
+    "◉  [feature1]",
+    "feature1   j/k move"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_git_ops.py:23"
+  },
+  {
+   "test": "test_checkout_commit_detached_head",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Second commit",
+    "HEAD   j/k move",
+    "●  [master]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_git_ops.py:100"
+  },
+  {
+   "test": "test_create_branch_at_current_commit",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[master]",
+    "New Branch Name",
+    "Enter confirm  Esc cancel",
+    "newbranch",
+    "] +1",
+    "Branches",
+    "master",
+    "newbranch",
+    "newbranch",
+    "master"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_git_ops.py:173"
+  },
+  {
+   "test": "test_delete_branch_confirm",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "] +1",
+    "[tobedeleted]",
+    "Confirm",
+    "Delete branch 'tobedeleted'?",
+    "y yes  n no",
+    "[master]",
+    "master"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_git_ops.py:246"
+  },
+  {
+   "test": "test_delete_branch_cancel",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Delete branch 'keepme'?",
+    "keepme",
+    "] +1",
+    "keepme",
+    "master"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_git_ops.py:323"
+  },
+  {
+   "test": "test_delete_head_branch_rejected",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "◉  [master]",
+    "[master]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_git_ops.py:383"
+  },
+  {
+   "test": "test_create_branch_at_different_commit",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Initial commit"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_git_ops.py:433"
+  },
+  {
+   "test": "test_create_branch_input_cancel",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "New Branch Name",
+    "j/k move"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_git_ops.py:501"
+  },
+  {
+   "test": "test_fetch_with_origin",
+   "argv": [
+    "git",
+    "init",
+    "--bare"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Remote commit",
+    "Initial commit"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_git_ops.py:559"
+  },
+  {
+   "test": "test_checkout_remote_branch_creates_local",
+   "argv": [
+    "git",
+    "init",
+    "--bare"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "origin/feature",
+    "feature   j/k move"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_git_ops.py:632"
+  },
+  {
+   "test": "test_create_branch_with_special_characters",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "feature/mybranch",
+    "v1.0.0",
+    "feature/mybranch",
+    "master"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_git_ops.py:712"
+  },
+  {
+   "test": "test_delete_remote_branch_not_allowed",
+   "argv": [
+    "git",
+    "init",
+    "--bare"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "master"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_git_ops.py:865"
+  },
+  {
+   "test": "test_uncommitted_node_stays_selected_after_refresh",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "uncommitted changes (2)",
+    "Uncommitted Changes",
+    "2 files with changes",
+    "Uncommitted Changes",
+    "2 files with changes",
+    "uncommitted changes (2)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_git_ops.py:930"
+  },
+  {
+   "test": "test_branch_selection_preserved_after_checkout_with_uncommitted",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "uncommitted changes (1)",
+    "◉  [feature1]",
+    "Initial commit",
+    "[master]",
+    "Initial commit",
+    "uncommitted changes (1)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_git_ops.py:999"
+  },
+  {
+   "test": "test_create_branch_with_uncommitted_preserves_branch_selection",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "uncommitted changes (2)",
+    "Initial commit",
+    "[master]",
+    "New Branch Name",
+    "Initial commit",
+    "Commit:",
+    "uncommitted changes (2)",
+    "newfeature",
+    "master"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_git_ops.py:1075"
+  },
+  {
+   "test": "test_fetch_with_uncommitted_preserves_selection",
+   "argv": [
+    "git",
+    "init",
+    "--bare"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "uncommitted changes (1)",
+    "Uncommitted Changes",
+    "Uncommitted Changes",
+    "uncommitted changes (1)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_git_ops.py:1149"
+  },
+  {
+   "test": "test_shift_r_refresh_after_external_commit",
+   "argv": [
+    "git",
+    "add",
+    "file61.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Commit 60: Add file60",
+    "Commit 61: Add file61"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_pagination.py:223"
+  },
+  {
+   "test": "test_shift_r_refresh_after_branch_creation",
+   "argv": [
+    "git",
+    "branch",
+    "feature-x"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "feature-x"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_pagination.py:266"
+  },
+  {
+   "test": "test_search_dropdown_hint_text_variations",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "↑↓: select  Enter: jump  Esc: cancel",
+    "Enter: confirm  Esc: cancel"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_edge_cases.py:299"
+  },
+  {
+   "test": "test_short_help_matches_long_help_exactly",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:75"
+  },
+  {
+   "test": "test_help_precedes_unknown_flags",
+   "argv": [
+    "--help",
+    "--definitely-not-a-real-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:82"
+  },
+  {
+   "test": "test_double_dash_then_help_is_error_usage",
+   "argv": [
+    "--",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument",
+    "try '--help'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:89"
+  },
+  {
+   "test": "test_help_long",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable",
+    "TUI tool to visualize Git commit graphs",
+    "--help",
+    "--version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:30"
+  },
+  {
+   "test": "test_help_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:39"
+  },
+  {
+   "test": "test_invalid_argument",
+   "argv": [
+    "--invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:59"
+  },
+  {
+   "test": "test_unknown_short_flag",
+   "argv": [
+    "-x"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:66"
+  },
+  {
+   "test": "test_extra_positional_args",
+   "argv": [
+    "extra",
+    "args"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:71"
+  },
+  {
+   "test": "test_detached_head",
+   "argv": [
+    "git",
+    "rev-parse",
+    "HEAD~1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Commit"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:624"
+  },
+  {
+   "test": "test_many_commits",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Commit"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:760"
+  },
+  {
+   "test": "test_help_exact",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "A TUI tool to visualize Git commit graphs with branch genealogy\n\nUsage: executable\n\nOptions:\n  -h, --help     Print help\n  -V, --version  Print version\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:11"
+  },
+  {
+   "test": "test_version_exact",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "keifu 0.2.3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:18"
+  },
+  {
+   "test": "test_invalid_flag_shows_usage_and_nonzero",
+   "argv": [
+    "--definitely-not-a-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:25"
+  },
+  {
+   "test": "test_unknown_long_flag_errors_with_exit_2",
+   "argv": [
+    "--nonexistent-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument '--nonexistent-flag'",
+    "Usage: executable",
+    "try '--help'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:36"
+  },
+  {
+   "test": "test_unknown_short_flag_errors_with_exit_2",
+   "argv": [
+    "-Z"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument '-Z'",
+    "Usage: executable"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:45"
+  },
+  {
+   "test": "test_positional_argument_is_rejected_exit_2",
+   "argv": [
+    "foo"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument 'foo'",
+    "Usage: executable"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:53"
+  },
+  {
+   "test": "test_double_dash_with_no_args_does_not_trigger_clap_error",
+   "argv": [
+    "--"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:61"
+  },
+  {
+   "test": "test_end_of_options_then_unknown_flag_treated_as_positional_and_rejected",
+   "argv": [
+    "--",
+    "--nonexistent-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument '--nonexistent-flag'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:72"
+  },
+  {
+   "test": "test_version_flag_rejects_value_using_equals_syntax",
+   "argv": [
+    "--version=1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected",
+    "Usage: executable"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:97"
+  },
+  {
+   "test": "test_combined_short_flags_supported_help_takes_precedence",
+   "argv": [
+    "-hV"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:106"
+  },
+  {
+   "test": "test_empty_args_attempts_to_start_tui_and_fails_non_tty_exit_1",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:115"
+  }
+ ]
+}

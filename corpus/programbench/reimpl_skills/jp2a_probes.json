@@ -1,0 +1,2489 @@
+[
+ {
+  "name": "test::test_short_option_o_accepts_space_separated_value_but_not_equals::0",
+  "argv": [
+   "-o",
+   "out.txt",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_short_flags_are_not_supported::1",
+  "argv": [
+   "-bv",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_term_width_requires_space_value_and_allows_non_numeric::2",
+  "argv": [
+   "--term-width=10",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_argument_list_errors_no_files_specified::3",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_size_option_is_recognized_but_requires_input_files::4",
+  "argv": [
+   "--size=10x20"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_shows_no_subcommands::5",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::6",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_flag_is_global_not_subcommand_specific::7",
+  "argv": [
+   "--verbose",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_flags_without_subcommand::8",
+  "argv": [
+   "--help",
+   "--verbose"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_produces_error::9",
+  "argv": [
+   "--nonexistent-flag-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file_error::10",
+  "argv": [
+   "nonexistent_file_12345.jpg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_like_word_not_interpreted_as_subcommand::11",
+  "argv": [
+   "--verbose",
+   "testfile.jpg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_behavior::12",
+  "argv": [
+   "--",
+   "filename.jpg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_consistent_error_handling::13",
+  "argv": [
+   "invalid1.jpg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read_from_stdin_dash_matches_file_output::14",
+  "argv": [
+   "--width=10",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_file_exit1_stderr_message_when_term_set::15",
+  "argv": [
+   "no_such_file.jpg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM": "xterm"
+  }
+ },
+ {
+  "name": "test::test_single_file_stdout_exact_fixture::16",
+  "argv": [
+   "--width=78",
+   "eval/fixtures/jp2a.jpg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_border_flag_stdout_exact_fixture::17",
+  "argv": [
+   "--width=78",
+   "--border",
+   "eval/fixtures/jp2a.jpg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_marker_dash_reads_jpeg_from_stdin::18",
+  "argv": [
+   "--width=78",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_dash_writes_to_stdout::19",
+  "argv": [
+   "--width=78",
+   "eval/fixtures/jp2a.jpg",
+   "--output=-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_writes_progress_to_stderr_and_image_to_stdout::20",
+  "argv": [
+   "--verbose",
+   "--width=78",
+   "eval/fixtures/jp2a.jpg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_title_output_exact_fixture::21",
+  "argv": [
+   "--width=10",
+   "--html",
+   "--html-title=just testing",
+   "eval/fixtures/jp2a.jpg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_width_default_palette::22",
+  "argv": [
+   "--width=78"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_border_width::23",
+  "argv": [
+   "-b",
+   "--width=78"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_size_160x49::24",
+  "argv": [
+   "--size=160x49"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_height_10::25",
+  "argv": [
+   "--height=10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_size_40x40::26",
+  "argv": [
+   "--size=40x40"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_size_1x1_invert::27",
+  "argv": [
+   "--size=1x1",
+   "--invert"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_invert_border_width_height::28",
+  "argv": [
+   "-i",
+   "-b",
+   "--width=110",
+   "--height=30"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_flipx_flipy_invert::29",
+  "argv": [
+   "--width=78",
+   "--flipx",
+   "--flipy",
+   "--invert"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_multiple_images_concatenated_output::30",
+  "argv": [
+   "--width=78",
+   "-b"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_verbose_width_combined_stream_matches_golden::31",
+  "argv": [
+   "--verbose",
+   "--width=78"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_clear_inserts_escape_sequence::32",
+  "argv": [
+   "--width=78",
+   "--clear"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_height_grayscale_logo::33",
+  "argv": [
+   "--height=30"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_grind_invert_size_80x30::34",
+  "argv": [
+   "-i",
+   "--size=80x30"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_rgb_weights_red_only::35",
+  "argv": [
+   "-i",
+   "--size=80x30",
+   "--red=1.0",
+   "--green=0.0",
+   "--blue=0.0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_rgb_weights_green_only::36",
+  "argv": [
+   "-i",
+   "--size=80x30",
+   "--red=0.0",
+   "--green=1.0",
+   "--blue=0.0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_rgb_weights_blue_only::37",
+  "argv": [
+   "-i",
+   "--size=80x30",
+   "--red=0.0",
+   "--green=0.0",
+   "--blue=1.0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_dalsnuten_invert_width::38",
+  "argv": [
+   "--invert",
+   "--width=78"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_dalsnuten_invert_size_80x49::39",
+  "argv": [
+   "--invert",
+   "--size=80x49"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_multiple_size_options_last_one_wins::40",
+  "argv": [
+   "--size=80x25",
+   "--invert",
+   "--border",
+   "--size=150x45"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_html_output_basic::41",
+  "argv": [
+   "--size=80x50",
+   "--html",
+   "--html-fontsize=7"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_html_color_flipx::42",
+  "argv": [
+   "--size=80x50",
+   "--html",
+   "--color",
+   "--html-fontsize=8",
+   "--flipx"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_html_color_flipy::43",
+  "argv": [
+   "--size=80x50",
+   "--html",
+   "--color",
+   "--html-fontsize=8",
+   "--flipy"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_html_color_flipxy::44",
+  "argv": [
+   "--size=80x50",
+   "--html",
+   "--color",
+   "--html-fontsize=8",
+   "--flipx",
+   "--flipy"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_html_gray_dark_bg::45",
+  "argv": [
+   "--width=128",
+   "--html",
+   "--html-fontsize=8"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_html_gray_light_bg::46",
+  "argv": [
+   "--width=128",
+   "--background=light",
+   "--html",
+   "--html-fontsize=8"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_html_color_dark_bg::47",
+  "argv": [
+   "--color",
+   "--background=dark",
+   "--width=60",
+   "--html",
+   "--html-fontsize=8"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_html_color_dark_bg_fill::48",
+  "argv": [
+   "--color",
+   "--fill",
+   "--background=dark",
+   "--width=60",
+   "--html",
+   "--html-fontsize=8"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_html_color_light_bg_fill::49",
+  "argv": [
+   "--color",
+   "--fill",
+   "--background=light",
+   "--width=60",
+   "--html",
+   "--html-fontsize=8"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_html_color_from_gray_image_light_bg_fill::50",
+  "argv": [
+   "--color",
+   "--width=78",
+   "--html",
+   "--background=light",
+   "--fill",
+   "--html-fontsize=8"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_html_color_forced_grayscale::51",
+  "argv": [
+   "--color",
+   "--width=78",
+   "--html",
+   "--grayscale"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_html_color_forced_grayscale_fill::52",
+  "argv": [
+   "--color",
+   "--width=78",
+   "--html",
+   "--grayscale",
+   "--fill"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_ansi_colors_fill::53",
+  "argv": [
+   "--colors",
+   "--fill",
+   "--width=78"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_ansi_colors_fill_grayscale::54",
+  "argv": [
+   "--colors",
+   "--fill",
+   "--grayscale",
+   "--width=78"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_html_no_bold::55",
+  "argv": [
+   "--colors",
+   "--html",
+   "--html-no-bold",
+   "--width=78"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_html_title::56",
+  "argv": [
+   "--width=10",
+   "--html",
+   "--html-title=just testing"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_html_raw_color::57",
+  "argv": [
+   "--width=10",
+   "--color",
+   "--html-raw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_color_text_mode::58",
+  "argv": [
+   "--color",
+   "--width=60"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_color_on_gray_image_text_mode::59",
+  "argv": [
+   "--color",
+   "--width=78"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_stdin_with_size_options::60",
+  "argv": [
+   "-",
+   "--width=40",
+   "--height=40"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_big_size_bytecount::61",
+  "argv": [
+   "--size=2000x2000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_on_empty_input_error::62",
+  "argv": [
+   "-"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_invalid_jpeg_data::63",
+  "argv": [
+   "-"
+  ],
+  "stdin": "not jpeg data",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_input_with_dash_flag::64",
+  "argv": [
+   "--width=25",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_invalid_jpeg_format::65",
+  "argv": [
+   "-"
+  ],
+  "stdin": "not a jpeg file",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_stdin_non_jpeg_data::66",
+  "argv": [
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_stdin_specs_uses_stdin_once::67",
+  "argv": [
+   "--width=25",
+   "-",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_no_data::68",
+  "argv": [
+   "--width=20",
+   "-"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_corrupted_jpeg_incomplete_data::69",
+  "argv": [
+   "--width=20",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_flag::70",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_short_flag::71",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_option::72",
+  "argv": [
+   "--invalid-option-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_jpeg_file::73",
+  "argv": [
+   "--width=40"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_input::74",
+  "argv": [
+   "--width=40",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file_error::75",
+  "argv": [
+   "nonexistent_file_xyz.jpg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_jpeg_file::76",
+  "argv": [
+   "--width=40",
+   "invalid.jpg"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.jpg": "Not a JPEG file"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_width_only::77",
+  "argv": [
+   "--width=80"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_height_only::78",
+  "argv": [
+   "--height=20"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_size_explicit::79",
+  "argv": [
+   "--size=40x20"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_small_size::80",
+  "argv": [
+   "--size=1x1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_size::81",
+  "argv": [
+   "--size=200x100"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_border_flag::82",
+  "argv": [
+   "--width=40",
+   "--border"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_border_short_flag::83",
+  "argv": [
+   "--width=40",
+   "-b"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_chars::84",
+  "argv": [
+   "--width=40",
+   "--chars= .oO@"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invert_short_flag::85",
+  "argv": [
+   "--width=40",
+   "-i"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_background_dark::86",
+  "argv": [
+   "--width=40",
+   "--background=dark"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_background_light::87",
+  "argv": [
+   "--width=40",
+   "--background=light"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flipx_short_flag::88",
+  "argv": [
+   "--width=40",
+   "-x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flipy_short_flag::89",
+  "argv": [
+   "--width=40",
+   "-y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flip_both::90",
+  "argv": [
+   "--width=40",
+   "--flipx",
+   "--flipy"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colors_ansi::91",
+  "argv": [
+   "--width=40",
+   "--colors"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_red_weight::92",
+  "argv": [
+   "--width=40",
+   "--red=1.0",
+   "--green=0.0",
+   "--blue=0.0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_green_weight::93",
+  "argv": [
+   "--width=40",
+   "--red=0.0",
+   "--green=1.0",
+   "--blue=0.0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_blue_weight::94",
+  "argv": [
+   "--width=40",
+   "--red=0.0",
+   "--green=0.0",
+   "--blue=1.0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_grayscale_flag::95",
+  "argv": [
+   "--width=40",
+   "--colors",
+   "--grayscale"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_output::96",
+  "argv": [
+   "--width=40",
+   "--html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_with_colors::97",
+  "argv": [
+   "--width=40",
+   "--html",
+   "--colors"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_fill::98",
+  "argv": [
+   "--width=40",
+   "--html",
+   "--colors",
+   "--fill"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_fontsize::99",
+  "argv": [
+   "--width=40",
+   "--html",
+   "--html-fontsize=12"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_no_bold::100",
+  "argv": [
+   "--width=40",
+   "--html",
+   "--html-no-bold"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_title::101",
+  "argv": [
+   "--width=40",
+   "--html",
+   "--html-title=Test Title"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_raw::102",
+  "argv": [
+   "--width=40",
+   "--html-raw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_to_stdout_explicit::103",
+  "argv": [
+   "--width=40",
+   "--output=-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clear_screen::104",
+  "argv": [
+   "--width=40",
+   "--clear"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_mode::105",
+  "argv": [
+   "--verbose",
+   "--width=40"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_short_flag::106",
+  "argv": [
+   "-v",
+   "--width=40"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_mode::107",
+  "argv": [
+   "--debug",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invert_with_border::108",
+  "argv": [
+   "--width=40",
+   "-i",
+   "-b"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flipx_flipy_invert::109",
+  "argv": [
+   "--width=40",
+   "--flipx",
+   "--flipy",
+   "--invert"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_with_flips::110",
+  "argv": [
+   "--width=40",
+   "--html",
+   "--colors",
+   "--flipx"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_large_output_dimensions::111",
+  "argv": [
+   "--size=300x200"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minimal_char_palette::112",
+  "argv": [
+   "--width=40",
+   "--chars= @"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_weights_sum_validation::113",
+  "argv": [
+   "--red=0.5",
+   "--green=0.3",
+   "--blue=0.2",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_size_overrides_previous_dimensions::114",
+  "argv": [
+   "--width=100",
+   "--height=50",
+   "--size=40x20"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_grayscale_with_colors::115",
+  "argv": [
+   "--width=40",
+   "--html",
+   "--colors",
+   "--grayscale"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_border_with_size_1x1::116",
+  "argv": [
+   "--size=1x1",
+   "--border"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colors_with_fill::117",
+  "argv": [
+   "--width=40",
+   "--colors",
+   "--fill"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_size::118",
+  "argv": [
+   "--size=40x20",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_fontsize_range::119",
+  "argv": [
+   "--width=20",
+   "--html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_custom_chars_error::120",
+  "argv": [
+   "--width=40",
+   "--chars=X"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_term_fit_with_term_set::121",
+  "argv": [
+   "--term-fit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM": "xterm",
+   "COLUMNS": "80",
+   "LINES": "24"
+  }
+ },
+ {
+  "name": "test::test_term_width_flag::122",
+  "argv": [
+   "--term-width"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM": "xterm",
+   "COLUMNS": "80",
+   "LINES": "24"
+  }
+ },
+ {
+  "name": "test::test_term_height_flag::123",
+  "argv": [
+   "--term-height"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM": "xterm",
+   "COLUMNS": "80",
+   "LINES": "24"
+  }
+ },
+ {
+  "name": "test::test_term_zoom_flag::124",
+  "argv": [
+   "--term-zoom"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM": "xterm",
+   "COLUMNS": "80",
+   "LINES": "24"
+  }
+ },
+ {
+  "name": "test::test_term_fit_short_flag::125",
+  "argv": [
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM": "xterm",
+   "COLUMNS": "80",
+   "LINES": "24"
+  }
+ },
+ {
+  "name": "test::test_term_zoom_short_flag::126",
+  "argv": [
+   "-z"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM": "xterm",
+   "COLUMNS": "80",
+   "LINES": "24"
+  }
+ },
+ {
+  "name": "test::test_invalid_width_zero::127",
+  "argv": [
+   "--width=0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_height_zero::128",
+  "argv": [
+   "--height=0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_size_zero::129",
+  "argv": [
+   "--size=0x0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rgb_weights_not_summing_to_one::130",
+  "argv": [
+   "--red=0.5",
+   "--green=0.5",
+   "--blue=0.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_width::131",
+  "argv": [
+   "--width=-10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_height::132",
+  "argv": [
+   "--height=-10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_fill_alias::133",
+  "argv": [
+   "--width=40",
+   "--html",
+   "--colors",
+   "--html-fill"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_border_with_all_flips::134",
+  "argv": [
+   "--width=40",
+   "-b",
+   "-x",
+   "-y",
+   "-i"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_raw_with_colors::135",
+  "argv": [
+   "--width=40",
+   "--html-raw",
+   "--colors"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colors_with_grayscale_and_fill::136",
+  "argv": [
+   "--width=40",
+   "--colors",
+   "--grayscale",
+   "--fill"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_with_all_options::137",
+  "argv": [
+   "--width=40",
+   "--html",
+   "--colors",
+   "--fill",
+   "--html-fontsize=10",
+   "--html-title=Complex Test",
+   "--flipx",
+   "--grayscale"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_border_with_very_small_size::138",
+  "argv": [
+   "--size=5x5",
+   "--border"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invert_with_custom_chars::139",
+  "argv": [
+   "--width=40",
+   "--invert",
+   "--chars= .:@#"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_size_with_flips_and_border::140",
+  "argv": [
+   "--size=50x30",
+   "-b",
+   "-x",
+   "-y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_no_bold_with_colors::141",
+  "argv": [
+   "--width=40",
+   "--html",
+   "--colors",
+   "--html-no-bold"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_size_specifications::142",
+  "argv": [
+   "--width=20",
+   "--height=15",
+   "--size=40x25",
+   "--width=60"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_channel_extraction_with_invert::143",
+  "argv": [
+   "--width=40",
+   "--red=1.0",
+   "--green=0.0",
+   "--blue=0.0",
+   "--invert"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_grayscale_with_html_and_border::144",
+  "argv": [
+   "--width=40",
+   "--html",
+   "--grayscale",
+   "--border"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_verbose::145",
+  "argv": [
+   "--verbose",
+   "--width=40",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clear_with_border::146",
+  "argv": [
+   "--width=40",
+   "--clear",
+   "--border"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_background_dark_with_border::147",
+  "argv": [
+   "--width=40",
+   "--background=dark",
+   "--border"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_background_light_with_colors::148",
+  "argv": [
+   "--width=40",
+   "--background=light",
+   "--colors"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_is_treated_as_input_and_errors::149",
+  "argv": [
+   "nonexistent_subcommand"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subcommand_style_help_is_not_supported::150",
+  "argv": [
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_option::151",
+  "argv": [
+   "--nonexistent-option"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_border_short_flag::152",
+  "argv": [
+   "-b",
+   "--width=40"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_border_with_various_sizes::153",
+  "argv": [
+   "--border"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_border_with_invert::154",
+  "argv": [
+   "--width=40",
+   "--border",
+   "--invert"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_chars_simple::155",
+  "argv": [
+   "--width=40",
+   "--chars= .:-=+*#%@"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_chars_inverted::156",
+  "argv": [
+   "--width=40",
+   "--chars= .oO@",
+   "--invert"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_chars_with_special_characters::157",
+  "argv": [
+   "--width=30",
+   "--chars= .,;!?#@"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colors_with_invert::158",
+  "argv": [
+   "--width=40",
+   "--colors",
+   "--invert"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_size_both_dimensions::159",
+  "argv": [
+   "--size=60x25"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_size_format::160",
+  "argv": [
+   "--size=80x30"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_size_specifications::161",
+  "argv": [
+   "--size=20x20",
+   "--width=40"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_options::162",
+  "argv": [
+   "--width=40",
+   "--border",
+   "--invert",
+   "--flipx",
+   "--flipy"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_with_multiple_options::163",
+  "argv": [
+   "--html",
+   "--width=40",
+   "--invert",
+   "--border",
+   "--html-fontsize=8"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colors_html_fill_combo::164",
+  "argv": [
+   "--html",
+   "--colors",
+   "--fill",
+   "--width=30"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_images_in_sequence::165",
+  "argv": [
+   "--width=30"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_explicit_dash::166",
+  "argv": [
+   "--width=30",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_small_custom_chars::167",
+  "argv": [
+   "--width=30",
+   "--chars=.#"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_grayscale_with_colors_and_html::168",
+  "argv": [
+   "--html",
+   "--colors",
+   "--grayscale",
+   "--width=30"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clear_with_multiple_files::169",
+  "argv": [
+   "--clear",
+   "--width=30"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_border_with_flipxy::170",
+  "argv": [
+   "--border",
+   "--flipx",
+   "--flipy",
+   "--width=30"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aspect_ratio_small_width::171",
+  "argv": [
+   "--width=5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aspect_ratio_small_height::172",
+  "argv": [
+   "--height=3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_fontsize::173",
+  "argv": [
+   "--width=40",
+   "--html",
+   "--html-fontsize=10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_fill_deprecated::174",
+  "argv": [
+   "--width=40",
+   "--html",
+   "--html-fill"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_with_flipx::175",
+  "argv": [
+   "--width=40",
+   "--html",
+   "--flipx"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_with_flipy::176",
+  "argv": [
+   "--width=40",
+   "--html",
+   "--flipy"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_raw_no_structure::177",
+  "argv": [
+   "--width=30",
+   "--html-raw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file::178",
+  "argv": [
+   "--width=40",
+   "nonexistent_file.jpg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_jpeg_file::179",
+  "argv": [
+   "--width=40",
+   "invalid.jpg"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.jpg": "This is not a JPEG file"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_non_jpeg_file::180",
+  "argv": [
+   "--width=40",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "Hello, World!"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_file::181",
+  "argv": [
+   "--width=40",
+   "empty.jpg"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.jpg": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_uses_stderr::182",
+  "argv": [
+   "--width=40",
+   "--verbose"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_to_dev_null::183",
+  "argv": [
+   "--width=40",
+   "--output=/dev/null"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_rgb_weights::184",
+  "argv": [
+   "--width=40",
+   "--red=0.5",
+   "--green=0.3",
+   "--blue=0.2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_red_weight_error_without_sum_to_one::185",
+  "argv": [
+   "--width=40",
+   "--red=0.3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_green_weight_error_without_sum_to_one::186",
+  "argv": [
+   "--width=40",
+   "--green=0.6"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_blue_weight_error_without_sum_to_one::187",
+  "argv": [
+   "--width=40",
+   "--blue=0.2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_width_overrides_term_fit::188",
+  "argv": [
+   "--term-fit",
+   "--width=40"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_height_overrides_term_fit::189",
+  "argv": [
+   "--term-fit",
+   "--height=20"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invert_short_flag::190",
+  "argv": [
+   "-i",
+   "--width=40"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flipx_short_flag::191",
+  "argv": [
+   "-x",
+   "--width=40"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flipy_short_flag::192",
+  "argv": [
+   "-y",
+   "--width=40"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_background_dark::193",
+  "argv": [
+   "--width=40",
+   "--invert"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flipx_preserves_dimensions::194",
+  "argv": [
+   "--size=50x20"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_flag::195",
+  "argv": [
+   "--debug",
+   "--width=40"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_short_flag::196",
+  "argv": [
+   "-d",
+   "--width=40"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

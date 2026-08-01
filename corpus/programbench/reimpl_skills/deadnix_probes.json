@@ -1,0 +1,1953 @@
+[
+ {
+  "name": "test::test_help_to_stdout_exit0::0",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::1",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_file_human_readable_default_has_warning_on_stdout::2",
+  "argv": [
+   "example.nix"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_format_json_is_valid_json_and_schema::3",
+  "argv": [
+   "--output-format",
+   "json",
+   "example.nix"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fail_flag_exit_1_when_unused_found::4",
+  "argv": [
+   "--fail",
+   "example.nix"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_suppresses_report_output_but_exit_code_0::5",
+  "argv": [
+   "--quiet",
+   "example.nix"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_and_fail_still_exits_1_but_no_output::6",
+  "argv": [
+   "--quiet",
+   "--fail",
+   "example.nix"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file_errors_nonzero_and_message_on_stderr::7",
+  "argv": [
+   "does-not-exist-xyz.nix"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_skips_file_in_directory_scan::8",
+  "argv": [
+   "--exclude",
+   "bad.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.nix": "let unused = 1; in 2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "NO_COLOR": "1"
+  }
+ },
+ {
+  "name": "test::test_edit_removes_unused_binding_in_place::9",
+  "argv": [
+   "--edit",
+   "--quiet",
+   "t.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "t.nix": "let\n  unused = 1;\n  used = 2;\nin used\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deadnix_skip_pragma_skips_next_line::10",
+  "argv": [
+   "-o",
+   "json",
+   "skip.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "skip.nix": "let\n  # deadnix: skip\n  unused = 1;\n  unused2 = 2;\nin 0\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_errors_nonzero::11",
+  "argv": [
+   "--definitely-not-a-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_nix_syntax_reports_error_but_exit_0::12",
+  "argv": [
+   "bad.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.nix": "let x = ; in x\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fail_exit_code_when_none_found::13",
+  "argv": [
+   "--fail",
+   "clean.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "clean.nix": "let x = 1; in x\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_subcommand_pattern_not_used::14",
+  "argv": [
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_option_parsing_without_subcommands::15",
+  "argv": [
+   "--quiet",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_separator_not_for_subcommand::16",
+  "argv": [
+   "--exclude",
+   "test.nix",
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_error_not_subcommand_error::17",
+  "argv": [
+   "--nonexistent-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_and_long_options_work_directly::18",
+  "argv": [
+   "-q",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_option::19",
+  "argv": [
+   "--invalid-option"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_short::20",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_lambda_arg::21",
+  "argv": [
+   "-o",
+   "json",
+   "--no-lambda-arg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_lambda_arg_short::22",
+  "argv": [
+   "-o",
+   "json",
+   "-l"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_lambda_pattern_names::23",
+  "argv": [
+   "-o",
+   "json",
+   "--no-lambda-pattern-names"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_lambda_pattern_names_short::24",
+  "argv": [
+   "-o",
+   "json",
+   "-L"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_underscore::25",
+  "argv": [
+   "-o",
+   "json",
+   "--no-underscore"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_underscore_short::26",
+  "argv": [
+   "-o",
+   "json",
+   "-_"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_checks_underscore_bindings::27",
+  "argv": [
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hidden_flag::28",
+  "argv": [
+   "--hidden"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hidden_flag_short::29",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_output_flags::30",
+  "argv": [
+   "-q",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_and_quiet::31",
+  "argv": [
+   "-o",
+   "json",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_flag_removes_dead_code::32",
+  "argv": [
+   "--edit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_flag_short::33",
+  "argv": [
+   "-e"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_quiet_mode::34",
+  "argv": [
+   "--edit",
+   "--quiet"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_single_file::35",
+  "argv": [
+   "--exclude",
+   "--"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fail_flag_with_dead_code::36",
+  "argv": [
+   "--fail"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fail_flag_short_with_dead_code::37",
+  "argv": [
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fail_flag_with_quiet::38",
+  "argv": [
+   "--fail",
+   "--quiet"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fail_and_json::39",
+  "argv": [
+   "--fail",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_no_flags::40",
+  "argv": [
+   "-l",
+   "-L",
+   "-_"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_json_and_fail::41",
+  "argv": [
+   "-q",
+   "-f",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_format::42",
+  "argv": [
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_mode::43",
+  "argv": [
+   "--quiet"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_mode_short::44",
+  "argv": [
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_output_format::45",
+  "argv": [
+   "--output-format",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_warn_used_underscore_flag::46",
+  "argv": [
+   "--warn-used-underscore"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_warn_used_underscore_short::47",
+  "argv": [
+   "-W"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_file_with_unused_code::48",
+  "argv": [
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "\nlet\n  unused = 42;\n  used = 23;\nin used\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_file_no_unused_code::49",
+  "argv": [
+   "clean.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "clean.nix": "\nlet\n  used = 42;\nin used\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_files::50",
+  "argv": [
+   "file1.nix",
+   "file2.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.nix": "let unused1 = 1; used1 = 2; in used1",
+   "file2.nix": "let unused2 = 3; used2 = 4; in used2"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_human_readable_output::51",
+  "argv": [
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "let unused = 1; used = 2; in used"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_output_format::52",
+  "argv": [
+   "-o",
+   "json",
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "let unused = 1; used = 2; in used"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_mode::53",
+  "argv": [
+   "-q",
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "let unused = 1; used = 2; in used"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_mode_with_fail::54",
+  "argv": [
+   "-q",
+   "-f",
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "let unused = 1; used = 2; in used"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_detect_unused_lambda_pattern_names::55",
+  "argv": [
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "args@{ x }: x"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_detect_unused_lambda_arguments::56",
+  "argv": [
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "x: y: x"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_detect_unused_lambda_attrset_pattern_members::57",
+  "argv": [
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "{ x, y }: x"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_detect_unused_inherit_declarations::58",
+  "argv": [
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "\nlet\n  inherit (builtins) unused_inherit;\n  used = 1;\nin used\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_detect_shadowed_variables::59",
+  "argv": [
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "\nlet\n  x = 1;\nin let x = 2; in x\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_underscore_prefix_variables::60",
+  "argv": [
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "let _unused = 1; used = 2; in used"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_lambda_arg_flag::61",
+  "argv": [
+   "-l",
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "x: y: x"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_lambda_pattern_names_flag::62",
+  "argv": [
+   "-L",
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "{ x, y }: x"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_underscore_flag::63",
+  "argv": [
+   "-_",
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "let _unused = 1; used = 2; in used"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_warn_used_underscore_flag::64",
+  "argv": [
+   "-W",
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "let _used = 1; in _used"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_single_file::65",
+  "argv": [
+   "--exclude",
+   "file1.nix",
+   "--",
+   "file1.nix",
+   "file2.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.nix": "let unused = 1; used = 2; in used",
+   "file2.nix": "let unused = 1; used = 2; in used"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_multiple_files::66",
+  "argv": [
+   "--exclude",
+   "file1.nix",
+   "file2.nix",
+   "--",
+   "file3.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.nix": "let unused = 1; used = 2; in used",
+   "file2.nix": "let unused = 1; used = 2; in used",
+   "file3.nix": "let unused = 1; used = 2; in used"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combination_of_multiple_flags::67",
+  "argv": [
+   "-l",
+   "-L",
+   "-_",
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "\nargs@{ x, y }: let _unused = 1; unused_regular = 3; used = 2; in used + x\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_mode_removes_unused_code::68",
+  "argv": [
+   "-e",
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "let\n  unused = 1;\n  used = 2;\nin used\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_mode_preserves_file_structure::69",
+  "argv": [
+   "-e",
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "# Comment\nlet\n  unused = 1;\n  used = 2;\nin used\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_mode_multiple_files::70",
+  "argv": [
+   "-e",
+   "file1.nix",
+   "file2.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.nix": "let unused1 = 1; used1 = 2; in used1",
+   "file2.nix": "let unused2 = 3; used2 = 4; in used2"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_mode_with_quiet::71",
+  "argv": [
+   "-e",
+   "-q",
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "let unused = 1; used = 2; in used"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exit_code_zero_no_unused_code::72",
+  "argv": [
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "let used = 1; in used"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fail_flag_exits_zero_no_unused_code::73",
+  "argv": [
+   "-f",
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "let used = 1; in used"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_nix_syntax::74",
+  "argv": [
+   "invalid.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.nix": "let x = ; in x"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file::75",
+  "argv": [
+   "/nonexistent/path/file.nix"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_directory::76",
+  "argv": [
+   "/nonexistent/directory"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_file::77",
+  "argv": [
+   "empty.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.nix": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deadnix_skip_pragma::78",
+  "argv": [
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "\nlet\n  # deadnix: skip\n  unused_but_skipped = 1;\n  unused_not_skipped = 2;\n  used = 3;\nin used\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_attrset_patterns::79",
+  "argv": [
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "\n{ a, b ? 1, c ? 2, ...}@args: a + b\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_let_bindings::80",
+  "argv": [
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "\nlet\n  outer_unused = 1;\n  outer_used = 2;\nin let\n  inner_unused = 3;\n  inner_used = 4;\nin outer_used + inner_used\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_nix_files::81",
+  "argv": [
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "\nlet\n  unused_unicode = \"你好世界\";\n  used = \"hello\";\nin used\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_issues_per_line::82",
+  "argv": [
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "\nlet x = 1; y = 2; z = 3; in x\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_file_handling::83",
+  "argv": [
+   "large.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "large.nix": "let\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_output_with_multiple_issues::84",
+  "argv": [
+   "-o",
+   "json",
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "\nlet\n  unused1 = 1;\n  unused2 = 2;\n  used = 3;\nin used\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_mode_idempotent::85",
+  "argv": [
+   "-e",
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "\nlet\n  unused = 1;\n  used = 2;\nin used\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_code_unused::86",
+  "argv": [
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "\nlet\n  unused1 = 1;\n  unused2 = 2;\n  unused3 = 3;\nin unused3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_files_and_directories::87",
+  "argv": [
+   "file1.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.nix": "let unused = 1; used = 2; in used"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_output_handles_errors::88",
+  "argv": [
+   "-o",
+   "json",
+   "invalid.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.nix": "invalid syntax {{{"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_flags::89",
+  "argv": [
+   "-l",
+   "-L",
+   "-_",
+   "-q",
+   "-f",
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "args@{ x, y }: x"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_long_flags::90",
+  "argv": [
+   "--quiet",
+   "--fail",
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "let unused = 1; used = 2; in used"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_only_comments::91",
+  "argv": [
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "\n# Just a comment\n# Another comment\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_removes_empty_let_in::92",
+  "argv": [
+   "-e",
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "\nlet\n  x = let unused = 1; in 2;\nin x\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_with_inherit::93",
+  "argv": [
+   "-e",
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "\nlet\n  inherit (builtins) unused_inherit used_inherit;\n  x = used_inherit;\nin x\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_lambda_combinations::94",
+  "argv": [
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "\n{ a, b ? 1, c, ... }@args: d: { e, f ? 2 }: a + c + d + e\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_format_with_error::95",
+  "argv": [
+   "-o",
+   "json",
+   "bad.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.nix": "let x = "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_attrsets::96",
+  "argv": [
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "\nlet\n  x = { a = 1; b = 2; };\n  y = { c = 3; };\n  unused = { d = 4; };\nin x.a + y.c\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_with_expression::97",
+  "argv": [
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "\nlet\n  x = { a = 1; };\n  unused = 2;\nin with x; a\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rec_attrset::98",
+  "argv": [
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "\nrec {\n  unused = 1;\n  used = 2;\n  result = used;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_interpolation::99",
+  "argv": [
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "\nlet\n  name = \"world\";\n  unused = \"foo\";\n  greeting = \"Hello ${name}\";\nin greeting\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_application::100",
+  "argv": [
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "\nlet\n  f = x: x + 1;\n  unused = 10;\n  result = f 5;\nin result\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_literal::101",
+  "argv": [
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "\nlet\n  a = 1;\n  b = 2;\n  unused = 3;\n  list = [ a b ];\nin list\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_if_then_else::102",
+  "argv": [
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "\nlet\n  cond = true;\n  used_true = 1;\n  used_false = 2;\n  unused = 3;\nin if cond then used_true else used_false\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assert_expression::103",
+  "argv": [
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "\nlet\n  x = true;\n  unused = 1;\n  result = assert x; 42;\nin result\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_lambda_args::104",
+  "argv": [
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "\na: b: c: d: a + b\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_with_comments_preserved::105",
+  "argv": [
+   "-e",
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "\n# Header comment\nlet\n  # Comment for unused\n  unused = 1;\n  # Comment for used\n  used = 2;\nin used\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_with_string_literals::106",
+  "argv": [
+   "-e",
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "\nlet\n  unused = \"unused string\";\n  used = ''\n    multi-line\n    string\n  '';\nin used\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_multiple_files::107",
+  "argv": [
+   "-o",
+   "json",
+   "file1.nix",
+   "file2.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.nix": "let unused = 1; used = 2; in used",
+   "file2.nix": "let unused = 1; used = 2; in used"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_identifiers::108",
+  "argv": [
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "\nlet\n  unused-with-dash = 1;\n  used_with_underscore = 2;\nin used_with_underscore\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_attrset::109",
+  "argv": [
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "\nlet\n  empty = {};\n  unused = 1;\nin empty\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_literals::110",
+  "argv": [
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "\nlet\n  path = ./some/path;\n  unused = ./unused/path;\nin path\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_uri_literals::111",
+  "argv": [
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "\nlet\n  url = https://example.com;\n  unused = https://unused.com;\nin url\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_attrset_selection::112",
+  "argv": [
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "\nlet\n  attrs = { a = 1; b = 2; };\n  unused = { c = 3; };\nin attrs.a\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_has_attr_expression::113",
+  "argv": [
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "\nlet\n  attrs = { a = 1; };\n  unused = 2;\nin attrs ? a\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_update_operator::114",
+  "argv": [
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "\nlet\n  a = { x = 1; };\n  b = { y = 2; };\n  unused = { z = 3; };\nin a // b\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concurrent_bindings::115",
+  "argv": [
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "\nlet\n  a = b + 1;\n  b = c + 1;\n  c = 1;\n  unused = 10;\nin a\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_preserves_syntax::116",
+  "argv": [
+   "-e",
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "\nlet\n  unused1 = 1;\n  unused2 = 2;\n  used = 3;\nin used\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_pragmas::117",
+  "argv": [
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "\nlet\n  # deadnix: skip\n  skip1 = 1;\n  unused1 = 2;\n  # deadnix: skip\n  skip2 = 3;\n  unused2 = 4;\n  used = 5;\nin used\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_warn_underscore_with_actual_usage::118",
+  "argv": [
+   "-W",
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "\nlet\n  _helper = 1;\n  result = _helper + 1;\nin result\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_takes_precedence_over_other_flags::119",
+  "argv": [
+   "--help",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "NO_COLOR": "1",
+   "TERM": "dumb"
+  }
+ },
+ {
+  "name": "test::test_help_with_invalid_flag_still_shows_help::120",
+  "argv": [
+   "--help",
+   "--definitely-not-a-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "NO_COLOR": "1",
+   "TERM": "dumb"
+  }
+ },
+ {
+  "name": "test::test_double_dash_separator_does_not_hide_help::121",
+  "argv": [
+   "--help",
+   "--",
+   "--not-a-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "NO_COLOR": "1",
+   "TERM": "dumb"
+  }
+ },
+ {
+  "name": "test::test_exit_code_zero_no_dead_code::122",
+  "argv": [
+   "clean.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "clean.nix": "let used = 42; in used"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exit_code_zero_with_dead_code_without_fail::123",
+  "argv": [
+   "dirty.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "dirty.nix": "let unused = 42; in true"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fail_flag_exit_code_one_with_dead_code::124",
+  "argv": [
+   "--fail",
+   "dirty.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "dirty.nix": "let unused = 42; in true"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fail_flag_exit_code_zero_no_dead_code::125",
+  "argv": [
+   "--fail",
+   "clean.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "clean.nix": "let used = 42; in used"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fail_flag_shorthand::126",
+  "argv": [
+   "-f",
+   "dirty.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "dirty.nix": "let unused = 42; in true"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_with_fail_flag::127",
+  "argv": [
+   "--edit",
+   "--fail"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_lambda_arg_flag::128",
+  "argv": [
+   "--no-lambda-arg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_lambda_arg_shorthand::129",
+  "argv": [
+   "-l"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_lambda_pattern_names_flag::130",
+  "argv": [
+   "--no-lambda-pattern-names"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_lambda_pattern_names_shorthand::131",
+  "argv": [
+   "-L"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_underscore_flag::132",
+  "argv": [
+   "--no-underscore"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_underscore_shorthand::133",
+  "argv": [
+   "-_"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_with_fail_flag::134",
+  "argv": [
+   "--quiet",
+   "--fail"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_treats_next_dash_token_as_positional_value::135",
+  "argv": [
+   "--",
+   "--nonexistent-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_value_for_output_format_errors_and_exit_code_2::136",
+  "argv": [
+   "--output-format"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_enum_value_for_output_format_errors_and_exit_code_2::137",
+  "argv": [
+   "--output-format",
+   "xml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_format_json_long_equals_form_outputs_json_on_stdout::138",
+  "argv": [
+   "--output-format=json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_short_flags_q_and_h_suppress_output_and_parse::139",
+  "argv": [
+   "-qh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_value_for_multi_value_exclude_errors_and_exit_code_2::140",
+  "argv": [
+   "--exclude"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_cannot_be_used_multiple_times_errors_exit_code_2::141",
+  "argv": [
+   "--exclude",
+   "./example.nix",
+   "--exclude",
+   "./src"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_after_positional_is_accepted_and_changes_behavior::142",
+  "argv": [
+   "./example.nix",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_short_flag_errors_exit_code_2::143",
+  "argv": [
+   "-Z"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_format_cannot_be_specified_multiple_times_errors_exit_code_2::144",
+  "argv": [
+   "-o",
+   "json",
+   "--output-format",
+   "human-readable"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help::145",
+  "argv": [
+   "./executable",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version::146",
+  "argv": [
+   "./executable",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_arg::147",
+  "argv": [
+   "./executable",
+   "--no-such-arg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_let::148",
+  "argv": [
+   "./executable",
+   "--edit",
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "let\n  unused = 1;\n  used = 2;\nin\nused\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_lambda::149",
+  "argv": [
+   "./executable",
+   "--edit",
+   "test.nix"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nix": "unused: used: used\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

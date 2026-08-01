@@ -1,0 +1,1541 @@
+[
+ {
+  "name": "test::test_help_precedence_over_invalid_flag::0",
+  "argv": [
+   "--help",
+   "--definitely-not-a-real-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_with_silent_errors::1",
+  "argv": [
+   "--silent-errors"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_stdin_for_json_input::2",
+  "argv": [
+   "--json-input"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_json_structure::3",
+  "argv": [
+   "--json-input"
+  ],
+  "stdin": "{\"wrong\": \"structure\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_input_with_bytes_format_flag::4",
+  "argv": [
+   "--json-output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_depth_zero_rejected::5",
+  "argv": [
+   "--max-depth=0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_ratio_greater_than_one_rejected::6",
+  "argv": [
+   "--min-ratio=1.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_ratio_exactly_one_rejected::7",
+  "argv": [
+   "--min-ratio=1.0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_small_min_ratio::8",
+  "argv": [
+   "--min-ratio=0.0001"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_total_width_very_small::9",
+  "argv": [
+   "--total-width=10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_total_width_very_large::10",
+  "argv": [
+   "--total-width=500"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_column_width_zero_values::11",
+  "argv": [
+   "--column-width",
+   "0",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_depth_very_large::12",
+  "argv": [
+   "--max-depth=1000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_depth_one::13",
+  "argv": [
+   "--max-depth=1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_min_ratio::14",
+  "argv": [
+   "--min-ratio=-0.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::15",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_short_flag::16",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag::17",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_flag::18",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_returns_error::19",
+  "argv": [
+   "--this-flag-does-not-exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bytes_format_plain::20",
+  "argv": [
+   "--bytes-format=plain"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bytes_format_metric::21",
+  "argv": [
+   "--bytes-format=metric"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bytes_format_binary::22",
+  "argv": [
+   "--bytes-format=binary"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bytes_format_short_flag::23",
+  "argv": [
+   "-b",
+   "plain"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bytes_format_invalid_value::24",
+  "argv": [
+   "--bytes-format=invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_column_width_basic::25",
+  "argv": [
+   "--column-width",
+   "40",
+   "30"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_column_width_narrow_tree::26",
+  "argv": [
+   "--column-width",
+   "20",
+   "40"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_column_width_narrow_bar::27",
+  "argv": [
+   "--column-width",
+   "50",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_column_width_with_deep_tree::28",
+  "argv": [
+   "--column-width",
+   "60",
+   "20"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_column_width_minimal::29",
+  "argv": [
+   "--column-width",
+   "10",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_column_width_large::30",
+  "argv": [
+   "--column-width",
+   "100",
+   "80"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_column_width_with_json_output_conflict::31",
+  "argv": [
+   "--column-width",
+   "40",
+   "30",
+   "--json-output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_column_width_with_total_width_conflict::32",
+  "argv": [
+   "--column-width",
+   "40",
+   "30",
+   "--total-width",
+   "100"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_flags_combined::33",
+  "argv": [
+   "--bytes-format=binary",
+   "--quantity=apparent-size",
+   "--max-depth=5",
+   "--min-ratio=0",
+   "--top-down",
+   "--silent-errors"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_output_with_all_options::34",
+  "argv": [
+   "--json-output",
+   "--bytes-format=plain",
+   "--quantity=block-count",
+   "--max-depth=inf",
+   "--min-ratio=0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hardlinks_with_visualization_options::35",
+  "argv": [
+   "--deduplicate-hardlinks",
+   "--top-down",
+   "--align-right",
+   "--bytes-format=binary"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_depth_and_ratio_filtering::36",
+  "argv": [
+   "--max-depth=2",
+   "--min-ratio=0.05"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_sort_with_multiple_files::37",
+  "argv": [
+   "--no-sort"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_roundtrip_with_hardlinks::38",
+  "argv": [
+   "--json-output",
+   "--deduplicate-hardlinks"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_many_small_files::39",
+  "argv": [
+   "--min-ratio=0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deeply_nested_structure::40",
+  "argv": [
+   "--max-depth=inf"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_levels_with_filtering::41",
+  "argv": [
+   "--min-ratio=0.01"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_silent_errors_short_flag::42",
+  "argv": [
+   "-s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_silent_errors_alias::43",
+  "argv": [
+   "--no-errors"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_flags_total_width_and_column_width::44",
+  "argv": [
+   "--total-width=100",
+   "--column-width",
+   "30",
+   "70"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_max_depth_value::45",
+  "argv": [
+   "--max-depth=abc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_min_ratio_value::46",
+  "argv": [
+   "--min-ratio=not-a-number"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_threads_value::47",
+  "argv": [
+   "--threads=invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_column_width_arguments::48",
+  "argv": [
+   "--column-width",
+   "30"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_max_depth::49",
+  "argv": [
+   "--max-depth=-5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deduplicate_hardlinks_flag::50",
+  "argv": [
+   "--deduplicate-hardlinks"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deduplicate_hardlinks_short_flag::51",
+  "argv": [
+   "-H"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deduplicate_hardlinks_alias_detect_links::52",
+  "argv": [
+   "--detect-links"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deduplicate_hardlinks_alias_dedupe_links::53",
+  "argv": [
+   "--dedupe-links"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hardlinks_with_json_output::54",
+  "argv": [
+   "--deduplicate-hardlinks",
+   "--json-output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_path::55",
+  "argv": [
+   "/path/that/does/not/exist/anywhere/on/system"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_omit_json_shared_details::56",
+  "argv": [
+   "--json-output",
+   "--deduplicate-hardlinks",
+   "--omit-json-shared-details"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_omit_json_shared_summary::57",
+  "argv": [
+   "--json-output",
+   "--deduplicate-hardlinks",
+   "--omit-json-shared-summary"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_omit_flags_require_json_output::58",
+  "argv": [
+   "--omit-json-shared-details",
+   "--deduplicate-hardlinks"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_omit_flags_require_deduplicate_hardlinks::59",
+  "argv": [
+   "--json-output",
+   "--omit-json-shared-details"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_both_omit_flags_together::60",
+  "argv": [
+   "--json-output",
+   "--deduplicate-hardlinks",
+   "--omit-json-shared-details",
+   "--omit-json-shared-summary"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_with_all_options::61",
+  "argv": [
+   "--json-output",
+   "--quantity=apparent-size",
+   "--min-ratio=0",
+   "--max-depth=inf"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_output_with_min_ratio_zero::62",
+  "argv": [
+   "--json-output",
+   "--min-ratio=0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_input_with_files_argument_fails::63",
+  "argv": [
+   "--json-input",
+   "/some/path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_input_with_invalid_json::64",
+  "argv": [
+   "--json-input"
+  ],
+  "stdin": "not valid json at all",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_input_with_quantity_flag_conflict::65",
+  "argv": [
+   "--json-input",
+   "--quantity=apparent-size"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_progress_flag::66",
+  "argv": [
+   "--progress"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_progress_short_flag::67",
+  "argv": [
+   "-p"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_threads_auto_explicit::68",
+  "argv": [
+   "--threads=auto"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_threads_max::69",
+  "argv": [
+   "--threads=max"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_threads_specific_number::70",
+  "argv": [
+   "--threads=2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_threads_one::71",
+  "argv": [
+   "--threads=1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_threads_invalid_zero::72",
+  "argv": [
+   "--threads=0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_threads_with_progress::73",
+  "argv": [
+   "--threads=2",
+   "--progress"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_progress_with_json_output::74",
+  "argv": [
+   "--progress",
+   "--json-output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_progress_with_deduplicate_hardlinks::75",
+  "argv": [
+   "--progress",
+   "--deduplicate-hardlinks"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quantity_apparent_size::76",
+  "argv": [
+   "--quantity=apparent-size"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quantity_block_size_explicit::77",
+  "argv": [
+   "--quantity=block-size"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quantity_block_count::78",
+  "argv": [
+   "--quantity=block-count"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quantity_short_flag::79",
+  "argv": [
+   "-q",
+   "apparent-size"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quantity_invalid_value::80",
+  "argv": [
+   "--quantity=invalid-value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quantity_with_json_output::81",
+  "argv": [
+   "--quantity=apparent-size",
+   "--json-output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_depth_custom_value::82",
+  "argv": [
+   "--max-depth=2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_depth_short_flag::83",
+  "argv": [
+   "-d",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_depth_alias_depth::84",
+  "argv": [
+   "--depth=5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_ratio_short_flag::85",
+  "argv": [
+   "-m",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_ratio_high_value_filters::86",
+  "argv": [
+   "--min-ratio=0.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_total_width_option::87",
+  "argv": [
+   "--total-width=80"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_total_width_short_flag::88",
+  "argv": [
+   "-w",
+   "100"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_total_width_alias::89",
+  "argv": [
+   "--width=120"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_column_width_option::90",
+  "argv": [
+   "--column-width",
+   "30",
+   "70"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_top_down_flag::91",
+  "argv": [
+   "--top-down"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_align_right_flag::92",
+  "argv": [
+   "--align-right"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_visualization_flags::93",
+  "argv": [
+   "--top-down",
+   "--align-right",
+   "--max-depth=5",
+   "--min-ratio=0",
+   "--total-width=100"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_path_prints_error_to_stderr_but_still_emits_json_and_exit0::94",
+  "argv": [
+   "--min-ratio=0",
+   "--max-depth=inf",
+   "--json-output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_silent_errors_suppresses_stderr::95",
+  "argv": [
+   "--silent-errors",
+   "--min-ratio=0",
+   "--max-depth=inf",
+   "--json-output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_input_reads_stdin_and_outputs_chart_not_json::96",
+  "argv": [
+   "--json-input"
+  ],
+  "stdin": "{\"schema-version\":\"2024-11-02\",\"pdu\":\"0.21.1\",\"unit\":\"bytes\",\"tree\":{\"name\":\"root\",\"size\":1,\"children\":[]}}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dashdash_treats_following_args_as_files_not_flags::97",
+  "argv": [
+   "--json-output",
+   "--max-depth=1",
+   "--",
+   "--no-such-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflict_total_width_with_column_width_is_rejected::98",
+  "argv": [
+   "--json-output",
+   "--max-depth=1",
+   "--total-width=10",
+   "--column-width",
+   "5",
+   "5",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_input_conflicts_with_other_args::99",
+  "argv": [
+   "--json-input",
+   "--json-output",
+   "--max-depth=1",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_negative_value_is_parsed_as_flag_without_equals::100",
+  "argv": [
+   "--json-output",
+   "--max-depth",
+   "-1",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_input_roundtrip_produces_same_chart::101",
+  "argv": [
+   "--json-input",
+   "--max-depth=2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_json_input::102",
+  "argv": [
+   "--json-input"
+  ],
+  "stdin": "invalid json",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_json_object::103",
+  "argv": [
+   "--json-input"
+  ],
+  "stdin": "{}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_input_valid_conversion::104",
+  "argv": [
+   "--json-input"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_input_and_output_together_produces_visualization::105",
+  "argv": [
+   "--json-input",
+   "--json-output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_word_that_looks_like_subcommand_treated_as_path::106",
+  "argv": [
+   "nonexistent_path_xyz123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_flags_work_together::107",
+  "argv": [
+   "--json-output",
+   "--bytes-format=plain"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_path_arguments_work::108",
+  "argv": [
+   "file1.txt",
+   "file2.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.txt": "content1",
+   "file2.txt": "content2"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_path::109",
+  "argv": [
+   "/nonexistent/path/that/does/not/exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_file::110",
+  "argv": [
+   "empty.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.txt": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_ratio_high::111",
+  "argv": [
+   "--min-ratio=0.9"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_quantity_and_bytes_format::112",
+  "argv": [
+   "--quantity=apparent-size",
+   "--bytes-format=plain"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_threads_number::113",
+  "argv": [
+   "--threads=4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_threads_invalid::114",
+  "argv": [
+   "--threads=invalid",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_threads_zero::115",
+  "argv": [
+   "--threads=0",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_performance_options::116",
+  "argv": [
+   "--progress",
+   "--threads=2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_silent_errors_flag::117",
+  "argv": [
+   "--silent-errors",
+   "/nonexistent/path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_bytes_format::118",
+  "argv": [
+   "--bytes-format=invalid",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_quantity::119",
+  "argv": [
+   "--quantity=invalid",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_max_depth::120",
+  "argv": [
+   "--max-depth=-1",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_min_ratio::121",
+  "argv": [
+   "--min-ratio=invalid",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_column_width_args::122",
+  "argv": [
+   "--column-width",
+   "50",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_width_options::123",
+  "argv": [
+   "--total-width=100",
+   "--column-width",
+   "40",
+   "60"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_json_input::124",
+  "argv": [
+   "--json-input"
+  ],
+  "stdin": "not valid json",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_depth_short_flag::125",
+  "argv": [
+   "-d",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_column_width_flag::126",
+  "argv": [
+   "--column-width",
+   "40",
+   "60"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_ratio_short_flag::127",
+  "argv": [
+   "-m",
+   "0.01"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_visualization_options::128",
+  "argv": [
+   "--max-depth=5",
+   "--total-width=100",
+   "--min-ratio=0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

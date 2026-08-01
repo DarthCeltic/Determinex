@@ -1,0 +1,4375 @@
+{
+ "slug": "madler__pigz.fe4894f",
+ "language": "",
+ "n_branches": 10,
+ "n_tests_total": 879,
+ "n_examples": 256,
+ "n_with_exact_stdout": 14,
+ "n_with_rc": 251,
+ "n_skipped": 454,
+ "examples": [
+  {
+   "test": "test_compress_from_directory_with_files",
+   "argv": [
+    "-k",
+    "file1.txt",
+    "file2.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "file1.txt": "content 1",
+    "file2.txt": "content 2"
+   },
+   "ci": false,
+   "source": "test_advanced_features.py:9"
+  },
+  {
+   "test": "test_unpigz_invoked_by_name",
+   "argv": [
+    "-d",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:30"
+  },
+  {
+   "test": "test_compress_special_characters_in_filename",
+   "argv": [
+    "-k",
+    "file-with_special.chars.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "file-with_special.chars.txt": "Special content!"
+   },
+   "ci": false,
+   "source": "test_advanced_features.py:43"
+  },
+  {
+   "test": "test_compress_unicode_content",
+   "argv": [
+    "-c",
+    "unicode.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "unicode.txt": "Hello 世界 🌍 Мир"
+   },
+   "ci": false,
+   "source": "test_advanced_features.py:56"
+  },
+  {
+   "test": "test_stdin_with_no_data",
+   "argv": [
+    "-c"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:67"
+  },
+  {
+   "test": "test_multiple_compression_levels_on_same_data",
+   "argv": [
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:76"
+  },
+  {
+   "test": "test_large_blocksize",
+   "argv": [
+    "-b",
+    "1024",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:92"
+  },
+  {
+   "test": "test_combined_format_options",
+   "argv": [
+    "-z",
+    "-k",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "Format test"
+   },
+   "ci": false,
+   "source": "test_advanced_features.py:101"
+  },
+  {
+   "test": "test_compress_then_test",
+   "argv": [
+    "-k",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "Test and compress"
+   },
+   "ci": false,
+   "source": "test_advanced_features.py:118"
+  },
+  {
+   "test": "test_custom_suffix_compress",
+   "argv": [
+    "-S",
+    ".custom",
+    "-k",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "Custom suffix test"
+   },
+   "ci": false,
+   "source": "test_advanced_features.py:134"
+  },
+  {
+   "test": "test_independent_with_multiple_blocks",
+   "argv": [
+    "-i",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:147"
+  },
+  {
+   "test": "test_rsyncable_with_larger_data",
+   "argv": [
+    "-R",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:157"
+  },
+  {
+   "test": "test_mix_of_text_and_binary",
+   "argv": [
+    "-c"
+   ],
+   "stdin": "Text\u0000Binary\u0001\u0002\u0003�More text",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:166"
+  },
+  {
+   "test": "test_process_count_equals_one",
+   "argv": [
+    "-p",
+    "1",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:175"
+  },
+  {
+   "test": "test_wildcard_like_pattern",
+   "argv": [
+    "-k"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:184"
+  },
+  {
+   "test": "test_no_name_with_stdin",
+   "argv": [
+    "-n",
+    "-c"
+   ],
+   "stdin": "No name test",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:201"
+  },
+  {
+   "test": "test_different_compression_strategies",
+   "argv": [
+    "-H",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:210"
+  },
+  {
+   "test": "test_compress_with_levels_and_strategies",
+   "argv": [
+    "-9",
+    "-H",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:228"
+  },
+  {
+   "test": "test_version_output",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pigz"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_info.py:7"
+  },
+  {
+   "test": "test_version_short_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pigz"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_info.py:15"
+  },
+  {
+   "test": "test_version_verbose",
+   "argv": [
+    "-vV"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pigz",
+    "zlib"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_info.py:23"
+  },
+  {
+   "test": "test_help_output",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "pigz",
+    "options"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_info.py:33"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "pigz",
+    "options"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_info.py:45"
+  },
+  {
+   "test": "test_license_output",
+   "argv": [
+    "--license"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pigz",
+    "Copyright",
+    "Mark Adler",
+    "zlib"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_info.py:54"
+  },
+  {
+   "test": "test_license_short_flag",
+   "argv": [
+    "-L"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pigz",
+    "Copyright",
+    "Mark Adler"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_info.py:64"
+  },
+  {
+   "test": "test_unpigz_help",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_info.py:73"
+  },
+  {
+   "test": "test_compress_stdin_to_stdout",
+   "argv": [
+    "-c"
+   ],
+   "stdin": "Hello, World! This is test data for compression.",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_compression_basic.py:8"
+  },
+  {
+   "test": "test_compress_file_in_place",
+   "argv": [
+    "-k",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "This is test content for compression!"
+   },
+   "ci": false,
+   "source": "test_compression_basic.py:20"
+  },
+  {
+   "test": "test_compress_file_default_removes_original",
+   "argv": [
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "Content to compress"
+   },
+   "ci": false,
+   "source": "test_compression_basic.py:36"
+  },
+  {
+   "test": "test_compress_multiple_files",
+   "argv": [
+    "-k",
+    "file1.txt",
+    "file2.txt",
+    "file3.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "file1.txt": "Content 1",
+    "file2.txt": "Content 2",
+    "file3.txt": "Content 3"
+   },
+   "ci": false,
+   "source": "test_compression_basic.py:54"
+  },
+  {
+   "test": "test_compress_with_stdout_flag",
+   "argv": [
+    "-c",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "Test content"
+   },
+   "ci": false,
+   "source": "test_compression_basic.py:71"
+  },
+  {
+   "test": "test_compress_empty_file",
+   "argv": [
+    "-c",
+    "empty.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "empty.txt": ""
+   },
+   "ci": false,
+   "source": "test_compression_basic.py:86"
+  },
+  {
+   "test": "test_compress_with_dash_argument",
+   "argv": [
+    "-c",
+    "-"
+   ],
+   "stdin": "Data from stdin via dash argument",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_compression_basic.py:137"
+  },
+  {
+   "test": "test_compression_level_0",
+   "argv": [
+    "-0",
+    "-c"
+   ],
+   "stdin": "Level 0 test data",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_compression_levels.py:7"
+  },
+  {
+   "test": "test_compression_level_1",
+   "argv": [
+    "-1",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_compression_levels.py:16"
+  },
+  {
+   "test": "test_compression_level_6",
+   "argv": [
+    "-6",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_compression_levels.py:25"
+  },
+  {
+   "test": "test_compression_level_9",
+   "argv": [
+    "-9",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_compression_levels.py:34"
+  },
+  {
+   "test": "test_compression_level_fast_flag",
+   "argv": [
+    "--fast",
+    "-c"
+   ],
+   "stdin": "Fast compression",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_compression_levels.py:43"
+  },
+  {
+   "test": "test_compression_level_best_flag",
+   "argv": [
+    "--best",
+    "-c"
+   ],
+   "stdin": "Best compression",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_compression_levels.py:52"
+  },
+  {
+   "test": "test_compression_level_11",
+   "argv": [
+    "-11",
+    "-c"
+   ],
+   "stdin": "Zopfli level 11",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_compression_levels.py:61"
+  },
+  {
+   "test": "test_rle_strategy",
+   "argv": [
+    "-U",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_compression_levels.py:104"
+  },
+  {
+   "test": "test_compress_with_comment",
+   "argv": [
+    "-C",
+    "Test comment here",
+    "-c"
+   ],
+   "stdin": "Comment test data",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost.py:9"
+  },
+  {
+   "test": "test_zip_format_to_file",
+   "argv": [
+    "-K",
+    "-k",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "Zip format test"
+   },
+   "ci": false,
+   "source": "test_coverage_boost.py:18"
+  },
+  {
+   "test": "test_zip_format_with_alias",
+   "argv": [
+    "-K",
+    "-A",
+    "myfile.txt",
+    "-c"
+   ],
+   "stdin": "Alias test",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost.py:32"
+  },
+  {
+   "test": "test_synchronous_write",
+   "argv": [
+    "-Y",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost.py:41"
+  },
+  {
+   "test": "test_recursive_with_verbose",
+   "argv": [
+    "-r",
+    "-v",
+    "-k"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost.py:50"
+  },
+  {
+   "test": "test_list_zip_format",
+   "argv": [
+    "-K",
+    "-c"
+   ],
+   "stdin": "Zip list test",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost.py:72"
+  },
+  {
+   "test": "test_time_stored_metadata",
+   "argv": [
+    "-M",
+    "-k",
+    "timestamped.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "timestamped.txt": "Timestamp test"
+   },
+   "ci": false,
+   "source": "test_coverage_boost.py:88"
+  },
+  {
+   "test": "test_no_time_no_name_metadata",
+   "argv": [
+    "-n",
+    "-c",
+    "noname.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "noname.txt": "No metadata"
+   },
+   "ci": false,
+   "source": "test_coverage_boost.py:104"
+  },
+  {
+   "test": "test_blocksize_32k",
+   "argv": [
+    "-b",
+    "32",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost.py:114"
+  },
+  {
+   "test": "test_blocksize_256k",
+   "argv": [
+    "-b",
+    "256",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost.py:123"
+  },
+  {
+   "test": "test_multiple_processes_to_file",
+   "argv": [
+    "-p",
+    "4",
+    "-k"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost.py:132"
+  },
+  {
+   "test": "test_level_11_compression",
+   "argv": [
+    "-11",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost.py:148"
+  },
+  {
+   "test": "test_level_11_with_iterations",
+   "argv": [
+    "-11",
+    "-I",
+    "5",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost.py:157"
+  },
+  {
+   "test": "test_rsyncable_to_file",
+   "argv": [
+    "-R",
+    "-k"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost.py:166"
+  },
+  {
+   "test": "test_independent_blocks_to_file",
+   "argv": [
+    "-i",
+    "-k"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost.py:181"
+  },
+  {
+   "test": "test_force_overwrite_terminal",
+   "argv": [
+    "-f",
+    "-c"
+   ],
+   "stdin": "Force terminal test",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost.py:196"
+  },
+  {
+   "test": "test_decompress_stdin_to_stdout",
+   "argv": [
+    "-dc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_decompression.py:8"
+  },
+  {
+   "test": "test_decompress_file_in_place",
+   "argv": [
+    "-dk"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_decompression.py:17"
+  },
+  {
+   "test": "test_decompress_removes_original",
+   "argv": [
+    "-d"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_decompression.py:33"
+  },
+  {
+   "test": "test_decompress_empty_file",
+   "argv": [
+    "-dc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_decompression.py:96"
+  },
+  {
+   "test": "test_roundtrip_compression",
+   "argv": [
+    "-k",
+    "roundtrip.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "roundtrip.txt": "Round trip test data with various characters: !@#$%^&*()"
+   },
+   "ci": false,
+   "source": "test_decompression.py:119"
+  },
+  {
+   "test": "test_roundtrip_stdin",
+   "argv": [
+    "-c"
+   ],
+   "stdin": "Round trip via pipes",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_decompression.py:144"
+  },
+  {
+   "test": "test_gzip_env_variable",
+   "argv": [
+    "-c"
+   ],
+   "stdin": "Env var test",
+   "env": {
+    "GZIP": "-9"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_environment.py:8"
+  },
+  {
+   "test": "test_pigz_env_variable",
+   "argv": [
+    "-c"
+   ],
+   "stdin": "PIGZ env test",
+   "env": {
+    "PIGZ": "-1"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_environment.py:17"
+  },
+  {
+   "test": "test_env_variable_with_multiple_options",
+   "argv": [
+    "-c"
+   ],
+   "stdin": "Multi option env",
+   "env": {
+    "PIGZ": "-9 -v"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_environment.py:26"
+  },
+  {
+   "test": "test_command_line_overrides_env",
+   "argv": [
+    "-1",
+    "-c"
+   ],
+   "stdin": "Override test",
+   "env": {
+    "PIGZ": "-9"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_environment.py:35"
+  },
+  {
+   "test": "test_empty_env_variable",
+   "argv": [
+    "-c"
+   ],
+   "stdin": "Empty env test",
+   "env": {
+    "PIGZ": ""
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_environment.py:45"
+  },
+  {
+   "test": "test_keep_original_file",
+   "argv": [
+    "-k",
+    "keep.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "keep.txt": "Keep me!"
+   },
+   "ci": false,
+   "source": "test_file_operations.py:9"
+  },
+  {
+   "test": "test_compress_single_file_remove_original",
+   "argv": [
+    "remove.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "remove.txt": "Remove me after compression"
+   },
+   "ci": false,
+   "source": "test_file_operations.py:25"
+  },
+  {
+   "test": "test_compress_multiple_files_separately",
+   "argv": [
+    "-k",
+    "f1.txt",
+    "f2.txt",
+    "f3.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "f1.txt": "File 1",
+    "f2.txt": "File 2",
+    "f3.txt": "File 3"
+   },
+   "ci": false,
+   "source": "test_file_operations.py:41"
+  },
+  {
+   "test": "test_recursive_directory_compression",
+   "argv": [
+    "-r",
+    "-k"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_file_operations.py:58"
+  },
+  {
+   "test": "test_decompress_file_in_place",
+   "argv": [
+    "-d",
+    "-k"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_file_operations.py:105"
+  },
+  {
+   "test": "test_list_compressed_file",
+   "argv": [
+    "-l"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_file_operations.py:196"
+  },
+  {
+   "test": "test_test_compressed_file",
+   "argv": [
+    "-t"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_file_operations.py:210"
+  },
+  {
+   "test": "test_no_name_flag",
+   "argv": [
+    "-n",
+    "-c",
+    "named.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "named.txt": "Named content"
+   },
+   "ci": false,
+   "source": "test_metadata.py:8"
+  },
+  {
+   "test": "test_name_flag",
+   "argv": [
+    "-N",
+    "-c",
+    "stored.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "stored.txt": "Stored content"
+   },
+   "ci": false,
+   "source": "test_metadata.py:17"
+  },
+  {
+   "test": "test_no_time_flag",
+   "argv": [
+    "-m",
+    "-c",
+    "notime.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "notime.txt": "No time content"
+   },
+   "ci": false,
+   "source": "test_metadata.py:26"
+  },
+  {
+   "test": "test_time_flag",
+   "argv": [
+    "-M",
+    "-k",
+    "timeflag.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "timeflag.txt": "Time content"
+   },
+   "ci": false,
+   "source": "test_metadata.py:35"
+  },
+  {
+   "test": "test_name_and_time_together",
+   "argv": [
+    "-N",
+    "-k",
+    "both.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "both.txt": "Both metadata"
+   },
+   "ci": false,
+   "source": "test_metadata.py:48"
+  },
+  {
+   "test": "test_suppress_all_metadata",
+   "argv": [
+    "-n",
+    "-c",
+    "nometa.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "nometa.txt": "No metadata"
+   },
+   "ci": false,
+   "source": "test_metadata.py:59"
+  },
+  {
+   "test": "test_gzip_format_default",
+   "argv": [
+    "-c"
+   ],
+   "stdin": "Default gzip format",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:9"
+  },
+  {
+   "test": "test_zlib_format",
+   "argv": [
+    "-z",
+    "-c"
+   ],
+   "stdin": "Zlib format test",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:18"
+  },
+  {
+   "test": "test_zlib_format_long_flag",
+   "argv": [
+    "--zlib",
+    "-c"
+   ],
+   "stdin": "Zlib long flag test",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:28"
+  },
+  {
+   "test": "test_zip_format",
+   "argv": [
+    "-K",
+    "-c"
+   ],
+   "stdin": "ZIP format test",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:37"
+  },
+  {
+   "test": "test_zip_format_long_flag",
+   "argv": [
+    "--zip",
+    "-c"
+   ],
+   "stdin": "ZIP long flag",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:46"
+  },
+  {
+   "test": "test_gzip_format_explicit",
+   "argv": [
+    "-c"
+   ],
+   "stdin": "Explicit gzip",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:76"
+  },
+  {
+   "test": "test_multiple_processes",
+   "argv": [
+    "-p",
+    "4",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_parallelism.py:16"
+  },
+  {
+   "test": "test_processes_long_flag",
+   "argv": [
+    "--processes",
+    "2",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_parallelism.py:25"
+  },
+  {
+   "test": "test_large_process_count",
+   "argv": [
+    "-p",
+    "16",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_parallelism.py:34"
+  },
+  {
+   "test": "test_processes_with_different_levels",
+   "argv": [
+    "-p",
+    "2",
+    "-1",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_parallelism.py:43"
+  },
+  {
+   "test": "test_recursive_long_flag",
+   "argv": [
+    "--recursive",
+    "-k"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_recursive.py:29"
+  },
+  {
+   "test": "test_double_dash_separator",
+   "argv": [
+    "-k",
+    "--",
+    "-dashfile.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "-dashfile.txt": "Dash file"
+   },
+   "ci": false,
+   "source": "test_special_arguments.py:8"
+  },
+  {
+   "test": "test_double_dash_with_multiple_files",
+   "argv": [
+    "-k",
+    "--",
+    "-file1.txt",
+    "-file2.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "-file1.txt": "File 1",
+    "-file2.txt": "File 2"
+   },
+   "ci": false,
+   "source": "test_special_arguments.py:19"
+  },
+  {
+   "test": "test_dash_as_stdin",
+   "argv": [
+    "-c",
+    "-"
+   ],
+   "stdin": "Stdin via dash",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_special_arguments.py:33"
+  },
+  {
+   "test": "test_only_flags_reads_stdin",
+   "argv": [
+    "-c"
+   ],
+   "stdin": "Only flags stdin",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_special_arguments.py:42"
+  },
+  {
+   "test": "test_keep_flag_position",
+   "argv": [
+    "-k",
+    "pos1.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "pos1.txt": "Position 1"
+   },
+   "ci": false,
+   "source": "test_special_arguments.py:51"
+  },
+  {
+   "test": "test_combined_short_flags",
+   "argv": [
+    "-9ck"
+   ],
+   "stdin": "Combined flags",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_special_arguments.py:66"
+  },
+  {
+   "test": "test_synchronous_long_flag",
+   "argv": [
+    "--synchronous",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_synchronous.py:17"
+  },
+  {
+   "test": "test_list_with_verbose",
+   "argv": [
+    "-l",
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_test_list_modes.py:83"
+  },
+  {
+   "test": "test_verbose_mode_compression",
+   "argv": [
+    "-v",
+    "-k"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_verbose_quiet.py:8"
+  },
+  {
+   "test": "test_verbose_long_flag",
+   "argv": [
+    "--verbose",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_verbose_quiet.py:17"
+  },
+  {
+   "test": "test_quiet_mode_compression",
+   "argv": [
+    "-q",
+    "-k",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "Quiet test"
+   },
+   "ci": false,
+   "source": "test_verbose_quiet.py:26"
+  },
+  {
+   "test": "test_quiet_long_flag",
+   "argv": [
+    "--quiet",
+    "-k",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "Quiet long"
+   },
+   "ci": false,
+   "source": "test_verbose_quiet.py:34"
+  },
+  {
+   "test": "test_verbose_decompression",
+   "argv": [
+    "-v",
+    "-dk"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_verbose_quiet.py:49"
+  },
+  {
+   "test": "test_verbose_with_list",
+   "argv": [
+    "-lv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_verbose_quiet.py:61"
+  },
+  {
+   "test": "test_quiet_with_stdout",
+   "argv": [
+    "-q",
+    "-c"
+   ],
+   "stdin": "Quiet stdout test",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_verbose_quiet.py:73"
+  },
+  {
+   "test": "test_zopfli_iterations_long_flag",
+   "argv": [
+    "-11",
+    "--iterations",
+    "3",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_zopfli_options.py:16"
+  },
+  {
+   "test": "test_zopfli_maxsplits",
+   "argv": [
+    "-11",
+    "-J",
+    "5",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_zopfli_options.py:25"
+  },
+  {
+   "test": "test_zopfli_maxsplits_long_flag",
+   "argv": [
+    "-11",
+    "--maxsplits",
+    "3",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_zopfli_options.py:34"
+  },
+  {
+   "test": "test_zopfli_first_flag",
+   "argv": [
+    "-11",
+    "-F",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_zopfli_options.py:43"
+  },
+  {
+   "test": "test_zopfli_first_long_flag",
+   "argv": [
+    "-11",
+    "--first",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_zopfli_options.py:52"
+  },
+  {
+   "test": "test_zopfli_oneblock",
+   "argv": [
+    "-11",
+    "-O",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_zopfli_options.py:61"
+  },
+  {
+   "test": "test_zopfli_oneblock_long_flag",
+   "argv": [
+    "-11",
+    "--oneblock",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_zopfli_options.py:70"
+  },
+  {
+   "test": "test_zopfli_combined_options",
+   "argv": [
+    "-11",
+    "-I",
+    "3",
+    "-J",
+    "3",
+    "-F",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_zopfli_options.py:79"
+  },
+  {
+   "test": "test_help_exit_code_is_zero",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:34"
+  },
+  {
+   "test": "test_help_h_exit_code_is_zero",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:39"
+  },
+  {
+   "test": "test_help_is_printed_to_stderr_for_this_program",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:49"
+  },
+  {
+   "test": "test_help_has_options_section_header",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\nOptions:\n"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:61"
+  },
+  {
+   "test": "test_help_with_extra_invalid_flag_still_shows_help_and_exits_zero",
+   "argv": [
+    "--help",
+    "--definitely-not-a-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:134"
+  },
+  {
+   "test": "test_maxsplits_zero_is_allowed",
+   "argv": [
+    "-J",
+    "0",
+    "-c"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:67"
+  },
+  {
+   "test": "test_dash_dash_stops_option_parsing_treats_next_as_filename",
+   "argv": [
+    "-p",
+    "1",
+    "--",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "skipping:",
+    "-q does not exist"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:72"
+  },
+  {
+   "test": "test_combined_short_flags_are_supported_vq",
+   "argv": [
+    "-vq",
+    "-c"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:81"
+  },
+  {
+   "test": "test_compression_level_11_accepts_fast_flag_without_error",
+   "argv": [
+    "-11",
+    "--fast",
+    "-c"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:87"
+  },
+  {
+   "test": "test_repeated_flag_last_wins_processes",
+   "argv": [
+    "-p",
+    "1",
+    "-p",
+    "2",
+    "-c"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:93"
+  },
+  {
+   "test": "test_single_dash_is_treated_as_option_and_compresses_stdin",
+   "argv": [
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:99"
+  },
+  {
+   "test": "test_pigz_default_mode_is_compress",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "will compress files"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:57"
+  },
+  {
+   "test": "test_executable_name_shows_pigz",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pigz"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:65"
+  },
+  {
+   "test": "test_stdout_long_flag",
+   "argv": [
+    "--stdout"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:143"
+  },
+  {
+   "test": "test_help_flag_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:173"
+  },
+  {
+   "test": "test_help_flag_long",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "pigz"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:181"
+  },
+  {
+   "test": "test_license_flag_short",
+   "argv": [
+    "-L"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:223"
+  },
+  {
+   "test": "test_license_flag_long",
+   "argv": [
+    "--license"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:230"
+  },
+  {
+   "test": "test_verbose_before_file",
+   "argv": [
+    "-v",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:321"
+  },
+  {
+   "test": "test_verbose_after_file",
+   "argv": [
+    "-c",
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:326"
+  },
+  {
+   "test": "test_quiet_flag",
+   "argv": [
+    "-q",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:331"
+  },
+  {
+   "test": "test_fast_flag",
+   "argv": [
+    "--fast",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:357"
+  },
+  {
+   "test": "test_best_flag",
+   "argv": [
+    "--best",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:363"
+  },
+  {
+   "test": "test_zlib_format",
+   "argv": [
+    "-z",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:373"
+  },
+  {
+   "test": "test_zip_format",
+   "argv": [
+    "-K",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:379"
+  },
+  {
+   "test": "test_processes_flag",
+   "argv": [
+    "-p",
+    "2",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:406"
+  },
+  {
+   "test": "test_processes_flag_long",
+   "argv": [
+    "--processes",
+    "1",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:412"
+  },
+  {
+   "test": "test_pigz_env_sets_processes_independent_of_cli_level",
+   "argv": [
+    "-c",
+    "-p",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_env_config.py:22"
+  },
+  {
+   "test": "test_nonexistent_file_exit_nonzero_and_stderr_mentions_name",
+   "argv": [
+    "does-not-exist-xyz"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "does-not-exist-xyz"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:4"
+  },
+  {
+   "test": "test_help_exit0_and_mentions_usage",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: pigz"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_version.py:4"
+  },
+  {
+   "test": "test_list_mode_outputs_listing_to_stdout",
+   "argv": [
+    "-k"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "x.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_list_mode.py:5"
+  },
+  {
+   "test": "test_stdin_marker_dash_reads_stdin",
+   "argv": [
+    "-c",
+    "-"
+   ],
+   "stdin": "dash-stdin\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_stdout_roundtrip.py:24"
+  },
+  {
+   "test": "test_invalid_flag_nonzero",
+   "argv": [
+    "--definitely-not-a-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid option"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_cli_outputs.py:44"
+  },
+  {
+   "test": "test_compress_stdin_to_stdout",
+   "argv": [
+    "-c"
+   ],
+   "stdin": "Hello, World!",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pigz.py:126"
+  },
+  {
+   "test": "test_fast_compression",
+   "argv": [
+    "-c",
+    "--fast"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pigz.py:238"
+  },
+  {
+   "test": "test_best_compression",
+   "argv": [
+    "-c",
+    "--best"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pigz.py:247"
+  },
+  {
+   "test": "test_compression_level_11",
+   "argv": [
+    "-c",
+    "-11"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pigz.py:256"
+  },
+  {
+   "test": "test_single_byte",
+   "argv": [
+    "-c"
+   ],
+   "stdin": "A",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pigz.py:299"
+  },
+  {
+   "test": "test_unicode_content",
+   "argv": [
+    "-c"
+   ],
+   "stdin": "Hello 世界! 🌍 Ñoño",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pigz.py:316"
+  },
+  {
+   "test": "test_zlib_format",
+   "argv": [
+    "-z",
+    "-c"
+   ],
+   "stdin": "Hello World!",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pigz.py:384"
+  },
+  {
+   "test": "test_decompress_zlib",
+   "argv": [
+    "-z",
+    "-d",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pigz.py:396"
+  },
+  {
+   "test": "test_success_exit_code",
+   "argv": [
+    "-c"
+   ],
+   "stdin": "test",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pigz.py:596"
+  },
+  {
+   "test": "test_iterations_option",
+   "argv": [
+    "-11",
+    "-I",
+    "2",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pigz.py:695"
+  },
+  {
+   "test": "test_decompress_short_flag",
+   "argv": [
+    "-d",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Test data",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pigz.py:779"
+  },
+  {
+   "test": "test_decompress_long_flag",
+   "argv": [
+    "--decompress",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Test data",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pigz.py:786"
+  },
+  {
+   "test": "test_comment_option",
+   "argv": [
+    "-C",
+    "This is a comment",
+    "-c"
+   ],
+   "stdin": "Test data",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pigz.py:797"
+  },
+  {
+   "test": "test_stdout_long",
+   "argv": [
+    "--stdout"
+   ],
+   "stdin": "test",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pigz.py:834"
+  },
+  {
+   "test": "test_no_args_uses_stdin",
+   "argv": [],
+   "stdin": "test data",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pigz.py:864"
+  },
+  {
+   "test": "test_compress_with_level_and_processes",
+   "argv": [
+    "-9",
+    "-p",
+    "2",
+    "-c"
+   ],
+   "stdin": "test data",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pigz.py:877"
+  },
+  {
+   "test": "test_help_output",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: pigz",
+    "Options:",
+    "-d, --decompress",
+    "-c, --stdout",
+    "-k, --keep",
+    "-p, --processes"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:5"
+  },
+  {
+   "test": "test_help_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: pigz",
+    "Options:",
+    "-d, --decompress",
+    "gzip"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic.py:18"
+  },
+  {
+   "test": "test_license_output",
+   "argv": [
+    "--license"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pigz",
+    "Copyright",
+    "Mark Adler",
+    "zlib license"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:50"
+  },
+  {
+   "test": "test_license_short",
+   "argv": [
+    "-L"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Copyright",
+    "Mark Adler"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:59"
+  },
+  {
+   "test": "test_compress_file_in_place",
+   "argv": [
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test content"
+   ],
+   "files": {
+    "test.txt": "Test content for compression\n"
+   },
+   "ci": false,
+   "source": "test_compression.py:17"
+  },
+  {
+   "test": "test_compression_level_0",
+   "argv": [
+    "-0",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_compression.py:51"
+  },
+  {
+   "test": "test_multiple_files",
+   "argv": [
+    "-k",
+    "file1.txt",
+    "file2.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content 1",
+    "Content 2"
+   ],
+   "files": {
+    "file1.txt": "Content 1\n",
+    "file2.txt": "Content 2\n"
+   },
+   "ci": false,
+   "source": "test_compression.py:105"
+  },
+  {
+   "test": "test_compress_empty_file",
+   "argv": [
+    "-k",
+    "empty.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "empty.txt": ""
+   },
+   "ci": false,
+   "source": "test_compression.py:127"
+  },
+  {
+   "test": "test_force_compress_gz_file",
+   "argv": [
+    "-f",
+    "-k",
+    "test.gz"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Fake gz content"
+   ],
+   "files": {
+    "test.gz": "Fake gz content\n"
+   },
+   "ci": false,
+   "source": "test_compression.py:150"
+  },
+  {
+   "test": "test_decompress_stdout",
+   "argv": [
+    "--decompress",
+    "--stdout"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_decompression.py:45"
+  },
+  {
+   "test": "test_test_integrity_verbose",
+   "argv": [
+    "-t",
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_decompression.py:78"
+  },
+  {
+   "test": "test_very_large_blocksize",
+   "argv": [
+    "-b",
+    "512",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:15"
+  },
+  {
+   "test": "test_single_byte_data",
+   "argv": [
+    "-c"
+   ],
+   "stdin": "X",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:24"
+  },
+  {
+   "test": "test_name_time_combinations",
+   "argv": [
+    "-n",
+    "-c",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "Name time test\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:105"
+  },
+  {
+   "test": "test_multiple_process_counts",
+   "argv": [
+    "-p",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:123"
+  },
+  {
+   "test": "test_gzip_env_variable",
+   "argv": [
+    "-c"
+   ],
+   "stdin": "GZIP env test\n",
+   "env": {
+    "GZIP": "-9"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_environment.py:5"
+  },
+  {
+   "test": "test_pigz_env_variable",
+   "argv": [
+    "-c"
+   ],
+   "stdin": "PIGZ env test\n",
+   "env": {
+    "PIGZ": "-1"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_environment.py:12"
+  },
+  {
+   "test": "test_env_overridden_by_cmdline",
+   "argv": [
+    "-9",
+    "-c"
+   ],
+   "stdin": "Override test\n",
+   "env": {
+    "PIGZ": "-1"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_environment.py:19"
+  },
+  {
+   "test": "test_zlib_format",
+   "argv": [
+    "-z",
+    "-c"
+   ],
+   "stdin": "Zlib format test\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Zlib format"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_formats.py:8"
+  },
+  {
+   "test": "test_zip_format",
+   "argv": [
+    "-K",
+    "-c"
+   ],
+   "stdin": "Zip format test\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_formats.py:44"
+  },
+  {
+   "test": "test_zip_file_extension",
+   "argv": [
+    "-K",
+    "-k",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Zip file"
+   ],
+   "files": {
+    "test.txt": "Zip file\n"
+   },
+   "ci": false,
+   "source": "test_formats.py:61"
+  },
+  {
+   "test": "test_zip_alias",
+   "argv": [
+    "-K",
+    "-A",
+    "myfile.txt",
+    "-c"
+   ],
+   "stdin": "Alias test\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "myfile.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_formats.py:77"
+  },
+  {
+   "test": "test_zip_comment",
+   "argv": [
+    "-K",
+    "-C",
+    "Test comment",
+    "-c"
+   ],
+   "stdin": "Comment test\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test comment"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_formats.py:93"
+  },
+  {
+   "test": "test_gzip_comment",
+   "argv": [
+    "-C",
+    "My comment",
+    "-c"
+   ],
+   "stdin": "Gzip comment test\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_formats.py:111"
+  },
+  {
+   "test": "test_concatenated_gzip_streams",
+   "argv": [
+    "-d",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "First stream",
+    "Second stream"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_multientry.py:6"
+  },
+  {
+   "test": "test_test_concatenated_streams",
+   "argv": [
+    "-t"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_multientry.py:29"
+  },
+  {
+   "test": "test_compress_multiple_times",
+   "argv": [
+    "-n",
+    "-c"
+   ],
+   "stdin": "Deterministic test\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_multientry.py:37"
+  },
+  {
+   "test": "test_single_process",
+   "argv": [
+    "-p",
+    "1",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Single process"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_options.py:24"
+  },
+  {
+   "test": "test_no_name_option",
+   "argv": [
+    "-n",
+    "-c",
+    "testfile.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "testfile.txt": "No name\n"
+   },
+   "ci": false,
+   "source": "test_options.py:84"
+  },
+  {
+   "test": "test_name_option",
+   "argv": [
+    "-N",
+    "-c",
+    "testfile.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "testfile.txt": "With name\n"
+   },
+   "ci": false,
+   "source": "test_options.py:92"
+  },
+  {
+   "test": "test_no_time_option",
+   "argv": [
+    "-m",
+    "-c"
+   ],
+   "stdin": "No time\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_options.py:100"
+  },
+  {
+   "test": "test_time_option",
+   "argv": [
+    "-M",
+    "-c"
+   ],
+   "stdin": "With time\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_options.py:107"
+  },
+  {
+   "test": "test_verbose_mode",
+   "argv": [
+    "-v",
+    "-k",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "Verbose test\n"
+   },
+   "ci": false,
+   "source": "test_options.py:123"
+  },
+  {
+   "test": "test_force_overwrite",
+   "argv": [
+    "-f",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Original"
+   ],
+   "files": {
+    "test.txt": "Original\n"
+   },
+   "ci": false,
+   "source": "test_options.py:135"
+  },
+  {
+   "test": "test_synchronous_write",
+   "argv": [
+    "-Y",
+    "-c"
+   ],
+   "stdin": "Sync write\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_options.py:152"
+  },
+  {
+   "test": "test_recursive_compression",
+   "argv": [
+    "-r",
+    "-k"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "File 1",
+    "File 2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_recursive.py:6"
+  },
+  {
+   "test": "test_recursive_decompression",
+   "argv": [
+    "-d",
+    "-r",
+    "-k"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content 1",
+    "Content 2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_recursive.py:34"
+  },
+  {
+   "test": "test_dash_as_stdin",
+   "argv": [
+    "-c",
+    "-"
+   ],
+   "stdin": "Dash stdin test\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_special_cases.py:42"
+  },
+  {
+   "test": "test_multiple_compressions",
+   "argv": [
+    "-c"
+   ],
+   "stdin": "Sequential test\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_special_cases.py:76"
+  },
+  {
+   "test": "test_stdin_compression_with_other_options",
+   "argv": [
+    "-9",
+    "-i",
+    "-R",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_special_cases.py:87"
+  },
+  {
+   "test": "test_zopfli_combined_options",
+   "argv": [
+    "-11",
+    "-I",
+    "3",
+    "-J",
+    "3",
+    "-O",
+    "-F",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_zopfli.py:50"
+  },
+  {
+   "test": "test_list_mode_zlib_format",
+   "argv": [
+    "-z",
+    "-c"
+   ],
+   "stdin": "test data for zlib format\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "?",
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_flags.py:100"
+  },
+  {
+   "test": "test_list_mode_zip_format",
+   "argv": [
+    "-K",
+    "-A",
+    "myfile.txt",
+    "-c"
+   ],
+   "stdin": "test data for zip format\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "myfile.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_flags.py:120"
+  },
+  {
+   "test": "test_single_byte_compression",
+   "argv": [
+    "-c"
+   ],
+   "stdin": "a",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_compression.py:105"
+  },
+  {
+   "test": "test_decompression_truncated_gzip",
+   "argv": [
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_compression.py:445"
+  },
+  {
+   "test": "test_stdin_compression_to_file",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_compression.py:675"
+  },
+  {
+   "test": "test_compression_level_10_invalid",
+   "argv": [
+    "-10",
+    "-c"
+   ],
+   "stdin": "Invalid level test\n",
+   "env": {},
+   "expect_rc": 22,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "only levels 0..9 and 11 are allowed"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_compression.py:749"
+  },
+  {
+   "test": "test_stdin_marker_after_double_dash",
+   "argv": [
+    "-c",
+    "--",
+    "-"
+   ],
+   "stdin": "stdin test data\n",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "skipping: - does not exist"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:537"
+  },
+  {
+   "test": "test_alias_option_with_stdin",
+   "argv": [
+    "-A",
+    "custom_name.txt",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:678"
+  },
+  {
+   "test": "test_comment_option",
+   "argv": [
+    "-C",
+    "test comment here",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:691"
+  },
+  {
+   "test": "test_zlib_header_format",
+   "argv": [
+    "-z",
+    "-c"
+   ],
+   "stdin": "Test data for header validation\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_formats.py:63"
+  },
+  {
+   "test": "test_zip_alias_for_stdin",
+   "argv": [
+    "-K",
+    "-A",
+    "mydata.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_formats.py:180"
+  },
+  {
+   "test": "test_zip_comment_preserved",
+   "argv": [
+    "-K",
+    "-C",
+    "This is a test comment with special chars: åéîøü"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_formats.py:269"
+  },
+  {
+   "test": "test_zlib_comment_warning",
+   "argv": [
+    "-z",
+    "-C",
+    "ignored comment"
+   ],
+   "stdin": "Test data\n",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "can't store comment in zlib format"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_formats.py:286"
+  },
+  {
+   "test": "test_zip_single_entry_only",
+   "argv": [
+    "-K"
+   ],
+   "stdin": "Single entry test\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_formats.py:375"
+  },
+  {
+   "test": "test_zip_crc32_checksum",
+   "argv": [
+    "-K"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_formats.py:420"
+  },
+  {
+   "test": "test_zlib_fast_mode",
+   "argv": [
+    "-z",
+    "-1",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_formats.py:529"
+  },
+  {
+   "test": "test_zip_best_compression",
+   "argv": [
+    "-K",
+    "-9"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_formats.py:543"
+  },
+  {
+   "test": "test_invalid_format_detection",
+   "argv": [
+    "-d",
+    "-c"
+   ],
+   "stdin": "not a valid compressed format at all\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unrecognized format"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_formats.py:559"
+  },
+  {
+   "test": "test_zip_default_name_stdin",
+   "argv": [
+    "-K"
+   ],
+   "stdin": "stdin data\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_formats.py:641"
+  },
+  {
+   "test": "test_empty_stdin_zlib",
+   "argv": [
+    "-z",
+    "-c"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_formats.py:702"
+  },
+  {
+   "test": "test_empty_stdin_zip",
+   "argv": [
+    "-K"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_formats.py:716"
+  },
+  {
+   "test": "test_zip_versus_python_zipfile_compat",
+   "argv": [
+    "-K",
+    "-A",
+    "compat.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_formats.py:746"
+  },
+  {
+   "test": "test_decompress_empty_input",
+   "argv": [
+    "./executable",
+    "-cdf"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:127"
+  },
+  {
+   "test": "test_decompress_one_byte_input",
+   "argv": [
+    "./executable",
+    "-cdf"
+   ],
+   "stdin": "x",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "x",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:136"
+  },
+  {
+   "test": "test_decompress_two_byte_input",
+   "argv": [
+    "./executable",
+    "-cdf"
+   ],
+   "stdin": "xy",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "xy",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:146"
+  },
+  {
+   "test": "test_decompress_three_byte_input",
+   "argv": [
+    "./executable",
+    "-cdf"
+   ],
+   "stdin": "xyz",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "xyz",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:156"
+  },
+  {
+   "test": "test_decompress_mixed_gzip_and_one_byte_raw",
+   "argv": [
+    "./executable",
+    "-cdf"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "wx",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:166"
+  },
+  {
+   "test": "test_decompress_mixed_gzip_and_two_byte_raw",
+   "argv": [
+    "./executable",
+    "-cdf"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "wxy",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:182"
+  },
+  {
+   "test": "test_decompress_mixed_gzip_and_three_byte_raw",
+   "argv": [
+    "./executable",
+    "-cdf"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "wxyz",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:195"
+  },
+  {
+   "test": "test_unix_compress_interop",
+   "argv": [
+    "which",
+    "compress"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:208"
+  },
+  {
+   "test": "test_stdin_to_stdout_with_compression_levels",
+   "argv": [
+    "-c",
+    "-1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_io.py:30"
+  },
+  {
+   "test": "test_comment_flag_stores_comment_in_header",
+   "argv": [
+    "-C",
+    "Test comment with info"
+   ],
+   "stdin": "test content\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_metadata.py:226"
+  },
+  {
+   "test": "test_comment_with_special_characters",
+   "argv": [
+    "-C",
+    "Special: åéîøü 日本語"
+   ],
+   "stdin": "data\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_metadata.py:250"
+  },
+  {
+   "test": "test_empty_comment_sets_flag_but_stores_null",
+   "argv": [
+    "-C",
+    ""
+   ],
+   "stdin": "content\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_metadata.py:277"
+  },
+  {
+   "test": "test_alias_flag_sets_zip_entry_name",
+   "argv": [
+    "-K",
+    "-A",
+    "custom_entry.txt"
+   ],
+   "stdin": "stdin data content\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_metadata.py:321"
+  },
+  {
+   "test": "test_alias_with_path_components",
+   "argv": [
+    "-K",
+    "-A",
+    "subdir/nested/file.txt"
+   ],
+   "stdin": "nested content\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_metadata.py:347"
+  },
+  {
+   "test": "test_zip_comment_storage",
+   "argv": [
+    "-K",
+    "-C",
+    "Entry comment: metadata test"
+   ],
+   "stdin": "zip data\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_metadata.py:371"
+  },
+  {
+   "test": "test_list_mode_with_comment",
+   "argv": [
+    "-C",
+    "File comment: important info"
+   ],
+   "stdin": "data\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_metadata.py:796"
+  },
+  {
+   "test": "test_comment_newline_and_special_chars",
+   "argv": [
+    "-C",
+    "Line1\nLine2\tTabbed\rCarriageReturn"
+   ],
+   "stdin": "test\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_metadata.py:937"
+  },
+  {
+   "test": "test_zip_stdin_with_alias",
+   "argv": [
+    "-K",
+    "-A",
+    "my_custom_file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_zip64.py:67"
+  },
+  {
+   "test": "test_zip_with_quiet_flag",
+   "argv": [
+    "-K",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_zip64.py:641"
+  },
+  {
+   "test": "test_zip_rsyncable_flag",
+   "argv": [
+    "-K",
+    "--rsyncable"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_zip64.py:693"
+  },
+  {
+   "test": "test_zopfli_combined_tuning_flags",
+   "argv": [
+    "-11",
+    "-I",
+    "20",
+    "-F",
+    "-J",
+    "10",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_zopfli.py:139"
+  },
+  {
+   "test": "test_zopfli_empty_file",
+   "argv": [
+    "-11",
+    "-c"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_zopfli.py:210"
+  },
+  {
+   "test": "test_zopfli_iterations_higher_produces_better_compression",
+   "argv": [
+    "-11",
+    "-I",
+    "10",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_zopfli.py:304"
+  },
+  {
+   "test": "test_zopfli_with_force_stdout",
+   "argv": [
+    "-11",
+    "-f",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_zopfli.py:356"
+  },
+  {
+   "test": "test_zopfli_first_and_oneblock_combined",
+   "argv": [
+    "-11",
+    "-F",
+    "-O",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_zopfli.py:375"
+  },
+  {
+   "test": "test_zopfli_maxsplits_zero",
+   "argv": [
+    "-11",
+    "-J",
+    "0",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_zopfli.py:394"
+  },
+  {
+   "test": "test_zopfli_all_tuning_flags_combined",
+   "argv": [
+    "-11",
+    "-I",
+    "15",
+    "-F",
+    "-J",
+    "5",
+    "-O",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_zopfli.py:413"
+  },
+  {
+   "test": "test_zopfli_very_high_iterations",
+   "argv": [
+    "-11",
+    "-I",
+    "1000",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_zopfli.py:432"
+  },
+  {
+   "test": "test_zopfli_with_no_name_flag",
+   "argv": [
+    "-11",
+    "-n",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_zopfli.py:451"
+  }
+ ]
+}

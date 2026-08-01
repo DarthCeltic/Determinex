@@ -1,0 +1,3905 @@
+{
+ "slug": "tomarrell__wrapcheck.c058da1",
+ "language": "",
+ "n_branches": 10,
+ "n_tests_total": 647,
+ "n_examples": 214,
+ "n_with_exact_stdout": 10,
+ "n_with_rc": 121,
+ "n_skipped": 368,
+ "examples": [
+  {
+   "test": "test_ext_TestAnalyzer_simple_no_wrap",
+   "argv": [
+    "./wrapcheck/testdata/simple_no_wrap"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error returned from external package is unwrapped",
+    "encoding/json.Marshal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck_cli.py:58"
+  },
+  {
+   "test": "test_ext_TestAnalyzer_simple_with_wrap",
+   "argv": [
+    "./wrapcheck/testdata/simple_with_wrap"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck_cli.py:81"
+  },
+  {
+   "test": "test_ext_TestAnalyzer_config_ignoreSigs_filters_json_marshal",
+   "argv": [
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck_cli.py:96"
+  },
+  {
+   "test": "test_ext_TestAnalyzer_config_extraIgnoreSigs_extends_defaults_not_override",
+   "argv": [
+    "-json",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "encoding/json.Unmarshal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck_cli.py:117"
+  },
+  {
+   "test": "test_ext_TestAnalyzer_reportInternalErrors_true_reports_internal_interface_and_external_call",
+   "argv": [
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error returned from interface method should be wrapped",
+    "error returned from external package is unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck_cli.py:187"
+  },
+  {
+   "test": "test_simple_no_wrap",
+   "argv": [
+    "simple_no_wrap"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go:14:10:",
+    "error returned from external package is unwrapped",
+    "encoding/json.Marshal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:73"
+  },
+  {
+   "test": "test_simple_with_wrap",
+   "argv": [
+    "simple_with_wrap"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:88"
+  },
+  {
+   "test": "test_config_ignoreSigs",
+   "argv": [
+    "config_ignoreSigs"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:101"
+  },
+  {
+   "test": "test_config_ignorePackageGlobs",
+   "argv": [
+    "config_ignorePackageGlobs"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:112"
+  },
+  {
+   "test": "test_config_ignorePackageGlobs_interface",
+   "argv": [
+    "config_ignorePackageGlobs_interface"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:134"
+  },
+  {
+   "test": "test_config_ignorePackageGlobs_pkg_errors",
+   "argv": [
+    "config_ignorePackageGlobs_pkg_errors"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/pkg/errors",
+    "error returned from external package is unwrapped",
+    "json.Unmarshal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:144"
+  },
+  {
+   "test": "test_config_ignoreSigRegexps",
+   "argv": [
+    "config_ignoreSigRegexps"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/pkg/errors"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:175"
+  },
+  {
+   "test": "test_config_extraIgnoreSigs",
+   "argv": [
+    "config_extraIgnoreSigs"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go:22:",
+    "error returned from external package is unwrapped",
+    "json.Unmarshal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:215"
+  },
+  {
+   "test": "test_config_reportInternalErrors",
+   "argv": [
+    "config_reportInternalErrors"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "package-internal error should be wrapped",
+    "main.go:16:10:",
+    "main.go:25:10:",
+    "error returned from interface method should be wrapped",
+    "main.go:34:10:",
+    "error returned from external package is unwrapped",
+    "main.go:42:10:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:229"
+  },
+  {
+   "test": "test_err_assigned_to_var",
+   "argv": [
+    "err_assigned_to_var"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error returned from external package is unwrapped",
+    "json.Marshal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:252"
+  },
+  {
+   "test": "test_err_reassigned",
+   "argv": [
+    "err_reassigned"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error returned from external package is unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:263"
+  },
+  {
+   "test": "test_ignore_errors_pkg",
+   "argv": [
+    "ignore_errors_pkg"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:273"
+  },
+  {
+   "test": "test_ignore_fmt_errorf",
+   "argv": [
+    "ignore_fmt_errorf"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:283"
+  },
+  {
+   "test": "test_ignore_pkg_errors",
+   "argv": [
+    "ignore_pkg_errors"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/pkg/errors"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:293"
+  },
+  {
+   "test": "test_interface",
+   "argv": [
+    "interface"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error returned from interface method should be wrapped",
+    "main.go:21:10:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:322"
+  },
+  {
+   "test": "test_interface_on_struct",
+   "argv": [
+    "interface_on_struct"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error returned from interface method should be wrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:333"
+  },
+  {
+   "test": "test_long_select_expr",
+   "argv": [
+    "long_select_expr"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error returned from external package is unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:364"
+  },
+  {
+   "test": "test_multi_assign",
+   "argv": [
+    "multi_assign"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error returned from external package is unwrapped",
+    "json.Unmarshal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:374"
+  },
+  {
+   "test": "test_named_error_return",
+   "argv": [
+    "named_error_return"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error returned from external package is unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:385"
+  },
+  {
+   "test": "test_package_assigned_to_variable",
+   "argv": [
+    "package_assigned_to_variable"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error returned from external package is unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:395"
+  },
+  {
+   "test": "test_return_function_call",
+   "argv": [
+    "return_function_call"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "json.Marshal",
+    "MultipleReturn",
+    "ErrorReturn",
+    "main.go:21:9:",
+    "main.go:29:9:",
+    "main.go:33:9:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:405"
+  },
+  {
+   "test": "test_struct_method_call",
+   "argv": [
+    "struct_method_call"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:424"
+  },
+  {
+   "test": "test_catch_fmt_sscanf",
+   "argv": [
+    "catch_fmt_sscanf"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error returned from external package is unwrapped",
+    "fmt.Scanf",
+    "func fmt.Scanf(format string, a ...any)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:454"
+  },
+  {
+   "test": "test_help_output_exact_match",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck_behavior.py:23"
+  },
+  {
+   "test": "test_flags_json_contains_expected_flags",
+   "argv": [
+    "-flags"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck_behavior.py:31"
+  },
+  {
+   "test": "test_version_full_prints_version_line",
+   "argv": [
+    "-V=full"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    " version "
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck_behavior.py:42"
+  },
+  {
+   "test": "test_version_bool_true_is_rejected_with_message_and_exit_1",
+   "argv": [
+    "-V=true"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck_behavior.py:49"
+  },
+  {
+   "test": "test_lint_package_with_no_findings_is_silent",
+   "argv": [
+    "./wrapcheck/testdata/simple_with_wrap"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck_behavior.py:56"
+  },
+  {
+   "test": "test_lint_text_output_single_finding_exact_and_exit_3",
+   "argv": [
+    "./wrapcheck/testdata/catch_fmt_sscanf"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck_behavior.py:64"
+  },
+  {
+   "test": "test_context_flag_c_changes_output",
+   "argv": [
+    "-c",
+    "./wrapcheck/testdata/catch_fmt_sscanf"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck_behavior.py:96"
+  },
+  {
+   "test": "test_json_output_schema_and_message_match_text",
+   "argv": [
+    "-json",
+    "./wrapcheck/testdata/catch_fmt_sscanf"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck_behavior.py:103"
+  },
+  {
+   "test": "test_config_ignore_interface_regexps_emits_expected_message",
+   "argv": [
+    "./wrapcheck/testdata/config_ignoreInterfaceRegexps"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck_behavior.py:121"
+  },
+  {
+   "test": "test_unknown_flag_shows_error_and_usage_and_exit_2",
+   "argv": [
+    "-unknown"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: wrapcheck"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck_behavior.py:131"
+  },
+  {
+   "test": "test_flag_after_package_is_treated_as_import_path_error_and_still_reports_findings",
+   "argv": [
+    "./wrapcheck/testdata/catch_fmt_sscanf",
+    "-json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "-: malformed import path \"-json\"",
+    "wrapcheck: analysis skipped due to errors in package",
+    "/workspace/wrapcheck/testdata/catch_fmt_sscanf/main.go:14:10: error returned from external package is unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck_behavior.py:139"
+  },
+  {
+   "test": "test_help_mentions_usage_and_flags",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: wrapcheck",
+    "Flags:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_version.py:4"
+  },
+  {
+   "test": "test_version_full_succeeds_and_is_stable_prefix",
+   "argv": [
+    "-V=full"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_version.py:12"
+  },
+  {
+   "test": "test_version_flag_true_is_an_error_message_on_stdout",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "unsupported flag value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_version.py:20"
+  },
+  {
+   "test": "test_json_output_is_valid_and_contains_expected_fields",
+   "argv": [
+    "-json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error returned from external package is unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lint_outputs.py:27"
+  },
+  {
+   "test": "test_context_zero_includes_single_offending_line_only",
+   "argv": [
+    "-c=0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_lint_outputs.py:42"
+  },
+  {
+   "test": "test_context_one_includes_prev_and_next_lines",
+   "argv": [
+    "-c=1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_lint_outputs.py:51"
+  },
+  {
+   "test": "test_invalid_go_source_reports_parse_errors_and_skips_analysis",
+   "argv": [
+    "bad.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-: # command-line-arguments",
+    "syntax error",
+    "wrapcheck: analysis skipped due to errors in package"
+   ],
+   "files": {
+    "bad.go": "package main\nfunc main(){\n"
+   },
+   "ci": false,
+   "source": "test_lint_outputs.py:70"
+  },
+  {
+   "test": "test_simple_unwrapped_error",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error returned from external package is unwrapped",
+    "json.Marshal",
+    "main.go"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:43"
+  },
+  {
+   "test": "test_json_output",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test",
+    "wrapcheck",
+    "posn",
+    "message",
+    "error returned from external package is unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:86"
+  },
+  {
+   "test": "test_version_flag_without_equals",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:61"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:92"
+  },
+  {
+   "test": "test_default_text_output",
+   "argv": [
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:124"
+  },
+  {
+   "test": "test_json_output_format",
+   "argv": [
+    "-json",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:138"
+  },
+  {
+   "test": "test_context_lines_flag",
+   "argv": [
+    "-c",
+    "2",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:184"
+  },
+  {
+   "test": "test_context_zero_lines",
+   "argv": [
+    "-c",
+    "0",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:198"
+  },
+  {
+   "test": "test_test_files_excluded_with_flag",
+   "argv": [
+    "-test=false",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:226"
+  },
+  {
+   "test": "test_invalid_package_path",
+   "argv": [
+    "/nonexistent/path/to/package"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:240"
+  },
+  {
+   "test": "test_syntax_error_handling",
+   "argv": [
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:253"
+  },
+  {
+   "test": "test_json_ignores_context_flag",
+   "argv": [
+    "-json",
+    "-c",
+    "2",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:279"
+  },
+  {
+   "test": "test_cpuprofile_flag_creates_file",
+   "argv": [
+    "-cpuprofile",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:296"
+  },
+  {
+   "test": "test_memprofile_flag_creates_file",
+   "argv": [
+    "-memprofile",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:309"
+  },
+  {
+   "test": "test_trace_flag_creates_file",
+   "argv": [
+    "-trace",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:321"
+  },
+  {
+   "test": "test_fix_flag_no_suggested_fixes",
+   "argv": [
+    "-fix",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:333"
+  },
+  {
+   "test": "test_diff_flag_shows_diagnostics",
+   "argv": [
+    "-diff",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unwrapped_errors.go",
+    "error returned from external package is unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:353"
+  },
+  {
+   "test": "test_package_with_subdirectories",
+   "argv": [
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unwrapped_errors.go"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:366"
+  },
+  {
+   "test": "test_combined_profiling_flags",
+   "argv": [
+    "-cpuprofile",
+    "-memprofile",
+    "-trace",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:402"
+  },
+  {
+   "test": "test_debug_flag_values",
+   "argv": [
+    "-debug",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unwrapped_errors.go",
+    "error returned from external package is unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:424"
+  },
+  {
+   "test": "test_c_flag_with_negative_value",
+   "argv": [
+    "-c",
+    "-1",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unwrapped_errors.go"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:442"
+  },
+  {
+   "test": "test_version_and_help_ignore_package_args",
+   "argv": [
+    "-V=full",
+    "/nonexistent/path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: wrapcheck"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:476"
+  },
+  {
+   "test": "test_default_config_catches_unwrapped_external",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_configuration.py:30"
+  },
+  {
+   "test": "test_extraignoresigs_adds_to_defaults",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_configuration.py:132"
+  },
+  {
+   "test": "test_invalid_regex_fails_with_error",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unable to compile regexp",
+    "error parsing regexp"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_configuration.py:243"
+  },
+  {
+   "test": "test_invalid_interface_regex",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unable to compile regexp"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_configuration.py:1067"
+  },
+  {
+   "test": "test_multiple_error_returns_in_function",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go:11:10: error returned from external package is unwrapped: sig: func encoding/json.Marshal",
+    "main.go:16:10: error returned from external package is unwrapped: sig: func encoding/json.Unmarshal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:36"
+  },
+  {
+   "test": "test_switch_with_errors",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go:14:10: error returned from external package is unwrapped: sig: func encoding/json.Marshal",
+    "main.go:17:10: error returned from external package is unwrapped: sig: func os.Open"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:75"
+  },
+  {
+   "test": "test_select_with_errors",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go:14:10: error returned from external package is unwrapped: sig: func encoding/json.Unmarshal",
+    "main.go:17:10: error returned from external package is unwrapped: sig: func encoding/json.Marshal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:114"
+  },
+  {
+   "test": "test_defer_with_error",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go:16:9: error returned from external package is unwrapped: sig: func encoding/json.Marshal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:151"
+  },
+  {
+   "test": "test_nil_error_checks",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go:11:10: error returned from external package is unwrapped: sig: func encoding/json.Marshal",
+    "main.go:22:9: error returned from external package is unwrapped: sig: func encoding/json.Marshal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:187"
+  },
+  {
+   "test": "test_errors_in_closures",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go:11:10: error returned from external package is unwrapped: sig: func encoding/json.Marshal",
+    "main.go:22:11: error returned from external package is unwrapped: sig: func encoding/json.Marshal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:228"
+  },
+  {
+   "test": "test_error_type_switch",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go:14:10: error returned from external package is unwrapped: sig: func encoding/json.Marshal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:275"
+  },
+  {
+   "test": "test_error_shadowing",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go:13:11: error returned from external package is unwrapped: sig: func encoding/json.Unmarshal",
+    "main.go:16:10: error returned from external package is unwrapped: sig: func encoding/json.Marshal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:315"
+  },
+  {
+   "test": "test_multipackage_analysis",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pkg1/pkg1.go:7:9: error returned from external package is unwrapped: sig: func encoding/json.Marshal",
+    "pkg2/pkg2.go:7:9: error returned from external package is unwrapped: sig: func encoding/json.Unmarshal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:353"
+  },
+  {
+   "test": "test_internal_package",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "internal/helper/helper.go:7:9: error returned from external package is unwrapped: sig: func encoding/json.Marshal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:405"
+  },
+  {
+   "test": "test_malformed_go_code",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "syntax error: unexpected EOF, expected }",
+    "wrapcheck: analysis skipped due to errors in package"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:458"
+  },
+  {
+   "test": "test_many_files_in_package",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file1.go:7:9: error returned from external package is unwrapped: sig: func encoding/json.Marshal",
+    "file5.go:7:9: error returned from external package is unwrapped: sig: func encoding/json.Marshal",
+    "file10.go:7:9: error returned from external package is unwrapped: sig: func encoding/json.Marshal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:559"
+  },
+  {
+   "test": "test_deeply_nested_packages",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a/b/c/d/e/deep.go:7:9: error returned from external package is unwrapped: sig: func encoding/json.Marshal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:589"
+  },
+  {
+   "test": "test_json_output_multiple_errors",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test",
+    "wrapcheck",
+    "posn",
+    "message",
+    "main.go",
+    "error returned from external package is unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:624"
+  },
+  {
+   "test": "test_config_report_internal_errors",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go:12:10: error returned from external package is unwrapped: sig: func encoding/json.Marshal",
+    "main.go:16:9: package-internal error should be wrapped: sig: func test.internal() error"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:689"
+  },
+  {
+   "test": "test_config_ignoresigs",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go:15:9: error returned from external package is unwrapped: sig: func os.Open"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:730"
+  },
+  {
+   "test": "test_config_ignoresig_regexps",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go:20:9: error returned from external package is unwrapped: sig: func os.Open"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:771"
+  },
+  {
+   "test": "test_config_invalid_regex",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "wrapcheck: unable to compile regexp [invalid(regex:",
+    "error parsing regexp:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:858"
+  },
+  {
+   "test": "test_cross_package_unwrapped_error",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go:9:9: error returned from external package is unwrapped: sig: func test/helper.InternalErr() error"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:888"
+  },
+  {
+   "test": "test_interface_method_error",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go:21:10: error returned from interface method should be wrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:927"
+  },
+  {
+   "test": "test_named_return_values",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go:8:18: error returned from external package is unwrapped: sig: func encoding/json.Marshal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:970"
+  },
+  {
+   "test": "test_error_reassignment",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go:17:9: error returned from external package is unwrapped: sig: func os.Open"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:999"
+  },
+  {
+   "test": "test_error_from_multiple_return_values",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go:6:9: error returned from external package is unwrapped: sig: func encoding/json.Marshal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:1036"
+  },
+  {
+   "test": "test_struct_method_call_error",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go:9:9: error returned from external package is unwrapped: sig: func encoding/json.Marshal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:1092"
+  },
+  {
+   "test": "test_error_in_if_init_statement",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go:7:10: error returned from external package is unwrapped: sig: func encoding/json.Marshal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:1120"
+  },
+  {
+   "test": "test_combined_config_options",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go:21:9: error returned from external package is unwrapped: sig: func os.Open"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:1148"
+  },
+  {
+   "test": "test_config_extra_ignore_sigs",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go:17:10: error returned from external package is unwrapped: sig: func os.Open"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:1273"
+  },
+  {
+   "test": "test_error_in_for_loop",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go:9:11: error returned from external package is unwrapped: sig: func encoding/json.Marshal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:1387"
+  },
+  {
+   "test": "test_error_in_range_loop",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go:10:11: error returned from external package is unwrapped: sig: func encoding/json.Marshal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:1418"
+  },
+  {
+   "test": "test_config_unmarshal_error_wrong_type",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "failed to unmarshal config: 1 error(s) decoding:",
+    "cannot parse 'reportInternalErrors' as bool",
+    "parsing \"not a boolean\": invalid syntax"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_gap_filling.py:85"
+  },
+  {
+   "test": "test_invalid_regex_pattern_in_config",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "wrapcheck: unable to compile regexp [invalid(regex",
+    "error parsing regexp: missing closing ]",
+    "`[invalid(regex`"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_gap_filling.py:116"
+  },
+  {
+   "test": "test_invalid_glob_pattern_in_config",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "wrapcheck: unable to compile globs",
+    "unexpected end of input"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_gap_filling.py:159"
+  },
+  {
+   "test": "test_error_from_function_parameter",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error returned from external package is unwrapped",
+    "sig: func os.Open(name string) (*os.File, error)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_gap_filling.py:245"
+  },
+  {
+   "test": "test_signature_regex_matching",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ioutil.ReadFile"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_gap_filling.py:435"
+  },
+  {
+   "test": "test_short_variable_declaration_non_call",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error returned from external package is unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_gap_filling.py:510"
+  },
+  {
+   "test": "test_no_args_errors_with_usage",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse.py:42"
+  },
+  {
+   "test": "test_unknown_long_flag_is_normalized_as_single_dash_in_error_message",
+   "argv": [
+    "--nonexistent-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "flag provided but not defined: -nonexistent-flag"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse.py:48"
+  },
+  {
+   "test": "test_boolean_flag_default_true_accepts_explicit_true_value",
+   "argv": [
+    "-test=true",
+    "./..."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse.py:82"
+  },
+  {
+   "test": "test_double_dash_separator_treats_following_as_positional",
+   "argv": [
+    "--",
+    "./..."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse.py:100"
+  },
+  {
+   "test": "test_flags_can_appear_after_positional_package_arg",
+   "argv": [
+    "./...",
+    "-json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "package -json"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse.py:105"
+  },
+  {
+   "test": "test_too_many_positional_args_causes_nonzero_and_package_error_mentions_extra",
+   "argv": [
+    "./...",
+    "extra"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "package extra"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse.py:115"
+  },
+  {
+   "test": "test_combined_short_flags_not_supported_when_it_changes_semantics",
+   "argv": [
+    "-Vjson"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "flag provided but not defined"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse.py:122"
+  },
+  {
+   "test": "test_default_behavior_no_config",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "func encoding/json.Marshal",
+    "func os.Open(name string)",
+    "func io.ReadAll(r io.Reader)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:24"
+  },
+  {
+   "test": "test_ignoresigs_overrides_defaults_completely",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "func os.Open(name string)",
+    "func io.ReadAll(r io.Reader)",
+    "func fmt.Errorf(format string"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:52"
+  },
+  {
+   "test": "test_ignoresigs_empty_list_reports_all",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "func encoding/json.Marshal",
+    "func os.Open(name string)",
+    "func io.ReadAll(r io.Reader)",
+    "func fmt.Errorf(format string"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:83"
+  },
+  {
+   "test": "test_extraignoresigs_extends_defaults",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "func io.ReadAll(r io.Reader)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:110"
+  },
+  {
+   "test": "test_ignoresigs_and_extraignoresigs_together",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "func io.ReadAll(r io.Reader)",
+    "func fmt.Errorf(format string"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:142"
+  },
+  {
+   "test": "test_ignoresigregexps_invalid_regex_errors",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unable to compile regexp",
+    "json\\.[a-zA-Z0-9_-",
+    "missing closing ]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:213"
+  },
+  {
+   "test": "test_ignorepackageglobs_single_package",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "func os.Open(name string)",
+    "func io.ReadAll(r io.Reader)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:237"
+  },
+  {
+   "test": "test_reportinternalerrors_false_only_external",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "func encoding/json.Marshal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:320"
+  },
+  {
+   "test": "test_reportinternalerrors_true_reports_internal",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "func encoding/json.Marshal",
+    "package-internal error should be wrapped",
+    "func test.internalFunc"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:365"
+  },
+  {
+   "test": "test_ignoreinterfaceregexps_matches_interface_name",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "func (test.Writer).Write"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:412"
+  },
+  {
+   "test": "test_ignoreinterfaceregexps_multiple_patterns",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "func (test.Closer).Close"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:465"
+  },
+  {
+   "test": "test_config_invalid_yaml_syntax_error",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "failed to parse config"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:528"
+  },
+  {
+   "test": "test_config_current_directory_precedence",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "func os.Open(name string)",
+    "func fmt.Errorf(format string"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:549"
+  },
+  {
+   "test": "test_ignorepackageglobs_exact_match_not_prefix",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "func (*os/exec.Cmd).Run"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:710"
+  },
+  {
+   "test": "test_ignorepackageglobs_double_star_pattern",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "func io.ReadAll"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:849"
+  },
+  {
+   "test": "test_config_with_comments_and_whitespace",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "func fmt.Errorf(format string"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:928"
+  },
+  {
+   "test": "test_ignoreinterfaceregexps_invalid_regex_error",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unable to compile regexp",
+    "Reader[invalid"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:963"
+  },
+  {
+   "test": "test_ignorepackageglobs_invalid_glob_error",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unable to compile globs"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:996"
+  },
+  {
+   "test": "test_ignoresigs_partial_signature_match",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "func os.Open(name string)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:1071"
+  },
+  {
+   "test": "test_fix_flag_no_modifications_unwrapped_error",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "testpkg"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fix_mode.py:21"
+  },
+  {
+   "test": "test_fix_flag_suppresses_diagnostics",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "testpkg"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error returned from external package is unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_fix_mode.py:48"
+  },
+  {
+   "test": "test_diff_flag_no_output_unwrapped_error",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "testpkg"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error returned from external package is unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_fix_mode.py:71"
+  },
+  {
+   "test": "test_fix_flag_multiple_unwrapped_errors_unchanged",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "testpkg"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "func os.Open(name string) (*os.File, error)",
+    "func os.ReadFile(name string) ([]byte, error)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_fix_mode.py:122"
+  },
+  {
+   "test": "test_diff_flag_with_json_output",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "testpkg"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "testpkg",
+    "wrapcheck",
+    "posn",
+    "message",
+    "error returned from external package is unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_fix_mode.py:227"
+  },
+  {
+   "test": "test_fix_flag_exit_code_success_without_fixes",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "testpkg"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error returned from external package is unwrapped",
+    "func os.Open(name string) (*os.File, error)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_fix_mode.py:315"
+  },
+  {
+   "test": "test_diff_flag_exit_code_with_findings",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "testpkg"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error returned from external package is unwrapped",
+    "error returned from external package is unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_fix_mode.py:345"
+  },
+  {
+   "test": "test_diff_flag_with_multiple_packages",
+   "argv": [
+    "go",
+    "mod",
+    "init",
+    "testpkg"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pkg1/main.go:5:12: error returned from external package is unwrapped",
+    "func os.Open(name string) (*os.File, error)",
+    "pkg2/main.go:5:12: error returned from external package is unwrapped",
+    "func os.ReadFile(name string) ([]byte, error)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_fix_mode.py:395"
+  },
+  {
+   "test": "test_catch_fmt_sscanf",
+   "argv": [
+    "catch_fmt_sscanf"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:191"
+  },
+  {
+   "test": "test_config_extraIgnoreSigs",
+   "argv": [
+    "config_extraIgnoreSigs"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:210"
+  },
+  {
+   "test": "test_config_ignorePackageGlobs_pkg_errors",
+   "argv": [
+    "config_ignorePackageGlobs_pkg_errors"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:270"
+  },
+  {
+   "test": "test_config_reportInternalErrors",
+   "argv": [
+    "config_reportInternalErrors"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:340"
+  },
+  {
+   "test": "test_err_assigned_to_var",
+   "argv": [
+    "err_assigned_to_var"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:358"
+  },
+  {
+   "test": "test_err_reassigned",
+   "argv": [
+    "err_reassigned"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:376"
+  },
+  {
+   "test": "test_interface",
+   "argv": [
+    "interface"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:436"
+  },
+  {
+   "test": "test_interface_on_struct",
+   "argv": [
+    "interface_on_struct"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:454"
+  },
+  {
+   "test": "test_long_select_expr",
+   "argv": [
+    "long_select_expr"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:504"
+  },
+  {
+   "test": "test_multi_assign",
+   "argv": [
+    "multi_assign"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:522"
+  },
+  {
+   "test": "test_named_error_return",
+   "argv": [
+    "named_error_return"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:540"
+  },
+  {
+   "test": "test_package_assigned_to_variable",
+   "argv": [
+    "package_assigned_to_variable"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:558"
+  },
+  {
+   "test": "test_return_function_call",
+   "argv": [
+    "return_function_call"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:576"
+  },
+  {
+   "test": "test_simple_no_wrap",
+   "argv": [
+    "simple_no_wrap"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:594"
+  },
+  {
+   "test": "test_struct_method_call",
+   "argv": [
+    "struct_method_call"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:626"
+  },
+  {
+   "test": "test_report_internal_errors_cross_file",
+   "argv": [
+    "/workspace/executable",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_multifile.py:109"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "/workspace/executable",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "wrapcheck",
+    "Flags:",
+    "-json"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_smoke.py:18"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "/workspace/executable",
+    "-V=full"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "version",
+    "buildID"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_smoke.py:35"
+  },
+  {
+   "test": "test_malformed_project_config_fails_fast",
+   "argv": [
+    "./..."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "failed to parse config"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:109"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "wrapcheck: Checks that errors returned from external packages are wrapped",
+    "Usage: wrapcheck",
+    "Flags:",
+    "-V",
+    "-json"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:13"
+  },
+  {
+   "test": "test_version_flag_full",
+   "argv": [
+    "-V=full"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "version",
+    "buildID"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:24"
+  },
+  {
+   "test": "test_version_flag_invalid",
+   "argv": [
+    "-V=true"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unsupported flag value: -V=true",
+    "use -V=full"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:34"
+  },
+  {
+   "test": "test_flags_json_output",
+   "argv": [
+    "-flags"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "V",
+    "json",
+    "test",
+    "Name",
+    "Bool",
+    "Usage"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:41"
+  },
+  {
+   "test": "test_analyze_package_with_issues",
+   "argv": [
+    "./wrapcheck/testdata/simple_no_wrap"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error returned from external package is unwrapped",
+    "json.Marshal",
+    "main.go:14:10"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:82"
+  },
+  {
+   "test": "test_analyze_skip_test_files",
+   "argv": [
+    "-test=false"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:133"
+  },
+  {
+   "test": "test_error_assigned_to_variable",
+   "argv": [
+    "./wrapcheck/testdata/err_assigned_to_var"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:199"
+  },
+  {
+   "test": "test_error_reassigned",
+   "argv": [
+    "./wrapcheck/testdata/err_reassigned"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:207"
+  },
+  {
+   "test": "test_named_error_return",
+   "argv": [
+    "./wrapcheck/testdata/named_error_return"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:214"
+  },
+  {
+   "test": "test_multi_assignment",
+   "argv": [
+    "./wrapcheck/testdata/multi_assign"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:222"
+  },
+  {
+   "test": "test_interface_method_calls",
+   "argv": [
+    "./wrapcheck/testdata/interface"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:230"
+  },
+  {
+   "test": "test_anonymous_functions",
+   "argv": [
+    "./wrapcheck/testdata/issue_17_anon_function"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:246"
+  },
+  {
+   "test": "test_long_select_expressions",
+   "argv": [
+    "./wrapcheck/testdata/long_select_expr"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:254"
+  },
+  {
+   "test": "test_config_ignore_sigs",
+   "argv": [
+    "./wrapcheck/testdata/config_ignoreSigs"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:265"
+  },
+  {
+   "test": "test_config_extra_ignore_sigs",
+   "argv": [
+    "./wrapcheck/testdata/config_extraIgnoreSigs"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:272"
+  },
+  {
+   "test": "test_config_ignore_sig_regexps",
+   "argv": [
+    "./wrapcheck/testdata/config_ignoreSigRegexps"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:279"
+  },
+  {
+   "test": "test_config_ignore_sig_regexps_fail",
+   "argv": [
+    "./wrapcheck/testdata/config_ignoreSigRegexps_fail"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_wrapcheck.py:286"
+  },
+  {
+   "test": "test_config_ignore_package_globs",
+   "argv": [
+    "./wrapcheck/testdata/config_ignorePackageGlobs"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:294"
+  },
+  {
+   "test": "test_config_ignore_interface_regexps",
+   "argv": [
+    "./wrapcheck/testdata/config_ignoreInterfaceRegexps"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:301"
+  },
+  {
+   "test": "test_config_report_internal_errors",
+   "argv": [
+    "./wrapcheck/testdata/config_reportInternalErrors"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:308"
+  },
+  {
+   "test": "test_default_output_format",
+   "argv": [
+    "./wrapcheck/testdata/simple_no_wrap"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error returned from external package is unwrapped",
+    "json.Marshal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:356"
+  },
+  {
+   "test": "test_json_output_format",
+   "argv": [
+    "-json",
+    "./wrapcheck/testdata/simple_no_wrap"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "wrapcheck",
+    "posn",
+    "message",
+    "unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:366"
+  },
+  {
+   "test": "test_context_lines_output",
+   "argv": [
+    "-c",
+    "2",
+    "./wrapcheck/testdata/simple_no_wrap"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "json.Marshal",
+    "return err"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:384"
+  },
+  {
+   "test": "test_cpuprofile_flag",
+   "argv": [
+    "-cpuprofile",
+    "./wrapcheck/testdata/simple_no_wrap"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:455"
+  },
+  {
+   "test": "test_memprofile_flag",
+   "argv": [
+    "-memprofile",
+    "./wrapcheck/testdata/simple_no_wrap"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:467"
+  },
+  {
+   "test": "test_trace_flag",
+   "argv": [
+    "-trace",
+    "./wrapcheck/testdata/simple_no_wrap"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:479"
+  },
+  {
+   "test": "test_debug_flag",
+   "argv": [
+    "-debug",
+    "f",
+    "./wrapcheck/testdata/simple_no_wrap"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:491"
+  },
+  {
+   "test": "test_deprecated_all_flag",
+   "argv": [
+    "-all",
+    "./wrapcheck/testdata/simple_no_wrap"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:505"
+  },
+  {
+   "test": "test_deprecated_source_flag",
+   "argv": [
+    "-source",
+    "./wrapcheck/testdata/simple_no_wrap"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:512"
+  },
+  {
+   "test": "test_deprecated_v_flag",
+   "argv": [
+    "-v",
+    "./wrapcheck/testdata/simple_no_wrap"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:519"
+  },
+  {
+   "test": "test_deprecated_tags_flag",
+   "argv": [
+    "-tags",
+    "integration",
+    "./wrapcheck/testdata/simple_no_wrap"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:526"
+  },
+  {
+   "test": "test_multiple_packages",
+   "argv": [
+    "./wrapcheck/testdata/simple_no_wrap",
+    "./wrapcheck/testdata/simple_with_wrap"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "simple_no_wrap",
+    "unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:563"
+  },
+  {
+   "test": "test_recursive_package_scan",
+   "argv": [
+    "./wrapcheck/testdata/simple_no_wrap/..."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:573"
+  },
+  {
+   "test": "test_ignore_errors_pkg",
+   "argv": [
+    "./wrapcheck/testdata/ignore_errors_pkg"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:593"
+  },
+  {
+   "test": "test_ignore_fmt_errorf",
+   "argv": [
+    "./wrapcheck/testdata/ignore_fmt_errorf"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:600"
+  },
+  {
+   "test": "test_ignore_pkg_errors",
+   "argv": [
+    "./wrapcheck/testdata/ignore_pkg_errors"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:607"
+  },
+  {
+   "test": "test_catch_fmt_sscanf",
+   "argv": [
+    "./wrapcheck/testdata/catch_fmt_sscanf"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:614"
+  },
+  {
+   "test": "test_context_lines_negative",
+   "argv": [
+    "-c",
+    "-1",
+    "./wrapcheck/testdata/simple_no_wrap"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:622"
+  },
+  {
+   "test": "test_context_lines_zero",
+   "argv": [
+    "-c",
+    "0",
+    "./wrapcheck/testdata/simple_no_wrap"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unwrapped",
+    "main.go"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:635"
+  },
+  {
+   "test": "test_context_lines_large",
+   "argv": [
+    "-c",
+    "10",
+    "./wrapcheck/testdata/simple_no_wrap"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:644"
+  },
+  {
+   "test": "test_error_in_return_statement",
+   "argv": [
+    "./wrapcheck/testdata/return_function_call"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:708"
+  },
+  {
+   "test": "test_json_output_no_issues",
+   "argv": [
+    "-json",
+    "./wrapcheck/testdata/simple_with_wrap"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:716"
+  },
+  {
+   "test": "test_analyze_current_directory",
+   "argv": [
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unwrapped",
+    "json.Marshal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:733"
+  },
+  {
+   "test": "test_interface_on_struct",
+   "argv": [
+    "./wrapcheck/testdata/interface_on_struct"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:776"
+  },
+  {
+   "test": "test_issue_13_named_return",
+   "argv": [
+    "./wrapcheck/testdata/issue_13_named_return"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:783"
+  },
+  {
+   "test": "test_var_method_call_other_file",
+   "argv": [
+    "./wrapcheck/testdata/var_method_call_other_file"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:790"
+  },
+  {
+   "test": "test_var_sentinel_other_file",
+   "argv": [
+    "./wrapcheck/testdata/var_sentinel_other_file"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:797"
+  },
+  {
+   "test": "test_package_assigned_to_variable",
+   "argv": [
+    "./wrapcheck/testdata/package_assigned_to_variable"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unwrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:804"
+  },
+  {
+   "test": "test_config_ignore_package_globs_interface",
+   "argv": [
+    "./wrapcheck/testdata/config_ignorePackageGlobs_interface"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:811"
+  },
+  {
+   "test": "test_config_ignore_package_globs_pkg_errors",
+   "argv": [
+    "./wrapcheck/testdata/config_ignorePackageGlobs_pkg_errors"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapcheck.py:817"
+  },
+  {
+   "test": "test_h_exit_code_is_zero",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:43"
+  },
+  {
+   "test": "test_help_goes_to_stderr_not_stdout",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:53"
+  },
+  {
+   "test": "test_help_precedence_over_unknown_flag_is_same_output",
+   "argv": [
+    "--help",
+    "--definitely-not-a-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:127"
+  },
+  {
+   "test": "test_double_dash_then_help_is_not_treated_as_help",
+   "argv": [
+    "--",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "malformed import path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:133"
+  }
+ ]
+}

@@ -1,0 +1,5013 @@
+[
+ {
+  "name": "test::test_256_color_codes::0",
+  "argv": [
+   "--ansi",
+   "--filter",
+   "",
+   "--no-sort"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ansi_disabled_codes_visible::1",
+  "argv": [
+   "--filter",
+   "",
+   "--no-sort"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_colors_with_filtering::2",
+  "argv": [
+   "--ansi",
+   "--filter",
+   "e",
+   "--no-sort"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_sync_mode::3",
+  "argv": [
+   "--filter=a",
+   "--sync"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exit0_with_zero_matches_returns_no_match::4",
+  "argv": [
+   "--filter=xyz",
+   "--exit-0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exit0_with_one_match_returns_ok::5",
+  "argv": [
+   "--filter=fig",
+   "--exit-0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select1_with_one_match_auto_selects::6",
+  "argv": [
+   "--filter=fig",
+   "--select-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select1_with_multiple_matches_outputs_all::7",
+  "argv": [
+   "--filter=a",
+   "--select-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select1_with_zero_matches_returns_no_match::8",
+  "argv": [
+   "--filter=xyz",
+   "--select-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_query_with_select1_one_match::9",
+  "argv": [
+   "--filter=fig",
+   "--select-1",
+   "--print-query"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_query_with_exit0_zero_matches::10",
+  "argv": [
+   "--filter=xyz",
+   "--exit-0",
+   "--print-query"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ansi_full_line_background_color::11",
+  "argv": [
+   "--ansi",
+   "--filter=Red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_header_lines_not_searchable::12",
+  "argv": [
+   "--filter=a",
+   "--header-lines=2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tac_reverses_input_order::13",
+  "argv": [
+   "--filter=",
+   "--tac"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_with_nth_field_selection::14",
+  "argv": [
+   "--filter=red",
+   "--with-nth=3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ansi_with_nth_preserves_colors::15",
+  "argv": [
+   "--ansi",
+   "--filter=red",
+   "--with-nth=3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tiebreak_begin_sorts_by_match_start_position::16",
+  "argv": [
+   "--filter=a",
+   "--tiebreak=begin"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tiebreak_end_sorts_by_match_end_position::17",
+  "argv": [
+   "--filter=a",
+   "--tiebreak=end"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tiebreak_chunk_sorts_by_input_order::18",
+  "argv": [
+   "--filter=a",
+   "--tiebreak=chunk"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_streaming_filter_no_sort::19",
+  "argv": [
+   "--filter=a",
+   "--no-sort"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delimiter_with_nth_custom_field_separator::20",
+  "argv": [
+   "--filter=b",
+   "--delimiter=:",
+   "--nth=2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read0_null_terminated_input::21",
+  "argv": [
+   "--filter=a",
+   "--read0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select1_exit0_combined_one_match::22",
+  "argv": [
+   "--filter=fig",
+   "--select-1",
+   "--exit-0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select1_exit0_combined_zero_matches::23",
+  "argv": [
+   "--filter=xyz",
+   "--select-1",
+   "--exit-0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tail_limits_input_lines::24",
+  "argv": [
+   "--filter=",
+   "--tail=3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tac_no_sort_combination::25",
+  "argv": [
+   "--filter=",
+   "--tac",
+   "--no-sort"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_accept_nth_output_only_selected_fields::26",
+  "argv": [
+   "--filter=red",
+   "--accept-nth=2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_with_nth_and_accept_nth_combined::27",
+  "argv": [
+   "--filter=red",
+   "--with-nth=3",
+   "--accept-nth=1,2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_input_with_filter::28",
+  "argv": [
+   "--filter=test"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_input_with_exit0::29",
+  "argv": [
+   "--filter=test",
+   "--exit-0"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_input_streaming_filter::30",
+  "argv": [
+   "--filter=999",
+   "--no-sort"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_header_lines_exceeds_input_count::31",
+  "argv": [
+   "--filter=a",
+   "--header-lines=5"
+  ],
+  "stdin": "H1\nH2\nH3\napple\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tiebreak_pathname_sorts_by_path_depth::32",
+  "argv": [
+   "--filter=apple",
+   "--tiebreak=pathname"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ansi_with_nth_plain_text_no_prev_state::33",
+  "argv": [
+   "--ansi",
+   "--filter=token",
+   "--with-nth=2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ansi_bg_preserves_trailing_whitespace_with_nth::34",
+  "argv": [
+   "--ansi",
+   "--filter=Red",
+   "--with-nth=1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_fuzzy_match::35",
+  "argv": [
+   "--filter",
+   "app"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exact_match_prefix::36",
+  "argv": [
+   "--filter",
+   "'app"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prefix_match_caret::37",
+  "argv": [
+   "--filter",
+   "^app"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_suffix_match_dollar::38",
+  "argv": [
+   "--filter",
+   "e$"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inverse_match_exclamation::39",
+  "argv": [
+   "--filter",
+   "!app"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_or_match_pipe_operator::40",
+  "argv": [
+   "--filter",
+   "ban | che"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_include_exclude::41",
+  "argv": [
+   "--filter",
+   "ban !banana"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_match_returns_exit_1::42",
+  "argv": [
+   "--filter",
+   "nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_input_returns_exit_1::43",
+  "argv": [
+   "--filter",
+   "test"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_field_delimiter_nth_single_field::44",
+  "argv": [
+   "--filter",
+   "Engineer",
+   "-d:",
+   "-n4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_field_delimiter_nth_range::45",
+  "argv": [
+   "--filter",
+   "John",
+   "-d:",
+   "-n1..2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print0_null_delimiter_output::46",
+  "argv": [
+   "--filter",
+   "app",
+   "--print0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_smart_case_uppercase_query::47",
+  "argv": [
+   "--filter",
+   "App"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_case_flag::48",
+  "argv": [
+   "--filter",
+   "App",
+   "-i"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_case_sensitive_flag::49",
+  "argv": [
+   "--filter",
+   "app",
+   "+i"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exact_flag_disables_fuzzy::50",
+  "argv": [
+   "--filter",
+   "app",
+   "--exact"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_sort_preserves_input_order::51",
+  "argv": [
+   "--filter",
+   "a",
+   "--no-sort"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_sort_by_score::52",
+  "argv": [
+   "--filter",
+   "a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_scheme_scoring::53",
+  "argv": [
+   "--filter",
+   "log",
+   "--scheme=path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_query_flag::54",
+  "argv": [
+   "--filter",
+   "ban",
+   "--print-query"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_exact_match::55",
+  "argv": [
+   "--filter",
+   "café"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_emoji_matching::56",
+  "argv": [
+   "--filter",
+   "🎉"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_chars_in_lines::57",
+  "argv": [
+   "--filter",
+   "hello"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_lines_in_input::58",
+  "argv": [
+   "--filter",
+   "line"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_exact_terms_and_logic::59",
+  "argv": [
+   "--filter",
+   "'ch 'he"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_input_performance::60",
+  "argv": [
+   "--filter",
+   "abc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prefix_with_exclusion::61",
+  "argv": [
+   "--filter",
+   "^app !apple"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inverse_prefix_match::62",
+  "argv": [
+   "--filter",
+   "!^app"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inverse_suffix_match::63",
+  "argv": [
+   "--filter",
+   "!e$"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_or_with_prefix_matches::64",
+  "argv": [
+   "--filter",
+   "^a | ^b"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_suffix_and_prefix_combined::65",
+  "argv": [
+   "--filter",
+   "e$ ^ch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tiebreak_length::66",
+  "argv": [
+   "--filter",
+   "ab",
+   "--tiebreak=length"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tiebreak_begin::67",
+  "argv": [
+   "--filter",
+   "ab",
+   "--tiebreak=begin"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_normalize_latin_default::68",
+  "argv": [
+   "--filter",
+   "cafe"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_literal_disables_normalization::69",
+  "argv": [
+   "--filter",
+   "cafe",
+   "--literal"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read0_null_delimited_input::70",
+  "argv": [
+   "../executable",
+   "--filter",
+   "a",
+   "--read0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_history_scheme_scoring::71",
+  "argv": [
+   "--filter",
+   "git",
+   "--scheme=history"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_query_matches_all::72",
+  "argv": [
+   "--filter",
+   ""
+  ],
+  "stdin": "a\nb\nc\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_two_fuzzy_terms_and_logic::73",
+  "argv": [
+   "--filter",
+   "ap gr"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_triple_or_prefix::74",
+  "argv": [
+   "--filter",
+   "^a | ^b | ^c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_whitespace_preserved_in_lines::75",
+  "argv": [
+   "--filter",
+   "space"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_line_handling::76",
+  "argv": [
+   "--filter",
+   "needle"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_field_indices::77",
+  "argv": [
+   "--filter",
+   "o",
+   "-d:",
+   "-n1,4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_field_by_age::78",
+  "argv": [
+   "--filter",
+   "30",
+   "-d:",
+   "-n3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_algo_v1::79",
+  "argv": [
+   "--filter",
+   "apl",
+   "--algo=v1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_algo_v2::80",
+  "argv": [
+   "--filter",
+   "apl",
+   "--algo=v2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read0::81",
+  "argv": [
+   "find",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_history_writes_search_query_on_selection::82",
+  "argv": [
+   "sleep",
+   "0.3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_history_navigation_with_arrow_keys::83",
+  "argv": [
+   "sleep",
+   "0.2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_history_preserves_existing_file_content::84",
+  "argv": [
+   "--filter",
+   "apple",
+   "--history",
+   "existing_history.txt"
+  ],
+  "stdin": "apple\nbanana\n",
+  "files": {
+   "existing_history.txt": "query one\nquery two\nquery three\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_history_invalid_path_not_a_directory::85",
+  "argv": [
+   "--filter",
+   "test",
+   "--history",
+   "/dev/null/invalid"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_stdin_filter::86",
+  "argv": [
+   "-f",
+   "ap"
+  ],
+  "stdin": "apple\nbanana\ncherry\napricot\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read0_nul_delimited_input::87",
+  "argv": [
+   "--read0",
+   "-f",
+   "ap"
+  ],
+  "stdin": "apple\u0000banana\u0000cherry\u0000apricot\u0000",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print0_nul_delimited_output::88",
+  "argv": [
+   "-f",
+   "ap",
+   "--print0"
+  ],
+  "stdin": "apple\nbanana\ncherry\napricot\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read0_and_print0_combined::89",
+  "argv": [
+   "--read0",
+   "--print0",
+   "-f",
+   "ap"
+  ],
+  "stdin": "apple\u0000banana\u0000cherry\u0000apricot\u0000",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ansi_color_codes_stripped_in_search::90",
+  "argv": [
+   "--ansi",
+   "-f",
+   "apple"
+  ],
+  "stdin": "\u001b[31mred apple\u001b[0m\nbanana\n\u001b[32mgreen cherry\u001b[0m\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_lines_preserved::91",
+  "argv": [
+   "-f",
+   ""
+  ],
+  "stdin": "apple\n\nbanana\n   \ncherry\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tabs_preserved_in_output::92",
+  "argv": [
+   "-f",
+   "apple"
+  ],
+  "stdin": "apple\tred\nbanana\tyellow\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_input_100k_lines::93",
+  "argv": [
+   "-f",
+   "apple"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tail_limits_memory_keeps_last_n_lines::94",
+  "argv": [
+   "--tail=10",
+   "-f",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delimiter_with_nth_field_search::95",
+  "argv": [
+   "-f",
+   "red",
+   "-d",
+   ":",
+   "-n",
+   "3"
+  ],
+  "stdin": "1:apple:red\n2:banana:yellow\n3:cherry:red\n4:apricot:orange\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_with_nth_transforms_display_and_search::96",
+  "argv": [
+   "-f",
+   "red",
+   "-d",
+   ":",
+   "--with-nth",
+   "2..3"
+  ],
+  "stdin": "1:apple:red\n2:banana:yellow\n3:cherry:red\n4:apricot:orange\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_with_nth_single_field::97",
+  "argv": [
+   "-f",
+   "apple",
+   "-d",
+   ":",
+   "--with-nth",
+   "2"
+  ],
+  "stdin": "1:apple:red\n2:banana:yellow\n3:cherry:red\n4:apricot:orange\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_control_characters_preserved::98",
+  "argv": [
+   "-f",
+   "apple"
+  ],
+  "stdin": "apple\u0001test\nbanana\ncherry\u0002end\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_whitespace_only_lines::99",
+  "argv": [
+   "-f",
+   ""
+  ],
+  "stdin": "apple\n   \nbanana\n\t\t\ncherry\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_matches_exit_code_1::100",
+  "argv": [
+   "-f",
+   "NOMATCH"
+  ],
+  "stdin": "apple\nbanana\ncherry\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_input_exit_code_1::101",
+  "argv": [
+   "-f",
+   "apple"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_query_outputs_query_first::102",
+  "argv": [
+   "-f",
+   "ap",
+   "--print-query"
+  ],
+  "stdin": "apple\nbanana\ncherry\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_case_insensitive_by_default::103",
+  "argv": [
+   "-f",
+   "apple"
+  ],
+  "stdin": "Apple\nbanana\nAPPLE\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_case_sensitive_with_plus_i::104",
+  "argv": [
+   "-f",
+   "apple",
+   "+i"
+  ],
+  "stdin": "Apple\nbanana\nAPPLE\napple\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read0_multiline_items::105",
+  "argv": [
+   "--read0",
+   "-f",
+   "apple"
+  ],
+  "stdin": "apple\nred\u0000banana\nyellow\u0000cherry\ngreen\u0000",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_delimiter_double_colon::106",
+  "argv": [
+   "-f",
+   "red",
+   "-d",
+   "::",
+   "-n",
+   "2"
+  ],
+  "stdin": "apple::red\nbanana::yellow\ncherry::red\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tail_with_filter_combination::107",
+  "argv": [
+   "--tail=10",
+   "-f",
+   "match"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ansi_without_flag_treats_codes_as_literal::108",
+  "argv": [
+   "-f",
+   "31"
+  ],
+  "stdin": "\u001b[31mred\u001b[0m\nblue\ngreen\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_line_50k_chars::109",
+  "argv": [
+   "-f",
+   "target"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delimiter_with_with_nth_range::110",
+  "argv": [
+   "-f",
+   "apple",
+   "-d",
+   ":",
+   "--with-nth",
+   "2..4"
+  ],
+  "stdin": "id:name:value:color\n1:apple:100:red\n2:banana:200:yellow\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utf8_multibyte_characters::111",
+  "argv": [
+   "-f",
+   "apple"
+  ],
+  "stdin": "apple 🍎\nbanana 🍌\ncherry 🍒\n日本語 apple\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_crlf_line_endings_normalized_to_lf::112",
+  "argv": [
+   "-f",
+   "apple"
+  ],
+  "stdin": "apple\r\nbanana\r\ncherry\r\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prefix_match_caret::113",
+  "argv": [
+   "-f",
+   "^apple"
+  ],
+  "stdin": "apple\napple pie\nbanana apple\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_suffix_match_dollar::114",
+  "argv": [
+   "-f",
+   "apple$"
+  ],
+  "stdin": "apple\napple pie\nbanana apple\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inverse_match_exclamation::115",
+  "argv": [
+   "-f",
+   "!apple"
+  ],
+  "stdin": "apple\nbanana\ncherry\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_or_query_pipe_operator::116",
+  "argv": [
+   "-f",
+   "apple | cherry"
+  ],
+  "stdin": "apple\nbanana\ncherry\napricot\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exact_match_mode::117",
+  "argv": [
+   "-f",
+   "apple",
+   "-e"
+  ],
+  "stdin": "apple\napple pie\naplpe\nbanana\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_sort_preserves_input_order::118",
+  "argv": [
+   "--no-sort",
+   "-f",
+   "a"
+  ],
+  "stdin": "banana\napple\ncherry\napricot\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_delimiters_regex_pattern::119",
+  "argv": [
+   "-f",
+   "red",
+   "-d",
+   "[ \t:]+",
+   "-n",
+   "2"
+  ],
+  "stdin": "apple red\nbanana\tyellow\ncherry::green\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_query_matches_all::120",
+  "argv": [
+   "-f",
+   ""
+  ],
+  "stdin": "apple\nbanana\ncherry\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trailing_newline_handling::121",
+  "argv": [
+   "-f",
+   "apple"
+  ],
+  "stdin": "apple\nbanana\ncherry",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nth_negative_index::122",
+  "argv": [
+   "-f",
+   "apple",
+   "-d",
+   ":",
+   "-n",
+   "-1"
+  ],
+  "stdin": "1:2:3:apple\n1:2:3:banana\n1:2:3:cherry\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_with_nth_reverse_order::123",
+  "argv": [
+   "-f",
+   "red",
+   "-d",
+   ":",
+   "--with-nth",
+   "3,2,1"
+  ],
+  "stdin": "1:apple:red\n2:banana:yellow\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read0_with_empty_items::124",
+  "argv": [
+   "--read0",
+   "-f",
+   ""
+  ],
+  "stdin": "apple\u0000\u0000banana\u0000\u0000\u0000cherry\u0000",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ansi_color_with_multiple_codes::125",
+  "argv": [
+   "--ansi",
+   "-f",
+   "red"
+  ],
+  "stdin": "\u001b[1;31mbold red apple\u001b[0m\n\u001b[38;5;196m256-color red\u001b[0m\nbanana\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_height_non_numeric::126",
+  "argv": [
+   "--height=abc",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_history_size_zero_rejected::127",
+  "argv": [
+   "--history-size=0",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_history_size_negative_rejected::128",
+  "argv": [
+   "--history-size=-5",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tail_zero_rejected::129",
+  "argv": [
+   "--tail=0",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_algo_invalid_rejected::130",
+  "argv": [
+   "--algo=invalid",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_border_invalid_rejected::131",
+  "argv": [
+   "--border=invalid",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scheme_invalid_rejected::132",
+  "argv": [
+   "--scheme=invalid",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tiebreak_invalid_criterion::133",
+  "argv": [
+   "--tiebreak=invalid",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tiebreak_too_many_criteria::134",
+  "argv": [
+   "--tiebreak=length,chunk,begin,end",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tiebreak_index_must_be_last::135",
+  "argv": [
+   "--tiebreak=length,index,begin",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tiebreak_duplicate_criterion::136",
+  "argv": [
+   "--tiebreak=length,length",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_layout_invalid_rejected::137",
+  "argv": [
+   "--layout=invalid",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_invalid_rejected::138",
+  "argv": [
+   "--info=invalid",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_header_lines_negative_rejected::139",
+  "argv": [
+   "--header-lines=-1",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tabstop_zero_rejected::140",
+  "argv": [
+   "--tabstop=0",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tabstop_negative_rejected::141",
+  "argv": [
+   "--tabstop=-5",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_jump_labels_empty_rejected::142",
+  "argv": [
+   "--jump-labels=",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_height_negative_rejected::143",
+  "argv": [
+   "--min-height=-1",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fzf_default_opts_invalid_flag::144",
+  "argv": [
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "FZF_DEFAULT_OPTS": "--invalid-flag"
+  }
+ },
+ {
+  "name": "test::test_fzf_default_opts_exact_mode::145",
+  "argv": [
+   "--filter=app"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "FZF_DEFAULT_OPTS": "--exact"
+  }
+ },
+ {
+  "name": "test::test_color_invalid_specification::146",
+  "argv": [
+   "--color=invalid",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hscroll_off_negative_rejected::147",
+  "argv": [
+   "--hscroll-off=-1",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scroll_off_negative_rejected::148",
+  "argv": [
+   "--scroll-off=-1",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_freeze_left_negative_rejected::149",
+  "argv": [
+   "--freeze-left=-1",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_height_adaptive_negative_conflict::150",
+  "argv": [
+   "--height=~-1",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preview_window_invalid_option::151",
+  "argv": [
+   "--preview=echo test",
+   "--preview-window=invalid",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tmux_invalid_option::152",
+  "argv": [
+   "--tmux=invalid",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_height_percentage_too_large::153",
+  "argv": [
+   "--height=150%",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_action_not_specified::154",
+  "argv": [
+   "--bind=ctrl-a",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_unknown_action::155",
+  "argv": [
+   "--bind=ctrl-a:invalid",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_empty_key_name::156",
+  "argv": [
+   "--bind=:accept",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expect_empty_key_names::157",
+  "argv": [
+   "--expect=",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_walker_invalid_option::158",
+  "argv": [
+   "--walker=invalid",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_walker_needs_file_or_dir::159",
+  "argv": [
+   "--walker=hidden",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toggle_sort_multiple_keys_rejected::160",
+  "argv": [
+   "--toggle-sort=ctrl-a,ctrl-b",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_query_with_filter::161",
+  "argv": [
+   "--filter=test",
+   "--print-query"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nth_field_limits_search_scope::162",
+  "argv": [
+   "--filter=test",
+   "--nth=1",
+   "--delimiter=:"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cli_overrides_env_sort_option::163",
+  "argv": [
+   "--filter=ban",
+   "--sort"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "FZF_DEFAULT_OPTS": "--no-sort"
+  }
+ },
+ {
+  "name": "test::test_sync_with_filter_mode::164",
+  "argv": [
+   "--filter=test",
+   "--sync"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_component_without_color::165",
+  "argv": [
+   "--color=fg",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_ansi_out_of_range::166",
+  "argv": [
+   "--color=fg:999",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_ansi_negative::167",
+  "argv": [
+   "--color=fg:-5",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_hex_invalid_chars::168",
+  "argv": [
+   "--color=fg:#gggggg",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_hex_wrong_length::169",
+  "argv": [
+   "--color=fg:#12345",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_hex_too_long::170",
+  "argv": [
+   "--color=fg:#1234567",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_invalid_component_name::171",
+  "argv": [
+   "--color=invalid-component:red",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_unknown_action::172",
+  "argv": [
+   "--bind=ctrl-a:invalid-action",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_empty_key_name::173",
+  "argv": [
+   "--bind=:abort",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_unbind_without_target::174",
+  "argv": [
+   "--bind=ctrl-a:unbind()",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_rebind_without_target::175",
+  "argv": [
+   "--bind=ctrl-a:rebind()",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_toggle_bind_without_target::176",
+  "argv": [
+   "--bind=ctrl-a:toggle-bind()",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_put_non_printable_char::177",
+  "argv": [
+   "--bind=ctrl-a:put",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_base_theme_dark::178",
+  "argv": [
+   "--color=dark",
+   "--filter=ban"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_base_theme_light::179",
+  "argv": [
+   "--color=light",
+   "--filter=ban"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_base_theme_base16::180",
+  "argv": [
+   "--color=base16",
+   "--filter=ban"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_base_theme_bw::181",
+  "argv": [
+   "--color=bw",
+   "--filter=ban"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_named_color::182",
+  "argv": [
+   "--color=fg:red",
+   "--filter=ban"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_hex_format::183",
+  "argv": [
+   "--color=fg:#ff0000",
+   "--filter=ban"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_put_printable_char::184",
+  "argv": [
+   "--bind=a:put",
+   "--filter=test"
+  ],
+  "stdin": "test\napple\nbanana\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_ansi_256_boundary::185",
+  "argv": [
+   "--color=fg:256",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_ansi_minus_one_valid::186",
+  "argv": [
+   "--color=fg:-1",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_ansi_minus_two_invalid::187",
+  "argv": [
+   "--color=fg:-2",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_with_attributes::188",
+  "argv": [
+   "--color=fg:red:bold",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_invalid_attribute::189",
+  "argv": [
+   "--color=fg:red:invalid-attr",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_multiple_specs_comma_separated::190",
+  "argv": [
+   "--color=dark,fg:red",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_multiple_keys_same_action::191",
+  "argv": [
+   "--bind=ctrl-a,ctrl-b:abort",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_multiple_bindings_comma_separated::192",
+  "argv": [
+   "--bind=ctrl-a:abort,ctrl-b:accept",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_execute_empty_command::193",
+  "argv": [
+   "--bind=ctrl-a:execute()",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_execute_with_command::194",
+  "argv": [
+   "--bind=ctrl-a:execute(echo hi)",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_reload_empty_command::195",
+  "argv": [
+   "--bind=ctrl-a:reload()",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_change_preview_window_invalid_option::196",
+  "argv": [
+   "--bind=ctrl-a:change-preview-window(invalid)",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_unbind_with_valid_target::197",
+  "argv": [
+   "--bind=ctrl-a:unbind(ctrl-b)",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_rebind_with_valid_target::198",
+  "argv": [
+   "--bind=ctrl-a:rebind(ctrl-b)",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_toggle_bind_with_valid_target::199",
+  "argv": [
+   "--bind=ctrl-a:toggle-bind(ctrl-b)",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_gray_alias::200",
+  "argv": [
+   "--color=fg:gray",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_grey_alias::201",
+  "argv": [
+   "--color=fg:grey",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_strip_attribute::202",
+  "argv": [
+   "--color=fg:red:strip",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_strong_alias_for_bold::203",
+  "argv": [
+   "--color=fg:red:strong",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_16_alias_for_base16::204",
+  "argv": [
+   "--color=16",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_no_alias_for_bw::205",
+  "argv": [
+   "--color=no",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_combined_actions_with_plus::206",
+  "argv": [
+   "--bind=ctrl-a:toggle+down",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_invalid_action_in_combination::207",
+  "argv": [
+   "--bind=ctrl-a:invalid+action",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_empty_spec_disables_color::208",
+  "argv": [
+   "--color",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_hex_case_insensitive::209",
+  "argv": [
+   "--color=fg:#FF0000",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_hex_mixed_case::210",
+  "argv": [
+   "--color=fg:#FfAa00",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_nth_only_accepts_attributes::211",
+  "argv": [
+   "--color=nth:red",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_nth_with_valid_attribute::212",
+  "argv": [
+   "--color=nth:bold",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_nth_with_multiple_attributes::213",
+  "argv": [
+   "--color=nth:bold:underline",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_invalid_key_name::214",
+  "argv": [
+   "--bind=invalid-key:abort",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_empty_expression_error::215",
+  "argv": [
+   "--bind=",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_ansi_0_valid::216",
+  "argv": [
+   "--color=fg:0",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_ansi_255_valid::217",
+  "argv": [
+   "--color=fg:255",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_multiple_attributes_combined::218",
+  "argv": [
+   "--color=fg:red:bold:italic:underline",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_regular_resets_attributes::219",
+  "argv": [
+   "--color=fg:red:regular",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_whitespace_in_spec::220",
+  "argv": [
+   "--color=dark , fg:red , bg:blue",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_empty_component_in_list::221",
+  "argv": [
+   "--color=dark,,fg:red",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_action_chaining_many_actions::222",
+  "argv": [
+   "--bind=ctrl-a:up+down+toggle+refresh-preview+accept",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_hex_with_hash_missing::223",
+  "argv": [
+   "--color=fg:ff0000",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_height_adaptive_negative_conflict::224",
+  "argv": [
+   "--height=~-5",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_height_percentage_exceeds_limit::225",
+  "argv": [
+   "--height=101%",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_height_adaptive_valid::226",
+  "argv": [
+   "--height=~10",
+   "--filter=line"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_height_negative_valid::227",
+  "argv": [
+   "--height=-5",
+   "--filter=line"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_height_percentage_valid::228",
+  "argv": [
+   "--height=50%",
+   "--filter=line"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tmux_invalid_size_format::229",
+  "argv": [
+   "--tmux=center,abc",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tmux_size_exceeds_limit::230",
+  "argv": [
+   "--tmux=center,101%",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tmux_center_with_one_size::231",
+  "argv": [
+   "--tmux=center,50%",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tmux_center_with_two_sizes::232",
+  "argv": [
+   "--tmux=center,50%,30%",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tmux_top_with_height::233",
+  "argv": [
+   "--tmux=top,50%",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tmux_left_with_width::234",
+  "argv": [
+   "--tmux=left,40%",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_margin_single_value::235",
+  "argv": [
+   "--margin=5",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_margin_two_values::236",
+  "argv": [
+   "--margin=1,2",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_margin_three_values::237",
+  "argv": [
+   "--margin=1,2,3",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_margin_four_values::238",
+  "argv": [
+   "--margin=1,2,3,4",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_margin_too_many_values::239",
+  "argv": [
+   "--margin=1,2,3,4,5",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_margin_non_numeric_rejected::240",
+  "argv": [
+   "--margin=abc",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_margin_percentage_exceeds_limit::241",
+  "argv": [
+   "--margin=50%",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_padding_single_value::242",
+  "argv": [
+   "--padding=5",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_padding_too_many_values::243",
+  "argv": [
+   "--padding=1,2,3,4,5",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preview_window_position_up::244",
+  "argv": [
+   "--preview=echo {}",
+   "--preview-window=up,50%",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preview_window_wrap_option::245",
+  "argv": [
+   "--preview=echo {}",
+   "--preview-window=wrap",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preview_window_cycle_option::246",
+  "argv": [
+   "--preview=echo {}",
+   "--preview-window=cycle",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preview_window_follow_option::247",
+  "argv": [
+   "--preview=echo {}",
+   "--preview-window=follow",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preview_window_border_options::248",
+  "argv": [
+   "--preview=echo {}",
+   "--preview-window=border-rounded",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preview_window_invalid_option::249",
+  "argv": [
+   "--preview=echo {}",
+   "--preview-window=invalid",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nth_single_field::250",
+  "argv": [
+   "--nth=1",
+   "--filter=a"
+  ],
+  "stdin": "a b c\nd e f\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nth_range_expression::251",
+  "argv": [
+   "--nth=1..2",
+   "--filter=a"
+  ],
+  "stdin": "a b c\nd e f\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nth_negative_index::252",
+  "argv": [
+   "--nth=-1",
+   "--filter=c"
+  ],
+  "stdin": "a b c\nd e f\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nth_multiple_fields::253",
+  "argv": [
+   "--nth=1,3",
+   "--filter=a"
+  ],
+  "stdin": "a b c\nd e f\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preview_window_combined_options::254",
+  "argv": [
+   "--preview=echo {}",
+   "--preview-window=up,50%,border-sharp",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preview_window_position_down::255",
+  "argv": [
+   "--preview=echo {}",
+   "--preview-window=down,30%",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preview_window_position_left::256",
+  "argv": [
+   "--preview=echo {}",
+   "--preview-window=left,40%",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preview_window_position_right::257",
+  "argv": [
+   "--preview=echo {}",
+   "--preview-window=right,50%",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preview_window_nowrap_option::258",
+  "argv": [
+   "--preview=echo {}",
+   "--preview-window=nowrap",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preview_window_nocycle_option::259",
+  "argv": [
+   "--preview=echo {}",
+   "--preview-window=nocycle",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preview_window_nofollow_option::260",
+  "argv": [
+   "--preview=echo {}",
+   "--preview-window=nofollow",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preview_window_hidden_option::261",
+  "argv": [
+   "--preview=echo {}",
+   "--preview-window=hidden",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preview_window_nohidden_option::262",
+  "argv": [
+   "--preview=echo {}",
+   "--preview-window=nohidden",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preview_window_header_lines::263",
+  "argv": [
+   "--preview=echo {}",
+   "--preview-window=~3",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preview_window_header_lines_invalid::264",
+  "argv": [
+   "--preview=echo {}",
+   "--preview-window=~abc",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preview_window_size_exceeds_limit::265",
+  "argv": [
+   "--preview=echo {}",
+   "--preview-window=101%",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preview_window_default_option::266",
+  "argv": [
+   "--preview=echo {}",
+   "--preview-window=default",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_with_nth_single_field::267",
+  "argv": [
+   "--with-nth=2",
+   "--filter=b"
+  ],
+  "stdin": "a b c\nd e f\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_with_nth_range::268",
+  "argv": [
+   "--with-nth=1..2",
+   "--filter=a"
+  ],
+  "stdin": "a b c\nd e f\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_accept_nth_single_field::269",
+  "argv": [
+   "--accept-nth=1",
+   "--filter=a"
+  ],
+  "stdin": "a b c\nd e f\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nth_open_ended_range_from_start::270",
+  "argv": [
+   "--nth=..3",
+   "--filter=a"
+  ],
+  "stdin": "a b c d\ne f g h\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nth_open_ended_range_to_end::271",
+  "argv": [
+   "--nth=2..",
+   "--filter=b"
+  ],
+  "stdin": "a b c\nd e f\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nth_negative_range::272",
+  "argv": [
+   "--nth=-2..-1",
+   "--filter=b"
+  ],
+  "stdin": "a b c\nd e f\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delimiter_with_nth::273",
+  "argv": [
+   "--delimiter=:",
+   "--nth=2",
+   "--filter=b"
+  ],
+  "stdin": "a:b:c\nd:e:f\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delimiter_regex_with_nth::274",
+  "argv": [
+   "--delimiter=[,:]",
+   "--nth=2",
+   "--filter=b"
+  ],
+  "stdin": "a,b,c\nd:e:f\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tmux_border_native_option::275",
+  "argv": [
+   "--tmux=center,50%,border-native",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tmux_up_alias::276",
+  "argv": [
+   "--tmux=up,30%",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tmux_down_alias::277",
+  "argv": [
+   "--tmux=down,30%",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_height_zero_valid::278",
+  "argv": [
+   "--height=0",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_margin_percentage_valid::279",
+  "argv": [
+   "--margin=10%",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_padding_percentage_valid::280",
+  "argv": [
+   "--padding=5%",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_padding_two_values::281",
+  "argv": [
+   "--padding=2,3",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_padding_three_values::282",
+  "argv": [
+   "--padding=1,2,3",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_padding_four_values::283",
+  "argv": [
+   "--padding=1,2,3,4",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preview_window_noborder_option::284",
+  "argv": [
+   "--preview=echo {}",
+   "--preview-window=noborder",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preview_window_border_none::285",
+  "argv": [
+   "--preview=echo {}",
+   "--preview-window=border-none",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preview_window_border_thinblock::286",
+  "argv": [
+   "--preview=echo {}",
+   "--preview-window=border-thinblock",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preview_window_border_block::287",
+  "argv": [
+   "--preview=echo {}",
+   "--preview-window=border-block",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preview_window_top_alias::288",
+  "argv": [
+   "--preview=echo {}",
+   "--preview-window=top,40%",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preview_window_bottom_alias::289",
+  "argv": [
+   "--preview=echo {}",
+   "--preview-window=bottom,40%",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nth_field_zero::290",
+  "argv": [
+   "--nth=0",
+   "--filter=a"
+  ],
+  "stdin": "a b c\nd e f\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_accept_nth_range::291",
+  "argv": [
+   "--accept-nth=1..2",
+   "--filter=a"
+  ],
+  "stdin": "a b c\nd e f\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_accept_nth_multiple_fields::292",
+  "argv": [
+   "--accept-nth=1,3",
+   "--filter=a"
+  ],
+  "stdin": "a b c\nd e f\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_with_nth_negative_index::293",
+  "argv": [
+   "--with-nth=-1",
+   "--filter=c"
+  ],
+  "stdin": "a b c\nd e f\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_with_nth_multiple_fields::294",
+  "argv": [
+   "--with-nth=1,3",
+   "--filter=a"
+  ],
+  "stdin": "a b c\nd e f\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preview_window_info_option::295",
+  "argv": [
+   "--preview=echo {}",
+   "--preview-window=info",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preview_window_noinfo_option::296",
+  "argv": [
+   "--preview=echo {}",
+   "--preview-window=noinfo",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nth_invalid_format::297",
+  "argv": [
+   "--nth=invalid",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_with_nth_invalid_format_no_placeholder::298",
+  "argv": [
+   "--with-nth=invalid",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_height_non_numeric_rejected::299",
+  "argv": [
+   "--min-height=abc",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_height_with_plus_modifier::300",
+  "argv": [
+   "--min-height=10+",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_height_percentage_rejected::301",
+  "argv": [
+   "--min-height=20%",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_height_with_percentage_and_adaptive::302",
+  "argv": [
+   "--height=~50%",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preview_window_multiple_combined::303",
+  "argv": [
+   "--preview=echo {}",
+   "--preview-window=right,50%,wrap,cycle,follow,border-bold",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tmux_too_many_arguments::304",
+  "argv": [
+   "--tmux=center,50%,40%,30%,20%",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tmux_only_border_native::305",
+  "argv": [
+   "--tmux=border-native",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tmux_position_then_border_native::306",
+  "argv": [
+   "--tmux=top,border-native",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delimiter_empty_string::307",
+  "argv": [
+   "--delimiter=",
+   "--nth=1",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nth_field_very_large_index::308",
+  "argv": [
+   "--nth=999",
+   "--filter=a"
+  ],
+  "stdin": "a b c\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nth_negative_very_large::309",
+  "argv": [
+   "--nth=-999",
+   "--filter=a"
+  ],
+  "stdin": "a b c\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_accept_nth_negative_index::310",
+  "argv": [
+   "--accept-nth=-1",
+   "--filter=a"
+  ],
+  "stdin": "a b c\nd e f\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_with_nth_open_ended_range_from_start::311",
+  "argv": [
+   "--with-nth=..2",
+   "--filter=a"
+  ],
+  "stdin": "a b c\nd e f\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_with_nth_open_ended_range_to_end::312",
+  "argv": [
+   "--with-nth=2..",
+   "--filter=b"
+  ],
+  "stdin": "a b c\nd e f\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_margin_mixed_absolute_percentage::313",
+  "argv": [
+   "--margin=5,10%",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_padding_mixed_absolute_percentage::314",
+  "argv": [
+   "--padding=2,5%",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_padding_percentage_exceeds_limit::315",
+  "argv": [
+   "--padding=50%",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preview_window_sharp_alias::316",
+  "argv": [
+   "--preview=echo {}",
+   "--preview-window=sharp",
+   "--filter=test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_ctrl_special_keys::317",
+  "argv": [
+   "--filter",
+   "",
+   "--bind",
+   "ctrl-space:accept"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_event_triggers::318",
+  "argv": [
+   "--filter",
+   "",
+   "--bind",
+   "change:accept"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_mouse_events::319",
+  "argv": [
+   "--filter",
+   "",
+   "--bind",
+   "jump:accept"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_alt_special_keys::320",
+  "argv": [
+   "--filter",
+   "",
+   "--bind",
+   "alt-enter:accept"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_alt_navigation_keys::321",
+  "argv": [
+   "--filter",
+   "",
+   "--bind",
+   "alt-up:accept"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_alt_shift_navigation_keys::322",
+  "argv": [
+   "--filter",
+   "",
+   "--bind",
+   "alt-shift-up:accept"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_alt_shift_extended_navigation::323",
+  "argv": [
+   "--filter",
+   "",
+   "--bind",
+   "alt-shift-home:accept"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_ctrl_navigation_keys::324",
+  "argv": [
+   "--filter",
+   "",
+   "--bind",
+   "ctrl-up:accept"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_ctrl_alt_navigation_keys::325",
+  "argv": [
+   "--filter",
+   "",
+   "--bind",
+   "ctrl-alt-up:accept"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_ctrl_alt_extended_navigation::326",
+  "argv": [
+   "--filter",
+   "",
+   "--bind",
+   "ctrl-alt-home:accept"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_ctrl_shift_navigation_keys::327",
+  "argv": [
+   "--filter",
+   "",
+   "--bind",
+   "ctrl-shift-up:accept"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_ctrl_shift_extended_navigation::328",
+  "argv": [
+   "--filter",
+   "",
+   "--bind",
+   "ctrl-shift-home:accept"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_ctrl_alt_shift_navigation_keys::329",
+  "argv": [
+   "--filter",
+   "",
+   "--bind",
+   "ctrl-alt-shift-up:accept"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_command_options::330",
+  "argv": [
+   "--filter",
+   "",
+   "--info-command",
+   "echo custom"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_separator_and_ghost_options::331",
+  "argv": [
+   "--filter",
+   "",
+   "--separator",
+   "─"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scrollbar_option::332",
+  "argv": [
+   "--filter",
+   "",
+   "--scrollbar"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_label_options::333",
+  "argv": [
+   "--filter",
+   "",
+   "--no-list-border"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_header_border_and_label_options::334",
+  "argv": [
+   "--filter",
+   "",
+   "--no-header-border"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_footer_border_and_label_options::335",
+  "argv": [
+   "--filter",
+   "",
+   "--no-footer-border"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_border_and_label_options::336",
+  "argv": [
+   "--filter",
+   "",
+   "--no-input-border"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_marker_multi_line_option::337",
+  "argv": [
+   "--filter",
+   "",
+   "--marker-multi-line",
+   "╭│╰"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_marker_multi_line_invalid_width::338",
+  "argv": [
+   "--filter",
+   "",
+   "--marker-multi-line",
+   "ab"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_transform_actions::339",
+  "argv": [
+   "--filter",
+   "",
+   "--bind",
+   "ctrl-a:transform:echo"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_transform_label_actions::340",
+  "argv": [
+   "--filter",
+   "",
+   "--bind",
+   "ctrl-a:transform-list-label:echo"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_bg_transform_actions::341",
+  "argv": [
+   "--filter",
+   "",
+   "--bind",
+   "ctrl-a:bg-transform:echo"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_bg_transform_label_actions::342",
+  "argv": [
+   "--filter",
+   "",
+   "--bind",
+   "ctrl-a:bg-transform-list-label:echo"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_change_actions::343",
+  "argv": [
+   "--filter",
+   "",
+   "--bind",
+   "ctrl-a:change-query:test"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_execute_and_put_actions::344",
+  "argv": [
+   "--filter",
+   "",
+   "--bind",
+   "ctrl-a:execute:echo test"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_shift_navigation_keys::345",
+  "argv": [
+   "--filter",
+   "",
+   "--bind",
+   "shift-home:accept"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_mouse_click_events::346",
+  "argv": [
+   "--filter",
+   "",
+   "--bind",
+   "left-click:accept"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_scroll_events::347",
+  "argv": [
+   "--filter",
+   "",
+   "--bind",
+   "scroll-up:accept"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_and_exit_short_flags::348",
+  "argv": [
+   "--filter",
+   "",
+   "-1"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read0_and_print0_options::349",
+  "argv": [
+   "--filter",
+   "",
+   "--read0"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_query_option::350",
+  "argv": [
+   "--filter",
+   "",
+   "--print-query"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gutter_options::351",
+  "argv": [
+   "--filter",
+   "",
+   "--gutter",
+   "│"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pointer_and_marker_options::352",
+  "argv": [
+   "--filter",
+   "",
+   "--pointer",
+   "➜"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_header_and_footer_options::353",
+  "argv": [
+   "--filter",
+   "",
+   "--no-header"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gap_options::354",
+  "argv": [
+   "--filter",
+   "",
+   "--gap"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ellipsis_option::355",
+  "argv": [
+   "--filter",
+   "",
+   "--ellipsis",
+   "..."
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preview_border_options::356",
+  "argv": [
+   "--filter",
+   "",
+   "--no-preview"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_proxy_with_mock_tmux_creates_fifos::357",
+  "argv": [
+   "/workspace/executable",
+   "--tmux=center,border-native"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_proxy_script_generation::358",
+  "argv": [
+   "/workspace/executable",
+   "--tmux",
+   "--query=test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_proxy_fifo_cleanup::359",
+  "argv": [
+   "/workspace/executable",
+   "--tmux"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_proxy_border_native_option::360",
+  "argv": [
+   "/workspace/executable",
+   "--tmux=border-native"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_proxy_become_action_with_proxy_script::361",
+  "argv": [
+   "/workspace/executable",
+   "--tmux",
+   "--bind=enter:become(echo {})"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read0_null_delimiter_basic::362",
+  "argv": [
+   "-f",
+   "ban",
+   "--read0"
+  ],
+  "stdin": "apple\u0000banana\u0000cherry\u0000date",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read0_multiple_matches::363",
+  "argv": [
+   "-f",
+   "a",
+   "--read0"
+  ],
+  "stdin": "apple\u0000banana\u0000cherry\u0000apricot\u0000date",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read0_empty_items::364",
+  "argv": [
+   "-f",
+   "",
+   "--read0"
+  ],
+  "stdin": "apple\u0000\u0000banana\u0000\u0000",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read0_filenames_with_special_chars::365",
+  "argv": [
+   "-f",
+   "txt",
+   "--read0"
+  ],
+  "stdin": "file with spaces.txt\u0000file\twith\ttabs.txt\u0000normal.txt",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read0_no_trailing_delimiter::366",
+  "argv": [
+   "-f",
+   "cherry",
+   "--read0"
+  ],
+  "stdin": "apple\u0000banana\u0000cherry",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read0_newlines_treated_as_data::367",
+  "argv": [
+   "-f",
+   "item",
+   "--read0"
+  ],
+  "stdin": "item1\nitem2\nitem3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_trailing_newline_regular_mode::368",
+  "argv": [
+   "-f",
+   "cherry"
+  ],
+  "stdin": "apple\nbanana\ncherry",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_stream_50k_lines::369",
+  "argv": [
+   "seq",
+   "1",
+   "50000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_stream_100k_lines::370",
+  "argv": [
+   "seq",
+   "1",
+   "100000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_straddling_multiple_buffers::371",
+  "argv": [
+   "-f",
+   "MARKER"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_line_lengths::372",
+  "argv": [
+   "-f",
+   "LONG"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_crlf_line_endings::373",
+  "argv": [
+   "-f",
+   ""
+  ],
+  "stdin": "line1\r\nline2\r\nline3\r\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_line_ending_styles::374",
+  "argv": [
+   "-f",
+   ""
+  ],
+  "stdin": "unix\nwindows\r\nmac\runix2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_input::375",
+  "argv": [
+   "-f",
+   "test"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_only_newlines::376",
+  "argv": [
+   "-f",
+   ""
+  ],
+  "stdin": "\n\n\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_only_null_bytes_read0::377",
+  "argv": [
+   "-f",
+   "",
+   "--read0"
+  ],
+  "stdin": "\u0000\u0000\u0000",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_huge_line_no_delimiter::378",
+  "argv": [
+   "-f",
+   "xxx"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exact_slab_boundary::379",
+  "argv": [
+   "-f",
+   "YYY"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_text::380",
+  "argv": [
+   "-f",
+   ""
+  ],
+  "stdin": "日本語\nрусский\narabic العربية\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_with_read0::381",
+  "argv": [
+   "-f",
+   "語",
+   "--read0"
+  ],
+  "stdin": "日本語\u0000русский\u0000العربية",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multi_slab_stream::382",
+  "argv": [
+   "-f",
+   "target_line"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_newlines_at_buffer_boundaries::383",
+  "argv": [
+   "-f",
+   "BOUNDARY"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_huge_line_read0_no_delimiter::384",
+  "argv": [
+   "-f",
+   "ZZZ",
+   "--read0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read0_mixed_newlines_and_nulls::385",
+  "argv": [
+   "-f",
+   "line",
+   "--read0"
+  ],
+  "stdin": "line1\nwith\nnewlines\u0000line2\u0000line3",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_consecutive_newlines_as_empty_lines::386",
+  "argv": [
+   "-f",
+   ""
+  ],
+  "stdin": "line1\n\n\nline2\n\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_exactly_at_buffer_boundary::387",
+  "argv": [
+   "-f",
+   "x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_data_with_embedded_nulls_newline_mode::388",
+  "argv": [
+   "-f",
+   "test"
+  ],
+  "stdin": "binary\u0000data\ntest\u0000line\nanother",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_alternating_match_pattern_large_set::389",
+  "argv": [
+   "-f",
+   "^match"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_with_only_delimiters::390",
+  "argv": [
+   "-f",
+   ""
+  ],
+  "stdin": "\n\n\n\n\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_variable_length_lines_slab_reallocation::391",
+  "argv": [
+   "-f",
+   "line"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_input::392",
+  "argv": [
+   "-f",
+   ""
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_character_no_newline::393",
+  "argv": [
+   "-f",
+   "x"
+  ],
+  "stdin": "x",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_newline_only::394",
+  "argv": [
+   "-f",
+   ""
+  ],
+  "stdin": "\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_only_cr_delimiters::395",
+  "argv": [
+   "-f",
+   ""
+  ],
+  "stdin": "line1\rline2\rline3\r",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_char_line::396",
+  "argv": [
+   "-f",
+   ""
+  ],
+  "stdin": "a\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_null_delimiter::397",
+  "argv": [
+   "-f",
+   "",
+   "--read0"
+  ],
+  "stdin": "\u0000",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_long_line_no_newline_eof::398",
+  "argv": [
+   "-f",
+   "A"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_alternating_crlf_lf::399",
+  "argv": [
+   "-f",
+   ""
+  ],
+  "stdin": "line1\r\nline2\nline3\r\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

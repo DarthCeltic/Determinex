@@ -1,0 +1,16 @@
+{
+  "schema": "determinex-repair-loop-transcript-v1",
+  "tool": "carbon", "family": "php", "pinned_commit": "b9a9d2d1",
+  "repair_type": "seeded_defect (behavioral) - verifier is the project's OWN phpunit suite (Docker php; Docker-OPTIONAL via toolchain_provider)",
+  "toolchain": "php 8.3 + composer (Docker image; or portable php + composer.phar)",
+  "oracle": "the real briannesbitt/carbon repo's own tests: `phpunit tests/Carbon/AddTest.php`",
+  "defect": {"file": "src/Carbon/Traits/Units.php", "function": "addUnit",
+    "seed": "`self::rawAddUnit($date, $unit, $value)` -> `-$value` (invert all date additions)",
+    "intent": "break Carbon's add* arithmetic (addDays/addMonths/etc.)"},
+  "detect": {"baseline": "69 passed", "after_seed": "60 failed", "oracle_caught": true,
+    "failure_signature": "date-addition assertions failed once the unit value was negated"},
+  "repair": {"fix": "restore `$value` (git checkout)", "oracle_guided": "the failing add tests point at addUnit"},
+  "reverify": {"after": "69 passed; repaired == upstream @b9a9d2d1", "passed": 69, "failures": 0},
+  "repair_loop_status": "passed",
+  "proves": "closed-loop repair on a real external PHP project (carbon): its OWN phpunit suite detects the injected arithmetic defect -> fix -> re-verify 69 green."
+}

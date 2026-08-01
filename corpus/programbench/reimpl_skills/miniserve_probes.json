@@ -1,0 +1,825 @@
+[
+ {
+  "name": "test::test_spa_requires_index::0",
+  "argv": [
+   "--spa"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_optional_value_flag_requires_value_when_explicit_equals_empty::1",
+  "argv": [
+   "--upload-files=",
+   "--chmod",
+   "0600"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_after_positional_are_still_parsed_as_options::2",
+  "argv": [
+   ".",
+   "--port",
+   "abc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_format::3",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_contains_key_options::4",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_errors::5",
+  "argv": [
+   "--definitely-not-a-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_auth_plaintext_password_success::6",
+  "argv": [
+   "-a",
+   "user:pass"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_auth_sha256_password_success::7",
+  "argv": [
+   "-a",
+   "user:sha256:13d249f2cb4127b40cfa757866850278793f814ded3c587fe5889e889a7a9f6c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_auth_multiple_accounts::8",
+  "argv": [
+   "-a",
+   "user1:pass1",
+   "-a",
+   "user2:pass2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_flag::9",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_short_flag::10",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_completions_invalid_shell::11",
+  "argv": [
+   "--print-completions",
+   "invalid_shell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_arguments_fails::12",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::13",
+  "argv": [
+   "--this-flag-does-not-exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_port::14",
+  "argv": [
+   "-p",
+   "99999",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_port_non_numeric::15",
+  "argv": [
+   "-p",
+   "not-a-port",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compression_gzip_enabled::16",
+  "argv": [
+   "--compress-response"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_title_option::17",
+  "argv": [
+   "--title",
+   "My Custom Title"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_qrcode_flag::18",
+  "argv": [
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_scheme::19",
+  "argv": [
+   "--color-scheme",
+   "monokai"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_wget_footer::20",
+  "argv": [
+   "--show-wget-footer"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_media_type_hint::21",
+  "argv": [
+   "-u",
+   "--media-type",
+   "image"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_readme_display::22",
+  "argv": [
+   "--readme"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_indexing::23",
+  "argv": [
+   "--disable-indexing"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_tar::24",
+  "argv": [
+   "--enable-tar"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_zip::25",
+  "argv": [
+   "--enable-zip"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_header_single::26",
+  "argv": [
+   "--header",
+   "X-Custom-Header:CustomValue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_header_multiple::27",
+  "argv": [
+   "--header",
+   "X-Custom-1:Value1",
+   "--header",
+   "X-Custom-2:Value2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cache_control_header::28",
+  "argv": [
+   "--header",
+   "Cache-Control:no-cache"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hidden_files_shown_with_flag::29",
+  "argv": [
+   "-H"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_file_served_instead_of_listing::30",
+  "argv": [
+   "--index",
+   "index.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_spa_mode_returns_index_for_nonexistent_paths::31",
+  "argv": [
+   "--spa",
+   "--index",
+   "index.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pretty_urls_serves_html_without_extension::32",
+  "argv": [
+   "--pretty-urls"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_route_prefix::33",
+  "argv": [
+   "--route-prefix",
+   "/myprefix"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_symlinks_hidden_with_flag::34",
+  "argv": [
+   "-P"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_upload_enabled_with_flag::35",
+  "argv": [
+   "-u"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_precedence_over_invalid_flag::36",
+  "argv": [
+   "--help",
+   "--definitely-not-a-real-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_treats_help_as_path_and_errors::37",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_completions_bash::38",
+  "argv": [
+   "--print-completions",
+   "bash"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_completions_zsh::39",
+  "argv": [
+   "--print-completions",
+   "zsh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_completions_fish::40",
+  "argv": [
+   "--print-completions",
+   "fish"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_completions_powershell::41",
+  "argv": [
+   "--print-completions",
+   "powershell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_completions_elvish::42",
+  "argv": [
+   "--print-completions",
+   "elvish"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_completions_invalid_shell::43",
+  "argv": [
+   "--print-completions",
+   "invalidshell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_manpage::44",
+  "argv": [
+   "--print-manpage"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_serve_nonexistent_path::45",
+  "argv": [
+   "/nonexistent/path/that/does/not/exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_port::46",
+  "argv": [
+   "-p",
+   "99999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_port_string::47",
+  "argv": [
+   "-p",
+   "notaport"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_auth_invalid_format::48",
+  "argv": [
+   "--auth",
+   "invalidformat",
+   "-p",
+   "8888"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_auth_file_nonexistent::49",
+  "argv": [
+   "--auth-file",
+   "/nonexistent/auth.txt",
+   "-p",
+   "8888"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_option::50",
+  "argv": [
+   "--invalid-option-that-does-not-exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_required_argument::51",
+  "argv": [
+   "--port"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_header_format::52",
+  "argv": [
+   "--header",
+   "InvalidHeaderWithoutColon",
+   "-p",
+   "8888"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_media_type::53",
+  "argv": [
+   "-u",
+   "-m",
+   "invalid_type",
+   "-p",
+   "8888"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_media_type_without_upload::54",
+  "argv": [
+   "-m",
+   "image",
+   "-p",
+   "8888"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_spa_without_index::55",
+  "argv": [
+   "--spa",
+   "-p",
+   "8888"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_path::56",
+  "argv": [
+   "-p",
+   "8765",
+   "/nonexistent/path/that/does/not/exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_sorting_method::57",
+  "argv": [
+   "-S",
+   "invalid",
+   "-p",
+   "8888"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_sorting_order::58",
+  "argv": [
+   "-O",
+   "invalid",
+   "-p",
+   "8888"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tls_cert_without_key::59",
+  "argv": [
+   "--tls-cert",
+   "cert.pem",
+   "-p",
+   "8888"
+  ],
+  "stdin": null,
+  "files": {
+   "cert.pem": "fake cert"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tls_key_without_cert::60",
+  "argv": [
+   "--tls-key",
+   "key.pem",
+   "-p",
+   "8888"
+  ],
+  "stdin": null,
+  "files": {
+   "key.pem": "fake key"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tls_nonexistent_cert::61",
+  "argv": [
+   "--tls-cert",
+   "/nonexistent/cert.pem",
+   "--tls-key",
+   "/nonexistent/key.pem",
+   "-p",
+   "8888"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_color_scheme::62",
+  "argv": [
+   "-c",
+   "invalid_scheme",
+   "-p",
+   "8888"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_env_value_causes_parse_error_on_run::63",
+  "argv": [
+   "--interfaces",
+   "127.0.0.1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "MINISERVE_PORT": "notanint"
+  }
+ },
+ {
+  "name": "test::test_cli_verbose_flag_overrides_env_by_disabling_value_flag_form::64",
+  "argv": [
+   "--interfaces",
+   "127.0.0.1",
+   "--verbose=false"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "MINISERVE_VERBOSE": "true"
+  }
+ },
+ {
+  "name": "test::test_nonexistent_path_is_error_and_nonzero_exit_code::65",
+  "argv": [
+   "/definitely/does/not/exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_is_error_nonzero_and_on_stderr::66",
+  "argv": [
+   "--definitely-not-a-real-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

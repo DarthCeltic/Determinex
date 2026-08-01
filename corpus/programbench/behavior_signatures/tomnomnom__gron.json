@@ -1,0 +1,15 @@
+{
+  "slug": "tomnomnom__gron",
+  "tool_name": "gron",
+  "language": "go",
+  "build_system": "go",
+  "binary_name": "gron",
+  "wrapper_pattern": "direct",
+  "executable_block": "cat > executable <<'EXEC_EOF'\n#!/usr/bin/env bash\nexec -a \"$0\" /usr/local/bin/gron \"$@\"\nEXEC_EOF",
+  "test_categories": [],
+  "behavioral_tags": [],
+  "passing_tests": 233,
+  "total_tests": 233,
+  "locked": true,
+  "official_full_suite_resolved": true
+}

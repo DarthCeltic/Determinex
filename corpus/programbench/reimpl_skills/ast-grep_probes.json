@@ -1,0 +1,204 @@
+[
+ {
+  "name": "test::test_custom_language_file_type_detection::0",
+  "argv": [
+   "jq",
+   "-c",
+   "[.[] | {file, language}] | sort_by(.file)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_not_interactive_error::1",
+  "argv": [
+   "run",
+   "-p",
+   "console",
+   "-l",
+   "js",
+   "--stdin",
+   "-i"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rule_not_specified_stdin_scan::2",
+  "argv": [
+   "scan",
+   "--stdin"
+  ],
+  "stdin": "console.log(\"test\");",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_language_not_specified_error::3",
+  "argv": [
+   "-p",
+   "console.log($A)",
+   "--stdin"
+  ],
+  "stdin": "console.log(\"test\");",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_without_language::4",
+  "argv": [
+   "-p",
+   "console",
+   "--stdin"
+  ],
+  "stdin": "console.log(1);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sg_scan_inline_rules::5",
+  "argv": [
+   "scan",
+   "--stdin",
+   "--inline-rules",
+   "{id: test, language: ts, rule: {pattern: console.log($A)}}",
+   "--json"
+  ],
+  "stdin": "console.log(123)",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sg_scan_py_empty_text::6",
+  "argv": [
+   "scan",
+   "--stdin",
+   "--inline-rules",
+   "{id: test, language: py, rule: {pattern: None}}"
+  ],
+  "stdin": "\n\n\n\n\nNone",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_severity_override_with_inline_rule_and_stdin::7",
+  "argv": [
+   "scan",
+   "--error",
+   "--stdin",
+   "--inline-rules",
+   "{language: ts, rule: {pattern: console.log($A)}}",
+   "--json"
+  ],
+  "stdin": "console.log(123)",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_inline_rules_no_id::8",
+  "argv": [
+   "scan",
+   "--stdin",
+   "--inline-rules",
+   "{language: ts, rule: {pattern: console.log($A)}}",
+   "--json"
+  ],
+  "stdin": "console.log(123)",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_input_mode::9",
+  "argv": [
+   "-p",
+   "console.log($X)",
+   "-l",
+   "js",
+   "--stdin",
+   "--color=never"
+  ],
+  "stdin": "console.log(\"test\"); alert(\"msg\");",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_ignore_vcs::10",
+  "argv": [
+   "git",
+   "init"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_basic::11",
+  "argv": [
+   "-p",
+   "console.log($X)",
+   "-l",
+   "ts",
+   "--stdin"
+  ],
+  "stdin": "console.log(\"from stdin\");\nconsole.log(\"another\");",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_rewrite::12",
+  "argv": [
+   "-p",
+   "console.log($M)",
+   "-r",
+   "console.error($M)",
+   "-l",
+   "ts",
+   "--stdin"
+  ],
+  "stdin": "console.log(\"test\");",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_input_with_inline_rules::13",
+  "argv": [
+   "scan",
+   "--stdin",
+   "--inline-rules",
+   "id: no-console\nmessage: No console\nseverity: error\nlanguage: JavaScript\nrule:\n  pattern: console.log($$$)"
+  ],
+  "stdin": "console.log('test');\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

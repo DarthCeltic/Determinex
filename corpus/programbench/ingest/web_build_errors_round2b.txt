@@ -1,0 +1,24 @@
+# Web build-error knowledge (round 2b) -- PB-CORE: container env-mismatch + locale/encoding.
+# These map directly onto PB's actual ceiling causes (root-in-container permissions; UTF-8/mojibake
+# output) -- the highest-relevance generalizable web knowledge for this benchmark.
+# Sources: docker permission guides, python/cpython locale issues, PEP 538/540, pantsbuild. 2026-06-29.
+
+## DOCKER / CONTAINER -- "passes locally, fails in the container"
+SYMPTOM: a test passes locally but fails in a Docker container or CI with "Permission denied" while writing to a mounted workspace.
+FIX: the container user UID/GID does not match the host file owner -- run the container with user "${UID}:${GID}" so the process owns the mounted files.
+
+SYMPTOM: a container WORKDIR or a freshly created directory is owned by root, and a later non-root user cannot write to it.
+FIX: chown the directory to the runtime user (or create it as that user) -- Docker creates WORKDIR as root even if you USER-switch afterward.
+
+SYMPTOM: a test asserts a non-root behavior (chmod denial, permission error) but the harness runs as root, so every file is writable/executable and the assertion never triggers.
+FIX: this is a container-as-root env mismatch (a real PB ceiling class) -- the reference binary also runs as root, so match the env rather than editing the test; only flag it as an env-ceiling if upstream itself cannot satisfy it.
+
+## LOCALE / ENCODING -- UTF-8 / mojibake output mismatches
+SYMPTOM: a subprocess test's output does not match because Python forces UTF-8 mode (PYTHONUTF8 / -X utf8), so an LC_ALL override in the test has no real effect.
+FIX: set PYTHONUTF8=0 during the test so it honors the locale instead of forced UTF-8 (no effect on 2.7/3.6, which ignore the variable).
+
+SYMPTOM: program output is ASCII-mangled / mojibake because the C or POSIX locale implies an ASCII default text encoding.
+FIX: run under a UTF-8 locale -- set LANG=en_US.utf-8 (or C.UTF-8) and LC_ALL so stdout/stderr encode as UTF-8 (PEP 538 locale coercion).
+
+SYMPTOM: a subprocess uses the wrong text encoding and there is no obvious way to choose it.
+FIX: pass encoding= explicitly to subprocess in text mode, or set PYTHONIOENCODING=utf-8 in the child environment; do not rely on the inherited locale.

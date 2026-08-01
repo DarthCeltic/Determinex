@@ -1,0 +1,29 @@
+{
+  "schema": "determinex-repair-loop-transcript-v1",
+  "tool": "inflector",
+  "family": "php",
+  "pinned_commit": "136a103",
+  "repair_type": "seeded_defect (behavioral) - verifier is the project's OWN test suite in a composer:2 image (toolchain via provider; Docker-OPTIONAL)",
+  "toolchain": "composer:2",
+  "oracle": "the real doctrine/inflector repo's own tests: vendor/bin/phpunit --no-coverage 2>&1",
+  "defect": {
+    "file": "src/Rules/English/Inflectible.php",
+    "seed": "yield new Substitution(new Word('person'), new Word('people')) -> yield new Substitution(new Word('person'), new Word('persons'))"
+  },
+  "detect": {
+    "baseline": "\u001b[30;42mOK (1213 tests, 1232 assertions)\u001b[0m",
+    "after_seed": "test suite FAILED (exit 1)",
+    "oracle_caught": true,
+    "failure_signature": "seeded defect made the project's own test suite exit non-zero"
+  },
+  "repair": {
+    "fix": "git checkout (restore upstream source)"
+  },
+  "reverify": {
+    "after": "\u001b[30;42mOK (1213 tests, 1232 assertions)\u001b[0m",
+    "passed": 1213,
+    "failures": 0
+  },
+  "repair_loop_status": "passed",
+  "proves": "closed-loop repair on a real external php project (inflector): its OWN test suite detects the injected defect -> fix -> re-verify (\u001b[30;42mOK (1213 tests, 1232 assertions)\u001b[0m). Reproducible."
+}

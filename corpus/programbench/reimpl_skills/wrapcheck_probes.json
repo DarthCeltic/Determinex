@@ -1,0 +1,867 @@
+[
+ {
+  "name": "test::test_ext_TestAnalyzer_simple_no_wrap::0",
+  "argv": [
+   "./wrapcheck/testdata/simple_no_wrap"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_TestAnalyzer_simple_with_wrap::1",
+  "argv": [
+   "./wrapcheck/testdata/simple_with_wrap"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_TestAnalyzer_config_ignoreSigs_filters_json_marshal::2",
+  "argv": [
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_TestAnalyzer_config_extraIgnoreSigs_extends_defaults_not_override::3",
+  "argv": [
+   "-json",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_mentions_usage_and_flags::4",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_full_succeeds_and_is_stable_prefix::5",
+  "argv": [
+   "-V=full"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_true_is_an_error_message_on_stdout::6",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_output_is_valid_and_contains_expected_fields::7",
+  "argv": [
+   "-json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_zero_includes_single_offending_line_only::8",
+  "argv": [
+   "-c=0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_one_includes_prev_and_next_lines::9",
+  "argv": [
+   "-c=1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_go_source_reports_parse_errors_and_skips_analysis::10",
+  "argv": [
+   "bad.go"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.go": "package main\nfunc main(){\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_simple_unwrapped_error::11",
+  "argv": [
+   "go",
+   "mod",
+   "init",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_database_sql_package_unwrapped::12",
+  "argv": [
+   "go",
+   "get",
+   "github.com/mattn/go-sqlite3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yaml_external_package_unwrapped::13",
+  "argv": [
+   "go",
+   "get",
+   "gopkg.in/yaml.v3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_args_errors_with_usage::14",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_long_flag_is_normalized_as_single_dash_in_error_message::15",
+  "argv": [
+   "--nonexistent-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_boolean_flag_default_true_accepts_explicit_true_value::16",
+  "argv": [
+   "-test=true",
+   "./..."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_separator_treats_following_as_positional::17",
+  "argv": [
+   "--",
+   "./..."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_can_appear_after_positional_package_arg::18",
+  "argv": [
+   "./...",
+   "-json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_too_many_positional_args_causes_nonzero_and_package_error_mentions_extra::19",
+  "argv": [
+   "./...",
+   "extra"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_short_flags_not_supported_when_it_changes_semantics::20",
+  "argv": [
+   "-Vjson"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fix_flag_no_modifications_unwrapped_error::21",
+  "argv": [
+   "go",
+   "mod",
+   "init",
+   "testpkg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_report_internal_errors_cross_file::22",
+  "argv": [
+   "/workspace/executable",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag::23",
+  "argv": [
+   "/workspace/executable",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::24",
+  "argv": [
+   "/workspace/executable",
+   "-V=full"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_invalid::25",
+  "argv": [
+   "-V=true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_json_output::26",
+  "argv": [
+   "-flags"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_analyze_nonexistent_package::27",
+  "argv": [
+   "./nonexistent/package"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_analyze_skip_test_files::28",
+  "argv": [
+   "-test=false"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_assigned_to_variable::29",
+  "argv": [
+   "./wrapcheck/testdata/err_assigned_to_var"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_reassigned::30",
+  "argv": [
+   "./wrapcheck/testdata/err_reassigned"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_named_error_return::31",
+  "argv": [
+   "./wrapcheck/testdata/named_error_return"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multi_assignment::32",
+  "argv": [
+   "./wrapcheck/testdata/multi_assign"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interface_method_calls::33",
+  "argv": [
+   "./wrapcheck/testdata/interface"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_struct_method_calls::34",
+  "argv": [
+   "./wrapcheck/testdata/struct_method_call"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_anonymous_functions::35",
+  "argv": [
+   "./wrapcheck/testdata/issue_17_anon_function"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_long_select_expressions::36",
+  "argv": [
+   "./wrapcheck/testdata/long_select_expr"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_ignore_sigs::37",
+  "argv": [
+   "./wrapcheck/testdata/config_ignoreSigs"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_extra_ignore_sigs::38",
+  "argv": [
+   "./wrapcheck/testdata/config_extraIgnoreSigs"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_ignore_sig_regexps::39",
+  "argv": [
+   "./wrapcheck/testdata/config_ignoreSigRegexps"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_ignore_sig_regexps_fail::40",
+  "argv": [
+   "./wrapcheck/testdata/config_ignoreSigRegexps_fail"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_ignore_package_globs::41",
+  "argv": [
+   "./wrapcheck/testdata/config_ignorePackageGlobs"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_ignore_interface_regexps::42",
+  "argv": [
+   "./wrapcheck/testdata/config_ignoreInterfaceRegexps"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_report_internal_errors::43",
+  "argv": [
+   "./wrapcheck/testdata/config_reportInternalErrors"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_output_format::44",
+  "argv": [
+   "-json",
+   "./wrapcheck/testdata/simple_no_wrap"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_lines_output::45",
+  "argv": [
+   "-c",
+   "2",
+   "./wrapcheck/testdata/simple_no_wrap"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fix_flag::46",
+  "argv": [
+   "-fix"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_flag::47",
+  "argv": [
+   "-fix",
+   "-diff"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cpuprofile_flag::48",
+  "argv": [
+   "-cpuprofile",
+   "./wrapcheck/testdata/simple_no_wrap"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_memprofile_flag::49",
+  "argv": [
+   "-memprofile",
+   "./wrapcheck/testdata/simple_no_wrap"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trace_flag::50",
+  "argv": [
+   "-trace",
+   "./wrapcheck/testdata/simple_no_wrap"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_flag::51",
+  "argv": [
+   "-debug",
+   "f",
+   "./wrapcheck/testdata/simple_no_wrap"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deprecated_all_flag::52",
+  "argv": [
+   "-all",
+   "./wrapcheck/testdata/simple_no_wrap"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deprecated_source_flag::53",
+  "argv": [
+   "-source",
+   "./wrapcheck/testdata/simple_no_wrap"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deprecated_v_flag::54",
+  "argv": [
+   "-v",
+   "./wrapcheck/testdata/simple_no_wrap"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deprecated_tags_flag::55",
+  "argv": [
+   "-tags",
+   "integration",
+   "./wrapcheck/testdata/simple_no_wrap"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_packages::56",
+  "argv": [
+   "./wrapcheck/testdata/simple_no_wrap",
+   "./wrapcheck/testdata/simple_with_wrap"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_recursive_package_scan::57",
+  "argv": [
+   "./wrapcheck/testdata/simple_no_wrap/..."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_errors_pkg::58",
+  "argv": [
+   "./wrapcheck/testdata/ignore_errors_pkg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_fmt_errorf::59",
+  "argv": [
+   "./wrapcheck/testdata/ignore_fmt_errorf"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_pkg_errors::60",
+  "argv": [
+   "./wrapcheck/testdata/ignore_pkg_errors"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_catch_fmt_sscanf::61",
+  "argv": [
+   "./wrapcheck/testdata/catch_fmt_sscanf"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_lines_negative::62",
+  "argv": [
+   "-c",
+   "-1",
+   "./wrapcheck/testdata/simple_no_wrap"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_lines_zero::63",
+  "argv": [
+   "-c",
+   "0",
+   "./wrapcheck/testdata/simple_no_wrap"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_lines_large::64",
+  "argv": [
+   "-c",
+   "10",
+   "./wrapcheck/testdata/simple_no_wrap"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_in_return_statement::65",
+  "argv": [
+   "./wrapcheck/testdata/return_function_call"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_output_no_issues::66",
+  "argv": [
+   "-json",
+   "./wrapcheck/testdata/simple_with_wrap"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::67",
+  "argv": [
+   "--invalid-flag-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interface_on_struct::68",
+  "argv": [
+   "./wrapcheck/testdata/interface_on_struct"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_issue_13_named_return::69",
+  "argv": [
+   "./wrapcheck/testdata/issue_13_named_return"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_var_method_call_other_file::70",
+  "argv": [
+   "./wrapcheck/testdata/var_method_call_other_file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_var_sentinel_other_file::71",
+  "argv": [
+   "./wrapcheck/testdata/var_sentinel_other_file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_package_assigned_to_variable::72",
+  "argv": [
+   "./wrapcheck/testdata/package_assigned_to_variable"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_ignore_package_globs_interface::73",
+  "argv": [
+   "./wrapcheck/testdata/config_ignorePackageGlobs_interface"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_ignore_package_globs_pkg_errors::74",
+  "argv": [
+   "./wrapcheck/testdata/config_ignorePackageGlobs_pkg_errors"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

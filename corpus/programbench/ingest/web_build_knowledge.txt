@@ -1,0 +1,20 @@
+# Web-ingested build/fix knowledge (free; from official toolchain docs + common-error references).
+# Formatted as ERROR -> FIX notes so the local-model distiller turns them into learned classes.
+
+## Rust / cargo
+- ERROR: linker `link.exe` not found on Windows -> FIX: install the Visual Studio Build Tools and run cargo build from the Developer Command Prompt (PATH must include the Build Tools directories).
+- ERROR: can't find crate for `core` / "target may not be installed" -> FIX: rustup target add <target-triple> before building.
+- ERROR: cargo build fails with an unreadable linking error -> FIX: run `cargo build -v` to see the exact rustc/linker command line, then pass an explicit linker via RUSTFLAGS="-C linker=<linker>" cargo build.
+- ERROR: a non-standard gcc means cargo cannot find the linker -> FIX: set RUSTFLAGS="-C linker=x86_64-unknown-linux-gnu" cargo build -v.
+
+## Go / go build
+- ERROR: go.mod `go 1.22.1` is invalid (patch versions are not allowed in the go directive) -> FIX: use the 1.x format (e.g. `go 1.22`) in go.mod.
+- ERROR: "package requires newer Go version" / module needs go >= 1.21 (Go 1.21 made the go line a mandatory minimum) -> FIX: export GOTOOLCHAIN=go1.21.3 (the required version); GOTOOLCHAIN=auto auto-downloads and re-invokes the required toolchain.
+- ERROR: package version issues after swapping the Go version -> FIX: delete go.sum and re-run `go mod tidy`.
+- NOTE: GOTOOLCHAIN=auto (the default) tries to DOWNLOAD the required toolchain; in a no-network eval sandbox pin GOTOOLCHAIN=<installed version> so it does not attempt a network fetch.
+
+## C / C++ / configure / cmake / make
+- ERROR: missing library / undefined reference / header not found -> FIX: apt-get update && apt-get install -y lib<name>-dev.
+- ERROR: CMake "PkgConfig module not found" -> FIX: apt-get install -y pkg-config.
+- FIX: use find_package() in CMakeLists to locate the library; export LD_LIBRARY_PATH=/path/to/lib:$LD_LIBRARY_PATH for runtime library paths.
+- DIAGNOSE: run `pkg-config --modversion <library>` to confirm the installed version before building.

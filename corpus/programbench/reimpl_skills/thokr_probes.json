@@ -1,0 +1,1699 @@
+[
+ {
+  "name": "test::test_help_shows_no_subcommands::0",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_works::1",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_help_flag::2",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_version_flag::3",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag::4",
+  "argv": [
+   "--nonexistent-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_positional_argument_without_flag::5",
+  "argv": [
+   "sometext"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_unknown_args::6",
+  "argv": [
+   "arg1",
+   "arg2",
+   "arg3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_word_count_flag_short::7",
+  "argv": [
+   "-w",
+   "10",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_word_count_flag_long::8",
+  "argv": [
+   "--number-of-words",
+   "10",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_language_flag_short::9",
+  "argv": [
+   "-l",
+   "english",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_language_flag_long::10",
+  "argv": [
+   "--supported-language",
+   "english1k",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_language_value::11",
+  "argv": [
+   "-l",
+   "invalid-language"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sentence_flag::12",
+  "argv": [
+   "--full-sentences",
+   "5",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seconds_flag::13",
+  "argv": [
+   "-s",
+   "30",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prompt_flag::14",
+  "argv": [
+   "-p",
+   "custom text",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_word_count_requires_number::15",
+  "argv": [
+   "-w",
+   "notanumber"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seconds_requires_number::16",
+  "argv": [
+   "-s",
+   "notanumber"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sentence_count_requires_number::17",
+  "argv": [
+   "--full-sentences",
+   "notanumber"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_without_value::18",
+  "argv": [
+   "-w"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_argument::19",
+  "argv": [
+   "--invalid-arg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_language::20",
+  "argv": [
+   "-l",
+   "spanish"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_word_count::21",
+  "argv": [
+   "-w",
+   "abc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_word_count::22",
+  "argv": [
+   "-w",
+   "-5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_seconds::23",
+  "argv": [
+   "-s",
+   "abc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_seconds::24",
+  "argv": [
+   "-s",
+   "-5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_word_count_short::25",
+  "argv": [
+   "-w",
+   "20"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_word_count_long::26",
+  "argv": [
+   "--number-of-words",
+   "25"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_language_english::27",
+  "argv": [
+   "-l",
+   "english"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_language_english1k::28",
+  "argv": [
+   "-l",
+   "english1k"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_language_english10k::29",
+  "argv": [
+   "-l",
+   "english10k"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_prompt_short::30",
+  "argv": [
+   "-p",
+   "hello world"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_prompt_long::31",
+  "argv": [
+   "--prompt",
+   "test prompt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seconds_short::32",
+  "argv": [
+   "-s",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seconds_long::33",
+  "argv": [
+   "--number-of-secs",
+   "15"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_full_sentences_short::34",
+  "argv": [
+   "-f",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_full_sentences_long::35",
+  "argv": [
+   "--full-sentences",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_arguments::36",
+  "argv": [
+   "-w",
+   "20",
+   "-l",
+   "english1k"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_word_count_zero::37",
+  "argv": [
+   "-w",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_word_count_one::38",
+  "argv": [
+   "-w",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_word_count_large::39",
+  "argv": [
+   "-w",
+   "10000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_custom_prompt::40",
+  "argv": [
+   "-p",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_custom_prompt::41",
+  "argv": [
+   "-p",
+   "hello 世界 🌍"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_chars_custom_prompt::42",
+  "argv": [
+   "-p",
+   "hello!@#$%^&*()"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seconds_one::43",
+  "argv": [
+   "-s",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seconds_large::44",
+  "argv": [
+   "-s",
+   "3600"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sentences_one::45",
+  "argv": [
+   "-f",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sentences_large::46",
+  "argv": [
+   "-f",
+   "100"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_combo_produces_error::47",
+  "argv": [
+   "--invalid",
+   "--flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_with_invalid_flags_shows_help::48",
+  "argv": [
+   "--help",
+   "--invalid-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_message_suggests_help::49",
+  "argv": [
+   "--invalid-option"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_error_includes_usage::50",
+  "argv": [
+   "./executable"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_language_flag_accepts_all_variants::51",
+  "argv": [
+   "-l",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_word_count_flag_accepts_various_numbers::52",
+  "argv": [
+   "-w",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sentence_flag_accepts_numbers::53",
+  "argv": [
+   "-f",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_limit_flag_accepts_numbers::54",
+  "argv": [
+   "-s",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_prompt_flag_accepts_text::55",
+  "argv": [
+   "-p",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_flags_with_help::56",
+  "argv": [
+   "-w",
+   "20",
+   "-l",
+   "english1k",
+   "-s",
+   "10",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_with_multiple_flags::57",
+  "argv": [
+   "--version",
+   "-w",
+   "10",
+   "-l",
+   "english"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::58",
+  "argv": [
+   "--invalid-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_sentence_count_non_numeric::59",
+  "argv": [
+   "-f",
+   "xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_language_value::60",
+  "argv": [
+   "-l"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_prompt_value::61",
+  "argv": [
+   "-p"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_sentence_count_value::62",
+  "argv": [
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_time_limit_value::63",
+  "argv": [
+   "-s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_large_word_count::64",
+  "argv": [
+   "-w",
+   "1000000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_short_flag::65",
+  "argv": [
+   "-z"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_word_count_long_flag::66",
+  "argv": [
+   "--number-of-words",
+   "20",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_word_count_zero::67",
+  "argv": [
+   "-w",
+   "0",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_word_count_large_number::68",
+  "argv": [
+   "-w",
+   "10000",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sentence_mode_short_flag::69",
+  "argv": [
+   "-f",
+   "3",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sentence_mode_long_flag::70",
+  "argv": [
+   "--full-sentences",
+   "2",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sentence_mode_zero::71",
+  "argv": [
+   "-f",
+   "0",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sentence_mode_large_number::72",
+  "argv": [
+   "-f",
+   "100",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_limit_long_flag::73",
+  "argv": [
+   "--number-of-secs",
+   "60",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_limit_zero::74",
+  "argv": [
+   "-s",
+   "0",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_limit_large_number::75",
+  "argv": [
+   "-s",
+   "3600",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_prompt_short_flag::76",
+  "argv": [
+   "-p",
+   "hello world",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_prompt_long_flag::77",
+  "argv": [
+   "--prompt",
+   "test prompt",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_prompt_empty_string::78",
+  "argv": [
+   "-p",
+   "",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_prompt_special_characters::79",
+  "argv": [
+   "-p",
+   "hello!@#$%^&*()",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_prompt_unicode::80",
+  "argv": [
+   "-p",
+   "héllo wörld 你好",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_language_english_long_flag::81",
+  "argv": [
+   "--supported-language",
+   "english",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_language_english1k::82",
+  "argv": [
+   "-l",
+   "english1k",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_language_english10k::83",
+  "argv": [
+   "-l",
+   "english10k",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_language_invalid::84",
+  "argv": [
+   "-l",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_language_case_sensitive::85",
+  "argv": [
+   "-l",
+   "English"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_word_count_with_language::86",
+  "argv": [
+   "-w",
+   "50",
+   "-l",
+   "english1k",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sentences_with_language::87",
+  "argv": [
+   "-f",
+   "3",
+   "-l",
+   "english10k",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_word_count_with_time_limit::88",
+  "argv": [
+   "-w",
+   "100",
+   "-s",
+   "60",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sentences_with_time_limit::89",
+  "argv": [
+   "-f",
+   "5",
+   "-s",
+   "30",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_prompt_with_time_limit::90",
+  "argv": [
+   "-p",
+   "test prompt",
+   "-s",
+   "45",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_prompt_with_word_count::91",
+  "argv": [
+   "-p",
+   "custom text",
+   "-w",
+   "20",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_prompt_with_language::92",
+  "argv": [
+   "-p",
+   "custom text",
+   "-l",
+   "english1k",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sentences_with_word_count::93",
+  "argv": [
+   "-f",
+   "2",
+   "-w",
+   "10",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_options_combined::94",
+  "argv": [
+   "-w",
+   "25",
+   "-f",
+   "3",
+   "-s",
+   "60",
+   "-p",
+   "test",
+   "-l",
+   "english1k",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_large_word_count::95",
+  "argv": [
+   "-w",
+   "50000",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_word_count_one::96",
+  "argv": [
+   "-w",
+   "1",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sentence_count_one::97",
+  "argv": [
+   "-f",
+   "1",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_limit_one_second::98",
+  "argv": [
+   "-s",
+   "1",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_time_limit::99",
+  "argv": [
+   "-s",
+   "86400",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_prompt_single_char::100",
+  "argv": [
+   "-p",
+   "a",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_prompt_with_numbers::101",
+  "argv": [
+   "-p",
+   "12345",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_prompt_with_spaces::102",
+  "argv": [
+   "-p",
+   "a  b  c",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_prompt_with_newlines::103",
+  "argv": [
+   "-p",
+   "line1\nline2",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_prompt_with_tabs::104",
+  "argv": [
+   "-p",
+   "word1\tword2",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_equals_syntax_word_count::105",
+  "argv": [
+   "--number-of-words=10",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_equals_syntax_language::106",
+  "argv": [
+   "--supported-language=english1k",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_equals_syntax_prompt::107",
+  "argv": [
+   "--prompt=hello",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_flags_order_1::108",
+  "argv": [
+   "-w",
+   "10",
+   "-l",
+   "english",
+   "-s",
+   "30",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_flags_order_2::109",
+  "argv": [
+   "-s",
+   "30",
+   "-l",
+   "english",
+   "-w",
+   "10",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_with_other_flags::110",
+  "argv": [
+   "-w",
+   "100",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_with_other_flags::111",
+  "argv": [
+   "-w",
+   "100",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prompt_overrides_word_count_implied::112",
+  "argv": [
+   "-p",
+   "custom",
+   "-w",
+   "100",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prompt_overrides_language_implied::113",
+  "argv": [
+   "-p",
+   "custom",
+   "-l",
+   "english1k",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sentences_overrides_word_count_implied::114",
+  "argv": [
+   "-f",
+   "2",
+   "-w",
+   "50",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_text_options_together::115",
+  "argv": [
+   "-p",
+   "test",
+   "-w",
+   "20",
+   "-f",
+   "3",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_limit_with_all_options::116",
+  "argv": [
+   "-s",
+   "60",
+   "-w",
+   "50",
+   "-f",
+   "2",
+   "-p",
+   "test",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_narrow_terminal_30_cols::117",
+  "argv": [
+   "tmux",
+   "kill-session",
+   "-t",
+   "test_narrow_30"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tiny_terminal_20_cols::118",
+  "argv": [
+   "tmux",
+   "kill-session",
+   "-t",
+   "test_tiny_20"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_tty_rejection::119",
+  "argv": [],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_escape_exits_from_results::120",
+  "argv": [
+   "tmux",
+   "has-session",
+   "-t",
+   "test_escape_results"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ctrl_c_exits::121",
+  "argv": [
+   "tmux",
+   "has-session",
+   "-t",
+   "test_ctrl_c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_timer_not_shown_without_s_flag::122",
+  "argv": [
+   "tmux",
+   "kill-session",
+   "-t",
+   "test_no_timer"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_error::123",
+  "argv": [
+   "--badflag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_supported_language_enum::124",
+  "argv": [
+   "-l",
+   "klingon"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_number_is_parsed_as_flaglike_and_errors::125",
+  "argv": [
+   "-w",
+   "-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_overrides_other_args::126",
+  "argv": [
+   "-w",
+   "0",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_requires_tty_stdin::127",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_integer_option_overflow_rejected::128",
+  "argv": [
+   "-w",
+   "9999999999999999999999999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rejects_duplicate_single_use_option::129",
+  "argv": [
+   "-w",
+   "10",
+   "-w",
+   "15"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unexpected_positional_argument_errors::130",
+  "argv": [
+   "extra"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_does_not_enable_positionals_for_this_program::131",
+  "argv": [
+   "--",
+   "-w"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_short_flags_are_not_supported_for_value_options::132",
+  "argv": [
+   "-ws",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

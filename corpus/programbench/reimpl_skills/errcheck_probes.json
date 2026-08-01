@@ -1,0 +1,969 @@
+[
+ {
+  "name": "test::test_repeatable_flag_ignore_can_be_specified_multiple_times::0",
+  "argv": [
+   "-ignore",
+   "a:b",
+   "-ignore",
+   "c:d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comma_list_flag_ignorepkg_accepts_commas::1",
+  "argv": [
+   "-ignorepkg",
+   "a/b,c/d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mod_flag_invalid_value_is_not_a_flag_parse_error_and_exit_code_is_zero::2",
+  "argv": [
+   "-mod",
+   "foo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_stops_flag_parsing_unknown_flag_after_double_dash_is_positional::3",
+  "argv": [
+   "-weird.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_can_appear_after_positional_args::4",
+  "argv": [
+   ".",
+   "-verbose"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_value_for_string_flag_via_equals_is_accepted::5",
+  "argv": [
+   "-exclude="
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_abspath_default_relative_paths::6",
+  "argv": [
+   "./testdata"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_abspath_flag_shows_absolute_paths::7",
+  "argv": [
+   "-abspath",
+   "./testdata"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asserts_flag_checks_type_assertions::8",
+  "argv": [
+   "-asserts",
+   "./testdata"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asserts_flag_with_blank::9",
+  "argv": [
+   "-asserts",
+   "-blank",
+   "./testdata"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_displays_usage::10",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exit_code_invalid_flag::11",
+  "argv": [
+   "-invalid-flag-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exit_code_nonexistent_package::12",
+  "argv": [
+   "./nonexistent_directory_xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_blank_flag_checks_blank_assignments::13",
+  "argv": [
+   "-blank",
+   "./testdata"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_file_with_functions::14",
+  "argv": [
+   "-exclude",
+   "excludes.txt",
+   "./testdata"
+  ],
+  "stdin": null,
+  "files": {
+   "excludes.txt": "\n// Comment line\nfmt.Fprintln\nos.ReadFile\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_file_with_comments_and_blanks::15",
+  "argv": [
+   "-exclude",
+   "excludes.txt",
+   "./testdata"
+  ],
+  "stdin": null,
+  "files": {
+   "excludes.txt": "\n// This is a comment\n\nos.ReadFile\n\n// Another comment\nfmt.Fprintln\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_missing_file::16",
+  "argv": [
+   "-exclude",
+   "/nonexistent/file.txt",
+   "./testdata"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_with_excludeonly::17",
+  "argv": [
+   "-excludeonly",
+   "-exclude",
+   "excludes.txt",
+   "./testdata"
+  ],
+  "stdin": null,
+  "files": {
+   "excludes.txt": "fmt.Fprintln\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_excludeonly_without_exclude_file::18",
+  "argv": [
+   "-excludeonly",
+   "./testdata"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_package_regex::19",
+  "argv": [
+   "-ignore",
+   "fmt:.*",
+   "./testdata"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_without_package::20",
+  "argv": [
+   "-ignore",
+   "[rR]ead",
+   "./testdata"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_multiple_patterns::21",
+  "argv": [
+   "-ignore",
+   "fmt:.*,os:.*",
+   "./testdata"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_invalid_regex::22",
+  "argv": [
+   "-ignore",
+   "fmt:[invalid(regex",
+   "./testdata"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_empty_value::23",
+  "argv": [
+   "-ignore",
+   "",
+   "./testdata"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignoregenerated_flag::24",
+  "argv": [
+   "-ignoregenerated",
+   "./testdata"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignorepkg_single_package::25",
+  "argv": [
+   "-ignorepkg",
+   "github.com/kisielk/errcheck/testdata",
+   "./testdata"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignorepkg_multiple_packages::26",
+  "argv": [
+   "-ignorepkg",
+   "fmt,os",
+   "./testdata"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignorepkg_empty_value::27",
+  "argv": [
+   "-ignorepkg",
+   "",
+   "./testdata"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignorepkg_nonexistent_package::28",
+  "argv": [
+   "-ignorepkg",
+   "nonexistent/package",
+   "./testdata"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignoretests_flag_skips_test_files::29",
+  "argv": [
+   "-ignoretests",
+   "./testdata"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mod_readonly::30",
+  "argv": [
+   "-mod",
+   "readonly",
+   "./testdata"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mod_vendor::31",
+  "argv": [
+   "-mod",
+   "vendor",
+   "./testdata"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mod_empty::32",
+  "argv": [
+   "-mod",
+   "",
+   "./testdata"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_output_format::33",
+  "argv": [
+   "-verbose",
+   "./testdata"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_package_paths::34",
+  "argv": [
+   "./testdata",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_path_dot::35",
+  "argv": [
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_absolute_path::36",
+  "argv": [
+   "/workspace/testdata"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_package_path::37",
+  "argv": [
+   "invalid/package/path/xyz123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tags_single_tag::38",
+  "argv": [
+   "-tags",
+   "integration",
+   "./testdata"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tags_multiple_space_separated::39",
+  "argv": [
+   "-tags",
+   "foo bar baz",
+   "./testdata"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tags_multiple_comma_separated::40",
+  "argv": [
+   "-tags",
+   "foo,bar,baz",
+   "./testdata"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tags_mixed_separators::41",
+  "argv": [
+   "-tags",
+   "foo,bar baz",
+   "./testdata"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tags_negated::42",
+  "argv": [
+   "-tags",
+   "!integration",
+   "./testdata"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tags_empty::43",
+  "argv": [
+   "-tags",
+   "",
+   "./testdata"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::44",
+  "argv": [
+   "--invalid-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_package_path::45",
+  "argv": [
+   "github.com/nonexistent/invalid/package/path/that/does/not/exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_blank_flag_with_testdata::46",
+  "argv": [
+   "-blank"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asserts_flag_with_testdata::47",
+  "argv": [
+   "-asserts"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignoretests_flag::48",
+  "argv": [
+   "-ignoretests"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignorepkg_reduces_errors::49",
+  "argv": [
+   "-ignorepkg",
+   "os"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_invalid_regex::50",
+  "argv": [
+   "-ignore",
+   "fmt:[invalid(regex"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_nonexistent_file::51",
+  "argv": [
+   "-exclude",
+   "/nonexistent/file.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_with_valid_file::52",
+  "argv": [
+   "-exclude"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_excludeonly_disables_defaults::53",
+  "argv": [
+   "-excludeonly"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mod_flag::54",
+  "argv": [
+   "-mod",
+   "readonly"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_abspath_prints_absolute_paths::55",
+  "argv": [
+   "-abspath"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_prints_function_names::56",
+  "argv": [
+   "-verbose"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_syntax::57",
+  "argv": [
+   "-invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_package_loading_error::58",
+  "argv": [
+   "github.com/nonexistent/package/xyz123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_excludeonly_with_custom_file::59",
+  "argv": [
+   "-excludeonly",
+   "-exclude"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_pattern_deprecated_still_works::60",
+  "argv": [
+   "-ignore",
+   ":recover.*"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_blank_and_asserts_combined::61",
+  "argv": [
+   "-blank",
+   "-asserts"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_with_abspath::62",
+  "argv": [
+   "-verbose",
+   "-abspath"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignoretests_with_verbose::63",
+  "argv": [
+   "-ignoretests",
+   "-verbose"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_takes_precedence_over_other_flags::64",
+  "argv": [
+   "--help",
+   "-verbose"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_with_dashdash_still_shows_usage::65",
+  "argv": [
+   "--",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_error_message_and_usage_are_printed::66",
+  "argv": [
+   "-version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subcommand_like_help_is_treated_as_pkg_and_errors::67",
+  "argv": [
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_version_subcommand::68",
+  "argv": [
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arbitrary_words_treated_as_package_paths::69",
+  "argv": [
+   "add"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_subcommand_specific_help::70",
+  "argv": [
+   "check",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_before_arguments::71",
+  "argv": [
+   "-blank",
+   "nonexistent/package"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_can_appear_after_arguments::72",
+  "argv": [
+   "nonexistent/package",
+   "-blank"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_error_no_subcommand_suggestion::73",
+  "argv": [
+   "--nonexistent-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_package_error_format::74",
+  "argv": [
+   "definitely/not/a/real/package/path/anywhere"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_args_uses_current_module_and_matches_golden::75",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_file_filters_specific_function::76",
+  "argv": [
+   "-exclude",
+   "excludes.txt",
+   "./testdata"
+  ],
+  "stdin": null,
+  "files": {
+   "excludes.txt": "os.ReadFile\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_exclude_file_is_reported_and_exit_code_is_two::77",
+  "argv": [
+   "-exclude",
+   "does_not_exist.txt",
+   "./testdata"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_mod_value_reports_error_and_exit_code_is_two::78",
+  "argv": [
+   "-mod",
+   "wat",
+   "./testdata"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_package_path_reports_error_and_exit_code_is_two::79",
+  "argv": [
+   "./doesnotexist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

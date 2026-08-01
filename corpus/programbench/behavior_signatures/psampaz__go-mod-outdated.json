@@ -1,0 +1,15 @@
+{
+  "slug": "psampaz__go-mod-outdated",
+  "tool_name": "go-mod-outdated",
+  "language": "go",
+  "build_system": "go",
+  "binary_name": "go-mod-outdated",
+  "wrapper_pattern": "direct",
+  "executable_block": "cat > executable <<'EXEC_EOF'\n#!/bin/bash\nexec -a \"$0\" /usr/local/bin/go-mod-outdated \"$@\"\nEXEC_EOF",
+  "test_categories": [],
+  "behavioral_tags": [],
+  "passing_tests": 342,
+  "total_tests": 342,
+  "locked": true,
+  "official_full_suite_resolved": true
+}

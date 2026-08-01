@@ -1,0 +1,3891 @@
+[
+ {
+  "name": "test::test_version_flag_long::0",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_short::1",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_long::2",
+  "argv": [
+   "--unknown-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_short::3",
+  "argv": [
+   "-z"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file::4",
+  "argv": [
+   "-l",
+   "nonexistent_xyz_123.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_dash::5",
+  "argv": [
+   "-l",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_missing_value::6",
+  "argv": [
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_at_line_missing_argument::7",
+  "argv": [
+   "at-line"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_at_line_invalid_number::8",
+  "argv": [
+   "at-line",
+   "abc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_at_line_with_stdin::9",
+  "argv": [
+   "at-line",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_at_line_negative_number::10",
+  "argv": [
+   "at-line",
+   "-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_at_line_zero::11",
+  "argv": [
+   "at-line",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_argument_exit_code::12",
+  "argv": [
+   "--invalid-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_not_found_exit_code::13",
+  "argv": [
+   "-l",
+   "nonexistent_file_xyz.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_help_flag::14",
+  "argv": [
+   "--query-help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_setup_completions_flag::15",
+  "argv": [
+   "--setup-completions"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_flag_without_value::16",
+  "argv": [
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_level_flag_without_value::17",
+  "argv": [
+   "-L"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_section_flag_without_value::18",
+  "argv": [
+   "-s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_flag_without_value::19",
+  "argv": [
+   "--filter"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_flag_without_value::20",
+  "argv": [
+   "--theme"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_mode_flag_without_value::21",
+  "argv": [
+   "--color-mode"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_explicit_dash::22",
+  "argv": [
+   "--list",
+   "-"
+  ],
+  "stdin": "# Test Heading\n\n## Subheading\n\nContent here.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_truly_empty_stdin_error::23",
+  "argv": [
+   "--list",
+   "-"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_from_stdin_single_heading::24",
+  "argv": [
+   "--list",
+   "-"
+  ],
+  "stdin": "# Test Heading\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tree_from_stdin_complex_document::25",
+  "argv": [
+   "--tree",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_only_newline_creates_default_heading::26",
+  "argv": [
+   "--list",
+   "-"
+  ],
+  "stdin": "\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_input_with_dash::27",
+  "argv": [
+   "-",
+   "-l"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_input::28",
+  "argv": [
+   "--list",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_setup_completions_bash_detection::29",
+  "argv": [
+   "--setup-completions"
+  ],
+  "stdin": "n\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_setup_completions_add_to_bashrc::30",
+  "argv": [
+   "--setup-completions"
+  ],
+  "stdin": "y\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_setup_completions_case_insensitive_yes::31",
+  "argv": [
+   "--setup-completions"
+  ],
+  "stdin": "Y\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_setup_completions_whitespace_in_response::32",
+  "argv": [
+   "--setup-completions"
+  ],
+  "stdin": " y \n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_setup_completions_empty_input_declines::33",
+  "argv": [
+   "--setup-completions"
+  ],
+  "stdin": "\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_dash_explicit::34",
+  "argv": [
+   "--list",
+   "-"
+  ],
+  "stdin": "# Valid Markdown\n\n## Section One\n\nContent here.\n\n## Section Two\n\nMore content.",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_plain_text_wrapping::35",
+  "argv": [
+   "--list",
+   "-"
+  ],
+  "stdin": "Plain text without any markdown heading",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_json_output::36",
+  "argv": [
+   "--list",
+   "--output",
+   "json",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_query_expression::37",
+  "argv": [
+   "-q",
+   ".h2",
+   "-"
+  ],
+  "stdin": "# Test\n\n## Section",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_filter_flag::38",
+  "argv": [
+   "--list",
+   "--filter",
+   "Section",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_level_flag::39",
+  "argv": [
+   "--list",
+   "--level",
+   "2",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_count_command::40",
+  "argv": [
+   "--count",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_section_extraction::41",
+  "argv": [
+   "--section",
+   "Section A",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_hash_mid_line_not_heading::42",
+  "argv": [
+   "--list",
+   "-"
+  ],
+  "stdin": "Text with # in middle but not at line start",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_heading_after_plain_text::43",
+  "argv": [
+   "--list",
+   "-"
+  ],
+  "stdin": "First line plain\n# Heading\nNext line",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_large_valid_content::44",
+  "argv": [
+   "--count",
+   "-"
+  ],
+  "stdin": "# Test\n\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_whitespace_only::45",
+  "argv": [
+   "--list",
+   "-"
+  ],
+  "stdin": "   \n\t\n  ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_document_no_links::46",
+  "argv": [
+   "-q",
+   ".link",
+   "--query-output",
+   "json",
+   "-"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_document_with_no_links::47",
+  "argv": [
+   "-q",
+   ".link",
+   "--query-output",
+   "json",
+   "-"
+  ],
+  "stdin": "# Plain Document\n\nThis is just plain text.\n\n## Another Section\n\nMore plain text here with no links at all.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_anchor_link_formats::48",
+  "argv": [
+   "-q",
+   ".link",
+   "--query-output",
+   "json-pretty",
+   "-"
+  ],
+  "stdin": "# Test\n\n[Pure anchor](#installation)\n[With dash](#install-guide)\n[With underscore](#setup_instructions)\n[File with anchor](./docs/api.md#endpoints)\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_link_paths::49",
+  "argv": [
+   "-q",
+   ".link",
+   "--query-output",
+   "json-pretty",
+   "-"
+  ],
+  "stdin": "# Test\n\n[Same dir](./file.md)\n[Parent](../docs/guide.md)\n[Nested](./src/parser/links.md)\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wikilink_with_alias::50",
+  "argv": [
+   "-q",
+   ".link",
+   "--query-output",
+   "json-pretty",
+   "-"
+  ],
+  "stdin": "# Test\n\n[[simple-target]]\n[[complex-target|Display Name]]\n[[another|Name With Spaces]]\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_links_on_same_line::51",
+  "argv": [
+   "-q",
+   ".link",
+   "--query-output",
+   "json-pretty",
+   "-"
+  ],
+  "stdin": "# Test\n\nCheck [first](https://a.com) and [second](https://b.com) and [[third]].\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_link_sorting_by_offset::52",
+  "argv": [
+   "-q",
+   ".link",
+   "--query-output",
+   "json",
+   "-"
+  ],
+  "stdin": "# Doc\n\n[Z Link](https://z.com)\n[A Link](https://a.com)\n[[m-wiki]]\n[B Link](https://b.com)\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_tui_session_lifecycle::53",
+  "argv": [
+   "tmux",
+   "has-session",
+   "-t",
+   "debug_session"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_screen_display::54",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_help_display",
+   "?"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tmux_available::55",
+  "argv": [
+   "tmux",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_session_exists_after_short_wait::56",
+  "argv": [
+   "tmux",
+   "has-session",
+   "-t",
+   "test_lifecycle_01"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_session_exists_after_medium_wait::57",
+  "argv": [
+   "tmux",
+   "has-session",
+   "-t",
+   "test_lifecycle_10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pane_alive_after_start::58",
+  "argv": [
+   "tmux",
+   "display-message",
+   "-t",
+   "test_pane_status",
+   "-p",
+   "#{pane_dead}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_config_is_compact_tree_style::59",
+  "argv": [
+   "--tree"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cli_color_mode_overrides_config_in_tui_init_error_message::60",
+  "argv": [
+   "--color-mode",
+   "rgb"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subcommand_help_recognized::61",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_is_treated_as_file_positional_not_a_command::62",
+  "argv": [
+   "definitely_not_a_real_subcommand_xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_help_subcommand_routing_help_at_line_matches_at_line_help::63",
+  "argv": [
+   "help",
+   "at-line"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_global_flag_errors_and_shows_usage::64",
+  "argv": [
+   "--definitely-bad-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_flags_are_not_accepted_after_subcommand_as_subcommands::65",
+  "argv": [
+   "help",
+   "at-line",
+   "--verbose"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_config_uses_defaults::66",
+  "argv": [
+   "-l"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cli_theme_overrides_config::67",
+  "argv": [
+   "--theme",
+   "Dracula",
+   "-l"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cli_color_mode_overrides_config::68",
+  "argv": [
+   "--color-mode",
+   "256",
+   "-l"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_cli_overrides::69",
+  "argv": [
+   "--theme",
+   "Gruvbox",
+   "--color-mode",
+   "rgb",
+   "-l"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_valid_themes::70",
+  "argv": [
+   "--theme",
+   "-l"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_valid_color_modes::71",
+  "argv": [
+   "--color-mode",
+   "-l"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_with_config::72",
+  "argv": [
+   "-q",
+   ".h2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_output_format_with_config::73",
+  "argv": [
+   "-q",
+   ".h",
+   "--query-output",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cli_images_flag_overrides_config::74",
+  "argv": [
+   "--images",
+   "-l"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cli_no_images_flag_overrides_config::75",
+  "argv": [
+   "--no-images",
+   "-l"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_plain_from_stdin_dash_matches_expected::76",
+  "argv": [
+   "-l",
+   "-o",
+   "plain",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_json_from_file_parses_and_has_metadata::77",
+  "argv": [
+   "-l",
+   "-o",
+   "json",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_section_extract_prints_heading_and_content::78",
+  "argv": [
+   "-s",
+   "A",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file_exit_1_and_error_on_stderr::79",
+  "argv": [
+   "nonexistent_file_please_dont_create.md",
+   "-l"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_subcommand_recognized::80",
+  "argv": [
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_at_line_subcommand_recognized::81",
+  "argv": [
+   "at-line",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_at_line_rejects_invalid_line_argument::82",
+  "argv": [
+   "at-line",
+   "not-a-number"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_at_line_rejects_extra_arguments::83",
+  "argv": [
+   "at-line",
+   "10",
+   "extra-arg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_treated_as_file::84",
+  "argv": [
+   "nonexistent-command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_path_not_confused_with_subcommand::85",
+  "argv": [
+   "--list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_at_line_with_numeric_argument::86",
+  "argv": [
+   "at-line",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_argument_position_with_subcommand::87",
+  "argv": [
+   "at-line",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dash_h_flag::88",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_precedence_with_other_flags_list_help_long_wins::89",
+  "argv": [
+   "-l",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_precedence_with_invalid_flag_still_prints_help::90",
+  "argv": [
+   "--definitely-not-a-flag",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_separator_help_after_is_not_treated_as_help::91",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_first_arg_with_help_prints_main_help::92",
+  "argv": [
+   "no_such_subcommand",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_at_line_basic::93",
+  "argv": [
+   "at-line",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_at_line_large_number::94",
+  "argv": [
+   "at-line",
+   "1000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_at_line_zero::95",
+  "argv": [
+   "at-line",
+   "0"
+  ],
+  "stdin": "# Test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_at_line_no_stdin::96",
+  "argv": [
+   "at-line",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_at_line_negative_number::97",
+  "argv": [
+   "at-line",
+   "-5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_at_line_with_headings::98",
+  "argv": [
+   "at-line",
+   "3"
+  ],
+  "stdin": "# Title\ntext\n## Section\nmore text\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::99",
+  "argv": [
+   "--invalid-flag-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_precedence::100",
+  "argv": [
+   "--help",
+   "--invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_precedence::101",
+  "argv": [
+   "--version",
+   "--invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cli_stdin_with_count::102",
+  "argv": [
+   "--count",
+   "-"
+  ],
+  "stdin": "# H1\n## H2a\n## H2b\n### H3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cli_filter_with_tree::103",
+  "argv": [
+   "--tree",
+   "--filter",
+   "Install",
+   "/workspace/README.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cli_level_with_tree::104",
+  "argv": [
+   "--tree",
+   "-L",
+   "2",
+   "/workspace/README.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cli_section_with_query_invalid::105",
+  "argv": [
+   "-s",
+   "Test",
+   "-q",
+   ".h2",
+   "/workspace/README.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cli_list_json_structure::106",
+  "argv": [
+   "-l",
+   "-o",
+   "json",
+   "/workspace/README.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cli_query_json_array::107",
+  "argv": [
+   "-q",
+   ".h1",
+   "-o",
+   "json",
+   "/workspace/README.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cli_tree_json_structure::108",
+  "argv": [
+   "--tree",
+   "-o",
+   "json",
+   "/workspace/README.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cli_filter_case_variations::109",
+  "argv": [
+   "-l",
+   "--filter",
+   "InStAlL",
+   "/workspace/README.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cli_section_extraction_boundary::110",
+  "argv": [
+   "-s",
+   "License",
+   "/workspace/README.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cli_empty_section_name::111",
+  "argv": [
+   "-s",
+   "",
+   "/workspace/README.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cli_count_metadata::112",
+  "argv": [
+   "--count",
+   "/workspace/README.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cli_special_markdown_chars::113",
+  "argv": [
+   "-l",
+   "special.md"
+  ],
+  "stdin": null,
+  "files": {
+   "special.md": "# Test: A Title\n## [Bracketed]\n### **Bold**\n#### _Italic_\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cli_mixed_heading_styles::114",
+  "argv": [
+   "-l",
+   "mixed.md"
+  ],
+  "stdin": null,
+  "files": {
+   "mixed.md": "# ATX H1\n\nSetext H1\n=========\n\n## ATX H2\n\nSetext H2\n---------\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cli_heading_with_code::115",
+  "argv": [
+   "-l",
+   "code_title.md"
+  ],
+  "stdin": null,
+  "files": {
+   "code_title.md": "# Using `code` in title\n## Another `inline` code\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cli_heading_with_links::116",
+  "argv": [
+   "-l",
+   "link_title.md"
+  ],
+  "stdin": null,
+  "files": {
+   "link_title.md": "# [Link Title](http://example.com)\n## See [here](test.md)\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cli_blank_lines_between_headings::117",
+  "argv": [
+   "-l",
+   "blanks.md"
+  ],
+  "stdin": null,
+  "files": {
+   "blanks.md": "# H1\n\n\n\n## H2\n\n### H3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cli_heading_id_attributes::118",
+  "argv": [
+   "-l",
+   "ids.md"
+  ],
+  "stdin": null,
+  "files": {
+   "ids.md": "# Heading {#custom-id}\n## Another {#another}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_basic::119",
+  "argv": [
+   "--count"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_with_stdin::120",
+  "argv": [
+   "--count",
+   "-"
+  ],
+  "stdin": "# Title\n## Section 1\n## Section 2\n### Subsection\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_empty_file::121",
+  "argv": [
+   "--count",
+   "empty.md"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.md": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_no_headings::122",
+  "argv": [
+   "--count",
+   "no_headings.md"
+  ],
+  "stdin": null,
+  "files": {
+   "no_headings.md": "Just plain text.\nNo headings.\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_only_one_level::123",
+  "argv": [
+   "--count",
+   "one_level.md"
+  ],
+  "stdin": null,
+  "files": {
+   "one_level.md": "## Heading 1\n## Heading 2\n## Heading 3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_all_levels::124",
+  "argv": [
+   "--count",
+   "all_levels.md"
+  ],
+  "stdin": null,
+  "files": {
+   "all_levels.md": "# H1\n## H2\n### H3\n#### H4\n##### H5\n###### H6\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_complex_nesting::125",
+  "argv": [
+   "-q",
+   "[.h2] | limit(5) | reverse | first"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_empty_array_operations::126",
+  "argv": [
+   "-q",
+   "[.h2] | count",
+   "empty.md"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.md": "# Only H1\nNo h2 here."
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_with_special_quotes::127",
+  "argv": [
+   "-q",
+   ".h1",
+   "quotes.md"
+  ],
+  "stdin": null,
+  "files": {
+   "quotes.md": "# Test \"quoted\" title\n## Another 'single' quote\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_very_long_filter::128",
+  "argv": [
+   "-l",
+   "--filter",
+   "/workspace/README.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_output_formats_all::129",
+  "argv": [
+   "-q",
+   ".h2",
+   "--query-output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_output_formats_valid::130",
+  "argv": [
+   "-l",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tree_output_formats_valid::131",
+  "argv": [
+   "--tree",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_heading_with_trailing_hashes::132",
+  "argv": [
+   "-l",
+   "trailing.md"
+  ],
+  "stdin": null,
+  "files": {
+   "trailing.md": "# H1 #\n## H2 ##\n### H3 ###\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_heading_with_no_space::133",
+  "argv": [
+   "-l",
+   "nospace.md"
+  ],
+  "stdin": null,
+  "files": {
+   "nospace.md": "#NoSpace\n## HasSpace\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_document_with_only_whitespace::134",
+  "argv": [
+   "-l",
+   "whitespace.md"
+  ],
+  "stdin": null,
+  "files": {
+   "whitespace.md": "   \n\n\t\t\n   \n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_heading_levels_ascending::135",
+  "argv": [
+   "-l",
+   "ascending.md"
+  ],
+  "stdin": null,
+  "files": {
+   "ascending.md": "# H1\n## H2\n### H3\n#### H4\n##### H5\n###### H6\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_heading_levels_descending::136",
+  "argv": [
+   "-l",
+   "descending.md"
+  ],
+  "stdin": null,
+  "files": {
+   "descending.md": "###### H6\n##### H5\n#### H4\n### H3\n## H2\n# H1\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_heading_levels_random::137",
+  "argv": [
+   "-l",
+   "random.md"
+  ],
+  "stdin": null,
+  "files": {
+   "random.md": "### H3\n# H1\n##### H5\n## H2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_with_regex_chars::138",
+  "argv": [
+   "-l",
+   "--filter",
+   ".*"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_with_numbers::139",
+  "argv": [
+   "-l",
+   "--filter",
+   "0.5",
+   "/workspace/README.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_with_escaped_strings::140",
+  "argv": [
+   "-q",
+   ".h2[\"\\\"Quoted\\\"\"]",
+   "escaped.md"
+  ],
+  "stdin": null,
+  "files": {
+   "escaped.md": "# Test\n## \"Quoted\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_section_first_in_document::141",
+  "argv": [
+   "-s",
+   "First",
+   "first.md"
+  ],
+  "stdin": null,
+  "files": {
+   "first.md": "# First\nContent\n## Second\nMore content\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_section_last_in_document::142",
+  "argv": [
+   "-s",
+   "Last",
+   "last.md"
+  ],
+  "stdin": null,
+  "files": {
+   "last.md": "# First\nContent\n## Last\nFinal content\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_with_unbalanced_levels::143",
+  "argv": [
+   "--count",
+   "unbalanced.md"
+  ],
+  "stdin": null,
+  "files": {
+   "unbalanced.md": "# H1\n### H3\n##### H5\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_unicode_filter::144",
+  "argv": [
+   "-l",
+   "--filter",
+   "日本語",
+   "/workspace/README.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_utf8_handling::145",
+  "argv": [
+   "-l",
+   "invalid.md"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.md": "��# Invalid\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_malformed_markdown::146",
+  "argv": [
+   "-l",
+   "malformed.md"
+  ],
+  "stdin": null,
+  "files": {
+   "malformed.md": "### Not properly nested\n# After h3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_stdin_error::147",
+  "argv": [
+   "-l",
+   "-"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_section_with_empty_file_error::148",
+  "argv": [
+   "-s",
+   "Section",
+   "empty.md"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.md": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_on_empty_file::149",
+  "argv": [
+   "-q",
+   ".h2",
+   "empty.md"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.md": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_handles_duplicate_headings::150",
+  "argv": [
+   "--count",
+   "dups.md"
+  ],
+  "stdin": null,
+  "files": {
+   "dups.md": "## Same\n## Same\n## Same\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tree_with_no_headings::151",
+  "argv": [
+   "--tree",
+   "no_h.md"
+  ],
+  "stdin": null,
+  "files": {
+   "no_h.md": "Just text"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_no_matches_list::152",
+  "argv": [
+   "-l",
+   "--filter",
+   "ZZZZNONEXISTENT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_level_filter_no_matches::153",
+  "argv": [
+   "-l",
+   "-L",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_empty_result::154",
+  "argv": [
+   "-q",
+   ".h6"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_flags_combination::155",
+  "argv": [
+   "-l",
+   "--filter",
+   "Section",
+   "-L",
+   "2",
+   "-o",
+   "plain"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_modes::156",
+  "argv": [
+   "-l",
+   "--tree",
+   "/workspace/README.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_permission_denied_simulation::157",
+  "argv": [
+   "-l",
+   "test.md"
+  ],
+  "stdin": null,
+  "files": {
+   "test.md": "# Test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_piped::158",
+  "argv": [
+   "-l",
+   "-"
+  ],
+  "stdin": "# Title\n## Section\nContent here.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_file::159",
+  "argv": [
+   "-l",
+   "/nonexistent/file.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_file::160",
+  "argv": [
+   "-l",
+   "empty.md"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.md": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_no_headings::161",
+  "argv": [
+   "-l",
+   "no_headings.md"
+  ],
+  "stdin": null,
+  "files": {
+   "no_headings.md": "Just some text.\nNo headings here.\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_extension_variants::162",
+  "argv": [
+   "-l",
+   "test.md"
+  ],
+  "stdin": null,
+  "files": {
+   "test.md": "# Test MD\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_content::163",
+  "argv": [
+   "-l",
+   "unicode.md"
+  ],
+  "stdin": null,
+  "files": {
+   "unicode.md": "# 日本語タイトル\n## Émojis 🚀\n### Spëcial Chärs\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_filter_case_insensitive::164",
+  "argv": [
+   "-l",
+   "--filter",
+   "section"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_filter_uppercase::165",
+  "argv": [
+   "-l",
+   "--filter",
+   "SECTION"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_filter_no_matches::166",
+  "argv": [
+   "-l",
+   "--filter",
+   "nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_level_1::167",
+  "argv": [
+   "-l",
+   "--level",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_level_2::168",
+  "argv": [
+   "-l",
+   "--level",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_level_3::169",
+  "argv": [
+   "-l",
+   "-L",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_level_4::170",
+  "argv": [
+   "-l",
+   "-L",
+   "4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_level_short_flag::171",
+  "argv": [
+   "-l",
+   "-L",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_filter_and_level::172",
+  "argv": [
+   "-l",
+   "--filter",
+   "section",
+   "--level",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_output_plain::173",
+  "argv": [
+   "-l",
+   "-o",
+   "plain"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_output_json::174",
+  "argv": [
+   "-l",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_output_tree_invalid::175",
+  "argv": [
+   "-l",
+   "-o",
+   "tree",
+   "/workspace/README.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_invalid_level_zero::176",
+  "argv": [
+   "-l",
+   "-L",
+   "0",
+   "/workspace/README.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_invalid_level_seven::177",
+  "argv": [
+   "-l",
+   "-L",
+   "7",
+   "/workspace/README.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_stdin_with_filter::178",
+  "argv": [
+   "-l",
+   "--filter",
+   "Good",
+   "-"
+  ],
+  "stdin": "# Title\n## Good Section\n## Bad Section\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_format_invalid::179",
+  "argv": [
+   "-l",
+   "-o",
+   "invalid_format",
+   "/workspace/README.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_output_json::180",
+  "argv": [
+   "-q",
+   ".h2",
+   "--query-output",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_output_jsonp::181",
+  "argv": [
+   "-q",
+   ".h2",
+   "--query-output",
+   "json-pretty"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_output_plain::182",
+  "argv": [
+   "-q",
+   ".h2",
+   "--query-output",
+   "plain"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_output_md::183",
+  "argv": [
+   "-q",
+   ".h2",
+   "--query-output",
+   "md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_output_tree::184",
+  "argv": [
+   "-q",
+   ".h",
+   "--query-output",
+   "tree"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_output_jsonl::185",
+  "argv": [
+   "-q",
+   ".h2",
+   "--query-output",
+   "jsonl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_atx_headings_without_closing_hashes::186",
+  "argv": [
+   "-l",
+   "atx.md"
+  ],
+  "stdin": null,
+  "files": {
+   "atx.md": "# H1\n## H2\n### H3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_setext_heading_style::187",
+  "argv": [
+   "-l",
+   "setext.md"
+  ],
+  "stdin": null,
+  "files": {
+   "setext.md": "Heading 1\n=========\n\nHeading 2\n---------\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_heading_after_code_block::188",
+  "argv": [
+   "-l",
+   "after_code.md"
+  ],
+  "stdin": null,
+  "files": {
+   "after_code.md": "```\ncode here\n```\n\n## Heading After Code\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_heading_after_table::189",
+  "argv": [
+   "-l",
+   "after_table.md"
+  ],
+  "stdin": null,
+  "files": {
+   "after_table.md": "| Col1 | Col2 |\n|------|------|\n| A    | B    |\n\n## Heading After Table\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_heading_in_list_not_parsed::190",
+  "argv": [
+   "-l",
+   "list_heading.md"
+  ],
+  "stdin": null,
+  "files": {
+   "list_heading.md": "- Item 1\n  # Not a heading\n- Item 2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_heading_in_blockquote::191",
+  "argv": [
+   "-l",
+   "quote_heading.md"
+  ],
+  "stdin": null,
+  "files": {
+   "quote_heading.md": "> # Quoted Heading\n> Content\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_heading_with_html::192",
+  "argv": [
+   "-l",
+   "html.md"
+  ],
+  "stdin": null,
+  "files": {
+   "html.md": "# Heading with <em>HTML</em>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_heading_with_emoji::193",
+  "argv": [
+   "-l",
+   "emoji.md"
+  ],
+  "stdin": null,
+  "files": {
+   "emoji.md": "# Test 🚀 Rocket\n## Section 👍\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_heading_with_math::194",
+  "argv": [
+   "-l",
+   "math.md"
+  ],
+  "stdin": null,
+  "files": {
+   "math.md": "# E = mc²\n## x ≥ 0\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_consecutive_headings::195",
+  "argv": [
+   "-l",
+   "consecutive.md"
+  ],
+  "stdin": null,
+  "files": {
+   "consecutive.md": "# H1\n## H2\n### H3\n#### H4\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_heading_with_reference_link::196",
+  "argv": [
+   "-l",
+   "reflink.md"
+  ],
+  "stdin": null,
+  "files": {
+   "reflink.md": "# Test [link][ref]\n\n[ref]: https://example.com\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_heading_with_footnote::197",
+  "argv": [
+   "-l",
+   "footnote.md"
+  ],
+  "stdin": null,
+  "files": {
+   "footnote.md": "# Heading[^1]\n\n[^1]: Footnote text\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_heading_with_abbreviation::198",
+  "argv": [
+   "-l",
+   "abbr.md"
+  ],
+  "stdin": null,
+  "files": {
+   "abbr.md": "# Using HTML and CSS\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_indented_code_block_not_heading::199",
+  "argv": [
+   "-l",
+   "indented.md"
+  ],
+  "stdin": null,
+  "files": {
+   "indented.md": "    # Not a heading\n    code here\n\n## Real Heading\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fenced_code_block_language::200",
+  "argv": [
+   "-l",
+   "fenced.md"
+  ],
+  "stdin": null,
+  "files": {
+   "fenced.md": "```python\ndef test():\n    pass\n```\n\n## After Code\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_horizontal_rules::201",
+  "argv": [
+   "-l",
+   "hr.md"
+  ],
+  "stdin": null,
+  "files": {
+   "hr.md": "# H1\n\n---\n\n## H2\n\n***\n\n### H3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_definition_list::202",
+  "argv": [
+   "-l",
+   "deflist.md"
+  ],
+  "stdin": null,
+  "files": {
+   "deflist.md": "Term\n: Definition\n\n## Heading\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_task_list_items::203",
+  "argv": [
+   "-l",
+   "tasks.md"
+  ],
+  "stdin": null,
+  "files": {
+   "tasks.md": "- [x] Done\n- [ ] Todo\n\n## Heading\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strikethrough_in_heading::204",
+  "argv": [
+   "-l",
+   "strike.md"
+  ],
+  "stdin": null,
+  "files": {
+   "strike.md": "# ~~Strikethrough~~ Text\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_superscript_subscript::205",
+  "argv": [
+   "-l",
+   "script.md"
+  ],
+  "stdin": null,
+  "files": {
+   "script.md": "# H^2^O and CO~2~\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_blank_lines::206",
+  "argv": [
+   "-l",
+   "blanks.md"
+  ],
+  "stdin": null,
+  "files": {
+   "blanks.md": "# H1\n\n\n\n\n\n## H2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_windows_line_endings::207",
+  "argv": [
+   "-l",
+   "windows.md"
+  ],
+  "stdin": null,
+  "files": {
+   "windows.md": "# H1\r\n## H2\r\n### H3\r\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_line_endings::208",
+  "argv": [
+   "-l",
+   "mixed_endings.md"
+  ],
+  "stdin": null,
+  "files": {
+   "mixed_endings.md": "# H1\r\n## H2\n### H3\r\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_heading_with_autolink::209",
+  "argv": [
+   "-l",
+   "autolink.md"
+  ],
+  "stdin": null,
+  "files": {
+   "autolink.md": "# Visit <https://example.com>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_range_indexing::210",
+  "argv": [
+   "-q",
+   ".h2[0:2]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_skip_function::211",
+  "argv": [
+   "-q",
+   "[.h2] | skip(1)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_take_function::212",
+  "argv": [
+   "-q",
+   "[.h2] | take(1)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_reverse_function::213",
+  "argv": [
+   "-q",
+   "[.h2] | reverse"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_length_function::214",
+  "argv": [
+   "-q",
+   "[.h2] | length"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_size_function::215",
+  "argv": [
+   "-q",
+   "[.h2] | size"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_head_function::216",
+  "argv": [
+   "-q",
+   "[.h2] | head"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_nth_function::217",
+  "argv": [
+   "-q",
+   "[.h2] | nth(1)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_trim_function::218",
+  "argv": [
+   "-q",
+   ".h2 | text | trim",
+   "trim.md"
+  ],
+  "stdin": null,
+  "files": {
+   "trim.md": "# Title  \n##  Heading With Spaces  \n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_split_function::219",
+  "argv": [
+   "-q",
+   ".h1 | text | split(\"-\")",
+   "split.md"
+  ],
+  "stdin": null,
+  "files": {
+   "split.md": "# One-Two-Three\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_endswith_function::220",
+  "argv": [
+   "-q",
+   ".h2 | text | select(endswith(\"One\"))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_content_function::221",
+  "argv": [
+   "-q",
+   ".h2[0] | content"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_md_function::222",
+  "argv": [
+   "-q",
+   ".h2[0] | md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_slugify_function::223",
+  "argv": [
+   "-q",
+   ".h1 | text | slugify",
+   "slug.md"
+  ],
+  "stdin": null,
+  "files": {
+   "slug.md": "# Hello World Test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_levels_aggregation::224",
+  "argv": [
+   "-q",
+   ". | levels",
+   "/workspace/README.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_table_selector::225",
+  "argv": [
+   "-q",
+   ".table"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_list_selector::226",
+  "argv": [
+   "-q",
+   ".list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_link_external::227",
+  "argv": [
+   "-q",
+   ".link[external]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_flatten_function::228",
+  "argv": [
+   "-q",
+   "[[.h1], [.h2]] | flatten",
+   "flatten.md"
+  ],
+  "stdin": null,
+  "files": {
+   "flatten.md": "# Test\n## One\n## Two\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_unique_function::229",
+  "argv": [
+   "-q",
+   "[.h] | text | unique",
+   "unique.md"
+  ],
+  "stdin": null,
+  "files": {
+   "unique.md": "# Test\n## Test\n### Test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_where_alias::230",
+  "argv": [
+   "-q",
+   ".h | where(contains(\"One\"))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_filter_alias::231",
+  "argv": [
+   "-q",
+   ".h | filter(contains(\"Two\"))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_includes_alias::232",
+  "argv": [
+   "-q",
+   ".h | select(includes(\"Section\"))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_len_alias::233",
+  "argv": [
+   "-q",
+   "[.h2] | len"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_drop_function::234",
+  "argv": [
+   "-q",
+   "[.h2] | drop(1)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_not_function::235",
+  "argv": [
+   "-q",
+   "[.h2] | select(not(contains(\"XYZ\")))",
+   "not.md"
+  ],
+  "stdin": null,
+  "files": {
+   "not.md": "# Test\n## Section\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_join_function::236",
+  "argv": [
+   "-q",
+   "[.h] | text | join(\", \")",
+   "join.md"
+  ],
+  "stdin": null,
+  "files": {
+   "join.md": "# One\n## Two\n### Three\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_lines_function::237",
+  "argv": [
+   "-q",
+   ".h1 | content | lines",
+   "lines.md"
+  ],
+  "stdin": null,
+  "files": {
+   "lines.md": "# Test\nLine 1\nLine 2\nLine 3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_words_function::238",
+  "argv": [
+   "-q",
+   ".h1 | text | words",
+   "words.md"
+  ],
+  "stdin": null,
+  "files": {
+   "words.md": "# One Two Three Four Five\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_h2_selector::239",
+  "argv": [
+   "-q",
+   ".h2",
+   "/workspace/README.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_h1_selector::240",
+  "argv": [
+   "-q",
+   ".h1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_h3_selector::241",
+  "argv": [
+   "-q",
+   ".h3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_all_headings::242",
+  "argv": [
+   "-q",
+   ".h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_text_pipe::243",
+  "argv": [
+   "-q",
+   ".h2 | text"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_count_function::244",
+  "argv": [
+   "-q",
+   "[.h2] | count"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_first_function::245",
+  "argv": [
+   "-q",
+   "[.h2] | first"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_last_function::246",
+  "argv": [
+   "-q",
+   "[.h2] | last"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_limit_function::247",
+  "argv": [
+   "-q",
+   "[.h] | limit(2)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_select_filter::248",
+  "argv": [
+   "-q",
+   ".h | select(contains(\"Code\"))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_code_selector::249",
+  "argv": [
+   "-q",
+   ".code"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_code_by_language::250",
+  "argv": [
+   "-q",
+   ".code[rust]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_link_selector::251",
+  "argv": [
+   "-q",
+   ".link"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_link_url_pipe::252",
+  "argv": [
+   "-q",
+   ".link | url"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_json_output::253",
+  "argv": [
+   "-q",
+   ".h2",
+   "--query-output",
+   "json",
+   "/workspace/README.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_jsonp_output::254",
+  "argv": [
+   "-q",
+   ".h2",
+   "--query-output",
+   "json-pretty",
+   "/workspace/README.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_plain_output::255",
+  "argv": [
+   "-q",
+   ".h2",
+   "--query-output",
+   "plain",
+   "/workspace/README.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_stdin::256",
+  "argv": [
+   "-q",
+   ".h2",
+   "-"
+  ],
+  "stdin": "# Title\n## Section\nContent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_invalid_syntax::257",
+  "argv": [
+   "-q",
+   ".invalid[[[",
+   "/workspace/README.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_stats_function::258",
+  "argv": [
+   "-q",
+   ". | stats",
+   "/workspace/README.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_upper_function::259",
+  "argv": [
+   "-q",
+   ".h2 | text | upper"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_lower_function::260",
+  "argv": [
+   "-q",
+   ".h2 | text | lower"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_indexing::261",
+  "argv": [
+   "-q",
+   ".h2[0]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_negative_indexing::262",
+  "argv": [
+   "-q",
+   ".h2[-1]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_text_filter::263",
+  "argv": [
+   "-q",
+   ".h2[One]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_hierarchy_direct_child::264",
+  "argv": [
+   "-q",
+   ".h1 > .h2",
+   "/workspace/README.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_contains_filter::265",
+  "argv": [
+   "-q",
+   ".h | select(contains(\"Sub\"))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_startswith_filter::266",
+  "argv": [
+   "-q",
+   ".h2 | text | select(startswith(\"Section\"))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_section_basic::267",
+  "argv": [
+   "-s",
+   "Section One"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_section_long_flag::268",
+  "argv": [
+   "--section",
+   "Section Two"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_section_case_insensitive::269",
+  "argv": [
+   "-s",
+   "section one"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_section_requires_exact_or_fuzzy_match::270",
+  "argv": [
+   "-s",
+   "Subsection 1.1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_section_exact_heading::271",
+  "argv": [
+   "-s",
+   "Installation",
+   "/workspace/README.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_section_nonexistent::272",
+  "argv": [
+   "-s",
+   "NonexistentSection"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_section_includes_subsections::273",
+  "argv": [
+   "-s",
+   "Section Two"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_section_stops_at_next_same_level::274",
+  "argv": [
+   "-s",
+   "Overview",
+   "/workspace/README.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_section_from_stdin_with_match::275",
+  "argv": [
+   "-s",
+   "Target Section",
+   "-"
+  ],
+  "stdin": "# Doc\n## Target Section\nContent here.\n## Other\nOther content.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_section_with_exact_name::276",
+  "argv": [
+   "-s",
+   "Section-With-Dashes",
+   "special.md"
+  ],
+  "stdin": null,
+  "files": {
+   "special.md": "# Main\n## Section-With-Dashes\nContent\n## Other\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_section_top_level::277",
+  "argv": [
+   "-s",
+   "Main Title"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tree_with_filter::278",
+  "argv": [
+   "--tree",
+   "--filter",
+   "section"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tree_with_level::279",
+  "argv": [
+   "--tree",
+   "--level",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tree_output_plain::280",
+  "argv": [
+   "--tree",
+   "-o",
+   "plain"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tree_output_json::281",
+  "argv": [
+   "--tree",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tree_stdin::282",
+  "argv": [
+   "--tree",
+   "-"
+  ],
+  "stdin": "# Root\n## Child1\n### Grandchild\n## Child2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tree_empty_file::283",
+  "argv": [
+   "--tree",
+   "empty.md"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.md": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tree_single_heading::284",
+  "argv": [
+   "--tree",
+   "single.md"
+  ],
+  "stdin": null,
+  "files": {
+   "single.md": "# Only One\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tree_deep_nesting::285",
+  "argv": [
+   "--tree",
+   "deep.md"
+  ],
+  "stdin": null,
+  "files": {
+   "deep.md": "# L1\n## L2\n### L3\n#### L4\n##### L5\n###### L6\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_option_valid::286",
+  "argv": [
+   "--theme",
+   "Nord",
+   "-l",
+   "/workspace/README.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_option_dracula::287",
+  "argv": [
+   "--theme",
+   "Dracula",
+   "-l",
+   "/workspace/README.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_option_invalid::288",
+  "argv": [
+   "--theme",
+   "InvalidTheme",
+   "-l",
+   "/workspace/README.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_mode_auto::289",
+  "argv": [
+   "--color-mode",
+   "auto",
+   "-l",
+   "/workspace/README.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_mode_rgb::290",
+  "argv": [
+   "--color-mode",
+   "rgb",
+   "-l",
+   "/workspace/README.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_mode_256::291",
+  "argv": [
+   "--color-mode",
+   "256",
+   "-l",
+   "/workspace/README.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_mode_invalid::292",
+  "argv": [
+   "--color-mode",
+   "invalid",
+   "-l",
+   "/workspace/README.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_images_flag::293",
+  "argv": [
+   "--no-images",
+   "-l",
+   "/workspace/README.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_images_flag::294",
+  "argv": [
+   "--images",
+   "-l",
+   "/workspace/README.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_images_and_no_images_conflict::295",
+  "argv": [
+   "--images",
+   "--no-images",
+   "-l",
+   "/workspace/README.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_errors_nonzero::296",
+  "argv": [
+   "--definitely-not-a-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_errors_nonzero::297",
+  "argv": [
+   "not-a-command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_treats_following_as_positional_not_flag::298",
+  "argv": [
+   "--list",
+   "--",
+   "--not-a-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dash_as_stdin_works_for_list_mode::299",
+  "argv": [
+   "--list",
+   "-"
+  ],
+  "stdin": "# A\n\n## B\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

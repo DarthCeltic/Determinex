@@ -1,0 +1,5685 @@
+{
+ "slug": "gabotechs__dep-tree.60a95a2",
+ "language": "",
+ "n_branches": 12,
+ "n_tests_total": 1285,
+ "n_examples": 309,
+ "n_with_exact_stdout": 3,
+ "n_with_rc": 267,
+ "n_skipped": 684,
+ "examples": [
+  {
+   "test": "test_required_args_tree_missing",
+   "argv": [
+    "tree"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "requires at least 1 arg(s), only received 0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:59"
+  },
+  {
+   "test": "test_mutually_exclusive_overlap_flags_long",
+   "argv": [
+    "explain",
+    "--overlap-left",
+    "--overlap-right",
+    "a",
+    "b"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "only one of --overlap-left (-l) or --overlap-right (-r)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:81"
+  },
+  {
+   "test": "test_mutually_exclusive_overlap_flags_combined_short",
+   "argv": [
+    "explain",
+    "-lr",
+    "a",
+    "b"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "only one of --overlap-left (-l) or --overlap-right (-r)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:88"
+  },
+  {
+   "test": "test_bool_flag_invalid_value_tree_json",
+   "argv": [
+    "tree",
+    "--json=maybe"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid argument \"maybe\" for \"--json\" flag"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:95"
+  },
+  {
+   "test": "test_bool_flag_explicit_false_is_accepted_by_parser_but_still_requires_positional",
+   "argv": [
+    "tree",
+    "--json=false"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "requires at least 1 arg(s), only received 0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:102"
+  },
+  {
+   "test": "test_dashdash_stops_flag_parsing_for_commands",
+   "argv": [
+    "--config=nope",
+    "--",
+    "tree"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree does not match with any existing file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:111"
+  },
+  {
+   "test": "test_unknown_flag_errors_and_mentions_unknown_flag",
+   "argv": [
+    "--help",
+    "--bogus"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "unknown flag"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_edge_cases.py:6"
+  },
+  {
+   "test": "test_unknown_command_with_help_shows_main_help",
+   "argv": [
+    "not-a-command",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_edge_cases.py:14"
+  },
+  {
+   "test": "test_help_main_exit_code_zero",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:6"
+  },
+  {
+   "test": "test_help_main_contains_usage_section_and_synopsis",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:23"
+  },
+  {
+   "test": "test_help_main_has_help_footer_hint",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Use \"dep-tree [command] --help\" for more information about a command."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:60"
+  },
+  {
+   "test": "test_tree_help_documents_json_flag",
+   "argv": [
+    "tree",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--json"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_subcommands.py:46"
+  },
+  {
+   "test": "test_config_help_documents_aliases_section",
+   "argv": [
+    "config",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Aliases:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_subcommands.py:51"
+  },
+  {
+   "test": "test_ext_root_no_args_default_entropy_helptext_like_output",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_root_externalized.py:31"
+  },
+  {
+   "test": "test_ext_root_help_command_golden",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_root_externalized.py:47"
+  },
+  {
+   "test": "test_ext_root_entropy_explicit_with_no_browser_open_runs",
+   "argv": [
+    "entropy",
+    "main.py",
+    "--no-browser-open"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "index.html"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_root_externalized.py:63"
+  },
+  {
+   "test": "test_ext_root_entropy_default_command_with_file_runs",
+   "argv": [
+    "main.py",
+    "--no-browser-open"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "index.html"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_root_externalized.py:81"
+  },
+  {
+   "test": "test_ext_root_tree_no_args_error",
+   "argv": [
+    "tree"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "requires at least 1 arg"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_root_externalized.py:98"
+  },
+  {
+   "test": "test_ext_root_tree_random_pdf_error_mentions_supported_language",
+   "argv": [
+    "tree",
+    "random.pdf"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "does not match with any existing file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_root_externalized.py:111"
+  },
+  {
+   "test": "test_ext_root_tree_random_js_error_golden",
+   "argv": [
+    "tree",
+    "random.js"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "does not match with any existing file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_root_externalized.py:124"
+  },
+  {
+   "test": "test_ext_root_tree_random_py_error_golden",
+   "argv": [
+    "tree",
+    "random.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "does not match with any existing file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_root_externalized.py:137"
+  },
+  {
+   "test": "test_ext_root_entropy_random_py_error_golden",
+   "argv": [
+    "random.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "does not match with any existing file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_root_externalized.py:150"
+  },
+  {
+   "test": "test_ext_root_check_default_config_runs",
+   "argv": [
+    "check"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Loading Files"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_root_externalized.py:163"
+  },
+  {
+   "test": "test_ext_root_check_with_config_path_runs",
+   "argv": [
+    "check",
+    "--config",
+    ".dep-tree.yml"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Loading Files"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_root_externalized.py:179"
+  },
+  {
+   "test": "test_ext_root_tree_json_outputs_valid_json",
+   "argv": [
+    "tree",
+    "main.py",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_root_externalized.py:220"
+  },
+  {
+   "test": "test_ext_root_tree_json_exclude_d_glob_runs",
+   "argv": [
+    "tree",
+    "main.py",
+    "--json",
+    "--exclude",
+    "d*.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_root_externalized.py:271"
+  },
+  {
+   "test": "test_ext_root_tree_json_with_config_runs",
+   "argv": [
+    "tree",
+    "main.py",
+    "--json",
+    "--config",
+    ".dep-tree.yml"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_root_externalized.py:289"
+  },
+  {
+   "test": "test_ext_root_explain_two_globs_lists_dependencies",
+   "argv": [
+    "explain",
+    "*.py",
+    "./**/dep.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "->"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_root_externalized.py:330"
+  },
+  {
+   "test": "test_ext_root_explain_two_globs_variant_lists_dependencies",
+   "argv": [
+    "explain",
+    "main.py",
+    "./**/dep.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "->"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_root_externalized.py:343"
+  },
+  {
+   "test": "test_entropy_multiple_entrypoints",
+   "argv": [
+    "entropy",
+    "--no-browser-open",
+    "--render-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<html"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_additional_features.py:35"
+  },
+  {
+   "test": "test_exclude_with_only",
+   "argv": [
+    "tree",
+    "--json",
+    "--only",
+    "*.py",
+    "--exclude",
+    "*exclude*"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_features.py:53"
+  },
+  {
+   "test": "test_multiple_exclude_flags",
+   "argv": [
+    "tree",
+    "--json",
+    "--exclude",
+    "*bad1*",
+    "--exclude",
+    "*bad2*"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_features.py:65"
+  },
+  {
+   "test": "test_multiple_only_flags",
+   "argv": [
+    "tree",
+    "--json",
+    "--only",
+    "a.py",
+    "--only",
+    "b.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_features.py:78"
+  },
+  {
+   "test": "test_unwrap_exports_with_json",
+   "argv": [
+    "tree",
+    "--json",
+    "--unwrap-exports"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.js"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_features.py:90"
+  },
+  {
+   "test": "test_config_with_comments",
+   "argv": [
+    "check"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_features.py:108"
+  },
+  {
+   "test": "test_custom_config_path",
+   "argv": [
+    "check",
+    "--config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_features.py:142"
+  },
+  {
+   "test": "test_python_unwrap_exports",
+   "argv": [
+    "tree",
+    "--json",
+    "--unwrap-exports"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_features.py:240"
+  },
+  {
+   "test": "test_js_unwrap_exports",
+   "argv": [
+    "tree",
+    "--json",
+    "--unwrap-exports"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "app.js"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_features.py:251"
+  },
+  {
+   "test": "test_mixed_language_files",
+   "argv": [
+    "tree",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_features.py:269"
+  },
+  {
+   "test": "test_help_entropy",
+   "argv": [
+    "help",
+    "entropy"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "entropy"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_additional_features.py:295"
+  },
+  {
+   "test": "test_help_tree",
+   "argv": [
+    "help",
+    "tree"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree",
+    "dependency"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_additional_features.py:303"
+  },
+  {
+   "test": "test_help_check",
+   "argv": [
+    "help",
+    "check"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "check"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_additional_features.py:311"
+  },
+  {
+   "test": "test_help_explain",
+   "argv": [
+    "help",
+    "explain"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "explain",
+    "dependencies"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_additional_features.py:319"
+  },
+  {
+   "test": "test_help_config",
+   "argv": [
+    "help",
+    "config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "config"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_additional_features.py:327"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dep-tree",
+    "Usage:",
+    "entropy",
+    "tree",
+    "check",
+    "explain",
+    "config"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:9"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dep-tree",
+    "Usage:",
+    "Flags:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:21"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dep-tree version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:29"
+  },
+  {
+   "test": "test_version_short_flag",
+   "argv": [
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dep-tree version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:37"
+  },
+  {
+   "test": "test_help_command",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dep-tree",
+    "Usage:",
+    "entropy"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:44"
+  },
+  {
+   "test": "test_entropy_help",
+   "argv": [
+    "entropy",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "entropy",
+    "--no-browser-open",
+    "--render-path",
+    "--enable-gui"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:65"
+  },
+  {
+   "test": "test_tree_help",
+   "argv": [
+    "tree",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree",
+    "--json",
+    "dependency tree"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic.py:74"
+  },
+  {
+   "test": "test_check_help",
+   "argv": [
+    "check",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "check",
+    "dependency rules"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic.py:82"
+  },
+  {
+   "test": "test_explain_help",
+   "argv": [
+    "explain",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "explain",
+    "--overlap-left",
+    "--overlap-right",
+    "-l",
+    "-r"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:89"
+  },
+  {
+   "test": "test_config_help",
+   "argv": [
+    "config",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "config"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:99"
+  },
+  {
+   "test": "test_python_with_encoding_declaration",
+   "argv": [
+    "tree",
+    "main.py",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_edge_cases.py:169"
+  },
+  {
+   "test": "test_js_with_shebang",
+   "argv": [
+    "tree",
+    "main.js",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_edge_cases.py:180"
+  },
+  {
+   "test": "test_entropy_with_file_with_no_dependencies",
+   "argv": [
+    "entropy",
+    "standalone.py",
+    "--no-browser-open",
+    "--render-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_edge_cases.py:231"
+  },
+  {
+   "test": "test_js_with_mjs_extension",
+   "argv": [
+    "tree",
+    "main.mjs",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_edge_cases.py:273"
+  },
+  {
+   "test": "test_js_with_cjs_extension",
+   "argv": [
+    "tree",
+    "main.cjs",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_edge_cases.py:285"
+  },
+  {
+   "test": "test_typescript_with_dts_files",
+   "argv": [
+    "tree",
+    "main.ts",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_edge_cases.py:297"
+  },
+  {
+   "test": "test_rust_with_test_modules",
+   "argv": [
+    "tree",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_edge_cases.py:309"
+  },
+  {
+   "test": "test_go_with_test_files",
+   "argv": [
+    "tree",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_edge_cases.py:332"
+  },
+  {
+   "test": "test_explain_with_short_flag_l_only",
+   "argv": [
+    "explain",
+    "a.py",
+    "b.py",
+    "-l"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_edge_cases.py:344"
+  },
+  {
+   "test": "test_explain_with_short_flag_r_only",
+   "argv": [
+    "explain",
+    "a.py",
+    "b.py",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_edge_cases.py:354"
+  },
+  {
+   "test": "test_config_init_alias",
+   "argv": [
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_edge_cases.py:364"
+  },
+  {
+   "test": "test_config_no_overwrite",
+   "argv": [
+    "config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "My custom config"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:33"
+  },
+  {
+   "test": "test_config_output_format",
+   "argv": [
+    "config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ":",
+    "\n"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:46"
+  },
+  {
+   "test": "test_config_has_check_section",
+   "argv": [
+    "config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "check:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:74"
+  },
+  {
+   "test": "test_config_has_entrypoints",
+   "argv": [
+    "config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "entrypoints"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_config.py:85"
+  },
+  {
+   "test": "test_config_has_comments",
+   "argv": [
+    "config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:96"
+  },
+  {
+   "test": "test_short_help_flags",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost.py:32"
+  },
+  {
+   "test": "test_entropy_with_enable_gui",
+   "argv": [
+    "entropy",
+    "--no-browser-open",
+    "--enable-gui",
+    "--render-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<html"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_coverage_boost.py:43"
+  },
+  {
+   "test": "test_entropy_python_project",
+   "argv": [
+    "entropy",
+    "--no-browser-open",
+    "--render-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost.py:58"
+  },
+  {
+   "test": "test_explain_with_no_dependencies",
+   "argv": [
+    "explain",
+    "group_a/*.js",
+    "group_b/*.js"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost.py:116"
+  },
+  {
+   "test": "test_explain_overlap_right",
+   "argv": [
+    "explain",
+    "*.js",
+    "app.js",
+    "--overlap-right"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost.py:140"
+  },
+  {
+   "test": "test_config_with_existing_file",
+   "argv": [
+    "config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "already exists",
+    "existing: config"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost.py:154"
+  },
+  {
+   "test": "test_js_tsconfig_paths_true",
+   "argv": [
+    "tree",
+    "--json",
+    "--js-tsconfig-paths=true"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost.py:181"
+  },
+  {
+   "test": "test_js_workspaces_true",
+   "argv": [
+    "tree",
+    "--json",
+    "--js-workspaces=true"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost.py:191"
+  },
+  {
+   "test": "test_python_exclude_conditional_true",
+   "argv": [
+    "tree",
+    "--json",
+    "--python-exclude-conditional-imports=true"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost.py:201"
+  },
+  {
+   "test": "test_help_command_comprehensive",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Examples:",
+    "Visualize your dependencies",
+    "Check your dependencies",
+    "entropy",
+    "tree",
+    "check",
+    "explain",
+    "config"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_final_push.py:11"
+  },
+  {
+   "test": "test_help_for_each_subcommand",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Flags:",
+    "Global Flags:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_final_push.py:28"
+  },
+  {
+   "test": "test_config_generates_file_content",
+   "argv": [
+    "config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "check:",
+    "entrypoints:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_final_push.py:72"
+  },
+  {
+   "test": "test_entropy_produces_html_output",
+   "argv": [
+    "entropy",
+    "main.py",
+    "--no-browser-open",
+    "--render-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<html"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_coverage_final_push.py:123"
+  },
+  {
+   "test": "test_explain_between_files",
+   "argv": [
+    "explain",
+    "file1.py",
+    "file2.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_final_push.py:146"
+  },
+  {
+   "test": "test_entropy_with_no_browser",
+   "argv": [
+    "entropy",
+    "main.py",
+    "--no-browser-open",
+    "--render-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_final_push.py:345"
+  },
+  {
+   "test": "test_config_init_alias",
+   "argv": [
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "check:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_final_push.py:379"
+  },
+  {
+   "test": "test_explain_overlap_flags",
+   "argv": [
+    "explain",
+    "a.py",
+    "b.py",
+    "--overlap-left"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_final_push.py:392"
+  },
+  {
+   "test": "test_tree_json_vs_text",
+   "argv": [
+    "tree",
+    "main.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_final_push.py:421"
+  },
+  {
+   "test": "test_entropy_custom_render_path",
+   "argv": [
+    "entropy",
+    "main.py",
+    "--no-browser-open",
+    "--render-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_final_push.py:442"
+  },
+  {
+   "test": "test_help_for_help_command",
+   "argv": [
+    "help",
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "help",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_coverage_final_push.py:467"
+  },
+  {
+   "test": "test_version_and_help_flags_together",
+   "argv": [
+    "--version",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_final_push.py:474"
+  },
+  {
+   "test": "test_entropy_enable_gui_flag",
+   "argv": [
+    "entropy",
+    "main.py",
+    "--no-browser-open",
+    "--enable-gui",
+    "--render-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_final_push.py:563"
+  },
+  {
+   "test": "test_single_file_no_deps",
+   "argv": [
+    "tree",
+    "--json",
+    "solo.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_improvements.py:10"
+  },
+  {
+   "test": "test_two_files_simple_dep",
+   "argv": [
+    "tree",
+    "--json",
+    "a.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_improvements.py:19"
+  },
+  {
+   "test": "test_circular_deps",
+   "argv": [
+    "tree",
+    "--json",
+    "x.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "circularDependencies"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_improvements.py:29"
+  },
+  {
+   "test": "test_entropy_with_deps",
+   "argv": [
+    "entropy",
+    "a.py",
+    "--no-browser-open",
+    "--render-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_improvements.py:90"
+  },
+  {
+   "test": "test_explain_simple",
+   "argv": [
+    "explain",
+    "src.py",
+    "dst.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "->"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_improvements.py:108"
+  },
+  {
+   "test": "test_explain_no_match",
+   "argv": [
+    "explain",
+    "a.py",
+    "b.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_improvements.py:117"
+  },
+  {
+   "test": "test_javascript_es6",
+   "argv": [
+    "tree",
+    "--json",
+    "app.js"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_improvements.py:131"
+  },
+  {
+   "test": "test_typescript_imports",
+   "argv": [
+    "tree",
+    "--json",
+    "main.ts"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_improvements.py:140"
+  },
+  {
+   "test": "test_python_relative_import",
+   "argv": [
+    "tree",
+    "--json",
+    "pkg/a.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_improvements.py:149"
+  },
+  {
+   "test": "test_config_creates_file",
+   "argv": [
+    "config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_improvements.py:163"
+  },
+  {
+   "test": "test_config_no_overwrite",
+   "argv": [
+    "config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "existing: content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_improvements.py:174"
+  },
+  {
+   "test": "test_exclude_single",
+   "argv": [
+    "tree",
+    "--json",
+    "main.py",
+    "--exclude",
+    "**/test.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_improvements.py:187"
+  },
+  {
+   "test": "test_only_pattern",
+   "argv": [
+    "tree",
+    "--json",
+    "src/a.py",
+    "--only",
+    "src/**/*.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_improvements.py:200"
+  },
+  {
+   "test": "test_json_valid_structure",
+   "argv": [
+    "tree",
+    "--json",
+    "m.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree",
+    "circularDependencies"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_improvements.py:217"
+  },
+  {
+   "test": "test_json_with_errors",
+   "argv": [
+    "tree",
+    "--json",
+    "bad.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_improvements.py:228"
+  },
+  {
+   "test": "test_unwrap_exports_basic",
+   "argv": [
+    "tree",
+    "--json",
+    "api.py",
+    "--unwrap-exports"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_improvements.py:242"
+  },
+  {
+   "test": "test_entropy_with_complex_graph",
+   "argv": [
+    "entropy",
+    "--no-browser-open",
+    "--render-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "html"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_edge_cases.py:321"
+  },
+  {
+   "test": "test_explain_no_dependencies",
+   "argv": [
+    "explain"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_explain.py:34"
+  },
+  {
+   "test": "test_js_with_all_resolution_strategies",
+   "argv": [
+    "tree",
+    "main.js",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_final_0_1_percent.py:10"
+  },
+  {
+   "test": "test_go_with_multiple_packages_same_module",
+   "argv": [
+    "tree",
+    "main.go",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_final_0_1_percent.py:44"
+  },
+  {
+   "test": "test_python_simple_package_structure",
+   "argv": [
+    "tree",
+    "app.py",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_final_0_1_percent.py:91"
+  },
+  {
+   "test": "test_js_node_modules_are_ignored",
+   "argv": [
+    "tree",
+    "src/app.js",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_final_0_1_percent.py:104"
+  },
+  {
+   "test": "test_explain_with_filtering_patterns",
+   "argv": [
+    "explain",
+    "src/**/*.js",
+    "test/**/*.js"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_final_70_exactly.py:66"
+  },
+  {
+   "test": "test_tree_with_all_language_flags_combined",
+   "argv": [
+    "tree",
+    "--json",
+    "--js-tsconfig-paths=true",
+    "--js-workspaces=true",
+    "--python-exclude-conditional-imports=false"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_final_70_exactly.py:85"
+  },
+  {
+   "test": "test_explain_empty_output",
+   "argv": [
+    "explain",
+    "isolated_a.py",
+    "isolated_b.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_final_70_percent.py:141"
+  },
+  {
+   "test": "test_js_with_default_and_namespace_imports",
+   "argv": [
+    "tree",
+    "app.js",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_final_coverage_boost.py:20"
+  },
+  {
+   "test": "test_typescript_with_namespace_declarations",
+   "argv": [
+    "tree",
+    "app.ts",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_final_coverage_boost.py:32"
+  },
+  {
+   "test": "test_entropy_with_gui_enabled",
+   "argv": [
+    "entropy",
+    "b.py",
+    "--enable-gui",
+    "--no-browser-open",
+    "--render-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_final_coverage_boost.py:86"
+  },
+  {
+   "test": "test_entropy_renders_all_node_types",
+   "argv": [
+    "entropy",
+    "top.py",
+    "--no-browser-open",
+    "--render-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_final_coverage_boost.py:300"
+  },
+  {
+   "test": "test_tree_with_symbolic_circular_references",
+   "argv": [
+    "tree",
+    "c.py",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "circularDependencies"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_final_coverage_boost.py:358"
+  },
+  {
+   "test": "test_entropy_with_exclude",
+   "argv": [
+    "entropy",
+    "--no-browser-open",
+    "--render-path",
+    "--exclude",
+    "*exclude*"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<html"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_final_coverage_push.py:171"
+  },
+  {
+   "test": "test_entropy_with_only",
+   "argv": [
+    "entropy",
+    "--no-browser-open",
+    "--render-path",
+    "--only",
+    "*.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_final_coverage_push.py:186"
+  },
+  {
+   "test": "test_explain_with_exclude",
+   "argv": [
+    "explain",
+    "*.py",
+    "*.py",
+    "--exclude",
+    "*exclude*"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_final_coverage_push.py:201"
+  },
+  {
+   "test": "test_explain_with_only",
+   "argv": [
+    "explain",
+    "*.js",
+    "*.js",
+    "--only",
+    "*.js"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_final_coverage_push.py:211"
+  },
+  {
+   "test": "test_config_in_subdirectory",
+   "argv": [
+    "config",
+    "--config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_final_coverage_push.py:226"
+  },
+  {
+   "test": "test_entropy_with_large_codebase",
+   "argv": [
+    "entropy",
+    "file0.py",
+    "--no-browser-open",
+    "--render-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_final_coverage_push_70.py:121"
+  },
+  {
+   "test": "test_explain_same_file_twice",
+   "argv": [
+    "explain",
+    "main.py",
+    "main.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_final_coverage_push_70.py:156"
+  },
+  {
+   "test": "test_tree_json_with_errors_field",
+   "argv": [
+    "tree",
+    "main.py",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "errors"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_final_push_70.py:171"
+  },
+  {
+   "test": "test_entropy_creates_valid_html_with_js_included",
+   "argv": [
+    "entropy",
+    "c.py",
+    "--no-browser-open",
+    "--render-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<script"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_final_push_70.py:192"
+  },
+  {
+   "test": "test_go_simple_import",
+   "argv": [
+    "tree",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_go_support.py:10"
+  },
+  {
+   "test": "test_go_multiple_imports",
+   "argv": [
+    "tree",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go",
+    "pkg"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_go_support.py:35"
+  },
+  {
+   "test": "test_go_entropy_single_file",
+   "argv": [
+    "entropy",
+    "--no-browser-open",
+    "--render-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<html",
+    "main.go"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_go_support.py:142"
+  },
+  {
+   "test": "test_go_entropy_with_dependencies",
+   "argv": [
+    "entropy",
+    "--no-browser-open",
+    "--render-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_go_support.py:158"
+  },
+  {
+   "test": "test_go_explain_dependencies",
+   "argv": [
+    "explain",
+    "*.go",
+    "*.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_go_support.py:221"
+  },
+  {
+   "test": "test_go_glob_pattern",
+   "argv": [
+    "tree",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".go"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_go_support.py:273"
+  },
+  {
+   "test": "test_ts_with_tsconfig_paths",
+   "argv": [
+    "tree",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.ts"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_js_advanced.py:10"
+  },
+  {
+   "test": "test_ts_tsconfig_paths_disabled",
+   "argv": [
+    "tree",
+    "--json",
+    "--js-tsconfig-paths=false"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.ts"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_js_advanced.py:50"
+  },
+  {
+   "test": "test_js_with_workspaces",
+   "argv": [
+    "tree",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "index.js"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_js_advanced.py:74"
+  },
+  {
+   "test": "test_js_workspaces_disabled",
+   "argv": [
+    "tree",
+    "--json",
+    "--js-workspaces=false"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "index.js"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_js_advanced.py:98"
+  },
+  {
+   "test": "test_js_require_with_extension",
+   "argv": [
+    "tree",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.js",
+    "helper"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_js_advanced.py:117"
+  },
+  {
+   "test": "test_js_require_json",
+   "argv": [
+    "tree",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.js"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_js_advanced.py:130"
+  },
+  {
+   "test": "test_js_import_with_extension",
+   "argv": [
+    "tree",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.js",
+    "util"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_js_advanced.py:142"
+  },
+  {
+   "test": "test_js_import_default_and_named",
+   "argv": [
+    "tree",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.js",
+    "lib"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_js_advanced.py:155"
+  },
+  {
+   "test": "test_js_side_effect_import",
+   "argv": [
+    "tree",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.js",
+    "polyfill"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_js_advanced.py:194"
+  },
+  {
+   "test": "test_ts_import_type",
+   "argv": [
+    "tree",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.ts",
+    "types"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_js_advanced.py:211"
+  },
+  {
+   "test": "test_ts_namespace_import",
+   "argv": [
+    "tree",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.ts",
+    "lib"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_js_advanced.py:236"
+  },
+  {
+   "test": "test_tsx_jsx_syntax",
+   "argv": [
+    "tree",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "App.tsx",
+    "Component"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_js_advanced.py:249"
+  },
+  {
+   "test": "test_infer_python_from_single_py_file",
+   "argv": [
+    "tree",
+    "script.py",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_language_inference.py:9"
+  },
+  {
+   "test": "test_infer_js_from_single_js_file",
+   "argv": [
+    "tree",
+    "script.js",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_language_inference.py:19"
+  },
+  {
+   "test": "test_infer_ts_from_single_ts_file",
+   "argv": [
+    "tree",
+    "script.ts",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_language_inference.py:30"
+  },
+  {
+   "test": "test_infer_rust_from_single_rs_file",
+   "argv": [
+    "tree",
+    "main.rs",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_language_inference.py:41"
+  },
+  {
+   "test": "test_tsx_file_extension",
+   "argv": [
+    "tree",
+    "Component.tsx",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_language_inference.py:63"
+  },
+  {
+   "test": "test_jsx_file_extension",
+   "argv": [
+    "tree",
+    "Component.jsx",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_language_inference.py:74"
+  },
+  {
+   "test": "test_explain_with_complex_dependency_chains",
+   "argv": [
+    "explain",
+    "a.py",
+    "d.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_language_inference.py:295"
+  },
+  {
+   "test": "test_tree_json_structure_validation",
+   "argv": [
+    "tree",
+    "b.py",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree",
+    "circularDependencies",
+    "errors"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_push_70_final.py:85"
+  },
+  {
+   "test": "test_python_exclude_conditional_imports_flag",
+   "argv": [
+    "tree",
+    "--json",
+    "--python-exclude-conditional-imports"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_python_advanced.py:135"
+  },
+  {
+   "test": "test_python_entropy_with_imports",
+   "argv": [
+    "entropy",
+    "--no-browser-open",
+    "--render-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.py",
+    "utils"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_python_advanced.py:205"
+  },
+  {
+   "test": "test_python_explain_package_dependencies",
+   "argv": [
+    "explain",
+    "pkg1/**/*.py",
+    "pkg2/**/*.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_python_advanced.py:315"
+  },
+  {
+   "test": "test_python_explain_overlap_left",
+   "argv": [
+    "explain",
+    "*.py",
+    "main.py",
+    "--overlap-left"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_python_advanced.py:329"
+  },
+  {
+   "test": "test_js_tsconfig_path_resolution",
+   "argv": [
+    "tree",
+    "src/main.ts",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_quick_coverage_boost.py:56"
+  },
+  {
+   "test": "test_js_with_jsx_and_tsx_extensions",
+   "argv": [
+    "tree",
+    "App.tsx",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_quick_coverage_boost.py:140"
+  },
+  {
+   "test": "test_entropy_produces_valid_html_structure",
+   "argv": [
+    "entropy",
+    "module3.py",
+    "--no-browser-open",
+    "--render-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<script"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_quick_coverage_boost.py:195"
+  },
+  {
+   "test": "test_multiple_exclude_flags",
+   "argv": [
+    "tree",
+    "main.py",
+    "--exclude",
+    "test_*.py",
+    "--exclude",
+    "*_test.py",
+    "--exclude",
+    "build.py",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_quick_coverage_boost.py:213"
+  },
+  {
+   "test": "test_multiple_only_flags",
+   "argv": [
+    "tree",
+    "src/main.py",
+    "--only",
+    "src/**/*.py",
+    "--only",
+    "lib/**/*.py",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_quick_coverage_boost.py:230"
+  },
+  {
+   "test": "test_js_package_json_with_exports_field",
+   "argv": [
+    "tree",
+    "src/app.js",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_quick_coverage_boost.py:296"
+  },
+  {
+   "test": "test_entropy_with_gui_and_render_path",
+   "argv": [
+    "entropy",
+    "--no-browser-open",
+    "--enable-gui",
+    "--render-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_reach_70.py:85"
+  },
+  {
+   "test": "test_explain_overlap_flags_with_same_pattern",
+   "argv": [
+    "explain",
+    "*.js",
+    "*.js",
+    "-l"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_reach_70.py:99"
+  },
+  {
+   "test": "test_tree_json_circular_dependencies_field",
+   "argv": [
+    "tree",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "circularDependencies"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_reach_70.py:109"
+  },
+  {
+   "test": "test_js_require_without_extension",
+   "argv": [
+    "tree",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "lib"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_reach_70.py:148"
+  },
+  {
+   "test": "test_explain_between_unrelated_files",
+   "argv": [
+    "explain",
+    "independent1.py",
+    "independent2.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_reach_70_percent.py:210"
+  },
+  {
+   "test": "test_rust_simple_mod_declaration",
+   "argv": [
+    "tree",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "lib.rs",
+    "helper"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rust_support.py:10"
+  },
+  {
+   "test": "test_rust_use_statement",
+   "argv": [
+    "tree",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "module"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rust_support.py:30"
+  },
+  {
+   "test": "test_rust_pub_use_reexport",
+   "argv": [
+    "tree",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "inner"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rust_support.py:42"
+  },
+  {
+   "test": "test_rust_use_crate_root",
+   "argv": [
+    "tree",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.rs"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rust_support.py:54"
+  },
+  {
+   "test": "test_rust_nested_modules",
+   "argv": [
+    "tree",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "outer"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rust_support.py:85"
+  },
+  {
+   "test": "test_rust_multiple_mods",
+   "argv": [
+    "tree",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "mod_a",
+    "mod_b",
+    "mod_c"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rust_support.py:98"
+  },
+  {
+   "test": "test_rust_entropy_single_file",
+   "argv": [
+    "entropy",
+    "--no-browser-open",
+    "--render-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<html",
+    "lib.rs"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_rust_support.py:130"
+  },
+  {
+   "test": "test_rust_entropy_with_dependencies",
+   "argv": [
+    "entropy",
+    "--no-browser-open",
+    "--render-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "lib.rs",
+    "helper"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rust_support.py:147"
+  },
+  {
+   "test": "test_rust_explain_dependencies",
+   "argv": [
+    "explain",
+    "src/*.rs",
+    "src/*.rs"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".rs"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rust_support.py:211"
+  },
+  {
+   "test": "test_rust_empty_file",
+   "argv": [
+    "tree",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "lib.rs"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rust_support.py:229"
+  },
+  {
+   "test": "test_explain_with_complex_patterns",
+   "argv": [
+    "explain",
+    "src/features/**/*.js",
+    "src/utils/**/*.js"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_to_70_percent.py:98"
+  },
+  {
+   "test": "test_tree_json_structure",
+   "argv": [
+    "tree",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree",
+    "circularDependencies",
+    "errors"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tree.py:82"
+  },
+  {
+   "test": "test_tree_with_exclude_flag",
+   "argv": [
+    "tree",
+    "--exclude",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tree.py:121"
+  },
+  {
+   "test": "test_tree_with_exclude_pattern",
+   "argv": [
+    "tree",
+    "--exclude",
+    "*/test_*.py",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tree.py:135"
+  },
+  {
+   "test": "test_entropy_with_complex_graph",
+   "argv": [
+    "entropy",
+    "--no-browser-open",
+    "--render-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_code_paths.py:58"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_commands.py:39"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "dep-tree"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_commands.py:48"
+  },
+  {
+   "test": "test_version_short_flag",
+   "argv": [
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_commands.py:55"
+  },
+  {
+   "test": "test_no_arguments",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_commands.py:66"
+  },
+  {
+   "test": "test_tree_help",
+   "argv": [
+    "tree",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_commands.py:76"
+  },
+  {
+   "test": "test_entropy_help",
+   "argv": [
+    "entropy",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_commands.py:85"
+  },
+  {
+   "test": "test_check_help",
+   "argv": [
+    "check",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_commands.py:94"
+  },
+  {
+   "test": "test_explain_help",
+   "argv": [
+    "explain",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_commands.py:103"
+  },
+  {
+   "test": "test_config_help",
+   "argv": [
+    "config",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_commands.py:112"
+  },
+  {
+   "test": "test_check_with_custom_config_path",
+   "argv": [
+    "check",
+    "--config",
+    "custom.yml"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_check_command.py:180"
+  },
+  {
+   "test": "test_check_with_reason_in_deny",
+   "argv": [
+    "check"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "coupling"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_check_command.py:203"
+  },
+  {
+   "test": "test_config_always_creates_default_file",
+   "argv": [
+    "config",
+    "--config",
+    "custom-config.yml"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_command.py:67"
+  },
+  {
+   "test": "test_empty_file",
+   "argv": [
+    "tree",
+    "empty.py",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:40"
+  },
+  {
+   "test": "test_file_with_special_chars_in_name",
+   "argv": [
+    "tree",
+    "main file.py",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:64"
+  },
+  {
+   "test": "test_very_deep_dependencies",
+   "argv": [
+    "tree",
+    "a.py",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:76"
+  },
+  {
+   "test": "test_multiple_exclude_flags",
+   "argv": [
+    "tree",
+    "main.py",
+    "--json",
+    "--exclude",
+    "**/a.py",
+    "--exclude",
+    "**/b.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:97"
+  },
+  {
+   "test": "test_multiple_only_flags",
+   "argv": [
+    "tree",
+    "main.py",
+    "--json",
+    "--only",
+    "**/main.py",
+    "--only",
+    "**/a.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:111"
+  },
+  {
+   "test": "test_entropy_no_browser_open_flag",
+   "argv": [
+    "entropy",
+    "main.py",
+    "--no-browser-open"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_entropy_command.py:31"
+  },
+  {
+   "test": "test_explain_basic",
+   "argv": [
+    "explain",
+    "a.py",
+    "c.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_explain_command.py:29"
+  },
+  {
+   "test": "test_explain_overlap_right_flag",
+   "argv": [
+    "explain",
+    "a.py",
+    "b.py",
+    "--overlap-right"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_explain_command.py:57"
+  },
+  {
+   "test": "test_explain_with_patterns",
+   "argv": [
+    "explain",
+    "src/**/*.py",
+    "lib/**/*.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_explain_command.py:89"
+  },
+  {
+   "test": "test_explain_with_fixture",
+   "argv": [
+    "explain",
+    "main.py",
+    "foo.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_explain_command.py:119"
+  },
+  {
+   "test": "test_tree_python_simple_json",
+   "argv": [
+    "tree",
+    "main.py",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree",
+    "circularDependencies",
+    "errors",
+    "main.py",
+    "foo.py",
+    "bar.py"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tree_command.py:32"
+  },
+  {
+   "test": "test_tree_go_simple_json",
+   "argv": [
+    "tree",
+    "main.go",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree",
+    "main.go"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tree_command.py:52"
+  },
+  {
+   "test": "test_tree_circular_dependencies_detected",
+   "argv": [
+    "tree",
+    "a.py",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tree_command.py:66"
+  },
+  {
+   "test": "test_tree_with_exclude_pattern",
+   "argv": [
+    "tree",
+    "main.py",
+    "--json",
+    "--exclude",
+    "**/bar.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tree_command.py:114"
+  },
+  {
+   "test": "test_tree_with_only_pattern_accepts_all",
+   "argv": [
+    "tree",
+    "main.py",
+    "--json",
+    "--only",
+    "**/*.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tree_command.py:132"
+  },
+  {
+   "test": "test_tree_with_custom_config",
+   "argv": [
+    "tree",
+    "main.py",
+    "--json",
+    "--config",
+    "custom-config.yml"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "custom-config.yml": "exclude:\n  - '**/foo.py'\n"
+   },
+   "ci": false,
+   "source": "test_tree_command.py:149"
+  },
+  {
+   "test": "test_tree_python_exclude_conditional_imports",
+   "argv": [
+    "tree",
+    "main.py",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree",
+    "tree"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tree_command.py:169"
+  },
+  {
+   "test": "test_tree_js_tsconfig_paths_flag",
+   "argv": [
+    "tree",
+    "index.js",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tree_command.py:211"
+  },
+  {
+   "test": "test_tree_unwrap_exports_flag",
+   "argv": [
+    "tree",
+    "index.js",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree",
+    "tree"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tree_command.py:253"
+  },
+  {
+   "test": "test_subcommand_specific_flag_rejected_globally",
+   "argv": [
+    "--json",
+    "tree",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unknown flag"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:123"
+  },
+  {
+   "test": "test_subcommand_specific_flag_accepted_for_its_subcommand",
+   "argv": [
+    "tree",
+    "--json",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--json"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:131"
+  },
+  {
+   "test": "test_unknown_subcommand_handling",
+   "argv": [
+    "nonexistent"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "does not match with any existing file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:137"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dep-tree [command]",
+    "entropy",
+    "tree",
+    "check",
+    "explain",
+    "config",
+    "--version",
+    "____"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:5"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dep-tree [command]",
+    "Usage:",
+    "entropy"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:19"
+  },
+  {
+   "test": "test_help_command",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "dep-tree [command]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:61"
+  },
+  {
+   "test": "test_help_for_entropy",
+   "argv": [
+    "entropy",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "entropy",
+    "3d force-directed graph",
+    "--no-browser-open",
+    "--enable-gui",
+    "--render-path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:68"
+  },
+  {
+   "test": "test_help_for_tree",
+   "argv": [
+    "tree",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree",
+    "dependency tree",
+    "--json"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:78"
+  },
+  {
+   "test": "test_help_for_check",
+   "argv": [
+    "check",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "check",
+    "dependency rules",
+    "configuration file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:86"
+  },
+  {
+   "test": "test_help_for_explain",
+   "argv": [
+    "explain",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "explain",
+    "dependencies between",
+    "--overlap-left",
+    "--overlap-right"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:94"
+  },
+  {
+   "test": "test_help_for_config",
+   "argv": [
+    "config",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "config",
+    "sample config",
+    "Aliases:",
+    "init"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:103"
+  },
+  {
+   "test": "test_config_doesnt_overwrite_existing",
+   "argv": [
+    "config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "# My custom config"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_command.py:20"
+  },
+  {
+   "test": "test_config_help",
+   "argv": [
+    "config",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Aliases:",
+    "init"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_command.py:57"
+  },
+  {
+   "test": "test_circular_dependency_detection",
+   "argv": [
+    "tree",
+    "a.py",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "circularDependencies"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:7"
+  },
+  {
+   "test": "test_deep_dependency_chain",
+   "argv": [
+    "tree",
+    "a.py",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "d.py"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:37"
+  },
+  {
+   "test": "test_import_star",
+   "argv": [
+    "tree",
+    "main.py",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dep.py"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:51"
+  },
+  {
+   "test": "test_exclude_multiple_patterns",
+   "argv": [
+    "tree",
+    "main.py",
+    "--json",
+    "--exclude",
+    "test_*.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:103"
+  },
+  {
+   "test": "test_only_pattern_filtering",
+   "argv": [
+    "tree",
+    "main.py",
+    "--json",
+    "--only",
+    "main.py",
+    "--only",
+    "helper.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.py"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:115"
+  },
+  {
+   "test": "test_entropy_enable_gui_flag",
+   "argv": [
+    "entropy",
+    "main.py",
+    "--no-browser-open",
+    "--enable-gui",
+    "--render-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<html"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_edge_cases.py:170"
+  },
+  {
+   "test": "test_js_module_resolution",
+   "argv": [
+    "tree",
+    "index.js",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "module.js"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:182"
+  },
+  {
+   "test": "test_ts_module_resolution",
+   "argv": [
+    "tree",
+    "index.ts",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "module"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:193"
+  },
+  {
+   "test": "test_tree_json_structure",
+   "argv": [
+    "tree",
+    "main.py",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree",
+    "circularDependencies",
+    "errors"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:234"
+  },
+  {
+   "test": "test_js_default_export",
+   "argv": [
+    "tree",
+    "index.js",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "module"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:259"
+  },
+  {
+   "test": "test_entropy_as_default_command",
+   "argv": [
+    "main.py",
+    "--no-browser-open"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_entropy_command.py:14"
+  },
+  {
+   "test": "test_entropy_produces_valid_html",
+   "argv": [
+    "entropy",
+    "main.py",
+    "--no-browser-open",
+    "--render-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "</html>",
+    "<script"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_entropy_command.py:47"
+  },
+  {
+   "test": "test_entropy_with_javascript_entrypoint",
+   "argv": [
+    "entropy",
+    "index.js",
+    "--no-browser-open",
+    "--render-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_entropy_command.py:64"
+  },
+  {
+   "test": "test_entropy_with_typescript_entrypoint",
+   "argv": [
+    "entropy",
+    "index.ts",
+    "--no-browser-open",
+    "--render-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_entropy_command.py:75"
+  },
+  {
+   "test": "test_entropy_with_exclude_flag",
+   "argv": [
+    "entropy",
+    "main.py",
+    "--no-browser-open",
+    "--render-path",
+    "--exclude",
+    "dep.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_entropy_command.py:86"
+  },
+  {
+   "test": "test_explain_basic",
+   "argv": [
+    "explain",
+    "users.py",
+    "products.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_explain_command.py:5"
+  },
+  {
+   "test": "test_explain_with_glob_patterns",
+   "argv": [
+    "explain",
+    "*.py",
+    "helpers.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_explain_command.py:16"
+  },
+  {
+   "test": "test_explain_complex_dependencies",
+   "argv": [
+    "explain",
+    "a.py",
+    "*.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_explain_command.py:70"
+  },
+  {
+   "test": "test_config_flag_with_tree",
+   "argv": [
+    "tree",
+    "main.py",
+    "--config",
+    "myconfig.yml",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_global_flags.py:6"
+  },
+  {
+   "test": "test_exclude_flag",
+   "argv": [
+    "tree",
+    "main.py",
+    "--json",
+    "--exclude",
+    "dep.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_global_flags.py:21"
+  },
+  {
+   "test": "test_multiple_exclude_flags",
+   "argv": [
+    "tree",
+    "main.py",
+    "--json",
+    "--exclude",
+    "dep1.py",
+    "--exclude",
+    "dep2.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_global_flags.py:32"
+  },
+  {
+   "test": "test_only_flag",
+   "argv": [
+    "tree",
+    "main.py",
+    "--json",
+    "--only",
+    "main.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.py"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_global_flags.py:45"
+  },
+  {
+   "test": "test_unwrap_exports_flag",
+   "argv": [
+    "tree",
+    "main.py",
+    "--json",
+    "--unwrap-exports"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_global_flags.py:54"
+  },
+  {
+   "test": "test_python_exclude_conditional_imports",
+   "argv": [
+    "tree",
+    "main.py",
+    "--json",
+    "--python-exclude-conditional-imports"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_global_flags.py:64"
+  },
+  {
+   "test": "test_js_tsconfig_paths_flag",
+   "argv": [
+    "tree",
+    "main.js",
+    "--json",
+    "--js-tsconfig-paths=false"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_global_flags.py:77"
+  },
+  {
+   "test": "test_js_workspaces_flag",
+   "argv": [
+    "tree",
+    "main.js",
+    "--json",
+    "--js-workspaces=false"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_global_flags.py:87"
+  },
+  {
+   "test": "test_config_short_flag",
+   "argv": [
+    "tree",
+    "main.py",
+    "-c",
+    "cfg.yml",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_global_flags.py:108"
+  },
+  {
+   "test": "test_js_re_export",
+   "argv": [
+    "tree",
+    "index.js",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "intermediate"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_javascript_advanced.py:28"
+  },
+  {
+   "test": "test_js_re_export_with_unwrap",
+   "argv": [
+    "tree",
+    "index.js",
+    "--json",
+    "--unwrap-exports"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_javascript_advanced.py:40"
+  },
+  {
+   "test": "test_ts_interface_imports",
+   "argv": [
+    "tree",
+    "index.ts",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "types"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_javascript_advanced.py:53"
+  },
+  {
+   "test": "test_js_dynamic_import",
+   "argv": [
+    "tree",
+    "index.js",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "index.js"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_javascript_advanced.py:85"
+  },
+  {
+   "test": "test_tsx_jsx_syntax",
+   "argv": [
+    "tree",
+    "App.tsx",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_javascript_advanced.py:108"
+  },
+  {
+   "test": "test_js_with_tsconfig",
+   "argv": [
+    "tree",
+    "src/index.js",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_javascript_advanced.py:131"
+  },
+  {
+   "test": "test_js_disable_tsconfig_paths",
+   "argv": [
+    "tree",
+    "src/index.js",
+    "--json",
+    "--js-tsconfig-paths=false"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_javascript_advanced.py:142"
+  },
+  {
+   "test": "test_js_workspaces",
+   "argv": [
+    "tree",
+    "packages/a/index.js",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_javascript_advanced.py:154"
+  },
+  {
+   "test": "test_js_disable_workspaces",
+   "argv": [
+    "tree",
+    "packages/a/index.js",
+    "--json",
+    "--js-workspaces=false"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_javascript_advanced.py:165"
+  },
+  {
+   "test": "test_python_file_support",
+   "argv": [
+    "tree",
+    "main.py",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.py"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_language_support.py:5"
+  },
+  {
+   "test": "test_javascript_file_support",
+   "argv": [
+    "tree",
+    "main.js",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.js"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_language_support.py:14"
+  },
+  {
+   "test": "test_typescript_file_support",
+   "argv": [
+    "tree",
+    "main.ts",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.ts"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_language_support.py:24"
+  },
+  {
+   "test": "test_tsx_file_support",
+   "argv": [
+    "tree",
+    "main.tsx",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.tsx"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_language_support.py:34"
+  },
+  {
+   "test": "test_rust_file_support",
+   "argv": [
+    "tree",
+    "main.rs",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.rs"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_language_support.py:44"
+  },
+  {
+   "test": "test_go_file_support",
+   "argv": [
+    "tree",
+    "main.go",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_language_support.py:59"
+  },
+  {
+   "test": "test_javascript_imports_parsing",
+   "argv": [
+    "tree",
+    "main.js",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_language_support.py:91"
+  },
+  {
+   "test": "test_typescript_imports_parsing",
+   "argv": [
+    "tree",
+    "main.ts",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_language_support.py:103"
+  },
+  {
+   "test": "test_python_relative_imports",
+   "argv": [
+    "tree",
+    "pkg/main.py",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_language_support.py:115"
+  },
+  {
+   "test": "test_python_conditional_import_included",
+   "argv": [
+    "tree",
+    "main.py",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dep"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_python_advanced.py:5"
+  },
+  {
+   "test": "test_python_relative_import_parent",
+   "argv": [
+    "tree",
+    "pkg/sub/main.py",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_python_advanced.py:58"
+  },
+  {
+   "test": "test_python_relative_import_current",
+   "argv": [
+    "tree",
+    "pkg/main.py",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "module"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_python_advanced.py:70"
+  },
+  {
+   "test": "test_python_absolute_import",
+   "argv": [
+    "tree",
+    "main.py",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "module"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_python_advanced.py:81"
+  },
+  {
+   "test": "test_rust_basic_project",
+   "argv": [
+    "tree",
+    "src/main.rs",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.rs"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rust_go_support.py:5"
+  },
+  {
+   "test": "test_rust_pub_mod",
+   "argv": [
+    "tree",
+    "src/lib.rs",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "lib.rs"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rust_go_support.py:84"
+  },
+  {
+   "test": "test_tree_with_dependencies",
+   "argv": [
+    "tree",
+    "main.py",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.py",
+    "dep.py"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tree_command.py:26"
+  },
+  {
+   "test": "test_tree_with_exclude_flag",
+   "argv": [
+    "tree",
+    "main.py",
+    "--json",
+    "--exclude",
+    "dep.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.py"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tree_command.py:79"
+  },
+  {
+   "test": "test_tree_with_only_flag",
+   "argv": [
+    "tree",
+    "main.py",
+    "--json",
+    "--only",
+    "*.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.py"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tree_command.py:91"
+  },
+  {
+   "test": "test_check_requires_config_file",
+   "argv": [
+    "check"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "must be provided"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_check_command.py:6"
+  },
+  {
+   "test": "test_check_detects_circular_dependencies_and_nonzero_exit",
+   "argv": [
+    "check"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "circular"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_check_command.py:21"
+  },
+  {
+   "test": "test_config_creates_dep_tree_yml",
+   "argv": [
+    "config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "check:",
+    "exclude:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_command.py:6"
+  },
+  {
+   "test": "test_config_when_already_exists_errors_and_writes_to_stderr",
+   "argv": [
+    "config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "already exists"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_command.py:16"
+  },
+  {
+   "test": "test_explain_outputs_edge_format_and_streams",
+   "argv": [
+    "explain",
+    "src/a.py",
+    "src/b.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_explain_command.py:6"
+  },
+  {
+   "test": "test_explain_non_matching_glob_is_error",
+   "argv": [
+    "explain",
+    "src/a.py",
+    "src/DOES_NOT_EXIST.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "does not match"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_explain_command.py:22"
+  },
+  {
+   "test": "test_help_contains_usage_and_commands",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "entropy",
+    "tree",
+    "check",
+    "explain"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_version.py:4"
+  },
+  {
+   "test": "test_global_flag_before_subcommand",
+   "argv": [
+    "--config",
+    "test.yml",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:116"
+  },
+  {
+   "test": "test_version_flag_global",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "version"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:127"
+  },
+  {
+   "test": "test_entropy_specific_flag_with_entropy",
+   "argv": [
+    "entropy",
+    "--enable-gui",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:143"
+  },
+  {
+   "test": "test_tree_json_flag_with_tree",
+   "argv": [
+    "tree",
+    "--json",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:158"
+  },
+  {
+   "test": "test_tree_json_flag_without_tree",
+   "argv": [
+    "--json",
+    "check"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unknown flag"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:163"
+  },
+  {
+   "test": "test_explain_overlap_flags_with_explain",
+   "argv": [
+    "explain",
+    "--overlap-left",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:169"
+  },
+  {
+   "test": "test_explain_overlap_flag_without_explain",
+   "argv": [
+    "--overlap-left",
+    "check"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unknown flag"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:176"
+  },
+  {
+   "test": "test_help_flag_shows_help",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "dep-tree"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:193"
+  },
+  {
+   "test": "test_help_flag_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:200"
+  },
+  {
+   "test": "test_completely_invalid_subcommand",
+   "argv": [
+    "totally-nonexistent-command"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "does not match with any existing file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:210"
+  },
+  {
+   "test": "test_typo_in_subcommand",
+   "argv": [
+    "chekc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "does not match with any existing file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:217"
+  },
+  {
+   "test": "test_invalid_flag",
+   "argv": [
+    "--nonexistent-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unknown flag"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:223"
+  },
+  {
+   "test": "test_flag_with_equals_syntax",
+   "argv": [
+    "--config=test.yml",
+    "check",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:289"
+  },
+  {
+   "test": "test_help_short_flag_on_subcommand",
+   "argv": [
+    "check",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:298"
+  },
+  {
+   "test": "test_explain_short_flags",
+   "argv": [
+    "explain",
+    "-l",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:304"
+  },
+  {
+   "test": "test_subcommand_case_sensitivity",
+   "argv": [
+    "CHECK"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "does not match with any existing file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:320"
+  },
+  {
+   "test": "test_help_on_help",
+   "argv": [
+    "help",
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:334"
+  }
+ ]
+}

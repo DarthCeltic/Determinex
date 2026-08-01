@@ -1,0 +1,1732 @@
+[
+ {
+  "name": "test::test_help_flag::0",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_flag::1",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::2",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_url_format::3",
+  "argv": [
+   "not-a-url"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::4",
+  "argv": [
+   "--unknown-flag-xyz123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_connections_flag::5",
+  "argv": [
+   "--max-connections=10",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_connections_short_flag::6",
+  "argv": [
+   "-c",
+   "10",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_connections_per_host::7",
+  "argv": [
+   "--max-connections-per-host=5",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_buffer_size_flag::8",
+  "argv": [
+   "--buffer-size=8192",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_buffer_size_short_flag::9",
+  "argv": [
+   "-b",
+   "8192",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_response_body_size::10",
+  "argv": [
+   "--max-response-body-size=5000000",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_timeout_flag::11",
+  "argv": [
+   "--timeout=5",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_timeout_short_flag::12",
+  "argv": [
+   "-t",
+   "5",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_redirections_flag::13",
+  "argv": [
+   "--max-redirections=10",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_redirections_short_flag::14",
+  "argv": [
+   "-r",
+   "10",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_retries_flag::15",
+  "argv": [
+   "--max-retries=3",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rate_limit_flag::16",
+  "argv": [
+   "--rate-limit=10",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dns_resolver_flag::17",
+  "argv": [
+   "--dns-resolver=8.8.8.8:53",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_proxy_flag::18",
+  "argv": [
+   "--proxy=http://proxy.example.com:8080",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_skip_tls_verification::19",
+  "argv": [
+   "--skip-tls-verification",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_max_connections::20",
+  "argv": [
+   "--max-connections=invalid",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_timeout::21",
+  "argv": [
+   "--timeout=-5",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_text_format_default::22",
+  "argv": [
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_flag_text::23",
+  "argv": [
+   "--format=text",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_flag_json::24",
+  "argv": [
+   "--format=json",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_flag_junit::25",
+  "argv": [
+   "--format=junit",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_flag_deprecated::26",
+  "argv": [
+   "--json",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_junit_flag_deprecated::27",
+  "argv": [
+   "--junit",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_flag_with_text::28",
+  "argv": [
+   "-v",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_format::29",
+  "argv": [
+   "--format=invalidformat",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_robots_txt_flag::30",
+  "argv": [
+   "--follow-robots-txt",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_sitemap_xml_deprecated::31",
+  "argv": [
+   "--follow-sitemap-xml",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_one_page_only_flag::32",
+  "argv": [
+   "--one-page-only",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_header_flag_single::33",
+  "argv": [
+   "--header=User-Agent: TestBot",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_header_flag_multiple::34",
+  "argv": [
+   "--header=User-Agent: TestBot",
+   "--header=Accept: text/html",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_header_flag_invalid_format::35",
+  "argv": [
+   "--header=InvalidHeader",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_auto::36",
+  "argv": [
+   "--color=auto",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_always::37",
+  "argv": [
+   "--color=always",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_never::38",
+  "argv": [
+   "--color=never",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_invalid_value::39",
+  "argv": [
+   "--color=invalidvalue",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_accepted_status_codes_range::40",
+  "argv": [
+   "--accepted-status-codes=200..300",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_accepted_status_codes_single::41",
+  "argv": [
+   "--accepted-status-codes=200",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_accepted_status_codes_multiple::42",
+  "argv": [
+   "--accepted-status-codes=200,404,500",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_accepted_status_codes_mixed::43",
+  "argv": [
+   "--accepted-status-codes=200..300,403,404",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_accepted_status_codes_404_only::44",
+  "argv": [
+   "--accepted-status-codes=404",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_accepted_status_codes_invalid_format::45",
+  "argv": [
+   "--accepted-status-codes=notanumber",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_accepted_status_codes_invalid_range::46",
+  "argv": [
+   "--accepted-status-codes=500..200",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_flag_single::47",
+  "argv": [
+   "--exclude=.*\\.css$",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_short_flag::48",
+  "argv": [
+   "-e",
+   ".*\\.js$",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_multiple_patterns::49",
+  "argv": [
+   "-e",
+   ".*\\.css$",
+   "-e",
+   ".*\\.js$",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_include_flag_single::50",
+  "argv": [
+   "--include=.*\\.html$",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_include_short_flag::51",
+  "argv": [
+   "-i",
+   ".*\\.html$",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_include_multiple_patterns::52",
+  "argv": [
+   "-i",
+   ".*\\.html$",
+   "-i",
+   ".*\\.htm$",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_and_include_together::53",
+  "argv": [
+   "-e",
+   ".*\\.css$",
+   "-i",
+   ".*\\.html$",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_fragments_flag::54",
+  "argv": [
+   "--ignore-fragments",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_fragments_short_flag::55",
+  "argv": [
+   "-f",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_regex_pattern::56",
+  "argv": [
+   "--exclude=[invalid(regex",
+   "http://localhost:19999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_output::57",
+  "argv": [
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_output_success::58",
+  "argv": [
+   "--format=json",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_junit_xml_output_success::59",
+  "argv": [
+   "--format=junit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_fragments::60",
+  "argv": [
+   "--ignore-fragments",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_one_page_only::61",
+  "argv": [
+   "--one-page-only",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_accepted_status_codes_404::62",
+  "argv": [
+   "--accepted-status-codes=404"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_pattern::63",
+  "argv": [
+   "-e",
+   ".*\\.css$",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_include_pattern::64",
+  "argv": [
+   "-i",
+   ".*page1.*",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_connections_limit::65",
+  "argv": [
+   "--max-connections=1",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_timeout_option::66",
+  "argv": [
+   "--timeout=30",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_header::67",
+  "argv": [
+   "--header=User-Agent: MuffetTest/1.0",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_always::68",
+  "argv": [
+   "--color=always",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_never_no_ansi::69",
+  "argv": [
+   "--color=never",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_robots_txt::70",
+  "argv": [
+   "--follow-robots-txt",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_redirections::71",
+  "argv": [
+   "--max-redirections=5",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_takes_precedence_over_invalid_extra_args::72",
+  "argv": [
+   "foo",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_with_other_flags_still_shows_help::73",
+  "argv": [
+   "--verbose",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_too_many_arguments::74",
+  "argv": [
+   "http://example.com",
+   "http://example.org"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_auto_default::75",
+  "argv": [
+   "-v",
+   "http://localhost:8888/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_always::76",
+  "argv": [
+   "--color=always",
+   "-v",
+   "http://localhost:8888/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_never::77",
+  "argv": [
+   "--color=never",
+   "-v",
+   "http://localhost:8888/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_auto_explicit::78",
+  "argv": [
+   "--color=auto",
+   "-v",
+   "http://localhost:8888/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_page::79",
+  "argv": [
+   "-v",
+   "http://localhost:8888/page2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_non_html_root_page::80",
+  "argv": [
+   "http://localhost:8888/image.png"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_with_query_parameters::81",
+  "argv": [
+   "-v",
+   "http://localhost:8888/?param=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_with_fragment::82",
+  "argv": [
+   "-v",
+   "http://localhost:8888/#fragment"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_https_url::83",
+  "argv": [
+   "--timeout",
+   "1",
+   "https://localhost:8888/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_timeout::84",
+  "argv": [
+   "-t",
+   "-1",
+   "http://localhost:8888/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_large_buffer_size::85",
+  "argv": [
+   "-b",
+   "1000000",
+   "-v",
+   "http://localhost:8888/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_redirections::86",
+  "argv": [
+   "-r",
+   "0",
+   "http://localhost:8888/redirect"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_header::87",
+  "argv": [
+   "--header",
+   "X-Custom: value",
+   "-v",
+   "http://localhost:8888/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_custom_headers::88",
+  "argv": [
+   "--header",
+   "X-Custom1: value1",
+   "--header",
+   "X-Custom2: value2",
+   "-v",
+   "http://localhost:8888/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_header_format::89",
+  "argv": [
+   "--header",
+   "InvalidHeaderNoColon",
+   "http://localhost:8888/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_timeout_flag::90",
+  "argv": [
+   "-t",
+   "1",
+   "-v",
+   "http://localhost:8888/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_timeout_short_flag::91",
+  "argv": [
+   "-t",
+   "5",
+   "http://localhost:8888/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_connections_flag::92",
+  "argv": [
+   "-c",
+   "10",
+   "-v",
+   "http://localhost:8888/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_connections_per_host_flag::93",
+  "argv": [
+   "--max-connections-per-host",
+   "5",
+   "-v",
+   "http://localhost:8888/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_buffer_size_flag::94",
+  "argv": [
+   "-b",
+   "8192",
+   "-v",
+   "http://localhost:8888/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_response_body_size_flag::95",
+  "argv": [
+   "--max-response-body-size",
+   "1000000",
+   "-v",
+   "http://localhost:8888/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_redirections_flag::96",
+  "argv": [
+   "-r",
+   "10",
+   "-v",
+   "http://localhost:8888/redirect"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_retries_flag::97",
+  "argv": [
+   "--max-retries",
+   "3",
+   "-v",
+   "http://localhost:8888/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rate_limit_flag::98",
+  "argv": [
+   "--rate-limit",
+   "10",
+   "-v",
+   "http://localhost:8888/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_skip_tls_verification_flag::99",
+  "argv": [
+   "--skip-tls-verification",
+   "-v",
+   "http://localhost:8888/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dns_resolver_flag::100",
+  "argv": [
+   "--dns-resolver",
+   "8.8.8.8:53",
+   "-v",
+   "http://localhost:8888/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_valid_url_success::101",
+  "argv": [
+   "http://localhost:8888/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_broken_link_detection::102",
+  "argv": [
+   "http://localhost:8888/broken-link"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_one_page_only_flag::103",
+  "argv": [
+   "--one-page-only",
+   "http://localhost:8888/page1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_recursive_crawling::104",
+  "argv": [
+   "-v",
+   "http://localhost:8888/page1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_redirect_following::105",
+  "argv": [
+   "-v",
+   "http://localhost:8888/redirect"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_img_tag_checking::106",
+  "argv": [
+   "-v",
+   "http://localhost:8888/img-test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_script_tag_checking::107",
+  "argv": [
+   "-v",
+   "http://localhost:8888/script-test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_link_tag_checking::108",
+  "argv": [
+   "-v",
+   "http://localhost:8888/link-test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_text_format_explicit::109",
+  "argv": [
+   "--format=text",
+   "-v",
+   "http://localhost:8888/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_format::110",
+  "argv": [
+   "--format=json",
+   "http://localhost:8888/broken-link"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_junit_format::111",
+  "argv": [
+   "--format=junit",
+   "http://localhost:8888/broken-link"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deprecated_json_flag::112",
+  "argv": [
+   "--json",
+   "http://localhost:8888/broken-link"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deprecated_junit_flag::113",
+  "argv": [
+   "--junit",
+   "http://localhost:8888/broken-link"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_long_flag::114",
+  "argv": [
+   "--verbose",
+   "http://localhost:8888/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_with_json::115",
+  "argv": [
+   "--format=json",
+   "-v",
+   "http://localhost:8888/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_experimental_verbose_json::116",
+  "argv": [
+   "--json",
+   "--experimental-verbose-json",
+   "http://localhost:8888/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_and_junit_conflict::117",
+  "argv": [
+   "--junit",
+   "--verbose",
+   "http://localhost:8888/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_robots_txt_flag::118",
+  "argv": [
+   "--follow-robots-txt",
+   "-v",
+   "http://localhost:8888/with-private-link"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_without_robots_txt::119",
+  "argv": [
+   "-v",
+   "http://localhost:8888/with-private-link"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_sitemap_xml_flag::120",
+  "argv": [
+   "--follow-sitemap-xml",
+   "-v",
+   "http://localhost:8888/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_accepted_status_codes_range::121",
+  "argv": [
+   "--accepted-status-codes=200..500",
+   "http://localhost:8888/broken-link"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_accepted_status_codes_individual::122",
+  "argv": [
+   "--accepted-status-codes=200,404",
+   "http://localhost:8888/broken-link"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_accepted_status_codes_mixed::123",
+  "argv": [
+   "--accepted-status-codes=200..300,404",
+   "http://localhost:8888/broken-link"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unaccepted_status_code_rejection::124",
+  "argv": [
+   "--accepted-status-codes=200",
+   "http://localhost:8888/broken-link"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_pattern::125",
+  "argv": [
+   "-v",
+   "-e",
+   "/page2",
+   "http://localhost:8888/page1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_exclude_patterns::126",
+  "argv": [
+   "-v",
+   "-e",
+   "/page2",
+   "-e",
+   "/page3",
+   "http://localhost:8888/page1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_include_pattern::127",
+  "argv": [
+   "-v",
+   "-i",
+   "localhost:8888",
+   "http://localhost:8888/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_include_patterns::128",
+  "argv": [
+   "-v",
+   "-i",
+   "localhost",
+   "-i",
+   "8888",
+   "http://localhost:8888/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_exclude_regex::129",
+  "argv": [
+   "-e",
+   "[invalid(",
+   "http://localhost:8888/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_include_regex::130",
+  "argv": [
+   "-i",
+   "[invalid(",
+   "http://localhost:8888/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_fragments_flag::131",
+  "argv": [
+   "-f",
+   "-v",
+   "http://localhost:8888/with-fragment"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_fragments_short_flag::132",
+  "argv": [
+   "-f",
+   "http://localhost:8888/with-fragment"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_format_value_is_error_on_stderr_exit1::133",
+  "argv": [
+   "--format=wat",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_text_output_default_shows_only_failures_and_exit1::134",
+  "argv": [
+   "--one-page-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_text_output_includes_successes::135",
+  "argv": [
+   "--one-page-only",
+   "--verbose"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_output_non_verbose_only_includes_failures::136",
+  "argv": [
+   "--one-page-only",
+   "--format=json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_output_verbose_includes_success_and_failure_entries::137",
+  "argv": [
+   "--one-page-only",
+   "--format=json",
+   "--verbose"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_junit_output_contains_testsuite_and_failure_and_has_xml_header::138",
+  "argv": [
+   "--one-page-only",
+   "--format=junit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

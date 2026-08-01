@@ -1,0 +1,32 @@
+{
+  "schema": "determinex-repair-loop-transcript-v1",
+  "tool": "ripsecrets",
+  "family": "rust",
+  "pinned_commit": "34c9e03",
+  "repair_type": "seeded_defect (oracle-driven; SWE-bench-style) \u2014 distinct from shellharden's real-upstream-bug repair",
+  "defect": {
+    "file": "src/main.rs",
+    "seed": "RunResult::SecretsFound => process::exit(1)  ->  process::exit(0)",
+    "intent": "break the exit-code contract (secrets-found must exit 1)"
+  },
+  "detect": {
+    "eval": "496/937 passed, 440 FAILED",
+    "oracle_caught": true,
+    "lead_failing_tests": [
+      "test_exit_code_secrets_found",
+      "test_pattern_with_groups",
+      "test_symlinks_handling"
+    ]
+  },
+  "repair": {
+    "fix": "restore SecretsFound => process::exit(1) (the behavior test_exit_code_secrets_found asserts)",
+    "oracle_guided": "failing test names point directly at the exit-code contract"
+  },
+  "reverify": {
+    "after": "937/937 (== archived native green; repaired source == correct upstream)",
+    "passed": 937,
+    "failures": 0
+  },
+  "repair_loop_status": "passed",
+  "proves": "closed-loop repair on a real external Rust project: oracle detects injected defect via failing tests -> fix -> oracle re-verifies green."
+}

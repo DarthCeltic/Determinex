@@ -1,0 +1,2278 @@
+{
+ "slug": "direnv__direnv.02040c7",
+ "language": "",
+ "n_branches": 11,
+ "n_tests_total": 900,
+ "n_examples": 123,
+ "n_with_exact_stdout": 2,
+ "n_with_rc": 112,
+ "n_skipped": 758,
+ "examples": [
+  {
+   "test": "test_main_help_shows_commands",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Available commands",
+    "allow",
+    "block",
+    "version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:112"
+  },
+  {
+   "test": "test_help_command_without_args",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Available commands",
+    "allow"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:123"
+  },
+  {
+   "test": "test_help_command_show_private",
+   "argv": [
+    "help",
+    "true"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:132"
+  },
+  {
+   "test": "test_unknown_subcommand_error",
+   "argv": [
+    "nonexistent_subcommand_xyz"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "command \"./executable nonexistent_subcommand_xyz\" not found"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:158"
+  },
+  {
+   "test": "test_unknown_subcommand_with_args",
+   "argv": [
+    "fake_command",
+    "arg1",
+    "arg2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "command \"./executable fake_command",
+    "not found"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:167"
+  },
+  {
+   "test": "test_version_subcommand",
+   "argv": [
+    "version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:181"
+  },
+  {
+   "test": "test_version_with_comparison",
+   "argv": [
+    "version",
+    "1.0.0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:192"
+  },
+  {
+   "test": "test_stdlib_subcommand",
+   "argv": [
+    "stdlib"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:199"
+  },
+  {
+   "test": "test_status_subcommand_default",
+   "argv": [
+    "status"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:210"
+  },
+  {
+   "test": "test_status_subcommand_json",
+   "argv": [
+    "status",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "{",
+    "}"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:219"
+  },
+  {
+   "test": "test_hook_with_valid_shell",
+   "argv": [
+    "hook",
+    "bash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:271"
+  },
+  {
+   "test": "test_log_with_status_flag",
+   "argv": [
+    "log",
+    "--status",
+    "test message"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:279"
+  },
+  {
+   "test": "test_log_with_error_flag",
+   "argv": [
+    "log",
+    "--error",
+    "test message"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:285"
+  },
+  {
+   "test": "test_log_requires_flag",
+   "argv": [
+    "log",
+    "test message"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid arguments"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:291"
+  },
+  {
+   "test": "test_allow_and_block_are_different",
+   "argv": [
+    "allow"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:303"
+  },
+  {
+   "test": "test_version_differs_from_help",
+   "argv": [
+    "version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:325"
+  },
+  {
+   "test": "test_subcommands_are_case_sensitive",
+   "argv": [
+    "VERSION"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "command \"./executable VERSION\" not found"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:372"
+  },
+  {
+   "test": "test_help_uppercase_fails",
+   "argv": [
+    "HELP"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "command \"./executable HELP\" not found"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:380"
+  },
+  {
+   "test": "test_status_flag_after_subcommand",
+   "argv": [
+    "status",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "{"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:391"
+  },
+  {
+   "test": "test_log_flags_work",
+   "argv": [
+    "log",
+    "--status",
+    "message"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:398"
+  },
+  {
+   "test": "test_help_with_subcommand_name",
+   "argv": [
+    "help",
+    "allow"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "allow"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:429"
+  },
+  {
+   "test": "test_subcommand_is_recognized_via_help_subcommand",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:66"
+  },
+  {
+   "test": "test_help_true_includes_private_subcommands_with_star_prefix",
+   "argv": [
+    "help",
+    "true"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\n*"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:106"
+  },
+  {
+   "test": "test_ext_TestCheckAppeared_via_current_on_missing_then_created",
+   "argv": [
+    "watch-list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:235"
+  },
+  {
+   "test": "test_exec_preserves_stdin",
+   "argv": [
+    "exec",
+    "cat"
+   ],
+   "stdin": "test input data\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "test input data\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_exec.py:694"
+  },
+  {
+   "test": "test_special_vars_scenario",
+   "argv": [
+    "bash",
+    "-c",
+    "echo $DIRENV_BASH:$DIRENV_CONFIG"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "/usr/bin/bash",
+    "foobar"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:206"
+  },
+  {
+   "test": "test_in_envrc_scenario",
+   "argv": [
+    "test-in-envrc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test-in-envrc": "#!/bin/sh\ntest -n \"$DIRENV_IN_ENVRC\" && echo \"in envrc\"\n"
+   },
+   "ci": false,
+   "source": "test_harvest.py:292"
+  },
+  {
+   "test": "test_watch_list_missing_shell_defaults_bash",
+   "argv": [
+    "watch-list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "DIRENV_WATCHES="
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_secondary_commands.py:76"
+  },
+  {
+   "test": "test_watch_list_unknown_shell",
+   "argv": [
+    "watch-list",
+    "invalid_shell_xyz"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unknown target shell 'invalid_shell_xyz'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_secondary_commands.py:92"
+  },
+  {
+   "test": "test_watch_list_multiple_files",
+   "argv": [
+    "watch-list",
+    "bash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "export DIRENV_WATCHES="
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_secondary_commands.py:233"
+  },
+  {
+   "test": "test_watch_list_invalid_format",
+   "argv": [
+    "watch-list",
+    "bash"
+   ],
+   "stdin": "invalid_line_no_space\n",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "line 1: expected to contain two elements",
+    "strconv.Atoi: parsing \"notanumber\": invalid syntax"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_secondary_commands.py:265"
+  },
+  {
+   "test": "test_unknown_command_is_error",
+   "argv": [
+    "doesnotexist"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error command \"",
+    "not found"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:50"
+  },
+  {
+   "test": "test_export_rejects_unknown_shell_value",
+   "argv": [
+    "export",
+    "noshell"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unknown target shell 'noshell'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:58"
+  },
+  {
+   "test": "test_export_does_not_treat_double_dash_as_separator",
+   "argv": [
+    "export",
+    "--",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unknown target shell '--'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:64"
+  },
+  {
+   "test": "test_status_json_accepts_optional_flag_and_succeeds",
+   "argv": [
+    "status",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"config\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:71"
+  },
+  {
+   "test": "test_status_json_ignores_unknown_trailing_args",
+   "argv": [
+    "status",
+    "--json",
+    "--nope"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:79"
+  },
+  {
+   "test": "test_log_accepts_status_with_message",
+   "argv": [
+    "log",
+    "--status",
+    "hello"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "direnv: hello"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:116"
+  },
+  {
+   "test": "test_version_argument_changes_exit_code",
+   "argv": [
+    "version",
+    "3.0.0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "is older than the desired version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:122"
+  },
+  {
+   "test": "test_exec_parses_positional_dir_and_command",
+   "argv": [
+    "exec",
+    "/tmp",
+    "echo",
+    "hi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:132"
+  },
+  {
+   "test": "test_allow_without_path_defaults_to_current_and_errors_when_missing_rc",
+   "argv": [
+    "allow"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".envrc file not found"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:138"
+  },
+  {
+   "test": "test_allow_current_directory_envrc",
+   "argv": [
+    "allow"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "FOO",
+    "bar"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_allow.py:9"
+  },
+  {
+   "test": "test_allow_with_path_to_envrc",
+   "argv": [
+    "allow",
+    ".envrc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "BAZ",
+    "qux"
+   ],
+   "files": {
+    ".envrc": "export BAZ=qux\n"
+   },
+   "ci": false,
+   "source": "test_allow.py:27"
+  },
+  {
+   "test": "test_allow_with_envrc_and_dotenv",
+   "argv": [
+    "allow",
+    ".envrc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TEST_VAR",
+    "test_value"
+   ],
+   "files": {
+    ".envrc": "dotenv\n"
+   },
+   "ci": false,
+   "source": "test_allow.py:41"
+  },
+  {
+   "test": "test_allow_alias_permit",
+   "argv": [
+    "permit",
+    ".envrc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ALIAS_TEST",
+    "permit"
+   ],
+   "files": {
+    ".envrc": "export ALIAS_TEST=permit\n"
+   },
+   "ci": false,
+   "source": "test_allow.py:58"
+  },
+  {
+   "test": "test_allow_alias_grant",
+   "argv": [
+    "grant",
+    ".envrc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ALIAS_TEST",
+    "grant"
+   ],
+   "files": {
+    ".envrc": "export ALIAS_TEST=grant\n"
+   },
+   "ci": false,
+   "source": "test_allow.py:71"
+  },
+  {
+   "test": "test_allow_with_relative_path",
+   "argv": [
+    "allow",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "REL_PATH"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_allow.py:93"
+  },
+  {
+   "test": "test_allow_with_absolute_path",
+   "argv": [
+    "allow"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ABS_PATH"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_allow.py:105"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "direnv v",
+    "Usage: direnv COMMAND",
+    "Available commands"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:19"
+  },
+  {
+   "test": "test_help_command",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "direnv v",
+    "Available commands",
+    "allow"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:27"
+  },
+  {
+   "test": "test_version_with_at_least_pass",
+   "argv": [
+    "version",
+    "2.0.0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:43"
+  },
+  {
+   "test": "test_version_with_at_least_fail",
+   "argv": [
+    "version",
+    "999.0.0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:50"
+  },
+  {
+   "test": "test_invalid_command",
+   "argv": [
+    "nonexistent_command_xyz"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:58"
+  },
+  {
+   "test": "test_block_with_no_arguments",
+   "argv": [
+    "allow",
+    ".envrc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "FOO"
+   ],
+   "files": {
+    ".envrc": "export FOO=bar\n"
+   },
+   "ci": false,
+   "source": "test_block.py:9"
+  },
+  {
+   "test": "test_block_with_path",
+   "argv": [
+    "allow",
+    ".envrc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    ".envrc": "export FOO=bar\n"
+   },
+   "ci": false,
+   "source": "test_block.py:29"
+  },
+  {
+   "test": "test_block_previously_allowed_file",
+   "argv": [
+    "allow",
+    ".envrc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TEST"
+   ],
+   "files": {
+    ".envrc": "export TEST=value\n"
+   },
+   "ci": false,
+   "source": "test_block.py:87"
+  },
+  {
+   "test": "test_basic_dotenv_loading",
+   "argv": [
+    "allow",
+    ".envrc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "BASIC_VAR",
+    "basic_value"
+   ],
+   "files": {
+    ".envrc": "dotenv\n"
+   },
+   "ci": false,
+   "source": "test_dotenv.py:9"
+  },
+  {
+   "test": "test_dotenv_with_comments",
+   "argv": [
+    "allow",
+    ".envrc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "COMMENT_VAR"
+   ],
+   "files": {
+    ".envrc": "dotenv\n"
+   },
+   "ci": false,
+   "source": "test_dotenv.py:24"
+  },
+  {
+   "test": "test_dotenv_with_quotes",
+   "argv": [
+    "allow",
+    ".envrc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "QUOTED_VAR"
+   ],
+   "files": {
+    ".envrc": "dotenv\n"
+   },
+   "ci": false,
+   "source": "test_dotenv.py:38"
+  },
+  {
+   "test": "test_dotenv_with_empty_lines",
+   "argv": [
+    "allow",
+    ".envrc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "VAR1",
+    "VAR2"
+   ],
+   "files": {
+    ".envrc": "dotenv\n"
+   },
+   "ci": false,
+   "source": "test_dotenv.py:52"
+  },
+  {
+   "test": "test_envrc_precedence_over_env",
+   "argv": [
+    "allow",
+    ".envrc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "PRECEDENCE_VAR",
+    "envrc_value"
+   ],
+   "files": {
+    ".envrc": "dotenv\nexport PRECEDENCE_VAR=envrc_value\n"
+   },
+   "ci": false,
+   "source": "test_dotenv.py:67"
+  },
+  {
+   "test": "test_dotenv_if_exists",
+   "argv": [
+    "allow",
+    ".envrc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SAFE_VAR"
+   ],
+   "files": {
+    ".envrc": "dotenv_if_exists\nexport SAFE_VAR=safe\n"
+   },
+   "ci": false,
+   "source": "test_dotenv.py:83"
+  },
+  {
+   "test": "test_simple_variable_export",
+   "argv": [
+    "allow",
+    ".envrc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SIMPLE_VAR",
+    "simple_value"
+   ],
+   "files": {
+    ".envrc": "export SIMPLE_VAR=simple_value\n"
+   },
+   "ci": false,
+   "source": "test_envrc_processing.py:9"
+  },
+  {
+   "test": "test_multiple_variable_exports",
+   "argv": [
+    "allow",
+    ".envrc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "VAR1",
+    "VAR2",
+    "VAR3"
+   ],
+   "files": {
+    ".envrc": "export VAR1=val1\nexport VAR2=val2\nexport VAR3=val3\n"
+   },
+   "ci": false,
+   "source": "test_envrc_processing.py:21"
+  },
+  {
+   "test": "test_path_modification",
+   "argv": [
+    "allow",
+    ".envrc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "PATH",
+    "/custom/path"
+   ],
+   "files": {
+    ".envrc": "export PATH=\"/custom/path:$PATH\"\n"
+   },
+   "ci": false,
+   "source": "test_envrc_processing.py:34"
+  },
+  {
+   "test": "test_command_execution_in_envrc",
+   "argv": [
+    "allow",
+    ".envrc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "COMPUTED",
+    "computed_value"
+   ],
+   "files": {
+    ".envrc": "export COMPUTED=$(echo \"computed_value\")\n"
+   },
+   "ci": false,
+   "source": "test_envrc_processing.py:57"
+  },
+  {
+   "test": "test_envrc_with_comments",
+   "argv": [
+    "allow",
+    ".envrc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "COMMENTED",
+    "value"
+   ],
+   "files": {
+    ".envrc": "# This is a comment\nexport COMMENTED=value # inline comment\n"
+   },
+   "ci": false,
+   "source": "test_envrc_processing.py:69"
+  },
+  {
+   "test": "test_exec_with_envrc",
+   "argv": [
+    "allow",
+    ".envrc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "success"
+   ],
+   "files": {
+    ".envrc": "export EXEC_TEST=success\n"
+   },
+   "ci": false,
+   "source": "test_exec.py:10"
+  },
+  {
+   "test": "test_exec_with_dotenv_in_envrc",
+   "argv": [
+    "allow",
+    ".envrc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "env_success"
+   ],
+   "files": {
+    ".envrc": "dotenv\n"
+   },
+   "ci": false,
+   "source": "test_exec.py:27"
+  },
+  {
+   "test": "test_exec_without_envrc",
+   "argv": [
+    "exec",
+    "cmd",
+    "/c",
+    "echo",
+    "hello"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hello"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_exec.py:47"
+  },
+  {
+   "test": "test_exec_with_multiple_arguments",
+   "argv": [
+    "allow",
+    ".envrc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "one",
+    "two",
+    "three"
+   ],
+   "files": {
+    ".envrc": "export MULTI=arg\n"
+   },
+   "ci": false,
+   "source": "test_exec.py:68"
+  },
+  {
+   "test": "test_exec_path_modification",
+   "argv": [
+    "allow"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "script executed"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_exec.py:85"
+  },
+  {
+   "test": "test_export_bash",
+   "argv": [
+    "allow",
+    ".envrc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "BASH_TEST",
+    "bash_value"
+   ],
+   "files": {
+    ".envrc": "export BASH_TEST=bash_value\n"
+   },
+   "ci": false,
+   "source": "test_export.py:9"
+  },
+  {
+   "test": "test_export_zsh",
+   "argv": [
+    "allow",
+    ".envrc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ZSH_TEST",
+    "zsh_value"
+   ],
+   "files": {
+    ".envrc": "export ZSH_TEST=zsh_value\n"
+   },
+   "ci": false,
+   "source": "test_export.py:23"
+  },
+  {
+   "test": "test_export_fish",
+   "argv": [
+    "allow",
+    ".envrc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "FISH_TEST"
+   ],
+   "files": {
+    ".envrc": "export FISH_TEST=fish_value\n"
+   },
+   "ci": false,
+   "source": "test_export.py:35"
+  },
+  {
+   "test": "test_export_tcsh",
+   "argv": [
+    "allow",
+    ".envrc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TCSH_TEST"
+   ],
+   "files": {
+    ".envrc": "export TCSH_TEST=tcsh_value\n"
+   },
+   "ci": false,
+   "source": "test_export.py:47"
+  },
+  {
+   "test": "test_export_elvish",
+   "argv": [
+    "allow",
+    ".envrc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ELVISH_TEST"
+   ],
+   "files": {
+    ".envrc": "export ELVISH_TEST=elvish_value\n"
+   },
+   "ci": false,
+   "source": "test_export.py:58"
+  },
+  {
+   "test": "test_export_pwsh",
+   "argv": [
+    "allow",
+    ".envrc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "PWSH_TEST"
+   ],
+   "files": {
+    ".envrc": "export PWSH_TEST=pwsh_value\n"
+   },
+   "ci": false,
+   "source": "test_export.py:69"
+  },
+  {
+   "test": "test_export_murex",
+   "argv": [
+    "allow",
+    ".envrc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "MUREX_TEST"
+   ],
+   "files": {
+    ".envrc": "export MUREX_TEST=murex_value\n"
+   },
+   "ci": false,
+   "source": "test_export.py:80"
+  },
+  {
+   "test": "test_export_json",
+   "argv": [
+    "allow",
+    ".envrc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "JSON_TEST",
+    "{"
+   ],
+   "files": {
+    ".envrc": "export JSON_TEST=json_value\n"
+   },
+   "ci": false,
+   "source": "test_export.py:91"
+  },
+  {
+   "test": "test_export_vim",
+   "argv": [
+    "allow",
+    ".envrc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "VIM_TEST"
+   ],
+   "files": {
+    ".envrc": "export VIM_TEST=vim_value\n"
+   },
+   "ci": false,
+   "source": "test_export.py:103"
+  },
+  {
+   "test": "test_export_gha",
+   "argv": [
+    "allow",
+    ".envrc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GHA_TEST"
+   ],
+   "files": {
+    ".envrc": "export GHA_TEST=gha_value\n"
+   },
+   "ci": false,
+   "source": "test_export.py:114"
+  },
+  {
+   "test": "test_export_systemd",
+   "argv": [
+    "allow",
+    ".envrc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SYSTEMD_TEST"
+   ],
+   "files": {
+    ".envrc": "export SYSTEMD_TEST=systemd_value\n"
+   },
+   "ci": false,
+   "source": "test_export.py:139"
+  },
+  {
+   "test": "test_export_with_envrc_changes",
+   "argv": [
+    "allow",
+    ".envrc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "VAR1",
+    "VAR2",
+    "value1",
+    "value2"
+   ],
+   "files": {
+    ".envrc": "export VAR1=value1\nexport VAR2=value2\n"
+   },
+   "ci": false,
+   "source": "test_export.py:162"
+  },
+  {
+   "test": "test_export_with_dotenv_in_envrc",
+   "argv": [
+    "allow",
+    ".envrc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ENV_VAR"
+   ],
+   "files": {
+    ".envrc": "dotenv\n"
+   },
+   "ci": false,
+   "source": "test_export.py:176"
+  },
+  {
+   "test": "test_hook_bash",
+   "argv": [
+    "hook",
+    "bash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "direnv"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_hook.py:8"
+  },
+  {
+   "test": "test_hook_zsh",
+   "argv": [
+    "hook",
+    "zsh"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "direnv"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_hook.py:18"
+  },
+  {
+   "test": "test_hook_fish",
+   "argv": [
+    "hook",
+    "fish"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "direnv",
+    "function"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_hook.py:25"
+  },
+  {
+   "test": "test_hook_tcsh",
+   "argv": [
+    "hook",
+    "tcsh"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_hook.py:34"
+  },
+  {
+   "test": "test_hook_elvish",
+   "argv": [
+    "hook",
+    "elvish"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_hook.py:42"
+  },
+  {
+   "test": "test_hook_pwsh",
+   "argv": [
+    "hook",
+    "pwsh"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_hook.py:49"
+  },
+  {
+   "test": "test_hook_murex",
+   "argv": [
+    "hook",
+    "murex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_hook.py:57"
+  },
+  {
+   "test": "test_log_with_status_flag",
+   "argv": [
+    "log",
+    "--status",
+    "test status message"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test status message",
+    "direnv:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_log.py:8"
+  },
+  {
+   "test": "test_log_with_error_flag",
+   "argv": [
+    "log",
+    "--error",
+    "test error message"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_log.py:16"
+  },
+  {
+   "test": "test_prune_with_no_files",
+   "argv": [
+    "prune"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_reload_prune.py:31"
+  },
+  {
+   "test": "test_status_json_format",
+   "argv": [
+    "status",
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_status.py:18"
+  },
+  {
+   "test": "test_stdlib_outputs_bash_functions",
+   "argv": [
+    "stdlib"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_stdlib.py:8"
+  },
+  {
+   "test": "test_stdlib_contains_has_function",
+   "argv": [
+    "stdlib"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "has"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_stdlib.py:19"
+  },
+  {
+   "test": "test_stdlib_contains_path_add_function",
+   "argv": [
+    "stdlib"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "PATH_add"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_stdlib.py:27"
+  },
+  {
+   "test": "test_stdlib_contains_expand_path_function",
+   "argv": [
+    "stdlib"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "expand_path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_stdlib.py:33"
+  },
+  {
+   "test": "test_stdlib_contains_layout_function",
+   "argv": [
+    "stdlib"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "layout"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_stdlib.py:39"
+  },
+  {
+   "test": "test_stdlib_contains_dotenv_function",
+   "argv": [
+    "stdlib"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dotenv"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_stdlib.py:45"
+  },
+  {
+   "test": "test_stdlib_contains_source_env_function",
+   "argv": [
+    "stdlib"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "source_env"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_stdlib.py:51"
+  },
+  {
+   "test": "test_stdlib_contains_watch_file_function",
+   "argv": [
+    "stdlib"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "watch_file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_stdlib.py:57"
+  },
+  {
+   "test": "test_path_add_function",
+   "argv": [
+    "allow",
+    ".envrc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "PATH",
+    "mybin"
+   ],
+   "files": {
+    ".envrc": "PATH_add mybin\n"
+   },
+   "ci": false,
+   "source": "test_stdlib_usage.py:9"
+  },
+  {
+   "test": "test_has_function",
+   "argv": [
+    "allow",
+    ".envrc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "HAS_ECHO"
+   ],
+   "files": {
+    ".envrc": "if has echo; then\n  export HAS_ECHO=yes\nfi\n"
+   },
+   "ci": false,
+   "source": "test_stdlib_usage.py:24"
+  },
+  {
+   "test": "test_expand_path_function",
+   "argv": [
+    "allow",
+    ".envrc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "EXPANDED"
+   ],
+   "files": {
+    ".envrc": "export EXPANDED=$(expand_path .)\n"
+   },
+   "ci": false,
+   "source": "test_stdlib_usage.py:35"
+  },
+  {
+   "test": "test_watch_file_function",
+   "argv": [
+    "allow",
+    ".envrc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "WATCHED"
+   ],
+   "files": {
+    ".envrc": "watch_file watched.txt\nexport WATCHED=yes\n"
+   },
+   "ci": false,
+   "source": "test_stdlib_usage.py:46"
+  },
+  {
+   "test": "test_use_function",
+   "argv": [
+    "stdlib"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "use"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_stdlib_usage.py:69"
+  },
+  {
+   "test": "test_source_env_function",
+   "argv": [
+    "allow",
+    ".envrc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SUB_VAR",
+    "MAIN_VAR"
+   ],
+   "files": {
+    ".envrc": "export SUB_VAR=sub_value\n"
+   },
+   "ci": false,
+   "source": "test_stdlib_usage.py:77"
+  },
+  {
+   "test": "test_strict_env_function",
+   "argv": [
+    "allow",
+    ".envrc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "STRICT_VAR"
+   ],
+   "files": {
+    ".envrc": "strict_env\nexport STRICT_VAR=strict\n"
+   },
+   "ci": false,
+   "source": "test_stdlib_usage.py:97"
+  },
+  {
+   "test": "test_dash_h_is_not_help_and_goes_to_stderr_with_color_codes",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:144"
+  },
+  {
+   "test": "test_help_precedence_with_invalid_extra_args_still_shows_help",
+   "argv": [
+    "--help",
+    "--definitely-not-a-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: direnv COMMAND [...ARGS]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:152"
+  },
+  {
+   "test": "test_help_unknown_subcommand_does_not_error_and_shows_main_help",
+   "argv": [
+    "help",
+    "bogus_subcommand_name"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Available commands"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:159"
+  },
+  {
+   "test": "test_executable_runs_help_without_tty",
+   "argv": [
+    "./executable",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_not_a_tui.py:4"
+  },
+  {
+   "test": "test_export_bash_in_empty_dir_is_noop_exit0",
+   "argv": [
+    "export",
+    "bash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_export_behavior.py:8"
+  },
+  {
+   "test": "test_export_json_blocked_envrc_sets_direnv_vars_and_exit1",
+   "argv": [
+    "export",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "is blocked",
+    "direnv allow"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_export_behavior.py:20"
+  },
+  {
+   "test": "test_allow_then_export_bash_includes_exported_var",
+   "argv": [
+    "allow",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "export FOO",
+    "FOO=$'bar'",
+    "direnv: loading",
+    "direnv: export +FOO"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_export_behavior.py:49"
+  },
+  {
+   "test": "test_help_includes_usage_and_commands",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: direnv COMMAND",
+    "export SHELL",
+    "status [--json]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_version.py:5"
+  },
+  {
+   "test": "test_help_unknown_command_exit_code_and_message",
+   "argv": [
+    "help",
+    "definitely-not-a-command"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Available commands"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_version.py:15"
+  },
+  {
+   "test": "test_version_at_least_success_and_failure",
+   "argv": [
+    "version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "current version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_version.py:30"
+  },
+  {
+   "test": "test_direnv_log_format_from_toml_applies_to_log_command",
+   "argv": [
+    "log",
+    "--status",
+    "hello"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CUSTOM:hello"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env_handling.py:120"
+  },
+  {
+   "test": "test_direnv_log_format_env_overrides_toml",
+   "argv": [
+    "log",
+    "--status",
+    "hello"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ENV:hello"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env_handling.py:132"
+  },
+  {
+   "test": "test_log_format_dash_in_toml_disables_output",
+   "argv": [
+    "log",
+    "--status",
+    "hello"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env_handling.py:146"
+  }
+ ]
+}

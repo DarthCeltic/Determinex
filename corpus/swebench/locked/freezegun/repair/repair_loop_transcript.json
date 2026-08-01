@@ -1,0 +1,29 @@
+{
+  "schema": "determinex-repair-loop-transcript-v1",
+  "tool": "freezegun",
+  "family": "python",
+  "pinned_commit": "92d61b3",
+  "repair_type": "seeded_defect (behavioral) - verifier is the project's OWN test suite in a python:3.12 image (toolchain via provider; Docker-OPTIONAL)",
+  "toolchain": "python:3.12",
+  "oracle": "the real spulec/freezegun repo's own tests: python -m pytest tests/test_ticking.py -q",
+  "defect": {
+    "file": "freezegun/api.py",
+    "seed": "self.time_to_freeze + (real_datetime.now() - self.start) -> self.time_to_freeze - (real_datetime.now() - self.start)"
+  },
+  "detect": {
+    "baseline": "11 passed, 1 skipped in 0.24s",
+    "after_seed": "test suite FAILED (exit 1)",
+    "oracle_caught": true,
+    "failure_signature": "seeded defect made the project's own test suite exit non-zero"
+  },
+  "repair": {
+    "fix": "git checkout (restore upstream source)"
+  },
+  "reverify": {
+    "after": "11 passed, 1 skipped in 0.22s",
+    "passed": 11,
+    "failures": 0
+  },
+  "repair_loop_status": "passed",
+  "proves": "closed-loop repair on a real external python project (freezegun): its OWN test suite detects the injected defect -> fix -> re-verify (11 passed, 1 skipped in 0.22s). Reproducible."
+}

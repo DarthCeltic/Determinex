@@ -1,0 +1,3570 @@
+{
+ "slug": "cslarsen__jp2a.61d205f",
+ "language": "",
+ "n_branches": 11,
+ "n_tests_total": 639,
+ "n_examples": 205,
+ "n_with_exact_stdout": 6,
+ "n_with_rc": 202,
+ "n_skipped": 363,
+ "examples": [
+  {
+   "test": "test_combined_short_flags_are_not_supported",
+   "argv": [
+    "-bv",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:81"
+  },
+  {
+   "test": "test_term_width_requires_space_value_and_allows_non_numeric",
+   "argv": [
+    "--term-width=10",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:154"
+  },
+  {
+   "test": "test_help_shows_no_subcommands",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: jp2a [ options ] [ file(s)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_no_subcommands.py:40"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "jp2a"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_no_subcommands.py:56"
+  },
+  {
+   "test": "test_help_flag_position_irrelevant",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_no_subcommands.py:98"
+  },
+  {
+   "test": "test_html_flag_exists",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--html"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_no_subcommands.py:148"
+  },
+  {
+   "test": "test_dash_treated_as_stdin",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_no_subcommands.py:164"
+  },
+  {
+   "test": "test_help_structure_is_flat",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_no_subcommands.py:187"
+  },
+  {
+   "test": "test_all_flags_in_single_help",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--border",
+    "--invert",
+    "--width",
+    "--height"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_no_subcommands.py:200"
+  },
+  {
+   "test": "test_no_subcommand_in_usage_pattern",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: jp2a [ options ]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_analysis.py:33"
+  },
+  {
+   "test": "test_all_operations_through_flags",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--html",
+    "--border",
+    "--colors"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_analysis.py:107"
+  },
+  {
+   "test": "test_read_from_stdin_dash_matches_file_output",
+   "argv": [
+    "--width=10",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a_cli.py:72"
+  },
+  {
+   "test": "test_help_to_stderr_exit0",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: jp2a"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a_io.py:8"
+  },
+  {
+   "test": "test_version_to_stderr_exit0",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "jp2a"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a_io.py:15"
+  },
+  {
+   "test": "test_missing_file_exit1_stderr_message_when_term_set",
+   "argv": [
+    "no_such_file.jpg"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM": "xterm"
+   },
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Can't open no_such_file.jpg"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a_io.py:22"
+  },
+  {
+   "test": "test_single_file_stdout_exact_fixture",
+   "argv": [
+    "--width=78",
+    "eval/fixtures/jp2a.jpg"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a_io.py:29"
+  },
+  {
+   "test": "test_border_flag_stdout_exact_fixture",
+   "argv": [
+    "--width=78",
+    "--border",
+    "eval/fixtures/jp2a.jpg"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a_io.py:36"
+  },
+  {
+   "test": "test_stdin_marker_dash_reads_jpeg_from_stdin",
+   "argv": [
+    "--width=78",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a_io.py:49"
+  },
+  {
+   "test": "test_output_file_written_when_output_option_used",
+   "argv": [
+    "--width=78",
+    "eval/fixtures/jp2a.jpg"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a_io.py:56"
+  },
+  {
+   "test": "test_output_dash_writes_to_stdout",
+   "argv": [
+    "--width=78",
+    "eval/fixtures/jp2a.jpg",
+    "--output=-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a_io.py:64"
+  },
+  {
+   "test": "test_verbose_writes_progress_to_stderr_and_image_to_stdout",
+   "argv": [
+    "--verbose",
+    "--width=78",
+    "eval/fixtures/jp2a.jpg"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "eval/fixtures/jp2a.jpg",
+    "Output width: 78"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a_io.py:70"
+  },
+  {
+   "test": "test_html_title_output_exact_fixture",
+   "argv": [
+    "--width=10",
+    "--html",
+    "--html-title=just testing",
+    "eval/fixtures/jp2a.jpg"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a_io.py:81"
+  },
+  {
+   "test": "test_ext_width_default_palette",
+   "argv": [
+    "--width=78"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_jp2a.py:40"
+  },
+  {
+   "test": "test_ext_border_width",
+   "argv": [
+    "-b",
+    "--width=78"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_jp2a.py:47"
+  },
+  {
+   "test": "test_ext_size_160x49",
+   "argv": [
+    "--size=160x49"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_jp2a.py:59"
+  },
+  {
+   "test": "test_ext_height_10",
+   "argv": [
+    "--height=10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_jp2a.py:66"
+  },
+  {
+   "test": "test_ext_size_40x40",
+   "argv": [
+    "--size=40x40"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_jp2a.py:73"
+  },
+  {
+   "test": "test_ext_size_1x1_invert",
+   "argv": [
+    "--size=1x1",
+    "--invert"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_jp2a.py:80"
+  },
+  {
+   "test": "test_ext_invert_border_width_height",
+   "argv": [
+    "-i",
+    "-b",
+    "--width=110",
+    "--height=30"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_jp2a.py:87"
+  },
+  {
+   "test": "test_ext_flipx_flipy_invert",
+   "argv": [
+    "--width=78",
+    "--flipx",
+    "--flipy",
+    "--invert"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_jp2a.py:94"
+  },
+  {
+   "test": "test_ext_multiple_images_concatenated_output",
+   "argv": [
+    "--width=78",
+    "-b"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_jp2a.py:101"
+  },
+  {
+   "test": "test_ext_verbose_width_combined_stream_matches_golden",
+   "argv": [
+    "--verbose",
+    "--width=78"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_jp2a.py:110"
+  },
+  {
+   "test": "test_ext_clear_inserts_escape_sequence",
+   "argv": [
+    "--width=78",
+    "--clear"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_jp2a.py:127"
+  },
+  {
+   "test": "test_ext_height_grayscale_logo",
+   "argv": [
+    "--height=30"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_jp2a.py:134"
+  },
+  {
+   "test": "test_ext_grind_invert_size_80x30",
+   "argv": [
+    "-i",
+    "--size=80x30"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_jp2a.py:141"
+  },
+  {
+   "test": "test_ext_rgb_weights_red_only",
+   "argv": [
+    "-i",
+    "--size=80x30",
+    "--red=1.0",
+    "--green=0.0",
+    "--blue=0.0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_jp2a.py:148"
+  },
+  {
+   "test": "test_ext_rgb_weights_green_only",
+   "argv": [
+    "-i",
+    "--size=80x30",
+    "--red=0.0",
+    "--green=1.0",
+    "--blue=0.0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_jp2a.py:162"
+  },
+  {
+   "test": "test_ext_rgb_weights_blue_only",
+   "argv": [
+    "-i",
+    "--size=80x30",
+    "--red=0.0",
+    "--green=0.0",
+    "--blue=1.0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_jp2a.py:176"
+  },
+  {
+   "test": "test_ext_dalsnuten_invert_width",
+   "argv": [
+    "--invert",
+    "--width=78"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_jp2a.py:197"
+  },
+  {
+   "test": "test_ext_dalsnuten_invert_size_80x49",
+   "argv": [
+    "--invert",
+    "--size=80x49"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_jp2a.py:204"
+  },
+  {
+   "test": "test_ext_multiple_size_options_last_one_wins",
+   "argv": [
+    "--size=80x25",
+    "--invert",
+    "--border",
+    "--size=150x45"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_jp2a.py:211"
+  },
+  {
+   "test": "test_ext_html_output_basic",
+   "argv": [
+    "--size=80x50",
+    "--html",
+    "--html-fontsize=7"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_jp2a.py:224"
+  },
+  {
+   "test": "test_ext_html_color_flipx",
+   "argv": [
+    "--size=80x50",
+    "--html",
+    "--color",
+    "--html-fontsize=8",
+    "--flipx"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_jp2a.py:231"
+  },
+  {
+   "test": "test_ext_html_color_flipy",
+   "argv": [
+    "--size=80x50",
+    "--html",
+    "--color",
+    "--html-fontsize=8",
+    "--flipy"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_jp2a.py:245"
+  },
+  {
+   "test": "test_ext_html_color_flipxy",
+   "argv": [
+    "--size=80x50",
+    "--html",
+    "--color",
+    "--html-fontsize=8",
+    "--flipx",
+    "--flipy"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_jp2a.py:259"
+  },
+  {
+   "test": "test_ext_html_gray_dark_bg",
+   "argv": [
+    "--width=128",
+    "--html",
+    "--html-fontsize=8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_jp2a.py:274"
+  },
+  {
+   "test": "test_ext_html_gray_light_bg",
+   "argv": [
+    "--width=128",
+    "--background=light",
+    "--html",
+    "--html-fontsize=8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_jp2a.py:286"
+  },
+  {
+   "test": "test_ext_html_color_dark_bg",
+   "argv": [
+    "--color",
+    "--background=dark",
+    "--width=60",
+    "--html",
+    "--html-fontsize=8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_jp2a.py:299"
+  },
+  {
+   "test": "test_ext_html_color_dark_bg_fill",
+   "argv": [
+    "--color",
+    "--fill",
+    "--background=dark",
+    "--width=60",
+    "--html",
+    "--html-fontsize=8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_jp2a.py:313"
+  },
+  {
+   "test": "test_ext_html_color_light_bg_fill",
+   "argv": [
+    "--color",
+    "--fill",
+    "--background=light",
+    "--width=60",
+    "--html",
+    "--html-fontsize=8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_jp2a.py:328"
+  },
+  {
+   "test": "test_ext_html_color_from_gray_image_light_bg_fill",
+   "argv": [
+    "--color",
+    "--width=78",
+    "--html",
+    "--background=light",
+    "--fill",
+    "--html-fontsize=8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_jp2a.py:343"
+  },
+  {
+   "test": "test_ext_html_color_forced_grayscale",
+   "argv": [
+    "--color",
+    "--width=78",
+    "--html",
+    "--grayscale"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_jp2a.py:358"
+  },
+  {
+   "test": "test_ext_html_color_forced_grayscale_fill",
+   "argv": [
+    "--color",
+    "--width=78",
+    "--html",
+    "--grayscale",
+    "--fill"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_jp2a.py:371"
+  },
+  {
+   "test": "test_ext_ansi_colors_fill",
+   "argv": [
+    "--colors",
+    "--fill",
+    "--width=78"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_jp2a.py:385"
+  },
+  {
+   "test": "test_ext_ansi_colors_fill_grayscale",
+   "argv": [
+    "--colors",
+    "--fill",
+    "--grayscale",
+    "--width=78"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_jp2a.py:392"
+  },
+  {
+   "test": "test_ext_html_no_bold",
+   "argv": [
+    "--colors",
+    "--html",
+    "--html-no-bold",
+    "--width=78"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_jp2a.py:399"
+  },
+  {
+   "test": "test_ext_html_title",
+   "argv": [
+    "--width=10",
+    "--html",
+    "--html-title=just testing"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_jp2a.py:406"
+  },
+  {
+   "test": "test_ext_html_raw_color",
+   "argv": [
+    "--width=10",
+    "--color",
+    "--html-raw"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_jp2a.py:413"
+  },
+  {
+   "test": "test_ext_color_text_mode",
+   "argv": [
+    "--color",
+    "--width=60"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_jp2a.py:420"
+  },
+  {
+   "test": "test_ext_color_on_gray_image_text_mode",
+   "argv": [
+    "--color",
+    "--width=78"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_jp2a.py:427"
+  },
+  {
+   "test": "test_ext_stdin_with_size_options",
+   "argv": [
+    "-",
+    "--width=40",
+    "--height=40"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_jp2a.py:442"
+  },
+  {
+   "test": "test_ext_big_size_bytecount",
+   "argv": [
+    "--size=2000x2000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_jp2a.py:450"
+  },
+  {
+   "test": "test_stdin_on_empty_input_error",
+   "argv": [
+    "-"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:321"
+  },
+  {
+   "test": "test_stdin_with_invalid_jpeg_data",
+   "argv": [
+    "-"
+   ],
+   "stdin": "not jpeg data",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:330"
+  },
+  {
+   "test": "test_stdin_input_with_dash_flag",
+   "argv": [
+    "--width=25",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "MMMMMMMMMMMMMMMMMMMMMMMMM\nMNxNMMMMMMMMXkdkNMMMMMMMM\nMx.kXodxoxNWlll .XWkdodKM\nMc lk .kd 'WMMO.lWXll, .W\nMc lk .l; cWO, .;oO .:  k\nX. dk .K0XMWKKKKKXMK0XK0N\nWO0MXxOMMMMMMMMMMMMMMMMMM\nMMMMMMMMMMMMMMMMMMMMMMMMM\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_io.py:32"
+  },
+  {
+   "test": "test_stdin_invalid_jpeg_format",
+   "argv": [
+    "-"
+   ],
+   "stdin": "not a jpeg file",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Not a JPEG file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_io.py:101"
+  },
+  {
+   "test": "test_binary_stdin_non_jpeg_data",
+   "argv": [
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Not a JPEG file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_io.py:165"
+  },
+  {
+   "test": "test_stdin_with_no_data",
+   "argv": [
+    "--width=20",
+    "-"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_io.py:258"
+  },
+  {
+   "test": "test_help_output",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "jp2a",
+    "Usage:",
+    "OPTIONS",
+    "--width",
+    "--height",
+    "--border"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:14"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "jp2a",
+    "Usage:",
+    "OPTIONS"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:26"
+  },
+  {
+   "test": "test_version_output",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "jp2a",
+    "1.0.8",
+    "Copyright",
+    "Christian Stigen Larsen"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:35"
+  },
+  {
+   "test": "test_version_short_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "jp2a",
+    "1.0.8"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:45"
+  },
+  {
+   "test": "test_single_jpeg_file",
+   "argv": [
+    "--width=40"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:73"
+  },
+  {
+   "test": "test_stdin_input",
+   "argv": [
+    "--width=40",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:93"
+  },
+  {
+   "test": "test_nonexistent_file_error",
+   "argv": [
+    "nonexistent_file_xyz.jpg"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:101"
+  },
+  {
+   "test": "test_width_only",
+   "argv": [
+    "--width=80"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:119"
+  },
+  {
+   "test": "test_height_only",
+   "argv": [
+    "--height=20"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:129"
+  },
+  {
+   "test": "test_size_explicit",
+   "argv": [
+    "--size=40x20"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:137"
+  },
+  {
+   "test": "test_very_small_size",
+   "argv": [
+    "--size=1x1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:147"
+  },
+  {
+   "test": "test_large_size",
+   "argv": [
+    "--size=200x100"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:157"
+  },
+  {
+   "test": "test_border_flag",
+   "argv": [
+    "--width=40",
+    "--border"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "+",
+    "-",
+    "|",
+    "+"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:170"
+  },
+  {
+   "test": "test_border_short_flag",
+   "argv": [
+    "--width=40",
+    "-b"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "+",
+    "|"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:182"
+  },
+  {
+   "test": "test_custom_chars",
+   "argv": [
+    "--width=40",
+    "--chars= .oO@"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:189"
+  },
+  {
+   "test": "test_invert_short_flag",
+   "argv": [
+    "--width=40",
+    "-i"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:211"
+  },
+  {
+   "test": "test_background_dark",
+   "argv": [
+    "--width=40",
+    "--background=dark"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:217"
+  },
+  {
+   "test": "test_background_light",
+   "argv": [
+    "--width=40",
+    "--background=light"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:225"
+  },
+  {
+   "test": "test_flipx_short_flag",
+   "argv": [
+    "--width=40",
+    "-x"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:246"
+  },
+  {
+   "test": "test_flipy_short_flag",
+   "argv": [
+    "--width=40",
+    "-y"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:260"
+  },
+  {
+   "test": "test_flip_both",
+   "argv": [
+    "--width=40",
+    "--flipx",
+    "--flipy"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:266"
+  },
+  {
+   "test": "test_colors_ansi",
+   "argv": [
+    "--width=40",
+    "--colors"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:278"
+  },
+  {
+   "test": "test_red_weight",
+   "argv": [
+    "--width=40",
+    "--red=1.0",
+    "--green=0.0",
+    "--blue=0.0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:286"
+  },
+  {
+   "test": "test_green_weight",
+   "argv": [
+    "--width=40",
+    "--red=0.0",
+    "--green=1.0",
+    "--blue=0.0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:295"
+  },
+  {
+   "test": "test_blue_weight",
+   "argv": [
+    "--width=40",
+    "--red=0.0",
+    "--green=0.0",
+    "--blue=1.0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:303"
+  },
+  {
+   "test": "test_grayscale_flag",
+   "argv": [
+    "--width=40",
+    "--colors",
+    "--grayscale"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:311"
+  },
+  {
+   "test": "test_html_output",
+   "argv": [
+    "--width=40",
+    "--html"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:321"
+  },
+  {
+   "test": "test_html_with_colors",
+   "argv": [
+    "--width=40",
+    "--html",
+    "--colors"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:332"
+  },
+  {
+   "test": "test_html_fill",
+   "argv": [
+    "--width=40",
+    "--html",
+    "--colors",
+    "--fill"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:340"
+  },
+  {
+   "test": "test_html_fontsize",
+   "argv": [
+    "--width=40",
+    "--html",
+    "--html-fontsize=12"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "12"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:348"
+  },
+  {
+   "test": "test_html_no_bold",
+   "argv": [
+    "--width=40",
+    "--html",
+    "--html-no-bold"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:356"
+  },
+  {
+   "test": "test_html_title",
+   "argv": [
+    "--width=40",
+    "--html",
+    "--html-title=Test Title"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test Title"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:364"
+  },
+  {
+   "test": "test_html_raw",
+   "argv": [
+    "--width=40",
+    "--html-raw"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:373"
+  },
+  {
+   "test": "test_output_to_stdout_explicit",
+   "argv": [
+    "--width=40",
+    "--output=-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:401"
+  },
+  {
+   "test": "test_clear_screen",
+   "argv": [
+    "--width=40",
+    "--clear"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:408"
+  },
+  {
+   "test": "test_verbose_mode",
+   "argv": [
+    "--verbose",
+    "--width=40"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "File:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:421"
+  },
+  {
+   "test": "test_verbose_short_flag",
+   "argv": [
+    "-v",
+    "--width=40"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "File:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:431"
+  },
+  {
+   "test": "test_debug_mode",
+   "argv": [
+    "--debug",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:437"
+  },
+  {
+   "test": "test_multiple_files_with_border",
+   "argv": [
+    "--width=40",
+    "-b"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "+"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:448"
+  },
+  {
+   "test": "test_invert_with_border",
+   "argv": [
+    "--width=40",
+    "-i",
+    "-b"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "+",
+    "|"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:457"
+  },
+  {
+   "test": "test_flipx_flipy_invert",
+   "argv": [
+    "--width=40",
+    "--flipx",
+    "--flipy",
+    "--invert"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:465"
+  },
+  {
+   "test": "test_html_with_flips",
+   "argv": [
+    "--width=40",
+    "--html",
+    "--colors",
+    "--flipx"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:472"
+  },
+  {
+   "test": "test_very_large_output_dimensions",
+   "argv": [
+    "--size=300x200"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:479"
+  },
+  {
+   "test": "test_minimal_char_palette",
+   "argv": [
+    "--width=40",
+    "--chars= @"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:487"
+  },
+  {
+   "test": "test_custom_weights_sum_validation",
+   "argv": [
+    "--red=0.5",
+    "--green=0.3",
+    "--blue=0.2",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:496"
+  },
+  {
+   "test": "test_size_overrides_previous_dimensions",
+   "argv": [
+    "--width=100",
+    "--height=50",
+    "--size=40x20"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:503"
+  },
+  {
+   "test": "test_html_grayscale_with_colors",
+   "argv": [
+    "--width=40",
+    "--html",
+    "--colors",
+    "--grayscale"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:511"
+  },
+  {
+   "test": "test_border_with_size_1x1",
+   "argv": [
+    "--size=1x1",
+    "--border"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "+",
+    "|"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:519"
+  },
+  {
+   "test": "test_colors_with_fill",
+   "argv": [
+    "--width=40",
+    "--colors",
+    "--fill"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:526"
+  },
+  {
+   "test": "test_stdin_with_size",
+   "argv": [
+    "--size=40x20",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:533"
+  },
+  {
+   "test": "test_html_fontsize_range",
+   "argv": [
+    "--width=20",
+    "--html"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:558"
+  },
+  {
+   "test": "test_verbose_multiple_files",
+   "argv": [
+    "--verbose",
+    "--width=40"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a.py:600"
+  },
+  {
+   "test": "test_invalid_width_zero",
+   "argv": [
+    "--width=0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a_coverage.py:53"
+  },
+  {
+   "test": "test_invalid_height_zero",
+   "argv": [
+    "--height=0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a_coverage.py:60"
+  },
+  {
+   "test": "test_invalid_size_zero",
+   "argv": [
+    "--size=0x0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a_coverage.py:67"
+  },
+  {
+   "test": "test_rgb_weights_not_summing_to_one",
+   "argv": [
+    "--red=0.5",
+    "--green=0.5",
+    "--blue=0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a_coverage.py:74"
+  },
+  {
+   "test": "test_too_many_chars_in_palette",
+   "argv": [
+    "--width=40"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a_coverage.py:83"
+  },
+  {
+   "test": "test_url_detection_ftp",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.0.8"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a_coverage.py:123"
+  },
+  {
+   "test": "test_html_fill_alias",
+   "argv": [
+    "--width=40",
+    "--html",
+    "--colors",
+    "--html-fill"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a_coverage.py:133"
+  },
+  {
+   "test": "test_border_with_all_flips",
+   "argv": [
+    "--width=40",
+    "-b",
+    "-x",
+    "-y",
+    "-i"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "+",
+    "|"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a_coverage.py:145"
+  },
+  {
+   "test": "test_html_raw_with_colors",
+   "argv": [
+    "--width=40",
+    "--html-raw",
+    "--colors"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a_coverage.py:162"
+  },
+  {
+   "test": "test_colors_with_grayscale_and_fill",
+   "argv": [
+    "--width=40",
+    "--colors",
+    "--grayscale",
+    "--fill"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a_coverage.py:182"
+  },
+  {
+   "test": "test_html_with_all_options",
+   "argv": [
+    "--width=40",
+    "--html",
+    "--colors",
+    "--fill",
+    "--html-fontsize=10",
+    "--html-title=Complex Test",
+    "--flipx",
+    "--grayscale"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Complex Test",
+    "10"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a_coverage.py:189"
+  },
+  {
+   "test": "test_border_with_very_small_size",
+   "argv": [
+    "--size=5x5",
+    "--border"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "+"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a_coverage.py:201"
+  },
+  {
+   "test": "test_invert_with_custom_chars",
+   "argv": [
+    "--width=40",
+    "--invert",
+    "--chars= .:@#"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a_coverage.py:208"
+  },
+  {
+   "test": "test_size_with_flips_and_border",
+   "argv": [
+    "--size=50x30",
+    "-b",
+    "-x",
+    "-y"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "+"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a_coverage.py:216"
+  },
+  {
+   "test": "test_html_no_bold_with_colors",
+   "argv": [
+    "--width=40",
+    "--html",
+    "--colors",
+    "--html-no-bold"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a_coverage.py:224"
+  },
+  {
+   "test": "test_multiple_size_specifications",
+   "argv": [
+    "--width=20",
+    "--height=15",
+    "--size=40x25",
+    "--width=60"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a_coverage.py:232"
+  },
+  {
+   "test": "test_color_channel_extraction_with_invert",
+   "argv": [
+    "--width=40",
+    "--red=1.0",
+    "--green=0.0",
+    "--blue=0.0",
+    "--invert"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a_coverage.py:240"
+  },
+  {
+   "test": "test_grayscale_with_html_and_border",
+   "argv": [
+    "--width=40",
+    "--html",
+    "--grayscale",
+    "--border"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a_coverage.py:247"
+  },
+  {
+   "test": "test_stdin_with_verbose",
+   "argv": [
+    "--verbose",
+    "--width=40",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a_coverage.py:255"
+  },
+  {
+   "test": "test_clear_with_border",
+   "argv": [
+    "--width=40",
+    "--clear",
+    "--border"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "+"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a_coverage.py:273"
+  },
+  {
+   "test": "test_background_dark_with_border",
+   "argv": [
+    "--width=40",
+    "--background=dark",
+    "--border"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "+"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a_coverage.py:280"
+  },
+  {
+   "test": "test_background_light_with_colors",
+   "argv": [
+    "--width=40",
+    "--background=light",
+    "--colors"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_jp2a_coverage.py:288"
+  },
+  {
+   "test": "test_help_flag_works",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:34"
+  },
+  {
+   "test": "test_help_flag_long",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: jp2a",
+    "Convert files or URLs from JPEG format to ASCII",
+    "--width",
+    "--height",
+    "--border",
+    "--invert",
+    "--colors"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:17"
+  },
+  {
+   "test": "test_help_flag_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: jp2a",
+    "OPTIONS",
+    "--help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:30"
+  },
+  {
+   "test": "test_version_flag_long",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "jp2a",
+    "Copyright",
+    "Christian Stigen Larsen"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:38"
+  },
+  {
+   "test": "test_version_flag_short",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "jp2a",
+    "Copyright"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:49"
+  },
+  {
+   "test": "test_invalid_option",
+   "argv": [
+    "--nonexistent-option"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:58"
+  },
+  {
+   "test": "test_help_shows_rgb_weights",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--red",
+    "--green",
+    "--blue"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:82"
+  },
+  {
+   "test": "test_help_shows_html_options",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--html",
+    "--html-fontsize",
+    "--html-title",
+    "--html-raw"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:90"
+  },
+  {
+   "test": "test_border_short_flag",
+   "argv": [
+    "-b",
+    "--width=40"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_border_and_palette.py:17"
+  },
+  {
+   "test": "test_border_with_various_sizes",
+   "argv": [
+    "--border"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_border_and_palette.py:24"
+  },
+  {
+   "test": "test_border_with_invert",
+   "argv": [
+    "--width=40",
+    "--border",
+    "--invert"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_border_and_palette.py:31"
+  },
+  {
+   "test": "test_custom_chars_simple",
+   "argv": [
+    "--width=40",
+    "--chars= .:-=+*#%@"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_border_and_palette.py:47"
+  },
+  {
+   "test": "test_custom_chars_inverted",
+   "argv": [
+    "--width=40",
+    "--chars= .oO@",
+    "--invert"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_border_and_palette.py:66"
+  },
+  {
+   "test": "test_chars_with_special_characters",
+   "argv": [
+    "--width=30",
+    "--chars= .,;!?#@"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_border_and_palette.py:72"
+  },
+  {
+   "test": "test_colors_with_grayscale_image",
+   "argv": [
+    "--width=40",
+    "--colors"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_colors.py:20"
+  },
+  {
+   "test": "test_colors_with_invert",
+   "argv": [
+    "--width=40",
+    "--colors",
+    "--invert"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_colors.py:50"
+  },
+  {
+   "test": "test_grayscale_with_fill",
+   "argv": [
+    "--width=40",
+    "--colors",
+    "--grayscale",
+    "--fill"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_colors.py:56"
+  },
+  {
+   "test": "test_size_both_dimensions",
+   "argv": [
+    "--size=60x25"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dimensions.py:25"
+  },
+  {
+   "test": "test_size_format",
+   "argv": [
+    "--size=80x30"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dimensions.py:84"
+  },
+  {
+   "test": "test_multiple_size_specifications",
+   "argv": [
+    "--size=20x20",
+    "--width=40"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:6"
+  },
+  {
+   "test": "test_combined_options",
+   "argv": [
+    "--width=40",
+    "--border",
+    "--invert",
+    "--flipx",
+    "--flipy"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:12"
+  },
+  {
+   "test": "test_html_with_multiple_options",
+   "argv": [
+    "--html",
+    "--width=40",
+    "--invert",
+    "--border",
+    "--html-fontsize=8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<html",
+    "</html>"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_edge_cases.py:27"
+  },
+  {
+   "test": "test_colors_html_fill_combo",
+   "argv": [
+    "--html",
+    "--colors",
+    "--fill",
+    "--width=30"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<html"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_edge_cases.py:41"
+  },
+  {
+   "test": "test_multiple_images_in_sequence",
+   "argv": [
+    "--width=30"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:63"
+  },
+  {
+   "test": "test_stdin_explicit_dash",
+   "argv": [
+    "--width=30",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:70"
+  },
+  {
+   "test": "test_very_small_custom_chars",
+   "argv": [
+    "--width=30",
+    "--chars=.#"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:91"
+  },
+  {
+   "test": "test_grayscale_with_colors_and_html",
+   "argv": [
+    "--html",
+    "--colors",
+    "--grayscale",
+    "--width=30"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<html"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_edge_cases.py:101"
+  },
+  {
+   "test": "test_clear_with_multiple_files",
+   "argv": [
+    "--clear",
+    "--width=30"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:107"
+  },
+  {
+   "test": "test_border_with_flipxy",
+   "argv": [
+    "--border",
+    "--flipx",
+    "--flipy",
+    "--width=30"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:114"
+  },
+  {
+   "test": "test_aspect_ratio_small_width",
+   "argv": [
+    "--width=5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:120"
+  },
+  {
+   "test": "test_aspect_ratio_small_height",
+   "argv": [
+    "--height=3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:128"
+  },
+  {
+   "test": "test_html_basic",
+   "argv": [
+    "--width=40",
+    "--html"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<html",
+    "</html>",
+    "<body",
+    "</body>"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_html_output.py:5"
+  },
+  {
+   "test": "test_html_fontsize",
+   "argv": [
+    "--width=40",
+    "--html",
+    "--html-fontsize=10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<html"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_html_output.py:30"
+  },
+  {
+   "test": "test_html_title",
+   "argv": [
+    "--width=40",
+    "--html",
+    "--html-title=Test Title"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<title>",
+    "Test Title"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_html_output.py:38"
+  },
+  {
+   "test": "test_html_no_bold",
+   "argv": [
+    "--width=40",
+    "--html",
+    "--html-no-bold"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<html"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_html_output.py:45"
+  },
+  {
+   "test": "test_html_with_colors",
+   "argv": [
+    "--width=40",
+    "--html",
+    "--colors"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<html"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_html_output.py:51"
+  },
+  {
+   "test": "test_html_with_fill",
+   "argv": [
+    "--width=40",
+    "--html",
+    "--colors",
+    "--fill"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<html"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_html_output.py:59"
+  },
+  {
+   "test": "test_html_fill_deprecated",
+   "argv": [
+    "--width=40",
+    "--html",
+    "--html-fill"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<html"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_html_output.py:67"
+  },
+  {
+   "test": "test_html_with_flipx",
+   "argv": [
+    "--width=40",
+    "--html",
+    "--flipx"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<html"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_html_output.py:73"
+  },
+  {
+   "test": "test_html_with_flipy",
+   "argv": [
+    "--width=40",
+    "--html",
+    "--flipy"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<html"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_html_output.py:79"
+  },
+  {
+   "test": "test_html_with_grayscale_image",
+   "argv": [
+    "--width=40",
+    "--html"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<html"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_html_output.py:85"
+  },
+  {
+   "test": "test_html_structure_completeness",
+   "argv": [
+    "--width=40",
+    "--html"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<head",
+    "</head>",
+    "<body",
+    "</body>",
+    "</html>"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_html_output.py:91"
+  },
+  {
+   "test": "test_html_raw_no_structure",
+   "argv": [
+    "--width=30",
+    "--html-raw"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_html_output.py:103"
+  },
+  {
+   "test": "test_nonexistent_file",
+   "argv": [
+    "--width=40",
+    "nonexistent_file.jpg"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_handling.py:50"
+  },
+  {
+   "test": "test_invalid_jpeg_file",
+   "argv": [
+    "--width=40",
+    "invalid.jpg"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "invalid.jpg": "This is not a JPEG file"
+   },
+   "ci": false,
+   "source": "test_input_handling.py:57"
+  },
+  {
+   "test": "test_non_jpeg_file",
+   "argv": [
+    "--width=40",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "Hello, World!"
+   },
+   "ci": false,
+   "source": "test_input_handling.py:67"
+  },
+  {
+   "test": "test_empty_file",
+   "argv": [
+    "--width=40",
+    "empty.jpg"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "empty.jpg": ""
+   },
+   "ci": false,
+   "source": "test_input_handling.py:75"
+  },
+  {
+   "test": "test_verbose_uses_stderr",
+   "argv": [
+    "--width=40",
+    "--verbose"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_control.py:50"
+  },
+  {
+   "test": "test_output_to_dev_null",
+   "argv": [
+    "--width=40",
+    "--output=/dev/null"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_control.py:71"
+  },
+  {
+   "test": "test_output_html_to_file",
+   "argv": [
+    "--width=40",
+    "--html"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<html",
+    "</html>"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_output_control.py:78"
+  },
+  {
+   "test": "test_custom_rgb_weights",
+   "argv": [
+    "--width=40",
+    "--red=0.5",
+    "--green=0.3",
+    "--blue=0.2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rgb_weights.py:35"
+  },
+  {
+   "test": "test_red_weight_error_without_sum_to_one",
+   "argv": [
+    "--width=40",
+    "--red=0.3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rgb_weights.py:41"
+  },
+  {
+   "test": "test_green_weight_error_without_sum_to_one",
+   "argv": [
+    "--width=40",
+    "--green=0.6"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rgb_weights.py:49"
+  },
+  {
+   "test": "test_blue_weight_error_without_sum_to_one",
+   "argv": [
+    "--width=40",
+    "--blue=0.2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rgb_weights.py:56"
+  },
+  {
+   "test": "test_width_overrides_term_fit",
+   "argv": [
+    "--term-fit",
+    "--width=40"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_terminal_fitting.py:46"
+  },
+  {
+   "test": "test_height_overrides_term_fit",
+   "argv": [
+    "--term-fit",
+    "--height=20"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_terminal_fitting.py:55"
+  },
+  {
+   "test": "test_invert_short_flag",
+   "argv": [
+    "-i",
+    "--width=40"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_transformations.py:16"
+  },
+  {
+   "test": "test_flipx_short_flag",
+   "argv": [
+    "-x",
+    "--width=40"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_transformations.py:33"
+  },
+  {
+   "test": "test_flipy_short_flag",
+   "argv": [
+    "-y",
+    "--width=40"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_transformations.py:50"
+  },
+  {
+   "test": "test_background_dark",
+   "argv": [
+    "--width=40",
+    "--invert"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_transformations.py:70"
+  },
+  {
+   "test": "test_verbose_short_flag",
+   "argv": [
+    "-v",
+    "--width=40"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_verbose_debug.py:14"
+  },
+  {
+   "test": "test_debug_flag",
+   "argv": [
+    "--debug",
+    "--width=40"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_verbose_debug.py:27"
+  },
+  {
+   "test": "test_debug_short_flag",
+   "argv": [
+    "-d",
+    "--width=40"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_verbose_debug.py:34"
+  }
+ ]
+}

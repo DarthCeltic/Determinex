@@ -1,0 +1,5139 @@
+{
+ "slug": "pier-cli__pier.5e1bde9",
+ "language": "",
+ "n_branches": 8,
+ "n_tests_total": 735,
+ "n_examples": 254,
+ "n_with_exact_stdout": 5,
+ "n_with_rc": 242,
+ "n_skipped": 451,
+ "examples": [
+  {
+   "test": "test_add_show_remove_roundtrip",
+   "argv": [
+    "config-init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "echo hello\n",
+   "expect_stderr": null,
+   "expect_in": [
+    "Added hi",
+    "Removed hi",
+    "AliasNotFound"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_add_show_remove_and_run.py:6"
+  },
+  {
+   "test": "test_run_via_subcommand_and_direct_alias_equivalent",
+   "argv": [
+    "config-init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_add_show_remove_and_run.py:28"
+  },
+  {
+   "test": "test_exit_code_and_stdout_stderr_passthrough_from_script",
+   "argv": [
+    "config-init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 7,
+   "expect_stdout": "OUT\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_add_show_remove_and_run.py:53"
+  },
+  {
+   "test": "test_config_init_creates_config_file_and_is_idempotent_error",
+   "argv": [
+    "config-init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[scripts.hello-pier]",
+    "file already exists"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_init_and_list.py:6"
+  },
+  {
+   "test": "test_list_shows_default_hello_pier_row",
+   "argv": [
+    "config-init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Alias",
+    "Command",
+    "hello-pier",
+    "echo Hello, Pier!"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_init_and_list.py:23"
+  },
+  {
+   "test": "test_help_mentions_subcommands_and_usage",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_errors.py:4"
+  },
+  {
+   "test": "test_no_config_file_error_goes_to_stdout_and_exit_zero",
+   "argv": [
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "No default config file found"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_errors.py:14"
+  },
+  {
+   "test": "test_version",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pier_executable.py:67"
+  },
+  {
+   "test": "test_help_header",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SUBCOMMANDS:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_pier_executable.py:73"
+  },
+  {
+   "test": "test_invalid_toml_errors",
+   "argv": [
+    "-c",
+    "bad.toml",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {
+    "bad.toml": "not=toml=["
+   },
+   "ci": true,
+   "source": "test_pier_executable.py:163"
+  },
+  {
+   "test": "test_add_creates_new_script",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "add",
+    "--alias",
+    "newone",
+    "echo added"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "echo added\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "pier.toml": ""
+   },
+   "ci": false,
+   "source": "test_pier_executable.py:178"
+  },
+  {
+   "test": "test_add_without_command_uses_editor",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "add",
+    "--alias",
+    "ed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "from_editor\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "pier.toml": ""
+   },
+   "ci": false,
+   "source": "test_pier_executable.py:269"
+  },
+  {
+   "test": "test_add_script_basic",
+   "argv": [
+    "config-init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Added test1",
+    "[scripts.test1]",
+    "echo hello"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_add_command.py:5"
+  },
+  {
+   "test": "test_add_script_with_description",
+   "argv": [
+    "config-init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Added test2",
+    "Test description",
+    "[scripts.test2]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_add_command.py:17"
+  },
+  {
+   "test": "test_add_script_with_single_tag",
+   "argv": [
+    "config-init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Added test3",
+    "[scripts.test3]",
+    "echo test3",
+    "tags"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_add_command.py:31"
+  },
+  {
+   "test": "test_add_script_with_multiple_tags",
+   "argv": [
+    "config-init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Added test4",
+    "[scripts.test4]",
+    "echo test4"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_add_command.py:47"
+  },
+  {
+   "test": "test_add_with_force_overwrites",
+   "argv": [
+    "config-init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Added overwrite",
+    "echo new"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_add_command.py:71"
+  },
+  {
+   "test": "test_add_with_short_force_flag",
+   "argv": [
+    "config-init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Added overwrite2",
+    "echo new2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_add_command.py:83"
+  },
+  {
+   "test": "test_add_with_all_options",
+   "argv": [
+    "config-init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Added complex",
+    "[scripts.complex]",
+    "echo complex",
+    "A complex script"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_add_command.py:101"
+  },
+  {
+   "test": "test_add_multiline_command",
+   "argv": [
+    "config-init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Added multiline",
+    "multiline"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_add_command.py:117"
+  },
+  {
+   "test": "test_add_description_and_tags_together",
+   "argv": [
+    "config-init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Added full",
+    "[scripts.full]",
+    "Full featured script",
+    "echo full"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_add_command.py:138"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pier",
+    "A simple script management CLI",
+    "USAGE:",
+    "FLAGS:",
+    "SUBCOMMANDS:",
+    "add",
+    "list",
+    "run",
+    "remove"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:13"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pier",
+    "A simple script management CLI",
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:27"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pier"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:35"
+  },
+  {
+   "test": "test_version_short_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pier"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:43"
+  },
+  {
+   "test": "test_help_subcommand",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "A simple script management CLI",
+    "SUBCOMMANDS:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:56"
+  },
+  {
+   "test": "test_short_help_for_all_subcommands",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_combinations.py:16"
+  },
+  {
+   "test": "test_short_version_for_all_subcommands",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.1."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_combinations.py:34"
+  },
+  {
+   "test": "test_config_file_option_variants",
+   "argv": [
+    "--config-file",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test",
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_combinations.py:43"
+  },
+  {
+   "test": "test_verbose_flag_variants",
+   "argv": [
+    "-v",
+    "-c",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_combinations.py:61"
+  },
+  {
+   "test": "test_list_with_all_flag_combinations",
+   "argv": [
+    "-c",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test",
+    "test",
+    "test",
+    "echo test",
+    "echo test",
+    "test",
+    "test",
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_combinations.py:77"
+  },
+  {
+   "test": "test_list_with_multiple_tags",
+   "argv": [
+    "-c",
+    "list",
+    "-t",
+    "tag1",
+    "-t",
+    "tag2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_combinations.py:124"
+  },
+  {
+   "test": "test_copy_variations",
+   "argv": [
+    "config-init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "original",
+    "copy1",
+    "copy2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_combinations.py:186"
+  },
+  {
+   "test": "test_config_init_variations",
+   "argv": [
+    "config-init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hello-pier",
+    "hello-pier"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_combinations.py:256"
+  },
+  {
+   "test": "test_run_command_variations",
+   "argv": [
+    "config-init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hello",
+    "hello"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_combinations.py:275"
+  },
+  {
+   "test": "test_list_cmd_width_various_values",
+   "argv": [
+    "-c",
+    "list",
+    "--cmd_width",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_combinations.py:291"
+  },
+  {
+   "test": "test_add_with_empty_description",
+   "argv": [
+    "config-init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "echo test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_combinations.py:312"
+  },
+  {
+   "test": "test_show_command_basic",
+   "argv": [
+    "config-init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "echo test",
+    "test"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_cli_combinations.py:326"
+  },
+  {
+   "test": "test_run_with_positional_args",
+   "argv": [
+    "config-init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hello world test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_combinations.py:339"
+  },
+  {
+   "test": "test_direct_alias_with_args",
+   "argv": [
+    "config-init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Hello World"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_combinations.py:352"
+  },
+  {
+   "test": "test_config_init_creates_file",
+   "argv": [
+    "config-init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[scripts.hello-pier]",
+    "echo Hello, Pier!"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_management.py:6"
+  },
+  {
+   "test": "test_config_init_with_alias",
+   "argv": [
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[scripts.hello-pier]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_management.py:16"
+  },
+  {
+   "test": "test_custom_config_file_flag",
+   "argv": [
+    "-c",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_management.py:45"
+  },
+  {
+   "test": "test_custom_config_file_long_flag",
+   "argv": [
+    "--config-file",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_management.py:55"
+  },
+  {
+   "test": "test_config_from_env_variable",
+   "argv": [
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "envtest"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_management.py:65"
+  },
+  {
+   "test": "test_config_discovery_current_dir",
+   "argv": [
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "local"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_management.py:75"
+  },
+  {
+   "test": "test_config_file_precedence_env_over_default",
+   "argv": [
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "from_env"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_management.py:108"
+  },
+  {
+   "test": "test_copy_duplicates_script",
+   "argv": [
+    "-c",
+    "copy",
+    "original",
+    "duplicate"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Copy from alias original to new alias duplicate",
+    "[scripts.original]",
+    "[scripts.duplicate]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_copy_move.py:4"
+  },
+  {
+   "test": "test_cp_alias",
+   "argv": [
+    "-c",
+    "cp",
+    "cptest",
+    "cptest2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Copy",
+    "cptest]",
+    "cptest2]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_copy_move.py:23"
+  },
+  {
+   "test": "test_move_renames_script",
+   "argv": [
+    "-c",
+    "move",
+    "oldname",
+    "newname"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Move from alias oldname to new alias newname",
+    "[scripts.newname]",
+    "echo old"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_copy_move.py:60"
+  },
+  {
+   "test": "test_mv_alias",
+   "argv": [
+    "-c",
+    "mv",
+    "mvtest",
+    "mvtest2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Move",
+    "mvtest2]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_copy_move.py:77"
+  },
+  {
+   "test": "test_rename_alias",
+   "argv": [
+    "-c",
+    "rename",
+    "renametest",
+    "renamed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Move",
+    "renamed]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_copy_move.py:91"
+  },
+  {
+   "test": "test_move_with_force",
+   "argv": [
+    "-c",
+    "move",
+    "--force",
+    "movesrc",
+    "movedst"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Move",
+    "[scripts.movedst]",
+    "echo source"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_copy_move.py:104"
+  },
+  {
+   "test": "test_move_with_short_force",
+   "argv": [
+    "-c",
+    "move",
+    "-f",
+    "fsrc",
+    "fdst"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "echo force source"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_copy_move.py:123"
+  },
+  {
+   "test": "test_config_init_with_nested_parent_dir",
+   "argv": [
+    "config-init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hello-pier",
+    "echo Hello, Pier!"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_improvements.py:13"
+  },
+  {
+   "test": "test_list_aliases_only_mode",
+   "argv": [
+    "-c",
+    "list",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "alias1",
+    "alias2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_improvements.py:27"
+  },
+  {
+   "test": "test_list_with_cmd_full_flag",
+   "argv": [
+    "-c",
+    "list",
+    "-l"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "longcmd"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_improvements.py:43"
+  },
+  {
+   "test": "test_add_script_with_reference_field",
+   "argv": [
+    "-c",
+    "add",
+    "-a",
+    "reftest",
+    "echo test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Added reftest",
+    "echo test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_improvements.py:56"
+  },
+  {
+   "test": "test_run_script_with_special_shell_chars",
+   "argv": [
+    "-c",
+    "run",
+    "specialchars"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Dollar:",
+    "Pipe:",
+    "Amp:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_improvements.py:69"
+  },
+  {
+   "test": "test_copy_preserves_description_and_tags",
+   "argv": [
+    "-c",
+    "copy",
+    "original",
+    "copied"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "original",
+    "copied"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_improvements.py:84"
+  },
+  {
+   "test": "test_move_preserves_all_metadata",
+   "argv": [
+    "-c",
+    "move",
+    "oldname",
+    "newname"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "newname",
+    "Test description"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_improvements.py:103"
+  },
+  {
+   "test": "test_show_script_with_shebang",
+   "argv": [
+    "-c",
+    "show",
+    "shebangshow"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#!/usr/bin/env python3",
+    "print"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_improvements.py:121"
+  },
+  {
+   "test": "test_run_python_shebang_script",
+   "argv": [
+    "-c",
+    "run",
+    "pyscript"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Python works!"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_improvements.py:135"
+  },
+  {
+   "test": "test_list_filter_multiple_tags",
+   "argv": [
+    "-c",
+    "list",
+    "-t",
+    "tag1",
+    "-t",
+    "tag2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "script1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_improvements.py:148"
+  },
+  {
+   "test": "test_remove_updates_config_file",
+   "argv": [
+    "-c",
+    "remove",
+    "toremove"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Removed toremove",
+    "tokeep"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_improvements.py:178"
+  },
+  {
+   "test": "test_add_updates_config_file",
+   "argv": [
+    "-c",
+    "add",
+    "-a",
+    "newscript",
+    "echo new"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "newscript",
+    "echo new"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_improvements.py:196"
+  },
+  {
+   "test": "test_config_discovery_pier_toml_current_dir",
+   "argv": [
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "discovered"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_improvements.py:207"
+  },
+  {
+   "test": "test_run_inline_script_with_default_shell",
+   "argv": [
+    "-c",
+    "run",
+    "bashscript"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Using bash"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_improvements.py:229"
+  },
+  {
+   "test": "test_list_shows_shebang_indicator",
+   "argv": [
+    "-c",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "regular",
+    "shebang"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_improvements.py:242"
+  },
+  {
+   "test": "test_move_force_overwrites_existing",
+   "argv": [
+    "-c",
+    "move",
+    "--force",
+    "source",
+    "dest"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "echo source"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_improvements.py:270"
+  },
+  {
+   "test": "test_run_with_env_variables",
+   "argv": [
+    "-c",
+    "run",
+    "envtest"
+   ],
+   "stdin": null,
+   "env": {
+    "TEST_VAR": "test_value"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "VAR=test_value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_improvements.py:291"
+  },
+  {
+   "test": "test_list_custom_command_width",
+   "argv": [
+    "-c",
+    "list",
+    "-c",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_improvements.py:304"
+  },
+  {
+   "test": "test_script_with_multiline_command",
+   "argv": [
+    "-c",
+    "run",
+    "multiline"
+   ],
+   "stdin": null,
+   "env": {
+    "SHELL": "/bin/sh"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Line 1",
+    "Line 2",
+    "Line 3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_improvements.py:315"
+  },
+  {
+   "test": "test_add_with_empty_tags",
+   "argv": [
+    "-c",
+    "add",
+    "-a",
+    "notags",
+    "echo test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "echo test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_improvements.py:340"
+  },
+  {
+   "test": "test_alias_with_spaces",
+   "argv": [
+    "config-init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Added"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:16"
+  },
+  {
+   "test": "test_script_with_empty_command",
+   "argv": [
+    "-c",
+    "run",
+    "empty"
+   ],
+   "stdin": null,
+   "env": {
+    "SHELL": "/bin/sh"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:26"
+  },
+  {
+   "test": "test_very_long_command",
+   "argv": [
+    "config-init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Added longcmd"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:37"
+  },
+  {
+   "test": "test_unicode_in_command",
+   "argv": [
+    "config-init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Added unicode"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:45"
+  },
+  {
+   "test": "test_list_with_no_matching_tags",
+   "argv": [
+    "-c",
+    "list",
+    "-t",
+    "nonexistent"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Alias"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:53"
+  },
+  {
+   "test": "test_run_script_that_outputs_nothing",
+   "argv": [
+    "-c",
+    "run",
+    "silent"
+   ],
+   "stdin": null,
+   "env": {
+    "SHELL": "/bin/sh"
+   },
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:67"
+  },
+  {
+   "test": "test_remove_last_script",
+   "argv": [
+    "-c",
+    "remove",
+    "only"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Removed only"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:77"
+  },
+  {
+   "test": "test_show_script_with_newlines",
+   "argv": [
+    "-c",
+    "show",
+    "multiline"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:91"
+  },
+  {
+   "test": "test_script_name_with_special_chars",
+   "argv": [
+    "config-init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Added test-script_123"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:116"
+  },
+  {
+   "test": "test_run_with_many_arguments",
+   "argv": [
+    "-c",
+    "run",
+    "manyargs"
+   ],
+   "stdin": null,
+   "env": {
+    "SHELL": "/bin/sh"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:124"
+  },
+  {
+   "test": "test_copy_preserves_all_metadata",
+   "argv": [
+    "-c",
+    "copy",
+    "original",
+    "copied"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:137"
+  },
+  {
+   "test": "test_list_cmd_width_zero",
+   "argv": [
+    "-c",
+    "list",
+    "-c",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:167"
+  },
+  {
+   "test": "test_shebang_with_spaces",
+   "argv": [
+    "-c",
+    "run",
+    "shebangspace"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:179"
+  },
+  {
+   "test": "test_interpreter_with_multiple_args",
+   "argv": [
+    "-c",
+    "run",
+    "interptest"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "multi arg interpreter"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:192"
+  },
+  {
+   "test": "test_config_path_with_tilde",
+   "argv": [
+    "-c",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pathtest"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:205"
+  },
+  {
+   "test": "test_invalid_alias_operations",
+   "argv": [
+    "config-init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error",
+    "error",
+    "error",
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_error_paths.py:44"
+  },
+  {
+   "test": "test_move_to_existing_without_force",
+   "argv": [
+    "config-init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_error_paths.py:100"
+  },
+  {
+   "test": "test_special_characters_in_commands",
+   "argv": [
+    "config-init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "found"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_paths.py:139"
+  },
+  {
+   "test": "test_show_with_no_scripts",
+   "argv": [
+    "-c",
+    "show",
+    "anything"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_error_paths.py:197"
+  },
+  {
+   "test": "test_multiple_errors_in_sequence",
+   "argv": [
+    "config-init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error",
+    "error",
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_error_paths.py:206"
+  },
+  {
+   "test": "test_full_workflow_add_list_run_remove",
+   "argv": [
+    "config-init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Added workflow",
+    "workflow",
+    "hello-pier",
+    "workflow test",
+    "Removed workflow"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:4"
+  },
+  {
+   "test": "test_copy_and_run_workflow",
+   "argv": [
+    "-c",
+    "copy",
+    "original",
+    "copied"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "original output"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:37"
+  },
+  {
+   "test": "test_move_and_run_workflow",
+   "argv": [
+    "-c",
+    "move",
+    "oldscript",
+    "newscript"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "from old"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:53"
+  },
+  {
+   "test": "test_filter_by_tag_and_run",
+   "argv": [
+    "-c",
+    "list",
+    "-t",
+    "group1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tagged1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:73"
+  },
+  {
+   "test": "test_multiple_scripts_with_same_tags",
+   "argv": [
+    "-c",
+    "list",
+    "-t",
+    "web"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:99"
+  },
+  {
+   "test": "test_script_with_all_metadata",
+   "argv": [
+    "-c",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "complete",
+    "A complete script example",
+    "complete script"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:126"
+  },
+  {
+   "test": "test_add_with_force_then_run",
+   "argv": [
+    "-c",
+    "add",
+    "-f",
+    "--alias",
+    "forcible",
+    "echo version 2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "version 2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:147"
+  },
+  {
+   "test": "test_shebang_python_script",
+   "argv": [
+    "-c",
+    "run",
+    "pythontest"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Hello from Python"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:165"
+  },
+  {
+   "test": "test_complex_multiline_script",
+   "argv": [
+    "-c",
+    "run",
+    "complex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Line 1",
+    "Line 2",
+    "Line 3",
+    "Loop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:179"
+  },
+  {
+   "test": "test_script_with_special_characters",
+   "argv": [
+    "-c",
+    "run",
+    "special"
+   ],
+   "stdin": null,
+   "env": {
+    "SHELL": "/bin/sh"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Special"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:201"
+  },
+  {
+   "test": "test_list_shows_all_scripts",
+   "argv": [
+    "-c",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test1",
+    "test2",
+    "test3",
+    "Alias",
+    "Command"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_list_command.py:4"
+  },
+  {
+   "test": "test_ls_alias",
+   "argv": [
+    "-c",
+    "ls"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test1",
+    "Alias"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_list_command.py:25"
+  },
+  {
+   "test": "test_list_aliases_only_long_flag",
+   "argv": [
+    "-c",
+    "list",
+    "--list_aliases"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "onlyalias"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_list_command.py:59"
+  },
+  {
+   "test": "test_list_full_command",
+   "argv": [
+    "-c",
+    "list",
+    "-l"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "very long command that should be displayed fully"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_list_command.py:69"
+  },
+  {
+   "test": "test_list_full_command_long_flag",
+   "argv": [
+    "-c",
+    "list",
+    "--cmd_full"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "full command display test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_list_command.py:79"
+  },
+  {
+   "test": "test_list_with_custom_width",
+   "argv": [
+    "-c",
+    "list",
+    "-c",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "widthtest"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_list_command.py:89"
+  },
+  {
+   "test": "test_list_filter_by_single_tag",
+   "argv": [
+    "-c",
+    "list",
+    "-t",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tagged1",
+    "tagged2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_list_command.py:100"
+  },
+  {
+   "test": "test_list_filter_by_multiple_tags",
+   "argv": [
+    "-c",
+    "list",
+    "-t",
+    "tag1",
+    "-t",
+    "tag2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_list_command.py:121"
+  },
+  {
+   "test": "test_list_shows_shebang_scripts",
+   "argv": [
+    "-c",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "shebang",
+    "#! script"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_list_command.py:141"
+  },
+  {
+   "test": "test_list_shows_description",
+   "argv": [
+    "-c",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "described",
+    "This is a test script",
+    "Description"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_list_command.py:155"
+  },
+  {
+   "test": "test_list_shows_tags",
+   "argv": [
+    "-c",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "withtest",
+    "Tags"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_list_command.py:168"
+  },
+  {
+   "test": "test_list_respects_default_width",
+   "argv": [
+    "-c",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "widthconf"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_list_command.py:182"
+  },
+  {
+   "test": "test_rm_alias",
+   "argv": [
+    "-c",
+    "rm",
+    "rmtest"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Removed rmtest"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_remove_command.py:22"
+  },
+  {
+   "test": "test_remove_preserves_other_scripts",
+   "argv": [
+    "-c",
+    "remove",
+    "script2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "script1",
+    "script3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_remove_command.py:52"
+  },
+  {
+   "test": "test_run_executes_script",
+   "argv": [
+    "-c",
+    "run",
+    "runtest"
+   ],
+   "stdin": null,
+   "env": {
+    "SHELL": "/bin/sh"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Hello from runtest"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_run_command.py:4"
+  },
+  {
+   "test": "test_run_with_positional_args",
+   "argv": [
+    "-c",
+    "run",
+    "withargs",
+    "arg1",
+    "arg2",
+    "arg3"
+   ],
+   "stdin": null,
+   "env": {
+    "SHELL": "/bin/sh"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "arg1 arg2 arg3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_run_command.py:14"
+  },
+  {
+   "test": "test_run_shebang_script",
+   "argv": [
+    "-c",
+    "run",
+    "shebangrun"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "From shebang"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_run_command.py:25"
+  },
+  {
+   "test": "test_run_shebang_with_args",
+   "argv": [
+    "-c",
+    "run",
+    "shebangargs",
+    "Hello",
+    "World"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Hello--World"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_run_command.py:38"
+  },
+  {
+   "test": "test_run_inline_with_args",
+   "argv": [
+    "-c",
+    "run",
+    "inlineargs",
+    "Hi",
+    "There"
+   ],
+   "stdin": null,
+   "env": {
+    "SHELL": "/bin/sh"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Hi--There"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_run_command.py:51"
+  },
+  {
+   "test": "test_run_with_custom_interpreter",
+   "argv": [
+    "-c",
+    "run",
+    "custominterp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Custom interpreter"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_run_command.py:62"
+  },
+  {
+   "test": "test_run_script_exit_zero",
+   "argv": [
+    "-c",
+    "run",
+    "exitzero"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "success"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_run_command.py:75"
+  },
+  {
+   "test": "test_run_script_exit_nonzero",
+   "argv": [
+    "-c",
+    "run",
+    "exitone"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "about to fail"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_run_command.py:89"
+  },
+  {
+   "test": "test_run_script_exit_custom_code",
+   "argv": [
+    "-c",
+    "run",
+    "exit100"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 100,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "exiting with 100"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_run_command.py:103"
+  },
+  {
+   "test": "test_run_script_stdout",
+   "argv": [
+    "-c",
+    "run",
+    "outstdout"
+   ],
+   "stdin": null,
+   "env": {
+    "SHELL": "/bin/sh"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "stdout output"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_run_command.py:117"
+  },
+  {
+   "test": "test_run_script_stderr",
+   "argv": [
+    "-c",
+    "run",
+    "outstderr"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error output"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_run_command.py:127"
+  },
+  {
+   "test": "test_direct_alias_execution",
+   "argv": [
+    "-c",
+    "direct"
+   ],
+   "stdin": null,
+   "env": {
+    "SHELL": "/bin/sh"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "direct execution"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_run_command.py:157"
+  },
+  {
+   "test": "test_direct_alias_with_args",
+   "argv": [
+    "-c",
+    "directargs",
+    "foo",
+    "bar"
+   ],
+   "stdin": null,
+   "env": {
+    "SHELL": "/bin/sh"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "foo bar"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_run_command.py:167"
+  },
+  {
+   "test": "test_run_verbose_mode",
+   "argv": [
+    "-v",
+    "-c",
+    "run",
+    "verbosetest"
+   ],
+   "stdin": null,
+   "env": {
+    "SHELL": "/bin/sh"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_run_command.py:178"
+  },
+  {
+   "test": "test_extra_unknown_fields",
+   "argv": [
+    "-c",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_serde_paths.py:88"
+  },
+  {
+   "test": "test_nested_structures_not_allowed",
+   "argv": [
+    "-c",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_serde_paths.py:118"
+  },
+  {
+   "test": "test_unicode_in_all_fields",
+   "argv": [
+    "-c",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test_unicode"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_serde_paths.py:135"
+  },
+  {
+   "test": "test_very_long_tag_arrays",
+   "argv": [
+    "-c",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "many_tags"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_serde_paths.py:175"
+  },
+  {
+   "test": "test_serialization_with_special_toml_chars",
+   "argv": [
+    "config-init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "echo"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_serde_paths.py:191"
+  },
+  {
+   "test": "test_empty_config_structure",
+   "argv": [
+    "-c",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_serde_paths.py:210"
+  },
+  {
+   "test": "test_config_with_only_scripts_section",
+   "argv": [
+    "-c",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_serde_paths.py:234"
+  },
+  {
+   "test": "test_option_field_with_null_behavior",
+   "argv": [
+    "-c",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "minimal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_serde_paths.py:246"
+  },
+  {
+   "test": "test_add_remove_cycle_maintains_format",
+   "argv": [
+    "config-init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test0",
+    "test2",
+    "test4"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_serde_paths.py:268"
+  },
+  {
+   "test": "test_show_displays_script",
+   "argv": [
+    "-c",
+    "show",
+    "showme"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_show_command.py:4"
+  },
+  {
+   "test": "test_show_multiline_script",
+   "argv": [
+    "-c",
+    "show",
+    "multishow"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_show_command.py:33"
+  },
+  {
+   "test": "test_config_with_all_script_fields",
+   "argv": [
+    "--config-file",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "full_featured",
+    "minimal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_toml_features.py:6"
+  },
+  {
+   "test": "test_config_with_special_characters_in_values",
+   "argv": [
+    "--config-file",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "special_chars",
+    "unicode"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_toml_features.py:32"
+  },
+  {
+   "test": "test_config_with_empty_arrays",
+   "argv": [
+    "--config-file",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "empty_tags",
+    "no_tags"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_toml_features.py:51"
+  },
+  {
+   "test": "test_config_with_inline_tables",
+   "argv": [
+    "--config-file",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_toml_features.py:68"
+  },
+  {
+   "test": "test_config_with_array_of_strings",
+   "argv": [
+    "--config-file",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "single_tag",
+    "multi_tag",
+    "inline_tags"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_toml_features.py:82"
+  },
+  {
+   "test": "test_config_with_optional_fields_combinations",
+   "argv": [
+    "--config-file",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_toml_features.py:125"
+  },
+  {
+   "test": "test_config_with_long_values",
+   "argv": [
+    "--config-file",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "long_values"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_toml_features.py:172"
+  },
+  {
+   "test": "test_config_with_many_scripts",
+   "argv": [
+    "--config-file",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "script000",
+    "script050",
+    "script099"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_toml_features.py:191"
+  },
+  {
+   "test": "test_config_whitespace_handling",
+   "argv": [
+    "--config-file",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test1",
+    "test2",
+    "test3",
+    "test4"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_toml_features.py:239"
+  },
+  {
+   "test": "test_integer_option_rejects_negative_numbers_with_equals_form",
+   "argv": [
+    "list",
+    "--cmd_width=-1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Invalid value for '--cmd_width"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:101"
+  },
+  {
+   "test": "test_double_dash_treats_dash_prefixed_values_as_positional_for_run",
+   "argv": [
+    "run",
+    "--",
+    "--not-a-flag",
+    "arg2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "No default config file found"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:121"
+  },
+  {
+   "test": "test_add_subcommand_rejects_unexpected_long_flag",
+   "argv": [
+    "add",
+    "--alias",
+    "foo",
+    "--command",
+    "hi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Found argument '--command'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:132"
+  },
+  {
+   "test": "test_add_subcommand_dash_dash_single_command_arg_only",
+   "argv": [
+    "add",
+    "--alias",
+    "foo",
+    "--",
+    "echo",
+    "hi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Found argument 'hi'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:139"
+  },
+  {
+   "test": "test_add_simple_script",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "add",
+    "--alias",
+    "test1",
+    "--",
+    "echo hello"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test1",
+    "echo hello"
+   ],
+   "files": {
+    "pier.toml": ""
+   },
+   "ci": false,
+   "source": "test_add.py:6"
+  },
+  {
+   "test": "test_add_with_short_alias_flag",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "add",
+    "-a",
+    "test2",
+    "--",
+    "ls -la"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test2",
+    "ls -la"
+   ],
+   "files": {
+    "pier.toml": ""
+   },
+   "ci": false,
+   "source": "test_add.py:19"
+  },
+  {
+   "test": "test_add_with_description",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "add",
+    "--alias",
+    "test3",
+    "--description",
+    "A test script",
+    "--",
+    "echo test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test3",
+    "A test script",
+    "description"
+   ],
+   "files": {
+    "pier.toml": ""
+   },
+   "ci": false,
+   "source": "test_add.py:31"
+  },
+  {
+   "test": "test_add_with_description_short_flag",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "add",
+    "-a",
+    "test4",
+    "-d",
+    "Short desc",
+    "--",
+    "pwd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test4",
+    "Short desc"
+   ],
+   "files": {
+    "pier.toml": ""
+   },
+   "ci": false,
+   "source": "test_add.py:47"
+  },
+  {
+   "test": "test_add_with_single_tag",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "add",
+    "--alias",
+    "test5",
+    "--tag",
+    "utility",
+    "--",
+    "date"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test5",
+    "utility"
+   ],
+   "files": {
+    "pier.toml": ""
+   },
+   "ci": false,
+   "source": "test_add.py:62"
+  },
+  {
+   "test": "test_add_with_multiple_tags",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "add",
+    "--alias",
+    "test6",
+    "--tag",
+    "docker",
+    "--tag",
+    "utility",
+    "--tag",
+    "admin",
+    "--",
+    "docker ps"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test6",
+    "docker",
+    "utility",
+    "admin"
+   ],
+   "files": {
+    "pier.toml": ""
+   },
+   "ci": false,
+   "source": "test_add.py:81"
+  },
+  {
+   "test": "test_add_with_tag_short_flag",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "add",
+    "-a",
+    "test7",
+    "-t",
+    "network",
+    "--",
+    "ping localhost"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test7",
+    "network"
+   ],
+   "files": {
+    "pier.toml": ""
+   },
+   "ci": false,
+   "source": "test_add.py:100"
+  },
+  {
+   "test": "test_add_multiline_script",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "add",
+    "--alias",
+    "test8",
+    "--",
+    "echo line1\necho line2\necho line3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test8"
+   ],
+   "files": {
+    "pier.toml": ""
+   },
+   "ci": false,
+   "source": "test_add.py:115"
+  },
+  {
+   "test": "test_add_duplicate_alias_with_force",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "add",
+    "--alias",
+    "existing",
+    "--force",
+    "--",
+    "echo overwritten"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "existing",
+    "overwritten"
+   ],
+   "files": {
+    "pier.toml": "[scripts.existing]\ncommand = 'echo exists'\n"
+   },
+   "ci": false,
+   "source": "test_add.py:139"
+  },
+  {
+   "test": "test_add_with_force_short_flag",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "add",
+    "-a",
+    "existing",
+    "-f",
+    "--",
+    "echo new"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "new"
+   ],
+   "files": {
+    "pier.toml": "[scripts.existing]\ncommand = 'echo old'\n"
+   },
+   "ci": false,
+   "source": "test_add.py:154"
+  },
+  {
+   "test": "test_add_script_with_special_characters",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "add",
+    "--alias",
+    "test_special",
+    "--",
+    "echo 'hello world' && echo done"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test_special"
+   ],
+   "files": {
+    "pier.toml": ""
+   },
+   "ci": false,
+   "source": "test_add.py:168"
+  },
+  {
+   "test": "test_add_with_all_options",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "add",
+    "--alias",
+    "complex",
+    "--description",
+    "A complex script",
+    "--tag",
+    "tag1",
+    "--tag",
+    "tag2",
+    "--",
+    "echo complex && date"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "complex",
+    "A complex script",
+    "tag1",
+    "tag2"
+   ],
+   "files": {
+    "pier.toml": ""
+   },
+   "ci": false,
+   "source": "test_add.py:181"
+  },
+  {
+   "test": "test_help_long_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pier",
+    "USAGE:",
+    "FLAGS:",
+    "SUBCOMMANDS:",
+    "add",
+    "list",
+    "run"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:6"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pier",
+    "USAGE:",
+    "FLAGS:",
+    "SUBCOMMANDS:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:18"
+  },
+  {
+   "test": "test_help_output_structure",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:",
+    "FLAGS:",
+    "OPTIONS:",
+    "ARGS:",
+    "SUBCOMMANDS:",
+    "add",
+    "edit",
+    "run",
+    "show",
+    "-h, --help",
+    "-V, --version",
+    "-v, --verbose",
+    "-c, --config-file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:61"
+  },
+  {
+   "test": "test_config_file_flag",
+   "argv": [
+    "-c",
+    "custom.toml",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {
+    "custom.toml": "\n[scripts.test]\ncommand = 'echo \"custom config\"'\n"
+   },
+   "ci": false,
+   "source": "test_config.py:7"
+  },
+  {
+   "test": "test_config_file_short_flag",
+   "argv": [
+    "-c",
+    "custom.toml",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "short"
+   ],
+   "files": {
+    "custom.toml": "\n[scripts.short]\ncommand = 'echo \"test\"'\n"
+   },
+   "ci": false,
+   "source": "test_config.py:18"
+  },
+  {
+   "test": "test_config_file_from_env_var",
+   "argv": [
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "env_test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:29"
+  },
+  {
+   "test": "test_toml_format_support",
+   "argv": [
+    "-c",
+    "test.toml",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "toml_test"
+   ],
+   "files": {
+    "test.toml": "\n[scripts.toml_test]\ncommand = 'echo \"toml works\"'\ndescription = 'TOML test'\ntags = ['toml', 'test']\n"
+   },
+   "ci": false,
+   "source": "test_config.py:58"
+  },
+  {
+   "test": "test_empty_config_file",
+   "argv": [
+    "-c",
+    "empty.toml",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "empty.toml": ""
+   },
+   "ci": false,
+   "source": "test_config.py:71"
+  },
+  {
+   "test": "test_config_with_default_section",
+   "argv": [
+    "-c",
+    "defaults.toml",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {
+    "defaults.toml": "\n[default]\ninterpreter = [\"sh\", \"-c\"]\n\n[scripts.test]\ncommand = 'echo \"test\"'\n"
+   },
+   "ci": false,
+   "source": "test_config.py:80"
+  },
+  {
+   "test": "test_verbose_flag",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "-v",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {
+    "pier.toml": "\n[scripts.test]\ncommand = 'echo \"test\"'\n"
+   },
+   "ci": false,
+   "source": "test_config.py:106"
+  },
+  {
+   "test": "test_verbose_with_run",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "--verbose",
+    "run",
+    "vtest"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "verbose test"
+   ],
+   "files": {
+    "pier.toml": "\n[scripts.vtest]\ncommand = 'echo \"verbose test\"'\n"
+   },
+   "ci": false,
+   "source": "test_config.py:118"
+  },
+  {
+   "test": "test_init_alias_works",
+   "argv": [
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_init.py:19"
+  },
+  {
+   "test": "test_copy_existing_script",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "copy",
+    "original",
+    "copied"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "original",
+    "copied"
+   ],
+   "files": {
+    "pier.toml": "\n[scripts.original]\ncommand = 'echo \"original\"'\ndescription = 'Original script'\ntags = ['test']\n"
+   },
+   "ci": false,
+   "source": "test_copy.py:6"
+  },
+  {
+   "test": "test_cp_alias_works",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "cp",
+    "source",
+    "dest"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "source",
+    "dest"
+   ],
+   "files": {
+    "pier.toml": "\n[scripts.source]\ncommand = 'ls -la'\n"
+   },
+   "ci": false,
+   "source": "test_copy.py:24"
+  },
+  {
+   "test": "test_copy_preserves_metadata",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "copy",
+    "orig",
+    "copy_test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "copy_test"
+   ],
+   "files": {
+    "pier.toml": "\n[scripts.orig]\ncommand = 'echo \"test\"'\ndescription = 'A description'\ntags = ['tag1', 'tag2']\n"
+   },
+   "ci": false,
+   "source": "test_copy.py:59"
+  },
+  {
+   "test": "test_script_with_special_chars_in_command",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "special"
+   ],
+   "files": {
+    "pier.toml": "\n[scripts.special]\ncommand = 'echo \"Hello\" && echo \"done\"'\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:6"
+  },
+  {
+   "test": "test_script_with_newlines_in_command",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "run",
+    "multiline"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "line 1",
+    "line 2",
+    "line 3"
+   ],
+   "files": {
+    "pier.toml": "\n[scripts.multiline]\ncommand = '''\necho \"line 1\"\necho \"line 2\"\necho \"line 3\"\n'''\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:17"
+  },
+  {
+   "test": "test_script_with_unicode",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "run",
+    "unicode"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Hello"
+   ],
+   "files": {
+    "pier.toml": "\n[scripts.unicode]\ncommand = 'echo \"Hello World\"'\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:34"
+  },
+  {
+   "test": "test_alias_with_special_chars",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "pier.toml": "\n[scripts.\"test-alias\"]\ncommand = 'echo \"dash alias\"'\n\n[scripts.\"test_underscore\"]\ncommand = 'echo \"underscore alias\"'\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:45"
+  },
+  {
+   "test": "test_very_long_command",
+   "argv": [
+    "-c",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "long"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:59"
+  },
+  {
+   "test": "test_script_with_many_tags",
+   "argv": [
+    "-c",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "manytags"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:82"
+  },
+  {
+   "test": "test_script_with_very_long_description",
+   "argv": [
+    "-c",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "longdesc"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:96"
+  },
+  {
+   "test": "test_run_script_that_times_out",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "run",
+    "sleep_test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "done"
+   ],
+   "files": {
+    "pier.toml": "\n[scripts.sleep_test]\ncommand = 'sleep 0.1 && echo \"done\"'\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:121"
+  },
+  {
+   "test": "test_script_with_environment_variables",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "run",
+    "env_var"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "pier.toml": "\n[scripts.env_var]\ncommand = 'echo \"$HOME\"'\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:132"
+  },
+  {
+   "test": "test_script_with_subshell",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "run",
+    "subshell"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "outer",
+    "inner"
+   ],
+   "files": {
+    "pier.toml": "\n[scripts.subshell]\ncommand = 'echo \"outer\" && (echo \"inner\")'\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:144"
+  },
+  {
+   "test": "test_show_with_formatting",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "show",
+    "formatted"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "pier.toml": "\n[scripts.formatted]\ncommand = '''\n#!/bin/sh\nif [ -f \"/tmp/test\" ]; then\n    echo \"exists\"\nelse\n    echo \"not found\"\nfi\n'''\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:156"
+  },
+  {
+   "test": "test_list_displays_scripts",
+   "argv": [
+    "-c",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test1",
+    "test2",
+    "test3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_list.py:22"
+  },
+  {
+   "test": "test_ls_alias_works",
+   "argv": [
+    "-c",
+    "ls"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test1",
+    "test2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_list.py:32"
+  },
+  {
+   "test": "test_list_output_format",
+   "argv": [
+    "-c",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_list.py:41"
+  },
+  {
+   "test": "test_list_aliases_only",
+   "argv": [
+    "-c",
+    "list",
+    "--list_aliases"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test1",
+    "test2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_list.py:53"
+  },
+  {
+   "test": "test_list_aliases_short_flag",
+   "argv": [
+    "-c",
+    "list",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test1",
+    "test2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_list.py:63"
+  },
+  {
+   "test": "test_list_full_command",
+   "argv": [
+    "-c",
+    "list",
+    "--cmd_full"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "echo test2 with a very long command that should be truncated"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_list.py:72"
+  },
+  {
+   "test": "test_list_full_command_short_flag",
+   "argv": [
+    "-c",
+    "list",
+    "-l"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_list.py:80"
+  },
+  {
+   "test": "test_list_with_cmd_width",
+   "argv": [
+    "-c",
+    "list",
+    "--cmd_width",
+    "20"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_list.py:90"
+  },
+  {
+   "test": "test_list_with_cmd_width_short_flag",
+   "argv": [
+    "-c",
+    "list",
+    "-c",
+    "15"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_list.py:98"
+  },
+  {
+   "test": "test_list_filter_by_tag",
+   "argv": [
+    "-c",
+    "list",
+    "--tag",
+    "utility"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_list.py:109"
+  },
+  {
+   "test": "test_list_filter_by_tag_short_flag",
+   "argv": [
+    "-c",
+    "list",
+    "-t",
+    "echo"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_list.py:119"
+  },
+  {
+   "test": "test_list_filter_by_multiple_tags",
+   "argv": [
+    "-c",
+    "list",
+    "--tag",
+    "utility",
+    "--tag",
+    "files"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_list.py:127"
+  },
+  {
+   "test": "test_list_empty_config",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "pier.toml": ""
+   },
+   "ci": false,
+   "source": "test_list.py:135"
+  },
+  {
+   "test": "test_move_existing_script",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "move",
+    "old_name",
+    "new_name"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "new_name"
+   ],
+   "files": {
+    "pier.toml": "\n[scripts.old_name]\ncommand = 'echo \"test\"'\n"
+   },
+   "ci": false,
+   "source": "test_move.py:6"
+  },
+  {
+   "test": "test_mv_alias_works",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "mv",
+    "old",
+    "new"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "new"
+   ],
+   "files": {
+    "pier.toml": "\n[scripts.old]\ncommand = 'echo \"test\"'\n"
+   },
+   "ci": false,
+   "source": "test_move.py:20"
+  },
+  {
+   "test": "test_rename_alias_works",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "rename",
+    "old",
+    "renamed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "renamed"
+   ],
+   "files": {
+    "pier.toml": "\n[scripts.old]\ncommand = 'echo \"test\"'\n"
+   },
+   "ci": false,
+   "source": "test_move.py:33"
+  },
+  {
+   "test": "test_move_to_existing_with_force",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "move",
+    "source",
+    "existing",
+    "--force"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "existing"
+   ],
+   "files": {
+    "pier.toml": "\n[scripts.source]\ncommand = 'echo \"source\"'\n[scripts.existing]\ncommand = 'echo \"existing\"'\n"
+   },
+   "ci": false,
+   "source": "test_move.py:67"
+  },
+  {
+   "test": "test_move_with_force_short_flag",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "move",
+    "src",
+    "dst",
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dst"
+   ],
+   "files": {
+    "pier.toml": "\n[scripts.src]\ncommand = 'echo \"src\"'\n[scripts.dst]\ncommand = 'echo \"dst\"'\n"
+   },
+   "ci": false,
+   "source": "test_move.py:84"
+  },
+  {
+   "test": "test_move_preserves_metadata",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "move",
+    "old",
+    "new"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "new"
+   ],
+   "files": {
+    "pier.toml": "\n[scripts.old]\ncommand = 'echo \"test\"'\ndescription = 'A description'\ntags = ['tag1', 'tag2']\n"
+   },
+   "ci": false,
+   "source": "test_move.py:99"
+  },
+  {
+   "test": "test_remove_existing_script",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "remove",
+    "to_remove"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "keep"
+   ],
+   "files": {
+    "pier.toml": "\n[scripts.to_remove]\ncommand = 'echo \"remove me\"'\n[scripts.keep]\ncommand = 'echo \"keep me\"'\n"
+   },
+   "ci": false,
+   "source": "test_remove.py:6"
+  },
+  {
+   "test": "test_rm_alias_works",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "rm",
+    "to_remove"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "pier.toml": "\n[scripts.to_remove]\ncommand = 'echo \"test\"'\n"
+   },
+   "ci": false,
+   "source": "test_remove.py:23"
+  },
+  {
+   "test": "test_remove_preserves_other_scripts",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "remove",
+    "script2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "script1",
+    "script3"
+   ],
+   "files": {
+    "pier.toml": "\n[scripts.script1]\ncommand = 'echo \"1\"'\n[scripts.script2]\ncommand = 'echo \"2\"'\n[scripts.script3]\ncommand = 'echo \"3\"'\n"
+   },
+   "ci": false,
+   "source": "test_remove.py:44"
+  },
+  {
+   "test": "test_run_simple_script",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "run",
+    "hello"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Hello World"
+   ],
+   "files": {
+    "pier.toml": "\n[scripts.hello]\ncommand = 'echo \"Hello World\"'\n"
+   },
+   "ci": false,
+   "source": "test_run.py:6"
+  },
+  {
+   "test": "test_run_script_with_shebang",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "run",
+    "shebang_test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Shebang works"
+   ],
+   "files": {
+    "pier.toml": "\n[scripts.shebang_test]\ncommand = '''\n#!/bin/sh\necho \"Shebang works\"\n'''\n"
+   },
+   "ci": false,
+   "source": "test_run.py:17"
+  },
+  {
+   "test": "test_run_script_with_arguments",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "run",
+    "with_args",
+    "first",
+    "second"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "arg1=first",
+    "arg2=second"
+   ],
+   "files": {
+    "pier.toml": "\n[scripts.with_args]\ncommand = '''\n#!/bin/sh\necho \"arg1=$1 arg2=$2\"\n'''\n"
+   },
+   "ci": false,
+   "source": "test_run.py:31"
+  },
+  {
+   "test": "test_run_script_with_stdout",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "run",
+    "output"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "line1",
+    "line2",
+    "line3"
+   ],
+   "files": {
+    "pier.toml": "\n[scripts.output]\ncommand = 'echo \"line1\" && echo \"line2\" && echo \"line3\"'\n"
+   },
+   "ci": false,
+   "source": "test_run.py:54"
+  },
+  {
+   "test": "test_run_script_with_stderr",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "run",
+    "error_output"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error message"
+   ],
+   "files": {
+    "pier.toml": "\n[scripts.error_output]\ncommand = '''\n#!/bin/sh\necho \"error message\" >&2\n'''\n"
+   },
+   "ci": false,
+   "source": "test_run.py:67"
+  },
+  {
+   "test": "test_run_script_with_pipe",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "run",
+    "pipe_test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "uppercase"
+   ],
+   "files": {
+    "pier.toml": "\n[scripts.pipe_test]\ncommand = '''\n#!/bin/sh\necho \"UPPERCASE\" | tr '[:upper:]' '[:lower:]'\n'''\n"
+   },
+   "ci": false,
+   "source": "test_run.py:81"
+  },
+  {
+   "test": "test_run_script_with_and_operator",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "run",
+    "and_test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "first",
+    "second"
+   ],
+   "files": {
+    "pier.toml": "\n[scripts.and_test]\ncommand = '''\n#!/bin/sh\necho \"first\" && echo \"second\"\n'''\n"
+   },
+   "ci": false,
+   "source": "test_run.py:95"
+  },
+  {
+   "test": "test_run_script_with_exit_code_zero",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "run",
+    "success"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "pier.toml": "\n[scripts.success]\ncommand = '''\n#!/bin/sh\nexit 0\n'''\n"
+   },
+   "ci": false,
+   "source": "test_run.py:110"
+  },
+  {
+   "test": "test_run_script_with_nonzero_exit_code",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "run",
+    "failure"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "pier.toml": "\n[scripts.failure]\ncommand = '''\n#!/bin/sh\nexit 1\n'''\n"
+   },
+   "ci": false,
+   "source": "test_run.py:123"
+  },
+  {
+   "test": "test_run_script_with_custom_exit_code",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "run",
+    "exit_100"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 100,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "pier.toml": "\n[scripts.exit_100]\ncommand = '''\n#!/bin/sh\nexit 100\n'''\n"
+   },
+   "ci": false,
+   "source": "test_run.py:136"
+  },
+  {
+   "test": "test_run_with_default_interpreter",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "run",
+    "python_test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Python works"
+   ],
+   "files": {
+    "pier.toml": "\n[default]\ninterpreter = [\"python3\", \"-c\"]\n\n[scripts.python_test]\ncommand = 'print(\"Python works\")'\n"
+   },
+   "ci": false,
+   "source": "test_run.py:149"
+  },
+  {
+   "test": "test_direct_alias_execution",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "direct"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Direct execution"
+   ],
+   "files": {
+    "pier.toml": "\n[scripts.direct]\ncommand = 'echo \"Direct execution\"'\n"
+   },
+   "ci": false,
+   "source": "test_run.py:163"
+  },
+  {
+   "test": "test_direct_alias_with_arguments",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "direct_args",
+    "arg1",
+    "arg2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Got: arg1 and arg2"
+   ],
+   "files": {
+    "pier.toml": "\n[scripts.direct_args]\ncommand = '''\n#!/bin/sh\necho \"Got: $1 and $2\"\n'''\n"
+   },
+   "ci": false,
+   "source": "test_run.py:174"
+  },
+  {
+   "test": "test_run_python_script_with_shebang",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "run",
+    "python_shebang"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Python with shebang"
+   ],
+   "files": {
+    "pier.toml": "\n[scripts.python_shebang]\ncommand = '''\n#!/usr/bin/env python3\nprint(\"Python with shebang\")\n'''\n"
+   },
+   "ci": false,
+   "source": "test_run.py:188"
+  },
+  {
+   "test": "test_run_inline_script_with_shell",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "run",
+    "inline"
+   ],
+   "stdin": null,
+   "env": {
+    "SHELL": "/bin/sh"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "inline"
+   ],
+   "files": {
+    "pier.toml": "\n[scripts.inline]\ncommand = 'echo \"inline\" && date > /dev/null'\n"
+   },
+   "ci": false,
+   "source": "test_run.py:202"
+  },
+  {
+   "test": "test_show_simple_script",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "show",
+    "test_show"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "echo",
+    "test"
+   ],
+   "files": {
+    "pier.toml": "\n[scripts.test_show]\ncommand = 'echo \"test\"'\n"
+   },
+   "ci": false,
+   "source": "test_show.py:6"
+  },
+  {
+   "test": "test_show_multiline_script",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "show",
+    "multiline"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "line1",
+    "line2",
+    "line3"
+   ],
+   "files": {
+    "pier.toml": "\n[scripts.multiline]\ncommand = '''\n#!/bin/sh\necho \"line1\"\necho \"line2\"\necho \"line3\"\n'''\n"
+   },
+   "ci": false,
+   "source": "test_show.py:18"
+  },
+  {
+   "test": "test_show_script_with_shebang",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "show",
+    "with_shebang"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "pier.toml": "\n[scripts.with_shebang]\ncommand = '''\n#!/bin/sh\nfor i in 1 2 3; do\n    echo \"$i\"\ndone\n'''\n"
+   },
+   "ci": false,
+   "source": "test_show.py:36"
+  },
+  {
+   "test": "test_show_displays_script_content",
+   "argv": [
+    "-c",
+    "pier.toml",
+    "show",
+    "content_test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ls",
+    "pwd",
+    "done"
+   ],
+   "files": {
+    "pier.toml": "\n[scripts.content_test]\ncommand = 'ls -la && pwd && echo \"done\"'\n"
+   },
+   "ci": false,
+   "source": "test_show.py:60"
+  },
+  {
+   "test": "test_add_help",
+   "argv": [
+    "add",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Add a new script",
+    "--alias",
+    "--description",
+    "--tag",
+    "--force",
+    "<command>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_help.py:5"
+  },
+  {
+   "test": "test_list_help",
+   "argv": [
+    "list",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "List scripts",
+    "--list_aliases",
+    "--cmd_full",
+    "--cmd_width",
+    "--tag"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_help.py:16"
+  },
+  {
+   "test": "test_ls_help",
+   "argv": [
+    "ls",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "List scripts",
+    "alias: ls"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_help.py:26"
+  },
+  {
+   "test": "test_run_help",
+   "argv": [
+    "run",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Run a script",
+    "<alias>",
+    "<args>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_help.py:33"
+  },
+  {
+   "test": "test_show_help",
+   "argv": [
+    "show",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Show a script",
+    "<alias>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_help.py:41"
+  },
+  {
+   "test": "test_edit_help",
+   "argv": [
+    "edit",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Edit a script",
+    "<alias>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_help.py:48"
+  },
+  {
+   "test": "test_remove_help",
+   "argv": [
+    "remove",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Remove a script",
+    "<alias>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_help.py:55"
+  },
+  {
+   "test": "test_rm_help",
+   "argv": [
+    "rm",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Remove a script",
+    "alias: rm"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_help.py:62"
+  },
+  {
+   "test": "test_copy_help",
+   "argv": [
+    "copy",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Copy",
+    "<from-alias>",
+    "<to-alias>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_help.py:69"
+  },
+  {
+   "test": "test_cp_help",
+   "argv": [
+    "cp",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Copy",
+    "alias: cp"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_help.py:77"
+  },
+  {
+   "test": "test_move_help",
+   "argv": [
+    "move",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<from-alias>",
+    "<to-alias>",
+    "--force"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_help.py:84"
+  },
+  {
+   "test": "test_mv_help",
+   "argv": [
+    "mv",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_help.py:93"
+  },
+  {
+   "test": "test_config_init_help",
+   "argv": [
+    "config-init",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "config file",
+    "init"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_help.py:100"
+  },
+  {
+   "test": "test_init_help",
+   "argv": [
+    "init",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "config file",
+    "alias: init"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_help.py:107"
+  },
+  {
+   "test": "test_aliases_route_to_same_help",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:84"
+  },
+  {
+   "test": "test_default_mode_is_alias_execution_not_subcommand",
+   "argv": [
+    "-c",
+    "hello"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hi"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:105"
+  },
+  {
+   "test": "test_unknown_subcommand_with_help_shows_main_help",
+   "argv": [
+    "-c",
+    "definitely-not-a-command",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SUBCOMMANDS:",
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:130"
+  },
+  {
+   "test": "test_global_flag_verbose_works_before_subcommand",
+   "argv": [
+    "-c",
+    "--verbose",
+    "list",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:140"
+  },
+  {
+   "test": "test_global_flag_config_file_only_before_subcommand",
+   "argv": [
+    "-c",
+    "list",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:157"
+  }
+ ]
+}

@@ -1,0 +1,5112 @@
+{
+ "slug": "sclevine__yj.8016400",
+ "language": "",
+ "n_branches": 9,
+ "n_tests_total": 714,
+ "n_examples": 292,
+ "n_with_exact_stdout": 28,
+ "n_with_rc": 289,
+ "n_skipped": 415,
+ "examples": [
+  {
+   "test": "test_yaml_to_json_with_floatstrings_disabled",
+   "argv": [
+    "-yjn"
+   ],
+   "stdin": "inf: .inf\nneginf: -.inf\nnan: .nan\nnum: 42",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"inf\"",
+    "\"neginf\"",
+    "\"nan\"",
+    "\"num\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:5"
+  },
+  {
+   "test": "test_toml_to_yaml_with_floatstrings",
+   "argv": [
+    "-ty"
+   ],
+   "stdin": "integer = 42\nfloat = 3.14159\nbool = true",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "integer:",
+    "42",
+    "float:",
+    "3.14",
+    "bool:",
+    "true"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:16"
+  },
+  {
+   "test": "test_toml_to_json_with_indent_and_nonan",
+   "argv": [
+    "-tjin"
+   ],
+   "stdin": "key = \"value\"\nnumber = 123",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\n",
+    "\"key\"",
+    "\"value\"",
+    "\"number\"",
+    "123"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:29"
+  },
+  {
+   "test": "test_hcl_to_yaml_with_complex_structure",
+   "argv": [
+    "-cy"
+   ],
+   "stdin": "resource = \"example\"\nami = \"ami-12345\"\ninstance_type = \"t2.micro\"",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ami"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:41"
+  },
+  {
+   "test": "test_json_to_toml_with_arrays",
+   "argv": [
+    "-jt"
+   ],
+   "stdin": "{\"servers\":[\"server1\",\"server2\"],\"ports\":[80,443,8080]}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "servers",
+    "server1",
+    "ports",
+    "80"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:50"
+  },
+  {
+   "test": "test_yaml_to_toml_with_nested",
+   "argv": [
+    "-yt"
+   ],
+   "stdin": "database:\n  host: localhost\n  port: 5432\n  credentials:\n    username: admin\n    password: secret",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "database",
+    "localhost",
+    "5432",
+    "credentials"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:61"
+  },
+  {
+   "test": "test_json_with_escaped_unicode",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"text\":\"\\u0048\\u0065\\u006c\\u006c\\u006f\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "text:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:72"
+  },
+  {
+   "test": "test_yaml_with_explicit_types",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": "number: !!int 42\nstring: !!str 123",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"number\"",
+    "42",
+    "\"string\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:82"
+  },
+  {
+   "test": "test_toml_with_datetime",
+   "argv": [
+    "-tj"
+   ],
+   "stdin": "title = \"Example\"\ndate = 2023-01-01T12:00:00Z",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"title\"",
+    "\"date\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:92"
+  },
+  {
+   "test": "test_json_to_hcl_with_nested_objects",
+   "argv": [
+    "-jc"
+   ],
+   "stdin": "{\"a\":{\"b\":{\"c\":{\"d\":\"deep\"}}}}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a",
+    "b",
+    "c",
+    "d",
+    "deep"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:102"
+  },
+  {
+   "test": "test_yaml_with_anchors_and_aliases",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": "defaults: &defaults\n  key1: value1\n  key2: value2\nconfig:\n  <<: *defaults\n  key3: value3",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"config\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:114"
+  },
+  {
+   "test": "test_json_array_with_nulls",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"items\":[null,1,null,2,null]}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "items:",
+    "null",
+    "1",
+    "2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:124"
+  },
+  {
+   "test": "test_toml_inline_tables",
+   "argv": [
+    "-tj"
+   ],
+   "stdin": "person = {name = \"John\", age = 30}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"person\"",
+    "John"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:135"
+  },
+  {
+   "test": "test_hcl_with_comments",
+   "argv": [
+    "-cj"
+   ],
+   "stdin": "# This is a comment\nkey = \"value\"\n// Another comment\nnumber = 42",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"key\"",
+    "\"value\"",
+    "\"number\"",
+    "42"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:145"
+  },
+  {
+   "test": "test_yaml_with_flow_style",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": "array: [1, 2, 3]\nobject: {key: value, num: 42}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"array\"",
+    "1",
+    "\"object\"",
+    "\"key\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:156"
+  },
+  {
+   "test": "test_json_with_very_deep_nesting",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "level:",
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:167"
+  },
+  {
+   "test": "test_toml_array_of_tables",
+   "argv": [
+    "-tj"
+   ],
+   "stdin": "[[products]]\nname = \"Widget\"\nprice = 9.99\n\n[[products]]\nname = \"Gadget\"\nprice = 14.99",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"products\"",
+    "Widget",
+    "Gadget"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:182"
+  },
+  {
+   "test": "test_yaml_numbers_with_underscores",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": "large_num: 1_000_000\nsmall: 3.14_159",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"large_num\"",
+    "1",
+    "\"small\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:192"
+  },
+  {
+   "test": "test_json_with_large_array",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "numbers:",
+    "0",
+    "999"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:203"
+  },
+  {
+   "test": "test_hcl_multiline_strings",
+   "argv": [
+    "-cj"
+   ],
+   "stdin": "description = \"line1\\nline2\\nline3\"",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"description\"",
+    "line"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:214"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Convert between YAML, TOML, JSON, and HCL",
+    "-yj",
+    "-tj",
+    "-jy",
+    "-cy",
+    "Preserves map order"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:6"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:19"
+  },
+  {
+   "test": "test_invalid_flag",
+   "argv": [
+    "-x"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid flags",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:35"
+  },
+  {
+   "test": "test_invalid_multiple_flags",
+   "argv": [
+    "-xyz"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid flags"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:43"
+  },
+  {
+   "test": "test_help_with_other_flags",
+   "argv": [
+    "-h",
+    "-yj"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:51"
+  },
+  {
+   "test": "test_version_with_other_flags",
+   "argv": [
+    "-v",
+    "-yj"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:58"
+  },
+  {
+   "test": "test_help_and_version_together",
+   "argv": [
+    "-hv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:65"
+  },
+  {
+   "test": "test_numeric_string_keys",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"0\":\"zero\",\"1\":\"one\",\"1.5\":\"one-half\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "zero"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:5"
+  },
+  {
+   "test": "test_keys_with_special_chars",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"key-with-dash\":\"v1\",\"key.with.dots\":\"v2\",\"key:with:colons\":\"v3\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "key-with-dash",
+    "key.with.dots",
+    "key:with:colons"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:15"
+  },
+  {
+   "test": "test_keys_with_spaces",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"key with spaces\":\"value\",\"another key\":\"value2\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "key with spaces",
+    "another key"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:25"
+  },
+  {
+   "test": "test_quoted_string_values",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"quote\":\"\\\"hello\\\"\",\"single\":\"'test'\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "quote:",
+    "hello",
+    "single:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:34"
+  },
+  {
+   "test": "test_newline_in_strings",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"text\":\"line1\\nline2\\nline3\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "text:",
+    "line1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:44"
+  },
+  {
+   "test": "test_tab_characters",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"tabbed\":\"col1\\tcol2\\tcol3\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tabbed:",
+    "col1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:53"
+  },
+  {
+   "test": "test_backslash_in_strings",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"path\":\"C:\\\\Users\\\\test\",\"regex\":\"\\\\d+\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "path:",
+    "Users"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:62"
+  },
+  {
+   "test": "test_empty_object_in_array",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"items\":[{},{\"key\":\"value\"},{}]}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "items:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:71"
+  },
+  {
+   "test": "test_array_of_arrays",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"matrix\":[[1,2],[3,4],[5,6]]}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "matrix:",
+    "1",
+    "6"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:80"
+  },
+  {
+   "test": "test_mixed_array_types",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"mixed\":[1,\"two\",true,null,3.14]}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "mixed:",
+    "1",
+    "two",
+    "true",
+    "null"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:90"
+  },
+  {
+   "test": "test_very_long_string",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "long:",
+    "x"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:102"
+  },
+  {
+   "test": "test_very_long_key",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "k",
+    "value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:113"
+  },
+  {
+   "test": "test_large_numbers",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"big\":9999999999999999,\"small\":-9999999999999999}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "big:",
+    "9999999999999999",
+    "small:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:123"
+  },
+  {
+   "test": "test_very_small_floats",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"tiny\":0.0000000001,\"neg\":-0.0000000001}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tiny:",
+    "neg:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:133"
+  },
+  {
+   "test": "test_scientific_notation",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"sci\":1.23e10,\"small\":1.23e-10}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "sci:",
+    "small:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:142"
+  },
+  {
+   "test": "test_single_value_yaml",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": "42",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "42"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:151"
+  },
+  {
+   "test": "test_single_string_yaml",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": "hello world",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hello world"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:159"
+  },
+  {
+   "test": "test_yaml_list_root",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": "- item1\n- item2\n- item3",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "item1",
+    "item2",
+    "item3",
+    "["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:167"
+  },
+  {
+   "test": "test_json_array_root",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "[\"a\",\"b\",\"c\"]",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a",
+    "b",
+    "c"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:178"
+  },
+  {
+   "test": "test_invalid_yaml_input",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": "key: value\n  bad indentation\n invalid: [unclosed",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:4"
+  },
+  {
+   "test": "test_invalid_json_input",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"key\": \"value\", \"unclosed\": ",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:13"
+  },
+  {
+   "test": "test_invalid_toml_input",
+   "argv": [
+    "-tj"
+   ],
+   "stdin": "[section\nkey = value",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:22"
+  },
+  {
+   "test": "test_invalid_hcl_input",
+   "argv": [
+    "-cj"
+   ],
+   "stdin": "resource \"type\" {",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:31"
+  },
+  {
+   "test": "test_json_syntax_error_unclosed_brace",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"key\": \"value\"",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:40"
+  },
+  {
+   "test": "test_json_syntax_error_trailing_comma",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"key\": \"value\",}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:48"
+  },
+  {
+   "test": "test_yaml_syntax_error_bad_indent",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": "key: value\n   bad: indent",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:56"
+  },
+  {
+   "test": "test_toml_syntax_error_missing_quote",
+   "argv": [
+    "-tj"
+   ],
+   "stdin": "key = \"value",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:66"
+  },
+  {
+   "test": "test_empty_stdin_eof",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:74"
+  },
+  {
+   "test": "test_binary_garbage_input",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": "\u0000\u0001\u0002���",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:89"
+  },
+  {
+   "test": "test_very_large_input",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"items\"",
+    "item0",
+    "item999"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:97"
+  },
+  {
+   "test": "test_deeply_nested_structure",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "level1:",
+    "deep"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:107"
+  },
+  {
+   "test": "test_unicode_error_handling",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": "emoji: 😀\nchinese: 中文\narabic: العربية",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"emoji\"",
+    "\"chinese\"",
+    "\"arabic\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:118"
+  },
+  {
+   "test": "test_indent_flag_json",
+   "argv": [
+    "-jji"
+   ],
+   "stdin": "{\"key\":\"value\",\"nested\":{\"inner\":\"data\"}}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\n",
+    "\"key\"",
+    "\"value\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:5"
+  },
+  {
+   "test": "test_indent_flag_toml",
+   "argv": [
+    "-jti"
+   ],
+   "stdin": "{\"section\":{\"key\":\"value\"}}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "section",
+    "key",
+    "value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:17"
+  },
+  {
+   "test": "test_escape_html_flag",
+   "argv": [
+    "-jje"
+   ],
+   "stdin": "{\"html\":\"<div>&</div>\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:28"
+  },
+  {
+   "test": "test_escape_html_with_indent",
+   "argv": [
+    "-jjie"
+   ],
+   "stdin": "{\"tag\":\"<p>test</p>\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\n",
+    "\"tag\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:37"
+  },
+  {
+   "test": "test_jsonkeys_flag",
+   "argv": [
+    "-jyk"
+   ],
+   "stdin": "{\"0\":0,\"1.0\":1.0,\"1.1\":1.1}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:47"
+  },
+  {
+   "test": "test_no_float_strings_flag_yaml",
+   "argv": [
+    "-yjn"
+   ],
+   "stdin": "inf_val: .inf\nninf_val: -.inf\nnan_val: .nan",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"inf_val\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:57"
+  },
+  {
+   "test": "test_multiple_flags_combined",
+   "argv": [
+    "-yji"
+   ],
+   "stdin": "key: value\nnumber: 42",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"key\"",
+    "\"value\"",
+    "\"number\"",
+    "\n"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:67"
+  },
+  {
+   "test": "test_flags_with_spaces",
+   "argv": [
+    "-j",
+    "-y"
+   ],
+   "stdin": "{\"test\":\"value\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test:",
+    "value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:79"
+  },
+  {
+   "test": "test_flags_with_dashes",
+   "argv": [
+    "--jy"
+   ],
+   "stdin": "{\"key\":\"value\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "key:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:88"
+  },
+  {
+   "test": "test_invalid_flag_combination_k_without_yaml",
+   "argv": [
+    "-jjk"
+   ],
+   "stdin": "{\"key\":\"value\"}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "only valid for YAML output"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:96"
+  },
+  {
+   "test": "test_invalid_flag_combination_e_without_json",
+   "argv": [
+    "-jye"
+   ],
+   "stdin": "{\"key\":\"value\"}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "only valid for JSON output"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:104"
+  },
+  {
+   "test": "test_invalid_flag_combination_i_without_json_or_toml",
+   "argv": [
+    "-jci"
+   ],
+   "stdin": "{\"key\":\"value\"}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "only valid for JSON or TOML output"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:112"
+  },
+  {
+   "test": "test_yaml_to_json_with_indent",
+   "argv": [
+    "-yji"
+   ],
+   "stdin": "key: value\nnumber: 42",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\n",
+    "\"key\"",
+    "\"number\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:120"
+  },
+  {
+   "test": "test_toml_to_json_with_indent_and_escape",
+   "argv": [
+    "-tjie"
+   ],
+   "stdin": "html = \"<div>test</div>\"",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\n",
+    "\"html\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:130"
+  },
+  {
+   "test": "test_hcl_to_json_c_flag",
+   "argv": [
+    "-c"
+   ],
+   "stdin": "key = \"value\"\ncount = 5",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"key\"",
+    "\"value\"",
+    "\"count\"",
+    "5"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hcl_conversions.py:4"
+  },
+  {
+   "test": "test_hcl_to_json_cj_flag",
+   "argv": [
+    "-cj"
+   ],
+   "stdin": "name = \"test\"\nvalue = 42",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"name\"",
+    "\"test\"",
+    "\"value\"",
+    "42"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hcl_conversions.py:15"
+  },
+  {
+   "test": "test_hcl_to_yaml",
+   "argv": [
+    "-cy"
+   ],
+   "stdin": "resource = \"value\"\ncount = 10",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "resource:",
+    "value",
+    "count:",
+    "10"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hcl_conversions.py:26"
+  },
+  {
+   "test": "test_hcl_to_toml",
+   "argv": [
+    "-ct"
+   ],
+   "stdin": "key = \"value\"\nnumber = 100",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "key",
+    "value",
+    "number",
+    "100"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hcl_conversions.py:37"
+  },
+  {
+   "test": "test_hcl_to_hcl",
+   "argv": [
+    "-cc"
+   ],
+   "stdin": "resource=\"value\"\ncount=5",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "resource",
+    "value",
+    "count",
+    "5"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hcl_conversions.py:48"
+  },
+  {
+   "test": "test_hcl_nested_blocks",
+   "argv": [
+    "-cj"
+   ],
+   "stdin": "resource \"type\" \"name\" {\n  key = \"value\"\n}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"resource\"",
+    "\"type\"",
+    "\"name\"",
+    "\"key\"",
+    "\"value\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hcl_conversions.py:59"
+  },
+  {
+   "test": "test_hcl_lists",
+   "argv": [
+    "-cj"
+   ],
+   "stdin": "items = [1, 2, 3]\nnames = [\"a\", \"b\"]",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"items\"",
+    "1",
+    "2",
+    "3",
+    "\"names\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hcl_conversions.py:71"
+  },
+  {
+   "test": "test_hcl_boolean_values",
+   "argv": [
+    "-cj"
+   ],
+   "stdin": "enabled = true\ndisabled = false",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"enabled\"",
+    "true",
+    "\"disabled\"",
+    "false"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hcl_conversions.py:83"
+  },
+  {
+   "test": "test_hcl_numeric_types",
+   "argv": [
+    "-cj"
+   ],
+   "stdin": "integer = 42\nfloat = 3.14",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"integer\"",
+    "42",
+    "\"float\"",
+    "3.14"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hcl_conversions.py:94"
+  },
+  {
+   "test": "test_hcl_strings",
+   "argv": [
+    "-cj"
+   ],
+   "stdin": "name = \"example\"\ndesc = \"description text\"",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"name\"",
+    "\"example\"",
+    "\"desc\"",
+    "\"description text\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hcl_conversions.py:105"
+  },
+  {
+   "test": "test_hcl_maps",
+   "argv": [
+    "-cj"
+   ],
+   "stdin": "config = {\n  key1 = \"val1\"\n  key2 = \"val2\"\n}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"config\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hcl_conversions.py:116"
+  },
+  {
+   "test": "test_json_to_yaml",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"key\": \"value\", \"number\": 42}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "key:",
+    "value",
+    "number:",
+    "42"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_json_conversions.py:4"
+  },
+  {
+   "test": "test_json_to_yaml_reverse_flag",
+   "argv": [
+    "-r"
+   ],
+   "stdin": "{\"name\": \"test\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name:",
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_json_conversions.py:15"
+  },
+  {
+   "test": "test_json_to_toml",
+   "argv": [
+    "-jt"
+   ],
+   "stdin": "{\"title\": \"example\", \"count\": 10}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "title",
+    "example",
+    "count",
+    "10"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_json_conversions.py:24"
+  },
+  {
+   "test": "test_json_to_hcl",
+   "argv": [
+    "-jc"
+   ],
+   "stdin": "{\"resource\": \"value\", \"enabled\": true}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "resource",
+    "value",
+    "enabled"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_json_conversions.py:35"
+  },
+  {
+   "test": "test_json_to_json",
+   "argv": [
+    "-jj"
+   ],
+   "stdin": "{\"key\":\"value\",\"num\":123}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"key\"",
+    "\"value\"",
+    "\"num\"",
+    "123"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_json_conversions.py:45"
+  },
+  {
+   "test": "test_json_nested_objects",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"level1\": {\"level2\": {\"level3\": \"deep\"}}}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "level1:",
+    "level2:",
+    "level3:",
+    "deep"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_json_conversions.py:56"
+  },
+  {
+   "test": "test_json_arrays",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"items\": [1, 2, 3], \"names\": [\"a\", \"b\"]}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "items:",
+    "1",
+    "2",
+    "3",
+    "names:",
+    "a",
+    "b"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_json_conversions.py:67"
+  },
+  {
+   "test": "test_json_null_values",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"key\": null, \"other\": \"value\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "key:",
+    "null",
+    "other:",
+    "value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_json_conversions.py:81"
+  },
+  {
+   "test": "test_json_boolean_values",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"active\": true, \"disabled\": false}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "active:",
+    "true",
+    "disabled:",
+    "false"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_json_conversions.py:92"
+  },
+  {
+   "test": "test_json_numeric_types",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"int\": 42, \"float\": 3.14, \"negative\": -10}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "int:",
+    "42",
+    "float:",
+    "3.14",
+    "negative:",
+    "-10"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_json_conversions.py:103"
+  },
+  {
+   "test": "test_json_empty_object",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_json_conversions.py:116"
+  },
+  {
+   "test": "test_json_empty_array",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"list\": []}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "list:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_json_conversions.py:125"
+  },
+  {
+   "test": "test_json_special_chars",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"quote\": \"\\\"test\\\"\", \"newline\": \"line1\\nline2\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "quote:",
+    "newline:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_json_conversions.py:133"
+  },
+  {
+   "test": "test_json_unicode",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"japanese\": \"こんにちは\", \"emoji\": \"🎉\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "japanese:",
+    "emoji:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_json_conversions.py:142"
+  },
+  {
+   "test": "test_map_order_yaml_to_json",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": "z: last\na: first\nm: middle\nb: second",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"z\"",
+    "\"a\"",
+    "\"m\"",
+    "\"b\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_map_order.py:5"
+  },
+  {
+   "test": "test_map_order_json_to_yaml",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"third\":\"3\",\"first\":\"1\",\"second\":\"2\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "third:",
+    "first:",
+    "second:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_map_order.py:21"
+  },
+  {
+   "test": "test_map_order_nested",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": "outer_z:\n  inner_y: y\n  inner_a: a\nouter_a:\n  inner_z: z",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"outer_z\"",
+    "\"outer_a\"",
+    "\"inner_y\"",
+    "\"inner_a\"",
+    "\"inner_z\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_map_order.py:38"
+  },
+  {
+   "test": "test_map_order_with_arrays",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": "zebra:\n  - 1\n  - 2\napple:\n  - 3\n  - 4",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_map_order.py:50"
+  },
+  {
+   "test": "test_map_order_round_trip",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": "z: 1\nx: 3\nw: 4",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "z:",
+    "x:",
+    "w:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_map_order.py:61"
+  },
+  {
+   "test": "test_infinity_yaml_to_json",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": "inf: .inf",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"inf\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_values.py:4"
+  },
+  {
+   "test": "test_negative_infinity_yaml_to_json",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": "ninf: -.inf",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"ninf\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_values.py:14"
+  },
+  {
+   "test": "test_nan_yaml_to_json",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": "nan_val: .nan",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"nan_val\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_values.py:23"
+  },
+  {
+   "test": "test_infinity_json_to_yaml",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"inf\":\"Infinity\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "inf:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_values.py:32"
+  },
+  {
+   "test": "test_nan_json_to_yaml",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"nan\":\"NaN\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "nan:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_values.py:42"
+  },
+  {
+   "test": "test_no_float_strings_infinity",
+   "argv": [
+    "-yjn"
+   ],
+   "stdin": "inf: .inf",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"inf\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_values.py:51"
+  },
+  {
+   "test": "test_null_values_preserved",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": "key: null\nother: value",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"key\"",
+    "null",
+    "\"other\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_values.py:60"
+  },
+  {
+   "test": "test_empty_string_values",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": "empty: \"\"\nnonempty: \"value\"",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"empty\"",
+    "\"\"",
+    "\"nonempty\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_values.py:70"
+  },
+  {
+   "test": "test_zero_values",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"zero\":0,\"str_zero\":\"0\",\"float_zero\":0.0}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "zero:",
+    "0",
+    "str_zero:",
+    "float_zero:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_values.py:80"
+  },
+  {
+   "test": "test_false_values",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": "flag: false\nother: true",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"flag\"",
+    "false",
+    "\"other\"",
+    "true"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_values.py:91"
+  },
+  {
+   "test": "test_special_numeric_keys",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"0\":0,\"1.0\":1.0,\"1.1\":1.1}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_special_values.py:102"
+  },
+  {
+   "test": "test_html_special_chars",
+   "argv": [
+    "-jj"
+   ],
+   "stdin": "{\"html\":\"<div>&</div>\",\"quote\":\"\\\"test\\\"\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"html\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_values.py:111"
+  },
+  {
+   "test": "test_html_special_chars_escaped",
+   "argv": [
+    "-jje"
+   ],
+   "stdin": "{\"tag\":\"<p>test</p>\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"tag\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_values.py:121"
+  },
+  {
+   "test": "test_toml_to_json_t_flag",
+   "argv": [
+    "-t"
+   ],
+   "stdin": "title = \"example\"\ncount = 5",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"title\"",
+    "\"example\"",
+    "\"count\"",
+    "5"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_toml_conversions.py:4"
+  },
+  {
+   "test": "test_toml_to_json_tj_flag",
+   "argv": [
+    "-tj"
+   ],
+   "stdin": "name = \"test\"\nvalue = 42",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"name\"",
+    "\"test\"",
+    "\"value\"",
+    "42"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_toml_conversions.py:15"
+  },
+  {
+   "test": "test_toml_to_yaml",
+   "argv": [
+    "-ty"
+   ],
+   "stdin": "key = \"value\"\nnumber = 100",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "key:",
+    "value",
+    "number:",
+    "100"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_toml_conversions.py:26"
+  },
+  {
+   "test": "test_toml_to_toml",
+   "argv": [
+    "-tt"
+   ],
+   "stdin": "title=\"example\"\ncount=10",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "title",
+    "example",
+    "count",
+    "10"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_toml_conversions.py:37"
+  },
+  {
+   "test": "test_toml_to_hcl",
+   "argv": [
+    "-tc"
+   ],
+   "stdin": "resource = \"value\"\nenabled = true",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "resource",
+    "value",
+    "enabled"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_toml_conversions.py:48"
+  },
+  {
+   "test": "test_toml_sections",
+   "argv": [
+    "-tj"
+   ],
+   "stdin": "[section]\nkey = \"value\"\nnum = 5",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"section\"",
+    "\"key\"",
+    "\"value\"",
+    "\"num\"",
+    "5"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_toml_conversions.py:58"
+  },
+  {
+   "test": "test_toml_nested_sections",
+   "argv": [
+    "-tj"
+   ],
+   "stdin": "[parent.child]\nvalue = \"nested\"",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"parent\"",
+    "\"child\"",
+    "\"value\"",
+    "\"nested\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_toml_conversions.py:70"
+  },
+  {
+   "test": "test_toml_arrays",
+   "argv": [
+    "-tj"
+   ],
+   "stdin": "items = [1, 2, 3]\nnames = [\"a\", \"b\", \"c\"]",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"items\"",
+    "1",
+    "2",
+    "3",
+    "\"names\"",
+    "\"a\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_toml_conversions.py:81"
+  },
+  {
+   "test": "test_toml_boolean_values",
+   "argv": [
+    "-tj"
+   ],
+   "stdin": "enabled = true\ndisabled = false",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"enabled\"",
+    "true",
+    "\"disabled\"",
+    "false"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_toml_conversions.py:94"
+  },
+  {
+   "test": "test_toml_numeric_types",
+   "argv": [
+    "-tj"
+   ],
+   "stdin": "integer = 42\nfloat = 3.14\nnegative = -10",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"integer\"",
+    "42",
+    "\"float\"",
+    "3.14",
+    "\"negative\"",
+    "-10"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_toml_conversions.py:105"
+  },
+  {
+   "test": "test_toml_strings_with_quotes",
+   "argv": [
+    "-tj"
+   ],
+   "stdin": "single = 'value'\ndouble = \"value\"",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"single\"",
+    "\"double\"",
+    "\"value\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_toml_conversions.py:118"
+  },
+  {
+   "test": "test_toml_multiline_strings",
+   "argv": [
+    "-tj"
+   ],
+   "stdin": "text = \"\"\"\nline one\nline two\n\"\"\"",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"text\"",
+    "line one"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_toml_conversions.py:128"
+  },
+  {
+   "test": "test_yaml_to_json_explicit_yj",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": "name: test\nactive: true",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"name\"",
+    "\"test\"",
+    "\"active\"",
+    "true"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_yaml_conversions.py:15"
+  },
+  {
+   "test": "test_yaml_to_json_y_flag",
+   "argv": [
+    "-y"
+   ],
+   "stdin": "value: 123",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"value\"",
+    "123"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_yaml_conversions.py:26"
+  },
+  {
+   "test": "test_yaml_to_yaml",
+   "argv": [
+    "-yy"
+   ],
+   "stdin": "key: value\nlist:\n  - item1\n  - item2",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "key:",
+    "value",
+    "list:",
+    "item1",
+    "item2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_yaml_conversions.py:35"
+  },
+  {
+   "test": "test_yaml_to_toml",
+   "argv": [
+    "-yt"
+   ],
+   "stdin": "title: example\nowner:\n  name: John",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "title",
+    "example",
+    "John"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_yaml_conversions.py:47"
+  },
+  {
+   "test": "test_yaml_to_hcl",
+   "argv": [
+    "-yc"
+   ],
+   "stdin": "resource: value\ncount: 5",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "resource",
+    "value",
+    "count",
+    "5"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_yaml_conversions.py:58"
+  },
+  {
+   "test": "test_yaml_nested_objects",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": "parent:\n  child:\n    grandchild: value",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"parent\"",
+    "\"child\"",
+    "\"grandchild\"",
+    "\"value\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_yaml_conversions.py:69"
+  },
+  {
+   "test": "test_yaml_arrays",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": "items:\n  - one\n  - two\n  - three",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"items\"",
+    "\"one\"",
+    "\"two\"",
+    "\"three\"",
+    "["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_yaml_conversions.py:80"
+  },
+  {
+   "test": "test_yaml_mixed_types",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": "string: text\nnumber: 42\nbool: true\nnull_val: null",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"string\"",
+    "\"text\"",
+    "\"number\"",
+    "42",
+    "\"bool\"",
+    "true",
+    "\"null_val\"",
+    "null"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_yaml_conversions.py:92"
+  },
+  {
+   "test": "test_yaml_special_chars_in_keys",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": "\"key with spaces\": value\n\"key:with:colons\": value2",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"key with spaces\"",
+    "\"key:with:colons\"",
+    "\"value\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_yaml_conversions.py:115"
+  },
+  {
+   "test": "test_yaml_unicode",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": "name: 日本語\nemoji: 😀",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"name\"",
+    "\"emoji\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_yaml_conversions.py:125"
+  },
+  {
+   "test": "test_yaml_multiline_string",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": "description: |\n  line one\n  line two\n  line three",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"description\"",
+    "line one"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_yaml_conversions.py:136"
+  },
+  {
+   "test": "test_ext_run_when_args_fail_to_parse",
+   "argv": [
+    "some-bad-args"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Error: invalid flags",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_yj_externalized.py:25"
+  },
+  {
+   "test": "test_ext_run_when_help_flag_is_provided",
+   "argv": [
+    "hr"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_yj_externalized.py:41"
+  },
+  {
+   "test": "test_ext_run_when_stdin_is_invalid",
+   "argv": [
+    "-"
+   ],
+   "stdin": ": not valid yaml\n",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Error parsing"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_yj_externalized.py:57"
+  },
+  {
+   "test": "test_ext_parse_invalid_flags_specified",
+   "argv": [
+    "-ar",
+    "yb\te-",
+    "kn-k ",
+    "h ~ dh",
+    "ab"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid flags specified: a b ~ d a b"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_yj_externalized.py:106"
+  },
+  {
+   "test": "test_ext_parse_k_only_valid_for_yaml_output",
+   "argv": [
+    "k"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "flag -k only valid for YAML output"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_yj_externalized.py:123"
+  },
+  {
+   "test": "test_ext_parse_e_only_valid_for_json_output",
+   "argv": [
+    "ejy"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "flag -e only valid for JSON output"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_yj_externalized.py:139"
+  },
+  {
+   "test": "test_ext_parse_i_only_valid_for_json_or_toml_output",
+   "argv": [
+    "ijy"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "flag -i only valid for JSON or TOML output"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_yj_externalized.py:155"
+  },
+  {
+   "test": "test_help_flag_to_stdout_and_exit_0",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_version_and_errors.py:6"
+  },
+  {
+   "test": "test_version_flag_format_and_exit_0",
+   "argv": [
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "v0.0.0\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_version_and_errors.py:13"
+  },
+  {
+   "test": "test_invalid_flag_prints_help_then_error_to_stderr_exit_1",
+   "argv": [
+    "-p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error: invalid flags specified:",
+    "p"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_version_and_errors.py:21"
+  },
+  {
+   "test": "test_invalid_flag_combo_k_without_yaml_output_exit_1_and_message",
+   "argv": [
+    "-ik"
+   ],
+   "stdin": "a: 1\n",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Error: flag -k only valid for YAML output"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_version_and_errors.py:32"
+  },
+  {
+   "test": "test_indent_json_output_with_i_flag",
+   "argv": [
+    "-i"
+   ],
+   "stdin": "a: 1\nb: 2\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "{\n  \"a\": 1,\n  \"b\": 2\n}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_conversions.py:11"
+  },
+  {
+   "test": "test_reverse_flag_json_to_yaml",
+   "argv": [
+    "-r"
+   ],
+   "stdin": "{\"a\":1,\"b\":2}\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a: 1\nb: 2\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_conversions.py:18"
+  },
+  {
+   "test": "test_escape_html_json_output_with_e_flag",
+   "argv": [
+    "-e"
+   ],
+   "stdin": "a: \"<>&\"\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "{\"a\":\"\\u003c\\u003e\\u0026\"}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_conversions.py:25"
+  },
+  {
+   "test": "test_help_with_extra_invalid_flags_prints_help_and_error_on_stderr",
+   "argv": [
+    "-h",
+    "-p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Error: invalid flags specified: p"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:152"
+  },
+  {
+   "test": "test_unknown_flag_reports_each_invalid_character_in_order",
+   "argv": [
+    "-lp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error: invalid flags specified: l p"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:52"
+  },
+  {
+   "test": "test_invalid_characters_from_positional_args_are_reported_and_exit_code_zero",
+   "argv": [
+    "testdata/yaml/in.yaml"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error: invalid flags specified:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:59"
+  },
+  {
+   "test": "test_dash_dash_separator_still_allows_flags_afterwards",
+   "argv": [
+    "--",
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:70"
+  },
+  {
+   "test": "test_empty_args_reads_stdin_default_yaml_to_json_and_eof_is_success",
+   "argv": [],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:110"
+  },
+  {
+   "test": "test_flag_e_escape_html_changes_json_encoding_of_angle_brackets",
+   "argv": [
+    "-yji"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\u003c"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_executable_behavior.py:151"
+  },
+  {
+   "test": "test_help_flag_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Convert between YAML, TOML, JSON, and HCL",
+    "-yj",
+    "-tj",
+    "-jy",
+    "-cy"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:7"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "v0.0.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:20"
+  },
+  {
+   "test": "test_invalid_flags",
+   "argv": [
+    "-x"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error: invalid flags specified",
+    "Usage:",
+    "x"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:28"
+  },
+  {
+   "test": "test_multiple_invalid_flags",
+   "argv": [
+    "-xyz"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error: invalid flags specified"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:37"
+  },
+  {
+   "test": "test_help_with_other_flags",
+   "argv": [
+    "-hyj"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:52"
+  },
+  {
+   "test": "test_version_with_other_flags",
+   "argv": [
+    "-vyj"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "v0.0.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:60"
+  },
+  {
+   "test": "test_malformed_json_input",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{invalid json",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Error parsing"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:76"
+  },
+  {
+   "test": "test_malformed_yaml_input",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": "key: value\n  bad indentation: value",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:84"
+  },
+  {
+   "test": "test_malformed_toml_input",
+   "argv": [
+    "-tj"
+   ],
+   "stdin": "[broken\nkey = value",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Error parsing"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:92"
+  },
+  {
+   "test": "test_malformed_hcl_input",
+   "argv": [
+    "-cj"
+   ],
+   "stdin": "{broken",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Error parsing"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:100"
+  },
+  {
+   "test": "test_unicode_content",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": "unicode: 你好世界\nemoji: 🎉",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unicode",
+    "emoji"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:7"
+  },
+  {
+   "test": "test_special_characters",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": "special: \"!@#$%^&*()_+-=[]{}|;':,.<>?/\"",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "special"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:17"
+  },
+  {
+   "test": "test_very_large_number",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"large\": 9223372036854775807}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "9223372036854775807"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:26"
+  },
+  {
+   "test": "test_very_small_number",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"small\": -9223372036854775808}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-9223372036854775808"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:34"
+  },
+  {
+   "test": "test_deeply_nested_structure",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"a\": {\"b\": {\"c\": {\"d\": {\"e\": \"deep\"}}}}}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "deep"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:42"
+  },
+  {
+   "test": "test_empty_string_value",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"empty\": \"\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "empty:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:50"
+  },
+  {
+   "test": "test_whitespace_in_keys",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"key with spaces\": \"value\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:58"
+  },
+  {
+   "test": "test_numeric_string_values",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"number_string\": \"123\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "123"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:66"
+  },
+  {
+   "test": "test_quoted_keys",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": "\"quoted key\": value",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "quoted key"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:76"
+  },
+  {
+   "test": "test_multiline_array",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"items\": [\"a\", \"b\", \"c\", \"d\", \"e\"]}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "items:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:85"
+  },
+  {
+   "test": "test_mixed_array_types",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"mixed\": [1, \"two\", true, null]}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "mixed:",
+    "two"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:94"
+  },
+  {
+   "test": "test_duplicate_keys_handling",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"key\": \"value1\", \"key\": \"value2\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "key:",
+    "value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:103"
+  },
+  {
+   "test": "test_leading_zeros_in_numbers",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"number\": 0.123}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.123"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:115"
+  },
+  {
+   "test": "test_scientific_notation",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"scientific\": 1.23e10}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:123"
+  },
+  {
+   "test": "test_negative_zero",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"neg_zero\": -0.0}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:131"
+  },
+  {
+   "test": "test_single_item_array",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"single\": [\"only\"]}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "single:",
+    "only"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:139"
+  },
+  {
+   "test": "test_nested_empty_structures",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"outer\": {\"empty_obj\": {}, \"empty_arr\": []}}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "outer:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:148"
+  },
+  {
+   "test": "test_yaml_anchor_and_alias",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": "\ndefaults: &defaults\n  key: value\ninstance:\n  <<: *defaults\n  other: data\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:156"
+  },
+  {
+   "test": "test_long_string",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:172"
+  },
+  {
+   "test": "test_many_keys",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "key0",
+    "key99"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:181"
+  },
+  {
+   "test": "test_backslash_in_string",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"path\": \"C:\\\\Users\\\\file.txt\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "path:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:191"
+  },
+  {
+   "test": "test_newline_in_string",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"text\": \"line1\\nline2\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "text:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:199"
+  },
+  {
+   "test": "test_tab_in_string",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"text\": \"col1\\tcol2\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "text:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:207"
+  },
+  {
+   "test": "test_flags_whitespace_separated",
+   "argv": [
+    "-j",
+    "y"
+   ],
+   "stdin": "{\"key\": \"value\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "key: value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:7"
+  },
+  {
+   "test": "test_flags_with_dashes",
+   "argv": [
+    "--yj"
+   ],
+   "stdin": "key: value",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:15"
+  },
+  {
+   "test": "test_flags_with_tabs",
+   "argv": [
+    "-y\tj"
+   ],
+   "stdin": "key: value",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:24"
+  },
+  {
+   "test": "test_indent_with_json_output",
+   "argv": [
+    "-yji"
+   ],
+   "stdin": "key: value",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\n"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:33"
+  },
+  {
+   "test": "test_indent_with_toml_output",
+   "argv": [
+    "-jti"
+   ],
+   "stdin": "{\"section\": {\"key\": \"value\"}}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "section",
+    "key"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:44"
+  },
+  {
+   "test": "test_escape_html_with_json_output",
+   "argv": [
+    "-yje"
+   ],
+   "stdin": "html: <tag>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:53"
+  },
+  {
+   "test": "test_k_flag_with_yaml_output",
+   "argv": [
+    "-jyk"
+   ],
+   "stdin": "{\"1.0\": \"value\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:62"
+  },
+  {
+   "test": "test_n_flag_with_yaml",
+   "argv": [
+    "-yyn"
+   ],
+   "stdin": "inf_val: .inf",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:70"
+  },
+  {
+   "test": "test_n_flag_with_toml",
+   "argv": [
+    "-tjn"
+   ],
+   "stdin": "inf_val = inf",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:78"
+  },
+  {
+   "test": "test_multiple_modifiers",
+   "argv": [
+    "-yjie"
+   ],
+   "stdin": "key: value",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:86"
+  },
+  {
+   "test": "test_invalid_k_flag_with_json_output",
+   "argv": [
+    "-yjk"
+   ],
+   "stdin": "key: value",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error",
+    "-k only valid for YAML output"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:95"
+  },
+  {
+   "test": "test_invalid_e_flag_with_yaml_output",
+   "argv": [
+    "-jye"
+   ],
+   "stdin": "{\"key\": \"value\"}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error",
+    "-e only valid for JSON output"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:104"
+  },
+  {
+   "test": "test_invalid_i_flag_with_yaml_output",
+   "argv": [
+    "-jyi"
+   ],
+   "stdin": "{\"key\": \"value\"}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error",
+    "-i only valid for JSON or TOML output"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:113"
+  },
+  {
+   "test": "test_invalid_i_flag_with_hcl_output",
+   "argv": [
+    "-jci"
+   ],
+   "stdin": "{\"key\": \"value\"}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error",
+    "-i only valid for JSON or TOML output"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:122"
+  },
+  {
+   "test": "test_all_modifiers_valid_combo",
+   "argv": [
+    "-yjien"
+   ],
+   "stdin": "key: value\nhtml: <tag>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "key",
+    "html"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:131"
+  },
+  {
+   "test": "test_reverse_flag",
+   "argv": [
+    "-r"
+   ],
+   "stdin": "{\"key\": \"value\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "key: value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:141"
+  },
+  {
+   "test": "test_reverse_flag_with_modifiers",
+   "argv": [
+    "-rk"
+   ],
+   "stdin": "{\"key\": \"value\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:149"
+  },
+  {
+   "test": "test_same_format_conversion_json",
+   "argv": [
+    "-jj"
+   ],
+   "stdin": "{\"key\": \"value\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:157"
+  },
+  {
+   "test": "test_same_format_conversion_yaml",
+   "argv": [
+    "-yy"
+   ],
+   "stdin": "key: value",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "key: value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:166"
+  },
+  {
+   "test": "test_same_format_conversion_toml",
+   "argv": [
+    "-tt"
+   ],
+   "stdin": "key = \"value\"",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "key",
+    "value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:174"
+  },
+  {
+   "test": "test_same_format_conversion_hcl",
+   "argv": [
+    "-cc"
+   ],
+   "stdin": "key = \"value\"",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "key",
+    "value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:183"
+  },
+  {
+   "test": "test_hcl_to_json_simple",
+   "argv": [
+    "-cj"
+   ],
+   "stdin": "key = \"value\"\nnumber = 42",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_hcl_conversions.py:7"
+  },
+  {
+   "test": "test_hcl_to_json_with_c_flag",
+   "argv": [
+    "-c"
+   ],
+   "stdin": "name = \"test\"",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_hcl_conversions.py:17"
+  },
+  {
+   "test": "test_hcl_to_yaml",
+   "argv": [
+    "-cy"
+   ],
+   "stdin": "key = \"value\"\nnumber = 42",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "key: value",
+    "number: 42"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hcl_conversions.py:26"
+  },
+  {
+   "test": "test_hcl_to_toml",
+   "argv": [
+    "-ct"
+   ],
+   "stdin": "key = \"value\"\nnumber = 42",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "key",
+    "value",
+    "42"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hcl_conversions.py:35"
+  },
+  {
+   "test": "test_hcl_to_hcl",
+   "argv": [
+    "-cc"
+   ],
+   "stdin": "key = \"value\"\nnumber = 42",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "key",
+    "value",
+    "42"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hcl_conversions.py:45"
+  },
+  {
+   "test": "test_hcl_block_syntax",
+   "argv": [
+    "-cj"
+   ],
+   "stdin": "resource \"type\" \"name\" {\n  key = \"value\"\n}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_hcl_conversions.py:55"
+  },
+  {
+   "test": "test_hcl_list",
+   "argv": [
+    "-cj"
+   ],
+   "stdin": "items = [\"item1\", \"item2\", \"item3\"]",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "items"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hcl_conversions.py:66"
+  },
+  {
+   "test": "test_hcl_to_yaml_with_k_flag",
+   "argv": [
+    "-cyk"
+   ],
+   "stdin": "key = \"value\"",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hcl_conversions.py:76"
+  },
+  {
+   "test": "test_hcl_boolean",
+   "argv": [
+    "-cj"
+   ],
+   "stdin": "true_val = true\nfalse_val = false",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_hcl_conversions.py:84"
+  },
+  {
+   "test": "test_hcl_numbers",
+   "argv": [
+    "-cj"
+   ],
+   "stdin": "int = 42\nfloat = 3.14\nnegative = -100",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_hcl_conversions.py:94"
+  },
+  {
+   "test": "test_hcl_nested_blocks",
+   "argv": [
+    "-cj"
+   ],
+   "stdin": "parent {\n  child {\n    key = \"value\"\n  }\n}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_hcl_conversions.py:105"
+  },
+  {
+   "test": "test_hcl_to_json_with_indent",
+   "argv": [
+    "-cji"
+   ],
+   "stdin": "key = \"value\"",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_hcl_conversions.py:115"
+  },
+  {
+   "test": "test_hcl_to_toml_with_indent",
+   "argv": [
+    "-cti"
+   ],
+   "stdin": "key = \"value\"",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "key",
+    "value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hcl_conversions.py:126"
+  },
+  {
+   "test": "test_json_to_yaml_simple",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"key\": \"value\", \"number\": 42}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "key: value",
+    "number: 42"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_json_conversions.py:7"
+  },
+  {
+   "test": "test_json_to_json",
+   "argv": [
+    "-jj"
+   ],
+   "stdin": "{\"key\": \"value\", \"number\": 42}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_json_conversions.py:24"
+  },
+  {
+   "test": "test_json_to_toml",
+   "argv": [
+    "-jt"
+   ],
+   "stdin": "{\"key\": \"value\", \"number\": 42}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "key",
+    "value",
+    "number",
+    "42"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_json_conversions.py:34"
+  },
+  {
+   "test": "test_json_to_hcl",
+   "argv": [
+    "-jc"
+   ],
+   "stdin": "{\"key\": \"value\", \"number\": 42}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "key",
+    "value",
+    "42"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_json_conversions.py:45"
+  },
+  {
+   "test": "test_json_to_yaml_nested",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"parent\": {\"child\": \"value\"}, \"list\": [1, 2, 3]}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "parent:",
+    "child: value",
+    "list:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_json_conversions.py:55"
+  },
+  {
+   "test": "test_json_to_yaml_array",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "[\"item1\", \"item2\", \"item3\"]",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "- item1",
+    "- item2",
+    "- item3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_json_conversions.py:65"
+  },
+  {
+   "test": "test_json_to_yaml_with_k_flag",
+   "argv": [
+    "-jyk"
+   ],
+   "stdin": "{\"1.0\": \"numeric_key\", \"key\": \"value\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_json_conversions.py:75"
+  },
+  {
+   "test": "test_json_to_json_with_indent",
+   "argv": [
+    "-jji"
+   ],
+   "stdin": "{\"key\":\"value\",\"number\":42}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_json_conversions.py:85"
+  },
+  {
+   "test": "test_json_to_json_with_html_escape",
+   "argv": [
+    "-jje"
+   ],
+   "stdin": "{\"html\": \"<script>alert(\\\"xss\\\")</script>\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_json_conversions.py:96"
+  },
+  {
+   "test": "test_json_to_toml_with_indent",
+   "argv": [
+    "-jti"
+   ],
+   "stdin": "{\"section\": {\"key\": \"value\", \"number\": 42}}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "section",
+    "key"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_json_conversions.py:105"
+  },
+  {
+   "test": "test_json_to_yaml_null",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"null_key\": null}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_json_conversions.py:114"
+  },
+  {
+   "test": "test_json_to_yaml_boolean",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"true_val\": true, \"false_val\": false}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "true_val: true",
+    "false_val: false"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_json_conversions.py:122"
+  },
+  {
+   "test": "test_json_to_yaml_empty_object",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"empty\": {}}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "empty:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_json_conversions.py:131"
+  },
+  {
+   "test": "test_json_to_yaml_empty_array",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"empty\": []}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "empty:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_json_conversions.py:139"
+  },
+  {
+   "test": "test_json_numbers",
+   "argv": [
+    "-jy"
+   ],
+   "stdin": "{\"int\": 42, \"float\": 3.14, \"negative\": -100}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "42",
+    "3.14",
+    "-100"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_json_conversions.py:147"
+  },
+  {
+   "test": "test_case1_json_to_yaml_with_k",
+   "argv": [
+    "-jyk"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_testdata_cases.py:20"
+  },
+  {
+   "test": "test_case1_json_to_yaml_with_n",
+   "argv": [
+    "-jyn"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_testdata_cases.py:29"
+  },
+  {
+   "test": "test_case1_json_to_toml",
+   "argv": [
+    "-jt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_testdata_cases.py:38"
+  },
+  {
+   "test": "test_case1_json_to_hcl",
+   "argv": [
+    "-jc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_testdata_cases.py:47"
+  },
+  {
+   "test": "test_case1_json_to_json_indent_escape",
+   "argv": [
+    "-jjie"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_testdata_cases.py:56"
+  },
+  {
+   "test": "test_case2_yaml_to_json_indent",
+   "argv": [
+    "-yji"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_testdata_cases.py:65"
+  },
+  {
+   "test": "test_case2_yaml_to_json_indent_escape",
+   "argv": [
+    "-yjie"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_testdata_cases.py:74"
+  },
+  {
+   "test": "test_case2_yaml_to_json_indent_n",
+   "argv": [
+    "-yjin"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_testdata_cases.py:83"
+  },
+  {
+   "test": "test_case2_yaml_to_toml",
+   "argv": [
+    "-yt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_testdata_cases.py:92"
+  },
+  {
+   "test": "test_case2_yaml_to_hcl",
+   "argv": [
+    "-yc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_testdata_cases.py:101"
+  },
+  {
+   "test": "test_case3_toml_to_json_indent",
+   "argv": [
+    "-tji"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_testdata_cases.py:110"
+  },
+  {
+   "test": "test_case3_toml_to_json_indent_escape",
+   "argv": [
+    "-tjie"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_testdata_cases.py:119"
+  },
+  {
+   "test": "test_case3_toml_to_yaml",
+   "argv": [
+    "-ty"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_testdata_cases.py:128"
+  },
+  {
+   "test": "test_case3_toml_to_yaml_with_k",
+   "argv": [
+    "-tyk"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_testdata_cases.py:137"
+  },
+  {
+   "test": "test_case3_toml_to_hcl",
+   "argv": [
+    "-tc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_testdata_cases.py:146"
+  },
+  {
+   "test": "test_case4_hcl_to_json_indent",
+   "argv": [
+    "-cji"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_testdata_cases.py:155"
+  },
+  {
+   "test": "test_case4_hcl_to_yaml",
+   "argv": [
+    "-cy"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_testdata_cases.py:164"
+  },
+  {
+   "test": "test_case4_hcl_to_yaml_with_k",
+   "argv": [
+    "-cyk"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_testdata_cases.py:173"
+  },
+  {
+   "test": "test_case4_hcl_to_yaml_with_n",
+   "argv": [
+    "-cyn"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_testdata_cases.py:182"
+  },
+  {
+   "test": "test_case4_hcl_to_toml",
+   "argv": [
+    "-ct"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_testdata_cases.py:191"
+  },
+  {
+   "test": "test_toml_to_json_simple",
+   "argv": [
+    "-tj"
+   ],
+   "stdin": "key = \"value\"\nnumber = 42",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_toml_conversions.py:7"
+  },
+  {
+   "test": "test_toml_to_json_with_t_flag",
+   "argv": [
+    "-t"
+   ],
+   "stdin": "name = \"test\"",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_toml_conversions.py:17"
+  },
+  {
+   "test": "test_toml_to_yaml",
+   "argv": [
+    "-ty"
+   ],
+   "stdin": "key = \"value\"\nnumber = 42",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "key: value",
+    "number: 42"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_toml_conversions.py:26"
+  },
+  {
+   "test": "test_toml_to_toml",
+   "argv": [
+    "-tt"
+   ],
+   "stdin": "key = \"value\"\nnumber = 42",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "key",
+    "value",
+    "number",
+    "42"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_toml_conversions.py:35"
+  },
+  {
+   "test": "test_toml_to_hcl",
+   "argv": [
+    "-tc"
+   ],
+   "stdin": "key = \"value\"\nnumber = 42",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "key",
+    "value",
+    "42"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_toml_conversions.py:46"
+  },
+  {
+   "test": "test_toml_with_section",
+   "argv": [
+    "-tj"
+   ],
+   "stdin": "[section]\nkey = \"value\"\nnumber = 42",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_toml_conversions.py:56"
+  },
+  {
+   "test": "test_toml_with_nested_sections",
+   "argv": [
+    "-tj"
+   ],
+   "stdin": "[parent.child]\nkey = \"value\"",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_toml_conversions.py:66"
+  },
+  {
+   "test": "test_toml_array",
+   "argv": [
+    "-tj"
+   ],
+   "stdin": "items = [\"item1\", \"item2\", \"item3\"]",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_toml_conversions.py:75"
+  },
+  {
+   "test": "test_toml_to_json_with_indent",
+   "argv": [
+    "-tji"
+   ],
+   "stdin": "key = \"value\"",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_toml_conversions.py:84"
+  },
+  {
+   "test": "test_toml_to_toml_with_indent",
+   "argv": [
+    "-tti"
+   ],
+   "stdin": "[section]\nkey = \"value\"",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "section",
+    "key"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_toml_conversions.py:95"
+  },
+  {
+   "test": "test_toml_boolean",
+   "argv": [
+    "-tj"
+   ],
+   "stdin": "true_val = true\nfalse_val = false",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_toml_conversions.py:104"
+  },
+  {
+   "test": "test_toml_numbers",
+   "argv": [
+    "-tj"
+   ],
+   "stdin": "int = 42\nfloat = 3.14\nnegative = -100",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_toml_conversions.py:114"
+  },
+  {
+   "test": "test_toml_to_yaml_with_k_flag",
+   "argv": [
+    "-tyk"
+   ],
+   "stdin": "key = \"value\"",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_toml_conversions.py:125"
+  },
+  {
+   "test": "test_toml_special_floats",
+   "argv": [
+    "-tj"
+   ],
+   "stdin": "inf_val = inf\nneg_inf = -inf\nnan_val = nan",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_toml_conversions.py:133"
+  },
+  {
+   "test": "test_toml_special_floats_no_convert",
+   "argv": [
+    "-tjn"
+   ],
+   "stdin": "inf_val = inf\nneg_inf = -inf\nnan_val = nan",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_toml_conversions.py:142"
+  },
+  {
+   "test": "test_yaml_to_json_simple",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": "key: value\nnumber: 42",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_yaml_conversions.py:7"
+  },
+  {
+   "test": "test_yaml_to_json_default_flag",
+   "argv": [
+    "-y"
+   ],
+   "stdin": "name: test",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_yaml_conversions.py:17"
+  },
+  {
+   "test": "test_yaml_to_json_nested",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": "\nparent:\n  child1: value1\n  child2:\n    grandchild: value2\nlist:\n  - item1\n  - item2\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_yaml_conversions.py:35"
+  },
+  {
+   "test": "test_yaml_to_yaml",
+   "argv": [
+    "-yy"
+   ],
+   "stdin": "key: value\nnumber: 42",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "key: value",
+    "number: 42"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_yaml_conversions.py:54"
+  },
+  {
+   "test": "test_yaml_to_toml",
+   "argv": [
+    "-yt"
+   ],
+   "stdin": "key = value\nnumber = 42",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "key",
+    "number"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_yaml_conversions.py:63"
+  },
+  {
+   "test": "test_yaml_to_hcl",
+   "argv": [
+    "-yc"
+   ],
+   "stdin": "key: value\nnumber: 42",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "key",
+    "value",
+    "42"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_yaml_conversions.py:73"
+  },
+  {
+   "test": "test_yaml_to_json_with_indent",
+   "argv": [
+    "-yji"
+   ],
+   "stdin": "key: value",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_yaml_conversions.py:83"
+  },
+  {
+   "test": "test_yaml_to_json_with_html_escape",
+   "argv": [
+    "-yje"
+   ],
+   "stdin": "html: <script>alert('xss')</script>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_yaml_conversions.py:94"
+  },
+  {
+   "test": "test_yaml_with_special_floats_default",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": "\ninfinity: .inf\nneg_infinity: -.inf\nnot_a_number: .nan\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_yaml_conversions.py:103"
+  },
+  {
+   "test": "test_yaml_with_special_floats_no_convert",
+   "argv": [
+    "-yjn"
+   ],
+   "stdin": "\ninfinity: .inf\nneg_infinity: -.inf\nnot_a_number: .nan\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_yaml_conversions.py:116"
+  },
+  {
+   "test": "test_yaml_to_json_array",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": "\n- item1\n- item2\n- item3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_yaml_conversions.py:131"
+  },
+  {
+   "test": "test_yaml_to_json_empty_object",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": "empty: {}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_yaml_conversions.py:145"
+  },
+  {
+   "test": "test_yaml_to_json_null_value",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": "null_key: null\nempty_key:",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_yaml_conversions.py:154"
+  },
+  {
+   "test": "test_yaml_to_json_boolean",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": "true_val: true\nfalse_val: false",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_yaml_conversions.py:164"
+  },
+  {
+   "test": "test_yaml_to_json_multiline_string",
+   "argv": [
+    "-yj"
+   ],
+   "stdin": "\nmultiline: |\n  This is\n  a multiline\n  string\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "This is",
+    "multiline"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_yaml_conversions.py:174"
+  },
+  {
+   "test": "test_yaml_to_toml_with_indent",
+   "argv": [
+    "-yti"
+   ],
+   "stdin": "\nsection:\n  key: value\n  number: 42\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "section",
+    "key",
+    "value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_yaml_conversions.py:189"
+  }
+ ]
+}

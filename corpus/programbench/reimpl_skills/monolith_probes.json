@@ -1,0 +1,2546 @@
+[
+ {
+  "name": "test::test_ext_print_version::0",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_stdin_target_input_unwrap_metadata::1",
+  "argv": [
+   "-M",
+   "-"
+  ],
+  "stdin": "Hello from STDIN\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_bad_input_empty_target::2",
+  "argv": [
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_unsupported_scheme_mailto::3",
+  "argv": [
+   "mailto:snshn@tutanota.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_goes_to_stdout_and_exit_0::4",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_prints_version_to_stdout::5",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_input_stdout_output_no_metadata_is_deterministic::6",
+  "argv": [
+   "-I",
+   "-M",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_input_with_output_file_writes_file_and_not_stdout::7",
+  "argv": [
+   "-I",
+   "-M",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_marker_without_base_url_succeeds_without_fetching_assets::8",
+  "argv": [
+   "-",
+   "-I",
+   "-M",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_marker_with_base_url_succeeds_and_outputs_html::9",
+  "argv": [
+   "-",
+   "-I",
+   "-M",
+   "-b",
+   "http://localhost/",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mhtml_flag_changes_output_format_header::10",
+  "argv": [
+   "-I",
+   "-M",
+   "-m",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_target_treated_as_url_and_errors::11",
+  "argv": [
+   "no_such_file_12345.html",
+   "-I",
+   "-M",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_css_with_multiple_url_references::12",
+  "argv": [
+   "-q",
+   "-i",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_css_import_handled::13",
+  "argv": [
+   "-q",
+   "-"
+  ],
+  "stdin": "<!DOCTYPE html>\n<html>\n<head>\n    <style>\n        @import '';\n        @import url('');\n        body { color: red; }\n    </style>\n</head>\n<body>Test</body>\n</html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_css_url_with_fragment_identifier::14",
+  "argv": [
+   "-q",
+   "-i",
+   "-"
+  ],
+  "stdin": "<!DOCTYPE html>\n<html>\n<head>\n    <style>\n        .icon { background: url('sprite.svg#icon1'); }\n    </style>\n</head>\n<body><div class=\"icon\">Icon</div></body>\n</html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_filters_preserve_document_structure::15",
+  "argv": [
+   "-q",
+   "-c",
+   "-i",
+   "-j",
+   "-v",
+   "-a",
+   "-f",
+   "-"
+  ],
+  "stdin": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <title>Full Test</title>\n    <link rel=\"stylesheet\" href=\"style.css\">\n    <style>body { color: red; }</style>\n    <script src=\"app.js\"></script>\n</head>\n<body>\n    <h1>Title</h1>\n    <img src=\"image.png\" alt=\"Test\">\n    <video src=\"video.mp4\"></video>\n    <audio src=\"audio.mp3\"></audio>\n    <iframe src=\"embed.html\"></iframe>\n</body>\n</html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_css_with_various_quote_styles::16",
+  "argv": [
+   "-q",
+   "-i",
+   "-"
+  ],
+  "stdin": "<!DOCTYPE html>\n<html>\n<head>\n    <style>\n        .single { background: url('image1.png'); }\n        .double { background: url(\"image2.png\"); }\n        .none { background: url(image3.png); }\n    </style>\n</head>\n<body>Test</body>\n</html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_link_rel_preload_handled::17",
+  "argv": [
+   "-q",
+   "-"
+  ],
+  "stdin": "<!DOCTYPE html>\n<html>\n<head>\n    <link rel=\"preload\" href=\"style.css\" as=\"style\">\n    <link rel=\"preload\" href=\"script.js\" as=\"script\">\n    <link rel=\"preload\" href=\"font.woff2\" as=\"font\">\n</head>\n<body>Test</body>\n</html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_style_attribute_with_url_embedded::18",
+  "argv": [
+   "-q",
+   "-i",
+   "-"
+  ],
+  "stdin": "<!DOCTYPE html>\n<html>\n<body>\n    <div style=\"background: url('bg.png'); padding: 10px;\">Content</div>\n</body>\n</html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_background_shorthand_with_url::19",
+  "argv": [
+   "-q",
+   "-i",
+   "-"
+  ],
+  "stdin": "<!DOCTYPE html>\n<html>\n<head>\n    <style>\n        .bg1 { background: red url('pattern.png') repeat; }\n        .bg2 { background: url('hero.jpg') no-repeat center/cover; }\n    </style>\n</head>\n<body>Test</body>\n</html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_picture_element_with_source_srcset::20",
+  "argv": [
+   "-q",
+   "-i",
+   "-"
+  ],
+  "stdin": "<!DOCTYPE html>\n<html>\n<body>\n    <picture>\n        <source media=\"(min-width: 800px)\" srcset=\"large.jpg\">\n        <source media=\"(min-width: 400px)\" srcset=\"medium.jpg\">\n        <img src=\"small.jpg\" alt=\"Responsive\">\n    </picture>\n</body>\n</html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_noscript_element_handling::21",
+  "argv": [
+   "-q",
+   "-"
+  ],
+  "stdin": "<!DOCTYPE html>\n<html>\n<body>\n    <noscript>\n        <img src=\"fallback.png\" alt=\"No JS\">\n        <p>JavaScript is required</p>\n    </noscript>\n</body>\n</html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_object_and_embed_tags::22",
+  "argv": [
+   "-q",
+   "-"
+  ],
+  "stdin": "<!DOCTYPE html>\n<html>\n<body>\n    <object data=\"flash.swf\" type=\"application/x-shockwave-flash\"></object>\n    <embed src=\"video.mp4\" type=\"video/mp4\">\n</body>\n</html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_base64_encoding_for_css::23",
+  "argv": [
+   "-q",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_malformed_html_doesnt_crash::24",
+  "argv": [
+   "-q",
+   "-"
+  ],
+  "stdin": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Malformed Title</title>\n    <link rel=\"stylesheet\" href=\"style.css\">\n</head>\n<body>\n    <div>\n        <p>Unclosed paragraph\n        <span>Unclosed span\n    </div>\n    <img src=\"image.png\">\n</body>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_basic_html::25",
+  "argv": [
+   "-"
+  ],
+  "stdin": "<html><body>test stdin</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_empty_input::26",
+  "argv": [
+   "-"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_malformed_html::27",
+  "argv": [
+   "-"
+  ],
+  "stdin": "<html><body><p>Unclosed paragraph<div>Nested wrong</body>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_large_input::28",
+  "argv": [
+   "-"
+  ],
+  "stdin": "<html><head><title>Large</title></head><body>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_special_chars::29",
+  "argv": [
+   "-"
+  ],
+  "stdin": "<!DOCTYPE html><html><body><p>Special: é à ñ 日本語 🎉</p></body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_css_removal_methods::30",
+  "argv": [
+   "-M",
+   "-c",
+   "-"
+  ],
+  "stdin": "<!DOCTYPE html>\n<html>\n<head>\n    <style>body { color: red; }</style>\n    <link rel=\"stylesheet\" href=\"external.css\">\n</head>\n<body style=\"background: blue;\">\n    <p style=\"color: green;\">Text</p>\n</body>\n</html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_audio_flag::31",
+  "argv": [
+   "-M",
+   "-a",
+   "-"
+  ],
+  "stdin": "<!DOCTYPE html><html><body><audio src=\"http://example.com/audio.mp3\" controls></audio></body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_video_flag::32",
+  "argv": [
+   "-M",
+   "-v",
+   "-"
+  ],
+  "stdin": "<!DOCTYPE html><html><body><video src=\"http://example.com/video.mp4\" controls></video></body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_html_structure::33",
+  "argv": [
+   "-M",
+   "-"
+  ],
+  "stdin": "<!DOCTYPE html>\n    <html>\n    <head>\n        <title>Complex Structure</title>\n        <style>\n            .nested { color: blue; }\n            .deep { margin: 10px; }\n        </style>\n    </head>\n    <body>\n        <div class=\"level1\">\n            <div class=\"level2\">\n                <div class=\"level3\">\n                    <div class=\"level4\">\n                        <div class=\"level5\">\n                            <p>Deeply nested content</p>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n        <table>\n            <thead>\n                <tr><th>Header 1</th><th>Header 2</th></tr>\n            </thead>\n            <tbody>\n                <tr><td>Data 1</td><td>Data 2</td></tr>\n            </tbody>\n        </table>\n    </body>\n    </html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_domains_whitelist::34",
+  "argv": [
+   "-M",
+   "-d",
+   "example.com",
+   "-d",
+   "cdn.example.org",
+   "-"
+  ],
+  "stdin": "<!DOCTYPE html>\n    <html>\n    <head>\n        <link rel=\"stylesheet\" href=\"http://example.com/style.css\">\n        <link rel=\"stylesheet\" href=\"http://cdn.example.org/style.css\">\n    </head>\n    <body>Test</body>\n    </html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_cdata_sections::35",
+  "argv": [
+   "-M",
+   "-"
+  ],
+  "stdin": "<!DOCTYPE html>\n    <html>\n    <head>\n        <script>\n        //<![CDATA[\n        var x = \"<tag>\";\n        //]]>\n        </script>\n    </head>\n    <body>Test</body>\n    </html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base_url_file_scheme_ignored_on_stdin::36",
+  "argv": [
+   "-b",
+   "file:///tmp/",
+   "-"
+  ],
+  "stdin": "<html><body><a href=\"other.html\">link</a></body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_robots_meta_tag_already_none::37",
+  "argv": [
+   "-"
+  ],
+  "stdin": "<html><head><meta name=\"robots\" content=\"none\"></head><body>test</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_robots_meta_tag_override_other_value::38",
+  "argv": [
+   "-"
+  ],
+  "stdin": "<html><head><meta name=\"robots\" content=\"index,follow\"></head><body>test</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_robots_meta_tag_empty_content::39",
+  "argv": [
+   "-"
+  ],
+  "stdin": "<html><head><meta name=\"robots\" content=\"  \"></head><body>test</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_input_with_base_url::40",
+  "argv": [
+   "-b",
+   "http://example.com/",
+   "-"
+  ],
+  "stdin": "<html><body><a href=\"page.html\">Link</a></body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mhtml_without_input_target::41",
+  "argv": [
+   "-m",
+   "-"
+  ],
+  "stdin": "<html><head><title>Test</title></head><body>Content</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_without_closing_tags::42",
+  "argv": [
+   "-"
+  ],
+  "stdin": "<html><body><p>Test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_charset_detection_from_html_meta::43",
+  "argv": [
+   "-"
+  ],
+  "stdin": "<!DOCTYPE html>\n<html>\n<head><meta charset=\"utf-8\"></head>\n<body>Hello 世界</body>\n</html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encoding_flag_overrides_html_charset::44",
+  "argv": [
+   "-E",
+   "iso-8859-1",
+   "-"
+  ],
+  "stdin": "<!DOCTYPE html>\n<html>\n<head><meta charset=\"utf-8\"></head>\n<body>Test</body>\n</html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_data_url_base_url_default::45",
+  "argv": [
+   "-"
+  ],
+  "stdin": "<html><body><a href=\"page.html\">Link</a></body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_robots_meta_insertion_when_missing::46",
+  "argv": [
+   "-"
+  ],
+  "stdin": "<html><head><title>Test</title></head><body>Content</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_with_only_whitespace::47",
+  "argv": [
+   "-"
+  ],
+  "stdin": "   \n\n\t  \n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_target_with_dash::48",
+  "argv": [
+   "-"
+  ],
+  "stdin": "<html><head><title>Stdin Test</title></head><body>From stdin</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_http_base_url_without_favicon_no_auto_fetch::49",
+  "argv": [
+   "-b",
+   "http://example.com/",
+   "-"
+  ],
+  "stdin": "<!DOCTYPE html><html><head><title>STDIN Test</title></head><body><h1>Hello</h1></body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shortcut_icon_rel_prevents_auto_fetch::50",
+  "argv": [
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_help_information::51",
+  "argv": [
+   "./executable",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_version::52",
+  "argv": [
+   "./executable",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_target_input::53",
+  "argv": [
+   "./executable",
+   "-M",
+   "-"
+  ],
+  "stdin": "Hello from STDIN\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_css_import_string::54",
+  "argv": [
+   "./executable",
+   "-M",
+   "tests/_data_/css/index.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bad_input_empty_target::55",
+  "argv": [
+   "./executable",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unsupported_scheme::56",
+  "argv": [
+   "./executable",
+   "mailto:snshn@tutanota.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_new_when_provided::57",
+  "argv": [
+   "./executable",
+   "-M",
+   "-b",
+   "http://localhost:30701/",
+   "data:text/html,Hello%2C%20World!"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keep_existing_when_none_provided::58",
+  "argv": [
+   "./executable",
+   "-M",
+   "data:text/html,<base href=\"http://localhost:30701/\" />Hello%2C%20World!"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_override_existing_when_provided::59",
+  "argv": [
+   "./executable",
+   "-M",
+   "-b",
+   "http://localhost/",
+   "data:text/html,<base href=\"http://localhost:30701/\" />Hello%2C%20World!"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_existing_to_empty_when_empty_provided::60",
+  "argv": [
+   "./executable",
+   "-M",
+   "-b",
+   "",
+   "data:text/html,<base href=\"http://localhost:30701/\" />Hello%2C%20World!"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_isolate_data_url::61",
+  "argv": [
+   "./executable",
+   "-M",
+   "-I",
+   "data:text/html,Hello%2C%20World!"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_css_from_data_url::62",
+  "argv": [
+   "./executable",
+   "-M",
+   "-c",
+   "data:text/html,<style>body{background-color:pink}</style>Hello"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_fonts_from_data_url::63",
+  "argv": [
+   "./executable",
+   "-M",
+   "-F",
+   "data:text/html,<style>@font-face { font-family: myFont; src: url(font.woff); }</style>Hi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_frames_from_data_url::64",
+  "argv": [
+   "./executable",
+   "-M",
+   "-f",
+   "data:text/html,<iframe src=\"https://duckduckgo.com\"></iframe>Hi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_images_from_data_url::65",
+  "argv": [
+   "./executable",
+   "-M",
+   "-i",
+   "data:text/html,<img src=\"https://google.com\"/>Hi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_js_from_data_url::66",
+  "argv": [
+   "./executable",
+   "-M",
+   "-j",
+   "data:text/html,<script>alert(2)</script>Hi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bad_input_data_url::67",
+  "argv": [
+   "./executable",
+   "data:,Hello%2C%20World!"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_security_disallow_local_assets_within_data_url_targets::68",
+  "argv": [
+   "./executable",
+   "-M",
+   "data:text/html,%3Cscript%20src=\"src/tests/data/basic/local-script.js\"%3E%3C/script%3E"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_local_file_target_input_relative_target_path::69",
+  "argv": [
+   "./executable",
+   "-M",
+   "tests/_data_/basic/local-file.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_local_file_target_input_absolute_target_path::70",
+  "argv": [
+   "./executable",
+   "-M",
+   "-Ijci",
+   "tests/_data_/basic/local-file.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_embed_file_url_local_asset_within_style_attribute::71",
+  "argv": [
+   "./executable",
+   "-M",
+   "tests/_data_/import-css-via-data-url/index.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_embed_svg_local_asset_via_use::72",
+  "argv": [
+   "./executable",
+   "-M",
+   "tests/_data_/svg/svg.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_embed_svg_local_asset_via_image::73",
+  "argv": [
+   "./executable",
+   "-M",
+   "tests/_data_/svg/image.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_discard_integrity_for_local_files::74",
+  "argv": [
+   "./executable",
+   "-M",
+   "-i",
+   "tests/_data_/integrity/index.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_noscript_contents::75",
+  "argv": [
+   "./executable",
+   "-M",
+   "tests/_data_/noscript/index.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unwrap_noscript_contents::76",
+  "argv": [
+   "./executable",
+   "-Mn",
+   "tests/_data_/noscript/index.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unwrap_noscript_contents_nested::77",
+  "argv": [
+   "./executable",
+   "-Mn",
+   "tests/_data_/noscript/nested.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unwrap_noscript_contents_with_script::78",
+  "argv": [
+   "./executable",
+   "-Mn",
+   "tests/_data_/noscript/script.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unwrap_noscript_contents_attr_data_url::79",
+  "argv": [
+   "./executable",
+   "-M",
+   "-n",
+   "data:text/html,<noscript class=\"\">test</noscript>"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_properly_save_document_with_gb2312::80",
+  "argv": [
+   "./executable",
+   "-M",
+   "tests/_data_/unusual_encodings/gb2312.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_properly_save_document_with_gb2312_from_stdin::81",
+  "argv": [
+   "./executable",
+   "-M",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_properly_save_document_with_gb2312_custom_charset::82",
+  "argv": [
+   "./executable",
+   "-M",
+   "-E",
+   "utf8",
+   "tests/_data_/unusual_encodings/gb2312.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_properly_save_document_with_gb2312_custom_charset_bad::83",
+  "argv": [
+   "./executable",
+   "-M",
+   "-E",
+   "utf0",
+   "tests/_data_/unusual_encodings/gb2312.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_change_iso88591_to_utf8_to_properly_display_html_entities::84",
+  "argv": [
+   "./executable",
+   "-M",
+   "tests/_data_/unusual_encodings/iso-8859-1.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_basic_domain_filter::85",
+  "argv": [
+   "-d",
+   "example.com",
+   "-t",
+   "1",
+   "-"
+  ],
+  "stdin": "<html><body><img src=\"http://example.com/a.png\"><img src=\"http://other.com/b.png\"></body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_isolation_mode::86",
+  "argv": [
+   "-I",
+   "-t",
+   "1",
+   "-"
+  ],
+  "stdin": "<html><body><img src=\"http://example.com/test.png\"></body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_case_insensitive_domain_matching::87",
+  "argv": [
+   "-d",
+   "example.com",
+   "-t",
+   "1",
+   "-"
+  ],
+  "stdin": "<html><body><img src=\"http://Example.COM/a.png\"><img src=\"http://EXAMPLE.com/b.png\"></body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_domain_filter_ignores_non_http_schemes::88",
+  "argv": [
+   "-d",
+   "other.com",
+   "-t",
+   "1",
+   "-"
+  ],
+  "stdin": "<html><body>\n        <img src=\"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7\">\n        <a href=\"javascript:void(0)\">JS</a>\n        <img src=\"http://example.com/test.png\">\n    </body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_url_with_fragment::89",
+  "argv": [
+   "-t",
+   "1",
+   "-"
+  ],
+  "stdin": "<html><head><base href=\"http://example.com/path/\"></head><body><a href=\"page.html#section\">Link</a></body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_url_with_query_and_fragment::90",
+  "argv": [
+   "-t",
+   "1",
+   "-"
+  ],
+  "stdin": "<html><head><base href=\"http://example.com/\"></head><body><a href=\"search?q=test#result\">Link</a></body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base_url_trailing_slash_matters::91",
+  "argv": [
+   "-b",
+   "http://example.com/dir/",
+   "-t",
+   "1",
+   "-"
+  ],
+  "stdin": "<html><body><a href=\"page.html\">Link</a></body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_robots_meta_tag_injection::92",
+  "argv": [
+   "-t",
+   "1",
+   "-"
+  ],
+  "stdin": "<html><head><title>Test</title></head><body>Content</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_existing_robots_meta_preserved::93",
+  "argv": [
+   "-t",
+   "1",
+   "-"
+  ],
+  "stdin": "<html><head><meta name=\"robots\" content=\"none\"><title>Test</title></head><body>Content</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_domain_with_port_number::94",
+  "argv": [
+   "-d",
+   "example.com",
+   "-t",
+   "1",
+   "-"
+  ],
+  "stdin": "<html><body><img src=\"http://example.com:8080/img.png\"><img src=\"http://other.com:8080/img.png\"></body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_exists::95",
+  "argv": [
+   "./executable",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_output::96",
+  "argv": [
+   "./executable",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_basic::97",
+  "argv": [
+   "./executable",
+   "-"
+  ],
+  "stdin": "<html><body>test</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_audio_flag::98",
+  "argv": [
+   "-M",
+   "-a",
+   "-"
+  ],
+  "stdin": "<html><body><audio src=\"test.mp3\"></audio>Content</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_css_flag::99",
+  "argv": [
+   "-M",
+   "-c",
+   "-"
+  ],
+  "stdin": "<html><head><style>body{color:red;}</style></head><body>Content</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_images_flag::100",
+  "argv": [
+   "-M",
+   "-i",
+   "-"
+  ],
+  "stdin": "<html><body><img src=\"test.png\" alt=\"Test\"/>Content</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_js_flag::101",
+  "argv": [
+   "-M",
+   "-j",
+   "-"
+  ],
+  "stdin": "<html><body><script>alert(\"test\");</script>Content</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_video_flag::102",
+  "argv": [
+   "-M",
+   "-v",
+   "-"
+  ],
+  "stdin": "<html><body><video src=\"test.mp4\"></video>Content</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_fonts_flag::103",
+  "argv": [
+   "-M",
+   "-F",
+   "-"
+  ],
+  "stdin": "<html><head><style>@font-face{font-family:\"Test\";src:url(\"test.woff\");}</style></head><body>Content</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_frames_flag::104",
+  "argv": [
+   "-M",
+   "-f",
+   "-"
+  ],
+  "stdin": "<html><body><iframe src=\"frame.html\"></iframe>Content</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_removal_flags::105",
+  "argv": [
+   "-M",
+   "-i",
+   "-j",
+   "-v",
+   "-c",
+   "-"
+  ],
+  "stdin": "<html>\n    <head><style>body{color:red;}</style></head>\n    <body>\n        <img src=\"test.png\"/>\n        <script>alert(\"test\");</script>\n        <video src=\"test.mp4\"></video>\n        Content\n    </body>\n    </html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_removal_flags::106",
+  "argv": [
+   "-M",
+   "-a",
+   "-c",
+   "-f",
+   "-F",
+   "-i",
+   "-j",
+   "-v",
+   "-"
+  ],
+  "stdin": "<html>\n    <head><style>body{color:red;}</style></head>\n    <body>\n        <img src=\"test.png\"/>\n        <script>alert(\"test\");</script>\n        <video src=\"test.mp4\"></video>\n        <audio src=\"test.mp3\"></audio>\n        <iframe src=\"frame.html\"></iframe>\n        Content\n    </body>\n    </html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base_url_flag::107",
+  "argv": [
+   "-M",
+   "-b",
+   "https://example.com/",
+   "-"
+  ],
+  "stdin": "<html><body><a href=\"page.html\">Link</a></body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base_url_with_relative_links::108",
+  "argv": [
+   "-M",
+   "-b",
+   "https://example.com/subdir/",
+   "-"
+  ],
+  "stdin": "<html><body><img src=\"image.png\"/><a href=\"/page.html\">Link</a></body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base_url_long_flag::109",
+  "argv": [
+   "-M",
+   "--base-url",
+   "https://example.com/",
+   "-"
+  ],
+  "stdin": "<html><body>Content</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base_url_with_local_file::110",
+  "argv": [
+   "-M",
+   "-b",
+   "https://example.com/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base_url_with_protocol_relative::111",
+  "argv": [
+   "-M",
+   "-b",
+   "https://example.com/",
+   "-"
+  ],
+  "stdin": "<html><body><a href=\"//example.org/page.html\">Link</a></body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short::112",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unsupported_scheme_mailto::113",
+  "argv": [
+   "mailto:test@example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unsupported_scheme_ftp::114",
+  "argv": [
+   "ftp://ftp.example.com/file.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exit_code_success::115",
+  "argv": [
+   "-M",
+   "-"
+  ],
+  "stdin": "<html><body>Test</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exit_code_failure::116",
+  "argv": [
+   "https://this-domain-definitely-does-not-exist-12345.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cookie_file_nonexistent::117",
+  "argv": [
+   "-M",
+   "-C",
+   "/tmp/nonexistent-cookie-file-xyz123.txt",
+   "-"
+  ],
+  "stdin": "<html><body>Test</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cookie_file_flag::118",
+  "argv": [
+   "-M",
+   "-C",
+   "-"
+  ],
+  "stdin": "<html><body>Test</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cookie_file_long_flag::119",
+  "argv": [
+   "-M",
+   "--cookie-file",
+   "-"
+  ],
+  "stdin": "<html><body>Test</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_domain_whitelist_single::120",
+  "argv": [
+   "-M",
+   "-d",
+   "example.com",
+   "-"
+  ],
+  "stdin": "<html><body><img src=\"https://example.com/img.png\"/>Content</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_domain_whitelist_multiple::121",
+  "argv": [
+   "-M",
+   "-d",
+   "example.com",
+   "-d",
+   "example.org",
+   "-"
+  ],
+  "stdin": "<html><body>Content</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_domain_blacklist_single::122",
+  "argv": [
+   "-M",
+   "-B",
+   "-d",
+   "ads.example.com",
+   "-"
+  ],
+  "stdin": "<html><body><img src=\"https://ads.example.com/ad.png\"/>Content</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_domain_blacklist_multiple::123",
+  "argv": [
+   "-M",
+   "-B",
+   "-d",
+   "ads.com",
+   "-d",
+   "tracking.com",
+   "-"
+  ],
+  "stdin": "<html><body>Content</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_domain_long_flag::124",
+  "argv": [
+   "-M",
+   "--domain",
+   "example.com",
+   "-"
+  ],
+  "stdin": "<html><body>Content</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_blacklist_domains_long_flag::125",
+  "argv": [
+   "-M",
+   "--blacklist-domains",
+   "-d",
+   "ads.com",
+   "-"
+  ],
+  "stdin": "<html><body>Content</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_isolate_with_domain_filter::126",
+  "argv": [
+   "-M",
+   "-I",
+   "-d",
+   "example.com",
+   "-"
+  ],
+  "stdin": "<html><body>Content</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encoding_utf8_default::127",
+  "argv": [
+   "-M",
+   "-"
+  ],
+  "stdin": "<html><body>Unicode: café</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encoding_custom_flag::128",
+  "argv": [
+   "-M",
+   "-E",
+   "UTF-8",
+   "-"
+  ],
+  "stdin": "<html><body>Content</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encoding_long_flag::129",
+  "argv": [
+   "-M",
+   "--encoding",
+   "UTF-8",
+   "-"
+  ],
+  "stdin": "<html><body>Content</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encoding_unusual_charset::130",
+  "argv": [
+   "-M"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encoding_iso_8859_1::131",
+  "argv": [
+   "-M",
+   "-E",
+   "ISO-8859-1",
+   "-"
+  ],
+  "stdin": "<html><body>Content</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encoding_with_meta_tag::132",
+  "argv": [
+   "-M",
+   "-"
+  ],
+  "stdin": "<html><head><meta charset=\"UTF-8\"></head><body>Content</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_simple_html::133",
+  "argv": [
+   "-M",
+   "-"
+  ],
+  "stdin": "<html><body>Hello from STDIN</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_empty::134",
+  "argv": [
+   "-M",
+   "-"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_local_file::135",
+  "argv": [
+   "/tmp/this-file-definitely-does-not-exist-xyz123.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_data_url_input::136",
+  "argv": [
+   "-M",
+   "data:text/html,<html><body>Data URL</body></html>"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_inline_styles::137",
+  "argv": [
+   "-M",
+   "-"
+  ],
+  "stdin": "<html><body style=\"color: red;\">Styled</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_script::138",
+  "argv": [
+   "-M",
+   "-"
+  ],
+  "stdin": "<html><body><script>console.log(\"test\");</script>Content</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_isolate_flag::139",
+  "argv": [
+   "-M",
+   "-I",
+   "-"
+  ],
+  "stdin": "<html><body>Content</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_isolate_adds_csp::140",
+  "argv": [
+   "-M",
+   "-I",
+   "-"
+  ],
+  "stdin": "<html><body><img src=\"https://example.com/image.png\"/>Content</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_metadata_flag::141",
+  "argv": [
+   "-"
+  ],
+  "stdin": "<html><body>Content</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_isolate_and_no_metadata::142",
+  "argv": [
+   "-I",
+   "-M",
+   "-"
+  ],
+  "stdin": "<html><body>Test</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_isolate_long_flag::143",
+  "argv": [
+   "-M",
+   "--isolate",
+   "-"
+  ],
+  "stdin": "<html><body>Content</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_metadata_long_flag::144",
+  "argv": [
+   "--no-metadata",
+   "-"
+  ],
+  "stdin": "<html><body>Content</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mhtml_flag::145",
+  "argv": [
+   "-M",
+   "-m",
+   "-"
+  ],
+  "stdin": "<html><body>Content</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mhtml_long_flag::146",
+  "argv": [
+   "-M",
+   "--mhtml",
+   "-"
+  ],
+  "stdin": "<html><body>Test</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mhtml_removes_javascript::147",
+  "argv": [
+   "-M",
+   "-m",
+   "-"
+  ],
+  "stdin": "<html><body><script>alert(\"test\");</script>Content</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mhtml_with_css::148",
+  "argv": [
+   "-M",
+   "-m",
+   "-"
+  ],
+  "stdin": "<html><head><style>body{color:red;}</style></head><body>Content</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mhtml_with_images::149",
+  "argv": [
+   "-M",
+   "-m",
+   "-"
+  ],
+  "stdin": "<html><body><img src=\"data:image/png;base64,iVBORw0KGgo=\"/>Content</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_user_agent_flag::150",
+  "argv": [
+   "-M",
+   "-u",
+   "CustomBot/1.0",
+   "-"
+  ],
+  "stdin": "<html><body>Test</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_timeout_flag::151",
+  "argv": [
+   "-M",
+   "-t",
+   "30",
+   "-"
+  ],
+  "stdin": "<html><body>Test</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_timeout_very_short::152",
+  "argv": [
+   "-M",
+   "-t",
+   "1",
+   "-"
+  ],
+  "stdin": "<html><body>Test</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_errors_flag::153",
+  "argv": [
+   "-M",
+   "-e",
+   "-"
+  ],
+  "stdin": "<html><body><img src=\"nonexistent.png\"/>Test</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_insecure_flag::154",
+  "argv": [
+   "-M",
+   "-k",
+   "-"
+  ],
+  "stdin": "<html><body>Test</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_user_agent_long_flag::155",
+  "argv": [
+   "-M",
+   "--user-agent",
+   "Mozilla/5.0",
+   "-"
+  ],
+  "stdin": "<html><body>Test</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_timeout_long_flag::156",
+  "argv": [
+   "-M",
+   "--timeout",
+   "60",
+   "-"
+  ],
+  "stdin": "<html><body>Test</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_errors_long_flag::157",
+  "argv": [
+   "-M",
+   "--ignore-errors",
+   "-"
+  ],
+  "stdin": "<html><body>Test</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_insecure_long_flag::158",
+  "argv": [
+   "-M",
+   "--insecure",
+   "-"
+  ],
+  "stdin": "<html><body>Test</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_network_flags::159",
+  "argv": [
+   "-M",
+   "-u",
+   "Bot/1.0",
+   "-t",
+   "30",
+   "-e",
+   "-k",
+   "-"
+  ],
+  "stdin": "<html><body>Test</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_noscript_default::160",
+  "argv": [
+   "-M",
+   "-"
+  ],
+  "stdin": "<html><body><noscript>No JS content</noscript>Content</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unwrap_noscript_flag::161",
+  "argv": [
+   "-M",
+   "-n",
+   "-"
+  ],
+  "stdin": "<html><body><noscript><p>Fallback content</p></noscript>Other</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unwrap_noscript_long_flag::162",
+  "argv": [
+   "-M",
+   "--unwrap-noscript",
+   "-"
+  ],
+  "stdin": "<html><body><noscript>Fallback</noscript>Main</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_noscript_nested::163",
+  "argv": [
+   "-M",
+   "-n",
+   "-"
+  ],
+  "stdin": "<html><body><div><noscript>Inner</noscript></div>Outer</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_noscript_with_no_js_flag::164",
+  "argv": [
+   "-M",
+   "-j",
+   "-n",
+   "-"
+  ],
+  "stdin": "<html><body><script>alert(\"js\");</script><noscript>No JS</noscript></body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_to_stdout_explicit::165",
+  "argv": [
+   "-M",
+   "-o",
+   "-",
+   "-"
+  ],
+  "stdin": "<html><body>Explicit</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_to_file::166",
+  "argv": [
+   "-M",
+   "-o",
+   "-"
+  ],
+  "stdin": "<html><body>File output</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_file_overwrite::167",
+  "argv": [
+   "-M",
+   "-o",
+   "output.html",
+   "-"
+  ],
+  "stdin": "<html><body>New content</body></html>",
+  "files": {
+   "output.html": "Initial content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_short_flag::168",
+  "argv": [
+   "-M",
+   "-o",
+   "-"
+  ],
+  "stdin": "<html><body>Short flag</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_long_flag::169",
+  "argv": [
+   "-M",
+   "--output",
+   "-"
+  ],
+  "stdin": "<html><body>Long flag</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_creates_missing_dirs::170",
+  "argv": [
+   "-M",
+   "-o",
+   "-"
+  ],
+  "stdin": "<html><body>Nested</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minimal_html::171",
+  "argv": [
+   "-M",
+   "-"
+  ],
+  "stdin": "<html></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_with_data_urls::172",
+  "argv": [
+   "-M",
+   "-"
+  ],
+  "stdin": "<html><body><img src=\"data:image/png;base64,iVBORw0KGgo=\"/></body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_svg_embedding::173",
+  "argv": [
+   "-M",
+   "-"
+  ],
+  "stdin": "<html><body><svg width=\"100\" height=\"100\"><circle cx=\"50\" cy=\"50\" r=\"40\"/></svg></body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inline_styles::174",
+  "argv": [
+   "-M",
+   "-"
+  ],
+  "stdin": "<html><body style=\"background: blue; color: white;\">Styled</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inline_scripts::175",
+  "argv": [
+   "-M",
+   "-"
+  ],
+  "stdin": "<html><body><script>var x = 1;</script>Content</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_data_url::176",
+  "argv": [
+   "-M",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_stylesheets::177",
+  "argv": [
+   "-M",
+   "-"
+  ],
+  "stdin": "<html>\n    <head>\n        <link rel=\"stylesheet\" href=\"style1.css\">\n        <link rel=\"stylesheet\" href=\"style2.css\">\n    </head>\n    <body>Content</body>\n    </html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_content::178",
+  "argv": [
+   "-M",
+   "-"
+  ],
+  "stdin": "<html><body>Unicode: 你好 café naïve</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_content::179",
+  "argv": [
+   "-M",
+   "-"
+  ],
+  "stdin": "<html><body>&lt; &gt; &amp; &quot; &#39;</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_elements::180",
+  "argv": [
+   "-M",
+   "-"
+  ],
+  "stdin": "<html><body><div><div><div><div><div>Deep</div></div></div></div></div></body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comments_preservation::181",
+  "argv": [
+   "-M",
+   "-"
+  ],
+  "stdin": "<html><body><!-- This is a comment -->Content</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_mode::182",
+  "argv": [
+   "-M",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_mode_long_flag::183",
+  "argv": [
+   "-M",
+   "--quiet",
+   "-"
+  ],
+  "stdin": "<html><body>Test</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_message_in_verbose::184",
+  "argv": [
+   "https://this-domain-definitely-does-not-exist-xyz123.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_suppressed_in_quiet::185",
+  "argv": [
+   "-q",
+   "https://this-domain-definitely-does-not-exist-xyz123.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_with_stdin::186",
+  "argv": [
+   "-M",
+   "-q",
+   "-"
+  ],
+  "stdin": "<html><body>Quiet test</body></html>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_error_includes_tip_for_double_dash_separator::187",
+  "argv": [
+   "--nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_too_many_positionals_is_an_error::188",
+  "argv": [
+   "example.com",
+   "extra"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dash_dash_makes_next_token_positional_not_flag::189",
+  "argv": [
+   "--",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_after_positional_are_allowed::190",
+  "argv": [
+   "example.com",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_boolean_flags_accept_no_values::191",
+  "argv": [
+   "--quiet=true",
+   "example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_short_flags_are_supported::192",
+  "argv": [
+   "-qi",
+   "example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_requires_value_and_supports_equals_syntax::193",
+  "argv": [
+   "--output",
+   "example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_color_env_disables_ansi_in_error_message::194",
+  "argv": [
+   "-o",
+   "-",
+   "-C"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "NO_COLOR": "1"
+  }
+ },
+ {
+  "name": "test::test_malformed_cookie_file_exits_nonzero::195",
+  "argv": [
+   "-o",
+   "-",
+   "-C",
+   "cookies.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "cookies.txt": "this is not a netscape cookie file\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

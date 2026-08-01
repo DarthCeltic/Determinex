@@ -1,0 +1,4142 @@
+[
+ {
+  "name": "test::test_noninteractive_z_runs_once_and_propagates_exit_code::0",
+  "argv": [
+   "-n",
+   "-z",
+   "sh",
+   "-c",
+   "echo RUN; exit 7"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_supplies_watched_file_list::1",
+  "argv": [
+   "-n",
+   "-z",
+   "sh",
+   "-c",
+   "printf '%s\\n' \"$1\"",
+   "sh",
+   "/_"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_placeholder_replaced_with_watched_file_path_among_args::2",
+  "argv": [
+   "-n",
+   "-z",
+   "sh",
+   "-c",
+   "echo ARG1=$1 ARG2=$2",
+   "sh",
+   "/_",
+   "foo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_when_placeholder_is_first_token_it_becomes_argv0::3",
+  "argv": [
+   "-n",
+   "-z",
+   "sh",
+   "-c",
+   "echo $0'|'$1'|'$2",
+   "/_",
+   "foo",
+   "bar"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_watched_file_errors_to_stdout_and_exit_1::4",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "hi"
+  ],
+  "stdin": "nonexistent-file-xyz\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_regular_file_is_accepted_and_command_runs::5",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "hi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_subcommand_in_help::6",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_subcommand_help_commands::7",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_error::8",
+  "argv": [
+   "--unknown-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_first_positional_is_utility_command::9",
+  "argv": [
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_before_utility_command::10",
+  "argv": [
+   "-n",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utility_command_with_arguments::11",
+  "argv": [
+   "make",
+   "clean"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_underscore_placeholder::12",
+  "argv": [
+   "echo",
+   "/_"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_flag_special_format::13",
+  "argv": [
+   "-s",
+   "echo test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_flags_combination::14",
+  "argv": [
+   "-n",
+   "-c",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_combined_with_other_flag_still_prints_help::15",
+  "argv": [
+   "-h",
+   "-n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_entr_restart_signal_invalid_rejected::16",
+  "argv": [
+   "-n",
+   "/bin/echo",
+   "ok"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "ENTR_RESTART_SIGNAL": "NOT_A_SIGNAL"
+  }
+ },
+ {
+  "name": "test::test_config_status_script_env_override_path_created::17",
+  "argv": [
+   "-n",
+   "-x",
+   "/bin/true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_pager_default_is_set_to_cat_when_unset::18",
+  "argv": [
+   "-n",
+   "-z",
+   "-s",
+   "echo -n PAGER=$PAGER"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_positional_argument_is_not_a_git_style_subcommand::19",
+  "argv": [
+   "add"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_option_errors::20",
+  "argv": [
+   "--does-not-exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_stdin_fails_with_no_files_error::21",
+  "argv": [
+   "-n",
+   "echo",
+   "test"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_flags_r_and_x_rejected::22",
+  "argv": [
+   "-n",
+   "-r",
+   "-x",
+   "echo",
+   "test"
+  ],
+  "stdin": "/tmp/test.txt\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_flag_requires_single_argument::23",
+  "argv": [
+   "-n",
+   "-s",
+   "echo",
+   "test"
+  ],
+  "stdin": "/tmp/test.txt\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file_warning_and_error::24",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "test"
+  ],
+  "stdin": "/nonexistent/file.txt\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_nonexistent_files_all_warned::25",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "test"
+  ],
+  "stdin": "/nonexistent1.txt\n/nonexistent2.txt\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_placeholder_replaced_with_first_file::26",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "/_"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_z_flag_propagates_utility_exit_code::27",
+  "argv": [
+   "-n",
+   "-z",
+   "sh",
+   "-c",
+   "exit 42"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_c_flag_clears_screen_before_execution::28",
+  "argv": [
+   "-n",
+   "-z",
+   "-c",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_c_flag_clears_scrollback_too::29",
+  "argv": [
+   "-n",
+   "-z",
+   "-c",
+   "-c",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_flag_with_single_argument::30",
+  "argv": [
+   "-n",
+   "-z",
+   "-s",
+   "echo $0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_utility_exec_error::31",
+  "argv": [
+   "-n",
+   "-z",
+   "nonexistent_command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_only_blank_lines_fails::32",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "test"
+  ],
+  "stdin": "\n\n\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_directory_input_accepted_without_d_flag::33",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_flag_combinations_acnz::34",
+  "argv": [
+   "-a",
+   "-c",
+   "-n",
+   "-z",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utility_killed_by_signal_exit_code::35",
+  "argv": [
+   "-n",
+   "-z",
+   "sh",
+   "-c",
+   "kill -SEGV $$"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utility_with_multiple_arguments::36",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "arg1",
+   "arg2",
+   "arg3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_d_flag_watches_parent_directory::37",
+  "argv": [
+   "-d",
+   "-n",
+   "-z",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_d_flag_watches_dotfiles::38",
+  "argv": [
+   "-d",
+   "-d",
+   "-n",
+   "-z",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_path_input::39",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "/_"
+  ],
+  "stdin": "file1.txt\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_placeholder_only_replaces_first_occurrence::40",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "/_",
+   "/_"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utility_inherits_environment::41",
+  "argv": [
+   "-n",
+   "-z",
+   "sh",
+   "-c",
+   "echo $TEST_ENTR_VAR"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utility_stdout_stderr_passthrough::42",
+  "argv": [
+   "-n",
+   "-z",
+   "sh",
+   "-c",
+   "echo stdout; echo stderr >&2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utility_with_no_arguments::43",
+  "argv": [
+   "-n",
+   "-z",
+   "echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_various_exit_codes_propagated::44",
+  "argv": [
+   "-n",
+   "-z",
+   "sh",
+   "-c",
+   "echo success; exit 0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utility_large_output_handled::45",
+  "argv": [
+   "-n",
+   "-z",
+   "sh",
+   "-c",
+   "for i in $(seq 1 100); do echo line$i; done"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utility_with_delay_completes::46",
+  "argv": [
+   "-n",
+   "-z",
+   "sh",
+   "-c",
+   "sleep 0.1; echo done"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_conflicting_x_r_order_independent::47",
+  "argv": [
+   "-n",
+   "-x",
+   "-r",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_flags_dcnz::48",
+  "argv": [
+   "-d",
+   "-c",
+   "-n",
+   "-z",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utility_path_with_slashes::49",
+  "argv": [
+   "-n",
+   "-z",
+   "/bin/echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_restart_signal_name::50",
+  "argv": [
+   "echo",
+   "test"
+  ],
+  "stdin": "/workspace/entr.c\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "ENTR_RESTART_SIGNAL": "INVALID"
+  }
+ },
+ {
+  "name": "test::test_double_clear_flag_cc_full_screen_clear::51",
+  "argv": [
+   "-cc",
+   "-n",
+   "echo",
+   "cleared"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dirwatch_flag_dd_includes_hidden_files::52",
+  "argv": [
+   "-dd",
+   "-n",
+   "echo",
+   "directory_monitored"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggressive_option_with_flag_a::53",
+  "argv": [
+   "-a",
+   "-n",
+   "echo",
+   "aggressive_mode_enabled"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_postpone_option_prevents_immediate_execution::54",
+  "argv": [
+   "-p",
+   "-n",
+   "echo",
+   "should_not_appear"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_clear_flag_c::55",
+  "argv": [
+   "-c",
+   "-n",
+   "echo",
+   "single_clear"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_underscore_placeholder_substitution::56",
+  "argv": [
+   "-n",
+   "echo",
+   "file:",
+   "/_"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_mode_with_s_flag::57",
+  "argv": [
+   "-s",
+   "-n",
+   "echo shell_executed | cat"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_oneshot_mode_with_z_flag_exits_after_execution::58",
+  "argv": [
+   "-z",
+   "-n",
+   "echo",
+   "oneshot_execution"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_restart_mode_with_r_flag::59",
+  "argv": [
+   "-r",
+   "-n",
+   "echo",
+   "restarted_process"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_flags_r_and_s::60",
+  "argv": [
+   "-rs",
+   "-n",
+   "echo combined_flags_work"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_file_list_shows_error::61",
+  "argv": [
+   "echo",
+   "test"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_directory_with_d_flag::62",
+  "argv": [
+   "-d",
+   "-n",
+   "echo",
+   "dir_watched"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_symlink_without_follow_symlink_env::63",
+  "argv": [
+   "-n",
+   "echo",
+   "symlink_watched"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_symlink_with_follow_symlink_env::64",
+  "argv": [
+   "-n",
+   "echo",
+   "symlink_followed"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "ENTR_FOLLOW_SYMLINK": "1"
+  }
+ },
+ {
+  "name": "test::test_multiple_files_watch::65",
+  "argv": [
+   "-n",
+   "echo",
+   "multiple_files_watched"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_blank_lines_in_input_ignored::66",
+  "argv": [
+   "-n",
+   "echo",
+   "blank_lines_ignored"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mix_of_valid_and_invalid_files::67",
+  "argv": [
+   "-n",
+   "echo",
+   "partial_success"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_path_with_spaces::68",
+  "argv": [
+   "-n",
+   "echo",
+   "spaces_handled"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pz_combination_postpone_and_oneshot::69",
+  "argv": [
+   "-pz",
+   "-n",
+   "echo",
+   "postponed_oneshot"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_substitution_placeholders_only_first_replaced::70",
+  "argv": [
+   "-n",
+   "printf",
+   "first:%s second:%s\\n",
+   "/_",
+   "/_"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utility_with_exit_code_nonzero::71",
+  "argv": [
+   "-n",
+   "sh",
+   "-c",
+   "echo utility_executed_with_error; exit 42"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_number_of_files::72",
+  "argv": [
+   "-n",
+   "echo",
+   "many_files_watched"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_directory_with_no_readable_files::73",
+  "argv": [
+   "-d",
+   "-n",
+   "echo",
+   "empty_dir_watched"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_command_with_pipes::74",
+  "argv": [
+   "-s",
+   "-n",
+   "echo hello | tr h H"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_file_path::75",
+  "argv": [
+   "-n",
+   "echo",
+   "long_path_handled"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utility_command_not_found::76",
+  "argv": [
+   "-n",
+   "this_command_does_not_exist_xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_permission_denied_error::77",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "permission_test_ok"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_filename_near_path_max::78",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "long_filename_ok"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_lines_in_input_ignored::79",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "empty_lines_ok"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_whitespace_only_lines::80",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "whitespace_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mix_of_valid_nonexistent_and_unreadable_files::81",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "mixed_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonregular_file_fifo_rejected::82",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "should_not_run"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_exceeding_path_max::83",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "should_fail"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_only_all_nonexistent_files_fails::84",
+  "argv": [
+   "-n",
+   "echo",
+   "should_not_run"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_null_byte_in_path::85",
+  "argv": [
+   "-n",
+   "echo",
+   "should_fail"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dotfile_accepted_as_regular_file::86",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "dotfile_ok"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_directory_input_without_d_flag_fails::87",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "dir_ok"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_number_of_files_stress::88",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "many_files_ok"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_symlink_to_nonexistent_target::89",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "broken_link_ok"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_with_duplicate_files::90",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "duplicates_ok"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_char_newline_in_middle_of_path::91",
+  "argv": [
+   "-n",
+   "echo",
+   "should_fail"
+  ],
+  "stdin": "/tmp/file\nwith_newline.txt\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_directory_and_file_in_same_directory::92",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "both_watched_ok"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_absolute_path_with_double_slashes::93",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "double_slash_ok"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_directory_with_d_flag::94",
+  "argv": [
+   "-n",
+   "-d",
+   "-z",
+   "echo",
+   "empty_dir_ok"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_arguments::95",
+  "argv": [
+   "./executable",
+   "-n"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_display_option_summary::96",
+  "argv": [
+   "./executable",
+   "-h"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_input::97",
+  "argv": [
+   "./executable",
+   "-n",
+   "echo",
+   "vroom"
+  ],
+  "stdin": "\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_input::98",
+  "argv": [
+   "./executable",
+   "-n",
+   "echo"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_signal_empty::99",
+  "argv": [
+   "./executable",
+   "-n",
+   "echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "ENTR_RESTART_SIGNAL": ""
+  }
+ },
+ {
+  "name": "test::test_exec_command_oneshot_return_signal_number::100",
+  "argv": [
+   "./executable",
+   "-n",
+   "-z",
+   "sh",
+   "-c",
+   "kill -9 $$"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_command_oneshot_shell_return_signal::101",
+  "argv": [
+   "./executable",
+   "-n",
+   "-z",
+   "-s",
+   "kill -9 $$"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fail_exec_command_oneshot::102",
+  "argv": [
+   "./executable",
+   "-n",
+   "-z",
+   "/usr/bin/false_X"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_command_oneshot_exit_code_from_child::103",
+  "argv": [
+   "./executable",
+   "-n",
+   "-z",
+   "sh",
+   "-c",
+   "exit 4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_on_startup_and_file_change::104",
+  "argv": [
+   "./executable",
+   "-n",
+   "sh",
+   "-c",
+   "printf ping"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_command_non_interactive_mode::105",
+  "argv": [
+   "./executable",
+   "-n",
+   "tty"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_when_file_made_executable::106",
+  "argv": [
+   "./executable",
+   "-n",
+   "-p",
+   "echo",
+   "/_"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_using_utility_substitution::107",
+  "argv": [
+   "./executable",
+   "-n",
+   "-p",
+   "file",
+   "/_"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_command_background_stdin_closed::108",
+  "argv": [
+   "./executable",
+   "-n",
+   "-r",
+   "sh",
+   "-c",
+   "test -t 0; echo $?; kill $$"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_when_vim_writes::109",
+  "argv": [
+   "./executable",
+   "-n",
+   "-p",
+   "cat",
+   "file3"
+  ],
+  "stdin": null,
+  "files": {
+   "file3": "123\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_terminate_subprocesses_custom_signal_restart::110",
+  "argv": [
+   "./executable",
+   "-n",
+   "-r",
+   "sh",
+   "-c",
+   "go.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "go.sh": "#!/bin/sh\ntrap 'echo \"caught signal\"; exit' INT\necho \"running\"; sleep 10\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_terminate_subprocesses_terminal_closed::111",
+  "argv": [
+   "./executable",
+   "-n",
+   "-r",
+   "sh",
+   "-c",
+   "go.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "go.sh": "#!/bin/sh\ntrap 'echo \"caught signal\"; exit' TERM\necho \"running\"; sleep 10\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_single_utility_two_files_simultaneous::112",
+  "argv": [
+   "./executable",
+   "-n",
+   "-p",
+   "sh",
+   "-c",
+   "echo ping"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exit_no_action_restart_dirwatch_combined::113",
+  "argv": [
+   "./executable",
+   "-n",
+   "-r",
+   "-d",
+   "tail",
+   "-f",
+   "file1"
+  ],
+  "stdin": null,
+  "files": {
+   "file1": "started.\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_using_first_file_to_change::114",
+  "argv": [
+   "./executable",
+   "-n",
+   "-p",
+   "cat",
+   "/_"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_using_shell_option::115",
+  "argv": [
+   "./executable",
+   "-n",
+   "-p",
+   "-s",
+   "file $0; exit 2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_respond_to_events_while_utility_running::116",
+  "argv": [
+   "./executable",
+   "-n",
+   "-a",
+   "sh",
+   "-c",
+   "echo 'vroom'; sleep 0.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_when_stash_reverted::117",
+  "argv": [
+   "git",
+   "init"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_restart_and_shell_combined::118",
+  "argv": [
+   "-n",
+   "-r",
+   "-s",
+   "-z",
+   "echo 'Shell in restart mode'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clear_and_shell_combined::119",
+  "argv": [
+   "-n",
+   "-c",
+   "-s",
+   "-z",
+   "echo 'Clear screen test'; echo 'Line 2'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_clear_with_shell_mode::120",
+  "argv": [
+   "-n",
+   "-c",
+   "-c",
+   "-s",
+   "-z",
+   "echo 'Double clear test'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_directory_watch_with_restart::121",
+  "argv": [
+   "-n",
+   "-d",
+   "-r",
+   "-s",
+   "-z",
+   "echo 'Dir watch in restart'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_postpone_with_exit_flag::122",
+  "argv": [
+   "-n",
+   "-p",
+   "-z",
+   "-s",
+   "echo 'Should not appear'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggressive_mode_with_clear::123",
+  "argv": [
+   "-n",
+   "-a",
+   "-c",
+   "-s",
+   "-z",
+   "echo 'Aggressive with clear'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utility_with_subprocesses_cleanup::124",
+  "argv": [
+   "-n",
+   "-z",
+   "spawner.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "spawner.sh": "#!/bin/sh\nsh -c 'echo Main: $$'\necho 'Done'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utility_that_modifies_watched_files::125",
+  "argv": [
+   "-n",
+   "-z",
+   "modifier.sh",
+   "/_"
+  ],
+  "stdin": null,
+  "files": {
+   "modifier.sh": "#!/bin/bash\necho 'Modified' >> \"$1\"\necho 'Modification complete'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utility_crash_entr_continues::126",
+  "argv": [
+   "-n",
+   "crasher.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "crasher.sh": "#!/bin/bash\necho 'Running before crash'\nexit 42\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utility_crash_with_z_flag_propagates_exit_code::127",
+  "argv": [
+   "-n",
+   "-z",
+   "crasher42.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "crasher42.sh": "#!/bin/bash\necho 'Before exit 42'\nexit 42\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_many_files_watched_simultaneously::128",
+  "argv": [
+   "-n",
+   "-z",
+   "-s",
+   "echo 'Watching many files'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_flag_combo_acdnpz::129",
+  "argv": [
+   "-a",
+   "-c",
+   "-n",
+   "-p",
+   "-z",
+   "-s",
+   "echo 'Complex flags test'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_restart_mode_with_status_filter::130",
+  "argv": [
+   "-n",
+   "-r",
+   "-x",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_deleted_while_watching::131",
+  "argv": [
+   "-n",
+   "-z",
+   "deleter.sh",
+   "/_"
+  ],
+  "stdin": null,
+  "files": {
+   "deleter.sh": "#!/bin/bash\nrm -f \"$1\"\necho 'File deleted'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_replaced_delete_then_create::132",
+  "argv": [
+   "-n",
+   "-z",
+   "replacer.sh",
+   "/_"
+  ],
+  "stdin": null,
+  "files": {
+   "replacer.sh": "#!/bin/bash\nFILE=\"$1\"\nrm -f \"$FILE\"\necho 'new' > \"$FILE\"\necho 'Replaced'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_files_and_directories_watched::133",
+  "argv": [
+   "-n",
+   "-d",
+   "-z",
+   "-s",
+   "echo 'Mixed watch types'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_placeholder_in_shell_command::134",
+  "argv": [
+   "-n",
+   "-z",
+   "-s",
+   "echo Processing: $0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utility_that_hangs_with_restart::135",
+  "argv": [
+   "-n",
+   "-r",
+   "-z",
+   "hanger.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "hanger.sh": "#!/bin/bash\necho 'Started hanging script'\ntrap 'echo Caught signal; exit 0' SIGTERM\nsleep 30\necho 'Should not reach'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_environment_variables::136",
+  "argv": [
+   "-n",
+   "-z",
+   "-s",
+   "echo TEST_VAR=$TEST_VAR"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utility_with_very_long_output::137",
+  "argv": [
+   "-n",
+   "-z",
+   "-s",
+   "seq 1 1000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clear_flag_with_multiline_output::138",
+  "argv": [
+   "-n",
+   "-c",
+   "-z",
+   "-s",
+   "echo 'Line 1'; echo 'Line 2'; echo 'Line 3'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_utility_with_restart_flag::139",
+  "argv": [
+   "-n",
+   "-r",
+   "-z",
+   "/nonexistent/utility"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_mode_with_quotes_and_escapes::140",
+  "argv": [
+   "-n",
+   "-z",
+   "-s",
+   "echo 'Single quotes' \"Double quotes\""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggressive_mode_no_event_consolidation::141",
+  "argv": [
+   "-n",
+   "-a",
+   "-z",
+   "-s",
+   "echo 'Aggressive mode test'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_restart_signal_environment_variable::142",
+  "argv": [
+   "-n",
+   "-r",
+   "-z",
+   "sig_handler.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "sig_handler.sh": "#!/bin/bash\necho 'Running with custom signal'\ntrap 'echo Caught HUP' SIGHUP\nsleep 0.2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_directory_watch_with_double_d_dotfiles::143",
+  "argv": [
+   "-n",
+   "-d",
+   "-d",
+   "-z",
+   "-s",
+   "echo 'Watching dotfiles'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_postpone_flag_no_initial_execution::144",
+  "argv": [
+   "-n",
+   "-p",
+   "-z",
+   "-s",
+   "echo 'Should wait for event'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_symlink_to_file_watched::145",
+  "argv": [
+   "-n",
+   "-z",
+   "-s",
+   "echo 'Symlink watched'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utility_output_to_stderr::146",
+  "argv": [
+   "-n",
+   "-z",
+   "both_streams.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "both_streams.sh": "#!/bin/bash\necho 'stdout line'\necho 'stderr line' >&2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_flag_with_complex_command_chain::147",
+  "argv": [
+   "-n",
+   "-z",
+   "-s",
+   "echo 'First' && echo 'Second' || echo 'Failed'; echo 'Done'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utility_with_working_directory_context::148",
+  "argv": [
+   "-n",
+   "-z",
+   "-s",
+   "pwd"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_no_arguments_usage::149",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_no_input_exits_1::150",
+  "argv": [
+   "echo",
+   "vroom"
+  ],
+  "stdin": "\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_reload_and_clear_no_utility::151",
+  "argv": [
+   "-r",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_empty_input_exits_1::152",
+  "argv": [
+   "echo"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_no_regular_files_in_input_exits_1::153",
+  "argv": [
+   "echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_invalid_restart_signal_env_rejected::154",
+  "argv": [
+   "-r",
+   "echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_option::155",
+  "argv": [
+   "--invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_input_line::156",
+  "argv": [
+   "echo",
+   "test"
+  ],
+  "stdin": "\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_utility::157",
+  "argv": [
+   "-z",
+   "-n",
+   "/nonexistent/command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_file_list::158",
+  "argv": [
+   "-z",
+   "-n",
+   "echo",
+   "many_files"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_spaces_in_name::159",
+  "argv": [
+   "-z",
+   "-n",
+   "echo",
+   "spaces_ok"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_special_characters::160",
+  "argv": [
+   "-z",
+   "-n",
+   "echo",
+   "special"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_file::161",
+  "argv": [
+   "-z",
+   "-n",
+   "echo",
+   "empty_ok"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_file::162",
+  "argv": [
+   "-z",
+   "-n",
+   "echo",
+   "large_ok"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_file::163",
+  "argv": [
+   "-z",
+   "-n",
+   "echo",
+   "binary_ok"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_symlink_handling::164",
+  "argv": [
+   "-z",
+   "-n",
+   "echo",
+   "symlink"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_combination_d_and_z::165",
+  "argv": [
+   "-d",
+   "-z",
+   "-n",
+   "echo",
+   "dz_combo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duplicate_file_entries::166",
+  "argv": [
+   "-z",
+   "-n",
+   "echo",
+   "duplicates"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdout_stderr_separation::167",
+  "argv": [
+   "-z",
+   "-n",
+   "-s",
+   "echo stdout; echo stderr >&2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utility_exit_code_propagation::168",
+  "argv": [
+   "-z",
+   "-n",
+   "-s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_combination::169",
+  "argv": [
+   "-Q",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_entr_status_script_env_var::170",
+  "argv": [
+   "-z",
+   "-n",
+   "-x",
+   "true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_valid_restart_signals::171",
+  "argv": [
+   "-z",
+   "-n",
+   "true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_env_var::172",
+  "argv": [
+   "-z",
+   "-n",
+   "-s",
+   "echo shell_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ev_trace_environment::173",
+  "argv": [
+   "-z",
+   "-n",
+   "echo",
+   "traced"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_immediate_execution::174",
+  "argv": [
+   "-z",
+   "-n",
+   "echo",
+   "immediate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_mode_with_s_flag::175",
+  "argv": [
+   "-z",
+   "-n",
+   "-s",
+   "echo hello | tr a-z A-Z"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_non_interactive_mode::176",
+  "argv": [
+   "-z",
+   "-n",
+   "echo",
+   "non_interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exit_after_completion::177",
+  "argv": [
+   "-z",
+   "-n",
+   "echo",
+   "done"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_variable_zero::178",
+  "argv": [
+   "-z",
+   "-n",
+   "-s",
+   "basename $0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file_input::179",
+  "argv": [
+   "echo",
+   "test"
+  ],
+  "stdin": "/nonexistent/file.txt\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_valid_file_input::180",
+  "argv": [
+   "-z",
+   "-n",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_files_input::181",
+  "argv": [
+   "-z",
+   "-n",
+   "echo",
+   "multiple"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_path_input::182",
+  "argv": [
+   "-z",
+   "-n",
+   "echo",
+   "relative"
+  ],
+  "stdin": "file1.txt\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clear_screen_with_c_flag::183",
+  "argv": [
+   "-z",
+   "-n",
+   "-c",
+   "echo",
+   "cleared"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clear_screen_and_scrollback_with_cc_flag::184",
+  "argv": [
+   "-z",
+   "-n",
+   "-c",
+   "-c",
+   "echo",
+   "scrollback_cleared"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_path_substitution_with_underscore::185",
+  "argv": [
+   "-z",
+   "-n",
+   "cat",
+   "/_"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_path_substitution_with_shell_mode::186",
+  "argv": [
+   "-z",
+   "-n",
+   "-s",
+   "cat $0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utility_with_arguments::187",
+  "argv": [
+   "-z",
+   "-n",
+   "echo",
+   "arg1",
+   "arg2",
+   "arg3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_child_signal_exit_code_with_z::188",
+  "argv": [
+   "-z",
+   "-n",
+   "-s",
+   "kill -9 $$"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_child_normal_exit_code_with_z::189",
+  "argv": [
+   "-z",
+   "-n",
+   "-s",
+   "exit 42"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_script_incompatible_with_restart::190",
+  "argv": [
+   "-r",
+   "-x",
+   "-n",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_script_with_exit_codes::191",
+  "argv": [
+   "-z",
+   "-n",
+   "-x",
+   "-s",
+   "exit 42"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_script_xx_allows_unsafe::192",
+  "argv": [
+   "-x",
+   "-x",
+   "-z",
+   "-n",
+   "true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_flags_combined::193",
+  "argv": [
+   "-n",
+   "-z",
+   "-c",
+   "-s",
+   "echo combined"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_with_complex_command::194",
+  "argv": [
+   "-n",
+   "-z",
+   "-s",
+   "X=hello; echo $X world"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utility_with_many_arguments::195",
+  "argv": [
+   "-n",
+   "-z"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_in_subdirectory::196",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "subdir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clear_with_output::197",
+  "argv": [
+   "-n",
+   "-z",
+   "-c",
+   "echo",
+   "cleared"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utility_with_stdin_input::198",
+  "argv": [
+   "-n",
+   "-z",
+   "cat",
+   "/_"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_path_with_dots::199",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "dots"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ev_trace_environment::200",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "traced"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_with_exit_in_middle::201",
+  "argv": [
+   "-n",
+   "-z",
+   "-s",
+   "echo first && exit 5 && echo second"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utility_writes_to_file::202",
+  "argv": [
+   "-n",
+   "-z",
+   "sh",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_slashes_in_path::203",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_with_stderr_redirect::204",
+  "argv": [
+   "-n",
+   "-z",
+   "-s",
+   "echo error >&2 2>&1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_env_var::205",
+  "argv": [
+   "-n",
+   "-z",
+   "-s",
+   "echo $TEST_VAR"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_in_current_directory::206",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "current"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggressive_mode_flag::207",
+  "argv": [
+   "-n",
+   "-z",
+   "-a",
+   "echo",
+   "aggressive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggressive_with_restart::208",
+  "argv": [
+   "-n",
+   "-z",
+   "-a",
+   "-r",
+   "echo",
+   "both"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggressive_mode_with_clear::209",
+  "argv": [
+   "-n",
+   "-z",
+   "-a",
+   "-c",
+   "echo",
+   "clear-aggressive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::210",
+  "argv": [
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_execute_utility_oneshot::211",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "hello world"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_placeholder_in_middle::212",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "before",
+   "/_",
+   "after"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utility_stdout_passthrough::213",
+  "argv": [
+   "-n",
+   "-z",
+   "printf",
+   "output\\nline2\\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utility_stderr_passthrough::214",
+  "argv": [
+   "-n",
+   "-z",
+   "-s",
+   "echo error >&2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utility_zero_exit_code::215",
+  "argv": [
+   "-n",
+   "-z",
+   "true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utility_nonzero_exit_code::216",
+  "argv": [
+   "-n",
+   "-z",
+   "false"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_execute_with_wc::217",
+  "argv": [
+   "-n",
+   "-z",
+   "wc",
+   "-l",
+   "/_"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_directory_watch_flag::218",
+  "argv": [
+   "-n",
+   "-z",
+   "-d",
+   "echo",
+   "dirwatch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_directory_watch_double_d::219",
+  "argv": [
+   "-n",
+   "-z",
+   "-dd",
+   "echo",
+   "dotfiles"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_directory_watch_with_file::220",
+  "argv": [
+   "-n",
+   "-z",
+   "-d",
+   "echo",
+   "filewatch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_file::221",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "empty"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_file::222",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "binary"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_file::223",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "large"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_many_files::224",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "many"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_utility_output::225",
+  "argv": [
+   "-n",
+   "-z",
+   "-s",
+   "for i in $(seq 1 10000); do echo line$i; done"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utility_with_unicode_output::226",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "hello 世界 🌍"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filename_with_unicode::227",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "unicode"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_symlink_to_file::228",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "symlink"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_no_extension::229",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "noext"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utility_with_binary_output::230",
+  "argv": [
+   "-n",
+   "-z",
+   "printf",
+   "\\x00\\x01\\xff"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_shell_variable::231",
+  "argv": [
+   "-n",
+   "-z",
+   "-s",
+   "echo $SHELL"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_pager_default::232",
+  "argv": [
+   "-n",
+   "-z",
+   "-s",
+   "echo PAGER=$PAGER"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_restart_signal_valid::233",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_ev_trace::234",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "trace"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_custom_path::235",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "path-test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_missing_file::236",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "test"
+  ],
+  "stdin": "/nonexistent/file.txt",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_utility_not_found::237",
+  "argv": [
+   "-n",
+   "-z",
+   "/no/such/utility"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_no_utility_specified::238",
+  "argv": [
+   "-n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_empty_utility_name::239",
+  "argv": [
+   "-n",
+   "-z",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_stdin_closed::240",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "test"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exit_status_with_z_flag::241",
+  "argv": [
+   "-n",
+   "-z",
+   "sh",
+   "-c",
+   "exit 7"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exit_status_invalid_arguments::242",
+  "argv": [
+   "-invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exit_status_signal_termination::243",
+  "argv": [
+   "-n",
+   "-z",
+   "-s",
+   "kill -9 $$"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exit_status_utility_not_found::244",
+  "argv": [
+   "-n",
+   "-z",
+   "/nonexistent/utility"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_n_noninteractive::245",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "noninteractive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_z_oneshot::246",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "oneshot"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_cc_clear_scrollback::247",
+  "argv": [
+   "-n",
+   "-z",
+   "-cc",
+   "echo",
+   "scrollback"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_s_shell_mode::248",
+  "argv": [
+   "-n",
+   "-z",
+   "-s",
+   "echo hello | cat"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_p_postpone::249",
+  "argv": [
+   "-n",
+   "-p",
+   "-z",
+   "echo",
+   "postponed"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_combination_nz::250",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "combined"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_combination_cz::251",
+  "argv": [
+   "-n",
+   "-c",
+   "-z",
+   "echo",
+   "clear-oneshot"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_combination_sz::252",
+  "argv": [
+   "-n",
+   "-s",
+   "-z",
+   "echo shell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_combination_npz::253",
+  "argv": [
+   "-n",
+   "-p",
+   "-z",
+   "echo",
+   "postpone-oneshot"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_file_input::254",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "executed"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_files_input::255",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "multi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_files_with_spaces::256",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "spaces"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_absolute_paths::257",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "absolute"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_paths::258",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "relative"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_filename::259",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "special"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_path::260",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "longpath"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utility_with_slash_in_path::261",
+  "argv": [
+   "-n",
+   "-z",
+   "/bin/echo",
+   "fullpath"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utility_with_absolute_path::262",
+  "argv": [
+   "-n",
+   "-z",
+   "cat"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_with_backticks::263",
+  "argv": [
+   "-n",
+   "-z",
+   "-s",
+   "echo `echo nested`"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_with_dollar_substitution::264",
+  "argv": [
+   "-n",
+   "-z",
+   "-s",
+   "echo $(echo substituted)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_commands_in_shell::265",
+  "argv": [
+   "-n",
+   "-z",
+   "-s",
+   "echo one; echo two; echo three"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_with_if_statement::266",
+  "argv": [
+   "-n",
+   "-z",
+   "-s",
+   "if true; then echo yes; fi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_with_for_loop::267",
+  "argv": [
+   "-n",
+   "-z",
+   "-s",
+   "for i in 1 2 3; do echo $i; done"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utility_with_dash_option::268",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "--",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clear_screen_escape_sequences::269",
+  "argv": [
+   "-n",
+   "-z",
+   "-c",
+   "echo",
+   "after-clear"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clear_twice_escape_sequences::270",
+  "argv": [
+   "-n",
+   "-z",
+   "-cc",
+   "echo",
+   "scrollback-clear"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utility_that_sleeps::271",
+  "argv": [
+   "-n",
+   "-z",
+   "sh",
+   "-c",
+   "sleep 0.1; echo slept"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_multiline::272",
+  "argv": [
+   "-n",
+   "-z",
+   "-s",
+   "echo line1; echo line2; echo line3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_no_newline::273",
+  "argv": [
+   "-n",
+   "-z",
+   "printf",
+   "no-newline"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_mixed_stdout_stderr::274",
+  "argv": [
+   "-n",
+   "-z",
+   "-s",
+   "echo out; echo err >&2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_large_stdout::275",
+  "argv": [
+   "-n",
+   "-z",
+   "-s",
+   "head -c 102400 /dev/zero | tr '\\000' 'x'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_whitespace_only::276",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "   "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_special_characters::277",
+  "argv": [
+   "-n",
+   "-z",
+   "echo",
+   "$@#%^&*()"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_restart_mode_with_z::278",
+  "argv": [
+   "-n",
+   "-r",
+   "-z",
+   "echo",
+   "restart-oneshot"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_execute_command_string::279",
+  "argv": [
+   "-n",
+   "-z",
+   "-s",
+   "echo hello world"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_with_pipes::280",
+  "argv": [
+   "-n",
+   "-z",
+   "-s",
+   "echo test | tr 'e' 'E'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_with_redirection::281",
+  "argv": [
+   "-n",
+   "-z",
+   "-s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_respects_shell_env::282",
+  "argv": [
+   "-n",
+   "-z",
+   "-s",
+   "echo shell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_with_multiple_commands::283",
+  "argv": [
+   "-n",
+   "-z",
+   "-s",
+   "echo first && echo second"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_with_subshell::284",
+  "argv": [
+   "-n",
+   "-z",
+   "-s",
+   "(echo subshell)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_exit_code::285",
+  "argv": [
+   "-n",
+   "-z",
+   "-s",
+   "exit 42"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_complex_pipeline::286",
+  "argv": [
+   "-n",
+   "-z",
+   "-s",
+   "echo 'a b c' | wc -w"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_filter_creates_default_script::287",
+  "argv": [
+   "-n",
+   "-z",
+   "-x",
+   "true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_filter_incompatible_with_restart::288",
+  "argv": [
+   "-n",
+   "-z",
+   "-r",
+   "-x",
+   "true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_filter_flag_accepted::289",
+  "argv": [
+   "-n",
+   "-z",
+   "-x",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_filter_double_x::290",
+  "argv": [
+   "-n",
+   "-z",
+   "-xx",
+   "echo",
+   "double"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_shell_variable_strong::291",
+  "argv": [
+   "-n",
+   "-z",
+   "-s",
+   "echo tested"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_combination_npz_strong::292",
+  "argv": [
+   "-n",
+   "-p",
+   "-z",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

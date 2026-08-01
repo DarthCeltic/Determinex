@@ -1,0 +1,1412 @@
+{
+ "slug": "ffmpeg__ffmpeg.360a402",
+ "language": "",
+ "n_branches": 12,
+ "n_tests_total": 2060,
+ "n_examples": 72,
+ "n_with_exact_stdout": 0,
+ "n_with_rc": 61,
+ "n_skipped": 1984,
+ "examples": [
+  {
+   "test": "test_stdin_input",
+   "argv": [
+    "-f",
+    "mp4",
+    "-i",
+    "-",
+    "-y"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Input #0, mov,mp4,m4a,3gp,3g2,mj2",
+    "Stream mapping:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_io.py:190"
+  },
+  {
+   "test": "test_pipe0_input",
+   "argv": [
+    "-f",
+    "mp4",
+    "-i",
+    "pipe:0",
+    "-y"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Stream mapping:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_io.py:204"
+  },
+  {
+   "test": "test_encoders_mode_shows_encoders",
+   "argv": [
+    "-encoders"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "encoder"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_mode_dispatch.py:100"
+  },
+  {
+   "test": "test_decoders_mode_shows_decoders",
+   "argv": [
+    "-decoders"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "decoder"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_mode_dispatch.py:106"
+  },
+  {
+   "test": "test_filters_mode_shows_filters",
+   "argv": [
+    "-filters"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "filter"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_mode_dispatch.py:112"
+  },
+  {
+   "test": "test_version_mode_shows_version",
+   "argv": [
+    "-version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ffmpeg version"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_mode_dispatch.py:128"
+  },
+  {
+   "test": "test_L_is_license_alias",
+   "argv": [
+    "-L"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_mode_dispatch.py:142"
+  },
+  {
+   "test": "test_basic_help_shows_options",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "option"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_mode_dispatch.py:174"
+  },
+  {
+   "test": "test_help_long_more_verbose_than_basic",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_mode_dispatch.py:180"
+  },
+  {
+   "test": "test_version_flag_exits_early",
+   "argv": [
+    "-version",
+    "-nonexistent_flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ffmpeg version"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_mode_dispatch.py:207"
+  },
+  {
+   "test": "test_help_flag_exits_early",
+   "argv": [
+    "-h",
+    "-nonexistent_flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_mode_dispatch.py:215"
+  },
+  {
+   "test": "test_listing_mode_with_log_level",
+   "argv": [
+    "-v",
+    "quiet",
+    "-encoders"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_mode_dispatch.py:221"
+  },
+  {
+   "test": "test_single_dash_version",
+   "argv": [
+    "-version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ffmpeg version"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_mode_dispatch.py:277"
+  },
+  {
+   "test": "test_case_sensitive_flags",
+   "argv": [
+    "-version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_mode_dispatch.py:289"
+  },
+  {
+   "test": "test_verbose_flag_with_version",
+   "argv": [
+    "-v",
+    "info",
+    "-version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_mode_dispatch.py:333"
+  },
+  {
+   "test": "test_loglevel_with_help",
+   "argv": [
+    "-loglevel",
+    "quiet",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_mode_dispatch.py:339"
+  },
+  {
+   "test": "test_hide_banner_removes_version_line",
+   "argv": [
+    "-hide_banner",
+    "-formats"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Formats:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_banner_flags.py:4"
+  },
+  {
+   "test": "test_formats_contains_headers_and_examples",
+   "argv": [
+    "-formats"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Formats:",
+    "D.. = Demuxing supported",
+    ".E. = Muxing supported"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_capabilities.py:6"
+  },
+  {
+   "test": "test_codecs_contains_headers_and_examples",
+   "argv": [
+    "-codecs"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Codecs:",
+    "D..... = Decoding supported",
+    ".E.... = Encoding supported"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_capabilities.py:18"
+  },
+  {
+   "test": "test_filters_contains_headers_and_examples",
+   "argv": [
+    "-filters"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Filters:",
+    "T.. = Timeline support",
+    "| = Source or sink filter"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_capabilities.py:30"
+  },
+  {
+   "test": "test_unknown_option_nonzero_and_message",
+   "argv": [
+    "-this-option-does-not-exist"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unrecognized option"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:9"
+  },
+  {
+   "test": "test_help_basic_exact",
+   "argv": [
+    "-hide_banner",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_version.py:15"
+  },
+  {
+   "test": "test_stdin_pipe_input_via_dash_and_copy_produces_identical_bytes",
+   "argv": [
+    "-v",
+    "error",
+    "-i",
+    "-",
+    "-c",
+    "copy",
+    "-f",
+    "wav",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_ffmpeg_io_behavior.py:86"
+  },
+  {
+   "test": "test_overwrite_with_y_succeeds",
+   "argv": [
+    "-f",
+    "lavfi",
+    "-i",
+    "sine=f=440:d=0.1",
+    "-f",
+    "wav",
+    "-y"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:140"
+  },
+  {
+   "test": "test_version_shows_library_versions",
+   "argv": [
+    "-version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "libavutil",
+    "libavcodec",
+    "libavformat"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_info_commands.py:18"
+  },
+  {
+   "test": "test_formats_lists_common_formats",
+   "argv": [
+    "-formats"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": true,
+   "source": "test_info_commands.py:27"
+  },
+  {
+   "test": "test_codecs_lists_common_codecs",
+   "argv": [
+    "-codecs"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": true,
+   "source": "test_info_commands.py:42"
+  },
+  {
+   "test": "test_encoders_lists_encoders",
+   "argv": [
+    "-encoders"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_info_commands.py:57"
+  },
+  {
+   "test": "test_decoders_lists_decoders",
+   "argv": [
+    "-decoders"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_info_commands.py:70"
+  },
+  {
+   "test": "test_filters_lists_common_filters",
+   "argv": [
+    "-filters"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": true,
+   "source": "test_info_commands.py:83"
+  },
+  {
+   "test": "test_filters_shows_io_direction",
+   "argv": [
+    "-filters"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "->"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_info_commands.py:90"
+  },
+  {
+   "test": "test_pix_fmts_lists_formats",
+   "argv": [
+    "-pix_fmts"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_info_commands.py:97"
+  },
+  {
+   "test": "test_sample_fmts_lists_formats",
+   "argv": [
+    "-sample_fmts"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_info_commands.py:111"
+  },
+  {
+   "test": "test_layouts_lists_channel_layouts",
+   "argv": [
+    "-layouts"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_info_commands.py:120"
+  },
+  {
+   "test": "test_protocols_lists_protocols",
+   "argv": [
+    "-protocols"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": true,
+   "source": "test_info_commands.py:128"
+  },
+  {
+   "test": "test_bsfs_lists_filters",
+   "argv": [
+    "-bsfs"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_info_commands.py:137"
+  },
+  {
+   "test": "test_devices_runs_successfully",
+   "argv": [
+    "-devices"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_info_commands.py:145"
+  },
+  {
+   "test": "test_muxers_lists_muxers",
+   "argv": [
+    "-muxers"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_info_commands.py:151"
+  },
+  {
+   "test": "test_demuxers_lists_demuxers",
+   "argv": [
+    "-demuxers"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_info_commands.py:157"
+  },
+  {
+   "test": "test_help_full",
+   "argv": [
+    "-h",
+    "full"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_info_commands.py:165"
+  },
+  {
+   "test": "test_help_encoder",
+   "argv": [
+    "-h",
+    "encoder=pcm_s16le"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pcm_s16le"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_info_commands.py:171"
+  },
+  {
+   "test": "test_help_decoder",
+   "argv": [
+    "-h",
+    "decoder=pcm_s16le"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pcm_s16le"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_info_commands.py:177"
+  },
+  {
+   "test": "test_help_muxer",
+   "argv": [
+    "-h",
+    "muxer=wav"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "wav"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_info_commands.py:183"
+  },
+  {
+   "test": "test_help_demuxer",
+   "argv": [
+    "-h",
+    "demuxer=wav"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "wav"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_info_commands.py:189"
+  },
+  {
+   "test": "test_help_filter",
+   "argv": [
+    "-h",
+    "filter=null"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "null"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_info_commands.py:195"
+  },
+  {
+   "test": "test_hide_banner_with_formats",
+   "argv": [
+    "-hide_banner",
+    "-formats"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_info_commands.py:209"
+  },
+  {
+   "test": "test_probe_wav_format",
+   "argv": [
+    "-f",
+    "lavfi",
+    "-i",
+    "sine=f=440:d=0.5:r=44100",
+    "-f",
+    "wav",
+    "-y"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "audio"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_probe.py:10"
+  },
+  {
+   "test": "test_probe_flac_format",
+   "argv": [
+    "-f",
+    "lavfi",
+    "-i",
+    "sine=f=440:d=0.3",
+    "-c:a",
+    "flac",
+    "-y"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "flac"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_probe.py:46"
+  },
+  {
+   "test": "test_probe_rawvideo_via_info",
+   "argv": [
+    "-f",
+    "lavfi",
+    "-i",
+    "testsrc=d=0.2:s=64x64:r=10",
+    "-c:v",
+    "rawvideo",
+    "-f",
+    "nut",
+    "-y"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "video",
+    "64x64"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_probe.py:59"
+  },
+  {
+   "test": "test_probe_av_file",
+   "argv": [
+    "-f",
+    "lavfi",
+    "-i",
+    "testsrc=d=0.2:s=32x32:r=10",
+    "-f",
+    "lavfi",
+    "-i",
+    "sine=f=440:d=0.2",
+    "-c:v",
+    "rawvideo",
+    "-c:a",
+    "pcm_s16le",
+    "-f",
+    "nut",
+    "-y"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "video",
+    "audio"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_probe.py:72"
+  },
+  {
+   "test": "test_probe_pixel_format",
+   "argv": [
+    "-f",
+    "lavfi",
+    "-i",
+    "testsrc=d=0.1:s=32x32:r=5",
+    "-c:v",
+    "rawvideo",
+    "-pix_fmt",
+    "yuv420p",
+    "-f",
+    "nut",
+    "-y"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "yuv420p"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_probe.py:87"
+  },
+  {
+   "test": "test_probe_multiple_streams",
+   "argv": [
+    "-f",
+    "lavfi",
+    "-i",
+    "testsrc=d=0.1:s=32x32:r=5",
+    "-f",
+    "lavfi",
+    "-i",
+    "color=c=blue:d=0.1:s=16x16:r=5",
+    "-c:v",
+    "rawvideo",
+    "-map",
+    "0:v",
+    "-map",
+    "1:v",
+    "-f",
+    "nut",
+    "-y"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_probe.py:99"
+  },
+  {
+   "test": "test_frame_count_via_null",
+   "argv": [
+    "-f",
+    "lavfi",
+    "-i",
+    "testsrc=d=1:s=16x16:r=10",
+    "-f",
+    "null",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_probe.py:117"
+  },
+  {
+   "test": "test_limit_frames",
+   "argv": [
+    "-f",
+    "lavfi",
+    "-i",
+    "testsrc=d=1:s=16x16:r=25",
+    "-frames:v",
+    "3",
+    "-f",
+    "rawvideo",
+    "-pix_fmt",
+    "rgb24",
+    "-y"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_probe.py:128"
+  },
+  {
+   "test": "test_generate_sine_wav",
+   "argv": [
+    "-f",
+    "lavfi",
+    "-i",
+    "sine=frequency=440:duration=1",
+    "-f",
+    "wav",
+    "-y"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_synthetic_generation.py:11"
+  },
+  {
+   "test": "test_generate_silence_wav",
+   "argv": [
+    "-f",
+    "lavfi",
+    "-i",
+    "anullsrc=r=44100:cl=stereo",
+    "-t",
+    "0.5",
+    "-f",
+    "wav",
+    "-y"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_synthetic_generation.py:24"
+  },
+  {
+   "test": "test_generate_dual_tone",
+   "argv": [
+    "-f",
+    "lavfi",
+    "-i",
+    "sine=f=440:d=0.5",
+    "-f",
+    "lavfi",
+    "-i",
+    "sine=f=880:d=0.5",
+    "-filter_complex",
+    "[0][1]amix=inputs=2",
+    "-f",
+    "wav",
+    "-y"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_synthetic_generation.py:36"
+  },
+  {
+   "test": "test_sine_specific_sample_rate",
+   "argv": [
+    "-f",
+    "lavfi",
+    "-i",
+    "sine=f=440:d=0.5:r=22050",
+    "-f",
+    "wav",
+    "-y"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_synthetic_generation.py:48"
+  },
+  {
+   "test": "test_aevalsrc_generation",
+   "argv": [
+    "-f",
+    "lavfi",
+    "-i",
+    "aevalsrc=sin(400*PI*2*t):d=0.125",
+    "-f",
+    "wav",
+    "-y"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_synthetic_generation.py:58"
+  },
+  {
+   "test": "test_generate_testsrc_rawvideo",
+   "argv": [
+    "-f",
+    "lavfi",
+    "-i",
+    "testsrc=duration=0.1:size=64x64:rate=10",
+    "-f",
+    "rawvideo",
+    "-pix_fmt",
+    "rgb24",
+    "-y"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_synthetic_generation.py:70"
+  },
+  {
+   "test": "test_generate_color_source",
+   "argv": [
+    "-f",
+    "lavfi",
+    "-i",
+    "color=c=red:d=0.1:s=32x32:r=10",
+    "-f",
+    "rawvideo",
+    "-pix_fmt",
+    "rgb24",
+    "-y"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_synthetic_generation.py:81"
+  },
+  {
+   "test": "test_generate_smptebars",
+   "argv": [
+    "-f",
+    "lavfi",
+    "-i",
+    "smptebars=d=0.1:s=64x48:r=10",
+    "-f",
+    "rawvideo",
+    "-pix_fmt",
+    "rgb24",
+    "-y"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_synthetic_generation.py:91"
+  },
+  {
+   "test": "test_null_output_video",
+   "argv": [
+    "-f",
+    "lavfi",
+    "-i",
+    "testsrc=d=0.1:s=32x32:r=10",
+    "-f",
+    "null",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_synthetic_generation.py:101"
+  },
+  {
+   "test": "test_null_output_audio",
+   "argv": [
+    "-f",
+    "lavfi",
+    "-i",
+    "sine=f=440:d=0.1",
+    "-f",
+    "null",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_synthetic_generation.py:109"
+  },
+  {
+   "test": "test_testsrc2_generation",
+   "argv": [
+    "-f",
+    "lavfi",
+    "-i",
+    "testsrc2=d=0.1:s=64x64:r=10",
+    "-f",
+    "rawvideo",
+    "-pix_fmt",
+    "rgb24",
+    "-y"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_synthetic_generation.py:117"
+  },
+  {
+   "test": "test_wav_to_flac",
+   "argv": [
+    "-f",
+    "lavfi",
+    "-i",
+    "sine=f=440:d=0.5",
+    "-f",
+    "wav",
+    "-y"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_synthetic_generation.py:129"
+  },
+  {
+   "test": "test_wav_pcm_reformat",
+   "argv": [
+    "-f",
+    "lavfi",
+    "-i",
+    "sine=f=440:d=0.2",
+    "-f",
+    "wav",
+    "-y"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_synthetic_generation.py:139"
+  },
+  {
+   "test": "test_generate_raw_pcm",
+   "argv": [
+    "-f",
+    "lavfi",
+    "-i",
+    "sine=f=1000:d=0.2:r=44100",
+    "-f",
+    "s16le",
+    "-acodec",
+    "pcm_s16le",
+    "-ac",
+    "1",
+    "-y"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_synthetic_generation.py:152"
+  },
+  {
+   "test": "test_scale_filter",
+   "argv": [
+    "-f",
+    "lavfi",
+    "-i",
+    "testsrc=d=0.1:s=64x64:r=5",
+    "-vf",
+    "scale=32:32",
+    "-f",
+    "rawvideo",
+    "-pix_fmt",
+    "rgb24",
+    "-y"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_synthetic_generation.py:166"
+  },
+  {
+   "test": "test_crop_filter",
+   "argv": [
+    "-f",
+    "lavfi",
+    "-i",
+    "testsrc=d=0.1:s=64x64:r=5",
+    "-vf",
+    "crop=32:32:0:0",
+    "-f",
+    "rawvideo",
+    "-pix_fmt",
+    "rgb24",
+    "-y"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_synthetic_generation.py:179"
+  },
+  {
+   "test": "test_filter_chain",
+   "argv": [
+    "-f",
+    "lavfi",
+    "-i",
+    "testsrc=d=0.1:s=128x128:r=5",
+    "-vf",
+    "scale=64:64,crop=32:32",
+    "-f",
+    "rawvideo",
+    "-pix_fmt",
+    "rgb24",
+    "-y"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_synthetic_generation.py:191"
+  },
+  {
+   "test": "test_volume_filter",
+   "argv": [
+    "-f",
+    "lavfi",
+    "-i",
+    "sine=f=440:d=0.2",
+    "-af",
+    "volume=0.5",
+    "-f",
+    "wav",
+    "-y"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_synthetic_generation.py:202"
+  }
+ ]
+}

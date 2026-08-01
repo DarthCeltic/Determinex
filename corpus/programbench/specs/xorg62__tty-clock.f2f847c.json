@@ -1,0 +1,502 @@
+{
+ "slug": "xorg62__tty-clock.f2f847c",
+ "language": "",
+ "n_branches": 6,
+ "n_tests_total": 274,
+ "n_examples": 25,
+ "n_with_exact_stdout": 0,
+ "n_with_rc": 20,
+ "n_skipped": 248,
+ "examples": [
+  {
+   "test": "test_help_precedence_with_other_flags_shows_usage",
+   "argv": [
+    "-h",
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:139"
+  },
+  {
+   "test": "test_double_dash_separator_does_not_trigger_help",
+   "argv": [
+    "--",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error opening terminal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:145"
+  },
+  {
+   "test": "test_double_dash_stops_option_parsing_and_treats_following_as_positional",
+   "argv": [
+    "--",
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error opening terminal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:102"
+  },
+  {
+   "test": "test_help_flag_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage : tty-clock",
+    "Show seconds",
+    "Screensaver mode",
+    "Show box",
+    "Set the clock color",
+    "-v",
+    "-i",
+    "-C [0-7]",
+    "-f format",
+    "-d delay",
+    "-a nsdelay",
+    "-T tty",
+    "Default 1s"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:6"
+  },
+  {
+   "test": "test_invalid_long_option_shows_help",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid option",
+    "usage : tty-clock"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:24"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TTY-Clock",
+    "2",
+    "devel version",
+    "TTY-Clock"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:33"
+  },
+  {
+   "test": "test_info_flag",
+   "argv": [
+    "-i"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TTY-Clock",
+    "2",
+    "Martin Duquesnoy",
+    "xorg62@gmail.com",
+    "Grey",
+    "grey@greytheory.net",
+    "@"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:46"
+  },
+  {
+   "test": "test_unknown_short_option",
+   "argv": [
+    "-z"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage : tty-clock"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:61"
+  },
+  {
+   "test": "test_help_contains_all_options",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-s",
+    "-S",
+    "-x",
+    "-c",
+    "-b",
+    "-t",
+    "-u",
+    "-r",
+    "-n",
+    "-D",
+    "-B",
+    "-C",
+    "-f",
+    "-d",
+    "-a",
+    "-T"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:69"
+  },
+  {
+   "test": "test_version_flag_exits_immediately",
+   "argv": [
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:92"
+  },
+  {
+   "test": "test_info_flag_exits_immediately",
+   "argv": [
+    "-i"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:101"
+  },
+  {
+   "test": "test_help_flag_exits_immediately",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:110"
+  },
+  {
+   "test": "test_tty_option_nonexistent_device",
+   "argv": [
+    "-T",
+    "/dev/nonexistent_tty_12345"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error",
+    "/dev/nonexistent_tty_12345"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tty_errors.py:7"
+  },
+  {
+   "test": "test_tty_option_no_permission",
+   "argv": [
+    "-T"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tty_errors.py:19"
+  },
+  {
+   "test": "test_tty_option_regular_file",
+   "argv": [
+    "-T"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error",
+    "character device"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tty_errors.py:36"
+  },
+  {
+   "test": "test_tty_error_messages_clear",
+   "argv": [
+    "-T",
+    "/nonexistent/path/to/tty"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tty-clock",
+    "error",
+    "/nonexistent/path/to/tty"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tty_errors.py:63"
+  },
+  {
+   "test": "test_sigterm_clean_exit",
+   "argv": [
+    "tmux",
+    "list-panes",
+    "-t",
+    "test_sigterm",
+    "-F",
+    "#{pane_pid}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_signals.py:48"
+  },
+  {
+   "test": "test_sigint_clean_exit",
+   "argv": [
+    "tmux",
+    "list-panes",
+    "-t",
+    "test_sigint",
+    "-F",
+    "#{pane_pid}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_signals.py:98"
+  },
+  {
+   "test": "test_normal_quit_with_q_key",
+   "argv": [
+    "tmux",
+    "list-panes",
+    "-t",
+    "test_quit_q",
+    "-F",
+    "#{pane_pid}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_signals.py:142"
+  },
+  {
+   "test": "test_uppercase_Q_key_quit",
+   "argv": [
+    "tmux",
+    "list-panes",
+    "-t",
+    "test_quit_Q",
+    "-F",
+    "#{pane_pid}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_signals.py:187"
+  },
+  {
+   "test": "test_noquit_flag_prevents_q_exit",
+   "argv": [
+    "tmux",
+    "list-panes",
+    "-t",
+    "test_noquit",
+    "-F",
+    "#{pane_pid}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_signals.py:230"
+  },
+  {
+   "test": "test_screensaver_mode_quit_on_any_key",
+   "argv": [
+    "tmux",
+    "list-panes",
+    "-t",
+    "test_screen_quit",
+    "-F",
+    "#{pane_pid}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_signals.py:280"
+  },
+  {
+   "test": "test_screensaver_mode_with_noquit_prevents_exit",
+   "argv": [
+    "tmux",
+    "list-panes",
+    "-t",
+    "test_screen_noquit",
+    "-F",
+    "#{pane_pid}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_signals.py:325"
+  },
+  {
+   "test": "test_sigterm_during_key_processing",
+   "argv": [
+    "tmux",
+    "list-panes",
+    "-t",
+    "test_sig_key_race",
+    "-F",
+    "#{pane_pid}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_signals.py:374"
+  },
+  {
+   "test": "test_multiple_rapid_signals",
+   "argv": [
+    "tmux",
+    "list-panes",
+    "-t",
+    "test_rapid_signals",
+    "-F",
+    "#{pane_pid}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_signals.py:415"
+  }
+ ]
+}

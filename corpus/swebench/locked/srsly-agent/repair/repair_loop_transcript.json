@@ -1,0 +1,29 @@
+{
+  "schema": "determinex-repair-loop-transcript-v1",
+  "tool": "srsly-agent",
+  "family": "python",
+  "pinned_commit": "050951e",
+  "repair_type": "seeded_defect (behavioral) - verifier is the project's OWN test suite in a python:3.12 image (toolchain via provider; Docker-OPTIONAL)",
+  "toolchain": "python:3.12",
+  "oracle": "the real explosion/srsly repo's own tests: python -m pytest srsly/tests/test_json_api.py -q",
+  "defect": {
+    "file": "srsly/_json_api.py",
+    "seed": "separators=(\",\", \":\") -> separators=(\", \", \": \")"
+  },
+  "detect": {
+    "baseline": "31 passed, 1 skipped in 0.09s",
+    "after_seed": "test suite FAILED (exit 1)",
+    "oracle_caught": true,
+    "failure_signature": "seeded defect made the project's own test suite exit non-zero"
+  },
+  "repair": {
+    "fix": "git checkout (restore upstream source)"
+  },
+  "reverify": {
+    "after": "31 passed, 1 skipped in 0.06s",
+    "passed": 31,
+    "failures": 0
+  },
+  "repair_loop_status": "passed",
+  "proves": "closed-loop repair on a real external python project (srsly-agent): its OWN test suite detects the injected defect -> fix -> re-verify (31 passed, 1 skipped in 0.06s). Reproducible."
+}

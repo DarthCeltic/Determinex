@@ -1,0 +1,1326 @@
+[
+ {
+  "name": "test::test_build_help::0",
+  "argv": [
+   "build",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_basic::1",
+  "argv": [
+   "build"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clean_help::2",
+  "argv": [
+   "clean",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clean_on_non_existent_directory::3",
+  "argv": [
+   "clean"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag::4",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::5",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_command::6",
+  "argv": [
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_command::7",
+  "argv": [
+   "invalid-command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_short_flag::8",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_flag::9",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_help::10",
+  "argv": [
+   "completions",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_bash::11",
+  "argv": [
+   "completions",
+   "bash"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_zsh::12",
+  "argv": [
+   "completions",
+   "zsh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_fish::13",
+  "argv": [
+   "completions",
+   "fish"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_powershell::14",
+  "argv": [
+   "completions",
+   "powershell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_elvish::15",
+  "argv": [
+   "completions",
+   "elvish"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_invalid_shell::16",
+  "argv": [
+   "completions",
+   "invalidshell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_no_args::17",
+  "argv": [
+   "completions"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_book_title::18",
+  "argv": [
+   "init",
+   "--force",
+   "--title",
+   "日本語 Book 📚"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_chapter_content::19",
+  "argv": [
+   "init",
+   "--force"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_help::20",
+  "argv": [
+   "init",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_force_with_title::21",
+  "argv": [
+   "init",
+   "--force",
+   "--title",
+   "My Custom Book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_force_with_gitignore::22",
+  "argv": [
+   "init",
+   "--force",
+   "--ignore",
+   "git"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_force_without_gitignore::23",
+  "argv": [
+   "init",
+   "--force",
+   "--ignore",
+   "none"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_force_with_theme::24",
+  "argv": [
+   "init",
+   "--force",
+   "--theme"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_full_workflow_init_build_clean::25",
+  "argv": [
+   "init",
+   "--force",
+   "--title",
+   "Integration Test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_help::26",
+  "argv": [
+   "test",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_book_with_no_code::27",
+  "argv": [
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_watch_help::28",
+  "argv": [
+   "watch",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_serve_help::29",
+  "argv": [
+   "serve",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_without_force_accepts_empty_title::30",
+  "argv": [
+   "init"
+  ],
+  "stdin": "n\n\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interactive_title_provided::31",
+  "argv": [
+   "init"
+  ],
+  "stdin": "\nMy Interactive Title\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interactive_empty_title::32",
+  "argv": [
+   "init"
+  ],
+  "stdin": "\n\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interactive_gitignore_confirmation_yes::33",
+  "argv": [
+   "init"
+  ],
+  "stdin": "y\n\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interactive_theme_overwrite_confirmation_yes::34",
+  "argv": [
+   "init",
+   "--theme"
+  ],
+  "stdin": "y\nn\n\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interactive_theme_overwrite_confirmation_no::35",
+  "argv": [
+   "init",
+   "--theme"
+  ],
+  "stdin": "n\nn\n\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gitignore_confirmation_variations::36",
+  "argv": [
+   "init"
+  ],
+  "stdin": "Yes\n\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_whitespace_only_title_treated_as_empty::37",
+  "argv": [
+   "init"
+  ],
+  "stdin": "\n   \n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yes_lowercase_gitignore_confirmation::38",
+  "argv": [
+   "init"
+  ],
+  "stdin": "yes\n\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_capital_Y_gitignore_confirmation::39",
+  "argv": [
+   "init"
+  ],
+  "stdin": "Y\n\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_help_exact_baseline_match::40",
+  "argv": [
+   "init",
+   "--help",
+   "--bogus-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_help_shows_error_and_usage_on_stderr::41",
+  "argv": [
+   "notacommand",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_separator_treats_help_as_subcommand_and_errors::42",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_takes_precedence_over_unknown_flag::43",
+  "argv": [
+   "--help",
+   "--definitely-not-a-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_invalid_shell_is_error::44",
+  "argv": [
+   "completions",
+   "notashell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_fails_when_summary_missing_and_writes_error_log::45",
+  "argv": [
+   "build",
+   "-d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_errors::46",
+  "argv": [
+   "nope"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_errors_with_tip::47",
+  "argv": [
+   "build",
+   "--nonexistent-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_positional_too_many_for_completions::48",
+  "argv": [
+   "completions",
+   "fish",
+   "extra"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_invalid_choice_errors::49",
+  "argv": [
+   "completions",
+   "tcsh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_ignore_invalid_choice_errors::50",
+  "argv": [
+   "init",
+   "--ignore",
+   "foo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_value_for_build_dest_dir_errors::51",
+  "argv": [
+   "build",
+   "--dest-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_short_flags_parsed_as_open_and_destdir_missing_value_errors::52",
+  "argv": [
+   "build",
+   "-od"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_makes_dashy_token_positional::53",
+  "argv": [
+   "build",
+   "--",
+   "--nonexistent-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_errors_and_exit_code_2::54",
+  "argv": [
+   "nonexistent_subcommand"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subcommand_version_flag_prints_subcommand_scoped_binary_name::55",
+  "argv": [
+   "init",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_positioned_before_subcommand_is_error_for_main_parser::56",
+  "argv": [
+   "--quiet",
+   "build"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_positioned_after_subcommand_is_error_for_subcommand_parser::57",
+  "argv": [
+   "build",
+   "--quiet"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_for_specific_command::58",
+  "argv": [
+   "help",
+   "init"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_with_dest_dir::59",
+  "argv": [
+   "build",
+   "--dest-dir",
+   "output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_version::60",
+  "argv": [
+   "build",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_nonexistent_directory::61",
+  "argv": [
+   "build",
+   "/nonexistent/directory/that/does/not/exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clean_with_dest_dir::62",
+  "argv": [
+   "build",
+   "--dest-dir",
+   "custom_output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clean_version::63",
+  "argv": [
+   "clean",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_open_flag::64",
+  "argv": [
+   "build",
+   "--open"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_with_library_path::65",
+  "argv": [
+   "test",
+   "--library-path",
+   "/tmp/nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_multiple_options_combined::66",
+  "argv": [
+   "init",
+   "--force",
+   "--title",
+   "Combined Test",
+   "--ignore",
+   "git",
+   "--theme"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_dest_dir_with_spaces::67",
+  "argv": [
+   "build",
+   "--dest-dir",
+   "my output dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_version::68",
+  "argv": [
+   "completions",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_invalid_shell::69",
+  "argv": [
+   "completions",
+   "invalid-shell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clean_nonexistent_directory::70",
+  "argv": [
+   "clean",
+   "/nonexistent/path/that/does/not/exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_destination_is_source::71",
+  "argv": [
+   "build",
+   "--dest-dir",
+   "src"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_with_chapter_filter_flag::72",
+  "argv": [
+   "test",
+   "-c",
+   "ch1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_subcommand_shows_error::73",
+  "argv": [
+   "biuld"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_all_flags_combined::74",
+  "argv": [
+   "init",
+   "--force",
+   "--title",
+   "Combined Test",
+   "--theme",
+   "--ignore",
+   "git"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_no_prompt_variants::75",
+  "argv": [
+   "init",
+   "--force",
+   "--ignore"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_init_scenarios::76",
+  "argv": [
+   "init",
+   "--force",
+   "--title",
+   "Title Only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_and_build_cycle::77",
+  "argv": [
+   "init",
+   "--force",
+   "--title"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_title::78",
+  "argv": [
+   "init",
+   "--force",
+   "--title",
+   "My Test Book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_all_options::79",
+  "argv": [
+   "init",
+   "--force",
+   "--title",
+   "Full Options Test",
+   "--ignore",
+   "git",
+   "--theme"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comprehensive_workflow::80",
+  "argv": [
+   "init",
+   "--force",
+   "--title",
+   "Comprehensive",
+   "--ignore",
+   "git"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_with_dest_dir::81",
+  "argv": [
+   "test",
+   "--dest-dir",
+   "test_output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_version::82",
+  "argv": [
+   "test",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_watch_version::83",
+  "argv": [
+   "watch",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_serve_version::84",
+  "argv": [
+   "serve",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_watch_without_book::85",
+  "argv": [
+   "watch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_serve_without_book::86",
+  "argv": [
+   "serve"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_command::87",
+  "argv": [
+   "invalid_command_xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_for_build::88",
+  "argv": [
+   "help",
+   "build"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_for_test::89",
+  "argv": [
+   "help",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_for_clean::90",
+  "argv": [
+   "help",
+   "clean"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_for_completions::91",
+  "argv": [
+   "help",
+   "completions"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_for_watch::92",
+  "argv": [
+   "help",
+   "watch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_for_serve::93",
+  "argv": [
+   "help",
+   "serve"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_invalid_shell::94",
+  "argv": [
+   "completions",
+   "invalid_shell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_creates_default_config::95",
+  "argv": [
+   "init",
+   "--title",
+   "Test Book",
+   "--force"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_command_with_library_path::96",
+  "argv": [
+   "test",
+   "--library-path",
+   "/tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_existing_files_no_force::97",
+  "argv": [
+   "init"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_combined_options::98",
+  "argv": [
+   "init",
+   "--force",
+   "--title",
+   "Test Book",
+   "--ignore",
+   "git"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_gitignore_creates_file::99",
+  "argv": [
+   "init",
+   "--ignore",
+   "git",
+   "--force"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_ignore_none::100",
+  "argv": [
+   "init",
+   "--ignore",
+   "none",
+   "--force"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_directory_structure::101",
+  "argv": [
+   "init",
+   "--title",
+   "My Book",
+   "--force"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_respects_title_in_toml::102",
+  "argv": [
+   "init",
+   "--title",
+   "Custom Title",
+   "--force"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_theme_creates_theme_dir::103",
+  "argv": [
+   "init",
+   "--theme",
+   "--force"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_with_dest_dir::104",
+  "argv": [
+   "test",
+   "--dest-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_with_chapter_filter::105",
+  "argv": [
+   "test",
+   "-c",
+   "Chapter 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_with_multiple_library_paths::106",
+  "argv": [
+   "test",
+   "-L",
+   "/tmp,/opt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

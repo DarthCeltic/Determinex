@@ -1,0 +1,2066 @@
+[
+ {
+  "name": "test::test_config_parsing_various_formats::0",
+  "argv": [
+   "--config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encryption_marker_file_content::1",
+  "argv": [
+   "--config",
+   "config.ini",
+   "--log-dir-path",
+   "--encrypt",
+   "--password",
+   "testpass123"
+  ],
+  "stdin": null,
+  "files": {
+   "config.ini": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decrypt_validates_password::2",
+  "argv": [
+   "--config",
+   "config.ini",
+   "--log-dir-path",
+   "--encrypt",
+   "--password",
+   "correctpass"
+  ],
+  "stdin": null,
+  "files": {
+   "config.ini": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decrypt_multiple_year_dirs::3",
+  "argv": [
+   "--config",
+   "config.ini",
+   "--log-dir-path",
+   "--encrypt",
+   "--password",
+   "pass"
+  ],
+  "stdin": null,
+  "files": {
+   "config.ini": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_with_various_markdown_elements::4",
+  "argv": [
+   "--config",
+   "config.ini",
+   "--log-dir-path"
+  ],
+  "stdin": null,
+  "files": {
+   "config.ini": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_first_line_section_flag::5",
+  "argv": [
+   "--config",
+   "config.ini",
+   "--log-dir-path",
+   "--first-line-section"
+  ],
+  "stdin": null,
+  "files": {
+   "config.ini": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_message_complete::6",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encryption_with_multiple_file_formats::7",
+  "argv": [
+   "--config",
+   "config.ini",
+   "--log-dir-path",
+   "--encrypt",
+   "--password",
+   "testpass"
+  ],
+  "stdin": null,
+  "files": {
+   "config.ini": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decryption_with_multiple_years::8",
+  "argv": [
+   "--config",
+   "config.ini",
+   "--log-dir-path",
+   "--encrypt",
+   "--password",
+   "pass123"
+  ],
+  "stdin": null,
+  "files": {
+   "config.ini": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_short::9",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unrecognized_option::10",
+  "argv": [
+   "--nonexistent-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_option_format::11",
+  "argv": [
+   "---triple-dash"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_log_filename_format::12",
+  "argv": [
+   "--config",
+   "--encrypt",
+   "--password",
+   "pass"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encryption_with_very_long_password::13",
+  "argv": [
+   "--config",
+   "config.ini",
+   "--log-dir-path",
+   "--encrypt",
+   "--password"
+  ],
+  "stdin": null,
+  "files": {
+   "config.ini": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_empty_log_dir_path::14",
+  "argv": [
+   "--config",
+   "config.ini"
+  ],
+  "stdin": null,
+  "files": {
+   "config.ini": "\nlog-dir-path=\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_override::15",
+  "argv": [
+   "--config",
+   "custom_config.ini",
+   "--log-dir-path"
+  ],
+  "stdin": null,
+  "files": {
+   "custom_config.ini": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cli_overrides_config::16",
+  "argv": [
+   "--config",
+   "--log-dir-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encrypt_without_password_fails::17",
+  "argv": [
+   "--config",
+   "config.ini",
+   "--log-dir-path",
+   "--encrypt"
+  ],
+  "stdin": null,
+  "files": {
+   "config.ini": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decrypt_without_password_fails::18",
+  "argv": [
+   "--config",
+   "config.ini",
+   "--log-dir-path",
+   "--decrypt"
+  ],
+  "stdin": null,
+  "files": {
+   "config.ini": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encrypt_with_short_password::19",
+  "argv": [
+   "--config",
+   "config.ini",
+   "--log-dir-path",
+   "--encrypt",
+   "--password",
+   "a"
+  ],
+  "stdin": null,
+  "files": {
+   "config.ini": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encrypt_with_special_chars_in_password::20",
+  "argv": [
+   "--config",
+   "config.ini",
+   "--log-dir-path",
+   "--encrypt",
+   "--password",
+   "p@ssw0rd!#$%^&*()"
+  ],
+  "stdin": null,
+  "files": {
+   "config.ini": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decrypt_with_wrong_password::21",
+  "argv": [
+   "--config",
+   "config.ini",
+   "--log-dir-path",
+   "--encrypt",
+   "--password",
+   "correct"
+  ],
+  "stdin": null,
+  "files": {
+   "config.ini": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_with_invalid_path::22",
+  "argv": [
+   "--config",
+   "/nonexistent/path/config.ini"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_scratchpad_path::23",
+  "argv": [
+   "--config",
+   "config.ini"
+  ],
+  "stdin": null,
+  "files": {
+   "config.ini": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_filename_format_edge_cases::24",
+  "argv": [
+   "--config",
+   "config.ini",
+   "--log-dir-path",
+   "--log-name-format"
+  ],
+  "stdin": null,
+  "files": {
+   "config.ini": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sunday_start_with_log_entries::25",
+  "argv": [
+   "--config",
+   "config.ini",
+   "--log-dir-path",
+   "--sunday-start"
+  ],
+  "stdin": null,
+  "files": {
+   "config.ini": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encrypt_many_files::26",
+  "argv": [
+   "--config",
+   "config.ini",
+   "--log-dir-path",
+   "--encrypt",
+   "--password",
+   "multipass"
+  ],
+  "stdin": null,
+  "files": {
+   "config.ini": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encrypt_multiple_years_comprehensive::27",
+  "argv": [
+   "--config",
+   "config.ini",
+   "--log-dir-path",
+   "--encrypt",
+   "--password",
+   "yearpass"
+  ],
+  "stdin": null,
+  "files": {
+   "config.ini": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decrypt_multiple_years_comprehensive::28",
+  "argv": [
+   "--config",
+   "config.ini",
+   "--log-dir-path",
+   "--encrypt",
+   "--password",
+   "multiyr"
+  ],
+  "stdin": null,
+  "files": {
+   "config.ini": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encrypt_with_special_char_password::29",
+  "argv": [
+   "--config",
+   "config.ini",
+   "--log-dir-path",
+   "--encrypt",
+   "--password",
+   "p@ss!w0rd#$%"
+  ],
+  "stdin": null,
+  "files": {
+   "config.ini": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_flags::30",
+  "argv": [
+   "--config",
+   "config.ini",
+   "--log-dir-path",
+   "--sunday-start",
+   "--first-line-section"
+  ],
+  "stdin": null,
+  "files": {
+   "config.ini": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decryption_empty_directory::31",
+  "argv": [
+   "--config",
+   "config.ini",
+   "--log-dir-path",
+   "--decrypt",
+   "--password",
+   "testpass"
+  ],
+  "stdin": null,
+  "files": {
+   "config.ini": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_password::32",
+  "argv": [
+   "--config",
+   "config.ini",
+   "--log-dir-path",
+   "--encrypt",
+   "--password",
+   ""
+  ],
+  "stdin": null,
+  "files": {
+   "config.ini": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_dir_as_file_produces_error::33",
+  "argv": [
+   "--config",
+   "config.ini",
+   "--log-dir-path",
+   "notadir.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "config.ini": "",
+   "notadir.txt": "I am a file"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_flags_work_together::34",
+  "argv": [
+   "--config",
+   "config.ini",
+   "--log-dir-path",
+   "--log-name-format",
+   "log_%Y_%m_%d.md",
+   "--sunday-start",
+   "--first-line-section"
+  ],
+  "stdin": null,
+  "files": {
+   "config.ini": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_path_with_spaces_works::35",
+  "argv": [
+   "--config",
+   "config with spaces.ini",
+   "--log-dir-path"
+  ],
+  "stdin": null,
+  "files": {
+   "config with spaces.ini": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encrypt_requires_password::36",
+  "argv": [
+   "--log-dir-path",
+   "--encrypt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decrypt_non_encrypted_fails::37",
+  "argv": [
+   "--config",
+   "config.ini",
+   "--log-dir-path",
+   "--decrypt",
+   "--password",
+   "testpass123"
+  ],
+  "stdin": null,
+  "files": {
+   "config.ini": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wrong_password_decrypt::38",
+  "argv": [
+   "--config",
+   "config.ini",
+   "--log-dir-path",
+   "--encrypt",
+   "--password",
+   "correct_password"
+  ],
+  "stdin": null,
+  "files": {
+   "config.ini": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encryption_with_custom_filename_format::39",
+  "argv": [
+   "--config",
+   "config.ini",
+   "--log-dir-path",
+   "--log-name-format",
+   "log_%Y_%m_%d.txt",
+   "--encrypt",
+   "--password",
+   "testpass123"
+  ],
+  "stdin": null,
+  "files": {
+   "config.ini": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_config_file_format::40",
+  "argv": [
+   "--config",
+   "config.ini"
+  ],
+  "stdin": null,
+  "files": {
+   "config.ini": "\n[incomplete section\nmissing bracket\nfgcolor=invalid\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encrypt_decrypt_cycle_comprehensive::41",
+  "argv": [
+   "--config",
+   "config.ini",
+   "--log-dir-path",
+   "--encrypt",
+   "--password",
+   "comprehensive_pass"
+  ],
+  "stdin": null,
+  "files": {
+   "config.ini": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encryption_with_long_content::42",
+  "argv": [
+   "--config",
+   "config.ini",
+   "--log-dir-path",
+   "--encrypt",
+   "--password",
+   "longpass"
+  ],
+  "stdin": null,
+  "files": {
+   "config.ini": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encrypt_single_file_multiple_times::43",
+  "argv": [
+   "--config",
+   "config.ini",
+   "--log-dir-path",
+   "--encrypt",
+   "--password",
+   "pass1"
+  ],
+  "stdin": null,
+  "files": {
+   "config.ini": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decrypt_non_encrypted_repository::44",
+  "argv": [
+   "--config",
+   "config.ini",
+   "--log-dir-path",
+   "--decrypt",
+   "--password",
+   "anypass"
+  ],
+  "stdin": null,
+  "files": {
+   "config.ini": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_password_with_unicode::45",
+  "argv": [
+   "--config",
+   "config.ini",
+   "--log-dir-path",
+   "--encrypt",
+   "--password",
+   "пароль密码"
+  ],
+  "stdin": null,
+  "files": {
+   "config.ini": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decrypt_without_marker_file::46",
+  "argv": [
+   "--config",
+   "config.ini",
+   "--log-dir-path",
+   "--decrypt",
+   "--password",
+   "somepass"
+  ],
+  "stdin": null,
+  "files": {
+   "config.ini": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unrecognized_option::47",
+  "argv": [
+   "--nonexistent-option"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decrypt_non_encrypted::48",
+  "argv": [
+   "--config",
+   "config.ini",
+   "--log-dir-path",
+   "--decrypt",
+   "--password",
+   "pass"
+  ],
+  "stdin": null,
+  "files": {
+   "config.ini": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_malformed::49",
+  "argv": [
+   "--config",
+   "config.ini",
+   "--log-dir-path"
+  ],
+  "stdin": null,
+  "files": {
+   "config.ini": "\n[unclosed section\nkey=value\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decryption_round_trip_multiple_years::50",
+  "argv": [
+   "--config",
+   "config.ini",
+   "--log-dir-path",
+   "--encrypt",
+   "--password",
+   "mypassword"
+  ],
+  "stdin": null,
+  "files": {
+   "config.ini": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encryption_with_special_chars_in_password::51",
+  "argv": [
+   "--config",
+   "config.ini",
+   "--log-dir-path",
+   "--encrypt",
+   "--password",
+   "p@ss!w0rd#$%^&*()"
+  ],
+  "stdin": null,
+  "files": {
+   "config.ini": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_password_in_file::52",
+  "argv": [
+   "--config",
+   "--encrypt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_line_password_overrides_config::53",
+  "argv": [
+   "--config",
+   "--encrypt",
+   "--password",
+   "cmdlinepass"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_scratchpad_folder_name::54",
+  "argv": [
+   "--config",
+   "--log-dir-path",
+   "--encrypt",
+   "--password",
+   "testpass"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_with_custom_log_name_format::55",
+  "argv": [
+   "--config",
+   "config.ini",
+   "--log-dir-path",
+   "--log-name-format",
+   "log_%Y_%m_%d.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "config.ini": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_git_disabled::56",
+  "argv": [
+   "--config",
+   "--encrypt",
+   "--password",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_combination::57",
+  "argv": [
+   "--invalid-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_flag_with_nonexistent_file::58",
+  "argv": [
+   "--config",
+   "/tmp/nonexistent_config_12345.ini"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_dir_path_flag::59",
+  "argv": [
+   "--config",
+   "--log-dir-path",
+   "--encrypt",
+   "--password",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_name_format_flag::60",
+  "argv": [
+   "--config",
+   "--log-dir-path",
+   "--log-name-format",
+   "%Y_%m_%d.md",
+   "--encrypt",
+   "--password",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sunday_start_flag::61",
+  "argv": [
+   "--config",
+   "--sunday-start",
+   "--encrypt",
+   "--password",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_first_line_section_flag::62",
+  "argv": [
+   "--config",
+   "--first-line-section",
+   "--encrypt",
+   "--password",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_password_flag::63",
+  "argv": [
+   "--config",
+   "--log-dir-path",
+   "--password",
+   "mypassword",
+   "--encrypt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_flags_combination::64",
+  "argv": [
+   "--config",
+   "--log-dir-path",
+   "--log-name-format",
+   "d%y_%m_%d.md",
+   "--password",
+   "testpass",
+   "--encrypt",
+   "--sunday-start",
+   "--first-line-section"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_with_config_specified::65",
+  "argv": [
+   "--config",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encrypt_empty_directory::66",
+  "argv": [
+   "--config",
+   "--log-dir-path",
+   "--encrypt",
+   "--password",
+   "test123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decrypt_empty_directory::67",
+  "argv": [
+   "--config",
+   "--log-dir-path",
+   "--decrypt",
+   "--password",
+   "test123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_password_with_spaces::68",
+  "argv": [
+   "--config",
+   "--log-dir-path",
+   "--encrypt",
+   "--password",
+   "my pass word"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encrypt_twice_different_password::69",
+  "argv": [
+   "--config",
+   "--log-dir-path",
+   "--encrypt",
+   "--password",
+   "pass1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decrypt_non_encrypted_fails::70",
+  "argv": [
+   "--config",
+   "--log-dir-path",
+   "--decrypt",
+   "--password",
+   "anypass"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read_encrypted_log_with_password::71",
+  "argv": [
+   "--config",
+   "--log-dir-path",
+   "--encrypt",
+   "--password",
+   "mysecret123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encrypted_log_wrong_password_error::72",
+  "argv": [
+   "--config",
+   "--log-dir-path",
+   "--encrypt",
+   "--password",
+   "correct_pass"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_password_for_non_encrypted_repo_error::73",
+  "argv": [
+   "--config",
+   "--log-dir-path",
+   "--password",
+   "unnecessary_pass"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_password_for_encrypted_repo::74",
+  "argv": [
+   "--config",
+   "--log-dir-path",
+   "--encrypt",
+   "--password",
+   "mypass"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decrypt_restores_original_content::75",
+  "argv": [
+   "--config",
+   "--log-dir-path",
+   "--encrypt",
+   "--password",
+   "testpass123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encrypt_decrypt_with_special_chars_password::76",
+  "argv": [
+   "--config",
+   "--log-dir-path",
+   "--encrypt",
+   "--password",
+   "p@ssw0rd!#$%^&*()"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encrypt_multiple_files_same_operation::77",
+  "argv": [
+   "--config",
+   "--log-dir-path",
+   "--encrypt",
+   "--password",
+   "multipass"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decrypt_multiple_files::78",
+  "argv": [
+   "--config",
+   "--log-dir-path",
+   "--encrypt",
+   "--password",
+   "pass123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encrypt_with_subdirectories::79",
+  "argv": [
+   "--config",
+   "--log-dir-path",
+   "--encrypt",
+   "--password",
+   "yearspass"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encrypt_with_binary_like_content::80",
+  "argv": [
+   "--config",
+   "--log-dir-path",
+   "--encrypt",
+   "--password",
+   "bintest"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encryption_respects_custom_log_format::81",
+  "argv": [
+   "--config",
+   "--log-dir-path",
+   "--log-name-format",
+   "d%y_%m_%d.md",
+   "--encrypt",
+   "--password",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_flags_log_dir_and_format::82",
+  "argv": [
+   "--config",
+   "--log-dir-path",
+   "--log-name-format",
+   "d%y_%m_%d.md",
+   "--encrypt",
+   "--password",
+   "secretpass"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_password_flag_takes_precedence::83",
+  "argv": [
+   "--config",
+   "--encrypt",
+   "--password",
+   "correctpass"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encrypt_without_password_fails::84",
+  "argv": [
+   "--config",
+   "--log-dir-path",
+   "--encrypt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decrypt_without_password_fails::85",
+  "argv": [
+   "--config",
+   "--log-dir-path",
+   "--decrypt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decrypt_unencrypted_fails::86",
+  "argv": [
+   "--config",
+   "--log-dir-path",
+   "--decrypt",
+   "--password",
+   "testpass"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encrypt_with_custom_filename_format::87",
+  "argv": [
+   "--config",
+   "--log-dir-path",
+   "--log-name-format",
+   "log_%y_%m_%d.txt",
+   "--encrypt",
+   "--password",
+   "testpass"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decrypt_with_wrong_password_no_validation::88",
+  "argv": [
+   "--config",
+   "--log-dir-path",
+   "--encrypt",
+   "--password",
+   "correct"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decrypt_nonexistent_directory::89",
+  "argv": [
+   "--config",
+   "--log-dir-path",
+   "--decrypt",
+   "--password",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encrypt_very_long_password::90",
+  "argv": [
+   "--config",
+   "--log-dir-path",
+   "--encrypt",
+   "--password"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encryption_with_symlinks::91",
+  "argv": [
+   "--log-dir-path",
+   "--encrypt",
+   "--password",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scratchpad_with_encrypted_repo::92",
+  "argv": [
+   "--config",
+   "--encrypt",
+   "--password",
+   "testpass"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_help_screen::93",
+  "argv": [
+   "tmux",
+   "kill-session",
+   "-t",
+   "test_help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_navigation_keys::94",
+  "argv": [
+   "tmux",
+   "kill-session",
+   "-t",
+   "test_nav"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_year_navigation::95",
+  "argv": [
+   "tmux",
+   "kill-session",
+   "-t",
+   "test_year"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_tab_navigation::96",
+  "argv": [
+   "tmux",
+   "kill-session",
+   "-t",
+   "test_tab"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_scratchpad_toggle::97",
+  "argv": [
+   "tmux",
+   "kill-session",
+   "-t",
+   "test_scratch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_with_hjkl_navigation::98",
+  "argv": [
+   "tmux",
+   "kill-session",
+   "-t",
+   "test_hjkl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_with_sections_and_tags_navigation::99",
+  "argv": [
+   "tmux",
+   "kill-session",
+   "-t",
+   "test_sections"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_calendar_date_highlighting::100",
+  "argv": [
+   "tmux",
+   "kill-session",
+   "-t",
+   "test_highlight"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_with_calendar_events_display::101",
+  "argv": [
+   "tmux",
+   "kill-session",
+   "-t",
+   "test_events"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_with_markdown_preview::102",
+  "argv": [
+   "tmux",
+   "kill-session",
+   "-t",
+   "test_markdown"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_tag_filtering::103",
+  "argv": [
+   "tmux",
+   "kill-session",
+   "-t",
+   "test_tags"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_with_multiple_screen_refreshes::104",
+  "argv": [
+   "tmux",
+   "kill-session",
+   "-t",
+   "test_refresh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_extended_navigation_sequence::105",
+  "argv": [
+   "tmux",
+   "kill-session",
+   "-t",
+   "test_extended"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_scratchpad_navigation::106",
+  "argv": [
+   "tmux",
+   "kill-session",
+   "-t",
+   "test_scratchpad_nav"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_with_sunday_start_rendering::107",
+  "argv": [
+   "tmux",
+   "kill-session",
+   "-t",
+   "test_sunday"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_with_first_line_section_parsing::108",
+  "argv": [
+   "tmux",
+   "kill-session",
+   "-t",
+   "test_firstline"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_multiple_years_navigation::109",
+  "argv": [
+   "tmux",
+   "kill-session",
+   "-t",
+   "test_multiyear"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_complex_markdown_rendering::110",
+  "argv": [
+   "tmux",
+   "kill-session",
+   "-t",
+   "test_complex_md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_long_running_session::111",
+  "argv": [
+   "tmux",
+   "kill-session",
+   "-t",
+   "test_long"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_with_all_calendar_months::112",
+  "argv": [
+   "tmux",
+   "kill-session",
+   "-t",
+   "test_allmonths"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_dense_log_data::113",
+  "argv": [
+   "tmux",
+   "kill-session",
+   "-t",
+   "test_dense"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_with_many_tags::114",
+  "argv": [
+   "tmux",
+   "kill-session",
+   "-t",
+   "test_manytags"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_comprehensive_workflow::115",
+  "argv": [
+   "tmux",
+   "kill-session",
+   "-t",
+   "test_comprehensive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_all_vim_keys::116",
+  "argv": [
+   "tmux",
+   "kill-session",
+   "-t",
+   "test_vim"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_very_long_session::117",
+  "argv": [
+   "tmux",
+   "kill-session",
+   "-t",
+   "test_verylong"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_takes_precedence_over_other_flags::118",
+  "argv": [
+   "--help",
+   "--encrypt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_with_help_prints_error_and_nonzero::119",
+  "argv": [
+   "--badflag",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_positional_is_not_a_subcommand_and_errors::120",
+  "argv": [
+   "nonexistent_subcommand"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encrypt_requires_password_exit1_and_stderr::121",
+  "argv": [
+   "--encrypt",
+   "--config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encrypt_creates_marker_file_and_prints_banner::122",
+  "argv": [
+   "--encrypt",
+   "--password",
+   "secret",
+   "--config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decrypt_with_wrong_password_still_exit0_but_corrupts_plaintext::123",
+  "argv": [
+   "--decrypt",
+   "--password",
+   "wrong",
+   "--config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_custom_branch_name::124",
+  "argv": [
+   "git",
+   "checkout",
+   "-b",
+   "main"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commit_and_push_on_quit::125",
+  "argv": [
+   "git",
+   "log",
+   "--oneline"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_commit_when_no_changes::126",
+  "argv": [
+   "git",
+   "rev-list",
+   "--count",
+   "HEAD"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pull_on_startup_fetches_remote_changes::127",
+  "argv": [
+   "git",
+   "config",
+   "user.email",
+   "test@example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commit_message_format::128",
+  "argv": [
+   "git",
+   "log",
+   "-1",
+   "--pretty=%s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_signature_from_repo_config::129",
+  "argv": [
+   "git",
+   "config",
+   "user.name",
+   "Caps Log Tester"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_handles_deleted_files::130",
+  "argv": [
+   "git",
+   "add",
+   "2026-01-15.md"
+  ],
+  "stdin": null,
+  "files": {
+   "2026-01-15.md": "# Test log to be deleted\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_untracked_files_are_staged::131",
+  "argv": [
+   "git",
+   "log",
+   "-1",
+   "--name-only",
+   "--pretty=format:"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_modified_and_untracked_files_together::132",
+  "argv": [
+   "git",
+   "add",
+   "2026-01-10.md"
+  ],
+  "stdin": null,
+  "files": {
+   "2026-01-10.md": "# Modified content\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subdirectories_in_log_dir::133",
+  "argv": [
+   "git",
+   "ls-tree",
+   "-r",
+   "--name-only",
+   "HEAD",
+   "logs/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_ssh_key_file::134",
+  "argv": [
+   "git",
+   "init"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_commit_with_many_files::135",
+  "argv": [
+   "git",
+   "diff-tree",
+   "--no-commit-id",
+   "--name-only",
+   "-r",
+   "HEAD"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_deletion_tracked_in_commit::136",
+  "argv": [
+   "git",
+   "add",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_boolean_flag_rejects_value_with_equals::137",
+  "argv": [
+   "--encrypt=foo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

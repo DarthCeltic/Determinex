@@ -1,0 +1,3607 @@
+[
+ {
+  "name": "test::test_nested_ref_resolution_with_different_path_formats::0",
+  "argv": [
+   "/workspace/./executable",
+   "folderA/schema.json",
+   "--instance",
+   "instance.json",
+   "--output",
+   "flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag::1",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_flag::2",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::3",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_short_flag::4",
+  "argv": [
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_paths::5",
+  "argv": [
+   "./schema.json",
+   "-i",
+   "./instance.json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_schema_file::6",
+  "argv": [
+   "/nonexistent/schema.json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_json_schema::7",
+  "argv": [
+   "schema.json"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{ invalid json }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_schema_file::8",
+  "argv": [
+   "schema.json"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_args_requires_schema::9",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_is_rejected::10",
+  "argv": [
+   "--nonexistent-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_takes_precedence_over_unknown_flag_when_first::11",
+  "argv": [
+   "--help",
+   "--no-such-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_errors_when_before_help::12",
+  "argv": [
+   "--no-such-flag",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_prevents_help_flag_parsing::13",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_text_output_valid_and_invalid_exit_codes_and_messages::14",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "{\"a\": 1}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_errors_only_suppresses_valid_output::15",
+  "argv": [
+   "schema.json",
+   "-i",
+   "inst.json",
+   "--errors-only"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\":\"object\"}\n",
+   "inst.json": "{\"x\": 1}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_flag_is_json_and_has_expected_keys::16",
+  "argv": [
+   "schema.json",
+   "-i",
+   "inst.json",
+   "--output",
+   "flag"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\":\"integer\"}\n",
+   "inst.json": "\"x\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_instance_file_is_error_on_stderr_and_exit_1::17",
+  "argv": [
+   "schema.json",
+   "-i"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\":\"integer\"}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_output_option_is_exit_2_and_mentions_possible_values::18",
+  "argv": [
+   "--output",
+   "nope"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_additional_properties_with_pattern_properties::19",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "{\"S_name\": \"test\", \"age\": 30}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_additional_properties_with_properties::20",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "{\"name\": \"John\", \"age\": 30, \"score\": 100}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_items_false_no_additional::21",
+  "argv": [
+   "-i",
+   "invalid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.json": "[1, \"extra\"]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ref_with_anchor::22",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "{\"count\": 5}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_if_then_else_else_branch::23",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "{\"type\": \"normal\", \"normal_field\": true}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dependencies_with_array::24",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "{\"a\": 1, \"b\": 2, \"c\": 3}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dependencies_schema::25",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "{\"a\": 1, \"b\": \"test\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_contains_invalid::26",
+  "argv": [
+   "-i",
+   "invalid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.json": "[1, 2, \"a\", \"b\"]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_contains_invalid::27",
+  "argv": [
+   "-i",
+   "invalid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.json": "[1, 2, 3, \"a\"]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_property_names_maxlength::28",
+  "argv": [
+   "-i",
+   "invalid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.json": "{\"toolong\": \"value\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dependent_required_without_trigger::29",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "{\"other\": \"value\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_oneof_with_not::30",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "\"allowed\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dependencies_keyword::31",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "{\"credit_card\": \"1234\", \"billing_address\": \"123 Main St\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dependencies_keyword_invalid::32",
+  "argv": [
+   "-i",
+   "invalid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.json": "{\"credit_card\": \"1234\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_max_length::33",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "\"hello\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minimum_maximum::34",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "50"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_of::35",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "15"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_of_invalid::36",
+  "argv": [
+   "-i",
+   "invalid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.json": "16"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pattern_validation::37",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "\"123-45-6789\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pattern_validation_invalid::38",
+  "argv": [
+   "-i",
+   "invalid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.json": "\"abc\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_items_array_schema::39",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "[42, \"hello\"]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_additional_items::40",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "[1, \"a\", \"b\"]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_contains::41",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "[1, \"a\", 2]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_contains::42",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "[1, 2, \"a\"]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dependent_schemas::43",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "{\"credit_card\": \"1234\", \"billing_address\": \"123 Main\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dependent_required::44",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "{\"name\": \"John\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_items_valid::45",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "[1, 2, 3]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_items_invalid::46",
+  "argv": [
+   "-i",
+   "invalid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.json": "[1, 2]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_items_invalid::47",
+  "argv": [
+   "-i",
+   "invalid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.json": "[1, 2, 3, 4]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unique_items_valid::48",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "[1, 2, 3, 4]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unique_items_invalid::49",
+  "argv": [
+   "-i",
+   "invalid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.json": "[1, 2, 2, 3]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unique_items_with_objects::50",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "[{\"a\": 1}, {\"a\": 2}]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unique_items_with_duplicate_objects::51",
+  "argv": [
+   "-i",
+   "invalid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.json": "[{\"a\": 1}, {\"a\": 1}]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_items_single_schema::52",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "[\"a\", \"b\", \"c\"]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_items_single_schema_invalid::53",
+  "argv": [
+   "-i",
+   "invalid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.json": "[\"a\", 123, \"c\"]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_contains_valid::54",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "[1, 2, \"hello\", 3]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_contains_invalid::55",
+  "argv": [
+   "-i",
+   "invalid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.json": "[1, 2, 3]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_only_validates_metaschema::56",
+  "argv": [
+   "schema.json"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"string\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minimum_boundary::57",
+  "argv": [
+   "s.json",
+   "-i",
+   "v.json"
+  ],
+  "stdin": null,
+  "files": {
+   "s.json": "{\"type\": \"number\", \"minimum\": 10}",
+   "v.json": "10"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_maximum_boundary::58",
+  "argv": [
+   "s.json",
+   "-i",
+   "v.json"
+  ],
+  "stdin": null,
+  "files": {
+   "s.json": "{\"type\": \"number\", \"maximum\": 10}",
+   "v.json": "10"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclusive_min_boundary::59",
+  "argv": [
+   "s.json",
+   "-i",
+   "i.json"
+  ],
+  "stdin": null,
+  "files": {
+   "s.json": "{\"type\": \"number\", \"exclusiveMinimum\": 10}",
+   "i.json": "10"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclusive_max_boundary::60",
+  "argv": [
+   "s.json",
+   "-i",
+   "i.json"
+  ],
+  "stdin": null,
+  "files": {
+   "s.json": "{\"type\": \"number\", \"exclusiveMaximum\": 10}",
+   "i.json": "10"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_length_boundary::61",
+  "argv": [
+   "s.json",
+   "-i",
+   "v.json"
+  ],
+  "stdin": null,
+  "files": {
+   "s.json": "{\"type\": \"string\", \"minLength\": 3}",
+   "v.json": "\"abc\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_length_boundary::62",
+  "argv": [
+   "s.json",
+   "-i",
+   "v.json"
+  ],
+  "stdin": null,
+  "files": {
+   "s.json": "{\"type\": \"string\", \"maxLength\": 3}",
+   "v.json": "\"abc\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_items_boundary::63",
+  "argv": [
+   "s.json",
+   "-i",
+   "v.json"
+  ],
+  "stdin": null,
+  "files": {
+   "s.json": "{\"type\": \"array\", \"minItems\": 2}",
+   "v.json": "[1, 2]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_items_boundary::64",
+  "argv": [
+   "s.json",
+   "-i",
+   "v.json"
+  ],
+  "stdin": null,
+  "files": {
+   "s.json": "{\"type\": \"array\", \"maxItems\": 2}",
+   "v.json": "[1, 2]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_properties_boundary::65",
+  "argv": [
+   "s.json",
+   "-i",
+   "v.json"
+  ],
+  "stdin": null,
+  "files": {
+   "s.json": "{\"type\": \"object\", \"minProperties\": 2}",
+   "v.json": "{\"a\": 1, \"b\": 2}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_properties_boundary::66",
+  "argv": [
+   "s.json",
+   "-i",
+   "v.json"
+  ],
+  "stdin": null,
+  "files": {
+   "s.json": "{\"type\": \"object\", \"maxProperties\": 2}",
+   "v.json": "{\"a\": 1, \"b\": 2}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pattern_case_sensitive::67",
+  "argv": [
+   "s.json",
+   "-i",
+   "i.json"
+  ],
+  "stdin": null,
+  "files": {
+   "s.json": "{\"type\": \"string\", \"pattern\": \"^test\"}",
+   "i.json": "\"Test\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enum_case_sensitive::68",
+  "argv": [
+   "s.json",
+   "-i",
+   "i.json"
+  ],
+  "stdin": null,
+  "files": {
+   "s.json": "{\"enum\": [\"test\"]}",
+   "i.json": "\"Test\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_const_exact_match::69",
+  "argv": [
+   "s.json",
+   "-i",
+   "i.json"
+  ],
+  "stdin": null,
+  "files": {
+   "s.json": "{\"const\": \"test\"}",
+   "i.json": "\"test \""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_required_empty_array::70",
+  "argv": [
+   "s.json",
+   "-i",
+   "v.json"
+  ],
+  "stdin": null,
+  "files": {
+   "s.json": "{\"type\": \"object\", \"required\": []}",
+   "v.json": "{}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_properties_empty::71",
+  "argv": [
+   "s.json",
+   "-i",
+   "v.json"
+  ],
+  "stdin": null,
+  "files": {
+   "s.json": "{\"type\": \"object\", \"properties\": {}}",
+   "v.json": "{\"any\": \"prop\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_items_empty_array::72",
+  "argv": [
+   "s.json",
+   "-i",
+   "v.json"
+  ],
+  "stdin": null,
+  "files": {
+   "s.json": "{\"type\": \"array\", \"items\": {\"type\": \"number\"}}",
+   "v.json": "[]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_anyof_single::73",
+  "argv": [
+   "s.json",
+   "-i",
+   "v.json"
+  ],
+  "stdin": null,
+  "files": {
+   "s.json": "{\"anyOf\": [{\"type\": \"string\"}]}",
+   "v.json": "\"test\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_oneof_single::74",
+  "argv": [
+   "s.json",
+   "-i",
+   "v.json"
+  ],
+  "stdin": null,
+  "files": {
+   "s.json": "{\"oneOf\": [{\"type\": \"string\"}]}",
+   "v.json": "\"test\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_of_one::75",
+  "argv": [
+   "s.json",
+   "-i",
+   "v.json"
+  ],
+  "stdin": null,
+  "files": {
+   "s.json": "{\"type\": \"number\", \"multipleOf\": 1}",
+   "v.json": "42"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_not_valid::76",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "123"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_not_invalid::77",
+  "argv": [
+   "-i",
+   "invalid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.json": "\"test\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_not_complex::78",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "{\"allowed\": true}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_allof_invalid::79",
+  "argv": [
+   "-i",
+   "invalid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.json": "\"hello\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_allof_multiple::80",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "{\"name\": \"test\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_anyof_invalid::81",
+  "argv": [
+   "-i",
+   "invalid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.json": "[]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_anyof_multiple_match::82",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "5"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_oneof_valid::83",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "10"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_oneof_invalid_none::84",
+  "argv": [
+   "-i",
+   "invalid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.json": "123"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_oneof_invalid_multiple::85",
+  "argv": [
+   "-i",
+   "invalid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.json": "5"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deeply_nested_allof_anyof::86",
+  "argv": [
+   "-i",
+   "v.json"
+  ],
+  "stdin": null,
+  "files": {
+   "v.json": "{\"a\": 1}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pattern_properties_multiple::87",
+  "argv": [
+   "-i",
+   "v.json"
+  ],
+  "stdin": null,
+  "files": {
+   "v.json": "{\"num_a\": 1, \"str_b\": \"x\", \"bool_c\": true}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_contains_with_min_max::88",
+  "argv": [
+   "-i",
+   "v.json"
+  ],
+  "stdin": null,
+  "files": {
+   "v.json": "[1, 2, 3, \"a\", \"b\"]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_if_then_no_else::89",
+  "argv": [
+   "-i",
+   "v.json"
+  ],
+  "stdin": null,
+  "files": {
+   "v.json": "{\"a\": 1, \"b\": 2}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_if_no_then_with_else::90",
+  "argv": [
+   "-i",
+   "v.json"
+  ],
+  "stdin": null,
+  "files": {
+   "v.json": "{\"a\": 2, \"c\": 3}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_refs::91",
+  "argv": [
+   "-i",
+   "v.json"
+  ],
+  "stdin": null,
+  "files": {
+   "v.json": "{\"b\": \"test\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_additional_properties_true::92",
+  "argv": [
+   "-i",
+   "v.json"
+  ],
+  "stdin": null,
+  "files": {
+   "v.json": "{\"name\": \"test\", \"anything\": 123}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unique_items_with_arrays::93",
+  "argv": [
+   "s.json",
+   "-i",
+   "i.json"
+  ],
+  "stdin": null,
+  "files": {
+   "s.json": "{\"type\": \"array\", \"uniqueItems\": true}",
+   "i.json": "[[1, 2], [1, 2]]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enum_with_empty_string::94",
+  "argv": [
+   "s.json",
+   "-i",
+   "v.json"
+  ],
+  "stdin": null,
+  "files": {
+   "s.json": "{\"enum\": [\"\", \"a\", \"b\"]}",
+   "v.json": "\"\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_const_with_array::95",
+  "argv": [
+   "s.json",
+   "-i",
+   "v.json"
+  ],
+  "stdin": null,
+  "files": {
+   "s.json": "{\"const\": [1, 2, 3]}",
+   "v.json": "[1, 2, 3]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_allof_contradictory::96",
+  "argv": [
+   "-i",
+   "i.json"
+  ],
+  "stdin": null,
+  "files": {
+   "i.json": "\"test\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_oneof_three_options::97",
+  "argv": [
+   "-i",
+   "v.json"
+  ],
+  "stdin": null,
+  "files": {
+   "v.json": "\"hello\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_anyof_all_match::98",
+  "argv": [
+   "-i",
+   "v.json"
+  ],
+  "stdin": null,
+  "files": {
+   "v.json": "50"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_not_with_allof::99",
+  "argv": [
+   "-i",
+   "v.json"
+  ],
+  "stdin": null,
+  "files": {
+   "v.json": "\"ab\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_not_with_anyof::100",
+  "argv": [
+   "-i",
+   "v.json"
+  ],
+  "stdin": null,
+  "files": {
+   "v.json": "true"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_oneof_allof::101",
+  "argv": [
+   "-i",
+   "v.json"
+  ],
+  "stdin": null,
+  "files": {
+   "v.json": "15"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_property_dependencies_complex::102",
+  "argv": [
+   "-i",
+   "v.json"
+  ],
+  "stdin": null,
+  "files": {
+   "v.json": "{\"a\": \"x\", \"b\": 1, \"c\": true}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prefix_items_with_additional::103",
+  "argv": [
+   "-i",
+   "v.json"
+  ],
+  "stdin": null,
+  "files": {
+   "v.json": "[\"a\", 1, true, false]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pattern_with_anchors::104",
+  "argv": [
+   "s.json",
+   "-i",
+   "i.json"
+  ],
+  "stdin": null,
+  "files": {
+   "s.json": "{\"type\": \"string\", \"pattern\": \"^[a-z]+$\"}",
+   "i.json": "\"abc123\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_max_length_equal::105",
+  "argv": [
+   "s.json",
+   "-i",
+   "v.json"
+  ],
+  "stdin": null,
+  "files": {
+   "s.json": "{\"type\": \"string\", \"minLength\": 5, \"maxLength\": 5}",
+   "v.json": "\"hello\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_person_schema::106",
+  "argv": [
+   "-i"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_anyof_allof::107",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "{\"type\": \"A\", \"value_a\": 123}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_validation_comprehensive::108",
+  "argv": [
+   "-i",
+   "--assert-format"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_tuple_validation::109",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "[\"hello\", 42, true]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_property_names_pattern::110",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "{\"Name\": \"value\", \"Age\": 30}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_types::111",
+  "argv": [
+   "-i",
+   "valid1.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid1.json": "\"text\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_draft_4_enforcement::112",
+  "argv": [
+   "schema.json",
+   "-i",
+   "instance.json",
+   "--draft",
+   "4"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"string\"}",
+   "instance.json": "\"test\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_draft_6_enforcement::113",
+  "argv": [
+   "-i",
+   "instance.json",
+   "--draft",
+   "6"
+  ],
+  "stdin": null,
+  "files": {
+   "instance.json": "\"specific value\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_draft_7_enforcement::114",
+  "argv": [
+   "-i",
+   "instance.json",
+   "--draft",
+   "7"
+  ],
+  "stdin": null,
+  "files": {
+   "instance.json": "\"hello\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_draft_2019_enforcement::115",
+  "argv": [
+   "-i",
+   "instance.json",
+   "--draft",
+   "2019"
+  ],
+  "stdin": null,
+  "files": {
+   "instance.json": "{}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_draft_2020_enforcement::116",
+  "argv": [
+   "-i",
+   "instance.json",
+   "--draft",
+   "2020"
+  ],
+  "stdin": null,
+  "files": {
+   "instance.json": "[]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_draft_short_flag::117",
+  "argv": [
+   "schema.json",
+   "-i",
+   "instance.json",
+   "-d",
+   "7"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"number\"}",
+   "instance.json": "42"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_draft_with_schema_validation::118",
+  "argv": [
+   "schema.json",
+   "--draft",
+   "7"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"string\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_draft_value::119",
+  "argv": [
+   "schema.json",
+   "--draft",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"string\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_schema::120",
+  "argv": [
+   "schema.json",
+   "-i",
+   "instance.json"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{}",
+   "instance.json": "{\"any\": \"value\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_array::121",
+  "argv": [
+   "schema.json",
+   "-i",
+   "instance.json"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"array\"}",
+   "instance.json": "[]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_object::122",
+  "argv": [
+   "schema.json",
+   "-i",
+   "instance.json"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"object\"}",
+   "instance.json": "{}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_string::123",
+  "argv": [
+   "schema.json",
+   "-i",
+   "instance.json"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"string\"}",
+   "instance.json": "\"\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_value::124",
+  "argv": [
+   "schema.json",
+   "-i",
+   "instance.json"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"null\"}",
+   "instance.json": "null"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_boolean_true::125",
+  "argv": [
+   "schema.json",
+   "-i",
+   "instance.json"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "true",
+   "instance.json": "{\"any\": \"value\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_boolean_false::126",
+  "argv": [
+   "schema.json",
+   "-i",
+   "instance.json"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "false",
+   "instance.json": "{\"any\": \"value\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_large_number::127",
+  "argv": [
+   "schema.json",
+   "-i",
+   "instance.json"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"number\"}",
+   "instance.json": "9999999999999999999999999999"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_number::128",
+  "argv": [
+   "schema.json",
+   "-i",
+   "instance.json"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"number\"}",
+   "instance.json": "-42.5"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_string::129",
+  "argv": [
+   "schema.json",
+   "-i",
+   "instance.json"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"string\"}",
+   "instance.json": "\"Hello 世界 🌍\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deeply_nested_object::130",
+  "argv": [
+   "schema.json",
+   "-i"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"object\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deeply_nested_array::131",
+  "argv": [
+   "schema.json",
+   "-i"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"array\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_type_array::132",
+  "argv": [
+   "schema.json",
+   "-i",
+   "instance.json"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"array\"}",
+   "instance.json": "[1, \"string\", true, null, {\"key\": \"value\"}]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_string::133",
+  "argv": [
+   "schema.json",
+   "-i",
+   "instance.json"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"string\"}",
+   "instance.json": "\"Line1\\nLine2\\tTab\\r\\nCRLF\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_value::134",
+  "argv": [
+   "schema.json",
+   "-i",
+   "instance.json"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"number\"}",
+   "instance.json": "0"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_zero::135",
+  "argv": [
+   "schema.json",
+   "-i",
+   "instance.json"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"number\"}",
+   "instance.json": "-0"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scientific_notation::136",
+  "argv": [
+   "schema.json",
+   "-i",
+   "instance.json"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"number\"}",
+   "instance.json": "1.23e10"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enum_string_valid::137",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "\"red\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enum_string_invalid::138",
+  "argv": [
+   "-i",
+   "invalid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.json": "\"yellow\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enum_number::139",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "3"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enum_mixed_types::140",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "\"two\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enum_null::141",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "null"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enum_boolean::142",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "true"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enum_array::143",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "[1, 2]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_const_string::144",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "\"specific value\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_const_invalid::145",
+  "argv": [
+   "-i",
+   "invalid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.json": "\"different value\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_const_number::146",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "42"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_const_object::147",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "{\"key\": \"value\", \"num\": 123}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_errors_only_suppresses_valid_text::148",
+  "argv": [
+   "schema.json",
+   "-i",
+   "valid.json",
+   "--errors-only"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"string\"}",
+   "valid.json": "\"hello\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_errors_only_shows_invalid_text::149",
+  "argv": [
+   "schema.json",
+   "-i",
+   "invalid.json",
+   "--errors-only"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"integer\"}",
+   "invalid.json": "\"not an int\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_errors_only_multiple_instances::150",
+  "argv": [
+   "schema.json",
+   "-i",
+   "valid1.json",
+   "-i",
+   "invalid.json",
+   "-i",
+   "valid2.json",
+   "--errors-only"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"boolean\"}",
+   "valid1.json": "true",
+   "invalid.json": "123",
+   "valid2.json": "false"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_errors_only_flag_output::151",
+  "argv": [
+   "schema.json",
+   "-i",
+   "valid.json",
+   "--errors-only",
+   "--output",
+   "flag"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"number\"}",
+   "valid.json": "3.14"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_errors_only_flag_output_shows_invalid::152",
+  "argv": [
+   "schema.json",
+   "-i",
+   "invalid.json",
+   "--errors-only",
+   "--output",
+   "flag"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"array\"}",
+   "invalid.json": "\"not an array\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_errors_only_list_output::153",
+  "argv": [
+   "schema.json",
+   "-i",
+   "valid.json",
+   "-i",
+   "invalid.json",
+   "--errors-only",
+   "--output",
+   "list"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"string\"}",
+   "valid.json": "\"test\"",
+   "invalid.json": "[]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_errors_only_schema_validation::154",
+  "argv": [
+   "schema.json",
+   "--errors-only"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"object\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_errors_only_invalid_schema::155",
+  "argv": [
+   "schema.json",
+   "--errors-only"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"invalid_type\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_errors_only_hierarchical_output::156",
+  "argv": [
+   "schema.json",
+   "-i",
+   "valid.json",
+   "--errors-only",
+   "--output",
+   "hierarchical"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"null\"}",
+   "valid.json": "null"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assert_format_enables_validation::157",
+  "argv": [
+   "-i",
+   "invalid.json",
+   "--assert-format"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.json": "\"not-an-email\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_assert_format_disables_validation::158",
+  "argv": [
+   "-i",
+   "invalid.json",
+   "--no-assert-format"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.json": "\"not-an-email\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_validation_with_valid_email::159",
+  "argv": [
+   "-i",
+   "valid.json",
+   "--assert-format"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "\"user@example.com\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_validation_date_time::160",
+  "argv": [
+   "-i",
+   "valid.json",
+   "--assert-format"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "\"2023-01-01T12:00:00Z\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_validation_ipv4::161",
+  "argv": [
+   "-i",
+   "valid.json",
+   "--assert-format"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "\"192.168.1.1\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_validation_uri::162",
+  "argv": [
+   "-i",
+   "valid.json",
+   "--assert-format"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "\"https://example.com\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_validation_with_draft::163",
+  "argv": [
+   "-i",
+   "instance.json",
+   "--draft",
+   "7",
+   "--assert-format"
+  ],
+  "stdin": null,
+  "files": {
+   "instance.json": "\"user@example.com\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_override_assert_then_no_assert::164",
+  "argv": [
+   "-i",
+   "invalid.json",
+   "--assert-format",
+   "--no-assert-format"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.json": "\"not-an-email\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_timeout_option::165",
+  "argv": [
+   "schema.json",
+   "--timeout",
+   "30"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"string\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_connect_timeout_option::166",
+  "argv": [
+   "schema.json",
+   "--connect-timeout",
+   "10"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"integer\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_insecure_flag::167",
+  "argv": [
+   "schema.json",
+   "--insecure"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"boolean\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_insecure_short_flag::168",
+  "argv": [
+   "schema.json",
+   "-k"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"array\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cacert_option_nonexistent_file::169",
+  "argv": [
+   "schema.json",
+   "--cacert",
+   "/nonexistent/cert.pem"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"string\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_http_options_combined::170",
+  "argv": [
+   "schema.json",
+   "-i",
+   "instance.json",
+   "--timeout",
+   "30",
+   "--connect-timeout",
+   "10",
+   "--insecure"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"null\"}",
+   "instance.json": "null"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_timeout_negative::171",
+  "argv": [
+   "schema.json",
+   "--timeout=-1"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"string\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_timeout_not_a_number::172",
+  "argv": [
+   "schema.json",
+   "--timeout",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"string\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_connect_timeout_negative::173",
+  "argv": [
+   "schema.json",
+   "--connect-timeout=-5"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"string\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_timeout_with_instance_validation::174",
+  "argv": [
+   "schema.json",
+   "-i",
+   "instance.json",
+   "--timeout",
+   "15"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"object\"}",
+   "instance.json": "{}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_options_with_structured_output::175",
+  "argv": [
+   "schema.json",
+   "--timeout",
+   "20",
+   "--output",
+   "flag"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"number\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_timeout_zero_is_valid::176",
+  "argv": [
+   "schema.json",
+   "--timeout",
+   "0"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"string\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_connect_timeout_with_decimals::177",
+  "argv": [
+   "schema.json",
+   "--connect-timeout",
+   "5.5"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"string\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_timeout_with_decimals::178",
+  "argv": [
+   "schema.json",
+   "--timeout",
+   "10.75"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"string\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_valid_instance_validation::179",
+  "argv": [
+   "schema.json",
+   "-i",
+   "instance.json"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"string\"}",
+   "instance.json": "\"hello world\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_instance_validation::180",
+  "argv": [
+   "schema.json",
+   "-i",
+   "instance.json"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"string\"}",
+   "instance.json": "123"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_valid_instances::181",
+  "argv": [
+   "schema.json",
+   "-i",
+   "inst1.json",
+   "-i",
+   "inst2.json"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"number\"}",
+   "inst1.json": "42",
+   "inst2.json": "3.14"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_instances_mixed_validity::182",
+  "argv": [
+   "schema.json",
+   "-i",
+   "valid.json",
+   "-i",
+   "invalid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"integer\"}",
+   "valid.json": "42",
+   "invalid.json": "\"not an integer\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_instance_missing_required_property::183",
+  "argv": [
+   "-i",
+   "instance.json"
+  ],
+  "stdin": null,
+  "files": {
+   "instance.json": "{}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_instance_with_invalid_json::184",
+  "argv": [
+   "schema.json",
+   "-i",
+   "instance.json"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"string\"}",
+   "instance.json": "{invalid json"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_instance_file::185",
+  "argv": [
+   "schema.json",
+   "-i",
+   "/nonexistent/instance.json"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"string\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_instance_flag_output::186",
+  "argv": [
+   "schema.json",
+   "-i",
+   "instance.json",
+   "--output",
+   "flag"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"boolean\"}",
+   "instance.json": "true"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_instance_list_output::187",
+  "argv": [
+   "schema.json",
+   "-i",
+   "instance.json",
+   "--output",
+   "list"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"array\"}",
+   "instance.json": "[1, 2, 3]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_instance_hierarchical_output::188",
+  "argv": [
+   "schema.json",
+   "-i",
+   "instance.json",
+   "--output",
+   "hierarchical"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"null\"}",
+   "instance.json": "null"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_instance_structured_output::189",
+  "argv": [
+   "-i",
+   "instance.json",
+   "--output",
+   "list"
+  ],
+  "stdin": null,
+  "files": {
+   "instance.json": "{\"age\": 200}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_maximum_invalid::190",
+  "argv": [
+   "-i",
+   "invalid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.json": "150"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclusive_minimum_valid::191",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "1"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclusive_minimum_invalid::192",
+  "argv": [
+   "-i",
+   "invalid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.json": "0"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclusive_maximum_valid::193",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "99"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclusive_maximum_invalid::194",
+  "argv": [
+   "-i",
+   "invalid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.json": "100"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_of_valid::195",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "20"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_of_invalid::196",
+  "argv": [
+   "-i",
+   "invalid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.json": "17"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_of_decimal::197",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "1.5"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_integer_type_invalid::198",
+  "argv": [
+   "-i",
+   "invalid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.json": "3.14"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_numbers::199",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "-10"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_properties_invalid::200",
+  "argv": [
+   "-i",
+   "invalid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.json": "{\"a\": 1, \"b\": 2}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_properties_valid::201",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "{\"a\": 1, \"b\": 2}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_properties_invalid::202",
+  "argv": [
+   "-i",
+   "invalid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.json": "{\"a\": 1, \"b\": 2, \"c\": 3}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_required_valid::203",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "{\"name\": \"John\", \"age\": 30}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_required_invalid::204",
+  "argv": [
+   "-i",
+   "invalid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.json": "{\"name\": \"John\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_properties_invalid::205",
+  "argv": [
+   "-i",
+   "invalid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.json": "{\"name\": \"John\", \"age\": \"thirty\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_additional_properties_false::206",
+  "argv": [
+   "-i",
+   "invalid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.json": "{\"name\": \"John\", \"extra\": \"value\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pattern_properties_valid::207",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "{\"S_name\": \"John\", \"I_age\": 30}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pattern_properties_invalid::208",
+  "argv": [
+   "-i",
+   "invalid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.json": "{\"S_name\": 123}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_property_names_valid::209",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "{\"name\": \"value\", \"age\": 30}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_property_names_invalid::210",
+  "argv": [
+   "-i",
+   "invalid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.json": "{\"InvalidName\": \"value\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_text_output_default::211",
+  "argv": [
+   "schema.json",
+   "-i",
+   "instance.json"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"string\"}",
+   "instance.json": "\"hello\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_text_output_explicit::212",
+  "argv": [
+   "schema.json",
+   "-i",
+   "instance.json",
+   "--output",
+   "text"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"integer\"}",
+   "instance.json": "42"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_output_format::213",
+  "argv": [
+   "schema.json",
+   "-i",
+   "instance.json",
+   "--output",
+   "list"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"array\"}",
+   "instance.json": "[1, 2]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hierarchical_output_format::214",
+  "argv": [
+   "schema.json",
+   "-i",
+   "instance.json",
+   "--output",
+   "hierarchical"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"object\"}",
+   "instance.json": "{}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_instances_flag_output::215",
+  "argv": [
+   "schema.json",
+   "-i",
+   "inst1.json",
+   "-i",
+   "inst2.json",
+   "--output",
+   "flag"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"string\"}",
+   "inst1.json": "\"a\"",
+   "inst2.json": "\"b\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_instance_flag_output::216",
+  "argv": [
+   "schema.json",
+   "-i",
+   "instance.json",
+   "--output",
+   "flag"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"number\"}",
+   "instance.json": "\"not a number\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_instance_list_output::217",
+  "argv": [
+   "-i",
+   "instance.json",
+   "--output",
+   "list"
+  ],
+  "stdin": null,
+  "files": {
+   "instance.json": "{}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_validation_structured_output::218",
+  "argv": [
+   "schema.json",
+   "--output",
+   "flag"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"string\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_format_preserves_schema_path::219",
+  "argv": [
+   "schema.json",
+   "-i",
+   "instance.json",
+   "--output",
+   "list"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"null\"}",
+   "instance.json": "null"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_ref_resolution::220",
+  "argv": [
+   "-i",
+   "instance.json"
+  ],
+  "stdin": null,
+  "files": {
+   "instance.json": "{\"name\": \"test\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_anyof_validation::221",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "\"test\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_oneof_validation::222",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "\"ab\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_not_validation::223",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "\"something\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conditional_if_then_else::224",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "{\"type\": \"premium\", \"price\": 100}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pattern_properties::225",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "{\"123\": 456, \"789\": 0}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_additional_properties::226",
+  "argv": [
+   "-i",
+   "invalid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.json": "{\"name\": \"test\", \"extra\": \"value\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_property_names::227",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "{\"abc\": 1, \"def\": 2}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_contains_validation::228",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "[\"a\", \"b\", 1]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enum_validation::229",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "\"green\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_schema_type::230",
+  "argv": [
+   "schema.json"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"invalid_type\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_with_syntax_error::231",
+  "argv": [
+   "schema.json"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"string\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_validation_list_output::232",
+  "argv": [
+   "schema.json",
+   "--output",
+   "list"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"integer\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_validation_hierarchical_output::233",
+  "argv": [
+   "schema.json",
+   "--output",
+   "hierarchical"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"boolean\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_schema_flag_output::234",
+  "argv": [
+   "schema.json",
+   "--output",
+   "flag"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"not_a_type\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_length_invalid::235",
+  "argv": [
+   "-i",
+   "invalid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.json": "\"hi\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_length_invalid::236",
+  "argv": [
+   "-i",
+   "invalid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.json": "\"too long string\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_length_zero::237",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "\"\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pattern_basic::238",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "\"test123\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pattern_complex::239",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "\"user.name@example.com\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_length_unicode::240",
+  "argv": [
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "\"你好世界\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_type::241",
+  "argv": [
+   "schema.json",
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": \"string\"}",
+   "valid.json": "\"test\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_types_with_null::242",
+  "argv": [
+   "schema.json",
+   "-i",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.json": "{\"type\": [\"string\", \"null\"]}",
+   "valid.json": "null"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

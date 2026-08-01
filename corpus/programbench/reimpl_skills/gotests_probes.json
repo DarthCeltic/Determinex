@@ -1,0 +1,2014 @@
+[
+ {
+  "name": "test::test_no_arguments::0",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::1",
+  "argv": [
+   "-version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag::2",
+  "argv": [
+   "-unknown"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_long_flag::3",
+  "argv": [
+   "-nonexistent-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_misspelled_flag::4",
+  "argv": [
+   "-expoted"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_path_with_all_flag::5",
+  "argv": [
+   "-all"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_path_with_exported_flag::6",
+  "argv": [
+   "-exported"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_path_with_only_flag::7",
+  "argv": [
+   "-only",
+   "Test.*"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_generation_flag::8",
+  "argv": [
+   "/tmp/test.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_file_path::9",
+  "argv": [
+   "-all",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\nfunc Add(a, b int) int { return a + b }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_file_paths::10",
+  "argv": [
+   "-all",
+   "test1.go",
+   "test2.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test1.go": "package main\nfunc Add(a, b int) int { return a + b }\n",
+   "test2.go": "package main\nfunc Sub(a, b int) int { return a - b }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_path::11",
+  "argv": [
+   "-all",
+   "/nonexistent/path/file.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_and_exported_flags::12",
+  "argv": [
+   "-all",
+   "-exported",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\nfunc Add(a, b int) int { return a + b }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_only_and_excl_flags::13",
+  "argv": [
+   "-only",
+   "Test.*",
+   "-excl",
+   "Helper.*",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\nfunc Add(a, b int) int { return a + b }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_boolean_flags::14",
+  "argv": [
+   "-all",
+   "-i",
+   "-named",
+   "-parallel",
+   "-use_go_cmp",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\nfunc Add(a, b int) int { return a + b }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ai_flags_combination::15",
+  "argv": [
+   "-ai",
+   "-ai-model",
+   "test-model",
+   "-ai-endpoint",
+   "http://localhost:1234",
+   "-ai-min-cases",
+   "3",
+   "-ai-max-cases",
+   "10",
+   "-all",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\nfunc Add(a, b int) int { return a + b }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_template::16",
+  "argv": [
+   "-template",
+   "nonexistent_template",
+   "-all",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\nfunc Add(a, b int) int { return a + b }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_template_dir::17",
+  "argv": [
+   "-template_dir",
+   "/nonexistent/template/dir",
+   "-all",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\nfunc Add(a, b int) int { return a + b }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_valid_template::18",
+  "argv": [
+   "-template",
+   "testify",
+   "-all",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\nfunc Add(a, b int) int { return a + b }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_before_path::19",
+  "argv": [
+   "-all",
+   "-i",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\nfunc Add(a, b int) int { return a + b }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_after_path::20",
+  "argv": [
+   "-all",
+   "test.go",
+   "-i"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\nfunc Add(a, b int) int { return a + b }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interleaved_flags_and_paths::21",
+  "argv": [
+   "-all",
+   "test1.go",
+   "-i",
+   "test2.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test1.go": "package main\nfunc Add(a, b int) int { return a + b }\n",
+   "test2.go": "package main\nfunc Sub(a, b int) int { return a - b }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_separator::22",
+  "argv": [
+   "-all",
+   "--",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\nfunc Add(a, b int) int { return a + b }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_value_starting_with_dash::23",
+  "argv": [
+   "-only",
+   "-Test",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\nfunc Add(a, b int) int { return a + b }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repeated_flags::24",
+  "argv": [
+   "-only",
+   "First.*",
+   "-only",
+   "Second.*",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\nfunc Add(a, b int) int { return a + b }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_path_argument::25",
+  "argv": [
+   "-all",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_with_spaces::26",
+  "argv": [
+   "-all",
+   "test file.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test file.go": "package main\nfunc Add(a, b int) int { return a + b }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_exit_code::27",
+  "argv": [
+   "-invalid-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_required_value_exit_code::28",
+  "argv": [
+   "-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_write_flag::29",
+  "argv": [
+   "-all",
+   "-w",
+   "sample.go"
+  ],
+  "stdin": null,
+  "files": {
+   "sample.go": "package main\nfunc Add(a, b int) int { return a + b }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ai_flag_with_unreachable_endpoint::30",
+  "argv": [
+   "-all",
+   "-ai",
+   "-ai-endpoint",
+   "http://localhost:99999",
+   "example.go"
+  ],
+  "stdin": null,
+  "files": {
+   "example.go": "package example\n\nfunc Add(a, b int) int { return a + b }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ai_model_flag::31",
+  "argv": [
+   "-all",
+   "-ai-model",
+   "custom-model",
+   "example.go"
+  ],
+  "stdin": null,
+  "files": {
+   "example.go": "package example\n\nfunc Add(a, b int) int { return a + b }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ai_min_cases_flag::32",
+  "argv": [
+   "-all",
+   "-ai-min-cases",
+   "5",
+   "example.go"
+  ],
+  "stdin": null,
+  "files": {
+   "example.go": "package example\n\nfunc Add(a, b int) int { return a + b }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ai_max_cases_flag::33",
+  "argv": [
+   "-all",
+   "-ai-max-cases",
+   "20",
+   "example.go"
+  ],
+  "stdin": null,
+  "files": {
+   "example.go": "package example\n\nfunc Add(a, b int) int { return a + b }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ai_endpoint_flag::34",
+  "argv": [
+   "-all",
+   "-ai-endpoint",
+   "http://custom:11434",
+   "example.go"
+  ],
+  "stdin": null,
+  "files": {
+   "example.go": "package example\n\nfunc Add(a, b int) int { return a + b }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag::35",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::36",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_without_selection_flags::37",
+  "argv": [
+   "testdata/calculator.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file::38",
+  "argv": [
+   "-all",
+   "testdata/nonexistent_file_xyz.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_file::39",
+  "argv": [
+   "-all",
+   "README.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_flags_combination::40",
+  "argv": [
+   "-all",
+   "-i",
+   "-parallel",
+   "-named",
+   "example.go"
+  ],
+  "stdin": null,
+  "files": {
+   "example.go": "package example\n\nfunc Add(a, b int) int { return a + b }\nfunc Multiply(a, b int) int { return a * b }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_write_with_template::41",
+  "argv": [
+   "-all",
+   "-w",
+   "-template",
+   "testify",
+   "math.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_only_with_write::42",
+  "argv": [
+   "-only",
+   "Add",
+   "-w",
+   "calc.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_excl_with_parallel::43",
+  "argv": [
+   "-all",
+   "-excl",
+   "Bar",
+   "-parallel",
+   "example.go"
+  ],
+  "stdin": null,
+  "files": {
+   "example.go": "package example\n\nfunc Foo() int { return 1 }\nfunc Bar() int { return 2 }\nfunc Baz() int { return 3 }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exported_with_nosubtests::44",
+  "argv": [
+   "-exported",
+   "-nosubtests",
+   "example.go"
+  ],
+  "stdin": null,
+  "files": {
+   "example.go": "package example\n\nfunc ExportedFunc() int { return 1 }\nfunc unexportedFunc() int { return 2 }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_use_go_cmp_with_parallel::45",
+  "argv": [
+   "-all",
+   "-use_go_cmp",
+   "-parallel",
+   "example.go"
+  ],
+  "stdin": null,
+  "files": {
+   "example.go": "package example\n\ntype Data struct {\n    Value int\n}\n\nfunc GetData() Data {\n    return Data{Value: 42}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_i_with_named::46",
+  "argv": [
+   "-all",
+   "-i",
+   "-named",
+   "example.go"
+  ],
+  "stdin": null,
+  "files": {
+   "example.go": "package example\n\nfunc Process(input string) string {\n    return input + \"!\"\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_files_with_selective_flags::47",
+  "argv": [
+   "-only",
+   "Add|Concat",
+   "math.go",
+   "string.go"
+  ],
+  "stdin": null,
+  "files": {
+   "math.go": "package pkg\n\nfunc Add(a, b int) int { return a + b }\nfunc Multiply(a, b int) int { return a * b }\n",
+   "string.go": "package pkg\n\nfunc Concat(a, b string) string { return a + b }\nfunc Upper(s string) string { return s }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_template_params_with_stdin::48",
+  "argv": [
+   "-all",
+   "-template_params",
+   "-",
+   "example.go"
+  ],
+  "stdin": "{\"key\": \"value\"}",
+  "files": {
+   "example.go": "package example\n\nfunc Add(a, b int) int { return a + b }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_with_interface_parameter::49",
+  "argv": [
+   "-all",
+   "example.go"
+  ],
+  "stdin": null,
+  "files": {
+   "example.go": "package example\n\ntype Reader interface {\n    Read(p []byte) (n int, err error)\n}\n\nfunc Process(r Reader) error {\n    buf := make([]byte, 100)\n    _, err := r.Read(buf)\n    return err\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_with_channel_parameter::50",
+  "argv": [
+   "-all",
+   "example.go"
+  ],
+  "stdin": null,
+  "files": {
+   "example.go": "package example\n\nfunc Send(ch chan<- int, value int) {\n    ch <- value\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_with_map_parameter::51",
+  "argv": [
+   "-all",
+   "example.go"
+  ],
+  "stdin": null,
+  "files": {
+   "example.go": "package example\n\nfunc GetValue(m map[string]int, key string) int {\n    return m[key]\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_with_slice_parameter::52",
+  "argv": [
+   "-all",
+   "example.go"
+  ],
+  "stdin": null,
+  "files": {
+   "example.go": "package example\n\nfunc Sum(nums []int) int {\n    total := 0\n    for _, n := range nums {\n        total += n\n    }\n    return total\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_with_struct_parameter::53",
+  "argv": [
+   "-all",
+   "example.go"
+  ],
+  "stdin": null,
+  "files": {
+   "example.go": "package example\n\ntype Point struct {\n    X, Y int\n}\n\nfunc Distance(p Point) int {\n    return p.X + p.Y\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_with_pointer_parameter::54",
+  "argv": [
+   "-all",
+   "example.go"
+  ],
+  "stdin": null,
+  "files": {
+   "example.go": "package example\n\nfunc Increment(n *int) {\n    *n++\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_with_function_parameter::55",
+  "argv": [
+   "-all",
+   "example.go"
+  ],
+  "stdin": null,
+  "files": {
+   "example.go": "package example\n\nfunc Apply(fn func(int) int, value int) int {\n    return fn(value)\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_methods_same_name_different_receivers::56",
+  "argv": [
+   "-all",
+   "example.go"
+  ],
+  "stdin": null,
+  "files": {
+   "example.go": "package example\n\ntype TypeA struct{}\ntype TypeB struct{}\n\nfunc (a *TypeA) Method() int { return 1 }\nfunc (b *TypeB) Method() int { return 2 }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exported_and_unexported_mix::57",
+  "argv": [
+   "-exported",
+   "example.go"
+  ],
+  "stdin": null,
+  "files": {
+   "example.go": "package example\n\nfunc ExportedFunc() int { return 1 }\nfunc unexportedFunc() int { return 2 }\nfunc AnotherExported() int { return 3 }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_with_context_parameter::58",
+  "argv": [
+   "-all",
+   "example.go"
+  ],
+  "stdin": null,
+  "files": {
+   "example.go": "package example\n\nimport \"context\"\n\nfunc DoWork(ctx context.Context, value int) error {\n    select {\n    case <-ctx.Done():\n        return ctx.Err()\n    default:\n        return nil\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_package_level_var::59",
+  "argv": [
+   "-all",
+   "example.go"
+  ],
+  "stdin": null,
+  "files": {
+   "example.go": "package example\n\nvar GlobalVar = 42\n\nfunc GetGlobal() int { return GlobalVar }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_const_declaration::60",
+  "argv": [
+   "-all",
+   "example.go"
+  ],
+  "stdin": null,
+  "files": {
+   "example.go": "package example\n\nconst MaxSize = 100\n\nfunc GetMax() int { return MaxSize }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_inputs_flag::61",
+  "argv": [
+   "-all",
+   "-i",
+   "example.go"
+  ],
+  "stdin": null,
+  "files": {
+   "example.go": "package example\n\nfunc Add(a, b int) int {\n    return a + b\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_use_go_cmp_flag::62",
+  "argv": [
+   "-all",
+   "-use_go_cmp",
+   "example.go"
+  ],
+  "stdin": null,
+  "files": {
+   "example.go": "package example\n\ntype Data struct {\n    Value int\n}\n\nfunc GetData() Data {\n    return Data{Value: 42}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_uses_reflect::63",
+  "argv": [
+   "-all",
+   "example.go"
+  ],
+  "stdin": null,
+  "files": {
+   "example.go": "package example\n\ntype Data struct {\n    Value int\n}\n\nfunc GetData() Data {\n    return Data{Value: 42}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_i_and_use_go_cmp_together::64",
+  "argv": [
+   "-all",
+   "-i",
+   "-use_go_cmp",
+   "example.go"
+  ],
+  "stdin": null,
+  "files": {
+   "example.go": "package example\n\ntype Data struct {\n    Values []int\n}\n\nfunc Process(input string) Data {\n    return Data{Values: []int{1, 2, 3}}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_no_params_no_return::65",
+  "argv": [
+   "-all",
+   "example.go"
+  ],
+  "stdin": null,
+  "files": {
+   "example.go": "package example\n\nfunc DoSomething() {\n    // do something\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_with_single_param::66",
+  "argv": [
+   "-all",
+   "example.go"
+  ],
+  "stdin": null,
+  "files": {
+   "example.go": "package example\n\nfunc Square(n int) int {\n    return n * n\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_with_multiple_params::67",
+  "argv": [
+   "-all",
+   "example.go"
+  ],
+  "stdin": null,
+  "files": {
+   "example.go": "package example\n\nfunc Add(a, b, c int) int {\n    return a + b + c\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_with_single_return::68",
+  "argv": [
+   "-all",
+   "example.go"
+  ],
+  "stdin": null,
+  "files": {
+   "example.go": "package example\n\nfunc GetValue() int {\n    return 42\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_with_multiple_returns::69",
+  "argv": [
+   "-all",
+   "example.go"
+  ],
+  "stdin": null,
+  "files": {
+   "example.go": "package example\n\nfunc Divide(a, b int) (int, int) {\n    return a / b, a % b\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_with_error_return::70",
+  "argv": [
+   "-all",
+   "testdata/calculator.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_method_on_pointer_receiver::71",
+  "argv": [
+   "-all",
+   "example.go"
+  ],
+  "stdin": null,
+  "files": {
+   "example.go": "package example\n\ntype Counter struct {\n    count int\n}\n\nfunc (c *Counter) Increment() {\n    c.count++\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_variadic_function::72",
+  "argv": [
+   "-all",
+   "example.go"
+  ],
+  "stdin": null,
+  "files": {
+   "example.go": "package example\n\nfunc Sum(nums ...int) int {\n    total := 0\n    for _, n := range nums {\n        total += n\n    }\n    return total\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_with_named_returns::73",
+  "argv": [
+   "-all",
+   "example.go"
+  ],
+  "stdin": null,
+  "files": {
+   "example.go": "package example\n\nfunc Compute(x int) (result int, err error) {\n    result = x * 2\n    return\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generic_function_any_constraint::74",
+  "argv": [
+   "-all",
+   "generic.go"
+  ],
+  "stdin": null,
+  "files": {
+   "generic.go": "package generic\n\nfunc Identity[T any](val T) T {\n    return val\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generic_function_comparable_constraint::75",
+  "argv": [
+   "-all",
+   "generic.go"
+  ],
+  "stdin": null,
+  "files": {
+   "generic.go": "package generic\n\nfunc Equal[T comparable](a, b T) bool {\n    return a == b\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generic_function_multiple_type_params::76",
+  "argv": [
+   "-all",
+   "generic.go"
+  ],
+  "stdin": null,
+  "files": {
+   "generic.go": "package generic\n\nfunc Pair[T, U any](first T, second U) (T, U) {\n    return first, second\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generic_method_on_generic_type::77",
+  "argv": [
+   "-all",
+   "generic.go"
+  ],
+  "stdin": null,
+  "files": {
+   "generic.go": "package generic\n\ntype Set[T comparable] struct {\n    items map[T]struct{}\n}\n\nfunc (s *Set[T]) Add(item T) {\n    if s.items == nil {\n        s.items = make(map[T]struct{})\n    }\n    s.items[item] = struct{}{}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generic_function_union_constraint::78",
+  "argv": [
+   "-all",
+   "generic.go"
+  ],
+  "stdin": null,
+  "files": {
+   "generic.go": "package generic\n\nfunc Max[T int64 | float64](a, b T) T {\n    if a > b {\n        return a\n    }\n    return b\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generic_approximation_constraint::79",
+  "argv": [
+   "-all",
+   "generic.go"
+  ],
+  "stdin": null,
+  "files": {
+   "generic.go": "package generic\n\nfunc Double[T ~int](val T) T {\n    return val * 2\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generic_function_with_error_return::80",
+  "argv": [
+   "-all",
+   "generic.go"
+  ],
+  "stdin": null,
+  "files": {
+   "generic.go": "package generic\n\nimport \"errors\"\n\nfunc Find[T comparable](slice []T, target T) (int, error) {\n    for i, v := range slice {\n        if v == target {\n            return i, nil\n        }\n    }\n    return -1, errors.New(\"not found\")\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_files::81",
+  "argv": [
+   "-all",
+   "math.go",
+   "logic.go"
+  ],
+  "stdin": null,
+  "files": {
+   "math.go": "package math\n\nfunc Add(a, b int) int { return a + b }\n",
+   "logic.go": "package math\n\nfunc And(a, b bool) bool { return a && b }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_directory_path::82",
+  "argv": [
+   "-all",
+   "testdata/mixedpkg/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hidden_file::83",
+  "argv": [
+   "-all",
+   "testdata/.hidden.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_file_as_input::84",
+  "argv": [
+   "-all",
+   "-only",
+   "wrapToString",
+   "testdata/test103_test.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_file::85",
+  "argv": [
+   "-all",
+   "empty.go"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.go": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_blank_file_with_only_package::86",
+  "argv": [
+   "-all",
+   "blank.go"
+  ],
+  "stdin": null,
+  "files": {
+   "blank.go": "package blank\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_syntax_errors::87",
+  "argv": [
+   "-all",
+   "bad.go"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.go": "package bad\n\nfunc Bad( {\n    this is not valid go code\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_init_function::88",
+  "argv": [
+   "-all",
+   "testdata/init_func.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_write_flag_creates_test_file::89",
+  "argv": [
+   "-all",
+   "-w",
+   "math.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exported_flag::90",
+  "argv": [
+   "-exported",
+   "example.go"
+  ],
+  "stdin": null,
+  "files": {
+   "example.go": "package example\n\nfunc ExportedFunc() int { return 42 }\nfunc unexportedFunc() int { return 0 }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_only_flag_matching::91",
+  "argv": [
+   "-only",
+   "Multiply",
+   "testdata/calculator.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_only_flag_no_match::92",
+  "argv": [
+   "-only",
+   "NonexistentFunction",
+   "testdata/calculator.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_excl_flag::93",
+  "argv": [
+   "-excl",
+   "Multiply",
+   "-all",
+   "testdata/calculator.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_excl_precedence_over_only::94",
+  "argv": [
+   "-only",
+   "Multiply",
+   "-excl",
+   "Multiply",
+   "-all",
+   "testdata/calculator.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_excl_precedence_over_exported::95",
+  "argv": [
+   "-exported",
+   "-excl",
+   "Add",
+   "example.go"
+  ],
+  "stdin": null,
+  "files": {
+   "example.go": "package example\n\nfunc Add() int { return 1 }\nfunc Subtract() int { return 2 }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exported_precedence_over_only::96",
+  "argv": [
+   "-only",
+   "Func",
+   "-exported",
+   "example.go"
+  ],
+  "stdin": null,
+  "files": {
+   "example.go": "package example\n\nfunc ExportedFunc() int { return 1 }\nfunc unexportedFunc() int { return 2 }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_only_precedence_over_all::97",
+  "argv": [
+   "-only",
+   "Multiply",
+   "-all",
+   "testdata/calculator.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_regexp_pattern::98",
+  "argv": [
+   "-only",
+   "[invalid(regexp",
+   "testdata/calculator.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nosubtests_flag::99",
+  "argv": [
+   "-all",
+   "-nosubtests",
+   "testdata/calculator.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parallel_flag::100",
+  "argv": [
+   "-all",
+   "-parallel",
+   "testdata/calculator.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parallel_with_nosubtests::101",
+  "argv": [
+   "-all",
+   "-parallel",
+   "-nosubtests",
+   "testdata/calculator.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_named_flag_uses_map::102",
+  "argv": [
+   "-all",
+   "-named",
+   "testdata/calculator.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_named_with_nosubtests::103",
+  "argv": [
+   "-all",
+   "-named",
+   "-nosubtests",
+   "testdata/calculator.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_named_with_parallel::104",
+  "argv": [
+   "-all",
+   "-named",
+   "-parallel",
+   "testdata/calculator.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_testify_template::105",
+  "argv": [
+   "-all",
+   "-template",
+   "testify",
+   "testdata/calculator.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_template_flag_overrides_env::106",
+  "argv": [
+   "-all",
+   "-template",
+   "",
+   "testdata/calculator.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "GOTESTS_TEMPLATE": "testify"
+  }
+ },
+ {
+  "name": "test::test_custom_template_dir::107",
+  "argv": [
+   "-all",
+   "-template_dir",
+   "testdata/customtemplates",
+   "testdata/calculator.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_template_dir_precedence_over_template::108",
+  "argv": [
+   "-all",
+   "-template",
+   "testify",
+   "-template_dir",
+   "testdata/customtemplates",
+   "testdata/calculator.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_template_name::109",
+  "argv": [
+   "-all",
+   "-template",
+   "nonexistent_template",
+   "testdata/calculator.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_template_params_file::110",
+  "argv": [
+   "-all",
+   "-template_params_file",
+   "params.json",
+   "testdata/calculator.go"
+  ],
+  "stdin": null,
+  "files": {
+   "params.json": "{\"key\": \"value\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_last_value_wins_for_repeated_flag_only::111",
+  "argv": [
+   "-only",
+   "Multiply",
+   "-only",
+   "Divide",
+   "testdata/calculator.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_precedence_excl_over_only::112",
+  "argv": [
+   "-excl",
+   "Multiply",
+   "-only",
+   "Multiply",
+   "testdata/calculator.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_stops_flag_parsing_for_following_args::113",
+  "argv": [
+   "-only",
+   "Multiply",
+   "--",
+   "testdata/calculator.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bool_flag_rejects_attached_non_bool_value::114",
+  "argv": [
+   "-all=testdata/calculator.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_template_params_invalid_json_errors_without_usage::115",
+  "argv": [
+   "-template_params",
+   "{",
+   "-all",
+   "testdata/calculator.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_produces_error::116",
+  "argv": [
+   "--invalid-flag-that-does-not-exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_work_with_dash_dash::117",
+  "argv": [
+   "--all",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_dash_flags_work::118",
+  "argv": [
+   "-i",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_before_path_argument::119",
+  "argv": [
+   "--help",
+   "somepath.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_template_flag_accepts_value::120",
+  "argv": [
+   "-template",
+   "testify",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_boolean_flags_no_value_needed::121",
+  "argv": [
+   "-all",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file_produces_error::122",
+  "argv": [
+   "-all",
+   "/nonexistent/file/path.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_paths_accepted::123",
+  "argv": [
+   "-all",
+   "file1.go",
+   "file2.go"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.go": "package multi\n\nfunc Func1() int {\n    return 1\n}\n",
+   "file2.go": "package multi\n\nfunc Func2() int {\n    return 2\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exported_flag_is_global::124",
+  "argv": [
+   "-exported",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_write_flag_is_global::125",
+  "argv": [
+   "-w",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_can_be_combined::126",
+  "argv": [
+   "-all",
+   "-w",
+   "-i",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ai_flags_are_global::127",
+  "argv": [
+   "-ai",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_short_subcommand_aliases::128",
+  "argv": [
+   "co"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_help_subcommand::129",
+  "argv": [
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_version_subcommand::130",
+  "argv": [
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_order_independence::131",
+  "argv": [
+   "-all",
+   "-i",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_equal_sign_flag_syntax::132",
+  "argv": [
+   "-template=testify",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mutually_exclusive_flags_handled::133",
+  "argv": [
+   "-all",
+   "-exported",
+   "-only",
+   "test.*"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_required_argument_for_flag::134",
+  "argv": [
+   "-template"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_regexp_in_only_flag::135",
+  "argv": [
+   "-only",
+   "[[[invalid",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package test\n\nfunc TestFunc() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_write_mode_creates_test_file_and_prints_only_banner::136",
+  "argv": [
+   "-all",
+   "-w"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_selector_flag_prints_message_exit_0::137",
+  "argv": [
+   "/tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_input_file_prints_error_to_stdout_exit_0::138",
+  "argv": [
+   "-all",
+   "/no/such/file.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_template_params_file_prints_error_to_stdout_exit_0::139",
+  "argv": [
+   "-all",
+   "-template_params_file",
+   "params_invalid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "params_invalid.json": "{not json}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ai_integration_with_ollama::140",
+  "argv": [
+   "curl",
+   "-s",
+   "http://127.0.0.1:11434/api/tags"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_help_flag_exits_zero::141",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_with_extra_unknown_flag_still_exits_zero_and_prints_usage::142",
+  "argv": [
+   "--help",
+   "--definitely-not-a-real-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_stops_flag_parsing_and_tool_prints_non_help_message::143",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_template_flag_does_not_override_env_template::144",
+  "argv": [
+   "-template",
+   "",
+   "-all"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "GOTESTS_TEMPLATE": "testify"
+  }
+ },
+ {
+  "name": "test::test_env_GOTESTS_TEMPLATE_DIR_is_used_when_flag_not_set::145",
+  "argv": [
+   "-template_dir",
+   "-all"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

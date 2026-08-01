@@ -1,0 +1,4854 @@
+[
+ {
+  "name": "test::test_bl_lists_bytecode_for_e_chunk::0",
+  "argv": [
+   "-bl",
+   "-e",
+   "print('hi')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_j_command_errors_nonzero::1",
+  "argv": [
+   "-j",
+   "definitely_not_a_real_command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_output_and_exit_code::2",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_exact_prefix::3",
+  "argv": [
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_option_errors_and_mentions_usage::4",
+  "argv": [
+   "-Z"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_syntax_error_in_e_chunk_nonzero_and_mentions_location::5",
+  "argv": [
+   "-e",
+   "this is not lua"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_utf8_stdout_bytes::6",
+  "argv": [
+   "-e",
+   "io.write(\"cafe\\194\\169\")"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_e_executes_chunk_prints_stdout::7",
+  "argv": [
+   "-e",
+   "print(1+2)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_e_execute_in_order::8",
+  "argv": [
+   "-e",
+   "io.write('A')",
+   "-e",
+   "io.write('B')",
+   "-e",
+   "io.write('C')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dash_executes_stdin_and_stops_option_parsing::9",
+  "argv": [
+   "-",
+   "p",
+   "q"
+  ],
+  "stdin": "print('X')\nprint(arg[1], arg[2])\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_stops_option_parsing::10",
+  "argv": [
+   "--",
+   "script.lua",
+   "-v",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {
+   "script.lua": "print(arg[1], arg[2])\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_i_interactive_prompt_appears::11",
+  "argv": [
+   "-i",
+   "-e",
+   ""
+  ],
+  "stdin": "1+2\nos.exit()\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_i_interactive_can_evaluate_expression::12",
+  "argv": [
+   "-i",
+   "-e",
+   ""
+  ],
+  "stdin": "6*7\nos.exit()\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_1::13",
+  "argv": [
+   "-e",
+   "\n        local sum = 0\n        for i = 1, 100000 do\n            sum = sum + i\n        end\n        print(sum)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_2::14",
+  "argv": [
+   "-e",
+   "\n        local prod = 1\n        for i = 1, 50000 do\n            prod = (prod * 2) % 1000000\n        end\n        print(prod)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_3::15",
+  "argv": [
+   "-e",
+   "\n        local val = 1000000.0\n        for i = 1, 50000 do\n            val = (val + i) / 2.0\n        end\n        print(type(val))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_4::16",
+  "argv": [
+   "-e",
+   "\n        local sum = 0\n        for i = 1, 100000 do\n            sum = sum + (i % 100)\n        end\n        print(sum > 0)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_5::17",
+  "argv": [
+   "-e",
+   "\n        local sum = 0\n        for i = 1, 10000 do\n            sum = sum + (i ^ 0.5)\n        end\n        print(sum > 0)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_6::18",
+  "argv": [
+   "-e",
+   "\n        local count = 0\n        for i = 1, 100000 do\n            if i > 50000 then count = count + 1\n            elseif i > 25000 then count = count + 2\n            else count = count + 3 end\n        end\n        print(count)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_7::19",
+  "argv": [
+   "-e",
+   "\n        local count = 0\n        for i = 1, 100000 do\n            if (i % 2 == 0) and (i % 3 == 0) then\n                count = count + 1\n            end\n        end\n        print(count)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_8::20",
+  "argv": [
+   "-e",
+   "\n        local len = 0\n        for i = 1, 20000 do\n            len = len + #tostring(i)\n        end\n        print(len > 0)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_9::21",
+  "argv": [
+   "-e",
+   "\n        local sum = 0\n        for i = 1, 10000 do\n            local t = {i, i+1, i+2}\n            sum = sum + t[2]\n        end\n        print(sum > 0)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_10::22",
+  "argv": [
+   "-e",
+   "\n        local function inc(x) return x + 1 end\n        local sum = 0\n        for i = 1, 100000 do\n            sum = inc(sum)\n        end\n        print(sum)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_11::23",
+  "argv": [
+   "-e",
+   "\n        local total = 0\n        local function add(x)\n            total = total + x\n        end\n        for i = 1, 100000 do\n            add(1)\n        end\n        print(total)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_12::24",
+  "argv": [
+   "-e",
+   "\n        local count = 0\n        for i = 1, 50000 do\n            if type(i) == 'number' then\n                count = count + 1\n            end\n        end\n        print(count)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_13::25",
+  "argv": [
+   "-e",
+   "\n        local sum = 0\n        for i = 1, 20000 do\n            sum = sum + tonumber(i)\n        end\n        print(sum > 0)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_14::26",
+  "argv": [
+   "-e",
+   "\n        for i = 1, 20000 do\n            local s = tostring(i)\n        end\n        print('done')\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_15::27",
+  "argv": [
+   "-e",
+   "\n        local t = {}\n        for i = 1, 50 do t[i] = i end\n        local sum = 0\n        for j = 1, 500 do\n            for k, v in pairs(t) do\n                sum = sum + v\n            end\n        end\n        print(sum)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_16::28",
+  "argv": [
+   "-e",
+   "\n        local t = {}\n        for i = 1, 50 do t[i] = i end\n        local sum = 0\n        for j = 1, 500 do\n            for k, v in ipairs(t) do\n                sum = sum + v\n            end\n        end\n        print(sum)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_17::29",
+  "argv": [
+   "-e",
+   "\n        local t = {}\n        for i = 1, 1000 do t[i] = i end\n        local sum = 0\n        for i = 1, 10000 do\n            sum = sum + (rawget(t, i % 1000 + 1) or 0)\n        end\n        print(sum > 0)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_18::30",
+  "argv": [
+   "-e",
+   "\n        local t = {}\n        for i = 1, 50000 do\n            rawset(t, i % 1000 + 1, i)\n        end\n        print(#t == 0)  -- hash table, not array\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_19::31",
+  "argv": [
+   "-e",
+   "\n        local t = {}\n        for i = 1, 100 do t[i] = i end\n        local count = 0\n        for j = 1, 200 do\n            local k = nil\n            while true do\n                k = next(t, k)\n                if not k then break end\n                count = count + 1\n            end\n        end\n        print(count)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_20::32",
+  "argv": [
+   "-e",
+   "\n        local mt = {value = 1}\n        local t = setmetatable({}, mt)\n        local count = 0\n        for i = 1, 50000 do\n            local m = getmetatable(t)\n            count = count + m.value\n        end\n        print(count)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_21::33",
+  "argv": [
+   "-e",
+   "\n        local mt = {}\n        for i = 1, 10000 do\n            local t = {}\n            setmetatable(t, mt)\n        end\n        print('done')\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_22::34",
+  "argv": [
+   "-e",
+   "\n        local sum = 0\n        for i = 1, 50000 do\n            sum = sum + math.abs(i - 25000)\n        end\n        print(sum > 0)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_23::35",
+  "argv": [
+   "-e",
+   "\n        local sum = 0\n        for i = 1, 50000 do\n            sum = sum + math.floor(i / 2.5)\n        end\n        print(sum > 0)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_24::36",
+  "argv": [
+   "-e",
+   "\n        local sum = 0\n        for i = 1, 50000 do\n            sum = sum + math.ceil(i / 3.7)\n        end\n        print(sum > 0)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_25::37",
+  "argv": [
+   "-e",
+   "\n        local sum = 0\n        for i = 1, 50000 do\n            sum = sum + math.min(i, 1000)\n        end\n        print(sum > 0)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_26::38",
+  "argv": [
+   "-e",
+   "\n        local sum = 0\n        for i = 1, 50000 do\n            sum = sum + math.max(i, 100)\n        end\n        print(sum > 0)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_27::39",
+  "argv": [
+   "-e",
+   "\n        local sum = 0\n        for i = 1, 100000 do\n            sum = sum + bit.band(i, 0xFF)\n        end\n        print(sum > 0)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_28::40",
+  "argv": [
+   "-e",
+   "\n        local val = 0\n        for i = 1, 50000 do\n            val = bit.bor(val, i % 256)\n        end\n        print(val)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_29::41",
+  "argv": [
+   "-e",
+   "\n        local val = 0\n        for i = 1, 100000 do\n            val = bit.bxor(val, i)\n        end\n        print(type(val))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_30::42",
+  "argv": [
+   "-e",
+   "\n        local count = 0\n        for i = 1, 50000 do\n            if bit.lshift(1, i % 30) > 0 then\n                count = count + 1\n            end\n        end\n        print(count)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_31::43",
+  "argv": [
+   "-e",
+   "\n        local sum = 0\n        for i = 1, 50000 do\n            sum = sum + bit.rshift(i, i % 10)\n        end\n        print(sum > 0)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_32::44",
+  "argv": [
+   "-e",
+   "\n        local sum = 0\n        for i = 1, 20000 do\n            sum = sum + string.len(tostring(i))\n        end\n        print(sum > 0)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_33::45",
+  "argv": [
+   "-e",
+   "\n        local s = 'hello world'\n        local count = 0\n        for i = 1, 20000 do\n            local sub = string.sub(s, 1, 5)\n            count = count + #sub\n        end\n        print(count)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_34::46",
+  "argv": [
+   "-e",
+   "\n        local s = 'test'\n        local sum = 0\n        for i = 1, 50000 do\n            sum = sum + string.byte(s, 1)\n        end\n        print(sum > 0)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_35::47",
+  "argv": [
+   "-e",
+   "\n        for i = 1, 20000 do\n            local c = string.char(65)\n        end\n        print('done')\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_36::48",
+  "argv": [
+   "-e",
+   "\n        local t = {}\n        for i = 1, 10000 do\n            table.insert(t, i)\n        end\n        print(#t)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_37::49",
+  "argv": [
+   "-e",
+   "\n        local t = {}\n        for i = 1, 5000 do t[i] = i end\n        for i = 1, 2500 do\n            table.remove(t)\n        end\n        print(#t)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_38::50",
+  "argv": [
+   "-e",
+   "\n        local t = {1, 2, 3, 4, 5}\n        for i = 1, 10000 do\n            local s = table.concat(t, ',')\n        end\n        print('done')\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_39::51",
+  "argv": [
+   "-e",
+   "\n        local t = {1, 2, 3}\n        local sum = 0\n        for i = 1, 20000 do\n            local a, b, c = unpack(t)\n            sum = sum + a + b + c\n        end\n        print(sum)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_40::52",
+  "argv": [
+   "-e",
+   "\n        local function f() return 1, 2, 3 end\n        local sum = 0\n        for i = 1, 20000 do\n            sum = sum + select('#', f())\n        end\n        print(sum)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_41::53",
+  "argv": [
+   "-e",
+   "\n        local ffi = require('ffi')\n        local arr = ffi.new('int[100]')\n        for i = 0, 99 do arr[i] = i end\n        local sum = 0\n        for j = 1, 1000 do\n            for i = 0, 99 do\n                sum = sum + arr[i]\n            end\n        end\n        print(sum)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_42::54",
+  "argv": [
+   "-e",
+   "\n        local ffi = require('ffi')\n        ffi.cdef[[typedef struct { int x; int y; } point_t;]]\n        local p = ffi.new('point_t', 10, 20)\n        local sum = 0\n        for i = 1, 50000 do\n            sum = sum + p.x + p.y\n        end\n        print(sum)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_hot_loop_43::55",
+  "argv": [
+   "-e",
+   "\n        local sum = 0\n        for i = 1, 50000 do\n            if i % 2 == 0 then\n                sum = sum + i\n            else\n                sum = sum + (i * 1.0)\n            end\n        end\n        print(sum > 0)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ffi_complex_structs::56",
+  "argv": [
+   "-e",
+   "\n        local ffi = require(\"ffi\")\n        ffi.cdef[[\n            typedef struct {\n                int a;\n                double b;\n                char c[10];\n                struct { int x; int y; } nested;\n            } complex_t;\n            \n            typedef union {\n                int i;\n                float f;\n                char bytes[4];\n            } union_t;\n            \n            typedef enum {\n                VAL_A = 1,\n                VAL_B = 2,\n                VAL_C = 4\n            } enum_t;\n        ]]\n        \n        for i = 1, 50 do\n            local c = ffi.new(\"complex_t\")\n            c.a = i\n            c.b = i * 1.5\n            c.nested.x = i * 2\n            c.nested.y = i * 3\n            \n            local u = ffi.new(\"union_t\")\n            u.i = i\n            local _ = u.f\n        end\n        print(\"complex ffi done\")\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ffi_function_pointers::57",
+  "argv": [
+   "-e",
+   "\n        local ffi = require(\"ffi\")\n        ffi.cdef[[\n            typedef void (*callback_t)(int);\n            typedef int (*math_op_t)(int, int);\n        ]]\n        \n        -- Create function pointers\n        local cb = ffi.cast(\"callback_t\", function(x) end)\n        -- cb freed\n        \n        print(\"ffi func ptrs done\")\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ffi_sizeof_alignof::58",
+  "argv": [
+   "-e",
+   "\n        local ffi = require(\"ffi\")\n        ffi.cdef[[\n            typedef struct { char a; int b; double c; } test_t;\n        ]]\n        \n        print(\"sizeof int: \" .. ffi.sizeof(\"int\"))\n        print(\"sizeof double: \" .. ffi.sizeof(\"double\"))\n        print(\"sizeof test_t: \" .. ffi.sizeof(\"test_t\"))\n        print(\"alignof int: \" .. ffi.alignof(\"int\"))\n        print(\"alignof double: \" .. ffi.alignof(\"double\"))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ffi_offsetof::59",
+  "argv": [
+   "-e",
+   "\n        local ffi = require(\"ffi\")\n        ffi.cdef[[\n            typedef struct {\n                int a;\n                double b;\n                char c;\n            } offset_test_t;\n        ]]\n        \n        print(\"offsetof a: \" .. ffi.offsetof(\"offset_test_t\", \"a\"))\n        print(\"offsetof b: \" .. ffi.offsetof(\"offset_test_t\", \"b\"))\n        print(\"offsetof c: \" .. ffi.offsetof(\"offset_test_t\", \"c\"))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ffi_istype::60",
+  "argv": [
+   "-e",
+   "\n        local ffi = require(\"ffi\")\n        ffi.cdef[[\n            typedef struct { int x; } test_t;\n        ]]\n        \n        local ct = ffi.typeof(\"test_t\")\n        local obj = ffi.new(\"test_t\")\n        \n        print(\"istype: \" .. tostring(ffi.istype(ct, obj)))\n        print(\"not istype: \" .. tostring(ffi.istype(ct, 42)))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ffi_typeof::61",
+  "argv": [
+   "-e",
+   "\n        local ffi = require(\"ffi\")\n        \n        local int_t = ffi.typeof(\"int\")\n        local double_t = ffi.typeof(\"double\")\n        local ptr_t = ffi.typeof(\"int*\")\n        \n        for i = 1, 50 do\n            local x = int_t(i)\n            local y = double_t(i * 1.5)\n        end\n        \n        print(\"typeof done\")\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ffi_metatype::62",
+  "argv": [
+   "-e",
+   "\n        local ffi = require(\"ffi\")\n        ffi.cdef[[\n            typedef struct { int x; int y; } point_t;\n        ]]\n        \n        local point_mt = {\n            __add = function(a, b)\n                return ffi.new(\"point_t\", a.x + b.x, a.y + b.y)\n            end,\n            __tostring = function(p)\n                return string.format(\"(%d,%d)\", p.x, p.y)\n            end\n        }\n        \n        ffi.metatype(\"point_t\", point_mt)\n        \n        local p1 = ffi.new(\"point_t\", 10, 20)\n        local p2 = ffi.new(\"point_t\", 5, 15)\n        local p3 = p1 + p2\n        \n        print(\"metatype result: \" .. tostring(p3))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ffi_gc::63",
+  "argv": [
+   "-e",
+   "\n        local ffi = require(\"ffi\")\n        \n        local finalized = 0\n        local function finalizer(ptr)\n            finalized = finalized + 1\n        end\n        \n        for i = 1, 50 do\n            local ptr = ffi.new(\"int[10]\")\n            ffi.gc(ptr, finalizer)\n        end\n        \n        collectgarbage(\"collect\")\n        collectgarbage(\"collect\")\n        \n        print(\"finalized: \" .. finalized)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ffi_fill_copy::64",
+  "argv": [
+   "-e",
+   "\n        local ffi = require(\"ffi\")\n        \n        local arr1 = ffi.new(\"char[100]\")\n        ffi.fill(arr1, 100, 42)\n        print(\"filled: \" .. arr1[50])\n        \n        local arr2 = ffi.new(\"char[100]\")\n        ffi.copy(arr2, arr1, 100)\n        print(\"copied: \" .. arr2[50])\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ffi_string::65",
+  "argv": [
+   "-e",
+   "\n        local ffi = require(\"ffi\")\n        \n        local str = \"Hello, World!\"\n        local cstr = ffi.new(\"char[?]\", #str + 1, str)\n        \n        local result = ffi.string(cstr)\n        print(\"ffi.string: \" .. result)\n        \n        local partial = ffi.string(cstr, 5)\n        print(\"ffi.string partial: \" .. partial)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ffi_errno::66",
+  "argv": [
+   "-e",
+   "\n        local ffi = require(\"ffi\")\n        ffi.cdef[[\n            int abs(int);\n        ]]\n        \n        ffi.errno(0)\n        local _ = ffi.C.abs(-42)\n        local err = ffi.errno()\n        \n        print(\"errno result: \" .. err)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ffi_clib::67",
+  "argv": [
+   "-e",
+   "\n        local ffi = require(\"ffi\")\n        ffi.cdef[[\n            int abs(int);\n            double sqrt(double);\n        ]]\n        \n        local result1 = ffi.C.abs(-42)\n        local result2 = ffi.C.sqrt(16)\n        \n        print(\"abs: \" .. result1)\n        print(\"sqrt: \" .. result2)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ffi_bitfields::68",
+  "argv": [
+   "-e",
+   "\n        local ffi = require(\"ffi\")\n        ffi.cdef[[\n            typedef struct {\n                unsigned int a : 4;\n                unsigned int b : 4;\n                unsigned int c : 8;\n            } bitfield_t;\n        ]]\n        \n        local bf = ffi.new(\"bitfield_t\")\n        bf.a = 5\n        bf.b = 10\n        bf.c = 255\n        \n        print(\"bitfield a: \" .. bf.a)\n        print(\"bitfield b: \" .. bf.b)\n        print(\"bitfield c: \" .. bf.c)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_jit_trace_heavy_loops::69",
+  "argv": [
+   "-e",
+   "\n        jit.opt.start(\"hotloop=5\", \"hotexit=2\")\n        \n        -- Many different hot loop patterns\n        local results = {}\n        \n        -- Integer arithmetic loop\n        local function loop1()\n            local s = 0\n            for i = 1, 500 do\n                s = s + i\n                s = s - 1\n                s = s * 2\n                s = s % 1000000\n            end\n            return s\n        end\n        \n        -- Float arithmetic loop\n        local function loop2()\n            local s = 0.0\n            for i = 1, 500 do\n                s = s + i\n                s = s * 1.1\n                s = s / 1.05\n            end\n            return s\n        end\n        \n        -- Table access loop\n        local t = {}\n        for i = 1, 100 do t[i] = i end\n        local function loop3()\n            local s = 0\n            for i = 1, 500 do\n                s = s + t[i % 100 + 1]\n            end\n            return s\n        end\n        \n        -- Mixed operations loop\n        local function loop4()\n            local s = 0\n            for i = 1, 500 do\n                if i % 2 == 0 then\n                    s = s + i\n                else\n                    s = s - i\n                end\n            end\n            return s\n        end\n        \n        -- Call them multiple times to ensure compilation\n        for i = 1, 5 do\n            results[#results+1] = loop1()\n            results[#results+1] = loop2()\n            results[#results+1] = loop3()\n            results[#results+1] = loop4()\n        end\n        \n        print(\"jit loops: \" .. #results)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_jit_trace_with_side_exits::70",
+  "argv": [
+   "-e",
+   "\n        jit.opt.start(\"hotloop=5\")\n        \n        local function polymorphic(x)\n            if type(x) == \"number\" then\n                return x * 2\n            elseif type(x) == \"string\" then\n                return x .. x\n            else\n                return x\n            end\n        end\n        \n        local sum = 0\n        -- First make it compile for numbers\n        for i = 1, 200 do\n            sum = sum + polymorphic(i)\n        end\n        \n        -- Then trigger side exits with different types\n        for i = 1, 50 do\n            if i % 10 == 0 then\n                polymorphic(\"test\")\n            else\n                sum = sum + polymorphic(i)\n            end\n        end\n        \n        print(\"polymorphic sum: \" .. sum)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_jit_trace_abort_reasons::71",
+  "argv": [
+   "-e",
+   "\n        jit.opt.start(\"hotloop=10\")\n        \n        -- Bytecode too long (might abort)\n        local function huge_function()\n            local x = 0\n            for i = 1, 100 do\n                x = x + i\n                x = x * 2\n                x = x % 1000\n                x = x - 1\n            end\n            return x\n        end\n        \n        for i = 1, 20 do\n            huge_function()\n        end\n        \n        print(\"abort test done\")\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_api_stack_operations::72",
+  "argv": [
+   "-e",
+   "\n        -- Many function calls with different argument counts\n        local function f0() return 1 end\n        local function f1(a) return a end\n        local function f2(a, b) return a + b end\n        local function f3(a, b, c) return a + b + c end\n        local function f4(a, b, c, d) return a + b + c + d end\n        local function f5(a, b, c, d, e) return a + b + c + d + e end\n        \n        local sum = 0\n        for i = 1, 100 do\n            sum = sum + f0()\n            sum = sum + f1(i)\n            sum = sum + f2(i, i)\n            sum = sum + f3(i, i, i)\n            sum = sum + f4(i, i, i, i)\n            sum = sum + f5(i, i, i, i, i)\n        end\n        \n        print(\"api stack: \" .. sum)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_record_paths::73",
+  "argv": [
+   "-e",
+   "\n        jit.opt.start(\"hotloop=10\")\n        \n        -- Record table operations\n        local function table_ops()\n            local t = {}\n            for i = 1, 200 do\n                table.insert(t, i)\n            end\n            for i = 100, 200 do\n                table.remove(t)\n            end\n            return #t\n        end\n        \n        for i = 1, 3 do\n            table_ops()\n        end\n        \n        -- Record string operations\n        local function string_ops()\n            local s = \"\"\n            for i = 1, 100 do\n                s = string.format(\"%d\", i)\n            end\n            return #s\n        end\n        \n        for i = 1, 3 do\n            string_ops()\n        end\n        \n        print(\"record done\")\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_jit_opt_variations::74",
+  "argv": [
+   "-O0",
+   "-e",
+   "print(\"O0: ok\")"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_jit_opt_disable::75",
+  "argv": [
+   "-O-cse",
+   "-O-dce",
+   "-O-fold",
+   "-e",
+   "print(\"disabled: ok\")"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_jit_param_settings::76",
+  "argv": [
+   "-Ohotloop=10",
+   "-Ohotexit=5",
+   "-e",
+   "\n        local sum = 0\n        for i = 1, 100 do\n            sum = sum + i\n        end\n        print(\"param: \" .. sum)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_api_stress_tables::77",
+  "argv": [
+   "-e",
+   "\n        local t = {}\n        for i = 1, 2000 do\n            t[i] = {\n                id = i,\n                data = string.rep(\"x\", i % 100),\n                nested = {a = i, b = i*2}\n            }\n        end\n        print(\"tables: \" .. #t)\n        -- Force GC\n        for i = 1, 10 do\n            collectgarbage(\"step\")\n        end\n        print(\"gc: ok\")\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_api_string_operations::78",
+  "argv": [
+   "-e",
+   "\n        local s1 = string.rep(\"abc\", 100)\n        local s2 = string.reverse(s1)\n        local s3 = string.upper(s2:sub(1, 10))\n        local s4 = string.lower(s3)\n        local s5 = string.gsub(s4, \"c\", \"C\")\n        local parts = {}\n        for w in string.gmatch(s5, \".\") do\n            table.insert(parts, w)\n            if #parts >= 5 then break end\n        end\n        print(\"string ops: \" .. table.concat(parts, \"\"))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_api_number_conversions::79",
+  "argv": [
+   "-e",
+   "\n        local n1 = tonumber(\"123\")\n        local n2 = tonumber(\"0xff\", 16)\n        local n3 = tonumber(\"1010\", 2)\n        local n4 = tonumber(\"377\", 8)\n        local n5 = tonumber(\"3.14e2\")\n        print(\"conversions: \" .. (n1 + n2 + n3 + n4 + n5))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_api_table_manipulation::80",
+  "argv": [
+   "-e",
+   "\n        local t = {1, 2, 3, 4, 5}\n        table.insert(t, 1, 999)\n        table.insert(t, 888)\n        table.remove(t, 3)\n        table.sort(t)\n        local sum = 0\n        for _, v in ipairs(t) do\n            sum = sum + v\n        end\n        print(\"manipulated: \" .. sum)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_api_coroutine_complex::81",
+  "argv": [
+   "-e",
+   "\n        local function producer()\n            for i = 1, 10 do\n                coroutine.yield(i, i*2, i*3)\n            end\n        end\n        local co = coroutine.create(producer)\n        local sum = 0\n        for i = 1, 10 do\n            local ok, a, b, c = coroutine.resume(co)\n            if ok then\n                sum = sum + (a or 0) + (b or 0) + (c or 0)\n            end\n        end\n        print(\"coro sum: \" .. sum)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_api_error_modes::82",
+  "argv": [
+   "-e",
+   "\n        local errors = {}\n        table.insert(errors, pcall(function() return nil.field end))\n        table.insert(errors, pcall(function() return 1 + \"x\" end))\n        table.insert(errors, pcall(function() local f = nil; f() end))\n        table.insert(errors, pcall(function() return {}[function()end] end))\n        local caught = 0\n        for _, v in ipairs(errors) do\n            if not v then caught = caught + 1 end\n        end\n        print(\"errors caught: \" .. caught)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_api_metatable_combinations::83",
+  "argv": [
+   "-e",
+   "\n        local count = 0\n        local mt1 = {__add = function(a,b) count=count+1; return 1 end}\n        local mt2 = {__sub = function(a,b) count=count+1; return 2 end}\n        local mt3 = {__mul = function(a,b) count=count+1; return 3 end}\n        local mt4 = {__div = function(a,b) count=count+1; return 4 end}\n        local mt5 = {__mod = function(a,b) count=count+1; return 5 end}\n        local mt6 = {__pow = function(a,b) count=count+1; return 6 end}\n        local t1, t2, t3, t4, t5, t6 = {}, {}, {}, {}, {}, {}\n        setmetatable(t1, mt1)\n        setmetatable(t2, mt2)\n        setmetatable(t3, mt3)\n        setmetatable(t4, mt4)\n        setmetatable(t5, mt5)\n        setmetatable(t6, mt6)\n        local _ = t1 + t1\n        local _ = t2 - t2\n        local _ = t3 * t3\n        local _ = t4 / t4\n        local _ = t5 % t5\n        local _ = t6 ^ t6\n        print(\"metamethods: \" .. count)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_api_debug_variations::84",
+  "argv": [
+   "-e",
+   "\n        local function f1() local x = 1 end\n        local function f2() local x, y = 1, 2 end\n        local function f3() local x, y, z = 1, 2, 3 end\n        local info1 = debug.getinfo(f1)\n        local info2 = debug.getinfo(f2)\n        local info3 = debug.getinfo(f3)\n        print(\"debug info: \" .. tostring(info1 ~= nil and info2 ~= nil and info3 ~= nil))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_pattern_variations::85",
+  "argv": [
+   "-e",
+   "\n        local text = \"abc123def456ghi789\"\n        local m1 = text:match(\"%d+\")\n        local m2 = text:match(\"%a+\")\n        local m3 = text:match(\"[^%d]+\")\n        local parts = {}\n        for p in text:gmatch(\"%d+\") do\n            table.insert(parts, p)\n        end\n        print(\"matches: \" .. table.concat(parts, \",\"))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_edge_operations::86",
+  "argv": [
+   "-e",
+   "\n        local t = {}\n        -- Test with non-consecutive keys\n        t[1] = \"a\"\n        t[3] = \"c\"\n        t[5] = \"e\"\n        print(\"len: \" .. #t)\n        -- Test concat with separator\n        local t2 = {1, 2, 3, 4, 5}\n        print(\"concat: \" .. table.concat(t2, \"-\"))\n        -- Test concat with range\n        print(\"range: \" .. table.concat(t2, \",\", 2, 4))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_io_variations::87",
+  "argv": [
+   "-e"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_os_variations::88",
+  "argv": [
+   "-e",
+   "\n        local t1 = os.time()\n        local t2 = os.time({year=2000, month=1, day=1, hour=12, min=30, sec=45})\n        local diff = os.difftime(t1, t2)\n        print(\"time ok: \" .. tostring(diff > 0))\n        local d = os.date(\"!*t\", 0)\n        print(\"epoch: \" .. tostring(d.year == 1970 and d.month == 1 and d.day == 1))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_math_comprehensive::89",
+  "argv": [
+   "-e",
+   "\n        local r1 = math.frexp(123.45)\n        local r2 = math.ldexp(0.5, 3)\n        local r3 = math.deg(math.pi)\n        local r4 = math.rad(180)\n        print(\"frexp: \" .. tostring(type(r1) == \"number\"))\n        print(\"ldexp: \" .. r2)\n        print(\"deg: \" .. tostring(r3 > 179 and r3 < 181))\n        print(\"rad: \" .. tostring(math.abs(r4 - math.pi) < 0.01))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_library_complete::90",
+  "argv": [
+   "-e",
+   "\n        local bit = require(\"bit\")\n        local results = {}\n        -- Test all bit operations\n        results[1] = bit.tobit(0xFFFFFFFF)\n        results[2] = bit.tohex(255)\n        results[3] = bit.bnot(0)\n        results[4] = bit.band(0xFF, 0x0F)\n        results[5] = bit.bor(0xF0, 0x0F)\n        results[6] = bit.bxor(0xFF, 0xFF)\n        results[7] = bit.lshift(1, 8)\n        results[8] = bit.rshift(256, 8)\n        results[9] = bit.arshift(-256, 1)\n        results[10] = bit.rol(1, 16)\n        results[11] = bit.ror(0x10000, 16)\n        results[12] = bit.bswap(0x12345678)\n        print(\"bit ops: \" .. #results)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_loadstring_variations::91",
+  "argv": [
+   "-e",
+   "\n        local f1 = loadstring(\"return 1 + 1\")\n        local f2 = loadstring(\"return ...\", \"chunk\", nil, {x = 10})\n        local f3, err = loadstring(\"invalid !!! syntax\")\n        print(\"f1: \" .. f1())\n        print(\"f3 error: \" .. tostring(f3 == nil))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_package_operations::92",
+  "argv": [
+   "-e",
+   "\n        -- Check package path manipulation\n        local orig = package.path\n        package.path = \"/custom/path/?.lua;\" .. package.path\n        print(\"path modified: \" .. tostring(package.path:find(\"/custom/path\") ~= nil))\n        package.path = orig\n        -- Check package.loaded\n        local count = 0\n        for k, v in pairs(package.loaded) do\n            count = count + 1\n            if count >= 5 then break end\n        end\n        print(\"loaded count: \" .. tostring(count >= 5))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ffi_stress::93",
+  "argv": [
+   "-e",
+   "\n        local ffi = require(\"ffi\")\n        ffi.cdef[[\n            typedef struct { int x, y; } point_t;\n            typedef struct { point_t p[10]; } points_t;\n        ]]\n        local pts = ffi.new(\"points_t\")\n        for i = 0, 9 do\n            pts.p[i].x = i\n            pts.p[i].y = i * 2\n        end\n        local sum = 0\n        for i = 0, 9 do\n            sum = sum + pts.p[i].x + pts.p[i].y\n        end\n        print(\"ffi stress: \" .. sum)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gc_modes::94",
+  "argv": [
+   "-e",
+   "\n        collectgarbage(\"collect\")\n        local c1 = collectgarbage(\"count\")\n        collectgarbage(\"stop\")\n        collectgarbage(\"restart\")\n        for i = 1, 100 do\n            collectgarbage(\"step\", 1)\n        end\n        collectgarbage(\"setpause\", 100)\n        collectgarbage(\"setstepmul\", 100)\n        local c2 = collectgarbage(\"count\")\n        print(\"gc: \" .. tostring(c1 > 0 and c2 > 0))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_patterns::95",
+  "argv": [
+   "-e",
+   "\n        local text = \"user@example.com:8080\"\n        local user, domain, port = text:match(\"([^@]+)@([^:]+):(%d+)\")\n        print(\"user: \" .. user)\n        print(\"domain: \" .. domain)\n        print(\"port: \" .. port)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_pack_unpack::96",
+  "argv": [
+   "-e",
+   "\n        -- Test unpack (pack doesn't exist in 5.1)\n        local t = {1, 2, 3, 4, 5}\n        t.n = 5\n        \n        -- Test unpack (table.unpack in 5.2+, unpack in 5.1)\n        local unpack = table.unpack or unpack\n        local a, b, c = unpack(t)\n        print(\"unpacked: \" .. a .. \",\" .. b .. \",\" .. c)\n        \n        -- Test with range\n        local x, y = unpack({10, 20, 30, 40}, 2, 3)\n        print(\"range unpack: \" .. x .. \",\" .. y)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_sort_with_comparator::97",
+  "argv": [
+   "-e",
+   "\n        local t = {5, 2, 8, 1, 9, 3}\n        \n        -- Sort ascending (default)\n        table.sort(t)\n        print(\"ascending: \" .. table.concat(t, \",\"))\n        \n        -- Sort descending\n        table.sort(t, function(a, b) return a > b end)\n        print(\"descending: \" .. table.concat(t, \",\"))\n        \n        -- Sort strings\n        local words = {\"zebra\", \"apple\", \"moon\", \"car\"}\n        table.sort(words)\n        print(\"sorted words: \" .. table.concat(words, \",\"))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_maxn::98",
+  "argv": [
+   "-e",
+   "\n        local t = {[1] = \"a\", [5] = \"b\", [10] = \"c\"}\n        if table.maxn then\n            print(\"maxn: \" .. table.maxn(t))\n        else\n            -- maxn might not be available in all versions\n            print(\"maxn not available\")\n        end\n        \n        -- Test with sequential table\n        local t2 = {1, 2, 3, 4, 5}\n        print(\"length: \" .. #t2)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_io_read_modes::99",
+  "argv": [
+   "-e",
+   "\n        -- Test reading numbers\n        local input = \"123 456 789\"\n        local file = io.tmpfile()\n        file:write(input)\n        file:seek(\"set\", 0)\n        \n        local n1 = file:read(\"*n\")\n        local n2 = file:read(\"*n\")\n        print(\"numbers: \" .. n1 .. \",\" .. n2)\n        \n        file:close()\n        print(\"file closed\")\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_io_lines_iterator::100",
+  "argv": [
+   "-e",
+   "\n        local file = io.tmpfile()\n        file:write(\"line1\\nline2\\nline3\\n\")\n        file:seek(\"set\", 0)\n        \n        local count = 0\n        local lines = {}\n        for line in file:lines() do\n            count = count + 1\n            lines[count] = line\n        end\n        \n        print(\"line count: \" .. count)\n        print(\"first line: \" .. lines[1])\n        print(\"last line: \" .. lines[count])\n        \n        file:close()\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_io_setvbuf::101",
+  "argv": [
+   "-e",
+   "\n        local file = io.tmpfile()\n        \n        -- Test different buffering modes\n        local success = pcall(file.setvbuf, file, \"no\")\n        print(\"setvbuf no: \" .. tostring(success))\n        \n        success = pcall(file.setvbuf, file, \"full\", 1024)\n        print(\"setvbuf full: \" .. tostring(success))\n        \n        success = pcall(file.setvbuf, file, \"line\")\n        print(\"setvbuf line: \" .. tostring(success))\n        \n        file:close()\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_os_date_formats::102",
+  "argv": [
+   "-e",
+   "\n        -- Test different date formats\n        local time = os.time()\n        print(\"time: \" .. tostring(time))\n        \n        local date1 = os.date(\"%Y-%m-%d\", time)\n        print(\"date format 1: \" .. date1)\n        \n        local date2 = os.date(\"%H:%M:%S\", time)\n        print(\"date format 2: \" .. date2)\n        \n        local date3 = os.date(\"%A %B\", time)\n        print(\"date format 3: \" .. date3)\n        \n        -- Test UTC\n        local utc = os.date(\"!%Y-%m-%d\", time)\n        print(\"utc date: \" .. utc)\n        \n        -- Test table format\n        local t = os.date(\"*t\", time)\n        print(\"year: \" .. t.year)\n        print(\"month: \" .. t.month)\n        print(\"day: \" .. t.day)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_os_difftime::103",
+  "argv": [
+   "-e",
+   "\n        local t1 = os.time()\n        local t2 = os.time({year=2020, month=1, day=1, hour=0, min=0, sec=0})\n        local diff = os.difftime(t1, t2)\n        print(\"difftime: \" .. tostring(diff))\n        print(\"difftime type: \" .. type(diff))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_os_setlocale::104",
+  "argv": [
+   "-e",
+   "\n        -- Test getting current locale\n        local locale = os.setlocale()\n        print(\"current locale: \" .. tostring(locale))\n        \n        -- Test setting locale\n        local new_locale = os.setlocale(\"C\")\n        print(\"new locale: \" .. tostring(new_locale))\n        \n        -- Test locale categories\n        local numeric = os.setlocale(nil, \"numeric\")\n        print(\"numeric locale: \" .. tostring(numeric))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_getinfo_variations::105",
+  "argv": [
+   "-e",
+   "\n        local function test_func(a, b)\n            return a + b\n        end\n        \n        -- Test various getinfo options\n        local info = debug.getinfo(test_func, \"S\")\n        print(\"source: \" .. tostring(info.source))\n        print(\"linedefined: \" .. info.linedefined)\n        \n        info = debug.getinfo(test_func, \"n\")\n        print(\"name: \" .. tostring(info.name))\n        \n        info = debug.getinfo(test_func, \"u\")\n        print(\"nups: \" .. info.nups)\n        print(\"nparams: \" .. info.nparams)\n        \n        info = debug.getinfo(test_func, \"l\")\n        print(\"currentline: \" .. tostring(info.currentline))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_getlocal_setlocal::106",
+  "argv": [
+   "-e",
+   "\n        local function test()\n            local x = 10\n            local y = 20\n            local info = debug.getinfo(1, \"u\")\n            \n            -- Get local variables\n            for i = 1, info.nparams + info.nups do\n                local name, value = debug.getlocal(1, i)\n                if name then\n                    print(\"local \" .. i .. \": \" .. name .. \" = \" .. tostring(value))\n                end\n            end\n            \n            -- Set local variable\n            debug.setlocal(1, 1, 99)\n            print(\"x after setlocal: \" .. x)\n        end\n        \n        test()\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_getupvalue_setupvalue::107",
+  "argv": [
+   "-e",
+   "\n        local upval = 42\n        \n        local function closure()\n            return upval\n        end\n        \n        -- Get upvalue\n        local name, value = debug.getupvalue(closure, 1)\n        print(\"upvalue name: \" .. name)\n        print(\"upvalue value: \" .. value)\n        \n        -- Set upvalue\n        debug.setupvalue(closure, 1, 99)\n        print(\"new upvalue: \" .. closure())\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_getmetatable_setmetatable::108",
+  "argv": [
+   "-e",
+   "\n        local t = {}\n        local mt = {__index = function() return \"meta\" end}\n        \n        -- Set metatable\n        debug.setmetatable(t, mt)\n        print(\"t.foo: \" .. t.foo)\n        \n        -- Get metatable\n        local mt2 = debug.getmetatable(t)\n        print(\"got metatable: \" .. tostring(mt2 ~= nil))\n        print(\"same metatable: \" .. tostring(mt == mt2))\n        \n        -- Test with number\n        local mt_num = debug.getmetatable(42)\n        print(\"number has metatable: \" .. tostring(mt_num ~= nil))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_package_loaders::109",
+  "argv": [
+   "-e",
+   "\n        -- Check loaders exist\n        local loaders = package.loaders or package.searchers\n        print(\"loaders count: \" .. #loaders)\n        \n        -- Test preload\n        package.preload[\"test_module\"] = function()\n            return {value = 42}\n        end\n        \n        local mod = require(\"test_module\")\n        print(\"preloaded value: \" .. mod.value)\n        \n        -- Check loaded table\n        print(\"module loaded: \" .. tostring(package.loaded[\"test_module\"] ~= nil))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_package_path_manipulation::110",
+  "argv": [
+   "-e",
+   "\n        -- Save original path\n        local original = package.path\n        print(\"has path: \" .. tostring(#original > 0))\n        \n        -- Modify path\n        package.path = \"./?.lua;./lib/?.lua\"\n        print(\"modified path: \" .. package.path)\n        \n        -- Restore\n        package.path = original\n        print(\"restored: \" .. tostring(package.path == original))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_dump_variations::111",
+  "argv": [
+   "-e",
+   "\n        local function test()\n            return 42\n        end\n        \n        -- Dump bytecode\n        local bc = string.dump(test)\n        print(\"bytecode length: \" .. #bc)\n        \n        -- Load and execute\n        local loaded = load(bc)\n        print(\"loaded result: \" .. loaded())\n        \n        -- Test with more complex function\n        local function complex(a, b, c)\n            local x = a + b\n            local y = x * c\n            return y\n        end\n        \n        local bc2 = string.dump(complex)\n        print(\"complex bytecode length: \" .. #bc2)\n        \n        local loaded2 = load(bc2)\n        print(\"complex result: \" .. loaded2(2, 3, 4))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gc_comprehensive::112",
+  "argv": [
+   "-e",
+   "\n        -- Test gc control\n        collectgarbage(\"stop\")\n        print(\"gc stopped\")\n        \n        local count1 = collectgarbage(\"count\")\n        print(\"memory before: \" .. count1)\n        \n        -- Create garbage\n        local t = {}\n        for i = 1, 1000 do\n            t[i] = {data = string.rep(\"x\", 100)}\n        end\n        t = nil\n        \n        local count2 = collectgarbage(\"count\")\n        print(\"memory after allocation: \" .. count2)\n        \n        collectgarbage(\"collect\")\n        local count3 = collectgarbage(\"count\")\n        print(\"memory after gc: \" .. count3)\n        \n        collectgarbage(\"restart\")\n        print(\"gc restarted\")\n        \n        -- Test step\n        collectgarbage(\"step\", 10)\n        print(\"gc stepped\")\n        \n        -- Test setpause and setstepmul\n        local old_pause = collectgarbage(\"setpause\", 200)\n        print(\"old pause: \" .. old_pause)\n        \n        local old_mul = collectgarbage(\"setstepmul\", 200)\n        print(\"old mul: \" .. old_mul)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gc_metamethods::113",
+  "argv": [
+   "-e",
+   "\n        local finalized = 0\n        \n        local function create_obj()\n            local obj = {}\n            setmetatable(obj, {\n                __gc = function()\n                    finalized = finalized + 1\n                end\n            })\n            return obj\n        end\n        \n        -- Create and lose reference\n        for i = 1, 10 do\n            local obj = create_obj()\n        end\n        \n        collectgarbage(\"collect\")\n        collectgarbage(\"collect\")  -- May need multiple passes\n        \n        print(\"finalized: \" .. finalized)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_weak_tables::114",
+  "argv": [
+   "-e",
+   "\n        -- Test weak keys\n        local wk = {}\n        setmetatable(wk, {__mode = \"k\"})\n        \n        local key = {}\n        wk[key] = \"value\"\n        print(\"before gc: \" .. tostring(wk[key]))\n        \n        key = nil\n        collectgarbage(\"collect\")\n        collectgarbage(\"collect\")\n        \n        local count = 0\n        for k, v in pairs(wk) do\n            count = count + 1\n        end\n        print(\"keys after gc: \" .. count)\n        \n        -- Test weak values\n        local wv = {}\n        setmetatable(wv, {__mode = \"v\"})\n        \n        local value = {}\n        wv[\"key\"] = value\n        print(\"wv before: \" .. tostring(wv[\"key\"] ~= nil))\n        \n        value = nil\n        collectgarbage(\"collect\")\n        collectgarbage(\"collect\")\n        print(\"wv after: \" .. tostring(wv[\"key\"] == nil))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vararg_operations::115",
+  "argv": [
+   "-e",
+   "\n        local function vararg_func(...)\n            local args = {...}\n            print(\"arg count: \" .. #args)\n            print(\"arg1: \" .. tostring(args[1]))\n            print(\"arg3: \" .. tostring(args[3]))\n            \n            local n = select(\"#\", ...)\n            print(\"select count: \" .. n)\n            \n            local first = select(1, ...)\n            print(\"select first: \" .. tostring(first))\n        end\n        \n        vararg_func(10, 20, 30, 40)\n        \n        -- Test with no args\n        vararg_func()\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_module_patterns::116",
+  "argv": [
+   "-e",
+   "\n        -- Test module function if available\n        if module then\n            module(\"test_mod\", package.seeall)\n            function test_func()\n                return \"from module\"\n            end\n            print(\"module created\")\n        else\n            print(\"module function not available\")\n        end\n        \n        -- Test modern module pattern\n        local M = {}\n        function M.func()\n            return \"from M\"\n        end\n        print(\"M.func: \" .. M.func())\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_operations::117",
+  "argv": [
+   "-e",
+   "\n        local mt = {\n            __index = function(t, k) return \"meta_\" .. k end,\n            __newindex = function(t, k, v) rawset(t, k, \"new_\" .. v) end,\n        }\n        \n        local t = setmetatable({}, mt)\n        \n        -- Test regular access (goes through metamethods)\n        print(\"t.foo: \" .. t.foo)\n        \n        -- Test rawget (bypasses __index)\n        print(\"rawget: \" .. tostring(rawget(t, \"foo\")))\n        \n        -- Test rawset (bypasses __newindex)\n        rawset(t, \"bar\", \"direct\")\n        print(\"rawget bar: \" .. rawget(t, \"bar\"))\n        \n        -- Test regular set (goes through __newindex)\n        t.baz = \"value\"\n        print(\"rawget baz: \" .. rawget(t, \"baz\"))\n        \n        -- Test rawequal\n        local a = {1, 2, 3}\n        local b = a\n        local c = {1, 2, 3}\n        print(\"rawequal a,b: \" .. tostring(rawequal(a, b)))\n        print(\"rawequal a,c: \" .. tostring(rawequal(a, c)))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_jit_util_funcinfo::118",
+  "argv": [
+   "-e",
+   "\n        local jit = require('jit')\n        if jit.util then\n            local function test() return 42 end\n            local info = jit.util.funcinfo(test)\n            print(type(info))\n            if info then\n                print(info.addr ~= nil)\n            end\n        else\n            print('jit.util not available')\n        end\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_jit_util_funcinfo_on_c_function::119",
+  "argv": [
+   "-e",
+   "\n        local jit = require('jit')\n        if jit.util and jit.util.funcinfo then\n            local info = jit.util.funcinfo(print)\n            print(type(info))\n            if info then\n                print(info.ffid ~= nil)\n            end\n        else\n            print('funcinfo not available')\n        end\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_jit_util_funcbc::120",
+  "argv": [
+   "-e",
+   "\n        local jit = require('jit')\n        if jit.util and jit.util.funcbc then\n            local function test() return 42 end\n            local bc, mode = jit.util.funcbc(test, 0)\n            print(type(bc), type(mode))\n        else\n            print('funcbc not available')\n        end\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_jit_util_funck::121",
+  "argv": [
+   "-e",
+   "\n        local jit = require('jit')\n        if jit.util and jit.util.funck then\n            local function test() return 42 end\n            local k = jit.util.funck(test, 0)\n            print(type(k))\n        else\n            print('funck not available')\n        end\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_jit_util_funcuvname::122",
+  "argv": [
+   "-e",
+   "\n        local jit = require('jit')\n        if jit.util and jit.util.funcuvname then\n            local upval = 42\n            local function test() return upval end\n            local name = jit.util.funcuvname(test, 0)\n            print(type(name))\n            if name then print(name) end\n        else\n            print('funcuvname not available')\n        end\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_jit_util_traceinfo::123",
+  "argv": [
+   "-e",
+   "\n        local jit = require('jit')\n        if jit.util and jit.util.traceinfo then\n            -- Try to get info for trace 1\n            local info = jit.util.traceinfo(1)\n            print(type(info))\n        else\n            print('traceinfo not available')\n        end\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_jit_on_with_function::124",
+  "argv": [
+   "-e",
+   "\n        local jit = require('jit')\n        local function test() end\n        jit.on(test)\n        print('ok')\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_jit_off_with_function::125",
+  "argv": [
+   "-e",
+   "\n        local jit = require('jit')\n        local function test() end\n        jit.off(test)\n        print('ok')\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_jit_flush_with_function::126",
+  "argv": [
+   "-e",
+   "\n        local jit = require('jit')\n        local function test() end\n        jit.flush(test)\n        print('ok')\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_jit_on_with_boolean_args::127",
+  "argv": [
+   "-e",
+   "\n        local jit = require('jit')\n        local function test() end\n        jit.on(test, true)\n        print('ok')\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_jit_on_with_invalid_arg::128",
+  "argv": [
+   "-e",
+   "require('jit').on('invalid')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_buffer_creation::129",
+  "argv": [
+   "-e",
+   "\n        local buffer = require('string.buffer')\n        if buffer then\n            local buf = buffer.new()\n            print(type(buf))\n        else\n            print('buffer not available')\n        end\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_buffer_creation_with_size::130",
+  "argv": [
+   "-e",
+   "\n        local buffer = require('string.buffer')\n        if buffer then\n            local buf = buffer.new(100)\n            print(type(buf))\n        else\n            print('buffer not available')\n        end\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_buffer_put_operations::131",
+  "argv": [
+   "-e",
+   "\n        local buffer = require('string.buffer')\n        if buffer then\n            local buf = buffer.new()\n            buf:put('hello')\n            buf:put(' ')\n            buf:put('world')\n            print(buf:get())\n        else\n            print('string.buffer not available')\n        end\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_buffer_reset::132",
+  "argv": [
+   "-e",
+   "\n        local buffer = require('string.buffer')\n        if buffer then\n            local buf = buffer.new()\n            buf:put('test')\n            buf:reset()\n            print(#buf:get())\n        else\n            print('string.buffer not available')\n        end\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_buffer_skip::133",
+  "argv": [
+   "-e",
+   "\n        local buffer = require('string.buffer')\n        if buffer and buffer.new then\n            local buf = buffer.new()\n            buf:put('hello world')\n            buf:skip(6)\n            print(buf:get())\n        else\n            print('buffer.skip not available')\n        end\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_buffer_encode_decode::134",
+  "argv": [
+   "-e",
+   "\n        local buffer = require('string.buffer')\n        if buffer and buffer.encode and buffer.decode then\n            local data = {1, 2, 3, a = 'test'}\n            local encoded = buffer.encode(data)\n            local decoded = buffer.decode(encoded)\n            print(type(decoded))\n        else\n            print('buffer encode/decode not available')\n        end\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_luaL_checktype_error::135",
+  "argv": [
+   "-e",
+   "math.floor('not a number')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_luaL_checkoption_error::136",
+  "argv": [
+   "-e",
+   "io.setvbuf(io.stdout, 'invalid_mode')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_luaL_argerror::137",
+  "argv": [
+   "-e",
+   "string.sub('test', 'not_a_number')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_operations_with_large_numbers::138",
+  "argv": [
+   "-e",
+   "\n        print(bit.band(0xFFFFFFFF, 0x12345678))\n        print(bit.bor(0x12340000, 0x00005678))\n        print(bit.bxor(0xFFFFFFFF, 0x12345678))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_lshift_edge_cases::139",
+  "argv": [
+   "-e",
+   "\n        print(bit.lshift(1, 0))\n        print(bit.lshift(1, 31))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_rshift_edge_cases::140",
+  "argv": [
+   "-e",
+   "\n        print(bit.rshift(0x80000000, 31))\n        print(bit.rshift(0xFFFFFFFF, 1))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_arshift::141",
+  "argv": [
+   "-e",
+   "\n        print(bit.arshift(0x80000000, 1))\n        print(bit.arshift(0x7FFFFFFF, 1))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_math_huge::142",
+  "argv": [
+   "-e",
+   "print(math.huge, math.huge > 0)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_math_pi::143",
+  "argv": [
+   "-e",
+   "print(math.pi > 3.14 and math.pi < 3.15)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_math_operations_with_inf::144",
+  "argv": [
+   "-e",
+   "\n        print(math.floor(math.huge))\n        print(math.ceil(-math.huge))\n        print(math.abs(-math.huge))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_math_operations_with_nan::145",
+  "argv": [
+   "-e",
+   "\n        local nan = 0/0\n        print(nan ~= nan)  -- NaN is not equal to itself\n        print(math.floor(nan))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_math_modf::146",
+  "argv": [
+   "-e",
+   "\n        local i, f = math.modf(3.14)\n        print(i, f)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_math_fmod::147",
+  "argv": [
+   "-e",
+   "print(math.fmod(10, 3))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_math_pow::148",
+  "argv": [
+   "-e",
+   "print(math.pow(2, 10))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_char_with_invalid_code::149",
+  "argv": [
+   "-e",
+   "print(string.char(1000))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_byte_out_of_range::150",
+  "argv": [
+   "-e",
+   "\n        local s = 'hello'\n        print(string.byte(s, 10))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_sub_negative_indices::151",
+  "argv": [
+   "-e",
+   "print(string.sub('hello', -3, -1))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_reverse::152",
+  "argv": [
+   "-e",
+   "print(string.reverse('hello'))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_upper_lower::153",
+  "argv": [
+   "-e",
+   "\n        print(string.upper('hello'))\n        print(string.lower('WORLD'))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_sort_error_in_comparator::154",
+  "argv": [
+   "-e",
+   "\n        local t = {1, 2, 3}\n        local ok, err = pcall(table.sort, t, function(a, b)\n            error('comparison failed')\n        end)\n        print(ok)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_maxn::155",
+  "argv": [
+   "-e",
+   "\n        local t = {1, 2, 3, [10] = 'ten'}\n        if table.maxn then\n            print(table.maxn(t))\n        else\n            print('table.maxn not available')\n        end\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_foreach::156",
+  "argv": [
+   "-e",
+   "\n        if table.foreach then\n            local t = {a=1, b=2, c=3}\n            local count = 0\n            table.foreach(t, function(k, v) count = count + 1 end)\n            print(count)\n        else\n            print('table.foreach not available')\n        end\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_foreachi::157",
+  "argv": [
+   "-e",
+   "\n        if table.foreachi then\n            local t = {1, 2, 3}\n            local sum = 0\n            table.foreachi(t, function(i, v) sum = sum + v end)\n            print(sum)\n        else\n            print('table.foreachi not available')\n        end\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_io_type::158",
+  "argv": [
+   "-e",
+   "\n        print(io.type(io.stdout))\n        print(io.type(nil))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_io_popen_read::159",
+  "argv": [
+   "-e",
+   "\n        local f = io.popen('echo test')\n        if f then\n            local data = f:read('*a')\n            f:close()\n            print(data)\n        else\n            print('popen not available')\n        end\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_io_tmpfile::160",
+  "argv": [
+   "-e",
+   "\n        local f = io.tmpfile()\n        if f then\n            f:write('test')\n            f:close()\n            print('ok')\n        else\n            print('tmpfile not available')\n        end\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_os_execute_with_command::161",
+  "argv": [
+   "-e",
+   "\n        local ok, status = os.execute('echo test')\n        print(type(ok), type(status))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_os_getenv::162",
+  "argv": [
+   "-e",
+   "\n        print(type(os.getenv('PATH')))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_os_setlocale::163",
+  "argv": [
+   "-e",
+   "\n        local old = os.setlocale()\n        print(type(old))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_package_searchpath::164",
+  "argv": [
+   "-e",
+   "\n        if package.searchpath then\n            local path = package.searchpath('math', package.path)\n            print(type(path))\n        else\n            print('package.searchpath not available')\n        end\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_package_seeall::165",
+  "argv": [
+   "-e",
+   "\n        if package.seeall then\n            local m = {}\n            package.seeall(m)\n            print(type(m))\n        else\n            print('package.seeall not available')\n        end\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_loadstring_with_chunkname::166",
+  "argv": [
+   "-e",
+   "\n        local f, err = loadstring('return 42', '@testchunk')\n        if f then\n            print(f())\n        else\n            print(err)\n        end\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_loadstring_with_syntax_error::167",
+  "argv": [
+   "-e",
+   "\n        local f, err = loadstring('invalid lua code !')\n        print(f == nil, err ~= nil)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_load_with_reader_function::168",
+  "argv": [
+   "-e",
+   "\n        local chunks = {'return ', '4', '2'}\n        local i = 0\n        local f = load(function()\n            i = i + 1\n            return chunks[i]\n        end)\n        if f then print(f()) end\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assert_pass::169",
+  "argv": [
+   "-e",
+   "assert(true, 'should not fail'); print('ok')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assert_fail::170",
+  "argv": [
+   "-e",
+   "assert(false, 'custom message')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_collectgarbage::171",
+  "argv": [
+   "-e",
+   "collectgarbage('collect'); print('ok')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error::172",
+  "argv": [
+   "-e",
+   "error('test error', 0)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_getfenv::173",
+  "argv": [
+   "-e",
+   "print(type(getfenv()))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_getmetatable::174",
+  "argv": [
+   "-e",
+   "local t = {}; setmetatable(t, {}); print(type(getmetatable(t)))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_setmetatable::175",
+  "argv": [
+   "-e",
+   "\nlocal t = {}\nlocal mt = {__index = function() return 10 end}\nsetmetatable(t, mt)\nprint(t.x)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ipairs::176",
+  "argv": [
+   "-e",
+   "\nlocal t = {10, 20, 30}\nlocal sum = 0\nfor i, v in ipairs(t) do sum = sum + v end\nprint(sum)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_load::177",
+  "argv": [
+   "-e",
+   "local f = load('return 42'); print(f())"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_loadstring::178",
+  "argv": [
+   "-e",
+   "local f = loadstring('return 99'); print(f())"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_next::179",
+  "argv": [
+   "-e",
+   "local t = {a=1}; local k = next(t); print(k)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pairs::180",
+  "argv": [
+   "-e",
+   "\nlocal t = {a=1, b=2}\nlocal count = 0\nfor k, v in pairs(t) do count = count + 1 end\nprint(count)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pcall_success::181",
+  "argv": [
+   "-e",
+   "local ok, v = pcall(function() return 42 end); print(ok, v)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pcall_error::182",
+  "argv": [
+   "-e",
+   "local ok, msg = pcall(function() error('test') end); print(ok)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rawequal::183",
+  "argv": [
+   "-e",
+   "print(rawequal(1, 1), rawequal(1, 2))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rawget::184",
+  "argv": [
+   "-e",
+   "local t = {x=10}; print(rawget(t, 'x'))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rawset::185",
+  "argv": [
+   "-e",
+   "local t = {}; rawset(t, 'x', 20); print(t.x)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select::186",
+  "argv": [
+   "-e",
+   "print(select(2, 1, 2, 3, 4))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_count::187",
+  "argv": [
+   "-e",
+   "print(select('#', 1, 2, 3))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tonumber::188",
+  "argv": [
+   "-e",
+   "print(tonumber('42'), tonumber('FF', 16))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tostring::189",
+  "argv": [
+   "-e",
+   "print(tostring(42), tostring(true))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type::190",
+  "argv": [
+   "-e",
+   "print(type(42), type('str'), type({}), type(nil))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unpack::191",
+  "argv": [
+   "-e",
+   "local a, b, c = unpack({1, 2, 3}); print(a, b, c)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xpcall::192",
+  "argv": [
+   "-e",
+   "\nlocal function err_handler(msg) return 'handled: ' .. msg end\nlocal ok, result = xpcall(function() error('test') end, err_handler)\nprint(ok, result)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_option::193",
+  "argv": [
+   "--invalid-option"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_tobit::194",
+  "argv": [
+   "-e",
+   "\n        local bit = require(\"bit\")\n        print(\"0xffffffff: \" .. bit.tobit(0xffffffff))\n        print(\"0x80000000: \" .. bit.tobit(0x80000000))\n        print(\"123.456: \" .. bit.tobit(123.456))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_tohex::195",
+  "argv": [
+   "-e",
+   "\n        local bit = require(\"bit\")\n        print(\"255: \" .. bit.tohex(255))\n        print(\"255,4: \" .. bit.tohex(255, 4))\n        print(\"255,-4: \" .. bit.tohex(255, -4))\n        print(\"-1: \" .. bit.tohex(-1))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_bnot::196",
+  "argv": [
+   "-e",
+   "\n        local bit = require(\"bit\")\n        print(\"bnot(0): \" .. bit.bnot(0))\n        print(\"bnot(-1): \" .. bit.bnot(-1))\n        print(\"bnot(0xff): \" .. bit.bnot(0xff))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_bswap::197",
+  "argv": [
+   "-e",
+   "\n        local bit = require(\"bit\")\n        print(\"bswap(0x12345678): \" .. bit.tohex(bit.bswap(0x12345678)))\n        print(\"bswap(0x1): \" .. bit.tohex(bit.bswap(0x1)))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_lshift::198",
+  "argv": [
+   "-e",
+   "\n        local bit = require(\"bit\")\n        print(\"1 << 0: \" .. bit.lshift(1, 0))\n        print(\"1 << 1: \" .. bit.lshift(1, 1))\n        print(\"1 << 8: \" .. bit.lshift(1, 8))\n        print(\"1 << 31: \" .. bit.lshift(1, 31))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_rshift::199",
+  "argv": [
+   "-e",
+   "\n        local bit = require(\"bit\")\n        print(\"256 >> 1: \" .. bit.rshift(256, 1))\n        print(\"256 >> 8: \" .. bit.rshift(256, 8))\n        print(\"0x80000000 >> 1: \" .. bit.tohex(bit.rshift(0x80000000, 1)))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_arshift::200",
+  "argv": [
+   "-e",
+   "\n        local bit = require(\"bit\")\n        print(\"256 >>> 1: \" .. bit.arshift(256, 1))\n        print(\"-256 >>> 1: \" .. bit.arshift(-256, 1))\n        print(\"-1 >>> 1: \" .. bit.arshift(-1, 1))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_rol::201",
+  "argv": [
+   "-e",
+   "\n        local bit = require(\"bit\")\n        print(\"rol(0x1, 1): \" .. bit.tohex(bit.rol(0x1, 1)))\n        print(\"rol(0x80000000, 1): \" .. bit.tohex(bit.rol(0x80000000, 1)))\n        print(\"rol(0x12345678, 8): \" .. bit.tohex(bit.rol(0x12345678, 8)))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_ror::202",
+  "argv": [
+   "-e",
+   "\n        local bit = require(\"bit\")\n        print(\"ror(0x1, 1): \" .. bit.tohex(bit.ror(0x1, 1)))\n        print(\"ror(0x2, 1): \" .. bit.tohex(bit.ror(0x2, 1)))\n        print(\"ror(0x12345678, 8): \" .. bit.tohex(bit.ror(0x12345678, 8)))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_band_multiple::203",
+  "argv": [
+   "-e",
+   "\n        local bit = require(\"bit\")\n        print(\"band(15, 7, 3, 1): \" .. bit.band(15, 7, 3, 1))\n        print(\"band(0xff, 0xf0, 0xf): \" .. bit.band(0xff, 0xf0, 0xf))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_bor_multiple::204",
+  "argv": [
+   "-e",
+   "\n        local bit = require(\"bit\")\n        print(\"bor(1, 2, 4, 8): \" .. bit.bor(1, 2, 4, 8))\n        print(\"bor(0x01, 0x10, 0x100): \" .. bit.tohex(bit.bor(0x01, 0x10, 0x100)))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_bxor_multiple::205",
+  "argv": [
+   "-e",
+   "\n        local bit = require(\"bit\")\n        print(\"bxor(1, 1): \" .. bit.bxor(1, 1))\n        print(\"bxor(15, 7): \" .. bit.bxor(15, 7))\n        print(\"bxor(1, 2, 3): \" .. bit.bxor(1, 2, 3))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_combined_operations::206",
+  "argv": [
+   "-e",
+   "\n        local bit = require(\"bit\")\n        local a = bit.bor(bit.lshift(1, 16), bit.lshift(2, 8), 3)\n        print(\"combined: \" .. bit.tohex(a))\n        local b = bit.band(bit.rshift(a, 8), 0xff)\n        print(\"extracted: \" .. b)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_edge_cases::207",
+  "argv": [
+   "-e",
+   "\n        local bit = require(\"bit\")\n        print(\"band(0, -1): \" .. bit.band(0, -1))\n        print(\"bor(0, 0): \" .. bit.bor(0, 0))\n        print(\"bxor(-1, -1): \" .. bit.bxor(-1, -1))\n        print(\"lshift(1, 32): \" .. bit.lshift(1, 32))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_with_negative_numbers::208",
+  "argv": [
+   "-e",
+   "\n        local bit = require(\"bit\")\n        print(\"band(-1, 0xff): \" .. bit.band(-1, 0xff))\n        print(\"bor(-256, 255): \" .. bit.bor(-256, 255))\n        print(\"bxor(-1, 0): \" .. bit.bxor(-1, 0))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_shift_boundaries::209",
+  "argv": [
+   "-e",
+   "\n        local bit = require(\"bit\")\n        for i = 0, 32 do\n            local v = bit.lshift(1, i % 32)\n            if i == 0 or i == 16 or i == 31 then\n                print(\"1 << \" .. i .. \": \" .. bit.tohex(v))\n            end\n        end\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_mask_operations::210",
+  "argv": [
+   "-e",
+   "\n        local bit = require(\"bit\")\n        local function extract_byte(val, n)\n            return bit.band(bit.rshift(val, n * 8), 0xff)\n        end\n        local val = 0x12345678\n        print(\"byte 0: \" .. bit.tohex(extract_byte(val, 0)))\n        print(\"byte 1: \" .. bit.tohex(extract_byte(val, 1)))\n        print(\"byte 2: \" .. bit.tohex(extract_byte(val, 2)))\n        print(\"byte 3: \" .. bit.tohex(extract_byte(val, 3)))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_parity::211",
+  "argv": [
+   "-e",
+   "\n        local bit = require(\"bit\")\n        local function parity(x)\n            x = bit.bxor(x, bit.rshift(x, 16))\n            x = bit.bxor(x, bit.rshift(x, 8))\n            x = bit.bxor(x, bit.rshift(x, 4))\n            x = bit.bxor(x, bit.rshift(x, 2))\n            x = bit.bxor(x, bit.rshift(x, 1))\n            return bit.band(x, 1)\n        end\n        print(\"parity(0): \" .. parity(0))\n        print(\"parity(1): \" .. parity(1))\n        print(\"parity(3): \" .. parity(3))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_count_ones::212",
+  "argv": [
+   "-e",
+   "\n        local bit = require(\"bit\")\n        local function count_ones(x)\n            local count = 0\n            for i = 0, 31 do\n                if bit.band(x, bit.lshift(1, i)) ~= 0 then\n                    count = count + 1\n                end\n            end\n            return count\n        end\n        print(\"ones(0): \" .. count_ones(0))\n        print(\"ones(1): \" .. count_ones(1))\n        print(\"ones(7): \" .. count_ones(7))\n        print(\"ones(0xff): \" .. count_ones(0xff))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_tobit::213",
+  "argv": [
+   "-e",
+   "print(bit.tobit(2^32 + 1))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_tohex::214",
+  "argv": [
+   "-e",
+   "print(bit.tohex(255))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_bnot::215",
+  "argv": [
+   "-e",
+   "print(bit.bnot(0))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_band::216",
+  "argv": [
+   "-e",
+   "print(bit.band(12, 10))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_bor::217",
+  "argv": [
+   "-e",
+   "print(bit.bor(12, 10))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_bxor::218",
+  "argv": [
+   "-e",
+   "print(bit.bxor(12, 10))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_lshift::219",
+  "argv": [
+   "-e",
+   "print(bit.lshift(1, 3))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_rshift::220",
+  "argv": [
+   "-e",
+   "print(bit.rshift(8, 2))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_arshift::221",
+  "argv": [
+   "-e",
+   "print(bit.arshift(-8, 1))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_rol::222",
+  "argv": [
+   "-e",
+   "print(bit.rol(0x80000000, 1))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_ror::223",
+  "argv": [
+   "-e",
+   "print(bit.ror(1, 1))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_bswap::224",
+  "argv": [
+   "-e",
+   "print(bit.bswap(0x12345678))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_multiple_ops::225",
+  "argv": [
+   "-e",
+   "\nlocal a = bit.band(0xFF, 0xF0)\nlocal b = bit.bor(a, 0x05)\nprint(b)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_save_bytecode_raw::226",
+  "argv": [
+   "-b",
+   "test.lua"
+  ],
+  "stdin": null,
+  "files": {
+   "test.lua": "print('Hello')"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_bytecode::227",
+  "argv": [
+   "-bl",
+   "test.lua"
+  ],
+  "stdin": null,
+  "files": {
+   "test.lua": "print('Test')"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_save_bytecode_with_debug::228",
+  "argv": [
+   "-bg",
+   "test.lua"
+  ],
+  "stdin": null,
+  "files": {
+   "test.lua": "print('Debug test')"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bytecode_from_string::229",
+  "argv": [
+   "-be",
+   "print('From string')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_bytecode_from_string::230",
+  "argv": [
+   "-ble",
+   "print('List test')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_c_source::231",
+  "argv": [
+   "-b",
+   "test.lua"
+  ],
+  "stdin": null,
+  "files": {
+   "test.lua": "return 42"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_header::232",
+  "argv": [
+   "-b",
+   "test.lua"
+  ],
+  "stdin": null,
+  "files": {
+   "test.lua": "return true"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bytecode_module_name::233",
+  "argv": [
+   "-b",
+   "-n",
+   "mymodule",
+   "test.lua"
+  ],
+  "stdin": null,
+  "files": {
+   "test.lua": "return {}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bytecode_stdin_stdout::234",
+  "argv": [
+   "-b",
+   "-",
+   "-"
+  ],
+  "stdin": "print('stdio test')",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bytecode_strip_default::235",
+  "argv": [
+   "-bs",
+   "test.lua"
+  ],
+  "stdin": null,
+  "files": {
+   "test.lua": "local x = 10; print(x)"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_to_file::236",
+  "argv": [
+   "-bl",
+   "test.lua"
+  ],
+  "stdin": null,
+  "files": {
+   "test.lua": "print('list to file')"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bytecode_deterministic::237",
+  "argv": [
+   "-bd",
+   "test.lua"
+  ],
+  "stdin": null,
+  "files": {
+   "test.lua": "print('deterministic')"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bytecode_override_filename::238",
+  "argv": [
+   "-b",
+   "-F",
+   "custom_name.lua",
+   "test.lua"
+  ],
+  "stdin": null,
+  "files": {
+   "test.lua": "print('filename override')"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bytecode_of_complex_function::239",
+  "argv": [
+   "-b",
+   "complex.lua"
+  ],
+  "stdin": null,
+  "files": {
+   "complex.lua": "\nlocal function process(data)\n  local result = {}\n  for i, v in ipairs(data) do\n    if v > 10 then\n      table.insert(result, v * 2)\n    else\n      table.insert(result, v + 5)\n    end\n  end\n  return result\nend\nreturn process\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bytecode_with_upvalues::240",
+  "argv": [
+   "-b",
+   "upval.lua"
+  ],
+  "stdin": null,
+  "files": {
+   "upval.lua": "\nlocal x = 10\nreturn function() return x * 2 end\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bytecode_with_tables::241",
+  "argv": [
+   "-b",
+   "tables.lua"
+  ],
+  "stdin": null,
+  "files": {
+   "tables.lua": "\nreturn {\n  a = 1,\n  b = 2,\n  c = {d = 3, e = 4},\n  [10] = 'ten'\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bytecode_with_loops::242",
+  "argv": [
+   "-b",
+   "loops.lua"
+  ],
+  "stdin": null,
+  "files": {
+   "loops.lua": "\nlocal function test()\n  local sum = 0\n  for i=1,10 do sum = sum + i end\n  while sum < 100 do sum = sum + 1 end\n  repeat sum = sum - 1 until sum == 55\n  return sum\nend\nreturn test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bytecode_with_varargs::243",
+  "argv": [
+   "-b",
+   "varargs.lua"
+  ],
+  "stdin": null,
+  "files": {
+   "varargs.lua": "\nreturn function(...)\n  local args = {...}\n  return #args\nend\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bytecode_listing_detailed::244",
+  "argv": [
+   "-bl",
+   "detailed.lua"
+  ],
+  "stdin": null,
+  "files": {
+   "detailed.lua": "\nlocal function add(a, b)\n  return a + b\nend\nprint(add(1, 2))\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_bytecode_formats::245",
+  "argv": [
+   "-b",
+   "multi.lua"
+  ],
+  "stdin": null,
+  "files": {
+   "multi.lua": "return 42"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_loops::246",
+  "argv": [
+   "-e",
+   "\nlocal sum = 0\nfor i=1,10 do\n  for j=1,10 do\n    sum = sum + i * j\n  end\nend\nprint(sum)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_recursive_factorial::247",
+  "argv": [
+   "-e",
+   "\nlocal function fact(n)\n  if n <= 1 then return 1 end\n  return n * fact(n-1)\nend\nprint(fact(10))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fibonacci::248",
+  "argv": [
+   "-e",
+   "\nlocal function fib(n)\n  if n <= 2 then return 1 end\n  return fib(n-1) + fib(n-2)\nend\nprint(fib(15))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_manipulation::249",
+  "argv": [
+   "-e",
+   "\nlocal t = {}\nfor i=1,100 do\n  t[i] = i * 2\nend\nlocal sum = 0\nfor k, v in ipairs(t) do\n  sum = sum + v\nend\nprint(sum)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_concatenation_loop::250",
+  "argv": [
+   "-e",
+   "\nlocal s = ''\nfor i=1,10 do\n  s = s .. tostring(i)\nend\nprint(s)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_closure_counter::251",
+  "argv": [
+   "-e",
+   "\nlocal function make_counter()\n  local count = 0\n  return function()\n    count = count + 1\n    return count\n  end\nend\nlocal c1 = make_counter()\nlocal c2 = make_counter()\nprint(c1(), c1(), c2(), c1())\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_as_array::252",
+  "argv": [
+   "-e",
+   "\nlocal arr = {10, 20, 30, 40, 50}\ntable.insert(arr, 3, 25)\ntable.remove(arr, 1)\nprint(table.concat(arr, ','))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_as_dict::253",
+  "argv": [
+   "-e",
+   "\nlocal dict = {a=1, b=2, c=3}\ndict.d = 4\ndict.a = nil\nlocal count = 0\nfor k, v in pairs(dict) do\n  count = count + 1\nend\nprint(count)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vararg_function::254",
+  "argv": [
+   "-e",
+   "\nlocal function sum(...)\n  local total = 0\n  for i, v in ipairs({...}) do\n    total = total + v\n  end\n  return total\nend\nprint(sum(1, 2, 3, 4, 5, 6, 7, 8, 9, 10))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_assignment::255",
+  "argv": [
+   "-e",
+   "\nlocal a, b, c = 1, 2, 3\na, b = b, a\nprint(a, b, c)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_in_pairs::256",
+  "argv": [
+   "-e",
+   "\nlocal t = {x=10, y=20, z=30}\nlocal sum = 0\nfor k, v in pairs(t) do\n  sum = sum + v\nend\nprint(sum)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_in_ipairs::257",
+  "argv": [
+   "-e",
+   "\nlocal t = {5, 10, 15, 20}\nlocal product = 1\nfor i, v in ipairs(t) do\n  product = product * v\nend\nprint(product)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_upvalue_mutation::258",
+  "argv": [
+   "-e",
+   "\nlocal x = 0\nlocal function inc()\n  x = x + 1\nend\ninc()\ninc()\ninc()\nprint(x)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_local_function::259",
+  "argv": [
+   "-e",
+   "\nlocal function double(n)\n  return n * 2\nend\nprint(double(21))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_anonymous_function::260",
+  "argv": [
+   "-e",
+   "\nlocal f = function(x) return x^2 end\nprint(f(7))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pcall_error_handling::261",
+  "argv": [
+   "-e",
+   "\n        local function may_fail(x)\n            if x < 0 then error(\"negative value\") end\n            return x * 2\n        end\n        local ok1, result1 = pcall(may_fail, 5)\n        local ok2, result2 = pcall(may_fail, -5)\n        print(\"ok1: \" .. tostring(ok1) .. \" result1: \" .. result1)\n        print(\"ok2: \" .. tostring(ok2) .. \" has error: \" .. tostring(result2:find(\"negative\") ~= nil))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xpcall_error_handler::262",
+  "argv": [
+   "-e",
+   "\n        local function handler(err)\n            return \"handled: \" .. tostring(err)\n        end\n        local function fail()\n            error(\"test error\")\n        end\n        local ok, result = xpcall(fail, handler)\n        print(\"ok: \" .. tostring(ok))\n        print(\"result has 'handled': \" .. tostring(result:find(\"handled\") ~= nil))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_weak_tables::263",
+  "argv": [
+   "-e",
+   "\n        local weak_keys = setmetatable({}, {__mode = \"k\"})\n        local weak_vals = setmetatable({}, {__mode = \"v\"})\n        local key = {}\n        local val = {}\n        weak_keys[key] = \"value\"\n        weak_vals[\"key\"] = val\n        print(\"weak_keys set: \" .. tostring(weak_keys[key] ~= nil))\n        print(\"weak_vals set: \" .. tostring(weak_vals[\"key\"] ~= nil))\n        collectgarbage()\n        print(\"after gc\")\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_finalizers::264",
+  "argv": [
+   "-e",
+   "\n        local count = 0\n        local mt = {\n            __gc = function(t)\n                count = count + 1\n            end\n        }\n        do\n            local t = setmetatable({}, mt)\n        end\n        collectgarbage()\n        collectgarbage()  -- May need multiple passes\n        print(\"finalizer may have run\")\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_metamethods::265",
+  "argv": [
+   "-e",
+   "\n        local mt = {\n            __index = function(t, k) return \"index:\" .. k end,\n            __newindex = function(t, k, v) rawset(t, k, \"new:\" .. v) end,\n            __call = function(t, x) return x * 2 end,\n            __concat = function(a, b) return tostring(a) .. \"+\" .. tostring(b) end,\n            __len = function(t) return 42 end,\n            __eq = function(a, b) return true end\n        }\n        local t1 = setmetatable({}, mt)\n        local t2 = setmetatable({}, mt)\n        print(\"index: \" .. t1.missing)\n        t1.x = \"value\"\n        print(\"newindex: \" .. t1.x)\n        print(\"call: \" .. t1(21))\n        print(\"concat: \" .. (t1 .. t2))\n        print(\"len: \" .. tostring(#t1 >= 0))\n        print(\"eq: \" .. tostring(t1 == t2))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_varargs_functions::266",
+  "argv": [
+   "-e",
+   "\n        local function varargs(...)\n            local args = {...}\n            local n = select('#', ...)\n            local sum = 0\n            for i = 1, n do\n                sum = sum + args[i]\n            end\n            return sum, n\n        end\n        local s, n = varargs(1, 2, 3, 4, 5)\n        print(\"sum: \" .. s .. \" count: \" .. n)\n        local s2, n2 = varargs()\n        print(\"empty sum: \" .. s2 .. \" count: \" .. n2)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tail_calls::267",
+  "argv": [
+   "-e",
+   "\n        local function tail_recursive(n, acc)\n            if n == 0 then return acc end\n            return tail_recursive(n - 1, acc + n)\n        end\n        local result = tail_recursive(1000, 0)\n        print(\"tail call result: \" .. result)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_upvalues::268",
+  "argv": [
+   "-e",
+   "\n        local function make_counter()\n            local count = 0\n            return function()\n                count = count + 1\n                return count\n            end\n        end\n        local c1 = make_counter()\n        local c2 = make_counter()\n        print(\"c1: \" .. c1() .. \" \" .. c1() .. \" \" .. c1())\n        print(\"c2: \" .. c2() .. \" \" .. c2())\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_returns::269",
+  "argv": [
+   "-e",
+   "\n        local function multi()\n            return 1, 2, 3, 4, 5\n        end\n        local a, b, c, d, e = multi()\n        print(\"a=\" .. a .. \" b=\" .. b .. \" c=\" .. c .. \" d=\" .. d .. \" e=\" .. e)\n        local x, y = multi()\n        print(\"x=\" .. x .. \" y=\" .. y)\n        local t = {multi()}\n        print(\"table len: \" .. #t)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_environment_manipulation::270",
+  "argv": [
+   "-e",
+   "\n        local function f()\n            return x + y\n        end\n        local env = {x = 10, y = 20}\n        setfenv(f, env)\n        local result = f()\n        print(\"result: \" .. result)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_loadstring_execution::271",
+  "argv": [
+   "-e",
+   "\n        local code = \"return 2 + 3\"\n        local f = loadstring(code)\n        local result = f()\n        print(\"loadstring result: \" .. result)\n        local code2 = \"local x = ...; return x * 2\"\n        local f2 = loadstring(code2)\n        local result2 = f2(21)\n        print(\"with arg: \" .. result2)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_load_function::272",
+  "argv": [
+   "-e",
+   "\n        local chunks = {\"return \", \"10 \", \"+ \", \"20\"}\n        local i = 0\n        local function reader()\n            i = i + 1\n            return chunks[i]\n        end\n        local f = load(reader)\n        local result = f()\n        print(\"load result: \" .. result)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coroutine_yield_resume::273",
+  "argv": [
+   "-e",
+   "\n        local function producer()\n            for i = 1, 5 do\n                coroutine.yield(i * 10)\n            end\n        end\n        local co = coroutine.create(producer)\n        local results = {}\n        while coroutine.status(co) ~= \"dead\" do\n            local ok, val = coroutine.resume(co)\n            if val then\n                table.insert(results, val)\n            end\n        end\n        print(\"results: \" .. table.concat(results, \",\"))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coroutine_wrap::274",
+  "argv": [
+   "-e",
+   "\n        local function gen()\n            for i = 1, 3 do\n                coroutine.yield(i)\n            end\n        end\n        local iter = coroutine.wrap(gen)\n        print(\"values: \" .. iter() .. \" \" .. iter() .. \" \" .. iter())\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_table_operations::275",
+  "argv": [
+   "-e",
+   "\n        local t = {}\n        for i = 1, 10 do\n            t[i] = i * i\n        end\n        table.insert(t, 5, 999)\n        table.remove(t, 8)\n        local sum = 0\n        for _, v in ipairs(t) do\n            sum = sum + v\n        end\n        print(\"sum after ops: \" .. sum)\n        print(\"length: \" .. #t)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_next_iteration::276",
+  "argv": [
+   "-e",
+   "\n        local t = {a = 1, b = 2, c = 3}\n        local count = 0\n        local k = next(t)\n        while k do\n            count = count + 1\n            k = next(t, k)\n        end\n        print(\"count: \" .. count)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rawget_rawset::277",
+  "argv": [
+   "-e",
+   "\n        local mt = {__index = function() return \"meta\" end}\n        local t = setmetatable({}, mt)\n        t.real = \"actual\"\n        print(\"normal: \" .. t.missing)\n        print(\"rawget: \" .. tostring(rawget(t, \"missing\")))\n        print(\"rawget real: \" .. rawget(t, \"real\"))\n        rawset(t, \"new\", \"value\")\n        print(\"rawset: \" .. t.new)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_patterns_advanced::278",
+  "argv": [
+   "-e",
+   "\n        local text = \"The year 2024 is here, and 2025 is next\"\n        local years = {}\n        for year in text:gmatch(\"%d%d%d%d\") do\n            table.insert(years, year)\n        end\n        print(\"years: \" .. table.concat(years, \",\"))\n        local replaced = text:gsub(\"%d+\", \"XXXX\")\n        print(\"has XXXX: \" .. tostring(replaced:find(\"XXXX\") ~= nil))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_math_operations_comprehensive::279",
+  "argv": [
+   "-e",
+   "\n        print(\"pow: \" .. math.pow(2, 10))\n        print(\"sqrt: \" .. math.sqrt(144))\n        print(\"floor: \" .. math.floor(3.7))\n        print(\"ceil: \" .. math.ceil(3.2))\n        print(\"abs: \" .. math.abs(-42))\n        print(\"min: \" .. math.min(1, 5, 3, 9, 2))\n        print(\"max: \" .. math.max(1, 5, 3, 9, 2))\n        print(\"fmod: \" .. math.fmod(10, 3))\n        print(\"modf int: \" .. math.modf(3.75))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trigonometric_functions::280",
+  "argv": [
+   "-e",
+   "\n        local pi = math.pi\n        print(\"sin(0): \" .. math.sin(0))\n        print(\"cos(0): \" .. math.cos(0))\n        print(\"tan(0): \" .. math.tan(0))\n        print(\"asin(0): \" .. math.asin(0))\n        print(\"acos(1): \" .. math.acos(1))\n        print(\"atan(0): \" .. math.atan(0))\n        print(\"atan2(0,1): \" .. math.atan2(0, 1))\n        print(\"sinh(0): \" .. math.sinh(0))\n        print(\"cosh(0): \" .. math.cosh(0))\n        print(\"tanh(0): \" .. math.tanh(0))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_logarithmic_functions::281",
+  "argv": [
+   "-e",
+   "\n        print(\"log(1): \" .. math.log(1))\n        print(\"log10(100): \" .. math.log10(100))\n        print(\"exp(0): \" .. math.exp(0))\n        print(\"exp(1) ~= e: \" .. tostring(math.abs(math.exp(1) - 2.71828) < 0.001))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_random_numbers::282",
+  "argv": [
+   "-e",
+   "\n        math.randomseed(12345)\n        local r1 = math.random()\n        local r2 = math.random(100)\n        local r3 = math.random(10, 20)\n        print(\"r1 in range: \" .. tostring(r1 >= 0 and r1 <= 1))\n        print(\"r2 in range: \" .. tostring(r2 >= 1 and r2 <= 100))\n        print(\"r3 in range: \" .. tostring(r3 >= 10 and r3 <= 20))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coroutine_create::283",
+  "argv": [
+   "-e",
+   "\nlocal co = coroutine.create(function() print('in coroutine') end)\nprint(type(co))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coroutine_resume::284",
+  "argv": [
+   "-e",
+   "\nlocal co = coroutine.create(function() return 42 end)\nlocal ok, val = coroutine.resume(co)\nprint(ok, val)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coroutine_yield::285",
+  "argv": [
+   "-e",
+   "\nlocal co = coroutine.create(function()\n  coroutine.yield(1)\n  coroutine.yield(2)\n  return 3\nend)\nprint(coroutine.resume(co))\nprint(coroutine.resume(co))\nprint(coroutine.resume(co))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coroutine_status::286",
+  "argv": [
+   "-e",
+   "\nlocal co = coroutine.create(function() end)\nprint(coroutine.status(co))\ncoroutine.resume(co)\nprint(coroutine.status(co))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coroutine_running::287",
+  "argv": [
+   "-e",
+   "\nlocal co = coroutine.create(function()\n  print(type(coroutine.running()))\nend)\ncoroutine.resume(co)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coroutine_wrap::288",
+  "argv": [
+   "-e",
+   "\nlocal f = coroutine.wrap(function()\n  coroutine.yield(10)\n  return 20\nend)\nprint(f())\nprint(f())\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coroutine_yield_multiple_values::289",
+  "argv": [
+   "-e",
+   "\nlocal co = coroutine.create(function()\n  return coroutine.yield(1, 2, 3)\nend)\nlocal ok, a, b, c = coroutine.resume(co)\nprint(a, b, c)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coroutine_error_handling::290",
+  "argv": [
+   "-e",
+   "\nlocal co = coroutine.create(function()\n  error('coroutine error')\nend)\nlocal ok, msg = coroutine.resume(co)\nprint(ok)\nprint(type(msg))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_interning_and_hashing::291",
+  "argv": [
+   "-e",
+   "\n        local strings = {}\n        -- Create many strings to trigger hash collisions\n        for i = 1, 100 do\n            strings[i] = \"string_\" .. i\n        end\n        -- Test string equality (interning)\n        local s1 = \"test\"\n        local s2 = \"te\" .. \"st\"\n        print(\"interned: \" .. tostring(s1 == s2))\n        -- Test with special characters\n        local s3 = \"\\000\\001\\255\"\n        print(\"special len: \" .. #s3)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_buffer_operations::292",
+  "argv": [
+   "-e",
+   "\n        -- Test string concatenation patterns\n        local s = \"\"\n        for i = 1, 10 do\n            s = s .. tostring(i)\n        end\n        print(\"concat: \" .. s)\n        \n        -- Test table.concat\n        local t = {}\n        for i = 1, 10 do\n            t[i] = tostring(i)\n        end\n        local s2 = table.concat(t, \",\")\n        print(\"table concat: \" .. s2)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_formatting_edge_cases::293",
+  "argv": [
+   "-e",
+   "\n        -- Test various format specifiers\n        print(string.format(\"int: %d\", 42))\n        print(string.format(\"hex: %x\", 255))\n        print(string.format(\"float: %.2f\", 3.14159))\n        print(string.format(\"string: %s\", \"test\"))\n        print(string.format(\"char: %c\", 65))\n        print(string.format(\"percent: %%\"))\n        print(string.format(\"padding: %5d\", 42))\n        print(string.format(\"precision: %.3f\", 1.23456789))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_pattern_matching_complex::294",
+  "argv": [
+   "-e",
+   "\n        local text = \"The quick brown fox jumps over the lazy dog\"\n        -- Test various patterns\n        local count = 0\n        for word in string.gmatch(text, \"%w+\") do\n            count = count + 1\n        end\n        print(\"words: \" .. count)\n        \n        -- Test gsub with function\n        local result = string.gsub(text, \"(%w+)\", function(w) return #w end)\n        print(\"lengths: \" .. result)\n        \n        -- Test character classes\n        local digits = string.match(\"abc123def456\", \"%d+\")\n        print(\"first digits: \" .. digits)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_math_special_values::295",
+  "argv": [
+   "-e",
+   "\n        -- Test with infinity\n        local inf = math.huge\n        print(\"inf: \" .. tostring(inf))\n        print(\"neg inf: \" .. tostring(-inf))\n        \n        -- Test with NaN\n        local nan = 0/0\n        print(\"nan: \" .. tostring(nan))\n        print(\"nan == nan: \" .. tostring(nan == nan))\n        \n        -- Test special math functions\n        print(\"exp: \" .. tostring(math.exp(1)))\n        print(\"log: \" .. tostring(math.log(math.exp(1))))\n        print(\"log10: \" .. tostring(math.log10(100)))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_math_trigonometric_functions::296",
+  "argv": [
+   "-e",
+   "\n        local pi = math.pi\n        print(\"sin(0): \" .. math.sin(0))\n        print(\"cos(0): \" .. math.cos(0))\n        print(\"tan(0): \" .. math.tan(0))\n        print(\"asin(0): \" .. math.asin(0))\n        print(\"acos(1): \" .. math.acos(1))\n        print(\"atan(0): \" .. math.atan(0))\n        print(\"atan2(0,1): \" .. math.atan2(0, 1))\n        \n        -- Test hyperbolic functions if available\n        if math.sinh then\n            print(\"sinh(0): \" .. math.sinh(0))\n            print(\"cosh(0): \" .. math.cosh(0))\n            print(\"tanh(0): \" .. math.tanh(0))\n        else\n            print(\"hyperbolic not available\")\n        end\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_math_rounding_functions::297",
+  "argv": [
+   "-e",
+   "\n        print(\"floor(3.7): \" .. math.floor(3.7))\n        print(\"ceil(3.2): \" .. math.ceil(3.2))\n        print(\"abs(-5): \" .. math.abs(-5))\n        print(\"abs(5): \" .. math.abs(5))\n        \n        -- Test modf\n        local i, f = math.modf(3.75)\n        print(\"modf(3.75): \" .. i .. \", \" .. f)\n        \n        -- Test fmod\n        print(\"fmod(7, 3): \" .. math.fmod(7, 3))\n        print(\"fmod(-7, 3): \" .. math.fmod(-7, 3))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_math_power_and_sqrt::298",
+  "argv": [
+   "-e",
+   "\n        print(\"pow(2, 3): \" .. math.pow(2, 3))\n        print(\"sqrt(16): \" .. math.sqrt(16))\n        print(\"sqrt(2): \" .. tostring(math.sqrt(2)))\n        \n        -- Test special cases\n        print(\"sqrt(0): \" .. math.sqrt(0))\n        print(\"sqrt(-1): \" .. tostring(math.sqrt(-1)))\n        \n        -- Test frexp and ldexp\n        local m, e = math.frexp(8)\n        print(\"frexp(8): \" .. m .. \", \" .. e)\n        print(\"ldexp(0.5, 4): \" .. math.ldexp(0.5, 4))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_operations_comprehensive::299",
+  "argv": [
+   "-e",
+   "\n        -- Test table creation and manipulation\n        local t = {}\n        for i = 1, 100 do\n            t[i] = i * 2\n        end\n        print(\"t[50]: \" .. t[50])\n        \n        -- Test table with mixed keys\n        local t2 = {a = 1, b = 2, [1] = \"one\", [2] = \"two\"}\n        print(\"t2.a: \" .. t2.a)\n        print(\"t2[1]: \" .. t2[1])\n        \n        -- Test table.insert and table.remove\n        local t3 = {1, 2, 3}\n        table.insert(t3, 4)\n        table.insert(t3, 2, 1.5)\n        print(\"t3[2]: \" .. t3[2])\n        print(\"t3 len: \" .. #t3)\n        \n        local removed = table.remove(t3)\n        print(\"removed: \" .. removed)\n        print(\"t3 len after: \" .. #t3)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coroutine_operations_comprehensive::300",
+  "argv": [
+   "-e",
+   "\n        -- Test basic coroutine\n        local co = coroutine.create(function(a, b)\n            print(\"co start: \" .. a .. \", \" .. b)\n            local x = coroutine.yield(a + b)\n            print(\"co resume with: \" .. x)\n            return x * 2\n        end)\n        \n        print(\"status: \" .. coroutine.status(co))\n        local success, result = coroutine.resume(co, 10, 20)\n        print(\"first resume: \" .. tostring(result))\n        \n        print(\"status after yield: \" .. coroutine.status(co))\n        local success2, result2 = coroutine.resume(co, 5)\n        print(\"final result: \" .. tostring(result2))\n        \n        print(\"final status: \" .. coroutine.status(co))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_metatable_operations_comprehensive::301",
+  "argv": [
+   "-e",
+   "\n        -- Test __index\n        local mt = {\n            __index = function(t, k)\n                return \"default_\" .. k\n            end\n        }\n        local t = setmetatable({}, mt)\n        print(\"t.foo: \" .. t.foo)\n        \n        -- Test __newindex\n        mt.__newindex = function(t, k, v)\n            rawset(t, k, \"set_\" .. v)\n        end\n        t.bar = \"value\"\n        print(\"t.bar: \" .. rawget(t, \"bar\"))\n        \n        -- Test __call\n        mt.__call = function(t, x)\n            return x * 2\n        end\n        print(\"t(21): \" .. t(21))\n        \n        -- Test __tostring\n        mt.__tostring = function(t)\n            return \"custom table\"\n        end\n        print(\"tostring: \" .. tostring(t))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ffi_basic_types::302",
+  "argv": [
+   "-e",
+   "\n        local ffi = require(\"ffi\")\n        \n        -- Test basic type definitions\n        ffi.cdef[[\n            typedef struct { int x; int y; } point_t;\n        ]]\n        \n        local point = ffi.new(\"point_t\", 10, 20)\n        print(\"point.x: \" .. point.x)\n        print(\"point.y: \" .. point.y)\n        \n        -- Modify values\n        point.x = 30\n        point.y = 40\n        print(\"modified x: \" .. point.x)\n        print(\"modified y: \" .. point.y)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ffi_arrays::303",
+  "argv": [
+   "-e",
+   "\n        local ffi = require(\"ffi\")\n        \n        -- Test array allocation\n        local arr = ffi.new(\"int[10]\")\n        for i = 0, 9 do\n            arr[i] = i * 2\n        end\n        \n        print(\"arr[5]: \" .. arr[5])\n        print(\"arr[9]: \" .. arr[9])\n        \n        -- Test sizeof\n        print(\"sizeof(int): \" .. ffi.sizeof(\"int\"))\n        print(\"sizeof(arr): \" .. ffi.sizeof(arr))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ffi_pointers::304",
+  "argv": [
+   "-e",
+   "\n        local ffi = require(\"ffi\")\n        \n        -- Test pointer manipulation\n        local x = ffi.new(\"int[1]\", 42)\n        local ptr = ffi.cast(\"int*\", x)\n        print(\"ptr[0]: \" .. ptr[0])\n        \n        -- Modify through pointer\n        ptr[0] = 99\n        print(\"x[0] after ptr: \" .. x[0])\n        \n        -- Test pointer arithmetic\n        local arr = ffi.new(\"int[5]\", 1, 2, 3, 4, 5)\n        local p = ffi.cast(\"int*\", arr)\n        print(\"p[0]: \" .. p[0])\n        print(\"p[2]: \" .. p[2])\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ffi_callbacks::305",
+  "argv": [
+   "-e",
+   "\n        local ffi = require(\"ffi\")\n        \n        ffi.cdef[[\n            typedef int (*compare_func)(const void*, const void*);\n        ]]\n        \n        -- Create a callback\n        local cb = ffi.cast(\"compare_func\", function(a, b)\n            local x = ffi.cast(\"int*\", a)[0]\n            local y = ffi.cast(\"int*\", b)[0]\n            if x < y then return -1\n            elseif x > y then return 1\n            else return 0 end\n        end)\n        \n        -- Test callback\n        local a = ffi.new(\"int[1]\", 10)\n        local b = ffi.new(\"int[1]\", 20)\n        local result = cb(a, b)\n        print(\"compare result: \" .. result)\n        \n        ffi.cast(\"void*\", cb):free()\n        print(\"callback freed\")\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_jit_constant_folding_scenarios::306",
+  "argv": [
+   "-e",
+   "\n        jit.opt.start(\"hotloop=2\")\n        local sum = 0\n        for i = 1, 100 do\n            -- These should be constant-folded\n            sum = sum + (2 + 3) * (4 - 1)\n            sum = sum + (10 / 2) + (8 % 3)\n            -- sum = sum + bit.lshift(1, 2) + bit.rshift(16, 1)\n        end\n        print(\"sum: \" .. sum)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_jit_type_specialization::307",
+  "argv": [
+   "-e",
+   "\n        jit.opt.start(\"hotloop=2\")\n        \n        -- Integer specialization\n        local function int_add(a, b)\n            return a + b\n        end\n        \n        local sum = 0\n        for i = 1, 100 do\n            sum = sum + int_add(i, i)\n        end\n        print(\"int sum: \" .. sum)\n        \n        -- Float specialization\n        local function float_add(a, b)\n            return a + b\n        end\n        \n        local fsum = 0.0\n        for i = 1, 100 do\n            fsum = fsum + float_add(i * 0.5, i * 0.5)\n        end\n        print(\"float sum: \" .. fsum)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_jit_loop_unrolling_candidates::308",
+  "argv": [
+   "-e",
+   "\n        jit.opt.start(\"hotloop=2\")\n        \n        local arr = {}\n        for i = 1, 100 do\n            arr[i] = 0\n        end\n        \n        -- Simple loop that might be unrolled\n        for i = 1, 100 do\n            arr[i] = arr[i] + 1\n            arr[i] = arr[i] + 1\n            arr[i] = arr[i] + 1\n            arr[i] = arr[i] + 1\n        end\n        \n        print(\"arr[50]: \" .. arr[50])\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_jit_memory_aliasing::309",
+  "argv": [
+   "-e",
+   "\n        jit.opt.start(\"hotloop=2\")\n        \n        local t = {x = 0, y = 0}\n        for i = 1, 100 do\n            t.x = t.x + 1\n            t.y = t.y + t.x\n        end\n        print(\"t.x: \" .. t.x)\n        print(\"t.y: \" .. t.y)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_jit_guard_optimization::310",
+  "argv": [
+   "-e",
+   "\n        jit.opt.start(\"hotloop=2\")\n        \n        local function process(x)\n            if type(x) == \"number\" then\n                return x * 2\n            else\n                return 0\n            end\n        end\n        \n        local sum = 0\n        for i = 1, 100 do\n            sum = sum + process(i)\n        end\n        print(\"sum: \" .. sum)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_protected_call_errors::311",
+  "argv": [
+   "-e",
+   "\n        -- Test pcall with error\n        local success, err = pcall(function()\n            error(\"test error\")\n        end)\n        print(\"pcall success: \" .. tostring(success))\n        print(\"has error: \" .. tostring(err ~= nil))\n        \n        -- Test xpcall with error handler\n        local function error_handler(err)\n            return \"handled: \" .. tostring(err)\n        end\n        \n        local success2, result = xpcall(function()\n            error(\"xpcall error\")\n        end, error_handler)\n        print(\"xpcall success: \" .. tostring(success2))\n        print(\"error handled: \" .. tostring(result:match(\"handled:\") ~= nil))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_load_with_errors::312",
+  "argv": [
+   "-e",
+   "\n        -- Test load with syntax error\n        local func, err = load(\"invalid lua syntax here !!!\")\n        print(\"load success: \" .. tostring(func ~= nil))\n        print(\"has error: \" .. tostring(err ~= nil))\n        \n        -- Test load with runtime error\n        local func2, err2 = load(\"return 1 + nil\")\n        print(\"load2 success: \" .. tostring(func2 ~= nil))\n        \n        if func2 then\n            local success, runtime_err = pcall(func2)\n            print(\"execution success: \" .. tostring(success))\n            print(\"has runtime error: \" .. tostring(runtime_err ~= nil))\n        end\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_operation_errors::313",
+  "argv": [
+   "-e",
+   "\n        -- Test table.concat with non-string\n        local t = {1, 2, function() end, 3}\n        local success, err = pcall(table.concat, t)\n        print(\"concat with function success: \" .. tostring(success))\n        \n        -- Test table.sort with invalid comparison\n        local t2 = {3, 1, 4, 1, 5}\n        table.sort(t2)\n        print(\"sorted: \" .. table.concat(t2, \",\"))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_buffer_advanced::314",
+  "argv": [
+   "-e",
+   "\n        local buffer = require(\"string.buffer\")\n        \n        -- Test buffer creation and manipulation\n        local buf = buffer.new()\n        buf:put(\"Hello\")\n        buf:put(\" \")\n        buf:put(\"World\")\n        print(\"buffer: \" .. buf:get())\n        \n        -- Test buffer with numbers\n        buf:reset()\n        for i = 1, 5 do\n            buf:putf(\"%d,\", i)\n        end\n        print(\"numbers: \" .. buf:get())\n        \n        -- Test buffer encoding\n        buf:reset()\n        buf:encode(123)\n        buf:encode(\"test\")\n        buf:encode(true)\n        print(\"encoded len: \" .. #buf:get())\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_auxiliary_library_operations::315",
+  "argv": [
+   "-e",
+   "\n        -- Test loadfile (non-existent file)\n        local func, err = loadfile(\"nonexistent_file.lua\")\n        print(\"loadfile nil: \" .. tostring(func == nil))\n        print(\"loadfile has error: \" .. tostring(err ~= nil))\n        \n        -- Test dofile with error handling\n        local success, err = pcall(dofile, \"nonexistent.lua\")\n        print(\"dofile success: \" .. tostring(success))\n        \n        -- Test require with error\n        success, err = pcall(require, \"nonexistent_module_xyz\")\n        print(\"require success: \" .. tostring(success))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_number_parsing_edge_cases::316",
+  "argv": [
+   "-e",
+   "\n        -- Test hex numbers\n        local n1 = 0xFF\n        print(\"hex: \" .. n1)\n        \n        -- Test exponential notation\n        local n2 = 1.5e2\n        print(\"exp: \" .. n2)\n        \n        -- Test negative exponent\n        local n3 = 1.5e-2\n        print(\"neg exp: \" .. n3)\n        \n        -- Test tonumber with base\n        local n4 = tonumber(\"FF\", 16)\n        print(\"tonumber hex: \" .. n4)\n        \n        local n5 = tonumber(\"1010\", 2)\n        print(\"tonumber binary: \" .. n5)\n        \n        -- Test invalid tonumber\n        local n6 = tonumber(\"invalid\")\n        print(\"invalid tonumber: \" .. tostring(n6))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_number_formatting_variations::317",
+  "argv": [
+   "-e",
+   "\n        -- Test tostring with various numbers\n        print(\"int: \" .. tostring(42))\n        print(\"float: \" .. tostring(3.14))\n        print(\"large: \" .. tostring(1234567890))\n        print(\"small: \" .. tostring(0.000001))\n        print(\"zero: \" .. tostring(0))\n        print(\"neg: \" .. tostring(-42))\n        \n        -- Test with infinity and nan\n        print(\"inf: \" .. tostring(math.huge))\n        print(\"ninf: \" .. tostring(-math.huge))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assert_with_no_message::318",
+  "argv": [
+   "-e",
+   "assert(false)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assert_with_custom_message::319",
+  "argv": [
+   "-e",
+   "assert(false, 'custom error message')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_next_on_invalid_table::320",
+  "argv": [
+   "-e",
+   "next(nil)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pairs_with_metamethod::321",
+  "argv": [
+   "-e",
+   "\n        local t = {}\n        setmetatable(t, {\n            __pairs = function(t)\n                local i = 0\n                return function()\n                    i = i + 1\n                    if i <= 3 then\n                        return i, i * 10\n                    end\n                end\n            end\n        })\n        for k, v in pairs(t) do\n            print(k, v)\n        end\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ipairs_with_metamethod::322",
+  "argv": [
+   "-e",
+   "\n        local t = {}\n        setmetatable(t, {\n            __ipairs = function(t)\n                local i = 0\n                return function()\n                    i = i + 1\n                    if i <= 3 then\n                        return i, i * 100\n                    end\n                end\n            end\n        })\n        for k, v in ipairs(t) do\n            print(k, v)\n        end\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rawget_with_non_table::323",
+  "argv": [
+   "-e",
+   "rawget(123, 'key')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rawset_with_nil_key::324",
+  "argv": [
+   "-e",
+   "rawset({}, nil, 'value')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rawequal_different_types::325",
+  "argv": [
+   "-e",
+   "print(rawequal(1, '1'))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_setfenv_invalid_level::326",
+  "argv": [
+   "-e",
+   "setfenv(-1, {})"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_setfenv_on_c_function::327",
+  "argv": [
+   "-e",
+   "setfenv(print, {})"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tonumber_with_invalid_base::328",
+  "argv": [
+   "-e",
+   "print(tonumber('123', 1))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tonumber_with_large_base::329",
+  "argv": [
+   "-e",
+   "print(tonumber('z', 37))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tonumber_base_2::330",
+  "argv": [
+   "-e",
+   "print(tonumber('1010', 2))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tonumber_base_16::331",
+  "argv": [
+   "-e",
+   "print(tonumber('FF', 16))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tonumber_base_36::332",
+  "argv": [
+   "-e",
+   "print(tonumber('Z', 36))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unpack_with_range::333",
+  "argv": [
+   "-e",
+   "\n        local t = {1, 2, 3, 4, 5}\n        local a, b, c = unpack(t, 2, 4)\n        print(a, b, c)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unpack_out_of_range::334",
+  "argv": [
+   "-e",
+   "\n        local t = {1, 2, 3}\n        local a, b = unpack(t, 10, 12)\n        print(a == nil, b == nil)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unpack_large_table::335",
+  "argv": [
+   "-e",
+   "\n        local t = {}\n        for i = 1, 10000 do t[i] = i end\n        -- Try to unpack a huge range\n        local ok, err = pcall(unpack, t, 1, 100000)\n        print(ok, err)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_math_log_with_two_args::336",
+  "argv": [
+   "-e",
+   "print(math.log(8, 2))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_math_log_zero::337",
+  "argv": [
+   "-e",
+   "print(math.log(0))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_math_log_negative::338",
+  "argv": [
+   "-e",
+   "print(math.log(-1))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_math_sqrt_negative::339",
+  "argv": [
+   "-e",
+   "print(math.sqrt(-4))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_math_atan2::340",
+  "argv": [
+   "-e",
+   "print(math.atan2(1, 1))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_math_ldexp::341",
+  "argv": [
+   "-e",
+   "print(math.ldexp(1.5, 3))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_math_frexp::342",
+  "argv": [
+   "-e",
+   "\n        local m, e = math.frexp(8)\n        print(m, e)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_math_abs_negative::343",
+  "argv": [
+   "-e",
+   "print(math.abs(-42))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_math_abs_with_non_number::344",
+  "argv": [
+   "-e",
+   "print(math.abs('string'))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_rep_with_separator::345",
+  "argv": [
+   "-e",
+   "print(string.rep('a', 3, '-'))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_rep_zero::346",
+  "argv": [
+   "-e",
+   "print(string.rep('test', 0))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_format_percent::347",
+  "argv": [
+   "-e",
+   "print(string.format('100%%'))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_format_multiple::348",
+  "argv": [
+   "-e",
+   "print(string.format('%s: %d', 'answer', 42))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_gsub_with_function::349",
+  "argv": [
+   "-e",
+   "\n        local result = string.gsub(\"hello world\", \"%w+\", function(w)\n            return string.upper(w)\n        end)\n        print(result)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_gsub_with_table::350",
+  "argv": [
+   "-e",
+   "\n        local t = {hello = \"HELLO\", world = \"WORLD\"}\n        local result = string.gsub(\"hello world\", \"%w+\", t)\n        print(result)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_match_with_captures::351",
+  "argv": [
+   "-e",
+   "\n        local a, b, c = string.match(\"foo:bar:baz\", \"(%w+):(%w+):(%w+)\")\n        print(a, b, c)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_gmatch_iteration::352",
+  "argv": [
+   "-e",
+   "\n        local count = 0\n        for word in string.gmatch(\"one two three\", \"%w+\") do\n            count = count + 1\n        end\n        print(count)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_insert_at_position::353",
+  "argv": [
+   "-e",
+   "\n        local t = {1, 2, 3}\n        table.insert(t, 2, 99)\n        print(table.concat(t, ','))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_remove_from_position::354",
+  "argv": [
+   "-e",
+   "\n        local t = {1, 2, 3, 4}\n        local removed = table.remove(t, 2)\n        print(removed, table.concat(t, ','))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_sort_with_comparator::355",
+  "argv": [
+   "-e",
+   "\n        local t = {3, 1, 4, 1, 5, 9, 2, 6}\n        table.sort(t, function(a, b) return a > b end)\n        print(table.concat(t, ','))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_concat_with_sep_and_range::356",
+  "argv": [
+   "-e",
+   "\n        local t = {1, 2, 3, 4, 5}\n        print(table.concat(t, '-', 2, 4))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_io_open_nonexistent_file::357",
+  "argv": [
+   "-e",
+   "\n        local f, err = io.open('/nonexistent/file/path.txt', 'r')\n        print(f == nil, err ~= nil)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_io_lines_on_nonexistent::358",
+  "argv": [
+   "-e",
+   "\n        local ok, err = pcall(io.lines, '/nonexistent/file.txt')\n        print(ok, err)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_os_date_formats::359",
+  "argv": [
+   "-e",
+   "\n        print(os.date('%Y'))  -- year\n        print(os.date('%m'))  -- month\n        print(os.date('%d'))  -- day\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_os_time_with_table::360",
+  "argv": [
+   "-e",
+   "\n        local t = {year=2000, month=1, day=1, hour=0, min=0, sec=0}\n        local time = os.time(t)\n        print(type(time))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_os_difftime::361",
+  "argv": [
+   "-e",
+   "\n        local t1 = os.time()\n        local t2 = t1 + 3600\n        print(os.difftime(t2, t1))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_getinfo_on_function::362",
+  "argv": [
+   "-e",
+   "\n        local function test() end\n        local info = debug.getinfo(test)\n        print(info.what, info.source)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_getlocal::363",
+  "argv": [
+   "-e",
+   "\n        local function test()\n            local x = 42\n            local name, value = debug.getlocal(1, 1)\n            print(name, value)\n        end\n        test()\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_setlocal::364",
+  "argv": [
+   "-e",
+   "\n        local function test()\n            local x = 10\n            debug.setlocal(1, 1, 99)\n            print(x)\n        end\n        test()\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_getupvalue::365",
+  "argv": [
+   "-e",
+   "\n        local upval = 42\n        local function test()\n            return upval\n        end\n        local name, value = debug.getupvalue(test, 1)\n        print(name, value)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_setupvalue::366",
+  "argv": [
+   "-e",
+   "\n        local upval = 10\n        local function test()\n            return upval\n        end\n        debug.setupvalue(test, 1, 99)\n        print(test())\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coroutine_resume_error::367",
+  "argv": [
+   "-e",
+   "\n        local co = coroutine.create(function()\n            error(\"test error\")\n        end)\n        local ok, err = coroutine.resume(co)\n        print(ok, type(err))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coroutine_yield_return::368",
+  "argv": [
+   "-e",
+   "\n        local co = coroutine.create(function(a, b)\n            local c = coroutine.yield(a + b)\n            return c * 2\n        end)\n        local ok1, val1 = coroutine.resume(co, 5, 3)\n        local ok2, val2 = coroutine.resume(co, 10)\n        print(val1, val2)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coroutine_status::369",
+  "argv": [
+   "-e",
+   "\n        local co = coroutine.create(function()\n            coroutine.yield()\n        end)\n        print(coroutine.status(co))\n        coroutine.resume(co)\n        print(coroutine.status(co))\n        coroutine.resume(co)\n        print(coroutine.status(co))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_metatable_tostring::370",
+  "argv": [
+   "-e",
+   "\n        local t = {}\n        setmetatable(t, {\n            __tostring = function() return \"custom string\" end\n        })\n        print(tostring(t))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_metatable_call::371",
+  "argv": [
+   "-e",
+   "\n        local t = {}\n        setmetatable(t, {\n            __call = function(self, x) return x * 2 end\n        })\n        print(t(21))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_metatable_concat::372",
+  "argv": [
+   "-e",
+   "\n        local t = {value = \"hello\"}\n        setmetatable(t, {\n            __concat = function(a, b)\n                return a.value .. \" \" .. b.value\n            end\n        })\n        local t2 = {value = \"world\"}\n        setmetatable(t2, getmetatable(t))\n        print(t .. t2)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_metatable_len::373",
+  "argv": [
+   "-e",
+   "\n        local t = {1, 2, 3}  -- LuaJIT requires table content for __len\n        setmetatable(t, {\n            __len = function() return 42 end\n        })\n        print(#t)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_metatable_unm::374",
+  "argv": [
+   "-e",
+   "\n        local t = {value = 10}\n        setmetatable(t, {\n            __unm = function(self) return -self.value end\n        })\n        print(-t)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ffi_sizeof::375",
+  "argv": [
+   "-e",
+   "\n        local ffi = require('ffi')\n        print(ffi.sizeof('int'))\n        print(ffi.sizeof('double'))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ffi_offsetof::376",
+  "argv": [
+   "-e",
+   "\n        local ffi = require('ffi')\n        ffi.cdef[[\n            struct test {\n                int a;\n                double b;\n            };\n        ]]\n        print(ffi.offsetof('struct test', 'b'))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ffi_istype::377",
+  "argv": [
+   "-e",
+   "\n        local ffi = require('ffi')\n        ffi.cdef[[typedef struct { int x; } point_t;]]\n        local ct = ffi.typeof('point_t')\n        local p = ct()\n        print(ffi.istype(ct, p))\n        print(ffi.istype(ct, 123))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ffi_cast_to_pointer::378",
+  "argv": [
+   "-e",
+   "\n        local ffi = require('ffi')\n        local p = ffi.cast('int*', 0x1234)\n        print(tonumber(ffi.cast('intptr_t', p)))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_rol::379",
+  "argv": [
+   "-e",
+   "print(bit.rol(1, 2))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_ror::380",
+  "argv": [
+   "-e",
+   "print(bit.ror(8, 2))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_tobit::381",
+  "argv": [
+   "-e",
+   "print(bit.tobit(0xFFFFFFFF))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_tohex::382",
+  "argv": [
+   "-e",
+   "print(bit.tohex(255, 8))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gc_count::383",
+  "argv": [
+   "-e",
+   "\n        local count = collectgarbage('count')\n        print(type(count), count > 0)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gc_setpause::384",
+  "argv": [
+   "-e",
+   "\n        local old = collectgarbage('setpause', 200)\n        print(type(old))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gc_setstepmul::385",
+  "argv": [
+   "-e",
+   "\n        local old = collectgarbage('setstepmul', 400)\n        print(type(old))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gc_isrunning::386",
+  "argv": [
+   "-e",
+   "\n        print(collectgarbage('isrunning'))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_package_loaded::387",
+  "argv": [
+   "-e",
+   "\n        print(type(package.loaded.math))\n        print(type(package.loaded.string))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_package_preload::388",
+  "argv": [
+   "-e",
+   "\n        package.preload.mymodule = function()\n            return {value = 42}\n        end\n        local m = require('mymodule')\n        print(m.value)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_require_already_loaded::389",
+  "argv": [
+   "-e",
+   "\n        local m1 = require('math')\n        local m2 = require('math')\n        print(m1 == m2)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_getinfo::390",
+  "argv": [
+   "-e",
+   "\n        local function test_func()\n            local info = debug.getinfo(1)\n            print(\"name: \" .. tostring(info.name))\n            print(\"what: \" .. info.what)\n            print(\"source: \" .. tostring(info.source ~= nil))\n            print(\"linedefined: \" .. info.linedefined)\n        end\n        test_func()\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_getlocal::391",
+  "argv": [
+   "-e",
+   "\n        local function test()\n            local x = 10\n            local y = 20\n            local name1, val1 = debug.getlocal(1, 1)\n            local name2, val2 = debug.getlocal(1, 2)\n            print(\"local1: \" .. name1 .. \"=\" .. val1)\n            print(\"local2: \" .. name2 .. \"=\" .. val2)\n        end\n        test()\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_setlocal::392",
+  "argv": [
+   "-e",
+   "\n        local function test()\n            local x = 10\n            debug.setlocal(1, 1, 99)\n            print(\"x after setlocal: \" .. x)\n        end\n        test()\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_getupvalue::393",
+  "argv": [
+   "-e",
+   "\n        local upval = 42\n        local function test()\n            return upval\n        end\n        local name, val = debug.getupvalue(test, 1)\n        print(\"upvalue: \" .. name .. \"=\" .. val)\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_setupvalue::394",
+  "argv": [
+   "-e",
+   "\n        local upval = 10\n        local function test()\n            return upval\n        end\n        print(\"before: \" .. test())\n        debug.setupvalue(test, 1, 99)\n        print(\"after: \" .. test())\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_sethook::395",
+  "argv": [
+   "-e",
+   "\n        local count = 0\n        local function hook(event)\n            count = count + 1\n        end\n        debug.sethook(hook, \"l\", 0)\n        local sum = 0\n        for i = 1, 10 do\n            sum = sum + i\n        end\n        debug.sethook()  -- disable\n        print(\"hook calls: \" .. tostring(count > 0))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_gethook::396",
+  "argv": [
+   "-e",
+   "\n        local function hook() end\n        debug.sethook(hook, \"c\")\n        local h, mask = debug.gethook()\n        print(\"has hook: \" .. tostring(h ~= nil))\n        print(\"mask: \" .. mask)\n        debug.sethook()\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_traceback::397",
+  "argv": [
+   "-e",
+   "\n        local function level3()\n            return debug.traceback()\n        end\n        local function level2()\n            return level3()\n        end\n        local function level1()\n            return level2()\n        end\n        local trace = level1()\n        print(\"has level1: \" .. tostring(trace:find(\"level1\") ~= nil))\n        print(\"has level2: \" .. tostring(trace:find(\"level2\") ~= nil))\n        print(\"has level3: \" .. tostring(trace:find(\"level3\") ~= nil))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_getregistry::398",
+  "argv": [
+   "-e",
+   "\n        local reg = debug.getregistry()\n        print(\"registry is table: \" .. tostring(type(reg) == \"table\"))\n        print(\"has _LOADED: \" .. tostring(reg._LOADED ~= nil))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_getmetatable::399",
+  "argv": [
+   "-e",
+   "\n        local mt1 = debug.getmetatable(\"string\")\n        local mt2 = debug.getmetatable({})\n        print(\"string has mt: \" .. tostring(mt1 ~= nil))\n        print(\"table has no mt: \" .. tostring(mt2 == nil))\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

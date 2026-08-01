@@ -1,0 +1,1375 @@
+{
+ "slug": "antonmedv__walk.bf802ef",
+ "language": "",
+ "n_branches": 15,
+ "n_tests_total": 545,
+ "n_examples": 73,
+ "n_with_exact_stdout": 4,
+ "n_with_rc": 54,
+ "n_skipped": 379,
+ "examples": [
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "walk v",
+    "Usage: walk [path]",
+    "arrows, hjkl",
+    "Move cursor",
+    "Enter directory",
+    "--icons",
+    "--dir-only",
+    "--hide-hidden",
+    "--preview",
+    "--with-border",
+    "--fuzzy"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:5"
+  },
+  {
+   "test": "test_h_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "walk v",
+    "Usage: walk [path]",
+    "arrows, hjkl",
+    "Flags:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:21"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:30"
+  },
+  {
+   "test": "test_v_flag",
+   "argv": [
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:38"
+  },
+  {
+   "test": "test_help_output_format",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Move cursor",
+    "Enter directory",
+    "Exit directory",
+    "Toggle preview",
+    "Exit with cd",
+    "Exit without cd",
+    "Fuzzy search",
+    "Delete file or dir",
+    "Copy to clipboard",
+    "Hide hidden files",
+    "Show help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:84"
+  },
+  {
+   "test": "test_walk_main_color_env_var",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {
+    "WALK_MAIN_COLOR": "#FF0000"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "v1.13.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_environment_variables.py:5"
+  },
+  {
+   "test": "test_invalid_walk_status_bar_causes_error",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {
+    "WALK_STATUS_BAR": "InvalidFunction()"
+   },
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "panic:",
+    "unknown name InvalidFunction"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_environment_variables.py:49"
+  },
+  {
+   "test": "test_help_flag_first_argument",
+   "argv": [
+    "--help",
+    "somepath",
+    "--icons"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "walk v",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_paths.py:13"
+  },
+  {
+   "test": "test_version_flag_first_argument",
+   "argv": [
+    "--version",
+    "somepath"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "v1.13.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_paths.py:20"
+  },
+  {
+   "test": "test_relative_path_argument",
+   "argv": [
+    "subdir_relative",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "v1.13.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_paths.py:66"
+  },
+  {
+   "test": "test_tilde_in_path",
+   "argv": [
+    "~/somedir",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "v1.13.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_paths.py:79"
+  },
+  {
+   "test": "test_dot_path",
+   "argv": [
+    ".",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "v1.13.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_paths.py:86"
+  },
+  {
+   "test": "test_dotdot_path",
+   "argv": [
+    "..",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "v1.13.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_paths.py:92"
+  },
+  {
+   "test": "test_multiple_flags_with_help",
+   "argv": [
+    "--icons",
+    "--dir-only",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: walk [path]",
+    "--icons"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:4"
+  },
+  {
+   "test": "test_flags_order_independence_with_version",
+   "argv": [
+    "--version",
+    "--icons"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "v1.13.0",
+    "v1.13.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:11"
+  },
+  {
+   "test": "test_help_flag_precedence",
+   "argv": [
+    "--preview",
+    "--fuzzy",
+    "--icons",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "walk v",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:21"
+  },
+  {
+   "test": "test_version_flag_precedence",
+   "argv": [
+    "--version",
+    "--icons",
+    "--preview"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:28"
+  },
+  {
+   "test": "test_path_with_flags",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: walk [path]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_path_arguments.py:12"
+  },
+  {
+   "test": "test_status_bar_empty_expression_causes_error",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {
+    "WALK_STATUS_BAR": ""
+   },
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "panic:",
+    "EOF"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_status_bar_expressions.py:59"
+  },
+  {
+   "test": "test_status_bar_syntax_error",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {
+    "WALK_STATUS_BAR": "Size( unclosed"
+   },
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "panic:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_status_bar_expressions.py:66"
+  },
+  {
+   "test": "test_status_bar_unknown_function",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {
+    "WALK_STATUS_BAR": "UnknownFunc()"
+   },
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "panic:",
+    "unknown name UnknownFunc"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_status_bar_expressions.py:72"
+  },
+  {
+   "test": "test_help_flag_exit_code",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:44"
+  },
+  {
+   "test": "test_help_short_flag_exit_code",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:49"
+  },
+  {
+   "test": "test_help_contains_version_header",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "walk v"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:71"
+  },
+  {
+   "test": "test_help_contains_usage_line",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: walk [path]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:76"
+  },
+  {
+   "test": "test_help_contains_flags_section",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Flags:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:81"
+  },
+  {
+   "test": "test_help_with_invalid_flag_still_shows_help",
+   "argv": [
+    "--help",
+    "--invalid-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "walk v",
+    "Usage: walk [path]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:141"
+  },
+  {
+   "test": "test_help_with_valid_flag",
+   "argv": [
+    "--help",
+    "--icons"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "walk v",
+    "Usage: walk [path]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:147"
+  },
+  {
+   "test": "test_help_indentation",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "    arrows, hjkl",
+    "    enter",
+    "    --icons",
+    "    --dir-only"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:199"
+  },
+  {
+   "test": "test_help_usage_section_exact",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "  Usage: walk [path]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:246"
+  },
+  {
+   "test": "test_help_flags_header_exact",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "  Flags:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:251"
+  },
+  {
+   "test": "test_flags_header_format",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\n  Flags:\n"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:360"
+  },
+  {
+   "test": "test_specific_keybinding_format",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "    arrows, hjkl  Move cursor",
+    "    enter         Enter directory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:366"
+  },
+  {
+   "test": "test_specific_flag_format",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "    --icons        display icons",
+    "    --dir-only     show dirs only"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:373"
+  },
+  {
+   "test": "test_help_long_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "walk v1.13.0",
+    "Usage: walk [path]",
+    "arrows, hjkl",
+    "Flags:",
+    "--icons",
+    "--dir-only",
+    "--preview"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_args.py:28"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "walk v1.13.0",
+    "Usage: walk [path]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_args.py:42"
+  },
+  {
+   "test": "test_help_only_stderr",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "walk v1.13.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_args.py:107"
+  },
+  {
+   "test": "test_no_args_panics_without_tty",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "could not open a new TTY"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args.py:37"
+  },
+  {
+   "test": "test_unknown_flag_is_treated_as_positional_and_still_panics_without_tty",
+   "argv": [
+    "--nope"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "could not open a new TTY"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args.py:44"
+  },
+  {
+   "test": "test_extra_positional_args_are_ignored_for_start_path_selection",
+   "argv": [
+    "a",
+    "b"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "could not open a new TTY"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args.py:51"
+  },
+  {
+   "test": "test_double_dash_separator_is_not_special_and_is_treated_as_positional",
+   "argv": [
+    "--",
+    "extra"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "could not open a new TTY"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args.py:59"
+  },
+  {
+   "test": "test_help_flag_exits_nonzero_and_prints_usage_to_stderr_only",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_args.py:85"
+  },
+  {
+   "test": "test_help_flag_long",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "walk v1.13.0",
+    "Usage: walk [path]",
+    "arrows, hjkl",
+    "Move cursor",
+    "--icons",
+    "--dir-only",
+    "--hide-hidden",
+    "--preview",
+    "--with-border",
+    "--fuzzy"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:30"
+  },
+  {
+   "test": "test_help_flag_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "walk v1.13.0",
+    "Usage: walk [path]",
+    "Flags:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:45"
+  },
+  {
+   "test": "test_version_flag_short",
+   "argv": [
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "v1.13.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:61"
+  },
+  {
+   "test": "test_absolute_path_argument",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: walk"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:99"
+  },
+  {
+   "test": "test_dot_path",
+   "argv": [
+    ".",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: walk"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:117"
+  },
+  {
+   "test": "test_icons_flag",
+   "argv": [
+    "--icons",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: walk"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:127"
+  },
+  {
+   "test": "test_dir_only_flag",
+   "argv": [
+    "--dir-only",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: walk"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:133"
+  },
+  {
+   "test": "test_hide_hidden_flag",
+   "argv": [
+    "--hide-hidden",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: walk"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:139"
+  },
+  {
+   "test": "test_preview_flag",
+   "argv": [
+    "--preview",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: walk"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:145"
+  },
+  {
+   "test": "test_with_border_flag",
+   "argv": [
+    "--with-border",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: walk"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:151"
+  },
+  {
+   "test": "test_fuzzy_flag",
+   "argv": [
+    "--fuzzy",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: walk"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:157"
+  },
+  {
+   "test": "test_multiple_flags_combined",
+   "argv": [
+    "--icons",
+    "--dir-only",
+    "--hide-hidden",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: walk"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:163"
+  },
+  {
+   "test": "test_all_flags_combined",
+   "argv": [
+    "--icons",
+    "--dir-only",
+    "--hide-hidden",
+    "--preview",
+    "--with-border",
+    "--fuzzy",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: walk"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:169"
+  },
+  {
+   "test": "test_icons_and_preview",
+   "argv": [
+    "--icons",
+    "--preview",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: walk"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:164"
+  },
+  {
+   "test": "test_dir_only_and_hide_hidden",
+   "argv": [
+    "--dir-only",
+    "--hide-hidden",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: walk"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:172"
+  },
+  {
+   "test": "test_all_display_flags",
+   "argv": [
+    "--icons",
+    "--preview",
+    "--with-border",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: walk"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:181"
+  },
+  {
+   "test": "test_fuzzy_with_dir_only",
+   "argv": [
+    "--fuzzy",
+    "--dir-only",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: walk"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:194"
+  },
+  {
+   "test": "test_help_output_structure",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "walk v",
+    "Usage:",
+    "Flags:",
+    "arrows",
+    "hjkl",
+    "--icons",
+    "--dir-only",
+    "--hide-hidden",
+    "--preview",
+    "--with-border",
+    "--fuzzy"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:206"
+  },
+  {
+   "test": "test_version_output_format",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:230"
+  },
+  {
+   "test": "test_help_goes_to_stderr",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "walk v"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:249"
+  },
+  {
+   "test": "test_run_go_tests",
+   "argv": [
+    "go",
+    "test",
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_go_functions.py:12"
+  },
+  {
+   "test": "test_path_before_flags",
+   "argv": [
+    "--icons",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "v1.13.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_increased_coverage.py:93"
+  },
+  {
+   "test": "test_mixed_flag_positions",
+   "argv": [
+    "--icons",
+    "--preview",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "v1.13.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_increased_coverage.py:107"
+  },
+  {
+   "test": "test_directory_with_only_subdirectories",
+   "argv": [
+    "--dir-only",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "v1.13.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_increased_coverage.py:128"
+  },
+  {
+   "test": "test_preview_with_border_and_icons",
+   "argv": [
+    "--preview",
+    "--with-border",
+    "--icons",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "v1.13.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_increased_coverage.py:275"
+  },
+  {
+   "test": "test_dir_only_with_hide_hidden_and_fuzzy",
+   "argv": [
+    "--dir-only",
+    "--hide-hidden",
+    "--fuzzy",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "v1.13.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_increased_coverage.py:283"
+  },
+  {
+   "test": "test_all_flags_with_path",
+   "argv": [
+    "--icons",
+    "--dir-only",
+    "--hide-hidden",
+    "--preview",
+    "--with-border",
+    "--fuzzy",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "v1.13.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_increased_coverage.py:291"
+  },
+  {
+   "test": "test_help_flag_works",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "walk"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:56"
+  },
+  {
+   "test": "test_help_with_long_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "walk",
+    "usage"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:282"
+  },
+  {
+   "test": "test_help_still_works_with_walk_no_highlight_set",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--icons"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:43"
+  },
+  {
+   "test": "test_help_still_works_with_valid_walk_status_bar_expression_set",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Flags:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:50"
+  }
+ ]
+}

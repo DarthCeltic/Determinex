@@ -1,0 +1,1100 @@
+[
+ {
+  "name": "test::test_no_args_prints_usage_and_exits_zero::0",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bool_flag_invalid_value_is_error::1",
+  "argv": [
+   "-make-public=wat"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_positional_first_then_flag_treated_as_filename_and_causes_open_error::2",
+  "argv": [
+   "fixtures/example.wsdl",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_forces_following_token_to_be_positional_not_flag::3",
+  "argv": [
+   "--",
+   "--nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_too_many_positionals_uses_last_as_wsdl_filename::4",
+  "argv": [
+   "fixtures/example.wsdl",
+   "extra.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::5",
+  "argv": [
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag::6",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file::7",
+  "argv": [
+   "nonexistent.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_xml_file::8",
+  "argv": [
+   "invalid.wsdl"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.wsdl": "This is not XML"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_file::9",
+  "argv": [
+   "empty.wsdl"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.wsdl": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_path::10",
+  "argv": [
+   "test.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_wsdl_file_nonzero_exit_and_message_to_stdout::11",
+  "argv": [
+   "-d",
+   "does_not_exist.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_wsdl_content_exits_nonzero_and_prints_EOF::12",
+  "argv": [
+   "-d",
+   "x.wsdl"
+  ],
+  "stdin": null,
+  "files": {
+   "x.wsdl": "not really wsdl"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_default_creates_package_dir_and_two_files::13",
+  "argv": [
+   "-d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_with_custom_package_and_output_filename::14",
+  "argv": [
+   "-d",
+   "-p",
+   "mystock",
+   "-o",
+   "out.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_absolute_output_path_causes_error_and_creates_package_dir::15",
+  "argv": [
+   "-d",
+   "-p",
+   "mypkg",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_mentions_usage_and_flags::16",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tls_skip_flag::17",
+  "argv": [
+   "-i",
+   "-d",
+   "fixtures/test.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_make_public_flag_explicit_true::18",
+  "argv": [
+   "-make-public=true",
+   "-d",
+   "fixtures/test.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_make_public_flag_false::19",
+  "argv": [
+   "-make-public=false",
+   "-d",
+   "-p",
+   "private",
+   "fixtures/test.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_to_existing_parent_directory::20",
+  "argv": [
+   "-d",
+   "fixtures/test.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_operations_wsdl::21",
+  "argv": [
+   "-d",
+   "fixtures/stock.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wsdl_with_imports::22",
+  "argv": [
+   "-d",
+   "fixtures/mnb-exchange.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_wsdl_chromedata::23",
+  "argv": [
+   "-d",
+   "fixtures/chromedata.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_package_name_validation::24",
+  "argv": [
+   "-d",
+   "-p",
+   "my_package",
+   "fixtures/test.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filename_variations::25",
+  "argv": [
+   "-d",
+   "-p",
+   "pkg1",
+   "-o",
+   "client.go",
+   "fixtures/test.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concurrent_generation::26",
+  "argv": [
+   "-d",
+   "-p",
+   "svc1",
+   "fixtures/test.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_path_wsdl::27",
+  "argv": [
+   "-d",
+   "./fixtures/test.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_file_same_as_input::28",
+  "argv": [
+   "-o",
+   "fixtures/test.wsdl",
+   "fixtures/test.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_wsdl_content::29",
+  "argv": [
+   "-d",
+   "invalid.wsdl"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.wsdl": "This is not valid XML"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_wsdl_file::30",
+  "argv": [
+   "-d",
+   "empty.wsdl"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.wsdl": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_xml_but_looks_like_wsdl::31",
+  "argv": [
+   "-d",
+   "bad.wsdl"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.wsdl": "<?xml version=\"1.0\"?>\n<wsdl:definitions>\n    <unclosed>\n</wsdl:definitions>"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unreadable_wsdl::32",
+  "argv": [
+   "-d",
+   "test.wsdl"
+  ],
+  "stdin": null,
+  "files": {
+   "test.wsdl": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::33",
+  "argv": [
+   "--invalid-flag",
+   "test.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wsdl_with_syntax_errors::34",
+  "argv": [
+   "-d",
+   "bad.wsdl"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.wsdl": "<?xml version=\"1.0\"?>\n<wsdl:definitions xmlns:wsdl=\"http://schemas.xmlsoap.org/wsdl/\">\n    <wsdl:types>\n        <invalid-schema-element/>\n    </wsdl:types>\n</wsdl:definitions>"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_treat_last_arg_as_wsdl::35",
+  "argv": [
+   "-p",
+   "testpkg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_wsdl_generations_different_packages::36",
+  "argv": [
+   "-d",
+   "-p",
+   "pkg1",
+   "fixtures/test.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_epcis_wsdl_with_external_xsd::37",
+  "argv": [
+   "-d",
+   "-i"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_output_file::38",
+  "argv": [
+   "-o",
+   "custom.go",
+   "-p",
+   "testcustom"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_flags::39",
+  "argv": [
+   "-d",
+   "-p",
+   "api",
+   "-o",
+   "client.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::40",
+  "argv": [
+   "--invalid-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_valid_local_wsdl_file::41",
+  "argv": [
+   "-d",
+   "-p",
+   "testpkg",
+   "fixtures/test.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_file_path::42",
+  "argv": [
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_malformed_xml::43",
+  "argv": [
+   "bad.wsdl"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.wsdl": "not valid xml <><>"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_output_file::44",
+  "argv": [
+   "-d",
+   "-o",
+   "custom.go",
+   "-p",
+   "mypkg",
+   "fixtures/test.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_package_name::45",
+  "argv": [
+   "-d",
+   "-p",
+   "custompackage",
+   "fixtures/test.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_same_as_input_error::46",
+  "argv": [
+   "-o",
+   "test.wsdl",
+   "test.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_make_public_flag_true::47",
+  "argv": [
+   "-make-public=true",
+   "-d",
+   "-p",
+   "testpkg",
+   "fixtures/test.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_make_public_flag_false::48",
+  "argv": [
+   "-make-public=false",
+   "-d",
+   "-p",
+   "testpkg",
+   "fixtures/test.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stock_wsdl::49",
+  "argv": [
+   "-d",
+   "-p",
+   "stock",
+   "fixtures/stock.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dyndns_wsdl::50",
+  "argv": [
+   "-d",
+   "-p",
+   "dyndns",
+   "fixtures/dyndns.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mnb_exchange_wsdl::51",
+  "argv": [
+   "-d",
+   "-p",
+   "mnb",
+   "fixtures/mnb-exchange.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_workday_time_min_wsdl::52",
+  "argv": [
+   "-d",
+   "-p",
+   "workday",
+   "fixtures/workday-time-min.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ec2_wsdl::53",
+  "argv": [
+   "-d",
+   "-p",
+   "ec2",
+   "fixtures/ec2.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ferry_wsdl::54",
+  "argv": [
+   "-d",
+   "-p",
+   "ferry",
+   "fixtures/ferry.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_usda_awdb_wsdl::55",
+  "argv": [
+   "-d",
+   "-p",
+   "awdb",
+   "fixtures/usda-awdb.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_chromedata_wsdl::56",
+  "argv": [
+   "-d",
+   "-p",
+   "chromedata",
+   "fixtures/chromedata.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_flags_together::57",
+  "argv": [
+   "-d",
+   "-p",
+   "allflags",
+   "-o",
+   "output.go",
+   "-make-public=true",
+   "fixtures/test.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_insecure_flag_with_local_file::58",
+  "argv": [
+   "-i",
+   "-d",
+   "-p",
+   "insecure",
+   "fixtures/test.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_package_names::59",
+  "argv": [
+   "-d",
+   "-p",
+   "fixtures/test.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generated_code_has_expected_sections::60",
+  "argv": [
+   "-d",
+   "-p",
+   "sections",
+   "fixtures/test.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_file_structure::61",
+  "argv": [
+   "-d",
+   "-p",
+   "serv",
+   "fixtures/test.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_operations_generation::62",
+  "argv": [
+   "-d",
+   "-p",
+   "multiop",
+   "fixtures/mnb-exchange.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_creates_directory_if_not_exists::63",
+  "argv": [
+   "-d",
+   "-p",
+   "newdir",
+   "fixtures/test.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_overwrites_existing_files::64",
+  "argv": [
+   "-d",
+   "-p",
+   "overwrite",
+   "fixtures/test.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wsdl_with_external_schema::65",
+  "argv": [
+   "-d",
+   "-p",
+   "epcis"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minimal_wsdl::66",
+  "argv": [
+   "-d",
+   "-p",
+   "minimal",
+   "fixtures/test.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_output_filename::67",
+  "argv": [
+   "-d",
+   "-o",
+   "-p",
+   "longfile",
+   "fixtures/test.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_directory_with_special_chars::68",
+  "argv": [
+   "-d",
+   "-p",
+   "special",
+   "fixtures/test.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_errors_nonzero::69",
+  "argv": [
+   "-definitely-not-a-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_wsdl_errors_nonzero::70",
+  "argv": [
+   "does-not-exist.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_with_output_and_package_flags::71",
+  "argv": [
+   "-o",
+   "gen.go",
+   "-p",
+   "pkgname",
+   "test.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_d_flag_requires_directory_to_exist::72",
+  "argv": [
+   "-d",
+   "out",
+   "test.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_make_public_flag_changes_generated_code::73",
+  "argv": [
+   "-make-public=false",
+   "test.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_precedence_over_unknown_flag::74",
+  "argv": [
+   "--help",
+   "--definitely-not-a-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_produces_error::75",
+  "argv": [
+   "--unknown-flag-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_typical_subcommand_names_interpreted_as_files::76",
+  "argv": [
+   "add"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_as_argument_interpreted_as_file::77",
+  "argv": [
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_as_argument_interpreted_as_file::78",
+  "argv": [
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_can_appear_before_argument::79",
+  "argv": [
+   "-p",
+   "testpkg",
+   "nonexistent.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_can_appear_after_argument::80",
+  "argv": [
+   "nonexistent.wsdl",
+   "-p",
+   "testpkg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_flags::81",
+  "argv": [
+   "-p",
+   "mypkg",
+   "-o",
+   "output.go",
+   "test.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file_produces_error::82",
+  "argv": [
+   "nonexistent_file_xyz.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_same_as_input_validation::83",
+  "argv": [
+   "-o",
+   "test.wsdl",
+   "eval/fixtures/test.wsdl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

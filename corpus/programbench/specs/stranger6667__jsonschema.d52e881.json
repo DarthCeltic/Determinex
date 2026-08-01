@@ -1,0 +1,2035 @@
+{
+ "slug": "stranger6667__jsonschema.d52e881",
+ "language": "",
+ "n_branches": 9,
+ "n_tests_total": 3019,
+ "n_examples": 97,
+ "n_with_exact_stdout": 5,
+ "n_with_rc": 94,
+ "n_skipped": 2765,
+ "examples": [
+  {
+   "test": "test_nested_ref_resolution_with_different_path_formats",
+   "argv": [
+    "/workspace/./executable",
+    "folderA/schema.json",
+    "--instance",
+    "instance.json",
+    "--output",
+    "flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:169"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_command_line_args.py:9"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_command_line_args.py:17"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Version:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_command_line_args.py:24"
+  },
+  {
+   "test": "test_version_short_flag",
+   "argv": [
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Version:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_command_line_args.py:31"
+  },
+  {
+   "test": "test_relative_paths",
+   "argv": [
+    "./schema.json",
+    "-i",
+    "./instance.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:133"
+  },
+  {
+   "test": "test_missing_schema_file",
+   "argv": [
+    "/nonexistent/schema.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:9"
+  },
+  {
+   "test": "test_invalid_json_schema",
+   "argv": [
+    "schema.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "schema.json": "{ invalid json }"
+   },
+   "ci": false,
+   "source": "test_error_handling.py:31"
+  },
+  {
+   "test": "test_exit_code_help",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_exit_codes.py:68"
+  },
+  {
+   "test": "test_exit_code_version",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_exit_codes.py:73"
+  },
+  {
+   "test": "test_no_args_requires_schema",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<SCHEMA>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args_parsing.py:45"
+  },
+  {
+   "test": "test_help_takes_precedence_over_unknown_flag_when_first",
+   "argv": [
+    "--help",
+    "--no-such-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:111"
+  },
+  {
+   "test": "test_unknown_flag_errors_when_before_help",
+   "argv": [
+    "--no-such-flag",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument",
+    "For more information, try '--help'."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:118"
+  },
+  {
+   "test": "test_double_dash_prevents_help_flag_parsing",
+   "argv": [
+    "--",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:128"
+  },
+  {
+   "test": "test_help_exit_code_and_contains_usage",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--output"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_io.py:7"
+  },
+  {
+   "test": "test_text_output_valid_and_invalid_exit_codes_and_messages",
+   "argv": [
+    "-i",
+    "valid.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "is not of type \"integer\"",
+    "Additional properties are not allowed"
+   ],
+   "files": {
+    "valid.json": "{\"a\": 1}\n"
+   },
+   "ci": false,
+   "source": "test_cli_io.py:33"
+  },
+  {
+   "test": "test_errors_only_suppresses_valid_output",
+   "argv": [
+    "schema.json",
+    "-i",
+    "inst.json",
+    "--errors-only"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "schema.json": "{\"type\":\"object\"}\n",
+    "inst.json": "{\"x\": 1}\n"
+   },
+   "ci": false,
+   "source": "test_cli_io.py:63"
+  },
+  {
+   "test": "test_output_flag_is_json_and_has_expected_keys",
+   "argv": [
+    "schema.json",
+    "-i",
+    "inst.json",
+    "--output",
+    "flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "schema.json": "{\"type\":\"integer\"}\n",
+    "inst.json": "\"x\"\n"
+   },
+   "ci": false,
+   "source": "test_cli_io.py:75"
+  },
+  {
+   "test": "test_missing_instance_file_is_error_on_stderr_and_exit_1",
+   "argv": [
+    "schema.json",
+    "-i"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "No such file or directory"
+   ],
+   "files": {
+    "schema.json": "{\"type\":\"integer\"}\n"
+   },
+   "ci": false,
+   "source": "test_cli_io.py:92"
+  },
+  {
+   "test": "test_invalid_output_option_is_exit_2_and_mentions_possible_values",
+   "argv": [
+    "--output",
+    "nope"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid value",
+    "possible values"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_io.py:103"
+  },
+  {
+   "test": "test_additional_properties_with_pattern_properties",
+   "argv": [
+    "-i",
+    "valid.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "VALID"
+   ],
+   "files": {
+    "valid.json": "{\"S_name\": \"test\", \"age\": 30}"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:6"
+  },
+  {
+   "test": "test_items_false_no_additional",
+   "argv": [
+    "-i",
+    "invalid.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INVALID"
+   ],
+   "files": {
+    "invalid.json": "[1, \"extra\"]"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:36"
+  },
+  {
+   "test": "test_help_flag_displays_usage",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable [OPTIONS] [SCHEMA]",
+    "Arguments:",
+    "Options:",
+    "--instance",
+    "--draft",
+    "--assert-format",
+    "--output"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:7"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable [OPTIONS] [SCHEMA]",
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:19"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Version: "
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:26"
+  },
+  {
+   "test": "test_version_short_flag",
+   "argv": [
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Version: "
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:34"
+  },
+  {
+   "test": "test_nonexistent_schema_file",
+   "argv": [
+    "/nonexistent/schema.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:49"
+  },
+  {
+   "test": "test_schema_only_validates_metaschema",
+   "argv": [
+    "schema.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Schema is valid"
+   ],
+   "files": {
+    "schema.json": "{\"type\": \"string\"}"
+   },
+   "ci": false,
+   "source": "test_basic_invocation.py:56"
+  },
+  {
+   "test": "test_person_schema",
+   "argv": [
+    "-i"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "VALID"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_schemas.py:6"
+  },
+  {
+   "test": "test_format_validation_comprehensive",
+   "argv": [
+    "-i",
+    "--assert-format"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "VALID"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_schemas.py:196"
+  },
+  {
+   "test": "test_multiple_types",
+   "argv": [
+    "-i",
+    "valid1.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "VALID",
+    "VALID",
+    "VALID"
+   ],
+   "files": {
+    "valid1.json": "\"text\""
+   },
+   "ci": false,
+   "source": "test_comprehensive_schemas.py:253"
+  },
+  {
+   "test": "test_draft_4_enforcement",
+   "argv": [
+    "schema.json",
+    "-i",
+    "instance.json",
+    "--draft",
+    "4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "VALID"
+   ],
+   "files": {
+    "schema.json": "{\"type\": \"string\"}",
+    "instance.json": "\"test\""
+   },
+   "ci": false,
+   "source": "test_draft_specification.py:6"
+  },
+  {
+   "test": "test_draft_6_enforcement",
+   "argv": [
+    "-i",
+    "instance.json",
+    "--draft",
+    "6"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "VALID"
+   ],
+   "files": {
+    "instance.json": "\"specific value\""
+   },
+   "ci": false,
+   "source": "test_draft_specification.py:16"
+  },
+  {
+   "test": "test_draft_7_enforcement",
+   "argv": [
+    "-i",
+    "instance.json",
+    "--draft",
+    "7"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "VALID"
+   ],
+   "files": {
+    "instance.json": "\"hello\""
+   },
+   "ci": false,
+   "source": "test_draft_specification.py:27"
+  },
+  {
+   "test": "test_draft_2019_enforcement",
+   "argv": [
+    "-i",
+    "instance.json",
+    "--draft",
+    "2019"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "VALID"
+   ],
+   "files": {
+    "instance.json": "{}"
+   },
+   "ci": false,
+   "source": "test_draft_specification.py:40"
+  },
+  {
+   "test": "test_draft_2020_enforcement",
+   "argv": [
+    "-i",
+    "instance.json",
+    "--draft",
+    "2020"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "VALID"
+   ],
+   "files": {
+    "instance.json": "[]"
+   },
+   "ci": false,
+   "source": "test_draft_specification.py:52"
+  },
+  {
+   "test": "test_draft_short_flag",
+   "argv": [
+    "schema.json",
+    "-i",
+    "instance.json",
+    "-d",
+    "7"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "VALID"
+   ],
+   "files": {
+    "schema.json": "{\"type\": \"number\"}",
+    "instance.json": "42"
+   },
+   "ci": false,
+   "source": "test_draft_specification.py:64"
+  },
+  {
+   "test": "test_draft_with_schema_validation",
+   "argv": [
+    "schema.json",
+    "--draft",
+    "7"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Schema is valid"
+   ],
+   "files": {
+    "schema.json": "{\"type\": \"string\"}"
+   },
+   "ci": false,
+   "source": "test_draft_specification.py:73"
+  },
+  {
+   "test": "test_invalid_draft_value",
+   "argv": [
+    "schema.json",
+    "--draft",
+    "invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "schema.json": "{\"type\": \"string\"}"
+   },
+   "ci": false,
+   "source": "test_draft_specification.py:81"
+  },
+  {
+   "test": "test_empty_schema",
+   "argv": [
+    "schema.json",
+    "-i",
+    "instance.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "VALID"
+   ],
+   "files": {
+    "schema.json": "{}",
+    "instance.json": "{\"any\": \"value\"}"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:6"
+  },
+  {
+   "test": "test_boolean_false",
+   "argv": [
+    "schema.json",
+    "-i",
+    "instance.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INVALID"
+   ],
+   "files": {
+    "schema.json": "false",
+    "instance.json": "{\"any\": \"value\"}"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:60"
+  },
+  {
+   "test": "test_deeply_nested_object",
+   "argv": [
+    "schema.json",
+    "-i"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "VALID"
+   ],
+   "files": {
+    "schema.json": "{\"type\": \"object\"}"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:96"
+  },
+  {
+   "test": "test_errors_only_suppresses_valid_text",
+   "argv": [
+    "schema.json",
+    "-i",
+    "valid.json",
+    "--errors-only"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "schema.json": "{\"type\": \"string\"}",
+    "valid.json": "\"hello\""
+   },
+   "ci": false,
+   "source": "test_errors_only.py:6"
+  },
+  {
+   "test": "test_errors_only_shows_invalid_text",
+   "argv": [
+    "schema.json",
+    "-i",
+    "invalid.json",
+    "--errors-only"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INVALID",
+    "Errors:"
+   ],
+   "files": {
+    "schema.json": "{\"type\": \"integer\"}",
+    "invalid.json": "\"not an int\""
+   },
+   "ci": false,
+   "source": "test_errors_only.py:16"
+  },
+  {
+   "test": "test_errors_only_multiple_instances",
+   "argv": [
+    "schema.json",
+    "-i",
+    "valid1.json",
+    "-i",
+    "invalid.json",
+    "-i",
+    "valid2.json",
+    "--errors-only"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INVALID",
+    "Errors:"
+   ],
+   "files": {
+    "schema.json": "{\"type\": \"boolean\"}",
+    "valid1.json": "true",
+    "invalid.json": "123",
+    "valid2.json": "false"
+   },
+   "ci": false,
+   "source": "test_errors_only.py:26"
+  },
+  {
+   "test": "test_errors_only_flag_output",
+   "argv": [
+    "schema.json",
+    "-i",
+    "valid.json",
+    "--errors-only",
+    "--output",
+    "flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "schema.json": "{\"type\": \"number\"}",
+    "valid.json": "3.14"
+   },
+   "ci": false,
+   "source": "test_errors_only.py:45"
+  },
+  {
+   "test": "test_errors_only_flag_output_shows_invalid",
+   "argv": [
+    "schema.json",
+    "-i",
+    "invalid.json",
+    "--errors-only",
+    "--output",
+    "flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "schema.json": "{\"type\": \"array\"}",
+    "invalid.json": "\"not an array\""
+   },
+   "ci": false,
+   "source": "test_errors_only.py:55"
+  },
+  {
+   "test": "test_errors_only_list_output",
+   "argv": [
+    "schema.json",
+    "-i",
+    "valid.json",
+    "-i",
+    "invalid.json",
+    "--errors-only",
+    "--output",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "schema.json": "{\"type\": \"string\"}",
+    "valid.json": "\"test\"",
+    "invalid.json": "[]"
+   },
+   "ci": false,
+   "source": "test_errors_only.py:65"
+  },
+  {
+   "test": "test_errors_only_schema_validation",
+   "argv": [
+    "schema.json",
+    "--errors-only"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "schema.json": "{\"type\": \"object\"}"
+   },
+   "ci": false,
+   "source": "test_errors_only.py:79"
+  },
+  {
+   "test": "test_errors_only_invalid_schema",
+   "argv": [
+    "schema.json",
+    "--errors-only"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Schema is invalid"
+   ],
+   "files": {
+    "schema.json": "{\"type\": \"invalid_type\"}"
+   },
+   "ci": false,
+   "source": "test_errors_only.py:88"
+  },
+  {
+   "test": "test_errors_only_hierarchical_output",
+   "argv": [
+    "schema.json",
+    "-i",
+    "valid.json",
+    "--errors-only",
+    "--output",
+    "hierarchical"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "schema.json": "{\"type\": \"null\"}",
+    "valid.json": "null"
+   },
+   "ci": false,
+   "source": "test_errors_only.py:96"
+  },
+  {
+   "test": "test_assert_format_enables_validation",
+   "argv": [
+    "-i",
+    "invalid.json",
+    "--assert-format"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INVALID"
+   ],
+   "files": {
+    "invalid.json": "\"not-an-email\""
+   },
+   "ci": false,
+   "source": "test_format_validation.py:6"
+  },
+  {
+   "test": "test_no_assert_format_disables_validation",
+   "argv": [
+    "-i",
+    "invalid.json",
+    "--no-assert-format"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "VALID"
+   ],
+   "files": {
+    "invalid.json": "\"not-an-email\""
+   },
+   "ci": false,
+   "source": "test_format_validation.py:19"
+  },
+  {
+   "test": "test_format_validation_with_valid_email",
+   "argv": [
+    "-i",
+    "valid.json",
+    "--assert-format"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "VALID"
+   ],
+   "files": {
+    "valid.json": "\"user@example.com\""
+   },
+   "ci": false,
+   "source": "test_format_validation.py:32"
+  },
+  {
+   "test": "test_format_validation_with_draft",
+   "argv": [
+    "-i",
+    "instance.json",
+    "--draft",
+    "7",
+    "--assert-format"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "VALID"
+   ],
+   "files": {
+    "instance.json": "\"user@example.com\""
+   },
+   "ci": false,
+   "source": "test_format_validation.py:80"
+  },
+  {
+   "test": "test_format_override_assert_then_no_assert",
+   "argv": [
+    "-i",
+    "invalid.json",
+    "--assert-format",
+    "--no-assert-format"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "VALID"
+   ],
+   "files": {
+    "invalid.json": "\"not-an-email\""
+   },
+   "ci": false,
+   "source": "test_format_validation.py:92"
+  },
+  {
+   "test": "test_timeout_option",
+   "argv": [
+    "schema.json",
+    "--timeout",
+    "30"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Schema is valid"
+   ],
+   "files": {
+    "schema.json": "{\"type\": \"string\"}"
+   },
+   "ci": false,
+   "source": "test_http_options.py:6"
+  },
+  {
+   "test": "test_connect_timeout_option",
+   "argv": [
+    "schema.json",
+    "--connect-timeout",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Schema is valid"
+   ],
+   "files": {
+    "schema.json": "{\"type\": \"integer\"}"
+   },
+   "ci": false,
+   "source": "test_http_options.py:14"
+  },
+  {
+   "test": "test_insecure_flag",
+   "argv": [
+    "schema.json",
+    "--insecure"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Schema is valid"
+   ],
+   "files": {
+    "schema.json": "{\"type\": \"boolean\"}"
+   },
+   "ci": false,
+   "source": "test_http_options.py:22"
+  },
+  {
+   "test": "test_insecure_short_flag",
+   "argv": [
+    "schema.json",
+    "-k"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Schema is valid"
+   ],
+   "files": {
+    "schema.json": "{\"type\": \"array\"}"
+   },
+   "ci": false,
+   "source": "test_http_options.py:30"
+  },
+  {
+   "test": "test_cacert_option_nonexistent_file",
+   "argv": [
+    "schema.json",
+    "--cacert",
+    "/nonexistent/cert.pem"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error:",
+    "/nonexistent/cert.pem"
+   ],
+   "files": {
+    "schema.json": "{\"type\": \"string\"}"
+   },
+   "ci": false,
+   "source": "test_http_options.py:38"
+  },
+  {
+   "test": "test_all_http_options_combined",
+   "argv": [
+    "schema.json",
+    "-i",
+    "instance.json",
+    "--timeout",
+    "30",
+    "--connect-timeout",
+    "10",
+    "--insecure"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "VALID"
+   ],
+   "files": {
+    "schema.json": "{\"type\": \"null\"}",
+    "instance.json": "null"
+   },
+   "ci": false,
+   "source": "test_http_options.py:47"
+  },
+  {
+   "test": "test_invalid_timeout_negative",
+   "argv": [
+    "schema.json",
+    "--timeout=-1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "schema.json": "{\"type\": \"string\"}"
+   },
+   "ci": false,
+   "source": "test_http_options.py:57"
+  },
+  {
+   "test": "test_invalid_timeout_not_a_number",
+   "argv": [
+    "schema.json",
+    "--timeout",
+    "invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "not a valid number"
+   ],
+   "files": {
+    "schema.json": "{\"type\": \"string\"}"
+   },
+   "ci": false,
+   "source": "test_http_options.py:65"
+  },
+  {
+   "test": "test_invalid_connect_timeout_negative",
+   "argv": [
+    "schema.json",
+    "--connect-timeout=-5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "schema.json": "{\"type\": \"string\"}"
+   },
+   "ci": false,
+   "source": "test_http_options.py:73"
+  },
+  {
+   "test": "test_timeout_with_instance_validation",
+   "argv": [
+    "schema.json",
+    "-i",
+    "instance.json",
+    "--timeout",
+    "15"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "VALID"
+   ],
+   "files": {
+    "schema.json": "{\"type\": \"object\"}",
+    "instance.json": "{}"
+   },
+   "ci": false,
+   "source": "test_http_options.py:81"
+  },
+  {
+   "test": "test_http_options_with_structured_output",
+   "argv": [
+    "schema.json",
+    "--timeout",
+    "20",
+    "--output",
+    "flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "schema.json": "{\"type\": \"number\"}"
+   },
+   "ci": false,
+   "source": "test_http_options.py:90"
+  },
+  {
+   "test": "test_timeout_zero_is_valid",
+   "argv": [
+    "schema.json",
+    "--timeout",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Schema is valid"
+   ],
+   "files": {
+    "schema.json": "{\"type\": \"string\"}"
+   },
+   "ci": false,
+   "source": "test_http_options.py:99"
+  },
+  {
+   "test": "test_connect_timeout_with_decimals",
+   "argv": [
+    "schema.json",
+    "--connect-timeout",
+    "5.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Schema is valid"
+   ],
+   "files": {
+    "schema.json": "{\"type\": \"string\"}"
+   },
+   "ci": false,
+   "source": "test_http_options.py:107"
+  },
+  {
+   "test": "test_timeout_with_decimals",
+   "argv": [
+    "schema.json",
+    "--timeout",
+    "10.75"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Schema is valid"
+   ],
+   "files": {
+    "schema.json": "{\"type\": \"string\"}"
+   },
+   "ci": false,
+   "source": "test_http_options.py:115"
+  },
+  {
+   "test": "test_invalid_instance_validation",
+   "argv": [
+    "schema.json",
+    "-i",
+    "instance.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INVALID",
+    "Errors:"
+   ],
+   "files": {
+    "schema.json": "{\"type\": \"string\"}",
+    "instance.json": "123"
+   },
+   "ci": false,
+   "source": "test_instance_validation.py:16"
+  },
+  {
+   "test": "test_multiple_valid_instances",
+   "argv": [
+    "schema.json",
+    "-i",
+    "inst1.json",
+    "-i",
+    "inst2.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "schema.json": "{\"type\": \"number\"}",
+    "inst1.json": "42",
+    "inst2.json": "3.14"
+   },
+   "ci": false,
+   "source": "test_instance_validation.py:27"
+  },
+  {
+   "test": "test_multiple_instances_mixed_validity",
+   "argv": [
+    "schema.json",
+    "-i",
+    "valid.json",
+    "-i",
+    "invalid.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "VALID",
+    "INVALID"
+   ],
+   "files": {
+    "schema.json": "{\"type\": \"integer\"}",
+    "valid.json": "42",
+    "invalid.json": "\"not an integer\""
+   },
+   "ci": false,
+   "source": "test_instance_validation.py:39"
+  },
+  {
+   "test": "test_instance_missing_required_property",
+   "argv": [
+    "-i",
+    "instance.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INVALID"
+   ],
+   "files": {
+    "instance.json": "{}"
+   },
+   "ci": false,
+   "source": "test_instance_validation.py:71"
+  },
+  {
+   "test": "test_instance_with_invalid_json",
+   "argv": [
+    "schema.json",
+    "-i",
+    "instance.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error:"
+   ],
+   "files": {
+    "schema.json": "{\"type\": \"string\"}",
+    "instance.json": "{invalid json"
+   },
+   "ci": false,
+   "source": "test_instance_validation.py:83"
+  },
+  {
+   "test": "test_nonexistent_instance_file",
+   "argv": [
+    "schema.json",
+    "-i",
+    "/nonexistent/instance.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error:"
+   ],
+   "files": {
+    "schema.json": "{\"type\": \"string\"}"
+   },
+   "ci": false,
+   "source": "test_instance_validation.py:92"
+  },
+  {
+   "test": "test_instance_flag_output",
+   "argv": [
+    "schema.json",
+    "-i",
+    "instance.json",
+    "--output",
+    "flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "schema",
+    "instance"
+   ],
+   "files": {
+    "schema.json": "{\"type\": \"boolean\"}",
+    "instance.json": "true"
+   },
+   "ci": false,
+   "source": "test_instance_validation.py:100"
+  },
+  {
+   "test": "test_instance_list_output",
+   "argv": [
+    "schema.json",
+    "-i",
+    "instance.json",
+    "--output",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "schema.json": "{\"type\": \"array\"}",
+    "instance.json": "[1, 2, 3]"
+   },
+   "ci": false,
+   "source": "test_instance_validation.py:113"
+  },
+  {
+   "test": "test_instance_hierarchical_output",
+   "argv": [
+    "schema.json",
+    "-i",
+    "instance.json",
+    "--output",
+    "hierarchical"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "schema.json": "{\"type\": \"null\"}",
+    "instance.json": "null"
+   },
+   "ci": false,
+   "source": "test_instance_validation.py:124"
+  },
+  {
+   "test": "test_invalid_instance_structured_output",
+   "argv": [
+    "-i",
+    "instance.json",
+    "--output",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "instance.json": "{\"age\": 200}"
+   },
+   "ci": false,
+   "source": "test_instance_validation.py:135"
+  },
+  {
+   "test": "test_multiple_validation_errors",
+   "argv": [
+    "-i",
+    "instance.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INVALID",
+    "Errors:",
+    "1.",
+    "2."
+   ],
+   "files": {
+    "instance.json": "{}"
+   },
+   "ci": false,
+   "source": "test_instance_validation.py:150"
+  },
+  {
+   "test": "test_text_output_explicit",
+   "argv": [
+    "schema.json",
+    "-i",
+    "instance.json",
+    "--output",
+    "text"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "VALID"
+   ],
+   "files": {
+    "schema.json": "{\"type\": \"integer\"}",
+    "instance.json": "42"
+   },
+   "ci": false,
+   "source": "test_output_formats.py:17"
+  },
+  {
+   "test": "test_flag_output_format",
+   "argv": [
+    "schema.json",
+    "-i",
+    "instance.json",
+    "--output",
+    "flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "schema",
+    "instance",
+    "payload"
+   ],
+   "files": {
+    "schema.json": "{\"type\": \"boolean\"}",
+    "instance.json": "true"
+   },
+   "ci": false,
+   "source": "test_output_formats.py:26"
+  },
+  {
+   "test": "test_list_output_format",
+   "argv": [
+    "schema.json",
+    "-i",
+    "instance.json",
+    "--output",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "payload",
+    "details"
+   ],
+   "files": {
+    "schema.json": "{\"type\": \"array\"}",
+    "instance.json": "[1, 2]"
+   },
+   "ci": false,
+   "source": "test_output_formats.py:43"
+  },
+  {
+   "test": "test_hierarchical_output_format",
+   "argv": [
+    "schema.json",
+    "-i",
+    "instance.json",
+    "--output",
+    "hierarchical"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "payload"
+   ],
+   "files": {
+    "schema.json": "{\"type\": \"object\"}",
+    "instance.json": "{}"
+   },
+   "ci": false,
+   "source": "test_output_formats.py:57"
+  },
+  {
+   "test": "test_multiple_instances_flag_output",
+   "argv": [
+    "schema.json",
+    "-i",
+    "inst1.json",
+    "-i",
+    "inst2.json",
+    "--output",
+    "flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "schema.json": "{\"type\": \"string\"}",
+    "inst1.json": "\"a\"",
+    "inst2.json": "\"b\""
+   },
+   "ci": false,
+   "source": "test_output_formats.py:69"
+  },
+  {
+   "test": "test_invalid_instance_flag_output",
+   "argv": [
+    "schema.json",
+    "-i",
+    "instance.json",
+    "--output",
+    "flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "schema.json": "{\"type\": \"number\"}",
+    "instance.json": "\"not a number\""
+   },
+   "ci": false,
+   "source": "test_output_formats.py:84"
+  },
+  {
+   "test": "test_invalid_instance_list_output",
+   "argv": [
+    "-i",
+    "instance.json",
+    "--output",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "details"
+   ],
+   "files": {
+    "instance.json": "{}"
+   },
+   "ci": false,
+   "source": "test_output_formats.py:94"
+  },
+  {
+   "test": "test_schema_validation_structured_output",
+   "argv": [
+    "schema.json",
+    "--output",
+    "flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "schema",
+    "payload"
+   ],
+   "files": {
+    "schema.json": "{\"type\": \"string\"}"
+   },
+   "ci": false,
+   "source": "test_output_formats.py:108"
+  },
+  {
+   "test": "test_output_format_preserves_schema_path",
+   "argv": [
+    "schema.json",
+    "-i",
+    "instance.json",
+    "--output",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "schema.json",
+    "instance.json"
+   ],
+   "files": {
+    "schema.json": "{\"type\": \"null\"}",
+    "instance.json": "null"
+   },
+   "ci": false,
+   "source": "test_output_formats.py:120"
+  },
+  {
+   "test": "test_relative_ref_resolution",
+   "argv": [
+    "-i",
+    "instance.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "VALID"
+   ],
+   "files": {
+    "instance.json": "{\"name\": \"test\"}"
+   },
+   "ci": false,
+   "source": "test_schema_features.py:6"
+  },
+  {
+   "test": "test_invalid_schema_type",
+   "argv": [
+    "schema.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Schema is invalid",
+    "Error:"
+   ],
+   "files": {
+    "schema.json": "{\"type\": \"invalid_type\"}"
+   },
+   "ci": false,
+   "source": "test_schema_validation.py:20"
+  },
+  {
+   "test": "test_schema_with_syntax_error",
+   "argv": [
+    "schema.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error:"
+   ],
+   "files": {
+    "schema.json": "{\"type\": \"string\""
+   },
+   "ci": false,
+   "source": "test_schema_validation.py:29"
+  },
+  {
+   "test": "test_schema_validation_list_output",
+   "argv": [
+    "schema.json",
+    "--output",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "payload"
+   ],
+   "files": {
+    "schema.json": "{\"type\": \"integer\"}"
+   },
+   "ci": false,
+   "source": "test_schema_validation.py:50"
+  },
+  {
+   "test": "test_schema_validation_hierarchical_output",
+   "argv": [
+    "schema.json",
+    "--output",
+    "hierarchical"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "payload"
+   ],
+   "files": {
+    "schema.json": "{\"type\": \"boolean\"}"
+   },
+   "ci": false,
+   "source": "test_schema_validation.py:61"
+  },
+  {
+   "test": "test_invalid_schema_flag_output",
+   "argv": [
+    "schema.json",
+    "--output",
+    "flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "schema"
+   ],
+   "files": {
+    "schema.json": "{\"type\": \"not_a_type\"}"
+   },
+   "ci": false,
+   "source": "test_schema_validation.py:72"
+  },
+  {
+   "test": "test_string_type",
+   "argv": [
+    "schema.json",
+    "-i",
+    "valid.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "VALID"
+   ],
+   "files": {
+    "schema.json": "{\"type\": \"string\"}",
+    "valid.json": "\"test\""
+   },
+   "ci": false,
+   "source": "test_type_validation.py:6"
+  }
+ ]
+}

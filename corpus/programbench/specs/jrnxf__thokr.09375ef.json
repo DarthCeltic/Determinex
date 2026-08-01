@@ -1,0 +1,2616 @@
+{
+ "slug": "jrnxf__thokr.09375ef",
+ "language": "",
+ "n_branches": 9,
+ "n_tests_total": 470,
+ "n_examples": 139,
+ "n_with_exact_stdout": 1,
+ "n_with_rc": 126,
+ "n_skipped": 320,
+ "examples": [
+  {
+   "test": "test_help_shows_no_subcommands",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:37"
+  },
+  {
+   "test": "test_version_flag_works",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "thokr",
+    "0.4.1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:51"
+  },
+  {
+   "test": "test_short_help_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:60"
+  },
+  {
+   "test": "test_short_version_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "thokr"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:68"
+  },
+  {
+   "test": "test_word_count_flag_short",
+   "argv": [
+    "-w",
+    "10",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:118"
+  },
+  {
+   "test": "test_word_count_flag_long",
+   "argv": [
+    "--number-of-words",
+    "10",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:125"
+  },
+  {
+   "test": "test_language_flag_short",
+   "argv": [
+    "-l",
+    "english",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:130"
+  },
+  {
+   "test": "test_language_flag_long",
+   "argv": [
+    "--supported-language",
+    "english1k",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:135"
+  },
+  {
+   "test": "test_sentence_flag",
+   "argv": [
+    "--full-sentences",
+    "5",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:148"
+  },
+  {
+   "test": "test_seconds_flag",
+   "argv": [
+    "-s",
+    "30",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:153"
+  },
+  {
+   "test": "test_prompt_flag",
+   "argv": [
+    "-p",
+    "custom text",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:158"
+  },
+  {
+   "test": "test_help_format_is_standard",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:",
+    "OPTIONS:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:198"
+  },
+  {
+   "test": "test_word_count_requires_number",
+   "argv": [
+    "-w",
+    "notanumber"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommands.py:250"
+  },
+  {
+   "test": "test_seconds_requires_number",
+   "argv": [
+    "-s",
+    "notanumber"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommands.py:258"
+  },
+  {
+   "test": "test_sentence_count_requires_number",
+   "argv": [
+    "--full-sentences",
+    "notanumber"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommands.py:266"
+  },
+  {
+   "test": "test_flag_without_value",
+   "argv": [
+    "-w"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommands.py:274"
+  },
+  {
+   "test": "test_help_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_args.py:38"
+  },
+  {
+   "test": "test_version_short",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_args.py:52"
+  },
+  {
+   "test": "test_version_long",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_args.py:59"
+  },
+  {
+   "test": "test_word_count_short",
+   "argv": [
+    "-w",
+    "20"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "stdin must be a tty"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_args.py:115"
+  },
+  {
+   "test": "test_word_count_long",
+   "argv": [
+    "--number-of-words",
+    "25"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "stdin must be a tty"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_args.py:123"
+  },
+  {
+   "test": "test_language_english",
+   "argv": [
+    "-l",
+    "english"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "stdin must be a tty"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_args.py:129"
+  },
+  {
+   "test": "test_language_english1k",
+   "argv": [
+    "-l",
+    "english1k"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "stdin must be a tty"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_args.py:135"
+  },
+  {
+   "test": "test_language_english10k",
+   "argv": [
+    "-l",
+    "english10k"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "stdin must be a tty"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_args.py:141"
+  },
+  {
+   "test": "test_custom_prompt_short",
+   "argv": [
+    "-p",
+    "hello world"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "stdin must be a tty"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_args.py:147"
+  },
+  {
+   "test": "test_custom_prompt_long",
+   "argv": [
+    "--prompt",
+    "test prompt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "stdin must be a tty"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_args.py:153"
+  },
+  {
+   "test": "test_seconds_short",
+   "argv": [
+    "-s",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "stdin must be a tty"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_args.py:159"
+  },
+  {
+   "test": "test_seconds_long",
+   "argv": [
+    "--number-of-secs",
+    "15"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "stdin must be a tty"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_args.py:165"
+  },
+  {
+   "test": "test_full_sentences_short",
+   "argv": [
+    "-f",
+    "3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "stdin must be a tty"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_args.py:171"
+  },
+  {
+   "test": "test_full_sentences_long",
+   "argv": [
+    "--full-sentences",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "stdin must be a tty"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_args.py:177"
+  },
+  {
+   "test": "test_combined_arguments",
+   "argv": [
+    "-w",
+    "20",
+    "-l",
+    "english1k"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "stdin must be a tty"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_args.py:183"
+  },
+  {
+   "test": "test_word_count_one",
+   "argv": [
+    "-w",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "stdin must be a tty"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_args.py:200"
+  },
+  {
+   "test": "test_word_count_large",
+   "argv": [
+    "-w",
+    "10000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "stdin must be a tty"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_args.py:206"
+  },
+  {
+   "test": "test_empty_custom_prompt",
+   "argv": [
+    "-p",
+    ""
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "stdin must be a tty"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_args.py:212"
+  },
+  {
+   "test": "test_unicode_custom_prompt",
+   "argv": [
+    "-p",
+    "hello 世界 🌍"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "stdin must be a tty"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_args.py:218"
+  },
+  {
+   "test": "test_special_chars_custom_prompt",
+   "argv": [
+    "-p",
+    "hello!@#$%^&*()"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "stdin must be a tty"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_args.py:224"
+  },
+  {
+   "test": "test_seconds_one",
+   "argv": [
+    "-s",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "stdin must be a tty"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_args.py:237"
+  },
+  {
+   "test": "test_seconds_large",
+   "argv": [
+    "-s",
+    "3600"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "stdin must be a tty"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_args.py:243"
+  },
+  {
+   "test": "test_sentences_one",
+   "argv": [
+    "-f",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "stdin must be a tty"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_args.py:249"
+  },
+  {
+   "test": "test_sentences_large",
+   "argv": [
+    "-f",
+    "100"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "stdin must be a tty"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_args.py:255"
+  },
+  {
+   "test": "test_help_output_structure",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:",
+    "OPTIONS:",
+    "thokr"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_behaviors.py:6"
+  },
+  {
+   "test": "test_version_output_format",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "thokr"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_behaviors.py:21"
+  },
+  {
+   "test": "test_help_with_invalid_flags_shows_help",
+   "argv": [
+    "--help",
+    "--invalid-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_behaviors.py:38"
+  },
+  {
+   "test": "test_stdin_error_includes_usage",
+   "argv": [
+    "./executable"
+   ],
+   "stdin": "test",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "stdin must be a tty",
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_behaviors.py:52"
+  },
+  {
+   "test": "test_help_documents_all_language_options",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "english",
+    "english1k",
+    "english10k"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_behaviors.py:65"
+  },
+  {
+   "test": "test_help_shows_default_word_count",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "15",
+    "default"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_additional_behaviors.py:76"
+  },
+  {
+   "test": "test_language_flag_accepts_all_variants",
+   "argv": [
+    "-l",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_behaviors.py:86"
+  },
+  {
+   "test": "test_word_count_flag_accepts_various_numbers",
+   "argv": [
+    "-w",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_behaviors.py:94"
+  },
+  {
+   "test": "test_sentence_flag_accepts_numbers",
+   "argv": [
+    "-f",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_behaviors.py:101"
+  },
+  {
+   "test": "test_time_limit_flag_accepts_numbers",
+   "argv": [
+    "-s",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_behaviors.py:108"
+  },
+  {
+   "test": "test_custom_prompt_flag_accepts_text",
+   "argv": [
+    "-p",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_behaviors.py:115"
+  },
+  {
+   "test": "test_combined_flags_with_help",
+   "argv": [
+    "-w",
+    "20",
+    "-l",
+    "english1k",
+    "-s",
+    "10",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_behaviors.py:122"
+  },
+  {
+   "test": "test_version_with_multiple_flags",
+   "argv": [
+    "--version",
+    "-w",
+    "10",
+    "-l",
+    "english"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "thokr"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_behaviors.py:129"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "thokr",
+    "sleek typing tui",
+    "USAGE:",
+    "OPTIONS:",
+    "--help",
+    "--version",
+    "--number-of-words",
+    "--supported-language"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_functionality.py:6"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "thokr",
+    "sleek typing tui",
+    "USAGE:",
+    "OPTIONS:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_functionality.py:19"
+  },
+  {
+   "test": "test_stdin_must_be_tty",
+   "argv": [
+    "./executable"
+   ],
+   "stdin": "test",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "stdin must be a tty"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_functionality.py:43"
+  },
+  {
+   "test": "test_invalid_language",
+   "argv": [
+    "-l",
+    "spanish"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "spanish",
+    "english"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_error_handling.py:12"
+  },
+  {
+   "test": "test_help_long_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "thokr",
+    "sleek typing tui",
+    "USAGE:",
+    "OPTIONS:",
+    "--number-of-words",
+    "--full-sentences",
+    "--number-of-secs",
+    "--prompt",
+    "--supported-language"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:25"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "thokr",
+    "USAGE:",
+    "OPTIONS:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:39"
+  },
+  {
+   "test": "test_version_short_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "thokr",
+    "0.4.1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:56"
+  },
+  {
+   "test": "test_invalid_flag",
+   "argv": [
+    "--invalid-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error:",
+    "--invalid-flag",
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic.py:64"
+  },
+  {
+   "test": "test_unknown_short_flag",
+   "argv": [
+    "-z"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error:"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic.py:73"
+  },
+  {
+   "test": "test_word_count_short_flag",
+   "argv": [
+    "-w",
+    "10",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:91"
+  },
+  {
+   "test": "test_word_count_long_flag",
+   "argv": [
+    "--number-of-words",
+    "20",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:97"
+  },
+  {
+   "test": "test_word_count_invalid_non_numeric",
+   "argv": [
+    "-w",
+    "abc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error:",
+    "invalid",
+    "abc"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic.py:103"
+  },
+  {
+   "test": "test_word_count_invalid_negative",
+   "argv": [
+    "-w",
+    "-5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error:"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic.py:111"
+  },
+  {
+   "test": "test_word_count_large_number",
+   "argv": [
+    "-w",
+    "10000",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:123"
+  },
+  {
+   "test": "test_word_count_missing_value",
+   "argv": [
+    "-w"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error:"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic.py:129"
+  },
+  {
+   "test": "test_sentence_mode_short_flag",
+   "argv": [
+    "-f",
+    "3",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:140"
+  },
+  {
+   "test": "test_sentence_mode_long_flag",
+   "argv": [
+    "--full-sentences",
+    "2",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:146"
+  },
+  {
+   "test": "test_sentence_mode_invalid_non_numeric",
+   "argv": [
+    "-f",
+    "xyz"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error:",
+    "invalid"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic.py:152"
+  },
+  {
+   "test": "test_sentence_mode_large_number",
+   "argv": [
+    "-f",
+    "100",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:164"
+  },
+  {
+   "test": "test_sentence_mode_missing_value",
+   "argv": [
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error:"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic.py:170"
+  },
+  {
+   "test": "test_time_limit_short_flag",
+   "argv": [
+    "-s",
+    "30",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:180"
+  },
+  {
+   "test": "test_time_limit_long_flag",
+   "argv": [
+    "--number-of-secs",
+    "60",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:186"
+  },
+  {
+   "test": "test_time_limit_invalid_non_numeric",
+   "argv": [
+    "-s",
+    "notanumber"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error:",
+    "invalid"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic.py:192"
+  },
+  {
+   "test": "test_time_limit_large_number",
+   "argv": [
+    "-s",
+    "3600",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:204"
+  },
+  {
+   "test": "test_time_limit_missing_value",
+   "argv": [
+    "-s"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error:"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic.py:210"
+  },
+  {
+   "test": "test_custom_prompt_short_flag",
+   "argv": [
+    "-p",
+    "hello world",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:220"
+  },
+  {
+   "test": "test_custom_prompt_long_flag",
+   "argv": [
+    "--prompt",
+    "test prompt",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:226"
+  },
+  {
+   "test": "test_custom_prompt_empty_string",
+   "argv": [
+    "-p",
+    "",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:232"
+  },
+  {
+   "test": "test_custom_prompt_long_text",
+   "argv": [
+    "-p",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:238"
+  },
+  {
+   "test": "test_custom_prompt_special_characters",
+   "argv": [
+    "-p",
+    "hello!@#$%^&*()",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:245"
+  },
+  {
+   "test": "test_custom_prompt_unicode",
+   "argv": [
+    "-p",
+    "héllo wörld 你好",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:251"
+  },
+  {
+   "test": "test_custom_prompt_missing_value",
+   "argv": [
+    "-p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error:"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic.py:257"
+  },
+  {
+   "test": "test_language_english_short_flag",
+   "argv": [
+    "-l",
+    "english",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:267"
+  },
+  {
+   "test": "test_language_english_long_flag",
+   "argv": [
+    "--supported-language",
+    "english",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:273"
+  },
+  {
+   "test": "test_language_english1k",
+   "argv": [
+    "-l",
+    "english1k",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:279"
+  },
+  {
+   "test": "test_language_english10k",
+   "argv": [
+    "-l",
+    "english10k",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:285"
+  },
+  {
+   "test": "test_language_invalid",
+   "argv": [
+    "-l",
+    "invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error:",
+    "invalid",
+    "possible values",
+    "english"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic.py:291"
+  },
+  {
+   "test": "test_language_case_sensitive",
+   "argv": [
+    "-l",
+    "English"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error:"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic.py:300"
+  },
+  {
+   "test": "test_language_missing_value",
+   "argv": [
+    "-l"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error:"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic.py:306"
+  },
+  {
+   "test": "test_word_count_with_language",
+   "argv": [
+    "-w",
+    "50",
+    "-l",
+    "english1k",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:316"
+  },
+  {
+   "test": "test_sentences_with_language",
+   "argv": [
+    "-f",
+    "3",
+    "-l",
+    "english10k",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:322"
+  },
+  {
+   "test": "test_word_count_with_time_limit",
+   "argv": [
+    "-w",
+    "100",
+    "-s",
+    "60",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:328"
+  },
+  {
+   "test": "test_sentences_with_time_limit",
+   "argv": [
+    "-f",
+    "5",
+    "-s",
+    "30",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:334"
+  },
+  {
+   "test": "test_custom_prompt_with_time_limit",
+   "argv": [
+    "-p",
+    "test prompt",
+    "-s",
+    "45",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:340"
+  },
+  {
+   "test": "test_custom_prompt_with_word_count",
+   "argv": [
+    "-p",
+    "custom text",
+    "-w",
+    "20",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:346"
+  },
+  {
+   "test": "test_custom_prompt_with_language",
+   "argv": [
+    "-p",
+    "custom text",
+    "-l",
+    "english1k",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:352"
+  },
+  {
+   "test": "test_sentences_with_word_count",
+   "argv": [
+    "-f",
+    "2",
+    "-w",
+    "10",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:358"
+  },
+  {
+   "test": "test_all_options_combined",
+   "argv": [
+    "-w",
+    "25",
+    "-f",
+    "3",
+    "-s",
+    "60",
+    "-p",
+    "test",
+    "-l",
+    "english1k",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:364"
+  },
+  {
+   "test": "test_very_large_word_count",
+   "argv": [
+    "-w",
+    "50000",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:22"
+  },
+  {
+   "test": "test_word_count_one",
+   "argv": [
+    "-w",
+    "1",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:28"
+  },
+  {
+   "test": "test_sentence_count_one",
+   "argv": [
+    "-f",
+    "1",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:34"
+  },
+  {
+   "test": "test_time_limit_one_second",
+   "argv": [
+    "-s",
+    "1",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:40"
+  },
+  {
+   "test": "test_very_long_time_limit",
+   "argv": [
+    "-s",
+    "86400",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:46"
+  },
+  {
+   "test": "test_custom_prompt_single_char",
+   "argv": [
+    "-p",
+    "a",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:52"
+  },
+  {
+   "test": "test_custom_prompt_with_numbers",
+   "argv": [
+    "-p",
+    "12345",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:58"
+  },
+  {
+   "test": "test_custom_prompt_with_spaces",
+   "argv": [
+    "-p",
+    "a  b  c",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:64"
+  },
+  {
+   "test": "test_custom_prompt_with_newlines",
+   "argv": [
+    "-p",
+    "line1\nline2",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:70"
+  },
+  {
+   "test": "test_custom_prompt_with_tabs",
+   "argv": [
+    "-p",
+    "word1\tword2",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:76"
+  },
+  {
+   "test": "test_equals_syntax_word_count",
+   "argv": [
+    "--number-of-words=10",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:86"
+  },
+  {
+   "test": "test_equals_syntax_language",
+   "argv": [
+    "--supported-language=english1k",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:92"
+  },
+  {
+   "test": "test_equals_syntax_prompt",
+   "argv": [
+    "--prompt=hello",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:98"
+  },
+  {
+   "test": "test_multiple_flags_order_1",
+   "argv": [
+    "-w",
+    "10",
+    "-l",
+    "english",
+    "-s",
+    "30",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:104"
+  },
+  {
+   "test": "test_multiple_flags_order_2",
+   "argv": [
+    "-s",
+    "30",
+    "-l",
+    "english",
+    "-w",
+    "10",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:110"
+  },
+  {
+   "test": "test_help_with_other_flags",
+   "argv": [
+    "-w",
+    "100",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:",
+    "--number-of-words"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:116"
+  },
+  {
+   "test": "test_version_with_other_flags",
+   "argv": [
+    "-w",
+    "100",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "thokr",
+    "0.4.1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:123"
+  },
+  {
+   "test": "test_invalid_word_count_has_help_suggestion",
+   "argv": [
+    "-w",
+    "notanumber"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error:",
+    "notanumber"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_edge_cases.py:134"
+  },
+  {
+   "test": "test_invalid_language_shows_valid_options",
+   "argv": [
+    "-l",
+    "spanish"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error:",
+    "spanish",
+    "possible values",
+    "english",
+    "english1k",
+    "english10k"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_edge_cases.py:142"
+  },
+  {
+   "test": "test_prompt_overrides_word_count_implied",
+   "argv": [
+    "-p",
+    "custom",
+    "-w",
+    "100",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:172"
+  },
+  {
+   "test": "test_prompt_overrides_language_implied",
+   "argv": [
+    "-p",
+    "custom",
+    "-l",
+    "english1k",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:178"
+  },
+  {
+   "test": "test_sentences_overrides_word_count_implied",
+   "argv": [
+    "-f",
+    "2",
+    "-w",
+    "50",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:184"
+  },
+  {
+   "test": "test_all_text_options_together",
+   "argv": [
+    "-p",
+    "test",
+    "-w",
+    "20",
+    "-f",
+    "3",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:190"
+  },
+  {
+   "test": "test_time_limit_with_all_options",
+   "argv": [
+    "-s",
+    "60",
+    "-w",
+    "50",
+    "-f",
+    "2",
+    "-p",
+    "test",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:196"
+  },
+  {
+   "test": "test_narrow_terminal_30_cols",
+   "argv": [
+    "tmux",
+    "kill-session",
+    "-t",
+    "test_narrow_30"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "inf wpm",
+    "100% acc"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:96"
+  },
+  {
+   "test": "test_tiny_terminal_20_cols",
+   "argv": [
+    "tmux",
+    "kill-session",
+    "-t",
+    "test_tiny_20"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "inf wpm"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:139"
+  },
+  {
+   "test": "test_version_exact_output",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "thokr 0.4.1\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_noninteractive.py:69"
+  },
+  {
+   "test": "test_unknown_flag_error",
+   "argv": [
+    "--badflag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Found argument '--badflag'",
+    "For more information try --help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_noninteractive.py:76"
+  },
+  {
+   "test": "test_invalid_supported_language_enum",
+   "argv": [
+    "-l",
+    "klingon"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "isn't a valid value for '--supported-language",
+    "possible values: english, english1k, english10k"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_noninteractive.py:84"
+  },
+  {
+   "test": "test_negative_number_is_parsed_as_flaglike_and_errors",
+   "argv": [
+    "-w",
+    "-1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Found argument '-1'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_noninteractive.py:105"
+  },
+  {
+   "test": "test_help_overrides_other_args",
+   "argv": [
+    "-w",
+    "0",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_noninteractive.py:111"
+  },
+  {
+   "test": "test_requires_tty_stdin",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error: stdin must be a tty",
+    "For more information try --help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_noninteractive.py:118"
+  },
+  {
+   "test": "test_integer_option_overflow_rejected",
+   "argv": [
+    "-w",
+    "9999999999999999999999999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "number too large"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args_parsing.py:77"
+  },
+  {
+   "test": "test_negative_integer_is_not_accepted_as_value_without_double_dash",
+   "argv": [
+    "-w",
+    "-1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Found argument '-1'",
+    "use `-- -1`"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args_parsing.py:84"
+  },
+  {
+   "test": "test_rejects_duplicate_single_use_option",
+   "argv": [
+    "-w",
+    "10",
+    "-w",
+    "15"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "provided more than once"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args_parsing.py:155"
+  },
+  {
+   "test": "test_unexpected_positional_argument_errors",
+   "argv": [
+    "extra"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Found argument 'extra'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args_parsing.py:162"
+  },
+  {
+   "test": "test_double_dash_does_not_enable_positionals_for_this_program",
+   "argv": [
+    "--",
+    "-w"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Found argument '-w'",
+    "use `-- -w`"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args_parsing.py:169"
+  },
+  {
+   "test": "test_combined_short_flags_are_not_supported_for_value_options",
+   "argv": [
+    "-ws",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Found argument '10'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args_parsing.py:178"
+  }
+ ]
+}

@@ -1,0 +1,2796 @@
+[
+ {
+  "name": "test::test_help_flag_works::0",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_works::1",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_word_treated_as_path_not_subcommand::2",
+  "argv": [
+   "nonexistent_file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_subcommand_treated_as_path::3",
+  "argv": [
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_dash_flags::4",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_errorlist_flag::5",
+  "argv": [
+   "--errorlist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_with_value::6",
+  "argv": [
+   "--std=c++11",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_error::7",
+  "argv": [
+   "--this-flag-does-not-exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_subcommand_specific_help_exists::8",
+  "argv": [
+   "check",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_not_found_error_pattern::9",
+  "argv": [
+   "nonexistent_file.cpp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_error_pattern::10",
+  "argv": [
+   "--invalid-flag-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_command_aliases::11",
+  "argv": [
+   "ls"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clangimport_nonexistent_file::12",
+  "argv": [
+   "./executable",
+   "--clang",
+   "/nonexistent/file.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_list_from_stdin::13",
+  "argv": [
+   "--file-list=-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_misra_c_builtin_style_checks::14",
+  "argv": [
+   "./cppcheck",
+   "--premium=autosar",
+   "--xml",
+   "test.cpp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_dir_hash_cppcheck_product::15",
+  "argv": [
+   "./cppcheck",
+   "--cppcheck-build-dir=b",
+   "test.cpp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_misra_py::16",
+  "argv": [
+   "./cppcheck",
+   "--enable=style",
+   "--addon=misra",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help::17",
+  "argv": [
+   "./cppcheck",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_is_treated_as_path_or_errors_cleanly::18",
+  "argv": [
+   "nonexistent_subcommand_12345"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_input_reports_error::19",
+  "argv": [
+   "--help"
+  ],
+  "stdin": "int main(){}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_pointer_error::20",
+  "argv": [
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#include <stdlib.h>\nint main() {\n    int *p = malloc(sizeof(int));\n    int *q = p;\n    free(p);\n    *q = 5;  // use after free through alias\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_out_of_bounds::21",
+  "argv": [
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nint main() {\n    int arr[5];\n    for (int i = 0; i <= 5; i++) {\n        arr[i] = i;  // off-by-one error\n    }\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_include_with_defines::22",
+  "argv": [
+   "-I",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#include \"config.h\"\nint main() {\n    int arr[MAX_SIZE];\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_defines::23",
+  "argv": [
+   "-DFEATURE_A",
+   "-DFEATURE_B",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#if defined(FEATURE_A) && defined(FEATURE_B)\nint both_enabled = 1;\n#endif\nint main() { return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_all_with_inconclusive::24",
+  "argv": [
+   "--enable=all",
+   "--inconclusive",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nint main() {\n    int arr[10];\n    int idx = 5;\n    arr[idx] = 0;  // potentially unsafe but not definite\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xml_version_2::25",
+  "argv": [
+   "--xml",
+   "--xml-version=2",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nint main() {\n    int x;\n    return x;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cppcheck_build_dir::26",
+  "argv": [
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_platform_win64::27",
+  "argv": [
+   "--platform=win64",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nint main() {\n    long l = 0;\n    void* p = (void*)l;\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_force_with_multiple_configs::28",
+  "argv": [
+   "--force",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#ifdef CONFIG_A\nint a = 1;\n#else\nint a = 0;\n#endif\n#ifdef CONFIG_B\nint b = 1;\n#else\nint b = 0;\n#endif\nint main() { return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missingInclude_check::29",
+  "argv": [
+   "--enable=missingInclude",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#include \"nonexistent.h\"\nint main() { return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_errors_in_file::30",
+  "argv": [
+   "--enable=all",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#include <stdlib.h>\nint main() {\n    int x;\n    int y = x;  // uninitialized\n    \n    int *p = malloc(10);  // potential leak\n    \n    int arr[5];\n    arr[10] = 0;  // out of bounds\n    \n    int z = 5 / 0;  // division by zero\n    \n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cpp_class_with_errors::31",
+  "argv": [
+   "--enable=all",
+   "test.cpp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cpp": "\nclass MyClass {\npublic:\n    MyClass(int val) {  // missing explicit\n        value = val;\n    }\nprivate:\n    int value;  // uninitialized in some constructors\n    int* ptr;  // uninitialized\n};\n\nint main() {\n    MyClass obj(5);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_template_cppcheck1::32",
+  "argv": [
+   "--template=cppcheck1",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nint main() {\n    int x;\n    return x;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_template_edit::33",
+  "argv": [
+   "--template=edit",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nint main() {\n    int x;\n    return x;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_paths::34",
+  "argv": [
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_std_cpp03::35",
+  "argv": [
+   "--std=c++03",
+   "test.cpp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cpp": "\nint main() {\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_with_quiet::36",
+  "argv": [
+   "--quiet",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nint main() {\n    int x;\n    return x;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_includes::37",
+  "argv": [
+   "-I",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#include \"inc1.h\"\nint main() {\n    int x = VALUE1 + VALUE2;\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_warning_exitcode::38",
+  "argv": [
+   "--enable=warning",
+   "--error-exitcode=3",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nint main() {\n    int x;\n    x++;  // might trigger warning\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_library_combined::39",
+  "argv": [
+   "--library=posix",
+   "--library=gnu",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#include <stdio.h>\nint main() {\n    FILE *f = fopen(\"test.txt\", \"r\");\n    fclose(f);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_comments::40",
+  "argv": [
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n// This is a comment with unicode: ñ é ü 中文\nint main() {\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_ctu_depth::41",
+  "argv": [
+   "--max-ctu-depth=3",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nvoid func1() { }\nvoid func2() { func1(); }\nvoid func3() { func2(); }\nint main() { func3(); return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rule_file::42",
+  "argv": [
+   "--rule-file=nonexistent.xml",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_addon_naming::43",
+  "argv": [
+   "--addon=naming",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nint myVariable = 0;  // lowercase variable\nint main() { return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_addon_cert::44",
+  "argv": [
+   "--addon=cert",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_addon_misra::45",
+  "argv": [
+   "--addon=misra",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_addon_python_interpreter::46",
+  "argv": [
+   "--addon-python=python3",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_exclude::47",
+  "argv": [
+   "--config-exclude=/usr/include",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#include <stdio.h>\nint main() { return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_excludes_file::48",
+  "argv": [
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#include <stdio.h>\nint main() { return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_plist_output::49",
+  "argv": [
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nint main() {\n    int x;\n    return x;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bug_hunting::50",
+  "argv": [
+   "--bug-hunting",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_level_combinations::51",
+  "argv": [
+   "--check-level=exhaustive",
+   "--enable=all",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nint main() {\n    int arr[10];\n    arr[5] = 0;\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_library_with_check_library::52",
+  "argv": [
+   "--library=posix",
+   "--check-library",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#include <stdio.h>\nint main() {\n    fopen(\"test.txt\", \"r\");\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inline_suppression_comment::53",
+  "argv": [
+   "--inline-suppr",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nint main() {\n    int x;\n    // cppcheck-suppress uninitvar\n    return x;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xml_with_template::54",
+  "argv": [
+   "--xml",
+   "--template=gcc",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nint main() {\n    int x;\n    return x;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_performance_checks::55",
+  "argv": [
+   "--enable=performance",
+   "test.cpp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cpp": "\n#include <string>\nvoid inefficient(std::string str) {\n    str += \"suffix\";\n}\nint main() { return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_portability_checks::56",
+  "argv": [
+   "--enable=portability",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nint main() {\n    int *p = 0x12345678;  // assign int to pointer\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_information_checks::57",
+  "argv": [
+   "--enable=information",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#ifdef UNUSED_DEFINE\nint x;\n#endif\nint main() { return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_header_file_checking::58",
+  "argv": [
+   "-I",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#include \"test.h\"\nint main() {\n    return uninitialized();\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_all::59",
+  "argv": [
+   "--enable=all",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nint main() {\n    int x = 0;\n    x = x + 1;  // might trigger style checks\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_warning::60",
+  "argv": [
+   "--enable=warning",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nint main() {\n    int x;\n    x++;\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_style::61",
+  "argv": [
+   "--enable=style",
+   "test.cpp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cpp": "\nclass MyClass {\n    int x;\n};\nint main() { return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_performance::62",
+  "argv": [
+   "--enable=performance",
+   "test.cpp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cpp": "\n#include <string>\nvoid foo(std::string str) {  // pass by value instead of reference\n}\nint main() { return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_portability::63",
+  "argv": [
+   "--enable=portability",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nint main() {\n    int *p = 5;  // assign int to pointer\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_information::64",
+  "argv": [
+   "--enable=information",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_multiple::65",
+  "argv": [
+   "--enable=warning,performance,style",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable::66",
+  "argv": [
+   "--enable=all",
+   "--disable=style",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inconclusive::67",
+  "argv": [
+   "--inconclusive",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nint main() {\n    int arr[10];\n    int i = 5;\n    arr[i] = 0;\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_level_normal::68",
+  "argv": [
+   "--check-level=normal",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_level_exhaustive::69",
+  "argv": [
+   "--check-level=exhaustive",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_level_reduced::70",
+  "argv": [
+   "--check-level=reduced",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_language_c::71",
+  "argv": [
+   "--language=c",
+   "test.cpp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cpp": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_language_cpp::72",
+  "argv": [
+   "--language=c++",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_language_short_form::73",
+  "argv": [
+   "-x",
+   "c",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_std_c89::74",
+  "argv": [
+   "--std=c89",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_std_c99::75",
+  "argv": [
+   "--std=c99",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_std_c11::76",
+  "argv": [
+   "--std=c11",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_std_cpp11::77",
+  "argv": [
+   "--std=c++11",
+   "test.cpp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cpp": "int main() { auto x = 5; return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_std_cpp14::78",
+  "argv": [
+   "--std=c++14",
+   "test.cpp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cpp": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_std_cpp17::79",
+  "argv": [
+   "--std=c++17",
+   "test.cpp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cpp": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_std_cpp20::80",
+  "argv": [
+   "--std=c++20",
+   "test.cpp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cpp": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_simple_c_file::81",
+  "argv": [
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#include <stdio.h>\nint main() {\n    int x;\n    printf(\"%d\", x);  // uninitialized variable\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_simple_cpp_file::82",
+  "argv": [
+   "test.cpp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cpp": "\n#include <iostream>\nint main() {\n    int* p = nullptr;\n    *p = 5;  // null pointer dereference\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clean_file_no_errors::83",
+  "argv": [
+   "clean.c"
+  ],
+  "stdin": null,
+  "files": {
+   "clean.c": "\n#include <stdio.h>\nint main() {\n    int x = 5;\n    printf(\"%d\", x);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_files::84",
+  "argv": [
+   "file1.c",
+   "file2.c"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.c": "int main() { return 0; }",
+   "file2.c": "void foo() { int x; x++; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_file::85",
+  "argv": [
+   "/nonexistent/file.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_mode::86",
+  "argv": [
+   "--quiet",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_mode::87",
+  "argv": [
+   "-v",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { int x; x++; return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exit_code_with_errors::88",
+  "argv": [
+   "--error-exitcode=42",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nint main() {\n    int x;\n    return x;  // uninitialized\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_file::89",
+  "argv": [
+   "empty.c"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.c": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_only_comments::90",
+  "argv": [
+   "comments.c"
+  ],
+  "stdin": null,
+  "files": {
+   "comments.c": "\n// This is a comment\n/* This is\n   a multi-line\n   comment */\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_only_preprocessor::91",
+  "argv": [
+   "preproc.c"
+  ],
+  "stdin": null,
+  "files": {
+   "preproc.c": "\n#ifndef HEADER_H\n#define HEADER_H\n#define MAX 100\n#endif\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deeply_nested_code::92",
+  "argv": [
+   "nested.c"
+  ],
+  "stdin": null,
+  "files": {
+   "nested.c": "\nint main() {\n    if (1) {\n        if (1) {\n            if (1) {\n                if (1) {\n                    if (1) {\n                        int x = 0;\n                    }\n                }\n            }\n        }\n    }\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_recursive_function::93",
+  "argv": [
+   "recursive.c"
+  ],
+  "stdin": null,
+  "files": {
+   "recursive.c": "\nint factorial(int n) {\n    if (n <= 1)\n        return 1;\n    return n * factorial(n - 1);\n}\n\nint main() {\n    int result = factorial(5);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_pointers::94",
+  "argv": [
+   "funcptr.c"
+  ],
+  "stdin": null,
+  "files": {
+   "funcptr.c": "\nint add(int a, int b) { return a + b; }\nint subtract(int a, int b) { return a - b; }\n\nint main() {\n    int (*operation)(int, int);\n    operation = add;\n    int result = operation(5, 3);\n    operation = subtract;\n    result = operation(5, 3);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_struct_operations::95",
+  "argv": [
+   "struct.c"
+  ],
+  "stdin": null,
+  "files": {
+   "struct.c": "\nstruct Point {\n    int x;\n    int y;\n};\n\nstruct Point create_point(int x, int y) {\n    struct Point p;\n    p.x = x;\n    p.y = y;\n    return p;\n}\n\nint main() {\n    struct Point p1 = {1, 2};\n    struct Point p2 = create_point(3, 4);\n    \n    struct Point *ptr = &p1;\n    ptr->x = 10;\n    \n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_union_usage::96",
+  "argv": [
+   "union.c"
+  ],
+  "stdin": null,
+  "files": {
+   "union.c": "\nunion Data {\n    int i;\n    float f;\n    char str[20];\n};\n\nint main() {\n    union Data data;\n    data.i = 10;\n    int x = data.i;\n    data.f = 3.14;\n    float y = data.f;\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bitwise_operations::97",
+  "argv": [
+   "bitwise.c"
+  ],
+  "stdin": null,
+  "files": {
+   "bitwise.c": "\nint main() {\n    unsigned int a = 5;\n    unsigned int b = 3;\n    \n    unsigned int and_result = a & b;\n    unsigned int or_result = a | b;\n    unsigned int xor_result = a ^ b;\n    unsigned int not_result = ~a;\n    unsigned int left_shift = a << 2;\n    unsigned int right_shift = a >> 1;\n    \n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_goto_statement::98",
+  "argv": [
+   "goto.c"
+  ],
+  "stdin": null,
+  "files": {
+   "goto.c": "\nint main() {\n    int x = 0;\n    \n    loop_start:\n    x++;\n    if (x < 5)\n        goto loop_start;\n    \n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_switch_statement::99",
+  "argv": [
+   "switch.c"
+  ],
+  "stdin": null,
+  "files": {
+   "switch.c": "\nint main() {\n    int value = 2;\n    int result;\n    \n    switch (value) {\n        case 1:\n            result = 10;\n            break;\n        case 2:\n            result = 20;\n            break;\n        case 3:\n            result = 30;\n            break;\n        default:\n            result = 0;\n            break;\n    }\n    \n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_switch_fallthrough::100",
+  "argv": [
+   "fallthrough.c"
+  ],
+  "stdin": null,
+  "files": {
+   "fallthrough.c": "\nint main() {\n    int value = 2;\n    int result = 0;\n    \n    switch (value) {\n        case 1:\n            result += 10;\n        case 2:\n            result += 20;\n        case 3:\n            result += 30;\n            break;\n        default:\n            result = 0;\n    }\n    \n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conditional_operator::101",
+  "argv": [
+   "ternary.c"
+  ],
+  "stdin": null,
+  "files": {
+   "ternary.c": "\nint main() {\n    int a = 5;\n    int b = 10;\n    int max = (a > b) ? a : b;\n    int min = (a < b) ? a : b;\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comma_operator::102",
+  "argv": [
+   "comma.c"
+  ],
+  "stdin": null,
+  "files": {
+   "comma.c": "\nint main() {\n    int a, b, c;\n    a = (b = 3, c = 4, b + c);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sizeof_operator::103",
+  "argv": [
+   "sizeof.c"
+  ],
+  "stdin": null,
+  "files": {
+   "sizeof.c": "\nint main() {\n    int x;\n    size_t size1 = sizeof(int);\n    size_t size2 = sizeof(x);\n    size_t size3 = sizeof(x + 1);\n    \n    int arr[10];\n    size_t arr_size = sizeof(arr);\n    size_t elem_count = sizeof(arr) / sizeof(arr[0]);\n    \n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_typedef::104",
+  "argv": [
+   "typedef.c"
+  ],
+  "stdin": null,
+  "files": {
+   "typedef.c": "\ntypedef int Integer;\ntypedef struct {\n    int x;\n    int y;\n} Point;\n\ntypedef void (*FuncPtr)(int);\n\nint main() {\n    Integer num = 42;\n    Point p = {1, 2};\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enum::105",
+  "argv": [
+   "enum.c"
+  ],
+  "stdin": null,
+  "files": {
+   "enum.c": "\nenum Color {\n    RED,\n    GREEN,\n    BLUE\n};\n\nenum Status {\n    OK = 0,\n    ERROR = -1,\n    PENDING = 1\n};\n\nint main() {\n    enum Color c = RED;\n    enum Status s = OK;\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inline_function::106",
+  "argv": [
+   "inline.c"
+  ],
+  "stdin": null,
+  "files": {
+   "inline.c": "\ninline int add(int a, int b) {\n    return a + b;\n}\n\nint main() {\n    int result = add(5, 3);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_static_function::107",
+  "argv": [
+   "static.c"
+  ],
+  "stdin": null,
+  "files": {
+   "static.c": "\nstatic int helper(int x) {\n    return x * 2;\n}\n\nint main() {\n    int result = helper(21);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extern_variable::108",
+  "argv": [
+   "-I",
+   "extern.c"
+  ],
+  "stdin": null,
+  "files": {
+   "extern.c": "\n#include \"extern.h\"\nint global_var = 42;\n\nint main() {\n    int x = global_var;\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_volatile_keyword::109",
+  "argv": [
+   "volatile.c"
+  ],
+  "stdin": null,
+  "files": {
+   "volatile.c": "\nint main() {\n    volatile int hardware_register;\n    hardware_register = 0x1234;\n    int value = hardware_register;\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_const_keyword::110",
+  "argv": [
+   "const.c"
+  ],
+  "stdin": null,
+  "files": {
+   "const.c": "\nint main() {\n    const int x = 42;\n    const int* ptr1 = &x;\n    int const* ptr2 = &x;\n    int* const ptr3 = (int*)&x;\n    const int* const ptr4 = &x;\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_restrict_keyword::111",
+  "argv": [
+   "--std=c99",
+   "restrict.c"
+  ],
+  "stdin": null,
+  "files": {
+   "restrict.c": "\nvoid copy(int* restrict dest, const int* restrict src, int n) {\n    for (int i = 0; i < n; i++) {\n        dest[i] = src[i];\n    }\n}\n\nint main() {\n    int arr1[10] = {0};\n    int arr2[10] = {1,2,3,4,5,6,7,8,9,10};\n    copy(arr1, arr2, 10);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_variable_length_array::112",
+  "argv": [
+   "--std=c99",
+   "vla.c"
+  ],
+  "stdin": null,
+  "files": {
+   "vla.c": "\nint main() {\n    int n = 10;\n    int arr[n];\n    for (int i = 0; i < n; i++) {\n        arr[i] = i;\n    }\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_designated_initializers::113",
+  "argv": [
+   "--std=c99",
+   "designated.c"
+  ],
+  "stdin": null,
+  "files": {
+   "designated.c": "\nstruct Point {\n    int x;\n    int y;\n};\n\nint main() {\n    struct Point p = {.x = 1, .y = 2};\n    int arr[5] = {[0] = 1, [2] = 3, [4] = 5};\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compound_literals::114",
+  "argv": [
+   "--std=c99",
+   "compound.c"
+  ],
+  "stdin": null,
+  "files": {
+   "compound.c": "\nstruct Point {\n    int x;\n    int y;\n};\n\nint main() {\n    struct Point p = (struct Point){.x = 1, .y = 2};\n    int *arr = (int[]){1, 2, 3, 4, 5};\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_detect_null_pointer::115",
+  "argv": [
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nint main() {\n    int *p = 0;\n    *p = 5;\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_detect_memory_leak::116",
+  "argv": [
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#include <stdlib.h>\nint main() {\n    int *p = malloc(10 * sizeof(int));\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_detect_buffer_overflow::117",
+  "argv": [
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nint main() {\n    char buf[10];\n    buf[10] = 'x';\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_detect_division_by_zero::118",
+  "argv": [
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nint main() {\n    int x = 5;\n    int y = 0;\n    int z = x / y;\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_detect_unused_variable::119",
+  "argv": [
+   "--enable=style",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nint main() {\n    int unused = 5;\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_detect_double_free::120",
+  "argv": [
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#include <stdlib.h>\nint main() {\n    int *p = malloc(sizeof(int));\n    free(p);\n    free(p);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_detect_use_after_free::121",
+  "argv": [
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#include <stdlib.h>\nint main() {\n    int *p = malloc(sizeof(int));\n    free(p);\n    *p = 5;\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_syntax_error_handling::122",
+  "argv": [
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nint main() {\n    int x = ;  // syntax error\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_filter::123",
+  "argv": [
+   "--file-filter=*test.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_pattern::124",
+  "argv": [
+   "-i",
+   "ignore.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_directory::125",
+  "argv": [
+   "-i",
+   "ignore_dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_c_file::126",
+  "argv": [
+   "single.c"
+  ],
+  "stdin": null,
+  "files": {
+   "single.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_cpp_file::127",
+  "argv": [
+   "single.cpp"
+  ],
+  "stdin": null,
+  "files": {
+   "single.cpp": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_path::128",
+  "argv": [
+   "/nonexistent/path/file.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_macro_expansion::129",
+  "argv": [
+   "macro.c"
+  ],
+  "stdin": null,
+  "files": {
+   "macro.c": "\n#define MAX(a, b) ((a) > (b) ? (a) : (b))\n#define MIN(a, b) ((a) < (b) ? (a) : (b))\n#define SQUARE(x) ((x) * (x))\n\nint main() {\n    int a = 5, b = 10;\n    int max = MAX(a, b);\n    int min = MIN(a, b);\n    int sq = SQUARE(5);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stringification::130",
+  "argv": [
+   "stringify.c"
+  ],
+  "stdin": null,
+  "files": {
+   "stringify.c": "\n#include <stdio.h>\n#define STRINGIFY(x) #x\n#define TOSTRING(x) STRINGIFY(x)\n\nint main() {\n    const char* str = TOSTRING(TEST);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_token_pasting::131",
+  "argv": [
+   "paste.c"
+  ],
+  "stdin": null,
+  "files": {
+   "paste.c": "\n#define CONCAT(a, b) a##b\n\nint main() {\n    int xy = 42;\n    int value = CONCAT(x, y);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_variadic_macro::132",
+  "argv": [
+   "--std=c99",
+   "variadic.c"
+  ],
+  "stdin": null,
+  "files": {
+   "variadic.c": "\n#include <stdio.h>\n#define LOG(fmt, ...) printf(fmt, __VA_ARGS__)\n\nint main() {\n    LOG(\"Value: %d\\n\", 42);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_predefined_macros::133",
+  "argv": [
+   "predefined.c"
+  ],
+  "stdin": null,
+  "files": {
+   "predefined.c": "\n#include <stdio.h>\n\nint main() {\n    printf(\"File: %s\\n\", __FILE__);\n    printf(\"Line: %d\\n\", __LINE__);\n    printf(\"Date: %s\\n\", __DATE__);\n    printf(\"Time: %s\\n\", __TIME__);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pragma_directive::134",
+  "argv": [
+   "pragma.c"
+  ],
+  "stdin": null,
+  "files": {
+   "pragma.c": "\n#pragma once\n#pragma message(\"Compiling pragma test\")\n\nint main() {\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_directive::135",
+  "argv": [
+   "line.c"
+  ],
+  "stdin": null,
+  "files": {
+   "line.c": "\n#line 100 \"virtual.c\"\nint main() {\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_directive::136",
+  "argv": [
+   "error_dir.c"
+  ],
+  "stdin": null,
+  "files": {
+   "error_dir.c": "\n#if 0\n#error \"This should not trigger\"\n#endif\n\nint main() {\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_warning_directive::137",
+  "argv": [
+   "warning.c"
+  ],
+  "stdin": null,
+  "files": {
+   "warning.c": "\n#if 0\n#warning \"Test warning\"\n#endif\n\nint main() {\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_ifdef::138",
+  "argv": [
+   "ifdef.c"
+  ],
+  "stdin": null,
+  "files": {
+   "ifdef.c": "\n#if defined(A) && !defined(B)\n    int value1 = 1;\n#elif defined(B) || defined(C)\n    int value2 = 2;\n#else\n    int value3 = 3;\n#endif\n\nint main() {\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_operators_all::139",
+  "argv": [
+   "operators.c"
+  ],
+  "stdin": null,
+  "files": {
+   "operators.c": "\nint main() {\n    int a = 5, b = 3, c;\n    \n    // Arithmetic\n    c = a + b;\n    c = a - b;\n    c = a * b;\n    c = a / b;\n    c = a % b;\n    \n    // Increment/Decrement\n    c = ++a;\n    c = a++;\n    c = --b;\n    c = b--;\n    \n    // Comparison\n    c = a == b;\n    c = a != b;\n    c = a > b;\n    c = a < b;\n    c = a >= b;\n    c = a <= b;\n    \n    // Logical\n    c = a && b;\n    c = a || b;\n    c = !a;\n    \n    // Bitwise\n    c = a & b;\n    c = a | b;\n    c = a ^ b;\n    c = ~a;\n    c = a << 2;\n    c = a >> 1;\n    \n    // Assignment\n    c = a;\n    c += a;\n    c -= a;\n    c *= a;\n    c /= a;\n    c %= a;\n    c &= a;\n    c |= a;\n    c ^= a;\n    c <<= 1;\n    c >>= 1;\n    \n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pointer_arithmetic::140",
+  "argv": [
+   "ptrarith.c"
+  ],
+  "stdin": null,
+  "files": {
+   "ptrarith.c": "\nint main() {\n    int arr[10] = {0,1,2,3,4,5,6,7,8,9};\n    int *p = arr;\n    \n    int val1 = *p;\n    int val2 = *(p + 5);\n    p += 3;\n    int val3 = *p;\n    p--;\n    int val4 = *p;\n    \n    long diff = (arr + 9) - arr;\n    \n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cast_operations::141",
+  "argv": [
+   "cast.c"
+  ],
+  "stdin": null,
+  "files": {
+   "cast.c": "\nint main() {\n    int i = 65;\n    char c = (char)i;\n    \n    double d = 3.14;\n    int i2 = (int)d;\n    \n    void *vp = (void*)&i;\n    int *ip = (int*)vp;\n    \n    unsigned int ui = (unsigned int)i;\n    \n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_expressions::142",
+  "argv": [
+   "complex.c"
+  ],
+  "stdin": null,
+  "files": {
+   "complex.c": "\nint main() {\n    int a = 5, b = 3, c = 2, d = 7;\n    \n    int result1 = (a + b) * (c - d) / (a % b);\n    int result2 = a > b ? (c < d ? a : b) : (c > d ? c : d);\n    int result3 = ((a & 0xFF) << 8) | (b & 0xFF);\n    \n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_loops_all::143",
+  "argv": [
+   "loops.c"
+  ],
+  "stdin": null,
+  "files": {
+   "loops.c": "\nint main() {\n    int i, sum = 0;\n    \n    // for loop\n    for (i = 0; i < 10; i++) {\n        sum += i;\n    }\n    \n    // while loop\n    i = 0;\n    while (i < 10) {\n        sum += i;\n        i++;\n    }\n    \n    // do-while loop\n    i = 0;\n    do {\n        sum += i;\n        i++;\n    } while (i < 10);\n    \n    // nested loops\n    for (i = 0; i < 5; i++) {\n        for (int j = 0; j < 5; j++) {\n            sum += i * j;\n        }\n    }\n    \n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_break_continue::144",
+  "argv": [
+   "break_cont.c"
+  ],
+  "stdin": null,
+  "files": {
+   "break_cont.c": "\nint main() {\n    int sum = 0;\n    \n    for (int i = 0; i < 20; i++) {\n        if (i == 10)\n            break;\n        if (i % 2 == 0)\n            continue;\n        sum += i;\n    }\n    \n    int j = 0;\n    while (1) {\n        j++;\n        if (j == 10)\n            break;\n    }\n    \n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multi_dimensional_arrays::145",
+  "argv": [
+   "multidim.c"
+  ],
+  "stdin": null,
+  "files": {
+   "multidim.c": "\nint main() {\n    int matrix[3][3] = {\n        {1, 2, 3},\n        {4, 5, 6},\n        {7, 8, 9}\n    };\n    \n    int sum = 0;\n    for (int i = 0; i < 3; i++) {\n        for (int j = 0; j < 3; j++) {\n            sum += matrix[i][j];\n        }\n    }\n    \n    int cube[2][2][2] = {\n        {{1, 2}, {3, 4}},\n        {{5, 6}, {7, 8}}\n    };\n    \n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_operations::146",
+  "argv": [
+   "strings.c"
+  ],
+  "stdin": null,
+  "files": {
+   "strings.c": "\n#include <string.h>\n#include <stdio.h>\n\nint main() {\n    char str1[20] = \"Hello\";\n    char str2[20] = \"World\";\n    char str3[40];\n    \n    strcpy(str3, str1);\n    strcat(str3, \" \");\n    strcat(str3, str2);\n    \n    int len = strlen(str3);\n    int cmp = strcmp(str1, str2);\n    \n    char *found = strchr(str3, 'o');\n    char *found2 = strstr(str3, \"World\");\n    \n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_operations::147",
+  "argv": [
+   "fileops.c"
+  ],
+  "stdin": null,
+  "files": {
+   "fileops.c": "\n#include <stdio.h>\n\nint main() {\n    FILE *fp = fopen(\"test.txt\", \"w\");\n    if (fp) {\n        fprintf(fp, \"Hello, World!\\n\");\n        fclose(fp);\n    }\n    \n    fp = fopen(\"test.txt\", \"r\");\n    if (fp) {\n        char buffer[100];\n        fgets(buffer, sizeof(buffer), fp);\n        fclose(fp);\n    }\n    \n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dynamic_memory::148",
+  "argv": [
+   "dynmem.c"
+  ],
+  "stdin": null,
+  "files": {
+   "dynmem.c": "\n#include <stdlib.h>\n#include <string.h>\n\nint main() {\n    int *p1 = (int*)malloc(sizeof(int) * 10);\n    if (p1) {\n        for (int i = 0; i < 10; i++) {\n            p1[i] = i;\n        }\n        free(p1);\n    }\n    \n    int *p2 = (int*)calloc(10, sizeof(int));\n    if (p2) {\n        free(p2);\n    }\n    \n    int *p3 = (int*)malloc(sizeof(int) * 5);\n    if (p3) {\n        p3 = (int*)realloc(p3, sizeof(int) * 10);\n        free(p3);\n    }\n    \n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_line_args::149",
+  "argv": [
+   "args.c"
+  ],
+  "stdin": null,
+  "files": {
+   "args.c": "\n#include <stdio.h>\n\nint main(int argc, char *argv[]) {\n    for (int i = 0; i < argc; i++) {\n        printf(\"arg[%d] = %s\\n\", i, argv[i]);\n    }\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_library_posix::150",
+  "argv": [
+   "--library=posix",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#include <unistd.h>\nint main() {\n    read(0, NULL, 0);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_library_windows::151",
+  "argv": [
+   "--library=windows",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nint main() {\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_library_gnu::152",
+  "argv": [
+   "--library=gnu",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_library_qt::153",
+  "argv": [
+   "--library=qt",
+   "test.cpp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cpp": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_library::154",
+  "argv": [
+   "--check-library",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#include <stdio.h>\nint main() {\n    FILE *f = fopen(\"test.txt\", \"r\");\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_platform_option::155",
+  "argv": [
+   "--platform=unix64",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_cpp_code::156",
+  "argv": [
+   "--enable=all",
+   "test.cpp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cpp": "\n#include <vector>\n#include <string>\n#include <memory>\n\ntemplate<typename T>\nclass Container {\npublic:\n    Container() : data(new T()) {}\n    ~Container() { delete data; }\n    T* get() { return data; }\nprivate:\n    T* data;\n};\n\nclass Base {\npublic:\n    virtual ~Base() {}\n    virtual void process() = 0;\n};\n\nclass Derived : public Base {\npublic:\n    void process() override {\n        std::vector<int> vec;\n        vec.push_back(1);\n    }\n};\n\nint main() {\n    Container<int> c;\n    *c.get() = 42;\n    \n    std::unique_ptr<Base> ptr(new Derived());\n    ptr->process();\n    \n    std::string str = \"test\";\n    str += \" string\";\n    \n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lambda_expressions::157",
+  "argv": [
+   "--std=c++11",
+   "test.cpp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cpp": "\n#include <algorithm>\n#include <vector>\n\nint main() {\n    std::vector<int> vec = {1, 2, 3, 4, 5};\n    \n    auto sum = 0;\n    std::for_each(vec.begin(), vec.end(), [&sum](int n) {\n        sum += n;\n    });\n    \n    auto lambda = [](int x) { return x * 2; };\n    int result = lambda(5);\n    \n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_move_semantics::158",
+  "argv": [
+   "--std=c++11",
+   "--enable=all",
+   "test.cpp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cpp": "\n#include <utility>\n#include <vector>\n\nclass Resource {\npublic:\n    Resource() : data(new int[100]) {}\n    ~Resource() { delete[] data; }\n    Resource(Resource&& other) : data(other.data) {\n        other.data = nullptr;\n    }\nprivate:\n    int* data;\n};\n\nint main() {\n    Resource r1;\n    Resource r2 = std::move(r1);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_range_based_for::159",
+  "argv": [
+   "--std=c++11",
+   "test.cpp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cpp": "\n#include <vector>\n\nint main() {\n    std::vector<int> numbers = {1, 2, 3, 4, 5};\n    \n    for (auto& num : numbers) {\n        num *= 2;\n    }\n    \n    for (const auto& num : numbers) {\n        int x = num;\n    }\n    \n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nullptr_usage::160",
+  "argv": [
+   "--std=c++11",
+   "test.cpp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cpp": "\nint main() {\n    int* p = nullptr;\n    if (p != nullptr) {\n        *p = 5;\n    }\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_auto_keyword::161",
+  "argv": [
+   "--std=c++11",
+   "test.cpp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cpp": "\n#include <vector>\n#include <string>\n\nint main() {\n    auto x = 42;\n    auto y = 3.14;\n    auto str = std::string(\"test\");\n    \n    std::vector<int> vec = {1, 2, 3};\n    for (auto it = vec.begin(); it != vec.end(); ++it) {\n        auto val = *it;\n    }\n    \n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_initializer_lists::162",
+  "argv": [
+   "--std=c++11",
+   "test.cpp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cpp": "\n#include <vector>\n#include <map>\n\nint main() {\n    std::vector<int> vec = {1, 2, 3, 4, 5};\n    std::map<int, std::string> map = {{1, \"one\"}, {2, \"two\"}};\n    \n    int arr[] = {1, 2, 3, 4, 5};\n    \n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_constexpr::163",
+  "argv": [
+   "--std=c++11",
+   "test.cpp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cpp": "\nconstexpr int square(int x) {\n    return x * x;\n}\n\nint main() {\n    constexpr int value = square(5);\n    int arr[value];\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enum_class::164",
+  "argv": [
+   "--std=c++11",
+   "test.cpp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cpp": "\nenum class Color {\n    Red,\n    Green,\n    Blue\n};\n\nint main() {\n    Color c = Color::Red;\n    if (c == Color::Red) {\n        int x = 1;\n    }\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_static_assert::165",
+  "argv": [
+   "--std=c++11",
+   "test.cpp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cpp": "\n#include <type_traits>\n\ntemplate<typename T>\nvoid func(T value) {\n    static_assert(std::is_integral<T>::value, \"T must be integral\");\n}\n\nint main() {\n    func(42);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_override_final::166",
+  "argv": [
+   "--std=c++11",
+   "--enable=all",
+   "test.cpp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cpp": "\nclass Base {\npublic:\n    virtual void func() {}\n    virtual ~Base() {}\n};\n\nclass Derived final : public Base {\npublic:\n    void func() override {}\n};\n\nint main() {\n    Derived d;\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_thread_local::167",
+  "argv": [
+   "--std=c++11",
+   "test.cpp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cpp": "\nthread_local int counter = 0;\n\nint main() {\n    counter++;\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_attributes::168",
+  "argv": [
+   "--std=c++14",
+   "test.cpp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cpp": "\n[[noreturn]] void fatal_error() {\n    throw 1;\n}\n\n[[deprecated]] int old_function() {\n    return 0;\n}\n\nint main() {\n    int x [[maybe_unused]] = 5;\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_smart_pointers::169",
+  "argv": [
+   "--std=c++11",
+   "--enable=all",
+   "test.cpp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cpp": "\n#include <memory>\n\nclass MyClass {\npublic:\n    MyClass(int val) : value(val) {}\n    int getValue() { return value; }\nprivate:\n    int value;\n};\n\nint main() {\n    std::unique_ptr<MyClass> ptr1(new MyClass(42));\n    std::shared_ptr<MyClass> ptr2 = std::make_shared<MyClass>(100);\n    std::weak_ptr<MyClass> ptr3 = ptr2;\n    \n    int x = ptr1->getValue();\n    int y = ptr2->getValue();\n    \n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exception_handling::170",
+  "argv": [
+   "--enable=all",
+   "test.cpp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cpp": "\n#include <exception>\n#include <stdexcept>\n\nvoid risky_function() {\n    throw std::runtime_error(\"Error occurred\");\n}\n\nint main() {\n    try {\n        risky_function();\n    } catch (const std::exception& e) {\n        return 1;\n    } catch (...) {\n        return 2;\n    }\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raii_pattern::171",
+  "argv": [
+   "--enable=all",
+   "test.cpp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cpp": "\n#include <fstream>\n#include <memory>\n\nclass FileHandler {\npublic:\n    FileHandler(const char* filename) {\n        file.open(filename);\n    }\n    ~FileHandler() {\n        if (file.is_open()) {\n            file.close();\n        }\n    }\nprivate:\n    std::ofstream file;\n};\n\nint main() {\n    FileHandler handler(\"test.txt\");\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_variadic_templates::172",
+  "argv": [
+   "--std=c++11",
+   "test.cpp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cpp": "\ntemplate<typename... Args>\nvoid print(Args... args) {\n}\n\ntemplate<typename T, typename... Args>\nT sum(T first, Args... args) {\n    return first + sum(args...);\n}\n\ntemplate<typename T>\nT sum(T value) {\n    return value;\n}\n\nint main() {\n    print(1, 2, 3, \"test\");\n    int result = sum(1, 2, 3, 4, 5);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_traits::173",
+  "argv": [
+   "--std=c++11",
+   "test.cpp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cpp": "\n#include <type_traits>\n\ntemplate<typename T>\ntypename std::enable_if<std::is_integral<T>::value, T>::type\ndouble_value(T value) {\n    return value * 2;\n}\n\nint main() {\n    int x = double_value(21);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tuple_usage::174",
+  "argv": [
+   "--std=c++11",
+   "test.cpp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cpp": "\n#include <tuple>\n#include <string>\n\nstd::tuple<int, double, std::string> get_values() {\n    return std::make_tuple(42, 3.14, \"test\");\n}\n\nint main() {\n    auto values = get_values();\n    int x = std::get<0>(values);\n    double y = std::get<1>(values);\n    std::string z = std::get<2>(values);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_container::175",
+  "argv": [
+   "--std=c++11",
+   "test.cpp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cpp": "\n#include <array>\n\nint main() {\n    std::array<int, 5> arr = {1, 2, 3, 4, 5};\n    \n    for (size_t i = 0; i < arr.size(); i++) {\n        int x = arr[i];\n    }\n    \n    for (auto& elem : arr) {\n        elem *= 2;\n    }\n    \n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unordered_containers::176",
+  "argv": [
+   "--std=c++11",
+   "test.cpp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cpp": "\n#include <unordered_map>\n#include <unordered_set>\n#include <string>\n\nint main() {\n    std::unordered_map<std::string, int> map;\n    map[\"one\"] = 1;\n    map[\"two\"] = 2;\n    \n    std::unordered_set<int> set;\n    set.insert(1);\n    set.insert(2);\n    \n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xml_output::177",
+  "argv": [
+   "--xml",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nint main() {\n    int x;\n    return x;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_template_gcc::178",
+  "argv": [
+   "--template=gcc",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nint main() {\n    int x;\n    return x;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_template_vs::179",
+  "argv": [
+   "--template=vs",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nint main() {\n    int x;\n    return x;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_template_custom::180",
+  "argv": [
+   "--template={file}:{line}:{severity}:{id}",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nint main() {\n    int x;\n    return x;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_template_with_message::181",
+  "argv": [
+   "--template=[{severity}] {message}",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nint main() {\n    int x;\n    return x;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dump_option::182",
+  "argv": [
+   "--dump",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_showtime_summary::183",
+  "argv": [
+   "--showtime=summary",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_showtime_file::184",
+  "argv": [
+   "--showtime=file",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_showtime_top5::185",
+  "argv": [
+   "--showtime=top5_file",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parallel_jobs_1::186",
+  "argv": [
+   "-j",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parallel_jobs_2::187",
+  "argv": [
+   "-j",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parallel_jobs_4::188",
+  "argv": [
+   "-j",
+   "4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_define_macro::189",
+  "argv": [
+   "-DDEBUG",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#ifdef DEBUG\nint debug_mode = 1;\n#else\nint debug_mode = 0;\n#endif\nint main() { return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_define_macro_with_value::190",
+  "argv": [
+   "-DMAX_SIZE=100",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#if MAX_SIZE == 100\nint valid = 1;\n#endif\nint main() { return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_undefine_macro::191",
+  "argv": [
+   "-UFEATURE_X",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#ifndef FEATURE_X\nint feature_disabled = 1;\n#endif\nint main() { return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_include_path::192",
+  "argv": [
+   "-I",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#include \"myheader.h\"\nint main() {\n    int x = MY_VALUE;\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_force_include::193",
+  "argv": [
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nint main() {\n    int x = FORCED;\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preprocessor_output::194",
+  "argv": [
+   "-E",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#define MAX 10\nint main() {\n    int x = MAX;\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_config::195",
+  "argv": [
+   "--check-config",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#ifdef UNDEFINED_MACRO\nint x;\n#endif\nint main() { return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_configs::196",
+  "argv": [
+   "--max-configs=5",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#ifdef A\n#ifdef B\n#ifdef C\nint x;\n#endif\n#endif\n#endif\nint main() { return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_force_all_configs::197",
+  "argv": [
+   "--force",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#ifdef A\nint a;\n#else\nint b;\n#endif\nint main() { return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fsigned_char::198",
+  "argv": [
+   "--fsigned-char",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { char c = 200; return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_funsigned_char::199",
+  "argv": [
+   "--funsigned-char",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { char c = 200; return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_suppress_by_id::200",
+  "argv": [
+   "--suppress=uninitvar",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nint main() {\n    int x;\n    return x;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inline_suppression::201",
+  "argv": [
+   "--inline-suppr",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nint main() {\n    // cppcheck-suppress uninitvar\n    int x;\n    return x;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exitcode_suppressions::202",
+  "argv": [
+   "--error-exitcode=5",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nint main() {\n    int x;\n    return x;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wildcard_suppression::203",
+  "argv": [
+   "--suppress=*",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nint main() {\n    int x;\n    return x;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_combined_with_unknown_flag_still_prints_help_and_exits_zero::204",
+  "argv": [
+   "--help",
+   "--definitely-not-a-real-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_stops_option_parsing_allows_unknown_tokens::205",
+  "argv": [
+   "--",
+   "--unknown",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_lookup_config_reports_search_paths::206",
+  "argv": [
+   "--debug-lookup=config",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_no_color_disables_ansi_colors::207",
+  "argv": [
+   "--enable=style",
+   "a.c"
+  ],
+  "stdin": null,
+  "files": {
+   "a.c": "int main(){int x;return 0;}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "NO_COLOR": "1"
+  }
+ }
+]

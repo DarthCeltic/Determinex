@@ -1,0 +1,7953 @@
+{
+ "slug": "sqlite__sqlite.839433d",
+ "language": "",
+ "n_branches": 2,
+ "n_tests_total": 16803,
+ "n_examples": 464,
+ "n_with_exact_stdout": 120,
+ "n_with_rc": 449,
+ "n_skipped": 16337,
+ "examples": [
+  {
+   "test": "test_help_output",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "OPTIONS",
+    "FILENAME"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:44"
+  },
+  {
+   "test": "test_help_short",
+   "argv": [
+    "-help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "-csv",
+    "-json"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:52"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "-version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3.54"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:59"
+  },
+  {
+   "test": "test_memory_db_explicit",
+   "argv": [
+    ":memory:",
+    "SELECT sqlite_version();"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3.54"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:77"
+  },
+  {
+   "test": "test_unknown_option_error",
+   "argv": [
+    "-invalid_option_xyz"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unknown option",
+    "-invalid_option_xyz"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:82"
+  },
+  {
+   "test": "test_exit_code_sql_error",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "INVALID SQL HERE;\n",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_sqlite3.py:88"
+  },
+  {
+   "test": "test_double_dash_stops_option_parsing",
+   "argv": [
+    "--",
+    ":memory:"
+   ],
+   "stdin": "SELECT 1;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:93"
+  },
+  {
+   "test": "test_mode_list",
+   "argv": [
+    "-list",
+    ":memory:",
+    "SELECT 1 as a, 'hello' as b;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1|hello"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:103"
+  },
+  {
+   "test": "test_mode_csv",
+   "argv": [
+    "-csv",
+    ":memory:",
+    "SELECT 1 as a, 'hello' as b;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,hello"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:108"
+  },
+  {
+   "test": "test_mode_json",
+   "argv": [
+    "-json",
+    ":memory:",
+    "SELECT 1 as a, 'hello' as b;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:113"
+  },
+  {
+   "test": "test_mode_table",
+   "argv": [
+    "-table",
+    ":memory:",
+    "SELECT 1 as a, 'hello' as b;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "| a |",
+    "| 1 |",
+    "+---+"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:121"
+  },
+  {
+   "test": "test_mode_box",
+   "argv": [
+    "-box",
+    ":memory:",
+    "SELECT 1 as a, 2 as b;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "╭",
+    "╰"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:128"
+  },
+  {
+   "test": "test_mode_markdown",
+   "argv": [
+    "-markdown",
+    ":memory:",
+    "SELECT 1 as a, 2 as b;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "| a | b |",
+    "|---|---|",
+    "| 1 | 2 |"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:135"
+  },
+  {
+   "test": "test_mode_line",
+   "argv": [
+    "-line",
+    ":memory:",
+    "SELECT 1 as num, 'test' as str;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "num: 1",
+    "str: test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:142"
+  },
+  {
+   "test": "test_mode_column",
+   "argv": [
+    "-column",
+    ":memory:",
+    "SELECT 1 as num, 'test' as str;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "num",
+    "str",
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:148"
+  },
+  {
+   "test": "test_mode_quote",
+   "argv": [
+    "-quote",
+    ":memory:",
+    "SELECT 1, 'hello';"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,'hello'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:155"
+  },
+  {
+   "test": "test_mode_html",
+   "argv": [
+    "-html",
+    ":memory:",
+    "SELECT 1 as col;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<TR>",
+    "<TD>1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:160"
+  },
+  {
+   "test": "test_mode_tabs",
+   "argv": [
+    "-tabs",
+    ":memory:",
+    "SELECT 1, 'hello';"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1\thello"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:171"
+  },
+  {
+   "test": "test_mode_ascii_output",
+   "argv": [
+    "-ascii",
+    ":memory:",
+    "SELECT 1, 2;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1",
+    "2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:176"
+  },
+  {
+   "test": "test_dot_mode_command",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".mode csv\nSELECT 1,2;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:182"
+  },
+  {
+   "test": "test_dot_mode_json",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".mode json\nSELECT 1 as a, 'b' as c;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:187"
+  },
+  {
+   "test": "test_header_csv",
+   "argv": [
+    "-csv",
+    "-header",
+    ":memory:",
+    "SELECT 1 as col1, 'hello' as col2;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:199"
+  },
+  {
+   "test": "test_noheader",
+   "argv": [
+    "-csv",
+    "-noheader",
+    ":memory:",
+    "SELECT 1 as col1, 'hello' as col2;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:206"
+  },
+  {
+   "test": "test_dot_headers_on",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".headers on\n.mode csv\nSELECT 1 as x;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:213"
+  },
+  {
+   "test": "test_dot_headers_off",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".headers off\n.mode csv\nSELECT 1 as x;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:220"
+  },
+  {
+   "test": "test_separator_option",
+   "argv": [
+    "-separator",
+    ";",
+    ":memory:",
+    "SELECT 1, 2, 3;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1;2;3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:231"
+  },
+  {
+   "test": "test_nullvalue_option",
+   "argv": [
+    "-nullvalue",
+    "N/A",
+    ":memory:",
+    "SELECT NULL, 1;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "N/A|1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:236"
+  },
+  {
+   "test": "test_newline_option",
+   "argv": [
+    "-newline",
+    ";",
+    ":memory:",
+    "SELECT 1; SELECT 2; SELECT 3;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1;2;3;"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:251"
+  },
+  {
+   "test": "test_create_database_file",
+   "argv": [
+    "CREATE TABLE t (a, b); INSERT INTO t VALUES (1, 'x');"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1|x"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:261"
+  },
+  {
+   "test": "test_readonly_option",
+   "argv": [
+    "CREATE TABLE t (a); INSERT INTO t VALUES (1);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "readonly",
+    "1"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_sqlite3.py:272"
+  },
+  {
+   "test": "test_ifexists_nonexistent",
+   "argv": [
+    "-ifexists",
+    "SELECT 1;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unable to open"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:282"
+  },
+  {
+   "test": "test_backup_dot_command",
+   "argv": [
+    "CREATE TABLE t (a); INSERT INTO t VALUES (99);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "99"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:298"
+  },
+  {
+   "test": "test_restore_dot_command",
+   "argv": [
+    "CREATE TABLE t (a); INSERT INTO t VALUES (77);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "77"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:309"
+  },
+  {
+   "test": "test_save_dot_command",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "42"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:318"
+  },
+  {
+   "test": "test_basic_select",
+   "argv": [
+    ":memory:",
+    "SELECT 1+1 as result;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:333"
+  },
+  {
+   "test": "test_create_and_insert",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t (id INT, name TEXT); INSERT INTO t VALUES (1, 'Alice'); SELECT * FROM t;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1|Alice"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:338"
+  },
+  {
+   "test": "test_aggregate_functions",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t (val INT); INSERT INTO t VALUES (1),(2),(3),(4),(5); SELECT count(*), sum(val), avg(val) FROM t;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "5|15|3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:343"
+  },
+  {
+   "test": "test_string_functions",
+   "argv": [
+    ":memory:",
+    "SELECT upper('hello'), lower('WORLD'), length('test');"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "HELLO|world|4"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:348"
+  },
+  {
+   "test": "test_math_functions",
+   "argv": [
+    ":memory:",
+    "SELECT abs(-5), round(3.14159, 2);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "5|3.14"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:353"
+  },
+  {
+   "test": "test_null_handling",
+   "argv": [
+    ":memory:",
+    "SELECT NULL IS NULL, NULL IS NOT NULL, coalesce(NULL, 42);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1|0|42"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:358"
+  },
+  {
+   "test": "test_transactions_commit",
+   "argv": [
+    "CREATE TABLE t (a);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:363"
+  },
+  {
+   "test": "test_transactions_rollback",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t (a); BEGIN; INSERT INTO t VALUES(1); ROLLBACK; SELECT count(*) FROM t;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:371"
+  },
+  {
+   "test": "test_join_query",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE a (id INT, val TEXT); CREATE TABLE b (id INT, desc TEXT); INSERT INTO a VALUES (1,'x'),(2,'y'); INSERT INTO b VALUES (1,'first'),(2,'second'); SELECT a.val, b.desc FROM a JOIN b ON a.id = b.id;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "x|first",
+    "y|second"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:377"
+  },
+  {
+   "test": "test_left_join",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE a (id INT); CREATE TABLE b (id INT, desc TEXT); INSERT INTO a VALUES (1),(2),(3); INSERT INTO b VALUES (1,'first'); SELECT a.id, b.desc FROM a LEFT JOIN b ON a.id = b.id;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1|first",
+    "2|"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:383"
+  },
+  {
+   "test": "test_window_functions",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t (name TEXT, val INT); INSERT INTO t VALUES ('Alice',3),('Bob',1),('Charlie',2); SELECT name, rank() OVER (ORDER BY val) as r FROM t;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Bob|1",
+    "Charlie|2",
+    "Alice|3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:389"
+  },
+  {
+   "test": "test_json_functions",
+   "argv": [
+    ":memory:",
+    "SELECT json_object('name', 'Alice', 'age', 30);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:396"
+  },
+  {
+   "test": "test_json_extract",
+   "argv": [
+    ":memory:",
+    "SELECT json_extract('{\"key\":\"value\"}', '$.key');"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:403"
+  },
+  {
+   "test": "test_pragma_integrity_check",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t (a); INSERT INTO t VALUES(1); PRAGMA integrity_check;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ok"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:408"
+  },
+  {
+   "test": "test_subquery",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t (a INT); INSERT INTO t VALUES(1),(2),(3),(4),(5); SELECT * FROM t WHERE a > (SELECT avg(a) FROM t);\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "4",
+    "5"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:413"
+  },
+  {
+   "test": "test_typeof_function",
+   "argv": [
+    ":memory:",
+    "SELECT typeof(1), typeof(1.5), typeof('hello'), typeof(NULL), typeof(x'deadbeef');"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "integer",
+    "real",
+    "text",
+    "null",
+    "blob"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:426"
+  },
+  {
+   "test": "test_dot_tables",
+   "argv": [
+    "CREATE TABLE alpha (a); CREATE TABLE beta (b); CREATE TABLE gamma (c);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "alpha",
+    "beta",
+    "gamma"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:440"
+  },
+  {
+   "test": "test_dot_tables_pattern",
+   "argv": [
+    "CREATE TABLE alpha (a); CREATE TABLE beta (b);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "alpha"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:449"
+  },
+  {
+   "test": "test_dot_schema",
+   "argv": [
+    "CREATE TABLE t (id INTEGER PRIMARY KEY, name TEXT);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CREATE TABLE t",
+    "id INTEGER PRIMARY KEY"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:457"
+  },
+  {
+   "test": "test_dot_schema_pattern",
+   "argv": [
+    "CREATE TABLE t1 (a); CREATE TABLE t2 (b);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "t1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:465"
+  },
+  {
+   "test": "test_dot_indexes",
+   "argv": [
+    "CREATE TABLE t (a, b); CREATE INDEX idx_a ON t(a); CREATE INDEX idx_b ON t(b);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "idx_a",
+    "idx_b"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:473"
+  },
+  {
+   "test": "test_dot_dump",
+   "argv": [
+    "CREATE TABLE t (a, b); INSERT INTO t VALUES (1, 'x');"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CREATE TABLE t",
+    "INSERT INTO t VALUES(1,'x')",
+    "BEGIN TRANSACTION",
+    "COMMIT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:481"
+  },
+  {
+   "test": "test_dot_dbinfo",
+   "argv": [
+    "CREATE TABLE t (a);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "database page size:",
+    "number of tables:",
+    "text encoding:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:491"
+  },
+  {
+   "test": "test_dot_databases",
+   "argv": [
+    "CREATE TABLE t (a);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:500"
+  },
+  {
+   "test": "test_dot_fullschema",
+   "argv": [
+    "CREATE TABLE t1 (a); CREATE TABLE t2 (b);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CREATE TABLE t1",
+    "CREATE TABLE t2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:507"
+  },
+  {
+   "test": "test_dot_echo",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".echo on\nSELECT 1;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SELECT 1;",
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:515"
+  },
+  {
+   "test": "test_dot_print",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".print Hello World\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Hello World"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:521"
+  },
+  {
+   "test": "test_dot_bail",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".bail on\nINVALID SQL;\nSELECT 1;\n",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_sqlite3.py:526"
+  },
+  {
+   "test": "test_dot_timer",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".timer on\nSELECT 1;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1",
+    "Run Time:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:531"
+  },
+  {
+   "test": "test_dot_changes",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".changes on\nCREATE TABLE t (a);\nINSERT INTO t VALUES (1);\nINSERT INTO t VALUES (2);\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changes:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:537"
+  },
+  {
+   "test": "test_dot_stats",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".stats on\nSELECT 1;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Memory Used:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:542"
+  },
+  {
+   "test": "test_dot_log",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:547"
+  },
+  {
+   "test": "test_dot_output",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test_output"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:555"
+  },
+  {
+   "test": "test_dot_once",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "to_stdout",
+    "only_once"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:563"
+  },
+  {
+   "test": "test_dot_read",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1|Paris"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:572"
+  },
+  {
+   "test": "test_dot_cd",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".cd /tmp\n.shell pwd\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "/tmp"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:579"
+  },
+  {
+   "test": "test_dot_shell",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".shell echo hello_from_shell\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hello_from_shell"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:584"
+  },
+  {
+   "test": "test_dot_quit",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".quit\nSELECT 1;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:612"
+  },
+  {
+   "test": "test_dot_timeout",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".timeout 1000\nSELECT 1;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:617"
+  },
+  {
+   "test": "test_dot_explain_on",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".explain on\nEXPLAIN SELECT 1;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "addr",
+    "Init"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:622"
+  },
+  {
+   "test": "test_dot_eqp_on",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".eqp on\nSELECT 1;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "QUERY PLAN"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:628"
+  },
+  {
+   "test": "test_dot_vfsinfo_with_db",
+   "argv": [
+    "CREATE TABLE t(a);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "vfs.zName"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:633"
+  },
+  {
+   "test": "test_dot_vfslist",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".vfslist\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "vfs.zName",
+    "unix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:640"
+  },
+  {
+   "test": "test_dot_vfsname",
+   "argv": [
+    "CREATE TABLE t(a);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:646"
+  },
+  {
+   "test": "test_dot_dbconfig",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".dbconfig\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "defensive",
+    "enable_fkey"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:653"
+  },
+  {
+   "test": "test_dot_dbconfig_set",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".dbconfig defensive off\n.dbconfig defensive\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "defensive off"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:659"
+  },
+  {
+   "test": "test_dot_sha3sum",
+   "argv": [
+    "CREATE TABLE t (a); INSERT INTO t VALUES (1);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:664"
+  },
+  {
+   "test": "test_dot_recover",
+   "argv": [
+    "CREATE TABLE t (a, b); INSERT INTO t VALUES (1, 'x');"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CREATE TABLE t",
+    "INSERT OR IGNORE"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:675"
+  },
+  {
+   "test": "test_dot_dbtotxt",
+   "argv": [
+    "CREATE TABLE t (a);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SQLite format",
+    "pagesize"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:684"
+  },
+  {
+   "test": "test_dot_clone",
+   "argv": [
+    "CREATE TABLE t (a, b); INSERT INTO t VALUES (1, 'x'); INSERT INTO t VALUES (2, 'y');"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1|x",
+    "2|y"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:693"
+  },
+  {
+   "test": "test_dot_intck",
+   "argv": [
+    "CREATE TABLE t (a, b); INSERT INTO t VALUES (1, 'x');"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "steps",
+    "errors"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:704"
+  },
+  {
+   "test": "test_dot_auth",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".auth on\nSELECT 1;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "authorizer:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:713"
+  },
+  {
+   "test": "test_dot_trace",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SELECT 1+1;"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:718"
+  },
+  {
+   "test": "test_dot_progress",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".progress 1\nSELECT 1;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Progress"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:727"
+  },
+  {
+   "test": "test_dot_parameter_set_list",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".parameter set :x 42\n.parameter set :name 'World'\n.parameter list\nSELECT :x;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ":x",
+    "42",
+    ":name"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:732"
+  },
+  {
+   "test": "test_dot_parameter_unset",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".parameter set :x 42\n.parameter set :y 99\n.parameter unset :x\n.parameter list\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ":y"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:739"
+  },
+  {
+   "test": "test_dot_parameter_clear",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".parameter set :x 42\n.parameter clear\n.parameter list\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:745"
+  },
+  {
+   "test": "test_dot_limit",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".limit length 100\nSELECT 1;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:750"
+  },
+  {
+   "test": "test_dot_connection",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".connection 1\nCREATE TABLE t(a);\nINSERT INTO t VALUES(42);\nSELECT * FROM t;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "42"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:755"
+  },
+  {
+   "test": "test_dot_eqp_full",
+   "argv": [
+    "CREATE TABLE t (a, b); INSERT INTO t VALUES (1, 'x');"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "QUERY PLAN",
+    "addr"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:760"
+  },
+  {
+   "test": "test_dot_lint",
+   "argv": [
+    "CREATE TABLE t (a, b);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:769"
+  },
+  {
+   "test": "test_dot_filectrl",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".filectrl size_limit\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:776"
+  },
+  {
+   "test": "test_export_csv_mode",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t (a, b); INSERT INTO t VALUES (1,'x'),(2,'y');\n.mode csv\nSELECT * FROM t;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,x",
+    "2,y"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:816"
+  },
+  {
+   "test": "test_cmd_option",
+   "argv": [
+    "-cmd",
+    "SELECT 1;",
+    ":memory:",
+    "SELECT 2;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1",
+    "2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:827"
+  },
+  {
+   "test": "test_echo_option",
+   "argv": [
+    "-echo",
+    ":memory:",
+    "SELECT 1+1;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SELECT 1+1;",
+    "2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:833"
+  },
+  {
+   "test": "test_bail_option",
+   "argv": [
+    "-bail",
+    ":memory:"
+   ],
+   "stdin": "INVALID SQL; SELECT 2;\n",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_sqlite3.py:839"
+  },
+  {
+   "test": "test_stats_option",
+   "argv": [
+    "-stats",
+    ":memory:",
+    "SELECT 1;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1",
+    "Memory Used:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:844"
+  },
+  {
+   "test": "test_noinit_option",
+   "argv": [
+    "-noinit",
+    ":memory:",
+    "SELECT 1;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:850"
+  },
+  {
+   "test": "test_init_option",
+   "argv": [
+    "-init",
+    "init.sql",
+    ":memory:"
+   ],
+   "stdin": "SELECT * FROM init_test;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1|init_row"
+   ],
+   "files": {
+    "init.sql": "CREATE TABLE init_test (id INT, name TEXT);\nINSERT INTO init_test VALUES (1, 'init_row');\n"
+   },
+   "ci": false,
+   "source": "test_sqlite3.py:855"
+  },
+  {
+   "test": "test_init_nonexistent_file",
+   "argv": [
+    "-init",
+    "/nonexistent/file.sql",
+    ":memory:",
+    "SELECT 1;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cannot open",
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:862"
+  },
+  {
+   "test": "test_safe_mode",
+   "argv": [
+    "-safe",
+    ":memory:"
+   ],
+   "stdin": ".read /etc/passwd\n",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "safe mode"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_sqlite3.py:868"
+  },
+  {
+   "test": "test_vfs_option",
+   "argv": [
+    "-vfs",
+    "unix",
+    ":memory:",
+    "SELECT 1;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:873"
+  },
+  {
+   "test": "test_mmap_option",
+   "argv": [
+    "-mmap",
+    "1048576",
+    ":memory:",
+    "SELECT 1;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:878"
+  },
+  {
+   "test": "test_lookaside_option",
+   "argv": [
+    "-lookaside",
+    "64",
+    "100",
+    ":memory:",
+    "SELECT 1;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:883"
+  },
+  {
+   "test": "test_pagecache_option",
+   "argv": [
+    "-pagecache",
+    "4096",
+    "10",
+    ":memory:",
+    "SELECT 1;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:888"
+  },
+  {
+   "test": "test_archive_create_list",
+   "argv": [
+    "-A",
+    "--create",
+    "file1.txt",
+    "file2.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file1.txt",
+    "file2.txt"
+   ],
+   "files": {
+    "file1.txt": "content1",
+    "file2.txt": "content2"
+   },
+   "ci": false,
+   "source": "test_sqlite3.py:898"
+  },
+  {
+   "test": "test_archive_verbose_list",
+   "argv": [
+    "-A",
+    "--create",
+    "file1.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file1.txt"
+   ],
+   "files": {
+    "file1.txt": "content1"
+   },
+   "ci": false,
+   "source": "test_sqlite3.py:910"
+  },
+  {
+   "test": "test_zip_mode_tables",
+   "argv": [
+    "-zip"
+   ],
+   "stdin": ".tables\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "zip"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:924"
+  },
+  {
+   "test": "test_zip_mode_select",
+   "argv": [
+    "-zip",
+    "SELECT name, data FROM zip;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hello.txt",
+    "Hello World"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:934"
+  },
+  {
+   "test": "test_zip_mode_schema",
+   "argv": [
+    "-zip"
+   ],
+   "stdin": ".schema\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "zip"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:944"
+  },
+  {
+   "test": "test_explain_query",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "EXPLAIN SELECT 1;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Init",
+    "Halt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:958"
+  },
+  {
+   "test": "test_explain_query_plan",
+   "argv": [
+    "CREATE TABLE t (a, b); INSERT INTO t VALUES (1, 'x');"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SCAN"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:964"
+  },
+  {
+   "test": "test_syntax_error_message",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "BAD SQL;\n",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error",
+    "BAD"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_sqlite3.py:977"
+  },
+  {
+   "test": "test_table_not_found_error",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "SELECT * FROM nonexistent_table;\n",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "no such table"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_sqlite3.py:983"
+  },
+  {
+   "test": "test_column_not_found_error",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t (a); SELECT b FROM t;\n",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "no such column"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_sqlite3.py:988"
+  },
+  {
+   "test": "test_open_failed_error",
+   "argv": [
+    "-ifexists",
+    "/nonexistent/path/db.sqlite",
+    "SELECT 1;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unable to open"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:993"
+  },
+  {
+   "test": "test_open_failed_dot_command",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".open /nonexistent/path/db.sqlite\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unable to open"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1002"
+  },
+  {
+   "test": "test_rtree_virtual_table",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE VIRTUAL TABLE geo USING rtree(id, minX, maxX, minY, maxY); INSERT INTO geo VALUES(1, 0, 10, 0, 10); SELECT * FROM geo WHERE minX >= 0;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1011"
+  },
+  {
+   "test": "test_dbstat_virtual_table",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t (a); INSERT INTO t VALUES(1); SELECT name FROM dbstat;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "t"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1016"
+  },
+  {
+   "test": "test_cte",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "WITH cte AS (SELECT 1 as x UNION ALL SELECT x+1 FROM cte WHERE x<5) SELECT * FROM cte;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1",
+    "5"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1033"
+  },
+  {
+   "test": "test_foreign_keys",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "PRAGMA foreign_keys=ON; CREATE TABLE parent (id INT PRIMARY KEY); CREATE TABLE child (id INT, pid INT REFERENCES parent(id)); INSERT INTO parent VALUES (1); INSERT INTO child VALUES (1, 1); SELECT * FROM child;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1|1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1039"
+  },
+  {
+   "test": "test_trigger",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t (a); CREATE TABLE log (msg TEXT); CREATE TRIGGER trig AFTER INSERT ON t BEGIN INSERT INTO log VALUES('inserted'); END; INSERT INTO t VALUES(1); SELECT * FROM log;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "inserted"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1044"
+  },
+  {
+   "test": "test_view",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t (a, b); INSERT INTO t VALUES (1,2),(3,4); CREATE VIEW v AS SELECT a+b as sum FROM t; SELECT * FROM v;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3",
+    "7"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1049"
+  },
+  {
+   "test": "test_pragma_journal_mode",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "PRAGMA journal_mode;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "memory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1055"
+  },
+  {
+   "test": "test_pragma_page_size",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "PRAGMA page_size;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "4096"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1060"
+  },
+  {
+   "test": "test_inline_sql_arg",
+   "argv": [
+    ":memory:",
+    "SELECT upper('hello world');"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "HELLO WORLD"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1070"
+  },
+  {
+   "test": "test_multiple_inline_sql",
+   "argv": [
+    ":memory:",
+    "CREATE TABLE t(a); INSERT INTO t VALUES(42); SELECT * FROM t;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "42"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1075"
+  },
+  {
+   "test": "test_inline_sql_parse_error",
+   "argv": [
+    "-bail",
+    ":memory:",
+    "BAD SQL HERE;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_sqlite3.py:1080"
+  },
+  {
+   "test": "test_empty_database",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".tables\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1090"
+  },
+  {
+   "test": "test_unicode_data",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "SELECT 'héllo wörld';\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1095"
+  },
+  {
+   "test": "test_large_result",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "WITH RECURSIVE cnt(x) AS (SELECT 1 UNION ALL SELECT x+1 FROM cnt WHERE x<100) SELECT count(*) FROM cnt;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "100"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1100"
+  },
+  {
+   "test": "test_blob_data",
+   "argv": [
+    ":memory:",
+    "SELECT hex(x'deadbeef');"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "DEADBEEF"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1105"
+  },
+  {
+   "test": "test_real_arithmetic",
+   "argv": [
+    ":memory:",
+    "SELECT 1.5 + 2.5, 10.0 / 3;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "4.0",
+    "3.3333"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1110"
+  },
+  {
+   "test": "test_date_functions",
+   "argv": [
+    ":memory:",
+    "SELECT date('2023-01-15'), strftime('%Y', '2023-01-15');"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2023-01-15",
+    "2023"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1116"
+  },
+  {
+   "test": "test_like_operator",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t (name TEXT); INSERT INTO t VALUES ('Alice'),('Bob'),('Alicia'); SELECT * FROM t WHERE name LIKE 'Ali%';\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Alice",
+    "Alicia"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1122"
+  },
+  {
+   "test": "test_in_operator",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t (val INT); INSERT INTO t VALUES (1),(2),(3),(4),(5); SELECT * FROM t WHERE val IN (2,4);\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2",
+    "4"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1129"
+  },
+  {
+   "test": "test_case_expression",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "SELECT CASE WHEN 1=1 THEN 'yes' ELSE 'no' END;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "yes"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1135"
+  },
+  {
+   "test": "test_group_by",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t (cat TEXT, val INT); INSERT INTO t VALUES ('a',1),('b',2),('a',3); SELECT cat, sum(val) FROM t GROUP BY cat ORDER BY cat;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a|4",
+    "b|2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1140"
+  },
+  {
+   "test": "test_order_by",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t (a INT); INSERT INTO t VALUES (3),(1),(2); SELECT * FROM t ORDER BY a;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1146"
+  },
+  {
+   "test": "test_limit_offset",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t (a INT); INSERT INTO t VALUES (1),(2),(3),(4),(5); SELECT * FROM t LIMIT 2 OFFSET 1;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2",
+    "3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1154"
+  },
+  {
+   "test": "test_insert_or_replace",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t (id INT PRIMARY KEY, val TEXT); INSERT INTO t VALUES (1,'a'); INSERT OR REPLACE INTO t VALUES (1,'b'); SELECT * FROM t;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1|b"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1161"
+  },
+  {
+   "test": "test_update_statement",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t (id INT, val TEXT); INSERT INTO t VALUES (1,'old'); UPDATE t SET val='new' WHERE id=1; SELECT * FROM t;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1|new"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1167"
+  },
+  {
+   "test": "test_delete_statement",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t (id INT, val TEXT); INSERT INTO t VALUES (1,'a'),(2,'b'); DELETE FROM t WHERE id=1; SELECT * FROM t;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2|b"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1173"
+  },
+  {
+   "test": "test_dot_expert",
+   "argv": [
+    "CREATE TABLE t (a INT, b TEXT); INSERT INTO t VALUES(1,'x');"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CREATE INDEX"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1184"
+  },
+  {
+   "test": "test_dot_scanstats",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".scanstats on\nSELECT 1;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1192"
+  },
+  {
+   "test": "test_pragma_foreign_keys",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "PRAGMA foreign_keys;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1203"
+  },
+  {
+   "test": "test_pragma_auto_vacuum",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "PRAGMA auto_vacuum;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1208"
+  },
+  {
+   "test": "test_pragma_encoding",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "PRAGMA encoding;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "UTF-8"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1214"
+  },
+  {
+   "test": "test_pragma_cache_size",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "PRAGMA cache_size;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-2000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1219"
+  },
+  {
+   "test": "test_nonce_option",
+   "argv": [
+    "-nonce",
+    "testnonce",
+    ":memory:",
+    "SELECT 1;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1229"
+  },
+  {
+   "test": "test_screenwidth_option",
+   "argv": [
+    "-screenwidth",
+    "80",
+    ":memory:",
+    "SELECT 1;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1234"
+  },
+  {
+   "test": "test_batch_mode",
+   "argv": [
+    "-batch",
+    ":memory:",
+    "SELECT 1;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1239"
+  },
+  {
+   "test": "test_multiple_rows",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t (a, b); INSERT INTO t VALUES (1,'x'),(2,'y'),(3,'z'); SELECT * FROM t;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1|x",
+    "2|y",
+    "3|z"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1244"
+  },
+  {
+   "test": "test_dot_prompt",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".prompt '>>' '>>'\nSELECT 1;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1251"
+  },
+  {
+   "test": "test_dot_testcase",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".testcase mytest\nSELECT 1;\nSELECT 2;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1256"
+  },
+  {
+   "test": "test_fts4_virtual_table",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE VIRTUAL TABLE ft USING fts4(content); INSERT INTO ft VALUES('hello world'); INSERT INTO ft VALUES('world peace'); SELECT * FROM ft WHERE ft MATCH 'hello';\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hello world"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1263"
+  },
+  {
+   "test": "test_stmtvtab",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "SELECT count(*) FROM sqlite_stmt;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1269"
+  },
+  {
+   "test": "test_dot_crlf",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".crlf on\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1276"
+  },
+  {
+   "test": "test_sha3_function",
+   "argv": [
+    ":memory:",
+    "SELECT hex(sha3('hello'));"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3338BE694F50C5F338814986CDF0686453A888B84F424D792AF4B9202398F392"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1288"
+  },
+  {
+   "test": "test_sha3_sizes",
+   "argv": [
+    ":memory:",
+    "SELECT length(sha3('x', 224)), length(sha3('x', 256)), length(sha3('x', 384)), length(sha3('x', 512));"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "28|32|48|64"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1293"
+  },
+  {
+   "test": "test_sha3_agg_function",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t (a); INSERT INTO t VALUES ('x'),('y'),('z');\nSELECT hex(sha3_agg(a)) FROM t;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1298"
+  },
+  {
+   "test": "test_sha3_query_function",
+   "argv": [
+    ":memory:",
+    "SELECT hex(sha3_query('SELECT 1'));"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1303"
+  },
+  {
+   "test": "test_decimal_functions",
+   "argv": [
+    ":memory:",
+    "SELECT decimal_add('1.5', '2.3'), decimal_mul('3.14', '2.0');"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3.8",
+    "6.28"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1308"
+  },
+  {
+   "test": "test_decimal_sub",
+   "argv": [
+    ":memory:",
+    "SELECT decimal_sub('10.5', '3.2');"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "7.3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1314"
+  },
+  {
+   "test": "test_decimal_cmp",
+   "argv": [
+    ":memory:",
+    "SELECT decimal_cmp('10.5', '3.2'), decimal_cmp('1.0', '1.0'), decimal_cmp('0.5', '2.0');"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1319"
+  },
+  {
+   "test": "test_ieee754_functions",
+   "argv": [
+    ":memory:",
+    "SELECT ieee754(3.14), ieee754_mantissa(3.14), ieee754_exponent(3.14);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ieee754(",
+    "7070651414971679"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1325"
+  },
+  {
+   "test": "test_regexp_function",
+   "argv": [
+    ":memory:",
+    "SELECT regexp('hel+o', 'hello'), regexp('xyz', 'hello');"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1|0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1331"
+  },
+  {
+   "test": "test_regexpi_function",
+   "argv": [
+    ":memory:",
+    "SELECT regexpi('HEL+O', 'hello');"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1336"
+  },
+  {
+   "test": "test_regexp_operator",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t (txt TEXT); INSERT INTO t VALUES ('hello'),('world');\nSELECT txt FROM t WHERE txt REGEXP 'w.*ld';\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "world"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1341"
+  },
+  {
+   "test": "test_readfile_function",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hello world"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1347"
+  },
+  {
+   "test": "test_writefile_function",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "12"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1354"
+  },
+  {
+   "test": "test_uint_collation",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "SELECT '10' > '9' COLLATE uint;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1362"
+  },
+  {
+   "test": "test_generate_series",
+   "argv": [
+    ":memory:",
+    "SELECT value FROM generate_series(1, 5);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1",
+    "5"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1367"
+  },
+  {
+   "test": "test_generate_series_step",
+   "argv": [
+    ":memory:",
+    "SELECT value FROM generate_series(10, 1, -2);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1375"
+  },
+  {
+   "test": "test_mode_jobject",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".mode jobject\nSELECT 1 as a, 'hello' as b;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"a\":1",
+    "\"b\":\"hello\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1386"
+  },
+  {
+   "test": "test_mode_jatom",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".mode jatom\nSELECT 1, 'hello';\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1393"
+  },
+  {
+   "test": "test_mode_count",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".mode count\nSELECT 1; SELECT 2; SELECT 3;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1398"
+  },
+  {
+   "test": "test_mode_psql",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".mode psql\nSELECT 1 as a, 2 as b;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    " a ",
+    "---"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1404"
+  },
+  {
+   "test": "test_mode_qbox",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".mode qbox\nSELECT 1 as a, 2 as b;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "╭"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1410"
+  },
+  {
+   "test": "test_mode_column_wrap",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".mode column --wrap 5\nSELECT 'Hello World' as txt;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Hello",
+    "World"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1416"
+  },
+  {
+   "test": "test_mode_column_charlimit",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".mode column --charlimit 5\nSELECT 'Hello World' as txt;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Hello..."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1422"
+  },
+  {
+   "test": "test_mode_column_widths",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".mode column --widths 3,10\nSELECT 'ab' as x, 'cdefgh' as y;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ab",
+    "cdefgh"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1427"
+  },
+  {
+   "test": "test_mode_insert_tablename",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".mode insert mytable\nCREATE TABLE t(a,b);\nINSERT INTO t VALUES(1,'x'),(2,'y');\nSELECT * FROM t;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INSERT INTO mytable VALUES"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1433"
+  },
+  {
+   "test": "test_mode_list_quote",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".mode list --quote sql\nSELECT 'hello', 42, NULL;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "'hello'",
+    "42"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1438"
+  },
+  {
+   "test": "test_mode_border_off",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".mode table --border off\nSELECT 1 as a, 2 as b;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    " a "
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1444"
+  },
+  {
+   "test": "test_sha3sum_multiple_tables",
+   "argv": [
+    "CREATE TABLE t1 (a); CREATE TABLE t2 (b); INSERT INTO t1 VALUES(1); INSERT INTO t2 VALUES(2);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1454"
+  },
+  {
+   "test": "test_sha3sum_with_size",
+   "argv": [
+    "CREATE TABLE t (a); INSERT INTO t VALUES(1);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1468"
+  },
+  {
+   "test": "test_dot_dump_table_specific",
+   "argv": [
+    "CREATE TABLE t1 (a); CREATE TABLE t2 (b); INSERT INTO t1 VALUES(1); INSERT INTO t2 VALUES(2);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CREATE TABLE t1",
+    "INSERT INTO t1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1481"
+  },
+  {
+   "test": "test_dot_indexes_table_specific",
+   "argv": [
+    "CREATE TABLE t (a, b); CREATE INDEX idx_a ON t(a); CREATE INDEX idx_b ON t(b);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "idx_a"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1491"
+  },
+  {
+   "test": "test_dot_schema_indent",
+   "argv": [
+    "CREATE TABLE t (id INTEGER PRIMARY KEY, name TEXT);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CREATE TABLE t"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1499"
+  },
+  {
+   "test": "test_dot_mode_list_command",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".mode --list\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "csv",
+    "json"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1507"
+  },
+  {
+   "test": "test_dot_vfsinfo_memory",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".vfsinfo\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1513"
+  },
+  {
+   "test": "test_dot_trace_stderr",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".trace stderr\nSELECT 1+1;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1519"
+  },
+  {
+   "test": "test_dot_system_command",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".system echo test_system_output\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test_system_output"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1524"
+  },
+  {
+   "test": "test_dot_dbconfig_enable_fkey",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".dbconfig enable_fkey on\n.dbconfig enable_fkey\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "enable_fkey on"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1529"
+  },
+  {
+   "test": "test_deserialize_option",
+   "argv": [
+    "CREATE TABLE t (a); INSERT INTO t VALUES(42);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "42"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1547"
+  },
+  {
+   "test": "test_nofollow_option",
+   "argv": [
+    "CREATE TABLE t (a); INSERT INTO t VALUES(1);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1560"
+  },
+  {
+   "test": "test_pcachetrace_option",
+   "argv": [
+    "-pcachetrace",
+    ":memory:",
+    "SELECT 1;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1573"
+  },
+  {
+   "test": "test_memtrace_option",
+   "argv": [
+    "-memtrace",
+    ":memory:",
+    "SELECT 1;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1578"
+  },
+  {
+   "test": "test_special_chars_in_data",
+   "argv": [
+    ":memory:",
+    "SELECT 'it''s a test';"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "it's a test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1588"
+  },
+  {
+   "test": "test_multiline_string",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "SELECT 'line1\nline2';\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "line1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1593"
+  },
+  {
+   "test": "test_empty_string",
+   "argv": [
+    ":memory:",
+    "SELECT '';"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1598"
+  },
+  {
+   "test": "test_integer_overflow",
+   "argv": [
+    ":memory:",
+    "SELECT 9223372036854775807;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "9223372036854775807"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1604"
+  },
+  {
+   "test": "test_very_long_string",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1609"
+  },
+  {
+   "test": "test_math_functions_extended",
+   "argv": [
+    ":memory:",
+    "SELECT sin(0), cos(0), tan(0);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.0|1.0|0.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1620"
+  },
+  {
+   "test": "test_sqrt_function",
+   "argv": [
+    ":memory:",
+    "SELECT sqrt(4.0), sqrt(9.0);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2.0|3.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1625"
+  },
+  {
+   "test": "test_power_function",
+   "argv": [
+    ":memory:",
+    "SELECT pow(2, 10);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1024.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1630"
+  },
+  {
+   "test": "test_log_function",
+   "argv": [
+    ":memory:",
+    "SELECT log(1), log10(100);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.0",
+    "2.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1635"
+  },
+  {
+   "test": "test_fts4_multiple_columns",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE VIRTUAL TABLE docs USING fts4(title, body);\nINSERT INTO docs VALUES('Test Title', 'Body content here');\nSELECT title FROM docs WHERE docs MATCH 'content';\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test Title"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1646"
+  },
+  {
+   "test": "test_fts4_rank",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE VIRTUAL TABLE docs USING fts4(content);\nINSERT INTO docs VALUES('the quick brown fox');\nINSERT INTO docs VALUES('the lazy dog');\nSELECT count(*) FROM docs WHERE content MATCH 'the';\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1651"
+  },
+  {
+   "test": "test_dot_timer_once",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".timer once\nSELECT 1;\nSELECT 2;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1",
+    "2",
+    "Run Time:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1661"
+  },
+  {
+   "test": "test_dot_explain_auto",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".explain auto\nSELECT 1;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1668"
+  },
+  {
+   "test": "test_parameter_in_query",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".parameter set :val 42\nSELECT :val * 2;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "84"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1678"
+  },
+  {
+   "test": "test_parameter_string",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".parameter set :name 'Alice'\nSELECT upper(:name);\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ALICE"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1683"
+  },
+  {
+   "test": "test_base64_blob_roundtrip",
+   "argv": [
+    ":memory:",
+    "SELECT hex(base64(base64(x'deadbeef')));"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "DEADBEEF"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1694"
+  },
+  {
+   "test": "test_base64_text_input",
+   "argv": [
+    ":memory:",
+    "SELECT hex(base64('aGVsbG8='));"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "68656C6C6F"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1699"
+  },
+  {
+   "test": "test_base64_type_detection",
+   "argv": [
+    ":memory:",
+    "SELECT typeof(base64(x'cafebabe')), typeof(base64('Y2FmZWJhYmU='));"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "text",
+    "blob"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1704"
+  },
+  {
+   "test": "test_base85_function",
+   "argv": [
+    ":memory:",
+    "SELECT base85(randomblob(10));"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1710"
+  },
+  {
+   "test": "test_sha1_function",
+   "argv": [
+    ":memory:",
+    "SELECT sha1('hello');"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_sqlite3.py:1715"
+  },
+  {
+   "test": "test_decimal_exp_function",
+   "argv": [
+    ":memory:",
+    "SELECT decimal_exp('123.456', 3);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "e"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_sqlite3.py:1726"
+  },
+  {
+   "test": "test_decimal_sum_aggregate",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t (val TEXT); INSERT INTO t VALUES ('1.5'),('2.3'),('0.2');\nSELECT decimal_sum(val) FROM t;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "4.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1732"
+  },
+  {
+   "test": "test_decimal_negative",
+   "argv": [
+    ":memory:",
+    "SELECT decimal_add('-1.5', '2.3');"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.8"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1737"
+  },
+  {
+   "test": "test_decimal_scientific",
+   "argv": [
+    ":memory:",
+    "SELECT decimal_add('1e3', '2e2');"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1200"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1742"
+  },
+  {
+   "test": "test_decimal_collation",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t (val TEXT); INSERT INTO t VALUES ('10.5'),('2.3'),('100'); SELECT val FROM t ORDER BY val COLLATE decimal;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1747"
+  },
+  {
+   "test": "test_generate_series_with_step",
+   "argv": [
+    ":memory:",
+    "SELECT value FROM generate_series(0, 10, 2);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1759"
+  },
+  {
+   "test": "test_generate_series_descending",
+   "argv": [
+    ":memory:",
+    "SELECT value FROM generate_series(5, 1, -1);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1765"
+  },
+  {
+   "test": "test_generate_series_sum",
+   "argv": [
+    ":memory:",
+    "SELECT sum(value) FROM generate_series(1, 100);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "5050"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1771"
+  },
+  {
+   "test": "test_regexp_character_class",
+   "argv": [
+    ":memory:",
+    "SELECT regexp('[a-z]+', 'hello'), regexp('[^a-z]+', '123ABC');"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1|1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1781"
+  },
+  {
+   "test": "test_regexp_anchors",
+   "argv": [
+    ":memory:",
+    "SELECT regexp('^hello', 'hello world'), regexp('world$', 'hello world');"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1|1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1786"
+  },
+  {
+   "test": "test_regexp_quantifiers",
+   "argv": [
+    ":memory:",
+    "SELECT regexp('ab+c', 'abbbbbc'), regexp('ab?c', 'ac');"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1|1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1791"
+  },
+  {
+   "test": "test_regexp_in_where_clause",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t (name TEXT); INSERT INTO t VALUES ('Alice'),('Bob'),('Alicia'),('Carol');\nSELECT name FROM t WHERE name REGEXP '^A';\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Alice",
+    "Alicia"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1796"
+  },
+  {
+   "test": "test_regexp_hex_escape",
+   "argv": [
+    ":memory:",
+    "SELECT regexp('\\x41', 'A');"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1803"
+  },
+  {
+   "test": "test_uint_collation_numbers",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t (val TEXT); INSERT INTO t VALUES ('10a'),('9a'),('1a'),('100b');\nSELECT val FROM t ORDER BY val COLLATE uint;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1813"
+  },
+  {
+   "test": "test_uint_comparison",
+   "argv": [
+    ":memory:",
+    "SELECT '10' > '9' COLLATE uint, '2' > '10' COLLATE uint;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1|0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1820"
+  },
+  {
+   "test": "test_lsmode_function",
+   "argv": [
+    ":memory:",
+    "SELECT lsmode(33188);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1830"
+  },
+  {
+   "test": "test_readfile_write_roundtrip",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "roundtrip test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1835"
+  },
+  {
+   "test": "test_sha1_query_function",
+   "argv": [
+    ":memory:",
+    "SELECT length(sha1_query('SELECT 1'));"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "40"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1848"
+  },
+  {
+   "test": "test_sha3_query_256",
+   "argv": [
+    ":memory:",
+    "SELECT length(sha3_query('SELECT 1'));"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "32"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1854"
+  },
+  {
+   "test": "test_sha3_blob_input",
+   "argv": [
+    ":memory:",
+    "SELECT hex(sha3(x'deadbeef'));"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1859"
+  },
+  {
+   "test": "test_ieee754_two_args",
+   "argv": [
+    ":memory:",
+    "SELECT ieee754(7070651414971679, -51);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1869"
+  },
+  {
+   "test": "test_ieee754_negative",
+   "argv": [
+    ":memory:",
+    "SELECT ieee754(-3.14);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ieee754(-"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1875"
+  },
+  {
+   "test": "test_pragma_synchronous",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "PRAGMA synchronous;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1892"
+  },
+  {
+   "test": "test_pragma_temp_store",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "PRAGMA temp_store;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1899"
+  },
+  {
+   "test": "test_pragma_compile_options",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "SELECT * FROM pragma_compile_options LIMIT 5;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1906"
+  },
+  {
+   "test": "test_dot_dump_with_indent",
+   "argv": [
+    "CREATE TABLE t (a, b); INSERT INTO t VALUES (1, 'x');"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CREATE TABLE t"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1925"
+  },
+  {
+   "test": "test_dot_schema_with_virtual",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE VIRTUAL TABLE ft USING fts4(content);\n.schema\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "fts4"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1933"
+  },
+  {
+   "test": "test_mode_with_tag",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".mode csv --tag mycsv\n.mode mycsv\nSELECT 1, 2;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1938"
+  },
+  {
+   "test": "test_window_sum",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t (val INT, grp TEXT); INSERT INTO t VALUES (1,'a'),(2,'a'),(3,'b'),(4,'b');\nSELECT grp, val, sum(val) OVER (PARTITION BY grp) as tot FROM t ORDER BY grp, val;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a|1|3",
+    "b|3|7"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1948"
+  },
+  {
+   "test": "test_window_row_number",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t (val INT); INSERT INTO t VALUES (10),(20),(30);\nSELECT val, row_number() OVER (ORDER BY val) as rn FROM t;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "10|1",
+    "20|2",
+    "30|3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1954"
+  },
+  {
+   "test": "test_window_lag_lead",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t (val INT); INSERT INTO t VALUES (1),(2),(3),(4);\nSELECT val, lag(val) OVER (ORDER BY val), lead(val) OVER (ORDER BY val) FROM t;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1||2",
+    "4|3|"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1961"
+  },
+  {
+   "test": "test_dot_output_pipe",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".output |cat\nSELECT 'pipe_test';\n.output stdout\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1972"
+  },
+  {
+   "test": "test_dot_once_pipe",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".once |cat\nSELECT 'once_pipe';\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1976"
+  },
+  {
+   "test": "test_multiple_databases",
+   "argv": [
+    "CREATE TABLE t1 (a); INSERT INTO t1 VALUES(1);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1|2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite3.py:1980"
+  },
+  {
+   "test": "test_vfsname_on_memory_database",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "\nCREATE TABLE t(x);\n.vfsname\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_meta.py:482"
+  },
+  {
+   "test": "test_sql_syntax_error_with_bail",
+   "argv": [
+    "-bail",
+    ":memory:",
+    "SLECT 1;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:31"
+  },
+  {
+   "test": "test_unique_constraint_violation_with_bail",
+   "argv": [
+    "-bail",
+    ":memory:",
+    "CREATE TABLE users(id INTEGER PRIMARY KEY, email TEXT UNIQUE); INSERT INTO users VALUES(1, 'user@example.com'); INSERT INTO users VALUES(2, 'user@example.com');"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:43"
+  },
+  {
+   "test": "test_multiline_sql_via_stdin",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE items(id INT, name TEXT); INSERT INTO items VALUES(1, 'Item A'), (2, 'Item B'); SELECT name FROM items WHERE id = 2;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Item B\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:59"
+  },
+  {
+   "test": "test_explicit_transaction_commit",
+   "argv": [
+    ":memory:",
+    "BEGIN TRANSACTION; CREATE TABLE t1(x); INSERT INTO t1 VALUES(1), (2); COMMIT; SELECT * FROM t1;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1\n2\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:71"
+  },
+  {
+   "test": "test_cmd_flag_json_mode",
+   "argv": [
+    "-cmd",
+    ".mode json",
+    ":memory:",
+    "SELECT 1 as num, 'test' as str;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:83"
+  },
+  {
+   "test": "test_multiple_cmd_flags_csv_with_header",
+   "argv": [
+    "-cmd",
+    ".mode csv",
+    "-cmd",
+    ".header on",
+    ":memory:",
+    "SELECT 1 as id, 'Alice' as name UNION SELECT 2, 'Bob';"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "id,name\r\n1,Alice\r\n2,Bob\r\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:99"
+  },
+  {
+   "test": "test_sql_from_stdin_file_redirect",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE books(id INTEGER PRIMARY KEY, title TEXT, author TEXT, year INTEGER);\nINSERT INTO books VALUES(1, '1984', 'George Orwell', 1949);\nINSERT INTO books VALUES(2, 'To Kill a Mockingbird', 'Harper Lee', 1960);\nINSERT INTO books VALUES(3, 'The Great Gatsby', 'F. Scott Fitzgerald', 1925);\nSELECT title, author FROM books WHERE year < 1950 ORDER BY year;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "The Great Gatsby|F. Scott Fitzgerald\n1984|George Orwell\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:116"
+  },
+  {
+   "test": "test_not_null_constraint_violation",
+   "argv": [
+    "-bail",
+    ":memory:",
+    "CREATE TABLE persons(id INT, name TEXT NOT NULL); INSERT INTO persons VALUES(1, NULL);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "NOT NULL constraint failed: persons.name"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:131"
+  },
+  {
+   "test": "test_database_path_does_not_exist",
+   "argv": [
+    "/nonexistent/dir/test.db",
+    "SELECT 1;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unable to open database"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:146"
+  },
+  {
+   "test": "test_multiple_sql_statement_arguments",
+   "argv": [
+    ":memory:",
+    "CREATE TABLE t1(x); INSERT INTO t1 VALUES(10);",
+    "CREATE TABLE t2(y); INSERT INTO t2 VALUES(20);",
+    "SELECT x FROM t1 UNION SELECT y FROM t2;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "10\n20\n",
+   "expect_stderr": null,
+   "expect_in": [
+    "10",
+    "20"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:158"
+  },
+  {
+   "test": "test_separator_flag",
+   "argv": [
+    "-separator",
+    ", ",
+    ":memory:",
+    "SELECT 'A' as col1, 'B' as col2, 'C' as col3;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "A, B, C\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:176"
+  },
+  {
+   "test": "test_nullvalue_flag",
+   "argv": [
+    "-nullvalue",
+    "NULL",
+    ":memory:",
+    "SELECT 1 as a, NULL as b, 3 as c;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1|NULL|3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:188"
+  },
+  {
+   "test": "test_join_with_aggregation",
+   "argv": [
+    ":memory:",
+    "CREATE TABLE customers(id INT, name TEXT); CREATE TABLE orders(id INT, customer_id INT, amount REAL); INSERT INTO customers VALUES(1, 'Alice'), (2, 'Bob'), (3, 'Charlie'); INSERT INTO orders VALUES(101, 1, 50.0), (102, 1, 75.5), (103, 2, 100.0); SELECT c.name, SUM(o.amount) as total FROM customers c LEFT JOIN orders o ON c.id = o.customer_id GROUP BY c.name ORDER BY c.name;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Alice|125.5\nBob|100.0\nCharlie|\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:226"
+  },
+  {
+   "test": "test_batch_mode",
+   "argv": [
+    "-batch",
+    ":memory:",
+    "SELECT 1; SELECT 2;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1\n2\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:243"
+  },
+  {
+   "test": "test_foreign_key_constraint_violation",
+   "argv": [
+    "-bail",
+    ":memory:",
+    "PRAGMA foreign_keys = ON; CREATE TABLE parent(id INTEGER PRIMARY KEY); CREATE TABLE child(id INTEGER, parent_id INTEGER, FOREIGN KEY(parent_id) REFERENCES parent(id)); INSERT INTO parent VALUES(1); INSERT INTO child VALUES(1, 1); INSERT INTO child VALUES(2, 999);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:251"
+  },
+  {
+   "test": "test_empty_result_set",
+   "argv": [
+    ":memory:",
+    "CREATE TABLE t(x); SELECT * FROM t;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:268"
+  },
+  {
+   "test": "test_order_by_with_nulls",
+   "argv": [
+    ":memory:",
+    "CREATE TABLE vals(x); INSERT INTO vals VALUES(3), (NULL), (1), (NULL), (2); SELECT x FROM vals ORDER BY x;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "\n\n1\n2\n3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:277"
+  },
+  {
+   "test": "test_distinct_query",
+   "argv": [
+    ":memory:",
+    "CREATE TABLE items(category TEXT); INSERT INTO items VALUES('A'), ('B'), ('A'), ('C'), ('B'), ('A'); SELECT DISTINCT category FROM items ORDER BY category;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "A\nB\nC\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:293"
+  },
+  {
+   "test": "test_limit_and_offset",
+   "argv": [
+    ":memory:",
+    "CREATE TABLE nums(n); INSERT INTO nums VALUES(1),(2),(3),(4),(5),(6),(7),(8),(9),(10); SELECT n FROM nums ORDER BY n LIMIT 3 OFFSET 2;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "3\n4\n5\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:309"
+  },
+  {
+   "test": "test_case_expression",
+   "argv": [
+    ":memory:",
+    "CREATE TABLE scores(name TEXT, score INT); INSERT INTO scores VALUES('Alice',85),('Bob',92),('Charlie',78); SELECT name, CASE WHEN score >= 90 THEN 'A' WHEN score >= 80 THEN 'B' ELSE 'C' END as grade FROM scores ORDER BY name;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Alice|B\nBob|A\nCharlie|C\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:323"
+  },
+  {
+   "test": "test_subquery",
+   "argv": [
+    ":memory:",
+    "CREATE TABLE products(id INT, price REAL); INSERT INTO products VALUES(1,10.0),(2,20.0),(3,15.0),(4,25.0); SELECT id, price FROM products WHERE price > (SELECT AVG(price) FROM products) ORDER BY id;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "2|20.0\n4|25.0\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:337"
+  },
+  {
+   "test": "test_create_index_and_query",
+   "argv": [
+    ":memory:",
+    "CREATE TABLE users(id INT, email TEXT); CREATE INDEX idx_email ON users(email); INSERT INTO users VALUES(1,'a@test.com'),(2,'b@test.com'); SELECT * FROM users WHERE email='a@test.com';"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1|a@test.com\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:351"
+  },
+  {
+   "test": "test_update_statement",
+   "argv": [
+    ":memory:",
+    "CREATE TABLE inventory(id INT, quantity INT); INSERT INTO inventory VALUES(1,10),(2,20),(3,15); UPDATE inventory SET quantity = quantity + 5 WHERE id = 2; SELECT * FROM inventory ORDER BY id;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1|10\n2|25\n3|15\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:365"
+  },
+  {
+   "test": "test_delete_statement",
+   "argv": [
+    ":memory:",
+    "CREATE TABLE logs(id INT, message TEXT); INSERT INTO logs VALUES(1,'msg1'),(2,'msg2'),(3,'msg3'); DELETE FROM logs WHERE id = 2; SELECT * FROM logs ORDER BY id;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1|msg1\n3|msg3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:379"
+  },
+  {
+   "test": "test_alter_table_add_column",
+   "argv": [
+    ":memory:",
+    "CREATE TABLE items(id INT); INSERT INTO items VALUES(1); ALTER TABLE items ADD COLUMN name TEXT; UPDATE items SET name = 'Item 1' WHERE id = 1; SELECT * FROM items;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1|Item 1\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:393"
+  },
+  {
+   "test": "test_create_view",
+   "argv": [
+    ":memory:",
+    "CREATE TABLE employees(id INT, name TEXT, salary REAL); INSERT INTO employees VALUES(1,'Alice',50000),(2,'Bob',60000),(3,'Charlie',55000); CREATE VIEW high_earners AS SELECT name, salary FROM employees WHERE salary > 55000; SELECT * FROM high_earners ORDER BY name;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Bob|60000.0\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:407"
+  },
+  {
+   "test": "test_math_functions",
+   "argv": [
+    ":memory:",
+    "SELECT ROUND(3.14159, 2) as pi, SQRT(16) as root, ABS(-42) as absolute, POWER(2, 3) as power;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "3.14|4.0|42|8.0\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:421"
+  },
+  {
+   "test": "test_string_functions",
+   "argv": [
+    ":memory:",
+    "SELECT UPPER('hello') as upper, LOWER('WORLD') as lower, LENGTH('test') as len, SUBSTR('abcdef', 2, 3) as sub;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "HELLO|world|4|bcd\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:432"
+  },
+  {
+   "test": "test_union_query",
+   "argv": [
+    ":memory:",
+    "CREATE TABLE set1(val INT); CREATE TABLE set2(val INT); INSERT INTO set1 VALUES(1),(2),(3); INSERT INTO set2 VALUES(3),(4),(5); SELECT val FROM set1 UNION SELECT val FROM set2 ORDER BY val;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1\n2\n3\n4\n5\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:445"
+  },
+  {
+   "test": "test_intersect_query",
+   "argv": [
+    ":memory:",
+    "CREATE TABLE a(val INT); CREATE TABLE b(val INT); INSERT INTO a VALUES(1),(2),(3),(4); INSERT INTO b VALUES(3),(4),(5),(6); SELECT val FROM a INTERSECT SELECT val FROM b ORDER BY val;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "3\n4\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:461"
+  },
+  {
+   "test": "test_except_query",
+   "argv": [
+    ":memory:",
+    "CREATE TABLE x(val INT); CREATE TABLE y(val INT); INSERT INTO x VALUES(1),(2),(3),(4); INSERT INTO y VALUES(3),(4); SELECT val FROM x EXCEPT SELECT val FROM y ORDER BY val;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1\n2\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:477"
+  },
+  {
+   "test": "test_having_clause",
+   "argv": [
+    ":memory:",
+    "CREATE TABLE sales(product TEXT, quantity INT); INSERT INTO sales VALUES('A',10),('B',5),('A',15),('C',8),('B',20); SELECT product, SUM(quantity) as total FROM sales GROUP BY product HAVING total > 10 ORDER BY product;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "A|25\nB|25\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:493"
+  },
+  {
+   "test": "test_multiple_joins",
+   "argv": [
+    ":memory:",
+    "CREATE TABLE users(id INT, name TEXT); CREATE TABLE orders(id INT, user_id INT, total REAL); CREATE TABLE payments(order_id INT, amount REAL); INSERT INTO users VALUES(1,'Alice'),(2,'Bob'); INSERT INTO orders VALUES(101,1,100.0),(102,1,50.0),(103,2,75.0); INSERT INTO payments VALUES(101,100.0),(103,75.0); SELECT u.name, o.id as order_id, p.amount FROM users u JOIN orders o ON u.id = o.user_id JOIN payments p ON o.id = p.order_id ORDER BY u.name, o.id;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Alice|101|100.0\nBob|103|75.0\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:506"
+  },
+  {
+   "test": "test_autoincrement",
+   "argv": [
+    ":memory:",
+    "CREATE TABLE items(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT); INSERT INTO items(name) VALUES('Item A'),('Item B'),('Item C'); SELECT * FROM items;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1|Item A\n2|Item B\n3|Item C\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:525"
+  },
+  {
+   "test": "test_default_values",
+   "argv": [
+    ":memory:",
+    "CREATE TABLE settings(key TEXT, value TEXT DEFAULT 'default_val'); INSERT INTO settings(key) VALUES('key1'); INSERT INTO settings VALUES('key2','custom'); SELECT * FROM settings ORDER BY key;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "key1|default_val\nkey2|custom\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:538"
+  },
+  {
+   "test": "test_check_constraint_violation",
+   "argv": [
+    "-bail",
+    ":memory:",
+    "CREATE TABLE accounts(id INT, balance REAL CHECK(balance >= 0)); INSERT INTO accounts VALUES(1, 100.0); INSERT INTO accounts VALUES(2, -50.0);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:552"
+  },
+  {
+   "test": "test_in_clause",
+   "argv": [
+    ":memory:",
+    "CREATE TABLE items(id INT, status TEXT); INSERT INTO items VALUES(1,'active'),(2,'pending'),(3,'inactive'),(4,'active'); SELECT id FROM items WHERE status IN ('active','pending') ORDER BY id;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1\n2\n4\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:567"
+  },
+  {
+   "test": "test_between_operator",
+   "argv": [
+    ":memory:",
+    "CREATE TABLE dates(id INT, year INT); INSERT INTO dates VALUES(1,2018),(2,2019),(3,2020),(4,2021),(5,2022); SELECT id FROM dates WHERE year BETWEEN 2019 AND 2021 ORDER BY id;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "2\n3\n4\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:582"
+  },
+  {
+   "test": "test_like_operator",
+   "argv": [
+    ":memory:",
+    "CREATE TABLE files(name TEXT); INSERT INTO files VALUES('test.txt'),('data.csv'),('test.log'),('readme.txt'); SELECT name FROM files WHERE name LIKE '%.txt' ORDER BY name;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "readme.txt\ntest.txt\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:597"
+  },
+  {
+   "test": "test_count_with_group_by",
+   "argv": [
+    ":memory:",
+    "CREATE TABLE events(type TEXT, count INT); INSERT INTO events VALUES('login',5),('logout',3),('login',2),('error',1); SELECT type, COUNT(*) as occurrences FROM events GROUP BY type ORDER BY type;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "error|1\nlogin|2\nlogout|1\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:610"
+  },
+  {
+   "test": "test_min_max_avg_aggregates",
+   "argv": [
+    ":memory:",
+    "CREATE TABLE temps(day INT, temp REAL); INSERT INTO temps VALUES(1,20.5),(2,22.0),(3,19.5),(4,23.5),(5,21.0); SELECT MIN(temp) as coldest, MAX(temp) as warmest, AVG(temp) as average FROM temps;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "19.5|23.5|21.3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:623"
+  },
+  {
+   "test": "test_coalesce_function",
+   "argv": [
+    ":memory:",
+    "CREATE TABLE prefs(id INT, pref1 TEXT, pref2 TEXT); INSERT INTO prefs VALUES(1,NULL,'default'),(2,'custom',NULL),(3,NULL,NULL); SELECT id, COALESCE(pref1, pref2, 'fallback') as value FROM prefs ORDER BY id;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1|default\n2|custom\n3|fallback\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:636"
+  },
+  {
+   "test": "test_cast_type_conversions",
+   "argv": [
+    ":memory:",
+    "SELECT CAST('123' AS INTEGER) as int_val, CAST(45.67 AS INTEGER) as truncated, CAST(89 AS REAL) as real_val;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "123|45|89.0\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:649"
+  },
+  {
+   "test": "test_is_null_predicate",
+   "argv": [
+    ":memory:",
+    "CREATE TABLE records(id INT, data TEXT); INSERT INTO records VALUES(1,'text'),(2,NULL),(3,'more'),(4,NULL); SELECT id FROM records WHERE data IS NULL ORDER BY id;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "2\n4\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:661"
+  },
+  {
+   "test": "test_complex_where_with_and_or",
+   "argv": [
+    ":memory:",
+    "CREATE TABLE products(id INT, price REAL, stock INT); INSERT INTO products VALUES(1,10.0,5),(2,20.0,0),(3,15.0,10),(4,25.0,2); SELECT id FROM products WHERE (price > 15.0 AND stock > 0) OR (price <= 15.0 AND stock >= 5) ORDER BY id;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1\n3\n4\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:676"
+  },
+  {
+   "test": "test_rollback_transaction",
+   "argv": [
+    ":memory:",
+    "CREATE TABLE t(x); BEGIN; INSERT INTO t VALUES(1); ROLLBACK; SELECT * FROM t;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:693"
+  },
+  {
+   "test": "test_unknown_option",
+   "argv": [
+    "--unknown-option"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error: unknown option: -unknown-option",
+    "Use -help for a list of options."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_errors.py:12"
+  },
+  {
+   "test": "test_missing_init_argument",
+   "argv": [
+    "--init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error: missing argument to --init"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_errors.py:27"
+  },
+  {
+   "test": "test_missing_separator_argument",
+   "argv": [
+    "--separator"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error: missing argument to --separator"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_errors.py:41"
+  },
+  {
+   "test": "test_cannot_open_nonexistent_database",
+   "argv": [
+    "/nonexistent/path/db.db",
+    "SELECT 1;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_errors.py:83"
+  },
+  {
+   "test": "test_constraint_violation_without_bail",
+   "argv": [
+    ":memory:",
+    "CREATE TABLE t(id INTEGER PRIMARY KEY); INSERT INTO t VALUES (1); INSERT INTO t VALUES (1);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_errors.py:107"
+  },
+  {
+   "test": "test_constraint_violation_with_bail",
+   "argv": [
+    "-bail",
+    ":memory:",
+    "CREATE TABLE t(id INTEGER PRIMARY KEY); INSERT INTO t VALUES (1); INSERT INTO t VALUES (1);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_errors.py:118"
+  },
+  {
+   "test": "test_screenwidth_below_minimum",
+   "argv": [
+    "--screenwidth",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_errors.py:129"
+  },
+  {
+   "test": "test_empty_input",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_errors.py:139"
+  },
+  {
+   "test": "test_whitespace_only_input",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "   \n  \n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_errors.py:149"
+  },
+  {
+   "test": "test_comment_only_input",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "-- comment only\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_errors.py:159"
+  },
+  {
+   "test": "test_table_not_found",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "SELECT * FROM nonexistent;",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_errors.py:169"
+  },
+  {
+   "test": "test_syntax_error_near_semicolon",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "SELECT ;",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_errors.py:179"
+  },
+  {
+   "test": "test_import_file_not_found",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".import /nonexistent/file.csv mytable",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cannot open \"/nonexistent/file.csv\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_errors.py:189"
+  },
+  {
+   "test": "test_output_file_cannot_create",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".output /nonexistent/dir/file.txt",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_errors.py:200"
+  },
+  {
+   "test": "test_read_file_not_found",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": ".read /nonexistent.sql",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_errors.py:210"
+  },
+  {
+   "test": "test_too_many_attached_databases",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "SELECT 1;\n",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "too many attached databases - max 10"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_errors.py:220"
+  },
+  {
+   "test": "test_nested_begin_transaction",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "BEGIN; BEGIN;",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_errors.py:237"
+  },
+  {
+   "test": "test_commit_without_transaction",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "COMMIT;",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_errors.py:247"
+  },
+  {
+   "test": "test_drop_nonexistent_table",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t(id); DROP TABLE nonexist;",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_errors.py:287"
+  },
+  {
+   "test": "test_insert_into_nonexistent_table",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "INSERT INTO t VALUES (1);",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_errors.py:298"
+  },
+  {
+   "test": "test_column_count_mismatch",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t(a, b); INSERT INTO t VALUES (1);",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_errors.py:308"
+  },
+  {
+   "test": "test_foreign_key_constraint_violation",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "PRAGMA foreign_keys=ON; CREATE TABLE p(id PRIMARY KEY); ",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_errors.py:319"
+  },
+  {
+   "test": "test_not_null_constraint_violation",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t(id NOT NULL); INSERT INTO t VALUES (NULL);",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_errors.py:331"
+  },
+  {
+   "test": "test_check_constraint_violation",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t(age CHECK(age >= 0)); INSERT INTO t VALUES (-1);",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_errors.py:342"
+  },
+  {
+   "test": "test_alter_nonexistent_table",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "ALTER TABLE nonexist ADD COLUMN x;",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_errors.py:353"
+  },
+  {
+   "test": "test_detach_nonexistent_database",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "DETACH DATABASE nonexist;",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_errors.py:364"
+  },
+  {
+   "test": "test_rollback_without_transaction",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "ROLLBACK;",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_errors.py:374"
+  },
+  {
+   "test": "test_mixed_sql_and_bad_metacommand",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "SELECT 1;\n.badcommand\nSELECT 2;",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error: unknown command or invalid arguments:  \"badcommand\"",
+    "Enter \".help\" for help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_errors.py:384"
+  },
+  {
+   "test": "test_reserved_keyword_as_table_name",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE select(id);",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_errors.py:402"
+  },
+  {
+   "test": "test_multiple_errors_no_bail",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "SELECT * FROM t1;\nSELECT * FROM t2;\nSELECT * FROM t3;",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_errors.py:412"
+  },
+  {
+   "test": "test_multiple_errors_with_bail",
+   "argv": [
+    "-bail",
+    ":memory:"
+   ],
+   "stdin": "SELECT * FROM t1;\nSELECT * FROM t2;\nSELECT * FROM t3;",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_errors.py:425"
+  },
+  {
+   "test": "test_duplicate_column_name",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t(id, id);",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_errors.py:438"
+  },
+  {
+   "test": "test_echo_shows_commands_before_output",
+   "argv": [
+    "-echo",
+    ":memory:"
+   ],
+   "stdin": "SELECT 'test'; SELECT 1+1;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "SELECT 'test'; SELECT 1+1;\ntest\n2\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_flags.py:36"
+  },
+  {
+   "test": "test_bail_stops_on_first_error_stdin",
+   "argv": [
+    "-bail",
+    ":memory:"
+   ],
+   "stdin": "SELECT 1;\nSELECT * FROM nonexistent;\nSELECT 2;",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "1\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_flags.py:316"
+  },
+  {
+   "test": "test_no_bail_continues_after_error_stdin",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "SELECT 1;\nSELECT * FROM nonexistent;\nSELECT 2;",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "1\n2\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_flags.py:330"
+  },
+  {
+   "test": "test_echo_and_bail_combination",
+   "argv": [
+    "-echo",
+    "-bail",
+    ":memory:"
+   ],
+   "stdin": "SELECT 'first';\nSELECT * FROM nonexistent;\nSELECT 'should not appear';",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "SELECT 'first';\nfirst\nSELECT * FROM nonexistent;\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_flags.py:344"
+  },
+  {
+   "test": "test_load_command_exists_but_no_extensions",
+   "argv": [],
+   "stdin": ".help",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".load"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_extension_proof_untestable.py:141"
+  },
+  {
+   "test": "test_inline_content_heredoc_syntax",
+   "argv": [
+    "test.sql"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.sql": "\n.import --csv <<END inline_data\nname,value\ninline1,10\ninline2,20\nEND\nSELECT * FROM inline_data;\n"
+   },
+   "ci": false,
+   "source": "test_import_command.py:207"
+  },
+  {
+   "test": "test_save_writes_memory_db_to_file",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_meta_commands.py:510"
+  },
+  {
+   "test": "test_list_mode_basic",
+   "argv": [
+    "-list",
+    ":memory:"
+   ],
+   "stdin": "SELECT 1 as a, 2 as b, 3 as c;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1|2|3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:12"
+  },
+  {
+   "test": "test_list_mode_with_header",
+   "argv": [
+    "-list",
+    "-header",
+    ":memory:"
+   ],
+   "stdin": "SELECT 1 as a, 2 as b, 3 as c;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a|b|c\n1|2|3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:20"
+  },
+  {
+   "test": "test_csv_mode_basic",
+   "argv": [
+    "-csv",
+    ":memory:"
+   ],
+   "stdin": "SELECT 1 as a, 2 as b, 3 as c;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1,2,3\r\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:28"
+  },
+  {
+   "test": "test_csv_mode_with_header",
+   "argv": [
+    "-csv",
+    "-header",
+    ":memory:"
+   ],
+   "stdin": "SELECT 1 as a, 2 as b, 3 as c;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a,b,c\r\n1,2,3\r\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:36"
+  },
+  {
+   "test": "test_csv_mode_multirow",
+   "argv": [
+    "-csv",
+    "-header",
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t(name TEXT, value INT); INSERT INTO t VALUES('Alice', 100), ('Bob', 200); SELECT * FROM t;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "name,value\r\nAlice,100\r\nBob,200\r\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:44"
+  },
+  {
+   "test": "test_csv_mode_quoting",
+   "argv": [
+    "-csv",
+    "-header",
+    ":memory:"
+   ],
+   "stdin": "SELECT 'Test,Value' as col1, 'Quote\"Test' as col2;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "col1,col2\r\n\"Test,Value\",\"Quote\"\"Test\"\r\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:53"
+  },
+  {
+   "test": "test_json_mode_basic",
+   "argv": [
+    "-json",
+    ":memory:"
+   ],
+   "stdin": "SELECT 1 as a, 2 as b, 3 as c;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:62"
+  },
+  {
+   "test": "test_json_mode_multirow",
+   "argv": [
+    "-json",
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t(id INT, name TEXT); INSERT INTO t VALUES(1, 'Alice'), (2, 'Bob'); SELECT * FROM t ORDER BY id;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:72"
+  },
+  {
+   "test": "test_json_mode_null_values",
+   "argv": [
+    "-json",
+    ":memory:"
+   ],
+   "stdin": "SELECT 1 as num, NULL as nullable, 'text' as str;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:84"
+  },
+  {
+   "test": "test_table_mode_basic",
+   "argv": [
+    "-table",
+    ":memory:"
+   ],
+   "stdin": "SELECT 1 as a, 2 as b, 3 as c;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "+---+---+---+\n| a | b | c |\n+---+---+---+\n| 1 | 2 | 3 |\n+---+---+---+\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:96"
+  },
+  {
+   "test": "test_table_mode_noheader",
+   "argv": [
+    "-table",
+    "-noheader",
+    ":memory:"
+   ],
+   "stdin": "SELECT 1 as a, 2 as b, 3 as c;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "+---+---+---+\n| 1 | 2 | 3 |\n+---+---+---+\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:104"
+  },
+  {
+   "test": "test_box_mode_basic",
+   "argv": [
+    "-box",
+    ":memory:"
+   ],
+   "stdin": "SELECT 1 as a, 2 as b, 3 as c;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "╭───┬───┬───╮\n│ a │ b │ c │\n╞═══╪═══╪═══╡\n│ 1 │ 2 │ 3 │\n╰───┴───┴───╯\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:112"
+  },
+  {
+   "test": "test_html_mode_basic",
+   "argv": [
+    "-html",
+    ":memory:"
+   ],
+   "stdin": "SELECT 1 as a, 2 as b, 3 as c;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "<TR>\n<TH>a\n<TH>b\n<TH>c\n</TR>\n<TR>\n<TD>1\n<TD>2\n<TD>3\n</TR>\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:120"
+  },
+  {
+   "test": "test_html_mode_noheader",
+   "argv": [
+    "-html",
+    "-noheader",
+    ":memory:"
+   ],
+   "stdin": "SELECT 1 as a, 2 as b, 3 as c;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "<TR>\n<TD>1\n<TD>2\n<TD>3\n</TR>\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:128"
+  },
+  {
+   "test": "test_html_mode_escaping",
+   "argv": [
+    "-html",
+    ":memory:"
+   ],
+   "stdin": "SELECT '<script>' as tag, '&' as ampersand;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "<TR>\n<TH>tag\n<TH>ampersand\n</TR>\n<TR>\n<TD>&lt;script&lt;\n<TD>&amp;\n</TR>\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:136"
+  },
+  {
+   "test": "test_markdown_mode_basic",
+   "argv": [
+    "-markdown",
+    ":memory:"
+   ],
+   "stdin": "SELECT 1 as a, 2 as b, 3 as c;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "| a | b | c |\n|---|---|---|\n| 1 | 2 | 3 |\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:144"
+  },
+  {
+   "test": "test_line_mode_basic",
+   "argv": [
+    "-line",
+    ":memory:"
+   ],
+   "stdin": "SELECT 1 as a, 2 as b, 3 as c;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a: 1\nb: 2\nc: 3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:152"
+  },
+  {
+   "test": "test_line_mode_multirow",
+   "argv": [
+    "-line",
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t(id INT, name TEXT); INSERT INTO t VALUES(1, 'Alice'), (2, 'Bob'); SELECT * FROM t ORDER BY id;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "  id: 1\nname: Alice\n\n  id: 2\nname: Bob\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:160"
+  },
+  {
+   "test": "test_quote_mode_basic",
+   "argv": [
+    "-quote",
+    ":memory:"
+   ],
+   "stdin": "SELECT 1 as a, 'text' as b, NULL as c;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1,'text',NULL\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:169"
+  },
+  {
+   "test": "test_column_mode_basic",
+   "argv": [
+    "-column",
+    ":memory:"
+   ],
+   "stdin": "SELECT 1 as a, 2 as b, 3 as c;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a  b  c\n-  -  -\n1  2  3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:177"
+  },
+  {
+   "test": "test_tabs_mode_basic",
+   "argv": [
+    "-tabs",
+    ":memory:"
+   ],
+   "stdin": "SELECT 1 as a, 2 as b, 3 as c;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1\t2\t3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:185"
+  },
+  {
+   "test": "test_ascii_mode_basic",
+   "argv": [
+    "-ascii",
+    ":memory:"
+   ],
+   "stdin": "SELECT 1 as a, 2 as b, 3 as c;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:193"
+  },
+  {
+   "test": "test_ascii_mode_multirow",
+   "argv": [
+    "-ascii",
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t(id INT, name TEXT); INSERT INTO t VALUES(1, 'Alice'), (2, 'Bob'); SELECT * FROM t ORDER BY id;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1\u001fAlice\u001e2\u001fBob\u001e",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:203"
+  },
+  {
+   "test": "test_list_null_values",
+   "argv": [
+    "-list",
+    "-nullvalue",
+    "NULL",
+    ":memory:"
+   ],
+   "stdin": "SELECT 1 as a, NULL as b, 'text' as c;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1|NULL|text\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:212"
+  },
+  {
+   "test": "test_list_empty_result",
+   "argv": [
+    "-list",
+    ":memory:"
+   ],
+   "stdin": "SELECT * FROM (SELECT 1) WHERE 0;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:221"
+  },
+  {
+   "test": "test_custom_separator",
+   "argv": [
+    "-separator",
+    ";",
+    ":memory:"
+   ],
+   "stdin": "SELECT 1 as a, 2 as b, 3 as c;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1;2;3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:229"
+  },
+  {
+   "test": "test_table_null_default",
+   "argv": [
+    "-table",
+    ":memory:"
+   ],
+   "stdin": "SELECT 1 as num, NULL as nullable, 'text' as str;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "+-----+----------+------+\n| num | nullable | str  |\n+-----+----------+------+\n|   1 |          | text |\n+-----+----------+------+\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:237"
+  },
+  {
+   "test": "test_table_nullvalue_flag",
+   "argv": [
+    "-table",
+    "-nullvalue",
+    "NULL",
+    ":memory:"
+   ],
+   "stdin": "SELECT 1 as num, NULL as nullable, 'text' as str;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "+-----+----------+------+\n| num | nullable | str  |\n+-----+----------+------+\n|   1 | NULL     | text |\n+-----+----------+------+\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:245"
+  },
+  {
+   "test": "test_json_empty_result",
+   "argv": [
+    "-json",
+    ":memory:"
+   ],
+   "stdin": "SELECT * FROM (SELECT 1) WHERE 0;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:254"
+  },
+  {
+   "test": "test_table_empty_result",
+   "argv": [
+    "-table",
+    ":memory:"
+   ],
+   "stdin": "SELECT * FROM (SELECT 1) WHERE 0;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:262"
+  },
+  {
+   "test": "test_table_wide_columns",
+   "argv": [
+    "-table",
+    ":memory:"
+   ],
+   "stdin": "SELECT 'This is a very long string value that should test column width handling' as longcol, 'short' as shortcol;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "+-------------------------------------------------------------------------+----------+\n|                                 longcol                                 | shortcol |\n+-------------------------------------------------------------------------+----------+\n| This is a very long string value that should test column width handling | short    |\n+-------------------------------------------------------------------------+----------+\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:270"
+  },
+  {
+   "test": "test_box_mode_multirow",
+   "argv": [
+    "-box",
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t(id INT, name TEXT, value INT); INSERT INTO t VALUES(1, 'Alice', 100), (2, 'Bob', 200), (3, 'Charlie', 300); SELECT * FROM t ORDER BY id;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "╭────┬─────────┬───────╮\n│ id │  name   │ value │\n╞════╪═════════╪═══════╡\n│  1 │ Alice   │   100 │\n│  2 │ Bob     │   200 │\n│  3 │ Charlie │   300 │\n╰────┴─────────┴───────╯\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:279"
+  },
+  {
+   "test": "test_markdown_multirow",
+   "argv": [
+    "-markdown",
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t(id INT, name TEXT); INSERT INTO t VALUES(1, 'Alice'), (2, 'Bob'), (3, 'Charlie'); SELECT * FROM t ORDER BY id;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "| id |  name   |\n|----|---------|\n|  1 | Alice   |\n|  2 | Bob     |\n|  3 | Charlie |\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:288"
+  },
+  {
+   "test": "test_column_mode_multirow",
+   "argv": [
+    "-column",
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t(id INT, name TEXT); INSERT INTO t VALUES(1, 'Alice'), (2, 'Bob'); SELECT * FROM t ORDER BY id;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "id  name\n--  -----\n 1  Alice\n 2  Bob\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:297"
+  },
+  {
+   "test": "test_column_mode_noheader",
+   "argv": [
+    "-column",
+    "-noheader",
+    ":memory:"
+   ],
+   "stdin": "SELECT 1 as a, 2 as b, 3 as c;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1  2  3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:306"
+  },
+  {
+   "test": "test_json_special_characters",
+   "argv": [
+    "-json",
+    ":memory:"
+   ],
+   "stdin": "SELECT 'line1\nline2' as multiline, 'tab\there' as withtab;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "[{\"multiline\":\"line1\\nline2\",\"withtab\":\"tab\\there\"}]\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:314"
+  },
+  {
+   "test": "test_quote_mode_complex",
+   "argv": [
+    "-quote",
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t(id INT, name TEXT, value REAL); INSERT INTO t VALUES(1, 'Alice', 10.5), (2, 'Bob''s data', NULL); SELECT * FROM t ORDER BY id;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1,'Alice',10.5\n2,'Bob''s data',NULL\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:323"
+  },
+  {
+   "test": "test_csv_custom_separator",
+   "argv": [
+    "-csv",
+    "-separator",
+    ";",
+    ":memory:"
+   ],
+   "stdin": "SELECT 1 as a, 2 as b, 3 as c;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1;2;3\r\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:333"
+  },
+  {
+   "test": "test_list_custom_newline",
+   "argv": [
+    "-list",
+    "-newline",
+    ";",
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t(id INT); INSERT INTO t VALUES(1), (2); SELECT * FROM t;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1;2;",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:342"
+  },
+  {
+   "test": "test_tabs_with_header",
+   "argv": [
+    "-tabs",
+    "-header",
+    ":memory:"
+   ],
+   "stdin": "SELECT 1 as a, 2 as b, 3 as c;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a\tb\tc\n1\t2\t3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:351"
+  },
+  {
+   "test": "test_json_numeric_types",
+   "argv": [
+    "-json",
+    ":memory:"
+   ],
+   "stdin": "SELECT 1.0 as one, 1.5 as onehalf, 1.123456789 as precise, 1e10 as scientific;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:360"
+  },
+  {
+   "test": "test_csv_newline_in_data",
+   "argv": [
+    "-csv",
+    "-header",
+    ":memory:"
+   ],
+   "stdin": "SELECT 'line1\nline2' as multiline;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "multiline\r\n\"line1\nline2\"\r\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:374"
+  },
+  {
+   "test": "test_html_multirow_with_null",
+   "argv": [
+    "-html",
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE t(id INT, name TEXT, value INT); INSERT INTO t VALUES(1, 'Alice', 100), (2, NULL, 200); SELECT * FROM t ORDER BY id;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "<TR>\n<TH>id\n<TH>name\n<TH>value\n</TR>\n<TR>\n<TD>1\n<TD>Alice\n<TD>100\n</TR>\n<TR>\n<TD>2\n<TD>null\n<TD>200\n</TR>\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:383"
+  },
+  {
+   "test": "test_box_null_display",
+   "argv": [
+    "-box",
+    ":memory:"
+   ],
+   "stdin": "SELECT 1 as a, NULL as b, 'text' as c;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "╭───┬───┬──────╮\n│ a │ b │  c   │\n╞═══╪═══╪══════╡\n│ 1 │   │ text │\n╰───┴───┴──────╯\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:392"
+  },
+  {
+   "test": "test_markdown_null_display",
+   "argv": [
+    "-markdown",
+    ":memory:"
+   ],
+   "stdin": "SELECT 1 as a, NULL as b, 'text' as c;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "| a | b |  c   |\n|---|---|------|\n| 1 |   | text |\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:401"
+  },
+  {
+   "test": "test_line_null_default",
+   "argv": [
+    "-line",
+    ":memory:"
+   ],
+   "stdin": "SELECT 1 as a, NULL as b, 'text' as c;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a: 1\nb: \nc: text\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:410"
+  },
+  {
+   "test": "test_line_nullvalue_flag",
+   "argv": [
+    "-line",
+    "-nullvalue",
+    "NULL",
+    ":memory:"
+   ],
+   "stdin": "SELECT 1 as a, NULL as b, 'text' as c;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a: 1\nb: NULL\nc: text\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:419"
+  },
+  {
+   "test": "test_quote_special_characters",
+   "argv": [
+    "-quote",
+    ":memory:"
+   ],
+   "stdin": "SELECT 'line1\nline2' as multiline, 'tab\there' as withtab;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "unistr('line1\\u000aline2'),unistr('tab\\u0009here')\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:428"
+  },
+  {
+   "test": "test_column_null_display",
+   "argv": [
+    "-column",
+    ":memory:"
+   ],
+   "stdin": "SELECT 1 as a, NULL as b, 'text' as c;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a  b   c\n-  -  ----\n1     text\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:437"
+  },
+  {
+   "test": "test_table_varying_column_widths",
+   "argv": [
+    "-table",
+    ":memory:"
+   ],
+   "stdin": "SELECT 1 as tiny, 100 as small, 10000 as med, 1000000 as large;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "+------+-------+-------+---------+\n| tiny | small |  med  |  large  |\n+------+-------+-------+---------+\n|    1 |   100 | 10000 | 1000000 |\n+------+-------+-------+---------+\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:446"
+  },
+  {
+   "test": "test_csv_empty_string_vs_null",
+   "argv": [
+    "-csv",
+    "-header",
+    ":memory:"
+   ],
+   "stdin": "SELECT 1 as a, '' as empty, NULL as nullable;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a,empty,nullable\r\n1,\"\",\r\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:455"
+  },
+  {
+   "test": "test_json_empty_string_vs_null",
+   "argv": [
+    "-json",
+    ":memory:"
+   ],
+   "stdin": "SELECT 1 as a, '' as empty, NULL as nullable;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:464"
+  },
+  {
+   "test": "test_csv_all_empty_strings",
+   "argv": [
+    "-csv",
+    "-header",
+    ":memory:"
+   ],
+   "stdin": "SELECT '' as a, '' as b, '' as c;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a,b,c\r\n\"\",\"\",\"\"\r\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:477"
+  },
+  {
+   "test": "test_json_all_empty_strings",
+   "argv": [
+    "-json",
+    ":memory:"
+   ],
+   "stdin": "SELECT '' as a, '' as b, '' as c;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:486"
+  },
+  {
+   "test": "test_box_long_column_name",
+   "argv": [
+    "-box",
+    ":memory:"
+   ],
+   "stdin": "SELECT 1 as this_is_a_very_long_column_name_that_tests_width_handling;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "╭───────────────────────────────────────────────────────────╮\n│ this_is_a_very_long_column_name_that_tests_width_handling │\n╞═══════════════════════════════════════════════════════════╡\n│                                                         1 │\n╰───────────────────────────────────────────────────────────╯\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:497"
+  },
+  {
+   "test": "test_markdown_single_column",
+   "argv": [
+    "-markdown",
+    ":memory:"
+   ],
+   "stdin": "SELECT 42;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "| 42 |\n|----|\n| 42 |\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:506"
+  },
+  {
+   "test": "test_quote_blob_data",
+   "argv": [
+    "-quote",
+    ":memory:"
+   ],
+   "stdin": "SELECT x'48656c6c6f' as hex_blob;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "x'48656c6c6f'\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:514"
+  },
+  {
+   "test": "test_json_blob_data",
+   "argv": [
+    "-json",
+    ":memory:"
+   ],
+   "stdin": "SELECT x'48656c6c6f' as hex_blob;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "[{\"hex_blob\":\"\\u0048\\u0065\\u006c\\u006c\\u006f\"}]\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:523"
+  },
+  {
+   "test": "test_list_many_columns",
+   "argv": [
+    "-list",
+    "-header",
+    ":memory:"
+   ],
+   "stdin": "SELECT 1 as a, 2 as b, 3 as c, 4 as d, 5 as e, 6 as f, 7 as g, 8 as h;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a|b|c|d|e|f|g|h\n1|2|3|4|5|6|7|8\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:532"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "FILENAME is the name of an SQLite database",
+    "-help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_smoke.py:6"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3.54.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_smoke.py:18"
+  },
+  {
+   "test": "test_simple_query_memory_db",
+   "argv": [
+    ":memory:",
+    "SELECT 1+1;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_smoke.py:28"
+  },
+  {
+   "test": "test_create_and_query_table",
+   "argv": [
+    ":memory:",
+    "CREATE TABLE t(x); INSERT INTO t VALUES(1),(2),(3); SELECT * FROM t;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1",
+    "2",
+    "3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_smoke.py:40"
+  },
+  {
+   "test": "test_substr_all_variations",
+   "argv": [
+    "-cmd",
+    ".mode json",
+    ":memory:",
+    "SELECT \n          substr('SQLite Database', 1, 6) as substr_normal,\n          substr('SQLite Database', -8, 5) as substr_negative,\n          substr('SQLite Database', 100, 5) as substr_oob,\n          substr('SQLite', 1) as substr_no_len,\n          substr(NULL, 1, 3) as substr_null,\n          substr('Hello', 0, 3) as substr_zero_start;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_string_functions.py:12"
+  },
+  {
+   "test": "test_trim_ltrim_rtrim_variations",
+   "argv": [
+    "-cmd",
+    ".mode json",
+    ":memory:",
+    "SELECT \n          trim('  Hello World  ') as trim_spaces,\n          ltrim('  Hello World  ') as ltrim_spaces,\n          rtrim('  Hello World  ') as rtrim_spaces,\n          trim('xxxHello Worldxxx', 'x') as trim_custom,\n          ltrim('xxxHello Worldxxx', 'x') as ltrim_custom,\n          rtrim('xxxHello Worldxxx', 'x') as rtrim_custom,\n          trim('') as trim_empty,\n          trim(NULL) as trim_null;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_string_functions.py:33"
+  },
+  {
+   "test": "test_replace_all_variations",
+   "argv": [
+    "-cmd",
+    ".mode json",
+    ":memory:",
+    "SELECT \n          replace('Hello World', 'World', 'SQLite') as replace_simple,\n          replace('aaabbbaaaccc', 'aa', 'XX') as replace_multiple,\n          replace('Hello World', '', 'X') as replace_empty_search,\n          replace('Hello World', 'xyz', 'ABC') as replace_not_found,\n          replace('', 'x', 'y') as replace_empty_string,\n          replace(NULL, 'x', 'y') as replace_null,\n          replace('test', NULL, 'x') as replace_null_search,\n          replace('test', 'e', NULL) as replace_null_replacement;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_string_functions.py:55"
+  },
+  {
+   "test": "test_upper_lower_case_conversion",
+   "argv": [
+    "-cmd",
+    ".mode json",
+    ":memory:",
+    "SELECT \n          upper('Hello World') as upper_normal,\n          lower('Hello World') as lower_normal,\n          upper('café') as upper_unicode,\n          lower('CAFÉ') as lower_unicode,\n          upper(NULL) as upper_null,\n          lower(NULL) as lower_null,\n          upper('') as upper_empty,\n          lower('123!@#') as lower_symbols;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_string_functions.py:77"
+  },
+  {
+   "test": "test_length_and_octet_length",
+   "argv": [
+    "-cmd",
+    ".mode json",
+    ":memory:",
+    "SELECT \n          length('Hello World') as length_ascii,\n          length('café') as length_unicode,\n          length('日本語') as length_multibyte,\n          length('') as length_empty,\n          length(NULL) as length_null,\n          octet_length('Hello') as octet_length_ascii,\n          octet_length('café') as octet_length_unicode,\n          octet_length('日本語') as octet_length_multibyte;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_string_functions.py:99"
+  },
+  {
+   "test": "test_instr_substring_search",
+   "argv": [
+    "-cmd",
+    ".mode json",
+    ":memory:",
+    "SELECT \n          instr('Hello World', 'World') as instr_found,\n          instr('Hello World', 'xyz') as instr_not_found,\n          instr('Hello World Hello', 'Hello') as instr_first_match,\n          instr('', 'x') as instr_empty_haystack,\n          instr('Hello', '') as instr_empty_needle,\n          instr(NULL, 'x') as instr_null_haystack,\n          instr('test', NULL) as instr_null_needle;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_string_functions.py:122"
+  },
+  {
+   "test": "test_printf_format_specifiers",
+   "argv": [
+    "-cmd",
+    ".mode json",
+    ":memory:",
+    "SELECT \n          printf('%s %d', 'Count:', 42) as printf_mixed,\n          printf('%05d', 123) as printf_zero_pad,\n          printf('%.2f', 3.14159) as printf_precision,\n          printf('%x', 255) as printf_hex,\n          printf('%X', 255) as printf_hex_upper,\n          printf('%%test%%') as printf_escaped_percent,\n          printf('%s', NULL) as printf_null;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_string_functions.py:144"
+  },
+  {
+   "test": "test_char_hex_quote_functions",
+   "argv": [
+    "-cmd",
+    ".mode json",
+    ":memory:",
+    "SELECT \n          char(72, 101, 108, 108, 111) as char_hello,\n          char(9731, 9733) as char_unicode,\n          hex('Hello') as hex_text,\n          hex(X'48656C6C6F') as hex_blob,\n          unhex('48656C6C6F') as unhex_basic,\n          unhex('48656c6c6f') as unhex_lowercase,\n          quote('Hello') as quote_text,\n          quote(123) as quote_number,\n          quote(NULL) as quote_null,\n          quote(X'48656C6C6F') as quote_blob;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_string_functions.py:165"
+  },
+  {
+   "test": "test_like_pattern_matching",
+   "argv": [
+    "-cmd",
+    ".mode json",
+    ":memory:",
+    "SELECT \n          'Hello World' LIKE 'Hello%' as like_percent_end,\n          'Hello World' LIKE '%World' as like_percent_start,\n          'Hello World' LIKE '%llo Wo%' as like_percent_both,\n          'Hello World' LIKE 'Hello_World' as like_underscore,\n          'Hello World' LIKE 'hello%' as like_case_insensitive,\n          'test123' LIKE 'test___' as like_exact_chars,\n          'test' LIKE 'test%xyz' as like_no_match,\n          NULL LIKE 'test%' as like_null_string;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_string_functions.py:190"
+  },
+  {
+   "test": "test_glob_pattern_matching",
+   "argv": [
+    "-cmd",
+    ".mode json",
+    ":memory:",
+    "SELECT \n          'Hello World' GLOB 'Hello*' as glob_star_end,\n          'Hello World' GLOB '*World' as glob_star_start,\n          'Hello World' GLOB 'Hello?World' as glob_question,\n          'Hello World' GLOB 'hello*' as glob_case_sensitive,\n          'test123' GLOB 'test[0-9][0-9][0-9]' as glob_bracket_range,\n          'testABC' GLOB 'test[A-Z]*' as glob_bracket_alpha,\n          'test1' GLOB 'test[^0-9]' as glob_bracket_negate,\n          'test_file.txt' GLOB '*.txt' as glob_extension;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_string_functions.py:213"
+  },
+  {
+   "test": "test_like_escape_clause",
+   "argv": [
+    "-cmd",
+    ".mode json",
+    ":memory:",
+    "SELECT \n          'test%file' LIKE 'test%' as like_percent_literal_no_escape,\n          'test%file' LIKE 'test#%%' ESCAPE '#' as like_percent_literal_escape,\n          'test_file' LIKE 'test#_file' ESCAPE '#' as like_underscore_literal_escape,\n          '50%' LIKE '%#%%' ESCAPE '#' as like_match_percent_end;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_string_functions.py:236"
+  },
+  {
+   "test": "test_string_concatenation_operator",
+   "argv": [
+    "-cmd",
+    ".mode json",
+    ":memory:",
+    "SELECT \n          'Hello' || ' ' || 'World' as concat_strings,\n          'Value: ' || 42 as concat_string_int,\n          'Pi: ' || 3.14159 as concat_string_float,\n          'Test' || NULL as concat_null,\n          '' || 'test' as concat_empty_left,\n          'test' || '' as concat_empty_right,\n          NULL || NULL as concat_both_null;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_string_functions.py:255"
+  },
+  {
+   "test": "test_unicode_multibyte_comprehensive",
+   "argv": [
+    "-cmd",
+    ".mode json",
+    ":memory:",
+    "CREATE TABLE unicode_test(text TEXT);\n        INSERT INTO unicode_test VALUES \n          ('Hello 世界'),\n          ('Emoji: 🚀🌟'),\n          ('Greek: αβγδ'),\n          ('Arabic: مرحبا');\n        SELECT \n          text,\n          length(text) as char_length,\n          octet_length(text) as byte_length,\n          upper(text) as upper_text,\n          substr(text, 1, 5) as first_5_chars\n        FROM unicode_test;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_string_functions.py:277"
+  },
+  {
+   "test": "test_substr_edge_cases_negative_and_bounds",
+   "argv": [
+    "-cmd",
+    ".mode json",
+    ":memory:",
+    "SELECT \n          substring('SQLite', 1, 3) as substring_alias,\n          substring('SQLite', -3, 2) as substring_negative,\n          substr('0123456789', 5) as substr_from_middle,\n          substr('0123456789', -5) as substr_negative_no_len,\n          substr('0123456789', 1, 100) as substr_len_exceeds,\n          substr('test', 3, 0) as substr_zero_length;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_string_functions.py:305"
+  },
+  {
+   "test": "test_printf_advanced_formatting",
+   "argv": [
+    "-cmd",
+    ".mode json",
+    ":memory:",
+    "SELECT \n          printf('%10s', 'test') as printf_width,\n          printf('%-10s', 'test') as printf_left_align,\n          printf('%*s', 10, 'test') as printf_dynamic_width,\n          printf('%.*s', 3, 'testing') as printf_dynamic_precision,\n          printf('%c', 65) as printf_char,\n          printf('%o', 64) as printf_octal,\n          printf('%e', 123.456) as printf_scientific;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_string_functions.py:326"
+  },
+  {
+   "test": "test_null_handling_in_table_queries",
+   "argv": [
+    "-cmd",
+    ".mode json",
+    ":memory:",
+    "CREATE TABLE test_nulls(a TEXT, b TEXT, c TEXT);\n        INSERT INTO test_nulls VALUES ('hello', NULL, 'world'), (NULL, 'test', NULL);\n        SELECT \n          a || b || c as concat_with_nulls,\n          coalesce(a, 'DEFAULT') as coalesce_test,\n          substr(b, 1, 3) as substr_null,\n          upper(c) as upper_null,\n          length(a) as length_null\n        FROM test_nulls;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_string_functions.py:347"
+  },
+  {
+   "test": "test_trim_replace_special_edge_cases",
+   "argv": [
+    "-cmd",
+    ".mode json",
+    ":memory:",
+    "SELECT \n          trim('   ') as trim_only_spaces,\n          ltrim('   ') as ltrim_only_spaces,\n          rtrim('   ') as rtrim_only_spaces,\n          trim('   hello   ', ' ') as trim_spaces_explicit,\n          replace('test test test', 'test', 'TEST') as replace_all_occurrences,\n          replace('aaaa', 'aa', 'b') as replace_overlapping;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_string_functions.py:370"
+  },
+  {
+   "test": "test_like_empty_strings_and_special_cases",
+   "argv": [
+    "-cmd",
+    ".mode json",
+    ":memory:",
+    "SELECT \n          '' LIKE '' as like_empty_both,\n          'test' LIKE '' as like_empty_pattern,\n          '' LIKE '%' as like_empty_string_percent,\n          'a' LIKE '_' as like_single_char_match,\n          'ab' LIKE '_' as like_single_char_no_match,\n          'test' LIKE 't%t' as like_start_end,\n          '%' LIKE '#%' ESCAPE '#' as like_literal_percent_match,\n          '_' LIKE '#_' ESCAPE '#' as like_literal_underscore_match;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_string_functions.py:391"
+  },
+  {
+   "test": "test_glob_empty_strings_and_special_cases",
+   "argv": [
+    "-cmd",
+    ".mode json",
+    ":memory:",
+    "SELECT \n          '' GLOB '' as glob_empty_both,\n          'test' GLOB '' as glob_empty_pattern,\n          '' GLOB '*' as glob_empty_string_star,\n          'a' GLOB '?' as glob_single_char_match,\n          'ab' GLOB '?' as glob_single_char_no_match,\n          'test.txt' GLOB 'test.*' as glob_literal_dot,\n          '[' GLOB '[[]' as glob_bracket_literal;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_string_functions.py:414"
+  },
+  {
+   "test": "test_combined_string_operations",
+   "argv": [
+    "-cmd",
+    ".mode json",
+    ":memory:",
+    "SELECT \n          length(replace('x', '', 'y')) as replace_empty_search_length,\n          substr('abcdefghij', 5, 3) as substr_middle,\n          instr('abcabcabc', 'abc') as instr_multiple_first,\n          printf('%s', replace('test', '', '')) as nested_operations;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_string_functions.py:436"
+  },
+  {
+   "test": "test_quote_special_characters",
+   "argv": [
+    "-cmd",
+    ".mode json",
+    ":memory:",
+    "SELECT \n          quote('It''s a test') as quote_single_quotes,\n          quote(X'00FF') as quote_binary,\n          quote(3.14) as quote_float,\n          quote(-42) as quote_negative;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_string_functions.py:455"
+  },
+  {
+   "test": "test_hex_unhex_edge_cases",
+   "argv": [
+    "-cmd",
+    ".mode json",
+    ":memory:",
+    "SELECT \n          hex('') as hex_empty,\n          unhex('') as unhex_empty,\n          unhex('00') as unhex_null_byte,\n          unhex('4142434445') as unhex_abcde,\n          hex(unhex('48656C6C6F')) as hex_roundtrip;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_string_functions.py:474"
+  },
+  {
+   "test": "test_char_function_edge_cases",
+   "argv": [
+    "-cmd",
+    ".mode json",
+    ":memory:",
+    "SELECT \n          char(0) as char_null_byte,\n          char(9, 10, 13) as char_whitespace,\n          char(65535) as char_max_utf16,\n          length(char(65)) as char_length,\n          char() as char_no_args;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_string_functions.py:494"
+  },
+  {
+   "test": "test_pattern_matching_on_table_data",
+   "argv": [
+    "-cmd",
+    ".mode json",
+    ":memory:",
+    "CREATE TABLE test_patterns(text TEXT);\n        INSERT INTO test_patterns VALUES \n          ('test123'),\n          ('Test456'),\n          ('TEST789'),\n          ('special!@#'),\n          ('with spaces'),\n          ('');\n        SELECT \n          text,\n          text LIKE 'test%' as like_lower,\n          text LIKE 'TEST%' as like_upper,\n          text GLOB 'test*' as glob_lower,\n          text GLOB 'TEST*' as glob_upper,\n          text LIKE '%[0-9]%' as like_has_bracket,\n          text GLOB '*[0-9]' as glob_has_digit\n        FROM test_patterns;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_string_functions.py:514"
+  },
+  {
+   "test": "test_nested_string_operations",
+   "argv": [
+    "-cmd",
+    ".mode json",
+    ":memory:",
+    "SELECT \n          upper(lower('TeSt')) as upper_lower_roundtrip,\n          lower(upper('TeSt')) as lower_upper_roundtrip,\n          replace(replace('test', 't', 'T'), 'e', 'E') as double_replace,\n          substr(substr('abcdefghij', 3), 2, 3) as nested_substr,\n          length(trim('  hello  ')) as length_after_trim,\n          instr(upper('hello world'), 'WORLD') as instr_on_upper;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_string_functions.py:545"
+  },
+  {
+   "test": "test_complex_query_with_string_functions",
+   "argv": [
+    "-cmd",
+    ".mode json",
+    ":memory:",
+    "CREATE TABLE users(id INT, name TEXT, email TEXT);\n        INSERT INTO users VALUES \n          (1, 'Alice Smith', 'alice@example.com'),\n          (2, 'Bob Johnson', 'bob@test.org'),\n          (3, 'Charlie Brown', 'charlie@example.com'),\n          (4, 'David Wilson', NULL);\n        SELECT \n          id,\n          name,\n          substr(name, 1, instr(name, ' ') - 1) as first_name,\n          substr(name, instr(name, ' ') + 1) as last_name,\n          lower(email) as email_lower,\n          length(name) as name_length\n        FROM users\n        WHERE email LIKE '%@example.com'\n        ORDER BY id;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_string_functions.py:566"
+  },
+  {
+   "test": "test_not_like_and_not_glob",
+   "argv": [
+    "-cmd",
+    ".mode json",
+    ":memory:",
+    "SELECT \n          'test' NOT LIKE 'TEST' as not_like_case,\n          'test' NOT LIKE 'xyz' as not_like_no_match,\n          'test123' NOT GLOB 'test[0-9]*' as not_glob_match,\n          NOT ('test' LIKE 't%') as not_operator_like;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_string_functions.py:596"
+  },
+  {
+   "test": "test_printf_type_coercion",
+   "argv": [
+    "-cmd",
+    ".mode json",
+    ":memory:",
+    "SELECT \n          printf('%d', '42') as printf_string_to_int,\n          printf('%s', 42) as printf_int_to_string,\n          printf('%f', '3.14') as printf_string_to_float,\n          printf('%d %s', 1, 'test') as printf_multiple_types;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_string_functions.py:614"
+  },
+  {
+   "test": "test_after_insert_trigger_basic",
+   "argv": [
+    ":memory:",
+    "\n        CREATE TABLE employees(id INTEGER PRIMARY KEY, name TEXT, salary INTEGER);\n        CREATE TABLE audit_log(action TEXT, emp_id INTEGER, emp_name TEXT);\n        CREATE TRIGGER after_employee_insert AFTER INSERT ON employees\n        BEGIN\n          INSERT INTO audit_log VALUES('INSERT', NEW.id, NEW.name);\n        END;\n        INSERT INTO employees VALUES(1, 'Alice', 50000);\n        INSERT INTO employees VALUES(2, 'Bob', 60000);\n        SELECT * FROM employees;\n        SELECT action, emp_id, emp_name FROM audit_log;\n        "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1|Alice|50000\n2|Bob|60000\nINSERT|1|Alice\nINSERT|2|Bob\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_triggers.py:12"
+  },
+  {
+   "test": "test_before_update_trigger",
+   "argv": [
+    ":memory:",
+    "\n        CREATE TABLE products(id INTEGER PRIMARY KEY, name TEXT, price REAL, last_updated TEXT);\n        CREATE TRIGGER before_product_update BEFORE UPDATE ON products\n        BEGIN\n          UPDATE products SET last_updated = datetime('now') WHERE id = OLD.id;\n        END;\n        INSERT INTO products VALUES(1, 'Widget', 10.00, NULL);\n        UPDATE products SET price = 15.00 WHERE id = 1;\n        SELECT id, name, price FROM products;\n        "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1|Widget|15.0\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_triggers.py:35"
+  },
+  {
+   "test": "test_after_delete_trigger",
+   "argv": [
+    ":memory:",
+    "\n        CREATE TABLE accounts(id INTEGER PRIMARY KEY, name TEXT, balance REAL);\n        CREATE TABLE deleted_accounts(id INTEGER, name TEXT, balance REAL, deleted_at TEXT);\n        CREATE TRIGGER after_account_delete AFTER DELETE ON accounts\n        BEGIN\n          INSERT INTO deleted_accounts VALUES(OLD.id, OLD.name, OLD.balance, 'deleted');\n        END;\n        INSERT INTO accounts VALUES(1, 'John', 1000.00);\n        INSERT INTO accounts VALUES(2, 'Jane', 2000.00);\n        DELETE FROM accounts WHERE id = 1;\n        SELECT * FROM accounts;\n        SELECT id, name, balance FROM deleted_accounts;\n        "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "2|Jane|2000.0\n1|John|1000.0\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_triggers.py:56"
+  },
+  {
+   "test": "test_when_clause_conditional_trigger",
+   "argv": [
+    ":memory:",
+    "\n        CREATE TABLE orders(id INTEGER PRIMARY KEY, amount REAL, status TEXT);\n        CREATE TABLE high_value_orders(order_id INTEGER, amount REAL);\n        CREATE TRIGGER high_value_order_insert AFTER INSERT ON orders\n        WHEN NEW.amount > 1000\n        BEGIN\n          INSERT INTO high_value_orders VALUES(NEW.id, NEW.amount);\n        END;\n        INSERT INTO orders VALUES(1, 500.00, 'pending');\n        INSERT INTO orders VALUES(2, 1500.00, 'pending');\n        INSERT INTO orders VALUES(3, 2500.00, 'pending');\n        SELECT * FROM orders;\n        SELECT * FROM high_value_orders;\n        "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1|500.0|pending\n2|1500.0|pending\n3|2500.0|pending\n2|1500.0\n3|2500.0\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_triggers.py:80"
+  },
+  {
+   "test": "test_multiple_triggers_same_table",
+   "argv": [
+    ":memory:",
+    "\n        CREATE TABLE inventory(id INTEGER PRIMARY KEY, product TEXT, quantity INTEGER);\n        CREATE TABLE log1(msg TEXT);\n        CREATE TABLE log2(msg TEXT);\n        CREATE TRIGGER log1_insert AFTER INSERT ON inventory\n        BEGIN\n          INSERT INTO log1 VALUES('Trigger 1: Added ' || NEW.product);\n        END;\n        CREATE TRIGGER log2_insert AFTER INSERT ON inventory\n        BEGIN\n          INSERT INTO log2 VALUES('Trigger 2: Quantity is ' || NEW.quantity);\n        END;\n        INSERT INTO inventory VALUES(1, 'Laptop', 10);\n        SELECT * FROM log1;\n        SELECT * FROM log2;\n        "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Trigger 1: Added Laptop\nTrigger 2: Quantity is 10\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_triggers.py:105"
+  },
+  {
+   "test": "test_old_new_values_in_update",
+   "argv": [
+    ":memory:",
+    "\n        CREATE TABLE prices(id INTEGER PRIMARY KEY, product TEXT, price REAL);\n        CREATE TABLE price_history(product TEXT, old_price REAL, new_price REAL, change REAL);\n        CREATE TRIGGER price_update AFTER UPDATE OF price ON prices\n        BEGIN\n          INSERT INTO price_history VALUES(NEW.product, OLD.price, NEW.price, NEW.price - OLD.price);\n        END;\n        INSERT INTO prices VALUES(1, 'Widget', 10.00);\n        UPDATE prices SET price = 15.00 WHERE id = 1;\n        UPDATE prices SET price = 12.00 WHERE id = 1;\n        SELECT * FROM price_history;\n        "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Widget|10.0|15.0|5.0\nWidget|15.0|12.0|-3.0\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_triggers.py:132"
+  },
+  {
+   "test": "test_instead_of_insert_on_view",
+   "argv": [
+    ":memory:",
+    "\n        CREATE TABLE users(id INTEGER PRIMARY KEY, name TEXT);\n        CREATE TABLE addresses(user_id INTEGER, address TEXT);\n        CREATE VIEW user_view AS SELECT users.id, users.name, addresses.address FROM users LEFT JOIN addresses ON users.id = addresses.user_id;\n        CREATE TRIGGER user_view_insert INSTEAD OF INSERT ON user_view\n        BEGIN\n          INSERT INTO users VALUES(NEW.id, NEW.name);\n          INSERT INTO addresses VALUES(NEW.id, NEW.address);\n        END;\n        INSERT INTO user_view VALUES(1, 'Alice', '123 Main St');\n        INSERT INTO user_view VALUES(2, 'Bob', '456 Oak Ave');\n        SELECT * FROM users;\n        SELECT * FROM addresses;\n        "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1|Alice\n2|Bob\n1|123 Main St\n2|456 Oak Ave\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_triggers.py:155"
+  },
+  {
+   "test": "test_drop_trigger",
+   "argv": [
+    ":memory:",
+    "\n        CREATE TABLE test(id INTEGER, value TEXT);\n        CREATE TABLE log(msg TEXT);\n        CREATE TRIGGER test_insert AFTER INSERT ON test\n        BEGIN\n          INSERT INTO log VALUES('inserted ' || NEW.id);\n        END;\n        INSERT INTO test VALUES(1, 'first');\n        DROP TRIGGER test_insert;\n        INSERT INTO test VALUES(2, 'second');\n        SELECT * FROM log;\n        "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "inserted 1\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_triggers.py:180"
+  },
+  {
+   "test": "test_trigger_raise_error",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE test(id INTEGER PRIMARY KEY);\nCREATE TRIGGER error_trigger AFTER INSERT ON test\nBEGIN\n  SELECT RAISE(ABORT, 'Custom error in trigger');\nEND;\nINSERT INTO test VALUES(1);\nSELECT * FROM test;\n",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_triggers.py:203"
+  },
+  {
+   "test": "test_before_delete_trigger",
+   "argv": [
+    ":memory:",
+    "\n        CREATE TABLE items(id INTEGER PRIMARY KEY, name TEXT, quantity INTEGER);\n        CREATE TABLE deleted_items_log(id INTEGER, name TEXT, quantity INTEGER);\n        CREATE TRIGGER before_item_delete BEFORE DELETE ON items\n        BEGIN\n          INSERT INTO deleted_items_log VALUES(OLD.id, OLD.name, OLD.quantity);\n        END;\n        INSERT INTO items VALUES(1, 'Apple', 10);\n        INSERT INTO items VALUES(2, 'Banana', 20);\n        DELETE FROM items WHERE id = 1;\n        SELECT * FROM items;\n        SELECT * FROM deleted_items_log;\n        "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "2|Banana|20\n1|Apple|10\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_triggers.py:221"
+  },
+  {
+   "test": "test_before_insert_validation",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE users(id INTEGER PRIMARY KEY, username TEXT, created_at TEXT);\nCREATE TRIGGER before_user_insert BEFORE INSERT ON users\nBEGIN\n  SELECT CASE WHEN NEW.username IS NULL THEN RAISE(ABORT, 'username cannot be NULL') END;\nEND;\nINSERT INTO users VALUES(1, 'alice', NULL);\nINSERT INTO users VALUES(2, NULL, NULL);\nSELECT * FROM users;\n",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_triggers.py:245"
+  },
+  {
+   "test": "test_instead_of_update_on_view",
+   "argv": [
+    ":memory:",
+    "\n        CREATE TABLE base(id INTEGER PRIMARY KEY, value TEXT);\n        CREATE VIEW base_view AS SELECT id, value FROM base;\n        CREATE TRIGGER view_update INSTEAD OF UPDATE ON base_view\n        BEGIN\n          UPDATE base SET value = NEW.value || '_updated' WHERE id = OLD.id;\n        END;\n        INSERT INTO base VALUES(1, 'original');\n        UPDATE base_view SET value = 'modified' WHERE id = 1;\n        SELECT * FROM base;\n        "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1|modified_updated\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_triggers.py:264"
+  },
+  {
+   "test": "test_instead_of_delete_on_view",
+   "argv": [
+    ":memory:",
+    "\n        CREATE TABLE records(id INTEGER PRIMARY KEY, data TEXT, deleted INTEGER DEFAULT 0);\n        CREATE VIEW active_records AS SELECT id, data FROM records WHERE deleted = 0;\n        CREATE TRIGGER view_delete INSTEAD OF DELETE ON active_records\n        BEGIN\n          UPDATE records SET deleted = 1 WHERE id = OLD.id;\n        END;\n        INSERT INTO records(id, data) VALUES(1, 'Record 1');\n        INSERT INTO records(id, data) VALUES(2, 'Record 2');\n        DELETE FROM active_records WHERE id = 1;\n        SELECT * FROM records;\n        SELECT * FROM active_records;\n        "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1|Record 1|1\n2|Record 2|0\n2|Record 2\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_triggers.py:286"
+  },
+  {
+   "test": "test_trigger_with_foreign_keys",
+   "argv": [
+    ":memory:",
+    "\n        PRAGMA foreign_keys = ON;\n        CREATE TABLE departments(id INTEGER PRIMARY KEY, name TEXT);\n        CREATE TABLE employees(id INTEGER PRIMARY KEY, name TEXT, dept_id INTEGER REFERENCES departments(id));\n        CREATE TABLE dept_employee_count(dept_id INTEGER, count INTEGER);\n        CREATE TRIGGER employee_insert AFTER INSERT ON employees\n        BEGIN\n          INSERT OR REPLACE INTO dept_employee_count \n            SELECT dept_id, COUNT(*) FROM employees WHERE dept_id = NEW.dept_id GROUP BY dept_id;\n        END;\n        INSERT INTO departments VALUES(1, 'Engineering');\n        INSERT INTO departments VALUES(2, 'Sales');\n        INSERT INTO employees VALUES(1, 'Alice', 1);\n        INSERT INTO employees VALUES(2, 'Bob', 1);\n        INSERT INTO employees VALUES(3, 'Charlie', 2);\n        SELECT * FROM dept_employee_count ORDER BY dept_id;\n        "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1|1\n1|2\n2|1\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_triggers.py:310"
+  },
+  {
+   "test": "test_update_of_specific_column",
+   "argv": [
+    ":memory:",
+    "\n        CREATE TABLE products(id INTEGER PRIMARY KEY, name TEXT, price REAL, description TEXT);\n        CREATE TABLE price_changes_log(product_id INTEGER, old_price REAL, new_price REAL);\n        CREATE TRIGGER price_change AFTER UPDATE OF price ON products\n        BEGIN\n          INSERT INTO price_changes_log VALUES(NEW.id, OLD.price, NEW.price);\n        END;\n        INSERT INTO products VALUES(1, 'Widget', 10.00, 'A widget');\n        UPDATE products SET description = 'Updated widget' WHERE id = 1;\n        UPDATE products SET price = 15.00 WHERE id = 1;\n        SELECT * FROM price_changes_log;\n        "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1|10.0|15.0\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_triggers.py:338"
+  },
+  {
+   "test": "test_recursive_triggers_enabled",
+   "argv": [
+    ":memory:",
+    "\n        PRAGMA recursive_triggers = ON;\n        CREATE TABLE counters(id INTEGER PRIMARY KEY, value INTEGER);\n        CREATE TRIGGER counter_update AFTER UPDATE ON counters\n        BEGIN\n          UPDATE counters SET value = value + 1 WHERE id = NEW.id AND NEW.value < 5;\n        END;\n        INSERT INTO counters VALUES(1, 0);\n        UPDATE counters SET value = 1 WHERE id = 1;\n        SELECT * FROM counters;\n        "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1|5\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_triggers.py:361"
+  },
+  {
+   "test": "test_trigger_multiple_statements",
+   "argv": [
+    ":memory:",
+    "\n        CREATE TABLE orders(id INTEGER PRIMARY KEY, total REAL);\n        CREATE TABLE order_stats(total_orders INTEGER, total_revenue REAL);\n        CREATE TABLE order_log(order_id INTEGER, message TEXT);\n        INSERT INTO order_stats VALUES(0, 0.0);\n        CREATE TRIGGER order_insert AFTER INSERT ON orders\n        BEGIN\n          UPDATE order_stats SET total_orders = total_orders + 1, total_revenue = total_revenue + NEW.total;\n          INSERT INTO order_log VALUES(NEW.id, 'Order placed with total: ' || NEW.total);\n        END;\n        INSERT INTO orders VALUES(1, 100.00);\n        INSERT INTO orders VALUES(2, 250.50);\n        SELECT * FROM order_stats;\n        SELECT * FROM order_log;\n        "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "2|350.5\n1|Order placed with total: 100.0\n2|Order placed with total: 250.5\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_triggers.py:383"
+  },
+  {
+   "test": "test_trigger_with_check_constraint",
+   "argv": [
+    ":memory:",
+    "\n        CREATE TABLE accounts(id INTEGER PRIMARY KEY, balance REAL CHECK(balance >= 0));\n        CREATE TABLE balance_history(account_id INTEGER, old_balance REAL, new_balance REAL);\n        CREATE TRIGGER balance_update AFTER UPDATE OF balance ON accounts\n        BEGIN\n          INSERT INTO balance_history VALUES(NEW.id, OLD.balance, NEW.balance);\n        END;\n        INSERT INTO accounts VALUES(1, 1000.00);\n        UPDATE accounts SET balance = 800.00 WHERE id = 1;\n        UPDATE accounts SET balance = 1200.00 WHERE id = 1;\n        SELECT * FROM balance_history;\n        "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1|1000.0|800.0\n1|800.0|1200.0\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_triggers.py:409"
+  },
+  {
+   "test": "test_for_each_row_default_behavior",
+   "argv": [
+    ":memory:",
+    "\n        CREATE TABLE items(id INTEGER, name TEXT);\n        CREATE TABLE item_count(count INTEGER);\n        INSERT INTO item_count VALUES(0);\n        CREATE TRIGGER count_items AFTER INSERT ON items\n        BEGIN\n          UPDATE item_count SET count = count + 1;\n        END;\n        INSERT INTO items VALUES(1, 'A'), (2, 'B'), (3, 'C');\n        SELECT * FROM item_count;\n        "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_triggers.py:432"
+  },
+  {
+   "test": "test_when_clause_on_update_old_new_comparison",
+   "argv": [
+    ":memory:",
+    "\n        CREATE TABLE accounts(id INTEGER PRIMARY KEY, balance REAL, status TEXT);\n        CREATE TABLE audit_log(account_id INTEGER, old_status TEXT, new_status TEXT);\n        CREATE TRIGGER status_change AFTER UPDATE OF status ON accounts\n        WHEN OLD.status != NEW.status\n        BEGIN\n          INSERT INTO audit_log VALUES(NEW.id, OLD.status, NEW.status);\n        END;\n        INSERT INTO accounts VALUES(1, 1000.00, 'active');\n        UPDATE accounts SET balance = 1200.00 WHERE id = 1;\n        UPDATE accounts SET status = 'suspended' WHERE id = 1;\n        UPDATE accounts SET status = 'suspended' WHERE id = 1;\n        SELECT * FROM audit_log;\n        "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1|active|suspended\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_triggers.py:454"
+  },
+  {
+   "test": "test_complex_when_clause_multiple_conditions",
+   "argv": [
+    ":memory:",
+    "\n        CREATE TABLE products(id INTEGER PRIMARY KEY, name TEXT, price REAL, discount REAL);\n        CREATE TABLE discount_log(product_id INTEGER, name TEXT, discount REAL);\n        CREATE TRIGGER high_discount AFTER UPDATE OF discount ON products\n        WHEN NEW.discount > 0.5 AND NEW.price > 100\n        BEGIN\n          INSERT INTO discount_log VALUES(NEW.id, NEW.name, NEW.discount);\n        END;\n        INSERT INTO products VALUES(1, 'Laptop', 1000.00, 0.0);\n        INSERT INTO products VALUES(2, 'Mouse', 50.00, 0.0);\n        UPDATE products SET discount = 0.6 WHERE id = 1;\n        UPDATE products SET discount = 0.6 WHERE id = 2;\n        UPDATE products SET discount = 0.3 WHERE id = 1;\n        SELECT * FROM discount_log;\n        "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1|Laptop|0.6\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_triggers.py:479"
+  },
+  {
+   "test": "test_trigger_with_select_subquery",
+   "argv": [
+    ":memory:",
+    "\n        CREATE TABLE employees(id INTEGER PRIMARY KEY, dept_id INTEGER, salary INTEGER);\n        CREATE TABLE departments(id INTEGER PRIMARY KEY, total_salary INTEGER);\n        INSERT INTO departments VALUES(1, 0), (2, 0);\n        CREATE TRIGGER update_dept_salary AFTER INSERT ON employees\n        BEGIN\n          UPDATE departments SET total_salary = (\n            SELECT COALESCE(SUM(salary), 0) FROM employees WHERE dept_id = NEW.dept_id\n          ) WHERE id = NEW.dept_id;\n        END;\n        INSERT INTO employees VALUES(1, 1, 50000);\n        INSERT INTO employees VALUES(2, 1, 60000);\n        INSERT INTO employees VALUES(3, 2, 70000);\n        SELECT * FROM departments ORDER BY id;\n        "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1|110000\n2|70000\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_triggers.py:505"
+  },
+  {
+   "test": "test_cascading_triggers_with_recursive_enabled",
+   "argv": [
+    ":memory:",
+    "\n        PRAGMA recursive_triggers = ON;\n        CREATE TABLE orders(id INTEGER PRIMARY KEY, status TEXT);\n        CREATE TABLE order_items(order_id INTEGER, item TEXT);\n        CREATE TABLE notifications(msg TEXT);\n        CREATE TRIGGER order_delete BEFORE DELETE ON orders\n        BEGIN\n          DELETE FROM order_items WHERE order_id = OLD.id;\n        END;\n        CREATE TRIGGER item_delete AFTER DELETE ON order_items\n        BEGIN\n          INSERT INTO notifications VALUES('Deleted item: ' || OLD.item);\n        END;\n        INSERT INTO orders VALUES(1, 'pending');\n        INSERT INTO order_items VALUES(1, 'Widget'), (1, 'Gadget');\n        DELETE FROM orders WHERE id = 1;\n        SELECT * FROM order_items;\n        SELECT * FROM notifications;\n        "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Deleted item: Widget\nDeleted item: Gadget\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_triggers.py:531"
+  },
+  {
+   "test": "test_drop_trigger_if_exists",
+   "argv": [
+    ":memory:",
+    "\n        CREATE TABLE test(id INTEGER);\n        DROP TRIGGER IF EXISTS nonexistent_trigger;\n        CREATE TRIGGER test_trigger AFTER INSERT ON test BEGIN SELECT 1; END;\n        DROP TRIGGER IF EXISTS test_trigger;\n        DROP TRIGGER IF EXISTS test_trigger;\n        SELECT 'success';\n        "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "success\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_triggers.py:561"
+  },
+  {
+   "test": "test_temp_trigger_separate_namespace",
+   "argv": [
+    ":memory:",
+    "\n        CREATE TABLE main_table(id INTEGER);\n        CREATE TEMP TABLE temp_table(id INTEGER);\n        CREATE TABLE log(msg TEXT);\n        CREATE TRIGGER main_trigger AFTER INSERT ON main_table\n        BEGIN\n          INSERT INTO log VALUES('main');\n        END;\n        CREATE TEMP TRIGGER temp_trigger AFTER INSERT ON temp_table\n        BEGIN\n          INSERT INTO log VALUES('temp');\n        END;\n        INSERT INTO main_table VALUES(1);\n        INSERT INTO temp_table VALUES(2);\n        SELECT * FROM log;\n        "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "main\ntemp\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_triggers.py:580"
+  },
+  {
+   "test": "test_drop_nonexistent_trigger_error",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE test(id INTEGER);\nDROP TRIGGER nonexistent_trigger;\n",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_triggers.py:607"
+  },
+  {
+   "test": "test_trigger_on_nonexistent_table_error",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TRIGGER my_trigger AFTER INSERT ON nonexistent_table\nBEGIN\n  SELECT 1;\nEND;\n",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_triggers.py:620"
+  },
+  {
+   "test": "test_duplicate_trigger_name_error",
+   "argv": [
+    ":memory:"
+   ],
+   "stdin": "CREATE TABLE test(id INTEGER);\nCREATE TRIGGER my_trigger AFTER INSERT ON test BEGIN SELECT 1; END;\nCREATE TRIGGER my_trigger AFTER DELETE ON test BEGIN SELECT 2; END;\n",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_triggers.py:635"
+  },
+  {
+   "test": "test_update_of_multiple_columns",
+   "argv": [
+    ":memory:",
+    "\n        CREATE TABLE products(id INTEGER PRIMARY KEY, name TEXT, price REAL, stock INTEGER);\n        CREATE TABLE log(msg TEXT);\n        CREATE TRIGGER price_or_stock_change AFTER UPDATE OF price, stock ON products\n        BEGIN\n          INSERT INTO log VALUES('Product ' || NEW.id || ' updated');\n        END;\n        INSERT INTO products VALUES(1, 'Widget', 10.00, 100);\n        UPDATE products SET name = 'Super Widget' WHERE id = 1;\n        UPDATE products SET price = 12.00 WHERE id = 1;\n        UPDATE products SET stock = 90 WHERE id = 1;\n        SELECT * FROM log;\n        "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Product 1 updated\nProduct 1 updated\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_triggers.py:649"
+  },
+  {
+   "test": "test_when_clause_with_null_check",
+   "argv": [
+    ":memory:",
+    "\n        CREATE TABLE data(id INTEGER PRIMARY KEY, value TEXT);\n        CREATE TABLE log(msg TEXT);\n        CREATE TRIGGER null_check AFTER INSERT ON data\n        WHEN NEW.value IS NULL\n        BEGIN\n          INSERT INTO log VALUES('NULL value inserted for id ' || NEW.id);\n        END;\n        INSERT INTO data VALUES(1, 'test');\n        INSERT INTO data VALUES(2, NULL);\n        INSERT INTO data VALUES(3, 'another');\n        SELECT * FROM log;\n        "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "NULL value inserted for id 2\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_triggers.py:673"
+  }
+ ]
+}

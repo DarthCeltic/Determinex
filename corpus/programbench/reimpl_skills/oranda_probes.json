@@ -1,0 +1,1767 @@
+[
+ {
+  "name": "test::test_h_is_summary_variant_of_help::0",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "COLUMNS": "120",
+   "TERM": "dumb"
+  }
+ },
+ {
+  "name": "test::test_help_takes_precedence_over_other_flags::1",
+  "argv": [
+   "--help",
+   "--verbose"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "COLUMNS": "120",
+   "TERM": "dumb"
+  }
+ },
+ {
+  "name": "test::test_help_with_invalid_flag_shows_error_and_usage::2",
+  "argv": [
+   "--badflag",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "COLUMNS": "120",
+   "TERM": "dumb"
+  }
+ },
+ {
+  "name": "test::test_double_dash_separator_keeps_help_working::3",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "COLUMNS": "120",
+   "TERM": "dumb"
+  }
+ },
+ {
+  "name": "test::test_build_help_documents_json_only::4",
+  "argv": [
+   "build",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dev_help_documents_port_and_include_paths::5",
+  "argv": [
+   "dev",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_serve_help_documents_default_port::6",
+  "argv": [
+   "serve",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_help_lists_ci_subcommand::7",
+  "argv": [
+   "generate",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_ci_help_documents_ci_possible_values::8",
+  "argv": [
+   "generate",
+   "ci",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_arguments_shows_usage::9",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_command::10",
+  "argv": [
+   "invalid-command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_long_flag::11",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_short_flag::12",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_global_flag::13",
+  "argv": [
+   "--invalid-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_format_invalid_value::14",
+  "argv": [
+   "--output-format",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_format_missing_value::15",
+  "argv": [
+   "--output-format"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_long_flag_after_command::16",
+  "argv": [
+   "build",
+   "--verbose"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_short_flag_after_command::17",
+  "argv": [
+   "build",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_with_json_only::18",
+  "argv": [
+   "build",
+   "--json-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_invalid_flag::19",
+  "argv": [
+   "build",
+   "--invalid-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_with_verbose_and_json_only::20",
+  "argv": [
+   "build",
+   "-v",
+   "--json-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dev_port_invalid_value::21",
+  "argv": [
+   "dev",
+   "--port",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dev_port_missing_value::22",
+  "argv": [
+   "dev",
+   "--port"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dev_invalid_flag::23",
+  "argv": [
+   "dev",
+   "--invalid-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_serve_port_invalid_value::24",
+  "argv": [
+   "serve",
+   "--port",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_serve_port_missing_value::25",
+  "argv": [
+   "serve",
+   "--port"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_serve_invalid_flag::26",
+  "argv": [
+   "serve",
+   "--invalid-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_requires_subcommand::27",
+  "argv": [
+   "generate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_invalid_subcommand::28",
+  "argv": [
+   "generate",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_with_output_path_but_no_subcommand::29",
+  "argv": [
+   "generate",
+   "--output-path",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_ci_no_args::30",
+  "argv": [
+   "generate",
+   "ci"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_ci_with_ci_flag::31",
+  "argv": [
+   "generate",
+   "ci",
+   "--ci",
+   "github"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_ci_with_ci_equals_syntax::32",
+  "argv": [
+   "generate",
+   "ci",
+   "--ci=github"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_ci_invalid_ci_value::33",
+  "argv": [
+   "generate",
+   "ci",
+   "--ci",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_ci_with_output_path_short::34",
+  "argv": [
+   "generate",
+   "ci",
+   "-o",
+   "/tmp/test.yml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_ci_with_output_path_long::35",
+  "argv": [
+   "generate",
+   "ci",
+   "--output-path",
+   "/tmp/test.yml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_ci_with_site_path_short::36",
+  "argv": [
+   "generate",
+   "ci",
+   "-s",
+   "/tmp/site"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_ci_with_site_path_long::37",
+  "argv": [
+   "generate",
+   "ci",
+   "--site-path",
+   "/tmp/site"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_ci_invalid_flag::38",
+  "argv": [
+   "generate",
+   "ci",
+   "--invalid-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_ci_all_flags_combined::39",
+  "argv": [
+   "generate",
+   "ci",
+   "--ci",
+   "github",
+   "--output-path",
+   "/tmp/test.yml",
+   "--site-path",
+   "/tmp/site"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_flag_after_command::40",
+  "argv": [
+   "build",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_before_and_command_flag_after::41",
+  "argv": [
+   "-v",
+   "build",
+   "--json-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_flags_various_positions::42",
+  "argv": [
+   "--verbose",
+   "build",
+   "--json-only",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_not_applicable::43",
+  "argv": [
+   "--",
+   "build"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_port_with_negative_number::44",
+  "argv": [
+   "serve",
+   "--port",
+   "-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_string_value::45",
+  "argv": [
+   "generate",
+   "ci",
+   "--output-path",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_with_spaces::46",
+  "argv": [
+   "generate",
+   "ci",
+   "--output-path",
+   "/tmp/test dir/file.yml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_mentions_flag_name::47",
+  "argv": [
+   "--unknown"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_choice_shows_valid_options::48",
+  "argv": [
+   "--output-format",
+   "xml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_with_generate::49",
+  "argv": [
+   "--verbose",
+   "generate",
+   "ci"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_format_empty_string::50",
+  "argv": [
+   "--output-format",
+   "",
+   "build"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_serve_very_large_port::51",
+  "argv": [
+   "serve",
+   "--port",
+   "999999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_format_with_equals_sign::52",
+  "argv": [
+   "--output-format=json",
+   "build"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_format_with_space::53",
+  "argv": [
+   "--output-format",
+   "json",
+   "build"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ci_invalid_value::54",
+  "argv": [
+   "generate",
+   "ci",
+   "--ci",
+   "gitlab"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ci_case_sensitive::55",
+  "argv": [
+   "generate",
+   "ci",
+   "--ci",
+   "GitHub"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_is_boolean::56",
+  "argv": [
+   "-v",
+   "build"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_and_subcommand_flags_mixed::57",
+  "argv": [
+   "--verbose",
+   "--output-format",
+   "json",
+   "generate",
+   "ci",
+   "--ci",
+   "github",
+   "-o",
+   "/tmp/output.yml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_short_flags_for_paths::58",
+  "argv": [
+   "generate",
+   "ci",
+   "-s",
+   "/tmp/site1",
+   "-o",
+   "/tmp/output1.yml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_path::59",
+  "argv": [
+   "generate",
+   "ci",
+   "--output-path",
+   "/tmp/test-file_v1.0.yml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_path::60",
+  "argv": [
+   "generate",
+   "ci",
+   "--output-path",
+   "/tmp/文件.yml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_like_value::61",
+  "argv": [
+   "generate",
+   "ci",
+   "--output-path",
+   "--not-a-flag.yml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_equals_in_value::62",
+  "argv": [
+   "generate",
+   "ci",
+   "--output-path",
+   "/tmp/file=test.yml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_global_flag::63",
+  "argv": [
+   "--nonexistent",
+   "build"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_flag::64",
+  "argv": [
+   "build",
+   "--nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_port_must_be_numeric::65",
+  "argv": [
+   "serve",
+   "--port",
+   "not-a-number"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_format_must_be_valid_enum::66",
+  "argv": [
+   "--output-format",
+   "invalid-format",
+   "build"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ci_must_be_valid_enum::67",
+  "argv": [
+   "generate",
+   "ci",
+   "--ci",
+   "travis"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tarball_with_target_triple_inference_and_labeling::68",
+  "argv": [
+   "git",
+   "init"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_releases_creates_current_state::69",
+  "argv": [
+   "/workspace/executable",
+   "build"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_goes_to_stderr_exit_2::70",
+  "argv": [
+   "nonsense"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_creates_public_dir_and_files_exit_0::71",
+  "argv": [
+   "build"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_errors_and_mentions_unrecognized::72",
+  "argv": [
+   "this_subcommand_does_not_exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_verbose_flag_accepted_with_subcommand::73",
+  "argv": [
+   "-v",
+   "build",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_output_format_flag_accepted_with_subcommand::74",
+  "argv": [
+   "--output-format",
+   "json",
+   "build",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subcommand_specific_flag_rejected_globally::75",
+  "argv": [
+   "--json-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_flags_work_with_nested_subcommand::76",
+  "argv": [
+   "-v",
+   "generate",
+   "ci",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_subcommand_is_top_level_dispatcher::77",
+  "argv": [
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_subcommand_errors_on_extra_args_like_help_flag::78",
+  "argv": [
+   "help",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_short::79",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_command::80",
+  "argv": [
+   "nonexistent-command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_for_build::81",
+  "argv": [
+   "help",
+   "build"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_with_verbose::82",
+  "argv": [
+   "--verbose",
+   "build"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_flags_combined::83",
+  "argv": [
+   "--verbose",
+   "--output-format",
+   "json",
+   "build"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_serve_requires_public_dir::84",
+  "argv": [
+   "serve"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_ci_custom_output_path_requires_tty::85",
+  "argv": [
+   "generate",
+   "ci",
+   "-o",
+   "custom-ci.yml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_ci_with_site_path_requires_tty::86",
+  "argv": [
+   "generate",
+   "ci",
+   "--site-path",
+   "site/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_ci_invalid_ci_platform::87",
+  "argv": [
+   "generate",
+   "ci",
+   "--ci",
+   "invalid-platform"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_flag_with_version::88",
+  "argv": [
+   "--verbose",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_flag_short::89",
+  "argv": [
+   "-v",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_format_human::90",
+  "argv": [
+   "--output-format",
+   "human",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_format_json::91",
+  "argv": [
+   "--output-format",
+   "json",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_format_invalid::92",
+  "argv": [
+   "--output-format",
+   "invalid-format",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_schema_command::93",
+  "argv": [
+   "config-schema"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_schema_help::94",
+  "argv": [
+   "config-schema",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_schema_with_output_file::95",
+  "argv": [
+   "config-schema",
+   "--output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_css_command::96",
+  "argv": [
+   "generate-css"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_css_help::97",
+  "argv": [
+   "generate-css",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_css_with_out_dir::98",
+  "argv": [
+   "generate-css",
+   "--out-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_format_human_with_help::99",
+  "argv": [
+   "--output-format",
+   "human",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_with_json_format::100",
+  "argv": [
+   "--verbose",
+   "--output-format",
+   "json",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_serve_with_custom_port_help::101",
+  "argv": [
+   "serve",
+   "--port",
+   "8080",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_generate_ci::102",
+  "argv": [
+   "help",
+   "generate",
+   "ci"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_global_flag_rejected::103",
+  "argv": [
+   "--nope"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_short_and_long_are_equivalent_accept_once::104",
+  "argv": [
+   "-v",
+   "build",
+   "--json-only",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_cannot_be_repeated_or_combined::105",
+  "argv": [
+   "-vv",
+   "build"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_format_cannot_be_repeated::106",
+  "argv": [
+   "--output-format",
+   "json",
+   "--output-format",
+   "human",
+   "build"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_ci_invalid_choice_suggests_similar_value::107",
+  "argv": [
+   "generate",
+   "ci",
+   "--ci",
+   "git"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dev_port_rejects_flaglike_value_without_terminator::108",
+  "argv": [
+   "dev",
+   "--port",
+   "--not-a-number"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dev_port_accepts_flaglike_value_with_double_dash_then_errors_on_type::109",
+  "argv": [
+   "dev",
+   "--port",
+   "--",
+   "--not-a-number"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_include_paths_requires_value::110",
+  "argv": [
+   "dev",
+   "-i"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_stops_option_parsing_for_subcommand_position::111",
+  "argv": [
+   "generate",
+   "--",
+   "--not-a-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_flag_before_subcommand::112",
+  "argv": [
+   "--verbose",
+   "build",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_flag_after_subcommand::113",
+  "argv": [
+   "build",
+   "--verbose",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_format_flag_after_subcommand::114",
+  "argv": [
+   "build",
+   "--output-format",
+   "json",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_error::115",
+  "argv": [
+   "nonexistent_subcommand"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_shows_usage::116",
+  "argv": [
+   "invalid_cmd"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_unknown_subcommand::117",
+  "argv": [
+   "generate",
+   "unknown"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_json_only_flag::118",
+  "argv": [
+   "build",
+   "--json-only",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dev_port_flag::119",
+  "argv": [
+   "dev",
+   "--port",
+   "8080",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dev_no_first_build_flag::120",
+  "argv": [
+   "dev",
+   "--no-first-build",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_serve_port_flag::121",
+  "argv": [
+   "serve",
+   "--port",
+   "9090",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_output_path_flag::122",
+  "argv": [
+   "generate",
+   "-o",
+   "test.txt",
+   "ci",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_ci_ci_flag::123",
+  "argv": [
+   "generate",
+   "ci",
+   "--ci",
+   "github",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subcommand_flag_on_wrong_subcommand_fails::124",
+  "argv": [
+   "serve",
+   "--json-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_then_subcommand_invalid::125",
+  "argv": [
+   "--verbose",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_global_flags_with_subcommand::126",
+  "argv": [
+   "--verbose",
+   "--output-format",
+   "json",
+   "build",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_ci_requires_tty::127",
+  "argv": [
+   "generate",
+   "ci",
+   "--output-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_output_format::128",
+  "argv": [
+   "--output-format",
+   "invalid",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_option::129",
+  "argv": [
+   "--unknown-option"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_unknown_option::130",
+  "argv": [
+   "build",
+   "--unknown"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_serve_with_port_variations::131",
+  "argv": [
+   "serve",
+   "--port",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dev_with_port_variations::132",
+  "argv": [
+   "dev",
+   "--port",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_with_null_configs::133",
+  "argv": [
+   "invalid-subcommand"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_invalid_build_option::134",
+  "argv": [
+   "build",
+   "--invalid-option"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_invalid_serve_option::135",
+  "argv": [
+   "serve",
+   "--invalid-option"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_invalid_dev_option::136",
+  "argv": [
+   "dev",
+   "--invalid-option"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_invalid_generate_option::137",
+  "argv": [
+   "generate",
+   "--invalid-option"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

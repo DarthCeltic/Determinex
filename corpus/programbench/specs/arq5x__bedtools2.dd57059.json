@@ -1,0 +1,461 @@
+{
+ "slug": "arq5x__bedtools2.dd57059",
+ "language": "",
+ "n_branches": 1,
+ "n_tests_total": 1094,
+ "n_examples": 22,
+ "n_with_exact_stdout": 2,
+ "n_with_rc": 18,
+ "n_skipped": 1072,
+ "examples": [
+  {
+   "test": "test_bamtobed_t8_split_vs_bed12",
+   "argv": [
+    "bed12tobed6"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest_bam_bed_conversions.py:135"
+  },
+  {
+   "test": "test_bed12tobed6_t5_reverse_strand_numbering",
+   "argv": [
+    "bed12tobed6",
+    "-n"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest_bam_bed_conversions.py:317"
+  },
+  {
+   "test": "test_getfasta_t10",
+   "argv": [
+    "getfasta",
+    "-fi",
+    "test.fa",
+    "-bed",
+    "-"
+   ],
+   "stdin": "chr2\t2\t10\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.fa": ">chr1\ncggggggggg\n>chr2\nAAATTTTTTTTTT\n"
+   },
+   "ci": false,
+   "source": "test_harvest_fasta_groupby.py:160"
+  },
+  {
+   "test": "test_groupby_t18",
+   "argv": [
+    "groupby",
+    "-g",
+    "1",
+    "-i",
+    "-",
+    "-c",
+    "1",
+    "-o",
+    "collapse"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest_fasta_groupby.py:659"
+  },
+  {
+   "test": "test_groupby_t20",
+   "argv": [
+    "groupby",
+    "-i",
+    "-",
+    "-g",
+    "1",
+    "-c",
+    "2,3",
+    "-o",
+    "distinct,min"
+   ],
+   "stdin": "a\t1253555555355577777777\t7777788888899999\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest_fasta_groupby.py:687"
+  },
+  {
+   "test": "test_general_t01_negative_coordinates",
+   "argv": [
+    "merge",
+    "-i",
+    "-"
+   ],
+   "stdin": "chr1\t1\t10\nchr1\t-1\t10\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error: Invalid record in file -. Record is",
+    "chr1\t-1\t10"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest_general_coverage.py:44"
+  },
+  {
+   "test": "test_general_t02_start_greater_than_end",
+   "argv": [
+    "merge",
+    "-i",
+    "-"
+   ],
+   "stdin": "chr1\t1\t2\nchr1\t10\t5\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error: Invalid record in file -. Record is",
+    "chr1\t10\t5"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest_general_coverage.py:51"
+  },
+  {
+   "test": "test_general_t03_non_integer_coordinates",
+   "argv": [
+    "merge",
+    "-i",
+    "-"
+   ],
+   "stdin": "chr1\t.\t2\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error: unable to open file or unable to determine types for file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest_general_coverage.py:58"
+  },
+  {
+   "test": "test_general_t05_non_tab_delimited",
+   "argv": [
+    "merge",
+    "-i",
+    "-"
+   ],
+   "stdin": "chr1 1 2\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error: unable to open file or unable to determine types for file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest_general_coverage.py:64"
+  },
+  {
+   "test": "test_intersect_shell_suite",
+   "argv": [
+    "bash",
+    "test-intersect.sh"
+   ],
+   "stdin": null,
+   "env": {
+    "BT": "/workspace/executable",
+    "htsutil": "../htsutil"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest_intersect_runner.py:10"
+  },
+  {
+   "test": "test_slop_t13",
+   "argv": [
+    "-l",
+    "200",
+    "-r",
+    "200",
+    "-i",
+    "-",
+    "-g",
+    "../genomes/human.hg19.genome"
+   ],
+   "stdin": "chr1\t16778271\t16778571\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest_interval_ops.py:341"
+  },
+  {
+   "test": "test_slop_t14",
+   "argv": [
+    "-l",
+    "200",
+    "-r",
+    "200",
+    "-i",
+    "-",
+    "-g",
+    "../genomes/human.hg19.genome"
+   ],
+   "stdin": "chr1\t16778272\t16778572\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest_interval_ops.py:350"
+  },
+  {
+   "test": "test_slop_t15",
+   "argv": [
+    "-b",
+    "0.1",
+    "-pct",
+    "-i",
+    "-",
+    "-g",
+    "../genomes/human.hg19.genome"
+   ],
+   "stdin": "chr1\t160\t170\nchr1\t100\t200\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest_interval_ops.py:359"
+  },
+  {
+   "test": "test_slop_t16",
+   "argv": [
+    "-l",
+    "-60",
+    "-r",
+    "60",
+    "-i",
+    "-",
+    "-g",
+    "tiny.genome"
+   ],
+   "stdin": "chr1\t300\t320\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest_interval_ops.py:369"
+  },
+  {
+   "test": "test_slop_t17",
+   "argv": [
+    "-s",
+    "-l",
+    "-60",
+    "-r",
+    "60",
+    "-i",
+    "-",
+    "-g",
+    "tiny.genome"
+   ],
+   "stdin": "chr1\t300\t320\ta1\t5\t-\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest_interval_ops.py:378"
+  },
+  {
+   "test": "test_slop_t18",
+   "argv": [
+    "-l",
+    "60",
+    "-r",
+    "-60",
+    "-i",
+    "-",
+    "-g",
+    "tiny.genome"
+   ],
+   "stdin": "chr1\t300\t320\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest_interval_ops.py:387"
+  },
+  {
+   "test": "test_slop_t19",
+   "argv": [
+    "-s",
+    "-l",
+    "60",
+    "-r",
+    "-60",
+    "-i",
+    "-",
+    "-g",
+    "tiny.genome"
+   ],
+   "stdin": "chr1\t300\t320\ta1\t5\t-\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest_interval_ops.py:396"
+  },
+  {
+   "test": "test_slop_t20",
+   "argv": [
+    "-s",
+    "-l",
+    "-60",
+    "-r",
+    "-60",
+    "-i",
+    "-",
+    "-g",
+    "tiny.genome"
+   ],
+   "stdin": "chr1\t300\t320\ta1\t5\t-\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest_interval_ops.py:405"
+  },
+  {
+   "test": "test_slop_t21",
+   "argv": [
+    "-s",
+    "-l",
+    "60",
+    "-r",
+    "-60",
+    "-i",
+    "-",
+    "-g",
+    "tiny.genome"
+   ],
+   "stdin": "chr1\t950\t970\ta1\t5\t-\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest_interval_ops.py:414"
+  },
+  {
+   "test": "test_slop_t22",
+   "argv": [
+    "-s",
+    "-l",
+    "-60",
+    "-r",
+    "60",
+    "-i",
+    "-",
+    "-g",
+    "tiny.genome"
+   ],
+   "stdin": "chr1\t50\t60\ta1\t5\t-\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest_interval_ops.py:423"
+  },
+  {
+   "test": "test_igv_stdin_input",
+   "argv": [
+    "igv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "snapshotDirectory ./\ngoto chr1:100-200\nsnapshot chr1_100_200.png\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_misc_tools.py:191"
+  },
+  {
+   "test": "test_links_stdin_input",
+   "argv": [
+    "links"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "<html>\n\t<body>\n<title>stdin</title>\n<br>Firefox users: Press and hold the \"apple\" or \"alt\" key and click link to open in new tab.\n<p style=\"font-family:courier\">\n<table border=\"0\" align=\"justify\"\n<h3>BED Entries from: stdin </h3>\n<tr>\n\t<td>\n\t\t<a href=http://genome.ucsc.edu/cgi-bin/hgTracks?org=human&db=hg18&position=chr1:100-200>chr1:101-200</a>\n\t</td>\n</tr>\n</table>\n</p>\n\t</body>\n</html>\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_misc_tools.py:204"
+  }
+ ]
+}

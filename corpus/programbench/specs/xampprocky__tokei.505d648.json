@@ -1,0 +1,1115 @@
+{
+ "slug": "xampprocky__tokei.505d648",
+ "language": "",
+ "n_branches": 8,
+ "n_tests_total": 528,
+ "n_examples": 60,
+ "n_with_exact_stdout": 1,
+ "n_with_rc": 59,
+ "n_skipped": 440,
+ "examples": [
+  {
+   "test": "test_nonexistent_path_errors",
+   "argv": [
+    "/definitely/does/not/exist"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_executable_behavior.py:188"
+  },
+  {
+   "test": "test_malformed_config_is_ignored_not_fatal",
+   "argv": [
+    "--output",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Python",
+    "Rust"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:107"
+  },
+  {
+   "test": "test_no_color_env_var_does_not_break_output_json",
+   "argv": [
+    "--output",
+    "json"
+   ],
+   "stdin": null,
+   "env": {
+    "NO_COLOR": "1"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:123"
+  },
+  {
+   "test": "test_help_baseline_matches_saved_fixture_exactly",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_baseline_serial.py:21"
+  },
+  {
+   "test": "test_help_takes_precedence_over_other_flags",
+   "argv": [
+    "--help",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable",
+    "Print version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:131"
+  },
+  {
+   "test": "test_help_with_unknown_positional_still_shows_help",
+   "argv": [
+    "asdf",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:138"
+  },
+  {
+   "test": "test_double_dash_separator_treats_help_as_positional_and_errors",
+   "argv": [
+    "--",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error:",
+    "'--help' not found"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:144"
+  },
+  {
+   "test": "test_input_from_stdin",
+   "argv": [
+    "--input",
+    "stdin"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "C"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_output.py:25"
+  },
+  {
+   "test": "test_output_json_counts_expected_files_and_lines",
+   "argv": [
+    "--output",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Rust",
+    "Python"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_counting_basic.py:19"
+  },
+  {
+   "test": "test_hidden_flag_includes_hidden_files",
+   "argv": [
+    "--output",
+    "json",
+    "--hidden"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Python"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_counting_basic.py:41"
+  },
+  {
+   "test": "test_exclude_glob_excludes_matching_files",
+   "argv": [
+    "--output",
+    "json",
+    "--exclude",
+    "a.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Python"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_exclude_and_errors.py:7"
+  },
+  {
+   "test": "test_help_mentions_usage_and_options",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--output",
+    "--input"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_version.py:4"
+  },
+  {
+   "test": "test_version_prints_to_stdout",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tokei"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_and_version.py:13"
+  },
+  {
+   "test": "test_input_stdin_roundtrip_from_previous_json_run",
+   "argv": [
+    "--output",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Python"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_stdin.py:7"
+  },
+  {
+   "test": "test_nonexistent_path",
+   "argv": [
+    "/nonexistent/path/that/does/not/exist"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "/nonexistent/path/that/does/not/exist",
+    "Error: '/nonexistent/path/that/does/not/exist' not found."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:67"
+  },
+  {
+   "test": "test_languages_list_comprehensive",
+   "argv": [
+    "--languages"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:77"
+  },
+  {
+   "test": "test_version_output",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:256"
+  },
+  {
+   "test": "test_config_no_ignore_option",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_input.py:286"
+  },
+  {
+   "test": "test_basic_multiline_comment_c",
+   "argv": [
+    "test.c",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.c": "/* This is a\n * multi-line\n * comment */\nint main() {\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_counting_accuracy.py:19"
+  },
+  {
+   "test": "test_nested_multiline_comments_cpp",
+   "argv": [
+    "test.cpp",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.cpp": "/* outer /* inner */ still outer */\nint x = 1;\n"
+   },
+   "ci": false,
+   "source": "test_counting_accuracy.py:38"
+  },
+  {
+   "test": "test_python_docstrings_vs_regular_comments",
+   "argv": [
+    "test.py",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.py": "def foo():\n    \"\"\"This is a docstring\"\"\"\n    pass\n\n# Regular comment\ndef bar():\n    '''Another docstring'''\n    return 1\n"
+   },
+   "ci": false,
+   "source": "test_counting_accuracy.py:85"
+  },
+  {
+   "test": "test_rust_doc_comments_vs_regular",
+   "argv": [
+    "test.rs",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.rs": "/// Documentation comment\nfn foo() {}\n\n//! Module doc\nfn bar() {}\n\n// Regular comment\nfn baz() {}\n"
+   },
+   "ci": false,
+   "source": "test_counting_accuracy.py:108"
+  },
+  {
+   "test": "test_html_comments",
+   "argv": [
+    "test.html",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.html": "<!DOCTYPE html>\n<html>\n<!-- This is a comment -->\n<body>\n<!-- Multi\n     line\n     comment -->\n<p>Hello</p>\n</body>\n</html>\n"
+   },
+   "ci": false,
+   "source": "test_counting_accuracy.py:161"
+  },
+  {
+   "test": "test_sql_double_dash_comments",
+   "argv": [
+    "test.sql",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.sql": "-- SQL comment\nSELECT * FROM users;\n/* Multi-line\n   SQL comment */\nINSERT INTO users VALUES (1, 'test');\n"
+   },
+   "ci": false,
+   "source": "test_counting_accuracy.py:183"
+  },
+  {
+   "test": "test_javadoc_vs_regular_comments",
+   "argv": [
+    "test.java",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.java": "/**\n * JavaDoc comment\n * @param x the parameter\n */\npublic void foo(int x) {\n    // Regular comment\n    int y = x + 1;\n}\n"
+   },
+   "ci": false,
+   "source": "test_counting_accuracy.py:251"
+  },
+  {
+   "test": "test_shell_hash_comments_inline",
+   "argv": [
+    "test.sh",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.sh": "#!/bin/bash\n# This is a comment\necho \"Hello\" # inline comment\n# Another comment\necho \"World\"\n"
+   },
+   "ci": false,
+   "source": "test_counting_accuracy.py:273"
+  },
+  {
+   "test": "test_ruby_multiline_comments",
+   "argv": [
+    "test.rb",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.rb": "# Ruby comment\ndef foo\n  # Another comment\n  puts \"Hello\"\n=begin\nMulti-line\nRuby comment\n=end\n  return 1\nend\n"
+   },
+   "ci": false,
+   "source": "test_counting_accuracy.py:370"
+  },
+  {
+   "test": "test_fortran_column_seven_comments",
+   "argv": [
+    "test.f",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.f": "C     Fortran comment\n      PROGRAM HELLO\nC     Another comment\n      PRINT *, 'Hello'\n!     Modern Fortran comment\n      END PROGRAM\n"
+   },
+   "ci": false,
+   "source": "test_counting_accuracy.py:392"
+  },
+  {
+   "test": "test_javascript_template_strings_with_comment_syntax",
+   "argv": [
+    "test.js",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.js": "const s = `Template string\nwith // comment syntax\nand /* multiline syntax */\nin it`;\nconsole.log(s);\n"
+   },
+   "ci": false,
+   "source": "test_counting_accuracy.py:456"
+  },
+  {
+   "test": "test_go_import_and_comments",
+   "argv": [
+    "test.go",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.go": "package main\n\n// Regular comment\nimport \"fmt\"\n\n/*\nMulti-line\ncomment\n*/\nfunc main() {\n    // Inline comment\n    fmt.Println(\"Hello\")\n}\n"
+   },
+   "ci": false,
+   "source": "test_counting_accuracy.py:545"
+  },
+  {
+   "test": "test_xml_multiline_comments",
+   "argv": [
+    "test.xml",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.xml": "<?xml version=\"1.0\"?>\n<root>\n  <!-- XML comment -->\n  <element>Content</element>\n  <!-- Another\n       multiline\n       comment -->\n</root>\n"
+   },
+   "ci": false,
+   "source": "test_counting_accuracy.py:571"
+  },
+  {
+   "test": "test_css_inline_and_block_comments",
+   "argv": [
+    "test.css",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.css": "/* CSS comment */\nbody {\n    color: red;\n    /* Inline comment */\n    background: blue;\n}\n/* Another comment */\n"
+   },
+   "ci": false,
+   "source": "test_counting_accuracy.py:591"
+  },
+  {
+   "test": "test_lua_multiline_comments",
+   "argv": [
+    "test.lua",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.lua": "-- Lua comment\nprint(\"Hello\")\n--[[ Multi-line\n     Lua comment ]]\nprint(\"World\")\n"
+   },
+   "ci": false,
+   "source": "test_counting_accuracy.py:610"
+  },
+  {
+   "test": "test_perl_pod_documentation",
+   "argv": [
+    "test.pl",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.pl": "#!/usr/bin/perl\n# Perl comment\nprint \"Hello\\n\";\n=pod\nMulti-line POD comment\nCan span many lines\n=cut\nprint \"World\\n\";\n"
+   },
+   "ci": false,
+   "source": "test_counting_accuracy.py:627"
+  },
+  {
+   "test": "test_typescript_interface_and_comments",
+   "argv": [
+    "test.ts",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.ts": "// TypeScript comment\ninterface User {\n    name: string; // Field comment\n}\n\n/* Multi-line\n   comment */\nfunction greet(user: User): void {\n    console.log(`Hello ${user.name}`);\n}\n"
+   },
+   "ci": false,
+   "source": "test_counting_accuracy.py:682"
+  },
+  {
+   "test": "test_kotlin_triple_quoted_strings",
+   "argv": [
+    "test.kt",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.kt": "// Kotlin comment\nfun main() {\n    /* Block comment */\n    println(\"Hello\")\n    val s = \"\"\"\n        Triple quoted\n        string\n    \"\"\"\n}\n"
+   },
+   "ci": false,
+   "source": "test_counting_accuracy.py:705"
+  },
+  {
+   "test": "test_haskell_nested_comments",
+   "argv": [
+    "test.hs",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.hs": "-- Haskell comment\nmain :: IO ()\nmain = do\n    {- Multi-line\n       comment -}\n    putStrLn \"Hello\"\n"
+   },
+   "ci": false,
+   "source": "test_counting_accuracy.py:726"
+  },
+  {
+   "test": "test_scala_triple_quoted_strings",
+   "argv": [
+    "test.scala",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.scala": "// Scala comment\nobject Main {\n  /* Multi-line comment */\n  def main(args: Array[String]): Unit = {\n    val s = \"\"\"Triple\n               quoted\n               string\"\"\"\n    println(s)\n  }\n}\n"
+   },
+   "ci": false,
+   "source": "test_counting_accuracy.py:744"
+  },
+  {
+   "test": "test_d_nested_comments",
+   "argv": [
+    "test.d",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.d": "/* D allows /* nested /* deeply */ comments */ too */\nint main() {\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_counting_accuracy.py:766"
+  },
+  {
+   "test": "test_swift_doc_comments",
+   "argv": [
+    "test.swift",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.swift": "// Swift comment\nfunc greet(name: String) -> String {\n    /* Block comment */\n    return \"Hello, \\(name)\"\n}\n\n/** Documentation comment\n * with multiple lines\n */\nclass MyClass {\n    var x: Int = 0\n}\n"
+   },
+   "ci": false,
+   "source": "test_counting_accuracy.py:782"
+  },
+  {
+   "test": "test_php_multiple_comment_styles",
+   "argv": [
+    "test.php",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.php": "<?php\n// PHP comment\n# Another PHP comment\n/* Multi-line\n   PHP comment */\nfunction hello() {\n    echo \"Hello\";\n}\n?>\n"
+   },
+   "ci": false,
+   "source": "test_counting_accuracy.py:809"
+  },
+  {
+   "test": "test_jsx_comments_in_jsx_blocks",
+   "argv": [
+    "test.jsx",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.jsx": "// JSX comment\nfunction Component() {\n  return (\n    <div>\n      {/* JSX comment inside */}\n      <p>Hello</p>\n    </div>\n  );\n}\n"
+   },
+   "ci": false,
+   "source": "test_counting_accuracy.py:830"
+  },
+  {
+   "test": "test_markdown_with_embedded_code",
+   "argv": [
+    "test.md",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.md": "# Title\n\nRegular text\n\n<!-- HTML comment in markdown -->\n\n```python\n# This is code in markdown\ndef foo():\n    pass\n```\n\nMore text\n"
+   },
+   "ci": false,
+   "source": "test_counting_accuracy.py:851"
+  },
+  {
+   "test": "test_vim_script_comments",
+   "argv": [
+    "test.vim",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.vim": "\" Vim comment\nfunction! Hello()\n    echo \"Hello\"\nendfunction\n\n\" Another comment\n"
+   },
+   "ci": false,
+   "source": "test_counting_accuracy.py:883"
+  },
+  {
+   "test": "test_emacs_lisp_semicolon_comments",
+   "argv": [
+    "test.el",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.el": ";; Emacs Lisp comment\n(defun hello ()\n  \"Docstring\"\n  (message \"Hello\"))\n\n;; Another comment\n"
+   },
+   "ci": false,
+   "source": "test_counting_accuracy.py:902"
+  },
+  {
+   "test": "test_json_no_comments",
+   "argv": [
+    "test.json",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.json": "{\n  \"key\": \"value\",\n  \"number\": 123,\n  \"array\": [1, 2, 3]\n}\n"
+   },
+   "ci": false,
+   "source": "test_counting_accuracy.py:921"
+  },
+  {
+   "test": "test_nonexistent_path",
+   "argv": [
+    "/nonexistent/path/to/nowhere"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:17"
+  },
+  {
+   "test": "test_nonexistent_path_json_mode",
+   "argv": [
+    "/nonexistent/directory",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:25"
+  },
+  {
+   "test": "test_multiple_nonexistent_paths",
+   "argv": [
+    "/path1",
+    "/path2",
+    "/path3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:33"
+  },
+  {
+   "test": "test_invalid_glob_pattern_logs_error_continues",
+   "argv": [
+    ".",
+    "--exclude",
+    "[invalid(pattern"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error parsing glob '![invalid(pattern': unclosed character class; missing ']'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:81"
+  },
+  {
+   "test": "test_invalid_output_format_clear_error",
+   "argv": [
+    ".",
+    "--output",
+    "xml"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:101"
+  },
+  {
+   "test": "test_input_file_malformed_data",
+   "argv": [
+    "--input",
+    "bad.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Failed to parse input file"
+   ],
+   "files": {
+    "bad.txt": "not json at all"
+   },
+   "ci": false,
+   "source": "test_error_handling.py:204"
+  },
+  {
+   "test": "test_invalid_sort_option",
+   "argv": [
+    ".",
+    "--sort",
+    "invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid value 'invalid'",
+    "possible values"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:362"
+  },
+  {
+   "test": "test_conflicting_flags_columns_and_output",
+   "argv": [
+    ".",
+    "--columns",
+    "80",
+    "--output",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:371"
+  },
+  {
+   "test": "test_gitignore_respected_by_default",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Rust"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:380"
+  },
+  {
+   "test": "test_current_directory_dot_path",
+   "argv": [
+    ".",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Rust"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:610"
+  },
+  {
+   "test": "test_languages_output_contains_rust",
+   "argv": [
+    "--languages"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "rs"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_language_detection.py:297"
+  },
+  {
+   "test": "test_languages_output_contains_python",
+   "argv": [
+    "--languages"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "py"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_language_detection.py:315"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Arguments:",
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_smoke.py:16"
+  },
+  {
+   "test": "test_languages_list",
+   "argv": [
+    "--languages"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Language",
+    "Extensions",
+    "Rust",
+    "Python"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_smoke.py:37"
+  }
+ ]
+}

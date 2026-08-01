@@ -1,0 +1,7045 @@
+{
+ "slug": "cmatsuoka__figlet.202a0a8",
+ "language": "",
+ "n_branches": 12,
+ "n_tests_total": 944,
+ "n_examples": 391,
+ "n_with_exact_stdout": 16,
+ "n_with_rc": 362,
+ "n_skipped": 528,
+ "examples": [
+  {
+   "test": "test_invalid_option_prints_usage_and_exits_1",
+   "argv": [
+    "-Z"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_executable_figlet_behavior.py:36"
+  },
+  {
+   "test": "test_version_flag_v_exact_output",
+   "argv": [
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_executable_figlet_behavior.py:45"
+  },
+  {
+   "test": "test_without_font_dir_fails_to_open_default_font",
+   "argv": [
+    "Hello"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_executable_figlet_behavior.py:71"
+  },
+  {
+   "test": "test_control_file_nonexistent",
+   "argv": [
+    "-C",
+    "nonexistent_file"
+   ],
+   "stdin": "ABC",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "nonexistent_file",
+    "Unable to open control file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_control_file_errors.py:30"
+  },
+  {
+   "test": "test_control_file_uskata_basic",
+   "argv": [
+    "-f",
+    "banner",
+    "-C",
+    "uskata"
+   ],
+   "stdin": "ABCDE",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_encoding.py:122"
+  },
+  {
+   "test": "test_control_file_uskata_extended",
+   "argv": [
+    "-f",
+    "banner",
+    "-C",
+    "uskata"
+   ],
+   "stdin": "FGHIJ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_encoding.py:137"
+  },
+  {
+   "test": "test_control_file_upper_lowercase",
+   "argv": [
+    "-C",
+    "upper"
+   ],
+   "stdin": "abc",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_encoding.py:152"
+  },
+  {
+   "test": "test_control_file_upper_mixed_case",
+   "argv": [
+    "-C",
+    "upper"
+   ],
+   "stdin": "aBcD",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_encoding.py:167"
+  },
+  {
+   "test": "test_control_file_ilhebrew_keyboard_mapping",
+   "argv": [
+    "-f",
+    "ivrit",
+    "-C",
+    "ilhebrew"
+   ],
+   "stdin": "tcds",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_encoding.py:182"
+  },
+  {
+   "test": "test_control_file_invalid",
+   "argv": [
+    "-C",
+    "nonexistent"
+   ],
+   "stdin": "hello",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "nonexistent",
+    "control file"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_encoding.py:197"
+  },
+  {
+   "test": "test_control_file_646_de_special_chars",
+   "argv": [
+    "-C",
+    "646-de"
+   ],
+   "stdin": "@[\\]^{|}~",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_encoding.py:319"
+  },
+  {
+   "test": "test_control_file_uskata_lowercase",
+   "argv": [
+    "-f",
+    "banner",
+    "-C",
+    "uskata"
+   ],
+   "stdin": "xyz",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_encoding.py:334"
+  },
+  {
+   "test": "test_control_file_upper_with_different_font",
+   "argv": [
+    "-f",
+    "script",
+    "-C",
+    "upper"
+   ],
+   "stdin": "test",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_encoding.py:349"
+  },
+  {
+   "test": "test_control_file_upper_with_big_font",
+   "argv": [
+    "-f",
+    "big",
+    "-C",
+    "upper"
+   ],
+   "stdin": "hello",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_encoding.py:364"
+  },
+  {
+   "test": "test_control_file_multiple_control_files",
+   "argv": [
+    "-f",
+    "banner",
+    "-C",
+    "uskata",
+    "-C",
+    "upper"
+   ],
+   "stdin": "abc",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_encoding.py:379"
+  },
+  {
+   "test": "test_nonexistent_font_directory",
+   "argv": [
+    "-d",
+    "/nonexistent/directory"
+   ],
+   "stdin": "test",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unable to open font file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:52"
+  },
+  {
+   "test": "test_environment_variable_fontdir",
+   "argv": [],
+   "stdin": "Env",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": " _____            \n| ____|_ ____   __\n|  _| | '_ \\ \\ / /\n| |___| | | \\ V / \n|_____|_| |_|\\_/  \n                  \n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_font_loading.py:76"
+  },
+  {
+   "test": "test_font_without_directory_flag_fails",
+   "argv": [],
+   "stdin": "Test",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unable to open font file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_font_loading.py:288"
+  },
+  {
+   "test": "test_003_long_text_rendering",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:72"
+  },
+  {
+   "test": "test_004_left_to_right_text",
+   "argv": [
+    "-L"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:90"
+  },
+  {
+   "test": "test_005_right_to_left_text",
+   "argv": [
+    "-R"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:108"
+  },
+  {
+   "test": "test_006_flush_left_justification",
+   "argv": [
+    "-l"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:126"
+  },
+  {
+   "test": "test_007_flush_right_justification",
+   "argv": [
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:144"
+  },
+  {
+   "test": "test_008_center_justification",
+   "argv": [
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:163"
+  },
+  {
+   "test": "test_009_kerning_mode",
+   "argv": [
+    "-k"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:182"
+  },
+  {
+   "test": "test_010_full_width_mode",
+   "argv": [
+    "-W"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:200"
+  },
+  {
+   "test": "test_011_overlap_mode",
+   "argv": [
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:218"
+  },
+  {
+   "test": "test_013_kerning_flush_left_rtl",
+   "argv": [
+    "-k",
+    "-l",
+    "-R"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:254"
+  },
+  {
+   "test": "test_014_kerning_centered_rtl_slant",
+   "argv": [
+    "-k",
+    "-c",
+    "-R",
+    "-f",
+    "slant"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:272"
+  },
+  {
+   "test": "test_015_full_width_flush_right_rtl",
+   "argv": [
+    "-W",
+    "-r",
+    "-R"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:290"
+  },
+  {
+   "test": "test_016_overlap_flush_right_big",
+   "argv": [
+    "-o",
+    "-r",
+    "-f",
+    "big"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:308"
+  },
+  {
+   "test": "test_021_paragraph_mode_long_line",
+   "argv": [
+    "-p",
+    "-w",
+    "250"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:407"
+  },
+  {
+   "test": "test_022_short_line_output",
+   "argv": [
+    "-w",
+    "5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:425"
+  },
+  {
+   "test": "test_023_kerning_paragraph_centered_small",
+   "argv": [
+    "-k",
+    "-p",
+    "-c",
+    "-f",
+    "small"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:443"
+  },
+  {
+   "test": "test_024_upper_control_file",
+   "argv": [
+    "-f",
+    "banner",
+    "-C",
+    "upper"
+   ],
+   "stdin": "hello",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:462"
+  },
+  {
+   "test": "test_026_jis0201_control_file",
+   "argv": [
+    "-f",
+    "banner",
+    "-C",
+    "jis0201"
+   ],
+   "stdin": "�����",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:520"
+  },
+  {
+   "test": "test_info_with_stdin_input",
+   "argv": [
+    "-I",
+    "1"
+   ],
+   "stdin": "Test input\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_info.py:269"
+  },
+  {
+   "test": "test_long_line_paragraph_mode_with_width_limit",
+   "argv": [
+    "-p",
+    "-w",
+    "40"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "    _        _        _        _    \n   / \\      / \\      / \\      / \\   \n  / _ \\    / _ \\    / _ \\    / _ \\  \n / ___ \\  / ___ \\  / ___ \\  / ___ \\ \n/_/   \\_\\/_/   \\_\\/_/   \\_\\/_/   \\_\\\n                                    \n    _        _        _        _    \n   / \\      / \\      / \\      / \\   \n  / _ \\    / _ \\    / _ \\    / _ \\  \n / ___ \\  / ___ \\  / ___ \\  / ___ \\ \n/_/   \\_\\/_/   \\_\\/_/   \\_\\/_/   \\_\\\n                                    \n    _        _        _        _    \n   / \\      / \\      / \\      / \\   \n  / _ \\    / _ \\    / _ \\    / _ \\  \n / ___ \\  / ___ \\  / ___ \\  / ___ \\ \n/_/   \\_\\/_/   \\_\\/_/   \\_\\/_/   \\_\\\n                                    \n    _        _        _        _    \n   / \\      / \\      / \\      / \\   \n  / _ \\    / _ \\    / _ \\    / _ \\  \n / ___ \\  / ___ \\  / ___ \\  / ___ \\ \n/_/   \\_\\/_/   \\_\\/_/   \\_\\/_/   \\_\\\n                                    \n    _        _        _        _    \n   / \\      / \\      / \\      / \\   \n  / _ \\    / _ \\    / _ \\    / _ \\  \n / ___ \\  / ___ \\  / ___ \\  / ___ \\ \n/_/   \\_\\/_/   \\_\\/_/   \\_\\/_/   \\_\\\n                                    \n    _        _        _        _    \n   / \\      / \\      / \\      / \\   \n  / _ \\    / _ \\    / _ \\    / _ \\  \n / ___ \\  / ___ \\  / ___ \\  / ___ \\ \n/_/   \\_\\/_/   \\_\\/_/   \\_\\/_/   \\_\\\n                                    \n    _        _        _        _    \n   / \\      / \\      / \\      / \\   \n  / _ \\    / _ \\    / _ \\    / _ \\  \n / ___ \\  / ___ \\  / ___ \\  / ___ \\ \n/_/   \\_\\/_/   \\_\\/_/   \\_\\/_/   \\_\\\n                                    \n    _        _        _        _    \n   / \\      / \\      / \\      / \\   \n  / _ \\    / _ \\    / _ \\    / _ \\  \n / ___ \\  / ___ \\  / ___ \\  / ___ \\ \n/_/   \\_\\/_/   \\_\\/_/   \\_\\/_/   \\_\\\n                                    \n    _        _        _        _    \n   / \\      / \\      / \\      / \\   \n  / _ \\    / _ \\    / _ \\    / _ \\  \n / ___ \\  / ___ \\  / ___ \\  / ___ \\ \n/_/   \\_\\/_/   \\_\\/_/   \\_\\/_/   \\_\\\n                                    \n    _        _        _        _    \n   / \\      / \\      / \\      / \\   \n  / _ \\    / _ \\    / _ \\    / _ \\  \n / ___ \\  / ___ \\  / ___ \\  / ___ \\ \n/_/   \\_\\/_/   \\_\\/_/   \\_\\/_/   \\_\\\n                                    \n    _        _        _        _    \n   / \\      / \\      / \\      / \\   \n  / _ \\    / _ \\    / _ \\    / _ \\  \n / ___ \\  / ___ \\  / ___ \\  / ___ \\ \n/_/   \\_\\/_/   \\_\\/_/   \\_\\/_/   \\_\\\n                                    \n    _        _        _        _    \n   / \\      / \\      / \\      / \\   \n  / _ \\    / _ \\    / _ \\    / _ \\  \n / ___ \\  / ___ \\  / ___ \\  / ___ \\ \n/_/   \\_\\/_/   \\_\\/_/   \\_\\/_/   \\_\\\n                                    \n    _        _        _        _    \n   / \\      / \\      / \\      / \\   \n  / _ \\    / _ \\    / _ \\    / _ \\  \n / ___ \\  / ___ \\  / ___ \\  / ___ \\ \n/_/   \\_\\/_/   \\_\\/_/   \\_\\/_/   \\_\\\n                                    \n    _        _        _        _    \n   / \\      / \\      / \\      / \\   \n  / _ \\    / _ \\    / _ \\    / _ \\  \n / ___ \\  / ___ \\  / ___ \\  / ___ \\ \n/_/   \\_\\/_/   \\_\\/_/   \\_\\/_/   \\_\\\n                                    \n    _        _        _        _    \n   / \\      / \\      / \\      / \\   \n  / _ \\    / _ \\    / _ \\    / _ \\  \n / ___ \\  / ___ \\  / ___ \\  / ___ \\ \n/_/   \\_\\/_/   \\_\\/_/   \\_\\/_/   \\_\\\n                                    \n    _        _        _        _    \n   / \\      / \\      / \\      / \\   \n  / _ \\    / _ \\    / _ \\    / _ \\  \n / ___ \\  / ___ \\  / ___ \\  / ___ \\ \n/_/   \\_\\/_/   \\_\\/_/   \\_\\/_/   \\_\\\n                                    \n    _        _        _        _    \n   / \\      / \\      / \\      / \\   \n  / _ \\    / _ \\    / _ \\    / _ \\  \n / ___ \\  / ___ \\  / ___ \\  / ___ \\ \n/_/   \\_\\/_/   \\_\\/_/   \\_\\/_/   \\_\\\n                                    \n    _        _        _        _    \n   / \\      / \\      / \\      / \\   \n  / _ \\    / _ \\    / _ \\    / _ \\  \n / ___ \\  / ___ \\  / ___ \\  / ___ \\ \n/_/   \\_\\/_/   \\_\\/_/   \\_\\/_/   \\_\\\n                                    \n    _        _        _        _    \n   / \\      / \\      / \\      / \\   \n  / _ \\    / _ \\    / _ \\    / _ \\  \n / ___ \\  / ___ \\  / ___ \\  / ___ \\ \n/_/   \\_\\/_/   \\_\\/_/   \\_\\/_/   \\_\\\n                                    \n    _        _        _        _    \n   / \\      / \\      / \\      / \\   \n  / _ \\    / _ \\    / _ \\    / _ \\  \n / ___ \\  / ___ \\  / ___ \\  / ___ \\ \n/_/   \\_\\/_/   \\_\\/_/   \\_\\/_/   \\_\\\n                                    \n    _        _        _        _    \n   / \\      / \\      / \\      / \\   \n  / _ \\    / _ \\    / _ \\    / _ \\  \n / ___ \\  / ___ \\  / ___ \\  / ___ \\ \n/_/   \\_\\/_/   \\_\\/_/   \\_\\/_/   \\_\\\n                                    \n    _        _        _        _    \n   / \\      / \\      / \\      / \\   \n  / _ \\    / _ \\    / _ \\    / _ \\  \n / ___ \\  / ___ \\  / ___ \\  / ___ \\ \n/_/   \\_\\/_/   \\_\\/_/   \\_\\/_/   \\_\\\n                                    \n    _        _        _        _    \n   / \\      / \\      / \\      / \\   \n  / _ \\    / _ \\    / _ \\    / _ \\  \n / ___ \\  / ___ \\  / ___ \\  / ___ \\ \n/_/   \\_\\/_/   \\_\\/_/   \\_\\/_/   \\_\\\n                                    \n    _        _        _        _    \n   / \\      / \\      / \\      / \\   \n  / _ \\    / _ \\    / _ \\    / _ \\  \n / ___ \\  / ___ \\  / ___ \\  / ___ \\ \n/_/   \\_\\/_/   \\_\\/_/   \\_\\/_/   \\_\\\n                                    \n    _        _        _        _    \n   / \\      / \\      / \\      / \\   \n  / _ \\    / _ \\    / _ \\    / _ \\  \n / ___ \\  / ___ \\  / ___ \\  / ___ \\ \n/_/   \\_\\/_/   \\_\\/_/   \\_\\/_/   \\_\\\n                                    \n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_edge_cases.py:39"
+  },
+  {
+   "test": "test_splitline_with_word_boundaries",
+   "argv": [
+    "-p",
+    "-w",
+    "40"
+   ],
+   "stdin": "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "    _      ____     ____   ____  \n   / \\    | __ )   / ___| |  _ \\ \n  / _ \\   |  _ \\  | |     | | | |\n / ___ \\  | |_) | | |___  | |_| |\n/_/   \\_\\ |____/   \\____| |____/ \n                                 \n _____   _____    ____   _   _   ___ \n| ____| |  ___|  / ___| | | | | |_ _|\n|  _|   | |_    | |  _  | |_| |  | | \n| |___  |  _|   | |_| | |  _  |  | | \n|_____| |_|      \\____| |_| |_| |___|\n                                     \n     _   _  __  _       __  __   _   _ \n    | | | |/ / | |     |  \\/  | | \\ | |\n _  | | | ' /  | |     | |\\/| | |  \\| |\n| |_| | | . \\  | |___  | |  | | | |\\  |\n \\___/  |_|\\_\\ |_____| |_|  |_| |_| \\_|\n                                       \n  ___    ____     ___    ____    ____  \n / _ \\  |  _ \\   / _ \\  |  _ \\  / ___| \n| | | | | |_) | | | | | | |_) | \\___ \\ \n| |_| | |  __/  | |_| | |  _ <   ___) |\n \\___/  |_|      \\__\\_\\ |_| \\_\\ |____/ \n                                       \n _____   _   _  __     __ __        __\n|_   _| | | | | \\ \\   / / \\ \\      / /\n  | |   | | | |  \\ \\ / /   \\ \\ /\\ / / \n  | |   | |_| |   \\ V /     \\ V  V /  \n  |_|    \\___/     \\_/       \\_/\\_/   \n                                      \n__  __ __   __  _____\n\\ \\/ / \\ \\ / / |__  /\n \\  /   \\ V /    / / \n /  \\    | |    / /_ \n/_/\\_\\   |_|   /____|\n                     \n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_edge_cases.py:52"
+  },
+  {
+   "test": "test_tabs_with_width_constraint",
+   "argv": [
+    "-w",
+    "30"
+   ],
+   "stdin": "A\tB\tC",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "    _      ____     ____ \n   / \\    | __ )   / ___|\n  / _ \\   |  _ \\  | |    \n / ___ \\  | |_) | | |___ \n/_/   \\_\\ |____/   \\____|\n                         \n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_edge_cases.py:145"
+  },
+  {
+   "test": "test_very_narrow_width_forces_multiple_splits",
+   "argv": [
+    "-w",
+    "20"
+   ],
+   "stdin": "ABCDEFGHIJ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "    _    ____  \n   / \\  | __ ) \n  / _ \\ |  _ \\ \n / ___ \\| |_) |\n/_/   \\_\\____/ \n               \n  ____ ____  _____ \n / ___|  _ \\| ____|\n| |   | | | |  _|  \n| |___| |_| | |___ \n \\____|____/|_____|\n                   \n _____ ____ _   _ \n|  ___/ ___| | | |\n| |_ | |  _| |_| |\n|  _|| |_| |  _  |\n|_|   \\____|_| |_|\n                  \n ___    _ \n|_ _|  | |\n | |_  | |\n | | |_| |\n|___\\___/ \n          \n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_edge_cases.py:157"
+  },
+  {
+   "test": "test_unbreakable_long_word_in_paragraph_mode",
+   "argv": [
+    "-p",
+    "-w",
+    "30"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_edge_cases.py:205"
+  },
+  {
+   "test": "test_output_exactly_at_width_boundary",
+   "argv": [
+    "-w",
+    "37"
+   ],
+   "stdin": "AAAA",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "    _        _        _        _    \n   / \\      / \\      / \\      / \\   \n  / _ \\    / _ \\    / _ \\    / _ \\  \n / ___ \\  / ___ \\  / ___ \\  / ___ \\ \n/_/   \\_\\/_/   \\_\\/_/   \\_\\/_/   \\_\\\n                                    \n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_edge_cases.py:221"
+  },
+  {
+   "test": "test_center_justification",
+   "argv": [
+    "-c"
+   ],
+   "stdin": "ABC",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "                                 _    ____   ____ \n                                / \\  | __ ) / ___|\n                               / _ \\ |  _ \\| |    \n                              / ___ \\| |_) | |___ \n                             /_/   \\_\\____/ \\____|\n                                                  \n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_edge_cases.py:256"
+  },
+  {
+   "test": "test_right_justification",
+   "argv": [
+    "-r"
+   ],
+   "stdin": "ABC",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "                                                              _    ____   ____ \n                                                             / \\  | __ ) / ___|\n                                                            / _ \\ |  _ \\| |    \n                                                           / ___ \\| |_) | |___ \n                                                          /_/   \\_\\____/ \\____|\n                                                                               \n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_edge_cases.py:268"
+  },
+  {
+   "test": "test_smush_mode_slash_backslash",
+   "argv": [
+    "-S"
+   ],
+   "stdin": "/\\",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "    ____    \n   / /\\ \\   \n  / /  \\ \\  \n / /    \\ \\ \n/_/      \\_\\\n            \n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_edge_cases.py:280"
+  },
+  {
+   "test": "test_smush_mode_angle_brackets",
+   "argv": [
+    "-S"
+   ],
+   "stdin": "><",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "__    __\n\\ \\  / /\n \\ \\/ / \n / /\\ \\ \n/_/  \\_\\\n        \n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_edge_cases.py:292"
+  },
+  {
+   "test": "test_kerning_mode",
+   "argv": [
+    "-k"
+   ],
+   "stdin": "ABC",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "    _     ____    ____ \n   / \\   | __ )  / ___|\n  / _ \\  |  _ \\ | |    \n / ___ \\ | |_) || |___ \n/_/   \\_\\|____/  \\____|\n                       \n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_edge_cases.py:425"
+  },
+  {
+   "test": "test_full_width_mode",
+   "argv": [
+    "-W"
+   ],
+   "stdin": "ABC",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "     _      ____     ____ \n    / \\    | __ )   / ___|\n   / _ \\   |  _ \\  | |    \n  / ___ \\  | |_) | | |___ \n /_/   \\_\\ |____/   \\____|\n                          \n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_edge_cases.py:437"
+  },
+  {
+   "test": "test_esc_lparen_sets_g0_to_94char",
+   "argv": [
+    "-f",
+    "banner",
+    "-C",
+    "jis0201"
+   ],
+   "stdin": "\u001b(JAbc",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_iso2022.py:70"
+  },
+  {
+   "test": "test_shift_out_invokes_g1_into_gl",
+   "argv": [
+    "-f",
+    "banner",
+    "-C",
+    "jis0201"
+   ],
+   "stdin": "AB\u000e12\u000fCD",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_iso2022.py:89"
+  },
+  {
+   "test": "test_esc_rparen_sets_g1_to_94char",
+   "argv": [
+    "-f",
+    "banner",
+    "-C",
+    "jis0201"
+   ],
+   "stdin": "\u001b)I\u000e123",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_iso2022.py:108"
+  },
+  {
+   "test": "test_ss2_single_shift_g2_8bit",
+   "argv": [
+    "-f",
+    "banner",
+    "-C",
+    "jis0201"
+   ],
+   "stdin": "\u001b*IAB�1CD",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_iso2022.py:127"
+  },
+  {
+   "test": "test_esc_n_ss2_escape_form",
+   "argv": [
+    "-f",
+    "banner",
+    "-C",
+    "jis0201"
+   ],
+   "stdin": "\u001b*IAB\u001bN1CD",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_iso2022.py:146"
+  },
+  {
+   "test": "test_esc_o_ss3_escape_form",
+   "argv": [
+    "-f",
+    "banner",
+    "-C",
+    "jis0201"
+   ],
+   "stdin": "\u001b+IAB\u001bO1CD",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_iso2022.py:165"
+  },
+  {
+   "test": "test_esc_lowercase_n_locks_g2_into_gl",
+   "argv": [
+    "-f",
+    "banner",
+    "-C",
+    "jis0201"
+   ],
+   "stdin": "\u001b*I\u001bn123",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_iso2022.py:184"
+  },
+  {
+   "test": "test_esc_lowercase_o_locks_g3_into_gl",
+   "argv": [
+    "-f",
+    "banner",
+    "-C",
+    "jis0201"
+   ],
+   "stdin": "\u001b+I\u001bo123",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_iso2022.py:203"
+  },
+  {
+   "test": "test_esc_tilde_invokes_g1_into_gr",
+   "argv": [
+    "-f",
+    "banner",
+    "-C",
+    "jis0201"
+   ],
+   "stdin": "\u001b)I\u001b~���",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_iso2022.py:221"
+  },
+  {
+   "test": "test_esc_rbrace_invokes_g2_into_gr",
+   "argv": [
+    "-f",
+    "banner",
+    "-C",
+    "jis0201"
+   ],
+   "stdin": "\u001b*I\u001b}���",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_iso2022.py:240"
+  },
+  {
+   "test": "test_esc_pipe_invokes_g3_into_gr",
+   "argv": [
+    "-f",
+    "banner",
+    "-C",
+    "jis0201"
+   ],
+   "stdin": "\u001b+I\u001b|���",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_iso2022.py:258"
+  },
+  {
+   "test": "test_esc_dash_sets_g1_to_96char",
+   "argv": [
+    "-f",
+    "banner",
+    "-C",
+    "jis0201"
+   ],
+   "stdin": "\u001b-A\u000e���",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_iso2022.py:276"
+  },
+  {
+   "test": "test_esc_dot_sets_g2_to_96char",
+   "argv": [
+    "-f",
+    "banner",
+    "-C",
+    "jis0201"
+   ],
+   "stdin": "\u001b.A\u001bn���",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_iso2022.py:295"
+  },
+  {
+   "test": "test_esc_slash_sets_g3_to_96char",
+   "argv": [
+    "-f",
+    "banner",
+    "-C",
+    "jis0201"
+   ],
+   "stdin": "\u001b/A\u001bo���",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_iso2022.py:313"
+  },
+  {
+   "test": "test_esc_dollar_lparen_sets_g0_to_94x94",
+   "argv": [
+    "-f",
+    "banner",
+    "-C",
+    "jis0201"
+   ],
+   "stdin": "\u001b$(BAB",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_iso2022.py:331"
+  },
+  {
+   "test": "test_esc_dollar_rparen_sets_g1_to_94x94",
+   "argv": [
+    "-f",
+    "banner",
+    "-C",
+    "jis0201"
+   ],
+   "stdin": "\u001b$)BAB",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_iso2022.py:386"
+  },
+  {
+   "test": "test_esc_dollar_asterisk_sets_g2_to_94x94",
+   "argv": [
+    "-f",
+    "banner",
+    "-C",
+    "jis0201"
+   ],
+   "stdin": "\u001b$*BAB",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_iso2022.py:404"
+  },
+  {
+   "test": "test_esc_dollar_plus_sets_g3_to_94x94",
+   "argv": [
+    "-f",
+    "banner",
+    "-C",
+    "jis0201"
+   ],
+   "stdin": "\u001b$+BAB",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_iso2022.py:422"
+  },
+  {
+   "test": "test_esc_lparen_b_resets_to_ascii",
+   "argv": [
+    "-f",
+    "banner",
+    "-C",
+    "jis0201"
+   ],
+   "stdin": "\u001b(BABC",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_iso2022.py:440"
+  },
+  {
+   "test": "test_ss3_8bit_form",
+   "argv": [
+    "-f",
+    "banner",
+    "-C",
+    "jis0201"
+   ],
+   "stdin": "\u001b+I�1AB",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_iso2022.py:459"
+  },
+  {
+   "test": "test_multiple_charset_designations_in_sequence",
+   "argv": [
+    "-f",
+    "banner",
+    "-C",
+    "jis0201"
+   ],
+   "stdin": "\u001b(J\u001b)I\u001b*B\u001b+CAB\u000e12\u001bN3\u001bO4",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_iso2022.py:477"
+  },
+  {
+   "test": "test_double_byte_charset_in_gl_range",
+   "argv": [
+    "-f",
+    "banner",
+    "-C",
+    "jis0201"
+   ],
+   "stdin": "\u001b$(B!!\"\"",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_iso2022.py:496"
+  },
+  {
+   "test": "test_double_byte_charset_in_gr_range",
+   "argv": [
+    "-f",
+    "banner",
+    "-C",
+    "jis0201"
+   ],
+   "stdin": "\u001b$)B\u001b~����",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_iso2022.py:515"
+  },
+  {
+   "test": "test_deprecated_double_byte_designation",
+   "argv": [
+    "-f",
+    "banner",
+    "-C",
+    "jis0201"
+   ],
+   "stdin": "\u001b$BAB",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_iso2022.py:534"
+  },
+  {
+   "test": "test_partial_escape_sequence_at_eof",
+   "argv": [
+    "-f",
+    "banner",
+    "-C",
+    "jis0201"
+   ],
+   "stdin": "\u001b(",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_iso2022.py:553"
+  },
+  {
+   "test": "test_control_characters_passthrough",
+   "argv": [
+    "-f",
+    "banner",
+    "-C",
+    "jis0201"
+   ],
+   "stdin": "A\u0000\u0001\u001fB",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_iso2022.py:573"
+  },
+  {
+   "test": "test_complex_all_four_charsets_active",
+   "argv": [
+    "-f",
+    "banner",
+    "-C",
+    "jis0201"
+   ],
+   "stdin": "\u001b(J\u001b)I\u001b*I\u001b+IA\u000eB\u000fC\u001bND\u001bOE\u001bnF\u001boG",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_iso2022.py:592"
+  },
+  {
+   "test": "test_single_shift_during_locking_shift",
+   "argv": [
+    "-f",
+    "banner",
+    "-C",
+    "jis0201"
+   ],
+   "stdin": "\u001b*I\u001bn1\u001bN2\u001bN334",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_iso2022.py:611"
+  },
+  {
+   "test": "test_chars_in_0x80_to_0x9f_range",
+   "argv": [
+    "-f",
+    "banner",
+    "-C",
+    "jis0201"
+   ],
+   "stdin": "AB���CD",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_iso2022.py:630"
+  },
+  {
+   "test": "test_gl_range_boundaries",
+   "argv": [
+    "-f",
+    "banner",
+    "-C",
+    "jis0201"
+   ],
+   "stdin": "AB !~CD",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_iso2022.py:649"
+  },
+  {
+   "test": "test_gr_range_boundaries",
+   "argv": [
+    "-f",
+    "banner",
+    "-C",
+    "jis0201"
+   ],
+   "stdin": "\u001b)I\u001b~��",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_iso2022.py:669"
+  },
+  {
+   "test": "test_ext_002_text_rendering_in_all_fonts_matches_reference",
+   "argv": [
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_figlet.py:62"
+  },
+  {
+   "test": "test_ext_013_kerning_flush_left_right_to_left_mode_matches_reference",
+   "argv": [
+    "-klR"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_figlet.py:238"
+  },
+  {
+   "test": "test_ext_014_kerning_centered_right_to_left_slant_font_matches_reference",
+   "argv": [
+    "-kcR",
+    "-f",
+    "slant"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_figlet.py:253"
+  },
+  {
+   "test": "test_ext_015_full_width_flush_right_right_to_left_matches_reference",
+   "argv": [
+    "-WrR"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_figlet.py:268"
+  },
+  {
+   "test": "test_ext_016_overlap_flush_right_big_font_matches_reference",
+   "argv": [
+    "-or",
+    "-f",
+    "big"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_figlet.py:283"
+  },
+  {
+   "test": "test_ext_017_tlf2_kerning_flush_right_matches_reference",
+   "argv": [
+    "-kr",
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_figlet.py:298"
+  },
+  {
+   "test": "test_ext_018_tlf2_overlap_centered_matches_reference",
+   "argv": [
+    "-oc",
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_figlet.py:313"
+  },
+  {
+   "test": "test_ext_019_tlf2_full_width_flush_left_right_to_left_matches_reference",
+   "argv": [
+    "-WRl",
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_figlet.py:328"
+  },
+  {
+   "test": "test_ext_021_paragraph_mode_long_line_output_matches_reference",
+   "argv": [
+    "-p",
+    "-w250"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_figlet.py:369"
+  },
+  {
+   "test": "test_ext_022_short_line_output_matches_reference",
+   "argv": [
+    "-w5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_figlet.py:384"
+  },
+  {
+   "test": "test_ext_023_kerning_paragraph_centered_small_font_matches_reference",
+   "argv": [
+    "-kpc",
+    "-fsmall"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_figlet.py:399"
+  },
+  {
+   "test": "test_ext_025_uskata_control_file_matches_reference",
+   "argv": [
+    "-fbanner",
+    "-Cuskata"
+   ],
+   "stdin": "ABCDE",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_figlet.py:439"
+  },
+  {
+   "test": "test_ext_026_jis0201_control_file_matches_reference",
+   "argv": [
+    "-fbanner",
+    "-Cjis0201"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_figlet.py:455"
+  },
+  {
+   "test": "test_ext_027_right_to_left_smushing_with_custom_flowerpower_font_matches_reference",
+   "argv": [
+    "-R",
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_figlet.py:471"
+  },
+  {
+   "test": "test_default_fontdir_matches_infocode_2",
+   "argv": [
+    "-I2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_env_and_config_handling.py:22"
+  },
+  {
+   "test": "test_cli_d_overrides_env_var_figlet_fontdir",
+   "argv": [
+    "-d",
+    "-f",
+    "standard",
+    "hello"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_env_and_config_handling.py:38"
+  },
+  {
+   "test": "test_env_var_invalid_fontdir_causes_font_open_error_message",
+   "argv": [
+    "-f",
+    "standard",
+    "hello"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unable to open font file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_env_and_config_handling.py:50"
+  },
+  {
+   "test": "test_env_var_used_for_font_lookup",
+   "argv": [
+    "-f",
+    "standard",
+    "Hi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_env_and_config_handling.py:58"
+  },
+  {
+   "test": "test_version_prints_to_stdout_and_exit_0",
+   "argv": [
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "FIGlet",
+    "Version:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:8"
+  },
+  {
+   "test": "test_invalid_option_prints_usage_to_stderr_and_exit_1",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:16"
+  },
+  {
+   "test": "test_generates_expected_output_for_argument_message",
+   "argv": [
+    "-d",
+    "Hello"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:24"
+  },
+  {
+   "test": "test_reads_stdin_when_no_message_argument",
+   "argv": [
+    "-d"
+   ],
+   "stdin": "Hi\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:31"
+  },
+  {
+   "test": "test_paragraph_mode_changes_multiline_stdin_layout",
+   "argv": [
+    "-d"
+   ],
+   "stdin": "A\nB\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:38"
+  },
+  {
+   "test": "test_wrap_width_option_changes_output_and_is_deterministic",
+   "argv": [
+    "-d",
+    "-w",
+    "20",
+    "HelloWorld"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:52"
+  },
+  {
+   "test": "test_missing_font_file_errors_and_exit_1_and_goes_to_stderr",
+   "argv": [
+    "-d",
+    "-f",
+    "doesnotexist.flf",
+    "Hi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Unable to open font file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:63"
+  },
+  {
+   "test": "test_infocode_0_version",
+   "argv": [
+    "-I",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "FIGlet",
+    "Copyright"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:154"
+  },
+  {
+   "test": "test_infocode_3_font_name",
+   "argv": [
+    "-f",
+    "standard",
+    "-I",
+    "3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "standard"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:175"
+  },
+  {
+   "test": "test_infocode_4_output_width",
+   "argv": [
+    "-w",
+    "100",
+    "-I",
+    "4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "100"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:181"
+  },
+  {
+   "test": "test_nonexistent_directory",
+   "argv": [
+    "-d",
+    "/nonexistent",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unable to open font file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:301"
+  },
+  {
+   "test": "test_last_flag_wins",
+   "argv": [
+    "-w",
+    "50",
+    "-w",
+    "100",
+    "-I",
+    "4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "100"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:376"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "FIGlet"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:466"
+  },
+  {
+   "test": "test_empty_arguments",
+   "argv": [],
+   "stdin": "test\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unable to open font file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:478"
+  },
+  {
+   "test": "test_invalid_option_error_format",
+   "argv": [
+    "-z"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid option",
+    "Usage:",
+    "executable"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argument_parsing.py:513"
+  },
+  {
+   "test": "test_missing_argument_error_format",
+   "argv": [
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:521"
+  },
+  {
+   "test": "test_no_help_flag_double_dash",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid option"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:44"
+  },
+  {
+   "test": "test_usage_shown_on_invalid_option",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "executable"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:51"
+  },
+  {
+   "test": "test_info_option_shows_version_and_usage",
+   "argv": [
+    "-I",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "FIGlet",
+    "Usage:",
+    "cklnoprstvxDELNRSWX"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:58"
+  },
+  {
+   "test": "test_version_info_flag",
+   "argv": [
+    "-I",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "FIGlet",
+    "Version:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:88"
+  },
+  {
+   "test": "test_invalid_flag_shows_usage",
+   "argv": [
+    "-Z"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:95"
+  },
+  {
+   "test": "test_info_codes_work",
+   "argv": [
+    "-I",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "FIGlet"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:104"
+  },
+  {
+   "test": "test_no_subcommand_help_pattern",
+   "argv": [
+    "add",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid option"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:198"
+  },
+  {
+   "test": "test_no_help_subcommand",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unable to open font file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:210"
+  },
+  {
+   "test": "test_error_messages_use_option_terminology",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid option"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:221"
+  },
+  {
+   "test": "test_usage_shows_options_not_subcommands",
+   "argv": [
+    "-I",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "cklnoprstvxDELNRSWX"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:229"
+  },
+  {
+   "test": "test_cannot_invoke_multiple_modes",
+   "argv": [
+    "mode1",
+    "mode2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unable to open font file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:243"
+  },
+  {
+   "test": "test_all_arguments_treated_uniformly",
+   "argv": [
+    "word1",
+    "word2",
+    "word3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unable to open font file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:252"
+  },
+  {
+   "test": "test_dash_h_is_invalid_and_matches_help_usage_structure",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid option",
+    "Usage: executable"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_usage.py:94"
+  },
+  {
+   "test": "test_dash_question_is_invalid_and_matches_help_usage_structure",
+   "argv": [
+    "-?"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid option",
+    "Usage: executable"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_usage.py:102"
+  },
+  {
+   "test": "test_unknown_short_flag_reports_invalid_option_and_usage",
+   "argv": [
+    "-Z"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid option"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args_parsing.py:25"
+  },
+  {
+   "test": "test_default_run_without_font_exits_nonzero_and_mentions_standard",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "standard",
+    "Unable to open font file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args_parsing.py:56"
+  },
+  {
+   "test": "test_missing_font_file_errors_include_requested_font_name",
+   "argv": [
+    "-f",
+    "does-not-exist.flf",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unable to open font file",
+    "does-not-exist"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args_parsing.py:95"
+  },
+  {
+   "test": "test_numbers_and_digits",
+   "argv": [
+    "-f",
+    "standard",
+    "0123456789"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:15"
+  },
+  {
+   "test": "test_punctuation",
+   "argv": [
+    "-f",
+    "standard",
+    ".,;:!?"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:22"
+  },
+  {
+   "test": "test_brackets_and_braces",
+   "argv": [
+    "-f",
+    "standard",
+    "[]{}()<>"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:30"
+  },
+  {
+   "test": "test_quotes",
+   "argv": [
+    "-f",
+    "standard",
+    "'\""
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:37"
+  },
+  {
+   "test": "test_slash_and_backslash",
+   "argv": [
+    "-f",
+    "standard",
+    "/\\"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:45"
+  },
+  {
+   "test": "test_at_symbol",
+   "argv": [
+    "-f",
+    "standard",
+    "@"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:52"
+  },
+  {
+   "test": "test_hash_and_dollar",
+   "argv": [
+    "-f",
+    "standard",
+    "#$"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:59"
+  },
+  {
+   "test": "test_percent_and_caret",
+   "argv": [
+    "-f",
+    "standard",
+    "%^"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:66"
+  },
+  {
+   "test": "test_ampersand_and_asterisk",
+   "argv": [
+    "-f",
+    "standard",
+    "&*"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:73"
+  },
+  {
+   "test": "test_minus_and_plus",
+   "argv": [
+    "-f",
+    "standard",
+    "+-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:80"
+  },
+  {
+   "test": "test_equals_and_underscore",
+   "argv": [
+    "-f",
+    "standard",
+    "=_"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:87"
+  },
+  {
+   "test": "test_pipe_symbol",
+   "argv": [
+    "-f",
+    "standard",
+    "|"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:94"
+  },
+  {
+   "test": "test_tilde",
+   "argv": [
+    "-f",
+    "standard",
+    "~"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:101"
+  },
+  {
+   "test": "test_backtick",
+   "argv": [
+    "-f",
+    "standard",
+    "`"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:109"
+  },
+  {
+   "test": "test_lowercase_letters",
+   "argv": [
+    "-f",
+    "standard",
+    "abcdefg"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:117"
+  },
+  {
+   "test": "test_uppercase_letters",
+   "argv": [
+    "-f",
+    "standard",
+    "ABCDEFG"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:124"
+  },
+  {
+   "test": "test_mixed_case",
+   "argv": [
+    "-f",
+    "standard",
+    "AaBbCc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:131"
+  },
+  {
+   "test": "test_space_handling",
+   "argv": [
+    "-f",
+    "standard",
+    "A B C"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:138"
+  },
+  {
+   "test": "test_multiple_spaces",
+   "argv": [
+    "-f",
+    "standard",
+    "A    B"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:147"
+  },
+  {
+   "test": "test_full_ascii_printable",
+   "argv": [
+    "-f",
+    "small",
+    "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:154"
+  },
+  {
+   "test": "test_very_narrow_width",
+   "argv": [
+    "-w",
+    "10",
+    "-f",
+    "small",
+    "TestWrap"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:163"
+  },
+  {
+   "test": "test_medium_width",
+   "argv": [
+    "-w",
+    "50",
+    "-f",
+    "small",
+    "Medium Width Test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:172"
+  },
+  {
+   "test": "test_left_justify_with_width",
+   "argv": [
+    "-l",
+    "-w",
+    "100",
+    "-f",
+    "standard",
+    "Left"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:182"
+  },
+  {
+   "test": "test_right_justify_with_width",
+   "argv": [
+    "-r",
+    "-w",
+    "100",
+    "-f",
+    "standard",
+    "Right"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:193"
+  },
+  {
+   "test": "test_german_charset_brackets",
+   "argv": [
+    "-D",
+    "-f",
+    "standard",
+    "["
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:202"
+  },
+  {
+   "test": "test_german_charset_backslash",
+   "argv": [
+    "-D",
+    "-f",
+    "standard",
+    "\\"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:210"
+  },
+  {
+   "test": "test_rtl_with_left_justify",
+   "argv": [
+    "-R",
+    "-l",
+    "-f",
+    "standard",
+    "RTL"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:217"
+  },
+  {
+   "test": "test_ltr_with_right_justify",
+   "argv": [
+    "-L",
+    "-r",
+    "-f",
+    "standard",
+    "-w",
+    "80",
+    "LTR"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:224"
+  },
+  {
+   "test": "test_overlap_with_center",
+   "argv": [
+    "-o",
+    "-c",
+    "-f",
+    "standard",
+    "-w",
+    "80",
+    "Overlap"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:232"
+  },
+  {
+   "test": "test_kerning_with_right_justify",
+   "argv": [
+    "-k",
+    "-r",
+    "-f",
+    "standard",
+    "-w",
+    "80",
+    "Kern"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:239"
+  },
+  {
+   "test": "test_full_width_with_center",
+   "argv": [
+    "-W",
+    "-c",
+    "-f",
+    "standard",
+    "-w",
+    "100",
+    "Full"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:246"
+  },
+  {
+   "test": "test_paragraph_multiline",
+   "argv": [
+    "-p",
+    "-f",
+    "small"
+   ],
+   "stdin": "First line here\nSecond line here\nThird line here",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:253"
+  },
+  {
+   "test": "test_paragraph_double_newline",
+   "argv": [
+    "-p",
+    "-f",
+    "small"
+   ],
+   "stdin": "First paragraph\n\nSecond paragraph",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:261"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "FIGlet Copyright",
+    "Version: 2.2.5",
+    "date: 31 May 2012",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:5"
+  },
+  {
+   "test": "test_info_version_same_as_v",
+   "argv": [
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "FIGlet",
+    "Copyright"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:14"
+  },
+  {
+   "test": "test_info_version_integer",
+   "argv": [
+    "-I",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:23"
+  },
+  {
+   "test": "test_info_font_directory",
+   "argv": [
+    "-I",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:30"
+  },
+  {
+   "test": "test_info_font_name",
+   "argv": [
+    "-I",
+    "3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "standard"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:37"
+  },
+  {
+   "test": "test_info_output_width",
+   "argv": [
+    "-I",
+    "4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:44"
+  },
+  {
+   "test": "test_info_output_width_custom",
+   "argv": [
+    "-w",
+    "120",
+    "-I",
+    "4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:51"
+  },
+  {
+   "test": "test_info_supported_formats",
+   "argv": [
+    "-I",
+    "5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "flf2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:57"
+  },
+  {
+   "test": "test_command_line_text",
+   "argv": [
+    "-f",
+    "standard",
+    "Hello"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:71"
+  },
+  {
+   "test": "test_multiple_text_arguments",
+   "argv": [
+    "-f",
+    "small",
+    "Hello",
+    "World"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:81"
+  },
+  {
+   "test": "test_empty_argument_line_break",
+   "argv": [
+    "-f",
+    "small",
+    "Line1",
+    "",
+    "Line2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:91"
+  },
+  {
+   "test": "test_stdin_input",
+   "argv": [
+    "-f",
+    "small"
+   ],
+   "stdin": "Test",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:101"
+  },
+  {
+   "test": "test_stdin_multiline",
+   "argv": [
+    "-f",
+    "small"
+   ],
+   "stdin": "Line1\nLine2",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:110"
+  },
+  {
+   "test": "test_info_normal_operation",
+   "argv": [
+    "-I",
+    "-1",
+    "-f",
+    "small",
+    "Test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:122"
+  },
+  {
+   "test": "test_font_with_directory",
+   "argv": [
+    "-d",
+    "fonts",
+    "-f",
+    "banner",
+    "Hi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_combinations.py:4"
+  },
+  {
+   "test": "test_center_with_width",
+   "argv": [
+    "-c",
+    "-w",
+    "80",
+    "-f",
+    "small",
+    "Center"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_combinations.py:11"
+  },
+  {
+   "test": "test_kerning_with_center",
+   "argv": [
+    "-k",
+    "-c",
+    "-f",
+    "standard",
+    "-w",
+    "60",
+    "Test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_combinations.py:22"
+  },
+  {
+   "test": "test_paragraph_with_width",
+   "argv": [
+    "-p",
+    "-w",
+    "40",
+    "-f",
+    "small"
+   ],
+   "stdin": "Word1 Word2 Word3 Word4 Word5",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_combinations.py:29"
+  },
+  {
+   "test": "test_rtl_with_right_justify",
+   "argv": [
+    "-R",
+    "-r",
+    "-f",
+    "standard",
+    "-w",
+    "80",
+    "ABC"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_combinations.py:38"
+  },
+  {
+   "test": "test_ltr_with_center",
+   "argv": [
+    "-L",
+    "-c",
+    "-f",
+    "small",
+    "-w",
+    "60",
+    "Test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_combinations.py:46"
+  },
+  {
+   "test": "test_multiple_layout_options",
+   "argv": [
+    "-k",
+    "-c",
+    "-w",
+    "80",
+    "-f",
+    "standard",
+    "Layout"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_combinations.py:54"
+  },
+  {
+   "test": "test_font_justify_width_together",
+   "argv": [
+    "-f",
+    "slant",
+    "-r",
+    "-w",
+    "100",
+    "Combined"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_combinations.py:61"
+  },
+  {
+   "test": "test_control_file_with_font",
+   "argv": [
+    "-C",
+    "8859-2",
+    "-f",
+    "small",
+    "Test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_combinations.py:68"
+  },
+  {
+   "test": "test_all_common_options",
+   "argv": [
+    "-f",
+    "small",
+    "-c",
+    "-w",
+    "80",
+    "-p",
+    "-k"
+   ],
+   "stdin": "Test line",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_combinations.py:76"
+  },
+  {
+   "test": "test_complex_combination",
+   "argv": [
+    "-d",
+    "fonts",
+    "-f",
+    "banner",
+    "-l",
+    "-w",
+    "120",
+    "-k",
+    "-L",
+    "COMPLEX"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_combinations.py:84"
+  },
+  {
+   "test": "test_direction_with_layout",
+   "argv": [
+    "-R",
+    "-W",
+    "-f",
+    "standard",
+    "DIR"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_combinations.py:91"
+  },
+  {
+   "test": "test_control_file_option",
+   "argv": [
+    "-C",
+    "8859-2",
+    "-f",
+    "standard",
+    "Test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_control_files.py:5"
+  },
+  {
+   "test": "test_clear_control_files",
+   "argv": [
+    "-C",
+    "8859-2",
+    "-N",
+    "-f",
+    "small",
+    "A"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_control_files.py:14"
+  },
+  {
+   "test": "test_multiple_control_files",
+   "argv": [
+    "-C",
+    "8859-2",
+    "-C",
+    "8859-3",
+    "-f",
+    "small",
+    "Test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_control_files.py:20"
+  },
+  {
+   "test": "test_control_file_uskata",
+   "argv": [
+    "-f",
+    "banner",
+    "-C",
+    "uskata",
+    "ABCDE"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_control_files.py:34"
+  },
+  {
+   "test": "test_control_file_with_clearing",
+   "argv": [
+    "-C",
+    "8859-2",
+    "-f",
+    "small",
+    "A"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_control_files.py:50"
+  },
+  {
+   "test": "test_german_charset_enable",
+   "argv": [
+    "-D",
+    "-f",
+    "standard",
+    "[\\]"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_control_files.py:59"
+  },
+  {
+   "test": "test_german_charset_disable",
+   "argv": [
+    "-D",
+    "-E",
+    "-f",
+    "standard",
+    "["
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_control_files.py:67"
+  },
+  {
+   "test": "test_german_charset_mappings",
+   "argv": [
+    "-D",
+    "-f",
+    "small",
+    "{}|~"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_control_files.py:75"
+  },
+  {
+   "test": "test_font_standard",
+   "argv": [
+    "-f",
+    "standard",
+    "A"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:6"
+  },
+  {
+   "test": "test_font_without_extension",
+   "argv": [
+    "-f",
+    "small",
+    "Test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:13"
+  },
+  {
+   "test": "test_font_with_extension",
+   "argv": [
+    "-f",
+    "small.flf",
+    "Test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:21"
+  },
+  {
+   "test": "test_font_banner",
+   "argv": [
+    "-f",
+    "banner",
+    "ABC"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:28"
+  },
+  {
+   "test": "test_font_big",
+   "argv": [
+    "-f",
+    "big",
+    "Hi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:35"
+  },
+  {
+   "test": "test_font_block",
+   "argv": [
+    "-f",
+    "block",
+    "X"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:43"
+  },
+  {
+   "test": "test_font_bubble",
+   "argv": [
+    "-f",
+    "bubble",
+    "O"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:50"
+  },
+  {
+   "test": "test_font_digital",
+   "argv": [
+    "-f",
+    "digital",
+    "123"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:57"
+  },
+  {
+   "test": "test_font_lean",
+   "argv": [
+    "-f",
+    "lean",
+    "A"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:64"
+  },
+  {
+   "test": "test_font_mini",
+   "argv": [
+    "-f",
+    "mini",
+    "Test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:71"
+  },
+  {
+   "test": "test_font_script",
+   "argv": [
+    "-f",
+    "script",
+    "Hi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:79"
+  },
+  {
+   "test": "test_font_shadow",
+   "argv": [
+    "-f",
+    "shadow",
+    "AB"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:87"
+  },
+  {
+   "test": "test_font_slant",
+   "argv": [
+    "-f",
+    "slant",
+    "Test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:94"
+  },
+  {
+   "test": "test_font_small",
+   "argv": [
+    "-f",
+    "small",
+    "ABC"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:101"
+  },
+  {
+   "test": "test_font_smscript",
+   "argv": [
+    "-f",
+    "smscript",
+    "Hi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:111"
+  },
+  {
+   "test": "test_font_smshadow",
+   "argv": [
+    "-f",
+    "smshadow",
+    "X"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:118"
+  },
+  {
+   "test": "test_font_smslant",
+   "argv": [
+    "-f",
+    "smslant",
+    "Y"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:125"
+  },
+  {
+   "test": "test_font_term",
+   "argv": [
+    "-f",
+    "term",
+    "A"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "A"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:132"
+  },
+  {
+   "test": "test_multiple_fonts_last_wins",
+   "argv": [
+    "-f",
+    "small",
+    "X"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:147"
+  },
+  {
+   "test": "test_font_directory_option",
+   "argv": [
+    "-d",
+    "fonts",
+    "-f",
+    "standard",
+    "Hi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:157"
+  },
+  {
+   "test": "test_font_directory_with_font",
+   "argv": [
+    "-d",
+    "fonts",
+    "-f",
+    "small",
+    "A"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:164"
+  },
+  {
+   "test": "test_font_directory_info",
+   "argv": [
+    "-d",
+    "fonts",
+    "-I",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "fonts"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:174"
+  },
+  {
+   "test": "test_font_name_info",
+   "argv": [
+    "-f",
+    "banner",
+    "-I",
+    "3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "banner"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:180"
+  },
+  {
+   "test": "test_tlf_font",
+   "argv": [
+    "-f",
+    "tests/emboss",
+    "A"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:194"
+  },
+  {
+   "test": "test_empty_input",
+   "argv": [
+    "-f",
+    "small"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_and_edge_cases.py:4"
+  },
+  {
+   "test": "test_long_input",
+   "argv": [
+    "-f",
+    "small"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_and_edge_cases.py:11"
+  },
+  {
+   "test": "test_multiline_input",
+   "argv": [
+    "-f",
+    "small"
+   ],
+   "stdin": "Line1\nLine2\nLine3\nLine4",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_and_edge_cases.py:20"
+  },
+  {
+   "test": "test_special_characters",
+   "argv": [
+    "-f",
+    "standard",
+    "!@#$%^&*()"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_and_edge_cases.py:31"
+  },
+  {
+   "test": "test_unicode_input",
+   "argv": [
+    "-f",
+    "small",
+    "Hello"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_and_edge_cases.py:40"
+  },
+  {
+   "test": "test_tab_characters",
+   "argv": [
+    "-f",
+    "small",
+    "A\tB\tC"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_and_edge_cases.py:49"
+  },
+  {
+   "test": "test_single_character",
+   "argv": [
+    "-f",
+    "standard",
+    "X"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_and_edge_cases.py:59"
+  },
+  {
+   "test": "test_very_long_single_line",
+   "argv": [
+    "-f",
+    "small",
+    "-w",
+    "200"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_and_edge_cases.py:66"
+  },
+  {
+   "test": "test_only_whitespace",
+   "argv": [
+    "-f",
+    "small",
+    "   "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_and_edge_cases.py:84"
+  },
+  {
+   "test": "test_only_newlines",
+   "argv": [
+    "-f",
+    "small"
+   ],
+   "stdin": "\n\n\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_and_edge_cases.py:91"
+  },
+  {
+   "test": "test_mixed_content",
+   "argv": [
+    "-f",
+    "small"
+   ],
+   "stdin": "A  B\n\nC   D\nE",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_and_edge_cases.py:98"
+  },
+  {
+   "test": "test_width_smaller_than_character",
+   "argv": [
+    "-w",
+    "5",
+    "-f",
+    "standard",
+    "A"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_and_edge_cases.py:107"
+  },
+  {
+   "test": "test_large_width",
+   "argv": [
+    "-w",
+    "500",
+    "-f",
+    "small",
+    "Test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_and_edge_cases.py:114"
+  },
+  {
+   "test": "test_center_justification",
+   "argv": [
+    "-c",
+    "-f",
+    "small",
+    "-w",
+    "40",
+    "Hi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_justification.py:4"
+  },
+  {
+   "test": "test_flush_left_justification",
+   "argv": [
+    "-l",
+    "-f",
+    "small",
+    "-w",
+    "80",
+    "Test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_justification.py:18"
+  },
+  {
+   "test": "test_flush_right_justification",
+   "argv": [
+    "-r",
+    "-f",
+    "small",
+    "-w",
+    "80",
+    "Hi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_justification.py:31"
+  },
+  {
+   "test": "test_default_justification",
+   "argv": [
+    "-x",
+    "-f",
+    "small",
+    "Test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_justification.py:44"
+  },
+  {
+   "test": "test_multiple_justification_last_wins",
+   "argv": [
+    "-l",
+    "-f",
+    "small",
+    "-w",
+    "80",
+    "X"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_justification.py:52"
+  },
+  {
+   "test": "test_center_with_width",
+   "argv": [
+    "-c",
+    "-w",
+    "60",
+    "-f",
+    "small",
+    "Center"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_justification.py:62"
+  },
+  {
+   "test": "test_left_to_right",
+   "argv": [
+    "-L",
+    "-f",
+    "standard",
+    "ABC"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_text_direction.py:4"
+  },
+  {
+   "test": "test_right_to_left",
+   "argv": [
+    "-R",
+    "-f",
+    "standard",
+    "ABC"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_text_direction.py:11"
+  },
+  {
+   "test": "test_default_text_direction",
+   "argv": [
+    "-X",
+    "-f",
+    "standard",
+    "Test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_text_direction.py:19"
+  },
+  {
+   "test": "test_rtl_with_justification",
+   "argv": [
+    "-R",
+    "-r",
+    "-f",
+    "standard",
+    "Hi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_text_direction.py:26"
+  },
+  {
+   "test": "test_paragraph_mode",
+   "argv": [
+    "-p",
+    "-f",
+    "small"
+   ],
+   "stdin": "Line one\nLine two\nLine three",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_text_direction.py:42"
+  },
+  {
+   "test": "test_normal_newline_mode",
+   "argv": [
+    "-n",
+    "-f",
+    "small"
+   ],
+   "stdin": "First\nSecond",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_text_direction.py:52"
+  },
+  {
+   "test": "test_paragraph_with_width",
+   "argv": [
+    "-p",
+    "-w",
+    "50",
+    "-f",
+    "small"
+   ],
+   "stdin": "This is a long line that should be wrapped nicely in paragraph mode",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_text_direction.py:62"
+  },
+  {
+   "test": "test_empty_lines_handling",
+   "argv": [
+    "-f",
+    "small"
+   ],
+   "stdin": "First\n\nThird",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_text_direction.py:71"
+  },
+  {
+   "test": "test_width_option",
+   "argv": [
+    "-w",
+    "120",
+    "-f",
+    "small",
+    "Test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_width_and_layout.py:4"
+  },
+  {
+   "test": "test_width_80",
+   "argv": [
+    "-w",
+    "80",
+    "-f",
+    "small",
+    "Hello"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_width_and_layout.py:14"
+  },
+  {
+   "test": "test_width_40",
+   "argv": [
+    "-w",
+    "40",
+    "-f",
+    "small",
+    "Narrow"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_width_and_layout.py:22"
+  },
+  {
+   "test": "test_width_1_special_mode",
+   "argv": [
+    "-w",
+    "1",
+    "-f",
+    "small",
+    "ABC"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_width_and_layout.py:30"
+  },
+  {
+   "test": "test_width_affects_line_breaking",
+   "argv": [
+    "-w",
+    "30",
+    "-f",
+    "small",
+    "This is a very long line that should break"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_width_and_layout.py:46"
+  },
+  {
+   "test": "test_kerning_mode",
+   "argv": [
+    "-k",
+    "-f",
+    "standard",
+    "AB"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_width_and_layout.py:55"
+  },
+  {
+   "test": "test_full_width_mode",
+   "argv": [
+    "-W",
+    "-f",
+    "standard",
+    "AB"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_width_and_layout.py:63"
+  },
+  {
+   "test": "test_overlap_mode",
+   "argv": [
+    "-o",
+    "-f",
+    "standard",
+    "AB"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_width_and_layout.py:72"
+  },
+  {
+   "test": "test_default_smushing",
+   "argv": [
+    "-s",
+    "-f",
+    "standard",
+    "Hi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_width_and_layout.py:79"
+  },
+  {
+   "test": "test_force_smushing",
+   "argv": [
+    "-S",
+    "-f",
+    "standard",
+    "Hi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_width_and_layout.py:86"
+  },
+  {
+   "test": "test_layout_mode_explicit",
+   "argv": [
+    "-m",
+    "32",
+    "-f",
+    "standard",
+    "X"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_width_and_layout.py:93"
+  },
+  {
+   "test": "test_layout_mode_minus2_equals_smushing",
+   "argv": [
+    "-s",
+    "-f",
+    "standard",
+    "AB"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_width_and_layout.py:119"
+  },
+  {
+   "test": "test_layout_with_different_fonts",
+   "argv": [
+    "-k",
+    "-f",
+    "A"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_width_and_layout.py:128"
+  },
+  {
+   "test": "test_double_dash_help_is_not_supported_like_subcommand_help",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid option",
+    "usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:42"
+  },
+  {
+   "test": "test_unknown_subcommand_is_treated_as_message_not_as_subcommand",
+   "argv": [
+    "nonexistent_subcommand"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unable to open font file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:54"
+  },
+  {
+   "test": "test_dash_prefixed_unknown_is_flag_error_not_subcommand",
+   "argv": [
+    "-Z"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid option",
+    "usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:66"
+  },
+  {
+   "test": "test_supported_info_mode_flag_routing_requires_argument_and_prints_usage",
+   "argv": [
+    "-I"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "requires an argument",
+    "usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:74"
+  },
+  {
+   "test": "test_info_mode_flag_routing_outputs_expected",
+   "argv": [
+    "-I"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:93"
+  },
+  {
+   "test": "test_unknown_info_code_is_graceful_empty_output_success",
+   "argv": [
+    "-I",
+    "999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:101"
+  },
+  {
+   "test": "test_very_long_text_line",
+   "argv": [
+    "-d",
+    "fonts",
+    "-w",
+    "40"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:27"
+  },
+  {
+   "test": "test_paragraph_mode_with_wrapping",
+   "argv": [
+    "-d",
+    "fonts",
+    "-p",
+    "-w",
+    "30"
+   ],
+   "stdin": "This is a very long line that should wrap when output width is narrow",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:37"
+  },
+  {
+   "test": "test_combined_options_kpc",
+   "argv": [
+    "-d",
+    "fonts",
+    "-k",
+    "-p",
+    "-c",
+    "-f",
+    "small",
+    "Test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:44"
+  },
+  {
+   "test": "test_german_mode_characters",
+   "argv": [
+    "-d",
+    "fonts",
+    "-D",
+    "{|}[\\]"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:72"
+  },
+  {
+   "test": "test_multiple_control_files",
+   "argv": [
+    "-d",
+    "fonts",
+    "-C",
+    "8859-2",
+    "-C",
+    "8859-3",
+    "Test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:78"
+  },
+  {
+   "test": "test_646_de_control_file",
+   "argv": [
+    "-d",
+    "fonts",
+    "-C",
+    "646-de",
+    "Test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:88"
+  },
+  {
+   "test": "test_646_gb_control_file",
+   "argv": [
+    "-d",
+    "fonts",
+    "-C",
+    "646-gb",
+    "Test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:94"
+  },
+  {
+   "test": "test_646_fr_control_file",
+   "argv": [
+    "-d",
+    "fonts",
+    "-C",
+    "646-fr",
+    "Test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:100"
+  },
+  {
+   "test": "test_646_es_control_file",
+   "argv": [
+    "-d",
+    "fonts",
+    "-C",
+    "646-es",
+    "Test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:106"
+  },
+  {
+   "test": "test_8859_5_control_file",
+   "argv": [
+    "-d",
+    "fonts",
+    "-C",
+    "8859-5",
+    "Test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:112"
+  },
+  {
+   "test": "test_8859_7_control_file",
+   "argv": [
+    "-d",
+    "fonts",
+    "-C",
+    "8859-7",
+    "Test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:118"
+  },
+  {
+   "test": "test_8859_8_control_file",
+   "argv": [
+    "-d",
+    "fonts",
+    "-C",
+    "8859-8",
+    "Test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:124"
+  },
+  {
+   "test": "test_8859_9_control_file",
+   "argv": [
+    "-d",
+    "fonts",
+    "-C",
+    "8859-9",
+    "Test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:130"
+  },
+  {
+   "test": "test_null_byte_in_input",
+   "argv": [
+    "-d",
+    "fonts"
+   ],
+   "stdin": "A\u0000B",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:139"
+  },
+  {
+   "test": "test_high_ascii_input",
+   "argv": [
+    "-d",
+    "fonts"
+   ],
+   "stdin": "����",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:145"
+  },
+  {
+   "test": "test_utf8_characters",
+   "argv": [
+    "-d",
+    "fonts"
+   ],
+   "stdin": "Café",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:150"
+  },
+  {
+   "test": "test_unicode_emoji",
+   "argv": [
+    "-d",
+    "fonts"
+   ],
+   "stdin": "😀",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:156"
+  },
+  {
+   "test": "test_only_whitespace_input",
+   "argv": [
+    "-d",
+    "fonts"
+   ],
+   "stdin": "   \t  \n  ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:162"
+  },
+  {
+   "test": "test_backslash_in_text",
+   "argv": [
+    "-d",
+    "fonts",
+    "A\\B"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:167"
+  },
+  {
+   "test": "test_quote_in_text",
+   "argv": [
+    "-d",
+    "fonts"
+   ],
+   "stdin": "He said \"Hi\"",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:173"
+  },
+  {
+   "test": "test_newline_in_argument",
+   "argv": [
+    "-d",
+    "fonts",
+    "Line1\nLine2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:179"
+  },
+  {
+   "test": "test_width_1",
+   "argv": [
+    "-d",
+    "fonts",
+    "-w",
+    "1",
+    "A"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:188"
+  },
+  {
+   "test": "test_width_1000",
+   "argv": [
+    "-d",
+    "fonts",
+    "-w",
+    "1000",
+    "Hello World Test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:195"
+  },
+  {
+   "test": "test_layout_mode_2",
+   "argv": [
+    "-d",
+    "fonts",
+    "-m",
+    "2",
+    "AB"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:216"
+  },
+  {
+   "test": "test_layout_mode_4",
+   "argv": [
+    "-d",
+    "fonts",
+    "-m",
+    "4",
+    "AB"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:222"
+  },
+  {
+   "test": "test_layout_mode_8",
+   "argv": [
+    "-d",
+    "fonts",
+    "-m",
+    "8",
+    "AB"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:228"
+  },
+  {
+   "test": "test_layout_mode_16",
+   "argv": [
+    "-d",
+    "fonts",
+    "-m",
+    "16",
+    "AB"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:234"
+  },
+  {
+   "test": "test_layout_mode_32",
+   "argv": [
+    "-d",
+    "fonts",
+    "-m",
+    "32",
+    "AB"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:240"
+  },
+  {
+   "test": "test_center_with_small_font",
+   "argv": [
+    "-d",
+    "fonts",
+    "-c",
+    "-f",
+    "small",
+    "-w",
+    "80",
+    "Test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:249"
+  },
+  {
+   "test": "test_right_with_big_font",
+   "argv": [
+    "-d",
+    "fonts",
+    "-r",
+    "-f",
+    "big",
+    "-w",
+    "100",
+    "X"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:263"
+  },
+  {
+   "test": "test_all_flags_combined",
+   "argv": [
+    "-d",
+    "fonts",
+    "-f",
+    "small",
+    "-c",
+    "-w",
+    "100",
+    "-p",
+    "-k",
+    "Test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:282"
+  },
+  {
+   "test": "test_rtl_center_kerning_big",
+   "argv": [
+    "-d",
+    "fonts",
+    "-R",
+    "-c",
+    "-k",
+    "-f",
+    "big",
+    "AB"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:289"
+  },
+  {
+   "test": "test_overlap_right_shadow",
+   "argv": [
+    "-d",
+    "fonts",
+    "-o",
+    "-r",
+    "-f",
+    "shadow",
+    "-w",
+    "100",
+    "X"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:295"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "-d",
+    "fonts",
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "FIGlet Copyright",
+    "2.2.5",
+    "Glenn Chappell",
+    "info@figlet.org",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:12"
+  },
+  {
+   "test": "test_info_version_copyright",
+   "argv": [
+    "-d",
+    "fonts",
+    "-I0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "FIGlet Copyright",
+    "2.2.5",
+    "Glenn Chappell"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:22"
+  },
+  {
+   "test": "test_info_version_integer",
+   "argv": [
+    "-d",
+    "fonts",
+    "-I1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:30"
+  },
+  {
+   "test": "test_info_font_directory",
+   "argv": [
+    "-d",
+    "fonts",
+    "-I2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:37"
+  },
+  {
+   "test": "test_info_font_name",
+   "argv": [
+    "-d",
+    "fonts",
+    "-I3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:43"
+  },
+  {
+   "test": "test_info_font_name_custom",
+   "argv": [
+    "-d",
+    "fonts",
+    "-f",
+    "banner",
+    "-I3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:49"
+  },
+  {
+   "test": "test_info_output_width",
+   "argv": [
+    "-d",
+    "fonts",
+    "-I4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:55"
+  },
+  {
+   "test": "test_info_output_width_custom",
+   "argv": [
+    "-d",
+    "fonts",
+    "-w",
+    "120",
+    "-I4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:61"
+  },
+  {
+   "test": "test_info_supported_formats",
+   "argv": [
+    "-d",
+    "fonts",
+    "-I5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "flf2",
+    "tlf2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:67"
+  },
+  {
+   "test": "test_info_code_negative_one",
+   "argv": [
+    "-d",
+    "fonts",
+    "-I-1",
+    "Test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:75"
+  },
+  {
+   "test": "test_simple_text_argument",
+   "argv": [
+    "-d",
+    "fonts",
+    "Hello"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:83"
+  },
+  {
+   "test": "test_multiple_word_arguments",
+   "argv": [
+    "-d",
+    "fonts",
+    "Hello",
+    "World"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:93"
+  },
+  {
+   "test": "test_stdin_input",
+   "argv": [
+    "-d",
+    "fonts"
+   ],
+   "stdin": "Test",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:103"
+  },
+  {
+   "test": "test_empty_stdin",
+   "argv": [
+    "-d",
+    "fonts"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:110"
+  },
+  {
+   "test": "test_single_character",
+   "argv": [
+    "-d",
+    "fonts",
+    "A"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:117"
+  },
+  {
+   "test": "test_create_and_use_compressed_font",
+   "argv": [
+    "-d",
+    "-f",
+    "banner_compressed",
+    "Hi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_compressed_fonts.py:14"
+  },
+  {
+   "test": "test_compressed_standard_font",
+   "argv": [
+    "-d",
+    "-f",
+    "test_compressed",
+    "AB"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_compressed_fonts.py:32"
+  },
+  {
+   "test": "test_compressed_small_font",
+   "argv": [
+    "-d",
+    "-f",
+    "small_z",
+    "Test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_compressed_fonts.py:45"
+  },
+  {
+   "test": "test_compressed_slant_font",
+   "argv": [
+    "-d",
+    "-f",
+    "slant_compressed",
+    "AB"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_compressed_fonts.py:59"
+  },
+  {
+   "test": "test_compressed_font_with_options",
+   "argv": [
+    "-d",
+    "-f",
+    "banner_c",
+    "-c",
+    "X"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_compressed_fonts.py:73"
+  },
+  {
+   "test": "test_compressed_font_rtl",
+   "argv": [
+    "-d",
+    "-f",
+    "shadow_z",
+    "-R",
+    "AB"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_compressed_fonts.py:86"
+  },
+  {
+   "test": "test_compressed_font_kerning",
+   "argv": [
+    "-d",
+    "-f",
+    "big_c",
+    "-k",
+    "X"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_compressed_fonts.py:98"
+  },
+  {
+   "test": "test_compressed_font_width",
+   "argv": [
+    "-d",
+    "-f",
+    "digital_z",
+    "-w",
+    "120",
+    "123"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_compressed_fonts.py:110"
+  },
+  {
+   "test": "test_default_font",
+   "argv": [
+    "-d",
+    "fonts",
+    "AB"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:13"
+  },
+  {
+   "test": "test_big_font",
+   "argv": [
+    "-d",
+    "fonts",
+    "-f",
+    "big",
+    "X"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:29"
+  },
+  {
+   "test": "test_block_font",
+   "argv": [
+    "-d",
+    "fonts",
+    "-f",
+    "block",
+    "A"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "_"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:36"
+  },
+  {
+   "test": "test_bubble_font",
+   "argv": [
+    "-d",
+    "fonts",
+    "-f",
+    "bubble",
+    "Hi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:44"
+  },
+  {
+   "test": "test_digital_font",
+   "argv": [
+    "-d",
+    "fonts",
+    "-f",
+    "digital",
+    "123"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:51"
+  },
+  {
+   "test": "test_lean_font",
+   "argv": [
+    "-d",
+    "fonts",
+    "-f",
+    "lean",
+    "AB"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:58"
+  },
+  {
+   "test": "test_mini_font",
+   "argv": [
+    "-d",
+    "fonts",
+    "-f",
+    "mini",
+    "Hi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:65"
+  },
+  {
+   "test": "test_script_font",
+   "argv": [
+    "-d",
+    "fonts",
+    "-f",
+    "script",
+    "Hi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:74"
+  },
+  {
+   "test": "test_shadow_font",
+   "argv": [
+    "-d",
+    "fonts",
+    "-f",
+    "shadow",
+    "Hi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:81"
+  },
+  {
+   "test": "test_slant_font",
+   "argv": [
+    "-d",
+    "fonts",
+    "-f",
+    "slant",
+    "AB"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:88"
+  },
+  {
+   "test": "test_small_font",
+   "argv": [
+    "-d",
+    "fonts",
+    "-f",
+    "small",
+    "Hi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:96"
+  },
+  {
+   "test": "test_smscript_font",
+   "argv": [
+    "-d",
+    "fonts",
+    "-f",
+    "smscript",
+    "Hi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:104"
+  },
+  {
+   "test": "test_smshadow_font",
+   "argv": [
+    "-d",
+    "fonts",
+    "-f",
+    "smshadow",
+    "Hi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:112"
+  },
+  {
+   "test": "test_smslant_font",
+   "argv": [
+    "-d",
+    "fonts",
+    "-f",
+    "smslant",
+    "Hi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:120"
+  },
+  {
+   "test": "test_font_without_extension",
+   "argv": [
+    "-d",
+    "fonts",
+    "-f",
+    "banner",
+    "X"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:128"
+  },
+  {
+   "test": "test_font_with_extension",
+   "argv": [
+    "-d",
+    "fonts",
+    "-f",
+    "banner.flf",
+    "X"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:135"
+  },
+  {
+   "test": "test_tlf_font",
+   "argv": [
+    "-d",
+    "tests",
+    "-f",
+    "emboss",
+    "Hi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:148"
+  },
+  {
+   "test": "test_custom_directory",
+   "argv": [
+    "-d",
+    "-f",
+    "banner",
+    "X"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:160"
+  },
+  {
+   "test": "test_environment_variable",
+   "argv": [
+    "-f",
+    "banner",
+    "X"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_fonts.py:171"
+  },
+  {
+   "test": "test_default_justification",
+   "argv": [
+    "-d",
+    "fonts",
+    "X"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_justification_layout.py:11"
+  },
+  {
+   "test": "test_flush_left",
+   "argv": [
+    "-d",
+    "fonts",
+    "-l",
+    "X"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_justification_layout.py:25"
+  },
+  {
+   "test": "test_flush_right",
+   "argv": [
+    "-d",
+    "fonts",
+    "-r",
+    "-w",
+    "80",
+    "X"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_justification_layout.py:38"
+  },
+  {
+   "test": "test_center_justification",
+   "argv": [
+    "-d",
+    "fonts",
+    "-c",
+    "-w",
+    "80",
+    "Hi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_justification_layout.py:55"
+  },
+  {
+   "test": "test_explicit_left_to_right",
+   "argv": [
+    "-d",
+    "fonts",
+    "-L",
+    "Hi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_justification_layout.py:73"
+  },
+  {
+   "test": "test_kerning_mode",
+   "argv": [
+    "-d",
+    "fonts",
+    "-k",
+    "AB"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_justification_layout.py:92"
+  },
+  {
+   "test": "test_full_width_mode",
+   "argv": [
+    "-d",
+    "fonts",
+    "-W",
+    "AB"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_justification_layout.py:101"
+  },
+  {
+   "test": "test_overlap_mode",
+   "argv": [
+    "-d",
+    "fonts",
+    "-o",
+    "AB"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_justification_layout.py:110"
+  },
+  {
+   "test": "test_force_smushing",
+   "argv": [
+    "-d",
+    "fonts",
+    "-S",
+    "AB"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_justification_layout.py:118"
+  },
+  {
+   "test": "test_explicit_layout_mode_0",
+   "argv": [
+    "-d",
+    "fonts",
+    "-m",
+    "0",
+    "AB"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_justification_layout.py:126"
+  },
+  {
+   "test": "test_explicit_layout_mode_1",
+   "argv": [
+    "-d",
+    "fonts",
+    "-m",
+    "1",
+    "AB"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_justification_layout.py:134"
+  },
+  {
+   "test": "test_explicit_layout_mode_minus1",
+   "argv": [
+    "-d",
+    "fonts",
+    "-m",
+    "-1",
+    "AB"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_justification_layout.py:140"
+  },
+  {
+   "test": "test_explicit_layout_mode_63",
+   "argv": [
+    "-d",
+    "fonts",
+    "-m",
+    "63",
+    "AB"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_justification_layout.py:146"
+  },
+  {
+   "test": "test_rtl_mode",
+   "argv": [
+    "-d",
+    "fonts",
+    "-R",
+    "AB"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_justification_layout.py:155"
+  },
+  {
+   "test": "test_rtl_with_flush_left",
+   "argv": [
+    "-d",
+    "fonts",
+    "-R",
+    "-l",
+    "AB"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_justification_layout.py:163"
+  },
+  {
+   "test": "test_rtl_with_flush_right",
+   "argv": [
+    "-d",
+    "fonts",
+    "-R",
+    "-r",
+    "AB"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_justification_layout.py:171"
+  },
+  {
+   "test": "test_rtl_with_center",
+   "argv": [
+    "-d",
+    "fonts",
+    "-R",
+    "-c",
+    "AB"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_justification_layout.py:177"
+  },
+  {
+   "test": "test_rtl_with_kerning",
+   "argv": [
+    "-d",
+    "fonts",
+    "-R",
+    "-k",
+    "AB"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_justification_layout.py:183"
+  },
+  {
+   "test": "test_kerning_left_rtl",
+   "argv": [
+    "-d",
+    "fonts",
+    "-k",
+    "-l",
+    "-R",
+    "Test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_justification_layout.py:192"
+  },
+  {
+   "test": "test_kerning_center_rtl_slant",
+   "argv": [
+    "-d",
+    "fonts",
+    "-k",
+    "-c",
+    "-R",
+    "-f",
+    "slant",
+    "Hi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_justification_layout.py:200"
+  },
+  {
+   "test": "test_width_rtl_left_full",
+   "argv": [
+    "-d",
+    "fonts",
+    "-W",
+    "-R",
+    "-l",
+    "Hi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_justification_layout.py:207"
+  },
+  {
+   "test": "test_overlap_right",
+   "argv": [
+    "-d",
+    "fonts",
+    "-o",
+    "-r",
+    "-f",
+    "big",
+    "X"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_justification_layout.py:213"
+  },
+  {
+   "test": "test_explicit_width_120",
+   "argv": [
+    "-d",
+    "fonts",
+    "-w",
+    "120",
+    "Hello World"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_width_paragraph_control.py:17"
+  },
+  {
+   "test": "test_explicit_width_40",
+   "argv": [
+    "-d",
+    "fonts",
+    "-w",
+    "40",
+    "Hello"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_width_paragraph_control.py:27"
+  },
+  {
+   "test": "test_very_narrow_width",
+   "argv": [
+    "-d",
+    "fonts",
+    "-w",
+    "5",
+    "AB"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_width_paragraph_control.py:37"
+  },
+  {
+   "test": "test_very_wide_width",
+   "argv": [
+    "-d",
+    "fonts",
+    "-w",
+    "500",
+    "Hello World Test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_width_paragraph_control.py:44"
+  },
+  {
+   "test": "test_terminal_width_flag",
+   "argv": [
+    "-d",
+    "fonts",
+    "-t",
+    "Hi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_width_paragraph_control.py:50"
+  },
+  {
+   "test": "test_default_newline_handling",
+   "argv": [
+    "-d",
+    "fonts"
+   ],
+   "stdin": "Line1\nLine2",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_width_paragraph_control.py:62"
+  },
+  {
+   "test": "test_paragraph_mode",
+   "argv": [
+    "-d",
+    "fonts",
+    "-p"
+   ],
+   "stdin": "Line1\nLine2",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_width_paragraph_control.py:71"
+  },
+  {
+   "test": "test_paragraph_mode_long_text",
+   "argv": [
+    "-d",
+    "fonts",
+    "-p",
+    "-w",
+    "250"
+   ],
+   "stdin": "This is a very long line of text that will wrap",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_width_paragraph_control.py:80"
+  },
+  {
+   "test": "test_explicit_newline_mode",
+   "argv": [
+    "-d",
+    "fonts",
+    "-n"
+   ],
+   "stdin": "A\nB",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_width_paragraph_control.py:87"
+  },
+  {
+   "test": "test_no_control_file",
+   "argv": [
+    "-d",
+    "fonts",
+    "ABC"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_width_paragraph_control.py:96"
+  },
+  {
+   "test": "test_uskata_control_file",
+   "argv": [
+    "-d",
+    "fonts",
+    "-f",
+    "banner",
+    "-C",
+    "uskata"
+   ],
+   "stdin": "ABCDE",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_width_paragraph_control.py:102"
+  },
+  {
+   "test": "test_jis0201_control_file",
+   "argv": [
+    "-d",
+    "fonts",
+    "-f",
+    "banner",
+    "-C",
+    "jis0201"
+   ],
+   "stdin": "�����",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_width_paragraph_control.py:110"
+  },
+  {
+   "test": "test_8859_2_control_file",
+   "argv": [
+    "-d",
+    "fonts",
+    "-C",
+    "8859-2",
+    "Test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_width_paragraph_control.py:118"
+  },
+  {
+   "test": "test_8859_3_control_file",
+   "argv": [
+    "-d",
+    "fonts",
+    "-C",
+    "8859-3",
+    "Test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_width_paragraph_control.py:124"
+  },
+  {
+   "test": "test_8859_4_control_file",
+   "argv": [
+    "-d",
+    "fonts",
+    "-C",
+    "8859-4",
+    "AB"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_width_paragraph_control.py:130"
+  },
+  {
+   "test": "test_clear_control_files",
+   "argv": [
+    "-d",
+    "fonts",
+    "-C",
+    "8859-2",
+    "-N",
+    "Test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_width_paragraph_control.py:136"
+  },
+  {
+   "test": "test_german_character_set",
+   "argv": [
+    "-d",
+    "fonts",
+    "-D",
+    "[\\]"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_width_paragraph_control.py:152"
+  },
+  {
+   "test": "test_clear_german_mode",
+   "argv": [
+    "-d",
+    "fonts",
+    "-D",
+    "-E",
+    "ABC"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_width_paragraph_control.py:159"
+  },
+  {
+   "test": "test_two_lines",
+   "argv": [
+    "-d",
+    "fonts"
+   ],
+   "stdin": "Line 1\nLine 2",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_width_paragraph_control.py:168"
+  },
+  {
+   "test": "test_empty_lines",
+   "argv": [
+    "-d",
+    "fonts"
+   ],
+   "stdin": "A\n\nB",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_width_paragraph_control.py:177"
+  },
+  {
+   "test": "test_many_lines",
+   "argv": [
+    "-d",
+    "fonts",
+    "-f",
+    "small"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_width_paragraph_control.py:183"
+  },
+  {
+   "test": "test_digits",
+   "argv": [
+    "-d",
+    "fonts",
+    "0123456789"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_width_paragraph_control.py:193"
+  },
+  {
+   "test": "test_punctuation",
+   "argv": [
+    "-d",
+    "fonts",
+    "!@#$%"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_width_paragraph_control.py:201"
+  },
+  {
+   "test": "test_spaces",
+   "argv": [
+    "-d",
+    "fonts",
+    "A B C"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_width_paragraph_control.py:207"
+  },
+  {
+   "test": "test_tabs",
+   "argv": [
+    "-d",
+    "fonts"
+   ],
+   "stdin": "A\tB",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_width_paragraph_control.py:213"
+  },
+  {
+   "test": "test_mixed_case",
+   "argv": [
+    "-d",
+    "fonts",
+    "AbCdEf"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_width_paragraph_control.py:219"
+  }
+ ]
+}

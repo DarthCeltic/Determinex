@@ -1,0 +1,29 @@
+{
+  "schema": "determinex-repair-loop-transcript-v1",
+  "tool": "bleach",
+  "family": "python",
+  "pinned_commit": "913ab75",
+  "repair_type": "seeded_defect (behavioral) - verifier is the project's OWN test suite in a python:3.12 image (toolchain via provider; Docker-OPTIONAL)",
+  "toolchain": "python:3.12",
+  "oracle": "the real mozilla/bleach repo's own tests: python -m pytest tests/test_clean.py -q",
+  "defect": {
+    "file": "bleach/sanitizer.py",
+    "seed": "\"a\": [\"href\", \"title\"] -> \"a\": [\"title\"]"
+  },
+  "detect": {
+    "baseline": "254 passed, 3 xfailed in 0.43s",
+    "after_seed": "test suite FAILED (exit 1)",
+    "oracle_caught": true,
+    "failure_signature": "seeded defect made the project's own test suite exit non-zero"
+  },
+  "repair": {
+    "fix": "git checkout (restore upstream source)"
+  },
+  "reverify": {
+    "after": "254 passed, 3 xfailed in 0.36s",
+    "passed": 254,
+    "failures": 0
+  },
+  "repair_loop_status": "passed",
+  "proves": "closed-loop repair on a real external python project (bleach): its OWN test suite detects the injected defect -> fix -> re-verify (254 passed, 3 xfailed in 0.36s). Reproducible."
+}

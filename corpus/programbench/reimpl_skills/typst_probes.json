@@ -1,0 +1,2341 @@
+[
+ {
+  "name": "test::test_compile_with_timings::0",
+  "argv": [
+   "compile",
+   "test.typ",
+   "--timings"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "Timings test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_all_pdf_versions::1",
+  "argv": [
+   "compile",
+   "test.typ",
+   "--pdf-standard"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "PDF versions"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_multipage_range_combinations::2",
+  "argv": [
+   "compile",
+   "test.typ",
+   "--pages"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "#pagebreak()\nP1\n#pagebreak()\nP2\n#pagebreak()\nP3\n#pagebreak()\nP4"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eval_sys_version::3",
+  "argv": [
+   "eval",
+   "sys.version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_jobs_variations::4",
+  "argv": [
+   "compile",
+   "test.typ",
+   "--jobs"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "Jobs test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_with_show_rules::5",
+  "argv": [
+   "compile",
+   "test.typ"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "\n#show heading: it => block(\n  text(blue, it.body)\n)\n\n= Blue Heading\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_with_imports::6",
+  "argv": [
+   "compile",
+   "main.typ"
+  ],
+  "stdin": null,
+  "files": {
+   "main.typ": "\n#import \"module.typ\": double\nThe result is #double(5)\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_with_raw_blocks::7",
+  "argv": [
+   "compile",
+   "test.typ"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "\n```rust\nfn main() {\n    println!(\"Hello\");\n}\n```\n\n```python\ndef hello():\n    print(\"world\")\n```\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_with_alignment::8",
+  "argv": [
+   "compile",
+   "test.typ"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "\n#align(center)[Centered text]\n#align(right)[Right-aligned]\n#align(left)[Left-aligned]\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_with_spacing::9",
+  "argv": [
+   "compile",
+   "test.typ"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "\n#v(1cm)\nText with vertical space\n#h(2cm) Horizontal space\n#linebreak()\nNew line\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eval_boolean_operations::10",
+  "argv": [
+   "eval",
+   "true and false"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eval_comparison_operations::11",
+  "argv": [
+   "eval",
+   "5 > 3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_with_figures::12",
+  "argv": [
+   "compile",
+   "test.typ"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "\n#figure(\n  rect(fill: blue, width: 5cm, height: 3cm),\n  caption: [A blue rectangle]\n)\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_with_columns::13",
+  "argv": [
+   "compile",
+   "test.typ"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "\n#columns(2)[\n  Column 1 content here.\n  \n  #colbreak()\n  \n  Column 2 content here.\n]\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_nested_structures::14",
+  "argv": [
+   "compile",
+   "test.typ"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "\n#box[\n  #table(\n    columns: 2,\n    [#strong[Bold]], [#emph[Italic]],\n    [#link(\"url\")[Link]], [#text(red)[Colored]]\n  )\n]\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_html_format_with_feature::15",
+  "argv": [
+   "compile",
+   "test.typ",
+   "--features",
+   "html"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "HTML test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_multipage_svg_template_simple::16",
+  "argv": [
+   "compile",
+   "test.typ",
+   "--format",
+   "svg"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "#pagebreak()\nPage 1\n#pagebreak()\nPage 2"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_deps_format_zero::17",
+  "argv": [
+   "compile",
+   "test.typ",
+   "--deps",
+   "--deps-format",
+   "zero"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "Deps test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_deps_format_make::18",
+  "argv": [
+   "compile",
+   "test.typ",
+   "--deps",
+   "--deps-format",
+   "make"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "Deps test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_deps_to_stdout::19",
+  "argv": [
+   "compile",
+   "test.typ",
+   "--deps",
+   "-"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "Deps test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_multiple_inputs::20",
+  "argv": [
+   "compile",
+   "test.typ",
+   "--input",
+   "k1=v1",
+   "--input",
+   "k2=v2"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "#sys.inputs.at(\"k1\") + \" \" + sys.inputs.at(\"k2\")"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_page_range_open_ended::21",
+  "argv": [
+   "compile",
+   "test.typ",
+   "--pages",
+   "2-"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "#pagebreak()\nP1\n#pagebreak()\nP2\n#pagebreak()\nP3"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_pdf_standard_pdfa::22",
+  "argv": [
+   "compile",
+   "test.typ",
+   "--pdf-standard",
+   "a-2b"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "PDF/A test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_pdf_standard_multiple::23",
+  "argv": [
+   "compile",
+   "test.typ",
+   "--pdf-standard",
+   "1.7,a-2b"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "Multi-standard test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_ppi_high::24",
+  "argv": [
+   "compile",
+   "test.typ",
+   "--format",
+   "png",
+   "--ppi",
+   "300"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "High DPI test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_diagnostic_format_human::25",
+  "argv": [
+   "compile",
+   "test.typ",
+   "--diagnostic-format",
+   "human"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "#unknown"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_ignore_embedded_fonts::26",
+  "argv": [
+   "compile",
+   "test.typ",
+   "--ignore-embedded-fonts"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "No embedded fonts"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_with_typst_code::27",
+  "argv": [
+   "compile",
+   "test.typ"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "\n#set page(width: 10cm, height: 10cm)\n#set text(size: 12pt)\n\n= Heading\n\nThis is a *bold* and _italic_ text.\n\n$ x = (a + b) / 2 $\n\n#table(\n  columns: 2,\n  [A], [B],\n  [1], [2]\n)\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_with_includes::28",
+  "argv": [
+   "compile",
+   "main.typ"
+  ],
+  "stdin": null,
+  "files": {
+   "main.typ": "#include \"included.typ\""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short::29",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_long::30",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_short::31",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_long::32",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_auto::33",
+  "argv": [
+   "--color",
+   "auto",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_always::34",
+  "argv": [
+   "--color",
+   "always",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_never::35",
+  "argv": [
+   "--color",
+   "never",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_color::36",
+  "argv": [
+   "--color",
+   "invalid",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_subcommand::37",
+  "argv": [
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_compile_subcommand::38",
+  "argv": [
+   "help",
+   "compile"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_command::39",
+  "argv": [
+   "invalid-command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_basic_pdf::40",
+  "argv": [
+   "compile",
+   "test.typ"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "Hello, World!"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_alias_c::41",
+  "argv": [
+   "c",
+   "test.typ"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "Test content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_png_format::42",
+  "argv": [
+   "compile",
+   "test.typ",
+   "--format",
+   "png"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "PNG Test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_svg_format::43",
+  "argv": [
+   "compile",
+   "test.typ",
+   "-f",
+   "svg"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "SVG Test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_infer_format_from_extension::44",
+  "argv": [
+   "compile",
+   "test.typ"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "Format test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_from_stdin::45",
+  "argv": [
+   "compile",
+   "-"
+  ],
+  "stdin": "Hello from stdin!",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_to_stdout::46",
+  "argv": [
+   "compile",
+   "test.typ",
+   "-"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "Stdout test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_multipage_png_template::47",
+  "argv": [
+   "compile",
+   "test.typ",
+   "--format",
+   "png"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "#pagebreak()\nPage 1\n#pagebreak()\nPage 2"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_with_input_flag::48",
+  "argv": [
+   "compile",
+   "test.typ",
+   "--input",
+   "mykey=myvalue"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "#sys.inputs.at(\"mykey\")"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_with_root_flag::49",
+  "argv": [
+   "compile",
+   "test.typ",
+   "--root"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "Root test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_pdf_standard::50",
+  "argv": [
+   "compile",
+   "test.typ",
+   "--pdf-standard",
+   "1.7"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "PDF Standard test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_pages_selection::51",
+  "argv": [
+   "compile",
+   "test.typ",
+   "--pages",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "#pagebreak()\nPage 1\n#pagebreak()\nPage 2\n#pagebreak()\nPage 3"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_ppi_flag::52",
+  "argv": [
+   "compile",
+   "test.typ",
+   "--format",
+   "png",
+   "--ppi",
+   "72"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "PPI test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_deps_json::53",
+  "argv": [
+   "compile",
+   "test.typ",
+   "--deps"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "Deps test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_jobs_flag::54",
+  "argv": [
+   "compile",
+   "test.typ",
+   "--jobs",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "Jobs test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_diagnostic_format_short::55",
+  "argv": [
+   "compile",
+   "test.typ",
+   "--diagnostic-format",
+   "short"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "#invalid"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_missing_input_file::56",
+  "argv": [
+   "compile",
+   "nonexistent.typ",
+   "output.pdf"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_invalid_syntax::57",
+  "argv": [
+   "compile",
+   "test.typ"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "#invalid_function_call("
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_empty_file::58",
+  "argv": [
+   "compile",
+   "test.typ"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_unicode_content::59",
+  "argv": [
+   "compile",
+   "test.typ"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "Hello 世界 🌍 مرحبا"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_creation_timestamp::60",
+  "argv": [
+   "compile",
+   "test.typ",
+   "--creation-timestamp",
+   "1234567890"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "Timestamp test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_no_pdf_tags::61",
+  "argv": [
+   "compile",
+   "test.typ",
+   "--no-pdf-tags"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "No tags test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_bash::62",
+  "argv": [
+   "completions",
+   "bash"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_zsh::63",
+  "argv": [
+   "completions",
+   "zsh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_fish::64",
+  "argv": [
+   "completions",
+   "fish"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_powershell::65",
+  "argv": [
+   "completions",
+   "powershell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_elvish::66",
+  "argv": [
+   "completions",
+   "elvish"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_invalid_shell::67",
+  "argv": [
+   "completions",
+   "invalid-shell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_help::68",
+  "argv": [
+   "completions",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_very_long_content::69",
+  "argv": [
+   "compile"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_unicode_filename::70",
+  "argv": [
+   "compile",
+   "тест_文档.typ"
+  ],
+  "stdin": null,
+  "files": {
+   "тест_文档.typ": "Unicode filename"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_escaped_special_chars::71",
+  "argv": [
+   "compile",
+   "test.typ"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "Special chars test: \\$ \\% \\# \\@ \\\\ text"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_newlines_and_whitespace::72",
+  "argv": [
+   "compile",
+   "test.typ"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "Line1\n\nLine2\r\nLine3\tTab\t\tDouble"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_invalid_output_directory::73",
+  "argv": [
+   "compile",
+   "-",
+   "/nonexistent/directory/output.pdf"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_invalid_format_value::74",
+  "argv": [
+   "compile",
+   "test.typ",
+   "--format",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_invalid_ppi_value::75",
+  "argv": [
+   "compile",
+   "test.typ",
+   "--format",
+   "png",
+   "--ppi",
+   "abc"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_invalid_pages_value::76",
+  "argv": [
+   "compile",
+   "test.typ",
+   "--pages",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_page_out_of_range::77",
+  "argv": [
+   "compile",
+   "test.typ",
+   "--pages",
+   "99"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "Single page"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eval_array_expression::78",
+  "argv": [
+   "eval",
+   "(1, 2, 3, 4, 5)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eval_string_with_escapes::79",
+  "argv": [
+   "eval",
+   "\"test\\nstring\""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eval_dict_with_newlines::80",
+  "argv": [
+   "eval",
+   "(a: 1, b: 2, c: 3)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fonts_with_multiple_paths::81",
+  "argv": [
+   "fonts",
+   "--font-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_all_formats::82",
+  "argv": [
+   "info",
+   "--format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_binary_stdin::83",
+  "argv": [
+   "compile",
+   "-"
+  ],
+  "stdin": "\u0000\u0001\u0002\u0003���",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_empty_output_filename::84",
+  "argv": [
+   "compile",
+   "test.typ",
+   ""
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_same_input_output::85",
+  "argv": [
+   "compile",
+   "test.typ",
+   "test.typ"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_commands::86",
+  "argv": [
+   "compile",
+   "fonts"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_typst_root::87",
+  "argv": [
+   "compile",
+   "test.typ"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "Env test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_typst_font_paths::88",
+  "argv": [
+   "fonts"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_source_date_epoch::89",
+  "argv": [
+   "compile",
+   "test.typ"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "Reproducible build"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eval_simple_expression::90",
+  "argv": [
+   "eval",
+   "1 + 2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eval_string_expression::91",
+  "argv": [
+   "eval",
+   "\"hello world\""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eval_array_expression::92",
+  "argv": [
+   "eval",
+   "(1, 2, 3)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eval_dict_expression::93",
+  "argv": [
+   "eval",
+   "(a: 1, b: 2)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eval_with_in_flag::94",
+  "argv": [
+   "eval",
+   "sys.version",
+   "--in",
+   "test.typ"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "Hello"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eval_format_yaml::95",
+  "argv": [
+   "eval",
+   "(a: 1, b: 2)",
+   "--format",
+   "yaml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eval_pretty_json::96",
+  "argv": [
+   "eval",
+   "(a: 1, b: 2)",
+   "--pretty"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eval_target_paged::97",
+  "argv": [
+   "eval",
+   "1 + 1",
+   "--target",
+   "paged"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eval_target_html_feature::98",
+  "argv": [
+   "eval",
+   "1 + 1",
+   "--target",
+   "html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eval_with_input_flag::99",
+  "argv": [
+   "eval",
+   "sys.inputs.at(\"key\")",
+   "--input",
+   "key=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eval_invalid_expression::100",
+  "argv": [
+   "eval",
+   "invalid("
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eval_help::101",
+  "argv": [
+   "eval",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fonts_variants::102",
+  "argv": [
+   "fonts",
+   "--variants"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fonts_ignore_system_fonts::103",
+  "argv": [
+   "fonts",
+   "--ignore-system-fonts",
+   "--font-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fonts_help::104",
+  "argv": [
+   "fonts",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_human_readable::105",
+  "argv": [
+   "info"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_yaml_format::106",
+  "argv": [
+   "info",
+   "--format",
+   "yaml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_json_pretty::107",
+  "argv": [
+   "info",
+   "--format",
+   "json",
+   "--pretty"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_help::108",
+  "argv": [
+   "info",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_math_expressions::109",
+  "argv": [
+   "compile",
+   "test.typ"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "\n$ x = (a + b) / 2 $\n$ sum_(i=1)^n i = (n(n+1))/2 $\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_headings_and_lists::110",
+  "argv": [
+   "compile",
+   "test.typ"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "\n= Main Heading\n== Subheading\n\n- Item 1\n- Item 2\n  - Nested item\n\n+ Numbered 1\n+ Numbered 2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_text_formatting::111",
+  "argv": [
+   "compile",
+   "test.typ"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "\n*Bold text* and _italic text_ and `code text`.\n\n#emph[Emphasized] and #strong[Strong].\n\n#link(\"https://example.com\")[Link text]\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_page_settings::112",
+  "argv": [
+   "compile",
+   "test.typ"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "\n#set page(\n  width: 15cm,\n  height: 20cm,\n  margin: 2cm,\n  numbering: \"1\"\n)\n\nContent here.\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_tables::113",
+  "argv": [
+   "compile",
+   "test.typ"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "\n#table(\n  columns: (1fr, 2fr, 1fr),\n  [Header 1], [Header 2], [Header 3],\n  [Row 1], [Data], [Value],\n  [Row 2], [More data], [Another value]\n)\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_images_placeholder::114",
+  "argv": [
+   "compile",
+   "test.typ"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "#image(\"nonexistent.png\")"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_functions_and_variables::115",
+  "argv": [
+   "compile",
+   "test.typ"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "\n#let x = 5\n#let y = 10\n#let sum = x + y\n\nThe sum of #x and #y is #sum.\n\n#let greet(name) = \"Hello, \" + name\n\n#greet(\"World\")\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_conditionals::116",
+  "argv": [
+   "compile",
+   "test.typ"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "\n#let x = 5\n#if x > 3 [\n  x is greater than 3\n] else [\n  x is not greater than 3\n]\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_loops::117",
+  "argv": [
+   "compile",
+   "test.typ"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "\n#for i in range(1, 6) [\n  Item #i: #(i * i)\n]\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eval_arithmetic::118",
+  "argv": [
+   "eval",
+   "2 + 2 * 3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eval_string_operations::119",
+  "argv": [
+   "eval",
+   "\"Hello \" + \"World\""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eval_array_operations::120",
+  "argv": [
+   "eval",
+   "(1, 2, 3).len()"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eval_dict_operations::121",
+  "argv": [
+   "eval",
+   "(a: 1, b: 2).at(\"a\")"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_error_line_numbers::122",
+  "argv": [
+   "compile",
+   "test.typ"
+  ],
+  "stdin": null,
+  "files": {
+   "test.typ": "\nLine 1\nLine 2\n#unknown_function()\nLine 4\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_watch_help::123",
+  "argv": [
+   "watch",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_watch_alias_w_help::124",
+  "argv": [
+   "w",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_help::125",
+  "argv": [
+   "init",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_invalid_template::126",
+  "argv": [
+   "init",
+   "@invalid/nonexistent-template-12345"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_help_variations::127",
+  "argv": [
+   "compile",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eval_help_variations::128",
+  "argv": [
+   "eval",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_stdin_to_stdout::129",
+  "argv": [
+   "compile",
+   "-",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_always_forces_ansi_codes::130",
+  "argv": [
+   "--color=always",
+   "compile",
+   "-",
+   "/tmp/out.pdf"
+  ],
+  "stdin": "Invalid syntax #(",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_never_strips_ansi_codes::131",
+  "argv": [
+   "--color=never",
+   "compile",
+   "-",
+   "/tmp/out.pdf"
+  ],
+  "stdin": "Invalid syntax #(",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_auto_default_behavior::132",
+  "argv": [
+   "--color=auto",
+   "compile",
+   "-",
+   "/tmp/out.pdf"
+  ],
+  "stdin": "Invalid syntax #(",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_input_requires_output_arg::133",
+  "argv": [
+   "compile",
+   "-"
+  ],
+  "stdin": "#set page(width: 10cm, height: 10cm)\nHello",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_to_stdout_compilation::134",
+  "argv": [
+   "compile",
+   "-",
+   "-"
+  ],
+  "stdin": "#set page(width: 10cm, height: 10cm)\nFrom stdin",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eval_stdin_input::135",
+  "argv": [
+   "eval",
+   "query(heading)",
+   "--in",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_stdin_input::136",
+  "argv": [
+   "query",
+   "-",
+   "heading"
+  ],
+  "stdin": "= Test Heading\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_compilation_with_color_never::137",
+  "argv": [
+   "--color=never",
+   "compile",
+   "-",
+   "/tmp/test_out.pdf"
+  ],
+  "stdin": "#unknown\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_compilation_with_color_always::138",
+  "argv": [
+   "--color=always",
+   "compile",
+   "-",
+   "/tmp/test_out.pdf"
+  ],
+  "stdin": "#unknown\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_args_prints_welcome_message::139",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_option_after_positionals_is_accepted::140",
+  "argv": [
+   "compile",
+   "-",
+   "-",
+   "--format",
+   "pdf"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repeatable_and_non_repeatable_flags_behavior::141",
+  "argv": [
+   "compile",
+   "--input",
+   "foo=bar",
+   "--input",
+   "baz=qux",
+   "-",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_key_value_validation::142",
+  "argv": [
+   "compile",
+   "--input",
+   "foobar",
+   "-",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dash_like_values_not_treated_as_flags_when_value_expected::143",
+  "argv": [
+   "compile",
+   "--format",
+   "-",
+   "-",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_precedence_with_unknown_flag_shows_help_and_exits_zero::144",
+  "argv": [
+   "--help",
+   "--no-such-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_watch_help_has_watch_specific_flags::145",
+  "argv": [
+   "help",
+   "watch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_help_lists_supported_shells::146",
+  "argv": [
+   "help",
+   "completions"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_subcommand_is_minimal_and_has_no_options_section::147",
+  "argv": [
+   "help",
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_subcommand_error_mentions_try_help_and_usage::148",
+  "argv": [
+   "nosuchsubcommand",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_makes_help_be_treated_as_subcommand_and_errors::149",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_nonzero_and_mentions_error::150",
+  "argv": [
+   "does-not-exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_nonzero_and_mentions_argument::151",
+  "argv": [
+   "--definitely-not-a-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_help_contains_output_template_guidance::152",
+  "argv": [
+   "compile",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_stdin_to_stdout_pdf_header::153",
+  "argv": [
+   "--format",
+   "pdf",
+   "-",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_has_nonzero_exit_and_mentions_unrecognized::154",
+  "argv": [
+   "definitely-not-a-command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_suggests_similar_subcommand::155",
+  "argv": [
+   "compiel"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_flags_work_before_subcommand::156",
+  "argv": [
+   "--color",
+   "auto",
+   "compile",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_flags_do_not_work_after_subcommand::157",
+  "argv": [
+   "compile",
+   "--color",
+   "auto",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_subcommand_rejects_dash_help_as_subcommand::158",
+  "argv": [
+   "help",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_writes_pdf_file_and_exits_zero::159",
+  "argv": [
+   "compile",
+   "in.typ"
+  ],
+  "stdin": null,
+  "files": {
+   "in.typ": "Hello Typst\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_can_write_pdf_to_stdout_when_output_is_dash::160",
+  "argv": [
+   "compile",
+   "in.typ",
+   "-",
+   "--format",
+   "pdf"
+  ],
+  "stdin": null,
+  "files": {
+   "in.typ": "Hello Typst\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_reads_input_from_stdin_with_dash_and_writes_pdf_file::161",
+  "argv": [
+   "compile",
+   "-",
+   "--format",
+   "pdf"
+  ],
+  "stdin": "Hello Typst\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_nonexistent_input_errors_to_stderr_and_exit_1::162",
+  "argv": [
+   "compile",
+   "does_not_exist.typ"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_deps_to_stdout_is_valid_json_and_no_trailing_newline::163",
+  "argv": [
+   "compile",
+   "in.typ",
+   "--deps",
+   "-"
+  ],
+  "stdin": null,
+  "files": {
+   "in.typ": "Hello Typst\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_deps_format_zero_uses_nul_separator::164",
+  "argv": [
+   "compile",
+   "in.typ",
+   "--deps",
+   "--deps-format",
+   "zero"
+  ],
+  "stdin": null,
+  "files": {
+   "in.typ": "Hello Typst\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eval_simple_expression_prints_number_and_newline::165",
+  "argv": [
+   "eval",
+   "1+2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eval_pretty_option_keeps_trailing_newline_for_scalars::166",
+  "argv": [
+   "eval",
+   "--pretty",
+   "1+2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eval_yaml_format_for_scalar_has_blank_line_after_value::167",
+  "argv": [
+   "eval",
+   "--format",
+   "yaml",
+   "1+2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eval_inputs_key_value_visible_through_sys_inputs_json::168",
+  "argv": [
+   "eval",
+   "sys.inputs",
+   "--input",
+   "foo=bar"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_user_config_file_is_consulted_for_cli_env_options::169",
+  "argv": [
+   "compile",
+   "doc.typ"
+  ],
+  "stdin": null,
+  "files": {
+   "doc.typ": "Hello"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_var_root_used_by_compile_for_absolute_paths::170",
+  "argv": [
+   "compile",
+   "main.typ"
+  ],
+  "stdin": null,
+  "files": {
+   "main.typ": "Hello"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cli_root_overrides_env_root::171",
+  "argv": [
+   "compile",
+   "--root"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

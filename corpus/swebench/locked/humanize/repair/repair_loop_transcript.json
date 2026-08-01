@@ -1,0 +1,29 @@
+{
+  "schema": "determinex-repair-loop-transcript-v1",
+  "tool": "humanize",
+  "family": "python",
+  "pinned_commit": "d333afd",
+  "repair_type": "seeded_defect (behavioral) - verifier is the project's OWN test suite in a python:3.12 image (toolchain via provider; Docker-OPTIONAL)",
+  "toolchain": "python:3.12",
+  "oracle": "the real python-humanize/humanize repo's own tests: python -m pytest tests/test_number.py -q",
+  "defect": {
+    "file": "src/humanize/number.py",
+    "seed": "(3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 100) -> (2, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 100)"
+  },
+  "detect": {
+    "baseline": "\u001b[32m\u001b[32m\u001b[1m219 passed\u001b[0m\u001b[32m in 0.21s\u001b[0m\u001b[0m",
+    "after_seed": "test suite FAILED (exit 1)",
+    "oracle_caught": true,
+    "failure_signature": "seeded defect made the project's own test suite exit non-zero"
+  },
+  "repair": {
+    "fix": "git checkout (restore upstream source)"
+  },
+  "reverify": {
+    "after": "\u001b[32m\u001b[32m\u001b[1m219 passed\u001b[0m\u001b[32m in 0.18s\u001b[0m\u001b[0m",
+    "passed": 219,
+    "failures": 0
+  },
+  "repair_loop_status": "passed",
+  "proves": "closed-loop repair on a real external python project (humanize): its OWN test suite detects the injected defect -> fix -> re-verify (\u001b[32m\u001b[32m\u001b[1m219 passed\u001b[0m\u001b[32m in 0.18s\u001b[0m\u001b[0m). Reproducible."
+}

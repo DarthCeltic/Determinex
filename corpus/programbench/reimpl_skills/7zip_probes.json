@@ -1,0 +1,2141 @@
+[
+ {
+  "name": "test::test_help_shows_all_commands::0",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_command_returns_error::1",
+  "argv": [
+   "badcmd",
+   "archive.7z"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_command_shows_formats::2",
+  "argv": [
+   "i"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_single_file_7z::3",
+  "argv": [
+   "a",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "Hello World\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_creates_valid_7z_archive::4",
+  "argv": [
+   "a",
+   "hello.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "hello.txt": "Hello World Content\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_multiple_files::5",
+  "argv": [
+   "a",
+   "file1.txt",
+   "file2.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.txt": "content1",
+   "file2.txt": "content2"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_directory::6",
+  "argv": [
+   "a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_compression_level_mx1::7",
+  "argv": [
+   "a",
+   "-mx1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_compression_level_mx9::8",
+  "argv": [
+   "a",
+   "-mx9"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_zip_format::9",
+  "argv": [
+   "a",
+   "-tzip",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "Hello World\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_gzip_format::10",
+  "argv": [
+   "a",
+   "-tgzip",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "Hello World\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_bzip2_format::11",
+  "argv": [
+   "a",
+   "-tbzip2",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "Hello World\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_tar_format::12",
+  "argv": [
+   "a",
+   "-ttar",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "Hello World\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_xz_format::13",
+  "argv": [
+   "a",
+   "-txz",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "Hello World\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_password::14",
+  "argv": [
+   "a",
+   "-pMYPASS123",
+   "secret.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "secret.txt": "Secret Content\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_split_volumes::15",
+  "argv": [
+   "a",
+   "-v100b",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "Hello World\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_log_level_bb0::16",
+  "argv": [
+   "a",
+   "-bb0",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_log_level_bb1::17",
+  "argv": [
+   "a",
+   "-bb1",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_no_progress_bd::18",
+  "argv": [
+   "a",
+   "-bd",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_timing_bt::19",
+  "argv": [
+   "a",
+   "-bt",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_fully_qualified_paths::20",
+  "argv": [
+   "a",
+   "-spf",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_recurse_subdirectories::21",
+  "argv": [
+   "a",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_shows_file_sizes::22",
+  "argv": [
+   "a",
+   "sized.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "sized.txt": "Exact Content\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_password_protected_archive::23",
+  "argv": [
+   "a",
+   "-pSECRET",
+   "secret.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "secret.txt": "secret"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_nonexistent_archive::24",
+  "argv": [
+   "l",
+   "/nonexistent/path/archive.7z"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_corrupt_archive::25",
+  "argv": [
+   "l",
+   "corrupt.7z"
+  ],
+  "stdin": null,
+  "files": {
+   "corrupt.7z": "This is not an archive"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extract_flat_e::26",
+  "argv": [
+   "a",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "Hello World Content\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extract_roundtrip::27",
+  "argv": [
+   "a",
+   "roundtrip.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "roundtrip.txt": "Test roundtrip content\nLine 2\nLine 3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extract_zip_roundtrip::28",
+  "argv": [
+   "a",
+   "-tzip",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "ZIP round-trip content\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extract_gz_roundtrip::29",
+  "argv": [
+   "a",
+   "-tgzip",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "GZ round-trip content\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extract_bzip2_roundtrip::30",
+  "argv": [
+   "a",
+   "-tbzip2",
+   "mytest.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "mytest.txt": "bzip2 test data\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extract_xz_roundtrip::31",
+  "argv": [
+   "a",
+   "-txz",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "XZ round-trip content\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extract_with_correct_password::32",
+  "argv": [
+   "a",
+   "-pMYPASS",
+   "secret.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "secret.txt": "Secret Data\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extract_overwrite_all_aoa::33",
+  "argv": [
+   "a",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "Version 1\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extract_skip_existing_aos::34",
+  "argv": [
+   "a",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "New Content\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extract_to_stdout_so::35",
+  "argv": [
+   "a",
+   "-tgzip",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "stdout content\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_overwrite_rename_aot::36",
+  "argv": [
+   "a",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "from archive"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_corrupt_archive::37",
+  "argv": [
+   "t",
+   "corrupt.7z"
+  ],
+  "stdin": null,
+  "files": {
+   "corrupt.7z": "not a valid archive at all!"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_password_protected_correct::38",
+  "argv": [
+   "a",
+   "-pPASS",
+   "secret.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "secret.txt": "data"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_zip_archive::39",
+  "argv": [
+   "a",
+   "-tzip",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_file_from_archive::40",
+  "argv": [
+   "a",
+   "keep.txt",
+   "delete.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "keep.txt": "keep this",
+   "delete.txt": "delete this"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rename_file_in_archive::41",
+  "argv": [
+   "a",
+   "original.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "original.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hash_default_crc32::42",
+  "argv": [
+   "h",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "Hello World\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hash_sha256::43",
+  "argv": [
+   "h",
+   "-scrcSHA256",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "Hello World\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hash_sha1::44",
+  "argv": [
+   "h",
+   "-scrcSHA1",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "Hello World\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hash_crc64::45",
+  "argv": [
+   "h",
+   "-scrcCRC64",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "Hello World\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hash_xxh64::46",
+  "argv": [
+   "h",
+   "-scrcXXH64",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "Hello World\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hash_all_algorithms::47",
+  "argv": [
+   "h",
+   "-scrc*",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "Hello World\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hash_multiple_files::48",
+  "argv": [
+   "h",
+   "a.txt",
+   "b.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "a.txt": "content a",
+   "b.txt": "content b"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hash_unsupported_algorithm::49",
+  "argv": [
+   "h",
+   "-scrcSHA512",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "Hello World\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_from_stdin_with_name::50",
+  "argv": [
+   "a",
+   "-sistdin_file.txt"
+  ],
+  "stdin": "stdin content\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extract_to_stdout::51",
+  "argv": [
+   "a",
+   "-tgzip",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "Extract to stdout test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_stdin_roundtrip::52",
+  "argv": [
+   "a",
+   "-sitest.txt"
+  ],
+  "stdin": "stdin roundtrip data\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_stdin_no_name::53",
+  "argv": [
+   "a",
+   "-si"
+  ],
+  "stdin": "content data",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_missing_archive_file::54",
+  "argv": [
+   "l",
+   "/tmp/nonexistent_archive_xyz.7z"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_missing_extract_source::55",
+  "argv": [
+   "e",
+   "/tmp/nonexistent_xyz.7z",
+   "-o/tmp/",
+   "-y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_invalid_command::56",
+  "argv": [
+   "zzz",
+   "archive.7z"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_corrupt_archive_test::57",
+  "argv": [
+   "t",
+   "bad.7z"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.7z": "not a 7z file!!"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_corrupt_archive_extract::58",
+  "argv": [
+   "e",
+   "bad.7z",
+   "-y"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.7z": "corrupted data"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_no_archive_argument::59",
+  "argv": [
+   "l"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tar_create_and_list::60",
+  "argv": [
+   "a",
+   "-ttar",
+   "a.txt",
+   "b.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "a.txt": "content a",
+   "b.txt": "content b"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tar_extract_roundtrip::61",
+  "argv": [
+   "a",
+   "-ttar",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "TAR test content\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_tar_archive_technical::62",
+  "argv": [
+   "a",
+   "-ttar",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assume_yes_flag::63",
+  "argv": [
+   "a",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "v1"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_method_ppmd::64",
+  "argv": [
+   "a",
+   "-m0=PPMd"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_method_lzma::65",
+  "argv": [
+   "a",
+   "-m0=LZMA"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zip_with_deflate::66",
+  "argv": [
+   "a",
+   "-tzip",
+   "-m0=Deflate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_case_sensitive_mode::67",
+  "argv": [
+   "a",
+   "-ssc",
+   "Test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "Test.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hash_directory_recursively::68",
+  "argv": [
+   "h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_work_dir::69",
+  "argv": [
+   "a",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_threads_mmt::70",
+  "argv": [
+   "a",
+   "-mmt1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_filename::71",
+  "argv": [
+   "a",
+   "unicode_τεστ.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "unicode_τεστ.txt": "unicode content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bs_stream_to_stderr::72",
+  "argv": [
+   "a",
+   "-bso2",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hash_shows_file_name::73",
+  "argv": [
+   "h",
+   "myfile.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "myfile.txt": "data"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_lzma2_method::74",
+  "argv": [
+   "a",
+   "-m0=LZMA2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_multiple_archives::75",
+  "argv": [
+   "a",
+   "f1.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "f1.txt": "content 1"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_archive_name_mode_sae::76",
+  "argv": [
+   "a",
+   "-sae",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_spf2_fully_qualified_paths::77",
+  "argv": [
+   "a",
+   "-spf2",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zip_list_multiple_files::78",
+  "argv": [
+   "a",
+   "-tzip",
+   "alpha.txt",
+   "beta.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "alpha.txt": "alpha content",
+   "beta.txt": "beta content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sdel_deletes_source_after_add::79",
+  "argv": [
+   "a",
+   "-sdel",
+   "to_delete.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "to_delete.txt": "will be deleted"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stl_archive_timestamp::80",
+  "argv": [
+   "a",
+   "-stl",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssp_no_access_time_change::81",
+  "argv": [
+   "a",
+   "-ssp",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_snl_store_symlinks::82",
+  "argv": [
+   "a",
+   "-snl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_missing_file_with_warning::83",
+  "argv": [
+   "a",
+   "exists.txt",
+   "/nonexistent_xyz_file"
+  ],
+  "stdin": null,
+  "files": {
+   "exists.txt": "exists"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hash_stdin_content::84",
+  "argv": [
+   "h",
+   "-si"
+  ],
+  "stdin": "Hello World\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extract_show_statistics::85",
+  "argv": [
+   "a",
+   "f1.txt",
+   "f2.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "f1.txt": "content 1",
+   "f2.txt": "content 2"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zip_with_password_extract::86",
+  "argv": [
+   "a",
+   "-tzip",
+   "-pSECRET",
+   "secret.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "secret.txt": "Secret Content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zip_store_no_compression::87",
+  "argv": [
+   "a",
+   "-tzip",
+   "-mx0",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "Store no compression content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_7z_compression_method_bzip2::88",
+  "argv": [
+   "a",
+   "-m0=BZip2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_zip_slt_properties::89",
+  "argv": [
+   "a",
+   "-tzip",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "content for zip listing"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_tar_slt_properties::90",
+  "argv": [
+   "a",
+   "-ttar",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "content for tar listing"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_7z_with_delta_filter::91",
+  "argv": [
+   "a",
+   "-m0=Delta",
+   "-m1=LZMA2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hash_with_bb1_verbosity::92",
+  "argv": [
+   "h",
+   "-bb1",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zip_extract_with_scrc::93",
+  "argv": [
+   "a",
+   "-tzip",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "Hash verified content\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extract_scrc_7z::94",
+  "argv": [
+   "a",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "Hash verification test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_large_number_of_files::95",
+  "argv": [
+   "a",
+   "-tzip"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_bz2_archive::96",
+  "argv": [
+   "a",
+   "-tbzip2",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "bzip2 content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_xz_archive::97",
+  "argv": [
+   "a",
+   "-txz",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "xz content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_gz_archive::98",
+  "argv": [
+   "a",
+   "-tgzip",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "gz content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extract_bz2_to_specific_dir::99",
+  "argv": [
+   "a",
+   "-tbzip2",
+   "mydata.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "mydata.txt": "bzip2 extract test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extract_tar_multiple_files::100",
+  "argv": [
+   "a",
+   "-ttar"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_tar_archive::101",
+  "argv": [
+   "a",
+   "-ttar",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "TAR integrity test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_gz_archive::102",
+  "argv": [
+   "a",
+   "-tgzip",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "GZ integrity test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_bz2_archive::103",
+  "argv": [
+   "a",
+   "-tbzip2",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "BZ2 integrity test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_xz_archive::104",
+  "argv": [
+   "a",
+   "-txz",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "XZ integrity test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hash_crc32_explicit::105",
+  "argv": [
+   "h",
+   "-scrcCRC32",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "Hello World\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_zip_with_deflate64::106",
+  "argv": [
+   "a",
+   "-tzip",
+   "-m0=Deflate64"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_zip_bzip2_method::107",
+  "argv": [
+   "a",
+   "-tzip",
+   "-m0=BZip2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_update_add_new_file::108",
+  "argv": [
+   "a",
+   "file1.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.txt": "content 1"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_recursive_and_exclude::109",
+  "argv": [
+   "a",
+   "-r",
+   "-x!*.bak"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extract_aou_update_existing::110",
+  "argv": [
+   "a",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "archive content\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_create_split_archive_and_list::111",
+  "argv": [
+   "a",
+   "-v50b",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "Hello World split test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extract_split_archive::112",
+  "argv": [
+   "a",
+   "-v50b",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "Split archive content\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_split_archive::113",
+  "argv": [
+   "a",
+   "-v100b",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "Split test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_create_zip_volumes::114",
+  "argv": [
+   "a",
+   "-tzip",
+   "-v100b",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "ZIP volume test content\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_zip_split_volumes::115",
+  "argv": [
+   "a",
+   "-tzip",
+   "-v100b",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "ZIP split\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hash_empty_file::116",
+  "argv": [
+   "h",
+   "empty.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.txt": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hash_multiple_files_total::117",
+  "argv": [
+   "h",
+   "a.txt",
+   "b.txt",
+   "c.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "a.txt": "content a",
+   "b.txt": "content b",
+   "c.txt": "content c"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tar_update::118",
+  "argv": [
+   "a",
+   "-ttar",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "original\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zip_list_detailed_properties::119",
+  "argv": [
+   "a",
+   "-tzip",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "ZIP detail test content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zip_update_file::120",
+  "argv": [
+   "a",
+   "-tzip",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "version 1\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_wildcards::121",
+  "argv": [
+   "a",
+   "a.txt",
+   "b.txt",
+   "c.log"
+  ],
+  "stdin": null,
+  "files": {
+   "a.txt": "a",
+   "b.txt": "b",
+   "c.log": "c"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extract_specific_file_from_archive::122",
+  "argv": [
+   "a",
+   "a.txt",
+   "b.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "a.txt": "a content",
+   "b.txt": "b content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bzip2_list_shows_size::123",
+  "argv": [
+   "a",
+   "-tbzip2",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "bzip2 content test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bzip2_multiple_compress::124",
+  "argv": [
+   "a",
+   "-tbzip2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xz_create_and_test::125",
+  "argv": [
+   "a",
+   "-txz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gz_create_and_test::126",
+  "argv": [
+   "a",
+   "-tgzip"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_stream_bso1::127",
+  "argv": [
+   "a",
+   "-bso1",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_stream_bsp2::128",
+  "argv": [
+   "a",
+   "-bsp2",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_store_method_7z::129",
+  "argv": [
+   "a",
+   "-mx0",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "Store method content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_solid_archive::130",
+  "argv": [
+   "a",
+   "-ms=on"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_no_solid_archive::131",
+  "argv": [
+   "a",
+   "-ms=off"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extract_from_7z_with_exclude::132",
+  "argv": [
+   "a",
+   "a.txt",
+   "b.log"
+  ],
+  "stdin": null,
+  "files": {
+   "a.txt": "a content",
+   "b.log": "b content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_input::133",
+  "argv": [
+   "a",
+   "archive.7z",
+   "-si=fromstdin.txt"
+  ],
+  "stdin": "This content comes from stdin.\nMultiple lines.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ppmd8_stdin_input::134",
+  "argv": [
+   "a",
+   "-m0=PPMd",
+   "-si"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sfx_stdin_input_supported::135",
+  "argv": [
+   "a",
+   "-si"
+  ],
+  "stdin": "stdin data content\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gzip_stdin_to_archive::136",
+  "argv": [
+   "a",
+   "-tgzip",
+   "-si"
+  ],
+  "stdin": "Stdin test data\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bzip2_stdin_to_archive::137",
+  "argv": [
+   "a",
+   "-tbzip2",
+   "-si"
+  ],
+  "stdin": "BZIP2 stdin data\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xz_stdin_to_archive::138",
+  "argv": [
+   "a",
+   "-txz",
+   "-si"
+  ],
+  "stdin": "XZ stdin data\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gzip_stdin_stdout_pipeline::139",
+  "argv": [
+   "a",
+   "-tgzip",
+   "-si"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hash_stdin::140",
+  "argv": [
+   "h",
+   "-si"
+  ],
+  "stdin": "stdin content",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_basic_text_compression::141",
+  "argv": [
+   "a",
+   "-si"
+  ],
+  "stdin": "Basic stdin test data\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_named_file::142",
+  "argv": [
+   "a",
+   "-siMyCustomFile.txt"
+  ],
+  "stdin": "Named stdin file content\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_empty_input::143",
+  "argv": [
+   "a",
+   "-siempty.txt"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_zip_format::144",
+  "argv": [
+   "a",
+   "-si",
+   "-tzip"
+  ],
+  "stdin": "Test ZIP format from stdin\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_gzip_format::145",
+  "argv": [
+   "a",
+   "-si",
+   "-tgzip"
+  ],
+  "stdin": "Test GZIP format from stdin\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_bzip2_format::146",
+  "argv": [
+   "a",
+   "-si",
+   "-tbzip2"
+  ],
+  "stdin": "Test bzip2 format from stdin\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_compression_level::147",
+  "argv": [
+   "a",
+   "-si",
+   "-mx0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_incompatible_command_list::148",
+  "argv": [
+   "l",
+   "-si"
+  ],
+  "stdin": "some data\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_path_in_name::149",
+  "argv": [
+   "a",
+   "-sisubdir/nested/file.txt"
+  ],
+  "stdin": "Content in subdirectory\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_unicode_filename::150",
+  "argv": [
+   "a"
+  ],
+  "stdin": "Unicode filename content\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_solid_archive_mode::151",
+  "argv": [
+   "a",
+   "-si",
+   "-ms=on"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zip_zipcrypto_encryption::152",
+  "argv": [
+   "x"
+  ],
+  "stdin": "\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

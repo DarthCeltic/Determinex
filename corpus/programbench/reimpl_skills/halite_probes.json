@@ -1,0 +1,1512 @@
+[
+ {
+  "name": "test::test_starter_package_game::0",
+  "argv": [
+   "g++",
+   "MyBot.cpp",
+   "-std=c++11",
+   "-o",
+   "MyBot"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_java_starter_package_build::1",
+  "argv": [
+   "javac",
+   "MyBot.java"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rust_starter_package_build::2",
+  "argv": [
+   "cargo",
+   "build",
+   "--release"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_displays_usage::3",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_h_flag_displays_usage::4",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_displays_version::5",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_bot_execution::6",
+  "argv": [
+   "-d",
+   "10 10",
+   "-s",
+   "1000",
+   "-q",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_bot_command_creates_error_log::7",
+  "argv": [
+   "-d",
+   "10 10",
+   "-q",
+   "-r",
+   "/nonexistent/bot"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_dimensions::8",
+  "argv": [
+   "-d",
+   "15 20",
+   "-s",
+   "1000",
+   "-q",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_seed::9",
+  "argv": [
+   "-d",
+   "10 10",
+   "-s",
+   "12345",
+   "-q",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_player_mode_with_nplayers::10",
+  "argv": [
+   "-d",
+   "10 10",
+   "-n",
+   "2",
+   "-s",
+   "1000",
+   "-q",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_player_count_fails::11",
+  "argv": [
+   "-d",
+   "10 10",
+   "-n",
+   "7",
+   "-q",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_multiplayer_and_nplayers::12",
+  "argv": [
+   "-d",
+   "10 10",
+   "-n",
+   "3",
+   "-q",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_normal_mode_output_format::13",
+  "argv": [
+   "-d",
+   "10 10",
+   "-s",
+   "1000",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_replay_generation::14",
+  "argv": [
+   "-d",
+   "10 10",
+   "-s",
+   "1000",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_replay_directory::15",
+  "argv": [
+   "-d",
+   "10 10",
+   "-s",
+   "1000",
+   "-q",
+   "-i"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_dimension_format::16",
+  "argv": [
+   "-d",
+   "10",
+   "-q",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_override_mode_with_odd_arguments::17",
+  "argv": [
+   "-d",
+   "10 10",
+   "-o",
+   "-q",
+   "-r",
+   "bot1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_override_mode_with_insufficient_arguments::18",
+  "argv": [
+   "-d",
+   "10 10",
+   "-o",
+   "-q",
+   "-r",
+   "bot1",
+   "name1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minimum_map_size::19",
+  "argv": [
+   "-d",
+   "5 5",
+   "-s",
+   "1000",
+   "-q",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_medium_map_size::20",
+  "argv": [
+   "-d",
+   "25 25",
+   "-s",
+   "1000",
+   "-q",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_six_player_game::21",
+  "argv": [
+   "-d",
+   "30 30",
+   "-s",
+   "1000",
+   "-q",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rectangular_map::22",
+  "argv": [
+   "-d",
+   "10 20",
+   "-s",
+   "1000",
+   "-q",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_same_seed_reproducibility::23",
+  "argv": [
+   "-d",
+   "10 10",
+   "-s",
+   "54321",
+   "-q",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_different_seed_variability::24",
+  "argv": [
+   "-d",
+   "20 20",
+   "-s",
+   "1111",
+   "-q",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_flags_together::25",
+  "argv": [
+   "-d",
+   "15 15",
+   "-s",
+   "7777",
+   "-n",
+   "2",
+   "-q",
+   "-i"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_timeout_mode_flag::26",
+  "argv": [
+   "-d",
+   "10 10",
+   "-s",
+   "1000",
+   "-t",
+   "-q",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_three_player_game::27",
+  "argv": [
+   "-d",
+   "20 20",
+   "-s",
+   "2000",
+   "-q",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_four_player_game::28",
+  "argv": [
+   "-d",
+   "25 25",
+   "-s",
+   "3000",
+   "-q",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_five_player_game::29",
+  "argv": [
+   "-d",
+   "30 30",
+   "-s",
+   "4000",
+   "-q",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_player_n3_mode::30",
+  "argv": [
+   "-d",
+   "15 15",
+   "-n",
+   "3",
+   "-s",
+   "5000",
+   "-q",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_player_n4_mode::31",
+  "argv": [
+   "-d",
+   "20 20",
+   "-n",
+   "4",
+   "-s",
+   "6000",
+   "-q",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_player_n5_mode::32",
+  "argv": [
+   "-d",
+   "25 25",
+   "-n",
+   "5",
+   "-s",
+   "7000",
+   "-q",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_player_n6_mode::33",
+  "argv": [
+   "-d",
+   "30 30",
+   "-n",
+   "6",
+   "-s",
+   "8000",
+   "-q",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_dimension_uses_default::34",
+  "argv": [
+   "-d",
+   "0 0",
+   "-s",
+   "9000",
+   "-q",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_args_requires_bot_command::35",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_override_requires_even_pairs_min_4::36",
+  "argv": [
+   "--override",
+   "echo bot"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_override_rejects_odd_count::37",
+  "argv": [
+   "-o",
+   "echo bot",
+   "name1",
+   "echo bot2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_bots_with_nplayers_is_error::38",
+  "argv": [
+   "-n",
+   "2",
+   "echo bot1",
+   "echo bot2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_stops_flag_parsing::39",
+  "argv": [
+   "--",
+   "--nonexistent-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_bot_args_exits_nonzero_and_prints_message::40",
+  "argv": [
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arbitrary_string_not_treated_as_subcommand::41",
+  "argv": [
+   "test_bot_command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_common_subcommand_names_not_recognized::42",
+  "argv": [
+   "--noreplay"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_produces_game_execution::43",
+  "argv": [
+   "--noreplay",
+   "--nonexistent-flag-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_did_you_mean_suggestions::44",
+  "argv": [
+   "--noreplay",
+   "removee"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_args_treated_as_bot_commands::45",
+  "argv": [
+   "--noreplay",
+   "bot1",
+   "bot2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hyphenated_args_processed_not_as_subcommands::46",
+  "argv": [
+   "--noreplay",
+   "my-bot-command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_flags_quiet_noreplay::47",
+  "argv": [
+   "-d",
+   "10 10",
+   "-s",
+   "42",
+   "-q",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_flags_quiet_timeout_ignore::48",
+  "argv": [
+   "-d",
+   "10 10",
+   "-s",
+   "42",
+   "-q",
+   "-t"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_small_map::49",
+  "argv": [
+   "-d",
+   "5 5",
+   "-s",
+   "42",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asymmetric_map_wide::50",
+  "argv": [
+   "-d",
+   "30 10",
+   "-s",
+   "42",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asymmetric_map_tall::51",
+  "argv": [
+   "-d",
+   "10 30",
+   "-s",
+   "42",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seed_value_one::52",
+  "argv": [
+   "-d",
+   "10 10",
+   "-s",
+   "1",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seed_value_max_int::53",
+  "argv": [
+   "-d",
+   "10 10",
+   "-s",
+   "2147483647",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_replay_json_structure::54",
+  "argv": [
+   "-d",
+   "10 10",
+   "-s",
+   "42",
+   "-i",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_replay_contains_seed_info::55",
+  "argv": [
+   "-d",
+   "10 10",
+   "-s",
+   "12345",
+   "-i",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_sequential_games::56",
+  "argv": [
+   "-d",
+   "10 10",
+   "-s",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bot_with_different_names::57",
+  "argv": [
+   "-d",
+   "10 10",
+   "-s",
+   "42"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dimensions_with_nplayer_1::58",
+  "argv": [
+   "-d",
+   "20 20",
+   "-s",
+   "42",
+   "-n",
+   "1",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_two_bot_game_same_seed::59",
+  "argv": [
+   "-d",
+   "15 15",
+   "-s",
+   "999",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_normal_mode_shows_seed::60",
+  "argv": [
+   "-d",
+   "10 10",
+   "-s",
+   "54321"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_flags_combined::61",
+  "argv": [
+   "-d",
+   "10 10",
+   "-s",
+   "42",
+   "-i",
+   "-n",
+   "2",
+   "-q",
+   "-t"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_three_bot_ranking::62",
+  "argv": [
+   "-d",
+   "20 20",
+   "-s",
+   "42",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_output_structure_complete::63",
+  "argv": [
+   "-d",
+   "10 10",
+   "-s",
+   "42",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_bots_game::64",
+  "argv": [
+   "-d",
+   "15 15",
+   "-s",
+   "100",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_bot_command_graceful::65",
+  "argv": [
+   "-d",
+   "10 10",
+   "-s",
+   "42",
+   "/nonexistent/bot/command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_players_six_bots::66",
+  "argv": [
+   "-d",
+   "35 35",
+   "-s",
+   "42",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_dimensions::67",
+  "argv": [
+   "-d",
+   "20 15",
+   "-s",
+   "42",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_dimensions_square::68",
+  "argv": [
+   "-d",
+   "25 25",
+   "-s",
+   "42",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_different_seeds_different_games::69",
+  "argv": [
+   "-d",
+   "10 10",
+   "-s",
+   "100",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_dimensions_when_not_specified::70",
+  "argv": [
+   "-s",
+   "42",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nplayers_single_player_mode::71",
+  "argv": [
+   "-d",
+   "20 20",
+   "-s",
+   "42",
+   "-n",
+   "2",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nplayers_single_count::72",
+  "argv": [
+   "-d",
+   "30 30",
+   "-s",
+   "42",
+   "-n",
+   "3",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nplayers_with_multiple_bots_fails::73",
+  "argv": [
+   "-d",
+   "20 20",
+   "-s",
+   "42",
+   "-n",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_nplayers_zero::74",
+  "argv": [
+   "-d",
+   "20 20",
+   "-s",
+   "42",
+   "-n",
+   "0",
+   "echo test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_nplayers_too_high::75",
+  "argv": [
+   "-d",
+   "20 20",
+   "-s",
+   "42",
+   "-n",
+   "7"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dimensions_long_flag::76",
+  "argv": [
+   "--dimensions",
+   "18 18",
+   "-s",
+   "42",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seed_long_flag::77",
+  "argv": [
+   "-d",
+   "10 10",
+   "--seed",
+   "999",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nplayers_long_flag::78",
+  "argv": [
+   "-d",
+   "30 30",
+   "-s",
+   "42",
+   "--nplayers",
+   "3",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_map_dimensions::79",
+  "argv": [
+   "-d",
+   "50 50",
+   "-s",
+   "42",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_override_mode_basic::80",
+  "argv": [
+   "-d",
+   "10 10",
+   "-s",
+   "42",
+   "-o",
+   "-q",
+   "CustomName1",
+   "CustomName2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_override_mode_long_flag::81",
+  "argv": [
+   "-d",
+   "10 10",
+   "-s",
+   "42",
+   "--override",
+   "-q",
+   "Name1",
+   "Name2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_override_mode_odd_arguments_fails::82",
+  "argv": [
+   "-d",
+   "10 10",
+   "-s",
+   "42",
+   "-o",
+   "Name1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_override_mode_too_few_arguments::83",
+  "argv": [
+   "-d",
+   "10 10",
+   "-s",
+   "42",
+   "-o",
+   "cmd1",
+   "name1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_seed_value::84",
+  "argv": [
+   "-d",
+   "10 10",
+   "-s",
+   "999999999",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rectangular_map::85",
+  "argv": [
+   "-d",
+   "20 10",
+   "-s",
+   "42",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rectangular_map_tall::86",
+  "argv": [
+   "-d",
+   "10 20",
+   "-s",
+   "42",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_five_players::87",
+  "argv": [
+   "-d",
+   "30 30",
+   "-s",
+   "42",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dimensions_with_spaces::88",
+  "argv": [
+   "-d",
+   "15 15",
+   "-s",
+   "42",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seed_zero::89",
+  "argv": [
+   "-d",
+   "10 10",
+   "-s",
+   "0",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_noreplay_flag::90",
+  "argv": [
+   "-d",
+   "10 10",
+   "-s",
+   "42",
+   "-r",
+   "-i",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_noreplay_long_flag::91",
+  "argv": [
+   "-d",
+   "10 10",
+   "-s",
+   "42",
+   "--noreplay",
+   "-i",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_replay_directory_long_flag::92",
+  "argv": [
+   "-d",
+   "10 10",
+   "-s",
+   "42",
+   "--replaydirectory",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_replay_with_multiple_bots::93",
+  "argv": [
+   "-d",
+   "15 15",
+   "-s",
+   "100",
+   "-i",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_timeout_ignore_flag::94",
+  "argv": [
+   "-d",
+   "10 10",
+   "-s",
+   "42",
+   "-t",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_timeout_ignore_long_flag::95",
+  "argv": [
+   "-d",
+   "10 10",
+   "-s",
+   "42",
+   "--timeout",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_bot_command_graceful::96",
+  "argv": [
+   "-d",
+   "10 10",
+   "-s",
+   "42",
+   "this_command_does_not_exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_bots_one_invalid_graceful::97",
+  "argv": [
+   "-d",
+   "10 10",
+   "-s",
+   "42",
+   "/invalid/bot"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_precedence_with_other_flags::98",
+  "argv": [
+   "--help",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_after_double_dash_is_not_treated_as_help::99",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

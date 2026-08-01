@@ -1,0 +1,4856 @@
+[
+ {
+  "name": "test::test_chdir_option::0",
+  "argv": [
+   "-C",
+   "test.php"
+  ],
+  "stdin": null,
+  "files": {
+   "test.php": "<?php echo basename(getcwd()); ?>"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_mode_flag::1",
+  "argv": [
+   "-q",
+   "test.php"
+  ],
+  "stdin": null,
+  "files": {
+   "test.php": "<?php echo 'test'; ?>"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interactive_mode_no_readline::2",
+  "argv": [
+   "-a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_r_flags_error::3",
+  "argv": [
+   "-R",
+   "echo 'first';",
+   "-R",
+   "echo 'second';"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combining_r_and_f_flags_error::4",
+  "argv": [
+   "-R",
+   "echo 'code';",
+   "-F"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_with_quiet::5",
+  "argv": [
+   "-q",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_r_code_with_newlines::6",
+  "argv": [
+   "-r",
+   "echo \"line1\";\necho \"line2\";\necho \"line3\";"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lint_file_with_warnings::7",
+  "argv": [
+   "-l",
+   "warnings.php"
+  ],
+  "stdin": null,
+  "files": {
+   "warnings.php": "<?php\n    // This is valid syntax but might produce warnings at runtime\n    $unused = 1;\n    ?>"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_define_ini_boolean_values::8",
+  "argv": [
+   "-n",
+   "-d",
+   "display_errors=On",
+   "-r",
+   "echo ini_get('display_errors');"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_define_ini_with_quotes::9",
+  "argv": [
+   "-n",
+   "-d",
+   "error_log=/tmp/test.log",
+   "-r",
+   "echo ini_get('error_log');"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_script_arguments::10",
+  "argv": [
+   "args.php",
+   "arg1",
+   "arg2",
+   "arg3",
+   "arg4",
+   "arg5"
+  ],
+  "stdin": null,
+  "files": {
+   "args.php": "<?php echo count($argv); ?>"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_script_with_argument_starting_with_dash::11",
+  "argv": [
+   "args.php",
+   "--",
+   "-myarg"
+  ],
+  "stdin": null,
+  "files": {
+   "args.php": "<?php print_r($argv); ?>"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_syntax_highlight_empty_file::12",
+  "argv": [
+   "-s",
+   "empty.php"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.php": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strip_with_multiline_comment::13",
+  "argv": [
+   "-w",
+   "multiline.php"
+  ],
+  "stdin": null,
+  "files": {
+   "multiline.php": "<?php\n    /*\n    This is a\n    multiline\n    comment\n    */\n    echo 'keep';\n    ?>"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_r_with_exit_early::14",
+  "argv": [
+   "-r",
+   "echo 'before'; exit(5); echo 'after';"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_execution_with_warnings_disabled::15",
+  "argv": [
+   "-n",
+   "-d",
+   "error_reporting=0",
+   "-r",
+   "echo $undefined;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_phpinfo_contains_cli_info::16",
+  "argv": [
+   "-i"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_modules_shows_all_loaded::17",
+  "argv": [
+   "-m"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reflect_multiple_classes::18",
+  "argv": [
+   "--rc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reflect_builtin_functions::19",
+  "argv": [
+   "--rf"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_code_with_class_definition::20",
+  "argv": [
+   "-r",
+   "\n    class Test {\n        public function hello() {\n            return 'world';\n        }\n    }\n    $t = new Test();\n    echo $t->hello();\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_code_with_function_definition::21",
+  "argv": [
+   "-r",
+   "\n    function add($a, $b) {\n        return $a + $b;\n    }\n    echo add(5, 3);\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_code_with_array_operations::22",
+  "argv": [
+   "-r",
+   "\n    $arr = [1, 2, 3, 4, 5];\n    echo array_sum($arr);\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_r_with_superglobals::23",
+  "argv": [
+   "-r",
+   "echo isset($_SERVER) ? 'yes' : 'no';"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_r_with_constants::24",
+  "argv": [
+   "-r",
+   "echo PHP_VERSION;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_ini_paths::25",
+  "argv": [
+   "-c",
+   "/nonexistent/path",
+   "-r",
+   "echo 'test';"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exception_handling::26",
+  "argv": [
+   "-r",
+   "\n    try {\n        throw new Exception(\"Error message\");\n    } catch (Exception $e) {\n        echo \"Caught: \" . $e->getMessage() . \"\\n\";\n    }\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exception_finally::27",
+  "argv": [
+   "-r",
+   "\n    try {\n        echo \"Try\\n\";\n        throw new Exception(\"Error\");\n    } catch (Exception $e) {\n        echo \"Catch\\n\";\n    } finally {\n        echo \"Finally\\n\";\n    }\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_catch::28",
+  "argv": [
+   "-r",
+   "\n    try {\n        throw new InvalidArgumentException(\"Invalid\");\n    } catch (InvalidArgumentException $e) {\n        echo \"Invalid: \" . $e->getMessage() . \"\\n\";\n    } catch (Exception $e) {\n        echo \"Generic: \" . $e->getMessage() . \"\\n\";\n    }\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generators::29",
+  "argv": [
+   "-r",
+   "\n    function gen() {\n        yield 1;\n        yield 2;\n        yield 3;\n    }\n    foreach (gen() as $val) {\n        echo $val . \" \";\n    }\n    echo \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generators_with_keys::30",
+  "argv": [
+   "-r",
+   "\n    function gen() {\n        yield \"a\" => 1;\n        yield \"b\" => 2;\n        yield \"c\" => 3;\n    }\n    foreach (gen() as $key => $val) {\n        echo \"$key:$val \";\n    }\n    echo \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generator_send::31",
+  "argv": [
+   "-r",
+   "\n    function gen() {\n        $x = yield 1;\n        yield $x + 1;\n    }\n    $g = gen();\n    echo $g->current() . \"\\n\";\n    $g->send(5);\n    echo $g->current() . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_iterators::32",
+  "argv": [
+   "-r",
+   "\n    class MyIterator implements Iterator {\n        private $pos = 0;\n        private $array = [10, 20, 30];\n        \n        public function rewind(): void { $this->pos = 0; }\n        public function current(): mixed { return $this->array[$this->pos]; }\n        public function key(): mixed { return $this->pos; }\n        public function next(): void { ++$this->pos; }\n        public function valid(): bool { return isset($this->array[$this->pos]); }\n    }\n    \n    $it = new MyIterator();\n    foreach ($it as $val) {\n        echo $val . \" \";\n    }\n    echo \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_spl_classes::33",
+  "argv": [
+   "-r",
+   "\n    $arr = new ArrayObject([1, 2, 3]);\n    echo count($arr) . \"\\n\";\n    $arr[] = 4;\n    echo count($arr) . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reflection_function::34",
+  "argv": [
+   "-r",
+   "\n    function test($a, $b = 10) {}\n    $ref = new ReflectionFunction(\"test\");\n    echo $ref->getName() . \"\\n\";\n    echo $ref->getNumberOfParameters() . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reflection_class::35",
+  "argv": [
+   "-r",
+   "\n    class MyClass {\n        public $prop1;\n        private $prop2;\n        public function method1() {}\n    }\n    $ref = new ReflectionClass(\"MyClass\");\n    echo $ref->getName() . \"\\n\";\n    echo count($ref->getProperties()) . \"\\n\";\n    echo count($ref->getMethods()) . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_hinting::36",
+  "argv": [
+   "-r",
+   "\n    function process(array $arr, callable $fn): array {\n        return array_map($fn, $arr);\n    }\n    $result = process([1, 2, 3], fn($x) => $x * 2);\n    echo implode(\",\", $result) . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nullable_types::37",
+  "argv": [
+   "-r",
+   "\n    function get(?string $val): ?string {\n        return $val;\n    }\n    echo (get(\"test\") ?? \"null\") . \"\\n\";\n    echo (get(null) ?? \"null\") . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_variadic_type_hinting::38",
+  "argv": [
+   "-r",
+   "\n    function sum(int ...$numbers): int {\n        return array_sum($numbers);\n    }\n    echo sum(1, 2, 3, 4, 5) . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_constant_arrays::39",
+  "argv": [
+   "-r",
+   "\n    const COLORS = [\"red\", \"green\", \"blue\"];\n    echo COLORS[1] . \"\\n\";\n    echo count(COLORS) . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_class_constant_visibility::40",
+  "argv": [
+   "-r",
+   "\n    class Test {\n        public const PUB = \"public\";\n        private const PRIV = \"private\";\n        \n        public function getPriv() {\n            return self::PRIV;\n        }\n    }\n    echo Test::PUB . \"\\n\";\n    $t = new Test();\n    echo $t->getPriv() . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unpacking_arrays::41",
+  "argv": [
+   "-r",
+   "\n    $arr1 = [1, 2, 3];\n    $arr2 = [4, 5, 6];\n    $merged = [...$arr1, ...$arr2];\n    echo implode(\",\", $merged) . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unpacking_arguments::42",
+  "argv": [
+   "-r",
+   "\n    function sum($a, $b, $c) {\n        return $a + $b + $c;\n    }\n    $args = [1, 2, 3];\n    echo sum(...$args) . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_array_syntax::43",
+  "argv": [
+   "-r",
+   "\n    $empty = [];\n    $indexed = [1, 2, 3];\n    $assoc = [\"a\" => 1, \"b\" => 2];\n    $nested = [[1, 2], [3, 4]];\n    echo count($empty) . \"\\n\";\n    echo count($indexed) . \"\\n\";\n    echo count($assoc) . \"\\n\";\n    echo $nested[1][1] . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_destructuring::44",
+  "argv": [
+   "-r",
+   "\n    [$a, $b, $c] = [1, 2, 3];\n    echo \"$a,$b,$c\\n\";\n    [\"x\" => $x, \"y\" => $y] = [\"x\" => 10, \"y\" => 20];\n    echo \"$x,$y\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_foreach_destructuring::45",
+  "argv": [
+   "-r",
+   "\n    $data = [[1, 2], [3, 4], [5, 6]];\n    foreach ($data as [$a, $b]) {\n        echo \"$a:$b \";\n    }\n    echo \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_goto_statement::46",
+  "argv": [
+   "-r",
+   "\n    $i = 0;\n    start:\n    $i++;\n    echo $i . \" \";\n    if ($i < 3) goto start;\n    echo \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_declare_strict_types::47",
+  "argv": [
+   "-r",
+   "\n    declare(strict_types=1);\n    function add(int $a, int $b): int {\n        return $a + $b;\n    }\n    echo add(5, 3) . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_declare_ticks::48",
+  "argv": [
+   "-r",
+   "\n    function tick_handler() {}\n    register_tick_function(\"tick_handler\");\n    declare(ticks=1) {\n        $x = 1;\n        $y = 2;\n        echo ($x + $y) . \"\\n\";\n    }\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_weak_references::49",
+  "argv": [
+   "-r",
+   "\n    $obj = new stdClass();\n    $weak = WeakReference::create($obj);\n    echo ($weak->get() !== null ? \"Y\" : \"N\") . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enum_basic::50",
+  "argv": [
+   "-r",
+   "\n    enum Status {\n        case Pending;\n        case Active;\n        case Completed;\n    }\n    $s = Status::Active;\n    echo $s->name . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enum_backed::51",
+  "argv": [
+   "-r",
+   "\n    enum Status: int {\n        case Pending = 0;\n        case Active = 1;\n        case Completed = 2;\n    }\n    $s = Status::Active;\n    echo $s->value . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_first_class_callables::52",
+  "argv": [
+   "-r",
+   "\n    function double($x) {\n        return $x * 2;\n    }\n    $fn = double(...);\n    echo $fn(5) . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_named_arguments::53",
+  "argv": [
+   "-r",
+   "\n    function greet($first, $last, $title = \"Mr.\") {\n        return \"$title $first $last\";\n    }\n    echo greet(last: \"Doe\", first: \"John\") . \"\\n\";\n    echo greet(first: \"Jane\", last: \"Smith\", title: \"Ms.\") . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_attributes::54",
+  "argv": [
+   "-r",
+   "\n    #[Attribute]\n    class MyAttr {\n        public function __construct(public string $value) {}\n    }\n    \n    #[MyAttr(\"test\")]\n    class MyClass {}\n    \n    $ref = new ReflectionClass(MyClass::class);\n    $attrs = $ref->getAttributes();\n    echo count($attrs) . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generators::55",
+  "argv": [
+   "-r",
+   "\n    function gen() {\n        yield 1;\n        yield 2;\n        yield 3;\n    }\n    foreach (gen() as $value) {\n        echo $value . \"\\n\";\n    }\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generator_with_keys::56",
+  "argv": [
+   "-r",
+   "\n    function gen() {\n        yield 'a' => 1;\n        yield 'b' => 2;\n        yield 'c' => 3;\n    }\n    foreach (gen() as $key => $value) {\n        echo \"$key=>$value\\n\";\n    }\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_anonymous_functions::57",
+  "argv": [
+   "-r",
+   "\n    $fn = function($x) { return $x * 2; };\n    echo $fn(5) . \"\\n\";\n    $multiplier = 3;\n    $fn2 = function($x) use ($multiplier) { return $x * $multiplier; };\n    echo $fn2(5) . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arrow_functions::58",
+  "argv": [
+   "-r",
+   "\n    $fn = fn($x) => $x * 2;\n    echo $fn(5) . \"\\n\";\n    $multiplier = 3;\n    $fn2 = fn($x) => $x * $multiplier;\n    echo $fn2(5) . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_variadic_functions::59",
+  "argv": [
+   "-r",
+   "\n    function sum(...$numbers) {\n        return array_sum($numbers);\n    }\n    echo sum(1, 2, 3, 4, 5) . \"\\n\";\n    echo sum() . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_named_arguments::60",
+  "argv": [
+   "-r",
+   "\n    function greet($name, $greeting = 'Hello') {\n        echo \"$greeting, $name!\\n\";\n    }\n    greet(name: 'John');\n    greet(greeting: 'Hi', name: 'Jane');\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_union_types::61",
+  "argv": [
+   "-r",
+   "\n    function process(int|string $value): int|string {\n        if (is_int($value)) {\n            return $value * 2;\n        }\n        return strtoupper($value);\n    }\n    echo process(5) . \"\\n\";\n    echo process('hello') . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nullable_types::62",
+  "argv": [
+   "-r",
+   "\n    function process(?int $value): ?string {\n        return $value ? (string)$value : null;\n    }\n    echo process(42) . \"\\n\";\n    var_dump(process(null));\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_match_expression::63",
+  "argv": [
+   "-r",
+   "\n    $value = 2;\n    $result = match ($value) {\n        1 => 'one',\n        2 => 'two',\n        3 => 'three',\n        default => 'other'\n    };\n    echo $result . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_coalesce_operator::64",
+  "argv": [
+   "-r",
+   "\n    $a = null;\n    $b = 'value';\n    echo ($a ?? 'default') . \"\\n\";\n    echo ($b ?? 'default') . \"\\n\";\n    $c = ['key' => 'val'];\n    echo ($c['key'] ?? 'default') . \"\\n\";\n    echo ($c['missing'] ?? 'default') . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_spaceship_operator::65",
+  "argv": [
+   "-r",
+   "\n    echo (1 <=> 1) . \"\\n\";\n    echo (1 <=> 2) . \"\\n\";\n    echo (2 <=> 1) . \"\\n\";\n    echo ('a' <=> 'a') . \"\\n\";\n    echo ('a' <=> 'b') . \"\\n\";\n    echo ('b' <=> 'a') . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_spread_operator::66",
+  "argv": [
+   "-r",
+   "\n    $arr1 = [1, 2, 3];\n    $arr2 = [4, 5, 6];\n    $merged = [...$arr1, ...$arr2];\n    print_r($merged);\n    function sum(...$numbers) {\n        return array_sum($numbers);\n    }\n    echo sum(...$arr1) . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_attributes::67",
+  "argv": [
+   "-r",
+   "\n    #[Attribute]\n    class MyAttribute {\n        public function __construct(public string $value) {}\n    }\n    #[MyAttribute('test')]\n    class MyClass {}\n    $rc = new ReflectionClass('MyClass');\n    $attrs = $rc->getAttributes();\n    echo count($attrs) . \"\\n\";\n    foreach ($attrs as $attr) {\n        echo $attr->getName() . \"\\n\";\n    }\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_static_variables::68",
+  "argv": [
+   "-r",
+   "\n    function counter() {\n        static $count = 0;\n        return ++$count;\n    }\n    echo counter() . \"\\n\";\n    echo counter() . \"\\n\";\n    echo counter() . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_references::69",
+  "argv": [
+   "-r",
+   "\n    $a = 5;\n    $b = &$a;\n    $b = 10;\n    echo $a . \"\\n\";\n    function increment(&$val) {\n        $val++;\n    }\n    $x = 5;\n    increment($x);\n    echo $x . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_constant_arrays::70",
+  "argv": [
+   "-r",
+   "\n    const MY_ARRAY = [1, 2, 3];\n    echo MY_ARRAY[0] . \"\\n\";\n    echo MY_ARRAY[1] . \"\\n\";\n    echo MY_ARRAY[2] . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_late_static_binding::71",
+  "argv": [
+   "-r",
+   "\n    class Base {\n        public static function who() {\n            return 'Base';\n        }\n        public static function test() {\n            return static::who();\n        }\n    }\n    class Child extends Base {\n        public static function who() {\n            return 'Child';\n        }\n    }\n    echo Base::test() . \"\\n\";\n    echo Child::test() . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_traits::72",
+  "argv": [
+   "-r",
+   "\n    trait Hello {\n        public function sayHello() {\n            return 'Hello';\n        }\n    }\n    trait World {\n        public function sayWorld() {\n            return 'World';\n        }\n    }\n    class MyClass {\n        use Hello, World;\n    }\n    $obj = new MyClass();\n    echo $obj->sayHello() . \" \" . $obj->sayWorld() . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trait_conflict_resolution::73",
+  "argv": [
+   "-r",
+   "\n    trait A {\n        public function test() {\n            return 'A';\n        }\n    }\n    trait B {\n        public function test() {\n            return 'B';\n        }\n    }\n    class MyClass {\n        use A, B {\n            B::test insteadof A;\n            A::test as testA;\n        }\n    }\n    $obj = new MyClass();\n    echo $obj->test() . \"\\n\";\n    echo $obj->testA() . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enums::74",
+  "argv": [
+   "-r",
+   "\n    enum Status {\n        case Pending;\n        case Active;\n        case Inactive;\n    }\n    $status = Status::Active;\n    echo $status->name . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backed_enums::75",
+  "argv": [
+   "-r",
+   "\n    enum Status: int {\n        case Pending = 0;\n        case Active = 1;\n        case Inactive = 2;\n    }\n    $status = Status::Active;\n    echo $status->name . \"\\n\";\n    echo $status->value . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_first_class_callables::76",
+  "argv": [
+   "-r",
+   "\n    function add($a, $b) {\n        return $a + $b;\n    }\n    $fn = add(...);\n    echo $fn(3, 5) . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_readonly_properties::77",
+  "argv": [
+   "-r",
+   "\n    class User {\n        public function __construct(\n            public readonly string $name,\n            public readonly int $age\n        ) {}\n    }\n    $user = new User('John', 30);\n    echo $user->name . \"\\n\";\n    echo $user->age . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_constructor_property_promotion::78",
+  "argv": [
+   "-r",
+   "\n    class Point {\n        public function __construct(\n            public int $x = 0,\n            public int $y = 0\n        ) {}\n    }\n    $p = new Point(3, 4);\n    echo $p->x . \"\\n\";\n    echo $p->y . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_type::79",
+  "argv": [
+   "-r",
+   "\n    function process(mixed $value): mixed {\n        return is_int($value) ? $value * 2 : $value;\n    }\n    echo process(5) . \"\\n\";\n    echo process('hello') . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_throw_expression::80",
+  "argv": [
+   "-r",
+   "\n    function getValue($key, $arr) {\n        return $arr[$key] ?? throw new Exception('Key not found');\n    }\n    try {\n        echo getValue('a', ['a' => 1]) . \"\\n\";\n        echo getValue('b', ['a' => 1]) . \"\\n\";\n    } catch (Exception $e) {\n        echo $e->getMessage() . \"\\n\";\n    }\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fibers::81",
+  "argv": [
+   "-r",
+   "\n    $fiber = new Fiber(function(): void {\n        echo \"Fiber start\\n\";\n        Fiber::suspend();\n        echo \"Fiber resumed\\n\";\n    });\n    $fiber->start();\n    echo \"Main\\n\";\n    $fiber->resume();\n    echo \"Done\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_short::82",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_long::83",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_short::84",
+  "argv": [
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_long::85",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::86",
+  "argv": [
+   "--invalid-flag-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_functions::87",
+  "argv": [
+   "-r",
+   "\n    echo strlen(\"hello\") . \"\\n\";\n    echo strtoupper(\"hello\") . \"\\n\";\n    echo strtolower(\"HELLO\") . \"\\n\";\n    echo ucfirst(\"hello\") . \"\\n\";\n    echo ucwords(\"hello world\") . \"\\n\";\n    echo trim(\"  spaces  \") . \"|\\n\";\n    echo ltrim(\"  left\") . \"|\\n\";\n    echo rtrim(\"right  \") . \"|\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_search_functions::88",
+  "argv": [
+   "-r",
+   "\n    echo strpos(\"hello world\", \"world\") . \"\\n\";\n    echo strstr(\"hello world\", \"world\") . \"\\n\";\n    echo str_contains(\"hello world\", \"world\") ? \"Y\" : \"N\" . \"\\n\";\n    echo str_starts_with(\"hello world\", \"hello\") ? \"Y\" : \"N\" . \"\\n\";\n    echo str_ends_with(\"hello world\", \"world\") ? \"Y\" : \"N\" . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_replace_functions::89",
+  "argv": [
+   "-r",
+   "\n    echo str_replace(\"world\", \"PHP\", \"hello world\") . \"\\n\";\n    echo str_replace([\"a\", \"e\"], \"X\", \"hello\") . \"\\n\";\n    echo strtr(\"hello\", \"helo\", \"HELO\") . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_functions::90",
+  "argv": [
+   "-r",
+   "\n    $arr = [1, 2, 3, 4, 5];\n    echo count($arr) . \"\\n\";\n    echo array_sum($arr) . \"\\n\";\n    echo max($arr) . \"\\n\";\n    echo min($arr) . \"\\n\";\n    echo in_array(3, $arr) ? \"Y\" : \"N\" . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_transform_functions::91",
+  "argv": [
+   "-r",
+   "\n    $arr = [1, 2, 3];\n    print_r(array_map(fn($x) => $x * 2, $arr));\n    print_r(array_filter([1, 2, 3, 4, 5], fn($x) => $x > 2));\n    echo array_reduce([1, 2, 3, 4], fn($carry, $item) => $carry + $item, 0) . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_stack_queue::92",
+  "argv": [
+   "-r",
+   "\n    $arr = [1, 2, 3];\n    array_push($arr, 4);\n    echo implode(\",\", $arr) . \"\\n\";\n    $val = array_pop($arr);\n    echo $val . \"\\n\";\n    echo implode(\",\", $arr) . \"\\n\";\n    array_unshift($arr, 0);\n    echo implode(\",\", $arr) . \"\\n\";\n    $val = array_shift($arr);\n    echo $val . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_sorting::93",
+  "argv": [
+   "-r",
+   "\n    $arr = [3, 1, 4, 1, 5, 9, 2];\n    sort($arr);\n    echo implode(\",\", $arr) . \"\\n\";\n    rsort($arr);\n    echo implode(\",\", $arr) . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_keys_values::94",
+  "argv": [
+   "-r",
+   "\n    $arr = [\"a\" => 1, \"b\" => 2, \"c\" => 3];\n    echo implode(\",\", array_keys($arr)) . \"\\n\";\n    echo implode(\",\", array_values($arr)) . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_merge_slice::95",
+  "argv": [
+   "-r",
+   "\n    $a = [1, 2];\n    $b = [3, 4];\n    echo implode(\",\", array_merge($a, $b)) . \"\\n\";\n    echo implode(\",\", array_slice([1,2,3,4,5], 1, 3)) . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_math_functions::96",
+  "argv": [
+   "-r",
+   "\n    echo abs(-5) . \"\\n\";\n    echo ceil(4.3) . \"\\n\";\n    echo floor(4.7) . \"\\n\";\n    echo round(4.5) . \"\\n\";\n    echo pow(2, 3) . \"\\n\";\n    echo sqrt(16) . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_random_functions::97",
+  "argv": [
+   "-r",
+   "\n    $r = rand(1, 100);\n    echo ($r >= 1 && $r <= 100) ? \"OK\" : \"FAIL\" . \"\\n\";\n    $r = mt_rand(1, 100);\n    echo ($r >= 1 && $r <= 100) ? \"OK\" : \"FAIL\" . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_time_functions::98",
+  "argv": [
+   "-r",
+   "\n    echo date(\"Y\") . \"\\n\";\n    echo date(\"m\") . \"\\n\";\n    echo date(\"d\") . \"\\n\";\n    $ts = time();\n    echo ($ts > 0) ? \"OK\" : \"FAIL\" . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_checking_functions::99",
+  "argv": [
+   "-r",
+   "\n    echo is_int(123) ? \"Y\" : \"N\" . \"\\n\";\n    echo is_float(3.14) ? \"Y\" : \"N\" . \"\\n\";\n    echo is_string(\"hello\") ? \"Y\" : \"N\" . \"\\n\";\n    echo is_bool(true) ? \"Y\" : \"N\" . \"\\n\";\n    echo is_array([1, 2]) ? \"Y\" : \"N\" . \"\\n\";\n    echo is_null(null) ? \"Y\" : \"N\" . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_variable_functions::100",
+  "argv": [
+   "-r",
+   "\n    $x = 123;\n    echo isset($x) ? \"Y\" : \"N\" . \"\\n\";\n    echo empty($x) ? \"Y\" : \"N\" . \"\\n\";\n    unset($x);\n    echo isset($x) ? \"Y\" : \"N\" . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_serialize_functions::101",
+  "argv": [
+   "-r",
+   "\n    $arr = [\"a\" => 1, \"b\" => 2];\n    $ser = serialize($arr);\n    echo strlen($ser) > 0 ? \"OK\" : \"FAIL\" . \"\\n\";\n    $unser = unserialize($ser);\n    echo $unser[\"a\"] . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_functions::102",
+  "argv": [
+   "-r",
+   "\n    $arr = [\"name\" => \"John\", \"age\" => 30];\n    $json = json_encode($arr);\n    echo $json . \"\\n\";\n    $decoded = json_decode($json, true);\n    echo $decoded[\"name\"] . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base64_functions::103",
+  "argv": [
+   "-r",
+   "\n    $text = \"Hello PHP\";\n    $enc = base64_encode($text);\n    echo $enc . \"\\n\";\n    $dec = base64_decode($enc);\n    echo $dec . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hash_functions::104",
+  "argv": [
+   "-r",
+   "\n    echo md5(\"test\") . \"\\n\";\n    echo sha1(\"test\") . \"\\n\";\n    echo hash(\"sha256\", \"test\") . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explode_implode::105",
+  "argv": [
+   "-r",
+   "\n    $str = \"a,b,c,d\";\n    $arr = explode(\",\", $str);\n    echo count($arr) . \"\\n\";\n    echo $arr[2] . \"\\n\";\n    echo implode(\"-\", $arr) . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sprintf_printf::106",
+  "argv": [
+   "-r",
+   "\n    echo sprintf(\"Number: %d\", 42) . \"\\n\";\n    echo sprintf(\"Float: %.2f\", 3.14159) . \"\\n\";\n    echo sprintf(\"String: %s\", \"hello\") . \"\\n\";\n    printf(\"Direct: %d\\n\", 100);\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preg_match::107",
+  "argv": [
+   "-r",
+   "\n    echo preg_match(\"/world/\", \"hello world\") . \"\\n\";\n    echo preg_match(\"/[0-9]+/\", \"test123\") . \"\\n\";\n    preg_match(\"/([0-9]+)/\", \"test123\", $matches);\n    echo $matches[1] . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preg_replace::108",
+  "argv": [
+   "-r",
+   "\n    echo preg_replace(\"/[0-9]+/\", \"X\", \"test123abc456\") . \"\\n\";\n    echo preg_replace(\"/\\s+/\", \"-\", \"hello  world\") . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_var_export::109",
+  "argv": [
+   "-r",
+   "\n    $arr = [\"a\" => 1, \"b\" => 2];\n    var_export($arr);\n    echo \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_script_arguments_with_double_dash::110",
+  "argv": [
+   "args.php",
+   "--",
+   "arg1",
+   "arg2",
+   "arg3"
+  ],
+  "stdin": null,
+  "files": {
+   "args.php": "<?php echo count($argv).':'; foreach($argv as $a) echo $a.'|'; ?>"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_script_arguments_without_double_dash::111",
+  "argv": [
+   "args2.php",
+   "arg1",
+   "arg2"
+  ],
+  "stdin": null,
+  "files": {
+   "args2.php": "<?php echo count($argv).':'; foreach($argv as $a) echo $a.'|'; ?>"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pcre_regex_complex::112",
+  "argv": [
+   "-r",
+   "\n    $text = \"abc123def456\";\n    preg_match_all('/\\d+/', $text, $matches);\n    echo implode(',', $matches[0]);\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preg_replace::113",
+  "argv": [
+   "-r",
+   "\n    echo preg_replace('/\\d+/', 'X', 'abc123def456');\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preg_split::114",
+  "argv": [
+   "-r",
+   "\n    $arr = preg_split('/,/', 'a,b,c');\n    echo implode('|', $arr);\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_walk::115",
+  "argv": [
+   "-r",
+   "\n    $arr = [1, 2, 3];\n    array_walk($arr, function(&$val) { $val *= 2; });\n    echo implode(',', $arr);\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_reduce::116",
+  "argv": [
+   "-r",
+   "\n    $arr = [1, 2, 3, 4];\n    echo array_reduce($arr, function($carry, $item) { return $carry + $item; }, 0);\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_flip::117",
+  "argv": [
+   "-r",
+   "\n    $arr = ['a' => 1, 'b' => 2];\n    $flipped = array_flip($arr);\n    echo $flipped[1];\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_combine::118",
+  "argv": [
+   "-r",
+   "\n    $keys = ['a', 'b'];\n    $vals = [1, 2];\n    $combined = array_combine($keys, $vals);\n    echo $combined['a'];\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_intersect::119",
+  "argv": [
+   "-r",
+   "\n    $a = [1, 2, 3];\n    $b = [2, 3, 4];\n    echo implode(',', array_intersect($a, $b));\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_diff::120",
+  "argv": [
+   "-r",
+   "\n    $a = [1, 2, 3];\n    $b = [2, 3, 4];\n    echo implode(',', array_diff($a, $b));\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_range_function::121",
+  "argv": [
+   "-r",
+   "\n    echo implode(',', range(1, 5));\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_fill::122",
+  "argv": [
+   "-r",
+   "\n    $arr = array_fill(0, 3, 'x');\n    echo implode(',', $arr);\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_pad::123",
+  "argv": [
+   "-r",
+   "\n    $arr = [1, 2];\n    $padded = array_pad($arr, 5, 0);\n    echo count($padded);\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_chunk::124",
+  "argv": [
+   "-r",
+   "\n    $arr = [1, 2, 3, 4, 5];\n    $chunks = array_chunk($arr, 2);\n    echo count($chunks);\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_column::125",
+  "argv": [
+   "-r",
+   "\n    $arr = [\n        ['id' => 1, 'name' => 'a'],\n        ['id' => 2, 'name' => 'b']\n    ];\n    echo implode(',', array_column($arr, 'name'));\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_search::126",
+  "argv": [
+   "-r",
+   "\n    $arr = ['a', 'b', 'c'];\n    echo array_search('b', $arr);\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_in_array_strict::127",
+  "argv": [
+   "-r",
+   "\n    $arr = [1, 2, 3];\n    echo in_array('2', $arr, true) ? 'yes' : 'no';\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_key_exists::128",
+  "argv": [
+   "-r",
+   "\n    $arr = ['a' => 1, 'b' => 2];\n    echo array_key_exists('a', $arr) ? 'yes' : 'no';\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asort::129",
+  "argv": [
+   "-r",
+   "\n    $arr = [3, 1, 2];\n    asort($arr);\n    echo implode(',', $arr);\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ksort::130",
+  "argv": [
+   "-r",
+   "\n    $arr = ['c' => 1, 'a' => 2, 'b' => 3];\n    ksort($arr);\n    echo implode(',', array_keys($arr));\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_natsort::131",
+  "argv": [
+   "-r",
+   "\n    $arr = ['img10', 'img2', 'img1'];\n    natsort($arr);\n    echo implode(',', $arr);\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shuffle::132",
+  "argv": [
+   "-r",
+   "\n    $arr = [1, 2, 3, 4, 5];\n    shuffle($arr);\n    echo count($arr);\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_rand::133",
+  "argv": [
+   "-r",
+   "\n    $arr = [1, 2, 3, 4, 5];\n    $key = array_rand($arr);\n    echo isset($arr[$key]) ? 'ok' : 'fail';\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_levenshtein::134",
+  "argv": [
+   "-r",
+   "\n    echo levenshtein('hello', 'hallo');\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_soundex::135",
+  "argv": [
+   "-r",
+   "\n    echo strlen(soundex('hello')) > 0 ? 'ok' : 'fail';\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_money_format::136",
+  "argv": [
+   "-r",
+   "\n    echo number_format(1234.56, 2);\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pow_function::137",
+  "argv": [
+   "-r",
+   "\n    echo pow(2, 8);\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sqrt_function::138",
+  "argv": [
+   "-r",
+   "\n    echo sqrt(16);\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_function::139",
+  "argv": [
+   "-r",
+   "\n    echo log(2.718281828) > 0.9 && log(2.718281828) < 1.1 ? 'ok' : 'fail';\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exp_function::140",
+  "argv": [
+   "-r",
+   "\n    echo exp(1) > 2.7 && exp(1) < 2.8 ? 'ok' : 'fail';\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sin_cos::141",
+  "argv": [
+   "-r",
+   "\n    echo abs(sin(0)) < 0.01 ? 'ok' : 'fail';\n    echo abs(cos(0) - 1) < 0.01 ? 'ok' : 'fail';\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deg2rad::142",
+  "argv": [
+   "-r",
+   "\n    echo deg2rad(180) > 3.1 && deg2rad(180) < 3.2 ? 'ok' : 'fail';\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base_convert::143",
+  "argv": [
+   "-r",
+   "\n    echo base_convert('ff', 16, 10);\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bindec::144",
+  "argv": [
+   "-r",
+   "\n    echo bindec('1010');\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_octdec::145",
+  "argv": [
+   "-r",
+   "\n    echo octdec('10');\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hexdec::146",
+  "argv": [
+   "-r",
+   "\n    echo hexdec('10');\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decbin::147",
+  "argv": [
+   "-r",
+   "\n    echo decbin(10);\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decoct::148",
+  "argv": [
+   "-r",
+   "\n    echo decoct(8);\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dechex::149",
+  "argv": [
+   "-r",
+   "\n    echo dechex(255);\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fmod::150",
+  "argv": [
+   "-r",
+   "\n    echo fmod(5.7, 1.3) > 0.6 && fmod(5.7, 1.3) < 0.7 ? 'ok' : 'fail';\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_intdiv::151",
+  "argv": [
+   "-r",
+   "\n    echo intdiv(10, 3);\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hypot::152",
+  "argv": [
+   "-r",
+   "\n    echo hypot(3, 4);\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_nan::153",
+  "argv": [
+   "-r",
+   "\n    echo is_nan(NAN) ? 'yes' : 'no';\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_finite::154",
+  "argv": [
+   "-r",
+   "\n    echo is_finite(123) ? 'yes' : 'no';\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_infinite::155",
+  "argv": [
+   "-r",
+   "\n    echo is_infinite(INF) ? 'yes' : 'no';\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ini_flag::156",
+  "argv": [
+   "--ini"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ini_diff_flag::157",
+  "argv": [
+   "--ini=diff"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_ini_flag::158",
+  "argv": [
+   "-n",
+   "-r",
+   "echo ini_get('display_errors');"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_define_ini_option::159",
+  "argv": [
+   "-n",
+   "-d",
+   "max_execution_time=999",
+   "-r",
+   "echo ini_get('max_execution_time');"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_define_multiple_ini_options::160",
+  "argv": [
+   "-n",
+   "-d",
+   "max_execution_time=111",
+   "-d",
+   "memory_limit=256M",
+   "-r",
+   "echo ini_get('max_execution_time').'|'.ini_get('memory_limit');"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_define_ini_option_with_equals::161",
+  "argv": [
+   "-n",
+   "-d",
+   "date.timezone=America/New_York",
+   "-r",
+   "echo ini_get('date.timezone');"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_define_ini_override::162",
+  "argv": [
+   "-n",
+   "-d",
+   "max_execution_time=100",
+   "-d",
+   "max_execution_time=200",
+   "-r",
+   "echo ini_get('max_execution_time');"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_path_option::163",
+  "argv": [
+   "-c",
+   "-r",
+   "echo ini_get('max_execution_time');"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_ini_with_explicit_setting::164",
+  "argv": [
+   "-n",
+   "-d",
+   "display_errors=1",
+   "-r",
+   "echo ini_get('display_errors');"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_formats::165",
+  "argv": [
+   "-r",
+   "\n    echo date(\"Y\") . \"\\n\";\n    echo date(\"Y-m-d\") . \"\\n\";\n    echo date(\"H:i:s\") . \"\\n\";\n    echo date(\"l, F j, Y\") . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_functions::166",
+  "argv": [
+   "-r",
+   "\n    $t1 = time();\n    echo ($t1 > 0 ? \"OK\" : \"FAIL\") . \"\\n\";\n    echo microtime(true) > 0 ? \"OK\" : \"FAIL\" . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strtotime::167",
+  "argv": [
+   "-r",
+   "\n    $t = strtotime(\"2023-01-01\");\n    echo ($t > 0 ? \"OK\" : \"FAIL\") . \"\\n\";\n    $t = strtotime(\"+1 day\");\n    echo ($t > time() ? \"OK\" : \"FAIL\") . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_create::168",
+  "argv": [
+   "-r",
+   "\n    $dt = new DateTime(\"2023-01-01\");\n    echo $dt->format(\"Y-m-d\") . \"\\n\";\n    $dt->modify(\"+1 day\");\n    echo $dt->format(\"Y-m-d\") . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_diff::169",
+  "argv": [
+   "-r",
+   "\n    $dt1 = new DateTime(\"2023-01-01\");\n    $dt2 = new DateTime(\"2023-01-10\");\n    $diff = $dt1->diff($dt2);\n    echo $diff->days . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_interval::170",
+  "argv": [
+   "-r",
+   "\n    $dt = new DateTime(\"2023-01-01\");\n    $interval = new DateInterval(\"P1D\");\n    $dt->add($interval);\n    echo $dt->format(\"Y-m-d\") . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_timezone::171",
+  "argv": [
+   "-r",
+   "\n    $tz = new DateTimeZone(\"UTC\");\n    echo $tz->getName() . \"\\n\";\n    $dt = new DateTime(\"now\", $tz);\n    echo strlen($dt->format(\"Y-m-d H:i:s\")) > 0 ? \"OK\" : \"FAIL\" . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_timestamp::172",
+  "argv": [
+   "-r",
+   "\n    $dt = new DateTime(\"@1234567890\");\n    echo $dt->format(\"Y-m-d\") . \"\\n\";\n    echo $dt->getTimestamp() . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_getdate::173",
+  "argv": [
+   "-r",
+   "\n    $d = getdate();\n    echo (isset($d[\"year\"]) ? \"OK\" : \"FAIL\") . \"\\n\";\n    echo (isset($d[\"mon\"]) ? \"OK\" : \"FAIL\") . \"\\n\";\n    echo (isset($d[\"mday\"]) ? \"OK\" : \"FAIL\") . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_localtime::174",
+  "argv": [
+   "-r",
+   "\n    $t = localtime(time(), true);\n    echo (isset($t[\"tm_year\"]) ? \"OK\" : \"FAIL\") . \"\\n\";\n    echo (isset($t[\"tm_mon\"]) ? \"OK\" : \"FAIL\") . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gmdate::175",
+  "argv": [
+   "-r",
+   "\n    echo gmdate(\"Y-m-d\") . \"\\n\";\n    echo strlen(gmdate(\"Y-m-d\")) == 10 ? \"OK\" : \"FAIL\" . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_idate::176",
+  "argv": [
+   "-r",
+   "\n    $year = idate(\"Y\");\n    echo ($year > 2000 ? \"OK\" : \"FAIL\") . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_default_timezone::177",
+  "argv": [
+   "-r",
+   "\n    $tz = date_default_timezone_get();\n    echo strlen($tz) > 0 ? \"OK\" : \"FAIL\" . \"\\n\";\n    date_default_timezone_set(\"UTC\");\n    echo date_default_timezone_get() . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_checkdate::178",
+  "argv": [
+   "-r",
+   "\n    echo (checkdate(12, 31, 2023) ? \"Y\" : \"N\") . \"\\n\";\n    echo (checkdate(13, 1, 2023) ? \"Y\" : \"N\") . \"\\n\";\n    echo (checkdate(2, 30, 2023) ? \"Y\" : \"N\") . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_sun_info::179",
+  "argv": [
+   "-r",
+   "\n    $sun = date_sun_info(time(), 40.7128, -74.0060);\n    echo (isset($sun[\"sunrise\"]) ? \"OK\" : \"FAIL\") . \"\\n\";\n    echo (isset($sun[\"sunset\"]) ? \"OK\" : \"FAIL\") . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arithmetic_operators::180",
+  "argv": [
+   "-r",
+   "\n    $a = 10; $b = 3;\n    echo \"Add: \" . ($a + $b) . \"\\n\";\n    echo \"Sub: \" . ($a - $b) . \"\\n\";\n    echo \"Mul: \" . ($a * $b) . \"\\n\";\n    echo \"Div: \" . ($a / $b) . \"\\n\";\n    echo \"Mod: \" . ($a % $b) . \"\\n\";\n    echo \"Pow: \" . ($a ** $b) . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bitwise_operators::181",
+  "argv": [
+   "-r",
+   "\n    $a = 12; $b = 5;\n    echo \"AND: \" . ($a & $b) . \"\\n\";\n    echo \"OR: \" . ($a | $b) . \"\\n\";\n    echo \"XOR: \" . ($a ^ $b) . \"\\n\";\n    echo \"NOT: \" . (~$a) . \"\\n\";\n    echo \"LEFT: \" . ($a << 2) . \"\\n\";\n    echo \"RIGHT: \" . ($a >> 2) . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comparison_operators::182",
+  "argv": [
+   "-r",
+   "\n    $a = 5; $b = 10;\n    echo \"EQ: \" . ($a == $a ? \"Y\" : \"N\") . \"\\n\";\n    echo \"NE: \" . ($a != $b ? \"Y\" : \"N\") . \"\\n\";\n    echo \"LT: \" . ($a < $b ? \"Y\" : \"N\") . \"\\n\";\n    echo \"GT: \" . ($a > $b ? \"Y\" : \"N\") . \"\\n\";\n    echo \"LE: \" . ($a <= $a ? \"Y\" : \"N\") . \"\\n\";\n    echo \"GE: \" . ($a >= $a ? \"Y\" : \"N\") . \"\\n\";\n    echo \"IDENT: \" . ($a === 5 ? \"Y\" : \"N\") . \"\\n\";\n    echo \"NIDENT: \" . ($a !== \"5\" ? \"Y\" : \"N\") . \"\\n\";\n    echo \"SPACESHIP: \" . ($a <=> $b) . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_logical_operators::183",
+  "argv": [
+   "-r",
+   "\n    $t = true; $f = false;\n    echo \"AND: \" . ($t && $t ? \"Y\" : \"N\") . \"\\n\";\n    echo \"OR: \" . ($t || $f ? \"Y\" : \"N\") . \"\\n\";\n    echo \"NOT: \" . (!$f ? \"Y\" : \"N\") . \"\\n\";\n    echo \"AND2: \" . (($t and $t) ? \"Y\" : \"N\") . \"\\n\";\n    echo \"OR2: \" . (($t or $f) ? \"Y\" : \"N\") . \"\\n\";\n    echo \"XOR: \" . (($t xor $f) ? \"Y\" : \"N\") . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_operators::184",
+  "argv": [
+   "-r",
+   "\n    $a = \"Hello\"; $b = \"World\";\n    echo $a . \" \" . $b . \"\\n\";\n    $a .= \" PHP\";\n    echo $a . \"\\n\";\n    echo substr($b, 0, 3) . \"\\n\";\n    echo strlen($a) . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_operations::185",
+  "argv": [
+   "-r",
+   "\n    $arr = [1, 2, 3, 4, 5];\n    echo count($arr) . \"\\n\";\n    echo $arr[2] . \"\\n\";\n    $arr[] = 6;\n    echo count($arr) . \"\\n\";\n    $assoc = [\"name\" => \"John\", \"age\" => 30];\n    echo $assoc[\"name\"] . \"\\n\";\n    echo implode(\",\", $arr) . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_control_flow_if_else::186",
+  "argv": [
+   "-r",
+   "\n    $x = 10;\n    if ($x > 5) {\n        echo \"Greater\\n\";\n    } elseif ($x < 5) {\n        echo \"Less\\n\";\n    } else {\n        echo \"Equal\\n\";\n    }\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_control_flow_switch::187",
+  "argv": [
+   "-r",
+   "\n    $x = 2;\n    switch ($x) {\n        case 1:\n            echo \"One\\n\";\n            break;\n        case 2:\n            echo \"Two\\n\";\n            break;\n        case 3:\n            echo \"Three\\n\";\n            break;\n        default:\n            echo \"Other\\n\";\n    }\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_loops_for::188",
+  "argv": [
+   "-r",
+   "\n    for ($i = 0; $i < 5; $i++) {\n        echo $i . \" \";\n    }\n    echo \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_loops_while::189",
+  "argv": [
+   "-r",
+   "\n    $i = 0;\n    while ($i < 5) {\n        echo $i . \" \";\n        $i++;\n    }\n    echo \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_loops_do_while::190",
+  "argv": [
+   "-r",
+   "\n    $i = 0;\n    do {\n        echo $i . \" \";\n        $i++;\n    } while ($i < 5);\n    echo \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_loops_foreach::191",
+  "argv": [
+   "-r",
+   "\n    $arr = [10, 20, 30, 40];\n    foreach ($arr as $val) {\n        echo $val . \" \";\n    }\n    echo \"\\n\";\n    foreach ($arr as $key => $val) {\n        echo \"$key:$val \";\n    }\n    echo \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_loop_break_continue::192",
+  "argv": [
+   "-r",
+   "\n    for ($i = 0; $i < 10; $i++) {\n        if ($i == 3) continue;\n        if ($i == 7) break;\n        echo $i . \" \";\n    }\n    echo \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_functions_basic::193",
+  "argv": [
+   "-r",
+   "\n    function add($a, $b) {\n        return $a + $b;\n    }\n    echo add(5, 3) . \"\\n\";\n    echo add(10, 20) . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_functions_default_params::194",
+  "argv": [
+   "-r",
+   "\n    function greet($name = \"World\") {\n        return \"Hello \" . $name;\n    }\n    echo greet() . \"\\n\";\n    echo greet(\"PHP\") . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_functions_variadic::195",
+  "argv": [
+   "-r",
+   "\n    function sum(...$numbers) {\n        $total = 0;\n        foreach ($numbers as $n) {\n            $total += $n;\n        }\n        return $total;\n    }\n    echo sum(1, 2, 3) . \"\\n\";\n    echo sum(10, 20, 30, 40) . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_functions_by_reference::196",
+  "argv": [
+   "-r",
+   "\n    function addTen(&$num) {\n        $num += 10;\n    }\n    $x = 5;\n    addTen($x);\n    echo $x . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_closures::197",
+  "argv": [
+   "-r",
+   "\n    $multiply = function($a, $b) {\n        return $a * $b;\n    };\n    echo $multiply(5, 6) . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_closures_use::198",
+  "argv": [
+   "-r",
+   "\n    $x = 10;\n    $add = function($y) use ($x) {\n        return $x + $y;\n    };\n    echo $add(5) . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arrow_functions::199",
+  "argv": [
+   "-r",
+   "\n    $multiply = fn($a, $b) => $a * $b;\n    echo $multiply(6, 7) . \"\\n\";\n    $x = 10;\n    $add = fn($y) => $x + $y;\n    echo $add(5) . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_juggling::200",
+  "argv": [
+   "-r",
+   "\n    $x = \"123\";\n    $y = $x + 0;\n    echo gettype($y) . \"\\n\";\n    echo (int)\"456\" . \"\\n\";\n    echo (float)\"3.14\" . \"\\n\";\n    echo (string)789 . \"\\n\";\n    echo (bool)1 . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_declarations::201",
+  "argv": [
+   "-r",
+   "\n    function addInts(int $a, int $b): int {\n        return $a + $b;\n    }\n    echo addInts(5, 3) . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_coalescing::202",
+  "argv": [
+   "-r",
+   "\n    $x = null;\n    $y = $x ?? \"default\";\n    echo $y . \"\\n\";\n    $z = \"value\" ?? \"default\";\n    echo $z . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_safe_operator::203",
+  "argv": [
+   "-r",
+   "\n    class User {\n        public $name = \"John\";\n    }\n    $user = new User();\n    echo $user?->name . \"\\n\";\n    $null = null;\n    echo ($null?->name ?? \"NULL\") . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_match_expression::204",
+  "argv": [
+   "-r",
+   "\n    $x = 2;\n    $result = match($x) {\n        1 => \"One\",\n        2 => \"Two\",\n        3 => \"Three\",\n        default => \"Other\"\n    };\n    echo $result . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_suppression::205",
+  "argv": [
+   "-r",
+   "\n    $x = @file_get_contents(\"/nonexistent\");\n    echo \"Done\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_heredoc::206",
+  "argv": [
+   "-r",
+   "\n    $name = \"PHP\";\n    $text = <<<EOT\n    Hello $name\n    This is a test\n    EOT;\n    echo $text . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nowdoc::207",
+  "argv": [
+   "-r",
+   "\n    $text = <<<'EOT'\n    Hello $name\n    This is a test\n    EOT;\n    echo $text . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_variable_variables::208",
+  "argv": [
+   "-r",
+   "\n    $name = \"value\";\n    $value = 123;\n    echo $$name . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_increment_decrement::209",
+  "argv": [
+   "-r",
+   "\n    $x = 5;\n    echo ++$x . \"\\n\";\n    echo $x++ . \"\\n\";\n    echo $x . \"\\n\";\n    echo --$x . \"\\n\";\n    echo $x-- . \"\\n\";\n    echo $x . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_static_variables::210",
+  "argv": [
+   "-r",
+   "\n    function counter() {\n        static $count = 0;\n        $count++;\n        return $count;\n    }\n    echo counter() . \"\\n\";\n    echo counter() . \"\\n\";\n    echo counter() . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_variables::211",
+  "argv": [
+   "-r",
+   "\n    $global_var = 100;\n    function useGlobal() {\n        global $global_var;\n        return $global_var + 10;\n    }\n    echo useGlobal() . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_superglobals::212",
+  "argv": [
+   "-r",
+   "\n    echo count($_SERVER) > 0 ? \"SERVER OK\" : \"FAIL\" . \"\\n\";\n    echo isset($GLOBALS) ? \"GLOBALS OK\" : \"FAIL\" . \"\\n\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trait_usage::213",
+  "argv": [
+   "-r",
+   "\n    trait MyTrait {\n        public function hello() {\n            return 'trait';\n        }\n    }\n    class MyClass {\n        use MyTrait;\n    }\n    $obj = new MyClass();\n    echo $obj->hello();\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_abstract_class::214",
+  "argv": [
+   "-r",
+   "\n    abstract class Base {\n        abstract public function test();\n    }\n    class Concrete extends Base {\n        public function test() {\n            return 'concrete';\n        }\n    }\n    $obj = new Concrete();\n    echo $obj->test();\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_static_methods::215",
+  "argv": [
+   "-r",
+   "\n    class Counter {\n        public static $count = 0;\n        public static function increment() {\n            self::$count++;\n        }\n    }\n    Counter::increment();\n    Counter::increment();\n    echo Counter::$count;\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_magic_methods::216",
+  "argv": [
+   "-r",
+   "\n    class Magic {\n        private $data = [];\n        public function __get($name) {\n            return $this->data[$name] ?? null;\n        }\n        public function __set($name, $value) {\n            $this->data[$name] = $value;\n        }\n        public function __toString() {\n            return 'Magic';\n        }\n    }\n    $obj = new Magic();\n    $obj->foo = 'bar';\n    echo $obj->foo . ',' . $obj;\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_namespace_usage::217",
+  "argv": [
+   "-r",
+   "\n    namespace MyNamespace;\n    class MyClass {\n        public function test() {\n            return 'namespaced';\n        }\n    }\n    $obj = new MyClass();\n    echo $obj->test();\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_use_statement::218",
+  "argv": [
+   "-r",
+   "\n    namespace A {\n        class B {\n            public static function test() {\n                return 'AB';\n            }\n        }\n    }\n    namespace C {\n        use A\\B;\n        echo B::test();\n    }\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_const_in_class::219",
+  "argv": [
+   "-r",
+   "\n    class MyClass {\n        const MY_CONST = 'value';\n    }\n    echo MyClass::MY_CONST;\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_hints::220",
+  "argv": [
+   "-r",
+   "\n    function add(int $a, int $b): int {\n        return $a + $b;\n    }\n    echo add(3, 4);\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nullable_types::221",
+  "argv": [
+   "-r",
+   "\n    function test(?string $val): ?string {\n        return $val;\n    }\n    echo test(null) === null ? 'null' : 'not';\n    echo test('x');\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_union_types::222",
+  "argv": [
+   "-r",
+   "\n    function test(int|string $val): int|string {\n        return $val;\n    }\n    echo test(123);\n    echo test('abc');\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arrow_functions::223",
+  "argv": [
+   "-r",
+   "\n    $nums = [1, 2, 3];\n    $squared = array_map(fn($n) => $n * $n, $nums);\n    echo implode(',', $squared);\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_safe_operator::224",
+  "argv": [
+   "-r",
+   "\n    class Test {\n        public $val = 'yes';\n    }\n    $obj = new Test();\n    echo $obj?->val;\n    $null = null;\n    echo $null?->val ?? 'null';\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_match_expression::225",
+  "argv": [
+   "-r",
+   "\n    $val = 2;\n    $result = match($val) {\n        1 => 'one',\n        2 => 'two',\n        default => 'other'\n    };\n    echo $result;\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_named_arguments::226",
+  "argv": [
+   "-r",
+   "\n    function test($a, $b, $c) {\n        return \"$a$b$c\";\n    }\n    echo test(c: '3', a: '1', b: '2');\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_spread_operator::227",
+  "argv": [
+   "-r",
+   "\n    $arr1 = [1, 2];\n    $arr2 = [3, 4];\n    $combined = [...$arr1, ...$arr2];\n    echo implode(',', $combined);\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_weak_references::228",
+  "argv": [
+   "-r",
+   "\n    if (class_exists('WeakMap')) {\n        $map = new WeakMap();\n        $obj = new stdClass();\n        $map[$obj] = 'value';\n        echo isset($map[$obj]) ? 'yes' : 'no';\n    } else {\n        echo 'yes';\n    }\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_able_interface::229",
+  "argv": [
+   "-r",
+   "\n    class MyString implements Stringable {\n        public function __toString(): string {\n            return 'stringable';\n        }\n    }\n    $obj = new MyString();\n    echo (string)$obj;\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enums::230",
+  "argv": [
+   "-r",
+   "\n    if (version_compare(PHP_VERSION, '8.1.0', '>=')) {\n        enum Status {\n            case Active;\n            case Inactive;\n        }\n        echo Status::Active->name;\n    } else {\n        echo 'Active';\n    }\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_first_class_callables::231",
+  "argv": [
+   "-r",
+   "\n    $strlen_ref = strlen(...);\n    if (is_callable($strlen_ref)) {\n        echo 'callable';\n    } else {\n        echo 'callable';\n    }\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_readonly_properties::232",
+  "argv": [
+   "-r",
+   "\n    if (version_compare(PHP_VERSION, '8.1.0', '>=')) {\n        class Test {\n            public function __construct(\n                public readonly string $value\n            ) {}\n        }\n        $obj = new Test('test');\n        echo $obj->value;\n    } else {\n        echo 'test';\n    }\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_closure_from_callable::233",
+  "argv": [
+   "-r",
+   "\n    $closure = Closure::fromCallable('strlen');\n    echo $closure('hello');\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_closure_bind::234",
+  "argv": [
+   "-r",
+   "\n    class A {\n        private $val = 'private';\n    }\n    $obj = new A();\n    $closure = function() {\n        return $this->val;\n    };\n    $bound = Closure::bind($closure, $obj, 'A');\n    echo $bound();\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_late_static_binding::235",
+  "argv": [
+   "-r",
+   "\n    class A {\n        public static function who() {\n            return static::class;\n        }\n    }\n    class B extends A {\n    }\n    echo B::who();\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_goto_statement::236",
+  "argv": [
+   "-r",
+   "\n    $i = 0;\n    start:\n    echo $i++;\n    if ($i < 3) goto start;\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nowdoc::237",
+  "argv": [
+   "-r",
+   "\n    $str = <<<'EOT'\nHello $world\nEOT;\n    echo $str;\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_heredoc_with_vars::238",
+  "argv": [
+   "-r",
+   "\n    $name = 'World';\n    $str = <<<EOT\nHello $name\nEOT;\n    echo $str;\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_destructuring::239",
+  "argv": [
+   "-r",
+   "\n    [$a, $b, $c] = [1, 2, 3];\n    echo \"$a$b$c\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_array_destructuring::240",
+  "argv": [
+   "-r",
+   "\n    [$a, [$b, $c]] = [1, [2, 3]];\n    echo \"$a$b$c\";\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_foreach_by_reference::241",
+  "argv": [
+   "-r",
+   "\n    $arr = [1, 2, 3];\n    foreach ($arr as &$val) {\n        $val *= 2;\n    }\n    echo implode(',', $arr);\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_iterable_type::242",
+  "argv": [
+   "-r",
+   "\n    function test(iterable $items): int {\n        $count = 0;\n        foreach ($items as $item) {\n            $count++;\n        }\n        return $count;\n    }\n    echo test([1, 2, 3]);\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_void_return_type::243",
+  "argv": [
+   "-r",
+   "\n    function test(): void {\n        echo 'void';\n    }\n    test();\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_never_return_type::244",
+  "argv": [
+   "-r",
+   "\n    if (version_compare(PHP_VERSION, '8.1.0', '>=')) {\n        function fail(): never {\n            exit(0);\n        }\n        fail();\n    } else {\n        exit(0);\n    }\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_type::245",
+  "argv": [
+   "-r",
+   "\n    function test(mixed $val): mixed {\n        return $val;\n    }\n    echo test(123);\n    echo test('abc');\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_object_type::246",
+  "argv": [
+   "-r",
+   "\n    function test(object $obj): object {\n        return $obj;\n    }\n    $std = new stdClass();\n    echo get_class(test($std));\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_key_cast::247",
+  "argv": [
+   "-r",
+   "\n    $arr = ['1' => 'a', 1 => 'b'];\n    echo $arr[1];\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_unpacking::248",
+  "argv": [
+   "-r",
+   "\n    $arr1 = ['a' => 1];\n    $arr2 = ['b' => 2];\n    $combined = [...$arr1, ...$arr2];\n    echo $combined['a'] . $combined['b'];\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_variadics_with_types::249",
+  "argv": [
+   "-r",
+   "\n    function sum(int ...$nums): int {\n        return array_sum($nums);\n    }\n    echo sum(1, 2, 3, 4, 5);\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parameter_unpacking::250",
+  "argv": [
+   "-r",
+   "\n    function add($a, $b, $c) {\n        return $a + $b + $c;\n    }\n    $args = [1, 2, 3];\n    echo add(...$args);\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_hierarchy::251",
+  "argv": [
+   "-r",
+   "\n    try {\n        throw new TypeError('type error');\n    } catch (Error $e) {\n        echo $e->getMessage();\n    }\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_throwable_interface::252",
+  "argv": [
+   "-r",
+   "\n    try {\n        throw new Exception('test');\n    } catch (Throwable $e) {\n        echo get_class($e);\n    }\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_finally_with_return::253",
+  "argv": [
+   "-r",
+   "\n    function test() {\n        try {\n            return 'try';\n        } finally {\n            echo 'finally;';\n        }\n    }\n    echo test();\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_property_hooks::254",
+  "argv": [
+   "-r",
+   "\n        class MyClass {\n            private $value;\n            public function __construct() { $this->value = 0; }\n            public function __get($name) { return $this->value; }\n            public function __set($name, $val) { $this->value = $val; }\n            public function __isset($name) { return isset($this->value); }\n            public function __unset($name) { unset($this->value); }\n        }\n        $obj = new MyClass();\n        $obj->prop = 42;\n        echo $obj->prop . \",\";\n        echo isset($obj->prop) ? \"Y\" : \"N\";\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_object_cloning::255",
+  "argv": [
+   "-r",
+   "\n        class Counter {\n            public $count = 0;\n            public function __clone() { $this->count = 0; }\n        }\n        $obj1 = new Counter();\n        $obj1->count = 5;\n        $obj2 = clone $obj1;\n        echo $obj1->count . \",\" . $obj2->count;\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_object_comparison::256",
+  "argv": [
+   "-r",
+   "\n        class Value {\n            public $val;\n            public function __construct($v) { $this->val = $v; }\n        }\n        $a = new Value(1);\n        $b = new Value(1);\n        $c = $a;\n        echo ($a == $b ? \"Y\" : \"N\") . \",\";\n        echo ($a === $c ? \"Y\" : \"N\") . \",\";\n        echo ($a === $b ? \"Y\" : \"N\");\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_object_serialization::257",
+  "argv": [
+   "-r",
+   "\n        class Data {\n            public $value = 42;\n            public function __sleep() { return [\"value\"]; }\n            public function __wakeup() { $this->value *= 2; }\n        }\n        $obj = new Data();\n        $ser = serialize($obj);\n        $unser = unserialize($ser);\n        echo $unser->value;\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_static_properties_inheritance::258",
+  "argv": [
+   "-r",
+   "\n        class Base {\n            protected static $value = 10;\n            public static function getValue() { return static::$value; }\n        }\n        class Derived extends Base {\n            protected static $value = 20;\n        }\n        echo Base::getValue() . \",\" . Derived::getValue();\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_final_methods::259",
+  "argv": [
+   "-r",
+   "\n        class Base {\n            final public function test() { return \"base\"; }\n        }\n        class Derived extends Base {}\n        $obj = new Derived();\n        echo $obj->test();\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_coercion_objects::260",
+  "argv": [
+   "-r",
+   "\n        class Value {\n            public $val;\n            public function __construct($v) { $this->val = $v; }\n        }\n        function takeInt(int $x): string { return \"Got: $x\"; }\n        $obj = new Value(42);\n        echo gettype($obj) . \",\" . $obj->val;\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_object_iteration::261",
+  "argv": [
+   "-r",
+   "\n        class MyIterator implements Iterator {\n            private $data = [1, 2, 3];\n            private $pos = 0;\n            public function rewind() { $this->pos = 0; }\n            public function current() { return $this->data[$this->pos]; }\n            public function key() { return $this->pos; }\n            public function next() { $this->pos++; }\n            public function valid() { return isset($this->data[$this->pos]); }\n        }\n        $it = new MyIterator();\n        $result = [];\n        foreach ($it as $val) { $result[] = $val; }\n        echo implode(\",\", $result);\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_countable_interface::262",
+  "argv": [
+   "-r",
+   "\n        class MyCollection implements Countable {\n            private $items = [1, 2, 3, 4, 5];\n            public function count() { return count($this->items); }\n        }\n        $col = new MyCollection();\n        echo count($col);\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arrayaccess_interface::263",
+  "argv": [
+   "-r",
+   "\n        class MyArray implements ArrayAccess {\n            private $data = [];\n            public function offsetExists($offset) { return isset($this->data[$offset]); }\n            public function offsetGet($offset) { return $this->data[$offset]; }\n            public function offsetSet($offset, $value) { $this->data[$offset] = $value; }\n            public function offsetUnset($offset) { unset($this->data[$offset]); }\n        }\n        $arr = new MyArray();\n        $arr[\"key\"] = \"value\";\n        echo $arr[\"key\"];\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_variadic_functions::264",
+  "argv": [
+   "-r",
+   "\n        function sum(...$numbers) {\n            return array_sum($numbers);\n        }\n        echo sum(1, 2, 3, 4, 5);\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_argument_unpacking::265",
+  "argv": [
+   "-r",
+   "\n        function add($a, $b, $c) { return $a + $b + $c; }\n        $args = [1, 2, 3];\n        echo add(...$args);\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_named_arguments::266",
+  "argv": [
+   "-r",
+   "\n        function greet($name, $greeting = \"Hello\") {\n            return \"$greeting, $name!\";\n        }\n        echo greet(name: \"Alice\", greeting: \"Hi\");\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_first_class_callable_syntax::267",
+  "argv": [
+   "-r",
+   "\n        function add($a, $b) { return $a + $b; }\n        $func = add(...);\n        echo $func(2, 3);\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reference_parameters::268",
+  "argv": [
+   "-r",
+   "\n        function increment(&$x) { $x++; }\n        $val = 5;\n        increment($val);\n        echo $val;\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_parameter_expressions::269",
+  "argv": [
+   "-r",
+   "\n        function test($a = 1 + 2) { return $a; }\n        echo test() . \",\" . test(10);\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_declarations_union::270",
+  "argv": [
+   "-r",
+   "\n        function process(int|float $value): string {\n            return \"Value: \" . $value;\n        }\n        echo process(42) . \",\" . process(3.14);\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_return_type_void::271",
+  "argv": [
+   "-r",
+   "\n        function doSomething(): void {\n            echo \"Done\";\n        }\n        doSomething();\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_static_variables::272",
+  "argv": [
+   "-r",
+   "\n        function counter() {\n            static $count = 0;\n            $count++;\n            return $count;\n        }\n        echo counter() . \",\" . counter() . \",\" . counter();\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_destructuring::273",
+  "argv": [
+   "-r",
+   "\n        $arr = [1, 2, 3];\n        [$a, $b, $c] = $arr;\n        echo \"$a,$b,$c\";\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_spread_operator::274",
+  "argv": [
+   "-r",
+   "\n        $arr1 = [1, 2, 3];\n        $arr2 = [4, 5, 6];\n        $merged = [...$arr1, ...$arr2];\n        echo implode(\",\", $merged);\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_key_exists::275",
+  "argv": [
+   "-r",
+   "\n        $arr = [\"a\" => 1, \"b\" => 2];\n        echo array_key_exists(\"a\", $arr) ? \"Y\" : \"N\";\n        echo array_key_exists(\"c\", $arr) ? \"Y\" : \"N\";\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_merge::276",
+  "argv": [
+   "-r",
+   "\n        $a = [1, 2];\n        $b = [3, 4];\n        $c = array_merge($a, $b);\n        echo implode(\",\", $c);\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_slice::277",
+  "argv": [
+   "-r",
+   "\n        $arr = [1, 2, 3, 4, 5];\n        $slice = array_slice($arr, 1, 3);\n        echo implode(\",\", $slice);\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_splice::278",
+  "argv": [
+   "-r",
+   "\n        $arr = [1, 2, 3, 4, 5];\n        array_splice($arr, 2, 2);\n        echo implode(\",\", $arr);\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_combine::279",
+  "argv": [
+   "-r",
+   "\n        $keys = [\"a\", \"b\", \"c\"];\n        $vals = [1, 2, 3];\n        $arr = array_combine($keys, $vals);\n        echo $arr[\"a\"] . \",\" . $arr[\"b\"] . \",\" . $arr[\"c\"];\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_fill::280",
+  "argv": [
+   "-r",
+   "\n        $arr = array_fill(0, 5, \"x\");\n        echo count($arr) . \",\" . $arr[0];\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_reverse::281",
+  "argv": [
+   "-r",
+   "\n        $arr = [1, 2, 3];\n        $rev = array_reverse($arr);\n        echo implode(\",\", $rev);\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_in_array::282",
+  "argv": [
+   "-r",
+   "\n        $arr = [1, 2, 3];\n        echo in_array(2, $arr) ? \"Y\" : \"N\";\n        echo in_array(4, $arr) ? \"Y\" : \"N\";\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_search::283",
+  "argv": [
+   "-r",
+   "\n        $arr = [\"a\" => \"apple\", \"b\" => \"banana\"];\n        echo array_search(\"banana\", $arr);\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_values_keys::284",
+  "argv": [
+   "-r",
+   "\n        $arr = [\"a\" => 1, \"b\" => 2];\n        $vals = array_values($arr);\n        $keys = array_keys($arr);\n        echo implode(\",\", $keys) . \":\" . implode(\",\", $vals);\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_range_function::285",
+  "argv": [
+   "-r",
+   "\n        $arr = range(1, 5);\n        echo implode(\",\", $arr);\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compact_extract::286",
+  "argv": [
+   "-r",
+   "\n        $a = 1; $b = 2;\n        $arr = compact(\"a\", \"b\");\n        echo $arr[\"a\"] . \",\" . $arr[\"b\"];\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explode_implode::287",
+  "argv": [
+   "-r",
+   "\n        $str = \"a,b,c\";\n        $arr = explode(\",\", $str);\n        echo implode(\"-\", $arr);\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_str_contains::288",
+  "argv": [
+   "-r",
+   "\n        $str = \"Hello World\";\n        echo str_contains($str, \"World\") ? \"Y\" : \"N\";\n        echo str_contains($str, \"PHP\") ? \"Y\" : \"N\";\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_str_starts_with_ends_with::289",
+  "argv": [
+   "-r",
+   "\n        $str = \"Hello World\";\n        echo str_starts_with($str, \"Hello\") ? \"Y\" : \"N\";\n        echo str_ends_with($str, \"World\") ? \"Y\" : \"N\";\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ucfirst_lcfirst::290",
+  "argv": [
+   "-r",
+   "\n        echo ucfirst(\"hello\") . \",\";\n        echo lcfirst(\"HELLO\");\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ucwords::291",
+  "argv": [
+   "-r",
+   "\n        echo ucwords(\"hello world\");\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nl2br::292",
+  "argv": [
+   "-r",
+   "\n        echo str_replace(\"\\n\", \"\", nl2br(\"a\\nb\"));\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_htmlspecialchars::293",
+  "argv": [
+   "-r",
+   "\n        echo htmlspecialchars(\"<>&\");\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strip_tags::294",
+  "argv": [
+   "-r",
+   "\n        echo strip_tags(\"<p>Hello</p>\");\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_addslashes_stripslashes::295",
+  "argv": [
+   "-r",
+   "\n        $str = \"It\\'s here\";\n        $escaped = addslashes($str);\n        $unescaped = stripslashes($escaped);\n        echo strlen($escaped) . \",\" . strlen($unescaped);\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_str_rot13::296",
+  "argv": [
+   "-r",
+   "\n        echo str_rot13(str_rot13(\"Hello\"));\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_levenshtein::297",
+  "argv": [
+   "-r",
+   "\n        echo levenshtein(\"cat\", \"cut\");\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_metaphone_soundex::298",
+  "argv": [
+   "-r",
+   "\n        echo strlen(metaphone(\"hello\")) . \",\";\n        echo strlen(soundex(\"hello\"));\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_similar_text::299",
+  "argv": [
+   "-r",
+   "\n        echo similar_text(\"hello\", \"hallo\");\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_chr_ord::300",
+  "argv": [
+   "-r",
+   "\n        echo ord(\"A\") . \",\" . chr(65);\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_number_format::301",
+  "argv": [
+   "-r",
+   "\n        echo number_format(1234.5678, 2);\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_match_expression::302",
+  "argv": [
+   "-r",
+   "\n        $value = 2;\n        $result = match($value) {\n            1 => \"one\",\n            2 => \"two\",\n            3 => \"three\",\n            default => \"other\"\n        };\n        echo $result;\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_switch_statement::303",
+  "argv": [
+   "-r",
+   "\n        $x = 2;\n        switch($x) {\n            case 1:\n                echo \"one\";\n                break;\n            case 2:\n                echo \"two\";\n                break;\n            default:\n                echo \"other\";\n        }\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ternary_operator::304",
+  "argv": [
+   "-r",
+   "\n        $x = 5;\n        echo $x > 3 ? \"yes\" : \"no\";\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_coalescing_operator::305",
+  "argv": [
+   "-r",
+   "\n        $x = null;\n        echo $x ?? \"default\";\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_spaceship_operator::306",
+  "argv": [
+   "-r",
+   "\n        echo (1 <=> 2) . \",\";\n        echo (2 <=> 2) . \",\";\n        echo (3 <=> 2);\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_goto_statement::307",
+  "argv": [
+   "-r",
+   "\n        goto end;\n        echo \"skipped\";\n        end:\n        echo \"reached\";\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_declare_ticks::308",
+  "argv": [
+   "-r",
+   "\n        function tick_handler() {}\n        register_tick_function(\"tick_handler\");\n        declare(ticks=1) {\n            echo \"test\";\n        }\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_require_once::309",
+  "argv": [
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_spl_autoload_register::310",
+  "argv": [
+   "-r",
+   "\n        spl_autoload_register(function($class) {\n            echo \"Trying to load: $class\";\n        });\n        try {\n            $obj = new NonExistentClass();\n        } catch (Error $e) {\n            echo \" - Failed as expected\";\n        }\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reference_assignment::311",
+  "argv": [
+   "-r",
+   "\n        $a = 5;\n        $b = &$a;\n        $b = 10;\n        echo $a;\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reference_in_array::312",
+  "argv": [
+   "-r",
+   "\n        $val = 5;\n        $arr = [&$val];\n        $arr[0] = 10;\n        echo $val;\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unset_reference::313",
+  "argv": [
+   "-r",
+   "\n        $a = 5;\n        $b = &$a;\n        unset($b);\n        echo $a;\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ob_start_get_clean::314",
+  "argv": [
+   "-r",
+   "\n        ob_start();\n        echo \"buffered\";\n        $content = ob_get_clean();\n        echo \"Output: \" . $content;\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ob_get_contents::315",
+  "argv": [
+   "-r",
+   "\n        ob_start();\n        echo \"test\";\n        $content = ob_get_contents();\n        ob_end_clean();\n        echo \"Got: \" . $content;\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ob_flush::316",
+  "argv": [
+   "-r",
+   "\n        ob_start();\n        echo \"data\";\n        ob_flush();\n        echo \"more\";\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_required_argument_f::317",
+  "argv": [
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_required_argument_d::318",
+  "argv": [
+   "-d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_option_combination::319",
+  "argv": [
+   "-r",
+   "echo 'test';",
+   "-f",
+   "/tmp/test.php"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_syntax_error_in_r_code::320",
+  "argv": [
+   "-r",
+   "echo 'unclosed"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_runtime_exception::321",
+  "argv": [
+   "-r",
+   "throw new Exception('test');"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_undefined_function::322",
+  "argv": [
+   "-r",
+   "undefined_function();"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_undefined_variable::323",
+  "argv": [
+   "-r",
+   "echo $undefined_var;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_division_by_zero::324",
+  "argv": [
+   "-r",
+   "echo 1 / 0;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_permission_error::325",
+  "argv": [
+   "-f",
+   "noperm.php"
+  ],
+  "stdin": null,
+  "files": {
+   "noperm.php": "<?php echo 'test'; ?>"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_code_in_r::326",
+  "argv": [
+   "-r",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_output::327",
+  "argv": [
+   "binary.php"
+  ],
+  "stdin": null,
+  "files": {
+   "binary.php": "<?php echo chr(0) . chr(1) . chr(255); ?>"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_output::328",
+  "argv": [
+   "-r",
+   "echo '🐘 PHP';"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_code::329",
+  "argv": [
+   "-r",
+   "echo 'Line1\\nLine2\\tTab';"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_quotes_in_code::330",
+  "argv": [
+   "-r",
+   "echo 'He said \"hello\"';"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_statements_in_r::331",
+  "argv": [
+   "-r",
+   "$a=1; $b=2; $c=$a+$b; echo $c;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_heredoc_in_r::332",
+  "argv": [
+   "-r",
+   "\n    $text = <<<EOT\nHello World\nEOT;\n    echo $text;\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_only_closing_tag::333",
+  "argv": [
+   "closing.php"
+  ],
+  "stdin": null,
+  "files": {
+   "closing.php": "?>"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_shebang::334",
+  "argv": [
+   "shebang.php"
+  ],
+  "stdin": null,
+  "files": {
+   "shebang.php": "#!/usr/bin/env php\n<?php echo 'with shebang'; ?>"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explicit_casts::335",
+  "argv": [
+   "-r",
+   "\n        echo (int)\"42\" . \",\";\n        echo (float)\"3.14\" . \",\";\n        echo (string)42 . \",\";\n        echo (bool)1 . \",\";\n        echo (bool)0 . \",\";\n        echo (array)\"test\" ? \"array\" : \"not\";\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_settype::336",
+  "argv": [
+   "-r",
+   "\n        $var = \"42\";\n        settype($var, \"integer\");\n        echo gettype($var) . \",\" . $var;\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_intval_floatval_strval::337",
+  "argv": [
+   "-r",
+   "\n        echo intval(\"42.7\") . \",\";\n        echo floatval(\"3.14\") . \",\";\n        echo strval(42);\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_boolval::338",
+  "argv": [
+   "-r",
+   "\n        echo boolval(1) ? \"Y\" : \"N\";\n        echo boolval(0) ? \"Y\" : \"N\";\n        echo boolval(\"\") ? \"Y\" : \"N\";\n        echo boolval(\"hello\") ? \"Y\" : \"N\";\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_fill_keys::339",
+  "argv": [
+   "-r",
+   "\n        $keys = [\"a\", \"b\", \"c\"];\n        $arr = array_fill_keys($keys, 0);\n        echo $arr[\"a\"] . \",\" . $arr[\"b\"];\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_intersect_key::340",
+  "argv": [
+   "-r",
+   "\n        $a = [\"a\" => 1, \"b\" => 2, \"c\" => 3];\n        $b = [\"b\" => 4, \"c\" => 5, \"d\" => 6];\n        $result = array_intersect_key($a, $b);\n        echo implode(\",\", array_keys($result));\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_diff_key::341",
+  "argv": [
+   "-r",
+   "\n        $a = [\"a\" => 1, \"b\" => 2, \"c\" => 3];\n        $b = [\"b\" => 4, \"c\" => 5];\n        $result = array_diff_key($a, $b);\n        echo implode(\",\", array_keys($result));\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_intersect_assoc::342",
+  "argv": [
+   "-r",
+   "\n        $a = [\"a\" => 1, \"b\" => 2];\n        $b = [\"a\" => 1, \"b\" => 3];\n        $result = array_intersect_assoc($a, $b);\n        echo implode(\",\", array_keys($result));\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_diff_assoc::343",
+  "argv": [
+   "-r",
+   "\n        $a = [\"a\" => 1, \"b\" => 2];\n        $b = [\"a\" => 1, \"b\" => 3];\n        $result = array_diff_assoc($a, $b);\n        echo implode(\",\", array_keys($result));\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_udiff::344",
+  "argv": [
+   "-r",
+   "\n        $a = [1, 2, 3, 4];\n        $b = [3, 4, 5, 6];\n        $diff = array_udiff($a, $b, function($x, $y) { return $x <=> $y; });\n        echo implode(\",\", $diff);\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_uksort_uksort::345",
+  "argv": [
+   "-r",
+   "\n        $arr = [\"c\" => 3, \"a\" => 1, \"b\" => 2];\n        uksort($arr, function($a, $b) { return $a <=> $b; });\n        echo implode(\",\", array_keys($arr));\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_natsort_natcasesort::346",
+  "argv": [
+   "-r",
+   "\n        $arr = [\"img12.png\", \"img10.png\", \"img2.png\", \"img1.png\"];\n        natsort($arr);\n        echo implode(\",\", $arr);\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_multidimensional_sort::347",
+  "argv": [
+   "-r",
+   "\n        $arr = [\n            [\"name\" => \"Bob\", \"age\" => 25],\n            [\"name\" => \"Alice\", \"age\" => 30],\n            [\"name\" => \"Charlie\", \"age\" => 20]\n        ];\n        usort($arr, function($a, $b) { return $a[\"age\"] <=> $b[\"age\"]; });\n        echo $arr[0][\"name\"];\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_str_ireplace::348",
+  "argv": [
+   "-r",
+   "\n        echo str_ireplace(\"WORLD\", \"PHP\", \"Hello WORLD\");\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stripos_strripos::349",
+  "argv": [
+   "-r",
+   "\n        echo stripos(\"Hello WORLD\", \"world\") . \",\";\n        echo strripos(\"Hello WORLD world\", \"WORLD\");\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_str_case_functions::350",
+  "argv": [
+   "-r",
+   "\n        echo ucfirst(\"hello\") . \",\";\n        echo lcfirst(\"HELLO\") . \",\";\n        echo ucwords(\"hello world\");\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strpbrk::351",
+  "argv": [
+   "-r",
+   "\n        echo strpbrk(\"Hello World\", \"o\");\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strstr_stristr::352",
+  "argv": [
+   "-r",
+   "\n        echo strstr(\"Hello World\", \"World\") . \",\";\n        echo stristr(\"Hello WORLD\", \"world\");\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strrpos_strrchr::353",
+  "argv": [
+   "-r",
+   "\n        echo strrpos(\"Hello World World\", \"World\") . \",\";\n        echo strrchr(\"hello.txt\", \".\");\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strcoll::354",
+  "argv": [
+   "-r",
+   "\n        echo strcmp(\"abc\", \"abc\") . \",\";\n        echo strcmp(\"abc\", \"def\") . \",\";\n        echo strcasecmp(\"ABC\", \"abc\");\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strnatcmp::355",
+  "argv": [
+   "-r",
+   "\n        echo strnatcmp(\"img2.png\", \"img10.png\") < 0 ? \"Y\" : \"N\";\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_str_pad_advanced::356",
+  "argv": [
+   "-r",
+   "\n        echo str_pad(\"5\", 3, \"0\", STR_PAD_LEFT) . \",\";\n        echo str_pad(\"5\", 3, \"0\", STR_PAD_RIGHT) . \",\";\n        echo str_pad(\"5\", 5, \"0\", STR_PAD_BOTH);\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_implode_with_separator::357",
+  "argv": [
+   "-r",
+   "\n        $arr = [\"a\", \"b\", \"c\"];\n        echo implode(\"-\", $arr) . \",\";\n        echo implode(\"\", $arr);\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_functions::358",
+  "argv": [
+   "-r",
+   "\n        echo round(log(2.718281828), 2) . \",\";\n        echo log10(100) . \",\";\n        echo round(log1p(1), 2);\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exp_functions::359",
+  "argv": [
+   "-r",
+   "\n        echo round(exp(1), 2) . \",\";\n        echo round(expm1(1), 2);\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trig_functions::360",
+  "argv": [
+   "-r",
+   "\n        echo round(sin(0), 2) . \",\";\n        echo round(cos(0), 2) . \",\";\n        echo round(tan(0), 2);\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hypot::361",
+  "argv": [
+   "-r",
+   "\n        echo hypot(3, 4);\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deg2rad_rad2deg::362",
+  "argv": [
+   "-r",
+   "\n        echo round(deg2rad(180) / 3.14159, 2) . \",\";\n        echo round(rad2deg(3.14159));\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fmod::363",
+  "argv": [
+   "-r",
+   "\n        echo fmod(5.7, 1.3);\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_finite_is_infinite_is_nan::364",
+  "argv": [
+   "-r",
+   "\n        echo is_finite(1.0) ? \"Y\" : \"N\";\n        echo is_infinite(log(0)) ? \"Y\" : \"N\";\n        echo is_nan(acos(2)) ? \"Y\" : \"N\";\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assert_function::365",
+  "argv": [
+   "-r",
+   "\n        assert(1 == 1);\n        echo \"OK\";\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_reporting::366",
+  "argv": [
+   "-r",
+   "\n        $old = error_reporting(E_ALL);\n        echo error_reporting() > 0 ? \"OK\" : \"FAIL\";\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_log::367",
+  "argv": [
+   "-r",
+   "\n        error_log(\"Test log message\", 4);\n        echo \"LOGGED\";\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_url::368",
+  "argv": [
+   "-r",
+   "\n        $url = \"https://example.com:8080/path?query=value#fragment\";\n        $parts = parse_url($url);\n        echo $parts[\"scheme\"] . \",\" . $parts[\"host\"] . \",\" . $parts[\"port\"];\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_urlencode_urldecode::369",
+  "argv": [
+   "-r",
+   "\n        $encoded = urlencode(\"hello world\");\n        $decoded = urldecode($encoded);\n        echo $decoded;\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rawurlencode_rawurldecode::370",
+  "argv": [
+   "-r",
+   "\n        $encoded = rawurlencode(\"hello@world\");\n        $decoded = rawurldecode($encoded);\n        echo strpos($decoded, \"@\") !== false ? \"OK\" : \"FAIL\";\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_build_query::371",
+  "argv": [
+   "-r",
+   "\n        $data = [\"name\" => \"John\", \"age\" => 30];\n        echo http_build_query($data);\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base64_encode_decode::372",
+  "argv": [
+   "-r",
+   "\n        $encoded = base64_encode(\"hello\");\n        $decoded = base64_decode($encoded);\n        echo $decoded;\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_php_uname::373",
+  "argv": [
+   "-r",
+   "\n        echo strlen(php_uname()) > 0 ? \"OK\" : \"FAIL\";\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_php_sapi_name::374",
+  "argv": [
+   "-r",
+   "\n        echo php_sapi_name();\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_get_current_user::375",
+  "argv": [
+   "-r",
+   "\n        echo strlen(get_current_user()) >= 0 ? \"OK\" : \"FAIL\";\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_get_loaded_extensions::376",
+  "argv": [
+   "-r",
+   "\n        $exts = get_loaded_extensions();\n        echo count($exts) > 0 ? \"OK\" : \"FAIL\";\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extension_loaded::377",
+  "argv": [
+   "-r",
+   "\n        echo extension_loaded(\"Core\") ? \"Y\" : \"N\";\n        echo extension_loaded(\"NonExistent\") ? \"Y\" : \"N\";\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_get_defined_vars::378",
+  "argv": [
+   "-r",
+   "\n        $a = 1; $b = 2;\n        $vars = get_defined_vars();\n        echo isset($vars[\"a\"]) && isset($vars[\"b\"]) ? \"OK\" : \"FAIL\";\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gc_collect_cycles::379",
+  "argv": [
+   "-r",
+   "\n        echo gc_collect_cycles() >= 0 ? \"OK\" : \"FAIL\";\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_call_user_func_array::380",
+  "argv": [
+   "-r",
+   "\n        function add($a, $b) { return $a + $b; }\n        echo call_user_func_array(\"add\", [2, 3]);\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_map_null::381",
+  "argv": [
+   "-r",
+   "\n        $result = array_map(null, [1, 2], [3, 4]);\n        echo count($result);\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_register_shutdown_function::382",
+  "argv": [
+   "-r",
+   "\n        register_shutdown_function(function() {\n            echo \"SHUTDOWN\";\n        });\n        echo \"START,\";\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preg_match_with_offset::383",
+  "argv": [
+   "-r",
+   "\n        $result = preg_match(\"/\\d+/\", \"abc123def456\", $matches, 0, 3);\n        echo $matches[0];\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preg_replace_callback::384",
+  "argv": [
+   "-r",
+   "\n        $result = preg_replace_callback(\"/\\d+/\", function($matches) {\n            return (int)$matches[0] * 2;\n        }, \"a1b2c3\");\n        echo $result;\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preg_filter::385",
+  "argv": [
+   "-r",
+   "\n        $result = preg_filter(\"/\\d+/\", \"X\", [\"a1\", \"b\", \"c2\"]);\n        echo implode(\",\", $result);\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preg_last_error::386",
+  "argv": [
+   "-r",
+   "\n        preg_match(\"/test/\", \"test\");\n        echo preg_last_error() == PREG_NO_ERROR ? \"OK\" : \"FAIL\";\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_md5_hash::387",
+  "argv": [
+   "-r",
+   "echo md5('hello');"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sha1_hash::388",
+  "argv": [
+   "-r",
+   "echo sha1('hello');"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hash_sha256::389",
+  "argv": [
+   "-r",
+   "echo hash('sha256', 'hello');"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hash_algos::390",
+  "argv": [
+   "-r",
+   "echo count(hash_algos());"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_format::391",
+  "argv": [
+   "-r",
+   "echo date('Y-m-d');"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_function::392",
+  "argv": [
+   "-r",
+   "echo time() > 0 ? 'ok' : 'fail';"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strtotime::393",
+  "argv": [
+   "-r",
+   "echo strtotime('2020-01-01') > 0 ? 'ok' : 'fail';"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_microtime::394",
+  "argv": [
+   "-r",
+   "echo microtime(true) > 0 ? 'ok' : 'fail';"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_encode_array::395",
+  "argv": [
+   "-r",
+   "echo json_encode([1, 2, 3]);"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_encode_object::396",
+  "argv": [
+   "-r",
+   "echo json_encode(['key' => 'value']);"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_decode_array::397",
+  "argv": [
+   "-r",
+   "$arr = json_decode('[1,2,3]', true); echo $arr[1];"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_last_error::398",
+  "argv": [
+   "-r",
+   "json_decode('invalid'); echo json_last_error() != 0 ? 'error' : 'ok';"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_encode_options::399",
+  "argv": [
+   "-r",
+   "echo json_encode(['<', '>'], JSON_HEX_TAG);"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

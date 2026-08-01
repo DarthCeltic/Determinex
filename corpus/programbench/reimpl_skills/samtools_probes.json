@@ -1,0 +1,4166 @@
+[
+ {
+  "name": "test::test_help_option::0",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_command::1",
+  "argv": [
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_command::2",
+  "argv": [
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_command::3",
+  "argv": [
+   "unknowncommand_xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_no_args_shows_usage::4",
+  "argv": [
+   "flags"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_numeric_to_text::5",
+  "argv": [
+   "flags",
+   "4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_text_to_numeric::6",
+  "argv": [
+   "flags",
+   "PAIRED"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_multiple_flags::7",
+  "argv": [
+   "flags",
+   "PAIRED",
+   "UNMAP"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_hex_input::8",
+  "argv": [
+   "flags",
+   "0x4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_supplementary::9",
+  "argv": [
+   "flags",
+   "2048"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_combined_numeric::10",
+  "argv": [
+   "flags",
+   "65"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_comma_separated::11",
+  "argv": [
+   "flags",
+   "PAIRED,READ1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_invalid_flag::12",
+  "argv": [
+   "flags",
+   "INVALID_FLAG_XYZ"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_zero::13",
+  "argv": [
+   "flags",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_view_missing_file::14",
+  "argv": [
+   "view",
+   "/nonexistent/file.bam"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flagstat_missing_file::15",
+  "argv": [
+   "flagstat",
+   "/nonexistent/file.bam"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_missing_file::16",
+  "argv": [
+   "index",
+   "/nonexistent/file.bam"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_faidx_missing_file::17",
+  "argv": [
+   "faidx",
+   "/nonexistent/file.fa"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_missing_file::18",
+  "argv": [
+   "stats",
+   "/nonexistent/file.bam"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_depth_missing_file::19",
+  "argv": [
+   "depth",
+   "/nonexistent/file.bam"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_consensus_basic::20",
+  "argv": [
+   "consensus"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_consensus_fasta_format::21",
+  "argv": [
+   "consensus",
+   "-f",
+   "FASTA"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_consensus_fastq_format::22",
+  "argv": [
+   "consensus",
+   "-f",
+   "FASTQ"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_consensus_pileup_format::23",
+  "argv": [
+   "consensus",
+   "-f",
+   "PILEUP"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_consensus_region::24",
+  "argv": [
+   "consensus",
+   "-r",
+   "ref"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_consensus_simple_mode::25",
+  "argv": [
+   "consensus",
+   "-m",
+   "simple"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_consensus_min_depth::26",
+  "argv": [
+   "consensus",
+   "-d",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_consensus_output_file::27",
+  "argv": [
+   "consensus",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_consensus_line_length::28",
+  "argv": [
+   "consensus",
+   "-l",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_consensus_bayesian_mode::29",
+  "argv": [
+   "consensus",
+   "-m",
+   "bayesian"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_consensus_ambig_codes::30",
+  "argv": [
+   "consensus",
+   "-A"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cram_size_basic::31",
+  "argv": [
+   "cram-size"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cram_size_output_file::32",
+  "argv": [
+   "cram-size",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cram_size_verbose::33",
+  "argv": [
+   "cram-size",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_depad_basic::34",
+  "argv": [
+   "view",
+   "-bS",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_depad_help::35",
+  "argv": [
+   "depad",
+   "-?"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_with_region::36",
+  "argv": [
+   "stats",
+   "ref"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_remove_dups::37",
+  "argv": [
+   "stats",
+   "-d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_insert_size::38",
+  "argv": [
+   "stats",
+   "-i",
+   "1000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_required_flag::39",
+  "argv": [
+   "stats",
+   "-f",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_filtering_flag::40",
+  "argv": [
+   "stats",
+   "-F",
+   "4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_coverage_distribution::41",
+  "argv": [
+   "stats"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_with_ref::42",
+  "argv": [
+   "stats",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_read_length_filter::43",
+  "argv": [
+   "stats",
+   "-l",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_target_regions::44",
+  "argv": [
+   "stats",
+   "-t",
+   "targets.bed"
+  ],
+  "stdin": null,
+  "files": {
+   "targets.bed": "ref\t6\t20\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_ascii_name::45",
+  "argv": [
+   "view",
+   "-H"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_by_tag::46",
+  "argv": [
+   "view",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_depth_bed_file::47",
+  "argv": [
+   "depth",
+   "-b",
+   "regions.bed"
+  ],
+  "stdin": null,
+  "files": {
+   "regions.bed": "ref\t6\t20\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_depth_multiple_bams::48",
+  "argv": [
+   "depth"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_depth_min_mapq::49",
+  "argv": [
+   "depth",
+   "-Q",
+   "20"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_depth_include_deletions::50",
+  "argv": [
+   "depth",
+   "-J"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_depth_no_overlap::51",
+  "argv": [
+   "depth",
+   "-s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_view_cram_input::52",
+  "argv": [
+   "view",
+   "-c",
+   "-T"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_view_cram_output::53",
+  "argv": [
+   "view",
+   "-C",
+   "-T",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_view_with_expr_filter::54",
+  "argv": [
+   "view",
+   "-e",
+   "flag & 16",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_view_remove_tag::55",
+  "argv": [
+   "view",
+   "-x",
+   "XX"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_view_fast_compression::56",
+  "argv": [
+   "view",
+   "-1",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_view_add_flags::57",
+  "argv": [
+   "view",
+   "--add-flags",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_view_save_counts::58",
+  "argv": [
+   "view",
+   "-c",
+   "--save-counts"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_view_cram_region::59",
+  "argv": [
+   "view",
+   "-c",
+   "-T",
+   "ref"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_cram_file::60",
+  "argv": [
+   "index"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flagstat_on_cram::61",
+  "argv": [
+   "flagstat"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mpileup_no_baq::62",
+  "argv": [
+   "mpileup",
+   "-B",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mpileup_output_bp::63",
+  "argv": [
+   "mpileup",
+   "-O",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mpileup_count_orphans::64",
+  "argv": [
+   "mpileup",
+   "-A",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mpileup_output_mq::65",
+  "argv": [
+   "mpileup",
+   "-s",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mpileup_multiple_bams::66",
+  "argv": [
+   "mpileup",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_faidx_mark_strand::67",
+  "argv": [
+   "faidx",
+   "--mark-strand",
+   "sign",
+   "ref:1-5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_faidx_region_file::68",
+  "argv": [
+   "faidx",
+   "-r",
+   "regions.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "regions.txt": "ref:1-10\nref2:1-10\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_faidx_continue_on_error::69",
+  "argv": [
+   "faidx",
+   "-c",
+   "nonexistent",
+   "ref:1-5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fqidx_help::70",
+  "argv": [
+   "fqidx",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_addreplacerg_overwrite_mode::71",
+  "argv": [
+   "addreplacerg",
+   "-m",
+   "overwrite_all",
+   "-r",
+   "@RG\tID:rg1\tSM:s1",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_addreplacerg_orphan_mode::72",
+  "argv": [
+   "addreplacerg",
+   "-m",
+   "orphan_only",
+   "-r",
+   "@RG\tID:rg2\tSM:s2",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_sparse::73",
+  "argv": [
+   "stats",
+   "-x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_remove_overlaps::74",
+  "argv": [
+   "stats",
+   "-p"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coverage_histogram::75",
+  "argv": [
+   "coverage",
+   "-m",
+   "-A"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coverage_min_read_len::76",
+  "argv": [
+   "coverage",
+   "-l",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coverage_depth_limit::77",
+  "argv": [
+   "coverage",
+   "-d",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fixmate_add_cigar_tag::78",
+  "argv": [
+   "fixmate",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fixmate_add_mate_score::79",
+  "argv": [
+   "fixmate",
+   "-m"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fixmate_uncompressed::80",
+  "argv": [
+   "fixmate",
+   "-u"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_samples_indexed::81",
+  "argv": [
+   "samples",
+   "-i"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bedcov_min_mapq::82",
+  "argv": [
+   "bedcov",
+   "-Q",
+   "20",
+   "regions.bed"
+  ],
+  "stdin": null,
+  "files": {
+   "regions.bed": "ref\t6\t20\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_merge_combine_rg::83",
+  "argv": [
+   "merge",
+   "-f",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_collate_with_prefix::84",
+  "argv": [
+   "collate",
+   "-T",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ampliconclip_basic::85",
+  "argv": [
+   "ampliconclip",
+   "-b",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ampliconclip_hard_clip::86",
+  "argv": [
+   "ampliconclip",
+   "--hard-clip",
+   "-b",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ampliconclip_both_ends::87",
+  "argv": [
+   "ampliconclip",
+   "--both-ends",
+   "-b",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ampliconclip_reject_file::88",
+  "argv": [
+   "ampliconclip",
+   "-b",
+   "-o",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ampliconstats_basic::89",
+  "argv": [
+   "ampliconstats"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ampliconstats_output_file::90",
+  "argv": [
+   "ampliconstats",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ampliconstats_min_depth::91",
+  "argv": [
+   "ampliconstats",
+   "-d",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdup_with_stats::92",
+  "argv": [
+   "markdup",
+   "-s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdup_stats_file::93",
+  "argv": [
+   "markdup",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdup_remove_dups::94",
+  "argv": [
+   "markdup",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdup_uncompressed::95",
+  "argv": [
+   "markdup",
+   "-u"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdup_optical_distance::96",
+  "argv": [
+   "markdup",
+   "-d",
+   "100"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_phase_basic::97",
+  "argv": [
+   "phase"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reference_basic::98",
+  "argv": [
+   "reference"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reference_output_file::99",
+  "argv": [
+   "reference",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_view_qname_file::100",
+  "argv": [
+   "view"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_view_write_index::101",
+  "argv": [
+   "view",
+   "-b",
+   "-o",
+   "--write-index"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_view_fetch_pairs::102",
+  "argv": [
+   "view",
+   "-P",
+   "ref"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fastq_pair_files::103",
+  "argv": [
+   "fastq",
+   "-1",
+   "-2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fastq_copy_rg_tag::104",
+  "argv": [
+   "fastq",
+   "-n",
+   "-t"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fastq_original_quality::105",
+  "argv": [
+   "fastq",
+   "-n",
+   "-O"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fasta_output_file::106",
+  "argv": [
+   "fasta",
+   "-n",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_coverage_min_max::107",
+  "argv": [
+   "stats",
+   "-c",
+   "1,100,1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_insert_size_filter::108",
+  "argv": [
+   "stats",
+   "-i",
+   "10000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_GC_depth::109",
+  "argv": [
+   "stats",
+   "--GC-depth",
+   "1e4",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_most_inserts::110",
+  "argv": [
+   "stats",
+   "-m",
+   "0.99"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cram_size_expanded::111",
+  "argv": [
+   "cram-size",
+   "-e"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_checksum_all_flag::112",
+  "argv": [
+   "checksum",
+   "-a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_checksum_verbose::113",
+  "argv": [
+   "checksum",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_checksum_include_pos::114",
+  "argv": [
+   "checksum",
+   "-P"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_checksum_in_order::115",
+  "argv": [
+   "checksum",
+   "-O"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_checksum_bamseqchksum::116",
+  "argv": [
+   "checksum",
+   "-B"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fqidx_creates_index::117",
+  "argv": [
+   "fqidx"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_collate_with_fast_mode::118",
+  "argv": [
+   "collate",
+   "-f",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reheader_with_command::119",
+  "argv": [
+   "reheader",
+   "-c",
+   "cat"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_consensus_use_qual::120",
+  "argv": [
+   "consensus",
+   "-m",
+   "simple",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_consensus_pileup_region::121",
+  "argv": [
+   "consensus",
+   "-f",
+   "PILEUP",
+   "-r",
+   "ref"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_consensus_high_mq_filter::122",
+  "argv": [
+   "consensus",
+   "--min-MQ",
+   "20"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_consensus_show_del::123",
+  "argv": [
+   "consensus",
+   "--show-del",
+   "yes"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_consensus_bayesian_cutoff::124",
+  "argv": [
+   "consensus",
+   "-C",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_consensus_homopoly_fix::125",
+  "argv": [
+   "consensus",
+   "-p"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_consensus_ref_qual::126",
+  "argv": [
+   "consensus",
+   "--ref-qual",
+   "30"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_split_with_rg_bam::127",
+  "argv": [
+   "split",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_split_unaccounted::128",
+  "argv": [
+   "split",
+   "-u"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_split_verbose::129",
+  "argv": [
+   "split",
+   "-v",
+   "-u"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_split_format_string::130",
+  "argv": [
+   "split",
+   "-f",
+   "-u"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_merge_with_region::131",
+  "argv": [
+   "merge",
+   "-f",
+   "-R",
+   "ref"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_merge_with_file_list::132",
+  "argv": [
+   "merge",
+   "-f",
+   "-b"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_merge_uncompressed::133",
+  "argv": [
+   "merge",
+   "-f",
+   "-u"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fastq_default_quality::134",
+  "argv": [
+   "fastq",
+   "-n",
+   "-v",
+   "30"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fastq_barcode_tag::135",
+  "argv": [
+   "fastq",
+   "-n",
+   "--barcode-tag",
+   "BC"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fastq_all_tags::136",
+  "argv": [
+   "fastq",
+   "-n",
+   "-T",
+   "*"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fasta_singleton_output::137",
+  "argv": [
+   "fasta",
+   "-n",
+   "-s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fastq_no_soft_clips::138",
+  "argv": [
+   "fastq",
+   "-n",
+   "--no-sc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_samples_with_tag::139",
+  "argv": [
+   "samples",
+   "-T",
+   "SM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_samples_output_file::140",
+  "argv": [
+   "samples",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_idxstats_from_stdin::141",
+  "argv": [
+   "idxstats"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_view_rf_include_flags::142",
+  "argv": [
+   "view",
+   "--rf",
+   "1",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_view_G_exclude_flags::143",
+  "argv": [
+   "view",
+   "-G",
+   "16",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_view_subsample::144",
+  "argv": [
+   "view",
+   "--subsample",
+   "0.5",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_view_sanitize::145",
+  "argv": [
+   "view",
+   "-z",
+   "all",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bedcov_depth_threshold::146",
+  "argv": [
+   "bedcov",
+   "-d",
+   "2",
+   "regions.bed"
+  ],
+  "stdin": null,
+  "files": {
+   "regions.bed": "ref\t6\t20\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bedcov_multiple_bams::147",
+  "argv": [
+   "bedcov",
+   "regions.bed"
+  ],
+  "stdin": null,
+  "files": {
+   "regions.bed": "ref\t6\t20\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_depth_bed_output_positions::148",
+  "argv": [
+   "depth",
+   "-b",
+   "regions.bed"
+  ],
+  "stdin": null,
+  "files": {
+   "regions.bed": "ref\t8\t15\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_depth_absolute_all_positions::149",
+  "argv": [
+   "depth",
+   "-aa"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_view_from_stdin_bam::150",
+  "argv": [
+   "view",
+   "-c",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flagstat_from_stdin::151",
+  "argv": [
+   "flagstat",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_from_stdin::152",
+  "argv": [
+   "stats",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_with_threads::153",
+  "argv": [
+   "index",
+   "-@",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdup_json_stats::154",
+  "argv": [
+   "markdup",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdup_include_fails::155",
+  "argv": [
+   "markdup",
+   "--include-fails"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdup_mode_sequence::156",
+  "argv": [
+   "markdup",
+   "-m",
+   "s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdup_mark_tag::157",
+  "argv": [
+   "markdup",
+   "-t"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdup_duplicate_count::158",
+  "argv": [
+   "markdup",
+   "--duplicate-count"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdup_clear_existing::159",
+  "argv": [
+   "markdup",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdup_supp_alignments::160",
+  "argv": [
+   "markdup",
+   "-S"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_view_sanitize_all::161",
+  "argv": [
+   "view",
+   "-z",
+   "all",
+   "-b",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mpileup_output_qname::162",
+  "argv": [
+   "mpileup",
+   "--output-QNAME",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mpileup_no_output_ins::163",
+  "argv": [
+   "mpileup",
+   "--no-output-ins",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mpileup_output_mods::164",
+  "argv": [
+   "mpileup",
+   "-M",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mpileup_reverse_del::165",
+  "argv": [
+   "mpileup",
+   "--reverse-del",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mpileup_no_output_ends::166",
+  "argv": [
+   "mpileup",
+   "--no-output-ends",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_trim_quality::167",
+  "argv": [
+   "stats",
+   "-q",
+   "20"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bedcov_read_count::168",
+  "argv": [
+   "bedcov",
+   "-c",
+   "regions.bed"
+  ],
+  "stdin": null,
+  "files": {
+   "regions.bed": "ref\t6\t20\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bedcov_header::169",
+  "argv": [
+   "bedcov",
+   "-H",
+   "regions.bed"
+  ],
+  "stdin": null,
+  "files": {
+   "regions.bed": "ref\t6\t20\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bedcov_filter_flags::170",
+  "argv": [
+   "bedcov",
+   "-G",
+   "16",
+   "regions.bed"
+  ],
+  "stdin": null,
+  "files": {
+   "regions.bed": "ref\t6\t20\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bedcov_no_deletions::171",
+  "argv": [
+   "bedcov",
+   "-j",
+   "regions.bed"
+  ],
+  "stdin": null,
+  "files": {
+   "regions.bed": "ref\t6\t20\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_consensus_hifi_cal::172",
+  "argv": [
+   "consensus",
+   "-t",
+   ":hifi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_consensus_hiseq_cal::173",
+  "argv": [
+   "consensus",
+   "-t",
+   ":hiseq"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_consensus_flat_cal::174",
+  "argv": [
+   "consensus",
+   "-t",
+   ":flat"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_consensus_r10_sup_cal::175",
+  "argv": [
+   "consensus",
+   "-t",
+   ":r10.4_sup"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_consensus_ultima_cal::176",
+  "argv": [
+   "consensus",
+   "-t",
+   ":ultima"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_consensus_use_MQ::177",
+  "argv": [
+   "consensus",
+   "--use-MQ"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_consensus_adj_MQ::178",
+  "argv": [
+   "consensus",
+   "--adj-MQ"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_consensus_scale_MQ::179",
+  "argv": [
+   "consensus",
+   "--scale-MQ",
+   "1.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_consensus_low_mq::180",
+  "argv": [
+   "consensus",
+   "--low-MQ",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_consensus_high_mq::181",
+  "argv": [
+   "consensus",
+   "--high-MQ",
+   "40"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fastq_with_tag_filter::182",
+  "argv": [
+   "fastq",
+   "-n",
+   "-d",
+   "XX"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fastq_name_no_suffix::183",
+  "argv": [
+   "fastq",
+   "-n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fastq_always_suffix::184",
+  "argv": [
+   "fastq",
+   "-N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_view_library_filter::185",
+  "argv": [
+   "view",
+   "-l",
+   "some_lib",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_view_read_group_filter::186",
+  "argv": [
+   "view",
+   "-r",
+   "nonexistent_rg",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_view_keep_tag::187",
+  "argv": [
+   "view",
+   "--keep-tag",
+   "XX"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_view_remove_b_cigar::188",
+  "argv": [
+   "view",
+   "-B",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_view_no_pg::189",
+  "argv": [
+   "view",
+   "--no-PG",
+   "-H"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_view_regions_file::190",
+  "argv": [
+   "view",
+   "-c",
+   "--regions-file",
+   "regions.bed"
+  ],
+  "stdin": null,
+  "files": {
+   "regions.bed": "ref\t6\t20\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_cov_threshold::191",
+  "argv": [
+   "stats",
+   "-g",
+   "5",
+   "-t",
+   "test.bed"
+  ],
+  "stdin": null,
+  "files": {
+   "test.bed": "ref\t0\t45\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_with_id_filter::192",
+  "argv": [
+   "stats",
+   "-I",
+   "some_sample"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mpileup_no_baq_3::193",
+  "argv": [
+   "mpileup",
+   "-Q",
+   "20",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mpileup_position_file::194",
+  "argv": [
+   "mpileup",
+   "-l",
+   "positions.txt",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {
+   "positions.txt": "ref\t10\nref\t15\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quickcheck_valid_bam::195",
+  "argv": [
+   "quickcheck"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quickcheck_invalid_file::196",
+  "argv": [
+   "quickcheck",
+   "invalid.bam"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.bam": "not a bam file"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quickcheck_verbose::197",
+  "argv": [
+   "quickcheck",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_addreplacerg_basic::198",
+  "argv": [
+   "addreplacerg",
+   "-r",
+   "@RG\tID:test_rg\tSM:sample1\tLB:lib1\tPL:ILLUMINA",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_addreplacerg_output_is_bam::199",
+  "argv": [
+   "addreplacerg",
+   "-r",
+   "@RG\tID:rg_new\tSM:sample1",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_addreplacerg_sam_output::200",
+  "argv": [
+   "addreplacerg",
+   "-r",
+   "@RG\tID:myrg\tSM:s1",
+   "-O",
+   "SAM",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_samples_basic::201",
+  "argv": [
+   "samples"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_samples_header_option::202",
+  "argv": [
+   "samples",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bedcov_multiple_regions::203",
+  "argv": [
+   "bedcov",
+   "regions.bed"
+  ],
+  "stdin": null,
+  "files": {
+   "regions.bed": "ref\t6\t20\nref2\t1\t15\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bedcov_zero_coverage_region::204",
+  "argv": [
+   "bedcov",
+   "empty.bed"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.bed": "ref\t1\t3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fasta_basic::205",
+  "argv": [
+   "fasta",
+   "-n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fastq_output_file::206",
+  "argv": [
+   "fastq",
+   "-n",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fastq_singleton_output::207",
+  "argv": [
+   "fastq",
+   "-n",
+   "-s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_collate_basic::208",
+  "argv": [
+   "collate",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_collate_output_stdout::209",
+  "argv": [
+   "collate",
+   "-O",
+   "-u"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_merge_two_bams::210",
+  "argv": [
+   "merge",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_checksum_basic::211",
+  "argv": [
+   "checksum"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_checksum_tabs_format::212",
+  "argv": [
+   "checksum",
+   "-T"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_csi_format::213",
+  "argv": [
+   "index",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_multi_mode::214",
+  "argv": [
+   "index",
+   "-M"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_output_file::215",
+  "argv": [
+   "index",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_faidx_creates_index::216",
+  "argv": [
+   "faidx"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_faidx_extract_sequence::217",
+  "argv": [
+   "faidx",
+   "ref"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_faidx_extract_region::218",
+  "argv": [
+   "faidx",
+   "ref:1-10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_faidx_extract_multiple_regions::219",
+  "argv": [
+   "faidx",
+   "ref",
+   "ref2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_faidx_line_length::220",
+  "argv": [
+   "faidx",
+   "-n",
+   "10",
+   "ref"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_faidx_output_file::221",
+  "argv": [
+   "faidx",
+   "-o",
+   "ref"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_faidx_second_sequence::222",
+  "argv": [
+   "faidx",
+   "ref2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dict_basic::223",
+  "argv": [
+   "dict"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dict_assembly_option::224",
+  "argv": [
+   "dict",
+   "-a",
+   "hg38"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dict_species_option::225",
+  "argv": [
+   "dict",
+   "-s",
+   "Homo sapiens"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dict_no_header::226",
+  "argv": [
+   "dict",
+   "-H"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dict_output_file::227",
+  "argv": [
+   "dict",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dict_uri_option::228",
+  "argv": [
+   "dict",
+   "-u",
+   "http://example.com/ref.fa"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rmdup_basic::229",
+  "argv": [
+   "rmdup"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rmdup_single_end_mode::230",
+  "argv": [
+   "rmdup",
+   "-s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rmdup_paired_as_se_mode::231",
+  "argv": [
+   "rmdup",
+   "-S"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targetcut_basic::232",
+  "argv": [
+   "targetcut"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targetcut_quality_threshold::233",
+  "argv": [
+   "targetcut",
+   "-Q",
+   "20"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tview_html_output::234",
+  "argv": [
+   "tview",
+   "-d",
+   "H",
+   "-p",
+   "ref:7"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tview_text_output::235",
+  "argv": [
+   "tview",
+   "-d",
+   "T",
+   "-p",
+   "ref:7",
+   "-w",
+   "60"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tview_text_contains_position::236",
+  "argv": [
+   "tview",
+   "-d",
+   "T",
+   "-p",
+   "ref:1",
+   "-w",
+   "80"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tview_missing_index_error::237",
+  "argv": [
+   "tview",
+   "-d",
+   "H",
+   "-p",
+   "ref:1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tview_no_args_shows_usage::238",
+  "argv": [
+   "tview"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tview_text_width_option::239",
+  "argv": [
+   "tview",
+   "-d",
+   "T",
+   "-p",
+   "ref:7",
+   "-w",
+   "40"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_md5fa_no_args::240",
+  "argv": [
+   "md5fa"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_md5sum_lite_stdin::241",
+  "argv": [
+   "md5sum-lite"
+  ],
+  "stdin": "hello world\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tview_hide_inserts::242",
+  "argv": [
+   "tview",
+   "-d",
+   "T",
+   "-p",
+   "ref:1",
+   "-i",
+   "-w",
+   "60"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tview_html_ref2_region::243",
+  "argv": [
+   "tview",
+   "-d",
+   "H",
+   "-p",
+   "ref2:1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tview_text_larger_view::244",
+  "argv": [
+   "tview",
+   "-d",
+   "T",
+   "-p",
+   "ref:1",
+   "-w",
+   "100"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_split_by_rg_tag::245",
+  "argv": [
+   "view",
+   "-bS",
+   "-o",
+   "multi_rg.sam"
+  ],
+  "stdin": null,
+  "files": {
+   "multi_rg.sam": "@SQ\tSN:ref\tLN:45\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_split_no_args_shows_usage::246",
+  "argv": [
+   "split"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdup_with_optical_distance::247",
+  "argv": [
+   "markdup",
+   "-d",
+   "2500"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reheader_basic_stdin_stdout::248",
+  "argv": [
+   "reheader",
+   "new_header.sam"
+  ],
+  "stdin": null,
+  "files": {
+   "new_header.sam": "@HD\tVN:1.6\tSO:coordinate\n@SQ\tSN:ref\tLN:45\n@SQ\tSN:ref2\tLN:40\n@CO\tNew comment\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reheader_no_pg::249",
+  "argv": [
+   "reheader",
+   "-P",
+   "header.sam"
+  ],
+  "stdin": null,
+  "files": {
+   "header.sam": "@HD\tVN:1.6\tSO:coordinate\n@SQ\tSN:ref\tLN:45\n@SQ\tSN:ref2\tLN:40\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fixmate_disable_proper_pair_check::250",
+  "argv": [
+   "fixmate",
+   "-p"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fixmate_remove_unmapped::251",
+  "argv": [
+   "fixmate",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_samples_from_sam_with_rg::252",
+  "argv": [
+   "view",
+   "-bS",
+   "-o",
+   "rg.sam"
+  ],
+  "stdin": null,
+  "files": {
+   "rg.sam": "@SQ\tSN:ref\tLN:45\n@RG\tID:rg1\tSM:Sample1\n@RG\tID:rg2\tSM:Sample2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_single_fastq::253",
+  "argv": [
+   "import",
+   "-0",
+   "reads.fq"
+  ],
+  "stdin": null,
+  "files": {
+   "reads.fq": "@read1\nACGTACGTAC\n+\n??????????\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_paired_fastq::254",
+  "argv": [
+   "import",
+   "-1",
+   "r1.fq",
+   "-2",
+   "r2.fq"
+  ],
+  "stdin": null,
+  "files": {
+   "r1.fq": "@read1/1\nACGTACGTAC\n+\n??????????\n@read2/1\nGCATGCATGC\n+\n??????????\n",
+   "r2.fq": "@read1/2\nTGCATGCATG\n+\n??????????\n@read2/2\nCGTACGTACG\n+\n??????????\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_output_to_file::255",
+  "argv": [
+   "import",
+   "-0",
+   "reads.fq",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "reads.fq": "@read1\nACGTACGTAC\n+\n??????????\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_with_rg_info::256",
+  "argv": [
+   "import",
+   "-R",
+   "RG001",
+   "-0",
+   "reads.fq"
+  ],
+  "stdin": null,
+  "files": {
+   "reads.fq": "@read1\nACGTACGTAC\n+\n??????????\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_calmd_with_equals::257",
+  "argv": [
+   "calmd",
+   "-e"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_calmd_bam_output::258",
+  "argv": [
+   "calmd",
+   "-b",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_calmd_adds_md_tag::259",
+  "argv": [
+   "calmd",
+   "test.sam"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sam": "@SQ\tSN:ref\tLN:45\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_for_rmdup::260",
+  "argv": [
+   "help",
+   "rmdup"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_for_targetcut::261",
+  "argv": [
+   "help",
+   "targetcut"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_for_tview::262",
+  "argv": [
+   "help",
+   "tview"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_for_samples::263",
+  "argv": [
+   "samples",
+   "-?"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rmdup_missing_input::264",
+  "argv": [
+   "rmdup",
+   "/nonexistent/input.bam"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targetcut_invalid_file::265",
+  "argv": [
+   "targetcut",
+   "/nonexistent/file.bam"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mpileup_without_reference::266",
+  "argv": [
+   "mpileup"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mpileup_min_mapq::267",
+  "argv": [
+   "mpileup",
+   "-q",
+   "25",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mpileup_output_file::268",
+  "argv": [
+   "mpileup",
+   "-o",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fixmate_basic::269",
+  "argv": [
+   "fixmate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fixmate_output_format::270",
+  "argv": [
+   "fixmate",
+   "-O",
+   "SAM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_from_fastq::271",
+  "argv": [
+   "import",
+   "-0",
+   "test.fq"
+  ],
+  "stdin": null,
+  "files": {
+   "test.fq": "@read1\nACGT\n+\nIIII\n@read2\nGCAT\n+\nIIII\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_output_format::272",
+  "argv": [
+   "import",
+   "-0",
+   "test.fq"
+  ],
+  "stdin": null,
+  "files": {
+   "test.fq": "@read1\nACGT\n+\nIIII\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_with_rg_line::273",
+  "argv": [
+   "import",
+   "-r",
+   "ID:rg1\tSM:sample1",
+   "-0",
+   "test.fq"
+  ],
+  "stdin": null,
+  "files": {
+   "test.fq": "@read1\nACGT\n+\nIIII\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_sequence_preserved::274",
+  "argv": [
+   "import",
+   "-0",
+   "test.fq"
+  ],
+  "stdin": null,
+  "files": {
+   "test.fq": "@read1\nACGTACGT\n+\nIIIIIIII\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_pair_files::275",
+  "argv": [
+   "import",
+   "-1",
+   "r1.fq",
+   "-2",
+   "r2.fq"
+  ],
+  "stdin": null,
+  "files": {
+   "r1.fq": "@read1/1\nACGT\n+\nIIII\n",
+   "r2.fq": "@read1/2\nTGCA\n+\nIIII\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_calmd_basic::276",
+  "argv": [
+   "calmd"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reset_basic::277",
+  "argv": [
+   "reset"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reset_help::278",
+  "argv": [
+   "reset",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ampliconclip_help::279",
+  "argv": [
+   "ampliconclip",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ampliconclip_no_args::280",
+  "argv": [
+   "ampliconclip"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdup_help::281",
+  "argv": [
+   "markdup",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_phase_help::282",
+  "argv": [
+   "phase",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reference_help::283",
+  "argv": [
+   "reference",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flagstat_json_format::284",
+  "argv": [
+   "flagstat",
+   "-O",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flagstat_tsv_format::285",
+  "argv": [
+   "flagstat",
+   "-O",
+   "tsv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_help::286",
+  "argv": [
+   "stats",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_depth_min_quality::287",
+  "argv": [
+   "depth",
+   "-q",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_depth_output_file::288",
+  "argv": [
+   "depth",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_depth_min_read_length::289",
+  "argv": [
+   "depth",
+   "-l",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_depth_with_header::290",
+  "argv": [
+   "depth",
+   "-H"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coverage_basic::291",
+  "argv": [
+   "coverage"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coverage_no_header::292",
+  "argv": [
+   "coverage",
+   "-H"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coverage_output_file::293",
+  "argv": [
+   "coverage",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coverage_region::294",
+  "argv": [
+   "coverage",
+   "-r",
+   "ref"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coverage_min_mapq::295",
+  "argv": [
+   "coverage",
+   "-q",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_view_with_header::296",
+  "argv": [
+   "view",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_view_output_bam::297",
+  "argv": [
+   "view",
+   "-b",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_view_specific_region::298",
+  "argv": [
+   "view",
+   "ref:7-20"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_view_exclude_flags::299",
+  "argv": [
+   "view",
+   "-F",
+   "16",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_view_require_flags::300",
+  "argv": [
+   "view",
+   "-f",
+   "16"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_view_min_mapq::301",
+  "argv": [
+   "view",
+   "-c",
+   "-q",
+   "100"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_view_stdin::302",
+  "argv": [
+   "view",
+   "-S",
+   "-c",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_format_sam::303",
+  "argv": [
+   "view",
+   "-O",
+   "SAM",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_format_bam::304",
+  "argv": [
+   "view",
+   "-O",
+   "BAM",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_view_output_unselected::305",
+  "argv": [
+   "view",
+   "-F",
+   "16",
+   "-b",
+   "-U",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_view_output_to_file::306",
+  "argv": [
+   "view",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_view_uncompressed_bam::307",
+  "argv": [
+   "view",
+   "-u",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_view_tag_filter::308",
+  "argv": [
+   "view",
+   "-d",
+   "XX"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_view_count_with_region::309",
+  "argv": [
+   "view",
+   "-c",
+   "ref"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_soft_clip_5prime_default::310",
+  "argv": [
+   "view",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_pg_flag_suppresses_program_record::311",
+  "argv": [
+   "view",
+   "-h",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_collate_stdin_not_supported_without_explicit_input::312",
+  "argv": [
+   "collate",
+   "-O"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_stdout_support::313",
+  "argv": [
+   "-",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reheader_bam::314",
+  "argv": [
+   "view",
+   "-h",
+   "--no-PG"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reset_basic_pipe::315",
+  "argv": [
+   "reset",
+   "--dupflag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reheader_large_header_replacement::316",
+  "argv": [
+   "view",
+   "-H",
+   "--no-PG"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reheader_preserves_alignment_data_integrity::317",
+  "argv": [
+   "view",
+   "--no-PG"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_mode::318",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_custom_index::319",
+  "argv": [
+   "-X"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_stdin_no_tty::320",
+  "argv": [],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dict_stdin_input::321",
+  "argv": [
+   "dict",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_view_invalid_input_error::322",
+  "argv": [
+   "view",
+   "-"
+  ],
+  "stdin": "invalid\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

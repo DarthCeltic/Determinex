@@ -1,0 +1,2205 @@
+{
+  "_schema": "senses_report_v1",
+  "_source_eval": "corpus\\programbench\\locked\\fasttext\\eval_report.json",
+  "_generated_by": "pb_senses.py",
+  "summary": {
+    "total_tests": 665,
+    "passed": 353,
+    "non_passing": 312,
+    "histogram": {
+      "upstream-skip": 0,
+      "collection-gap": 312,
+      "pty-gap": 0,
+      "image-plumbing": 0,
+      "real-fail": 0,
+      "unclassified": 0
+    }
+  },
+  "classified": [
+    {
+      "test_id": "eval.tests.test_autotune.TestAutotune.test_autotune_basic_with_validation",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_autotune.TestAutotune.test_autotune_invalid_metric",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_autotune.TestAutotune.test_autotune_metric_for_specific_label",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_autotune.TestAutotune.test_autotune_shows_progress",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_autotune.TestAutotune.test_autotune_with_metric_f1",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_autotune.TestAutotune.test_autotune_with_predictions_arg",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_basic_invocation.TestDefaultParameterValues.test_skipgram_default_values",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_basic_invocation.TestDefaultParameterValues.test_supervised_default_values",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_basic_invocation.TestInvalidCommand.test_invalid_command_shows_command_list",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_basic_invocation.TestInvalidCommand.test_invalid_command_shows_usage",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_basic_invocation.TestInvalidCommand.test_invalid_command_stderr_not_stdout",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_basic_invocation.TestNoArguments.test_no_args_lists_all_commands",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_basic_invocation.TestNoArguments.test_no_args_shows_usage",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_basic_invocation.TestNoArguments.test_no_args_stderr_not_stdout",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_basic_invocation.TestSubcommandHelp.test_analogies_without_args_shows_usage",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_basic_invocation.TestSubcommandHelp.test_cbow_without_args_shows_help",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_basic_invocation.TestSubcommandHelp.test_dump_without_args_shows_usage",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_basic_invocation.TestSubcommandHelp.test_nn_without_args_shows_usage",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_basic_invocation.TestSubcommandHelp.test_predict_prob_without_args_shows_usage",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_basic_invocation.TestSubcommandHelp.test_predict_without_args_shows_usage",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_basic_invocation.TestSubcommandHelp.test_print_ngrams_without_args_shows_usage",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_basic_invocation.TestSubcommandHelp.test_print_sentence_vectors_without_args_shows_usage",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_basic_invocation.TestSubcommandHelp.test_print_word_vectors_without_args_shows_usage",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_basic_invocation.TestSubcommandHelp.test_skipgram_without_args_shows_help",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_basic_invocation.TestSubcommandHelp.test_supervised_without_args_shows_all_optional_args",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_basic_invocation.TestSubcommandHelp.test_supervised_without_args_shows_help",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_basic_invocation.TestSubcommandHelp.test_test_label_without_args_shows_usage",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_basic_invocation.TestSubcommandHelp.test_test_without_args_shows_usage",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_error_handling.TestArgumentValidation.test_argument_without_value",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_error_handling.TestArgumentValidation.test_quantize_with_unsupported_model_type",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_error_handling.TestArgumentValidation.test_unknown_argument_shows_help",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_error_handling.TestCommandSpecificErrorHandling.test_nn_with_wrong_k_value",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_error_handling.TestCommandSpecificErrorHandling.test_print_ngrams_nonexistent_model",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_error_handling.TestCommandSpecificErrorHandling.test_print_word_vectors_nonexistent_model",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_error_handling.TestInvalidInputHandling.test_predict_with_missing_model",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_error_handling.TestInvalidInputHandling.test_supervised_without_dash_in_flag",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_error_handling.TestInvalidInputHandling.test_supervised_without_input_path",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_error_handling.TestInvalidInputHandling.test_supervised_without_output_path",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_error_handling.TestInvalidInputHandling.test_test_with_missing_model",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_prediction.TestPredict.test_predict_from_file",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_prediction.TestPredict.test_predict_from_stdin",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_prediction.TestPredict.test_predict_negative_class",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_prediction.TestPredict.test_predict_positive_class",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_prediction.TestPredict.test_predict_with_threshold",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_prediction.TestPredictProb.test_predict_prob_from_stdin",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_prediction.TestPredictProb.test_predict_prob_probabilities_sum_to_one",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_prediction.TestPredictProb.test_predict_prob_shows_probabilities",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_prediction.TestPredictionErrorHandling.test_predict_nonexistent_model",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_prediction.TestPredictionErrorHandling.test_predict_nonexistent_test_file",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_prediction.TestPredictionErrorHandling.test_test_wrong_number_of_args",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_prediction.TestTestCommand.test_test_command_n_count",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_prediction.TestTestCommand.test_test_command_output_format",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_prediction.TestTestCommand.test_test_precision_recall_range",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_prediction.TestTestCommand.test_test_stdin_input",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_prediction.TestTestCommand.test_test_with_k2",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_prediction.TestTestCommand.test_test_with_threshold",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_prediction.TestTestLabelCommand.test_test_label_also_shows_aggregate",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_prediction.TestTestLabelCommand.test_test_label_output_format",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_prediction.TestTestLabelCommand.test_test_label_shows_all_labels",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_prediction.TestTestLabelCommand.test_test_label_with_k_value",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_prediction.TestTestLabelCommand.test_test_label_with_threshold",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.TestDump.test_dump_args",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.TestDump.test_dump_args_correct_values",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.TestDump.test_dump_args_for_cbow_model",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.TestDump.test_dump_args_for_skipgram_model",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.TestDump.test_dump_dict",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.TestDump.test_dump_input_matrix",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.TestDump.test_dump_output_matrix",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.TestDump.test_dump_without_model_shows_usage",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.TestDump.test_dump_wrong_option_shows_usage",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.TestQuantize.test_quantize_creates_ftz_file",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.TestQuantize.test_quantize_input_dump_not_supported",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.TestQuantize.test_quantize_without_args_shows_usage",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.TestQuantize.test_quantized_model_can_predict",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.TestQuantize.test_quantized_model_can_test",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.TestQuantize.test_quantized_model_smaller_than_original",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.TestCBOWTraining.test_cbow_creates_model_files",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.TestCBOWTraining.test_cbow_model_type_in_dump",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.TestCBOWTraining.test_cbow_with_wordngrams",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.TestSkipgramTraining.test_skipgram_creates_model_files",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.TestSkipgramTraining.test_skipgram_default_model_in_dump",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.TestSkipgramTraining.test_skipgram_progress_output",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.TestSupervisedTraining.test_supervised_custom_label_prefix",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.TestSupervisedTraining.test_supervised_help_flag",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.TestSupervisedTraining.test_supervised_hs_loss",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.TestSupervisedTraining.test_supervised_invalid_loss_shows_error",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.TestSupervisedTraining.test_supervised_missing_flag_argument",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.TestSupervisedTraining.test_supervised_missing_input_file",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.TestSupervisedTraining.test_supervised_training_creates_bin_and_vec",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.TestSupervisedTraining.test_supervised_training_shows_progress",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.TestSupervisedTraining.test_supervised_unknown_flag_shows_help",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.TestSupervisedTraining.test_supervised_vec_file_format",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.TestSupervisedTraining.test_supervised_with_saveoutput",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.TestTrainingArguments.test_custom_dim_in_model",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.TestTrainingArguments.test_custom_epoch_in_model",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.TestTrainingArguments.test_mincountlabel_argument",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.TestTrainingArguments.test_ova_loss_function",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_vec_file.TestPretrainedVectors.test_supervised_with_pretrained_vectors",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_vec_file.TestVecFileFormat.test_skipgram_vec_file_header",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_vec_file.TestVecFileFormat.test_skipgram_vec_file_word_vectors",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_vec_file.TestVecFileFormat.test_supervised_vec_file_format",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_word_vectors.TestAnalogies.test_analogies_output_structure",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_word_vectors.TestAnalogies.test_analogies_usage_without_model",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_word_vectors.TestAnalogies.test_analogies_with_triplet",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_word_vectors.TestNearestNeighbors.test_nn_default_k",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_word_vectors.TestNearestNeighbors.test_nn_output_has_words_and_scores",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_word_vectors.TestNearestNeighbors.test_nn_usage_without_model",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_word_vectors.TestNearestNeighbors.test_nn_with_query_word",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_word_vectors.TestPrintNgrams.test_print_ngrams_usage_without_model",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_word_vectors.TestPrintNgrams.test_print_ngrams_usage_without_word",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_word_vectors.TestPrintSentenceVectors.test_print_multiple_sentence_vectors",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_word_vectors.TestPrintSentenceVectors.test_print_sentence_vector",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_word_vectors.TestPrintSentenceVectors.test_print_sentence_vectors_usage_without_model",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_word_vectors.TestPrintSentenceVectors.test_sentence_vector_dimensions",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_word_vectors.TestPrintWordVectors.test_print_multiple_word_vectors",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_word_vectors.TestPrintWordVectors.test_print_word_vector_empty_stdout_without_input",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_word_vectors.TestPrintWordVectors.test_print_word_vector_for_known_word",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_word_vectors.TestPrintWordVectors.test_print_word_vector_for_oov_word",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_word_vectors.TestPrintWordVectors.test_print_word_vectors_usage_without_model",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_word_vectors.TestPrintWordVectors.test_word_vector_dimensions_match",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_autotune.test_autotune_creates_final_model_with_best_hyperparameters",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_autotune.test_autotune_eta_countdown_shows_reasonable_time_remaining",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_autotune.test_autotune_invalid_metric_name_fails_with_clear_error",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_autotune.test_autotune_invalid_modelsize_format_fails_at_parse_time",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_autotune.test_autotune_manually_set_hyperparameters_not_optimized",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_autotune.test_autotune_missing_validation_file_fails_with_clear_error",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_autotune.test_autotune_progress_percentage_increases_monotonically",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_autotune.test_autotune_with_epoch_flag_warns_not_optimized",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_autotune.test_autotune_zero_duration_fails_with_timeout_error",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_errors_edge_cases.test_argument_missing_value_shows_error",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_errors_edge_cases.test_argument_without_dash_prefix_shows_error",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_errors_edge_cases.test_corrupted_binary_model_wrong_format_error",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_errors_edge_cases.test_dump_command_invalid_option",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_errors_edge_cases.test_dump_command_missing_args_shows_usage",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_errors_edge_cases.test_empty_training_file_throws_empty_vocabulary_error",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_errors_edge_cases.test_epoch_zero_completes_immediately",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_errors_edge_cases.test_fake_model_file_wrong_format_error",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_errors_edge_cases.test_invalid_command_name_prints_usage_and_exits_nonzero",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_errors_edge_cases.test_invalid_loss_function_name_shows_valid_options",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_errors_edge_cases.test_missing_model_file_throws_clear_error",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_errors_edge_cases.test_nn_command_with_zero_k_parameter",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_errors_edge_cases.test_no_command_prints_usage_and_exits_nonzero",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_errors_edge_cases.test_predict_command_missing_args_shows_usage",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_errors_edge_cases.test_predict_with_empty_stdin",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_errors_edge_cases.test_predict_with_nonexistent_model",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_errors_edge_cases.test_print_ngrams_missing_args_shows_usage",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_errors_edge_cases.test_quantize_nonexistent_model",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_errors_edge_cases.test_read_only_output_directory_error",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_errors_edge_cases.test_supervised_missing_input_shows_helpful_error",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_errors_edge_cases.test_supervised_with_no_labels_in_data",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_errors_edge_cases.test_test_command_missing_args_shows_usage",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_errors_edge_cases.test_test_command_nonexistent_test_file",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_errors_edge_cases.test_test_command_with_mismatched_labels",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_errors_edge_cases.test_training_with_single_example",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_errors_edge_cases.test_training_with_unicode_emoji_succeeds",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_errors_edge_cases.test_unknown_training_argument_shows_error",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_errors_edge_cases.test_whitespace_only_training_file",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_harvest.test_autotune_validation",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_harvest.test_bucket_size_handling",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_harvest.test_cbow_workflow",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_harvest.test_classification_workflow",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_harvest.test_dump_command",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_harvest.test_learning_rate_schedules",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_harvest.test_loss_functions",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_harvest.test_multilabel_classification",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_harvest.test_nn_nearest_neighbors",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_harvest.test_predict_prob_workflow",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_harvest.test_pretrained_vectors",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_harvest.test_print_ngrams",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_harvest.test_print_sentence_vectors",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_harvest.test_quantization_workflow",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_harvest.test_save_output_flag",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_harvest.test_test_label_command",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_harvest.test_thread_parameter",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_harvest.test_word_vector_workflow",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_model_io.test_bin_file_is_binary_format",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_model_io.test_cbow_model_save_load",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_model_io.test_corrupted_file_header_error",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_model_io.test_empty_file_wrong_format_error",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_model_io.test_high_dimension_model_save_load",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_model_io.test_hyperparameters_preserved_after_save_load",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_model_io.test_large_vocabulary_model_save_load",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_model_io.test_model_file_extension_matters",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_model_io.test_model_metadata_in_dump_output",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_model_io.test_model_not_found_error",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_model_io.test_model_overwrite_existing_file",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_model_io.test_model_saves_create_both_bin_and_vec_files",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_model_io.test_model_size_scales_with_vocabulary_and_dimension",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_model_io.test_model_type_preserved_supervised",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_model_io.test_model_with_special_characters_in_vocabulary",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_model_io.test_model_without_training_throws_error",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_model_io.test_prediction_deterministic_with_same_seed",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_model_io.test_skipgram_and_cbow_produce_different_models",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_model_io.test_skipgram_model_save_load",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_model_io.test_supervised_save_and_load_predictions_match",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_model_io.test_vec_file_float_precision",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_model_io.test_vec_file_format_human_readable",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_model_io.test_vec_file_word_order_stability",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_model_io.test_vocabulary_preserved_after_save_load",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_predict_eval.test_predict_basic_output",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_predict_eval.test_predict_empty_input",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_predict_eval.test_predict_high_k",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_predict_eval.test_predict_k_parameter",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_predict_eval.test_predict_missing_input_file",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_predict_eval.test_predict_missing_model_file",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_predict_eval.test_predict_multiline_labels",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_predict_eval.test_predict_prob_basic_output",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_predict_eval.test_predict_prob_stdin",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_predict_eval.test_predict_prob_threshold",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_predict_eval.test_predict_single_line",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_predict_eval.test_predict_stdin",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_predict_eval.test_predict_threshold_zero",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_predict_eval.test_predict_unlabeled_input",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_predict_eval.test_test_command_basic_output",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_predict_eval.test_test_command_k_parameter",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_predict_eval.test_test_command_stdin_with_labels",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_predict_eval.test_test_command_threshold_parameter",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_predict_eval.test_test_empty_input",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_predict_eval.test_test_label_k_parameter",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_predict_eval.test_test_label_per_label_metrics",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_predict_eval.test_test_label_threshold",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_predict_eval.test_test_missing_data_file",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_predict_eval.test_test_missing_model_file",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.test_dump_all_options_on_bin_model",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.test_dump_args_shows_training_configuration",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.test_dump_dict_format_with_special_token",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.test_dump_dict_shows_vocabulary",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.test_dump_input_matrix_dimensions_match_words",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.test_dump_input_shows_input_matrix",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.test_dump_invalid_option_error",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.test_dump_missing_model_error",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.test_dump_output_matrix_row_count_matches_labels",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.test_dump_output_shows_output_matrix",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.test_dump_quantized_model_args_dict_work",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.test_dump_quantized_model_input_not_supported",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.test_dump_quantized_model_output_not_supported",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.test_dump_requires_model_and_option",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.test_quantize_basic_creates_ftz_file",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.test_quantize_creates_new_file_preserves_original",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.test_quantize_cutoff_option_prunes_vocabulary",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.test_quantize_different_dsub_values",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.test_quantize_missing_input_file_error",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.test_quantize_missing_model_error",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.test_quantize_preserves_model_args",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.test_quantize_requires_input_and_output",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.test_quantize_retrain_option_with_cutoff",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.test_quantize_then_test_accuracy_reasonable",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.test_quantize_with_qnorm_and_dsub",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.test_quantize_with_qnorm_option",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.test_quantize_with_qout_option_requires_large_output_matrix",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_quantize_dump.test_quantized_model_still_makes_predictions",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_smoke.test_binary_exists",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_smoke.test_help_output",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.test_cbow_basic_training",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.test_cbow_identical_lines_corpus",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.test_cbow_with_character_ngrams",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.test_cbow_with_loss_hs",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.test_skipgram_basic_training",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.test_skipgram_single_word_lines",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.test_skipgram_stderr_output_format",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.test_skipgram_training_with_empty_lines",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.test_skipgram_with_character_ngrams",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.test_skipgram_with_loss_hs",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.test_skipgram_with_negative_sampling",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.test_skipgram_with_window_size",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.test_supervised_basic_training_creates_model_files",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.test_supervised_custom_label_prefix",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.test_supervised_missing_input_file",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.test_supervised_missing_input_path",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.test_supervised_missing_output_path",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.test_supervised_multilabel_dataset",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.test_supervised_no_space_after_label",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.test_supervised_single_label_dataset",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.test_supervised_stderr_output_format",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.test_supervised_training_with_empty_lines",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.test_supervised_training_with_unicode_text",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.test_supervised_very_long_text",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.test_supervised_with_bucket_size",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.test_supervised_with_custom_dimensions",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.test_supervised_with_loss_functions",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.test_supervised_with_mincount",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_training.test_supervised_with_multiple_epochs",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_vectors_queries.test_analogies_basic@analogies_serial",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_vectors_queries.test_analogies_default_k@analogies_serial",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_vectors_queries.test_analogies_missing_model",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_vectors_queries.test_analogies_wrong_args",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_vectors_queries.test_nn_basic_query",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_vectors_queries.test_nn_default_k",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_vectors_queries.test_nn_invalid_k",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_vectors_queries.test_nn_missing_model",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_vectors_queries.test_nn_multiple_queries_sequential",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_vectors_queries.test_nn_neighbors_sorted",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_vectors_queries.test_nn_oov_query",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_vectors_queries.test_nn_wrong_args",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_vectors_queries.test_print_ngrams_basic",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_vectors_queries.test_print_ngrams_missing_model",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_vectors_queries.test_print_ngrams_short_word",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_vectors_queries.test_print_ngrams_word_with_spaces",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_vectors_queries.test_print_ngrams_wrong_args",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_vectors_queries.test_print_sentence_vectors_basic",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_vectors_queries.test_print_sentence_vectors_empty_line",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_vectors_queries.test_print_sentence_vectors_missing_model",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_vectors_queries.test_print_sentence_vectors_multiline",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_vectors_queries.test_print_sentence_vectors_single_word",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_vectors_queries.test_print_sentence_vectors_wrong_args",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_vectors_queries.test_print_word_vectors_basic",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_vectors_queries.test_print_word_vectors_empty_input",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_vectors_queries.test_print_word_vectors_missing_model",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_vectors_queries.test_print_word_vectors_multiword_input",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_vectors_queries.test_print_word_vectors_oov_word",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_vectors_queries.test_print_word_vectors_supervised_model",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_vectors_queries.test_print_word_vectors_wrong_args",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": []
+    }
+  ],
+  "_note": "upstream-skip: proposed only \u2014 reference-diff step required to confirm. unclassified rows: driver must adjudicate manually. Script proposes; never edits fixtures or reference binaries."
+}

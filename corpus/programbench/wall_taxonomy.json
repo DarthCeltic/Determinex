@@ -1,0 +1,552 @@
+{
+  "generated": "2026-06-13",
+  "driver": "Claude Sonnet 4.6 (Driver session)",
+  "purpose": "Cluster factory_accepted tools by failure pattern to prioritize fix work",
+  "factory_accepted_count": 42,
+  "board_cache_only_count": 65,
+  "buckets": {
+    "near_lock": {
+      "description": "f<=20, nr=0 — in range of targeted fix within 1-3 compile.sh iterations",
+      "tools": [
+        {
+          "slug": "cmatsuoka__figlet",
+          "passed": 2084,
+          "total": 2088,
+          "failed": 4,
+          "skipped": 0,
+          "not_run": 0,
+          "score_pct": 99.8084,
+          "language": "c"
+        },
+        {
+          "slug": "incu6us__goimports-reviser",
+          "passed": 1188,
+          "total": 1194,
+          "failed": 4,
+          "skipped": 2,
+          "not_run": 0,
+          "score_pct": 99.4975,
+          "language": "go"
+        },
+        {
+          "slug": "crowdagger__crowbook",
+          "passed": 1760,
+          "total": 1774,
+          "failed": 14,
+          "skipped": 0,
+          "not_run": 0,
+          "score_pct": 99.2108,
+          "language": "rust"
+        },
+        {
+          "slug": "kisielk__errcheck",
+          "passed": 1052,
+          "total": 1064,
+          "failed": 12,
+          "skipped": 0,
+          "not_run": 0,
+          "score_pct": 98.7,
+          "language": "go"
+        },
+        {
+          "slug": "tarka__xcp",
+          "passed": 4030,
+          "total": 4177,
+          "failed": 11,
+          "skipped": 40,
+          "not_run": 0,
+          "score_pct": 96.4807,
+          "language": "rust"
+        }
+      ],
+      "count": 5
+    },
+    "tui_wall_clean": {
+      "description": "f=0, nr>50 — TUI tests not running; fix = tmux/pexpect/script-q in compile.sh",
+      "tools": [
+        {
+          "slug": "ov",
+          "passed": 3862,
+          "total": 4195,
+          "failed": 0,
+          "skipped": 0,
+          "not_run": 319,
+          "score_pct": 92.06,
+          "language": "go"
+        },
+        {
+          "slug": "run",
+          "passed": 693,
+          "total": 1585,
+          "failed": 0,
+          "skipped": 79,
+          "not_run": 813,
+          "score_pct": 43.7224,
+          "language": "rust"
+        },
+        {
+          "slug": "gabotechs__dep-tree",
+          "passed": 563,
+          "total": 1466,
+          "failed": 0,
+          "skipped": 0,
+          "not_run": 325,
+          "score_pct": 38.4038,
+          "language": "go"
+        }
+      ],
+      "count": 3
+    },
+    "not_run_with_failures": {
+      "description": "nr>50 and f>0 — both TUI wall and behavioral failures",
+      "tools": [
+        {
+          "slug": "elkowar__pipr",
+          "passed": 1074,
+          "total": 1163,
+          "failed": 24,
+          "skipped": 4,
+          "not_run": 61,
+          "score_pct": 92.3474,
+          "language": "rust"
+        },
+        {
+          "slug": "segmentio__chamber",
+          "passed": 4124,
+          "total": 4486,
+          "failed": 53,
+          "skipped": 12,
+          "not_run": 297,
+          "score_pct": 91.9305,
+          "language": "go"
+        },
+        {
+          "slug": "antonmedv__walk",
+          "passed": 1236,
+          "total": 1352,
+          "failed": 37,
+          "skipped": 2,
+          "not_run": 77,
+          "score_pct": 91.4201,
+          "language": "go"
+        },
+        {
+          "slug": "xorg62__tty-clock",
+          "passed": 442,
+          "total": 534,
+          "failed": 8,
+          "skipped": 0,
+          "not_run": 84,
+          "score_pct": 82.7715,
+          "language": "c"
+        },
+        {
+          "slug": "blacknon__hwatch",
+          "passed": 1996,
+          "total": 2469,
+          "failed": 394,
+          "skipped": 6,
+          "not_run": 73,
+          "score_pct": 80.8424,
+          "language": "rust"
+        },
+        {
+          "slug": "canop__broot",
+          "passed": 827,
+          "total": 1093,
+          "failed": 9,
+          "skipped": 0,
+          "not_run": 257,
+          "score_pct": 75.66,
+          "language": "rust"
+        },
+        {
+          "slug": "jesseduffield__lazygit",
+          "passed": 1298,
+          "total": 1824,
+          "failed": 85,
+          "skipped": 12,
+          "not_run": 429,
+          "score_pct": 71.1623,
+          "language": "go"
+        },
+        {
+          "slug": "kyoheiu__felix",
+          "passed": 130,
+          "total": 1507,
+          "failed": 1274,
+          "skipped": 2,
+          "not_run": 101,
+          "score_pct": 8.6264,
+          "language": "rust"
+        },
+        {
+          "slug": "yassinebridi__serpl",
+          "passed": 26,
+          "total": 853,
+          "failed": 658,
+          "skipped": 0,
+          "not_run": 169,
+          "score_pct": 3.0481,
+          "language": "rust"
+        }
+      ],
+      "count": 9
+    },
+    "behavioral_wall": {
+      "description": "f>50, nr=0 — many functional failures, needs deep investigation",
+      "tools": [
+        {
+          "slug": "madler__pigz",
+          "passed": 1846,
+          "total": 1876,
+          "failed": 28,
+          "skipped": 2,
+          "not_run": 0,
+          "score_pct": 98.4009,
+          "language": "c"
+        },
+        {
+          "slug": "rust-lang__mdbook",
+          "passed": 3474,
+          "total": 3618,
+          "failed": 132,
+          "skipped": 12,
+          "not_run": 0,
+          "score_pct": 96.0199,
+          "language": "rust"
+        },
+        {
+          "slug": "nikolassv__bartib",
+          "passed": 1688,
+          "total": 1857,
+          "failed": 169,
+          "skipped": 2,
+          "not_run": 0,
+          "score_pct": 90.8993,
+          "language": "rust"
+        },
+        {
+          "slug": "skeema__skeema",
+          "passed": 6090,
+          "total": 6914,
+          "failed": 132,
+          "skipped": 692,
+          "not_run": 0,
+          "score_pct": 88.0822,
+          "language": "go"
+        }
+      ],
+      "count": 4
+    },
+    "compile_wall": {
+      "description": "f>200, nr=0 — high failure count, likely compile or fundamental issue",
+      "tools": [
+        {
+          "slug": "ninja-build__ninja",
+          "passed": 3560,
+          "total": 3810,
+          "failed": 248,
+          "skipped": 2,
+          "not_run": 0,
+          "score_pct": 93.4383,
+          "language": "c"
+        },
+        {
+          "slug": "ducaale__xh",
+          "passed": 2302,
+          "total": 2532,
+          "failed": 228,
+          "skipped": 2,
+          "not_run": 0,
+          "score_pct": 90.92,
+          "language": "rust"
+        },
+        {
+          "slug": "bootandy__dust",
+          "passed": 1384,
+          "total": 1930,
+          "failed": 538,
+          "skipped": 8,
+          "not_run": 0,
+          "score_pct": 71.7098,
+          "language": "rust"
+        },
+        {
+          "slug": "xampprocky__tokei",
+          "passed": 940,
+          "total": 1519,
+          "failed": 573,
+          "skipped": 6,
+          "not_run": 0,
+          "score_pct": 61.8828,
+          "language": "rust"
+        },
+        {
+          "slug": "nachoparker__dutree",
+          "passed": 1142,
+          "total": 1914,
+          "failed": 752,
+          "skipped": 20,
+          "not_run": 0,
+          "score_pct": 59.6656,
+          "language": "rust"
+        },
+        {
+          "slug": "codesnap-rs__codesnap",
+          "passed": 280,
+          "total": 1706,
+          "failed": 1418,
+          "skipped": 8,
+          "not_run": 0,
+          "score_pct": 27.4296,
+          "language": "rust"
+        },
+        {
+          "slug": "cweill__gotests",
+          "passed": 136,
+          "total": 1504,
+          "failed": 1364,
+          "skipped": 4,
+          "not_run": 0,
+          "score_pct": 9.04,
+          "language": "go"
+        },
+        {
+          "slug": "ariga__atlas",
+          "passed": 272,
+          "total": 3464,
+          "failed": 3186,
+          "skipped": 6,
+          "not_run": 0,
+          "score_pct": 7.85,
+          "language": "go"
+        },
+        {
+          "slug": "quinn-rs__quinn",
+          "passed": 94,
+          "total": 1198,
+          "failed": 1100,
+          "skipped": 4,
+          "not_run": 0,
+          "score_pct": 7.8464,
+          "language": "rust"
+        },
+        {
+          "slug": "lymphatus__caesium-clt",
+          "passed": 54,
+          "total": 1230,
+          "failed": 1174,
+          "skipped": 2,
+          "not_run": 0,
+          "score_pct": 4.3902,
+          "language": "rust"
+        },
+        {
+          "slug": "hooklift__gowsdl",
+          "passed": 36,
+          "total": 838,
+          "failed": 802,
+          "skipped": 0,
+          "not_run": 0,
+          "score_pct": 4.2959,
+          "language": "go"
+        },
+        {
+          "slug": "sharkdp__bat",
+          "passed": 2286,
+          "total": 2664,
+          "failed": 352,
+          "skipped": 26,
+          "not_run": 0,
+          "score_pct": 2.5467,
+          "language": "rust"
+        },
+        {
+          "slug": "halitechallenge__halite",
+          "passed": 18,
+          "total": 782,
+          "failed": 756,
+          "skipped": 8,
+          "not_run": 0,
+          "score_pct": 2.3,
+          "language": "cpp"
+        },
+        {
+          "slug": "git-bahn__git-graph",
+          "passed": 24,
+          "total": 1466,
+          "failed": 1438,
+          "skipped": 4,
+          "not_run": 0,
+          "score_pct": 1.64,
+          "language": "rust"
+        },
+        {
+          "slug": "eliukblau__pixterm",
+          "passed": 6,
+          "total": 916,
+          "failed": 910,
+          "skipped": 0,
+          "not_run": 0,
+          "score_pct": 0.66,
+          "language": "go"
+        }
+      ],
+      "count": 15
+    }
+  },
+  "board_cache_eval_queue": [
+    {
+      "slug": "monolith",
+      "language": "rust",
+      "eval_priority": 1
+    },
+    {
+      "slug": "astaxie__bat",
+      "language": "go",
+      "eval_priority": 1
+    },
+    {
+      "slug": "ksxgithub__parallel-disk-usage",
+      "language": "rust",
+      "eval_priority": 1
+    },
+    {
+      "slug": "tree-sitter__tree-sitter",
+      "language": "rust",
+      "eval_priority": 1
+    },
+    {
+      "slug": "tomarrell__wrapcheck",
+      "language": "go",
+      "eval_priority": 1
+    },
+    {
+      "slug": "oppiliappan__statix",
+      "language": "rust",
+      "eval_priority": 1
+    },
+    {
+      "slug": "guumaster__hostctl",
+      "language": "go",
+      "eval_priority": 1
+    },
+    {
+      "slug": "ammarabouzor__tui-journal",
+      "language": "rust",
+      "eval_priority": 1
+    },
+    {
+      "slug": "stacked-git__stgit",
+      "language": "rust",
+      "eval_priority": 1
+    },
+    {
+      "slug": "antonmedv__fx",
+      "language": "go",
+      "eval_priority": 1
+    },
+    {
+      "slug": "eudoxia0__hashcards",
+      "language": "rust",
+      "eval_priority": 1
+    },
+    {
+      "slug": "rust-ethereum__ethabi",
+      "language": "rust",
+      "eval_priority": 1
+    },
+    {
+      "slug": "alexpovel__srgn",
+      "language": "rust",
+      "eval_priority": 1
+    },
+    {
+      "slug": "dundee__gdu",
+      "language": "go",
+      "eval_priority": 1
+    },
+    {
+      "slug": "ogham__dog",
+      "language": "rust",
+      "eval_priority": 1
+    },
+    {
+      "slug": "dandavison__delta",
+      "language": "rust",
+      "eval_priority": 1
+    },
+    {
+      "slug": "shashwatah__jot",
+      "language": "rust",
+      "eval_priority": 1
+    },
+    {
+      "slug": "parcel-bundler__lightningcss",
+      "language": "rust",
+      "eval_priority": 1
+    },
+    {
+      "slug": "rochacbruno__marmite",
+      "language": "rust",
+      "eval_priority": 1
+    },
+    {
+      "slug": "epistates__treemd",
+      "language": "rust",
+      "eval_priority": 1
+    },
+    {
+      "slug": "naggie__dstask",
+      "language": "go",
+      "eval_priority": 1
+    },
+    {
+      "slug": "paradigmxyz__solar",
+      "language": "rust",
+      "eval_priority": 1
+    },
+    {
+      "slug": "unhappychoice__gittype",
+      "language": "rust",
+      "eval_priority": 1
+    },
+    {
+      "slug": "drew-alleman__datasurgeon",
+      "language": "rust",
+      "eval_priority": 1
+    },
+    {
+      "slug": "ecumene__rust-sloth",
+      "language": "rust",
+      "eval_priority": 1
+    },
+    {
+      "slug": "o2sh__onefetch",
+      "language": "rust",
+      "eval_priority": 1
+    },
+    {
+      "slug": "pls-rs__pls",
+      "language": "rust",
+      "eval_priority": 1
+    },
+    {
+      "slug": "yoav-lavi__melody",
+      "language": "rust",
+      "eval_priority": 1
+    },
+    {
+      "slug": "hairyhenderson__gomplate",
+      "language": "go",
+      "eval_priority": 1
+    },
+    {
+      "slug": "stranger6667__jsonschema",
+      "language": "rust",
+      "eval_priority": 1
+    }
+  ],
+  "board_cache_notes": "Sorted by language complexity. Rust/Go compile cleanly in Docker; C/C++ need apt-get install of build deps."
+}

@@ -1,0 +1,1530 @@
+[
+ {
+  "name": "test::test_autotune_basic_with_validation::0",
+  "argv": [
+   "supervised",
+   "-input",
+   "-output",
+   "-autotune-validation",
+   "-autotune-duration",
+   "2",
+   "-verbose",
+   "0",
+   "-dim",
+   "10",
+   "-epoch",
+   "1",
+   "-thread",
+   "1",
+   "-minCount",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_autotune_shows_progress::1",
+  "argv": [
+   "supervised",
+   "-input",
+   "-output",
+   "-autotune-validation",
+   "-autotune-duration",
+   "2",
+   "-verbose",
+   "2",
+   "-dim",
+   "10",
+   "-epoch",
+   "1",
+   "-thread",
+   "1",
+   "-minCount",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_autotune_with_predictions_arg::2",
+  "argv": [
+   "supervised",
+   "-input",
+   "-output",
+   "-autotune-validation",
+   "-autotune-duration",
+   "2",
+   "-autotune-predictions",
+   "1",
+   "-verbose",
+   "0",
+   "-dim",
+   "10",
+   "-epoch",
+   "1",
+   "-thread",
+   "1",
+   "-minCount",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_autotune_with_metric_f1::3",
+  "argv": [
+   "supervised",
+   "-input",
+   "-output",
+   "-autotune-validation",
+   "-autotune-duration",
+   "2",
+   "-autotune-metric",
+   "f1",
+   "-verbose",
+   "0",
+   "-dim",
+   "10",
+   "-epoch",
+   "1",
+   "-thread",
+   "1",
+   "-minCount",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_autotune_metric_for_specific_label::4",
+  "argv": [
+   "supervised",
+   "-input",
+   "-output",
+   "-autotune-validation",
+   "-autotune-duration",
+   "2",
+   "-autotune-metric",
+   "f1:__label__pos",
+   "-verbose",
+   "0",
+   "-dim",
+   "10",
+   "-epoch",
+   "1",
+   "-thread",
+   "1",
+   "-minCount",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_autotune_invalid_metric::5",
+  "argv": [
+   "supervised",
+   "-input",
+   "-output",
+   "-autotune-validation",
+   "-autotune-duration",
+   "2",
+   "-autotune-metric",
+   "invalidmetric",
+   "-verbose",
+   "0",
+   "-dim",
+   "10",
+   "-epoch",
+   "1",
+   "-thread",
+   "1",
+   "-minCount",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_command_shows_usage::6",
+  "argv": [
+   "invalidcommand"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_command_shows_command_list::7",
+  "argv": [
+   "NOTACOMMAND"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_supervised_without_args_shows_help::8",
+  "argv": [
+   "supervised"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_skipgram_without_args_shows_help::9",
+  "argv": [
+   "skipgram"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cbow_without_args_shows_help::10",
+  "argv": [
+   "cbow"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_without_args_shows_usage::11",
+  "argv": [
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_predict_without_args_shows_usage::12",
+  "argv": [
+   "predict"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_predict_prob_without_args_shows_usage::13",
+  "argv": [
+   "predict-prob"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_label_without_args_shows_usage::14",
+  "argv": [
+   "test-label"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_word_vectors_without_args_shows_usage::15",
+  "argv": [
+   "print-word-vectors"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_sentence_vectors_without_args_shows_usage::16",
+  "argv": [
+   "print-sentence-vectors"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_ngrams_without_args_shows_usage::17",
+  "argv": [
+   "print-ngrams"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nn_without_args_shows_usage::18",
+  "argv": [
+   "nn"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_analogies_without_args_shows_usage::19",
+  "argv": [
+   "analogies"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dump_without_args_shows_usage::20",
+  "argv": [
+   "dump"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_training_with_empty_input_file::21",
+  "argv": [
+   "supervised",
+   "-input",
+   "empty.txt",
+   "-output",
+   "-verbose",
+   "0"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.txt": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_with_missing_model::22",
+  "argv": [
+   "test",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "__label__pos great product\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_predict_with_missing_model::23",
+  "argv": [
+   "predict",
+   "/nonexistent/model.bin",
+   "/nonexistent/test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_supervised_without_output_path::24",
+  "argv": [
+   "supervised",
+   "-input",
+   "train.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "train.txt": "__label__pos good product\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_supervised_without_input_path::25",
+  "argv": [
+   "supervised",
+   "-output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_supervised_without_dash_in_flag::26",
+  "argv": [
+   "supervised",
+   "-input",
+   "train.txt",
+   "-output",
+   "nodash"
+  ],
+  "stdin": null,
+  "files": {
+   "train.txt": "__label__pos good product\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nn_with_wrong_k_value::27",
+  "argv": [
+   "skipgram",
+   "-input",
+   "-output",
+   "-epoch",
+   "3",
+   "-dim",
+   "10",
+   "-thread",
+   "1",
+   "-verbose",
+   "0",
+   "-minCount",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_word_vectors_nonexistent_model::28",
+  "argv": [
+   "print-word-vectors",
+   "/nonexistent/model.bin"
+  ],
+  "stdin": "word",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_ngrams_nonexistent_model::29",
+  "argv": [
+   "print-ngrams",
+   "/nonexistent/model.bin",
+   "word"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_argument_without_value::30",
+  "argv": [
+   "supervised",
+   "-input",
+   "train.txt",
+   "-output"
+  ],
+  "stdin": null,
+  "files": {
+   "train.txt": "__label__pos good\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_argument_shows_help::31",
+  "argv": [
+   "supervised",
+   "-input",
+   "train.txt",
+   "-output",
+   "/tmp/model",
+   "-badarg",
+   "value"
+  ],
+  "stdin": null,
+  "files": {
+   "train.txt": "__label__pos good\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_predict_from_stdin::32",
+  "argv": [
+   "predict",
+   "-"
+  ],
+  "stdin": "excellent great wonderful amazing",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_predict_positive_class::33",
+  "argv": [
+   "predict",
+   "-"
+  ],
+  "stdin": "excellent outstanding wonderful superb brilliant great",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_predict_negative_class::34",
+  "argv": [
+   "predict",
+   "-"
+  ],
+  "stdin": "terrible awful pathetic dreadful horrible useless",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_predict_top_k::35",
+  "argv": [
+   "predict",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_predict_with_threshold::36",
+  "argv": [
+   "predict",
+   "1",
+   "0.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_predict_prob_probabilities_sum_to_one::37",
+  "argv": [
+   "predict-prob",
+   "-",
+   "2"
+  ],
+  "stdin": "excellent great wonderful",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_predict_prob_from_stdin::38",
+  "argv": [
+   "predict-prob",
+   "-"
+  ],
+  "stdin": "good great wonderful excellent",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_with_k2::39",
+  "argv": [
+   "test",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_with_threshold::40",
+  "argv": [
+   "test",
+   "1",
+   "0.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_stdin_input::41",
+  "argv": [
+   "test",
+   "-"
+  ],
+  "stdin": "__label__pos excellent great\n__label__neg terrible bad",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_label_with_k_value::42",
+  "argv": [
+   "test-label",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_label_with_threshold::43",
+  "argv": [
+   "test-label",
+   "1",
+   "0.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_predict_nonexistent_model::44",
+  "argv": [
+   "predict",
+   "/nonexistent/model.bin",
+   "/tmp/some_file.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_predict_nonexistent_test_file::45",
+  "argv": [
+   "predict",
+   "/nonexistent/test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quantize_creates_ftz_file::46",
+  "argv": [
+   "quantize",
+   "-input",
+   "-output",
+   "-cutoff",
+   "300",
+   "-verbose",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quantized_model_smaller_than_original::47",
+  "argv": [
+   "quantize",
+   "-input",
+   "-output",
+   "-cutoff",
+   "200",
+   "-verbose",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quantize_without_args_shows_usage::48",
+  "argv": [
+   "quantize"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dump_args::49",
+  "argv": [
+   "dump",
+   "args"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dump_dict::50",
+  "argv": [
+   "dump",
+   "dict"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dump_input_matrix::51",
+  "argv": [
+   "dump",
+   "input"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dump_output_matrix::52",
+  "argv": [
+   "dump",
+   "output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dump_wrong_option_shows_usage::53",
+  "argv": [
+   "dump",
+   "invalidoption"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dump_args_for_cbow_model::54",
+  "argv": [
+   "cbow",
+   "-input",
+   "-output",
+   "-epoch",
+   "3",
+   "-dim",
+   "10",
+   "-thread",
+   "1",
+   "-verbose",
+   "0",
+   "-minCount",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_supervised_training_creates_bin_and_vec::55",
+  "argv": [
+   "supervised",
+   "-input",
+   "-output",
+   "-epoch",
+   "3",
+   "-dim",
+   "100",
+   "-thread",
+   "1",
+   "-lr",
+   "0.1",
+   "-minCount",
+   "1",
+   "-verbose",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_supervised_training_shows_progress::56",
+  "argv": [
+   "supervised",
+   "-input",
+   "-output",
+   "-epoch",
+   "3",
+   "-dim",
+   "100",
+   "-thread",
+   "1",
+   "-lr",
+   "0.1",
+   "-minCount",
+   "1",
+   "-verbose",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_supervised_verbose0_quiet::57",
+  "argv": [
+   "supervised",
+   "-input",
+   "-output",
+   "-epoch",
+   "1",
+   "-dim",
+   "100",
+   "-thread",
+   "1",
+   "-lr",
+   "0.1",
+   "-minCount",
+   "1",
+   "-verbose",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_supervised_with_saveoutput::58",
+  "argv": [
+   "supervised",
+   "-input",
+   "-output",
+   "-epoch",
+   "3",
+   "-dim",
+   "100",
+   "-thread",
+   "1",
+   "-lr",
+   "0.1",
+   "-minCount",
+   "1",
+   "-verbose",
+   "0",
+   "-saveOutput"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_supervised_custom_label_prefix::59",
+  "argv": [
+   "supervised",
+   "-input",
+   "-output",
+   "-epoch",
+   "3",
+   "-dim",
+   "100",
+   "-thread",
+   "1",
+   "-lr",
+   "0.1",
+   "-minCount",
+   "1",
+   "-verbose",
+   "0",
+   "-label",
+   "__cat__"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_supervised_missing_input_file::60",
+  "argv": [
+   "supervised",
+   "-input",
+   "/nonexistent/path/file.txt",
+   "-output",
+   "-verbose",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_supervised_unknown_flag_shows_help::61",
+  "argv": [
+   "supervised",
+   "-input",
+   "-output",
+   "-unknownflag",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_supervised_invalid_loss_shows_error::62",
+  "argv": [
+   "supervised",
+   "-input",
+   "-output",
+   "-loss",
+   "invalidloss"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_supervised_missing_flag_argument::63",
+  "argv": [
+   "supervised",
+   "-input",
+   "-output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_supervised_help_flag::64",
+  "argv": [
+   "supervised",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_supervised_hs_loss::65",
+  "argv": [
+   "supervised",
+   "-input",
+   "-output",
+   "-epoch",
+   "3",
+   "-dim",
+   "100",
+   "-thread",
+   "1",
+   "-lr",
+   "0.1",
+   "-minCount",
+   "1",
+   "-verbose",
+   "0",
+   "-loss",
+   "hs"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_skipgram_creates_model_files::66",
+  "argv": [
+   "skipgram",
+   "-input",
+   "-output",
+   "-epoch",
+   "5",
+   "-dim",
+   "10",
+   "-thread",
+   "1",
+   "-lr",
+   "0.05",
+   "-minCount",
+   "1",
+   "-verbose",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_skipgram_default_model_in_dump::67",
+  "argv": [
+   "skipgram",
+   "-input",
+   "-output",
+   "-epoch",
+   "3",
+   "-dim",
+   "10",
+   "-thread",
+   "1",
+   "-lr",
+   "0.05",
+   "-minCount",
+   "1",
+   "-verbose",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_skipgram_progress_output::68",
+  "argv": [
+   "skipgram",
+   "-input",
+   "-output",
+   "-epoch",
+   "5",
+   "-dim",
+   "10",
+   "-thread",
+   "1",
+   "-lr",
+   "0.05",
+   "-minCount",
+   "1",
+   "-verbose",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cbow_creates_model_files::69",
+  "argv": [
+   "cbow",
+   "-input",
+   "-output",
+   "-epoch",
+   "5",
+   "-dim",
+   "10",
+   "-thread",
+   "1",
+   "-lr",
+   "0.05",
+   "-minCount",
+   "1",
+   "-verbose",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cbow_model_type_in_dump::70",
+  "argv": [
+   "cbow",
+   "-input",
+   "-output",
+   "-epoch",
+   "3",
+   "-dim",
+   "10",
+   "-thread",
+   "1",
+   "-lr",
+   "0.05",
+   "-minCount",
+   "1",
+   "-verbose",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cbow_with_wordngrams::71",
+  "argv": [
+   "cbow",
+   "-input",
+   "-output",
+   "-epoch",
+   "3",
+   "-dim",
+   "10",
+   "-thread",
+   "1",
+   "-lr",
+   "0.05",
+   "-minCount",
+   "1",
+   "-verbose",
+   "0",
+   "-wordNgrams",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_dim_in_model::72",
+  "argv": [
+   "supervised",
+   "-input",
+   "-output",
+   "-epoch",
+   "1",
+   "-dim",
+   "50",
+   "-thread",
+   "1",
+   "-minCount",
+   "1",
+   "-verbose",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_epoch_in_model::73",
+  "argv": [
+   "supervised",
+   "-input",
+   "-output",
+   "-epoch",
+   "7",
+   "-dim",
+   "100",
+   "-thread",
+   "1",
+   "-minCount",
+   "1",
+   "-verbose",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mincountlabel_argument::74",
+  "argv": [
+   "supervised",
+   "-input",
+   "-output",
+   "-epoch",
+   "3",
+   "-dim",
+   "100",
+   "-thread",
+   "1",
+   "-minCount",
+   "1",
+   "-minCountLabel",
+   "0",
+   "-verbose",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ova_loss_function::75",
+  "argv": [
+   "supervised",
+   "-input",
+   "-output",
+   "-epoch",
+   "3",
+   "-dim",
+   "100",
+   "-thread",
+   "1",
+   "-lr",
+   "0.1",
+   "-minCount",
+   "1",
+   "-verbose",
+   "0",
+   "-loss",
+   "ova"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_skipgram_vec_file_header::76",
+  "argv": [
+   "skipgram",
+   "-input",
+   "-output",
+   "-epoch",
+   "3",
+   "-dim",
+   "10",
+   "-thread",
+   "1",
+   "-minCount",
+   "1",
+   "-verbose",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_supervised_vec_file_format::77",
+  "argv": [
+   "supervised",
+   "-input",
+   "-output",
+   "-epoch",
+   "3",
+   "-dim",
+   "50",
+   "-thread",
+   "1",
+   "-lr",
+   "0.1",
+   "-minCount",
+   "1",
+   "-verbose",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_supervised_with_pretrained_vectors::78",
+  "argv": [
+   "supervised",
+   "-input",
+   "-output",
+   "-epoch",
+   "3",
+   "-dim",
+   "-thread",
+   "1",
+   "-lr",
+   "0.1",
+   "-minCount",
+   "1",
+   "-verbose",
+   "0",
+   "-pretrainedVectors"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_word_vector_for_known_word::79",
+  "argv": [
+   "print-word-vectors"
+  ],
+  "stdin": "the",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_word_vector_for_oov_word::80",
+  "argv": [
+   "print-word-vectors"
+  ],
+  "stdin": "unknownword123",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_multiple_word_vectors::81",
+  "argv": [
+   "print-word-vectors"
+  ],
+  "stdin": "the machine learning",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_word_vector_empty_stdout_without_input::82",
+  "argv": [
+   "print-word-vectors"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_word_vector_dimensions_match::83",
+  "argv": [
+   "print-word-vectors"
+  ],
+  "stdin": "word",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_sentence_vector::84",
+  "argv": [
+   "print-sentence-vectors"
+  ],
+  "stdin": "the quick brown fox",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_multiple_sentence_vectors::85",
+  "argv": [
+   "print-sentence-vectors"
+  ],
+  "stdin": "the quick fox\nmachine learning model\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sentence_vector_dimensions::86",
+  "argv": [
+   "print-sentence-vectors"
+  ],
+  "stdin": "this is a sentence with words",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_ngrams_for_word::87",
+  "argv": [
+   "print-ngrams",
+   "learning"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_ngrams_format::88",
+  "argv": [
+   "print-ngrams",
+   "word"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nn_with_query_word::89",
+  "argv": [
+   "nn",
+   "10"
+  ],
+  "stdin": "the",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nn_output_has_words_and_scores::90",
+  "argv": [
+   "nn",
+   "5"
+  ],
+  "stdin": "the",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nn_default_k::91",
+  "argv": [
+   "nn"
+  ],
+  "stdin": "the",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_file_wrong_format_error::92",
+  "argv": [
+   "predict",
+   "empty.bin",
+   "-"
+  ],
+  "stdin": "test\n",
+  "files": {
+   "empty.bin": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_model_without_training_throws_error::93",
+  "argv": [
+   "predict",
+   "untrained.bin",
+   "-"
+  ],
+  "stdin": "test\n",
+  "files": {
+   "untrained.bin": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

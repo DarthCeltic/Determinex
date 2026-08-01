@@ -1,0 +1,1224 @@
+[
+ {
+  "name": "test::test_stdin_input::0",
+  "argv": [
+   "-f",
+   "mp4",
+   "-i",
+   "-",
+   "-y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pipe0_input::1",
+  "argv": [
+   "-f",
+   "mp4",
+   "-i",
+   "pipe:0",
+   "-y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_muxers_mode_shows_muxers::2",
+  "argv": [
+   "-muxers"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_demuxers_mode_shows_demuxers::3",
+  "argv": [
+   "-demuxers"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encoders_mode_shows_encoders::4",
+  "argv": [
+   "-encoders"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decoders_mode_shows_decoders::5",
+  "argv": [
+   "-decoders"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filters_mode_shows_filters::6",
+  "argv": [
+   "-filters"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_mode_shows_version::7",
+  "argv": [
+   "-version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_license_mode_shows_license::8",
+  "argv": [
+   "-license"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_L_is_license_alias::9",
+  "argv": [
+   "-L"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_help_shows_options::10",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_with_decoder_name::11",
+  "argv": [
+   "-h",
+   "decoder=h264"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_exits_early::12",
+  "argv": [
+   "-version",
+   "-nonexistent_flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_exits_early::13",
+  "argv": [
+   "-h",
+   "-nonexistent_flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_listing_mode_with_log_level::14",
+  "argv": [
+   "-v",
+   "quiet",
+   "-encoders"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_listing_modes::15",
+  "argv": [
+   "-muxers",
+   "-demuxers"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_error::16",
+  "argv": [
+   "-nonexistent_flag_xyz123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_help_type::17",
+  "argv": [
+   "-h",
+   "type=nonexistent_codec_xyz123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_flag_with_version::18",
+  "argv": [
+   "-v",
+   "info",
+   "-version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_loglevel_with_help::19",
+  "argv": [
+   "-loglevel",
+   "quiet",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hide_banner_removes_version_line::20",
+  "argv": [
+   "-hide_banner",
+   "-formats"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_formats_contains_headers_and_examples::21",
+  "argv": [
+   "-formats"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_codecs_contains_headers_and_examples::22",
+  "argv": [
+   "-codecs"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_option_nonzero_and_message::23",
+  "argv": [
+   "-this-option-does-not-exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_value_for_v_option::24",
+  "argv": [
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_basic_exact::25",
+  "argv": [
+   "-hide_banner",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_pipe_input_via_dash_and_copy_produces_identical_bytes::26",
+  "argv": [
+   "-v",
+   "error",
+   "-i",
+   "-",
+   "-c",
+   "copy",
+   "-f",
+   "wav",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_after_double_dash_is_not_treated_as_help::27",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_input_file_nonzero_exit::28",
+  "argv": [
+   "-i",
+   "/nonexistent/file.mp4",
+   "-f",
+   "null",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_input_directory::29",
+  "argv": [
+   "-i",
+   "/no/such/dir/video.mp4",
+   "-f",
+   "null",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_video_codec::30",
+  "argv": [
+   "-f",
+   "lavfi",
+   "-i",
+   "testsrc=d=0.1:s=32x32:r=5",
+   "-c:v",
+   "nonexistent_codec_xyz",
+   "-y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_audio_codec::31",
+  "argv": [
+   "-f",
+   "lavfi",
+   "-i",
+   "sine=f=440:d=0.1",
+   "-c:a",
+   "bogus_audio_codec",
+   "-y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_i_without_argument::32",
+  "argv": [
+   "-i"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_filter_name::33",
+  "argv": [
+   "-f",
+   "lavfi",
+   "-i",
+   "testsrc=d=0.1:s=32x32:r=5",
+   "-vf",
+   "nonexistent_filter_xyz",
+   "-f",
+   "rawvideo",
+   "-y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_filter_syntax::34",
+  "argv": [
+   "-f",
+   "lavfi",
+   "-i",
+   "testsrc=d=0.1:s=32x32:r=5",
+   "-vf",
+   "[invalid",
+   "-f",
+   "rawvideo",
+   "-y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_complex_bad_link::35",
+  "argv": [
+   "-f",
+   "lavfi",
+   "-i",
+   "testsrc=d=0.1:s=32x32:r=5",
+   "-filter_complex",
+   "[99:v]scale=32:32[out]",
+   "-map",
+   "[out]",
+   "-f",
+   "rawvideo",
+   "-y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_pixel_format::36",
+  "argv": [
+   "-f",
+   "lavfi",
+   "-i",
+   "testsrc=d=0.1:s=32x32:r=5",
+   "-pix_fmt",
+   "nonexistent_fmt",
+   "-f",
+   "rawvideo",
+   "-y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_sample_rate::37",
+  "argv": [
+   "-f",
+   "lavfi",
+   "-i",
+   "sine=f=440:d=0.1",
+   "-ar",
+   "0",
+   "-f",
+   "wav",
+   "-y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_lavfi_source::38",
+  "argv": [
+   "-f",
+   "lavfi",
+   "-i",
+   "nonexistent_source_xyz",
+   "-f",
+   "null",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_refuses_overwrite_without_y::39",
+  "argv": [
+   "-f",
+   "lavfi",
+   "-i",
+   "sine=f=440:d=0.1",
+   "-f",
+   "wav",
+   "-y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pix_fmts_lists_formats::40",
+  "argv": [
+   "-pix_fmts"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sample_fmts_lists_formats::41",
+  "argv": [
+   "-sample_fmts"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_layouts_lists_channel_layouts::42",
+  "argv": [
+   "-layouts"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_protocols_lists_protocols::43",
+  "argv": [
+   "-protocols"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bsfs_lists_filters::44",
+  "argv": [
+   "-bsfs"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_devices_runs_successfully::45",
+  "argv": [
+   "-devices"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_full::46",
+  "argv": [
+   "-h",
+   "full"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_encoder::47",
+  "argv": [
+   "-h",
+   "encoder=pcm_s16le"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_decoder::48",
+  "argv": [
+   "-h",
+   "decoder=pcm_s16le"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_muxer::49",
+  "argv": [
+   "-h",
+   "muxer=wav"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_demuxer::50",
+  "argv": [
+   "-h",
+   "demuxer=wav"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_filter::51",
+  "argv": [
+   "-h",
+   "filter=null"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_probe_wav_format::52",
+  "argv": [
+   "-f",
+   "lavfi",
+   "-i",
+   "sine=f=440:d=0.5:r=44100",
+   "-f",
+   "wav",
+   "-y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_probe_wav_duration::53",
+  "argv": [
+   "-f",
+   "lavfi",
+   "-i",
+   "sine=f=440:d=1.0:r=44100",
+   "-f",
+   "wav",
+   "-y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_probe_stereo_channels::54",
+  "argv": [
+   "-f",
+   "lavfi",
+   "-i",
+   "anullsrc=r=44100:cl=stereo",
+   "-t",
+   "0.2",
+   "-f",
+   "wav",
+   "-y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_probe_flac_format::55",
+  "argv": [
+   "-f",
+   "lavfi",
+   "-i",
+   "sine=f=440:d=0.3",
+   "-c:a",
+   "flac",
+   "-y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_probe_rawvideo_via_info::56",
+  "argv": [
+   "-f",
+   "lavfi",
+   "-i",
+   "testsrc=d=0.2:s=64x64:r=10",
+   "-c:v",
+   "rawvideo",
+   "-f",
+   "nut",
+   "-y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_probe_av_file::57",
+  "argv": [
+   "-f",
+   "lavfi",
+   "-i",
+   "testsrc=d=0.2:s=32x32:r=10",
+   "-f",
+   "lavfi",
+   "-i",
+   "sine=f=440:d=0.2",
+   "-c:v",
+   "rawvideo",
+   "-c:a",
+   "pcm_s16le",
+   "-f",
+   "nut",
+   "-y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_probe_pixel_format::58",
+  "argv": [
+   "-f",
+   "lavfi",
+   "-i",
+   "testsrc=d=0.1:s=32x32:r=5",
+   "-c:v",
+   "rawvideo",
+   "-pix_fmt",
+   "yuv420p",
+   "-f",
+   "nut",
+   "-y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_probe_multiple_streams::59",
+  "argv": [
+   "-f",
+   "lavfi",
+   "-i",
+   "testsrc=d=0.1:s=32x32:r=5",
+   "-f",
+   "lavfi",
+   "-i",
+   "color=c=blue:d=0.1:s=16x16:r=5",
+   "-c:v",
+   "rawvideo",
+   "-map",
+   "0:v",
+   "-map",
+   "1:v",
+   "-f",
+   "nut",
+   "-y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_frame_count_via_null::60",
+  "argv": [
+   "-f",
+   "lavfi",
+   "-i",
+   "testsrc=d=1:s=16x16:r=10",
+   "-f",
+   "null",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_limit_frames::61",
+  "argv": [
+   "-f",
+   "lavfi",
+   "-i",
+   "testsrc=d=1:s=16x16:r=25",
+   "-frames:v",
+   "3",
+   "-f",
+   "rawvideo",
+   "-pix_fmt",
+   "rgb24",
+   "-y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_sine_wav::62",
+  "argv": [
+   "-f",
+   "lavfi",
+   "-i",
+   "sine=frequency=440:duration=1",
+   "-f",
+   "wav",
+   "-y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_silence_wav::63",
+  "argv": [
+   "-f",
+   "lavfi",
+   "-i",
+   "anullsrc=r=44100:cl=stereo",
+   "-t",
+   "0.5",
+   "-f",
+   "wav",
+   "-y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_dual_tone::64",
+  "argv": [
+   "-f",
+   "lavfi",
+   "-i",
+   "sine=f=440:d=0.5",
+   "-f",
+   "lavfi",
+   "-i",
+   "sine=f=880:d=0.5",
+   "-filter_complex",
+   "[0][1]amix=inputs=2",
+   "-f",
+   "wav",
+   "-y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sine_specific_sample_rate::65",
+  "argv": [
+   "-f",
+   "lavfi",
+   "-i",
+   "sine=f=440:d=0.5:r=22050",
+   "-f",
+   "wav",
+   "-y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aevalsrc_generation::66",
+  "argv": [
+   "-f",
+   "lavfi",
+   "-i",
+   "aevalsrc=sin(400*PI*2*t):d=0.125",
+   "-f",
+   "wav",
+   "-y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_testsrc_rawvideo::67",
+  "argv": [
+   "-f",
+   "lavfi",
+   "-i",
+   "testsrc=duration=0.1:size=64x64:rate=10",
+   "-f",
+   "rawvideo",
+   "-pix_fmt",
+   "rgb24",
+   "-y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_color_source::68",
+  "argv": [
+   "-f",
+   "lavfi",
+   "-i",
+   "color=c=red:d=0.1:s=32x32:r=10",
+   "-f",
+   "rawvideo",
+   "-pix_fmt",
+   "rgb24",
+   "-y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_smptebars::69",
+  "argv": [
+   "-f",
+   "lavfi",
+   "-i",
+   "smptebars=d=0.1:s=64x48:r=10",
+   "-f",
+   "rawvideo",
+   "-pix_fmt",
+   "rgb24",
+   "-y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_output_video::70",
+  "argv": [
+   "-f",
+   "lavfi",
+   "-i",
+   "testsrc=d=0.1:s=32x32:r=10",
+   "-f",
+   "null",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_output_audio::71",
+  "argv": [
+   "-f",
+   "lavfi",
+   "-i",
+   "sine=f=440:d=0.1",
+   "-f",
+   "null",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_testsrc2_generation::72",
+  "argv": [
+   "-f",
+   "lavfi",
+   "-i",
+   "testsrc2=d=0.1:s=64x64:r=10",
+   "-f",
+   "rawvideo",
+   "-pix_fmt",
+   "rgb24",
+   "-y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wav_to_flac::73",
+  "argv": [
+   "-f",
+   "lavfi",
+   "-i",
+   "sine=f=440:d=0.5",
+   "-f",
+   "wav",
+   "-y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wav_pcm_reformat::74",
+  "argv": [
+   "-f",
+   "lavfi",
+   "-i",
+   "sine=f=440:d=0.2",
+   "-f",
+   "wav",
+   "-y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_raw_pcm::75",
+  "argv": [
+   "-f",
+   "lavfi",
+   "-i",
+   "sine=f=1000:d=0.2:r=44100",
+   "-f",
+   "s16le",
+   "-acodec",
+   "pcm_s16le",
+   "-ac",
+   "1",
+   "-y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scale_filter::76",
+  "argv": [
+   "-f",
+   "lavfi",
+   "-i",
+   "testsrc=d=0.1:s=64x64:r=5",
+   "-vf",
+   "scale=32:32",
+   "-f",
+   "rawvideo",
+   "-pix_fmt",
+   "rgb24",
+   "-y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_crop_filter::77",
+  "argv": [
+   "-f",
+   "lavfi",
+   "-i",
+   "testsrc=d=0.1:s=64x64:r=5",
+   "-vf",
+   "crop=32:32:0:0",
+   "-f",
+   "rawvideo",
+   "-pix_fmt",
+   "rgb24",
+   "-y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_chain::78",
+  "argv": [
+   "-f",
+   "lavfi",
+   "-i",
+   "testsrc=d=0.1:s=128x128:r=5",
+   "-vf",
+   "scale=64:64,crop=32:32",
+   "-f",
+   "rawvideo",
+   "-pix_fmt",
+   "rgb24",
+   "-y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_volume_filter::79",
+  "argv": [
+   "-f",
+   "lavfi",
+   "-i",
+   "sine=f=440:d=0.2",
+   "-af",
+   "volume=0.5",
+   "-f",
+   "wav",
+   "-y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

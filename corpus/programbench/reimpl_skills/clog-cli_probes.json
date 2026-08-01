@@ -1,0 +1,1817 @@
+[
+ {
+  "name": "test::test_help_shows_no_subcommands::0",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_works::1",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_unknown_arguments_rejected::2",
+  "argv": [
+   "add",
+   "file.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_rejected::3",
+  "argv": [
+   "--nonexistent-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_valid_flags::4",
+  "argv": [
+   "--from",
+   "HEAD~10",
+   "--to",
+   "HEAD"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_option_without_value_rejected::5",
+  "argv": [
+   "--from"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_format_rejected::6",
+  "argv": [
+   "--format",
+   "invalid_format"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_valid_format_accepted::7",
+  "argv": [
+   "--format",
+   "markdown"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_after_unknown_arg_fails::8",
+  "argv": [
+   "fakecommand",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_rejects_invalid_choice::9",
+  "argv": [
+   "--format",
+   "bad"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_link_style_rejects_invalid_choice::10",
+  "argv": [
+   "--link-style",
+   "bad"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_value_taking_option_cannot_be_used_multiple_times::11",
+  "argv": [
+   "--repository",
+   "https://example.com/repo",
+   "--repository",
+   "https://example.com/repo2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_nonzero_and_mentions_unrecognized::12",
+  "argv": [
+   "--definitely-not-a-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_value_for_repository_errors::13",
+  "argv": [
+   "--repository"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_format_value_errors::14",
+  "argv": [
+   "--format",
+   "xml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_link_style_value_errors::15",
+  "argv": [
+   "--link-style",
+   "bitbucket"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_exact_match::16",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_running_outside_git_repo_errors::17",
+  "argv": [
+   "-r",
+   "https://example.com/repo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_both_work_tree_and_git_dir_flags_trigger_clog_new::18",
+  "argv": [
+   "git",
+   "config",
+   "user.email",
+   "test@example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_only_work_tree_flag_uses_from_config_path::19",
+  "argv": [
+   "git",
+   "init"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_both_work_tree_and_git_dir_flags::20",
+  "argv": [
+   "git",
+   "add",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_specific_commit_range::21",
+  "argv": [
+   "git",
+   "log",
+   "--oneline",
+   "--reverse"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_from_and_to_commits::22",
+  "argv": [
+   "git",
+   "log",
+   "--oneline"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_from_latest_tag_with_no_new_commits::23",
+  "argv": [
+   "git",
+   "tag",
+   "v0.5.0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_from_and_to_commit_range::24",
+  "argv": [
+   "git",
+   "log",
+   "--format=%H",
+   "--reverse"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_setversion_takes_precedence_over_increment_flags::25",
+  "argv": [
+   "git",
+   "tag",
+   "v1.0.0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_flag::26",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_to_file::27",
+  "argv": [
+   "--outfile"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_short_flag::28",
+  "argv": [
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_infile_appends_content::29",
+  "argv": [
+   "--infile",
+   "old_changelog.md",
+   "--outfile"
+  ],
+  "stdin": null,
+  "files": {
+   "old_changelog.md": "# Old Content\n\nThis is old changelog data."
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_changelog_file_single_param::30",
+  "argv": [
+   "--changelog",
+   "CHANGELOG.md"
+  ],
+  "stdin": null,
+  "files": {
+   "CHANGELOG.md": "# Existing\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_changelog_conflicts_with_outfile::31",
+  "argv": [
+   "--changelog",
+   "--outfile"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_changelog_conflicts_with_infile::32",
+  "argv": [
+   "--changelog",
+   "--infile"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_setversion_flag::33",
+  "argv": [
+   "--setversion",
+   "1.2.3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_setversion_overrides_major::34",
+  "argv": [
+   "--setversion",
+   "5.5.5",
+   "--major"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_major_version_without_tags::35",
+  "argv": [
+   "--major"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minor_version_without_tags::36",
+  "argv": [
+   "--minor"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_patch_version_without_tags::37",
+  "argv": [
+   "--patch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_from_commit_flag::38",
+  "argv": [
+   "git",
+   "rev-list",
+   "--max-parents=0",
+   "HEAD"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_to_commit_flag::39",
+  "argv": [
+   "git",
+   "rev-list",
+   "HEAD"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_from_latest_tag_flag::40",
+  "argv": [
+   "--from-latest-tag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_from_latest_tag_short_flag::41",
+  "argv": [
+   "-F"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_from_conflicts_with_from_latest_tag::42",
+  "argv": [
+   "--from",
+   "abc123",
+   "--from-latest-tag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_format::43",
+  "argv": [
+   "--format",
+   "json",
+   "--outfile"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_format_short_flag::44",
+  "argv": [
+   "-T",
+   "json",
+   "--outfile"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repository_flag::45",
+  "argv": [
+   "--repository",
+   "https://github.com/test/repo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repository_short_flag::46",
+  "argv": [
+   "-r",
+   "https://github.com/test/repo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_link_style_github_explicit::47",
+  "argv": [
+   "--repository",
+   "https://github.com/test/repo",
+   "--link-style",
+   "github"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_link_style_gitlab::48",
+  "argv": [
+   "--repository",
+   "https://gitlab.com/test/repo",
+   "--link-style",
+   "gitlab"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_link_style_stash::49",
+  "argv": [
+   "--repository",
+   "https://stash.example.com/test/repo",
+   "--link-style",
+   "stash"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_link_style_cgit::50",
+  "argv": [
+   "--repository",
+   "https://git.example.com/test/repo",
+   "--link-style",
+   "cgit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_link_style_short_flag::51",
+  "argv": [
+   "-r",
+   "https://gitlab.com/test/repo",
+   "-l",
+   "gitlab"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_work_tree_flag::52",
+  "argv": [
+   "--work-tree",
+   "--config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_work_tree_short_flag::53",
+  "argv": [
+   "-w",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_git_dir::54",
+  "argv": [
+   "--git-dir",
+   "--work-tree"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_config_file::55",
+  "argv": [
+   "--config",
+   "custom.toml"
+  ],
+  "stdin": null,
+  "files": {
+   "custom.toml": "[clog]\nrepository = \"https://github.com/test/custom\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_short_flag::56",
+  "argv": [
+   "-c",
+   "custom2.toml"
+  ],
+  "stdin": null,
+  "files": {
+   "custom2.toml": "[clog]\nrepository = \"https://github.com/test/custom2\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cli_overrides_config::57",
+  "argv": [
+   "--repository",
+   "https://github.com/test/override"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_config_file::58",
+  "argv": [
+   "--config",
+   "invalid.toml"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.toml": "this is not valid toml {{]]\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subtitle_flag::59",
+  "argv": [
+   "--subtitle",
+   "My Custom Release"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subtitle_short_flag::60",
+  "argv": [
+   "-s",
+   "Another Subtitle"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_commit_reference::61",
+  "argv": [
+   "--from",
+   "invalidcommithash123456789"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_io_error_invalid_outfile_path::62",
+  "argv": [
+   "--outfile",
+   "/nonexistent/directory/file.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_git_repo::63",
+  "argv": [
+   "git",
+   "init",
+   "--initial-branch=master"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_subtitle::64",
+  "argv": [
+   "--subtitle",
+   "Release with <special> & chars"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combining_all_output_options::65",
+  "argv": [
+   "--repository",
+   "https://github.com/test/repo",
+   "--format",
+   "markdown",
+   "--subtitle",
+   "Test Release",
+   "--outfile"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_changelog_preserves_old_content::66",
+  "argv": [
+   "--changelog",
+   "CHANGELOG.md"
+  ],
+  "stdin": null,
+  "files": {
+   "CHANGELOG.md": "# Old Changelog\n\n## v0.0.1\n\n- Old stuff\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_format_to_stdout::67",
+  "argv": [
+   "--format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_format_short_to_stdout::68",
+  "argv": [
+   "-T",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gitlab_link_style::69",
+  "argv": [
+   "--link-style",
+   "gitlab",
+   "--outfile",
+   "--repository",
+   "https://gitlab.com/test/repo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stash_link_style::70",
+  "argv": [
+   "--link-style",
+   "stash",
+   "--outfile",
+   "--repository",
+   "https://stash.example.com/projects/TEST/repos/repo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cgit_link_style::71",
+  "argv": [
+   "--link-style",
+   "cgit",
+   "--outfile",
+   "--repository",
+   "https://git.example.com/cgit/repo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_setversion_explicit::72",
+  "argv": [
+   "--setversion",
+   "2.0.0",
+   "--outfile"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_from_latest_tag_flag::73",
+  "argv": [
+   "--from-latest-tag",
+   "--outfile"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_infile_flag::74",
+  "argv": [
+   "--infile",
+   "old_changelog.md",
+   "--outfile"
+  ],
+  "stdin": null,
+  "files": {
+   "old_changelog.md": "# Old Changelog\n\nOld content here\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_changelog_flag_single_file::75",
+  "argv": [
+   "--changelog",
+   "CHANGELOG.md"
+  ],
+  "stdin": null,
+  "files": {
+   "CHANGELOG.md": "# Existing Changelog\n\nExisting content\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_format_display::76",
+  "argv": [
+   "--from",
+   "nonexistent_commit_hash_123456"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_major_version_increment_with_proper_tag::77",
+  "argv": [
+   "--major",
+   "--outfile"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minor_version_increment_with_proper_tag::78",
+  "argv": [
+   "--minor",
+   "--outfile"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_patch_version_increment_with_proper_tag::79",
+  "argv": [
+   "--patch",
+   "--outfile"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_paths_missing_file::80",
+  "argv": [
+   "--infile"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_dir_short_flag_from_inside_repo::81",
+  "argv": [
+   "-g",
+   "-w"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_dir_relative_paths::82",
+  "argv": [
+   "--git-dir",
+   ".git",
+   "--work-tree",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vary_format::83",
+  "argv": [
+   "--format",
+   "--outfile"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vary_link_style::84",
+  "argv": [
+   "--link-style",
+   "--repository",
+   "https://example.com/repo",
+   "--outfile"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vary_repository_url::85",
+  "argv": [
+   "--repository",
+   "--outfile"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vary_subtitle::86",
+  "argv": [
+   "--subtitle",
+   "--outfile"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_setversion_with_explicit_version::87",
+  "argv": [
+   "--setversion",
+   "5.4.3",
+   "--outfile"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_format::88",
+  "argv": [
+   "-T",
+   "json",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gitlab_link_style::89",
+  "argv": [
+   "-l",
+   "gitlab",
+   "-r",
+   "https://gitlab.com/r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stash_link_style::90",
+  "argv": [
+   "--link-style",
+   "stash",
+   "-r",
+   "https://stash.com/r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cgit_link_style::91",
+  "argv": [
+   "--link-style",
+   "cgit",
+   "-r",
+   "https://cgit.com/r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minor_version_attempt::92",
+  "argv": [
+   "-m"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_patch_version_attempt::93",
+  "argv": [
+   "-p"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_setversion_flag::94",
+  "argv": [
+   "--setversion",
+   "2.5.0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_infile_flag::95",
+  "argv": [
+   "-i",
+   "old.md"
+  ],
+  "stdin": null,
+  "files": {
+   "old.md": "# Old Changelog\n\n## Old Release\n\nOld stuff here\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_changelog_flag::96",
+  "argv": [
+   "-C",
+   "LOG.md"
+  ],
+  "stdin": null,
+  "files": {
+   "LOG.md": "# Previous\n\nOld entries\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_dir_with_config::97",
+  "argv": [
+   "--git-dir",
+   "--config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_flags_error::98",
+  "argv": [
+   "--from",
+   "--from-latest-tag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_gitlab_combination::99",
+  "argv": [
+   "-T",
+   "json",
+   "-l",
+   "gitlab",
+   "-r",
+   "https://gitlab.com/x",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unexpected_positional_arg_is_rejected_like_unknown_subcommand::100",
+  "argv": [
+   "nonexistent_subcommand"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_are_not_accepted_after_positional_like_git_style_subcommand_syntax::101",
+  "argv": [
+   "nonexistent",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_then_positional_is_still_rejected::102",
+  "argv": [
+   "--",
+   "anything"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_takes_precedence_over_invalid_flag::103",
+  "argv": [
+   "--help",
+   "--definitely-not-a-real-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_after_double_dash_is_not_treated_as_help::104",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_config_filename_is_dot_clog_toml_and_is_read_from_cwd::105",
+  "argv": [
+   "--to",
+   "HEAD",
+   "--outfile"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cli_overrides_config_file_output_format::106",
+  "argv": [
+   "--config",
+   "--format",
+   "markdown",
+   "--to",
+   "HEAD",
+   "--outfile"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cli_overrides_config_file_subtitle::107",
+  "argv": [
+   "--config",
+   "--subtitle",
+   "from-cli",
+   "--to",
+   "HEAD",
+   "--outfile"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_config_file_errors::108",
+  "argv": [
+   "--config",
+   "--format",
+   "json",
+   "--to",
+   "HEAD",
+   "--outfile"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_runs_in_repo_root_and_writes_json_to_stdout_plus_trailer::109",
+  "argv": [
+   "-T",
+   "json",
+   "-r",
+   "https://example.com/repo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_long_flag::110",
+  "argv": [
+   "--unknown-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_short_flag::111",
+  "argv": [
+   "-z"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_misspelled_flag::112",
+  "argv": [
+   "--repossitory"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repository_empty_string::113",
+  "argv": [
+   "--repository",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repository_with_equals::114",
+  "argv": [
+   "--repository=https://github.com/user/repo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_version_flags_short::115",
+  "argv": [
+   "-Mp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_version_flags_short_three::116",
+  "argv": [
+   "-MmF"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_valid_setversion::117",
+  "argv": [
+   "--setversion"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_setversion_with_equals::118",
+  "argv": [
+   "--setversion=1.2.3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_setversion_arbitrary_string::119",
+  "argv": [
+   "--setversion",
+   "arbitrary"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_with_spaces::120",
+  "argv": [
+   "--git-dir",
+   "/path with spaces/.git"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_outfile_with_equals::121",
+  "argv": [
+   "--outfile=output.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_changelog_conflicts_with_infile::122",
+  "argv": [
+   "--changelog",
+   "test.md",
+   "--infile",
+   "other.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_changelog_conflicts_with_outfile::123",
+  "argv": [
+   "--changelog",
+   "test.md",
+   "--outfile",
+   "other.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_changelog_conflicts_with_both::124",
+  "argv": [
+   "--changelog",
+   "test.md",
+   "--infile",
+   "in.md",
+   "--outfile",
+   "out.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_from_conflicts_with_from_latest_tag_short::125",
+  "argv": [
+   "--from",
+   "abc123",
+   "-F"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_independent_flags::126",
+  "argv": [
+   "--format",
+   "json",
+   "--repository",
+   "https://github.com/user/repo",
+   "--subtitle",
+   "Test Release"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_and_long_flags_mixed::127",
+  "argv": [
+   "-T",
+   "json",
+   "--repository",
+   "https://github.com/user/repo",
+   "-s",
+   "Test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_infile_and_outfile_together::128",
+  "argv": [
+   "--infile",
+   "in.md",
+   "--outfile",
+   "out.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unexpected_positional_argument::129",
+  "argv": [
+   "random_arg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unexpected_positional_after_flags::130",
+  "argv": [
+   "--format",
+   "json",
+   "random_arg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_separator::131",
+  "argv": [
+   "--",
+   "--format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_before_and_after::132",
+  "argv": [
+   "--format",
+   "json",
+   "--subtitle",
+   "Test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_flags_order::133",
+  "argv": [
+   "-T",
+   "json",
+   "-s",
+   "Test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_string_values::134",
+  "argv": [
+   "--subtitle",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_strings::135",
+  "argv": [
+   "--subtitle",
+   "Test: Release & Update!"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_with_value_no_space::136",
+  "argv": [
+   "--format=json",
+   "--subtitle=Test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_equals_in_value::137",
+  "argv": [
+   "--subtitle=Test=Value=Here"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dash_in_value::138",
+  "argv": [
+   "--subtitle",
+   "-test-value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duplicate_format_flag::139",
+  "argv": [
+   "--format",
+   "json",
+   "--format",
+   "markdown"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duplicate_repository_flag::140",
+  "argv": [
+   "-r",
+   "url1",
+   "-r",
+   "url2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_value_exit_code::141",
+  "argv": [
+   "--format"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_value_exit_code::142",
+  "argv": [
+   "--format",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

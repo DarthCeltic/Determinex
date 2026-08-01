@@ -1,0 +1,1399 @@
+[
+ {
+  "name": "test::test_main_help_shows_commands::0",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_command_without_args::1",
+  "argv": [
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_command_show_private::2",
+  "argv": [
+   "help",
+   "true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_error::3",
+  "argv": [
+   "nonexistent_subcommand_xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_with_args::4",
+  "argv": [
+   "fake_command",
+   "arg1",
+   "arg2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_subcommand::5",
+  "argv": [
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_with_comparison::6",
+  "argv": [
+   "version",
+   "1.0.0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdlib_subcommand::7",
+  "argv": [
+   "stdlib"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_subcommand_default::8",
+  "argv": [
+   "status"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_subcommand_json::9",
+  "argv": [
+   "status",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prune_subcommand_recognized::10",
+  "argv": [
+   "prune"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reload_subcommand_recognized::11",
+  "argv": [
+   "reload"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_requires_shell_argument::12",
+  "argv": [
+   "export"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_with_valid_shell::13",
+  "argv": [
+   "export",
+   "bash"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hook_requires_shell_argument::14",
+  "argv": [
+   "hook"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hook_with_valid_shell::15",
+  "argv": [
+   "hook",
+   "bash"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_with_status_flag::16",
+  "argv": [
+   "log",
+   "--status",
+   "test message"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_with_error_flag::17",
+  "argv": [
+   "log",
+   "--error",
+   "test message"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_requires_flag::18",
+  "argv": [
+   "log",
+   "test message"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_allow_and_block_are_different::19",
+  "argv": [
+   "allow"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subcommands_are_case_sensitive::20",
+  "argv": [
+   "VERSION"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_uppercase_fails::21",
+  "argv": [
+   "HELP"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_flags_work::22",
+  "argv": [
+   "log",
+   "--status",
+   "message"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cannot_use_two_subcommands::23",
+  "argv": [
+   "version",
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_with_subcommand_name::24",
+  "argv": [
+   "help",
+   "allow"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_requires_dir_and_command::25",
+  "argv": [
+   "exec"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_with_directory_no_command::26",
+  "argv": [
+   "exec",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_with_dir_and_command::27",
+  "argv": [
+   "exec",
+   ".",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_recognized::28",
+  "argv": [
+   "edit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fetchurl_requires_url::29",
+  "argv": [
+   "fetchurl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fetchurl_recognized_with_url::30",
+  "argv": [
+   "fetchurl",
+   "https://example.com/test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_errors::31",
+  "argv": [
+   "definitely_not_a_real_subcommand"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dash_h_is_not_global_help_flag::32",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aliases_are_routed_to_same_command_behavior_for_block::33",
+  "argv": [
+   "block"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_TestCheckAppeared_via_current_on_missing_then_created::34",
+  "argv": [
+   "watch-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_preserves_stdin::35",
+  "argv": [
+   "exec",
+   "cat"
+  ],
+  "stdin": "test input data\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_vars_scenario::36",
+  "argv": [
+   "bash",
+   "-c",
+   "echo $DIRENV_BASH:$DIRENV_CONFIG"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_in_envrc_scenario::37",
+  "argv": [
+   "test-in-envrc"
+  ],
+  "stdin": null,
+  "files": {
+   "test-in-envrc": "#!/bin/sh\ntest -n \"$DIRENV_IN_ENVRC\" && echo \"in envrc\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_watch_list_unknown_shell::38",
+  "argv": [
+   "watch-list",
+   "invalid_shell_xyz"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_watch_list_multiple_files::39",
+  "argv": [
+   "watch-list",
+   "bash"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_watch_list_invalid_format::40",
+  "argv": [
+   "watch-list",
+   "bash"
+  ],
+  "stdin": "invalid_line_no_space\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_command_is_error::41",
+  "argv": [
+   "doesnotexist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_rejects_unknown_shell_value::42",
+  "argv": [
+   "export",
+   "noshell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_does_not_treat_double_dash_as_separator::43",
+  "argv": [
+   "export",
+   "--",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_json_ignores_unknown_trailing_args::44",
+  "argv": [
+   "status",
+   "--json",
+   "--nope"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_accepts_status_with_message::45",
+  "argv": [
+   "log",
+   "--status",
+   "hello"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_argument_changes_exit_code::46",
+  "argv": [
+   "version",
+   "3.0.0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_parses_positional_dir_and_command::47",
+  "argv": [
+   "exec",
+   "/tmp",
+   "echo",
+   "hi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_allow_with_path_to_envrc::48",
+  "argv": [
+   "allow",
+   ".envrc"
+  ],
+  "stdin": null,
+  "files": {
+   ".envrc": "export BAZ=qux\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_allow_with_envrc_and_dotenv::49",
+  "argv": [
+   "allow",
+   ".envrc"
+  ],
+  "stdin": null,
+  "files": {
+   ".envrc": "dotenv\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_allow_alias_permit::50",
+  "argv": [
+   "permit",
+   ".envrc"
+  ],
+  "stdin": null,
+  "files": {
+   ".envrc": "export ALIAS_TEST=permit\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_allow_alias_grant::51",
+  "argv": [
+   "grant",
+   ".envrc"
+  ],
+  "stdin": null,
+  "files": {
+   ".envrc": "export ALIAS_TEST=grant\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_allow_with_relative_path::52",
+  "argv": [
+   "allow",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_with_at_least_pass::53",
+  "argv": [
+   "version",
+   "2.0.0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_with_at_least_fail::54",
+  "argv": [
+   "version",
+   "999.0.0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_command::55",
+  "argv": [
+   "nonexistent_command_xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_block_with_no_arguments::56",
+  "argv": [
+   "allow",
+   ".envrc"
+  ],
+  "stdin": null,
+  "files": {
+   ".envrc": "export FOO=bar\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_block_previously_allowed_file::57",
+  "argv": [
+   "allow",
+   ".envrc"
+  ],
+  "stdin": null,
+  "files": {
+   ".envrc": "export TEST=value\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_envrc_precedence_over_env::58",
+  "argv": [
+   "allow",
+   ".envrc"
+  ],
+  "stdin": null,
+  "files": {
+   ".envrc": "dotenv\nexport PRECEDENCE_VAR=envrc_value\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dotenv_if_exists::59",
+  "argv": [
+   "allow",
+   ".envrc"
+  ],
+  "stdin": null,
+  "files": {
+   ".envrc": "dotenv_if_exists\nexport SAFE_VAR=safe\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_simple_variable_export::60",
+  "argv": [
+   "allow",
+   ".envrc"
+  ],
+  "stdin": null,
+  "files": {
+   ".envrc": "export SIMPLE_VAR=simple_value\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_variable_exports::61",
+  "argv": [
+   "allow",
+   ".envrc"
+  ],
+  "stdin": null,
+  "files": {
+   ".envrc": "export VAR1=val1\nexport VAR2=val2\nexport VAR3=val3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_modification::62",
+  "argv": [
+   "allow",
+   ".envrc"
+  ],
+  "stdin": null,
+  "files": {
+   ".envrc": "export PATH=\"/custom/path:$PATH\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unset_variables::63",
+  "argv": [
+   "allow",
+   ".envrc"
+  ],
+  "stdin": null,
+  "files": {
+   ".envrc": "export TEST_VAR=value\nunset TEST_VAR\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_execution_in_envrc::64",
+  "argv": [
+   "allow",
+   ".envrc"
+  ],
+  "stdin": null,
+  "files": {
+   ".envrc": "export COMPUTED=$(echo \"computed_value\")\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_envrc_with_comments::65",
+  "argv": [
+   "allow",
+   ".envrc"
+  ],
+  "stdin": null,
+  "files": {
+   ".envrc": "# This is a comment\nexport COMMENTED=value # inline comment\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_envrc_with_syntax_error::66",
+  "argv": [
+   "allow",
+   ".envrc"
+  ],
+  "stdin": null,
+  "files": {
+   ".envrc": "export BROKEN=\n$(((invalid syntax\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_with_envrc::67",
+  "argv": [
+   "allow",
+   ".envrc"
+  ],
+  "stdin": null,
+  "files": {
+   ".envrc": "export EXEC_TEST=success\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_without_envrc::68",
+  "argv": [
+   "exec",
+   "cmd",
+   "/c",
+   "echo",
+   "hello"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_with_nonexistent_directory::69",
+  "argv": [
+   "exec",
+   "/nonexistent/directory/xyz",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_with_multiple_arguments::70",
+  "argv": [
+   "allow",
+   ".envrc"
+  ],
+  "stdin": null,
+  "files": {
+   ".envrc": "export MULTI=arg\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_bash::71",
+  "argv": [
+   "allow",
+   ".envrc"
+  ],
+  "stdin": null,
+  "files": {
+   ".envrc": "export BASH_TEST=bash_value\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_zsh::72",
+  "argv": [
+   "allow",
+   ".envrc"
+  ],
+  "stdin": null,
+  "files": {
+   ".envrc": "export ZSH_TEST=zsh_value\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_fish::73",
+  "argv": [
+   "allow",
+   ".envrc"
+  ],
+  "stdin": null,
+  "files": {
+   ".envrc": "export FISH_TEST=fish_value\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_tcsh::74",
+  "argv": [
+   "allow",
+   ".envrc"
+  ],
+  "stdin": null,
+  "files": {
+   ".envrc": "export TCSH_TEST=tcsh_value\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_elvish::75",
+  "argv": [
+   "allow",
+   ".envrc"
+  ],
+  "stdin": null,
+  "files": {
+   ".envrc": "export ELVISH_TEST=elvish_value\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_pwsh::76",
+  "argv": [
+   "allow",
+   ".envrc"
+  ],
+  "stdin": null,
+  "files": {
+   ".envrc": "export PWSH_TEST=pwsh_value\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_murex::77",
+  "argv": [
+   "allow",
+   ".envrc"
+  ],
+  "stdin": null,
+  "files": {
+   ".envrc": "export MUREX_TEST=murex_value\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_json::78",
+  "argv": [
+   "allow",
+   ".envrc"
+  ],
+  "stdin": null,
+  "files": {
+   ".envrc": "export JSON_TEST=json_value\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_vim::79",
+  "argv": [
+   "allow",
+   ".envrc"
+  ],
+  "stdin": null,
+  "files": {
+   ".envrc": "export VIM_TEST=vim_value\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_gha::80",
+  "argv": [
+   "allow",
+   ".envrc"
+  ],
+  "stdin": null,
+  "files": {
+   ".envrc": "export GHA_TEST=gha_value\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_gzenv::81",
+  "argv": [
+   "allow",
+   ".envrc"
+  ],
+  "stdin": null,
+  "files": {
+   ".envrc": "export GZENV_TEST=gzenv_value\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_systemd::82",
+  "argv": [
+   "allow",
+   ".envrc"
+  ],
+  "stdin": null,
+  "files": {
+   ".envrc": "export SYSTEMD_TEST=systemd_value\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_with_envrc_changes::83",
+  "argv": [
+   "allow",
+   ".envrc"
+  ],
+  "stdin": null,
+  "files": {
+   ".envrc": "export VAR1=value1\nexport VAR2=value2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fetchurl_discover_hash::84",
+  "argv": [
+   "fetchurl",
+   "https://httpbin.org/robots.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fetchurl_invalid_url::85",
+  "argv": [
+   "fetchurl",
+   "not-a-valid-url"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fetchurl_with_hash::86",
+  "argv": [
+   "fetchurl",
+   "https://httpbin.org/robots.txt",
+   "sha256-fake"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hook_zsh::87",
+  "argv": [
+   "hook",
+   "zsh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hook_fish::88",
+  "argv": [
+   "hook",
+   "fish"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hook_tcsh::89",
+  "argv": [
+   "hook",
+   "tcsh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hook_elvish::90",
+  "argv": [
+   "hook",
+   "elvish"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hook_pwsh::91",
+  "argv": [
+   "hook",
+   "pwsh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hook_murex::92",
+  "argv": [
+   "hook",
+   "murex"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hook_invalid_shell::93",
+  "argv": [
+   "hook",
+   "invalid_shell_xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_with_status_flag::94",
+  "argv": [
+   "log",
+   "--status",
+   "test status message"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_with_error_flag::95",
+  "argv": [
+   "log",
+   "--error",
+   "test error message"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reload_command::96",
+  "argv": [
+   "allow",
+   ".envrc"
+  ],
+  "stdin": null,
+  "files": {
+   ".envrc": "export RELOAD_TEST=value\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prune_command::97",
+  "argv": [
+   "allow",
+   ".envrc"
+  ],
+  "stdin": null,
+  "files": {
+   ".envrc": "export PRUNE_TEST=value\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_with_envrc_present::98",
+  "argv": [
+   "allow",
+   ".envrc"
+  ],
+  "stdin": null,
+  "files": {
+   ".envrc": "export STATUS_TEST=value\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_add_function::99",
+  "argv": [
+   "allow",
+   ".envrc"
+  ],
+  "stdin": null,
+  "files": {
+   ".envrc": "PATH_add mybin\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_has_function::100",
+  "argv": [
+   "allow",
+   ".envrc"
+  ],
+  "stdin": null,
+  "files": {
+   ".envrc": "if has echo; then\n  export HAS_ECHO=yes\nfi\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expand_path_function::101",
+  "argv": [
+   "allow",
+   ".envrc"
+  ],
+  "stdin": null,
+  "files": {
+   ".envrc": "export EXPANDED=$(expand_path .)\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_watch_file_function::102",
+  "argv": [
+   "allow",
+   ".envrc"
+  ],
+  "stdin": null,
+  "files": {
+   ".envrc": "watch_file watched.txt\nexport WATCHED=yes\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_source_env_function::103",
+  "argv": [
+   "allow",
+   ".envrc"
+  ],
+  "stdin": null,
+  "files": {
+   ".envrc": "export SUB_VAR=sub_value\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strict_env_function::104",
+  "argv": [
+   "allow",
+   ".envrc"
+  ],
+  "stdin": null,
+  "files": {
+   ".envrc": "strict_env\nexport STRICT_VAR=strict\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_precedence_with_invalid_extra_args_still_shows_help::105",
+  "argv": [
+   "--help",
+   "--definitely-not-a-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_unknown_subcommand_does_not_error_and_shows_main_help::106",
+  "argv": [
+   "help",
+   "bogus_subcommand_name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_executable_runs_help_without_tty::107",
+  "argv": [
+   "./executable",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_json_blocked_envrc_sets_direnv_vars_and_exit1::108",
+  "argv": [
+   "export",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_unknown_command_exit_code_and_message::109",
+  "argv": [
+   "help",
+   "definitely-not-a-command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

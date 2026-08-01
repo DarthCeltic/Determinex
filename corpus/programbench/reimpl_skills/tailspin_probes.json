@@ -1,0 +1,3941 @@
+[
+ {
+  "name": "test::test_default_theme_no_config_file_needed::0",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "num 123\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_path_missing_is_error::1",
+  "argv": [
+   "--config-path",
+   "/no/such/theme.toml",
+   "--print"
+  ],
+  "stdin": "x\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_path_malformed_toml_is_error::2",
+  "argv": [
+   "--config-path",
+   "theme.toml",
+   "--print"
+  ],
+  "stdin": "x\n",
+  "files": {
+   "theme.toml": "this is not toml!!!\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xdg_config_home_not_used_when_config_path_provided::3",
+  "argv": [
+   "--config-path",
+   "bad.toml",
+   "--print"
+  ],
+  "stdin": "num 1\n",
+  "files": {
+   "bad.toml": "this is not toml!!!\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tailspin_pager_env_var_used_for_file_mode::4",
+  "argv": [
+   "a.log"
+  ],
+  "stdin": null,
+  "files": {
+   "a.log": "hello 123\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cli_pager_overrides_tailspin_pager_env_var::5",
+  "argv": [
+   "--pager",
+   "cat -n [FILE]",
+   "a.log"
+  ],
+  "stdin": null,
+  "files": {
+   "a.log": "hello 123\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::6",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_short::7",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag::8",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_short::9",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::10",
+  "argv": [
+   "--invalid-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file::11",
+  "argv": [
+   "nonexistent.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_stdin::12",
+  "argv": [
+   "--print"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_highlight_red_keywords::13",
+  "argv": [
+   "--print",
+   "--highlight",
+   "red:ERROR,CRITICAL"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_highlight_blue_keywords::14",
+  "argv": [
+   "--print",
+   "--highlight",
+   "blue:SERVER,CUSTOM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_custom_highlights::15",
+  "argv": [
+   "--print",
+   "--highlight",
+   "red:ERROR",
+   "--highlight",
+   "blue:SERVER,CUSTOM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_numbers_highlighter::16",
+  "argv": [
+   "--print",
+   "--disable",
+   "numbers"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_builtin_keywords::17",
+  "argv": [
+   "--print",
+   "--disable-builtin-keywords"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_only_numbers_highlighter::18",
+  "argv": [
+   "--print",
+   "--enable",
+   "numbers"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_flag_missing_value::19",
+  "argv": [
+   "--print",
+   "--highlight"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_flag_invalid_color::20",
+  "argv": [
+   "--print",
+   "--highlight",
+   "invalid:TEST"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_flag_missing_colon::21",
+  "argv": [
+   "--print",
+   "--highlight",
+   "redTEST"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_color_options::22",
+  "argv": [
+   "--print",
+   "--highlight",
+   "red:RED",
+   "--highlight",
+   "green:GREEN",
+   "--highlight",
+   "yellow:YELLOW",
+   "--highlight",
+   "blue:BLUE",
+   "--highlight",
+   "magenta:MAGENTA",
+   "--highlight",
+   "cyan:CYAN"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_multiple_highlighters::23",
+  "argv": [
+   "--print",
+   "--enable",
+   "numbers,urls"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_multiple_highlighters::24",
+  "argv": [
+   "--print",
+   "--disable",
+   "numbers,urls"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlighting_case_sensitivity::25",
+  "argv": [
+   "--print",
+   "--highlight",
+   "red:ERROR"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_regex_chars_in_highlight::26",
+  "argv": [
+   "--print",
+   "--highlight",
+   "red:[bracket]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_bash_completions_exact_output::27",
+  "argv": [
+   "--generate-bash-completions"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_fish_completions_exact_output::28",
+  "argv": [
+   "--generate-fish-completions"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_zsh_completions_exact_output::29",
+  "argv": [
+   "--generate-zsh-completions"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_completion_flags_bash_wins::30",
+  "argv": [
+   "--generate-bash-completions",
+   "--generate-fish-completions"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_flag_ignores_file_argument::31",
+  "argv": [
+   "--generate-fish-completions",
+   "/nonexistent/path/file.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_flag_with_other_flags_still_generates::32",
+  "argv": [
+   "--generate-bash-completions",
+   "--follow",
+   "--print"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_config_file::33",
+  "argv": [
+   "--print",
+   "--config-path",
+   "/nonexistent/path.toml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_missing_colon_separator::34",
+  "argv": [
+   "--highlight",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_invalid_color_name::35",
+  "argv": [
+   "--highlight",
+   "purple:word"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_invalid_highlighter_name::36",
+  "argv": [
+   "--enable",
+   "invalid-highlighter"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_directory_instead_of_file_path::37",
+  "argv": [
+   "/etc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_invalid_highlighter_name::38",
+  "argv": [
+   "--disable",
+   "invalid-name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_and_follow_flags_combination::39",
+  "argv": [
+   "--print",
+   "--follow"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_with_empty_word_list::40",
+  "argv": [
+   "--highlight",
+   "red:"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_highlight_flags::41",
+  "argv": [
+   "--print",
+   "--highlight",
+   "red:ERROR",
+   "--highlight",
+   "green:SUCCESS"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_and_disable_same_highlighter::42",
+  "argv": [
+   "--enable",
+   "numbers",
+   "--disable",
+   "numbers"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_config_path::43",
+  "argv": [
+   "--config-path",
+   "/nonexistent/path/config.toml",
+   "--print"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_empty_string_argument::44",
+  "argv": [
+   "--highlight",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_just_colon_separator::45",
+  "argv": [
+   "--highlight",
+   ":"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_enable_flags_for_same_highlighter::46",
+  "argv": [
+   "--enable",
+   "numbers",
+   "--enable",
+   "numbers",
+   "--print"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_path_with_spaces_in_name::47",
+  "argv": [
+   "--print",
+   "file with spaces.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file with spaces.txt": "content with spaces\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_filename::48",
+  "argv": [
+   "--print",
+   "test_café_☕.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test_café_☕.txt": "unicode test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_valid_and_invalid_flags::49",
+  "argv": [
+   "--print",
+   "--invalid-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duplicate_highlight_same_color_and_word::50",
+  "argv": [
+   "--print",
+   "--highlight",
+   "red:ERROR",
+   "--highlight",
+   "red:ERROR"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_word_that_appears_multiple_times::51",
+  "argv": [
+   "--print",
+   "--highlight",
+   "red:test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_with_punctuation_in_word::52",
+  "argv": [
+   "--print",
+   "--highlight",
+   "red:error!"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_null_keyword_highlighting::53",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_urls_disabled::54",
+  "argv": [
+   "--print",
+   "--disable",
+   "urls",
+   "--disable",
+   "paths",
+   "--disable",
+   "key-value-pairs"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pointers_disabled::55",
+  "argv": [
+   "--print",
+   "--disable",
+   "pointers"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dates_disabled::56",
+  "argv": [
+   "--print",
+   "--disable",
+   "dates"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paths_disabled::57",
+  "argv": [
+   "--print",
+   "--disable",
+   "paths"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quotes_disabled::58",
+  "argv": [
+   "--print",
+   "--disable",
+   "quotes"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_key_value_pairs_disabled::59",
+  "argv": [
+   "--print",
+   "--disable",
+   "key-value-pairs"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_uuids_disabled::60",
+  "argv": [
+   "--print",
+   "--disable",
+   "uuids"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ip_addresses_disabled::61",
+  "argv": [
+   "--print",
+   "--disable",
+   "ip-addresses"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_processes_disabled::62",
+  "argv": [
+   "--print",
+   "--disable",
+   "processes"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_disabled::63",
+  "argv": [
+   "--print",
+   "--disable",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_multiple_highlighters::64",
+  "argv": [
+   "--print",
+   "--disable",
+   "numbers",
+   "--disable",
+   "urls",
+   "--disable",
+   "dates"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_highlight_single_word::65",
+  "argv": [
+   "--print",
+   "--highlight",
+   "red:custom"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_highlight_multiple_colors::66",
+  "argv": [
+   "--print",
+   "--highlight",
+   "red:error",
+   "--highlight",
+   "green:success"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_highlight_multiple_words_same_color::67",
+  "argv": [
+   "--print",
+   "--highlight",
+   "yellow:apple,banana,grape"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_highlight_all_colors::68",
+  "argv": [
+   "--print",
+   "--highlight",
+   "red:red",
+   "--highlight",
+   "green:green",
+   "--highlight",
+   "yellow:yellow",
+   "--highlight",
+   "blue:blue",
+   "--highlight",
+   "magenta:magenta",
+   "--highlight",
+   "cyan:cyan"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_highlight_with_builtins_disabled::69",
+  "argv": [
+   "--print",
+   "--disable-builtin-keywords",
+   "--highlight",
+   "cyan:custom"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_highlight_invalid_color_name::70",
+  "argv": [
+   "--print",
+   "--highlight",
+   "invalidcolor:word"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_highlight_missing_colon_separator::71",
+  "argv": [
+   "--print",
+   "--highlight",
+   "nocolon"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_highlight_empty_word_list::72",
+  "argv": [
+   "--print",
+   "--highlight",
+   "red:"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_highlight_duplicate_word_first_wins::73",
+  "argv": [
+   "--print",
+   "--highlight",
+   "red:custom",
+   "--highlight",
+   "blue:custom"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_builtin_keywords_take_precedence_over_custom::74",
+  "argv": [
+   "--print",
+   "--highlight",
+   "green:ERROR"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_highlight_long_word_list::75",
+  "argv": [
+   "--print",
+   "--highlight",
+   "cyan:alpha,beta,gamma,delta,epsilon,zeta,eta,theta"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_highlight_special_characters::76",
+  "argv": [
+   "--print",
+   "--highlight",
+   "red:test-word",
+   "--highlight",
+   "green:test_word",
+   "--highlight",
+   "blue:test.word"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_highlight_unicode_keywords::77",
+  "argv": [
+   "--print",
+   "--highlight",
+   "magenta:café",
+   "--highlight",
+   "yellow:日本語"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_highlight_word_boundary_matching::78",
+  "argv": [
+   "--print",
+   "--highlight",
+   "red:error"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_highlight_no_substring_matches::79",
+  "argv": [
+   "--print",
+   "--highlight",
+   "green:test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_highlight_with_builtin_rest_verbs::80",
+  "argv": [
+   "--print",
+   "--highlight",
+   "blue:custom"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_override_rest_verbs_with_builtins_disabled::81",
+  "argv": [
+   "--print",
+   "--disable-builtin-keywords",
+   "--highlight",
+   "blue:GET",
+   "--highlight",
+   "magenta:POST"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_highlight_multiple_flags_combined::82",
+  "argv": [
+   "--print",
+   "--highlight",
+   "red:custom1,custom2",
+   "--highlight",
+   "blue:custom3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_highlight_in_realistic_log_context::83",
+  "argv": [
+   "--print",
+   "--highlight",
+   "magenta:Application"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_highlight_overlapping_keyword_definitions::84",
+  "argv": [
+   "--print",
+   "--highlight",
+   "red:test",
+   "--highlight",
+   "blue:testing"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_pager_flag_ignores_pager::85",
+  "argv": [
+   "--pager",
+   "head -n 2 [FILE]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_to_stdout_highlighting::86",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "hello null 123",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_args_stdin_prints_to_stdout::87",
+  "argv": [],
+  "stdin": "hello null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_input::88",
+  "argv": [
+   "--print",
+   "test_input.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_non_existent_file::89",
+  "argv": [
+   "non_existent.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_config_date_color::90",
+  "argv": [
+   "--print",
+   "--config-path",
+   "theme.toml"
+  ],
+  "stdin": "2023-10-27",
+  "files": {
+   "theme.toml": "\n[dates]\ndate = { fg = \"green\" }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_regex_highlighter::91",
+  "argv": [
+   "--print",
+   "--config-path",
+   "theme.toml"
+  ],
+  "stdin": "Started the service.",
+  "files": {
+   "theme.toml": "\n[[regexes]]\nregex = 'Started (.*)\\.'\nstyle = { fg = \"red\" }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_color::92",
+  "argv": [
+   "--print",
+   "--highlight",
+   "invalid:test"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_highlighter_enable::93",
+  "argv": [
+   "--print",
+   "--enable",
+   "invalid_highlighter"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_highlighter_disable::94",
+  "argv": [
+   "--print",
+   "--disable",
+   "invalid_highlighter"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_numbers::95",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "number 123.45",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_urls::96",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "check https://example.com/path",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_pointers::97",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "address 0xabcdef12",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_dates::98",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "2023-10-27 12:34:56",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_paths::99",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "file at /usr/bin/local",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_quotes::100",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "message \"hello world\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_kv::101",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "key=value",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_uuids::102",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "id 550e8400-e29b-41d4-a716-446655440000",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_ip::103",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "ip 192.168.1.1",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_processes::104",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "process[1234]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_json::105",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "{\"key\": \"value\", \"num\": 123}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_highlight_red::106",
+  "argv": [
+   "--print",
+   "--highlight",
+   "red:me"
+  ],
+  "stdin": "highlight me",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_builtin_keywords::107",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "null true false",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_only_numbers::108",
+  "argv": [
+   "--print",
+   "--enable",
+   "numbers"
+  ],
+  "stdin": "123 and /etc/passwd",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_numbers::109",
+  "argv": [
+   "--print",
+   "--disable",
+   "numbers"
+  ],
+  "stdin": "123",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_highlights::110",
+  "argv": [
+   "--print",
+   "--highlight",
+   "red:error",
+   "--highlight",
+   "yellow:warning"
+  ],
+  "stdin": "error and warning",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::111",
+  "argv": [
+   "--invalid-flag-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_help_flags::112",
+  "argv": [
+   "--help",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_path_valid::113",
+  "argv": [
+   "--config-path",
+   "config.toml"
+  ],
+  "stdin": "CUSTOM keyword",
+  "files": {
+   "config.toml": "\n[[keywords]]\nwords = ['CUSTOM']\nstyle = { fg = \"red\" }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_path_nonexistent::114",
+  "argv": [
+   "--config-path",
+   "/tmp/nonexistent_config_xyz.toml"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_path_invalid_toml::115",
+  "argv": [
+   "--config-path",
+   "bad_config.toml"
+  ],
+  "stdin": "test",
+  "files": {
+   "bad_config.toml": "[[keywords\ninvalid toml syntax"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_custom_regex::116",
+  "argv": [
+   "--config-path",
+   "regex_config.toml"
+  ],
+  "stdin": "Started application.",
+  "files": {
+   "regex_config.toml": "\n[[regexps]]\nregex = 'Started (.*)\\.s'\nstyle = { fg = \"red\" }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_custom_styles::117",
+  "argv": [
+   "--config-path",
+   "style_config.toml"
+  ],
+  "stdin": "BOLD and ITALIC",
+  "files": {
+   "style_config.toml": "\n[[keywords]]\nwords = ['BOLD']\nstyle = { fg = \"red\", bold = true }\n\n[[keywords]]\nwords = ['ITALIC']\nstyle = { fg = \"blue\", italic = true }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_path_with_print::118",
+  "argv": [
+   "--config-path",
+   "config.toml",
+   "test.log",
+   "--print"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\n[[keywords]]\nwords = ['TEST']\nstyle = { fg = \"green\" }\n",
+   "test.log": "TEST message"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_empty_file::119",
+  "argv": [
+   "--config-path",
+   "empty_config.toml"
+  ],
+  "stdin": "test null",
+  "files": {
+   "empty_config.toml": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_pointer_customization::120",
+  "argv": [
+   "--config-path",
+   "pointer_config.toml"
+  ],
+  "stdin": "0xdeadbeef",
+  "files": {
+   "pointer_config.toml": "\n[pointer]\nnumber = { fg = \"green\" }\nletter = { fg = \"blue\" }\nx = { fg = \"red\" }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_date_customization::121",
+  "argv": [
+   "--config-path",
+   "date_config.toml"
+  ],
+  "stdin": "2024-03-25 14:30:45",
+  "files": {
+   "date_config.toml": "\n[dates]\ndate = { fg = \"magenta\" }\ntime = { fg = \"blue\" }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_single_word_red::122",
+  "argv": [
+   "--highlight=red:ERROR"
+  ],
+  "stdin": "This is an ERROR message",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_single_word_green::123",
+  "argv": [
+   "--highlight=green:SUCCESS"
+  ],
+  "stdin": "Operation SUCCESS",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_single_word_yellow::124",
+  "argv": [
+   "--highlight=yellow:WARN"
+  ],
+  "stdin": "WARN: check this",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_single_word_blue::125",
+  "argv": [
+   "--highlight=blue:INFO"
+  ],
+  "stdin": "INFO: details",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_single_word_magenta::126",
+  "argv": [
+   "--highlight=magenta:DEBUG"
+  ],
+  "stdin": "DEBUG: trace",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_single_word_cyan::127",
+  "argv": [
+   "--highlight=cyan:TRACE"
+  ],
+  "stdin": "TRACE: event",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_multiple_words_same_color::128",
+  "argv": [
+   "--highlight=red:ERROR,FAIL,CRITICAL"
+  ],
+  "stdin": "ERROR or FAIL or CRITICAL",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_multiple_flags::129",
+  "argv": [
+   "--highlight=red:ERROR",
+   "--highlight=green:SUCCESS"
+  ],
+  "stdin": "ERROR and SUCCESS",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_case_sensitive::130",
+  "argv": [
+   "--highlight=red:error"
+  ],
+  "stdin": "ERROR error Error",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_word_not_present::131",
+  "argv": [
+   "--highlight=red:NOTFOUND"
+  ],
+  "stdin": "This text has no match",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_with_builtin_keywords::132",
+  "argv": [
+   "--highlight=red:CUSTOM"
+  ],
+  "stdin": "null CUSTOM true",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_invalid_color::133",
+  "argv": [
+   "--highlight=purple:word"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_empty_word::134",
+  "argv": [
+   "--highlight=red:"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_special_characters::135",
+  "argv": [
+   "--highlight=red:ERROR"
+  ],
+  "stdin": "ERROR occurred",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_overlapping_patterns::136",
+  "argv": [
+   "--highlight=red:error",
+   "--highlight=green:error_code"
+  ],
+  "stdin": "error and error_code",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_single_highlighter::137",
+  "argv": [
+   "--enable=numbers"
+  ],
+  "stdin": "text 123 null true",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_multiple_highlighters::138",
+  "argv": [
+   "--enable=numbers,urls"
+  ],
+  "stdin": "123 and http://example.com null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_single_highlighter::139",
+  "argv": [
+   "--disable=numbers"
+  ],
+  "stdin": "text 123 null true",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_multiple_highlighters::140",
+  "argv": [
+   "--disable=numbers,urls"
+  ],
+  "stdin": "123 http://example.com null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_builtin_keywords::141",
+  "argv": [
+   "--disable-builtin-keywords"
+  ],
+  "stdin": "null true false GET POST",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_builtin_keywords_with_numbers::142",
+  "argv": [
+   "--disable-builtin-keywords"
+  ],
+  "stdin": "null 123 true",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_invalid_group::143",
+  "argv": [
+   "--enable=invalid_group"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_invalid_group::144",
+  "argv": [
+   "--disable=invalid_group"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_numbers_only::145",
+  "argv": [
+   "--enable=numbers"
+  ],
+  "stdin": "123 null http://example.com",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_quotes::146",
+  "argv": [
+   "--enable=quotes"
+  ],
+  "stdin": "\"hello\" 123 null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_dates::147",
+  "argv": [
+   "--enable=dates"
+  ],
+  "stdin": "2024-03-25 null 123",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_paths::148",
+  "argv": [
+   "--enable=paths"
+  ],
+  "stdin": "/var/log/syslog null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_ip_addresses::149",
+  "argv": [
+   "--enable=ip-addresses"
+  ],
+  "stdin": "192.168.1.1 null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_uuids::150",
+  "argv": [
+   "--enable=uuids"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_pointers::151",
+  "argv": [
+   "--enable=pointers"
+  ],
+  "stdin": "0x7fff5fbff5a0 null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_processes::152",
+  "argv": [
+   "--enable=processes"
+  ],
+  "stdin": "systemd[1]: started",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_json::153",
+  "argv": [
+   "--enable=json"
+  ],
+  "stdin": "{\"key\": \"value\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_key_value_pairs::154",
+  "argv": [
+   "--enable=key-value-pairs"
+  ],
+  "stdin": "user=admin port=8080",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_with_disable_builtin::155",
+  "argv": [
+   "--enable=numbers",
+   "--disable-builtin-keywords"
+  ],
+  "stdin": "123 null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_simple_command::156",
+  "argv": [
+   "--exec=echo Hello World"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_short_flag::157",
+  "argv": [
+   "-e",
+   "echo test null"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_with_highlighting::158",
+  "argv": [
+   "--exec=echo null true false"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_multiline_output::159",
+  "argv": [
+   "--exec=printf 'line1\\nline2\\nline3'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_command_with_pipes::160",
+  "argv": [
+   "--exec=echo test | cat"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_invalid_command::161",
+  "argv": [
+   "--exec=nonexistent_command_xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_command_with_args::162",
+  "argv": [
+   "--exec=printf %s test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_with_numbers::163",
+  "argv": [
+   "--exec=echo 123 456"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_empty_command::164",
+  "argv": [
+   "--exec="
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read_from_file_with_print::165",
+  "argv": [
+   "test.log",
+   "--print"
+  ],
+  "stdin": null,
+  "files": {
+   "test.log": "Hello null true false 123"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read_from_file_short_print_flag::166",
+  "argv": [
+   "test.log",
+   "-p"
+  ],
+  "stdin": null,
+  "files": {
+   "test.log": "Test 192.168.1.1"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file::167",
+  "argv": [
+   "nonexistent_file_xyz.log",
+   "--print"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_file::168",
+  "argv": [
+   "empty.log",
+   "--print"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.log": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_unicode::169",
+  "argv": [
+   "unicode.log",
+   "--print"
+  ],
+  "stdin": null,
+  "files": {
+   "unicode.log": "Hello world null"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_numbers::170",
+  "argv": [
+   "numbers.log",
+   "--print"
+  ],
+  "stdin": null,
+  "files": {
+   "numbers.log": "int: 42, float: 3.14, negative: -99"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_with_real_example_log::171",
+  "argv": [
+   "app.log",
+   "--print"
+  ],
+  "stdin": null,
+  "files": {
+   "app.log": "\n[2024-03-09 14:30:45] INFO Starting application\n[2024-03-09 14:30:46] DEBUG Loaded configuration from /etc/app/config.toml\n[2024-03-09 14:30:47] WARN Connection timeout for 192.168.1.100\n[2024-03-09 14:30:48] ERROR Failed to connect to database: null\n[2024-03-09 14:30:49] INFO Retrying connection...\nRequest ID: a1b2c3d4-e5f6-7890-abcd-ef1234567890\nGET /api/v1/users?page=1&limit=10 HTTP/1.1\nResponse: {\"status\": \"success\", \"data\": [1, 2, 3]}\nPointer: 0xdeadbeef\nProcess: systemd[1] started service\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_in_default_location::172",
+  "argv": [
+   "--print",
+   "--config-path",
+   "custom.toml"
+  ],
+  "stdin": "SPECIAL keyword test",
+  "files": {
+   "custom.toml": "\n[[keywords]]\nwords = ['SPECIAL']\nstyle = { fg = \"yellow\" }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_multiline_input::173",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "First line with 123\nSecond line with ERROR\nThird line with https://example.com\nFourth line with null\nFifth line with 192.168.1.1",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_all_highlighters_except_one::174",
+  "argv": [
+   "--print",
+   "--enable=numbers"
+  ],
+  "stdin": "number 123 keyword null url https://test.com",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_keywords_multiple_colors::175",
+  "argv": [
+   "--print",
+   "--highlight=red:critical,fatal",
+   "--highlight=yellow:warning,caution",
+   "--highlight=green:success,complete"
+  ],
+  "stdin": "critical warning success message",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quotes_with_different_content::176",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "\"simple quote\" \"with numbers 123\" \"with special !@#$\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_date_formats::177",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "2024-03-09 2024/03/09 09-03-2024 Mar 09 2024",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_time_formats::178",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "14:30:45 08:15:00.123 23:59:59.999",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_nested_structure::179",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "{\"user\": {\"id\": 123, \"name\": \"test\"}, \"active\": true, \"score\": 99.5}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pointer_various_formats::180",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "0xdeadbeef 0x7fff5fbff8a0 0x0 0xFFFFFFFF",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_process_with_various_pids::181",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "systemd[1] nginx[12345] python3[99999]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_with_ports_and_paths::182",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "http://localhost:8080/api https://example.com:443/path?key=value&foo=bar",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ipv4_various_ranges::183",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "127.0.0.1 192.168.0.1 10.0.0.1 172.16.0.1 8.8.8.8",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_severity_levels_complete::184",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "TRACE DEBUG INFO WARN WARNING ERROR FATAL CRITICAL",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_methods_complete::185",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "GET POST PUT DELETE PATCH HEAD OPTIONS TRACE",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_different_highlighter_combinations::186",
+  "argv": [
+   "--print",
+   "--disable=numbers,dates"
+  ],
+  "stdin": "number 123 date 2024-03-09 url https://test.com",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_different_highlighter_combinations::187",
+  "argv": [
+   "--print",
+   "--enable=urls,ip-addresses"
+  ],
+  "stdin": "url https://test.com ip 192.168.1.1 number 123",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_print_flag::188",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "Hello world 123",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_short_print_flag::189",
+  "argv": [
+   "-p"
+  ],
+  "stdin": "Test message 456",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_stdin::190",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file::191",
+  "argv": [
+   "nonexistent_file_12345.log",
+   "--print"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_config_path::192",
+  "argv": [
+   "--print",
+   "--config-path",
+   "custom_config.toml"
+  ],
+  "stdin": "custom_keyword test 0xdeadbeef",
+  "files": {
+   "custom_config.toml": "\n[pointer]\nnumber = { fg = \"green\" }\nletter = { fg = \"blue\" }\n\n[[keywords]]\nwords = ['custom_keyword']\nstyle = { fg = \"red\" }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_custom_regex::193",
+  "argv": [
+   "--print",
+   "--config-path",
+   "regex_config.toml"
+  ],
+  "stdin": "Started service1. and Stopped service2",
+  "files": {
+   "regex_config.toml": "\n[[regexps]]\nregex = 'Started (.*)\\.'\nstyle = { fg = \"red\" }\n\n[[regexps]]\nregex = 'Stopped .*'\nstyle = { fg = \"magenta\" }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_multiple_keywords::194",
+  "argv": [
+   "--print",
+   "--config-path",
+   "keywords_config.toml"
+  ],
+  "stdin": "CRITICAL error but SUCCESS recovery",
+  "files": {
+   "keywords_config.toml": "\n[[keywords]]\nwords = ['CRITICAL', 'FATAL']\nstyle = { fg = \"red\", bold = true }\n\n[[keywords]]\nwords = ['SUCCESS', 'OK']\nstyle = { fg = \"green\" }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_config_path::195",
+  "argv": [
+   "--print",
+   "--config-path",
+   "/nonexistent/config.toml"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_malformed_config_file::196",
+  "argv": [
+   "--print",
+   "--config-path",
+   "bad_config.toml"
+  ],
+  "stdin": "test",
+  "files": {
+   "bad_config.toml": "\nThis is not valid TOML\n[[keywords]\nmissing closing bracket\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_config_file::197",
+  "argv": [
+   "--print",
+   "--config-path",
+   "empty_config.toml"
+  ],
+  "stdin": "test 123 null",
+  "files": {
+   "empty_config.toml": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_bytes_in_input::198",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "test\u0000null\u0000bytes\u0000",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_many_ansi_codes_already_present::199",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "\u001b[31mRed text\u001b[0m and \u001b[32mGreen text\u001b[0m",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_whitespace::200",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "     \t\t\t     \n\n\n     ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_line_endings::201",
+  "argv": [
+   "mixed_endings.log",
+   "--print"
+  ],
+  "stdin": null,
+  "files": {
+   "mixed_endings.log": "line1\nline2\r\nline3\rline4\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concurrent_highlights::202",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "ERROR at 2024-03-09 14:30:45 IP 192.168.1.1 UUID fcfff715-82cc-400d-88b4-56f25b5a5239 null true false GET https://example.com/path?key=value /var/log/syslog pointer 0xdeadbeef systemd[1] number 456",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_line_between_content::203",
+  "argv": [
+   "empty_lines.log",
+   "--print"
+  ],
+  "stdin": null,
+  "files": {
+   "empty_lines.log": "line1\n\nline2\n\n\nline3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_character_input::204",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "a",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_numbers_in_different_formats::205",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "123 -456 +789 0.5 .5 3.14159 1e10 1.5e-5 0x1A 0o77 0b1010",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pathological_regex_input::206",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "test\\d+.*?[a-z]{1,3}(group)\\s+\\w+$^|",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_input_with_print::207",
+  "argv": [
+   "test.log",
+   "--print"
+  ],
+  "stdin": null,
+  "files": {
+   "test.log": "Hello world 123\nAnother line 456\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_unicode::208",
+  "argv": [
+   "unicode.log",
+   "--print"
+  ],
+  "stdin": null,
+  "files": {
+   "unicode.log": "Hello 世界 🌍 123\némoji test ✨\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_newlines_only::209",
+  "argv": [
+   "newlines.log",
+   "--print"
+  ],
+  "stdin": null,
+  "files": {
+   "newlines.log": "\n\n\n\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_special_chars::210",
+  "argv": [
+   "special.log",
+   "--print"
+  ],
+  "stdin": null,
+  "files": {
+   "special.log": "Test\t\ttab\nTest\rcarriage\nTest null\u0000byte\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_on_nonexistent_file::211",
+  "argv": [
+   "nonexistent_follow.log",
+   "--follow",
+   "--print"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_numbers::212",
+  "argv": [
+   "--print",
+   "--disable=numbers"
+  ],
+  "stdin": "Numbers: 123 456",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_urls::213",
+  "argv": [
+   "--print",
+   "--disable=urls"
+  ],
+  "stdin": "URL: https://example.com",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_multiple_highlighters::214",
+  "argv": [
+   "--print",
+   "--disable=numbers,urls"
+  ],
+  "stdin": "Number 123 URL https://test.com",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_only_numbers::215",
+  "argv": [
+   "--print",
+   "--enable=numbers"
+  ],
+  "stdin": "null true 123 https://test.com",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_multiple_highlighters::216",
+  "argv": [
+   "--print",
+   "--enable=numbers,dates"
+  ],
+  "stdin": "Date 2024-03-09 Number 123 URL https://test.com",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_builtin_keywords::217",
+  "argv": [
+   "--print",
+   "--disable-builtin-keywords"
+  ],
+  "stdin": "null true false ERROR GET",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_highlight_red::218",
+  "argv": [
+   "--print",
+   "--highlight=red:error,fail"
+  ],
+  "stdin": "error occurred and test fail detected",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_highlight_green::219",
+  "argv": [
+   "--print",
+   "--highlight=green:success,ok"
+  ],
+  "stdin": "success: operation ok",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_custom_highlights::220",
+  "argv": [
+   "--print",
+   "--highlight=red:error,fail",
+   "--highlight=green:success,ok"
+  ],
+  "stdin": "error found but operation success",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_highlight_all_colors::221",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "test message",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_and_disable_exclusive::222",
+  "argv": [
+   "--print",
+   "--disable=numbers",
+   "--enable=dates"
+  ],
+  "stdin": "Date 2024-03-09 Number 123",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_number_highlighting::223",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "Numbers: 123 456.789 0.5 -100",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_boolean_keywords::224",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "Values: null true false",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_severity_keywords::225",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "ERROR Something went wrong\nWARN Be careful\nINFO All good\nDEBUG Details",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_verb_keywords::226",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "GET /api/users POST /api/data PUT /api/update DELETE /api/remove",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_highlighting::227",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "Date: 2024-03-09 Time: 2024/03/09",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_highlighting::228",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "Time: 14:30:45 or 08:15:00.123",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ipv4_highlighting::229",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "IP: 192.168.1.1 and 10.0.0.1",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ipv6_highlighting::230",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "IPv6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_highlighting::231",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "Visit https://example.com/path?key=value or http://test.org",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unix_path_highlighting::232",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "Path: /var/log/syslog and /home/user/file.txt",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quote_highlighting::233",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "Message: \"Hello World\" and \"Another Quote\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_key_value_pair_highlighting::234",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "Config: timeout=30 retries=3 enabled=true",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pointer_highlighting::235",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "Pointer: 0x7fff5fbff8a0 and 0xdeadbeef",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_process_highlighting::236",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "systemd[1] and nginx[12345]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_highlighting::237",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "{\"name\": \"test\", \"value\": 123, \"enabled\": true}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pager_env_variable::238",
+  "argv": [
+   "test.log",
+   "--print"
+  ],
+  "stdin": null,
+  "files": {
+   "test.log": "Line A\nLine B\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TAILSPIN_PAGER": "cat [FILE]"
+  }
+ },
+ {
+  "name": "test::test_pager_flag::239",
+  "argv": [
+   "test.log",
+   "--print",
+   "--pager=cat [FILE]"
+  ],
+  "stdin": null,
+  "files": {
+   "test.log": "Content line test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pager_with_print_flag_ignored::240",
+  "argv": [
+   "test.log",
+   "--print"
+  ],
+  "stdin": null,
+  "files": {
+   "test.log": "Test content\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dash_dash_help_separator_ignored::241",
+  "argv": [
+   "--help",
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_takes_precedence_over_other_flags::242",
+  "argv": [
+   "--help",
+   "--print"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_exit_code_and_message::243",
+  "argv": [
+   "--definitely-not-a-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_argument_with_print_matches_stdin_output::244",
+  "argv": [
+   "--print",
+   "app.log"
+  ],
+  "stdin": null,
+  "files": {
+   "app.log": "hello null 123\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_path_is_accepted_and_output_valid::245",
+  "argv": [
+   "--config-path",
+   "theme.toml"
+  ],
+  "stdin": "n=123\n",
+  "files": {
+   "theme.toml": "[numbers]\nstyle = { fg = \"red\" }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_mode_runs_successfully_and_emits_no_error::246",
+  "argv": [
+   "--exec",
+   "printf 'null 7\\n'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_default_prints_with_ansi_and_preserves_text::247",
+  "argv": [],
+  "stdin": "hello null 123 https://example.com/path?q=1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_stdin_produces_empty_output::248",
+  "argv": [],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_builtin_keywords_stops_null_highlight::249",
+  "argv": [
+   "--disable-builtin-keywords"
+  ],
+  "stdin": "null true false\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_only_numbers_disables_url_highlighter::250",
+  "argv": [
+   "--enable",
+   "numbers"
+  ],
+  "stdin": "num=123 url=https://example.com\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_numbers_stops_number_highlight_but_keeps_keywords::251",
+  "argv": [
+   "--disable",
+   "numbers"
+  ],
+  "stdin": "null 123\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_on_the_fly_highlight_single_and_multiple_flags::252",
+  "argv": [
+   "--highlight",
+   "red:error",
+   "--highlight",
+   "green:ok"
+  ],
+  "stdin": "error ok\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_passthrough::253",
+  "argv": [],
+  "stdin": "привет null 42\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_with_stdin::254",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "test log line\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_valid_single::255",
+  "argv": [
+   "--highlight=red:error",
+   "--print"
+  ],
+  "stdin": "error test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_valid_multiple_words::256",
+  "argv": [
+   "--highlight=red:error,fail",
+   "--print"
+  ],
+  "stdin": "error test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_multiple_flags::257",
+  "argv": [
+   "--highlight=red:error",
+   "--highlight=blue:test",
+   "--print"
+  ],
+  "stdin": "error test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_empty_words::258",
+  "argv": [
+   "--highlight=red:",
+   "--print"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_valid_single::259",
+  "argv": [
+   "--enable=numbers",
+   "--print"
+  ],
+  "stdin": "test 123\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_valid_multiple_comma::260",
+  "argv": [
+   "--enable=numbers,urls",
+   "--print"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_valid_single::261",
+  "argv": [
+   "--disable=numbers",
+   "--print"
+  ],
+  "stdin": "test 123\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_valid_multiple_comma::262",
+  "argv": [
+   "--disable=numbers,urls",
+   "--print"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_builtin_keywords_flag::263",
+  "argv": [
+   "--disable-builtin-keywords",
+   "--print"
+  ],
+  "stdin": "true false\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_and_disable_conflict::264",
+  "argv": [
+   "--enable=numbers",
+   "--disable=urls",
+   "--print"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_print::265",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "test line\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_without_print_with_data::266",
+  "argv": [],
+  "stdin": "test line\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_with_special_chars::267",
+  "argv": [
+   "--highlight=red:error!",
+   "--print"
+  ],
+  "stdin": "error! test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_empty_string::268",
+  "argv": [
+   "--exec=",
+   "--print"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_highlights_and_enable::269",
+  "argv": [
+   "--highlight=red:error",
+   "--highlight=blue:info",
+   "--enable=numbers",
+   "--print"
+  ],
+  "stdin": "error info 123\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_enable_same_highlighter::270",
+  "argv": [
+   "--enable=numbers,numbers,numbers",
+   "--print"
+  ],
+  "stdin": "123\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_invalid_color::271",
+  "argv": [
+   "--highlight=purple:test",
+   "--print"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_flag_accepted_with_print::272",
+  "argv": [
+   "--follow",
+   "--print"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_short_flag_accepted::273",
+  "argv": [
+   "-f",
+   "--print"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_highlight_flags_accepted::274",
+  "argv": [
+   "--highlight=red:error",
+   "--highlight=blue:info",
+   "--highlight=green:success",
+   "--print"
+  ],
+  "stdin": "error info success\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_multiple_values_single_flag::275",
+  "argv": [
+   "--enable=numbers,dates,urls",
+   "--print"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_multiple_values_single_flag::276",
+  "argv": [
+   "--disable=numbers,dates,urls",
+   "--print"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read_from_stdin::277",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "hello world\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_flag_outputs_to_stdout::278",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_numbers_highlighting::279",
+  "argv": [
+   "--print",
+   "--disable-builtin-keywords"
+  ],
+  "stdin": "test 123 test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_urls_highlighting::280",
+  "argv": [
+   "--print",
+   "--disable-builtin-keywords"
+  ],
+  "stdin": "visit http://example.com test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ip_addresses_highlighting::281",
+  "argv": [
+   "--print",
+   "--disable-builtin-keywords"
+  ],
+  "stdin": "IP: 192.168.1.1",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_uuid_highlighting::282",
+  "argv": [
+   "--print",
+   "--disable-builtin-keywords"
+  ],
+  "stdin": "id: fcfff715-82cc-400d-88b4-56f25b5a5239",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quotes_highlighting::283",
+  "argv": [
+   "--print",
+   "--disable-builtin-keywords"
+  ],
+  "stdin": "say \"hello\" world",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paths_highlighting::284",
+  "argv": [
+   "--print",
+   "--disable-builtin-keywords"
+  ],
+  "stdin": "path: /usr/local/bin/test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dates_highlighting::285",
+  "argv": [
+   "--print",
+   "--disable-builtin-keywords"
+  ],
+  "stdin": "date: 2023-10-02 time: 10:30:00",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keywords_builtin::286",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "value is null true false",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_builtin_keywords::287",
+  "argv": [
+   "--print",
+   "--disable-builtin-keywords"
+  ],
+  "stdin": "value is null true false",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_specific_highlighter::288",
+  "argv": [
+   "--print",
+   "--enable=numbers",
+   "--disable-builtin-keywords"
+  ],
+  "stdin": "test 123 test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_multiple_highlighters::289",
+  "argv": [
+   "--print",
+   "--enable=numbers,urls",
+   "--disable-builtin-keywords"
+  ],
+  "stdin": "test 123 http://example.com",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_specific_highlighter::290",
+  "argv": [
+   "--print",
+   "--disable=numbers"
+  ],
+  "stdin": "test 123 test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_custom_keywords::291",
+  "argv": [
+   "--print",
+   "--highlight=red:error,fail",
+   "--highlight=green:success"
+  ],
+  "stdin": "error success fail",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_multiple_colors::292",
+  "argv": [
+   "--print",
+   "--highlight=blue:info",
+   "--highlight=yellow:warn"
+  ],
+  "stdin": "info warn",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_option::293",
+  "argv": [
+   "--invalid-option-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_input::294",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "héllo wörld 你好",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters::295",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "test @#$%^&*()_+",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_lines::296",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_highlighting::297",
+  "argv": [
+   "--print",
+   "--disable-builtin-keywords"
+  ],
+  "stdin": "{\"key\": \"value\", \"num\": 123}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_process_highlighting::298",
+  "argv": [
+   "--print",
+   "--disable-builtin-keywords"
+  ],
+  "stdin": "systemd[1]: started",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_key_value_pairs::299",
+  "argv": [
+   "--print",
+   "--disable-builtin-keywords"
+  ],
+  "stdin": "key=value foo=bar",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pointer_addresses::300",
+  "argv": [
+   "--print",
+   "--disable-builtin-keywords"
+  ],
+  "stdin": "ptr: 0x8c2a0aeb",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_methods::301",
+  "argv": [
+   "--print"
+  ],
+  "stdin": "GET /api/test POST /other",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_flag_short::302",
+  "argv": [
+   "-f",
+   "--print"
+  ],
+  "stdin": "test line",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_flag_runs_command::303",
+  "argv": [
+   "--exec",
+   "echo hello",
+   "--print"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_does_not_allow_second_positional::304",
+  "argv": [
+   "--",
+   "a",
+   "b"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dash_dash_allows_value_that_looks_like_flag_as_file::305",
+  "argv": [
+   "--",
+   "--nonflag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_enable_disable_is_runtime_error::306",
+  "argv": [
+   "--enable",
+   "json",
+   "--disable",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_invalid_choice_lists_possible_values_and_suggestion::307",
+  "argv": [
+   "--enable",
+   "nope"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_option_value_with_equals_syntax_supported_for_config_path::308",
+  "argv": [
+   "--config-path",
+   "config.toml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_highlight_flags_are_accepted::309",
+  "argv": [
+   "--highlight",
+   "red:test",
+   "--highlight",
+   "blue:foo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_builtin_keywords_removes_highlighting_from_stdin::310",
+  "argv": [
+   "--disable-builtin-keywords"
+  ],
+  "stdin": "a null b\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_file_is_error_on_stderr_and_exit1::311",
+  "argv": [
+   "--print",
+   "/tmp/this_file_should_not_exist_tailspin"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_produces_error::312",
+  "argv": [
+   "--nonexistent-flag-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_flag_format::313",
+  "argv": [
+   "--highlight",
+   "red:error,fail"
+  ],
+  "stdin": "error test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_flag_invalid_format::314",
+  "argv": [
+   "--highlight",
+   "invalid_format"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_flag_with_valid_value::315",
+  "argv": [
+   "--enable",
+   "numbers"
+  ],
+  "stdin": "test 123\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_flag_with_valid_value::316",
+  "argv": [
+   "--disable",
+   "numbers"
+  ],
+  "stdin": "test 123\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file_produces_error::317",
+  "argv": [
+   "/nonexistent/file/path/that/does/not/exist.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_config_path_produces_error::318",
+  "argv": [
+   "--config-path",
+   "/nonexistent/config.toml"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_messages_are_informative::319",
+  "argv": [
+   "--this-flag-does-not-exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

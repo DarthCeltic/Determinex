@@ -1,0 +1,3726 @@
+{
+ "slug": "chirlu__sox.42b3557",
+ "language": "",
+ "n_branches": 2,
+ "n_tests_total": 1125,
+ "n_examples": 193,
+ "n_with_exact_stdout": 1,
+ "n_with_rc": 177,
+ "n_skipped": 912,
+ "examples": [
+  {
+   "test": "test_stdin_input",
+   "argv": [
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_options.py:170"
+  },
+  {
+   "test": "test_fir_stdin_coefficients",
+   "argv": [
+    "fir"
+   ],
+   "stdin": "0.1\n0.2\n0.4\n0.2\n0.1\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_effects_advanced_filters.py:769"
+  },
+  {
+   "test": "test_noisered_profile_from_stdin",
+   "argv": [
+    "noisered",
+    "-",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "RMS     amplitude:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_noise_reduction.py:323"
+  },
+  {
+   "test": "test_noisered_default_profile_stdin",
+   "argv": [
+    "noisered"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Samples read:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_noise_reduction.py:558"
+  },
+  {
+   "test": "test_raw_format_signed16",
+   "argv": [
+    "-t",
+    "raw",
+    "-e",
+    "signed-integer",
+    "-b",
+    "16",
+    "-r",
+    "8000",
+    "-c",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_audio_formats.py:74"
+  },
+  {
+   "test": "test_raw_format_unsigned8",
+   "argv": [
+    "-t",
+    "raw",
+    "-e",
+    "unsigned-integer",
+    "-b",
+    "8",
+    "-r",
+    "8000",
+    "-c",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_audio_formats.py:88"
+  },
+  {
+   "test": "test_raw_format_float32",
+   "argv": [
+    "-t",
+    "raw",
+    "-e",
+    "floating-point",
+    "-b",
+    "32",
+    "-r",
+    "8000",
+    "-c",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_audio_formats.py:99"
+  },
+  {
+   "test": "test_wav_pcm_16bit",
+   "argv": [
+    "-b",
+    "16"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "16"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_audio_formats.py:142"
+  },
+  {
+   "test": "test_wav_pcm_8bit",
+   "argv": [
+    "-b",
+    "8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_audio_formats.py:150"
+  },
+  {
+   "test": "test_voc_format",
+   "argv": [
+    "-b",
+    "8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "voc"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_audio_formats.py:167"
+  },
+  {
+   "test": "test_stereo_wav_format",
+   "argv": [
+    "-n",
+    "-r",
+    "44100",
+    "-c",
+    "2",
+    "-b",
+    "16",
+    "synth",
+    "0.5",
+    "sine",
+    "440"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Channels       : 2",
+    "Sample Rate    : 44100"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_audio_formats.py:194"
+  },
+  {
+   "test": "test_type_flag_explicit",
+   "argv": [
+    "-t",
+    "wav",
+    "-t",
+    "au"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "au"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_audio_formats.py:219"
+  },
+  {
+   "test": "test_rate_change_in_conversion",
+   "argv": [
+    "-r",
+    "16000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "16000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_audio_formats.py:228"
+  },
+  {
+   "test": "test_channels_change_in_conversion",
+   "argv": [
+    "-c",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_audio_formats.py:236"
+  },
+  {
+   "test": "test_compression_factor",
+   "argv": [
+    "-C",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_audio_formats.py:256"
+  },
+  {
+   "test": "test_comment_in_aiff",
+   "argv": [
+    "--comment",
+    "MyTestComment"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "MyTestComment"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_audio_formats.py:265"
+  },
+  {
+   "test": "test_add_comment_aiff",
+   "argv": [
+    "--add-comment",
+    "AddedComment"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "AddedComment"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_audio_formats.py:274"
+  },
+  {
+   "test": "test_comment_file",
+   "argv": [
+    "--comment-file",
+    "comment.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "FileComment"
+   ],
+   "files": {
+    "comment.txt": "FileComment"
+   },
+   "ci": false,
+   "source": "test_audio_formats.py:283"
+  },
+  {
+   "test": "test_version_output",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SoX",
+    "v14.4.2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:20"
+  },
+  {
+   "test": "test_help_output",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage",
+    "EFFECTS",
+    "FORMAT OPTIONS"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:28"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage",
+    "AUDIO FILE FORMATS"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:37"
+  },
+  {
+   "test": "test_help_effect_all",
+   "argv": [
+    "--help-effect",
+    "all"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "gain",
+    "rate",
+    "trim"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:55"
+  },
+  {
+   "test": "test_help_effect_specific",
+   "argv": [
+    "--help-effect",
+    "stat"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "stat",
+    "-s"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:64"
+  },
+  {
+   "test": "test_help_effect_synth",
+   "argv": [
+    "--help-effect",
+    "synth"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "synth"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:71"
+  },
+  {
+   "test": "test_help_format_all",
+   "argv": [
+    "--help-format",
+    "all"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "wav",
+    "au",
+    "aiff"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:78"
+  },
+  {
+   "test": "test_help_format_wav",
+   "argv": [
+    "--help-format",
+    "wav"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "wav",
+    "Microsoft",
+    "Reads: yes"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:87"
+  },
+  {
+   "test": "test_help_format_au",
+   "argv": [
+    "--help-format",
+    "au"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "au",
+    "Reads: yes"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:96"
+  },
+  {
+   "test": "test_version_format",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:118"
+  },
+  {
+   "test": "test_help_lists_effects",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "synth",
+    "gain",
+    "stat"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:125"
+  },
+  {
+   "test": "test_help_lists_formats",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "AUDIO FILE FORMATS",
+    "wav"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:133"
+  },
+  {
+   "test": "test_help_shows_special_filenames",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SPECIAL FILENAMES"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:140"
+  },
+  {
+   "test": "test_gain_reduces_volume",
+   "argv": [
+    "gain",
+    "-6"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:59"
+  },
+  {
+   "test": "test_gain_norm",
+   "argv": [
+    "gain",
+    "-n"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:72"
+  },
+  {
+   "test": "test_trim_shortens_duration",
+   "argv": [
+    "trim",
+    "0",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:84"
+  },
+  {
+   "test": "test_trim_with_offset",
+   "argv": [
+    "trim",
+    "0.3",
+    "0.4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:96"
+  },
+  {
+   "test": "test_rate_effect_changes_sample_rate",
+   "argv": [
+    "rate",
+    "16000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "16000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:108"
+  },
+  {
+   "test": "test_rate_down",
+   "argv": [
+    "rate",
+    "4000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "4000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:118"
+  },
+  {
+   "test": "test_channels_mono_to_stereo",
+   "argv": [
+    "channels",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:128"
+  },
+  {
+   "test": "test_channels_stereo_to_mono",
+   "argv": [
+    "channels",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:138"
+  },
+  {
+   "test": "test_reverse_effect",
+   "argv": [
+    "reverse"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:148"
+  },
+  {
+   "test": "test_pad_adds_silence",
+   "argv": [
+    "pad",
+    "0.5",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:164"
+  },
+  {
+   "test": "test_repeat_effect",
+   "argv": [
+    "repeat",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:175"
+  },
+  {
+   "test": "test_echo_effect",
+   "argv": [
+    "echo",
+    "0.8",
+    "0.88",
+    "60",
+    "0.4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:186"
+  },
+  {
+   "test": "test_echos_effect",
+   "argv": [
+    "echos",
+    "0.8",
+    "0.7",
+    "700",
+    "0.25",
+    "900",
+    "0.3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:198"
+  },
+  {
+   "test": "test_delay_effect",
+   "argv": [
+    "delay",
+    "0.3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:212"
+  },
+  {
+   "test": "test_fade_effect",
+   "argv": [
+    "fade",
+    "0.3",
+    "1",
+    "0.3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:223"
+  },
+  {
+   "test": "test_vol_half",
+   "argv": [
+    "vol",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:235"
+  },
+  {
+   "test": "test_dcshift_effect",
+   "argv": [
+    "dcshift",
+    "0.1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Midline amplitude:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:247"
+  },
+  {
+   "test": "test_norm_effect",
+   "argv": [
+    "norm"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:259"
+  },
+  {
+   "test": "test_highpass_filter",
+   "argv": [
+    "highpass",
+    "3000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:282"
+  },
+  {
+   "test": "test_lowpass_filter",
+   "argv": [
+    "lowpass",
+    "1000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:295"
+  },
+  {
+   "test": "test_allpass_filter",
+   "argv": [
+    "allpass",
+    "1000",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Maximum amplitude"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:308"
+  },
+  {
+   "test": "test_band_filter",
+   "argv": [
+    "band",
+    "440",
+    "100"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:318"
+  },
+  {
+   "test": "test_bandpass_filter",
+   "argv": [
+    "bandpass",
+    "440",
+    "100"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Maximum amplitude"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:330"
+  },
+  {
+   "test": "test_bandreject_filter",
+   "argv": [
+    "bandreject",
+    "440",
+    "0.5q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:340"
+  },
+  {
+   "test": "test_equalizer_effect",
+   "argv": [
+    "equalizer",
+    "440",
+    "0.5q",
+    "6"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Maximum amplitude"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:353"
+  },
+  {
+   "test": "test_bass_effect",
+   "argv": [
+    "bass",
+    "6",
+    "100"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Maximum amplitude"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:363"
+  },
+  {
+   "test": "test_treble_effect",
+   "argv": [
+    "treble",
+    "6",
+    "3000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Maximum amplitude"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:373"
+  },
+  {
+   "test": "test_contrast_effect",
+   "argv": [
+    "contrast",
+    "75"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:383"
+  },
+  {
+   "test": "test_overdrive_effect",
+   "argv": [
+    "overdrive",
+    "20"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:394"
+  },
+  {
+   "test": "test_swap_effect",
+   "argv": [
+    "swap"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2",
+    "44100"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:407"
+  },
+  {
+   "test": "test_remix_effect",
+   "argv": [
+    "remix",
+    "2",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:418"
+  },
+  {
+   "test": "test_oops_effect",
+   "argv": [
+    "oops"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:428"
+  },
+  {
+   "test": "test_reverb_effect",
+   "argv": [
+    "reverb"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Maximum amplitude"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:442"
+  },
+  {
+   "test": "test_chorus_effect",
+   "argv": [
+    "chorus",
+    "0.7",
+    "0.9",
+    "55",
+    "0.4",
+    "0.25",
+    "2",
+    "-t"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:453"
+  },
+  {
+   "test": "test_flanger_effect",
+   "argv": [
+    "flanger"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Maximum amplitude"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:464"
+  },
+  {
+   "test": "test_phaser_effect",
+   "argv": [
+    "phaser",
+    "0.89",
+    "0.85",
+    "1",
+    "0.24",
+    "2",
+    "-t"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Maximum amplitude"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:474"
+  },
+  {
+   "test": "test_speed_effect",
+   "argv": [
+    "speed",
+    "2.0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:484"
+  },
+  {
+   "test": "test_downsample_effect",
+   "argv": [
+    "downsample",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Samples read"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:496"
+  },
+  {
+   "test": "test_dither_effect",
+   "argv": [
+    "dither"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Maximum amplitude"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:507"
+  },
+  {
+   "test": "test_sinc_filter",
+   "argv": [
+    "sinc",
+    "3000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Maximum amplitude"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:517"
+  },
+  {
+   "test": "test_compand_effect",
+   "argv": [
+    "compand",
+    "0.3,1",
+    "6:-70,-60,-20",
+    "-5",
+    "-90",
+    "0.2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Maximum amplitude"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:527"
+  },
+  {
+   "test": "test_silence_effect",
+   "argv": [
+    "pad",
+    "0.5",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Maximum amplitude"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:538"
+  },
+  {
+   "test": "test_multiple_effects_chain",
+   "argv": [
+    "gain",
+    "-3",
+    "highpass",
+    "200",
+    "lowpass",
+    "3000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:550"
+  },
+  {
+   "test": "test_pitch_effect",
+   "argv": [
+    "pitch",
+    "200"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:561"
+  },
+  {
+   "test": "test_noiseprof_effect",
+   "argv": [
+    "-n",
+    "noiseprof"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Channel 0:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:574"
+  },
+  {
+   "test": "test_noisered_effect",
+   "argv": [
+    "-n",
+    "noiseprof"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:590"
+  },
+  {
+   "test": "test_loudness_effect",
+   "argv": [
+    "loudness"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Maximum amplitude"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:607"
+  },
+  {
+   "test": "test_deemph_effect",
+   "argv": [
+    "deemph"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Maximum amplitude"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:617"
+  },
+  {
+   "test": "test_riaa_effect",
+   "argv": [
+    "riaa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Maximum amplitude"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:631"
+  },
+  {
+   "test": "test_biquad_effect",
+   "argv": [
+    "biquad",
+    "1",
+    "0",
+    "0",
+    "1",
+    "0",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:645"
+  },
+  {
+   "test": "test_upsample_effect",
+   "argv": [
+    "upsample",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:661"
+  },
+  {
+   "test": "test_vad_effect",
+   "argv": [
+    "vad"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Samples read"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_effects.py:674"
+  },
+  {
+   "test": "test_guard_prevents_clipping",
+   "argv": [
+    "-G",
+    "gain",
+    "6"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Maximum amplitude"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:64"
+  },
+  {
+   "test": "test_fail_message_in_stderr",
+   "argv": [
+    "/tmp/nonexistent_file_abc.wav",
+    "/tmp/out.wav"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "FAIL"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:104"
+  },
+  {
+   "test": "test_wav_to_au",
+   "argv": [
+    "--info",
+    "-t"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "au"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_format_conversion.py:30"
+  },
+  {
+   "test": "test_wav_to_aiff",
+   "argv": [
+    "--info",
+    "-t"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "aiff"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_format_conversion.py:42"
+  },
+  {
+   "test": "test_raw_to_wav_roundtrip",
+   "argv": [
+    "-t",
+    "raw",
+    "-e",
+    "signed-integer",
+    "-b",
+    "16",
+    "-r",
+    "8000",
+    "-c",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8000",
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_format_conversion.py:63"
+  },
+  {
+   "test": "test_wav_ulaw_encoding",
+   "argv": [
+    "-e",
+    "mu-law",
+    "-b",
+    "8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_format_conversion.py:100"
+  },
+  {
+   "test": "test_wav_alaw_encoding",
+   "argv": [
+    "-e",
+    "a-law",
+    "-b",
+    "8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_format_conversion.py:110"
+  },
+  {
+   "test": "test_wav_24bit",
+   "argv": [
+    "-b",
+    "24"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "24"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_format_conversion.py:138"
+  },
+  {
+   "test": "test_compression_factor",
+   "argv": [
+    "-C",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_format_conversion.py:187"
+  },
+  {
+   "test": "test_verbosity_level_3",
+   "argv": [
+    "-V3",
+    "gain",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_global_options.py:31"
+  },
+  {
+   "test": "test_verbosity_level_1",
+   "argv": [
+    "-V1",
+    "gain",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_global_options.py:39"
+  },
+  {
+   "test": "test_quiet_mode",
+   "argv": [
+    "-q",
+    "gain",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_global_options.py:47"
+  },
+  {
+   "test": "test_no_dither",
+   "argv": [
+    "-D",
+    "gain",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_global_options.py:56"
+  },
+  {
+   "test": "test_buffer_size",
+   "argv": [
+    "--buffer",
+    "4096",
+    "gain",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_global_options.py:65"
+  },
+  {
+   "test": "test_input_buffer_size",
+   "argv": [
+    "--input-buffer",
+    "4096",
+    "gain",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_global_options.py:74"
+  },
+  {
+   "test": "test_clobber_allows_overwrite",
+   "argv": [
+    "--clobber",
+    "gain",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_global_options.py:83"
+  },
+  {
+   "test": "test_combine_concatenate",
+   "argv": [
+    "--combine",
+    "concatenate"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "16000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_global_options.py:110"
+  },
+  {
+   "test": "test_combine_mix",
+   "argv": [
+    "--combine",
+    "mix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_global_options.py:122"
+  },
+  {
+   "test": "test_combine_mix_short_flag",
+   "argv": [
+    "-m"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_global_options.py:134"
+  },
+  {
+   "test": "test_combine_merge",
+   "argv": [
+    "-M"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_global_options.py:146"
+  },
+  {
+   "test": "test_combine_multiply",
+   "argv": [
+    "-T"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_global_options.py:158"
+  },
+  {
+   "test": "test_combine_mix_power",
+   "argv": [
+    "--combine",
+    "mix-power"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_global_options.py:171"
+  },
+  {
+   "test": "test_temp_directory",
+   "argv": [
+    "--temp",
+    "gain",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_global_options.py:184"
+  },
+  {
+   "test": "test_effects_file",
+   "argv": [
+    "--effects-file",
+    "effects.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8000"
+   ],
+   "files": {
+    "effects.txt": "gain 3\n"
+   },
+   "ci": false,
+   "source": "test_global_options.py:204"
+  },
+  {
+   "test": "test_volume_input_adjustment",
+   "argv": [
+    "-v",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_global_options.py:215"
+  },
+  {
+   "test": "test_sox_opts_env_variable",
+   "argv": [
+    "gain",
+    "0"
+   ],
+   "stdin": null,
+   "env": {
+    "SOX_OPTS": "-V3"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SOX_OPTS",
+    "-V3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_global_options.py:227"
+  },
+  {
+   "test": "test_dft_min_option",
+   "argv": [
+    "--dft-min",
+    "8",
+    "rate",
+    "16000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "16000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_global_options.py:238"
+  },
+  {
+   "test": "test_plot_gnuplot",
+   "argv": [
+    "--plot",
+    "gnuplot",
+    "-n",
+    "lowpass",
+    "400"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "set title",
+    "plot"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_global_options.py:247"
+  },
+  {
+   "test": "test_ignore_length",
+   "argv": [
+    "--ignore-length"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_global_options.py:262"
+  },
+  {
+   "test": "test_replay_gain_off",
+   "argv": [
+    "--replay-gain",
+    "off"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_global_options.py:274"
+  },
+  {
+   "test": "test_info_full_output",
+   "argv": [
+    "--info"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Input File",
+    "Channels",
+    "Sample Rate",
+    "Duration",
+    "Sample Encoding"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_info_mode.py:39"
+  },
+  {
+   "test": "test_info_short_flag",
+   "argv": [
+    "--i"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Channels",
+    "Sample Rate"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_info_mode.py:50"
+  },
+  {
+   "test": "test_info_sample_rate",
+   "argv": [
+    "--info",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8000",
+    "8000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_info_mode.py:58"
+  },
+  {
+   "test": "test_info_channels",
+   "argv": [
+    "--info",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_info_mode.py:69"
+  },
+  {
+   "test": "test_info_samples",
+   "argv": [
+    "--info",
+    "-s"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_info_mode.py:78"
+  },
+  {
+   "test": "test_info_duration_hms",
+   "argv": [
+    "--info",
+    "-d"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "00:00:01"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_info_mode.py:85"
+  },
+  {
+   "test": "test_info_duration_seconds",
+   "argv": [
+    "--info",
+    "-D"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_info_mode.py:92"
+  },
+  {
+   "test": "test_info_bits",
+   "argv": [
+    "--info",
+    "-b"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "32"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_info_mode.py:99"
+  },
+  {
+   "test": "test_info_bitrate",
+   "argv": [
+    "--info",
+    "-B"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_info_mode.py:107"
+  },
+  {
+   "test": "test_info_precision",
+   "argv": [
+    "--info",
+    "-p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "32"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_info_mode.py:114"
+  },
+  {
+   "test": "test_info_encoding",
+   "argv": [
+    "--info",
+    "-e"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Signed Integer PCM"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_info_mode.py:121"
+  },
+  {
+   "test": "test_info_type",
+   "argv": [
+    "--info",
+    "-t"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "wav"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_info_mode.py:128"
+  },
+  {
+   "test": "test_info_stereo_channels",
+   "argv": [
+    "--info",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_info_mode.py:135"
+  },
+  {
+   "test": "test_info_stereo_rate",
+   "argv": [
+    "--info",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "44100"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_info_mode.py:142"
+  },
+  {
+   "test": "test_info_total_flag",
+   "argv": [
+    "--info",
+    "-T",
+    "-s"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "16000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_info_mode.py:149"
+  },
+  {
+   "test": "test_info_annotations",
+   "argv": [
+    "--info",
+    "-a"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestAnnotation"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_info_mode.py:163"
+  },
+  {
+   "test": "test_earwax_effect",
+   "argv": [
+    "earwax"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_effects.py:39"
+  },
+  {
+   "test": "test_stretch_effect",
+   "argv": [
+    "stretch",
+    "1.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_effects.py:48"
+  },
+  {
+   "test": "test_tempo_effect",
+   "argv": [
+    "tempo",
+    "1.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_effects.py:59"
+  },
+  {
+   "test": "test_bend_effect",
+   "argv": [
+    "bend",
+    "0.5,500,0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Maximum amplitude"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_effects.py:70"
+  },
+  {
+   "test": "test_hilbert_effect",
+   "argv": [
+    "hilbert"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_effects.py:80"
+  },
+  {
+   "test": "test_tremolo_effect",
+   "argv": [
+    "tremolo",
+    "5",
+    "60"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Maximum amplitude"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_effects.py:89"
+  },
+  {
+   "test": "test_splice_effect",
+   "argv": [
+    "splice",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_effects.py:98"
+  },
+  {
+   "test": "test_gain_reclaim_headroom",
+   "argv": [
+    "gain",
+    "-h",
+    "-6"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_effects.py:114"
+  },
+  {
+   "test": "test_gain_equalize",
+   "argv": [
+    "gain",
+    "-e"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_effects.py:126"
+  },
+  {
+   "test": "test_gain_balance_rms",
+   "argv": [
+    "gain",
+    "-b"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_effects.py:135"
+  },
+  {
+   "test": "test_mcompand_effect",
+   "argv": [
+    "mcompand",
+    "0.005,0.1 -47,-40,-34,-34,-17,-33",
+    "100",
+    "0.003,0.05 -47,-40,-34,-34,-17,-33",
+    "400",
+    "0.000625,0.0125 -47,-40,-34,-34,-15,-33",
+    "1600",
+    "0.0001,0.025 -47,-40,-34,-34,-31,-31,-0,-30",
+    "6400",
+    "0,0.025 -38,-31,-28,-28,-0,-25"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "44100"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_effects.py:144"
+  },
+  {
+   "test": "test_synth_whitenoise",
+   "argv": [
+    "-n",
+    "-r",
+    "8000",
+    "-c",
+    "1",
+    "synth",
+    "0.5",
+    "whitenoise"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Samples read"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_effects.py:162"
+  },
+  {
+   "test": "test_synth_pluck",
+   "argv": [
+    "-n",
+    "-r",
+    "8000",
+    "-c",
+    "1",
+    "synth",
+    "1",
+    "pluck",
+    "440"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_effects.py:173"
+  },
+  {
+   "test": "test_synth_exp_envelope",
+   "argv": [
+    "-n",
+    "-r",
+    "8000",
+    "-c",
+    "1",
+    "synth",
+    "0.5",
+    "exp",
+    "440"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "4000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_effects.py:183"
+  },
+  {
+   "test": "test_synth_trapezium",
+   "argv": [
+    "-n",
+    "-r",
+    "8000",
+    "-c",
+    "1",
+    "synth",
+    "0.5",
+    "trapezium",
+    "440"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "4000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_effects.py:193"
+  },
+  {
+   "test": "test_synth_tpdfnoise",
+   "argv": [
+    "-n",
+    "-r",
+    "8000",
+    "-c",
+    "1",
+    "synth",
+    "0.5",
+    "tpdfnoise"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "4000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_effects.py:203"
+  },
+  {
+   "test": "test_highpass_second_order",
+   "argv": [
+    "highpass",
+    "-2",
+    "1000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_effects.py:213"
+  },
+  {
+   "test": "test_highpass_first_order",
+   "argv": [
+    "highpass",
+    "-1",
+    "1000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_effects.py:222"
+  },
+  {
+   "test": "test_lowpass_first_order",
+   "argv": [
+    "lowpass",
+    "-1",
+    "1000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_effects.py:231"
+  },
+  {
+   "test": "test_stat_scale_option",
+   "argv": [
+    "-n",
+    "stat",
+    "-s",
+    "32768"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Samples read",
+    "Scaled by:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_effects.py:240"
+  },
+  {
+   "test": "test_stat_d_option",
+   "argv": [
+    "-n",
+    "stat",
+    "-d"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Samples read"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_effects.py:248"
+  },
+  {
+   "test": "test_dither_sloped_tpdf",
+   "argv": [
+    "dither",
+    "-S"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_effects.py:255"
+  },
+  {
+   "test": "test_dither_shibata_filter",
+   "argv": [
+    "dither",
+    "-s"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_effects.py:264"
+  },
+  {
+   "test": "test_norm_with_level",
+   "argv": [
+    "norm",
+    "-3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_effects.py:284"
+  },
+  {
+   "test": "test_trim_absolute_position",
+   "argv": [
+    "trim",
+    "0.3",
+    "=0.7"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_more_effects.py:293"
+  },
+  {
+   "test": "test_reverb_with_options",
+   "argv": [
+    "reverb",
+    "50",
+    "50",
+    "100"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_effects.py:305"
+  },
+  {
+   "test": "test_vol_with_type",
+   "argv": [
+    "vol",
+    "0.5",
+    "power"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Maximum amplitude"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_effects.py:325"
+  },
+  {
+   "test": "test_fir_effect",
+   "argv": [
+    "fir",
+    "coefs.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8000"
+   ],
+   "files": {
+    "coefs.txt": "0 0 1 0 0\n"
+   },
+   "ci": false,
+   "source": "test_more_effects.py:334"
+  },
+  {
+   "test": "test_ima_adpcm_wav_write",
+   "argv": [
+    "-e",
+    "ima-adpcm"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "IMA ADPCM"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_formats.py:47"
+  },
+  {
+   "test": "test_ima_adpcm_wav_read",
+   "argv": [
+    "-e",
+    "ima-adpcm"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_formats.py:57"
+  },
+  {
+   "test": "test_ms_adpcm_wav_write",
+   "argv": [
+    "-e",
+    "ms-adpcm"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_more_formats.py:68"
+  },
+  {
+   "test": "test_ms_adpcm_wav_read",
+   "argv": [
+    "-e",
+    "ms-adpcm"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Samples read"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_formats.py:78"
+  },
+  {
+   "test": "test_aiff_roundtrip",
+   "argv": [
+    "-b",
+    "16"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_formats.py:128"
+  },
+  {
+   "test": "test_avr_format_write",
+   "argv": [
+    "-b",
+    "16"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "avr"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_formats.py:139"
+  },
+  {
+   "test": "test_8svx_amiga_format",
+   "argv": [
+    "-b",
+    "8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8svx",
+    "8000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_formats.py:173"
+  },
+  {
+   "test": "test_lpc10_format",
+   "argv": [
+    "-t",
+    "lpc10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_formats.py:187"
+  },
+  {
+   "test": "test_sf_ircam_format",
+   "argv": [
+    "-t",
+    "sf"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_formats.py:201"
+  },
+  {
+   "test": "test_sln_asterisk_format",
+   "argv": [
+    "-t",
+    "sln",
+    "-r",
+    "8000",
+    "-c",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_formats.py:215"
+  },
+  {
+   "test": "test_wve_psion_format",
+   "argv": [
+    "-n",
+    "-r",
+    "8000",
+    "-c",
+    "1",
+    "synth",
+    "0.5",
+    "sine",
+    "440"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_formats.py:230"
+  },
+  {
+   "test": "test_wav_float64",
+   "argv": [
+    "-e",
+    "floating-point",
+    "-b",
+    "64"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "64"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_formats.py:244"
+  },
+  {
+   "test": "test_wavpcm_alias",
+   "argv": [
+    "-t",
+    "wavpcm"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "wav"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_formats.py:337"
+  },
+  {
+   "test": "test_stdout_pipe_output",
+   "argv": [
+    "-t",
+    "wav",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "WAVE"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_stdout.py:30"
+  },
+  {
+   "test": "test_stdin_pipe_input",
+   "argv": [
+    "-t",
+    "wav",
+    "-",
+    "-t",
+    "wav",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_stdout.py:42"
+  },
+  {
+   "test": "test_sox_pipe_format",
+   "argv": [
+    "-p",
+    "gain",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_stdout.py:49"
+  },
+  {
+   "test": "test_null_input_with_synth",
+   "argv": [
+    "-n",
+    "-r",
+    "8000",
+    "-c",
+    "1",
+    "-t",
+    "wav",
+    "-",
+    "synth",
+    "0.1",
+    "sine",
+    "440"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "WAVE"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_stdout.py:59"
+  },
+  {
+   "test": "test_null_output_with_stat",
+   "argv": [
+    "-n",
+    "stat"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Samples read"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_stdout.py:68"
+  },
+  {
+   "test": "test_no_glob_flag",
+   "argv": [
+    "--no-glob"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_stdout.py:110"
+  },
+  {
+   "test": "test_stdout_raw_output",
+   "argv": [
+    "-t",
+    "raw",
+    "-e",
+    "signed-integer",
+    "-b",
+    "16",
+    "-r",
+    "8000",
+    "-c",
+    "1",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_stdout.py:123"
+  },
+  {
+   "test": "test_synth_sine",
+   "argv": [
+    "-n",
+    "-r",
+    "8000",
+    "-c",
+    "1",
+    "synth",
+    "1",
+    "sine",
+    "440"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_synth_stat.py:21"
+  },
+  {
+   "test": "test_synth_square",
+   "argv": [
+    "-n",
+    "-r",
+    "8000",
+    "-c",
+    "1",
+    "synth",
+    "0.5",
+    "square",
+    "440"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "4000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_synth_stat.py:32"
+  },
+  {
+   "test": "test_synth_triangle",
+   "argv": [
+    "-n",
+    "-r",
+    "8000",
+    "-c",
+    "1",
+    "synth",
+    "0.5",
+    "triangle",
+    "440"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "4000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_synth_stat.py:41"
+  },
+  {
+   "test": "test_synth_sawtooth",
+   "argv": [
+    "-n",
+    "-r",
+    "8000",
+    "-c",
+    "1",
+    "synth",
+    "0.5",
+    "sawtooth",
+    "440"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "4000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_synth_stat.py:50"
+  },
+  {
+   "test": "test_synth_noise",
+   "argv": [
+    "-n",
+    "-r",
+    "8000",
+    "-c",
+    "1",
+    "synth",
+    "0.5",
+    "noise"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "4000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_synth_stat.py:59"
+  },
+  {
+   "test": "test_synth_duration",
+   "argv": [
+    "-n",
+    "-r",
+    "8000",
+    "-c",
+    "1",
+    "synth",
+    "0.5",
+    "sine",
+    "440"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "4000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_synth_stat.py:69"
+  },
+  {
+   "test": "test_synth_stereo",
+   "argv": [
+    "-n",
+    "-r",
+    "44100",
+    "-c",
+    "2",
+    "synth",
+    "1",
+    "sine",
+    "440"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_synth_stat.py:77"
+  },
+  {
+   "test": "test_stat_output_fields",
+   "argv": [
+    "-n",
+    "-r",
+    "8000",
+    "-c",
+    "1",
+    "synth",
+    "1",
+    "sine",
+    "440"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Samples read:",
+    "Length (seconds):",
+    "Maximum amplitude:",
+    "Minimum amplitude:",
+    "RMS     amplitude:",
+    "Rough   frequency:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_synth_stat.py:95"
+  },
+  {
+   "test": "test_stat_frequency_440hz",
+   "argv": [
+    "-n",
+    "-r",
+    "8000",
+    "-c",
+    "1",
+    "synth",
+    "1",
+    "sine",
+    "440"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Rough   frequency:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_synth_stat.py:109"
+  },
+  {
+   "test": "test_stats_output_fields",
+   "argv": [
+    "-n",
+    "-r",
+    "44100",
+    "-c",
+    "2",
+    "synth",
+    "1",
+    "sine",
+    "440"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "DC offset",
+    "Min level",
+    "Max level",
+    "RMS lev dB",
+    "Pk lev dB"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_synth_stat.py:141"
+  },
+  {
+   "test": "test_stats_mono_output",
+   "argv": [
+    "-n",
+    "-r",
+    "8000",
+    "-c",
+    "1",
+    "synth",
+    "1",
+    "sine",
+    "440"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "DC offset",
+    "Min level",
+    "Max level"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_synth_stat.py:154"
+  },
+  {
+   "test": "test_synth_with_stats_pipe",
+   "argv": [
+    "-n",
+    "-r",
+    "8000",
+    "-c",
+    "1",
+    "-p",
+    "synth",
+    "1",
+    "sine",
+    "440"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_synth_stat.py:165"
+  },
+  {
+   "test": "test_stat_rms_option",
+   "argv": [
+    "-n",
+    "-r",
+    "8000",
+    "-c",
+    "1",
+    "synth",
+    "1",
+    "sine",
+    "440"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "RMS"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_synth_stat.py:173"
+  },
+  {
+   "test": "test_stat_freq_option",
+   "argv": [
+    "-n",
+    "-r",
+    "8000",
+    "-c",
+    "1",
+    "synth",
+    "0.1",
+    "sine",
+    "440"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_synth_stat.py:182"
+  },
+  {
+   "test": "test_stat_scale_option",
+   "argv": [
+    "-n",
+    "-r",
+    "8000",
+    "-c",
+    "1",
+    "synth",
+    "1",
+    "sine",
+    "440"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Scaled by:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_synth_stat.py:192"
+  },
+  {
+   "test": "test_stats_num_samples_display",
+   "argv": [
+    "-n",
+    "-r",
+    "8000",
+    "-c",
+    "1",
+    "synth",
+    "1",
+    "sine",
+    "440"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Num samples"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_synth_stat.py:205"
+  }
+ ]
+}

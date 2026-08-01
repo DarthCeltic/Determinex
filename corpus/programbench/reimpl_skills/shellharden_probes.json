@@ -1,0 +1,4850 @@
+[
+ {
+  "name": "test::test_select_statement::0",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "select option in opt1 opt2; do\n    echo $option\ndone\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_elif_construct::1",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "if [ \"$a\" = \"1\" ]; then\n    echo one\nelif [ \"$a\" = \"2\" ]; then\n    echo two\nelse\n    echo other\nfi\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negation_operator::2",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "! test -f file\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_declare_command::3",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "declare -a arr\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_keyword::4",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "function myfunc {\n    echo hello\n}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_escaped_characters_in_command::5",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo\\ test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_redirections::6",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "cmd < in.txt > out.txt 2>&1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_append_redirection::7",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $text >> file.txt\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_variable_with_underscore::8",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $my_var\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_variable_with_numbers::9",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $var2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_index_access::10",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo ${arr[0]}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_length_operator::11",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo ${#var}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parameter_substitution_default::12",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo ${var:-default}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parameter_substitution_assign::13",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo ${var:=default}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parameter_substitution_error::14",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo ${var:?error}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parameter_substitution_alternative::15",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo ${var:+alt}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_substring_expansion::16",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo ${var:0:5}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pattern_removal_prefix::17",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo ${var#prefix}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pattern_removal_suffix::18",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo ${var%suffix}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pattern_replacement::19",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo ${var/old/new}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_case_modification_uppercase::20",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo ${var^^}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_case_modification_lowercase::21",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo ${var,,}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_indirect_expansion::22",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo ${!var}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nameref_expansion::23",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo ${!prefix*}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colon_command::24",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": ": this is a comment-like command\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_source_command::25",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": ". /path/to/file\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_variable_assignments::26",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "a=$1 b=$2 c=$3 command\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_readonly_with_value::27",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "readonly VAR=value\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_with_value::28",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "export PATH=/usr/bin\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_declaration::29",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "declare -a myarray\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_associative_array_declaration::30",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "declare -A mymap\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_integer_declaration::31",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "declare -i num\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_case_with_multiple_patterns::32",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "case $var in\n    pattern1|pattern2|pattern3)\n        echo match\n        ;;\nesac\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_case_with_glob_patterns::33",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "case $file in\n    *.txt)\n        echo text file\n        ;;\n    *.sh)\n        echo shell script\n        ;;\nesac\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_grouping_with_braces::34",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "{\n    echo line1\n    echo line2\n}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_readonly_flag::35",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "readonly -p\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_local_with_options::36",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "local -r var=value\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag::37",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_flag::38",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::39",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_empty_string_argument::40",
+  "argv": [
+   ""
+  ],
+  "stdin": "echo hello",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_option::41",
+  "argv": [
+   "--invalid-option"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_stops_option_parsing::42",
+  "argv": [
+   "--",
+   "--test-file.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "--test-file.sh": "echo hello"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file::43",
+  "argv": [
+   "/nonexistent/file.sh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_files::44",
+  "argv": [
+   "test1.sh",
+   "test2.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "test1.sh": "echo $var1",
+   "test2.sh": "echo $var2"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_file::45",
+  "argv": [
+   "empty.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.sh": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_without_trailing_newline::46",
+  "argv": [
+   "--transform",
+   "no_newline.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "no_newline.sh": "echo hello"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assignment_no_quoting::47",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "var=$other\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assignment_operator_no_quoting::48",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "var+=$other\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assignment_command_substitution::49",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "var=$(date)\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_case_expression_no_quoting::50",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "case $var in esac\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_case_pattern_no_quoting::51",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "case value in\n    $pattern)\n        echo match\n    ;;\nesac\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_bracket_no_quoting::52",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "[[ $a == $b ]]\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_bracket_complex::53",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "[[ ${a[@]} == ${b[@]} ]]\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arithmetic_no_quoting::54",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $(($a + $b))\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arithmetic_complex::55",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $? + $# - ${#a[@]} = $(($?+$#-${#a[@]}))\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_local_declaration::56",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "local var=$value\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_declare_declaration::57",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "declare var=$value\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_readonly_declaration::58",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "readonly var=$value\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_declaration::59",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "export var=$value\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_literal_assignment::60",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "a=(a b)\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_assignment_with_command_sub::61",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "files=($(ls))\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_append_with_command_sub::62",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "files+=($(ls))\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backtick_in_assignment_context::63",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "a=`uname -a`\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_input::64",
+  "argv": [
+   ""
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_only_whitespace::65",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "   \n\t\n  \n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_line::66",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deeply_nested_quotes::67",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo \"outer $(echo \"inner\") outer\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deeply_nested_substitutions::68",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo \"$(echo \"$(echo \"deep\")\")\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_content::69",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo 'Hello 世界 🌍'\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters::70",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo '!@#$%^&*()'\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tabs_and_spaces::71",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "\t  echo $var\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_blank_lines::72",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo line1\n\necho line2\n\n\necho line3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_continuation::73",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo hello \\\nworld\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_nested_structures::74",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "if [ \"$a\" = \"1\" ]; then\n    for i in 1 2 3; do\n        case $i in\n            1)\n                echo one\n                ;;\n            *)\n                echo other\n                ;;\n        esac\n    done\nfi\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_associative_array::75",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "declare -A arr; arr[key]=\"value\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arithmetic_for_loop::76",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "for ((i=0; i<10; i++)); do\n    echo $i\ndone\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_here_string::77",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "cat <<< $var\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_process_substitution::78",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "diff <(echo $a) <(echo $b)\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_glob_pattern::79",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo *.txt\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_brace_expansion::80",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo {1..5}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_semicolon_separated_commands::81",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $a; echo $b; echo $c\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ampersand_background::82",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "sleep 1 &\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_ampersand_and_operator::83",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $a && echo $b\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_pipe_or_operator::84",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $a || echo $b\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subshell::85",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "(echo $var)\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unexpected_eof_heredoc::86",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "cat <<EOF\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unexpected_eof_double_quote::87",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo \"unclosed\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unexpected_eof_single_quote::88",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo 'unclosed\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unexpected_eof_backtick::89",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo `unclosed\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unexpected_eof_command_substitution::90",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $(unclosed\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unexpected_eof_arithmetic::91",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $((1 + \n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unexpected_eof_double_bracket::92",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "[[ $a == \n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unsupported_double_digit_variable::93",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $10\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unsupported_triple_digit_variable::94",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $100\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_mode_suppresses_syntax_error_output::95",
+  "argv": [
+   "--check",
+   ""
+  ],
+  "stdin": "cat <<EOF\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_premature_esac::96",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "esac\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_io_error_nonexistent_file::97",
+  "argv": [
+   "/nonexistent/path/file.sh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_directory_as_input::98",
+  "argv": [
+   "/tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_syntax_suggest_mode_default::99",
+  "argv": [
+   ""
+  ],
+  "stdin": "echo $var\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_syntax_suggest_mode_explicit::100",
+  "argv": [
+   "--syntax-suggest",
+   ""
+  ],
+  "stdin": "echo $var\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_suggest_mode::101",
+  "argv": [
+   "--suggest",
+   ""
+  ],
+  "stdin": "echo $var\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_syntax_mode::102",
+  "argv": [
+   "--syntax",
+   ""
+  ],
+  "stdin": "echo hello\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_transform_mode_with_changes::103",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $var\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_transform_mode_no_changes::104",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo \"$var\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_mode_needs_changes::105",
+  "argv": [
+   "--check",
+   ""
+  ],
+  "stdin": "echo $var\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_mode_no_changes::106",
+  "argv": [
+   "--check",
+   ""
+  ],
+  "stdin": "echo \"$var\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_mode_multiple_files_first_fails::107",
+  "argv": [
+   "--check",
+   "bad.sh",
+   "good.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.sh": "echo $var\n",
+   "good.sh": "echo \"$var\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_replace_mode::108",
+  "argv": [
+   "--replace",
+   "test.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sh": "echo $var\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_replace_mode_multiple_files::109",
+  "argv": [
+   "--replace",
+   "test1.sh",
+   "test2.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "test1.sh": "echo $var1\n",
+   "test2.sh": "echo $var2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_transform_mode_preserves_structure::110",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "#!/bin/bash\n# Comment\necho $var\nfor i in $items; do\n    echo $i\ndone\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_substitution_quoting::111",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $(date)\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backtick_to_dollar_paren_and_quote::112",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo `date`\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pwd_backtick_to_dollar_pwd::113",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "pwd=`pwd`\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pwd_backtick_with_text::114",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "pwd=`pwd`hazard\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pwd_command_sub_not_in_assignment::115",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "case $(pwd) in esac\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_holistic_quoting_variables::116",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $a$b\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_holistic_quoting_variable_and_string::117",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $a\"string\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_star_to_at::118",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $*\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_star_in_assignment::119",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "c=$*\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_named_array_star_to_at::120",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo ${a[*]}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_loop_array_expansion::121",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "for i in $a; do echo; done\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_variables_in_line::122",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $a $b $c\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_variable_in_string::123",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo \"value: $var\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_braced_variable::124",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo ${var}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_variable_question::125",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $?\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_variable_hash::126",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $#\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_variable_dollar::127",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $$\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_variable_bang::128",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $!\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_variable_dash::129",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $-\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comment_recognition::130",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "# This is a comment\necho hello",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shebang_preserved::131",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "#!/bin/bash\necho hello",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_if_then_else_fi::132",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "if [ \"$a\" = \"$b\" ]; then\n    echo same\nelse\n    echo different\nfi",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_do_done::133",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "for i in 1 2 3; do\n    echo $i\ndone",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_while_loop::134",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "while [ \"$count\" -lt 10 ]; do\n    echo $count\ndone",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_loop::135",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "until [ \"$done\" = \"yes\" ]; do\n    echo waiting\ndone",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_case_statement::136",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "case $option in\n    start)\n        echo starting\n        ;;\n    stop)\n        echo stopping\n        ;;\n    *)\n        echo unknown\n        ;;\nesac",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_definition::137",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "function myfunc() {\n    echo \"in function\"\n}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_heredoc_simple::138",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "cat <<EOF\nline 1\nline 2\nEOF",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_heredoc_with_variables::139",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "cat <<EOF\nHello $name\nEOF",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_heredoc_quoted_delimiter::140",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "cat <<'EOF'\nHello $name\nEOF",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pipe::141",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $var | grep pattern",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_redirection_output::142",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $var > file.txt",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_redirection_input::143",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "cat < file.txt",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_quoted_string::144",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo 'single quotes'",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_quoted_string::145",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo \"double quotes\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ansi_c_string::146",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $'\\n'",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backslash_escape::147",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo hello\\ world",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_substitution_dollar_paren::148",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $(date)",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arithmetic_expansion::149",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $((1 + 2))",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_z_flag_transformation::150",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "test -z \"$s\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_z_flag_unquoted_transformation::151",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "test -z $s\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_z_flag_with_command_sub::152",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "test -z $(test -z \"$1\")\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_n_flag_transformation::153",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "test -n \"$s\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_n_flag_unquoted_transformation::154",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "test -n $s\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bracket_z_flag::155",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "[ -z \"$1\" ]\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bracket_n_flag::156",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "[ -n \"$1\" ]\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xyes_pattern_removal_equals::157",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "test x\"$s\" = xyes\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xyes_pattern_removal_not_equals::158",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "test x\"$s\" != xyes\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xyes_pattern_complex::159",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "test x$([ x\"$a$b\" = x\"\" ])$b = xyes\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xyes_not_removed_when_needed::160",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "test x$([ x\"$a$b\" == \"\" ])$b == ex\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_test_transformations::161",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "test -z \"$(test -z \"$1\")\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_precedes_other_flags::162",
+  "argv": [
+   "--help",
+   "--suggest"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_with_help_prints_error_only::163",
+  "argv": [
+   "--not-a-real-flag",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_treats_help_as_filename_error::164",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read_from_stdin_empty_arg::165",
+  "argv": [
+   "''"
+  ],
+  "stdin": "echo \"$foo\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read_from_stdin::166",
+  "argv": [
+   ""
+  ],
+  "stdin": "echo \"$foo\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_transform_stdin::167",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $foo\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_stdin::168",
+  "argv": [
+   "--",
+   ""
+  ],
+  "stdin": "echo foo\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_multiline::169",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $var1\necho $var2\necho $var3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_stdin::170",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_syntax_highlighting::171",
+  "argv": [
+   "--syntax",
+   ""
+  ],
+  "stdin": "echo $var\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_file::172",
+  "argv": [
+   "--transform",
+   "test.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sh": "echo $var\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_files::173",
+  "argv": [
+   "--transform",
+   "test1.sh",
+   "test2.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "test1.sh": "echo $var1\n",
+   "test2.sh": "echo $var2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_not_found::174",
+  "argv": [
+   "--transform",
+   "nonexistent.sh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_file::175",
+  "argv": [
+   "--transform",
+   "empty.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.sh": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_absolute_path::176",
+  "argv": [
+   "--transform"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_path::177",
+  "argv": [
+   "--transform",
+   "fixtures/input_var.bash"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_file_errors::178",
+  "argv": [
+   "--transform",
+   "test1.sh",
+   "nonexistent.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "test1.sh": "echo $var\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_stdin_check_mode::179",
+  "argv": [
+   "--check",
+   ""
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_file_check_mode::180",
+  "argv": [
+   "--check",
+   "empty.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.sh": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_script_with_quotes::181",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo \"hello\"\necho 'world'\necho \"$var\"\necho '$var'\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_script_with_backticks::182",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo `echo test`\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_script_with_command_substitution::183",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $(pwd)\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_script_with_special_vars::184",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $@ $* $# $?\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_if_statement::185",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "if [ $var = \"test\" ]; then\n    echo $var\nfi\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_loop::186",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "for file in $files; do\n    echo $file\ndone\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_definition::187",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "myfunction() {\n    echo $1\n}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_blank_lines::188",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $var1\n\n\necho $var2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tabs_and_spaces::189",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "\techo $var\n    echo $var2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_trailing_newline_in_input::190",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $var",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comment_lines::191",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "# This is a comment\necho $var\n# Another comment\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inline_comments::192",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $var # inline comment\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_valid_utf8::193",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $var # Comment with unicode: ñ é ü\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_variable_syntax::194",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo ${}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_executable_file::195",
+  "argv": [
+   "--transform",
+   "test.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sh": "#!/bin/bash\necho $var\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_multiple_files_all_clean::196",
+  "argv": [
+   "--check",
+   "test1.sh",
+   "test2.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "test1.sh": "echo \"$var1\"\n",
+   "test2.sh": "echo \"$var2\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_multiple_files_some_dirty::197",
+  "argv": [
+   "--check",
+   "test1.sh",
+   "test2.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "test1.sh": "echo \"$var1\"\n",
+   "test2.sh": "echo $var2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_needs_changes::198",
+  "argv": [
+   "--check"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_transform_multiple_vars::199",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $var1 $var2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_suggest_clean_script::200",
+  "argv": [
+   "--suggest",
+   ""
+  ],
+  "stdin": "echo \"$var\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_file::201",
+  "argv": [
+   "--check",
+   "test.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sh": "echo $var\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_clean_file::202",
+  "argv": [
+   "--check",
+   "test.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sh": "echo \"$var\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_replace_preserves_clean_file::203",
+  "argv": [
+   "--replace",
+   "test.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sh": "echo \"$var\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_replace_error_with_nonexistent::204",
+  "argv": [
+   "--replace",
+   "nonexistent.sh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_hyphen_stops_option_parsing::205",
+  "argv": [
+   "--transform",
+   "--",
+   "--fake-option.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "--fake-option.sh": "echo $var\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_option::206",
+  "argv": [
+   "--nonexistent-option"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_misspelled_option::207",
+  "argv": [
+   "--transformm"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_option_after_file::208",
+  "argv": [
+   "test.sh",
+   "--transform"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sh": "echo $var\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_h_matches_help::209",
+  "argv": [
+   "./executable",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_before_transform::210",
+  "argv": [
+   "--help",
+   "--transform"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_after_transform::211",
+  "argv": [
+   "--transform",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_with_check::212",
+  "argv": [
+   "--help",
+   "--check"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_with_replace::213",
+  "argv": [
+   "--help",
+   "--replace"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_exits_nonzero::214",
+  "argv": [
+   "--invalid-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_shows_error::215",
+  "argv": [
+   "--nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_quoted_with_escape::216",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo 'test\\nline'",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_local_declaration::217",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "local var=$value",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_declare_statement::218",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "declare -r var=$value",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_readonly_statement::219",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "readonly var=$value",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_statement::220",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "export PATH=$PATH:/new/path",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_case_with_patterns::221",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "case $var in\n    a|b|c) echo abc;;\n    d*) echo d-star;;\n    *) echo default;;\nesac",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_loop::222",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "until [ $i -gt 10 ]; do echo $i; done",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_keyword::223",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "function myfunc { echo $1; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_substitution_in_string::224",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo \"Result: $(date)\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_variable_with_braces::225",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo ${var}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_variable_with_default_value::226",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo ${var:-default}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_variable_with_substitution::227",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo ${var/old/new}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_element::228",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo ${array[0]}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_indirect_expansion::229",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo ${!var}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_length::230",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo ${#var}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_substring_expansion::231",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo ${var:0:5}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_background_job::232",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "sleep 10 &",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_and_operator::233",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "test -f file && echo found",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_or_operator::234",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "test -f file || echo not found",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negation::235",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "! test -f file",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subshell::236",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "(echo test)",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_brace_expansion_hint::237",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $var{1,2,3}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_redirects::238",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo test > $file 2>&1",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_here_string::239",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "grep test <<< \"$var\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_process_substitution::240",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "diff <(cmd1) <(cmd2)",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ansi_c_quoting::241",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $'hello\\nworld'",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_glob_pattern::242",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "ls *.txt",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extended_glob::243",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "shopt -s extglob",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_env_vars::244",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "VAR=value command",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arithmetic_in_condition::245",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "if (( $i > 10 )); then echo big; fi",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_statement::246",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "select opt in a b c; do echo $opt; done",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coproc::247",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "coproc mycoproc { sleep 10; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_command::248",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "time sleep 1",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comment_after_command::249",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo test # this is a comment",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_commands_on_line::250",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $a; echo $b",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pipeline_with_variables::251",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $var | cat | grep test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_group::252",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "{ echo $a; echo $b; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rvalue_with_quotes::253",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "var=\"value with spaces\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rvalue_with_command_sub::254",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "var=$(date)",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_bracket_string_comparison::255",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "[[ \"$a\" == \"$b\" ]]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_bracket_regex::256",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "[[ $var =~ ^[0-9]+$ ]]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arithmetic_expansion_complex::257",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $((i * 2 + 3))",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_braces::258",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo ${var:-${default}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_loop_with_command_sub::259",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "for f in $(ls); do echo $f; done",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_while_with_read::260",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "while read line; do echo $line; done",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_if_with_multiple_conditions::261",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "if [ $a -eq 1 ] && [ $b -eq 2 ]; then echo ok; fi",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_elif_statement::262",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "if [ $a -eq 1 ]; then echo one; elif [ $a -eq 2 ]; then echo two; fi",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_if::263",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "if [ $a ]; then if [ $b ]; then echo ok; fi; fi",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_case_with_semicolon_semicolon::264",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "case $x in\n    1) echo one ;;\n    2) echo two ;;\nesac",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_heredoc_with_variable::265",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "cat <<EOF\nValue: $var\nEOF",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_heredoc_no_expansion::266",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "cat <<'EOF'\nValue: $var\nEOF",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_heredoc_indented::267",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "cat <<-EOF\n\tIndented\nEOF",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_redirect_stdin::268",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "cat < $file",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_redirect_append::269",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo test >> $file",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_redirect_stderr::270",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "command 2> $file",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_redirect_both::271",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "command &> $file",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_command_substitution::272",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "var=$()",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_variable_at_end_of_word::273",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo prefix$var",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_variable_in_middle_of_word::274",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo prefix${var}suffix",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exit_code_success::275",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exit_code_check_with_changes::276",
+  "argv": [
+   "--check",
+   ""
+  ],
+  "stdin": "echo $var",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exit_code_check_no_changes::277",
+  "argv": [
+   "--check",
+   ""
+  ],
+  "stdin": "echo \"$var\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exit_code_syntax_error::278",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $(",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_heredoc::279",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "cat <<EOF\nHello $var\nEOF",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_command_substitution::280",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $(echo $(date))",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_syntax::281",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo ${arr[0]}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_case_statement::282",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "case $var in\n    a) echo a;;\n    b) echo b;;\nesac",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_loop::283",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "for i in 1 2 3; do echo $i; done",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_while_loop::284",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "while true; do echo test; done",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_if_statement::285",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "if [ -f file ]; then\n    echo yes\nelse\n    echo no\nfi",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_definition::286",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "func() { echo $1; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_redirection::287",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo test > $file",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pipe::288",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $var | grep test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_whitespace_only::289",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "   \n  \t  \n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comments_only::290",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "# This is a comment\n# Another comment",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_characters::291",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo \"Hello 世界 🌍\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_chars_in_strings::292",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo \"test!@#$%^&*()\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_escaped_characters::293",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo \"test\\nline\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_quoting::294",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo 'single' \"double\" $var",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unclosed_quote::295",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo \"test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unclosed_command_substitution::296",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $(echo test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unclosed_arithmetic::297",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $((1 + 2",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unclosed_heredoc::298",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "cat <<EOF\ntest",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unclosed_double_brackets::299",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "[[ $var",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multi_digit_variable_unsupported::300",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo \"$10\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_option::301",
+  "argv": [
+   "--not-a-real-option"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preserve_syntax_error_flag::302",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo \"$a\" \"$b\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_correct_code_not_modified::303",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo \"$var\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read_from_file::304",
+  "argv": [
+   "test.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sh": "echo $var"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_files::305",
+  "argv": [
+   "--transform",
+   "test1.sh",
+   "test2.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "test1.sh": "echo $var1",
+   "test2.sh": "echo $var2"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_stops_option_processing::306",
+  "argv": [
+   "--transform",
+   "--",
+   "--test.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "--test.sh": "echo $var"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_file_error::307",
+  "argv": [
+   "--transform",
+   "/nonexistent/file.sh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_file_path::308",
+  "argv": [
+   "--transform",
+   "/dev/null/invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_whitespace_only_input::309",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "   \n\t\n  ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_syntax_suggest_mode_default::310",
+  "argv": [
+   ""
+  ],
+  "stdin": "echo $var",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_syntax_suggest_explicit::311",
+  "argv": [
+   "--syntax-suggest",
+   ""
+  ],
+  "stdin": "echo $var",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_syntax_mode::312",
+  "argv": [
+   "--syntax",
+   ""
+  ],
+  "stdin": "echo $var",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_suggest_mode::313",
+  "argv": [
+   "--suggest",
+   ""
+  ],
+  "stdin": "echo $var",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_replace_mode::314",
+  "argv": [
+   "--replace",
+   "test.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sh": "echo $var"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_replace_mode_multiple_files::315",
+  "argv": [
+   "--replace",
+   "test1.sh",
+   "test2.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "test1.sh": "echo $var1",
+   "test2.sh": "echo $var2"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unquoted_backticks::316",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo `date`",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_adjacent_expansions::317",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $a$b",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_variable_string_concatenation::318",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $var\"string\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_quote_in_assignment::319",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "var=$value",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_quote_in_double_brackets::320",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "[[ $var == test ]]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quote_in_single_brackets::321",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "[ $var = test ]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_quoting::322",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $a $b $c",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pwd_backtick_special::323",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "dir=`pwd`",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_z_normalization::324",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "test -z \"$s\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_n_normalization::325",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "test -n \"$s\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xyes_removal::326",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "test x\"$s\" = xyes",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_loop_array_conversion::327",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "for i in $a; do echo; done",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_serialization::328",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo ${a[*]}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dollar_at::329",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $@",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dollar_star::330",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $*",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dollar_dollar::331",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $$",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dollar_bang::332",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $!",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dollar_dash::333",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $-",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dollar_question::334",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $?",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_positional_parameter_single_digit::335",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $1 $2 $9",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_suggest_flag_with_file::336",
+  "argv": [
+   "--suggest"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_syntax_flag_with_file::337",
+  "argv": [
+   "--syntax"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_syntax_suggest_flag_with_file::338",
+  "argv": [
+   "--syntax-suggest"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_error::339",
+  "argv": [
+   "--unknown-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_short_flag_error::340",
+  "argv": [
+   "-x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_unknown_flags::341",
+  "argv": [
+   "--fake-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_empty_filename::342",
+  "argv": [
+   "--syntax",
+   ""
+  ],
+  "stdin": "#!/bin/bash\necho hello\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file_error::343",
+  "argv": [
+   "/nonexistent/file/path.sh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_last_mode_wins::344",
+  "argv": [
+   "--suggest",
+   "--syntax"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_errors::345",
+  "argv": [
+   "--definitely-not-a-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_requires_empty_filename_sentinel::346",
+  "argv": [
+   "--transform"
+  ],
+  "stdin": "echo $foo\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_stops_option_parsing::347",
+  "argv": [
+   "--transform",
+   "--",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "--version": "echo $foo\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_transform_file_argument::348",
+  "argv": [
+   "--transform",
+   "a.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "a.sh": "echo $foo\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_replace_in_place::349",
+  "argv": [
+   "--replace",
+   "b.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "b.sh": "echo $foo\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_file_errors::350",
+  "argv": [
+   "--transform",
+   "does-not-exist.sh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_exit_codes_for_change_and_no_change::351",
+  "argv": [
+   "--check",
+   ""
+  ],
+  "stdin": "echo $foo\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_transform_single_file_argument_outputs_to_stdout::352",
+  "argv": [
+   "--transform",
+   "in.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "in.sh": "echo $foo\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_replace_modifies_file_in_place_and_no_stdout::353",
+  "argv": [
+   "--replace",
+   "in.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "in.sh": "echo $foo\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_file_errors_and_nonzero_exit::354",
+  "argv": [
+   "--transform",
+   "does_not_exist.sh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_on_stdin_returns_2_when_changes_suggested_and_no_output::355",
+  "argv": [
+   "--check",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_on_stdin_returns_0_when_no_changes_needed::356",
+  "argv": [
+   "--check",
+   ""
+  ],
+  "stdin": "echo \"$foo\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_suggest_emits_ansi_when_piped::357",
+  "argv": [
+   "--suggest",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_syntax_emits_ansi_when_piped::358",
+  "argv": [
+   "--syntax",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_syntax_error::359",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $foo\necho \"unclosed\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_string_argument_twice::360",
+  "argv": [
+   "--transform",
+   "",
+   ""
+  ],
+  "stdin": "echo $foo\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_replace_mode_on_stdin_does_nothing::361",
+  "argv": [
+   "--replace",
+   ""
+  ],
+  "stdin": "echo $foo\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_syntax_error::362",
+  "argv": [
+   ""
+  ],
+  "stdin": "echo \"unclosed",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_quoted_var_no_change::363",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo \"hello $name\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unquoted_var_gets_quoted::364",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $name\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_command_sub_in_double_quotes::365",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo \"$(echo $foo)\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_escape_sequence_in_double_quotes::366",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo \"hello\\nworld\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_escaped_dollar_in_double_quotes::367",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo \"price: \\$5\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_quoted_var_no_expansion::368",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo '$foo'\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_quote_escape_sequence::369",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo 'can'\\''t'\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ansi_c_quoting::370",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $'hello\\nworld'\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_phantom_string_bareword_plus_var::371",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo foo$bar\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_phantom_string_var_plus_double_quoted::372",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo foo$bar\"baz\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_phantom_string_single_plus_double_quoted::373",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo 'foo'\"\\$bar\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backtick_pwd_replaced::374",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo `pwd`\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backtick_command_sub_conversion::375",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo `echo $foo`\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dollar_paren_command_sub_with_var::376",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $(echo $foo)\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arithmetic_expansion_no_quotes::377",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $((1 + 2))\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arithmetic_expansion_with_var::378",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $(($foo + 1))\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_braced_var_removes_braces::379",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo ${foo}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_braced_var_keeps_braces_when_concatenated::380",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo ${foo}bar\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_braced_var_with_default_value::381",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo ${foo:-default}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_var_at_sign::382",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $@\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_positional_param_single_digit::383",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_positional_param_double_digit_braced_ok::384",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo ${10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_double_quoted_string::385",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo \"\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_single_quoted_string::386",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo ''\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_var_expansion_with_prefix_removal::387",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo ${foo#bar}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_var_expansion_with_suffix_removal::388",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo ${foo%bar}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_var_expansion_with_substitution::389",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo ${foo/bar/baz}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_var_expansion_length::390",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo ${#foo}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_var_expansion_indirection::391",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo ${!foo}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pwd_already_as_var::392",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo \"$PWD\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backtick_pwd_in_quotes::393",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "cd \"`pwd`\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backtick_pwd_with_concat::394",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo \"`pwd`/subdir\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_var_zero::395",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo $0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_with_only_whitespace::396",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo \"  \"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_glob_pattern_in_quotes::397",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo \"*.txt\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_double_quotes_in_command_sub::398",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo \"$(echo \"nested\")\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_braced_var_inside_double_quotes::399",
+  "argv": [
+   "--transform",
+   ""
+  ],
+  "stdin": "echo \"a${b}c\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

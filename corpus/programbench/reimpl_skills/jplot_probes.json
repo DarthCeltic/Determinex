@@ -1,0 +1,4945 @@
+[
+ {
+  "name": "test::test_double_dash_treats_following_dashes_as_positional_field_spec::0",
+  "argv": [
+   "--",
+   "-steps"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_displays_usage::1",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_shows_error_and_usage::2",
+  "argv": [
+   "--invalid-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_graphics_support_error::3",
+  "argv": [
+   "field.name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_interval_format_error::4",
+  "argv": [
+   "--interval",
+   "invalid",
+   "field.name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_steps_format_error::5",
+  "argv": [
+   "--steps",
+   "invalid",
+   "field.name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_rows_format_error::6",
+  "argv": [
+   "--rows",
+   "invalid",
+   "field.name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_field_option_error::7",
+  "argv": [
+   "invalidoption:field.name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_valid_interval_milliseconds::8",
+  "argv": [
+   "--interval",
+   "100ms",
+   "field.name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_valid_interval_minutes::9",
+  "argv": [
+   "--interval",
+   "2m",
+   "field.name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_valid_interval_mixed_units::10",
+  "argv": [
+   "--interval",
+   "1h30m",
+   "field.name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_interval_accepted::11",
+  "argv": [
+   "--interval",
+   "-5s",
+   "field.name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_steps_accepted::12",
+  "argv": [
+   "--steps",
+   "-1",
+   "field.name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_steps_accepted::13",
+  "argv": [
+   "--steps",
+   "0",
+   "field.name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_rows_accepted::14",
+  "argv": [
+   "--rows",
+   "-5",
+   "field.name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_steps_integer_overflow_error::15",
+  "argv": [
+   "--steps",
+   "10000000000000000000",
+   "field.name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rows_integer_overflow_error::16",
+  "argv": [
+   "--rows",
+   "10000000000000000000",
+   "field.name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_invalid_field_options_first_reported::17",
+  "argv": [
+   "invalid1,invalid2:field"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_counter_field_option_accepted::18",
+  "argv": [
+   "counter:field.name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_marker_field_option_accepted::19",
+  "argv": [
+   "marker:field.name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_counter_and_marker_combined::20",
+  "argv": [
+   "counter,marker:field.name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_marker_and_counter_order_accepted::21",
+  "argv": [
+   "marker,counter:field.name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_backward_compatible_colon_separator::22",
+  "argv": [
+   "marker:counter:field.name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_multiple_fields_with_plus_operator::23",
+  "argv": [
+   "field1+field2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_multiple_fields_with_options_and_plus::24",
+  "argv": [
+   "counter:field1+marker:field2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_multiple_separate_field_specs::25",
+  "argv": [
+   "field1",
+   "field2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_three_fields_combined_with_plus::26",
+  "argv": [
+   "field1+field2+field3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_all_flags_combined::27",
+  "argv": [
+   "--interval",
+   "5s",
+   "--steps",
+   "50",
+   "--rows",
+   "10",
+   "field.name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_empty_field_name_accepted::28",
+  "argv": [
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_empty_field_name_with_option_accepted::29",
+  "argv": [
+   "counter:"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_url_with_invalid_scheme::30",
+  "argv": [
+   "--url",
+   "not-a-url",
+   "field.name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_large_positive_steps_accepted::31",
+  "argv": [
+   "--steps",
+   "999999999",
+   "field.name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_large_rows_accepted::32",
+  "argv": [
+   "--rows",
+   "999999999",
+   "field.name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_interval_accepted::33",
+  "argv": [
+   "--interval",
+   "0s",
+   "field.name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_duration_numeric_accepted::34",
+  "argv": [
+   "--interval",
+   "0",
+   "field.name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nanosecond_interval_accepted::35",
+  "argv": [
+   "--interval",
+   "1ns",
+   "field.name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_day_duration_24h_accepted::36",
+  "argv": [
+   "--interval",
+   "24h",
+   "field.name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_after_field_specs::37",
+  "argv": [
+   "field.name",
+   "--interval",
+   "5s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_interspersed_with_args::38",
+  "argv": [
+   "--steps",
+   "50",
+   "field.name",
+   "--interval",
+   "5s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_steps_decimal_error::39",
+  "argv": [
+   "--steps",
+   "5.5",
+   "field.name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_field_name_with_hyphens_accepted::40",
+  "argv": [
+   "field-name.sub_field"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_field_name_with_underscores_accepted::41",
+  "argv": [
+   "field_name.sub_field"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_field_name_with_numbers_accepted::42",
+  "argv": [
+   "field.0.value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_multiple_spec_args_with_options::43",
+  "argv": [
+   "counter:field1",
+   "marker:field2",
+   "field3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_complex_multi_graph_spec::44",
+  "argv": [
+   "counter:cpu.user+counter:cpu.system",
+   "marker:events.alert+events.warning",
+   "memory.used"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_url_empty_string_accepted::45",
+  "argv": [
+   "--url",
+   "",
+   "field.name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_multiple_field_specs_creates_multiple_graphs::46",
+  "argv": [
+   "field1",
+   "field2",
+   "field3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_mixed_single_and_multi_series_graphs::47",
+  "argv": [
+   "field1",
+   "field2+field3",
+   "field4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_counter_option_parses_correctly::48",
+  "argv": [
+   "counter:requests.total"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_marker_option_parses_correctly::49",
+  "argv": [
+   "marker:deploy.event"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_invalid_option_rejected_during_parsing::50",
+  "argv": [
+   "invalidopt:field.name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_complex_multi_graph_dashboard_all_features::51",
+  "argv": [
+   "counter:cpu.usage",
+   "marker:deploy+error",
+   "counter,marker:requests.total"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_special_characters_in_json_paths::52",
+  "argv": [
+   "field_name-123.sub-field_2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_url_flag_with_multi_graph_dashboard::53",
+  "argv": [
+   "-url",
+   "http://example.com/data.json",
+   "field1",
+   "field2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_steps_flag_applies_to_all_graphs::54",
+  "argv": [
+   "-steps",
+   "100",
+   "field1",
+   "field2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_rows_flag_affects_per_graph_height_calculation::55",
+  "argv": [
+   "-rows",
+   "50",
+   "field1",
+   "field2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_interval_flag_with_counter_in_multi_graph::56",
+  "argv": [
+   "-interval",
+   "2s",
+   "-url",
+   "http://example.com",
+   "counter:requests"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_colon_without_option_name::57",
+  "argv": [
+   ":field.name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_case_sensitivity_of_options::58",
+  "argv": [
+   "Counter:field.name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_unicode_in_field_names::59",
+  "argv": [
+   "field.ñame.日本語"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_graph_construction_unit_tests::60",
+  "argv": [
+   "go",
+   "test",
+   "-v",
+   "./graph/..."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_simple_field_spec::61",
+  "argv": [
+   "field"
+  ],
+  "stdin": "{\"field\": 1}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_field_path::62",
+  "argv": [
+   "field.subfield"
+  ],
+  "stdin": "{\"field\": {\"subfield\": 1}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deeply_nested_path::63",
+  "argv": [
+   "a.b.c.d.e"
+  ],
+  "stdin": "{\"a\": {\"b\": {\"c\": {\"d\": {\"e\": 1}}}}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_counter_option::64",
+  "argv": [
+   "counter:field"
+  ],
+  "stdin": "{\"field\": 1}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_marker_option::65",
+  "argv": [
+   "marker:field"
+  ],
+  "stdin": "{\"field\": 1}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_options_comma_separated::66",
+  "argv": [
+   "counter,marker:field"
+  ],
+  "stdin": "{\"field\": 1}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backward_compat_marker_counter::67",
+  "argv": [
+   "marker:counter:field"
+  ],
+  "stdin": "{\"field\": 1}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_counter_with_nested_path::68",
+  "argv": [
+   "counter:field.subfield.value"
+  ],
+  "stdin": "{\"field\": {\"subfield\": {\"value\": 1}}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_marker_with_nested_path::69",
+  "argv": [
+   "marker:a.b.c"
+  ],
+  "stdin": "{\"a\": {\"b\": {\"c\": 1}}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_two_fields_with_plus::70",
+  "argv": [
+   "field1+field2"
+  ],
+  "stdin": "{\"field1\": 1, \"field2\": 2}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_many_fields_with_plus::71",
+  "argv": [
+   "a+b+c+d+e"
+  ],
+  "stdin": "{\"a\": 1, \"b\": 2, \"c\": 3, \"d\": 4, \"e\": 5}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_options_in_multi_field_spec::72",
+  "argv": [
+   "counter:a+marker:b+c"
+  ],
+  "stdin": "{\"a\": 1, \"b\": 2, \"c\": 3}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_separate_specs::73",
+  "argv": [
+   "field1",
+   "field2",
+   "field3"
+  ],
+  "stdin": "{\"field1\": 1, \"field2\": 2, \"field3\": 3}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_specs_with_options::74",
+  "argv": [
+   "counter:a",
+   "marker:b"
+  ],
+  "stdin": "{\"a\": 1, \"b\": 2}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_specs_mixing_simple_and_complex::75",
+  "argv": [
+   "simple",
+   "counter:value",
+   "a+b",
+   "marker,counter:x+y.z"
+  ],
+  "stdin": "{\"simple\": 1, \"value\": 2, \"a\": 3, \"b\": 4, \"x\": 5, \"y\": {\"z\": 6}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_field_with_hyphen_in_name::76",
+  "argv": [
+   "field.sub-field"
+  ],
+  "stdin": "{\"field\": {\"sub-field\": 1}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_field_with_underscore_in_name::77",
+  "argv": [
+   "field.sub_field"
+  ],
+  "stdin": "{\"field\": {\"sub_field\": 1}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_field_with_numbers_in_name::78",
+  "argv": [
+   "field123.field2"
+  ],
+  "stdin": "{\"field123\": {\"field2\": 1}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reverse_option_order::79",
+  "argv": [
+   "marker,counter:field"
+  ],
+  "stdin": "{\"field\": 1}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_plus_at_end_of_multifield::80",
+  "argv": [
+   "a+b+"
+  ],
+  "stdin": "{\"a\": 1, \"b\": 2}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_character_field_names::81",
+  "argv": [
+   "a",
+   "b",
+   "c"
+  ],
+  "stdin": "{\"a\": 1, \"b\": 2, \"c\": 3}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_long_field_name::82",
+  "argv": [
+   "very_long_field_name_that_goes_on_and_on_and_on"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deeply_nested_multifield::83",
+  "argv": [
+   "a.b.c+d.e.f+g.h.i"
+  ],
+  "stdin": "{\"a\": {\"b\": {\"c\": 1}}, \"d\": {\"e\": {\"f\": 2}}, \"g\": {\"h\": {\"i\": 3}}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_options_on_all_fields_in_multifield::84",
+  "argv": [
+   "counter:a+counter:b+counter:c"
+  ],
+  "stdin": "{\"a\": 1, \"b\": 2, \"c\": 3}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_different_options_on_multifield_members::85",
+  "argv": [
+   "counter:a+marker:b+counter,marker:c+d"
+  ],
+  "stdin": "{\"a\": 1, \"b\": 2, \"c\": 3, \"d\": 4}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_args_shows_usage::86",
+  "argv": [],
+  "stdin": "{\"field\": 1}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_field_name_with_dots_and_special_chars::87",
+  "argv": [
+   "field.sub-field_123.value"
+  ],
+  "stdin": "{\"field\": {\"sub-field_123\": {\"value\": 1}}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_string_field_path::88",
+  "argv": [
+   "counter:"
+  ],
+  "stdin": "{\"\": 1}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_colons_in_path::89",
+  "argv": [
+   "counter:field:name"
+  ],
+  "stdin": "{\"field:name\": 1}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_whitespace_in_field_name::90",
+  "argv": [
+   "field.sub field"
+  ],
+  "stdin": "{\"field\": {\"sub field\": 1}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_field_name::91",
+  "argv": [
+   "field.子フィールド"
+  ],
+  "stdin": "{\"field\": {\"子フィールド\": 1}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_option_with_empty_comma_segment::92",
+  "argv": [
+   "counter,,marker:field"
+  ],
+  "stdin": "{\"field\": 1}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duplicate_field_names_in_multifield::93",
+  "argv": [
+   "field+field+field"
+  ],
+  "stdin": "{\"field\": 1}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_options_only_no_field_name::94",
+  "argv": [
+   "marker:"
+  ],
+  "stdin": "{\"\": 1}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_colon_but_looks_like_option::95",
+  "argv": [
+   "counter"
+  ],
+  "stdin": "{\"counter\": 1}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_plus_at_beginning::96",
+  "argv": [
+   "+field"
+  ],
+  "stdin": "{\"field\": 1}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_plus_consecutive::97",
+  "argv": [
+   "field++field"
+  ],
+  "stdin": "{\"field\": 1}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_case_sensitive_options::98",
+  "argv": [
+   "Counter:field"
+  ],
+  "stdin": "{\"field\": 1}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_option_with_whitespace::99",
+  "argv": [
+   "counter :field"
+  ],
+  "stdin": "{\"field\": 1}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_graphics_support_error_message::100",
+  "argv": [
+   "value"
+  ],
+  "stdin": "{\"value\": 10}\n{\"value\": 20}\n{\"value\": 30}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_screen_with_iterm2_rejected::101",
+  "argv": [
+   "value"
+  ],
+  "stdin": "{\"value\": 10}\n{\"value\": 20}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM": "screen",
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_no_field_spec_shows_usage::102",
+  "argv": [],
+  "stdin": "{\"value\": 10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_case_sensitive_iterm_detection::103",
+  "argv": [
+   "value"
+  ],
+  "stdin": "{\"value\": 10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iterm.app"
+  }
+ },
+ {
+  "name": "test::test_multiple_field_specs_no_graphics::104",
+  "argv": [
+   "value1",
+   "value2",
+   "counter:value3"
+  ],
+  "stdin": "{\"value1\": 10, \"value2\": 20, \"value3\": 30}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rows_flag_without_graphics::105",
+  "argv": [
+   "-rows",
+   "10",
+   "value"
+  ],
+  "stdin": "{\"value\": 10}\n{\"value\": 20}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_steps_flag_without_graphics::106",
+  "argv": [
+   "-steps",
+   "50",
+   "value"
+  ],
+  "stdin": "{\"value\": 10}\n{\"value\": 20}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_flag_without_graphics::107",
+  "argv": [
+   "-url",
+   "http://example.com/data.json",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interval_flag_without_graphics::108",
+  "argv": [
+   "-interval",
+   "2s",
+   "-url",
+   "http://example.com/data.json",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_flags_combined_without_graphics::109",
+  "argv": [
+   "-rows",
+   "20",
+   "-steps",
+   "100",
+   "-interval",
+   "1s",
+   "-url",
+   "http://example.com/data.json",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_shows_error_and_usage::110",
+  "argv": [
+   "-invalid-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_rows_value_shows_error_and_usage::111",
+  "argv": [
+   "-rows",
+   "notanumber",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_rows_accepted_but_no_graphics::112",
+  "argv": [
+   "-rows",
+   "-5",
+   "value"
+  ],
+  "stdin": "{\"value\": 10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_rows_accepted_but_no_graphics::113",
+  "argv": [
+   "-rows",
+   "0",
+   "value"
+  ],
+  "stdin": "{\"value\": 10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_large_rows_value_no_graphics::114",
+  "argv": [
+   "-rows",
+   "10000",
+   "value"
+  ],
+  "stdin": "{\"value\": 10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_steps_value_shows_error::115",
+  "argv": [
+   "-steps",
+   "notanumber",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_interval_value_shows_error::116",
+  "argv": [
+   "-interval",
+   "notaduration",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_steps_no_graphics::117",
+  "argv": [
+   "-steps",
+   "-10",
+   "value"
+  ],
+  "stdin": "{\"value\": 10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_steps_no_graphics::118",
+  "argv": [
+   "-steps",
+   "0",
+   "value"
+  ],
+  "stdin": "{\"value\": 10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_valid_interval_no_graphics::119",
+  "argv": [
+   "-interval",
+   "500ms",
+   "-url",
+   "http://example.com",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_shows_error_with_usage::120",
+  "argv": [
+   "--nonexistent-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_interval_duration::121",
+  "argv": [
+   "-interval",
+   "invalid",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_steps_value::122",
+  "argv": [
+   "-steps",
+   "abc",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_rows_value::123",
+  "argv": [
+   "-rows",
+   "xyz",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_graphics_support_error::124",
+  "argv": [
+   "value"
+  ],
+  "stdin": "{\"value\": 42}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": ""
+  }
+ },
+ {
+  "name": "test::test_stdin_nested_json::125",
+  "argv": [
+   "mem.Heap"
+  ],
+  "stdin": "{\"mem\": {\"Heap\": 1234}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_stdin_multiple_json_lines::126",
+  "argv": [
+   "value"
+  ],
+  "stdin": "{\"value\": 10}\n{\"value\": 20}\n{\"value\": 30}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_invalid_json_shows_error::127",
+  "argv": [
+   "value"
+  ],
+  "stdin": "{invalid json}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_missing_field_shows_error::128",
+  "argv": [
+   "nonexistent"
+  ],
+  "stdin": "{\"value\": 42}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_non_numeric_field_shows_error::129",
+  "argv": [
+   "value"
+  ],
+  "stdin": "{\"value\": \"not a number\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_scientific_notation_numbers::130",
+  "argv": [
+   "value"
+  ],
+  "stdin": "{\"value\": 1.23e10}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_negative_numbers::131",
+  "argv": [
+   "value"
+  ],
+  "stdin": "{\"value\": -42.5}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_zero_value::132",
+  "argv": [
+   "value"
+  ],
+  "stdin": "{\"value\": 0}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_empty_json_object_missing_field::133",
+  "argv": [
+   "value"
+  ],
+  "stdin": "{}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_no_input_source_error::134",
+  "argv": [
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_json::135",
+  "argv": [
+   "value"
+  ],
+  "stdin": "{\"value\": 42, \"name\": \"测试\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_very_large_number::136",
+  "argv": [
+   "value"
+  ],
+  "stdin": "{\"value\": 9999999999999999}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_decimal_numbers::137",
+  "argv": [
+   "value"
+  ],
+  "stdin": "{\"value\": 3.14159}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_multiple_fields_plus_operator::138",
+  "argv": [
+   "field1+field2"
+  ],
+  "stdin": "{\"field1\": 10, \"field2\": 20}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_counter_prefix_option::139",
+  "argv": [
+   "counter:value"
+  ],
+  "stdin": "{\"value\": 100}\n{\"value\": 150}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_marker_prefix_option::140",
+  "argv": [
+   "marker:value"
+  ],
+  "stdin": "{\"value\": 1}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_combined_options_comma_separated::141",
+  "argv": [
+   "marker,counter:value"
+  ],
+  "stdin": "{\"value\": 100}\n{\"value\": 150}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_backward_compat_marker_counter_colon::142",
+  "argv": [
+   "marker:counter:value"
+  ],
+  "stdin": "{\"value\": 100}\n{\"value\": 150}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_multiple_field_specs_separate_graphs::143",
+  "argv": [
+   "a",
+   "b",
+   "c"
+  ],
+  "stdin": "{\"a\": 10, \"b\": 20, \"c\": 30}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_invalid_field_option::144",
+  "argv": [
+   "invalid_option:value"
+  ],
+  "stdin": "{\"value\": 42}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_field_spec_with_hyphen::145",
+  "argv": [
+   "my-field"
+  ],
+  "stdin": "{\"my-field\": 42}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_field_spec_with_underscore::146",
+  "argv": [
+   "my_field"
+  ],
+  "stdin": "{\"my_field\": 42}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_deep_nested_field_path::147",
+  "argv": [
+   "a.b.c.d"
+  ],
+  "stdin": "{\"a\": {\"b\": {\"c\": {\"d\": 42}}}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_multiple_fields_with_options::148",
+  "argv": [
+   "counter:a+marker,counter:b"
+  ],
+  "stdin": "{\"a\": 100, \"b\": 200}\n{\"a\": 150, \"b\": 250}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_http_url_flag::149",
+  "argv": [
+   "-url",
+   "-interval",
+   "100ms",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_http_connection_error::150",
+  "argv": [
+   "-url",
+   "http://127.0.0.1:19999/",
+   "-interval",
+   "100ms",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_http_nested_field_extraction::151",
+  "argv": [
+   "-url",
+   "-interval",
+   "100ms",
+   "metrics.cpu.usage"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_http_missing_field_in_response::152",
+  "argv": [
+   "-url",
+   "-interval",
+   "100ms",
+   "missing_field"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_http_counter_mode_with_url::153",
+  "argv": [
+   "-url",
+   "-interval",
+   "50ms",
+   "counter:counter"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_http_marker_mode_with_url::154",
+  "argv": [
+   "-url",
+   "-interval",
+   "50ms",
+   "marker:event"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_steps_option_custom_value::155",
+  "argv": [
+   "-steps",
+   "50",
+   "value"
+  ],
+  "stdin": "{\"value\": 42}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_steps_option_large_value::156",
+  "argv": [
+   "-steps",
+   "1000",
+   "value"
+  ],
+  "stdin": "{\"value\": 42}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_rows_option_limits_height::157",
+  "argv": [
+   "-rows",
+   "10",
+   "value"
+  ],
+  "stdin": "{\"value\": 42}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_rows_option_zero_means_fullscreen::158",
+  "argv": [
+   "-rows",
+   "0",
+   "value"
+  ],
+  "stdin": "{\"value\": 42}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_interval_option_seconds::159",
+  "argv": [
+   "-url",
+   "http://127.0.0.1:19999/",
+   "-interval",
+   "2s",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_interval_option_milliseconds::160",
+  "argv": [
+   "-url",
+   "http://127.0.0.1:19999/",
+   "-interval",
+   "500ms",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_interval_option_minutes::161",
+  "argv": [
+   "-url",
+   "http://127.0.0.1:19999/",
+   "-interval",
+   "1m",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_url_option_with_http::162",
+  "argv": [
+   "-url",
+   "http://example.com/metrics",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_multiple_options_together::163",
+  "argv": [
+   "-steps",
+   "200",
+   "-rows",
+   "20",
+   "-interval",
+   "500ms",
+   "-url",
+   "http://127.0.0.1:19999/",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_counter_first_value_is_zero::164",
+  "argv": [
+   "counter:count"
+  ],
+  "stdin": "{\"count\": 100}\n{\"count\": 150}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_counter_monotonic_increase::165",
+  "argv": [
+   "counter:count"
+  ],
+  "stdin": "{\"count\": 100}\n{\"count\": 150}\n{\"count\": 200}\n{\"count\": 300}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_counter_decrease_resets::166",
+  "argv": [
+   "counter:count"
+  ],
+  "stdin": "{\"count\": 100}\n{\"count\": 150}\n{\"count\": 50}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_counter_with_zero_value::167",
+  "argv": [
+   "counter:count"
+  ],
+  "stdin": "{\"count\": 0}\n{\"count\": 10}\n{\"count\": 20}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_counter_large_increments::168",
+  "argv": [
+   "counter:count"
+  ],
+  "stdin": "{\"count\": 1000000}\n{\"count\": 2000000}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_counter_small_increments::169",
+  "argv": [
+   "counter:count"
+  ],
+  "stdin": "{\"count\": 1.5}\n{\"count\": 1.7}\n{\"count\": 1.9}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_counter_multiple_fields::170",
+  "argv": [
+   "counter:a+counter:b"
+  ],
+  "stdin": "{\"a\": 10, \"b\": 100}\n{\"a\": 20, \"b\": 150}\n{\"a\": 35, \"b\": 180}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_counter_with_same_value::171",
+  "argv": [
+   "counter:count"
+  ],
+  "stdin": "{\"count\": 100}\n{\"count\": 100}\n{\"count\": 100}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_marker_with_nonzero::172",
+  "argv": [
+   "marker:event"
+  ],
+  "stdin": "{\"event\": 1}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_marker_with_zero::173",
+  "argv": [
+   "marker:event"
+  ],
+  "stdin": "{\"event\": 0}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_marker_and_counter_combined::174",
+  "argv": [
+   "marker,counter:count"
+  ],
+  "stdin": "{\"count\": 100}\n{\"count\": 150}\n{\"count\": 200}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_render_with_fake_tty_nested_field::175",
+  "argv": [
+   "metrics.cpu"
+  ],
+  "stdin": "{\"metrics\": {\"cpu\": 45}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_render_with_fake_tty_counter_mode::176",
+  "argv": [
+   "counter:count"
+  ],
+  "stdin": "{\"count\": 100}\n{\"count\": 150}\n{\"count\": 200}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_render_with_fake_tty_marker_mode::177",
+  "argv": [
+   "marker:event"
+  ],
+  "stdin": "{\"event\": 0}\n{\"event\": 1}\n{\"event\": 0}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_render_with_fake_tty_combined_fields::178",
+  "argv": [
+   "a+b"
+  ],
+  "stdin": "{\"a\": 10, \"b\": 20}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_help_precedence_when_combined_with_unknown_flag_shows_help_and_exits_zero::179",
+  "argv": [
+   "--help",
+   "--definitely-unknown-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_without_help_exits_nonzero_and_mentions_flag::180",
+  "argv": [
+   "--definitely-unknown-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_separator_treats_help_as_field_spec_not_help::181",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_short::182",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_many_fields_single_graph::183",
+  "argv": [
+   "a+b+c+d+e"
+  ],
+  "stdin": "{\"a\": 1, \"b\": 2, \"c\": 3, \"d\": 4, \"e\": 5}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_all_counter_fields::184",
+  "argv": [
+   "counter:a+counter:b+counter:c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_all_marker_fields::185",
+  "argv": [
+   "marker:a+marker:b+marker:c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_mixed_regular_counter_marker::186",
+  "argv": [
+   "reg+counter:cnt+marker:mrk"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_deeply_nested_plus_combinations::187",
+  "argv": [
+   "a.x+b.y+c.z"
+  ],
+  "stdin": "{\"a\": {\"x\": 1}, \"b\": {\"y\": 2}, \"c\": {\"z\": 3}}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_many_graphs_many_fields::188",
+  "argv": [
+   "a1+a2",
+   "b1+b2",
+   "c1+c2"
+  ],
+  "stdin": "{\"a1\": 1, \"a2\": 2, \"b1\": 3, \"b2\": 4, \"c1\": 5, \"c2\": 6}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_counter_on_floating_point::189",
+  "argv": [
+   "counter:val"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_marker_on_alternating_pattern::190",
+  "argv": [
+   "marker:mark"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_steps_smaller_than_data::191",
+  "argv": [
+   "--steps",
+   "10",
+   "val"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_steps_larger_than_data::192",
+  "argv": [
+   "--steps",
+   "1000",
+   "val"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_rows_with_multiple_graphs::193",
+  "argv": [
+   "--rows",
+   "5",
+   "a",
+   "b",
+   "c"
+  ],
+  "stdin": "{\"a\": 1, \"b\": 2, \"c\": 3}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_very_long_json_line::194",
+  "argv": [
+   "field"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_many_json_lines::195",
+  "argv": [
+   "val"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_json_with_unicode::196",
+  "argv": [
+   "field"
+  ],
+  "stdin": "{\"field\": 42, \"name\": \"テスト\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_json_with_escaped_quotes::197",
+  "argv": [
+   "field"
+  ],
+  "stdin": "{\"field\": 42, \"text\": \"quote\\\"test\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_json_with_newlines_in_strings::198",
+  "argv": [
+   "field"
+  ],
+  "stdin": "{\"field\": 42, \"text\": \"line1\\nline2\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_multiple_graphs_different_fields::199",
+  "argv": [
+   "a",
+   "b",
+   "c"
+  ],
+  "stdin": "{\"a\": 1, \"b\": 2, \"c\": 3}\n{\"a\": 4, \"b\": 5, \"c\": 6}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_multiple_graphs_with_plus::200",
+  "argv": [
+   "a+b",
+   "c+d"
+  ],
+  "stdin": "{\"a\": 1, \"b\": 2, \"c\": 3, \"d\": 4}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_ten_graphs::201",
+  "argv": [
+   "f1",
+   "f2",
+   "f3",
+   "f4",
+   "f5",
+   "f6",
+   "f7",
+   "f8",
+   "f9",
+   "f10"
+  ],
+  "stdin": "{\"f1\": 1, \"f2\": 2, \"f3\": 3, \"f4\": 4, \"f5\": 5, \"f6\": 6, \"f7\": 7, \"f8\": 8, \"f9\": 9, \"f10\": 10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_field_name_all_special_chars::202",
+  "argv": [
+   "field-name_123"
+  ],
+  "stdin": "{\"field-name_123\": 42}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_numeric_field_name::203",
+  "argv": [
+   "123"
+  ],
+  "stdin": "{\"123\": 42}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_very_large_number_value::204",
+  "argv": [
+   "field"
+  ],
+  "stdin": "{\"field\": 9999999999999999999}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_very_small_number_value::205",
+  "argv": [
+   "field"
+  ],
+  "stdin": "{\"field\": 0.0000000001}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_negative_infinity::206",
+  "argv": [
+   "field"
+  ],
+  "stdin": "{\"field\": -1e308}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_steps_value_one::207",
+  "argv": [
+   "--steps",
+   "1",
+   "field"
+  ],
+  "stdin": "{\"field\": 42}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_steps_value_large::208",
+  "argv": [
+   "--steps",
+   "100000",
+   "field"
+  ],
+  "stdin": "{\"field\": 42}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_rows_value_one::209",
+  "argv": [
+   "--rows",
+   "1",
+   "field"
+  ],
+  "stdin": "{\"field\": 42}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_rows_value_large::210",
+  "argv": [
+   "--rows",
+   "1000",
+   "field"
+  ],
+  "stdin": "{\"field\": 42}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_interval_microseconds::211",
+  "argv": [
+   "--interval",
+   "1us",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interval_hours::212",
+  "argv": [
+   "--interval",
+   "1h",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_array_at_root::213",
+  "argv": [
+   "0"
+  ],
+  "stdin": "[1, 2, 3]\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_json_string_at_root::214",
+  "argv": [
+   "field"
+  ],
+  "stdin": "\"string\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_json_number_at_root::215",
+  "argv": [
+   "field"
+  ],
+  "stdin": "42\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_mixed_json_lines::216",
+  "argv": [
+   "a"
+  ],
+  "stdin": "{\"a\": 1}\n{\"b\": 2}\n{\"a\": 3}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_counter_monotonic_increase::217",
+  "argv": [
+   "counter:count"
+  ],
+  "stdin": "{\"count\": 10}\n{\"count\": 20}\n{\"count\": 30}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_counter_with_zero_initial::218",
+  "argv": [
+   "counter:count"
+  ],
+  "stdin": "{\"count\": 0}\n{\"count\": 10}\n{\"count\": 20}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_counter_with_same_values::219",
+  "argv": [
+   "counter:count"
+  ],
+  "stdin": "{\"count\": 10}\n{\"count\": 10}\n{\"count\": 10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_counter_large_increment::220",
+  "argv": [
+   "counter:count"
+  ],
+  "stdin": "{\"count\": 100}\n{\"count\": 1000000}\n{\"count\": 2000000}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_marker_zero_and_nonzero::221",
+  "argv": [
+   "marker:mark"
+  ],
+  "stdin": "{\"mark\": 0}\n{\"mark\": 1}\n{\"mark\": 0}\n{\"mark\": 5}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_marker_all_zero::222",
+  "argv": [
+   "marker:mark"
+  ],
+  "stdin": "{\"mark\": 0}\n{\"mark\": 0}\n{\"mark\": 0}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_marker_all_nonzero::223",
+  "argv": [
+   "marker:mark"
+  ],
+  "stdin": "{\"mark\": 1}\n{\"mark\": 2}\n{\"mark\": 3}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_counter_and_marker_combined::224",
+  "argv": [
+   "counter,marker:val"
+  ],
+  "stdin": "{\"val\": 10}\n{\"val\": 20}\n{\"val\": 30}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_counter_and_marker_different_order::225",
+  "argv": [
+   "marker,counter:val"
+  ],
+  "stdin": "{\"val\": 10}\n{\"val\": 20}\n{\"val\": 30}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_counter_multiple_fields::226",
+  "argv": [
+   "counter:a+counter:b"
+  ],
+  "stdin": "{\"a\": 10, \"b\": 5}\n{\"a\": 20, \"b\": 15}\n{\"a\": 30, \"b\": 25}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_marker_multiple_fields::227",
+  "argv": [
+   "marker:a+marker:b"
+  ],
+  "stdin": "{\"a\": 1, \"b\": 0}\n{\"a\": 0, \"b\": 1}\n{\"a\": 1, \"b\": 1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_mixed_options_multiple_fields::228",
+  "argv": [
+   "counter:c+marker:m"
+  ],
+  "stdin": "{\"c\": 100, \"m\": 1}\n{\"c\": 150, \"m\": 0}\n{\"c\": 200, \"m\": 1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_counter_with_negative_increment::229",
+  "argv": [
+   "counter:count"
+  ],
+  "stdin": "{\"count\": 100}\n{\"count\": 50}\n{\"count\": 25}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_counter_with_float_values::230",
+  "argv": [
+   "counter:count"
+  ],
+  "stdin": "{\"count\": 10.5}\n{\"count\": 20.7}\n{\"count\": 30.9}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_marker_with_negative_values::231",
+  "argv": [
+   "marker:mark"
+  ],
+  "stdin": "{\"mark\": -1}\n{\"mark\": 0}\n{\"mark\": -5}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_backward_compat_marker_counter::232",
+  "argv": [
+   "marker:counter:val"
+  ],
+  "stdin": "{\"val\": 10}\n{\"val\": 20}\n{\"val\": 30}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_counter_single_value::233",
+  "argv": [
+   "counter:count"
+  ],
+  "stdin": "{\"count\": 42}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_marker_single_value::234",
+  "argv": [
+   "marker:mark"
+  ],
+  "stdin": "{\"mark\": 1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_counter_empty_stream::235",
+  "argv": [
+   "counter:field"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_marker_empty_stream::236",
+  "argv": [
+   "marker:field"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_malformed_json_stdin::237",
+  "argv": [
+   "field"
+  ],
+  "stdin": "not valid json\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_json_stdin::238",
+  "argv": [
+   "field"
+  ],
+  "stdin": "{}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_json_objects::239",
+  "argv": [
+   "a"
+  ],
+  "stdin": "{\"a\": 1}\n{\"a\": 2}\n{\"a\": 3}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_with_nested_structure::240",
+  "argv": [
+   "outer.inner.deep"
+  ],
+  "stdin": "{\"outer\": {\"inner\": {\"deep\": 42}}}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_with_arrays::241",
+  "argv": [
+   "values"
+  ],
+  "stdin": "{\"values\": [1, 2, 3]}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_with_string_values::242",
+  "argv": [
+   "field"
+  ],
+  "stdin": "{\"field\": \"not a number\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_with_null_values::243",
+  "argv": [
+   "field"
+  ],
+  "stdin": "{\"field\": null}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_with_boolean_values::244",
+  "argv": [
+   "field"
+  ],
+  "stdin": "{\"field\": true}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_with_special_characters::245",
+  "argv": [
+   "field-name"
+  ],
+  "stdin": "{\"field-name\": 1, \"field_name\": 2}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_json::246",
+  "argv": [
+   "field"
+  ],
+  "stdin": "{\"field\": 42, \"名前\": 123}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_counter_with_decreasing_values::247",
+  "argv": [
+   "counter:counter"
+  ],
+  "stdin": "{\"counter\": 100}\n{\"counter\": 90}\n{\"counter\": 80}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_counter_with_negative_values::248",
+  "argv": [
+   "counter:field"
+  ],
+  "stdin": "{\"field\": -10}\n{\"field\": -5}\n{\"field\": 0}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_marker_with_zero_value::249",
+  "argv": [
+   "marker:mark"
+  ],
+  "stdin": "{\"mark\": 0}\n{\"mark\": 1}\n{\"mark\": 0}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_field_path::250",
+  "argv": [
+   "a.b.c.d.e.f.g.h"
+  ],
+  "stdin": "{\"a\": {\"b\": {\"c\": {\"d\": {\"e\": {\"f\": {\"g\": {\"h\": 123}}}}}}}}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_field_path_not_found::251",
+  "argv": [
+   "nonexistent"
+  ],
+  "stdin": "{\"field\": 1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_partial_field_path::252",
+  "argv": [
+   "outer"
+  ],
+  "stdin": "{\"outer\": {\"inner\": 42}}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_field_spec::253",
+  "argv": [
+   "field.subfield"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deeply_nested_field_spec::254",
+  "argv": [
+   "field.sub.subsub.deep"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_field_spec_with_counter::255",
+  "argv": [
+   "counter:field"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_field_spec_with_marker::256",
+  "argv": [
+   "marker:field"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_field_spec_with_counter_and_marker::257",
+  "argv": [
+   "counter,marker:field"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_field_spec_with_marker_and_counter::258",
+  "argv": [
+   "marker,counter:field"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_field_spec_backward_compat_marker_counter::259",
+  "argv": [
+   "marker:counter:field"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_field_spec_plus_with_options::260",
+  "argv": [
+   "counter:field1+field2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_graphs::261",
+  "argv": [
+   "field1",
+   "field2+field3",
+   "counter:field4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_field_spec_with_hyphen::262",
+  "argv": [
+   "field-name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_field_spec_with_underscore::263",
+  "argv": [
+   "field_name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_field_spec_numeric_name::264",
+  "argv": [
+   "field123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_field_spec_camelcase::265",
+  "argv": [
+   "fieldName.subField"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_option_combinations::266",
+  "argv": [
+   "counter:a",
+   "marker:b",
+   "counter,marker:c",
+   "d"
+  ],
+  "stdin": "{\"a\": 10, \"b\": 20, \"c\": 1, \"d\": 30}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_deeply_nested_15_levels::267",
+  "argv": [
+   "v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_field_names_with_dots::268",
+  "argv": [
+   "field.name"
+  ],
+  "stdin": "{\"field.name\": 42}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_json_with_many_fields::269",
+  "argv": [
+   "f50"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_counter_overflow_protection::270",
+  "argv": [
+   "counter:c"
+  ],
+  "stdin": "{\"c\": 9223372036854775800}\n{\"c\": 9223372036854775807}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_marker_with_very_large_nonzero::271",
+  "argv": [
+   "marker:m"
+  ],
+  "stdin": "{\"m\": 999999999999}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_interval_one_nanosecond::272",
+  "argv": [
+   "--interval",
+   "1ns",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_steps_max_int::273",
+  "argv": [
+   "--steps",
+   "2147483647",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rows_max_reasonable::274",
+  "argv": [
+   "--rows",
+   "10000",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_empty_string_value::275",
+  "argv": [
+   "field"
+  ],
+  "stdin": "{\"field\": \"\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_json_object_in_array::276",
+  "argv": [
+   "data"
+  ],
+  "stdin": "{\"data\": [{\"value\": 42}]}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_mixed_type_values::277",
+  "argv": [
+   "field"
+  ],
+  "stdin": "{\"field\": 42}\n{\"field\": \"text\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_counter_with_reset::278",
+  "argv": [
+   "counter:c"
+  ],
+  "stdin": "{\"c\": 100}\n{\"c\": 200}\n{\"c\": 0}\n{\"c\": 50}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_marker_alternating_fast::279",
+  "argv": [
+   "marker:m"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_invalid_interval_format::280",
+  "argv": [
+   "--interval",
+   "invalid",
+   "field"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_valid_interval_formats::281",
+  "argv": [
+   "--interval",
+   "5s",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_steps_format::282",
+  "argv": [
+   "--steps",
+   "notanumber",
+   "field"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_steps::283",
+  "argv": [
+   "--steps",
+   "-10",
+   "field"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_steps::284",
+  "argv": [
+   "--steps",
+   "0",
+   "field"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_steps::285",
+  "argv": [
+   "--steps",
+   "10000",
+   "field"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_rows_format::286",
+  "argv": [
+   "--rows",
+   "notanumber",
+   "field"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_rows::287",
+  "argv": [
+   "--rows",
+   "-5",
+   "field"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_valid_rows::288",
+  "argv": [
+   "--rows",
+   "20",
+   "field"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_flag_format::289",
+  "argv": [
+   "--url",
+   "http://localhost:8080",
+   "field"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_url::290",
+  "argv": [
+   "--url",
+   "",
+   "field"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_basic::291",
+  "argv": [
+   "--url",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_url_with_nested::292",
+  "argv": [
+   "--url",
+   "outer.inner"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_stdin_mode_empty::293",
+  "argv": [
+   "field"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_mode_single_line::294",
+  "argv": [
+   "value"
+  ],
+  "stdin": "{\"value\": 42}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_mode_multiple_fields::295",
+  "argv": [
+   "a",
+   "b"
+  ],
+  "stdin": "{\"a\": 1, \"b\": 2}\n{\"a\": 3, \"b\": 4}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_mode_invalid_url::296",
+  "argv": [
+   "--url",
+   "http://localhost:19999/nonexistent",
+   "field"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_mode_malformed_url::297",
+  "argv": [
+   "--url",
+   "not-a-url",
+   "field"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_with_interval::298",
+  "argv": [
+   "--url",
+   "http://localhost:9999",
+   "--interval",
+   "2s",
+   "field"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_with_steps::299",
+  "argv": [
+   "--url",
+   "http://localhost:9999",
+   "--steps",
+   "50",
+   "field"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_steps::300",
+  "argv": [
+   "--steps",
+   "10",
+   "field"
+  ],
+  "stdin": "{\"field\": 1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_rows::301",
+  "argv": [
+   "--rows",
+   "5",
+   "field"
+  ],
+  "stdin": "{\"field\": 1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_field_access::302",
+  "argv": [
+   "outer.inner"
+  ],
+  "stdin": "{\"outer\": {\"inner\": 123}}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_deeply_nested_field::303",
+  "argv": [
+   "a.b.c.d"
+  ],
+  "stdin": "{\"a\": {\"b\": {\"c\": {\"d\": 99}}}}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_field_with_hyphen::304",
+  "argv": [
+   "field-name"
+  ],
+  "stdin": "{\"field-name\": 10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_field_with_underscore::305",
+  "argv": [
+   "field_name"
+  ],
+  "stdin": "{\"field_name\": 20}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_field_with_numbers::306",
+  "argv": [
+   "field123"
+  ],
+  "stdin": "{\"field123\": 30}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_camelcase_field::307",
+  "argv": [
+   "fieldName"
+  ],
+  "stdin": "{\"fieldName\": 40}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_nonexistent_field::308",
+  "argv": [
+   "nonexistent"
+  ],
+  "stdin": "{\"existing\": 50}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_partial_path_to_object::309",
+  "argv": [
+   "outer"
+  ],
+  "stdin": "{\"outer\": {\"inner\": 60}}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_string_value_instead_of_number::310",
+  "argv": [
+   "field"
+  ],
+  "stdin": "{\"field\": \"text\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_array_value::311",
+  "argv": [
+   "field"
+  ],
+  "stdin": "{\"field\": [1, 2, 3]}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_negative_number::312",
+  "argv": [
+   "field"
+  ],
+  "stdin": "{\"field\": -42}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_floating_point::313",
+  "argv": [
+   "field"
+  ],
+  "stdin": "{\"field\": 3.14159}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_zero_value::314",
+  "argv": [
+   "field"
+  ],
+  "stdin": "{\"field\": 0}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_very_large_number::315",
+  "argv": [
+   "field"
+  ],
+  "stdin": "{\"field\": 999999999999}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_scientific_notation::316",
+  "argv": [
+   "field"
+  ],
+  "stdin": "{\"field\": 1.23e10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_multiple_json_lines::317",
+  "argv": [
+   "field"
+  ],
+  "stdin": "{\"field\": 1}\n{\"field\": 2}\n{\"field\": 3}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_incomplete_json::318",
+  "argv": [
+   "field"
+  ],
+  "stdin": "{\"field\": \n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_json_with_extra_fields::319",
+  "argv": [
+   "target"
+  ],
+  "stdin": "{\"target\": 42, \"extra1\": 1, \"extra2\": 2, \"extra3\": 3}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_term_env_variations::320",
+  "argv": [
+   "field"
+  ],
+  "stdin": "{\"field\": 1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_render_with_rows_parameter::321",
+  "argv": [
+   "--rows",
+   "10",
+   "field"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_render_multiple_graphs::322",
+  "argv": [
+   "a",
+   "b",
+   "c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_render_with_combined_fields::323",
+  "argv": [
+   "a+b"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_render_with_options::324",
+  "argv": [
+   "counter:count",
+   "marker:mark"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_invalid_field_option::325",
+  "argv": [
+   "invalid_option:field"
+  ],
+  "stdin": "{\"field\": 1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_multiple_invalid_options::326",
+  "argv": [
+   "invalid1,invalid2:field"
+  ],
+  "stdin": "{\"field\": 1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_mixed_valid_invalid_options::327",
+  "argv": [
+   "counter,invalid:field"
+  ],
+  "stdin": "{\"field\": 1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_empty_option::328",
+  "argv": [
+   ":field"
+  ],
+  "stdin": "{\"field\": 1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_trailing_colon::329",
+  "argv": [
+   "counter:"
+  ],
+  "stdin": "{\"field\": 1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_multiple_colons_backward_compat::330",
+  "argv": [
+   "marker:counter:field"
+  ],
+  "stdin": "{\"field\": 10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_colon_in_field_name::331",
+  "argv": [
+   "field:name"
+  ],
+  "stdin": "{\"name\": 1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_complex_invalid_spec::332",
+  "argv": [
+   "counter,marker,invalid:field1+bad_opt:field2"
+  ],
+  "stdin": "{\"field1\": 1, \"field2\": 2}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_case_sensitive_options::333",
+  "argv": [
+   "Counter:field"
+  ],
+  "stdin": "{\"field\": 1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_valid_counter_option::334",
+  "argv": [
+   "counter:field"
+  ],
+  "stdin": "{\"field\": 10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_valid_marker_option::335",
+  "argv": [
+   "marker:field"
+  ],
+  "stdin": "{\"field\": 1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_valid_combined_options::336",
+  "argv": [
+   "counter,marker:field"
+  ],
+  "stdin": "{\"field\": 10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_multiple_graphs_with_options::337",
+  "argv": [
+   "counter:field1",
+   "marker:field2",
+   "field3"
+  ],
+  "stdin": "{\"field1\": 1, \"field2\": 2, \"field3\": 3}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_field_plus_with_options::338",
+  "argv": [
+   "counter:field1+marker:field2"
+  ],
+  "stdin": "{\"field1\": 10, \"field2\": 1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_stdin_with_blank_lines::339",
+  "argv": [
+   "field"
+  ],
+  "stdin": "{\"field\": 1}\n\n{\"field\": 2}\n\n{\"field\": 3}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_stdin_whitespace_only_lines::340",
+  "argv": [
+   "field"
+  ],
+  "stdin": "{\"field\": 1}\n   \n{\"field\": 2}\n\t\n{\"field\": 3}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_stdin_comments_not_supported::341",
+  "argv": [
+   "field"
+  ],
+  "stdin": "// comment\n{\"field\": 1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_stdin_trailing_comma::342",
+  "argv": [
+   "field"
+  ],
+  "stdin": "{\"field\": 1,}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_stdin_single_quotes::343",
+  "argv": [
+   "field"
+  ],
+  "stdin": "{'field': 1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_stdin_unquoted_keys::344",
+  "argv": [
+   "field"
+  ],
+  "stdin": "{field: 1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM_PROGRAM": "iTerm.app"
+  }
+ },
+ {
+  "name": "test::test_missing_graphics_support_error_on_stdout_exit1::345",
+  "argv": [
+   "Threads"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_without_url_is_accepted_when_piped_but_still_fails_on_graphics_first::346",
+  "argv": [
+   "Threads"
+  ],
+  "stdin": "{\"Threads\": 1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_args_shows_usage::347",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_field_spec_after_flags::348",
+  "argv": [
+   "--steps",
+   "50"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_short_flag::349",
+  "argv": [
+   "-z"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_exits_two::350",
+  "argv": [
+   "--invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_top_level_field::351",
+  "argv": [
+   "missing"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_nested_field::352",
+  "argv": [
+   "obj.missing"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_through_non_object::353",
+  "argv": [
+   "value.nested"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_newlines_in_json_values::354",
+  "argv": [
+   "num"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_some_fields_missing::355",
+  "argv": [
+   "present",
+   "missing"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duplicate_field_specs::356",
+  "argv": [
+   "field",
+   "field"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interval_missing_value::357",
+  "argv": [
+   "--interval"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_steps_valid_positive::358",
+  "argv": [
+   "--steps",
+   "50",
+   "field"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_steps_invalid_string::359",
+  "argv": [
+   "--steps",
+   "abc",
+   "field"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_steps_missing_value::360",
+  "argv": [
+   "--steps"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rows_zero::361",
+  "argv": [
+   "--rows",
+   "0",
+   "field"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rows_invalid_string::362",
+  "argv": [
+   "--rows",
+   "abc",
+   "field"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_valid_format::363",
+  "argv": [
+   "--url",
+   "http://localhost:8080/vars",
+   "field"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_with_stdin_ignored::364",
+  "argv": [
+   "--url",
+   "http://example.com",
+   "field"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_flags_together::365",
+  "argv": [
+   "--url",
+   "http://localhost:8080",
+   "--interval",
+   "2s",
+   "--steps",
+   "50",
+   "--rows",
+   "10",
+   "field"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_in_different_order::366",
+  "argv": [
+   "--steps",
+   "50",
+   "field",
+   "--rows",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_nested_field::367",
+  "argv": [
+   "mem.heap"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_field::368",
+  "argv": [
+   "nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deep_nested_field::369",
+  "argv": [
+   "a.b.c.d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_counter_with_increasing_values::370",
+  "argv": [
+   "counter:count"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_marker_with_zero::371",
+  "argv": [
+   "marker:flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_with_nested_objects::372",
+  "argv": [
+   "level1.level2.value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deep_nested_field::373",
+  "argv": [
+   "level1.level2.level3.field"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_fields_with_plus::374",
+  "argv": [
+   "mem.heap+mem.sys+mem.stack"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_counter_on_nested_field::375",
+  "argv": [
+   "counter:mem.total"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_counter_with_multiple_fields::376",
+  "argv": [
+   "counter:field1+counter:field2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_marker_on_nested_field::377",
+  "argv": [
+   "marker:events.count"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_option::378",
+  "argv": [
+   "invalid:field"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_invalid_options::379",
+  "argv": [
+   "foo,bar:field"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_mixed_with_valid::380",
+  "argv": [
+   "counter,invalid:field"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_multiple_specs::381",
+  "argv": [
+   "counter:mem.heap+mem.sys",
+   "marker:events.count",
+   "cpu.user+cpu.sys"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_memstats_example::382",
+  "argv": [
+   "memstats.HeapSys+memstats.HeapAlloc+memstats.HeapIdle+marker,counter:memstats.NumGC",
+   "counter:memstats.TotalAlloc",
+   "memstats.HeapObjects",
+   "memstats.StackSys+memstats.StackInuse"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hyphenated_field_names::383",
+  "argv": [
+   "field-name.sub-field"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_field_with_numbers::384",
+  "argv": [
+   "field123",
+   "field1.field2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

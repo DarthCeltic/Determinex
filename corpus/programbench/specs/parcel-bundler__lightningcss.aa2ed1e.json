@@ -1,0 +1,4026 @@
+{
+ "slug": "parcel-bundler__lightningcss.aa2ed1e",
+ "language": "",
+ "n_branches": 8,
+ "n_tests_total": 2442,
+ "n_examples": 219,
+ "n_with_exact_stdout": 5,
+ "n_with_rc": 215,
+ "n_skipped": 2218,
+ "examples": [
+  {
+   "test": "test_version",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "lightningcss",
+    "1.0.0-alpha.70"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lightningcss.py:73"
+  },
+  {
+   "test": "test_help",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "lightningcss",
+    "USAGE:",
+    "OPTIONS:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lightningcss.py:81"
+  },
+  {
+   "test": "test_minify_flag",
+   "argv": [
+    "--minify"
+   ],
+   "stdin": ".foo { color: red; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".foo{color:red}"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lightningcss.py:176"
+  },
+  {
+   "test": "test_minify_short_flag",
+   "argv": [
+    "-m"
+   ],
+   "stdin": ".foo { margin: 10px; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".foo{margin:10px}"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lightningcss.py:184"
+  },
+  {
+   "test": "test_minify_removes_whitespace",
+   "argv": [
+    "--minify"
+   ],
+   "stdin": "\n    .foo {\n        color: red;\n        margin: 10px;\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_lightningcss.py:192"
+  },
+  {
+   "test": "test_minify_color_optimization",
+   "argv": [
+    "--minify"
+   ],
+   "stdin": ".foo { color: yellow; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#ff0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lightningcss.py:208"
+  },
+  {
+   "test": "test_minify_hex_color_optimization",
+   "argv": [
+    "--minify"
+   ],
+   "stdin": ".foo { color: #ff0000; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_lightningcss.py:216"
+  },
+  {
+   "test": "test_minify_removes_unnecessary_zeros",
+   "argv": [
+    "--minify"
+   ],
+   "stdin": ".foo { margin: 0px; padding: 0.5em; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_lightningcss.py:224"
+  },
+  {
+   "test": "test_targets_flag",
+   "argv": [
+    "--targets",
+    "safari 4"
+   ],
+   "stdin": "* { border-radius: 1rem; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-webkit-border-radius",
+    "border-radius"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lightningcss.py:235"
+  },
+  {
+   "test": "test_targets_short_flag",
+   "argv": [
+    "-t",
+    "safari 4"
+   ],
+   "stdin": "* { border-radius: 1rem; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-webkit-border-radius"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lightningcss.py:249"
+  },
+  {
+   "test": "test_targets_modern_browser_no_prefix",
+   "argv": [
+    "--targets",
+    "chrome 100"
+   ],
+   "stdin": "* { border-radius: 1rem; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "border-radius"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lightningcss.py:261"
+  },
+  {
+   "test": "test_css_modules_stdout",
+   "argv": [
+    "--css-modules"
+   ],
+   "stdin": ".foo { color: red; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "code",
+    "exports"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lightningcss.py:410"
+  },
+  {
+   "test": "test_css_modules_with_keyframes",
+   "argv": [
+    "--css-modules"
+   ],
+   "stdin": "@keyframes fade { from { opacity: 0; } to { opacity: 1; } }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "fade"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lightningcss.py:422"
+  },
+  {
+   "test": "test_custom_media_flag",
+   "argv": [
+    "--custom-media"
+   ],
+   "stdin": "@custom-media --small (max-width: 768px);\n@media (--small) { .foo { color: red; } }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_lightningcss.py:495"
+  },
+  {
+   "test": "test_error_recovery_flag",
+   "argv": [
+    "--error-recovery"
+   ],
+   "stdin": ".foo { color: ; }\n.bar { margin: 10px; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_lightningcss.py:505"
+  },
+  {
+   "test": "test_minify_with_targets",
+   "argv": [
+    "--minify",
+    "--targets",
+    "safari 4"
+   ],
+   "stdin": "* { border-radius: 1rem; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-webkit-border-radius"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lightningcss.py:633"
+  },
+  {
+   "test": "test_exact_help_output",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "lightningcss",
+    "USAGE:",
+    "ARGS:",
+    "OPTIONS:",
+    "--minify",
+    "--targets"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lightningcss.py:724"
+  },
+  {
+   "test": "test_exact_version_output",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "lightningcss 1.0.0-alpha.70\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_lightningcss.py:738"
+  },
+  {
+   "test": "test_minify_color_conversion",
+   "argv": [
+    "--minify"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_lightningcss.py:753"
+  },
+  {
+   "test": "test_minify_preserves_semantics",
+   "argv": [
+    "--minify"
+   ],
+   "stdin": "\n    .foo {\n        margin-top: 10px;\n        margin-right: 20px;\n        margin-bottom: 10px;\n        margin-left: 20px;\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "margin:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lightningcss.py:886"
+  },
+  {
+   "test": "test_nested_css",
+   "argv": [
+    "-t",
+    "chrome 80"
+   ],
+   "stdin": "\n    .parent {\n        color: blue;\n        \n        &:hover {\n            color: red;\n        }\n        \n        .child {\n            padding: 10px;\n            \n            &.active {\n                font-weight: bold;\n            }\n        }\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "parent",
+    "child",
+    "color"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:233"
+  },
+  {
+   "test": "test_dir_lang_selectors",
+   "argv": [
+    "-t",
+    "chrome 80"
+   ],
+   "stdin": "\n    :lang(ar) { direction: rtl; }\n    :lang(en, fr, de) { font-family: sans-serif; }\n    :dir(rtl) { text-align: right; }\n    :dir(ltr) { text-align: left; }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:343"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "lightningcss"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:5"
+  },
+  {
+   "test": "test_version_short_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "lightningcss"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:13"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:",
+    "OPTIONS:",
+    "--minify",
+    "--bundle",
+    "--output-file",
+    "--targets"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:20"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:",
+    "OPTIONS:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:31"
+  },
+  {
+   "test": "test_browserslist_file_discovery",
+   "argv": [
+    "test.css",
+    "--browserslist"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-webkit-border-radius"
+   ],
+   "files": {
+    "test.css": ".box { border-radius: 5px; }"
+   },
+   "ci": false,
+   "source": "test_browserslist.py:6"
+  },
+  {
+   "test": "test_package_json_browserslist",
+   "argv": [
+    "test.css",
+    "--browserslist"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "display"
+   ],
+   "files": {
+    "test.css": ".flex { display: flex; }"
+   },
+   "ci": false,
+   "source": "test_browserslist.py:33"
+  },
+  {
+   "test": "test_browserslist_env_var",
+   "argv": [
+    "test.css",
+    "--browserslist"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-webkit-user-select"
+   ],
+   "files": {
+    "test.css": ".box { user-select: none; }"
+   },
+   "ci": false,
+   "source": "test_browserslist.py:46"
+  },
+  {
+   "test": "test_browserslist_node_env",
+   "argv": [
+    "test.css",
+    "--browserslist"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-webkit-transform"
+   ],
+   "files": {
+    "test.css": ".box { transform: scale(1.5); }"
+   },
+   "ci": false,
+   "source": "test_browserslist.py:89"
+  },
+  {
+   "test": "test_without_browserslist_flag_no_discovery",
+   "argv": [
+    "test.css"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.css": ".box { border-radius: 10px; }"
+   },
+   "ci": false,
+   "source": "test_browserslist.py:126"
+  },
+  {
+   "test": "test_bundle_basic",
+   "argv": [
+    "main.css",
+    "--bundle"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".imported",
+    ".main"
+   ],
+   "files": {
+    "main.css": "@import \"imported.css\";\n.main { color: blue; }"
+   },
+   "ci": false,
+   "source": "test_bundling.py:5"
+  },
+  {
+   "test": "test_bundle_relative_path",
+   "argv": [
+    "main.css",
+    "--bundle"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".component",
+    ".app",
+    "padding"
+   ],
+   "files": {
+    "main.css": "@import \"./styles/component.css\";\n.app { margin: 0; }"
+   },
+   "ci": false,
+   "source": "test_bundling.py:23"
+  },
+  {
+   "test": "test_bundle_nested_imports",
+   "argv": [
+    "main.css",
+    "--bundle"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".base",
+    ".component",
+    ".main"
+   ],
+   "files": {
+    "main.css": "@import \"component.css\";\n.main { background: white; }"
+   },
+   "ci": false,
+   "source": "test_bundling.py:40"
+  },
+  {
+   "test": "test_bundle_with_minify",
+   "argv": [
+    "main.css",
+    "--bundle",
+    "-m"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".imported",
+    ".main"
+   ],
+   "files": {
+    "main.css": "@import \"imported.css\";\n.main { background: white; }"
+   },
+   "ci": false,
+   "source": "test_bundling.py:67"
+  },
+  {
+   "test": "test_bundle_preserves_order",
+   "argv": [
+    "main.css",
+    "--bundle"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "main.css": "@import \"first.css\";\n@import \"second.css\";\n.main { order: 3; }"
+   },
+   "ci": false,
+   "source": "test_bundling.py:84"
+  },
+  {
+   "test": "test_without_bundle_preserves_import",
+   "argv": [
+    "main.css"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@import"
+   ],
+   "files": {
+    "main.css": "@import \"imported.css\";\n.main { color: blue; }"
+   },
+   "ci": false,
+   "source": "test_bundling.py:105"
+  },
+  {
+   "test": "test_minify_with_targets",
+   "argv": [
+    "-m",
+    "-t",
+    "chrome 95"
+   ],
+   "stdin": "\n    .box {\n        -webkit-border-radius: 10px;\n        border-radius: 10px;\n        color: #ffffff;\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".box{"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_combinations.py:5"
+  },
+  {
+   "test": "test_minify_with_sourcemap",
+   "argv": [
+    "test.css",
+    "-o",
+    "-m",
+    "--sourcemap"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.css": ".test { color: red; background: blue; }"
+   },
+   "ci": false,
+   "source": "test_cli_combinations.py:21"
+  },
+  {
+   "test": "test_bundle_with_targets",
+   "argv": [
+    "main.css",
+    "--bundle",
+    "-t",
+    "safari 10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".imported",
+    "-webkit-"
+   ],
+   "files": {
+    "main.css": "@import \"imported.css\";\n.main { user-select: none; }"
+   },
+   "ci": false,
+   "source": "test_cli_combinations.py:51"
+  },
+  {
+   "test": "test_targets_with_sourcemap",
+   "argv": [
+    "input.css",
+    "-o",
+    "-t",
+    "safari 9",
+    "--sourcemap"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-webkit-appearance"
+   ],
+   "files": {
+    "input.css": ".box { appearance: none; }"
+   },
+   "ci": false,
+   "source": "test_cli_combinations.py:65"
+  },
+  {
+   "test": "test_css_modules_with_minify",
+   "argv": [
+    "input.css",
+    "-o",
+    "--css-modules",
+    "-m"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "input.css": ".button { padding: 10px; background: blue; }"
+   },
+   "ci": false,
+   "source": "test_cli_combinations.py:81"
+  },
+  {
+   "test": "test_css_modules_with_targets",
+   "argv": [
+    "input.css",
+    "-o",
+    "--css-modules",
+    "-t",
+    "safari 4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-webkit-border-radius"
+   ],
+   "files": {
+    "input.css": ".card { border-radius: 8px; }"
+   },
+   "ci": false,
+   "source": "test_cli_combinations.py:99"
+  },
+  {
+   "test": "test_all_flags_combined",
+   "argv": [
+    "input.css",
+    "-o",
+    "--css-modules",
+    "-m",
+    "-t",
+    "safari 10",
+    "--sourcemap"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-webkit-"
+   ],
+   "files": {
+    "input.css": "\n    .component {\n        border-radius: 4px;\n        user-select: none;\n        color: #ff0000;\n    }\n    "
+   },
+   "ci": false,
+   "source": "test_cli_combinations.py:117"
+  },
+  {
+   "test": "test_multiple_files_with_all_options",
+   "argv": [
+    "file1.css",
+    "file2.css",
+    "-d",
+    "-m",
+    "-t",
+    "safari 9",
+    "--sourcemap"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "file1.css": ".one { transform: rotate(45deg); }",
+    "file2.css": ".two { border-radius: 10px; }"
+   },
+   "ci": false,
+   "source": "test_cli_combinations.py:144"
+  },
+  {
+   "test": "test_stdin_with_multiple_options",
+   "argv": [
+    "-m",
+    "-t",
+    "safari 10"
+   ],
+   "stdin": ".test { appearance: none; color: #ffffff; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-webkit-"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_combinations.py:164"
+  },
+  {
+   "test": "test_custom_media_with_targets",
+   "argv": [
+    "--custom-media",
+    "-t",
+    "chrome 80"
+   ],
+   "stdin": "\n    @custom-media --small (max-width: 600px);\n    @media (--small) {\n        .responsive { display: block; }\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "max-width",
+    "600px"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_combinations.py:176"
+  },
+  {
+   "test": "test_error_recovery_with_minify",
+   "argv": [
+    "--error-recovery",
+    "-m"
+   ],
+   "stdin": "\n    .valid { color: blue; }\n    .invalid { broken syntax; }\n    .also-valid { background: red; }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_combinations.py:192"
+  },
+  {
+   "test": "test_browserslist_with_minify",
+   "argv": [
+    "test.css",
+    "--browserslist",
+    "-m"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-webkit-border-radius"
+   ],
+   "files": {
+    "test.css": ".box { border-radius: 5px; color: #ff0000; }"
+   },
+   "ci": false,
+   "source": "test_cli_combinations.py:205"
+  },
+  {
+   "test": "test_transform_properties",
+   "argv": [
+    "-t",
+    "chrome 80"
+   ],
+   "stdin": "\n    .transformed {\n        transform: translate(10px, 20px) rotate(45deg) scale(1.5);\n        transform-origin: center center;\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "transform"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_css.py:25"
+  },
+  {
+   "test": "test_modern_color_functions_with_targets",
+   "argv": [
+    "-t",
+    "chrome 80"
+   ],
+   "stdin": "\n    .modern-colors {\n        color: lab(50% 20 30);\n        background: lch(60% 40 180);\n        border: oklch(0.5 0.2 180);\n        outline: oklab(0.6 0.1 -0.1);\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "color",
+    "background"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_css.py:55"
+  },
+  {
+   "test": "test_vendor_prefix_removal",
+   "argv": [
+    "-t",
+    "chrome 95"
+   ],
+   "stdin": "\n    .prefixed {\n        -webkit-border-radius: 5px;\n        -moz-border-radius: 5px;\n        border-radius: 5px;\n        \n        -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.5);\n        -moz-box-shadow: 0 0 10px rgba(0,0,0,0.5);\n        box-shadow: 0 0 10px rgba(0,0,0,0.5);\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "border-radius"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_css.py:306"
+  },
+  {
+   "test": "test_vendor_prefix_addition",
+   "argv": [
+    "-t",
+    "safari 10"
+   ],
+   "stdin": "\n    .needs-prefix {\n        user-select: none;\n        appearance: none;\n        backdrop-filter: blur(10px);\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_css.py:328"
+  },
+  {
+   "test": "test_minify_shorthand_combination",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "\n    .combine {\n        margin-top: 10px;\n        margin-right: 20px;\n        margin-bottom: 10px;\n        margin-left: 20px;\n        \n        padding-top: 5px;\n        padding-right: 5px;\n        padding-bottom: 5px;\n        padding-left: 5px;\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "margin:",
+    "padding:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_css.py:374"
+  },
+  {
+   "test": "test_import_with_layers",
+   "argv": [
+    "--bundle"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_css_at_rules_comprehensive.py:190"
+  },
+  {
+   "test": "test_css_modules_basic",
+   "argv": [
+    "input.css",
+    "-o",
+    "--css-modules"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "foo",
+    "foo"
+   ],
+   "files": {
+    "input.css": ".foo { color: red; }"
+   },
+   "ci": false,
+   "source": "test_css_modules.py:6"
+  },
+  {
+   "test": "test_css_modules_stdout",
+   "argv": [
+    "--css-modules"
+   ],
+   "stdin": ".bar { background: blue; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "code",
+    "exports",
+    "bar"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_css_modules.py:28"
+  },
+  {
+   "test": "test_css_modules_custom_path",
+   "argv": [
+    "input.css",
+    "-o",
+    "--css-modules"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bar"
+   ],
+   "files": {
+    "input.css": ".bar { background: blue; }"
+   },
+   "ci": false,
+   "source": "test_css_modules.py:42"
+  },
+  {
+   "test": "test_css_modules_scopes_classes",
+   "argv": [
+    "styles.css",
+    "-o",
+    "--css-modules"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "button",
+    "container"
+   ],
+   "files": {
+    "styles.css": "\n    .button { padding: 10px; }\n    .container { display: flex; }\n    "
+   },
+   "ci": false,
+   "source": "test_css_modules.py:58"
+  },
+  {
+   "test": "test_css_modules_scopes_ids",
+   "argv": [
+    "input.css",
+    "-o",
+    "--css-modules"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "header"
+   ],
+   "files": {
+    "input.css": "#header { height: 60px; }"
+   },
+   "ci": false,
+   "source": "test_css_modules.py:84"
+  },
+  {
+   "test": "test_css_modules_scopes_keyframes",
+   "argv": [
+    "input.css",
+    "-o",
+    "--css-modules"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "fade"
+   ],
+   "files": {
+    "input.css": "\n    @keyframes fade {\n        from { opacity: 0; }\n        to { opacity: 1; }\n    }\n    .animated { animation: fade 1s; }\n    "
+   },
+   "ci": false,
+   "source": "test_css_modules.py:104"
+  },
+  {
+   "test": "test_css_modules_local_and_global",
+   "argv": [
+    "input.css",
+    "-o",
+    "--css-modules"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".global-class",
+    "color"
+   ],
+   "files": {
+    "input.css": "\n    :local(.local-class) { color: red; }\n    :global(.global-class) { color: blue; }\n    "
+   },
+   "ci": false,
+   "source": "test_css_modules.py:131"
+  },
+  {
+   "test": "test_css_modules_pattern",
+   "argv": [
+    "input.css",
+    "-o",
+    "--css-modules",
+    "--css-modules-pattern",
+    "[name]_[local]"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test",
+    "color"
+   ],
+   "files": {
+    "input.css": ".test { color: red; }"
+   },
+   "ci": false,
+   "source": "test_css_modules.py:154"
+  },
+  {
+   "test": "test_css_modules_dashed_idents",
+   "argv": [
+    "input.css",
+    "-o",
+    "--css-modules",
+    "--css-modules-dashed-idents"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "color",
+    "var("
+   ],
+   "files": {
+    "input.css": "\n    .foo { \n        --custom-prop: blue;\n        color: var(--custom-prop);\n    }\n    "
+   },
+   "ci": false,
+   "source": "test_css_modules.py:170"
+  },
+  {
+   "test": "test_css_modules_multiple_files",
+   "argv": [
+    "file1.css",
+    "file2.css",
+    "-d",
+    "--css-modules"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "file1.css": ".one { color: red; }",
+    "file2.css": ".two { color: blue; }"
+   },
+   "ci": false,
+   "source": "test_css_modules.py:191"
+  },
+  {
+   "test": "test_without_css_modules_no_scoping",
+   "argv": [
+    "input.css",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".regular"
+   ],
+   "files": {
+    "input.css": ".regular { color: red; }"
+   },
+   "ci": false,
+   "source": "test_css_modules.py:214"
+  },
+  {
+   "test": "test_modern_color_spaces",
+   "argv": [
+    "-t",
+    "chrome 90"
+   ],
+   "stdin": "\n    .c1 { color: lab(50% 40 60); }\n    .c2 { color: lab(50% 40 60 / 0.5); }\n    .c3 { color: lch(50% 50 180); }\n    .c4 { color: lch(50% 50 180deg / 0.5); }\n    .c5 { color: oklab(0.5 0.1 -0.1); }\n    .c6 { color: oklch(0.5 0.2 180); }\n    .c7 { color: color(display-p3 1 0 0); }\n    .c8 { color: color(srgb 1 0 0 / 0.5); }\n    .c9 { color: color(a98-rgb 0.5 0.5 0.5); }\n    .c10 { color: color(prophoto-rgb 0.5 0.5 0.5); }\n    .c11 { color: color(rec2020 0.5 0.5 0.5); }\n    .c12 { color: color(xyz 0.5 0.5 0.5); }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "color"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_css_values_comprehensive.py:48"
+  },
+  {
+   "test": "test_color_mix",
+   "argv": [
+    "-t",
+    "chrome 100"
+   ],
+   "stdin": "\n    .m1 { color: color-mix(in srgb, red, blue); }\n    .m2 { color: color-mix(in srgb, red 50%, blue); }\n    .m3 { color: color-mix(in oklch, red 30%, blue 70%); }\n    .m4 { color: color-mix(in lab, #ff0000, #0000ff 25%); }\n    .m5 { background: color-mix(in hsl, hsl(0 100% 50%), transparent 50%); }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "color"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_css_values_comprehensive.py:71"
+  },
+  {
+   "test": "test_relative_colors",
+   "argv": [
+    "-t",
+    "chrome 110"
+   ],
+   "stdin": "\n    .r1 { color: rgb(from blue r g b / 0.5); }\n    .r2 { color: hsl(from green h s l / 0.8); }\n    .r3 { color: lab(from purple l a b); }\n    .r4 { color: oklch(from red l c h / 0.9); }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "color"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_css_values_comprehensive.py:86"
+  },
+  {
+   "test": "test_custom_media_basic",
+   "argv": [
+    "input.css",
+    "--custom-media",
+    "-t",
+    "chrome 80"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "max-width",
+    "600px",
+    ".responsive",
+    "font-size"
+   ],
+   "files": {
+    "input.css": "\n    @custom-media --small (max-width: 600px);\n    \n    @media (--small) {\n        .responsive { font-size: 14px; }\n    }\n    "
+   },
+   "ci": false,
+   "source": "test_custom_media.py:5"
+  },
+  {
+   "test": "test_custom_media_multiple_definitions",
+   "argv": [
+    "--custom-media",
+    "-t",
+    "chrome 80"
+   ],
+   "stdin": "\n    @custom-media --small (max-width: 600px);\n    @custom-media --large (min-width: 1200px);\n    \n    @media (--small) { .small { display: block; } }\n    @media (--large) { .large { display: flex; } }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".small",
+    ".large",
+    "max-width",
+    "min-width",
+    "600px",
+    "1200px"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_custom_media.py:26"
+  },
+  {
+   "test": "test_custom_media_complex_query",
+   "argv": [
+    "--custom-media",
+    "-t",
+    "chrome 80"
+   ],
+   "stdin": "\n    @custom-media --tablet (min-width: 600px) and (max-width: 1024px);\n    \n    @media (--tablet) {\n        .tablet-view { padding: 20px; }\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".tablet-view",
+    "padding",
+    "width"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_custom_media.py:45"
+  },
+  {
+   "test": "test_custom_media_with_output_file",
+   "argv": [
+    "input.css",
+    "-o",
+    "--custom-media",
+    "-t",
+    "chrome 80"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".mobile",
+    "max-width",
+    "480px"
+   ],
+   "files": {
+    "input.css": "\n    @custom-media --mobile (max-width: 480px);\n    @media (--mobile) { .mobile { width: 100%; } }\n    "
+   },
+   "ci": false,
+   "source": "test_custom_media.py:78"
+  },
+  {
+   "test": "test_error_recovery_skips_invalid_rules",
+   "argv": [
+    "--error-recovery"
+   ],
+   "stdin": "\n    .valid { color: red; }\n    .invalid { color: notacolor xyz 123; }\n    .another-valid { background: blue; }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".valid",
+    ".another-valid"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_recovery.py:5"
+  },
+  {
+   "test": "test_error_recovery_with_malformed_syntax",
+   "argv": [
+    "--error-recovery"
+   ],
+   "stdin": "\n    .good { padding: 10px; }\n    .broken { padding 10px }\n    .ok { margin: 5px; }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".good",
+    ".ok"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_recovery.py:21"
+  },
+  {
+   "test": "test_error_recovery_with_output_file",
+   "argv": [
+    "input.css",
+    "-o",
+    "--error-recovery"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".works",
+    ".also-works"
+   ],
+   "files": {
+    "input.css": "\n    .works { width: 100%; }\n    .broken { width: abc; }\n    .also-works { height: 50px; }\n    "
+   },
+   "ci": false,
+   "source": "test_error_recovery.py:46"
+  },
+  {
+   "test": "test_error_recovery_produces_warnings",
+   "argv": [
+    "--error-recovery"
+   ],
+   "stdin": "\n    .valid { color: blue; }\n    .invalid { not-a-property: invalid-value xyz; }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".valid"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_recovery.py:65"
+  },
+  {
+   "test": "test_error_recovery_with_minify",
+   "argv": [
+    "--error-recovery",
+    "-m"
+   ],
+   "stdin": "\n    .minify-me { margin: 10px; padding: 10px; }\n    .broken { invalid syntax here; }\n    .also-minify { color: #ff0000; }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".also-minify"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_recovery.py:78"
+  },
+  {
+   "test": "test_css_feature_minified",
+   "argv": [
+    "-m"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_extreme_coverage_push.py:134"
+  },
+  {
+   "test": "test_css_feature_with_targets",
+   "argv": [
+    "-t",
+    "chrome 90"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_extreme_coverage_push.py:142"
+  },
+  {
+   "test": "test_css_feature_minified_with_targets",
+   "argv": [
+    "-m",
+    "-t",
+    "ie 11"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_extreme_coverage_push.py:150"
+  },
+  {
+   "test": "test_single_input_file",
+   "argv": [
+    "input.css"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".bar"
+   ],
+   "files": {
+    "input.css": ".bar { width: 100%; }"
+   },
+   "ci": false,
+   "source": "test_input_output.py:5"
+  },
+  {
+   "test": "test_empty_input_file",
+   "argv": [
+    "empty.css"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "empty.css": ""
+   },
+   "ci": false,
+   "source": "test_input_output.py:15"
+  },
+  {
+   "test": "test_output_file_option",
+   "argv": [
+    "input.css",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".test",
+    "padding"
+   ],
+   "files": {
+    "input.css": ".test { padding: 10px; }"
+   },
+   "ci": false,
+   "source": "test_input_output.py:30"
+  },
+  {
+   "test": "test_output_file_creates_directories",
+   "argv": [
+    "input.css",
+    "--output-file"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".nested",
+    "color"
+   ],
+   "files": {
+    "input.css": ".nested { color: green; }"
+   },
+   "ci": false,
+   "source": "test_input_output.py:44"
+  },
+  {
+   "test": "test_multiple_input_files_with_output_dir",
+   "argv": [
+    "file1.css",
+    "file2.css",
+    "-d"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".one",
+    ".two"
+   ],
+   "files": {
+    "file1.css": ".one { color: red; }",
+    "file2.css": ".two { color: blue; }"
+   },
+   "ci": false,
+   "source": "test_input_output.py:58"
+  },
+  {
+   "test": "test_output_file_overwrites_existing",
+   "argv": [
+    "input.css",
+    "-o",
+    "output.css"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".new"
+   ],
+   "files": {
+    "input.css": ".new { color: green; }",
+    "output.css": "old content"
+   },
+   "ci": false,
+   "source": "test_input_output.py:93"
+  },
+  {
+   "test": "test_unicode_in_css",
+   "argv": [
+    "unicode.css"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "emoji",
+    "content"
+   ],
+   "files": {
+    "unicode.css": ".emoji::before { content: \"🎨\"; }"
+   },
+   "ci": false,
+   "source": "test_input_output.py:108"
+  },
+  {
+   "test": "test_huge_varied_css",
+   "argv": [
+    "-t",
+    "chrome 90",
+    "-m"
+   ],
+   "stdin": "\n    /* Basic selectors */\n    * { box-sizing: border-box; }\n    body { margin: 0; padding: 0; font-family: sans-serif; }\n    h1, h2, h3, h4, h5, h6 { font-weight: bold; }\n    \n    /* Classes and IDs */\n    .container { width: 100%; max-width: 1200px; margin: 0 auto; }\n    #header { background: linear-gradient(to right, #ff0000, #00ff00); }\n    \n    /* Pseudo-classes and pseudo-elements */\n    a:link { color: blue; }\n    a:visited { color: purple; }\n    a:hover { color: red; text-decoration: underline; }\n    a:active { color: orange; }\n    p::first-letter { font-size: 2em; float: left; }\n    p::first-line { font-weight: bold; }\n    .button::before { content: \"→ \"; }\n    .button::after { content: \" ←\"; }\n    input:focus { outline: 2px solid blue; box-shadow: 0 0 5px rgba(0,0,255,0.5); }\n    input:checked + label { font-weight: bold; }\n    input:disabled { opacity: 0.5; cursor: not-allowed; }\n    \n    /* Combinators */\n    div p { color: inherit; }\n    div > p { margin: 0; }\n    h1 + p { margin-top: 0; }\n    h1 ~ p { color: gray; }\n    \n    /* Attribute selectors */\n    [data-active] { color: green; }\n    [data-state=\"loading\"] { opacity: 0.7; }\n    [href^=\"https\"] { color: green; }\n    [href$=\".pdf\"] { background: url(pdf-icon.png) no-repeat; }\n    [href*=\"example\"] { text-decoration: none; }\n    [lang|=\"en\"] { quotes: '\"' '\"'; }\n    \n    /* Box model */\n    .box {\n        width: 300px;\n        height: 200px;\n        padding: 20px 15px 10px 5px;\n        margin: 10px auto;\n        border: 2px solid #000;\n        border-radius: 10px 20px 30px 40px;\n        box-shadow: 0 4px 6px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.2);\n    }\n    \n    /* Positioning */\n    .absolute { position: absolute; top: 10px; right: 20px; bottom: 30px; left: 40px; z-index: 100; }\n    .relative { position: relative; top: 5px; left: 10px; }\n    .fixed { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; }\n    .sticky { position: sticky; top: 0; }\n    \n    /* Display and visibility */\n    .hide { display: none; }\n    .invisible { visibility: hidden; }\n    .block { display: block; }\n    .inline { display: inline; }\n    .inline-block { display: inline-block; }\n    .flex { display: flex; }\n    .grid { display: grid; }\n    \n    /* Flexbox */\n    .flex-container {\n        display: flex;\n        flex-direction: row;\n        flex-wrap: wrap;\n        justify-content: space-between;\n        align-items: center;\n        align-content: stretch;\n        gap: 10px 20px;\n    }\n    .flex-item {\n        flex: 1 1 auto;\n        flex-grow: 2;\n        flex-shrink: 0;\n        flex-basis: 200px;\n        align-self: flex-end;\n        order: -1;\n    }\n    \n    /* Grid */\n    .grid-container {\n        display: grid;\n        grid-template-columns: repeat(3, 1fr);\n        grid-template-rows: auto 1fr auto;\n        grid-gap: 20px;\n        grid-auto-flow: dense;\n        grid-template-areas:\n            \"header header header\"\n            \"sidebar main main\"\n            \"footer footer footer\";\n    }\n    .grid-item {\n        grid-column: 1 / 3;\n        grid-row: 2 / span 2;\n        grid-area: main;\n    }\n    \n    /* Typography */\n    .text {\n        font-family: \"Helvetica Neue\", Arial, sans-serif;\n        font-size: clamp(14px, 2vw, 18px);\n        font-weight: 600;\n        font-style: italic;\n        font-variant: small-caps;\n        line-height: 1.6;\n        letter-spacing: 0.05em;\n        word-spacing: 0.1em;\n        text-align: justify;\n        text-indent: 2em;\n        text-transform: uppercase;\n        text-decoration: underline wavy red;\n        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);\n        white-space: nowrap;\n        word-wrap: break-word;\n        overflow-wrap: break-word;\n        hyphens: auto;\n    }\n    \n    /* Colors */\n    .colors {\n        color: #f00;\n        background-color: rgb(0, 255, 0);\n        border-color: rgba(0, 0, 255, 0.5);\n        outline-color: hsl(120, 100%, 50%);\n        box-shadow: 0 0 10px hsla(240, 100%, 50%, 0.7);\n    }\n    \n    /* Backgrounds */\n    .background {\n        background-color: white;\n        background-image: url(\"image.png\"), linear-gradient(to bottom, red, blue);\n        background-size: cover, contain;\n        background-position: center, top left;\n        background-repeat: no-repeat, repeat-x;\n        background-attachment: fixed, scroll;\n        background-origin: border-box;\n        background-clip: padding-box;\n    }\n    \n    /* Borders */\n    .borders {\n        border-width: 1px 2px 3px 4px;\n        border-style: solid dashed dotted double;\n        border-color: red green blue yellow;\n        border-radius: 50%;\n        border-image: url(\"border.png\") 30 round;\n    }\n    \n    /* Transforms */\n    .transform {\n        transform: translate(10px, 20px) rotate(45deg) scale(1.5) skew(10deg, 5deg);\n        transform-origin: center center;\n        transform-style: preserve-3d;\n        perspective: 1000px;\n        perspective-origin: 50% 50%;\n    }\n    \n    /* Transitions and animations */\n    .transition {\n        transition: all 0.3s ease-in-out 0.1s;\n        transition-property: opacity, transform;\n        transition-duration: 0.5s, 1s;\n        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);\n        transition-delay: 0s, 0.2s;\n    }\n    \n    @keyframes slide {\n        0% { transform: translateX(-100%); opacity: 0; }\n        50% { transform: translateX(0); opacity: 1; }\n        100% { transform: translateX(100%); opacity: 0; }\n    }\n    \n    .animated {\n        animation: slide 2s ease-in-out infinite;\n        animation-delay: 0.5s;\n        animation-direction: alternate;\n        animation-fill-mode: forwards;\n        animation-iteration-count: 3;\n        animation-play-state: running;\n    }\n    \n    /* Filters */\n    .filtered {\n        filter: blur(5px) brightness(1.2) contrast(1.1) grayscale(0.5) hue-rotate(90deg) invert(0.2) opacity(0.9) saturate(1.5) sepia(0.3);\n        backdrop-filter: blur(10px);\n    }\n    \n    /* Media queries */\n    @media screen and (min-width: 768px) {\n        .responsive { width: 80%; }\n    }\n    @media (min-width: 992px) and (max-width: 1199px) {\n        .responsive { width: 70%; }\n    }\n    @media (orientation: landscape) {\n        .landscape { display: block; }\n    }\n    @media print {\n        .no-print { display: none; }\n        body { color: black; background: white; }\n    }\n    \n    /* Supports queries */\n    @supports (display: grid) {\n        .grid-fallback { display: grid; }\n    }\n    @supports not (display: flex) {\n        .flex-fallback { display: table; }\n    }\n    \n    /* Custom properties */\n    :root {\n        --primary: #007bff;\n        --secondary: #6c757d;\n        --spacing: 1rem;\n        --border-radius: 0.25rem;\n    }\n    .component {\n        color: var(--primary);\n        margin: var(--spacing);\n        border-radius: var(--border-radius);\n    }\n    \n    /* Calc */\n    .calc {\n        width: calc(100% - 40px);\n        height: calc(100vh - 60px);\n        padding: calc(1rem + 5px);\n        margin: calc((100% - 960px) / 2);\n    }\n    \n    /* Multiple columns */\n    .columns {\n        column-count: 3;\n        column-width: 200px;\n        column-gap: 2em;\n        column-rule: 1px solid #ccc;\n        column-span: all;\n    }\n    \n    /* Tables */\n    table {\n        border-collapse: collapse;\n        border-spacing: 0;\n        table-layout: fixed;\n        caption-side: bottom;\n    }\n    \n    /* Lists */\n    ul {\n        list-style-type: circle;\n        list-style-position: inside;\n        list-style-image: url(\"bullet.png\");\n    }\n    \n    /* Overflow */\n    .overflow {\n        overflow: auto;\n        overflow-x: scroll;\n        overflow-y: hidden;\n        text-overflow: ellipsis;\n    }\n    \n    /* Cursor */\n    .pointer { cursor: pointer; }\n    .wait { cursor: wait; }\n    .help { cursor: help; }\n    \n    /* User interaction */\n    .no-select { user-select: none; }\n    .no-pointer { pointer-events: none; }\n    .resizable { resize: both; }\n    \n    /* Misc */\n    .misc {\n        opacity: 0.8;\n        z-index: 999;\n        mix-blend-mode: multiply;\n        will-change: transform, opacity;\n        aspect-ratio: 16 / 9;\n        object-fit: cover;\n        object-position: center;\n        scroll-behavior: smooth;\n        scroll-snap-type: y mandatory;\n        isolation: isolate;\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".",
+    "{"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_massive_coverage.py:4"
+  },
+  {
+   "test": "test_logical_properties_complete",
+   "argv": [
+    "-t",
+    "chrome 80"
+   ],
+   "stdin": "\n    .logical {\n        margin-block-start: 10px;\n        margin-block-end: 20px;\n        margin-inline-start: 15px;\n        margin-inline-end: 25px;\n        padding-block: 10px 20px;\n        padding-inline: 15px 25px;\n        border-block-width: 2px;\n        border-inline-width: 1px;\n        inset-block: 0 10px;\n        inset-inline: 5px 15px;\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_massive_coverage.py:332"
+  },
+  {
+   "test": "test_all_color_formats",
+   "argv": [
+    "-t",
+    "chrome 90"
+   ],
+   "stdin": "\n    .colors {\n        /* Named colors */\n        color: red;\n        background: transparent;\n        border-color: currentColor;\n        \n        /* Hex */\n        outline-color: #f00;\n        box-shadow: 0 0 5px #ff0000;\n        text-shadow: 1px 1px #ff0000ff;\n        \n        /* RGB */\n        color: rgb(255, 0, 0);\n        background: rgba(0, 0, 255, 0.5);\n        border: rgb(255 0 0);\n        outline: rgba(0 0 255 / 0.5);\n        \n        /* HSL */\n        color: hsl(0, 100%, 50%);\n        background: hsla(240, 100%, 50%, 0.7);\n        border: hsl(0 100% 50%);\n        outline: hsla(240 100% 50% / 0.7);\n        \n        /* HWB */\n        color: hwb(0 0% 0%);\n        \n        /* LAB */\n        color: lab(50% 20 30);\n        \n        /* LCH */\n        background: lch(60% 40 180);\n        \n        /* OKLAB */\n        border: oklab(0.5 0.2 0.1);\n        \n        /* OKLCH */\n        outline: oklch(0.6 0.15 180);\n        \n        /* Color function */\n        color: color(display-p3 1 0 0);\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "color"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_maximum_coverage.py:86"
+  },
+  {
+   "test": "test_vendor_specific_properties",
+   "argv": [
+    "-t",
+    "safari 10"
+   ],
+   "stdin": "\n    .vendor {\n        -webkit-appearance: none;\n        -moz-appearance: none;\n        appearance: none;\n        \n        -webkit-backdrop-filter: blur(10px);\n        backdrop-filter: blur(10px);\n        \n        -webkit-text-fill-color: transparent;\n        -webkit-background-clip: text;\n        background-clip: text;\n        \n        -webkit-line-clamp: 3;\n        -webkit-box-orient: vertical;\n        \n        -ms-overflow-style: none;\n        scrollbar-width: none;\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_maximum_coverage.py:352"
+  },
+  {
+   "test": "test_minify_flag_basic",
+   "argv": [
+    "input.css",
+    "-m"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".foo{"
+   ],
+   "files": {
+    "input.css": "\n    .foo {\n        color: red;\n        background: blue;\n    }\n    "
+   },
+   "ci": false,
+   "source": "test_minify.py:5"
+  },
+  {
+   "test": "test_minify_removes_whitespace",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "\n    .container    {\n        padding:    20px   ;\n        margin  :  10px  ;\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_minify.py:23"
+  },
+  {
+   "test": "test_minify_optimizes_colors",
+   "argv": [
+    "--minify"
+   ],
+   "stdin": ".color { background: #ff0000; color: #0000ff; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_minify.py:37"
+  },
+  {
+   "test": "test_minify_removes_comments",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "\n    /* This is a comment */\n    .foo { color: red; }\n    /* Another comment */\n    .bar { color: blue; }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".foo",
+    ".bar"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_minify.py:46"
+  },
+  {
+   "test": "test_minify_combines_properties",
+   "argv": [
+    "--minify"
+   ],
+   "stdin": "\n    .box {\n        margin-top: 10px;\n        margin-right: 10px;\n        margin-bottom: 10px;\n        margin-left: 10px;\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "margin:10px"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_minify.py:61"
+  },
+  {
+   "test": "test_minify_with_output_file",
+   "argv": [
+    "input.css",
+    "-m",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".element{",
+    "display:block"
+   ],
+   "files": {
+    "input.css": "\n    .element {\n        display: block;\n        width: 100%;\n    }\n    "
+   },
+   "ci": false,
+   "source": "test_minify.py:78"
+  },
+  {
+   "test": "test_minify_reduces_calc_expressions",
+   "argv": [
+    "-m"
+   ],
+   "stdin": ".calc { width: calc(100% - 0px); height: calc(10px + 5px); }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "width:100%"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_minify.py:100"
+  },
+  {
+   "test": "test_minify_optimizes_zero_values",
+   "argv": [
+    "--minify"
+   ],
+   "stdin": ".zero { margin: 0px; padding: 0em; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "margin:0",
+    "padding:0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_minify.py:110"
+  },
+  {
+   "test": "test_minify_comprehensive_properties",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "\n    .element {\n        margin-top: 0px;\n        margin-right: 0px;\n        margin-bottom: 0px;\n        margin-left: 0px;\n        padding-top: 10px;\n        padding-right: 10px;\n        padding-bottom: 10px;\n        padding-left: 10px;\n        border-top-width: 1px;\n        border-right-width: 1px;\n        border-bottom-width: 1px;\n        border-left-width: 1px;\n        border-top-style: solid;\n        border-right-style: solid;\n        border-bottom-style: solid;\n        border-left-style: solid;\n        border-top-color: #000000;\n        border-right-color: #000000;\n        border-bottom-color: #000000;\n        border-left-color: #000000;\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".element"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_minify_comprehensive.py:18"
+  },
+  {
+   "test": "test_minify_color_optimization",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "\n    .c1 { color: #ffffff; }\n    .c2 { color: #000000; }\n    .c3 { color: #ff0000; }\n    .c4 { color: #00ff00; }\n    .c5 { color: #0000ff; }\n    .c6 { color: rgba(255, 255, 255, 1); }\n    .c7 { color: rgba(0, 0, 0, 1); }\n    .c8 { color: rgb(255, 0, 0); }\n    .c9 { color: hsl(0, 100%, 50%); }\n    .c10 { background: #aabbcc; }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_minify_comprehensive.py:52"
+  },
+  {
+   "test": "test_minify_zero_values",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "\n    .zero {\n        margin: 0px;\n        padding: 0em;\n        border-width: 0rem;\n        top: 0%;\n        left: 0vw;\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".zero"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_minify_comprehensive.py:74"
+  },
+  {
+   "test": "test_minify_calc_simplification",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "\n    .calc {\n        width: calc(10px + 20px);\n        height: calc(100% - 0px);\n        margin: calc(5px * 2);\n        padding: calc(20px / 2);\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".calc"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_minify_comprehensive.py:92"
+  },
+  {
+   "test": "test_minify_gradient_optimization",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "\n    .gradient {\n        background: linear-gradient(to bottom, #ffffff 0%, #000000 100%);\n        background-image: radial-gradient(circle at center, red 0%, blue 100%);\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "gradient",
+    ".gradient"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_minify_comprehensive.py:109"
+  },
+  {
+   "test": "test_minify_with_targets",
+   "argv": [
+    "-m",
+    "-t",
+    "ie 11"
+   ],
+   "stdin": "\n    .prefixed {\n        display: flex;\n        user-select: none;\n        transform: rotate(45deg);\n        transition: all 0.3s ease;\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".prefixed"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_minify_comprehensive.py:123"
+  },
+  {
+   "test": "test_minify_multiple_selectors",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "\n    .a { color: red; }\n    .b { color: red; }\n    .c { color: blue; }\n    .d { color: blue; }\n    .e { margin: 10px; padding: 10px; }\n    .f { margin: 10px; padding: 10px; }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "color"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_minify_comprehensive.py:140"
+  },
+  {
+   "test": "test_minify_whitespace_removal",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "\n    .element {\n        margin:     10px;\n        padding:    20px;\n    }\n    \n    .another    {\n        width:   100%;\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_minify_comprehensive.py:157"
+  },
+  {
+   "test": "test_minify_font_weight_optimization",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "\n    .normal { font-weight: normal; }\n    .bold { font-weight: bold; }\n    .n400 { font-weight: 400; }\n    .n700 { font-weight: 700; }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_minify_comprehensive.py:177"
+  },
+  {
+   "test": "test_minify_length_unit_optimization",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "\n    .lengths {\n        margin: 0.5em 0.25rem 0.75vh 0.33vw;\n        padding: 1.00em 2.50rem;\n        border-width: 0.1px 0.2px 0.3px 0.4px;\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".lengths"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_minify_comprehensive.py:192"
+  },
+  {
+   "test": "test_minify_transform_optimization",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "\n    .t1 { transform: translate(0px, 0px); }\n    .t2 { transform: scale(1, 1); }\n    .t3 { transform: rotate(0deg); }\n    .t4 { transform: translateX(10px) translateY(20px); }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_minify_comprehensive.py:208"
+  },
+  {
+   "test": "test_minify_media_query_optimization",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "\n    @media screen and (min-width: 768px) and (max-width: 1024px) {\n        .responsive { width: 750px; }\n    }\n    @media (min-width: 768px) {\n        .tablet { display: block; }\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@media"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_minify_comprehensive.py:222"
+  },
+  {
+   "test": "test_minify_keyframes_optimization",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "\n    @keyframes slide {\n        from { transform: translateX(0px); }\n        to { transform: translateX(100px); }\n    }\n    @keyframes fade {\n        0% { opacity: 0; }\n        100% { opacity: 1; }\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_minify_comprehensive.py:238"
+  },
+  {
+   "test": "test_minify_custom_properties",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "\n    :root {\n        --primary-color: #007bff;\n        --secondary-color: #6c757d;\n        --spacing: 1rem;\n    }\n    .element {\n        color: var(--primary-color);\n        margin: var(--spacing);\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "var("
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_minify_comprehensive.py:257"
+  },
+  {
+   "test": "test_minify_important_preservation",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "\n    .important {\n        color: red !important;\n        margin: 0 !important;\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".important",
+    "!important"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_minify_comprehensive.py:277"
+  },
+  {
+   "test": "test_minify_url_handling",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "\n    .images {\n        background: url(\"image.png\");\n        content: url('icon.svg');\n        list-style-image: url(bullet.gif);\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_minify_comprehensive.py:292"
+  },
+  {
+   "test": "test_minify_selector_optimization",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "\n    div.class { color: red; }\n    div#id { color: blue; }\n    *[attr] { color: green; }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "color"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_minify_comprehensive.py:307"
+  },
+  {
+   "test": "test_bootstrap_like_utilities",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "\n    .d-none { display: none; }\n    .d-flex { display: flex; }\n    .flex-row { flex-direction: row; }\n    .flex-column { flex-direction: column; }\n    .justify-content-center { justify-content: center; }\n    .align-items-start { align-items: flex-start; }\n    .m-0 { margin: 0; }\n    .m-1 { margin: 0.25rem; }\n    .p-2 { padding: 0.5rem; }\n    .text-center { text-align: center; }\n    .font-weight-bold { font-weight: bold; }\n    .w-100 { width: 100%; }\n    .h-100 { height: 100%; }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "display",
+    "flex",
+    "margin"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_real_world_css.py:5"
+  },
+  {
+   "test": "test_button_component",
+   "argv": [
+    "-t",
+    "safari 10"
+   ],
+   "stdin": "\n    .btn {\n        display: inline-block;\n        font-weight: 400;\n        text-align: center;\n        vertical-align: middle;\n        user-select: none;\n        border: 1px solid transparent;\n        padding: 0.375rem 0.75rem;\n        font-size: 1rem;\n        line-height: 1.5;\n        border-radius: 0.25rem;\n        transition: all 0.15s ease-in-out;\n    }\n    \n    .btn:hover {\n        background-color: #0069d9;\n    }\n    \n    .btn:active {\n        transform: scale(0.98);\n    }\n    \n    .btn:focus {\n        outline: 0;\n        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);\n    }\n    \n    .btn-primary {\n        color: #fff;\n        background-color: #007bff;\n        border-color: #007bff;\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "btn",
+    "transition"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_real_world_css.py:68"
+  },
+  {
+   "test": "test_sourcemap_creates_map_file",
+   "argv": [
+    "input.css",
+    "-o",
+    "--sourcemap"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "version",
+    "sources",
+    "mappings"
+   ],
+   "files": {
+    "input.css": ".test { color: red; }"
+   },
+   "ci": false,
+   "source": "test_sourcemaps.py:6"
+  },
+  {
+   "test": "test_sourcemap_references_original",
+   "argv": [
+    "styles.css",
+    "-o",
+    "--sourcemap"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "styles.css": ".original { display: block; }"
+   },
+   "ci": false,
+   "source": "test_sourcemaps.py:25"
+  },
+  {
+   "test": "test_sourcemap_with_minify",
+   "argv": [
+    "input.css",
+    "-o",
+    "--sourcemap",
+    "-m"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".box{"
+   ],
+   "files": {
+    "input.css": "\n    .box {\n        width: 100px;\n        height: 100px;\n    }\n    "
+   },
+   "ci": false,
+   "source": "test_sourcemaps.py:41"
+  },
+  {
+   "test": "test_sourcemap_with_stdin",
+   "argv": [
+    "-o",
+    "--sourcemap"
+   ],
+   "stdin": ".stdin { color: blue; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "sources"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sourcemaps.py:63"
+  },
+  {
+   "test": "test_sourcemap_with_output_dir",
+   "argv": [
+    "input.css",
+    "-d",
+    "--sourcemap"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "version"
+   ],
+   "files": {
+    "input.css": ".test { margin: 0; }"
+   },
+   "ci": false,
+   "source": "test_sourcemaps.py:77"
+  },
+  {
+   "test": "test_without_sourcemap_no_map_file",
+   "argv": [
+    "input.css",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "input.css": ".test { color: red; }"
+   },
+   "ci": false,
+   "source": "test_sourcemaps.py:95"
+  },
+  {
+   "test": "test_sourcemap_structure",
+   "argv": [
+    "test.css",
+    "-o",
+    "--sourcemap"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.css": ".rule { property: value; }"
+   },
+   "ci": false,
+   "source": "test_sourcemaps.py:108"
+  },
+  {
+   "test": "test_targets_adds_vendor_prefixes",
+   "argv": [
+    "-t",
+    "safari 4"
+   ],
+   "stdin": ".box { border-radius: 10px; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-webkit-border-radius",
+    "border-radius"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_targets.py:5"
+  },
+  {
+   "test": "test_targets_removes_unnecessary_prefixes",
+   "argv": [
+    "--targets",
+    "chrome 90"
+   ],
+   "stdin": "\n    .box {\n        -webkit-transition: all 0.3s;\n        -moz-transition: all 0.3s;\n        transition: all 0.3s;\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "transition"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_targets.py:15"
+  },
+  {
+   "test": "test_targets_with_multiple_browsers",
+   "argv": [
+    "-t",
+    "chrome 95, firefox 90, safari 14"
+   ],
+   "stdin": ".flex { display: flex; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "display",
+    "flex"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_targets.py:33"
+  },
+  {
+   "test": "test_targets_lowering_modern_syntax",
+   "argv": [
+    "-t",
+    "chrome 80"
+   ],
+   "stdin": "\n    .modern {\n        color: lab(50% 20 30);\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "color"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_targets.py:42"
+  },
+  {
+   "test": "test_targets_image_set_prefix",
+   "argv": [
+    "-t",
+    "chrome 80"
+   ],
+   "stdin": ".img { background: image-set(url('img.png') 1x, url('img@2x.png') 2x); }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-webkit-image-set"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_targets.py:56"
+  },
+  {
+   "test": "test_targets_with_output_file",
+   "argv": [
+    "input.css",
+    "-o",
+    "-t",
+    "safari 10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-webkit-user-select"
+   ],
+   "files": {
+    "input.css": ".box { user-select: none; }"
+   },
+   "ci": false,
+   "source": "test_targets.py:65"
+  },
+  {
+   "test": "test_targets_with_minify",
+   "argv": [
+    "-t",
+    "safari 8",
+    "-m"
+   ],
+   "stdin": ".box { transform: rotate(45deg); }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-webkit-transform",
+    "transform"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_targets.py:88"
+  },
+  {
+   "test": "test_targets_flexbox_prefixes",
+   "argv": [
+    "-t",
+    "ie 10"
+   ],
+   "stdin": "\n    .flex {\n        display: flex;\n        flex-direction: row;\n        flex-wrap: wrap;\n        justify-content: center;\n        align-items: stretch;\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_targets_comprehensive.py:18"
+  },
+  {
+   "test": "test_targets_grid_prefixes",
+   "argv": [
+    "-t",
+    "ie 11"
+   ],
+   "stdin": "\n    .grid {\n        display: grid;\n        grid-template-columns: 1fr 1fr;\n        grid-gap: 1rem;\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_targets_comprehensive.py:35"
+  },
+  {
+   "test": "test_targets_transform_prefixes",
+   "argv": [
+    "-t",
+    "safari 8"
+   ],
+   "stdin": "\n    .transformed {\n        transform: rotate(45deg) scale(1.5);\n        transform-origin: center;\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "transform"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_targets_comprehensive.py:50"
+  },
+  {
+   "test": "test_targets_transition_prefixes",
+   "argv": [
+    "-t",
+    "safari 6"
+   ],
+   "stdin": "\n    .animated {\n        transition: all 0.3s ease;\n        transition-property: transform, opacity;\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "transition"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_targets_comprehensive.py:65"
+  },
+  {
+   "test": "test_targets_filter_prefixes",
+   "argv": [
+    "-t",
+    "safari 8"
+   ],
+   "stdin": "\n    .filtered {\n        filter: blur(5px) brightness(1.2);\n        backdrop-filter: blur(10px);\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "filter"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_targets_comprehensive.py:79"
+  },
+  {
+   "test": "test_targets_user_select",
+   "argv": [
+    "-t",
+    "firefox 65"
+   ],
+   "stdin": "\n    .no-select {\n        user-select: none;\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_targets_comprehensive.py:93"
+  },
+  {
+   "test": "test_targets_appearance",
+   "argv": [
+    "-t",
+    "chrome 83"
+   ],
+   "stdin": "\n    .custom {\n        appearance: none;\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "appearance"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_targets_comprehensive.py:106"
+  },
+  {
+   "test": "test_targets_color_lowering",
+   "argv": [
+    "-t",
+    "chrome 90"
+   ],
+   "stdin": "\n    .colors {\n        color: lab(50% 40 60);\n        background: lch(50% 50 180);\n        border-color: oklch(0.5 0.2 180);\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "color"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_targets_comprehensive.py:119"
+  },
+  {
+   "test": "test_targets_nesting_lowering",
+   "argv": [
+    "-t",
+    "chrome 100"
+   ],
+   "stdin": "\n    .card {\n        padding: 1rem;\n        & .title {\n            font-size: 1.5rem;\n        }\n        &:hover {\n            box-shadow: 0 4px 6px rgba(0,0,0,0.1);\n        }\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "card"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_targets_comprehensive.py:135"
+  },
+  {
+   "test": "test_targets_logical_properties",
+   "argv": [
+    "-t",
+    "chrome 80"
+   ],
+   "stdin": "\n    .box {\n        margin-block-start: 1rem;\n        margin-inline-end: 2rem;\n        padding-block: 1rem;\n        padding-inline: 2rem;\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_targets_comprehensive.py:156"
+  },
+  {
+   "test": "test_targets_gradient_prefixes",
+   "argv": [
+    "-t",
+    "safari 6"
+   ],
+   "stdin": "\n    .gradient {\n        background: linear-gradient(to right, red, blue);\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "gradient"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_targets_comprehensive.py:173"
+  },
+  {
+   "test": "test_targets_calc_prefixes",
+   "argv": [
+    "-t",
+    "firefox 15"
+   ],
+   "stdin": "\n    .calculated {\n        width: calc(100% - 50px);\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_targets_comprehensive.py:186"
+  },
+  {
+   "test": "test_targets_placeholder_prefix",
+   "argv": [
+    "-t",
+    "firefox 50"
+   ],
+   "stdin": "\n    input::placeholder {\n        color: gray;\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "placeholder"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_targets_comprehensive.py:199"
+  },
+  {
+   "test": "test_targets_sticky_prefix",
+   "argv": [
+    "-t",
+    "safari 12"
+   ],
+   "stdin": "\n    .sticky {\n        position: sticky;\n        top: 0;\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_targets_comprehensive.py:212"
+  },
+  {
+   "test": "test_targets_multiple_browsers",
+   "argv": [
+    "-t",
+    "ie 11",
+    "-t",
+    "safari 8"
+   ],
+   "stdin": "\n    .multi {\n        display: flex;\n        user-select: none;\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_targets_comprehensive.py:226"
+  },
+  {
+   "test": "test_targets_no_unnecessary_prefixes",
+   "argv": [
+    "-t",
+    "chrome 100"
+   ],
+   "stdin": "\n    .modern {\n        display: flex;\n        transform: rotate(45deg);\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_targets_comprehensive.py:240"
+  },
+  {
+   "test": "test_targets_color_function_lowering",
+   "argv": [
+    "-t",
+    "chrome 95"
+   ],
+   "stdin": "\n    .colorful {\n        color: color(display-p3 1 0 0);\n        background: color(srgb 0.5 0.5 0.5);\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "color"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_targets_comprehensive.py:256"
+  },
+  {
+   "test": "test_targets_hwb_lowering",
+   "argv": [
+    "-t",
+    "chrome 95"
+   ],
+   "stdin": "\n    .hwb {\n        color: hwb(120 25% 25%);\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "color"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_targets_comprehensive.py:271"
+  },
+  {
+   "test": "test_targets_image_set_prefix",
+   "argv": [
+    "-t",
+    "safari 13"
+   ],
+   "stdin": "\n    .responsive-image {\n        background: image-set(\n            url('image.png') 1x,\n            url('image@2x.png') 2x\n        );\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "image"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_targets_comprehensive.py:285"
+  },
+  {
+   "test": "test_targets_media_range_lowering",
+   "argv": [
+    "-t",
+    "chrome 100"
+   ],
+   "stdin": "\n    @media (width >= 768px) {\n        .tablet { display: block; }\n    }\n    @media (480px < width < 768px) {\n        .between { display: flex; }\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@media",
+    "width"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_targets_comprehensive.py:301"
+  },
+  {
+   "test": "test_nesting_compilation",
+   "argv": [
+    "-t",
+    "chrome 80"
+   ],
+   "stdin": "\n    .parent {\n        color: blue;\n        \n        .child {\n            color: red;\n        }\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".parent",
+    "color"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_transformations.py:5"
+  },
+  {
+   "test": "test_modern_color_functions",
+   "argv": [
+    "-t",
+    "chrome 80"
+   ],
+   "stdin": "\n    .colors {\n        color: lab(50% 20 30);\n        background: lch(60% 40 120);\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".colors",
+    "color",
+    "background"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_transformations.py:23"
+  },
+  {
+   "test": "test_media_query_range_syntax",
+   "argv": [
+    "-t",
+    "chrome 80"
+   ],
+   "stdin": "\n    @media (width >= 600px) {\n        .wide { display: block; }\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".wide",
+    "display"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_transformations.py:52"
+  },
+  {
+   "test": "test_logical_properties",
+   "argv": [
+    "-t",
+    "chrome 80"
+   ],
+   "stdin": "\n    .logical {\n        margin-inline-start: 10px;\n        padding-block-end: 20px;\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".logical"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_transformations.py:65"
+  },
+  {
+   "test": "test_double_position_gradients",
+   "argv": [
+    "-t",
+    "chrome 90"
+   ],
+   "stdin": "\n    .gradient {\n        background: linear-gradient(red 40% 60%, blue);\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".gradient",
+    "background"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_transformations.py:91"
+  },
+  {
+   "test": "test_hex_alpha_colors",
+   "argv": [
+    "-t",
+    "chrome 60"
+   ],
+   "stdin": "\n    .alpha {\n        color: #ff000088;\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".alpha",
+    "color"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_transformations.py:104"
+  },
+  {
+   "test": "test_space_separated_rgb",
+   "argv": [
+    "-t",
+    "chrome 70"
+   ],
+   "stdin": "\n    .rgb {\n        color: rgb(255 0 0);\n        background: rgba(0 0 255 / 0.5);\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".rgb"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_transformations.py:117"
+  },
+  {
+   "test": "test_not_selector_multiple_args",
+   "argv": [
+    "-t",
+    "chrome 80"
+   ],
+   "stdin": "\n    .element:not(.foo, .bar) {\n        display: none;\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".element",
+    "display"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_transformations.py:130"
+  },
+  {
+   "test": "test_double_dash_makes_dashy_value_positional_in_error_message",
+   "argv": [
+    "--nonexistent-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "If you tried to supply `--nonexistent-flag` as a value rather than a flag, use `-- --nonexistent-flag`"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:96"
+  },
+  {
+   "test": "test_double_dash_treats_following_as_positional_not_flag",
+   "argv": [
+    "--",
+    "--nonexistent-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "No such file or directory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:101"
+  },
+  {
+   "test": "test_invalid_flag_errors",
+   "argv": [
+    "--definitely-not-a-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error",
+    "USAGE"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_cli_basic.py:43"
+  },
+  {
+   "test": "test_custom_media_accepted_without_flag",
+   "argv": [
+    "cm.css"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@custom-media",
+    "@media"
+   ],
+   "files": {
+    "cm.css": "@custom-media --narrow (max-width: 30em);\n@media (--narrow) { a { color: red; } }\n"
+   },
+   "ci": false,
+   "source": "test_css_modules_and_bundle.py:56"
+  },
+  {
+   "test": "test_stdin_with_minify",
+   "argv": [
+    "--minify"
+   ],
+   "stdin": ".foo { color: red; background: blue; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:420"
+  },
+  {
+   "test": "test_targets_flag_adds_vendor_prefixes",
+   "argv": [
+    "-t",
+    "> 0.5%, last 2 versions"
+   ],
+   "stdin": ".flex {\n  display: flex;\n}\n\n.grid {\n  display: grid;\n}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-ms-flexbox",
+    "display: flex;"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:596"
+  },
+  {
+   "test": "test_minify_preserves_functionality",
+   "argv": [
+    "--minify"
+   ],
+   "stdin": ".a .b { color: red; }\n.c > .d { background: blue; }\n.e + .f { margin: 10px; }\n.g ~ .h { padding: 5px; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".a .b{",
+    ".c>.d{",
+    ".e+.f{",
+    ".g~.h{"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:618"
+  },
+  {
+   "test": "test_css_modules_stdin_with_minify",
+   "argv": [
+    "--css-modules",
+    "--minify"
+   ],
+   "stdin": ".test { color: blue; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "code",
+    "exports",
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_css_modules.py:664"
+  },
+  {
+   "test": "test_css_modules_hash_starts_with_digit_gets_underscore",
+   "argv": [
+    "--css-modules",
+    "--minify"
+   ],
+   "stdin": ".test { color: blue; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_css_modules.py:692"
+  },
+  {
+   "test": "test_composes_duplicate_prevention",
+   "argv": [
+    "--css-modules",
+    "--minify"
+   ],
+   "stdin": "\n.base {\n  color: blue;\n}\n\n.button {\n  composes: base base base;\n  padding: 1rem;\n}\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "button",
+    "base"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_css_modules_gap.py:737"
+  },
+  {
+   "test": "test_empty_css_with_modules",
+   "argv": [
+    "--css-modules",
+    "--minify"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "code",
+    "exports"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_css_modules_gap.py:777"
+  },
+  {
+   "test": "test_whitespace_only_css_with_modules",
+   "argv": [
+    "--css-modules",
+    "--minify"
+   ],
+   "stdin": "   \n\n\t  \n  ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_css_modules_gap.py:796"
+  },
+  {
+   "test": "test_css_modules_pattern_with_literals",
+   "argv": [
+    "--css-modules",
+    "--css-modules-pattern",
+    "prefix-[local]-suffix",
+    "--minify"
+   ],
+   "stdin": ".button { color: blue; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "button",
+    "button"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_css_modules_gap.py:814"
+  },
+  {
+   "test": "test_class_and_id_in_same_ruleset",
+   "argv": [
+    "--css-modules",
+    "--minify"
+   ],
+   "stdin": ".button#primary {\n  background: blue;\n}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "button",
+    "primary"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_css_modules_gap.py:952"
+  },
+  {
+   "test": "test_animation_name_with_vendor_prefix_keyframes",
+   "argv": [
+    "--css-modules",
+    "--minify"
+   ],
+   "stdin": "@-webkit-keyframes slideIn {\n  from { transform: translateX(-100%); }\n  to { transform: translateX(0); }\n}\n\n@keyframes slideIn {\n  from { transform: translateX(-100%); }\n  to { transform: translateX(0); }\n}\n\n.box {\n  animation: slideIn 1s;\n}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "slideIn"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_css_modules_gap.py:985"
+  },
+  {
+   "test": "test_css_modules_json_export_structure",
+   "argv": [
+    "--css-modules",
+    "--minify"
+   ],
+   "stdin": ".button {\n  color: blue;\n}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "code",
+    "exports",
+    "button",
+    "name",
+    "composes",
+    "isReferenced"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_css_modules_gap.py:1031"
+  },
+  {
+   "test": "test_minify_preserves_custom_properties",
+   "argv": [
+    "--minify"
+   ],
+   "stdin": ":root {\n  --primary-color: #ff0000;\n  --spacing: 10px;\n}\n\n.button {\n  color: var(--primary-color);\n  padding: var(--spacing);\n}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_custom_properties.py:134"
+  },
+  {
+   "test": "test_var_minified",
+   "argv": [
+    "--minify"
+   ],
+   "stdin": ":root {\n  --primary: #ff0000;\n  --spacing: 10px;\n}\n\n.element {\n  color: var(--primary);\n  margin: var(--spacing);\n}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_custom_properties_gap.py:825"
+  },
+  {
+   "test": "test_font_feature_values_error_recovery",
+   "argv": [
+    "--error-recovery"
+   ],
+   "stdin": "@font-feature-values MyFont {\n  @stylistic {\n    invalid: abc;\n    valid: 1;\n  }\n}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Invalid value",
+    "valid: 1",
+    "@font-feature-values MyFont",
+    "@stylistic"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_font_features_palette.py:88"
+  },
+  {
+   "test": "test_font_feature_values_minified",
+   "argv": [
+    "--minify"
+   ],
+   "stdin": "@font-feature-values MyFont {\n  @stylistic {\n    fancy: 1 2 3;\n  }\n  @styleset {\n    cool: 4;\n  }\n}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1 2 3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_font_features_palette.py:178"
+  },
+  {
+   "test": "test_font_palette_values_color_fallbacks",
+   "argv": [
+    "--targets",
+    "chrome >= 90"
+   ],
+   "stdin": "@font-palette-values --modern {\n  font-family: ColorFont;\n  base-palette: 0;\n  override-colors: 0 lab(50% 40 30), 1 oklch(60% 0.15 120);\n}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_font_features_palette.py:228"
+  },
+  {
+   "test": "test_font_palette_values_minified",
+   "argv": [
+    "--minify"
+   ],
+   "stdin": "@font-palette-values --minified {\n  font-family: \"My Font\";\n  base-palette: 1;\n  override-colors: 0 #ff0000, 1 #00ff00;\n}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_font_features_palette.py:363"
+  },
+  {
+   "test": "test_font_palette_values_wide_gamut_color_fallbacks",
+   "argv": [
+    "--targets",
+    "chrome >= 95"
+   ],
+   "stdin": "@font-palette-values --wide-gamut {\n  font-family: ColorFont;\n  base-palette: 0;\n  override-colors: \n    0 color(display-p3 1 0 0),\n    1 oklch(0.5 0.2 180),\n    2 lch(60% 50 120);\n}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#",
+    "display-p3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_font_features_palette.py:505"
+  },
+  {
+   "test": "test_font_weight_keyword_to_numeric_minified",
+   "argv": [
+    "--minify"
+   ],
+   "stdin": ".normal { font-weight: normal; }\n.bold { font-weight: bold; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": ".normal{font-weight:400}.bold{font-weight:700}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_font_properties.py:27"
+  },
+  {
+   "test": "test_font_shorthand_minified_conversion",
+   "argv": [
+    "--minify"
+   ],
+   "stdin": ".full { font: italic bold 16px/1.5 Georgia, serif; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": ".full{font:italic 700 16px/1.5 Georgia,serif}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_font_properties.py:145"
+  },
+  {
+   "test": "test_font_face_minified",
+   "argv": [
+    "--minify"
+   ],
+   "stdin": "@font-face {\n  font-family: \"MinifyTest\";\n  src: url(\"font.woff2\") format(\"woff2\");\n  font-weight: normal;\n  font-style: normal;\n  font-display: swap;\n}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "@font-face{font-family:MinifyTest;src:url(font.woff2)format(\"woff2\");font-weight:400;font-style:normal;font-display:swap}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_font_properties.py:310"
+  },
+  {
+   "test": "test_font_palette_values_minified",
+   "argv": [
+    "--minify"
+   ],
+   "stdin": "@font-palette-values --minify-test {\n  font-family: \"TestFont\";\n  base-palette: 1;\n  override-colors: 0 red, 1 blue;\n}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "@font-palette-values --minify-test{font-family:TestFont;base-palette:1;override-colors:0 red,1 #00f}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_font_properties.py:433"
+  },
+  {
+   "test": "test_list_style_minification_shorthand_collapse",
+   "argv": [
+    "--minify"
+   ],
+   "stdin": "\n.minify1 { list-style-type: disc; list-style-position: inside; list-style-image: none; }\n.minify2 { list-style-type: decimal; list-style-position: outside; }\n.minify3 { list-style-image: url('img.png'); list-style-type: circle; }\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_list_styles.py:239"
+  },
+  {
+   "test": "test_system_color_accent_with_firefox_target",
+   "argv": [
+    "--targets",
+    "firefox 103"
+   ],
+   "stdin": "\n.accent { color: AccentColor; background: AccentColorText; }\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_list_styles.py:299"
+  },
+  {
+   "test": "test_system_color_accent_with_chrome_target_unsupported",
+   "argv": [
+    "--targets",
+    "chrome 100"
+   ],
+   "stdin": "\n.accent { color: AccentColor; background: AccentColorText; }\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_list_styles.py:317"
+  },
+  {
+   "test": "test_system_colors_minification",
+   "argv": [
+    "--minify"
+   ],
+   "stdin": "\n.test {\n    color: Canvas;\n    background: CanvasText;\n    border-color: ButtonFace;\n    outline-color: Highlight;\n}\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_list_styles.py:377"
+  },
+  {
+   "test": "test_list_style_minify_with_browser_targets",
+   "argv": [
+    "--minify",
+    "--targets",
+    "chrome 89"
+   ],
+   "stdin": "\n.test1 {\n    list-style-type: disclosure-open;\n    list-style-position: inside;\n}\n.test2 {\n    list-style: hiragana-iroha outside;\n}\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_list_styles.py:459"
+  },
+  {
+   "test": "test_list_style_types_with_very_old_browser_targets",
+   "argv": [
+    "--targets",
+    "ie 6"
+   ],
+   "stdin": "\n.test1 { list-style-type: decimal-leading-zero; }\n.test2 { list-style-type: lower-alpha; }\n.test3 { list-style-type: disclosure-open; }\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_list_styles.py:613"
+  },
+  {
+   "test": "test_list_style_with_error_recovery",
+   "argv": [
+    "--error-recovery"
+   ],
+   "stdin": "\n.valid { list-style-type: disc; }\n.invalid { list-style-type: not-a-real-type; }\n.valid2 { list-style-type: circle; }\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_list_styles.py:664"
+  },
+  {
+   "test": "test_list_style_minify_complex_combinations",
+   "argv": [
+    "--minify"
+   ],
+   "stdin": "\n.a { list-style-type: lower-alpha; }\n.b { list-style-position: inside; }\n.c { list-style-image: url('marker.svg'); }\n.d { \n    list-style-type: upper-roman;\n    list-style-position: inside;\n    list-style-image: url('num.png');\n}\n.e { \n    list-style-type: disclosure-closed;\n    list-style-position: outside;\n}\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_list_styles.py:752"
+  },
+  {
+   "test": "test_list_style_types_safari_targets",
+   "argv": [
+    "--targets",
+    "safari 14"
+   ],
+   "stdin": "\n.test1 { list-style-type: disclosure-open; }\n.test2 { list-style-type: ethiopic-numeric; }\n.test3 { list-style-type: japanese-formal; }\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_list_styles.py:781"
+  },
+  {
+   "test": "test_minify_from_stdin",
+   "argv": [
+    "--minify"
+   ],
+   "stdin": ".test { color: #ffffff; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_minify_bundle.py:329"
+  },
+  {
+   "test": "test_page_minification",
+   "argv": [
+    "--minify"
+   ],
+   "stdin": "@page :first { margin-top: 2in; margin-bottom: 1in; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_page_rules.py:118"
+  },
+  {
+   "test": "test_page_minify_with_margin_box",
+   "argv": [
+    "--minify"
+   ],
+   "stdin": "@page rotated:first {\n  size: A4 landscape;\n  margin: 2cm;\n  @top-left {\n    content: \"Title\";\n  }\n}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_page_rules.py:221"
+  },
+  {
+   "test": "test_page_minify_empty_selector",
+   "argv": [
+    "--minify"
+   ],
+   "stdin": "@page { }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_page_rules.py:384"
+  },
+  {
+   "test": "test_page_declarations_margin_boxes_minified",
+   "argv": [
+    "--minify"
+   ],
+   "stdin": "@page {\n  margin: 1in;\n  @top-left { content: \"A\"; }\n  size: A4;\n  @bottom-right { content: \"B\"; }\n  orphans: 2;\n}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_page_rules.py:447"
+  },
+  {
+   "test": "test_page_important_minified",
+   "argv": [
+    "--minify"
+   ],
+   "stdin": "@page {\n  margin: 1in !important;\n  @top-left { content: \"Title\"; }\n  size: A4;\n}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_page_rules.py:498"
+  },
+  {
+   "test": "test_page_minify_multiple_selectors",
+   "argv": [
+    "--minify"
+   ],
+   "stdin": "@page :left, :right, :first { margin: 1in; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_page_rules.py:511"
+  },
+  {
+   "test": "test_page_minify_named_page",
+   "argv": [
+    "--minify"
+   ],
+   "stdin": "@page chapter { margin: 2cm; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_page_rules.py:520"
+  },
+  {
+   "test": "test_css_modules_local_global",
+   "argv": [
+    "--minify",
+    "--css-modules"
+   ],
+   "stdin": ":local(.button) { background: blue; }\n:global(body) { margin: 0; }\n:local(.nav) :global(.icon) { width: 16px; }\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "code",
+    "exports",
+    "button",
+    "nav",
+    "body{margin:0}",
+    ".icon{width:16px}",
+    "background:#00f",
+    "name",
+    "composes",
+    "isReferenced"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_selector_gap.py:343"
+  },
+  {
+   "test": "test_minify_flag",
+   "argv": [
+    "--minify"
+   ],
+   "stdin": ".foo { color: red; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_smoke.py:31"
+  },
+  {
+   "test": "test_user_select_autoprefixer_chrome50",
+   "argv": [
+    "--targets",
+    "chrome 50"
+   ],
+   "stdin": ".test { user-select: none; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-webkit-user-select: none",
+    "user-select: none"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_properties.py:188"
+  },
+  {
+   "test": "test_appearance_autoprefixer_safari10",
+   "argv": [
+    "--targets",
+    "safari 10"
+   ],
+   "stdin": ".test { appearance: none; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-webkit-appearance: none",
+    "appearance: none"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_properties.py:271"
+  },
+  {
+   "test": "test_color_scheme_autoprefixer_chrome80_light_dark",
+   "argv": [
+    "--targets",
+    "chrome 80"
+   ],
+   "stdin": ".test { color-scheme: light dark; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--lightningcss-light: initial",
+    "--lightningcss-dark: ;",
+    "prefers-color-scheme: dark",
+    "--lightningcss-light: ;",
+    "--lightningcss-dark: initial"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_properties.py:405"
+  },
+  {
+   "test": "test_color_scheme_autoprefixer_chrome80_light_only",
+   "argv": [
+    "--targets",
+    "chrome 80"
+   ],
+   "stdin": ".light-only-chrome80 { color-scheme: light only; }\n.dark-only-chrome80 { color-scheme: dark only; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--lightningcss-light: initial",
+    "--lightningcss-dark: ;",
+    "--lightningcss-light: ;",
+    "--lightningcss-dark: initial"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_properties.py:426"
+  },
+  {
+   "test": "test_caret_color_fallback_oklch_chrome90",
+   "argv": [
+    "--targets",
+    "chrome 90"
+   ],
+   "stdin": ".test { caret-color: oklch(0.7 0.15 30); }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#ed7665",
+    "lab("
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_properties.py:542"
+  },
+  {
+   "test": "test_caret_color_fallback_oklch_chrome50",
+   "argv": [
+    "--targets",
+    "chrome 50"
+   ],
+   "stdin": ".test { caret-color: oklch(0.7 0.15 30); }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#ed7665",
+    "lab("
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_properties.py:564"
+  },
+  {
+   "test": "test_caret_shorthand_fallback_oklch_chrome90",
+   "argv": [
+    "--targets",
+    "chrome 90"
+   ],
+   "stdin": ".test { caret: oklch(0.7 0.15 30) bar; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#ed7665 bar",
+    "caret: #ed7665 bar;"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_properties.py:581"
+  },
+  {
+   "test": "test_appearance_autoprefixer_firefox60",
+   "argv": [
+    "--targets",
+    "firefox 60"
+   ],
+   "stdin": ".test { appearance: none; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-moz-appearance: none",
+    "appearance: none"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_properties.py:603"
+  },
+  {
+   "test": "test_print_color_adjust_autoprefixer_safari14",
+   "argv": [
+    "--targets",
+    "safari 14"
+   ],
+   "stdin": ".test { print-color-adjust: exact; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-webkit-print-color-adjust: exact",
+    "print-color-adjust: exact"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_properties.py:620"
+  },
+  {
+   "test": "test_user_select_autoprefixer_ie11",
+   "argv": [
+    "--targets",
+    "ie 11"
+   ],
+   "stdin": ".test { user-select: text; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-ms-user-select: text",
+    "user-select: text"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_properties.py:818"
+  },
+  {
+   "test": "test_user_select_autoprefixer_multiple_browsers",
+   "argv": [
+    "--targets",
+    "chrome 50, safari 10, firefox 60"
+   ],
+   "stdin": ".test { user-select: none; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-webkit-user-select: none",
+    "-moz-user-select: none",
+    "user-select: none"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_properties.py:835"
+  },
+  {
+   "test": "test_appearance_autoprefixer_multiple_browsers",
+   "argv": [
+    "--targets",
+    "safari 10, firefox 60"
+   ],
+   "stdin": ".test { appearance: button; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-webkit-appearance: button",
+    "-moz-appearance: button",
+    "appearance: button"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_properties.py:858"
+  }
+ ]
+}

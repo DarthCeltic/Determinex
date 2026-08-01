@@ -1,0 +1,119 @@
+{
+  "_doc": "General, non-tool-specific software engineering lessons distilled from ProgramBench campaign class_patterns (corpus/programbench/build_knowledge.json). Each PB class_pattern was written in terms of a specific CLI tool's build/test quirk; every entry here is the underlying principle stripped of that specificity, so it transfers to ANY project a user brings through the Hive build loop -- not just the 200 ProgramBench tools. 'source_pattern' points back to the originating class_pattern key for full technical detail. Distilled 2026-07-27 per Ryan's direct instruction: the PB campaign's real value to end users is this transferable knowledge, not the campaign's own bulk artifacts (which stay in corpus/programbench/, non-gating for release per RELEASE_CHECKLIST.md).",
+  "schema_version": "determinex-general-engineering-playbook-v1",
+  "generated_at": "2026-07-27",
+  "entries": [
+    {
+      "id": "stale_toolchain_pin_overrides_auto",
+      "category": "build_toolchain",
+      "lesson": "When a project's manifest pins an older toolchain version than a dependency actually requires, 'auto-detect the right version' modes can still honor the stale pin instead of overriding it. If a build fails demanding a newer toolchain than what's installed, check whether the project's own manifest is pinning something older first -- an explicit override may be needed even when an 'auto' setting exists.",
+      "why_it_generalizes": "Applies to any versioned toolchain manager (language runtimes, compilers, package managers) where the project manifest and the installed environment can silently disagree.",
+      "source_pattern": "go_x_toolchain"
+    },
+    {
+      "id": "native_binding_builds_fail_silently",
+      "category": "build_toolchain",
+      "lesson": "Builds that compile native/C bindings (FFI, CGo, native Node addons, Python C extensions) can fail silently and produce a broken or missing artifact without a loud build error, if the required native compiler or binding-enable flag isn't set. Never trust a clean build exit code alone for a project with native bindings -- verify the binding's own runtime behavior actually works.",
+      "why_it_generalizes": "The same silent-failure shape shows up across any language with an optional native-compilation step: Go's cgo, Python's C extensions, Node's node-gyp, Rust's build.rs linking to system libraries.",
+      "source_pattern": "go_cgo_sqlite"
+    },
+    {
+      "id": "no_binary_check_entrypoint_location",
+      "category": "build_toolchain",
+      "lesson": "When a build reports success but produces no runnable artifact, check whether the real entry point (main function, executable target) lives in a subdirectory or sub-package rather than the project root. Building 'the whole project' from the root doesn't always build the thing you actually meant to run.",
+      "why_it_generalizes": "Any language with a monorepo-style layout (Go's cmd/ convention, Rust workspaces, multi-binary Cargo/npm packages) has this exact failure mode.",
+      "source_pattern": "go_build_target"
+    },
+    {
+      "id": "broad_toolchain_install_is_not_wiring",
+      "category": "build_toolchain",
+      "lesson": "For complex native builds (C/C++, and similar) that need generated headers or a multi-step configure process, installing a broad set of build tools (cmake, autotools, ninja, etc.) is necessary but not sufficient -- you still have to invoke the RIGHT configure/build step for that specific project. Don't stop at 'the tools are installed'; verify the actual build command sequence runs to completion.",
+      "why_it_generalizes": "Applies to any project with a non-trivial multi-tool build chain, regardless of language -- the failure mode is 'dependencies present, orchestration missing.'",
+      "source_pattern": "whale_comprehensive_build"
+    },
+    {
+      "id": "missing_subcomponent_check_upstream_first",
+      "category": "build_toolchain",
+      "lesson": "If a build fails because a subcomponent (a workspace member, a config header, a vendored directory) is missing, check whether that same subcomponent is ALSO missing in a fresh copy of the real upstream source at the exact pinned revision, before assuming it's a local packaging mistake. If it's missing upstream too, the fix is fetching/vendoring the real thing, not patching around an assumed local error.",
+      "why_it_generalizes": "This distinguishes 'our packaging broke something' from 'the reference itself was incomplete' -- a distinction that matters for any vendored/mirrored dependency setup.",
+      "source_pattern": "source_gap_upstream_fetch"
+    },
+    {
+      "id": "collection_cap_hides_untested_majority",
+      "category": "test_harness_integrity",
+      "lesson": "A test harness that silently truncates what it collects (a hardcoded slice/limit inside a collection hook) can make a suite report a high pass rate while the majority of tests never actually ran. Always check 'collected vs total available' counts, not just the pass/fail ratio among what was collected -- a 95% pass rate on 40% of the suite is a very different claim than 95% on the whole thing.",
+      "why_it_generalizes": "Any test runner with a configurable collection step (pytest collection hooks, jest testPathIgnorePatterns, a CI job's test-sharding config) can have this silently applied and forgotten.",
+      "source_pattern": "collection_cap"
+    },
+    {
+      "id": "prebuilt_artifact_can_fake_a_passing_build",
+      "category": "test_harness_integrity",
+      "lesson": "Never trust a 'the build passed' signal if a prebuilt artifact could already exist at the expected output location before the build ran. Verify the artifact was actually PRODUCED by this build (check a build timestamp, a from-source marker, or force a clean output directory) -- a stale or bundled binary can satisfy a naive existence check without the build having done anything.",
+      "why_it_generalizes": "Applies to any CI/build pipeline that doesn't start from a guaranteed-clean output directory.",
+      "source_pattern": "prebuilt_binary_bundled"
+    },
+    {
+      "id": "certified_state_beats_draft_state",
+      "category": "test_harness_integrity",
+      "lesson": "When two copies of the same build/eval state disagree (a scratch/working copy vs. a certified/locked copy), the certified copy is authoritative. A working directory can silently rot stale relative to the last verified-good snapshot -- don't let a stale draft override or get compared against as if it were current.",
+      "why_it_generalizes": "This is the general 'source of truth' problem behind any staging-vs-production, draft-vs-published, or cache-vs-live data split.",
+      "source_pattern": "factory_vs_locked_drift"
+    },
+    {
+      "id": "single_char_bug_in_filter_tuple",
+      "category": "test_harness_integrity",
+      "lesson": "A one-character bug -- a bare string where a tuple was intended, e.g. `(\"x\")` instead of `(\"x\",)` in Python -- silently changes 'is this string in my exclusion list' into 'iterate character by character,' producing wildly over-broad matches. This class of bug is worth a specific, narrow regression test anywhere a filter/exclusion/allowlist is built from a literal.",
+      "why_it_generalizes": "The tuple-vs-string footgun is a well-known Python gotcha, but the general principle -- test the boundary/edge behavior of any filter list literal, not just its happy path -- applies to any language with ambiguous single-element collection literals.",
+      "source_pattern": "conftest_char_iteration_filter"
+    },
+    {
+      "id": "unused_plugin_can_break_collection",
+      "category": "test_harness_integrity",
+      "lesson": "A broken or unused plugin/extension can silently break an entire test collection or build step even if nothing in the actual suite uses it. When collection/build fails with no clear cause, check what optional plugins are loaded and try disabling ones nothing demonstrably depends on before debugging deeper.",
+      "why_it_generalizes": "Applies to any plugin-based tool (pytest, webpack, eslint, Jenkins) where a stale or broken extension can be silently active.",
+      "source_pattern": "libtmux_plugin_crashes_collection"
+    },
+    {
+      "id": "unpiped_subprocess_can_hang_forever",
+      "category": "test_harness_integrity",
+      "lesson": "A subprocess invocation with no piped input can hang indefinitely waiting on stdin if the tool being invoked expects to read from it. Default a spawned subprocess's stdin to the null device unless input is explicitly being provided -- this turns an indefinite hang into an instant, well-defined EOF.",
+      "why_it_generalizes": "This is a universal subprocess-management pitfall, independent of language or platform, anywhere a CLI tool might be a filter that reads stdin by default.",
+      "source_pattern": "tool_invocation_hang"
+    },
+    {
+      "id": "worse_than_best_never_overwrites",
+      "category": "data_integrity",
+      "lesson": "When merging results from multiple sources (a remote sync, a background job, a retry, a re-run), always compare against the existing best-known state before overwriting it. A rule of 'a worse or emptier result never overwrites a better one already on record' prevents a partial or failed run from silently clobbering good data that was already captured.",
+      "why_it_generalizes": "This is a general data-pipeline safety principle for any system where multiple writers or retries can race to update the same record -- caches, sync jobs, distributed job queues.",
+      "source_pattern": "capture_clobbers_richer_artifact"
+    },
+    {
+      "id": "wrong_cwd_produces_void_not_real_failure",
+      "category": "data_integrity",
+      "lesson": "A build or tool invocation that runs from the wrong working directory can produce an all-fail result that reads exactly like a genuine regression. Before trusting a sweeping 0/N failure result, verify the invocation actually ran inside the correct project context -- a failure caused by wrong cwd is void, not a real signal, and should be discarded rather than recorded as a regression.",
+      "why_it_generalizes": "Applies to any automated build/test runner operating across multiple project directories, where a path-resolution bug can masquerade as the project itself being broken.",
+      "source_pattern": "local_oracle_wrong_cwd_go_module"
+    },
+    {
+      "id": "successful_noop_is_not_nothing_to_do",
+      "category": "data_integrity",
+      "lesson": "An operation that exits successfully but produced zero actual useful output is not the same case as 'there was nothing to do.' Distinguish 'succeeded with genuinely nothing to report' from 'silently produced nothing useful' explicitly in your success criteria, and add a cooldown/backoff for the latter -- otherwise a trivially-succeeding no-op can loop forever, re-triggering without ever making progress.",
+      "why_it_generalizes": "Applies to any automated retry/polling loop (a scraper, a data harvester, a background job queue) where 'exit code 0' is being used as the sole success signal.",
+      "source_pattern": "empty_spec_harvest"
+    },
+    {
+      "id": "wall_clock_tests_need_a_real_injected_clock",
+      "category": "environment_assumptions",
+      "lesson": "Tests that depend on relative wall-clock time (today, yesterday, this week) need a controlled, injected clock rather than patching the global time function from inside the test tree itself -- import/load order isn't guaranteed to apply the patch before the code under test reads the real clock. Installing the time override as a proper plugin that loads before collection/execution begins is more robust than an in-tree monkeypatch.",
+      "why_it_generalizes": "Time-dependent test flakiness is one of the most common sources of 'works on my machine, fails in CI at a different time of day' bugs across every language and test framework.",
+      "source_pattern": "dead_datetime_anchor_conftest_2026_06_23"
+    },
+    {
+      "id": "isolate_environment_when_expectations_conflict",
+      "category": "environment_assumptions",
+      "lesson": "When a CLI tool's behavior depends on hidden local state (like a history file affecting first-run output) and different test callers of the SAME suite expect DIFFERENT behavior for that same tool, check whether each caller actually runs in an isolated environment. The correct fix is often per-invocation state setup (each isolated run gets exactly the local state it expects), not a single global default that tries to satisfy every caller at once.",
+      "why_it_generalizes": "Applies to any tool with implicit local state (config files, caches, history) tested from multiple contexts with different expectations -- the fix is isolation, not a compromise default.",
+      "source_pattern": "repl_banner_history_perbranch"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "schema": "determinex-pb-signature-library-v1",
+  "note": "mechanism -> technique that resolved it + tools it worked on (capture-back). Routing matches a NEW tool's fingerprint to a known technique here.",
+  "signatures": {
+    "prefix-dupe": {
+      "technique": "bidir-mirror",
+      "tools": [
+        "xsv"
+      ],
+      "hits": 1
+    },
+    "crlf-lineending": {
+      "technique": "crlf-normalize",
+      "tools": [
+        "ascii-image-converter"
+      ],
+      "hits": 1
+    },
+    "build-fail": {
+      "technique": "build-fail-routing",
+      "tools": [
+        "ov"
+      ],
+      "hits": 1
+    },
+    "tty-stdin": {
+      "technique": "pty-allocate",
+      "tools": [
+        "fzf"
+      ],
+      "hits": 1
+    }
+  }
+}

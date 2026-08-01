@@ -1,0 +1,2149 @@
+[
+ {
+  "name": "test::test_version_stdout_exit_0::0",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_required_output_flag_exit_2_and_usage_on_stderr::1",
+  "argv": [
+   "--from-code",
+   "x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_input_file_exit_1_and_error_on_stdout::2",
+  "argv": [
+   "--from-file",
+   "--output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_svg_from_code_silent_creates_file_and_no_output::3",
+  "argv": [
+   "--from-code",
+   "console.log('x')\n",
+   "--language",
+   "js",
+   "--output",
+   "--silent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_png_from_file_silent_creates_png_magic::4",
+  "argv": [
+   "-f",
+   "a.py",
+   "-o",
+   "--silent"
+  ],
+  "stdin": null,
+  "files": {
+   "a.py": "print('hi')\nprint(2+2)\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_range_changes_output_size_for_svg::5",
+  "argv": [
+   "-f",
+   "a.py",
+   "-o",
+   "--silent"
+  ],
+  "stdin": null,
+  "files": {
+   "a.py": "print('hi')\nprint(2+2)\nprint(3)\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_directory_is_error_exit_1::6",
+  "argv": [
+   "-f",
+   "a.py",
+   "-o",
+   "--silent"
+  ],
+  "stdin": null,
+  "files": {
+   "a.py": "print('hi')\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_config_file_is_created_on_first_run::7",
+  "argv": [
+   "-f",
+   "a.py",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "a.py": "print('hi')\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_exact_snapshot_file::8",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_required_output_arg_error::9",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_has_breadcrumbs_value::10",
+  "argv": [
+   "--from-code",
+   "x",
+   "-o",
+   "out.png",
+   "--has-breadcrumbs",
+   "maybe"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_full_help_matches_fixture_exactly_modulo_dynamic_tokens::11",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_precedence_over_unknown_args::12",
+  "argv": [
+   "--help",
+   "--does-not-exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unexpected_positional_produces_usage_on_stderr_and_exit_2::13",
+  "argv": [
+   "foo",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_from_code_empty_default_value::14",
+  "argv": [
+   "-c",
+   "-o"
+  ],
+  "stdin": "test code",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_execute_with_multiple_args::15",
+  "argv": [
+   "-e",
+   "echo",
+   "test",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_language_with_file_path::16",
+  "argv": [
+   "-c",
+   "fn main() {}",
+   "-o",
+   "--file-path",
+   "main.rs"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_lines_single_line_json::17",
+  "argv": [
+   "-c",
+   "line1\nline2\nline3",
+   "-o",
+   "--raw-highlight-lines"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_range_with_line_numbers::18",
+  "argv": [
+   "-c",
+   "-o",
+   "--range",
+   "3:5",
+   "--has-line-number",
+   "--start-line-number",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_delete_lines_with_colors::19",
+  "argv": [
+   "-c",
+   "-o",
+   "-a",
+   "1",
+   "-a",
+   "2",
+   "-d",
+   "4",
+   "-d",
+   "5",
+   "--add-line-color",
+   "#00ff0040",
+   "--delete-line-color",
+   "#ff000040"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_window_options_combined::20",
+  "argv": [
+   "-c",
+   "code",
+   "-o",
+   "--mac-window-bar",
+   "true",
+   "--title",
+   "My Window",
+   "--title-color",
+   "#ffffff",
+   "--title-font-family",
+   "Courier",
+   "--shadow-radius",
+   "25",
+   "--shadow-color",
+   "#00000050",
+   "--margin-x",
+   "100",
+   "--margin-y",
+   "80",
+   "--border-color",
+   "#ffffff40"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_code_options_combined::21",
+  "argv": [
+   "-f",
+   "test.py",
+   "-o",
+   "--code-font-family",
+   "Courier",
+   "--code-theme",
+   "candy",
+   "--has-breadcrumbs",
+   "true",
+   "--breadcrumbs-separator",
+   ">",
+   "--breadcrumbs-color",
+   "#808080",
+   "--breadcrumbs-font-family",
+   "Courier",
+   "--has-line-number",
+   "--start-line-number",
+   "10",
+   "--line-number-color",
+   "#606060"
+  ],
+  "stdin": null,
+  "files": {
+   "test.py": "def hello():\n    pass"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_and_annotations_combined::22",
+  "argv": [
+   "-c",
+   "-o",
+   "--highlight-range",
+   "2:4",
+   "--highlight-range-color",
+   "#ffff0020",
+   "-a",
+   "6",
+   "-d",
+   "8",
+   "--add-line-color",
+   "#00ff0030",
+   "--delete-line-color",
+   "#ff000030"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_watermark_with_all_options::23",
+  "argv": [
+   "-c",
+   "code",
+   "-o",
+   "-w",
+   "My Watermark Text",
+   "--watermark-font-family",
+   "Courier",
+   "--watermark-color",
+   "#808080"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_background_with_styling::24",
+  "argv": [
+   "-c",
+   "code",
+   "-o",
+   "--background",
+   "#123456",
+   "--scale-factor",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_svg_output_with_options::25",
+  "argv": [
+   "-c",
+   "test code",
+   "-o",
+   "--code-theme",
+   "candy",
+   "--has-line-number",
+   "-w",
+   "Test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_output_with_options::26",
+  "argv": [
+   "-c",
+   "test code",
+   "-o",
+   "--mac-window-bar",
+   "true",
+   "--title",
+   "Code"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiline_code_with_special_chars::27",
+  "argv": [
+   "-c",
+   "#!/bin/bash\necho \"Hello 'World'\"\npath=\"/usr/local/bin\"\nregex=\"[a-zA-Z0-9_]+\"\nmath=$((1 + 2))\n",
+   "-o",
+   "-l",
+   "bash"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_different_extensions::28",
+  "argv": [
+   "-f",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_file_input::29",
+  "argv": [
+   "-f",
+   "empty.py",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.py": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_line_numbers::30",
+  "argv": [
+   "-c",
+   "code",
+   "-o",
+   "--has-line-number",
+   "--start-line-number",
+   "9999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_margins::31",
+  "argv": [
+   "-c",
+   "code",
+   "-o",
+   "--margin-x",
+   "0",
+   "--margin-y",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_margins::32",
+  "argv": [
+   "-c",
+   "x",
+   "-o",
+   "--margin-x",
+   "200",
+   "--margin-y",
+   "200"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scale_factor_one::33",
+  "argv": [
+   "-c",
+   "code",
+   "-o",
+   "--scale-factor",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_highlight_with_range::34",
+  "argv": [
+   "-c",
+   "-o",
+   "--range",
+   "10:15",
+   "--highlight-range",
+   "2:4",
+   "--relative-highlight-range"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::35",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_language_explicit::36",
+  "argv": [
+   "-c",
+   "print('test')",
+   "-o",
+   "-l",
+   "python"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_language_auto_detect_from_file::37",
+  "argv": [
+   "-f",
+   "test.rs",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.rs": "fn main() {}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_path_for_language_detection::38",
+  "argv": [
+   "-c",
+   "fn main() {}",
+   "-o",
+   "--file-path",
+   "test.rs"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_code_font_family::39",
+  "argv": [
+   "-c",
+   "code",
+   "-o",
+   "--code-font-family",
+   "Courier"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_code_theme::40",
+  "argv": [
+   "-c",
+   "code",
+   "-o",
+   "--code-theme",
+   "base16-ocean.dark"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_numbers_enabled::41",
+  "argv": [
+   "-c",
+   "line1\nline2\nline3",
+   "-o",
+   "--has-line-number"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_start_line_number::42",
+  "argv": [
+   "-c",
+   "code",
+   "-o",
+   "--has-line-number",
+   "--start-line-number",
+   "42"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_number_color::43",
+  "argv": [
+   "-c",
+   "code",
+   "-o",
+   "--has-line-number",
+   "--line-number-color",
+   "#ff0000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_breadcrumbs_enabled::44",
+  "argv": [
+   "-f",
+   "test.py",
+   "-o",
+   "--has-breadcrumbs",
+   "true"
+  ],
+  "stdin": null,
+  "files": {
+   "test.py": "code"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_breadcrumbs_separator::45",
+  "argv": [
+   "-f",
+   "test.py",
+   "-o",
+   "--has-breadcrumbs",
+   "true",
+   "--breadcrumbs-separator",
+   ">"
+  ],
+  "stdin": null,
+  "files": {
+   "test.py": "code"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_breadcrumbs_font_family::46",
+  "argv": [
+   "-f",
+   "test.py",
+   "-o",
+   "--has-breadcrumbs",
+   "true",
+   "--breadcrumbs-font-family",
+   "Courier"
+  ],
+  "stdin": null,
+  "files": {
+   "test.py": "code"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_breadcrumbs_color::47",
+  "argv": [
+   "-f",
+   "test.py",
+   "-o",
+   "--has-breadcrumbs",
+   "true",
+   "--breadcrumbs-color",
+   "#00ff00"
+  ],
+  "stdin": null,
+  "files": {
+   "test.py": "code"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_range_specific_lines::48",
+  "argv": [
+   "-f",
+   "-o",
+   "--range",
+   "3:5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_range_from_line_to_end::49",
+  "argv": [
+   "-f",
+   "-o",
+   "--range",
+   "5:"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_range_from_start_to_line::50",
+  "argv": [
+   "-f",
+   "-o",
+   "--range",
+   ":5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_range_single_line::51",
+  "argv": [
+   "-f",
+   "-o",
+   "--range",
+   "3:3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_range_invalid_format::52",
+  "argv": [
+   "-f",
+   "test.py",
+   "-o",
+   "--range",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {
+   "test.py": "code"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ascii_type_output::53",
+  "argv": [
+   "-c",
+   "def hello():\n    print('world')",
+   "-o",
+   "--type",
+   "ascii"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_json_highlight::54",
+  "argv": [
+   "-c",
+   "-o",
+   "--raw-highlight-lines"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_breadcrumbs_with_deep_path::55",
+  "argv": [
+   "-f",
+   "test.py",
+   "-o",
+   "--has-breadcrumbs",
+   "true",
+   "--breadcrumbs-separator",
+   " / "
+  ],
+  "stdin": null,
+  "files": {
+   "test.py": "def helper(): pass"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_numbers_with_large_start::56",
+  "argv": [
+   "-c",
+   "-o",
+   "--has-line-number",
+   "--start-line-number",
+   "12345"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_margin_and_shadow_combinations::57",
+  "argv": [
+   "-c",
+   "x",
+   "-o",
+   "--margin-x",
+   "--margin-y",
+   "--shadow-radius"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_languages::58",
+  "argv": [
+   "-c",
+   "-o",
+   "-l"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_small_code::59",
+  "argv": [
+   "-c",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_code_with_wide_characters::60",
+  "argv": [
+   "-c",
+   "# 中文注释\ndef hello():\n    print(\"Hello 世界\")\n    # こんにちは\n    # Здравствуйте\n    x = \"🎉 Unicode!\"\n",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scale_factors::61",
+  "argv": [
+   "-c",
+   "test",
+   "-o",
+   "--scale-factor"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_variations::62",
+  "argv": [
+   "-c",
+   "code",
+   "-o",
+   "--code-theme"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_annotations::63",
+  "argv": [
+   "-c",
+   "-o",
+   "-a",
+   "2",
+   "-a",
+   "4",
+   "-a",
+   "6",
+   "-d",
+   "8",
+   "-d",
+   "10",
+   "--highlight-range",
+   "12:15",
+   "--has-line-number",
+   "--start-line-number",
+   "100"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_and_absolute_ranges::64",
+  "argv": [
+   "-c",
+   "-o",
+   "--range",
+   "10:20",
+   "--highlight-range",
+   "3:5",
+   "--relative-highlight-range",
+   "--has-line-number",
+   "--start-line-number",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_svg_with_various_options::65",
+  "argv": [
+   "-c",
+   "test code\nline 2\nline 3",
+   "-o",
+   "--has-line-number",
+   "--mac-window-bar",
+   "true",
+   "--title",
+   "My Code",
+   "-w",
+   "Watermark",
+   "--background",
+   "#654321"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_with_various_options::66",
+  "argv": [
+   "-c",
+   "code line 1\ncode line 2",
+   "-o",
+   "--mac-window-bar",
+   "false",
+   "--background",
+   "#112233"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_silent_mode_with_various_options::67",
+  "argv": [
+   "-c",
+   "code",
+   "-o",
+   "--silent",
+   "--has-line-number",
+   "-w",
+   "Test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_auto_created::68",
+  "argv": [
+   "-c",
+   "code",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_config_file::69",
+  "argv": [
+   "-c",
+   "code",
+   "-o",
+   "--config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_all_options::70",
+  "argv": [
+   "-c",
+   "code",
+   "-o",
+   "--code-theme",
+   "candy",
+   "--scale-factor",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_code_input::71",
+  "argv": [
+   "-c",
+   "",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_code::72",
+  "argv": [
+   "-c",
+   "# Привет мир\n# 你好世界\n# مرحبا بالعالم\nprint('🌍')",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_code::73",
+  "argv": [
+   "-c",
+   "text = \"quotes \\\"nested\\\" here\"\npath = \"C:\\\\Windows\\\\System32\"",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_file_as_input::74",
+  "argv": [
+   "-f",
+   "binary.bin",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "binary.bin": "\u0000\u0001\u0002\u0003��"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_to_readonly_location::75",
+  "argv": [
+   "-c",
+   "code",
+   "-o",
+   "/sys/test.png"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_color_format::76",
+  "argv": [
+   "-c",
+   "code",
+   "-o",
+   "--background",
+   "not-a-color"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_scale_factor::77",
+  "argv": [
+   "-c",
+   "code",
+   "-o",
+   "--scale-factor",
+   "-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_scale_factor::78",
+  "argv": [
+   "-c",
+   "code",
+   "-o",
+   "--scale-factor",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_malformed_json_highlight_lines::79",
+  "argv": [
+   "-c",
+   "code",
+   "-o",
+   "--raw-highlight-lines",
+   "not-json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_options::80",
+  "argv": [
+   "-f",
+   "test.py",
+   "-c",
+   "from_arg",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.py": "from_file"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_no_extension::81",
+  "argv": [
+   "-f",
+   "noext",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "noext": "code content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_code_with_tabs::82",
+  "argv": [
+   "-c",
+   "def func():\n\treturn True\n\t\tif True:\n\t\t\tpass",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_character_code::83",
+  "argv": [
+   "-c",
+   "x",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_range::84",
+  "argv": [
+   "-c",
+   "-o",
+   "--highlight-range",
+   "3:5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_range_color::85",
+  "argv": [
+   "-c",
+   "line1\nline2\nline3",
+   "-o",
+   "--highlight-range",
+   "2:2",
+   "--highlight-range-color",
+   "#ff000020"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_highlight_range::86",
+  "argv": [
+   "-f",
+   "-o",
+   "--range",
+   "5:7",
+   "--highlight-range",
+   "1:2",
+   "--relative-highlight-range"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_line_single::87",
+  "argv": [
+   "-c",
+   "line1\nline2\nline3",
+   "-o",
+   "-a",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_line_multiple::88",
+  "argv": [
+   "-c",
+   "-o",
+   "-a",
+   "1",
+   "-a",
+   "3",
+   "-a",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_line_color::89",
+  "argv": [
+   "-c",
+   "line1\nline2",
+   "-o",
+   "-a",
+   "1",
+   "--add-line-color",
+   "#00ff0050"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_line_single::90",
+  "argv": [
+   "-c",
+   "line1\nline2\nline3",
+   "-o",
+   "-d",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_line_multiple::91",
+  "argv": [
+   "-c",
+   "-o",
+   "-d",
+   "1",
+   "-d",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_line_color::92",
+  "argv": [
+   "-c",
+   "line1\nline2",
+   "-o",
+   "-d",
+   "1",
+   "--delete-line-color",
+   "#ff000050"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_and_delete_lines_combined::93",
+  "argv": [
+   "-c",
+   "-o",
+   "-a",
+   "2",
+   "-d",
+   "4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_from_file_basic::94",
+  "argv": [
+   "-f",
+   "test.py",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.py": "print('hello world')"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_from_file_missing_file::95",
+  "argv": [
+   "-f",
+   "/nonexistent/file.py",
+   "-o",
+   "/tmp/out.png"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_from_code_stdin::96",
+  "argv": [
+   "-c",
+   "-",
+   "-o"
+  ],
+  "stdin": "def hello():\n    return 'world'",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_from_code_explicit::97",
+  "argv": [
+   "-c",
+   "print('test')",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_from_code_no_value_uses_stdin::98",
+  "argv": [
+   "-c",
+   "-o"
+  ],
+  "stdin": "x = 42",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_from_clipboard::99",
+  "argv": [
+   "--from-clipboard",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_execute_command::100",
+  "argv": [
+   "-e",
+   "echo",
+   "hello world",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_execute_with_skip::101",
+  "argv": [
+   "-e",
+   "echo",
+   "test",
+   "--skip",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_input_sources_uses_priority::102",
+  "argv": [
+   "-f",
+   "test.py",
+   "-c",
+   "# from arg",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.py": "# from file"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_to_png::103",
+  "argv": [
+   "-c",
+   "test code",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_to_clipboard::104",
+  "argv": [
+   "-c",
+   "test code",
+   "-o",
+   "clipboard"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_raw_to_stdout::105",
+  "argv": [
+   "-c",
+   "test code",
+   "-o",
+   "raw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_unsupported_format::106",
+  "argv": [
+   "-c",
+   "test",
+   "-o",
+   "/tmp/output.unknown"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ascii_output_type::107",
+  "argv": [
+   "-c",
+   "test code",
+   "-o",
+   "--type",
+   "ascii"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_image_output_type_default::108",
+  "argv": [
+   "-c",
+   "test code",
+   "-o",
+   "--type",
+   "image"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_background_solid_color::109",
+  "argv": [
+   "-c",
+   "code",
+   "-o",
+   "--background",
+   "#ff0000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_background_hex_color::110",
+  "argv": [
+   "-c",
+   "code",
+   "-o",
+   "--background",
+   "#123456"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_watermark_text::111",
+  "argv": [
+   "-c",
+   "code",
+   "-o",
+   "-w",
+   "MyWatermark"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_watermark_font_family::112",
+  "argv": [
+   "-c",
+   "code",
+   "-o",
+   "-w",
+   "Test",
+   "--watermark-font-family",
+   "Courier"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_watermark_color::113",
+  "argv": [
+   "-c",
+   "code",
+   "-o",
+   "-w",
+   "Test",
+   "--watermark-color",
+   "#00ff00"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scale_factor_high::114",
+  "argv": [
+   "-c",
+   "x",
+   "-o",
+   "--scale-factor",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_silent_flag::115",
+  "argv": [
+   "-c",
+   "code",
+   "-o",
+   "--silent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mac_window_bar_enabled::116",
+  "argv": [
+   "-c",
+   "code",
+   "-o",
+   "--mac-window-bar",
+   "true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mac_window_bar_disabled::117",
+  "argv": [
+   "-c",
+   "code",
+   "-o",
+   "--mac-window-bar",
+   "false"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_window_title::118",
+  "argv": [
+   "-c",
+   "code",
+   "-o",
+   "--title",
+   "My Code Snippet"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_title_font_family::119",
+  "argv": [
+   "-c",
+   "code",
+   "-o",
+   "--title",
+   "Test",
+   "--title-font-family",
+   "Courier"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_title_color::120",
+  "argv": [
+   "-c",
+   "code",
+   "-o",
+   "--title",
+   "Test",
+   "--title-color",
+   "#ff0000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_window_border_enabled::121",
+  "argv": [
+   "-c",
+   "code",
+   "-o",
+   "--has-border"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_border_color::122",
+  "argv": [
+   "-c",
+   "code",
+   "-o",
+   "--border-color",
+   "#0000ff"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shadow_radius::123",
+  "argv": [
+   "-c",
+   "code",
+   "-o",
+   "--shadow-radius",
+   "30"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shadow_color::124",
+  "argv": [
+   "-c",
+   "code",
+   "-o",
+   "--shadow-color",
+   "#00000080"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_margin_x::125",
+  "argv": [
+   "-c",
+   "code",
+   "-o",
+   "--margin-x",
+   "100"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_margin_y::126",
+  "argv": [
+   "-c",
+   "code",
+   "-o",
+   "--margin-y",
+   "100"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_margin_x_and_y::127",
+  "argv": [
+   "-c",
+   "code",
+   "-o",
+   "--margin-x",
+   "50",
+   "--margin-y",
+   "75"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_subcommand_doesnt_exist::128",
+  "argv": [
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_order_doesnt_matter::129",
+  "argv": [
+   "--silent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_flag_recognized::130",
+  "argv": [
+   "--output",
+   "/tmp/test.png"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_stops_flag_parsing::131",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_unknown_args_error::132",
+  "argv": [
+   "foo",
+   "bar",
+   "baz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_error::133",
+  "argv": [
+   "--nonexistent-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_partial_flag_match_handling::134",
+  "argv": [
+   "--out"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_valid_flags_without_required_output::135",
+  "argv": [
+   "--silent",
+   "--has-line-number"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subcommand_like_with_dash_prefix::136",
+  "argv": [
+   "--add"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_exit_code_for_unknown_flag::137",
+  "argv": [
+   "--definitely-not-a-real-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_exit_code_for_invalid_positional::138",
+  "argv": [
+   "random_positional_arg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_code_min_width_enforcement::139",
+  "argv": [
+   "--from-code",
+   "--output",
+   "/tmp/test_min_width.svg"
+  ],
+  "stdin": "x",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_to_png::140",
+  "argv": [
+   "-c",
+   "-o"
+  ],
+  "stdin": "def test():\n    pass",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_from_code_stdin::141",
+  "argv": [
+   "-c",
+   "-o"
+  ],
+  "stdin": "# Comment\nprint('from stdin')",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

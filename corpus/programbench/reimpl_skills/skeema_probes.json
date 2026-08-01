@@ -1,0 +1,5106 @@
+[
+ {
+  "name": "test::test_push_with_missing_permissions_reports_error::0",
+  "argv": [
+   "mysql",
+   "-u",
+   "root",
+   "-e",
+   "FLUSH PRIVILEGES"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_command_exit_code_and_message::1",
+  "argv": [
+   "boguscmd"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "SKEEMA_COLOR": "0"
+  }
+ },
+ {
+  "name": "test::test_unknown_global_flag_exit_code_and_message::2",
+  "argv": [
+   "definitely-not-a-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "SKEEMA_COLOR": "0"
+  }
+ },
+ {
+  "name": "test::test_init_requires_host_on_command_line::3",
+  "argv": [
+   "init",
+   "--dir",
+   "/tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "SKEEMA_COLOR": "0"
+  }
+ },
+ {
+  "name": "test::test_missing_command_prints_usage_to_stdout::4",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "SKEEMA_COLOR": "0"
+  }
+ },
+ {
+  "name": "test::test_help_matches_golden::5",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "SKEEMA_COLOR": "0"
+  }
+ },
+ {
+  "name": "test::test_help_alias_dash_question_matches_golden::6",
+  "argv": [
+   "-?"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "SKEEMA_COLOR": "0"
+  }
+ },
+ {
+  "name": "test::test_help_command_matches_golden::7",
+  "argv": [
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "SKEEMA_COLOR": "0"
+  }
+ },
+ {
+  "name": "test::test_version_variants_match_golden::8",
+  "argv": [
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "SKEEMA_COLOR": "0"
+  }
+ },
+ {
+  "name": "test::test_add_env_requires_environment_name::9",
+  "argv": [
+   "add-environment"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_env_dir_option::10",
+  "argv": [
+   "help",
+   "add-environment"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_environment_help::11",
+  "argv": [
+   "add-environment",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_environment_missing_directory::12",
+  "argv": [
+   "add-environment",
+   "staging"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_environment_basic_usage::13",
+  "argv": [
+   "add-environment",
+   "staging",
+   "--host=staginghost"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_environment_with_port::14",
+  "argv": [
+   "add-environment",
+   "dev",
+   "--host=devhost",
+   "--port=3307"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_environment_with_socket::15",
+  "argv": [
+   "add-environment",
+   "local",
+   "--host=localhost",
+   "--socket=/var/run/mysqld/mysqld.sock"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_environment_with_dir_option::16",
+  "argv": [
+   "add-environment",
+   "test",
+   "--host=testhost",
+   "--dir=myhost"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_environment_missing_directory::17",
+  "argv": [
+   "add-environment",
+   "staging",
+   "--host=staginghost",
+   "--dir=nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_environment_duplicate_name::18",
+  "argv": [
+   "add-environment",
+   "staging",
+   "--host=newstaging"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_environment_special_characters_in_name::19",
+  "argv": [
+   "add-environment",
+   "--host=testhost"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_environment_with_user_password::20",
+  "argv": [
+   "add-environment",
+   "secure",
+   "--host=securehost",
+   "--user=admin",
+   "--password=secret"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_environment_with_connect_options::21",
+  "argv": [
+   "add-environment",
+   "custom",
+   "--host=customhost",
+   "--connect-options=sql_mode='STRICT_ALL_TABLES'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_environment_with_debug::22",
+  "argv": [
+   "add-environment",
+   "debug_test",
+   "--host=testhost",
+   "--debug"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_with_equals_syntax::23",
+  "argv": [
+   "--help=init"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_specific_help_shows_options::24",
+  "argv": [
+   "help",
+   "init"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_with_invalid_command_shows_error::25",
+  "argv": [
+   "help",
+   "nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::26",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_for_diff::27",
+  "argv": [
+   "help",
+   "diff"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_for_push::28",
+  "argv": [
+   "help",
+   "push"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_for_pull::29",
+  "argv": [
+   "help",
+   "pull"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_for_format::30",
+  "argv": [
+   "help",
+   "format"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_for_lint::31",
+  "argv": [
+   "help",
+   "lint"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_command::32",
+  "argv": [
+   "invalid-command-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_global_flag::33",
+  "argv": [
+   "--invalid-flag-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_environments_not_allowed::34",
+  "argv": [
+   "diff",
+   "production",
+   "staging"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_password_prompt_flag_without_value::35",
+  "argv": [
+   "--help",
+   "--password"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_password_with_value::36",
+  "argv": [
+   "--help",
+   "--password=testpass"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_user_with_short_flag::37",
+  "argv": [
+   "--help",
+   "-u",
+   "testuser"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_short_flag::38",
+  "argv": [
+   "-z"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_options::39",
+  "argv": [
+   "lint",
+   "--format",
+   "--skip-format"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_option_with_equals_sign::40",
+  "argv": [
+   "--help",
+   "--user=testuser"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_option_with_space::41",
+  "argv": [
+   "--help",
+   "--user",
+   "testuser"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_flag_with_help::42",
+  "argv": [
+   "--help",
+   "--debug"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_global_options::43",
+  "argv": [
+   "--help",
+   "--debug",
+   "--skip-my-cnf"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_option_after_command::44",
+  "argv": [
+   "help",
+   "init",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dash_dash_separator::45",
+  "argv": [
+   "--help",
+   "--"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_linter_severity_levels::46",
+  "argv": [
+   "lint"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_workspace_temp_schema_modes::47",
+  "argv": [
+   "format"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_alter_algorithm_values::48",
+  "argv": [
+   "diff"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_ignore_patterns::49",
+  "argv": [
+   "diff",
+   "--ignore-table=tmp_.*",
+   "--ignore-schema=test.*",
+   "--ignore-func=debug_.*",
+   "--ignore-proc=temp_.*"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_skip_flags_combination::50",
+  "argv": [
+   "diff",
+   "--skip-lint",
+   "--skip-verify",
+   "--skip-my-cnf"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lax_flags_combination::51",
+  "argv": [
+   "diff",
+   "--lax-column-order",
+   "--lax-comments"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_skip_my_cnf_option::52",
+  "argv": [
+   "--help",
+   "--skip-my-cnf"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_my_cnf_option::53",
+  "argv": [
+   "--help",
+   "--my-cnf"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_global_and_env_options::54",
+  "argv": [
+   "diff",
+   "production"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_flag_with_version::55",
+  "argv": [
+   "--debug",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_flag_with_help::56",
+  "argv": [
+   "--debug",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_with_each_command::57",
+  "argv": [
+   "--debug"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_flag_before_command::58",
+  "argv": [
+   "--debug",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_help::59",
+  "argv": [
+   "diff",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_with_brief_flag::60",
+  "argv": [
+   "diff",
+   "--brief"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_with_first_only_flag::61",
+  "argv": [
+   "diff",
+   "--first-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_with_alter_wrapper::62",
+  "argv": [
+   "diff",
+   "--alter-wrapper=echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_with_ddl_wrapper::63",
+  "argv": [
+   "diff",
+   "--ddl-wrapper=echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_with_exact_match::64",
+  "argv": [
+   "diff",
+   "--exact-match"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_with_lax_column_order::65",
+  "argv": [
+   "diff",
+   "--lax-column-order"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_with_lax_comments::66",
+  "argv": [
+   "diff",
+   "--lax-comments"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_with_allow_unsafe::67",
+  "argv": [
+   "diff",
+   "--allow-unsafe"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_with_skip_verify::68",
+  "argv": [
+   "diff",
+   "--skip-verify"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_with_safe_below_size::69",
+  "argv": [
+   "diff",
+   "--safe-below-size=1000000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_with_skip_lint::70",
+  "argv": [
+   "diff",
+   "--skip-lint"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_with_concurrent_servers::71",
+  "argv": [
+   "diff",
+   "--concurrent-servers=4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_with_compare_metadata::72",
+  "argv": [
+   "diff",
+   "--compare-metadata"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_push_empty_directory::73",
+  "argv": [
+   "push",
+   "--dry-run"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pull_with_config_but_no_connection::74",
+  "argv": [
+   "pull"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_produces_error::75",
+  "argv": [
+   "--invalid-flag-xyz",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_for_invalid_command::76",
+  "argv": [
+   "help",
+   "nonexistent-command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_without_host::77",
+  "argv": [
+   "init"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_conflicting_flags::78",
+  "argv": [
+   "version",
+   "--debug",
+   "--user=test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_extra_arguments::79",
+  "argv": [
+   "version",
+   "extra",
+   "args"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_with_multiple_commands::80",
+  "argv": [
+   "help",
+   "init",
+   "diff"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssl_mode_invalid_value::81",
+  "argv": [
+   "init",
+   "--host",
+   "localhost",
+   "--ssl-mode",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_invalid_port::82",
+  "argv": [
+   "init",
+   "-h",
+   "localhost",
+   "-P",
+   "99999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_negative_port::83",
+  "argv": [
+   "init",
+   "-h",
+   "localhost",
+   "-P",
+   "-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_empty_host::84",
+  "argv": [
+   "init",
+   "-h",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_system_schema::85",
+  "argv": [
+   "init",
+   "-h",
+   "localhost",
+   "--schema=information_schema"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_mysql_schema::86",
+  "argv": [
+   "init",
+   "-h",
+   "localhost",
+   "--schema=mysql"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_performance_schema::87",
+  "argv": [
+   "init",
+   "-h",
+   "localhost",
+   "--schema=performance_schema"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_workspace_value::88",
+  "argv": [
+   "lint",
+   "--workspace=invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_alter_algorithm::89",
+  "argv": [
+   "diff",
+   "--alter-algorithm=invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_alter_lock::90",
+  "argv": [
+   "diff",
+   "--alter-lock=invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_partitioning_value::91",
+  "argv": [
+   "diff",
+   "--partitioning=invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_lint_rule_value::92",
+  "argv": [
+   "lint",
+   "--lint-charset=invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_docker_cleanup_value::93",
+  "argv": [
+   "lint",
+   "--docker-cleanup=invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_temp_schema_binlog_value::94",
+  "argv": [
+   "lint",
+   "--temp-schema-binlog=invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_temp_schema_mode_value::95",
+  "argv": [
+   "lint",
+   "--temp-schema-mode=invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_partitioning_options::96",
+  "argv": [
+   "diff",
+   "--partitioning=keep",
+   "--strip-partitioning"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_safe_below_size::97",
+  "argv": [
+   "diff",
+   "--safe-below-size=-100"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_alter_wrapper_min_size::98",
+  "argv": [
+   "diff",
+   "--alter-wrapper-min-size=-100"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_large_concurrent_servers::99",
+  "argv": [
+   "diff",
+   "--concurrent-servers=999999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_concurrent_servers::100",
+  "argv": [
+   "diff",
+   "--concurrent-servers=0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_env_without_dir::101",
+  "argv": [
+   "add-environment",
+   "staging",
+   "-h",
+   "localhost",
+   "--dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_env_with_special_chars_in_name::102",
+  "argv": [
+   "add-environment",
+   "test[env]",
+   "-h",
+   "localhost"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_command_exit_code::103",
+  "argv": [
+   "invalid_command_xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_for_invalid_command::104",
+  "argv": [
+   "help",
+   "nonexistent_command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_invalid_flags::105",
+  "argv": [
+   "--invalid1",
+   "--invalid2",
+   "--invalid3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_invalid_environment::106",
+  "argv": [
+   "diff",
+   "[invalid]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_push_exit_code_no_changes::107",
+  "argv": [
+   "push"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_conflicting_flags::108",
+  "argv": [
+   "format",
+   "--strip-partitioning"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_skip_my_cnf_with_various_commands::109",
+  "argv": [
+   "--skip-my-cnf"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_help::110",
+  "argv": [
+   "format",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_skip_write_mode::111",
+  "argv": [
+   "format",
+   "--skip-write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_with_workspace_option::112",
+  "argv": [
+   "format",
+   "--workspace=temp-schema"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_with_environment_arg::113",
+  "argv": [
+   "format",
+   "staging"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_with_debug::114",
+  "argv": [
+   "format",
+   "--debug"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_with_temp_schema_option::115",
+  "argv": [
+   "format",
+   "--temp-schema=_test_tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_password_with_value::116",
+  "argv": [
+   "version",
+   "--password=test123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_help::117",
+  "argv": [
+   "init",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_invalid_host::118",
+  "argv": [
+   "init",
+   "--host",
+   "invalid-host-xyz-123456.local",
+   "--port",
+   "3306"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_environment_handling::119",
+  "argv": [
+   "init",
+   "staging",
+   "--host",
+   "localhost"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_debug_flag::120",
+  "argv": [
+   "init",
+   "--debug",
+   "--host",
+   "localhost"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_invalid_host::121",
+  "argv": [
+   "init",
+   "--host="
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_system_schema::122",
+  "argv": [
+   "init",
+   "--host=localhost",
+   "--schema=mysql"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_information_schema::123",
+  "argv": [
+   "init",
+   "--host=localhost",
+   "--schema=information_schema"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_performance_schema::124",
+  "argv": [
+   "init",
+   "--host=localhost",
+   "--schema=performance_schema"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_invalid_environment_brackets::125",
+  "argv": [
+   "init",
+   "--host=localhost",
+   "[invalid]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_invalid_environment_newline::126",
+  "argv": [
+   "init",
+   "--host=localhost",
+   "test\nenv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_empty_environment::127",
+  "argv": [
+   "init",
+   "--host=localhost",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_port_option_validation::128",
+  "argv": [
+   "init",
+   "--host=localhost",
+   "--port=99999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_debug_flag::129",
+  "argv": [
+   "init",
+   "--host=localhost",
+   "--debug"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_directory_creation_failure::130",
+  "argv": [
+   "init",
+   "--host=testhost",
+   "--dir=testhost"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_socket_path::131",
+  "argv": [
+   "init",
+   "--host=localhost",
+   "--socket=/nonexistent/mysql.sock"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_include_auto_inc::132",
+  "argv": [
+   "init",
+   "--host=localhost",
+   "--include-auto-inc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_strip_partitioning::133",
+  "argv": [
+   "init",
+   "--host=localhost",
+   "--strip-partitioning"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_dir_option::134",
+  "argv": [
+   "init",
+   "--host=testserver",
+   "--dir=mydir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_multiple_environments::135",
+  "argv": [
+   "init",
+   "--host=localhost"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_invalid_environment_name::136",
+  "argv": [
+   "init",
+   "[invalid]",
+   "-h",
+   "localhost"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_ssl_mode::137",
+  "argv": [
+   "--ssl-mode=invalid",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lint_help::138",
+  "argv": [
+   "lint",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lint_with_skip_format::139",
+  "argv": [
+   "lint",
+   "--skip-format"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lint_with_strip_partitioning::140",
+  "argv": [
+   "lint",
+   "--strip-partitioning"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lint_pk_type_option::141",
+  "argv": [
+   "lint",
+   "--lint-pk-type=error",
+   "--allow-pk-type=int,bigint"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lint_with_workspace_option::142",
+  "argv": [
+   "lint",
+   "--workspace=temp-schema"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_skip_my_cnf_with_version::143",
+  "argv": [
+   "--skip-my-cnf",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_skip_my_cnf_with_help::144",
+  "argv": [
+   "--skip-my-cnf",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_ignore_options::145",
+  "argv": [
+   "--help",
+   "--ignore-table=^temp_",
+   "--ignore-schema=^test_"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_connect_options_parsing::146",
+  "argv": [
+   "--help",
+   "--connect-options=sql_mode='STRICT',wait_timeout=100"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssl_mode_disabled::147",
+  "argv": [
+   "--help",
+   "--ssl-mode=disabled"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssl_mode_preferred::148",
+  "argv": [
+   "--help",
+   "--ssl-mode=preferred"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssl_mode_required::149",
+  "argv": [
+   "--help",
+   "--ssl-mode=required"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lint_all_rules_as_errors::150",
+  "argv": [
+   "lint",
+   "--lint-auto-inc=error",
+   "--lint-charset=error",
+   "--lint-engine=error"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lint_all_rules_as_ignore::151",
+  "argv": [
+   "lint",
+   "--lint-auto-inc=ignore",
+   "--lint-charset=ignore",
+   "--lint-pk=ignore"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_alter_algorithm_inplace::152",
+  "argv": [
+   "diff",
+   "--alter-algorithm=inplace"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_alter_algorithm_copy::153",
+  "argv": [
+   "diff",
+   "--alter-algorithm=copy"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_alter_algorithm_instant::154",
+  "argv": [
+   "diff",
+   "--alter-algorithm=instant"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_alter_lock_none::155",
+  "argv": [
+   "diff",
+   "--alter-lock=none"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_alter_lock_shared::156",
+  "argv": [
+   "diff",
+   "--alter-lock=shared"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_alter_lock_exclusive::157",
+  "argv": [
+   "diff",
+   "--alter-lock=exclusive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_partitioning_keep::158",
+  "argv": [
+   "diff",
+   "--partitioning=keep"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_partitioning_remove::159",
+  "argv": [
+   "diff",
+   "--partitioning=remove"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_partitioning_modify::160",
+  "argv": [
+   "diff",
+   "--partitioning=modify"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_workspace_docker::161",
+  "argv": [
+   "lint",
+   "--workspace=docker"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_docker_cleanup_none::162",
+  "argv": [
+   "lint",
+   "--docker-cleanup=none"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_docker_cleanup_stop::163",
+  "argv": [
+   "lint",
+   "--docker-cleanup=stop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_docker_cleanup_destroy::164",
+  "argv": [
+   "lint",
+   "--docker-cleanup=destroy"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_temp_schema_binlog_on::165",
+  "argv": [
+   "lint",
+   "--temp-schema-binlog=on"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_temp_schema_binlog_off::166",
+  "argv": [
+   "lint",
+   "--temp-schema-binlog=off"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_temp_schema_binlog_auto::167",
+  "argv": [
+   "lint",
+   "--temp-schema-binlog=auto"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_temp_schema_mode_serial::168",
+  "argv": [
+   "lint",
+   "--temp-schema-mode=serial"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_temp_schema_mode_light::169",
+  "argv": [
+   "lint",
+   "--temp-schema-mode=light"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_temp_schema_mode_regular::170",
+  "argv": [
+   "lint",
+   "--temp-schema-mode=regular"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_temp_schema_mode_heavy::171",
+  "argv": [
+   "lint",
+   "--temp-schema-mode=heavy"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_temp_schema_mode_extreme::172",
+  "argv": [
+   "lint",
+   "--temp-schema-mode=extreme"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_allow_charset_list::173",
+  "argv": [
+   "lint",
+   "--allow-charset=utf8mb4,latin1,utf8"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_allow_engine_list::174",
+  "argv": [
+   "lint",
+   "--allow-engine=innodb,myisam"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_allow_compression_list::175",
+  "argv": [
+   "lint",
+   "--allow-compression=none,4kb,8kb,16kb"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_safe_below_size_value::176",
+  "argv": [
+   "diff",
+   "--safe-below-size=1048576"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_alter_wrapper_min_size_value::177",
+  "argv": [
+   "diff",
+   "--alter-wrapper-min-size=1048576"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_temp_schema_custom_name::178",
+  "argv": [
+   "lint",
+   "--temp-schema=_custom_tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_port_default::179",
+  "argv": [
+   "init",
+   "-h",
+   "localhost"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_linter_rules::180",
+  "argv": [
+   "lint",
+   "--lint-pk=error",
+   "--lint-charset=warning",
+   "--lint-engine=ignore",
+   "--allow-charset=utf8mb4",
+   "--allow-engine=innodb"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pull_with_all_options::181",
+  "argv": [
+   "pull",
+   "--include-auto-inc",
+   "--strip-partitioning",
+   "--skip-format"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_flag_verbose_output::182",
+  "argv": [
+   "diff",
+   "--debug"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pull_help::183",
+  "argv": [
+   "pull",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pull_with_skip_format::184",
+  "argv": [
+   "pull",
+   "--skip-format"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pull_with_include_auto_inc::185",
+  "argv": [
+   "pull",
+   "--include-auto-inc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pull_with_skip_new_schemas::186",
+  "argv": [
+   "pull",
+   "--skip-new-schemas"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pull_with_strip_partitioning::187",
+  "argv": [
+   "pull",
+   "--strip-partitioning"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pull_with_update_partitioning::188",
+  "argv": [
+   "pull",
+   "--update-partitioning"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pull_with_workspace_option::189",
+  "argv": [
+   "pull",
+   "--workspace=temp-schema"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pull_with_temp_schema::190",
+  "argv": [
+   "pull",
+   "--temp-schema=_test_tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pull_with_debug::191",
+  "argv": [
+   "pull",
+   "--debug"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pull_with_docker_cleanup::192",
+  "argv": [
+   "pull",
+   "--docker-cleanup=stop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_push_help::193",
+  "argv": [
+   "push",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_push_with_allow_unsafe::194",
+  "argv": [
+   "push",
+   "--allow-unsafe"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_push_with_foreign_key_checks::195",
+  "argv": [
+   "push",
+   "--foreign-key-checks"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_push_with_alter_wrapper::196",
+  "argv": [
+   "push",
+   "--alter-wrapper=echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_push_with_alter_wrapper_min_size::197",
+  "argv": [
+   "push",
+   "--alter-wrapper-min-size=1000000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_push_with_ddl_wrapper::198",
+  "argv": [
+   "push",
+   "--ddl-wrapper=echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_push_with_alter_validate_virtual::199",
+  "argv": [
+   "push",
+   "--alter-validate-virtual"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_push_with_exact_match::200",
+  "argv": [
+   "push",
+   "--exact-match"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_push_with_lax_column_order::201",
+  "argv": [
+   "push",
+   "--lax-column-order"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_push_with_lax_comments::202",
+  "argv": [
+   "push",
+   "--lax-comments"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_push_with_compare_metadata::203",
+  "argv": [
+   "push",
+   "--compare-metadata"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_push_with_skip_verify::204",
+  "argv": [
+   "push",
+   "--skip-verify"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_push_with_safe_below_size::205",
+  "argv": [
+   "push",
+   "--safe-below-size=1000000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_push_with_concurrent_servers::206",
+  "argv": [
+   "push",
+   "--concurrent-servers=4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_push_with_first_only::207",
+  "argv": [
+   "push",
+   "--first-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_push_with_skip_lint::208",
+  "argv": [
+   "push",
+   "--skip-lint"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lint_with_all_allow_lists::209",
+  "argv": [
+   "lint",
+   "--allow-charset=utf8mb4,latin1",
+   "--allow-engine=innodb,myisam",
+   "--allow-compression=none,4kb"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lint_with_format_enabled::210",
+  "argv": [
+   "lint",
+   "--format"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_with_invalid_flavor_syntax::211",
+  "argv": [
+   "format",
+   "--flavor=invalid:::syntax"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lint_with_conflicting_options::212",
+  "argv": [
+   "lint",
+   "--lint-pk=error",
+   "--lint-pk=ignore"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_unknown_environment::213",
+  "argv": [
+   "diff",
+   "nonexistent_environment"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_password_flag_without_value_in_noninteractive::214",
+  "argv": [
+   "--password",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_alter_algorithm::215",
+  "argv": [
+   "push",
+   "--alter-algorithm=invalid_algorithm"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_alter_lock::216",
+  "argv": [
+   "push",
+   "--alter-lock=invalid_lock"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_partitioning_option::217",
+  "argv": [
+   "push",
+   "--partitioning=invalid_value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dir_option_for_init_command::218",
+  "argv": [
+   "init",
+   "--host=localhost",
+   "--dir=custom_dir_name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_simultaneous_host_and_socket::219",
+  "argv": [
+   "init",
+   "--host=remotehost",
+   "--socket=/tmp/mysql.sock"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_user_option_with_special_characters::220",
+  "argv": [
+   "init",
+   "--host=localhost",
+   "--user=test@user%special"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_command_for_version::221",
+  "argv": [
+   "help",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_command_invalid_command::222",
+  "argv": [
+   "help",
+   "invalidcommandname"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_command::223",
+  "argv": [
+   "notarealcommand"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_help_flags::224",
+  "argv": [
+   "--help",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_and_help_flags::225",
+  "argv": [
+   "--version",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_attempts_connection::226",
+  "argv": [
+   "init",
+   "--host=127.0.0.1",
+   "--port=13306",
+   "--user=testuser"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_existing_directory::227",
+  "argv": [
+   "init",
+   "--host=newhost",
+   "--port=3306"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_environment_to_existing_host::228",
+  "argv": [
+   "add-environment",
+   "staging",
+   "--host=staging.example.com",
+   "--port=3307"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_with_write_flag::229",
+  "argv": [
+   "format",
+   "--write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_ignore_patterns::230",
+  "argv": [
+   "init",
+   "--host=localhost",
+   "--port=13306",
+   "--ignore-schema=test.*",
+   "--ignore-schema=temp.*",
+   "--ignore-table=_.*"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_with_print_width::231",
+  "argv": [
+   "format",
+   "--print-width=120"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lint_with_allow_options::232",
+  "argv": [
+   "lint",
+   "--allow-engine=MyISAM,InnoDB",
+   "--allow-charset=latin1,utf8mb4",
+   "--allow-auto-inc=smallint,int,bigint"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_schema_option::233",
+  "argv": [
+   "init",
+   "--host=localhost",
+   "--port=13306",
+   "--schema=myspecificdb"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_skeema_file_with_syntax_error::234",
+  "argv": [
+   "format",
+   "--workspace=docker",
+   "--flavor=mysql:5.7"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_comment_handling::235",
+  "argv": [
+   "format",
+   "--workspace=docker"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_cli_override_precedence::236",
+  "argv": [
+   "--user=cli_user",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_option_precedence::237",
+  "argv": [
+   "diff",
+   "--host=clihost"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_with_help_command::238",
+  "argv": [
+   "--debug",
+   "help",
+   "init"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_with_invalid_command::239",
+  "argv": [
+   "--debug",
+   "nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_flag_position_after_command::240",
+  "argv": [
+   "version",
+   "--debug"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lint_processes_subdirectories::241",
+  "argv": [
+   "lint",
+   "--workspace=docker",
+   "--flavor=mysql:5.7"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lint_reports_multiple_issues_per_file::242",
+  "argv": [
+   "lint",
+   "--lint-engine=warning",
+   "--lint-charset=warning",
+   "--lint-has-float=warning",
+   "--lint-has-enum=warning",
+   "--lint-has-time=warning",
+   "--workspace=docker",
+   "--flavor=mysql:5.7"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_connect_options_parsing::243",
+  "argv": [
+   "--connect-options=sql_mode='STRICT_ALL_TABLES',wait_timeout=3600",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_skip_my_cnf_flag::244",
+  "argv": [
+   "--skip-my-cnf",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_my_cnf_flag_enables_parsing::245",
+  "argv": [
+   "--my-cnf",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssl_mode_disabled::246",
+  "argv": [
+   "--ssl-mode=disabled",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssl_mode_preferred::247",
+  "argv": [
+   "--ssl-mode=preferred",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssl_mode_required::248",
+  "argv": [
+   "--ssl-mode=required",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_user_option_custom::249",
+  "argv": [
+   "--user=customuser",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_ignore_patterns_combined::250",
+  "argv": [
+   "--ignore-schema=test_.*",
+   "--ignore-schema=temp_.*",
+   "--ignore-table=backup_.*",
+   "--ignore-func=old_.*",
+   "--ignore-proc=deprecated_.*",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_required_host_for_init::251",
+  "argv": [
+   "init",
+   "--dir",
+   "testdir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_port_number_error_message::252",
+  "argv": [
+   "init",
+   "--dir",
+   "testdir",
+   "--host",
+   "localhost",
+   "--port",
+   "99999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_option_error_message::253",
+  "argv": [
+   "version",
+   "--this-option-does-not-exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_for_nonexistent_command::254",
+  "argv": [
+   "help",
+   "nonexistentcommand"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_option_value_handling::255",
+  "argv": [
+   "init",
+   "--host",
+   "",
+   "--dir",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_environment_name_chars::256",
+  "argv": [
+   "init",
+   "production@invalid!",
+   "--host",
+   "localhost",
+   "--dir",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_option_value::257",
+  "argv": [
+   "init",
+   "--host",
+   "--dir",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_chars_in_option_values::258",
+  "argv": [
+   "init",
+   "--host",
+   "host!@#$%",
+   "--dir",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_option_values::259",
+  "argv": [
+   "init",
+   "--host",
+   "хост",
+   "--dir",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_conflicting_options::260",
+  "argv": [
+   "version",
+   "--host",
+   "host1",
+   "--host",
+   "host2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_value_for_option_requiring_value::261",
+  "argv": [
+   "init",
+   "--host"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_ssl_mode_value::262",
+  "argv": [
+   "version",
+   "--ssl-mode",
+   "invalid-mode"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_with_skip_write_flag::263",
+  "argv": [
+   "format",
+   "--skip-write",
+   "--workspace=docker",
+   "--flavor=mysql:5.7"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_strip_partitioning_option::264",
+  "argv": [
+   "format",
+   "--strip-partitioning",
+   "--workspace=docker",
+   "--flavor=mysql:5.7"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_print_width_option::265",
+  "argv": [
+   "format",
+   "--print-width=80",
+   "--workspace=docker",
+   "--flavor=mysql:5.7"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_host_option_short_form::266",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_port_option_short_form::267",
+  "argv": [
+   "--help",
+   "-P",
+   "3306"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_port_option_long_form::268",
+  "argv": [
+   "--help",
+   "--port=3306"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_connect_options_short_form::269",
+  "argv": [
+   "--help",
+   "-o",
+   "sql_mode=TRADITIONAL"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_connect_options_long_form::270",
+  "argv": [
+   "--help",
+   "--connect-options=sql_mode=TRADITIONAL"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssl_mode_invalid_value::271",
+  "argv": [
+   "--ssl-mode=invalid",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_password_option_short_form::272",
+  "argv": [
+   "--help",
+   "-p",
+   "testpass"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_schema_option::273",
+  "argv": [
+   "--help",
+   "--ignore-schema=^test.*"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_table_option::274",
+  "argv": [
+   "--help",
+   "--ignore-table=^temp_.*"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_func_option::275",
+  "argv": [
+   "--help",
+   "--ignore-func=^old_.*"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_proc_option::276",
+  "argv": [
+   "--help",
+   "--ignore-proc=^temp_.*"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_ignore_patterns::277",
+  "argv": [
+   "--help",
+   "--ignore-schema=^test.*",
+   "--ignore-table=^temp.*",
+   "--ignore-func=^old.*"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_socket_option_short_form::278",
+  "argv": [
+   "--help",
+   "-S",
+   "/tmp/mysql.sock"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_socket_option_long_form::279",
+  "argv": [
+   "--help",
+   "--socket=/tmp/mysql.sock"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_host_wrapper_option::280",
+  "argv": [
+   "--help",
+   "--host-wrapper=echo localhost"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_short_options::281",
+  "argv": [
+   "--help",
+   "-u",
+   "root",
+   "-P",
+   "3306"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_options_before_command::282",
+  "argv": [
+   "--debug",
+   "--user=root",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_option_formats::283",
+  "argv": [
+   "--help",
+   "--user=root",
+   "-P",
+   "3306"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_option_value_with_special_chars::284",
+  "argv": [
+   "--help",
+   "--user=root@localhost"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_string_option_value::285",
+  "argv": [
+   "--help",
+   "--connect-options="
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_with_question_mark_flag::286",
+  "argv": [
+   "format",
+   "-?"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_host_no_dir::287",
+  "argv": [
+   "init",
+   "--host",
+   "nonexistent.example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_schema_option::288",
+  "argv": [
+   "init",
+   "--host=localhost",
+   "--port=3306",
+   "--schema=testdb"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_dir_option_custom_name::289",
+  "argv": [
+   "init",
+   "--host=remotedb.example.com",
+   "--dir=mydbhost"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_socket_path::290",
+  "argv": [
+   "init",
+   "--host=localhost",
+   "--socket=/var/run/mysqld/mysqld.sock"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_user_option::291",
+  "argv": [
+   "init",
+   "--host=localhost",
+   "--user=mydbuser"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_connect_options::292",
+  "argv": [
+   "init",
+   "--host=localhost",
+   "--connect-options=sql_mode='STRICT_ALL_TABLES'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_ssl_mode_required::293",
+  "argv": [
+   "init",
+   "--host=localhost",
+   "--ssl-mode=required"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_ignore_schema_option::294",
+  "argv": [
+   "init",
+   "--host=localhost",
+   "--ignore-schema=test%"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_custom_environment_name::295",
+  "argv": [
+   "init",
+   "--host=localhost",
+   "staging"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_ignore_table_pattern::296",
+  "argv": [
+   "init",
+   "--host=localhost",
+   "--ignore-table=_temp%"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_host_wrapper::297",
+  "argv": [
+   "init",
+   "--host=localhost",
+   "--host-wrapper=echo {HOST}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_skip_my_cnf_option::298",
+  "argv": [
+   "init",
+   "--host=localhost",
+   "--skip-my-cnf"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_system_schema_name::299",
+  "argv": [
+   "init",
+   "--host",
+   "localhost",
+   "--schema",
+   "information_schema"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_mysql_schema::300",
+  "argv": [
+   "init",
+   "--host",
+   "localhost",
+   "--schema",
+   "mysql"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_performance_schema::301",
+  "argv": [
+   "init",
+   "--host",
+   "localhost",
+   "--schema",
+   "performance_schema"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_sys_schema::302",
+  "argv": [
+   "init",
+   "--host",
+   "localhost",
+   "--schema",
+   "sys"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_test_schema::303",
+  "argv": [
+   "init",
+   "--host",
+   "localhost",
+   "--schema",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_invalid_environment_name_brackets::304",
+  "argv": [
+   "init",
+   "[production]",
+   "--host",
+   "localhost"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_newline_in_environment::305",
+  "argv": [
+   "init",
+   "prod\ntest",
+   "--host",
+   "localhost"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_empty_environment_name::306",
+  "argv": [
+   "init",
+   "",
+   "--host",
+   "localhost"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_socket_option_usage::307",
+  "argv": [
+   "init",
+   "--socket",
+   "/tmp/mysql.sock",
+   "--host",
+   "localhost"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_both_schema_and_dir::308",
+  "argv": [
+   "init",
+   "--host",
+   "localhost",
+   "--schema",
+   "mydb",
+   "--dir",
+   "testdir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_port_out_of_range::309",
+  "argv": [
+   "init",
+   "--host",
+   "localhost",
+   "--port",
+   "99999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_negative_port::310",
+  "argv": [
+   "init",
+   "--host",
+   "localhost",
+   "--port",
+   "-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_zero_port::311",
+  "argv": [
+   "init",
+   "--host",
+   "localhost",
+   "--port",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_non_numeric_port::312",
+  "argv": [
+   "init",
+   "--host",
+   "localhost",
+   "--port",
+   "abc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lint_with_lint_engine_flag::313",
+  "argv": [
+   "lint",
+   "--lint-engine=error",
+   "--workspace=docker",
+   "--flavor=mysql:5.7"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lint_with_allow_engine_flag::314",
+  "argv": [
+   "lint",
+   "--allow-engine=MyISAM,InnoDB",
+   "--workspace=docker",
+   "--flavor=mysql:5.7"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lint_float_column_detection::315",
+  "argv": [
+   "lint",
+   "--lint-has-float=error",
+   "--workspace=docker",
+   "--flavor=mysql:5.7"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lint_time_column_detection::316",
+  "argv": [
+   "lint",
+   "--lint-has-time=warning",
+   "--workspace=docker",
+   "--flavor=mysql:5.7"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lint_definer_clauses::317",
+  "argv": [
+   "lint",
+   "--lint-definer=warning",
+   "--workspace=docker",
+   "--flavor=mysql:5.7"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lint_display_width_detection::318",
+  "argv": [
+   "lint",
+   "--lint-display-width=warning",
+   "--workspace=docker",
+   "--flavor=mysql:5.7"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lint_duplicate_index_detection::319",
+  "argv": [
+   "lint",
+   "--lint-dupe-index=warning",
+   "--workspace=docker",
+   "--flavor=mysql:5.7"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lint_pk_type_restrictions::320",
+  "argv": [
+   "lint",
+   "--lint-pk-type=error",
+   "--allow-pk-type=int,bigint",
+   "--workspace=docker",
+   "--flavor=mysql:5.7"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lint_zero_date_detection::321",
+  "argv": [
+   "lint",
+   "--lint-zero-date=warning",
+   "--workspace=docker",
+   "--flavor=mysql:5.7"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lint_name_case_checking::322",
+  "argv": [
+   "lint",
+   "--lint-name-case=warning",
+   "--workspace=docker",
+   "--flavor=mysql:5.7"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lint_compression_settings::323",
+  "argv": [
+   "lint",
+   "--lint-compression=warning",
+   "--workspace=docker",
+   "--flavor=mysql:5.7"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lint_allows_compression_with_flag::324",
+  "argv": [
+   "lint",
+   "--allow-compression=COMPRESSED",
+   "--workspace=docker",
+   "--flavor=mysql:5.7"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lint_foreign_key_detection::325",
+  "argv": [
+   "lint",
+   "--lint-has-fk=warning",
+   "--workspace=docker",
+   "--flavor=mysql:5.7"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lint_routine_detection::326",
+  "argv": [
+   "lint",
+   "--lint-has-routine=warning",
+   "--workspace=docker",
+   "--flavor=mysql:5.7"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lint_auto_inc_type_checking::327",
+  "argv": [
+   "lint",
+   "--lint-auto-inc=error",
+   "--allow-auto-inc=int,bigint",
+   "--workspace=docker",
+   "--flavor=mysql:5.7"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lint_all_rules_together::328",
+  "argv": [
+   "lint",
+   "--lint-engine=warning",
+   "--lint-charset=warning",
+   "--lint-has-float=warning",
+   "--lint-has-enum=warning",
+   "--lint-has-time=warning",
+   "--lint-display-width=warning",
+   "--lint-pk=warning",
+   "--workspace=docker",
+   "--flavor=mysql:5.7"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lint_environment_specific_config::329",
+  "argv": [
+   "lint",
+   "staging"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_missing_host::330",
+  "argv": [
+   "init",
+   "--dir",
+   "/tmp/testinit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_invalid_schema_name::331",
+  "argv": [
+   "init",
+   "--dir",
+   "/tmp/testdir",
+   "--host",
+   "localhost",
+   "--schema",
+   "mysql"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_information_schema::332",
+  "argv": [
+   "init",
+   "--dir",
+   "/tmp/testdir",
+   "--host",
+   "localhost",
+   "--schema",
+   "information_schema"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_invalid_environment_name_with_brackets::333",
+  "argv": [
+   "init",
+   "--dir",
+   "/tmp/testdir",
+   "--host",
+   "localhost",
+   "[invalid]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_environment_without_dir::334",
+  "argv": [
+   "add-environment",
+   "--host",
+   "localhost",
+   "staging"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_unreachable_host::335",
+  "argv": [
+   "init",
+   "--dir",
+   "/tmp/testdir",
+   "--host",
+   "nonexistent.invalid.host.example.com",
+   "--port",
+   "3306"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_invalid_port::336",
+  "argv": [
+   "init",
+   "--dir",
+   "/tmp/testdir",
+   "--host",
+   "localhost",
+   "--port",
+   "99999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_negative_port::337",
+  "argv": [
+   "init",
+   "--dir",
+   "/tmp/testdir",
+   "--host",
+   "localhost",
+   "--port",
+   "-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_commands_not_allowed::338",
+  "argv": [
+   "version",
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_option_after_positional_arg::339",
+  "argv": [
+   "diff",
+   "production",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_creates_directory_structure::340",
+  "argv": [
+   "init",
+   "--dir",
+   "--host",
+   "localhost",
+   "--port",
+   "3306"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_with_equals_sign::341",
+  "argv": [
+   "--help=diff"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_equals_invalid_command::342",
+  "argv": [
+   "--help=notarealcommand"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_with_extra_args_ignored::343",
+  "argv": [
+   "version",
+   "extra",
+   "arguments"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_password_prompt_behavior::344",
+  "argv": [
+   "init",
+   "--host",
+   "localhost",
+   "--password",
+   "--dir",
+   "/tmp/test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_connect_options_format::345",
+  "argv": [
+   "--help",
+   "--connect-options=sql_mode=TRADITIONAL,wait_timeout=300"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_ignore_options_together::346",
+  "argv": [
+   "--help",
+   "--ignore-table",
+   "test%",
+   "--ignore-schema",
+   "temp",
+   "--ignore-func",
+   "old_%"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_user_option_alone::347",
+  "argv": [
+   "version",
+   "--user",
+   "testuser"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssl_mode_required::348",
+  "argv": [
+   "version",
+   "--ssl-mode",
+   "required"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssl_mode_preferred::349",
+  "argv": [
+   "version",
+   "--ssl-mode",
+   "preferred"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_connect_options_parsing::350",
+  "argv": [
+   "version",
+   "--connect-options",
+   "charset=utf8mb4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_connect_options_short_form::351",
+  "argv": [
+   "version",
+   "-o",
+   "autocommit=0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_my_cnf_flag::352",
+  "argv": [
+   "version",
+   "--my-cnf"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_skip_my_cnf_flag::353",
+  "argv": [
+   "version",
+   "--skip-my-cnf"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_table_with_regex::354",
+  "argv": [
+   "version",
+   "--ignore-table",
+   "^temp_.*$"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_schema_with_pattern::355",
+  "argv": [
+   "version",
+   "--ignore-schema",
+   "test.*"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_func_option::356",
+  "argv": [
+   "version",
+   "--ignore-func",
+   "deprecated_.*"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_proc_option::357",
+  "argv": [
+   "version",
+   "--ignore-proc",
+   "old_.*"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_ends_options::358",
+  "argv": [
+   "--",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_option_value_with_spaces::359",
+  "argv": [
+   "help",
+   "init",
+   "--user",
+   "test user"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_string_option_value::360",
+  "argv": [
+   "version",
+   "--user",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_numeric_option_values::361",
+  "argv": [
+   "version",
+   "--port",
+   "12345"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_host_wrapper_option::362",
+  "argv": [
+   "version",
+   "--host-wrapper",
+   "echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pull_with_format_option::363",
+  "argv": [
+   "pull",
+   "--format"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pull_with_new_schemas::364",
+  "argv": [
+   "pull",
+   "--new-schemas"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pull_with_temp_schema_name::365",
+  "argv": [
+   "pull",
+   "--temp-schema=_my_temp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pull_with_environment_argument::366",
+  "argv": [
+   "pull",
+   "staging"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_push_with_alter_wrapper::367",
+  "argv": [
+   "push",
+   "--alter-wrapper=/bin/echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_push_with_ddl_wrapper::368",
+  "argv": [
+   "push",
+   "--ddl-wrapper=/bin/echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_push_with_alter_lock::369",
+  "argv": [
+   "push",
+   "--alter-lock=shared"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_push_with_partitioning_option::370",
+  "argv": [
+   "push",
+   "--partitioning=remove"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_push_with_lint_error_stops_execution::371",
+  "argv": [
+   "push",
+   "--lint-pk=error"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_push_with_concurrent_servers::372",
+  "argv": [
+   "push",
+   "--concurrent-servers=2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_real_database::373",
+  "argv": [
+   "init",
+   "--schema=testdb"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_custom_environment::374",
+  "argv": [
+   "init",
+   "--schema=testdb",
+   "staging"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_ignore_schema::375",
+  "argv": [
+   "init",
+   "--ignore-schema=mysql",
+   "--ignore-schema=information_schema"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_multiple_schemas::376",
+  "argv": [
+   "mysql",
+   "-u",
+   "root",
+   "-e",
+   "CREATE DATABASE IF NOT EXISTS testdb3;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_port_option::377",
+  "argv": [
+   "init",
+   "--port=3306",
+   "--schema=testdb"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_connect_options::378",
+  "argv": [
+   "init",
+   "--schema=testdb",
+   "--connect-options=sql_mode='STRICT_ALL_TABLES'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_include_auto_inc::379",
+  "argv": [
+   "init",
+   "--schema=testdb",
+   "--include-auto-inc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_strip_partitioning_option::380",
+  "argv": [
+   "init",
+   "--schema=testdb",
+   "--strip-partitioning"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_with_help_still_errors_and_mentions_unknown::381",
+  "argv": [
+   "--help",
+   "--bogus"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_push_create_table::382",
+  "argv": [
+   "USE testschema1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_push_alter_table_add_column::383",
+  "argv": [
+   "CREATE DATABASE IF NOT EXISTS testschema1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_password_prompt_requires_tty::384",
+  "argv": [
+   "--password",
+   "version"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_numeric_unsigned_types::385",
+  "argv": [
+   "CREATE DATABASE skeema_test_coltypes"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_column_type_equivalence_display_width::386",
+  "argv": [
+   "DROP DATABASE IF EXISTS skeema_test_equiv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mysql_is_available::387",
+  "argv": [
+   "SELECT VERSION()"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_skeema_works_with_local_mysql::388",
+  "argv": [
+   "DROP DATABASE IF EXISTS test_local_mysql"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_schema_export::389",
+  "argv": [
+   "CREATE DATABASE dumptest_basic"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_with_stored_procedure::390",
+  "argv": [
+   "CREATE DATABASE dumptest_routines"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_multiple_tables::391",
+  "argv": [
+   "CREATE DATABASE dumptest_multi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_with_auto_increment_option::392",
+  "argv": [
+   "CREATE DATABASE dumptest_autoinc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_with_include_auto_increment_flag::393",
+  "argv": [
+   "CREATE DATABASE dumptest_include_autoinc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_with_different_charsets::394",
+  "argv": [
+   "CREATE DATABASE dumptest_charset"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_skeema_config_file::395",
+  "argv": [
+   "CREATE DATABASE dumptest_config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pull_updates_existing_files::396",
+  "argv": [
+   "CREATE DATABASE dumptest_pull"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pull_removes_deleted_tables::397",
+  "argv": [
+   "CREATE DATABASE dumptest_remove"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_with_foreign_keys::398",
+  "argv": [
+   "CREATE DATABASE dumptest_fk"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_with_indexes::399",
+  "argv": [
+   "CREATE DATABASE dumptest_indexes"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

@@ -1,0 +1,1346 @@
+{
+ "slug": "mkj__dropbear.75f699b",
+ "language": "",
+ "n_branches": 10,
+ "n_tests_total": 1138,
+ "n_examples": 74,
+ "n_with_exact_stdout": 4,
+ "n_with_rc": 50,
+ "n_skipped": 1053,
+ "examples": [
+  {
+   "test": "test_client_bind_to_localhost_explicit",
+   "argv": [
+    "./dbclient",
+    "-y",
+    "-b",
+    "127.0.0.1",
+    "-p",
+    "19996",
+    "127.0.0.1",
+    "echo",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Connection refused"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_netio_gap.py:349"
+  },
+  {
+   "test": "test_connection_timeout_with_keepalive",
+   "argv": [
+    "./dbclient",
+    "-y",
+    "-K",
+    "5",
+    "-p",
+    "19987",
+    "127.0.0.1",
+    "echo",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Connection refused"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_netio_gap.py:770"
+  },
+  {
+   "test": "test_inetd_mode_flag",
+   "argv": [
+    "-i",
+    "-r"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Failed socket address: Socket operation on non-socket"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_process_mgmt.py:180"
+  },
+  {
+   "test": "test_foreground_and_inetd_mode_compatible",
+   "argv": [
+    "-i",
+    "-F",
+    "-r"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Failed socket address: Socket operation on non-socket"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_process_mgmt.py:190"
+  },
+  {
+   "test": "test_pty_allocation_with_t_flag",
+   "argv": [
+    "-t",
+    "tty; echo EXITCODE:$?"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "/dev/pts/",
+    "EXITCODE:0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_pty_terminal.py:117"
+  },
+  {
+   "test": "test_pty_ssh_tty_environment_variable",
+   "argv": [
+    "-t",
+    "echo SSH_TTY=${SSH_TTY}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SSH_TTY=/dev/"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_pty_terminal.py:144"
+  },
+  {
+   "test": "test_pty_window_size_basic",
+   "argv": [
+    "-t",
+    "stty size; echo OK"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "OK"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_pty_terminal.py:189"
+  },
+  {
+   "test": "test_pty_ownership_correct_user",
+   "argv": [
+    "-t",
+    "tty=$(tty); stat -c '%a %U %G' $tty; test -r $tty && test -w $tty && echo RW_OK"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "RW_OK"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_pty_terminal.py:225"
+  },
+  {
+   "test": "test_pty_permissions_read_write",
+   "argv": [
+    "-t",
+    "tty=$(tty); stat -c '%a' $tty"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pty_terminal.py:266"
+  },
+  {
+   "test": "test_multiple_pty_sessions_sequential",
+   "argv": [
+    "-t"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pty_terminal.py:300"
+  },
+  {
+   "test": "test_pty_echo_mode_interactive",
+   "argv": [
+    "-t",
+    "stty -a | grep -o 'echo\\|icanon'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "echo"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_pty_terminal.py:374"
+  },
+  {
+   "test": "test_pty_release_cleanup",
+   "argv": [
+    "-t",
+    "tty"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pty_terminal.py:393"
+  },
+  {
+   "test": "test_pty_signal_handling",
+   "argv": [
+    "-t",
+    "sleep 100 & PID=$!; kill $PID; echo KILLED"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "KILLED"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_pty_terminal.py:422"
+  },
+  {
+   "test": "test_pty_line_discipline_settings",
+   "argv": [
+    "-t",
+    "stty -a | grep -E 'icanon|icrnl|onlcr'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "icanon"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_pty_terminal.py:442"
+  },
+  {
+   "test": "test_pty_binary_data_passthrough",
+   "argv": [
+    "-t",
+    "printf '\\x00\\x01\\x7F\\x80\\xFF' | od -An -tx1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "00",
+    "01",
+    "7f"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_pty_terminal.py:464"
+  },
+  {
+   "test": "test_pty_term_environment_variable",
+   "argv": [
+    "-t",
+    "echo TERM=$TERM"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TERM="
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_pty_terminal.py:490"
+  },
+  {
+   "test": "test_pty_background_process_handling",
+   "argv": [
+    "-t",
+    "sleep 30 & echo IMMEDIATE"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "IMMEDIATE"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_pty_terminal.py:519"
+  },
+  {
+   "test": "test_pty_special_characters_in_output",
+   "argv": [
+    "-t",
+    "printf 'A\\tB\\nC\\rD'; echo"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_pty_terminal.py:592"
+  },
+  {
+   "test": "test_pty_exit_status_propagation",
+   "argv": [
+    "-t",
+    "echo BEFORE; false"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "BEFORE",
+    "MIDDLE",
+    "SUCCESS"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_pty_terminal.py:616"
+  },
+  {
+   "test": "test_pty_control_characters_in_command",
+   "argv": [
+    "-t",
+    "printf 'CTRL:\\x01\\x02\\x03:END\\n'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CTRL:",
+    ":END"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_pty_terminal.py:664"
+  },
+  {
+   "test": "test_pty_shell_prompt_available",
+   "argv": [
+    "-t",
+    "echo SHELL_STARTED; exit 0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SHELL_STARTED"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_pty_terminal.py:743"
+  },
+  {
+   "test": "test_pty_utf8_characters",
+   "argv": [
+    "-t"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Hello",
+    "世界",
+    "🌍",
+    "Café"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_pty_terminal.py:764"
+  },
+  {
+   "test": "test_pty_newline_handling",
+   "argv": [
+    "-t",
+    "printf 'Line1\\nLine2\\nLine3\\n' | od -An -tx1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0a"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_pty_terminal.py:788"
+  },
+  {
+   "test": "test_pty_empty_output_command",
+   "argv": [
+    "-t",
+    "true; echo MARKER"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "MARKER"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_pty_terminal.py:808"
+  },
+  {
+   "test": "test_pty_stderr_and_stdout",
+   "argv": [
+    "-t",
+    "echo STDOUT; echo STDERR >&2; echo DONE"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "STDOUT",
+    "STDERR",
+    "DONE"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_pty_terminal.py:827"
+  },
+  {
+   "test": "test_pty_session_without_shell",
+   "argv": [
+    "-t",
+    "/bin/echo Direct execution"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Direct execution"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_pty_terminal.py:857"
+  },
+  {
+   "test": "test_pty_long_running_output",
+   "argv": [
+    "-t",
+    "for i in 1 2 3; do echo LINE_$i; sleep 0.1; done"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "LINE_1",
+    "LINE_2",
+    "LINE_3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_pty_terminal.py:877"
+  },
+  {
+   "test": "test_version",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Dropbear",
+    "v2025"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_seed.py:5"
+  },
+  {
+   "test": "test_invalid_flag",
+   "argv": [
+    "--invalid-flag-xyz"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Invalid option"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_seed.py:16"
+  },
+  {
+   "test": "test_ssh_tty_environment_variable_set_correctly",
+   "argv": [
+    "-t",
+    "echo SSH_TTY=$SSH_TTY"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sshpty_gap.py:165"
+  },
+  {
+   "test": "test_pty_window_size_stty_query",
+   "argv": [
+    "-t",
+    "stty size"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sshpty_gap.py:210"
+  },
+  {
+   "test": "test_pty_isatty_check_with_pty_allocated",
+   "argv": [
+    "-t",
+    "python3 -c 'import sys; print(sys.stdin.isatty(), sys.stdout.isatty(), sys.stderr.isatty())'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sshpty_gap.py:248"
+  },
+  {
+   "test": "test_pty_test_command_builtin_with_pty",
+   "argv": [
+    "-t",
+    "test -t 0 && test -t 1 && test -t 2 && echo ALL_ARE_TTY"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sshpty_gap.py:285"
+  },
+  {
+   "test": "test_pty_multiple_concurrent_sessions",
+   "argv": [
+    "-t"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "/dev/pts/"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sshpty_gap.py:352"
+  },
+  {
+   "test": "test_pty_raw_mode_character_echo",
+   "argv": [
+    "-t",
+    "stty -a | grep -o echo"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "echo"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sshpty_gap.py:404"
+  },
+  {
+   "test": "test_pty_environment_variables_complete_set",
+   "argv": [
+    "-t",
+    "env | grep -E '(SSH_TTY|TERM)' | sort"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SSH_TTY=",
+    "/dev/pts/",
+    "TERM="
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sshpty_gap.py:424"
+  },
+  {
+   "test": "test_pty_control_characters_handling",
+   "argv": [
+    "-t",
+    "printf 'line1\\nline2\\nline3'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sshpty_gap.py:449"
+  },
+  {
+   "test": "test_pty_exit_status_propagation",
+   "argv": [
+    "-t",
+    "exit 0; echo this_should_never_appear_after_exit"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 42,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "OUTPUT_BEFORE_EXIT_COMMAND"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sshpty_gap.py:469"
+  },
+  {
+   "test": "test_pty_long_running_command_output",
+   "argv": [
+    "-t",
+    "for i in $(seq 1 100); do echo LINE_$i; done"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sshpty_gap.py:506"
+  },
+  {
+   "test": "test_pty_binary_transparency",
+   "argv": [
+    "-t",
+    "printf '\\x41\\x42\\x43\\x20\\x44\\x45\\x46'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sshpty_gap.py:534"
+  },
+  {
+   "test": "test_pty_command_with_redirected_stderr",
+   "argv": [
+    "-t",
+    "echo STDOUT; echo STDERR >&2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "STDOUT",
+    "STDERR"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sshpty_gap.py:554"
+  },
+  {
+   "test": "test_pty_shell_job_control",
+   "argv": [
+    "-t",
+    "ps -o pid,pgid,tty | head -2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pts/"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sshpty_gap.py:575"
+  },
+  {
+   "test": "test_ext_help_shows_usage",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_version.py:9"
+  },
+  {
+   "test": "test_ext_version_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Dropbear"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_version.py:20"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Dropbear",
+    "Dropbear"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dropbear_cli.py:16"
+  },
+  {
+   "test": "test_help_with_invalid_option",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dropbear"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_dropbear_cli.py:30"
+  },
+  {
+   "test": "test_combined_short_flags_with_value_consumption",
+   "argv": [
+    "-FG"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Early exit: Missing argument"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:66"
+  },
+  {
+   "test": "test_version_flag_short_only",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Dropbear v"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:73"
+  },
+  {
+   "test": "test_env_passthrough_flag_parses",
+   "argv": [
+    "-e",
+    "-p",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Early exit: No hostkeys available"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:108"
+  },
+  {
+   "test": "test_motd_disable_flag_parses",
+   "argv": [
+    "-m",
+    "-p",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Early exit: No hostkeys available"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:115"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:54"
+  },
+  {
+   "test": "test_invalid_option_shows_usage",
+   "argv": [
+    "--invalid-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-p",
+    "-F"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_01_basic_invocation.py:17"
+  },
+  {
+   "test": "test_help_via_double_dash",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "options",
+    "-r",
+    "-p"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_01_basic_invocation.py:28"
+  },
+  {
+   "test": "test_window_size_option",
+   "argv": [
+    "-W",
+    "8192",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Dropbear"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_02_command_line_options.py:32"
+  },
+  {
+   "test": "test_foreground_flag",
+   "argv": [
+    "-F",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Dropbear"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_02_command_line_options.py:88"
+  },
+  {
+   "test": "test_conflicting_options_s_and_t",
+   "argv": [
+    "-s",
+    "-t",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Dropbear"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_03_error_handling.py:73"
+  },
+  {
+   "test": "test_empty_forced_command",
+   "argv": [
+    "-c",
+    "",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Dropbear"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_03_error_handling.py:127"
+  },
+  {
+   "test": "test_pid_file_in_readonly_directory",
+   "argv": [
+    "-P",
+    "/proc/dropbear.pid",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Dropbear"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_03_error_handling.py:159"
+  },
+  {
+   "test": "test_ipv6_address_format",
+   "argv": [
+    "-p",
+    "[::1]:2222",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Dropbear"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_03_error_handling.py:167"
+  },
+  {
+   "test": "test_address_colon_port_format",
+   "argv": [
+    "-p",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Dropbear"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_03_error_handling.py:173"
+  },
+  {
+   "test": "test_invalid_interface_name",
+   "argv": [
+    "-l",
+    "nonexistent999",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Dropbear"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_03_error_handling.py:180"
+  },
+  {
+   "test": "test_version_format_details",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Dropbear",
+    "2025.89"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_06_coverage_targeted.py:31"
+  },
+  {
+   "test": "test_usage_output_structure",
+   "argv": [
+    "--invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "option"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_06_coverage_targeted.py:45"
+  },
+  {
+   "test": "test_stdin_handling",
+   "argv": [
+    "-V"
+   ],
+   "stdin": "test input\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Dropbear"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_06_coverage_targeted.py:64"
+  },
+  {
+   "test": "test_option_order_variations",
+   "argv": [
+    "-V",
+    "-F",
+    "-w"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Dropbear",
+    "Dropbear"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_06_coverage_targeted.py:99"
+  },
+  {
+   "test": "test_authorized_keys_dir_invalid",
+   "argv": [
+    "-D",
+    "/nonexistent/directory",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Dropbear"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_06_coverage_targeted.py:160"
+  },
+  {
+   "test": "test_default_values_mentioned",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "default",
+    "22",
+    "24576"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_06_coverage_targeted.py:284"
+  },
+  {
+   "test": "test_default_values_are_sensible",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "22",
+    "24576",
+    "10"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_07_comprehensive_final.py:274"
+  },
+  {
+   "test": "test_help_output_format",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\n"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_07_comprehensive_final.py:350"
+  },
+  {
+   "test": "test_version_flag_prints_version_only",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basics.py:18"
+  },
+  {
+   "test": "test_help_short_flag_matches_golden",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basics.py:25"
+  },
+  {
+   "test": "test_long_help_is_invalid_option_matches_golden",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basics.py:33"
+  },
+  {
+   "test": "test_unknown_short_option_is_invalid_option",
+   "argv": [
+    "-Z"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: "
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basics.py:42"
+  },
+  {
+   "test": "test_version_takes_precedence_over_help",
+   "argv": [
+    "-V",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basics.py:50"
+  }
+ ]
+}

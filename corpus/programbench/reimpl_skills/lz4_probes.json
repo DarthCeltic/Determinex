@@ -1,0 +1,4939 @@
+[
+ {
+  "name": "test::test_blocksize_id_mode_displays_size_in_kb::0",
+  "argv": [
+   "-B4",
+   "-v",
+   "-c"
+  ],
+  "stdin": "test data\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_blocksize_byte_mode_displays_size_in_kb_when_large::1",
+  "argv": [
+   "-B2048",
+   "-v",
+   "-c"
+  ],
+  "stdin": "test data\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_blocksize_byte_mode_displays_size_in_bytes_when_small::2",
+  "argv": [
+   "-B64",
+   "-v",
+   "-c"
+  ],
+  "stdin": "test data\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_worker_count_display_with_explicit_thread_count::3",
+  "argv": [
+   "-T100",
+   "-v",
+   "-c"
+  ],
+  "stdin": "test data\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_worker_count_clamped_to_max::4",
+  "argv": [
+   "-T999",
+   "-v",
+   "-c"
+  ],
+  "stdin": "test data\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fast_flag_without_value_uses_default::5",
+  "argv": [
+   "--fast",
+   "-c"
+  ],
+  "stdin": "test data for compression\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compression_level_numeric_short_form::6",
+  "argv": [
+   "-9",
+   "-c"
+  ],
+  "stdin": "test data for high compression\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compression_level_double_digit::7",
+  "argv": [
+   "-12",
+   "-c"
+  ],
+  "stdin": "test data for max compression\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_from_stdin::8",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_compression_with_explicit_flags::9",
+  "argv": [
+   "-12",
+   "-BX"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_compression_empty_input::10",
+  "argv": [
+   "-c",
+   "-f",
+   "-c"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_compression_large_input::11",
+  "argv": [
+   "-c",
+   "-f",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decompress_from_stdin_to_stdout::12",
+  "argv": [
+   "-d",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dict_missing_filename::13",
+  "argv": [
+   "-D",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dict_empty_file::14",
+  "argv": [
+   "-d",
+   "-D",
+   "empty_dict.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "empty_dict.txt": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dict_one_byte::15",
+  "argv": [
+   "-d",
+   "-D",
+   "dict_1byte.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "dict_1byte.txt": "X"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dict_decompress_without_dict::16",
+  "argv": [
+   "-d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dict_stdin_both_dict_and_input_fails::17",
+  "argv": [
+   "-D",
+   "stdin",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_stdin_compression::18",
+  "argv": [],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_overwrite_without_force_flag::19",
+  "argv": [
+   "new.txt",
+   "existing.txt"
+  ],
+  "stdin": "n\n",
+  "files": {
+   "new.txt": "new content",
+   "existing.txt": "existing content that should be preserved"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_to_stdout_empty::20",
+  "argv": [
+   "-c"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_empty_with_dash_argument::21",
+  "argv": [
+   "-c",
+   "-"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multithreading_with_stdin_stdout::22",
+  "argv": [
+   "-T4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_compress_empty::23",
+  "argv": [
+   "/workspace/executable",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_compress_16kb_level9::24",
+  "argv": [
+   "/workspace/executable",
+   "-9"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_roundtrip_20kb::25",
+  "argv": [
+   "/workspace/executable"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_no_frame_crc::26",
+  "argv": [
+   "/workspace/executable",
+   "--no-frame-crc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_independent_blocks::27",
+  "argv": [
+   "/workspace/executable",
+   "-BI"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_no_crc_flag::28",
+  "argv": [
+   "/workspace/executable",
+   "--no-crc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_large_sparse_6m::29",
+  "argv": [
+   "/workspace/executable",
+   "-9BD"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_17m_quiet_verbose::30",
+  "argv": [
+   "/workspace/executable",
+   "-9v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_256mb_block4_no_crc::31",
+  "argv": [
+   "/workspace/executable",
+   "-vqB4D"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_rm_flag_compress::32",
+  "argv": [
+   "/workspace/executable",
+   "--rm",
+   "-f",
+   "hw.txt",
+   "hw.txt.lz4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_rm_flag_decompress::33",
+  "argv": [
+   "/workspace/executable",
+   "-f",
+   "hw.txt",
+   "hw.txt.lz4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_stdout_implicit_behavior::34",
+  "argv": [
+   "/workspace/executable",
+   "--rm",
+   "-f",
+   "hw.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_lz4cat_grep::35",
+  "argv": [
+   "/workspace/executable",
+   "-f",
+   "hw.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_passthrough_mode::36",
+  "argv": [
+   "/workspace/executable",
+   "-dcf",
+   "hw.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_lz4cat_stdin::37",
+  "argv": [
+   "/workspace/executable",
+   "hw.txt",
+   "hw.txt.lz4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_passthrough_stdin::38",
+  "argv": [
+   "/workspace/executable",
+   "-dcf"
+  ],
+  "stdin": "hello world\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_dash_filename::39",
+  "argv": [
+   "/workspace/executable",
+   "--rm",
+   "--",
+   "-d",
+   "-d.lz4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_three_files_rejected::40",
+  "argv": [
+   "/workspace/executable",
+   "f1",
+   "f2",
+   "f3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_directory_rejected::41",
+  "argv": [
+   "/workspace/executable",
+   "mydir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_block_checksum::42",
+  "argv": [
+   "/workspace/executable",
+   "-BX",
+   "hw.txt",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_fast_levels_comparison::43",
+  "argv": [
+   "/workspace/executable",
+   "-c",
+   "--fast"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_fast1_vs_level1::44",
+  "argv": [
+   "/workspace/executable",
+   "-c",
+   "-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_fast_zero_rejected::45",
+  "argv": [
+   "/workspace/executable",
+   "-c",
+   "--fast=0",
+   "data.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_fast_negative_rejected::46",
+  "argv": [
+   "/workspace/executable",
+   "-c",
+   "--fast=-1",
+   "data.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_multithreading_t2::47",
+  "argv": [
+   "/workspace/executable",
+   "-T2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_multithreading_threads2::48",
+  "argv": [
+   "/workspace/executable",
+   "--threads=2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_fast_extreme_value::49",
+  "argv": [
+   "/workspace/executable",
+   "-c",
+   "--fast=999999999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_multiple_mode_m::50",
+  "argv": [
+   "/workspace/executable",
+   "-m",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_bug1374_4mb_block4::51",
+  "argv": [
+   "/workspace/executable",
+   "-B4",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_compress_three_files::52",
+  "argv": [
+   "/workspace/executable",
+   "-f",
+   "-m",
+   "f1",
+   "f2",
+   "f3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_missing_file_fails::53",
+  "argv": [
+   "/workspace/executable",
+   "-f",
+   "-m",
+   "f1",
+   "notHere",
+   "f2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_test_mode::54",
+  "argv": [
+   "/workspace/executable",
+   "-f",
+   "f1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sparse_5m_block4::55",
+  "argv": [
+   "/workspace/executable",
+   "-B4D",
+   "input",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sparse_5m_block5::56",
+  "argv": [
+   "/workspace/executable",
+   "-B5D",
+   "input",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sparse_5m_block6::57",
+  "argv": [
+   "/workspace/executable",
+   "-B6D",
+   "input",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sparse_5m_block7::58",
+  "argv": [
+   "/workspace/executable",
+   "-B7D",
+   "input",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sparse_no_sparse_option::59",
+  "argv": [
+   "/workspace/executable",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sparse_odd_size::60",
+  "argv": [
+   "/workspace/executable",
+   "input",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sparse_console_compatibility::61",
+  "argv": [
+   "/workspace/executable"
+  ],
+  "stdin": "Hello World 1 !\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sparse_append_compatibility::62",
+  "argv": [
+   "/workspace/executable",
+   "-B5",
+   "-v",
+   "dg1M",
+   "compressed"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_frame_concat_empty_nonempty::63",
+  "argv": [
+   "/workspace/executable",
+   "-zq",
+   "-c"
+  ],
+  "stdin": "\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dict_basic_32k::64",
+  "argv": [
+   "/workspace/executable",
+   "-D",
+   "dict",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dict_large_16mb_block5::65",
+  "argv": [
+   "/workspace/executable",
+   "-v",
+   "-B5",
+   "sample",
+   "-D",
+   "dict",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dict_effectiveness::66",
+  "argv": [
+   "/workspace/executable",
+   "-3",
+   "-B4",
+   "-D",
+   "dict",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dict_empty_sample::67",
+  "argv": [
+   "/workspace/executable",
+   "-D",
+   "dict",
+   "-c"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dict_benchmark_mode::68",
+  "argv": [
+   "/workspace/executable",
+   "-bi0",
+   "-D",
+   "dict",
+   "sample",
+   "sample"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_contentsize_basic::69",
+  "argv": [
+   "/workspace/executable",
+   "-v",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_contentsize_with_flag::70",
+  "argv": [
+   "/workspace/executable",
+   "-v",
+   "--content-size",
+   "data",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_contentsize_differs_without_flag::71",
+  "argv": [
+   "/workspace/executable",
+   "-f",
+   "data",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_contentsize_from_file_stdin::72",
+  "argv": [
+   "/workspace/executable",
+   "-d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_testmode_benchmark_compress::73",
+  "argv": [
+   "/workspace/executable",
+   "-bi0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_testmode_benchmark_decompress::74",
+  "argv": [
+   "/workspace/executable",
+   "-f",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_testmode_invalid_stdin_uncompressed::75",
+  "argv": [
+   "/workspace/executable",
+   "-t"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_testmode_invalid_stdin_force::76",
+  "argv": [
+   "/workspace/executable",
+   "-tf"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_testmode_passthrough_invalid_extension::77",
+  "argv": [
+   "/workspace/executable",
+   "-f",
+   "file.lz4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_testmode_decompress_invalid_stdin::78",
+  "argv": [
+   "/workspace/executable",
+   "-dc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_testmode_decompress_force_invalid::79",
+  "argv": [
+   "/workspace/executable",
+   "-df"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_testmode_decompress_force_passthrough::80",
+  "argv": [
+   "/workspace/executable",
+   "-dcf"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_testmode_single_file_passthrough::81",
+  "argv": [
+   "/workspace/executable",
+   "-dcf",
+   "f1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_testmode_multiple_files_passthrough::82",
+  "argv": [
+   "/workspace/executable",
+   "-dcfm",
+   "f1",
+   "f2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_testmode_missing_file::83",
+  "argv": [
+   "/workspace/executable",
+   "file-does-not-exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_testmode_missing_file_force::84",
+  "argv": [
+   "/workspace/executable",
+   "-f",
+   "file-does-not-exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_testmode_missing_file_test::85",
+  "argv": [
+   "/workspace/executable",
+   "-t",
+   "file-does-not-exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_testmode_missing_multiple_files::86",
+  "argv": [
+   "/workspace/executable",
+   "-fm",
+   "file1-dne",
+   "file2-dne"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_optparser_level12_16kb::87",
+  "argv": [
+   "/workspace/executable",
+   "-12"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_optparser_level12_block4::88",
+  "argv": [
+   "/workspace/executable",
+   "-12B4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_optparser_level12_block4_dict::89",
+  "argv": [
+   "/workspace/executable",
+   "-12B4D"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_optparser_level12_blockdep::90",
+  "argv": [
+   "/workspace/executable",
+   "-12BD"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_optparser_level12_block5::91",
+  "argv": [
+   "/workspace/executable",
+   "-12B5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_optparser_level11_2m_highprob::92",
+  "argv": [
+   "/workspace/executable",
+   "-11B4D"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_optparser_level11_4m_verbose_quiet::93",
+  "argv": [
+   "/workspace/executable",
+   "-11vq"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_optparser_level11_8m_block4::94",
+  "argv": [
+   "/workspace/executable",
+   "-11B4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_optparser_level11_16m_block5::95",
+  "argv": [
+   "/workspace/executable",
+   "-11B5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_optparser_level11_32m_block5d::96",
+  "argv": [
+   "/workspace/executable",
+   "-11B5D"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_skippable_decompress_file::97",
+  "argv": [
+   "/workspace/executable",
+   "-dc",
+   "/workspace/tests/goldenSamples/skip.bin"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_skippable_mixed_frames::98",
+  "argv": [
+   "/workspace/executable",
+   "-c"
+  ],
+  "stdin": "Hello from Valid Frame!\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_legacy_compress_multiple::99",
+  "argv": [
+   "/workspace/executable",
+   "-f",
+   "-l",
+   "-m",
+   "f1",
+   "f2",
+   "f3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_legacy_l_flag_doesnt_affect_decompress::100",
+  "argv": [
+   "/workspace/executable",
+   "-f",
+   "-l",
+   "-m",
+   "f1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_legacy_decompress_to_stdout::101",
+  "argv": [
+   "/workspace/executable",
+   "-l",
+   "-f",
+   "-m",
+   "f1",
+   "f2",
+   "f3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_legacy_missing_file_continues::102",
+  "argv": [
+   "/workspace/executable",
+   "-f",
+   "-l",
+   "-m",
+   "f1",
+   "notHere-legacy",
+   "f2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_stdout_level_10::103",
+  "argv": [
+   "-10",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_stdout_compression_roundtrip::104",
+  "argv": [
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_reading_without_explicit_input_flag::105",
+  "argv": [
+   "-c"
+  ],
+  "stdin": "stdin test data\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_to_file_compression::106",
+  "argv": [
+   "-c",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_stdin_not_regular_file::107",
+  "argv": [
+   "--list",
+   "-"
+  ],
+  "stdin": "fake data",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_to_stdout_and_exit0::108",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_V_prints_and_exit0::109",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_roundtrip_via_pipes_stdin_stdout::110",
+  "argv": [
+   "-c",
+   "-"
+  ],
+  "stdin": "hello\nworld\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decompress_requires_lz4_suffix_when_output_unspecified::111",
+  "argv": [
+   "-d",
+   "notlz4.bin"
+  ],
+  "stdin": null,
+  "files": {
+   "notlz4.bin": "not a real lz4"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_input_file_errors_and_nonzero_exit::112",
+  "argv": [
+   "does_not_exist_12345.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_force_overwrite_f_allows_existing_output_file::113",
+  "argv": [
+   "x.txt",
+   "out.lz4"
+  ],
+  "stdin": null,
+  "files": {
+   "x.txt": "some content\n",
+   "out.lz4": "placeholder"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explicit_stdout_dash_matches_c_flag_for_compression::114",
+  "argv": [
+   "-c",
+   "a.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "a.txt": "line1\nline2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rm_removes_source_file_after_successful_compression::115",
+  "argv": [
+   "--rm"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_q_suppresses_errors_with_twice::116",
+  "argv": [
+   "-q",
+   "no_such_file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_prints_incorrect_parameters::117",
+  "argv": [
+   "--definitely-not-a-real-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_is_silenced_with_double_q::118",
+  "argv": [
+   "-q",
+   "-q",
+   "--definitely-not-a-real-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_dictionary_value_rejected::119",
+  "argv": [
+   "-D"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_requires_value_and_missing_value_is_incorrect_parameters::120",
+  "argv": [
+   "--list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fast_flag_accepts_equals_style_and_rejects_non_numeric::121",
+  "argv": [
+   "--fast=3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_with_all_fast_levels::122",
+  "argv": [
+   "-dc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_force_compression_mode::123",
+  "argv": [
+   "-z"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_null_output::124",
+  "argv": [
+   "null"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_with_keep_flag::125",
+  "argv": [
+   "-k"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decompress_legacy_format::126",
+  "argv": [
+   "-l"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decompress_with_verbose::127",
+  "argv": [
+   "-dv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_maximum_block_size::128",
+  "argv": [
+   "-B7"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_files_different_sizes::129",
+  "argv": [
+   "-m"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_recursive_with_nested_dirs::130",
+  "argv": [
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short::131",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_long::132",
+  "argv": [
+   "-H"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exactly_block_size_data::133",
+  "argv": [
+   "-B4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_20mb_file::134",
+  "argv": [
+   "-9",
+   "-T4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_5mb_incompressible::135",
+  "argv": [
+   "-9",
+   "-T2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_block_sizes_with_high_level::136",
+  "argv": [
+   "-12"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_frame_combinations_with_threading::137",
+  "argv": [
+   "-9"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_large_highly_compressible_streaming::138",
+  "argv": [
+   "-c",
+   "-12",
+   "-T4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_non_lz4_file::139",
+  "argv": [
+   "--list",
+   "notlz4.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "notlz4.txt": "Not an LZ4 file"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_invalid_lz4::140",
+  "argv": [
+   "--list",
+   "fake.lz4"
+  ],
+  "stdin": null,
+  "files": {
+   "fake.lz4": "Not really LZ4 data"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_level_fast_override::141",
+  "argv": [
+   "-9",
+   "--fast=2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_best_with_fast::142",
+  "argv": [
+   "--best",
+   "--fast"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_block_32_bytes::143",
+  "argv": [
+   "-B32"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decompress_stdout_mode::144",
+  "argv": [
+   "-d",
+   "stdout"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decompress_null_output::145",
+  "argv": [
+   "-d",
+   "null"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_files_different_sizes::146",
+  "argv": [
+   "-m",
+   "-6"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_with_threads::147",
+  "argv": [
+   "-m",
+   "-T2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sparse_decompress_to_file::148",
+  "argv": [
+   "-d",
+   "--sparse"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_sparse_decompress::149",
+  "argv": [
+   "-d",
+   "--no-sparse"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_multiple_valid_files::150",
+  "argv": [
+   "-tm"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_verbose::151",
+  "argv": [
+   "-tv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_content_size_with_threads::152",
+  "argv": [
+   "--content-size",
+   "-T2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_content_size_all_levels::153",
+  "argv": [
+   "--content-size"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_recursive_with_verbose::154",
+  "argv": [
+   "-rv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_legacy_with_multiple_options::155",
+  "argv": [
+   "-l",
+   "-v",
+   "-f",
+   "-6"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_favor_dec_with_all_levels::156",
+  "argv": [
+   "--favor-decSpeed"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_favor_dec_with_threads::157",
+  "argv": [
+   "--favor-decSpeed",
+   "-T3",
+   "-6"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_force_compress_with_options::158",
+  "argv": [
+   "-z",
+   "-9",
+   "-v",
+   "test"
+  ],
+  "stdin": null,
+  "files": {
+   "test": "No extension"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_level_zero::159",
+  "argv": [
+   "-0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hc_with_all_frame_options::160",
+  "argv": [
+   "--content-size",
+   "-BD",
+   "-BX",
+   "--no-frame-crc",
+   "-B6"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fast_with_frame_options::161",
+  "argv": [
+   "--content-size",
+   "-BI",
+   "-BX",
+   "-B5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decompress_with_test_flag_first::162",
+  "argv": [
+   "-t"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_with_multiple_files::163",
+  "argv": [
+   "-v",
+   "-m"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_decompression::164",
+  "argv": [
+   "-q",
+   "-d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_favor_decspeed_with_hc::165",
+  "argv": [
+   "-12",
+   "--favor-decSpeed"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_content_size_with_sparse::166",
+  "argv": [
+   "--content-size",
+   "--sparse"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_files_with_rm::167",
+  "argv": [
+   "-m",
+   "--rm"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_content_size_with_stdin::168",
+  "argv": [
+   "--content-size",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_legacy_format_with_multiple_files::169",
+  "argv": [
+   "-l",
+   "-m"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_block_size_with_custom_bytes::170",
+  "argv": [
+   "-B65536"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_block_size::171",
+  "argv": [
+   "-B1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compression_with_dash_output::172",
+  "argv": [
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_mode_with_errors::173",
+  "argv": [
+   "-d",
+   "-qq",
+   "invalid.lz4"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.lz4": "not compressed"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_threads_with_decompression::174",
+  "argv": [
+   "-T4",
+   "-d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_short_long_flags::175",
+  "argv": [
+   "-9",
+   "--content-size",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_to_dev_null::176",
+  "argv": [
+   "/dev/null"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_benchmark_with_threads::177",
+  "argv": [
+   "-b1",
+   "-i1",
+   "-T2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compression_with_all_block_checksums::178",
+  "argv": [
+   "-BX"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_frame_crc_and_no_block_checksum::179",
+  "argv": [
+   "--no-crc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_block_dependency_with_small_blocks::180",
+  "argv": [
+   "-BD",
+   "-B4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combination_bd_bx_content_size::181",
+  "argv": [
+   "-BD",
+   "-BX",
+   "--content-size"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sparse_mode_explicit_enable::182",
+  "argv": [
+   "--sparse"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_sparse_mode::183",
+  "argv": [
+   "--no-sparse"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_favor_decspeed_with_high_level::184",
+  "argv": [
+   "-11"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_content_size_explicit::185",
+  "argv": [
+   "--no-content-size"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_frame_crc_explicit::186",
+  "argv": [
+   "--frame-crc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_frame_crc_explicit::187",
+  "argv": [
+   "--no-frame-crc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compression_with_all_options_combined::188",
+  "argv": [
+   "-9",
+   "-BD",
+   "-BX",
+   "-B5",
+   "--content-size",
+   "--sparse"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::189",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_benchmark_basic::190",
+  "argv": [
+   "-b1",
+   "-i1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_benchmark_compression_level::191",
+  "argv": [
+   "-b5",
+   "-i1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_benchmark_high_compression::192",
+  "argv": [
+   "-b9",
+   "-i1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_benchmark_very_high_level::193",
+  "argv": [
+   "-b12",
+   "-i1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_benchmark_with_fast_flag::194",
+  "argv": [
+   "-b1",
+   "--fast",
+   "-i1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_benchmark_empty_file::195",
+  "argv": [
+   "-b1",
+   "-i1",
+   "empty.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.txt": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_benchmark_no_file_uses_lorem::196",
+  "argv": [
+   "-b",
+   "-i1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_benchmark_level_0::197",
+  "argv": [
+   "-b0",
+   "-i1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_benchmark_with_block_size::198",
+  "argv": [
+   "-b1",
+   "-B4",
+   "-i1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_benchmark_with_block_dependency::199",
+  "argv": [
+   "-b1",
+   "-BD",
+   "-i1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_benchmark_with_content_size::200",
+  "argv": [
+   "-b1",
+   "--content-size",
+   "-i1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_benchmark_with_threads::201",
+  "argv": [
+   "-b1",
+   "-T2",
+   "-i1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_benchmark_large_block_size::202",
+  "argv": [
+   "-b1",
+   "-B7",
+   "-i1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_benchmark_with_checksum::203",
+  "argv": [
+   "-b1",
+   "-BX",
+   "-i1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_benchmark_favor_dec_speed::204",
+  "argv": [
+   "-b1",
+   "--favor-decSpeed",
+   "-i1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_benchmark_legacy_format::205",
+  "argv": [
+   "-b1",
+   "-l",
+   "-i1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_benchmark_fast_flag::206",
+  "argv": [
+   "-b",
+   "--fast",
+   "-i1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_benchmark_best_flag::207",
+  "argv": [
+   "-b",
+   "--best",
+   "-i1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_benchmark_with_verbose::208",
+  "argv": [
+   "-b1",
+   "-v",
+   "-i1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_benchmark_level_medium::209",
+  "argv": [
+   "-b6",
+   "-i1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_benchmark_level_range::210",
+  "argv": [
+   "-b1",
+   "-e2",
+   "-i1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_block_size_option_4::211",
+  "argv": [
+   "-B4",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_block_size_option_5::212",
+  "argv": [
+   "-B5",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_block_size_option_6::213",
+  "argv": [
+   "-B6",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_block_size_option_7::214",
+  "argv": [
+   "-B7",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_block_independence_flag::215",
+  "argv": [
+   "-BI",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_block_dependency_flag::216",
+  "argv": [
+   "-BD",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_block_checksum_flag::217",
+  "argv": [
+   "-BX",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_frame_crc_flag::218",
+  "argv": [
+   "--no-frame-crc",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sparse_mode_enabled::219",
+  "argv": [
+   "--sparse",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sparse_mode_disabled::220",
+  "argv": [
+   "--no-sparse",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_favor_decode_speed_flag::221",
+  "argv": [
+   "--favor-decSpeed",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_block_options::222",
+  "argv": [
+   "-BD",
+   "-BX",
+   "-B5",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_block_and_frame_options_together::223",
+  "argv": [
+   "-BD",
+   "--content-size",
+   "--no-frame-crc",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_content_size_in_frame::224",
+  "argv": [
+   "--content-size",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_block_checksum_various_sizes::225",
+  "argv": [
+   "-BX",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_frame_checksum_various_sizes::226",
+  "argv": [
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_checksum_with_block_dependency::227",
+  "argv": [
+   "-BX",
+   "-BD",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_frame_crc_with_block_checksum::228",
+  "argv": [
+   "-BX",
+   "--no-frame-crc",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_checksum_with_content_size::229",
+  "argv": [
+   "-BX",
+   "--content-size",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_checksum_with_dictionary::230",
+  "argv": [
+   "-D",
+   "-BX",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_checksum_with_sparse_mode::231",
+  "argv": [
+   "-BX",
+   "--sparse",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fast_compression_level_1::232",
+  "argv": [
+   "-1",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_high_compression_level_9::233",
+  "argv": [
+   "-9",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_compression_level_12::234",
+  "argv": [
+   "-12",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_best_compression_flag::235",
+  "argv": [
+   "--best",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fast_flag_default::236",
+  "argv": [
+   "--fast",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fast_flag_with_value::237",
+  "argv": [
+   "--fast=5",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_legacy_format_compression::238",
+  "argv": [
+   "-l",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_force_compression_flag::239",
+  "argv": [
+   "-z",
+   "-c",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "Force compression\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fast_9_vs_fast_1_compression::240",
+  "argv": [
+   "--fast=1",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compression_level_with_verbose::241",
+  "argv": [
+   "-9",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_compression_level::242",
+  "argv": [
+   "-99",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "data"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_input_file::243",
+  "argv": [
+   "nonexistent_file_12345.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_to_existing_without_force::244",
+  "argv": [
+   "input.txt"
+  ],
+  "stdin": "n\n",
+  "files": {
+   "input.txt": "test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decompress_invalid_lz4_file::245",
+  "argv": [
+   "-d",
+   "invalid.lz4"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.lz4": "This is not a valid LZ4 file"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_force_compression_with_z_flag::246",
+  "argv": [
+   "-z",
+   "data"
+  ],
+  "stdin": null,
+  "files": {
+   "data": "Some data"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_quiet_suppresses_errors::247",
+  "argv": [
+   "-qq",
+   "nonexistent_file.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_shows_details::248",
+  "argv": [
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_block_size_bytes::249",
+  "argv": [
+   "-B1024"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_block_dependency_BD::250",
+  "argv": [
+   "-BD"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dictionary_with_stdin::251",
+  "argv": [
+   "-D",
+   "dict.txt",
+   "-c"
+  ],
+  "stdin": "dictionary content compressed",
+  "files": {
+   "dict.txt": "dictionary content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fast_default::252",
+  "argv": [
+   "--fast"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_best_flag::253",
+  "argv": [
+   "--best"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explicit_thread_count::254",
+  "argv": [
+   "-T2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_thread_count_zero_auto::255",
+  "argv": [
+   "-T0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rm_after_compression::256",
+  "argv": [
+   "--rm",
+   "remove_me.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "remove_me.txt": "Will be removed"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rm_after_decompression::257",
+  "argv": [
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "Remove after decomp"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keep_source_default::258",
+  "argv": [
+   "keep_me.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "keep_me.txt": "Keep this file"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keep_source_explicit::259",
+  "argv": [
+   "-k",
+   "explicit_keep.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "explicit_keep.txt": "Explicitly keep"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_streaming_edge_sizes::260",
+  "argv": [
+   "-",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dictionary_edge_cases::261",
+  "argv": [
+   "-D",
+   "dict_small.txt",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {
+   "dict_small.txt": "dict\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sparse_edge_patterns::262",
+  "argv": [
+   "--sparse",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_legacy_format_edge_cases::263",
+  "argv": [
+   "-l",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dictionary_compression_basic::264",
+  "argv": [
+   "-D",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dictionary_with_high_compression::265",
+  "argv": [
+   "-D",
+   "-12",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dictionary_with_block_dependency::266",
+  "argv": [
+   "-D",
+   "-BD",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dictionary_with_content_size::267",
+  "argv": [
+   "-D",
+   "--content-size",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dictionary_with_legacy_format::268",
+  "argv": [
+   "-D",
+   "-l",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dictionary_multithreading::269",
+  "argv": [
+   "-D",
+   "-T2",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dictionary_with_verbose::270",
+  "argv": [
+   "-D",
+   "-v",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dictionary_empty_file::271",
+  "argv": [
+   "-D",
+   "empty_dict.txt",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {
+   "empty_dict.txt": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_specific_block_size_bytes::272",
+  "argv": [
+   "-B1024",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_plain_file_decompression_attempt::273",
+  "argv": [
+   "-dc",
+   "plain.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "plain.txt": "Plain text\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_spaces_in_filename_works::274",
+  "argv": [
+   "-f",
+   "file with spaces 2.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file with spaces 2.txt": "Spaces\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_block_independence_explicit::275",
+  "argv": [
+   "-BI"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_mode_single_q::276",
+  "argv": [
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_quiet_mode_qq::277",
+  "argv": [
+   "-qq"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dictionary_empty_file::278",
+  "argv": [
+   "-D",
+   "empty_dict.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "empty_dict.txt": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_lz4_nbworkers_invalid::279",
+  "argv": [
+   "-vv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "LZ4_NBWORKERS": "invalid"
+  }
+ },
+ {
+  "name": "test::test_env_override_by_cli::280",
+  "argv": [
+   "-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "LZ4_CLEVEL": "12"
+  }
+ },
+ {
+  "name": "test::test_nonexistent_input_file::281",
+  "argv": [
+   "nonexistent_file.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decompress_invalid_data::282",
+  "argv": [
+   "-dc"
+  ],
+  "stdin": "This is not compressed data",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_small_input::283",
+  "argv": [
+   "-c"
+  ],
+  "stdin": "X",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_dictionary_file::284",
+  "argv": [
+   "-D",
+   "nonexistent_dict.txt",
+   "-c"
+  ],
+  "stdin": "Dict test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_output_filename_stdout::285",
+  "argv": [
+   "-",
+   "stdout"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_dash_means_stdout::286",
+  "argv": [
+   "-c",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_fast_value::287",
+  "argv": [
+   "--fast=999999",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_with_force_flag::288",
+  "argv": [
+   "-f",
+   "input.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "input.txt": "New data\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_to_null::289",
+  "argv": [
+   "test.txt",
+   "null"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "Test data\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_files_mode_comprehensive::290",
+  "argv": [
+   "-m",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_recursive_mode_basic::291",
+  "argv": [
+   "-r",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keep_vs_remove_source::292",
+  "argv": [
+   "--rm",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_mode_levels::293",
+  "argv": [
+   "-q",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_mode_operations::294",
+  "argv": [
+   "-v",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compression_to_null::295",
+  "argv": [
+   "null",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_small_files_all_levels::296",
+  "argv": [
+   "tiny.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "tiny.txt": "0123456789"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_streaming_large_data::297",
+  "argv": [
+   "-c",
+   "-9"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dictionary_large::298",
+  "argv": [
+   "-D",
+   "-9"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_to_readonly_location::299",
+  "argv": [
+   "/dev/readonly.lz4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_options_combined::300",
+  "argv": [
+   "-9",
+   "-v",
+   "-f",
+   "--content-size",
+   "-BD",
+   "-BX",
+   "-B5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_options::301",
+  "argv": [
+   "-1",
+   "-12"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_maximum_compression_level_plus_one::302",
+  "argv": [
+   "-13"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_large_custom_block_size::303",
+  "argv": [
+   "-B1048576"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dictionary_with_multiple_files::304",
+  "argv": [
+   "-D",
+   "-m"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_block_independence_with_checksums::305",
+  "argv": [
+   "-BI",
+   "-BX"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_block_options_together::306",
+  "argv": [
+   "-BI",
+   "-BD",
+   "-BX",
+   "-B6"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_concatenated_operations::307",
+  "argv": [
+   "-9fv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_high_fast_acceleration::308",
+  "argv": [
+   "--fast=1000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_single_byte_file::309",
+  "argv": [
+   "single.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "single.txt": "A"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_two_byte_file::310",
+  "argv": [
+   "two.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "two.txt": "AB"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_with_explicit_block_size_bytes::311",
+  "argv": [
+   "-B262144"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_multiple_frames_verbose::312",
+  "argv": [
+   "--list",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decompression_stdin_to_file::313",
+  "argv": [
+   "-d",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_keyword::314",
+  "argv": [
+   "stdin"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdout_keyword::315",
+  "argv": [
+   "stdout"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_file::316",
+  "argv": [
+   "empty.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.txt": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_byte_file::317",
+  "argv": [
+   "single.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "single.txt": "X"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_with_force::318",
+  "argv": [
+   "-vf"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_short_flags_aggregated::319",
+  "argv": [
+   "-9vf"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_block_size_5::320",
+  "argv": [
+   "-B5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_block_size_6::321",
+  "argv": [
+   "-B6"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_block_size_large::322",
+  "argv": [
+   "-B8192"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_files_with_keep::323",
+  "argv": [
+   "-mk"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_files_with_force::324",
+  "argv": [
+   "-mf"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_thread::325",
+  "argv": [
+   "-T1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_high_thread_count::326",
+  "argv": [
+   "-T8"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fast_1::327",
+  "argv": [
+   "--fast=1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fast_high::328",
+  "argv": [
+   "--fast=10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_legacy_with_high_compression::329",
+  "argv": [
+   "-l",
+   "-9"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_block_checksums::330",
+  "argv": [
+   "-BX",
+   "-B4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_frame_with_all_options::331",
+  "argv": [
+   "--content-size",
+   "-BD",
+   "-BX",
+   "-B5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_equals_syntax_for_options::332",
+  "argv": [
+   "--fast=5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_zero_byte_file::333",
+  "argv": [
+   "empty.bin"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.bin": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decompress_with_rm::334",
+  "argv": [
+   "-d",
+   "--rm"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compression_level_10::335",
+  "argv": [
+   "-10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_with_multiple_files::336",
+  "argv": [
+   "-qm"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_with_multiple_files::337",
+  "argv": [
+   "-vm"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_threading_with_large_file::338",
+  "argv": [
+   "-T4",
+   "-6"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_threading_with_high_level::339",
+  "argv": [
+   "-T2",
+   "-9"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_threading_with_fast::340",
+  "argv": [
+   "-T3",
+   "--fast"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_level_2::341",
+  "argv": [
+   "-2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_level_3::342",
+  "argv": [
+   "-3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_level_4::343",
+  "argv": [
+   "-4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_level_7::344",
+  "argv": [
+   "-7"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_level_8::345",
+  "argv": [
+   "-8"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fast_2::346",
+  "argv": [
+   "--fast=2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fast_7::347",
+  "argv": [
+   "--fast=7"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bi_with_high_level::348",
+  "argv": [
+   "-BI",
+   "-9"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bd_with_high_level::349",
+  "argv": [
+   "-BD",
+   "-9"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bx_with_high_level::350",
+  "argv": [
+   "-BX",
+   "-9"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_b_flags_together::351",
+  "argv": [
+   "-BD",
+   "-BX"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dictionary_with_fast::352",
+  "argv": [
+   "-D",
+   "--fast"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rm_with_verbose::353",
+  "argv": [
+   "-v",
+   "--rm"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rm_with_force::354",
+  "argv": [
+   "-f",
+   "--rm"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vvv_triple_verbose::355",
+  "argv": [
+   "-vvv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vvvv_quad_verbose::356",
+  "argv": [
+   "-vvvv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vvvvv_quint_verbose::357",
+  "argv": [
+   "-vvvvv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hc_with_block_dependency::358",
+  "argv": [
+   "-9",
+   "-BD"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_nonexistent_file::359",
+  "argv": [
+   "/nonexistent/file.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_compression_level::360",
+  "argv": [
+   "-20",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_file_multithreaded::361",
+  "argv": [
+   "-T4",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_options_max_level::362",
+  "argv": [
+   "-12",
+   "-BD",
+   "-BX",
+   "--content-size",
+   "--favor-decSpeed"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_options_fast::363",
+  "argv": [
+   "--fast=5",
+   "-BD",
+   "-BX",
+   "--content-size"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_2mb_fast_with_threads::364",
+  "argv": [
+   "-T2",
+   "--fast=3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decompress_with_force_keep::365",
+  "argv": [
+   "-dfk"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_multiple_with_dictionary::366",
+  "argv": [
+   "-m",
+   "-D"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_with_all_frame_options_bd_bx_content::367",
+  "argv": [
+   "-BD",
+   "-BX",
+   "--content-size",
+   "--frame-crc",
+   "-B7"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_high_compression_with_block_dependency::368",
+  "argv": [
+   "-11",
+   "-BD"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ultra_fast_with_block_checksum::369",
+  "argv": [
+   "--fast=100",
+   "-BX"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sparse_with_high_compression::370",
+  "argv": [
+   "-10",
+   "--sparse"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_sparse_with_no_crc::371",
+  "argv": [
+   "--no-sparse",
+   "--no-crc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_force_compression_of_lz4::372",
+  "argv": [
+   "-z",
+   "-9"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_with_multiple_files::373",
+  "argv": [
+   "-q",
+   "-m"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_with_favor_decspeed_and_threads::374",
+  "argv": [
+   "-11",
+   "--favor-decSpeed",
+   "-T2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_content_size_with_high_compression::375",
+  "argv": [
+   "-12",
+   "--content-size"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_benchmark_with_dictionary::376",
+  "argv": [
+   "-b1",
+   "-i1",
+   "-D"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decompress_to_existing_file_with_force::377",
+  "argv": [
+   "-df"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_threads_with_best_compression::378",
+  "argv": [
+   "--best",
+   "--threads=2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_quiet_and_force::379",
+  "argv": [
+   "-qf"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_thread_count_flag_t1::380",
+  "argv": [
+   "-T1",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_thread_count_flag_t2::381",
+  "argv": [
+   "-T2",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_thread_count_flag_t4::382",
+  "argv": [
+   "-T4",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_threads_long_flag::383",
+  "argv": [
+   "--threads=2",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multithreading_with_high_compression::384",
+  "argv": [
+   "-T2",
+   "-9",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_auto_thread_count::385",
+  "argv": [
+   "-T0",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multithreading_file_compression::386",
+  "argv": [
+   "-T2",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_favor_decspeed_stress::387",
+  "argv": [
+   "--favor-decSpeed",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_block_sizes_with_checksums::388",
+  "argv": [
+   "-BX",
+   "--frame-crc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_threads_all_high_levels::389",
+  "argv": [
+   "-T3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_benchmark_all_high_levels_DISABLED::390",
+  "argv": [
+   "-i1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_block_size::391",
+  "argv": [
+   "-B10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bd_bx_no_crc::392",
+  "argv": [
+   "-BD",
+   "-BX",
+   "--no-frame-crc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_frame_opts_with_content_size::393",
+  "argv": [
+   "-BD",
+   "-BX",
+   "--content-size",
+   "--favor-decSpeed"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_with_test::394",
+  "argv": [
+   "-vt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decompress_with_keep::395",
+  "argv": [
+   "-dk"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_legacy_with_verbose::396",
+  "argv": [
+   "-lv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_legacy_with_force::397",
+  "argv": [
+   "-lf"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_separator::398",
+  "argv": [
+   "--"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_force_decompress_non_lz4_file::399",
+  "argv": [
+   "-df",
+   "plain.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "plain.txt": "This is not compressed\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

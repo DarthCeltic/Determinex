@@ -1,0 +1,2751 @@
+{
+ "slug": "astro__deadnix.d590041",
+ "language": "",
+ "n_branches": 14,
+ "n_tests_total": 703,
+ "n_examples": 149,
+ "n_with_exact_stdout": 22,
+ "n_with_rc": 140,
+ "n_skipped": 490,
+ "examples": [
+  {
+   "test": "test_help_to_stdout_exit0",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Find dead code in .nix files",
+    "--output-format"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_deadnix_io.py:7"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_deadnix_io.py:16"
+  },
+  {
+   "test": "test_scan_file_human_readable_default_has_warning_on_stdout",
+   "argv": [
+    "example.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Warning:",
+    "example.nix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_deadnix_io.py:23"
+  },
+  {
+   "test": "test_no_color_env_removes_ansi_escape_codes",
+   "argv": [
+    "example.nix"
+   ],
+   "stdin": null,
+   "env": {
+    "NO_COLOR": "1"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Warning: Unused declarations were found."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_deadnix_io.py:30"
+  },
+  {
+   "test": "test_output_format_json_is_valid_json_and_schema",
+   "argv": [
+    "--output-format",
+    "json",
+    "example.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_deadnix_io.py:38"
+  },
+  {
+   "test": "test_fail_flag_exit_1_when_unused_found",
+   "argv": [
+    "--fail",
+    "example.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_deadnix_io.py:51"
+  },
+  {
+   "test": "test_quiet_suppresses_report_output_but_exit_code_0",
+   "argv": [
+    "--quiet",
+    "example.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_deadnix_io.py:56"
+  },
+  {
+   "test": "test_quiet_and_fail_still_exits_1_but_no_output",
+   "argv": [
+    "--quiet",
+    "--fail",
+    "example.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_deadnix_io.py:63"
+  },
+  {
+   "test": "test_nonexistent_file_errors_nonzero_and_message_on_stderr",
+   "argv": [
+    "does-not-exist-xyz.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_deadnix_io.py:70"
+  },
+  {
+   "test": "test_exclude_skips_file_in_directory_scan",
+   "argv": [
+    "--exclude",
+    "bad.nix"
+   ],
+   "stdin": null,
+   "env": {
+    "NO_COLOR": "1"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bad.nix"
+   ],
+   "files": {
+    "bad.nix": "let unused = 1; in 2\n"
+   },
+   "ci": false,
+   "source": "test_deadnix_io.py:77"
+  },
+  {
+   "test": "test_edit_removes_unused_binding_in_place",
+   "argv": [
+    "--edit",
+    "--quiet",
+    "t.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "used = 2"
+   ],
+   "files": {
+    "t.nix": "let\n  unused = 1;\n  used = 2;\nin used\n"
+   },
+   "ci": false,
+   "source": "test_deadnix_io.py:96"
+  },
+  {
+   "test": "test_deadnix_skip_pragma_skips_next_line",
+   "argv": [
+    "-o",
+    "json",
+    "skip.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unused let binding: unused2"
+   ],
+   "files": {
+    "skip.nix": "let\n  # deadnix: skip\n  unused = 1;\n  unused2 = 2;\nin 0\n"
+   },
+   "ci": false,
+   "source": "test_edit_and_pragmas.py:38"
+  },
+  {
+   "test": "test_invalid_flag_errors_nonzero",
+   "argv": [
+    "--definitely-not-a-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:6"
+  },
+  {
+   "test": "test_invalid_nix_syntax_reports_error_but_exit_0",
+   "argv": [
+    "bad.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bad.nix"
+   ],
+   "files": {
+    "bad.nix": "let x = ; in x\n"
+   },
+   "ci": false,
+   "source": "test_errors.py:22"
+  },
+  {
+   "test": "test_help_exact_output",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {
+    "NO_COLOR": "1"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_version.py:4"
+  },
+  {
+   "test": "test_fail_exit_code_when_none_found",
+   "argv": [
+    "--fail",
+    "clean.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "clean.nix": "let x = 1; in x\n"
+   },
+   "ci": false,
+   "source": "test_options_and_exit_codes.py:56"
+  },
+  {
+   "test": "test_no_subcommand_needed_for_help",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Find dead code in .nix files"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_no_subcommands.py:74"
+  },
+  {
+   "test": "test_version_flag_works_directly",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "deadnix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_no_subcommands.py:80"
+  },
+  {
+   "test": "test_option_parsing_without_subcommands",
+   "argv": [
+    "--quiet",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Find dead code in .nix files"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_no_subcommands.py:177"
+  },
+  {
+   "test": "test_double_dash_separator_not_for_subcommand",
+   "argv": [
+    "--exclude",
+    "test.nix",
+    "--",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_no_subcommands.py:195"
+  },
+  {
+   "test": "test_help_content_shows_options_not_commands",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Options:",
+    "--no-lambda-arg",
+    "--edit",
+    "--quiet"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_no_subcommands.py:205"
+  },
+  {
+   "test": "test_short_and_long_options_work_directly",
+   "argv": [
+    "-q",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_no_subcommands.py:255"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Find dead code in .nix files",
+    "Usage: executable"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_options.py:23"
+  },
+  {
+   "test": "test_version_flag_short",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "deadnix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_options.py:63"
+  },
+  {
+   "test": "test_no_lambda_arg",
+   "argv": [
+    "-o",
+    "json",
+    "--no-lambda-arg"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_detection_options.py:24"
+  },
+  {
+   "test": "test_no_lambda_arg_short",
+   "argv": [
+    "-o",
+    "json",
+    "-l"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_detection_options.py:39"
+  },
+  {
+   "test": "test_no_lambda_pattern_names",
+   "argv": [
+    "-o",
+    "json",
+    "--no-lambda-pattern-names"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_detection_options.py:52"
+  },
+  {
+   "test": "test_no_lambda_pattern_names_short",
+   "argv": [
+    "-o",
+    "json",
+    "-L"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_detection_options.py:68"
+  },
+  {
+   "test": "test_no_underscore",
+   "argv": [
+    "-o",
+    "json",
+    "--no-underscore"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_detection_options.py:81"
+  },
+  {
+   "test": "test_no_underscore_short",
+   "argv": [
+    "-o",
+    "json",
+    "-_"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_detection_options.py:97"
+  },
+  {
+   "test": "test_default_checks_underscore_bindings",
+   "argv": [
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_detection_options.py:110"
+  },
+  {
+   "test": "test_hidden_flag",
+   "argv": [
+    "--hidden"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_directory_scanning.py:46"
+  },
+  {
+   "test": "test_hidden_flag_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_directory_scanning.py:63"
+  },
+  {
+   "test": "test_multiple_output_flags",
+   "argv": [
+    "-q",
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:40"
+  },
+  {
+   "test": "test_json_and_quiet",
+   "argv": [
+    "-o",
+    "json",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:50"
+  },
+  {
+   "test": "test_edit_flag_removes_dead_code",
+   "argv": [
+    "--edit"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edit_mode.py:25"
+  },
+  {
+   "test": "test_edit_flag_short",
+   "argv": [
+    "-e"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edit_mode.py:39"
+  },
+  {
+   "test": "test_edit_preserves_clean_file",
+   "argv": [
+    "--edit"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usedArg",
+    "used",
+    "result"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edit_mode.py:48"
+  },
+  {
+   "test": "test_edit_quiet_mode",
+   "argv": [
+    "--edit",
+    "--quiet"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edit_mode.py:65"
+  },
+  {
+   "test": "test_exclude_single_file",
+   "argv": [
+    "--exclude",
+    "--"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_exclude_patterns.py:25"
+  },
+  {
+   "test": "test_fail_flag_with_dead_code",
+   "argv": [
+    "--fail"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_exit_codes.py:34"
+  },
+  {
+   "test": "test_fail_flag_short_with_dead_code",
+   "argv": [
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_exit_codes.py:42"
+  },
+  {
+   "test": "test_fail_flag_clean_file",
+   "argv": [
+    "--fail"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_exit_codes.py:50"
+  },
+  {
+   "test": "test_fail_flag_with_quiet",
+   "argv": [
+    "--fail",
+    "--quiet"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_exit_codes.py:58"
+  },
+  {
+   "test": "test_fail_and_json",
+   "argv": [
+    "--fail",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:33"
+  },
+  {
+   "test": "test_all_no_flags",
+   "argv": [
+    "-l",
+    "-L",
+    "-_"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:43"
+  },
+  {
+   "test": "test_quiet_json_and_fail",
+   "argv": [
+    "-q",
+    "-f",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:72"
+  },
+  {
+   "test": "test_json_output_structure",
+   "argv": [
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file",
+    "results",
+    "line",
+    "column",
+    "endColumn",
+    "message"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_json_output_validation.py:24"
+  },
+  {
+   "test": "test_json_multiple_files",
+   "argv": [
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file",
+    "results"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_json_output_validation.py:60"
+  },
+  {
+   "test": "test_json_has_column_info",
+   "argv": [
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "line",
+    "column",
+    "endColumn"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_details.py:38"
+  },
+  {
+   "test": "test_error_messages_descriptive",
+   "argv": [
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unused"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_details.py:55"
+  },
+  {
+   "test": "test_json_format",
+   "argv": [
+    "--output-format",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file",
+    "results"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:34"
+  },
+  {
+   "test": "test_json_format_short",
+   "argv": [
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:47"
+  },
+  {
+   "test": "test_quiet_mode",
+   "argv": [
+    "--quiet"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:57"
+  },
+  {
+   "test": "test_quiet_mode_short",
+   "argv": [
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:66"
+  },
+  {
+   "test": "test_json_clean_file",
+   "argv": [
+    "--output-format",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:87"
+  },
+  {
+   "test": "test_warn_used_underscore_flag",
+   "argv": [
+    "--warn-used-underscore"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_warn_used_underscore.py:23"
+  },
+  {
+   "test": "test_warn_used_underscore_short",
+   "argv": [
+    "-W"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_warn_used_underscore.py:33"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Find dead code in .nix files",
+    "Usage:",
+    "--no-lambda-arg",
+    "--edit",
+    "--version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_deadnix.py:48"
+  },
+  {
+   "test": "test_single_file_with_unused_code",
+   "argv": [
+    "test.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unused",
+    "unused",
+    "test.nix"
+   ],
+   "files": {
+    "test.nix": "\nlet\n  unused = 42;\n  used = 23;\nin used\n"
+   },
+   "ci": false,
+   "source": "test_deadnix.py:66"
+  },
+  {
+   "test": "test_single_file_no_unused_code",
+   "argv": [
+    "clean.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "clean.nix": "\nlet\n  used = 42;\nin used\n"
+   },
+   "ci": false,
+   "source": "test_deadnix.py:81"
+  },
+  {
+   "test": "test_multiple_files",
+   "argv": [
+    "file1.nix",
+    "file2.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file1.nix",
+    "file2.nix",
+    "unused1",
+    "unused2"
+   ],
+   "files": {
+    "file1.nix": "let unused1 = 1; used1 = 2; in used1",
+    "file2.nix": "let unused2 = 3; used2 = 4; in used2"
+   },
+   "ci": false,
+   "source": "test_deadnix.py:94"
+  },
+  {
+   "test": "test_default_human_readable_output",
+   "argv": [
+    "test.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unused",
+    "unused"
+   ],
+   "files": {
+    "test.nix": "let unused = 1; used = 2; in used"
+   },
+   "ci": false,
+   "source": "test_deadnix.py:132"
+  },
+  {
+   "test": "test_json_output_format",
+   "argv": [
+    "-o",
+    "json",
+    "test.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file",
+    "results",
+    "message",
+    "line",
+    "column"
+   ],
+   "files": {
+    "test.nix": "let unused = 1; used = 2; in used"
+   },
+   "ci": false,
+   "source": "test_deadnix.py:144"
+  },
+  {
+   "test": "test_ansi_color_codes_in_default_output",
+   "argv": [
+    "test.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {
+    "test.nix": "let unused = 1; used = 2; in used"
+   },
+   "ci": false,
+   "source": "test_deadnix.py:163"
+  },
+  {
+   "test": "test_no_color_environment_variable",
+   "argv": [
+    "test.nix"
+   ],
+   "stdin": null,
+   "env": {
+    "NO_COLOR": "1"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unused"
+   ],
+   "files": {
+    "test.nix": "let unused = 1; used = 2; in used"
+   },
+   "ci": false,
+   "source": "test_deadnix.py:172"
+  },
+  {
+   "test": "test_quiet_mode",
+   "argv": [
+    "-q",
+    "test.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.nix": "let unused = 1; used = 2; in used"
+   },
+   "ci": false,
+   "source": "test_deadnix.py:183"
+  },
+  {
+   "test": "test_quiet_mode_with_fail",
+   "argv": [
+    "-q",
+    "-f",
+    "test.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.nix": "let unused = 1; used = 2; in used"
+   },
+   "ci": false,
+   "source": "test_deadnix.py:192"
+  },
+  {
+   "test": "test_detect_unused_lambda_pattern_names",
+   "argv": [
+    "test.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unused lambda pattern: args"
+   ],
+   "files": {
+    "test.nix": "args@{ x }: x"
+   },
+   "ci": false,
+   "source": "test_deadnix.py:204"
+  },
+  {
+   "test": "test_detect_unused_lambda_arguments",
+   "argv": [
+    "test.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unused lambda argument: y"
+   ],
+   "files": {
+    "test.nix": "x: y: x"
+   },
+   "ci": false,
+   "source": "test_deadnix.py:212"
+  },
+  {
+   "test": "test_detect_unused_lambda_attrset_pattern_members",
+   "argv": [
+    "test.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unused lambda pattern: y"
+   ],
+   "files": {
+    "test.nix": "{ x, y }: x"
+   },
+   "ci": false,
+   "source": "test_deadnix.py:220"
+  },
+  {
+   "test": "test_detect_unused_let_bindings",
+   "argv": [
+    "test.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unused let binding: unused"
+   ],
+   "files": {
+    "test.nix": "let unused = 1; used = 2; in used"
+   },
+   "ci": false,
+   "source": "test_deadnix.py:228"
+  },
+  {
+   "test": "test_detect_unused_inherit_declarations",
+   "argv": [
+    "test.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unused",
+    "unused_inherit"
+   ],
+   "files": {
+    "test.nix": "\nlet\n  inherit (builtins) unused_inherit;\n  used = 1;\nin used\n"
+   },
+   "ci": false,
+   "source": "test_deadnix.py:237"
+  },
+  {
+   "test": "test_underscore_prefix_variables",
+   "argv": [
+    "test.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "_unused"
+   ],
+   "files": {
+    "test.nix": "let _unused = 1; used = 2; in used"
+   },
+   "ci": false,
+   "source": "test_deadnix.py:263"
+  },
+  {
+   "test": "test_no_lambda_arg_flag",
+   "argv": [
+    "-l",
+    "test.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.nix": "x: y: x"
+   },
+   "ci": false,
+   "source": "test_deadnix.py:276"
+  },
+  {
+   "test": "test_no_lambda_pattern_names_flag",
+   "argv": [
+    "-L",
+    "test.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unused lambda pattern: y"
+   ],
+   "files": {
+    "test.nix": "{ x, y }: x"
+   },
+   "ci": false,
+   "source": "test_deadnix.py:285"
+  },
+  {
+   "test": "test_no_underscore_flag",
+   "argv": [
+    "-_",
+    "test.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.nix": "let _unused = 1; used = 2; in used"
+   },
+   "ci": false,
+   "source": "test_deadnix.py:301"
+  },
+  {
+   "test": "test_warn_used_underscore_flag",
+   "argv": [
+    "-W",
+    "test.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.nix": "let _used = 1; in _used"
+   },
+   "ci": false,
+   "source": "test_deadnix.py:310"
+  },
+  {
+   "test": "test_exclude_single_file",
+   "argv": [
+    "--exclude",
+    "file1.nix",
+    "--",
+    "file1.nix",
+    "file2.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file2.nix"
+   ],
+   "files": {
+    "file1.nix": "let unused = 1; used = 2; in used",
+    "file2.nix": "let unused = 1; used = 2; in used"
+   },
+   "ci": false,
+   "source": "test_deadnix.py:319"
+  },
+  {
+   "test": "test_exclude_multiple_files",
+   "argv": [
+    "--exclude",
+    "file1.nix",
+    "file2.nix",
+    "--",
+    "file3.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "file1.nix": "let unused = 1; used = 2; in used",
+    "file2.nix": "let unused = 1; used = 2; in used",
+    "file3.nix": "let unused = 1; used = 2; in used"
+   },
+   "ci": false,
+   "source": "test_deadnix.py:335"
+  },
+  {
+   "test": "test_combination_of_multiple_flags",
+   "argv": [
+    "-l",
+    "-L",
+    "-_",
+    "test.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unused_regular"
+   ],
+   "files": {
+    "test.nix": "\nargs@{ x, y }: let _unused = 1; unused_regular = 3; used = 2; in used + x\n"
+   },
+   "ci": false,
+   "source": "test_deadnix.py:349"
+  },
+  {
+   "test": "test_edit_mode_removes_unused_code",
+   "argv": [
+    "-e",
+    "test.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "used"
+   ],
+   "files": {
+    "test.nix": "let\n  unused = 1;\n  used = 2;\nin used\n"
+   },
+   "ci": false,
+   "source": "test_deadnix.py:369"
+  },
+  {
+   "test": "test_edit_mode_multiple_files",
+   "argv": [
+    "-e",
+    "file1.nix",
+    "file2.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "used1",
+    "used2"
+   ],
+   "files": {
+    "file1.nix": "let unused1 = 1; used1 = 2; in used1",
+    "file2.nix": "let unused2 = 3; used2 = 4; in used2"
+   },
+   "ci": false,
+   "source": "test_deadnix.py:404"
+  },
+  {
+   "test": "test_edit_mode_with_quiet",
+   "argv": [
+    "-e",
+    "-q",
+    "test.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.nix": "let unused = 1; used = 2; in used"
+   },
+   "ci": false,
+   "source": "test_deadnix.py:421"
+  },
+  {
+   "test": "test_exit_code_zero_no_unused_code",
+   "argv": [
+    "test.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.nix": "let used = 1; in used"
+   },
+   "ci": false,
+   "source": "test_deadnix.py:460"
+  },
+  {
+   "test": "test_fail_flag_exits_zero_no_unused_code",
+   "argv": [
+    "-f",
+    "test.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.nix": "let used = 1; in used"
+   },
+   "ci": false,
+   "source": "test_deadnix.py:480"
+  },
+  {
+   "test": "test_deadnix_skip_pragma",
+   "argv": [
+    "test.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unused_not_skipped"
+   ],
+   "files": {
+    "test.nix": "\nlet\n  # deadnix: skip\n  unused_but_skipped = 1;\n  unused_not_skipped = 2;\n  used = 3;\nin used\n"
+   },
+   "ci": false,
+   "source": "test_deadnix.py:538"
+  },
+  {
+   "test": "test_nested_let_bindings",
+   "argv": [
+    "test.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "outer_unused",
+    "inner_unused"
+   ],
+   "files": {
+    "test.nix": "\nlet\n  outer_unused = 1;\n  outer_used = 2;\nin let\n  inner_unused = 3;\n  inner_used = 4;\nin outer_used + inner_used\n"
+   },
+   "ci": false,
+   "source": "test_deadnix.py:596"
+  },
+  {
+   "test": "test_unicode_in_nix_files",
+   "argv": [
+    "test.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unused_unicode"
+   ],
+   "files": {
+    "test.nix": "\nlet\n  unused_unicode = \"你好世界\";\n  used = \"hello\";\nin used\n"
+   },
+   "ci": false,
+   "source": "test_deadnix.py:613"
+  },
+  {
+   "test": "test_multiple_issues_per_line",
+   "argv": [
+    "test.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "y",
+    "z"
+   ],
+   "files": {
+    "test.nix": "\nlet x = 1; y = 2; z = 3; in x\n"
+   },
+   "ci": false,
+   "source": "test_deadnix.py:626"
+  },
+  {
+   "test": "test_large_file_handling",
+   "argv": [
+    "large.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "large.nix": "let\n"
+   },
+   "ci": false,
+   "source": "test_deadnix.py:638"
+  },
+  {
+   "test": "test_json_output_with_multiple_issues",
+   "argv": [
+    "-o",
+    "json",
+    "test.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "line",
+    "column",
+    "message"
+   ],
+   "files": {
+    "test.nix": "\nlet\n  unused1 = 1;\n  unused2 = 2;\n  used = 3;\nin used\n"
+   },
+   "ci": false,
+   "source": "test_deadnix.py:652"
+  },
+  {
+   "test": "test_edit_mode_idempotent",
+   "argv": [
+    "-e",
+    "test.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.nix": "\nlet\n  unused = 1;\n  used = 2;\nin used\n"
+   },
+   "ci": false,
+   "source": "test_deadnix.py:672"
+  },
+  {
+   "test": "test_all_code_unused",
+   "argv": [
+    "test.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unused"
+   ],
+   "files": {
+    "test.nix": "\nlet\n  unused1 = 1;\n  unused2 = 2;\n  unused3 = 3;\nin unused3\n"
+   },
+   "ci": false,
+   "source": "test_deadnix.py:694"
+  },
+  {
+   "test": "test_mixed_files_and_directories",
+   "argv": [
+    "file1.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "file1.nix": "let unused = 1; used = 2; in used"
+   },
+   "ci": false,
+   "source": "test_deadnix.py:711"
+  },
+  {
+   "test": "test_json_output_handles_errors",
+   "argv": [
+    "-o",
+    "json",
+    "invalid.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file"
+   ],
+   "files": {
+    "invalid.nix": "invalid syntax {{{"
+   },
+   "ci": false,
+   "source": "test_deadnix.py:721"
+  },
+  {
+   "test": "test_short_flags",
+   "argv": [
+    "-l",
+    "-L",
+    "-_",
+    "-q",
+    "-f",
+    "test.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.nix": "args@{ x, y }: x"
+   },
+   "ci": false,
+   "source": "test_deadnix.py:734"
+  },
+  {
+   "test": "test_long_flags",
+   "argv": [
+    "--quiet",
+    "--fail",
+    "test.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.nix": "let unused = 1; used = 2; in used"
+   },
+   "ci": false,
+   "source": "test_deadnix.py:743"
+  },
+  {
+   "test": "test_multiple_lambda_args",
+   "argv": [
+    "test.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "c",
+    "d"
+   ],
+   "files": {
+    "test.nix": "\na: b: c: d: a + b\n"
+   },
+   "ci": false,
+   "source": "test_deadnix.py:951"
+  },
+  {
+   "test": "test_json_multiple_files",
+   "argv": [
+    "-o",
+    "json",
+    "file1.nix",
+    "file2.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file1.nix",
+    "file2.nix"
+   ],
+   "files": {
+    "file1.nix": "let unused = 1; used = 2; in used",
+    "file2.nix": "let unused = 1; used = 2; in used"
+   },
+   "ci": false,
+   "source": "test_deadnix.py:1012"
+  },
+  {
+   "test": "test_help_takes_precedence_over_other_flags",
+   "argv": [
+    "--help",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {
+    "NO_COLOR": "1",
+    "TERM": "dumb"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable",
+    "Print version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:124"
+  },
+  {
+   "test": "test_help_with_invalid_flag_still_shows_help",
+   "argv": [
+    "--help",
+    "--definitely-not-a-flag"
+   ],
+   "stdin": null,
+   "env": {
+    "NO_COLOR": "1",
+    "TERM": "dumb"
+   },
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:131"
+  },
+  {
+   "test": "test_double_dash_separator_does_not_hide_help",
+   "argv": [
+    "--help",
+    "--",
+    "--not-a-flag"
+   ],
+   "stdin": null,
+   "env": {
+    "NO_COLOR": "1",
+    "TERM": "dumb"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:137"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Find dead code in .nix files",
+    "Usage:",
+    "--no-lambda-arg",
+    "--no-lambda-pattern-names",
+    "--no-underscore",
+    "--quiet",
+    "--edit",
+    "--hidden",
+    "--fail",
+    "--output-format",
+    "--exclude",
+    "--version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:6"
+  },
+  {
+   "test": "test_exit_code_zero_with_dead_code_without_fail",
+   "argv": [
+    "dirty.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unused declarations were found"
+   ],
+   "files": {
+    "dirty.nix": "let unused = 42; in true"
+   },
+   "ci": false,
+   "source": "test_basic_invocation.py:58"
+  },
+  {
+   "test": "test_fail_flag_exit_code_one_with_dead_code",
+   "argv": [
+    "--fail",
+    "dirty.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unused declarations were found",
+    "unused"
+   ],
+   "files": {
+    "dirty.nix": "let unused = 42; in true"
+   },
+   "ci": false,
+   "source": "test_basic_invocation.py:67"
+  },
+  {
+   "test": "test_fail_flag_exit_code_zero_no_dead_code",
+   "argv": [
+    "--fail",
+    "clean.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "clean.nix": "let used = 42; in used"
+   },
+   "ci": false,
+   "source": "test_basic_invocation.py:77"
+  },
+  {
+   "test": "test_fail_flag_shorthand",
+   "argv": [
+    "-f",
+    "dirty.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unused"
+   ],
+   "files": {
+    "dirty.nix": "let unused = 42; in true"
+   },
+   "ci": false,
+   "source": "test_basic_invocation.py:86"
+  },
+  {
+   "test": "test_edit_flag_removes_unused_code",
+   "argv": [
+    "--edit"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "used"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_editing.py:6"
+  },
+  {
+   "test": "test_edit_flag_shorthand",
+   "argv": [
+    "-e"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "used"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_editing.py:24"
+  },
+  {
+   "test": "test_edit_multiple_files",
+   "argv": [
+    "--edit"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "used1",
+    "used2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_editing.py:48"
+  },
+  {
+   "test": "test_edit_with_quiet",
+   "argv": [
+    "--edit",
+    "--quiet"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "used"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_editing.py:65"
+  },
+  {
+   "test": "test_edit_preserves_formatting_where_possible",
+   "argv": [
+    "--edit"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "used",
+    "let",
+    "in"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_editing.py:104"
+  },
+  {
+   "test": "test_edit_with_fail_flag",
+   "argv": [
+    "--edit",
+    "--fail"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_editing.py:150"
+  },
+  {
+   "test": "test_no_lambda_arg_flag",
+   "argv": [
+    "--no-lambda-arg"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unused lambda argument: unused"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_filtering_options.py:5"
+  },
+  {
+   "test": "test_no_lambda_arg_shorthand",
+   "argv": [
+    "-l"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_filtering_options.py:18"
+  },
+  {
+   "test": "test_no_lambda_pattern_names_flag",
+   "argv": [
+    "--no-lambda-pattern-names"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unused lambda pattern: toplevel",
+    "Unused lambda pattern: attr1",
+    "Unused lambda pattern: toplevel"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_filtering_options.py:27"
+  },
+  {
+   "test": "test_no_lambda_pattern_names_shorthand",
+   "argv": [
+    "-L"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unused lambda pattern: args"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_filtering_options.py:43"
+  },
+  {
+   "test": "test_no_lambda_pattern_names_still_checks_bind_name",
+   "argv": [
+    "--no-lambda-pattern-names"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unused lambda pattern: args"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_filtering_options.py:55"
+  },
+  {
+   "test": "test_no_underscore_flag",
+   "argv": [
+    "--no-underscore"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "_unused",
+    "unused",
+    "Unused let binding: unused"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_filtering_options.py:65"
+  },
+  {
+   "test": "test_no_underscore_shorthand",
+   "argv": [
+    "-_"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_filtering_options.py:80"
+  },
+  {
+   "test": "test_combination_of_filtering_flags",
+   "argv": [
+    "-l",
+    "-L",
+    "-_"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unused lambda pattern: args"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_filtering_options.py:102"
+  },
+  {
+   "test": "test_hidden_flag_includes_hidden_files",
+   "argv": [
+    "--hidden"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "visible.nix",
+    ".hidden.nix",
+    "unused_hidden"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_handling.py:82"
+  },
+  {
+   "test": "test_hidden_flag_includes_hidden_directories",
+   "argv": [
+    "--hidden"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".hidden_dir",
+    "test.nix",
+    "unused"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_handling.py:93"
+  },
+  {
+   "test": "test_hidden_flag_shorthand",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".hidden.nix",
+    "unused"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_handling.py:103"
+  },
+  {
+   "test": "test_exclude_single_file",
+   "argv": [
+    "--exclude",
+    "--"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "included.nix",
+    "unused1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_handling.py:139"
+  },
+  {
+   "test": "test_exclude_directory",
+   "argv": [
+    "--exclude",
+    "--"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "included.nix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_handling.py:152"
+  },
+  {
+   "test": "test_exclude_multiple_paths",
+   "argv": [
+    "--exclude",
+    "--"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file1.nix",
+    "unused1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_handling.py:165"
+  },
+  {
+   "test": "test_json_output_format",
+   "argv": [
+    "--output-format",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file",
+    "results",
+    "message",
+    "line",
+    "column",
+    "unused"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:19"
+  },
+  {
+   "test": "test_json_output_line_and_column_numbers",
+   "argv": [
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "endColumn"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:62"
+  },
+  {
+   "test": "test_json_output_no_issues",
+   "argv": [
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:76"
+  },
+  {
+   "test": "test_quiet_with_fail_flag",
+   "argv": [
+    "--quiet",
+    "--fail"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:138"
+  },
+  {
+   "test": "test_json_output_parse_error",
+   "argv": [
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file",
+    "results",
+    "message"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:156"
+  },
+  {
+   "test": "test_warn_used_underscore_with_unused",
+   "argv": [
+    "--warn-used-underscore"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "_unused"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_features.py:45"
+  },
+  {
+   "test": "test_unknown_flag_errors_and_exit_code_2",
+   "argv": [
+    "--nonexistent-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument '--nonexistent-flag'",
+    "tip: to pass '--nonexistent-flag' as a value, use '-- --nonexistent-flag'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:28"
+  },
+  {
+   "test": "test_double_dash_treats_next_dash_token_as_positional_value",
+   "argv": [
+    "--",
+    "--nonexistent-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error stating file --nonexistent-flag"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:36"
+  },
+  {
+   "test": "test_missing_value_for_output_format_errors_and_exit_code_2",
+   "argv": [
+    "--output-format"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a value is required for '--output-format <OUTPUT_FORMAT>'",
+    "[possible values: human-readable, json]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:43"
+  },
+  {
+   "test": "test_invalid_enum_value_for_output_format_errors_and_exit_code_2",
+   "argv": [
+    "--output-format",
+    "xml"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid value 'xml' for '--output-format <OUTPUT_FORMAT>'",
+    "[possible values: human-readable, json]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:51"
+  },
+  {
+   "test": "test_output_format_json_long_equals_form_outputs_json_on_stdout",
+   "argv": [
+    "--output-format=json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:59"
+  },
+  {
+   "test": "test_combined_short_flags_q_and_h_suppress_output_and_parse",
+   "argv": [
+    "-qh"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:76"
+  },
+  {
+   "test": "test_missing_value_for_multi_value_exclude_errors_and_exit_code_2",
+   "argv": [
+    "--exclude"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a value is required for '--exclude <EXCLUDES>...'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:84"
+  },
+  {
+   "test": "test_exclude_cannot_be_used_multiple_times_errors_exit_code_2",
+   "argv": [
+    "--exclude",
+    "./example.nix",
+    "--exclude",
+    "./src"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--exclude",
+    "cannot be used multiple times"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:91"
+  },
+  {
+   "test": "test_flag_after_positional_is_accepted_and_changes_behavior",
+   "argv": [
+    "./example.nix",
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:99"
+  },
+  {
+   "test": "test_unknown_short_flag_errors_exit_code_2",
+   "argv": [
+    "-Z"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:106"
+  },
+  {
+   "test": "test_output_format_cannot_be_specified_multiple_times_errors_exit_code_2",
+   "argv": [
+    "-o",
+    "json",
+    "--output-format",
+    "human-readable"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--output-format",
+    "cannot be used multiple times"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:113"
+  },
+  {
+   "test": "test_help",
+   "argv": [
+    "./executable",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Find dead code in .nix files",
+    "Usage: executable [OPTIONS] [FILE_PATHS]..."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:4"
+  },
+  {
+   "test": "test_version",
+   "argv": [
+    "./executable",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:10"
+  },
+  {
+   "test": "test_invalid_arg",
+   "argv": [
+    "./executable",
+    "--no-such-arg"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument '--no-such-arg' found"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:15"
+  },
+  {
+   "test": "test_edit_let",
+   "argv": [
+    "./executable",
+    "--edit",
+    "test.nix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "used = 2;"
+   ],
+   "files": {
+    "test.nix": "let\n  unused = 1;\n  used = 2;\nin\nused\n"
+   },
+   "ci": false,
+   "source": "test_edit.py:5"
+  }
+ ]
+}

@@ -1,0 +1,1718 @@
+[
+ {
+  "name": "test::test_unknown_flag_in_subcommand_errors::0",
+  "argv": [
+   "list",
+   "--bogus"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_short_flag_in_subcommand_errors::1",
+  "argv": [
+   "open",
+   "-x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_short_flags_equivalent_to_separate::2",
+  "argv": [
+   "list",
+   "-a",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_get_subcommand_requires_mime_positional_before_json_flag::3",
+  "argv": [
+   "get",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_open_rejects_unknown_flags_even_if_positional_expected::4",
+  "argv": [
+   "open",
+   "--bogus"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subcommand_has_help::5",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_subcommand_dispatch::6",
+  "argv": [
+   "list",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_open_subcommand_dispatch::7",
+  "argv": [
+   "open",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_subcommand_dispatch::8",
+  "argv": [
+   "set",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unset_subcommand_dispatch::9",
+  "argv": [
+   "unset",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_launch_subcommand_dispatch::10",
+  "argv": [
+   "launch",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_get_subcommand_dispatch::11",
+  "argv": [
+   "get",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_subcommand_dispatch::12",
+  "argv": [
+   "add",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_error::13",
+  "argv": [
+   "nonexistent_command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_suggests_help::14",
+  "argv": [
+   "invalid_subcommand"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_typo_subcommand_error::15",
+  "argv": [
+   "lst"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_alone::16",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_requires_mime_and_handler::17",
+  "argv": [
+   "set"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_requires_handler::18",
+  "argv": [
+   "set",
+   ".png"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unset_requires_mime::19",
+  "argv": [
+   "unset"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_open_requires_paths::20",
+  "argv": [
+   "open"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_get_requires_mime::21",
+  "argv": [
+   "get"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_launch_requires_mime::22",
+  "argv": [
+   "launch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_requires_mime_and_handler::23",
+  "argv": [
+   "add"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_requires_handler::24",
+  "argv": [
+   "add",
+   ".png"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_handler::25",
+  "argv": [
+   "add",
+   "text/plain",
+   "test-app.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_to_existing::26",
+  "argv": [
+   "set",
+   "text/plain",
+   "test-app.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_wildcard::27",
+  "argv": [
+   "add",
+   "text/*",
+   "test-app.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_scheme_handler::28",
+  "argv": [
+   "add",
+   "x-scheme-handler/http",
+   "test-app.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_missing_handler_arg::29",
+  "argv": [
+   "add",
+   "text/plain"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_autocomplete_desktop_files::30",
+  "argv": [
+   "autocomplete",
+   "-d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_autocomplete_mimes::31",
+  "argv": [
+   "autocomplete",
+   "-m"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_flag::32",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_short_flag::33",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_subcommand::34",
+  "argv": [
+   "invalid_command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_desktop_entry_with_terminal_true::35",
+  "argv": [
+   "set",
+   "text/plain",
+   "terminal-app.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_desktop_entry_with_categories::36",
+  "argv": [
+   "set",
+   "text/plain",
+   "editor.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_desktop_entry_with_multiple_mimes::37",
+  "argv": [
+   "set",
+   "text/plain",
+   "multi-mime.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_desktop_entry_exec_with_url_field::38",
+  "argv": [
+   "set",
+   "x-scheme-handler/http",
+   "url-handler.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_desktop_entry_exec_with_file_field::39",
+  "argv": [
+   "set",
+   "image/png",
+   "file-handler.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_desktop_entry_with_actions::40",
+  "argv": [
+   "set",
+   "text/plain",
+   "with-actions.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_shows_application_names::41",
+  "argv": [
+   "set",
+   "text/plain",
+   "named-app.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_get_json_includes_exec_info::42",
+  "argv": [
+   "set",
+   "text/plain",
+   "json-test.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_desktop_entry_no_display::43",
+  "argv": [
+   "set",
+   "text/plain",
+   "nodisplay.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_open_directory::44",
+  "argv": [
+   "set",
+   "inode/directory",
+   "test-app.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_mime_type::45",
+  "argv": [
+   "set",
+   "application/vnd.oasis.opendocument.text",
+   "test-app.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_url_format::46",
+  "argv": [
+   "open",
+   "not-a-valid-url"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_wildcards::47",
+  "argv": [
+   "set",
+   "text/*",
+   "test-app.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_get_not_found::48",
+  "argv": [
+   "get",
+   "application/x-nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_get_scheme_handler::49",
+  "argv": [
+   "set",
+   "x-scheme-handler/http",
+   "test-app.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_get_json_not_found::50",
+  "argv": [
+   "get",
+   "--json",
+   "application/x-nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_launch_no_handler::51",
+  "argv": [
+   "launch",
+   "application/x-nonexistent",
+   "--",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_empty::52",
+  "argv": [
+   "list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_all_flag::53",
+  "argv": [
+   "list",
+   "--all"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_all_short_flag::54",
+  "argv": [
+   "list",
+   "-a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_open_nonexistent_file::55",
+  "argv": [
+   "open",
+   "/nonexistent/file.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_open_file_no_handler::56",
+  "argv": [
+   "open",
+   "test.xyz"
+  ],
+  "stdin": null,
+  "files": {
+   "test.xyz": "test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_open_detects_mime_from_extension::57",
+  "argv": [
+   "set",
+   "text/html",
+   "test-app.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_open_detects_mime_from_content::58",
+  "argv": [
+   "set",
+   "text/x-shellscript",
+   "test-app.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_open_https_url::59",
+  "argv": [
+   "set",
+   "x-scheme-handler/https",
+   "test-app.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_missing_args::60",
+  "argv": [
+   "set",
+   "text/plain"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_invalid_mime_type::61",
+  "argv": [
+   "set",
+   "invalid-mime",
+   "test-app.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_empty_mime_subtype::62",
+  "argv": [
+   "set",
+   "text/",
+   "test-app.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unset_not_set::63",
+  "argv": [
+   "unset",
+   "application/x-nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_mime_types_from_ext_and_invalid_inputs::64",
+  "argv": [
+   "get",
+   "audio/mpeg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_user_apps_wildcard_mimes_resolution_via_set_get::65",
+  "argv": [
+   "set",
+   "video/*",
+   "mpv.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_keeps_default_first::66",
+  "argv": [
+   "get",
+   "text/plain"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_errors::67",
+  "argv": [
+   "nope"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_writes_mimeapps_list::68",
+  "argv": [
+   "set",
+   "text/plain",
+   "nvim.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unset_removes_and_get_fails::69",
+  "argv": [
+   "unset",
+   "text/plain"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_missing_handler_is_error::70",
+  "argv": [
+   "set",
+   "text/plain",
+   "does-not-exist.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_get_invalid_mime_token::71",
+  "argv": [
+   "get",
+   "bad/mime"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_has_clear_error_and_nonzero_exit::72",
+  "argv": [
+   "this-subcommand-should-not-exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subcommand_specific_flag_rejected_when_used_with_other_subcommand::73",
+  "argv": [
+   "list",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_takes_precedence_over_invalid_flag::74",
+  "argv": [
+   "--help",
+   "--bogus"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_help_is_not_treated_as_flag::75",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_subcommand_reports_error_and_usage::76",
+  "argv": [
+   "bogus"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_exits_nonzero_and_writes_to_stderr::77",
+  "argv": [
+   "definitely-not-a-real-command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unset_removes_default_application_entry::78",
+  "argv": [
+   "set",
+   "text/plain",
+   "a.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_get_json_outputs_valid_json_with_expected_keys::79",
+  "argv": [
+   "get",
+   "--json",
+   "text/plain"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_desktop_file_name_fixed::80",
+  "argv": [
+   "set",
+   "text/plain",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_launch_with_empty_args_fixed::81",
+  "argv": [
+   "set",
+   "application/x-test",
+   "app.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_multiple_handlers_same_mime::82",
+  "argv": [
+   "set",
+   "text/plain",
+   "app1.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_launch_with_file_path_argument::83",
+  "argv": [
+   "set",
+   "text/plain",
+   "test.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_wildcard_mime_type::84",
+  "argv": [
+   "set",
+   "text/*",
+   "editor.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_specific_handlers::85",
+  "argv": [
+   "set",
+   "image/png",
+   "viewer.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unset_actually_removes_handler::86",
+  "argv": [
+   "set",
+   "application/pdf",
+   "app.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_get_json_output_format::87",
+  "argv": [
+   "set",
+   "text/html",
+   "myapp.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_open_with_url_scheme::88",
+  "argv": [
+   "set",
+   "x-scheme-handler/https",
+   "browser.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_mime_types_in_desktop_file::89",
+  "argv": [
+   "set",
+   "image/jpeg",
+   "multi.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_desktop_file_with_categories::90",
+  "argv": [
+   "set",
+   "image/svg+xml",
+   "categorized.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_case_invalid_mime_format::91",
+  "argv": [
+   "set",
+   "not-a-valid-mime",
+   "app.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_open_nonexistent_file_path::92",
+  "argv": [
+   "open",
+   "/tmp/this-file-definitely-does-not-exist-12345.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_with_file_extension_detection::93",
+  "argv": [
+   "set",
+   "sample.txt",
+   "textapp.desktop"
+  ],
+  "stdin": null,
+  "files": {
+   "sample.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_launch_with_multiple_arguments::94",
+  "argv": [
+   "set",
+   "text/plain",
+   "multifile.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_handler_field::95",
+  "argv": [
+   "set",
+   "text/plain",
+   "nonexistent.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mime_with_plus_character::96",
+  "argv": [
+   "set",
+   "application/rss+xml",
+   "xmlreader.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_desktop_file_with_icon::97",
+  "argv": [
+   "set",
+   "text/markdown",
+   "iconapp.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_desktop_file_missing_name::98",
+  "argv": [
+   "set",
+   "text/plain",
+   "noname.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_desktop_file_missing_exec::99",
+  "argv": [
+   "set",
+   "text/plain",
+   "noexec.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_added_associations_persistence::100",
+  "argv": [
+   "set",
+   "text/html",
+   "app1.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_launch_terminal_app_without_terminal_set::101",
+  "argv": [
+   "set",
+   "application/x-termapp",
+   "termapp.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_desktop_entry_with_special_fields::102",
+  "argv": [
+   "set",
+   "text/plain",
+   "full.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_handler_list::103",
+  "argv": [
+   "set",
+   "text/plain",
+   "app0.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_field_code_percent_f::104",
+  "argv": [
+   "set",
+   "text/plain",
+   "app.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_field_code_percent_u::105",
+  "argv": [
+   "set",
+   "x-scheme-handler/http",
+   "browser.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_mime_type::106",
+  "argv": [
+   "set",
+   "not-a-valid-mime",
+   "test.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_mime_type::107",
+  "argv": [
+   "set",
+   "",
+   "test.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_paths::108",
+  "argv": [
+   "open",
+   "test file (with spaces).txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test file (with spaces).txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_mime_type::109",
+  "argv": [
+   "set",
+   "test.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_malformed_desktop_file::110",
+  "argv": [
+   "set",
+   "text/plain",
+   "bad.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_handler_name::111",
+  "argv": [
+   "set",
+   "text/plain",
+   "test-unicode.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wildcard_precedence::112",
+  "argv": [
+   "set",
+   "text/*",
+   "wildcard.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_terminal_autodetection::113",
+  "argv": [
+   "set",
+   "application/x-termtest",
+   "termapp.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_launch_with_no_terminal_available::114",
+  "argv": [
+   "set",
+   "application/x-noterm",
+   "termapp.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_get_with_wildcard_fallback_chain::115",
+  "argv": [
+   "set",
+   "text/*",
+   "handler.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_file_mime_detection::116",
+  "argv": [
+   "set",
+   "text/html",
+   "browser.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_mime_type::117",
+  "argv": [
+   "set",
+   "application/json",
+   "editor.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pdf_mime_type::118",
+  "argv": [
+   "set",
+   "application/pdf",
+   "viewer.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_video_wildcard::119",
+  "argv": [
+   "set",
+   "video/*",
+   "player.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_audio_wildcard::120",
+  "argv": [
+   "set",
+   "audio/*",
+   "player.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_no_extension::121",
+  "argv": [
+   "open",
+   "testfile"
+  ],
+  "stdin": null,
+  "files": {
+   "testfile": "some content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mime_with_parameters::122",
+  "argv": [
+   "set",
+   "text/html",
+   "app.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_open_binary_file::123",
+  "argv": [
+   "open",
+   "test.bin"
+  ],
+  "stdin": null,
+  "files": {
+   "test.bin": "\u0000\u0001\u0002\u0003���"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_get_nonexistent_with_no_system_fallback::124",
+  "argv": [
+   "get",
+   "application/x-extremely-rare-mime-type-12345"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_desktop_file_only_in_system::125",
+  "argv": [
+   "set",
+   "text/plain",
+   "system.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wildcard_with_uppercase::126",
+  "argv": [
+   "set",
+   "TEXT/*",
+   "app.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_open_nonexistent_file::127",
+  "argv": [
+   "open",
+   "/tmp/nonexistent-file-12345.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_open_without_handler::128",
+  "argv": [
+   "open",
+   "test.unknownext12345"
+  ],
+  "stdin": null,
+  "files": {
+   "test.unknownext12345": "test content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_launch_nonexistent_handler::129",
+  "argv": [
+   "launch",
+   "application/x-nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_by_extension::130",
+  "argv": [
+   "set",
+   ".txt",
+   "test.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_wildcard_handler::131",
+  "argv": [
+   "set",
+   "text/*",
+   "test.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_get_nonexistent_handler::132",
+  "argv": [
+   "get",
+   "application/x-nonexistent-mime"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unset_nonexistent_handler::133",
+  "argv": [
+   "unset",
+   "application/x-nonexistent-mime"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_handler::134",
+  "argv": [
+   "set",
+   "text/plain",
+   "test1.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_by_extension_with_file::135",
+  "argv": [
+   "set",
+   "sample.txt",
+   "test.desktop"
+  ],
+  "stdin": null,
+  "files": {
+   "sample.txt": "test content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_terminal_handler::136",
+  "argv": [
+   "set",
+   "x-scheme-handler/terminal",
+   "terminal.desktop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

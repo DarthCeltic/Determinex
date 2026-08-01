@@ -1,0 +1,2986 @@
+{
+ "slug": "rhysd__kiro-editor.4157485",
+ "language": "",
+ "n_branches": 8,
+ "n_tests_total": 754,
+ "n_examples": 153,
+ "n_with_exact_stdout": 5,
+ "n_with_rc": 108,
+ "n_skipped": 561,
+ "examples": [
+  {
+   "test": "test_unknown_short_flag_message_contains_flag_name",
+   "argv": [
+    "-Z"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unrecognized option",
+    "'Z'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:97"
+  },
+  {
+   "test": "test_unknown_long_flag_message_contains_flag_name_without_dashes",
+   "argv": [
+    "--nonexistent-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "'nonexistent-flag'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:105"
+  },
+  {
+   "test": "test_double_dash_treated_as_positional_separator_but_tui_fails_without_tty",
+   "argv": [
+    "--"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error:",
+    "Inappropriate ioctl for device"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:135"
+  },
+  {
+   "test": "test_no_args_attempts_to_start_tui_and_fails_without_tty",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Inappropriate ioctl for device"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:143"
+  },
+  {
+   "test": "test_help_with_extra_args_still_prints_help",
+   "argv": [
+    "--help",
+    "somefile.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:98"
+  },
+  {
+   "test": "test_double_dash_separator_disables_flag_parsing_and_errors_without_tty",
+   "argv": [
+    "--",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Error:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:111"
+  },
+  {
+   "test": "test_delete_line_ctrl_k",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_ctrl_k",
+    "C-a"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Start"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_editing.py:93"
+  },
+  {
+   "test": "test_switch_between_buffers",
+   "argv": [
+    "tmux",
+    "capture-pane",
+    "-t",
+    "test_switch_buf",
+    "-p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "First"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_editing.py:211"
+  },
+  {
+   "test": "test_search_with_special_chars",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_search_special",
+    "C-g"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "parentheses"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_editing.py:332"
+  },
+  {
+   "test": "test_search_multiline",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_search_multi",
+    "C-g"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Target"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_editing.py:402"
+  },
+  {
+   "test": "test_version_long_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:41"
+  },
+  {
+   "test": "test_version_short_flag",
+   "argv": [
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:49"
+  },
+  {
+   "test": "test_version_matches_expected",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.4.3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:56"
+  },
+  {
+   "test": "test_help_long_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Kiro",
+    "tiny UTF-8 terminal text editor",
+    "Usage:",
+    "Mappings:",
+    "Options:",
+    "--version",
+    "--help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:63"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Kiro",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:76"
+  },
+  {
+   "test": "test_help_contains_key_mappings",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Ctrl-Q",
+    "Ctrl-S",
+    "Ctrl-O",
+    "Ctrl-G",
+    "Ctrl-U",
+    "Ctrl-R",
+    "Ctrl-?"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:84"
+  },
+  {
+   "test": "test_help_describes_quit",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:97"
+  },
+  {
+   "test": "test_version_ignores_files",
+   "argv": [
+    "--version",
+    "somefile.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:184"
+  },
+  {
+   "test": "test_version_takes_precedence",
+   "argv": [
+    "-v",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:197"
+  },
+  {
+   "test": "test_help_has_operations_section",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Quit",
+    "Save",
+    "Open",
+    "Search"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:261"
+  },
+  {
+   "test": "test_help_exit_code",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:293"
+  },
+  {
+   "test": "test_refresh_screen",
+   "argv": [
+    "tmux",
+    "capture-pane",
+    "-t",
+    "refresh",
+    "-p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_color_modes.py:90"
+  },
+  {
+   "test": "test_resize_window",
+   "argv": [
+    "tmux",
+    "resize-window",
+    "-t",
+    "resize",
+    "-x",
+    "120",
+    "-y",
+    "50"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Line"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_color_modes.py:121"
+  },
+  {
+   "test": "test_actual_undo_redo_cycle",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "undo_cycle",
+    "C-e"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Base",
+    "Base"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boosters.py:19"
+  },
+  {
+   "test": "test_multiple_edit_history",
+   "argv": [
+    "tmux",
+    "capture-pane",
+    "-t",
+    "multi_edit",
+    "-p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Start"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boosters.py:80"
+  },
+  {
+   "test": "test_very_long_line",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "long_line",
+    "C-e"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "x"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boosters.py:366"
+  },
+  {
+   "test": "test_unicode_content",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "unicode",
+    "Right"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Hello"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boosters.py:434"
+  },
+  {
+   "test": "test_paragraph_navigation",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "para_nav",
+    "M-n"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "paragraph"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_final_push.py:216"
+  },
+  {
+   "test": "test_edit_across_buffers",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "multi_buf",
+    "C-e"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "File"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_final_push.py:262"
+  },
+  {
+   "test": "test_cycle_through_all_buffers",
+   "argv": [
+    "tmux",
+    "capture-pane",
+    "-t",
+    "cycle_buf",
+    "-p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "File"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_final_push.py:315"
+  },
+  {
+   "test": "test_search_with_single_match",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "search_single",
+    "C-g"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Hello"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_gap_filling.py:18"
+  },
+  {
+   "test": "test_search_with_multiple_matches",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "search_multi",
+    "C-g"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_gap_filling.py:68"
+  },
+  {
+   "test": "test_cursor_movement_boundaries",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "cursor_bounds",
+    "Up",
+    "Up",
+    "Up"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Line"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_gap_filling.py:149"
+  },
+  {
+   "test": "test_word_deletion",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "word_del",
+    "C-e"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "three"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_gap_filling.py:187"
+  },
+  {
+   "test": "test_line_operations",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "line_ops",
+    "Right",
+    "Right",
+    "Right"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Fir"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_gap_filling.py:222"
+  },
+  {
+   "test": "test_rust_keywords",
+   "argv": [
+    "tmux",
+    "capture-pane",
+    "-t",
+    "test_rust_kw",
+    "-p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "fn main",
+    "let"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighting.py:19"
+  },
+  {
+   "test": "test_save_new_file_complete",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "save_complete",
+    "-l",
+    "First line of content"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "First line",
+    "Second line"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_intensive_prompts.py:19"
+  },
+  {
+   "test": "test_save_existing_file_overwrite",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "save_overwrite",
+    "C-e"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "New"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_intensive_prompts.py:69"
+  },
+  {
+   "test": "test_search_navigate_results",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "search_nav",
+    "C-g"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "match"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_intensive_prompts.py:197"
+  },
+  {
+   "test": "test_search_backward",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "search_back",
+    "M->"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "first"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_intensive_prompts.py:240"
+  },
+  {
+   "test": "test_open_empty_buffer",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "open_empty",
+    "-l",
+    "First buffer"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_intensive_prompts.py:325"
+  },
+  {
+   "test": "test_save_with_filename_prompt",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_save_prompt",
+    "-l",
+    "Test content for save"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_prompts.py:20"
+  },
+  {
+   "test": "test_save_prompt_cancel",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_save_cancel",
+    "-l",
+    "Content"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_prompts.py:73"
+  },
+  {
+   "test": "test_search_no_results",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_search_none",
+    "C-g"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Some text"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_prompts.py:152"
+  },
+  {
+   "test": "test_search_forward_backward",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_search_dir",
+    "C-g"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "word"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_prompts.py:188"
+  },
+  {
+   "test": "test_backspace_in_prompt",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_prompt_backspace",
+    "C-s"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_prompts.py:315"
+  },
+  {
+   "test": "test_cursor_movement_in_prompt",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_prompt_cursor",
+    "C-g"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_prompts.py:353"
+  },
+  {
+   "test": "test_edit_rust_file_extensively",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "edit_rust",
+    "Down"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "let"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rendering_coverage.py:112"
+  },
+  {
+   "test": "test_quit_immediately",
+   "argv": [
+    "tmux",
+    "capture-pane",
+    "-t",
+    "test_quit",
+    "-p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:58"
+  },
+  {
+   "test": "test_typing_text",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_type",
+    "-l",
+    "Hello"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Hello"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:178"
+  },
+  {
+   "test": "test_arrow_key_navigation",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_arrow",
+    "Down"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:207"
+  },
+  {
+   "test": "test_new_line",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_newline",
+    "-l",
+    "First"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "First",
+    "Second"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:239"
+  },
+  {
+   "test": "test_backspace_delete",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_backspace",
+    "-l",
+    "Hellox"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Hello"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:270"
+  },
+  {
+   "test": "test_refresh_screen",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_refresh",
+    "C-l"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:325"
+  },
+  {
+   "test": "test_undo_operation",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_undo",
+    "-l",
+    "Mistake"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:414"
+  },
+  {
+   "test": "test_redo_operation",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_redo",
+    "-l",
+    "Text"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:442"
+  },
+  {
+   "test": "test_home_key",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_home",
+    "End"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:547"
+  },
+  {
+   "test": "test_end_key",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_end",
+    "End"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:578"
+  },
+  {
+   "test": "test_page_down",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_pgdn",
+    "PageDown"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:606"
+  },
+  {
+   "test": "test_page_up",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_pgup",
+    "PageDown"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:639"
+  },
+  {
+   "test": "test_multiple_lines_editing",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_multiline",
+    "-l",
+    "Line1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Line1",
+    "Line2",
+    "Line3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:674"
+  },
+  {
+   "test": "test_delete_character",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_delete",
+    "-l",
+    "abcdef"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:706"
+  },
+  {
+   "test": "test_word_navigation",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_word",
+    "M-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "one two three"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:736"
+  },
+  {
+   "test": "test_empty_file",
+   "argv": [
+    "tmux",
+    "capture-pane",
+    "-t",
+    "test_empty",
+    "-p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:929"
+  },
+  {
+   "test": "test_large_file",
+   "argv": [
+    "tmux",
+    "capture-pane",
+    "-t",
+    "test_large",
+    "-p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:956"
+  },
+  {
+   "test": "test_long_lines",
+   "argv": [
+    "tmux",
+    "capture-pane",
+    "-t",
+    "test_long",
+    "-p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "x"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:986"
+  },
+  {
+   "test": "test_unicode_content",
+   "argv": [
+    "tmux",
+    "capture-pane",
+    "-t",
+    "test_unicode",
+    "-p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:1014"
+  },
+  {
+   "test": "test_type_and_navigate",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_seq1",
+    "-l",
+    "First"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "First"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:1074"
+  },
+  {
+   "test": "test_edit_and_undo_sequence",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_seq2",
+    "-l",
+    "Edit1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:1106"
+  },
+  {
+   "test": "test_extensive_typing_and_deleting",
+   "argv": [
+    "tmux",
+    "capture-pane",
+    "-t",
+    "test_intensive",
+    "-p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:1149"
+  },
+  {
+   "test": "test_complex_navigation_pattern",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_nav_complex",
+    "End"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Line"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:1185"
+  },
+  {
+   "test": "test_mixed_editing_operations",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_mixed",
+    "End"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:1224"
+  },
+  {
+   "test": "test_delete_operations_variety",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_deletes",
+    "-l",
+    "abcdefghijk"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:1264"
+  },
+  {
+   "test": "test_multiple_file_switching",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_multi_switch",
+    "C-x"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:1298"
+  },
+  {
+   "test": "test_search_no_match",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_no_match",
+    "C-g"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:1576"
+  },
+  {
+   "test": "test_search_cancel",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_cancel",
+    "C-g"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:1609"
+  },
+  {
+   "test": "test_open_new_buffer",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_open_buf",
+    "C-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:1645"
+  },
+  {
+   "test": "test_next_paragraph",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_para_next",
+    "M-n"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Paragraph"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:1714"
+  },
+  {
+   "test": "test_previous_paragraph",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_para_prev",
+    "M-n",
+    "M-n"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:1751"
+  },
+  {
+   "test": "test_goto_bottom",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_bottom",
+    "M->"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:1791"
+  },
+  {
+   "test": "test_insert_and_delete_lines",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_lines",
+    "Up",
+    "Up",
+    "Up"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Text line"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:1828"
+  },
+  {
+   "test": "test_continuous_editing",
+   "argv": [
+    "tmux",
+    "capture-pane",
+    "-t",
+    "test_continuous",
+    "-p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:1865"
+  },
+  {
+   "test": "test_backspace_at_line_start",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_join",
+    "-l",
+    "First"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:1900"
+  },
+  {
+   "test": "test_delete_at_line_end",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_del_end",
+    "-l",
+    "Line1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:1935"
+  },
+  {
+   "test": "test_special_ascii",
+   "argv": [
+    "tmux",
+    "capture-pane",
+    "-t",
+    "test_special",
+    "-p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Tab:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:2163"
+  },
+  {
+   "test": "test_repeated_saves",
+   "argv": [
+    "tmux",
+    "capture-pane",
+    "-t",
+    "test_many_saves",
+    "-p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:2221"
+  },
+  {
+   "test": "test_window_with_content",
+   "argv": [
+    "tmux",
+    "capture-pane",
+    "-t",
+    "test_large_win",
+    "-p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Line"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:2259"
+  },
+  {
+   "test": "test_single_character_file",
+   "argv": [
+    "tmux",
+    "capture-pane",
+    "-t",
+    "test_single",
+    "-p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "x"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:2399"
+  },
+  {
+   "test": "test_file_with_only_newlines",
+   "argv": [
+    "tmux",
+    "capture-pane",
+    "-t",
+    "test_newlines",
+    "-p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:2425"
+  },
+  {
+   "test": "test_massive_typing_session",
+   "argv": [
+    "tmux",
+    "capture-pane",
+    "-t",
+    "test_massive",
+    "-p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:2618"
+  },
+  {
+   "test": "test_extensive_code_editing",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_extensive_code",
+    "Down"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:2650"
+  },
+  {
+   "test": "test_large_file_editing",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_large_edit",
+    "M-<"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:2696"
+  },
+  {
+   "test": "test_extensive_undo_redo_session",
+   "argv": [
+    "tmux",
+    "capture-pane",
+    "-t",
+    "test_undo_extensive",
+    "-p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:2734"
+  },
+  {
+   "test": "test_all_navigation_keys",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_nav_all",
+    "C-p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Line"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:2775"
+  },
+  {
+   "test": "test_all_editing_operations",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_all_ops",
+    "-l",
+    "word1 word2 word3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:2826"
+  },
+  {
+   "test": "test_many_buffer_operations",
+   "argv": [
+    "tmux",
+    "capture-pane",
+    "-t",
+    "test_many_buf",
+    "-p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:2878"
+  },
+  {
+   "test": "test_ctrl_jk_operations",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_ctrl_jk",
+    "-l",
+    "Hello World Test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:2915"
+  },
+  {
+   "test": "test_continuous_save_operations",
+   "argv": [
+    "tmux",
+    "capture-pane",
+    "-t",
+    "test_cont_save",
+    "-p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:2952"
+  },
+  {
+   "test": "test_very_long_file_scrolling",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_verylong",
+    "M-<"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:2994"
+  },
+  {
+   "test": "test_complex_multifile_workflow",
+   "argv": [
+    "tmux",
+    "capture-pane",
+    "-t",
+    "test_multifile_complex",
+    "-p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:3043"
+  },
+  {
+   "test": "test_extensive_line_operations",
+   "argv": [
+    "tmux",
+    "capture-pane",
+    "-t",
+    "test_lineops",
+    "-p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:3088"
+  },
+  {
+   "test": "test_many_undos_and_redos",
+   "argv": [
+    "tmux",
+    "capture-pane",
+    "-t",
+    "test_many_undo",
+    "-p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:3128"
+  },
+  {
+   "test": "test_mixed_delete_operations",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_deletes_all",
+    "Home"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:3176"
+  },
+  {
+   "test": "test_extensive_file_with_many_edits",
+   "argv": [
+    "tmux",
+    "capture-pane",
+    "-t",
+    "test_max_cov",
+    "-p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:3233"
+  },
+  {
+   "test": "test_all_cursor_movements",
+   "argv": [
+    "tmux",
+    "capture-pane",
+    "-t",
+    "test_all_movements",
+    "-p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:3312"
+  },
+  {
+   "test": "test_stress_buffer_system",
+   "argv": [
+    "tmux",
+    "capture-pane",
+    "-t",
+    "test_stress_buf",
+    "-p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui.py:3383"
+  },
+  {
+   "test": "test_undo_typing",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_undo_typing",
+    "C-e"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Added",
+    "Original"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_undo_redo.py:19"
+  },
+  {
+   "test": "test_undo_deletion",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_undo_del",
+    "C-a"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_undo_redo.py:71"
+  },
+  {
+   "test": "test_undo_line_operations",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_undo_lines",
+    "C-e"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Line 1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_undo_redo.py:112"
+  },
+  {
+   "test": "test_redo_after_undo",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_redo",
+    "C-e"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Text"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_undo_redo.py:159"
+  },
+  {
+   "test": "test_multiple_undo_redo",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_multi_undo",
+    "C-e"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Start"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_undo_redo.py:205"
+  },
+  {
+   "test": "test_undo_without_changes",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_undo_nothing",
+    "C-u"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unchanged"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_undo_redo.py:257"
+  },
+  {
+   "test": "test_redo_without_undo",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_redo_nothing",
+    "C-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Text"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_undo_redo.py:289"
+  },
+  {
+   "test": "test_undo_redo_consistency",
+   "argv": [
+    "tmux",
+    "send-keys",
+    "-t",
+    "test_consistency",
+    "C-e"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Base"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_undo_redo.py:321"
+  },
+  {
+   "test": "test_version_flag_long",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "0.4.3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:10"
+  },
+  {
+   "test": "test_version_flag_short",
+   "argv": [
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "0.4.3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:17"
+  },
+  {
+   "test": "test_help_flag_long",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Kiro is a tiny UTF-8 text editor",
+    "Usage:",
+    "Mappings:",
+    "Options:",
+    "--version",
+    "--help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:32"
+  },
+  {
+   "test": "test_help_flag_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Kiro is a tiny UTF-8 text editor",
+    "Usage:",
+    "Mappings:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:44"
+  },
+  {
+   "test": "test_help_contains_all_key_mappings",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Ctrl-Q",
+    "Ctrl-S",
+    "Ctrl-O",
+    "Ctrl-X",
+    "Alt-X",
+    "Ctrl-G",
+    "Ctrl-U",
+    "Ctrl-R",
+    "Ctrl-?"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:53"
+  },
+  {
+   "test": "test_help_contains_deletion_mappings",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Ctrl-W",
+    "Ctrl-J",
+    "Ctrl-K"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:75"
+  },
+  {
+   "test": "test_invalid_flag",
+   "argv": [
+    "--invalid-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:86"
+  },
+  {
+   "test": "test_single_file_without_tty_produces_error",
+   "argv": [
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "Hello, World!"
+   },
+   "ci": false,
+   "source": "test_basic.py:107"
+  },
+  {
+   "test": "test_multiple_file_arguments_without_tty",
+   "argv": [
+    "file1.txt",
+    "file2.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "file1.txt": "Content 1",
+    "file2.txt": "Content 2"
+   },
+   "ci": false,
+   "source": "test_basic.py:120"
+  },
+  {
+   "test": "test_nonexistent_file_argument",
+   "argv": [
+    "/tmp/nonexistent_kiro_test_file_12345.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:130"
+  },
+  {
+   "test": "test_help_output_structure",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Kiro is a tiny UTF-8 text editor",
+    "Usage:",
+    "Mappings:",
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:142"
+  },
+  {
+   "test": "test_version_and_help_together_version_wins",
+   "argv": [
+    "--version",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "0.4.3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_arguments.py:35"
+  },
+  {
+   "test": "test_invalid_flag_shows_help_suggestion",
+   "argv": [
+    "--invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_arguments.py:43"
+  },
+  {
+   "test": "test_unknown_option",
+   "argv": [
+    "--foo"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_arguments.py:51"
+  },
+  {
+   "test": "test_single_dash_v",
+   "argv": [
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.4.3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_arguments.py:59"
+  },
+  {
+   "test": "test_double_dash_help",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Kiro"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_arguments.py:81"
+  },
+  {
+   "test": "test_multiple_files_fails_without_tty",
+   "argv": [
+    "file1.txt",
+    "file2.txt",
+    "file3.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "file1.txt": "content 1",
+    "file2.txt": "content 2",
+    "file3.txt": "content 3"
+   },
+   "ci": false,
+   "source": "test_cli_arguments.py:100"
+  },
+  {
+   "test": "test_file_path_with_spaces",
+   "argv": [
+    "test file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test file.txt": "content"
+   },
+   "ci": false,
+   "source": "test_cli_arguments.py:110"
+  },
+  {
+   "test": "test_file_path_with_special_chars",
+   "argv": [
+    "test-file_123.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test-file_123.txt": "content"
+   },
+   "ci": false,
+   "source": "test_cli_arguments.py:118"
+  },
+  {
+   "test": "test_utf8_filename",
+   "argv": [
+    "テスト.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "テスト.txt": "content"
+   },
+   "ci": false,
+   "source": "test_cli_arguments.py:126"
+  },
+  {
+   "test": "test_error_message_format",
+   "argv": [
+    "--invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_arguments.py:138"
+  },
+  {
+   "test": "test_error_goes_to_stderr",
+   "argv": [
+    "--invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_arguments.py:152"
+  },
+  {
+   "test": "test_version_multiple_times",
+   "argv": [
+    "--version",
+    "--version",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error",
+    "more than once"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:10"
+  },
+  {
+   "test": "test_version_with_files",
+   "argv": [
+    "--version",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.4.3"
+   ],
+   "files": {
+    "test.txt": "content"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:18"
+  },
+  {
+   "test": "test_short_and_long_version",
+   "argv": [
+    "-v",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:27"
+  },
+  {
+   "test": "test_help_multiple_times",
+   "argv": [
+    "--help",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error",
+    "more than once"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:38"
+  },
+  {
+   "test": "test_help_with_files",
+   "argv": [
+    "--help",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Kiro"
+   ],
+   "files": {
+    "test.txt": "content"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:46"
+  },
+  {
+   "test": "test_short_and_long_help",
+   "argv": [
+    "-h",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:55"
+  },
+  {
+   "test": "test_help_contains_complete_mappings_section",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Ctrl-Q",
+    "Ctrl-S",
+    "Ctrl-O",
+    "Ctrl-X",
+    "Alt-X",
+    "Ctrl-W",
+    "Ctrl-J",
+    "Ctrl-K",
+    "Ctrl-U",
+    "Ctrl-R",
+    "Ctrl-G",
+    "Ctrl-M",
+    "Ctrl-L",
+    "Ctrl-?"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:62"
+  },
+  {
+   "test": "test_empty_file",
+   "argv": [
+    "empty.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "empty.txt": ""
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:110"
+  },
+  {
+   "test": "test_file_with_utf8_content",
+   "argv": [
+    "utf8.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "utf8.txt": "Hello 世界! 🌍 Здравствуй!\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:136"
+  },
+  {
+   "test": "test_nonexistent_directory",
+   "argv": [
+    "/nonexistent/directory/file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:154"
+  },
+  {
+   "test": "test_double_dash_alone",
+   "argv": [
+    "--"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:164"
+  },
+  {
+   "test": "test_equals_in_flag",
+   "argv": [
+    "--version=1.0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:170"
+  },
+  {
+   "test": "test_single_dash_with_multiple_chars",
+   "argv": [
+    "-vh"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.4.3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:176"
+  },
+  {
+   "test": "test_numeric_flag",
+   "argv": [
+    "-1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:192"
+  },
+  {
+   "test": "test_help_describes_options",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "version",
+    "help"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_edge_cases.py:231"
+  },
+  {
+   "test": "test_help_intro_text",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "UTF-8",
+    "text editor"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_format.py:74"
+  },
+  {
+   "test": "test_help_all_alt_mappings",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Alt-X",
+    "Alt-"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_format.py:96"
+  }
+ ]
+}

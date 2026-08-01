@@ -1,0 +1,4856 @@
+[
+ {
+  "name": "test::test_execute_from_stdin::0",
+  "argv": [],
+  "stdin": "print('from stdin')\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_execute_from_stdin_with_dash::1",
+  "argv": [
+   "-"
+  ],
+  "stdin": "print('from stdin')\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_execute_empty_stdin::2",
+  "argv": [],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dash_stops_option_processing::3",
+  "argv": [
+   "-",
+   "-e",
+   "test"
+  ],
+  "stdin": "print('from stdin')\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_prints_to_stdout_and_exit_0::4",
+  "argv": [
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unrecognized_option_prints_usage_to_stderr_and_nonzero::5",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_execute_string_with_e_writes_stdout_no_trailing_newline_from_io_write::6",
+  "argv": [
+   "-e",
+   "io.write(\"hi\")"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_e_are_executed_in_order::7",
+  "argv": [
+   "-e",
+   "print(\"A\")",
+   "-e",
+   "print(\"B\")"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_script_file_executes_and_receives_args_in_arg_table::8",
+  "argv": [
+   "s.lua",
+   "foo",
+   "bar"
+  ],
+  "stdin": null,
+  "files": {
+   "s.lua": "print('script', arg[0])\nprint('a1', arg[1])\nprint('a2', arg[2])\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dash_reads_stdin_as_chunk_and_executes_it::9",
+  "argv": [
+   "-"
+  ],
+  "stdin": "print(\"X\")\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_stops_option_parsing_so_dash_becomes_filename_error::10",
+  "argv": [
+   "--",
+   "-"
+  ],
+  "stdin": "print(\"NEVER\")\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_require_library_with_l_sets_global_and_allows_renaming::11",
+  "argv": [
+   "-e",
+   "print(_G.M)",
+   "-l",
+   "math",
+   "-e",
+   "print(type(_G.math))",
+   "-l",
+   "M=math",
+   "-e",
+   "print(_G.M==math)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_LUA_INIT_runs_by_default_but_is_ignored_with_E::12",
+  "argv": [
+   "-e",
+   "print(\"MAIN\")"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dash_executes_stdin::13",
+  "argv": [
+   "-"
+  ],
+  "stdin": "print('hi')\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interactive_banner_and_prompt_when_i_with_e_and_stdin_closed::14",
+  "argv": [
+   "-e",
+   "x=123",
+   "-i"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_help_subcommand::15",
+  "argv": [
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_add_subcommand::16",
+  "argv": [
+   "add"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_remove_subcommand::17",
+  "argv": [
+   "remove"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_list_subcommand::18",
+  "argv": [
+   "list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_execute_string_flag::19",
+  "argv": [
+   "-e",
+   "print('test')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unrecognized_option_error::20",
+  "argv": [
+   "--unknown-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dash_dash_stops_option_processing::21",
+  "argv": [
+   "--",
+   "-e",
+   "print('test')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_subcommand_help_pattern::22",
+  "argv": [
+   "show",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_global_flags_before_subcommand::23",
+  "argv": [
+   "-e",
+   "print('x')",
+   "somefile"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_option_order_matters::24",
+  "argv": [
+   "-e",
+   "x=1",
+   "-e",
+   "print(x)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_e_options::25",
+  "argv": [
+   "-e",
+   "x=5",
+   "-e",
+   "print(x*2)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_option_needs_argument::26",
+  "argv": [
+   "-e"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_script_arguments_passed_through::27",
+  "argv": [
+   "test_args.lua",
+   "test_value"
+  ],
+  "stdin": null,
+  "files": {
+   "test_args.lua": "print(arg[1] or 'nil')"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_usage_pattern::28",
+  "argv": [
+   "--invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_followed_by_code::29",
+  "argv": [
+   "-v",
+   "-e",
+   "print('hello')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_e_flag_multiple::30",
+  "argv": [
+   "-e",
+   "print(1)",
+   "-e",
+   "a=3",
+   "-e",
+   "print(a)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_e_flag_syntax_error::31",
+  "argv": [
+   "-e",
+   "a]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_e_compact_form::32",
+  "argv": [
+   "-eprint(1)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_l_flag_needs_argument::33",
+  "argv": [
+   "-l"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_l_flag_string::34",
+  "argv": [
+   "-l",
+   "string",
+   "-e",
+   "print(string.upper('hello'))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_l_flag_explicit_global::35",
+  "argv": [
+   "-l",
+   "str=string",
+   "-e",
+   "print(str.upper('alo'))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_i_flag_expression::36",
+  "argv": [
+   "-e",
+   "_PROMPT='' _PROMPT2=''",
+   "-i"
+  ],
+  "stdin": "print(42)\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_E_flag_ignores_lua_init::37",
+  "argv": [
+   "-E",
+   "test.lua"
+  ],
+  "stdin": null,
+  "files": {
+   "test.lua": "print(package.path)"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "LUA_INIT": "error('should not run')",
+   "LUA_PATH": "xxx"
+  }
+ },
+ {
+  "name": "test::test_W_flag_enables_warnings::38",
+  "argv": [
+   "-W",
+   "test.lua"
+  ],
+  "stdin": null,
+  "files": {
+   "test.lua": "warn(\"@allow\")\nwarn(\"TESTWARNING\")\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_option_h::39",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_option_triple_dash::40",
+  "argv": [
+   "---"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_option_Ex::41",
+  "argv": [
+   "-Ex",
+   "--"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_option_vv::42",
+  "argv": [
+   "-vv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_option_iv::43",
+  "argv": [
+   "-iv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dash_dash_i_as_script::44",
+  "argv": [
+   "--",
+   "-i"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lua_path::45",
+  "argv": [
+   "test.lua"
+  ],
+  "stdin": null,
+  "files": {
+   "test.lua": "print(package.path)"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "LUA_INIT": "",
+   "LUA_PATH": "x"
+  }
+ },
+ {
+  "name": "test::test_lua_cpath::46",
+  "argv": [
+   "test.lua"
+  ],
+  "stdin": null,
+  "files": {
+   "test.lua": "print(package.cpath)"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "LUA_INIT": "",
+   "LUA_CPATH": "xuxu"
+  }
+ },
+ {
+  "name": "test::test_lua_init_code::47",
+  "argv": [
+   "test.lua",
+   "3.2"
+  ],
+  "stdin": null,
+  "files": {
+   "test.lua": "print(X)"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "LUA_INIT": "X=tonumber(arg[1])"
+  }
+ },
+ {
+  "name": "test::test_lua_init_version_overrides::48",
+  "argv": [
+   "test.lua"
+  ],
+  "stdin": null,
+  "files": {
+   "test.lua": "print(X)"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "LUA_INIT_5_5": "X=10",
+   "LUA_INIT": "X=3"
+  }
+ },
+ {
+  "name": "test::test_lua_init_file::49",
+  "argv": [
+   "test.lua"
+  ],
+  "stdin": null,
+  "files": {
+   "test.lua": "x = x or 10; print(x); x = x + 1"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lua_init_error::50",
+  "argv": [
+   "-e",
+   "print(1)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "LUA_INIT": "error('msg')"
+  }
+ },
+ {
+  "name": "test::test_exit_nil::51",
+  "argv": [
+   "test.lua"
+  ],
+  "stdin": null,
+  "files": {
+   "test.lua": "os.exit(nil, true)"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exit_zero::52",
+  "argv": [
+   "test.lua"
+  ],
+  "stdin": null,
+  "files": {
+   "test.lua": "os.exit(0, true)"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exit_true::53",
+  "argv": [
+   "test.lua"
+  ],
+  "stdin": null,
+  "files": {
+   "test.lua": "os.exit(true, true)"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exit_one::54",
+  "argv": [
+   "test.lua"
+  ],
+  "stdin": null,
+  "files": {
+   "test.lua": "os.exit(1, true)"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exit_false::55",
+  "argv": [
+   "test.lua"
+  ],
+  "stdin": null,
+  "files": {
+   "test.lua": "os.exit(false, true)"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_object_table::56",
+  "argv": [
+   "test.lua"
+  ],
+  "stdin": null,
+  "files": {
+   "test.lua": "error{}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_to_be_closed_variables::57",
+  "argv": [
+   "test.lua"
+  ],
+  "stdin": null,
+  "files": {
+   "test.lua": "\nlocal x <close> = setmetatable({},\n      {__close = function (self, err)\n                   assert(err == nil)\n                   print(\"Ok\")\n                 end})\nlocal e1 <close> = setmetatable({}, {__close = function () print(120) end})\nos.exit(true, true)\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_empty::58",
+  "argv": [
+   "-"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_print::59",
+  "argv": [
+   "-"
+  ],
+  "stdin": "print(10)\nprint(2)\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_dash_passes_args::60",
+  "argv": [
+   "-",
+   "-h"
+  ],
+  "stdin": "print(arg[1])\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_script_file_basic::61",
+  "argv": [
+   "test.lua"
+  ],
+  "stdin": null,
+  "files": {
+   "test.lua": "print(42)"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_script_with_args::62",
+  "argv": [
+   "test.lua",
+   "a",
+   "b"
+  ],
+  "stdin": null,
+  "files": {
+   "test.lua": "assert(arg[1]=='a' and arg[2]=='b')\nprint('ok')"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bad_bom_single_byte::63",
+  "argv": [
+   "bad_bom.lua"
+  ],
+  "stdin": null,
+  "files": {
+   "bad_bom.lua": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hash_comment_first_line::64",
+  "argv": [
+   "hash.lua"
+  ],
+  "stdin": null,
+  "files": {
+   "hash.lua": "#comment in 1st line without newline at the end"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_many_arguments::65",
+  "argv": [
+   "args.lua"
+  ],
+  "stdin": null,
+  "files": {
+   "args.lua": "print(({...})[30])"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_warnings_by_default::66",
+  "argv": [
+   "-e",
+   "warn(\"XXX\")"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_W_flag_warn_control::67",
+  "argv": [
+   "-W",
+   "test.lua"
+  ],
+  "stdin": null,
+  "files": {
+   "test.lua": "\nwarn(\"@allow\")\nwarn(\"@off\", \"XXX\", \"@off\")\nwarn(\"@off\")\nwarn(\"@on\", \"YYY\", \"@on\")\nwarn(\"@off\")\nwarn(\"@on\")\nwarn(\"\", \"@on\")\nwarn(\"@on\")\nwarn(\"Z\", \"Z\", \"Z\")\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_finalizer_warnings::68",
+  "argv": [
+   "-W",
+   "test.lua"
+  ],
+  "stdin": null,
+  "files": {
+   "test.lua": "\nwarn(\"@allow\")\nu1 = setmetatable({}, {__gc = function () error(\"XYZ\") end})\nu2 = setmetatable({}, {__gc = function () error(\"ZYX\") end})\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_precedence_over_other_flags_like_version::69",
+  "argv": [
+   "-v",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_after_option_terminator_is_not_treated_as_help::70",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_with_invalid_extra_arg_still_shows_usage::71",
+  "argv": [
+   "--help",
+   "nonsense"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_args_produces_no_help_text::72",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_all_lua_types::73",
+  "argv": [
+   "-e",
+   "\nprint(type(nil))\nprint(type(true))\nprint(type(42))\nprint(type('hello'))\nprint(type({}))\nprint(type(function() end))\nprint(type(coroutine.create(function() end)))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tonumber_basic_conversions::74",
+  "argv": [
+   "-e",
+   "\nprint(tonumber('42'))\nprint(tonumber('3.14'))\nprint(tonumber('  123  '))\nprint(tonumber('invalid'))\nprint(tonumber(42))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tonumber_with_bases::75",
+  "argv": [
+   "-e",
+   "\nprint(tonumber('FF', 16))\nprint(tonumber('1010', 2))\nprint(tonumber('777', 8))\nprint(tonumber('ZZ', 36))\nprint(tonumber('GG', 16))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tonumber_base_edge_cases::76",
+  "argv": [
+   "-e",
+   "print(tonumber(\"10\", 1))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tostring_basic_types::77",
+  "argv": [
+   "-e",
+   "\nprint(tostring(nil))\nprint(tostring(true))\nprint(tostring(false))\nprint(tostring(42))\nprint(tostring(3.14))\nprint(tostring('hello'))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tostring_with_metamethod::78",
+  "argv": [
+   "-e",
+   "\nlocal t = setmetatable({}, {__tostring = function() return 'custom_tostring' end})\nprint(tostring(t))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assert_success_returns_all_args::79",
+  "argv": [
+   "-e",
+   "\nlocal a, b = assert(true, 'msg')\nprint(a, b)\nlocal x, y, z = assert(42, 'foo', 'bar')\nprint(x, y, z)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assert_failure_with_default_message::80",
+  "argv": [
+   "-e",
+   "assert(false)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assert_failure_with_custom_message::81",
+  "argv": [
+   "-e",
+   "assert(nil, \"custom error message\")"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_basic::82",
+  "argv": [
+   "-e",
+   "error(\"this is an error\")"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_with_level_zero::83",
+  "argv": [
+   "-e",
+   "\nlocal function foo()\n  error('error_in_foo_level_zero', 0)\nend\nfoo()\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pcall_success::84",
+  "argv": [
+   "-e",
+   "\nlocal success, result = pcall(function() return 42 end)\nprint(success, result)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pcall_multiple_returns::85",
+  "argv": [
+   "-e",
+   "\nlocal success, a, b, c = pcall(function() return 1, 2, 3 end)\nprint(success, a, b, c)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pcall_error_catching::86",
+  "argv": [
+   "-e",
+   "\nlocal success, err = pcall(function() error('test error') end)\nprint(success)\nprint(type(err))\nprint(string.match(err, 'test error') and 'contains' or 'missing')\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xpcall_success::87",
+  "argv": [
+   "-e",
+   "\nlocal function handler(err)\n  return 'HANDLED: ' .. tostring(err)\nend\nlocal success, result = xpcall(function() return 42 end, handler)\nprint(success, result)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xpcall_error_handler::88",
+  "argv": [
+   "-e",
+   "\nlocal function handler(err)\n  return 'HANDLED: ' .. tostring(err)\nend\nlocal success, result = xpcall(function() error('boom') end, handler)\nprint(success)\nprint(string.match(result, 'HANDLED:') and 'handler called' or 'handler not called')\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_getmetatable_no_metatable::89",
+  "argv": [
+   "-e",
+   "\nlocal t = {}\nprint(getmetatable(t))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_getmetatable_basic::90",
+  "argv": [
+   "-e",
+   "\nlocal t = {}\nlocal mt = {__index = function() return 'indexed' end}\nsetmetatable(t, mt)\nprint(getmetatable(t) == mt)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_getmetatable_protected::91",
+  "argv": [
+   "-e",
+   "\nlocal protected = setmetatable({}, {__metatable = 'protected'})\nprint(getmetatable(protected))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_setmetatable_basic::92",
+  "argv": [
+   "-e",
+   "\nlocal t = {}\nlocal mt = {x = 1}\nsetmetatable(t, mt)\nprint(getmetatable(t).x)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_setmetatable_returns_table::93",
+  "argv": [
+   "-e",
+   "\nlocal t = {}\nlocal result = setmetatable(t, {})\nprint(result == t)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_setmetatable_protected_error::94",
+  "argv": [
+   "-e",
+   "\nlocal protected = setmetatable({}, {__metatable = 'protected'})\nsetmetatable(protected, {})\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_setmetatable_nil_removes_metatable::95",
+  "argv": [
+   "-e",
+   "\nlocal t = setmetatable({}, {x = 1})\nprint(getmetatable(t) ~= nil)\nsetmetatable(t, nil)\nprint(getmetatable(t))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pairs_basic_iteration::96",
+  "argv": [
+   "-e",
+   "\nlocal t = {a = 1, b = 2, c = 3}\nlocal keys = {}\nfor k, v in pairs(t) do\n  table.insert(keys, k)\nend\ntable.sort(keys)\nfor _, k in ipairs(keys) do\n  print(k, t[k])\nend\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ipairs_array_iteration::97",
+  "argv": [
+   "-e",
+   "\nlocal t = {10, 20, 30, 40, 50}\nfor i, v in ipairs(t) do\n  print(i, v)\nend\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ipairs_stops_at_nil::98",
+  "argv": [
+   "-e",
+   "\nlocal t = {10, 20, nil, 40, 50}\nlocal count = 0\nfor i, v in ipairs(t) do\n  count = count + 1\nend\nprint(count)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_next_basic::99",
+  "argv": [
+   "-e",
+   "\nlocal t = {a = 1}\nlocal k, v = next(t)\nprint(k ~= nil and 'has element' or 'empty')\nprint(v)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_next_manual_iteration::100",
+  "argv": [
+   "-e",
+   "\nlocal t = {a = 1, b = 2}\nlocal count = 0\nlocal k = next(t)\nwhile k ~= nil do\n  count = count + 1\n  k = next(t, k)\nend\nprint(count)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_next_empty_table::101",
+  "argv": [
+   "-e",
+   "\nlocal t = {}\nlocal k, v = next(t)\nprint(k)\nprint(v)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rawequal_identity::102",
+  "argv": [
+   "-e",
+   "\nlocal t = {a = 1}\nprint(rawequal(t, t))\nprint(rawequal(t, {}))\nlocal x = t\nprint(rawequal(t, x))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rawget_rawset::103",
+  "argv": [
+   "-e",
+   "\nlocal t = {a = 1}\nprint(rawget(t, 'a'))\nrawset(t, 'b', 2)\nprint(rawget(t, 'b'))\nprint(t.b)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rawget_with_metamethod_bypassed::104",
+  "argv": [
+   "-e",
+   "\nlocal t = setmetatable({}, {__index = function() return 'metamethod' end})\nprint(rawget(t, 'missing'))\nprint(t.missing)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rawlen_table::105",
+  "argv": [
+   "-e",
+   "\nlocal arr = {1, 2, 3, 4, 5}\nprint(rawlen(arr))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rawlen_string::106",
+  "argv": [
+   "-e",
+   "\nprint(rawlen('hello'))\nprint(rawlen(''))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_count_varargs::107",
+  "argv": [
+   "-e",
+   "\nprint(select('#'))\nprint(select('#', 1, 2, 3, 4, 5))\nprint(select('#', nil, nil, nil))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_positive_index::108",
+  "argv": [
+   "-e",
+   "\nprint(select(1, 'a', 'b', 'c'))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_negative_index::109",
+  "argv": [
+   "-e",
+   "\nprint(select(-1, 'a', 'b', 'c'))\nprint(select(-2, 'a', 'b', 'c'))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_no_args::110",
+  "argv": [
+   "-e",
+   "print()"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_multiple_args::111",
+  "argv": [
+   "-e",
+   "print(1, 2, 3)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_mixed_types::112",
+  "argv": [
+   "-e",
+   "print('a', 'b', 'c')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_G_table::113",
+  "argv": [
+   "-e",
+   "\nprint(type(_G))\nprint(_G == _G._G)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_VERSION::114",
+  "argv": [
+   "-e",
+   "print(_VERSION)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_load_from_string::115",
+  "argv": [
+   "-e",
+   "\nlocal func = load('return 1 + 2')\nprint(func())\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_load_syntax_error::116",
+  "argv": [
+   "-e",
+   "\nlocal func, err = load('return 1 +')\nprint(func)\nprint(type(err))\nprint(string.match(err, 'unexpected') and 'has error' or 'no error')\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_load_with_custom_env::117",
+  "argv": [
+   "-e",
+   "\nlocal env = {x = 10}\nlocal func = load('return x * 2', nil, 't', env)\nprint(func())\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_load_from_reader_function::118",
+  "argv": [
+   "-e",
+   "\nlocal parts = {'return ', '1 + 2'}\nlocal index = 0\nlocal function reader()\n  index = index + 1\n  return parts[index]\nend\nlocal func = load(reader)\nprint(func())\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_collectgarbage_isrunning::119",
+  "argv": [
+   "-e",
+   "print(collectgarbage('isrunning'))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_collectgarbage_count::120",
+  "argv": [
+   "-e",
+   "print(collectgarbage('count') > 0)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_collectgarbage_collect::121",
+  "argv": [
+   "-e",
+   "\ncollectgarbage('collect')\nprint('gc collect done')\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_collectgarbage_stop_restart::122",
+  "argv": [
+   "-e",
+   "\ncollectgarbage('stop')\nprint(collectgarbage('isrunning'))\ncollectgarbage('restart')\nprint(collectgarbage('isrunning'))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_collectgarbage_step::123",
+  "argv": [
+   "-e",
+   "\nlocal result = collectgarbage('step', 100)\nprint(type(result))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tonumber_negative_numbers::124",
+  "argv": [
+   "-e",
+   "\nprint(tonumber('-42'))\nprint(tonumber('-FF', 16))\nprint(tonumber('  -123  '))\nprint(tonumber('-1010', 2))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tonumber_positive_sign::125",
+  "argv": [
+   "-e",
+   "\nprint(tonumber('+42'))\nprint(tonumber('+FF', 16))\nprint(tonumber('+777', 8))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_require_from_package_loaded::126",
+  "argv": [
+   "-e",
+   "\npackage.loaded['mymodule'] = {value = 42}\nlocal m = require('mymodule')\nprint(m.value)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pairs_with_metamethod::127",
+  "argv": [
+   "-e",
+   "\nlocal t = {1, 2, 3}\nlocal mt = {\n  __pairs = function(t)\n    local i = 0\n    return function()\n      i = i + 1\n      if i <= 3 then return 'key'..i, i * 10 end\n    end\n  end\n}\nsetmetatable(t, mt)\nfor k, v in pairs(t) do\n  print(k, v)\nend\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rawget_rawset_bypass_metamethods::128",
+  "argv": [
+   "-e",
+   "\nlocal real = {}\nlocal proxy = setmetatable({}, {\n  __index = real,\n  __newindex = real\n})\nproxy.a = 1\nprint(proxy.a)\nprint(rawget(proxy, 'a'))\nprint(real.a)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rawlen_bypasses_metamethod::129",
+  "argv": [
+   "-e",
+   "\nlocal t = {1, 2, 3}\nlocal mt = {__len = function() return 999 end}\nsetmetatable(t, mt)\nprint(#t)\nprint(rawlen(t))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_load_mode_text_rejects_binary::130",
+  "argv": [
+   "-e",
+   "\nlocal bytecode = string.dump(function() return 42 end)\nlocal func, err = load(bytecode, nil, 't')\nprint(func)\nprint(type(err))\nprint(string.match(err, 'binary') and 'rejected' or 'allowed')\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_load_mode_binary_and_text::131",
+  "argv": [
+   "-e",
+   "\nlocal bytecode = string.dump(function() return 99 end)\nlocal func = load(bytecode, nil, 'bt')\nprint(func())\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_load_with_chunkname::132",
+  "argv": [
+   "-e",
+   "\nlocal func, err = load('return 1 +', 'custom_chunk.lua', 't')\nprint(err)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_index_out_of_range_error::133",
+  "argv": [
+   "-e",
+   "print(select(0, \"a\", \"b\", \"c\"))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_index_greater_than_count::134",
+  "argv": [
+   "-e",
+   "\nlocal function count_results(...)\n  return select('#', ...)\nend\nprint(count_results(select(10, 'a', 'b', 'c')))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_no_arguments_error::135",
+  "argv": [
+   "-e",
+   "print(type())"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pcall_with_function_arguments::136",
+  "argv": [
+   "-e",
+   "\nlocal success, result = pcall(function(a, b) return a + b end, 10, 20)\nprint(success, result)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xpcall_with_function_arguments::137",
+  "argv": [
+   "-e",
+   "\nlocal function handler(err) return 'HANDLED' end\nlocal success, result = xpcall(function(a, b) return a + b end, handler, 5, 7)\nprint(success, result)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_setmetatable_non_table_error::138",
+  "argv": [
+   "-e",
+   "setmetatable(\"string\", {})"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rawlen_non_table_non_string_error::139",
+  "argv": [
+   "-e",
+   "print(rawlen(42))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rawset_non_table_error::140",
+  "argv": [
+   "-e",
+   "rawset(42, \"key\", \"value\")"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_next_non_table_error::141",
+  "argv": [
+   "-e",
+   "next(42)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tonumber_very_large_base36::142",
+  "argv": [
+   "-e",
+   "\nprint(tonumber('ZZZZZZ', 36))\nprint(tonumber('10', 36))\nprint(tonumber('Z', 36))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assert_with_multiple_return_values::143",
+  "argv": [
+   "-e",
+   "\nlocal a, b, c, d = assert(1, 2, 3, 4)\nprint(a, b, c, d)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_load_reader_empty_returns::144",
+  "argv": [
+   "-e",
+   "\nlocal parts = {'re', 'turn', ' ', '88'}\nlocal index = 0\nlocal function reader()\n  index = index + 1\n  return parts[index]\nend\nlocal func = load(reader)\nprint(func())\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_collectgarbage_modes::145",
+  "argv": [
+   "-e",
+   "\ncollectgarbage('stop')\ncollectgarbage('restart')\ncollectgarbage('collect')\nprint(type(collectgarbage('count')))\nprint(type(collectgarbage('step', 100)))\nprint(type(collectgarbage('isrunning')))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_level_one_includes_location::146",
+  "argv": [
+   "-e",
+   "\nlocal function bar()\n  error('error_at_level_one', 1)\nend\nbar()\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_level_two_caller_location::147",
+  "argv": [
+   "-e",
+   "\nlocal function inner()\n  error('error at level 2', 2)\nend\nlocal function outer()\n  inner()\nend\nouter()\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_with_table::148",
+  "argv": [
+   "-e",
+   "\nlocal t = {}\nlocal s = tostring(t)\nprint(s)\nprint(string.match(s, '^table: 0x') and 'correct' or 'wrong')\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tostring_with_table_no_metamethod::149",
+  "argv": [
+   "-e",
+   "\nlocal t = {}\nlocal s = tostring(t)\nprint(string.match(s, '^table:') and 'correct format' or 'wrong format')\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rawequal_with_different_types::150",
+  "argv": [
+   "-e",
+   "\nprint(rawequal(42, 42))\nprint(rawequal(42, \"42\"))\nprint(rawequal(true, 1))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ipairs_with_non_sequential_keys::151",
+  "argv": [
+   "-e",
+   "\nlocal t = {10, 20, 30}\nt.foo = 'bar'\nt[10] = 100\nlocal count = 0\nfor i, v in ipairs(t) do\n  count = count + 1\nend\nprint(count)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_loadfile_nonexistent_file::152",
+  "argv": [
+   "-e",
+   "\nlocal func, err = loadfile('/nonexistent/file/path.lua')\nprint(func)\nprint(type(err))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dofile_no_arguments_reads_stdin::153",
+  "argv": [
+   "-e",
+   "\nlocal success, err = pcall(function() dofile() end)\nprint(success)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_warn_basic::154",
+  "argv": [
+   "-e",
+   "\nwarn('@on')\nwarn('test warning message')\nwarn('@off')\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_warn_concatenation::155",
+  "argv": [
+   "-e",
+   "\nwarn('@on')\nwarn('part1', 'part2', 'part3')\nwarn('@off')\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_collectgarbage_generational_mode::156",
+  "argv": [
+   "-e",
+   "\nlocal old_mode = collectgarbage('generational')\nprint(old_mode)\nprint(type(old_mode))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_collectgarbage_incremental_mode::157",
+  "argv": [
+   "-e",
+   "\ncollectgarbage('generational')\nlocal old_mode = collectgarbage('incremental')\nprint(old_mode)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_collectgarbage_param::158",
+  "argv": [
+   "-e",
+   "\nlocal old_pause = collectgarbage('param', 'pause', 200)\nprint(type(old_pause))\nlocal current = collectgarbage('param', 'pause')\nprint(current)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_next_with_specific_key::159",
+  "argv": [
+   "-e",
+   "\nlocal t = {a = 1, b = 2, c = 3}\nlocal k1 = next(t, nil)\nlocal k2 = next(t, k1)\nprint(k2 ~= nil and k2 ~= k1)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pairs_on_empty_table::160",
+  "argv": [
+   "-e",
+   "\nlocal count = 0\nfor k, v in pairs({}) do\n  count = count + 1\nend\nprint(count)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ipairs_on_empty_table::161",
+  "argv": [
+   "-e",
+   "\nlocal count = 0\nfor i, v in ipairs({}) do\n  count = count + 1\nend\nprint(count)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_getmetatable_on_string::162",
+  "argv": [
+   "-e",
+   "\nlocal mt = getmetatable(\"hello\")\nprint(type(mt))\nprint(type(mt.__index))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tonumber_with_leading_zeros::163",
+  "argv": [
+   "-e",
+   "\nprint(tonumber('0042'))\nprint(tonumber('00123'))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tonumber_base_with_invalid_digits::164",
+  "argv": [
+   "-e",
+   "\nprint(tonumber('G', 16))\nprint(tonumber('8', 8))\nprint(tonumber('2', 2))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_load_with_binary_mode_only::165",
+  "argv": [
+   "-e",
+   "\nlocal func, err = load('return 42', nil, 'b')\nprint(func)\nprint(type(err))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pcall_error_propagates_message_object::166",
+  "argv": [
+   "-e",
+   "\nlocal success, err = pcall(function() error({code = 42}) end)\nprint(success)\nprint(type(err))\nprint(err.code)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xpcall_handler_receives_original_error::167",
+  "argv": [
+   "-e",
+   "\nlocal captured_err = nil\nlocal function handler(err)\n  captured_err = err\n  return 'handled'\nend\nxpcall(function() error({msg = 'original'}) end, handler)\nprint(type(captured_err))\nprint(captured_err.msg)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rawlen_with_holes_in_array::168",
+  "argv": [
+   "-e",
+   "\nlocal t = {1, 2, nil, 4, 5}\nprint(rawlen(t))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_with_hash_count::169",
+  "argv": [
+   "-e",
+   "\nlocal function vararg_test(...)\n  return select('#', ...)\nend\nprint(vararg_test(1, 2, 3, nil, 5))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_with_non_string_message::170",
+  "argv": [
+   "-e",
+   "\nlocal success, err = pcall(function() error({x=1, y=2}) end)\nprint(success)\nprint(type(err))\nprint(err.x, err.y)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_dash::171",
+  "argv": [
+   "-"
+  ],
+  "stdin": "print(\"from stdin\")",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_syntax_error::172",
+  "argv": [
+   "-"
+  ],
+  "stdin": "print((",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_runtime_error::173",
+  "argv": [
+   "-"
+  ],
+  "stdin": "error(\"stdin error\")",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_yield_resume_cycle::174",
+  "argv": [
+   "-e",
+   "\nco = coroutine.create(function()\n  print(\"Hello from coroutine\")\n  coroutine.yield()\n  print(\"Resumed coroutine\")\nend)\n\nprint(\"Status before:\", coroutine.status(co))\nprint(\"Resume 1:\", coroutine.resume(co))\nprint(\"Status after first resume:\", coroutine.status(co))\nprint(\"Resume 2:\", coroutine.resume(co))\nprint(\"Status after second resume:\", coroutine.status(co))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_values_through_yield_resume::175",
+  "argv": [
+   "-e",
+   "\nco = coroutine.create(function(a, b)\n  print(\"Args:\", a, b)\n  local x, y = coroutine.yield(a + b, a * b)\n  print(\"After yield:\", x, y)\n  return x + y, x - y\nend)\n\nprint(coroutine.resume(co, 10, 20))\nprint(coroutine.resume(co, 5, 3))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_in_coroutine::176",
+  "argv": [
+   "-e",
+   "co = coroutine.create(function()\n  error(\"Something went wrong\")\nend)\n\nlocal success, err = coroutine.resume(co)\nprint(\"Success:\", success)\nprint(\"Error:\", err)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coroutine_wrap_basic::177",
+  "argv": [
+   "-e",
+   "\nf = coroutine.wrap(function(x)\n  print(\"First call:\", x)\n  local y = coroutine.yield(x * 2)\n  print(\"Second call:\", y)\n  return y * 3\nend)\n\nprint(\"Result 1:\", f(10))\nprint(\"Result 2:\", f(5))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coroutine_running::178",
+  "argv": [
+   "-e",
+   "\nprint(\"In main thread:\")\nlocal co, ismain = coroutine.running()\nprint(\"Coroutine:\", co)\nprint(\"Is main:\", ismain)\n\nlocal co2 = coroutine.create(function()\n  print(\"In coroutine:\")\n  local c, im = coroutine.running()\n  print(\"Coroutine:\", c)\n  print(\"Is main:\", im)\nend)\n\ncoroutine.resume(co2)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coroutine_isyieldable::179",
+  "argv": [
+   "-e",
+   "\nprint(\"Main thread yieldable:\", coroutine.isyieldable())\n\nlocal co = coroutine.create(function()\n  print(\"In coroutine yieldable:\", coroutine.isyieldable())\n  coroutine.yield()\n  print(\"After yield yieldable:\", coroutine.isyieldable())\nend)\n\ncoroutine.resume(co)\ncoroutine.resume(co)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_resume_dead_coroutine::180",
+  "argv": [
+   "-e",
+   "\nco = coroutine.create(function()\n  return \"done\"\nend)\n\nprint(\"First resume:\", coroutine.resume(co))\nprint(\"Status:\", coroutine.status(co))\nprint(\"Second resume:\", coroutine.resume(co))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_coroutines_status::181",
+  "argv": [
+   "-e",
+   "\nco1 = coroutine.create(function()\n  print(\"In co1, status:\", coroutine.status(co1))\n  \n  co2 = coroutine.create(function()\n    print(\"In co2\")\n    print(\"co1 status from co2:\", coroutine.status(co1))\n    print(\"co2 status from co2:\", coroutine.status(co2))\n  end)\n  \n  coroutine.resume(co2)\nend)\n\ncoroutine.resume(co1)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_close_suspended_coroutine::182",
+  "argv": [
+   "-e",
+   "\nco = coroutine.create(function()\n  coroutine.yield(1)\n  print(\"This should not print\")\nend)\n\ncoroutine.resume(co)\nprint(\"Status before close:\", coroutine.status(co))\nprint(\"Close result:\", coroutine.close(co))\nprint(\"Status after close:\", coroutine.status(co))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_close_dead_coroutine::183",
+  "argv": [
+   "-e",
+   "\nco = coroutine.create(function()\n  return \"done\"\nend)\n\ncoroutine.resume(co)\nprint(\"Close result:\", coroutine.close(co))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wrap_error_propagation::184",
+  "argv": [
+   "-e",
+   "f = coroutine.wrap(function()\n  error(\"Wrapped error\")\nend)\n\nlocal status, err = pcall(f)\nprint(\"Status:\", status)\nprint(\"Error:\", err)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_yields_in_loop::185",
+  "argv": [
+   "-e",
+   "co = coroutine.create(function()\n  for i = 1, 5 do\n    coroutine.yield(i, i * i)\n  end\n  return \"done\"\nend)\n\nfor i = 1, 6 do\n  local success, a, b = coroutine.resume(co)\n  if b then\n    print(success, a, b)\n  else\n    print(success, a)\n  end\nend\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coroutine_no_arguments::186",
+  "argv": [
+   "-e",
+   "co = coroutine.create(function()\n  print(\"No args\")\n  return 42\nend)\n\nprint(coroutine.resume(co))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yield_no_values::187",
+  "argv": [
+   "-e",
+   "co = coroutine.create(function()\n  coroutine.yield()\n  return \"after empty yield\"\nend)\n\nprint(\"First:\", coroutine.resume(co))\nprint(\"Second:\", coroutine.resume(co))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_create_requires_function::188",
+  "argv": [
+   "-e",
+   "local success, err = pcall(function()\n  coroutine.create(42)\nend)\nprint(\"Success:\", success)\nprint(\"Error:\", err)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_requires_thread::189",
+  "argv": [
+   "-e",
+   "local success, err = pcall(function()\n  coroutine.status(42)\nend)\nprint(\"Success:\", success)\nprint(\"Error:\", err)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yield_from_main_thread_error::190",
+  "argv": [
+   "-e",
+   "local success, err = pcall(function()\n  coroutine.yield()\nend)\nprint(\"Success:\", success)\nprint(\"Error:\", err)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_resume_requires_thread::191",
+  "argv": [
+   "-e",
+   "local success, err = pcall(function()\n  coroutine.resume(\"not a thread\")\nend)\nprint(\"Success:\", success)\nprint(\"Error:\", err)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_isyieldable_with_optional_argument::192",
+  "argv": [
+   "-e",
+   "co = coroutine.create(function() end)\nprint(\"With thread arg:\", coroutine.isyieldable(co))\nprint(\"Without arg (main):\", coroutine.isyieldable())\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_close_with_explicit_argument::193",
+  "argv": [
+   "-e",
+   "co = coroutine.create(function()\n  coroutine.yield()\nend)\ncoroutine.resume(co)\n\nprint(\"Close with arg:\", coroutine.close(co))\nprint(\"Status:\", coroutine.status(co))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_close_main_thread_error::194",
+  "argv": [
+   "-e",
+   "local success, err = pcall(function()\n  coroutine.close()\nend)\nprint(\"Success:\", success)\nprint(\"Error:\", err)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yields_then_error::195",
+  "argv": [
+   "-e",
+   "co = coroutine.create(function()\n  coroutine.yield(1)\n  coroutine.yield(2)\n  error(\"error after yields\")\nend)\n\nprint(coroutine.resume(co))\nprint(coroutine.resume(co))\nprint(coroutine.resume(co))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_many_values_through_yield_resume::196",
+  "argv": [
+   "-e",
+   "co = coroutine.create(function(...)\n  local args = {...}\n  print(\"Initial args:\", #args, args[1], args[2], args[10])\n  local a, b, c, d, e = coroutine.yield(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)\n  print(\"After yield:\", a, b, c, d, e)\n  return 100, 200, 300, 400, 500\nend)\n\nprint(coroutine.resume(co, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20))\nprint(coroutine.resume(co, \"a\", \"b\", \"c\", \"d\", \"e\"))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wrap_yield_and_complete::197",
+  "argv": [
+   "-e",
+   "f = coroutine.wrap(function()\n  coroutine.yield(\"yielded\")\n  return \"completed\"\nend)\n\nprint(\"First call:\", f())\nprint(\"Second call:\", f())\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_close_with_tbc_error::198",
+  "argv": [
+   "-e",
+   "co = coroutine.create(function()\n  local x <close> = setmetatable({}, {\n    __close = function()\n      error(\"close error\")\n    end\n  })\n  coroutine.yield()\nend)\n\ncoroutine.resume(co)\nprint(\"Close result:\", coroutine.close(co))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_close_normal_coroutine_error::199",
+  "argv": [
+   "-e",
+   "co1 = coroutine.create(function()\n  co2 = coroutine.create(function()\n    local success, err = pcall(function()\n      coroutine.close(co1)\n    end)\n    print(\"Success:\", success)\n    print(\"Error:\", err)\n  end)\n  coroutine.resume(co2)\nend)\n\ncoroutine.resume(co1)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nil_and_false_through_yield_resume::200",
+  "argv": [
+   "-e",
+   "co = coroutine.create(function(a, b, c)\n  print(\"Args:\", a, b, c)\n  local x, y = coroutine.yield(nil, false)\n  print(\"After yield:\", x, y)\n  return nil, false, nil\nend)\n\nprint(coroutine.resume(co, nil, false, nil))\nprint(coroutine.resume(co, false, nil))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_of_self::201",
+  "argv": [
+   "-e",
+   "co = nil\nco = coroutine.create(function()\n  print(\"Status of self:\", coroutine.status(co))\nend)\n\ncoroutine.resume(co)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_initial_state_with_return_values::202",
+  "argv": [
+   "-e",
+   "co = coroutine.create(function()\n  return 1, 2, 3\nend)\n\nprint(\"Initial status:\", coroutine.status(co))\nprint(coroutine.resume(co))\nprint(\"After completion:\", coroutine.status(co))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wrap_immediate_completion::203",
+  "argv": [
+   "-e",
+   "f = coroutine.wrap(function(x, y)\n  return x + y, x * y\nend)\n\nprint(f(10, 20))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deeply_nested_coroutines::204",
+  "argv": [
+   "-e",
+   "co1 = coroutine.create(function()\n  print(\"co1 start\")\n  co2 = coroutine.create(function()\n    print(\"co2 start\")\n    co3 = coroutine.create(function()\n      print(\"co3 start\")\n      print(\"co1:\", coroutine.status(co1))\n      print(\"co2:\", coroutine.status(co2))\n      print(\"co3:\", coroutine.status(co3))\n    end)\n    coroutine.resume(co3)\n    print(\"co2 after co3\")\n  end)\n  coroutine.resume(co2)\n  print(\"co1 after co2\")\nend)\n\ncoroutine.resume(co1)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wrap_dead_coroutine_error::205",
+  "argv": [
+   "-e",
+   "f = coroutine.wrap(function()\n  return \"done\"\nend)\n\nprint(\"First call:\", f())\nlocal success, err = pcall(f)\nprint(\"Second call success:\", success)\nprint(\"Second call error:\", err)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_immediate_error_without_yield::206",
+  "argv": [
+   "-e",
+   "co = coroutine.create(function()\n  error(\"immediate error\")\nend)\n\nprint(\"Status before:\", coroutine.status(co))\nlocal success, err = coroutine.resume(co)\nprint(\"Success:\", success)\nprint(\"Error:\", err)\nprint(\"Status after:\", coroutine.status(co))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pcall_inside_coroutine::207",
+  "argv": [
+   "-e",
+   "co = coroutine.create(function()\n  local success, err = pcall(function()\n    error(\"caught error\")\n  end)\n  print(\"Caught:\", success, err)\n  coroutine.yield(\"after pcall\")\n  return \"final\"\nend)\n\nprint(coroutine.resume(co))\nprint(coroutine.resume(co))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xpcall_inside_coroutine::208",
+  "argv": [
+   "-e",
+   "co = coroutine.create(function()\n  local function handler(err)\n    return \"HANDLED: \" .. err\n  end\n  \n  local success, result = xpcall(function()\n    error(\"xpcall error\")\n  end, handler)\n  \n  print(\"xpcall:\", success, result)\n  return \"done\"\nend)\n\nprint(coroutine.resume(co))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wrap_multiple_return_values::209",
+  "argv": [
+   "-e",
+   "f = coroutine.wrap(function()\n  return 1, 2, 3, 4, 5\nend)\n\nlocal a, b, c, d, e = f()\nprint(a, b, c, d, e)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_values_through_coroutines::210",
+  "argv": [
+   "-e",
+   "co = coroutine.create(function(msg)\n  print(\"Received:\", msg)\n  local reply = coroutine.yield(\"Hello 世界 🎉\")\n  print(\"Reply:\", reply)\n  return \"Final: \" .. reply\nend)\n\nprint(coroutine.resume(co, \"Start 测试\"))\nprint(coroutine.resume(co, \"Continue ñ ü\"))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yield_and_return_table::211",
+  "argv": [
+   "-e",
+   "co = coroutine.create(function()\n  local t = {a = 1, b = 2}\n  coroutine.yield(t)\n  return t\nend)\n\nlocal success, t1 = coroutine.resume(co)\nprint(\"First:\", success, t1)\nprint(\"Table contents:\", t1.a, t1.b)\n\nlocal success2, t2 = coroutine.resume(co)\nprint(\"Second:\", success2, t2)\nprint(\"Same table:\", t1 == t2)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_values_through_coroutines::212",
+  "argv": [
+   "-e",
+   "co = coroutine.create(function(f)\n  print(\"Got function:\", type(f))\n  local result = f(10)\n  local g = coroutine.yield(result)\n  print(\"Second function:\", type(g))\n  return g(20)\nend)\n\nlocal double = function(x) return x * 2 end\nlocal triple = function(x) return x * 3 end\n\nprint(coroutine.resume(co, double))\nprint(coroutine.resume(co, triple))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_closure_state_preserved::213",
+  "argv": [
+   "-e",
+   "function make_counter()\n  local count = 0\n  return coroutine.create(function()\n    while true do\n      count = count + 1\n      coroutine.yield(count)\n    end\n  end)\nend\n\nco = make_counter()\nprint(coroutine.resume(co))\nprint(coroutine.resume(co))\nprint(coroutine.resume(co))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_types_through_resume::214",
+  "argv": [
+   "-e",
+   "co = coroutine.create(function(...)\n  local args = {...}\n  print(\"Args count:\", #args)\n  for i, v in ipairs(args) do\n    print(i, type(v), v)\n  end\n  return \"done\"\nend)\n\nprint(coroutine.resume(co, 42, \"hello\", true, nil, {key=\"value\"}))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_never_executed_coroutine_state::215",
+  "argv": [
+   "-e",
+   "co = coroutine.create(function()\n  return \"never ran\"\nend)\n\nprint(\"Status:\", coroutine.status(co))\nprint(\"Is yieldable:\", coroutine.isyieldable(co))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_loop_with_early_break::216",
+  "argv": [
+   "-e",
+   "co = coroutine.create(function()\n  for i = 1, 10 do\n    if i == 5 then break end\n    coroutine.yield(i)\n  end\n  return \"broke at 5\"\nend)\n\nfor i = 1, 6 do\n  print(coroutine.resume(co))\nend\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_os_exit_via_script::217",
+  "argv": [
+   "exit_test.lua"
+  ],
+  "stdin": null,
+  "files": {
+   "exit_test.lua": "os.exit(42)"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_os_exit_boolean_success::218",
+  "argv": [
+   "exit_success.lua"
+  ],
+  "stdin": null,
+  "files": {
+   "exit_success.lua": "print('before'); os.exit(true); print('after')"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_os_exit_boolean_failure::219",
+  "argv": [
+   "exit_failure.lua"
+  ],
+  "stdin": null,
+  "files": {
+   "exit_failure.lua": "os.exit(false)"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_os_exit_no_arg_defaults_to_success::220",
+  "argv": [
+   "exit_default.lua"
+  ],
+  "stdin": null,
+  "files": {
+   "exit_default.lua": "print('exiting'); os.exit(); print('should not appear')"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_os_exit_with_close_flag::221",
+  "argv": [
+   "exit_close.lua"
+  ],
+  "stdin": null,
+  "files": {
+   "exit_close.lua": "\n-- Create some state that should be cleaned up\nt = {}\nfor i=1,100 do t[i] = i end\nos.exit(5, true)  -- Exit with code 5, close state\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_execution::222",
+  "argv": [
+   "-e",
+   "print(\"hello\")"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_math_operation::223",
+  "argv": [
+   "-e",
+   "print(2+2)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_insert_at_specific_position::224",
+  "argv": [
+   "-e",
+   "\nt = {10, 20, 30}\ntable.insert(t, 2, 15)\nfor i=1,#t do print(t[i]) end\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_insert_at_end_no_position::225",
+  "argv": [
+   "-e",
+   "\nt = {10, 20, 30}\ntable.insert(t, 99)\nfor i=1,#t do print(t[i]) end\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_insert_into_empty_table::226",
+  "argv": [
+   "-e",
+   "\nt = {}\ntable.insert(t, 'first')\nprint(t[1])\nprint(#t)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_insert_at_position_1::227",
+  "argv": [
+   "-e",
+   "\nt = {20, 30, 40}\ntable.insert(t, 1, 10)\nfor i=1,#t do print(t[i]) end\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_insert_position_out_of_bounds_high::228",
+  "argv": [
+   "-e",
+   "\nt = {10, 20}\nlocal ok, err = pcall(function() table.insert(t, 10, 99) end)\nprint(ok)\nif err then print(err) end\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_from_specific_position::229",
+  "argv": [
+   "-e",
+   "\nt = {10, 20, 30, 40}\nlocal v = table.remove(t, 2)\nprint(v)\nfor i=1,#t do print(t[i]) end\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_from_end_no_position::230",
+  "argv": [
+   "-e",
+   "\nt = {10, 20, 30}\nlocal v = table.remove(t)\nprint(v)\nfor i=1,#t do print(t[i]) end\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_from_empty_table::231",
+  "argv": [
+   "-e",
+   "\nt = {}\nlocal v = table.remove(t)\nprint(v)\nprint(#t)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_until_empty::232",
+  "argv": [
+   "-e",
+   "\nt = {10, 20, 30}\nwhile #t > 0 do\n  table.remove(t)\nend\nprint(#t)\nprint(t[1])\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_numeric_default::233",
+  "argv": [
+   "-e",
+   "\nt = {5, 2, 9, 1, 7, 3}\ntable.sort(t)\nfor i=1,#t do print(t[i]) end\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_string_alphabetic::234",
+  "argv": [
+   "-e",
+   "\nt = {'zebra', 'apple', 'banana', 'cherry'}\ntable.sort(t)\nfor i=1,#t do print(t[i]) end\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_custom_comparison::235",
+  "argv": [
+   "-e",
+   "\nt = {5, 2, 9, 1, 7}\ntable.sort(t, function(a, b) return a > b end)\nfor i=1,#t do print(t[i]) end\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_with_duplicates::236",
+  "argv": [
+   "-e",
+   "\nt = {3, 1, 4, 1, 5, 9, 2, 6, 5, 3}\ntable.sort(t)\nfor i=1,#t do print(t[i]) end\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_empty_table::237",
+  "argv": [
+   "-e",
+   "\nt = {}\ntable.sort(t)\nprint(#t)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_single_element::238",
+  "argv": [
+   "-e",
+   "\nt = {42}\ntable.sort(t)\nprint(t[1])\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concat_default_separator::239",
+  "argv": [
+   "-e",
+   "\nt = {'hello', 'world', 'lua'}\nprint(table.concat(t))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concat_custom_separator::240",
+  "argv": [
+   "-e",
+   "\nt = {'apple', 'banana', 'cherry'}\nprint(table.concat(t, ', '))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concat_numeric_range::241",
+  "argv": [
+   "-e",
+   "\nt = {'a', 'b', 'c', 'd', 'e'}\nprint(table.concat(t, '-', 2, 4))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concat_empty_table::242",
+  "argv": [
+   "-e",
+   "\nt = {}\nprint(table.concat(t, ','))\nprint('done')\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concat_numeric_elements::243",
+  "argv": [
+   "-e",
+   "\nt = {1, 2, 3, 4, 5}\nprint(table.concat(t, '+'))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pack_varargs::244",
+  "argv": [
+   "-e",
+   "\nt = table.pack(10, 20, 30, 40)\nprint(t.n)\nfor i=1,t.n do print(t[i]) end\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pack_with_nil::245",
+  "argv": [
+   "-e",
+   "\nt = table.pack(10, nil, 30, nil, 50)\nprint(t.n)\nfor i=1,t.n do \n  if t[i] then print(i, t[i]) else print(i, 'nil') end\nend\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pack_empty::246",
+  "argv": [
+   "-e",
+   "\nt = table.pack()\nprint(t.n)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unpack_basic::247",
+  "argv": [
+   "-e",
+   "\nt = {100, 200, 300}\nlocal a, b, c = table.unpack(t)\nprint(a, b, c)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unpack_range::248",
+  "argv": [
+   "-e",
+   "\nt = {10, 20, 30, 40, 50}\nlocal a, b = table.unpack(t, 2, 3)\nprint(a, b)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unpack_empty_table::249",
+  "argv": [
+   "-e",
+   "\nt = {}\nlocal a, b = table.unpack(t)\nprint(a, b)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_move_within_same_table_forward::250",
+  "argv": [
+   "-e",
+   "\nt = {10, 20, 30, 40, 50}\ntable.move(t, 2, 4, 6)\nfor i=1,#t do print(t[i]) end\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_move_within_same_table_backward::251",
+  "argv": [
+   "-e",
+   "\nt = {10, 20, 30, 40, 50}\ntable.move(t, 3, 5, 1)\nfor i=1,#t do print(t[i]) end\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_move_to_different_table::252",
+  "argv": [
+   "-e",
+   "\nt1 = {10, 20, 30}\nt2 = {}\ntable.move(t1, 1, 3, 1, t2)\nprint('t1:')\nfor i=1,#t1 do print(t1[i]) end\nprint('t2:')\nfor i=1,#t2 do print(t2[i]) end\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_move_empty_range::253",
+  "argv": [
+   "-e",
+   "\nt = {10, 20, 30}\ntable.move(t, 3, 2, 1)\nfor i=1,#t do print(t[i]) end\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_move_overlapping_ascending::254",
+  "argv": [
+   "-e",
+   "\nt = {10, 20, 30, 40, 50}\ntable.move(t, 1, 3, 2)\nfor i=1,#t do print(t[i]) end\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_already_sorted::255",
+  "argv": [
+   "-e",
+   "\nt = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}\ntable.sort(t)\nfor i=1,#t do print(t[i]) end\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_reverse_sorted::256",
+  "argv": [
+   "-e",
+   "\nt = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1}\ntable.sort(t)\nfor i=1,#t do print(t[i]) end\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_large_table::257",
+  "argv": [
+   "-e",
+   "\nt = {}\nfor i=1,100 do t[i] = 100 - i end\ntable.sort(t)\nprint(t[1], t[50], t[100])\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_insert_multiple_operations::258",
+  "argv": [
+   "-e",
+   "\nt = {10}\ntable.insert(t, 1, 5)\ntable.insert(t, 3, 15)\ntable.insert(t, 20)\nfor i=1,#t do print(t[i]) end\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_multiple_operations::259",
+  "argv": [
+   "-e",
+   "\nt = {10, 20, 30, 40, 50}\ntable.remove(t, 2)\ntable.remove(t, 3)\ntable.remove(t)\nfor i=1,#t do print(t[i]) end\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_insert_at_position_0_error::260",
+  "argv": [
+   "-e",
+   "\nt = {10, 20}\nlocal ok, err = pcall(function() table.insert(t, 0, 5) end)\nprint(ok)\nif err then print(err) end\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_insert_negative_position_error::261",
+  "argv": [
+   "-e",
+   "\nt = {10, 20, 30}\nlocal ok, err = pcall(function() table.insert(t, -1, 5) end)\nprint(ok)\nif err then print(err) end\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concat_with_sparse_table::262",
+  "argv": [
+   "-e",
+   "\nt = {1, nil, 3, 4}\nprint(table.concat(t, ','))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concat_with_hole_in_range::263",
+  "argv": [
+   "-e",
+   "\nt = {1, 2, 3}\nlocal ok, err = pcall(function() \n  print(table.concat(t, ',', 5, 10))\nend)\nprint(ok)\nif err then print(err) end\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_invalid_comparator_always_true::264",
+  "argv": [
+   "-e",
+   "\nt = {5, 2, 9, 1}\nlocal ok, err = pcall(function() \n  table.sort(t, function(a, b) return true end)\nend)\nprint(ok)\nif err then print(err) end\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_with_two_elements::265",
+  "argv": [
+   "-e",
+   "\nt = {20, 10}\ntable.sort(t)\nprint(t[1], t[2])\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_position_0_error::266",
+  "argv": [
+   "-e",
+   "\nt = {10, 20, 30}\nlocal ok, err = pcall(function() table.remove(t, 0) end)\nprint(ok)\nif err then print(err) end\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concat_single_element::267",
+  "argv": [
+   "-e",
+   "\nt = {'only'}\nprint(table.concat(t, ','))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unpack_with_start_greater_than_end::268",
+  "argv": [
+   "-e",
+   "\nt = {10, 20, 30}\nlocal a, b = table.unpack(t, 3, 1)\nprint(a, b)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pack_and_unpack_roundtrip::269",
+  "argv": [
+   "-e",
+   "\nlocal a, b, c, d = 10, 20, nil, 40\nlocal t = table.pack(a, b, c, d)\nlocal x, y, z, w = table.unpack(t, 1, t.n)\nprint(x, y, z, w)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_move_with_destination_in_middle_of_source::270",
+  "argv": [
+   "-e",
+   "\nt = {10, 20, 30, 40, 50, 60}\ntable.move(t, 1, 4, 3)\nfor i=1,#t do print(t[i]) end\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_large_random_table::271",
+  "argv": [
+   "-e",
+   "\nmath.randomseed(12345)\nt = {}\nfor i=1,1000 do t[i] = math.random(1000) end\ntable.sort(t)\n-- Verify sortedness by checking some samples\nlocal sorted = true\nfor i=1,999 do\n  if t[i] > t[i+1] then sorted = false break end\nend\nprint(sorted)\nprint(t[1] <= t[500] and t[500] <= t[1000])\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_create_table_with_sizes::272",
+  "argv": [
+   "-e",
+   "\nt = table.create(10, 5)\nprint(type(t))\nprint(#t)\nt[1] = 'first'\nprint(t[1])\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concat_with_mixed_numbers_and_strings::273",
+  "argv": [
+   "-e",
+   "\nt = {1, 'two', 3, 'four', 5}\nprint(table.concat(t, ' '))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_with_complex_comparator::274",
+  "argv": [
+   "-e",
+   "\nt = {\n  {name='Alice', age=30},\n  {name='Bob', age=25},\n  {name='Charlie', age=35}\n}\ntable.sort(t, function(a, b) return a.age < b.age end)\nfor i=1,#t do print(t[i].name) end\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_insert_and_remove_mixed_types::275",
+  "argv": [
+   "-e",
+   "\nt = {10, 'hello', {x=1}}\ntable.insert(t, 2, 'world')\ntable.remove(t, 4)\nprint(#t)\nprint(t[1])\nprint(t[2])\nprint(t[3])\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unpack_large_range::276",
+  "argv": [
+   "-e",
+   "\nt = {}\nfor i=1,100 do t[i] = i end\nlocal sum = 0\nlocal vals = {table.unpack(t)}\nfor i=1,#vals do sum = sum + vals[i] end\nprint(sum)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_move_entire_table_to_new_position::277",
+  "argv": [
+   "-e",
+   "\nt = {10, 20, 30, 40, 50}\ntable.move(t, 1, 5, 10)\nfor i=10,14 do print(t[i]) end\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concat_with_long_separator::278",
+  "argv": [
+   "-e",
+   "\nt = {'a', 'b', 'c'}\nprint(table.concat(t, ' --> '))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pack_large_number_of_args::279",
+  "argv": [
+   "-e",
+   "\nlocal function makemany()\n  local t = {}\n  for i=1,50 do t[i] = i end\n  return table.unpack(t)\nend\nlocal packed = table.pack(makemany())\nprint(packed.n)\nprint(packed[1], packed[25], packed[50])\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_stability_check::280",
+  "argv": [
+   "-e",
+   "\nt = {\n  {val=5, id=1},\n  {val=3, id=2},\n  {val=5, id=3},\n  {val=3, id=4}\n}\ntable.sort(t, function(a, b) return a.val < b.val end)\nfor i=1,#t do print(t[i].val, t[i].id) end\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_last_element_repeatedly::281",
+  "argv": [
+   "-e",
+   "\nt = {}\nfor i=1,10 do t[i] = i * 10 end\nfor i=1,10 do table.remove(t) end\nprint(#t)\nfor i=1,10 do\n  if t[i] ~= nil then print('ERROR: t[' .. i .. '] = ' .. t[i]) end\nend\nprint('done')\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_insert_wrong_number_of_arguments::282",
+  "argv": [
+   "-e",
+   "\nt = {10, 20}\nlocal ok, err = pcall(function() table.insert(t, 1, 2, 3) end)\nprint(ok)\nif err then print(err) end\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unpack_too_many_results::283",
+  "argv": [
+   "-e",
+   "\nt = {}\nfor i=1,1000000 do t[i] = i end\nlocal ok, err = pcall(function() table.unpack(t) end)\nprint(ok)\nif err then print(err) end\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_with_metatable_len::284",
+  "argv": [
+   "-e",
+   "\nt = {10}\nmt = {__len = function() return 5 end}\nsetmetatable(t, mt)\ntable.insert(t, 'test')\nprint(#t)\nprint(t[1])\nprint(t[6])\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_with_metatable_newindex::285",
+  "argv": [
+   "-e",
+   "\nt = {}\nmt = {\n  __newindex = function(tbl, key, val)\n    rawset(tbl, key, val)\n    rawset(tbl, 'last_key', key)\n  end\n}\nsetmetatable(t, mt)\ntable.insert(t, 'first')\ntable.insert(t, 'second')\nprint(t[1])\nprint(t[2])\nprint(t.last_key)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_very_large_table::286",
+  "argv": [
+   "-e",
+   "\nmath.randomseed(42)\nt = {}\nfor i=1,5000 do t[i] = math.random(10000) end\ntable.sort(t)\n-- Verify sorted\nlocal sorted = true\nfor i=1,4999 do\n  if t[i] > t[i+1] then sorted = false break end\nend\nprint(sorted)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concat_range_reversed::287",
+  "argv": [
+   "-e",
+   "\nt = {'a', 'b', 'c', 'd'}\nprint(table.concat(t, ',', 3, 1))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_move_zero_elements::288",
+  "argv": [
+   "-e",
+   "\nt = {10, 20, 30}\ntable.move(t, 5, 3, 1)\nfor i=1,#t do print(t[i]) end\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_from_position_beyond_length::289",
+  "argv": [
+   "-e",
+   "\nt = {10, 20, 30}\nlocal ok, err = pcall(function() table.remove(t, 10) end)\nprint(ok)\nif err then print(err) end\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pack_with_single_nil::290",
+  "argv": [
+   "-e",
+   "\nt = table.pack(nil)\nprint(t.n)\nprint(t[1])\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concat_with_numeric_range_exact_length::291",
+  "argv": [
+   "-e",
+   "\nt = {'a', 'b', 'c'}\nprint(table.concat(t, '-', 1, 3))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_three_elements_all_permutations::292",
+  "argv": [
+   "-e",
+   "\n-- Test all possible orderings of 3 elements\nlocal tests = {\n  {1, 2, 3},\n  {1, 3, 2},\n  {2, 1, 3},\n  {2, 3, 1},\n  {3, 1, 2},\n  {3, 2, 1}\n}\nfor _, t in ipairs(tests) do\n  table.sort(t)\n  print(t[1] == 1 and t[2] == 2 and t[3] == 3)\nend\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_inconsistent_comparator::293",
+  "argv": [
+   "-e",
+   "\nt = {5, 2, 9, 1, 7}\nlocal count = 0\nlocal ok, err = pcall(function() \n  table.sort(t, function(a, b) \n    count = count + 1\n    if count > 5 then return true end\n    return a < b\n  end)\nend)\nprint(ok)\nif err then print(err) end\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_with_full_metamethods::294",
+  "argv": [
+   "-e",
+   "\nlocal obj = {}\nlocal mt = {\n  __index = function(t, k) return rawget(t, k) or 100 end,\n  __newindex = function(t, k, v) rawset(t, k, v) end,\n  __len = function(t) return rawget(t, '_len') or 0 end\n}\nsetmetatable(obj, mt)\nrawset(obj, '_len', 0)\ntable.insert(obj, 'first')\nrawset(obj, '_len', 1)\ntable.insert(obj, 'second')\nprint(obj[1])\nprint(obj[2])\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_move_with_negative_destination::295",
+  "argv": [
+   "-e",
+   "\nt = {10, 20, 30}\n-- Note: table.move allows negative indices due to integer wrapping,\n-- but behavior should be consistent\nlocal ok, err = pcall(function() \n  table.move(t, 1, 2, -5)\nend)\nprint(ok)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concat_empty_separator::296",
+  "argv": [
+   "-e",
+   "\nt = {'a', 'b', 'c'}\nprint(table.concat(t, ''))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_insert_at_exact_end_position::297",
+  "argv": [
+   "-e",
+   "\nt = {10, 20, 30}\ntable.insert(t, 4, 40)\nfor i=1,#t do print(t[i]) end\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_metatables::298",
+  "argv": [
+   "-e",
+   "\nt = {}\nmt = {__index = function() return 42 end}\nsetmetatable(t, mt)\nprint(t.any_key)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_closures::299",
+  "argv": [
+   "-e",
+   "\nfunction counter()\n    local i = 0\n    return function()\n        i = i + 1\n        return i\n    end\nend\nc = counter()\nprint(c(), c(), c())\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_varargs::300",
+  "argv": [
+   "-e",
+   "\nfunction sum(...)\n    local s = 0\n    for _, v in ipairs({...}) do\n        s = s + v\n    end\n    return s\nend\nprint(sum(1, 2, 3, 4))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pcall_success::301",
+  "argv": [
+   "-e",
+   "success, result = pcall(function() return 5 end); print(success, result)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pcall_error::302",
+  "argv": [
+   "-e",
+   "success = pcall(function() error('test') end); print(success)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xpcall::303",
+  "argv": [
+   "-e",
+   "\nfunction handler(err)\n    return \"handled: \" .. tostring(err)\nend\nsuccess, msg = xpcall(function() error(\"oops\") end, handler)\nprint(msg)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_load_string::304",
+  "argv": [
+   "-e",
+   "f = load('return 2 + 2'); print(f())"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pairs_iteration::305",
+  "argv": [
+   "-e",
+   "\nt = {a=1, b=2, c=3}\nsum = 0\nfor k, v in pairs(t) do\n    sum = sum + v\nend\nprint(sum)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ipairs_iteration::306",
+  "argv": [
+   "-e",
+   "\nt = {10, 20, 30}\nsum = 0\nfor i, v in ipairs(t) do\n    sum = sum + v\nend\nprint(sum)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_next_function::307",
+  "argv": [
+   "-e",
+   "t = {a=1}; k, v = next(t); print(k, v)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_function::308",
+  "argv": [
+   "-e",
+   "print(type(42), type('str'), type({}), type(function() end))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tostring_tonumber::309",
+  "argv": [
+   "-e",
+   "print(tostring(42), tonumber('123'))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assert_success::310",
+  "argv": [
+   "-e",
+   "assert(true, 'should not see this'); print('ok')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assert_failure::311",
+  "argv": [
+   "-e",
+   "assert(false, 'assertion failed')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_function::312",
+  "argv": [
+   "-e",
+   "print(select(2, 'a', 'b', 'c', 'd'))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rawget_rawset::313",
+  "argv": [
+   "-e",
+   "t = {}; rawset(t, 'key', 'value'); print(rawget(t, 'key'))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_collectgarbage::314",
+  "argv": [
+   "-e",
+   "collectgarbage('collect'); print('ok')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_execute_string_simple::315",
+  "argv": [
+   "-e",
+   "print('hello world')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_execute_string_math::316",
+  "argv": [
+   "-e",
+   "print(2 + 2)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_execute_string_multiple::317",
+  "argv": [
+   "-e",
+   "x = 5",
+   "-e",
+   "print(x * 2)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_execute_string_syntax_error::318",
+  "argv": [
+   "-e",
+   "print("
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_mode_dash::319",
+  "argv": [
+   "-"
+  ],
+  "stdin": "print('explicit stdin')",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_stops_options::320",
+  "argv": [
+   "--",
+   "-e",
+   "print('arg')"
+  ],
+  "stdin": "print('stdin')",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_operations::321",
+  "argv": [
+   "-e",
+   "print(string.upper('hello'))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_operations::322",
+  "argv": [
+   "-e",
+   "t = {1, 2, 3}; print(#t)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_definition::323",
+  "argv": [
+   "-e",
+   "function f() return 42 end; print(f())"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arithmetic_operations::324",
+  "argv": [
+   "-e",
+   "print(10 / 2, 3 * 4, 7 - 2, 5 + 3)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_boolean_logic::325",
+  "argv": [
+   "-e",
+   "print(true and false, true or false, not true)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_concatenation::326",
+  "argv": [
+   "-e",
+   "print('hello' .. ' ' .. 'world')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nil_value::327",
+  "argv": [
+   "-e",
+   "print(nil)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_load_string::328",
+  "argv": [
+   "-e",
+   "\nf = load('return 1 + 2')\nprint(f())\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_load_with_environment::329",
+  "argv": [
+   "-e",
+   "\nenv = {x = 10}\nf = load('return x', nil, 't', env)\nprint(f())\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_load_syntax_error::330",
+  "argv": [
+   "-e",
+   "\nf, err = load('return (')\nprint(err)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coroutine_create::331",
+  "argv": [
+   "-e",
+   "\nco = coroutine.create(function() print('in coroutine') end)\nprint(type(co))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coroutine_resume::332",
+  "argv": [
+   "-e",
+   "\nco = coroutine.create(function() print('hello from coroutine') end)\ncoroutine.resume(co)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coroutine_yield::333",
+  "argv": [
+   "-e",
+   "\nco = coroutine.create(function()\n    print('1')\n    coroutine.yield()\n    print('2')\nend)\ncoroutine.resume(co)\ncoroutine.resume(co)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coroutine_status::334",
+  "argv": [
+   "-e",
+   "\nco = coroutine.create(function() coroutine.yield() end)\nprint(coroutine.status(co))\ncoroutine.resume(co)\nprint(coroutine.status(co))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coroutine_running::335",
+  "argv": [
+   "-e",
+   "\nco = coroutine.create(function()\n    print(type(coroutine.running()))\nend)\ncoroutine.resume(co)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coroutine_wrap::336",
+  "argv": [
+   "-e",
+   "\nf = coroutine.wrap(function()\n    print('wrapped')\nend)\nf()\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coroutine_isyieldable::337",
+  "argv": [
+   "-e",
+   "print(coroutine.isyieldable())"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coroutine_close::338",
+  "argv": [
+   "-e",
+   "\nco = coroutine.create(function() coroutine.yield() end)\ncoroutine.resume(co)\nok, err = coroutine.close(co)\nprint(ok)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coroutine_return_values::339",
+  "argv": [
+   "-e",
+   "\nco = coroutine.create(function() return 42 end)\nok, val = coroutine.resume(co)\nprint(ok, val)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coroutine_yield_values::340",
+  "argv": [
+   "-e",
+   "\nco = coroutine.create(function()\n    coroutine.yield(10)\n    coroutine.yield(20)\nend)\nok, v1 = coroutine.resume(co)\nprint(v1)\nok, v2 = coroutine.resume(co)\nprint(v2)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_getinfo::341",
+  "argv": [
+   "-e",
+   "\nfunction f() end\ninfo = debug.getinfo(f)\nprint(type(info), info.what)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_traceback::342",
+  "argv": [
+   "-e",
+   "\nfunction f() print(debug.traceback()) end\nf()\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_getlocal::343",
+  "argv": [
+   "-e",
+   "\nfunction f()\n    local x = 10\n    local name, value = debug.getlocal(1, 1)\n    print(name, value)\nend\nf()\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_setlocal::344",
+  "argv": [
+   "-e",
+   "\nfunction f()\n    local x = 10\n    debug.setlocal(1, 1, 20)\n    print(x)\nend\nf()\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_getupvalue::345",
+  "argv": [
+   "-e",
+   "\nlocal x = 10\nfunction f() return x end\nname, value = debug.getupvalue(f, 1)\nprint(name, value)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_setupvalue::346",
+  "argv": [
+   "-e",
+   "\nlocal x = 10\nfunction f() return x end\ndebug.setupvalue(f, 1, 20)\nprint(f())\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_upvalueid::347",
+  "argv": [
+   "-e",
+   "\nlocal x = 10\nfunction f() return x end\nprint(type(debug.upvalueid(f, 1)))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_upvaluejoin::348",
+  "argv": [
+   "-e",
+   "\nlocal x = 10\nfunction f1() return x end\nfunction f2() local y = 0; return function() return y end end\ng = f2()\ndebug.upvaluejoin(g, 1, f1, 1)\nprint(g())\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_getmetatable::349",
+  "argv": [
+   "-e",
+   "\nt = {}\nmt = {__index = function() end}\nsetmetatable(t, mt)\nm = debug.getmetatable(t)\nprint(type(m))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_setmetatable::350",
+  "argv": [
+   "-e",
+   "\nt = {}\nmt = {__index = function() return 42 end}\ndebug.setmetatable(t, mt)\nprint(t.anything)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_getuservalue::351",
+  "argv": [
+   "-e",
+   "\nu = io.stdout\nv, ok = debug.getuservalue(u, 1)\nprint(type(ok))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_setuservalue::352",
+  "argv": [
+   "-e",
+   "\nu = io.stdout\nt = {value = 42}\nok = debug.setuservalue(u, t, 1)\nprint(type(ok))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_table_concat::353",
+  "argv": [
+   "-e",
+   "print(table.concat({}))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_rep::354",
+  "argv": [
+   "-e",
+   "print(string.rep('x', 5))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_rep_zero::355",
+  "argv": [
+   "-e",
+   "print(string.rep('x', 0))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_lower_upper::356",
+  "argv": [
+   "-e",
+   "print(string.lower('HELLO'), string.upper('world'))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_function_call::357",
+  "argv": [
+   "-e",
+   "function add(a, b) return a + b end; print(add(5, 3))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_return_values::358",
+  "argv": [
+   "-e",
+   "function f() return 1, 2, 3 end; a, b, c = f(); print(a, b, c)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_as_array::359",
+  "argv": [
+   "-e",
+   "t = {10, 20, 30}; for i=1,#t do print(t[i]) end"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_as_dictionary::360",
+  "argv": [
+   "-e",
+   "t = {x=1, y=2}; print(t.x, t['y'])"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_numeric_for_loop::361",
+  "argv": [
+   "-e",
+   "sum = 0; for i=1,5 do sum = sum + i end; print(sum)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_numeric_for_loop_step::362",
+  "argv": [
+   "-e",
+   "for i=0,10,2 do print(i) end"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_while_loop::363",
+  "argv": [
+   "-e",
+   "i = 1; while i <= 3 do print(i); i = i + 1 end"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repeat_until::364",
+  "argv": [
+   "-e",
+   "i = 1; repeat print(i); i = i + 1 until i > 3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_break_statement::365",
+  "argv": [
+   "-e",
+   "for i=1,10 do if i > 3 then break end; print(i) end"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_logical_operators::366",
+  "argv": [
+   "-e",
+   "print(true and true, true and false, false or true)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comparison_operators::367",
+  "argv": [
+   "-e",
+   "print(5 > 3, 5 < 3, 5 == 5, 5 ~= 5)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_length_operator::368",
+  "argv": [
+   "-e",
+   "print(#'hello', #{1, 2, 3})"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unary_minus::369",
+  "argv": [
+   "-e",
+   "x = 5; print(-x)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unary_not::370",
+  "argv": [
+   "-e",
+   "print(not true, not false)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bitwise_operators::371",
+  "argv": [
+   "-e",
+   "print(5 & 3, 5 | 3, 5 ~ 3)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bitwise_shift::372",
+  "argv": [
+   "-e",
+   "print(1 << 3, 8 >> 2)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bitwise_not::373",
+  "argv": [
+   "-e",
+   "print(~0)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_floor_division::374",
+  "argv": [
+   "-e",
+   "print(7 // 2)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_concatenation_number::375",
+  "argv": [
+   "-e",
+   "print('value: ' .. 42)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_constructor_mixed::376",
+  "argv": [
+   "-e",
+   "t = {1, 2, x=3}; print(t[1], t[2], t.x)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rawequal::377",
+  "argv": [
+   "-e",
+   "print(rawequal(5, 5), rawequal(5, 6))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rawlen::378",
+  "argv": [
+   "-e",
+   "print(rawlen('hello'), rawlen({1, 2, 3}))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_getmetatable::379",
+  "argv": [
+   "-e",
+   "t = {}; mt = {}; setmetatable(t, mt); print(getmetatable(t) == mt)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_message::380",
+  "argv": [
+   "-e",
+   "error('test error message')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_level::381",
+  "argv": [
+   "-e",
+   "function f() error('msg', 2) end; f()"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_setfenv_getfenv::382",
+  "argv": [
+   "-e",
+   "print(type(_ENV))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_warn_function::383",
+  "argv": [
+   "-e",
+   "warn('this is a warning'); print('done')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lua_init_execute::384",
+  "argv": [
+   "-e",
+   "print('main')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lua_init_ignore_with_E::385",
+  "argv": [
+   "-E",
+   "-e",
+   "print('main')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lua_path_custom::386",
+  "argv": [
+   "-e",
+   "m = require('mymod'); print(m.value)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lua_path_ignore_with_E::387",
+  "argv": [
+   "-E",
+   "-e",
+   "require('mymod2')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_var_access::388",
+  "argv": [
+   "-e",
+   "print(os.getenv('MY_TEST_VAR'))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_var_not_set::389",
+  "argv": [
+   "-e",
+   "print(os.getenv('NONEXISTENT_VAR_XYZ'))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_divide_by_zero::390",
+  "argv": [
+   "-e",
+   "print(1/0)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nil_arithmetic_error::391",
+  "argv": [
+   "-e",
+   "print(nil + 1)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_table_index::392",
+  "argv": [
+   "-e",
+   "t = nil; print(t.field)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_function_call::393",
+  "argv": [
+   "-e",
+   "x = 5; x()"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stack_overflow::394",
+  "argv": [
+   "-e",
+   "function f() f() end; f()"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_concat_nil::395",
+  "argv": [
+   "-e",
+   "print('test' .. nil)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comparison_error::396",
+  "argv": [
+   "-e",
+   "print(5 < 'string')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_modulo_operation::397",
+  "argv": [
+   "-e",
+   "print(10 % 3)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_power_operation::398",
+  "argv": [
+   "-e",
+   "print(2 ^ 3)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_numbers::399",
+  "argv": [
+   "-e",
+   "print(-5, -3.14)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

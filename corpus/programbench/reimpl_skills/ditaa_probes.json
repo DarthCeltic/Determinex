@@ -1,0 +1,501 @@
+[
+ {
+  "name": "test::test_help_flag::0",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_to_file_output::1",
+  "argv": [
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_to_stdout::2",
+  "argv": [
+   "-",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_input_file_error::3",
+  "argv": [
+   "/nonexistent/path/diagram.txt",
+   "/tmp/output.png"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_overwrite_flag_overwrites_existing_file::4",
+  "argv": [
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_svg_output_mode::5",
+  "argv": [
+   "--svg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_input_file_error::6",
+  "argv": [
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_antialias::7",
+  "argv": [
+   "-A"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_shadows::8",
+  "argv": [
+   "-S"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_mode::9",
+  "argv": [
+   "-d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_round_corners::10",
+  "argv": [
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_separation::11",
+  "argv": [
+   "-E"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_transparent_background::12",
+  "argv": [
+   "-T"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fixed_slope::13",
+  "argv": [
+   "-W"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scale_option::14",
+  "argv": [
+   "-s",
+   "3.0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_background_color_6digit::15",
+  "argv": [
+   "-b",
+   "FF0000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_background_color_8digit_with_transparency::16",
+  "argv": [
+   "-b",
+   "FF000080"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_background_invalid_color_error::17",
+  "argv": [
+   "-b",
+   "INVALID"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_background_wrong_length_error::18",
+  "argv": [
+   "-b",
+   "FFF"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tabs_option::19",
+  "argv": [
+   "-t",
+   "4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encoding_utf8::20",
+  "argv": [
+   "-e",
+   "UTF-8"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encoding_invalid_error::21",
+  "argv": [
+   "-e",
+   "TOTALLY_INVALID_ENCODING"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_svg_font_url_option::22",
+  "argv": [
+   "--svg",
+   "--svg-font-url",
+   "https://example.com/fonts/myfont.woff"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_flags_combined::23",
+  "argv": [
+   "-S",
+   "-A",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_mode_converts_file::24",
+  "argv": [
+   "-h",
+   "test.html"
+  ],
+  "stdin": null,
+  "files": {
+   "test.html": "<html>\n<body>\n<pre class=\"textdiagram\">\n+-----+\n|     |\n|     |\n+-----+\n</pre>\n</body>\n</html>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_mode_auto_output_name::25",
+  "argv": [
+   "-h",
+   "myfile.html"
+  ],
+  "stdin": null,
+  "files": {
+   "myfile.html": "<html><body>\n<pre class=\"textdiagram\">\n+--+\n|  |\n+--+\n</pre>\n</body></html>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_mode_with_named_diagram::26",
+  "argv": [
+   "-h",
+   "page.html"
+  ],
+  "stdin": null,
+  "files": {
+   "page.html": "<html><body>\n<pre class=\"textdiagram\" id=\"mydiagram\">\n+--+\n|  |\n+--+\n</pre>\n</body></html>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_mode_generates_img_tags::27",
+  "argv": [
+   "-h",
+   "test.html"
+  ],
+  "stdin": null,
+  "files": {
+   "test.html": "<html><body>\n<pre class=\"textdiagram\">\n+-----+\n|     |\n+-----+\n</pre>\n</body></html>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ellipse_tag::28",
+  "argv": [
+   "ellipse.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "ellipse.txt": "+-----+\n|{o}  |\n|     |\n|     |\n+-----+\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_manual_operation_tag::29",
+  "argv": [
+   "mo.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "mo.txt": "+-----+\n|{mo} |\n|     |\n|     |\n+-----+\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decision_tag::30",
+  "argv": [
+   "decision.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "decision.txt": "+-----+\n|{c}  |\n|     |\n|     |\n+-----+\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trapezoid_tag::31",
+  "argv": [
+   "trapezoid.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "trapezoid.txt": "+-----+\n|{tr} |\n|     |\n|     |\n+-----+\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hex_color_codes::32",
+  "argv": [
+   "hexcolors.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "hexcolors.txt": "/----\\ /----\\\n|c33F| |cC02|\n|    | |    |\n\\----/ \\----/\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arrow_diagram::33",
+  "argv": [
+   "arrows.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "arrows.txt": "+---------+   +-------+    +-------+\n|         | --+ ditaa +--> |       |\n|  Text   |   +-------+    |diagram|\n+---------+\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_point_markers::34",
+  "argv": [
+   "points.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "points.txt": "*----*\n|    |      /--*\n*    *      |\n|    |  -*--+\n*----*\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_option_error::35",
+  "argv": [
+   "--nonexistent-option-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_message_format_missing_file::36",
+  "argv": [
+   "/definitely/does/not/exist.txt",
+   "/tmp/output.png"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_background_color_shows_help::37",
+  "argv": [
+   "-b",
+   "BADCOLOR"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_svg_to_stdout::38",
+  "argv": [
+   "--svg",
+   "-",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_svg_with_font_url_has_font_face::39",
+  "argv": [
+   "--svg",
+   "--svg-font-url",
+   "https://mysite.com/font.woff"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_diagram_produces_larger_png::40",
+  "argv": [
+   "small.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "small.txt": "+--+\n|  |\n+--+\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

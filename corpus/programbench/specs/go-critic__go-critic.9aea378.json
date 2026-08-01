@@ -1,0 +1,1668 @@
+{
+ "slug": "go-critic__go-critic.9aea378",
+ "language": "",
+ "n_branches": 10,
+ "n_tests_total": 724,
+ "n_examples": 93,
+ "n_with_exact_stdout": 6,
+ "n_with_rc": 83,
+ "n_skipped": 612,
+ "examples": [
+  {
+   "test": "test_check_help_contains_core_flags_and_exit_code",
+   "argv": [
+    "check",
+    "-help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-enable string",
+    "-disable string",
+    "-enableAll",
+    "-exitCode int",
+    "-checkGenerated",
+    "-checkTests"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_go_critic_cli.py:46"
+  },
+  {
+   "test": "test_gocritic_ruleguard_debug_env_enables_debug_output",
+   "argv": [
+    "check",
+    "-@ruleguard.rules",
+    "nonexistent_*.go",
+    "fmt"
+   ],
+   "stdin": null,
+   "env": {
+    "GOCRITIC_RULEGUARD_DEBUG": "1"
+   },
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "debug: imported \"fmt\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_env_config.py:20"
+  },
+  {
+   "test": "test_help_command",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "go-critic <command> [arguments...]",
+    "check",
+    "doc",
+    "help",
+    "version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_commands.py:28"
+  },
+  {
+   "test": "test_invalid_command",
+   "argv": [
+    "invalid_command_xyz"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unknown command",
+    "no such command"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_commands.py:46"
+  },
+  {
+   "test": "test_version_command",
+   "argv": [
+    "version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "go-critic version:",
+    "v0.0.0-SNAPSHOT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_commands.py:64"
+  },
+  {
+   "test": "test_doc_without_args",
+   "argv": [
+    "doc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "appendAssign",
+    "diagnostic",
+    "performance",
+    "style"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_commands.py:82"
+  },
+  {
+   "test": "test_doc_specific_checker",
+   "argv": [
+    "doc",
+    "appendAssign"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "appendAssign checker documentation",
+    "diagnostic"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_commands.py:92"
+  },
+  {
+   "test": "test_doc_multiple_checkers",
+   "argv": [
+    "doc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_commands.py:100"
+  },
+  {
+   "test": "test_help_exact_output",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_exact_output.py:24"
+  },
+  {
+   "test": "test_version_exact_output",
+   "argv": [
+    "version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_exact_output.py:33"
+  },
+  {
+   "test": "test_help_command_shows_usage",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "commands"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:68"
+  },
+  {
+   "test": "test_check_with_help_flag",
+   "argv": [
+    "check",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:75"
+  },
+  {
+   "test": "test_doc_with_help_flag",
+   "argv": [
+    "doc",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:86"
+  },
+  {
+   "test": "test_version_with_help_flag",
+   "argv": [
+    "version",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "version"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:93"
+  },
+  {
+   "test": "test_unknown_subcommand_message",
+   "argv": [
+    "nonexistent_command"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:104"
+  },
+  {
+   "test": "test_unknown_subcommand_suggests_help",
+   "argv": [
+    "invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "help"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:112"
+  },
+  {
+   "test": "test_similar_subcommand_suggestion",
+   "argv": [
+    "chek"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "did you mean",
+    "check"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:118"
+  },
+  {
+   "test": "test_help_flag_not_recognized",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "did you mean",
+    "help"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:145"
+  },
+  {
+   "test": "test_check_subcommand",
+   "argv": [
+    "check"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:159"
+  },
+  {
+   "test": "test_version_subcommand",
+   "argv": [
+    "version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:165"
+  },
+  {
+   "test": "test_doc_subcommand_list",
+   "argv": [
+    "doc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "appendAssign"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:174"
+  },
+  {
+   "test": "test_doc_subcommand_specific_checker",
+   "argv": [
+    "doc",
+    "appendAssign"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "appendAssign"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:183"
+  },
+  {
+   "test": "test_doc_with_invalid_checker",
+   "argv": [
+    "doc",
+    "nonexistentChecker123"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "not found"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:205"
+  },
+  {
+   "test": "test_check_with_enable_flag",
+   "argv": [
+    "check",
+    "-enable",
+    "appendAssign"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:213"
+  },
+  {
+   "test": "test_check_with_disable_flag",
+   "argv": [
+    "check",
+    "-disable",
+    "appendAssign"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:219"
+  },
+  {
+   "test": "test_version_ignores_extra_args",
+   "argv": [
+    "version",
+    "extra",
+    "args"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "version"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:224"
+  },
+  {
+   "test": "test_subcommand_must_be_first",
+   "argv": [
+    "check",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:234"
+  },
+  {
+   "test": "test_help_with_subcommand_arg",
+   "argv": [
+    "help",
+    "check"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:256"
+  },
+  {
+   "test": "test_empty_string_subcommand",
+   "argv": [
+    ""
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:268"
+  },
+  {
+   "test": "test_special_characters_in_subcommand",
+   "argv": [
+    "check@#$"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:276"
+  },
+  {
+   "test": "test_numeric_subcommand",
+   "argv": [
+    "12345"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:283"
+  },
+  {
+   "test": "test_check_flags_not_in_version",
+   "argv": [
+    "version",
+    "-enable",
+    "appendAssign"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "version"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:310"
+  },
+  {
+   "test": "test_check_lints_go_file_to_stdout_and_nonzero_exit",
+   "argv": [
+    "check"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    ":4:3:",
+    "dupBranchBody:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_check_io.py:17"
+  },
+  {
+   "test": "test_check_exitcode_flag_controls_exit_status",
+   "argv": [
+    "check",
+    "-exitCode",
+    "7"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 7,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_check_io.py:31"
+  },
+  {
+   "test": "test_check_missing_file_succeeds_with_no_output",
+   "argv": [
+    "check"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_check_io.py:39"
+  },
+  {
+   "test": "test_help_lists_commands_and_exits_0",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "go-critic <command>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_version.py:4"
+  },
+  {
+   "test": "test_no_args_produces_specific_error_message",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:35"
+  },
+  {
+   "test": "test_unknown_command_error_message",
+   "argv": [
+    "nonexistent"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:60"
+  },
+  {
+   "test": "test_version_ignores_extra_args_rather_than_erroring",
+   "argv": [
+    "version",
+    "-x",
+    "--whatever"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:68"
+  },
+  {
+   "test": "test_check_unknown_flag_errors_and_prints_usage",
+   "argv": [
+    "check",
+    "-unknown"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:76"
+  },
+  {
+   "test": "test_check_enable_and_disable_are_order_sensitive_last_write_wins_via_effect",
+   "argv": [
+    "check",
+    "-enable=caseOrder",
+    "-disable=caseOrder"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:160"
+  },
+  {
+   "test": "test_check_allows_unknown_flag_like_token_after_double_dash",
+   "argv": [
+    "check",
+    "--",
+    "-unknown"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:173"
+  },
+  {
+   "test": "test_check_help_is_parsed_as_flag_and_reports_parse_args_message",
+   "argv": [
+    "check",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:181"
+  },
+  {
+   "test": "test_check_rejects_negative_concurrency_by_panicking",
+   "argv": [
+    "check",
+    "-concurrency=-1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:189"
+  },
+  {
+   "test": "test_check_with_go_version_flag",
+   "argv": [
+    "check",
+    "-go",
+    "1.20",
+    "test.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.go": "\npackage main\nfunc main() {\n    x := 1\n    _ = x\n}\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:33"
+  },
+  {
+   "test": "test_check_with_shorterErrLocation_false",
+   "argv": [
+    "check",
+    "-shorterErrLocation=false",
+    "test.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".go:"
+   ],
+   "files": {
+    "test.go": "\npackage main\nfunc main() {\n    if true == true {\n    }\n}\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:63"
+  },
+  {
+   "test": "test_check_builtinShadowDecl_checker",
+   "argv": [
+    "check",
+    "-enable=builtinShadowDecl",
+    "test.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.go": "\npackage main\nvar len int = 5\nfunc main() {\n    _ = len\n}\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:151"
+  },
+  {
+   "test": "test_check_deferInLoop_checker",
+   "argv": [
+    "check",
+    "-enable=deferInLoop",
+    "test.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.go": "\npackage main\nimport \"os\"\nfunc main() {\n    for i := 0; i < 10; i++ {\n        f, _ := os.Open(\"file\")\n        defer f.Close()\n    }\n}\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:252"
+  },
+  {
+   "test": "test_help_command_explicit",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "check",
+    "doc",
+    "version",
+    "help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:429"
+  },
+  {
+   "test": "test_help_command",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "go-critic <command> [arguments...]",
+    "check",
+    "run linter over specified targets",
+    "doc",
+    "get installed checkers documentation"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:13"
+  },
+  {
+   "test": "test_help_flag_suggests_help_command",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:39"
+  },
+  {
+   "test": "test_h_flag_suggests_help_command",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:47"
+  },
+  {
+   "test": "test_check_recursive_all",
+   "argv": [
+    "check",
+    "./..."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_check_basic.py:70"
+  },
+  {
+   "test": "test_check_exit_code_on_issues",
+   "argv": [
+    "check"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_check_basic.py:112"
+  },
+  {
+   "test": "test_verbose_flag",
+   "argv": [
+    "check",
+    "-v",
+    "test.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.go": "package main\n"
+   },
+   "ci": false,
+   "source": "test_check_flags.py:25"
+  },
+  {
+   "test": "test_checkTests_false",
+   "argv": [
+    "check",
+    "-checkTests=false"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_check_flags.py:42"
+  },
+  {
+   "test": "test_exitCode_custom",
+   "argv": [
+    "check",
+    "-exitCode=42",
+    "bad.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 42,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "bad.go": "package main\n\nfunc foo() {\n\tx := 10\n\tx = x + 1\n}\n"
+   },
+   "ci": false,
+   "source": "test_check_flags.py:68"
+  },
+  {
+   "test": "test_exitCode_zero_with_issues",
+   "argv": [
+    "check",
+    "-exitCode=0",
+    "bad.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "bad.go": "package main\n\nfunc foo() {\n\tx := 10\n\tx = x + 1\n}\n"
+   },
+   "ci": false,
+   "source": "test_check_flags.py:82"
+  },
+  {
+   "test": "test_concurrency_flag",
+   "argv": [
+    "check",
+    "-concurrency=1",
+    "test.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.go": "package main\n"
+   },
+   "ci": false,
+   "source": "test_check_flags.py:126"
+  },
+  {
+   "test": "test_go_version_flag",
+   "argv": [
+    "check",
+    "-go=1.20",
+    "test.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.go": "package main\n"
+   },
+   "ci": false,
+   "source": "test_check_flags.py:134"
+  },
+  {
+   "test": "test_cpuprofile_flag",
+   "argv": [
+    "check",
+    "test.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.go": "package main\n"
+   },
+   "ci": false,
+   "source": "test_check_flags.py:142"
+  },
+  {
+   "test": "test_configure_higher_threshold",
+   "argv": [
+    "check",
+    "-enable=hugeParam",
+    "-@hugeParam.sizeThreshold=1000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_check_parameters.py:37"
+  },
+  {
+   "test": "test_configure_bool_parameter",
+   "argv": [
+    "check",
+    "-enable=captLocal",
+    "-@captLocal.paramsOnly=true",
+    "test.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.go": "package main\n\nfunc foo(x, y, z int) {}\n"
+   },
+   "ci": false,
+   "source": "test_check_parameters.py:47"
+  },
+  {
+   "test": "test_configure_string_parameter",
+   "argv": [
+    "check",
+    "-enable=ruleguard",
+    "-@ruleguard.rules="
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_check_parameters.py:71"
+  },
+  {
+   "test": "test_enable_diagnostic_tag",
+   "argv": [
+    "check",
+    "-enable=#diagnostic",
+    "test.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.go": "package main\n"
+   },
+   "ci": false,
+   "source": "test_check_selection.py:43"
+  },
+  {
+   "test": "test_enable_performance_tag",
+   "argv": [
+    "check",
+    "-enable=#performance",
+    "test.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.go": "package main\n"
+   },
+   "ci": false,
+   "source": "test_check_selection.py:59"
+  },
+  {
+   "test": "test_disable_single_checker",
+   "argv": [
+    "check",
+    "-disable=assignOp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_check_selection.py:67"
+  },
+  {
+   "test": "test_disable_multiple_checkers",
+   "argv": [
+    "check",
+    "-disable=assignOp,elseif"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_check_selection.py:75"
+  },
+  {
+   "test": "test_enableAll_flag",
+   "argv": [
+    "check",
+    "-enableAll",
+    "test.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.go": "package main\nfunc main() {}\n"
+   },
+   "ci": false,
+   "source": "test_check_selection.py:83"
+  },
+  {
+   "test": "test_enableAll_with_disable",
+   "argv": [
+    "check",
+    "-enableAll",
+    "-disable=assignOp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_check_selection.py:92"
+  },
+  {
+   "test": "test_disable_experimental_tag",
+   "argv": [
+    "check",
+    "-enableAll",
+    "-disable=#experimental",
+    "test.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.go": "package main\n"
+   },
+   "ci": false,
+   "source": "test_check_selection.py:100"
+  },
+  {
+   "test": "test_disable_opinionated_tag",
+   "argv": [
+    "check",
+    "-enableAll",
+    "-disable=#opinionated",
+    "test.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.go": "package main\n"
+   },
+   "ci": false,
+   "source": "test_check_selection.py:108"
+  },
+  {
+   "test": "test_check_different_exit_codes",
+   "argv": [
+    "check",
+    "-exitCode=10",
+    "test.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 5,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.go": "package main\n\nfunc main() {\n\tx := 10\n\tx = x + 1\n}\n"
+   },
+   "ci": false,
+   "source": "test_coverage_boost.py:134"
+  },
+  {
+   "test": "test_doc_all_diagnostic_checkers",
+   "argv": [
+    "doc",
+    "badCond"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "badCond",
+    "diagnostic"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_coverage_boost.py:168"
+  },
+  {
+   "test": "test_doc_all_performance_checkers",
+   "argv": [
+    "doc",
+    "rangeValCopy"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "rangeValCopy",
+    "performance"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_coverage_boost.py:175"
+  },
+  {
+   "test": "test_doc_list_all_checkers",
+   "argv": [
+    "doc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "appendAssign",
+    "assignOp",
+    "badCall",
+    "diagnostic",
+    "style",
+    "performance"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_doc_command.py:5"
+  },
+  {
+   "test": "test_doc_specific_checker",
+   "argv": [
+    "doc",
+    "assignOp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "assignOp",
+    "style",
+    "assignment"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_doc_command.py:20"
+  },
+  {
+   "test": "test_doc_checker_with_parameters",
+   "argv": [
+    "doc",
+    "ruleguard"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ruleguard",
+    "@ruleguard",
+    "rules"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_doc_command.py:31"
+  },
+  {
+   "test": "test_doc_checker_with_threshold",
+   "argv": [
+    "doc",
+    "hugeParam"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hugeParam"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_doc_command.py:41"
+  },
+  {
+   "test": "test_doc_diagnostic_checker",
+   "argv": [
+    "doc",
+    "badCall"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "badCall",
+    "diagnostic"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_doc_command.py:54"
+  },
+  {
+   "test": "test_doc_performance_checker",
+   "argv": [
+    "doc",
+    "rangeExprCopy"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "rangeExprCopy",
+    "performance"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_doc_command.py:61"
+  },
+  {
+   "test": "test_doc_experimental_checker",
+   "argv": [
+    "doc",
+    "badLock"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "badLock",
+    "experimental"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_doc_command.py:68"
+  },
+  {
+   "test": "test_doc_shows_url",
+   "argv": [
+    "doc",
+    "assignOp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_doc_command.py:75"
+  },
+  {
+   "test": "test_version_shows_snapshot",
+   "argv": [
+    "version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SNAPSHOT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:344"
+  },
+  {
+   "test": "test_help_shows_all_commands",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "check",
+    "doc",
+    "help",
+    "version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:350"
+  },
+  {
+   "test": "test_doc_multiple_invocations",
+   "argv": [
+    "doc",
+    "assignOp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "assignOp",
+    "elseif"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:362"
+  },
+  {
+   "test": "test_ext_go_version_parse_and_compare_via_flag_guard",
+   "argv": [
+    "check",
+    "-go=goBAD"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:63"
+  },
+  {
+   "test": "test_ext_checkers_docs_listing_and_single_checker_doc",
+   "argv": [
+    "doc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "appendAssign",
+    "Tags:",
+    "URL:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:88"
+  },
+  {
+   "test": "test_ext_version_command_prints_snapshot_version",
+   "argv": [
+    "version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "go-critic version:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:111"
+  },
+  {
+   "test": "test_unknown_subcommand_message_matches_original_style",
+   "argv": [
+    "definitely_not_a_real_subcommand"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unknown command",
+    "no such command"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:81"
+  },
+  {
+   "test": "test_top_level_double_dash_help_is_handled_as_unknown_command_with_suggestion",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unknown command",
+    "did you mean",
+    "help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:90"
+  },
+  {
+   "test": "test_top_level_dash_h_is_handled_as_unknown_command",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unknown command",
+    "no such command"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:100"
+  },
+  {
+   "test": "test_check_accepts_dash_h_as_help_flag_but_root_does_not",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unknown command",
+    "flag: help requested"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:108"
+  }
+ ]
+}

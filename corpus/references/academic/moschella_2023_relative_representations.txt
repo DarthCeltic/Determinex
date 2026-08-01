@@ -1,0 +1,28 @@
+Relative Representations Enable Zero-Shot Latent Space Communication
+Luca Moschella, Valentino Maiorca, Marco Fumero, Antonio Norelli, Francesco Locatello, Emanuele Rodola
+ICLR 2023 (Oral, top 5%)
+arXiv: 2209.15430
+
+Abstract:
+Latent representations are a cornerstone of deep learning, yet they remain largely opaque:
+two models trained on the same data with the same architecture yield vectors that are not
+directly comparable. We show that neural representations are not arbitrarily different —
+they preserve angular structure. If you express each data point as its cosine similarity
+to a set of anchor points, the resulting relative representations are invariant to latent
+isometries and rescalings. Two models trained on the same data will produce isomorphic
+relative representations, enabling zero-shot model stitching: composing the encoder of
+one model with the decoder of another without any joint training. We validate this across
+images, text, and graphs using CNNs, GCNs, and Transformers.
+
+Key contributions:
+- Relative representation: encode data as similarity to fixed anchor set rather than absolute coordinates
+- Latent isometry invariance: same angular structure regardless of random initialization
+- Zero-shot model stitching across architectures trained on the same distribution
+- Validated on image classification, NLP tasks, graph tasks
+- Platonic Representation Hypothesis: models converge to geometrically similar representations
+
+Relationship to Determinex Rosetta Stone:
+Determinex's Rosetta Stone draws on this theoretical framework but uses trained MLP encoder/decoder
+pairs (not analytical cosine-to-anchors) to bridge heterogeneous models with different
+embedding dimensionalities and different pretraining corpora. The Rosetta Stone is a trained
+artifact (rosetta_v1.pt) requiring InfoNCE contrastive training; Moschella et al. is training-free.

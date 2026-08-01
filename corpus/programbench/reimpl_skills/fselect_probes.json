@@ -1,0 +1,6484 @@
+[
+ {
+  "name": "test::test_permission_denied_file_still_queries_metadata::0",
+  "argv": [
+   "chmod",
+   "000",
+   "no_read.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "no_read.txt": "secret content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_modified_from_zip_file_info_datetime_conversion::1",
+  "argv": [
+   "touch",
+   "-t",
+   "202101010000",
+   "file.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_in_archive_entries::2",
+  "argv": [
+   "tar",
+   "czf",
+   "test.tar.gz",
+   "files/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_archive_search::3",
+  "argv": [
+   "zip",
+   "-q",
+   "-r",
+   "inner.zip",
+   "inner/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mindepth_with_archives::4",
+  "argv": [
+   "zip",
+   "-q",
+   "-r",
+   "test.zip",
+   "level1/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_maxdepth_with_gitignore::5",
+  "argv": [
+   "git",
+   "init"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archives_option_short_form::6",
+  "argv": [
+   "zip",
+   "-q",
+   "test.zip",
+   "file.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_acl_with_group_entry::7",
+  "argv": [
+   "setfacl",
+   "-m",
+   "g:root:r-x",
+   "acl_group.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "acl_group.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_acl_with_user_and_group_entries::8",
+  "argv": [
+   "setfacl",
+   "-m",
+   "u:root:rwx,g:root:r-x",
+   "acl_both.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "acl_both.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_has_acl_true::9",
+  "argv": [
+   "setfacl",
+   "-m",
+   "u:root:rwx",
+   "acl_test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "acl_test.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_has_acl_false::10",
+  "argv": [
+   "name, has_acl",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "no_acl.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_acl_entry_function_user::11",
+  "argv": [
+   "setfacl",
+   "-m",
+   "u:root:rwx",
+   "acl_entry_user.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "acl_entry_user.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_acl_entry_function_group::12",
+  "argv": [
+   "setfacl",
+   "-m",
+   "g:root:r-x",
+   "acl_entry_group.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "acl_entry_group.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_has_acl_entry_function::13",
+  "argv": [
+   "setfacl",
+   "-m",
+   "u:root:rwx",
+   "has_acl_entry.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "has_acl_entry.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_acl_on_dir::14",
+  "argv": [
+   "name, has_default_acl, default_acl",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "subdir_with_acl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_has_default_acl_entry_function::15",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "has_default_acl_entry('user:root')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_acl_entry_function::16",
+  "argv": [
+   "name, default_acl_entry('user:root')",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "subdir_def_entry"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_has_capabilities_on_regular_file::17",
+  "argv": [
+   "name, has_capabilities",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "no_caps.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_has_capabilities_on_binary_with_caps::18",
+  "argv": [
+   "name, has_capabilities",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "test_bin"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_capabilities_field_on_file_with_caps::19",
+  "argv": [
+   "name, capabilities",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "test_cap_bin"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_has_capability_function_filter::20",
+  "argv": [
+   "name, has_capabilities",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "has_capabilities"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_has_acl_true_with_acl::21",
+  "argv": [
+   "setfacl",
+   "-m",
+   "u:root:rwx",
+   "acl.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "acl.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_acl_field_shows_entries::22",
+  "argv": [
+   "setfacl",
+   "-m",
+   "u:root:r--",
+   "acl2.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "acl2.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_has_acl_entry_function_true::23",
+  "argv": [
+   "setfacl",
+   "-m",
+   "u:root:rwx",
+   "acl3.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "acl3.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_has_acl_entry_function_false::24",
+  "argv": [
+   "setfacl",
+   "-m",
+   "u:root:rwx",
+   "acl4.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "acl4.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_acl_entry_function::25",
+  "argv": [
+   "setfacl",
+   "-m",
+   "u:root:r--",
+   "acl5.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "acl5.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_group_acl_entry::26",
+  "argv": [
+   "setfacl",
+   "-m",
+   "g:root:rw-",
+   "acl6.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "acl6.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_acl_on_directory::27",
+  "argv": [
+   "name, has_default_acl, default_acl",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "is_dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_acl_field_multiple_entries::28",
+  "argv": [
+   "setfacl",
+   "-m",
+   "u:root:rwx,g:root:r--",
+   "multi_acl.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "multi_acl.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_by_has_acl::29",
+  "argv": [
+   "setfacl",
+   "-m",
+   "u:root:rwx",
+   "with_acl.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "with_acl.txt": "has acl"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_acl_entry_mask::30",
+  "argv": [
+   "setfacl",
+   "-m",
+   "u:root:r--,g:root:r--",
+   "mask.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "mask.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_acl_entry_other::31",
+  "argv": [
+   "setfacl",
+   "-m",
+   "u:root:r--",
+   "other.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "other.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_has_acl_entry_mask::32",
+  "argv": [
+   "setfacl",
+   "-m",
+   "u:root:r--,g:root:r--",
+   "hasmask.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "hasmask.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_has_acl_entry_other::33",
+  "argv": [
+   "setfacl",
+   "-m",
+   "u:root:r--",
+   "hasother.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "hasother.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_acl_group_entry_by_name::34",
+  "argv": [
+   "setfacl",
+   "-m",
+   "g:root:r--",
+   "grp.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "grp.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_acl_m_and_o_aliases::35",
+  "argv": [
+   "setfacl",
+   "-m",
+   "u:root:r--,g:root:r--",
+   "alias.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "alias.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_has_default_acl_on_directory::36",
+  "argv": [
+   "name, has_default_acl",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "="
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_acl_shows_entries::37",
+  "argv": [
+   "name, default_acl",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "="
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_acl_entry_function::38",
+  "argv": [
+   "name, default_acl_entry('user:root')",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "="
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_has_default_acl_false_regular_file::39",
+  "argv": [
+   "name, has_default_acl",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "file.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_acl_column_shows_acl_entries::40",
+  "argv": [
+   "name,acl",
+   "from",
+   "where",
+   "name",
+   "=",
+   "acl_file.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_has_acl_true::41",
+  "argv": [
+   "name,has_acl",
+   "from",
+   "where",
+   "name",
+   "=",
+   "acl_file.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_has_acl_false::42",
+  "argv": [
+   "name,has_acl",
+   "from",
+   "where",
+   "name",
+   "=",
+   "no_acl.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_acl_filter::43",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "has_acl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_acl_with_named_user::44",
+  "argv": [
+   "name,acl",
+   "from",
+   "where",
+   "name",
+   "=",
+   "named_acl.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_acl_permissions_format::45",
+  "argv": [
+   "acl",
+   "from",
+   "where",
+   "name",
+   "=",
+   "acl_file.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_acl_column::46",
+  "argv": [
+   "name,default_acl",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "acl_dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_has_default_acl_true::47",
+  "argv": [
+   "name,has_default_acl",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "acl_dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_output_valid::48",
+  "argv": [
+   "name,size",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "test.txt",
+   "into",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_output_multiple_files::49",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "like",
+   "file%.txt",
+   "into",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_output_valid::50",
+  "argv": [
+   "name,size",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "test.txt",
+   "into",
+   "csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_multiple_rows::51",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "like",
+   "%.txt",
+   "into",
+   "csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lines_output::52",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "like",
+   "%.txt",
+   "into",
+   "lines"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_output::53",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "like",
+   "%.txt",
+   "into",
+   "list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tabs_output::54",
+  "argv": [
+   "name,size",
+   "from",
+   "where",
+   "name",
+   "=",
+   "test.txt",
+   "into",
+   "tabs"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mindepth_option::55",
+  "argv": [
+   "name",
+   "from",
+   "mindepth",
+   "2",
+   "where",
+   "name",
+   "like",
+   "%.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_offset_option::56",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "like",
+   "%.txt",
+   "order",
+   "by",
+   "name",
+   "limit",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_keyword::57",
+  "argv": [
+   "select",
+   "name",
+   "from",
+   "where",
+   "name",
+   "=",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arbitrary_text_column::58",
+  "argv": [
+   "name, ' has size of ', size",
+   "from",
+   "where",
+   "name",
+   "=",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concat_ws_separator::59",
+  "argv": [
+   "concat_ws('|', name, ext)",
+   "from",
+   "where",
+   "name",
+   "=",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_operators::60",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "size",
+   "le",
+   "12"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ge_alias::61",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "size",
+   "ge",
+   "12"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lte_alias::62",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "size",
+   "lte",
+   "12"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gte_alias::63",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "size",
+   "gte",
+   "12"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_in_list::64",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "in",
+   "(hello.txt, foo.txt)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_not_in_list::65",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "notin",
+   "(hello.txt, foo.txt)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_size_kb::66",
+  "argv": [
+   "format_size(size, 'k')",
+   "from",
+   "where",
+   "name",
+   "=",
+   "hello.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_size_auto::67",
+  "argv": [
+   "format_size(size)",
+   "from",
+   "where",
+   "name",
+   "=",
+   "hello.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_abspath_field::68",
+  "argv": [
+   "abspath",
+   "from",
+   "where",
+   "name",
+   "=",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_absdir_field::69",
+  "argv": [
+   "absdir",
+   "from",
+   "where",
+   "name",
+   "=",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dir_field::70",
+  "argv": [
+   "dir, name",
+   "from",
+   "where",
+   "name",
+   "=",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filename_without_extension::71",
+  "argv": [
+   "filename",
+   "from",
+   "where",
+   "name",
+   "=",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fname_alias::72",
+  "argv": [
+   "fname",
+   "from",
+   "where",
+   "name",
+   "=",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_field::73",
+  "argv": [
+   "ext",
+   "from",
+   "where",
+   "name",
+   "=",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extension_alias::74",
+  "argv": [
+   "extension",
+   "from",
+   "where",
+   "name",
+   "=",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_group_read::75",
+  "argv": [
+   "name,group_read",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_group_write::76",
+  "argv": [
+   "name,group_write",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_group_exec::77",
+  "argv": [
+   "name,group_exec",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_group_all::78",
+  "argv": [
+   "name,group_all",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_group_rwx_alias::79",
+  "argv": [
+   "name,group_rwx",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_other_read::80",
+  "argv": [
+   "name,other_read",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_other_write::81",
+  "argv": [
+   "name,other_write",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_other_exec::82",
+  "argv": [
+   "name,other_exec",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_other_all::83",
+  "argv": [
+   "name,other_all",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_user_all::84",
+  "argv": [
+   "name,user_all",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_user_rwx_alias::85",
+  "argv": [
+   "name,user_rwx",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_suid::86",
+  "argv": [
+   "name,is_suid",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_suid_alias::87",
+  "argv": [
+   "name,suid",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_sgid::88",
+  "argv": [
+   "name,is_sgid",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sgid_alias::89",
+  "argv": [
+   "name,sgid",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_sticky::90",
+  "argv": [
+   "name,is_sticky",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sticky_alias::91",
+  "argv": [
+   "name,sticky",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_device_column::92",
+  "argv": [
+   "name,device",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rdev_column::93",
+  "argv": [
+   "name,rdev",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_pipe_column::94",
+  "argv": [
+   "name,is_pipe",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_fifo_alias::95",
+  "argv": [
+   "name,is_fifo",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_char_column::96",
+  "argv": [
+   "name,is_char",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_block_column::97",
+  "argv": [
+   "name,is_block",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_socket_column::98",
+  "argv": [
+   "name,is_socket",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_has_xattrs_column::99",
+  "argv": [
+   "name,has_xattrs",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xattr_count_column::100",
+  "argv": [
+   "name,xattr_count",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_acl_column::101",
+  "argv": [
+   "name,acl",
+   "from",
+   "depth",
+   "1",
+   "limit",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_has_acl_column::102",
+  "argv": [
+   "name,has_acl",
+   "from",
+   "depth",
+   "1",
+   "limit",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_star_wildcard_columns::103",
+  "argv": [
+   "*",
+   "from",
+   "depth",
+   "1",
+   "limit",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_contains_searches_file_content::104",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "contains('hello')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_contains_not_found::105",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "contains('missing_text_xyz')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_time::106",
+  "argv": [
+   "format_time(3661)",
+   "from",
+   "limit",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pretty_time_alias::107",
+  "argv": [
+   "pretty_time(60)",
+   "from",
+   "limit",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_contains_japanese::108",
+  "argv": [
+   "contains_japanese('hello')",
+   "from",
+   "limit",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_japanese_alias::109",
+  "argv": [
+   "japanese('hello')",
+   "from",
+   "limit",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_contains_hiragana::110",
+  "argv": [
+   "contains_hiragana('hello')",
+   "from",
+   "limit",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_contains_katakana::111",
+  "argv": [
+   "contains_katakana('hello')",
+   "from",
+   "limit",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_contains_greek::112",
+  "argv": [
+   "contains_greek('hello')",
+   "from",
+   "limit",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_greek_alias::113",
+  "argv": [
+   "greek('hello')",
+   "from",
+   "limit",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sha3_hash::114",
+  "argv": [
+   "name,sha3",
+   "from",
+   "where",
+   "name",
+   "=",
+   "hello.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stddev_pop::115",
+  "argv": [
+   "stddev_pop(size)",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stddev_alias::116",
+  "argv": [
+   "stddev(size)",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_std_alias::117",
+  "argv": [
+   "std(size)",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stddev_samp::118",
+  "argv": [
+   "stddev_samp(size)",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_var_pop::119",
+  "argv": [
+   "var_pop(size)",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_variance_alias::120",
+  "argv": [
+   "variance(size)",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_var_samp::121",
+  "argv": [
+   "var_samp(size)",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_size_field::122",
+  "argv": [
+   "name, size",
+   "from",
+   "depth",
+   "1",
+   "archives"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_is_dir_field::123",
+  "argv": [
+   "name, is_dir, is_file",
+   "from",
+   "depth",
+   "1",
+   "archives"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_is_file_field::124",
+  "argv": [
+   "name, is_file",
+   "from",
+   "depth",
+   "1",
+   "archives",
+   "where",
+   "name",
+   "=",
+   "check_file.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_formatted_size::125",
+  "argv": [
+   "name, fsize",
+   "from",
+   "depth",
+   "1",
+   "archives"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_is_hidden::126",
+  "argv": [
+   "name, is_hidden",
+   "from",
+   "depth",
+   "1",
+   "archives"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_modified_date::127",
+  "argv": [
+   "name, modified",
+   "from",
+   "depth",
+   "1",
+   "archives"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_path_field::128",
+  "argv": [
+   "name, path",
+   "from",
+   "depth",
+   "1",
+   "archives",
+   "where",
+   "name",
+   "=",
+   "pathtest.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archives_option_finds_inside_files::129",
+  "argv": [
+   "name",
+   "from",
+   "archives",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arc_alias_works::130",
+  "argv": [
+   "name",
+   "from",
+   "arc",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_without_archives_only_zip_file::131",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_files_have_is_file_true::132",
+  "argv": [
+   "name,is_file",
+   "from",
+   "archives",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_files_have_is_archive_false::133",
+  "argv": [
+   "name,is_archive",
+   "from",
+   "archives",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_file_size::134",
+  "argv": [
+   "name,size",
+   "from",
+   "archives",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_filter_by_ext::135",
+  "argv": [
+   "name",
+   "from",
+   "archives",
+   "depth",
+   "1",
+   "where",
+   "ext",
+   "=",
+   "py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_is_directory_false::136",
+  "argv": [
+   "name,is_dir",
+   "from",
+   "archives",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_path_column::137",
+  "argv": [
+   "path",
+   "from",
+   "archives",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_modified_column::138",
+  "argv": [
+   "name,modified",
+   "from",
+   "archives",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_filter_count::139",
+  "argv": [
+   "count(*)",
+   "from",
+   "archives",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_filename_column::140",
+  "argv": [
+   "filename",
+   "from",
+   "archives",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_ext_column::141",
+  "argv": [
+   "ext",
+   "from",
+   "archives",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_is_empty_false::142",
+  "argv": [
+   "name,is_empty",
+   "from",
+   "archives",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_dir_column::143",
+  "argv": [
+   "name,dir",
+   "from",
+   "archives",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_is_hidden_false::144",
+  "argv": [
+   "name,is_hidden",
+   "from",
+   "archives",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_is_symlink_false::145",
+  "argv": [
+   "name,is_symlink",
+   "from",
+   "archives",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_absdir_column::146",
+  "argv": [
+   "name,absdir",
+   "from",
+   "archives",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_has_xattrs::147",
+  "argv": [
+   "name,has_xattrs",
+   "from",
+   "archives",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_abspath_column::148",
+  "argv": [
+   "name,abspath",
+   "from",
+   "archives",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_line_count::149",
+  "argv": [
+   "name,line_count",
+   "from",
+   "archives",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_is_text::150",
+  "argv": [
+   "name,is_text,is_binary",
+   "from",
+   "archives",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_size_field::151",
+  "argv": [
+   "name, size",
+   "from",
+   "archives",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "inside.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_is_dir_field::152",
+  "argv": [
+   "name, is_dir",
+   "from",
+   "archives",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "inside.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_is_file_field::153",
+  "argv": [
+   "name, is_file",
+   "from",
+   "archives",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "inside.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_is_symlink_field::154",
+  "argv": [
+   "name, is_symlink",
+   "from",
+   "archives",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "inside.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_fsize_field::155",
+  "argv": [
+   "name, fsize",
+   "from",
+   "archives",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "inside.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_modified_field::156",
+  "argv": [
+   "name, modified",
+   "from",
+   "archives",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "inside.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_is_empty_field::157",
+  "argv": [
+   "name, is_empty",
+   "from",
+   "archives",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "empty_file.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_ext_field::158",
+  "argv": [
+   "name, ext",
+   "from",
+   "archives",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "inside.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_is_audio_false::159",
+  "argv": [
+   "name, is_audio",
+   "from",
+   "archives",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "inside.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_is_image_false::160",
+  "argv": [
+   "name, is_image",
+   "from",
+   "archives",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "inside.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_is_doc_false::161",
+  "argv": [
+   "name, is_doc",
+   "from",
+   "archives",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "inside.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_is_source_code::162",
+  "argv": [
+   "name, is_source",
+   "from",
+   "archives",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "nested.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_size_multiply::163",
+  "argv": [
+   "size * 2",
+   "from",
+   "where",
+   "name",
+   "=",
+   "hello.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_size_add::164",
+  "argv": [
+   "size + 10",
+   "from",
+   "where",
+   "name",
+   "=",
+   "hello.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_size_subtract::165",
+  "argv": [
+   "size - 2",
+   "from",
+   "where",
+   "name",
+   "=",
+   "hello.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_size_divide::166",
+  "argv": [
+   "size / 2",
+   "from",
+   "where",
+   "name",
+   "=",
+   "hello.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_constant_arithmetic::167",
+  "argv": [
+   "2 + 3 * 4",
+   "from",
+   "limit",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arithmetic_in_where::168",
+  "argv": [
+   "name,size",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "size * 2",
+   ">",
+   "20"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_long::169",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short::170",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::171",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_short::172",
+  "argv": [
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fields_completion::173",
+  "argv": [
+   "--fields"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_functions_completion::174",
+  "argv": [
+   "--functions"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_root_options_completion::175",
+  "argv": [
+   "--root-options"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_formats_completion::176",
+  "argv": [
+   "--output-formats"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_caps_column_shows_capabilities::177",
+  "argv": [
+   "name,caps",
+   "from",
+   "where",
+   "name",
+   "=",
+   "cap_file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_has_caps_true::178",
+  "argv": [
+   "name,has_caps",
+   "from",
+   "where",
+   "name",
+   "=",
+   "cap_file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_has_caps_false::179",
+  "argv": [
+   "name,has_caps",
+   "from",
+   "where",
+   "name",
+   "=",
+   "no_caps.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_capabilities_v2_with_effective::180",
+  "argv": [
+   "name,caps,has_caps",
+   "from",
+   "where",
+   "name",
+   "=",
+   "eff_cap.bin"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_capabilities_v2_both_words::181",
+  "argv": [
+   "name,caps",
+   "from",
+   "where",
+   "name",
+   "=",
+   "multi_cap.bin"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_capabilities_v1::182",
+  "argv": [
+   "name,caps",
+   "from",
+   "where",
+   "name",
+   "=",
+   "v1_cap.bin"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_capabilities_v3_with_rootid::183",
+  "argv": [
+   "name,caps",
+   "from",
+   "where",
+   "name",
+   "=",
+   "v3_cap.bin"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_has_cap_function::184",
+  "argv": [
+   "name,has_caps",
+   "from",
+   "where",
+   "name",
+   "=",
+   "test_hascap.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filename_without_ext::185",
+  "argv": [
+   "filename",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fname_alias::186",
+  "argv": [
+   "fname",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_column::187",
+  "argv": [
+   "ext",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extension_alias::188",
+  "argv": [
+   "extension",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_column::189",
+  "argv": [
+   "path",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_abspath_column::190",
+  "argv": [
+   "abspath",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dir_column::191",
+  "argv": [
+   "name,dir",
+   "from"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_absdir_column::192",
+  "argv": [
+   "absdir",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dirname_alias::193",
+  "argv": [
+   "name,dirname",
+   "from"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_size_column::194",
+  "argv": [
+   "name,size",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fsize_column::195",
+  "argv": [
+   "name,fsize",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hsize_alias::196",
+  "argv": [
+   "name,hsize",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_column::197",
+  "argv": [
+   "name,mode",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_uid_gid_columns::198",
+  "argv": [
+   "name,uid,gid",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_user_group_columns::199",
+  "argv": [
+   "name,user,group",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_user_read_write_exec::200",
+  "argv": [
+   "name,user_read,user_write,user_exec",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_other_permissions::201",
+  "argv": [
+   "name,other_read,other_write,other_exec",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_modified_column::202",
+  "argv": [
+   "name,modified",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_created_column::203",
+  "argv": [
+   "name,created",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_accessed_column::204",
+  "argv": [
+   "name,accessed",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mtime_atime_ctime::205",
+  "argv": [
+   "name,mtime,atime,ctime",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_dir_column::206",
+  "argv": [
+   "name,is_dir",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_file_column::207",
+  "argv": [
+   "name,is_file",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_symlink_column::208",
+  "argv": [
+   "name,is_symlink",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_hidden_column::209",
+  "argv": [
+   "name,is_hidden",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_empty_column::210",
+  "argv": [
+   "name,is_empty",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_shebang_column::211",
+  "argv": [
+   "name,is_shebang",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_text_is_binary::212",
+  "argv": [
+   "name,is_text,is_binary",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inode_column::213",
+  "argv": [
+   "name,inode",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hardlinks_column::214",
+  "argv": [
+   "name,hardlinks",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_blocks_column::215",
+  "argv": [
+   "name,blocks",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mime_column::216",
+  "argv": [
+   "name,mime",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_count::217",
+  "argv": [
+   "name,line_count",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_archive_column::218",
+  "argv": [
+   "name,is_archive",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_audio_column::219",
+  "argv": [
+   "name,is_audio",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_image_column::220",
+  "argv": [
+   "name,is_image",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_video_column::221",
+  "argv": [
+   "name,is_video",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_doc_column::222",
+  "argv": [
+   "name,is_doc",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_source_column::223",
+  "argv": [
+   "name,is_source",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_font_column::224",
+  "argv": [
+   "name,is_font",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sha1_column::225",
+  "argv": [
+   "name,sha1",
+   "from",
+   "where",
+   "name",
+   "=",
+   "hello.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sha256_column::226",
+  "argv": [
+   "name,sha256",
+   "from",
+   "where",
+   "name",
+   "=",
+   "hello.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sha512_column::227",
+  "argv": [
+   "name,sha512",
+   "from",
+   "where",
+   "name",
+   "=",
+   "hello.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_md5_column_returns_md5_label::228",
+  "argv": [
+   "name,md5",
+   "from",
+   "where",
+   "name",
+   "=",
+   "hello.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_config_path::229",
+  "argv": [
+   "--config",
+   "test_config.toml",
+   "name",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "test_config.toml": "no_color = true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_config_falls_back_to_default::230",
+  "argv": [
+   "--config",
+   "invalid_config.toml",
+   "name",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid_config.toml": "INVALID TOML @@@ = [broken"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_us_dates::231",
+  "argv": [
+   "--config",
+   "config.toml",
+   "name,modified",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "us_dates = true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_invalid_toml_error_message::232",
+  "argv": [
+   "--config",
+   "bad.toml",
+   "name",
+   "from"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.toml": "[broken [ syntax\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_gitignore_setting::233",
+  "argv": [
+   "--config",
+   "config.toml",
+   "name",
+   "from",
+   "depth",
+   "1",
+   "gitignore"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "gitignore = true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_hgignore_setting::234",
+  "argv": [
+   "--config",
+   "config.toml",
+   "name",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "hgignore = false\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_dockerignore_setting::235",
+  "argv": [
+   "--config",
+   "config.toml",
+   "name",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "dockerignore = false\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_no_color_setting::236",
+  "argv": [
+   "--config",
+   "config.toml",
+   "name",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "no_color = true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_custom_archive_extensions::237",
+  "argv": [
+   "--config",
+   "config.toml",
+   "name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "is_archive"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "is_archive = [\".myzip\", \".xz\"]\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_default_file_size_format::238",
+  "argv": [
+   "--config",
+   "config.toml",
+   "fsize, name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "default_file_size_format = \"MB\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_custom_image_extensions::239",
+  "argv": [
+   "--config",
+   "config.toml",
+   "name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "is_image"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "is_image = [\".myimg\"]\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_error_flag_suppresses_errors::240",
+  "argv": [
+   "--no-error",
+   "name",
+   "from"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_us_dates_flag::241",
+  "argv": [
+   "--us-dates",
+   "name, modified",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nocolor_flag::242",
+  "argv": [
+   "--nocolor",
+   "name",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_color_flag_alt::243",
+  "argv": [
+   "--no-color",
+   "name",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_requires_path::244",
+  "argv": [
+   "--config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lexer_unterminated_string::245",
+  "argv": [
+   "name",
+   "from",
+   "/tmp",
+   "depth",
+   "1",
+   "where",
+   "name = 'unterminated"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_count_basic::246",
+  "argv": [
+   "line_count, name",
+   "from",
+   "where",
+   "name",
+   "=",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_count_single_line::247",
+  "argv": [
+   "line_count",
+   "from",
+   "where",
+   "name",
+   "=",
+   "single.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_count_filter::248",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "line_count",
+   ">",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_shebang_true::249",
+  "argv": [
+   "is_shebang, name",
+   "from",
+   "where",
+   "name",
+   "=",
+   "script.sh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_shebang_false::250",
+  "argv": [
+   "is_shebang",
+   "from",
+   "where",
+   "name",
+   "=",
+   "regular.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_shebang_filter::251",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "is_shebang"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_empty_true::252",
+  "argv": [
+   "is_empty, name",
+   "from",
+   "where",
+   "name",
+   "=",
+   "empty.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_empty_false::253",
+  "argv": [
+   "is_empty",
+   "from",
+   "where",
+   "name",
+   "=",
+   "nonempty.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_empty_empty_dir::254",
+  "argv": [
+   "is_empty, name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "empty_dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_contains_basic::255",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "contains('World')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_contains_not_found::256",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "contains('xyz_not_found')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_contains_multiple_files::257",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "contains('keyword')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mime_text_file::258",
+  "argv": [
+   "mime, name",
+   "from",
+   "where",
+   "name",
+   "=",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mime_directory::259",
+  "argv": [
+   "mime, name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "="
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_text_file::260",
+  "argv": [
+   "is_text, name",
+   "from",
+   "where",
+   "name",
+   "=",
+   "text.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_archive::261",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "is_archive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_doc::262",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "is_doc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_font::263",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "is_font"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_source::264",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "is_source"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duration_on_text_file::265",
+  "argv": [
+   "name, duration",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "text.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bitrate_on_text_file::266",
+  "argv": [
+   "name, bitrate",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "notaudio.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mp3_fields_on_non_mp3::267",
+  "argv": [
+   "name, title, artist, album, mp3_year, genre, freq",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "nomp3.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_device_field::268",
+  "argv": [
+   "name, device",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "regular.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rdev_field::269",
+  "argv": [
+   "name, rdev",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "file_rdev.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inode_field::270",
+  "argv": [
+   "name, inode",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "inode_test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_blocks_field::271",
+  "argv": [
+   "name, blocks",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "blocks_test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hardlinks_field::272",
+  "argv": [
+   "name, hardlinks",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "hardlinks_test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_atime_unix_timestamp::273",
+  "argv": [
+   "name, atime",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "atime_test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ctime_unix_timestamp::274",
+  "argv": [
+   "name, ctime",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "ctime_test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unparseable_query_gives_error::275",
+  "argv": [
+   "!!!invalid!!!"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_limit_with_offset_comma_format::276",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "limit",
+   "0,2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ambiguous_offset::277",
+  "argv": [
+   "name",
+   "from",
+   "limit",
+   "1,2",
+   "offset",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_output_format_error::278",
+  "argv": [
+   "name",
+   "from",
+   "into",
+   "unknownformat"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_order_by_index_out_of_range::279",
+  "argv": [
+   "name",
+   "from",
+   "order",
+   "by",
+   "99"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_from_clause_uses_cwd::280",
+  "argv": [
+   "name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_error_flag::281",
+  "argv": [
+   "--no-error",
+   "name",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_us_date_flag::282",
+  "argv": [
+   "--us-date",
+   "name, modified",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "us_date.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_flag_with_valid_config::283",
+  "argv": [
+   "--config",
+   "test_config.toml",
+   "name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "config_test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test_config.toml": "no_color = true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nocolor_flag::284",
+  "argv": [
+   "--nocolor",
+   "name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "nocolor.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_custom_is_archive::285",
+  "argv": [
+   "--config",
+   "custom_config.toml",
+   "name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "is_archive"
+  ],
+  "stdin": null,
+  "files": {
+   "custom_config.toml": "is_archive = [\".myarchive\"]\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_invalid_toml::286",
+  "argv": [
+   "--config",
+   "bad_config.toml",
+   "name",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {
+   "bad_config.toml": "this is !!! invalid toml [[["
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_default_file_size_format::287",
+  "argv": [
+   "--config",
+   "size_config.toml",
+   "name, fsize",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "bigfile.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "size_config.toml": "default_file_size_format = \"k\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_uid_field_returns_numeric::288",
+  "argv": [
+   "name, uid",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "uid_test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gid_field_returns_numeric::289",
+  "argv": [
+   "name, gid",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "gid_test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strict_equality_with_glob_chars::290",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "===",
+   "file_test_v2.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_like_pattern_with_underscore::291",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "like",
+   "test_%.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_in_path_with_special_chars::292",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=~",
+   ".*\\.txt$"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_notlike_operator::293",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "notlike",
+   "%.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_not_regex_operator::294",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "!=~",
+   ".*\\.py$"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_directory_error::295",
+  "argv": [
+   "name",
+   "from",
+   "/definitely/does/not/exist/12345",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_permission_denied_handled_gracefully::296",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tabs_format_explicit::297",
+  "argv": [
+   "name, size",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "tabs_test.txt",
+   "into",
+   "tabs"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_format::298",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "into",
+   "list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lines_format::299",
+  "argv": [
+   "name, size",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "lines_test.txt",
+   "into",
+   "lines"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_abspath_field::300",
+  "argv": [
+   "name, abspath",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "abs_test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_absdir_field::301",
+  "argv": [
+   "name, absdir",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "absdir_test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_round_function_negative_precision::302",
+  "argv": [
+   "round(size, -3)",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "round_test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coalesce_function::303",
+  "argv": [
+   "coalesce(title, name)",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "coalesce_test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_time_function::304",
+  "argv": [
+   "format_time(3661)",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "fmt_time_test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_current_uid_function::305",
+  "argv": [
+   "current_uid()",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "curr_uid_test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_current_gid_function::306",
+  "argv": [
+   "current_gid()",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "curr_gid_test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_current_user_function::307",
+  "argv": [
+   "current_user()",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "curr_user_test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_current_group_function::308",
+  "argv": [
+   "current_group()",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "curr_group_test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_current_date_function::309",
+  "argv": [
+   "current_date()",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "curr_date_test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_current_time_function::310",
+  "argv": [
+   "current_time()",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "curr_time_test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_day_name_function::311",
+  "argv": [
+   "dayname(modified)",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "dayname_test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_day_of_year_function::312",
+  "argv": [
+   "dayofyear(modified)",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "doy_test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_last_day_function::313",
+  "argv": [
+   "last_day(modified)",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "lastday_test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_svg_dimensions::314",
+  "argv": [
+   "name, width, height",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "test.svg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_svg_no_explicit_dimensions::315",
+  "argv": [
+   "name, width, height",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "no_dims.svg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hgignore_with_glob_syntax::316",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "hgignore"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hgignore_nohgignore_option::317",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "nohgignore"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dockerignore_with_negate_pattern::318",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "dockerignore"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nodockerignore_option::319",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "nodockerignore"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_socket_false_for_regular_file::320",
+  "argv": [
+   "name, is_socket",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "not_socket.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_pipe_false_for_regular_file::321",
+  "argv": [
+   "name, is_pipe",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "not_pipe.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_block_device_false_for_regular::322",
+  "argv": [
+   "name, is_block",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "not_block.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_char_device_on_dev_null::323",
+  "argv": [
+   "name, is_char",
+   "from",
+   "/dev",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "null"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_group_by_with_stddev::324",
+  "argv": [
+   "ext, stddev(size)",
+   "from",
+   "depth",
+   "1",
+   "group",
+   "by",
+   "ext"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_group_by_with_variance::325",
+  "argv": [
+   "ext, variance(size)",
+   "from",
+   "depth",
+   "1",
+   "group",
+   "by",
+   "ext"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_group_by_with_stddev_samp::326",
+  "argv": [
+   "ext, stddev_samp(size)",
+   "from",
+   "depth",
+   "1",
+   "group",
+   "by",
+   "ext"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_group_by_with_var_samp::327",
+  "argv": [
+   "ext, var_samp(size)",
+   "from",
+   "depth",
+   "1",
+   "group",
+   "by",
+   "ext"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dfs_mode::328",
+  "argv": [
+   "name",
+   "from",
+   "dfs",
+   "depth",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_offset_clause::329",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "order",
+   "by",
+   "name",
+   "limit",
+   "3",
+   "offset",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_contains_function::330",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "contains('quick brown')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mindepth_option::331",
+  "argv": [
+   "name",
+   "from",
+   "mindepth",
+   "2",
+   "maxdepth",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bfs_mode_default::332",
+  "argv": [
+   "name",
+   "from",
+   "bfs",
+   "depth",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exif_fields_on_text_file::333",
+  "argv": [
+   "name, exif_make, exif_model, exif_datetime",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "not_image.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exif_gps_on_text_file::334",
+  "argv": [
+   "name, exif_latitude, exif_longitude, exif_altitude",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "no_gps.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_directory_is_empty::335",
+  "argv": [
+   "name, is_empty",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "empty"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_non_empty_directory_is_not_empty::336",
+  "argv": [
+   "name, is_empty",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "non_empty"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_color_env_variable::337",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "no_color_env.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "NO_COLOR": "1"
+  }
+ },
+ {
+  "name": "test::test_where_with_between::338",
+  "argv": [
+   "name, size",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "size",
+   "between",
+   "200",
+   "and",
+   "400"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xattr_count_on_file_without_xattrs::339",
+  "argv": [
+   "name, xattr_count",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "no_xattr.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_directory_not_shown_in_file_results::340",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "is_file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_dir_filter::341",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "is_dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_size_function_with_modifier::342",
+  "argv": [
+   "name, format_size(size, 'k')",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "size_test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_add_function::343",
+  "argv": [
+   "name, date_add(modified, 7)",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "dateadd_test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_sub_function::344",
+  "argv": [
+   "name, date_sub(modified, 7)",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "datesub_test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_diff_function::345",
+  "argv": [
+   "name, date_diff(modified, '2020-01-01')",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "datediff_test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_from_unixtime_function::346",
+  "argv": [
+   "name, from_unixtime(0)",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "unixtime_test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_greatest_function::347",
+  "argv": [
+   "greatest(1, 5, 3, 7, 2)",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "greatest_test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_least_function::348",
+  "argv": [
+   "least(1, 5, 3, 7, 2)",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "least_test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coalesce_with_empty::349",
+  "argv": [
+   "coalesce(title, name)",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "coal_test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_locate_function::350",
+  "argv": [
+   "locate(name, '_')",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "locate_test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_replace_function::351",
+  "argv": [
+   "replace(name, 'test', 'demo')",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "replace_test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_column_alias_with_as_keyword::352",
+  "argv": [
+   "name as filename, size as filesize",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "alias_test.txt",
+   "into",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_column_alias_in_tabs_format::353",
+  "argv": [
+   "name as n, size as s",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "alias_tabs.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_column_alias_with_as_but_no_name::354",
+  "argv": [
+   "name as",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "alias_no_name.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_acl_group_entry_with_unknown_gid::355",
+  "argv": [
+   "setfacl",
+   "-m",
+   "g:12345:r--",
+   "test_gid.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test_gid.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_acl_find_by_gid_number::356",
+  "argv": [
+   "setfacl",
+   "-m",
+   "g:12345:rw-",
+   "test_gid2.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test_gid2.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_acl_find_by_uid_number::357",
+  "argv": [
+   "setfacl",
+   "-m",
+   "u:0:rwx",
+   "test_uid.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test_uid.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_acl_with_group_obj::358",
+  "argv": [
+   "setfacl",
+   "-m",
+   "u:root:rwx",
+   "test_group_obj.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test_group_obj.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_acl_on_directory::359",
+  "argv": [
+   "name, default_acl_entry('user:root')",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "is_dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_acl_group_entry::360",
+  "argv": [
+   "name, has_default_acl_entry('group:12345'), default_acl_entry('group:12345')",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "is_dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_acl_entry_returns_empty_for_no_match::361",
+  "argv": [
+   "setfacl",
+   "-m",
+   "u:root:rwx",
+   "test_no_match.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test_no_match.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_has_acl_entry_using_g_shorthand::362",
+  "argv": [
+   "setfacl",
+   "-m",
+   "g:root:r--",
+   "test_g_shorthand.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test_g_shorthand.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dockerignore_double_star_pattern::363",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "2",
+   "dockerignore"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_is_dir_field::364",
+  "argv": [
+   "name, is_dir",
+   "from",
+   "archives",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_is_file_field::365",
+  "argv": [
+   "name, is_file",
+   "from",
+   "archives",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_size_field::366",
+  "argv": [
+   "name, size",
+   "from",
+   "archives",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "content.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_path_field::367",
+  "argv": [
+   "name, path",
+   "from",
+   "archives",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "file.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_fsize_field::368",
+  "argv": [
+   "name, fsize",
+   "from",
+   "archives",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "large.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_is_symlink_in_archive::369",
+  "argv": [
+   "name, is_symlink",
+   "from",
+   "archives",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "regular.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_broken_symlink_handling::370",
+  "argv": [
+   "name, size",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_symlink_to_file_with_symlinks_follow::371",
+  "argv": [
+   "name, size",
+   "from",
+   "symlinks",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "link.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_symlink_on_actual_symlink::372",
+  "argv": [
+   "name, is_symlink",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "link.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_keyword_works::373",
+  "argv": [
+   "select",
+   "name",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_with_curly_brace_expressions::374",
+  "argv": [
+   "name, length{name}",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "file.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_order_by_position_asc::375",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "order",
+   "by",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_group_by_with_order_by::376",
+  "argv": [
+   "ext, count(*)",
+   "from",
+   "depth",
+   "1",
+   "group",
+   "by",
+   "ext",
+   "order",
+   "by",
+   "2",
+   "desc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_roots::377",
+  "argv": [
+   "name",
+   "from",
+   ",",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_depth_value::378",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "abc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_path_option::379",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "2",
+   "where",
+   "name",
+   "=",
+   "file.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_from_without_path_uses_current_dir::380",
+  "argv": [
+   "name",
+   "where",
+   "name",
+   "=",
+   "file.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_suid_bit_detection::381",
+  "argv": [
+   "name, suid",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "suid_file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sgid_bit_detection::382",
+  "argv": [
+   "name, sgid",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "sgid_file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sticky_bit_detection::383",
+  "argv": [
+   "name, is_sticky",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "sticky_dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_suid_filter_in_where_clause::384",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "suid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_other_exec_permission::385",
+  "argv": [
+   "name, other_exec",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "exec_file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_other_write_permission::386",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "other_write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_size_with_empty_file::387",
+  "argv": [
+   "name, size",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "empty.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_size_range_query::388",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "size",
+   "between",
+   "200",
+   "and",
+   "600"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_count_for_text_file::389",
+  "argv": [
+   "name, line_count",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "multiline.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_count_empty_file::390",
+  "argv": [
+   "name, line_count",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "empty.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_text_field::391",
+  "argv": [
+   "name, is_text",
+   "from",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_binary_field::392",
+  "argv": [
+   "name, is_binary",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "binary.bin"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mime_field_for_text::393",
+  "argv": [
+   "name, mime",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "hello.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_output_with_null_bytes::394",
+  "argv": [
+   "name, size",
+   "from",
+   "depth",
+   "1",
+   "into",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lines_output_format::395",
+  "argv": [
+   "name, size",
+   "from",
+   "depth",
+   "1",
+   "order",
+   "by",
+   "name",
+   "into",
+   "lines"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_output_format::396",
+  "argv": [
+   "name",
+   "from",
+   "depth",
+   "1",
+   "order",
+   "by",
+   "name",
+   "into",
+   "list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_abspath_field::397",
+  "argv": [
+   "name, abspath",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "file.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_absdir_field::398",
+  "argv": [
+   "name, absdir",
+   "from",
+   "depth",
+   "1",
+   "where",
+   "name",
+   "=",
+   "file.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_directory_field::399",
+  "argv": [
+   "name, dir",
+   "from",
+   "depth",
+   "2",
+   "where",
+   "name",
+   "=",
+   "nested.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

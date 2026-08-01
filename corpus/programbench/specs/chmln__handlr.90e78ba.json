@@ -1,0 +1,3035 @@
+{
+ "slug": "chmln__handlr.90e78ba",
+ "language": "",
+ "n_branches": 12,
+ "n_tests_total": 795,
+ "n_examples": 165,
+ "n_with_exact_stdout": 6,
+ "n_with_rc": 153,
+ "n_skipped": 575,
+ "examples": [
+  {
+   "test": "test_combined_short_flags_equivalent_to_separate",
+   "argv": [
+    "list",
+    "-a",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:93"
+  },
+  {
+   "test": "test_double_dash_makes_dashy_value_positional_in_open",
+   "argv": [
+    "open",
+    "-x"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "No such file or directory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:103"
+  },
+  {
+   "test": "test_subcommand_has_help",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:32"
+  },
+  {
+   "test": "test_list_subcommand_dispatch",
+   "argv": [
+    "list",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "list"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:57"
+  },
+  {
+   "test": "test_open_subcommand_dispatch",
+   "argv": [
+    "open",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "open"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:63"
+  },
+  {
+   "test": "test_set_subcommand_dispatch",
+   "argv": [
+    "set",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "set",
+    "handler"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:70"
+  },
+  {
+   "test": "test_unset_subcommand_dispatch",
+   "argv": [
+    "unset",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unset"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:77"
+  },
+  {
+   "test": "test_launch_subcommand_dispatch",
+   "argv": [
+    "launch",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "launch"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:83"
+  },
+  {
+   "test": "test_get_subcommand_dispatch",
+   "argv": [
+    "get",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "get"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:89"
+  },
+  {
+   "test": "test_add_subcommand_dispatch",
+   "argv": [
+    "add",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "add"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:95"
+  },
+  {
+   "test": "test_help_flag_alone",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:154"
+  },
+  {
+   "test": "test_version_flag_alone",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "handlr"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:160"
+  },
+  {
+   "test": "test_version_flag_with_subcommand",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:174"
+  },
+  {
+   "test": "test_list_all_flag",
+   "argv": [
+    "list",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:184"
+  },
+  {
+   "test": "test_get_json_flag",
+   "argv": [
+    "get",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--json"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:190"
+  },
+  {
+   "test": "test_list_usage_pattern",
+   "argv": [
+    "list",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "flags"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:273"
+  },
+  {
+   "test": "test_open_usage_pattern",
+   "argv": [
+    "open",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:280"
+  },
+  {
+   "test": "test_set_usage_pattern",
+   "argv": [
+    "set",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:287"
+  },
+  {
+   "test": "test_unset_usage_pattern",
+   "argv": [
+    "unset",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<mime>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:294"
+  },
+  {
+   "test": "test_get_usage_pattern",
+   "argv": [
+    "get",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<mime>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:301"
+  },
+  {
+   "test": "test_launch_usage_pattern",
+   "argv": [
+    "launch",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<mime>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:308"
+  },
+  {
+   "test": "test_add_usage_pattern",
+   "argv": [
+    "add",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:315"
+  },
+  {
+   "test": "test_subcommand_help_has_usage_section",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage:"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:327"
+  },
+  {
+   "test": "test_subcommand_help_has_flags_section",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "flags:"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:334"
+  },
+  {
+   "test": "test_subcommand_help_includes_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:341"
+  },
+  {
+   "test": "test_main_help_has_subcommands_section",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "subcommands:"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:359"
+  },
+  {
+   "test": "test_main_help_shows_usage",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage:",
+    "subcommand"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:365"
+  },
+  {
+   "test": "test_main_help_shows_version",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "handlr"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:373"
+  },
+  {
+   "test": "test_list_description_in_main_help",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "list"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:383"
+  },
+  {
+   "test": "test_open_description_in_main_help",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "open"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:390"
+  },
+  {
+   "test": "test_set_description_in_main_help",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "set"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:396"
+  },
+  {
+   "test": "test_add_handler",
+   "argv": [
+    "add",
+    "text/plain",
+    "test-app.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test-app.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_add.py:4"
+  },
+  {
+   "test": "test_add_multiple_handlers",
+   "argv": [
+    "add",
+    "text/plain",
+    "test-app.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test-app"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_add.py:15"
+  },
+  {
+   "test": "test_add_to_existing",
+   "argv": [
+    "set",
+    "text/plain",
+    "test-app.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test-app.desktop",
+    "test-app"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_add.py:44"
+  },
+  {
+   "test": "test_add_wildcard",
+   "argv": [
+    "add",
+    "text/*",
+    "test-app.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test-app.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_add.py:69"
+  },
+  {
+   "test": "test_add_scheme_handler",
+   "argv": [
+    "add",
+    "x-scheme-handler/http",
+    "test-app.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test-app.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_add.py:79"
+  },
+  {
+   "test": "test_add_different_mime_types",
+   "argv": [
+    "add",
+    "text/plain",
+    "test-app.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test-app.desktop",
+    "test-app.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_add.py:101"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:",
+    "SUBCOMMANDS:",
+    "list",
+    "open",
+    "set",
+    "get",
+    "add",
+    "unset",
+    "launch"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:13"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:",
+    "SUBCOMMANDS:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:27"
+  },
+  {
+   "test": "test_version_short_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "handlr"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:42"
+  },
+  {
+   "test": "test_subcommand_help_list",
+   "argv": [
+    "list",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "List default apps",
+    "USAGE:",
+    "--all"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:56"
+  },
+  {
+   "test": "test_subcommand_help_open",
+   "argv": [
+    "open",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Open a path/URL",
+    "USAGE:",
+    "<paths>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:64"
+  },
+  {
+   "test": "test_subcommand_help_set",
+   "argv": [
+    "set",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Set the default handler",
+    "<mime>",
+    "<handler>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:72"
+  },
+  {
+   "test": "test_subcommand_help_get",
+   "argv": [
+    "get",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Get handler",
+    "--json",
+    "<mime>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:80"
+  },
+  {
+   "test": "test_subcommand_help_add",
+   "argv": [
+    "add",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Add a handler",
+    "<mime>",
+    "<handler>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:88"
+  },
+  {
+   "test": "test_subcommand_help_unset",
+   "argv": [
+    "unset",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unset the default handler",
+    "<mime>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:96"
+  },
+  {
+   "test": "test_subcommand_help_launch",
+   "argv": [
+    "launch",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Launch the handler",
+    "<mime>",
+    "<args>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:103"
+  },
+  {
+   "test": "test_desktop_entry_with_terminal_true",
+   "argv": [
+    "set",
+    "text/plain",
+    "terminal-app.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "terminal-app.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_desktop_entries.py:5"
+  },
+  {
+   "test": "test_desktop_entry_with_categories",
+   "argv": [
+    "set",
+    "text/plain",
+    "editor.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "editor.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_desktop_entries.py:29"
+  },
+  {
+   "test": "test_desktop_entry_with_multiple_mimes",
+   "argv": [
+    "set",
+    "text/plain",
+    "multi-mime.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "multi-mime.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_desktop_entries.py:51"
+  },
+  {
+   "test": "test_desktop_entry_exec_with_url_field",
+   "argv": [
+    "set",
+    "x-scheme-handler/http",
+    "url-handler.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "url-handler.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_desktop_entries.py:72"
+  },
+  {
+   "test": "test_desktop_entry_exec_with_file_field",
+   "argv": [
+    "set",
+    "image/png",
+    "file-handler.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file-handler.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_desktop_entries.py:93"
+  },
+  {
+   "test": "test_desktop_entry_with_actions",
+   "argv": [
+    "set",
+    "text/plain",
+    "with-actions.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "with-actions.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_desktop_entries.py:114"
+  },
+  {
+   "test": "test_list_shows_application_names",
+   "argv": [
+    "set",
+    "text/plain",
+    "named-app.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_desktop_entries.py:144"
+  },
+  {
+   "test": "test_get_json_includes_exec_info",
+   "argv": [
+    "set",
+    "text/plain",
+    "json-test.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_desktop_entries.py:165"
+  },
+  {
+   "test": "test_desktop_entry_no_display",
+   "argv": [
+    "set",
+    "text/plain",
+    "nodisplay.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "nodisplay.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_desktop_entries.py:191"
+  },
+  {
+   "test": "test_open_directory",
+   "argv": [
+    "set",
+    "inode/directory",
+    "test-app.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test-app.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:5"
+  },
+  {
+   "test": "test_set_multiple_same_mime",
+   "argv": [
+    "set",
+    "text/plain",
+    "test-app.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test-app.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:22"
+  },
+  {
+   "test": "test_list_after_unset",
+   "argv": [
+    "set",
+    "text/plain",
+    "test-app.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "text/plain",
+    "test-app.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:76"
+  },
+  {
+   "test": "test_complex_mime_type",
+   "argv": [
+    "set",
+    "application/vnd.oasis.opendocument.text",
+    "test-app.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test-app.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:104"
+  },
+  {
+   "test": "test_multiple_wildcards",
+   "argv": [
+    "set",
+    "text/*",
+    "test-app.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test-app.desktop",
+    "test-app.desktop",
+    "test-app.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:158"
+  },
+  {
+   "test": "test_get_json_valid_format",
+   "argv": [
+    "set",
+    "text/plain",
+    "test-app.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:182"
+  },
+  {
+   "test": "test_get_mime_type_multiple",
+   "argv": [
+    "set",
+    "text/plain",
+    "test-app.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test-app.desktop",
+    "test-app.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_get.py:14"
+  },
+  {
+   "test": "test_get_wildcard",
+   "argv": [
+    "set",
+    "text/*",
+    "test-app.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test-app.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_get.py:47"
+  },
+  {
+   "test": "test_get_scheme_handler",
+   "argv": [
+    "set",
+    "x-scheme-handler/http",
+    "test-app.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test-app.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_get.py:55"
+  },
+  {
+   "test": "test_list_empty",
+   "argv": [
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_list.py:4"
+  },
+  {
+   "test": "test_list_all_flag",
+   "argv": [
+    "list",
+    "--all"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_list.py:24"
+  },
+  {
+   "test": "test_list_all_short_flag",
+   "argv": [
+    "list",
+    "-a"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_list.py:31"
+  },
+  {
+   "test": "test_list_multiple_handlers",
+   "argv": [
+    "set",
+    "text/plain",
+    "test-app.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "text/plain",
+    "text/html"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_list.py:37"
+  },
+  {
+   "test": "test_list_wildcard_handler",
+   "argv": [
+    "set",
+    "text/*",
+    "test-app.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_list.py:62"
+  },
+  {
+   "test": "test_list_scheme_handler",
+   "argv": [
+    "set",
+    "x-scheme-handler/http",
+    "test-app.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_list.py:70"
+  },
+  {
+   "test": "test_set_overwrites_existing",
+   "argv": [
+    "set",
+    "text/plain",
+    "test-app.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test-app2.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_set.py:29"
+  },
+  {
+   "test": "test_set_scheme_handler",
+   "argv": [
+    "set",
+    "x-scheme-handler/https",
+    "test-app.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test-app.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_set.py:66"
+  },
+  {
+   "test": "test_set_multiple_mime_types",
+   "argv": [
+    "set",
+    "text/plain",
+    "test-app.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test-app.desktop",
+    "test-app.desktop",
+    "test-app.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_set.py:76"
+  },
+  {
+   "test": "test_unset_multiple_handlers",
+   "argv": [
+    "add",
+    "text/plain",
+    "test-app.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_unset.py:48"
+  },
+  {
+   "test": "test_ext_mime_types_from_ext_and_invalid_inputs",
+   "argv": [
+    "get",
+    "audio/mpeg"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Invalid value for '<mime>'",
+    "Invalid value for '<mime>'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_rs_like.py:23"
+  },
+  {
+   "test": "test_ext_desktop_entry_complex_exec_parses_mimetypes_via_autocomplete_list",
+   "argv": [
+    "autocomplete",
+    "-d"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cmus.desktop",
+    "cmus-remote"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_rs_like.py:111"
+  },
+  {
+   "test": "test_ext_user_apps_wildcard_mimes_resolution_via_set_get",
+   "argv": [
+    "set",
+    "video/*",
+    "mpv.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_rs_like.py:150"
+  },
+  {
+   "test": "test_creates_default_config_at_xdg_location_when_missing",
+   "argv": [
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "enable_selector",
+    "selector"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:49"
+  },
+  {
+   "test": "test_add_keeps_default_first",
+   "argv": [
+    "get",
+    "text/plain"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a.desktop\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_add_list.py:7"
+  },
+  {
+   "test": "test_list_fresh_env_is_just_box",
+   "argv": [
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "┌──┐\n│  │\n└──┘\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_add_list.py:19"
+  },
+  {
+   "test": "test_list_contains_mapping",
+   "argv": [
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "text/plain",
+    "a.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_add_list.py:27"
+  },
+  {
+   "test": "test_list_all_shows_added_associations",
+   "argv": [
+    "list",
+    "--all"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a.desktop",
+    "b.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_add_list.py:38"
+  },
+  {
+   "test": "test_help_mentions_subcommands",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_version.py:5"
+  },
+  {
+   "test": "test_unknown_subcommand_errors",
+   "argv": [
+    "nope"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error:"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_version.py:21"
+  },
+  {
+   "test": "test_set_writes_mimeapps_list",
+   "argv": [
+    "set",
+    "text/plain",
+    "nvim.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[Default Applications]",
+    "text/plain=nvim.desktop;"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_set_get_unset.py:6"
+  },
+  {
+   "test": "test_get_returns_handler",
+   "argv": [
+    "get",
+    "text/plain"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "nvim.desktop\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_set_get_unset.py:24"
+  },
+  {
+   "test": "test_unset_removes_and_get_fails",
+   "argv": [
+    "unset",
+    "text/plain"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_set_get_unset.py:34"
+  },
+  {
+   "test": "test_set_missing_handler_is_error",
+   "argv": [
+    "set",
+    "text/plain",
+    "does-not-exist.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "no handlers found"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_set_get_unset.py:45"
+  },
+  {
+   "test": "test_get_invalid_mime_token",
+   "argv": [
+    "get",
+    "bad/mime"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_set_get_unset.py:52"
+  },
+  {
+   "test": "test_executable_exists_and_runs_help",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:68"
+  },
+  {
+   "test": "test_unknown_subcommand_suggests_did_you_mean",
+   "argv": [
+    "nope"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "did you mean"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:117"
+  },
+  {
+   "test": "test_missing_required_args_error_message_includes_usage_for_subcommand",
+   "argv": [
+    "set"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "required arguments",
+    "USAGE"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:149"
+  },
+  {
+   "test": "test_help_takes_precedence_over_invalid_flag",
+   "argv": [
+    "--help",
+    "--bogus"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:82"
+  },
+  {
+   "test": "test_double_dash_help_is_not_treated_as_flag",
+   "argv": [
+    "--",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error:",
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:90"
+  },
+  {
+   "test": "test_invalid_subcommand_reports_error_and_usage",
+   "argv": [
+    "bogus"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "error:",
+    "USAGE:",
+    "For more information try --help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_subcommands.py:61"
+  },
+  {
+   "test": "test_help_mentions_subcommands",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SUBCOMMANDS"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_version.py:4"
+  },
+  {
+   "test": "test_unknown_subcommand_exits_nonzero_and_writes_to_stderr",
+   "argv": [
+    "definitely-not-a-real-command"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_version.py:20"
+  },
+  {
+   "test": "test_set_writes_mimeapps_list_and_get_reads_it",
+   "argv": [
+    "set"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "[Default Applications]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mimeapps_io.py:16"
+  },
+  {
+   "test": "test_add_appends_second_handler_and_list_shows_both",
+   "argv": [
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "text/plain=a.desktop;b.desktop;",
+    "text/plain",
+    "a.desktop, b.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mimeapps_io.py:37"
+  },
+  {
+   "test": "test_unset_removes_default_application_entry",
+   "argv": [
+    "set",
+    "text/plain",
+    "a.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_mimeapps_io.py:58"
+  },
+  {
+   "test": "test_get_json_outputs_valid_json_with_expected_keys",
+   "argv": [
+    "get",
+    "--json",
+    "text/plain"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_mimeapps_io.py:71"
+  },
+  {
+   "test": "test_launch_with_empty_args_fixed",
+   "argv": [
+    "set",
+    "application/x-test",
+    "app.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "app.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage_fixed.py:105"
+  },
+  {
+   "test": "test_autocomplete_desktop_files",
+   "argv": [
+    "autocomplete",
+    "-d"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test1.desktop",
+    "test2.desktop",
+    "Test App"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_autocomplete.py:38"
+  },
+  {
+   "test": "test_autocomplete_mimes",
+   "argv": [
+    "autocomplete",
+    "-m"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_autocomplete.py:72"
+  },
+  {
+   "test": "test_help_flag_long",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:",
+    "handlr",
+    "SUBCOMMAND",
+    "list",
+    "open",
+    "set",
+    "get"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:49"
+  },
+  {
+   "test": "test_help_flag_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:",
+    "handlr",
+    "SUBCOMMAND"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:62"
+  },
+  {
+   "test": "test_list_help",
+   "argv": [
+    "list",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "list",
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:96"
+  },
+  {
+   "test": "test_open_help",
+   "argv": [
+    "open",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "open",
+    "USAGE:",
+    "path"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:105"
+  },
+  {
+   "test": "test_set_help",
+   "argv": [
+    "set",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "set",
+    "USAGE:",
+    "mime",
+    "handler"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:114"
+  },
+  {
+   "test": "test_unset_help",
+   "argv": [
+    "unset",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unset",
+    "USAGE:",
+    "mime"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:124"
+  },
+  {
+   "test": "test_get_help",
+   "argv": [
+    "get",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "get",
+    "USAGE:",
+    "mime",
+    "--json"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:133"
+  },
+  {
+   "test": "test_add_help",
+   "argv": [
+    "add",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "add",
+    "USAGE:",
+    "mime",
+    "handler"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:143"
+  },
+  {
+   "test": "test_launch_help",
+   "argv": [
+    "launch",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "launch",
+    "USAGE:",
+    "mime"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:153"
+  },
+  {
+   "test": "test_add_multiple_handlers_same_mime",
+   "argv": [
+    "set",
+    "text/plain",
+    "app1.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_coverage.py:79"
+  },
+  {
+   "test": "test_launch_with_file_path_argument",
+   "argv": [
+    "set",
+    "text/plain",
+    "test.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_coverage.py:126"
+  },
+  {
+   "test": "test_set_wildcard_mime_type",
+   "argv": [
+    "set",
+    "text/*",
+    "editor.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "editor.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_coverage.py:168"
+  },
+  {
+   "test": "test_list_with_specific_handlers",
+   "argv": [
+    "set",
+    "image/png",
+    "viewer.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_coverage.py:203"
+  },
+  {
+   "test": "test_unset_actually_removes_handler",
+   "argv": [
+    "set",
+    "application/pdf",
+    "app.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "app.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_coverage.py:238"
+  },
+  {
+   "test": "test_get_json_output_format",
+   "argv": [
+    "set",
+    "text/html",
+    "myapp.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_coverage.py:278"
+  },
+  {
+   "test": "test_open_with_url_scheme",
+   "argv": [
+    "set",
+    "x-scheme-handler/https",
+    "browser.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_coverage.py:322"
+  },
+  {
+   "test": "test_multiple_mime_types_in_desktop_file",
+   "argv": [
+    "set",
+    "image/jpeg",
+    "multi.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "multi.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_coverage.py:356"
+  },
+  {
+   "test": "test_desktop_file_with_categories",
+   "argv": [
+    "set",
+    "image/svg+xml",
+    "categorized.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "categorized.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_coverage.py:391"
+  },
+  {
+   "test": "test_launch_with_multiple_arguments",
+   "argv": [
+    "set",
+    "text/plain",
+    "multifile.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_coverage.py:491"
+  },
+  {
+   "test": "test_concurrent_set_operations",
+   "argv": [
+    "set"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_coverage.py:605"
+  },
+  {
+   "test": "test_mime_with_plus_character",
+   "argv": [
+    "set",
+    "application/rss+xml",
+    "xmlreader.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "xmlreader.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_coverage.py:643"
+  },
+  {
+   "test": "test_desktop_file_with_icon",
+   "argv": [
+    "set",
+    "text/markdown",
+    "iconapp.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iconapp.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_coverage.py:676"
+  },
+  {
+   "test": "test_added_associations_persistence",
+   "argv": [
+    "set",
+    "text/html",
+    "app1.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[Added Associations]",
+    "[Default Applications]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost.py:110"
+  },
+  {
+   "test": "test_launch_app_with_arguments_substitution",
+   "argv": [
+    "set",
+    "application/x-test",
+    "app.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost.py:155"
+  },
+  {
+   "test": "test_get_with_added_associations",
+   "argv": [
+    "get",
+    "text/plain"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "app.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost.py:326"
+  },
+  {
+   "test": "test_desktop_entry_with_special_fields",
+   "argv": [
+    "set",
+    "text/plain",
+    "full.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost.py:364"
+  },
+  {
+   "test": "test_very_long_handler_list",
+   "argv": [
+    "set",
+    "text/plain",
+    "app0.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost.py:407"
+  },
+  {
+   "test": "test_set_nonexistent_desktop_file",
+   "argv": [
+    "set",
+    "text/plain",
+    "nonexistent.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "nonexistent.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:57"
+  },
+  {
+   "test": "test_concurrent_access",
+   "argv": [
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:181"
+  },
+  {
+   "test": "test_unicode_in_handler_name",
+   "argv": [
+    "set",
+    "text/plain",
+    "test-unicode.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test-unicode.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:275"
+  },
+  {
+   "test": "test_wildcard_precedence",
+   "argv": [
+    "set",
+    "text/*",
+    "wildcard.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "specific.desktop",
+    "wildcard.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:309"
+  },
+  {
+   "test": "test_desktop_file_with_dbus_activatable",
+   "argv": [
+    "set",
+    "text/plain",
+    "app.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_final_coverage_push.py:363"
+  },
+  {
+   "test": "test_semicolon_separated_handlers_parsing",
+   "argv": [
+    "get",
+    "text/plain"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "app1.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_final_coverage_push.py:462"
+  },
+  {
+   "test": "test_list_basic",
+   "argv": [
+    "set",
+    "text/plain",
+    "test.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "text/plain",
+    "test.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_list.py:38"
+  },
+  {
+   "test": "test_json_mime_type",
+   "argv": [
+    "set",
+    "application/json",
+    "editor.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "editor.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mime_detection.py:78"
+  },
+  {
+   "test": "test_pdf_mime_type",
+   "argv": [
+    "set",
+    "application/pdf",
+    "viewer.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "viewer.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mime_detection.py:112"
+  },
+  {
+   "test": "test_image_mime_types",
+   "argv": [
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "image/"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mime_detection.py:146"
+  },
+  {
+   "test": "test_video_wildcard",
+   "argv": [
+    "set",
+    "video/*",
+    "player.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "player.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mime_detection.py:182"
+  },
+  {
+   "test": "test_audio_wildcard",
+   "argv": [
+    "set",
+    "audio/*",
+    "player.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_mime_detection.py:216"
+  },
+  {
+   "test": "test_url_schemes",
+   "argv": [
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "x-scheme-handler"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mime_detection.py:250"
+  },
+  {
+   "test": "test_mime_with_parameters",
+   "argv": [
+    "set",
+    "text/html",
+    "app.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_more_edge_cases.py:66"
+  },
+  {
+   "test": "test_autocomplete_empty_output",
+   "argv": [
+    "autocomplete",
+    "-d"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_more_edge_cases.py:267"
+  },
+  {
+   "test": "test_desktop_file_only_in_system",
+   "argv": [
+    "set",
+    "text/plain",
+    "system.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "system.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_edge_cases.py:346"
+  },
+  {
+   "test": "test_desktop_file_localized_name",
+   "argv": [
+    "set",
+    "text/plain",
+    "app.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "app.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_edge_cases.py:416"
+  },
+  {
+   "test": "test_empty_mimeapps_list",
+   "argv": [
+    "set",
+    "text/plain",
+    "app.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "text/plain",
+    "app.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_edge_cases.py:526"
+  },
+  {
+   "test": "test_open_url",
+   "argv": [
+    "set",
+    "x-scheme-handler/http",
+    "browser.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_open_launch.py:143"
+  },
+  {
+   "test": "test_set_by_mime_type",
+   "argv": [
+    "set",
+    "text/plain",
+    "test.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_set_get_unset.py:40"
+  },
+  {
+   "test": "test_set_by_extension",
+   "argv": [
+    "set",
+    ".txt",
+    "test.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_set_get_unset.py:74"
+  },
+  {
+   "test": "test_set_wildcard_handler",
+   "argv": [
+    "set",
+    "text/*",
+    "test.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_set_get_unset.py:108"
+  },
+  {
+   "test": "test_get_json_output",
+   "argv": [
+    "set",
+    "text/plain",
+    "test.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "handler",
+    "test.desktop",
+    "name",
+    "cmd"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_set_get_unset.py:142"
+  },
+  {
+   "test": "test_unset_nonexistent_handler",
+   "argv": [
+    "unset",
+    "application/x-nonexistent-mime"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_set_get_unset.py:243"
+  },
+  {
+   "test": "test_add_handler",
+   "argv": [
+    "set",
+    "text/plain",
+    "test1.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test1.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_set_get_unset.py:261"
+  },
+  {
+   "test": "test_config_file_persistence",
+   "argv": [
+    "set",
+    "text/plain",
+    "test.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "text/plain",
+    "test.desktop",
+    "[Default Applications]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_set_get_unset_fix.py:123"
+  },
+  {
+   "test": "test_multiple_handlers_for_mime",
+   "argv": [
+    "set",
+    "text/plain",
+    "test1.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test1.desktop",
+    "test2.desktop",
+    "test3.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_set_get_unset_fix.py:162"
+  },
+  {
+   "test": "test_set_by_extension_with_file",
+   "argv": [
+    "set",
+    "sample.txt",
+    "test.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test.desktop"
+   ],
+   "files": {
+    "sample.txt": "test content"
+   },
+   "ci": false,
+   "source": "test_set_get_unset_fixed.py:176"
+  },
+  {
+   "test": "test_terminal_handler",
+   "argv": [
+    "set",
+    "x-scheme-handler/terminal",
+    "terminal.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "terminal.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_terminal_handling.py:39"
+  },
+  {
+   "test": "test_terminal_true_app",
+   "argv": [
+    "set",
+    "x-scheme-handler/terminal",
+    "terminal.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "terminal"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_terminal_handling.py:74"
+  },
+  {
+   "test": "test_get_json_with_terminal_app",
+   "argv": [
+    "set",
+    "text/plain",
+    "test.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "handler",
+    "name",
+    "cmd",
+    "test.desktop",
+    "Test App",
+    "echo"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_terminal_handling.py:125"
+  },
+  {
+   "test": "test_desktop_file_with_multiple_mimes",
+   "argv": [
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "text/plain",
+    "text/html",
+    "application/json",
+    "multi.desktop"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_terminal_handling.py:205"
+  },
+  {
+   "test": "test_desktop_file_comment_field",
+   "argv": [
+    "set",
+    "text/plain",
+    "app.desktop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "My App"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_terminal_handling.py:279"
+  }
+ ]
+}

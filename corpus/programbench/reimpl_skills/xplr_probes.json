@@ -1,0 +1,2450 @@
+[
+ {
+  "name": "test::test_version_long_exact::0",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_short_exact::1",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_long_matches_golden::2",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_matches_golden::3",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_dash_requires_existing_paths_when_reading_newline_separated::4",
+  "argv": [
+   "-",
+   "--on-load",
+   "Quit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read0_accepts_nul_separated_existing_paths_and_quits::5",
+  "argv": [
+   "--read0",
+   "--on-load",
+   "Quit"
+  ],
+  "stdin": "a\u0000b\u0000",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_with_invalid_flag_shows_error_and_hints_help::6",
+  "argv": [
+   "--definitely-not-a-real-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_separator_allows_help_after_it_to_be_treated_as_arg::7",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_xplr_pipe_msg_in_writes_to_file_with_delimiter::8",
+  "argv": [
+   "-m",
+   "Quit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_path_resolution::9",
+  "argv": [
+   "/workspace/executable",
+   "./subdir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_flag_alone_with_newline_paths::10",
+  "argv": [
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_flag_with_empty_input::11",
+  "argv": [
+   "-"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read0_with_null_separated_stdin::12",
+  "argv": [
+   "--read0",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_nonexistent_path::13",
+  "argv": [
+   "-"
+  ],
+  "stdin": "/nonexistent/path\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_valid_path::14",
+  "argv": [
+   "-",
+   "-M",
+   "Quit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_error::15",
+  "argv": [
+   "--invalid-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_precedence_over_other_flags::16",
+  "argv": [
+   "--help",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_with_invalid_arg::17",
+  "argv": [
+   "--version",
+   "--invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_navigation_sequence::18",
+  "argv": [
+   "--on-load",
+   "FocusFirst",
+   "--on-load",
+   "FocusNext",
+   "--on-load",
+   "FocusNext",
+   "--on-load",
+   "FocusPrevious",
+   "--on-load",
+   "FocusLast",
+   "--on-load",
+   "FocusFirst",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_selection_operations_sequence::19",
+  "argv": [
+   "--on-load",
+   "Select",
+   "--on-load",
+   "FocusNext",
+   "--on-load",
+   "Select",
+   "--on-load",
+   "FocusNext",
+   "--on-load",
+   "Select",
+   "--on-load",
+   "UnSelect",
+   "--on-load",
+   "SelectAll",
+   "--on-load",
+   "ClearSelection",
+   "--on-load",
+   "PrintSelectionAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_and_sort_sequence::20",
+  "argv": [
+   "--on-load",
+   "AddNodeFilter: {filter: RelativePathDoesStartWith, input: '.'}",
+   "--on-load",
+   "AddNodeSorter: {sorter: BySize, reverse: false}",
+   "--on-load",
+   "AddNodeSorter: {sorter: ByLastModified, reverse: true}",
+   "--on-load",
+   "RemoveLastNodeSorter",
+   "--on-load",
+   "ResetNodeFilters",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_directory_traversal_sequence::21",
+  "argv": [
+   "--on-load",
+   "FocusFirst",
+   "--on-load",
+   "Enter",
+   "--on-load",
+   "Back",
+   "--on-load",
+   "FocusLast",
+   "--on-load",
+   "PrintPwdAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vroot_operations_sequence::22",
+  "argv": [
+   "--on-load",
+   "--on-load",
+   "ToggleVroot",
+   "--on-load",
+   "UnsetVroot",
+   "--on-load",
+   "ResetVroot",
+   "--on-load",
+   "PrintPwdAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_switching_sequence::23",
+  "argv": [
+   "--on-load",
+   "SwitchModeBuiltin: default",
+   "--on-load",
+   "PopMode",
+   "--on-load",
+   "SwitchModeBuiltin: default",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_layout_switching_sequence::24",
+  "argv": [
+   "--on-load",
+   "SwitchLayoutBuiltin: default",
+   "--on-load",
+   "SwitchLayoutBuiltin: no_help",
+   "--on-load",
+   "SwitchLayoutBuiltin: no_selection",
+   "--on-load",
+   "SwitchLayoutBuiltin: default",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_logging_sequence::25",
+  "argv": [
+   "--on-load",
+   "LogInfo: Info message",
+   "--on-load",
+   "LogSuccess: Success message",
+   "--on-load",
+   "LogWarning: Warning message",
+   "--on-load",
+   "LogError: Error message",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exploration_sequence::26",
+  "argv": [
+   "--on-load",
+   "ExplorePwd",
+   "--on-load",
+   "Refresh",
+   "--on-load",
+   "ClearScreen",
+   "--on-load",
+   "ExplorePwd",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mouse_operations_sequence::27",
+  "argv": [
+   "--on-load",
+   "EnableMouse",
+   "--on-load",
+   "DisableMouse",
+   "--on-load",
+   "ToggleMouse",
+   "--on-load",
+   "ToggleMouse",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scroll_operations_sequence::28",
+  "argv": [
+   "--on-load",
+   "ScrollDown",
+   "--on-load",
+   "ScrollDown",
+   "--on-load",
+   "ScrollUp",
+   "--on-load",
+   "ScrollDownHalf",
+   "--on-load",
+   "ScrollUpHalf",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_selection_and_navigation_combined::29",
+  "argv": [
+   "--on-load",
+   "FocusFirst",
+   "--on-load",
+   "Select",
+   "--on-load",
+   "FocusNext",
+   "--on-load",
+   "FocusNext",
+   "--on-load",
+   "Select",
+   "--on-load",
+   "FocusNextSelection",
+   "--on-load",
+   "FocusPreviousSelection",
+   "--on-load",
+   "PrintSelectionAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_focus_by_index_sequence::30",
+  "argv": [
+   "--on-load",
+   "FocusByIndex: 0",
+   "--on-load",
+   "FocusByIndex: 5",
+   "--on-load",
+   "FocusByIndex: 10",
+   "--on-load",
+   "FocusFirst",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_focus_by_relative_index_sequence::31",
+  "argv": [
+   "--on-load",
+   "FocusFirst",
+   "--on-load",
+   "FocusNextByRelativeIndex: 3",
+   "--on-load",
+   "FocusPreviousByRelativeIndex: 1",
+   "--on-load",
+   "FocusNextByRelativeIndex: 5",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_navigation_sequence::32",
+  "argv": [
+   "--on-load",
+   "--on-load",
+   "--on-load",
+   "PrintPwdAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_combinations::33",
+  "argv": [
+   "--on-load",
+   "AddNodeFilter: {filter: RelativePathDoesContain, input: 'test'}",
+   "--on-load",
+   "AddNodeFilter: {filter: RelativePathDoesStartWith, input: '.'}",
+   "--on-load",
+   "RemoveLastNodeFilter",
+   "--on-load",
+   "ClearNodeFilters",
+   "--on-load",
+   "AddNodeFilter: {filter: RelativePathDoesEndWith, input: '.txt'}",
+   "--on-load",
+   "ResetNodeFilters",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sorter_combinations::34",
+  "argv": [
+   "--on-load",
+   "AddNodeSorter: {sorter: ByRelativePath, reverse: false}",
+   "--on-load",
+   "AddNodeSorter: {sorter: BySize, reverse: true}",
+   "--on-load",
+   "AddNodeSorter: {sorter: ByLastModified, reverse: false}",
+   "--on-load",
+   "ReverseNodeSorters",
+   "--on-load",
+   "RemoveLastNodeSorter",
+   "--on-load",
+   "ClearNodeSorters",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toggle_operations::35",
+  "argv": [
+   "--on-load",
+   "ToggleSelection",
+   "--on-load",
+   "ToggleSelectAll",
+   "--on-load",
+   "ToggleSelectAll",
+   "--on-load",
+   "ToggleMouse",
+   "--on-load",
+   "ToggleVroot",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_visited_path_navigation::36",
+  "argv": [
+   "--on-load",
+   "FocusNext",
+   "--on-load",
+   "LastVisitedPath",
+   "--on-load",
+   "NextVisitedPath",
+   "--on-load",
+   "PreviousVisitedDeepBranch",
+   "--on-load",
+   "NextVisitedDeepBranch",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_with_symlink_operations::37",
+  "argv": [
+   "--on-load",
+   "--on-load",
+   "FollowSymlink",
+   "--on-load",
+   "Back",
+   "--on-load",
+   "PrintPwdAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_quit_variants::38",
+  "argv": [
+   "--on-load",
+   "PrintPwdAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_with_many_files_navigation::39",
+  "argv": [
+   "--on-load",
+   "FocusFirst",
+   "--on-load",
+   "FocusLast",
+   "--on-load",
+   "FocusNextByRelativeIndex: 10",
+   "--on-load",
+   "FocusPreviousByRelativeIndex: 5",
+   "--on-load",
+   "ScrollDown",
+   "--on-load",
+   "ScrollUp",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_filter_sort_select_combo::40",
+  "argv": [
+   "--on-load",
+   "ExplorePwd",
+   "--on-load",
+   "AddNodeFilter: {filter: RelativePathDoesContain, input: '.'}",
+   "--on-load",
+   "AddNodeSorter: {sorter: BySize, reverse: false}",
+   "--on-load",
+   "FocusFirst",
+   "--on-load",
+   "SelectAll",
+   "--on-load",
+   "RemoveLastNodeFilter",
+   "--on-load",
+   "ClearSelection",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explore_pwd_msg::41",
+  "argv": [
+   "--on-load",
+   "ExplorePwd",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explore_pwd_async_msg::42",
+  "argv": [
+   "--on-load",
+   "ExplorePwdAsync",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explore_parents_async_msg::43",
+  "argv": [
+   "--on-load",
+   "ExploreParentsAsync",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clear_screen_msg::44",
+  "argv": [
+   "--on-load",
+   "ClearScreen",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_refresh_msg::45",
+  "argv": [
+   "--on-load",
+   "Refresh",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_focus_next_selection_msg::46",
+  "argv": [
+   "--on-load",
+   "SelectAll",
+   "--on-load",
+   "FocusNextSelection",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_focus_previous_selection_msg::47",
+  "argv": [
+   "--on-load",
+   "SelectAll",
+   "--on-load",
+   "FocusPreviousSelection",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_focus_by_relative_index_msg::48",
+  "argv": [
+   "--on-load",
+   "FocusNextByRelativeIndex: 5",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_focus_previous_by_relative_index_msg::49",
+  "argv": [
+   "--on-load",
+   "FocusPreviousByRelativeIndex: 3",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scroll_up_msg::50",
+  "argv": [
+   "--on-load",
+   "ScrollUp",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scroll_down_msg::51",
+  "argv": [
+   "--on-load",
+   "ScrollDown",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scroll_up_half_msg::52",
+  "argv": [
+   "--on-load",
+   "ScrollUpHalf",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scroll_down_half_msg::53",
+  "argv": [
+   "--on-load",
+   "ScrollDownHalf",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enter_msg::54",
+  "argv": [
+   "--on-load",
+   "Enter",
+   "--on-load",
+   "PrintPwdAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_back_msg::55",
+  "argv": [
+   "--on-load",
+   "Back",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_last_visited_path_msg::56",
+  "argv": [
+   "--on-load",
+   "LastVisitedPath",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_next_visited_path_msg::57",
+  "argv": [
+   "--on-load",
+   "NextVisitedPath",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_previous_visited_deep_branch_msg::58",
+  "argv": [
+   "--on-load",
+   "PreviousVisitedDeepBranch",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_next_visited_deep_branch_msg::59",
+  "argv": [
+   "--on-load",
+   "NextVisitedDeepBranch",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_symlink_msg::60",
+  "argv": [
+   "--on-load",
+   "FollowSymlink",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pop_mode_msg::61",
+  "argv": [
+   "--on-load",
+   "PopMode",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pop_mode_keeping_input_buffer_msg::62",
+  "argv": [
+   "--on-load",
+   "PopModeKeepingInputBuffer",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_msg::63",
+  "argv": [
+   "--on-load",
+   "Select",
+   "--on-load",
+   "PrintSelectionAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unselect_msg::64",
+  "argv": [
+   "--on-load",
+   "SelectAll",
+   "--on-load",
+   "UnSelect",
+   "--on-load",
+   "PrintSelectionAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toggle_selection_msg::65",
+  "argv": [
+   "--on-load",
+   "ToggleSelection",
+   "--on-load",
+   "PrintSelectionAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toggle_select_all_msg::66",
+  "argv": [
+   "--on-load",
+   "ToggleSelectAll",
+   "--on-load",
+   "PrintSelectionAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_last_node_filter_msg::67",
+  "argv": [
+   "--on-load",
+   "RemoveLastNodeFilter",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reset_node_filters_msg::68",
+  "argv": [
+   "--on-load",
+   "ResetNodeFilters",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clear_node_filters_msg::69",
+  "argv": [
+   "--on-load",
+   "ClearNodeFilters",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reverse_node_sorters_msg::70",
+  "argv": [
+   "--on-load",
+   "ReverseNodeSorters",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_last_node_sorter_msg::71",
+  "argv": [
+   "--on-load",
+   "RemoveLastNodeSorter",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reset_node_sorters_msg::72",
+  "argv": [
+   "--on-load",
+   "ResetNodeSorters",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clear_node_sorters_msg::73",
+  "argv": [
+   "--on-load",
+   "ClearNodeSorters",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_mouse_msg::74",
+  "argv": [
+   "--on-load",
+   "EnableMouse",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_mouse_msg::75",
+  "argv": [
+   "--on-load",
+   "DisableMouse",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toggle_mouse_msg::76",
+  "argv": [
+   "--on-load",
+   "ToggleMouse",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stop_fifo_msg::77",
+  "argv": [
+   "--on-load",
+   "StopFifo",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_focus_path_and_quit_msg::78",
+  "argv": [
+   "--on-load",
+   "PrintFocusPathAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_app_state_and_quit_msg::79",
+  "argv": [
+   "--on-load",
+   "PrintAppStateAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_terminate_msg::80",
+  "argv": [
+   "--on-load",
+   "Terminate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_info_msg::81",
+  "argv": [
+   "--on-load",
+   "LogInfo: Test message",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_success_msg::82",
+  "argv": [
+   "--on-load",
+   "LogSuccess: Success!",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_warning_msg::83",
+  "argv": [
+   "--on-load",
+   "LogWarning: Warning!",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_error_msg::84",
+  "argv": [
+   "--on-load",
+   "LogError: Error!",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_call_msg::85",
+  "argv": [
+   "--on-load",
+   "Call: {command: echo, args: [test]}",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_call_silently_msg::86",
+  "argv": [
+   "--on-load",
+   "CallSilently: {command: echo, args: [test]}",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_exec_msg::87",
+  "argv": [
+   "--on-load",
+   "BashExec: echo test",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_exec_silently_msg::88",
+  "argv": [
+   "--on-load",
+   "BashExecSilently: echo test",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_focus_by_index_msg::89",
+  "argv": [
+   "--on-load",
+   "FocusByIndex: 0",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_focus_path_msg::90",
+  "argv": [
+   "--on-load",
+   "FocusPath: /tmp",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_change_directory_msg::91",
+  "argv": [
+   "--on-load",
+   "ChangeDirectory: /tmp",
+   "--on-load",
+   "PrintPwdAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_vroot_msg::92",
+  "argv": [
+   "--on-load",
+   "SetVroot: /tmp",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_node_filter_msg::93",
+  "argv": [
+   "--on-load",
+   "AddNodeFilter: {filter: RelativePathDoesStartWith, input: src}",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_node_filter_from_input_msg::94",
+  "argv": [
+   "--on-load",
+   "AddNodeFilterFromInput: RelativePathDoesStartWith",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_node_sorter_msg::95",
+  "argv": [
+   "--on-load",
+   "AddNodeSorter: {sorter: BySize, reverse: false}",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_node_sorter_from_input_msg::96",
+  "argv": [
+   "--on-load",
+   "AddNodeSorterFromInput: BySize",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_switch_mode_msg::97",
+  "argv": [
+   "--on-load",
+   "SwitchMode: default",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_switch_mode_builtin_msg::98",
+  "argv": [
+   "--on-load",
+   "SwitchModeBuiltin: default",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_switch_mode_custom_msg::99",
+  "argv": [
+   "--on-load",
+   "SwitchModeCustom: default",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_switch_layout_msg::100",
+  "argv": [
+   "--on-load",
+   "SwitchLayout: default",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_switch_layout_builtin_msg::101",
+  "argv": [
+   "--on-load",
+   "SwitchLayoutBuiltin: default",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_switch_layout_custom_msg::102",
+  "argv": [
+   "--on-load",
+   "SwitchLayoutCustom: default",
+   "--on-load",
+   "PrintResultAndQuit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_short_flag_nonexistent::103",
+  "argv": [
+   "-c",
+   "/nonexistent/config.lua"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_long_flag_nonexistent::104",
+  "argv": [
+   "--config",
+   "/nonexistent/config.lua"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_no_value::105",
+  "argv": [
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_valid_file::106",
+  "argv": [
+   "-c",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extra_config_short_nonexistent::107",
+  "argv": [
+   "-C",
+   "/nonexistent/extra.lua"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extra_config_long_nonexistent::108",
+  "argv": [
+   "--extra-config",
+   "/nonexistent/extra.lua"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extra_config_multiple::109",
+  "argv": [
+   "-C",
+   "extra1.lua",
+   "extra2.lua",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "extra1.lua": "-- extra config 1\n",
+   "extra2.lua": "-- extra config 2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extra_config_stops_at_next_flag::110",
+  "argv": [
+   "-C",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vroot_nonexistent::111",
+  "argv": [
+   "--vroot",
+   "/nonexistent/vroot"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vroot_valid_path::112",
+  "argv": [
+   "--vroot",
+   "/tmp",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vroot_no_value::113",
+  "argv": [
+   "--vroot"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_message_formats_complex::114",
+  "argv": [
+   "-M"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_message_with_percent_q_spaces::115",
+  "argv": [
+   "-M",
+   "LogInfo: %q",
+   "hello world"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_message_with_percent_q_quotes::116",
+  "argv": [
+   "-M",
+   "LogInfo: %q",
+   "test \"quoted\" value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_message_with_unicode::117",
+  "argv": [
+   "-M",
+   "LogInfo: %q",
+   "unicode: 你好世界 🌍"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_paths_as_args::118",
+  "argv": [
+   "file1.txt",
+   "file2.txt",
+   "-M",
+   "Quit"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.txt": "content1",
+   "file2.txt": "content2"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_with_spaces::119",
+  "argv": [
+   "-M",
+   "Quit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hidden_file_path::120",
+  "argv": [
+   ".hidden",
+   "-M",
+   "Quit"
+  ],
+  "stdin": null,
+  "files": {
+   ".hidden": "secret"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_and_extra_config_together::121",
+  "argv": [
+   "-c",
+   "config.lua",
+   "-C",
+   "extra.lua",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "config.lua": "-- config\n",
+   "extra.lua": "-- extra\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_mode_flags_together::122",
+  "argv": [
+   "--read-only",
+   "--force-focus",
+   "--print-pwd-as-result",
+   "--read0",
+   "--write0",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vroot_with_force_focus::123",
+  "argv": [
+   "--vroot",
+   "/tmp",
+   "--force-focus",
+   "/tmp",
+   "-M",
+   "Quit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_path::124",
+  "argv": [
+   "/nonexistent/path/that/does/not/exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_config_file::125",
+  "argv": [
+   ".",
+   "-c",
+   "/nonexistent/config.lua"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_json_message::126",
+  "argv": [
+   "--on-load",
+   "{invalid json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_message::127",
+  "argv": [
+   "--on-load"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_msg_in_basic::128",
+  "argv": [
+   "--print-msg-in",
+   "Quit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_msg_in_with_placeholder::129",
+  "argv": [
+   "--print-msg-in",
+   "LogInfo: %%"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_msg_in_complex_message::130",
+  "argv": [
+   "--print-msg-in",
+   "{\"LogInfo\": \"test message\"}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_flags::131",
+  "argv": [
+   ".",
+   "-0",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extra_config_nonexistent::132",
+  "argv": [
+   ".",
+   "-C",
+   "/nonexistent/extra.lua"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_extra_configs::133",
+  "argv": [
+   ".",
+   "-C",
+   "config1.lua",
+   "-C",
+   "config2.lua",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {
+   "config1.lua": "-- config 1",
+   "config2.lua": "-- config 2"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vroot_with_help::134",
+  "argv": [
+   "--vroot",
+   "/tmp",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_on_load_with_help::135",
+  "argv": [
+   "--on-load",
+   "Quit",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_focus_on_specific_file::136",
+  "argv": [
+   "bbb.txt",
+   "-M",
+   "Quit"
+  ],
+  "stdin": null,
+  "files": {
+   "bbb.txt": "second"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_force_focus_on_directory::137",
+  "argv": [
+   "--force-focus",
+   "-M",
+   "Quit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_message_format::138",
+  "argv": [
+   "-M",
+   "{invalid yaml:"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_message_type::139",
+  "argv": [
+   "-M",
+   "NonExistentMessage"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_message_with_invalid_field::140",
+  "argv": [
+   "-M",
+   "LogInfo:"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_message_malformed_json::141",
+  "argv": [
+   "-M",
+   "{\"unclosed\""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pipe_msg_in_no_args::142",
+  "argv": [
+   "-m"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_msg_in_invalid_placeholder::143",
+  "argv": [
+   "-M",
+   "LogInfo: %q %q",
+   "only_one_arg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_message_with_nested_structure::144",
+  "argv": [
+   "-M",
+   "Call: {command: test, args: []}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_msg_in_with_field::145",
+  "argv": [
+   "-M",
+   "LogSuccess: test message"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_msg_in_with_percent_q::146",
+  "argv": [
+   "-M",
+   "ChangeDirectory: %q",
+   "/tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_msg_in_with_percent_s::147",
+  "argv": [
+   "-M",
+   "LogInfo: %s",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_msg_in_multiple_args::148",
+  "argv": [
+   "-M",
+   "LogInfo: %s %s",
+   "hello",
+   "world"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_msg_in_with_special_chars::149",
+  "argv": [
+   "-M",
+   "LogInfo: %q",
+   "test's \"string\""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_msg_in_empty_format::150",
+  "argv": [
+   "-M",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_msg_in_invalid_yaml::151",
+  "argv": [
+   "-M",
+   "LogInfo: %%"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pipe_msg_in_format::152",
+  "argv": [
+   "-m",
+   "ChangeDirectory: %q",
+   "/tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_on_load_invalid_message::153",
+  "argv": [
+   "--on-load",
+   "InvalidMessage",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_on_load_multiple_messages::154",
+  "argv": [
+   "--on-load",
+   "Quit",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read_only_flag::155",
+  "argv": [
+   "--read-only",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_force_focus_flag::156",
+  "argv": [
+   "--force-focus",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_pwd_as_result_flag::157",
+  "argv": [
+   "--print-pwd-as-result",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read0_flag::158",
+  "argv": [
+   "--read0",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_write0_flag::159",
+  "argv": [
+   "--write0",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_flag_short::160",
+  "argv": [
+   "-0",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_flag_long::161",
+  "argv": [
+   "--null",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_mode_flags::162",
+  "argv": [
+   "--read-only",
+   "--force-focus",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read0_with_stdin::163",
+  "argv": [
+   "--read0",
+   "-",
+   "-M",
+   "Quit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_force_focus_with_directory::164",
+  "argv": [
+   "--force-focus",
+   "/tmp",
+   "-M",
+   "Quit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_path_error::165",
+  "argv": [
+   "--",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_separator::166",
+  "argv": [
+   "--version",
+   "--"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dash_flag_in_path_with_separator::167",
+  "argv": [
+   "--",
+   "-test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_invalid_path::168",
+  "argv": [
+   "-",
+   "-M",
+   "Quit"
+  ],
+  "stdin": "/nonexistent/path\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_valid_directory_path::169",
+  "argv": [
+   "/tmp",
+   "-M",
+   "Quit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_path::170",
+  "argv": [
+   ".",
+   "-M",
+   "Quit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pipe_msg_in_multiple_messages::171",
+  "argv": [
+   "-m",
+   "Refresh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

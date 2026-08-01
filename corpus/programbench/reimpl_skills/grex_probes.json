@@ -1,0 +1,5443 @@
+[
+ {
+  "name": "test::test_non_digits_non_spaces_combined::0",
+  "argv": [
+   "-D",
+   "-S",
+   "abc 123",
+   "xyz 456"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_non_digits_non_words_combined::1",
+  "argv": [
+   "-D",
+   "-W",
+   "123!",
+   "456?"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_non_spaces_non_words_combined::2",
+  "argv": [
+   "-S",
+   "-W",
+   "a!b",
+   "x?y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_negative_classes_combined::3",
+  "argv": [
+   "-D",
+   "-S",
+   "-W",
+   "abc",
+   "xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_escape_astral_code_points::4",
+  "argv": [
+   "-e",
+   "𝕳𝖊𝖑𝖑𝖔"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_escape_with_surrogate_pairs_astral::5",
+  "argv": [
+   "-e",
+   "--with-surrogates",
+   "😀"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_escape_control_characters::6",
+  "argv": [
+   "hello\nworld",
+   "foo\tbar"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_escape_special_regex_characters::7",
+  "argv": [
+   "[a-z]",
+   "(test)",
+   "a*b+c?"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backslash_escaping::8",
+  "argv": [
+   "a\\b",
+   "c\\d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_capturing_groups_with_repetitions::9",
+  "argv": [
+   "-g",
+   "-r",
+   "aaa",
+   "aaaa",
+   "aaaaa"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_capturing_groups_with_verbose::10",
+  "argv": [
+   "-g",
+   "-x",
+   "abc",
+   "abd",
+   "abe"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_case_insensitive_non_ascii::11",
+  "argv": [
+   "-i",
+   "Café",
+   "café",
+   "CAFÉ"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colorize_with_complex_pattern::12",
+  "argv": [
+   "-c",
+   "foo",
+   "foobar",
+   "foobaz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colorize_with_verbose::13",
+  "argv": [
+   "-c",
+   "-x",
+   "test123",
+   "test456",
+   "test789"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colorize_with_character_classes::14",
+  "argv": [
+   "-c",
+   "-d",
+   "-w",
+   "abc123",
+   "xyz789"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_grapheme_clusters::15",
+  "argv": [
+   "é",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_character_class_generation::16",
+  "argv": [
+   "a",
+   "b",
+   "c",
+   "d",
+   "e",
+   "f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_literal_brackets_in_input::17",
+  "argv": [
+   "[test]",
+   "[foo]",
+   "[bar]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_alternation_pattern::18",
+  "argv": [
+   "foo",
+   "bar",
+   "baz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_optionality_pattern::19",
+  "argv": [
+   "test",
+   "testing"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_input_via_stdin::20",
+  "argv": [
+   "./executable",
+   "-"
+  ],
+  "stdin": "����",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_utf8_in_file::21",
+  "argv": [
+   "--file",
+   "invalid.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.txt": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_large_file::22",
+  "argv": [
+   "--file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file_error::23",
+  "argv": [
+   "--file",
+   "/tmp/definitely_does_not_exist_12345.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_only_special_characters::24",
+  "argv": [
+   "***",
+   "+++",
+   "???"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_bytes_via_stdin::25",
+  "argv": [
+   "./executable",
+   "-"
+  ],
+  "stdin": "test\u0000byte\nnull\u0000char\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_newline_types::26",
+  "argv": [
+   "--file",
+   "mixed.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "mixed.txt": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_indentation::27",
+  "argv": [
+   "-x",
+   "foo",
+   "foobar",
+   "foobaz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_with_anchors_disabled::28",
+  "argv": [
+   "-x",
+   "--no-anchors",
+   "test",
+   "testing"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_with_multiple_options::29",
+  "argv": [
+   "-x",
+   "-d",
+   "-w",
+   "-r",
+   "abc123",
+   "xyz789",
+   "abc123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_multiple_lines::30",
+  "argv": [
+   "-"
+  ],
+  "stdin": "test1\ntest2\ntest3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_empty::31",
+  "argv": [
+   "-"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_flags_correct_order::32",
+  "argv": [
+   "-d",
+   "-w",
+   "-"
+  ],
+  "stdin": "abc123\nxyz789\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repetitions_with_capturing_groups::33",
+  "argv": [
+   "-r",
+   "-g",
+   "aabbaabb",
+   "ccddccdd"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_escape_with_colorize::34",
+  "argv": [
+   "-e",
+   "-c",
+   "hello",
+   "world"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_display_options::35",
+  "argv": [
+   "-x",
+   "-c",
+   "test",
+   "testing"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_case_insensitive_with_anchors_disabled::36",
+  "argv": [
+   "-i",
+   "--no-anchors",
+   "Test",
+   "TEST"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_digits_with_repetitions::37",
+  "argv": [
+   "-d",
+   "-r",
+   "12",
+   "123",
+   "1234"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_has_both_anchors::38",
+  "argv": [
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_start_anchor::39",
+  "argv": [
+   "--no-start-anchor",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_end_anchor::40",
+  "argv": [
+   "--no-end-anchor",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_anchors::41",
+  "argv": [
+   "--no-anchors",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_anchors_with_alternation::42",
+  "argv": [
+   "--no-anchors",
+   "hello",
+   "world"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_start_anchor_with_character_classes::43",
+  "argv": [
+   "--no-start-anchor",
+   "-d",
+   "test123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_end_anchor_with_repetitions::44",
+  "argv": [
+   "--no-end-anchor",
+   "-r",
+   "testtest"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_anchors_with_verbose::45",
+  "argv": [
+   "--no-anchors",
+   "-x",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_anchors_with_escape::46",
+  "argv": [
+   "-e",
+   "café"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag::47",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_flag::48",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::49",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_single_input::50",
+  "argv": [
+   "hello"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_multiple_inputs::51",
+  "argv": [
+   "hello",
+   "world"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_similar_inputs::52",
+  "argv": [
+   "test1",
+   "test2",
+   "test3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inputs_with_special_regex_chars::53",
+  "argv": [
+   "hello.",
+   "world."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inputs_with_parentheses::54",
+  "argv": [
+   "(test)",
+   "[test]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_starting_with_hyphen::55",
+  "argv": [
+   "-a",
+   "b",
+   "c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_case_flag::56",
+  "argv": [
+   "--ignore-case",
+   "Test",
+   "test",
+   "TEST"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_case_short_flag::57",
+  "argv": [
+   "-i",
+   "Hello",
+   "HELLO",
+   "hello"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_case_mixed_case::58",
+  "argv": [
+   "-i",
+   "TeSt",
+   "tEsT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_case_with_digits::59",
+  "argv": [
+   "-i",
+   "-d",
+   "Test123",
+   "test123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_case_with_verbose::60",
+  "argv": [
+   "-i",
+   "-x",
+   "Test",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_capture_groups_flag::61",
+  "argv": [
+   "--capture-groups",
+   "test1",
+   "test2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_capture_groups_short_flag::62",
+  "argv": [
+   "-g",
+   "hello",
+   "world"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_capture_groups_with_digits::63",
+  "argv": [
+   "-g",
+   "-d",
+   "test123",
+   "demo456"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_capture_groups_with_alternation::64",
+  "argv": [
+   "-g",
+   "abc",
+   "def",
+   "ghi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_case_single_input::65",
+  "argv": [
+   "-i",
+   "Test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_capture_groups_simple_pattern::66",
+  "argv": [
+   "-g",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_case_with_escape::67",
+  "argv": [
+   "-i",
+   "-e",
+   "Café"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_capture_groups_with_repetitions::68",
+  "argv": [
+   "-g",
+   "-r",
+   "testtest"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_modifiers_combined::69",
+  "argv": [
+   "-i",
+   "-g",
+   "-x",
+   "-c",
+   "Test",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_digits_flag::70",
+  "argv": [
+   "--digits",
+   "test123",
+   "test456"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_digits_short_flag::71",
+  "argv": [
+   "-d",
+   "abc123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_digits_with_unicode_digits::72",
+  "argv": [
+   "-d",
+   "test36",
+   "test٣"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_non_digits_flag::73",
+  "argv": [
+   "--non-digits",
+   "abc123",
+   "def456"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_non_digits_short_flag::74",
+  "argv": [
+   "-D",
+   "abc123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_spaces_flag::75",
+  "argv": [
+   "--spaces",
+   "hello world",
+   "test case"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_spaces_short_flag::76",
+  "argv": [
+   "-s",
+   "a b c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_spaces_with_tabs::77",
+  "argv": [
+   "-s",
+   "a\tb\tc",
+   "x\ty\tz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_non_spaces_flag::78",
+  "argv": [
+   "--non-spaces",
+   "hello world"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_non_spaces_short_flag::79",
+  "argv": [
+   "-S",
+   "a b c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_words_flag::80",
+  "argv": [
+   "--words",
+   "test123",
+   "demo456"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_words_short_flag::81",
+  "argv": [
+   "-w",
+   "hello_world"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_non_words_flag::82",
+  "argv": [
+   "--non-words",
+   "test!",
+   "demo@"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_non_words_short_flag::83",
+  "argv": [
+   "-W",
+   "hello-world"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_digits_and_words::84",
+  "argv": [
+   "-d",
+   "-w",
+   "test123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_digits_and_spaces::85",
+  "argv": [
+   "-d",
+   "-s",
+   "test 123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_words_and_spaces::86",
+  "argv": [
+   "-w",
+   "-s",
+   "hello world"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_three_digit_word_space::87",
+  "argv": [
+   "-d",
+   "-w",
+   "-s",
+   "test 123 abc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_non_digits_and_non_words::88",
+  "argv": [
+   "-D",
+   "-W",
+   "123abc!@#"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_non_digits_and_non_spaces::89",
+  "argv": [
+   "-D",
+   "-S",
+   "abc 123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_non_words_and_non_spaces::90",
+  "argv": [
+   "-W",
+   "-S",
+   "hello world!"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_positive_negative_digit::91",
+  "argv": [
+   "-d",
+   "-D",
+   "test123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_character_classes_combined::92",
+  "argv": [
+   "-d",
+   "-s",
+   "-w",
+   "test 123 abc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repetitions_with_all_character_classes::93",
+  "argv": [
+   "-r",
+   "-d",
+   "-s",
+   "-w",
+   "test 123 test 456"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_escape_repetitions_digits::94",
+  "argv": [
+   "-e",
+   "-r",
+   "-d",
+   "café123café123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_colorize_escape_repetitions::95",
+  "argv": [
+   "-x",
+   "-c",
+   "-e",
+   "-r",
+   "♥♥♥"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_case_verbose_capture_groups::96",
+  "argv": [
+   "-i",
+   "-x",
+   "-g",
+   "Test",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_anchors_with_all_conversions::97",
+  "argv": [
+   "--no-anchors",
+   "-d",
+   "-s",
+   "-w",
+   "test 123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_input_with_all_options::98",
+  "argv": [
+   "-f",
+   "input.txt",
+   "-d",
+   "-r",
+   "-x"
+  ],
+  "stdin": null,
+  "files": {
+   "input.txt": "test1\ntest2\ntest3"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_all_options::99",
+  "argv": [
+   "-d",
+   "-s",
+   "-e",
+   "-"
+  ],
+  "stdin": "test 123\ndemo 456",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_unicode_with_all_features::100",
+  "argv": [
+   "-e",
+   "-r",
+   "-i",
+   "-x",
+   "Café",
+   "café",
+   "CAFÉ"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_surrogates_verbose_colorize::101",
+  "argv": [
+   "--escape",
+   "--with-surrogates",
+   "-x",
+   "-c",
+   "💩💩"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_non_character_classes::102",
+  "argv": [
+   "-D",
+   "-S",
+   "-W",
+   "abc 123 !!!"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_anchors_and_conversions::103",
+  "argv": [
+   "--no-start-anchor",
+   "-d",
+   "-s",
+   "-r",
+   "test 123 test 456"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_maximum_flags_combination::104",
+  "argv": [
+   "-d",
+   "-s",
+   "-w",
+   "-r",
+   "-e",
+   "-i",
+   "-g",
+   "-x",
+   "-c",
+   "--min-repetitions",
+   "1",
+   "--min-substring-length",
+   "1",
+   "Test",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_long_input_with_conversions::105",
+  "argv": [
+   "-d",
+   "-w"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_pattern_edge_cases::106",
+  "argv": [
+   "",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_regex_chars_with_conversions::107",
+  "argv": [
+   "-d",
+   "test.123",
+   "demo.456"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_normalization::108",
+  "argv": [
+   "café",
+   "café"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colorize_with_capturing_groups::109",
+  "argv": [
+   "-c",
+   "-g",
+   "hello",
+   "world"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colorize_verbose_capturing_groups::110",
+  "argv": [
+   "-c",
+   "-x",
+   "-g",
+   "aaa",
+   "bbb"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colorize_pipe_alternation::111",
+  "argv": [
+   "-c",
+   "abc",
+   "xyz",
+   "123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colorize_quantifiers_verbose::112",
+  "argv": [
+   "-c",
+   "-x",
+   "-r",
+   "aaabbb",
+   "aaabbb"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colorize_character_classes::113",
+  "argv": [
+   "-c",
+   "-d",
+   "a1b2c3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colorize_brackets::114",
+  "argv": [
+   "-c",
+   "a",
+   "b",
+   "c",
+   "1",
+   "2",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_invalid_utf8::115",
+  "argv": [
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_char_range_boundaries::116",
+  "argv": [
+   "a",
+   "z"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_char_range_high_unicode::117",
+  "argv": [
+   "𝕳",
+   "𝖊"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_wide_unicode_range::118",
+  "argv": [
+   "A",
+   "Ω",
+   "中",
+   "🎉"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combining_diacritics::119",
+  "argv": [
+   "é",
+   "è",
+   "ê"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_emoji_with_modifiers::120",
+  "argv": [
+   "👋",
+   "👋🏻",
+   "👋🏿"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_emoji_zwj_sequences::121",
+  "argv": [
+   "👨‍👩‍👧",
+   "👨‍👩‍👦"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regional_indicator_symbols::122",
+  "argv": [
+   "🇺🇸",
+   "🇬🇧",
+   "🇯🇵"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_optional_patterns::123",
+  "argv": [
+   "a",
+   "ab",
+   "abc",
+   "abcd"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_overlapping_prefixes::124",
+  "argv": [
+   "test",
+   "testing",
+   "tester",
+   "tested"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repetition_with_min_values::125",
+  "argv": [
+   "-r",
+   "--min-repetitions",
+   "2",
+   "aaa",
+   "bbb"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repetition_with_min_substring_length::126",
+  "argv": [
+   "-r",
+   "--min-substring-length",
+   "2",
+   "ababab",
+   "cdcdcd"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repetition_exact_count::127",
+  "argv": [
+   "-r",
+   "xxxxx",
+   "yyyyy"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repetition_varying_counts::128",
+  "argv": [
+   "-r",
+   "aaa",
+   "aaaa",
+   "aaaaa"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_anchors_with_other_flags::129",
+  "argv": [
+   "--no-anchors",
+   "-d",
+   "-w",
+   "abc123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_start_anchor_with_verbose::130",
+  "argv": [
+   "--no-start-anchor",
+   "-x",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_end_anchor_with_colorize::131",
+  "argv": [
+   "--no-end-anchor",
+   "-c",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_case_with_numbers::132",
+  "argv": [
+   "-i",
+   "Test123",
+   "test123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_case_verbose_colorize::133",
+  "argv": [
+   "-i",
+   "-x",
+   "-c",
+   "Hello",
+   "HELLO"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_mixed_content::134",
+  "argv": [
+   "-"
+  ],
+  "stdin": "line1\nline2\n\nline4\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_moderately_long_lines::135",
+  "argv": [
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_unicode_content::136",
+  "argv": [
+   "-"
+  ],
+  "stdin": "你好\nこんにちは\n안녕하세요\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_escape_emoji_without_surrogates::137",
+  "argv": [
+   "-e",
+   "😀",
+   "😁",
+   "😂"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_escape_emoji_with_surrogates::138",
+  "argv": [
+   "-e",
+   "--with-surrogates",
+   "😀",
+   "😁"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_escape_ascii_and_unicode_mix::139",
+  "argv": [
+   "-e",
+   "abc",
+   "αβγ",
+   "123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_character_classes_with_repetitions::140",
+  "argv": [
+   "-d",
+   "-w",
+   "-s",
+   "-r",
+   "a1 b2 ",
+   "x9 y8 "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_display_options::141",
+  "argv": [
+   "-x",
+   "-c",
+   "-i",
+   "Test",
+   "TEST"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_escape_verbose_colorize_repetitions::142",
+  "argv": [
+   "-e",
+   "-x",
+   "-c",
+   "-r",
+   "αααβββ",
+   "γγγδδδ"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_negative_char_classes::143",
+  "argv": [
+   "-D",
+   "-S",
+   "-W",
+   "!@#"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_anchors_with_capturing_groups_verbose::144",
+  "argv": [
+   "--no-anchors",
+   "-g",
+   "-x",
+   "hello",
+   "world"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quantifier_range_generation::145",
+  "argv": [
+   "-r",
+   "aa",
+   "aaa",
+   "aaaa"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_optional_quantifier::146",
+  "argv": [
+   "test",
+   "tests"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_plus_quantifier::147",
+  "argv": [
+   "a",
+   "aa",
+   "aaa",
+   "aaaa",
+   "aaaaa"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deeply_nested_optionals::148",
+  "argv": [
+   "a",
+   "ab",
+   "abc",
+   "abcd",
+   "abcde",
+   "abcdef",
+   "abcdefg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_alternation_with_common_parts::149",
+  "argv": [
+   "testing",
+   "tester",
+   "tested",
+   "test",
+   "tests"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_character_class_optimization::150",
+  "argv": [
+   "a0",
+   "a1",
+   "a2",
+   "a3",
+   "a4",
+   "a5",
+   "a6",
+   "a7",
+   "a8",
+   "a9"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_length_patterns::151",
+  "argv": [
+   "x",
+   "xy",
+   "xyz",
+   "x",
+   "xy",
+   "xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_palindrome_patterns::152",
+  "argv": [
+   "aba",
+   "cdc",
+   "efe"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_unicode_categories::153",
+  "argv": [
+   "A",
+   "Б",
+   "中",
+   "あ",
+   "한",
+   "א",
+   "ا",
+   "थ",
+   "Ω",
+   "≈",
+   "✓",
+   "€"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_numbers::154",
+  "argv": [
+   "0",
+   "٠",
+   "०",
+   "๐",
+   "໐"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_punctuation::155",
+  "argv": [
+   ".",
+   "。",
+   "，",
+   "、",
+   "；"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_symbols::156",
+  "argv": [
+   "©",
+   "®",
+   "™",
+   "€",
+   "£",
+   "¥",
+   "§"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_combining_marks::157",
+  "argv": [
+   "é̂",
+   "è̄"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combining_marks_different_bases::158",
+  "argv": [
+   "á",
+   "é",
+   "í",
+   "ó",
+   "ú"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_width_characters::159",
+  "argv": [
+   "a​b",
+   "c‌d",
+   "e‍f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_emojis_range::160",
+  "argv": [
+   "😀",
+   "😁",
+   "😂",
+   "😃",
+   "😄",
+   "😅",
+   "😆",
+   "😇"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_emoji_modifiers_full_range::161",
+  "argv": [
+   "👋🏻",
+   "👋🏼",
+   "👋🏽",
+   "👋🏾",
+   "👋🏿"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_emojis::162",
+  "argv": [
+   "🇺🇸",
+   "🇬🇧",
+   "🇨🇦",
+   "🇦🇺",
+   "🇯🇵",
+   "🇩🇪",
+   "🇫🇷",
+   "🇮🇹"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_emoji_sequences::163",
+  "argv": [
+   "👨‍💻",
+   "👩‍💻",
+   "👨‍🔬",
+   "👩‍🔬"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exact_repetition_counts::164",
+  "argv": [
+   "-r",
+   "aa",
+   "bb",
+   "cc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_variable_repetitions::165",
+  "argv": [
+   "-r",
+   "aa",
+   "aaa",
+   "aaaa",
+   "aaaaa"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repetition_with_alternation::166",
+  "argv": [
+   "-r",
+   "aaabbb",
+   "xxxyyy",
+   "pppqqq"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_long_repetition_sequences::167",
+  "argv": [
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_digits::168",
+  "argv": [
+   "0",
+   "1",
+   "2",
+   "3",
+   "4",
+   "5",
+   "6",
+   "7",
+   "8",
+   "9"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_punctuation_set::169",
+  "argv": [
+   "!",
+   "?",
+   ".",
+   ",",
+   ";",
+   ":",
+   "'",
+   "\""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_case_alphabet::170",
+  "argv": [
+   "AaBbCc",
+   "DdEeFf",
+   "GgHhIi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_unicode_content::171",
+  "argv": [
+   "-f",
+   "unicode.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "unicode.txt": "Ελληνικά\n日本語\n한국어\nрусский\nעברית\nالعربية\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_escape_with_all_char_classes::172",
+  "argv": [
+   "-e",
+   "-d",
+   "-w",
+   "-s",
+   "αβ1 ",
+   "γδ2 "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repetition_with_all_char_classes::173",
+  "argv": [
+   "-r",
+   "-d",
+   "-w",
+   "-s",
+   "a1 a1 ",
+   "b2 b2 "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_colorize_escape_all_classes::174",
+  "argv": [
+   "-x",
+   "-c",
+   "-e",
+   "-d",
+   "-w",
+   "-s",
+   "α1 ",
+   "β2 "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_case_with_all_flags::175",
+  "argv": [
+   "-i",
+   "-x",
+   "-c",
+   "-g",
+   "-d",
+   "-w",
+   "Test123",
+   "TEST123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_short_inputs::176",
+  "argv": [
+   "a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_almost_identical_inputs::177",
+  "argv": [
+   "test1",
+   "test2",
+   "test3",
+   "test4",
+   "test5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inputs_with_common_middle::178",
+  "argv": [
+   "aXXXb",
+   "cXXXd",
+   "eXXXf"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_numeric_sequences::179",
+  "argv": [
+   "-"
+  ],
+  "stdin": "123\n456\n789\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_repeated_patterns::180",
+  "argv": [
+   "-r",
+   "-"
+  ],
+  "stdin": "abab\ncdcd\nefef\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_unicode_mixed::181",
+  "argv": [
+   "-"
+  ],
+  "stdin": "hello世界\nworld世界\ntest世界\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_repetitions_range::182",
+  "argv": [
+   "-r",
+   "--min-repetitions"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_substring_length_range::183",
+  "argv": [
+   "-r",
+   "--min-substring-length",
+   "abcabc",
+   "defdef"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_repetitions_and_length_combined::184",
+  "argv": [
+   "-r",
+   "--min-repetitions",
+   "2",
+   "--min-substring-length",
+   "2",
+   "ababab",
+   "cdcdcd"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_flag::185",
+  "argv": [
+   "--verbose",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_short_flag::186",
+  "argv": [
+   "-x",
+   "hello"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_with_simple_pattern::187",
+  "argv": [
+   "-x",
+   "abc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_with_character_classes::188",
+  "argv": [
+   "-x",
+   "-d",
+   "test123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_with_repetitions::189",
+  "argv": [
+   "-x",
+   "-r",
+   "testtest"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_with_escape::190",
+  "argv": [
+   "-x",
+   "-e",
+   "café"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_with_spaces::191",
+  "argv": [
+   "-x",
+   "hello world"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colorize_flag::192",
+  "argv": [
+   "--colorize",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colorize_short_flag::193",
+  "argv": [
+   "-c",
+   "hello"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colorize_with_character_classes::194",
+  "argv": [
+   "-c",
+   "-d",
+   "test123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colorize_with_verbose::195",
+  "argv": [
+   "-c",
+   "-x",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colorize_with_escape::196",
+  "argv": [
+   "-c",
+   "-e",
+   "café"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_preserves_regex_functionality::197",
+  "argv": [
+   "-x",
+   "test1",
+   "test2",
+   "test3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colorize_preserves_regex_structure::198",
+  "argv": [
+   "-c",
+   "test1",
+   "test2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_multiline_structure::199",
+  "argv": [
+   "-x",
+   "hello",
+   "world"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_string_input::200",
+  "argv": [
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_newline_characters::201",
+  "argv": [
+   "line1\nline2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tab_characters::202",
+  "argv": [
+   "col1\tcol2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_whitespace::203",
+  "argv": [
+   "a b",
+   "a\tb",
+   "a\nb"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repeated_characters::204",
+  "argv": [
+   "aaaaaa",
+   "bbbbbb",
+   "cccccc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_alternating_patterns::205",
+  "argv": [
+   "ababab",
+   "cdcdcd",
+   "efefef"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_numeric_ranges::206",
+  "argv": [
+   "item0",
+   "item1",
+   "item2",
+   "item3",
+   "item4",
+   "item5",
+   "item6",
+   "item7",
+   "item8",
+   "item9"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_alphabetic_ranges::207",
+  "argv": [
+   "prefixA",
+   "prefixB",
+   "prefixC",
+   "prefixD",
+   "prefixE"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_case_patterns::208",
+  "argv": [
+   "TestOne",
+   "TestTwo",
+   "testthree"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_combined::209",
+  "argv": [
+   "a.b*c+d?e",
+   "x.y*z+w?v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_brackets_and_braces::210",
+  "argv": [
+   "a[b]c{d}e"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pipes_and_backslashes::211",
+  "argv": [
+   "a|b",
+   "c\\d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dollar_and_caret_in_input::212",
+  "argv": [
+   "$100",
+   "^top"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quotes_in_input::213",
+  "argv": [
+   "it's",
+   "say \"hello\""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_numbers_only::214",
+  "argv": [
+   "123",
+   "456",
+   "789"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_symbols_only::215",
+  "argv": [
+   "!!!",
+   "???",
+   "..."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_similar_strings::216",
+  "argv": [
+   "testing1",
+   "testing2",
+   "testing3",
+   "testing4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prefix_suffix_patterns::217",
+  "argv": [
+   "preXsuf",
+   "preYsuf",
+   "preZsuf"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_common_pattern::218",
+  "argv": [
+   "apple",
+   "123",
+   "xyz",
+   "!!!"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_ranges::219",
+  "argv": [
+   "α",
+   "β",
+   "γ",
+   "δ"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rtl_text::220",
+  "argv": [
+   "مرحبا",
+   "שלום"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_scripts::221",
+  "argv": [
+   "hello",
+   "привет",
+   "γεια"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_width_joiner::222",
+  "argv": [
+   "a‍b",
+   "x‍y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_control_characters::223",
+  "argv": [
+   "a\u0001b",
+   "c\u0002d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_repetitions::224",
+  "argv": [
+   "-r",
+   "abcabcabc",
+   "defdefdef"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_char_difference::225",
+  "argv": [
+   "abcdef",
+   "abcdeg",
+   "abcdeh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_escape_flag::226",
+  "argv": [
+   "--escape",
+   "café"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_escape_short_flag::227",
+  "argv": [
+   "-e",
+   "naïve"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_escape_emoji::228",
+  "argv": [
+   "-e",
+   "hello💩"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_escape_unicode_digits::229",
+  "argv": [
+   "-e",
+   "test٣"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_escape_combining_characters::230",
+  "argv": [
+   "-e",
+   "y̆"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_with_surrogates_flag::231",
+  "argv": [
+   "--escape",
+   "--with-surrogates",
+   "💩"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_with_surrogates_without_escape_fails::232",
+  "argv": [
+   "--with-surrogates",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_escape_with_verbose::233",
+  "argv": [
+   "-e",
+   "-x",
+   "café"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_escape_with_repetitions::234",
+  "argv": [
+   "-e",
+   "-r",
+   "♥♥♥"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_escape_with_digits::235",
+  "argv": [
+   "-e",
+   "-d",
+   "café123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_escape_with_spaces::236",
+  "argv": [
+   "-e",
+   "-s",
+   "café test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_escape_preserves_ascii::237",
+  "argv": [
+   "-e",
+   "hello world 123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_surrogates_with_bmp_character::238",
+  "argv": [
+   "--escape",
+   "--with-surrogates",
+   "café"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_escape_multiple_unicode_chars::239",
+  "argv": [
+   "-e",
+   "♥",
+   "♦",
+   "♣",
+   "♠"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wide_char_classes::240",
+  "argv": [
+   "ABC",
+   "ΑΒΓ",
+   "АБВ",
+   "אבג",
+   "ابت",
+   "अआइ",
+   "一二三"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_scripts::241",
+  "argv": [
+   "hello世界",
+   "world世界",
+   "test世界"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bidirectional_text::242",
+  "argv": [
+   "Hello مرحبا",
+   "World שלום"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_digits_with_spaces_non_words::243",
+  "argv": [
+   "-d",
+   "-s",
+   "-W",
+   "a1 b2!",
+   "c3 d4?"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_non_digits_with_words_spaces::244",
+  "argv": [
+   "-D",
+   "-w",
+   "-s",
+   "abc 123",
+   "xyz 456"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_positive_char_classes::245",
+  "argv": [
+   "-d",
+   "-w",
+   "-s",
+   "a1 ",
+   "b2 "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repetitions_with_digits_words::246",
+  "argv": [
+   "-r",
+   "-d",
+   "-w",
+   "a1a1a1",
+   "b2b2b2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repetitions_with_escape::247",
+  "argv": [
+   "-r",
+   "-e",
+   "ααα",
+   "βββ"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repetitions_with_escape_surrogates::248",
+  "argv": [
+   "-r",
+   "-e",
+   "--with-surrogates",
+   "😀😀",
+   "😁😁"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_with_all_char_classes::249",
+  "argv": [
+   "-x",
+   "-d",
+   "-w",
+   "-s",
+   "a1 ",
+   "b2 "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_with_escape_and_repetitions::250",
+  "argv": [
+   "-x",
+   "-e",
+   "-r",
+   "ααα",
+   "βββ"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_with_capturing_groups_and_escape::251",
+  "argv": [
+   "-x",
+   "-g",
+   "-e",
+   "αβ",
+   "γδ"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_ignore_case_capturing::252",
+  "argv": [
+   "-x",
+   "-i",
+   "-g",
+   "Hello",
+   "World"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colorize_all_char_classes::253",
+  "argv": [
+   "-c",
+   "-d",
+   "-w",
+   "-s",
+   "a1 ",
+   "b2 "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colorize_escape_repetitions::254",
+  "argv": [
+   "-c",
+   "-e",
+   "-r",
+   "ααα",
+   "βββ"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colorize_ignore_case_capturing::255",
+  "argv": [
+   "-c",
+   "-i",
+   "-g",
+   "Test",
+   "TEST"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colorize_no_anchors_alternation::256",
+  "argv": [
+   "-c",
+   "--no-anchors",
+   "test1",
+   "test2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mega_combo_1::257",
+  "argv": [
+   "-x",
+   "-c",
+   "-i",
+   "-g",
+   "-d",
+   "-r",
+   "A1A1",
+   "B2B2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mega_combo_2::258",
+  "argv": [
+   "-x",
+   "-c",
+   "-e",
+   "-r",
+   "-g",
+   "ααα",
+   "βββ"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mega_combo_3::259",
+  "argv": [
+   "-x",
+   "-c",
+   "-i",
+   "-e",
+   "--with-surrogates",
+   "-r",
+   "😀😀",
+   "😁😁"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mega_combo_4::260",
+  "argv": [
+   "-D",
+   "-S",
+   "-W",
+   "-x",
+   "-c",
+   "-i",
+   "!@#",
+   "$%^"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_groups::261",
+  "argv": [
+   "abc",
+   "abcd",
+   "abcde",
+   "abcdef"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_character_ranges::262",
+  "argv": [
+   "a",
+   "b",
+   "c",
+   "d",
+   "e",
+   "f",
+   "g",
+   "h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_tabs::263",
+  "argv": [
+   "-"
+  ],
+  "stdin": "a\tb\tc\nd\te\tf",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_carriage_returns::264",
+  "argv": [
+   "-"
+  ],
+  "stdin": "line1\r\nline2\r\nline3\r\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_empty_lines_only::265",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n\n\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_windows_line_endings::266",
+  "argv": [
+   "-f",
+   "crlf.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "crlf.txt": "line1\r\nline2\r\nline3\r\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_no_final_newline::267",
+  "argv": [
+   "-f",
+   "no_newline.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "no_newline.txt": "line1\nline2\nline3"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_mixed_line_endings::268",
+  "argv": [
+   "-f",
+   "mixed.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "mixed.txt": "line1\nline2\r\nline3\rline4\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_whitespace_only_inputs::269",
+  "argv": [
+   " ",
+   "  ",
+   "   "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_whitespace_with_conversion::270",
+  "argv": [
+   "-s",
+   " ",
+   "\t",
+   "\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_whitespace_types::271",
+  "argv": [
+   " \t\n",
+   "  \t\n",
+   "   \t\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_integer_sequences_with_digit_flag::272",
+  "argv": [
+   "-d",
+   "123",
+   "456",
+   "789"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_numbers_letters::273",
+  "argv": [
+   "abc123",
+   "def456",
+   "ghi789"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_metacharacters::274",
+  "argv": [
+   ".*?",
+   "+$^",
+   "[]()",
+   "{|}\\"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backslash_sequences::275",
+  "argv": [
+   "\\n",
+   "\\t",
+   "\\r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quote_characters::276",
+  "argv": [
+   "'test'",
+   "\"test\"",
+   "`test`"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_long_alternation::277",
+  "argv": [
+   "apple",
+   "banana",
+   "cherry",
+   "date",
+   "elderberry",
+   "fig",
+   "grape",
+   "honeydew",
+   "ice",
+   "jackfruit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_start_anchor_with_multiple_flags::278",
+  "argv": [
+   "--no-start-anchor",
+   "-d",
+   "-w",
+   "-s",
+   "-x",
+   "a1 "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_end_anchor_with_multiple_flags::279",
+  "argv": [
+   "--no-end-anchor",
+   "-d",
+   "-w",
+   "-s",
+   "-c",
+   "a1 "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_input_with_hyphen::280",
+  "argv": [
+   "-"
+  ],
+  "stdin": "test1\ntest2\ntest3",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_input::281",
+  "argv": [
+   "-f",
+   "input.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "input.txt": "line1\nline2\nline3"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_input_short_flag::282",
+  "argv": [
+   "-f",
+   "input.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "input.txt": "alpha\nbeta\ngamma"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_not_found::283",
+  "argv": [
+   "-f",
+   "/nonexistent/file.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_crlf_line_endings::284",
+  "argv": [
+   "-f",
+   "input.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "input.txt": "test1\r\ntest2\r\ntest3\r\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_no_final_newline::285",
+  "argv": [
+   "-f",
+   "input.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "input.txt": "test1\ntest2\ntest3"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_unicode_content::286",
+  "argv": [
+   "-f",
+   "input.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "input.txt": "café\nnaïve\nrésumé"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_file::287",
+  "argv": [
+   "-f",
+   "input.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "input.txt": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflict_file_and_direct_input::288",
+  "argv": [
+   "-f",
+   "input.txt",
+   "direct_input"
+  ],
+  "stdin": null,
+  "files": {
+   "input.txt": "test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_emoji_input::289",
+  "argv": [
+   "hello💩",
+   "world💩"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_combining_characters::290",
+  "argv": [
+   "y̆y̆"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_arabic_digits::291",
+  "argv": [
+   "test٣"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_identical_inputs::292",
+  "argv": [
+   "same",
+   "same",
+   "same"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_character_inputs::293",
+  "argv": [
+   "a",
+   "b",
+   "c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_case_alphabet::294",
+  "argv": [
+   "-i"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_single_digits_with_d_flag::295",
+  "argv": [
+   "-d",
+   "a0",
+   "b1",
+   "c2",
+   "d3",
+   "e4",
+   "f5",
+   "g6",
+   "h7",
+   "i8",
+   "j9"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_digits_flag_variations::296",
+  "argv": [
+   "a1b2c3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_spaces_flag_variations::297",
+  "argv": [
+   "a b c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_words_flag_variations::298",
+  "argv": [
+   "abc123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_non_words_flag_variations::299",
+  "argv": [
+   "!@#"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repetitions_flag_variations::300",
+  "argv": [
+   "aaa",
+   "bbb"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_escape_flag_variations::301",
+  "argv": [
+   "α",
+   "β"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_case_flag_variations::302",
+  "argv": [
+   "Test",
+   "TEST"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_d_w::303",
+  "argv": [
+   "-d",
+   "-w",
+   "a1b2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_d_s::304",
+  "argv": [
+   "-d",
+   "-s",
+   "1 2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_w_s::305",
+  "argv": [
+   "-w",
+   "-s",
+   "a b"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_d_r::306",
+  "argv": [
+   "-d",
+   "-r",
+   "111",
+   "222"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_w_r::307",
+  "argv": [
+   "-w",
+   "-r",
+   "aaa",
+   "bbb"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_s_r::308",
+  "argv": [
+   "-s",
+   "-r",
+   "   ",
+   "   "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_d_e::309",
+  "argv": [
+   "-d",
+   "-e",
+   "α1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_w_e::310",
+  "argv": [
+   "-w",
+   "-e",
+   "αβ"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_d_x::311",
+  "argv": [
+   "-d",
+   "-x",
+   "a1b2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_d_c::312",
+  "argv": [
+   "-d",
+   "-c",
+   "a1b2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_d_i::313",
+  "argv": [
+   "-d",
+   "-i",
+   "A1",
+   "a1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_d_g::314",
+  "argv": [
+   "-d",
+   "-g",
+   "1",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_x_c::315",
+  "argv": [
+   "-x",
+   "-c",
+   "a",
+   "b"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_x_i::316",
+  "argv": [
+   "-x",
+   "-i",
+   "A",
+   "a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_x_g::317",
+  "argv": [
+   "-x",
+   "-g",
+   "hello",
+   "world"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_c_i::318",
+  "argv": [
+   "-c",
+   "-i",
+   "A",
+   "a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_i_g::319",
+  "argv": [
+   "-i",
+   "-g",
+   "Hello",
+   "HELLO"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_d_w_s::320",
+  "argv": [
+   "-d",
+   "-w",
+   "-s",
+   "a1 "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_d_w_r::321",
+  "argv": [
+   "-d",
+   "-w",
+   "-r",
+   "a1a1",
+   "b2b2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_d_s_r::322",
+  "argv": [
+   "-d",
+   "-s",
+   "-r",
+   "1 1 ",
+   "2 2 "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_w_s_r::323",
+  "argv": [
+   "-w",
+   "-s",
+   "-r",
+   "a a ",
+   "b b "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_d_w_x::324",
+  "argv": [
+   "-d",
+   "-w",
+   "-x",
+   "a1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_d_w_c::325",
+  "argv": [
+   "-d",
+   "-w",
+   "-c",
+   "a1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_d_w_i::326",
+  "argv": [
+   "-d",
+   "-w",
+   "-i",
+   "A1",
+   "a1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_x_c_i::327",
+  "argv": [
+   "-x",
+   "-c",
+   "-i",
+   "A",
+   "a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_x_c_g::328",
+  "argv": [
+   "-x",
+   "-c",
+   "-g",
+   "hello",
+   "world"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_c_i_g::329",
+  "argv": [
+   "-c",
+   "-i",
+   "-g",
+   "Hello",
+   "World"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_phone_numbers::330",
+  "argv": [
+   "123-456-7890",
+   "987-654-3210",
+   "555-123-4567"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_emails::331",
+  "argv": [
+   "test@example.com",
+   "user@domain.org",
+   "admin@site.net"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_urls::332",
+  "argv": [
+   "http://example.com",
+   "https://test.org",
+   "ftp://files.net"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_paths::333",
+  "argv": [
+   "/usr/bin/test",
+   "/opt/app/run",
+   "/home/user/file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dates::334",
+  "argv": [
+   "2024-01-15",
+   "2024-02-20",
+   "2024-03-25"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_times::335",
+  "argv": [
+   "10:30:45",
+   "14:25:30",
+   "18:45:15"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ip_addresses::336",
+  "argv": [
+   "192.168.1.1",
+   "10.0.0.1",
+   "172.16.0.1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_numbers::337",
+  "argv": [
+   "1.0.0",
+   "2.1.3",
+   "3.5.7"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hex_colors::338",
+  "argv": [
+   "#FF0000",
+   "#00FF00",
+   "#0000FF"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_uuids::339",
+  "argv": [
+   "550e8400-e29b-41d4-a716-446655440000",
+   "6ba7b810-9dad-11d1-80b4-00c04fd430c8"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repetitions_flag::340",
+  "argv": [
+   "--repetitions",
+   "aaabbbccc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repetitions_short_flag::341",
+  "argv": [
+   "-r",
+   "testtest"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repetitions_with_spaces::342",
+  "argv": [
+   "-r",
+   "hello hello hello"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repetitions_with_digits::343",
+  "argv": [
+   "-r",
+   "-d",
+   "123123123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_repetitions_default::344",
+  "argv": [
+   "--repetitions",
+   "--min-repetitions",
+   "2",
+   "testtest"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_repetitions_higher_value::345",
+  "argv": [
+   "-r",
+   "--min-repetitions",
+   "3",
+   "aaa",
+   "bbbb"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_repetitions_zero_fails::346",
+  "argv": [
+   "--repetitions",
+   "--min-repetitions",
+   "0",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_repetitions_invalid_value_fails::347",
+  "argv": [
+   "--repetitions",
+   "--min-repetitions",
+   "abc",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_substring_length_default::348",
+  "argv": [
+   "--repetitions",
+   "--min-substring-length",
+   "2",
+   "ababab"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_substring_length_higher_value::349",
+  "argv": [
+   "-r",
+   "--min-substring-length",
+   "3",
+   "abcabcabc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_substring_length_zero_fails::350",
+  "argv": [
+   "--repetitions",
+   "--min-substring-length",
+   "0",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_substring_length_invalid_value_fails::351",
+  "argv": [
+   "--repetitions",
+   "--min-substring-length",
+   "xyz",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repetitions_with_verbose::352",
+  "argv": [
+   "-r",
+   "-x",
+   "testtest"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repetitions_with_escape::353",
+  "argv": [
+   "-r",
+   "-e",
+   "♥♥♥"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repetitions_complex_pattern::354",
+  "argv": [
+   "-r",
+   "abcabcabc",
+   "xyzxyzxyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repetitions_with_character_classes::355",
+  "argv": [
+   "-r",
+   "-d",
+   "-s",
+   "test 123 test 456"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tiny_file::356",
+  "argv": [
+   "-f",
+   "tiny.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "tiny.txt": "x"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_substring_length_1_to_10::357",
+  "argv": [
+   "-r",
+   "--min-substring-length"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_all_flags::358",
+  "argv": [
+   "-"
+  ],
+  "stdin": "a1 \nb2 \nc3 \n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_carriage_return_in_input::359",
+  "argv": [
+   "hello\rworld"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vertical_tab_in_input::360",
+  "argv": [
+   "hello\u000bworld"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_form_feed_in_input::361",
+  "argv": [
+   "hello\fworld"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repetition_with_alternation::362",
+  "argv": [
+   "-r",
+   "ababab",
+   "cdcdcd",
+   "efefef"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repetition_with_optional_parts::363",
+  "argv": [
+   "-r",
+   "aaa",
+   "aa",
+   "aaaa"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_repetition_patterns::364",
+  "argv": [
+   "-r",
+   "ababcdcdabab",
+   "efefghghefef"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_with_hash_character::365",
+  "argv": [
+   "-x",
+   "#tag",
+   "#hashtag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_with_special_whitespace::366",
+  "argv": [
+   "-x",
+   "a b",
+   "c d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_with_complex_pattern::367",
+  "argv": [
+   "-x",
+   "-c",
+   "abc123",
+   "def456",
+   "ghi789"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_capturing_with_repetition::368",
+  "argv": [
+   "-g",
+   "-r",
+   "ababab",
+   "cdcdcd"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_digits_over_words::369",
+  "argv": [
+   "-d",
+   "-w",
+   "abc123xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_digits_over_non_spaces::370",
+  "argv": [
+   "-d",
+   "-S",
+   "123abc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_spaces_over_non_digits::371",
+  "argv": [
+   "-s",
+   "-D",
+   "123 abc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_spaces_over_non_words::372",
+  "argv": [
+   "-s",
+   "-W",
+   "hello world"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_words_over_non_digits::373",
+  "argv": [
+   "-w",
+   "-D",
+   "abc123def"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_non_digits_over_non_words::374",
+  "argv": [
+   "-D",
+   "-W",
+   "!@#$"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_escape_with_astral_planes::375",
+  "argv": [
+   "-e",
+   "hello😀world"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_escape_with_surrogates::376",
+  "argv": [
+   "-e",
+   "--with-surrogates",
+   "test😀emoji"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_graphemes::377",
+  "argv": [
+   "café",
+   "naïve"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repetition_exact_count::378",
+  "argv": [
+   "-r",
+   "xxx",
+   "yyy",
+   "zzz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_repetitions_effect::379",
+  "argv": [
+   "-r",
+   "--min-repetitions",
+   "2",
+   "aa",
+   "aaa",
+   "aaaa"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_case_insensitive_with_alternation::380",
+  "argv": [
+   "-i",
+   "Test",
+   "TEST",
+   "Word",
+   "WORD"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repeated_identical_inputs::381",
+  "argv": [
+   "test",
+   "test",
+   "test",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colorized_simple::382",
+  "argv": [
+   "-c",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colorized_verbose::383",
+  "argv": [
+   "-c",
+   "-x",
+   "abc",
+   "def"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_character_classes::384",
+  "argv": [
+   "-d",
+   "-s",
+   "-w",
+   "test 123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_escape_with_character_classes::385",
+  "argv": [
+   "-e",
+   "-d",
+   "test123café"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repetition_with_all_conversions::386",
+  "argv": [
+   "-r",
+   "-d",
+   "-w",
+   "abc123abc123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_cli_stdin_input_succeeds::387",
+  "argv": [
+   "-"
+  ],
+  "stdin": "a\nb\nc\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_cli_file_from_stdin_errors::388",
+  "argv": [
+   "-f",
+   "-"
+  ],
+  "stdin": "a\nb\nc\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colorize_with_capture_groups::389",
+  "argv": [
+   "--colorize",
+   "--capture-groups",
+   "hello",
+   "world"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colorize_with_verbose_and_capture_groups::390",
+  "argv": [
+   "--colorize",
+   "--verbose",
+   "--capture-groups",
+   "test1",
+   "test2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_case_verbose_capture_groups::391",
+  "argv": [
+   "--ignore-case",
+   "--verbose",
+   "--capture-groups",
+   "Test",
+   "TEST"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repetitions_with_min_values_edge_case::392",
+  "argv": [
+   "-r",
+   "--min-repetitions",
+   "3",
+   "aa",
+   "aaa",
+   "aaaa"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_character_class_options::393",
+  "argv": [
+   "-d",
+   "-D",
+   "-s",
+   "-S",
+   "-w",
+   "-W",
+   "test 123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_escape_with_digits_and_spaces::394",
+  "argv": [
+   "--escape",
+   "--digits",
+   "--spaces",
+   "café 123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repetitions_with_all_conversions::395",
+  "argv": [
+   "-r",
+   "-d",
+   "-s",
+   "-w",
+   "test test test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_anchors_with_ignore_case::396",
+  "argv": [
+   "--no-anchors",
+   "--ignore-case",
+   "Test",
+   "TEST"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_with_escape_and_repetitions::397",
+  "argv": [
+   "--verbose",
+   "--escape",
+   "--repetitions",
+   "♥♥♥"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_character_various_flags::398",
+  "argv": [
+   "-d",
+   "-w",
+   "-s",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_mixed_scripts::399",
+  "argv": [
+   "hello",
+   "привет",
+   "你好"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

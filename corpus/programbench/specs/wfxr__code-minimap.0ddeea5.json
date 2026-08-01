@@ -1,0 +1,2621 @@
+{
+ "slug": "wfxr__code-minimap.0ddeea5",
+ "language": "",
+ "n_branches": 8,
+ "n_tests_total": 333,
+ "n_examples": 145,
+ "n_with_exact_stdout": 34,
+ "n_with_rc": 132,
+ "n_skipped": 177,
+ "examples": [
+  {
+   "test": "test_version",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "code-minimap",
+    "0.6.8"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:4"
+  },
+  {
+   "test": "test_help",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "code minimap"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic.py:14"
+  },
+  {
+   "test": "test_bash_completion",
+   "argv": [
+    "completion",
+    "bash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "_code-minimap() {\n    local i cur prev opts cmd\n    COMPREPLY=()\n    cur=\"${COMP_WORDS[COMP_CWORD]}\"\n    prev=\"${COMP_WORDS[COMP_CWORD-1]}\"\n    cmd=\"\"\n    opts=\"\"\n\n    for i in ${COMP_WORDS[@]}\n    do\n        case \"${cmd},${i}\" in\n            \",$1\")\n                cmd=\"code__minimap\"\n                ;;\n            code__minimap,completion)\n                cmd=\"code__minimap__completion\"\n                ;;\n            code__minimap,help)\n                cmd=\"code__minimap__help\"\n                ;;\n            code__minimap__help,completion)\n                cmd=\"code__minimap__help__completion\"\n                ;;\n            code__minimap__help,help)\n                cmd=\"code__minimap__help__help\"\n                ;;\n            *)\n                ;;\n        esac\n    done\n\n    case \"${cmd}\" in\n        code__minimap)\n            opts=\"-H -V -h --horizontal-scale --vertical-scale --padding --encoding --version --help [FILE] completion help\"\n            if [[ ${cur} == -* || ${COMP_CWORD} -eq 1 ]] ; then\n                COMPREPLY=( $(compgen -W \"${opts}\" -- \"${cur}\") )\n                return 0\n            fi\n            case \"${prev}\" in\n                --horizontal-scale)\n                    COMPREPLY=($(compgen -f \"${cur}\"))\n                    return 0\n                    ;;\n                -H)\n                    COMPREPLY=($(compgen -f \"${cur}\"))\n                    return 0\n                    ;;\n                --vertical-scale)\n                    COMPREPLY=($(compgen -f \"${cur}\"))\n                    return 0\n                    ;;\n                -V)\n                    COMPREPLY=($(compgen -f \"${cur}\"))\n                    return 0\n                    ;;\n                --padding)\n                    COMPREPLY=($(compgen -f \"${cur}\"))\n                    return 0\n                    ;;\n                --encoding)\n                    COMPREPLY=($(compgen -W \"utf8-lossy utf8\" -- \"${cur}\"))\n                    return 0\n                    ;;\n                *)\n                    COMPREPLY=()\n                    ;;\n            esac\n            COMPREPLY=( $(compgen -W \"${opts}\" -- \"${cur}\") )\n            return 0\n            ;;\n        code__minimap__completion)\n            opts=\"-h --help bash elvish fish powershell zsh\"\n            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then\n                COMPREPLY=( $(compgen -W \"${opts}\" -- \"${cur}\") )\n                return 0\n            fi\n            case \"${prev}\" in\n                *)\n                    COMPREPLY=()\n                    ;;\n            esac\n            COMPREPLY=( $(compgen -W \"${opts}\" -- \"${cur}\") )\n            return 0\n            ;;\n        code__minimap__help)\n            opts=\"completion help\"\n            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then\n                COMPREPLY=( $(compgen -W \"${opts}\" -- \"${cur}\") )\n                return 0\n            fi\n            case \"${prev}\" in\n                *)\n                    COMPREPLY=()\n                    ;;\n            esac\n            COMPREPLY=( $(compgen -W \"${opts}\" -- \"${cur}\") )\n            return 0\n            ;;\n        code__minimap__help__completion)\n            opts=\"\"\n            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then\n                COMPREPLY=( $(compgen -W \"${opts}\" -- \"${cur}\") )\n                return 0\n            fi\n            case \"${prev}\" in\n                *)\n                    COMPREPLY=()\n                    ;;\n            esac\n            COMPREPLY=( $(compgen -W \"${opts}\" -- \"${cur}\") )\n            return 0\n            ;;\n        code__minimap__help__help)\n            opts=\"\"\n            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then\n                COMPREPLY=( $(compgen -W \"${opts}\" -- \"${cur}\") )\n                return 0\n            fi\n            case \"${prev}\" in\n                *)\n                    COMPREPLY=()\n                    ;;\n            esac\n            COMPREPLY=( $(compgen -W \"${opts}\" -- \"${cur}\") )\n            return 0\n            ;;\n    esac\n}\n\nif [[ \"${BASH_VERSINFO[0]}\" -eq 4 && \"${BASH_VERSINFO[1]}\" -ge 4 || \"${BASH_VERSINFO[0]}\" -gt 4 ]]; then\n    complete -F _code-minimap -o nosort -o bashdefault -o default code-minimap\nelse\n    complete -F _code-minimap -o bashdefault -o default code-minimap\nfi\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_completion.py:7"
+  },
+  {
+   "test": "test_elvish_completion",
+   "argv": [
+    "completion",
+    "elvish"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "\nuse builtin;\nuse str;\n\nset edit:completion:arg-completer[code-minimap] = {|@words|\n    fn spaces {|n|\n        builtin:repeat $n ' ' | str:join ''\n    }\n    fn cand {|text desc|\n        edit:complex-candidate $text &display=$text' '(spaces (- 14 (wcswidth $text)))$desc\n    }\n    var command = 'code-minimap'\n    for word $words[1..-1] {\n        if (str:has-prefix $word '-') {\n            break\n        }\n        set command = $command';'$word\n    }\n    var completions = [\n        &'code-minimap'= {\n            cand -H 'Specify horizontal scale factor'\n            cand --horizontal-scale 'Specify horizontal scale factor'\n            cand -V 'Specify vertical scale factor'\n            cand --vertical-scale 'Specify vertical scale factor'\n            cand --padding 'Specify padding width'\n            cand --encoding 'Specify input encoding'\n            cand --version 'Print version'\n            cand -h 'Print help'\n            cand --help 'Print help'\n            cand completion 'Generate shell completion file'\n            cand help 'Print this message or the help of the given subcommand(s)'\n        }\n        &'code-minimap;completion'= {\n            cand -h 'Print help'\n            cand --help 'Print help'\n        }\n        &'code-minimap;help'= {\n            cand completion 'Generate shell completion file'\n            cand help 'Print this message or the help of the given subcommand(s)'\n        }\n        &'code-minimap;help;completion'= {\n        }\n        &'code-minimap;help;help'= {\n        }\n    ]\n    $completions[$command]\n}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_completion.py:21"
+  },
+  {
+   "test": "test_fish_completion",
+   "argv": [
+    "completion",
+    "fish"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "# Print an optspec for argparse to handle cmd's options that are independent of any subcommand.\nfunction __fish_code_minimap_global_optspecs\n\tstring join \\n H/horizontal-scale= V/vertical-scale= padding= encoding= version h/help\nend\n\nfunction __fish_code_minimap_needs_command\n\t# Figure out if the current invocation already has a command.\n\tset -l cmd (commandline -opc)\n\tset -e cmd[1]\n\targparse -s (__fish_code_minimap_global_optspecs) -- $cmd 2>/dev/null\n\tor return\n\tif set -q argv[1]\n\t\t# Also print the command, so this can be used to figure out what it is.\n\t\techo $argv[1]\n\t\treturn 1\n\tend\n\treturn 0\nend\n\nfunction __fish_code_minimap_using_subcommand\n\tset -l cmd (__fish_code_minimap_needs_command)\n\ttest -z \"$cmd\"\n\tand return 1\n\tcontains -- $cmd[1] $argv\nend\n\ncomplete -c code-minimap -n \"__fish_code_minimap_needs_command\" -s H -l horizontal-scale -d 'Specify horizontal scale factor' -r\ncomplete -c code-minimap -n \"__fish_code_minimap_needs_command\" -s V -l vertical-scale -d 'Specify vertical scale factor' -r\ncomplete -c code-minimap -n \"__fish_code_minimap_needs_command\" -l padding -d 'Specify padding width' -r\ncomplete -c code-minimap -n \"__fish_code_minimap_needs_command\" -l encoding -d 'Specify input encoding' -r -f -a \"{utf8-lossy\\t'',utf8\\t''}\"\ncomplete -c code-minimap -n \"__fish_code_minimap_needs_command\" -l version -d 'Print version'\ncomplete -c code-minimap -n \"__fish_code_minimap_needs_command\" -s h -l help -d 'Print help'\ncomplete -c code-minimap -n \"__fish_code_minimap_needs_command\" -a \"completion\" -d 'Generate shell completion file'\ncomplete -c code-minimap -n \"__fish_code_minimap_needs_command\" -a \"help\" -d 'Print this message or the help of the given subcommand(s)'\ncomplete -c code-minimap -n \"__fish_code_minimap_using_subcommand completion\" -s h -l help -d 'Print help'\ncomplete -c code-minimap -n \"__fish_code_minimap_using_subcommand help; and not __fish_seen_subcommand_from completion help\" -f -a \"completion\" -d 'Generate shell completion file'\ncomplete -c code-minimap -n \"__fish_code_minimap_using_subcommand help; and not __fish_seen_subcommand_from completion help\" -f -a \"help\" -d 'Print this message or the help of the given subcommand(s)'\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_completion.py:35"
+  },
+  {
+   "test": "test_powershell_completion",
+   "argv": [
+    "completion",
+    "powershell"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "\nusing namespace System.Management.Automation\nusing namespace System.Management.Automation.Language\n\nRegister-ArgumentCompleter -Native -CommandName 'code-minimap' -ScriptBlock {\n    param($wordToComplete, $commandAst, $cursorPosition)\n\n    $commandElements = $commandAst.CommandElements\n    $command = @(\n        'code-minimap'\n        for ($i = 1; $i -lt $commandElements.Count; $i++) {\n            $element = $commandElements[$i]\n            if ($element -isnot [StringConstantExpressionAst] -or\n                $element.StringConstantType -ne [StringConstantType]::BareWord -or\n                $element.Value.StartsWith('-') -or\n                $element.Value -eq $wordToComplete) {\n                break\n        }\n        $element.Value\n    }) -join ';'\n\n    $completions = @(switch ($command) {\n        'code-minimap' {\n            [CompletionResult]::new('-H', '-H ', [CompletionResultType]::ParameterName, 'Specify horizontal scale factor')\n            [CompletionResult]::new('--horizontal-scale', '--horizontal-scale', [CompletionResultType]::ParameterName, 'Specify horizontal scale factor')\n            [CompletionResult]::new('-V', '-V ', [CompletionResultType]::ParameterName, 'Specify vertical scale factor')\n            [CompletionResult]::new('--vertical-scale', '--vertical-scale', [CompletionResultType]::ParameterName, 'Specify vertical scale factor')\n            [CompletionResult]::new('--padding', '--padding', [CompletionResultType]::ParameterName, 'Specify padding width')\n            [CompletionResult]::new('--encoding', '--encoding', [CompletionResultType]::ParameterName, 'Specify input encoding')\n            [CompletionResult]::new('--version', '--version', [CompletionResultType]::ParameterName, 'Print version')\n            [CompletionResult]::new('-h', '-h', [CompletionResultType]::ParameterName, 'Print help')\n            [CompletionResult]::new('--help', '--help', [CompletionResultType]::ParameterName, 'Print help')\n            [CompletionResult]::new('completion', 'completion', [CompletionResultType]::ParameterValue, 'Generate shell completion file')\n            [CompletionResult]::new('help', 'help', [CompletionResultType]::ParameterValue, 'Print this message or the help of the given subcommand(s)')\n            break\n        }\n        'code-minimap;completion' {\n            [CompletionResult]::new('-h', '-h', [CompletionResultType]::ParameterName, 'Print help')\n            [CompletionResult]::new('--help', '--help', [CompletionResultType]::ParameterName, 'Print help')\n            break\n        }\n        'code-minimap;help' {\n            [CompletionResult]::new('completion', 'completion', [CompletionResultType]::ParameterValue, 'Generate shell completion file')\n            [CompletionResult]::new('help', 'help', [CompletionResultType]::ParameterValue, 'Print this message or the help of the given subcommand(s)')\n            break\n        }\n        'code-minimap;help;completion' {\n            break\n        }\n        'code-minimap;help;help' {\n            break\n        }\n    })\n\n    $completions.Where{ $_.CompletionText -like \"$wordToComplete*\" } |\n        Sort-Object -Property ListItemText\n}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_completion.py:49"
+  },
+  {
+   "test": "test_zsh_completion",
+   "argv": [
+    "completion",
+    "zsh"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "#compdef code-minimap\n\nautoload -U is-at-least\n\n_code-minimap() {\n    typeset -A opt_args\n    typeset -a _arguments_options\n    local ret=1\n\n    if is-at-least 5.2; then\n        _arguments_options=(-s -S -C)\n    else\n        _arguments_options=(-s -C)\n    fi\n\n    local context curcontext=\"$curcontext\" state line\n    _arguments \"${_arguments_options[@]}\" : \\\n'-H+[Specify horizontal scale factor]:HSCALE:_default' \\\n'--horizontal-scale=[Specify horizontal scale factor]:HSCALE:_default' \\\n'-V+[Specify vertical scale factor]:VSCALE:_default' \\\n'--vertical-scale=[Specify vertical scale factor]:VSCALE:_default' \\\n'--padding=[Specify padding width]:PADDING:_default' \\\n'--encoding=[Specify input encoding]:ENCODING:(utf8-lossy utf8)' \\\n'--version[Print version]' \\\n'-h[Print help]' \\\n'--help[Print help]' \\\n'::file -- File to read:_files' \\\n\":: :_code-minimap_commands\" \\\n\"*::: :->code-minimap\" \\\n&& ret=0\n    case $state in\n    (code-minimap)\n        words=($line[2] \"${words[@]}\")\n        (( CURRENT += 1 ))\n        curcontext=\"${curcontext%:*:*}:code-minimap-command-$line[2]:\"\n        case $line[2] in\n            (completion)\n_arguments \"${_arguments_options[@]}\" : \\\n'-h[Print help]' \\\n'--help[Print help]' \\\n':shell -- Target shell name:(bash elvish fish powershell zsh)' \\\n&& ret=0\n;;\n(help)\n_arguments \"${_arguments_options[@]}\" : \\\n\":: :_code-minimap__help_commands\" \\\n\"*::: :->help\" \\\n&& ret=0\n\n    case $state in\n    (help)\n        words=($line[1] \"${words[@]}\")\n        (( CURRENT += 1 ))\n        curcontext=\"${curcontext%:*:*}:code-minimap-help-command-$line[1]:\"\n        case $line[1] in\n            (completion)\n_arguments \"${_arguments_options[@]}\" : \\\n&& ret=0\n;;\n(help)\n_arguments \"${_arguments_options[@]}\" : \\\n&& ret=0\n;;\n        esac\n    ;;\nesac\n;;\n        esac\n    ;;\nesac\n}\n\n(( $+functions[_code-minimap_commands] )) ||\n_code-minimap_commands() {\n    local commands; commands=(\n'completion:Generate shell completion file' \\\n'help:Print this message or the help of the given subcommand(s)' \\\n    )\n    _describe -t commands 'code-minimap commands' commands \"$@\"\n}\n(( $+functions[_code-minimap__completion_commands] )) ||\n_code-minimap__completion_commands() {\n    local commands; commands=()\n    _describe -t commands 'code-minimap completion commands' commands \"$@\"\n}\n(( $+functions[_code-minimap__help_commands] )) ||\n_code-minimap__help_commands() {\n    local commands; commands=(\n'completion:Generate shell completion file' \\\n'help:Print this message or the help of the given subcommand(s)' \\\n    )\n    _describe -t commands 'code-minimap help commands' commands \"$@\"\n}\n(( $+functions[_code-minimap__help__completion_commands] )) ||\n_code-minimap__help__completion_commands() {\n    local commands; commands=()\n    _describe -t commands 'code-minimap help completion commands' commands \"$@\"\n}\n(( $+functions[_code-minimap__help__help_commands] )) ||\n_code-minimap__help__help_commands() {\n    local commands; commands=()\n    _describe -t commands 'code-minimap help help commands' commands \"$@\"\n}\n\nif [ \"$funcstack[1]\" = \"_code-minimap\" ]; then\n    _code-minimap \"$@\"\nelse\n    compdef _code-minimap code-minimap\nfi\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_completion.py:63"
+  },
+  {
+   "test": "test_bash_completion_contains_binary_name",
+   "argv": [
+    "completion",
+    "bash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "_code-minimap()",
+    "complete -F _code-minimap",
+    "code-minimap"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_completion.py:77"
+  },
+  {
+   "test": "test_bash_completion_includes_main_flags",
+   "argv": [
+    "completion",
+    "bash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-H",
+    "--horizontal-scale",
+    "-V",
+    "--vertical-scale",
+    "--padding",
+    "--encoding"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_completion.py:93"
+  },
+  {
+   "test": "test_bash_completion_includes_subcommands",
+   "argv": [
+    "completion",
+    "bash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "completion",
+    "help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_completion.py:111"
+  },
+  {
+   "test": "test_fish_completion_has_proper_structure",
+   "argv": [
+    "completion",
+    "fish"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "function __fish_code_minimap",
+    "complete -c code-minimap"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_completion.py:125"
+  },
+  {
+   "test": "test_zsh_completion_has_compdef_directive",
+   "argv": [
+    "completion",
+    "zsh"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "_code-minimap()"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_completion.py:141"
+  },
+  {
+   "test": "test_powershell_completion_has_register_call",
+   "argv": [
+    "completion",
+    "powershell"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Register-ArgumentCompleter",
+    "-Native",
+    "-CommandName 'code-minimap'",
+    "CompletionResult"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_completion.py:157"
+  },
+  {
+   "test": "test_elvish_completion_has_arg_completer_registration",
+   "argv": [
+    "completion",
+    "elvish"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "edit:completion:arg-completer[code-minimap]",
+    "fn cand"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_completion.py:174"
+  },
+  {
+   "test": "test_completion_without_shell_argument_fails",
+   "argv": [
+    "completion"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_completion.py:189"
+  },
+  {
+   "test": "test_completion_with_invalid_shell_fails",
+   "argv": [
+    "completion",
+    "invalid-shell"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_completion.py:204"
+  },
+  {
+   "test": "test_completion_shell_names_are_case_sensitive",
+   "argv": [
+    "completion",
+    "BASH"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error: invalid value 'Bash' for '<SHELL>'",
+    "[possible values: bash, elvish, fish, powershell, zsh]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_completion.py:219"
+  },
+  {
+   "test": "test_completion_help_shows_usage",
+   "argv": [
+    "completion",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_completion.py:242"
+  },
+  {
+   "test": "test_completion_help_lists_all_shells",
+   "argv": [
+    "completion",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bash",
+    "elvish",
+    "fish",
+    "powershell",
+    "zsh",
+    "[possible values: bash, elvish, fish, powershell, zsh]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_completion.py:261"
+  },
+  {
+   "test": "test_bash_completion_output_to_stdout",
+   "argv": [
+    "completion",
+    "bash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_completion.py:282"
+  },
+  {
+   "test": "test_completion_with_multiple_shells_fails",
+   "argv": [
+    "completion",
+    "bash",
+    "zsh"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_completion.py:295"
+  },
+  {
+   "test": "test_bash_completion_has_encoding_options",
+   "argv": [
+    "completion",
+    "bash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "utf8-lossy",
+    "utf8",
+    "--encoding"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_completion.py:312"
+  },
+  {
+   "test": "test_fish_completion_includes_encoding_values",
+   "argv": [
+    "completion",
+    "fish"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "utf8-lossy",
+    "utf8"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_completion.py:327"
+  },
+  {
+   "test": "test_zsh_completion_includes_shell_values_for_completion_subcommand",
+   "argv": [
+    "completion",
+    "zsh"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "(bash elvish fish powershell zsh)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_completion.py:341"
+  },
+  {
+   "test": "test_completion_subcommand_with_extra_flag_after_shell",
+   "argv": [
+    "completion",
+    "bash",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_completion.py:354"
+  },
+  {
+   "test": "test_bash_completion_syntax_valid",
+   "argv": [
+    "completion",
+    "bash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "complete -F",
+    "_code-minimap()"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_completion.py:385"
+  },
+  {
+   "test": "test_zsh_completion_syntax_valid",
+   "argv": [
+    "completion",
+    "zsh"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#compdef code-minimap",
+    "autoload",
+    "_code-minimap()",
+    "_arguments"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_completion.py:405"
+  },
+  {
+   "test": "test_horizontal_scale_2x",
+   "argv": [
+    "-H",
+    "2.0"
+   ],
+   "stdin": "aaaa\nbbbb\ncccc\ndddd",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "⣿⣿⣿⣿\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_core_minimap.py:142"
+  },
+  {
+   "test": "test_vertical_scale_half",
+   "argv": [
+    "-V",
+    "0.5"
+   ],
+   "stdin": "aaaa\nbbbb\ncccc\ndddd\neeee\nffff\ngggg\nhhhh",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "⣿⣿\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_core_minimap.py:154"
+  },
+  {
+   "test": "test_padding_option",
+   "argv": [
+    "--padding",
+    "10"
+   ],
+   "stdin": "ab",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "⠉         \n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_core_minimap.py:164"
+  },
+  {
+   "test": "test_nonexistent_file_error",
+   "argv": [
+    "/nonexistent/file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_core_minimap.py:190"
+  },
+  {
+   "test": "test_combined_horizontal_and_vertical_scale",
+   "argv": [
+    "-H",
+    "0.5",
+    "-V",
+    "2.0"
+   ],
+   "stdin": "aaaa\nbbbb\ncccc\ndddd\neeee\nffff\ngggg\nhhhh",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "⣿\n⣿\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_core_minimap.py:301"
+  },
+  {
+   "test": "test_horizontal_scale_very_small",
+   "argv": [
+    "-H",
+    "0.1"
+   ],
+   "stdin": "aaaaaaaaaa\nbbbbbbbbbb",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "⠃\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_core_minimap.py:311"
+  },
+  {
+   "test": "test_all_options_combined",
+   "argv": [
+    "-H",
+    "5.0",
+    "-V",
+    "5.0",
+    "--padding",
+    "20"
+   ],
+   "stdin": "x",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "⠉⠉⠁                 \n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_core_minimap.py:359"
+  },
+  {
+   "test": "test_tall_file_with_vertical_scaling",
+   "argv": [
+    "-V",
+    "0.25"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "⣿⣿\n⣿⣿\n⣿⣿\n⣿⣿\n⣿⣿\n⣿⣿\n⠉⠉\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_core_minimap.py:371"
+  },
+  {
+   "test": "test_horizontal_scale_zero",
+   "argv": [
+    "-H",
+    "0.0"
+   ],
+   "stdin": "abc\ndef",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_core_minimap.py:443"
+  },
+  {
+   "test": "test_completion_zsh",
+   "argv": [
+    "completion",
+    "zsh"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "#compdef code-minimap\n\nautoload -U is-at-least\n\n_code-minimap() {\n    typeset -A opt_args\n    typeset -a _arguments_options\n    local ret=1\n\n    if is-at-least 5.2; then\n        _arguments_options=(-s -S -C)\n    else\n        _arguments_options=(-s -C)\n    fi\n\n    local context curcontext=\"$curcontext\" state line\n    _arguments \"${_arguments_options[@]}\" : \\\n'-H+[Specify horizontal scale factor]:HSCALE:_default' \\\n'--horizontal-scale=[Specify horizontal scale factor]:HSCALE:_default' \\\n'-V+[Specify vertical scale factor]:VSCALE:_default' \\\n'--vertical-scale=[Specify vertical scale factor]:VSCALE:_default' \\\n'--padding=[Specify padding width]:PADDING:_default' \\\n'--encoding=[Specify input encoding]:ENCODING:(utf8-lossy utf8)' \\\n'--version[Print version]' \\\n'-h[Print help]' \\\n'--help[Print help]' \\\n'::file -- File to read:_files' \\\n\":: :_code-minimap_commands\" \\\n\"*::: :->code-minimap\" \\\n&& ret=0\n    case $state in\n    (code-minimap)\n        words=($line[2] \"${words[@]}\")\n        (( CURRENT += 1 ))\n        curcontext=\"${curcontext%:*:*}:code-minimap-command-$line[2]:\"\n        case $line[2] in\n            (completion)\n_arguments \"${_arguments_options[@]}\" : \\\n'-h[Print help]' \\\n'--help[Print help]' \\\n':shell -- Target shell name:(bash elvish fish powershell zsh)' \\\n&& ret=0\n;;\n(help)\n_arguments \"${_arguments_options[@]}\" : \\\n\":: :_code-minimap__help_commands\" \\\n\"*::: :->help\" \\\n&& ret=0\n\n    case $state in\n    (help)\n        words=($line[1] \"${words[@]}\")\n        (( CURRENT += 1 ))\n        curcontext=\"${curcontext%:*:*}:code-minimap-help-command-$line[1]:\"\n        case $line[1] in\n            (completion)\n_arguments \"${_arguments_options[@]}\" : \\\n&& ret=0\n;;\n(help)\n_arguments \"${_arguments_options[@]}\" : \\\n&& ret=0\n;;\n        esac\n    ;;\nesac\n;;\n        esac\n    ;;\nesac\n}\n\n(( $+functions[_code-minimap_commands] )) ||\n_code-minimap_commands() {\n    local commands; commands=(\n'completion:Generate shell completion file' \\\n'help:Print this message or the help of the given subcommand(s)' \\\n    )\n    _describe -t commands 'code-minimap commands' commands \"$@\"\n}\n(( $+functions[_code-minimap__completion_commands] )) ||\n_code-minimap__completion_commands() {\n    local commands; commands=()\n    _describe -t commands 'code-minimap completion commands' commands \"$@\"\n}\n(( $+functions[_code-minimap__help_commands] )) ||\n_code-minimap__help_commands() {\n    local commands; commands=(\n'completion:Generate shell completion file' \\\n'help:Print this message or the help of the given subcommand(s)' \\\n    )\n    _describe -t commands 'code-minimap help commands' commands \"$@\"\n}\n(( $+functions[_code-minimap__help__completion_commands] )) ||\n_code-minimap__help__completion_commands() {\n    local commands; commands=()\n    _describe -t commands 'code-minimap help completion commands' commands \"$@\"\n}\n(( $+functions[_code-minimap__help__help_commands] )) ||\n_code-minimap__help__help_commands() {\n    local commands; commands=()\n    _describe -t commands 'code-minimap help help commands' commands \"$@\"\n}\n\nif [ \"$funcstack[1]\" = \"_code-minimap\" ]; then\n    _code-minimap \"$@\"\nelse\n    compdef _code-minimap code-minimap\nfi\n",
+   "expect_stderr": null,
+   "expect_in": [
+    "#compdef code-minimap"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_core_minimap.py:470"
+  },
+  {
+   "test": "test_stdin_with_utf8_encoding",
+   "argv": [
+    "--encoding",
+    "utf8"
+   ],
+   "stdin": "hello\nworld",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "⠛⠛⠃\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_core_minimap.py:512"
+  },
+  {
+   "test": "test_horizontal_scale_fractional",
+   "argv": [
+    "-H",
+    "1.5"
+   ],
+   "stdin": "aaaa\nbbbb",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_core_minimap.py:536"
+  },
+  {
+   "test": "test_vertical_scale_fractional",
+   "argv": [
+    "-V",
+    "1.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "⣿⣿\n⣿⣿\n⠛⠛\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_core_minimap.py:548"
+  },
+  {
+   "test": "test_padding_with_empty_output",
+   "argv": [
+    "--padding",
+    "15"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_core_minimap.py:557"
+  },
+  {
+   "test": "test_nonexistent_file",
+   "argv": [
+    "/nonexistent/path/file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:10"
+  },
+  {
+   "test": "test_directory_as_file_input",
+   "argv": [
+    "/tmp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:23"
+  },
+  {
+   "test": "test_completion_subcommand_zsh",
+   "argv": [
+    "completion",
+    "zsh"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:299"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "code-minimap 0.6.8\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_options.py:193"
+  },
+  {
+   "test": "test_help_long_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_options.py:202"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_options.py:218"
+  },
+  {
+   "test": "test_help_contains_all_options",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--horizontal-scale",
+    "--vertical-scale",
+    "--padding",
+    "--encoding",
+    "utf8-lossy",
+    "utf8",
+    "--version",
+    "--help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_options.py:232"
+  },
+  {
+   "test": "test_nonexistent_file",
+   "argv": [
+    "nonexistent_file_12345.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_options.py:281"
+  },
+  {
+   "test": "test_stdin_with_padding",
+   "argv": [
+    "--padding",
+    "15"
+   ],
+   "stdin": "test\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "⠉⠉             \n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_options.py:327"
+  },
+  {
+   "test": "test_completion_bash",
+   "argv": [
+    "completion",
+    "bash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "_code-minimap() {\n    local i cur prev opts cmd\n    COMPREPLY=()\n    cur=\"${COMP_WORDS[COMP_CWORD]}\"\n    prev=\"${COMP_WORDS[COMP_CWORD-1]}\"\n    cmd=\"\"\n    opts=\"\"\n\n    for i in ${COMP_WORDS[@]}\n    do\n        case \"${cmd},${i}\" in\n            \",$1\")\n                cmd=\"code__minimap\"\n                ;;\n            code__minimap,completion)\n                cmd=\"code__minimap__completion\"\n                ;;\n            code__minimap,help)\n                cmd=\"code__minimap__help\"\n                ;;\n            code__minimap__help,completion)\n                cmd=\"code__minimap__help__completion\"\n                ;;\n            code__minimap__help,help)\n                cmd=\"code__minimap__help__help\"\n                ;;\n            *)\n                ;;\n        esac\n    done\n\n    case \"${cmd}\" in\n        code__minimap)\n            opts=\"-H -V -h --horizontal-scale --vertical-scale --padding --encoding --version --help [FILE] completion help\"\n            if [[ ${cur} == -* || ${COMP_CWORD} -eq 1 ]] ; then\n                COMPREPLY=( $(compgen -W \"${opts}\" -- \"${cur}\") )\n                return 0\n            fi\n            case \"${prev}\" in\n                --horizontal-scale)\n                    COMPREPLY=($(compgen -f \"${cur}\"))\n                    return 0\n                    ;;\n                -H)\n                    COMPREPLY=($(compgen -f \"${cur}\"))\n                    return 0\n                    ;;\n                --vertical-scale)\n                    COMPREPLY=($(compgen -f \"${cur}\"))\n                    return 0\n                    ;;\n                -V)\n                    COMPREPLY=($(compgen -f \"${cur}\"))\n                    return 0\n                    ;;\n                --padding)\n                    COMPREPLY=($(compgen -f \"${cur}\"))\n                    return 0\n                    ;;\n                --encoding)\n                    COMPREPLY=($(compgen -W \"utf8-lossy utf8\" -- \"${cur}\"))\n                    return 0\n                    ;;\n                *)\n                    COMPREPLY=()\n                    ;;\n            esac\n            COMPREPLY=( $(compgen -W \"${opts}\" -- \"${cur}\") )\n            return 0\n            ;;\n        code__minimap__completion)\n            opts=\"-h --help bash elvish fish powershell zsh\"\n            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then\n                COMPREPLY=( $(compgen -W \"${opts}\" -- \"${cur}\") )\n                return 0\n            fi\n            case \"${prev}\" in\n                *)\n                    COMPREPLY=()\n                    ;;\n            esac\n            COMPREPLY=( $(compgen -W \"${opts}\" -- \"${cur}\") )\n            return 0\n            ;;\n        code__minimap__help)\n            opts=\"completion help\"\n            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then\n                COMPREPLY=( $(compgen -W \"${opts}\" -- \"${cur}\") )\n                return 0\n            fi\n            case \"${prev}\" in\n                *)\n                    COMPREPLY=()\n                    ;;\n            esac\n            COMPREPLY=( $(compgen -W \"${opts}\" -- \"${cur}\") )\n            return 0\n            ;;\n        code__minimap__help__completion)\n            opts=\"\"\n            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then\n                COMPREPLY=( $(compgen -W \"${opts}\" -- \"${cur}\") )\n                return 0\n            fi\n            case \"${prev}\" in\n                *)\n                    COMPREPLY=()\n                    ;;\n            esac\n            COMPREPLY=( $(compgen -W \"${opts}\" -- \"${cur}\") )\n            return 0\n            ;;\n        code__minimap__help__help)\n            opts=\"\"\n            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then\n                COMPREPLY=( $(compgen -W \"${opts}\" -- \"${cur}\") )\n                return 0\n            fi\n            case \"${prev}\" in\n                *)\n                    COMPREPLY=()\n                    ;;\n            esac\n            COMPREPLY=( $(compgen -W \"${opts}\" -- \"${cur}\") )\n            return 0\n            ;;\n    esac\n}\n\nif [[ \"${BASH_VERSINFO[0]}\" -eq 4 && \"${BASH_VERSINFO[1]}\" -ge 4 || \"${BASH_VERSINFO[0]}\" -gt 4 ]]; then\n    complete -F _code-minimap -o nosort -o bashdefault -o default code-minimap\nelse\n    complete -F _code-minimap -o bashdefault -o default code-minimap\nfi\n",
+   "expect_stderr": null,
+   "expect_in": [
+    "_code-minimap() {"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_options.py:361"
+  },
+  {
+   "test": "test_completion_zsh",
+   "argv": [
+    "completion",
+    "zsh"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "#compdef code-minimap\n\nautoload -U is-at-least\n\n_code-minimap() {\n    typeset -A opt_args\n    typeset -a _arguments_options\n    local ret=1\n\n    if is-at-least 5.2; then\n        _arguments_options=(-s -S -C)\n    else\n        _arguments_options=(-s -C)\n    fi\n\n    local context curcontext=\"$curcontext\" state line\n    _arguments \"${_arguments_options[@]}\" : \\\n'-H+[Specify horizontal scale factor]:HSCALE:_default' \\\n'--horizontal-scale=[Specify horizontal scale factor]:HSCALE:_default' \\\n'-V+[Specify vertical scale factor]:VSCALE:_default' \\\n'--vertical-scale=[Specify vertical scale factor]:VSCALE:_default' \\\n'--padding=[Specify padding width]:PADDING:_default' \\\n'--encoding=[Specify input encoding]:ENCODING:(utf8-lossy utf8)' \\\n'--version[Print version]' \\\n'-h[Print help]' \\\n'--help[Print help]' \\\n'::file -- File to read:_files' \\\n\":: :_code-minimap_commands\" \\\n\"*::: :->code-minimap\" \\\n&& ret=0\n    case $state in\n    (code-minimap)\n        words=($line[2] \"${words[@]}\")\n        (( CURRENT += 1 ))\n        curcontext=\"${curcontext%:*:*}:code-minimap-command-$line[2]:\"\n        case $line[2] in\n            (completion)\n_arguments \"${_arguments_options[@]}\" : \\\n'-h[Print help]' \\\n'--help[Print help]' \\\n':shell -- Target shell name:(bash elvish fish powershell zsh)' \\\n&& ret=0\n;;\n(help)\n_arguments \"${_arguments_options[@]}\" : \\\n\":: :_code-minimap__help_commands\" \\\n\"*::: :->help\" \\\n&& ret=0\n\n    case $state in\n    (help)\n        words=($line[1] \"${words[@]}\")\n        (( CURRENT += 1 ))\n        curcontext=\"${curcontext%:*:*}:code-minimap-help-command-$line[1]:\"\n        case $line[1] in\n            (completion)\n_arguments \"${_arguments_options[@]}\" : \\\n&& ret=0\n;;\n(help)\n_arguments \"${_arguments_options[@]}\" : \\\n&& ret=0\n;;\n        esac\n    ;;\nesac\n;;\n        esac\n    ;;\nesac\n}\n\n(( $+functions[_code-minimap_commands] )) ||\n_code-minimap_commands() {\n    local commands; commands=(\n'completion:Generate shell completion file' \\\n'help:Print this message or the help of the given subcommand(s)' \\\n    )\n    _describe -t commands 'code-minimap commands' commands \"$@\"\n}\n(( $+functions[_code-minimap__completion_commands] )) ||\n_code-minimap__completion_commands() {\n    local commands; commands=()\n    _describe -t commands 'code-minimap completion commands' commands \"$@\"\n}\n(( $+functions[_code-minimap__help_commands] )) ||\n_code-minimap__help_commands() {\n    local commands; commands=(\n'completion:Generate shell completion file' \\\n'help:Print this message or the help of the given subcommand(s)' \\\n    )\n    _describe -t commands 'code-minimap help commands' commands \"$@\"\n}\n(( $+functions[_code-minimap__help__completion_commands] )) ||\n_code-minimap__help__completion_commands() {\n    local commands; commands=()\n    _describe -t commands 'code-minimap help completion commands' commands \"$@\"\n}\n(( $+functions[_code-minimap__help__help_commands] )) ||\n_code-minimap__help__help_commands() {\n    local commands; commands=()\n    _describe -t commands 'code-minimap help help commands' commands \"$@\"\n}\n\nif [ \"$funcstack[1]\" = \"_code-minimap\" ]; then\n    _code-minimap \"$@\"\nelse\n    compdef _code-minimap code-minimap\nfi\n",
+   "expect_stderr": null,
+   "expect_in": [
+    "#compdef code-minimap",
+    "_code-minimap() {"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_options.py:372"
+  },
+  {
+   "test": "test_completion_fish",
+   "argv": [
+    "completion",
+    "fish"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "# Print an optspec for argparse to handle cmd's options that are independent of any subcommand.\nfunction __fish_code_minimap_global_optspecs\n\tstring join \\n H/horizontal-scale= V/vertical-scale= padding= encoding= version h/help\nend\n\nfunction __fish_code_minimap_needs_command\n\t# Figure out if the current invocation already has a command.\n\tset -l cmd (commandline -opc)\n\tset -e cmd[1]\n\targparse -s (__fish_code_minimap_global_optspecs) -- $cmd 2>/dev/null\n\tor return\n\tif set -q argv[1]\n\t\t# Also print the command, so this can be used to figure out what it is.\n\t\techo $argv[1]\n\t\treturn 1\n\tend\n\treturn 0\nend\n\nfunction __fish_code_minimap_using_subcommand\n\tset -l cmd (__fish_code_minimap_needs_command)\n\ttest -z \"$cmd\"\n\tand return 1\n\tcontains -- $cmd[1] $argv\nend\n\ncomplete -c code-minimap -n \"__fish_code_minimap_needs_command\" -s H -l horizontal-scale -d 'Specify horizontal scale factor' -r\ncomplete -c code-minimap -n \"__fish_code_minimap_needs_command\" -s V -l vertical-scale -d 'Specify vertical scale factor' -r\ncomplete -c code-minimap -n \"__fish_code_minimap_needs_command\" -l padding -d 'Specify padding width' -r\ncomplete -c code-minimap -n \"__fish_code_minimap_needs_command\" -l encoding -d 'Specify input encoding' -r -f -a \"{utf8-lossy\\t'',utf8\\t''}\"\ncomplete -c code-minimap -n \"__fish_code_minimap_needs_command\" -l version -d 'Print version'\ncomplete -c code-minimap -n \"__fish_code_minimap_needs_command\" -s h -l help -d 'Print help'\ncomplete -c code-minimap -n \"__fish_code_minimap_needs_command\" -a \"completion\" -d 'Generate shell completion file'\ncomplete -c code-minimap -n \"__fish_code_minimap_needs_command\" -a \"help\" -d 'Print this message or the help of the given subcommand(s)'\ncomplete -c code-minimap -n \"__fish_code_minimap_using_subcommand completion\" -s h -l help -d 'Print help'\ncomplete -c code-minimap -n \"__fish_code_minimap_using_subcommand help; and not __fish_seen_subcommand_from completion help\" -f -a \"completion\" -d 'Generate shell completion file'\ncomplete -c code-minimap -n \"__fish_code_minimap_using_subcommand help; and not __fish_seen_subcommand_from completion help\" -f -a \"help\" -d 'Print this message or the help of the given subcommand(s)'\n",
+   "expect_stderr": null,
+   "expect_in": [
+    "function __fish_code_minimap"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_options.py:384"
+  },
+  {
+   "test": "test_large_line_count",
+   "argv": [
+    "--padding",
+    "15"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "⡇              \n⡇              \n⣷              \n⣿              \n⣿              \n⣿              \n⣿              \n⣿              \n⣿              \n⣿              \n⣿              \n⣿              \n⣿              \n⣿              \n⣿              \n⣿              \n⣿              \n⣿              \n⣿              \n⣿              \n⣿              \n⣿              \n⣿              \n⣿              \n⣿⡀             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⡇             \n⣿⣇             \n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_options.py:422"
+  },
+  {
+   "test": "test_horizontal_scale_0_001_produces_empty",
+   "argv": [
+    "-H",
+    "0.001"
+   ],
+   "stdin": "test\nline\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_scaling.py:351"
+  },
+  {
+   "test": "test_vertical_scale_3_0_with_longer_input",
+   "argv": [
+    "-V",
+    "3.0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "⡇\n⡇\n⡇\n⡇\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_scaling.py:425"
+  },
+  {
+   "test": "test_help_has_description_line",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "A high performance code minimap generator"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:41"
+  },
+  {
+   "test": "test_help_has_usage_line_format",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable [OPTIONS] [FILE] [COMMAND]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:46"
+  },
+  {
+   "test": "test_help_has_expected_sections",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Commands:",
+    "Arguments:",
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:51"
+  },
+  {
+   "test": "test_help_lists_commands_completion_and_help",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Generate shell completion file",
+    "Print this message or the help of the given subcommand(s)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:57"
+  },
+  {
+   "test": "test_help_documents_file_argument",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[FILE]",
+    "File to read"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:65"
+  },
+  {
+   "test": "test_help_documents_main_flags_presence",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--horizontal-scale",
+    "--vertical-scale",
+    "--padding",
+    "--encoding",
+    "--version",
+    "--help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:71"
+  },
+  {
+   "test": "test_help_documents_short_flags_for_scales",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-H, --horizontal-scale",
+    "-V, --vertical-scale"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:84"
+  },
+  {
+   "test": "test_help_mentions_defaults_and_possible_values_for_encoding",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--encoding <ENCODING>",
+    "[default: utf8-lossy]",
+    "utf8-lossy, utf8"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:90"
+  },
+  {
+   "test": "test_help_takes_precedence_over_other_options",
+   "argv": [
+    "--help",
+    "--padding",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable [OPTIONS] [FILE] [COMMAND]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:103"
+  },
+  {
+   "test": "test_help_with_unknown_subcommand_still_shows_main_help",
+   "argv": [
+    "bogus",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable [OPTIONS] [FILE] [COMMAND]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:109"
+  },
+  {
+   "test": "test_completion_help_usage_line",
+   "argv": [
+    "completion",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable completion <SHELL>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_subcommands.py:19"
+  },
+  {
+   "test": "test_completion_help_documents_shell_arg_and_values",
+   "argv": [
+    "completion",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<SHELL>",
+    "Target shell name",
+    "possible values",
+    "bash",
+    "elvish",
+    "fish",
+    "powershell",
+    "zsh"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_subcommands.py:24"
+  },
+  {
+   "test": "test_completion_help_has_help_option_only",
+   "argv": [
+    "completion",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_subcommands.py:39"
+  },
+  {
+   "test": "test_version_exact_stdout",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_behavior.py:26"
+  },
+  {
+   "test": "test_completion_bash_contains_expected_function_name",
+   "argv": [
+    "completion",
+    "bash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "_code-minimap()"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_behavior.py:42"
+  },
+  {
+   "test": "test_invalid_shell_value_has_exit_2_and_clap_error_text",
+   "argv": [
+    "completion",
+    "nope"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid value",
+    "possible values"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_behavior.py:49"
+  },
+  {
+   "test": "test_missing_file_errors_with_exit_1",
+   "argv": [
+    "does-not-exist.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "No such file or directory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_behavior.py:58"
+  },
+  {
+   "test": "test_invalid_encoding_value_exit_2_and_suggests_help",
+   "argv": [
+    "--encoding",
+    "nope",
+    "anything.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid value",
+    "For more information",
+    "--help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_behavior.py:66"
+  },
+  {
+   "test": "test_vertical_scale_output_matches_observed_behavior",
+   "argv": [
+    "one.txt",
+    "-V",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "one.txt": "a\n"
+   },
+   "ci": false,
+   "source": "test_cli_behavior.py:95"
+  },
+  {
+   "test": "test_help_to_stdout_exit0",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_minimap_io.py:6"
+  },
+  {
+   "test": "test_file_input_matches_stdin_for_same_content",
+   "argv": [
+    "main.rs"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "main.rs": "fn main() {\n    println!(\"hi\");\n}\n"
+   },
+   "ci": false,
+   "source": "test_minimap_io.py:22"
+  },
+  {
+   "test": "test_nonexistent_file_error_to_stderr_exit1",
+   "argv": [
+    "definitely-not-a-real-file-12345.rs"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "No such file or directory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_minimap_io.py:35"
+  },
+  {
+   "test": "test_encoding_flag_accepts_utf8_lossy_and_utf8",
+   "argv": [
+    "--encoding",
+    "utf8-lossy",
+    "examples/simple.rs"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_minimap_io.py:50"
+  },
+  {
+   "test": "test_completion_bash_writes_script_to_stdout",
+   "argv": [
+    "completion",
+    "bash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "COMPREPLY"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_minimap_io.py:60"
+  },
+  {
+   "test": "test_completion_invalid_shell_exit2_and_message",
+   "argv": [
+    "completion",
+    "nope"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid value",
+    "possible values"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_minimap_io.py:68"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "code minimap",
+    "Options:",
+    "--horizontal-scale",
+    "--vertical-scale",
+    "--padding",
+    "--encoding"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:5"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "code minimap",
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:17"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "code-minimap"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:25"
+  },
+  {
+   "test": "test_completion_fish",
+   "argv": [
+    "completion",
+    "fish"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "complete"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_completion.py:25"
+  },
+  {
+   "test": "test_completion_powershell",
+   "argv": [
+    "completion",
+    "powershell"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_completion.py:34"
+  },
+  {
+   "test": "test_completion_elvish",
+   "argv": [
+    "completion",
+    "elvish"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_completion.py:43"
+  },
+  {
+   "test": "test_completion_help",
+   "argv": [
+    "completion",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Generate shell completion",
+    "bash",
+    "zsh",
+    "fish",
+    "powershell",
+    "elvish"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_completion.py:52"
+  },
+  {
+   "test": "test_help_command",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:20"
+  },
+  {
+   "test": "test_completion_help_command",
+   "argv": [
+    "help",
+    "completion"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:27"
+  },
+  {
+   "test": "test_scale_combination_edge_cases",
+   "argv": [
+    "test.txt",
+    "-H",
+    "2.0",
+    "-V",
+    "2.0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "hello\nworld\ntest\nfile"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:63"
+  },
+  {
+   "test": "test_encoding_with_bom",
+   "argv": [
+    "bom.txt",
+    "--encoding",
+    "utf8-lossy"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "bom.txt": "﻿hello\nworld\ntest\nfile"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:77"
+  },
+  {
+   "test": "test_lines_with_only_braces",
+   "argv": [
+    "braces.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "braces.txt": "{\n}\n[\n]"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:86"
+  },
+  {
+   "test": "test_lines_ending_at_different_columns",
+   "argv": [
+    "varied.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "varied.txt": "a\nab\nabc\nabcd"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:95"
+  },
+  {
+   "test": "test_encoding_default",
+   "argv": [
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "hello\nworld\ntest\nfile"
+   },
+   "ci": false,
+   "source": "test_encoding.py:5"
+  },
+  {
+   "test": "test_encoding_utf8_lossy_explicit",
+   "argv": [
+    "test.txt",
+    "--encoding",
+    "utf8-lossy"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "hello\nworld\ntest\nfile"
+   },
+   "ci": false,
+   "source": "test_encoding.py:15"
+  },
+  {
+   "test": "test_encoding_utf8_explicit",
+   "argv": [
+    "test.txt",
+    "--encoding",
+    "utf8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "hello\nworld\ntest\nfile"
+   },
+   "ci": false,
+   "source": "test_encoding.py:23"
+  },
+  {
+   "test": "test_encoding_utf8_lossy_with_invalid_bytes",
+   "argv": [
+    "invalid.txt",
+    "--encoding",
+    "utf8-lossy"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "invalid.txt": "hello\n��\nworld\ntest"
+   },
+   "ci": false,
+   "source": "test_encoding.py:31"
+  },
+  {
+   "test": "test_encoding_utf8_with_invalid_bytes",
+   "argv": [
+    "invalid.txt",
+    "--encoding",
+    "utf8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "invalid.txt": "hello\n��\nworld\ntest"
+   },
+   "ci": false,
+   "source": "test_encoding.py:42"
+  },
+  {
+   "test": "test_encoding_case_insensitive_upper",
+   "argv": [
+    "test.txt",
+    "--encoding",
+    "UTF8-LOSSY"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "hello\nworld\ntest\nfile"
+   },
+   "ci": false,
+   "source": "test_encoding.py:52"
+  },
+  {
+   "test": "test_encoding_case_insensitive_mixed",
+   "argv": [
+    "test.txt",
+    "--encoding",
+    "Utf8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "hello\nworld\ntest\nfile"
+   },
+   "ci": false,
+   "source": "test_encoding.py:60"
+  },
+  {
+   "test": "test_encoding_utf8_with_unicode",
+   "argv": [
+    "unicode.txt",
+    "--encoding",
+    "utf8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "unicode.txt": "hello 世界\némoji 🎉\ntest\nfile"
+   },
+   "ci": false,
+   "source": "test_encoding.py:68"
+  },
+  {
+   "test": "test_missing_file",
+   "argv": [
+    "/this/file/does/not/exist.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "code-minimap"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:35"
+  },
+  {
+   "test": "test_negative_scale_as_flag_error",
+   "argv": [
+    "test.txt",
+    "-H",
+    "-1.0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "a\nb\nc\nd"
+   },
+   "ci": false,
+   "source": "test_error_handling.py:61"
+  },
+  {
+   "test": "test_very_small_scale_values",
+   "argv": [
+    "test.txt",
+    "-H",
+    "0.001",
+    "-V",
+    "0.001"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "hello world\ntest\nfile\ndata"
+   },
+   "ci": false,
+   "source": "test_error_handling.py:70"
+  },
+  {
+   "test": "test_file_not_found",
+   "argv": [
+    "/nonexistent/file/path.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "code-minimap"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_handling.py:15"
+  },
+  {
+   "test": "test_empty_file",
+   "argv": [
+    "empty.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "empty.txt": ""
+   },
+   "ci": false,
+   "source": "test_input_handling.py:23"
+  },
+  {
+   "test": "test_single_line_file",
+   "argv": [
+    "single.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "single.txt": "single line"
+   },
+   "ci": false,
+   "source": "test_input_handling.py:31"
+  },
+  {
+   "test": "test_whitespace_only_lines",
+   "argv": [
+    "whitespace.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "⠀"
+   ],
+   "files": {
+    "whitespace.txt": "   \n\t\n  \n\n"
+   },
+   "ci": false,
+   "source": "test_input_handling.py:39"
+  },
+  {
+   "test": "test_lines_with_varying_indentation",
+   "argv": [
+    "indent.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "indent.txt": "no indent\n  two spaces\n    four spaces\n\ttab indent"
+   },
+   "ci": false,
+   "source": "test_input_handling.py:48"
+  },
+  {
+   "test": "test_unicode_content",
+   "argv": [
+    "unicode.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "unicode.txt": "hello 世界\némoji 🎉\ngreek αβγ\n中文"
+   },
+   "ci": false,
+   "source": "test_input_handling.py:73"
+  },
+  {
+   "test": "test_lossy_with_latin1_bytes",
+   "argv": [
+    "latin1.bin",
+    "--encoding",
+    "utf8-lossy"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "latin1.bin": "hello\n���\n world\ntest"
+   },
+   "ci": false,
+   "source": "test_lossy_encoding.py:5"
+  },
+  {
+   "test": "test_lossy_with_null_bytes",
+   "argv": [
+    "nulls.bin",
+    "--encoding",
+    "utf8-lossy"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "nulls.bin": "hello\u0000world\ntest\u0000line\nmore\u0000data\nfinal"
+   },
+   "ci": false,
+   "source": "test_lossy_encoding.py:17"
+  },
+  {
+   "test": "test_lossy_with_mixed_valid_invalid_utf8",
+   "argv": [
+    "mixed.bin",
+    "--encoding",
+    "utf8-lossy"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "mixed.bin": "valid utf8: 中文\ninvalid: ��\nmore valid\nlast line"
+   },
+   "ci": false,
+   "source": "test_lossy_encoding.py:25"
+  },
+  {
+   "test": "test_lossy_with_truncated_utf8",
+   "argv": [
+    "truncated.bin",
+    "--encoding",
+    "utf8-lossy"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "truncated.bin": "hello\n�\nworld\ntest"
+   },
+   "ci": false,
+   "source": "test_lossy_encoding.py:36"
+  },
+  {
+   "test": "test_strict_utf8_with_valid_content",
+   "argv": [
+    "valid_utf8.txt",
+    "--encoding",
+    "utf8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "valid_utf8.txt": "Hello 世界\nTest 测试\nMore text\nFinal line"
+   },
+   "ci": false,
+   "source": "test_lossy_encoding.py:45"
+  },
+  {
+   "test": "test_lossy_with_continuation_bytes",
+   "argv": [
+    "continuation.bin",
+    "--encoding",
+    "utf8-lossy"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "continuation.bin": "line1\n���\nline3\nline4"
+   },
+   "ci": false,
+   "source": "test_lossy_encoding.py:55"
+  },
+  {
+   "test": "test_lossy_with_overlong_sequences",
+   "argv": [
+    "overlong.bin",
+    "--encoding",
+    "utf8-lossy"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "overlong.bin": "hello\n��\nworld\ntest"
+   },
+   "ci": false,
+   "source": "test_lossy_encoding.py:64"
+  },
+  {
+   "test": "test_padding_value_10",
+   "argv": [
+    "test.txt",
+    "--padding",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "ab\ncd\nef\ngh"
+   },
+   "ci": false,
+   "source": "test_padding.py:17"
+  },
+  {
+   "test": "test_padding_value_20",
+   "argv": [
+    "test.txt",
+    "--padding",
+    "20"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "a\nb\nc\nd"
+   },
+   "ci": false,
+   "source": "test_padding.py:33"
+  },
+  {
+   "test": "test_padding_value_0",
+   "argv": [
+    "test.txt",
+    "--padding",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "hello\nworld\ntest\nfile"
+   },
+   "ci": false,
+   "source": "test_padding.py:47"
+  },
+  {
+   "test": "test_padding_larger_than_content",
+   "argv": [
+    "test.txt",
+    "--padding",
+    "50"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    " "
+   ],
+   "files": {
+    "test.txt": "x\ny\nz\nw"
+   },
+   "ci": false,
+   "source": "test_padding.py:58"
+  },
+  {
+   "test": "test_padding_with_scaling",
+   "argv": [
+    "test.txt",
+    "--padding",
+    "15",
+    "-H",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "hello\nworld\ntest\nfile"
+   },
+   "ci": false,
+   "source": "test_padding.py:72"
+  },
+  {
+   "test": "test_horizontal_scale_half",
+   "argv": [
+    "test.txt",
+    "-H",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "hello world\ntest line 2\nthird line\nfourth line"
+   },
+   "ci": false,
+   "source": "test_scaling.py:15"
+  },
+  {
+   "test": "test_horizontal_scale_double",
+   "argv": [
+    "test.txt",
+    "-H",
+    "2.0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "hi\nyo\nab\ncd"
+   },
+   "ci": false,
+   "source": "test_scaling.py:26"
+  },
+  {
+   "test": "test_horizontal_scale_long_flag",
+   "argv": [
+    "test.txt",
+    "--horizontal-scale",
+    "1.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "a\nb\nc\nd"
+   },
+   "ci": false,
+   "source": "test_scaling.py:36"
+  },
+  {
+   "test": "test_vertical_scale_half",
+   "argv": [
+    "-V",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_scaling.py:54"
+  },
+  {
+   "test": "test_vertical_scale_double",
+   "argv": [
+    "test.txt",
+    "-V",
+    "2.0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "a\nb\nc\nd"
+   },
+   "ci": false,
+   "source": "test_scaling.py:64"
+  },
+  {
+   "test": "test_vertical_scale_long_flag",
+   "argv": [
+    "test.txt",
+    "--vertical-scale",
+    "0.8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "1\n2\n3\n4"
+   },
+   "ci": false,
+   "source": "test_scaling.py:74"
+  },
+  {
+   "test": "test_combined_scaling",
+   "argv": [
+    "-H",
+    "0.5",
+    "-V",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_scaling.py:82"
+  },
+  {
+   "test": "test_zero_scale_horizontal",
+   "argv": [
+    "test.txt",
+    "-H",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "hello\nworld\ntest\nfile"
+   },
+   "ci": false,
+   "source": "test_scaling.py:92"
+  },
+  {
+   "test": "test_zero_scale_vertical",
+   "argv": [
+    "test.txt",
+    "-V",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "hello\nworld\ntest\nfile"
+   },
+   "ci": false,
+   "source": "test_scaling.py:100"
+  },
+  {
+   "test": "test_large_scale_horizontal",
+   "argv": [
+    "test.txt",
+    "-H",
+    "10.0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "a\nb\nc\nd"
+   },
+   "ci": false,
+   "source": "test_scaling.py:108"
+  },
+  {
+   "test": "test_large_scale_vertical",
+   "argv": [
+    "test.txt",
+    "-V",
+    "10.0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "a\nb\nc\nd"
+   },
+   "ci": false,
+   "source": "test_scaling.py:119"
+  },
+  {
+   "test": "test_subcommand_recognized_via_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unrecognized subcommand",
+    "usage:"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommands.py:78"
+  },
+  {
+   "test": "test_help_subcommand_routing",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Commands:",
+    "Usage:",
+    "completion"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:91"
+  },
+  {
+   "test": "test_subcommand_help_differs_from_main_help_for_completion",
+   "argv": [
+    "completion",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Generate shell completion"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:105"
+  },
+  {
+   "test": "test_global_flag_rejected_when_after_subcommand",
+   "argv": [
+    "completion",
+    "bash",
+    "--encoding",
+    "utf8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument",
+    "--encoding"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:131"
+  },
+  {
+   "test": "test_help_flag_after_subcommand_name_is_routed_to_subcommand_help",
+   "argv": [
+    "completion",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable completion"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:141"
+  },
+  {
+   "test": "test_completion_requires_shell_argument",
+   "argv": [
+    "completion"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "required arguments",
+    "<SHELL>"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommands.py:148"
+  },
+  {
+   "test": "test_completion_valid_shells",
+   "argv": [
+    "completion"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:158"
+  },
+  {
+   "test": "test_single_dash_is_treated_as_file_and_fails_with_os_error",
+   "argv": [
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "No such file or directory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args_parsing.py:81"
+  },
+  {
+   "test": "test_double_dash_makes_following_token_positional_and_fails_opening_that_filename",
+   "argv": [
+    "--",
+    "--horizontal-scale"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "No such file or directory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args_parsing.py:89"
+  },
+  {
+   "test": "test_padding_rejects_negative_when_provided_via_equals",
+   "argv": [
+    "--padding=-1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid value '-1'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args_parsing.py:112"
+  },
+  {
+   "test": "test_vertical_scale_accepts_negative_when_provided_via_equals",
+   "argv": [
+    "--vertical-scale=-1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_args_parsing.py:119"
+  }
+ ]
+}

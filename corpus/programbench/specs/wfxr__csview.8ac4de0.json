@@ -1,0 +1,2060 @@
+{
+ "slug": "wfxr__csview.8ac4de0",
+ "language": "",
+ "n_branches": 7,
+ "n_tests_total": 316,
+ "n_examples": 117,
+ "n_with_exact_stdout": 37,
+ "n_with_rc": 112,
+ "n_skipped": 193,
+ "examples": [
+  {
+   "test": "test_help_exact",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basics.py:4"
+  },
+  {
+   "test": "test_version_exact",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basics.py:11"
+  },
+  {
+   "test": "test_unknown_flag_exit_2_and_message",
+   "argv": [
+    "--unknown"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument '--unknown'",
+    "Usage: executable [OPTIONS] [FILE]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basics.py:18"
+  },
+  {
+   "test": "test_invalid_delimiter_empty_string_is_error",
+   "argv": [
+    "--delimiter",
+    ""
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid value '' for '--delimiter <DELIMITER>'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basics.py:26"
+  },
+  {
+   "test": "test_render_from_stdin_matches_file",
+   "argv": [
+    "-P"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rendering_and_options.py:48"
+  },
+  {
+   "test": "test_missing_file_exit_1_and_message",
+   "argv": [
+    "/no/such/file"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "No such file or directory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rendering_and_options.py:57"
+  },
+  {
+   "test": "test_custom_delimiter_colon_on_passwd_head",
+   "argv": [
+    "-H",
+    "-d:",
+    "-P",
+    "/etc/passwd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "root"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rendering_and_options.py:117"
+  },
+  {
+   "test": "test_unknown_flag_errors_and_exit_code",
+   "argv": [
+    "--nonexistent-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument '--nonexistent-flag'",
+    "tip: to pass '--nonexistent-flag' as a value, use '-- --nonexistent-flag'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse.py:30"
+  },
+  {
+   "test": "test_too_many_positionals_errors",
+   "argv": [
+    "a",
+    "b"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument 'b' found"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse.py:38"
+  },
+  {
+   "test": "test_double_dash_treats_dash_prefixed_value_as_positional",
+   "argv": [
+    "--",
+    "-d"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "No such file or directory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse.py:45"
+  },
+  {
+   "test": "test_choice_flag_style_rejects_invalid_value_and_lists_possible_values",
+   "argv": [
+    "--style",
+    "bad"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid value 'bad' for '--style <STYLE>'",
+    "possible values:",
+    "none",
+    "grid"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse.py:126"
+  },
+  {
+   "test": "test_mutually_exclusive_tsv_and_delimiter",
+   "argv": [
+    "-t",
+    "-d",
+    ";"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cannot be used with",
+    "--tsv",
+    "--delimiter <DELIMITER>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse.py:137"
+  },
+  {
+   "test": "test_help_precedence_over_invalid_flag",
+   "argv": [
+    "--help",
+    "--definitely-not-a-real-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:138"
+  },
+  {
+   "test": "test_help_precedence_over_positional_arg",
+   "argv": [
+    "somefile.csv",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:145"
+  },
+  {
+   "test": "test_version_long",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "csview"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:40"
+  },
+  {
+   "test": "test_version_short",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "csview"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:47"
+  },
+  {
+   "test": "test_help_long",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--delimiter",
+    "--style",
+    "--version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:54"
+  },
+  {
+   "test": "test_help_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--delimiter"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:64"
+  },
+  {
+   "test": "test_read_from_file",
+   "argv": [
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Name",
+    "Age",
+    "Alice",
+    "30",
+    "Bob",
+    "25"
+   ],
+   "files": {
+    "test.csv": "Name,Age\nAlice,30\nBob,25"
+   },
+   "ci": false,
+   "source": "test_csview.py:101"
+  },
+  {
+   "test": "test_empty_file",
+   "argv": [
+    "empty.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "empty.csv": ""
+   },
+   "ci": false,
+   "source": "test_csview.py:131"
+  },
+  {
+   "test": "test_tsv_short_flag",
+   "argv": [
+    "-t"
+   ],
+   "stdin": "A\tB\tC\n1\t2\t3",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "A",
+    "B",
+    "C",
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:232"
+  },
+  {
+   "test": "test_tsv_long_flag",
+   "argv": [
+    "--tsv"
+   ],
+   "stdin": "X\tY\tZ\n10\t20\t30",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "X",
+    "Y",
+    "Z",
+    "10"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:242"
+  },
+  {
+   "test": "test_custom_delimiter_short",
+   "argv": [
+    "-d",
+    "|"
+   ],
+   "stdin": "A|B|C\n1|2|3",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "A",
+    "B",
+    "C",
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:252"
+  },
+  {
+   "test": "test_custom_delimiter_long",
+   "argv": [
+    "--delimiter",
+    ";"
+   ],
+   "stdin": "A;B;C\n1;2;3",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "A",
+    "B",
+    "C"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:262"
+  },
+  {
+   "test": "test_pipe_delimiter",
+   "argv": [
+    "-d",
+    "|"
+   ],
+   "stdin": "Name|Age|City\nAlice|30|NYC\nBob|25|LA",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Name",
+    "Age",
+    "Alice",
+    "30"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:271"
+  },
+  {
+   "test": "test_semicolon_delimiter",
+   "argv": [
+    "-d",
+    ";"
+   ],
+   "stdin": "A;B;C\nx;y;z",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "A",
+    "B",
+    "x"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:281"
+  },
+  {
+   "test": "test_space_delimiter",
+   "argv": [
+    "-d",
+    " "
+   ],
+   "stdin": "A B C\n1 2 3",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "A",
+    "B",
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:290"
+  },
+  {
+   "test": "test_no_headers_short",
+   "argv": [
+    "-H"
+   ],
+   "stdin": "Value1,Value2\nValue3,Value4",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Value1",
+    "Value2",
+    "Value3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:311"
+  },
+  {
+   "test": "test_no_headers_long",
+   "argv": [
+    "--no-headers"
+   ],
+   "stdin": "A,B\nC,D",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "A",
+    "B"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:323"
+  },
+  {
+   "test": "test_line_numbers_short",
+   "argv": [
+    "-n"
+   ],
+   "stdin": "Name,Age\nAlice,30\nBob,25",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Name",
+    "Alice",
+    "1",
+    "2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:334"
+  },
+  {
+   "test": "test_line_numbers_long",
+   "argv": [
+    "--number"
+   ],
+   "stdin": "X,Y\na,b\nc,d",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "X",
+    "1",
+    "2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:345"
+  },
+  {
+   "test": "test_line_numbers_seq_alias",
+   "argv": [
+    "--seq"
+   ],
+   "stdin": "A,B\n1,2\n3,4",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "A",
+    "1",
+    "2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:354"
+  },
+  {
+   "test": "test_line_numbers_no_headers",
+   "argv": [
+    "-n",
+    "-H"
+   ],
+   "stdin": "A,B\nC,D\nE,F",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "A",
+    "1",
+    "2",
+    "3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:364"
+  },
+  {
+   "test": "test_style_none",
+   "argv": [
+    "-s",
+    "none"
+   ],
+   "stdin": "A,B\n1,2",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "A",
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:387"
+  },
+  {
+   "test": "test_style_ascii",
+   "argv": [
+    "-s",
+    "ascii"
+   ],
+   "stdin": "A,B\n1,2",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "A",
+    "|",
+    "+",
+    "-"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:398"
+  },
+  {
+   "test": "test_style_ascii2",
+   "argv": [
+    "-s",
+    "ascii2"
+   ],
+   "stdin": "A,B\n1,2",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "A",
+    "|"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:408"
+  },
+  {
+   "test": "test_style_sharp",
+   "argv": [
+    "-s",
+    "sharp"
+   ],
+   "stdin": "A,B\n1,2",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:416"
+  },
+  {
+   "test": "test_style_rounded",
+   "argv": [
+    "-s",
+    "rounded"
+   ],
+   "stdin": "A,B\n1,2",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:426"
+  },
+  {
+   "test": "test_style_reinforced",
+   "argv": [
+    "-s",
+    "reinforced"
+   ],
+   "stdin": "A,B\n1,2",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:436"
+  },
+  {
+   "test": "test_style_markdown",
+   "argv": [
+    "-s",
+    "markdown"
+   ],
+   "stdin": "A,B\n1,2",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "|",
+    "-"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:446"
+  },
+  {
+   "test": "test_style_grid",
+   "argv": [
+    "-s",
+    "grid"
+   ],
+   "stdin": "A,B\n1,2\n3,4",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:457"
+  },
+  {
+   "test": "test_style_case_insensitive",
+   "argv": [
+    "-s",
+    "MARKDOWN"
+   ],
+   "stdin": "A,B\n1,2",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "|",
+    "|",
+    "|"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:467"
+  },
+  {
+   "test": "test_padding_zero",
+   "argv": [
+    "-p",
+    "0"
+   ],
+   "stdin": "A,B\n1,2",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "A",
+    "A"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:492"
+  },
+  {
+   "test": "test_padding_large",
+   "argv": [
+    "-p",
+    "5"
+   ],
+   "stdin": "A,B\n1,2",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "A"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:502"
+  },
+  {
+   "test": "test_padding_long_flag",
+   "argv": [
+    "--padding",
+    "3"
+   ],
+   "stdin": "A,B\n1,2",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "A"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:512"
+  },
+  {
+   "test": "test_indent_small",
+   "argv": [
+    "-i",
+    "2"
+   ],
+   "stdin": "A,B\n1,2",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:538"
+  },
+  {
+   "test": "test_indent_large",
+   "argv": [
+    "-i",
+    "10"
+   ],
+   "stdin": "A,B\n1,2",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:550"
+  },
+  {
+   "test": "test_indent_long_flag",
+   "argv": [
+    "--indent",
+    "4"
+   ],
+   "stdin": "A,B\n1,2",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:562"
+  },
+  {
+   "test": "test_sniff_small_limit",
+   "argv": [
+    "--sniff",
+    "2"
+   ],
+   "stdin": "A,B\nshort,x\nmedium_text,y\nvery_long_content_here,z",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "short",
+    "very_long_c"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:584"
+  },
+  {
+   "test": "test_sniff_unlimited",
+   "argv": [
+    "--sniff",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "A"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:594"
+  },
+  {
+   "test": "test_header_align_left",
+   "argv": [
+    "--header-align",
+    "left"
+   ],
+   "stdin": "Header,B\n1,2",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Header"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:613"
+  },
+  {
+   "test": "test_header_align_center",
+   "argv": [
+    "--header-align",
+    "center"
+   ],
+   "stdin": "Header,B\n1,2",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Header"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:620"
+  },
+  {
+   "test": "test_header_align_right",
+   "argv": [
+    "--header-align",
+    "right"
+   ],
+   "stdin": "Header,B\n1,2",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Header"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:627"
+  },
+  {
+   "test": "test_body_align_left",
+   "argv": [
+    "--body-align",
+    "left"
+   ],
+   "stdin": "A,B\nvalue,2",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:641"
+  },
+  {
+   "test": "test_body_align_center",
+   "argv": [
+    "--body-align",
+    "center"
+   ],
+   "stdin": "A,B\nval,2",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "val"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:648"
+  },
+  {
+   "test": "test_body_align_right",
+   "argv": [
+    "--body-align",
+    "right"
+   ],
+   "stdin": "A,B\nval,2",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "val"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:655"
+  },
+  {
+   "test": "test_combined_alignments",
+   "argv": [
+    "--header-align",
+    "left",
+    "--body-align",
+    "right"
+   ],
+   "stdin": "Header,B\nvalue,2",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Header",
+    "value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:662"
+  },
+  {
+   "test": "test_disable_pager_short",
+   "argv": [
+    "-P"
+   ],
+   "stdin": "A,B\n1,2",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "A"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:673"
+  },
+  {
+   "test": "test_disable_pager_long",
+   "argv": [
+    "--disable-pager"
+   ],
+   "stdin": "A,B\n1,2",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "A"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:680"
+  },
+  {
+   "test": "test_multiple_flags_combined",
+   "argv": [
+    "-n",
+    "-s",
+    "markdown",
+    "-p",
+    "2"
+   ],
+   "stdin": "Name,Age,City\nAlice,30,NYC\nBob,25,LA",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Name",
+    "Alice",
+    "|",
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:715"
+  },
+  {
+   "test": "test_line_numbers_custom_style",
+   "argv": [
+    "-n",
+    "-s",
+    "rounded"
+   ],
+   "stdin": "A,B\n1,2\n3,4",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "A",
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:725"
+  },
+  {
+   "test": "test_no_headers_line_numbers",
+   "argv": [
+    "-H",
+    "-n"
+   ],
+   "stdin": "A,B\nC,D\nE,F",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "A",
+    "1",
+    "2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:734"
+  },
+  {
+   "test": "test_custom_delimiter_custom_style",
+   "argv": [
+    "-d",
+    "|",
+    "-s",
+    "ascii"
+   ],
+   "stdin": "A|B|C\n1|2|3",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "A",
+    "|",
+    "+"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:743"
+  },
+  {
+   "test": "test_all_formatting_options",
+   "argv": [
+    "-n",
+    "-s",
+    "markdown",
+    "-p",
+    "2",
+    "-i",
+    "4",
+    "--header-align",
+    "left",
+    "--body-align",
+    "right"
+   ],
+   "stdin": "Name,Age\nAlice,30\nBob,25",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Name",
+    "Alice"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:752"
+  },
+  {
+   "test": "test_tsv_line_numbers",
+   "argv": [
+    "-t",
+    "-n"
+   ],
+   "stdin": "A\tB\tC\n1\t2\t3",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "A",
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:769"
+  },
+  {
+   "test": "test_markdown_custom_alignment",
+   "argv": [
+    "-s",
+    "markdown",
+    "--header-align",
+    "right"
+   ],
+   "stdin": "Header,Value\nA,1\nB,2",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Header",
+    "|"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:777"
+  },
+  {
+   "test": "test_various_delimiters",
+   "argv": [
+    "-t"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "A",
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:877"
+  },
+  {
+   "test": "test_all_styles_with_data",
+   "argv": [
+    "-s"
+   ],
+   "stdin": "Name,Age,City\nAlice,30,NYC\nBob,25,LA",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Name",
+    "Alice"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:891"
+  },
+  {
+   "test": "test_padding_range",
+   "argv": [
+    "-p"
+   ],
+   "stdin": "A,B\n1,2",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "A"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:901"
+  },
+  {
+   "test": "test_indent_range",
+   "argv": [
+    "-i"
+   ],
+   "stdin": "A,B\n1,2",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:909"
+  },
+  {
+   "test": "test_sniff_range",
+   "argv": [
+    "--sniff"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "A"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:922"
+  },
+  {
+   "test": "test_all_alignments",
+   "argv": [
+    "--header-align",
+    "--body-align"
+   ],
+   "stdin": "Header,Value\nData,123",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Header",
+    "Data"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:930"
+  },
+  {
+   "test": "test_tsv_with_various_options",
+   "argv": [
+    "-t",
+    "-n",
+    "-s",
+    "ascii",
+    "-p",
+    "2"
+   ],
+   "stdin": "Name\tAge\tCity\nAlice\t30\tNYC\nBob\t25\tLA",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Name",
+    "Alice",
+    "|"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:990"
+  },
+  {
+   "test": "test_custom_delimiter_edge_cases",
+   "argv": [
+    "-d",
+    ":"
+   ],
+   "stdin": "A:B:C\n1:2:3",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "A",
+    "A"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:999"
+  },
+  {
+   "test": "test_no_headers_with_line_numbers_and_style",
+   "argv": [
+    "-H",
+    "-n",
+    "-s",
+    "rounded",
+    "-p",
+    "2"
+   ],
+   "stdin": "A,B,C\nX,Y,Z\n1,2,3",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "A",
+    "1",
+    "2",
+    "3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:1013"
+  },
+  {
+   "test": "test_file_with_bom",
+   "argv": [
+    "bom.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "bom.csv": "﻿Name,Age\nAlice,30"
+   },
+   "ci": false,
+   "source": "test_csview.py:1024"
+  },
+  {
+   "test": "test_grid_vs_sharp_difference",
+   "argv": [
+    "-s",
+    "grid"
+   ],
+   "stdin": "A,B\n1,2\n3,4\n5,6",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:1062"
+  },
+  {
+   "test": "test_markdown_table_format",
+   "argv": [
+    "-s",
+    "markdown"
+   ],
+   "stdin": "Name,Age\nAlice,30\nBob,25",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:1072"
+  },
+  {
+   "test": "test_none_style_output",
+   "argv": [
+    "-s",
+    "none"
+   ],
+   "stdin": "A,B,C\n1,2,3",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "A",
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview.py:1084"
+  },
+  {
+   "test": "test_help_prints_usage_to_stdout_and_exit_0",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--no-headers"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview_io.py:11"
+  },
+  {
+   "test": "test_stdin_default_reads_csv_and_ascii_style_output_exact",
+   "argv": [
+    "-P",
+    "-s",
+    "ascii"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "+---+---+\n| a | b |\n+---+---+\n| 1 | 2 |\n+---+---+\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_csview_io.py:20"
+  },
+  {
+   "test": "test_file_input_matches_stdin_output",
+   "argv": [
+    "-P",
+    "-s",
+    "ascii"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_csview_io.py:33"
+  },
+  {
+   "test": "test_no_headers_flag_removes_header_separator",
+   "argv": [
+    "-P",
+    "-s",
+    "ascii",
+    "-H"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "+---+---+\n| a | b |\n| 1 | 2 |\n+---+---+\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_csview_io.py:45"
+  },
+  {
+   "test": "test_tsv_flag_uses_tab_delimiter_exact_output",
+   "argv": [
+    "-P",
+    "-s",
+    "ascii",
+    "-t"
+   ],
+   "stdin": "a\tb\n1\t2\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "+---+---+\n| a | b |\n+---+---+\n| 1 | 2 |\n+---+---+\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_csview_io.py:61"
+  },
+  {
+   "test": "test_number_flag_prepends_index_column_exact_output",
+   "argv": [
+    "-P",
+    "-s",
+    "ascii",
+    "-n"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "+---+---+---+\n| # | a | b |\n+---+---+---+\n| 1 | 1 | 2 |\n+---+---+---+\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_csview_io.py:74"
+  },
+  {
+   "test": "test_nonexistent_file_errors_to_stderr_exit_1",
+   "argv": [
+    "-P",
+    "does_not_exist.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "csview:",
+    "No such file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview_io.py:87"
+  },
+  {
+   "test": "test_unreadable_file_permission_denied_exit_1",
+   "argv": [
+    "-P"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "csview:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csview_io.py:99"
+  },
+  {
+   "test": "test_file_input_basic_csv",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "┌─────────┬─────┬─────────┐\n│  Name   │ Age │  City   │\n├─────────┼─────┼─────────┤\n│ Alice   │ 30  │ NYC     │\n│ Bob     │ 25  │ LA      │\n│ Charlie │ 35  │ Chicago │\n└─────────┴─────┴─────────┘\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:8"
+  },
+  {
+   "test": "test_tsv_delimiter_flag",
+   "argv": [
+    "--tsv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "┌──────────┬────────┬───────┐\n│ Product  │ Price  │ Stock │\n├──────────┼────────┼───────┤\n│ Laptop   │ 999.99 │ 15    │\n│ Mouse    │ 29.99  │ 100   │\n│ Keyboard │ 79.99  │ 50    │\n└──────────┴────────┴───────┘\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:33"
+  },
+  {
+   "test": "test_custom_delimiter_pipe",
+   "argv": [
+    "--delimiter",
+    "|"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "┌─────────┬───────┬───────┐\n│  Name   │ Score │ Grade │\n├─────────┼───────┼───────┤\n│ Alice   │ 95    │ A     │\n│ Bob     │ 87    │ B     │\n│ Charlie │ 92    │ A     │\n└─────────┴───────┴───────┘\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:44"
+  },
+  {
+   "test": "test_no_headers_flag",
+   "argv": [
+    "--no-headers"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "┌─────────┬────┬─────────┐\n│ Alice   │ 30 │ NYC     │\n│ Bob     │ 25 │ LA      │\n│ Charlie │ 35 │ Chicago │\n└─────────┴────┴─────────┘\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:56"
+  },
+  {
+   "test": "test_file_not_found_error",
+   "argv": [
+    "/nonexistent/file.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:68"
+  },
+  {
+   "test": "test_empty_file_input",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "┌┐\n││\n└┘\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:79"
+  },
+  {
+   "test": "test_empty_stdin_input",
+   "argv": [],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "┌┐\n││\n└┘\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:91"
+  },
+  {
+   "test": "test_unequal_row_lengths_too_few_fields",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CSV error:",
+    "record 2",
+    "line: 3",
+    "byte: 27",
+    "found record with 2 fields",
+    "previous record has 3 fields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:103"
+  },
+  {
+   "test": "test_unequal_row_lengths_too_many_fields",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CSV error:",
+    "record 2",
+    "line: 3",
+    "byte: 18",
+    "found record with 3 fields",
+    "previous record has 2 fields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:121"
+  },
+  {
+   "test": "test_single_column_csv",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "┌─────────┐\n│  Name   │\n├─────────┤\n│ Alice   │\n│ Bob     │\n│ Charlie │\n└─────────┘\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:136"
+  },
+  {
+   "test": "test_header_only_no_data_rows",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "┌──────┬─────┬──────┐\n│ Name │ Age │ City │\n└──────┴─────┴──────┘\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:148"
+  },
+  {
+   "test": "test_unicode_characters_in_data",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "┌──────────┬─────────┬──────────┐\n│   Name   │ Country │ Currency │\n├──────────┼─────────┼──────────┤\n│ José     │ España  │ €        │\n│ François │ France  │ €        │\n│ 中村     │ 日本    │ ¥        │\n│ Владимир │ Россия  │ ₽        │\n└──────────┴─────────┴──────────┘\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:160"
+  },
+  {
+   "test": "test_quoted_fields_with_embedded_delimiters",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "┌─────────────────┬─────────────────────────────────────┬───────┐\n│      Name       │             Description             │ Price │\n├─────────────────┼─────────────────────────────────────┼───────┤\n│ Widget, Model A │ A widget with a comma, and \"quotes\" │ 19.99 │\n│ Simple Widget   │ No special chars                    │ 9.99  │\n│ Newline Widget  │ Contains\nnewline                    │ 29.99 │\n└─────────────────┴─────────────────────────────────────┴───────┘\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:172"
+  },
+  {
+   "test": "test_semicolon_custom_delimiter",
+   "argv": [
+    "--delimiter",
+    ";"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "┌─────────┬───────┬────────┐\n│  Name   │ Score │ Status │\n├─────────┼───────┼────────┤\n│ Alice   │ 95    │ Pass   │\n│ Bob     │ 87    │ Pass   │\n│ Charlie │ 45    │ Fail   │\n└─────────┴───────┴────────┘\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:184"
+  },
+  {
+   "test": "test_large_multirow_csv",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "┌──────┬───────────────┬─────────────┬────────┬────────────┐\n│  ID  │     Name      │ Department  │ Salary │ Hire_Date  │\n├──────┼───────────────┼─────────────┼────────┼────────────┤\n│ 1001 │ Alice Johnson │ Engineering │ 95000  │ 2020-01-15 │\n│ 1002 │ Bob Smith     │ Marketing   │ 75000  │ 2019-06-01 │\n│ 1003 │ Charlie Davis │ Engineering │ 105000 │ 2018-03-20 │\n│ 1004 │ Diana Prince  │ Sales       │ 82000  │ 2021-07-10 │\n│ 1005 │ Eve Martinez  │ Engineering │ 92000  │ 2020-09-05 │\n│ 1006 │ Frank Wilson  │ HR          │ 68000  │ 2017-11-30 │\n│ 1007 │ Grace Lee     │ Engineering │ 115000 │ 2016-02-14 │\n│ 1008 │ Henry Taylor  │ Marketing   │ 78000  │ 2022-01-20 │\n└──────┴───────────────┴─────────────┴────────┴────────────┘\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:195"
+  },
+  {
+   "test": "test_tsv_with_no_headers_combined_flags",
+   "argv": [
+    "--tsv",
+    "--no-headers"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "┌─────────┬────┬─────────┐\n│ Alice   │ 30 │ NYC     │\n│ Bob     │ 25 │ LA      │\n│ Charlie │ 35 │ Chicago │\n└─────────┴────┴─────────┘\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:207"
+  },
+  {
+   "test": "test_long_field_content_column_width",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "┌───────┬─────────────────────────────────────────────────────────────────────────────────────────────────────┬──────┐\n│ Name  │                                             Description                                             │ Code │\n├───────┼─────────────────────────────────────────────────────────────────────────────────────────────────────┼──────┤\n│ Alice │ This is a very long description that spans many characters and should test column width calculation │ ABC  │\n│ Bob   │ Short                                                                                               │ XYZ  │\n└───────┴─────────────────────────────────────────────────────────────────────────────────────────────────────┴──────┘\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:219"
+  },
+  {
+   "test": "test_whitespace_preservation_in_fields",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "┌───────────┬─────────┬────────────┐\n│   Name    │  Value  │   Status   │\n├───────────┼─────────┼────────────┤\n│   Alice   │   100   │   active   │\n│ Bob       │ 200     │ inactive   │\n│   Charlie │ 300     │ active     │\n└───────────┴─────────┴────────────┘\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:231"
+  },
+  {
+   "test": "test_empty_fields_in_middle_of_row",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "┌───────┬───────┬──────────┐\n│ Name  │ Value │  Status  │\n├───────┼───────┼──────────┤\n│ Alice │       │ active   │\n│       │ 100   │          │\n│ Bob   │ 200   │ inactive │\n└───────┴───────┴──────────┘\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:243"
+  },
+  {
+   "test": "test_crlf_line_endings",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "┌───────┬─────┐\n│ Name  │ Age │\n├───────┼─────┤\n│ Alice │ 30  │\n│ Bob   │ 25  │\n└───────┴─────┘\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:255"
+  },
+  {
+   "test": "test_single_data_row_no_headers",
+   "argv": [
+    "--no-headers"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "┌───────┬────┬─────┐\n│ Alice │ 30 │ NYC │\n└───────┴────┴─────┘\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:291"
+  },
+  {
+   "test": "test_numeric_values_preserved_as_text",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "┌─────────┬───────┬────────────┬──────────┬─────────────┐\n│ Integer │ Float │ Scientific │ Negative │ LeadingZero │\n├─────────┼───────┼────────────┼──────────┼─────────────┤\n│ 42      │ 3.14  │ 1.5e10     │ -99      │ 0042        │\n│ 0       │ 0.0   │ 0e0        │ 0        │ -0          │\n└─────────┴───────┴────────────┴──────────┴─────────────┘\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:303"
+  },
+  {
+   "test": "test_special_characters_in_quoted_fields",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "┌───────┬─────────────────┐\n│ Name  │     Special     │\n├───────┼─────────────────┤\n│ Quote │ Just a \" quote  │\n│ Comma │ Embedded, comma │\n│ Tab   │ Has a\ttab       │\n└───────┴─────────────────┘\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:315"
+  },
+  {
+   "test": "test_wrong_delimiter_treats_whole_line_as_single_field",
+   "argv": [
+    "--delimiter",
+    ";"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "┌────────────────────┐\n│   Name,Age,City    │\n├────────────────────┤\n│ Alice,30,NYC       │\n│ Bob,25,LA          │\n│ Charlie,35,Chicago │\n└────────────────────┘\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:340"
+  },
+  {
+   "test": "test_trailing_delimiter_empty_last_field",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "┌───────┬─────┬──┐\n│ Name  │ Age │  │\n├───────┼─────┼──┤\n│ Alice │ 30  │  │\n│ Bob   │ 25  │  │\n└───────┴─────┴──┘\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:352"
+  },
+  {
+   "test": "test_leading_delimiter_empty_first_field",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "┌──┬───────┬─────┐\n│  │ Name  │ Age │\n├──┼───────┼─────┤\n│  │ Alice │ 30  │\n│  │ Bob   │ 25  │\n└──┴───────┴─────┘\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:364"
+  },
+  {
+   "test": "test_all_empty_fields_csv",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "┌──┬──┬──┐\n│  │  │  │\n├──┼──┼──┤\n│  │  │  │\n│  │  │  │\n└──┴──┴──┘\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:376"
+  },
+  {
+   "test": "test_tsv_flag_on_csv_data_treats_as_single_column",
+   "argv": [
+    "--tsv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "┌────────────────────┐\n│   Name,Age,City    │\n├────────────────────┤\n│ Alice,30,NYC       │\n│ Bob,25,LA          │\n│ Charlie,35,Chicago │\n└────────────────────┘\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:387"
+  },
+  {
+   "test": "test_emoji_wide_unicode_characters",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "┌───────┬────────┬───────────────┐\n│ Name  │ Symbol │  Description  │\n├───────┼────────┼───────────────┤\n│ Box   │ 📦     │ Package emoji │\n│ Star  │ ⭐     │ Star emoji    │\n│ Heart │ ❤️     │ Heart emoji   │\n│ Face  │ 😀     │ Smile emoji   │\n└───────┴────────┴───────────────┘\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:400"
+  },
+  {
+   "test": "test_header_only_with_no_headers_flag",
+   "argv": [
+    "--no-headers"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "┌──────┬─────┬──────┐\n│ Name │ Age │ City │\n└──────┴─────┴──────┘\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input.py:412"
+  }
+ ]
+}

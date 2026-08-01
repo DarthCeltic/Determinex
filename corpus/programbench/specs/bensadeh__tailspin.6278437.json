@@ -1,0 +1,6904 @@
+{
+ "slug": "bensadeh__tailspin.6278437",
+ "language": "",
+ "n_branches": 13,
+ "n_tests_total": 729,
+ "n_examples": 372,
+ "n_with_exact_stdout": 18,
+ "n_with_rc": 342,
+ "n_skipped": 317,
+ "examples": [
+  {
+   "test": "test_default_theme_no_config_file_needed",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "num 123\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:22"
+  },
+  {
+   "test": "test_config_path_missing_is_error",
+   "argv": [
+    "--config-path",
+    "/no/such/theme.toml",
+    "--print"
+   ],
+   "stdin": "x\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "could not find the TOML file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:29"
+  },
+  {
+   "test": "test_tailspin_pager_env_var_used_for_file_mode",
+   "argv": [
+    "a.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hello"
+   ],
+   "files": {
+    "a.log": "hello 123\n"
+   },
+   "ci": false,
+   "source": "test_config_env.py:64"
+  },
+  {
+   "test": "test_cli_pager_overrides_tailspin_pager_env_var",
+   "argv": [
+    "--pager",
+    "cat -n [FILE]",
+    "a.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "a.log": "hello 123\n"
+   },
+   "ci": false,
+   "source": "test_config_env.py:75"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tspin",
+    "5.6.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:11"
+  },
+  {
+   "test": "test_version_flag_short",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tspin",
+    "5.6.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:21"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "executable",
+    "--print",
+    "--follow",
+    "[FILE]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:31"
+  },
+  {
+   "test": "test_help_flag_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "executable"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:44"
+  },
+  {
+   "test": "test_invalid_flag",
+   "argv": [
+    "--invalid-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:54"
+  },
+  {
+   "test": "test_nonexistent_file",
+   "argv": [
+    "nonexistent.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:68"
+  },
+  {
+   "test": "test_empty_stdin",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:82"
+  },
+  {
+   "test": "test_single_line_stdin",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:101"
+  },
+  {
+   "test": "test_custom_highlight_red_keywords",
+   "argv": [
+    "--print",
+    "--highlight",
+    "red:ERROR,CRITICAL"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[31mERROR\u001b[0m",
+    "\u001b[31mCRITICAL\u001b[0m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:262"
+  },
+  {
+   "test": "test_custom_highlight_blue_keywords",
+   "argv": [
+    "--print",
+    "--highlight",
+    "blue:SERVER,CUSTOM"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[34mSERVER\u001b[0m",
+    "\u001b[34mCUSTOM\u001b[0m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:277"
+  },
+  {
+   "test": "test_multiple_custom_highlights",
+   "argv": [
+    "--print",
+    "--highlight",
+    "red:ERROR",
+    "--highlight",
+    "blue:SERVER,CUSTOM"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[31mERROR\u001b[0m",
+    "\u001b[34mSERVER\u001b[0m",
+    "\u001b[34mCUSTOM\u001b[0m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:292"
+  },
+  {
+   "test": "test_disable_numbers_highlighter",
+   "argv": [
+    "--print",
+    "--disable",
+    "numbers"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:309"
+  },
+  {
+   "test": "test_disable_builtin_keywords",
+   "argv": [
+    "--print",
+    "--disable-builtin-keywords"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:324"
+  },
+  {
+   "test": "test_enable_only_numbers_highlighter",
+   "argv": [
+    "--print",
+    "--enable",
+    "numbers"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[36m123\u001b[0m",
+    "https://example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:338"
+  },
+  {
+   "test": "test_highlight_flag_missing_value",
+   "argv": [
+    "--print",
+    "--highlight"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:355"
+  },
+  {
+   "test": "test_highlight_flag_invalid_color",
+   "argv": [
+    "--print",
+    "--highlight",
+    "invalid:TEST"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:368"
+  },
+  {
+   "test": "test_highlight_flag_missing_colon",
+   "argv": [
+    "--print",
+    "--highlight",
+    "redTEST"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:381"
+  },
+  {
+   "test": "test_stdin_with_carriage_returns",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "line1",
+    "line2",
+    "line3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:409"
+  },
+  {
+   "test": "test_stdin_with_tabs",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\t",
+    "col1\tcol2\tcol3",
+    "\tindented"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:439"
+  },
+  {
+   "test": "test_all_color_options",
+   "argv": [
+    "--print",
+    "--highlight",
+    "red:RED",
+    "--highlight",
+    "green:GREEN",
+    "--highlight",
+    "yellow:YELLOW",
+    "--highlight",
+    "blue:BLUE",
+    "--highlight",
+    "magenta:MAGENTA",
+    "--highlight",
+    "cyan:CYAN"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[31mRED\u001b[0m",
+    "\u001b[32mGREEN\u001b[0m",
+    "\u001b[33mYELLOW\u001b[0m",
+    "\u001b[34mBLUE\u001b[0m",
+    "\u001b[35mMAGENTA\u001b[0m",
+    "\u001b[36mCYAN\u001b[0m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:469"
+  },
+  {
+   "test": "test_enable_multiple_highlighters",
+   "argv": [
+    "--print",
+    "--enable",
+    "numbers,urls"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[36m123\u001b[0m",
+    "\u001b[2;32mhttps\u001b[0m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:496"
+  },
+  {
+   "test": "test_disable_multiple_highlighters",
+   "argv": [
+    "--print",
+    "--disable",
+    "numbers,urls"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "123",
+    "https://example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:511"
+  },
+  {
+   "test": "test_ip_address_highlighting",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:528"
+  },
+  {
+   "test": "test_uuid_highlighting",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "Request ID:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:544"
+  },
+  {
+   "test": "test_mixed_line_endings_crlf_and_lf",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "line1",
+    "line2",
+    "line3",
+    "line4"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:564"
+  },
+  {
+   "test": "test_very_long_line_over_10000_chars",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Start",
+    "End"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:581"
+  },
+  {
+   "test": "test_highlighting_case_sensitivity",
+   "argv": [
+    "--print",
+    "--highlight",
+    "red:ERROR"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[31mERROR\u001b[0m",
+    "error",
+    "Error"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:617"
+  },
+  {
+   "test": "test_special_regex_chars_in_highlight",
+   "argv": [
+    "--print",
+    "--highlight",
+    "red:[bracket]"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[bracket]",
+    "$dollar",
+    ".dot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:634"
+  },
+  {
+   "test": "test_builtin_keywords_info_warning_error",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "INFO",
+    "WARNING",
+    "ERROR"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:651"
+  },
+  {
+   "test": "test_http_verbs_highlighting",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "GET",
+    "POST",
+    "PUT",
+    "DELETE"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:668"
+  },
+  {
+   "test": "test_generate_bash_completions_exact_output",
+   "argv": [
+    "--generate-bash-completions"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "_tspin() {\n    local i cur prev opts cmd\n    COMPREPLY=()\n    if [[ \"${BASH_VERSINFO[0]}\" -ge 4 ]]; then\n        cur=\"$2\"\n    else\n        cur=\"${COMP_WORDS[COMP_CWORD]}\"\n    fi\n    prev=\"$3\"\n    cmd=\"\"\n    opts=\"\"\n\n    for i in \"${COMP_WORDS[@]:0:COMP_CWORD}\"\n    do\n        case \"${cmd},${i}\" in\n            \",$1\")\n                cmd=\"tspin\"\n                ;;\n            *)\n                ;;\n        esac\n    done\n\n    case \"${cmd}\" in\n        tspin)\n            opts=\"-f -p -e -h -V --follow --print --config-path --exec --highlight --enable --disable --disable-builtin-keywords --pager --generate-bash-completions --generate-fish-completions --generate-zsh-completions --help --version [FILE]\"\n            if [[ ${cur} == -* || ${COMP_CWORD} -eq 1 ]] ; then\n                COMPREPLY=( $(compgen -W \"${opts}\" -- \"${cur}\") )\n                return 0\n            fi\n            case \"${prev}\" in\n                --config-path)\n                    COMPREPLY=($(compgen -f \"${cur}\"))\n                    return 0\n                    ;;\n                --exec)\n                    COMPREPLY=($(compgen -f \"${cur}\"))\n                    return 0\n                    ;;\n                -e)\n                    COMPREPLY=($(compgen -f \"${cur}\"))\n                    return 0\n                    ;;\n                --highlight)\n                    COMPREPLY=($(compgen -f \"${cur}\"))\n                    return 0\n                    ;;\n                --enable)\n                    COMPREPLY=($(compgen -W \"numbers urls pointers dates paths quotes key-value-pairs uuids ip-addresses processes json\" -- \"${cur}\"))\n                    return 0\n                    ;;\n                --disable)\n                    COMPREPLY=($(compgen -W \"numbers urls pointers dates paths quotes key-value-pairs uuids ip-addresses processes json\" -- \"${cur}\"))\n                    return 0\n                    ;;\n                --pager)\n                    COMPREPLY=($(compgen -f \"${cur}\"))\n                    return 0\n                    ;;\n                *)\n                    COMPREPLY=()\n                    ;;\n            esac\n            COMPREPLY=( $(compgen -W \"${opts}\" -- \"${cur}\") )\n            return 0\n            ;;\n    esac\n}\n\nif [[ \"${BASH_VERSINFO[0]}\" -eq 4 && \"${BASH_VERSINFO[1]}\" -ge 4 || \"${BASH_VERSINFO[0]}\" -gt 4 ]]; then\n    complete -F _tspin -o nosort -o bashdefault -o default tspin\nelse\n    complete -F _tspin -o bashdefault -o default tspin\nfi\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_completions.py:9"
+  },
+  {
+   "test": "test_generate_fish_completions_exact_output",
+   "argv": [
+    "--generate-fish-completions"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "complete -c tspin -l config-path -d 'Provide a custom path to a configuration file' -r -F\ncomplete -c tspin -s e -l exec -d 'Run command and view the output in a pager' -r\ncomplete -c tspin -l highlight -d 'Highlights in the form color:word1,word2' -r\ncomplete -c tspin -l enable -d 'Enable specific highlighters' -r -f -a \"numbers\\t''\nurls\\t''\npointers\\t''\ndates\\t''\npaths\\t''\nquotes\\t''\nkey-value-pairs\\t''\nuuids\\t''\nip-addresses\\t''\nprocesses\\t''\njson\\t''\"\ncomplete -c tspin -l disable -d 'Disable specific highlighters' -r -f -a \"numbers\\t''\nurls\\t''\npointers\\t''\ndates\\t''\npaths\\t''\nquotes\\t''\nkey-value-pairs\\t''\nuuids\\t''\nip-addresses\\t''\nprocesses\\t''\njson\\t''\"\ncomplete -c tspin -l pager -d 'Override the default pager command used by tspin. (e.g. `--pager=\"ov -f [FILE]\"`)' -r\ncomplete -c tspin -s f -l follow -d 'Follow the contents of a file'\ncomplete -c tspin -s p -l print -d 'Print the output to stdout'\ncomplete -c tspin -l disable-builtin-keywords -d 'Disable the highlighting of all builtin keyword groups (booleans, nulls, log severities and common REST verbs)'\ncomplete -c tspin -l generate-bash-completions -d 'Print bash completions to stdout'\ncomplete -c tspin -l generate-fish-completions -d 'Print fish completions to stdout'\ncomplete -c tspin -l generate-zsh-completions -d 'Print zsh completions to stdout'\ncomplete -c tspin -s h -l help -d 'Print help (see more with \\'--help\\')'\ncomplete -c tspin -s V -l version -d 'Print version'\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_completions.py:21"
+  },
+  {
+   "test": "test_generate_zsh_completions_exact_output",
+   "argv": [
+    "--generate-zsh-completions"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "#compdef tspin\n\nautoload -U is-at-least\n\n_tspin() {\n    typeset -A opt_args\n    typeset -a _arguments_options\n    local ret=1\n\n    if is-at-least 5.2; then\n        _arguments_options=(-s -S -C)\n    else\n        _arguments_options=(-s -C)\n    fi\n\n    local context curcontext=\"$curcontext\" state line\n    _arguments \"${_arguments_options[@]}\" : \\\n'--config-path=[Provide a custom path to a configuration file]:CONFIG_PATH:_files' \\\n'-e+[Run command and view the output in a pager]:EXEC:_default' \\\n'--exec=[Run command and view the output in a pager]:EXEC:_default' \\\n'*--highlight=[Highlights in the form color\\:word1,word2]:COLOR_WORD:_default' \\\n'*--enable=[Enable specific highlighters]:ENABLED_HIGHLIGHTERS:(numbers urls pointers dates paths quotes key-value-pairs uuids ip-addresses processes json)' \\\n'*--disable=[Disable specific highlighters]:DISABLED_HIGHLIGHTERS:(numbers urls pointers dates paths quotes key-value-pairs uuids ip-addresses processes json)' \\\n'--pager=[Override the default pager command used by tspin. (e.g. \\`--pager=\"ov -f \\[FILE\\]\"\\`)]:PAGER:_default' \\\n'-f[Follow the contents of a file]' \\\n'--follow[Follow the contents of a file]' \\\n'-p[Print the output to stdout]' \\\n'--print[Print the output to stdout]' \\\n'--disable-builtin-keywords[Disable the highlighting of all builtin keyword groups (booleans, nulls, log severities and common REST verbs)]' \\\n'--generate-bash-completions[Print bash completions to stdout]' \\\n'--generate-fish-completions[Print fish completions to stdout]' \\\n'--generate-zsh-completions[Print zsh completions to stdout]' \\\n'-h[Print help (see more with '\\''--help'\\'')]' \\\n'--help[Print help (see more with '\\''--help'\\'')]' \\\n'-V[Print version]' \\\n'--version[Print version]' \\\n'::FILE -- Filepath:_files' \\\n&& ret=0\n}\n\n(( $+functions[_tspin_commands] )) ||\n_tspin_commands() {\n    local commands; commands=()\n    _describe -t commands 'tspin commands' commands \"$@\"\n}\n\nif [ \"$funcstack[1]\" = \"_tspin\" ]; then\n    _tspin \"$@\"\nelse\n    compdef _tspin tspin\nfi\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_completions.py:33"
+  },
+  {
+   "test": "test_bash_completions_contains_function_definition",
+   "argv": [
+    "--generate-bash-completions"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "_tspin()",
+    "COMPREPLY",
+    "complete -F _tspin"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_completions.py:45"
+  },
+  {
+   "test": "test_fish_completions_contains_complete_commands",
+   "argv": [
+    "--generate-fish-completions"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "complete -c tspin",
+    "-l config-path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_completions.py:62"
+  },
+  {
+   "test": "test_zsh_completions_contains_compdef_and_function",
+   "argv": [
+    "--generate-zsh-completions"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "_tspin()",
+    "compdef _tspin tspin",
+    "_arguments"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_completions.py:77"
+  },
+  {
+   "test": "test_bash_completions_includes_all_major_flags",
+   "argv": [
+    "--generate-bash-completions"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--follow",
+    "--print",
+    "--config-path",
+    "--help",
+    "--version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_completions.py:94"
+  },
+  {
+   "test": "test_multiple_completion_flags_bash_wins",
+   "argv": [
+    "--generate-bash-completions",
+    "--generate-fish-completions"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "_tspin()",
+    "COMPREPLY"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_completions.py:113"
+  },
+  {
+   "test": "test_completion_flag_ignores_file_argument",
+   "argv": [
+    "--generate-fish-completions",
+    "/nonexistent/path/file.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "complete -c tspin -l config-path -d 'Provide a custom path to a configuration file' -r -F\ncomplete -c tspin -s e -l exec -d 'Run command and view the output in a pager' -r\ncomplete -c tspin -l highlight -d 'Highlights in the form color:word1,word2' -r\ncomplete -c tspin -l enable -d 'Enable specific highlighters' -r -f -a \"numbers\\t''\nurls\\t''\npointers\\t''\ndates\\t''\npaths\\t''\nquotes\\t''\nkey-value-pairs\\t''\nuuids\\t''\nip-addresses\\t''\nprocesses\\t''\njson\\t''\"\ncomplete -c tspin -l disable -d 'Disable specific highlighters' -r -f -a \"numbers\\t''\nurls\\t''\npointers\\t''\ndates\\t''\npaths\\t''\nquotes\\t''\nkey-value-pairs\\t''\nuuids\\t''\nip-addresses\\t''\nprocesses\\t''\njson\\t''\"\ncomplete -c tspin -l pager -d 'Override the default pager command used by tspin. (e.g. `--pager=\"ov -f [FILE]\"`)' -r\ncomplete -c tspin -s f -l follow -d 'Follow the contents of a file'\ncomplete -c tspin -s p -l print -d 'Print the output to stdout'\ncomplete -c tspin -l disable-builtin-keywords -d 'Disable the highlighting of all builtin keyword groups (booleans, nulls, log severities and common REST verbs)'\ncomplete -c tspin -l generate-bash-completions -d 'Print bash completions to stdout'\ncomplete -c tspin -l generate-fish-completions -d 'Print fish completions to stdout'\ncomplete -c tspin -l generate-zsh-completions -d 'Print zsh completions to stdout'\ncomplete -c tspin -s h -l help -d 'Print help (see more with \\'--help\\')'\ncomplete -c tspin -s V -l version -d 'Print version'\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_completions.py:143"
+  },
+  {
+   "test": "test_completion_flag_with_other_flags_still_generates",
+   "argv": [
+    "--generate-bash-completions",
+    "--follow",
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "_tspin() {\n    local i cur prev opts cmd\n    COMPREPLY=()\n    if [[ \"${BASH_VERSINFO[0]}\" -ge 4 ]]; then\n        cur=\"$2\"\n    else\n        cur=\"${COMP_WORDS[COMP_CWORD]}\"\n    fi\n    prev=\"$3\"\n    cmd=\"\"\n    opts=\"\"\n\n    for i in \"${COMP_WORDS[@]:0:COMP_CWORD}\"\n    do\n        case \"${cmd},${i}\" in\n            \",$1\")\n                cmd=\"tspin\"\n                ;;\n            *)\n                ;;\n        esac\n    done\n\n    case \"${cmd}\" in\n        tspin)\n            opts=\"-f -p -e -h -V --follow --print --config-path --exec --highlight --enable --disable --disable-builtin-keywords --pager --generate-bash-completions --generate-fish-completions --generate-zsh-completions --help --version [FILE]\"\n            if [[ ${cur} == -* || ${COMP_CWORD} -eq 1 ]] ; then\n                COMPREPLY=( $(compgen -W \"${opts}\" -- \"${cur}\") )\n                return 0\n            fi\n            case \"${prev}\" in\n                --config-path)\n                    COMPREPLY=($(compgen -f \"${cur}\"))\n                    return 0\n                    ;;\n                --exec)\n                    COMPREPLY=($(compgen -f \"${cur}\"))\n                    return 0\n                    ;;\n                -e)\n                    COMPREPLY=($(compgen -f \"${cur}\"))\n                    return 0\n                    ;;\n                --highlight)\n                    COMPREPLY=($(compgen -f \"${cur}\"))\n                    return 0\n                    ;;\n                --enable)\n                    COMPREPLY=($(compgen -W \"numbers urls pointers dates paths quotes key-value-pairs uuids ip-addresses processes json\" -- \"${cur}\"))\n                    return 0\n                    ;;\n                --disable)\n                    COMPREPLY=($(compgen -W \"numbers urls pointers dates paths quotes key-value-pairs uuids ip-addresses processes json\" -- \"${cur}\"))\n                    return 0\n                    ;;\n                --pager)\n                    COMPREPLY=($(compgen -f \"${cur}\"))\n                    return 0\n                    ;;\n                *)\n                    COMPREPLY=()\n                    ;;\n            esac\n            COMPREPLY=( $(compgen -W \"${opts}\" -- \"${cur}\") )\n            return 0\n            ;;\n    esac\n}\n\nif [[ \"${BASH_VERSINFO[0]}\" -eq 4 && \"${BASH_VERSINFO[1]}\" -ge 4 || \"${BASH_VERSINFO[0]}\" -gt 4 ]]; then\n    complete -F _tspin -o nosort -o bashdefault -o default tspin\nelse\n    complete -F _tspin -o bashdefault -o default tspin\nfi\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_completions.py:154"
+  },
+  {
+   "test": "test_bash_completions_includes_highlighter_names",
+   "argv": [
+    "--generate-bash-completions"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "numbers",
+    "urls",
+    "dates",
+    "paths"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_completions.py:165"
+  },
+  {
+   "test": "test_fish_completions_includes_highlighter_choices",
+   "argv": [
+    "--generate-fish-completions"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "numbers",
+    "urls",
+    "uuids",
+    "ip-addresses"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_completions.py:182"
+  },
+  {
+   "test": "test_zsh_completions_includes_option_arguments",
+   "argv": [
+    "--generate-zsh-completions"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--config-path",
+    "numbers",
+    "dates"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_completions.py:198"
+  },
+  {
+   "test": "test_bash_completions_output_is_stable",
+   "argv": [
+    "--generate-bash-completions"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_completions.py:214"
+  },
+  {
+   "test": "test_fish_completions_output_is_stable",
+   "argv": [
+    "--generate-fish-completions"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_completions.py:226"
+  },
+  {
+   "test": "test_zsh_completions_output_is_stable",
+   "argv": [
+    "--generate-zsh-completions"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_completions.py:238"
+  },
+  {
+   "test": "test_nonexistent_config_file",
+   "argv": [
+    "--print",
+    "--config-path",
+    "/nonexistent/path.toml"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:23"
+  },
+  {
+   "test": "test_disable_builtin_keywords_flag",
+   "argv": [
+    "--print",
+    "--disable-builtin-keywords"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "ERROR SUCCESS null true false\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:248"
+  },
+  {
+   "test": "test_highlight_missing_colon_separator",
+   "argv": [
+    "--highlight",
+    "red"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:13"
+  },
+  {
+   "test": "test_highlight_invalid_color_name",
+   "argv": [
+    "--highlight",
+    "purple:word"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:27"
+  },
+  {
+   "test": "test_enable_invalid_highlighter_name",
+   "argv": [
+    "--enable",
+    "invalid-highlighter"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:41"
+  },
+  {
+   "test": "test_directory_instead_of_file_path",
+   "argv": [
+    "/etc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:55"
+  },
+  {
+   "test": "test_disable_invalid_highlighter_name",
+   "argv": [
+    "--disable",
+    "invalid-name"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:145"
+  },
+  {
+   "test": "test_print_and_follow_flags_combination",
+   "argv": [
+    "--print",
+    "--follow"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:203"
+  },
+  {
+   "test": "test_multiple_highlight_flags",
+   "argv": [
+    "--print",
+    "--highlight",
+    "red:ERROR",
+    "--highlight",
+    "green:SUCCESS"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ERROR",
+    "SUCCESS"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:229"
+  },
+  {
+   "test": "test_nonexistent_config_path",
+   "argv": [
+    "--config-path",
+    "/nonexistent/path/config.toml",
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:258"
+  },
+  {
+   "test": "test_highlight_empty_string_argument",
+   "argv": [
+    "--highlight",
+    ""
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:290"
+  },
+  {
+   "test": "test_highlight_just_colon_separator",
+   "argv": [
+    "--highlight",
+    ":"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:303"
+  },
+  {
+   "test": "test_multiple_enable_flags_for_same_highlighter",
+   "argv": [
+    "--enable",
+    "numbers",
+    "--enable",
+    "numbers",
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:376"
+  },
+  {
+   "test": "test_file_path_with_spaces_in_name",
+   "argv": [
+    "--print",
+    "file with spaces.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "content with spaces\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "file with spaces.txt": "content with spaces\n"
+   },
+   "ci": false,
+   "source": "test_errors.py:389"
+  },
+  {
+   "test": "test_unicode_in_filename",
+   "argv": [
+    "--print",
+    "test_café_☕.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "unicode test\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test_café_☕.txt": "unicode test\n"
+   },
+   "ci": false,
+   "source": "test_errors.py:404"
+  },
+  {
+   "test": "test_mixed_valid_and_invalid_flags",
+   "argv": [
+    "--print",
+    "--invalid-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:446"
+  },
+  {
+   "test": "test_duplicate_highlight_same_color_and_word",
+   "argv": [
+    "--print",
+    "--highlight",
+    "red:ERROR",
+    "--highlight",
+    "red:ERROR"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:460"
+  },
+  {
+   "test": "test_highlight_word_that_appears_multiple_times",
+   "argv": [
+    "--print",
+    "--highlight",
+    "red:test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:489"
+  },
+  {
+   "test": "test_highlight_with_punctuation_in_word",
+   "argv": [
+    "--print",
+    "--highlight",
+    "red:error!"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[31m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:522"
+  },
+  {
+   "test": "test_stdin_null_keyword_highlighting",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Hello \u001b[3;31mnull\u001b[0m\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:12"
+  },
+  {
+   "test": "test_stdin_no_highlighting",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Hello world\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:22"
+  },
+  {
+   "test": "test_stdin_empty_input",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:31"
+  },
+  {
+   "test": "test_numbers_enabled_integers_and_floats",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "123",
+    "45.67"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:14"
+  },
+  {
+   "test": "test_numbers_disabled",
+   "argv": [
+    "--print",
+    "--disable",
+    "numbers"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "123",
+    "45.67",
+    "Count: 123 items, weight: 45.67 kg"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:29"
+  },
+  {
+   "test": "test_numbers_hexadecimal_values",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "0x1a2b",
+    "0xDEADBEEF"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:44"
+  },
+  {
+   "test": "test_numbers_scientific_notation",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1",
+    "5",
+    "3",
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:57"
+  },
+  {
+   "test": "test_urls_http_and_https",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "http://example.com/page",
+    "https://secure.example.org/login"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:73"
+  },
+  {
+   "test": "test_urls_disabled",
+   "argv": [
+    "--print",
+    "--disable",
+    "urls",
+    "--disable",
+    "paths",
+    "--disable",
+    "key-value-pairs"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "https://example.com/path?key=value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:89"
+  },
+  {
+   "test": "test_urls_with_query_parameters",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "api.example.com",
+    "id",
+    "123",
+    "name",
+    "john",
+    "active",
+    "true"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:102"
+  },
+  {
+   "test": "test_pointers_memory_addresses",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "0xdeadbeef",
+    "0x7fff5fbff710"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:121"
+  },
+  {
+   "test": "test_pointers_disabled",
+   "argv": [
+    "--print",
+    "--disable",
+    "pointers"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0xdeadbeef"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:135"
+  },
+  {
+   "test": "test_dates_various_formats",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "2024-01-15",
+    "10:30:45"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:146"
+  },
+  {
+   "test": "test_dates_disabled",
+   "argv": [
+    "--print",
+    "--disable",
+    "dates"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2024-01-15"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:161"
+  },
+  {
+   "test": "test_paths_unix_absolute_and_relative",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "/usr/bin/python",
+    "./script.sh",
+    "../config/app.yaml"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:172"
+  },
+  {
+   "test": "test_paths_disabled",
+   "argv": [
+    "--print",
+    "--disable",
+    "paths"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "/usr/bin/python",
+    "./script.sh"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:187"
+  },
+  {
+   "test": "test_quotes_single_and_double",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "hello world",
+    "single quoted"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:199"
+  },
+  {
+   "test": "test_quotes_disabled",
+   "argv": [
+    "--print",
+    "--disable",
+    "quotes"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"hello world\"",
+    "'test'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:212"
+  },
+  {
+   "test": "test_key_value_pairs_equals_and_colon",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "timeout",
+    "30",
+    "localhost"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:224"
+  },
+  {
+   "test": "test_key_value_pairs_disabled",
+   "argv": [
+    "--print",
+    "--disable",
+    "key-value-pairs"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "timeout=",
+    "30",
+    "host: localhost"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:238"
+  },
+  {
+   "test": "test_uuids_standard_format",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "123e4567-e89b-12d3-a456-426614174000",
+    "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:252"
+  },
+  {
+   "test": "test_uuids_disabled",
+   "argv": [
+    "--print",
+    "--disable",
+    "uuids"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "123e4567-e89b-12d3-a456-426614174000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:266"
+  },
+  {
+   "test": "test_ip_addresses_ipv4",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "192.168.1.1",
+    "10.0.0.255",
+    "172.16.254.1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:277"
+  },
+  {
+   "test": "test_ip_addresses_ipv6",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "2001:0db8:85a3:0000:0000:8a2e:0370:7334",
+    "::1",
+    "fe80::1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:291"
+  },
+  {
+   "test": "test_ip_addresses_disabled",
+   "argv": [
+    "--print",
+    "--disable",
+    "ip-addresses"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "192.168.1.1",
+    "::1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:306"
+  },
+  {
+   "test": "test_processes_pid_patterns",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "nginx",
+    "1234"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:318"
+  },
+  {
+   "test": "test_processes_disabled",
+   "argv": [
+    "--print",
+    "--disable",
+    "processes"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "nginx",
+    "1234",
+    "python",
+    "5678"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:333"
+  },
+  {
+   "test": "test_json_syntax_highlighting",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "name",
+    "test",
+    "42",
+    "true"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:348"
+  },
+  {
+   "test": "test_json_disabled",
+   "argv": [
+    "--print",
+    "--disable",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "key",
+    "value",
+    "123"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:365"
+  },
+  {
+   "test": "test_numbers_negative_values",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "-15.5",
+    "-42"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:379"
+  },
+  {
+   "test": "test_numbers_large_values",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "1234567890123",
+    "3.141592653589793"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:391"
+  },
+  {
+   "test": "test_urls_with_port_numbers",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "localhost",
+    "8080",
+    "/api/v1/health"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:404"
+  },
+  {
+   "test": "test_urls_ftp_protocol",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ftp://ftp.example.com/file.tar.gz"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:419"
+  },
+  {
+   "test": "test_pointers_multiple_addresses_one_line",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "0xdeadbeef",
+    "0xcafebabe",
+    "0x12345678"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:430"
+  },
+  {
+   "test": "test_dates_slash_separated",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "2024/01/15",
+    "2023/12/31"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:443"
+  },
+  {
+   "test": "test_pointers_case_insensitive",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "0xDEADBEEF",
+    "0xdeadbeef",
+    "0xDeAdBeEf"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:456"
+  },
+  {
+   "test": "test_dates_iso8601_with_timezone",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "2024-01-15",
+    "14:30:00"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:470"
+  },
+  {
+   "test": "test_paths_with_extensions",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "/var/log/app.log",
+    "./script.py",
+    "../config.yaml"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:485"
+  },
+  {
+   "test": "test_paths_home_directory",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "~/Documents/file.txt",
+    "~/.config/app.conf"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:499"
+  },
+  {
+   "test": "test_quotes_nested_same_type",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "outer",
+    "inner"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:512"
+  },
+  {
+   "test": "test_key_value_pairs_whitespace_variations",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "timeout",
+    "user",
+    "port",
+    "host"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:538"
+  },
+  {
+   "test": "test_key_value_pairs_special_values",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "enabled",
+    "true",
+    "false",
+    "null"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:553"
+  },
+  {
+   "test": "test_uuids_mixed_case",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "123E4567-E89B-12D3-A456-426614174000",
+    "F47AC10B-58cc-4372-a567-0E02B2C3D479"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:568"
+  },
+  {
+   "test": "test_uuids_invalid_format_not_matched",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "123e4567-e89b-12d3-a456-42661417400"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:581"
+  },
+  {
+   "test": "test_ip_addresses_ipv4_edge_cases",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.0.0.0",
+    "255.255.255.255",
+    "127.0.0.1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:594"
+  },
+  {
+   "test": "test_ip_addresses_ipv6_compressed",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "::1",
+    "fe80::"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:608"
+  },
+  {
+   "test": "test_processes_various_bracket_styles",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "nginx",
+    "1234",
+    "python",
+    "5678",
+    "java",
+    "9012"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:621"
+  },
+  {
+   "test": "test_processes_single_digit_pid",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "init",
+    "1",
+    "kthreadd",
+    "2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:638"
+  },
+  {
+   "test": "test_json_nested_objects",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "user",
+    "name",
+    "Alice",
+    "items"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:653"
+  },
+  {
+   "test": "test_json_escaped_strings",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "text",
+    "tab",
+    "quote"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:668"
+  },
+  {
+   "test": "test_multiple_highlighters_combined",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "api.example.com",
+    "8080",
+    "id",
+    "123",
+    "192.168.1.1",
+    "2024-01-15"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:682"
+  },
+  {
+   "test": "test_disable_multiple_highlighters",
+   "argv": [
+    "--print",
+    "--disable",
+    "numbers",
+    "--disable",
+    "urls",
+    "--disable",
+    "dates"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "123",
+    "https://example.com",
+    "2024-01-15"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:701"
+  },
+  {
+   "test": "test_enable_specific_highlighter_only",
+   "argv": [
+    "--print",
+    "--enable",
+    "numbers"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "123",
+    "https://example.com",
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:716"
+  },
+  {
+   "test": "test_numbers_at_line_boundaries",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "123",
+    "456",
+    "789",
+    "1000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:731"
+  },
+  {
+   "test": "test_urls_at_line_boundaries",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "https://example.com",
+    "https://test.org",
+    "http://localhost:8080"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:745"
+  },
+  {
+   "test": "test_builtin_keywords_rest_verbs_in_context",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "42;30m GET",
+    "43;30m POST",
+    "45;30m PUT",
+    "45;30m PATCH",
+    "41;30m DELETE"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_keywords.py:49"
+  },
+  {
+   "test": "test_custom_highlight_single_word",
+   "argv": [
+    "--print",
+    "--highlight",
+    "red:custom"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_keywords.py:93"
+  },
+  {
+   "test": "test_custom_highlight_multiple_colors",
+   "argv": [
+    "--print",
+    "--highlight",
+    "red:error",
+    "--highlight",
+    "green:success"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_keywords.py:105"
+  },
+  {
+   "test": "test_custom_highlight_multiple_words_same_color",
+   "argv": [
+    "--print",
+    "--highlight",
+    "yellow:apple,banana,grape"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_keywords.py:118"
+  },
+  {
+   "test": "test_custom_highlight_all_colors",
+   "argv": [
+    "--print",
+    "--highlight",
+    "red:red",
+    "--highlight",
+    "green:green",
+    "--highlight",
+    "yellow:yellow",
+    "--highlight",
+    "blue:blue",
+    "--highlight",
+    "magenta:magenta",
+    "--highlight",
+    "cyan:cyan"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_keywords.py:130"
+  },
+  {
+   "test": "test_custom_highlight_with_builtins_disabled",
+   "argv": [
+    "--print",
+    "--disable-builtin-keywords",
+    "--highlight",
+    "cyan:custom"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_keywords.py:145"
+  },
+  {
+   "test": "test_custom_highlight_empty_word_list",
+   "argv": [
+    "--print",
+    "--highlight",
+    "red:"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_keywords.py:181"
+  },
+  {
+   "test": "test_custom_highlight_duplicate_word_first_wins",
+   "argv": [
+    "--print",
+    "--highlight",
+    "red:custom",
+    "--highlight",
+    "blue:custom"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_keywords.py:193"
+  },
+  {
+   "test": "test_builtin_keywords_take_precedence_over_custom",
+   "argv": [
+    "--print",
+    "--highlight",
+    "green:ERROR"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_keywords.py:205"
+  },
+  {
+   "test": "test_custom_highlight_long_word_list",
+   "argv": [
+    "--print",
+    "--highlight",
+    "cyan:alpha,beta,gamma,delta,epsilon,zeta,eta,theta"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_keywords.py:216"
+  },
+  {
+   "test": "test_custom_highlight_special_characters",
+   "argv": [
+    "--print",
+    "--highlight",
+    "red:test-word",
+    "--highlight",
+    "green:test_word",
+    "--highlight",
+    "blue:test.word"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_keywords.py:229"
+  },
+  {
+   "test": "test_custom_highlight_unicode_keywords",
+   "argv": [
+    "--print",
+    "--highlight",
+    "magenta:café",
+    "--highlight",
+    "yellow:日本語"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_keywords.py:243"
+  },
+  {
+   "test": "test_custom_highlight_word_boundary_matching",
+   "argv": [
+    "--print",
+    "--highlight",
+    "red:error"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_keywords.py:256"
+  },
+  {
+   "test": "test_custom_highlight_no_substring_matches",
+   "argv": [
+    "--print",
+    "--highlight",
+    "green:test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_keywords.py:268"
+  },
+  {
+   "test": "test_custom_highlight_with_builtin_rest_verbs",
+   "argv": [
+    "--print",
+    "--highlight",
+    "blue:custom"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_keywords.py:280"
+  },
+  {
+   "test": "test_custom_override_rest_verbs_with_builtins_disabled",
+   "argv": [
+    "--print",
+    "--disable-builtin-keywords",
+    "--highlight",
+    "blue:GET",
+    "--highlight",
+    "magenta:POST"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[34mGET\u001b[0m",
+    "\u001b[35mPOST\u001b[0m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_keywords.py:292"
+  },
+  {
+   "test": "test_custom_highlight_multiple_flags_combined",
+   "argv": [
+    "--print",
+    "--highlight",
+    "red:custom1,custom2",
+    "--highlight",
+    "blue:custom3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_keywords.py:360"
+  },
+  {
+   "test": "test_custom_highlight_in_realistic_log_context",
+   "argv": [
+    "--print",
+    "--highlight",
+    "magenta:Application"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_keywords.py:374"
+  },
+  {
+   "test": "test_custom_highlight_overlapping_keyword_definitions",
+   "argv": [
+    "--print",
+    "--highlight",
+    "red:test",
+    "--highlight",
+    "blue:testing"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_keywords.py:452"
+  },
+  {
+   "test": "test_stdin_with_pager_flag_ignores_pager",
+   "argv": [
+    "--pager",
+    "head -n 2 [FILE]"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pager.py:375"
+  },
+  {
+   "test": "test_basic_stdin_passthrough",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Hello world"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_seed.py:16"
+  },
+  {
+   "test": "test_help",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "A log file highlighter",
+    "Usage: executable [OPTIONS] [FILE]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:14"
+  },
+  {
+   "test": "test_stdin_to_stdout_highlighting",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "hello null 123",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "null",
+    "123"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:25"
+  },
+  {
+   "test": "test_no_args_stdin_prints_to_stdout",
+   "argv": [],
+   "stdin": "hello null",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "null",
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:33"
+  },
+  {
+   "test": "test_file_input",
+   "argv": [
+    "--print",
+    "test_input.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ERROR",
+    "2023",
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:40"
+  },
+  {
+   "test": "test_custom_config_date_color",
+   "argv": [
+    "--print",
+    "--config-path",
+    "theme.toml"
+   ],
+   "stdin": "2023-10-27",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[32m2023\u001b[0m"
+   ],
+   "files": {
+    "theme.toml": "\n[dates]\ndate = { fg = \"green\" }\n"
+   },
+   "ci": false,
+   "source": "test_config.py:19"
+  },
+  {
+   "test": "test_custom_regex_highlighter",
+   "argv": [
+    "--print",
+    "--config-path",
+    "theme.toml"
+   ],
+   "stdin": "Started the service.",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[31mthe service\u001b[0m"
+   ],
+   "files": {
+    "theme.toml": "\n[[regexes]]\nregex = 'Started (.*)\\.'\nstyle = { fg = \"red\" }\n"
+   },
+   "ci": false,
+   "source": "test_config.py:30"
+  },
+  {
+   "test": "test_invalid_highlighter_enable",
+   "argv": [
+    "--print",
+    "--enable",
+    "invalid_highlighter"
+   ],
+   "stdin": "test",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:23"
+  },
+  {
+   "test": "test_invalid_highlighter_disable",
+   "argv": [
+    "--print",
+    "--disable",
+    "invalid_highlighter"
+   ],
+   "stdin": "test",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:28"
+  },
+  {
+   "test": "test_highlight_numbers",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "number 123.45",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:18"
+  },
+  {
+   "test": "test_highlight_urls",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "check https://example.com/path",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:24"
+  },
+  {
+   "test": "test_highlight_pointers",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "address 0xabcdef12",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:30"
+  },
+  {
+   "test": "test_highlight_dates",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "2023-10-27 12:34:56",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:36"
+  },
+  {
+   "test": "test_highlight_paths",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "file at /usr/bin/local",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:42"
+  },
+  {
+   "test": "test_highlight_quotes",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "message \"hello world\"",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:48"
+  },
+  {
+   "test": "test_highlight_kv",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "key=value",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:54"
+  },
+  {
+   "test": "test_highlight_uuids",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "id 550e8400-e29b-41d4-a716-446655440000",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:60"
+  },
+  {
+   "test": "test_highlight_ip",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "ip 192.168.1.1",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:66"
+  },
+  {
+   "test": "test_highlight_processes",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "process[1234]",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:72"
+  },
+  {
+   "test": "test_highlight_json",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "{\"key\": \"value\", \"num\": 123}",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:78"
+  },
+  {
+   "test": "test_custom_highlight_red",
+   "argv": [
+    "--print",
+    "--highlight",
+    "red:me"
+   ],
+   "stdin": "highlight me",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[31mme\u001b[0m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_options.py:18"
+  },
+  {
+   "test": "test_disable_builtin_keywords",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "null true false",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_options.py:24"
+  },
+  {
+   "test": "test_enable_only_numbers",
+   "argv": [
+    "--print",
+    "--enable",
+    "numbers"
+   ],
+   "stdin": "123 and /etc/passwd",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "123",
+    "/etc/passwd",
+    "/etc/passwd",
+    "\u001b[",
+    "\u001b[",
+    "/etc/passwd"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_options.py:32"
+  },
+  {
+   "test": "test_multiple_highlights",
+   "argv": [
+    "--print",
+    "--highlight",
+    "red:error",
+    "--highlight",
+    "yellow:warning"
+   ],
+   "stdin": "error and warning",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[31merror\u001b[0m",
+    "\u001b[33mwarning\u001b[0m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_options.py:55"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "A log file highlighter",
+    "Usage:",
+    "--follow",
+    "--print",
+    "--exec",
+    "--highlight"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:5"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "A log file highlighter",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:16"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tspin"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:23"
+  },
+  {
+   "test": "test_version_short_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tspin"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:31"
+  },
+  {
+   "test": "test_multiple_help_flags",
+   "argv": [
+    "--help",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:61"
+  },
+  {
+   "test": "test_config_path_valid",
+   "argv": [
+    "--config-path",
+    "config.toml"
+   ],
+   "stdin": "CUSTOM keyword",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CUSTOM",
+    "\u001b["
+   ],
+   "files": {
+    "config.toml": "\n[[keywords]]\nwords = ['CUSTOM']\nstyle = { fg = \"red\" }\n"
+   },
+   "ci": false,
+   "source": "test_configuration.py:5"
+  },
+  {
+   "test": "test_config_with_custom_regex",
+   "argv": [
+    "--config-path",
+    "regex_config.toml"
+   ],
+   "stdin": "Started application.",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Started",
+    "application"
+   ],
+   "files": {
+    "regex_config.toml": "\n[[regexps]]\nregex = 'Started (.*)\\.s'\nstyle = { fg = \"red\" }\n"
+   },
+   "ci": false,
+   "source": "test_configuration.py:33"
+  },
+  {
+   "test": "test_config_with_custom_styles",
+   "argv": [
+    "--config-path",
+    "style_config.toml"
+   ],
+   "stdin": "BOLD and ITALIC",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "BOLD",
+    "ITALIC",
+    "\u001b["
+   ],
+   "files": {
+    "style_config.toml": "\n[[keywords]]\nwords = ['BOLD']\nstyle = { fg = \"red\", bold = true }\n\n[[keywords]]\nwords = ['ITALIC']\nstyle = { fg = \"blue\", italic = true }\n"
+   },
+   "ci": false,
+   "source": "test_configuration.py:46"
+  },
+  {
+   "test": "test_config_path_with_print",
+   "argv": [
+    "--config-path",
+    "config.toml",
+    "test.log",
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TEST",
+    "message"
+   ],
+   "files": {
+    "config.toml": "\n[[keywords]]\nwords = ['TEST']\nstyle = { fg = \"green\" }\n",
+    "test.log": "TEST message"
+   },
+   "ci": false,
+   "source": "test_configuration.py:64"
+  },
+  {
+   "test": "test_config_empty_file",
+   "argv": [
+    "--config-path",
+    "empty_config.toml"
+   ],
+   "stdin": "test null",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {
+    "empty_config.toml": ""
+   },
+   "ci": false,
+   "source": "test_configuration.py:78"
+  },
+  {
+   "test": "test_config_pointer_customization",
+   "argv": [
+    "--config-path",
+    "pointer_config.toml"
+   ],
+   "stdin": "0xdeadbeef",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "x"
+   ],
+   "files": {
+    "pointer_config.toml": "\n[pointer]\nnumber = { fg = \"green\" }\nletter = { fg = \"blue\" }\nx = { fg = \"red\" }\n"
+   },
+   "ci": false,
+   "source": "test_configuration.py:86"
+  },
+  {
+   "test": "test_config_date_customization",
+   "argv": [
+    "--config-path",
+    "date_config.toml"
+   ],
+   "stdin": "2024-03-25 14:30:45",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {
+    "date_config.toml": "\n[dates]\ndate = { fg = \"magenta\" }\ntime = { fg = \"blue\" }\n"
+   },
+   "ci": false,
+   "source": "test_configuration.py:101"
+  },
+  {
+   "test": "test_highlight_single_word_red",
+   "argv": [
+    "--highlight=red:ERROR"
+   ],
+   "stdin": "This is an ERROR message",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ERROR",
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_custom_highlighting.py:4"
+  },
+  {
+   "test": "test_highlight_single_word_green",
+   "argv": [
+    "--highlight=green:SUCCESS"
+   ],
+   "stdin": "Operation SUCCESS",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SUCCESS",
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_custom_highlighting.py:13"
+  },
+  {
+   "test": "test_highlight_single_word_yellow",
+   "argv": [
+    "--highlight=yellow:WARN"
+   ],
+   "stdin": "WARN: check this",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "WARN",
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_custom_highlighting.py:20"
+  },
+  {
+   "test": "test_highlight_single_word_blue",
+   "argv": [
+    "--highlight=blue:INFO"
+   ],
+   "stdin": "INFO: details",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INFO",
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_custom_highlighting.py:27"
+  },
+  {
+   "test": "test_highlight_single_word_magenta",
+   "argv": [
+    "--highlight=magenta:DEBUG"
+   ],
+   "stdin": "DEBUG: trace",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "DEBUG",
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_custom_highlighting.py:34"
+  },
+  {
+   "test": "test_highlight_single_word_cyan",
+   "argv": [
+    "--highlight=cyan:TRACE"
+   ],
+   "stdin": "TRACE: event",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TRACE",
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_custom_highlighting.py:41"
+  },
+  {
+   "test": "test_highlight_multiple_words_same_color",
+   "argv": [
+    "--highlight=red:ERROR,FAIL,CRITICAL"
+   ],
+   "stdin": "ERROR or FAIL or CRITICAL",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ERROR",
+    "FAIL",
+    "CRITICAL",
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_custom_highlighting.py:48"
+  },
+  {
+   "test": "test_highlight_multiple_flags",
+   "argv": [
+    "--highlight=red:ERROR",
+    "--highlight=green:SUCCESS"
+   ],
+   "stdin": "ERROR and SUCCESS",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ERROR",
+    "SUCCESS",
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_custom_highlighting.py:59"
+  },
+  {
+   "test": "test_highlight_case_sensitive",
+   "argv": [
+    "--highlight=red:error"
+   ],
+   "stdin": "ERROR error Error",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ERROR",
+    "error",
+    "Error"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_custom_highlighting.py:71"
+  },
+  {
+   "test": "test_highlight_word_not_present",
+   "argv": [
+    "--highlight=red:NOTFOUND"
+   ],
+   "stdin": "This text has no match",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "This text has no match",
+    "no"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_custom_highlighting.py:80"
+  },
+  {
+   "test": "test_highlight_with_builtin_keywords",
+   "argv": [
+    "--highlight=red:CUSTOM"
+   ],
+   "stdin": "null CUSTOM true",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "null",
+    "CUSTOM",
+    "true"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_custom_highlighting.py:88"
+  },
+  {
+   "test": "test_highlight_special_characters",
+   "argv": [
+    "--highlight=red:ERROR"
+   ],
+   "stdin": "ERROR occurred",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ERROR",
+    "occurred"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_custom_highlighting.py:110"
+  },
+  {
+   "test": "test_highlight_overlapping_patterns",
+   "argv": [
+    "--highlight=red:error",
+    "--highlight=green:error_code"
+   ],
+   "stdin": "error and error_code",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error",
+    "error_code"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_custom_highlighting.py:117"
+  },
+  {
+   "test": "test_enable_single_highlighter",
+   "argv": [
+    "--enable=numbers"
+   ],
+   "stdin": "text 123 null true",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "text",
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_enable_disable.py:4"
+  },
+  {
+   "test": "test_enable_multiple_highlighters",
+   "argv": [
+    "--enable=numbers,urls"
+   ],
+   "stdin": "123 and http://example.com null",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example",
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_enable_disable.py:12"
+  },
+  {
+   "test": "test_disable_single_highlighter",
+   "argv": [
+    "--disable=numbers"
+   ],
+   "stdin": "text 123 null true",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "123",
+    "null",
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_enable_disable.py:29"
+  },
+  {
+   "test": "test_disable_multiple_highlighters",
+   "argv": [
+    "--disable=numbers,urls"
+   ],
+   "stdin": "123 http://example.com null",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "123",
+    "null",
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_enable_disable.py:38"
+  },
+  {
+   "test": "test_disable_builtin_keywords",
+   "argv": [
+    "--disable-builtin-keywords"
+   ],
+   "stdin": "null true false GET POST",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "null",
+    "true",
+    "false",
+    "GET"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_enable_disable.py:47"
+  },
+  {
+   "test": "test_disable_builtin_keywords_with_numbers",
+   "argv": [
+    "--disable-builtin-keywords"
+   ],
+   "stdin": "null 123 true",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_enable_disable.py:57"
+  },
+  {
+   "test": "test_enable_numbers_only",
+   "argv": [
+    "--enable=numbers"
+   ],
+   "stdin": "123 null http://example.com",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "null"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_enable_disable.py:78"
+  },
+  {
+   "test": "test_enable_quotes",
+   "argv": [
+    "--enable=quotes"
+   ],
+   "stdin": "\"hello\" 123 null",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hello"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_enable_disable.py:86"
+  },
+  {
+   "test": "test_enable_dates",
+   "argv": [
+    "--enable=dates"
+   ],
+   "stdin": "2024-03-25 null 123",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_enable_disable.py:93"
+  },
+  {
+   "test": "test_enable_paths",
+   "argv": [
+    "--enable=paths"
+   ],
+   "stdin": "/var/log/syslog null",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "var",
+    "log",
+    "syslog"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_enable_disable.py:101"
+  },
+  {
+   "test": "test_enable_ip_addresses",
+   "argv": [
+    "--enable=ip-addresses"
+   ],
+   "stdin": "192.168.1.1 null",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_enable_disable.py:110"
+  },
+  {
+   "test": "test_enable_uuids",
+   "argv": [
+    "--enable=uuids"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "5"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_enable_disable.py:116"
+  },
+  {
+   "test": "test_enable_pointers",
+   "argv": [
+    "--enable=pointers"
+   ],
+   "stdin": "0x7fff5fbff5a0 null",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "x"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_enable_disable.py:124"
+  },
+  {
+   "test": "test_enable_processes",
+   "argv": [
+    "--enable=processes"
+   ],
+   "stdin": "systemd[1]: started",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "systemd",
+    "[",
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_enable_disable.py:131"
+  },
+  {
+   "test": "test_enable_json",
+   "argv": [
+    "--enable=json"
+   ],
+   "stdin": "{\"key\": \"value\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "key",
+    "value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_enable_disable.py:139"
+  },
+  {
+   "test": "test_enable_key_value_pairs",
+   "argv": [
+    "--enable=key-value-pairs"
+   ],
+   "stdin": "user=admin port=8080",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "user",
+    "admin"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_enable_disable.py:146"
+  },
+  {
+   "test": "test_enable_with_disable_builtin",
+   "argv": [
+    "--enable=numbers",
+    "--disable-builtin-keywords"
+   ],
+   "stdin": "123 null",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "null"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_enable_disable.py:153"
+  },
+  {
+   "test": "test_read_from_file_with_print",
+   "argv": [
+    "test.log",
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Hello",
+    "\u001b["
+   ],
+   "files": {
+    "test.log": "Hello null true false 123"
+   },
+   "ci": false,
+   "source": "test_input_handling.py:5"
+  },
+  {
+   "test": "test_read_from_file_short_print_flag",
+   "argv": [
+    "test.log",
+    "-p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test"
+   ],
+   "files": {
+    "test.log": "Test 192.168.1.1"
+   },
+   "ci": false,
+   "source": "test_input_handling.py:17"
+  },
+  {
+   "test": "test_empty_file",
+   "argv": [
+    "empty.log",
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "empty.log": ""
+   },
+   "ci": false,
+   "source": "test_input_handling.py:40"
+  },
+  {
+   "test": "test_file_with_unicode",
+   "argv": [
+    "unicode.log",
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Hello",
+    "world",
+    "\u001b["
+   ],
+   "files": {
+    "unicode.log": "Hello world null"
+   },
+   "ci": false,
+   "source": "test_input_handling.py:48"
+  },
+  {
+   "test": "test_file_with_long_lines",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "word"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_handling.py:57"
+  },
+  {
+   "test": "test_file_with_numbers",
+   "argv": [
+    "numbers.log",
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3",
+    "\u001b["
+   ],
+   "files": {
+    "numbers.log": "int: 42, float: 3.14, negative: -99"
+   },
+   "ci": false,
+   "source": "test_input_handling.py:89"
+  },
+  {
+   "test": "test_large_file",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Line",
+    "0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_handling.py:101"
+  },
+  {
+   "test": "test_help_long_form",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "follow",
+    "print",
+    "highlight"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_additional_coverage.py:6"
+  },
+  {
+   "test": "test_with_real_example_log",
+   "argv": [
+    "app.log",
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INFO",
+    "DEBUG",
+    "WARN",
+    "ERROR",
+    "192",
+    "null",
+    "GET"
+   ],
+   "files": {
+    "app.log": "\n[2024-03-09 14:30:45] INFO Starting application\n[2024-03-09 14:30:46] DEBUG Loaded configuration from /etc/app/config.toml\n[2024-03-09 14:30:47] WARN Connection timeout for 192.168.1.100\n[2024-03-09 14:30:48] ERROR Failed to connect to database: null\n[2024-03-09 14:30:49] INFO Retrying connection...\nRequest ID: a1b2c3d4-e5f6-7890-abcd-ef1234567890\nGET /api/v1/users?page=1&limit=10 HTTP/1.1\nResponse: {\"status\": \"success\", \"data\": [1, 2, 3]}\nPointer: 0xdeadbeef\nProcess: systemd[1] started service\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:17"
+  },
+  {
+   "test": "test_config_file_in_default_location",
+   "argv": [
+    "--print",
+    "--config-path",
+    "custom.toml"
+   ],
+   "stdin": "SPECIAL keyword test",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SPECIAL",
+    "keyword"
+   ],
+   "files": {
+    "custom.toml": "\n[[keywords]]\nwords = ['SPECIAL']\nstyle = { fg = \"yellow\" }\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:45"
+  },
+  {
+   "test": "test_stdin_multiline_input",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "First line with 123\nSecond line with ERROR\nThird line with https://example.com\nFourth line with null\nFifth line with 192.168.1.1",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "First line",
+    "Second line",
+    "Third line",
+    "Fourth line",
+    "Fifth line"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:77"
+  },
+  {
+   "test": "test_disable_all_highlighters_except_one",
+   "argv": [
+    "--print",
+    "--enable=numbers"
+   ],
+   "stdin": "number 123 keyword null url https://test.com",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "123",
+    "null",
+    "https://test.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:93"
+  },
+  {
+   "test": "test_custom_keywords_multiple_colors",
+   "argv": [
+    "--print",
+    "--highlight=red:critical,fatal",
+    "--highlight=yellow:warning,caution",
+    "--highlight=green:success,complete"
+   ],
+   "stdin": "critical warning success message",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "critical",
+    "warning",
+    "success",
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:104"
+  },
+  {
+   "test": "test_quotes_with_different_content",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "\"simple quote\" \"with numbers 123\" \"with special !@#$\"",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "simple quote",
+    "with numbers",
+    "with special"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:118"
+  },
+  {
+   "test": "test_mixed_date_formats",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "2024-03-09 2024/03/09 09-03-2024 Mar 09 2024",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2024",
+    "03",
+    "09",
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:126"
+  },
+  {
+   "test": "test_mixed_time_formats",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "14:30:45 08:15:00.123 23:59:59.999",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:137"
+  },
+  {
+   "test": "test_json_nested_structure",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "{\"user\": {\"id\": 123, \"name\": \"test\"}, \"active\": true, \"score\": 99.5}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "user",
+    "123",
+    "test",
+    "true",
+    "99.5"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:147"
+  },
+  {
+   "test": "test_pointer_various_formats",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "0xdeadbeef 0x7fff5fbff8a0 0x0 0xFFFFFFFF",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0x"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:158"
+  },
+  {
+   "test": "test_process_with_various_pids",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "systemd[1] nginx[12345] python3[99999]",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "systemd",
+    "nginx",
+    "python3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:166"
+  },
+  {
+   "test": "test_url_with_ports_and_paths",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "http://localhost:8080/api https://example.com:443/path?key=value&foo=bar",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "localhost",
+    "8080",
+    "example.com",
+    "path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:175"
+  },
+  {
+   "test": "test_ipv4_various_ranges",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "127.0.0.1 192.168.0.1 10.0.0.1 172.16.0.1 8.8.8.8",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "127",
+    "192"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:185"
+  },
+  {
+   "test": "test_severity_levels_complete",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "TRACE DEBUG INFO WARN WARNING ERROR FATAL CRITICAL",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "DEBUG",
+    "INFO",
+    "ERROR",
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:194"
+  },
+  {
+   "test": "test_http_methods_complete",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "GET POST PUT DELETE PATCH HEAD OPTIONS TRACE",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GET",
+    "POST",
+    "PUT",
+    "DELETE"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:205"
+  },
+  {
+   "test": "test_disable_different_highlighter_combinations",
+   "argv": [
+    "--print",
+    "--disable=numbers,dates"
+   ],
+   "stdin": "number 123 date 2024-03-09 url https://test.com",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "123",
+    "2024",
+    "test.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:215"
+  },
+  {
+   "test": "test_enable_different_highlighter_combinations",
+   "argv": [
+    "--print",
+    "--enable=urls,ip-addresses"
+   ],
+   "stdin": "url https://test.com ip 192.168.1.1 number 123",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test.com",
+    "192",
+    "123"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:225"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Options:",
+    "--print",
+    "--follow",
+    "--highlight",
+    "--enable",
+    "--disable"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:23"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:36"
+  },
+  {
+   "test": "test_stdin_with_print_flag",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "Hello world 123",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Hello world",
+    "\u001b[",
+    "123"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:44"
+  },
+  {
+   "test": "test_stdin_with_short_print_flag",
+   "argv": [
+    "-p"
+   ],
+   "stdin": "Test message 456",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test message",
+    "456",
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:53"
+  },
+  {
+   "test": "test_empty_stdin",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:62"
+  },
+  {
+   "test": "test_nonexistent_file",
+   "argv": [
+    "nonexistent_file_12345.log",
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "nonexistent_file_12345.log"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:68"
+  },
+  {
+   "test": "test_custom_config_path",
+   "argv": [
+    "--print",
+    "--config-path",
+    "custom_config.toml"
+   ],
+   "stdin": "custom_keyword test 0xdeadbeef",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "custom_keyword",
+    "\u001b["
+   ],
+   "files": {
+    "custom_config.toml": "\n[pointer]\nnumber = { fg = \"green\" }\nletter = { fg = \"blue\" }\n\n[[keywords]]\nwords = ['custom_keyword']\nstyle = { fg = \"red\" }\n"
+   },
+   "ci": false,
+   "source": "test_config.py:5"
+  },
+  {
+   "test": "test_config_with_custom_regex",
+   "argv": [
+    "--print",
+    "--config-path",
+    "regex_config.toml"
+   ],
+   "stdin": "Started service1. and Stopped service2",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Started",
+    "service1",
+    "Stopped",
+    "service2"
+   ],
+   "files": {
+    "regex_config.toml": "\n[[regexps]]\nregex = 'Started (.*)\\.'\nstyle = { fg = \"red\" }\n\n[[regexps]]\nregex = 'Stopped .*'\nstyle = { fg = \"magenta\" }\n"
+   },
+   "ci": false,
+   "source": "test_config.py:24"
+  },
+  {
+   "test": "test_config_with_multiple_keywords",
+   "argv": [
+    "--print",
+    "--config-path",
+    "keywords_config.toml"
+   ],
+   "stdin": "CRITICAL error but SUCCESS recovery",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CRITICAL",
+    "SUCCESS",
+    "\u001b["
+   ],
+   "files": {
+    "keywords_config.toml": "\n[[keywords]]\nwords = ['CRITICAL', 'FATAL']\nstyle = { fg = \"red\", bold = true }\n\n[[keywords]]\nwords = ['SUCCESS', 'OK']\nstyle = { fg = \"green\" }\n"
+   },
+   "ci": false,
+   "source": "test_config.py:47"
+  },
+  {
+   "test": "test_empty_config_file",
+   "argv": [
+    "--print",
+    "--config-path",
+    "empty_config.toml"
+   ],
+   "stdin": "test 123 null",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test",
+    "123"
+   ],
+   "files": {
+    "empty_config.toml": ""
+   },
+   "ci": false,
+   "source": "test_config.py:90"
+  },
+  {
+   "test": "test_very_long_line",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "X",
+    "123"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:5"
+  },
+  {
+   "test": "test_null_bytes_in_input",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "test\u0000null\u0000bytes\u0000",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:21"
+  },
+  {
+   "test": "test_many_ansi_codes_already_present",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "\u001b[31mRed text\u001b[0m and \u001b[32mGreen text\u001b[0m",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Red text",
+    "Green text"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:28"
+  },
+  {
+   "test": "test_all_whitespace",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "     \t\t\t     \n\n\n     ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:52"
+  },
+  {
+   "test": "test_mixed_line_endings",
+   "argv": [
+    "mixed_endings.log",
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "line1",
+    "line2",
+    "line3",
+    "line4"
+   ],
+   "files": {
+    "mixed_endings.log": "line1\nline2\r\nline3\rline4\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:59"
+  },
+  {
+   "test": "test_concurrent_highlights",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "ERROR at 2024-03-09 14:30:45 IP 192.168.1.1 UUID fcfff715-82cc-400d-88b4-56f25b5a5239 null true false GET https://example.com/path?key=value /var/log/syslog pointer 0xdeadbeef systemd[1] number 456",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ERROR",
+    "null",
+    "GET"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:70"
+  },
+  {
+   "test": "test_empty_line_between_content",
+   "argv": [
+    "empty_lines.log",
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "line1",
+    "line2",
+    "line3"
+   ],
+   "files": {
+    "empty_lines.log": "line1\n\nline2\n\n\nline3\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:89"
+  },
+  {
+   "test": "test_single_character_input",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "a",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:101"
+  },
+  {
+   "test": "test_numbers_in_different_formats",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "123 -456 +789 0.5 .5 3.14159 1e10 1.5e-5 0x1A 0o77 0b1010",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "123",
+    "456",
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:107"
+  },
+  {
+   "test": "test_pathological_regex_input",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "test\\d+.*?[a-z]{1,3}(group)\\s+\\w+$^|",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:117"
+  },
+  {
+   "test": "test_file_input_with_print",
+   "argv": [
+    "test.log",
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Hello world",
+    "Another line",
+    "123",
+    "456",
+    "\u001b["
+   ],
+   "files": {
+    "test.log": "Hello world 123\nAnother line 456\n"
+   },
+   "ci": false,
+   "source": "test_file_input.py:5"
+  },
+  {
+   "test": "test_file_with_unicode",
+   "argv": [
+    "unicode.log",
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "123"
+   ],
+   "files": {
+    "unicode.log": "Hello 世界 🌍 123\némoji test ✨\n"
+   },
+   "ci": false,
+   "source": "test_file_input.py:26"
+  },
+  {
+   "test": "test_file_with_newlines_only",
+   "argv": [
+    "newlines.log",
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "newlines.log": "\n\n\n\n"
+   },
+   "ci": false,
+   "source": "test_file_input.py:36"
+  },
+  {
+   "test": "test_file_with_long_lines",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "12345"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_input.py:44"
+  },
+  {
+   "test": "test_file_with_special_chars",
+   "argv": [
+    "special.log",
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test",
+    "tab",
+    "carriage"
+   ],
+   "files": {
+    "special.log": "Test\t\ttab\nTest\rcarriage\nTest null\u0000byte\n"
+   },
+   "ci": false,
+   "source": "test_file_input.py:53"
+  },
+  {
+   "test": "test_disable_numbers",
+   "argv": [
+    "--print",
+    "--disable=numbers"
+   ],
+   "stdin": "Numbers: 123 456",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "123",
+    "456"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighter_control.py:5"
+  },
+  {
+   "test": "test_disable_urls",
+   "argv": [
+    "--print",
+    "--disable=urls"
+   ],
+   "stdin": "URL: https://example.com",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighter_control.py:20"
+  },
+  {
+   "test": "test_disable_multiple_highlighters",
+   "argv": [
+    "--print",
+    "--disable=numbers,urls"
+   ],
+   "stdin": "Number 123 URL https://test.com",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "123"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighter_control.py:30"
+  },
+  {
+   "test": "test_enable_only_numbers",
+   "argv": [
+    "--print",
+    "--enable=numbers"
+   ],
+   "stdin": "null true 123 https://test.com",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "123",
+    "null",
+    "true"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighter_control.py:37"
+  },
+  {
+   "test": "test_enable_multiple_highlighters",
+   "argv": [
+    "--print",
+    "--enable=numbers,dates"
+   ],
+   "stdin": "Date 2024-03-09 Number 123 URL https://test.com",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2024",
+    "123",
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighter_control.py:47"
+  },
+  {
+   "test": "test_disable_builtin_keywords",
+   "argv": [
+    "--print",
+    "--disable-builtin-keywords"
+   ],
+   "stdin": "null true false ERROR GET",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "null",
+    "true",
+    "false",
+    "ERROR",
+    "GET"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighter_control.py:56"
+  },
+  {
+   "test": "test_custom_highlight_red",
+   "argv": [
+    "--print",
+    "--highlight=red:error,fail"
+   ],
+   "stdin": "error occurred and test fail detected",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error",
+    "fail",
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighter_control.py:68"
+  },
+  {
+   "test": "test_custom_highlight_green",
+   "argv": [
+    "--print",
+    "--highlight=green:success,ok"
+   ],
+   "stdin": "success: operation ok",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "success",
+    "ok",
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighter_control.py:77"
+  },
+  {
+   "test": "test_multiple_custom_highlights",
+   "argv": [
+    "--print",
+    "--highlight=red:error,fail",
+    "--highlight=green:success,ok"
+   ],
+   "stdin": "error found but operation success",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error",
+    "success"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighter_control.py:86"
+  },
+  {
+   "test": "test_custom_highlight_all_colors",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "test message",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test",
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighter_control.py:98"
+  },
+  {
+   "test": "test_number_highlighting",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "Numbers: 123 456.789 0.5 -100",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "123",
+    "456",
+    "789",
+    "\u001b[36m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:6"
+  },
+  {
+   "test": "test_boolean_keywords",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "Values: null true false",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "null",
+    "true",
+    "false",
+    "\u001b[",
+    "\u001b[3;31m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:17"
+  },
+  {
+   "test": "test_log_severity_keywords",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "ERROR Something went wrong\nWARN Be careful\nINFO All good\nDEBUG Details",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ERROR",
+    "WARN",
+    "INFO",
+    "DEBUG"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:29"
+  },
+  {
+   "test": "test_http_verb_keywords",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "GET /api/users POST /api/data PUT /api/update DELETE /api/remove",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GET",
+    "POST",
+    "PUT",
+    "DELETE",
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:43"
+  },
+  {
+   "test": "test_date_highlighting",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "Date: 2024-03-09 Time: 2024/03/09",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2024",
+    "03",
+    "09",
+    "\u001b[35m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:54"
+  },
+  {
+   "test": "test_time_highlighting",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "Time: 14:30:45 or 08:15:00.123",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[34m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:66"
+  },
+  {
+   "test": "test_uuid_highlighting",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "f",
+    "c",
+    "8",
+    "\u001b[",
+    "\u001b[3;"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:75"
+  },
+  {
+   "test": "test_ipv4_highlighting",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "IP: 192.168.1.1 and 10.0.0.1",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "10",
+    "\u001b[",
+    "\u001b[3;34m",
+    "."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:91"
+  },
+  {
+   "test": "test_ipv6_highlighting",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "IPv6: 2001:0db8:85a3:0000:0000:8a2e:0370:7334",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    ":"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:105"
+  },
+  {
+   "test": "test_url_highlighting",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "Visit https://example.com/path?key=value or http://test.org",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "https",
+    "http",
+    "example.com",
+    "test.org"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:119"
+  },
+  {
+   "test": "test_unix_path_highlighting",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "Path: /var/log/syslog and /home/user/file.txt",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "var",
+    "log",
+    "syslog",
+    "\u001b[",
+    "/"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:130"
+  },
+  {
+   "test": "test_quote_highlighting",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "Message: \"Hello World\" and \"Another Quote\"",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Hello World",
+    "Another Quote",
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:145"
+  },
+  {
+   "test": "test_key_value_pair_highlighting",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "Config: timeout=30 retries=3 enabled=true",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "timeout",
+    "30",
+    "retries",
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:154"
+  },
+  {
+   "test": "test_pointer_highlighting",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "Pointer: 0x7fff5fbff8a0 and 0xdeadbeef",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0x",
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:164"
+  },
+  {
+   "test": "test_process_highlighting",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "systemd[1] and nginx[12345]",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "systemd",
+    "nginx",
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:173"
+  },
+  {
+   "test": "test_json_highlighting",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "{\"name\": \"test\", \"value\": 123, \"enabled\": true}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name",
+    "test",
+    "123",
+    "true",
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighters.py:183"
+  },
+  {
+   "test": "test_pager_env_variable",
+   "argv": [
+    "test.log",
+    "--print"
+   ],
+   "stdin": null,
+   "env": {
+    "TAILSPIN_PAGER": "cat [FILE]"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Line A",
+    "Line B"
+   ],
+   "files": {
+    "test.log": "Line A\nLine B\n"
+   },
+   "ci": false,
+   "source": "test_pager.py:6"
+  },
+  {
+   "test": "test_pager_flag",
+   "argv": [
+    "test.log",
+    "--print",
+    "--pager=cat [FILE]"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content",
+    "line",
+    "test"
+   ],
+   "files": {
+    "test.log": "Content line test\n"
+   },
+   "ci": false,
+   "source": "test_pager.py:19"
+  },
+  {
+   "test": "test_pager_with_print_flag_ignored",
+   "argv": [
+    "test.log",
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test content"
+   ],
+   "files": {
+    "test.log": "Test content\n"
+   },
+   "ci": false,
+   "source": "test_pager.py:29"
+  },
+  {
+   "test": "test_dash_dash_help_separator_ignored",
+   "argv": [
+    "--help",
+    "--",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:141"
+  },
+  {
+   "test": "test_help_takes_precedence_over_other_flags",
+   "argv": [
+    "--help",
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:148"
+  },
+  {
+   "test": "test_help_exact",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {
+    "COLUMNS": "120"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basics.py:20"
+  },
+  {
+   "test": "test_version_exact",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "tspin 5.6.0\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basics.py:30"
+  },
+  {
+   "test": "test_invalid_flag_exit_code_and_message",
+   "argv": [
+    "--definitely-not-a-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basics.py:37"
+  },
+  {
+   "test": "test_file_argument_with_print_matches_stdin_output",
+   "argv": [
+    "--print",
+    "app.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "app.log": "hello null 123\n"
+   },
+   "ci": false,
+   "source": "test_file_and_config_and_exec.py:24"
+  },
+  {
+   "test": "test_config_path_is_accepted_and_output_valid",
+   "argv": [
+    "--config-path",
+    "theme.toml"
+   ],
+   "stdin": "n=123\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {
+    "theme.toml": "[numbers]\nstyle = { fg = \"red\" }\n"
+   },
+   "ci": false,
+   "source": "test_file_and_config_and_exec.py:41"
+  },
+  {
+   "test": "test_exec_mode_runs_successfully_and_emits_no_error",
+   "argv": [
+    "--exec",
+    "printf 'null 7\\n'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_file_and_config_and_exec.py:55"
+  },
+  {
+   "test": "test_stdin_default_prints_with_ansi_and_preserves_text",
+   "argv": [],
+   "stdin": "hello null 123 https://example.com/path?q=1\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighting.py:30"
+  },
+  {
+   "test": "test_empty_stdin_produces_empty_output",
+   "argv": [],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighting.py:39"
+  },
+  {
+   "test": "test_disable_builtin_keywords_stops_null_highlight",
+   "argv": [
+    "--disable-builtin-keywords"
+   ],
+   "stdin": "null true false\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighting.py:45"
+  },
+  {
+   "test": "test_enable_only_numbers_disables_url_highlighter",
+   "argv": [
+    "--enable",
+    "numbers"
+   ],
+   "stdin": "num=123 url=https://example.com\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[36m123\u001b[0m",
+    "https"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighting.py:54"
+  },
+  {
+   "test": "test_disable_numbers_stops_number_highlight_but_keeps_keywords",
+   "argv": [
+    "--disable",
+    "numbers"
+   ],
+   "stdin": "null 123\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[3;31mnull\u001b[0m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighting.py:67"
+  },
+  {
+   "test": "test_on_the_fly_highlight_single_and_multiple_flags",
+   "argv": [
+    "--highlight",
+    "red:error",
+    "--highlight",
+    "green:ok"
+   ],
+   "stdin": "error ok\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[31merror\u001b[0m",
+    "\u001b[32mok\u001b[0m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighting.py:79"
+  },
+  {
+   "test": "test_unicode_passthrough",
+   "argv": [],
+   "stdin": "привет null 42\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_highlighting.py:89"
+  },
+  {
+   "test": "test_print_with_stdin",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "test log line\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test log line"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:70"
+  },
+  {
+   "test": "test_highlight_valid_single",
+   "argv": [
+    "--highlight=red:error",
+    "--print"
+   ],
+   "stdin": "error test\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:195"
+  },
+  {
+   "test": "test_highlight_valid_multiple_words",
+   "argv": [
+    "--highlight=red:error,fail",
+    "--print"
+   ],
+   "stdin": "error test\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:200"
+  },
+  {
+   "test": "test_highlight_multiple_flags",
+   "argv": [
+    "--highlight=red:error",
+    "--highlight=blue:test",
+    "--print"
+   ],
+   "stdin": "error test\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:205"
+  },
+  {
+   "test": "test_highlight_empty_words",
+   "argv": [
+    "--highlight=red:",
+    "--print"
+   ],
+   "stdin": "test\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:213"
+  },
+  {
+   "test": "test_enable_valid_single",
+   "argv": [
+    "--enable=numbers",
+    "--print"
+   ],
+   "stdin": "test 123\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:235"
+  },
+  {
+   "test": "test_enable_valid_multiple_comma",
+   "argv": [
+    "--enable=numbers,urls",
+    "--print"
+   ],
+   "stdin": "test\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:240"
+  },
+  {
+   "test": "test_disable_valid_single",
+   "argv": [
+    "--disable=numbers",
+    "--print"
+   ],
+   "stdin": "test 123\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:271"
+  },
+  {
+   "test": "test_disable_valid_multiple_comma",
+   "argv": [
+    "--disable=numbers,urls",
+    "--print"
+   ],
+   "stdin": "test\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:276"
+  },
+  {
+   "test": "test_disable_builtin_keywords_flag",
+   "argv": [
+    "--disable-builtin-keywords",
+    "--print"
+   ],
+   "stdin": "true false\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:294"
+  },
+  {
+   "test": "test_enable_and_disable_conflict",
+   "argv": [
+    "--enable=numbers",
+    "--disable=urls",
+    "--print"
+   ],
+   "stdin": "test\n",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cannot both enable and disable"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:308"
+  },
+  {
+   "test": "test_stdin_with_print",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "test line\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test line"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:351"
+  },
+  {
+   "test": "test_stdin_without_print_with_data",
+   "argv": [],
+   "stdin": "test line\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:357"
+  },
+  {
+   "test": "test_highlight_with_special_chars",
+   "argv": [
+    "--highlight=red:error!",
+    "--print"
+   ],
+   "stdin": "error! test\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:396"
+  },
+  {
+   "test": "test_exec_empty_string",
+   "argv": [
+    "--exec=",
+    "--print"
+   ],
+   "stdin": "test\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:405"
+  },
+  {
+   "test": "test_multiple_highlights_and_enable",
+   "argv": [
+    "--highlight=red:error",
+    "--highlight=blue:info",
+    "--enable=numbers",
+    "--print"
+   ],
+   "stdin": "error info 123\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:426"
+  },
+  {
+   "test": "test_multiple_enable_same_highlighter",
+   "argv": [
+    "--enable=numbers,numbers,numbers",
+    "--print"
+   ],
+   "stdin": "123\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:456"
+  },
+  {
+   "test": "test_highlight_invalid_color",
+   "argv": [
+    "--highlight=purple:test",
+    "--print"
+   ],
+   "stdin": "test\n",
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:479"
+  },
+  {
+   "test": "test_follow_flag_accepted_with_print",
+   "argv": [
+    "--follow",
+    "--print"
+   ],
+   "stdin": "test\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:489"
+  },
+  {
+   "test": "test_follow_short_flag_accepted",
+   "argv": [
+    "-f",
+    "--print"
+   ],
+   "stdin": "test\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:495"
+  },
+  {
+   "test": "test_multiple_highlight_flags_accepted",
+   "argv": [
+    "--highlight=red:error",
+    "--highlight=blue:info",
+    "--highlight=green:success",
+    "--print"
+   ],
+   "stdin": "error info success\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:535"
+  },
+  {
+   "test": "test_enable_multiple_values_single_flag",
+   "argv": [
+    "--enable=numbers,dates,urls",
+    "--print"
+   ],
+   "stdin": "test\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:545"
+  },
+  {
+   "test": "test_disable_multiple_values_single_flag",
+   "argv": [
+    "--disable=numbers,dates,urls",
+    "--print"
+   ],
+   "stdin": "test\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:550"
+  },
+  {
+   "test": "test_help_flag_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "A log file highlighter"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tailspin.py:34"
+  },
+  {
+   "test": "test_help_flag_long",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "A log file highlighter"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tailspin.py:41"
+  },
+  {
+   "test": "test_read_from_stdin",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "hello world\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hello world"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tailspin.py:60"
+  },
+  {
+   "test": "test_print_flag_outputs_to_stdout",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "test",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tailspin.py:80"
+  },
+  {
+   "test": "test_empty_input",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tailspin.py:87"
+  },
+  {
+   "test": "test_numbers_highlighting",
+   "argv": [
+    "--print",
+    "--disable-builtin-keywords"
+   ],
+   "stdin": "test 123 test",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "123"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tailspin.py:97"
+  },
+  {
+   "test": "test_urls_highlighting",
+   "argv": [
+    "--print",
+    "--disable-builtin-keywords"
+   ],
+   "stdin": "visit http://example.com test",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tailspin.py:106"
+  },
+  {
+   "test": "test_ip_addresses_highlighting",
+   "argv": [
+    "--print",
+    "--disable-builtin-keywords"
+   ],
+   "stdin": "IP: 192.168.1.1",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tailspin.py:113"
+  },
+  {
+   "test": "test_uuid_highlighting",
+   "argv": [
+    "--print",
+    "--disable-builtin-keywords"
+   ],
+   "stdin": "id: fcfff715-82cc-400d-88b4-56f25b5a5239",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tailspin.py:120"
+  },
+  {
+   "test": "test_quotes_highlighting",
+   "argv": [
+    "--print",
+    "--disable-builtin-keywords"
+   ],
+   "stdin": "say \"hello\" world",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tailspin.py:128"
+  },
+  {
+   "test": "test_paths_highlighting",
+   "argv": [
+    "--print",
+    "--disable-builtin-keywords"
+   ],
+   "stdin": "path: /usr/local/bin/test",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tailspin.py:135"
+  },
+  {
+   "test": "test_dates_highlighting",
+   "argv": [
+    "--print",
+    "--disable-builtin-keywords"
+   ],
+   "stdin": "date: 2023-10-02 time: 10:30:00",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tailspin.py:143"
+  },
+  {
+   "test": "test_keywords_builtin",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "value is null true false",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tailspin.py:151"
+  },
+  {
+   "test": "test_disable_builtin_keywords",
+   "argv": [
+    "--print",
+    "--disable-builtin-keywords"
+   ],
+   "stdin": "value is null true false",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "null",
+    "true",
+    "false"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tailspin.py:158"
+  },
+  {
+   "test": "test_enable_specific_highlighter",
+   "argv": [
+    "--print",
+    "--enable=numbers",
+    "--disable-builtin-keywords"
+   ],
+   "stdin": "test 123 test",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tailspin.py:173"
+  },
+  {
+   "test": "test_enable_multiple_highlighters",
+   "argv": [
+    "--print",
+    "--enable=numbers,urls",
+    "--disable-builtin-keywords"
+   ],
+   "stdin": "test 123 http://example.com",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tailspin.py:181"
+  },
+  {
+   "test": "test_disable_specific_highlighter",
+   "argv": [
+    "--print",
+    "--disable=numbers"
+   ],
+   "stdin": "test 123 test",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "123"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tailspin.py:189"
+  },
+  {
+   "test": "test_highlight_custom_keywords",
+   "argv": [
+    "--print",
+    "--highlight=red:error,fail",
+    "--highlight=green:success"
+   ],
+   "stdin": "error success fail",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[31m",
+    "\u001b[32m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tailspin.py:198"
+  },
+  {
+   "test": "test_highlight_multiple_colors",
+   "argv": [
+    "--print",
+    "--highlight=blue:info",
+    "--highlight=yellow:warn"
+   ],
+   "stdin": "info warn",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tailspin.py:208"
+  },
+  {
+   "test": "test_unicode_input",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "héllo wörld 你好",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "héllo"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tailspin.py:248"
+  },
+  {
+   "test": "test_special_characters",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "test @#$%^&*()_+",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tailspin.py:254"
+  },
+  {
+   "test": "test_multiple_lines",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "line1\nline2\nline3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "line1",
+    "line2",
+    "line3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tailspin.py:267"
+  },
+  {
+   "test": "test_json_highlighting",
+   "argv": [
+    "--print",
+    "--disable-builtin-keywords"
+   ],
+   "stdin": "{\"key\": \"value\", \"num\": 123}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tailspin.py:276"
+  },
+  {
+   "test": "test_process_highlighting",
+   "argv": [
+    "--print",
+    "--disable-builtin-keywords"
+   ],
+   "stdin": "systemd[1]: started",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tailspin.py:284"
+  },
+  {
+   "test": "test_key_value_pairs",
+   "argv": [
+    "--print",
+    "--disable-builtin-keywords"
+   ],
+   "stdin": "key=value foo=bar",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tailspin.py:292"
+  },
+  {
+   "test": "test_pointer_addresses",
+   "argv": [
+    "--print",
+    "--disable-builtin-keywords"
+   ],
+   "stdin": "ptr: 0x8c2a0aeb",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tailspin.py:300"
+  },
+  {
+   "test": "test_http_methods",
+   "argv": [
+    "--print"
+   ],
+   "stdin": "GET /api/test POST /other",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tailspin.py:309"
+  },
+  {
+   "test": "test_config_path_option_exists",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--config-path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tailspin.py:346"
+  },
+  {
+   "test": "test_pager_option_exists",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--pager"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tailspin.py:351"
+  },
+  {
+   "test": "test_follow_flag_exists",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--follow"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tailspin.py:360"
+  },
+  {
+   "test": "test_follow_flag_short",
+   "argv": [
+    "-f",
+    "--print"
+   ],
+   "stdin": "test line",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tailspin.py:365"
+  },
+  {
+   "test": "test_exec_flag_exists",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--exec"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tailspin.py:376"
+  },
+  {
+   "test": "test_enable_invalid_choice_lists_possible_values_and_suggestion",
+   "argv": [
+    "--enable",
+    "nope"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[possible values:",
+    "a similar value exists"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args_parsing.py:151"
+  },
+  {
+   "test": "test_option_value_with_equals_syntax_supported_for_config_path",
+   "argv": [
+    "--config-path",
+    "config.toml"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_args_parsing.py:174"
+  },
+  {
+   "test": "test_multiple_highlight_flags_are_accepted",
+   "argv": [
+    "--highlight",
+    "red:test",
+    "--highlight",
+    "blue:foo"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_args_parsing.py:181"
+  },
+  {
+   "test": "test_version_stdout_exit0",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:18"
+  },
+  {
+   "test": "test_disable_builtin_keywords_removes_highlighting_from_stdin",
+   "argv": [
+    "--disable-builtin-keywords"
+   ],
+   "stdin": "a null b\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a null b\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:39"
+  },
+  {
+   "test": "test_file_input_with_print_option_outputs_to_stdout",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "null",
+    "true"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:47"
+  },
+  {
+   "test": "test_missing_file_is_error_on_stderr_and_exit1",
+   "argv": [
+    "--print",
+    "/tmp/this_file_should_not_exist_tailspin"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "No such file or directory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:59"
+  },
+  {
+   "test": "test_help_shows_no_subcommands",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:39"
+  },
+  {
+   "test": "test_short_help_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:88"
+  },
+  {
+   "test": "test_short_version_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:102"
+  },
+  {
+   "test": "test_highlight_flag_format",
+   "argv": [
+    "--highlight",
+    "red:error,fail"
+   ],
+   "stdin": "error test\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:164"
+  },
+  {
+   "test": "test_enable_flag_with_valid_value",
+   "argv": [
+    "--enable",
+    "numbers"
+   ],
+   "stdin": "test 123\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:176"
+  },
+  {
+   "test": "test_disable_flag_with_valid_value",
+   "argv": [
+    "--disable",
+    "numbers"
+   ],
+   "stdin": "test 123\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:182"
+  }
+ ]
+}

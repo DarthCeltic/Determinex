@@ -1,0 +1,703 @@
+[
+ {
+  "name": "test::test_stdin_with_explicit_lexer::0",
+  "argv": [
+   "-l",
+   "rust",
+   "-s",
+   "monokai"
+  ],
+  "stdin": "fn main() { println!(\"Hello\"); }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_filename_hint_for_lexer_detection::1",
+  "argv": [
+   "--filename",
+   "test.go",
+   "-s",
+   "monokai"
+  ],
+  "stdin": "package main; func main() {}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_without_lexer_hint_uses_content_analysis::2",
+  "argv": [
+   "-s",
+   "monokai"
+  ],
+  "stdin": "#!/usr/bin/env python3\ndef hello():\n    print(\"Hello, World!\")\n    \nif __name__ == \"__main__\":\n    hello()\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_stdin_input::3",
+  "argv": [
+   "-l",
+   "go",
+   "-s",
+   "monokai"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lexer_alias_names_work::4",
+  "argv": [
+   "-l",
+   "py",
+   "-s",
+   "monokai"
+  ],
+  "stdin": "def hello(): pass",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lexer_path_to_nonexistent_xml_uses_fallback::5",
+  "argv": [
+   "-l",
+   "/nonexistent/lexer.xml",
+   "-s",
+   "monokai"
+  ],
+  "stdin": "some code",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_formatter_flag_terminal256::6",
+  "argv": [
+   "-l",
+   "go",
+   "-s",
+   "monokai",
+   "-f",
+   "terminal256"
+  ],
+  "stdin": "package main\nfunc main() {}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_formatter_flag_terminal_basic::7",
+  "argv": [
+   "-l",
+   "go",
+   "-s",
+   "monokai",
+   "-f",
+   "terminal"
+  ],
+  "stdin": "package main\nfunc main() {}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_explicit_lexer_ignores_filename::8",
+  "argv": [
+   "-l",
+   "go",
+   "--filename",
+   "test.py",
+   "-s",
+   "monokai"
+  ],
+  "stdin": "package main; func main() {}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_style_path_to_nonexistent_xml_errors::9",
+  "argv": [
+   "-s",
+   "/nonexistent/style.xml",
+   "-l",
+   "go"
+  ],
+  "stdin": "package main",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_single_line::10",
+  "argv": [
+   "-l",
+   "python",
+   "-s",
+   "monokai"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_content_preserved::11",
+  "argv": [
+   "-l",
+   "python",
+   "-s",
+   "monokai"
+  ],
+  "stdin": "# -*- coding: utf-8 -*-\nmessage = \"Hello 世界 🌍\"\nemoji = \"🔥🚀⭐\"\nmath = \"∫∑∞≠≤≥\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tabs_vs_spaces_handling::12",
+  "argv": [
+   "-l",
+   "go",
+   "-s",
+   "monokai"
+  ],
+  "stdin": "package main\n\tfunc main() {\n\t\tprintln()\n\t}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_formatter_works_with_stdin::13",
+  "argv": [
+   "-l",
+   "python",
+   "-s",
+   "monokai",
+   "--json"
+  ],
+  "stdin": "#!/usr/bin/env python3\ndef greet(name):\n    print(f\"Hello, {name}!\")\n    \ngreet(\"World\")\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_formatter_preserves_all_whitespace::14",
+  "argv": [
+   "-l",
+   "python",
+   "-s",
+   "monokai",
+   "--json"
+  ],
+  "stdin": "def func():\n    pass\n\n    return None\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_formatter_handles_syntax_errors::15",
+  "argv": [
+   "-l",
+   "python",
+   "-s",
+   "monokai",
+   "--json"
+  ],
+  "stdin": "def broken(\n    print \"missing closing paren and wrong syntax\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_svg_formatter_with_different_styles::16",
+  "argv": [
+   "-l",
+   "python",
+   "-s",
+   "monokai",
+   "--svg"
+  ],
+  "stdin": "def hello():\n    return \"world\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tokens_formatter_outputs_token_structs::17",
+  "argv": [
+   "-l",
+   "python",
+   "-s",
+   "monokai",
+   "-f",
+   "tokens"
+  ],
+  "stdin": "print(\"hello\")",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_noop_formatter_outputs_unchanged_source::18",
+  "argv": [
+   "-l",
+   "python",
+   "-s",
+   "monokai",
+   "-f",
+   "noop"
+  ],
+  "stdin": "def hello():\n    return \"world\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_terminal16_formatter_uses_basic_ansi_colors::19",
+  "argv": [
+   "-l",
+   "python",
+   "-s",
+   "monokai",
+   "-f",
+   "terminal16"
+  ],
+  "stdin": "def func(): pass",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_terminal16m_formatter_uses_24bit_colors::20",
+  "argv": [
+   "-l",
+   "python",
+   "-s",
+   "monokai",
+   "-f",
+   "terminal16m"
+  ],
+  "stdin": "def func(): pass",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_formatter_flag_precedence_over_convenience_flags::21",
+  "argv": [
+   "-l",
+   "python",
+   "-s",
+   "monokai",
+   "-f",
+   "terminal",
+   "--json"
+  ],
+  "stdin": "print(\"test\")",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_formatter_escapes_special_characters::22",
+  "argv": [
+   "-l",
+   "python",
+   "-s",
+   "monokai",
+   "--html"
+  ],
+  "stdin": "x = \"<div>\"\ny = \"&test\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_formatter_escapes_special_characters::23",
+  "argv": [
+   "-l",
+   "python",
+   "-s",
+   "monokai",
+   "--json"
+  ],
+  "stdin": "msg = \"He said \\\"hello\\\"\\nNew line: \\\\\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_svg_formatter_with_unicode_content::24",
+  "argv": [
+   "-l",
+   "python",
+   "-s",
+   "monokai",
+   "--svg"
+  ],
+  "stdin": "# 日本語 Japanese\nemoji = \"🔥🚀\"\nchinese = \"你好世界\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_formatter_standalone_vs_fragment_structure::25",
+  "argv": [
+   "-l",
+   "python",
+   "-s",
+   "monokai",
+   "--html"
+  ],
+  "stdin": "x = 42",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_formatter_with_empty_input::26",
+  "argv": [
+   "-l",
+   "python",
+   "-s",
+   "monokai",
+   "--json"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_style_file_not_found_error::27",
+  "argv": [
+   "--style",
+   "/nonexistent/style.xml"
+  ],
+  "stdin": "hello",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lexer_file_not_exist_silent_fallback::28",
+  "argv": [
+   "--lexer",
+   "nonexistent.xml",
+   "--fail"
+  ],
+  "stdin": "hello",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fail_flag_with_stdin_python_succeeds::29",
+  "argv": [
+   "--fail",
+   "--filename",
+   "test.py",
+   "-s",
+   "monokai"
+  ],
+  "stdin": "print('hello')",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fail_flag_with_unknown_extension_exits_silently::30",
+  "argv": [
+   "--fail",
+   "--filename",
+   "unknown.xyz",
+   "-s",
+   "monokai"
+  ],
+  "stdin": "some plain text",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_simple_syntax_highlighting_stdin::31",
+  "argv": [
+   "-l",
+   "go",
+   "-s",
+   "solarized-dark"
+  ],
+  "stdin": "package main\n\nfunc main() {\n    println(\"Hello\")\n}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_lexer_fail_flag::32",
+  "argv": [
+   "-l",
+   "nonexistent_lexer_xyz",
+   "--fail"
+  ],
+  "stdin": "some code",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trace_flag_outputs_lexer_states::33",
+  "argv": [
+   "-l",
+   "go",
+   "-s",
+   "solarized-dark",
+   "--trace"
+  ],
+  "stdin": "package main\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unbuffered_flag_no_functional_difference::34",
+  "argv": [
+   "-l",
+   "go",
+   "-s",
+   "solarized-dark",
+   "--unbuffered"
+  ],
+  "stdin": "package main\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fail_flag_autodetect_fails_silently::35",
+  "argv": [
+   "--fail",
+   "-s",
+   "solarized-dark"
+  ],
+  "stdin": "random text without clear language",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fail_flag_explicit_invalid_lexer::36",
+  "argv": [
+   "-l",
+   "nonexistent_lexer_xyz",
+   "--fail",
+   "-s",
+   "solarized-dark"
+  ],
+  "stdin": "some code",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_input_produces_empty_output::37",
+  "argv": [
+   "-l",
+   "go",
+   "-s",
+   "solarized-dark"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_input_processed_correctly::38",
+  "argv": [
+   "-l",
+   "python",
+   "-s",
+   "solarized-dark"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filename_hint_selects_lexer_from_extension::39",
+  "argv": [
+   "--filename",
+   "test.py",
+   "-s",
+   "solarized-dark"
+  ],
+  "stdin": "print(\"hello\")",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_flag_with_stdin_produces_formatted_output::40",
+  "argv": [
+   "--check",
+   "-l",
+   "go",
+   "-s",
+   "solarized-dark"
+  ],
+  "stdin": "package main\nfunc main() {}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trace_flag_shows_multiple_states::41",
+  "argv": [
+   "-l",
+   "go",
+   "-s",
+   "solarized-dark",
+   "--trace"
+  ],
+  "stdin": "package main\nimport \"fmt\"\nfunc main() {\n    fmt.Println(\"test\")\n}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fail_flag_with_valid_lexer_succeeds::42",
+  "argv": [
+   "-l",
+   "go",
+   "--fail",
+   "-s",
+   "solarized-dark"
+  ],
+  "stdin": "package main\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filename_hint_without_extension_ambiguous::43",
+  "argv": [
+   "--filename",
+   "Makefile",
+   "-s",
+   "solarized-dark"
+  ],
+  "stdin": "all:\n\techo \"test\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trace_output_json_structure_complete::44",
+  "argv": [
+   "-l",
+   "go",
+   "-s",
+   "solarized-dark",
+   "--trace"
+  ],
+  "stdin": "package main",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unbuffered_with_large_input::45",
+  "argv": [
+   "-l",
+   "python",
+   "-s",
+   "solarized-dark",
+   "--unbuffered"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_large_input::46",
+  "argv": [
+   "--style",
+   "monokai",
+   "--filename",
+   "test.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lexer_autodetect_from_stdin_with_filename_hint::47",
+  "argv": [
+   "--style",
+   "monokai",
+   "--filename",
+   "test.py"
+  ],
+  "stdin": "def hello():\n    print('world')",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

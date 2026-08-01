@@ -1,0 +1,3503 @@
+[
+ {
+  "name": "test::test_help_takes_precedence_over_unknown_flag_shows_help_prefix::0",
+  "argv": [
+   "--help",
+   "--definitely-unknown"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_includes_error_message_and_usage::1",
+  "argv": [
+   "--definitely-unknown"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_config_dir_default_uses_xdg_config_home::2",
+  "argv": [
+   "-cd"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_work_tree_env_var_affects_path_flag_default_value::3",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_works::4",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_panel_argument_rejected::5",
+  "argv": [
+   "invalid_panel_name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_flag_works::6",
+  "argv": [
+   "--config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_config_dir_flag::7",
+  "argv": [
+   "--print-config-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_rejected::8",
+  "argv": [
+   "--invalid-flag-that-does-not-exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_short_flag_rejected::9",
+  "argv": [
+   "-z"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_panel_shows_valid_options::10",
+  "argv": [
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_flag_with_valid_repo::11",
+  "argv": [
+   "git",
+   "add",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_remote_branch_with_different_name::12",
+  "argv": [
+   "git",
+   "push",
+   "-u",
+   "origin",
+   "mybranch-local:mybranch-remote"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_new_branch_from_remote_tracking_same_name::13",
+  "argv": [
+   "git",
+   "branch",
+   "-D",
+   "mybranch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_new_branch_from_remote_tracking_different_name::14",
+  "argv": [
+   "git",
+   "branch",
+   "-D",
+   "remote-branch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_work_tree_and_git_dir_flags_override_env_vars::15",
+  "argv": [
+   "git",
+   "init"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_view_commit_files::16",
+  "argv": [
+   "git",
+   "log",
+   "--oneline",
+   "-n",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_amend_commit_with_staged_changes::17",
+  "argv": [
+   "git",
+   "add",
+   "file3.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reword_commit_preserves_body::18",
+  "argv": [
+   "git",
+   "rev-parse",
+   "HEAD"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_amend_older_commit_shows_rebase_dialog::19",
+  "argv": [
+   "git",
+   "add",
+   "file1.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_simple_commit_message::20",
+  "argv": [
+   "git",
+   "log",
+   "-1",
+   "--format=%s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiline_commit_with_description::21",
+  "argv": [
+   "git",
+   "log",
+   "-1",
+   "--format=%B"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_commit_message_error::22",
+  "argv": [
+   "git",
+   "log",
+   "--oneline"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commit_after_multiple_staged_files::23",
+  "argv": [
+   "git",
+   "show",
+   "--name-only",
+   "--format=",
+   "HEAD"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diffing_enter_ref_prompt_appears::24",
+  "argv": [
+   "git",
+   "init",
+   "-b",
+   "master"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_find_base_commit_for_deleted_line_on_feature_branch::25",
+  "argv": [
+   "git",
+   "status",
+   "--short"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_find_base_commit_with_only_added_lines::26",
+  "argv": [
+   "git",
+   "diff",
+   "--cached",
+   "--name-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_fixup_commit_detection_with_nested_prefixes::27",
+  "argv": [
+   "git",
+   "commit",
+   "-m",
+   "amend! fixup! Base commit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_find_base_commit_with_deleted_file::28",
+  "argv": [
+   "git",
+   "add",
+   "file2.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rebase_move_commit_up::29",
+  "argv": [
+   "git",
+   "status",
+   "--porcelain"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rebase_edit_commit::30",
+  "argv": [
+   "git",
+   "status"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reflog_multiple_sequential_resets::31",
+  "argv": [
+   "git",
+   "reset",
+   "--hard",
+   "HEAD~1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_view_remote_branches_panel::32",
+  "argv": [
+   "git",
+   "checkout",
+   "-b",
+   "feature1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_checkout_remote_branch::33",
+  "argv": [
+   "git",
+   "checkout",
+   "-b",
+   "develop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_create_local_branch_from_remote::34",
+  "argv": [
+   "git",
+   "checkout",
+   "-b",
+   "hotfix"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_remote_branch::35",
+  "argv": [
+   "git",
+   "checkout",
+   "-b",
+   "obsolete"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_upstream_for_local_branch::36",
+  "argv": [
+   "git",
+   "checkout",
+   "-b",
+   "feature-remote"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_merge_remote_branch_into_current::37",
+  "argv": [
+   "git",
+   "checkout",
+   "-b",
+   "feature-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_recent_repos_shows_current_branch::38",
+  "argv": [
+   "git",
+   "checkout",
+   "-b",
+   "feature-x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cancel_recent_repos_menu::39",
+  "argv": [
+   "git",
+   "rev-parse",
+   "--show-toplevel"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_recent_repos_with_long_path::40",
+  "argv": [
+   "git",
+   "init",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_push_basic_with_upstream::41",
+  "argv": [
+   "git",
+   "config",
+   "user.name",
+   "Test User"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commit_message_prefix_from_branch_pattern::42",
+  "argv": [
+   "git",
+   "checkout",
+   "-b",
+   "feature/TASK-123-add-feature"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commit_prefix_with_no_match_uses_no_prefix::43",
+  "argv": [
+   "git",
+   "checkout",
+   "-b",
+   "bugfix-simple-fix"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_short::44",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_short::45",
+  "argv": [
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_config_short::46",
+  "argv": [
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_path_options::47",
+  "argv": [
+   "--path=/tmp",
+   "--work-tree=/tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_use_config_dir_flag::48",
+  "argv": [
+   "--use-config-dir",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_use_config_dir_short_flag::49",
+  "argv": [
+   "-ucd",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_use_config_file_flag::50",
+  "argv": [
+   "--use-config-file",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_use_config_file_short_flag::51",
+  "argv": [
+   "-ucf",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_use_config_file_nonexistent::52",
+  "argv": [
+   "--use-config-file",
+   "/nonexistent/config.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_precedence_use_config_file_wins::53",
+  "argv": [
+   "--use-config-file",
+   "custom.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "custom.yml": "gui:\n  scrollHeight: 99\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_screen_mode_normal::54",
+  "argv": [
+   "--screen-mode",
+   "normal",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_screen_mode_half::55",
+  "argv": [
+   "--screen-mode",
+   "half",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_screen_mode_full::56",
+  "argv": [
+   "--screen-mode",
+   "full",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_screen_mode_short_flag::57",
+  "argv": [
+   "-sm",
+   "half",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_screen_mode_invalid::58",
+  "argv": [
+   "--screen-mode",
+   "invalid_mode",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_flag::59",
+  "argv": [
+   "--debug",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_short_flag::60",
+  "argv": [
+   "-d",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_profile_flag::61",
+  "argv": [
+   "--profile",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_debug_and_profile::62",
+  "argv": [
+   "--debug",
+   "--profile",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_with_custom_config::63",
+  "argv": [
+   "--debug",
+   "--use-config-file",
+   "config.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "gui:\n  scrollHeight: 20\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_flags_separate::64",
+  "argv": [
+   "-d",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_to_valid_git_repo::65",
+  "argv": [
+   "--path",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_to_nonexistent_directory::66",
+  "argv": [
+   "--path",
+   "/nonexistent/directory/path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_to_non_git_directory::67",
+  "argv": [
+   "--path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_work_tree_flag::68",
+  "argv": [
+   "--work-tree",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_work_tree_short_flag::69",
+  "argv": [
+   "-w",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_dir_flag::70",
+  "argv": [
+   "--git-dir",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_dir_short_flag::71",
+  "argv": [
+   "-g",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_short_flag::72",
+  "argv": [
+   "-f",
+   "test.txt",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_positional_arg_status::73",
+  "argv": [
+   "status",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_positional_arg_branch::74",
+  "argv": [
+   "branch",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_positional_arg_log::75",
+  "argv": [
+   "log",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_positional_arg_stash::76",
+  "argv": [
+   "stash",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_positional_arg::77",
+  "argv": [
+   "invalid_panel",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_path::78",
+  "argv": [
+   "--path",
+   "./repo",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_go_integration_tests::79",
+  "argv": [
+   "go",
+   "test",
+   "-timeout",
+   "120s",
+   "./pkg/integration/clients/*.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_startup_with_dirty_tree::80",
+  "argv": [
+   "git",
+   "add",
+   "new1.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_with_staged_changes::81",
+  "argv": [
+   "git",
+   "add",
+   "staged.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_too_many_positionals_is_rejected::82",
+  "argv": [
+   "status",
+   "extra"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM": "xterm"
+  }
+ },
+ {
+  "name": "test::test_invalid_git_arg_value_is_rejected_with_specific_message::83",
+  "argv": [
+   "boguspanel"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM": "xterm"
+  }
+ },
+ {
+  "name": "test::test_logs_flag_is_valid_without_extra_args::84",
+  "argv": [
+   "-l"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM": "xterm"
+  }
+ },
+ {
+  "name": "test::test_double_dash_is_respected_and_allows_dash_prefixed_work_tree_value::85",
+  "argv": [
+   "-w",
+   "--",
+   "-",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM": "xterm"
+  }
+ },
+ {
+  "name": "test::test_use_config_dir_overrides_print_config_dir::86",
+  "argv": [
+   "--use-config-dir",
+   "--print-config-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_prints_help_and_error_message::87",
+  "argv": [
+   "--badflag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_value_for_use_config_dir_errors::88",
+  "argv": [
+   "--use-config-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_flags_combined::89",
+  "argv": [
+   "--path",
+   "--use-config-file",
+   "config.yml",
+   "--screen-mode",
+   "half",
+   "--debug",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "gui:\n  scrollHeight: 10\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_order_variations::90",
+  "argv": [
+   "--version",
+   "--path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_case_sensitive_flags::91",
+  "argv": [
+   "--VERSION"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repeated_flag::92",
+  "argv": [
+   "--version",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_very_large_value::93",
+  "argv": [
+   "--use-config-file",
+   "config.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "gui:\n  scrollHeight: 999999\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_negative_value::94",
+  "argv": [
+   "--use-config-file",
+   "config.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "gui:\n  scrollHeight: -10\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_zero_value::95",
+  "argv": [
+   "--use-config-file",
+   "config.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "gui:\n  scrollHeight: 0\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_float_value::96",
+  "argv": [
+   "--use-config-file",
+   "config.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "gui:\n  scrollHeight: 2.5\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_help_flags::97",
+  "argv": [
+   "-h",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_ignores_positional_args::98",
+  "argv": [
+   "--filter",
+   "path",
+   "status",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_work_tree_flag_with_file::99",
+  "argv": [
+   "--work-tree",
+   "file.txt",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "file.txt": "not a directory"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_conflicting_path_options::100",
+  "argv": [
+   "--path",
+   "--work-tree",
+   "--git-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_work_tree_path::101",
+  "argv": [
+   "--work-tree",
+   "",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_git_dir_path::102",
+  "argv": [
+   "--git-dir",
+   "",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_git_dir::103",
+  "argv": [
+   "--git-dir",
+   ".git",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_with_empty_path::104",
+  "argv": [
+   "--filter",
+   "",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_with_absolute_path::105",
+  "argv": [
+   "--filter",
+   "/tmp/somefile",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_with_relative_path::106",
+  "argv": [
+   "--filter",
+   "subdir/file.txt",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_use_config_file_with_spaces_in_path::107",
+  "argv": [
+   "--use-config-file",
+   "config with spaces.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "config with spaces.yml": "gui:\n  scrollHeight: 5\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_flags_together_maximum::108",
+  "argv": [
+   "--debug",
+   "--path",
+   "--filter",
+   "somefile",
+   "--screen-mode",
+   "half",
+   "--use-config-file",
+   "config.yml",
+   "--use-config-dir",
+   "--profile",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "gui:\n  scrollHeight: 5\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_positional_arg_with_all_flags::109",
+  "argv": [
+   "branch",
+   "--debug",
+   "--path",
+   "--screen-mode",
+   "normal",
+   "--use-config-file",
+   "config.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "gui:\n  scrollHeight: 5\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_all_gui_settings::110",
+  "argv": [
+   "--use-config-file",
+   "config.yml",
+   "--config"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "\ngui:\n  scrollHeight: 5\n  scrollPastBottom: true\n  mouseEvents: true\n  skipUnstageLineWarning: false\n  skipStashWarning: false\n  sidePanelWidth: 0.3333\n  expandFocusedSidePanel: false\n  mainPanelSplitMode: flexible\n  language: en\n  timeFormat: 02 Jan 06\n  shortTimeFormat: 3:04PM\n  theme:\n    lightTheme: false\n    activeBorderColor:\n      - green\n      - bold\n    inactiveBorderColor:\n      - white\n    optionsTextColor:\n      - blue\n    selectedLineBgColor:\n      - blue\n    selectedRangeBgColor:\n      - blue\n    cherryPickedCommitBgColor:\n      - cyan\n    cherryPickedCommitFgColor:\n      - blue\n    unstagedChangesColor:\n      - red\n    defaultFgColor:\n      - default\n  commitLength:\n    show: true\n  skipDiscardChangeWarning: false\n  skipRewordInEditorWarning: false\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_git_settings::111",
+  "argv": [
+   "--use-config-file",
+   "config.yml",
+   "--config"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "\ngit:\n  paging:\n    colorArg: always\n    pager: delta --dark --paging=never\n  commit:\n    signOff: false\n    autoWrapCommitMessage: true\n    autoWrapWidth: 72\n  merging:\n    manualCommit: false\n    args: ''\n  log:\n    order: topo-order\n    showGraph: when-maximised\n    showWholeGraph: false\n  skipHookPrefix: WIP\n  autoFetch: true\n  autoRefresh: true\n  branchLogCmd: git log --graph --color=always --abbrev-commit --decorate --date=relative --pretty=medium {{branchName}} --\n  allBranchesLogCmd: git log --graph --all --color=always --abbrev-commit --decorate --date=relative  --pretty=medium\n  overrideGpg: false\n  disableForcePushing: false\n  parseEmoji: false\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_refresher_settings::112",
+  "argv": [
+   "--use-config-file",
+   "config.yml",
+   "--config"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "\nrefresher:\n  refreshInterval: 10\n  fetchInterval: 60\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_update_settings::113",
+  "argv": [
+   "--use-config-file",
+   "config.yml",
+   "--config"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "\nupdate:\n  method: never\n  days: 14\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_confirmations::114",
+  "argv": [
+   "--use-config-file",
+   "config.yml",
+   "--config"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "\nconfirmOnQuit: false\nquitOnTopLevelReturn: false\nkeybinding:\n  universal:\n    quit: 'q'\n    quit-alt1: '<c-c>'\n    return: '<esc>'\n    quitWithoutChangingDirectory: 'Q'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_os_settings::115",
+  "argv": [
+   "--use-config-file",
+   "config.yml",
+   "--config"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "\nos:\n  editCommand: 'vim'\n  editCommandTemplate: '{{editor}} {{filename}}'\n  openCommand: 'xdg-open {{filename}}'\n  openLinkCommand: 'xdg-open {{link}}'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_services::116",
+  "argv": [
+   "--use-config-file",
+   "config.yml",
+   "--config"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "\nservices:\n  'github.com': 'github'\n  'bitbucket.org': 'bitbucket'\n  'gitlab.com': 'gitlab'\ncustomCommands:\n  - key: 'b'\n    command: 'git branch --show-current'\n    context: 'global'\n    description: 'Show current branch'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_to_missing_directory::117",
+  "argv": [
+   "--path",
+   "/nonexistent/directory/that/does/not/exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_dir_to_invalid_location::118",
+  "argv": [
+   "--git-dir",
+   "/tmp/not_a_git_dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_screen_mode::119",
+  "argv": [
+   "--screen-mode",
+   "invalid_mode"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_without_git_repo::120",
+  "argv": [
+   "--filter",
+   "somefile.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_use_config_file_with_directory::121",
+  "argv": [
+   "--use-config-file",
+   "/tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_incompatible_flags::122",
+  "argv": [
+   "--path",
+   "/tmp",
+   "--work-tree",
+   "/tmp",
+   "--git-dir",
+   "/tmp/.git"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_multiple_flags::123",
+  "argv": [
+   "--config",
+   "--use-config-file",
+   "test.yml"
+  ],
+  "stdin": null,
+  "files": {
+   "test.yml": "gui:\n  scrollHeight: 20\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_config_dir_with_custom_dir::124",
+  "argv": [
+   "--print-config-dir",
+   "--use-config-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_complex_keybindings::125",
+  "argv": [
+   "--use-config-file",
+   "config.yml",
+   "--config"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "\nkeybinding:\n  universal:\n    quit: 'q'\n    quit-alt1: '<c-c>'\n    return: '<esc>'\n    quitWithoutChangingDirectory: 'Q'\n    togglePanel: '<tab>'\n    prevItem: '<up>'\n    nextItem: '<down>'\n    prevItem-alt: 'k'\n    nextItem-alt: 'j'\n    prevPage: ','\n    nextPage: '.'\n    gotoTop: '<'\n    gotoBottom: '>'\n    scrollLeft: 'H'\n    scrollRight: 'L'\n    prevBlock: '<left>'\n    nextBlock: '<right>'\n    prevBlock-alt: 'h'\n    nextBlock-alt: 'l'\n    jumpToBlock: '1,2,3,4,5'\n    nextMatch: 'n'\n    prevMatch: 'N'\n    optionMenu: '<disabled>'\n    optionMenu-alt1: '?'\n    select: '<space>'\n    goInto: '<enter>'\n    openRecentRepos: '<c-r>'\n    confirm: '<enter>'\n    remove: 'd'\n    new: 'n'\n    edit: 'e'\n    openFile: 'o'\n    scrollUpMain: '<pgup>'\n    scrollDownMain: '<pgdown>'\n    scrollUpMain-alt1: 'K'\n    scrollDownMain-alt1: 'J'\n    scrollUpMain-alt2: '<c-u>'\n    scrollDownMain-alt2: '<c-d>'\n    executeCustomCommand: ':'\n    createRebaseOptionsMenu: 'm'\n    pushFiles: 'P'\n    pullFiles: 'p'\n    refresh: 'R'\n    createPatchOptionsMenu: '<c-p>'\n    nextTab: ']'\n    prevTab: '['\n    nextScreenMode: '+'\n    prevScreenMode: '_'\n    undo: 'z'\n    redo: '<c-z>'\n    filteringMenu: '<c-s>'\n    diffingMenu: 'W'\n    diffingMenu-alt: '<c-e>'\n    copyToClipboard: '<c-o>'\n    submitEditorText: '<enter>'\n    extrasMenu: '@'\n    toggleWhitespaceInDiffView: '<c-w>'\n    increaseContextInDiffView: '}'\n    decreaseContextInDiffView: '{'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_nested_structure::126",
+  "argv": [
+   "--use-config-file",
+   "config.yml",
+   "--config"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "\ngui:\n  theme:\n    activeBorderColor:\n      - '#00ff00'\n      - bold\n    inactiveBorderColor:\n      - '#808080'\n    optionsTextColor:\n      - '#0000ff'\n    selectedLineBgColor:\n      - '#440044'\n    selectedRangeBgColor:\n      - '#005500'\n    cherryPickedCommitBgColor:\n      - '#00ffff'\n    cherryPickedCommitFgColor:\n      - '#0000ff'\n  commitLength:\n    show: true\n  skipStashWarning: true\n  showFileTree: true\n  showListFooter: true\n  showRandomTip: false\n  showBranchCommitHash: false\n  showBottomLine: true\n  showCommandLog: true\n  showIcons: false\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_custom_theme::127",
+  "argv": [
+   "--use-config-dir",
+   "--path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_invalid_yaml::128",
+  "argv": [
+   "--use-config-dir",
+   "--config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_keybindings::129",
+  "argv": [
+   "--use-config-file",
+   "config.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "\nkeybinding:\n  universal:\n    quit: 'q'\ngui:\n  scrollHeight: 5\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_colors::130",
+  "argv": [
+   "--use-config-file",
+   "config.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "\ngui:\n  theme:\n    activeBorderColor:\n      - red\n      - bold\n    inactiveBorderColor:\n      - white\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_git_settings::131",
+  "argv": [
+   "--use-config-file",
+   "config.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "\ngit:\n  paging:\n    colorArg: always\n  commit:\n    signOff: false\n  merging:\n    manualCommit: false\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_os_settings::132",
+  "argv": [
+   "--use-config-file",
+   "config.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "\nos:\n  editCommand: 'vim'\n  openCommand: 'xdg-open'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_refresh_settings::133",
+  "argv": [
+   "--use-config-file",
+   "config.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "\nrefresher:\n  refreshInterval: 10\n  fetchInterval: 60\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_update_settings::134",
+  "argv": [
+   "--use-config-file",
+   "config.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "\nupdate:\n  method: never\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_not_a_repository_settings::135",
+  "argv": [
+   "--use-config-file",
+   "config.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "\nnotARepository: 'skip'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_prompt_to_return_from_subprocess::136",
+  "argv": [
+   "--use-config-file",
+   "config.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "\npromptToReturnFromSubprocess: false\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_boolean_values::137",
+  "argv": [
+   "--use-config-file",
+   "config.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "\ngit:\n  autoFetch: true\n  autoRefresh: false\ngui:\n  showFileTree: true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_nested_maps::138",
+  "argv": [
+   "--use-config-file",
+   "config.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "\ngui:\n  theme:\n    lightTheme: false\n    activeBorderColor:\n      - cyan\n      - bold\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_comments::139",
+  "argv": [
+   "--use-config-file",
+   "config.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "\n# This is a comment\ngui:\n  scrollHeight: 5  # inline comment\n# Another comment\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_config_file_precedence::140",
+  "argv": [
+   "--use-config-file",
+   "test_config.yml",
+   "--path"
+  ],
+  "stdin": null,
+  "files": {
+   "test_config.yml": "gui:\n  language: test_lang_marker\n  showIcons: true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_config_files::141",
+  "argv": [
+   "--use-config-file",
+   "--config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_config_file_path::142",
+  "argv": [
+   "--use-config-file",
+   "/nonexistent/path/config.yml",
+   "--config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_syntax_error::143",
+  "argv": [
+   "--use-config-file",
+   "bad.yml",
+   "--config"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.yml": "gui:\n  theme\n    this is bad yaml\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_and_print_config_dir_together::144",
+  "argv": [
+   "--config",
+   "--print-config-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_use_config_file_flag::145",
+  "argv": [
+   "--use-config-file",
+   "custom_config.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "custom_config.yml": "gui:\n  scrollHeight: 5\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_use_config_file_flag_short::146",
+  "argv": [
+   "-ucf",
+   "custom_config.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "custom_config.yml": "gui:\n  scrollHeight: 5\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_with_invalid_yaml::147",
+  "argv": [
+   "--use-config-file",
+   "invalid.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.yml": "invalid: yaml: content: ["
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_dir_and_config_file_together::148",
+  "argv": [
+   "--use-config-dir",
+   "--use-config-file",
+   "config.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "gui:\n  scrollHeight: 5\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_config_file::149",
+  "argv": [
+   "--use-config-file",
+   "empty.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.yml": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_all_gui_sections::150",
+  "argv": [
+   "--use-config-file",
+   "config.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "\ngui:\n  scrollHeight: 5\n  scrollPastBottom: true\n  scrollOffMargin: 3\n  scrollOffBehavior: jump\n  tabWidth: 8\n  mouseEvents: false\n  skipAmendWarning: true\n  skipDiscardChangeWarning: true\n  skipStashWarning: true\n  skipNoStagedFilesWarning: true\n  sidePanelWidth: 0.25\n  expandFocusedSidePanel: true\n  mainPanelSplitMode: horizontal\n  theme:\n    activeBorderColor:\n      - green\n      - bold\n    inactiveBorderColor:\n      - white\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_git_section::151",
+  "argv": [
+   "--use-config-file",
+   "config.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "\ngit:\n  paging:\n    colorArg: always\n    pager: delta --dark --paging=never\n  commit:\n    signOff: true\n  merging:\n    args: --no-edit\n  log:\n    order: topo-order\n    showGraph: always\n  skipHookPrefix: WIP\n  autoFetch: true\n  autoRefresh: true\n  branchLogCmd: git log --graph --color=always --abbrev-commit --decorate --date=relative --pretty=medium {{branchName}} --\n  allBranchesLogCmd: git log --graph --all --color=always --abbrev-commit --decorate --date=relative --pretty=medium\n  overrideGpg: false\n  disableForcePushing: false\n  parseEmoji: false\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_update_section::152",
+  "argv": [
+   "--use-config-file",
+   "config.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "\nupdate:\n  method: prompt\n  days: 14\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_custom_commands::153",
+  "argv": [
+   "--use-config-file",
+   "config.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "\ncustomCommands:\n  - key: 'a'\n    context: 'files'\n    command: 'git add {{.SelectedFile.Name}}'\n    description: 'Add file'\n  - key: 'c'\n    context: 'global'\n    command: 'git commit'\n    description: 'Commit'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_keybinding_section::154",
+  "argv": [
+   "--use-config-file",
+   "config.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "\nkeybinding:\n  universal:\n    quit: 'q'\n    quit-alt1: '<c-c>'\n    return: '<esc>'\n    quitWithoutChangingDirectory: 'Q'\n  status:\n    checkForUpdate: 'u'\n    recentRepos: '<enter>'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_os_section::155",
+  "argv": [
+   "--use-config-file",
+   "config.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "\nos:\n  openCommand: 'xdg-open {{filename}}'\n  openLinkCommand: 'xdg-open {{link}}'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_reporting_section::156",
+  "argv": [
+   "--use-config-file",
+   "config.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "\ndisableStartupPopups: true\nnotARepository: 'prompt'\nconfirmOnQuit: false\nquitOnTopLevelReturn: false\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_numbers_as_strings::157",
+  "argv": [
+   "--use-config-file",
+   "config.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "\ngui:\n  scrollHeight: \"5\"\n  tabWidth: \"4\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_booleans_as_strings::158",
+  "argv": [
+   "--use-config-file",
+   "config.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "\ngui:\n  mouseEvents: \"false\"\n  skipAmendWarning: \"true\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_comments::159",
+  "argv": [
+   "--use-config-file",
+   "config.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "\n# This is a comment\ngui:\n  # Another comment\n  scrollHeight: 5  # inline comment\n  mouseEvents: false\n# Final comment\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_anchors_and_aliases::160",
+  "argv": [
+   "--use-config-file",
+   "config.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "\ngui:\n  theme:\n    activeBorderColor: &color\n      - green\n      - bold\n    inactiveBorderColor: *color\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_multiline_strings::161",
+  "argv": [
+   "--use-config-file",
+   "config.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "\ngit:\n  commit:\n    signOff: true\n  log:\n    order: |\n      topo-order\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_unicode_characters::162",
+  "argv": [
+   "--use-config-file",
+   "config.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "\ngui:\n  theme:\n    selectedLineBgColor:\n      - \"青\"  # Chinese character\ncustomCommands:\n  - key: 'a'\n    description: 'Add file ✓'\n    command: 'git add'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_nested_objects::163",
+  "argv": [
+   "--use-config-file",
+   "config.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "\ngui:\n  authorColors:\n    'John Doe': '#ff0000'\n    'Jane Smith': '#00ff00'\n  branchColors:\n    main: '#0000ff'\n    develop: '#ffff00'\n  customIcons:\n    filenames:\n      'README.md': \n        icon: '📚'\n        color: '#ffffff'\n    extensions:\n      '.go':\n        icon: '🐹'\n        color: '#00ADD8'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_lists::164",
+  "argv": [
+   "--use-config-file",
+   "config.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "\ngui:\n  theme:\n    activeBorderColor:\n      - green\n      - bold\n      - underline\n    inactiveBorderColor:\n      - white\n      - dim\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_null_values::165",
+  "argv": [
+   "--use-config-file",
+   "config.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "\ngui:\n  scrollHeight: 5\n  sidePanelWidth: null\ngit:\n  commit:\n    signOff: null\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_git_arg_error_message_complete::166",
+  "argv": [
+   "invalid_value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_output_with_complex_keybindings::167",
+  "argv": [
+   "--use-config-file",
+   "config.yml",
+   "--config"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "\nkeybinding:\n  universal:\n    quit: 'q'\n    quit-alt1: '<c-c>'\n    return: '<esc>'\n    togglePanel: '<tab>'\n    prevItem: 'k'\n    nextItem: 'j'\n  files:\n    commitChanges: 'c'\n    amendLastCommit: 'A'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_work_tree_with_git_dir::168",
+  "argv": [
+   "--work-tree",
+   "--git-dir",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_logs_flag_message::169",
+  "argv": [
+   "--logs"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_config_uses_defaults::170",
+  "argv": [
+   "--use-config-file",
+   "empty.yml",
+   "--config"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.yml": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_comments_only::171",
+  "argv": [
+   "--use-config-file",
+   "comments.yml",
+   "--config"
+  ],
+  "stdin": null,
+  "files": {
+   "comments.yml": "\n# Comment 1\n# Comment 2\n# Comment 3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_notification_prompts::172",
+  "argv": [
+   "--use-config-file",
+   "config.yml",
+   "--config"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "\nnotARepository: 'prompt'\npromptToReturnFromSubprocess: true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_and_logs_together::173",
+  "argv": [
+   "--debug",
+   "--logs"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_creates_no_error_with_help::174",
+  "argv": [
+   "--debug",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_profile_with_debug::175",
+  "argv": [
+   "--profile",
+   "--debug",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_simultaneous_flags::176",
+  "argv": [
+   "--debug",
+   "--path",
+   "--use-config-file",
+   "config.yml",
+   "--use-config-dir",
+   "--screen-mode",
+   "normal",
+   "--filter",
+   "test.txt",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "gui:\n  scrollHeight: 5\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_all_possible_sections::177",
+  "argv": [
+   "--use-config-file",
+   "comprehensive.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "comprehensive.yml": "\ngui:\n  authorColors:\n    '*': '#ff0000'\n  branchColors: {}\n  scrollHeight: 5\n  scrollPastBottom: true\n  mouseEvents: true\n  skipAmendWarning: false\n  sidePanelWidth: 0.3\n  theme:\n    activeBorderColor: ['green', 'bold']\n    inactiveBorderColor: ['white']\ngit:\n  paging:\n    colorArg: always\n    pager: less\n  commit:\n    signOff: false\n    autoWrapCommitMessage: true\n    autoWrapWidth: 72\n  merging:\n    manualCommit: false\n    args: '--no-edit'\n  log:\n    order: date-order\n    showGraph: always\n    showWholeGraph: false\n  skipHookPrefix: WIP\n  autoFetch: true\n  autoRefresh: true\n  fetchAll: true\n  branchLogCmd: 'git log {{branchName}}'\n  allBranchesLogCmd: 'git log --all'\n  overrideGpg: false\n  disableForcePushing: false\n  parseEmoji: false\n  diffContextSize: 3\nupdate:\n  method: never\n  days: 0\nrefresher:\n  refreshInterval: 10\n  fetchInterval: 60\nconfirmOnQuit: false\nquitOnTopLevelReturn: false\ndisableStartupPopups: false\nnotARepository: quit\npromptToReturnFromSubprocess: true\nos:\n  editPreset: ''\n  edit: ''\n  editAtLine: ''\n  editAtLineAndWait: ''\n  openDirInEditor: ''\n  open: ''\n  openLink: ''\nkeybinding:\n  universal:\n    quit: 'q'\n    quit-alt1: '<c-c>'\n    return: '<esc>'\n  files:\n    commitChanges: 'c'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_special_yaml_features::178",
+  "argv": [
+   "--use-config-file",
+   "special.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "special.yml": "\ndefaults: &defaults\n  scrollHeight: 5\n  mouseEvents: true\n\ngui:\n  <<: *defaults\n  tabWidth: 4\n  \ngit:\n  autoFetch: true\n  autoRefresh: true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_custom_commands_complex::179",
+  "argv": [
+   "--use-config-file",
+   "custom_cmds.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "custom_cmds.yml": "\ncustomCommands:\n  - key: 'a'\n    context: 'files'\n    command: 'git add {{.SelectedFile.Name}}'\n    description: 'Stage file'\n    subprocess: false\n  - key: 'b'\n    context: 'commits'\n    command: 'git branch {{index .PromptResponses 0}} {{.SelectedCommit.Sha}}'\n    prompts:\n      - type: 'input'\n        title: 'Branch name'\n    description: 'Create branch'\n    loadingText: 'Creating branch...'\n  - key: 'c'\n    context: 'global'\n    command: 'echo test'\n    stream: true\n    showOutput: true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_validation_errors::180",
+  "argv": [
+   "--use-config-file",
+   "bad_key.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "bad_key.yml": "\nkeybinding:\n  universal:\n    quit: '<invalid-key-sequence>'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_screen_modes_with_repos::181",
+  "argv": [
+   "--path",
+   "--screen-mode",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_with_directory_path::182",
+  "argv": [
+   "git",
+   "add",
+   "subdir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_with_glob_pattern::183",
+  "argv": [
+   "--filter",
+   "*.txt",
+   "--path",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_work_tree_and_git_dir_different_locations::184",
+  "argv": [
+   "git",
+   "config",
+   "user.name",
+   "Test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_emoji::185",
+  "argv": [
+   "--use-config-file",
+   "emoji.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "emoji.yml": "\ngui:\n  authorColors:\n    'Author ✨': '#ffffff'\ncustomCommands:\n  - key: 'a'\n    description: 'Test 🚀'\n    command: 'echo test'\n    context: 'global'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_priority_order::186",
+  "argv": [
+   "--use-config-file",
+   "flag.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "flag.yml": "gui:\n  scrollHeight: 100\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_level_debug::187",
+  "argv": [
+   "--debug",
+   "--path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_dir_env::188",
+  "argv": [
+   "--work-tree"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_work_tree_env::189",
+  "argv": [
+   "--git-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lg_config_file_with_use_config_file::190",
+  "argv": [
+   "--use-config-file",
+   "flag_config.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "flag_config.yml": "gui:\n  scrollHeight: 10\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_flag::191",
+  "argv": [
+   "--this-flag-does-not-exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_path_value::192",
+  "argv": [
+   "--path",
+   "",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_to_file_instead_of_directory::193",
+  "argv": [
+   "--path",
+   "test.txt",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_path_flags::194",
+  "argv": [
+   "--path",
+   "--work-tree",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_help_flags::195",
+  "argv": [
+   "--help",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_after_version::196",
+  "argv": [
+   "--version",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_after_help::197",
+  "argv": [
+   "--help",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_help::198",
+  "argv": [
+   "--config",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_config_dir_with_help::199",
+  "argv": [
+   "--print-config-dir",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_use_config_file_with_special_characters::200",
+  "argv": [
+   "--use-config-file",
+   "file with spaces.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "file with spaces.yml": "gui:\n  scrollHeight: 5\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_screen_mode_value::201",
+  "argv": [
+   "--screen-mode",
+   "invalid",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_and_git_dir_conflict::202",
+  "argv": [
+   "--path",
+   "--git-dir",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_to_file_not_directory::203",
+  "argv": [
+   "--path",
+   "somefile.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "somefile.txt": "not a directory"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_and_work_tree_incompatible::204",
+  "argv": [
+   "--path",
+   "--work-tree"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_and_git_dir_incompatible::205",
+  "argv": [
+   "--path",
+   "--git-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_config_file::206",
+  "argv": [
+   "--use-config-file",
+   "bad_config.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "bad_config.yml": "this is: not: valid: yaml:"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_dir_file_not_dir::207",
+  "argv": [
+   "--use-config-dir",
+   "file.txt",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "file.txt": "not a directory"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_screen_mode::208",
+  "argv": [
+   "--screen-mode",
+   "invalid-mode",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_path_in_nonrepo::209",
+  "argv": [
+   "--filter",
+   "somepath",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_positional_args::210",
+  "argv": [
+   "status",
+   "branch",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_positional_arg_with_filter::211",
+  "argv": [
+   "--filter",
+   "somepath",
+   "status",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_string_flags::212",
+  "argv": [
+   "--screen-mode",
+   "",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_path_without_cwd::213",
+  "argv": [
+   "--path",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_home_directory_expansion::214",
+  "argv": [
+   "--path",
+   "~/nonexistent",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lazygit_preserves_git_config::215",
+  "argv": [
+   "git",
+   "config",
+   "user.custom",
+   "test_value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lazygit_with_git_dir_and_work_tree::216",
+  "argv": [
+   "--git-dir",
+   "--work-tree"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lazygit_screen_modes::217",
+  "argv": [
+   "--path",
+   "--screen-mode"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lazygit_with_work_tree_arg::218",
+  "argv": [
+   "--work-tree",
+   "--git-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lazygit_with_filter_on_file::219",
+  "argv": [
+   "--path",
+   "--filter",
+   "file0.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lazygit_with_filter_on_directory::220",
+  "argv": [
+   "git",
+   "add",
+   "subdir/subfile.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lazygit_starting_at_branch_panel::221",
+  "argv": [
+   "--path",
+   "branch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lazygit_starting_at_log_panel::222",
+  "argv": [
+   "--path",
+   "log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lazygit_starting_at_stash_panel::223",
+  "argv": [
+   "git",
+   "add",
+   "stash_file.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lazygit_with_screen_mode_normal::224",
+  "argv": [
+   "--path",
+   "--screen-mode",
+   "normal"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lazygit_with_screen_mode_half::225",
+  "argv": [
+   "--path",
+   "--screen-mode",
+   "half"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lazygit_with_screen_mode_full::226",
+  "argv": [
+   "--path",
+   "--screen-mode",
+   "full"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lazygit_with_tags::227",
+  "argv": [
+   "git",
+   "tag",
+   "v1.0.0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_with_valid_path_in_repo::228",
+  "argv": [
+   "--filter",
+   "test.txt",
+   "--path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_with_nonexistent_file::229",
+  "argv": [
+   "--filter",
+   "nonexistent.txt",
+   "--path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_with_other_flags::230",
+  "argv": [
+   "--debug",
+   "--path",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_with_config_file::231",
+  "argv": [
+   "--debug",
+   "--use-config-file",
+   "config.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "gui:\n  scrollHeight: 5\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_mode_with_nonexistent_path::232",
+  "argv": [
+   "--debug",
+   "--path",
+   "/nonexistent/path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_with_invalid_config::233",
+  "argv": [
+   "--debug",
+   "--use-config-file",
+   "bad.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.yml": "invalid: yaml: syntax:"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_flag_short::234",
+  "argv": [
+   "-p",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_flag_with_nonexistent_path::235",
+  "argv": [
+   "--path",
+   "/nonexistent/path/to/repo",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_flag_with_path::236",
+  "argv": [
+   "--filter",
+   "test.txt",
+   "--path",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_flag_short::237",
+  "argv": [
+   "-f",
+   "test.txt",
+   "--path",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_positional_arg_status::238",
+  "argv": [
+   "status",
+   "--path",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_positional_arg_branch::239",
+  "argv": [
+   "branch",
+   "--path",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_positional_arg_log::240",
+  "argv": [
+   "log",
+   "--path",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_positional_arg_stash::241",
+  "argv": [
+   "stash",
+   "--path",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_positional_arg::242",
+  "argv": [
+   "invalid_panel",
+   "--path",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_ignores_positional_arg::243",
+  "argv": [
+   "status",
+   "--filter",
+   "test.txt",
+   "--path",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_with_work_tree::244",
+  "argv": [
+   "--filter",
+   "test.txt",
+   "--work-tree",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_screen_mode_flag_short_normal::245",
+  "argv": [
+   "-sm",
+   "normal",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_screen_mode_flag_short_full::246",
+  "argv": [
+   "-sm",
+   "full",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_screen_mode_with_path::247",
+  "argv": [
+   "--screen-mode",
+   "half",
+   "--path",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_screen_mode_with_positional_arg::248",
+  "argv": [
+   "status",
+   "--screen-mode",
+   "full",
+   "--path",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_screen_mode_case_sensitivity::249",
+  "argv": [
+   "--screen-mode",
+   "NORMAL",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_screen_mode_with_config::250",
+  "argv": [
+   "--screen-mode",
+   "half",
+   "--use-config-file",
+   "config.yml",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yml": "gui:\n  scrollHeight: 5\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_with_filter::251",
+  "argv": [
+   "--filter",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_screen_mode_normal::252",
+  "argv": [
+   "--screen-mode",
+   "normal"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_screen_mode_half::253",
+  "argv": [
+   "--screen-mode",
+   "half"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_screen_mode_full::254",
+  "argv": [
+   "--screen-mode",
+   "full"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_debug_mode::255",
+  "argv": [
+   "--debug"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_branch_operations::256",
+  "argv": [
+   "git",
+   "branch",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mega_different_starting_states::257",
+  "argv": [
+   "git",
+   "add",
+   "u1.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_branches_panel::258",
+  "argv": [
+   "git",
+   "branch",
+   "test-branch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_with_filter_mode::259",
+  "argv": [
+   "git",
+   "add",
+   "filtered.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

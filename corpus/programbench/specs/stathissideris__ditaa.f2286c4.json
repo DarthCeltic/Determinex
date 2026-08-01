@@ -1,0 +1,859 @@
+{
+ "slug": "stathissideris__ditaa.f2286c4",
+ "language": "",
+ "n_branches": 2,
+ "n_tests_total": 632,
+ "n_examples": 47,
+ "n_with_exact_stdout": 0,
+ "n_with_rc": 45,
+ "n_skipped": 582,
+ "examples": [
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage:",
+    "--no-antialias",
+    "--background",
+    "--scale",
+    "--transparent"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ditaa.py:166"
+  },
+  {
+   "test": "test_help_contains_all_options",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_ditaa.py:176"
+  },
+  {
+   "test": "test_stdin_to_file_output",
+   "argv": [
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Reading standard input",
+    "Rendering to file:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ditaa.py:203"
+  },
+  {
+   "test": "test_file_to_stdout",
+   "argv": [
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_ditaa.py:215"
+  },
+  {
+   "test": "test_stdin_to_stdout",
+   "argv": [
+    "-",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_ditaa.py:226"
+  },
+  {
+   "test": "test_missing_input_file_error",
+   "argv": [
+    "/nonexistent/path/diagram.txt",
+    "/tmp/output.png"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "does not exist",
+    "/nonexistent/path/diagram.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ditaa.py:269"
+  },
+  {
+   "test": "test_overwrite_flag_overwrites_existing_file",
+   "argv": [
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "overwrite"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ditaa.py:276"
+  },
+  {
+   "test": "test_svg_output_mode",
+   "argv": [
+    "--svg"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "svg",
+    "<?xml",
+    "<svg",
+    "width=",
+    "height="
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ditaa.py:291"
+  },
+  {
+   "test": "test_svg_auto_extension",
+   "argv": [
+    "--svg"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<svg"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ditaa.py:306"
+  },
+  {
+   "test": "test_no_antialias",
+   "argv": [
+    "-A"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "no-antialias"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ditaa.py:339"
+  },
+  {
+   "test": "test_no_shadows",
+   "argv": [
+    "-S"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "no-shadows"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ditaa.py:350"
+  },
+  {
+   "test": "test_debug_mode",
+   "argv": [
+    "-d"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "debug",
+    "Using grid:",
+    "0 ("
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ditaa.py:361"
+  },
+  {
+   "test": "test_round_corners",
+   "argv": [
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "round-corners"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ditaa.py:375"
+  },
+  {
+   "test": "test_no_separation",
+   "argv": [
+    "-E"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "no-separation"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ditaa.py:386"
+  },
+  {
+   "test": "test_transparent_background",
+   "argv": [
+    "-T"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "transparent"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ditaa.py:397"
+  },
+  {
+   "test": "test_fixed_slope",
+   "argv": [
+    "-W"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "fixed-slope"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ditaa.py:408"
+  },
+  {
+   "test": "test_scale_option",
+   "argv": [
+    "-s",
+    "3.0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "scale = 3.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ditaa.py:419"
+  },
+  {
+   "test": "test_background_color_6digit",
+   "argv": [
+    "-b",
+    "FF0000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "background = FF0000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ditaa.py:436"
+  },
+  {
+   "test": "test_background_color_8digit_with_transparency",
+   "argv": [
+    "-b",
+    "FF000080"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "background = FF000080"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ditaa.py:447"
+  },
+  {
+   "test": "test_background_invalid_color_error",
+   "argv": [
+    "-b",
+    "INVALID"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error:",
+    "Cannot interpret"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ditaa.py:458"
+  },
+  {
+   "test": "test_background_wrong_length_error",
+   "argv": [
+    "-b",
+    "FFF"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ditaa.py:468"
+  },
+  {
+   "test": "test_tabs_option",
+   "argv": [
+    "-t",
+    "4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tabs = 4"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ditaa.py:477"
+  },
+  {
+   "test": "test_encoding_utf8",
+   "argv": [
+    "-e",
+    "UTF-8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "encoding = UTF-8"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ditaa.py:488"
+  },
+  {
+   "test": "test_encoding_invalid_error",
+   "argv": [
+    "-e",
+    "TOTALLY_INVALID_ENCODING"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TOTALLY_INVALID_ENCODING"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ditaa.py:499"
+  },
+  {
+   "test": "test_svg_font_url_option",
+   "argv": [
+    "--svg",
+    "--svg-font-url",
+    "https://example.com/fonts/myfont.woff"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "svg-font-url = ",
+    "@font-face"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ditaa.py:508"
+  },
+  {
+   "test": "test_multiple_flags_combined",
+   "argv": [
+    "-S",
+    "-A",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "no-shadows",
+    "no-antialias",
+    "round-corners"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ditaa.py:522"
+  },
+  {
+   "test": "test_html_mode_converts_file",
+   "argv": [
+    "-h",
+    "test.html"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "html",
+    "Converting HTML file"
+   ],
+   "files": {
+    "test.html": "<html>\n<body>\n<pre class=\"textdiagram\">\n+-----+\n|     |\n|     |\n+-----+\n</pre>\n</body>\n</html>\n"
+   },
+   "ci": false,
+   "source": "test_ditaa.py:541"
+  },
+  {
+   "test": "test_html_mode_auto_output_name",
+   "argv": [
+    "-h",
+    "myfile.html"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "html"
+   ],
+   "files": {
+    "myfile.html": "<html><body>\n<pre class=\"textdiagram\">\n+--+\n|  |\n+--+\n</pre>\n</body></html>\n"
+   },
+   "ci": false,
+   "source": "test_ditaa.py:569"
+  },
+  {
+   "test": "test_html_mode_with_named_diagram",
+   "argv": [
+    "-h",
+    "page.html"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "mydiagram"
+   ],
+   "files": {
+    "page.html": "<html><body>\n<pre class=\"textdiagram\" id=\"mydiagram\">\n+--+\n|  |\n+--+\n</pre>\n</body></html>\n"
+   },
+   "ci": false,
+   "source": "test_ditaa.py:588"
+  },
+  {
+   "test": "test_html_mode_generates_img_tags",
+   "argv": [
+    "-h",
+    "test.html"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<img"
+   ],
+   "files": {
+    "test.html": "<html><body>\n<pre class=\"textdiagram\">\n+-----+\n|     |\n+-----+\n</pre>\n</body></html>\n"
+   },
+   "ci": false,
+   "source": "test_ditaa.py:606"
+  },
+  {
+   "test": "test_ellipse_tag",
+   "argv": [
+    "ellipse.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "ellipse.txt": "+-----+\n|{o}  |\n|     |\n|     |\n+-----+\n"
+   },
+   "ci": false,
+   "source": "test_ditaa.py:722"
+  },
+  {
+   "test": "test_manual_operation_tag",
+   "argv": [
+    "mo.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "mo.txt": "+-----+\n|{mo} |\n|     |\n|     |\n+-----+\n"
+   },
+   "ci": false,
+   "source": "test_ditaa.py:738"
+  },
+  {
+   "test": "test_decision_tag",
+   "argv": [
+    "decision.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "decision.txt": "+-----+\n|{c}  |\n|     |\n|     |\n+-----+\n"
+   },
+   "ci": false,
+   "source": "test_ditaa.py:754"
+  },
+  {
+   "test": "test_trapezoid_tag",
+   "argv": [
+    "trapezoid.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "trapezoid.txt": "+-----+\n|{tr} |\n|     |\n|     |\n+-----+\n"
+   },
+   "ci": false,
+   "source": "test_ditaa.py:770"
+  },
+  {
+   "test": "test_hex_color_codes",
+   "argv": [
+    "hexcolors.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "hexcolors.txt": "/----\\ /----\\\n|c33F| |cC02|\n|    | |    |\n\\----/ \\----/\n"
+   },
+   "ci": false,
+   "source": "test_ditaa.py:786"
+  },
+  {
+   "test": "test_arrow_diagram",
+   "argv": [
+    "arrows.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "arrows.txt": "+---------+   +-------+    +-------+\n|         | --+ ditaa +--> |       |\n|  Text   |   +-------+    |diagram|\n+---------+\n"
+   },
+   "ci": false,
+   "source": "test_ditaa.py:801"
+  },
+  {
+   "test": "test_point_markers",
+   "argv": [
+    "points.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "points.txt": "*----*\n|    |      /--*\n*    *      |\n|    |  -*--+\n*----*\n"
+   },
+   "ci": false,
+   "source": "test_ditaa.py:816"
+  },
+  {
+   "test": "test_verbose_flag",
+   "argv": [
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "verbose"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ditaa.py:838"
+  },
+  {
+   "test": "test_unknown_option_error",
+   "argv": [
+    "--nonexistent-option-xyz"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_ditaa.py:865"
+  },
+  {
+   "test": "test_error_message_format_missing_file",
+   "argv": [
+    "/definitely/does/not/exist.txt",
+    "/tmp/output.png"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error:",
+    "does not exist"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ditaa.py:878"
+  },
+  {
+   "test": "test_invalid_background_color_shows_help",
+   "argv": [
+    "-b",
+    "BADCOLOR"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error:",
+    "usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ditaa.py:885"
+  },
+  {
+   "test": "test_svg_contains_valid_xml",
+   "argv": [
+    "--svg"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<?xml version='1.0'",
+    "xmlns='http://www.w3.org/2000/svg'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ditaa.py:902"
+  },
+  {
+   "test": "test_svg_has_dimensions",
+   "argv": [
+    "--svg"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_ditaa.py:913"
+  },
+  {
+   "test": "test_svg_to_stdout",
+   "argv": [
+    "--svg",
+    "-",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<?xml",
+    "<svg"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ditaa.py:924"
+  },
+  {
+   "test": "test_svg_with_font_url_has_font_face",
+   "argv": [
+    "--svg",
+    "--svg-font-url",
+    "https://mysite.com/font.woff"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@font-face"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ditaa.py:960"
+  },
+  {
+   "test": "test_large_diagram_produces_larger_png",
+   "argv": [
+    "small.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done in",
+    "Done in"
+   ],
+   "files": {
+    "small.txt": "+--+\n|  |\n+--+\n"
+   },
+   "ci": false,
+   "source": "test_ditaa.py:1057"
+  },
+  {
+   "test": "test_scaled_png_larger_than_default",
+   "argv": [
+    "-s",
+    "3.0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done in",
+    "scale = 3.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ditaa.py:1076"
+  }
+ ]
+}

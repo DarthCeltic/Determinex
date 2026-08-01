@@ -1,0 +1,1576 @@
+[
+ {
+  "name": "test::test_help_takes_precedence_over_unknown_flag::0",
+  "argv": [
+   "--help",
+   "--no-such-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_help_is_treated_as_subcommand_and_errors::1",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_subcommand_errors_and_shows_usage::2",
+  "argv": [
+   "nosuch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_subcommand_prints_main_help::3",
+  "argv": [
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_subcommand_does_not_accept_help_flag::4",
+  "argv": [
+   "help",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_exit_zero::5",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_help_exit_zero::6",
+  "argv": [
+   "server",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_help_exit_zero::7",
+  "argv": [
+   "client",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_client_rejects_fractional_duration::8",
+  "argv": [
+   "client",
+   "--duration",
+   "0.1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_client_rejects_si_suffix_for_size::9",
+  "argv": [
+   "client",
+   "--download-size",
+   "1K",
+   "--upload-size",
+   "0",
+   "--duration",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_unknown_subcommand::10",
+  "argv": [
+   "no_such_cmd"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_with_cubic_congestion::11",
+  "argv": [
+   "client",
+   "invalid-host:9999",
+   "--congestion",
+   "cubic",
+   "--duration",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_with_bbr_congestion::12",
+  "argv": [
+   "client",
+   "invalid-host:9999",
+   "--congestion",
+   "bbr",
+   "--duration",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_with_new_reno_congestion::13",
+  "argv": [
+   "client",
+   "invalid-host:9999",
+   "--congestion",
+   "new-reno",
+   "--duration",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_with_all_window_settings::14",
+  "argv": [
+   "client",
+   "invalid-host:9999",
+   "--stream-receive-window",
+   "1M",
+   "--receive-window",
+   "2M",
+   "--send-window",
+   "1M",
+   "--duration",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_with_multiple_options::15",
+  "argv": [
+   "client",
+   "invalid-host:9999",
+   "--congestion",
+   "bbr",
+   "--initial-mtu",
+   "1300",
+   "--send-buffer-size",
+   "4M",
+   "--recv-buffer-size",
+   "4M",
+   "--duration",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_listen_ipv4::16",
+  "argv": [
+   "server",
+   "--listen",
+   "127.0.0.1:14001",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_listen_ipv6::17",
+  "argv": [
+   "server",
+   "--listen",
+   "[::1]:14002",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_congestion_cubic::18",
+  "argv": [
+   "server",
+   "--congestion",
+   "cubic",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_congestion_bbr::19",
+  "argv": [
+   "server",
+   "--congestion",
+   "bbr",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_congestion_new_reno::20",
+  "argv": [
+   "server",
+   "--congestion",
+   "new-reno",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_invalid_congestion::21",
+  "argv": [
+   "server",
+   "--congestion",
+   "invalid-algo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_custom_host::22",
+  "argv": [
+   "client",
+   "example.com:8443",
+   "--duration",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_download_size_formats::23",
+  "argv": [
+   "client",
+   "invalid-host:9999",
+   "--download-size",
+   "10M",
+   "--duration",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_upload_size_formats::24",
+  "argv": [
+   "client",
+   "invalid-host:9999",
+   "--upload-size",
+   "512k",
+   "--duration",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_uni_requests::25",
+  "argv": [
+   "client",
+   "invalid-host:9999",
+   "--uni-requests",
+   "5",
+   "--duration",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_bi_requests::26",
+  "argv": [
+   "client",
+   "invalid-host:9999",
+   "--bi-requests",
+   "3",
+   "--duration",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_duration::27",
+  "argv": [
+   "client",
+   "invalid-host:9999",
+   "--duration",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_interval::28",
+  "argv": [
+   "client",
+   "invalid-host:9999",
+   "--interval",
+   "2",
+   "--duration",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_h_flag::29",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_command::30",
+  "argv": [
+   "invalid-command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_with_server::31",
+  "argv": [
+   "help",
+   "server"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_with_client::32",
+  "argv": [
+   "help",
+   "client"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_invalid_host_format::33",
+  "argv": [
+   "client",
+   ":::invalid:::",
+   "--duration",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_invalid_buffer_size::34",
+  "argv": [
+   "client",
+   "--send-buffer-size",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_invalid_download_size::35",
+  "argv": [
+   "client",
+   "--download-size",
+   "not_a_size"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_invalid_duration::36",
+  "argv": [
+   "client",
+   "--duration",
+   "not_a_number"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_invalid_interval::37",
+  "argv": [
+   "client",
+   "--interval",
+   "not_a_number"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_invalid_congestion_algorithm::38",
+  "argv": [
+   "client",
+   "--congestion",
+   "invalid_algo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_unknown_flag::39",
+  "argv": [
+   "client",
+   "--unknown-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_invalid_ip_address::40",
+  "argv": [
+   "client",
+   "--ip",
+   "not.an.ip.address"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_invalid_local_addr::41",
+  "argv": [
+   "client",
+   "--local-addr",
+   "invalid:address:format:extra"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_h_flag::42",
+  "argv": [
+   "client",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_applies_congestion_cubic::43",
+  "argv": [
+   "client",
+   "127.0.0.1:17003",
+   "--congestion",
+   "cubic",
+   "--duration",
+   "1",
+   "--download-size",
+   "10k",
+   "--upload-size",
+   "10k"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_applies_congestion_bbr::44",
+  "argv": [
+   "client",
+   "127.0.0.1:17004",
+   "--congestion",
+   "bbr",
+   "--duration",
+   "1",
+   "--download-size",
+   "10k",
+   "--upload-size",
+   "10k"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_applies_congestion_new_reno::45",
+  "argv": [
+   "client",
+   "127.0.0.1:17005",
+   "--congestion",
+   "new-reno",
+   "--duration",
+   "1",
+   "--download-size",
+   "10k",
+   "--upload-size",
+   "10k"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_with_buffer_configs::46",
+  "argv": [
+   "client",
+   "invalid-host:9999",
+   "--send-buffer-size",
+   "4M",
+   "--recv-buffer-size",
+   "4M",
+   "--duration",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_with_initial_mtu_config::47",
+  "argv": [
+   "client",
+   "invalid-host:9999",
+   "--initial-mtu",
+   "1300",
+   "--duration",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_with_max_udp_payload_config::48",
+  "argv": [
+   "client",
+   "invalid-host:9999",
+   "--max-udp-payload-size",
+   "1400",
+   "--duration",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_connects_to_server::49",
+  "argv": [
+   "client",
+   "127.0.0.1:15001",
+   "--duration",
+   "1",
+   "--interval",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "RUST_LOG": "info"
+  }
+ },
+ {
+  "name": "test::test_client_with_ip_override::50",
+  "argv": [
+   "client",
+   "example.com:8443",
+   "--ip",
+   "127.0.0.1",
+   "--duration",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_with_local_addr::51",
+  "argv": [
+   "client",
+   "invalid-host:9999",
+   "--local-addr",
+   "127.0.0.1:0",
+   "--duration",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_keylog_flag::52",
+  "argv": [
+   "client",
+   "invalid-host:9999",
+   "--keylog",
+   "--duration",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "SSLKEYLOGFILE": "/tmp/test_client_keylog.txt"
+  }
+ },
+ {
+  "name": "test::test_client_no_protection_flag::53",
+  "argv": [
+   "client",
+   "invalid-host:9999",
+   "--no-protection",
+   "--duration",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_ack_frequency_flag::54",
+  "argv": [
+   "client",
+   "invalid-host:9999",
+   "--ack-frequency",
+   "--duration",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_with_qlog::55",
+  "argv": [
+   "client",
+   "invalid-host:9999",
+   "--qlog",
+   "--duration",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_invalid_listen_address::56",
+  "argv": [
+   "server",
+   "--listen",
+   "invalid:address:format:extra"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_key_without_cert::57",
+  "argv": [
+   "server",
+   "--key",
+   "key.der"
+  ],
+  "stdin": null,
+  "files": {
+   "key.der": "fake key"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_cert_without_key::58",
+  "argv": [
+   "server",
+   "--cert",
+   "cert.pem"
+  ],
+  "stdin": null,
+  "files": {
+   "cert.pem": "fake cert"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_nonexistent_key_file::59",
+  "argv": [
+   "server",
+   "--key",
+   "/nonexistent/key.der",
+   "--cert",
+   "/nonexistent/cert.pem"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_invalid_buffer_size::60",
+  "argv": [
+   "server",
+   "--send-buffer-size",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_invalid_mtu::61",
+  "argv": [
+   "server",
+   "--initial-mtu",
+   "not_a_number"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_invalid_congestion_algorithm::62",
+  "argv": [
+   "server",
+   "--congestion",
+   "invalid_algo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_unknown_flag::63",
+  "argv": [
+   "server",
+   "--unknown-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_h_flag::64",
+  "argv": [
+   "server",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_with_keylog_flag::65",
+  "argv": [
+   "client",
+   "127.0.0.1:99999",
+   "--keylog",
+   "--duration",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_with_no_protection::66",
+  "argv": [
+   "client",
+   "127.0.0.1:18003",
+   "--no-protection",
+   "--duration",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_with_conn_stats::67",
+  "argv": [
+   "client",
+   "127.0.0.1:18005",
+   "--conn-stats",
+   "--duration",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_cert_and_key_options::68",
+  "argv": [
+   "server",
+   "--listen",
+   "127.0.0.1:18006",
+   "--cert",
+   "cert.pem",
+   "--key",
+   "key.der"
+  ],
+  "stdin": null,
+  "files": {
+   "cert.pem": "-----BEGIN CERTIFICATE-----\ntest\n-----END CERTIFICATE-----",
+   "key.der": "\u0000\u0001\u0002\u0003"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_with_uni_and_bi_requests::69",
+  "argv": [
+   "client",
+   "127.0.0.1:18007",
+   "--uni-requests",
+   "2",
+   "--bi-requests",
+   "2",
+   "--duration",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_with_custom_download_and_upload_sizes::70",
+  "argv": [
+   "client",
+   "127.0.0.1:18008",
+   "--download-size",
+   "50k",
+   "--upload-size",
+   "25k",
+   "--duration",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_with_custom_interval::71",
+  "argv": [
+   "client",
+   "127.0.0.1:18009",
+   "--interval",
+   "2",
+   "--duration",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_with_custom_mtu::72",
+  "argv": [
+   "client",
+   "127.0.0.1:99999",
+   "--initial-mtu",
+   "1400",
+   "--duration",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_with_custom_max_udp_payload::73",
+  "argv": [
+   "client",
+   "127.0.0.1:99999",
+   "--max-udp-payload-size",
+   "1450",
+   "--duration",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_rejects_too_many_positionals::74",
+  "argv": [
+   "client",
+   "h1",
+   "h2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_number_is_treated_as_flag_without_separator_tip_present::75",
+  "argv": [
+   "client",
+   "--download-size",
+   "-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_json_flag_rejects_non_pathish_value::76",
+  "argv": [
+   "client",
+   "127.0.0.1:1",
+   "--json",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_ip_override_invalid_is_error::77",
+  "argv": [
+   "client",
+   "example.com:4433",
+   "--ip",
+   "999.999.999.999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_is_error::78",
+  "argv": [
+   "definitely-not-a-command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_invalid_size_suffix_rejected::79",
+  "argv": [
+   "client",
+   "127.0.0.1:1",
+   "--duration",
+   "1",
+   "--interval",
+   "1",
+   "--download-size",
+   "1K"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_duration_float_rejected::80",
+  "argv": [
+   "client",
+   "127.0.0.1:1",
+   "--duration",
+   "0.1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_invalid_congestion_value_rejected::81",
+  "argv": [
+   "client",
+   "127.0.0.1:1",
+   "--congestion",
+   "reno"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_invalid_congestion_value_rejected::82",
+  "argv": [
+   "server",
+   "--congestion",
+   "reno"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_subcommand::83",
+  "argv": [
+   "invalid_command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::84",
+  "argv": [
+   "--invalid-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_invalid_host_format::85",
+  "argv": [
+   "client",
+   ":::invalid:::",
+   "--duration",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_invalid_uni_requests::86",
+  "argv": [
+   "client",
+   "--uni-requests",
+   "not_a_number"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_invalid_bi_requests::87",
+  "argv": [
+   "client",
+   "--bi-requests",
+   "abc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_invalid_download_size::88",
+  "argv": [
+   "client",
+   "--download-size",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_invalid_upload_size::89",
+  "argv": [
+   "client",
+   "--upload-size",
+   "xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_invalid_interval::90",
+  "argv": [
+   "client",
+   "--interval",
+   "abc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_invalid_send_buffer_size::91",
+  "argv": [
+   "client",
+   "--send-buffer-size",
+   "bad"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_invalid_recv_buffer_size::92",
+  "argv": [
+   "client",
+   "--recv-buffer-size",
+   "xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_invalid_initial_mtu::93",
+  "argv": [
+   "client",
+   "--initial-mtu",
+   "bad"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_invalid_initial_rtt::94",
+  "argv": [
+   "client",
+   "--initial-rtt",
+   "not_valid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_invalid_max_udp_payload_size::95",
+  "argv": [
+   "client",
+   "--max-udp-payload-size",
+   "bad"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_invalid_stream_receive_window::96",
+  "argv": [
+   "client",
+   "--stream-receive-window",
+   "xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_invalid_receive_window::97",
+  "argv": [
+   "client",
+   "--receive-window",
+   "bad"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_invalid_send_window::98",
+  "argv": [
+   "client",
+   "--send-window",
+   "xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_invalid_ip_address::99",
+  "argv": [
+   "client",
+   "--ip",
+   "not.an.ip.address",
+   "--duration",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_invalid_local_addr::100",
+  "argv": [
+   "client",
+   "--local-addr",
+   "invalid_addr",
+   "--duration",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_invalid_listen_address::101",
+  "argv": [
+   "server",
+   "--listen",
+   "not_an_address"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_invalid_send_buffer_size::102",
+  "argv": [
+   "server",
+   "--send-buffer-size",
+   "not_a_number"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_invalid_recv_buffer_size::103",
+  "argv": [
+   "server",
+   "--recv-buffer-size",
+   "abc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_invalid_initial_rtt::104",
+  "argv": [
+   "server",
+   "--initial-rtt",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_invalid_max_udp_payload_size::105",
+  "argv": [
+   "server",
+   "--max-udp-payload-size",
+   "xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_invalid_stream_receive_window::106",
+  "argv": [
+   "server",
+   "--stream-receive-window",
+   "bad_value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_invalid_receive_window::107",
+  "argv": [
+   "server",
+   "--receive-window",
+   "xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_invalid_send_window::108",
+  "argv": [
+   "server",
+   "--send-window",
+   "bad"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keylog_flag_requires_sslkeylogfile_to_be_nonempty::109",
+  "argv": [
+   "client",
+   "--keylog",
+   "--duration",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keylog_writes_to_path_from_sslkeylogfile::110",
+  "argv": [
+   "client",
+   "--keylog",
+   "--duration",
+   "1",
+   "127.0.0.1:4433"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

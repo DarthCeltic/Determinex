@@ -1,0 +1,2198 @@
+{
+ "slug": "raviqqe__muffet.a882908",
+ "language": "",
+ "n_branches": 7,
+ "n_tests_total": 389,
+ "n_examples": 127,
+ "n_with_exact_stdout": 1,
+ "n_with_rc": 125,
+ "n_skipped": 258,
+ "examples": [
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Application Options:",
+    "--accepted-status-codes",
+    "--max-connections",
+    "--help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:8"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Application Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:18"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:28"
+  },
+  {
+   "test": "test_invalid_url_format",
+   "argv": [
+    "not-a-url"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:46"
+  },
+  {
+   "test": "test_invalid_flag",
+   "argv": [
+    "--unknown-flag-xyz123"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unknown-flag-xyz123"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:54"
+  },
+  {
+   "test": "test_max_connections_flag",
+   "argv": [
+    "--max-connections=10",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_connection_options.py:7"
+  },
+  {
+   "test": "test_max_connections_short_flag",
+   "argv": [
+    "-c",
+    "10",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_connection_options.py:15"
+  },
+  {
+   "test": "test_max_connections_per_host",
+   "argv": [
+    "--max-connections-per-host=5",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_connection_options.py:22"
+  },
+  {
+   "test": "test_buffer_size_flag",
+   "argv": [
+    "--buffer-size=8192",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_connection_options.py:29"
+  },
+  {
+   "test": "test_buffer_size_short_flag",
+   "argv": [
+    "-b",
+    "8192",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_connection_options.py:36"
+  },
+  {
+   "test": "test_max_response_body_size",
+   "argv": [
+    "--max-response-body-size=5000000",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_connection_options.py:43"
+  },
+  {
+   "test": "test_timeout_flag",
+   "argv": [
+    "--timeout=5",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "19999"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_connection_options.py:50"
+  },
+  {
+   "test": "test_timeout_short_flag",
+   "argv": [
+    "-t",
+    "5",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "19999"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_connection_options.py:57"
+  },
+  {
+   "test": "test_max_redirections_flag",
+   "argv": [
+    "--max-redirections=10",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_connection_options.py:64"
+  },
+  {
+   "test": "test_max_redirections_short_flag",
+   "argv": [
+    "-r",
+    "10",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_connection_options.py:71"
+  },
+  {
+   "test": "test_max_retries_flag",
+   "argv": [
+    "--max-retries=3",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_connection_options.py:77"
+  },
+  {
+   "test": "test_rate_limit_flag",
+   "argv": [
+    "--rate-limit=10",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_connection_options.py:84"
+  },
+  {
+   "test": "test_dns_resolver_flag",
+   "argv": [
+    "--dns-resolver=8.8.8.8:53",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "19999"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_connection_options.py:91"
+  },
+  {
+   "test": "test_proxy_flag",
+   "argv": [
+    "--proxy=http://proxy.example.com:8080",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_connection_options.py:99"
+  },
+  {
+   "test": "test_skip_tls_verification",
+   "argv": [
+    "--skip-tls-verification",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_connection_options.py:106"
+  },
+  {
+   "test": "test_invalid_max_connections",
+   "argv": [
+    "--max-connections=invalid",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_connection_options.py:113"
+  },
+  {
+   "test": "test_negative_timeout",
+   "argv": [
+    "--timeout=-5",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_connection_options.py:120"
+  },
+  {
+   "test": "test_text_format_default",
+   "argv": [
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "failed",
+    "19999"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_output_formats.py:9"
+  },
+  {
+   "test": "test_format_flag_text",
+   "argv": [
+    "--format=text",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "failed",
+    "19999"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_output_formats.py:18"
+  },
+  {
+   "test": "test_format_flag_json",
+   "argv": [
+    "--format=json",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "failed"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_output_formats.py:25"
+  },
+  {
+   "test": "test_format_flag_junit",
+   "argv": [
+    "--format=junit",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "failed"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_output_formats.py:40"
+  },
+  {
+   "test": "test_json_flag_deprecated",
+   "argv": [
+    "--json",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:55"
+  },
+  {
+   "test": "test_junit_flag_deprecated",
+   "argv": [
+    "--junit",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:63"
+  },
+  {
+   "test": "test_verbose_flag_with_text",
+   "argv": [
+    "-v",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:71"
+  },
+  {
+   "test": "test_invalid_format",
+   "argv": [
+    "--format=invalidformat",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:80"
+  },
+  {
+   "test": "test_follow_robots_txt_flag",
+   "argv": [
+    "--follow-robots-txt",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_special_features.py:7"
+  },
+  {
+   "test": "test_follow_sitemap_xml_deprecated",
+   "argv": [
+    "--follow-sitemap-xml",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_special_features.py:15"
+  },
+  {
+   "test": "test_one_page_only_flag",
+   "argv": [
+    "--one-page-only",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_special_features.py:23"
+  },
+  {
+   "test": "test_header_flag_single",
+   "argv": [
+    "--header=User-Agent: TestBot",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_special_features.py:31"
+  },
+  {
+   "test": "test_header_flag_multiple",
+   "argv": [
+    "--header=User-Agent: TestBot",
+    "--header=Accept: text/html",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_special_features.py:39"
+  },
+  {
+   "test": "test_header_flag_invalid_format",
+   "argv": [
+    "--header=InvalidHeader",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_special_features.py:46"
+  },
+  {
+   "test": "test_color_auto",
+   "argv": [
+    "--color=auto",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_special_features.py:55"
+  },
+  {
+   "test": "test_color_always",
+   "argv": [
+    "--color=always",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "19999"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_features.py:62"
+  },
+  {
+   "test": "test_color_never",
+   "argv": [
+    "--color=never",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_special_features.py:70"
+  },
+  {
+   "test": "test_color_invalid_value",
+   "argv": [
+    "--color=invalidvalue",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_special_features.py:80"
+  },
+  {
+   "test": "test_accepted_status_codes_default",
+   "argv": [
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_status_codes.py:7"
+  },
+  {
+   "test": "test_accepted_status_codes_range",
+   "argv": [
+    "--accepted-status-codes=200..300",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_status_codes.py:14"
+  },
+  {
+   "test": "test_accepted_status_codes_single",
+   "argv": [
+    "--accepted-status-codes=200",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_status_codes.py:21"
+  },
+  {
+   "test": "test_accepted_status_codes_multiple",
+   "argv": [
+    "--accepted-status-codes=200,404,500",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_status_codes.py:27"
+  },
+  {
+   "test": "test_accepted_status_codes_mixed",
+   "argv": [
+    "--accepted-status-codes=200..300,403,404",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_status_codes.py:33"
+  },
+  {
+   "test": "test_accepted_status_codes_404_only",
+   "argv": [
+    "--accepted-status-codes=404",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_status_codes.py:39"
+  },
+  {
+   "test": "test_accepted_status_codes_invalid_format",
+   "argv": [
+    "--accepted-status-codes=notanumber",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_status_codes.py:46"
+  },
+  {
+   "test": "test_accepted_status_codes_invalid_range",
+   "argv": [
+    "--accepted-status-codes=500..200",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_status_codes.py:54"
+  },
+  {
+   "test": "test_exclude_flag_single",
+   "argv": [
+    "--exclude=.*\\.css$",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_url_filtering.py:7"
+  },
+  {
+   "test": "test_exclude_short_flag",
+   "argv": [
+    "-e",
+    ".*\\.js$",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "19999"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_url_filtering.py:15"
+  },
+  {
+   "test": "test_exclude_multiple_patterns",
+   "argv": [
+    "-e",
+    ".*\\.css$",
+    "-e",
+    ".*\\.js$",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "19999"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_url_filtering.py:22"
+  },
+  {
+   "test": "test_include_flag_single",
+   "argv": [
+    "--include=.*\\.html$",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "19999"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_url_filtering.py:30"
+  },
+  {
+   "test": "test_include_short_flag",
+   "argv": [
+    "-i",
+    ".*\\.html$",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "19999"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_url_filtering.py:37"
+  },
+  {
+   "test": "test_include_multiple_patterns",
+   "argv": [
+    "-i",
+    ".*\\.html$",
+    "-i",
+    ".*\\.htm$",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "19999"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_url_filtering.py:44"
+  },
+  {
+   "test": "test_exclude_and_include_together",
+   "argv": [
+    "-e",
+    ".*\\.css$",
+    "-i",
+    ".*\\.html$",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "19999"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_url_filtering.py:51"
+  },
+  {
+   "test": "test_ignore_fragments_flag",
+   "argv": [
+    "--ignore-fragments",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_url_filtering.py:59"
+  },
+  {
+   "test": "test_ignore_fragments_short_flag",
+   "argv": [
+    "-f",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "19999"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_url_filtering.py:66"
+  },
+  {
+   "test": "test_invalid_regex_pattern",
+   "argv": [
+    "--exclude=[invalid(regex",
+    "http://localhost:19999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_url_filtering.py:73"
+  },
+  {
+   "test": "test_verbose_output",
+   "argv": [
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "127.0.0.1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_with_server.py:129"
+  },
+  {
+   "test": "test_json_output_success",
+   "argv": [
+    "--format=json",
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_with_server.py:145"
+  },
+  {
+   "test": "test_junit_xml_output_success",
+   "argv": [
+    "--format=junit"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_with_server.py:162"
+  },
+  {
+   "test": "test_ignore_fragments",
+   "argv": [
+    "--ignore-fragments",
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "127.0.0.1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_with_server.py:180"
+  },
+  {
+   "test": "test_one_page_only",
+   "argv": [
+    "--one-page-only",
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "127.0.0.1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_with_server.py:194"
+  },
+  {
+   "test": "test_accepted_status_codes_404",
+   "argv": [
+    "--accepted-status-codes=404"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_with_server.py:208"
+  },
+  {
+   "test": "test_exclude_pattern",
+   "argv": [
+    "-e",
+    ".*\\.css$",
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "127.0.0.1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_with_server.py:220"
+  },
+  {
+   "test": "test_include_pattern",
+   "argv": [
+    "-i",
+    ".*page1.*",
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "127.0.0.1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_with_server.py:235"
+  },
+  {
+   "test": "test_max_connections_limit",
+   "argv": [
+    "--max-connections=1",
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "127.0.0.1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_with_server.py:248"
+  },
+  {
+   "test": "test_timeout_option",
+   "argv": [
+    "--timeout=30",
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "127.0.0.1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_with_server.py:260"
+  },
+  {
+   "test": "test_custom_header",
+   "argv": [
+    "--header=User-Agent: MuffetTest/1.0",
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "127.0.0.1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_with_server.py:272"
+  },
+  {
+   "test": "test_color_always",
+   "argv": [
+    "--color=always",
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_with_server.py:284"
+  },
+  {
+   "test": "test_color_never_no_ansi",
+   "argv": [
+    "--color=never",
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "127.0.0.1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_with_server.py:299"
+  },
+  {
+   "test": "test_follow_robots_txt",
+   "argv": [
+    "--follow-robots-txt",
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "127.0.0.1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_with_server.py:314"
+  },
+  {
+   "test": "test_max_redirections",
+   "argv": [
+    "--max-redirections=5",
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_with_server.py:327"
+  },
+  {
+   "test": "test_help_takes_precedence_over_invalid_extra_args",
+   "argv": [
+    "foo",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:135"
+  },
+  {
+   "test": "test_help_with_other_flags_still_shows_help",
+   "argv": [
+    "--verbose",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Application Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:143"
+  },
+  {
+   "test": "test_baseline_help_output_matches_fixture",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:155"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Application Options:",
+    "--version",
+    "--verbose",
+    "--format",
+    "Show this help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:14"
+  },
+  {
+   "test": "test_help_flag_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Application Options:",
+    "--version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:26"
+  },
+  {
+   "test": "test_color_auto_default",
+   "argv": [
+    "-v",
+    "http://localhost:8888/"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_color.py:6"
+  },
+  {
+   "test": "test_color_always",
+   "argv": [
+    "--color=always",
+    "-v",
+    "http://localhost:8888/"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_color.py:14"
+  },
+  {
+   "test": "test_color_never",
+   "argv": [
+    "--color=never",
+    "-v",
+    "http://localhost:8888/"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_color.py:22"
+  },
+  {
+   "test": "test_color_auto_explicit",
+   "argv": [
+    "--color=auto",
+    "-v",
+    "http://localhost:8888/"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_color.py:31"
+  },
+  {
+   "test": "test_empty_page",
+   "argv": [
+    "-v",
+    "http://localhost:8888/page2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "page2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:6"
+  },
+  {
+   "test": "test_localhost_url",
+   "argv": [
+    "-v",
+    "http://localhost:8888/"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "localhost"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:36"
+  },
+  {
+   "test": "test_very_large_buffer_size",
+   "argv": [
+    "-b",
+    "1000000",
+    "-v",
+    "http://localhost:8888/"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:59"
+  },
+  {
+   "test": "test_custom_header",
+   "argv": [
+    "--header",
+    "X-Custom: value",
+    "-v",
+    "http://localhost:8888/"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_http_options.py:6"
+  },
+  {
+   "test": "test_multiple_custom_headers",
+   "argv": [
+    "--header",
+    "X-Custom1: value1",
+    "--header",
+    "X-Custom2: value2",
+    "-v",
+    "http://localhost:8888/"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_http_options.py:14"
+  },
+  {
+   "test": "test_timeout_flag",
+   "argv": [
+    "-t",
+    "1",
+    "-v",
+    "http://localhost:8888/"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_http_options.py:28"
+  },
+  {
+   "test": "test_timeout_short_flag",
+   "argv": [
+    "-t",
+    "5",
+    "http://localhost:8888/"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_http_options.py:36"
+  },
+  {
+   "test": "test_max_connections_flag",
+   "argv": [
+    "-c",
+    "10",
+    "-v",
+    "http://localhost:8888/"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_http_options.py:42"
+  },
+  {
+   "test": "test_max_connections_per_host_flag",
+   "argv": [
+    "--max-connections-per-host",
+    "5",
+    "-v",
+    "http://localhost:8888/"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_http_options.py:49"
+  },
+  {
+   "test": "test_buffer_size_flag",
+   "argv": [
+    "-b",
+    "8192",
+    "-v",
+    "http://localhost:8888/"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_http_options.py:56"
+  },
+  {
+   "test": "test_max_response_body_size_flag",
+   "argv": [
+    "--max-response-body-size",
+    "1000000",
+    "-v",
+    "http://localhost:8888/"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_http_options.py:63"
+  },
+  {
+   "test": "test_max_redirections_flag",
+   "argv": [
+    "-r",
+    "10",
+    "-v",
+    "http://localhost:8888/redirect"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_http_options.py:70"
+  },
+  {
+   "test": "test_max_retries_flag",
+   "argv": [
+    "--max-retries",
+    "3",
+    "-v",
+    "http://localhost:8888/"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_http_options.py:77"
+  },
+  {
+   "test": "test_rate_limit_flag",
+   "argv": [
+    "--rate-limit",
+    "10",
+    "-v",
+    "http://localhost:8888/"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_http_options.py:84"
+  },
+  {
+   "test": "test_skip_tls_verification_flag",
+   "argv": [
+    "--skip-tls-verification",
+    "-v",
+    "http://localhost:8888/"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_http_options.py:91"
+  },
+  {
+   "test": "test_valid_url_success",
+   "argv": [
+    "http://localhost:8888/"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_link_checking.py:7"
+  },
+  {
+   "test": "test_broken_link_detection",
+   "argv": [
+    "http://localhost:8888/broken-link"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "404",
+    "/404"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_link_checking.py:15"
+  },
+  {
+   "test": "test_recursive_crawling",
+   "argv": [
+    "-v",
+    "http://localhost:8888/page1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_link_checking.py:31"
+  },
+  {
+   "test": "test_redirect_following",
+   "argv": [
+    "-v",
+    "http://localhost:8888/redirect"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_link_checking.py:40"
+  },
+  {
+   "test": "test_img_tag_checking",
+   "argv": [
+    "-v",
+    "http://localhost:8888/img-test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_link_checking.py:49"
+  },
+  {
+   "test": "test_script_tag_checking",
+   "argv": [
+    "-v",
+    "http://localhost:8888/script-test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_link_checking.py:56"
+  },
+  {
+   "test": "test_link_tag_checking",
+   "argv": [
+    "-v",
+    "http://localhost:8888/link-test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_link_checking.py:63"
+  },
+  {
+   "test": "test_text_format_explicit",
+   "argv": [
+    "--format=text",
+    "-v",
+    "http://localhost:8888/"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "http"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:16"
+  },
+  {
+   "test": "test_verbose_flag",
+   "argv": [
+    "-v",
+    "http://localhost:8888/"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "http://localhost:8888"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:76"
+  },
+  {
+   "test": "test_verbose_long_flag",
+   "argv": [
+    "--verbose",
+    "http://localhost:8888/"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "localhost:8888"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:85"
+  },
+  {
+   "test": "test_verbose_with_json",
+   "argv": [
+    "--format=json",
+    "-v",
+    "http://localhost:8888/"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:93"
+  },
+  {
+   "test": "test_experimental_verbose_json",
+   "argv": [
+    "--json",
+    "--experimental-verbose-json",
+    "http://localhost:8888/"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:103"
+  },
+  {
+   "test": "test_without_robots_txt",
+   "argv": [
+    "-v",
+    "http://localhost:8888/with-private-link"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_robots_sitemap.py:15"
+  },
+  {
+   "test": "test_custom_accepted_status_codes_range",
+   "argv": [
+    "--accepted-status-codes=200..500",
+    "http://localhost:8888/broken-link"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_status_codes.py:14"
+  },
+  {
+   "test": "test_custom_accepted_status_codes_individual",
+   "argv": [
+    "--accepted-status-codes=200,404",
+    "http://localhost:8888/broken-link"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_status_codes.py:23"
+  },
+  {
+   "test": "test_custom_accepted_status_codes_mixed",
+   "argv": [
+    "--accepted-status-codes=200..300,404",
+    "http://localhost:8888/broken-link"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_status_codes.py:30"
+  },
+  {
+   "test": "test_unaccepted_status_code_rejection",
+   "argv": [
+    "--accepted-status-codes=200",
+    "http://localhost:8888/broken-link"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "404"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_status_codes.py:37"
+  },
+  {
+   "test": "test_exclude_pattern",
+   "argv": [
+    "-v",
+    "-e",
+    "/page2",
+    "http://localhost:8888/page1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "page1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_url_filtering.py:6"
+  },
+  {
+   "test": "test_multiple_exclude_patterns",
+   "argv": [
+    "-v",
+    "-e",
+    "/page2",
+    "-e",
+    "/page3",
+    "http://localhost:8888/page1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_url_filtering.py:15"
+  },
+  {
+   "test": "test_include_pattern",
+   "argv": [
+    "-v",
+    "-i",
+    "localhost:8888",
+    "http://localhost:8888/"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "localhost:8888"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_url_filtering.py:22"
+  },
+  {
+   "test": "test_multiple_include_patterns",
+   "argv": [
+    "-v",
+    "-i",
+    "localhost",
+    "-i",
+    "8888",
+    "http://localhost:8888/"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_url_filtering.py:30"
+  },
+  {
+   "test": "test_ignore_fragments_flag",
+   "argv": [
+    "-f",
+    "-v",
+    "http://localhost:8888/with-fragment"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "page1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_url_filtering.py:51"
+  },
+  {
+   "test": "test_ignore_fragments_short_flag",
+   "argv": [
+    "-f",
+    "http://localhost:8888/with-fragment"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_url_filtering.py:60"
+  },
+  {
+   "test": "test_help_goes_to_stdout_exit0",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--format"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basics.py:4"
+  },
+  {
+   "test": "test_invalid_format_value_is_error_on_stderr_exit1",
+   "argv": [
+    "--format=wat",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Invalid value `wat' for option `--format'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basics.py:29"
+  },
+  {
+   "test": "test_text_output_default_shows_only_failures_and_exit1",
+   "argv": [
+    "--one-page-only"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_http_outputs.py:6"
+  },
+  {
+   "test": "test_verbose_text_output_includes_successes",
+   "argv": [
+    "--one-page-only",
+    "--verbose"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_http_outputs.py:30"
+  },
+  {
+   "test": "test_json_output_non_verbose_only_includes_failures",
+   "argv": [
+    "--one-page-only",
+    "--format=json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_http_outputs.py:51"
+  },
+  {
+   "test": "test_json_output_verbose_includes_success_and_failure_entries",
+   "argv": [
+    "--one-page-only",
+    "--format=json",
+    "--verbose"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_http_outputs.py:73"
+  },
+  {
+   "test": "test_junit_output_contains_testsuite_and_failure_and_has_xml_header",
+   "argv": [
+    "--one-page-only",
+    "--format=junit"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<testsuites>",
+    "<failure message=\"404\">"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_http_outputs.py:98"
+  }
+ ]
+}

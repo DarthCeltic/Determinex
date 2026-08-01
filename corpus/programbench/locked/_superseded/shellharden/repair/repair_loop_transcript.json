@@ -1,0 +1,29 @@
+{
+  "schema": "determinex-repair-loop-transcript-v1",
+  "tool": "shellharden",
+  "family": "rust",
+  "pinned_commit": "6a6ffd4",
+  "defect": {
+    "type": "real_upstream_bug",
+    "test": "test_replace_directory_errors",
+    "symptom": "`--replace <directory>` -> size() seeks a directory fd -> bogus huge length -> Vec::with_capacity(~1.15EB) -> SIGABRT (returncode -6)",
+    "before_status": "1291/1292 (test_replace_directory_errors FAIL: SIGABRT)"
+  },
+  "repair": {
+    "file": "src/filestream.rs",
+    "function": "size()",
+    "fix": "detect directory via metadata().is_dir() and return the genuine EISDIR (from_raw_os_error(21)) so the caller exits 1 with 'Is a directory (os error 21)' instead of aborting",
+    "iterations": [
+      "v1 open_file guard (too broad: broke test_directory_as_argument_error -> 1290/1292)",
+      "v2 narrowed to size() (1291/1292, returncode now 1)",
+      "v3 from_raw_os_error(21) to match expected stderr -> 1292/1292"
+    ]
+  },
+  "reverify": {
+    "after_status": "1292/1292 (0 failures)",
+    "passed": 1292,
+    "failures": 0
+  },
+  "repair_loop_status": "passed",
+  "proves": "Determinex detected a real defect in a real external Rust project, repaired the source, and re-verified the project's own test suite green."
+}

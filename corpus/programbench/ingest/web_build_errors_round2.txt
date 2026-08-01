@@ -1,0 +1,51 @@
+# Web build-error knowledge (round 2) -- toolchain ERROR->FIX pairs across all PB language families.
+# Sources: rust-lang/cargo, golang/go, cmake discourse, pytest-dev, GNU autotools, microsoft/TypeScript+npm.
+# Fetched 2026-06-29 via web search. Free + local. Generalizes per-family (a fix for "go mod tidy"
+# applies to every Go PB tool, etc.) -- ideal flywheel material.
+
+## RUST / CARGO
+SYMPTOM: rust build fails with "linker `link.exe` not found" on Windows.
+FIX: install the Visual Studio Build Tools with the "Desktop development with C++" workload, then open a fresh terminal so the updated PATH is picked up.
+
+SYMPTOM: cargo cross-compile fails -- the linker cannot find shared libraries ("ld: cannot find -lXXX").
+FIX: point the linker at the right directory -- set LD_LIBRARY_PATH=DIR, or set target.<triple>.linker in ~/.cargo/config; run `cargo build -v` to print the exact link command and inspect it.
+
+SYMPTOM: rust linker errors persist after a code change or after moving the project (stale build cache, invalid rustc-link-search).
+FIX: run `cargo clean` then rebuild; cargo:rustc-link-search paths become invalid when the project directory moves.
+
+## GO
+SYMPTOM: go build fails with "parsing go.mod: unexpected module path" or a modified module path.
+FIX: run `GO111MODULE=on go mod tidy` to clean up the dependency that still references the old module name.
+
+SYMPTOM: cgo code fails to compile (missing C flags or headers).
+FIX: set CGO_ENABLED=1 and the cgo env vars (CGO_CFLAGS, CGO_CPPFLAGS, CGO_LDFLAGS) to the correct include/lib paths; for gomobile builds keep GO111MODULE=off.
+
+SYMPTOM: go modules build fails with a dirty module cache or "could not write" mod error.
+FIX: clean and re-fetch -- run `go clean -modcache`, then `go mod download`, then `go mod tidy`.
+
+## C / C++ -- CMAKE
+SYMPTOM: cmake build fails with "undefined reference" though the library is specified, or "cannot find -lXXX" for a library in a non-standard path like /opt.
+FIX: use pkg_check_modules() to locate the library, add its LIBRARY_DIRS via link_directories(), and link it with target_link_libraries(); for CMake 3.12+ prefer pkg_check_modules(... IMPORTED_TARGET) and link the imported target.
+
+## C / C++ -- AUTOTOOLS
+SYMPTOM: ./configure or make fails because a dependency's header file is not found.
+FIX: tell the preprocessor where headers live before ./configure -- export CPPFLAGS="-I${prefix}/include" (or CFLAGS for C, CXXFLAGS for C++).
+
+SYMPTOM: autotools build fails with "undefined reference" when linking against an existing library.
+FIX: put libraries in LDADD or LIBS (not LDFLAGS); with libtool use LIBADD; export LDFLAGS="-L${libdir}" before ./configure to add the library search path.
+
+SYMPTOM: the configure script is stale or missing after editing configure.ac / Makefile.am.
+FIX: regenerate it with `autoreconf -vi` before running ./configure.
+
+## TYPESCRIPT / NODE
+SYMPTOM: tsc build fails with "Cannot find module" or "Cannot find module '../lib/tsc.js'".
+FIX: reinstall dependencies cleanly -- remove node_modules and package-lock.json, then run `npm install`.
+
+SYMPTOM: tsc reports "Cannot find module or its corresponding type declarations" for a dependency.
+FIX: install the types package (`npm install --save-dev @types/<pkg>`); in tsconfig.json set moduleResolution to node and keep "./node_modules/@types" in typeRoots.
+
+SYMPTOM: npm install fails with "ERESOLVE unable to resolve dependency tree".
+FIX: retry with `npm install --legacy-peer-deps` to bypass the peer-dependency conflict.
+
+SYMPTOM: a TS project that built on one OS fails to build on another with case-sensitivity / path errors.
+FIX: fix the import path casing to match the real filenames (Linux is case-sensitive); verify file paths exactly.

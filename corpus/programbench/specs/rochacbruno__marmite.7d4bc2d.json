@@ -1,0 +1,1518 @@
+{
+ "slug": "rochacbruno__marmite.7d4bc2d",
+ "language": "",
+ "n_branches": 9,
+ "n_tests_total": 813,
+ "n_examples": 87,
+ "n_with_exact_stdout": 3,
+ "n_with_rc": 85,
+ "n_skipped": 712,
+ "examples": [
+  {
+   "test": "test_help_precedes_invalid_flag_and_exits_zero",
+   "argv": [
+    "--help",
+    "--definitely-not-a-real-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:151"
+  },
+  {
+   "test": "test_footer_configuration",
+   "argv": [
+    "--footer",
+    "CLI Footer Override"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:8"
+  },
+  {
+   "test": "test_https_protocol_option",
+   "argv": [
+    "--https",
+    "true"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:28"
+  },
+  {
+   "test": "test_content_path_override",
+   "argv": [
+    "--content-path",
+    "custom_content"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Custom Path Content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:48"
+  },
+  {
+   "test": "test_static_path_override",
+   "argv": [
+    "--static-path",
+    "custom_static"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Static Path Test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:93"
+  },
+  {
+   "test": "test_media_path_override",
+   "argv": [
+    "--media-path",
+    "custom_media"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:113"
+  },
+  {
+   "test": "test_default_date_format_override",
+   "argv": [
+    "--default-date-format",
+    "%Y/%m/%d"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test Post"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:133"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Marmite",
+    "Usage:",
+    "INPUT_FOLDER",
+    "OUTPUT_FOLDER",
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:10"
+  },
+  {
+   "test": "test_help_long_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Marmite",
+    "Usage:",
+    "easiest static site generator",
+    "--serve",
+    "--watch",
+    "--config",
+    "--init-site"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:21"
+  },
+  {
+   "test": "test_version_short_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "marmite"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:35"
+  },
+  {
+   "test": "test_version_long_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "marmite"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:44"
+  },
+  {
+   "test": "test_missing_input_folder_error",
+   "argv": [
+    "/nonexistent/folder/xyz123"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:66"
+  },
+  {
+   "test": "test_help_contains_all_major_options",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:75"
+  },
+  {
+   "test": "test_help_describes_verbosity",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-v, --verbose",
+    "info",
+    "debug",
+    "trace"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:109"
+  },
+  {
+   "test": "test_help_shows_default_values",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[default:",
+    "marmite.yaml",
+    "0.0.0.0:8000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:121"
+  },
+  {
+   "test": "test_generate_config",
+   "argv": [
+    "--generate-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_configuration.py:9"
+  },
+  {
+   "test": "test_custom_config_path",
+   "argv": [
+    "--config",
+    "custom.yaml"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Custom Config Site"
+   ],
+   "files": {
+    "custom.yaml": "name: Custom Config Site\n"
+   },
+   "ci": false,
+   "source": "test_configuration.py:25"
+  },
+  {
+   "test": "test_cli_override_name",
+   "argv": [
+    "--name",
+    "CLI Override Name"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CLI Override Name"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_configuration.py:46"
+  },
+  {
+   "test": "test_cli_override_tagline",
+   "argv": [
+    "--tagline",
+    "My Tagline"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "My Tagline"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_configuration.py:66"
+  },
+  {
+   "test": "test_cli_override_url",
+   "argv": [
+    "--url",
+    "https://mysite.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "mysite.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_configuration.py:86"
+  },
+  {
+   "test": "test_cli_override_pagination",
+   "argv": [
+    "--pagination",
+    "5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_configuration.py:107"
+  },
+  {
+   "test": "test_cli_override_enable_search",
+   "argv": [
+    "--enable-search",
+    "true"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_configuration.py:127"
+  },
+  {
+   "test": "test_cli_override_toc",
+   "argv": [
+    "--toc",
+    "true"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Section"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_configuration.py:147"
+  },
+  {
+   "test": "test_cli_override_json_feed",
+   "argv": [
+    "--json-feed",
+    "true"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_configuration.py:167"
+  },
+  {
+   "test": "test_cli_override_language",
+   "argv": [
+    "--language",
+    "es"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_configuration.py:188"
+  },
+  {
+   "test": "test_colorscheme_config",
+   "argv": [
+    "--colorscheme",
+    "gruvbox"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_configuration.py:261"
+  },
+  {
+   "test": "test_init_site",
+   "argv": [
+    "--init-site"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_initialization.py:8"
+  },
+  {
+   "test": "test_init_templates",
+   "argv": [
+    "--init-templates"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_initialization.py:30"
+  },
+  {
+   "test": "test_generate_config_in_existing_dir",
+   "argv": [
+    "--generate-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_initialization.py:73"
+  },
+  {
+   "test": "test_init_site_creates_sample_content",
+   "argv": [
+    "--init-site"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_initialization.py:138"
+  },
+  {
+   "test": "test_show_urls_command",
+   "argv": [
+    "--show-urls"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_options.py:8"
+  },
+  {
+   "test": "test_verbosity_level_info",
+   "argv": [
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_options.py:30"
+  },
+  {
+   "test": "test_verbosity_level_debug",
+   "argv": [
+    "-vv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_options.py:49"
+  },
+  {
+   "test": "test_verbosity_level_trace",
+   "argv": [
+    "-vvv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_options.py:68"
+  },
+  {
+   "test": "test_publish_markdown_source",
+   "argv": [
+    "--publish-md",
+    "true"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "# Test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_options.py:86"
+  },
+  {
+   "test": "test_source_repository_link",
+   "argv": [
+    "--source-repository",
+    "https://github.com/user/repo"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_options.py:108"
+  },
+  {
+   "test": "test_skip_image_resize",
+   "argv": [
+    "--skip-image-resize",
+    "true"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_options.py:130"
+  },
+  {
+   "test": "test_build_sitemap_true",
+   "argv": [
+    "--build-sitemap",
+    "true"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_options.py:181"
+  },
+  {
+   "test": "test_build_sitemap_false",
+   "argv": [
+    "--build-sitemap",
+    "false"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_options.py:201"
+  },
+  {
+   "test": "test_publish_urls_json_true",
+   "argv": [
+    "--publish-urls-json",
+    "true"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_options.py:222"
+  },
+  {
+   "test": "test_show_next_prev_links",
+   "argv": [
+    "--show-next-prev-links",
+    "true"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Post 1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_options.py:242"
+  },
+  {
+   "test": "test_enable_related_content",
+   "argv": [
+    "--enable-related-content",
+    "true"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test",
+    "Content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_options.py:265"
+  },
+  {
+   "test": "test_shortcodes_list",
+   "argv": [
+    "--shortcodes"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Shortcodes:",
+    "Available shortcodes:",
+    "toc",
+    "posts",
+    "tags"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_shortcodes.py:9"
+  },
+  {
+   "test": "test_disable_shortcodes",
+   "argv": [
+    "--enable-shortcodes",
+    "false"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_shortcodes.py:128"
+  },
+  {
+   "test": "test_force_rebuild",
+   "argv": [
+    "--force"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_site_generation.py:262"
+  },
+  {
+   "test": "test_help_prints_usage_to_stdout_and_exit_0",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_marmite_io.py:11"
+  },
+  {
+   "test": "test_version_prints_to_stdout_and_exit_0",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_marmite_io.py:18"
+  },
+  {
+   "test": "test_missing_input_folder_is_error_exit_1_and_stderr_only",
+   "argv": [
+    "/no/such/path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Input folder does not exist",
+    "/no/such/path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_marmite_io.py:25"
+  },
+  {
+   "test": "test_generate_config_creates_marmite_yaml",
+   "argv": [
+    "--generate-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Config file generated"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_marmite_io.py:67"
+  },
+  {
+   "test": "test_init_site_creates_expected_scaffold",
+   "argv": [
+    "--init-site"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Site initialized"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_marmite_io.py:80"
+  },
+  {
+   "test": "test_missing_required_args_errors",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "required arguments",
+    "<INPUT_FOLDER>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_marmite_executable.py:61"
+  },
+  {
+   "test": "test_shortcodes_requires_input_folder",
+   "argv": [
+    "--shortcodes"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "required arguments"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_marmite_executable.py:79"
+  },
+  {
+   "test": "test_custom_css_js_files",
+   "argv": [
+    "--init-site"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_features.py:84"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Marmite is the easiest static site generator",
+    "Usage:",
+    "INPUT_FOLDER",
+    "OUTPUT_FOLDER",
+    "--serve",
+    "--watch",
+    "--config"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:7"
+  },
+  {
+   "test": "test_short_help_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Marmite is the easiest static site generator",
+    "Usage:",
+    "INPUT_FOLDER"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:20"
+  },
+  {
+   "test": "test_short_version_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:38"
+  },
+  {
+   "test": "test_site_name_cli_override",
+   "argv": [
+    "--name",
+    "CLI Name"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CLI Name"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_and_cli_options.py:7"
+  },
+  {
+   "test": "test_tagline_cli_override",
+   "argv": [
+    "--tagline",
+    "Custom Tagline"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Custom Tagline"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_and_cli_options.py:25"
+  },
+  {
+   "test": "test_pagination_cli_override",
+   "argv": [
+    "--pagination",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_and_cli_options.py:43"
+  },
+  {
+   "test": "test_url_cli_option",
+   "argv": [
+    "--url",
+    "https://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_and_cli_options.py:69"
+  },
+  {
+   "test": "test_colorscheme_cli_option",
+   "argv": [
+    "--colorscheme",
+    "dracula"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_and_cli_options.py:109"
+  },
+  {
+   "test": "test_toc_cli_option",
+   "argv": [
+    "--toc",
+    "true"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_and_cli_options.py:151"
+  },
+  {
+   "test": "test_default_date_format_option",
+   "argv": [
+    "--default-date-format",
+    "%Y-%m-%d"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_and_cli_options.py:184"
+  },
+  {
+   "test": "test_skip_image_resize_option",
+   "argv": [
+    "--skip-image-resize",
+    "true"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_and_cli_options.py:209"
+  },
+  {
+   "test": "test_content_path_option",
+   "argv": [
+    "--content-path",
+    "articles"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_and_cli_options.py:228"
+  },
+  {
+   "test": "test_static_path_option",
+   "argv": [
+    "--static-path",
+    "assets"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_and_cli_options.py:263"
+  },
+  {
+   "test": "test_media_path_option",
+   "argv": [
+    "--media-path",
+    "images"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_and_cli_options.py:283"
+  },
+  {
+   "test": "test_footer_cli_option",
+   "argv": [
+    "--footer",
+    "Custom Footer © 2024"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_and_cli_options.py:300"
+  },
+  {
+   "test": "test_source_repository_option",
+   "argv": [
+    "--source-repository",
+    "https://github.com/user/repo"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_and_cli_options.py:318"
+  },
+  {
+   "test": "test_image_provider_option",
+   "argv": [
+    "--image-provider",
+    "picsum"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_and_cli_options.py:352"
+  },
+  {
+   "test": "test_shortcodes_listing",
+   "argv": [
+    "--shortcodes"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<!--"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_markdown_features.py:64"
+  },
+  {
+   "test": "test_new_post_command",
+   "argv": [
+    "--new",
+    "My New Post"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "My New Post"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_new_content.py:8"
+  },
+  {
+   "test": "test_new_post_with_tags",
+   "argv": [
+    "--new",
+    "Tagged Post",
+    "-t",
+    "python,testing"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_new_content.py:31"
+  },
+  {
+   "test": "test_new_page_command",
+   "argv": [
+    "--new",
+    "My Page",
+    "-p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "My Page"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_new_content.py:46"
+  },
+  {
+   "test": "test_new_post_creates_proper_slug",
+   "argv": [
+    "--new",
+    "Hello World Post 123"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_new_content.py:67"
+  },
+  {
+   "test": "test_new_command_creates_file",
+   "argv": [
+    "--new",
+    "Test Post"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test Post"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_new_content.py:96"
+  },
+  {
+   "test": "test_sitemap_generation",
+   "argv": [
+    "--build-sitemap",
+    "true"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<?xml",
+    ".html"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_generation.py:65"
+  },
+  {
+   "test": "test_markdown_source_publishing",
+   "argv": [
+    "--publish-md",
+    "true"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test Post",
+    "markdown source"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_generation.py:104"
+  },
+  {
+   "test": "test_start_theme_command",
+   "argv": [
+    "--start-theme",
+    "mytheme"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_site_generation.py:107"
+  },
+  {
+   "test": "test_custom_config_file",
+   "argv": [
+    "--config",
+    "custom_config.yaml"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Custom Site"
+   ],
+   "files": {
+    "custom_config.yaml": "name: Custom Site\ntagline: Custom Config\npagination: 5\n"
+   },
+   "ci": false,
+   "source": "test_site_generation.py:146"
+  },
+  {
+   "test": "test_ext_marmite_binary_help",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Marmite"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:92"
+  },
+  {
+   "test": "test_ext_show_urls_command",
+   "argv": [
+    "--show-urls"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "https://example.com/page1.html",
+    "https://example.com/page2.html",
+    "https://example.com/index.html"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:150"
+  },
+  {
+   "test": "test_ext_theme_workflow",
+   "argv": [
+    "--init-site"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CUSTOM_THEME_MARKER",
+    "CUSTOM_THEME_MARKER",
+    "CUSTOM_THEME_MARKER"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:524"
+  },
+  {
+   "test": "test_ext_wikilinks_integration",
+   "argv": [
+    "--force"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<a href=\"amazing-post-custom-slug.html\" data-wikilink=\"true\">My Amazing Post</a>",
+    "data-wikilink=\"true\">Nonexistent Post</a>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:617"
+  },
+  {
+   "test": "test_coverage_works_for_simple_commands",
+   "argv": [
+    "./executable",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_server_coverage_investigation.py:35"
+  },
+  {
+   "test": "test_binary_exists",
+   "argv": [
+    "./executable",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "marmite"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_smoke.py:5"
+  },
+  {
+   "test": "test_help_output",
+   "argv": [
+    "./executable",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "INPUT_FOLDER",
+    "OUTPUT_FOLDER",
+    "--watch",
+    "--serve"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_smoke.py:20"
+  }
+ ]
+}

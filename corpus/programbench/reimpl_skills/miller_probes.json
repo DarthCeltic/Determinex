@@ -1,0 +1,5362 @@
+[
+ {
+  "name": "test::test_help_topics_contains_list_verbs::0",
+  "argv": [
+   "help",
+   "topics"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_verbs_matches_dash_l::1",
+  "argv": [
+   "-l"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_selected_verb_help_is_verb_specific_and_mentions_verb::2",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_verb_errors_and_suggests_list::3",
+  "argv": [
+   "frobnicate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_errors_and_mentions_help::4",
+  "argv": [
+   "--definitely-not-a-real-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_flag_before_verb_vs_after_verb::5",
+  "argv": [
+   "--csv",
+   "sort",
+   "-f",
+   "a"
+  ],
+  "stdin": "a\n2\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_then_is_special_routing_token::6",
+  "argv": [
+   "--dkvp",
+   "cat",
+   "then",
+   "cat"
+  ],
+  "stdin": "a=1\na=2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_split::7",
+  "argv": [
+   "--icsv",
+   "split",
+   "-g",
+   "group"
+  ],
+  "stdin": "group,value\na,1\na,2\nb,3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_reshape::8",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "reshape",
+   "-i",
+   "a,b",
+   "-o",
+   "key,value"
+  ],
+  "stdin": "a,b,c\n1,2,3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_group_by::9",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "group-by",
+   "category"
+  ],
+  "stdin": "category,value\na,1\nb,2\na,3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_merge_fields::10",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "merge-fields",
+   "-a",
+   "sum",
+   "-o",
+   "result",
+   "-f",
+   "a,b"
+  ],
+  "stdin": "a,b,c\n1,2,3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_decimate::11",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "decimate",
+   "-n",
+   "2"
+  ],
+  "stdin": "a\n1\n2\n3\n4\n5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_skip_trivial_records::12",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "skip-trivial-records"
+  ],
+  "stdin": "a,b\n1,2\n,\n3,4\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_remove_empty_columns::13",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "remove-empty-columns"
+  ],
+  "stdin": "a,b,c\n1,,3\n4,,6\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_ssub::14",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "ssub",
+   "-f",
+   "text",
+   "world",
+   "universe"
+  ],
+  "stdin": "text\nhello world\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_gsub_verb::15",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "gsub",
+   "-f",
+   "text",
+   "hello",
+   "hi"
+  ],
+  "stdin": "text\nhello world hello\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_sub_verb::16",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "sub",
+   "-f",
+   "text",
+   "hello",
+   "hi"
+  ],
+  "stdin": "text\nhello world hello\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_altkv::17",
+  "argv": [
+   "--inidx",
+   "altkv"
+  ],
+  "stdin": "a b c d\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_unspace::18",
+  "argv": [
+   "--inidx",
+   "--ocsv",
+   "unspace"
+  ],
+  "stdin": "1   2   3\n4   5   6\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_sparsify::19",
+  "argv": [
+   "--icsv",
+   "sparsify"
+  ],
+  "stdin": "a,b,c\n1,2,\n3,,5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_unsparsify::20",
+  "argv": [
+   "--ocsv",
+   "unsparsify"
+  ],
+  "stdin": "a=1,b=2\na=3\na=4,c=5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_check::21",
+  "argv": [
+   "--icsv",
+   "check"
+  ],
+  "stdin": "a\n1\n2\n3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_summary::22",
+  "argv": [
+   "--icsv",
+   "summary"
+  ],
+  "stdin": "a,b\n1,2\n3,4\n5,6\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_tee::23",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "tee",
+   "-a",
+   "then",
+   "cat"
+  ],
+  "stdin": "a,b\n1,2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_count_similar::24",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "count-similar",
+   "-g",
+   "a",
+   "-o",
+   "count"
+  ],
+  "stdin": "a,b\n1,2\n1,2\n1,3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_bootstrap::25",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "bootstrap",
+   "-n",
+   "5"
+  ],
+  "stdin": "a\n1\n2\n3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_sort_within_records::26",
+  "argv": [
+   "sort-within-records"
+  ],
+  "stdin": "c=3,a=1,b=2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_format_values::27",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "format-values",
+   "-i",
+   "x:%0.2f"
+  ],
+  "stdin": "x\n1.234567\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_latin1_to_utf8::28",
+  "argv": [
+   "--icsv",
+   "latin1-to-utf8"
+  ],
+  "stdin": "a\ntest\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_surv::29",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "surv",
+   "-f",
+   "x"
+  ],
+  "stdin": "x\n1\n2\n3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_case_upper::30",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "case",
+   "-u"
+  ],
+  "stdin": "name\nalice\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_case_lower::31",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "case",
+   "-l"
+  ],
+  "stdin": "name\nALICE\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_case_title::32",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "case",
+   "-t"
+  ],
+  "stdin": "name\nalice smith\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_simple_chain::33",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "head",
+   "-n",
+   "2",
+   "then",
+   "sort",
+   "-r",
+   "a"
+  ],
+  "stdin": "a,b,c\n1,2,3\n4,5,6\n7,8,9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_chain_filter_then_sort::34",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "filter",
+   "$a > 1",
+   "then",
+   "sort",
+   "-f",
+   "a"
+  ],
+  "stdin": "a,b,c\n1,2,3\n4,5,6\n7,8,9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_chain_cut_then_put::35",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "cut",
+   "-f",
+   "a,b",
+   "then",
+   "put",
+   "$c = $a + $b"
+  ],
+  "stdin": "a,b,c\n1,2,3\n4,5,6\n7,8,9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_chain_three_verbs::36",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "filter",
+   "$a > 1",
+   "then",
+   "put",
+   "$sum = $a + $b + $c",
+   "then",
+   "sort",
+   "-r",
+   "sum"
+  ],
+  "stdin": "a,b,c\n1,2,3\n4,5,6\n7,8,9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_chain_stats_then_put::37",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "stats1",
+   "-a",
+   "sum",
+   "-f",
+   "a",
+   "then",
+   "put",
+   "$doubled = $a_sum * 2"
+  ],
+  "stdin": "a,b,c\n1,2,3\n4,5,6\n7,8,9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_chain_head_then_tail::38",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "head",
+   "-n",
+   "3",
+   "then",
+   "tail",
+   "-n",
+   "1"
+  ],
+  "stdin": "a,b\n1,2\n3,4\n5,6\n7,8\n9,10\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_chain_rename_then_filter::39",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "rename",
+   "a,x",
+   "then",
+   "filter",
+   "$x > 5"
+  ],
+  "stdin": "a,b,c\n1,2,3\n4,5,6\n7,8,9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_chain_group_then_sort::40",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "stats1",
+   "-a",
+   "sum",
+   "-f",
+   "value",
+   "-g",
+   "category",
+   "then",
+   "sort",
+   "-r",
+   "value_sum"
+  ],
+  "stdin": "category,value\na,10\nb,20\na,30\nb,40\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_chain_uniq_then_count::41",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "uniq",
+   "-a",
+   "then",
+   "count"
+  ],
+  "stdin": "a\n1\n1\n2\n2\n3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_chain_format_conversion::42",
+  "argv": [
+   "--icsv",
+   "--ojson",
+   "filter",
+   "$a > 1"
+  ],
+  "stdin": "a,b,c\n1,2,3\n4,5,6\n7,8,9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_input::43",
+  "argv": [
+   "--icsv",
+   "cat"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_header_only_csv::44",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "cat"
+  ],
+  "stdin": "a,b,c\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_record::45",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "cat"
+  ],
+  "stdin": "a,b\n1,2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_data::46",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "cat"
+  ],
+  "stdin": "name,value\n日本語,10\némoji 😀,20\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_fields::47",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "cat"
+  ],
+  "stdin": "a,b\n\"hello, world\",test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_newlines_in_quoted_fields::48",
+  "argv": [
+   "--icsv",
+   "--ojson",
+   "cat"
+  ],
+  "stdin": "a,b\n\"hello\nworld\",test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_escaped_quotes::49",
+  "argv": [
+   "--icsv",
+   "--ojson",
+   "cat"
+  ],
+  "stdin": "a,b\n\"say \"\"hello\"\"\",test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_field::50",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "cat"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_many_records::51",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "count"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_field_values::52",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "cat"
+  ],
+  "stdin": "a,b,c\n1,,3\n,2,\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_numeric_field_names::53",
+  "argv": [
+   "--inidx",
+   "--ocsv",
+   "cat"
+  ],
+  "stdin": "1,2,3\n4,5,6\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_field_with_equals_sign::54",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "cat"
+  ],
+  "stdin": "a,b\n\"x=y\",test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_field_names::55",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "cat"
+  ],
+  "stdin": "a,,c\n1,2,3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_whitespace_only_fields::56",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "cat"
+  ],
+  "stdin": "a,b\n\"   \",test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tab_in_csv_field::57",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "cat"
+  ],
+  "stdin": "a,b\n\"hello\tworld\",test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_verb_option::58",
+  "argv": [
+   "--icsv",
+   "cat",
+   "--invalid-option"
+  ],
+  "stdin": "a,b,c\n1,2,3\n4,5,6\n7,8,9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_division_by_zero::59",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "put",
+   "$c = $a / $b"
+  ],
+  "stdin": "a,b\n1,0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_no_matches::60",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "filter",
+   "$a > 1000"
+  ],
+  "stdin": "a,b,c\n1,2,3\n4,5,6\n7,8,9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_empty_result::61",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "sort",
+   "-f",
+   "a"
+  ],
+  "stdin": "a,b\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_on_empty::62",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "stats1",
+   "-a",
+   "sum",
+   "-f",
+   "a"
+  ],
+  "stdin": "a,b\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cut_nonexistent_field::63",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "cut",
+   "-f",
+   "nonexistent"
+  ],
+  "stdin": "a,b,c\n1,2,3\n4,5,6\n7,8,9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_with_null_values::64",
+  "argv": [
+   "--ijson",
+   "--ocsv",
+   "cat"
+  ],
+  "stdin": "[{\"a\":1,\"b\":null}]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_with_boolean::65",
+  "argv": [
+   "--ijson",
+   "--ocsv",
+   "cat"
+  ],
+  "stdin": "[{\"a\":true,\"b\":false}]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_with_arrays::66",
+  "argv": [
+   "--ijson",
+   "cat"
+  ],
+  "stdin": "[{\"a\":[1,2,3],\"b\":\"test\"}]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_head::67",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "head",
+   "-n",
+   "-1"
+  ],
+  "stdin": "a,b,c\n1,2,3\n4,5,6\n7,8,9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_head::68",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "head",
+   "-n",
+   "0"
+  ],
+  "stdin": "a,b,c\n1,2,3\n4,5,6\n7,8,9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_number::69",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "put",
+   "$c = $a + $b"
+  ],
+  "stdin": "a,b\n999999999999999,123456789012345\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scientific_notation::70",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "cat"
+  ],
+  "stdin": "a,b\n1.5e10,2.3e-5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_types_in_field::71",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "cat"
+  ],
+  "stdin": "a,b\n1,x\n2,y\nhello,z\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read_from_stdin::72",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "cat"
+  ],
+  "stdin": "a,b,c\n1,2,3\n4,5,6\n7,8,9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_to_json::73",
+  "argv": [
+   "--icsv",
+   "--ojson",
+   "cat"
+  ],
+  "stdin": "a,b,c\n1,2,3\n4,5,6\n7,8,9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_to_csv::74",
+  "argv": [
+   "--ijson",
+   "--ocsv",
+   "cat"
+  ],
+  "stdin": "[\n{\"a\":1,\"b\":2,\"c\":3},\n{\"a\":4,\"b\":5,\"c\":6},\n{\"a\":7,\"b\":8,\"c\":9}\n]\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dkvp_to_csv::75",
+  "argv": [
+   "--ocsv",
+   "cat"
+  ],
+  "stdin": "a=1,b=2,c=3\na=4,b=5,c=6\na=7,b=8,c=9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_to_dkvp::76",
+  "argv": [
+   "--icsv",
+   "cat"
+  ],
+  "stdin": "a,b,c\n1,2,3\n4,5,6\n7,8,9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_to_dkvp::77",
+  "argv": [
+   "--ijson",
+   "cat"
+  ],
+  "stdin": "[\n{\"a\":1,\"b\":2,\"c\":3},\n{\"a\":4,\"b\":5,\"c\":6},\n{\"a\":7,\"b\":8,\"c\":9}\n]\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_jsonl_input::78",
+  "argv": [
+   "--ijsonl",
+   "--ocsv",
+   "cat"
+  ],
+  "stdin": "{\"a\":1,\"b\":2,\"c\":3}\n{\"a\":4,\"b\":5,\"c\":6}\n{\"a\":7,\"b\":8,\"c\":9}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_to_pprint::79",
+  "argv": [
+   "--icsv",
+   "--opprint",
+   "cat"
+  ],
+  "stdin": "a,b,c\n1,2,3\n4,5,6\n7,8,9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_to_xtab::80",
+  "argv": [
+   "--icsv",
+   "--oxtab",
+   "cat"
+  ],
+  "stdin": "a,b,c\n1,2,3\n4,5,6\n7,8,9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_to_markdown::81",
+  "argv": [
+   "--icsv",
+   "--omd",
+   "cat"
+  ],
+  "stdin": "a,b,c\n1,2,3\n4,5,6\n7,8,9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nidx_format::82",
+  "argv": [
+   "--inidx",
+   "--ocsv",
+   "cat"
+  ],
+  "stdin": "the quick brown\nfox jumped\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tsv_format::83",
+  "argv": [
+   "--itsv",
+   "--ocsv",
+   "cat"
+  ],
+  "stdin": "a\tb\tc\n1\t2\t3\n4\t5\t6\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_with_quotes::84",
+  "argv": [
+   "--icsv",
+   "--ojson",
+   "cat"
+  ],
+  "stdin": "a,b,c\n1,\"hello, world\",3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_with_embedded_newlines::85",
+  "argv": [
+   "--icsv",
+   "--ojson",
+   "cat"
+  ],
+  "stdin": "a,b,c\n1,\"hello\nworld\",3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_nested_objects::86",
+  "argv": [
+   "--ijson",
+   "cat"
+  ],
+  "stdin": "[{\"a\":1,\"b\":{\"c\":2,\"d\":3}}]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_json::87",
+  "argv": [
+   "--ijson",
+   "cat"
+  ],
+  "stdin": "{\"a\":1,invalid}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_jsonl_output::88",
+  "argv": [
+   "--icsv",
+   "--ojsonl",
+   "cat"
+  ],
+  "stdin": "a,b,c\n1,2,3\n4,5,6\n7,8,9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_field_arithmetic::89",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "put",
+   "$sum = $a + $b + $c"
+  ],
+  "stdin": "a,b,c\n1,2,3\n4,5,6\n7,8,9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_field_multiplication::90",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "put",
+   "$prod = $a * $b"
+  ],
+  "stdin": "a,b,c\n1,2,3\n4,5,6\n7,8,9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_field_division::91",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "put",
+   "$div = $c / $a"
+  ],
+  "stdin": "a,b,c\n1,2,3\n4,5,6\n7,8,9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_concatenation::92",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "put",
+   "$c = $a . \" \" . $b"
+  ],
+  "stdin": "a,b\nhello,world\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conditional_expression::93",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "put",
+   "$category = ($a > 5) ? \"high\" : \"low\""
+  ],
+  "stdin": "a,b,c\n1,2,3\n4,5,6\n7,8,9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_functions::94",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "put",
+   "$lower = tolower($name)"
+  ],
+  "stdin": "name\nALICE\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strlen_function::95",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "put",
+   "$len = strlen($name)"
+  ],
+  "stdin": "name\nhello\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_substr_function::96",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "put",
+   "$sub = substr($text, 0, 5)"
+  ],
+  "stdin": "text\nhelloworld\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_match::97",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "filter",
+   "$name =~ \"^a\""
+  ],
+  "stdin": "name\nalice\nbob\ncharlie\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gsub_function::98",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "put",
+   "$new = gsub($text, \"o\", \"0\")"
+  ],
+  "stdin": "text\nhello world\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_math_functions::99",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "put",
+   "$sqrt_x = sqrt($x)"
+  ],
+  "stdin": "x\n9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregation_sum::100",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "stats1",
+   "-a",
+   "sum",
+   "-f",
+   "a,b,c"
+  ],
+  "stdin": "a,b,c\n1,2,3\n4,5,6\n7,8,9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregation_mean::101",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "stats1",
+   "-a",
+   "mean",
+   "-f",
+   "a"
+  ],
+  "stdin": "a,b,c\n1,2,3\n4,5,6\n7,8,9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregation_min_max::102",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "stats1",
+   "-a",
+   "min,max",
+   "-f",
+   "a"
+  ],
+  "stdin": "a,b,c\n1,2,3\n4,5,6\n7,8,9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_group_by::103",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "stats1",
+   "-a",
+   "sum",
+   "-f",
+   "value",
+   "-g",
+   "category"
+  ],
+  "stdin": "category,value\na,10\nb,20\na,30\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats2::104",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "stats2",
+   "-a",
+   "corr",
+   "-f",
+   "x,y"
+  ],
+  "stdin": "x,y\n1,2\n2,4\n3,6\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_histogram::105",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "histogram",
+   "--auto",
+   "-f",
+   "x"
+  ],
+  "stdin": "x\n1\n1\n2\n2\n2\n3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_top_records::106",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "top",
+   "-n",
+   "2",
+   "-f",
+   "score",
+   "-a"
+  ],
+  "stdin": "name,score\nalice,90\nbob,85\ncharlie,95\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fraction_verb::107",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "fraction",
+   "-f",
+   "value"
+  ],
+  "stdin": "category,value\na,10\nb,20\na,30\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bar_verb::108",
+  "argv": [
+   "--icsv",
+   "--opprint",
+   "bar",
+   "-f",
+   "value",
+   "--lo",
+   "0",
+   "--hi",
+   "100"
+  ],
+  "stdin": "name,value\na,10\nb,50\nc,100\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nest_verb::109",
+  "argv": [
+   "--icsv",
+   "--ojson",
+   "nest",
+   "--explode",
+   "--values",
+   "--across-records",
+   "-f",
+   "a,b"
+  ],
+  "stdin": "a,b,c\n1,2,3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_template_verb::110",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "template",
+   "-f",
+   "name,value"
+  ],
+  "stdin": "name,value\nalice,10\nbob,20\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repeat_verb::111",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "repeat",
+   "-n",
+   "3"
+  ],
+  "stdin": "a,b\n1,2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_most_frequent_verb::112",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "most-frequent",
+   "-f",
+   "x",
+   "-n",
+   "2"
+  ],
+  "stdin": "x\n1\n2\n1\n1\n2\n3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_least_frequent_verb::113",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "least-frequent",
+   "-f",
+   "x",
+   "-n",
+   "1"
+  ],
+  "stdin": "x\n1\n2\n1\n1\n2\n3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_distinct_verb::114",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "count-distinct",
+   "-f",
+   "x"
+  ],
+  "stdin": "x\n1\n2\n1\n1\n2\n3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_cut::115",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "cut",
+   "-f",
+   "a,c"
+  ],
+  "stdin": "a,b,c\n1,2,3\n4,5,6\n7,8,9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_head::116",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "head",
+   "-n",
+   "2"
+  ],
+  "stdin": "a,b,c\n1,2,3\n4,5,6\n7,8,9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_tail::117",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "tail",
+   "-n",
+   "2"
+  ],
+  "stdin": "a,b,c\n1,2,3\n4,5,6\n7,8,9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_sort::118",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "sort",
+   "-f",
+   "a"
+  ],
+  "stdin": "a,b,c\n3,2,1\n1,2,3\n2,2,2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_sort_numeric::119",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "sort",
+   "-n",
+   "a"
+  ],
+  "stdin": "a,b\n10,x\n2,y\n100,z\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_sort_reverse::120",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "sort",
+   "-r",
+   "a"
+  ],
+  "stdin": "a,b,c\n1,2,3\n4,5,6\n7,8,9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_filter::121",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "filter",
+   "$a > 5"
+  ],
+  "stdin": "a,b,c\n1,2,3\n4,5,6\n7,8,9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_put::122",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "put",
+   "$d = $a + $b"
+  ],
+  "stdin": "a,b,c\n1,2,3\n4,5,6\n7,8,9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_count::123",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "count"
+  ],
+  "stdin": "a,b,c\n1,2,3\n4,5,6\n7,8,9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_stats1::124",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "stats1",
+   "-a",
+   "sum,mean",
+   "-f",
+   "a"
+  ],
+  "stdin": "a,b,c\n1,2,3\n4,5,6\n7,8,9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_grep::125",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "grep",
+   "alice"
+  ],
+  "stdin": "name,value\nalice,10\nbob,20\nalice,30\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_uniq::126",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "uniq",
+   "-a"
+  ],
+  "stdin": "a,b\n1,2\n1,2\n3,4\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_rename::127",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "rename",
+   "a,x"
+  ],
+  "stdin": "a,b,c\n1,2,3\n4,5,6\n7,8,9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_label::128",
+  "argv": [
+   "--inidx",
+   "--ocsv",
+   "label",
+   "a,b,c"
+  ],
+  "stdin": "1 2 3\n4 5 6\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_reorder::129",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "reorder",
+   "-f",
+   "c,b,a"
+  ],
+  "stdin": "a,b,c\n1,2,3\n4,5,6\n7,8,9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_nothing::130",
+  "argv": [
+   "--icsv",
+   "nothing"
+  ],
+  "stdin": "a,b,c\n1,2,3\n4,5,6\n7,8,9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_sample::131",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "sample",
+   "-k",
+   "2"
+  ],
+  "stdin": "a,b,c\n1,2,3\n4,5,6\n7,8,9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_shuffle::132",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "shuffle"
+  ],
+  "stdin": "a,b,c\n1,2,3\n4,5,6\n7,8,9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_tac::133",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "tac"
+  ],
+  "stdin": "a,b,c\n1,2,3\n4,5,6\n7,8,9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_step::134",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "step",
+   "-a",
+   "counter",
+   "-f",
+   "a"
+  ],
+  "stdin": "a\n1\n2\n3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_sec2gmt::135",
+  "argv": [
+   "--icsv",
+   "sec2gmt",
+   "timestamp"
+  ],
+  "stdin": "timestamp\n1234567890\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_having_fields::136",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "having-fields",
+   "--at-least",
+   "a"
+  ],
+  "stdin": "a,b\n1,2\n3,4\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_clean_whitespace::137",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "clean-whitespace"
+  ],
+  "stdin": "a,b\n  hello  ,  world  \n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_fill_down::138",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "fill-down",
+   "-f",
+   "a"
+  ],
+  "stdin": "a,b\n1,x\n,y\n,z\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_fill_empty::139",
+  "argv": [
+   "--icsv",
+   "--ocsv",
+   "fill-empty",
+   "-v",
+   "NA"
+  ],
+  "stdin": "a,b\n1,\n,2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_regularize::140",
+  "argv": [
+   "--ocsv",
+   "regularize"
+  ],
+  "stdin": "a=1,b=2\na=4,b=5,c=6\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_unflatten::141",
+  "argv": [
+   "--ojson",
+   "unflatten"
+  ],
+  "stdin": "a.b=1,a.c=2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_pkg_bifs_arithmetic_TestBIF_plus_unary::142",
+  "argv": [
+   "--dkvp",
+   "put",
+   "$y=+123; $z=+(-123.5)",
+   "then",
+   "cut",
+   "-f",
+   "y,z"
+  ],
+  "stdin": "x=1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_pkg_bifs_arithmetic_TestBIF_minus_unary::143",
+  "argv": [
+   "--dkvp",
+   "put",
+   "$y=-123; $z=-(-123.5)",
+   "then",
+   "cut",
+   "-f",
+   "y,z"
+  ],
+  "stdin": "x=1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_pkg_bifs_arithmetic_TestBIF_plus_binary::144",
+  "argv": [
+   "--dkvp",
+   "put",
+   "$a=123+456; $b=123.5+456",
+   "then",
+   "cut",
+   "-f",
+   "a,b"
+  ],
+  "stdin": "x=1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_pkg_bifs_arithmetic_TestBIF_plus_binary_overflow::145",
+  "argv": [
+   "--dkvp",
+   "put",
+   "$c=0x07ffffffffffffff + 0x07fffffffffffffe; $d=0x7fffffffffffffff + 0x7ffffffffffffffe",
+   "then",
+   "cut",
+   "-f",
+   "c,d"
+  ],
+  "stdin": "x=1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_pkg_bifs_bits_TestBIF_bitcount::146",
+  "argv": [
+   "--dkvp",
+   "put",
+   "$y=bitcount(0xcafe)",
+   "then",
+   "cut",
+   "-f",
+   "y"
+  ],
+  "stdin": "x=1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_pkg_bifs_collections_TestBIF_length::147",
+  "argv": [
+   "--dkvp",
+   "put",
+   "$l=length(123)",
+   "then",
+   "cut",
+   "-f",
+   "l"
+  ],
+  "stdin": "x=1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_pkg_bifs_collections_TestBIF_depth::148",
+  "argv": [
+   "--dkvp",
+   "put",
+   "$d0=depth(123); $d1=depth({\"key\":\"value\"}); $d2=depth([\"value\"])",
+   "then",
+   "cut",
+   "-f",
+   "d0,d1,d2"
+  ],
+  "stdin": "x=1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_pkg_bifs_hashing_TestBIF_md5::149",
+  "argv": [
+   "--dkvp",
+   "put",
+   "$m1=md5(\"\"); $m2=md5(\"miller\")",
+   "then",
+   "cut",
+   "-f",
+   "m1,m2"
+  ],
+  "stdin": "x=1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_norc_suppresses_mlrrc_loading::150",
+  "argv": [
+   "--norc",
+   "cat"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reads_stdin_when_no_filenames::151",
+  "argv": [
+   "--csv",
+   "sort",
+   "-f",
+   "a"
+  ],
+  "stdin": "a,b\n2,x\n1,y\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_put_computation_and_formatting::152",
+  "argv": [
+   "--csv",
+   "put",
+   "$c=$a+$b; $a=$a*10"
+  ],
+  "stdin": "a,b\n2,3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats1_basic_accumulators::153",
+  "argv": [
+   "stats1",
+   "-a",
+   "count,sum,mean,min,max",
+   "-f",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats1_grouped_aggregation::154",
+  "argv": [
+   "stats1",
+   "-a",
+   "count,sum,mean,min,max",
+   "-f",
+   "value",
+   "-g",
+   "category"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats1_statistical_measures::155",
+  "argv": [
+   "stats1",
+   "-a",
+   "stddev,var,median,p25,p75",
+   "-f",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats1_mode_antimode::156",
+  "argv": [
+   "stats1",
+   "-a",
+   "count,mode,antimode",
+   "-f",
+   "color"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_basic::157",
+  "argv": [
+   "count"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_grouped::158",
+  "argv": [
+   "count",
+   "-g",
+   "category"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_distinct_groups::159",
+  "argv": [
+   "count",
+   "-g",
+   "category",
+   "-n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_histogram_basic::160",
+  "argv": [
+   "histogram",
+   "-f",
+   "value",
+   "--lo",
+   "0",
+   "--hi",
+   "40",
+   "--nbins",
+   "4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_histogram_auto::161",
+  "argv": [
+   "histogram",
+   "-f",
+   "value",
+   "--auto",
+   "--nbins",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats2_correlation_and_regression::162",
+  "argv": [
+   "stats2",
+   "-a",
+   "corr,cov,linreg-ols",
+   "-f",
+   "x,y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats1_multiple_fields::163",
+  "argv": [
+   "stats1",
+   "-a",
+   "sum,mean",
+   "-f",
+   "a,b,c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats1_empty_input::164",
+  "argv": [
+   "stats1",
+   "-a",
+   "count,sum,mean",
+   "-f",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats1_single_value::165",
+  "argv": [
+   "stats1",
+   "-a",
+   "count,sum,mean,min,max,stddev,var",
+   "-f",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats1_null_and_distinct_counts::166",
+  "argv": [
+   "stats1",
+   "-a",
+   "count,null_count,distinct_count",
+   "-f",
+   "value,text"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_distinct_multiple_fields::167",
+  "argv": [
+   "count-distinct",
+   "-f",
+   "color,size"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_distinct_unlashed::168",
+  "argv": [
+   "count-distinct",
+   "-f",
+   "color,size",
+   "-u"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_distinct_n_flag::169",
+  "argv": [
+   "count-distinct",
+   "-f",
+   "color",
+   "-n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats2_grouped_correlation::170",
+  "argv": [
+   "stats2",
+   "-a",
+   "corr,cov",
+   "-f",
+   "x,y",
+   "-g",
+   "group"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats1_percentiles::171",
+  "argv": [
+   "stats1",
+   "-a",
+   "p0,p10,p25,p50,p75,p90,p100",
+   "-f",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats1_percentiles_interpolated::172",
+  "argv": [
+   "stats1",
+   "-a",
+   "p0,p10,p25,p50,p75,p90,p100",
+   "-f",
+   "value",
+   "-i"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats1_string_fields::173",
+  "argv": [
+   "stats1",
+   "-a",
+   "count,mode,antimode,min,max",
+   "-f",
+   "name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats1_multiple_groupby_fields::174",
+  "argv": [
+   "stats1",
+   "-a",
+   "count,sum,mean",
+   "-f",
+   "value",
+   "-g",
+   "dept,team"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_multiple_groupby_fields::175",
+  "argv": [
+   "count",
+   "-g",
+   "dept,team"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_custom_output_field::176",
+  "argv": [
+   "count",
+   "-o",
+   "num_records"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_histogram_with_output_prefix::177",
+  "argv": [
+   "histogram",
+   "-f",
+   "value",
+   "--lo",
+   "0",
+   "--hi",
+   "40",
+   "--nbins",
+   "4",
+   "-o",
+   "hist_"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats2_weak_correlation::178",
+  "argv": [
+   "stats2",
+   "-a",
+   "corr,r2,linreg-ols",
+   "-f",
+   "x,y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats2_multiple_field_pairs::179",
+  "argv": [
+   "stats2",
+   "-a",
+   "corr",
+   "-f",
+   "x,y,a,b"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats1_advanced_statistics::180",
+  "argv": [
+   "stats1",
+   "-a",
+   "mad,meaneb,skewness,kurtosis",
+   "-f",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_similar::181",
+  "argv": [
+   "count-similar",
+   "-g",
+   "category"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats1_varied_distributions_by_group::182",
+  "argv": [
+   "stats1",
+   "-a",
+   "count,min,max,mean,median,stddev,p25,p75",
+   "-f",
+   "value",
+   "-g",
+   "group"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats1_negative_numbers::183",
+  "argv": [
+   "stats1",
+   "-a",
+   "count,sum,mean,min,max,stddev",
+   "-f",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_histogram_single_bin::184",
+  "argv": [
+   "histogram",
+   "-f",
+   "value",
+   "--lo",
+   "0",
+   "--hi",
+   "100",
+   "--nbins",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_histogram_many_bins::185",
+  "argv": [
+   "histogram",
+   "-f",
+   "value",
+   "--lo",
+   "0",
+   "--hi",
+   "40",
+   "--nbins",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats2_pca_regression::186",
+  "argv": [
+   "stats2",
+   "-a",
+   "linreg-pca",
+   "-f",
+   "x,y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats1_regex_field_selection::187",
+  "argv": [
+   "stats1",
+   "-a",
+   "sum,mean",
+   "--fr",
+   "^x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats1_regex_field_exclusion::188",
+  "argv": [
+   "stats1",
+   "-a",
+   "sum",
+   "--fx",
+   "^z"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats1_group_by_regex::189",
+  "argv": [
+   "stats1",
+   "-a",
+   "sum",
+   "-f",
+   "value",
+   "--gr",
+   "^key"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats2_odd_field_count_error::190",
+  "argv": [
+   "stats2",
+   "-a",
+   "corr",
+   "-f",
+   "x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats1_invalid_accumulator_error::191",
+  "argv": [
+   "stats1",
+   "-a",
+   "nonexistent",
+   "-f",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats1_mixed_types::192",
+  "argv": [
+   "stats1",
+   "-a",
+   "count,mode",
+   "-f",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_histogram_multiple_fields::193",
+  "argv": [
+   "histogram",
+   "-f",
+   "a,b",
+   "--lo",
+   "0",
+   "--hi",
+   "100",
+   "--nbins",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_distinct_exclude_fields::194",
+  "argv": [
+   "count-distinct",
+   "-x",
+   "category"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bar_basic::195",
+  "argv": [
+   "bar",
+   "-f",
+   "score"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bar_custom_width_and_chars::196",
+  "argv": [
+   "bar",
+   "-f",
+   "score",
+   "-w",
+   "20",
+   "-c",
+   "#",
+   "-b",
+   " "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bar_auto_mode::197",
+  "argv": [
+   "bar",
+   "-f",
+   "score",
+   "--auto"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bar_multiple_fields::198",
+  "argv": [
+   "bar",
+   "-f",
+   "math,english"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_similar_basic::199",
+  "argv": [
+   "count-similar",
+   "-g",
+   "dept"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_similar_custom_output_field::200",
+  "argv": [
+   "count-similar",
+   "-g",
+   "dept",
+   "-o",
+   "group_size"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_similar_multiple_groupby_fields::201",
+  "argv": [
+   "count-similar",
+   "-g",
+   "dept,level"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_summary_basic::202",
+  "argv": [
+   "summary"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_summary_all_stats::203",
+  "argv": [
+   "summary",
+   "--all"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_summary_transpose::204",
+  "argv": [
+   "summary",
+   "--transpose"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_summary_selected_stats::205",
+  "argv": [
+   "summary",
+   "-a",
+   "mean,sum,count"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_surv_basic::206",
+  "argv": [
+   "surv",
+   "-d",
+   "time",
+   "-s",
+   "status"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bar_out_of_bounds::207",
+  "argv": [
+   "bar",
+   "-f",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bar_empty_input::208",
+  "argv": [
+   "bar",
+   "-f",
+   "value"
+  ],
+  "stdin": "value,name\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_similar_all_unique::209",
+  "argv": [
+   "count-similar",
+   "-g",
+   "id"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_similar_empty_input::210",
+  "argv": [
+   "count-similar",
+   "-g",
+   "dept"
+  ],
+  "stdin": "dept,name\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_summary_exclude_stats::211",
+  "argv": [
+   "summary",
+   "-x",
+   "field_type,null_count"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bar_missing_field_name_flag::212",
+  "argv": [
+   "bar"
+  ],
+  "stdin": "a,b\n1,2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_similar_missing_group_flag::213",
+  "argv": [
+   "count-similar"
+  ],
+  "stdin": "a,b\n1,2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_surv_missing_duration_flag::214",
+  "argv": [
+   "surv",
+   "-s",
+   "status"
+  ],
+  "stdin": "time,status\n1,1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_surv_missing_status_flag::215",
+  "argv": [
+   "surv",
+   "-d",
+   "time"
+  ],
+  "stdin": "time,status\n1,1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bar_custom_lo_hi_range::216",
+  "argv": [
+   "bar",
+   "-f",
+   "temp",
+   "--lo",
+   "-20",
+   "--hi",
+   "30"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bar_custom_oob_character::217",
+  "argv": [
+   "bar",
+   "-f",
+   "value",
+   "-x",
+   "@"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bar_multichar_fill_strings::218",
+  "argv": [
+   "bar",
+   "-f",
+   "value",
+   "-c",
+   "-=-",
+   "-b",
+   "   ",
+   "-w",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_surv_empty_input::219",
+  "argv": [
+   "surv",
+   "-d",
+   "time",
+   "-s",
+   "status"
+  ],
+  "stdin": "time,status\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_summary_percentiles_only::220",
+  "argv": [
+   "summary",
+   "-a",
+   "p25,median,p75,iqr"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_summary_all_transpose::221",
+  "argv": [
+   "summary",
+   "--all",
+   "--transpose"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hex_stdin::222",
+  "argv": [
+   "hex"
+  ],
+  "stdin": "test data\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_termcvt_lf_to_crlf::223",
+  "argv": [
+   "lecat",
+   "--mono"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_division_by_zero_all_type_combinations::224",
+  "argv": [
+   "put",
+   "$result = $x / $y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_modulo_by_zero_produces_inf_or_nan::225",
+  "argv": [
+   "put",
+   "$result = $x % $y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_integer_division_pythonic_semantics::226",
+  "argv": [
+   "put",
+   "$result = $x // $y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_overflow_vs_non_overflow_arithmetic::227",
+  "argv": [
+   "put",
+   "$plus = $x + $y; $dotplus = $x .+ $y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_operators_mixed_types::228",
+  "argv": [
+   "put",
+   "$dotminus = $x .- $y; $dottimes = $x .* $y; $dotdivide = $x ./ $y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_errors_produce_error_values::229",
+  "argv": [
+   "put",
+   "$add = $x + $y; $mul = $x * $y; $div = $x / $y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_modular_arithmetic_functions::230",
+  "argv": [
+   "put",
+   "$madd = madd($a,$b,$m); $msub = msub($a,$b,$m); $mmul = mmul($a,$b,$m)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_modular_exponentiation_special_cases::231",
+  "argv": [
+   "put",
+   "$mexp = mexp($a,$e,$m)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_max_variadic_integers_and_floats::232",
+  "argv": [
+   "put",
+   "$min_val = min($a,$b,$c); $max_val = max($a,$b,$c)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_max_boolean_and_string_types::233",
+  "argv": [
+   "put",
+   "$min_val = min($a,$b); $max_val = max($a,$b)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subtraction_overflow_detection::234",
+  "argv": [
+   "put",
+   "$minus = $x - $y; $dotminus = $x .- $y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiplication_overflow_detection::235",
+  "argv": [
+   "put",
+   "$times = $x * $y; $dottimes = $x .* $y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dotdivide_by_zero_crashes_bug::236",
+  "argv": [
+   "put",
+   "$dotdiv = $x ./ $y"
+  ],
+  "stdin": "x,y\n10,0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_modulo_pythonic_negative_operands::237",
+  "argv": [
+   "put",
+   "$mod = $x % $y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_float_values_in_min_max::238",
+  "argv": [
+   "put",
+   "$inf = 1.0/0.0; $ninf = -1.0/0.0; $nan = 0.0/0.0; $min_inf = min($inf, 10); $max_ninf = max($ninf, 10); $min_nan = min($nan, 10)"
+  ],
+  "stdin": "{}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minlen_maxlen_string_length_comparison::239",
+  "argv": [
+   "put",
+   "$arr = [\"cat\", \"elephant\", \"dog\", \"a\", \"longword\"]; $min_len = minlen($arr); $max_len = maxlen($arr)"
+  ],
+  "stdin": "{}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_max_empty_array_returns_void::240",
+  "argv": [
+   "put",
+   "$empty_arr = []; $min_empty = min($empty_arr); $max_empty = max($empty_arr)"
+  ],
+  "stdin": "{}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unary_plus_minus_operators::241",
+  "argv": [
+   "put",
+   "$plus = +$x; $minus = -$x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_absent_propagation_in_arithmetic::242",
+  "argv": [
+   "put",
+   "$div = $x / $y; $intdiv = $x // $y; $mod = $x % $y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_void_operands_return_other_operand::243",
+  "argv": [
+   "put",
+   "$x = 10; $y = void; $div = $x / $y"
+  ],
+  "stdin": "{}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_max_map_values::244",
+  "argv": [
+   "put",
+   "$map = {\"x\": 10, \"y\": -5, \"z\": 20}; $min_val = min($map); $max_val = max($map)"
+  ],
+  "stdin": "{}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_operators_float_operands::245",
+  "argv": [
+   "put",
+   "$dotplus = $x .+ $y; $dotminus = $x .- $y; $dottimes = $x .* $y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_operator_precedence_and_grouping::246",
+  "argv": [
+   "put",
+   "$result = ($a + $b) * $c; $result2 = $a * $b + $c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_value_propagation_chain::247",
+  "argv": [
+   "put",
+   "$a = $x + $y; $b = $a * 2; $c = $b / 3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_max_single_argument_identity::248",
+  "argv": [
+   "put",
+   "$min_val = min($x); $max_val = max($x)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_int_comparisons::249",
+  "argv": [
+   "put",
+   "$eq = ($a == $b); $ne = ($a != $b); $lt = ($a < $b); $le = ($a <= $b); $gt = ($a > $b); $ge = ($a >= $b)"
+  ],
+  "stdin": "a=5,b=10\na=15,b=10\na=10,b=10",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_float_comparisons::250",
+  "argv": [
+   "put",
+   "$eq = ($a == $b); $ne = ($a != $b); $lt = ($a < $b); $le = ($a <= $b); $gt = ($a > $b); $ge = ($a >= $b)"
+  ],
+  "stdin": "a=5.5,b=10.2\na=15.7,b=10.2\na=10.2,b=10.2",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_int_float_comparisons::251",
+  "argv": [
+   "put",
+   "$eq = ($a == $b); $ne = ($a != $b); $lt = ($a < $b); $le = ($a <= $b); $gt = ($a > $b); $ge = ($a >= $b)"
+  ],
+  "stdin": "a=5,b=10.5\na=15,b=10.5\na=10,b=10.0",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_comparisons::252",
+  "argv": [
+   "put",
+   "$eq = ($a == $b); $ne = ($a != $b); $lt = ($a < $b); $le = ($a <= $b); $gt = ($a > $b); $ge = ($a >= $b)"
+  ],
+  "stdin": "a=apple,b=banana\na=zebra,b=banana\na=banana,b=banana",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_vs_int_comparisons::253",
+  "argv": [
+   "put",
+   "$eq = ($a == $b); $ne = ($a != $b); $lt = ($a < $b); $le = ($a <= $b); $gt = ($a > $b); $ge = ($a >= $b)"
+  ],
+  "stdin": "a=5,b=abc\na=10,b=5",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bool_comparisons::254",
+  "argv": [
+   "put",
+   "$eq = ($a == $b); $ne = ($a != $b); $lt = ($a < $b); $le = ($a <= $b); $gt = ($a > $b); $ge = ($a >= $b)"
+  ],
+  "stdin": "a=true,b=false\na=false,b=true\na=true,b=true\na=false,b=false",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_spaceship_operator::255",
+  "argv": [
+   "put",
+   "$cmp_result = ($a <=> $b)"
+  ],
+  "stdin": "a=5,b=10\na=15,b=10\na=10,b=10",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_vs_int_comparisons::256",
+  "argv": [
+   "put",
+   "$eq = ($a == $b); $ne = ($a != $b); $lt = ($a < $b); $gt = ($a > $b)"
+  ],
+  "stdin": "a=,b=5",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_vs_null_comparisons::257",
+  "argv": [
+   "put",
+   "$eq = ($a == $b); $ne = ($a != $b); $lt = ($a < $b); $gt = ($a > $b); $le = ($a <= $b); $ge = ($a >= $b)"
+  ],
+  "stdin": "a=,b=",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_ordering_error::258",
+  "argv": [
+   "put",
+   "$lt = ($a < $b)"
+  ],
+  "stdin": "{\"a\": [1,2,3], \"b\": [4,5,6]}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_map_ordering_error::259",
+  "argv": [
+   "put",
+   "$lt = ($a < $b)"
+  ],
+  "stdin": "{\"a\": {\"x\":1}, \"b\": {\"y\":2}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_float_vs_string_comparisons::260",
+  "argv": [
+   "put",
+   "$eq = ($a == $b); $ne = ($a != $b); $lt = ($a < $b); $gt = ($a > $b)"
+  ],
+  "stdin": "a=5.5,b=abc\na=10.5,b=5.5",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bool_vs_int_comparisons::261",
+  "argv": [
+   "put",
+   "$eq = ($a == $b); $ne = ($a != $b); $lt = ($a < $b); $gt = ($a > $b)"
+  ],
+  "stdin": "a=true,b=5",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bool_vs_float_comparisons::262",
+  "argv": [
+   "put",
+   "$eq = ($a == $b); $ne = ($a != $b); $lt = ($a < $b); $gt = ($a > $b)"
+  ],
+  "stdin": "a=true,b=5.5",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bool_vs_string_comparisons::263",
+  "argv": [
+   "put",
+   "$eq = ($a == $b); $ne = ($a != $b); $lt = ($a < $b); $gt = ($a > $b)"
+  ],
+  "stdin": "a=true,b=xyz",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_vs_string_comparisons::264",
+  "argv": [
+   "put",
+   "$eq = ($a == $b); $ne = ($a != $b); $lt = ($a < $b); $gt = ($a > $b)"
+  ],
+  "stdin": "a=,b=xyz",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_vs_float_comparisons::265",
+  "argv": [
+   "put",
+   "$eq = ($a == $b); $ne = ($a != $b); $lt = ($a < $b); $gt = ($a > $b)"
+  ],
+  "stdin": "a=,b=5.5",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_vs_bool_comparisons::266",
+  "argv": [
+   "put",
+   "$eq = ($a == $b); $ne = ($a != $b); $lt = ($a < $b); $gt = ($a > $b)"
+  ],
+  "stdin": "a=,b=true",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_equality_comparisons::267",
+  "argv": [
+   "put",
+   "$eq = ($a == $b); $ne = ($a != $b)"
+  ],
+  "stdin": "{\"a\": [1,2,3], \"b\": [1,2,3]}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_map_equality_comparisons::268",
+  "argv": [
+   "put",
+   "$eq = ($a == $b); $ne = ($a != $b)"
+  ],
+  "stdin": "{\"a\": {\"x\":1, \"y\":2}, \"b\": {\"x\":1, \"y\":2}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_spaceship_operator_strings::269",
+  "argv": [
+   "put",
+   "$cmp = ($a <=> $b)"
+  ],
+  "stdin": "a=apple,b=banana",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_spaceship_operator_floats::270",
+  "argv": [
+   "put",
+   "$cmp = ($a <=> $b)"
+  ],
+  "stdin": "a=5.5,b=10.5",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_spaceship_operator_bools::271",
+  "argv": [
+   "put",
+   "$cmp = ($a <=> $b)"
+  ],
+  "stdin": "a=false,b=true",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_less_than::272",
+  "argv": [
+   "filter",
+   "$x < $y"
+  ],
+  "stdin": "x=5,y=10\nx=15,y=10\nx=10,y=10\nx=8,y=12",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_chained_comparisons::273",
+  "argv": [
+   "filter",
+   "$x < $y && $y < $z"
+  ],
+  "stdin": "x=5,y=10,z=15\nx=8,y=12,z=8\nx=10,y=10,z=10",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_string_comparisons::274",
+  "argv": [
+   "put",
+   "$eq = ($a == $b); $ne = ($a != $b); $lt = ($a < $b); $gt = ($a > $b)"
+  ],
+  "stdin": "a=,b=\na=,b=test\na=test,b=",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_int_vs_array_comparisons::275",
+  "argv": [
+   "put",
+   "$eq = ($a == $b); $ne = ($a != $b); $lt = ($a < $b)"
+  ],
+  "stdin": "{\"a\": 5, \"b\": [1,2,3]}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_vs_array_comparisons::276",
+  "argv": [
+   "put",
+   "$eq = ($a == $b); $ne = ($a != $b); $lt = ($a < $b)"
+  ],
+  "stdin": "{\"a\": \"test\", \"b\": [1,2,3]}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_int_vs_map_comparisons::277",
+  "argv": [
+   "put",
+   "$eq = ($a == $b); $ne = ($a != $b); $lt = ($a < $b)"
+  ],
+  "stdin": "{\"a\": 5, \"b\": {\"x\":1}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_vs_map_comparisons::278",
+  "argv": [
+   "put",
+   "$eq = ($a == $b); $ne = ($a != $b); $lt = ($a < $b)"
+  ],
+  "stdin": "{\"a\": [1,2,3], \"b\": {\"x\":1}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ge_le_edge_cases::279",
+  "argv": [
+   "put",
+   "$ge = ($a >= $b); $le = ($a <= $b)"
+  ],
+  "stdin": "a=10,b=10\na=10,b=11\na=11,b=10",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_number_comparisons::280",
+  "argv": [
+   "put",
+   "$eq = ($a == $b); $lt = ($a < $b); $gt = ($a > $b); $cmp = ($a <=> $b)"
+  ],
+  "stdin": "a=-5,b=10\na=-10,b=-5\na=-5,b=-5",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_int_comparisons::281",
+  "argv": [
+   "put",
+   "$eq = ($a == $b); $lt = ($a < $b); $cmp = ($a <=> $b)"
+  ],
+  "stdin": "a=9223372036854775806,b=9223372036854775807",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_comparison::282",
+  "argv": [
+   "put",
+   "$eq = ($a == $b); $cmp = ($a <=> $b)"
+  ],
+  "stdin": "a=0.0,b=-0.0",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_different_lengths::283",
+  "argv": [
+   "put",
+   "$eq = ($a == $b); $ne = ($a != $b)"
+  ],
+  "stdin": "{\"a\": [1,2,3], \"b\": [1,2]}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_arrays::284",
+  "argv": [
+   "put",
+   "$eq = ($a == $b); $ne = ($a != $b)"
+  ],
+  "stdin": "{\"a\": [[1,2],[3,4]], \"b\": [[1,2],[3,4]]}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_maps::285",
+  "argv": [
+   "put",
+   "$eq = ($a == $b); $ne = ($a != $b)"
+  ],
+  "stdin": "{\"a\": {\"x\":{\"y\":1}}, \"b\": {\"x\":{\"y\":1}}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_type_arrays::286",
+  "argv": [
+   "put",
+   "$eq = ($a == $b)"
+  ],
+  "stdin": "{\"a\": [1,\"two\",3], \"b\": [1,\"two\",3]}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_comparisons::287",
+  "argv": [
+   "put",
+   "$eq = ($a == $b); $lt = ($a < $b); $gt = ($a > $b)"
+  ],
+  "stdin": "a=café,b=cafe\na=日本,b=中国\na=🚀,b=🚁",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_length_depth_leafcount_on_records::288",
+  "argv": [
+   "put",
+   "$len_record = length($*); $len_skills = length($skills); $depth_record = depth($*); $leafcount_record = leafcount($*)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_length_and_depth_on_empty_collections::289",
+  "argv": [
+   "put",
+   "$len_array = length($empty_array); $len_map = length($empty_map); $len_zero = length($zero); $len_null = length($null); $depth_array = depth($empty_array); $depth_map = depth($empty_map)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_depth_and_leafcount_on_nested_structures::290",
+  "argv": [
+   "put",
+   "$depth_val = depth($*); $leafcount_val = leafcount($*)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_haskey_get_keys_get_values_on_maps::291",
+  "argv": [
+   "put",
+   "$has_city = haskey($*, \"city\"); $has_email = haskey($*, \"email\"); $all_keys = get_keys($*); $all_values = get_values($*)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_append_and_concat_arrays::292",
+  "argv": [
+   "put",
+   "$appended = append($arr, 4); $concatenated = concat($arr, [5, 6]); $concat_multi = concat([1], [2], [3])"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mapsum_and_mapdiff_operations::293",
+  "argv": [
+   "put",
+   "$sum_result = mapsum({\"a\": 1, \"b\": 2}, {\"b\": 3, \"c\": 4}); $diff_result = mapdiff({\"a\": 10, \"b\": 20}, {\"b\": 5, \"c\": 5})"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mapselect_and_mapexcept_filtering::294",
+  "argv": [
+   "put",
+   "$selected = mapselect($*, \"name\", \"age\"); $excluded = mapexcept($*, \"city\", \"country\")"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_parse_and_json_stringify::295",
+  "argv": [
+   "put",
+   "$parsed = json_parse($json_str); $stringified = json_stringify($data)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_typeof_for_all_types::296",
+  "argv": [
+   "put",
+   "$type_int = typeof($int_val); $type_float = typeof($float_val); $type_str = typeof($str_val); $type_bool = typeof($bool_val); $type_null = typeof($null_val); $type_array = typeof($array_val); $type_map = typeof($map_val)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_checking_predicates::297",
+  "argv": [
+   "put",
+   "$is_int = is_int($int_val); $is_float = is_float($float_val); $is_string = is_string($str_val); $is_bool = is_bool($bool_val); $is_null = is_null($null_val); $is_array = is_array($array_val); $is_map = is_map($map_val); $is_numeric_int = is_numeric($int_val); $is_numeric_str = is_numeric($str_val)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_conversions_basic::298",
+  "argv": [
+   "put",
+   "$int_from_str = int($str_int); $float_from_str = float($str_float); $bool_from_str = boolean($str_bool); $float_from_int = float($int_to_float); $int_from_float = int($float_to_int)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_numeric_values_nan_inf::299",
+  "argv": [
+   "put",
+   "$nan = 0/0; $inf = 1/0; $neg_inf = -1/0; $is_nan_check = is_nan($nan); $is_nan_num = is_nan($x); $type_nan = typeof($nan); $type_inf = typeof($inf)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_int_with_base_conversion::300",
+  "argv": [
+   "put",
+   "$dec_from_hex = int($hex, 16); $dec_from_bin = int($binary, 2); $dec_from_oct = int($octal, 8)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_string_conversions_edge_cases::301",
+  "argv": [
+   "put",
+   "$int_empty = int($empty); $int_ws = int($whitespace); $int_zero = int($zero); $float_empty = float($empty); $bool_empty = boolean($empty); $bool_zero = boolean($zero)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_empty_and_is_not_empty_checks::302",
+  "argv": [
+   "put",
+   "$is_empty_str = is_empty($empty_str); $is_empty_arr = is_empty($empty_arr); $is_empty_map = is_empty($empty_map); $is_not_empty_str = is_not_empty($nonempty_str); $is_not_empty_arr = is_not_empty($nonempty_arr); $is_empty_map_check = is_empty_map($empty_map); $is_nonempty_map_check = is_nonempty_map($nonempty_map)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_present_and_is_absent_for_fields::303",
+  "argv": [
+   "put",
+   "$present_a = is_present($a); $present_c = is_present($c); $absent_c = is_absent($c); $present_b = is_present($b)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_joink_joinv_joinkv_string_operations::304",
+  "argv": [
+   "put",
+   "$joined = joink($arr, \",\"); $joined_v = joinv($map, \",\"); $joined_kv = joinkv($map, \"=\", \",\")"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_splitkv_and_splitkvx_parsing::305",
+  "argv": [
+   "put",
+   "$split_kv = splitkv($str_kv, \"=\", \",\"); $split_kvx = splitkvx($str_kv, \"=\", \",\"); $split_a = splita($str_arr, \",\"); $split_ax = splitax($str_arr, \",\")"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_splitnv_and_splitnvx_numeric_map_creation::306",
+  "argv": [
+   "put",
+   "$split_nv = splitnv($str, \",\"); $split_nvx = splitnvx($str, \",\")"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flatten_and_unflatten_nested_structures::307",
+  "argv": [
+   "put",
+   "$flattened = flatten(\"\", \".\", $data); $unflattened = unflatten({\"level1.level2.value\": 42}, \".\")"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arrayify_converts_numeric_maps_to_arrays::308",
+  "argv": [
+   "put",
+   "$arrayified = arrayify($map_numeric); $nested_arrayified = arrayify($map_nested)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_type_arrays_depth_and_leafcount::309",
+  "argv": [
+   "put",
+   "$len = length($mixed_arr); $depth_mixed = depth($mixed_arr); $leafcount_mixed = leafcount($mixed_arr); $depth_deep = depth($deep_nest); $leafcount_deep = leafcount($deep_nest)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_parse_edge_cases_invalid_and_empty::310",
+  "argv": [
+   "put",
+   "$parsed_valid = json_parse($valid_json); $parsed_invalid = json_parse($invalid_json); $parsed_empty = json_parse($empty_json); $parsed_nested = json_parse($nested_json)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concat_with_empty_and_many_arrays::311",
+  "argv": [
+   "put",
+   "$concat_normal = concat($arr1, $arr2); $concat_empty = concat($arr1, []); $concat_single = concat([1]); $concat_many = concat([1], [2], [3], [4])"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_conversions_special_string_values::312",
+  "argv": [
+   "put",
+   "$int_neg = int($str_neg); $float_inf = float($str_inf); $float_nan = float($str_nan); $int_hex = int($str_hex)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_get_keys_and_get_values_on_empty_maps::313",
+  "argv": [
+   "put",
+   "$keys_empty = get_keys($empty_map); $values_empty = get_values($empty_map); $keys_numeric = get_keys($numeric_keys); $has_1 = haskey($numeric_keys, \"1\")"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_conversion_error_handling::314",
+  "argv": [
+   "put",
+   "$int_invalid = int($str_invalid); $int_partial = int($str_partial); $float_invalid = float($str_invalid)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_splita_with_edge_case_strings::315",
+  "argv": [
+   "put",
+   "$split_empty = splita($empty_str, \",\"); $split_single = splita($single, \",\"); $split_trailing = splita($trailing, \",\"); $split_consecutive = splita($consecutive, \",\")"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_map_operations_with_empty_maps::316",
+  "argv": [
+   "put",
+   "$mapsum_with_empty = mapsum({}, {\"a\": 1}); $mapsum_both_empty = mapsum({}, {}); $mapdiff_with_empty = mapdiff({\"a\": 1}, {}); $mapselect_none = mapselect($*, \"nonexistent\")"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_stringify_with_multiline_formatting::317",
+  "argv": [
+   "put",
+   "$single_line = json_stringify($data, false); $multi_line = json_stringify($data, true)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_boolean_conversion_truthiness_rules::318",
+  "argv": [
+   "put",
+   "$bool_true = boolean($str_true); $bool_false = boolean($str_false); $bool_1 = boolean($str_1); $bool_0 = boolean($str_0); $bool_int_0 = boolean($int_0); $bool_int_1 = boolean($int_1); $bool_neg = boolean($int_neg)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_not_map_array_null_predicates::319",
+  "argv": [
+   "put",
+   "$is_not_map_map = is_not_map($map); $is_not_map_arr = is_not_map($arr); $is_not_map_str = is_not_map($str); $is_not_array_arr = is_not_array($arr); $is_not_array_map = is_not_array($map); $is_not_null_null = is_not_null(null); $is_not_null_num = is_not_null($num)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_systime_returns_float_seconds::320",
+  "argv": [
+   "put",
+   "$t = systime()"
+  ],
+  "stdin": "x=1",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_systimeint_returns_integer_seconds::321",
+  "argv": [
+   "put",
+   "$ti = systimeint()"
+  ],
+  "stdin": "x=1",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sysntime_returns_integer_nanoseconds::322",
+  "argv": [
+   "put",
+   "$tn = sysntime()"
+  ],
+  "stdin": "x=1",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_uptime_returns_elapsed_float_seconds::323",
+  "argv": [
+   "put",
+   "$t = uptime()"
+  ],
+  "stdin": "x=1",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_upntime_returns_elapsed_integer_nanoseconds::324",
+  "argv": [
+   "put",
+   "$tn = upntime()"
+  ],
+  "stdin": "x=1",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nsec2gmt_unary_with_noninteger_returns_error::325",
+  "argv": [
+   "put",
+   "$gmt = nsec2gmt($x)"
+  ],
+  "stdin": "x=\"abc\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nsec2gmt_binary_with_noninteger_input_returns_input::326",
+  "argv": [
+   "put",
+   "$gmt = nsec2gmt($x, 3)"
+  ],
+  "stdin": "x=\"abc\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nsec2gmt_binary_with_noninteger_decimals_returns_error::327",
+  "argv": [
+   "put",
+   "$gmt = nsec2gmt($x, \"abc\")"
+  ],
+  "stdin": "x=1234567890123456789",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sec2gmt_unary_with_nonnumeric_returns_input::328",
+  "argv": [
+   "put",
+   "$gmt = sec2gmt($x)"
+  ],
+  "stdin": "x=\"notnum\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sec2gmt_binary_with_nonnumeric_first_arg_returns_error::329",
+  "argv": [
+   "put",
+   "$gmt = sec2gmt($x, \"abc\")"
+  ],
+  "stdin": "x=\"notnum\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sec2gmt_binary_with_noninteger_decimals_returns_error::330",
+  "argv": [
+   "put",
+   "$gmt = sec2gmt($x, \"abc\")"
+  ],
+  "stdin": "x=1234567890",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nsec2localtime_binary_with_noninteger_input_returns_input::331",
+  "argv": [
+   "put",
+   "$lt = nsec2localtime($x, 3)"
+  ],
+  "stdin": "x=\"notnum\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nsec2localtime_binary_with_noninteger_decimals_returns_error::332",
+  "argv": [
+   "put",
+   "$lt = nsec2localtime($x, \"abc\")"
+  ],
+  "stdin": "x=1234567890123456789",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sec2localtime_ternary_with_nonnumeric_returns_input::333",
+  "argv": [
+   "put",
+   "$lt = sec2localtime($x, 3, \"America/New_York\")"
+  ],
+  "stdin": "x=\"notnum\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sec2localtime_ternary_with_noninteger_decimals_returns_error::334",
+  "argv": [
+   "put",
+   "$lt = sec2localtime($x, \"abc\", \"America/New_York\")"
+  ],
+  "stdin": "x=1234567890",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sec2localtime_ternary_with_nonstring_timezone_returns_error::335",
+  "argv": [
+   "put",
+   "$lt = sec2localtime($x, 3, 123)"
+  ],
+  "stdin": "x=1234567890",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sec2localtime_ternary_with_invalid_timezone_returns_error::336",
+  "argv": [
+   "put",
+   "$lt = sec2localtime($x, 3, \"Invalid/Timezone\")"
+  ],
+  "stdin": "x=1234567890",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nsec2localtime_ternary_with_noninteger_input_returns_input::337",
+  "argv": [
+   "put",
+   "$lt = nsec2localtime($x, 3, \"America/New_York\")"
+  ],
+  "stdin": "x=\"notnum\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nsec2localtime_ternary_with_noninteger_decimals_returns_error::338",
+  "argv": [
+   "put",
+   "$lt = nsec2localtime($x, \"abc\", \"America/New_York\")"
+  ],
+  "stdin": "x=1234567890123456789",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nsec2localtime_ternary_with_nonstring_timezone_returns_error::339",
+  "argv": [
+   "put",
+   "$lt = nsec2localtime($x, 3, 123)"
+  ],
+  "stdin": "x=1234567890123456789",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nsec2localtime_ternary_with_invalid_timezone_returns_error::340",
+  "argv": [
+   "put",
+   "$lt = nsec2localtime($x, 3, \"Invalid/Timezone\")"
+  ],
+  "stdin": "x=1234567890123456789",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sec2gmtdate_with_nonnumeric_returns_input::341",
+  "argv": [
+   "put",
+   "$d = sec2gmtdate($x)"
+  ],
+  "stdin": "x=\"notnum\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nsec2gmtdate_with_nonnumeric_returns_input::342",
+  "argv": [
+   "put",
+   "$d = nsec2gmtdate($x)"
+  ],
+  "stdin": "x=\"notnum\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sec2localdate_with_nonnumeric_returns_input::343",
+  "argv": [
+   "put",
+   "$d = sec2localdate($x)"
+  ],
+  "stdin": "x=\"notnum\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nsec2localdate_with_nonnumeric_returns_input::344",
+  "argv": [
+   "put",
+   "$d = nsec2localdate($x)"
+  ],
+  "stdin": "x=\"notnum\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sec2localdate_binary_with_nonnumeric_returns_input::345",
+  "argv": [
+   "put",
+   "$d = sec2localdate($x, \"America/New_York\")"
+  ],
+  "stdin": "x=\"notnum\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nsec2localdate_binary_with_nonnumeric_returns_input::346",
+  "argv": [
+   "put",
+   "$d = nsec2localdate($x, \"America/New_York\")"
+  ],
+  "stdin": "x=\"notnum\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_localtime2gmt_unary_with_nonstring_returns_error::347",
+  "argv": [
+   "put",
+   "$g = localtime2gmt($x)"
+  ],
+  "stdin": "x=123",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_localtime2gmt_binary_with_nonstring_returns_error::348",
+  "argv": [
+   "put",
+   "$g = localtime2gmt($x, \"America/New_York\")"
+  ],
+  "stdin": "x=123",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gmt2localtime_unary_with_nonstring_returns_error::349",
+  "argv": [
+   "put",
+   "$l = gmt2localtime($x)"
+  ],
+  "stdin": "x=123",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gmt2localtime_binary_with_nonstring_returns_error::350",
+  "argv": [
+   "put",
+   "$l = gmt2localtime($x, \"America/New_York\")"
+  ],
+  "stdin": "x=123",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strftime_local_ternary_with_invalid_timezone_returns_error::351",
+  "argv": [
+   "put",
+   "$s = strftime_local($x, \"%Y-%m-%d\", \"Invalid/Timezone\")"
+  ],
+  "stdin": "x=1234567890",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strfntime_local_ternary_with_invalid_timezone_returns_error::352",
+  "argv": [
+   "put",
+   "$s = strfntime_local($x, \"%Y-%m-%d\", \"Invalid/Timezone\")"
+  ],
+  "stdin": "x=1234567890123456789",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strftime_with_nonstring_format_returns_error::353",
+  "argv": [
+   "put",
+   "$s = strftime($x, 123)"
+  ],
+  "stdin": "x=1234567890",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strfntime_with_nonstring_format_returns_error::354",
+  "argv": [
+   "put",
+   "$s = strfntime($x, 123)"
+  ],
+  "stdin": "x=1234567890123456789",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strftime_with_nonnumeric_input_returns_error::355",
+  "argv": [
+   "put",
+   "$s = strftime($x, \"%Y-%m-%d\")"
+  ],
+  "stdin": "x=\"notnum\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strfntime_with_noninteger_input_returns_error::356",
+  "argv": [
+   "put",
+   "$s = strfntime($x, \"%Y-%m-%d\")"
+  ],
+  "stdin": "x=\"notnum\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strptime_with_nonstring_time_returns_error::357",
+  "argv": [
+   "put",
+   "$s = strptime($x, \"%Y-%m-%d\")"
+  ],
+  "stdin": "x=123",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strptime_with_nonstring_format_returns_error::358",
+  "argv": [
+   "put",
+   "$s = strptime($x, 123)"
+  ],
+  "stdin": "x=\"2021-03-04\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strptime_with_invalid_date_string_returns_error::359",
+  "argv": [
+   "put",
+   "$s = strptime($x, \"%Y-%m-%d\")"
+  ],
+  "stdin": "x=\"invalid-date\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strpntime_with_nonstring_time_returns_error::360",
+  "argv": [
+   "put",
+   "$s = strpntime($x, \"%Y-%m-%d\")"
+  ],
+  "stdin": "x=123",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strpntime_with_nonstring_format_returns_error::361",
+  "argv": [
+   "put",
+   "$s = strpntime($x, 123)"
+  ],
+  "stdin": "x=\"2021-03-04\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strptime_local_with_nonstring_time_returns_error::362",
+  "argv": [
+   "put",
+   "$s = strptime_local($x, \"%Y-%m-%d\", \"America/New_York\")"
+  ],
+  "stdin": "x=123",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strptime_local_with_nonstring_format_returns_error::363",
+  "argv": [
+   "put",
+   "$s = strptime_local($x, 123, \"America/New_York\")"
+  ],
+  "stdin": "x=\"2021-03-04\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strptime_local_with_nonstring_timezone_returns_error::364",
+  "argv": [
+   "put",
+   "$s = strptime_local($x, \"%Y-%m-%d\", 123)"
+  ],
+  "stdin": "x=\"2021-03-04\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strptime_local_with_invalid_timezone_returns_error::365",
+  "argv": [
+   "put",
+   "$s = strptime_local($x, \"%Y-%m-%d\", \"Invalid/Timezone\")"
+  ],
+  "stdin": "x=\"2021-03-04\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strptime_local_with_invalid_date_string_returns_error::366",
+  "argv": [
+   "put",
+   "$s = strptime_local($x, \"%Y-%m-%d\", \"America/New_York\")"
+  ],
+  "stdin": "x=\"invalid-date\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strpntime_local_with_nonstring_time_returns_error::367",
+  "argv": [
+   "put",
+   "$s = strpntime_local($x, \"%Y-%m-%d\", \"America/New_York\")"
+  ],
+  "stdin": "x=123",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strpntime_local_with_nonstring_format_returns_error::368",
+  "argv": [
+   "put",
+   "$s = strpntime_local($x, 123, \"America/New_York\")"
+  ],
+  "stdin": "x=\"2021-03-04\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strpntime_local_with_nonstring_timezone_returns_error::369",
+  "argv": [
+   "put",
+   "$s = strpntime_local($x, \"%Y-%m-%d\", 123)"
+  ],
+  "stdin": "x=\"2021-03-04\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strpntime_local_with_invalid_timezone_returns_error::370",
+  "argv": [
+   "put",
+   "$s = strpntime_local($x, \"%Y-%m-%d\", \"Invalid/Timezone\")"
+  ],
+  "stdin": "x=\"2021-03-04\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strftime_custom_format_subseconds_1_decimal::371",
+  "argv": [
+   "put",
+   "$s = strftime($x, \"%1\")"
+  ],
+  "stdin": "x=1234567890",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strftime_custom_format_subseconds_2_decimals::372",
+  "argv": [
+   "put",
+   "$s = strftime($x, \"%2\")"
+  ],
+  "stdin": "x=1234567890",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strftime_custom_format_all_subsecond_specifiers::373",
+  "argv": [
+   "put",
+   "$s = strftime($x, \"%3 %4 %5 %6 %7 %8 %9\")"
+  ],
+  "stdin": "x=1234567890",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strftime_custom_format_nanoseconds_N::374",
+  "argv": [
+   "put",
+   "$s = strftime($x, \"%N\")"
+  ],
+  "stdin": "x=1234567890",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strftime_custom_format_offset_O::375",
+  "argv": [
+   "put",
+   "$s = strftime($x, \"%O\")"
+  ],
+  "stdin": "x=1234567890",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strftime_custom_format_epoch_seconds_s::376",
+  "argv": [
+   "put",
+   "$s = strftime($x, \"%s\")"
+  ],
+  "stdin": "x=1234567890",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strftime_with_empty_format_returns_error::377",
+  "argv": [
+   "put",
+   "$s = strftime($x, \"\")"
+  ],
+  "stdin": "x=1234567890",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_epoch_zero_conversion_all_functions::378",
+  "argv": [
+   "put",
+   "$gmt = sec2gmt($x); $local = sec2localtime($x); $date = sec2gmtdate($x)"
+  ],
+  "stdin": "x=0",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_timestamp_conversion::379",
+  "argv": [
+   "put",
+   "$gmt = sec2gmt($x); $date = sec2gmtdate($x)"
+  ],
+  "stdin": "x=-1",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_far_future_timestamp_conversion::380",
+  "argv": [
+   "put",
+   "$gmt = sec2gmt($x); $date = sec2gmtdate($x)"
+  ],
+  "stdin": "x=253402300799",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gmt2sec_conversion_roundtrip::381",
+  "argv": [
+   "put",
+   "$time = gmt2sec($gmt)"
+  ],
+  "stdin": "gmt=2009-02-13T23:31:30Z",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gmt2nsec_conversion::382",
+  "argv": [
+   "put",
+   "$nsec = gmt2nsec($gmt)"
+  ],
+  "stdin": "gmt=2009-02-13T23:31:30Z",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_localtime2sec_unary_conversion::383",
+  "argv": [
+   "put",
+   "$sec = localtime2sec($local)"
+  ],
+  "stdin": "local=2009-02-13 23:31:30",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_localtime2nsec_unary_conversion::384",
+  "argv": [
+   "put",
+   "$nsec = localtime2nsec($local)"
+  ],
+  "stdin": "local=2009-02-13 23:31:30",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_localtime2sec_binary_with_timezone::385",
+  "argv": [
+   "put",
+   "$sec = localtime2sec($local, \"America/New_York\")"
+  ],
+  "stdin": "local=2009-02-13 18:31:30",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_localtime2nsec_binary_with_timezone::386",
+  "argv": [
+   "put",
+   "$nsec = localtime2nsec($local, \"America/New_York\")"
+  ],
+  "stdin": "local=2009-02-13 18:31:30",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nsec2localtime_unary_conversion::387",
+  "argv": [
+   "put",
+   "$lt = nsec2localtime($x)"
+  ],
+  "stdin": "x=1234567890123456789",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sec2localtime_binary_conversion::388",
+  "argv": [
+   "put",
+   "$lt = sec2localtime($x, 3)"
+  ],
+  "stdin": "x=1234567890",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strftime_local_binary_conversion::389",
+  "argv": [
+   "put",
+   "$s = strftime_local($x, \"%Y-%m-%d\")"
+  ],
+  "stdin": "x=1234567890",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strfntime_local_binary_conversion::390",
+  "argv": [
+   "put",
+   "$s = strfntime_local($x, \"%Y-%m-%d\")"
+  ],
+  "stdin": "x=1234567890123456789",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_md5_empty_string::391",
+  "argv": [
+   "put",
+   "$md5 = md5($text)"
+  ],
+  "stdin": "text=",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_md5_simple_string::392",
+  "argv": [
+   "put",
+   "$md5 = md5($text)"
+  ],
+  "stdin": "text=hello",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sha1_simple_string::393",
+  "argv": [
+   "put",
+   "$sha1 = sha1($text)"
+  ],
+  "stdin": "text=hello",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sha256_simple_string::394",
+  "argv": [
+   "put",
+   "$sha256 = sha256($text)"
+  ],
+  "stdin": "text=hello",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sha512_simple_string::395",
+  "argv": [
+   "put",
+   "$sha512 = sha512($text)"
+  ],
+  "stdin": "text=hello",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_hashes_empty_string_golden::396",
+  "argv": [
+   "put",
+   "$md5 = md5($text); $sha1 = sha1($text); $sha256 = sha256($text); $sha512 = sha512($text)"
+  ],
+  "stdin": "text=",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_hashes_simple_string_golden::397",
+  "argv": [
+   "put",
+   "$md5 = md5($text); $sha1 = sha1($text); $sha256 = sha256($text); $sha512 = sha512($text)"
+  ],
+  "stdin": "text=hello",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hashes_unicode_string::398",
+  "argv": [
+   "put",
+   "$md5 = md5($text); $sha1 = sha1($text); $sha256 = sha256($text); $sha512 = sha512($text)"
+  ],
+  "stdin": "text=Hello 世界 🌍",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hashes_long_string::399",
+  "argv": [
+   "put",
+   "$md5 = md5($text); $sha1 = sha1($text)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

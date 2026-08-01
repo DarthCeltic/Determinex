@@ -1,0 +1,241 @@
+[
+ {
+  "name": "test::test_headless_stdin::0",
+  "argv": [
+   "-n"
+  ],
+  "stdin": "2021-07-03T21:49:29 Test log message\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_log_with_t_flag::1",
+  "argv": [
+   "-n",
+   "-t",
+   "-c",
+   ";SELECT COUNT(*) as cnt FROM all_logs",
+   "-c",
+   ":write-json-to -"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_empty_input::2",
+  "argv": [
+   "-n",
+   "-t",
+   "-c",
+   ";SELECT COUNT(*) as cnt FROM all_logs",
+   "-c",
+   ":write-json-to -"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_headless_stdin_single_line::3",
+  "argv": [
+   "-n"
+  ],
+  "stdin": "2021-07-03T21:49:29.123 INFO Application started\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_headless_stdin_multiple_lines::4",
+  "argv": [
+   "-n"
+  ],
+  "stdin": "2021-07-03T21:49:29.123 INFO Application started\n2021-07-03T21:49:30.456 DEBUG Configuration loaded\n2021-07-03T21:49:31.789 ERROR Connection failed: timeout\n2021-07-03T21:49:32.012 WARNING Retrying connection\n2021-07-03T21:49:33.345 INFO Connection established\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_headless_empty_stdin::5",
+  "argv": [
+   "-n"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_headless_stdin_flag_with_pipe::6",
+  "argv": [
+   "-n",
+   "-t"
+  ],
+  "stdin": "2021-07-03T21:49:29.123 INFO Piped data\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_internal_help_flag_full_documentation::7",
+  "argv": [
+   "-n",
+   "-H"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_command_in_headless_mode::8",
+  "argv": [
+   "-n",
+   "-c",
+   ":help"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_error_inline_synopsis::9",
+  "argv": [
+   "-n",
+   "-c",
+   ":write-to help"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_session_with_stdin_data::10",
+  "argv": [
+   "-n",
+   "-t",
+   "-c",
+   ":save-session"
+  ],
+  "stdin": "2021-09-01T12:00:00.000 INFO Test from stdin\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_metadata_database_creation::11",
+  "argv": [
+   "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bookmarks_table_schema_validation::12",
+  "argv": [
+   "PRAGMA table_info(bookmarks)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_offset_table_schema::13",
+  "argv": [
+   "PRAGMA table_info(time_offset)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_text_bookmarks2_table_constraints::14",
+  "argv": [
+   "\n            INSERT INTO text_bookmarks2 \n            (file_path, line_number, line_hash, mark_type, session_time)\n            VALUES ('/tmp/test.txt', -1, 'hash123', 'user', 1234567890)\n        "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_text_bookmark_for_non_log_files::15",
+  "argv": [
+   "SELECT file_path, line_number, mark_type FROM text_bookmarks2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_recent_netlocs_tracking::16",
+  "argv": [
+   "SELECT name FROM sqlite_master WHERE type='table' AND name='recent_netlocs'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex101_entry_storage::17",
+  "argv": [
+   "SELECT name FROM sqlite_master WHERE type='table' AND name='regex101_entries'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_timeline_bookmarks_table_usage::18",
+  "argv": [
+   "SELECT name FROM sqlite_master WHERE type='table' AND name='timeline_bookmarks'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_netloc_lru_cleanup_statement::19",
+  "argv": [
+   "DELETE FROM recent_netlocs WHERE access_time <=\n        (SELECT DISTINCT access_time FROM bookmarks\n         ORDER BY access_time DESC LIMIT 1 OFFSET 10)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

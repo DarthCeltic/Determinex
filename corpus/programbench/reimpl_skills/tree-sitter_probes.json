@@ -1,0 +1,4014 @@
+[
+ {
+  "name": "test::test_parse_with_debug_graph::0",
+  "argv": [
+   "generate",
+   "--js-runtime",
+   "native"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_with_encoding_options::1",
+  "argv": [
+   "parse",
+   "--encoding",
+   "utf8",
+   "input.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "input.txt": "test content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_with_row_range::2",
+  "argv": [
+   "query",
+   "query.scm",
+   "input.txt",
+   "--row-range",
+   "0:1"
+  ],
+  "stdin": null,
+  "files": {
+   "query.scm": "(source_file) @all",
+   "input.txt": "line1\nline2\nline3"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_playground_with_export::3",
+  "argv": [
+   "playground",
+   "--export"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_playground_with_quiet::4",
+  "argv": [
+   "playground",
+   "--quiet",
+   "--export"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dump_languages_with_config::5",
+  "argv": [
+   "dump-languages",
+   "--config-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complete_all_shells::6",
+  "argv": [
+   "complete",
+   "--shell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_with_log_flag::7",
+  "argv": [
+   "generate",
+   "--log",
+   "--js-runtime",
+   "native"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_with_report_states::8",
+  "argv": [
+   "generate",
+   "--report-states-for-rule",
+   "item",
+   "--js-runtime",
+   "native"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_with_json_summary::9",
+  "argv": [
+   "generate",
+   "--json-summary",
+   "--js-runtime",
+   "native"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_shows_commands::10",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_output_format::11",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_subcommand_error::12",
+  "argv": [
+   "invalid-command-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_error::13",
+  "argv": [
+   "--invalid-flag-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_help::14",
+  "argv": [
+   "build",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_missing_parser::15",
+  "argv": [
+   "build"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_with_grammar_dir::16",
+  "argv": [
+   "generate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complete_help::17",
+  "argv": [
+   "complete",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complete_missing_shell::18",
+  "argv": [
+   "complete"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complete_bash::19",
+  "argv": [
+   "complete",
+   "--shell",
+   "bash"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complete_zsh::20",
+  "argv": [
+   "complete",
+   "--shell",
+   "zsh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complete_fish::21",
+  "argv": [
+   "complete",
+   "--shell",
+   "fish"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complete_powershell::22",
+  "argv": [
+   "complete",
+   "--shell",
+   "power-shell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complete_elvish::23",
+  "argv": [
+   "complete",
+   "--shell",
+   "elvish"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complete_nushell::24",
+  "argv": [
+   "complete",
+   "--shell",
+   "nushell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complete_invalid_shell::25",
+  "argv": [
+   "complete",
+   "--shell",
+   "invalid-shell-name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_full_grammar_lifecycle::26",
+  "argv": [
+   "generate",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_with_all_options::27",
+  "argv": [
+   "generate",
+   "--grammar-path",
+   "--no-parser",
+   "--js-runtime",
+   "native"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_with_all_encodings::28",
+  "argv": [
+   "parse",
+   "utf8.txt",
+   "--grammar-path",
+   "--encoding",
+   "utf8"
+  ],
+  "stdin": null,
+  "files": {
+   "utf8.txt": "*a.b(c);"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_with_all_options::29",
+  "argv": [
+   "build",
+   "--grammar-path",
+   "--output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_command_with_all_options::30",
+  "argv": [
+   "test",
+   "--grammar-path",
+   "--include",
+   ".*"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_recovery_in_parse::31",
+  "argv": [
+   "generate",
+   "--grammar-path",
+   "--js-runtime",
+   "native"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dump_languages_help::32",
+  "argv": [
+   "dump-languages",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dump_languages_basic::33",
+  "argv": [
+   "dump-languages"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_no_parser_option::34",
+  "argv": [
+   "generate",
+   "--no-parser"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_output_option::35",
+  "argv": [
+   "generate",
+   "--output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_report_states::36",
+  "argv": [
+   "generate",
+   "--report-states-for-rule",
+   "source_file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_report_all_states::37",
+  "argv": [
+   "generate",
+   "--report-states-for-rule",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_disable_optimizations::38",
+  "argv": [
+   "generate",
+   "--disable-optimizations"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_abi_version_explicit::39",
+  "argv": [
+   "generate",
+   "--abi",
+   "15"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_abi_latest::40",
+  "argv": [
+   "generate",
+   "--abi",
+   "latest"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_deprecated_build_flag::41",
+  "argv": [
+   "generate",
+   "--build"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_debug_graph_creates_log::42",
+  "argv": [
+   "parse",
+   "--debug-graph",
+   "--grammar-path",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_dot_produces_graphviz::43",
+  "argv": [
+   "parse",
+   "--dot",
+   "--grammar-path",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_debug_quiet::44",
+  "argv": [
+   "parse",
+   "--debug",
+   "quiet",
+   "--grammar-path",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "data"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_debug_normal::45",
+  "argv": [
+   "parse",
+   "--debug",
+   "normal",
+   "--grammar-path",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_debug_pretty::46",
+  "argv": [
+   "parse",
+   "--debug",
+   "pretty",
+   "--grammar-path",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "data"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_encoding_utf16be::47",
+  "argv": [
+   "parse",
+   "--encoding",
+   "utf16-be",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_test_number::48",
+  "argv": [
+   "parse",
+   "--test-number",
+   "0",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_rebuild_flag::49",
+  "argv": [
+   "parse",
+   "--rebuild",
+   "--grammar-path",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "data"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_lib_path_and_lang_name::50",
+  "argv": [
+   "parse",
+   "--lib-path",
+   "/tmp/nonexistent.so",
+   "--lang-name",
+   "test",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_scope_option::51",
+  "argv": [
+   "parse",
+   "--scope",
+   "source.test",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_debug_build_flag::52",
+  "argv": [
+   "parse",
+   "--debug-build",
+   "--grammar-path",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_filter_option::53",
+  "argv": [
+   "test",
+   "--filter",
+   ".*",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_open_log_option::54",
+  "argv": [
+   "test",
+   "--debug-graph",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_with_stat_and_overview::55",
+  "argv": [
+   "test",
+   "--stat",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_with_show_fields::56",
+  "argv": [
+   "test",
+   "--show-fields",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_parse_only::57",
+  "argv": [
+   "test",
+   "--parse-only",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_missing_corpus::58",
+  "argv": [
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_with_stat_outliers::59",
+  "argv": [
+   "test",
+   "--stat-outliers",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_with_stat_total::60",
+  "argv": [
+   "test",
+   "--stat-total",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_messages_for_invalid_commands::61",
+  "argv": [
+   "nonexistent-command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_with_abi_versions::62",
+  "argv": [
+   "generate",
+   "--abi",
+   "14",
+   "--js-runtime",
+   "native"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_edge_cases::63",
+  "argv": [
+   "parse",
+   "empty.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.txt": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_with_missing_tree_sitter_json::64",
+  "argv": [
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fuzz_help_displays_all_options::65",
+  "argv": [
+   "fuzz",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fuzz_missing_grammar::66",
+  "argv": [
+   "fuzz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fuzz_with_skip_option::67",
+  "argv": [
+   "fuzz",
+   "--skip",
+   "test1,test2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fuzz_with_iterations_option::68",
+  "argv": [
+   "fuzz",
+   "--iterations",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fuzz_with_edits_option::69",
+  "argv": [
+   "fuzz",
+   "--edits",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fuzz_with_include_filter::70",
+  "argv": [
+   "fuzz",
+   "--include",
+   "test_.*"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fuzz_with_exclude_filter::71",
+  "argv": [
+   "fuzz",
+   "--exclude",
+   "skip_.*"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fuzz_with_log_option::72",
+  "argv": [
+   "fuzz",
+   "--log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fuzz_with_log_graphs_option::73",
+  "argv": [
+   "fuzz",
+   "--log-graphs"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fuzz_with_rebuild_flag::74",
+  "argv": [
+   "fuzz",
+   "--rebuild"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fuzz_with_invalid_iterations::75",
+  "argv": [
+   "fuzz",
+   "--iterations",
+   "-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fuzz_with_invalid_edits::76",
+  "argv": [
+   "fuzz",
+   "--edits",
+   "abc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fuzz_short_help::77",
+  "argv": [
+   "fuzz",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fuzz_basic_execution::78",
+  "argv": [
+   "fuzz",
+   "--grammar-path",
+   "--iterations",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fuzz_with_iterations::79",
+  "argv": [
+   "fuzz",
+   "--grammar-path",
+   "--iterations",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fuzz_with_edits::80",
+  "argv": [
+   "fuzz",
+   "--grammar-path",
+   "--edits",
+   "5",
+   "--iterations",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fuzz_with_skip_pattern::81",
+  "argv": [
+   "fuzz",
+   "--grammar-path",
+   "--skip",
+   "nonexistent.*",
+   "--iterations",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fuzz_with_include_pattern::82",
+  "argv": [
+   "fuzz",
+   "--grammar-path",
+   "--include",
+   ".*",
+   "--iterations",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fuzz_with_log_flag::83",
+  "argv": [
+   "fuzz",
+   "--grammar-path",
+   "--log",
+   "--iterations",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fuzz_missing_grammar::84",
+  "argv": [
+   "fuzz",
+   "--grammar-path",
+   "/nonexistent/grammar"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fuzz_with_subdir::85",
+  "argv": [
+   "fuzz",
+   "--grammar-path",
+   "--subdir",
+   "subdir",
+   "--iterations",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_help::86",
+  "argv": [
+   "generate",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_log_flag::87",
+  "argv": [
+   "generate",
+   "--log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_abi_option::88",
+  "argv": [
+   "generate",
+   "--abi",
+   "14"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_json_summary::89",
+  "argv": [
+   "generate",
+   "--json-summary"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_help_complete::90",
+  "argv": [
+   "highlight",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_html_mode::91",
+  "argv": [
+   "highlight",
+   "--html",
+   "--grammar-path",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nint main() {\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_css_classes_mode::92",
+  "argv": [
+   "highlight",
+   "--html",
+   "--css-classes",
+   "--grammar-path",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "function test() { return 42; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_check_mode::93",
+  "argv": [
+   "highlight",
+   "--check",
+   "--grammar-path",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "test content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_with_timing::94",
+  "argv": [
+   "highlight",
+   "--time",
+   "--grammar-path",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "sample text"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_quiet_mode::95",
+  "argv": [
+   "highlight",
+   "--quiet",
+   "--grammar-path",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "data"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_missing_file::96",
+  "argv": [
+   "highlight",
+   "nonexistent.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_with_encoding_utf8::97",
+  "argv": [
+   "highlight",
+   "--encoding",
+   "utf8",
+   "--grammar-path",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "Hello UTF-8: café"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_with_html_output::98",
+  "argv": [
+   "highlight",
+   "--html",
+   "--scope",
+   "source.hl_html",
+   "test.code",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {
+   "test.code": "function foo\nfunction bar\ntest"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_with_css_classes::99",
+  "argv": [
+   "highlight",
+   "--html",
+   "--css-classes",
+   "--scope",
+   "source.hl_css",
+   "test.code",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {
+   "test.code": "function test\nidentifier"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_multiple_files::100",
+  "argv": [
+   "highlight",
+   "--scope",
+   "source.hl_multi",
+   "file1.code",
+   "file2.code",
+   "file3.code",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.code": "function first",
+   "file2.code": "function second",
+   "file3.code": "function third"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_with_check_flag::101",
+  "argv": [
+   "highlight",
+   "--check",
+   "--scope",
+   "source.hl_check",
+   "test.code",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {
+   "test.code": "function validate"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tags_produces_ctags_format::102",
+  "argv": [
+   "tags",
+   "--scope",
+   "source.tags_fmt",
+   "test.code",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {
+   "test.code": "function alpha\nfunction beta\nfunction gamma"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tags_multiple_files::103",
+  "argv": [
+   "tags",
+   "--scope",
+   "source.tags_multi",
+   "file1.code",
+   "file2.code",
+   "file3.code",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.code": "function one",
+   "file2.code": "function two",
+   "file3.code": "function three"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tags_with_time_flag::104",
+  "argv": [
+   "tags",
+   "--time",
+   "--scope",
+   "source.tags_time",
+   "test.code",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {
+   "test.code": "function timed"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_with_time_flag::105",
+  "argv": [
+   "highlight",
+   "--time",
+   "--scope",
+   "source.hl_time",
+   "test.code",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {
+   "test.code": "function timed"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_with_quiet_flag::106",
+  "argv": [
+   "highlight",
+   "--quiet",
+   "--scope",
+   "source.hl_quiet",
+   "test.code",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {
+   "test.code": "function quiet"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tags_with_quiet_flag::107",
+  "argv": [
+   "tags",
+   "--quiet",
+   "--scope",
+   "source.tags_quiet",
+   "test.code",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {
+   "test.code": "function quiet"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_help::108",
+  "argv": [
+   "init",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_requires_terminal::109",
+  "argv": [
+   "init"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_grammar_path::110",
+  "argv": [
+   "init",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_update_flag::111",
+  "argv": [
+   "init",
+   "--update",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_config_creates_tree_sitter_json::112",
+  "argv": [
+   "init-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_config_help::113",
+  "argv": [
+   "init-config",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_creates_grammar_structure::114",
+  "argv": [
+   "init"
+  ],
+  "stdin": "\n\n\n\n\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_grammar_js_content::115",
+  "argv": [
+   "init"
+  ],
+  "stdin": "test_lang\n\n\n\n\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_package_json_structure::116",
+  "argv": [
+   "init"
+  ],
+  "stdin": "my_lang\n\n\n\n\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_with_custom_grammar_path::117",
+  "argv": [
+   "init",
+   "--grammar-path"
+  ],
+  "stdin": "\n\n\n\n\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_creates_src_directory::118",
+  "argv": [
+   "init"
+  ],
+  "stdin": "lang\n\n\n\n\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_main_version_flag::119",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_main_help_flag::120",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_aliases::121",
+  "argv": [
+   "gen",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_alias::122",
+  "argv": [
+   "p",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_alias::123",
+  "argv": [
+   "i",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_path_option::124",
+  "argv": [
+   "parse",
+   "--config-path",
+   "custom_config.json",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "custom_config.json": "\n{\n    \"parser-directories\": []\n}\n",
+   "test.txt": "test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_conflict_detection::125",
+  "argv": [
+   "generate",
+   "--js-runtime",
+   "native",
+   "--json-summary"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_xml_format_structure::126",
+  "argv": [
+   "parse",
+   "--xml",
+   "--grammar-path",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "test content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_cst_format_structure::127",
+  "argv": [
+   "parse",
+   "--cst",
+   "--grammar-path",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "simple test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_json_summary_structure::128",
+  "argv": [
+   "parse",
+   "--json-summary",
+   "--grammar-path",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "data"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_with_stat_shows_statistics::129",
+  "argv": [
+   "parse",
+   "--stat",
+   "--grammar-path",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_with_time_shows_duration::130",
+  "argv": [
+   "parse",
+   "--time",
+   "--grammar-path",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_quiet_mode_suppresses_output::131",
+  "argv": [
+   "parse",
+   "--quiet",
+   "--grammar-path",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "data"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_with_edits_applies_changes::132",
+  "argv": [
+   "parse",
+   "--edits",
+   "0,0 0 new ",
+   "--grammar-path",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "original text"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_with_timeout::133",
+  "argv": [
+   "parse",
+   "--timeout",
+   "1",
+   "--grammar-path",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_multiple_files::134",
+  "argv": [
+   "parse",
+   "--grammar-path",
+   "test1.txt",
+   "test2.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test1.txt": "content1",
+   "test2.txt": "content2"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_with_paths_file::135",
+  "argv": [
+   "parse",
+   "--paths",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_with_encoding_utf16le::136",
+  "argv": [
+   "parse",
+   "--encoding",
+   "utf16-le",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_no_ranges_omits_position_info::137",
+  "argv": [
+   "parse",
+   "--no-ranges",
+   "--grammar-path",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_from_stdin::138",
+  "argv": [
+   "parse",
+   "--grammar-path"
+  ],
+  "stdin": "test input from stdin",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_playground_help_shows_options::139",
+  "argv": [
+   "playground",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_playground_export_mode::140",
+  "argv": [
+   "playground",
+   "--export",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_playground_quiet_mode_with_export::141",
+  "argv": [
+   "playground",
+   "--quiet",
+   "--export",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_playground_missing_grammar::142",
+  "argv": [
+   "playground",
+   "--grammar-path",
+   "/nonexistent/path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_help_complete::143",
+  "argv": [
+   "query",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_with_valid_query::144",
+  "argv": [
+   "query",
+   "test.scm",
+   "test.c",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {
+   "test.scm": "(identifier) @name",
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_captures_mode::145",
+  "argv": [
+   "query",
+   "--captures",
+   "test.scm",
+   "test.txt",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {
+   "test.scm": "(identifier) @id",
+   "test.txt": "foo bar baz"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_with_byte_range::146",
+  "argv": [
+   "query",
+   "--byte-range",
+   "0-10",
+   "test.scm",
+   "test.txt",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {
+   "test.scm": "(identifier) @name",
+   "test.txt": "word1 word2 word3 word4"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_with_row_range::147",
+  "argv": [
+   "query",
+   "--row-range",
+   "1-2",
+   "test.scm",
+   "test.txt",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {
+   "test.scm": "(identifier) @id",
+   "test.txt": "line1\nline2\nline3\nline4"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_invalid_query_file::148",
+  "argv": [
+   "query",
+   "bad.scm",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.scm": "(invalid syntax ][",
+   "test.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_missing_query_file::149",
+  "argv": [
+   "query",
+   "nonexistent.scm",
+   "dummy.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_with_test_flag::150",
+  "argv": [
+   "query",
+   "--test",
+   "test.scm",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {
+   "test.scm": "(identifier) @id"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tags_help_complete::151",
+  "argv": [
+   "tags",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tags_missing_source_file::152",
+  "argv": [
+   "tags",
+   "nonexistent.js"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tags_with_empty_file::153",
+  "argv": [
+   "tags",
+   "empty.js"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.js": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tags_with_scope_option::154",
+  "argv": [
+   "tags",
+   "--scope",
+   "source.javascript",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "function test() { }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tags_with_time_option::155",
+  "argv": [
+   "tags",
+   "--time",
+   "test.js"
+  ],
+  "stdin": null,
+  "files": {
+   "test.js": "var x = 1;"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tags_with_quiet_option::156",
+  "argv": [
+   "tags",
+   "--quiet",
+   "test.js"
+  ],
+  "stdin": null,
+  "files": {
+   "test.js": "var x = 1;"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tags_with_paths_file::157",
+  "argv": [
+   "tags",
+   "--paths"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tags_with_rebuild_flag::158",
+  "argv": [
+   "tags",
+   "--rebuild",
+   "test.js"
+  ],
+  "stdin": null,
+  "files": {
+   "test.js": "var x = 1;"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tags_with_test_number::159",
+  "argv": [
+   "tags",
+   "--test-number",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tags_with_custom_config_path::160",
+  "argv": [
+   "tags",
+   "--config-path",
+   "test.js"
+  ],
+  "stdin": null,
+  "files": {
+   "test.js": "var x = 1;"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tags_multiple_files::161",
+  "argv": [
+   "tags",
+   "file1.js",
+   "file2.js",
+   "file3.js"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.js": "var x = 1;",
+   "file2.js": "var y = 2;",
+   "file3.js": "var z = 3;"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tags_with_grammar_path::162",
+  "argv": [
+   "tags",
+   "--grammar-path",
+   "test.js"
+  ],
+  "stdin": null,
+  "files": {
+   "test.js": "var x = 1;"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tags_short_help::163",
+  "argv": [
+   "tags",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tags_with_time_and_quiet::164",
+  "argv": [
+   "tags",
+   "--time",
+   "--quiet",
+   "test.js"
+  ],
+  "stdin": null,
+  "files": {
+   "test.js": "var x = 1;"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tags_with_real_code::165",
+  "argv": [
+   "tags",
+   "--grammar-path",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nint main() {\n    int x = 42;\n    return x;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tags_quiet_mode::166",
+  "argv": [
+   "tags",
+   "--quiet",
+   "--grammar-path",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "test content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tags_with_timing::167",
+  "argv": [
+   "tags",
+   "--time",
+   "--grammar-path",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "simple test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tags_missing_source_file::168",
+  "argv": [
+   "tags",
+   "nonexistent_file.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_help_complete::169",
+  "argv": [
+   "test",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_with_include_filter::170",
+  "argv": [
+   "test",
+   "--include",
+   ".*",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_with_exclude_filter::171",
+  "argv": [
+   "test",
+   "--exclude",
+   "nonexistent_pattern",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_with_file_name_filter::172",
+  "argv": [
+   "test",
+   "--file-name",
+   "corpus.txt",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_debug_mode::173",
+  "argv": [
+   "test",
+   "--debug",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_json_summary_format::174",
+  "argv": [
+   "test",
+   "--json-summary",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_with_update_flag::175",
+  "argv": [
+   "test",
+   "--update",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_missing_grammar::176",
+  "argv": [
+   "test",
+   "--grammar-path",
+   "/nonexistent/grammar"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_with_lib_path::177",
+  "argv": [
+   "test",
+   "--lib-path",
+   "/tmp/nonexistent.so",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_all_output_options::178",
+  "argv": [
+   "generate",
+   "--no-parser",
+   "--js-runtime",
+   "native"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_command_help::179",
+  "argv": [
+   "version",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_display::180",
+  "argv": [
+   "version",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_bump_patch::181",
+  "argv": [
+   "version",
+   "--bump",
+   "patch",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_bump_minor::182",
+  "argv": [
+   "version",
+   "--bump",
+   "minor",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_bump_major::183",
+  "argv": [
+   "version",
+   "--bump",
+   "major",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_set_explicit::184",
+  "argv": [
+   "version",
+   "3.5.7",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_bump_patch_updates_files::185",
+  "argv": [
+   "version",
+   "--bump",
+   "patch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_bump_minor_resets_patch::186",
+  "argv": [
+   "version",
+   "--bump",
+   "minor"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_bump_major_resets_minor_and_patch::187",
+  "argv": [
+   "version",
+   "--bump",
+   "major"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_set_explicit_version::188",
+  "argv": [
+   "version",
+   "2.5.3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_downgrade_shows_warning::189",
+  "argv": [
+   "version",
+   "0.9.0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_invalid_format_shows_error::190",
+  "argv": [
+   "version",
+   "not.a.version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_with_explicit_version_set::191",
+  "argv": [
+   "version",
+   "1.2.3",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_invalid_version_format::192",
+  "argv": [
+   "version",
+   "invalid.version.format",
+   "--grammar-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_bump_patch::193",
+  "argv": [
+   "version",
+   "patch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_bump_minor::194",
+  "argv": [
+   "version",
+   "minor"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_bump_major::195",
+  "argv": [
+   "version",
+   "major"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_set_explicit::196",
+  "argv": [
+   "version",
+   "5.6.7"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_invalid_format::197",
+  "argv": [
+   "version",
+   "invalid.version.format.abc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_stdin_no_language::198",
+  "argv": [
+   "highlight"
+  ],
+  "stdin": "test input\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lib_path_not_found::199",
+  "argv": [
+   "parse",
+   "--lib-path",
+   "/nonexistent/lib.so",
+   "--lang-name",
+   "test"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scope_not_found::200",
+  "argv": [
+   "parse",
+   "--scope",
+   "non_existent_scope_xyz123"
+  ],
+  "stdin": "print('test')",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_language_found::201",
+  "argv": [
+   "parse"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lib_path_is_directory::202",
+  "argv": [
+   "parse",
+   "--lib-path",
+   "/tmp",
+   "--lang-name",
+   "test"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parser_discovery_tree_sitter_prefix::203",
+  "argv": [
+   "parse",
+   "--scope",
+   "source.lang1"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "XDG_CONFIG_HOME": "/tmp/ts_config_test"
+  }
+ },
+ {
+  "name": "test::test_home_directory_tilde_expansion_in_parser_dirs::204",
+  "argv": [
+   "parse",
+   "--scope",
+   "source.home_test"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "XDG_CONFIG_HOME": "/tmp/ts_config_home"
+  }
+ },
+ {
+  "name": "test::test_grammar_path_does_not_exist::205",
+  "argv": [
+   "parse",
+   "--grammar-path",
+   "/nonexistent/parser/dir"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tags_scope_with_stdin::206",
+  "argv": [
+   "tags",
+   "--scope",
+   "source.unknownlang"
+  ],
+  "stdin": "test content",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_takes_precedence_over_unknown_flag::207",
+  "argv": [
+   "--help",
+   "--definitely-not-a-real-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subcommand_help_takes_precedence_over_unknown_flag::208",
+  "argv": [
+   "generate",
+   "--help",
+   "--definitely-not-a-real-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_nonexistent_path_errors_to_stderr_exit1::209",
+  "argv": [
+   "parse",
+   "/no/such/file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_debug_modes::210",
+  "argv": [
+   "generate",
+   "--js-runtime=native"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_report_states::211",
+  "argv": [
+   "generate",
+   "--report-states-for-rule",
+   "source_file",
+   "--js-runtime=native"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_update_with_existing_files::212",
+  "argv": [
+   "init",
+   "--update"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_disable_optimizations_detailed::213",
+  "argv": [
+   "generate",
+   "--disable-optimizations",
+   "--js-runtime=native"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_command::214",
+  "argv": [
+   "invalid-command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_global_flag::215",
+  "argv": [
+   "--invalid-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_with_lib_path::216",
+  "argv": [
+   "parse",
+   "test.txt",
+   "--lib-path",
+   "/tmp/nonexistent.so",
+   "--lang-name",
+   "test"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "test content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_with_scope::217",
+  "argv": [
+   "parse",
+   "test.txt",
+   "--scope",
+   "source.test"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_with_config_path::218",
+  "argv": [
+   "parse",
+   "test.txt",
+   "--config-path",
+   "config.json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "test",
+   "config.json": "{\"parser-directories\":[]}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_with_byte_range::219",
+  "argv": [
+   "query",
+   "query.scm",
+   "test.txt",
+   "--grammar-path",
+   "test/fixtures/test_grammars/aliased_inlined_rules",
+   "--byte-range",
+   "0:5"
+  ],
+  "stdin": null,
+  "files": {
+   "query.scm": "(source_file)",
+   "test.txt": "hello world"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_with_row_range::220",
+  "argv": [
+   "query",
+   "query.scm",
+   "test.txt",
+   "--grammar-path",
+   "test/fixtures/test_grammars/aliased_inlined_rules",
+   "--row-range",
+   "0:2"
+  ],
+  "stdin": null,
+  "files": {
+   "query.scm": "(source_file)",
+   "test.txt": "line1\nline2\nline3"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_test_mode::221",
+  "argv": [
+   "query",
+   "query.scm",
+   "--grammar-path",
+   "test/fixtures/test_grammars/aliased_inlined_rules",
+   "--test"
+  ],
+  "stdin": null,
+  "files": {
+   "query.scm": "(source_file)"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_with_query_paths::222",
+  "argv": [
+   "highlight",
+   "test.txt",
+   "--grammar-path",
+   "test/fixtures/test_grammars/aliased_inlined_rules",
+   "--query-paths",
+   "highlights.scm"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "test content",
+   "highlights.scm": "(identifier) @variable"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_with_scope::223",
+  "argv": [
+   "highlight",
+   "test.txt",
+   "--scope",
+   "source.test"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_html_with_css_classes::224",
+  "argv": [
+   "highlight",
+   "test.txt",
+   "--grammar-path",
+   "test/fixtures/test_grammars/aliased_inlined_rules",
+   "--html",
+   "--css-classes"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "test content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tags_with_scope::225",
+  "argv": [
+   "tags",
+   "test.txt",
+   "--scope",
+   "source.test"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "function test() {}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_with_log_and_optimization::226",
+  "argv": [
+   "generate",
+   "--log",
+   "--disable-optimizations",
+   "--js-runtime=native"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_file_operations::227",
+  "argv": [
+   "parse",
+   "--grammar-path",
+   "test/fixtures/test_grammars/aliased_inlined_rules",
+   "--quiet"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_input_file::228",
+  "argv": [
+   "parse",
+   "empty.txt",
+   "--grammar-path",
+   "test/fixtures/test_grammars/aliased_inlined_rules"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.txt": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_file::229",
+  "argv": [
+   "parse",
+   "special.txt",
+   "--grammar-path",
+   "test/fixtures/test_grammars/aliased_inlined_rules"
+  ],
+  "stdin": null,
+  "files": {
+   "special.txt": "hello\n世界\n🎉\némoji"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_file_handling::230",
+  "argv": [
+   "parse",
+   "binary.bin",
+   "--grammar-path",
+   "test/fixtures/test_grammars/aliased_inlined_rules"
+  ],
+  "stdin": null,
+  "files": {
+   "binary.bin": "\u0000\u0001\u0002���"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_output_to_nonexistent_dir::231",
+  "argv": [
+   "generate",
+   "--output",
+   "--js-runtime=native"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_invalid_flags::232",
+  "argv": [
+   "complete",
+   "--shell",
+   "notashell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_with_timeout_edge_case::233",
+  "argv": [
+   "parse",
+   "--grammar-path",
+   "test/fixtures/test_grammars/aliased_inlined_rules",
+   "--timeout",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_with_log_flag_verbose::234",
+  "argv": [
+   "generate",
+   "--log",
+   "--js-runtime=native"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_encoding_flags::235",
+  "argv": [
+   "parse",
+   "encoded.txt",
+   "--grammar-path",
+   "test/fixtures/test_grammars/aliased_inlined_rules",
+   "--encoding"
+  ],
+  "stdin": null,
+  "files": {
+   "encoded.txt": "hello world"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_no_parser_flag::236",
+  "argv": [
+   "generate",
+   "--no-parser",
+   "--js-runtime=native"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_abi_version::237",
+  "argv": [
+   "generate",
+   "--abi",
+   "14",
+   "--js-runtime=native"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_abi_latest::238",
+  "argv": [
+   "generate",
+   "--abi=latest",
+   "--js-runtime=native"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_json_summary::239",
+  "argv": [
+   "generate",
+   "--json-summary",
+   "--js-runtime=native"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_js_runtime_node::240",
+  "argv": [
+   "generate",
+   "--js-runtime=node"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_with_grammar_path::241",
+  "argv": [
+   "generate",
+   "grammar.js",
+   "--js-runtime=native"
+  ],
+  "stdin": null,
+  "files": {
+   "grammar.js": "\nmodule.exports = grammar({\n  name: 'test_lang',\n  rules: {\n    source_file: $ => repeat($.statement),\n    statement: $ => choice(\n      $.expression,\n      $.comment\n    ),\n    expression: $ => /[a-zA-Z_][a-zA-Z0-9_]*/,\n    comment: $ => /#.*/\n  }\n});\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_with_different_abi_versions::242",
+  "argv": [
+   "generate",
+   "--abi",
+   "--js-runtime=native"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_handling_missing_files::243",
+  "argv": [
+   "parse",
+   "/tmp/nonexistent_12345.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_with_all_flags::244",
+  "argv": [
+   "generate",
+   "--js-runtime=native",
+   "--json-summary",
+   "--log",
+   "--abi=latest"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dump_languages_empty_config::245",
+  "argv": [
+   "dump-languages",
+   "--config-path",
+   "config.json"
+  ],
+  "stdin": null,
+  "files": {
+   "config.json": "{}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_with_multiple_query_patterns::246",
+  "argv": [
+   "query",
+   "complex.scm",
+   "test.txt",
+   "--grammar-path",
+   "test/fixtures/test_grammars/aliased_inlined_rules",
+   "--captures"
+  ],
+  "stdin": null,
+  "files": {
+   "complex.scm": "\n(source_file) @root\n(identifier) @name\n(comment) @comment\n",
+   "test.txt": "test_id\n# comment\nanother_id"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_time_flag::247",
+  "argv": [
+   "highlight",
+   "test.txt",
+   "--grammar-path",
+   "test/fixtures/test_grammars/aliased_inlined_rules",
+   "--time"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tags_time_flag::248",
+  "argv": [
+   "tags",
+   "test.txt",
+   "--grammar-path",
+   "test/fixtures/test_grammars/aliased_inlined_rules",
+   "--time"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_time_flag::249",
+  "argv": [
+   "query",
+   "q.scm",
+   "test.txt",
+   "--grammar-path",
+   "test/fixtures/test_grammars/aliased_inlined_rules",
+   "--time"
+  ],
+  "stdin": null,
+  "files": {
+   "q.scm": "(source_file)",
+   "test.txt": "test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_grammar_path_variations::250",
+  "argv": [
+   "version",
+   "--grammar-path",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_missing_file::251",
+  "argv": [
+   "query",
+   "/tmp/nonexistent_query_12345.scm"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_with_test_data::252",
+  "argv": [
+   "query",
+   "test.scm",
+   "test.txt",
+   "--grammar-path",
+   "test/fixtures/test_grammars/aliased_inlined_rules"
+  ],
+  "stdin": null,
+  "files": {
+   "test.scm": "(source_file)",
+   "test.txt": "hello"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_captures_flag::253",
+  "argv": [
+   "query",
+   "test.scm",
+   "test.txt",
+   "--grammar-path",
+   "test/fixtures/test_grammars/aliased_inlined_rules",
+   "--captures"
+  ],
+  "stdin": null,
+  "files": {
+   "test.scm": "(source_file) @root",
+   "test.txt": "data"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_missing_file::254",
+  "argv": [
+   "highlight",
+   "/tmp/nonexistent_file_12345.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_html_flag::255",
+  "argv": [
+   "highlight",
+   "test.txt",
+   "--grammar-path",
+   "test/fixtures/test_grammars/aliased_inlined_rules",
+   "--html"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "hello world"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highlight_check_flag::256",
+  "argv": [
+   "highlight",
+   "test.txt",
+   "--grammar-path",
+   "test/fixtures/test_grammars/aliased_inlined_rules",
+   "--check"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tags_missing_file::257",
+  "argv": [
+   "tags",
+   "/tmp/nonexistent_file_12345.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tags_with_file::258",
+  "argv": [
+   "tags",
+   "test.txt",
+   "--grammar-path",
+   "test/fixtures/test_grammars/aliased_inlined_rules"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "function foo() {}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_playground_export::259",
+  "argv": [
+   "playground",
+   "--export",
+   "--grammar-path",
+   "test/fixtures/test_grammars/aliased_inlined_rules"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dump_languages_with_config::260",
+  "argv": [
+   "dump-languages",
+   "--config-path",
+   "config.json"
+  ],
+  "stdin": null,
+  "files": {
+   "config.json": "{\"parser-directories\": []}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complete_invalid_shell::261",
+  "argv": [
+   "complete",
+   "--shell",
+   "invalid-shell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_help::262",
+  "argv": [
+   "parse",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_missing_file::263",
+  "argv": [
+   "parse",
+   "/tmp/nonexistent_file_12345.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_with_test_grammar::264",
+  "argv": [
+   "parse",
+   "--grammar-path",
+   "test/fixtures/test_grammars/aliased_inlined_rules"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_stat_flag::265",
+  "argv": [
+   "parse",
+   "--grammar-path",
+   "test/fixtures/test_grammars/aliased_inlined_rules",
+   "--stat"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_time_flag::266",
+  "argv": [
+   "parse",
+   "--grammar-path",
+   "test/fixtures/test_grammars/aliased_inlined_rules",
+   "--time"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_xml_flag::267",
+  "argv": [
+   "parse",
+   "test.txt",
+   "--grammar-path",
+   "test/fixtures/test_grammars/aliased_inlined_rules",
+   "--xml"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "hello world"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_cst_flag::268",
+  "argv": [
+   "parse",
+   "test.txt",
+   "--grammar-path",
+   "test/fixtures/test_grammars/aliased_inlined_rules",
+   "--cst"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "hello"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_dot_flag::269",
+  "argv": [
+   "parse",
+   "test.txt",
+   "--grammar-path",
+   "test/fixtures/test_grammars/aliased_inlined_rules",
+   "--dot"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_json_summary_flag::270",
+  "argv": [
+   "parse",
+   "test.txt",
+   "--grammar-path",
+   "test/fixtures/test_grammars/aliased_inlined_rules",
+   "--json-summary"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "data"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_encoding_utf8::271",
+  "argv": [
+   "parse",
+   "utf8.txt",
+   "--grammar-path",
+   "test/fixtures/test_grammars/aliased_inlined_rules",
+   "--encoding",
+   "utf8"
+  ],
+  "stdin": null,
+  "files": {
+   "utf8.txt": "hello"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_no_ranges_flag::272",
+  "argv": [
+   "parse",
+   "test.txt",
+   "--grammar-path",
+   "test/fixtures/test_grammars/aliased_inlined_rules",
+   "--no-ranges"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_timeout_flag::273",
+  "argv": [
+   "parse",
+   "test.txt",
+   "--grammar-path",
+   "test/fixtures/test_grammars/aliased_inlined_rules",
+   "--timeout",
+   "1000000"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "data"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_multiple_files::274",
+  "argv": [
+   "parse",
+   "file1.txt",
+   "file2.txt",
+   "--grammar-path",
+   "test/fixtures/test_grammars/aliased_inlined_rules"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.txt": "hello",
+   "file2.txt": "world"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_error_message::275",
+  "argv": [
+   "nonexistent_subcommand"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_version_flag_before_command_routes_to_version_display::276",
+  "argv": [
+   "--version",
+   "parse"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_after_command_is_rejected_for_non_version_commands::277",
+  "argv": [
+   "parse",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_before_command_shows_main_help_even_with_extra_arg::278",
+  "argv": [
+   "--help",
+   "parse"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subcommand_required_error::279",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_required_positional_argument_error_query_path::280",
+  "argv": [
+   "query"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_allows_dashy_values_instead_of_flags::281",
+  "argv": [
+   "parse",
+   "--nonexistent-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_short_flags_supported_for_parse_jq::282",
+  "argv": [
+   "parse",
+   "-jq"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_short_flag_value_attachment_rejected_for_boolean_flag::283",
+  "argv": [
+   "parse",
+   "-j=foo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_debug_optional_value_presence_and_equivalence::284",
+  "argv": [
+   "parse",
+   "-d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_error::285",
+  "argv": [
+   "definitely-not-a-command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

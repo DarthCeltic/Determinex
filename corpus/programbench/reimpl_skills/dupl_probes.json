@@ -1,0 +1,1744 @@
+[
+ {
+  "name": "test::test_ext_cli_files_flag_reads_paths_from_stdin::0",
+  "argv": [
+   "-files",
+   "-t",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_files_mode_uses_relative_paths_from_stdin::1",
+  "argv": [
+   "-t",
+   "5",
+   "-files"
+  ],
+  "stdin": "a.go\nb.go\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_files_mode_empty_stdin_has_no_groups::2",
+  "argv": [
+   "-files"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_exit_code_is_2_for_double_dash_help::3",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_exit_code_is_2_for_short_h::4",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_file_path::5",
+  "argv": [
+   "main.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_directory_path::6",
+  "argv": [
+   "printer/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_paths::7",
+  "argv": [
+   "main.go",
+   "printer/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_threshold_flag::8",
+  "argv": [
+   "-t",
+   "50",
+   "syntax/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_threshold_long_flag::9",
+  "argv": [
+   "-threshold",
+   "30",
+   "syntax/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_flag::10",
+  "argv": [
+   "-v",
+   "syntax/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_long_flag::11",
+  "argv": [
+   "-verbose",
+   "syntax/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_flag::12",
+  "argv": [
+   "-html",
+   "syntax/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_plumbing_flag::13",
+  "argv": [
+   "-plumbing",
+   "syntax/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vendor_flag::14",
+  "argv": [
+   "-vendor"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_files_flag_stdin::15",
+  "argv": [
+   "-files"
+  ],
+  "stdin": "main.go\nprinter/html.go\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_text_output::16",
+  "argv": [
+   "syntax/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_output_structure::17",
+  "argv": [
+   "-html",
+   "printer/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_plumbing_output_format::18",
+  "argv": [
+   "-plumbing",
+   "printer/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_threshold_value::19",
+  "argv": [
+   "-t",
+   "abc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_html_plumbing_flags::20",
+  "argv": [
+   "-html",
+   "-plumbing",
+   "syntax/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file::21",
+  "argv": [
+   "nonexistent_file_xyz.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_directory::22",
+  "argv": [
+   "nonexistent_dir_xyz/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_go_syntax::23",
+  "argv": [
+   "bad.go"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.go": "package main\nfunc foo() { this is not valid go }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_files_flag_multiple::24",
+  "argv": [
+   "-files"
+  ],
+  "stdin": "main.go\nprinter/text.go\nprinter/html.go\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_file_any_extension::25",
+  "argv": [
+   "test.notgo"
+  ],
+  "stdin": null,
+  "files": {
+   "test.notgo": "package main\nfunc foo() { x := 1; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_detect_clones_custom_threshold::26",
+  "argv": [
+   "-t",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_high_threshold_no_matches::27",
+  "argv": [
+   "-t",
+   "1000",
+   "syntax/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_low_threshold_more_matches::28",
+  "argv": [
+   "-t",
+   "5",
+   "syntax/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_threshold_zero::29",
+  "argv": [
+   "-t",
+   "0",
+   "syntax/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_threshold_negative::30",
+  "argv": [
+   "-t",
+   "-1",
+   "syntax/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_large_threshold::31",
+  "argv": [
+   "-t",
+   "999999",
+   "syntax/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_with_html::32",
+  "argv": [
+   "-v",
+   "-html",
+   "printer/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_with_plumbing::33",
+  "argv": [
+   "-v",
+   "-plumbing",
+   "printer/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_files_flag_with_path_prefix::34",
+  "argv": [
+   "-files"
+  ],
+  "stdin": "./main.go\n./printer/text.go\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_short_flags_not_supported_treated_as_unknown::35",
+  "argv": [
+   "-vt",
+   "15",
+   "./syntax"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_stops_flag_parsing_dash_prefixed_path_becomes_positional::36",
+  "argv": [
+   "--",
+   "-t",
+   "15"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_value_that_looks_like_flag_is_accepted_as_threshold_value::37",
+  "argv": [
+   "-t",
+   "-1",
+   "./syntax"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paths_starting_with_dash_require_double_dash::38",
+  "argv": [
+   "-weird.go"
+  ],
+  "stdin": null,
+  "files": {
+   "-weird.go": "package main\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vendor_flag_accepts_boolean_values_with_equals::39",
+  "argv": [
+   "-vendor=true",
+   "./syntax"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_files_flag_reads_paths_from_stdin_one_per_line::40",
+  "argv": [
+   "-files",
+   "-t",
+   "15"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_args_defaults_to_current_dir_runs::41",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_after_positional_is_rejected_as_unknown_flag::42",
+  "argv": [
+   "./syntax",
+   "-t",
+   "15"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dash_help_works::43",
+  "argv": [
+   "-help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_path_gives_error::44",
+  "argv": [
+   "nonexistent_file_12345.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_flag_short_form::45",
+  "argv": [
+   "-v",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_flag_long_form::46",
+  "argv": [
+   "-verbose",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_threshold_flag_short_form::47",
+  "argv": [
+   "-t",
+   "50",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_threshold_flag_long_form::48",
+  "argv": [
+   "-threshold",
+   "50",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_flag::49",
+  "argv": [
+   "-html",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_plumbing_flag::50",
+  "argv": [
+   "-plumbing",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vendor_flag::51",
+  "argv": [
+   "-vendor",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_and_plumbing_mutually_exclusive::52",
+  "argv": [
+   "-html",
+   "-plumbing",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_shows_error::53",
+  "argv": [
+   "-nonexistent-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_before_path::54",
+  "argv": [
+   "-t",
+   "20",
+   "-verbose",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_after_path::55",
+  "argv": [
+   ".",
+   "-t",
+   "20"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_flags_combined::56",
+  "argv": [
+   "-v",
+   "-t",
+   "30",
+   "-vendor",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_path::57",
+  "argv": [
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_paths::58",
+  "argv": [
+   ".",
+   "main.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_output_format::59",
+  "argv": [
+   "-html",
+   "main.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_plumbing_output_format::60",
+  "argv": [
+   "-plumbing",
+   "main.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_files_flag_with_stdin::61",
+  "argv": [
+   "-files"
+  ],
+  "stdin": "main.go\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_files_flag_with_multiple_files::62",
+  "argv": [
+   "-files"
+  ],
+  "stdin": "main.go\ngo.mod\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_threshold_small_value::63",
+  "argv": [
+   "-t",
+   "5",
+   "main.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_threshold_large_value::64",
+  "argv": [
+   "-t",
+   "1000",
+   "main.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_threshold_invalid_value::65",
+  "argv": [
+   "-t",
+   "not-a-number",
+   "main.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_files_mode_nonexistent_in_stdin::66",
+  "argv": [
+   "-files"
+  ],
+  "stdin": "nonexistent1.go\nnonexistent2.go\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_files_mode_mixed_valid_invalid::67",
+  "argv": [
+   "-files"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_test_files_only::68",
+  "argv": [
+   "-files",
+   "-t",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_with_files_flag::69",
+  "argv": [
+   "-verbose",
+   "-files"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_path_errors_on_stderr_exit_1::70",
+  "argv": [
+   "/no/such/file.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_threshold_exit_2_and_prints_usage::71",
+  "argv": [
+   "-t",
+   "notanint",
+   "some.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_clones_prints_summary_and_exit_0::72",
+  "argv": [
+   "-t",
+   "10",
+   "b.go"
+  ],
+  "stdin": null,
+  "files": {
+   "b.go": "package dupltest\n\nfunc only() int {\n\treturn 1\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_detects_clone_in_text_mode::73",
+  "argv": [
+   "-t",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_plumbing_output_is_easy_to_parse::74",
+  "argv": [
+   "-plumbing",
+   "-t",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_output_starts_with_doctype_and_contains_code::75",
+  "argv": [
+   "-html",
+   "-t",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::76",
+  "argv": [
+   "--invalid-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_file_with_clones::77",
+  "argv": [
+   "-t",
+   "5",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc foo() int {\n    a := 1\n    b := 2\n    c := 3\n    return a + b + c\n}\n\nfunc bar() int {\n    x := 1\n    y := 2\n    z := 3\n    return x + y + z\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_file_no_clones::78",
+  "argv": [
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc unique1() int {\n    return 42\n}\n\nfunc unique2() string {\n    return \"hello world\"\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_files::79",
+  "argv": [
+   "-t",
+   "5",
+   "file1.go",
+   "file2.go"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.go": "package main\n\nfunc duplicate() int {\n    a := 1\n    b := 2\n    c := 3\n    return a + b + c\n}\n",
+   "file2.go": "package main\n\nfunc another() int {\n    x := 1\n    y := 2\n    z := 3\n    return x + y + z\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_directory_recursive::80",
+  "argv": [
+   "-t",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_path::81",
+  "argv": [
+   "/nonexistent/path/to/file.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_non_go_file_explicit::82",
+  "argv": [
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "not go code"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_file::83",
+  "argv": [
+   "empty.go"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.go": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_files_from_stdin::84",
+  "argv": [
+   "-files",
+   "-t",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_threshold::85",
+  "argv": [
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc foo() {\n    // This is a medium sized duplicate\n    a := 1\n    b := 2\n    c := 3\n    d := 4\n    e := 5\n    f := a + b + c + d + e\n    println(f)\n}\n\nfunc bar() {\n    // This is a medium sized duplicate\n    x := 1\n    y := 2\n    z := 3\n    w := 4\n    v := 5\n    u := x + y + z + w + v\n    println(u)\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_threshold_short_flag::86",
+  "argv": [
+   "-t",
+   "2",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc foo() int {\n    return 1 + 2\n}\n\nfunc bar() int {\n    return 3 + 4\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_threshold_long_flag::87",
+  "argv": [
+   "-threshold",
+   "3",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc foo() int {\n    a := 1\n    b := 2\n    return a + b\n}\n\nfunc bar() int {\n    x := 1\n    y := 2\n    return x + y\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_low_threshold::88",
+  "argv": [
+   "-t",
+   "1",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc foo() int {\n    return 1\n}\n\nfunc bar() int {\n    return 2\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_high_threshold::89",
+  "argv": [
+   "-t",
+   "1000",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc foo() int {\n    return 42\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_threshold_zero::90",
+  "argv": [
+   "-t",
+   "0",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc foo() int {\n    return 1\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_output_format::91",
+  "argv": [
+   "-t",
+   "5",
+   "-html",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc foo() int {\n    a := 1\n    b := 2\n    c := 3\n    return a + b + c\n}\n\nfunc bar() int {\n    x := 1\n    y := 2\n    z := 3\n    return x + y + z\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_plumbing_output_format::92",
+  "argv": [
+   "-t",
+   "5",
+   "-plumbing",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc foo() int {\n    a := 1\n    b := 2\n    c := 3\n    return a + b + c\n}\n\nfunc bar() int {\n    x := 1\n    y := 2\n    z := 3\n    return x + y + z\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_and_plumbing_conflict::93",
+  "argv": [
+   "-html",
+   "-plumbing",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_short_flag::94",
+  "argv": [
+   "-v",
+   "-t",
+   "3",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc foo() int {\n    a := 1\n    b := 2\n    return a + b\n}\n\nfunc bar() int {\n    x := 1\n    y := 2\n    return x + y\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_long_flag::95",
+  "argv": [
+   "-verbose",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc foo() int {\n    return 42\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exact_clones::96",
+  "argv": [
+   "-t",
+   "5",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc processA(data []int) int {\n    sum := 0\n    for _, val := range data {\n        sum += val\n    }\n    return sum\n}\n\nfunc processB(items []int) int {\n    total := 0\n    for _, num := range items {\n        total += num\n    }\n    return total\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_clones_found::97",
+  "argv": [
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc unique1() {\n    println(\"hello\")\n}\n\nfunc unique2() {\n    var x = map[string]int{\"a\": 1}\n    println(x)\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_clone_groups::98",
+  "argv": [
+   "-t",
+   "2",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\n// Clone group 1\nfunc add1(a, b int) int {\n    return a + b\n}\n\nfunc add2(x, y int) int {\n    return x + y\n}\n\n// Clone group 2\nfunc mult1(a, b int) int {\n    return a * b\n}\n\nfunc mult2(x, y int) int {\n    return x * y\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clones_within_same_file::99",
+  "argv": [
+   "-t",
+   "5",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc dup1() int {\n    x := 1\n    y := 2\n    z := 3\n    return x + y + z\n}\n\nfunc dup2() int {\n    a := 1\n    b := 2\n    c := 3\n    return a + b + c\n}\n\nfunc dup3() int {\n    p := 1\n    q := 2\n    r := 3\n    return p + q + r\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vendor_directory_included_with_flag::100",
+  "argv": [
+   "-t",
+   "5",
+   "-vendor"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_syntax_error_in_file::101",
+  "argv": [
+   "bad.go"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.go": "package main\n\nfunc broken( {\n    // syntax error\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_code::102",
+  "argv": [
+   "-t",
+   "2",
+   "unicode.go"
+  ],
+  "stdin": null,
+  "files": {
+   "unicode.go": "package main\n\nfunc greet1() string {\n    return \"Hello 世界\"\n}\n\nfunc greet2() string {\n    return \"Bonjour 世界\"\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_file::103",
+  "argv": [
+   "-t",
+   "3",
+   "large.go"
+  ],
+  "stdin": null,
+  "files": {
+   "large.go": "package main\n\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_small_file::104",
+  "argv": [
+   "tiny.go"
+  ],
+  "stdin": null,
+  "files": {
+   "tiny.go": "package main\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_file_and_directory_args::105",
+  "argv": [
+   "-t",
+   "3",
+   "file1.go"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.go": "package main\n\nfunc foo() int {\n    a := 1\n    b := 2\n    return a + b\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_paths::106",
+  "argv": [
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc foo() int {\n    return 42\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_go_syntax::107",
+  "argv": [
+   "-t",
+   "2",
+   "complex.go"
+  ],
+  "stdin": null,
+  "files": {
+   "complex.go": "package main\n\ntype MyInterface interface {\n    DoSomething() int\n}\n\ntype MyStruct struct {\n    field1 int\n    field2 string\n}\n\nfunc (m *MyStruct) Method1() int {\n    return m.field1 + 10\n}\n\nfunc (m *MyStruct) Method2() int {\n    return m.field1 + 20\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_range_format_text::108",
+  "argv": [
+   "-t",
+   "3",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc foo() int {\n    a := 1\n    b := 2\n    return a + b\n}\n\nfunc bar() int {\n    x := 1\n    y := 2\n    return x + y\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_range_format_plumbing::109",
+  "argv": [
+   "-t",
+   "3",
+   "-plumbing",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc foo() int {\n    a := 1\n    b := 2\n    return a + b\n}\n\nfunc bar() int {\n    x := 1\n    y := 2\n    return x + y\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_flags::110",
+  "argv": [
+   "-t",
+   "5",
+   "-v",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc foo() int {\n    a := 1\n    b := 2\n    c := 3\n    return a + b + c\n}\n\nfunc bar() int {\n    x := 1\n    y := 2\n    z := 3\n    return x + y + z\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_comments::111",
+  "argv": [
+   "-t",
+   "3",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\n// This is a comment\nfunc foo() int {\n    // More comments\n    a := 1\n    b := 2\n    return a + b\n}\n\n/* Multi-line\n   comment */\nfunc bar() int {\n    x := 1\n    y := 2\n    return x + y\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_functions::112",
+  "argv": [
+   "-t",
+   "3",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc outer1() {\n    inner := func() int {\n        a := 1\n        b := 2\n        return a + b\n    }\n    _ = inner()\n}\n\nfunc outer2() {\n    nested := func() int {\n        x := 1\n        y := 2\n        return x + y\n    }\n    _ = nested()\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_strings::113",
+  "argv": [
+   "-t",
+   "2",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nfunc foo() string {\n    return \"Hello\\nWorld\\t!\"\n}\n\nfunc bar() string {\n    return \"Different\\nString\\t?\"\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_go_keywords_as_identifiers::114",
+  "argv": [
+   "-t",
+   "5",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nimport \"fmt\"\n\nfunc process1() {\n    for i := 0; i < 10; i++ {\n        if i%2 == 0 {\n            fmt.Println(i)\n        }\n    }\n}\n\nfunc process2() {\n    for j := 0; j < 10; j++ {\n        if j%2 == 0 {\n            fmt.Println(j)\n        }\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_handling_patterns::115",
+  "argv": [
+   "-t",
+   "3",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nimport \"errors\"\n\nfunc doWork1() error {\n    if err := checkCondition(); err != nil {\n        return err\n    }\n    return nil\n}\n\nfunc doWork2() error {\n    if err := validateInput(); err != nil {\n        return err\n    }\n    return nil\n}\n\nfunc checkCondition() error { return errors.New(\"error\") }\nfunc validateInput() error { return errors.New(\"error\") }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_go_generics_syntax::116",
+  "argv": [
+   "-t",
+   "3",
+   "generics.go"
+  ],
+  "stdin": null,
+  "files": {
+   "generics.go": "package main\n\nfunc Max[T int | float64](a, b T) T {\n    if a > b {\n        return a\n    }\n    return b\n}\n\nfunc Min[T int | float64](x, y T) T {\n    if x < y {\n        return x\n    }\n    return y\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_struct_methods_clones::117",
+  "argv": [
+   "-t",
+   "2",
+   "methods.go"
+  ],
+  "stdin": null,
+  "files": {
+   "methods.go": "package main\n\ntype Rectangle struct {\n    width, height int\n}\n\nfunc (r *Rectangle) Area() int {\n    return r.width * r.height\n}\n\ntype Square struct {\n    side int\n}\n\nfunc (s *Square) Area() int {\n    return s.side * s.side\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interface_implementations::118",
+  "argv": [
+   "-t",
+   "2",
+   "interfaces.go"
+  ],
+  "stdin": null,
+  "files": {
+   "interfaces.go": "package main\n\ntype Shape interface {\n    Area() int\n}\n\ntype Circle struct {\n    radius int\n}\n\nfunc (c Circle) Area() int {\n    return 3 * c.radius * c.radius\n}\n\ntype Triangle struct {\n    base, height int\n}\n\nfunc (t Triangle) Area() int {\n    return t.base * t.height / 2\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_switch_statement_clones::119",
+  "argv": [
+   "-t",
+   "5",
+   "switch.go"
+  ],
+  "stdin": null,
+  "files": {
+   "switch.go": "package main\n\nfunc processType1(t string) int {\n    switch t {\n    case \"a\":\n        return 1\n    case \"b\":\n        return 2\n    default:\n        return 0\n    }\n}\n\nfunc processType2(s string) int {\n    switch s {\n    case \"x\":\n        return 10\n    case \"y\":\n        return 20\n    default:\n        return 0\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_channel_operations::120",
+  "argv": [
+   "-t",
+   "5",
+   "channels.go"
+  ],
+  "stdin": null,
+  "files": {
+   "channels.go": "package main\n\nfunc sender1(ch chan int) {\n    for i := 0; i < 10; i++ {\n        ch <- i\n    }\n    close(ch)\n}\n\nfunc sender2(c chan int) {\n    for j := 0; j < 10; j++ {\n        c <- j\n    }\n    close(c)\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_defer_statements::121",
+  "argv": [
+   "-t",
+   "3",
+   "defer.go"
+  ],
+  "stdin": null,
+  "files": {
+   "defer.go": "package main\n\nfunc cleanup1() {\n    defer func() {\n        println(\"cleaning up 1\")\n    }()\n    println(\"doing work 1\")\n}\n\nfunc cleanup2() {\n    defer func() {\n        println(\"cleaning up 2\")\n    }()\n    println(\"doing work 2\")\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_go_routines::122",
+  "argv": [
+   "-t",
+   "4",
+   "goroutines.go"
+  ],
+  "stdin": null,
+  "files": {
+   "goroutines.go": "package main\n\nfunc worker1(id int, jobs chan int) {\n    for j := range jobs {\n        println(\"worker\", id, \"processing\", j)\n    }\n}\n\nfunc worker2(wid int, tasks chan int) {\n    for t := range tasks {\n        println(\"worker\", wid, \"processing\", t)\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_statement::123",
+  "argv": [
+   "-t",
+   "5",
+   "select.go"
+  ],
+  "stdin": null,
+  "files": {
+   "select.go": "package main\n\nfunc handler1(ch1, ch2 chan int) {\n    select {\n    case v := <-ch1:\n        println(v)\n    case v := <-ch2:\n        println(v)\n    }\n}\n\nfunc handler2(c1, c2 chan int) {\n    select {\n    case x := <-c1:\n        println(x)\n    case x := <-c2:\n        println(x)\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_map_operations::124",
+  "argv": [
+   "-t",
+   "5",
+   "maps.go"
+  ],
+  "stdin": null,
+  "files": {
+   "maps.go": "package main\n\nfunc processMap1(m map[string]int) int {\n    sum := 0\n    for _, v := range m {\n        sum += v\n    }\n    return sum\n}\n\nfunc processMap2(data map[string]int) int {\n    total := 0\n    for _, val := range data {\n        total += val\n    }\n    return total\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slice_operations::125",
+  "argv": [
+   "-t",
+   "7",
+   "slices.go"
+  ],
+  "stdin": null,
+  "files": {
+   "slices.go": "package main\n\nfunc appendUnique1(slice []int, val int) []int {\n    for _, v := range slice {\n        if v == val {\n            return slice\n        }\n    }\n    return append(slice, val)\n}\n\nfunc appendUnique2(arr []int, num int) []int {\n    for _, n := range arr {\n        if n == num {\n            return arr\n        }\n    }\n    return append(arr, num)\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pointer_operations::126",
+  "argv": [
+   "-t",
+   "3",
+   "pointers.go"
+  ],
+  "stdin": null,
+  "files": {
+   "pointers.go": "package main\n\nfunc modifyValue1(ptr *int) {\n    if ptr != nil {\n        *ptr = *ptr + 10\n    }\n}\n\nfunc modifyValue2(p *int) {\n    if p != nil {\n        *p = *p + 20\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_variadic_functions::127",
+  "argv": [
+   "-t",
+   "5",
+   "variadic.go"
+  ],
+  "stdin": null,
+  "files": {
+   "variadic.go": "package main\n\nfunc sum1(nums ...int) int {\n    total := 0\n    for _, n := range nums {\n        total += n\n    }\n    return total\n}\n\nfunc sum2(values ...int) int {\n    result := 0\n    for _, v := range values {\n        result += v\n    }\n    return result\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_functions::128",
+  "argv": [
+   "-t",
+   "2",
+   "init.go"
+  ],
+  "stdin": null,
+  "files": {
+   "init.go": "package main\n\nvar config1 map[string]string\n\nfunc init() {\n    config1 = make(map[string]string)\n    config1[\"key\"] = \"value\"\n}\n\nvar config2 map[string]int\n\nfunc setup() {\n    config2 = make(map[string]int)\n    config2[\"key\"] = 123\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_constants_and_variables::129",
+  "argv": [
+   "-t",
+   "2",
+   "consts.go"
+  ],
+  "stdin": null,
+  "files": {
+   "consts.go": "package main\n\nconst (\n    MaxSize = 100\n    MinSize = 10\n)\n\nfunc validate1(size int) bool {\n    return size >= MinSize && size <= MaxSize\n}\n\nfunc validate2(val int) bool {\n    return val >= MinSize && val <= MaxSize\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_assertions::130",
+  "argv": [
+   "-t",
+   "3",
+   "assertions.go"
+  ],
+  "stdin": null,
+  "files": {
+   "assertions.go": "package main\n\nfunc getString1(i interface{}) string {\n    if s, ok := i.(string); ok {\n        return s\n    }\n    return \"\"\n}\n\nfunc getString2(v interface{}) string {\n    if str, ok := v.(string); ok {\n        return str\n    }\n    return \"\"\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_switches::131",
+  "argv": [
+   "-t",
+   "7",
+   "typeswitch.go"
+  ],
+  "stdin": null,
+  "files": {
+   "typeswitch.go": "package main\n\nfunc process1(i interface{}) int {\n    switch v := i.(type) {\n    case int:\n        return v\n    case string:\n        return len(v)\n    default:\n        return 0\n    }\n}\n\nfunc process2(x interface{}) int {\n    switch val := x.(type) {\n    case int:\n        return val\n    case string:\n        return len(val)\n    default:\n        return 0\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

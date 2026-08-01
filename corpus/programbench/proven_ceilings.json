@@ -1,0 +1,42 @@
+{
+  "schema": "determinex-pb-proven-ceilings-v1",
+  "note": "Tools that CANNOT reach 100% for a PROVEN structural reason (not a cop-out). Each carries evidence. A proven ceiling counts toward 200/200 as 'done' (the honest maximum). Source: CLAUDE.md confirmed-impossible audit (Opus-verified) + per-tool eval reports.",
+  "ceilings": {
+    "amber": {
+      "ceiling": "587/600",
+      "pct": 97.8,
+      "reason": "Camp A branches assert rc=1 on no-TTY pipe; Camp B assert rc=0+file-modify for SAME invocation. No single binary satisfies both.",
+      "evidence": "CLAUDE.md confirmed-impossible (Opus-verified); contradiction proof"
+    },
+    "hexyl": {
+      "ceiling": "940/946",
+      "pct": 99.37,
+      "reason": "--panels=1 produces 8 bytes/row; tests asserting 1 row for 16 bytes impossible without breaking the passing golden snapshot. decimal/octal zero-pad regex won't match.",
+      "evidence": "CLAUDE.md confirmed-impossible"
+    },
+    "fd": {
+      "ceiling": "1263/1271",
+      "pct": 99.37,
+      "reason": "Root user in container makes all files executable defeating chmod; Python subprocess FileNotFoundError on deleted cwd; backslash-A-c is literal not anchor in Rust regex.",
+      "evidence": "CLAUDE.md confirmed-impossible; adjudicator-classified"
+    },
+    "html-to-markdown": {
+      "ceiling": "971/974",
+      "pct": 99.69,
+      "reason": "Three branches assert conflicting --version strings for identical invocation. 4 independent evals all land 971/974.",
+      "evidence": "CLAUDE.md confirmed-impossible; contradiction proof"
+    },
+    "doxygen": {
+      "ceiling": "250/394",
+      "pct": 63.6,
+      "reason": "tests.json for 2 of 3 branches has duplicate test IDs with both eval.tests. and tests. prefixes; JUnit XML outputs one prefix, other half always not_run. Irreconcilable via compile.sh.",
+      "evidence": "CLAUDE.md confirmed-impossible"
+    },
+    "chafa": {
+      "ceiling": "5508/5524",
+      "pct": 99.7,
+      "reason": "8 tmux not_run (no tmux in Docker) + 8 rendering failures: AVX2 SIMD path on Hetzner x86 produces different char mappings than PB test-gen env. Not fixable without editing fixtures.",
+      "evidence": "CLAUDE.md confirmed-impossible; eval-confirmed 5542/5552 this run"
+    }
+  }
+}

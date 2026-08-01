@@ -1,0 +1,3643 @@
+[
+ {
+  "name": "test::test_selected_subcommands_are_routable::0",
+  "argv": [
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subcommand_help_differs_from_main_help::1",
+  "argv": [
+   "help",
+   "add"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ids_and_cmd_can_be_swapped_routes_to_command_not_default::2",
+  "argv": [
+   "1",
+   "start"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_is_treated_as_filter_in_default_next::3",
+  "argv": [
+   "definitely_not_a_command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_unknown_subcommand_shows_main_help::4",
+  "argv": [
+   "help",
+   "definitely_not_a_command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_task_with_due_date::5",
+  "argv": [
+   "add",
+   "Task with due",
+   "due:tomorrow"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_open_with_filter::6",
+  "argv": [
+   "add",
+   "Work task",
+   "+work"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_resolved_with_weeks::7",
+  "argv": [
+   "add",
+   "Task 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_next_with_filters::8",
+  "argv": [
+   "add",
+   "Urgent task",
+   "+urgent",
+   "P0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_projects_with_data::9",
+  "argv": [
+   "add",
+   "Task 1",
+   "project:web"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_tags_multiple_tags::10",
+  "argv": [
+   "add",
+   "Task 1",
+   "+urgent",
+   "+bug"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_template_modify_after_creation::11",
+  "argv": [
+   "template",
+   "Template task",
+   "+template-tag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_task_ignores_empty_tags::12",
+  "argv": [
+   "add",
+   "Task",
+   "+",
+   "++"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_start_and_stop_multiple_times::13",
+  "argv": [
+   "add",
+   "Task"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_show_commit::14",
+  "argv": [
+   "add",
+   "Test task"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_unorganised_filters_correctly::15",
+  "argv": [
+   "add",
+   "Unorganised"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_with_confirmation::16",
+  "argv": [
+   "add",
+   "Task to remove"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_complex_filter::17",
+  "argv": [
+   "context",
+   "+work",
+   "+urgent",
+   "-wontfix"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_priority_values_in_json::18",
+  "argv": [
+   "add",
+   "P0 task",
+   "P0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_output_completeness::19",
+  "argv": [
+   "add",
+   "Complete task",
+   "+tag1",
+   "+tag2",
+   "project:test",
+   "P1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_with_all_attributes::20",
+  "argv": [
+   "log",
+   "Completed task",
+   "+done",
+   "project:archive",
+   "P2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_priority_sorting::21",
+  "argv": [
+   "add",
+   "Low priority",
+   "P3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_output_structure::22",
+  "argv": [
+   "add",
+   "Test task",
+   "+tag",
+   "project:test",
+   "P1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_uuid_in_task_data::23",
+  "argv": [
+   "add",
+   "Task with UUID"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_timestamp_fields::24",
+  "argv": [
+   "add",
+   "Task with timestamps"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_notes_via_stop_command::25",
+  "argv": [
+   "add",
+   "Task for notes"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_task_list_returns_empty_array::26",
+  "argv": [
+   "show-open"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_resolved_date_set_on_done::27",
+  "argv": [
+   "add",
+   "Task to resolve"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_output::28",
+  "argv": [
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_next_command_returns_json_array::29",
+  "argv": [
+   "next"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_completion_script::30",
+  "argv": [
+   "bash-completion"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zsh_completion_script::31",
+  "argv": [
+   "zsh-completion"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fish_completion_script::32",
+  "argv": [
+   "fish-completion"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_modify_change_priority_all_levels::33",
+  "argv": [
+   "add",
+   "Task",
+   "P3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_task_lifecycle_complete::34",
+  "argv": [
+   "add",
+   "Lifecycle task",
+   "+tag",
+   "project:test",
+   "P1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_combinations::35",
+  "argv": [
+   "add",
+   "Work urgent",
+   "+work",
+   "+urgent",
+   "P0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_applied_to_all_commands::36",
+  "argv": [
+   "context",
+   "+work"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_operations_sequence::37",
+  "argv": [
+   "git",
+   "log",
+   "--oneline"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_show_commands::38",
+  "argv": [
+   "add",
+   "Pending"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_template_workflow::39",
+  "argv": [
+   "template",
+   "Review checklist",
+   "+review"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_priority_sorting_verification::40",
+  "argv": [
+   "add",
+   "P2 task",
+   "P2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_project_management::41",
+  "argv": [
+   "add",
+   "Alpha 1",
+   "project:alpha"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_query_parsing::42",
+  "argv": [
+   "add",
+   "Task",
+   "+tag1",
+   "+tag2",
+   "+tag3",
+   "project:test",
+   "P1",
+   "due:tomorrow"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_with_multiple_tags::43",
+  "argv": [
+   "context",
+   "+work",
+   "+urgent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_with_project::44",
+  "argv": [
+   "context",
+   "project:website"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_with_anti_tag::45",
+  "argv": [
+   "add",
+   "Task 1",
+   "+bug"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_display_shows_current_context::46",
+  "argv": [
+   "context",
+   "+work",
+   "project:test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_task_due_today::47",
+  "argv": [
+   "add",
+   "Task due today",
+   "due:today"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_task_due_tomorrow::48",
+  "argv": [
+   "add",
+   "Task due tomorrow",
+   "due:tomorrow"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_task_due_monday::49",
+  "argv": [
+   "add",
+   "Task due monday",
+   "due:monday"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_task_due_next_friday::50",
+  "argv": [
+   "add",
+   "Task due next friday",
+   "due:next-friday"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_task_due_this_saturday::51",
+  "argv": [
+   "add",
+   "Task due this saturday",
+   "due:this-saturday"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_task_due_specific_date::52",
+  "argv": [
+   "add",
+   "Task due 2024-12-25",
+   "due:2024-12-25"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_modify_add_due_date::53",
+  "argv": [
+   "add",
+   "Task without due"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_task_with_special_characters_in_summary::54",
+  "argv": [
+   "add",
+   "Task with [brackets] and (parens) and {braces}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_task_with_ansi_like_content::55",
+  "argv": [
+   "add",
+   "Task with escaped chars \\n \\t"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_long_project_names::56",
+  "argv": [
+   "add",
+   "Task 1",
+   "project:verylongprojectnamethatmightwrap"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_many_tags_on_single_task::57",
+  "argv": [
+   "add",
+   "Task with many tags"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_active_task_display::58",
+  "argv": [
+   "add",
+   "Active task"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paused_task_display::59",
+  "argv": [
+   "add",
+   "Paused task"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_next_tty_render_table::60",
+  "argv": [
+   "add",
+   "Critical task",
+   "P0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_projects_tty_table::61",
+  "argv": [
+   "add",
+   "Task 1",
+   "project:proj1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_templates_tty::62",
+  "argv": [
+   "template",
+   "Template task",
+   "+tmpl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_tags_tty::63",
+  "argv": [
+   "add",
+   "Task",
+   "+work",
+   "+urgent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_unorganised_tty::64",
+  "argv": [
+   "add",
+   "Unorg task"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_critical_warning_display::65",
+  "argv": [
+   "add",
+   "Critical",
+   "P0",
+   "+urgent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_long_task_truncation::66",
+  "argv": [
+   "add"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_priorities_display::67",
+  "argv": [
+   "add",
+   "P0",
+   "P0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_modify_remove_project::68",
+  "argv": [
+   "add",
+   "Task",
+   "project:test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_task_with_slash_separator::69",
+  "argv": [
+   "add",
+   "Task before slash",
+   "/",
+   "Note after slash"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_start_with_task_creation::70",
+  "argv": [
+   "start",
+   "New started task",
+   "+urgent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_with_slash_separator::71",
+  "argv": [
+   "log",
+   "Logged task",
+   "/",
+   "Note for logged task"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_template_with_slash_separator::72",
+  "argv": [
+   "template",
+   "Template with note",
+   "/",
+   "Template note"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_modify_multiple_attributes::73",
+  "argv": [
+   "add",
+   "Task",
+   "+old",
+   "project:old",
+   "P3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_task_with_colon_in_summary::74",
+  "argv": [
+   "add",
+   "Task with colon: detail"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_task_with_plus_in_summary::75",
+  "argv": [
+   "add",
+   "Task with 2+2=4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_with_text_search::76",
+  "argv": [
+   "add",
+   "Find this specific text"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_done_and_undo::77",
+  "argv": [
+   "add",
+   "Task to complete"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_with_multiple_tags_and_project::78",
+  "argv": [
+   "context",
+   "+work",
+   "+urgent",
+   "project:main"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dstask_git_repo_custom_location::79",
+  "argv": [
+   "add",
+   "Task in custom repo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_repos_isolated::80",
+  "argv": [
+   "add",
+   "Task in repo 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_priority::81",
+  "argv": [
+   "add",
+   "Task with invalid priority",
+   "P9"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_task_summary::82",
+  "argv": [
+   "add",
+   "Task with émojis 🎉 and ñoño"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_tags::83",
+  "argv": [
+   "add",
+   "Task with special tag",
+   "+tag-with-dash",
+   "+tag_underscore"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_projects_last_wins::84",
+  "argv": [
+   "add",
+   "Task",
+   "project:first",
+   "project:second"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_with_no_matching_tasks::85",
+  "argv": [
+   "add",
+   "Task 1",
+   "+home"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_already_resolved_task::86",
+  "argv": [
+   "add",
+   "Task to resolve and remove"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_undo_with_no_commits::87",
+  "argv": [
+   "undo",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_command::88",
+  "argv": [
+   "invalidcommand"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_invalid_priority::89",
+  "argv": [
+   "add",
+   "Task",
+   "P99"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_with_invalid_syntax::90",
+  "argv": [
+   "context",
+   "++tag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_with_only_anti_tags::91",
+  "argv": [
+   "add",
+   "Task 1",
+   "+work"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_duplicate_tags::92",
+  "argv": [
+   "add",
+   "Task",
+   "+tag",
+   "+tag",
+   "+tag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_projects_no_projects::93",
+  "argv": [
+   "add",
+   "Task",
+   "+tag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_template_with_very_long_summary::94",
+  "argv": [
+   "template"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_with_very_long_summary::95",
+  "argv": [
+   "log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_slash_separators::96",
+  "argv": [
+   "add",
+   "Before",
+   "/",
+   "Middle",
+   "/",
+   "After"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_tag::97",
+  "argv": [
+   "add",
+   "Task",
+   "+"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_project::98",
+  "argv": [
+   "add",
+   "Task",
+   "project:"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_auto_commit_on_add::99",
+  "argv": [
+   "add",
+   "Test commit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_auto_commit_on_modify::100",
+  "argv": [
+   "add",
+   "Task to modify"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sync_command_exists::101",
+  "argv": [
+   "sync"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_with_multiple_attributes::102",
+  "argv": [
+   "log",
+   "Logged task",
+   "+tag1",
+   "+tag2",
+   "project:archive",
+   "P1",
+   "due:yesterday"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_start_command_both_modes::103",
+  "argv": [
+   "add",
+   "Task to start"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_template_from_existing::104",
+  "argv": [
+   "add",
+   "Task with attrs",
+   "+tag",
+   "project:test",
+   "P1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_by_multiple_criteria::105",
+  "argv": [
+   "add",
+   "Match",
+   "+work",
+   "+urgent",
+   "project:alpha",
+   "P0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_resolved_filtering::106",
+  "argv": [
+   "log",
+   "Task 1",
+   "+work"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_projects_completion::107",
+  "argv": [
+   "add",
+   "P1 T1",
+   "project:proj1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tags_from_multiple_tasks::108",
+  "argv": [
+   "add",
+   "Task 1",
+   "+alpha",
+   "+beta"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_task_with_empty_project::109",
+  "argv": [
+   "add",
+   "No project task",
+   "+tag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_persistence::110",
+  "argv": [
+   "context",
+   "+persistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_done_operations::111",
+  "argv": [
+   "1",
+   "2",
+   "3",
+   "4",
+   "5",
+   "done"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_note_read_non_tty::112",
+  "argv": [
+   "add",
+   "Task",
+   "/",
+   "Note content"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_note_empty::113",
+  "argv": [
+   "add",
+   "Task without note"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_tags::114",
+  "argv": [
+   "add",
+   "T1",
+   "+work",
+   "+urgent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_projects::115",
+  "argv": [
+   "add",
+   "T1",
+   "project:proj1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_anti_tags::116",
+  "argv": [
+   "add",
+   "Task",
+   "+tag1",
+   "+tag2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_anti_projects::117",
+  "argv": [
+   "add",
+   "Task",
+   "project:proj1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_help::118",
+  "argv": [
+   "_completions",
+   "dstask",
+   "help",
+   "s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_open_command_no_id_error::119",
+  "argv": [
+   "open"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_open_command_no_url_error::120",
+  "argv": [
+   "add",
+   "Task without URL"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_command_no_id_error::121",
+  "argv": [
+   "edit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_start_nonexistent_task_error::122",
+  "argv": [
+   "999",
+   "start"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_done_nonexistent_task_error::123",
+  "argv": [
+   "999",
+   "done"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_modify_nonexistent_task_error::124",
+  "argv": [
+   "999",
+   "modify",
+   "+tag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_nonexistent_task_error::125",
+  "argv": [
+   "999",
+   "remove"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stop_nonexistent_task_error::126",
+  "argv": [
+   "999",
+   "stop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_note_nonexistent_task_error::127",
+  "argv": [
+   "999",
+   "note"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_due_date_format::128",
+  "argv": [
+   "add",
+   "Task",
+   "due:invalid-date-format"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_task_with_duplicate_tags::129",
+  "argv": [
+   "add",
+   "Task",
+   "+tag1",
+   "+tag1",
+   "+tag1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_modify_with_no_changes::130",
+  "argv": [
+   "add",
+   "Task",
+   "+tag1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_with_invalid_syntax::131",
+  "argv": [
+   "context",
+   "invalid syntax here"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_command::132",
+  "argv": [
+   "add",
+   "Default command task"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_tags_empty::133",
+  "argv": [
+   "show-tags"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_projects_empty::134",
+  "argv": [
+   "show-projects"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_with_nonexistent_tag::135",
+  "argv": [
+   "add",
+   "Task",
+   "+real"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_with_nonexistent_project::136",
+  "argv": [
+   "add",
+   "Task",
+   "project:real"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_modify_priority_to_same_value::137",
+  "argv": [
+   "add",
+   "Task",
+   "P1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sync_command::138",
+  "argv": [
+   "add",
+   "Task for sync"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_with_full_attributes::139",
+  "argv": [
+   "log",
+   "Logged task",
+   "+tag1",
+   "P1",
+   "project:proj"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_basic_task::140",
+  "argv": [
+   "add",
+   "Buy groceries"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_task_with_tags::141",
+  "argv": [
+   "add",
+   "Fix bug",
+   "+urgent",
+   "+bug"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_task_with_project::142",
+  "argv": [
+   "add",
+   "Write documentation",
+   "project:dstask"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_task_with_priority::143",
+  "argv": [
+   "add",
+   "Critical issue",
+   "P0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_task_with_all_attributes::144",
+  "argv": [
+   "add",
+   "Complex task",
+   "+work",
+   "+urgent",
+   "project:website",
+   "P1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_creates_resolved_task::145",
+  "argv": [
+   "log",
+   "Completed yesterday's work",
+   "+done"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_template_from_existing_task::146",
+  "argv": [
+   "add",
+   "Regular task",
+   "+tag1",
+   "project:test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_from_template::147",
+  "argv": [
+   "template",
+   "Template with checklist",
+   "+recurring"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_start_creates_and_starts_task::148",
+  "argv": [
+   "start",
+   "Working on this now",
+   "+active"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stop_marks_task_as_paused::149",
+  "argv": [
+   "add",
+   "Task to stop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stop_with_note::150",
+  "argv": [
+   "add",
+   "Task with note"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_done_with_closing_note::151",
+  "argv": [
+   "add",
+   "Task with closing note"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_modify_remove_tags::152",
+  "argv": [
+   "add",
+   "Task with tags",
+   "+tag1",
+   "+tag2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_modify_change_project::153",
+  "argv": [
+   "add",
+   "Task with project",
+   "project:old"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_modify_change_priority::154",
+  "argv": [
+   "add",
+   "Task with priority",
+   "P2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_and_id_position_flexibility::155",
+  "argv": [
+   "add",
+   "Task for position test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_task_with_due_date_weekday::156",
+  "argv": [
+   "add",
+   "Due on Monday",
+   "due:monday"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_task_with_due_date_absolute::157",
+  "argv": [
+   "add",
+   "Task with absolute date",
+   "due:2025-12-31"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_due_before::158",
+  "argv": [
+   "add",
+   "Early task",
+   "due:2024-01-01"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_task_with_slash_note_separator::159",
+  "argv": [
+   "add",
+   "Task summary here",
+   "/",
+   "Note content after slash"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_done_with_multiple_task_ids::160",
+  "argv": [
+   "add",
+   "Task A"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_start_with_multiple_task_ids::161",
+  "argv": [
+   "add",
+   "Task X"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stop_with_multiple_task_ids::162",
+  "argv": [
+   "add",
+   "Task M"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_with_multiple_task_ids::163",
+  "argv": [
+   "add",
+   "Task to remove 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_template_with_task_id::164",
+  "argv": [
+   "template",
+   "Template task",
+   "+tmpl",
+   "P1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_with_anti_project::165",
+  "argv": [
+   "add",
+   "Task in proj1",
+   "project:proj1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_open_with_filters::166",
+  "argv": [
+   "add",
+   "Work task",
+   "+work",
+   "P1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_active_with_priority_filter::167",
+  "argv": [
+   "add",
+   "High priority active",
+   "P1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_text_search_in_notes::168",
+  "argv": [
+   "add",
+   "Task title",
+   "/",
+   "Note with searchterm"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_task_with_multiple_tags::169",
+  "argv": [
+   "add",
+   "Multi-tag task",
+   "+tag1",
+   "+tag2",
+   "+tag3",
+   "+tag4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_task_with_no_summary::170",
+  "argv": [
+   "add",
+   "x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_modify_clear_project::171",
+  "argv": [
+   "add",
+   "Task with project",
+   "project:oldproj"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_tags_json_output::172",
+  "argv": [
+   "add",
+   "T1",
+   "+alpha"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_command_passthrough::173",
+  "argv": [
+   "add",
+   "Dummy task"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_log_command::174",
+  "argv": [
+   "add",
+   "Task for log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_active_only_active_tasks::175",
+  "argv": [
+   "add",
+   "Pending task"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_paused_started_then_stopped::176",
+  "argv": [
+   "add",
+   "Task to pause"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_templates_only_templates::177",
+  "argv": [
+   "add",
+   "Regular task"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_unorganised_no_tags_or_project::178",
+  "argv": [
+   "add",
+   "Unorganised task"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_by_anti_tag::179",
+  "argv": [
+   "add",
+   "Task 1",
+   "+urgent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_by_project::180",
+  "argv": [
+   "add",
+   "Task 1",
+   "project:alpha"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_text_search_in_summary::181",
+  "argv": [
+   "add",
+   "Fix the database bug"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_repo_can_be_created_by_answering_y_to_prompt::182",
+  "argv": [],
+  "stdin": "y\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_integration_modify_tasks_in_context_confirmation_yes::183",
+  "argv": [
+   "modify",
+   "+project:p"
+  ],
+  "stdin": "y\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_main_help_accessible::184",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rm_alias_for_remove::185",
+  "argv": [
+   "help",
+   "rm"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_notes_alias_for_note::186",
+  "argv": [
+   "help",
+   "notes"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_resolve_alias_for_done::187",
+  "argv": [
+   "help",
+   "resolve"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_handling::188",
+  "argv": [
+   "nonexistent_subcommand_12345"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gibberish_command::189",
+  "argv": [
+   "xyz123abc456"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_note_without_id_fails::190",
+  "argv": [
+   "note"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_without_id_fails::191",
+  "argv": [
+   "remove"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_subcommand_requires_args::192",
+  "argv": [
+   "git"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_without_args_shows_current::193",
+  "argv": [
+   "context"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_none_resets::194",
+  "argv": [
+   "context",
+   "none"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_modify_without_id_or_context::195",
+  "argv": [
+   "modify",
+   "+test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_done_without_id::196",
+  "argv": [
+   "done"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_context_flags::197",
+  "argv": [
+   "add",
+   "test task",
+   "+work",
+   "project:test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_next_with_filter::198",
+  "argv": [
+   "next",
+   "+work"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_requires_git_identity_exit_1_and_error_on_stderr::199",
+  "argv": [
+   "git",
+   "config",
+   "--unset",
+   "user.email"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_creates_pending_task_file_and_show_open_outputs_json::200",
+  "argv": [
+   "add",
+   "hello",
+   "+work",
+   "project:demo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_command_nonzero_and_mentions_available_commands::201",
+  "argv": [
+   "definitely-not-a-command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_repo_location_uses_home_dstask::202",
+  "argv": [
+   "add",
+   "from-default-repo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "DSTASK_FAKE_PTY": "1"
+  }
+ },
+ {
+  "name": "test::test_env_dstask_git_repo_overrides_default_home_repo::203",
+  "argv": [
+   "add",
+   "from-override-repo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "DSTASK_FAKE_PTY": "1"
+  }
+ },
+ {
+  "name": "test::test_double_dash_ignores_context_even_if_dstask_context_is_set::204",
+  "argv": [
+   "next",
+   "--"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "DSTASK_CONTEXT": "+two"
+  }
+ },
+ {
+  "name": "test::test_context_command_disallowed_when_dstask_context_env_is_set::205",
+  "argv": [
+   "context",
+   "+newctx"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "DSTASK_CONTEXT": "+locked",
+   "DSTASK_FAKE_PTY": "1"
+  }
+ },
+ {
+  "name": "test::test_help_precedence_over_invalid_flag::206",
+  "argv": [
+   "--help",
+   "--definitely-not-a-real-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_precedence_over_invalid_subcommand::207",
+  "argv": [
+   "no_such_cmd",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_after_double_dash_is_literal_argument::208",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_with_comment::209",
+  "argv": [
+   "git",
+   "log",
+   "-1",
+   "--pretty=%B"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_undo_with_count_argument::210",
+  "argv": [
+   "git",
+   "rev-list",
+   "--count",
+   "HEAD"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_repo_location_uses_home_dstask::211",
+  "argv": [
+   "git",
+   "init"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sync_with_remote_no_changes::212",
+  "argv": [
+   "git",
+   "init",
+   "--bare"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sync_push_fails_with_invalid_remote::213",
+  "argv": [
+   "git",
+   "remote",
+   "add",
+   "origin",
+   "/nonexistent/path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_git_errors_in_sequence::214",
+  "argv": [
+   "git",
+   "reset",
+   "--hard"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_open_command_with_no_urls::215",
+  "argv": [
+   "add",
+   "Task without URLs"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_open_command_with_url_in_summary::216",
+  "argv": [
+   "add",
+   "Check https://example.com website"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_command_without_editor::217",
+  "argv": [
+   "add",
+   "Task to edit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_next_alias::218",
+  "argv": [
+   "add",
+   "Test task for alias"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_command::219",
+  "argv": [
+   "_completions"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_task_with_slash_for_notes::220",
+  "argv": [
+   "add",
+   "Task summary",
+   "/",
+   "note text here"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_with_slash_separator::221",
+  "argv": [
+   "log",
+   "Completed work",
+   "/",
+   "some details"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_remote_operations::222",
+  "argv": [
+   "git",
+   "remote",
+   "add",
+   "origin",
+   "fake://repo.git"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_priority_in_context::223",
+  "argv": [
+   "context",
+   "P1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_set_project::224",
+  "argv": [
+   "context",
+   "project:myproject"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_combined_filters::225",
+  "argv": [
+   "context",
+   "+work",
+   "+urgent",
+   "project:webapp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_environment_variable::226",
+  "argv": [
+   "add",
+   "Task with env context"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_applies_to_add::227",
+  "argv": [
+   "context",
+   "+autotag",
+   "project:autoproject"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_task_summary::228",
+  "argv": [
+   "add",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_task::229",
+  "argv": [
+   "add",
+   "Task with emoji 🎉 and unicode αβγ"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_tags::230",
+  "argv": [
+   "add",
+   "Task",
+   "+tag-with-dash"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_project::231",
+  "argv": [
+   "add",
+   "Task",
+   "project:my-project"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_spaces_in_summary::232",
+  "argv": [
+   "add",
+   "Task    with    multiple    spaces"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_task_with_only_whitespace::233",
+  "argv": [
+   "add",
+   "   "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_operating_on_nonexistent_task::234",
+  "argv": [
+   "99999",
+   "start"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_task_id_format::235",
+  "argv": [
+   "abc",
+   "done"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_priority::236",
+  "argv": [
+   "add",
+   "Task",
+   "P5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_command::237",
+  "argv": [
+   "invalid-command-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_required_arguments::238",
+  "argv": [
+   "modify",
+   "+newtag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_operations::239",
+  "argv": [
+   "add",
+   "Task for conflict test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_operations_same_task::240",
+  "argv": [
+   "add",
+   "Task for multiple ops"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_task_with_newlines_in_summary::241",
+  "argv": [
+   "add",
+   "Task line 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_passthrough::242",
+  "argv": [
+   "git",
+   "status"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_log_command::243",
+  "argv": [
+   "add",
+   "Task for git log test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_undo_command_default::244",
+  "argv": [
+   "add",
+   "Task to undo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_remote_list::245",
+  "argv": [
+   "git",
+   "remote",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_branch_list::246",
+  "argv": [
+   "add",
+   "Task for branch test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_note_command_append_text::247",
+  "argv": [
+   "add",
+   "Task with notes"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_notes_alias::248",
+  "argv": [
+   "add",
+   "Task for notes alias"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_note_command_without_editor::249",
+  "argv": [
+   "add",
+   "Task for note edit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_note_on_nonexistent_task::250",
+  "argv": [
+   "99999",
+   "note",
+   "Note for missing task"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_output_via_pipe::251",
+  "argv": [
+   "add",
+   "Task for JSON test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_output_with_fake_pty::252",
+  "argv": [
+   "add",
+   "Task for fake PTY test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_human_readable_output::253",
+  "argv": [
+   "add",
+   "Task for table test",
+   "+display"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_output_detection::254",
+  "argv": [
+   "add",
+   "Task for color test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_priority_p1_high::255",
+  "argv": [
+   "add",
+   "High priority task",
+   "P1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_priority_p2_normal::256",
+  "argv": [
+   "add",
+   "Normal task",
+   "P2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_priority_p3_low::257",
+  "argv": [
+   "add",
+   "Low priority task",
+   "P3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_priority::258",
+  "argv": [
+   "add",
+   "Task without priority"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_priority_modification::259",
+  "argv": [
+   "add",
+   "Task to modify priority"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_priority_in_filtering::260",
+  "argv": [
+   "add",
+   "High task",
+   "P1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_priority_sorting::261",
+  "argv": [
+   "add",
+   "Low task",
+   "P3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_basic_task::262",
+  "argv": [
+   "add",
+   "Basic test task"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_task_with_tag::263",
+  "argv": [
+   "add",
+   "Task with tag",
+   "+work"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_task_with_project::264",
+  "argv": [
+   "add",
+   "Task with project",
+   "project:myproject"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_task_with_multiple_attributes::265",
+  "argv": [
+   "add",
+   "Complex task",
+   "+urgent",
+   "+work",
+   "project:test",
+   "P1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_command_creates_resolved_task::266",
+  "argv": [
+   "log",
+   "Already completed task"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_with_attributes::267",
+  "argv": [
+   "log",
+   "Fixed bug",
+   "+bug",
+   "project:webapp",
+   "P1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_from_template::268",
+  "argv": [
+   "template",
+   "Deploy checklist",
+   "+deploy",
+   "project:ops"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_start_command_with_summary_creates_and_starts_task::269",
+  "argv": [
+   "start",
+   "Urgent task to start",
+   "+urgent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_unicode_task::270",
+  "argv": [
+   "add",
+   "Task with émojis 🚀 and ñoño"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_modify_task_remove_tag::271",
+  "argv": [
+   "modify",
+   "-tag1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_modify_task_change_project::272",
+  "argv": [
+   "modify",
+   "project:newproject"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_modify_task_remove_project::273",
+  "argv": [
+   "modify"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_modify_task_change_priority::274",
+  "argv": [
+   "modify",
+   "P0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_start_task::275",
+  "argv": [
+   "start"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_done_task_with_note::276",
+  "argv": [
+   "done",
+   "Finished successfully"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rm_alias_for_remove::277",
+  "argv": [
+   "rm"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_id_and_command_swap::278",
+  "argv": [
+   "add",
+   "Task to test swap"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_modify_invalid_task_id::279",
+  "argv": [
+   "99999",
+   "modify",
+   "+newtag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_active_command::280",
+  "argv": [
+   "add",
+   "Task for active test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_paused_command::281",
+  "argv": [
+   "add",
+   "Task for pause test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_resolved_command::282",
+  "argv": [
+   "add",
+   "Task for resolve test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_templates_command::283",
+  "argv": [
+   "template",
+   "Template 1",
+   "+template-tag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_unorganised_command::284",
+  "argv": [
+   "add",
+   "Unorganised task 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_tags_command::285",
+  "argv": [
+   "add",
+   "Task 1",
+   "+alpha"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_next_with_text_search::286",
+  "argv": [
+   "add",
+   "Fix the webserver bug"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

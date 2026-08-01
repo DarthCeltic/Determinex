@@ -1,0 +1,6243 @@
+{
+ "slug": "o2sh__onefetch.e5958ce",
+ "language": "",
+ "n_branches": 9,
+ "n_tests_total": 1068,
+ "n_examples": 330,
+ "n_with_exact_stdout": 4,
+ "n_with_rc": 317,
+ "n_skipped": 487,
+ "examples": [
+  {
+   "test": "test_disabled_fields_requires_double_dash_before_path_when_values_present",
+   "argv": [
+    "-o",
+    "json",
+    "-d",
+    "pending",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid value '.'",
+    "--disabled-fields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_disabled_fields_and_args.py:6"
+  },
+  {
+   "test": "test_disabled_fields_with_double_dash_produces_json_without_pending_section",
+   "argv": [
+    "-o",
+    "json",
+    "-d",
+    "pending",
+    "--",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_disabled_fields_and_args.py:15"
+  },
+  {
+   "test": "test_nonexistent_input_directory_errors_to_stderr_and_nonzero_exit",
+   "argv": [
+    "-o",
+    "json",
+    "/no/such/path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Failed to access a directory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:4"
+  },
+  {
+   "test": "test_help_succeeds_and_mentions_usage",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_version.py:4"
+  },
+  {
+   "test": "test_version_format",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_version.py:12"
+  },
+  {
+   "test": "test_json_output_is_valid_and_has_expected_keys",
+   "argv": [
+    "-o",
+    "json",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "title",
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:7"
+  },
+  {
+   "test": "test_yaml_output_is_valid_and_has_expected_keys",
+   "argv": [
+    "-o",
+    "yaml",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "title",
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:18"
+  },
+  {
+   "test": "test_generate_bash_completion_writes_to_stdout",
+   "argv": [
+    "--generate",
+    "bash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_side_commands.py:4"
+  },
+  {
+   "test": "test_list_package_managers_includes_cargo_and_npm",
+   "argv": [
+    "-p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Cargo",
+    "Npm"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_side_commands.py:12"
+  },
+  {
+   "test": "test_help_has_no_subcommands_section",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_no_subcommands.py:12"
+  },
+  {
+   "test": "test_rust_default_ascii_art",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_ascii_art.py:20"
+  },
+  {
+   "test": "test_no_art_flag_hides_ascii",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "HEAD",
+    "Language"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ascii_art.py:176"
+  },
+  {
+   "test": "test_no_color_palette_flag",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "R RR RR"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ascii_art.py:205"
+  },
+  {
+   "test": "test_custom_ascii_input_multiline",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CUSTOM",
+    "ASCII",
+    "ART"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ascii_art.py:243"
+  },
+  {
+   "test": "test_ascii_language_override",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "=========",
+    "Rust (100.0 %)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ascii_art.py:272"
+  },
+  {
+   "test": "test_ascii_language_case_sensitive",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid value 'Python' for '--ascii-language <LANGUAGE>'",
+    "python"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_ascii_art.py:299"
+  },
+  {
+   "test": "test_ascii_colors_custom",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[32;1m",
+    "\u001b[32;1m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ascii_art.py:322"
+  },
+  {
+   "test": "test_ascii_colors_with_ascii_language",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "=========",
+    "\u001b[31;1m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ascii_art.py:488"
+  },
+  {
+   "test": "test_ascii_input_empty_string",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 101,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Well, this is embarrassing",
+    "onefetch had a problem and crashed",
+    "crash report",
+    "report file at",
+    "https://onefetch.dev",
+    "o2sh"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_ascii_art.py:521"
+  },
+  {
+   "test": "test_ascii_input_with_color_codes",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[31;1m",
+    "\u001b[32;1m",
+    "\u001b[34;1m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ascii_art.py:550"
+  },
+  {
+   "test": "test_ascii_colors_more_than_needed",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "R RR RR",
+    "Language"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ascii_art.py:590"
+  },
+  {
+   "test": "test_ascii_language_unknown",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid value 'nonexistent'",
+    "possible values:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ascii_art.py:640"
+  },
+  {
+   "test": "test_ascii_input_with_unicode",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "🦀",
+    "日本語",
+    "█"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ascii_art.py:659"
+  },
+  {
+   "test": "test_ascii_art_with_trailing_empty_lines",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "XXX",
+    "YYY"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ascii_micro_gaps.py:16"
+  },
+  {
+   "test": "test_ascii_art_with_only_spaces_and_colors_between_solid_lines",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "AAA",
+    "BBB"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ascii_micro_gaps.py:61"
+  },
+  {
+   "test": "test_ascii_art_with_color_codes_at_boundaries",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "AAA",
+    "BBB",
+    "CCC"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ascii_micro_gaps.py:97"
+  },
+  {
+   "test": "test_ascii_art_leading_space_normalization",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "XXX",
+    "YYY",
+    "ZZZ",
+    "AAA"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ascii_micro_gaps.py:233"
+  },
+  {
+   "test": "test_ascii_art_with_unicode_box_drawing_characters",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "╔",
+    "╗",
+    "╚",
+    "╝",
+    "║",
+    "═",
+    "TEST"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ascii_micro_gaps.py:276"
+  },
+  {
+   "test": "test_ascii_art_empty_width_calculation",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "AAA",
+    "BBBB",
+    "CCCCC"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ascii_micro_gaps.py:312"
+  },
+  {
+   "test": "test_ascii_art_single_line_with_colors",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SINGLE",
+    "LINE",
+    "TEST",
+    "LINE",
+    "TEST"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ascii_micro_gaps.py:369"
+  },
+  {
+   "test": "test_ascii_art_mixed_spaces_colors_no_solid_at_end",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SOLID"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ascii_micro_gaps.py:408"
+  },
+  {
+   "test": "test_merge_commits_excluded_with_no_merges_flag",
+   "argv": [
+    "git",
+    "checkout",
+    "-b",
+    "feature"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_authors.py:339"
+  },
+  {
+   "test": "test_bot_and_merge_flags_combined",
+   "argv": [
+    "git",
+    "checkout",
+    "-b",
+    "feature"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Alice",
+    "Bob"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_authors.py:634"
+  },
+  {
+   "test": "test_single_branch_repo_json",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_repo.py:12"
+  },
+  {
+   "test": "test_multi_language_detection",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Python",
+    "Rust",
+    "JavaScript",
+    "Html"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_repo.py:110"
+  },
+  {
+   "test": "test_multiple_authors_contribution",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test User",
+    "Second Author"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_repo.py:145"
+  },
+  {
+   "test": "test_repo_with_remote_url",
+   "argv": [
+    "git",
+    "init",
+    "--bare"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "master",
+    "origin/master"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_repo.py:203"
+  },
+  {
+   "test": "test_head_info_structure",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "shortCommitId",
+    "refs"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_repo.py:363"
+  },
+  {
+   "test": "test_uneven_author_contributions",
+   "argv": [
+    "git",
+    "config",
+    "user.name",
+    "Bob"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_repo.py:627"
+  },
+  {
+   "test": "test_all_info_fields_present",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "title",
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_repo.py:704"
+  },
+  {
+   "test": "test_title_structure",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "title",
+    "gitUsername",
+    "gitVersion"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_repo.py:730"
+  },
+  {
+   "test": "test_churn_only_counts_file_modifications",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file1.txt",
+    "file2.txt",
+    "file3.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_churn.py:187"
+  },
+  {
+   "test": "test_churn_with_exclude_glob_patterns",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.py",
+    "README.md"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_churn.py:299"
+  },
+  {
+   "test": "test_churn_with_file_renames",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "old_name.txt",
+    "new_name.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_churn.py:428"
+  },
+  {
+   "test": "test_churn_with_merge_commits",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_churn.py:502"
+  },
+  {
+   "test": "test_churn_with_binary_files",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "data.bin",
+    "text.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_churn.py:568"
+  },
+  {
+   "test": "test_churn_with_deep_nested_directories",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a/b/c/d/e/f/g/h/deep_file.txt",
+    "shallow.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_churn.py:667"
+  },
+  {
+   "test": "test_churn_with_special_characters_in_filenames",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file.multiple.dots.txt",
+    "file with spaces.txt",
+    "file-with-dashes.txt",
+    "file_with_underscores.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_churn.py:705"
+  },
+  {
+   "test": "test_churn_combined_with_other_flags",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "README.md"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_churn.py:760"
+  },
+  {
+   "test": "test_no_art_json_output_structure",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "title",
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_case_sweep.py:71"
+  },
+  {
+   "test": "test_disabled_fields_removes_specified_info",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ProjectInfo",
+    "AuthorsInfo",
+    "CommitsInfo"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_case_sweep.py:215"
+  },
+  {
+   "test": "test_multiple_languages_percentage_calculation",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Python",
+    "Rust",
+    "JavaScript"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_case_sweep.py:661"
+  },
+  {
+   "test": "test_yaml_output_format",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "title:",
+    "gitUsername: Test",
+    "infoFields:",
+    "ProjectInfo:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_case_sweep.py:747"
+  },
+  {
+   "test": "test_languages_flag_lists_all_supported_languages",
+   "argv": [
+    "--languages"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "ABNF\nABAP\nAda\nAgda\nArduino C++\nAssembly\nATS\nAutoHotKey\nBASH\nC\nCMake\nC#\nCeylon\nClojure\nCoffeeScript\nColdFusion\nCoq\nC++\nCrystal\nCSS\nCUDA\nD\nDart\nDockerfile\nEmacs Lisp\nElixir\nElm\nEmojicode\nErlang\nF#\nFish\nForth\nFORTRAN Legacy\nFORTRAN Modern\nGDScript\nGLSL\nGo\nGraphQL\nGroovy\nHaskell\nHaxe\nHCL\nHLSL\nHolyC\nHTML\nIdris\nJava\nJavaScript\nJSON\nJsonnet\nJSX\nJulia\nJupyter Notebooks\nKotlin\nLLVM\nLean\nCommon Lisp\nLua\nMakefile\nMarkdown\nModelica\nNim\nNix\nOCaml\nObjective-C\nOdin\nOpenSCAD\nOrg\nOz\nPascal\nPerl\nPHP\nPowerShell\nProcessing\nProlog\nProtocol Buffers\nPureScript\nPython\nQML\nR\nRacket\nRaku\nRazor\nRen'Py\nRuby\nRust\nSass\nScala\nScheme\nShell\nSolidity\nSQL\nSvelte\nSVG\nSwift\nSystemVerilog\nTCL\nTeX\nPlain Text\nTOML\nTSX\nTypeScript\nTypst\nVala\nVerilog\nVHDL\nVim Script\nVisual Basic\nVue\nWebAssembly\nWolfram\nXSL\nXAML\nXML\nYAML\nZig\nZsh\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_case_sweep.py:861"
+  },
+  {
+   "test": "test_package_managers_flag_lists_supported_managers",
+   "argv": [
+    "--package-managers"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Npm\nCargo\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_case_sweep.py:873"
+  },
+  {
+   "test": "test_generate_bash_completion",
+   "argv": [
+    "--generate",
+    "bash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--disabled-fields",
+    "--number-of-authors",
+    "--output",
+    "--generate"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_case_sweep.py:884"
+  },
+  {
+   "test": "test_number_separator_comma_formats_large_numbers",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "10,000",
+    "Lines of code"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_case_sweep.py:994"
+  },
+  {
+   "test": "test_detached_head_shows_empty_refs",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "headRefs",
+    "shortCommitId"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_case_sweep.py:1057"
+  },
+  {
+   "test": "test_number_separator_space_formats_correctly",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "10 000",
+    "Lines of code"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_case_sweep.py:1112"
+  },
+  {
+   "test": "test_number_separator_underscore_formats_correctly",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "10_000",
+    "Lines of code"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_case_sweep.py:1141"
+  },
+  {
+   "test": "test_version_flag_shows_version_number",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "onefetch 2.25.0\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_case_sweep.py:1202"
+  },
+  {
+   "test": "test_empty_repository_no_commits",
+   "argv": [
+    "git",
+    "init",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Failed to traverse Git commit history",
+    "does not have any commits"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:23"
+  },
+  {
+   "test": "test_invalid_path_nonexistent",
+   "argv": [
+    "/nonexistent/path/to/nowhere"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Failed to access a directory, or path is not a directory: '/nonexistent/path/to/nowhere'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:36"
+  },
+  {
+   "test": "test_file_path_instead_of_directory",
+   "argv": [
+    "testfile.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Failed to access a directory, or path is not a directory:"
+   ],
+   "files": {
+    "testfile.txt": "not a directory"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:44"
+  },
+  {
+   "test": "test_corrupted_repository_missing_objects",
+   "argv": [
+    "git",
+    "init",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Failed to traverse Git commit history"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:56"
+  },
+  {
+   "test": "test_repo_without_remote",
+   "argv": [
+    "git",
+    "init",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:82"
+  },
+  {
+   "test": "test_unicode_in_commit_messages",
+   "argv": [
+    "git",
+    "init",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "测试"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:177"
+  },
+  {
+   "test": "test_binary_files_in_repo",
+   "argv": [
+    "git",
+    "init",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Rust"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:307"
+  },
+  {
+   "test": "test_non_master_default_branch",
+   "argv": [
+    "git",
+    "init",
+    "-q",
+    "-b",
+    "main"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:381"
+  },
+  {
+   "test": "test_shallow_clone_repo",
+   "argv": [
+    "git",
+    "init",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "origin"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:423"
+  },
+  {
+   "test": "test_include_hidden_files_affects_loc",
+   "argv": [
+    "git",
+    "add",
+    "-f",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Rust",
+    "Python"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_filtering.py:106"
+  },
+  {
+   "test": "test_exclude_churn_files_with_glob_pattern",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.rs"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_filtering.py:232"
+  },
+  {
+   "test": "test_exclude_hidden_directories",
+   "argv": [
+    "git",
+    "add",
+    "-f",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_filtering.py:260"
+  },
+  {
+   "test": "test_exclude_empty_pattern",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CommitsInfo"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_filtering.py:653"
+  },
+  {
+   "test": "test_churn_with_exclude_shows_correct_count",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file2.rs"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_filtering.py:732"
+  },
+  {
+   "test": "test_multithreaded_with_bot_filtering",
+   "argv": [
+    "git",
+    "init",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Human1",
+    "Human2",
+    "Human3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_git_final.py:86"
+  },
+  {
+   "test": "test_diff_with_multiple_parents_not_computed",
+   "argv": [
+    "git",
+    "init",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "base.txt",
+    "file1.txt",
+    "file2.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_git_final.py:152"
+  },
+  {
+   "test": "test_custom_bot_regex_filtering",
+   "argv": [
+    "git",
+    "init",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "alice",
+    "bob"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_git_final.py:408"
+  },
+  {
+   "test": "test_bot_filtering_excludes_bot_commits",
+   "argv": [
+    "git",
+    "init",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Human Developer",
+    "dependabot[bot]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_git_gaps.py:87"
+  },
+  {
+   "test": "test_churn_pool_size_limits_diff_computation",
+   "argv": [
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_git_gaps.py:265"
+  },
+  {
+   "test": "test_empty_diff_changes",
+   "argv": [
+    "git",
+    "init",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file.txt",
+    "file2.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_git_gaps.py:300"
+  },
+  {
+   "test": "test_file_rewrite_not_counted_in_churn",
+   "argv": [
+    "git",
+    "init",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "new_name.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_git_gaps.py:616"
+  },
+  {
+   "test": "test_version_from_most_recent_tag",
+   "argv": [
+    "git",
+    "tag",
+    "v1.0.0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_info_gaps.py:134"
+  },
+  {
+   "test": "test_project_number_separator_comma",
+   "argv": [
+    "git",
+    "remote",
+    "add",
+    "upstream",
+    "https://github.com/upstream/project.git"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_info_gaps.py:194"
+  },
+  {
+   "test": "test_project_single_branch_singular_form",
+   "argv": [
+    "git",
+    "branch",
+    "remotes/origin/main"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_info_gaps.py:237"
+  },
+  {
+   "test": "test_project_display_with_tags_only",
+   "argv": [
+    "git",
+    "tag",
+    "v1.0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_info_gaps.py:287"
+  },
+  {
+   "test": "test_title_only_version_no_username",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "title"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_info_gaps.py:348"
+  },
+  {
+   "test": "test_url_no_remote_url_method_returns_none",
+   "argv": [
+    "git",
+    "remote",
+    "add",
+    "origin",
+    ""
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Failed to determine repository URL",
+    "The fetch url under `remote.origin` was invalid"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_info_gaps.py:509"
+  },
+  {
+   "test": "test_url_format_with_token_hiding",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/user/repo.git"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_info_micro_gaps.py:200"
+  },
+  {
+   "test": "test_head_refs_detached_head_short_commit_only",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "shortCommitId",
+    "refs"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_info_micro_gaps.py:368"
+  },
+  {
+   "test": "test_churn_with_invalid_glob_pattern_error",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error parsing glob '[invalid': unclosed character class; missing ']'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_info_micro_gaps.py:462"
+  },
+  {
+   "test": "test_contributors_empty_when_no_commits",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Failed to traverse Git commit history",
+    "does not have any commits"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_info_micro_gaps.py:575"
+  },
+  {
+   "test": "test_description_long_text_multiline_wrapping",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "very long description"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_info_micro_gaps.py:673"
+  },
+  {
+   "test": "test_language_display_with_true_color_chip_color",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Rust",
+    "Python",
+    "JavaScript",
+    "percentage"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_info_micro_gaps.py:775"
+  },
+  {
+   "test": "test_head_info_field_enabled_and_pushed",
+   "argv": [
+    "git",
+    "checkout",
+    "-b",
+    "feature-branch"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_info_mod_gaps.py:241"
+  },
+  {
+   "test": "test_multiple_fields_all_enabled_together",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "headRefs"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_info_mod_gaps.py:371"
+  },
+  {
+   "test": "test_gitignored_files_excluded_if_not_tracked",
+   "argv": [
+    "git",
+    "add",
+    ".gitignore",
+    "main.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_languages.py:1119"
+  },
+  {
+   "test": "test_display_one_branch_singular_form",
+   "argv": [
+    "git",
+    "init",
+    "--bare"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bare (1 branch)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_project_module_gaps.py:76"
+  },
+  {
+   "test": "test_display_one_tag_singular_form",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tagproject (1 tag)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_project_module_gaps.py:132"
+  },
+  {
+   "test": "test_display_multiple_branches_format",
+   "argv": [
+    "git",
+    "init",
+    "--bare"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_project_module_gaps.py:183"
+  },
+  {
+   "test": "test_display_multiple_tags_format",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3 tags"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_project_module_gaps.py:237"
+  },
+  {
+   "test": "test_display_only_tags_no_branches",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tagonly (1 tag)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_project_module_gaps.py:284"
+  },
+  {
+   "test": "test_number_separator_comma_large_tag_count",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,005 tags"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_project_module_gaps.py:386"
+  },
+  {
+   "test": "test_number_separator_space_large_tag_count",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1 005 tags"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_project_module_gaps.py:431"
+  },
+  {
+   "test": "test_number_separator_underscore_large_tag_count",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1_005 tags"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_project_module_gaps.py:476"
+  },
+  {
+   "test": "test_title_with_only_username",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "gitVersion"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_project_title_url_final.py:157"
+  },
+  {
+   "test": "test_url_default_behavior_redacts_token",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "redacted",
+    "github.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_project_title_url_final.py:213"
+  },
+  {
+   "test": "test_url_convert_ssh_to_https",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com",
+    "testuser/testrepo"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_project_title_url_final.py:254"
+  },
+  {
+   "test": "test_url_hide_token_removes_credentials_completely",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "https://gitlab.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_project_title_url_final.py:291"
+  },
+  {
+   "test": "test_url_with_gitlab_ssh_format",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "gitlab.com",
+    "group/project"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_project_title_url_final.py:433"
+  },
+  {
+   "test": "test_url_with_custom_port_ssh_format",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "custom-git.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_project_title_url_final.py:620"
+  },
+  {
+   "test": "test_ascii_colors_black_color_code_0",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[30;1mJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJSJS",
+    "JavaScript (100.0 %)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_module_gaps.py:79"
+  },
+  {
+   "test": "test_ascii_colors_white_color_code_7",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[37",
+    "Rust (100.0 %)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_module_gaps.py:102"
+  },
+  {
+   "test": "test_ascii_colors_bright_cyan_code_14",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[96",
+    "Python (100.0 %)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_module_gaps.py:126"
+  },
+  {
+   "test": "test_ascii_colors_bright_white_code_15",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[97",
+    "C++ (100.0 %)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_module_gaps.py:151"
+  },
+  {
+   "test": "test_text_colors_black_white_bright_colors",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[30",
+    "\u001b[37",
+    "\u001b[96",
+    "\u001b[97",
+    "Shell (100.0 %)",
+    "HEAD",
+    "Created"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_module_gaps.py:176"
+  },
+  {
+   "test": "test_ascii_colors_extend_with_language_colors",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[35",
+    "Rust (100.0 %)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_module_gaps.py:204"
+  },
+  {
+   "test": "test_all_standard_color_codes_0_through_15",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "C (100.0 %)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_module_gaps.py:237"
+  },
+  {
+   "test": "test_multiple_ascii_colors_with_language_extension",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[31",
+    "\u001b[32",
+    "C++ (100.0 %)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_module_gaps.py:286"
+  },
+  {
+   "test": "test_ascii_color_black",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[30;1m                 R RR RR\u001b[0m",
+    "\u001b[30;1m              R RRRRRRRR R          R\u001b[0m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_printer_gaps.py:19"
+  },
+  {
+   "test": "test_ascii_color_white",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[37;1m                 R RR RR\u001b[0m",
+    "\u001b[37;1m              R RRRRRRRR R          R\u001b[0m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_printer_gaps.py:40"
+  },
+  {
+   "test": "test_ascii_color_bright_cyan",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[96;1m                 R RR RR\u001b[0m",
+    "\u001b[96;1m              R RRRRRRRR R          R\u001b[0m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_printer_gaps.py:61"
+  },
+  {
+   "test": "test_ascii_color_bright_white",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[97;1m                 R RR RR\u001b[0m",
+    "\u001b[97;1m              R RRRRRRRR R          R\u001b[0m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_printer_gaps.py:82"
+  },
+  {
+   "test": "test_text_colors_all_six_positions",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[30;1mTest User\u001b[0m",
+    "\u001b[31;1m~\u001b[0m \u001b[30;1mgit version",
+    "\u001b[32m----------",
+    "\u001b[33;1mHEAD\u001b[0m",
+    "\u001b[33;1mLanguage\u001b[0m",
+    "\u001b[33;1mLanguage\u001b[0m\u001b[34;1m:\u001b[0m",
+    "\u001b[35mRust (100.0 %)\u001b[39m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_printer_gaps.py:136"
+  },
+  {
+   "test": "test_no_art_plain_output",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[31;1mTest User\u001b[0m",
+    "\u001b[31;1mHEAD\u001b[0m\u001b[39;1m:\u001b[0m",
+    "\u001b[31;1mCreated\u001b[0m\u001b[39;1m:\u001b[0m",
+    "\u001b[31;1mLanguage\u001b[0m\u001b[39;1m:\u001b[0m",
+    "\u001b[39mRust (100.0 %)\u001b[39m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_printer_gaps.py:165"
+  },
+  {
+   "test": "test_ascii_colors_extend_with_language_colors",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[30;1m           --==============--\u001b[0m",
+    "\u001b[39;1moGGGGGG\u001b[0m",
+    "\u001b[33;1m.   .\u001b[0m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_printer_gaps.py:190"
+  },
+  {
+   "test": "test_no_language_defaults_to_white",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[37;1mTest User\u001b[0m \u001b[39;1m~\u001b[0m",
+    "\u001b[37;1mHEAD\u001b[0m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_printer_gaps.py:217"
+  },
+  {
+   "test": "test_ascii_language_override",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[34;1m               =========\u001b[0m",
+    "\u001b[33;1m          ==========\u001b[0m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_printer_gaps.py:269"
+  },
+  {
+   "test": "test_combined_no_bold_with_custom_colors",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[32mTest User\u001b[0m",
+    "\u001b[33m~\u001b[0m",
+    "\u001b[31mHEAD\u001b[0m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_printer_gaps.py:322"
+  },
+  {
+   "test": "test_ascii_colors_with_no_bold",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[33m                 R RR RR\u001b[0m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_printer_gaps.py:352"
+  },
+  {
+   "test": "test_combined_yaml_with_disabled_fields",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "- HeadInfo:",
+    "- LanguagesInfo:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_printer_gaps.py:376"
+  },
+  {
+   "test": "test_multiple_ascii_colors_sequence",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[31;1m",
+    "\u001b[34;1m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_printer_gaps.py:421"
+  },
+  {
+   "test": "test_line_wrapping_control_codes_in_plain_output",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[31;1mHEAD\u001b[0m\u001b[39;1m:\u001b[0m",
+    "\u001b[31;1mCreated\u001b[0m\u001b[39;1m:\u001b[0m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_printer_module_gaps.py:18"
+  },
+  {
+   "test": "test_line_wrapping_codes_in_ascii_output",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "R RR RR",
+    "RRRRRRRR"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_printer_module_gaps.py:44"
+  },
+  {
+   "test": "test_line_wrapping_codes_in_yaml_output",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "- HeadInfo:\n    headRefs:",
+    "- LanguagesInfo:\n    languagesWithPercentage:",
+    "infoFields:\n- ProjectInfo:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_printer_module_gaps.py:67"
+  },
+  {
+   "test": "test_line_wrapping_codes_in_json_output",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_printer_module_gaps.py:94"
+  },
+  {
+   "test": "test_ascii_language_override_with_python",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[34;1m               =========\u001b[0m",
+    "\u001b[34;1m            ===============\u001b[0m",
+    "\u001b[33;1m=======\u001b[0m",
+    "\u001b[33;1m=========\u001b[0m",
+    "\u001b[39mRust (100.0 %)\u001b[39m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_printer_module_gaps.py:119"
+  },
+  {
+   "test": "test_plain_printer_when_no_dominant_language_no_art",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[37;1mHEAD\u001b[0m\u001b[39;1m:\u001b[0m",
+    "\u001b[37;1mCreated\u001b[0m\u001b[39;1m:\u001b[0m",
+    "\u001b[37;1mAuthor\u001b[0m\u001b[39;1m:\u001b[0m",
+    "\u001b[40m   \u001b[49m\u001b[41m   \u001b[49m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_printer_module_gaps.py:178"
+  },
+  {
+   "test": "test_image_file_not_found_error_context",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Could not load the image file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_printer_module_gaps.py:211"
+  },
+  {
+   "test": "test_ascii_loop_with_more_info_lines_than_logo_lines",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[31;1m                 R RR RR\u001b[0m",
+    "\u001b[31;1mHEAD\u001b[0m\u001b[39;1m:\u001b[0m",
+    "\u001b[39m           file0.rs 1\u001b[0m",
+    "\u001b[39m           file5.rs 1\u001b[0m",
+    "\u001b[31;1mChurn (1)\u001b[0m\u001b[39;1m:\u001b[0m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_printer_module_gaps.py:235"
+  },
+  {
+   "test": "test_text_colors_with_empty_list_uses_primary",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[31;1mTest User\u001b[0m \u001b[39;1m~\u001b[0m \u001b[31;1mgit version",
+    "\u001b[31;1mHEAD\u001b[0m\u001b[39;1m:\u001b[0m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_printer_module_gaps.py:274"
+  },
+  {
+   "test": "test_no_bold_flag_affects_ascii_art_rendering",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[31m                 R RR RR\u001b[0m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_printer_module_gaps.py:296"
+  },
+  {
+   "test": "test_combined_flags_no_bold_with_ascii_colors",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[34m                 R RR RR\u001b[0m",
+    "\u001b[34m    R  RRRRRRRRRR\u001b[0m\u001b[35m=  \u001b[0m\u001b[34mRR\u001b[0m\u001b[35m = \u001b[0m\u001b[34mRRRRRRRRRRR\u001b[0m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_printer_module_gaps.py:324"
+  },
+  {
+   "test": "test_json_serialization_with_all_fields",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "title",
+    "infoFields",
+    "HeadInfo",
+    "LanguagesInfo",
+    "CommitsInfo",
+    "AuthorsInfo",
+    "LocInfo",
+    "languagesWithPercentage",
+    "authors"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_printer_module_gaps.py:352"
+  },
+  {
+   "test": "test_yaml_serialization_with_all_fields",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "title:\n  gitUsername: Test User\n  gitVersion:",
+    "infoFields:\n- ProjectInfo:",
+    "- HeadInfo:\n    headRefs:",
+    "- LanguagesInfo:\n    languagesWithPercentage:",
+    "- CommitsInfo:\n    numberOfCommits:",
+    "- AuthorsInfo:\n    authors:",
+    "- LocInfo:\n    linesOfCode:",
+    "- SizeInfo:\n    repoSize:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_printer_module_gaps.py:416"
+  },
+  {
+   "test": "test_no_art_no_language_uses_plain_printer",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[37;1mHEAD\u001b[0m\u001b[39;1m:\u001b[0m",
+    "\u001b[37;1mCreated\u001b[0m\u001b[39;1m:\u001b[0m",
+    "\u001b[37;1mCommits\u001b[0m\u001b[39;1m:\u001b[0m",
+    "\u001b[37;1mTest User\u001b[0m \u001b[39;1m~\u001b[0m \u001b[37;1mgit version",
+    "\u001b[40m   \u001b[49m\u001b[41m   \u001b[49m\u001b[42m   \u001b[49m\u001b[43m   \u001b[49m\u001b[44m   \u001b[49m\u001b[45m   \u001b[49m\u001b[46m   \u001b[49m\u001b[47m   \u001b[49m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_text_gaps.py:18"
+  },
+  {
+   "test": "test_image_file_not_found_error",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Could not load the image file",
+    "/nonexistent/image.png"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_text_gaps.py:47"
+  },
+  {
+   "test": "test_text_colors_full_specification",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[31;1mTest User\u001b[0m",
+    "\u001b[32;1m~\u001b[0m",
+    "\u001b[33m---",
+    "\u001b[34;1mHEAD\u001b[0m",
+    "\u001b[34;1mCreated\u001b[0m",
+    "\u001b[35;1m:\u001b[0m",
+    "\u001b[36m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_text_gaps.py:63"
+  },
+  {
+   "test": "test_text_colors_partial_specification_falls_back",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[31;1mTest User\u001b[0m \u001b[32;1m~\u001b[0m \u001b[31;1mgit version",
+    "\u001b[31;1mHEAD\u001b[0m\u001b[39;1m:\u001b[0m",
+    "\u001b[31;1mCreated\u001b[0m\u001b[39;1m:\u001b[0m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_text_gaps.py:102"
+  },
+  {
+   "test": "test_invalid_image_file_format_error",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Could not load the image file at",
+    "The file extension `.",
+    "was not recognized as an image format"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_text_gaps.py:124"
+  },
+  {
+   "test": "test_ascii_language_override_with_detected_language",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "oGGGGGG",
+    "--==============--",
+    "Rust"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_text_gaps.py:144"
+  },
+  {
+   "test": "test_ascii_colors_extend_with_language_colors",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[31;1m",
+    "\u001b[39;1m",
+    "\u001b[33;1m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_text_gaps.py:170"
+  },
+  {
+   "test": "test_empty_ascii_colors_uses_language_colors",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[31;1m",
+    "\u001b[39;1m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_text_gaps.py:192"
+  },
+  {
+   "test": "test_json_output_ignores_text_color_flags",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "title",
+    "infoFields",
+    "gitUsername"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_text_gaps.py:212"
+  },
+  {
+   "test": "test_yaml_output_ignores_ascii_color_flags",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "title:",
+    "infoFields:",
+    "gitUsername"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_text_gaps.py:248"
+  },
+  {
+   "test": "test_no_art_with_detected_language_uses_plain_printer",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "HEAD",
+    "Rust",
+    "\u001b[40m   \u001b[49m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_text_gaps.py:281"
+  },
+  {
+   "test": "test_combined_no_art_and_no_bold",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[31m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_text_gaps.py:328"
+  },
+  {
+   "test": "test_ascii_input_custom_art_overrides_language",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CUSTOM",
+    "ART",
+    "HERE"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_text_gaps.py:379"
+  },
+  {
+   "test": "test_multiple_ascii_colors_all_applied",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[32;1m",
+    "\u001b[34;1m",
+    "\u001b[36;1m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_text_gaps.py:404"
+  },
+  {
+   "test": "test_text_colors_boundary_value_15",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[97;1mTest User\u001b[0m",
+    "\u001b[97;1mgit version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_text_gaps.py:424"
+  },
+  {
+   "test": "test_text_colors_boundary_value_0",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[30;1mTest User\u001b[0m",
+    "\u001b[30;1mgit version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_text_gaps.py:442"
+  },
+  {
+   "test": "test_json_output_with_no_title_flag",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "title"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_text_gaps.py:460"
+  },
+  {
+   "test": "test_plain_printer_no_language_no_ascii_input",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "HEAD",
+    "Created",
+    "Commits"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ui_text_gaps.py:478"
+  },
+  {
+   "test": "test_version_field_in_json_output_structure",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "VersionInfo"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_version_gaps.py:283"
+  },
+  {
+   "test": "test_colorterm_truecolor_is_accepted_and_does_not_break_json_output",
+   "argv": [
+    "-o",
+    "json",
+    "."
+   ],
+   "stdin": null,
+   "env": {
+    "COLORTERM": "truecolor"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_env_config_handling.py:24"
+  },
+  {
+   "test": "test_churn_pool_size_option",
+   "argv": [
+    "-o",
+    "json",
+    "--churn-pool-size",
+    "5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_options.py:7"
+  },
+  {
+   "test": "test_number_of_file_churns_option",
+   "argv": [
+    "-o",
+    "json",
+    "--number-of-file-churns",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_options.py:14"
+  },
+  {
+   "test": "test_no_bots_option",
+   "argv": [
+    "-o",
+    "json",
+    "--no-bots"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_options.py:21"
+  },
+  {
+   "test": "test_no_bots_with_regex",
+   "argv": [
+    "-o",
+    "json",
+    "--no-bots=bot.*"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_options.py:28"
+  },
+  {
+   "test": "test_multiple_text_colors",
+   "argv": [
+    "-t",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_options.py:35"
+  },
+  {
+   "test": "test_multiple_ascii_colors",
+   "argv": [
+    "-c",
+    "10",
+    "11",
+    "12"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_options.py:43"
+  },
+  {
+   "test": "test_disabled_fields_with_json",
+   "argv": [
+    "-o",
+    "json",
+    "-d",
+    "version",
+    "-d",
+    "created",
+    "-d",
+    "authors"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_options.py:49"
+  },
+  {
+   "test": "test_type_data_filter",
+   "argv": [
+    "-o",
+    "json",
+    "-T",
+    "data"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_options.py:59"
+  },
+  {
+   "test": "test_type_prose_filter",
+   "argv": [
+    "-o",
+    "json",
+    "-T",
+    "prose"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_options.py:66"
+  },
+  {
+   "test": "test_combined_formatting_options",
+   "argv": [
+    "-o",
+    "json",
+    "--no-bold",
+    "--iso-time",
+    "--number-separator",
+    "comma"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_options.py:73"
+  },
+  {
+   "test": "test_combined_visual_options",
+   "argv": [
+    "--no-art",
+    "--no-color-palette"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_options.py:80"
+  },
+  {
+   "test": "test_email_with_multiple_commits",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test@example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_options.py:88"
+  },
+  {
+   "test": "test_exclude_directory_pattern",
+   "argv": [
+    "-o",
+    "json",
+    "--exclude",
+    "subdir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_options.py:102"
+  },
+  {
+   "test": "test_output_yaml_structure_detailed",
+   "argv": [
+    "-o",
+    "yaml"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "title:",
+    "infoFields:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_options.py:113"
+  },
+  {
+   "test": "test_ascii_language_option",
+   "argv": [
+    "--ascii-language",
+    "rust"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_ascii_options.py:5"
+  },
+  {
+   "test": "test_ascii_language_short_flag",
+   "argv": [
+    "-a",
+    "python"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_ascii_options.py:13"
+  },
+  {
+   "test": "test_ascii_colors_option",
+   "argv": [
+    "--ascii-colors",
+    "1",
+    "2",
+    "3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_ascii_options.py:19"
+  },
+  {
+   "test": "test_ascii_colors_short_flag",
+   "argv": [
+    "-c",
+    "4",
+    "5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_ascii_options.py:27"
+  },
+  {
+   "test": "test_ascii_input_option",
+   "argv": [
+    "--ascii-input",
+    "CUSTOM\nASCII\nART"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CUSTOM"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ascii_options.py:33"
+  },
+  {
+   "test": "test_true_color_auto",
+   "argv": [
+    "-o",
+    "json",
+    "--true-color",
+    "auto"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ascii_options.py:43"
+  },
+  {
+   "test": "test_true_color_always",
+   "argv": [
+    "-o",
+    "json",
+    "--true-color",
+    "always"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ascii_options.py:50"
+  },
+  {
+   "test": "test_true_color_never",
+   "argv": [
+    "-o",
+    "json",
+    "--true-color",
+    "never"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ascii_options.py:57"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "onefetch"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:5"
+  },
+  {
+   "test": "test_version_short_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "onefetch"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:13"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Arguments:",
+    "Options:",
+    "--version",
+    "--help",
+    "INFO:",
+    "TEXT FORMATTING:",
+    "ASCII:",
+    "IMAGE:",
+    "VISUALS:",
+    "DEVELOPER:",
+    "OTHER:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:21"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Arguments:",
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:38"
+  },
+  {
+   "test": "test_help_contains_all_major_options",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--disabled-fields",
+    "--text-colors",
+    "--ascii-language",
+    "--image",
+    "--output",
+    "--languages",
+    "--package-managers",
+    "--generate",
+    "--no-art",
+    "--nerd-fonts"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:47"
+  },
+  {
+   "test": "test_repo_with_only_binary_files",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:24"
+  },
+  {
+   "test": "test_all_disabled_fields",
+   "argv": [
+    "-o",
+    "json",
+    "-d",
+    "project",
+    "-d",
+    "version",
+    "-d",
+    "created",
+    "-d",
+    "authors",
+    "-d",
+    "last-change",
+    "-d",
+    "license"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:103"
+  },
+  {
+   "test": "test_version_output_exact_format",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "onefetch",
+    "2.25.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:115"
+  },
+  {
+   "test": "test_help_output_structure",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Arguments:",
+    "Options:",
+    "INFO:",
+    "TEXT FORMATTING:",
+    "ASCII:",
+    "IMAGE:",
+    "VISUALS:",
+    "DEVELOPER:",
+    "OTHER:",
+    "--disabled-fields",
+    "--output"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:125"
+  },
+  {
+   "test": "test_multiple_excludes_combined",
+   "argv": [
+    "-o",
+    "json",
+    "-e",
+    "*.txt",
+    "-e",
+    "*.md",
+    "-e",
+    "test_*"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:146"
+  },
+  {
+   "test": "test_text_colors_valid_range",
+   "argv": [
+    "-t",
+    "0",
+    "7",
+    "15",
+    "1",
+    "2",
+    "3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:155"
+  },
+  {
+   "test": "test_conflicting_options",
+   "argv": [
+    "--no-art",
+    "--ascii-language",
+    "rust"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:69"
+  },
+  {
+   "test": "test_exclude_option",
+   "argv": [
+    "-o",
+    "json",
+    "--exclude",
+    "*.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_exclude_options.py:6"
+  },
+  {
+   "test": "test_exclude_short_flag",
+   "argv": [
+    "-o",
+    "json",
+    "-e",
+    "*.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_exclude_options.py:17"
+  },
+  {
+   "test": "test_exclude_multiple_patterns",
+   "argv": [
+    "-o",
+    "json",
+    "-e",
+    "*.txt",
+    "-e",
+    "*.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_exclude_options.py:24"
+  },
+  {
+   "test": "test_type_filter_programming",
+   "argv": [
+    "-o",
+    "json",
+    "--type",
+    "programming"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_exclude_options.py:31"
+  },
+  {
+   "test": "test_type_filter_markup",
+   "argv": [
+    "-o",
+    "json",
+    "--type",
+    "markup"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_exclude_options.py:38"
+  },
+  {
+   "test": "test_type_filter_multiple",
+   "argv": [
+    "-o",
+    "json",
+    "--type",
+    "programming",
+    "markup"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_exclude_options.py:45"
+  },
+  {
+   "test": "test_type_short_flag",
+   "argv": [
+    "-o",
+    "json",
+    "-T",
+    "programming"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_exclude_options.py:52"
+  },
+  {
+   "test": "test_generate_zsh_completion",
+   "argv": [
+    "--generate",
+    "zsh"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_generation.py:12"
+  },
+  {
+   "test": "test_generate_fish_completion",
+   "argv": [
+    "--generate",
+    "fish"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "complete",
+    "onefetch"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_generation.py:19"
+  },
+  {
+   "test": "test_generate_powershell_completion",
+   "argv": [
+    "--generate",
+    "powershell"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_generation.py:27"
+  },
+  {
+   "test": "test_generate_elvish_completion",
+   "argv": [
+    "--generate",
+    "elvish"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_generation.py:34"
+  },
+  {
+   "test": "test_zsh_completion_structure",
+   "argv": [
+    "--generate",
+    "zsh"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "onefetch"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_generation.py:50"
+  },
+  {
+   "test": "test_fish_completion_contains_commands",
+   "argv": [
+    "--generate",
+    "fish"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "complete"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_generation.py:59"
+  },
+  {
+   "test": "test_disabled_fields_option",
+   "argv": [
+    "-o",
+    "json",
+    "--disabled-fields",
+    "version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_info_fields.py:5"
+  },
+  {
+   "test": "test_disabled_fields_multiple",
+   "argv": [
+    "-o",
+    "json",
+    "--disabled-fields",
+    "version",
+    "created"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_info_fields.py:14"
+  },
+  {
+   "test": "test_no_title_option",
+   "argv": [
+    "-o",
+    "json",
+    "--no-title"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_info_fields.py:23"
+  },
+  {
+   "test": "test_number_of_authors_option",
+   "argv": [
+    "-o",
+    "json",
+    "--number-of-authors",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_info_fields.py:31"
+  },
+  {
+   "test": "test_number_of_languages_option",
+   "argv": [
+    "-o",
+    "json",
+    "--number-of-languages",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_info_fields.py:42"
+  },
+  {
+   "test": "test_email_option",
+   "argv": [
+    "-o",
+    "json",
+    "--email"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_info_fields.py:54"
+  },
+  {
+   "test": "test_email_short_flag",
+   "argv": [
+    "-o",
+    "json",
+    "-E"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_info_fields.py:63"
+  },
+  {
+   "test": "test_iso_time_option",
+   "argv": [
+    "-o",
+    "json",
+    "--iso-time"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_info_fields.py:71"
+  },
+  {
+   "test": "test_iso_time_short_flag",
+   "argv": [
+    "-o",
+    "json",
+    "-z"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_info_fields.py:81"
+  },
+  {
+   "test": "test_no_merges_option",
+   "argv": [
+    "-o",
+    "json",
+    "--no-merges"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_info_fields.py:88"
+  },
+  {
+   "test": "test_include_hidden_option",
+   "argv": [
+    "-o",
+    "json",
+    "--include-hidden"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_info_fields.py:95"
+  },
+  {
+   "test": "test_languages_flag",
+   "argv": [
+    "--languages"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_list_options.py:4"
+  },
+  {
+   "test": "test_languages_short_flag",
+   "argv": [
+    "-l"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_list_options.py:15"
+  },
+  {
+   "test": "test_languages_contains_expected_languages",
+   "argv": [
+    "--languages"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "c",
+    "java",
+    "go",
+    "ruby"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_list_options.py:24"
+  },
+  {
+   "test": "test_package_managers_flag",
+   "argv": [
+    "--package-managers"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_list_options.py:39"
+  },
+  {
+   "test": "test_package_managers_short_flag",
+   "argv": [
+    "-p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_list_options.py:48"
+  },
+  {
+   "test": "test_json_output",
+   "argv": [
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "title",
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:6"
+  },
+  {
+   "test": "test_json_output_long_form",
+   "argv": [
+    "--output",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "title",
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:17"
+  },
+  {
+   "test": "test_json_output_contains_expected_fields",
+   "argv": [
+    "-o",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "title"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:26"
+  },
+  {
+   "test": "test_yaml_output",
+   "argv": [
+    "-o",
+    "yaml"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "title",
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:43"
+  },
+  {
+   "test": "test_yaml_output_long_form",
+   "argv": [
+    "--output",
+    "yaml"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "title",
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:54"
+  },
+  {
+   "test": "test_yaml_output_structure",
+   "argv": [
+    "-o",
+    "yaml"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "title",
+    "title:",
+    "infoFields:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:63"
+  },
+  {
+   "test": "test_yaml_output_with_options",
+   "argv": [
+    "-o",
+    "yaml",
+    "--iso-time"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:86"
+  },
+  {
+   "test": "test_repo_with_multiple_branches",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "numberOfBranches"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_repos.py:7"
+  },
+  {
+   "test": "test_text_colors_option",
+   "argv": [
+    "--text-colors",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_text_formatting.py:5"
+  },
+  {
+   "test": "test_text_colors_short_flag",
+   "argv": [
+    "-t",
+    "9",
+    "10",
+    "11"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_text_formatting.py:14"
+  },
+  {
+   "test": "test_number_separator_plain",
+   "argv": [
+    "-o",
+    "json",
+    "--number-separator",
+    "plain"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_text_formatting.py:20"
+  },
+  {
+   "test": "test_number_separator_comma",
+   "argv": [
+    "-o",
+    "json",
+    "--number-separator",
+    "comma"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_text_formatting.py:27"
+  },
+  {
+   "test": "test_number_separator_space",
+   "argv": [
+    "-o",
+    "json",
+    "--number-separator",
+    "space"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_text_formatting.py:34"
+  },
+  {
+   "test": "test_number_separator_underscore",
+   "argv": [
+    "-o",
+    "json",
+    "--number-separator",
+    "underscore"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_text_formatting.py:41"
+  },
+  {
+   "test": "test_no_bold_option",
+   "argv": [
+    "--no-bold"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_text_formatting.py:48"
+  },
+  {
+   "test": "test_http_url_option",
+   "argv": [
+    "-o",
+    "json",
+    "--http-url"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "http"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_url_options.py:5"
+  },
+  {
+   "test": "test_hide_token_option",
+   "argv": [
+    "-o",
+    "json",
+    "--hide-token"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_url_options.py:14"
+  },
+  {
+   "test": "test_http_url_and_hide_token",
+   "argv": [
+    "-o",
+    "json",
+    "--http-url",
+    "--hide-token"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_url_options.py:22"
+  },
+  {
+   "test": "test_no_color_palette_option",
+   "argv": [
+    "--no-color-palette"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_visual_options.py:5"
+  },
+  {
+   "test": "test_no_art_option",
+   "argv": [
+    "--no-art"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_visual_options.py:13"
+  },
+  {
+   "test": "test_no_art_with_json",
+   "argv": [
+    "-o",
+    "json",
+    "--no-art"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_visual_options.py:21"
+  },
+  {
+   "test": "test_nerd_fonts_option",
+   "argv": [
+    "--nerd-fonts"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_visual_options.py:28"
+  },
+  {
+   "test": "test_nerd_fonts_with_json",
+   "argv": [
+    "-o",
+    "json",
+    "--nerd-fonts"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_visual_options.py:36"
+  },
+  {
+   "test": "test_ext_repo_outputs_json_has_expected_fields",
+   "argv": [
+    "-o",
+    "json",
+    "-E",
+    "-z",
+    "--churn-pool-size",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_executable_externalized.py:67"
+  },
+  {
+   "test": "test_ext_detect_and_parse_cargo_manifest_dependency_count",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Cargo"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_executable_externalized.py:165"
+  },
+  {
+   "test": "test_help_precedence_over_unknown_flag",
+   "argv": [
+    "--help",
+    "--definitely-not-a-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:143"
+  },
+  {
+   "test": "test_double_dash_treats_help_as_input_and_errors",
+   "argv": [
+    "--",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:150"
+  },
+  {
+   "test": "test_ascii_input_custom_string",
+   "argv": [
+    "--ascii-input",
+    "CUSTOM\nASCII\nART"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CUSTOM",
+    "ASCII",
+    "ART"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ascii.py:6"
+  },
+  {
+   "test": "test_ascii_colors_single",
+   "argv": [
+    "--ascii-colors",
+    "5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_ascii.py:15"
+  },
+  {
+   "test": "test_ascii_language_python",
+   "argv": [
+    "--ascii-language",
+    "python"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_ascii.py:36"
+  },
+  {
+   "test": "test_ascii_language_javascript",
+   "argv": [
+    "--ascii-language",
+    "javascript"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_ascii.py:50"
+  },
+  {
+   "test": "test_true_color_auto",
+   "argv": [
+    "--true-color",
+    "auto"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_ascii.py:57"
+  },
+  {
+   "test": "test_true_color_never",
+   "argv": [
+    "--true-color",
+    "never"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_ascii.py:64"
+  },
+  {
+   "test": "test_true_color_always",
+   "argv": [
+    "--true-color",
+    "always"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_ascii.py:71"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Command-line Git information tool",
+    "Usage:",
+    "Options:",
+    "--version",
+    "--disabled-fields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:8"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Command-line Git information tool",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:19"
+  },
+  {
+   "test": "test_languages_list",
+   "argv": [
+    "--languages"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Rust",
+    "Python",
+    "JavaScript",
+    "C++"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:53"
+  },
+  {
+   "test": "test_package_managers_list",
+   "argv": [
+    "--package-managers"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Cargo",
+    "Npm"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:67"
+  },
+  {
+   "test": "test_output_json_with_no_art",
+   "argv": [
+    "--output",
+    "json",
+    "--no-art"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_combinations.py:8"
+  },
+  {
+   "test": "test_output_yaml_with_disabled_fields",
+   "argv": [
+    "--output",
+    "yaml",
+    "--disabled-fields",
+    "url",
+    "license"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_combinations.py:17"
+  },
+  {
+   "test": "test_iso_time_with_json_output",
+   "argv": [
+    "--output",
+    "json",
+    "--iso-time"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_combinations.py:25"
+  },
+  {
+   "test": "test_multiple_text_colors_and_ascii_colors",
+   "argv": [
+    "--text-colors",
+    "1",
+    "2",
+    "3",
+    "--ascii-colors",
+    "4",
+    "5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_combinations.py:33"
+  },
+  {
+   "test": "test_nerd_fonts_with_no_color_palette",
+   "argv": [
+    "--nerd-fonts",
+    "--no-color-palette"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_combinations.py:41"
+  },
+  {
+   "test": "test_email_with_number_of_authors",
+   "argv": [
+    "--email",
+    "--number-of-authors",
+    "5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_combinations.py:48"
+  },
+  {
+   "test": "test_no_merges_with_no_bots",
+   "argv": [
+    "--no-merges",
+    "--no-bots"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_combinations.py:55"
+  },
+  {
+   "test": "test_include_hidden_with_exclude",
+   "argv": [
+    "--include-hidden",
+    "--exclude",
+    "*.tmp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_combinations.py:62"
+  },
+  {
+   "test": "test_number_separator_with_iso_time",
+   "argv": [
+    "--number-separator",
+    "comma",
+    "--iso-time"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_combinations.py:69"
+  },
+  {
+   "test": "test_disabled_fields_comprehensive",
+   "argv": [
+    "--disabled-fields",
+    "authors",
+    "churn",
+    "size",
+    "lines-of-code"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_combinations.py:76"
+  },
+  {
+   "test": "test_custom_ascii_with_colors",
+   "argv": [
+    "--ascii-input",
+    "Hello\\nWorld\\nTest",
+    "--ascii-colors",
+    "6",
+    "7"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Hello",
+    "World"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_combinations.py:85"
+  },
+  {
+   "test": "test_true_color_with_ascii_language",
+   "argv": [
+    "--true-color",
+    "always",
+    "--ascii-language",
+    "rust"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_combinations.py:95"
+  },
+  {
+   "test": "test_http_url_with_hide_token",
+   "argv": [
+    "--http-url",
+    "--hide-token"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_combinations.py:103"
+  },
+  {
+   "test": "test_type_filter_all_types",
+   "argv": [
+    "--type",
+    "programming",
+    "markup",
+    "prose",
+    "data"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_combinations.py:110"
+  },
+  {
+   "test": "test_no_bold_with_text_colors",
+   "argv": [
+    "--no-bold",
+    "--text-colors",
+    "8",
+    "9"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_combinations.py:118"
+  },
+  {
+   "test": "test_churn_pool_size_with_file_churns",
+   "argv": [
+    "--churn-pool-size",
+    "10",
+    "--number-of-file-churns",
+    "5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_combinations.py:125"
+  },
+  {
+   "test": "test_repo_with_multiple_commits",
+   "argv": [
+    "git",
+    "add",
+    "file2.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_combinations.py:133"
+  },
+  {
+   "test": "test_repo_with_readme",
+   "argv": [
+    "git",
+    "add",
+    "README.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_combinations.py:162"
+  },
+  {
+   "test": "test_all_disabled_fields_at_once",
+   "argv": [
+    "--disabled-fields"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_combinations.py:173"
+  },
+  {
+   "test": "test_large_number_of_authors",
+   "argv": [
+    "--number-of-authors",
+    "1000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:59"
+  },
+  {
+   "test": "test_zero_number_of_authors",
+   "argv": [
+    "--number-of-authors",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:66"
+  },
+  {
+   "test": "test_exclude_single_pattern",
+   "argv": [
+    "--exclude",
+    "*.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_filtering.py:7"
+  },
+  {
+   "test": "test_exclude_multiple_patterns",
+   "argv": [
+    "--exclude",
+    "*.log",
+    "*.tmp",
+    "node_modules"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_filtering.py:18"
+  },
+  {
+   "test": "test_no_bots_flag",
+   "argv": [
+    "--no-bots"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_filtering.py:25"
+  },
+  {
+   "test": "test_no_bots_with_custom_regex",
+   "argv": [
+    "--no-bots=custom.*bot"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_filtering.py:32"
+  },
+  {
+   "test": "test_no_merges_flag",
+   "argv": [
+    "--no-merges"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_filtering.py:39"
+  },
+  {
+   "test": "test_include_hidden_flag",
+   "argv": [
+    "--include-hidden"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_filtering.py:46"
+  },
+  {
+   "test": "test_type_filter_programming",
+   "argv": [
+    "--type",
+    "programming"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_filtering.py:56"
+  },
+  {
+   "test": "test_type_filter_markup",
+   "argv": [
+    "--type",
+    "markup"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_filtering.py:63"
+  },
+  {
+   "test": "test_type_filter_multiple",
+   "argv": [
+    "--type",
+    "programming",
+    "markup"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_filtering.py:70"
+  },
+  {
+   "test": "test_type_filter_data",
+   "argv": [
+    "--type",
+    "data"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_filtering.py:77"
+  },
+  {
+   "test": "test_type_filter_prose",
+   "argv": [
+    "--type",
+    "prose"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_filtering.py:85"
+  },
+  {
+   "test": "test_disabled_fields_single",
+   "argv": [
+    "--disabled-fields",
+    "version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_info_fields.py:7"
+  },
+  {
+   "test": "test_disabled_fields_multiple",
+   "argv": [
+    "--disabled-fields",
+    "version",
+    "url",
+    "commits"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_info_fields.py:15"
+  },
+  {
+   "test": "test_no_title_flag",
+   "argv": [
+    "--no-title"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_info_fields.py:34"
+  },
+  {
+   "test": "test_number_of_authors",
+   "argv": [
+    "--number-of-authors",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_info_fields.py:43"
+  },
+  {
+   "test": "test_number_of_languages",
+   "argv": [
+    "--number-of-languages",
+    "3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_info_fields.py:51"
+  },
+  {
+   "test": "test_number_of_file_churns",
+   "argv": [
+    "--number-of-file-churns",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_info_fields.py:58"
+  },
+  {
+   "test": "test_churn_pool_size",
+   "argv": [
+    "--churn-pool-size",
+    "5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_info_fields.py:65"
+  },
+  {
+   "test": "test_email_flag",
+   "argv": [
+    "--email"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_info_fields.py:72"
+  },
+  {
+   "test": "test_http_url_flag",
+   "argv": [
+    "--http-url"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_info_fields.py:80"
+  },
+  {
+   "test": "test_hide_token_flag",
+   "argv": [
+    "--hide-token"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_info_fields.py:88"
+  },
+  {
+   "test": "test_output_json",
+   "argv": [
+    "--output",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:8"
+  },
+  {
+   "test": "test_output_json_structure",
+   "argv": [
+    "--output",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:21"
+  },
+  {
+   "test": "test_output_yaml",
+   "argv": [
+    "--output",
+    "yaml"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:34"
+  },
+  {
+   "test": "test_output_yaml_structure",
+   "argv": [
+    "--output",
+    "yaml"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:47"
+  },
+  {
+   "test": "test_output_json_with_disabled_fields",
+   "argv": [
+    "--output",
+    "json",
+    "--disabled-fields",
+    "version",
+    "commits"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:60"
+  },
+  {
+   "test": "test_repo_with_remote_url",
+   "argv": [
+    "git",
+    "remote",
+    "add",
+    "origin",
+    "https://github.com/test/repo.git"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_repository_scenarios.py:8"
+  },
+  {
+   "test": "test_repo_with_ssh_remote_url",
+   "argv": [
+    "git",
+    "remote",
+    "add",
+    "origin",
+    "git@github.com:test/repo.git"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_repository_scenarios.py:19"
+  },
+  {
+   "test": "test_repo_with_license_file",
+   "argv": [
+    "git",
+    "add",
+    "LICENSE"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_repository_scenarios.py:65"
+  },
+  {
+   "test": "test_repo_with_cargo_toml",
+   "argv": [
+    "git",
+    "add",
+    "Cargo.toml"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_repository_scenarios.py:98"
+  },
+  {
+   "test": "test_repo_with_multiple_languages",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Language"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_repository_scenarios.py:138"
+  },
+  {
+   "test": "test_repo_with_staged_changes",
+   "argv": [
+    "git",
+    "add",
+    "staged.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_repository_scenarios.py:162"
+  },
+  {
+   "test": "test_repo_output_json_full_info",
+   "argv": [
+    "git",
+    "add",
+    "README.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "infoFields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_repository_scenarios.py:183"
+  },
+  {
+   "test": "test_generate_bash_completion",
+   "argv": [
+    "--generate",
+    "bash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "COMPREPLY"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_shell_completions.py:6"
+  },
+  {
+   "test": "test_text_colors_single",
+   "argv": [
+    "--text-colors",
+    "9"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_text_formatting.py:6"
+  },
+  {
+   "test": "test_text_colors_multiple",
+   "argv": [
+    "--text-colors",
+    "9",
+    "10",
+    "11",
+    "12",
+    "13",
+    "14"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_text_formatting.py:13"
+  },
+  {
+   "test": "test_iso_time_flag",
+   "argv": [
+    "--iso-time"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_text_formatting.py:27"
+  },
+  {
+   "test": "test_number_separator_plain",
+   "argv": [
+    "--number-separator",
+    "plain"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_text_formatting.py:35"
+  },
+  {
+   "test": "test_number_separator_comma",
+   "argv": [
+    "--number-separator",
+    "comma"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_text_formatting.py:42"
+  },
+  {
+   "test": "test_number_separator_space",
+   "argv": [
+    "--number-separator",
+    "space"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_text_formatting.py:49"
+  },
+  {
+   "test": "test_number_separator_underscore",
+   "argv": [
+    "--number-separator",
+    "underscore"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_text_formatting.py:56"
+  },
+  {
+   "test": "test_http_url_transforms_git_remote",
+   "argv": [
+    "git",
+    "remote",
+    "set-url",
+    "origin",
+    "git@github.com:user/repo.git"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "URL:",
+    "URL: https://github.com/user/repo.git"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_onefetch_repo_outputs.py:104"
+  },
+  {
+   "test": "test_hide_token_masks_remote_token",
+   "argv": [
+    "git",
+    "init",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "URL: https://github.com/user/repo.git"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_onefetch_repo_outputs.py:113"
+  }
+ ]
+}

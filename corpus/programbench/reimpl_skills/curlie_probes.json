@@ -1,0 +1,2635 @@
+[
+ {
+  "name": "test::test_dotcurlrc_is_loaded_by_default_and_affects_request_headers::0",
+  "argv": [
+   "-v",
+   "-o",
+   "/dev/null",
+   "https://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_q_disable_ignores_dotcurlrc::1",
+  "argv": [
+   "-q",
+   "-v",
+   "-o",
+   "/dev/null",
+   "https://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explicit_config_file_overrides_dotcurlrc::2",
+  "argv": [
+   "-K",
+   "-v",
+   "-o",
+   "/dev/null",
+   "https://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cli_overrides_config_file::3",
+  "argv": [
+   "-K",
+   "-A",
+   "fromcli",
+   "-v",
+   "-o",
+   "/dev/null",
+   "https://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_config_file_warns_but_still_runs_request::4",
+  "argv": [
+   "--config",
+   "https://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_option_in_config_file_warns_but_still_runs_request::5",
+  "argv": [
+   "-K",
+   "https://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_command::6",
+  "argv": [
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::7",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag::8",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_long_flag::9",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_all_category::10",
+  "argv": [
+   "--help",
+   "all"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_auth_category::11",
+  "argv": [
+   "--help",
+   "auth"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_http_category::12",
+  "argv": [
+   "--help",
+   "http"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_dns_category::13",
+  "argv": [
+   "--help",
+   "dns"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_tls_category::14",
+  "argv": [
+   "--help",
+   "tls"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_output_category::15",
+  "argv": [
+   "--help",
+   "output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_proxy_category::16",
+  "argv": [
+   "--help",
+   "proxy"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_curl_header_flag_short::17",
+  "argv": [
+   "--curl",
+   "-H",
+   "X-Test: Value",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_curl_header_flag_long::18",
+  "argv": [
+   "--curl",
+   "--header",
+   "X-Test: Value",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_curl_user_agent_flag::19",
+  "argv": [
+   "--curl",
+   "-A",
+   "CustomAgent/1.0",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_curl_referer_flag::20",
+  "argv": [
+   "--curl",
+   "-e",
+   "http://referer.com",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_curl_cookie_flag::21",
+  "argv": [
+   "--curl",
+   "-b",
+   "session=abc123",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_curl_data_flag::22",
+  "argv": [
+   "--curl",
+   "-d",
+   "key=value",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_curl_output_flag::23",
+  "argv": [
+   "--curl",
+   "-o",
+   "output.txt",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_curl_location_flag::24",
+  "argv": [
+   "--curl",
+   "-L",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_curl_insecure_flag::25",
+  "argv": [
+   "--curl",
+   "-k",
+   "https://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_curl_compressed_flag::26",
+  "argv": [
+   "--curl",
+   "--compressed",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_curl_max_time_flag::27",
+  "argv": [
+   "--curl",
+   "--max-time",
+   "10",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_curl_connect_timeout_flag::28",
+  "argv": [
+   "--curl",
+   "--connect-timeout",
+   "5",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_curl_user_flag::29",
+  "argv": [
+   "--curl",
+   "-u",
+   "user:pass",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_curl_proxy_flag::30",
+  "argv": [
+   "--curl",
+   "-x",
+   "http://proxy:8080",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_curl_request_flag::31",
+  "argv": [
+   "--curl",
+   "-X",
+   "CUSTOM",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_curl_verbose_flag::32",
+  "argv": [
+   "--curl",
+   "-v",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_curl_silent_flag::33",
+  "argv": [
+   "--curl",
+   "-s",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_curl_include_flag::34",
+  "argv": [
+   "--curl",
+   "-i",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_curl_head_flag_short::35",
+  "argv": [
+   "--curl",
+   "-I",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_curl_upload_file_flag::36",
+  "argv": [
+   "--curl",
+   "-T",
+   "file.txt",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_curl_range_flag::37",
+  "argv": [
+   "--curl",
+   "-r",
+   "0-1023",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_curl_ipv4_flag::38",
+  "argv": [
+   "--curl",
+   "-4",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_curl_ipv6_flag::39",
+  "argv": [
+   "--curl",
+   "-6",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_curl_flags::40",
+  "argv": [
+   "--curl",
+   "-L",
+   "-k",
+   "-v",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compound_short_flags::41",
+  "argv": [
+   "--curl",
+   "-Lkv",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_curl_flag_get_simple::42",
+  "argv": [
+   "--curl",
+   "GET",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_curl_flag_post_with_data::43",
+  "argv": [
+   "--curl",
+   "POST",
+   "http://example.com",
+   "name=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_curl_flag_multiple_fields::44",
+  "argv": [
+   "--curl",
+   "POST",
+   "http://example.com",
+   "name=John",
+   "age=30"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_curl_flag_header_syntax::45",
+  "argv": [
+   "--curl",
+   "GET",
+   "http://example.com",
+   "X-Custom-Header:MyValue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_curl_flag_url_param_syntax::46",
+  "argv": [
+   "--curl",
+   "GET",
+   "http://example.com",
+   "key==value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_curl_flag_json_field_syntax::47",
+  "argv": [
+   "--curl",
+   "POST",
+   "http://example.com",
+   "count:=42"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_normalization_no_scheme::48",
+  "argv": [
+   "--curl",
+   "GET",
+   "example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_normalization_localhost::49",
+  "argv": [
+   "--curl",
+   "GET",
+   ":8080"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_normalization_localhost_with_port::50",
+  "argv": [
+   "--curl",
+   "GET",
+   "localhost:8080"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_method_post::51",
+  "argv": [
+   "--curl",
+   "POST",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_method_put::52",
+  "argv": [
+   "--curl",
+   "PUT",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_method_patch::53",
+  "argv": [
+   "--curl",
+   "PATCH",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_method_delete::54",
+  "argv": [
+   "--curl",
+   "DELETE",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_method_head::55",
+  "argv": [
+   "--curl",
+   "HEAD",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_method_options::56",
+  "argv": [
+   "--curl",
+   "OPTIONS",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_method_trace::57",
+  "argv": [
+   "--curl",
+   "TRACE",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_form_mode_flag::58",
+  "argv": [
+   "--curl",
+   "-F",
+   "POST",
+   "http://example.com",
+   "field=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_form_mode_long_flag::59",
+  "argv": [
+   "--curl",
+   "--form",
+   "POST",
+   "http://example.com",
+   "field=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_headers::60",
+  "argv": [
+   "--curl",
+   "GET",
+   "http://example.com",
+   "X-Header1:value1",
+   "X-Header2:value2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_params_and_headers::61",
+  "argv": [
+   "--curl",
+   "POST",
+   "http://example.com",
+   "param==value",
+   "X-Header:test",
+   "field=data"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_with_path::62",
+  "argv": [
+   "--curl",
+   "GET",
+   "http://example.com/path/to/resource"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_with_query_string::63",
+  "argv": [
+   "--curl",
+   "GET",
+   "http://example.com?existing=param",
+   "new==value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_get_json_response::64",
+  "argv": [
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_post_with_json_data::65",
+  "argv": [
+   "POST",
+   "name=test",
+   "value=123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_mode_shows_headers::66",
+  "argv": [
+   "-v",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_head_request::67",
+  "argv": [
+   "HEAD"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_put_request::68",
+  "argv": [
+   "PUT",
+   "field=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_request::69",
+  "argv": [
+   "DELETE"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_patch_request::70",
+  "argv": [
+   "PATCH",
+   "field=updated"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_silent_mode_with_show_error::71",
+  "argv": [
+   "-s",
+   "-S",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_include_headers_in_output::72",
+  "argv": [
+   "-i",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_header_passed::73",
+  "argv": [
+   "GET",
+   "X-Test-Header:TestValue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_user_agent_custom::74",
+  "argv": [
+   "-A",
+   "TestAgent/1.0",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_redirects::75",
+  "argv": [
+   "-L",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_to_file::76",
+  "argv": [
+   "-o",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dump_headers_to_file::77",
+  "argv": [
+   "-D",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compressed_response::78",
+  "argv": [
+   "--compressed",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_time_timeout::79",
+  "argv": [
+   "--max-time",
+   "5",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_connect_timeout::80",
+  "argv": [
+   "--connect-timeout",
+   "5",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pretty_json_formatting::81",
+  "argv": [
+   "--pretty",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_post_stdin_data::82",
+  "argv": [
+   "POST"
+  ],
+  "stdin": "{\"stdin\":\"data\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_params_appended::83",
+  "argv": [
+   "GET",
+   "param1==value1",
+   "param2==value2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_form_data_post::84",
+  "argv": [
+   "-F",
+   "POST",
+   "field1=value1",
+   "field2=value2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ipv4_only::85",
+  "argv": [
+   "-4",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_referer_header::86",
+  "argv": [
+   "-e",
+   "http://example.com",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pretty_flag::87",
+  "argv": [
+   "--curl",
+   "--pretty",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_piping::88",
+  "argv": [
+   "--curl",
+   "POST",
+   "http://example.com"
+  ],
+  "stdin": "{\"test\":\"data\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_content_type_default_json::89",
+  "argv": [
+   "--curl",
+   "POST",
+   "http://example.com",
+   "field=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_content_type_preserved::90",
+  "argv": [
+   "--curl",
+   "POST",
+   "http://example.com",
+   "Content-Type:text/plain",
+   "field=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_accept_header_preserved::91",
+  "argv": [
+   "--curl",
+   "GET",
+   "http://example.com",
+   "Accept:text/html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_with_protocol::92",
+  "argv": [
+   "--curl",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_with_https_protocol::93",
+  "argv": [
+   "--curl",
+   "https://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_with_double_slash::94",
+  "argv": [
+   "--curl",
+   "//example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_data_flag_with_value::95",
+  "argv": [
+   "--curl",
+   "-d",
+   "test=data",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_field_with_spaces::96",
+  "argv": [
+   "--curl",
+   "POST",
+   "http://example.com",
+   "name=John Doe"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_header_with_spaces::97",
+  "argv": [
+   "--curl",
+   "GET",
+   "http://example.com",
+   "X-Custom:Value With Spaces"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_param_with_special_chars::98",
+  "argv": [
+   "--curl",
+   "GET",
+   "http://example.com",
+   "key==value+with+special"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_same_headers::99",
+  "argv": [
+   "--curl",
+   "GET",
+   "http://example.com",
+   "X-Test:value1",
+   "X-Test:value2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_nested_with_json_syntax::100",
+  "argv": [
+   "--curl",
+   "POST",
+   "http://example.com",
+   "obj:={\"nested\":\"value\"}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_array_syntax::101",
+  "argv": [
+   "--curl",
+   "POST",
+   "http://example.com",
+   "items:=[1,2,3]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_boolean_syntax::102",
+  "argv": [
+   "--curl",
+   "POST",
+   "http://example.com",
+   "active:=true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_null_syntax::103",
+  "argv": [
+   "--curl",
+   "POST",
+   "http://example.com",
+   "value:=null"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_with_other_args_help_takes_precedence::104",
+  "argv": [
+   "--help",
+   "http://example.com",
+   "--not-a-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_unknown_category_still_exits_zero_and_lists_categories::105",
+  "argv": [
+   "--help",
+   "notacat"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_required_url_prints_usage_and_exit_zero::106",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_option_value_can_consume_next_flag_token::107",
+  "argv": [
+   "-o",
+   "-s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dash_dash_stops_option_parsing::108",
+  "argv": [
+   "--",
+   "-s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_can_appear_after_positional_url::109",
+  "argv": [
+   "example.com",
+   "--max-time",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_output_equals_form_does_not_create_named_file::110",
+  "argv": [
+   "-o=a.txt",
+   "example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_post_with_kv_item_sends_json_and_outputs_compact_json::111",
+  "argv": [
+   "POST",
+   "hello=world"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_exits_nonzero_and_writes_error_to_stderr::112",
+  "argv": [
+   "--definitely-not-a-real-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_flag_disables_pretty_and_keeps_body_bytes::113",
+  "argv": [
+   "--raw",
+   "GET"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_parse_basic::114",
+  "argv": [
+   "--curl",
+   "example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_parse_post_subcommand::115",
+  "argv": [
+   "--curl",
+   "post",
+   "example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_parse_head_subcommand::116",
+  "argv": [
+   "--curl",
+   "head",
+   "example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_option_exit_code_and_message::117",
+  "argv": [
+   "--unknown"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_accept_overrides_default::118",
+  "argv": [
+   "--curl",
+   "http://example.com",
+   "Accept:text/html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_curl_flag_with_headers::119",
+  "argv": [
+   "--curl",
+   "http://example.com",
+   "X-Test:value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_curl_flag_with_data::120",
+  "argv": [
+   "--curl",
+   "POST",
+   "http://example.com",
+   "key=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explicit_method_overrides_binary_name::121",
+  "argv": [
+   "--curl",
+   "-X",
+   "PUT",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explicit_request_flag::122",
+  "argv": [
+   "--curl",
+   "--request",
+   "PATCH",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_curl_user_agent::123",
+  "argv": [
+   "--curl",
+   "-A",
+   "MyAgent/1.0",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_curl_header_flag::124",
+  "argv": [
+   "--curl",
+   "-H",
+   "X-Custom: Value",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_curl_output_flag::125",
+  "argv": [
+   "--curl",
+   "-o",
+   "/tmp/output.txt",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_curl_cookie_jar::126",
+  "argv": [
+   "--curl",
+   "-c",
+   "/tmp/cookies.txt",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_curl_referer::127",
+  "argv": [
+   "--curl",
+   "-e",
+   "http://google.com",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_curl_form_flag_removed::128",
+  "argv": [
+   "--curl",
+   "-F",
+   "file=@test.txt",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_curl_max_time::129",
+  "argv": [
+   "--curl",
+   "--max-time",
+   "30",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_curl_connect_timeout::130",
+  "argv": [
+   "--curl",
+   "--connect-timeout",
+   "10",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_curl_proxy::131",
+  "argv": [
+   "--curl",
+   "--proxy",
+   "http://proxy:8080",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_curl_insecure::132",
+  "argv": [
+   "--curl",
+   "--insecure",
+   "https://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_curl_flags_combined::133",
+  "argv": [
+   "--curl",
+   "-v",
+   "-L",
+   "-H",
+   "X-Test: value",
+   "--compressed",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_curl_short_flags_compound::134",
+  "argv": [
+   "--curl",
+   "-vL",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_data_via_dash_d::135",
+  "argv": [
+   "--curl",
+   "-d",
+   "testdata",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_piped_data::136",
+  "argv": [
+   "--curl",
+   "POST",
+   "http://example.com"
+  ],
+  "stdin": "piped data",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_data_dash_d_with_httpie_syntax::137",
+  "argv": [
+   "--curl",
+   "-d",
+   "rawdata",
+   "http://example.com",
+   "field=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_url_with_scheme::138",
+  "argv": [
+   "--curl",
+   "http://"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_with_path::139",
+  "argv": [
+   "--curl",
+   "http://example.com/api/v1/users"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_with_query_string::140",
+  "argv": [
+   "--curl",
+   "http://example.com?existing=param"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_param_added_to_existing::141",
+  "argv": [
+   "--curl",
+   "http://example.com?a=1",
+   "b==2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_with_fragment::142",
+  "argv": [
+   "--curl",
+   "http://example.com#section"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_with_username_password::143",
+  "argv": [
+   "--curl",
+   "http://user:pass@example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_header_with_empty_value::144",
+  "argv": [
+   "--curl",
+   "http://example.com",
+   "X-Empty:"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_header_with_spaces::145",
+  "argv": [
+   "--curl",
+   "http://example.com",
+   "X-Test:value with spaces"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_field_with_spaces::146",
+  "argv": [
+   "--curl",
+   "POST",
+   "http://example.com",
+   "message=Hello World"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_field_with_special_chars::147",
+  "argv": [
+   "--curl",
+   "POST",
+   "http://example.com",
+   "data=test@example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_same_headers::148",
+  "argv": [
+   "--curl",
+   "http://example.com",
+   "X-Test:value1",
+   "X-Test:value2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_case_insensitive_method::149",
+  "argv": [
+   "--curl",
+   "post",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_separator::150",
+  "argv": [
+   "--curl",
+   "--",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_encoding_in_query_params::151",
+  "argv": [
+   "--curl",
+   "http://example.com",
+   "search==hello world"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_boolean_false::152",
+  "argv": [
+   "--curl",
+   "POST",
+   "http://example.com",
+   "active:=false"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_null::153",
+  "argv": [
+   "--curl",
+   "POST",
+   "http://example.com",
+   "data:=null"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_array::154",
+  "argv": [
+   "--curl",
+   "POST",
+   "http://example.com",
+   "items:=[\"a\",\"b\",\"c\"]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_url::155",
+  "argv": [
+   "--curl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_with_ipv4::156",
+  "argv": [
+   "--curl",
+   "http://127.0.0.1:8080"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_with_ipv6::157",
+  "argv": [
+   "--curl",
+   "http://[::1]:8080"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_httpie_and_curl_options::158",
+  "argv": [
+   "--curl",
+   "-v",
+   "POST",
+   "http://example.com",
+   "X-Header:value",
+   "field=data",
+   "-H",
+   "X-Other: value2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_header_syntax::159",
+  "argv": [
+   "--curl",
+   "http://example.com",
+   "X-Custom-Header:value123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_headers::160",
+  "argv": [
+   "--curl",
+   "http://example.com",
+   "X-Header-1:val1",
+   "X-Header-2:val2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_param_syntax::161",
+  "argv": [
+   "--curl",
+   "http://example.com",
+   "search==test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_query_params::162",
+  "argv": [
+   "--curl",
+   "http://example.com",
+   "param1==value1",
+   "param2==value2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_field_syntax::163",
+  "argv": [
+   "--curl",
+   "POST",
+   "http://example.com",
+   "name=John"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_nested_object::164",
+  "argv": [
+   "--curl",
+   "POST",
+   "http://example.com",
+   "config:={\"key\":\"value\"}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_with_port_only::165",
+  "argv": [
+   "--curl",
+   ":8080"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_with_localhost_shorthand::166",
+  "argv": [
+   "--curl",
+   ":8080/path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_syntax_header_and_data::167",
+  "argv": [
+   "--curl",
+   "POST",
+   "http://example.com",
+   "X-Custom:header",
+   "field=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_syntax_all_types::168",
+  "argv": [
+   "--curl",
+   "POST",
+   "http://example.com",
+   "X-Header:val",
+   "param==query",
+   "data=json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_at_sign_in_field_value::169",
+  "argv": [
+   "--curl",
+   "POST",
+   "http://example.com",
+   "email=test@example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_equals_in_header_value::170",
+  "argv": [
+   "--curl",
+   "http://example.com",
+   "Authorization:Bearer token=abc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colon_in_json_value::171",
+  "argv": [
+   "--curl",
+   "POST",
+   "http://example.com",
+   "url=http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_json_field::172",
+  "argv": [
+   "--curl",
+   "POST",
+   "http://example.com",
+   "empty="
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_string_with_quotes::173",
+  "argv": [
+   "--curl",
+   "POST",
+   "http://example.com",
+   "message=\"quoted value\""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backslash_in_field::174",
+  "argv": [
+   "--curl",
+   "POST",
+   "http://example.com",
+   "path=C:\\Users\\test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_field::175",
+  "argv": [
+   "--curl",
+   "POST",
+   "http://example.com",
+   "name=José"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_newline_in_field::176",
+  "argv": [
+   "--curl",
+   "POST",
+   "http://example.com",
+   "text=line1\\nline2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tab_in_field::177",
+  "argv": [
+   "--curl",
+   "POST",
+   "http://example.com",
+   "data=col1\\tcol2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_character_field_name::178",
+  "argv": [
+   "--curl",
+   "POST",
+   "http://example.com",
+   "a=1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_numeric_field_name::179",
+  "argv": [
+   "--curl",
+   "POST",
+   "http://example.com",
+   "123=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_field_name_with_underscore::180",
+  "argv": [
+   "--curl",
+   "POST",
+   "http://example.com",
+   "field_name=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_field_name_with_dash::181",
+  "argv": [
+   "--curl",
+   "POST",
+   "http://example.com",
+   "field-name=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_field_name_with_dot::182",
+  "argv": [
+   "--curl",
+   "POST",
+   "http://example.com",
+   "user.name=John"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_percent_encoding_in_query::183",
+  "argv": [
+   "--curl",
+   "http://example.com",
+   "key==value%20space"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ampersand_in_query_value::184",
+  "argv": [
+   "--curl",
+   "http://example.com",
+   "q==a&b"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_question_mark_in_query_value::185",
+  "argv": [
+   "--curl",
+   "http://example.com",
+   "search==what?"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hash_in_query_value::186",
+  "argv": [
+   "--curl",
+   "http://example.com",
+   "tag==#hashtag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_plus_in_query_value::187",
+  "argv": [
+   "--curl",
+   "http://example.com",
+   "expr==1+1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_piped_json_data::188",
+  "argv": [
+   "--curl",
+   "POST",
+   "http://api.example.com/users"
+  ],
+  "stdin": "{\"username\":\"alice\",\"email\":\"alice@example.com\",\"age\":30}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_form_data_flag::189",
+  "argv": [
+   "--curl",
+   "POST",
+   "http://api.example.com/upload",
+   "-F",
+   "field=value"
+  ],
+  "stdin": "extra data",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_d_flag_overrides_stdin::190",
+  "argv": [
+   "--curl",
+   "POST",
+   "http://api.example.com/test",
+   "-d",
+   "override=data"
+  ],
+  "stdin": "{\"stdin\":\"data\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_get_request::191",
+  "argv": [
+   "--curl",
+   "GET",
+   "http://api.example.com/search"
+  ],
+  "stdin": "{\"query\":\"test\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_name_post_shortcut::192",
+  "argv": [
+   "post",
+   "example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_name_put_shortcut::193",
+  "argv": [
+   "put",
+   "example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_name_delete_shortcut::194",
+  "argv": [
+   "delete",
+   "example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_name_post_sets_method::195",
+  "argv": [
+   "post",
+   "--curl",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_name_put_sets_method::196",
+  "argv": [
+   "put",
+   "--curl",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_name_delete_sets_method::197",
+  "argv": [
+   "delete",
+   "--curl",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_name_post_overridden_by_explicit_method::198",
+  "argv": [
+   "post",
+   "--curl",
+   "-X",
+   "GET",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

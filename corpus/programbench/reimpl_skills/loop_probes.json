@@ -1,0 +1,6156 @@
+[
+ {
+  "name": "test::test_no_args_exits_success_with_message::0",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_short_flags_parsed_like_separate::1",
+  "argv": [
+   "-l",
+   "-n",
+   "1",
+   "echo",
+   "hi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_can_appear_after_positionals::2",
+  "argv": [
+   "echo",
+   "hi",
+   "-n",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_num_without_command_still_errors_missing_command_not_argparse::3",
+  "argv": [
+   "-n",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_flag_does_not_require_stdin_input_for_argparse::4",
+  "argv": [
+   "-i",
+   "-n",
+   "1",
+   "echo",
+   "hi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag::5",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_flag::6",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::7",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_short_flag::8",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_simple_command::9",
+  "argv": [
+   "--num",
+   "2",
+   "--",
+   "echo hello"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_arguments::10",
+  "argv": [
+   "--num",
+   "1",
+   "--",
+   "echo hello world"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_shell_variables::11",
+  "argv": [
+   "--for=a,b",
+   "--",
+   "echo $COUNT $ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exit_code_success::12",
+  "argv": [
+   "--num",
+   "1",
+   "--",
+   "true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exit_code_failure::13",
+  "argv": [
+   "--num",
+   "1",
+   "--",
+   "false"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_command::14",
+  "argv": [
+   "--num",
+   "1",
+   "--",
+   "echo test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_file_creation::15",
+  "argv": [
+   "--for=1,2,3",
+   "--"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_pipes::16",
+  "argv": [
+   "--num",
+   "1",
+   "--",
+   "echo hello | tr a-z A-Z"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_redirects::17",
+  "argv": [
+   "--num",
+   "1",
+   "--"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiword_command::18",
+  "argv": [
+   "--num",
+   "1",
+   "--",
+   "printf hello"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_special_chars::19",
+  "argv": [
+   "--num",
+   "1",
+   "--",
+   "echo hello*world"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_environment_variables::20",
+  "argv": [
+   "--for=x,y",
+   "--",
+   "echo C=$COUNT I=$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_actualcount_variable::21",
+  "argv": [
+   "--for=a,b,c",
+   "--count-by",
+   "5",
+   "--",
+   "echo $COUNT $ACTUALCOUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_quotes::22",
+  "argv": [
+   "--num",
+   "1",
+   "--",
+   "echo \"hello world\""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_long_running_command::23",
+  "argv": [
+   "--num",
+   "1",
+   "--",
+   "sleep 0.1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_stderr::24",
+  "argv": [
+   "--num",
+   "1",
+   "--",
+   "echo error >&2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_subshell::25",
+  "argv": [
+   "--num",
+   "1",
+   "--",
+   "echo $(echo nested)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_arithmetic::26",
+  "argv": [
+   "--for=a,b,c",
+   "--",
+   "echo $((COUNT + 10))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_conditionals::27",
+  "argv": [
+   "--for=1,2,3",
+   "--",
+   "[ $COUNT -eq 1 ] && echo match || echo nomatch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_multiple_statements::28",
+  "argv": [
+   "--num",
+   "1",
+   "--",
+   "echo first; echo second"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_background_ignored::29",
+  "argv": [
+   "--num",
+   "1",
+   "--",
+   "echo done"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_variables::30",
+  "argv": [
+   "--for=test",
+   "--count-by",
+   "10",
+   "--offset",
+   "5",
+   "--",
+   "echo COUNT=$COUNT ITEM=$ITEM ACTUALCOUNT=$ACTUALCOUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_contains_basic::31",
+  "argv": [
+   "--for=apple,banana,cherry,date",
+   "--until-contains",
+   "cherry",
+   "--",
+   "echo $ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_contains_not_found::32",
+  "argv": [
+   "--for=one,two,three",
+   "--until-contains",
+   "notfound",
+   "--",
+   "echo $ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_contains_partial_match::33",
+  "argv": [
+   "--for=testing,tested,test,retest",
+   "--until-contains",
+   "test",
+   "--",
+   "echo $ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_changes_basic::34",
+  "argv": [
+   "--for=1,1,1,2,1,2",
+   "--until-changes",
+   "--",
+   "echo $ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_changes_immediate::35",
+  "argv": [
+   "--for=a,b,c",
+   "--until-changes",
+   "--",
+   "echo $ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_same_basic::36",
+  "argv": [
+   "--for=1,2,3,4,5,5,6,7",
+   "--until-same",
+   "--",
+   "echo $ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_same_with_only_last::37",
+  "argv": [
+   "--for=1,2,3,4,5,5,6,7",
+   "--until-same",
+   "--only-last",
+   "--",
+   "echo $ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_success_basic::38",
+  "argv": [
+   "--for=false,false,true,false",
+   "--until-success",
+   "--",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_success_with_echo::39",
+  "argv": [
+   "--num",
+   "5",
+   "--until-success",
+   "--",
+   "true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_fail_basic::40",
+  "argv": [
+   "--for=true,true,false,true",
+   "--until-fail",
+   "--",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_fail_with_summary::41",
+  "argv": [
+   "--for=true,true,false,true,true,true",
+   "--until-fail",
+   "--summary",
+   "--",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_error_with_value::42",
+  "argv": [
+   "--for=true,true,false,true",
+   "--until-error=any",
+   "--",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_error_specific_code::43",
+  "argv": [
+   "--num",
+   "5",
+   "--until-error=1",
+   "--",
+   "true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_match_basic::44",
+  "argv": [
+   "--for=abc123,def456,ghi789",
+   "--until-match",
+   ".*789",
+   "--",
+   "echo $ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_match_not_found::45",
+  "argv": [
+   "--for=aaa,bbb,ccc",
+   "--until-match",
+   "^zzz$",
+   "--",
+   "echo $ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_contains_with_count::46",
+  "argv": [
+   "--for=a,b,c,d,e",
+   "--until-contains",
+   "c",
+   "--",
+   "echo $COUNT $ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_success_summary::47",
+  "argv": [
+   "--for=false,false,false,true,false,false",
+   "--until-success",
+   "--summary",
+   "--",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_contains_case_sensitive::48",
+  "argv": [
+   "--for=apple,BANANA,cherry",
+   "--until-contains",
+   "BANANA",
+   "--",
+   "echo $ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_changes_single_item::49",
+  "argv": [
+   "--for=a",
+   "--until-changes",
+   "--",
+   "echo $ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_match_simple_pattern::50",
+  "argv": [
+   "--for=1,2,3,4,5",
+   "--until-match",
+   "3",
+   "--",
+   "echo $ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_error_with_number::51",
+  "argv": [
+   "--num",
+   "3",
+   "--until-error=127",
+   "--",
+   "commandnotfound123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_basic::52",
+  "argv": [
+   "--for=a,b,c",
+   "--",
+   "echo $COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_with_items::53",
+  "argv": [
+   "--for=x,y,z",
+   "--",
+   "echo $COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_by_integer::54",
+  "argv": [
+   "--for=a,b,c",
+   "--count-by",
+   "2",
+   "--",
+   "echo $COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_by_large::55",
+  "argv": [
+   "--for=a,b,c",
+   "--count-by",
+   "5",
+   "--",
+   "echo $COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_by_float::56",
+  "argv": [
+   "--for=a,b,c",
+   "--count-by",
+   "1.1",
+   "--",
+   "echo $COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_offset_basic::57",
+  "argv": [
+   "--for=a,b,c",
+   "--offset",
+   "10",
+   "--",
+   "echo $COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_offset_and_count_by::58",
+  "argv": [
+   "--for=a,b,c",
+   "--count-by",
+   "2",
+   "--offset",
+   "10",
+   "--",
+   "echo $COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_offset_negative::59",
+  "argv": [
+   "--for=a,b",
+   "--offset=-5",
+   "--",
+   "echo $COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_by_negative::60",
+  "argv": [
+   "--for=a,b,c",
+   "--count-by=-1",
+   "--",
+   "echo $COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_actualcount_basic::61",
+  "argv": [
+   "--for=a,b,c",
+   "--",
+   "echo $ACTUALCOUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_actualcount_with_offset::62",
+  "argv": [
+   "--for=a,b,c",
+   "--offset",
+   "100",
+   "--",
+   "echo $ACTUALCOUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_actualcount_with_count_by::63",
+  "argv": [
+   "--for=a,b,c",
+   "--count-by",
+   "5",
+   "--",
+   "echo $ACTUALCOUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_and_actualcount_together::64",
+  "argv": [
+   "--for=a,b,c",
+   "--count-by",
+   "2",
+   "--",
+   "echo $COUNT $ACTUALCOUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_with_num::65",
+  "argv": [
+   "--num",
+   "3",
+   "--",
+   "echo $COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_by_decimal::66",
+  "argv": [
+   "--for=a,b,c",
+   "--count-by",
+   "0.5",
+   "--",
+   "echo $COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_precision::67",
+  "argv": [
+   "--for=a,b,c",
+   "--count-by",
+   "0.01",
+   "--",
+   "echo $COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_time_already_passed::68",
+  "argv": [
+   "--until-time",
+   "2000-01-01 00:00:00",
+   "--",
+   "echo should_not_run"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_same_breaking::69",
+  "argv": [
+   "--num",
+   "10",
+   "--until-same",
+   "--",
+   "echo $(($COUNT / 5))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_same_stops_on_duplicate::70",
+  "argv": [
+   "--for=x,y,y,z",
+   "--until-same",
+   "--",
+   "echo $ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_precision_with_decimal::71",
+  "argv": [
+   "--num",
+   "3",
+   "--count-by",
+   "0.001",
+   "--",
+   "echo $COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_by_many_decimals::72",
+  "argv": [
+   "--num",
+   "2",
+   "--count-by",
+   "0.00001",
+   "--",
+   "echo $COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_many_lines::73",
+  "argv": [
+   "--stdin",
+   "--",
+   "echo $ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_time_future::74",
+  "argv": [
+   "--until-time",
+   "--every",
+   "200ms",
+   "--",
+   "echo tick"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_duration_with_error_duration::75",
+  "argv": [
+   "--for-duration",
+   "100ms",
+   "--error-duration",
+   "--every",
+   "50ms",
+   "--",
+   "echo x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_summary_with_various_exit_codes::76",
+  "argv": [
+   "--num",
+   "5",
+   "--summary",
+   "--",
+   "exit $COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_newline_separated::77",
+  "argv": [
+   "--",
+   "echo $ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_match_stops_on_match::78",
+  "argv": [
+   "--for=aa,bb,cc,dd",
+   "--until-match",
+   "c+",
+   "--",
+   "echo $ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_stdin_lines_with_count::79",
+  "argv": [
+   "--stdin",
+   "--",
+   "echo $COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_contains_empty_string::80",
+  "argv": [
+   "--for=a,b,c",
+   "--until-contains",
+   "",
+   "--",
+   "echo $ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_precision_no_decimal_point::81",
+  "argv": [
+   "--num",
+   "3",
+   "--count-by",
+   "5",
+   "--",
+   "echo $COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_offset_with_decimal::82",
+  "argv": [
+   "--num",
+   "3",
+   "--offset",
+   "1.5",
+   "--count-by",
+   "0.5",
+   "--",
+   "echo $COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_changes_no_change::83",
+  "argv": [
+   "--for=1,1,1,1,1",
+   "--until-changes",
+   "--",
+   "echo same"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_exit_codes::84",
+  "argv": [
+   "--for=0,1,2,3",
+   "--summary",
+   "--",
+   "exit $ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::85",
+  "argv": [
+   "--invalid-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_every_duration::86",
+  "argv": [
+   "--every",
+   "invalid",
+   "--num",
+   "1",
+   "--",
+   "echo test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_num_value::87",
+  "argv": [
+   "--num",
+   "abc",
+   "--",
+   "echo test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_command::88",
+  "argv": [
+   "--num",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_duration_flag::89",
+  "argv": [
+   "--for-duration",
+   "100ms",
+   "--error-duration",
+   "--every",
+   "50ms",
+   "--",
+   "echo test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_duration_without_for_duration::90",
+  "argv": [
+   "--num",
+   "2",
+   "--error-duration",
+   "--",
+   "echo test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_until_flags::91",
+  "argv": [
+   "--for=a,b,c,d",
+   "--until-success",
+   "--until-fail",
+   "--",
+   "echo $ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_num::92",
+  "argv": [
+   "--num=-5",
+   "--",
+   "echo test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_every::93",
+  "argv": [
+   "--num",
+   "2",
+   "--every",
+   "1us",
+   "--",
+   "echo test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_large_num_with_early_stop::94",
+  "argv": [
+   "--num",
+   "999999",
+   "--until-contains",
+   "stop",
+   "--",
+   "echo stop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_for_list::95",
+  "argv": [
+   "--for=",
+   "--",
+   "echo $ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_time_invalid_format::96",
+  "argv": [
+   "--until-time",
+   "invalid-time",
+   "--num",
+   "1",
+   "--",
+   "echo test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_match_invalid_regex::97",
+  "argv": [
+   "--until-match",
+   "[invalid(regex",
+   "--num",
+   "1",
+   "--",
+   "echo test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_by_zero::98",
+  "argv": [
+   "--num",
+   "3",
+   "--count-by",
+   "0",
+   "--",
+   "echo $COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_for_list::99",
+  "argv": [
+   "--only-last",
+   "--",
+   "echo $COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_not_found::100",
+  "argv": [
+   "--num",
+   "1",
+   "--",
+   "nonexistentcommand12345"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_for_list::101",
+  "argv": [
+   "--for=hello,世界,test",
+   "--",
+   "echo $ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_item::102",
+  "argv": [
+   "--for=test;echo,test|cat",
+   "--",
+   "echo [$ITEM]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_flags::103",
+  "argv": [
+   "--for=a,b,c",
+   "--count-by",
+   "2",
+   "--offset",
+   "10",
+   "--only-last",
+   "--",
+   "echo $COUNT:$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_with_newlines::104",
+  "argv": [
+   "--for=line1\nline2\nline3",
+   "--",
+   "echo $ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_num_iterations::105",
+  "argv": [
+   "--num",
+   "4",
+   "--",
+   "echo hello"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_num_with_count::106",
+  "argv": [
+   "--num",
+   "5",
+   "--",
+   "echo $COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_comma_separated::107",
+  "argv": [
+   "--for=a,b,c",
+   "--",
+   "echo $ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_multiple_items::108",
+  "argv": [
+   "--for=red,green,blue",
+   "--",
+   "echo $ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_with_count::109",
+  "argv": [
+   "--for=x,y,z",
+   "--",
+   "echo $COUNT $ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_flag::110",
+  "argv": [
+   "--stdin",
+   "--",
+   "echo $ITEM"
+  ],
+  "stdin": "line1\nline2\nline3",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_count::111",
+  "argv": [
+   "--stdin",
+   "--",
+   "echo $COUNT $ITEM"
+  ],
+  "stdin": "one\ntwo\nthree",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_item_variable::112",
+  "argv": [
+   "--for=apple,banana,cherry",
+   "--",
+   "echo fruit: $ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_single_item::113",
+  "argv": [
+   "--for=single",
+   "--",
+   "echo $ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_empty_item::114",
+  "argv": [
+   "--for=a,,c",
+   "--",
+   "echo [$ITEM]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_num_zero::115",
+  "argv": [
+   "--num",
+   "0",
+   "--",
+   "echo hello"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_num_one::116",
+  "argv": [
+   "--num",
+   "1",
+   "--",
+   "echo once"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_with_spaces::117",
+  "argv": [
+   "--for=one two three",
+   "--",
+   "echo $ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_single_line::118",
+  "argv": [
+   "--stdin",
+   "--",
+   "echo $ITEM"
+  ],
+  "stdin": "single",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_num_float::119",
+  "argv": [
+   "--num",
+   "2.5",
+   "--",
+   "echo x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_multiline_items::120",
+  "argv": [
+   "--stdin",
+   "--",
+   "echo $ITEM"
+  ],
+  "stdin": "hello world\nfoo bar",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_only_last_basic::121",
+  "argv": [
+   "--for=a,b,c",
+   "--only-last",
+   "--",
+   "echo $COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_only_last_with_items::122",
+  "argv": [
+   "--for=first,second,third",
+   "--only-last",
+   "--",
+   "echo $ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_only_last_with_num::123",
+  "argv": [
+   "--num",
+   "10",
+   "--only-last",
+   "--",
+   "echo $COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_only_last_with_count_by::124",
+  "argv": [
+   "--for=a,b,c,d,e",
+   "--count-by",
+   "2",
+   "--offset",
+   "10",
+   "--only-last",
+   "--",
+   "echo $COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_summary_all_success::125",
+  "argv": [
+   "--for=true,true,true",
+   "--summary",
+   "--",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_summary_with_failures::126",
+  "argv": [
+   "--for=true,false,true",
+   "--summary",
+   "--",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_summary_all_failures::127",
+  "argv": [
+   "--for=false,false,false",
+   "--summary",
+   "--",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_summary_with_count::128",
+  "argv": [
+   "--num",
+   "5",
+   "--summary",
+   "--",
+   "echo $COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_summary_format::129",
+  "argv": [
+   "--num",
+   "3",
+   "--summary",
+   "--",
+   "echo test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_only_last_single_iteration::130",
+  "argv": [
+   "--num",
+   "1",
+   "--only-last",
+   "--",
+   "echo single"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_normal_output::131",
+  "argv": [
+   "--for=1,2,3",
+   "--",
+   "echo $ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_only_last_with_multiline_output::132",
+  "argv": [
+   "--num",
+   "3",
+   "--only-last",
+   "--",
+   "echo line1; echo line2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_summary_multiple_failure_codes::133",
+  "argv": [
+   "--num",
+   "3",
+   "--summary",
+   "--",
+   "[ $COUNT -eq 0 ]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_only_last_no_output::134",
+  "argv": [
+   "--num",
+   "3",
+   "--only-last",
+   "--",
+   "true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_summary_shows_all_output::135",
+  "argv": [
+   "--for=a,b",
+   "--summary",
+   "--",
+   "echo $ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_every_basic::136",
+  "argv": [
+   "--num",
+   "3",
+   "--every",
+   "100ms",
+   "--",
+   "echo",
+   "tick"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_every_seconds::137",
+  "argv": [
+   "--num",
+   "2",
+   "--every",
+   "1s",
+   "--",
+   "echo",
+   "hello"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_every_milliseconds::138",
+  "argv": [
+   "--num",
+   "3",
+   "--every",
+   "50ms",
+   "--",
+   "echo",
+   "$COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_every_microseconds::139",
+  "argv": [
+   "--num",
+   "3",
+   "--every",
+   "1us",
+   "--",
+   "echo",
+   "fast"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_duration_basic::140",
+  "argv": [
+   "--for-duration",
+   "500ms",
+   "--every",
+   "100ms",
+   "--",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_duration_with_count::141",
+  "argv": [
+   "--for-duration",
+   "200ms",
+   "--every",
+   "50ms",
+   "--",
+   "echo",
+   "$COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_duration_seconds::142",
+  "argv": [
+   "--for-duration",
+   "1s",
+   "--every",
+   "200ms",
+   "--",
+   "echo",
+   "x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_time_past::143",
+  "argv": [
+   "--until-time",
+   "2000-01-01 00:00:00",
+   "--",
+   "echo",
+   "hello"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_duration_with_only_last::144",
+  "argv": [
+   "--for-duration",
+   "300ms",
+   "--every",
+   "50ms",
+   "--only-last",
+   "--",
+   "echo",
+   "$COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_every_complex_duration::145",
+  "argv": [
+   "--num",
+   "2",
+   "--every",
+   "100ms",
+   "--",
+   "echo",
+   "ok"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_iteration_with_i_flag_reads_lines_into_item::146",
+  "argv": [
+   "-i",
+   "--num",
+   "2",
+   "--every",
+   "1us",
+   "--",
+   "echo $ITEM"
+  ],
+  "stdin": "a\nb\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_error::147",
+  "argv": [
+   "--badflag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_num_iterations_stdout_lines::148",
+  "argv": [
+   "--num",
+   "--",
+   "echo",
+   "hello"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_only_last_prints_single_line::149",
+  "argv": [
+   "--only-last",
+   "--num",
+   "5",
+   "--",
+   "echo",
+   "hi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_and_actualcount_with_offset_and_step::150",
+  "argv": [
+   "--num",
+   "3",
+   "--count-by",
+   "2",
+   "--offset",
+   "10",
+   "--",
+   "echo $COUNT $ACTUALCOUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_float_count_by_format::151",
+  "argv": [
+   "--num",
+   "3",
+   "--count-by",
+   "1.1",
+   "--",
+   "echo $COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_only_last_with_only_one_iteration::152",
+  "argv": [
+   "--only-last",
+   "--num",
+   "1",
+   "--",
+   "echo",
+   "X"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_duration_very_small_finishes_quickly::153",
+  "argv": [
+   "--for-duration",
+   "1ms",
+   "--every",
+   "1us",
+   "--num",
+   "100000",
+   "--only-last",
+   "--",
+   "echo",
+   "hi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_duration_exit_code_124::154",
+  "argv": [
+   "--for-duration",
+   "1ms",
+   "--every",
+   "10ms",
+   "--error-duration",
+   "--",
+   "true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_summary_all_success::155",
+  "argv": [
+   "--num",
+   "3",
+   "--summary",
+   "--",
+   "true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_summary_all_fail::156",
+  "argv": [
+   "--num",
+   "3",
+   "--summary",
+   "--",
+   "false"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_list_sets_item_and_iterates_exactly::157",
+  "argv": [
+   "--for",
+   "red,green,blue",
+   "--",
+   "echo $ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_pipe_sets_item::158",
+  "argv": [
+   "-i",
+   "--num",
+   "2",
+   "--",
+   "echo ITEM=$ITEM"
+  ],
+  "stdin": "a\nb\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filesystem_touch_from_stdin::159",
+  "argv": [
+   "-i",
+   "--num",
+   "2",
+   "--",
+   "touch $ITEM"
+  ],
+  "stdin": "one.txt\ntwo.txt\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_contains_stops_on_first_match::160",
+  "argv": [
+   "--until-contains",
+   "needle",
+   "--num",
+   "5",
+   "--",
+   "echo",
+   "hay needle"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_match_regex::161",
+  "argv": [
+   "--until-match",
+   "h.*o",
+   "--num",
+   "5",
+   "--",
+   "echo",
+   "hello"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_success_stops_immediately::162",
+  "argv": [
+   "--until-success",
+   "--num",
+   "5",
+   "--",
+   "sh",
+   "-c",
+   "exit 0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_fail_stops_immediately::163",
+  "argv": [
+   "--until-fail",
+   "--num",
+   "5",
+   "--",
+   "sh",
+   "-c",
+   "exit 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_error_specific_code::164",
+  "argv": [
+   "--until-error",
+   "7",
+   "--num",
+   "5",
+   "--",
+   "sh",
+   "-c",
+   "exit 7"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_time_past_results_in_no_output::165",
+  "argv": [
+   "--until-time",
+   "2000-01-01 00:00:00",
+   "--num",
+   "2",
+   "--",
+   "echo",
+   "X"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_changes_and_same_basic::166",
+  "argv": [
+   "--num",
+   "5",
+   "--",
+   "sh",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_same_with_stdin::167",
+  "argv": [
+   "--until-same",
+   "--",
+   "echo $ITEM"
+  ],
+  "stdin": "1\n1\n3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_until_changes::168",
+  "argv": [
+   "--until-changes",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": "same\nsame\nsame\ndifferent\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_basic::169",
+  "argv": [
+   "--",
+   "echo $ITEM"
+  ],
+  "stdin": "a\nb\nc\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_explicit_flag::170",
+  "argv": [
+   "--stdin",
+   "--",
+   "echo $ITEM"
+  ],
+  "stdin": "x\ny\nz\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_count::171",
+  "argv": [
+   "--",
+   "echo $COUNT $ITEM"
+  ],
+  "stdin": "first\nsecond\nthird\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_single_line::172",
+  "argv": [
+   "--",
+   "echo $ITEM"
+  ],
+  "stdin": "oneline\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_num_limit::173",
+  "argv": [
+   "--num",
+   "2",
+   "--",
+   "echo $ITEM"
+  ],
+  "stdin": "a\nb\nc\nd\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_with_word_is_command::174",
+  "argv": [
+   "--num",
+   "1",
+   "--",
+   "echo",
+   "hello"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_executes_simple_command_with_num_flag::175",
+  "argv": [
+   "--num",
+   "2",
+   "--",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_for_nonexistent_subcommand_shows_main_help::176",
+  "argv": [
+   "--num",
+   "1",
+   "--",
+   "add",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_only_flags_no_command_shows_message::177",
+  "argv": [
+   "--num",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_word_argument_treated_as_command::178",
+  "argv": [
+   "--num",
+   "1",
+   "--",
+   "nonexistentcommand123456"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_flags_parsed_correctly::179",
+  "argv": [
+   "--num",
+   "1",
+   "--count-by",
+   "2",
+   "--offset",
+   "5",
+   "--",
+   "echo",
+   "$COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_subcommand_aliases::180",
+  "argv": [
+   "--num",
+   "1",
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_before_command_not_subcommand_dispatch::181",
+  "argv": [
+   "--num",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_subcommand_treated_as_command::182",
+  "argv": [
+   "--num",
+   "1",
+   "--",
+   "nonexistent_subcommand_xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_did_you_mean_suggestions::183",
+  "argv": [
+   "--num",
+   "1",
+   "--",
+   "statr"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_takes_precedence_when_followed_by_invalid_flag::184",
+  "argv": [
+   "--help",
+   "--badflag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_after_invalid_flag_shows_error_and_nonzero_exit::185",
+  "argv": [
+   "--badflag",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_time_past::186",
+  "argv": [
+   "--until-time",
+   "2020-01-01 00:00:00",
+   "--",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_time_future_short::187",
+  "argv": [
+   "--until-time",
+   "--every",
+   "200ms",
+   "--",
+   "echo",
+   "tick"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_error_specific_code_match::188",
+  "argv": [
+   "--num",
+   "5",
+   "--until-error=3",
+   "--",
+   "sh",
+   "-c",
+   "exit 3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_error_specific_code_no_match::189",
+  "argv": [
+   "--num",
+   "3",
+   "--until-error=3",
+   "--",
+   "sh",
+   "-c",
+   "exit 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_summary_with_various_exit_codes::190",
+  "argv": [
+   "--for",
+   "true,false",
+   "--summary",
+   "--",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exponential_notation_in_count::191",
+  "argv": [
+   "--num",
+   "2",
+   "--count-by",
+   "1e2",
+   "--",
+   "echo",
+   "$COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_precision_with_scientific_notation::192",
+  "argv": [
+   "--num",
+   "3",
+   "--count-by",
+   "1.5e-1",
+   "--",
+   "echo",
+   "$COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_duration_timeout_exit_code::193",
+  "argv": [
+   "--for-duration",
+   "100ms",
+   "--error-duration",
+   "--every",
+   "20ms",
+   "--",
+   "echo",
+   "x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_by_very_small::194",
+  "argv": [
+   "--num",
+   "2",
+   "--count-by",
+   "0.00001",
+   "--",
+   "echo",
+   "$COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_time_stops_loop::195",
+  "argv": [
+   "--until-time",
+   "--every",
+   "200ms",
+   "--",
+   "echo",
+   "running"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_echo_loop::196",
+  "argv": [
+   "--num",
+   "3",
+   "--",
+   "echo",
+   "hello"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_without_separator::197",
+  "argv": [
+   "--num",
+   "2",
+   "echo test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exit_code_for_until_success::198",
+  "argv": [
+   "--for",
+   "true,true,true",
+   "--until-success",
+   "--",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_regex_patterns::199",
+  "argv": [
+   "--for",
+   "abc,def,123,xyz",
+   "--until-match",
+   "[0-9]+",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_with_anchors::200",
+  "argv": [
+   "--for",
+   "test,atest,testa,a",
+   "--until-match",
+   "^a$",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_with_groups::201",
+  "argv": [
+   "--for",
+   "x,y,hello,z",
+   "--until-match",
+   "(hel|wor)lo",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_duration_formats::202",
+  "argv": [
+   "--for-duration",
+   "50ms",
+   "--every",
+   "10ms",
+   "--",
+   "echo",
+   "x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_every_with_different_units::203",
+  "argv": [
+   "--num",
+   "2",
+   "--every",
+   "1us",
+   "--",
+   "echo",
+   "us"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_time_units::204",
+  "argv": [
+   "--num",
+   "2",
+   "--every",
+   "1s100ms",
+   "--",
+   "echo",
+   "combined"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_for_values::205",
+  "argv": [
+   "--for",
+   "key=value,foo=bar",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_with_paths::206",
+  "argv": [
+   "--for",
+   "/tmp/file1.txt,/home/user/file2.txt,./relative.txt",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_contains_with_special_chars::207",
+  "argv": [
+   "--for",
+   "a,b,c[d]e,f",
+   "--until-contains",
+   "[d]",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_contains_with_multiline::208",
+  "argv": [
+   "--for",
+   "a,b,c",
+   "--until-contains",
+   "c",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_and_actualcount_values::209",
+  "argv": [
+   "--num",
+   "3",
+   "--count-by",
+   "5",
+   "--offset",
+   "10",
+   "--",
+   "echo",
+   "$COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_offset_with_floats::210",
+  "argv": [
+   "--num",
+   "3",
+   "--offset",
+   "1.5",
+   "--count-by",
+   "0.5",
+   "--",
+   "echo",
+   "$COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_offset_with_positive_countby::211",
+  "argv": [
+   "--num",
+   "3",
+   "--offset=-10",
+   "--count-by",
+   "3",
+   "--",
+   "echo",
+   "$COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_summary_format_structure::212",
+  "argv": [
+   "--for",
+   "true,false,false,true",
+   "--summary",
+   "--",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_multiple_arguments::213",
+  "argv": [
+   "--num",
+   "1",
+   "--",
+   "echo",
+   "arg1",
+   "arg2",
+   "arg3",
+   "arg4",
+   "arg5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_quotes_in_args::214",
+  "argv": [
+   "--num",
+   "1",
+   "--",
+   "echo",
+   "test with spaces"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_changes_with_countdown::215",
+  "argv": [
+   "--for",
+   "3,3,3,2,1,1",
+   "--until-changes",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_same_repeating_values::216",
+  "argv": [
+   "--for",
+   "a,b,c,c,d",
+   "--until-same",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_match_no_match::217",
+  "argv": [
+   "--num",
+   "3",
+   "--until-match",
+   "xyz",
+   "--",
+   "echo",
+   "abc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_success_with_alternating_exit_codes::218",
+  "argv": [
+   "--for",
+   "false,false,true,false",
+   "--until-success",
+   "--",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_fail_immediate::219",
+  "argv": [
+   "--for",
+   "false,true,true",
+   "--until-fail",
+   "--",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_only_last_captures_final_iteration::220",
+  "argv": [
+   "--num",
+   "5",
+   "--only-last",
+   "--",
+   "echo",
+   "final"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combination_every_and_until_changes::221",
+  "argv": [
+   "--every",
+   "50ms",
+   "--for",
+   "a,a,b,b",
+   "--until-changes",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combination_summary_and_only_last::222",
+  "argv": [
+   "--num",
+   "3",
+   "--summary",
+   "--only-last",
+   "--",
+   "echo",
+   "final"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_counter_mods::223",
+  "argv": [
+   "--offset",
+   "100",
+   "--count-by",
+   "10",
+   "--",
+   "echo",
+   "$COUNT"
+  ],
+  "stdin": "line1\nline2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_duration_reaches_timeout::224",
+  "argv": [
+   "--for-duration",
+   "200ms",
+   "--every",
+   "50ms",
+   "--",
+   "echo",
+   "tick"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_time_with_iso8601_format::225",
+  "argv": [
+   "--until-time",
+   "--every",
+   "100ms",
+   "--",
+   "echo",
+   "x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_with_many_iterations::226",
+  "argv": [
+   "--num",
+   "100",
+   "--",
+   "echo",
+   "$COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_with_many_items::227",
+  "argv": [
+   "--for",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_by_with_large_step::228",
+  "argv": [
+   "--num",
+   "3",
+   "--count-by",
+   "1000000",
+   "--",
+   "echo",
+   "$COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_output_capture::229",
+  "argv": [
+   "--num",
+   "2",
+   "--",
+   "echo",
+   "done"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_for_list::230",
+  "argv": [
+   "--for",
+   "",
+   "--",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_error_with_zero_exit_code::231",
+  "argv": [
+   "--for",
+   "false,false,true,false",
+   "--until-error=0",
+   "--",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_precision_with_many_decimals::232",
+  "argv": [
+   "--num",
+   "2",
+   "--count-by",
+   "0.123456789",
+   "--",
+   "echo",
+   "$COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_every_minimal_delay::233",
+  "argv": [
+   "--num",
+   "5",
+   "--",
+   "echo",
+   "fast"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_item_and_count_variables::234",
+  "argv": [
+   "--for",
+   "a,b,c",
+   "--count-by",
+   "10",
+   "--",
+   "echo",
+   "$ITEM",
+   "$COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_regex_alternation::235",
+  "argv": [
+   "--for",
+   "cat,dog,bird,fish",
+   "--until-match",
+   "bird|fish",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_case_sensitivity::236",
+  "argv": [
+   "--for",
+   "abc,ABC,xyz",
+   "--until-match",
+   "ABC",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_contains_exact_string::237",
+  "argv": [
+   "--for",
+   "test,testing,test123,retest",
+   "--until-contains",
+   "test123",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_duration_and_num_interaction::238",
+  "argv": [
+   "--num",
+   "2",
+   "--for-duration",
+   "10s",
+   "--",
+   "echo",
+   "x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_spaces_in_command::239",
+  "argv": [
+   "--num",
+   "1",
+   "--",
+   "echo",
+   "word1    word2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_offset_larger_than_count_by::240",
+  "argv": [
+   "--num",
+   "3",
+   "--offset",
+   "100",
+   "--count-by",
+   "1",
+   "--",
+   "echo",
+   "$COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_fast_iterations::241",
+  "argv": [
+   "--num",
+   "20",
+   "--every",
+   "1us",
+   "--",
+   "echo",
+   "$COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_with_duplicate_values::242",
+  "argv": [
+   "--for",
+   "a,b,a,c,a",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_variable_basic::243",
+  "argv": [
+   "--num",
+   "5",
+   "--",
+   "echo",
+   "$COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_by_integer::244",
+  "argv": [
+   "--num",
+   "4",
+   "--count-by",
+   "5",
+   "--",
+   "echo",
+   "$COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_by_float::245",
+  "argv": [
+   "--num",
+   "3",
+   "--count-by",
+   "1.5",
+   "--",
+   "echo",
+   "$COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_by_small_float::246",
+  "argv": [
+   "--num",
+   "3",
+   "--count-by",
+   "0.1",
+   "--",
+   "echo",
+   "$COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_offset_basic::247",
+  "argv": [
+   "--num",
+   "3",
+   "--offset",
+   "10",
+   "--",
+   "echo",
+   "$COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_offset_negative::248",
+  "argv": [
+   "--num",
+   "3",
+   "--offset=-5",
+   "--",
+   "echo",
+   "$COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_by_and_offset_combined::249",
+  "argv": [
+   "--num",
+   "3",
+   "--count-by",
+   "2",
+   "--offset",
+   "100",
+   "--",
+   "echo",
+   "$COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_actual_count_variable::250",
+  "argv": [
+   "--num",
+   "4",
+   "--count-by",
+   "10",
+   "--",
+   "echo",
+   "$COUNT:$ACTUALCOUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_precision_integer::251",
+  "argv": [
+   "--num",
+   "2",
+   "--count-by",
+   "1",
+   "--",
+   "echo",
+   "$COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_precision_one_decimal::252",
+  "argv": [
+   "--num",
+   "3",
+   "--count-by",
+   "1.1",
+   "--",
+   "echo",
+   "$COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_precision_two_decimals::253",
+  "argv": [
+   "--num",
+   "2",
+   "--count-by",
+   "0.25",
+   "--",
+   "echo",
+   "$COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_with_negative_count_by::254",
+  "argv": [
+   "--num",
+   "3",
+   "--count-by=-1",
+   "--offset=10",
+   "--",
+   "echo",
+   "$COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_command_string::255",
+  "argv": [
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_quotes::256",
+  "argv": [
+   "--num",
+   "1",
+   "--",
+   "echo",
+   "hello world"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_pipes::257",
+  "argv": [
+   "--num",
+   "2",
+   "--",
+   "echo test | cat"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_redirects::258",
+  "argv": [
+   "--num",
+   "1",
+   "--",
+   "sh",
+   "-c",
+   "echo output > /dev/null && echo done"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_env_vars::259",
+  "argv": [
+   "--num",
+   "1",
+   "--",
+   "sh",
+   "-c",
+   "echo $HOME"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_for::260",
+  "argv": [
+   "--for",
+   "hello,世界,test",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_shell_chars_in_items::261",
+  "argv": [
+   "--for",
+   "test;echo hacked,normal",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_large_count_by::262",
+  "argv": [
+   "--num",
+   "2",
+   "--count-by",
+   "1000000",
+   "--",
+   "echo",
+   "$COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_small_count_by::263",
+  "argv": [
+   "--num",
+   "2",
+   "--count-by",
+   "0.0001",
+   "--",
+   "echo",
+   "$COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_num::264",
+  "argv": [
+   "--num=-5",
+   "--",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_float_num::265",
+  "argv": [
+   "--num",
+   "3.7",
+   "--",
+   "echo",
+   "x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_failure_continues::266",
+  "argv": [
+   "--num",
+   "3",
+   "--",
+   "sh",
+   "-c",
+   "exit 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_variable_not_set_without_loop::267",
+  "argv": [
+   "--num",
+   "1",
+   "--",
+   "echo",
+   "start$COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiline_command_output::268",
+  "argv": [
+   "--num",
+   "2",
+   "--",
+   "sh",
+   "-c",
+   "echo a && echo b"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_stdin_usage::269",
+  "argv": [
+   "--num",
+   "2",
+   "--",
+   "echo",
+   "input"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_count_by::270",
+  "argv": [
+   "--num",
+   "3",
+   "--count-by",
+   "0",
+   "--",
+   "echo",
+   "$COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_long_command_line::271",
+  "argv": [
+   "--num",
+   "1",
+   "--",
+   "echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_with_newlines::272",
+  "argv": [
+   "--for",
+   "a\nb\nc",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_num_with_count_by_and_offset::273",
+  "argv": [
+   "--num",
+   "3",
+   "--count-by",
+   "2",
+   "--offset",
+   "5",
+   "--",
+   "echo",
+   "$COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_with_count_by_and_offset::274",
+  "argv": [
+   "--for",
+   "a,b,c",
+   "--count-by",
+   "10",
+   "--offset",
+   "100",
+   "--",
+   "echo",
+   "$COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_every_with_num::275",
+  "argv": [
+   "--num",
+   "3",
+   "--every",
+   "10ms",
+   "--",
+   "echo",
+   "x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_every_with_for::276",
+  "argv": [
+   "--for",
+   "a,b",
+   "--every",
+   "10ms",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_every_with_until_contains::277",
+  "argv": [
+   "--every",
+   "10ms",
+   "--for",
+   "x,y,match",
+   "--until-contains",
+   "match",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_summary_with_num::278",
+  "argv": [
+   "--num",
+   "3",
+   "--summary",
+   "--",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_summary_with_for::279",
+  "argv": [
+   "--for",
+   "a,b,c",
+   "--summary",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_only_last_with_every::280",
+  "argv": [
+   "--num",
+   "3",
+   "--only-last",
+   "--every",
+   "10ms",
+   "--",
+   "echo",
+   "$COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_only_last_with_summary::281",
+  "argv": [
+   "--num",
+   "5",
+   "--only-last",
+   "--summary",
+   "--",
+   "echo",
+   "final"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_success_with_every::282",
+  "argv": [
+   "--for",
+   "false,false,true",
+   "--until-success",
+   "--every",
+   "10ms",
+   "--",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_fail_with_summary::283",
+  "argv": [
+   "--for",
+   "true,true,false",
+   "--until-fail",
+   "--summary",
+   "--",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_changes_with_only_last::284",
+  "argv": [
+   "--for",
+   "a,a,b",
+   "--until-changes",
+   "--only-last",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_same_with_summary::285",
+  "argv": [
+   "--for",
+   "a,b,c,c",
+   "--until-same",
+   "--summary",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_duration_with_every::286",
+  "argv": [
+   "--for-duration",
+   "100ms",
+   "--every",
+   "30ms",
+   "--",
+   "echo",
+   "x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_duration_with_num::287",
+  "argv": [
+   "--for-duration",
+   "10s",
+   "--num",
+   "2",
+   "--",
+   "echo",
+   "x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_time_with_num::288",
+  "argv": [
+   "--until-time",
+   "--num",
+   "2",
+   "--",
+   "echo",
+   "x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_offset::289",
+  "argv": [
+   "--offset",
+   "50",
+   "--",
+   "echo",
+   "$COUNT"
+  ],
+  "stdin": "x\ny\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_duration_flag::290",
+  "argv": [
+   "--for-duration",
+   "50ms",
+   "--error-duration",
+   "--every",
+   "20ms",
+   "--",
+   "echo",
+   "x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_offset_zero::291",
+  "argv": [
+   "--num",
+   "2",
+   "--offset",
+   "0",
+   "--",
+   "echo",
+   "$COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_by_negative::292",
+  "argv": [
+   "--num",
+   "3",
+   "--count-by=-1",
+   "--",
+   "echo",
+   "$COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_empty_item::293",
+  "argv": [
+   "--for",
+   "a,,c",
+   "--",
+   "echo",
+   "x$ITEMx"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_match_empty_pattern::294",
+  "argv": [
+   "--num",
+   "2",
+   "--until-match",
+   ".*",
+   "--",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_contains_empty_string::295",
+  "argv": [
+   "--num",
+   "2",
+   "--until-contains",
+   "",
+   "--",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_command_string::296",
+  "argv": [
+   "--num",
+   "1",
+   "--",
+   "sh",
+   "-c",
+   "echo A && echo B"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_exit_code::297",
+  "argv": [
+   "--num",
+   "1",
+   "--",
+   "sh",
+   "-c",
+   "exit 42"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_flags_long_form::298",
+  "argv": [
+   "--num",
+   "2",
+   "--count-by",
+   "1",
+   "--offset",
+   "0",
+   "--every",
+   "1ms",
+   "--only-last",
+   "--summary",
+   "--",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_flags_where_available::299",
+  "argv": [
+   "-n",
+   "2",
+   "-b",
+   "1",
+   "-o",
+   "0",
+   "-e",
+   "1ms",
+   "-l",
+   "--",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_with_until_match::300",
+  "argv": [
+   "--for",
+   "cat,dog,bird,fish",
+   "--until-match",
+   "bir.*",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_num_float_value::301",
+  "argv": [
+   "--num",
+   "2.5",
+   "--",
+   "echo",
+   "x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_by_scientific_notation::302",
+  "argv": [
+   "--num",
+   "2",
+   "--count-by",
+   "1e1",
+   "--",
+   "echo",
+   "$COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_every_with_compound_duration::303",
+  "argv": [
+   "--num",
+   "2",
+   "--every",
+   "1s500ms",
+   "--",
+   "echo",
+   "x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_duration_short::304",
+  "argv": [
+   "--for-duration",
+   "1us",
+   "--",
+   "echo",
+   "x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combination_of_many_flags::305",
+  "argv": [
+   "--num",
+   "3",
+   "--count-by",
+   "2",
+   "--offset",
+   "10",
+   "--every",
+   "5ms",
+   "--summary",
+   "--",
+   "echo",
+   "$COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_comma_separated::306",
+  "argv": [
+   "--for",
+   "red,green,blue",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_with_spaces::307",
+  "argv": [
+   "--for",
+   "one two three",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_single_item::308",
+  "argv": [
+   "--for",
+   "solo",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_empty_string::309",
+  "argv": [
+   "--for",
+   "a,,b",
+   "--",
+   "echo",
+   "x:$ITEM:x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_item_with_count::310",
+  "argv": [
+   "--for",
+   "a,b,c",
+   "--",
+   "echo",
+   "$COUNT:$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_overrides_count::311",
+  "argv": [
+   "--for",
+   "x,y",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_with_special_characters::312",
+  "argv": [
+   "--for",
+   "hello world,test-123,foo_bar",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_with_numbers::313",
+  "argv": [
+   "--for",
+   "1,2,3",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_with_count_by::314",
+  "argv": [
+   "--for",
+   "a,b,c",
+   "--count-by",
+   "10",
+   "--",
+   "echo",
+   "$COUNT:$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_with_offset::315",
+  "argv": [
+   "--for",
+   "x,y",
+   "--offset",
+   "5",
+   "--",
+   "echo",
+   "$COUNT:$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_num_iterations::316",
+  "argv": [
+   "--num",
+   "7",
+   "--",
+   "echo",
+   "x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_num_zero::317",
+  "argv": [
+   "--num",
+   "0",
+   "--",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_num_one::318",
+  "argv": [
+   "--num",
+   "1",
+   "--",
+   "echo",
+   "once"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_every_with_various_units::319",
+  "argv": [
+   "--num",
+   "2",
+   "--every",
+   "1us",
+   "--",
+   "echo",
+   "fast"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_duration_basic::320",
+  "argv": [
+   "--every",
+   "50ms",
+   "--for-duration",
+   "200ms",
+   "--",
+   "echo",
+   "timed"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_duration_with_error_flag::321",
+  "argv": [
+   "--every",
+   "50ms",
+   "--for-duration",
+   "100ms",
+   "--error-duration",
+   "--",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_duration_without_error_flag::322",
+  "argv": [
+   "--every",
+   "50ms",
+   "--for-duration",
+   "100ms",
+   "--",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_num_with_for_items::323",
+  "argv": [
+   "--for",
+   "a,b,c",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_infinite_loop_with_num_override::324",
+  "argv": [
+   "--num",
+   "2",
+   "--",
+   "echo",
+   "limited"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_only_last_basic::325",
+  "argv": [
+   "--num",
+   "5",
+   "--only-last",
+   "--",
+   "echo",
+   "$COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_only_last_with_for::326",
+  "argv": [
+   "--for",
+   "a,b,c,d",
+   "--only-last",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_only_last_multiline_output::327",
+  "argv": [
+   "--num",
+   "3",
+   "--only-last",
+   "--",
+   "sh",
+   "-c",
+   "echo line1; echo line2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_only_last_with_until_contains::328",
+  "argv": [
+   "--for",
+   "1,2,stop,4",
+   "--only-last",
+   "--until-contains",
+   "stop",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_summary_all_success::329",
+  "argv": [
+   "--num",
+   "5",
+   "--summary",
+   "--",
+   "true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_summary_mixed_results::330",
+  "argv": [
+   "--for",
+   "true,false,true,false",
+   "--summary",
+   "--",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_summary_format::331",
+  "argv": [
+   "--num",
+   "2",
+   "--summary",
+   "--",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_summary_with_exit_codes::332",
+  "argv": [
+   "--for",
+   "true,false,true",
+   "--summary",
+   "--",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_summary_with_until_success::333",
+  "argv": [
+   "--for",
+   "false,false,true,false",
+   "--until-success",
+   "--summary",
+   "--",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_summary_no_output_lines::334",
+  "argv": [
+   "--num",
+   "2",
+   "--summary",
+   "--",
+   "echo",
+   "regular"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_with_word_boundaries::335",
+  "argv": [
+   "--for",
+   "hello,helloworld,ello,oh",
+   "--until-match",
+   "\\bhello\\b",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_with_quantifiers::336",
+  "argv": [
+   "--for",
+   "a,aa,aaa,b",
+   "--until-match",
+   "a+",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_with_ranges::337",
+  "argv": [
+   "--for",
+   "a1,b2,c3,de",
+   "--until-match",
+   "[a-c][1-3]",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_with_negation::338",
+  "argv": [
+   "--for",
+   "a1,a2,ab,ac",
+   "--until-match",
+   "a[^0-9]",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_with_dot_wildcard::339",
+  "argv": [
+   "--for",
+   "abc,a c,a1c,aXc",
+   "--until-match",
+   "a.c",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_multiline_mode::340",
+  "argv": [
+   "--num",
+   "3",
+   "--until-match",
+   "test$",
+   "--",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_with_escapes::341",
+  "argv": [
+   "--for",
+   "a.b,a*b,a+b,axb",
+   "--until-match",
+   "a\\.b",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_with_digit_class::342",
+  "argv": [
+   "--for",
+   "test,test1,test12,abc",
+   "--until-match",
+   "test\\d",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_with_whitespace_class::343",
+  "argv": [
+   "--for",
+   "test,test space,testspace",
+   "--until-match",
+   "test\\s",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_with_word_class::344",
+  "argv": [
+   "--for",
+   "123,abc,a1b,___",
+   "--until-match",
+   "\\w+",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_case_insensitive_workaround::345",
+  "argv": [
+   "--for",
+   "test,Test,TEST,other",
+   "--until-match",
+   "[Tt][Ee][Ss][Tt]",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_with_pipe_alternation::346",
+  "argv": [
+   "--for",
+   "cat,dog,bird,fish",
+   "--until-match",
+   "bird|fish|frog",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_with_groups_noncapturing::347",
+  "argv": [
+   "--for",
+   "hello,helloworld,world",
+   "--until-match",
+   "(?:hello)?world",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_greedy_vs_nongreedy::348",
+  "argv": [
+   "--for",
+   "aaa,aaaa,b",
+   "--until-match",
+   "a{3,}",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_exact_count::349",
+  "argv": [
+   "--for",
+   "aa,aaa,aaaa,a",
+   "--until-match",
+   "a{3}",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_range_quantifier::350",
+  "argv": [
+   "--for",
+   "a,aa,aaa,aaaa,aaaaa",
+   "--until-match",
+   "a{2,4}",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_unicode_support::351",
+  "argv": [
+   "--for",
+   "hello,café,test,世界",
+   "--until-match",
+   "世界",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_empty_match::352",
+  "argv": [
+   "--num",
+   "2",
+   "--until-match",
+   "a*",
+   "--",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_contains_substring_search::353",
+  "argv": [
+   "--for",
+   "prefix,middle,suffix",
+   "--until-contains",
+   "fix",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_contains_multiword::354",
+  "argv": [
+   "--num",
+   "5",
+   "--until-contains",
+   "iteration 3",
+   "--",
+   "echo",
+   "iteration $COUNT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_beginning_of_string::355",
+  "argv": [
+   "--for",
+   "start,nostart,startx",
+   "--until-match",
+   "^start",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_end_of_string::356",
+  "argv": [
+   "--for",
+   "xend,end,endx",
+   "--until-match",
+   "end$",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_nested_regex::357",
+  "argv": [
+   "--for",
+   "a1b,a2b,axb,ayb",
+   "--until-match",
+   "a[0-9xy]b",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_with_backreferences::358",
+  "argv": [
+   "--for",
+   "abab,abcd,aaaa,test",
+   "--until-match",
+   "(ab)+",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_flag_with_input::359",
+  "argv": [
+   "--stdin",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_without_flag_detects_pipe::360",
+  "argv": [
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": "auto1\nauto2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_single_line::361",
+  "argv": [
+   "--stdin",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": "single",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_count::362",
+  "argv": [
+   "--stdin",
+   "--",
+   "echo",
+   "$COUNT:$ITEM"
+  ],
+  "stdin": "a\nb\nc\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_multiline_values::363",
+  "argv": [
+   "--stdin",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": "hello world\ntest 123\nfoo-bar\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_count_by::364",
+  "argv": [
+   "--stdin",
+   "--count-by",
+   "5",
+   "--",
+   "echo",
+   "$COUNT:$ITEM"
+  ],
+  "stdin": "x\ny\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_until_contains::365",
+  "argv": [
+   "--stdin",
+   "--until-contains",
+   "stop",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": "continue\ncontinue\nstop here\nafter\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_windows_line_endings::366",
+  "argv": [
+   "--stdin",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": "dos\r\nunix\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_special_chars::367",
+  "argv": [
+   "--stdin",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": "dollar$sign\nstar*\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_error_specific_code_matches_exit_1::368",
+  "argv": [
+   "--for",
+   "true,true,false,true",
+   "--until-error=1",
+   "--summary",
+   "--",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_error_code_matching_immediately::369",
+  "argv": [
+   "--num",
+   "10",
+   "--until-error=1",
+   "--summary",
+   "--",
+   "false"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_error_code_never_matches::370",
+  "argv": [
+   "--num",
+   "3",
+   "--until-error=5",
+   "--summary",
+   "--",
+   "false"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_error_any_matches_failure::371",
+  "argv": [
+   "--for",
+   "true,true,false",
+   "--until-error=any",
+   "--summary",
+   "--",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_error_with_success_first::372",
+  "argv": [
+   "--num",
+   "10",
+   "--until-error=1",
+   "--",
+   "true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_error_combined_with_for::373",
+  "argv": [
+   "--for",
+   "true,false",
+   "--until-error=1",
+   "--",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_contains_basic::374",
+  "argv": [
+   "--for",
+   "apple,banana,cherry,date",
+   "--until-contains",
+   "cherry",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_contains_first_match::375",
+  "argv": [
+   "--for",
+   "no,no,YES,no",
+   "--until-contains",
+   "YES",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_contains_case_sensitive::376",
+  "argv": [
+   "--for",
+   "test,Test,TEST",
+   "--until-contains",
+   "TEST",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_contains_partial_match::377",
+  "argv": [
+   "--for",
+   "abc,defgh,ijklmno",
+   "--until-contains",
+   "lmn",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_match_regex::378",
+  "argv": [
+   "--for",
+   "test1,test2,test123,test4",
+   "--until-match",
+   "test[0-9]{3}",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_match_complex_regex::379",
+  "argv": [
+   "--for",
+   "a,ab,abc,abcd",
+   "--until-match",
+   "^abc",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_success_with_echo::380",
+  "argv": [
+   "--num",
+   "5",
+   "--until-success",
+   "--",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_fail_stops_on_nonzero_exit::381",
+  "argv": [
+   "--for",
+   "true,true,false,true",
+   "--until-fail",
+   "--",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_fail_with_failing_command::382",
+  "argv": [
+   "--num",
+   "5",
+   "--until-fail",
+   "--",
+   "false"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_error_any::383",
+  "argv": [
+   "--for",
+   "true,true,false,true",
+   "--until-error=any",
+   "--",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_error_specific_code::384",
+  "argv": [
+   "--num",
+   "3",
+   "--until-error=127",
+   "--",
+   "sh",
+   "-c",
+   "exit 127"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_changes_basic::385",
+  "argv": [
+   "--for",
+   "same,same,different,more",
+   "--until-changes",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_changes_numeric::386",
+  "argv": [
+   "--for",
+   "1,1,1,2,3",
+   "--until-changes",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_same_basic::387",
+  "argv": [
+   "--for",
+   "a,b,c,d,d,e",
+   "--until-same",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_same_immediate::388",
+  "argv": [
+   "--for",
+   "x,x,y",
+   "--until-same",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_until_conditions::389",
+  "argv": [
+   "--for",
+   "a,b,c,d,e",
+   "--until-contains",
+   "c",
+   "--until-success",
+   "--",
+   "echo",
+   "$ITEM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_explicit_flag::390",
+  "argv": [
+   "--stdin",
+   "--",
+   "printenv",
+   "ITEM"
+  ],
+  "stdin": "apple\nbanana\ncherry\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_automatic_detection::391",
+  "argv": [
+   "--",
+   "printenv",
+   "ITEM"
+  ],
+  "stdin": "red\ngreen\nblue\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_count_variable::392",
+  "argv": [
+   "--",
+   "printenv",
+   "COUNT"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_num_overrun::393",
+  "argv": [
+   "--num",
+   "5",
+   "--",
+   "printenv",
+   "ITEM"
+  ],
+  "stdin": "a\nb\nc\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_empty_line_preserved::394",
+  "argv": [
+   "--",
+   "printenv",
+   "ITEM"
+  ],
+  "stdin": "a\n\nb",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_single_item_with_num::395",
+  "argv": [
+   "--num",
+   "3",
+   "--stdin",
+   "--",
+   "printenv",
+   "ITEM"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_without_trailing_newline::396",
+  "argv": [
+   "--",
+   "printenv",
+   "ITEM"
+  ],
+  "stdin": "no-trailing-newline",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_counter_with_stdin::397",
+  "argv": [
+   "--stdin",
+   "--",
+   "echo",
+   "$ACTUALCOUNT:$COUNT:$ITEM"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_count_by_and_offset::398",
+  "argv": [
+   "--stdin",
+   "--count-by",
+   "10",
+   "--offset",
+   "5",
+   "--",
+   "echo",
+   "$ACTUALCOUNT:$COUNT:$ITEM"
+  ],
+  "stdin": "a\nb\nc\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

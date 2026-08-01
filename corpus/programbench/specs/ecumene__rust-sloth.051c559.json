@@ -1,0 +1,2819 @@
+{
+ "slug": "ecumene__rust-sloth.051c559",
+ "language": "",
+ "n_branches": 11,
+ "n_tests_total": 426,
+ "n_examples": 136,
+ "n_with_exact_stdout": 0,
+ "n_with_rc": 124,
+ "n_skipped": 262,
+ "examples": [
+  {
+   "test": "test_no_args_shows_usage_and_nonzero",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:8"
+  },
+  {
+   "test": "test_image_missing_required_width",
+   "argv": [
+    "models/Pikachu.obj",
+    "image",
+    "-h",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE",
+    "-w"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:23"
+  },
+  {
+   "test": "test_nonexistent_input_panics_with_101",
+   "argv": [
+    "not_a_file.obj",
+    "image",
+    "-w",
+    "10",
+    "-h",
+    "5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 101,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "panicked",
+    "called `Result::unwrap()`"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:45"
+  },
+  {
+   "test": "test_help_exact",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_version.py:6"
+  },
+  {
+   "test": "test_image_help_exact",
+   "argv": [
+    "image",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_version.py:33"
+  },
+  {
+   "test": "test_version",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_version.py:58"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:",
+    "Sloth",
+    "Mitchell Hynes",
+    "FLAGS:",
+    "OPTIONS:",
+    "ARGS:",
+    "SUBCOMMANDS:",
+    "input filename(s)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:20"
+  },
+  {
+   "test": "test_help_flag_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:",
+    "Sloth"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:33"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Sloth",
+    "0.1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:40"
+  },
+  {
+   "test": "test_version_flag_short",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Sloth",
+    "0.1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:48"
+  },
+  {
+   "test": "test_help_subcommand",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:",
+    "Sloth"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:63"
+  },
+  {
+   "test": "test_image_help",
+   "argv": [
+    "image",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:",
+    "image",
+    "-w <width>",
+    "-h <height>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:70"
+  },
+  {
+   "test": "test_no_color_flag_main",
+   "argv": [
+    "models/cube.obj",
+    "-b",
+    "image",
+    "-w",
+    "10",
+    "-h",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_color_modes.py:19"
+  },
+  {
+   "test": "test_no_color_flag_image",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "10",
+    "-h",
+    "10",
+    "-b"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_color_modes.py:27"
+  },
+  {
+   "test": "test_default_color_rendering",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "10",
+    "-h",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_color_modes.py:33"
+  },
+  {
+   "test": "test_color_with_obj_materials",
+   "argv": [
+    "models/Pikachu.obj",
+    "image",
+    "-w",
+    "20",
+    "-h",
+    "20"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "38;2;"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_color_modes.py:40"
+  },
+  {
+   "test": "test_stl_default_yellow",
+   "argv": [
+    "models/cube.stl",
+    "image",
+    "-w",
+    "30",
+    "-h",
+    "30",
+    "-x",
+    "0.7",
+    "-y",
+    "0.5",
+    "-z",
+    "0.3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "38;2;255;255;0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_color_modes.py:51"
+  },
+  {
+   "test": "test_missing_file_error_message",
+   "argv": [
+    "does_not_exist.obj",
+    "image",
+    "-w",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "does_not_exist.obj"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:50"
+  },
+  {
+   "test": "test_corrupted_obj_file",
+   "argv": [
+    "image",
+    "-w",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:70"
+  },
+  {
+   "test": "test_image_with_width_only",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_image_mode.py:18"
+  },
+  {
+   "test": "test_image_with_width_and_height",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "15",
+    "-h",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_image_mode.py:26"
+  },
+  {
+   "test": "test_image_small_dimensions",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "5",
+    "-h",
+    "5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_image_mode.py:38"
+  },
+  {
+   "test": "test_image_large_dimensions",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "50",
+    "-h",
+    "50"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_image_mode.py:46"
+  },
+  {
+   "test": "test_image_rectangular",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "20",
+    "-h",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_image_mode.py:53"
+  },
+  {
+   "test": "test_image_tall",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "10",
+    "-h",
+    "20"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_image_mode.py:59"
+  },
+  {
+   "test": "test_image_ascii_shading",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "20",
+    "-h",
+    "20"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_image_mode.py:65"
+  },
+  {
+   "test": "test_multiple_files",
+   "argv": [
+    "models/cube.obj models/suzy.obj",
+    "image",
+    "-w",
+    "15",
+    "-h",
+    "15"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_files.py:41"
+  },
+  {
+   "test": "test_nonexistent_file",
+   "argv": [
+    "nonexistent_file.obj",
+    "image",
+    "-w",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "nonexistent_file.obj"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_files.py:49"
+  },
+  {
+   "test": "test_complex_obj_file",
+   "argv": [
+    "models/skull.obj",
+    "image",
+    "-w",
+    "20",
+    "-h",
+    "20"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_files.py:83"
+  },
+  {
+   "test": "test_stl_part_file",
+   "argv": [
+    "models/part.stl",
+    "image",
+    "-w",
+    "30",
+    "-h",
+    "30",
+    "-x",
+    "0.7",
+    "-y",
+    "0.5",
+    "-z",
+    "0.3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "38;2;255;255;0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_files.py:91"
+  },
+  {
+   "test": "test_yaw_rotation_short",
+   "argv": [
+    "models/cube.obj",
+    "-x",
+    "1.57",
+    "image",
+    "-w",
+    "10",
+    "-h",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rotation_flags.py:18"
+  },
+  {
+   "test": "test_yaw_rotation_long",
+   "argv": [
+    "models/cube.obj",
+    "--yaw",
+    "1.57",
+    "image",
+    "-w",
+    "10",
+    "-h",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rotation_flags.py:26"
+  },
+  {
+   "test": "test_pitch_rotation_short",
+   "argv": [
+    "models/cube.obj",
+    "-y",
+    "0.785",
+    "image",
+    "-w",
+    "10",
+    "-h",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rotation_flags.py:32"
+  },
+  {
+   "test": "test_pitch_rotation_long",
+   "argv": [
+    "models/cube.obj",
+    "--pitch",
+    "0.5",
+    "image",
+    "-w",
+    "10",
+    "-h",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rotation_flags.py:40"
+  },
+  {
+   "test": "test_roll_rotation_short",
+   "argv": [
+    "models/cube.obj",
+    "-z",
+    "0.5",
+    "image",
+    "-w",
+    "10",
+    "-h",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rotation_flags.py:46"
+  },
+  {
+   "test": "test_roll_rotation_long",
+   "argv": [
+    "models/cube.obj",
+    "--roll",
+    "1.0",
+    "image",
+    "-w",
+    "10",
+    "-h",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rotation_flags.py:52"
+  },
+  {
+   "test": "test_combined_rotations",
+   "argv": [
+    "models/cube.obj",
+    "-x",
+    "0.5",
+    "-y",
+    "0.5",
+    "-z",
+    "0.5",
+    "image",
+    "-w",
+    "10",
+    "-h",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rotation_flags.py:58"
+  },
+  {
+   "test": "test_rotation_in_image_subcommand",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "10",
+    "-x",
+    "1.0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rotation_flags.py:67"
+  },
+  {
+   "test": "test_negative_rotation_long_flag",
+   "argv": [
+    "models/cube.obj",
+    "--yaw=-1.57",
+    "image",
+    "-w",
+    "10",
+    "-h",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rotation_flags.py:73"
+  },
+  {
+   "test": "test_zero_rotation",
+   "argv": [
+    "models/cube.obj",
+    "-x",
+    "0",
+    "-y",
+    "0",
+    "-z",
+    "0",
+    "image",
+    "-w",
+    "10",
+    "-h",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rotation_flags.py:81"
+  },
+  {
+   "test": "test_large_rotation",
+   "argv": [
+    "models/cube.obj",
+    "-x",
+    "6.28",
+    "image",
+    "-w",
+    "10",
+    "-h",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rotation_flags.py:88"
+  },
+  {
+   "test": "test_rotation_affects_webify",
+   "argv": [
+    "models/cube.obj",
+    "-x",
+    "0",
+    "image",
+    "-w",
+    "8",
+    "-h",
+    "8",
+    "-j",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "let frames = [",
+    "let frames = ["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rotation_flags.py:94"
+  },
+  {
+   "test": "test_webify_basic",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "5",
+    "-h",
+    "5",
+    "-j",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "let frames = ["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_webify_mode.py:19"
+  },
+  {
+   "test": "test_webify_frame_count",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "5",
+    "-h",
+    "5",
+    "-j",
+    "3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_webify_mode.py:30"
+  },
+  {
+   "test": "test_webify_html_spans",
+   "argv": [
+    "models/cube.stl",
+    "image",
+    "-w",
+    "5",
+    "-h",
+    "5",
+    "-j",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<span style=",
+    "color:rgb(",
+    ">"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_webify_mode.py:39"
+  },
+  {
+   "test": "test_webify_rgb_colors",
+   "argv": [
+    "models/cube.stl",
+    "image",
+    "-w",
+    "5",
+    "-h",
+    "5",
+    "-j",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "rgb("
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_webify_mode.py:49"
+  },
+  {
+   "test": "test_webify_long_flag",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "5",
+    "-h",
+    "5",
+    "--webify",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "let frames = ["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_webify_mode.py:58"
+  },
+  {
+   "test": "test_webify_single_frame",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "5",
+    "-h",
+    "5",
+    "-j",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "let frames = [",
+    "`"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_webify_mode.py:65"
+  },
+  {
+   "test": "test_webify_rotation_animation",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "8",
+    "-h",
+    "8",
+    "-j",
+    "4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_webify_mode.py:72"
+  },
+  {
+   "test": "test_webify_output_format",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "5",
+    "-h",
+    "5",
+    "-j",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_webify_mode.py:83"
+  },
+  {
+   "test": "test_ignores_unknown_env_vars_does_not_crash",
+   "argv": [
+    "image",
+    "-w",
+    "8",
+    "-h",
+    "6"
+   ],
+   "stdin": null,
+   "env": {
+    "SLOTH_CONFIG": "1",
+    "NO_COLOR": "1"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env_handling.py:27"
+  },
+  {
+   "test": "test_no_color_flag_changes_output_compared_to_default",
+   "argv": [
+    "image",
+    "-w",
+    "8",
+    "-h",
+    "6"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env_handling.py:60"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Sloth",
+    "Mitchell Hynes",
+    "USAGE:",
+    "FLAGS:",
+    "OPTIONS:",
+    "ARGS:",
+    "<input filename(s)>",
+    "SUBCOMMANDS:",
+    "image"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:12"
+  },
+  {
+   "test": "test_help_flag_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Sloth",
+    "USAGE:",
+    "<input filename(s)>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:26"
+  },
+  {
+   "test": "test_image_subcommand_help",
+   "argv": [
+    "image",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Generates a colorless terminal output",
+    "USAGE:",
+    "-w",
+    "width",
+    "-h",
+    "height",
+    "-j",
+    "webify"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:49"
+  },
+  {
+   "test": "test_help_subcommand",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Sloth",
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:62"
+  },
+  {
+   "test": "test_extremely_small_width",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:5"
+  },
+  {
+   "test": "test_extremely_small_width_and_height",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "1",
+    "-h",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:11"
+  },
+  {
+   "test": "test_very_large_width",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "200",
+    "-h",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:31"
+  },
+  {
+   "test": "test_stl_with_rotations",
+   "argv": [
+    "models/cube.stl",
+    "image",
+    "-w",
+    "10",
+    "-x",
+    "1.5",
+    "-y",
+    "0.5",
+    "-z",
+    "0.3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:37"
+  },
+  {
+   "test": "test_stl_with_no_color",
+   "argv": [
+    "models/cube.stl",
+    "image",
+    "-w",
+    "10",
+    "-b"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:45"
+  },
+  {
+   "test": "test_multiple_stl_files",
+   "argv": [
+    "models/cube.stl models/part.stl",
+    "image",
+    "-w",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:51"
+  },
+  {
+   "test": "test_obj_with_materials",
+   "argv": [
+    "models/Pikachu.obj",
+    "image",
+    "-w",
+    "20",
+    "-h",
+    "20"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:57"
+  },
+  {
+   "test": "test_complex_obj_with_rotations",
+   "argv": [
+    "models/skull.obj",
+    "image",
+    "-w",
+    "15",
+    "-x",
+    "0.5",
+    "-y",
+    "1.0",
+    "-z",
+    "0.2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:66"
+  },
+  {
+   "test": "test_webify_with_no_color",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "8",
+    "-j",
+    "2",
+    "-b"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "let frames = [",
+    "`];"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:72"
+  },
+  {
+   "test": "test_webify_large_frame_count",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "8",
+    "-j",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "let frames = [",
+    "`];"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:81"
+  },
+  {
+   "test": "test_rectangular_output",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "30",
+    "-h",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:92"
+  },
+  {
+   "test": "test_very_tall_output",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "10",
+    "-h",
+    "40"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:101"
+  },
+  {
+   "test": "test_rotation_combined_with_no_color",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "10",
+    "-x",
+    "1.0",
+    "-b"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:109"
+  },
+  {
+   "test": "test_all_flags_combined",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "15",
+    "-h",
+    "12",
+    "-x",
+    "1.0",
+    "-y",
+    "0.5",
+    "-z",
+    "0.3",
+    "-b"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:115"
+  },
+  {
+   "test": "test_webify_with_all_rotations",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "10",
+    "-j",
+    "3",
+    "-x",
+    "1.5",
+    "-y",
+    "0.7",
+    "-z",
+    "0.2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "let frames = [",
+    "`];",
+    "<span style=\"color:rgb("
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:123"
+  },
+  {
+   "test": "test_different_obj_models",
+   "argv": [
+    "image",
+    "-w",
+    "12"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:133"
+  },
+  {
+   "test": "test_obj_and_stl_mixed",
+   "argv": [
+    "models/cube.obj models/cube.stl",
+    "image",
+    "-w",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:144"
+  },
+  {
+   "test": "test_image_mode_basic",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "20"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_image_mode.py:6"
+  },
+  {
+   "test": "test_image_mode_width_and_height",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "20",
+    "-h",
+    "15"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_image_mode.py:17"
+  },
+  {
+   "test": "test_image_mode_no_color",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "10",
+    "-b"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_image_mode.py:35"
+  },
+  {
+   "test": "test_image_mode_large_size",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "50",
+    "-h",
+    "30"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_image_mode.py:71"
+  },
+  {
+   "test": "test_image_mode_with_rotations",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "10",
+    "-x",
+    "1.5",
+    "-y",
+    "0.5",
+    "-z",
+    "0.3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_image_mode.py:79"
+  },
+  {
+   "test": "test_image_mode_different_models",
+   "argv": [
+    "image",
+    "-w",
+    "15"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_image_mode.py:87"
+  },
+  {
+   "test": "test_single_stl_file",
+   "argv": [
+    "models/cube.stl",
+    "image",
+    "-w",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_handling.py:18"
+  },
+  {
+   "test": "test_complex_obj_file",
+   "argv": [
+    "models/Pikachu.obj",
+    "image",
+    "-w",
+    "15"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_handling.py:28"
+  },
+  {
+   "test": "test_multiple_obj_files",
+   "argv": [
+    "models/cube.obj models/cube.obj",
+    "image",
+    "-w",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_handling.py:37"
+  },
+  {
+   "test": "test_nonexistent_file",
+   "argv": [
+    "models/nonexistent.obj",
+    "image",
+    "-w",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "filename:",
+    "nonexistent.obj"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_handling.py:46"
+  },
+  {
+   "test": "test_colored_output_default",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:5"
+  },
+  {
+   "test": "test_no_color_flag_top_level",
+   "argv": [
+    "models/cube.obj",
+    "-b",
+    "image",
+    "-w",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:27"
+  },
+  {
+   "test": "test_no_color_flag_image_level",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-b",
+    "-w",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:33"
+  },
+  {
+   "test": "test_webify_html_format",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "10",
+    "-j",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<span style=\"color:rgb(",
+    "span"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:39"
+  },
+  {
+   "test": "test_webify_rgb_values",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "10",
+    "-j",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:77"
+  },
+  {
+   "test": "test_rotation_x_yaw",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "10",
+    "-x",
+    "1.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rotations.py:5"
+  },
+  {
+   "test": "test_rotation_x_long_flag",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "10",
+    "--yaw",
+    "1.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rotations.py:13"
+  },
+  {
+   "test": "test_rotation_y_pitch",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "10",
+    "-y",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rotations.py:19"
+  },
+  {
+   "test": "test_rotation_y_long_flag",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "10",
+    "--pitch",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rotations.py:27"
+  },
+  {
+   "test": "test_rotation_z_roll",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "10",
+    "-z",
+    "0.3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rotations.py:33"
+  },
+  {
+   "test": "test_rotation_z_long_flag",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "10",
+    "--roll",
+    "0.3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rotations.py:41"
+  },
+  {
+   "test": "test_rotation_all_axes",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "10",
+    "-x",
+    "1.0",
+    "-y",
+    "0.5",
+    "-z",
+    "0.3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rotations.py:47"
+  },
+  {
+   "test": "test_rotation_zero",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "10",
+    "-x",
+    "0",
+    "-y",
+    "0",
+    "-z",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rotations.py:62"
+  },
+  {
+   "test": "test_rotation_large_values",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "10",
+    "-x",
+    "6.28",
+    "-y",
+    "3.14"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rotations.py:68"
+  },
+  {
+   "test": "test_rotation_decimal_precision",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "10",
+    "-x",
+    "1.5707963",
+    "-y",
+    "0.7853982"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rotations.py:92"
+  },
+  {
+   "test": "test_rotation_very_small_values",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "10",
+    "-x",
+    "0.001",
+    "-y",
+    "0.0001"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rotations.py:98"
+  },
+  {
+   "test": "test_webify_basic",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "10",
+    "-j",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "let frames = [",
+    "`];"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_webify_mode.py:6"
+  },
+  {
+   "test": "test_webify_multiple_frames",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "10",
+    "-j",
+    "5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "let frames = [",
+    "`];"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_webify_mode.py:19"
+  },
+  {
+   "test": "test_webify_html_span_output",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "10",
+    "-j",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<span style=\"color:rgb("
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_webify_mode.py:31"
+  },
+  {
+   "test": "test_webify_with_dimensions",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "15",
+    "-h",
+    "10",
+    "-j",
+    "3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "let frames = [",
+    "`];",
+    "<span style=\"color:rgb("
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_webify_mode.py:41"
+  },
+  {
+   "test": "test_webify_with_rotations",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "10",
+    "-j",
+    "2",
+    "-x",
+    "1.0",
+    "-y",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "let frames = [",
+    "`];"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_webify_mode.py:50"
+  },
+  {
+   "test": "test_webify_single_frame",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "10",
+    "-j",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "let frames = [",
+    "`];"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_webify_mode.py:58"
+  },
+  {
+   "test": "test_webify_output_structure",
+   "argv": [
+    "models/cube.obj",
+    "image",
+    "-w",
+    "8",
+    "-j",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_webify_mode.py:72"
+  },
+  {
+   "test": "test_subcommand_has_help_route",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:",
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:69"
+  },
+  {
+   "test": "test_help_subcommand_routes_to_image_help",
+   "argv": [
+    "help",
+    "image"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-w <width>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:85"
+  },
+  {
+   "test": "test_global_flags_can_appear_before_or_after_subcommand",
+   "argv": [
+    "--yaw",
+    "0",
+    "image",
+    "-w",
+    "5",
+    "-h",
+    "3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:121"
+  },
+  {
+   "test": "test_missing_required_positional_input_files",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<input filename(s)>..."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:46"
+  },
+  {
+   "test": "test_help_subcommand_recognized",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:47"
+  },
+  {
+   "test": "test_image_subcommand_recognized",
+   "argv": [
+    "image",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "image"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:53"
+  },
+  {
+   "test": "test_help_with_subcommand",
+   "argv": [
+    "help",
+    "image"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "image"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:59"
+  },
+  {
+   "test": "test_main_help",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:",
+    "SUBCOMMANDS:",
+    "image"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:69"
+  },
+  {
+   "test": "test_image_help_differs_from_main",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "image"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:77"
+  },
+  {
+   "test": "test_global_flag_b_before_subcommand",
+   "argv": [
+    "-b",
+    "image",
+    "-w",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:104"
+  },
+  {
+   "test": "test_global_rotation_flags",
+   "argv": [
+    "-x",
+    "1.5",
+    "image",
+    "-w",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:116"
+  },
+  {
+   "test": "test_image_with_width_and_height",
+   "argv": [
+    "image",
+    "-w",
+    "10",
+    "-h",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:150"
+  },
+  {
+   "test": "test_image_with_webify_option",
+   "argv": [
+    "image",
+    "-w",
+    "10",
+    "-j",
+    "5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:156"
+  },
+  {
+   "test": "test_image_subcommand_b_flag",
+   "argv": [
+    "image",
+    "-w",
+    "10",
+    "-b"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:161"
+  },
+  {
+   "test": "test_help_flag_variations",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:",
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:225"
+  },
+  {
+   "test": "test_image_with_rotation_flags",
+   "argv": [
+    "image",
+    "-w",
+    "10",
+    "-x",
+    "1.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:268"
+  },
+  {
+   "test": "test_help_without_args",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:296"
+  },
+  {
+   "test": "test_help_for_image",
+   "argv": [
+    "help",
+    "image"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "image",
+    "width"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:302"
+  },
+  {
+   "test": "test_image_help_contains_usage_header",
+   "argv": [
+    "image",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_image.py:35"
+  },
+  {
+   "test": "test_image_help_has_description_line",
+   "argv": [
+    "image",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Generates a colorless terminal output as lines of text"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_image.py:75"
+  },
+  {
+   "test": "test_help_subcommand_equivalent_to_image_dash_help",
+   "argv": [
+    "image",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Generates a colorless terminal output as lines of text",
+    "Generates a colorless terminal output as lines of text"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_image.py:85"
+  },
+  {
+   "test": "test_help_takes_precedence_over_unknown_args_and_exits_zero",
+   "argv": [
+    "--help",
+    "foo"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:115"
+  },
+  {
+   "test": "test_nonexistent_input_panics_with_rc_101_and_message",
+   "argv": [
+    "does_not_exist.obj",
+    "image",
+    "-w",
+    "5",
+    "-h",
+    "5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 101,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "panicked",
+    "couldn't load"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:6"
+  },
+  {
+   "test": "test_interactive_mode_requires_tty_and_errors_without_one",
+   "argv": [
+    "-b"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Inappropriate ioctl for device"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:14"
+  },
+  {
+   "test": "test_help_exit_code_and_mentions_usage",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:",
+    "FLAGS:",
+    "SUBCOMMANDS:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_version.py:4"
+  },
+  {
+   "test": "test_image_outputs_expected_number_of_lines",
+   "argv": [
+    "image",
+    "-w",
+    "20",
+    "-h",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_image_subcommand.py:9"
+  },
+  {
+   "test": "test_image_is_colorless_with_b_flag",
+   "argv": [
+    "-b",
+    "image",
+    "-w",
+    "20",
+    "-h",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_image_subcommand.py:19"
+  },
+  {
+   "test": "test_image_has_ansi_color_by_default",
+   "argv": [
+    "image",
+    "-w",
+    "20",
+    "-h",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_image_subcommand.py:29"
+  },
+  {
+   "test": "test_image_js_output_contains_frames_declaration",
+   "argv": [
+    "image",
+    "-w",
+    "10",
+    "-h",
+    "5",
+    "-j",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<span style=\"color:rgb("
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_image_subcommand.py:35"
+  },
+  {
+   "test": "test_invalid_subcommand_yields_nonzero_and_message",
+   "argv": [
+    "nope"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Inappropriate ioctl for device"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_image_subcommand.py:45"
+  }
+ ]
+}

@@ -1,0 +1,2326 @@
+[
+ {
+  "name": "test::test_length_with_stdin::0",
+  "argv": [
+   "--length",
+   "16",
+   "-"
+  ],
+  "stdin": "stdin test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seek_with_stdin::1",
+  "argv": [
+   "--seek",
+   "5",
+   "-"
+  ],
+  "stdin": "stdin test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seek_and_length_with_stdin::2",
+  "argv": [
+   "--seek",
+   "5",
+   "--length",
+   "10",
+   "-"
+  ],
+  "stdin": "stdin test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_mmap_with_stdin::3",
+  "argv": [
+   "--no-mmap",
+   "-"
+  ],
+  "stdin": "stdin test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_empty::4",
+  "argv": [
+   "/workspace/executable",
+   "empty.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_small::5",
+  "argv": [
+   "/workspace/executable",
+   "small.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_medium_binary::6",
+  "argv": [
+   "/workspace/executable",
+   "medium.bin"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_large_2mb::7",
+  "argv": [
+   "/workspace/executable",
+   "large.bin"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_very_large_5mb::8",
+  "argv": [
+   "/workspace/executable",
+   "very_large.bin"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_files_three::9",
+  "argv": [
+   "/workspace/executable",
+   "empty.txt",
+   "small.txt",
+   "medium.bin"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_files_many::10",
+  "argv": [
+   "/workspace/executable",
+   "empty.txt",
+   "small.txt",
+   "medium.bin",
+   "large.bin",
+   "testvec_0.bin",
+   "testvec_1.bin",
+   "testvec_64.bin"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explicit_dash_for_stdin::11",
+  "argv": [
+   "-"
+  ],
+  "stdin": "stdin test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_files_and_stdin::12",
+  "argv": [
+   "/workspace/executable",
+   "small.txt",
+   "-",
+   "empty.txt"
+  ],
+  "stdin": "from stdin\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_args_reads_stdin::13",
+  "argv": [],
+  "stdin": "default stdin\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_valid_and_missing_files::14",
+  "argv": [
+   "/workspace/executable",
+   "small.txt",
+   "/nonexistent.txt",
+   "empty.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_no_names::15",
+  "argv": [
+   "/workspace/executable",
+   "--no-names",
+   "small.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_no_names_format::16",
+  "argv": [
+   "/workspace/executable",
+   "--no-names",
+   "small.txt",
+   "empty.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_tag_bsd_style::17",
+  "argv": [
+   "/workspace/executable",
+   "--tag",
+   "small.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tag_with_length::18",
+  "argv": [
+   "/workspace/executable",
+   "--tag",
+   "--length",
+   "16",
+   "small.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_length_1_byte::19",
+  "argv": [
+   "/workspace/executable",
+   "--length",
+   "1",
+   "small.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_length_16_bytes::20",
+  "argv": [
+   "/workspace/executable",
+   "--length",
+   "16",
+   "small.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_length_64_bytes::21",
+  "argv": [
+   "/workspace/executable",
+   "--length",
+   "64",
+   "small.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_length_100_bytes::22",
+  "argv": [
+   "/workspace/executable",
+   "--length",
+   "100",
+   "small.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_length_zero::23",
+  "argv": [
+   "/workspace/executable",
+   "--length",
+   "0",
+   "small.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_mmap_flag::24",
+  "argv": [
+   "/workspace/executable",
+   "--no-mmap",
+   "large.bin"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_stdin_checkfile::25",
+  "argv": [
+   "--check",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keyed_mode_with_escaped_filename::26",
+  "argv": [
+   "--keyed",
+   "key\nfile.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_length_non_numeric_value::27",
+  "argv": [
+   "--length",
+   "abc"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seek_non_numeric_value::28",
+  "argv": [
+   "--seek",
+   "abc"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_num_threads_non_numeric_value::29",
+  "argv": [
+   "--num-threads",
+   "abc"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_length_zero::30",
+  "argv": [
+   "--length",
+   "0"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_stdin_indicators::31",
+  "argv": [
+   "-",
+   "-",
+   "-"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_seek_offset::32",
+  "argv": [
+   "--seek",
+   "1000000",
+   "--length",
+   "32"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_keyed_conflict::33",
+  "argv": [
+   "--check",
+   "--keyed"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_derive_key_conflict::34",
+  "argv": [
+   "--check",
+   "--derive-key",
+   "context"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_with_check_conflict::35",
+  "argv": [
+   "--raw",
+   "--check"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keyed_mode_cannot_use_stdin_dash::36",
+  "argv": [
+   "--keyed",
+   "-"
+  ],
+  "stdin": "0123456789abcdef0123456789abcdef",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_length_conflict::37",
+  "argv": [
+   "--check",
+   "--length",
+   "16"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_no_names_conflict::38",
+  "argv": [
+   "--check",
+   "--no-names"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_with_tag_conflict::39",
+  "argv": [
+   "--check",
+   "--tag"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_with_tag_outputs_raw::40",
+  "argv": [
+   "--raw",
+   "--tag"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_length_one_byte::41",
+  "argv": [
+   "--length",
+   "1"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_length_one_hundred::42",
+  "argv": [
+   "--length",
+   "100"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_names_flag::43",
+  "argv": [
+   "--no-names"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tag_format_output::44",
+  "argv": [
+   "--tag"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_mmap_flag::45",
+  "argv": [
+   "--no-mmap"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seek_and_length_combined::46",
+  "argv": [
+   "--seek",
+   "10",
+   "--length",
+   "10"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_derive_key_basic::47",
+  "argv": [
+   "--derive-key",
+   "context string"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_derive_key_empty_context::48",
+  "argv": [
+   "--derive-key",
+   ""
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_65_bytes::49",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hash_one_tag::50",
+  "argv": [
+   "--tag"
+  ],
+  "stdin": "foo",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hash_one_raw::51",
+  "argv": [
+   "--raw"
+  ],
+  "stdin": "foo",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hash_many::52",
+  "argv": [
+   "file1",
+   "file2"
+  ],
+  "stdin": null,
+  "files": {
+   "file1": "foo",
+   "file2": "bar"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hash_many_tag::53",
+  "argv": [
+   "--tag",
+   "file1",
+   "file2"
+  ],
+  "stdin": null,
+  "files": {
+   "file1": "foo",
+   "file2": "bar"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_files::54",
+  "argv": [
+   "file1",
+   "missing_file",
+   "file2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hash_length_and_seek::55",
+  "argv": [
+   "--raw",
+   "--length=100"
+  ],
+  "stdin": "foo",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_length_without_value_is_an_error::56",
+  "argv": [
+   "--length"
+  ],
+  "stdin": "foo",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_newline_and_backslash_escaping_on_unix::57",
+  "argv": [
+   "abcdef",
+   "abc\ndef",
+   "abc\\def",
+   "abc\rdef",
+   "abc\r\ndef",
+   "subdir/foo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slash_normalization_on_windows::58",
+  "argv": [
+   "abcdef",
+   "subdir/foo",
+   "subdir\\bar"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check::59",
+  "argv": [
+   "a",
+   "b",
+   "c/d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_invalid_characters::60",
+  "argv": [
+   "--check"
+  ],
+  "stdin": "0000000000000000000000000000000000000000000000000000000000000000  \u0000",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_empty_input::61",
+  "argv": [
+   "-"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_small_input::62",
+  "argv": [
+   "-"
+  ],
+  "stdin": "test input for stdin\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_large_input::63",
+  "argv": [
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_no_args_reads_stdin::64",
+  "argv": [],
+  "stdin": "stdin default test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keyed_empty_input_matches_test_vector::65",
+  "argv": [
+   "--keyed",
+   "empty.bin"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.bin": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keyed_short_key_error::66",
+  "argv": [
+   "--keyed",
+   "input.bin"
+  ],
+  "stdin": "short key",
+  "files": {
+   "input.bin": "test data"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keyed_long_key_error::67",
+  "argv": [
+   "--keyed",
+   "input.bin"
+  ],
+  "stdin": null,
+  "files": {
+   "input.bin": "test data"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keyed_stdin_not_allowed::68",
+  "argv": [
+   "--keyed",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keyed_and_derive_key_mutually_exclusive::69",
+  "argv": [
+   "--keyed",
+   "--derive-key",
+   "test",
+   "input.bin"
+  ],
+  "stdin": null,
+  "files": {
+   "input.bin": "test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keyed_test_vector_input_len_0::70",
+  "argv": [
+   "--keyed",
+   "--length",
+   "131",
+   "input.bin"
+  ],
+  "stdin": null,
+  "files": {
+   "input.bin": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extended_output_64_bytes::71",
+  "argv": [
+   "--length",
+   "64"
+  ],
+  "stdin": "hello",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seek_offset_middle::72",
+  "argv": [
+   "--seek",
+   "16",
+   "--length",
+   "16"
+  ],
+  "stdin": "hello",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seek_offset_high_counter::73",
+  "argv": [
+   "--seek",
+   "4294967296",
+   "--length",
+   "16"
+  ],
+  "stdin": "hello",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_output::74",
+  "argv": [
+   "--raw"
+  ],
+  "stdin": "hello",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extended_output_1000_bytes::75",
+  "argv": [
+   "--length",
+   "1000"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_derive_key_mode::76",
+  "argv": [
+   "--derive-key",
+   "context-string"
+  ],
+  "stdin": "inputkey",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seek_and_length_one_byte::77",
+  "argv": [
+   "--seek",
+   "1",
+   "--length",
+   "1"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_derive_key_with_extended_length::78",
+  "argv": [
+   "--derive-key",
+   "mycontext",
+   "--length",
+   "48"
+  ],
+  "stdin": "inputkey",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seek_max_u64::79",
+  "argv": [
+   "--seek",
+   "18446744073709551615",
+   "--length",
+   "1"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_with_length_16::80",
+  "argv": [
+   "--raw",
+   "--length",
+   "16"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_with_seek_and_length::81",
+  "argv": [
+   "--raw",
+   "--seek",
+   "8",
+   "--length",
+   "8"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_large_raw_extended::82",
+  "argv": [
+   "--raw",
+   "--length",
+   "64"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_large_length_10000::83",
+  "argv": [
+   "--length",
+   "10000"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_derive_key_raw_output::84",
+  "argv": [
+   "--derive-key",
+   "test-context",
+   "--raw"
+  ],
+  "stdin": "inputkey",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_num_threads::85",
+  "argv": [
+   "--num-threads",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_derive_key_mode_with_threads::86",
+  "argv": [
+   "--derive-key",
+   "test.context.string"
+  ],
+  "stdin": "test key material for derivation",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_output_with_extended_length::87",
+  "argv": [
+   "--raw",
+   "--length",
+   "128"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seek_with_raw_output::88",
+  "argv": [
+   "--raw",
+   "--seek",
+   "64",
+   "--length",
+   "32"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_extended_length_2048_bytes::89",
+  "argv": [
+   "--length",
+   "2048"
+  ],
+  "stdin": "extended",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_large_extended_length_10k::90",
+  "argv": [
+   "--length",
+   "10240"
+  ],
+  "stdin": "very_extended",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seek_at_exact_u32_boundary::91",
+  "argv": [
+   "--seek",
+   "4294967296",
+   "--length",
+   "16"
+  ],
+  "stdin": "boundary",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_derive_key_raw_output::92",
+  "argv": [
+   "--derive-key",
+   "app.context.v1",
+   "--raw"
+  ],
+  "stdin": "material for key derivation",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_stdin_with_threads::93",
+  "argv": [
+   "--num-threads",
+   "2"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_output_extended_length::94",
+  "argv": [
+   "--raw",
+   "--length",
+   "100"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_output_with_seek_offset::95",
+  "argv": [
+   "--raw",
+   "--seek",
+   "50",
+   "--length",
+   "50"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_derive_key_mode_extended_length::96",
+  "argv": [
+   "--derive-key",
+   "my context string",
+   "--length",
+   "128"
+  ],
+  "stdin": "test data",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_empty_with_extended_length::97",
+  "argv": [
+   "--length",
+   "64"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_flags_no_mmap_threads_extended_length::98",
+  "argv": [
+   "--no-mmap",
+   "--num-threads",
+   "1",
+   "--length",
+   "48"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_output_zero_length::99",
+  "argv": [
+   "--raw",
+   "--length",
+   "0"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seek_at_chunk_boundary::100",
+  "argv": [
+   "--seek",
+   "1024",
+   "--length",
+   "32"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seek_maximum_u64_value::101",
+  "argv": [
+   "--seek",
+   "18446744073709551615",
+   "--length",
+   "32"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_large_length_output::102",
+  "argv": [
+   "--length",
+   "100000"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_derive_key_mode_empty_input::103",
+  "argv": [
+   "--derive-key",
+   "context"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explicit_dash_for_stdin::104",
+  "argv": [
+   "-",
+   "--length",
+   "64"
+  ],
+  "stdin": "data",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seek_offset_zero_length_one::105",
+  "argv": [
+   "--seek",
+   "0",
+   "--length",
+   "1"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seek_at_block_boundary_minus_one::106",
+  "argv": [
+   "--seek",
+   "63",
+   "--length",
+   "1"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seek_at_exact_block_boundary::107",
+  "argv": [
+   "--seek",
+   "64",
+   "--length",
+   "1"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seek_spanning_block_boundary::108",
+  "argv": [
+   "--seek",
+   "63",
+   "--length",
+   "2"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seek_spanning_two_blocks_from_boundary::109",
+  "argv": [
+   "--seek",
+   "63",
+   "--length",
+   "65"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seek_non_aligned_multi_block_read::110",
+  "argv": [
+   "--seek",
+   "1",
+   "--length",
+   "127"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seek_half_block_multi_block_read::111",
+  "argv": [
+   "--seek",
+   "32",
+   "--length",
+   "96"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seek_u64_max::112",
+  "argv": [
+   "--seek",
+   "18446744073709551615",
+   "--length",
+   "16"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_length_output_any_input::113",
+  "argv": [
+   "--length",
+   "0"
+  ],
+  "stdin": "a",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_length_output_empty_input::114",
+  "argv": [
+   "--length",
+   "0"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_output_seek_and_length_100::115",
+  "argv": [
+   "--raw",
+   "--seek",
+   "100",
+   "--length",
+   "100"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_derive_key_simple_context::116",
+  "argv": [
+   "--derive-key",
+   "my-context"
+  ],
+  "stdin": "context123",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_derive_key_empty_context::117",
+  "argv": [
+   "--derive-key",
+   ""
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tag_mode_stdin::118",
+  "argv": [
+   "--tag"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tag_mode_extended_length::119",
+  "argv": [
+   "--tag",
+   "--length",
+   "64"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seek_at_second_block_boundary_minus_one::120",
+  "argv": [
+   "--seek",
+   "127",
+   "--length",
+   "1"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seek_at_second_block_boundary::121",
+  "argv": [
+   "--seek",
+   "128",
+   "--length",
+   "1"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seek_spanning_second_block_boundary::122",
+  "argv": [
+   "--seek",
+   "127",
+   "--length",
+   "2"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seek_spanning_three_blocks_from_second_boundary::123",
+  "argv": [
+   "--seek",
+   "127",
+   "--length",
+   "129"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_16k_with_extended_output::124",
+  "argv": [
+   "--length",
+   "128"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_64k_with_extended_output::125",
+  "argv": [
+   "--length",
+   "64"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seek_1000_length_128::126",
+  "argv": [
+   "--seek",
+   "1000",
+   "--length",
+   "128"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_5000_bytes_extended_output::127",
+  "argv": [
+   "--length",
+   "256"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keyed_32_spaces_key_and_input::128",
+  "argv": [
+   "--keyed",
+   "/dev/stdin"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keyed_mode_hash::129",
+  "argv": [
+   "--keyed",
+   "test_resources/test_platform/small_64b.dat"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_derive_key_mode::130",
+  "argv": [
+   "--derive-key",
+   "test.context",
+   "test_resources/test_platform/small_64b.dat"
+  ],
+  "stdin": "test context string\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_text_input::131",
+  "argv": [],
+  "stdin": "stdin test data\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_empty_input::132",
+  "argv": [],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keyed_hash_nine_chunks::133",
+  "argv": [
+   "--keyed",
+   "test_resources/test_platform2/nine_chunks_9kb.dat"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_derive_key_mode_ten_chunks::134",
+  "argv": [
+   "--derive-key",
+   "my.test.context",
+   "test_resources/test_platform2/ten_chunks_10kb.dat"
+  ],
+  "stdin": "my.test.context\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xof_320_bytes_output::135",
+  "argv": [
+   "--length",
+   "320"
+  ],
+  "stdin": "test data\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xof_640_bytes_large_input::136",
+  "argv": [
+   "--length",
+   "640"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xof_1280_bytes_output::137",
+  "argv": [
+   "--length",
+   "1280"
+  ],
+  "stdin": "a\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xof_2560_bytes_very_large::138",
+  "argv": [
+   "--length",
+   "2560"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_derive_key_512_bytes::139",
+  "argv": [
+   "--derive-key",
+   "test context",
+   "--length",
+   "512"
+  ],
+  "stdin": "test context\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_output_192_bytes::140",
+  "argv": [
+   "--raw",
+   "--length",
+   "192"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_output_384_bytes::141",
+  "argv": [
+   "--raw",
+   "--length",
+   "384"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xof_seek_192_length_384::142",
+  "argv": [
+   "--seek",
+   "192",
+   "--length",
+   "384"
+  ],
+  "stdin": "seek test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xof_seek_448_length_512::143",
+  "argv": [
+   "--seek",
+   "448",
+   "--length",
+   "512"
+  ],
+  "stdin": "seek test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xof_seek_960_length_320::144",
+  "argv": [
+   "--seek",
+   "960",
+   "--length",
+   "320"
+  ],
+  "stdin": "seek test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xof_96_bytes_output::145",
+  "argv": [
+   "--length",
+   "96"
+  ],
+  "stdin": "small xof test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xof_160_bytes_output::146",
+  "argv": [
+   "--length",
+   "160"
+  ],
+  "stdin": "small xof test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xof_224_bytes_output::147",
+  "argv": [
+   "--length",
+   "224"
+  ],
+  "stdin": "small xof test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_derive_key_raw_256::148",
+  "argv": [
+   "--derive-key",
+   "context1",
+   "--raw",
+   "--length",
+   "256"
+  ],
+  "stdin": "derive raw test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seek_raw_combined::149",
+  "argv": [
+   "--seek",
+   "320",
+   "--raw",
+   "--length",
+   "448"
+  ],
+  "stdin": "seek raw test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_7777b_xof_800_single_thread::150",
+  "argv": [
+   "--length",
+   "800",
+   "--num-threads",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_12345b_xof_1024_no_mmap::151",
+  "argv": [
+   "--no-mmap",
+   "--length",
+   "1024"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xof_3072_bytes_input_512_output::152",
+  "argv": [
+   "--length",
+   "512"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xof_4096_bytes_input_768_output::153",
+  "argv": [
+   "--length",
+   "768"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xof_5120_bytes_input_1024_raw_output::154",
+  "argv": [
+   "--length",
+   "1024",
+   "--raw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xof_6144_bytes_input_1536_output::155",
+  "argv": [
+   "--length",
+   "1536"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_derive_key_7168_bytes_640_output::156",
+  "argv": [
+   "--derive-key",
+   "test context",
+   "--length",
+   "640"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_derive_key_8192_bytes_896_output::157",
+  "argv": [
+   "--derive-key",
+   "another context",
+   "--length",
+   "896"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_just_under_2_chunks_2047_bytes::158",
+  "argv": [
+   "--length",
+   "352"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_just_over_2_chunks_2049_bytes::159",
+  "argv": [
+   "--length",
+   "416"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_16k_input_1280_output::160",
+  "argv": [
+   "--length",
+   "1280"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_32k_input_2048_output::161",
+  "argv": [
+   "--length",
+   "2048"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_10k_single_thread_960_output::162",
+  "argv": [
+   "--num-threads",
+   "1",
+   "--length",
+   "960"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_12k_no_mmap_1152_output::163",
+  "argv": [
+   "--no-mmap",
+   "--length",
+   "1152"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xof_seek_1024_9000_bytes::164",
+  "argv": [
+   "--seek",
+   "1024",
+   "--length",
+   "672"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xof_seek_2048_11000_bytes::165",
+  "argv": [
+   "--seek",
+   "2048",
+   "--length",
+   "1088"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repeating_pattern_ab_3840_bytes::166",
+  "argv": [
+   "--length",
+   "544"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sequential_byte_pattern_12800_bytes::167",
+  "argv": [
+   "--length",
+   "1216"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_byte_input_xof_96::168",
+  "argv": [
+   "--length",
+   "96"
+  ],
+  "stdin": "\u0000",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_63_bytes_one_under_block_xof_224::169",
+  "argv": [
+   "--length",
+   "224"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_65_bytes_one_over_block_xof_288::170",
+  "argv": [
+   "--length",
+   "288"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_ff_bytes_7000_xof_1344::171",
+  "argv": [
+   "--length",
+   "1344"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_aa_bytes_15360_xof_1600::172",
+  "argv": [
+   "--length",
+   "1600"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_55_bytes_20k_xof_1792::173",
+  "argv": [
+   "--length",
+   "1792"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_derive_key_unicode_context_24k::174",
+  "argv": [
+   "--derive-key",
+   "complex context string with special chars: 日本語 🔥",
+   "--length",
+   "1920"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_file_keyed_mode::175",
+  "argv": [
+   "--keyed",
+   "large_10mb.bin"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_length_1_byte::176",
+  "argv": [
+   "--length",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keyed_mode_with_threading::177",
+  "argv": [
+   "--keyed",
+   "--num-threads",
+   "4",
+   "large_10mb.bin"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keyed_mode_with_length_64::178",
+  "argv": [
+   "--keyed",
+   "--length",
+   "64",
+   "size_1024.bin"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keyed_mode_with_seek_offset::179",
+  "argv": [
+   "--keyed",
+   "--seek",
+   "1024",
+   "size_1024.bin"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keyed_no_mmap_large_file::180",
+  "argv": [
+   "--keyed",
+   "--no-mmap",
+   "large_10mb.bin"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

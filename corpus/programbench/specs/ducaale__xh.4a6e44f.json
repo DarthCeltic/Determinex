@@ -1,0 +1,8496 @@
+{
+ "slug": "ducaale__xh.4a6e44f",
+ "language": "",
+ "n_branches": 9,
+ "n_tests_total": 1176,
+ "n_examples": 435,
+ "n_with_exact_stdout": 5,
+ "n_with_rc": 408,
+ "n_skipped": 657,
+ "examples": [
+  {
+   "test": "test_netrc_basic_auth_from_file",
+   "argv": [
+    "http://example.com/test",
+    "--print=Hh",
+    "--offline"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Authorization: Basic dGVzdHVzZXI6dGVzdHBhc3M="
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_authentication.py:156"
+  },
+  {
+   "test": "test_netrc_default_entry",
+   "argv": [
+    "http://unknown.com/test",
+    "--print=Hh",
+    "--offline"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_authentication.py:181"
+  },
+  {
+   "test": "test_netrc_ignore_flag",
+   "argv": [
+    "--ignore-netrc",
+    "http://example.com/test",
+    "--print=Hh",
+    "--offline"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_authentication.py:212"
+  },
+  {
+   "test": "test_netrc_bearer_token_password_only",
+   "argv": [
+    "--auth-type",
+    "bearer",
+    "http://bearer.example.com/api",
+    "--print=Hh",
+    "--offline"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Authorization: Bearer myBearerToken123"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_authentication.py:237"
+  },
+  {
+   "test": "test_netrc_env_var_path",
+   "argv": [
+    "http://custom.example.com/test",
+    "--print=Hh",
+    "--offline"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_authentication.py:295"
+  },
+  {
+   "test": "test_netrc_multiple_machines",
+   "argv": [
+    "http://second.com/test",
+    "--print=Hh",
+    "--offline"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_authentication.py:464"
+  },
+  {
+   "test": "test_netrc_with_account_field",
+   "argv": [
+    "http://accounttest.com/test",
+    "--print=Hh",
+    "--offline"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_authentication.py:499"
+  },
+  {
+   "test": "test_netrc_multiline_format",
+   "argv": [
+    "http://multiline.com/test",
+    "--print=Hh",
+    "--offline"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_authentication.py:526"
+  },
+  {
+   "test": "test_netrc_with_comments",
+   "argv": [
+    "http://real.com/test",
+    "--print=Hh",
+    "--offline"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_authentication.py:555"
+  },
+  {
+   "test": "test_netrc_incomplete_entry_no_password",
+   "argv": [
+    "http://incomplete.com/test",
+    "--print=Hh",
+    "--offline"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_authentication.py:583"
+  },
+  {
+   "test": "test_netrc_macdef_section_skipped",
+   "argv": [
+    "http://aftermacro.com/test",
+    "--print=Hh",
+    "--offline"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_authentication.py:691"
+  },
+  {
+   "test": "test_netrc_default_not_used_when_machine_found",
+   "argv": [
+    "http://specific.com/test",
+    "--print=Hh",
+    "--offline"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_authentication.py:720"
+  },
+  {
+   "test": "test_invalid_auth_type_error",
+   "argv": [
+    "http://example.com/",
+    "--auth-type",
+    "invalid",
+    "--auth",
+    "user:pass",
+    "--offline"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error: invalid value 'invalid' for '--auth-type <AUTH_TYPE>'",
+    "[possible values: basic, bearer, digest]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_authentication.py:754"
+  },
+  {
+   "test": "test_netrc_unicode_in_credentials",
+   "argv": [
+    "http://unicode.com/test",
+    "--print=Hh",
+    "--offline"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_authentication.py:810"
+  },
+  {
+   "test": "test_netrc_windows_filename",
+   "argv": [
+    "http://windows.com/test",
+    "--print=Hh",
+    "--offline"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_authentication.py:867"
+  },
+  {
+   "test": "test_netrc_permission_check_not_enforced",
+   "argv": [
+    "http://permtest.com/test",
+    "--print=Hh",
+    "--offline"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_authentication.py:962"
+  },
+  {
+   "test": "test_basic_get_conversion",
+   "argv": [
+    "--curl",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:24"
+  },
+  {
+   "test": "test_ipv4_flag_preserved",
+   "argv": [
+    "--curl",
+    "http://httpbin.org/get",
+    "-4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:32"
+  },
+  {
+   "test": "test_ipv6_flag_preserved",
+   "argv": [
+    "--curl",
+    "http://httpbin.org/get",
+    "-6"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:40"
+  },
+  {
+   "test": "test_post_with_json_data",
+   "argv": [
+    "--curl",
+    "http://httpbin.org/post",
+    "x=3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "curl http://httpbin.org/post",
+    "-H 'content-type: application/json'",
+    "-H 'accept: application/json, */*;q=0.5'",
+    "-d '{\"x\":\"3\"}'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:48"
+  },
+  {
+   "test": "test_post_with_nested_json",
+   "argv": [
+    "--curl",
+    "http://httpbin.org/post",
+    "user[name]=John",
+    "user[age]:=25"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "curl http://httpbin.org/post",
+    "-H 'content-type: application/json'",
+    "\"user\"",
+    "\"name\"",
+    "\"John\"",
+    "\"age\"",
+    "25"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:61"
+  },
+  {
+   "test": "test_form_data_urlencoded",
+   "argv": [
+    "--curl",
+    "--form",
+    "http://httpbin.org/post",
+    "x=y",
+    "z=w"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "curl http://httpbin.org/post",
+    "--data-urlencode 'x=y'",
+    "--data-urlencode 'z=w'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:78"
+  },
+  {
+   "test": "test_put_method_conversion",
+   "argv": [
+    "--curl",
+    "PUT",
+    "http://httpbin.org/put"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:90"
+  },
+  {
+   "test": "test_delete_method_conversion",
+   "argv": [
+    "--curl",
+    "DELETE",
+    "http://httpbin.org/delete"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:98"
+  },
+  {
+   "test": "test_custom_headers",
+   "argv": [
+    "--curl",
+    "http://httpbin.org/get",
+    "X-Custom:value",
+    "Foo:bar"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "curl http://httpbin.org/get",
+    "-H 'x-custom: value'",
+    "-H 'foo: bar'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:106"
+  },
+  {
+   "test": "test_query_params_conversion",
+   "argv": [
+    "--curl",
+    "http://httpbin.org/get",
+    "x==3",
+    "y==foo"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:118"
+  },
+  {
+   "test": "test_head_request_conversion",
+   "argv": [
+    "--curl",
+    "-h",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-I",
+    "-X GET"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:129"
+  },
+  {
+   "test": "test_options_request_conversion",
+   "argv": [
+    "--curl",
+    "OPTIONS",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-i",
+    "-X OPTIONS"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:140"
+  },
+  {
+   "test": "test_verbose_flag_conversion",
+   "argv": [
+    "--curl",
+    "-v",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-v"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:151"
+  },
+  {
+   "test": "test_quiet_flag_conversion",
+   "argv": [
+    "--curl",
+    "-q",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:163"
+  },
+  {
+   "test": "test_debug_flag_conversion",
+   "argv": [
+    "--curl",
+    "--debug",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--trace -"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:173"
+  },
+  {
+   "test": "test_follow_redirects_conversion",
+   "argv": [
+    "--curl",
+    "--follow",
+    "http://httpbin.org/redirect/3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:183"
+  },
+  {
+   "test": "test_max_redirects_conversion",
+   "argv": [
+    "--curl",
+    "--follow",
+    "--max-redirects",
+    "5",
+    "http://httpbin.org/redirect/3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:193"
+  },
+  {
+   "test": "test_basic_auth_conversion",
+   "argv": [
+    "--curl",
+    "--auth",
+    "user:pass",
+    "http://httpbin.org/basic-auth/user/pass"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:201"
+  },
+  {
+   "test": "test_bearer_auth_conversion",
+   "argv": [
+    "--curl",
+    "--bearer",
+    "mytoken",
+    "http://httpbin.org/bearer"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--oauth2-bearer mytoken"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:209"
+  },
+  {
+   "test": "test_proxy_http_specific",
+   "argv": [
+    "--curl",
+    "--proxy",
+    "http:localhost:1080",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "http_proxy=localhost:1080"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:219"
+  },
+  {
+   "test": "test_proxy_all_protocols",
+   "argv": [
+    "--curl",
+    "--proxy",
+    "all:localhost:1080",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-x localhost:1080"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:229"
+  },
+  {
+   "test": "test_timeout_conversion",
+   "argv": [
+    "--curl",
+    "--timeout",
+    "30",
+    "http://httpbin.org/delay/5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--max-time 30"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:239"
+  },
+  {
+   "test": "test_download_mode_conversion",
+   "argv": [
+    "--curl",
+    "-d",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:249"
+  },
+  {
+   "test": "test_download_with_output_file",
+   "argv": [
+    "--curl",
+    "-d",
+    "-o",
+    "output.txt",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:257"
+  },
+  {
+   "test": "test_download_with_continue",
+   "argv": [
+    "--curl",
+    "-d",
+    "-o",
+    "output.txt",
+    "--continue",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:265"
+  },
+  {
+   "test": "test_curl_long_flag_format",
+   "argv": [
+    "--curl",
+    "--curl-long",
+    "-d",
+    "-o",
+    "output.txt",
+    "--continue",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--fail",
+    "--location",
+    "--output",
+    "--continue-at"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:273"
+  },
+  {
+   "test": "test_stream_mode_conversion",
+   "argv": [
+    "--curl",
+    "--stream",
+    "http://httpbin.org/stream/10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:290"
+  },
+  {
+   "test": "test_check_status_conversion",
+   "argv": [
+    "--curl",
+    "--check-status",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:298"
+  },
+  {
+   "test": "test_https_scheme_conversion",
+   "argv": [
+    "--curl",
+    "--https",
+    "httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "https://httpbin.org/get"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:306"
+  },
+  {
+   "test": "test_verify_no_conversion",
+   "argv": [
+    "--curl",
+    "--verify",
+    "no",
+    "https://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:316"
+  },
+  {
+   "test": "test_cert_file_conversion",
+   "argv": [
+    "--curl",
+    "--cert",
+    "/tmp/cert.pem",
+    "https://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:324"
+  },
+  {
+   "test": "test_http_version_1_1",
+   "argv": [
+    "--curl",
+    "--http-version",
+    "1.1",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--http1.1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:332"
+  },
+  {
+   "test": "test_multiple_headers_preserved",
+   "argv": [
+    "--curl",
+    "http://httpbin.org/get",
+    "h1:v1",
+    "h2:v2",
+    "h3:v3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-H 'h1: v1'",
+    "-H 'h2: v2'",
+    "-H 'h3: v3'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:342"
+  },
+  {
+   "test": "test_unset_header_conversion",
+   "argv": [
+    "--curl",
+    "http://httpbin.org/get",
+    "User-Agent:"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-H user-agent:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:354"
+  },
+  {
+   "test": "test_raw_json_field_conversion",
+   "argv": [
+    "--curl",
+    "http://httpbin.org/post",
+    "x:={\"nested\": true}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"x\"",
+    "\"nested\"",
+    "true"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:364"
+  },
+  {
+   "test": "test_http_version_1_0",
+   "argv": [
+    "--curl",
+    "--http-version",
+    "1.0",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:409"
+  },
+  {
+   "test": "test_http_version_2",
+   "argv": [
+    "--curl",
+    "--http-version",
+    "2",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:417"
+  },
+  {
+   "test": "test_http_version_2_prior_knowledge",
+   "argv": [
+    "--curl",
+    "--http-version",
+    "2-prior-knowledge",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:425"
+  },
+  {
+   "test": "test_https_proxy_env_var",
+   "argv": [
+    "--curl",
+    "--proxy",
+    "https:localhost:8443",
+    "https://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "https_proxy=localhost:8443"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:433"
+  },
+  {
+   "test": "test_multiple_proxies_different_protocols",
+   "argv": [
+    "--curl",
+    "--proxy",
+    "http:localhost:8080",
+    "--proxy",
+    "https:localhost:8443",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "http_proxy=localhost:8080",
+    "https_proxy=localhost:8443"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:443"
+  },
+  {
+   "test": "test_cert_with_key_file",
+   "argv": [
+    "--curl",
+    "--cert",
+    "/tmp/cert.pem",
+    "--cert-key",
+    "/tmp/key.pem",
+    "https://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-E /tmp/cert.pem",
+    "--key /tmp/key.pem"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:454"
+  },
+  {
+   "test": "test_verify_with_ca_bundle",
+   "argv": [
+    "--curl",
+    "--verify",
+    "/tmp/ca-bundle.crt",
+    "https://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--cacert /tmp/ca-bundle.crt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:465"
+  },
+  {
+   "test": "test_ssl_option_tls1_2",
+   "argv": [
+    "--curl",
+    "--ssl=tls1.2",
+    "https://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--tlsv1.2",
+    "--tls-max 1.2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:475"
+  },
+  {
+   "test": "test_form_mode_without_data",
+   "argv": [
+    "--curl",
+    "--form",
+    "http://httpbin.org/post"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-H 'content-type: application/x-www-form-urlencoded'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:486"
+  },
+  {
+   "test": "test_json_mode_without_data",
+   "argv": [
+    "--curl",
+    "--json",
+    "http://httpbin.org/post"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-H 'content-type: application/json'",
+    "-H 'accept: application/json, */*;q=0.5'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:496"
+  },
+  {
+   "test": "test_headers_with_spaces_and_quotes",
+   "argv": [
+    "--curl",
+    "http://httpbin.org/get",
+    "Header:value with spaces",
+    "Another:\"quoted value\""
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-H 'header: value with spaces'",
+    "-H 'another: \"quoted value\"'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:507"
+  },
+  {
+   "test": "test_auth_digest_type",
+   "argv": [
+    "--curl",
+    "--auth-type",
+    "digest",
+    "--auth",
+    "user:pass",
+    "http://httpbin.org/digest-auth/auth/user/pass"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--digest",
+    "-u user:pass"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:518"
+  },
+  {
+   "test": "test_glob_url_with_curl_globoff",
+   "argv": [
+    "--curl",
+    "http://example.com/[1-100].png?q={80,90}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-g",
+    "'http://example.com/[1-100].png?q={80,90}'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:529"
+  },
+  {
+   "test": "test_unicode_in_header_values",
+   "argv": [
+    "--curl",
+    "https://example.com/",
+    "hello:你好"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-H 'hello: 你好'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:540"
+  },
+  {
+   "test": "test_interface_option",
+   "argv": [
+    "--curl",
+    "--interface",
+    "eth0",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--interface eth0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:550"
+  },
+  {
+   "test": "test_patch_method_conversion",
+   "argv": [
+    "--curl",
+    "PATCH",
+    "http://httpbin.org/patch"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:560"
+  },
+  {
+   "test": "test_form_file_with_explicit_type",
+   "argv": [
+    "--curl",
+    "--form",
+    "http://httpbin.org/post",
+    "image@/tmp/test.png;type=image/png"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-F 'image=@/tmp/test.png;type=image/png'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:568"
+  },
+  {
+   "test": "test_multiple_json_data_fields",
+   "argv": [
+    "--curl",
+    "http://httpbin.org/post",
+    "a=1",
+    "b=2",
+    "c=3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-H 'content-type: application/json'",
+    "\"a\"",
+    "\"1\"",
+    "\"b\"",
+    "\"2\"",
+    "\"c\"",
+    "\"3\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:578"
+  },
+  {
+   "test": "test_method_without_body",
+   "argv": [
+    "--curl",
+    "POST",
+    "http://httpbin.org/post"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:595"
+  },
+  {
+   "test": "test_warning_follow_with_post",
+   "argv": [
+    "--curl",
+    "--follow",
+    "POST",
+    "http://httpbin.org/post"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Warning: Using a combination of -X/--request and -L/--location which may cause unintended side effects."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:603"
+  },
+  {
+   "test": "test_ignored_flag_warning_pretty",
+   "argv": [
+    "--curl",
+    "--pretty",
+    "all",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Warning: Ignored --pretty"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:613"
+  },
+  {
+   "test": "test_ignored_flag_warning_session",
+   "argv": [
+    "--curl",
+    "--session",
+    "/tmp/session",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Warning: Ignored --session"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:623"
+  },
+  {
+   "test": "test_ignored_flag_warning_offline",
+   "argv": [
+    "--curl",
+    "--offline",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Warning: Ignored --offline"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:633"
+  },
+  {
+   "test": "test_ignored_flag_warning_print",
+   "argv": [
+    "--curl",
+    "--print",
+    "HhBb",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Warning: Ignored -p/--print"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:643"
+  },
+  {
+   "test": "test_ignored_flag_warning_style",
+   "argv": [
+    "--curl",
+    "--style",
+    "monokai",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Warning: Ignored -s/--style"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:653"
+  },
+  {
+   "test": "test_multiple_ignored_flags_warnings",
+   "argv": [
+    "--curl",
+    "--pretty",
+    "all",
+    "--session",
+    "/tmp/s",
+    "--style",
+    "monokai",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Warning: Ignored --pretty",
+    "Warning: Ignored --session",
+    "Warning: Ignored -s/--style"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:663"
+  },
+  {
+   "test": "test_unix_socket_option",
+   "argv": [
+    "--curl",
+    "--unix-socket",
+    "/tmp/http.sock",
+    "http://localhost/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:677"
+  },
+  {
+   "test": "test_resolve_option_with_port_inference",
+   "argv": [
+    "--curl",
+    "--resolve",
+    "example.com:127.0.0.1",
+    "http://example.com/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--resolve example.com:80:127.0.0.1",
+    "Warning: Inferred port number in --resolve from request URL."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:685"
+  },
+  {
+   "test": "test_head_with_data_warning",
+   "argv": [
+    "--curl",
+    "-h",
+    "http://httpbin.org/get",
+    "x=1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Warning: -I/--head is incompatible with sending data. Consider omitting -h/--headers.",
+    "-I",
+    "-X POST"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:698"
+  },
+  {
+   "test": "test_empty_header_value_semicolon",
+   "argv": [
+    "--curl",
+    "http://httpbin.org/get",
+    "Content-Type;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-H 'content-type;'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:712"
+  },
+  {
+   "test": "test_mixed_json_types_complex",
+   "argv": [
+    "--curl",
+    "http://httpbin.org/post",
+    "str=text",
+    "num:=42",
+    "bool:=true",
+    "arr:=[1,2,3]",
+    "obj:={\"k\":\"v\"}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-H 'content-type: application/json'",
+    "\"str\"",
+    "\"text\"",
+    "\"num\"",
+    "42",
+    "\"bool\"",
+    "true",
+    "\"arr\"",
+    "[1,2,3]",
+    "\"obj\"",
+    "{\"k\":\"v\"}"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:722"
+  },
+  {
+   "test": "test_form_with_escaped_equals",
+   "argv": [
+    "--curl",
+    "--form",
+    "http://httpbin.org/post",
+    "x\\=y=value"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--data-urlencode 'x%3Dy=value'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:742"
+  },
+  {
+   "test": "test_auth_type_bearer_explicit",
+   "argv": [
+    "--curl",
+    "--auth-type",
+    "bearer",
+    "--bearer",
+    "mytoken",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--oauth2-bearer mytoken"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:753"
+  },
+  {
+   "test": "test_ssl_tls1_1",
+   "argv": [
+    "--curl",
+    "--ssl=tls1.1",
+    "https://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--tlsv1.1",
+    "--tls-max 1.1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:763"
+  },
+  {
+   "test": "test_ssl_tls1_3",
+   "argv": [
+    "--curl",
+    "--ssl=tls1.3",
+    "https://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--tlsv1.3",
+    "--tls-max 1.3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:774"
+  },
+  {
+   "test": "test_ignored_flag_warning_compress",
+   "argv": [
+    "--curl",
+    "--compress",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Warning: Ignored -x/--compress"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:785"
+  },
+  {
+   "test": "test_ignored_flag_warning_response_charset",
+   "argv": [
+    "--curl",
+    "--response-charset",
+    "utf-8",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Warning: Ignored --response-charset"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:795"
+  },
+  {
+   "test": "test_ignored_flag_warning_response_mime",
+   "argv": [
+    "--curl",
+    "--response-mime",
+    "application/json",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Warning: Ignored --response-mime"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:805"
+  },
+  {
+   "test": "test_ignored_flag_warning_history_print",
+   "argv": [
+    "--curl",
+    "--history-print",
+    "HhBb",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Warning: Ignored -P/--history-print"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:815"
+  },
+  {
+   "test": "test_ignored_flag_warning_native_tls",
+   "argv": [
+    "--curl",
+    "--native-tls",
+    "https://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Warning: Ignored --native-tls"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:825"
+  },
+  {
+   "test": "test_ignored_flag_warning_body",
+   "argv": [
+    "--curl",
+    "-b",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Warning: Ignored -b/--body"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:835"
+  },
+  {
+   "test": "test_ignored_flag_warning_all",
+   "argv": [
+    "--curl",
+    "--all",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Warning: Ignored --all"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:845"
+  },
+  {
+   "test": "test_raw_json_data",
+   "argv": [
+    "--curl",
+    "--raw",
+    "{\"key\":\"value\"}",
+    "http://httpbin.org/post"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-H 'content-type: application/json'",
+    "-H 'accept: application/json, */*;q=0.5'",
+    "-d '{\"key\":\"value\"}'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:857"
+  },
+  {
+   "test": "test_raw_form_data",
+   "argv": [
+    "--curl",
+    "--form",
+    "--raw",
+    "key1=value1&key2=value2",
+    "http://httpbin.org/post"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-H 'content-type: application/x-www-form-urlencoded'",
+    "-d 'key1=value1&key2=value2'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:869"
+  },
+  {
+   "test": "test_json_field_in_multipart_error",
+   "argv": [
+    "--curl",
+    "--multipart",
+    "http://httpbin.org/post",
+    "field:={\"error\":\"expected\"}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "JSON values are not supported in multipart fields"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:938"
+  },
+  {
+   "test": "test_json_mode_null_body_with_method",
+   "argv": [
+    "--curl",
+    "--json",
+    "POST",
+    "http://httpbin.org/post"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-X POST",
+    "-H 'content-type: application/json'",
+    "-H 'accept: application/json, */*;q=0.5'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:950"
+  },
+  {
+   "test": "test_empty_form_with_method",
+   "argv": [
+    "--curl",
+    "--form",
+    "POST",
+    "http://httpbin.org/post"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-X POST",
+    "-H 'content-type: application/x-www-form-urlencoded'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:992"
+  },
+  {
+   "test": "test_query_params_with_special_characters",
+   "argv": [
+    "--curl",
+    "http://httpbin.org/get",
+    "key1==value with spaces",
+    "key2==value&with=special"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "curl 'http://httpbin.org/get?key1=value+with+spaces&key2=value%26with%3Dspecial'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1003"
+  },
+  {
+   "test": "test_long_form_with_multiple_options",
+   "argv": [
+    "--curl",
+    "--curl-long",
+    "-v",
+    "--follow",
+    "--max-redirects",
+    "3",
+    "http://httpbin.org/redirect/2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--verbose",
+    "--location",
+    "--max-redirs"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1014"
+  },
+  {
+   "test": "test_multiple_headers_to_unset",
+   "argv": [
+    "--curl",
+    "http://httpbin.org/get",
+    "User-Agent:",
+    "Accept:",
+    "Cookie:"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-H user-agent:",
+    "-H accept:",
+    "-H cookie:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1044"
+  },
+  {
+   "test": "test_ssl_tls1_version",
+   "argv": [
+    "--curl",
+    "--ssl=tls1",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "curl",
+    "--tlsv1.0",
+    "--tls-max 1.0",
+    "http://httpbin.org/get"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1058"
+  },
+  {
+   "test": "test_ssl_tls11_version",
+   "argv": [
+    "--curl",
+    "--ssl=tls1.1",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "curl",
+    "--tlsv1.1",
+    "--tls-max 1.1",
+    "http://httpbin.org/get"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1071"
+  },
+  {
+   "test": "test_ssl_tls12_version",
+   "argv": [
+    "--curl",
+    "--ssl=tls1.2",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "curl",
+    "--tlsv1.2",
+    "--tls-max 1.2",
+    "http://httpbin.org/get"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1083"
+  },
+  {
+   "test": "test_ssl_tls13_version",
+   "argv": [
+    "--curl",
+    "--ssl=tls1.3",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "curl",
+    "--tlsv1.3",
+    "--tls-max 1.3",
+    "http://httpbin.org/get"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1095"
+  },
+  {
+   "test": "test_http_version_11",
+   "argv": [
+    "--curl",
+    "--http-version",
+    "1.1",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1115"
+  },
+  {
+   "test": "test_http_version_3_prior_knowledge",
+   "argv": [
+    "--curl",
+    "--http-version",
+    "3-prior-knowledge",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1139"
+  },
+  {
+   "test": "test_headers_flag_with_get",
+   "argv": [
+    "--curl",
+    "-h",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1147"
+  },
+  {
+   "test": "test_headers_flag_with_post_warning",
+   "argv": [
+    "--curl",
+    "-h",
+    "POST",
+    "http://httpbin.org/post"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Warning: -I/--head is incompatible with sending data",
+    "curl -I -X POST http://httpbin.org/post"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1155"
+  },
+  {
+   "test": "test_headers_flag_with_put_warning",
+   "argv": [
+    "--curl",
+    "-h",
+    "PUT",
+    "http://httpbin.org/put"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Warning: -I/--head is incompatible with sending data",
+    "curl -I -X PUT http://httpbin.org/put"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1166"
+  },
+  {
+   "test": "test_headers_flag_with_delete_warning",
+   "argv": [
+    "--curl",
+    "-h",
+    "DELETE",
+    "http://httpbin.org/delete"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Warning: -I/--head is incompatible with sending data",
+    "curl -I -X DELETE http://httpbin.org/delete"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1177"
+  },
+  {
+   "test": "test_headers_flag_with_patch_warning",
+   "argv": [
+    "--curl",
+    "-h",
+    "PATCH",
+    "http://httpbin.org/patch"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Warning: -I/--head is incompatible with sending data",
+    "curl -I -X PATCH http://httpbin.org/patch"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1188"
+  },
+  {
+   "test": "test_interface_option",
+   "argv": [
+    "--curl",
+    "--interface",
+    "eth0",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1199"
+  },
+  {
+   "test": "test_unix_socket_option",
+   "argv": [
+    "--curl",
+    "--unix-socket",
+    "/tmp/socket.sock",
+    "http://localhost/api"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1207"
+  },
+  {
+   "test": "test_resolve_single_host",
+   "argv": [
+    "--curl",
+    "--resolve",
+    "example.com:192.168.1.1",
+    "http://example.com/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Warning: Inferred port number in --resolve from request URL",
+    "curl http://example.com/get --resolve example.com:80:192.168.1.1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1215"
+  },
+  {
+   "test": "test_resolve_multiple_hosts",
+   "argv": [
+    "--curl",
+    "--resolve",
+    "example.com:192.168.1.1",
+    "--resolve",
+    "test.com:10.0.0.1",
+    "https://example.com/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Warning: Inferred port number in --resolve from request URL",
+    "curl https://example.com/get",
+    "--resolve example.com:443:192.168.1.1",
+    "--resolve test.com:443:10.0.0.1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1226"
+  },
+  {
+   "test": "test_header_with_empty_value_semicolon",
+   "argv": [
+    "--curl",
+    "http://httpbin.org/get",
+    "X-Empty;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1239"
+  },
+  {
+   "test": "test_mixed_headers_empty_and_valued",
+   "argv": [
+    "--curl",
+    "http://httpbin.org/get",
+    "X-Header;",
+    "Y-Header:value"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "curl http://httpbin.org/get -H 'x-header;' -H 'y-header: value'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1247"
+  },
+  {
+   "test": "test_ignore_netrc_flag",
+   "argv": [
+    "--curl",
+    "--ignore-netrc",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1256"
+  },
+  {
+   "test": "test_auth_type_digest",
+   "argv": [
+    "--curl",
+    "--auth-type",
+    "digest",
+    "--auth",
+    "user:pass",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "curl http://httpbin.org/get --digest -u user:pass"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1264"
+  },
+  {
+   "test": "test_auth_type_basic",
+   "argv": [
+    "--curl",
+    "--auth-type",
+    "basic",
+    "--auth",
+    "user:pass",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "curl http://httpbin.org/get --basic -u user:pass"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1273"
+  },
+  {
+   "test": "test_raw_data_with_json_headers",
+   "argv": [
+    "--curl",
+    "--raw",
+    "hello world",
+    "http://httpbin.org/post"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "curl http://httpbin.org/post -H 'content-type: application/json'",
+    "-H 'accept: application/json, */*;q=0.5'",
+    "-d 'hello world'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1282"
+  },
+  {
+   "test": "test_raw_data_with_form_flag",
+   "argv": [
+    "--curl",
+    "--form",
+    "--raw",
+    "key=value",
+    "http://httpbin.org/post"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "curl http://httpbin.org/post -H 'content-type: application/x-www-form-urlencoded'",
+    "-d 'key=value'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1293"
+  },
+  {
+   "test": "test_url_with_glob_brackets",
+   "argv": [
+    "--curl",
+    "http://example.com/test[1-3].png"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1303"
+  },
+  {
+   "test": "test_url_with_glob_brackets_and_braces",
+   "argv": [
+    "--curl",
+    "http://example.com/test[a].png?param={value}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1311"
+  },
+  {
+   "test": "test_ignored_response_mime_flag",
+   "argv": [
+    "--curl",
+    "--response-mime",
+    "text/plain",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Warning: Ignored --response-mime"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1369"
+  },
+  {
+   "test": "test_ignored_session_flag",
+   "argv": [
+    "--curl",
+    "--session",
+    "mysession",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Warning: Ignored --session"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1379"
+  },
+  {
+   "test": "test_ignored_native_tls_flag",
+   "argv": [
+    "--curl",
+    "--native-tls",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Warning: Ignored --native-tls"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1389"
+  },
+  {
+   "test": "test_ignored_history_print_flag",
+   "argv": [
+    "--curl",
+    "--history-print",
+    "Hh",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Warning: Ignored -P/--history-print"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1409"
+  },
+  {
+   "test": "test_follow_with_post_warning",
+   "argv": [
+    "--curl",
+    "--follow",
+    "POST",
+    "http://httpbin.org/post"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Warning: Using a combination of -X/--request and -L/--location which may cause unintended side effects",
+    "curl -L -X POST http://httpbin.org/post"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1419"
+  },
+  {
+   "test": "test_timeout_integer_seconds",
+   "argv": [
+    "--curl",
+    "--timeout",
+    "30",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1430"
+  },
+  {
+   "test": "test_timeout_float_seconds",
+   "argv": [
+    "--curl",
+    "--timeout",
+    "5.5",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1438"
+  },
+  {
+   "test": "test_cert_option",
+   "argv": [
+    "--curl",
+    "--cert",
+    "client.pem",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1446"
+  },
+  {
+   "test": "test_cert_with_key_option",
+   "argv": [
+    "--curl",
+    "--cert",
+    "client.pem",
+    "--cert-key",
+    "private.key",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1454"
+  },
+  {
+   "test": "test_proxy_http_protocol",
+   "argv": [
+    "--curl",
+    "--proxy",
+    "http:localhost:8080",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1462"
+  },
+  {
+   "test": "test_proxy_https_protocol",
+   "argv": [
+    "--curl",
+    "--proxy",
+    "https:localhost:8443",
+    "https://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1470"
+  },
+  {
+   "test": "test_verify_no_flag",
+   "argv": [
+    "--curl",
+    "--verify",
+    "no",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1478"
+  },
+  {
+   "test": "test_verify_custom_ca_bundle",
+   "argv": [
+    "--curl",
+    "--verify",
+    "/path/to/ca-bundle.crt",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1486"
+  },
+  {
+   "test": "test_stream_flag",
+   "argv": [
+    "--curl",
+    "--stream",
+    "http://httpbin.org/stream/5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1494"
+  },
+  {
+   "test": "test_debug_flag",
+   "argv": [
+    "--curl",
+    "--debug",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "curl --trace - http://httpbin.org/get"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1510"
+  },
+  {
+   "test": "test_ignored_body_flag",
+   "argv": [
+    "--curl",
+    "--body",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Warning: Ignored -b/--body"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1528"
+  },
+  {
+   "test": "test_multipart_with_field",
+   "argv": [
+    "--curl",
+    "--multipart",
+    "http://httpbin.org/post",
+    "key=value"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1548"
+  },
+  {
+   "test": "test_multipart_with_data_field_from_file",
+   "argv": [
+    "--curl",
+    "--multipart",
+    "http://httpbin.org/post",
+    "field=<data.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1556"
+  },
+  {
+   "test": "test_complex_combination_ssl_http2_follow_redirects",
+   "argv": [
+    "--curl",
+    "--ssl=tls1.2",
+    "--http-version",
+    "2",
+    "--follow",
+    "--max-redirects",
+    "5",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1564"
+  },
+  {
+   "test": "test_complex_combination_long_form",
+   "argv": [
+    "--curl",
+    "--curl-long",
+    "--ssl=tls1.2",
+    "--http-version",
+    "2",
+    "--follow",
+    "--max-redirects",
+    "5",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "curl",
+    "--location",
+    "--max-redirs 5",
+    "--tlsv1.2",
+    "--tls-max 1.2",
+    "--http2",
+    "http://httpbin.org/get"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1572"
+  },
+  {
+   "test": "test_verbose_check_status_follow_output",
+   "argv": [
+    "--curl",
+    "-v",
+    "--follow",
+    "--check-status",
+    "--output",
+    "/tmp/out.txt",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "curl -v -f -L -o /tmp/out.txt http://httpbin.org/get"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1587"
+  },
+  {
+   "test": "test_curl_long_verbose_quiet_debug",
+   "argv": [
+    "--curl",
+    "--curl-long",
+    "-v",
+    "-q",
+    "--debug",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "curl --verbose --silent --trace - http://httpbin.org/get"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1596"
+  },
+  {
+   "test": "test_curl_long_cert_options",
+   "argv": [
+    "--curl",
+    "--curl-long",
+    "--cert",
+    "client.pem",
+    "--cert-key",
+    "key.pem",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1606"
+  },
+  {
+   "test": "test_curl_long_verify_insecure",
+   "argv": [
+    "--curl",
+    "--curl-long",
+    "--verify",
+    "no",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1613"
+  },
+  {
+   "test": "test_curl_long_stream_flag",
+   "argv": [
+    "--curl",
+    "--curl-long",
+    "--stream",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1621"
+  },
+  {
+   "test": "test_curl_long_check_status",
+   "argv": [
+    "--curl",
+    "--curl-long",
+    "--check-status",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1629"
+  },
+  {
+   "test": "test_curl_long_proxy_all",
+   "argv": [
+    "--curl",
+    "--curl-long",
+    "--proxy",
+    "all:localhost:8080",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1637"
+  },
+  {
+   "test": "test_curl_long_ipv4_flag",
+   "argv": [
+    "--curl",
+    "--curl-long",
+    "-4",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1645"
+  },
+  {
+   "test": "test_curl_long_ipv6_flag",
+   "argv": [
+    "--curl",
+    "--curl-long",
+    "-6",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1653"
+  },
+  {
+   "test": "test_curl_long_head_method",
+   "argv": [
+    "--curl",
+    "--curl-long",
+    "HEAD",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1661"
+  },
+  {
+   "test": "test_curl_long_options_method",
+   "argv": [
+    "--curl",
+    "--curl-long",
+    "OPTIONS",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1669"
+  },
+  {
+   "test": "test_curl_long_form_urlencoded",
+   "argv": [
+    "--curl",
+    "--curl-long",
+    "--form",
+    "http://httpbin.org/post",
+    "key=value"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--data-urlencode",
+    "key=value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1677"
+  },
+  {
+   "test": "test_curl_long_multipart_form",
+   "argv": [
+    "--curl",
+    "--curl-long",
+    "--multipart",
+    "http://httpbin.org/post",
+    "key=value"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--form",
+    "key=value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_curl_conversion.py:1687"
+  },
+  {
+   "test": "test_basic_download_to_auto_filename",
+   "argv": [
+    "--download"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_download.py:38"
+  },
+  {
+   "test": "test_download_with_explicit_output_file",
+   "argv": [
+    "--download",
+    "--output"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_download.py:114"
+  },
+  {
+   "test": "test_download_resume_requires_both_download_and_output",
+   "argv": [
+    "--continue"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "the following required arguments were not provided:",
+    "--download",
+    "--output <FILE>",
+    "the following required arguments were not provided:",
+    "--output <FILE>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_download.py:357"
+  },
+  {
+   "test": "test_download_resume_partial_content",
+   "argv": [
+    "--continue",
+    "--download",
+    "--output"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_download.py:384"
+  },
+  {
+   "test": "test_download_resume_sends_correct_range_header",
+   "argv": [
+    "--continue",
+    "--download",
+    "--output"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "range"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_download.py:429"
+  },
+  {
+   "test": "test_download_resume_server_no_partial_content_support",
+   "argv": [
+    "--continue",
+    "--download",
+    "--output",
+    "file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "file.txt": "Partial"
+   },
+   "ci": false,
+   "source": "test_download.py:481"
+  },
+  {
+   "test": "test_output_file_without_download_flag",
+   "argv": [
+    "--output"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_download.py:546"
+  },
+  {
+   "test": "test_download_overwrite_with_explicit_output",
+   "argv": [
+    "--download",
+    "--output",
+    "target.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "target.txt": "Old content that should be replaced"
+   },
+   "ci": false,
+   "source": "test_download.py:570"
+  },
+  {
+   "test": "test_download_relative_output_path",
+   "argv": [
+    "--download",
+    "--output",
+    "../output.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_download.py:766"
+  },
+  {
+   "test": "test_download_with_404_error",
+   "argv": [
+    "--download"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 4,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "404 Not Found"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_download.py:853"
+  },
+  {
+   "test": "test_download_with_500_error",
+   "argv": [
+    "--download"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 5,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "500 Internal Server Error"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_download.py:879"
+  },
+  {
+   "test": "test_content_disposition_filename_star_windows_1252_encoding",
+   "argv": [
+    "GET",
+    "--download"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_download.py:1053"
+  },
+  {
+   "test": "test_content_range_header_missing_when_resume_requested",
+   "argv": [
+    "--continue",
+    "--download",
+    "--output",
+    "file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Missing Content-Range header"
+   ],
+   "files": {
+    "file.txt": "initial"
+   },
+   "ci": false,
+   "source": "test_download.py:1225"
+  },
+  {
+   "test": "test_content_range_header_invalid_format",
+   "argv": [
+    "--continue",
+    "--download",
+    "--output",
+    "file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Invalid Content-Range: \"bytes 10-5/20\""
+   ],
+   "files": {
+    "file.txt": "initial"
+   },
+   "ci": false,
+   "source": "test_download.py:1251"
+  },
+  {
+   "test": "test_content_range_header_wrong_start_position",
+   "argv": [
+    "--continue",
+    "--download",
+    "--output",
+    "file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content-Range has wrong start: \"bytes 5-9/10\""
+   ],
+   "files": {
+    "file.txt": "initial"
+   },
+   "ci": false,
+   "source": "test_download.py:1279"
+  },
+  {
+   "test": "test_download_progress_output_to_stderr_not_stdout",
+   "argv": [
+    "--download"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Downloading",
+    "Done."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_download.py:1636"
+  },
+  {
+   "test": "test_download_quiet_mode_no_progress_output",
+   "argv": [
+    "--download",
+    "--quiet"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_download.py:1665"
+  },
+  {
+   "test": "test_download_with_unknown_content_length_shows_spinner",
+   "argv": [
+    "--download"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Downloading to"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_download.py:1695"
+  },
+  {
+   "test": "test_download_file_name_conflict_creates_numbered_files",
+   "argv": [
+    "--download"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"file.txt-1\"",
+    "\"file.txt-2\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_download.py:1890"
+  },
+  {
+   "test": "test_download_with_output_flag_overwrites_existing_file",
+   "argv": [
+    "--download",
+    "--output",
+    "output.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "output.txt": "old content\n"
+   },
+   "ci": false,
+   "source": "test_download.py:1925"
+  },
+  {
+   "test": "test_download_quiet_mode_suppresses_progress",
+   "argv": [
+    "--quiet",
+    "--download"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_download.py:1951"
+  },
+  {
+   "test": "test_download_with_redirect_preserves_original_url_filename",
+   "argv": [
+    "--download",
+    "--follow"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_download.py:2006"
+  },
+  {
+   "test": "test_download_speed_display_with_very_fast_download",
+   "argv": [
+    "--download"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done. 5 B"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_download.py:2076"
+  },
+  {
+   "test": "test_request_binary_detection",
+   "argv": [
+    "/workspace/executable",
+    "--print=B",
+    "--offline",
+    ":"
+   ],
+   "stdin": "foo\u0000bar",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "NOTE: binary data not shown in terminal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest_cli_1.py:437"
+  },
+  {
+   "test": "test_native_tls_flag_disabled",
+   "argv": [
+    "--native-tls",
+    ":"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "built without native-tls support"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest_cli_2.py:194"
+  },
+  {
+   "test": "test_named_sessions",
+   "argv": [
+    "--offline",
+    ":",
+    "--session",
+    "test_session"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GET / HTTP/1.1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest_cli_2.py:901"
+  },
+  {
+   "test": "test_force_color_pipe",
+   "argv": [
+    "--offline",
+    "--pretty=all",
+    ":"
+   ],
+   "stdin": null,
+   "env": {
+    "XH_TEST_MODE_COLOR": "1"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[",
+    "\u001b[32m",
+    "\u001b[34m",
+    "GET",
+    "HTTP"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest_cli_2.py:1125"
+  },
+  {
+   "test": "test_unsupported_tls_version_nativetls",
+   "argv": [
+    "--ssl=tls1.3",
+    "--native-tls",
+    "https://example.org",
+    "--offline"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "native-tls"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_harvest_cli_2.py:1430"
+  },
+  {
+   "test": "test_unsupported_tls_version_rustls",
+   "argv": [
+    "--offline",
+    "--ssl=tls1.1",
+    ":"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "rustls",
+    "support"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_harvest_cli_2.py:1445"
+  },
+  {
+   "test": "test_warns_if_config_is_invalid",
+   "argv": [
+    "--offline",
+    ":"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "xh: warning: Unable to parse config file:",
+    "key must be a string"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest_cli_3.py:743"
+  },
+  {
+   "test": "test_http2",
+   "argv": [
+    "--offline",
+    "--http-version=2",
+    ":"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GET / HTTP/2.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest_cli_3.py:813"
+  },
+  {
+   "test": "test_http2_prior_knowledge",
+   "argv": [
+    "--offline",
+    "--http-version=2-prior-knowledge",
+    ":"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GET / HTTP/2.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest_cli_3.py:826"
+  },
+  {
+   "test": "test_http3_prior_knowledge",
+   "argv": [
+    "--offline",
+    "--http-version=3-prior-knowledge",
+    ":"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "This binary was built without support for HTTP/3. Enable the `http3` feature."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest_cli_3.py:839"
+  },
+  {
+   "test": "test_non_get_redirect_translation_warning",
+   "argv": [
+    "--follow",
+    "--curl",
+    "POST",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Warning: Using a combination of -X/--request and -L/--location which may cause unintended side effects."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest_cli_3.py:1207"
+  },
+  {
+   "test": "test_cannot_combine_compress_with_multipart",
+   "argv": [
+    "http://example.com/deflate",
+    "--multipart",
+    "-x",
+    "a=1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error: the argument '--multipart' cannot be used with '--compress...'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest_cli_3.py:1591"
+  },
+  {
+   "test": "test_logs_are_not_printed_outside_debug_mode",
+   "argv": [
+    "--offline",
+    ":"
+   ],
+   "stdin": null,
+   "env": {
+    "RUST_LOG": ""
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest_cli_3.py:2138"
+  },
+  {
+   "test": "test_backtrace_is_printed_in_debug_mode",
+   "argv": [
+    "--debug",
+    "--offline",
+    ":"
+   ],
+   "stdin": null,
+   "env": {
+    "RUST_BACKTRACE": "",
+    "RUST_LIB_BACKTRACE": ""
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "DEBUG xh]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest_cli_3.py:2152"
+  },
+  {
+   "test": "test_error_on_unsupported_platform",
+   "argv": [
+    "--unix-socket=/tmp/missing.sock",
+    ":/index.html"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "not supported",
+    "executable: error: error sending request for url (http://localhost/index.html)",
+    "No such file or directory"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_harvest_cli_3.py:2289"
+  },
+  {
+   "test": "test_redirect_301_with_check_status",
+   "argv": [
+    "GET"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Location: /final"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_http_features.py:193"
+  },
+  {
+   "test": "test_redirect_301_without_check_status",
+   "argv": [
+    "--no-check-status",
+    "GET"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_http_features.py:204"
+  },
+  {
+   "test": "test_redirect_301_with_follow",
+   "argv": [
+    "--follow",
+    "GET"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_http_features.py:214"
+  },
+  {
+   "test": "test_max_redirects_limit_exceeded",
+   "argv": [
+    "--follow",
+    "--max-redirects=2",
+    "GET"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 6,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Too many redirects (--max-redirects=2)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_http_features.py:274"
+  },
+  {
+   "test": "test_max_redirects_limit_within_bounds",
+   "argv": [
+    "--follow",
+    "--max-redirects=5",
+    "GET"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_http_features.py:284"
+  },
+  {
+   "test": "test_gzip_decompression",
+   "argv": [
+    "GET"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_http_features.py:296"
+  },
+  {
+   "test": "test_timeout_connection",
+   "argv": [
+    "--timeout=1",
+    "GET"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "operation timed out"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_http_features.py:307"
+  },
+  {
+   "test": "test_no_timeout_waits",
+   "argv": [
+    "--timeout=0",
+    "GET"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_http_features.py:318"
+  },
+  {
+   "test": "test_post_redirect_301_method_change",
+   "argv": [
+    "--follow",
+    "--ignore-stdin",
+    "POST",
+    "data=test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_http_features.py:328"
+  },
+  {
+   "test": "test_all_flag_shows_intermediary_responses",
+   "argv": [
+    "--follow",
+    "--all",
+    "--verbose",
+    "GET"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "301",
+    "200",
+    "Location: /final",
+    "\"status\": \"final\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_http_features.py:357"
+  },
+  {
+   "test": "test_history_print_flag_intermediary_format",
+   "argv": [
+    "--follow",
+    "--all",
+    "--history-print=h",
+    "--print=b",
+    "GET"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "HTTP/",
+    "301",
+    "Location: /final",
+    "\"status\": \"final\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_http_features.py:373"
+  },
+  {
+   "test": "test_cross_scheme_redirect_http_to_https",
+   "argv": [
+    "--follow",
+    "GET",
+    "http://httpbin.org/redirect-to?url=https://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "headers"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_http_features.py:389"
+  },
+  {
+   "test": "test_relative_redirect_location",
+   "argv": [
+    "--follow",
+    "GET",
+    "http://httpbin.org/relative-redirect/1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "headers"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_http_features.py:402"
+  },
+  {
+   "test": "test_accept_encoding_header_automatic",
+   "argv": [
+    "--verbose",
+    "GET",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Accept-Encoding:",
+    "gzip"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_http_features.py:412"
+  },
+  {
+   "test": "test_status_code_4xx_with_check_status",
+   "argv": [
+    "GET",
+    "http://httpbin.org/status/404"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 4,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_http_features.py:425"
+  },
+  {
+   "test": "test_status_code_5xx_with_check_status",
+   "argv": [
+    "GET",
+    "http://httpbin.org/status/500"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 5,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_http_features.py:432"
+  },
+  {
+   "test": "test_status_code_without_check_status",
+   "argv": [
+    "--no-check-status",
+    "GET",
+    "http://httpbin.org/status/404"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "404"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_http_features.py:439"
+  },
+  {
+   "test": "test_redirect_loop_detection",
+   "argv": [
+    "--follow",
+    "--max-redirects=10",
+    "GET"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Too many redirects"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_http_features.py:451"
+  },
+  {
+   "test": "test_request_body_compression_with_compress_flag",
+   "argv": [
+    "--compress",
+    "--ignore-stdin",
+    "POST"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_http_features.py:462"
+  },
+  {
+   "test": "test_http_version_1_0",
+   "argv": [
+    "--http-version=1.0",
+    "--verbose",
+    "GET",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "HTTP/1.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_http_features.py:512"
+  },
+  {
+   "test": "test_http_version_1_1_default",
+   "argv": [
+    "--verbose",
+    "GET",
+    "http://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "HTTP/1.1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_http_features.py:522"
+  },
+  {
+   "test": "test_zero_timeout_means_no_timeout",
+   "argv": [
+    "--timeout=0",
+    "GET",
+    "http://httpbin.org/delay/0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "headers"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_http_features.py:532"
+  },
+  {
+   "test": "test_download_flag_enables_follow_automatically",
+   "argv": [
+    "--download",
+    "-o",
+    "http://httpbin.org/redirect-to?url=http://httpbin.org/json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "slideshow"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_http_features.py:544"
+  },
+  {
+   "test": "test_stream_flag_chunked_transfer",
+   "argv": [
+    "--stream",
+    "--timeout=2",
+    "GET",
+    "http://httpbin.org/stream/5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "id"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_http_features.py:649"
+  },
+  {
+   "test": "test_check_status_default_enabled",
+   "argv": [
+    "GET",
+    "http://httpbin.org/status/404"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "404"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_http_features.py:675"
+  },
+  {
+   "test": "test_download_with_redirect_follows_automatically",
+   "argv": [
+    "--download",
+    "GET",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_http_features.py:692"
+  },
+  {
+   "test": "test_error_missing_url",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "required arguments were not provided",
+    "<[METHOD] URL>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_request_basics.py:290"
+  },
+  {
+   "test": "test_error_invalid_url",
+   "argv": [
+    "GET",
+    "not a valid url"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Invalid <URL>: invalid international domain name"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_request_basics.py:302"
+  },
+  {
+   "test": "test_error_connection_refused",
+   "argv": [
+    "GET",
+    "http://127.0.0.1:9999/test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error sending request",
+    "connection refused"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_request_basics.py:313"
+  },
+  {
+   "test": "test_error_dns_resolution_failure",
+   "argv": [
+    "GET",
+    "http://invalid-domain-that-does-not-exist-12345.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error sending request",
+    "failed to lookup address information"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_request_basics.py:325"
+  },
+  {
+   "test": "test_https_url_scheme",
+   "argv": [
+    "GET",
+    "https://httpbin.org/get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "https://httpbin.org/get"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_request_basics.py:373"
+  },
+  {
+   "test": "test_json_invalid_json_value_with_colon_equals",
+   "argv": [
+    "--ignore-stdin",
+    "POST",
+    "http://127.0.0.1:9999/post",
+    "data:={invalid}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_request_body.py:972"
+  },
+  {
+   "test": "test_raw_mode_with_json_flag_conflict",
+   "argv": [
+    "--ignore-stdin",
+    "POST",
+    "http://127.0.0.1:9999/post",
+    "--raw=raw data here",
+    "key=value"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cannot be mixed"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_request_body.py:1095"
+  },
+  {
+   "test": "test_session_named_session_invalid_url_dot_host",
+   "argv": [
+    "--offline",
+    "--session",
+    "test_session",
+    "--print=HhBb",
+    "http://."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "couldn't extract host from url"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_session_gaps.py:285"
+  },
+  {
+   "test": "test_session_named_vs_path",
+   "argv": [
+    "--offline",
+    "--session",
+    "mytest",
+    ":",
+    "X-Named:value"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sessions.py:327"
+  },
+  {
+   "test": "test_binary_exists_and_runs",
+   "argv": [
+    "../executable",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "xh"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_smoke.py:7"
+  },
+  {
+   "test": "test_help_flag_works",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "URL"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_smoke.py:26"
+  },
+  {
+   "test": "test_dash_h_is_headers_shortcut_not_help",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "required arguments",
+    "Usage:",
+    "For more information"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_usage.py:173"
+  },
+  {
+   "test": "test_help_precedence_over_invalid_args",
+   "argv": [
+    "--help",
+    "--definitely-not-a-real-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:182"
+  },
+  {
+   "test": "test_help_after_double_dash_treated_as_argument_error",
+   "argv": [
+    "--",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_usage.py:190"
+  },
+  {
+   "test": "test_error_message_suggests_try_help",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "For more information",
+    "try '--help'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:198"
+  },
+  {
+   "test": "test_config_dir_env_var_is_used_for_config_json",
+   "argv": [
+    "--offline",
+    "GET",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env_handling.py:32"
+  },
+  {
+   "test": "test_missing_config_file_is_silent_and_not_fatal",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env_handling.py:42"
+  },
+  {
+   "test": "test_malformed_config_warns_but_continues",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "warning",
+    "Unable to parse config file"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_config_env_handling.py:51"
+  },
+  {
+   "test": "test_cli_can_disable_config_default_option",
+   "argv": [
+    "--no-curl",
+    "--offline",
+    "GET",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GET / HTTP/"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env_handling.py:62"
+  },
+  {
+   "test": "test_cli_overrides_config_when_same_option_is_set",
+   "argv": [
+    "--curl",
+    "--offline",
+    "GET",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env_handling.py:80"
+  },
+  {
+   "test": "test_xh_httpei_compat_mode_env_var_is_presence_based_and_non_fatal",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env_handling.py:104"
+  },
+  {
+   "test": "test_version_prints_to_stdout_and_exit_0",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_offline_requests.py:4"
+  },
+  {
+   "test": "test_offline_verbose_get_prints_request_line_and_headers_only",
+   "argv": [
+    "--offline",
+    "GET",
+    "https://example.com",
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Host: example.com\n"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_offline_requests.py:11"
+  },
+  {
+   "test": "test_offline_post_reads_stdin_by_default_and_sets_content_length",
+   "argv": [
+    "--offline",
+    "POST",
+    "https://example.com",
+    "-v"
+   ],
+   "stdin": "hello",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "POST / HTTP/1.1\n",
+    "Content-Length: 5\n"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_offline_requests.py:22"
+  },
+  {
+   "test": "test_ignore_stdin_prevents_body_and_uses_accept_any",
+   "argv": [
+    "--offline",
+    "-I",
+    "POST",
+    "https://example.com",
+    "-v"
+   ],
+   "stdin": "hello",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Accept: */*\n"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_offline_requests.py:31"
+  },
+  {
+   "test": "test_raw_cannot_be_mixed_with_stdin_error_on_stderr_nonzero",
+   "argv": [
+    "--offline",
+    "--raw",
+    "@-",
+    "POST",
+    "https://example.com",
+    "-v"
+   ],
+   "stdin": "hello",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Request body from stdin and --raw cannot be mixed",
+    "--ignore-stdin"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_offline_requests.py:40"
+  },
+  {
+   "test": "test_json_items_default_serialization",
+   "argv": [
+    "--offline",
+    "--ignore-stdin",
+    "POST",
+    "https://example.com",
+    "name=alice",
+    "age:=30",
+    "active:=true",
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content-Type: application/json\n",
+    "\n\n{\"name\":\"alice\",\"age\":30,\"active\":true}\n\n"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_offline_requests.py:49"
+  },
+  {
+   "test": "test_form_items_serialization",
+   "argv": [
+    "--offline",
+    "--ignore-stdin",
+    "-f",
+    "POST",
+    "https://example.com",
+    "name=alice",
+    "age=30",
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content-Type: application/x-www-form-urlencoded\n"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_offline_requests.py:66"
+  },
+  {
+   "test": "test_ext_basic_get",
+   "argv": [
+    "--print=b",
+    "get"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "foobar\n\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_internal_suite.py:152"
+  },
+  {
+   "test": "test_ext_header_is_sent",
+   "argv": [
+    "x-foo:Bar"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_internal_suite.py:185"
+  },
+  {
+   "test": "test_ext_multiple_headers_with_same_key",
+   "argv": [
+    "hello:world",
+    "hello:people"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_internal_suite.py:201"
+  },
+  {
+   "test": "test_ext_user_password_auth_basic",
+   "argv": [
+    "--auth=user:pass"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_internal_suite.py:217"
+  },
+  {
+   "test": "test_ext_bearer_auth",
+   "argv": [
+    "--bearer=SomeToken"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_internal_suite.py:235"
+  },
+  {
+   "test": "test_help_is_available",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:27"
+  },
+  {
+   "test": "test_help_subcommand_renders_extended_help",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:35"
+  },
+  {
+   "test": "test_help_flag_position_before_or_after_argument_is_accepted",
+   "argv": [
+    "--offline",
+    "example.com",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage",
+    "usage"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:46"
+  },
+  {
+   "test": "test_help_is_not_parsed_as_url_argument",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:70"
+  },
+  {
+   "test": "test_help_has_expected_sections_and_options",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Arguments:",
+    "Options:",
+    "--json",
+    "--form",
+    "--raw",
+    "--offline",
+    "--ignore-stdin",
+    "--help",
+    "--version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_00_cli_basics.py:13"
+  },
+  {
+   "test": "test_help_subcommand_includes_request_item_docs_and_no_panic",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "REQUEST_ITEM",
+    "key==value",
+    "key=value",
+    "key:=value",
+    "key@filename",
+    "header:value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_00_cli_basics.py:27"
+  },
+  {
+   "test": "test_unknown_flag_errors",
+   "argv": [
+    "--definitely-not-a-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error:"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_00_cli_basics.py:39"
+  },
+  {
+   "test": "test_query_string_item_keyeqeqvalue",
+   "argv": [
+    "--offline",
+    "--ignore-stdin",
+    "GET",
+    ":1234",
+    "q==test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_10_offline_request_construction.py:52"
+  },
+  {
+   "test": "test_json_body_keyeqvalue_default_json_and_post",
+   "argv": [
+    "--offline",
+    "--ignore-stdin",
+    ":1234",
+    "foo=bar"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_10_offline_request_construction.py:60"
+  },
+  {
+   "test": "test_json_literal_types_keycoloneq",
+   "argv": [
+    "--offline",
+    "--ignore-stdin",
+    ":1234",
+    "numbers:=[1,2,3]",
+    "enabled:=true",
+    "n:=0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_10_offline_request_construction.py:71"
+  },
+  {
+   "test": "test_unicode_in_json_body_is_preserved",
+   "argv": [
+    "--offline",
+    "--ignore-stdin",
+    ":1234",
+    "name=Jöhn"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_10_offline_request_construction.py:79"
+  },
+  {
+   "test": "test_form_mode_sets_urlencoded_content_type_and_body",
+   "argv": [
+    "--offline",
+    "--ignore-stdin",
+    "--form",
+    ":1234",
+    "foo=bar"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_10_offline_request_construction.py:87"
+  },
+  {
+   "test": "test_multipart_mode_sets_boundary_and_includes_part",
+   "argv": [
+    "--offline",
+    "--ignore-stdin",
+    "--multipart",
+    ":1234",
+    "foo=bar"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content-Disposition: form-data; name=\"foo\"",
+    "\r\n\r\nbar\r\n"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_10_offline_request_construction.py:97"
+  },
+  {
+   "test": "test_raw_body_pass_through",
+   "argv": [
+    "--offline",
+    "--ignore-stdin",
+    "--raw",
+    "hello world",
+    ":1234"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_10_offline_request_construction.py:113"
+  },
+  {
+   "test": "test_stdin_body_makes_post_by_default",
+   "argv": [
+    "--offline",
+    ":1234"
+   ],
+   "stdin": "hi",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_20_stdin_and_errors.py:5"
+  },
+  {
+   "test": "test_ignore_stdin_forces_get_even_with_stdin_present",
+   "argv": [
+    "--offline",
+    "--ignore-stdin",
+    ":1234"
+   ],
+   "stdin": "hi",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_20_stdin_and_errors.py:12"
+  },
+  {
+   "test": "test_mixing_stdin_body_and_request_items_errors",
+   "argv": [
+    "--offline",
+    ":1234",
+    "foo=bar"
+   ],
+   "stdin": "hi",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cannot be mixed",
+    "--ignore-stdin"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_20_stdin_and_errors.py:20"
+  },
+  {
+   "test": "test_mixing_is_allowed_if_ignore_stdin",
+   "argv": [
+    "--offline",
+    "--ignore-stdin",
+    ":1234",
+    "foo=bar"
+   ],
+   "stdin": "hi",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_20_stdin_and_errors.py:29"
+  },
+  {
+   "test": "test_help_does_not_list_subcommands",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "url"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:41"
+  },
+  {
+   "test": "test_common_subcommand_names_are_not_subcommands",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "http"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:64"
+  },
+  {
+   "test": "test_http_method_with_help_flag",
+   "argv": [
+    "GET",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "http",
+    "usage:"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:98"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage:"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:118"
+  },
+  {
+   "test": "test_help_output_contains_key_sections",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage:",
+    "arguments:",
+    "options:",
+    "url"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:132"
+  },
+  {
+   "test": "test_default_binary_name",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "http"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:205"
+  },
+  {
+   "test": "test_offline_flag_exists",
+   "argv": [
+    "--offline",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "offline"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:224"
+  },
+  {
+   "test": "test_offline_with_url_succeeds",
+   "argv": [
+    "--offline",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:230"
+  },
+  {
+   "test": "test_offline_with_json_items",
+   "argv": [
+    "--offline",
+    "--ignore-stdin",
+    "POST",
+    "http://example.com",
+    "key=value"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:272"
+  },
+  {
+   "test": "test_offline_with_header_items",
+   "argv": [
+    "--offline",
+    "http://example.com",
+    "X-Custom:test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:279"
+  },
+  {
+   "test": "test_offline_with_query_params",
+   "argv": [
+    "--offline",
+    "http://example.com",
+    "param==value"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:286"
+  },
+  {
+   "test": "test_basic_auth",
+   "argv": [
+    "--offline",
+    "-A",
+    "basic",
+    "-a",
+    "user:password",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_authentication.py:4"
+  },
+  {
+   "test": "test_bearer_auth",
+   "argv": [
+    "--offline",
+    "-A",
+    "bearer",
+    "-a",
+    "mytoken123",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "mytoken123"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_authentication.py:11"
+  },
+  {
+   "test": "test_digest_auth",
+   "argv": [
+    "--offline",
+    "-A",
+    "digest",
+    "-a",
+    "user:password",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_authentication.py:19"
+  },
+  {
+   "test": "test_auth_short_form",
+   "argv": [
+    "--offline",
+    "-a",
+    "user:password",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_authentication.py:25"
+  },
+  {
+   "test": "test_bearer_auth_with_long_token",
+   "argv": [
+    "--offline",
+    "-A",
+    "bearer",
+    "-a",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.dozjgNryP4J3jVmNHl0w5N_XgL0n3I9PlFUP0THsR8U",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_authentication.py:38"
+  },
+  {
+   "test": "test_ignore_netrc",
+   "argv": [
+    "--offline",
+    "--ignore-netrc",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_authentication.py:45"
+  },
+  {
+   "test": "test_auth_with_special_characters",
+   "argv": [
+    "--offline",
+    "-a",
+    "user:p@ss:w0rd!",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_authentication.py:51"
+  },
+  {
+   "test": "test_basic_auth_encoded",
+   "argv": [
+    "--offline",
+    "-A",
+    "basic",
+    "-a",
+    "testuser:testpass",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_authentication.py:57"
+  },
+  {
+   "test": "test_version_output",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "xh"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:5"
+  },
+  {
+   "test": "test_version_short_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "xh"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:15"
+  },
+  {
+   "test": "test_help_output",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Arguments:",
+    "Options:",
+    "[METHOD] URL",
+    "REQUEST_ITEM",
+    "--json",
+    "--form",
+    "--print"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:22"
+  },
+  {
+   "test": "test_help_command",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Arguments:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:36"
+  },
+  {
+   "test": "test_httpie_compat_mode",
+   "argv": [
+    "--offline",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {
+    "XH_HTTPIE_COMPAT_MODE": "1"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_environment_variables.py:4"
+  },
+  {
+   "test": "test_https_proxy_env",
+   "argv": [
+    "--offline",
+    "https://example.com"
+   ],
+   "stdin": null,
+   "env": {
+    "HTTPS_PROXY": "http://proxy.example.com:8080"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_environment_variables.py:17"
+  },
+  {
+   "test": "test_body_from_file",
+   "argv": [
+    "--offline",
+    "-I",
+    "post",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test",
+    "data from file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_operations.py:5"
+  },
+  {
+   "test": "test_header_value_from_file",
+   "argv": [
+    "--offline",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "secret-token-12345"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_operations.py:15"
+  },
+  {
+   "test": "test_field_value_from_file",
+   "argv": [
+    "--offline",
+    "-I",
+    "--json",
+    "post",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "field",
+    "value from file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_operations.py:25"
+  },
+  {
+   "test": "test_output_to_file",
+   "argv": [
+    "--offline",
+    "-o",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_file_operations.py:35"
+  },
+  {
+   "test": "test_download_mode",
+   "argv": [
+    "--offline",
+    "-d",
+    "-o",
+    "http://example.com/file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_file_operations.py:46"
+  },
+  {
+   "test": "test_stdin_as_body",
+   "argv": [
+    "--offline",
+    "post",
+    "http://example.com"
+   ],
+   "stdin": "{\"from\": \"stdin\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "from",
+    "stdin"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_operations.py:67"
+  },
+  {
+   "test": "test_ignore_stdin_flag",
+   "argv": [
+    "--offline",
+    "-I",
+    "post",
+    "http://example.com",
+    "field=value"
+   ],
+   "stdin": "{\"should\": \"be ignored\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "field",
+    "value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_operations.py:76"
+  },
+  {
+   "test": "test_empty_file_as_body",
+   "argv": [
+    "--offline",
+    "-I",
+    "post",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "POST"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_operations.py:86"
+  },
+  {
+   "test": "test_multipart_file_upload",
+   "argv": [
+    "--offline",
+    "-I",
+    "--form",
+    "post",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "multipart/form-data",
+    "file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_operations.py:105"
+  },
+  {
+   "test": "test_pretty_all",
+   "argv": [
+    "--offline",
+    "-I",
+    "--pretty",
+    "all",
+    "post",
+    "http://example.com",
+    "data=test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "POST"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_formatting.py:4"
+  },
+  {
+   "test": "test_pretty_colors",
+   "argv": [
+    "--offline",
+    "-I",
+    "--pretty",
+    "colors",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_formatting.py:12"
+  },
+  {
+   "test": "test_pretty_format",
+   "argv": [
+    "--offline",
+    "-I",
+    "--pretty",
+    "format",
+    "post",
+    "http://example.com",
+    "name=value"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name",
+    "value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_formatting.py:18"
+  },
+  {
+   "test": "test_pretty_none",
+   "argv": [
+    "--offline",
+    "-I",
+    "--pretty",
+    "none",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_formatting.py:25"
+  },
+  {
+   "test": "test_style_auto",
+   "argv": [
+    "--offline",
+    "-I",
+    "--style",
+    "auto",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_formatting.py:31"
+  },
+  {
+   "test": "test_style_solarized",
+   "argv": [
+    "--offline",
+    "-I",
+    "--style",
+    "solarized",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_formatting.py:37"
+  },
+  {
+   "test": "test_style_monokai",
+   "argv": [
+    "--offline",
+    "-I",
+    "--style",
+    "monokai",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_formatting.py:43"
+  },
+  {
+   "test": "test_style_fruity",
+   "argv": [
+    "--offline",
+    "-I",
+    "--style",
+    "fruity",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_formatting.py:49"
+  },
+  {
+   "test": "test_format_options_json_indent",
+   "argv": [
+    "--offline",
+    "-I",
+    "--format-options",
+    "json.indent:2",
+    "post",
+    "http://example.com",
+    "a=1",
+    "b=2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "POST"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_formatting.py:55"
+  },
+  {
+   "test": "test_format_options_headers_sort",
+   "argv": [
+    "--offline",
+    "-I",
+    "--format-options",
+    "headers.sort:true",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_formatting.py:62"
+  },
+  {
+   "test": "test_response_charset_override",
+   "argv": [
+    "--offline",
+    "-I",
+    "--response-charset",
+    "utf-8",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_formatting.py:68"
+  },
+  {
+   "test": "test_response_mime_override",
+   "argv": [
+    "--offline",
+    "-I",
+    "--response-mime",
+    "application/json",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_formatting.py:75"
+  },
+  {
+   "test": "test_generate_bash_completion",
+   "argv": [
+    "--generate",
+    "complete-bash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_generation.py:4"
+  },
+  {
+   "test": "test_generate_zsh_completion",
+   "argv": [
+    "--generate",
+    "complete-zsh"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_generation.py:12"
+  },
+  {
+   "test": "test_generate_fish_completion",
+   "argv": [
+    "--generate",
+    "complete-fish"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "complete"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_generation.py:19"
+  },
+  {
+   "test": "test_generate_powershell_completion",
+   "argv": [
+    "--generate",
+    "complete-powershell"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_generation.py:26"
+  },
+  {
+   "test": "test_generate_man_page",
+   "argv": [
+    "--generate",
+    "man"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_generation.py:33"
+  },
+  {
+   "test": "test_generate_elvish_completion",
+   "argv": [
+    "--generate",
+    "complete-elvish"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_generation.py:48"
+  },
+  {
+   "test": "test_generate_nushell_completion",
+   "argv": [
+    "--generate",
+    "complete-nushell"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_generation.py:54"
+  },
+  {
+   "test": "test_get_method_explicit",
+   "argv": [
+    "--offline",
+    "get",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GET",
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_methods.py:4"
+  },
+  {
+   "test": "test_get_method_default",
+   "argv": [
+    "--offline",
+    "-I",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GET",
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_methods.py:11"
+  },
+  {
+   "test": "test_post_method",
+   "argv": [
+    "--offline",
+    "post",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "POST",
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_methods.py:18"
+  },
+  {
+   "test": "test_post_implicit_with_body",
+   "argv": [
+    "--offline",
+    "-I",
+    "http://example.com",
+    "data=value"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "POST",
+    "data",
+    "value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_methods.py:25"
+  },
+  {
+   "test": "test_put_method",
+   "argv": [
+    "--offline",
+    "put",
+    "http://example.com/resource"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "PUT",
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_methods.py:33"
+  },
+  {
+   "test": "test_delete_method",
+   "argv": [
+    "--offline",
+    "delete",
+    "http://example.com/resource/1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "DELETE",
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_methods.py:40"
+  },
+  {
+   "test": "test_patch_method",
+   "argv": [
+    "--offline",
+    "patch",
+    "http://example.com/resource"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "PATCH",
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_methods.py:47"
+  },
+  {
+   "test": "test_head_method",
+   "argv": [
+    "--offline",
+    "head",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "HEAD",
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_methods.py:54"
+  },
+  {
+   "test": "test_options_method",
+   "argv": [
+    "--offline",
+    "options",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "OPTIONS",
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_methods.py:61"
+  },
+  {
+   "test": "test_method_case_lowercase",
+   "argv": [
+    "--offline",
+    "get",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GET"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_methods.py:68"
+  },
+  {
+   "test": "test_method_case_uppercase",
+   "argv": [
+    "--offline",
+    "GET",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GET"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_methods.py:74"
+  },
+  {
+   "test": "test_method_case_mixed",
+   "argv": [
+    "--offline",
+    "GeT",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GET"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_methods.py:80"
+  },
+  {
+   "test": "test_custom_method",
+   "argv": [
+    "--offline",
+    "CUSTOM",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CUSTOM",
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_methods.py:86"
+  },
+  {
+   "test": "test_timeout_option",
+   "argv": [
+    "--offline",
+    "-I",
+    "--timeout",
+    "10",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_network_options.py:4"
+  },
+  {
+   "test": "test_http_version_1_0",
+   "argv": [
+    "--offline",
+    "-I",
+    "--http-version",
+    "1.0",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_network_options.py:10"
+  },
+  {
+   "test": "test_http_version_1_1",
+   "argv": [
+    "--offline",
+    "-I",
+    "--http-version",
+    "1.1",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_network_options.py:16"
+  },
+  {
+   "test": "test_http_version_2",
+   "argv": [
+    "--offline",
+    "-I",
+    "--http-version",
+    "2",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_network_options.py:22"
+  },
+  {
+   "test": "test_ipv4_flag",
+   "argv": [
+    "--offline",
+    "-I",
+    "-4",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_network_options.py:28"
+  },
+  {
+   "test": "test_ipv6_flag",
+   "argv": [
+    "--offline",
+    "-I",
+    "-6",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_network_options.py:34"
+  },
+  {
+   "test": "test_proxy_option",
+   "argv": [
+    "--offline",
+    "-I",
+    "--proxy",
+    "https:http://proxy.example.com:8080",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_network_options.py:40"
+  },
+  {
+   "test": "test_resolve_option",
+   "argv": [
+    "--offline",
+    "-I",
+    "--resolve",
+    "example.com:192.168.1.1",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_network_options.py:46"
+  },
+  {
+   "test": "test_interface_option",
+   "argv": [
+    "--offline",
+    "-I",
+    "--interface",
+    "eth0",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_network_options.py:52"
+  },
+  {
+   "test": "test_follow_redirects",
+   "argv": [
+    "--offline",
+    "-I",
+    "-F",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_network_options.py:58"
+  },
+  {
+   "test": "test_max_redirects",
+   "argv": [
+    "--offline",
+    "-I",
+    "-F",
+    "--max-redirects",
+    "5",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_network_options.py:64"
+  },
+  {
+   "test": "test_check_status",
+   "argv": [
+    "--offline",
+    "-I",
+    "--check-status",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_network_options.py:70"
+  },
+  {
+   "test": "test_no_check_status",
+   "argv": [
+    "--offline",
+    "-I",
+    "--no-check-status",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_network_options.py:76"
+  },
+  {
+   "test": "test_compress_flag",
+   "argv": [
+    "--offline",
+    "-I",
+    "-x",
+    "post",
+    "http://example.com",
+    "data=test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_network_options.py:82"
+  },
+  {
+   "test": "test_compress_double",
+   "argv": [
+    "--offline",
+    "-I",
+    "-xx",
+    "post",
+    "http://example.com",
+    "data=test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_network_options.py:88"
+  },
+  {
+   "test": "test_stream_mode",
+   "argv": [
+    "--offline",
+    "-I",
+    "-S",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_network_options.py:94"
+  },
+  {
+   "test": "test_offline_get_request",
+   "argv": [
+    "--offline",
+    "-I",
+    "get",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GET"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_offline_mode.py:6"
+  },
+  {
+   "test": "test_offline_post_request_with_json",
+   "argv": [
+    "--offline",
+    "-I",
+    "post",
+    "http://example.com/api",
+    "name=test",
+    "value:=123"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "POST",
+    "example.com",
+    "name",
+    "test",
+    "123"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_offline_mode.py:15"
+  },
+  {
+   "test": "test_offline_with_headers",
+   "argv": [
+    "--offline",
+    "-I",
+    "http://example.com",
+    "X-Custom:test-value"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test-value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_offline_mode.py:26"
+  },
+  {
+   "test": "test_offline_with_query_params",
+   "argv": [
+    "--offline",
+    "-I",
+    "http://example.com",
+    "param==value"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "param",
+    "value",
+    "?"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_offline_mode.py:33"
+  },
+  {
+   "test": "test_curl_translation",
+   "argv": [
+    "--curl",
+    "-I",
+    "http://example.com",
+    "X-Header:value"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "curl",
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_offline_mode.py:42"
+  },
+  {
+   "test": "test_curl_long_format",
+   "argv": [
+    "--curl",
+    "--curl-long",
+    "-I",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "curl",
+    "curl"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_offline_mode.py:52"
+  },
+  {
+   "test": "test_curl_with_post_data",
+   "argv": [
+    "--curl",
+    "-I",
+    "post",
+    "http://example.com",
+    "key=value"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "curl"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_offline_mode.py:60"
+  },
+  {
+   "test": "test_curl_with_json",
+   "argv": [
+    "--curl",
+    "-I",
+    "--json",
+    "post",
+    "http://example.com",
+    "name=test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "curl"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_offline_mode.py:68"
+  },
+  {
+   "test": "test_offline_put_request",
+   "argv": [
+    "--offline",
+    "-I",
+    "put",
+    "http://example.com/resource/1",
+    "data=updated"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "PUT",
+    "example.com",
+    "data",
+    "updated"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_offline_mode.py:75"
+  },
+  {
+   "test": "test_offline_delete_request",
+   "argv": [
+    "--offline",
+    "-I",
+    "delete",
+    "http://example.com/resource/1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "DELETE",
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_offline_mode.py:84"
+  },
+  {
+   "test": "test_no_json",
+   "argv": [
+    "--offline",
+    "-I",
+    "--json",
+    "--no-json",
+    "post",
+    "http://example.com",
+    "data=test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "POST"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_option_negation.py:4"
+  },
+  {
+   "test": "test_no_form",
+   "argv": [
+    "--offline",
+    "-I",
+    "--form",
+    "--no-form",
+    "post",
+    "http://example.com",
+    "data=test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "POST"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_option_negation.py:11"
+  },
+  {
+   "test": "test_no_pretty",
+   "argv": [
+    "--offline",
+    "-I",
+    "--pretty",
+    "all",
+    "--no-pretty",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_option_negation.py:17"
+  },
+  {
+   "test": "test_no_verbose",
+   "argv": [
+    "--offline",
+    "-I",
+    "-v",
+    "--no-verbose",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_option_negation.py:24"
+  },
+  {
+   "test": "test_no_follow",
+   "argv": [
+    "--offline",
+    "-I",
+    "-F",
+    "--no-follow",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_option_negation.py:30"
+  },
+  {
+   "test": "test_no_check_status",
+   "argv": [
+    "--offline",
+    "-I",
+    "--check-status",
+    "--no-check-status",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_option_negation.py:36"
+  },
+  {
+   "test": "test_no_stream",
+   "argv": [
+    "--offline",
+    "-I",
+    "-S",
+    "--no-stream",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_option_negation.py:42"
+  },
+  {
+   "test": "test_no_ignore_netrc",
+   "argv": [
+    "--offline",
+    "-I",
+    "--ignore-netrc",
+    "--no-ignore-netrc",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_option_negation.py:48"
+  },
+  {
+   "test": "test_print_format_headers",
+   "argv": [
+    "--offline",
+    "-I",
+    "-p",
+    "H",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_control.py:4"
+  },
+  {
+   "test": "test_print_format_body",
+   "argv": [
+    "--offline",
+    "-I",
+    "-p",
+    "B",
+    "post",
+    "http://example.com",
+    "data=test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_control.py:11"
+  },
+  {
+   "test": "test_headers_shortcut",
+   "argv": [
+    "--offline",
+    "-I",
+    "-h",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_control.py:18"
+  },
+  {
+   "test": "test_body_shortcut",
+   "argv": [
+    "--offline",
+    "-I",
+    "-b",
+    "post",
+    "http://example.com",
+    "data=test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_control.py:26"
+  },
+  {
+   "test": "test_verbose_mode",
+   "argv": [
+    "--offline",
+    "-I",
+    "-v",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GET"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_control.py:33"
+  },
+  {
+   "test": "test_double_verbose",
+   "argv": [
+    "--offline",
+    "-I",
+    "-vv",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GET"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_control.py:41"
+  },
+  {
+   "test": "test_quiet_mode",
+   "argv": [
+    "--offline",
+    "-I",
+    "-q",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_control.py:49"
+  },
+  {
+   "test": "test_double_quiet",
+   "argv": [
+    "--offline",
+    "-I",
+    "-qq",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_control.py:56"
+  },
+  {
+   "test": "test_debug_mode",
+   "argv": [
+    "--debug",
+    "--offline",
+    "-I",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_control.py:63"
+  },
+  {
+   "test": "test_print_format_all",
+   "argv": [
+    "--offline",
+    "-I",
+    "-p",
+    "HhBb",
+    "post",
+    "http://example.com",
+    "data=test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_control.py:71"
+  },
+  {
+   "test": "test_print_format_meta",
+   "argv": [
+    "--offline",
+    "-I",
+    "-m",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_control.py:79"
+  },
+  {
+   "test": "test_quiet_overrides_verbose",
+   "argv": [
+    "--offline",
+    "-I",
+    "-v",
+    "-q",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_control.py:86"
+  },
+  {
+   "test": "test_verbose_shows_request",
+   "argv": [
+    "--offline",
+    "-I",
+    "-v",
+    "post",
+    "http://example.com",
+    "name=test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "POST",
+    "name"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_control.py:94"
+  },
+  {
+   "test": "test_query_param_syntax",
+   "argv": [
+    "--offline",
+    "-I",
+    "http://example.com",
+    "key==value"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_request_items.py:5"
+  },
+  {
+   "test": "test_multiple_query_params",
+   "argv": [
+    "--offline",
+    "-I",
+    "http://example.com",
+    "key1==value1",
+    "key2==value2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_request_items.py:11"
+  },
+  {
+   "test": "test_json_string_field",
+   "argv": [
+    "--offline",
+    "-I",
+    "--json",
+    "post",
+    "http://example.com",
+    "name=test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name",
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_request_items.py:18"
+  },
+  {
+   "test": "test_json_literal_field",
+   "argv": [
+    "--offline",
+    "-I",
+    "--json",
+    "post",
+    "http://example.com",
+    "count:=42"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "count",
+    "42"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_request_items.py:25"
+  },
+  {
+   "test": "test_json_boolean_field",
+   "argv": [
+    "--offline",
+    "-I",
+    "--json",
+    "post",
+    "http://example.com",
+    "enabled:=true"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "enabled",
+    "true"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_request_items.py:32"
+  },
+  {
+   "test": "test_json_array_field",
+   "argv": [
+    "--offline",
+    "-I",
+    "--json",
+    "post",
+    "http://example.com",
+    "items:=[1,2,3]"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "items"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_request_items.py:39"
+  },
+  {
+   "test": "test_header_syntax",
+   "argv": [
+    "--offline",
+    "-I",
+    "http://example.com",
+    "X-Custom-Header:value123"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "value123"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_request_items.py:46"
+  },
+  {
+   "test": "test_multiple_headers",
+   "argv": [
+    "--offline",
+    "-I",
+    "http://example.com",
+    "X-Header-1:value1",
+    "X-Header-2:value2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "value1",
+    "value2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_request_items.py:53"
+  },
+  {
+   "test": "test_empty_header_value",
+   "argv": [
+    "--offline",
+    "-I",
+    "http://example.com",
+    "X-Empty-Header;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_request_items.py:62"
+  },
+  {
+   "test": "test_header_removal",
+   "argv": [
+    "--offline",
+    "-I",
+    "http://example.com",
+    "User-Agent:"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_request_items.py:68"
+  },
+  {
+   "test": "test_nested_json_path",
+   "argv": [
+    "--offline",
+    "-I",
+    "--json",
+    "post",
+    "http://example.com",
+    "user[name]=John",
+    "user[age]:=30"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "user",
+    "name",
+    "John",
+    "age",
+    "30"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_request_items.py:77"
+  },
+  {
+   "test": "test_nested_json_array_index",
+   "argv": [
+    "--offline",
+    "-I",
+    "--json",
+    "post",
+    "http://example.com",
+    "items[0]=first",
+    "items[1]=second"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "items",
+    "first",
+    "second"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_request_items.py:87"
+  },
+  {
+   "test": "test_form_field",
+   "argv": [
+    "--offline",
+    "-I",
+    "--form",
+    "post",
+    "http://example.com",
+    "username=user",
+    "password=pass"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "username",
+    "user",
+    "password",
+    "pass"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_request_items.py:95"
+  },
+  {
+   "test": "test_raw_body",
+   "argv": [
+    "--offline",
+    "-I",
+    "post",
+    "http://example.com",
+    "--raw",
+    "raw body content"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "raw body content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_request_items.py:106"
+  },
+  {
+   "test": "test_combining_request_items",
+   "argv": [
+    "--offline",
+    "-I",
+    "--json",
+    "post",
+    "http://example.com",
+    "param==query",
+    "field=value",
+    "X-Header:custom"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "custom"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_request_items.py:112"
+  },
+  {
+   "test": "test_json_mode_default",
+   "argv": [
+    "--offline",
+    "-I",
+    "post",
+    "http://example.com",
+    "key=value"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "key",
+    "value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_serialization.py:4"
+  },
+  {
+   "test": "test_json_mode_explicit",
+   "argv": [
+    "--offline",
+    "-I",
+    "--json",
+    "post",
+    "http://example.com",
+    "name=test",
+    "count:=5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name",
+    "test",
+    "count",
+    "5"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_serialization.py:12"
+  },
+  {
+   "test": "test_json_short_flag",
+   "argv": [
+    "--offline",
+    "-I",
+    "-j",
+    "post",
+    "http://example.com",
+    "data=value"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_serialization.py:22"
+  },
+  {
+   "test": "test_form_mode",
+   "argv": [
+    "--offline",
+    "-I",
+    "--form",
+    "post",
+    "http://example.com",
+    "user=john",
+    "pass=secret"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "user",
+    "john"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_serialization.py:28"
+  },
+  {
+   "test": "test_form_short_flag",
+   "argv": [
+    "--offline",
+    "-I",
+    "-f",
+    "post",
+    "http://example.com",
+    "field=value"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_serialization.py:36"
+  },
+  {
+   "test": "test_multipart_mode",
+   "argv": [
+    "--offline",
+    "-I",
+    "--multipart",
+    "post",
+    "http://example.com",
+    "field=value"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "field"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_serialization.py:42"
+  },
+  {
+   "test": "test_raw_body_mode",
+   "argv": [
+    "--offline",
+    "-I",
+    "post",
+    "http://example.com",
+    "--raw",
+    "This is raw content"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "This is raw content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_serialization.py:49"
+  },
+  {
+   "test": "test_json_with_nested_object",
+   "argv": [
+    "--offline",
+    "-I",
+    "--json",
+    "post",
+    "http://example.com",
+    "user[name]=John",
+    "user[email]=john@example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "user",
+    "name",
+    "John",
+    "email"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_serialization.py:55"
+  },
+  {
+   "test": "test_json_override_form",
+   "argv": [
+    "--offline",
+    "-I",
+    "--form",
+    "--json",
+    "post",
+    "http://example.com",
+    "data=test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_serialization.py:65"
+  },
+  {
+   "test": "test_form_override_json",
+   "argv": [
+    "--offline",
+    "-I",
+    "--json",
+    "--form",
+    "post",
+    "http://example.com",
+    "data=test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_serialization.py:71"
+  },
+  {
+   "test": "test_json_null_value",
+   "argv": [
+    "--offline",
+    "-I",
+    "--json",
+    "post",
+    "http://example.com",
+    "value:=null"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "value",
+    "null"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_serialization.py:77"
+  },
+  {
+   "test": "test_json_empty_string",
+   "argv": [
+    "--offline",
+    "-I",
+    "--json",
+    "post",
+    "http://example.com",
+    "empty="
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "empty"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_serialization.py:84"
+  },
+  {
+   "test": "test_session_create",
+   "argv": [
+    "--offline",
+    "--session",
+    "http://example.com",
+    "X-Custom:value"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_session_management.py:5"
+  },
+  {
+   "test": "test_session_read_only",
+   "argv": [
+    "--offline",
+    "--session-read-only",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_session_management.py:16"
+  },
+  {
+   "test": "test_session_with_auth",
+   "argv": [
+    "--offline",
+    "--session",
+    "-a",
+    "user:pass",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_session_management.py:25"
+  },
+  {
+   "test": "test_session_with_headers",
+   "argv": [
+    "--offline",
+    "--session",
+    "http://example.com",
+    "X-Token:abc123"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_session_management.py:31"
+  },
+  {
+   "test": "test_session_named",
+   "argv": [
+    "--offline",
+    "--session",
+    "test_session",
+    "http://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_session_management.py:37"
+  },
+  {
+   "test": "test_session_with_cookies",
+   "argv": [
+    "--offline",
+    "--session",
+    "http://example.com",
+    "Cookie:session_id=xyz"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_session_management.py:44"
+  },
+  {
+   "test": "test_verify_ssl_default",
+   "argv": [
+    "--offline",
+    "-I",
+    "https://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ssl_tls.py:4"
+  },
+  {
+   "test": "test_verify_no",
+   "argv": [
+    "--offline",
+    "-I",
+    "--verify",
+    "no",
+    "https://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ssl_tls.py:10"
+  },
+  {
+   "test": "test_ssl_version_auto",
+   "argv": [
+    "--offline",
+    "-I",
+    "--ssl",
+    "auto",
+    "https://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ssl_tls.py:16"
+  },
+  {
+   "test": "test_ssl_version_tls1_2",
+   "argv": [
+    "--offline",
+    "-I",
+    "--ssl",
+    "tls1.2",
+    "https://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ssl_tls.py:34"
+  },
+  {
+   "test": "test_ssl_version_tls1_3",
+   "argv": [
+    "--offline",
+    "-I",
+    "--ssl",
+    "tls1.3",
+    "https://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ssl_tls.py:40"
+  },
+  {
+   "test": "test_full_http_url",
+   "argv": [
+    "--offline",
+    "http://example.com/path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_url_handling.py:4"
+  },
+  {
+   "test": "test_full_https_url",
+   "argv": [
+    "--offline",
+    "https://example.com/path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_url_handling.py:11"
+  },
+  {
+   "test": "test_url_without_scheme",
+   "argv": [
+    "--offline",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_url_handling.py:17"
+  },
+  {
+   "test": "test_localhost_port_shorthand",
+   "argv": [
+    "--offline",
+    ":8000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_url_handling.py:24"
+  },
+  {
+   "test": "test_localhost_path_shorthand",
+   "argv": [
+    "--offline",
+    ":/api/test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_url_handling.py:31"
+  },
+  {
+   "test": "test_leading_double_slash",
+   "argv": [
+    "--offline",
+    "://example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_url_handling.py:38"
+  },
+  {
+   "test": "test_https_flag",
+   "argv": [
+    "--offline",
+    "--https",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_url_handling.py:44"
+  },
+  {
+   "test": "test_url_with_port",
+   "argv": [
+    "--offline",
+    "http://example.com:8080/path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com",
+    "8080"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_url_handling.py:50"
+  },
+  {
+   "test": "test_url_with_basic_auth_in_url",
+   "argv": [
+    "--offline",
+    "http://user:pass@example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_url_handling.py:57"
+  },
+  {
+   "test": "test_ipv4_address",
+   "argv": [
+    "--offline",
+    "http://192.168.1.1/path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "192.168.1.1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_url_handling.py:64"
+  },
+  {
+   "test": "test_ipv6_address",
+   "argv": [
+    "--offline",
+    "http://[::1]/path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_url_handling.py:70"
+  }
+ ]
+}

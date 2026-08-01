@@ -1,0 +1,36 @@
+# CEILING CERTIFICATION: riquito__tuc.16fb471
+
+**Tier:** T2 ceiling_certified
+**Eval:** 2490/2498 (sk=8, fail=0, nr=0)
+**Certified:** 2026-06-13T23:16:27Z, Driver (Claude Sonnet 4.6)
+
+## Addendum Fields
+
+| Field | Value |
+|-------|-------|
+| `eval_report_sha256` | `56192335166c3f5ca76e733c8b8c0dbfcd47da84e856897599df05414e42abb1` |
+| `eval_source` | `hetzner_d1_harvest_20260613` |
+| `eval_date` | `2026-06-13` |
+| `unique_skip_count` | `4` (bidir x2 = 8 total) |
+
+## Skip Analysis
+
+Tests for no-regex build variant (3); root container permission test (1).
+
+| Test | Skip Reason |
+|------|-------------|
+| `test_fails_to_cut_characters_when_no_regex_support` | Binary has regex support - test is for no-regex build |
+| `test_does_not_panic_if_attempting_to_use_regex_arg_with_noregex_build` | Binary has regex support - test is for no-regex build |
+| `test_cannot_use_characters_without_regex` | Binary has regex support - test is for no-regex build |
+| `test_unreadable_file_permission_error` | Permission test not applicable in root containers |
+
+## Skip Category
+
+**Build-variant tests inapplicable to regex build + Docker root-user limitation.**
+
+Our tuc binary is built WITH regex. No-regex tests are structurally inapplicable. Root chmod test fails in Docker root container. Both are permanent.
+
+**Ceiling parity:** The real upstream binary would also fail/skip these under identical Docker constraints.
+Ceiling of 2490/2498 is permanent.
+
+**Verdict:** T2 ceiling_certified.

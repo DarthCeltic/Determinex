@@ -1,0 +1,33 @@
+{
+  "schema": "determinex-repair-loop-transcript-v1",
+  "tool": "xq",
+  "family": "go",
+  "pinned_commit": "b89f681",
+  "repair_type": "seeded_defect (behavioral) - build + behavioral smoke on the real binary (native go toolchain)",
+  "toolchain": "go build (GOFLAGS=-mod=mod -trimpath), go 1.26",
+  "oracle": "build the real xq binary then run a deterministic behavioral smoke: `echo '<a><b>hi</b></a>' | xq` must emit 2-space-indented XML",
+  "defect": {
+    "file": "internal/utils/config.go",
+    "function": "GetConfig",
+    "seed": "default `config.Indent = 2` changed to `config.Indent = 4`",
+    "intent": "break xq's canonical 2-space indentation contract"
+  },
+  "detect": {
+    "baseline_smoke": "<a>\n  <b>hi</b>\n</a>",
+    "after_seed_smoke": "<a>\n    <b>hi</b>\n</a>",
+    "oracle_caught": true,
+    "failure_signature": "behavioral smoke produced 4-space indentation instead of the canonical 2-space"
+  },
+  "repair": {
+    "fix": "restore `config.Indent = 2`",
+    "oracle_guided": "the indentation diff points directly at the default indent config"
+  },
+  "reverify": {
+    "after": "2-space indentation restored; repaired source == upstream @b89f681 (ProgramBench strict lock 876/876 green)",
+    "smoke_lines_matched": 3,
+    "passed": 876,
+    "failures": 0
+  },
+  "repair_loop_status": "passed",
+  "proves": "closed-loop repair on a real external Go project (xq): build the native binary, a deterministic formatting smoke detects the injected indentation defect -> targeted fix -> re-verify. Reliable without Docker; 876/876 strict lock is the committed behavioral green."
+}

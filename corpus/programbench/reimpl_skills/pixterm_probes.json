@@ -1,0 +1,816 @@
+[
+ {
+  "name": "test::test_help_flag::0",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_short::1",
+  "argv": [
+   "-help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::2",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_short::3",
+  "argv": [
+   "-version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_credits_flag::4",
+  "argv": [
+   "--credits"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_credits_flag_short::5",
+  "argv": [
+   "-credits"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file::6",
+  "argv": [
+   "/this/file/does/not/exist.png"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_small_image::7",
+  "argv": [
+   "-tc",
+   "10",
+   "-tr",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minimal_terminal_size::8",
+  "argv": [
+   "-tc",
+   "2",
+   "-tr",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combination_of_all_valid_flags::9",
+  "argv": [
+   "-d",
+   "1",
+   "-s",
+   "1",
+   "-m",
+   "A0A0A0",
+   "-tc",
+   "15",
+   "-tr",
+   "8"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_flags_combined::10",
+  "argv": [
+   "-d",
+   "1",
+   "-s",
+   "2",
+   "-m",
+   "808080",
+   "-tc",
+   "20",
+   "-tr",
+   "10",
+   "-nobg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dithering_and_scale_combination::11",
+  "argv": [
+   "-d",
+   "-s",
+   "-tc",
+   "10",
+   "-tr",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_flags_order_independence::12",
+  "argv": [
+   "-tc",
+   "10",
+   "-tr",
+   "5",
+   "-d",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_go_flag_with_various_combinations::13",
+  "argv": [
+   "-go",
+   "-d",
+   "1",
+   "-tc",
+   "10",
+   "-tr",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nobg_only_with_dithering::14",
+  "argv": [
+   "-nobg",
+   "-d",
+   "0",
+   "-tc",
+   "10",
+   "-tr",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_matte_color_with_different_modes::15",
+  "argv": [
+   "-m",
+   "00FF00",
+   "-d",
+   "-tc",
+   "10",
+   "-tr",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_flags_nobg_and_matte::16",
+  "argv": [
+   "-nobg",
+   "-m",
+   "FF0000",
+   "-d",
+   "1",
+   "-tc",
+   "10",
+   "-tr",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_small_image_large_terminal::17",
+  "argv": [
+   "-tc",
+   "100",
+   "-tr",
+   "50",
+   "-s",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_image_small_terminal::18",
+  "argv": [
+   "-tc",
+   "5",
+   "-tr",
+   "3",
+   "-s",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_file_error::19",
+  "argv": [
+   "/nonexistent/file.png"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_file_format::20",
+  "argv": [
+   "invalid.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.txt": "not an image"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_file::21",
+  "argv": [
+   "empty.png"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.png": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_corrupted_image::22",
+  "argv": [
+   "corrupted.png"
+  ],
+  "stdin": null,
+  "files": {
+   "corrupted.png": "�PNG\r\n\u001a\nGARBAGE"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nobg_with_dithering_mode_1::23",
+  "argv": [
+   "-d",
+   "1",
+   "-nobg",
+   "-tc",
+   "10",
+   "-tr",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nobg_with_dithering_mode_2::24",
+  "argv": [
+   "-d",
+   "2",
+   "-nobg",
+   "-tc",
+   "10",
+   "-tr",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nobg_without_dithering::25",
+  "argv": [
+   "-d",
+   "0",
+   "-nobg",
+   "-tc",
+   "10",
+   "-tr",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nobg_default_dithering::26",
+  "argv": [
+   "-nobg",
+   "-tc",
+   "10",
+   "-tr",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nobg_ignores_matte_color::27",
+  "argv": [
+   "-d",
+   "1",
+   "-nobg",
+   "-m",
+   "FF0000",
+   "-tc",
+   "10",
+   "-tr",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nobg_with_all_flags::28",
+  "argv": [
+   "-d",
+   "1",
+   "-s",
+   "1",
+   "-nobg",
+   "-tc",
+   "15",
+   "-tr",
+   "8"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_contains_unicode_block::29",
+  "argv": [
+   "-d",
+   "0",
+   "-tc",
+   "10",
+   "-tr",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_has_multiple_lines::30",
+  "argv": [
+   "-tc",
+   "20",
+   "-tr",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dither_mode_1::31",
+  "argv": [
+   "-d",
+   "1",
+   "-tc",
+   "10",
+   "-tr",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dither_mode_2::32",
+  "argv": [
+   "-d",
+   "2",
+   "-tc",
+   "10",
+   "-tr",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scale_mode_0::33",
+  "argv": [
+   "-s",
+   "0",
+   "-tc",
+   "20",
+   "-tr",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scale_mode_1::34",
+  "argv": [
+   "-s",
+   "1",
+   "-tc",
+   "20",
+   "-tr",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scale_mode_2::35",
+  "argv": [
+   "-s",
+   "2",
+   "-tc",
+   "20",
+   "-tr",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_matte_red::36",
+  "argv": [
+   "-m",
+   "FF0000",
+   "-tc",
+   "10",
+   "-tr",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_matte_green::37",
+  "argv": [
+   "-m",
+   "00FF00",
+   "-tc",
+   "10",
+   "-tr",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_matte_blue::38",
+  "argv": [
+   "-m",
+   "0000FF",
+   "-tc",
+   "10",
+   "-tr",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_matte_white::39",
+  "argv": [
+   "-m",
+   "FFFFFF",
+   "-tc",
+   "10",
+   "-tr",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_matte_lowercase::40",
+  "argv": [
+   "-m",
+   "ff0000",
+   "-tc",
+   "10",
+   "-tr",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_rows_cols::41",
+  "argv": [
+   "-tr",
+   "10",
+   "-tc",
+   "20"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_rows::42",
+  "argv": [
+   "-tr",
+   "2",
+   "-tc",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_cols::43",
+  "argv": [
+   "-tc",
+   "2",
+   "-tr",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_rows::44",
+  "argv": [
+   "-tr",
+   "100",
+   "-tc",
+   "20"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_cols::45",
+  "argv": [
+   "-tc",
+   "200",
+   "-tr",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_combined_with_other_flags_shows_help_and_exit_zero::46",
+  "argv": [
+   "-help",
+   "-version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_with_unknown_flag_prints_help_to_stdout_and_exit_2::47",
+  "argv": [
+   "-unknown",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_separator_double_dash_disables_flag_parsing_for_help_like_arg::48",
+  "argv": [
+   "--",
+   "-help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_args_prints_help_and_exits_2::49",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file_errors::50",
+  "argv": [
+   "/no/such/file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_is_usage_error::51",
+  "argv": [
+   "-definitely-not-a-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_matte_color_is_validation_error_exit_2::52",
+  "argv": [
+   "-m",
+   "zzz",
+   "foo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_makes_following_dash_arg_positional::53",
+  "argv": [
+   "--",
+   "-d",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_with_equals_is_accepted_for_int_option::54",
+  "argv": [
+   "-d=1",
+   "foo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_credits_flag_tty_output_with_icon::55",
+  "argv": [
+   "script",
+   "-q",
+   "-c",
+   "./executable -credits",
+   "/dev/null"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

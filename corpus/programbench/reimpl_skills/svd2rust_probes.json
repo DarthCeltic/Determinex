@@ -1,0 +1,2612 @@
+[
+ {
+  "name": "test::test_ext_help_succeeds::0",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_version_succeeds::1",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_flag::2",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_short_flag::3",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_from_stdin::4",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_xml::5",
+  "argv": [],
+  "stdin": "not valid xml",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_input_file::6",
+  "argv": [
+   "-i",
+   "/nonexistent/file.svd"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_input::7",
+  "argv": [],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_malformed_svd::8",
+  "argv": [
+   "-i",
+   "malformed.svd"
+  ],
+  "stdin": null,
+  "files": {
+   "malformed.svd": "<?xml version=\"1.0\"?><device></device>"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_has_usage_and_exit_code_zero::9",
+  "argv": [
+   "-z"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base_address_shift::10",
+  "argv": [
+   "-i",
+   "test.svd",
+   "-c",
+   "config.toml",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+   "config.toml": "base_address_shift = 4096\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base_address_shift_long::11",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--config",
+   "config.toml",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+   "config.toml": "base_address_shift = 8192\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base_address_shift_cli_invalid::12",
+  "argv": [
+   "-i",
+   "test.svd",
+   "-b",
+   "0x1000",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_source_type_flag::13",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--source-type",
+   "xml",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_device_generation::14",
+  "argv": [
+   "-i",
+   "test.svd",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>ComplexDevice</name>\n  <version>1.0</version>\n  <description>Complex Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <cpu>\n    <name>CM4</name>\n    <revision>r0p1</revision>\n    <endian>little</endian>\n    <mpuPresent>true</mpuPresent>\n    <fpuPresent>true</fpuPresent>\n    <nvicPrioBits>4</nvicPrioBits>\n    <vendorSystickConfig>false</vendorSystickConfig>\n  </cpu>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O A</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <interrupt>\n        <name>GPIOA_IRQ</name>\n        <value>0</value>\n      </interrupt>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n        </register>\n      </registers>\n    </peripheral>\n    <peripheral>\n      <name>GPIOB</name>\n      <description>General Purpose I/O B</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010400</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <interrupt>\n        <name>GPIOB_IRQ</name>\n        <value>1</value>\n      </interrupt>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n        </register>\n      </registers>\n    </peripheral>\n    <peripheral derivedFrom=\"GPIOA\">\n      <name>GPIOC</name>\n      <baseAddress>0x40010800</baseAddress>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combination_flags::15",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--target",
+   "cortex-m",
+   "--atomics",
+   "--impl-debug",
+   "--edition",
+   "2021",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_overwrite::16",
+  "argv": [
+   "-i",
+   "test.svd",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_svd_peripherals::17",
+  "argv": [
+   "-i",
+   "empty.svd",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>EmptyDevice</name>\n  <version>1.0</version>\n  <description>Empty Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_flag::18",
+  "argv": [
+   "-i",
+   "test.svd",
+   "-c",
+   "config.toml",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+   "config.toml": "[target]\nname = \"cortex-m\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_long_flag::19",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--config",
+   "config.toml",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+   "config.toml": "# empty config\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_settings_yaml_flag::20",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--settings",
+   "settings.yaml",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+   "settings.yaml": "# settings\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_config_file_ignored::21",
+  "argv": [
+   "-i",
+   "test.svd",
+   "-c",
+   "/nonexistent/config.toml",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_valid_settings::22",
+  "argv": [
+   "-i",
+   "test.svd",
+   "-c",
+   "config.toml",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+   "config.toml": "\nmake_mod = false\ngeneric_mod = false\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edition_2018::23",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--edition",
+   "2018",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edition_2021::24",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--edition",
+   "2021",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ident_format_single::25",
+  "argv": [
+   "-i",
+   "test.svd",
+   "-f",
+   "peripheral::p:",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ident_format_multiple::26",
+  "argv": [
+   "-i",
+   "test.svd",
+   "-f",
+   "peripheral::p:",
+   "-f",
+   "register::s:",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ident_formats_theme_legacy::27",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--ident-formats-theme",
+   "legacy",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ident_formats_theme_new::28",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--ident-formats-theme",
+   "new",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_target::29",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--target",
+   "invalid-arch",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_log_level::30",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--log",
+   "invalid",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_malformed_toml_config::31",
+  "argv": [
+   "-i",
+   "test.svd",
+   "-c",
+   "bad.toml",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+   "bad.toml": "[invalid toml syntax\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_svd_missing_required_fields::32",
+  "argv": [
+   "-i",
+   "bad.svd",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>BadDevice</name>\n  <peripherals>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_peripheral_without_registers::33",
+  "argv": [
+   "-i",
+   "test.svd",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>NoRegsTest</name>\n  <version>1.0</version>\n  <description>Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>EMPTY</name>\n      <baseAddress>0x40000000</baseAddress>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duplicate_peripheral_names::34",
+  "argv": [
+   "-i",
+   "test.svd",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>DupTest</name>\n  <version>1.0</version>\n  <description>Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>GPIO</name>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <addressOffset>0x0</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n    <peripheral>\n      <name>GPIO</name>\n      <baseAddress>0x40001000</baseAddress>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <addressOffset>0x0</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_address_values::35",
+  "argv": [
+   "-i",
+   "test.svd",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>BadAddrTest</name>\n  <version>1.0</version>\n  <description>Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>GPIO</name>\n      <baseAddress>0xFFFFFFFFFFFF</baseAddress>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <addressOffset>0x0</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_atomics_flag::36",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--atomics",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_atomics_feature_flag::37",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--atomics-feature",
+   "atomics",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_groups_flag::38",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--ignore-groups",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keep_list_flag::39",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--keep-list",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generic_mod_flag::40",
+  "argv": [
+   "-i",
+   "test.svd",
+   "-g",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strict_flag::41",
+  "argv": [
+   "-i",
+   "test.svd",
+   "-s",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_skip_crate_attributes_flag::42",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--skip-crate-attributes",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_impl_debug_flag::43",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--impl-debug",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_impl_debug_feature_flag::44",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--impl-debug-feature",
+   "debug",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_impl_defmt_flag::45",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--impl-defmt",
+   "defmt",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_cluster_size_flag::46",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--max-cluster-size",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_field_names_for_enums_flag::47",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--field-names-for-enums",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reexport_core_peripherals_flag::48",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--reexport-core-peripherals",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reexport_interrupt_flag::49",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--reexport-interrupt",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_via_stdin::50",
+  "argv": [
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_xml_input::51",
+  "argv": [
+   "-i",
+   "invalid.svd"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.svd": "This is not XML"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_malformed_svd::52",
+  "argv": [
+   "-i",
+   "malformed.svd"
+  ],
+  "stdin": null,
+  "files": {
+   "malformed.svd": "<?xml version='1.0'?><root></root>"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_input_xml::53",
+  "argv": [
+   "-o"
+  ],
+  "stdin": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_peripherals_same_group::54",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--feature-group",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>MultiGroupTest</name>\n  <version>1.0</version>\n  <description>Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>SPI1</name>\n      <groupName>SPI</groupName>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>DR</name>\n          <addressOffset>0x0</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n    <peripheral>\n      <name>SPI2</name>\n      <groupName>SPI</groupName>\n      <baseAddress>0x40001000</baseAddress>\n      <registers>\n        <register>\n          <name>DR</name>\n          <addressOffset>0x0</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n    <peripheral>\n      <name>SPI3</name>\n      <groupName>SPI</groupName>\n      <baseAddress>0x40002000</baseAddress>\n      <registers>\n        <register>\n          <name>DR</name>\n          <addressOffset>0x0</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_register_size::55",
+  "argv": [
+   "-i",
+   "test.svd",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>LargeRegTest</name>\n  <version>1.0</version>\n  <description>Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>64</width>\n  <size>64</size>\n  <peripherals>\n    <peripheral>\n      <name>TIMER</name>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>COUNTER</name>\n          <addressOffset>0x0</addressOffset>\n          <size>64</size>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_access_fields::56",
+  "argv": [
+   "-i",
+   "test.svd",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>MixedAccessTest</name>\n  <version>1.0</version>\n  <description>Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>STATUS</name>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>SR</name>\n          <addressOffset>0x0</addressOffset>\n          <fields>\n            <field>\n              <name>READY</name>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n              <access>read-only</access>\n            </field>\n            <field>\n              <name>ENABLE</name>\n              <bitOffset>1</bitOffset>\n              <bitWidth>1</bitWidth>\n              <access>read-write</access>\n            </field>\n            <field>\n              <name>CLEAR</name>\n              <bitOffset>2</bitOffset>\n              <bitWidth>1</bitWidth>\n              <access>write-only</access>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_off::57",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--log",
+   "off",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_error::58",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--log",
+   "error",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_warn::59",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--log",
+   "warn",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_info::60",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--log",
+   "info",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_debug::61",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--log",
+   "debug",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_trace::62",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--log",
+   "trace",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_short_flag::63",
+  "argv": [
+   "-i",
+   "test.svd",
+   "-l",
+   "error",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_long_flag::64",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--output-dir"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_output_current_dir::65",
+  "argv": [
+   "-i",
+   "test.svd"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_make_mod_flag::66",
+  "argv": [
+   "-i",
+   "test.svd",
+   "-m",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_feature_group_flag::67",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--feature-group",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_feature_peripheral_flag::68",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--feature-peripheral",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>ComplexDevice</name>\n  <version>1.0</version>\n  <description>Complex Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <cpu>\n    <name>CM4</name>\n    <revision>r0p1</revision>\n    <endian>little</endian>\n    <mpuPresent>true</mpuPresent>\n    <fpuPresent>true</fpuPresent>\n    <nvicPrioBits>4</nvicPrioBits>\n    <vendorSystickConfig>false</vendorSystickConfig>\n  </cpu>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O A</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <interrupt>\n        <name>GPIOA_IRQ</name>\n        <value>0</value>\n      </interrupt>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n        </register>\n      </registers>\n    </peripheral>\n    <peripheral>\n      <name>GPIOB</name>\n      <description>General Purpose I/O B</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010400</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <interrupt>\n        <name>GPIOB_IRQ</name>\n        <value>1</value>\n      </interrupt>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n        </register>\n      </registers>\n    </peripheral>\n    <peripheral derivedFrom=\"GPIOA\">\n      <name>GPIOC</name>\n      <baseAddress>0x40010800</baseAddress>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_riscv_core_interrupts_config::69",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--target",
+   "riscv",
+   "--settings",
+   "settings.yaml",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+   "settings.yaml": "\nriscv_config:\n  core_interrupts:\n    - name: MachineSoftware\n      value: 3\n      description: \"Machine software interrupt\"\n    - name: MachineTimer\n      value: 7\n      description: \"Machine timer interrupt\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_riscv_exceptions_config::70",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--target",
+   "riscv",
+   "--settings",
+   "settings.yaml",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+   "settings.yaml": "\nriscv_config:\n  exceptions:\n    - name: InstructionMisaligned\n      value: 0\n      description: \"Instruction address misaligned\"\n    - name: IllegalInstruction\n      value: 2\n      description: \"Illegal instruction\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_riscv_priorities_config::71",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--target",
+   "riscv",
+   "--settings",
+   "settings.yaml",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+   "settings.yaml": "\nriscv_config:\n  priorities:\n    - name: P0\n      value: 0\n      description: \"Priority 0 (highest)\"\n    - name: P1\n      value: 1\n      description: \"Priority 1\"\n    - name: P2\n      value: 2\n      description: \"Priority 2 (lowest)\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_riscv_harts_config::72",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--target",
+   "riscv",
+   "--settings",
+   "settings.yaml",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+   "settings.yaml": "\nriscv_config:\n  harts:\n    - name: Hart0\n      value: 0\n      description: \"Hart 0\"\n    - name: Hart1\n      value: 1\n      description: \"Hart 1\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_riscv_clint_peripheral::73",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--target",
+   "riscv",
+   "--settings",
+   "settings.yaml",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>RISCVTest</name>\n  <version>1.0</version>\n  <description>Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>CLINT</name>\n      <baseAddress>0x02000000</baseAddress>\n      <registers>\n        <register>\n          <name>MTIME</name>\n          <addressOffset>0x0</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+   "settings.yaml": "\nriscv_config:\n  clint:\n    name: CLINT\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_riscv_plic_peripheral::74",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--target",
+   "riscv",
+   "--settings",
+   "settings.yaml",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>RISCVTest</name>\n  <version>1.0</version>\n  <description>Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>PLIC</name>\n      <baseAddress>0x0C000000</baseAddress>\n      <registers>\n        <register>\n          <name>PRIORITY</name>\n          <addressOffset>0x0</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+   "settings.yaml": "\nriscv_config:\n  plic:\n    name: PLIC\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_riscv_combined_config::75",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--target",
+   "riscv",
+   "--settings",
+   "settings.yaml",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+   "settings.yaml": "\nriscv_config:\n  base_isa: rv32imac\n  mtvec_align: 4\n  core_interrupts:\n    - name: MachineSoftware\n      value: 3\n      description: \"Machine software interrupt\"\n  exceptions:\n    - name: IllegalInstruction\n      value: 2\n      description: \"Illegal instruction\"\n  priorities:\n    - name: P0\n      value: 0\n      description: \"Priority 0\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_riscv_interrupt_generation::76",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--target",
+   "riscv",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>RiscvTest</name>\n  <version>1.0</version>\n  <description>RISC-V Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>UART0</name>\n      <baseAddress>0x10000000</baseAddress>\n      <interrupt>\n        <name>UART0_IRQ</name>\n        <value>3</value>\n      </interrupt>\n      <registers>\n        <register>\n          <name>TXDATA</name>\n          <addressOffset>0x0</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n    <peripheral>\n      <name>GPIO</name>\n      <baseAddress>0x10010000</baseAddress>\n      <interrupt>\n        <name>GPIO_IRQ</name>\n        <value>7</value>\n      </interrupt>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <addressOffset>0x0</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_riscv_with_yaml_settings::77",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--target",
+   "riscv",
+   "--settings",
+   "settings.yaml",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>RiscvSettingsTest</name>\n  <version>1.0</version>\n  <description>Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>TIMER</name>\n      <baseAddress>0x10020000</baseAddress>\n      <registers>\n        <register>\n          <name>MTIME</name>\n          <addressOffset>0x0</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+   "settings.yaml": "\nriscv_config:\n  base_isa: rv32imac\n  mtvec_align: 128\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_riscv_core_interrupts::78",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--target",
+   "riscv",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>RiscvCore</name>\n  <version>1.0</version>\n  <description>Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>PLIC</name>\n      <description>Platform-Level Interrupt Controller</description>\n      <baseAddress>0x0C000000</baseAddress>\n      <registers>\n        <register>\n          <name>PRIORITY</name>\n          <addressOffset>0x0</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_derived_peripheral::79",
+  "argv": [
+   "-i",
+   "test.svd",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>DerivedTest</name>\n  <version>1.0</version>\n  <description>Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>UART0</name>\n      <description>UART 0</description>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>DR</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n        </register>\n        <register>\n          <name>SR</name>\n          <description>Status Register</description>\n          <addressOffset>0x4</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n    <peripheral derivedFrom=\"UART0\">\n      <name>UART1</name>\n      <description>UART 1</description>\n      <baseAddress>0x40001000</baseAddress>\n    </peripheral>\n    <peripheral derivedFrom=\"UART0\">\n      <name>UART2</name>\n      <baseAddress>0x40002000</baseAddress>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_derived_register::80",
+  "argv": [
+   "-i",
+   "test.svd",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>DerivedRegTest</name>\n  <version>1.0</version>\n  <description>Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>TIM</name>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>CR1</name>\n          <description>Control Register 1</description>\n          <addressOffset>0x0</addressOffset>\n          <fields>\n            <field>\n              <name>CEN</name>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n        <register derivedFrom=\"CR1\">\n          <name>CR2</name>\n          <addressOffset>0x4</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_alternate_group::81",
+  "argv": [
+   "-i",
+   "test.svd",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>AltGroupTest</name>\n  <version>1.0</version>\n  <description>Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>GPIO_A</name>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>MODE</name>\n          <addressOffset>0x0</addressOffset>\n          <alternateGroup>config</alternateGroup>\n        </register>\n        <register>\n          <name>CONFIG</name>\n          <addressOffset>0x0</addressOffset>\n          <alternateGroup>config</alternateGroup>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_register_with_resetValue::82",
+  "argv": [
+   "-i",
+   "test.svd",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>ResetTest</name>\n  <version>1.0</version>\n  <description>Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>CTRL</name>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>CONFIG</name>\n          <addressOffset>0x0</addressOffset>\n          <resetValue>0x12345678</resetValue>\n          <resetMask>0xFFFF0000</resetMask>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_field_array::83",
+  "argv": [
+   "-i",
+   "test.svd",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>FieldArrayTest</name>\n  <version>1.0</version>\n  <description>Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>GPIO</name>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>MODE</name>\n          <addressOffset>0x0</addressOffset>\n          <fields>\n            <field>\n              <name>MODE%s</name>\n              <description>Mode for pin</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>2</bitWidth>\n              <dim>16</dim>\n              <dimIncrement>2</dimIncrement>\n              <dimIndex>0-15</dimIndex>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_protected_region::84",
+  "argv": [
+   "-i",
+   "test.svd",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>ProtectTest</name>\n  <version>1.0</version>\n  <description>Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>SEC</name>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>SECURE_REG</name>\n          <addressOffset>0x0</addressOffset>\n          <protection>s</protection>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_readAction::85",
+  "argv": [
+   "-i",
+   "test.svd",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>ReadActionTest</name>\n  <version>1.0</version>\n  <description>Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>FIFO</name>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <addressOffset>0x0</addressOffset>\n          <readAction>clear</readAction>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_peripheral_array::86",
+  "argv": [
+   "-i",
+   "test.svd",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>ArrayTest</name>\n  <version>1.0</version>\n  <description>Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>UART%s</name>\n      <description>UART Array</description>\n      <baseAddress>0x40000000</baseAddress>\n      <dim>4</dim>\n      <dimIncrement>0x1000</dimIncrement>\n      <dimIndex>0,1,2,3</dimIndex>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <addressOffset>0x0</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_register_array::87",
+  "argv": [
+   "-i",
+   "test.svd",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>RegArrayTest</name>\n  <version>1.0</version>\n  <description>Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>GPIO</name>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>PIN%s</name>\n          <description>Pin register</description>\n          <addressOffset>0x0</addressOffset>\n          <dim>16</dim>\n          <dimIncrement>4</dimIncrement>\n          <dimIndex>0-15</dimIndex>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cluster::88",
+  "argv": [
+   "-i",
+   "test.svd",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>ClusterTest</name>\n  <version>1.0</version>\n  <description>Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>TIM</name>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <cluster>\n          <name>CH%s</name>\n          <description>Channel cluster</description>\n          <dim>4</dim>\n          <dimIncrement>0x10</dimIncrement>\n          <dimIndex>0-3</dimIndex>\n          <addressOffset>0x0</addressOffset>\n          <register>\n            <name>CCR</name>\n            <description>Capture/Compare Register</description>\n            <addressOffset>0x0</addressOffset>\n          </register>\n          <register>\n            <name>CNT</name>\n            <description>Counter</description>\n            <addressOffset>0x4</addressOffset>\n          </register>\n        </cluster>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enumerated_values::89",
+  "argv": [
+   "-i",
+   "test.svd",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>EnumTest</name>\n  <version>1.0</version>\n  <description>Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>GPIO</name>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>MODE</name>\n          <description>Mode register</description>\n          <addressOffset>0x0</addressOffset>\n          <fields>\n            <field>\n              <name>MODE</name>\n              <bitOffset>0</bitOffset>\n              <bitWidth>2</bitWidth>\n              <enumeratedValues>\n                <enumeratedValue>\n                  <name>Input</name>\n                  <description>Input mode</description>\n                  <value>0</value>\n                </enumeratedValue>\n                <enumeratedValue>\n                  <name>Output</name>\n                  <description>Output mode</description>\n                  <value>1</value>\n                </enumeratedValue>\n                <enumeratedValue>\n                  <name>Alternate</name>\n                  <description>Alternate function</description>\n                  <value>2</value>\n                </enumeratedValue>\n              </enumeratedValues>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_write_constraint::90",
+  "argv": [
+   "-i",
+   "test.svd",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>ConstraintTest</name>\n  <version>1.0</version>\n  <description>Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>CTRL</name>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>CONFIG</name>\n          <addressOffset>0x0</addressOffset>\n          <fields>\n            <field>\n              <name>VALUE</name>\n              <bitOffset>0</bitOffset>\n              <bitWidth>8</bitWidth>\n              <writeConstraint>\n                <range>\n                  <minimum>0</minimum>\n                  <maximum>100</maximum>\n                </range>\n              </writeConstraint>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_access_modes::91",
+  "argv": [
+   "-i",
+   "test.svd",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>AccessTest</name>\n  <version>1.0</version>\n  <description>Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>REG</name>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>RO</name>\n          <description>Read-only</description>\n          <addressOffset>0x0</addressOffset>\n          <access>read-only</access>\n        </register>\n        <register>\n          <name>WO</name>\n          <description>Write-only</description>\n          <addressOffset>0x4</addressOffset>\n          <access>write-only</access>\n        </register>\n        <register>\n          <name>RW</name>\n          <description>Read-write</description>\n          <addressOffset>0x8</addressOffset>\n          <access>read-write</access>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_modified_write_values::92",
+  "argv": [
+   "-i",
+   "test.svd",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>ModWriteTest</name>\n  <version>1.0</version>\n  <description>Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>CTRL</name>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>STATUS</name>\n          <addressOffset>0x0</addressOffset>\n          <modifiedWriteValues>oneToClear</modifiedWriteValues>\n          <fields>\n            <field>\n              <name>FLAG</name>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_riscv_with_settings::93",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--target",
+   "riscv",
+   "--settings",
+   "settings.yaml",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+   "settings.yaml": "\nriscv_config:\n  base_isa: rv32i\n  mtvec_align: 4\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cortex_m_with_cpu_info::94",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--target",
+   "cortex-m",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>CortexMTest</name>\n  <version>1.0</version>\n  <description>Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <cpu>\n    <name>CM4</name>\n    <revision>r0p1</revision>\n    <endian>little</endian>\n    <mpuPresent>true</mpuPresent>\n    <fpuPresent>true</fpuPresent>\n    <nvicPrioBits>4</nvicPrioBits>\n    <vendorSystickConfig>false</vendorSystickConfig>\n  </cpu>\n  <peripherals>\n    <peripheral>\n      <name>GPIO</name>\n      <baseAddress>0x40000000</baseAddress>\n      <interrupt>\n        <name>GPIO_IRQ</name>\n        <value>5</value>\n      </interrupt>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <addressOffset>0x0</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_msp430_generation::95",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--target",
+   "msp430",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xtensa_generation::96",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--target",
+   "xtensa-lx",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>XtensaTest</name>\n  <version>1.0</version>\n  <description>Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>GPIO</name>\n      <baseAddress>0x60000000</baseAddress>\n      <interrupt>\n        <name>GPIO_INTR</name>\n        <value>10</value>\n      </interrupt>\n      <registers>\n        <register>\n          <name>OUT</name>\n          <addressOffset>0x0</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_none_target_no_device_x::97",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--target",
+   "none",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interrupt_priorities::98",
+  "argv": [
+   "-i",
+   "test.svd",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\">\n  <name>IntrTest</name>\n  <version>1.0</version>\n  <description>Test</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <peripherals>\n    <peripheral>\n      <name>TIM1</name>\n      <baseAddress>0x40000000</baseAddress>\n      <interrupt>\n        <name>TIM1_UP</name>\n        <value>10</value>\n      </interrupt>\n      <interrupt>\n        <name>TIM1_CC</name>\n        <value>11</value>\n      </interrupt>\n      <registers>\n        <register>\n          <name>CR1</name>\n          <addressOffset>0x0</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_target_cortex_m::99",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--target",
+   "cortex-m",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_target_riscv::100",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--target",
+   "riscv",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_target_xtensa_lx::101",
+  "argv": [
+   "-i",
+   "test.svd",
+   "--target",
+   "xtensa-lx",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<device schemaVersion=\"1.3\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD.xsd\">\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <size>32</size>\n  <access>read-write</access>\n  <resetValue>0x00000000</resetValue>\n  <resetMask>0xFFFFFFFF</resetMask>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose I/O</description>\n      <groupName>GPIO</groupName>\n      <baseAddress>0x40010000</baseAddress>\n      <addressBlock>\n        <offset>0</offset>\n        <size>0x400</size>\n        <usage>registers</usage>\n      </addressBlock>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <description>Data Register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0</resetValue>\n          <fields>\n            <field>\n              <name>PIN0</name>\n              <description>Pin 0</description>\n              <bitOffset>0</bitOffset>\n              <bitWidth>1</bitWidth>\n            </field>\n          </fields>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interrupts_cortex_m::102",
+  "argv": [
+   "-i",
+   "-o",
+   "--target",
+   "cortex-m"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interrupts_riscv::103",
+  "argv": [
+   "-i",
+   "-o",
+   "--target",
+   "riscv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enum_generation::104",
+  "argv": [
+   "-i",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enum_with_defmt::105",
+  "argv": [
+   "-i",
+   "-o",
+   "--impl-defmt",
+   "defmt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_access_with_debug::106",
+  "argv": [
+   "-i",
+   "-o",
+   "--impl-debug"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_atomics_with_debug::107",
+  "argv": [
+   "-i",
+   "-o",
+   "--atomics",
+   "--impl-debug"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_feature_group_with_peripheral::108",
+  "argv": [
+   "-i",
+   "-o",
+   "--feature-group",
+   "--feature-peripheral"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::109",
+  "argv": [
+   "--invalid-flag-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_invalid_xml::110",
+  "argv": [
+   "-o"
+  ],
+  "stdin": "<device><unclosed>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_invalid_svd_structure::111",
+  "argv": [
+   "-o"
+  ],
+  "stdin": "<?xml version=\"1.0\"?>\n        <device>\n          <name>Test</name>\n        </device>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_empty_file::112",
+  "argv": [
+   "-o"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_flags::113",
+  "argv": [
+   "-i",
+   "-o",
+   "-m",
+   "-g"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_combinations::114",
+  "argv": [
+   "-i",
+   "-o",
+   "-m",
+   "-s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_required_fields::115",
+  "argv": [
+   "-i",
+   "test.svd",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.svd": "<?xml version=\"1.0\"?>\n        <device>\n          <name>Minimal</name>\n          <peripherals>\n            <peripheral>\n              <name>TEST</name>\n            </peripheral>\n          </peripherals>\n        </device>"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_atomics_flag::116",
+  "argv": [
+   "-i",
+   "-o",
+   "--atomics"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_atomics_feature_flag::117",
+  "argv": [
+   "-i",
+   "-o",
+   "--atomics",
+   "--atomics-feature",
+   "atomic_support"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_impl_debug_feature_flag::118",
+  "argv": [
+   "-i",
+   "-o",
+   "--impl-debug",
+   "--impl-debug-feature",
+   "debug_support"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_impl_defmt_flag::119",
+  "argv": [
+   "-i",
+   "-o",
+   "--impl-defmt",
+   "defmt_feature"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_feature_group_flag::120",
+  "argv": [
+   "-i",
+   "-o",
+   "--feature-group"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_feature_peripheral_flag::121",
+  "argv": [
+   "-i",
+   "-o",
+   "--feature-peripheral"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_skip_crate_attributes_flag::122",
+  "argv": [
+   "-i",
+   "-o",
+   "--skip-crate-attributes"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reexport_core_peripherals_flag::123",
+  "argv": [
+   "-i",
+   "-o",
+   "--target",
+   "cortex-m",
+   "--reexport-core-peripherals"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reexport_interrupt_flag::124",
+  "argv": [
+   "-i",
+   "-o",
+   "--reexport-interrupt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ident_format_flag::125",
+  "argv": [
+   "-i",
+   "-o",
+   "-f",
+   "peripheral_mod::s:"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ident_formats_theme_legacy::126",
+  "argv": [
+   "-i",
+   "-o",
+   "--ident-formats-theme",
+   "legacy"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_field_names_for_enums_flag::127",
+  "argv": [
+   "-i",
+   "-o",
+   "--field-names-for-enums"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edition_2021::128",
+  "argv": [
+   "-i",
+   "-o",
+   "--edition",
+   "2021"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edition_2024::129",
+  "argv": [
+   "-i",
+   "-o",
+   "--edition",
+   "2024"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_level_off::130",
+  "argv": [
+   "-i",
+   "-o",
+   "-l",
+   "off"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_level_error::131",
+  "argv": [
+   "-i",
+   "-o",
+   "-l",
+   "error"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_level_warn::132",
+  "argv": [
+   "-i",
+   "-o",
+   "-l",
+   "warn"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_level_info::133",
+  "argv": [
+   "-i",
+   "-o",
+   "-l",
+   "info"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_level_debug::134",
+  "argv": [
+   "-i",
+   "-o",
+   "-l",
+   "debug"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_level_trace::135",
+  "argv": [
+   "-i",
+   "-o",
+   "-l",
+   "trace"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_toml::136",
+  "argv": [
+   "-i",
+   "-o",
+   "-c",
+   "config.toml"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\ntarget = \"cortex-m\"\natomics = true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_not_found::137",
+  "argv": [
+   "-i",
+   "-o",
+   "-c",
+   "/nonexistent/config.toml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_invalid_toml::138",
+  "argv": [
+   "-i",
+   "-o",
+   "-c",
+   "config.toml"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "invalid = [unclosed"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_make_mod_flag::139",
+  "argv": [
+   "-i",
+   "-o",
+   "-m"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generic_mod_flag::140",
+  "argv": [
+   "-i",
+   "-o",
+   "-g"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdout_output_default::141",
+  "argv": [
+   "-i"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_groups_flag::142",
+  "argv": [
+   "-i",
+   "-o",
+   "--ignore-groups"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keep_list_flag::143",
+  "argv": [
+   "-i",
+   "-o",
+   "--keep-list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_cluster_size_flag::144",
+  "argv": [
+   "-i",
+   "-o",
+   "--max-cluster-size"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strict_flag::145",
+  "argv": [
+   "-i",
+   "-o",
+   "-s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base_address_shift_flag::146",
+  "argv": [
+   "-i",
+   "-o",
+   "-c",
+   "config.toml"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\nbase_address_shift = 268435456\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base_address_shift_hex_format::147",
+  "argv": [
+   "-i",
+   "-o",
+   "-c",
+   "config.toml"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "\nbase_address_shift = 0x10000000\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_target_msp430::148",
+  "argv": [
+   "-i",
+   "-o",
+   "--target",
+   "msp430"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_target_xtensa_lx::149",
+  "argv": [
+   "-i",
+   "-o",
+   "--target",
+   "xtensa-lx"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_target_mips::150",
+  "argv": [
+   "-i",
+   "-o",
+   "--target",
+   "mips"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_target_none::151",
+  "argv": [
+   "-i",
+   "-o",
+   "--target",
+   "none"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_target_invalid::152",
+  "argv": [
+   "-i",
+   "--target",
+   "invalid-arch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_config_file_is_loaded_from_cwd::153",
+  "argv": [
+   "-i",
+   "t.svd",
+   "-o",
+   "out"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "RUST_LOG": "off"
+  }
+ },
+ {
+  "name": "test::test_cli_config_path_overrides_default_config_file::154",
+  "argv": [
+   "-i",
+   "t.svd",
+   "-o",
+   "out",
+   "--config",
+   "explicit.toml"
+  ],
+  "stdin": null,
+  "files": {
+   "explicit.toml": "target = \"none\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "RUST_LOG": "off"
+  }
+ },
+ {
+  "name": "test::test_cli_flag_overrides_config_file_value::155",
+  "argv": [
+   "-i",
+   "t.svd",
+   "-o",
+   "out",
+   "--target",
+   "riscv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "RUST_LOG": "off"
+  }
+ },
+ {
+  "name": "test::test_reads_from_stdin_when_no_input_file::156",
+  "argv": [
+   "-o"
+  ],
+  "stdin": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<device schemaVersion=\"1.1\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD_Schema_1_1.xsd\">\n  <name>TESTDEV</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose IO</description>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>CTRL</name>\n          <description>Control register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0x0</resetValue>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_file_and_output_dir_creates_lib_rs::157",
+  "argv": [
+   "-i",
+   "dev.svd",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "dev.svd": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<device schemaVersion=\"1.1\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD_Schema_1_1.xsd\">\n  <name>TESTDEV</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose IO</description>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>CTRL</name>\n          <description>Control register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0x0</resetValue>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_output_is_current_directory::158",
+  "argv": [
+   "-i",
+   "dev.svd"
+  ],
+  "stdin": null,
+  "files": {
+   "dev.svd": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<device schemaVersion=\"1.1\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD_Schema_1_1.xsd\">\n  <name>TESTDEV</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose IO</description>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>CTRL</name>\n          <description>Control register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0x0</resetValue>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_make_mod_writes_mod_rs_instead_of_lib_rs::159",
+  "argv": [
+   "-i",
+   "dev.svd",
+   "-o",
+   "--make-mod"
+  ],
+  "stdin": null,
+  "files": {
+   "dev.svd": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<device schemaVersion=\"1.1\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD_Schema_1_1.xsd\">\n  <name>TESTDEV</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose IO</description>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>CTRL</name>\n          <description>Control register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0x0</resetValue>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_xml_from_stdin_is_error_exit1::160",
+  "argv": [
+   "-o"
+  ],
+  "stdin": "not xml\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_off_suppresses_info_logs::161",
+  "argv": [
+   "-o",
+   "--log",
+   "off"
+  ],
+  "stdin": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<device schemaVersion=\"1.1\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema-instance\" xs:noNamespaceSchemaLocation=\"CMSIS-SVD_Schema_1_1.xsd\">\n  <name>TESTDEV</name>\n  <version>1.0</version>\n  <description>Test Device</description>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <peripherals>\n    <peripheral>\n      <name>GPIOA</name>\n      <description>General Purpose IO</description>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>CTRL</name>\n          <description>Control register</description>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n          <access>read-write</access>\n          <resetValue>0x0</resetValue>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_precedence_over_invalid_flag::162",
+  "argv": [
+   "--help",
+   "--definitely-not-a-real-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_after_double_dash_is_treated_as_positional_and_errors::163",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_with_invalid_subcommand_style_argument_errors::164",
+  "argv": [
+   "foo",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_xml_error::165",
+  "argv": [],
+  "stdin": "<invalid><xml>",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_malformed_xml_unclosed_tag::166",
+  "argv": [],
+  "stdin": "<?xml version=\"1.0\"?>\n<device>\n  <name>Test</name>\n  <peripherals></peripherals>\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_malformed_xml_not_xml::167",
+  "argv": [],
+  "stdin": "not xml at all",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_device_name::168",
+  "argv": [],
+  "stdin": "<?xml version=\"1.0\"?>\n<device>\n  <version>1.0</version>\n  <peripherals></peripherals>\n</device>\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_peripherals_list::169",
+  "argv": [],
+  "stdin": "<?xml version=\"1.0\"?>\n<device>\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <peripherals></peripherals>\n</device>\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_base_address_non_numeric::170",
+  "argv": [],
+  "stdin": "<?xml version=\"1.0\"?>\n<device>\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <peripherals>\n    <peripheral>\n      <name>GPIO</name>\n      <baseAddress>INVALID</baseAddress>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <addressOffset>0x0</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_address_offset::171",
+  "argv": [],
+  "stdin": "<?xml version=\"1.0\"?>\n<device>\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <peripherals>\n    <peripheral>\n      <name>GPIO</name>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <addressOffset>-4</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_peripheral_name::172",
+  "argv": [],
+  "stdin": "<?xml version=\"1.0\"?>\n<device>\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <peripherals>\n    <peripheral>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_peripheral_base_address::173",
+  "argv": [],
+  "stdin": "<?xml version=\"1.0\"?>\n<device>\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <peripherals>\n    <peripheral>\n      <name>GPIO</name>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_register_name::174",
+  "argv": [],
+  "stdin": "<?xml version=\"1.0\"?>\n<device>\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <peripherals>\n    <peripheral>\n      <name>GPIO</name>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strict_mode_requires_descriptions::175",
+  "argv": [
+   "--strict"
+  ],
+  "stdin": "<?xml version=\"1.0\"?>\n<device>\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <peripherals>\n    <peripheral>\n      <name>GPIO</name>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <addressOffset>0x0</addressOffset>\n          <size>32</size>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_register_size_error::176",
+  "argv": [],
+  "stdin": "<?xml version=\"1.0\"?>\n<device>\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <addressUnitBits>8</addressUnitBits>\n  <peripherals>\n    <peripheral>\n      <name>GPIO</name>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <addressOffset>0x0</addressOffset>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_register_address_offset::177",
+  "argv": [],
+  "stdin": "<?xml version=\"1.0\"?>\n<device>\n  <name>TestDevice</name>\n  <version>1.0</version>\n  <addressUnitBits>8</addressUnitBits>\n  <width>32</width>\n  <peripherals>\n    <peripheral>\n      <name>GPIO</name>\n      <baseAddress>0x40000000</baseAddress>\n      <registers>\n        <register>\n          <name>DATA</name>\n          <size>32</size>\n        </register>\n      </registers>\n    </peripheral>\n  </peripherals>\n</device>\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

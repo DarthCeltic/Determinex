@@ -1,0 +1,9184 @@
+{
+ "slug": "osgeo__gdal.0847f12",
+ "language": "",
+ "n_branches": 2,
+ "n_tests_total": 7118,
+ "n_examples": 480,
+ "n_with_exact_stdout": 30,
+ "n_with_rc": 473,
+ "n_skipped": 6542,
+ "examples": [
+  {
+   "test": "test_gdalalg_raster_compare_float_a_one_b_two",
+   "argv": [
+    "raster",
+    "compare"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pixels differing: 17",
+    "maximum pixel value difference: 1.0",
+    "pixels differing: 17",
+    "maximum pixel value difference: 1.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_gdalalg_raster_compare.py:574"
+  },
+  {
+   "test": "test_gdalalg_raster_compare_float_a_nan_b_one",
+   "argv": [
+    "raster",
+    "compare"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pixels differing: 17",
+    "maximum pixel value difference: 0.0",
+    "pixels differing: 17",
+    "maximum pixel value difference: 0.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_gdalalg_raster_compare.py:602"
+  },
+  {
+   "test": "test_gdalalg_raster_compare_float_a_nan_b_one_but_at_one_index",
+   "argv": [
+    "raster",
+    "compare"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pixels differing: 4",
+    "maximum pixel value difference: 0.0",
+    "pixels differing: 4",
+    "maximum pixel value difference: 0.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_gdalalg_raster_compare.py:631"
+  },
+  {
+   "test": "test_gdalalg_raster_compare_float_inf_and_minus_inf",
+   "argv": [
+    "raster",
+    "compare"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pixels differing: 17",
+    "maximum pixel value difference: inf",
+    "pixels differing: 17",
+    "maximum pixel value difference: inf"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_gdalalg_raster_compare.py:712"
+  },
+  {
+   "test": "test_version_output",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GDAL",
+    "3."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:13"
+  },
+  {
+   "test": "test_help_output",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: gdal <COMMAND>",
+    "raster",
+    "vector",
+    "dataset",
+    "vsi"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:23"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: gdal <COMMAND>",
+    "--help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:34"
+  },
+  {
+   "test": "test_unknown_command_error",
+   "argv": [
+    "nonexistent_command"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:49"
+  },
+  {
+   "test": "test_drivers_output_is_json",
+   "argv": [
+    "--drivers"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GTiff",
+    "GeoJSON"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:56"
+  },
+  {
+   "test": "test_drivers_have_required_fields",
+   "argv": [
+    "--drivers"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "short_name",
+    "long_name",
+    "scopes"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:70"
+  },
+  {
+   "test": "test_json_usage_output",
+   "argv": [
+    "--json-usage"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:82"
+  },
+  {
+   "test": "test_config_option",
+   "argv": [
+    "--config",
+    "GDAL_CACHEMAX=128",
+    "raster",
+    "info"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GTiff"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:108"
+  },
+  {
+   "test": "test_raster_help",
+   "argv": [
+    "raster",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "info",
+    "convert",
+    "reproject",
+    "clip"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:115"
+  },
+  {
+   "test": "test_vector_help",
+   "argv": [
+    "vector",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "info",
+    "convert",
+    "filter",
+    "sql"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:125"
+  },
+  {
+   "test": "test_dataset_help",
+   "argv": [
+    "dataset",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "identify",
+    "check",
+    "copy",
+    "delete",
+    "rename"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:135"
+  },
+  {
+   "test": "test_vsi_help",
+   "argv": [
+    "vsi",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "list",
+    "copy",
+    "sozip"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:146"
+  },
+  {
+   "test": "test_mdim_help",
+   "argv": [
+    "mdim",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "info",
+    "convert"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:155"
+  },
+  {
+   "test": "test_driver_help",
+   "argv": [
+    "driver",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cog"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:163"
+  },
+  {
+   "test": "test_pipeline_help",
+   "argv": [
+    "pipeline",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pipeline",
+    "read",
+    "write"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic.py:170"
+  },
+  {
+   "test": "test_dataset_identify_raster",
+   "argv": [
+    "dataset",
+    "identify"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GTiff",
+    "byte.tif"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dataset.py:10"
+  },
+  {
+   "test": "test_dataset_identify_vector",
+   "argv": [
+    "dataset",
+    "identify"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GeoJSON",
+    "point.geojson"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dataset.py:18"
+  },
+  {
+   "test": "test_dataset_identify_report_failures",
+   "argv": [
+    "dataset",
+    "identify",
+    "--report-failures",
+    "/nonexistent.xyz"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unrecognized"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_dataset.py:26"
+  },
+  {
+   "test": "test_dataset_identify_help",
+   "argv": [
+    "dataset",
+    "identify",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--recursive",
+    "--detailed",
+    "--report-failures"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dataset.py:33"
+  },
+  {
+   "test": "test_dataset_identify_detailed",
+   "argv": [
+    "dataset",
+    "identify",
+    "--detailed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GTiff"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dataset.py:42"
+  },
+  {
+   "test": "test_dataset_check_raster",
+   "argv": [
+    "dataset",
+    "check"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dataset.py:49"
+  },
+  {
+   "test": "test_dataset_check_help",
+   "argv": [
+    "dataset",
+    "check",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dataset.py:64"
+  },
+  {
+   "test": "test_dataset_copy",
+   "argv": [
+    "dataset",
+    "copy"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dataset.py:71"
+  },
+  {
+   "test": "test_dataset_copy_help",
+   "argv": [
+    "dataset",
+    "copy",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SOURCE",
+    "DESTINATION",
+    "--overwrite"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dataset.py:95"
+  },
+  {
+   "test": "test_dataset_delete_help",
+   "argv": [
+    "dataset",
+    "delete",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "FILENAME"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dataset.py:117"
+  },
+  {
+   "test": "test_dataset_rename_help",
+   "argv": [
+    "dataset",
+    "rename",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SOURCE",
+    "DESTINATION"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dataset.py:152"
+  },
+  {
+   "test": "test_dataset_copy_alias_cp",
+   "argv": [
+    "dataset",
+    "cp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dataset.py:160"
+  },
+  {
+   "test": "test_dataset_identify_recursive",
+   "argv": [
+    "dataset",
+    "identify",
+    "--recursive",
+    "autotest/gcore/data/"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dataset_advanced.py:10"
+  },
+  {
+   "test": "test_dataset_identify_detailed",
+   "argv": [
+    "dataset",
+    "identify",
+    "--detailed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dataset_advanced.py:19"
+  },
+  {
+   "test": "test_dataset_identify_quiet",
+   "argv": [
+    "dataset",
+    "identify",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GTiff"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dataset_advanced.py:27"
+  },
+  {
+   "test": "test_dataset_identify_json_output",
+   "argv": [
+    "dataset",
+    "identify",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dataset_advanced.py:35"
+  },
+  {
+   "test": "test_dataset_check_quiet",
+   "argv": [
+    "dataset",
+    "check",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dataset_advanced.py:47"
+  },
+  {
+   "test": "test_dataset_identify_no_report_failures",
+   "argv": [
+    "dataset",
+    "identify",
+    "/nonexistent.xyz"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dataset_advanced.py:83"
+  },
+  {
+   "test": "test_dataset_check_invalid_file",
+   "argv": [
+    "dataset",
+    "check"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dataset_advanced.py:91"
+  },
+  {
+   "test": "test_dataset_check_with_input_format",
+   "argv": [
+    "dataset",
+    "check",
+    "--if",
+    "GTiff"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dataset_check_advanced.py:10"
+  },
+  {
+   "test": "test_dataset_check_json_usage",
+   "argv": [
+    "dataset",
+    "check",
+    "--json-usage"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dataset_check_advanced.py:32"
+  },
+  {
+   "test": "test_dataset_check_with_oo",
+   "argv": [
+    "dataset",
+    "check",
+    "--oo",
+    "OVERVIEW_LEVEL=NONE"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dataset_check_advanced.py:40"
+  },
+  {
+   "test": "test_dataset_identify_report_failures_only",
+   "argv": [
+    "dataset",
+    "identify",
+    "--report-failures"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GTiff",
+    "unrecognized"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_dataset_check_advanced.py:55"
+  },
+  {
+   "test": "test_dataset_check_reads_polygon",
+   "argv": [
+    "dataset",
+    "check",
+    "autotest/ogr/data/geojson/polygon.geojson"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dataset_check_advanced.py:91"
+  },
+  {
+   "test": "test_dataset_identify_with_format_filter",
+   "argv": [
+    "dataset",
+    "identify"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GTiff"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dataset_check_advanced.py:105"
+  },
+  {
+   "test": "test_dataset_check_all_types",
+   "argv": [
+    "raster",
+    "create",
+    "--size",
+    "5,5",
+    "--datatype"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dataset_check_advanced.py:112"
+  },
+  {
+   "test": "test_raster_info_missing_input",
+   "argv": [
+    "raster",
+    "info"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_paths.py:10"
+  },
+  {
+   "test": "test_vector_info_missing_input",
+   "argv": [
+    "vector",
+    "info"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_paths.py:17"
+  },
+  {
+   "test": "test_raster_convert_missing_output",
+   "argv": [
+    "raster",
+    "convert"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_paths.py:24"
+  },
+  {
+   "test": "test_invalid_subcommand",
+   "argv": [
+    "raster",
+    "nonexistent"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_paths.py:31"
+  },
+  {
+   "test": "test_vector_info_invalid_format",
+   "argv": [
+    "vector",
+    "info",
+    "-f",
+    "invalid_format"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_paths.py:38"
+  },
+  {
+   "test": "test_raster_info_invalid_format",
+   "argv": [
+    "raster",
+    "info",
+    "-f",
+    "invalid_format"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_paths.py:45"
+  },
+  {
+   "test": "test_dataset_identify_no_args",
+   "argv": [
+    "dataset",
+    "identify"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_paths.py:52"
+  },
+  {
+   "test": "test_vector_filter_no_args",
+   "argv": [
+    "vector",
+    "filter"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_paths.py:72"
+  },
+  {
+   "test": "test_raster_clip_no_clip_args",
+   "argv": [
+    "raster",
+    "clip"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_paths.py:79"
+  },
+  {
+   "test": "test_vsi_delete_nonexistent",
+   "argv": [
+    "vsi",
+    "delete",
+    "/nonexistent_file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_paths.py:89"
+  },
+  {
+   "test": "test_vsi_copy_nonexistent_source",
+   "argv": [
+    "vsi",
+    "copy",
+    "/nonexistent/src.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_paths.py:96"
+  },
+  {
+   "test": "test_dataset_copy_nonexistent",
+   "argv": [
+    "dataset",
+    "copy",
+    "/nonexistent.tif"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_paths.py:105"
+  },
+  {
+   "test": "test_dataset_check_nonexistent",
+   "argv": [
+    "dataset",
+    "check",
+    "/nonexistent.tif"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_paths.py:114"
+  },
+  {
+   "test": "test_raster_info_options_via_if_flag",
+   "argv": [
+    "raster",
+    "info",
+    "--if",
+    "GTiff"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GTiff",
+    "Size is 20, 20"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_paths.py:121"
+  },
+  {
+   "test": "test_raster_create_no_size",
+   "argv": [
+    "raster",
+    "create"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_paths.py:129"
+  },
+  {
+   "test": "test_vector_select_no_fields",
+   "argv": [
+    "vector",
+    "select"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_paths.py:138"
+  },
+  {
+   "test": "test_raster_select_invalid_band",
+   "argv": [
+    "raster",
+    "select",
+    "99"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_paths.py:149"
+  },
+  {
+   "test": "test_info_shortcut_nonexistent",
+   "argv": [
+    "info",
+    "/nonexistent/path.tif"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_paths.py:158"
+  },
+  {
+   "test": "test_json_usage_raster_convert",
+   "argv": [
+    "raster",
+    "convert",
+    "--json-usage"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "input_arguments"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_paths.py:165"
+  },
+  {
+   "test": "test_json_usage_vector_info",
+   "argv": [
+    "vector",
+    "info",
+    "--json-usage"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "input_arguments"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_paths.py:174"
+  },
+  {
+   "test": "test_raster_drivers_output",
+   "argv": [
+    "raster",
+    "--drivers"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "raster"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_paths.py:183"
+  },
+  {
+   "test": "test_vector_drivers_output",
+   "argv": [
+    "vector",
+    "--drivers"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "vector"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_paths.py:194"
+  },
+  {
+   "test": "test_config_gdal_option",
+   "argv": [
+    "raster",
+    "info",
+    "--config",
+    "GDAL_CACHEMAX=64"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GTiff"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_paths.py:204"
+  },
+  {
+   "test": "test_info_raster_shortcut",
+   "argv": [
+    "info"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GTiff",
+    "Size is 20, 20"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_info_shortcut.py:9"
+  },
+  {
+   "test": "test_info_vector_shortcut",
+   "argv": [
+    "info"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GeoJSON",
+    "Point"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_info_shortcut.py:17"
+  },
+  {
+   "test": "test_info_shortcut_help",
+   "argv": [
+    "info",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_info_shortcut.py:25"
+  },
+  {
+   "test": "test_info_nonexistent",
+   "argv": [
+    "info",
+    "/nonexistent.tif"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_info_shortcut.py:32"
+  },
+  {
+   "test": "test_convert_shortcut_help",
+   "argv": [
+    "convert",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "convert",
+    "raster",
+    "vector"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_info_shortcut.py:39"
+  },
+  {
+   "test": "test_convert_shortcut_raster",
+   "argv": [
+    "convert"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_info_shortcut.py:48"
+  },
+  {
+   "test": "test_mdim_info_help",
+   "argv": [
+    "mdim",
+    "info",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mdim.py:10"
+  },
+  {
+   "test": "test_mdim_convert_help",
+   "argv": [
+    "mdim",
+    "convert",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT",
+    "OUTPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mdim.py:17"
+  },
+  {
+   "test": "test_mdim_mosaic_help",
+   "argv": [
+    "mdim",
+    "mosaic",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mdim.py:25"
+  },
+  {
+   "test": "test_mdim_drivers",
+   "argv": [
+    "mdim",
+    "--drivers"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_mdim.py:32"
+  },
+  {
+   "test": "test_mdim_info_hdf",
+   "argv": [
+    "mdim",
+    "info",
+    "autotest/gcore/data/SDS.hdf"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ERROR"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mdim.py:43"
+  },
+  {
+   "test": "test_mdim_json_usage",
+   "argv": [
+    "mdim",
+    "--json-usage"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "sub_algorithms",
+    "info",
+    "convert"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mdim.py:53"
+  },
+  {
+   "test": "test_raster_neighbors_with_kernel",
+   "argv": [
+    "raster",
+    "neighbors",
+    "--kernel",
+    "sharpen"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_mdim.py:64"
+  },
+  {
+   "test": "test_vector_sql_multiple",
+   "argv": [
+    "vector",
+    "sql",
+    "--sql",
+    "SELECT * FROM data WHERE val = 10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_mdim.py:76"
+  },
+  {
+   "test": "test_raster_scale_custom",
+   "argv": [
+    "raster",
+    "scale",
+    "--src-min",
+    "0",
+    "--src-max",
+    "255",
+    "--dst-min",
+    "0",
+    "--dst-max",
+    "1",
+    "--ot",
+    "Float32"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_mdim.py:106"
+  },
+  {
+   "test": "test_vector_filter_update_extent",
+   "argv": [
+    "vector",
+    "filter",
+    "--where",
+    "value > 1",
+    "--update-extent"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_more_coverage.py:17"
+  },
+  {
+   "test": "test_vector_filter_active_layer",
+   "argv": [
+    "vector",
+    "filter",
+    "--active-layer",
+    "data",
+    "--where",
+    "value = 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_more_coverage.py:30"
+  },
+  {
+   "test": "test_vector_sql_dialect",
+   "argv": [
+    "vector",
+    "sql",
+    "--sql",
+    "SELECT * FROM data WHERE value > 1",
+    "--dialect",
+    "OGRSQL"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_more_coverage.py:42"
+  },
+  {
+   "test": "test_vector_sql_skip_errors",
+   "argv": [
+    "vector",
+    "sql",
+    "--sql",
+    "SELECT * FROM data",
+    "--skip-errors"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_more_coverage.py:56"
+  },
+  {
+   "test": "test_raster_tile_webviewer_mapml",
+   "argv": [
+    "raster",
+    "reproject",
+    "--dst-crs",
+    "EPSG:4326"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_more_coverage.py:70"
+  },
+  {
+   "test": "test_vector_concat_overwrite",
+   "argv": [
+    "vector",
+    "concat",
+    "--mode",
+    "single"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_more_coverage.py:137"
+  },
+  {
+   "test": "test_vector_concat_with_source_field",
+   "argv": [
+    "vector",
+    "concat",
+    "--mode",
+    "single",
+    "--source-layer-field-name",
+    "source"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "source"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_coverage.py:150"
+  },
+  {
+   "test": "test_dataset_identify_output_file",
+   "argv": [
+    "dataset",
+    "identify",
+    "-o",
+    "--report-failures"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_more_coverage.py:169"
+  },
+  {
+   "test": "test_raster_reproject_with_size",
+   "argv": [
+    "raster",
+    "reproject",
+    "--dst-crs",
+    "EPSG:4326",
+    "--size",
+    "10,10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_more_coverage.py:183"
+  },
+  {
+   "test": "test_raster_reproject_with_resolution",
+   "argv": [
+    "raster",
+    "reproject",
+    "--dst-crs",
+    "EPSG:4326",
+    "--resolution",
+    "0.001,0.001"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_more_coverage.py:196"
+  },
+  {
+   "test": "test_raster_scale_to_uint8",
+   "argv": [
+    "raster",
+    "scale",
+    "--src-min",
+    "74",
+    "--src-max",
+    "255",
+    "--dst-min",
+    "0",
+    "--dst-max",
+    "255",
+    "--ot",
+    "Byte"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_more_coverage.py:228"
+  },
+  {
+   "test": "test_vector_reproject_overwrite",
+   "argv": [
+    "vector",
+    "reproject",
+    "--dst-crs",
+    "EPSG:4326"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_more_coverage.py:242"
+  },
+  {
+   "test": "test_vector_reproject_quiet",
+   "argv": [
+    "vector",
+    "reproject",
+    "-q",
+    "--dst-crs",
+    "EPSG:4326"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_more_coverage.py:254"
+  },
+  {
+   "test": "test_raster_footprint_with_overview",
+   "argv": [
+    "raster",
+    "footprint"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_more_coverage.py:263"
+  },
+  {
+   "test": "test_raster_footprint_quiet",
+   "argv": [
+    "raster",
+    "footprint",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_more_coverage.py:276"
+  },
+  {
+   "test": "test_raster_pipeline_help",
+   "argv": [
+    "raster",
+    "pipeline",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "read",
+    "write"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline.py:10"
+  },
+  {
+   "test": "test_raster_pipeline_basic_read_write",
+   "argv": [
+    "raster",
+    "pipeline",
+    "read",
+    "!",
+    "write"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline.py:18"
+  },
+  {
+   "test": "test_vector_pipeline_help",
+   "argv": [
+    "vector",
+    "pipeline",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "read",
+    "write"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline.py:30"
+  },
+  {
+   "test": "test_vector_pipeline_basic",
+   "argv": [
+    "vector",
+    "pipeline",
+    "read",
+    "!",
+    "write"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline.py:38"
+  },
+  {
+   "test": "test_pipeline_global_help",
+   "argv": [
+    "pipeline",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline.py:50"
+  },
+  {
+   "test": "test_raster_pipeline_quiet",
+   "argv": [
+    "raster",
+    "pipeline",
+    "--quiet",
+    "read",
+    "!",
+    "write"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline.py:57"
+  },
+  {
+   "test": "test_vector_pipeline_with_filter",
+   "argv": [
+    "vector",
+    "pipeline",
+    "read",
+    "!",
+    "filter",
+    "--where",
+    "val = 1",
+    "!",
+    "write"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline.py:67"
+  },
+  {
+   "test": "test_raster_pipeline_reproject",
+   "argv": [
+    "raster",
+    "pipeline",
+    "read",
+    "!",
+    "reproject",
+    "--dst-crs",
+    "EPSG:4326",
+    "!",
+    "write"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "WGS"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline_advanced.py:10"
+  },
+  {
+   "test": "test_raster_pipeline_clip",
+   "argv": [
+    "raster",
+    "pipeline",
+    "read",
+    "!",
+    "clip",
+    "--bbox",
+    "440800,3750200,441800,3751200",
+    "!",
+    "write"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline_advanced.py:24"
+  },
+  {
+   "test": "test_raster_pipeline_scale",
+   "argv": [
+    "raster",
+    "pipeline",
+    "read",
+    "!",
+    "scale",
+    "!",
+    "write"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline_advanced.py:39"
+  },
+  {
+   "test": "test_vector_pipeline_select",
+   "argv": [
+    "vector",
+    "pipeline",
+    "read",
+    "!",
+    "select",
+    "--fields",
+    "name",
+    "!",
+    "write"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline_advanced.py:53"
+  },
+  {
+   "test": "test_vector_pipeline_sort",
+   "argv": [
+    "vector",
+    "pipeline",
+    "read",
+    "!",
+    "sort",
+    "!",
+    "write"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline_advanced.py:70"
+  },
+  {
+   "test": "test_vector_pipeline_reproject",
+   "argv": [
+    "vector",
+    "pipeline",
+    "read",
+    "!",
+    "reproject",
+    "--dst-crs",
+    "EPSG:4326",
+    "!",
+    "write"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline_advanced.py:89"
+  },
+  {
+   "test": "test_vector_pipeline_segmentize",
+   "argv": [
+    "vector",
+    "pipeline",
+    "read",
+    "!",
+    "segmentize",
+    "--max-length",
+    "10",
+    "!",
+    "write"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline_advanced.py:102"
+  },
+  {
+   "test": "test_vector_pipeline_set_field_type",
+   "argv": [
+    "vector",
+    "pipeline",
+    "read",
+    "!",
+    "set-field-type",
+    "--field-name",
+    "value",
+    "--dst-field-type",
+    "String",
+    "!",
+    "write"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline_advanced.py:118"
+  },
+  {
+   "test": "test_raster_pipeline_info",
+   "argv": [
+    "raster",
+    "pipeline",
+    "read",
+    "!",
+    "info"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline_advanced.py:136"
+  },
+  {
+   "test": "test_vector_pipeline_info",
+   "argv": [
+    "vector",
+    "pipeline",
+    "read",
+    "!",
+    "info"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline_advanced.py:145"
+  },
+  {
+   "test": "test_pipeline_read_shortcut",
+   "argv": [
+    "read",
+    "!",
+    "write"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline_advanced.py:154"
+  },
+  {
+   "test": "test_raster_pipeline_slope",
+   "argv": [
+    "raster",
+    "pipeline",
+    "read",
+    "!",
+    "slope",
+    "!",
+    "write"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline_advanced.py:165"
+  },
+  {
+   "test": "test_raster_pipeline_hillshade",
+   "argv": [
+    "raster",
+    "pipeline",
+    "read",
+    "!",
+    "hillshade",
+    "!",
+    "write"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline_advanced.py:179"
+  },
+  {
+   "test": "test_raster_pipeline_calc",
+   "argv": [
+    "raster",
+    "pipeline",
+    "read",
+    "!",
+    "calc",
+    "--calc",
+    "sum",
+    "--dialect",
+    "builtin",
+    "!",
+    "write"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline_advanced.py:193"
+  },
+  {
+   "test": "test_raster_pipeline_select",
+   "argv": [
+    "raster",
+    "pipeline",
+    "read",
+    "!",
+    "select",
+    "--band",
+    "1",
+    "!",
+    "write"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline_advanced.py:206"
+  },
+  {
+   "test": "test_vector_pipeline_swap_xy",
+   "argv": [
+    "vector",
+    "pipeline",
+    "read",
+    "!",
+    "swap-xy",
+    "!",
+    "write"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline_advanced.py:220"
+  },
+  {
+   "test": "test_raster_pipeline_no_steps",
+   "argv": [
+    "raster",
+    "pipeline"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline_errors.py:10"
+  },
+  {
+   "test": "test_vector_pipeline_no_steps",
+   "argv": [
+    "vector",
+    "pipeline"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline_errors.py:17"
+  },
+  {
+   "test": "test_raster_pipeline_invalid_step",
+   "argv": [
+    "raster",
+    "pipeline",
+    "read",
+    "!",
+    "invalid_step",
+    "!",
+    "write",
+    "/tmp/out.tif"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline_errors.py:24"
+  },
+  {
+   "test": "test_raster_pipeline_missing_write",
+   "argv": [
+    "raster",
+    "pipeline",
+    "read"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline_errors.py:33"
+  },
+  {
+   "test": "test_vector_pipeline_missing_write",
+   "argv": [
+    "vector",
+    "pipeline",
+    "read"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline_errors.py:40"
+  },
+  {
+   "test": "test_raster_pipeline_with_json_usage",
+   "argv": [
+    "raster",
+    "pipeline",
+    "--json-usage"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline_errors.py:74"
+  },
+  {
+   "test": "test_vector_pipeline_with_json_usage",
+   "argv": [
+    "vector",
+    "pipeline",
+    "--json-usage"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline_errors.py:82"
+  },
+  {
+   "test": "test_raster_pipeline_create_as_first",
+   "argv": [
+    "raster",
+    "pipeline",
+    "create",
+    "--size",
+    "5,5",
+    "!",
+    "write"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline_errors.py:90"
+  },
+  {
+   "test": "test_raster_pipeline_mosaic_as_first",
+   "argv": [
+    "raster",
+    "pipeline",
+    "mosaic",
+    "!",
+    "write"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline_errors.py:103"
+  },
+  {
+   "test": "test_raster_pipeline_calc",
+   "argv": [
+    "raster",
+    "pipeline",
+    "read",
+    "!",
+    "calc",
+    "--calc",
+    "sqrt",
+    "--dialect",
+    "builtin",
+    "--ot",
+    "Float32",
+    "!",
+    "write"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline_errors.py:116"
+  },
+  {
+   "test": "test_raster_pipeline_roughness",
+   "argv": [
+    "raster",
+    "pipeline",
+    "read",
+    "!",
+    "roughness",
+    "!",
+    "write"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline_errors.py:131"
+  },
+  {
+   "test": "test_raster_pipeline_tri",
+   "argv": [
+    "raster",
+    "pipeline",
+    "read",
+    "!",
+    "tri",
+    "!",
+    "write"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline_errors.py:145"
+  },
+  {
+   "test": "test_raster_pipeline_set_type",
+   "argv": [
+    "raster",
+    "pipeline",
+    "read",
+    "!",
+    "set-type",
+    "--ot",
+    "Float32",
+    "!",
+    "write"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline_errors.py:158"
+  },
+  {
+   "test": "test_raster_pipeline_aspect_tpi",
+   "argv": [
+    "raster",
+    "pipeline",
+    "read",
+    "!",
+    "aspect",
+    "!",
+    "write"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline_errors.py:171"
+  },
+  {
+   "test": "test_raster_pipeline_inline_string",
+   "argv": [
+    "raster",
+    "pipeline"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline_more.py:10"
+  },
+  {
+   "test": "test_raster_pipeline_progress",
+   "argv": [
+    "raster",
+    "pipeline",
+    "--progress",
+    "read",
+    "!",
+    "write"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline_more.py:23"
+  },
+  {
+   "test": "test_vector_pipeline_inline_string",
+   "argv": [
+    "vector",
+    "pipeline"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline_more.py:36"
+  },
+  {
+   "test": "test_raster_pipeline_step_help",
+   "argv": [
+    "raster",
+    "pipeline",
+    "read",
+    "!",
+    "reproject",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "reproject"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_pipeline_more.py:48"
+  },
+  {
+   "test": "test_vector_pipeline_step_help",
+   "argv": [
+    "vector",
+    "pipeline",
+    "read",
+    "!",
+    "filter",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "filter"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_pipeline_more.py:55"
+  },
+  {
+   "test": "test_raster_pipeline_with_output_format",
+   "argv": [
+    "raster",
+    "pipeline",
+    "read",
+    "!",
+    "write",
+    "-f",
+    "GTiff"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline_more.py:62"
+  },
+  {
+   "test": "test_vector_pipeline_with_output_format",
+   "argv": [
+    "vector",
+    "pipeline",
+    "read",
+    "!",
+    "write",
+    "-f",
+    "GeoJSON"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline_more.py:74"
+  },
+  {
+   "test": "test_raster_pipeline_calc_diff",
+   "argv": [
+    "raster",
+    "pipeline",
+    "calc",
+    "--calc",
+    "diff",
+    "--dialect",
+    "builtin",
+    "!",
+    "write"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline_more.py:86"
+  },
+  {
+   "test": "test_raster_pipeline_tpi_tri",
+   "argv": [
+    "raster",
+    "pipeline",
+    "read",
+    "!",
+    "tpi",
+    "!",
+    "write"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline_more.py:102"
+  },
+  {
+   "test": "test_raster_pipeline_stack_multiple",
+   "argv": [
+    "raster",
+    "pipeline",
+    "stack",
+    "!",
+    "write"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline_more.py:129"
+  },
+  {
+   "test": "test_vector_pipeline_rename_layer",
+   "argv": [
+    "vector",
+    "pipeline",
+    "read",
+    "!",
+    "rename-layer",
+    "--output-layer",
+    "new_name",
+    "!",
+    "write"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline_more.py:142"
+  },
+  {
+   "test": "test_vector_pipeline_concat",
+   "argv": [
+    "vector",
+    "pipeline",
+    "concat",
+    "--mode",
+    "single",
+    "!",
+    "write"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline_more.py:155"
+  },
+  {
+   "test": "test_vector_pipeline_make_point",
+   "argv": [
+    "vector",
+    "pipeline",
+    "read",
+    "!",
+    "make-point",
+    "--x",
+    "lon",
+    "--y",
+    "lat",
+    "!",
+    "write"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pipeline_more.py:167"
+  },
+  {
+   "test": "test_raster_pixel_info_with_band",
+   "argv": [
+    "raster",
+    "pixel-info",
+    "--band",
+    "1",
+    "5,5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pixel_info_advanced.py:10"
+  },
+  {
+   "test": "test_raster_pixel_info_position_crs",
+   "argv": [
+    "raster",
+    "pixel-info",
+    "--position-crs",
+    "EPSG:26711",
+    "441000,3750600"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pixel_info_advanced.py:20"
+  },
+  {
+   "test": "test_raster_pixel_info_bilinear",
+   "argv": [
+    "raster",
+    "pixel-info",
+    "--resampling",
+    "bilinear",
+    "5,5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pixel_info_advanced.py:30"
+  },
+  {
+   "test": "test_raster_pixel_info_promote_to_z",
+   "argv": [
+    "raster",
+    "pixel-info",
+    "--promote-pixel-value-to-z",
+    "5,5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pixel_info_advanced.py:41"
+  },
+  {
+   "test": "test_raster_pixel_info_output_file",
+   "argv": [
+    "raster",
+    "pixel-info",
+    "-o",
+    "0,0",
+    "5,5",
+    "10,10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pixel_info_advanced.py:54"
+  },
+  {
+   "test": "test_raster_pixel_info_with_position_dataset",
+   "argv": [
+    "raster",
+    "pixel-info",
+    "--position-dataset",
+    "--position-crs",
+    "EPSG:26711",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pixel_info_advanced.py:65"
+  },
+  {
+   "test": "test_raster_pixel_info_no_include_fields",
+   "argv": [
+    "raster",
+    "pixel-info",
+    "--position-dataset",
+    "--position-crs",
+    "EPSG:26711",
+    "--include-field",
+    "NONE",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pixel_info_advanced.py:86"
+  },
+  {
+   "test": "test_raster_pixel_info_format_geojson",
+   "argv": [
+    "raster",
+    "pixel-info",
+    "-f",
+    "GeoJSON",
+    "5,5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pixel_info_advanced.py:105"
+  },
+  {
+   "test": "test_raster_pixel_info_overview",
+   "argv": [
+    "raster",
+    "convert"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_pixel_info_advanced.py:114"
+  },
+  {
+   "test": "test_raster_viewshed_basic",
+   "argv": [
+    "raster",
+    "viewshed",
+    "--position",
+    "441320,3750720"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_advanced.py:10"
+  },
+  {
+   "test": "test_raster_viewshed_help",
+   "argv": [
+    "raster",
+    "viewshed",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "position",
+    "INPUT"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_raster_advanced.py:22"
+  },
+  {
+   "test": "test_raster_viewshed_quiet",
+   "argv": [
+    "raster",
+    "viewshed",
+    "-q",
+    "--position",
+    "441320,3750720"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_advanced.py:30"
+  },
+  {
+   "test": "test_raster_tile_raster_scheme",
+   "argv": [
+    "raster",
+    "tile",
+    "-f",
+    "GTiff",
+    "--tiling-scheme",
+    "raster"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_advanced.py:40"
+  },
+  {
+   "test": "test_raster_tile_help",
+   "argv": [
+    "raster",
+    "tile",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT",
+    "tiling-scheme"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_raster_advanced.py:57"
+  },
+  {
+   "test": "test_raster_zonal_stats_help",
+   "argv": [
+    "raster",
+    "zonal-stats",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT",
+    "OUTPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_advanced.py:65"
+  },
+  {
+   "test": "test_raster_zonal_stats_basic",
+   "argv": [
+    "raster",
+    "zonal-stats",
+    "--zones",
+    "--stat",
+    "mean"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "mean"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_advanced.py:73"
+  },
+  {
+   "test": "test_raster_overview_add_help",
+   "argv": [
+    "raster",
+    "overview",
+    "add",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_advanced.py:91"
+  },
+  {
+   "test": "test_raster_overview_delete_help",
+   "argv": [
+    "raster",
+    "overview",
+    "delete",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_advanced.py:98"
+  },
+  {
+   "test": "test_raster_nodata_to_alpha_help",
+   "argv": [
+    "raster",
+    "nodata-to-alpha",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_advanced.py:132"
+  },
+  {
+   "test": "test_raster_rgb_to_palette_help",
+   "argv": [
+    "raster",
+    "rgb-to-palette",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_advanced.py:139"
+  },
+  {
+   "test": "test_raster_update_help",
+   "argv": [
+    "raster",
+    "update",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT",
+    "OUTPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_advanced.py:146"
+  },
+  {
+   "test": "test_raster_clean_collar_help",
+   "argv": [
+    "raster",
+    "clean-collar",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_advanced.py:166"
+  },
+  {
+   "test": "test_raster_sieve_basic",
+   "argv": [
+    "raster",
+    "sieve",
+    "--size-threshold",
+    "5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_advanced.py:173"
+  },
+  {
+   "test": "test_raster_color_map_basic",
+   "argv": [
+    "raster",
+    "color-map",
+    "--color-map"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_advanced.py:184"
+  },
+  {
+   "test": "test_raster_compare_help",
+   "argv": [
+    "raster",
+    "compare",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_advanced.py:201"
+  },
+  {
+   "test": "test_raster_reproject_src_crs",
+   "argv": [
+    "raster",
+    "reproject",
+    "--src-crs",
+    "EPSG:26711",
+    "--dst-crs",
+    "EPSG:4326"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "WGS"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_advanced.py:208"
+  },
+  {
+   "test": "test_raster_blend_help",
+   "argv": [
+    "raster",
+    "blend",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_advanced.py:221"
+  },
+  {
+   "test": "test_raster_reclassify_help",
+   "argv": [
+    "raster",
+    "reclassify",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_advanced.py:228"
+  },
+  {
+   "test": "test_raster_reclassify_basic",
+   "argv": [
+    "raster",
+    "reclassify",
+    "--mapping",
+    "(0,100]=1; (100,255]=2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_advanced.py:235"
+  },
+  {
+   "test": "test_raster_calc_sqrt",
+   "argv": [
+    "raster",
+    "calc",
+    "--calc",
+    "sqrt",
+    "--dialect",
+    "builtin",
+    "--ot",
+    "Float32"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_advanced.py:250"
+  },
+  {
+   "test": "test_raster_overview_json_usage",
+   "argv": [
+    "raster",
+    "overview",
+    "--json-usage"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "sub_algorithms"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_advanced.py:290"
+  },
+  {
+   "test": "test_raster_blend_operator_multiply",
+   "argv": [
+    "raster",
+    "blend",
+    "--operator",
+    "multiply"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_blend_compare.py:10"
+  },
+  {
+   "test": "test_raster_blend_operator_screen",
+   "argv": [
+    "raster",
+    "blend",
+    "--operator",
+    "screen"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_blend_compare.py:21"
+  },
+  {
+   "test": "test_raster_blend_operator_overlay",
+   "argv": [
+    "raster",
+    "blend",
+    "--operator",
+    "overlay"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_blend_compare.py:32"
+  },
+  {
+   "test": "test_raster_blend_opacity",
+   "argv": [
+    "raster",
+    "blend",
+    "--opacity",
+    "50"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_blend_compare.py:43"
+  },
+  {
+   "test": "test_raster_blend_operator_darken",
+   "argv": [
+    "raster",
+    "blend",
+    "--operator",
+    "darken"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_blend_compare.py:54"
+  },
+  {
+   "test": "test_raster_blend_operator_lighten",
+   "argv": [
+    "raster",
+    "blend",
+    "--operator",
+    "lighten"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_blend_compare.py:65"
+  },
+  {
+   "test": "test_raster_blend_hard_light",
+   "argv": [
+    "raster",
+    "blend",
+    "--operator",
+    "hard-light"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_blend_compare.py:76"
+  },
+  {
+   "test": "test_raster_blend_color_dodge",
+   "argv": [
+    "raster",
+    "blend",
+    "--operator",
+    "color-dodge"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_blend_compare.py:87"
+  },
+  {
+   "test": "test_raster_blend_color_burn",
+   "argv": [
+    "raster",
+    "blend",
+    "--operator",
+    "color-burn"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_blend_compare.py:98"
+  },
+  {
+   "test": "test_raster_compare_skip_crs",
+   "argv": [
+    "raster",
+    "compare",
+    "--skip-crs"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_blend_compare.py:118"
+  },
+  {
+   "test": "test_raster_compare_skip_geotransform",
+   "argv": [
+    "raster",
+    "compare",
+    "--skip-geotransform"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_blend_compare.py:126"
+  },
+  {
+   "test": "test_raster_compare_skip_metadata",
+   "argv": [
+    "raster",
+    "compare",
+    "--skip-metadata"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_blend_compare.py:134"
+  },
+  {
+   "test": "test_raster_compare_skip_all_optional",
+   "argv": [
+    "raster",
+    "compare",
+    "--skip-all-optional"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_blend_compare.py:142"
+  },
+  {
+   "test": "test_raster_blend_hsv_value",
+   "argv": [
+    "raster",
+    "stack"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_blend_compare.py:166"
+  },
+  {
+   "test": "test_raster_blend_pipeline",
+   "argv": [
+    "raster",
+    "pipeline",
+    "read",
+    "!",
+    "blend",
+    "--overlay",
+    "!",
+    "write"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_blend_compare.py:180"
+  },
+  {
+   "test": "test_raster_calc_builtin_sum",
+   "argv": [
+    "raster",
+    "calc",
+    "--calc",
+    "sum",
+    "--dialect",
+    "builtin"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_calc.py:10"
+  },
+  {
+   "test": "test_raster_calc_builtin_sqrt",
+   "argv": [
+    "raster",
+    "calc",
+    "--calc",
+    "sqrt",
+    "--dialect",
+    "builtin"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_calc.py:23"
+  },
+  {
+   "test": "test_raster_calc_help",
+   "argv": [
+    "raster",
+    "calc",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--calc",
+    "--dialect",
+    "builtin"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_calc.py:36"
+  },
+  {
+   "test": "test_raster_calc_muparser_unsupported",
+   "argv": [
+    "raster",
+    "calc",
+    "--calc",
+    "X*2",
+    "--dialect",
+    "muparser"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_calc.py:58"
+  },
+  {
+   "test": "test_raster_calc_diff_two_inputs",
+   "argv": [
+    "raster",
+    "calc",
+    "--calc",
+    "diff",
+    "--dialect",
+    "builtin"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_calc.py:69"
+  },
+  {
+   "test": "test_raster_clip_bbox",
+   "argv": [
+    "raster",
+    "clip",
+    "--bbox",
+    "440800,3750200,441800,3751200"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_clip.py:10"
+  },
+  {
+   "test": "test_raster_clip_window",
+   "argv": [
+    "raster",
+    "clip",
+    "--window",
+    "2,2,10,10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_clip.py:25"
+  },
+  {
+   "test": "test_raster_clip_overwrite",
+   "argv": [
+    "raster",
+    "clip",
+    "--window",
+    "0,0,5,5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_clip.py:36"
+  },
+  {
+   "test": "test_raster_clip_help",
+   "argv": [
+    "raster",
+    "clip",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--bbox",
+    "--window",
+    "--geometry"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_clip.py:48"
+  },
+  {
+   "test": "test_raster_clip_quiet",
+   "argv": [
+    "raster",
+    "clip",
+    "--window",
+    "0,0,5,5",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_clip.py:57"
+  },
+  {
+   "test": "test_raster_clip_geometry",
+   "argv": [
+    "raster",
+    "clip",
+    "--geometry",
+    "POLYGON((440800 3750200, 441800 3750200, 441800 3751200, 440800 3751200, 440800 3750200))"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_clip.py:66"
+  },
+  {
+   "test": "test_raster_compare_skip_overview",
+   "argv": [
+    "raster",
+    "compare",
+    "--skip-overview"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_compare_advanced.py:28"
+  },
+  {
+   "test": "test_raster_compare_skip_rpc",
+   "argv": [
+    "raster",
+    "compare",
+    "--skip-rpc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_compare_advanced.py:35"
+  },
+  {
+   "test": "test_raster_compare_skip_geolocation",
+   "argv": [
+    "raster",
+    "compare",
+    "--skip-geolocation"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_compare_advanced.py:42"
+  },
+  {
+   "test": "test_raster_compare_skip_subdataset",
+   "argv": [
+    "raster",
+    "compare",
+    "--skip-subdataset"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_compare_advanced.py:49"
+  },
+  {
+   "test": "test_raster_compare_all_skips",
+   "argv": [
+    "raster",
+    "compare",
+    "--skip-binary",
+    "--skip-crs",
+    "--skip-geotransform",
+    "--skip-overview",
+    "--skip-metadata",
+    "--skip-rpc",
+    "--skip-geolocation",
+    "--skip-subdataset"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_compare_advanced.py:56"
+  },
+  {
+   "test": "test_raster_compare_json_usage",
+   "argv": [
+    "raster",
+    "compare",
+    "--json-usage"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_compare_advanced.py:102"
+  },
+  {
+   "test": "test_raster_compare_float32_data",
+   "argv": [
+    "raster",
+    "scale",
+    "--ot",
+    "Float32"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_compare_pixels.py:30"
+  },
+  {
+   "test": "test_raster_compare_int16_data",
+   "argv": [
+    "raster",
+    "set-type",
+    "--ot",
+    "Int16"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_compare_pixels.py:72"
+  },
+  {
+   "test": "test_raster_compare_uint16_data",
+   "argv": [
+    "raster",
+    "set-type",
+    "--ot",
+    "UInt16"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_compare_pixels.py:86"
+  },
+  {
+   "test": "test_raster_compare_int32_data",
+   "argv": [
+    "raster",
+    "set-type",
+    "--ot",
+    "Int32"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_compare_pixels.py:100"
+  },
+  {
+   "test": "test_raster_compare_float64_data",
+   "argv": [
+    "raster",
+    "set-type",
+    "--ot",
+    "Float64"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_compare_pixels.py:114"
+  },
+  {
+   "test": "test_raster_compare_output_details",
+   "argv": [
+    "raster",
+    "compare"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_compare_pixels.py:141"
+  },
+  {
+   "test": "test_raster_convert_progress",
+   "argv": [
+    "raster",
+    "convert"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "100"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_convert.py:22"
+  },
+  {
+   "test": "test_raster_convert_quiet",
+   "argv": [
+    "raster",
+    "convert",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_convert.py:31"
+  },
+  {
+   "test": "test_raster_convert_preserves_crs",
+   "argv": [
+    "raster",
+    "convert"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "EPSG"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_convert.py:64"
+  },
+  {
+   "test": "test_raster_convert_help",
+   "argv": [
+    "raster",
+    "convert",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT",
+    "OUTPUT",
+    "--overwrite"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_convert.py:73"
+  },
+  {
+   "test": "test_raster_create_basic",
+   "argv": [
+    "raster",
+    "create",
+    "--size",
+    "10,10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_create.py:10"
+  },
+  {
+   "test": "test_raster_create_multiband",
+   "argv": [
+    "raster",
+    "create",
+    "--size",
+    "5,5",
+    "--band-count",
+    "3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_create.py:21"
+  },
+  {
+   "test": "test_raster_create_with_datatype",
+   "argv": [
+    "raster",
+    "create",
+    "--size",
+    "5,5",
+    "--datatype",
+    "Float32"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_create.py:31"
+  },
+  {
+   "test": "test_raster_create_overwrite",
+   "argv": [
+    "raster",
+    "create",
+    "--size",
+    "5,5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_create.py:41"
+  },
+  {
+   "test": "test_raster_create_help",
+   "argv": [
+    "raster",
+    "create",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--size",
+    "--band-count",
+    "--datatype"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_create.py:53"
+  },
+  {
+   "test": "test_raster_create_quiet",
+   "argv": [
+    "raster",
+    "create",
+    "-q",
+    "--size",
+    "5,5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_create.py:62"
+  },
+  {
+   "test": "test_raster_create_with_crs",
+   "argv": [
+    "raster",
+    "create",
+    "--size",
+    "5,5",
+    "--crs",
+    "EPSG:4326"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "4326"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_create.py:71"
+  },
+  {
+   "test": "test_raster_create_with_nodata",
+   "argv": [
+    "raster",
+    "create",
+    "--size",
+    "5,5",
+    "--nodata",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_create.py:81"
+  },
+  {
+   "test": "test_raster_create_with_bbox",
+   "argv": [
+    "raster",
+    "create",
+    "--size",
+    "10,10",
+    "--crs",
+    "EPSG:4326",
+    "--bbox",
+    "-180,-90,180,90"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "4326"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_create_advanced.py:10"
+  },
+  {
+   "test": "test_raster_create_with_burn",
+   "argv": [
+    "raster",
+    "create",
+    "--size",
+    "5,5",
+    "--burn",
+    "100"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_create_advanced.py:24"
+  },
+  {
+   "test": "test_raster_create_from_like",
+   "argv": [
+    "raster",
+    "create",
+    "--like"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_create_advanced.py:37"
+  },
+  {
+   "test": "test_raster_create_with_metadata",
+   "argv": [
+    "raster",
+    "create",
+    "--size",
+    "5,5",
+    "--metadata",
+    "KEY=VALUE",
+    "--metadata",
+    "ANOTHER=DATA"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "KEY"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_create_advanced.py:49"
+  },
+  {
+   "test": "test_raster_edit_crs",
+   "argv": [
+    "raster",
+    "create",
+    "--size",
+    "5,5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "4326"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_create_advanced.py:63"
+  },
+  {
+   "test": "test_raster_edit_metadata",
+   "argv": [
+    "raster",
+    "create",
+    "--size",
+    "5,5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CUSTOM"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_create_advanced.py:87"
+  },
+  {
+   "test": "test_raster_create_with_int16",
+   "argv": [
+    "raster",
+    "create",
+    "--size",
+    "5,5",
+    "--datatype",
+    "Int16"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_create_advanced.py:98"
+  },
+  {
+   "test": "test_raster_create_multiple_bands_and_burn",
+   "argv": [
+    "raster",
+    "create",
+    "--size",
+    "5,5",
+    "--band-count",
+    "3",
+    "--burn",
+    "10",
+    "--burn",
+    "20",
+    "--burn",
+    "30"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_create_advanced.py:109"
+  },
+  {
+   "test": "test_raster_edit_pipeline_crs",
+   "argv": [
+    "raster",
+    "pipeline",
+    "read",
+    "!",
+    "edit",
+    "--nodata",
+    "0",
+    "!",
+    "write"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_edit_advanced.py:78"
+  },
+  {
+   "test": "test_raster_compare_pipeline",
+   "argv": [
+    "raster",
+    "pipeline",
+    "read",
+    "!",
+    "compare",
+    "--reference"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_edit_advanced.py:112"
+  },
+  {
+   "test": "test_raster_clip_with_bbox_crs",
+   "argv": [
+    "raster",
+    "clip",
+    "--bbox",
+    "-117.64,-117.63,33.89,33.91",
+    "--bbox-crs",
+    "EPSG:4326"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ERROR"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_edit_advanced.py:135"
+  },
+  {
+   "test": "test_raster_fill_nodata_help",
+   "argv": [
+    "raster",
+    "fill-nodata",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_fill_nodata.py:10"
+  },
+  {
+   "test": "test_raster_sieve_help",
+   "argv": [
+    "raster",
+    "sieve",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_fill_nodata.py:33"
+  },
+  {
+   "test": "test_raster_proximity_help",
+   "argv": [
+    "raster",
+    "proximity",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT",
+    "OUTPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_fill_nodata.py:41"
+  },
+  {
+   "test": "test_raster_proximity_basic",
+   "argv": [
+    "raster",
+    "proximity"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_fill_nodata.py:49"
+  },
+  {
+   "test": "test_raster_neighbors_help",
+   "argv": [
+    "raster",
+    "neighbors",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_fill_nodata.py:60"
+  },
+  {
+   "test": "test_raster_color_map_help",
+   "argv": [
+    "raster",
+    "color-map",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT",
+    "OUTPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_fill_nodata.py:67"
+  },
+  {
+   "test": "test_raster_info_default_text_format",
+   "argv": [
+    "raster",
+    "info"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GTiff",
+    "GeoTIFF",
+    "Size is 20, 20",
+    "NAD27",
+    "Band 1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_info.py:9"
+  },
+  {
+   "test": "test_raster_info_json_format",
+   "argv": [
+    "raster",
+    "info",
+    "-f",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "coordinateSystem",
+    "geoTransform"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_info.py:20"
+  },
+  {
+   "test": "test_raster_info_json_band_info",
+   "argv": [
+    "raster",
+    "info",
+    "-f",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_info.py:32"
+  },
+  {
+   "test": "test_raster_info_min_max",
+   "argv": [
+    "raster",
+    "info",
+    "--mm"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Computed Min/Max",
+    "74",
+    "255"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_info.py:42"
+  },
+  {
+   "test": "test_raster_info_min_max_json",
+   "argv": [
+    "raster",
+    "info",
+    "-f",
+    "json",
+    "--mm"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "computedMin",
+    "computedMax"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_info.py:52"
+  },
+  {
+   "test": "test_raster_info_checksum",
+   "argv": [
+    "raster",
+    "info",
+    "--checksum"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checksum",
+    "4672"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_info.py:64"
+  },
+  {
+   "test": "test_raster_info_no_md",
+   "argv": [
+    "raster",
+    "info"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "AREA_OR_POINT",
+    "Band 1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_info.py:72"
+  },
+  {
+   "test": "test_raster_info_no_fl",
+   "argv": [
+    "raster",
+    "info"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Files:",
+    "GTiff"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_info.py:85"
+  },
+  {
+   "test": "test_raster_info_json_format_flag_alias",
+   "argv": [
+    "raster",
+    "info",
+    "--format",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "driverShortName"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_info.py:98"
+  },
+  {
+   "test": "test_raster_info_nonexistent_file",
+   "argv": [
+    "raster",
+    "info",
+    "/nonexistent/file.tif"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_info.py:106"
+  },
+  {
+   "test": "test_raster_info_help",
+   "argv": [
+    "raster",
+    "info",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--mm",
+    "--stats",
+    "--checksum"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_info.py:113"
+  },
+  {
+   "test": "test_raster_info_json_usage",
+   "argv": [
+    "raster",
+    "info",
+    "--json-usage"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "input_arguments"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_info.py:122"
+  },
+  {
+   "test": "test_raster_info_input_flag",
+   "argv": [
+    "raster",
+    "info",
+    "-i"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GTiff",
+    "Size is 20, 20"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_info.py:140"
+  },
+  {
+   "test": "test_raster_info_crs_format_projjson",
+   "argv": [
+    "raster",
+    "info",
+    "--crs-format",
+    "PROJJSON"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "NAD27"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_info.py:148"
+  },
+  {
+   "test": "test_raster_info_approx_stats",
+   "argv": [
+    "raster",
+    "info",
+    "--approx-stats"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_info.py:157"
+  },
+  {
+   "test": "test_raster_info_hist",
+   "argv": [
+    "raster",
+    "info",
+    "--hist"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_info.py:165"
+  },
+  {
+   "test": "test_raster_info_no_nodata",
+   "argv": [
+    "raster",
+    "convert"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Size is 20, 20"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_info_advanced.py:9"
+  },
+  {
+   "test": "test_raster_info_no_mask",
+   "argv": [
+    "raster",
+    "info",
+    "--no-mask"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_info_advanced.py:23"
+  },
+  {
+   "test": "test_raster_info_list_mdd",
+   "argv": [
+    "raster",
+    "info",
+    "--list-mdd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_info_advanced.py:30"
+  },
+  {
+   "test": "test_raster_info_no_ct",
+   "argv": [
+    "raster",
+    "info",
+    "--no-ct"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Band",
+    "Size"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_info_advanced.py:37"
+  },
+  {
+   "test": "test_raster_info_open_option",
+   "argv": [
+    "raster",
+    "info",
+    "--oo",
+    "OVERVIEW_LEVEL=NONE"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Size is 20, 20"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_info_advanced.py:47"
+  },
+  {
+   "test": "test_raster_info_mdd",
+   "argv": [
+    "raster",
+    "info",
+    "--mdd",
+    "IMAGE_STRUCTURE"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INTERLEAVE"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_info_advanced.py:64"
+  },
+  {
+   "test": "test_raster_info_multiple_oo",
+   "argv": [
+    "raster",
+    "info",
+    "--oo",
+    "OVERVIEW_LEVEL=NONE",
+    "--oo",
+    "NUM_THREADS=1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Size is 20, 20"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_info_advanced.py:71"
+  },
+  {
+   "test": "test_raster_mosaic_help",
+   "argv": [
+    "raster",
+    "mosaic",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT",
+    "OUTPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_mosaic_stack.py:10"
+  },
+  {
+   "test": "test_raster_mosaic_basic",
+   "argv": [
+    "raster",
+    "mosaic"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_mosaic_stack.py:18"
+  },
+  {
+   "test": "test_raster_stack_help",
+   "argv": [
+    "raster",
+    "stack",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT",
+    "OUTPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_mosaic_stack.py:29"
+  },
+  {
+   "test": "test_raster_index_help",
+   "argv": [
+    "raster",
+    "index",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_mosaic_stack.py:49"
+  },
+  {
+   "test": "test_raster_index_basic",
+   "argv": [
+    "raster",
+    "index",
+    "-i",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "location"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_mosaic_stack.py:56"
+  },
+  {
+   "test": "test_raster_as_features_help",
+   "argv": [
+    "raster",
+    "as-features",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT",
+    "OUTPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_mosaic_stack.py:69"
+  },
+  {
+   "test": "test_raster_as_features_basic",
+   "argv": [
+    "raster",
+    "clip",
+    "--window",
+    "0,0,3,3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_mosaic_stack.py:77"
+  },
+  {
+   "test": "test_raster_scale_help",
+   "argv": [
+    "raster",
+    "scale",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_others.py:10"
+  },
+  {
+   "test": "test_raster_scale_basic",
+   "argv": [
+    "raster",
+    "scale"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_others.py:17"
+  },
+  {
+   "test": "test_raster_unscale_help",
+   "argv": [
+    "raster",
+    "unscale",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_others.py:28"
+  },
+  {
+   "test": "test_raster_set_type_help",
+   "argv": [
+    "raster",
+    "set-type",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_others.py:35"
+  },
+  {
+   "test": "test_raster_set_type_basic",
+   "argv": [
+    "raster",
+    "set-type",
+    "--ot",
+    "Float32"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_others.py:43"
+  },
+  {
+   "test": "test_raster_footprint_help",
+   "argv": [
+    "raster",
+    "footprint",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_others.py:54"
+  },
+  {
+   "test": "test_raster_polygonize_help",
+   "argv": [
+    "raster",
+    "polygonize",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_others.py:73"
+  },
+  {
+   "test": "test_raster_polygonize_basic",
+   "argv": [
+    "raster",
+    "polygonize"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_others.py:80"
+  },
+  {
+   "test": "test_raster_edit_help",
+   "argv": [
+    "raster",
+    "edit",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--nodata"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_others.py:92"
+  },
+  {
+   "test": "test_raster_edit_nodata",
+   "argv": [
+    "raster",
+    "convert"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "noDataValue"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_others.py:101"
+  },
+  {
+   "test": "test_raster_resize_help",
+   "argv": [
+    "raster",
+    "resize",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT",
+    "size"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_raster_others.py:114"
+  },
+  {
+   "test": "test_raster_resize_basic",
+   "argv": [
+    "raster",
+    "resize",
+    "--size",
+    "10,10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_others.py:122"
+  },
+  {
+   "test": "test_raster_contour_help",
+   "argv": [
+    "raster",
+    "contour",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT",
+    "OUTPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_others.py:140"
+  },
+  {
+   "test": "test_raster_contour_basic",
+   "argv": [
+    "raster",
+    "contour",
+    "--interval",
+    "50"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_others.py:148"
+  },
+  {
+   "test": "test_raster_overview_help",
+   "argv": [
+    "raster",
+    "overview",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "overview"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_raster_others.py:185"
+  },
+  {
+   "test": "test_raster_pixel_info_basic",
+   "argv": [
+    "raster",
+    "pixel-info",
+    "0,0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bands"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_pixel_info.py:9"
+  },
+  {
+   "test": "test_raster_pixel_info_value",
+   "argv": [
+    "raster",
+    "pixel-info",
+    "0,0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_pixel_info.py:20"
+  },
+  {
+   "test": "test_raster_pixel_info_multiple_positions",
+   "argv": [
+    "raster",
+    "pixel-info",
+    "0,0",
+    "5,5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_pixel_info.py:34"
+  },
+  {
+   "test": "test_raster_pixel_info_help",
+   "argv": [
+    "raster",
+    "pixel-info",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "position",
+    "band"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_raster_pixel_info.py:42"
+  },
+  {
+   "test": "test_raster_pixel_info_coordinate_check",
+   "argv": [
+    "raster",
+    "pixel-info",
+    "5,10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "column",
+    "line"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_pixel_info.py:60"
+  },
+  {
+   "test": "test_raster_reproject_overwrite",
+   "argv": [
+    "raster",
+    "reproject",
+    "--dst-crs",
+    "EPSG:4326"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "WGS"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_reproject.py:22"
+  },
+  {
+   "test": "test_raster_reproject_help",
+   "argv": [
+    "raster",
+    "reproject",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--dst-crs",
+    "--resampling"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_reproject.py:34"
+  },
+  {
+   "test": "test_raster_reproject_quiet",
+   "argv": [
+    "raster",
+    "reproject",
+    "--dst-crs",
+    "EPSG:4326",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_reproject.py:42"
+  },
+  {
+   "test": "test_raster_reproject_resampling",
+   "argv": [
+    "raster",
+    "reproject",
+    "--dst-crs",
+    "EPSG:4326",
+    "--resampling",
+    "bilinear"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "WGS"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_reproject.py:62"
+  },
+  {
+   "test": "test_raster_scale_help",
+   "argv": [
+    "raster",
+    "scale",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT",
+    "OUTPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_scale_unscale.py:32"
+  },
+  {
+   "test": "test_raster_scale_quiet",
+   "argv": [
+    "raster",
+    "scale",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_scale_unscale.py:40"
+  },
+  {
+   "test": "test_raster_scale_custom_range",
+   "argv": [
+    "raster",
+    "scale",
+    "--src-min",
+    "74",
+    "--src-max",
+    "255",
+    "--dst-min",
+    "0",
+    "--dst-max",
+    "100"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_scale_unscale.py:49"
+  },
+  {
+   "test": "test_raster_select_single_band",
+   "argv": [
+    "raster",
+    "select",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_select.py:10"
+  },
+  {
+   "test": "test_raster_select_second_band",
+   "argv": [
+    "raster",
+    "select",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_select.py:21"
+  },
+  {
+   "test": "test_raster_select_help",
+   "argv": [
+    "raster",
+    "select",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "BAND",
+    "--overwrite"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_select.py:52"
+  },
+  {
+   "test": "test_raster_select_quiet",
+   "argv": [
+    "raster",
+    "select",
+    "-q",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_select.py:60"
+  },
+  {
+   "test": "test_raster_slope_basic",
+   "argv": [
+    "raster",
+    "slope"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_slope_aspect.py:10"
+  },
+  {
+   "test": "test_raster_slope_help",
+   "argv": [
+    "raster",
+    "slope",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "slope",
+    "INPUT"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_raster_slope_aspect.py:21"
+  },
+  {
+   "test": "test_raster_aspect_basic",
+   "argv": [
+    "raster",
+    "aspect"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_slope_aspect.py:40"
+  },
+  {
+   "test": "test_raster_aspect_help",
+   "argv": [
+    "raster",
+    "aspect",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_slope_aspect.py:51"
+  },
+  {
+   "test": "test_raster_hillshade_basic",
+   "argv": [
+    "raster",
+    "hillshade"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_slope_aspect.py:58"
+  },
+  {
+   "test": "test_raster_hillshade_help",
+   "argv": [
+    "raster",
+    "hillshade",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT",
+    "OUTPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_slope_aspect.py:69"
+  },
+  {
+   "test": "test_raster_tpi_basic",
+   "argv": [
+    "raster",
+    "tpi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_slope_aspect.py:77"
+  },
+  {
+   "test": "test_raster_tri_basic",
+   "argv": [
+    "raster",
+    "tri"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_slope_aspect.py:88"
+  },
+  {
+   "test": "test_raster_roughness_basic",
+   "argv": [
+    "raster",
+    "roughness"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_slope_aspect.py:99"
+  },
+  {
+   "test": "test_raster_tile_webviewer_none",
+   "argv": [
+    "raster",
+    "tile",
+    "-f",
+    "GTiff",
+    "--tiling-scheme",
+    "raster",
+    "--webviewer",
+    "none"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_tile_advanced.py:20"
+  },
+  {
+   "test": "test_raster_tile_convention_tms",
+   "argv": [
+    "raster",
+    "tile",
+    "-f",
+    "GTiff",
+    "--tiling-scheme",
+    "raster",
+    "--convention",
+    "tms"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_tile_advanced.py:36"
+  },
+  {
+   "test": "test_raster_tile_with_zoom_levels",
+   "argv": [
+    "raster",
+    "tile",
+    "-f",
+    "GTiff",
+    "--tiling-scheme",
+    "raster",
+    "--min-zoom",
+    "0",
+    "--max-zoom",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_tile_advanced.py:52"
+  },
+  {
+   "test": "test_raster_tile_quiet",
+   "argv": [
+    "raster",
+    "tile",
+    "-f",
+    "GTiff",
+    "-q",
+    "--tiling-scheme",
+    "raster"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_tile_advanced.py:72"
+  },
+  {
+   "test": "test_raster_tile_resampling",
+   "argv": [
+    "raster",
+    "tile",
+    "-f",
+    "GTiff",
+    "--tiling-scheme",
+    "raster",
+    "--resampling",
+    "nearest"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_tile_advanced.py:84"
+  },
+  {
+   "test": "test_raster_tile_help_full",
+   "argv": [
+    "raster",
+    "tile",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--tiling-scheme",
+    "--min-zoom",
+    "--convention",
+    "--webviewer"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_tile_advanced.py:112"
+  },
+  {
+   "test": "test_raster_tile_no_intersection_ok",
+   "argv": [
+    "raster",
+    "tile",
+    "-f",
+    "GTiff",
+    "--tiling-scheme",
+    "raster",
+    "--no-intersection-ok",
+    "--webviewer",
+    "none"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_tile_advanced.py:155"
+  },
+  {
+   "test": "test_raster_tile_x_y_limits",
+   "argv": [
+    "raster",
+    "tile",
+    "-f",
+    "GTiff",
+    "--tiling-scheme",
+    "raster",
+    "--min-x",
+    "0",
+    "--max-x",
+    "0",
+    "--min-y",
+    "0",
+    "--max-y",
+    "0",
+    "--webviewer",
+    "none"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_tile_advanced.py:172"
+  },
+  {
+   "test": "test_raster_tile_leaflet_viewer",
+   "argv": [
+    "raster",
+    "tile",
+    "-f",
+    "GTiff",
+    "--tiling-scheme",
+    "raster",
+    "--webviewer",
+    "leaflet"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_tile_advanced.py:190"
+  },
+  {
+   "test": "test_raster_tile_openlayers_viewer",
+   "argv": [
+    "raster",
+    "tile",
+    "-f",
+    "GTiff",
+    "--tiling-scheme",
+    "raster",
+    "--webviewer",
+    "openlayers"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_tile_advanced.py:213"
+  },
+  {
+   "test": "test_raster_tile_multiple_threads",
+   "argv": [
+    "raster",
+    "tile",
+    "-f",
+    "GTiff",
+    "--tiling-scheme",
+    "raster",
+    "--num-threads",
+    "2",
+    "--webviewer",
+    "none"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_raster_tile_advanced.py:230"
+  },
+  {
+   "test": "test_raster_blend_basic",
+   "argv": [
+    "raster",
+    "blend"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_uncovered_areas.py:10"
+  },
+  {
+   "test": "test_raster_blend_help",
+   "argv": [
+    "raster",
+    "blend",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_uncovered_areas.py:32"
+  },
+  {
+   "test": "test_raster_blend_quiet",
+   "argv": [
+    "raster",
+    "blend",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_uncovered_areas.py:39"
+  },
+  {
+   "test": "test_raster_compare_identical_files",
+   "argv": [
+    "raster",
+    "compare"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_uncovered_areas.py:48"
+  },
+  {
+   "test": "test_raster_compare_with_reference_flag",
+   "argv": [
+    "raster",
+    "compare",
+    "--reference"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_uncovered_areas.py:63"
+  },
+  {
+   "test": "test_raster_compare_quiet",
+   "argv": [
+    "raster",
+    "compare",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_uncovered_areas.py:81"
+  },
+  {
+   "test": "test_vector_combine_basic",
+   "argv": [
+    "vector",
+    "combine"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_uncovered_areas.py:88"
+  },
+  {
+   "test": "test_vector_combine_help",
+   "argv": [
+    "vector",
+    "combine",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_uncovered_areas.py:99"
+  },
+  {
+   "test": "test_vector_combine_quiet",
+   "argv": [
+    "vector",
+    "combine",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_uncovered_areas.py:106"
+  },
+  {
+   "test": "test_vector_create_with_fields",
+   "argv": [
+    "vector",
+    "create",
+    "--field",
+    "name:String"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_uncovered_areas.py:127"
+  },
+  {
+   "test": "test_vector_create_empty",
+   "argv": [
+    "vector",
+    "create"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_uncovered_areas.py:141"
+  },
+  {
+   "test": "test_vector_create_help",
+   "argv": [
+    "vector",
+    "create",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "OUTPUT",
+    "--field"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_uncovered_areas.py:152"
+  },
+  {
+   "test": "test_vector_create_from_template",
+   "argv": [
+    "vector",
+    "create",
+    "--like"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_uncovered_areas.py:173"
+  },
+  {
+   "test": "test_vector_edit_basic",
+   "argv": [
+    "vector",
+    "edit",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_uncovered_areas.py:185"
+  },
+  {
+   "test": "test_vector_edit_update_crs",
+   "argv": [
+    "vector",
+    "convert"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_uncovered_areas.py:192"
+  },
+  {
+   "test": "test_vector_index_basic",
+   "argv": [
+    "vector",
+    "index",
+    "-i",
+    "-i",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_uncovered_areas.py:205"
+  },
+  {
+   "test": "test_vector_index_help",
+   "argv": [
+    "vector",
+    "index",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT",
+    "OUTPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_uncovered_areas.py:217"
+  },
+  {
+   "test": "test_vector_set_geom_type_basic",
+   "argv": [
+    "vector",
+    "set-geom-type",
+    "--geometry-type",
+    "PointZ"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_uncovered_areas.py:225"
+  },
+  {
+   "test": "test_vector_layer_algebra_help",
+   "argv": [
+    "vector",
+    "layer-algebra",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_uncovered_areas.py:238"
+  },
+  {
+   "test": "test_vector_partition_help",
+   "argv": [
+    "vector",
+    "partition",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_uncovered_areas.py:245"
+  },
+  {
+   "test": "test_vector_check_coverage_help",
+   "argv": [
+    "vector",
+    "check-coverage",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_uncovered_areas.py:252"
+  },
+  {
+   "test": "test_vector_clean_coverage_help",
+   "argv": [
+    "vector",
+    "clean-coverage",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_uncovered_areas.py:259"
+  },
+  {
+   "test": "test_vector_concave_hull_help",
+   "argv": [
+    "vector",
+    "concave-hull",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_uncovered_areas.py:266"
+  },
+  {
+   "test": "test_vector_simplify_coverage_help",
+   "argv": [
+    "vector",
+    "simplify-coverage",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_uncovered_areas.py:273"
+  },
+  {
+   "test": "test_raster_clean_collar_basic",
+   "argv": [
+    "raster",
+    "clean-collar"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_uncovered_areas.py:280"
+  },
+  {
+   "test": "test_raster_clean_collar_help",
+   "argv": [
+    "raster",
+    "clean-collar",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT",
+    "OUTPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_uncovered_areas.py:291"
+  },
+  {
+   "test": "test_raster_clean_collar_quiet",
+   "argv": [
+    "raster",
+    "clean-collar",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_uncovered_areas.py:299"
+  },
+  {
+   "test": "test_raster_fill_nodata_with_nodata",
+   "argv": [
+    "raster",
+    "create",
+    "--size",
+    "10,10",
+    "--nodata",
+    "0",
+    "--burn",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_uncovered_areas.py:308"
+  },
+  {
+   "test": "test_raster_neighbors_basic",
+   "argv": [
+    "raster",
+    "neighbors",
+    "--kernel",
+    "edge1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_uncovered_areas.py:324"
+  },
+  {
+   "test": "test_vector_sort_basic",
+   "argv": [
+    "vector",
+    "sort"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_advanced.py:13"
+  },
+  {
+   "test": "test_vector_sort_quiet",
+   "argv": [
+    "vector",
+    "sort",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_advanced.py:26"
+  },
+  {
+   "test": "test_vector_sort_help",
+   "argv": [
+    "vector",
+    "sort",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT",
+    "OUTPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_advanced.py:49"
+  },
+  {
+   "test": "test_vector_rename_layer_basic",
+   "argv": [
+    "vector",
+    "rename-layer",
+    "--output-layer",
+    "new_name"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_advanced.py:57"
+  },
+  {
+   "test": "test_vector_rename_layer_quiet",
+   "argv": [
+    "vector",
+    "rename-layer",
+    "-q",
+    "--output-layer",
+    "new"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_advanced.py:69"
+  },
+  {
+   "test": "test_vector_rename_layer_overwrite",
+   "argv": [
+    "vector",
+    "rename-layer",
+    "--output-layer",
+    "first"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_advanced.py:79"
+  },
+  {
+   "test": "test_vector_rename_layer_lowercase",
+   "argv": [
+    "vector",
+    "rename-layer",
+    "--lower-case"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_advanced.py:91"
+  },
+  {
+   "test": "test_vector_set_field_type_integer_to_string",
+   "argv": [
+    "vector",
+    "set-field-type",
+    "--field-name",
+    "value",
+    "--dst-field-type",
+    "String"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_advanced.py:103"
+  },
+  {
+   "test": "test_vector_set_field_type_quiet",
+   "argv": [
+    "vector",
+    "set-field-type",
+    "-q",
+    "--field-name",
+    "value",
+    "--dst-field-type",
+    "String"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_advanced.py:118"
+  },
+  {
+   "test": "test_vector_rasterize_basic",
+   "argv": [
+    "vector",
+    "rasterize",
+    "--size",
+    "10,10",
+    "--extent",
+    "-1,-1,6,6",
+    "--burn",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_advanced.py:143"
+  },
+  {
+   "test": "test_vector_rasterize_quiet",
+   "argv": [
+    "vector",
+    "rasterize",
+    "-q",
+    "--size",
+    "10,10",
+    "--extent",
+    "-1,-1,6,6",
+    "--burn",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_advanced.py:157"
+  },
+  {
+   "test": "test_vector_segmentize_basic",
+   "argv": [
+    "vector",
+    "segmentize",
+    "--max-length",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_advanced.py:184"
+  },
+  {
+   "test": "test_vector_segmentize_quiet",
+   "argv": [
+    "vector",
+    "segmentize",
+    "-q",
+    "--max-length",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_advanced.py:199"
+  },
+  {
+   "test": "test_vector_explode_collections_basic",
+   "argv": [
+    "vector",
+    "explode-collections"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_advanced.py:210"
+  },
+  {
+   "test": "test_vector_update_help",
+   "argv": [
+    "vector",
+    "update",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT",
+    "--key"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_advanced.py:257"
+  },
+  {
+   "test": "test_vector_dissolve_help",
+   "argv": [
+    "vector",
+    "dissolve",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_advanced.py:299"
+  },
+  {
+   "test": "test_vector_export_schema_basic",
+   "argv": [
+    "vector",
+    "export-schema"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "layers"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_advanced.py:306"
+  },
+  {
+   "test": "test_vector_make_point_basic",
+   "argv": [
+    "vector",
+    "make-point",
+    "--x",
+    "lon",
+    "--y",
+    "lat"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_advanced.py:319"
+  },
+  {
+   "test": "test_vector_set_geom_type_help",
+   "argv": [
+    "vector",
+    "set-geom-type",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_advanced.py:351"
+  },
+  {
+   "test": "test_vector_convert_quiet",
+   "argv": [
+    "vector",
+    "convert",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_convert.py:35"
+  },
+  {
+   "test": "test_vector_convert_help",
+   "argv": [
+    "vector",
+    "convert",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT",
+    "OUTPUT",
+    "--overwrite"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_convert.py:63"
+  },
+  {
+   "test": "test_vector_convert_no_output_error",
+   "argv": [
+    "vector",
+    "convert"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_convert.py:89"
+  },
+  {
+   "test": "test_vector_filter_where",
+   "argv": [
+    "vector",
+    "filter",
+    "--where",
+    "value > 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "B",
+    "C"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_filter.py:20"
+  },
+  {
+   "test": "test_vector_filter_bbox",
+   "argv": [
+    "vector",
+    "filter",
+    "--bbox",
+    "0.5,0.5,1.5,1.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_filter.py:36"
+  },
+  {
+   "test": "test_vector_filter_overwrite",
+   "argv": [
+    "vector",
+    "filter",
+    "--where",
+    "value = 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_filter.py:48"
+  },
+  {
+   "test": "test_vector_filter_quiet",
+   "argv": [
+    "vector",
+    "filter",
+    "-q",
+    "--where",
+    "value > 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_filter.py:61"
+  },
+  {
+   "test": "test_vector_filter_help",
+   "argv": [
+    "vector",
+    "filter",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--where",
+    "--bbox"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_filter.py:71"
+  },
+  {
+   "test": "test_vector_filter_no_match",
+   "argv": [
+    "vector",
+    "filter",
+    "--where",
+    "value > 100"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_filter.py:79"
+  },
+  {
+   "test": "test_vector_grid_invdist",
+   "argv": [
+    "vector",
+    "grid",
+    "invdist",
+    "--z-field",
+    "z",
+    "--size",
+    "10,10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_grid_advanced.py:22"
+  },
+  {
+   "test": "test_vector_grid_nearest",
+   "argv": [
+    "vector",
+    "grid",
+    "nearest",
+    "--z-field",
+    "z",
+    "--size",
+    "10,10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_grid_advanced.py:38"
+  },
+  {
+   "test": "test_vector_grid_average",
+   "argv": [
+    "vector",
+    "grid",
+    "average",
+    "--z-field",
+    "z",
+    "--size",
+    "10,10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_grid_advanced.py:54"
+  },
+  {
+   "test": "test_vector_grid_linear",
+   "argv": [
+    "vector",
+    "grid",
+    "linear",
+    "--z-field",
+    "z",
+    "--size",
+    "10,10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_grid_advanced.py:70"
+  },
+  {
+   "test": "test_vector_grid_invdistnn",
+   "argv": [
+    "vector",
+    "grid",
+    "invdistnn",
+    "--z-field",
+    "z",
+    "--radius",
+    "5",
+    "--size",
+    "10,10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_grid_advanced.py:86"
+  },
+  {
+   "test": "test_vector_grid_count",
+   "argv": [
+    "vector",
+    "grid",
+    "count",
+    "--z-field",
+    "z",
+    "--size",
+    "10,10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_grid_advanced.py:103"
+  },
+  {
+   "test": "test_vector_grid_minimum",
+   "argv": [
+    "vector",
+    "grid",
+    "minimum",
+    "--z-field",
+    "z",
+    "--size",
+    "10,10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_grid_advanced.py:119"
+  },
+  {
+   "test": "test_vector_grid_maximum",
+   "argv": [
+    "vector",
+    "grid",
+    "maximum",
+    "--z-field",
+    "z",
+    "--size",
+    "10,10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_grid_advanced.py:135"
+  },
+  {
+   "test": "test_vector_grid_quiet",
+   "argv": [
+    "vector",
+    "grid",
+    "nearest",
+    "-q",
+    "--z-field",
+    "z",
+    "--size",
+    "10,10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_grid_advanced.py:163"
+  },
+  {
+   "test": "test_vector_info_default_text",
+   "argv": [
+    "vector",
+    "info"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GeoJSON",
+    "Layer name",
+    "Point"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_info.py:9"
+  },
+  {
+   "test": "test_vector_info_json_format",
+   "argv": [
+    "vector",
+    "info",
+    "-f",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_info.py:18"
+  },
+  {
+   "test": "test_vector_info_features",
+   "argv": [
+    "vector",
+    "info",
+    "--features",
+    "multi.geojson"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "OGRFeature",
+    "name (String)",
+    "= A",
+    "= B"
+   ],
+   "files": {
+    "multi.geojson": "{\n  \"type\": \"FeatureCollection\",\n  \"features\": [\n    {\"type\": \"Feature\", \"properties\": {\"name\": \"A\"}, \"geometry\": {\"type\": \"Point\", \"coordinates\": [0, 0]}},\n    {\"type\": \"Feature\", \"properties\": {\"name\": \"B\"}, \"geometry\": {\"type\": \"Point\", \"coordinates\": [1, 1]}}\n  ]\n}"
+   },
+   "ci": false,
+   "source": "test_vector_info.py:30"
+  },
+  {
+   "test": "test_vector_info_summary",
+   "argv": [
+    "vector",
+    "info",
+    "--summary"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "polygon",
+    "Polygon"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_info.py:48"
+  },
+  {
+   "test": "test_vector_info_json_feature_count",
+   "argv": [
+    "vector",
+    "info",
+    "-f",
+    "json",
+    "multi.geojson"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "multi.geojson": "{\n  \"type\": \"FeatureCollection\",\n  \"features\": [\n    {\"type\": \"Feature\", \"properties\": {}, \"geometry\": {\"type\": \"Point\", \"coordinates\": [0, 0]}},\n    {\"type\": \"Feature\", \"properties\": {}, \"geometry\": {\"type\": \"Point\", \"coordinates\": [1, 1]}}\n  ]\n}"
+   },
+   "ci": false,
+   "source": "test_vector_info.py:56"
+  },
+  {
+   "test": "test_vector_info_nonexistent_file",
+   "argv": [
+    "vector",
+    "info",
+    "/nonexistent/file.geojson"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_info.py:72"
+  },
+  {
+   "test": "test_vector_info_help",
+   "argv": [
+    "vector",
+    "info",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--features",
+    "--summary",
+    "--sql"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_info.py:79"
+  },
+  {
+   "test": "test_vector_info_fid",
+   "argv": [
+    "vector",
+    "info",
+    "--fid",
+    "0",
+    "multi.geojson"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "first"
+   ],
+   "files": {
+    "multi.geojson": "{\n  \"type\": \"FeatureCollection\",\n  \"features\": [\n    {\"type\": \"Feature\", \"properties\": {\"name\": \"first\"}, \"geometry\": {\"type\": \"Point\", \"coordinates\": [0, 0]}},\n    {\"type\": \"Feature\", \"properties\": {\"name\": \"second\"}, \"geometry\": {\"type\": \"Point\", \"coordinates\": [1, 1]}}\n  ]\n}"
+   },
+   "ci": false,
+   "source": "test_vector_info.py:88"
+  },
+  {
+   "test": "test_vector_info_sql",
+   "argv": [
+    "vector",
+    "info",
+    "--sql",
+    "SELECT name FROM mydata WHERE val > 10",
+    "--features"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "= B",
+    "Feature Count: 1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_info.py:104"
+  },
+  {
+   "test": "test_vector_info_limit",
+   "argv": [
+    "vector",
+    "info",
+    "--limit",
+    "1",
+    "multi.geojson"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "= A"
+   ],
+   "files": {
+    "multi.geojson": "{\n  \"type\": \"FeatureCollection\",\n  \"features\": [\n    {\"type\": \"Feature\", \"properties\": {\"name\": \"A\"}, \"geometry\": {\"type\": \"Point\", \"coordinates\": [0, 0]}},\n    {\"type\": \"Feature\", \"properties\": {\"name\": \"B\"}, \"geometry\": {\"type\": \"Point\", \"coordinates\": [1, 1]}},\n    {\"type\": \"Feature\", \"properties\": {\"name\": \"C\"}, \"geometry\": {\"type\": \"Point\", \"coordinates\": [2, 2]}}\n  ]\n}"
+   },
+   "ci": false,
+   "source": "test_vector_info.py:119"
+  },
+  {
+   "test": "test_vector_info_crs_format_projjson",
+   "argv": [
+    "vector",
+    "info",
+    "-f",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "projjson"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_info.py:137"
+  },
+  {
+   "test": "test_vector_info_features_json",
+   "argv": [
+    "vector",
+    "info",
+    "-f",
+    "json",
+    "--features"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "features"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_info_advanced.py:9"
+  },
+  {
+   "test": "test_vector_info_where",
+   "argv": [
+    "vector",
+    "info",
+    "--where",
+    "val > 10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Feature Count: 1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_info_advanced.py:23"
+  },
+  {
+   "test": "test_vector_info_multiple_inputs",
+   "argv": [
+    "vector",
+    "info"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "point",
+    "Feature Count: 1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_info_advanced.py:36"
+  },
+  {
+   "test": "test_vector_info_open_option",
+   "argv": [
+    "vector",
+    "info",
+    "--oo",
+    "FLATTEN_NESTED_ATTRIBUTES=YES"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GeoJSON"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_info_advanced.py:44"
+  },
+  {
+   "test": "test_vector_info_fid_json",
+   "argv": [
+    "vector",
+    "info",
+    "-f",
+    "json",
+    "--fid",
+    "0",
+    "--features"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_info_advanced.py:51"
+  },
+  {
+   "test": "test_vector_info_layer",
+   "argv": [
+    "vector",
+    "info",
+    "-l",
+    "point"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Layer name: point"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_info_advanced.py:67"
+  },
+  {
+   "test": "test_vector_info_limit_json",
+   "argv": [
+    "vector",
+    "info",
+    "-f",
+    "json",
+    "--limit",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_info_advanced.py:74"
+  },
+  {
+   "test": "test_vector_reproject_help",
+   "argv": [
+    "vector",
+    "reproject",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_others.py:19"
+  },
+  {
+   "test": "test_vector_buffer_help",
+   "argv": [
+    "vector",
+    "buffer",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_others.py:37"
+  },
+  {
+   "test": "test_vector_convex_hull_help",
+   "argv": [
+    "vector",
+    "convex-hull",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_others.py:58"
+  },
+  {
+   "test": "test_vector_simplify_help",
+   "argv": [
+    "vector",
+    "simplify",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_others.py:83"
+  },
+  {
+   "test": "test_vector_concat_help",
+   "argv": [
+    "vector",
+    "concat",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_others.py:90"
+  },
+  {
+   "test": "test_vector_concat_basic",
+   "argv": [
+    "vector",
+    "concat"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_others.py:97"
+  },
+  {
+   "test": "test_vector_make_valid_help",
+   "argv": [
+    "vector",
+    "make-valid",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_others.py:109"
+  },
+  {
+   "test": "test_vector_explode_collections_help",
+   "argv": [
+    "vector",
+    "explode-collections",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_others.py:116"
+  },
+  {
+   "test": "test_vector_segmentize_help",
+   "argv": [
+    "vector",
+    "segmentize",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_others.py:123"
+  },
+  {
+   "test": "test_vector_swap_xy_help",
+   "argv": [
+    "vector",
+    "swap-xy",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_others.py:130"
+  },
+  {
+   "test": "test_vector_swap_xy_basic",
+   "argv": [
+    "vector",
+    "swap-xy"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_others.py:137"
+  },
+  {
+   "test": "test_vector_create_help",
+   "argv": [
+    "vector",
+    "create",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "OUTPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_others.py:156"
+  },
+  {
+   "test": "test_vector_sort_help",
+   "argv": [
+    "vector",
+    "sort",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_others.py:177"
+  },
+  {
+   "test": "test_vector_index_help",
+   "argv": [
+    "vector",
+    "index",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_others.py:191"
+  },
+  {
+   "test": "test_vector_rename_layer_help",
+   "argv": [
+    "vector",
+    "rename-layer",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_others.py:198"
+  },
+  {
+   "test": "test_vector_check_geometry_help",
+   "argv": [
+    "vector",
+    "check-geometry",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_others.py:205"
+  },
+  {
+   "test": "test_vector_rasterize_help",
+   "argv": [
+    "vector",
+    "rasterize",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT",
+    "OUTPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_others.py:212"
+  },
+  {
+   "test": "test_vector_grid_help",
+   "argv": [
+    "vector",
+    "grid",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_others.py:220"
+  },
+  {
+   "test": "test_vector_select_single_field",
+   "argv": [
+    "vector",
+    "select",
+    "--fields",
+    "name"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_select.py:19"
+  },
+  {
+   "test": "test_vector_select_multiple_fields",
+   "argv": [
+    "vector",
+    "select",
+    "--fields",
+    "name,value"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name",
+    "value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_select.py:33"
+  },
+  {
+   "test": "test_vector_select_overwrite",
+   "argv": [
+    "vector",
+    "select",
+    "--fields",
+    "name"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_select.py:47"
+  },
+  {
+   "test": "test_vector_select_help",
+   "argv": [
+    "vector",
+    "select",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "fields"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_vector_select.py:60"
+  },
+  {
+   "test": "test_vector_select_quiet",
+   "argv": [
+    "vector",
+    "select",
+    "-q",
+    "--fields",
+    "name"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_select.py:67"
+  },
+  {
+   "test": "test_vector_sql_basic",
+   "argv": [
+    "vector",
+    "sql",
+    "--sql",
+    "SELECT * FROM src"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_sql.py:20"
+  },
+  {
+   "test": "test_vector_sql_where",
+   "argv": [
+    "vector",
+    "sql",
+    "--sql",
+    "SELECT name FROM src WHERE value > 10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "B",
+    "C"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_sql.py:31"
+  },
+  {
+   "test": "test_vector_sql_aggregate",
+   "argv": [
+    "vector",
+    "sql",
+    "--sql",
+    "SELECT COUNT(*) as cnt FROM src"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_sql.py:46"
+  },
+  {
+   "test": "test_vector_sql_help",
+   "argv": [
+    "vector",
+    "sql",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--sql",
+    "--dialect"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_sql.py:70"
+  },
+  {
+   "test": "test_vector_sql_quiet",
+   "argv": [
+    "vector",
+    "sql",
+    "-q",
+    "--sql",
+    "SELECT * FROM src"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vector_sql.py:78"
+  },
+  {
+   "test": "test_vsi_list_text",
+   "argv": [
+    "vsi",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test.tif"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vsi.py:10"
+  },
+  {
+   "test": "test_vsi_list_json",
+   "argv": [
+    "vsi",
+    "list",
+    "-f",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vsi.py:20"
+  },
+  {
+   "test": "test_vsi_list_long",
+   "argv": [
+    "vsi",
+    "list",
+    "--long"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vsi.py:34"
+  },
+  {
+   "test": "test_vsi_list_recursive",
+   "argv": [
+    "vsi",
+    "list",
+    "-R"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vsi.py:44"
+  },
+  {
+   "test": "test_vsi_list_help",
+   "argv": [
+    "vsi",
+    "list",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--long",
+    "--recursive"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vsi.py:53"
+  },
+  {
+   "test": "test_vsi_copy",
+   "argv": [
+    "vsi",
+    "copy"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vsi.py:62"
+  },
+  {
+   "test": "test_vsi_copy_quiet",
+   "argv": [
+    "vsi",
+    "copy",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vsi.py:73"
+  },
+  {
+   "test": "test_vsi_copy_help",
+   "argv": [
+    "vsi",
+    "copy",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SOURCE",
+    "DESTINATION",
+    "--recursive"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vsi.py:83"
+  },
+  {
+   "test": "test_vsi_delete",
+   "argv": [
+    "vsi",
+    "delete"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vsi.py:92"
+  },
+  {
+   "test": "test_vsi_delete_help",
+   "argv": [
+    "vsi",
+    "delete",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vsi.py:103"
+  },
+  {
+   "test": "test_vsi_delete_alias_rm",
+   "argv": [
+    "vsi",
+    "rm"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vsi.py:110"
+  },
+  {
+   "test": "test_vsi_move",
+   "argv": [
+    "vsi",
+    "move"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vsi.py:120"
+  },
+  {
+   "test": "test_vsi_move_alias_mv",
+   "argv": [
+    "vsi",
+    "mv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vsi.py:132"
+  },
+  {
+   "test": "test_vsi_move_help",
+   "argv": [
+    "vsi",
+    "move",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SOURCE",
+    "DESTINATION"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vsi.py:143"
+  },
+  {
+   "test": "test_vsi_sozip_help",
+   "argv": [
+    "vsi",
+    "sozip",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "create",
+    "list",
+    "validate",
+    "optimize"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vsi.py:151"
+  },
+  {
+   "test": "test_vsi_sozip_create",
+   "argv": [
+    "vsi",
+    "sozip",
+    "create"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file.tif"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vsi.py:161"
+  },
+  {
+   "test": "test_vsi_sozip_list",
+   "argv": [
+    "vsi",
+    "sozip",
+    "create"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vsi.py:175"
+  },
+  {
+   "test": "test_vsi_sozip_validate",
+   "argv": [
+    "vsi",
+    "sozip",
+    "create"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "valid"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_vsi.py:186"
+  },
+  {
+   "test": "test_vsi_sozip_create_quiet",
+   "argv": [
+    "vsi",
+    "sozip",
+    "create",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vsi.py:197"
+  },
+  {
+   "test": "test_vsi_sozip_create_overwrite",
+   "argv": [
+    "vsi",
+    "sozip",
+    "create"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vsi.py:207"
+  },
+  {
+   "test": "test_vsi_list_absolute_path",
+   "argv": [
+    "vsi",
+    "list",
+    "--abs"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vsi_advanced.py:10"
+  },
+  {
+   "test": "test_vsi_list_tree_json",
+   "argv": [
+    "vsi",
+    "list",
+    "-R",
+    "--tree",
+    "-f",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vsi_advanced.py:21"
+  },
+  {
+   "test": "test_vsi_list_depth",
+   "argv": [
+    "vsi",
+    "list",
+    "--recursive",
+    "--depth",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vsi_advanced.py:33"
+  },
+  {
+   "test": "test_vsi_copy_recursive",
+   "argv": [
+    "vsi",
+    "copy",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vsi_advanced.py:45"
+  },
+  {
+   "test": "test_vsi_delete_alias_rmdir",
+   "argv": [
+    "vsi",
+    "rmdir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vsi_advanced.py:60"
+  },
+  {
+   "test": "test_vsi_move_rename_alias",
+   "argv": [
+    "vsi",
+    "rename"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vsi_advanced.py:70"
+  },
+  {
+   "test": "test_vsi_sozip_optimize_help",
+   "argv": [
+    "vsi",
+    "sozip",
+    "optimize",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "INPUT",
+    "OUTPUT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vsi_advanced.py:82"
+  },
+  {
+   "test": "test_vsi_sozip_create_with_options",
+   "argv": [
+    "vsi",
+    "sozip",
+    "create",
+    "--enable-sozip",
+    "yes"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "large_file.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vsi_advanced.py:90"
+  },
+  {
+   "test": "test_vsi_sync_help",
+   "argv": [
+    "vsi",
+    "sync",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vsi_advanced.py:131"
+  },
+  {
+   "test": "test_vsi_sozip_create_with_content_type",
+   "argv": [
+    "vsi",
+    "sozip",
+    "create",
+    "--content-type",
+    "application/json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "data.json"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vsi_advanced.py:145"
+  },
+  {
+   "test": "test_vsi_list_json_verbose",
+   "argv": [
+    "vsi",
+    "list",
+    "-f",
+    "json",
+    "-l"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vsi_advanced.py:160"
+  },
+  {
+   "test": "test_vsi_sync_basic",
+   "argv": [
+    "vsi",
+    "sync",
+    "--source",
+    "--destination"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vsi_advanced.py:170"
+  },
+  {
+   "test": "test_vsi_move_ren_alias",
+   "argv": [
+    "vsi",
+    "ren"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vsi_advanced.py:181"
+  },
+  {
+   "test": "test_sozip_create_multiple_files",
+   "argv": [
+    "vsi",
+    "sozip",
+    "create"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file1.txt",
+    "file2.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vsi_sozip_advanced.py:10"
+  },
+  {
+   "test": "test_sozip_create_no_paths",
+   "argv": [
+    "vsi",
+    "sozip",
+    "create",
+    "--junk-paths"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vsi_sozip_advanced.py:25"
+  },
+  {
+   "test": "test_sozip_optimize_basic",
+   "argv": [
+    "vsi",
+    "sozip",
+    "optimize"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vsi_sozip_advanced.py:41"
+  },
+  {
+   "test": "test_sozip_validate_nonexistent",
+   "argv": [
+    "vsi",
+    "sozip",
+    "validate",
+    "/nonexistent.zip"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vsi_sozip_advanced.py:61"
+  },
+  {
+   "test": "test_sozip_list_json_usage",
+   "argv": [
+    "vsi",
+    "sozip",
+    "list",
+    "--json-usage"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vsi_sozip_advanced.py:68"
+  },
+  {
+   "test": "test_sozip_create_recursive",
+   "argv": [
+    "vsi",
+    "sozip",
+    "create",
+    "--recursive"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vsi_sozip_advanced.py:77"
+  },
+  {
+   "test": "test_vsi_list_tree",
+   "argv": [
+    "vsi",
+    "list",
+    "--tree"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file1.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vsi_sozip_advanced.py:94"
+  },
+  {
+   "test": "test_vsi_delete_with_flag",
+   "argv": [
+    "vsi",
+    "delete",
+    "--filename"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vsi_sozip_advanced.py:104"
+  }
+ ]
+}

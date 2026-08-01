@@ -1,0 +1,17 @@
+{
+  "slug": "rcoh__angle-grinder",
+  "tool_name": "angle-grinder",
+  "language": "rust",
+  "build_system": "cargo",
+  "binary_name": "angle-grinder",
+  "wrapper_pattern": "direct",
+  "executable_block": "cat > executable <<'EXEC_EOF'\n#!/usr/bin/env bash\nexec -a \"$0\" /usr/local/bin/angle-grinder \"$@\"\nEXEC_EOF",
+  "test_categories": [],
+  "behavioral_tags": [
+    "log-analyzer"
+  ],
+  "passing_tests": 1143,
+  "total_tests": 1143,
+  "locked": true,
+  "official_full_suite_resolved": true
+}

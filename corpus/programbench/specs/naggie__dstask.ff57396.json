@@ -1,0 +1,4951 @@
+{
+ "slug": "naggie__dstask.ff57396",
+ "language": "",
+ "n_branches": 12,
+ "n_tests_total": 1540,
+ "n_examples": 278,
+ "n_with_exact_stdout": 6,
+ "n_with_rc": 249,
+ "n_skipped": 1180,
+ "examples": [
+  {
+   "test": "test_selected_subcommands_are_routable",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:110"
+  },
+  {
+   "test": "test_subcommand_help_differs_from_main_help",
+   "argv": [
+    "help",
+    "add"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:123"
+  },
+  {
+   "test": "test_unknown_subcommand_is_treated_as_filter_in_default_next",
+   "argv": [
+    "definitely_not_a_command"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:137"
+  },
+  {
+   "test": "test_help_unknown_subcommand_shows_main_help",
+   "argv": [
+    "help",
+    "definitely_not_a_command"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:146"
+  },
+  {
+   "test": "test_add_task_with_due_date",
+   "argv": [
+    "add",
+    "Task with due",
+    "due:tomorrow"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:5"
+  },
+  {
+   "test": "test_show_open_with_filter",
+   "argv": [
+    "add",
+    "Work task",
+    "+work"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "work"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:17"
+  },
+  {
+   "test": "test_next_with_filters",
+   "argv": [
+    "add",
+    "Urgent task",
+    "+urgent",
+    "P0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "urgent"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:52"
+  },
+  {
+   "test": "test_show_projects_with_data",
+   "argv": [
+    "add",
+    "Task 1",
+    "project:web"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:70"
+  },
+  {
+   "test": "test_show_tags_multiple_tags",
+   "argv": [
+    "add",
+    "Task 1",
+    "+urgent",
+    "+bug"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:84"
+  },
+  {
+   "test": "test_template_modify_after_creation",
+   "argv": [
+    "template",
+    "Template task",
+    "+template-tag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "extra-tag"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:96"
+  },
+  {
+   "test": "test_git_log_shows_history",
+   "argv": [
+    "add",
+    "Task 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:136"
+  },
+  {
+   "test": "test_git_show_commit",
+   "argv": [
+    "add",
+    "Test task"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:149"
+  },
+  {
+   "test": "test_show_unorganised_filters_correctly",
+   "argv": [
+    "add",
+    "Unorganised"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unorganised"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:160"
+  },
+  {
+   "test": "test_remove_with_confirmation",
+   "argv": [
+    "add",
+    "Task to remove"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:172"
+  },
+  {
+   "test": "test_context_complex_filter",
+   "argv": [
+    "context",
+    "+work",
+    "+urgent",
+    "-wontfix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "work",
+    "urgent"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:185"
+  },
+  {
+   "test": "test_priority_values_in_json",
+   "argv": [
+    "add",
+    "P0 task",
+    "P0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "P0",
+    "P1",
+    "P2",
+    "P3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:200"
+  },
+  {
+   "test": "test_log_with_all_attributes",
+   "argv": [
+    "log",
+    "Completed task",
+    "+done",
+    "project:archive",
+    "P2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "done"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:233"
+  },
+  {
+   "test": "test_json_output_structure",
+   "argv": [
+    "add",
+    "Test task",
+    "+tag",
+    "project:test",
+    "P1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "id",
+    "summary",
+    "status",
+    "tags",
+    "project",
+    "priority"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:46"
+  },
+  {
+   "test": "test_uuid_in_task_data",
+   "argv": [
+    "add",
+    "Task with UUID"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "uuid"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:66"
+  },
+  {
+   "test": "test_timestamp_fields",
+   "argv": [
+    "add",
+    "Task with timestamps"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "created"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:81"
+  },
+  {
+   "test": "test_empty_task_list_returns_empty_array",
+   "argv": [
+    "show-open"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:111"
+  },
+  {
+   "test": "test_resolved_date_set_on_done",
+   "argv": [
+    "add",
+    "Task to resolve"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "resolved"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:120"
+  },
+  {
+   "test": "test_version_output",
+   "argv": [
+    "version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Version:",
+    "Git commit:",
+    "Build date:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:6"
+  },
+  {
+   "test": "test_help_command",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Available commands:",
+    "add",
+    "next",
+    "done"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:16"
+  },
+  {
+   "test": "test_help_for_specific_command",
+   "argv": [
+    "help",
+    "add"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: dstask add",
+    "Example:",
+    "template:",
+    "Usage: dstask context",
+    "filter"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:28"
+  },
+  {
+   "test": "test_next_command_returns_json_array",
+   "argv": [
+    "next"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:54"
+  },
+  {
+   "test": "test_bash_completion_script",
+   "argv": [
+    "bash-completion"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_completions.py:4"
+  },
+  {
+   "test": "test_zsh_completion_script",
+   "argv": [
+    "zsh-completion"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_completions.py:14"
+  },
+  {
+   "test": "test_fish_completion_script",
+   "argv": [
+    "fish-completion"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_completions.py:24"
+  },
+  {
+   "test": "test_modify_change_priority_all_levels",
+   "argv": [
+    "add",
+    "Task",
+    "P3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_coverage.py:5"
+  },
+  {
+   "test": "test_task_lifecycle_complete",
+   "argv": [
+    "add",
+    "Lifecycle task",
+    "+tag",
+    "project:test",
+    "P1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_coverage.py:15"
+  },
+  {
+   "test": "test_context_applied_to_all_commands",
+   "argv": [
+    "context",
+    "+work"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "work",
+    "work"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_coverage.py:68"
+  },
+  {
+   "test": "test_git_operations_sequence",
+   "argv": [
+    "git",
+    "log",
+    "--oneline"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_coverage.py:93"
+  },
+  {
+   "test": "test_all_show_commands",
+   "argv": [
+    "add",
+    "Pending"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_coverage.py:119"
+  },
+  {
+   "test": "test_template_workflow",
+   "argv": [
+    "template",
+    "Review checklist",
+    "+review"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "review",
+    "Sprint 1 review"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_coverage.py:154"
+  },
+  {
+   "test": "test_project_management",
+   "argv": [
+    "add",
+    "Alpha 1",
+    "project:alpha"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "alpha",
+    "beta"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_coverage.py:243"
+  },
+  {
+   "test": "test_complex_query_parsing",
+   "argv": [
+    "add",
+    "Task",
+    "+tag1",
+    "+tag2",
+    "+tag3",
+    "project:test",
+    "P1",
+    "due:tomorrow"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tag1",
+    "tag2",
+    "tag3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_coverage.py:293"
+  },
+  {
+   "test": "test_context_set_with_tag",
+   "argv": [
+    "context",
+    "+work"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "work"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_context.py:5"
+  },
+  {
+   "test": "test_context_with_multiple_tags",
+   "argv": [
+    "context",
+    "+work",
+    "+urgent"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "work",
+    "urgent"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_context.py:20"
+  },
+  {
+   "test": "test_context_with_project",
+   "argv": [
+    "context",
+    "project:website"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_context.py:35"
+  },
+  {
+   "test": "test_context_with_anti_tag",
+   "argv": [
+    "add",
+    "Task 1",
+    "+bug"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Task 2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_context.py:49"
+  },
+  {
+   "test": "test_context_none_clears_context",
+   "argv": [
+    "context",
+    "+work"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_context.py:64"
+  },
+  {
+   "test": "test_context_display_shows_current_context",
+   "argv": [
+    "context",
+    "+work",
+    "project:test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_context.py:85"
+  },
+  {
+   "test": "test_add_task_due_today",
+   "argv": [
+    "add",
+    "Task due today",
+    "due:today"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_date_parsing.py:5"
+  },
+  {
+   "test": "test_add_task_due_tomorrow",
+   "argv": [
+    "add",
+    "Task due tomorrow",
+    "due:tomorrow"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_date_parsing.py:15"
+  },
+  {
+   "test": "test_add_task_due_monday",
+   "argv": [
+    "add",
+    "Task due monday",
+    "due:monday"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_date_parsing.py:25"
+  },
+  {
+   "test": "test_add_task_due_next_friday",
+   "argv": [
+    "add",
+    "Task due next friday",
+    "due:next-friday"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_date_parsing.py:35"
+  },
+  {
+   "test": "test_add_task_due_this_saturday",
+   "argv": [
+    "add",
+    "Task due this saturday",
+    "due:this-saturday"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_date_parsing.py:45"
+  },
+  {
+   "test": "test_add_task_due_specific_date",
+   "argv": [
+    "add",
+    "Task due 2024-12-25",
+    "due:2024-12-25"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_date_parsing.py:55"
+  },
+  {
+   "test": "test_modify_add_due_date",
+   "argv": [
+    "add",
+    "Task without due"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_date_parsing.py:91"
+  },
+  {
+   "test": "test_task_with_special_characters_in_summary",
+   "argv": [
+    "add",
+    "Task with [brackets] and (parens) and {braces}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "brackets"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_rendering.py:31"
+  },
+  {
+   "test": "test_task_with_ansi_like_content",
+   "argv": [
+    "add",
+    "Task with escaped chars \\n \\t"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_display_rendering.py:43"
+  },
+  {
+   "test": "test_long_project_names",
+   "argv": [
+    "add",
+    "Task 1",
+    "project:verylongprojectnamethatmightwrap"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_display_rendering.py:53"
+  },
+  {
+   "test": "test_many_tags_on_single_task",
+   "argv": [
+    "add",
+    "Task with many tags"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_display_rendering.py:64"
+  },
+  {
+   "test": "test_next_tty_render_table",
+   "argv": [
+    "add",
+    "Critical task",
+    "P0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_display_tty.py:34"
+  },
+  {
+   "test": "test_show_projects_tty_table",
+   "argv": [
+    "add",
+    "Task 1",
+    "project:proj1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_display_tty.py:65"
+  },
+  {
+   "test": "test_show_active_tty",
+   "argv": [
+    "add",
+    "Active task"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Active task"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_tty.py:78"
+  },
+  {
+   "test": "test_show_paused_tty",
+   "argv": [
+    "add",
+    "Paused task"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Paused task"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_tty.py:90"
+  },
+  {
+   "test": "test_show_templates_tty",
+   "argv": [
+    "template",
+    "Template task",
+    "+tmpl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Template task"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_tty.py:103"
+  },
+  {
+   "test": "test_show_tags_tty",
+   "argv": [
+    "add",
+    "Task",
+    "+work",
+    "+urgent"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_display_tty.py:114"
+  },
+  {
+   "test": "test_show_unorganised_tty",
+   "argv": [
+    "add",
+    "Unorg task"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unorg task"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_tty.py:125"
+  },
+  {
+   "test": "test_long_task_truncation",
+   "argv": [
+    "add"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "A"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_tty.py:177"
+  },
+  {
+   "test": "test_all_priorities_display",
+   "argv": [
+    "add",
+    "P0",
+    "P0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_display_tty.py:188"
+  },
+  {
+   "test": "test_modify_remove_project",
+   "argv": [
+    "add",
+    "Task",
+    "project:test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:5"
+  },
+  {
+   "test": "test_add_task_with_slash_separator",
+   "argv": [
+    "add",
+    "Task before slash",
+    "/",
+    "Note after slash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "before slash"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:20"
+  },
+  {
+   "test": "test_start_with_task_creation",
+   "argv": [
+    "start",
+    "New started task",
+    "+urgent"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "New started task"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:32"
+  },
+  {
+   "test": "test_log_with_slash_separator",
+   "argv": [
+    "log",
+    "Logged task",
+    "/",
+    "Note for logged task"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:44"
+  },
+  {
+   "test": "test_template_with_slash_separator",
+   "argv": [
+    "template",
+    "Template with note",
+    "/",
+    "Template note"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:55"
+  },
+  {
+   "test": "test_done_with_very_long_note",
+   "argv": [
+    "add",
+    "Task"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:88"
+  },
+  {
+   "test": "test_modify_multiple_attributes",
+   "argv": [
+    "add",
+    "Task",
+    "+old",
+    "project:old",
+    "P3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "new"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:120"
+  },
+  {
+   "test": "test_task_with_colon_in_summary",
+   "argv": [
+    "add",
+    "Task with colon: detail"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "colon"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:136"
+  },
+  {
+   "test": "test_task_with_plus_in_summary",
+   "argv": [
+    "add",
+    "Task with 2+2=4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:147"
+  },
+  {
+   "test": "test_done_and_undo",
+   "argv": [
+    "add",
+    "Task to complete"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:191"
+  },
+  {
+   "test": "test_context_with_multiple_tags_and_project",
+   "argv": [
+    "context",
+    "+work",
+    "+urgent",
+    "project:main"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "work",
+    "urgent"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:208"
+  },
+  {
+   "test": "test_dstask_git_repo_custom_location",
+   "argv": [
+    "add",
+    "Task in custom repo"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "custom repo"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_environment_config.py:9"
+  },
+  {
+   "test": "test_multiple_repos_isolated",
+   "argv": [
+    "add",
+    "Task in repo 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "repo 1",
+    "repo 2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_environment_config.py:29"
+  },
+  {
+   "test": "test_unicode_in_task_summary",
+   "argv": [
+    "add",
+    "Task with émojis 🎉 and ñoño"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:51"
+  },
+  {
+   "test": "test_special_characters_in_tags",
+   "argv": [
+    "add",
+    "Task with special tag",
+    "+tag-with-dash",
+    "+tag_underscore"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:65"
+  },
+  {
+   "test": "test_very_long_task_summary",
+   "argv": [
+    "add"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:77"
+  },
+  {
+   "test": "test_multiple_projects_last_wins",
+   "argv": [
+    "add",
+    "Task",
+    "project:first",
+    "project:second"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:90"
+  },
+  {
+   "test": "test_invalid_command",
+   "argv": [
+    "invalidcommand"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_final_coverage_push.py:5"
+  },
+  {
+   "test": "test_add_with_duplicate_tags",
+   "argv": [
+    "add",
+    "Task",
+    "+tag",
+    "+tag",
+    "+tag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_final_coverage_push.py:77"
+  },
+  {
+   "test": "test_show_projects_no_projects",
+   "argv": [
+    "add",
+    "Task",
+    "+tag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_final_coverage_push.py:164"
+  },
+  {
+   "test": "test_template_with_very_long_summary",
+   "argv": [
+    "template"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_final_coverage_push.py:192"
+  },
+  {
+   "test": "test_log_with_very_long_summary",
+   "argv": [
+    "log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_final_coverage_push.py:199"
+  },
+  {
+   "test": "test_multiple_slash_separators",
+   "argv": [
+    "add",
+    "Before",
+    "/",
+    "Middle",
+    "/",
+    "After"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_final_coverage_push.py:206"
+  },
+  {
+   "test": "test_undo_single_commit",
+   "argv": [
+    "add",
+    "Task 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Task 1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_git_operations.py:27"
+  },
+  {
+   "test": "test_auto_commit_on_add",
+   "argv": [
+    "add",
+    "Test commit"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Added"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_git_operations.py:68"
+  },
+  {
+   "test": "test_log_with_multiple_attributes",
+   "argv": [
+    "log",
+    "Logged task",
+    "+tag1",
+    "+tag2",
+    "project:archive",
+    "P1",
+    "due:yesterday"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_more_coverage.py:39"
+  },
+  {
+   "test": "test_start_command_both_modes",
+   "argv": [
+    "add",
+    "Task to start"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_more_coverage.py:50"
+  },
+  {
+   "test": "test_template_from_existing",
+   "argv": [
+    "add",
+    "Task with attrs",
+    "+tag",
+    "project:test",
+    "P1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_more_coverage.py:66"
+  },
+  {
+   "test": "test_filter_by_multiple_criteria",
+   "argv": [
+    "add",
+    "Match",
+    "+work",
+    "+urgent",
+    "project:alpha",
+    "P0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Match"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_coverage.py:96"
+  },
+  {
+   "test": "test_show_resolved_filtering",
+   "argv": [
+    "log",
+    "Task 1",
+    "+work"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "work"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_coverage.py:109"
+  },
+  {
+   "test": "test_multiple_projects_completion",
+   "argv": [
+    "add",
+    "P1 T1",
+    "project:proj1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "proj1",
+    "proj2",
+    "proj3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_coverage.py:120"
+  },
+  {
+   "test": "test_tags_from_multiple_tasks",
+   "argv": [
+    "add",
+    "Task 1",
+    "+alpha",
+    "+beta"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_more_coverage.py:143"
+  },
+  {
+   "test": "test_batch_done_operations",
+   "argv": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "done"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_more_coverage.py:231"
+  },
+  {
+   "test": "test_note_read_non_tty",
+   "argv": [
+    "add",
+    "Task",
+    "/",
+    "Note content"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Note content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_note_completions_simple.py:34"
+  },
+  {
+   "test": "test_note_empty",
+   "argv": [
+    "add",
+    "Task without note"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_note_completions_simple.py:44"
+  },
+  {
+   "test": "test_completions_tags",
+   "argv": [
+    "add",
+    "T1",
+    "+work",
+    "+urgent"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_note_completions_simple.py:54"
+  },
+  {
+   "test": "test_completions_projects",
+   "argv": [
+    "add",
+    "T1",
+    "project:proj1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_note_completions_simple.py:66"
+  },
+  {
+   "test": "test_completions_anti_tags",
+   "argv": [
+    "add",
+    "Task",
+    "+tag1",
+    "+tag2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_note_completions_simple.py:100"
+  },
+  {
+   "test": "test_completions_anti_projects",
+   "argv": [
+    "add",
+    "Task",
+    "project:proj1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_note_completions_simple.py:111"
+  },
+  {
+   "test": "test_completions_help",
+   "argv": [
+    "_completions",
+    "dstask",
+    "help",
+    "s"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_note_completions_simple.py:122"
+  },
+  {
+   "test": "test_completions_templates",
+   "argv": [
+    "template",
+    "Template task",
+    "+tmpl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_note_completions_simple.py:132"
+  },
+  {
+   "test": "test_add_task_with_duplicate_tags",
+   "argv": [
+    "add",
+    "Task",
+    "+tag1",
+    "+tag1",
+    "+tag1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_open_and_errors.py:132"
+  },
+  {
+   "test": "test_modify_with_no_changes",
+   "argv": [
+    "add",
+    "Task",
+    "+tag1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_open_and_errors.py:146"
+  },
+  {
+   "test": "test_empty_command",
+   "argv": [
+    "add",
+    "Default command task"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_open_and_errors.py:199"
+  },
+  {
+   "test": "test_show_tags_empty",
+   "argv": [
+    "show-tags"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_open_and_errors.py:235"
+  },
+  {
+   "test": "test_show_projects_empty",
+   "argv": [
+    "show-projects"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_open_and_errors.py:242"
+  },
+  {
+   "test": "test_filter_with_nonexistent_tag",
+   "argv": [
+    "add",
+    "Task",
+    "+real"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_open_and_errors.py:249"
+  },
+  {
+   "test": "test_filter_with_nonexistent_project",
+   "argv": [
+    "add",
+    "Task",
+    "project:real"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_open_and_errors.py:260"
+  },
+  {
+   "test": "test_modify_priority_to_same_value",
+   "argv": [
+    "add",
+    "Task",
+    "P1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_open_and_errors.py:271"
+  },
+  {
+   "test": "test_log_with_full_attributes",
+   "argv": [
+    "log",
+    "Logged task",
+    "+tag1",
+    "P1",
+    "project:proj"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_open_and_errors.py:325"
+  },
+  {
+   "test": "test_add_basic_task",
+   "argv": [
+    "add",
+    "Buy groceries"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_task_creation.py:5"
+  },
+  {
+   "test": "test_add_task_with_tags",
+   "argv": [
+    "add",
+    "Fix bug",
+    "+urgent",
+    "+bug"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Fix bug",
+    "urgent",
+    "bug"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_task_creation.py:20"
+  },
+  {
+   "test": "test_add_task_with_project",
+   "argv": [
+    "add",
+    "Write documentation",
+    "project:dstask"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Write documentation"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_task_creation.py:33"
+  },
+  {
+   "test": "test_add_task_with_priority",
+   "argv": [
+    "add",
+    "Critical issue",
+    "P0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Critical issue",
+    "High priority",
+    "Low priority"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_task_creation.py:45"
+  },
+  {
+   "test": "test_add_task_with_all_attributes",
+   "argv": [
+    "add",
+    "Complex task",
+    "+work",
+    "+urgent",
+    "project:website",
+    "P1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Complex task",
+    "work",
+    "urgent"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_task_creation.py:70"
+  },
+  {
+   "test": "test_log_creates_resolved_task",
+   "argv": [
+    "log",
+    "Completed yesterday's work",
+    "+done"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Completed yesterday"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_task_creation.py:85"
+  },
+  {
+   "test": "test_template_create_new",
+   "argv": [
+    "template",
+    "Template task",
+    "+template-tag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Template task"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_task_creation.py:103"
+  },
+  {
+   "test": "test_template_from_existing_task",
+   "argv": [
+    "add",
+    "Regular task",
+    "+tag1",
+    "project:test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_task_creation.py:116"
+  },
+  {
+   "test": "test_add_from_template",
+   "argv": [
+    "template",
+    "Template with checklist",
+    "+recurring"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "New instance"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_task_creation.py:133"
+  },
+  {
+   "test": "test_start_creates_and_starts_task",
+   "argv": [
+    "start",
+    "Working on this now",
+    "+active"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Working on this"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_task_creation.py:154"
+  },
+  {
+   "test": "test_start_marks_task_as_active",
+   "argv": [
+    "add",
+    "Task to start"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Started",
+    "Task to start"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_task_modification.py:5"
+  },
+  {
+   "test": "test_stop_marks_task_as_paused",
+   "argv": [
+    "add",
+    "Task to stop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Stopped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_task_modification.py:25"
+  },
+  {
+   "test": "test_stop_with_note",
+   "argv": [
+    "add",
+    "Task with note"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Stopped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_task_modification.py:46"
+  },
+  {
+   "test": "test_done_with_closing_note",
+   "argv": [
+    "add",
+    "Task with closing note"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_task_modification.py:87"
+  },
+  {
+   "test": "test_modify_add_tags",
+   "argv": [
+    "add",
+    "Task to modify"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "newtag",
+    "another"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_task_modification.py:102"
+  },
+  {
+   "test": "test_modify_remove_tags",
+   "argv": [
+    "add",
+    "Task with tags",
+    "+tag1",
+    "+tag2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tag2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_task_modification.py:119"
+  },
+  {
+   "test": "test_modify_change_project",
+   "argv": [
+    "add",
+    "Task with project",
+    "project:old"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_task_modification.py:136"
+  },
+  {
+   "test": "test_modify_change_priority",
+   "argv": [
+    "add",
+    "Task with priority",
+    "P2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "priority"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_task_modification.py:152"
+  },
+  {
+   "test": "test_note_command_without_editor",
+   "argv": [
+    "add",
+    "Task for notes"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "note"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_task_modification.py:169"
+  },
+  {
+   "test": "test_multiple_task_operations",
+   "argv": [
+    "add",
+    "Task 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Task 3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_task_modification.py:201"
+  },
+  {
+   "test": "test_command_and_id_position_flexibility",
+   "argv": [
+    "add",
+    "Task for position test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_task_modification.py:226"
+  },
+  {
+   "test": "test_task_with_due_date_weekday",
+   "argv": [
+    "add",
+    "Due on Monday",
+    "due:monday"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_util_functions.py:44"
+  },
+  {
+   "test": "test_filter_due_before",
+   "argv": [
+    "add",
+    "Early task",
+    "due:2024-01-01"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_util_functions.py:66"
+  },
+  {
+   "test": "test_add_task_with_slash_note_separator",
+   "argv": [
+    "add",
+    "Task summary here",
+    "/",
+    "Note content after slash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Note content after slash"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_util_functions.py:97"
+  },
+  {
+   "test": "test_done_with_multiple_task_ids",
+   "argv": [
+    "add",
+    "Task A"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_util_functions.py:126"
+  },
+  {
+   "test": "test_start_with_multiple_task_ids",
+   "argv": [
+    "add",
+    "Task X"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_util_functions.py:141"
+  },
+  {
+   "test": "test_stop_with_multiple_task_ids",
+   "argv": [
+    "add",
+    "Task M"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_util_functions.py:156"
+  },
+  {
+   "test": "test_remove_with_multiple_task_ids",
+   "argv": [
+    "add",
+    "Task to remove 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_util_functions.py:172"
+  },
+  {
+   "test": "test_template_with_task_id",
+   "argv": [
+    "template",
+    "Template task",
+    "+tmpl",
+    "P1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tmpl"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_util_functions.py:187"
+  },
+  {
+   "test": "test_context_with_anti_project",
+   "argv": [
+    "add",
+    "Task in proj1",
+    "project:proj1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_util_functions.py:206"
+  },
+  {
+   "test": "test_show_open_with_filters",
+   "argv": [
+    "add",
+    "Work task",
+    "+work",
+    "P1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_util_functions.py:224"
+  },
+  {
+   "test": "test_show_active_with_priority_filter",
+   "argv": [
+    "add",
+    "High priority active",
+    "P1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_util_functions.py:236"
+  },
+  {
+   "test": "test_text_search_in_notes",
+   "argv": [
+    "add",
+    "Task title",
+    "/",
+    "Note with searchterm"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_util_functions.py:249"
+  },
+  {
+   "test": "test_task_with_multiple_tags",
+   "argv": [
+    "add",
+    "Multi-tag task",
+    "+tag1",
+    "+tag2",
+    "+tag3",
+    "+tag4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_util_functions.py:264"
+  },
+  {
+   "test": "test_task_with_no_summary",
+   "argv": [
+    "add",
+    "x"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_util_functions.py:276"
+  },
+  {
+   "test": "test_modify_clear_project",
+   "argv": [
+    "add",
+    "Task with project",
+    "project:oldproj"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_util_functions.py:287"
+  },
+  {
+   "test": "test_show_tags_json_output",
+   "argv": [
+    "add",
+    "T1",
+    "+alpha"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_util_functions.py:300"
+  },
+  {
+   "test": "test_git_command_passthrough",
+   "argv": [
+    "add",
+    "Dummy task"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_util_functions.py:347"
+  },
+  {
+   "test": "test_git_log_command",
+   "argv": [
+    "add",
+    "Task for log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_util_functions.py:357"
+  },
+  {
+   "test": "test_show_resolved_completed_tasks",
+   "argv": [
+    "add",
+    "Task 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Task 1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_viewing_filtering.py:17"
+  },
+  {
+   "test": "test_show_active_only_active_tasks",
+   "argv": [
+    "add",
+    "Pending task"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Active task"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_viewing_filtering.py:30"
+  },
+  {
+   "test": "test_show_paused_started_then_stopped",
+   "argv": [
+    "add",
+    "Task to pause"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Task to pause"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_viewing_filtering.py:43"
+  },
+  {
+   "test": "test_show_templates_only_templates",
+   "argv": [
+    "add",
+    "Regular task"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Template task"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_viewing_filtering.py:55"
+  },
+  {
+   "test": "test_show_unorganised_no_tags_or_project",
+   "argv": [
+    "add",
+    "Unorganised task"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unorganised task"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_viewing_filtering.py:67"
+  },
+  {
+   "test": "test_show_projects_lists_projects",
+   "argv": [
+    "add",
+    "Task 1",
+    "project:web"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "web",
+    "api"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_viewing_filtering.py:81"
+  },
+  {
+   "test": "test_show_tags_lists_all_tags",
+   "argv": [
+    "add",
+    "Task 1",
+    "+urgent",
+    "+bug"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "urgent",
+    "bug",
+    "feature"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_viewing_filtering.py:96"
+  },
+  {
+   "test": "test_missing_repo_can_be_created_by_answering_y_to_prompt",
+   "argv": [],
+   "stdin": "y\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Initialized empty Git repository"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:59"
+  },
+  {
+   "test": "test_ext_integration_modify_tasks_in_context_confirmation_yes",
+   "argv": [
+    "modify",
+    "+project:p"
+   ],
+   "stdin": "y\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dstask_externalized.py:476"
+  },
+  {
+   "test": "test_help_command_lists_subcommands",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "next",
+    "add",
+    "remove",
+    "done",
+    "context",
+    "sync"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:121"
+  },
+  {
+   "test": "test_main_help_accessible",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:136"
+  },
+  {
+   "test": "test_subcommand_help_via_help_command",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:149"
+  },
+  {
+   "test": "test_rm_alias_for_remove",
+   "argv": [
+    "help",
+    "rm"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:170"
+  },
+  {
+   "test": "test_notes_alias_for_note",
+   "argv": [
+    "help",
+    "notes"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:181"
+  },
+  {
+   "test": "test_resolve_alias_for_done",
+   "argv": [
+    "help",
+    "resolve"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:191"
+  },
+  {
+   "test": "test_version_command",
+   "argv": [
+    "version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Version:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:205"
+  },
+  {
+   "test": "test_unknown_subcommand_handling",
+   "argv": [
+    "nonexistent_subcommand_12345"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:246"
+  },
+  {
+   "test": "test_gibberish_command",
+   "argv": [
+    "xyz123abc456"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:256"
+  },
+  {
+   "test": "test_context_without_args_shows_current",
+   "argv": [
+    "context"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:301"
+  },
+  {
+   "test": "test_context_none_resets",
+   "argv": [
+    "context",
+    "none"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:307"
+  },
+  {
+   "test": "test_next_with_filter",
+   "argv": [
+    "next",
+    "+work"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:395"
+  },
+  {
+   "test": "test_version_prints_three_lines_and_exit_0",
+   "argv": [
+    "version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:10"
+  },
+  {
+   "test": "test_next_initializes_repo_in_home_and_writes_remote_hint_to_stdout",
+   "argv": [
+    "next"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Add a remote repository with:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:33"
+  },
+  {
+   "test": "test_add_requires_git_identity_exit_1_and_error_on_stderr",
+   "argv": [
+    "git",
+    "config",
+    "--unset",
+    "user.email"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "failed to commit changes"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:43"
+  },
+  {
+   "test": "test_add_creates_pending_task_file_and_show_open_outputs_json",
+   "argv": [
+    "add",
+    "hello",
+    "+work",
+    "project:demo"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "work"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:56"
+  },
+  {
+   "test": "test_unknown_command_nonzero_and_mentions_available_commands",
+   "argv": [
+    "definitely-not-a-command"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:86"
+  },
+  {
+   "test": "test_help_output_contains_usage_and_colour_key_with_ansi",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: dstask",
+    "Colour Key:",
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:94"
+  },
+  {
+   "test": "test_default_repo_location_uses_home_dstask",
+   "argv": [
+    "add",
+    "from-default-repo"
+   ],
+   "stdin": null,
+   "env": {
+    "DSTASK_FAKE_PTY": "1"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:37"
+  },
+  {
+   "test": "test_env_dstask_git_repo_overrides_default_home_repo",
+   "argv": [
+    "add",
+    "from-override-repo"
+   ],
+   "stdin": null,
+   "env": {
+    "DSTASK_FAKE_PTY": "1"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:57"
+  },
+  {
+   "test": "test_env_dstask_context_filters_tasks_and_prints_notification",
+   "argv": [
+    "next"
+   ],
+   "stdin": null,
+   "env": {
+    "DSTASK_CONTEXT": "+two"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Active context (set by DSTASK_CONTEXT): +two"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:87"
+  },
+  {
+   "test": "test_double_dash_ignores_context_even_if_dstask_context_is_set",
+   "argv": [
+    "next",
+    "--"
+   ],
+   "stdin": null,
+   "env": {
+    "DSTASK_CONTEXT": "+two"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "alpha",
+    "beta"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:106"
+  },
+  {
+   "test": "test_context_command_disallowed_when_dstask_context_env_is_set",
+   "argv": [
+    "context",
+    "+newctx"
+   ],
+   "stdin": null,
+   "env": {
+    "DSTASK_CONTEXT": "+locked",
+    "DSTASK_FAKE_PTY": "1"
+   },
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "setting context not allowed while dstask_context is set"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:124"
+  },
+  {
+   "test": "test_help_output_is_bracketed_empty_list",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "[]",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:35"
+  },
+  {
+   "test": "test_help_precedence_over_invalid_flag",
+   "argv": [
+    "--help",
+    "--definitely-not-a-real-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "[]",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:40"
+  },
+  {
+   "test": "test_help_precedence_over_invalid_subcommand",
+   "argv": [
+    "no_such_cmd",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "[]",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:47"
+  },
+  {
+   "test": "test_help_after_double_dash_is_literal_argument",
+   "argv": [
+    "--",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "[]",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:54"
+  },
+  {
+   "test": "test_command_help_is_printed_to_stderr",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_usage_and_command_help.py:9"
+  },
+  {
+   "test": "test_command_help_contains_available_commands_section",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Available commands:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_usage_and_command_help.py:15"
+  },
+  {
+   "test": "test_command_help_includes_colour_key_section_with_expected_labels",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Colour Key:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_usage_and_command_help.py:60"
+  },
+  {
+   "test": "test_help_add_subcommand_is_printed_to_stderr",
+   "argv": [
+    "help",
+    "add"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_usage_and_command_help.py:74"
+  },
+  {
+   "test": "test_help_add_mentions_template_and_context_separator",
+   "argv": [
+    "help",
+    "add"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "template:<id>",
+    "Add -- to ignore the current context."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_usage_and_command_help.py:81"
+  },
+  {
+   "test": "test_remove_with_comment",
+   "argv": [
+    "git",
+    "log",
+    "-1",
+    "--pretty=%B"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "removing because it's a duplicate"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_commands_gaps.py:372"
+  },
+  {
+   "test": "test_undo_with_count_argument",
+   "argv": [
+    "git",
+    "rev-list",
+    "--count",
+    "HEAD"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_commands_gaps.py:418"
+  },
+  {
+   "test": "test_default_repo_location_uses_home_dstask",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Added 1: test task"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:35"
+  },
+  {
+   "test": "test_custom_repo_location_via_env_var",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Added 1: custom location task"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:71"
+  },
+  {
+   "test": "test_dstask_context_filters_tasks",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:104"
+  },
+  {
+   "test": "test_dstask_context_blocks_context_command",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "setting context not allowed while DSTASK_CONTEXT is set"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:146"
+  },
+  {
+   "test": "test_state_file_location_based_on_repo",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Active context: +repo1tag",
+    "Active context: +repo2tag"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:262"
+  },
+  {
+   "test": "test_dstask_context_notification_in_output",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "(set by DSTASK_CONTEXT)",
+    "Active context (set by DSTASK_CONTEXT): +urgent"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:553"
+  },
+  {
+   "test": "test_env_var_overrides_work_across_commands",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "(set by DSTASK_CONTEXT)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:889"
+  },
+  {
+   "test": "test_context_query_string_shown_in_output",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Active context: +urgent project:work"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:1064"
+  },
+  {
+   "test": "test_edit_creates_git_commit",
+   "argv": [
+    "git",
+    "rev-list",
+    "--count",
+    "HEAD"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Edited 1: Edited for git"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edit.py:236"
+  },
+  {
+   "test": "test_sync_with_remote_no_changes",
+   "argv": [
+    "git",
+    "init",
+    "--bare"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Already up to date",
+    "Everything up-to-date"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_git.py:299"
+  },
+  {
+   "test": "test_sync_pulls_remote_changes",
+   "argv": [
+    "git",
+    "init",
+    "--bare"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "task from repo 2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_git.py:328"
+  },
+  {
+   "test": "test_sync_pushes_local_changes",
+   "argv": [
+    "git",
+    "init",
+    "--bare"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_git.py:375"
+  },
+  {
+   "test": "test_git_passthrough_remote_commands",
+   "argv": [
+    "git",
+    "init",
+    "--bare"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test-origin"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_git.py:520"
+  },
+  {
+   "test": "test_sync_with_local_and_remote_diverged",
+   "argv": [
+    "git",
+    "init",
+    "--bare"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "local change in repo1",
+    "remote change in repo2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_git.py:699"
+  },
+  {
+   "test": "test_sync_push_fails_with_invalid_remote",
+   "argv": [
+    "git",
+    "remote",
+    "add",
+    "origin",
+    "/nonexistent/path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Failed to run git cmd",
+    "does not appear to be a git repository"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_git_errors.py:110"
+  },
+  {
+   "test": "test_multiple_git_errors_in_sequence",
+   "argv": [
+    "git",
+    "reset",
+    "--hard"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "failed to add changes",
+    "failed to run git commit"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_git_errors.py:279"
+  },
+  {
+   "test": "test_modify_multiple_ids_creates_separate_commits",
+   "argv": [
+    "git",
+    "log",
+    "--oneline"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Modified 1: Task one",
+    "Modified 2: Task two"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_modify.py:367"
+  },
+  {
+   "test": "test_open_command_with_url_in_summary",
+   "argv": [
+    "add",
+    "Check https://example.com website"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "https://example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_commands.py:20"
+  },
+  {
+   "test": "test_show_next_alias",
+   "argv": [
+    "add",
+    "Test task for alias"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_commands.py:50"
+  },
+  {
+   "test": "test_resolve_alias_for_done",
+   "argv": [
+    "add",
+    "Task to resolve"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_commands.py:68"
+  },
+  {
+   "test": "test_add_task_with_slash_for_notes",
+   "argv": [
+    "add",
+    "Task summary",
+    "/",
+    "note text here"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_commands.py:100"
+  },
+  {
+   "test": "test_log_with_slash_separator",
+   "argv": [
+    "log",
+    "Completed work",
+    "/",
+    "some details"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_commands.py:112"
+  },
+  {
+   "test": "test_context_with_multiple_tags",
+   "argv": [
+    "context",
+    "+work",
+    "+urgent"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "work",
+    "urgent",
+    "Task in context"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_commands.py:123"
+  },
+  {
+   "test": "test_git_remote_operations",
+   "argv": [
+    "git",
+    "remote",
+    "add",
+    "origin",
+    "fake://repo.git"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_commands.py:153"
+  },
+  {
+   "test": "test_priority_in_context",
+   "argv": [
+    "context",
+    "P1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "priority"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_commands.py:198"
+  },
+  {
+   "test": "test_context_set_tag",
+   "argv": [
+    "context",
+    "+work"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "work",
+    "Task in work context"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_context_system.py:4"
+  },
+  {
+   "test": "test_context_set_project",
+   "argv": [
+    "context",
+    "project:myproject"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Task in project"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_context_system.py:18"
+  },
+  {
+   "test": "test_context_combined_filters",
+   "argv": [
+    "context",
+    "+work",
+    "+urgent",
+    "project:webapp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "work",
+    "urgent"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_context_system.py:30"
+  },
+  {
+   "test": "test_context_filters_next_command",
+   "argv": [
+    "add",
+    "Work task",
+    "+work"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Work task",
+    "work"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_context_system.py:62"
+  },
+  {
+   "test": "test_context_antitag",
+   "argv": [
+    "add",
+    "Task 1",
+    "+work"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Task 1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_context_system.py:78"
+  },
+  {
+   "test": "test_bypass_context_with_double_dash",
+   "argv": [
+    "context",
+    "+work"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Work task"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_context_system.py:92"
+  },
+  {
+   "test": "test_context_environment_variable",
+   "argv": [
+    "add",
+    "Task with env context"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "envwork"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_context_system.py:117"
+  },
+  {
+   "test": "test_context_applies_to_add",
+   "argv": [
+    "context",
+    "+autotag",
+    "project:autoproject"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "autotag",
+    "Task with auto context"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_context_system.py:132"
+  },
+  {
+   "test": "test_unicode_in_task",
+   "argv": [
+    "add",
+    "Task with emoji 🎉 and unicode αβγ"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:26"
+  },
+  {
+   "test": "test_multiple_spaces_in_summary",
+   "argv": [
+    "add",
+    "Task    with    multiple    spaces"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:67"
+  },
+  {
+   "test": "test_operating_on_nonexistent_task",
+   "argv": [
+    "99999",
+    "start"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:87"
+  },
+  {
+   "test": "test_invalid_command",
+   "argv": [
+    "invalid-command-xyz"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:118"
+  },
+  {
+   "test": "test_conflicting_operations",
+   "argv": [
+    "add",
+    "Task for conflict test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:136"
+  },
+  {
+   "test": "test_multiple_operations_same_task",
+   "argv": [
+    "add",
+    "Task for multiple ops"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:156"
+  },
+  {
+   "test": "test_task_with_newlines_in_summary",
+   "argv": [
+    "add",
+    "Task line 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:182"
+  },
+  {
+   "test": "test_git_passthrough",
+   "argv": [
+    "git",
+    "status"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_git_integration.py:14"
+  },
+  {
+   "test": "test_git_remote_list",
+   "argv": [
+    "git",
+    "remote",
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_git_integration.py:60"
+  },
+  {
+   "test": "test_git_branch_list",
+   "argv": [
+    "add",
+    "Task for branch test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_git_integration.py:69"
+  },
+  {
+   "test": "test_note_command_append_text",
+   "argv": [
+    "add",
+    "Task with notes"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_notes.py:4"
+  },
+  {
+   "test": "test_notes_alias",
+   "argv": [
+    "add",
+    "Task for notes alias"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_notes.py:16"
+  },
+  {
+   "test": "test_note_on_nonexistent_task",
+   "argv": [
+    "99999",
+    "note",
+    "Note for missing task"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_notes.py:42"
+  },
+  {
+   "test": "test_json_output_via_pipe",
+   "argv": [
+    "add",
+    "Task for JSON test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "id",
+    "summary",
+    "status",
+    "Task for JSON test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:5"
+  },
+  {
+   "test": "test_table_output_with_fake_pty",
+   "argv": [
+    "add",
+    "Task for fake PTY test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:24"
+  },
+  {
+   "test": "test_human_readable_output",
+   "argv": [
+    "add",
+    "Task for table test",
+    "+display"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:38"
+  },
+  {
+   "test": "test_color_output_detection",
+   "argv": [
+    "add",
+    "Task for color test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:53"
+  },
+  {
+   "test": "test_show_projects_output_format",
+   "argv": [
+    "add",
+    "T1",
+    "project:proj1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "proj1",
+    "proj2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:77"
+  },
+  {
+   "test": "test_priority_p0_critical",
+   "argv": [
+    "add",
+    "Critical task",
+    "P0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Critical task"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_priority_system.py:3"
+  },
+  {
+   "test": "test_priority_p1_high",
+   "argv": [
+    "add",
+    "High priority task",
+    "P1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_priority_system.py:14"
+  },
+  {
+   "test": "test_priority_p2_normal",
+   "argv": [
+    "add",
+    "Normal task",
+    "P2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_priority_system.py:24"
+  },
+  {
+   "test": "test_priority_p3_low",
+   "argv": [
+    "add",
+    "Low priority task",
+    "P3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_priority_system.py:35"
+  },
+  {
+   "test": "test_default_priority",
+   "argv": [
+    "add",
+    "Task without priority"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_priority_system.py:46"
+  },
+  {
+   "test": "test_priority_modification",
+   "argv": [
+    "add",
+    "Task to modify priority"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_priority_system.py:57"
+  },
+  {
+   "test": "test_priority_in_filtering",
+   "argv": [
+    "add",
+    "High task",
+    "P1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_priority_system.py:73"
+  },
+  {
+   "test": "test_add_basic_task",
+   "argv": [
+    "add",
+    "Basic test task"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_task_creation.py:4"
+  },
+  {
+   "test": "test_add_task_with_tag",
+   "argv": [
+    "add",
+    "Task with tag",
+    "+work"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "work",
+    "Task with tag"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_task_creation.py:17"
+  },
+  {
+   "test": "test_add_task_with_project",
+   "argv": [
+    "add",
+    "Task with project",
+    "project:myproject"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Task with project"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_task_creation.py:28"
+  },
+  {
+   "test": "test_add_task_with_priority",
+   "argv": [
+    "add"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "priority"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_task_creation.py:39"
+  },
+  {
+   "test": "test_add_task_with_multiple_attributes",
+   "argv": [
+    "add",
+    "Complex task",
+    "+urgent",
+    "+work",
+    "project:test",
+    "P1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "urgent",
+    "work",
+    "Complex task"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_task_creation.py:54"
+  },
+  {
+   "test": "test_log_command_creates_resolved_task",
+   "argv": [
+    "log",
+    "Already completed task"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_task_creation.py:93"
+  },
+  {
+   "test": "test_log_with_attributes",
+   "argv": [
+    "log",
+    "Fixed bug",
+    "+bug",
+    "project:webapp",
+    "P1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Fixed bug",
+    "bug"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_task_creation.py:111"
+  },
+  {
+   "test": "test_template_command_create_template",
+   "argv": [
+    "template",
+    "Template task",
+    "+template-tag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Template task",
+    "template-tag"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_task_creation.py:125"
+  },
+  {
+   "test": "test_add_from_template",
+   "argv": [
+    "template",
+    "Deploy checklist",
+    "+deploy",
+    "project:ops"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "to staging",
+    "deploy"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_task_creation.py:142"
+  },
+  {
+   "test": "test_start_command_with_summary_creates_and_starts_task",
+   "argv": [
+    "start",
+    "Urgent task to start",
+    "+urgent"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Urgent task to start",
+    "urgent"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_task_creation.py:165"
+  },
+  {
+   "test": "test_add_unicode_task",
+   "argv": [
+    "add",
+    "Task with émojis 🚀 and ñoño"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_task_creation.py:188"
+  },
+  {
+   "test": "test_modify_task_add_tag",
+   "argv": [
+    "modify",
+    "+newtag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "newtag",
+    "summary"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_task_modification.py:3"
+  },
+  {
+   "test": "test_modify_task_remove_tag",
+   "argv": [
+    "modify",
+    "-tag1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_task_modification.py:19"
+  },
+  {
+   "test": "test_modify_task_change_project",
+   "argv": [
+    "modify",
+    "project:newproject"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "summary"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_task_modification.py:35"
+  },
+  {
+   "test": "test_modify_task_remove_project",
+   "argv": [
+    "modify"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_task_modification.py:51"
+  },
+  {
+   "test": "test_modify_task_change_priority",
+   "argv": [
+    "modify",
+    "P0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_task_modification.py:64"
+  },
+  {
+   "test": "test_start_task",
+   "argv": [
+    "start"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_task_modification.py:80"
+  },
+  {
+   "test": "test_done_task",
+   "argv": [
+    "done"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_task_modification.py:131"
+  },
+  {
+   "test": "test_done_task_with_note",
+   "argv": [
+    "done",
+    "Finished successfully"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_task_modification.py:148"
+  },
+  {
+   "test": "test_remove_task",
+   "argv": [
+    "remove"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_task_modification.py:163"
+  },
+  {
+   "test": "test_rm_alias_for_remove",
+   "argv": [
+    "rm"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_task_modification.py:178"
+  },
+  {
+   "test": "test_id_and_command_swap",
+   "argv": [
+    "add",
+    "Task to test swap"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_task_modification.py:230"
+  },
+  {
+   "test": "test_modify_invalid_task_id",
+   "argv": [
+    "99999",
+    "modify",
+    "+newtag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_task_modification.py:250"
+  },
+  {
+   "test": "test_show_tags_command",
+   "argv": [
+    "add",
+    "Task 1",
+    "+alpha"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_view_commands.py:178"
+  },
+  {
+   "test": "test_next_with_text_search",
+   "argv": [
+    "add",
+    "Fix the webserver bug"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "fix"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_view_commands.py:192"
+  }
+ ]
+}

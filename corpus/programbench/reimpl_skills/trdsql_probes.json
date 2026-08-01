@@ -1,0 +1,3444 @@
+[
+ {
+  "name": "test::test_stdin_input_with_dash_path::0",
+  "argv": [
+   "-ih",
+   "SELECT a,b FROM -"
+  ],
+  "stdin": "a,b\n1,2\n3,4\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_output_path_error::1",
+  "argv": [
+   "-out",
+   "/invalid/path/output.csv",
+   "SELECT * FROM -"
+  ],
+  "stdin": "a,b\n1,2",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_out_without_guess_defaults_to_csv::2",
+  "argv": [
+   "-out-without-guess",
+   "SELECT * FROM -"
+  ],
+  "stdin": "a,b\n1,2",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_flag_with_db_config_list::3",
+  "argv": [
+   "-debug",
+   "-config",
+   "SELECT * FROM -"
+  ],
+  "stdin": "a,b\n1,2",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dsn_only_without_driver::4",
+  "argv": [
+   "-dsn",
+   ":memory:",
+   "SELECT * FROM -"
+  ],
+  "stdin": "a,b\n1,2",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_db_in_config::5",
+  "argv": [
+   "-config",
+   "-db",
+   "nonexistent",
+   "SELECT * FROM -"
+  ],
+  "stdin": "a,b\n1,2",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_file_double_extension_format_guess::6",
+  "argv": [
+   "-out",
+   "SELECT * FROM -"
+  ],
+  "stdin": "a,b\n1,2",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explicit_compression_overrides_extension::7",
+  "argv": [
+   "-out",
+   "-oz",
+   "gzip",
+   "SELECT * FROM -"
+  ],
+  "stdin": "a,b\n1,2",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_output_format_flags_priority::8",
+  "argv": [
+   "-ojson",
+   "-ocsv",
+   "SELECT * FROM -"
+  ],
+  "stdin": "a,b\n1,2",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_from_stdin_flag::9",
+  "argv": [
+   "-q",
+   "/dev/stdin"
+  ],
+  "stdin": "SELECT 1 + 1 as result",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_csv::10",
+  "argv": [
+   "SELECT * FROM -"
+  ],
+  "stdin": "1,Orange\n2,Melon\n3,Apple\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_header::11",
+  "argv": [
+   "-ih",
+   "SELECT c1,c2 FROM -"
+  ],
+  "stdin": "c1,c2\n1,Orange\n2,Melon\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_dash_csv::12",
+  "argv": [
+   "-ih",
+   "SELECT * FROM -"
+  ],
+  "stdin": "name,age,city\nAlice,30,NYC\nBob,25,LA\nCarol,35,SF\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_json::13",
+  "argv": [
+   "-ijson",
+   "SELECT product, price FROM stdin"
+  ],
+  "stdin": "[{\"product\":\"apple\",\"price\":1.2},{\"product\":\"banana\",\"price\":0.5},{\"product\":\"orange\",\"price\":0.8}]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_uppercase::14",
+  "argv": [
+   "-ih",
+   "SELECT * FROM STDIN"
+  ],
+  "stdin": "a,b,c\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_stdin_input::15",
+  "argv": [
+   "-ih",
+   "-ojson",
+   "SELECT * FROM -"
+  ],
+  "stdin": "a,b\n1,2\n3,4\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tsv_tab_delimiter::16",
+  "argv": [
+   "-ih",
+   "-id",
+   "\t",
+   "-ojson",
+   "SELECT * FROM -"
+  ],
+  "stdin": "id\tname\n1\tAlice\n2\tBob\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_psv_pipe_delimiter::17",
+  "argv": [
+   "-ih",
+   "-id",
+   "|",
+   "-ojson",
+   "SELECT * FROM -"
+  ],
+  "stdin": "id|name|price\n1|Orange|50\n2|Melon|500\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_decompression_auto_detection::18",
+  "argv": [
+   "/workspace/executable",
+   "-ijson",
+   "-ojson",
+   "SELECT * FROM -"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_input::19",
+  "argv": [
+   "-ih",
+   "-icsv",
+   "SELECT * FROM -"
+  ],
+  "stdin": "name,age\nAlice,30\nBob,25\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pipe_delimiter::20",
+  "argv": [
+   "-id",
+   "|"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_to_stdout_explicitly::21",
+  "argv": [
+   "-ocsv",
+   "SELECT 1, 2, 3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_in_output::22",
+  "argv": [
+   "SELECT NULL"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_string_vs_null::23",
+  "argv": [
+   "SELECT '', NULL"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_numeric_precision::24",
+  "argv": [
+   "SELECT 1.234567890123456789"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_large_number::25",
+  "argv": [
+   "SELECT 999999999999999999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_numbers::26",
+  "argv": [
+   "SELECT -123, -456"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_boolean_values::27",
+  "argv": [
+   "SELECT 1=1, 1=0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_with_comments::28",
+  "argv": [
+   "SELECT 1 -- this is a comment"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiline_value_handling::29",
+  "argv": [
+   "-ocsv",
+   "SELECT 'line1\nline2'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wildcard_in_where::30",
+  "argv": [
+   "SELECT * FROM testdata/test.csv WHERE c2 LIKE 'M%'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_case_insensitive_like::31",
+  "argv": [
+   "SELECT * FROM testdata/test.csv WHERE c2 LIKE '%apple%'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_order_by_multiple_columns::32",
+  "argv": [
+   "SELECT * FROM testdata/test.csv ORDER BY c2, c1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_limit_with_offset::33",
+  "argv": [
+   "SELECT * FROM testdata/test.csv LIMIT 1 OFFSET 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_limit::34",
+  "argv": [
+   "SELECT * FROM testdata/test.csv LIMIT 0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_with_arithmetic::35",
+  "argv": [
+   "SELECT c1, c1*2, c1+10 FROM testdata/test.csv WHERE c1='1'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subquery::36",
+  "argv": [
+   "SELECT * FROM (SELECT 1 AS a, 2 AS b) AS sub"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_union_query::37",
+  "argv": [
+   "SELECT 1 UNION SELECT 2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_union_all::38",
+  "argv": [
+   "SELECT 1 UNION ALL SELECT 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_case_when::39",
+  "argv": [
+   "SELECT CASE WHEN 1>0 THEN 'positive' ELSE 'negative' END"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coalesce::40",
+  "argv": [
+   "SELECT COALESCE(NULL, 'default')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nullif::41",
+  "argv": [
+   "SELECT NULLIF(1, 1)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cast::42",
+  "argv": [
+   "SELECT CAST('123' AS INTEGER)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_between::43",
+  "argv": [
+   "SELECT * FROM testdata/test.csv WHERE c1 BETWEEN '1' AND '2'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_in_list::44",
+  "argv": [
+   "SELECT * FROM testdata/test.csv WHERE c1 IN ('1', '3')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_not_in::45",
+  "argv": [
+   "SELECT * FROM testdata/test.csv WHERE c1 NOT IN ('2')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_null::46",
+  "argv": [
+   "SELECT * FROM (SELECT NULL AS val) WHERE val IS NULL"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_not_null::47",
+  "argv": [
+   "SELECT * FROM (SELECT 1 AS val) WHERE val IS NOT NULL"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_round_function::48",
+  "argv": [
+   "SELECT ROUND(3.14159, 2)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_abs_function::49",
+  "argv": [
+   "SELECT ABS(-5)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_replace_function::50",
+  "argv": [
+   "SELECT REPLACE('hello world', 'world', 'test')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trim_function::51",
+  "argv": [
+   "SELECT TRIM('  test  ')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_datetime_now::52",
+  "argv": [
+   "SELECT datetime('now') IS NOT NULL"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_group_concat::53",
+  "argv": [
+   "SELECT GROUP_CONCAT(c2) FROM testdata/test.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_aggregates::54",
+  "argv": [
+   "SELECT COUNT(*), SUM(c1), AVG(c1) FROM testdata/test.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_self_join::55",
+  "argv": [
+   "SELECT a.c1, b.c2 FROM testdata/test.csv AS a JOIN testdata/test.csv AS b ON a.c1=b.c1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_left_join::56",
+  "argv": [
+   "SELECT * FROM (SELECT 1 AS id) AS a LEFT JOIN (SELECT 2 AS id) AS b ON a.id=b.id"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_analyze_csv::57",
+  "argv": [
+   "-a",
+   "testdata/test.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_analyze_with_header::58",
+  "argv": [
+   "-ih",
+   "-a",
+   "testdata/header.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_analyze_json::59",
+  "argv": [
+   "-ijson",
+   "-a",
+   "testdata/test.json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_analyze_ltsv::60",
+  "argv": [
+   "-iltsv",
+   "-a",
+   "testdata/test.ltsv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_analyze_sql_only::61",
+  "argv": [
+   "-A",
+   "testdata/test.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_analyze_sql_only_with_header::62",
+  "argv": [
+   "-ih",
+   "-A",
+   "testdata/header.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_display::63",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_output::64",
+  "argv": [
+   "-version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_simple_select_query::65",
+  "argv": [
+   "SELECT 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_simple_arithmetic::66",
+  "argv": [
+   "SELECT 2+3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_literal::67",
+  "argv": [
+   "SELECT 'hello'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_columns::68",
+  "argv": [
+   "SELECT 1, 2, 3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_sql::69",
+  "argv": [
+   "INVALID SQL SYNTAX"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_file::70",
+  "argv": [
+   "SELECT * FROM /nonexistent/file.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_with_alias::71",
+  "argv": [
+   "SELECT 1 AS num"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_with_where::72",
+  "argv": [
+   "SELECT 1 WHERE 1=1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_with_false_where::73",
+  "argv": [
+   "SELECT 1 WHERE 1=0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_case_expression::74",
+  "argv": [
+   "SELECT CASE WHEN 1=1 THEN 'yes' ELSE 'no' END"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gzip_input::75",
+  "argv": [
+   "SELECT * FROM testdata/test.csv.gz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bzip2_input::76",
+  "argv": [
+   "SELECT * FROM testdata/test.csv.bz2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zstd_input::77",
+  "argv": [
+   "SELECT * FROM testdata/test.csv.zst"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lz4_input::78",
+  "argv": [
+   "SELECT * FROM testdata/test.csv.lz4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xz_input::79",
+  "argv": [
+   "SELECT * FROM testdata/test.csv.xz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compressed_query_operations::80",
+  "argv": [
+   "SELECT COUNT(*) FROM testdata/test.csv.gz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compressed_where_clause::81",
+  "argv": [
+   "SELECT * FROM testdata/test.csv.gz WHERE c1='1'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_custom_location::82",
+  "argv": [
+   "-config",
+   "SELECT 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dblist::83",
+  "argv": [
+   "-dblist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_db_selection::84",
+  "argv": [
+   "-config",
+   "-db",
+   "test1",
+   "SELECT 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_basic_query::85",
+  "argv": [
+   "SELECT * FROM testdata/test.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_with_header_flag::86",
+  "argv": [
+   "-ih",
+   "SELECT id, name FROM testdata/header.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_select_specific_columns::87",
+  "argv": [
+   "SELECT c1 FROM testdata/test.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_where_clause::88",
+  "argv": [
+   "SELECT * FROM testdata/test.csv WHERE c1='1'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_order_by::89",
+  "argv": [
+   "SELECT * FROM testdata/test.csv ORDER BY c2 DESC"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_limit::90",
+  "argv": [
+   "SELECT * FROM testdata/test.csv LIMIT 2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_count::91",
+  "argv": [
+   "SELECT COUNT(*) FROM testdata/test.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_with_quotes::92",
+  "argv": [
+   "SELECT * FROM testdata/test_quote.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_custom_delimiter::93",
+  "argv": [
+   "-id",
+   ";"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_tab_delimiter::94",
+  "argv": [
+   "-id",
+   "\t"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_skip_header::95",
+  "argv": [
+   "-is",
+   "1",
+   "SELECT * FROM testdata/header.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_stdin::96",
+  "argv": [
+   "-icsv",
+   "SELECT * FROM -"
+  ],
+  "stdin": "1,2\n3,4\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_with_row_number::97",
+  "argv": [
+   "-inum",
+   "SELECT * FROM testdata/test.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_null_values::98",
+  "argv": [
+   "SELECT * FROM testdata/testnull.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_null_conversion_input::99",
+  "argv": [
+   "-inull",
+   "NA"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_irregular_columns::100",
+  "argv": [
+   "SELECT * FROM testdata/test_indefinite.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explicit_sqlite3::101",
+  "argv": [
+   "-driver",
+   "sqlite3",
+   "SELECT 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_mode::102",
+  "argv": [
+   "-debug",
+   "SELECT 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_with_file::103",
+  "argv": [
+   "-debug",
+   "SELECT * FROM testdata/test.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_sql_syntax::104",
+  "argv": [
+   "INVALID SQL QUERY"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_option::105",
+  "argv": [
+   "--invalid-option",
+   "SELECT 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_input_format::106",
+  "argv": [
+   "-iinvalid",
+   "SELECT 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_output_format::107",
+  "argv": [
+   "-oinvalid",
+   "SELECT 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_delimiter::108",
+  "argv": [
+   "-id",
+   "",
+   "SELECT * FROM testdata/test.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_driver::109",
+  "argv": [
+   "-driver",
+   "invaliddriver",
+   "SELECT 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_input_formats::110",
+  "argv": [
+   "-icsv",
+   "-ijson",
+   "SELECT * FROM testdata/test.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_compression_format::111",
+  "argv": [
+   "-oz",
+   "invalid",
+   "-out",
+   "/tmp/test.out",
+   "SELECT 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_query::112",
+  "argv": [
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_without_from::113",
+  "argv": [
+   "SELECT * FROM undefined_table"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_files_union::114",
+  "argv": [
+   "SELECT * FROM testdata/test1.csv UNION SELECT * FROM testdata/test2.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wildcard_csv::115",
+  "argv": [
+   "SELECT * FROM testdata/test*.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_join_two_files::116",
+  "argv": [
+   "SELECT * FROM testdata/test1.csv AS t1 JOIN testdata/test2.csv AS t2 ON t1.c1=t2.c1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_input::117",
+  "argv": [
+   "SELECT * FROM -"
+  ],
+  "stdin": "1,2\n3,4\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_to_file::118",
+  "argv": [
+   "-out",
+   "SELECT 1, 2, 3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_compression_gzip::119",
+  "argv": [
+   "-out",
+   "-oz",
+   "gz",
+   "SELECT 1, 2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_compression_zstd::120",
+  "argv": [
+   "-out",
+   "-oz",
+   "zstd",
+   "SELECT 1, 2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_guess_output_format_by_extension::121",
+  "argv": [
+   "-out",
+   "SELECT 1 AS num"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_without_guess::122",
+  "argv": [
+   "-out",
+   "-out-without-guess",
+   "-ocsv",
+   "SELECT 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_spaces::123",
+  "argv": [
+   "SELECT * FROM testdata/'a b.csv'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_input::124",
+  "argv": [
+   "-ijson",
+   "SELECT * FROM testdata/test.json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_select_field::125",
+  "argv": [
+   "-ijson",
+   "SELECT c1 FROM testdata/test.json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_nested::126",
+  "argv": [
+   "-ijson",
+   "SELECT * FROM testdata/test2.json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_array::127",
+  "argv": [
+   "-ijson",
+   "SELECT * FROM testdata/test3.json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ltsv_input::128",
+  "argv": [
+   "-iltsv",
+   "SELECT * FROM testdata/test.ltsv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ltsv_with_field_names::129",
+  "argv": [
+   "-iltsv",
+   "SELECT id, name FROM testdata/test.ltsv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yaml_input::130",
+  "argv": [
+   "-iyaml",
+   "SELECT * FROM testdata/test.yaml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yaml_select::131",
+  "argv": [
+   "-iyaml",
+   "SELECT * FROM testdata/sample.yaml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tbln_input::132",
+  "argv": [
+   "-itbln",
+   "SELECT * FROM testdata/test.tbln"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tbln_fields::133",
+  "argv": [
+   "-itbln",
+   "SELECT id, name FROM testdata/test.tbln"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_text_input::134",
+  "argv": [
+   "-itext",
+   "SELECT * FROM testdata/ps.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_width_input::135",
+  "argv": [
+   "-iwidth",
+   "SELECT * FROM testdata/dpkg.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_auto_detect_json::136",
+  "argv": [
+   "SELECT * FROM testdata/test.json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_auto_detect_ltsv::137",
+  "argv": [
+   "SELECT * FROM testdata/test.ltsv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_guess_disabled::138",
+  "argv": [
+   "-icsv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_jq_simple_filter::139",
+  "argv": [
+   "-ijson",
+   "-ijq",
+   ".[]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_jq_field_selection::140",
+  "argv": [
+   "-ijson",
+   "-ijq",
+   ".items[]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_json_path::141",
+  "argv": [
+   "-ijson",
+   "-ijq",
+   ".data.records[]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_output_with_header::142",
+  "argv": [
+   "-ocsv",
+   "-oh",
+   "SELECT 1 AS a, 2 AS b"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_output::143",
+  "argv": [
+   "-ojson",
+   "SELECT 1 AS num, 'test' AS str"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_jsonl_output::144",
+  "argv": [
+   "-ojsonl",
+   "SELECT * FROM testdata/test.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ltsv_output::145",
+  "argv": [
+   "-oltsv",
+   "SELECT 1 AS a, 2 AS b"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yaml_output::146",
+  "argv": [
+   "-oyaml",
+   "SELECT 1 AS num"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tbln_output::147",
+  "argv": [
+   "-otbln",
+   "SELECT 1 AS a, 2 AS b"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_output::148",
+  "argv": [
+   "-oraw",
+   "SELECT 'hello'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ascii_table_output::149",
+  "argv": [
+   "-oat",
+   "SELECT 1 AS num"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_output::150",
+  "argv": [
+   "-omd",
+   "SELECT 1 AS a, 2 AS b"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vertical_format_output::151",
+  "argv": [
+   "-ovf",
+   "SELECT 1 AS num, 'test' AS str"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_output_delimiter::152",
+  "argv": [
+   "-ocsv",
+   "-od",
+   ";",
+   "SELECT 1, 2, 3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_quote_all::153",
+  "argv": [
+   "-ocsv",
+   "-oaq",
+   "SELECT 1, 2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_custom_quote::154",
+  "argv": [
+   "-ocsv",
+   "-oq",
+   "'",
+   "-oaq",
+   "SELECT 'test'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_null_conversion::155",
+  "argv": [
+   "-onull",
+   "NULL_VALUE",
+   "SELECT NULL"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_crlf::156",
+  "argv": [
+   "-ocsv",
+   "-ocrlf",
+   "SELECT 1, 2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_from_file::157",
+  "argv": [
+   "-q",
+   "query.sql"
+  ],
+  "stdin": null,
+  "files": {
+   "query.sql": "SELECT 1, 2, 3"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_file_with_from::158",
+  "argv": [
+   "-q",
+   "query.sql"
+  ],
+  "stdin": null,
+  "files": {
+   "query.sql": "SELECT * FROM testdata/test.csv"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_name_from_file::159",
+  "argv": [
+   "-t",
+   "table.txt",
+   "SELECT * FROM testdata/test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "table.txt": "testdata/test.csv"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_queries::160",
+  "argv": [
+   "-q",
+   "queries.sql"
+  ],
+  "stdin": null,
+  "files": {
+   "queries.sql": "SELECT 1; SELECT 2;"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_with_semicolon::161",
+  "argv": [
+   "SELECT 1;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiline_query::162",
+  "argv": [
+   "-q",
+   "query.sql"
+  ],
+  "stdin": null,
+  "files": {
+   "query.sql": "SELECT \n        1 AS num,\n        2 AS num2"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_limit_rows_read::163",
+  "argv": [
+   "-ilr",
+   "2",
+   "SELECT * FROM testdata/test.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_where_equals::164",
+  "argv": [
+   "SELECT * FROM testdata/test.csv WHERE c1='2'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_where_like::165",
+  "argv": [
+   "SELECT * FROM testdata/test.csv WHERE c2 LIKE '%e%'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_order_by_asc::166",
+  "argv": [
+   "SELECT * FROM testdata/test.csv ORDER BY c2 ASC"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_limit_clause::167",
+  "argv": [
+   "SELECT * FROM testdata/test.csv LIMIT 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_offset_clause::168",
+  "argv": [
+   "SELECT * FROM testdata/test.csv LIMIT 10 OFFSET 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_group_by::169",
+  "argv": [
+   "SELECT c1, COUNT(*) FROM testdata/test.csv GROUP BY c1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_having_clause::170",
+  "argv": [
+   "SELECT c1, COUNT(*) as cnt FROM testdata/test.csv GROUP BY c1 HAVING COUNT(*) > 0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sum_aggregate::171",
+  "argv": [
+   "SELECT SUM(c1) FROM testdata/test.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_avg_aggregate::172",
+  "argv": [
+   "SELECT AVG(c1) FROM testdata/test.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_aggregate::173",
+  "argv": [
+   "SELECT MIN(c1) FROM testdata/test.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_aggregate::174",
+  "argv": [
+   "SELECT MAX(c1) FROM testdata/test.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_distinct::175",
+  "argv": [
+   "SELECT DISTINCT c1 FROM testdata/test.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_upper_function::176",
+  "argv": [
+   "SELECT UPPER(c2) FROM testdata/test.csv WHERE c1='1'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lower_function::177",
+  "argv": [
+   "SELECT LOWER(c2) FROM testdata/test.csv WHERE c1='1'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_length_function::178",
+  "argv": [
+   "SELECT LENGTH(c2) FROM testdata/test.csv WHERE c1='1'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_substr_function::179",
+  "argv": [
+   "SELECT SUBSTR(c2, 1, 3) FROM testdata/test.csv WHERE c1='1'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concat_operator::180",
+  "argv": [
+   "SELECT c1 || '-' || c2 FROM testdata/test.csv WHERE c1='1'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_column_alias::181",
+  "argv": [
+   "-oh",
+   "SELECT c1 AS id, c2 AS fruit FROM testdata/test.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_alias::182",
+  "argv": [
+   "SELECT t.c1 FROM testdata/test.csv AS t"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cross_join::183",
+  "argv": [
+   "SELECT * FROM (SELECT 1) AS a CROSS JOIN (SELECT 2) AS b"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_json_invalid_json_errors::184",
+  "argv": [
+   "-ijson",
+   "SELECT * FROM -"
+  ],
+  "stdin": "t",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_json_object_single_row::185",
+  "argv": [
+   "-ijson",
+   "SELECT a FROM -"
+  ],
+  "stdin": "{\"a\":\"b\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_json_array_of_scalars_produces_rows::186",
+  "argv": [
+   "-ijson",
+   "SELECT * FROM -"
+  ],
+  "stdin": "[\"a\",\"b\"]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_json_jq_employees_projection::187",
+  "argv": [
+   "-ijson",
+   "-ijq",
+   ".employees",
+   "SELECT name,email FROM -"
+  ],
+  "stdin": "{\"employees\":[{\"name\":\"Shyam\",\"email\":\"shyamjaiswal@gmail.com\"},{\"name\":\"Bob\",\"email\":\"bob32@gmail.com\"},{\"name\":\"Jai\",\"email\":\"jai87@gmail.com\"}]}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_json_null_literal_becomes_empty_line::188",
+  "argv": [
+   "-ijson",
+   "SELECT id FROM -"
+  ],
+  "stdin": "[{\"id\":1},{\"id\":null},{\"id\":3}]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_json_inull_string_converted_to_null::189",
+  "argv": [
+   "-ijson",
+   "-inull",
+   "N",
+   "SELECT id FROM -"
+  ],
+  "stdin": "[{\"id\":1},{\"id\":\"N\"},{\"id\":3}]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_ltsv_invalid_column_errors::190",
+  "argv": [
+   "-iltsv",
+   "SELECT * FROM -"
+  ],
+  "stdin": "ID;1\tname:test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_tbln_unsupported_line_errors::191",
+  "argv": [
+   "-itbln",
+   "SELECT * FROM -"
+  ],
+  "stdin": "******",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_yaml_blank_errors_invalid_names::192",
+  "argv": [
+   "-iyaml",
+   "SELECT * FROM -"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_yaml_simple_object_rows::193",
+  "argv": [
+   "-iyaml",
+   "SELECT * FROM -"
+  ],
+  "stdin": "a: 1\nb: test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dash_h_prints_help_to_stderr_and_exit_zero::194",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_takes_precedence_over_other_flags::195",
+  "argv": [
+   "--help",
+   "-debug"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_with_invalid_argument_still_shows_usage::196",
+  "argv": [
+   "--help",
+   "--definitely-not-a-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_separator_then_help_is_not_treated_as_flag::197",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_config_path_is_home_dot_config_trdsql_config_json_when_debug_enabled::198",
+  "argv": [
+   "-debug",
+   "-dblist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_flag_overrides_default_location::199",
+  "argv": [
+   "-config",
+   "-dblist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cli_driver_and_dsn_override_config_database_settings::200",
+  "argv": [
+   "-debug",
+   "-db",
+   "sdb",
+   "-driver",
+   "postgres",
+   "-dsn",
+   "user=test dbname=test",
+   "SELECT 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_query::201",
+  "argv": [
+   "SELECT c2 FROM -"
+  ],
+  "stdin": "1,Orange\n2,Melon\n3,Apple\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_delimiter_colon::202",
+  "argv": [
+   "-id",
+   ":",
+   "SELECT * FROM -"
+  ],
+  "stdin": "1:Orange\n2:Melon\n3:Apple\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_delimiter_pipe::203",
+  "argv": [
+   "-id",
+   "|",
+   "SELECT * FROM -"
+  ],
+  "stdin": "1|Orange\n2|Melon\n3|Apple\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tab_delimiter::204",
+  "argv": [
+   "-id",
+   "\t",
+   "SELECT * FROM -"
+  ],
+  "stdin": "1\tOrange\n2\tMelon\n3\tApple\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_nested_structure::205",
+  "argv": [
+   "-ijson"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yaml_nested_structure::206",
+  "argv": [
+   "-iyaml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ltsv_with_spaces::207",
+  "argv": [
+   "-iltsv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_header_with_special_chars::208",
+  "argv": [
+   "-ih"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tsv_output::209",
+  "argv": [
+   "-od",
+   "\t"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_delimiter_output::210",
+  "argv": [
+   "-oraw",
+   "-od",
+   ";;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_analyze_csv_file::211",
+  "argv": [
+   "-a",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "1,Orange\n2,Melon\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_analyze_csv_with_header::212",
+  "argv": [
+   "-ih",
+   "-a",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "id,name\n1,Orange\n2,Melon\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_analyze_only_sql::213",
+  "argv": [
+   "-A",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "1,Orange\n2,Melon\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_analyze_json_file::214",
+  "argv": [
+   "-a",
+   "test.json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.json": "[{\"id\":\"1\",\"name\":\"Orange\"}]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_analyze_ltsv_file::215",
+  "argv": [
+   "-a",
+   "test.ltsv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.ltsv": "id:1\tname:Orange\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_analyze_with_delimiter::216",
+  "argv": [
+   "-id",
+   "\t",
+   "-a",
+   "test.tsv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tsv": "1\tOrange\n2\tMelon\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_analyze_suggests_multiple_queries::217",
+  "argv": [
+   "-ih",
+   "-A",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "id,name\n1,Orange\n2,Melon\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_flag::218",
+  "argv": [
+   "-help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_flag::219",
+  "argv": [
+   "-debug"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_flag::220",
+  "argv": [
+   "-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_db_selection::221",
+  "argv": [
+   "-config",
+   "-db",
+   "other"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_debug::222",
+  "argv": [
+   "-config",
+   "-debug"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_config_file::223",
+  "argv": [
+   "-config",
+   "config.json"
+  ],
+  "stdin": null,
+  "files": {
+   "config.json": "invalid json{"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_config_file::224",
+  "argv": [
+   "-config",
+   "/nonexistent/config.json",
+   "SELECT 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_nonexistent_db::225",
+  "argv": [
+   "-config",
+   "-db",
+   "nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sqlite3_driver_explicit::226",
+  "argv": [
+   "-driver",
+   "sqlite3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_driver::227",
+  "argv": [
+   "-driver",
+   "nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dsn_with_sqlite::228",
+  "argv": [
+   "-driver",
+   "sqlite3",
+   "-dsn",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coalesce_function::229",
+  "argv": [
+   "-inull",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_file_error::230",
+  "argv": [
+   "SELECT * FROM /path/to/nonexistent.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_format_flags::231",
+  "argv": [
+   "-icsv",
+   "-ijson"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_delimiter::232",
+  "argv": [
+   "-id",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_jq_expression::233",
+  "argv": [
+   "-ijson",
+   "-ijq",
+   ".invalid[syntax"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_permission_denied::234",
+  "argv": [
+   "SELECT * FROM /root/.ssh/id_rsa"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tbln_input_explicit::235",
+  "argv": [
+   "-itbln"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_text_input_explicit::236",
+  "argv": [
+   "-itext"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_width_input_format::237",
+  "argv": [
+   "-iwidth"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_skip_rows::238",
+  "argv": [
+   "-is",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_preread_rows::239",
+  "argv": [
+   "-ir",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_limit_rows::240",
+  "argv": [
+   "-ilr",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_add_row_number::241",
+  "argv": [
+   "-inum",
+   "-itext"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_jq_expression_option::242",
+  "argv": [
+   "-ijson",
+   "-ijq",
+   ".items"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_jq_array_filter::243",
+  "argv": [
+   "-ijson",
+   "-ijq",
+   ".[] | .id"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_output_explicit::244",
+  "argv": [
+   "-ocsv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_output::245",
+  "argv": [
+   "-ojson"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_jsonl_output::246",
+  "argv": [
+   "-ojsonl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ltsv_output::247",
+  "argv": [
+   "-oltsv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ascii_table_output::248",
+  "argv": [
+   "-oat"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_output::249",
+  "argv": [
+   "-omd"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_output::250",
+  "argv": [
+   "-oraw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vertical_format_output::251",
+  "argv": [
+   "-ovf"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yaml_output::252",
+  "argv": [
+   "-oyaml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tbln_output::253",
+  "argv": [
+   "-otbln"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_delimiter::254",
+  "argv": [
+   "-od",
+   "|"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_header::255",
+  "argv": [
+   "-oh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_file::256",
+  "argv": [
+   "-out"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_without_guess::257",
+  "argv": [
+   "-out",
+   "-out-without-guess"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_quote_character::258",
+  "argv": [
+   "-oq",
+   "'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_quote_all::259",
+  "argv": [
+   "-oaq"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_crlf::260",
+  "argv": [
+   "-ocrlf"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_nowrap::261",
+  "argv": [
+   "-oat",
+   "-onowrap"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_null_value::262",
+  "argv": [
+   "-inull",
+   "",
+   "-onull",
+   "(NULL)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_compression_gz::263",
+  "argv": [
+   "-oz",
+   "gz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_from_file::264",
+  "argv": [
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_file_with_output_format::265",
+  "argv": [
+   "-q",
+   "-ojson"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_from_file::266",
+  "argv": [
+   "-t",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "1,Orange\n2,Melon\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_from_file_with_output_format::267",
+  "argv": [
+   "-ojson",
+   "-t",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "1,Orange\n2,Melon\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_from_file_format_conversion::268",
+  "argv": [
+   "-oltsv",
+   "-t",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "1,Orange\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_file_nonexistent::269",
+  "argv": [
+   "-q",
+   "/nonexistent/query.sql"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_keyword::270",
+  "argv": [
+   "SELECT * FROM stdin"
+  ],
+  "stdin": "1,Orange\n2,Melon\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_format_flag::271",
+  "argv": [
+   "-ijson",
+   "SELECT * FROM -"
+  ],
+  "stdin": "[{\"c1\":\"1\",\"c2\":\"Orange\"},{\"c1\":\"2\",\"c2\":\"Melon\"}]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_ltsv::272",
+  "argv": [
+   "-iltsv",
+   "SELECT * FROM -"
+  ],
+  "stdin": "id:1\tname:Orange\nid:2\tname:Melon\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_sql_operations::273",
+  "argv": [
+   "SELECT * FROM - ORDER BY c1"
+  ],
+  "stdin": "3,Apple\n1,Orange\n2,Melon\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_empty::274",
+  "argv": [
+   "SELECT * FROM -"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_header::275",
+  "argv": [
+   "-ih",
+   "SELECT id,name FROM -"
+  ],
+  "stdin": "id,name\n1,Orange\n2,Melon\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_testdata_wildcard::276",
+  "argv": [
+   "SELECT * FROM testdata/tt*.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_prints_version_and_exit_0::277",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_file_with_header_roundtrip_stdout_csv::278",
+  "argv": [
+   "-icsv",
+   "-ih",
+   "-oh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_marker_dash_reads_from_stdin::279",
+  "argv": [
+   "-icsv",
+   "-oltsv",
+   "select c1,c2 from -"
+  ],
+  "stdin": "1,2\n3,4\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_from_file_q_option::280",
+  "argv": [
+   "-icsv",
+   "-ih",
+   "-oh",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_out_flag_writes_to_file_and_suppresses_stdout::281",
+  "argv": [
+   "-icsv",
+   "-ih",
+   "-oh",
+   "-out"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_message_goes_to_stderr_and_exit_nonzero::282",
+  "argv": [
+   "-icsv",
+   "-ih"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_args_prints_usage_and_exits_0::283",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_boolean_flag_with_explicit_value_is_not_supported_and_errors::284",
+  "argv": [
+   "-ih=true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bool_with_space_is_not_taken_as_value_and_changes_positional_interpretation::285",
+  "argv": [
+   "-ig",
+   "false"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dashdash_stops_flag_parsing_and_next_arg_treated_as_positional::286",
+  "argv": [
+   "--",
+   "-ilr"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_short_flags_are_not_supported_and_error::287",
+  "argv": [
+   "-debugdblist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

@@ -1,0 +1,2901 @@
+{
+ "slug": "clog-tool__clog-cli.7066cba",
+ "language": "",
+ "n_branches": 10,
+ "n_tests_total": 620,
+ "n_examples": 153,
+ "n_with_exact_stdout": 4,
+ "n_with_rc": 131,
+ "n_skipped": 283,
+ "examples": [
+  {
+   "test": "test_help_shows_no_subcommands",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:37"
+  },
+  {
+   "test": "test_version_flag_works",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:50"
+  },
+  {
+   "test": "test_format_rejects_invalid_choice",
+   "argv": [
+    "--format",
+    "bad"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid value 'bad'",
+    "possible values"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:85"
+  },
+  {
+   "test": "test_link_style_rejects_invalid_choice",
+   "argv": [
+    "--link-style",
+    "bad"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid value 'bad'",
+    "possible values"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:93"
+  },
+  {
+   "test": "test_value_taking_option_cannot_be_used_multiple_times",
+   "argv": [
+    "--repository",
+    "https://example.com/repo",
+    "--repository",
+    "https://example.com/repo2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cannot be used multiple times"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:101"
+  },
+  {
+   "test": "test_version_exact_match",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_help_version.py:34"
+  },
+  {
+   "test": "test_running_outside_git_repo_errors",
+   "argv": [
+    "-r",
+    "https://example.com/repo"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_core_current_behavior.py:28"
+  },
+  {
+   "test": "test_both_work_tree_and_git_dir_flags_trigger_clog_new",
+   "argv": [
+    "git",
+    "config",
+    "user.email",
+    "test@example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written",
+    "<a name=\"1.0.0\"></a>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_gaps.py:11"
+  },
+  {
+   "test": "test_only_work_tree_flag_uses_from_config_path",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written",
+    "<a name=\"1.0.0\"></a>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_gaps.py:56"
+  },
+  {
+   "test": "test_setversion_flag_bypasses_version_increment_logic",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written",
+    "<a name=\"2.5.9\"></a>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_gaps.py:161"
+  },
+  {
+   "test": "test_version_increment_no_v_prefix_path",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Failed to parse version into valid SemVer"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_gaps.py:196"
+  },
+  {
+   "test": "test_from_flag_assignment_to_clog_from",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_gaps.py:327"
+  },
+  {
+   "test": "test_infile_flag_assignment_to_clog_infile",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written",
+    "<a name=\"1.0.0\"></a>",
+    "Previous Changes"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_gaps.py:403"
+  },
+  {
+   "test": "test_changelog_flag_assigns_both_infile_and_outfile",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written",
+    "<a name=\"1.0.0\"></a>",
+    "## 0.1.0",
+    "# Existing"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_gaps.py:444"
+  },
+  {
+   "test": "test_json_format_conversion_from_outformat",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_gaps.py:490"
+  },
+  {
+   "test": "test_markdown_format_is_default",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<a name=\"1.0.0\"></a>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_gaps.py:537"
+  },
+  {
+   "test": "test_repository_flag_with_work_tree_and_git_dir",
+   "argv": [
+    "git",
+    "config",
+    "user.email",
+    "test@example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_gaps.py:665"
+  },
+  {
+   "test": "test_invalid_semver_with_major_increment",
+   "argv": [
+    "git",
+    "config",
+    "user.email",
+    "test@example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error: Failed to parse version into valid SemVer. Ensure the version is in the X.Y.Z format."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_errors.py:63"
+  },
+  {
+   "test": "test_valid_config_file_loads",
+   "argv": [
+    "git",
+    "config",
+    "user.email",
+    "test@example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written",
+    "##"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_errors.py:172"
+  },
+  {
+   "test": "test_setversion_accepts_any_string",
+   "argv": [
+    "git",
+    "config",
+    "user.email",
+    "test@example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written",
+    "custom-version-string"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_errors.py:226"
+  },
+  {
+   "test": "test_setversion_takes_precedence_over_increment_flags",
+   "argv": [
+    "git",
+    "config",
+    "user.email",
+    "test@example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2.0.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_errors.py:322"
+  },
+  {
+   "test": "test_both_work_tree_and_git_dir_flags",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gaps.py:26"
+  },
+  {
+   "test": "test_json_format_with_both_flags",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"header\":{",
+    "\"version\":Some(\"1.0.0\")",
+    "\"patch_version\":false",
+    "\"date\":\"2026-04-18\"",
+    "\"sections\":null"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gaps.py:53"
+  },
+  {
+   "test": "test_no_version_flags_produces_empty_version",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<a name=\"\"></a>",
+    "##   ("
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gaps.py:147"
+  },
+  {
+   "test": "test_json_format_explicitly",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"header\":{"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_gaps.py:173"
+  },
+  {
+   "test": "test_conflicting_from_flags_error",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cannot be used with"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:224"
+  },
+  {
+   "test": "test_all_version_flags_together_error",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Failed to parse version into valid SemVer"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:308"
+  },
+  {
+   "test": "test_setversion_with_invalid_semver_format",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<a name=\"not-a-version\"></a>",
+    "## not-a-version",
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:557"
+  },
+  {
+   "test": "test_semver_error_display_format",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "error: Failed to parse version into valid SemVer. Ensure the version is in the X.Y.Z format."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_trait.py:20"
+  },
+  {
+   "test": "test_error_is_fatal_always_true",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "error: Failed to parse version into valid SemVer. Ensure the version is in the X.Y.Z format.",
+    "error: Failed to parse TOML configuration file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_trait.py:109"
+  },
+  {
+   "test": "test_error_exit_writes_to_stderr_for_fatal",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_trait.py:171"
+  },
+  {
+   "test": "test_error_cause_method_for_semver",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error: Failed to parse version into valid SemVer. Ensure the version is in the X.Y.Z format."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_trait.py:247"
+  },
+  {
+   "test": "test_unknown_variant_unreachable_from_binary",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error: Failed to parse version into valid SemVer",
+    "error: Failed to parse TOML configuration file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_trait.py:326"
+  },
+  {
+   "test": "test_all_error_variants_coverage_summary",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error: Failed to parse version into valid SemVer. Ensure the version is in the X.Y.Z format.",
+    "error: Failed to parse TOML configuration file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_trait.py:399"
+  },
+  {
+   "test": "test_semver_parse_error_with_patch_flag",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:9"
+  },
+  {
+   "test": "test_error_exit_code_is_always_1",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Failed to parse version into valid SemVer",
+    "Failed to parse TOML configuration file",
+    "fatal I/O error with output file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:667"
+  },
+  {
+   "test": "test_error_format_includes_error_prefix",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[1;31merror:\u001b[0m",
+    "Failed to parse version into valid SemVer"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:710"
+  },
+  {
+   "test": "test_format_json_explicit",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"patch_version\":false",
+    "\"date\":\"2026-04-18\"",
+    "\"sections\":"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_final_gaps.py:21"
+  },
+  {
+   "test": "test_version_increment_patch_error_newline_bug",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_final_gaps.py:231"
+  },
+  {
+   "test": "test_format_json_with_repo_flag",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"date\":\"2026-04-18\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_final_gaps.py:477"
+  },
+  {
+   "test": "test_multiple_flags_combination",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<a name=\"\"></a>\n##  Test Release (2026-04-18)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_final_gaps.py:522"
+  },
+  {
+   "test": "test_specific_commit_range",
+   "argv": [
+    "git",
+    "log",
+    "--oneline",
+    "--reverse"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_git_ops.py:51"
+  },
+  {
+   "test": "test_repository_without_tags_from_latest",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_git_ops.py:90"
+  },
+  {
+   "test": "test_from_and_to_commits",
+   "argv": [
+    "git",
+    "log",
+    "--oneline"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_git_ops.py:227"
+  },
+  {
+   "test": "test_from_to_specific_commit_range",
+   "argv": [
+    "git",
+    "log",
+    "--oneline",
+    "--reverse"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:604"
+  },
+  {
+   "test": "test_from_latest_tag_with_no_new_commits",
+   "argv": [
+    "git",
+    "tag",
+    "v0.5.0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:799"
+  },
+  {
+   "test": "test_from_and_to_commit_range",
+   "argv": [
+    "git",
+    "log",
+    "--format=%H",
+    "--reverse"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output.py:300"
+  },
+  {
+   "test": "test_work_tree_flag_with_different_directory",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<a name=",
+    "##"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output.py:356"
+  },
+  {
+   "test": "test_setversion_takes_precedence_over_increment_flags",
+   "argv": [
+    "git",
+    "tag",
+    "v1.0.0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2.0.0",
+    "\"version\":Some(\"2.0.0\")"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output.py:505"
+  },
+  {
+   "test": "test_patch_increment_fails_without_tag",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Failed to parse version into valid SemVer"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_version.py:128"
+  },
+  {
+   "test": "test_setversion_accepts_non_semver_string",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<a name=\"not-a-version\"></a>",
+    "## not-a-version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_version.py:292"
+  },
+  {
+   "test": "test_setversion_accepts_empty_string",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<a name=\"\"></a>",
+    "##   (2026-04-18)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_version.py:327"
+  },
+  {
+   "test": "test_setversion_with_special_characters",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<a name=\"v1.0.0+build-123.meta\"></a>",
+    "## v1.0.0+build-123.meta"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_version.py:474"
+  },
+  {
+   "test": "test_setversion_outfile_writes_to_file",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written",
+    "<a name=\"3.0.0\"></a>",
+    "## 3.0.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_version.py:529"
+  },
+  {
+   "test": "test_setversion_with_subtitle",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<a name=\"1.0.0\"></a>",
+    "## 1.0.0 The Big Release"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_version.py:554"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "clog"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog.py:13"
+  },
+  {
+   "test": "test_version_short_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "clog"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog.py:20"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "conventional changelog",
+    "Usage:",
+    "--repository",
+    "--from",
+    "--format"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog.py:27"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "conventional changelog",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog.py:37"
+  },
+  {
+   "test": "test_output_to_file",
+   "argv": [
+    "--outfile"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_clog.py:85"
+  },
+  {
+   "test": "test_output_short_flag",
+   "argv": [
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_clog.py:95"
+  },
+  {
+   "test": "test_infile_appends_content",
+   "argv": [
+    "--infile",
+    "old_changelog.md",
+    "--outfile"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Old Content",
+    "old changelog data"
+   ],
+   "files": {
+    "old_changelog.md": "# Old Content\n\nThis is old changelog data."
+   },
+   "ci": false,
+   "source": "test_clog.py:105"
+  },
+  {
+   "test": "test_changelog_file_single_param",
+   "argv": [
+    "--changelog",
+    "CHANGELOG.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Existing"
+   ],
+   "files": {
+    "CHANGELOG.md": "# Existing\n"
+   },
+   "ci": false,
+   "source": "test_clog.py:120"
+  },
+  {
+   "test": "test_setversion_flag",
+   "argv": [
+    "--setversion",
+    "1.2.3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.2.3",
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog.py:157"
+  },
+  {
+   "test": "test_setversion_overrides_major",
+   "argv": [
+    "--setversion",
+    "5.5.5",
+    "--major"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "5.5.5",
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog.py:165"
+  },
+  {
+   "test": "test_major_version_without_tags",
+   "argv": [
+    "--major"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog.py:175"
+  },
+  {
+   "test": "test_minor_version_without_tags",
+   "argv": [
+    "--minor"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog.py:184"
+  },
+  {
+   "test": "test_patch_version_without_tags",
+   "argv": [
+    "--patch"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog.py:193"
+  },
+  {
+   "test": "test_from_commit_flag",
+   "argv": [
+    "git",
+    "rev-list",
+    "--max-parents=0",
+    "HEAD"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog.py:206"
+  },
+  {
+   "test": "test_to_commit_flag",
+   "argv": [
+    "git",
+    "rev-list",
+    "HEAD"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog.py:235"
+  },
+  {
+   "test": "test_from_latest_tag_flag",
+   "argv": [
+    "--from-latest-tag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog.py:271"
+  },
+  {
+   "test": "test_from_latest_tag_short_flag",
+   "argv": [
+    "-F"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog.py:280"
+  },
+  {
+   "test": "test_markdown_format_explicit",
+   "argv": [
+    "--format",
+    "markdown"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_clog.py:307"
+  },
+  {
+   "test": "test_json_format",
+   "argv": [
+    "--format",
+    "json",
+    "--outfile"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog.py:314"
+  },
+  {
+   "test": "test_json_format_short_flag",
+   "argv": [
+    "-T",
+    "json",
+    "--outfile"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_clog.py:325"
+  },
+  {
+   "test": "test_repository_flag",
+   "argv": [
+    "--repository",
+    "https://github.com/test/repo"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog.py:338"
+  },
+  {
+   "test": "test_repository_short_flag",
+   "argv": [
+    "-r",
+    "https://github.com/test/repo"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog.py:347"
+  },
+  {
+   "test": "test_link_style_github_explicit",
+   "argv": [
+    "--repository",
+    "https://github.com/test/repo",
+    "--link-style",
+    "github"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog.py:359"
+  },
+  {
+   "test": "test_link_style_gitlab",
+   "argv": [
+    "--repository",
+    "https://gitlab.com/test/repo",
+    "--link-style",
+    "gitlab"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog.py:365"
+  },
+  {
+   "test": "test_link_style_stash",
+   "argv": [
+    "--repository",
+    "https://stash.example.com/test/repo",
+    "--link-style",
+    "stash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog.py:371"
+  },
+  {
+   "test": "test_link_style_cgit",
+   "argv": [
+    "--repository",
+    "https://git.example.com/test/repo",
+    "--link-style",
+    "cgit"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog.py:377"
+  },
+  {
+   "test": "test_link_style_short_flag",
+   "argv": [
+    "-r",
+    "https://gitlab.com/test/repo",
+    "-l",
+    "gitlab"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog.py:383"
+  },
+  {
+   "test": "test_work_tree_flag",
+   "argv": [
+    "--work-tree",
+    "--config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog.py:393"
+  },
+  {
+   "test": "test_work_tree_short_flag",
+   "argv": [
+    "-w",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog.py:401"
+  },
+  {
+   "test": "test_custom_config_file",
+   "argv": [
+    "--config",
+    "custom.toml"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {
+    "custom.toml": "[clog]\nrepository = \"https://github.com/test/custom\"\n"
+   },
+   "ci": false,
+   "source": "test_clog.py:431"
+  },
+  {
+   "test": "test_config_short_flag",
+   "argv": [
+    "-c",
+    "custom2.toml"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {
+    "custom2.toml": "[clog]\nrepository = \"https://github.com/test/custom2\"\n"
+   },
+   "ci": false,
+   "source": "test_clog.py:440"
+  },
+  {
+   "test": "test_cli_overrides_config",
+   "argv": [
+    "--repository",
+    "https://github.com/test/override"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog.py:460"
+  },
+  {
+   "test": "test_subtitle_flag",
+   "argv": [
+    "--subtitle",
+    "My Custom Release"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog.py:484"
+  },
+  {
+   "test": "test_subtitle_short_flag",
+   "argv": [
+    "-s",
+    "Another Subtitle"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog.py:493"
+  },
+  {
+   "test": "test_invalid_commit_reference",
+   "argv": [
+    "--from",
+    "invalidcommithash123456789"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog.py:503"
+  },
+  {
+   "test": "test_empty_git_repo",
+   "argv": [
+    "git",
+    "init",
+    "--initial-branch=master"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog.py:524"
+  },
+  {
+   "test": "test_repo_with_no_conventional_commits",
+   "argv": [
+    "git",
+    "init",
+    "--initial-branch=master"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog.py:540"
+  },
+  {
+   "test": "test_very_long_repository_url",
+   "argv": [
+    "--repository"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog.py:558"
+  },
+  {
+   "test": "test_special_characters_in_subtitle",
+   "argv": [
+    "--subtitle",
+    "Release with <special> & chars"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog.py:565"
+  },
+  {
+   "test": "test_combining_all_output_options",
+   "argv": [
+    "--repository",
+    "https://github.com/test/repo",
+    "--format",
+    "markdown",
+    "--subtitle",
+    "Test Release",
+    "--outfile"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog.py:571"
+  },
+  {
+   "test": "test_json_output_to_file",
+   "argv": [
+    "--format",
+    "json",
+    "--outfile"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_clog.py:604"
+  },
+  {
+   "test": "test_changelog_preserves_old_content",
+   "argv": [
+    "--changelog",
+    "CHANGELOG.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Old Changelog",
+    "Old stuff"
+   ],
+   "files": {
+    "CHANGELOG.md": "# Old Changelog\n\n## v0.0.1\n\n- Old stuff\n"
+   },
+   "ci": false,
+   "source": "test_clog.py:615"
+  },
+  {
+   "test": "test_json_format_to_stdout",
+   "argv": [
+    "--format",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog_boost_coverage.py:18"
+  },
+  {
+   "test": "test_json_format_short_to_stdout",
+   "argv": [
+    "-T",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ":",
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog_boost_coverage.py:30"
+  },
+  {
+   "test": "test_gitlab_link_style",
+   "argv": [
+    "--link-style",
+    "gitlab",
+    "--outfile",
+    "--repository",
+    "https://gitlab.com/test/repo"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog_boost_coverage.py:45"
+  },
+  {
+   "test": "test_stash_link_style",
+   "argv": [
+    "--link-style",
+    "stash",
+    "--outfile",
+    "--repository",
+    "https://stash.example.com/projects/TEST/repos/repo"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog_boost_coverage.py:57"
+  },
+  {
+   "test": "test_cgit_link_style",
+   "argv": [
+    "--link-style",
+    "cgit",
+    "--outfile",
+    "--repository",
+    "https://git.example.com/cgit/repo"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog_boost_coverage.py:70"
+  },
+  {
+   "test": "test_setversion_explicit",
+   "argv": [
+    "--setversion",
+    "2.0.0",
+    "--outfile"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2.0.0",
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog_boost_coverage.py:156"
+  },
+  {
+   "test": "test_major_minor_patch_version_increment",
+   "argv": [
+    "git",
+    "init",
+    "--initial-branch=master"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error",
+    "error",
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_clog_boost_coverage.py:168"
+  },
+  {
+   "test": "test_from_flag_explicit_commit",
+   "argv": [
+    "git",
+    "log",
+    "--format=%H",
+    "--reverse"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog_boost_coverage.py:220"
+  },
+  {
+   "test": "test_from_latest_tag_flag",
+   "argv": [
+    "--from-latest-tag",
+    "--outfile"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog_boost_coverage.py:241"
+  },
+  {
+   "test": "test_outfile_flag_explicit",
+   "argv": [
+    "--outfile"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog_boost_coverage.py:252"
+  },
+  {
+   "test": "test_infile_flag",
+   "argv": [
+    "--infile",
+    "old_changelog.md",
+    "--outfile"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Old content here",
+    "changelog written"
+   ],
+   "files": {
+    "old_changelog.md": "# Old Changelog\n\nOld content here\n"
+   },
+   "ci": false,
+   "source": "test_clog_boost_coverage.py:264"
+  },
+  {
+   "test": "test_changelog_flag_single_file",
+   "argv": [
+    "--changelog",
+    "CHANGELOG.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Existing content",
+    "changelog written"
+   ],
+   "files": {
+    "CHANGELOG.md": "# Existing Changelog\n\nExisting content\n"
+   },
+   "ci": false,
+   "source": "test_clog_boost_coverage.py:279"
+  },
+  {
+   "test": "test_semver_parse_error_invalid_tag",
+   "argv": [
+    "git",
+    "init",
+    "--initial-branch=master"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog_boost_coverage.py:297"
+  },
+  {
+   "test": "test_error_format_display",
+   "argv": [
+    "--from",
+    "nonexistent_commit_hash_123456"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_clog_boost_coverage.py:325"
+  },
+  {
+   "test": "test_json_format_conversion",
+   "argv": [
+    "git",
+    "init",
+    "--initial-branch=master"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_clog_coverage.py:36"
+  },
+  {
+   "test": "test_major_version_increment_with_proper_tag",
+   "argv": [
+    "--major",
+    "--outfile"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2.0.0",
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog_coverage.py:57"
+  },
+  {
+   "test": "test_minor_version_increment_with_proper_tag",
+   "argv": [
+    "--minor",
+    "--outfile"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.3.0",
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog_coverage.py:73"
+  },
+  {
+   "test": "test_patch_version_increment_with_proper_tag",
+   "argv": [
+    "--patch",
+    "--outfile"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.2.4",
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog_coverage.py:87"
+  },
+  {
+   "test": "test_setversion_with_major_flag",
+   "argv": [
+    "git",
+    "init",
+    "--initial-branch=master"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "9.9.9",
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog_coverage.py:188"
+  },
+  {
+   "test": "test_error_paths_missing_file",
+   "argv": [
+    "--infile"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_clog_coverage.py:329"
+  },
+  {
+   "test": "test_git_dir_flag_from_inside_repo",
+   "argv": [
+    "--git-dir",
+    "--work-tree"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog_git_dir.py:7"
+  },
+  {
+   "test": "test_git_dir_short_flag_from_inside_repo",
+   "argv": [
+    "-g",
+    "-w"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog_git_dir.py:16"
+  },
+  {
+   "test": "test_git_dir_relative_paths",
+   "argv": [
+    "--git-dir",
+    ".git",
+    "--work-tree",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog_git_dir.py:31"
+  },
+  {
+   "test": "test_vary_format",
+   "argv": [
+    "--format",
+    "--outfile"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog_massive.py:44"
+  },
+  {
+   "test": "test_vary_link_style",
+   "argv": [
+    "--link-style",
+    "--repository",
+    "https://example.com/repo",
+    "--outfile"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog_massive.py:55"
+  },
+  {
+   "test": "test_vary_repository_url",
+   "argv": [
+    "--repository",
+    "--outfile"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog_massive.py:71"
+  },
+  {
+   "test": "test_vary_subtitle",
+   "argv": [
+    "--subtitle",
+    "--outfile"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog_massive.py:88"
+  },
+  {
+   "test": "test_json_format_short_flag",
+   "argv": [
+    "-T",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog_more_coverage.py:95"
+  },
+  {
+   "test": "test_setversion_with_explicit_version",
+   "argv": [
+    "--setversion",
+    "5.4.3",
+    "--outfile"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "5.4.3",
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog_more_coverage.py:238"
+  },
+  {
+   "test": "test_infile_with_outfile",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Old Version",
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog_more_coverage.py:253"
+  },
+  {
+   "test": "test_changelog_single_file",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Old Changelog",
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clog_more_coverage.py:279"
+  },
+  {
+   "test": "test_json_format",
+   "argv": [
+    "-T",
+    "json",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "{"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_simple_coverage_boost.py:57"
+  },
+  {
+   "test": "test_gitlab_link_style",
+   "argv": [
+    "-l",
+    "gitlab",
+    "-r",
+    "https://gitlab.com/r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_simple_coverage_boost.py:68"
+  },
+  {
+   "test": "test_stash_link_style",
+   "argv": [
+    "--link-style",
+    "stash",
+    "-r",
+    "https://stash.com/r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_simple_coverage_boost.py:76"
+  },
+  {
+   "test": "test_cgit_link_style",
+   "argv": [
+    "--link-style",
+    "cgit",
+    "-r",
+    "https://cgit.com/r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_simple_coverage_boost.py:84"
+  },
+  {
+   "test": "test_setversion_flag",
+   "argv": [
+    "--setversion",
+    "2.5.0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2.5.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_simple_coverage_boost.py:121"
+  },
+  {
+   "test": "test_from_commit",
+   "argv": [
+    "--from"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_simple_coverage_boost.py:130"
+  },
+  {
+   "test": "test_infile_flag",
+   "argv": [
+    "-i",
+    "old.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Old stuff here"
+   ],
+   "files": {
+    "old.md": "# Old Changelog\n\n## Old Release\n\nOld stuff here\n"
+   },
+   "ci": false,
+   "source": "test_simple_coverage_boost.py:164"
+  },
+  {
+   "test": "test_changelog_flag",
+   "argv": [
+    "-C",
+    "LOG.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Old entries"
+   ],
+   "files": {
+    "LOG.md": "# Previous\n\nOld entries\n"
+   },
+   "ci": false,
+   "source": "test_simple_coverage_boost.py:177"
+  },
+  {
+   "test": "test_git_dir_with_config",
+   "argv": [
+    "--git-dir",
+    "--config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_simple_coverage_boost.py:203"
+  },
+  {
+   "test": "test_invalid_semver_error",
+   "argv": [
+    "--major"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_simple_coverage_boost.py:215"
+  },
+  {
+   "test": "test_json_gitlab_combination",
+   "argv": [
+    "-T",
+    "json",
+    "-l",
+    "gitlab",
+    "-r",
+    "https://gitlab.com/x",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "{"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_simple_coverage_boost.py:244"
+  },
+  {
+   "test": "test_help_has_no_subcommand_section",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:25"
+  },
+  {
+   "test": "test_unexpected_positional_arg_is_rejected_like_unknown_subcommand",
+   "argv": [
+    "nonexistent_subcommand"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument",
+    "usage:",
+    "--help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:41"
+  },
+  {
+   "test": "test_flags_are_not_accepted_after_positional_like_git_style_subcommand_syntax",
+   "argv": [
+    "nonexistent",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:53"
+  },
+  {
+   "test": "test_double_dash_then_positional_is_still_rejected",
+   "argv": [
+    "--",
+    "anything"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:63"
+  },
+  {
+   "test": "test_help_takes_precedence_over_invalid_flag",
+   "argv": [
+    "--help",
+    "--definitely-not-a-real-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:141"
+  },
+  {
+   "test": "test_help_after_double_dash_is_not_treated_as_help",
+   "argv": [
+    "--",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:148"
+  },
+  {
+   "test": "test_default_config_filename_is_dot_clog_toml_and_is_read_from_cwd",
+   "argv": [
+    "--to",
+    "HEAD",
+    "--outfile"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_handling.py:39"
+  },
+  {
+   "test": "test_cli_overrides_config_file_output_format",
+   "argv": [
+    "--config",
+    "--format",
+    "markdown",
+    "--to",
+    "HEAD",
+    "--outfile"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_handling.py:60"
+  },
+  {
+   "test": "test_cli_overrides_config_file_subtitle",
+   "argv": [
+    "--config",
+    "--subtitle",
+    "from-cli",
+    "--to",
+    "HEAD",
+    "--outfile"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "from-cli"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_handling.py:89"
+  },
+  {
+   "test": "test_missing_config_file_errors",
+   "argv": [
+    "--config",
+    "--format",
+    "json",
+    "--to",
+    "HEAD",
+    "--outfile"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error:"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_config_handling.py:117"
+  },
+  {
+   "test": "test_malformed_config_file_errors",
+   "argv": [
+    "--config",
+    "--format",
+    "json",
+    "--to",
+    "HEAD",
+    "--outfile"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "failed to parse toml"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_config_handling.py:134"
+  },
+  {
+   "test": "test_runs_in_repo_root_and_writes_json_to_stdout_plus_trailer",
+   "argv": [
+    "-T",
+    "json",
+    "-r",
+    "https://example.com/repo"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "changelog written."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cwd_dependency.py:17"
+  },
+  {
+   "test": "test_in_other_git_repo_errors_fatal_io_to_stderr_exit_1",
+   "argv": [
+    "-T",
+    "json",
+    "-r",
+    "https://example.com/repo"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "error:",
+    "fatal I/O error"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cwd_dependency.py:26"
+  },
+  {
+   "test": "test_help_exit_code_and_mentions_options",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--repository"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_version.py:4"
+  }
+ ]
+}

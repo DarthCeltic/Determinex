@@ -1,0 +1,29 @@
+{
+  "schema": "determinex-repair-loop-transcript-v1",
+  "tool": "pastel",
+  "family": "rust",
+  "pinned_commit": "01d4252",
+  "repair_type": "seeded_defect (behavioral) - verifier is the project's OWN test suite in a rust:latest image (toolchain via provider; Docker-OPTIONAL)",
+  "toolchain": "rust:latest",
+  "oracle": "the real sharkdp/pastel repo's own tests: cargo test 2>&1",
+  "defect": {
+    "file": "src/lib.rs",
+    "seed": "        Color::from_hsl(0.0, 0.0, 0.0) ->         Color::from_hsl(0.0, 0.0, 0.01)"
+  },
+  "detect": {
+    "baseline": "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+    "after_seed": "test suite FAILED (exit 101)",
+    "oracle_caught": true,
+    "failure_signature": "seeded defect made the project's own test suite exit non-zero"
+  },
+  "repair": {
+    "fix": "git checkout (restore upstream source)"
+  },
+  "reverify": {
+    "after": "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+    "passed": 0,
+    "failures": 0
+  },
+  "repair_loop_status": "passed",
+  "proves": "closed-loop repair on a real external rust project (pastel): its OWN test suite detects the injected defect -> fix -> re-verify (test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s). Reproducible."
+}

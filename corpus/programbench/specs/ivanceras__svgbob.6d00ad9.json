@@ -1,0 +1,1704 @@
+{
+ "slug": "ivanceras__svgbob.6d00ad9",
+ "language": "",
+ "n_branches": 2,
+ "n_tests_total": 474,
+ "n_examples": 93,
+ "n_with_exact_stdout": 1,
+ "n_with_rc": 84,
+ "n_skipped": 379,
+ "examples": [
+  {
+   "test": "test_help_flag_long",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "svgbob",
+    "USAGE",
+    "FLAGS",
+    "OPTIONS"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:108"
+  },
+  {
+   "test": "test_help_flag_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "svgbob",
+    "USAGE",
+    "ascii to svg"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_svgbob.py:118"
+  },
+  {
+   "test": "test_version_flag_long",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "svgbob"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:127"
+  },
+  {
+   "test": "test_version_flag_short",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "svgbob"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:136"
+  },
+  {
+   "test": "test_help_mentions_subcommands",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "build"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:144"
+  },
+  {
+   "test": "test_file_input_produces_svg",
+   "argv": [
+    "test.bob"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<svg",
+    "class=\"svgbob\""
+   ],
+   "files": {
+    "test.bob": "+--+\n|  |\n+--+\n"
+   },
+   "ci": false,
+   "source": "test_svgbob.py:165"
+  },
+  {
+   "test": "test_file_input_rect_shape",
+   "argv": [
+    "box.bob"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<rect"
+   ],
+   "files": {
+    "box.bob": "+--+\n|  |\n+--+\n"
+   },
+   "ci": false,
+   "source": "test_svgbob.py:175"
+  },
+  {
+   "test": "test_nonexistent_file_error",
+   "argv": [
+    "/tmp/does_not_exist_12345.bob"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Failed to open input file",
+    "/tmp/does_not_exist_12345.bob"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:184"
+  },
+  {
+   "test": "test_inline_string_flag",
+   "argv": [
+    "-s",
+    "+--+"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<svg",
+    "class=\"svgbob\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:192"
+  },
+  {
+   "test": "test_inline_string_with_newline_escape",
+   "argv": [
+    "-s",
+    "+--+\\n|  |\\n+--+"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<svg",
+    "</svg>",
+    "class=\"solid nofill\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:200"
+  },
+  {
+   "test": "test_inline_string_multiline",
+   "argv": [
+    "-s",
+    "abc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<svg",
+    "<svg"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:210"
+  },
+  {
+   "test": "test_output_to_file",
+   "argv": [
+    "-o"
+   ],
+   "stdin": "---",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<svg",
+    "xmlns",
+    "</svg>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:238"
+  },
+  {
+   "test": "test_output_to_file_long_flag",
+   "argv": [
+    "--output"
+   ],
+   "stdin": "---",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<svg"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:251"
+  },
+  {
+   "test": "test_output_to_file_nothing_on_stdout",
+   "argv": [
+    "-o"
+   ],
+   "stdin": "---",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:262"
+  },
+  {
+   "test": "test_output_to_file_error",
+   "argv": [
+    "-o",
+    "/nonexistent_dir_abc/out.svg"
+   ],
+   "stdin": "---",
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Failed to write to output file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:271"
+  },
+  {
+   "test": "test_background_color_option",
+   "argv": [
+    "--background",
+    "blue"
+   ],
+   "stdin": "---",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "fill: blue"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:282"
+  },
+  {
+   "test": "test_fill_color_option",
+   "argv": [
+    "--fill-color",
+    "red"
+   ],
+   "stdin": "---",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "fill: red"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:296"
+  },
+  {
+   "test": "test_font_family_option",
+   "argv": [
+    "--font-family",
+    "Comic Sans"
+   ],
+   "stdin": "---",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Comic Sans"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:310"
+  },
+  {
+   "test": "test_font_size_option",
+   "argv": [
+    "--font-size",
+    "20"
+   ],
+   "stdin": "---",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "font-size: 20px"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:325"
+  },
+  {
+   "test": "test_stroke_width_option",
+   "argv": [
+    "--stroke-width",
+    "5"
+   ],
+   "stdin": "---",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "stroke-width: 5"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:339"
+  },
+  {
+   "test": "test_stroke_color_option",
+   "argv": [
+    "--stroke-color",
+    "green"
+   ],
+   "stdin": "---",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "stroke: green"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:353"
+  },
+  {
+   "test": "test_scale_option_doubles_dimensions",
+   "argv": [
+    "--scale",
+    "2"
+   ],
+   "stdin": "---",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<svg",
+    "<svg"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:367"
+  },
+  {
+   "test": "test_scale_option_halves_dimensions",
+   "argv": [
+    "--scale",
+    "0.5"
+   ],
+   "stdin": "---",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<svg",
+    "<svg"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:381"
+  },
+  {
+   "test": "test_invalid_font_size_error",
+   "argv": [
+    "--font-size",
+    "notanumber"
+   ],
+   "stdin": "---",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Illegal value for argument font-size"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:398"
+  },
+  {
+   "test": "test_invalid_stroke_width_error",
+   "argv": [
+    "--stroke-width",
+    "abc"
+   ],
+   "stdin": "---",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Illegal value for argument stroke-width"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:405"
+  },
+  {
+   "test": "test_invalid_scale_error",
+   "argv": [
+    "--scale",
+    "notafloat"
+   ],
+   "stdin": "---",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Illegal value for argument scale"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:412"
+  },
+  {
+   "test": "test_build_help",
+   "argv": [
+    "build",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "build",
+    "Batch convert files to svg"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_svgbob.py:423"
+  },
+  {
+   "test": "test_build_converts_bob_files",
+   "argv": [
+    "build",
+    "-i",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<svg",
+    "xmlns"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:433"
+  },
+  {
+   "test": "test_build_output_message",
+   "argv": [
+    "build",
+    "-i",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "=>",
+    "diagram.bob",
+    "diagram.svg"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:448"
+  },
+  {
+   "test": "test_build_creates_output_dir",
+   "argv": [
+    "build",
+    "-i",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<svg",
+    "</svg>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:461"
+  },
+  {
+   "test": "test_build_default_output_same_dir",
+   "argv": [
+    "build",
+    "-i"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<svg"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:476"
+  },
+  {
+   "test": "test_build_only_converts_bob_extension",
+   "argv": [
+    "build",
+    "-i",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test.bob",
+    "<svg"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:488"
+  },
+  {
+   "test": "test_build_error_nonexistent_input_dir",
+   "argv": [
+    "build",
+    "-i",
+    "/nonexistent_parent_abc123/subdir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[Error]",
+    "No such dir name"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:505"
+  },
+  {
+   "test": "test_build_multiple_files",
+   "argv": [
+    "build",
+    "-i",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<svg",
+    "<svg"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:514"
+  },
+  {
+   "test": "test_complex_diagram_from_file",
+   "argv": [
+    "crates/svgbob/test_data/simple.bob"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<svg",
+    "<rect",
+    "<line",
+    "<text"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:680"
+  },
+  {
+   "test": "test_circles_diagram",
+   "argv": [
+    "crates/svgbob/test_data/circles.bob"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<svg"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:691"
+  },
+  {
+   "test": "test_demo_file_conversion",
+   "argv": [
+    "crates/svgbob/test_data/demo.bob"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<svg",
+    "</svg>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:731"
+  },
+  {
+   "test": "test_example_file_conversion",
+   "argv": [
+    "crates/svgbob/test_data/example.bob"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<svg",
+    "</svg>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:739"
+  },
+  {
+   "test": "test_circuits_file_conversion",
+   "argv": [
+    "crates/svgbob/test_data/circuits.bob"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<svg"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:747"
+  },
+  {
+   "test": "test_multiple_options_together",
+   "argv": [
+    "--background",
+    "yellow",
+    "--stroke-color",
+    "red",
+    "--fill-color",
+    "blue",
+    "--font-size",
+    "16",
+    "--stroke-width",
+    "3"
+   ],
+   "stdin": "---",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "fill: yellow",
+    "stroke: red",
+    "fill: blue",
+    "font-size: 16px",
+    "stroke-width: 3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:764"
+  },
+  {
+   "test": "test_file_and_output_together",
+   "argv": [
+    "input.bob",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<svg",
+    "<rect"
+   ],
+   "files": {
+    "input.bob": "+--+\n|  |\n+--+\n"
+   },
+   "ci": false,
+   "source": "test_svgbob.py:782"
+  },
+  {
+   "test": "test_build_with_file_pattern",
+   "argv": [
+    "build",
+    "-i",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "=>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:795"
+  },
+  {
+   "test": "test_scale_one_affects_dimensions_proportionally",
+   "argv": [
+    "--scale",
+    "1"
+   ],
+   "stdin": "---",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<svg",
+    "<svg"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:826"
+  },
+  {
+   "test": "test_build_help_version",
+   "argv": [
+    "build",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.0.1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:865"
+  },
+  {
+   "test": "test_inline_and_options",
+   "argv": [
+    "-s",
+    "abc",
+    "--background",
+    "cyan"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<svg",
+    "fill: cyan"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:872"
+  },
+  {
+   "test": "test_build_no_input_uses_default_pattern",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:880"
+  },
+  {
+   "test": "test_merge_file_conversion",
+   "argv": [
+    "crates/svgbob/test_data/merge.bob"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<svg",
+    "</svg>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:899"
+  },
+  {
+   "test": "test_long_file_conversion",
+   "argv": [
+    "crates/svgbob/test_data/long.bob"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<svg",
+    "</svg>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_svgbob.py:907"
+  },
+  {
+   "test": "test_circle_scale_factor",
+   "argv": [
+    "--scale",
+    "2.0"
+   ],
+   "stdin": "()",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_circle_shapes.py:248"
+  },
+  {
+   "test": "test_circle_scale_factor_half",
+   "argv": [
+    "--scale",
+    "0.5"
+   ],
+   "stdin": "()",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_circle_shapes.py:474"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_flags.py:12"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_flags.py:22"
+  },
+  {
+   "test": "test_fill_color_named",
+   "argv": [
+    "--fill-color",
+    "red"
+   ],
+   "stdin": "+--+",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".filled {",
+    "fill: red;"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_flags.py:32"
+  },
+  {
+   "test": "test_fill_color_hex",
+   "argv": [
+    "--fill-color",
+    "#ff0000"
+   ],
+   "stdin": "+--+",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".filled {",
+    "fill: #ff0000;"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_flags.py:45"
+  },
+  {
+   "test": "test_stroke_color_and_width",
+   "argv": [
+    "--stroke-color",
+    "blue",
+    "--stroke-width",
+    "5"
+   ],
+   "stdin": "+--+",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "stroke: blue;",
+    "stroke-width: 5;"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_flags.py:57"
+  },
+  {
+   "test": "test_background_color",
+   "argv": [
+    "--background",
+    "lightblue"
+   ],
+   "stdin": "+--+",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".backdrop {",
+    "fill: lightblue;"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_flags.py:71"
+  },
+  {
+   "test": "test_font_family_and_size",
+   "argv": [
+    "--font-family",
+    "monospace",
+    "--font-size",
+    "20"
+   ],
+   "stdin": "Hello",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "font-family: monospace;",
+    "font-size: 20px;"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_flags.py:83"
+  },
+  {
+   "test": "test_scale_factor",
+   "argv": [
+    "--scale",
+    "2"
+   ],
+   "stdin": "+--+",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_flags.py:98"
+  },
+  {
+   "test": "test_scale_half",
+   "argv": [
+    "--scale",
+    "0.5"
+   ],
+   "stdin": "+--+",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_flags.py:112"
+  },
+  {
+   "test": "test_inline_string_mode",
+   "argv": [
+    "-s",
+    "+--+\\n|  |\\n+--+"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<svg",
+    "</svg>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_flags.py:156"
+  },
+  {
+   "test": "test_stdin_default_mode",
+   "argv": [],
+   "stdin": "+--+",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<svg",
+    "</svg>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_flags.py:171"
+  },
+  {
+   "test": "test_invalid_font_size",
+   "argv": [
+    "--font-size",
+    "abc"
+   ],
+   "stdin": "+--+",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Illegal value",
+    "font-size"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_flags.py:186"
+  },
+  {
+   "test": "test_invalid_stroke_width",
+   "argv": [
+    "--stroke-width",
+    "xyz"
+   ],
+   "stdin": "+--+",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Illegal value",
+    "stroke-width"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_flags.py:197"
+  },
+  {
+   "test": "test_invalid_scale",
+   "argv": [
+    "--scale",
+    "notanumber"
+   ],
+   "stdin": "+--+",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Illegal value",
+    "scale"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_flags.py:208"
+  },
+  {
+   "test": "test_nonexistent_input_file",
+   "argv": [
+    "nonexistent.bob"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Failed to open input file",
+    "nonexistent.bob",
+    "No such file or directory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_flags.py:219"
+  },
+  {
+   "test": "test_output_file_write_error_permission",
+   "argv": [
+    "-o",
+    "/proc/version"
+   ],
+   "stdin": "+--+",
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Failed to write to output file",
+    "/proc/version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_flags.py:232"
+  },
+  {
+   "test": "test_combined_all_styling_flags",
+   "argv": [
+    "--fill-color",
+    "red",
+    "--stroke-color",
+    "blue",
+    "--stroke-width",
+    "3",
+    "--background",
+    "yellow"
+   ],
+   "stdin": "+--+",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "fill: red;",
+    "stroke: blue;",
+    "stroke-width: 3;",
+    "fill: yellow;"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_flags.py:244"
+  },
+  {
+   "test": "test_combined_font_and_scale",
+   "argv": [
+    "--font-family",
+    "Arial",
+    "--font-size",
+    "16",
+    "--scale",
+    "2"
+   ],
+   "stdin": "Hello",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "font-family: Arial;",
+    "font-size: 16px;"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_flags.py:265"
+  },
+  {
+   "test": "test_color_formats_rgb_notation",
+   "argv": [
+    "--fill-color",
+    "rgb(255,0,0)"
+   ],
+   "stdin": "+--+",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "fill: rgb(255,0,0);"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_flags.py:328"
+  },
+  {
+   "test": "test_font_family_quoted_name",
+   "argv": [
+    "--font-family",
+    "Courier New"
+   ],
+   "stdin": "Text",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "font-family: Courier New;"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_flags.py:339"
+  },
+  {
+   "test": "test_empty_input_stdin",
+   "argv": [],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<svg",
+    "</svg>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_flags.py:362"
+  },
+  {
+   "test": "test_large_stroke_width",
+   "argv": [
+    "--stroke-width",
+    "50"
+   ],
+   "stdin": "+--+",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "stroke-width: 50;"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_flags.py:377"
+  },
+  {
+   "test": "test_very_small_scale",
+   "argv": [
+    "--scale",
+    "0.1"
+   ],
+   "stdin": "+--+",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_flags.py:387"
+  },
+  {
+   "test": "test_inline_mode_with_complex_diagram",
+   "argv": [
+    "-s",
+    "   .---.\\n   |   |\\n   '---'\\n     |\\n     v\\n   .---.\\n   |   |\\n   '---'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_flags.py:398"
+  },
+  {
+   "test": "test_color_format_hex_short",
+   "argv": [
+    "--fill-color",
+    "#f00"
+   ],
+   "stdin": "+--+",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "fill: #f00;"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_flags.py:459"
+  },
+  {
+   "test": "test_stroke_color_hex_format",
+   "argv": [
+    "--stroke-color",
+    "#123456"
+   ],
+   "stdin": "+--+",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "stroke: #123456;"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_flags.py:469"
+  },
+  {
+   "test": "test_background_transparent",
+   "argv": [
+    "--background",
+    "transparent"
+   ],
+   "stdin": "+--+",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "fill: transparent;"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_flags.py:479"
+  },
+  {
+   "test": "test_build_subcommand_nonexistent_input_dir",
+   "argv": [
+    "build",
+    "-i",
+    "/nonexistent/path/*.bob"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[Error]: No such dir name is /nonexistent/path !"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_flags.py:581"
+  },
+  {
+   "test": "test_build_help_flag",
+   "argv": [
+    "build",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_flags.py:615"
+  },
+  {
+   "test": "test_scaling_option",
+   "argv": [
+    "--scale",
+    "2"
+   ],
+   "stdin": "+---+\n| A |\n+---+",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_core_conversion.py:416"
+  },
+  {
+   "test": "test_custom_stroke_color",
+   "argv": [
+    "--stroke-color",
+    "red"
+   ],
+   "stdin": "+---+\n| A |\n+---+",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "stroke: red;"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_core_conversion.py:446"
+  },
+  {
+   "test": "test_background_color_option",
+   "argv": [
+    "--background",
+    "yellow"
+   ],
+   "stdin": "+---+\n| X |\n+---+",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "fill: yellow;"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_core_conversion.py:627"
+  },
+  {
+   "test": "test_to_svg_from_stdin",
+   "argv": [],
+   "stdin": "A --> B",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_entry_points.py:126"
+  },
+  {
+   "test": "test_to_svg_empty_input",
+   "argv": [],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_entry_points.py:147"
+  },
+  {
+   "test": "test_rect1",
+   "argv": [
+    "\n    +----------+\n    |          |\n    +----------+\n    "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:101"
+  },
+  {
+   "test": "test_escaped_shape",
+   "argv": [
+    "\n    \"+----------+\"\n    \"|          |\"\n    \"+----------+\"\n    "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:120"
+  },
+  {
+   "test": "test_rounded_rect",
+   "argv": [
+    "\n    .----------.\n    |          |\n    '----------'\n    "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:141"
+  },
+  {
+   "test": "test_just_v",
+   "argv": [
+    "\n        V\n    "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:160"
+  },
+  {
+   "test": "test_arrow_down",
+   "argv": [
+    "\n        |\n        V\n    "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:177"
+  },
+  {
+   "test": "test_styling",
+   "argv": [
+    "\n.----------.   .----------.\n|{w} A     |-->|{w} B     |\n'----------'   '----------'\n\n.----------.   .----------.\n|{w} A     |<--|{w} B     |\n'----------'   '----------'\n\n.----------.   .----------.\n|{w} A     |<->|{w} B     |\n'----------'   '----------'\n\n# Legend:\nw = {\n fill: #abadb0;\n}\n"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "A",
+    "B",
+    "{w}",
+    "#abadb0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:198"
+  },
+  {
+   "test": "test_arrow_with_scale_parameter",
+   "argv": [
+    "--scale",
+    "2.0"
+   ],
+   "stdin": "---->",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_markers_arrows_extended.py:633"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "svgbob",
+    "USAGE:",
+    "FLAGS:",
+    "--help",
+    "--version"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_seed.py:21"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "svgbob"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_seed.py:36"
+  }
+ ]
+}

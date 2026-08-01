@@ -1,0 +1,6138 @@
+{
+ "slug": "burntsushi__xsv.f430466",
+ "language": "",
+ "n_branches": 12,
+ "n_tests_total": 1121,
+ "n_examples": 296,
+ "n_with_exact_stdout": 27,
+ "n_with_rc": 284,
+ "n_skipped": 809,
+ "examples": [
+  {
+   "test": "test_no_headers_short_form",
+   "argv": [
+    "count",
+    "-n"
+   ],
+   "stdin": "a,b\n1,2\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:436"
+  },
+  {
+   "test": "test_no_headers_long_form",
+   "argv": [
+    "count",
+    "--no-headers"
+   ],
+   "stdin": "a,b\n1,2\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:443"
+  },
+  {
+   "test": "test_sample_seed_non_integer",
+   "argv": [
+    "sample",
+    "--seed",
+    "abc",
+    "2"
+   ],
+   "stdin": "a,b\n1,2\n3,4\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Could not deserialize 'abc'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:552"
+  },
+  {
+   "test": "test_fixlengths_length_non_integer",
+   "argv": [
+    "fixlengths",
+    "-l",
+    "abc"
+   ],
+   "stdin": "a,b\n1,2\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Could not deserialize 'abc'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:573"
+  },
+  {
+   "test": "test_fmt_out_delimiter",
+   "argv": [
+    "fmt",
+    "-t",
+    "\t"
+   ],
+   "stdin": "a,b\n1,2\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\t"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:586"
+  },
+  {
+   "test": "test_flatten_separator_flag",
+   "argv": [
+    "flatten",
+    "-s",
+    "---"
+   ],
+   "stdin": "a,b\n1,2\n3,4\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "---"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:818"
+  },
+  {
+   "test": "test_count_from_stdin",
+   "argv": [
+    "count"
+   ],
+   "stdin": "a,b\n1,2\n3,4\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:946"
+  },
+  {
+   "test": "test_search_requires_regex",
+   "argv": [
+    "search"
+   ],
+   "stdin": "a\n1\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Invalid arguments"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:1041"
+  },
+  {
+   "test": "test_subcommand_help_accessible",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:47"
+  },
+  {
+   "test": "test_subcommand_help_flag_h",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:54"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:139"
+  },
+  {
+   "test": "test_list_flag",
+   "argv": [
+    "--list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:153"
+  },
+  {
+   "test": "test_delimiter_flag_common_option",
+   "argv": [
+    "count",
+    "--delimiter",
+    ","
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:165"
+  },
+  {
+   "test": "test_no_headers_flag_common_option",
+   "argv": [
+    "count",
+    "--no-headers"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:180"
+  },
+  {
+   "test": "test_help_subcommand_works",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:260"
+  },
+  {
+   "test": "test_count_with_valid_csv",
+   "argv": [
+    "count"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:277"
+  },
+  {
+   "test": "test_headers_with_valid_csv",
+   "argv": [
+    "headers"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:292"
+  },
+  {
+   "test": "test_select_with_valid_args",
+   "argv": [
+    "select",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:307"
+  },
+  {
+   "test": "test_select_with_stdin",
+   "argv": [
+    "select",
+    "1"
+   ],
+   "stdin": "a,b,c\n1,2,3\n4,5,6",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a\n1\n4\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_core_modules.py:319"
+  },
+  {
+   "test": "test_select_dash_as_stdin",
+   "argv": [
+    "select",
+    "1",
+    "-"
+   ],
+   "stdin": "a,b,c\n1,2,3\n4,5,6",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a\n1\n4\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_core_modules.py:326"
+  },
+  {
+   "test": "test_select_slice_sort_pipeline",
+   "argv": [
+    "slice",
+    "-l",
+    "5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "product,sales\nWidget A,1500\nWidget A,1800\nWidget B,1900\nWidget B,2200\nWidget C,3200\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:16"
+  },
+  {
+   "test": "test_select_stats_pipeline",
+   "argv": [
+    "stats"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "field,type,sum,min,max,min_length,max_length,mean,stddev\nproduct,Unicode,,Widget A,Widget C,8,8,,\nsales,Integer,21800,1500,3200,4,4,2180,579.3099343184095\ncost,Integer,11150,800,1600,3,4,1115,269.3046601899046\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:36"
+  },
+  {
+   "test": "test_join_select_stats_workflow",
+   "argv": [
+    "select",
+    "product,sales,category,margin"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "field,type,sum,min,max,min_length,max_length,mean,stddev\nproduct,Unicode,,Widget A,Widget C,8,8,,\nsales,Integer,21800,1500,3200,4,4,2180,579.3099343184095\ncategory,Unicode,,Hardware,Software,8,8,,\nmargin,Float,3.7999999999999994,0.35,0.42,4,4,0.37999999999999995,0.028982753492378888\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:219"
+  },
+  {
+   "test": "test_search_select_stats_workflow",
+   "argv": [
+    "select",
+    "product,sales"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "field,type,sum,min,max,min_length,max_length,mean,stddev\nproduct,Unicode,,Widget A,Widget C,8,8,,\nsales,Integer,11000,1500,3200,4,4,2200,672.3094525588646\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:263"
+  },
+  {
+   "test": "test_fixlengths_select_workflow",
+   "argv": [
+    "select",
+    "name,city"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "name,city\nAlice,NYC\nBob,\nCharlie,LA\nDavid,SF\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:293"
+  },
+  {
+   "test": "test_select_slice_flatten_workflow",
+   "argv": [
+    "slice",
+    "-l",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "product  Widget A\nsales    1500\n#\nproduct  Widget B\nsales    2200\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:319"
+  },
+  {
+   "test": "test_select_slice_table_workflow",
+   "argv": [
+    "slice",
+    "-l",
+    "5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "product   region  sales\nWidget A  North   1500\nWidget B  South   2200\nWidget A  East    1800\nWidget C  North   3200\nWidget B  West    1900\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:349"
+  },
+  {
+   "test": "test_reverse_slice_workflow",
+   "argv": [
+    "slice",
+    "-l",
+    "3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "product,region,sales,cost\nWidget C,South,3000,1500\nWidget A,West,1600,800\nWidget B,North,1700,850\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:378"
+  },
+  {
+   "test": "test_select_fmt_conversion_workflow",
+   "argv": [
+    "fmt",
+    "-t",
+    "|"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "product|sales\nWidget A|1500\nWidget B|2200\nWidget A|1800\nWidget C|3200\nWidget B|1900\nWidget A|2100\nWidget C|2800\nWidget B|1700\nWidget A|1600\nWidget C|3000\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:403"
+  },
+  {
+   "test": "test_sort_slice_select_workflow",
+   "argv": [
+    "slice",
+    "-s",
+    "5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "name,dept,salary\nGrace,Marketing,85000\nAlice,Engineering,95000\nFrank,Engineering,98000\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:432"
+  },
+  {
+   "test": "test_join_select_sort_numeric_reverse_workflow",
+   "argv": [
+    "select",
+    "name,dept,salary,manager,location"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "name,dept,salary,manager,location\nCharlie,Engineering,105000,Sarah,Building A\nFrank,Engineering,98000,Sarah,Building A\nAlice,Engineering,95000,Sarah,Building A\nGrace,Marketing,85000,Linda,Building C\nDiana,Marketing,82000,Linda,Building C\nEve,Sales,78000,Tom,Building B\nBob,Sales,75000,Tom,Building B\nHenry,Sales,72000,Tom,Building B\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:456"
+  },
+  {
+   "test": "test_multi_stage_filter_aggregate_workflow",
+   "argv": [
+    "select",
+    "name,salary"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:570"
+  },
+  {
+   "test": "test_sample_then_analyze_workflow",
+   "argv": [
+    "frequency",
+    "-s",
+    "dept"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:642"
+  },
+  {
+   "test": "test_slice_sort_select_numeric_workflow",
+   "argv": [
+    "select",
+    "value"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:683"
+  },
+  {
+   "test": "test_empty_fields_stats_workflow",
+   "argv": [
+    "stats"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "field,type,sum,min,max,min_length,max_length,mean,stddev\nb,Integer,6,2,2,0,1,2,0\nd,Integer,12,4,4,0,1,4,0\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:738"
+  },
+  {
+   "test": "test_search_with_empty_result_workflow",
+   "argv": [
+    "stats"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:793"
+  },
+  {
+   "test": "test_reverse_then_reverse_idempotent",
+   "argv": [
+    "reverse"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:837"
+  },
+  {
+   "test": "test_table_stdin",
+   "argv": [
+    "table"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_io_basic.py:305"
+  },
+  {
+   "test": "test_xsv_help",
+   "argv": [
+    "./executable",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cat",
+    "count",
+    "select",
+    "sort",
+    "stats"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_seed.py:9"
+  },
+  {
+   "test": "test_xsv_count_basic",
+   "argv": [
+    "./executable",
+    "count",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.csv": "a,b,c\n1,2,3\n4,5,6\n7,8,9\n"
+   },
+   "ci": false,
+   "source": "test_seed.py:34"
+  },
+  {
+   "test": "test_xsv_headers",
+   "argv": [
+    "./executable",
+    "headers",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.csv": "name,age,city\nAlice,30,NYC\nBob,25,LA\n"
+   },
+   "ci": false,
+   "source": "test_seed.py:58"
+  },
+  {
+   "test": "test_select_from_stdin",
+   "argv": [
+    "select",
+    "2,4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "name,price\nLaptop Pro 15,1299.99\nWireless Mouse,24.99\nOffice Chair,189.50\nStanding Desk,449.00\nCoffee Maker,79.99\nWater Bottle,12.49\nYoga Mat,29.99\nNotebook Set,8.99\nPen Pack,4.99\nMonitor 27in,349.99\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_selection.py:446"
+  },
+  {
+   "test": "test_slice_from_stdin",
+   "argv": [
+    "slice",
+    "-s",
+    "0",
+    "-l",
+    "3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "product_id,name,category,price,stock,supplier\n1001,Laptop Pro 15,Electronics,1299.99,45,TechCorp\n1002,Wireless Mouse,Electronics,24.99,156,TechCorp\n1003,Office Chair,Furniture,189.50,23,ComfortPlus\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_selection.py:456"
+  },
+  {
+   "test": "test_search_from_stdin",
+   "argv": [
+    "search",
+    "Furniture"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "product_id,name,category,price,stock,supplier\n1003,Office Chair,Furniture,189.50,23,ComfortPlus\n1004,Standing Desk,Furniture,449.00,12,ComfortPlus\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_selection.py:466"
+  },
+  {
+   "test": "test_fixlengths_stdin_with_length_flag",
+   "argv": [
+    "fixlengths",
+    "--length",
+    "2"
+   ],
+   "stdin": "a,b\n1,2,3,4\nx\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_transformation.py:271"
+  },
+  {
+   "test": "test_headers_with_no_input_uses_stdin",
+   "argv": [
+    "headers"
+   ],
+   "stdin": "name,age,city\nAlice,30,NYC\nBob,25,LA\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_util_gapfill.py:194"
+  },
+  {
+   "test": "test_toggle_headers_applies_to_stdin_input_too",
+   "argv": [
+    "select",
+    "-n",
+    "a",
+    "-"
+   ],
+   "stdin": "a,b\n1,2\n",
+   "env": {
+    "XSV_TOGGLE_HEADERS": "1"
+   },
+   "expect_rc": 0,
+   "expect_stdout": "a\n1\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_env_config.py:57"
+  },
+  {
+   "test": "test_help_includes_usage",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Commands:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_xsv_io.py:18"
+  },
+  {
+   "test": "test_count_reads_stdin_when_no_input_arg",
+   "argv": [
+    "count"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "2\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_xsv_io.py:26"
+  },
+  {
+   "test": "test_headers_outputs_1_indexed_fields",
+   "argv": [
+    "headers"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1   a\n2   b\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_xsv_io.py:45"
+  },
+  {
+   "test": "test_headers_with_multiple_inputs_prints_bare_header_names_each_time",
+   "argv": [
+    "headers"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a\nb\na\nb\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_xsv_io.py:52"
+  },
+  {
+   "test": "test_select_reorders_columns_by_name_with_header_row",
+   "argv": [
+    "select",
+    "b,a"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "b,a\n2,1\n4,3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_xsv_io.py:64"
+  },
+  {
+   "test": "test_search_filters_rows_and_keeps_header_row",
+   "argv": [
+    "search",
+    "3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a,b\n3,4\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_xsv_io.py:71"
+  },
+  {
+   "test": "test_missing_file_errors_to_stderr_and_exit_1",
+   "argv": [
+    "count",
+    "does_not_exist.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "failed to open does_not_exist.csv"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_xsv_io.py:78"
+  },
+  {
+   "test": "test_bad_subcommand_has_nonzero_exit_and_error_message",
+   "argv": [
+    "not-a-command"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Could not match"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_xsv_io.py:85"
+  },
+  {
+   "test": "test_count_rejects_multiple_inputs_and_shows_usage_on_stderr",
+   "argv": [
+    "count"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_xsv_io.py:92"
+  },
+  {
+   "test": "test_subcommand_help_exit_0",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_xsv_io.py:105"
+  },
+  {
+   "test": "test_flatten_basic",
+   "argv": [
+    "flatten",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "data.csv": "name,age,city\nAlice,30,NYC\n"
+   },
+   "ci": false,
+   "source": "test_additional_commands.py:5"
+  },
+  {
+   "test": "test_flatten_separator",
+   "argv": [
+    "flatten",
+    "-s",
+    "---",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "---"
+   ],
+   "files": {
+    "data.csv": "name,age\nAlice,30\nBob,25\n"
+   },
+   "ci": false,
+   "source": "test_additional_commands.py:17"
+  },
+  {
+   "test": "test_flatten_condense",
+   "argv": [
+    "flatten",
+    "-c",
+    "10",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name",
+    "description"
+   ],
+   "files": {
+    "data.csv": "name,description\nAlice,A very long description text\n"
+   },
+   "ci": false,
+   "source": "test_additional_commands.py:26"
+  },
+  {
+   "test": "test_fmt_basic",
+   "argv": [
+    "fmt",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name,age",
+    "Alice,30"
+   ],
+   "files": {
+    "data.csv": "name,age\nAlice,30\n"
+   },
+   "ci": false,
+   "source": "test_additional_commands.py:38"
+  },
+  {
+   "test": "test_fmt_out_delimiter",
+   "argv": [
+    "fmt",
+    "-t",
+    "\t",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name\tage",
+    "Alice\t30"
+   ],
+   "files": {
+    "data.csv": "name,age\nAlice,30\n"
+   },
+   "ci": false,
+   "source": "test_additional_commands.py:49"
+  },
+  {
+   "test": "test_fmt_crlf",
+   "argv": [
+    "fmt",
+    "--crlf",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\r\n"
+   ],
+   "files": {
+    "data.csv": "name,age\nAlice,30\n"
+   },
+   "ci": false,
+   "source": "test_additional_commands.py:60"
+  },
+  {
+   "test": "test_fixlengths_basic",
+   "argv": [
+    "fixlengths",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "data.csv": "name,age,city\nAlice,30\nBob,25,LA,extra\n"
+   },
+   "ci": false,
+   "source": "test_additional_commands.py:70"
+  },
+  {
+   "test": "test_fixlengths_length",
+   "argv": [
+    "fixlengths",
+    "-l",
+    "2",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "data.csv": "name,age\nAlice,30\nBob,25,extra\n"
+   },
+   "ci": false,
+   "source": "test_additional_commands.py:81"
+  },
+  {
+   "test": "test_frequency_basic",
+   "argv": [
+    "frequency",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "field",
+    "value",
+    "count"
+   ],
+   "files": {
+    "data.csv": "name,city\nAlice,NYC\nBob,LA\nCharlie,NYC\n"
+   },
+   "ci": false,
+   "source": "test_additional_commands.py:94"
+  },
+  {
+   "test": "test_frequency_select",
+   "argv": [
+    "frequency",
+    "-s",
+    "city",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "NYC",
+    "LA"
+   ],
+   "files": {
+    "data.csv": "name,city\nAlice,NYC\nBob,LA\nCharlie,NYC\n"
+   },
+   "ci": false,
+   "source": "test_additional_commands.py:106"
+  },
+  {
+   "test": "test_frequency_limit",
+   "argv": [
+    "frequency",
+    "--limit",
+    "2",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "data.csv": "name\nA\nB\nC\nD\nE\n"
+   },
+   "ci": false,
+   "source": "test_additional_commands.py:117"
+  },
+  {
+   "test": "test_table_basic",
+   "argv": [
+    "table",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name",
+    "age",
+    "  "
+   ],
+   "files": {
+    "data.csv": "name,age\nAlice,30\nBob,25\n"
+   },
+   "ci": false,
+   "source": "test_additional_commands.py:128"
+  },
+  {
+   "test": "test_table_width",
+   "argv": [
+    "table",
+    "-w",
+    "10",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "data.csv": "a,b\n1,2\n"
+   },
+   "ci": false,
+   "source": "test_additional_commands.py:141"
+  },
+  {
+   "test": "test_reverse_basic",
+   "argv": [
+    "reverse",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Charlie",
+    "Bob",
+    "Alice"
+   ],
+   "files": {
+    "data.csv": "name\nAlice\nBob\nCharlie\n"
+   },
+   "ci": false,
+   "source": "test_additional_commands.py:152"
+  },
+  {
+   "test": "test_sample_basic",
+   "argv": [
+    "sample",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_commands.py:165"
+  },
+  {
+   "test": "test_sample_seed",
+   "argv": [
+    "sample",
+    "3",
+    "--seed",
+    "42",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name"
+   ],
+   "files": {
+    "data.csv": "name\nAlice\nBob\nCharlie\nDave\nEve\n"
+   },
+   "ci": false,
+   "source": "test_additional_commands.py:176"
+  },
+  {
+   "test": "test_help_flag_long",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "xsv <command>",
+    "Options:",
+    "--list"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:16"
+  },
+  {
+   "test": "test_help_flag_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "xsv <command>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:25"
+  },
+  {
+   "test": "test_list_flag",
+   "argv": [
+    "--list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cat",
+    "count",
+    "headers",
+    "stats",
+    "join",
+    "select"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:44"
+  },
+  {
+   "test": "test_help_command",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "xsv <command>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:56"
+  },
+  {
+   "test": "test_count_basic",
+   "argv": [
+    "count",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "data.csv": "name,age\nAlice,30\nBob,25\nCharlie,35\n"
+   },
+   "ci": false,
+   "source": "test_count.py:4"
+  },
+  {
+   "test": "test_count_no_headers",
+   "argv": [
+    "count",
+    "--no-headers",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3"
+   ],
+   "files": {
+    "data.csv": "Alice,30\nBob,25\nCharlie,35\n"
+   },
+   "ci": false,
+   "source": "test_count.py:15"
+  },
+  {
+   "test": "test_count_with_headers_included",
+   "argv": [
+    "count",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {
+    "data.csv": "name,age\nAlice,30\n"
+   },
+   "ci": false,
+   "source": "test_count.py:25"
+  },
+  {
+   "test": "test_count_stdin",
+   "argv": [
+    "count"
+   ],
+   "stdin": "name,age\nAlice,30\nBob,25\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_count.py:36"
+  },
+  {
+   "test": "test_count_custom_delimiter",
+   "argv": [
+    "count",
+    "-d",
+    ";",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2"
+   ],
+   "files": {
+    "data.csv": "name;age\nAlice;30\nBob;25\n"
+   },
+   "ci": false,
+   "source": "test_count.py:43"
+  },
+  {
+   "test": "test_count_empty_file",
+   "argv": [
+    "count",
+    "empty.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0"
+   ],
+   "files": {
+    "empty.csv": ""
+   },
+   "ci": false,
+   "source": "test_count.py:53"
+  },
+  {
+   "test": "test_count_only_headers",
+   "argv": [
+    "count",
+    "headers_only.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0"
+   ],
+   "files": {
+    "headers_only.csv": "name,age\n"
+   },
+   "ci": false,
+   "source": "test_count.py:63"
+  },
+  {
+   "test": "test_count_help",
+   "argv": [
+    "count",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "count",
+    "records"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_count.py:73"
+  },
+  {
+   "test": "test_join_right_outer",
+   "argv": [
+    "join",
+    "--right",
+    "id",
+    "a.csv",
+    "id",
+    "b.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "90000"
+   ],
+   "files": {
+    "a.csv": "id,name\n1,Alice\n2,Bob\n",
+    "b.csv": "id,salary\n2,80000\n3,90000\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:5"
+  },
+  {
+   "test": "test_join_full_outer",
+   "argv": [
+    "join",
+    "--full",
+    "id",
+    "a.csv",
+    "id",
+    "b.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Alice",
+    "90000"
+   ],
+   "files": {
+    "a.csv": "id,name\n1,Alice\n2,Bob\n",
+    "b.csv": "id,salary\n2,80000\n3,90000\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:18"
+  },
+  {
+   "test": "test_frequency_no_nulls",
+   "argv": [
+    "frequency",
+    "--no-nulls",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "data.csv": "name,value\nAlice,\nBob,100\nAlice,200\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:33"
+  },
+  {
+   "test": "test_frequency_asc",
+   "argv": [
+    "frequency",
+    "--asc",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "data.csv": "name\nAlice\nBob\nAlice\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:44"
+  },
+  {
+   "test": "test_sample_larger_than_input",
+   "argv": [
+    "sample",
+    "10",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "data.csv": "name\nAlice\nBob\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:55"
+  },
+  {
+   "test": "test_slice_no_headers",
+   "argv": [
+    "slice",
+    "--len",
+    "2",
+    "--no-headers",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "data.csv": "Alice,30\nBob,25\nCharlie,35\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:68"
+  },
+  {
+   "test": "test_stats_mode",
+   "argv": [
+    "stats",
+    "--mode",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "value"
+   ],
+   "files": {
+    "data.csv": "value\n10\n20\n10\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:92"
+  },
+  {
+   "test": "test_stats_cardinality",
+   "argv": [
+    "stats",
+    "--cardinality",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "value"
+   ],
+   "files": {
+    "data.csv": "value\n10\n20\n10\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:103"
+  },
+  {
+   "test": "test_stats_median",
+   "argv": [
+    "stats",
+    "--median",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "value"
+   ],
+   "files": {
+    "data.csv": "value\n10\n20\n30\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:113"
+  },
+  {
+   "test": "test_stats_nulls",
+   "argv": [
+    "stats",
+    "--nulls",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "value"
+   ],
+   "files": {
+    "data.csv": "value\n10\n\n30\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:123"
+  },
+  {
+   "test": "test_flatten_no_headers",
+   "argv": [
+    "flatten",
+    "--no-headers",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "data.csv": "Alice,30\nBob,25\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:147"
+  },
+  {
+   "test": "test_table_condense",
+   "argv": [
+    "table",
+    "-c",
+    "10",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "data.csv": "name,description\nAlice,Very long text that should be truncated\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:159"
+  },
+  {
+   "test": "test_table_pad",
+   "argv": [
+    "table",
+    "-p",
+    "5",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "data.csv": "a,b\n1,2\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:170"
+  },
+  {
+   "test": "test_headers_basic",
+   "argv": [
+    "headers",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "data.csv": "name,age,city\nAlice,30,NYC\n"
+   },
+   "ci": false,
+   "source": "test_headers.py:4"
+  },
+  {
+   "test": "test_headers_just_names",
+   "argv": [
+    "headers",
+    "--just-names",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name",
+    "age",
+    "city"
+   ],
+   "files": {
+    "data.csv": "name,age,city\nAlice,30,NYC\n"
+   },
+   "ci": false,
+   "source": "test_headers.py:16"
+  },
+  {
+   "test": "test_headers_custom_delimiter",
+   "argv": [
+    "headers",
+    "-d",
+    ";",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name",
+    "age",
+    "city"
+   ],
+   "files": {
+    "data.csv": "name;age;city\nAlice;30;NYC\n"
+   },
+   "ci": false,
+   "source": "test_headers.py:28"
+  },
+  {
+   "test": "test_headers_stdin",
+   "argv": [
+    "headers"
+   ],
+   "stdin": "name,age,city\nAlice,30,NYC\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name",
+    "age"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_headers.py:39"
+  },
+  {
+   "test": "test_headers_help",
+   "argv": [
+    "headers",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "header",
+    "--just-names"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_headers.py:46"
+  },
+  {
+   "test": "test_input_basic",
+   "argv": [
+    "input",
+    "--quote",
+    "'",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Alice Smith",
+    "Bob Jones"
+   ],
+   "files": {
+    "data.csv": "name,value\n'Alice Smith',100\n'Bob Jones',200\n"
+   },
+   "ci": false,
+   "source": "test_input_command.py:4"
+  },
+  {
+   "test": "test_input_escape",
+   "argv": [
+    "input",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Alice"
+   ],
+   "files": {
+    "data.csv": "name,value\n\"Alice\"\"s Data\",100\n"
+   },
+   "ci": false,
+   "source": "test_input_command.py:16"
+  },
+  {
+   "test": "test_input_output_file",
+   "argv": [
+    "input",
+    "--quote",
+    "'",
+    "data.csv",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {
+    "data.csv": "name,value\n'test',1\n"
+   },
+   "ci": false,
+   "source": "test_input_command.py:27"
+  },
+  {
+   "test": "test_input_help",
+   "argv": [
+    "input",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "input",
+    "quote"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_input_command.py:39"
+  },
+  {
+   "test": "test_join_basic",
+   "argv": [
+    "join",
+    "id",
+    "a.csv",
+    "id",
+    "b.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Alice",
+    "100000",
+    "Bob",
+    "80000"
+   ],
+   "files": {
+    "a.csv": "id,name\n1,Alice\n2,Bob\n",
+    "b.csv": "id,salary\n1,100000\n2,80000\n"
+   },
+   "ci": false,
+   "source": "test_join_split_partition.py:6"
+  },
+  {
+   "test": "test_join_left",
+   "argv": [
+    "join",
+    "--left",
+    "id",
+    "a.csv",
+    "id",
+    "b.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Alice",
+    "Bob",
+    "Charlie"
+   ],
+   "files": {
+    "a.csv": "id,name\n1,Alice\n2,Bob\n3,Charlie\n",
+    "b.csv": "id,salary\n1,100000\n2,80000\n"
+   },
+   "ci": false,
+   "source": "test_join_split_partition.py:21"
+  },
+  {
+   "test": "test_join_no_case",
+   "argv": [
+    "join",
+    "--no-case",
+    "name",
+    "a.csv",
+    "name",
+    "b.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "alice",
+    "100"
+   ],
+   "files": {
+    "a.csv": "name,value\nalice,1\n",
+    "b.csv": "name,score\nALICE,100\n"
+   },
+   "ci": true,
+   "source": "test_join_split_partition.py:35"
+  },
+  {
+   "test": "test_split_basic",
+   "argv": [
+    "split",
+    "-s",
+    "3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_join_split_partition.py:49"
+  },
+  {
+   "test": "test_split_filename_template",
+   "argv": [
+    "split",
+    "-s",
+    "1",
+    "--filename",
+    "part_{}.csv",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "data.csv": "name\nAlice\nBob\nCharlie\n"
+   },
+   "ci": false,
+   "source": "test_join_split_partition.py:65"
+  },
+  {
+   "test": "test_partition_basic",
+   "argv": [
+    "partition",
+    "city",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "data.csv": "city,name\nNYC,Alice\nLA,Bob\nNYC,Charlie\nLA,Dave\n"
+   },
+   "ci": false,
+   "source": "test_join_split_partition.py:80"
+  },
+  {
+   "test": "test_partition_filename",
+   "argv": [
+    "partition",
+    "type",
+    "data.csv",
+    "--filename",
+    "type_{}.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "data.csv": "type,value\nA,1\nB,2\nA,3\n"
+   },
+   "ci": false,
+   "source": "test_join_split_partition.py:96"
+  },
+  {
+   "test": "test_index_basic",
+   "argv": [
+    "index",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "data.csv": "name,age\nAlice,30\nBob,25\nCharlie,35\n"
+   },
+   "ci": false,
+   "source": "test_join_split_partition.py:111"
+  },
+  {
+   "test": "test_index_usage_with_count",
+   "argv": [
+    "index"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "100"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_join_split_partition.py:126"
+  },
+  {
+   "test": "test_search_basic",
+   "argv": [
+    "search",
+    "Alice",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Alice,NYC"
+   ],
+   "files": {
+    "data.csv": "name,city\nAlice,NYC\nBob,LA\nCharlie,Chicago\n"
+   },
+   "ci": false,
+   "source": "test_search.py:4"
+  },
+  {
+   "test": "test_search_select_column",
+   "argv": [
+    "search",
+    "-s",
+    "name",
+    "^A",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Alice",
+    "Alan"
+   ],
+   "files": {
+    "data.csv": "name,city\nAlice,NYC\nBob,LA\nAlan,Chicago\n"
+   },
+   "ci": false,
+   "source": "test_search.py:15"
+  },
+  {
+   "test": "test_search_invert_match",
+   "argv": [
+    "search",
+    "-v",
+    "Alice",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Bob,LA",
+    "Charlie,Chicago"
+   ],
+   "files": {
+    "data.csv": "name,city\nAlice,NYC\nBob,LA\nCharlie,Chicago\n"
+   },
+   "ci": false,
+   "source": "test_search.py:27"
+  },
+  {
+   "test": "test_search_case_insensitive",
+   "argv": [
+    "search",
+    "-i",
+    "ALICE",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "alice,NYC"
+   ],
+   "files": {
+    "data.csv": "name,city\nalice,NYC\nBob,LA\n"
+   },
+   "ci": false,
+   "source": "test_search.py:39"
+  },
+  {
+   "test": "test_search_output_file",
+   "argv": [
+    "search",
+    "Alice",
+    "data.csv",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Alice,NYC"
+   ],
+   "files": {
+    "data.csv": "name,city\nAlice,NYC\nBob,LA\n"
+   },
+   "ci": false,
+   "source": "test_search.py:48"
+  },
+  {
+   "test": "test_search_help",
+   "argv": [
+    "search",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "regex"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_search.py:60"
+  },
+  {
+   "test": "test_select_single_column",
+   "argv": [
+    "select",
+    "name",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name",
+    "Alice",
+    "Bob"
+   ],
+   "files": {
+    "data.csv": "name,age,city\nAlice,30,NYC\nBob,25,LA\n"
+   },
+   "ci": false,
+   "source": "test_select.py:4"
+  },
+  {
+   "test": "test_select_multiple_columns",
+   "argv": [
+    "select",
+    "name,city",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name,city",
+    "Alice,NYC",
+    "Bob,LA"
+   ],
+   "files": {
+    "data.csv": "name,age,city\nAlice,30,NYC\nBob,25,LA\n"
+   },
+   "ci": false,
+   "source": "test_select.py:18"
+  },
+  {
+   "test": "test_select_reorder_columns",
+   "argv": [
+    "select",
+    "city,name,age",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "NYC,Alice,30"
+   ],
+   "files": {
+    "data.csv": "name,age,city\nAlice,30,NYC\n"
+   },
+   "ci": false,
+   "source": "test_select.py:30"
+  },
+  {
+   "test": "test_select_column_range",
+   "argv": [
+    "select",
+    "1-3",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a,b,c",
+    "1,2,3"
+   ],
+   "files": {
+    "data.csv": "a,b,c,d,e\n1,2,3,4,5\n"
+   },
+   "ci": false,
+   "source": "test_select.py:41"
+  },
+  {
+   "test": "test_select_exclude_column",
+   "argv": [
+    "select",
+    "!age",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name,city",
+    "Alice,NYC"
+   ],
+   "files": {
+    "data.csv": "name,age,city\nAlice,30,NYC\n"
+   },
+   "ci": false,
+   "source": "test_select.py:53"
+  },
+  {
+   "test": "test_select_output_file",
+   "argv": [
+    "select",
+    "name",
+    "data.csv",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name",
+    "Alice"
+   ],
+   "files": {
+    "data.csv": "name,age,city\nAlice,30,NYC\n"
+   },
+   "ci": false,
+   "source": "test_select.py:65"
+  },
+  {
+   "test": "test_select_no_headers",
+   "argv": [
+    "select",
+    "1,3",
+    "--no-headers",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Alice,NYC",
+    "Bob,LA"
+   ],
+   "files": {
+    "data.csv": "Alice,30,NYC\nBob,25,LA\n"
+   },
+   "ci": false,
+   "source": "test_select.py:78"
+  },
+  {
+   "test": "test_select_help",
+   "argv": [
+    "select",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Select",
+    "column"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_select.py:89"
+  },
+  {
+   "test": "test_slice_start",
+   "argv": [
+    "slice",
+    "--start",
+    "1",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name,age",
+    "Bob,25"
+   ],
+   "files": {
+    "data.csv": "name,age\nAlice,30\nBob,25\nCharlie,35\nDave,40\n"
+   },
+   "ci": false,
+   "source": "test_slice.py:4"
+  },
+  {
+   "test": "test_slice_end",
+   "argv": [
+    "slice",
+    "--end",
+    "2",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Alice,30",
+    "Bob,25"
+   ],
+   "files": {
+    "data.csv": "name,age\nAlice,30\nBob,25\nCharlie,35\nDave,40\n"
+   },
+   "ci": false,
+   "source": "test_slice.py:16"
+  },
+  {
+   "test": "test_slice_len",
+   "argv": [
+    "slice",
+    "--len",
+    "2",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Alice,30",
+    "Bob,25"
+   ],
+   "files": {
+    "data.csv": "name,age\nAlice,30\nBob,25\nCharlie,35\nDave,40\n"
+   },
+   "ci": false,
+   "source": "test_slice.py:28"
+  },
+  {
+   "test": "test_slice_start_and_len",
+   "argv": [
+    "slice",
+    "--start",
+    "1",
+    "--len",
+    "2",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Bob,25",
+    "Charlie,35"
+   ],
+   "files": {
+    "data.csv": "name,age\nAlice,30\nBob,25\nCharlie,35\nDave,40\n"
+   },
+   "ci": false,
+   "source": "test_slice.py:40"
+  },
+  {
+   "test": "test_slice_index_single",
+   "argv": [
+    "slice",
+    "--index",
+    "1",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Bob,25"
+   ],
+   "files": {
+    "data.csv": "name,age\nAlice,30\nBob,25\nCharlie,35\n"
+   },
+   "ci": false,
+   "source": "test_slice.py:53"
+  },
+  {
+   "test": "test_slice_output_file",
+   "argv": [
+    "slice",
+    "--len",
+    "1",
+    "data.csv",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Alice,30"
+   ],
+   "files": {
+    "data.csv": "name,age\nAlice,30\nBob,25\n"
+   },
+   "ci": false,
+   "source": "test_slice.py:66"
+  },
+  {
+   "test": "test_slice_help",
+   "argv": [
+    "slice",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Slice",
+    "--start",
+    "--end"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_slice.py:78"
+  },
+  {
+   "test": "test_stats_basic",
+   "argv": [
+    "stats",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "field",
+    "age",
+    "score"
+   ],
+   "files": {
+    "data.csv": "name,age,score\nAlice,30,85\nBob,25,90\nCharlie,35,75\n"
+   },
+   "ci": false,
+   "source": "test_stats.py:5"
+  },
+  {
+   "test": "test_stats_everything",
+   "argv": [
+    "stats",
+    "--everything",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "field"
+   ],
+   "files": {
+    "data.csv": "name,value\nA,10\nB,20\nC,30\n"
+   },
+   "ci": false,
+   "source": "test_stats.py:19"
+  },
+  {
+   "test": "test_stats_select",
+   "argv": [
+    "stats",
+    "-s",
+    "age",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "age"
+   ],
+   "files": {
+    "data.csv": "name,age,score\nAlice,30,85\nBob,25,90\n"
+   },
+   "ci": false,
+   "source": "test_stats.py:31"
+  },
+  {
+   "test": "test_stats_output_file",
+   "argv": [
+    "stats",
+    "data.csv",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "value",
+    "field"
+   ],
+   "files": {
+    "data.csv": "value\n10\n20\n30\n"
+   },
+   "ci": false,
+   "source": "test_stats.py:46"
+  },
+  {
+   "test": "test_stats_help",
+   "argv": [
+    "stats",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "statistics",
+    "--everything",
+    "--median"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_stats.py:59"
+  },
+  {
+   "test": "test_global_help_flag_is_recognized",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:102"
+  },
+  {
+   "test": "test_unknown_global_flag_prints_unknown_flag",
+   "argv": [
+    "--definitely-not-a-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unknown flag"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:120"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "xsv <command>",
+    "cat",
+    "count"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:5"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:22"
+  },
+  {
+   "test": "test_list_flag",
+   "argv": [
+    "--list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cat",
+    "count",
+    "fixlengths",
+    "flatten",
+    "fmt",
+    "frequency",
+    "headers",
+    "index",
+    "join",
+    "partition",
+    "sample",
+    "reverse",
+    "search",
+    "select",
+    "slice",
+    "sort",
+    "split",
+    "stats",
+    "table"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:34"
+  },
+  {
+   "test": "test_missing_file",
+   "argv": [
+    "count",
+    "nonexistent.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:79"
+  },
+  {
+   "test": "test_count_basic",
+   "argv": [
+    "count",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.csv": "name,age\nAlice,30\nBob,25\nCarol,35\n"
+   },
+   "ci": false,
+   "source": "test_count.py:5"
+  },
+  {
+   "test": "test_count_no_headers",
+   "argv": [
+    "count",
+    "--no-headers",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.csv": "a,b,c\n1,2,3\n4,5,6\n"
+   },
+   "ci": false,
+   "source": "test_count.py:26"
+  },
+  {
+   "test": "test_count_from_stdin",
+   "argv": [
+    "count"
+   ],
+   "stdin": "x,y\n1,2\n3,4\n5,6\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_count.py:37"
+  },
+  {
+   "test": "test_count_empty_file",
+   "argv": [
+    "count",
+    "empty.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "empty.csv": ""
+   },
+   "ci": false,
+   "source": "test_count.py:47"
+  },
+  {
+   "test": "test_count_only_headers",
+   "argv": [
+    "count",
+    "headers.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "headers.csv": "name,age,city\n"
+   },
+   "ci": false,
+   "source": "test_count.py:57"
+  },
+  {
+   "test": "test_count_custom_delimiter",
+   "argv": [
+    "count",
+    "-d",
+    "\t",
+    "test.tsv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.tsv": "name\tage\nAlice\t30\nBob\t25\n"
+   },
+   "ci": false,
+   "source": "test_count.py:67"
+  },
+  {
+   "test": "test_count_single_row",
+   "argv": [
+    "count",
+    "single.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "single.csv": "col1,col2\nval1,val2\n"
+   },
+   "ci": false,
+   "source": "test_count.py:77"
+  },
+  {
+   "test": "test_only_headers",
+   "argv": [
+    "headers",
+    "headers.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name",
+    "age",
+    "city"
+   ],
+   "files": {
+    "headers.csv": "name,age,city\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:14"
+  },
+  {
+   "test": "test_single_column",
+   "argv": [
+    "stats",
+    "single.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "value",
+    "mean",
+    "min",
+    "max"
+   ],
+   "files": {
+    "single.csv": "value\n1\n2\n3\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:26"
+  },
+  {
+   "test": "test_single_row",
+   "argv": [
+    "count",
+    "single_row.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "single_row.csv": "a,b,c\n1,2,3\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:36"
+  },
+  {
+   "test": "test_unicode_content",
+   "argv": [
+    "count",
+    "unicode.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name"
+   ],
+   "files": {
+    "unicode.csv": "name\nAlice\nBob\nCarol™\n日本語\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:45"
+  },
+  {
+   "test": "test_quoted_fields_with_delimiter",
+   "argv": [
+    "headers",
+    "quoted.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name",
+    "desc"
+   ],
+   "files": {
+    "quoted.csv": "name,desc\n\"Alice\",\"Hello, World\"\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:60"
+  },
+  {
+   "test": "test_very_long_field",
+   "argv": [
+    "count"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "text"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:72"
+  },
+  {
+   "test": "test_many_columns",
+   "argv": [
+    "count"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "col0",
+    "col99"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:87"
+  },
+  {
+   "test": "test_stdin_operations",
+   "argv": [
+    "count"
+   ],
+   "stdin": "name,value\nAlice,100\nBob,200\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name",
+    "Alice",
+    "Bob"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:104"
+  },
+  {
+   "test": "test_chained_commands",
+   "argv": [
+    "select",
+    "name"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Alice",
+    "Bob",
+    "name",
+    "Alice",
+    "Alice"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:120"
+  },
+  {
+   "test": "test_flatten_with_custom_separator",
+   "argv": [
+    "flatten",
+    "--separator",
+    "---",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "---",
+    "a",
+    "1"
+   ],
+   "files": {
+    "test.csv": "a,b\n1,2\n3,4\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:219"
+  },
+  {
+   "test": "test_flatten_condense",
+   "argv": [
+    "flatten",
+    "--condense",
+    "5",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name"
+   ],
+   "files": {
+    "test.csv": "name,description\nAlice,Long description here\nBob,Another long text\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:228"
+  },
+  {
+   "test": "test_input_command",
+   "argv": [
+    "input",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a",
+    "b",
+    "1"
+   ],
+   "files": {
+    "test.csv": "a,b\n1,2\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:236"
+  },
+  {
+   "test": "test_reverse_from_stdin",
+   "argv": [
+    "reverse"
+   ],
+   "stdin": "x\n1\n2\n3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "x",
+    "3",
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:245"
+  },
+  {
+   "test": "test_search_case_sensitive",
+   "argv": [
+    "search",
+    "Alice",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Alice"
+   ],
+   "files": {
+    "test.csv": "name\nAlice\nalice\nBob\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:256"
+  },
+  {
+   "test": "test_select_reorder_columns",
+   "argv": [
+    "select",
+    "c,a,b",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.csv": "a,b,c\n1,2,3\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:267"
+  },
+  {
+   "test": "test_headers_from_multiple_files",
+   "argv": [
+    "headers",
+    "f1.csv",
+    "f2.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a",
+    "b"
+   ],
+   "files": {
+    "f1.csv": "a,b\n1,2\n",
+    "f2.csv": "a,b\n3,4\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:277"
+  },
+  {
+   "test": "test_fixlengths_with_length_option",
+   "argv": [
+    "fixlengths",
+    "--length",
+    "3",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.csv": "a,b\n1,2,3\n4,5\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:286"
+  },
+  {
+   "test": "test_table_with_condense",
+   "argv": [
+    "table",
+    "--condense",
+    "10",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name",
+    "Alice"
+   ],
+   "files": {
+    "test.csv": "name,description\nAlice,Very long description here\nBob,Short\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:296"
+  },
+  {
+   "test": "test_table_with_width_and_pad",
+   "argv": [
+    "table",
+    "--width",
+    "5",
+    "--pad",
+    "3",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a",
+    "b"
+   ],
+   "files": {
+    "test.csv": "a,b\n1,2\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:304"
+  },
+  {
+   "test": "test_fixlengths_auto",
+   "argv": [
+    "fixlengths",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a,b,c",
+    "1,2,",
+    "3,4,5",
+    "6,,"
+   ],
+   "files": {
+    "test.csv": "a,b,c\n1,2\n3,4,5\n6\n"
+   },
+   "ci": false,
+   "source": "test_fixlengths.py:4"
+  },
+  {
+   "test": "test_fixlengths_truncate",
+   "argv": [
+    "fixlengths",
+    "--length",
+    "2",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.csv": "a,b\n1,2,3,4\n5,6\n"
+   },
+   "ci": false,
+   "source": "test_fixlengths.py:27"
+  },
+  {
+   "test": "test_fixlengths_output_file",
+   "argv": [
+    "fixlengths",
+    "-o",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a,b,c",
+    "1,2,"
+   ],
+   "files": {
+    "test.csv": "a,b,c\n1,2\n"
+   },
+   "ci": false,
+   "source": "test_fixlengths.py:38"
+  },
+  {
+   "test": "test_flatten_basic",
+   "argv": [
+    "flatten",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name",
+    "Alice",
+    "age",
+    "30",
+    "city",
+    "NYC"
+   ],
+   "files": {
+    "test.csv": "name,age,city\nAlice,30,NYC\n"
+   },
+   "ci": false,
+   "source": "test_flatten.py:4"
+  },
+  {
+   "test": "test_flatten_multiple_records",
+   "argv": [
+    "flatten",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#",
+    "1",
+    "2",
+    "3",
+    "4"
+   ],
+   "files": {
+    "test.csv": "x,y\n1,2\n3,4\n"
+   },
+   "ci": false,
+   "source": "test_flatten.py:16"
+  },
+  {
+   "test": "test_flatten_custom_separator",
+   "argv": [
+    "flatten",
+    "-s",
+    "---",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "---"
+   ],
+   "files": {
+    "test.csv": "x,y\n1,2\n3,4\n"
+   },
+   "ci": false,
+   "source": "test_flatten.py:28"
+  },
+  {
+   "test": "test_flatten_condense",
+   "argv": [
+    "flatten",
+    "-c",
+    "10",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "text"
+   ],
+   "files": {
+    "test.csv": "text\nThis is a very long text that should be condensed\n"
+   },
+   "ci": false,
+   "source": "test_flatten.py:35"
+  },
+  {
+   "test": "test_flatten_no_headers",
+   "argv": [
+    "flatten",
+    "--no-headers",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.csv": "1,2,3\n4,5,6\n"
+   },
+   "ci": false,
+   "source": "test_flatten.py:43"
+  },
+  {
+   "test": "test_fmt_change_delimiter",
+   "argv": [
+    "fmt",
+    "-t",
+    "\t",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc",
+    "1\t2\t3"
+   ],
+   "files": {
+    "test.csv": "a,b,c\n1,2,3\n"
+   },
+   "ci": false,
+   "source": "test_fmt.py:4"
+  },
+  {
+   "test": "test_fmt_crlf",
+   "argv": [
+    "fmt",
+    "--crlf",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\r\n"
+   ],
+   "files": {
+    "test.csv": "a,b\n1,2\n"
+   },
+   "ci": false,
+   "source": "test_fmt.py:12"
+  },
+  {
+   "test": "test_fmt_quote_character",
+   "argv": [
+    "fmt",
+    "--quote",
+    "'",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.csv": "name,value\ntest data,123\n"
+   },
+   "ci": false,
+   "source": "test_fmt.py:20"
+  },
+  {
+   "test": "test_fmt_quote_always",
+   "argv": [
+    "fmt",
+    "--quote-always",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"a\"",
+    "\"b\"",
+    "\"1\"",
+    "\"2\""
+   ],
+   "files": {
+    "test.csv": "a,b\n1,2\n"
+   },
+   "ci": false,
+   "source": "test_fmt.py:28"
+  },
+  {
+   "test": "test_fmt_output_file",
+   "argv": [
+    "fmt",
+    "-t",
+    "|",
+    "-o",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a|b",
+    "1|2"
+   ],
+   "files": {
+    "test.csv": "a,b\n1,2\n"
+   },
+   "ci": false,
+   "source": "test_fmt.py:39"
+  },
+  {
+   "test": "test_fmt_crlf",
+   "argv": [
+    "fmt",
+    "--crlf",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\r\n",
+    "a,b"
+   ],
+   "files": {
+    "test.csv": "a,b\n1,2\n3,4\n"
+   },
+   "ci": false,
+   "source": "test_fmt.py:50"
+  },
+  {
+   "test": "test_fmt_ascii",
+   "argv": [
+    "fmt",
+    "--ascii",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.csv": "x,y\n1,2\n"
+   },
+   "ci": false,
+   "source": "test_fmt.py:58"
+  },
+  {
+   "test": "test_fmt_quote_always",
+   "argv": [
+    "fmt",
+    "--quote-always",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.csv": "a,b\n1,hello\n"
+   },
+   "ci": false,
+   "source": "test_fmt.py:66"
+  },
+  {
+   "test": "test_fmt_escape",
+   "argv": [
+    "fmt",
+    "--escape",
+    "\\",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a"
+   ],
+   "files": {
+    "test.csv": "a,b\n1,\"text\"\"here\"\n"
+   },
+   "ci": false,
+   "source": "test_fmt.py:83"
+  },
+  {
+   "test": "test_fmt_combined_options",
+   "argv": [
+    "fmt",
+    "--out-delimiter",
+    "|",
+    "--crlf",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "|",
+    "\r\n"
+   ],
+   "files": {
+    "test.csv": "x,y,z\n1,2,3\n"
+   },
+   "ci": false,
+   "source": "test_fmt.py:91"
+  },
+  {
+   "test": "test_fmt_from_stdin",
+   "argv": [
+    "fmt",
+    "--out-delimiter",
+    ";"
+   ],
+   "stdin": "a,b\n1,2\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ";",
+    "a"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_fmt.py:99"
+  },
+  {
+   "test": "test_frequency_basic",
+   "argv": [
+    "frequency",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "field",
+    "value",
+    "count",
+    "red",
+    "blue",
+    "green"
+   ],
+   "files": {
+    "test.csv": "color\nred\nblue\nred\ngreen\nred\n"
+   },
+   "ci": false,
+   "source": "test_frequency.py:4"
+  },
+  {
+   "test": "test_frequency_select_column",
+   "argv": [
+    "frequency",
+    "-s",
+    "city",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "NYC",
+    "LA"
+   ],
+   "files": {
+    "test.csv": "name,city\nAlice,NYC\nBob,LA\nCarol,NYC\n"
+   },
+   "ci": false,
+   "source": "test_frequency.py:16"
+  },
+  {
+   "test": "test_frequency_limit",
+   "argv": [
+    "frequency",
+    "-l",
+    "3",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.csv": "val\n1\n2\n3\n4\n5\n"
+   },
+   "ci": false,
+   "source": "test_frequency.py:24"
+  },
+  {
+   "test": "test_frequency_asc",
+   "argv": [
+    "frequency",
+    "-a",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a",
+    "b",
+    "c"
+   ],
+   "files": {
+    "test.csv": "x\na\na\nb\nc\nc\nc\n"
+   },
+   "ci": false,
+   "source": "test_frequency.py:33"
+  },
+  {
+   "test": "test_frequency_no_headers",
+   "argv": [
+    "frequency",
+    "--no-headers",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1",
+    "2"
+   ],
+   "files": {
+    "test.csv": "1\n1\n2\n2\n2\n"
+   },
+   "ci": false,
+   "source": "test_frequency.py:43"
+  },
+  {
+   "test": "test_frequency_with_limit",
+   "argv": [
+    "frequency",
+    "--limit",
+    "3",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "field",
+    "value",
+    "count"
+   ],
+   "files": {
+    "test.csv": "val\na\nb\nc\nd\ne\nf\n"
+   },
+   "ci": false,
+   "source": "test_frequency.py:51"
+  },
+  {
+   "test": "test_frequency_no_nulls",
+   "argv": [
+    "frequency",
+    "--no-nulls",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "field",
+    "count",
+    "val"
+   ],
+   "files": {
+    "test.csv": "val\na\n\nb\n\nc\n"
+   },
+   "ci": false,
+   "source": "test_frequency.py:63"
+  },
+  {
+   "test": "test_frequency_with_select_and_asc",
+   "argv": [
+    "frequency",
+    "--select",
+    "b",
+    "--asc",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "field",
+    "value",
+    "count"
+   ],
+   "files": {
+    "test.csv": "a,b,c\n1,x,10\n2,y,20\n3,x,30\n"
+   },
+   "ci": false,
+   "source": "test_frequency.py:74"
+  },
+  {
+   "test": "test_frequency_with_jobs",
+   "argv": [
+    "index"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "field",
+    "count"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_frequency.py:86"
+  },
+  {
+   "test": "test_frequency_output_to_file",
+   "argv": [
+    "frequency",
+    "-o",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "field",
+    "value",
+    "count"
+   ],
+   "files": {
+    "test.csv": "val\na\na\nb\n"
+   },
+   "ci": false,
+   "source": "test_frequency.py:100"
+  },
+  {
+   "test": "test_headers_basic",
+   "argv": [
+    "headers",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.csv": "name,age,city\nAlice,30,NYC\nBob,25,LA\n"
+   },
+   "ci": false,
+   "source": "test_headers.py:4"
+  },
+  {
+   "test": "test_headers_just_names",
+   "argv": [
+    "headers",
+    "--just-names",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "col1",
+    "col2",
+    "col3"
+   ],
+   "files": {
+    "test.csv": "col1,col2,col3\n1,2,3\n"
+   },
+   "ci": false,
+   "source": "test_headers.py:13"
+  },
+  {
+   "test": "test_headers_custom_delimiter",
+   "argv": [
+    "headers",
+    "-d",
+    "\t",
+    "test.tsv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name",
+    "age",
+    "value"
+   ],
+   "files": {
+    "test.tsv": "name\tage\tvalue\n"
+   },
+   "ci": false,
+   "source": "test_headers.py:26"
+  },
+  {
+   "test": "test_headers_single_column",
+   "argv": [
+    "headers",
+    "single.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "single.csv": "only_column\n1\n2\n"
+   },
+   "ci": false,
+   "source": "test_headers.py:35"
+  },
+  {
+   "test": "test_headers_empty_names",
+   "argv": [
+    "headers",
+    "empty.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name",
+    "value",
+    "2"
+   ],
+   "files": {
+    "empty.csv": "name,,value\n1,2,3\n"
+   },
+   "ci": false,
+   "source": "test_headers.py:42"
+  },
+  {
+   "test": "test_index_create",
+   "argv": [
+    "index",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3"
+   ],
+   "files": {
+    "test.csv": "name,age\nAlice,30\nBob,25\nCarol,35\n"
+   },
+   "ci": false,
+   "source": "test_index.py:5"
+  },
+  {
+   "test": "test_index_with_output",
+   "argv": [
+    "index",
+    "-o",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.csv": "x\n1\n2\n3\n"
+   },
+   "ci": false,
+   "source": "test_index.py:18"
+  },
+  {
+   "test": "test_index_custom_delimiter",
+   "argv": [
+    "index",
+    "-d",
+    "\t",
+    "test.tsv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2"
+   ],
+   "files": {
+    "test.tsv": "a\tb\n1\t2\n3\t4\n"
+   },
+   "ci": false,
+   "source": "test_index.py:30"
+  },
+  {
+   "test": "test_input_basic",
+   "argv": [
+    "input",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Alice",
+    "Bob"
+   ],
+   "files": {
+    "test.csv": "name,value\n\"Alice\",10\n\"Bob\",20\n"
+   },
+   "ci": false,
+   "source": "test_input.py:4"
+  },
+  {
+   "test": "test_input_custom_quote",
+   "argv": [
+    "input",
+    "--quote",
+    "'",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Alice"
+   ],
+   "files": {
+    "test.csv": "name,value\n'Alice',10\n"
+   },
+   "ci": false,
+   "source": "test_input.py:12"
+  },
+  {
+   "test": "test_input_no_quoting",
+   "argv": [
+    "input",
+    "--no-quoting",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,2"
+   ],
+   "files": {
+    "test.csv": "a,b\n1,2\n"
+   },
+   "ci": false,
+   "source": "test_input.py:19"
+  },
+  {
+   "test": "test_input_output_file",
+   "argv": [
+    "input",
+    "-o",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {
+    "test.csv": "x\n1\n"
+   },
+   "ci": false,
+   "source": "test_input.py:26"
+  },
+  {
+   "test": "test_join_inner",
+   "argv": [
+    "join",
+    "id",
+    "left.csv",
+    "id",
+    "right.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Alice",
+    "100"
+   ],
+   "files": {
+    "left.csv": "id,name\n1,Alice\n2,Bob\n",
+    "right.csv": "id,value\n1,100\n3,300\n"
+   },
+   "ci": false,
+   "source": "test_join.py:4"
+  },
+  {
+   "test": "test_join_left",
+   "argv": [
+    "join",
+    "--left",
+    "id",
+    "left.csv",
+    "id",
+    "right.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Alice",
+    "Bob",
+    "100"
+   ],
+   "files": {
+    "left.csv": "id,name\n1,Alice\n2,Bob\n",
+    "right.csv": "id,value\n1,100\n"
+   },
+   "ci": false,
+   "source": "test_join.py:16"
+  },
+  {
+   "test": "test_join_right",
+   "argv": [
+    "join",
+    "--right",
+    "id",
+    "left.csv",
+    "id",
+    "right.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Alice",
+    "100",
+    "200"
+   ],
+   "files": {
+    "left.csv": "id,name\n1,Alice\n",
+    "right.csv": "id,value\n1,100\n2,200\n"
+   },
+   "ci": false,
+   "source": "test_join.py:26"
+  },
+  {
+   "test": "test_join_full",
+   "argv": [
+    "join",
+    "--full",
+    "id",
+    "left.csv",
+    "id",
+    "right.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Alice",
+    "Bob",
+    "300"
+   ],
+   "files": {
+    "left.csv": "id,name\n1,Alice\n2,Bob\n",
+    "right.csv": "id,value\n1,100\n3,300\n"
+   },
+   "ci": false,
+   "source": "test_join.py:36"
+  },
+  {
+   "test": "test_join_no_case",
+   "argv": [
+    "join",
+    "--no-case",
+    "key",
+    "left.csv",
+    "key",
+    "right.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "left.csv": "key,val\nABC,1\n",
+    "right.csv": "key,val\nabc,2\n"
+   },
+   "ci": false,
+   "source": "test_join.py:46"
+  },
+  {
+   "test": "test_join_left",
+   "argv": [
+    "join",
+    "--left",
+    "id",
+    "left.csv",
+    "id",
+    "right.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Alice",
+    "Bob",
+    "Charlie",
+    "90",
+    "85"
+   ],
+   "files": {
+    "left.csv": "id,name\n1,Alice\n2,Bob\n3,Charlie\n",
+    "right.csv": "id,score\n1,90\n2,85\n"
+   },
+   "ci": false,
+   "source": "test_join.py:55"
+  },
+  {
+   "test": "test_join_right",
+   "argv": [
+    "join",
+    "--right",
+    "id",
+    "left.csv",
+    "id",
+    "right.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "90",
+    "85",
+    "95"
+   ],
+   "files": {
+    "left.csv": "id,name\n1,Alice\n2,Bob\n",
+    "right.csv": "id,score\n1,90\n2,85\n3,95\n"
+   },
+   "ci": false,
+   "source": "test_join.py:68"
+  },
+  {
+   "test": "test_join_full",
+   "argv": [
+    "join",
+    "--full",
+    "id",
+    "left.csv",
+    "id",
+    "right.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Alice",
+    "Charlie",
+    "90",
+    "85"
+   ],
+   "files": {
+    "left.csv": "id,name\n1,Alice\n3,Charlie\n",
+    "right.csv": "id,score\n1,90\n2,85\n"
+   },
+   "ci": false,
+   "source": "test_join.py:79"
+  },
+  {
+   "test": "test_join_no_case",
+   "argv": [
+    "join",
+    "--no-case",
+    "name",
+    "left.csv",
+    "name",
+    "right.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "90"
+   ],
+   "files": {
+    "left.csv": "name,val\nALICE,1\n",
+    "right.csv": "name,score\nalice,90\n"
+   },
+   "ci": false,
+   "source": "test_join.py:91"
+  },
+  {
+   "test": "test_join_output_file",
+   "argv": [
+    "join",
+    "-o",
+    "id",
+    "left.csv",
+    "id",
+    "right.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Alice",
+    "90"
+   ],
+   "files": {
+    "left.csv": "id,name\n1,Alice\n",
+    "right.csv": "id,score\n1,90\n"
+   },
+   "ci": false,
+   "source": "test_join.py:101"
+  },
+  {
+   "test": "test_join_with_delimiter",
+   "argv": [
+    "join",
+    "-d",
+    "\t",
+    "id",
+    "left.tsv",
+    "id",
+    "right.tsv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Alice",
+    "90"
+   ],
+   "files": {
+    "left.tsv": "id\tname\n1\tAlice\n",
+    "right.tsv": "id\tscore\n1\t90\n"
+   },
+   "ci": false,
+   "source": "test_join.py:114"
+  },
+  {
+   "test": "test_partition_basic",
+   "argv": [
+    "partition",
+    "city",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Alice",
+    "Bob",
+    "Carol"
+   ],
+   "files": {
+    "test.csv": "city,name\nNYC,Alice\nLA,Bob\nNYC,Carol\n"
+   },
+   "ci": false,
+   "source": "test_partition.py:6"
+  },
+  {
+   "test": "test_partition_prefix_length",
+   "argv": [
+    "partition",
+    "--prefix-length",
+    "3",
+    "type",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.csv": "type,val\nABCDEF,1\nXYZABC,2\nABC123,3\n"
+   },
+   "ci": false,
+   "source": "test_partition.py:27"
+  },
+  {
+   "test": "test_partition_filename_template",
+   "argv": [
+    "partition",
+    "--filename",
+    "data_{}.csv",
+    "cat",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.csv": "cat,val\nX,1\nY,2\n"
+   },
+   "ci": false,
+   "source": "test_partition.py:41"
+  },
+  {
+   "test": "test_partition_no_headers",
+   "argv": [
+    "partition",
+    "--no-headers",
+    "1",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.csv": "A,1\nB,2\nA,3\n"
+   },
+   "ci": false,
+   "source": "test_partition.py:55"
+  },
+  {
+   "test": "test_partition_drop",
+   "argv": [
+    "partition",
+    "--drop",
+    "cat",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name"
+   ],
+   "files": {
+    "test.csv": "cat,name\nA,Alice\nB,Bob\n"
+   },
+   "ci": false,
+   "source": "test_partition.py:68"
+  },
+  {
+   "test": "test_partition_with_filename_template",
+   "argv": [
+    "partition",
+    "--filename",
+    "{}_data.csv",
+    "category",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.csv": "category,value\nA,1\nB,2\nA,3\n"
+   },
+   "ci": false,
+   "source": "test_partition.py:85"
+  },
+  {
+   "test": "test_partition_prefix_and_suffix",
+   "argv": [
+    "partition",
+    "type",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "data.csv": "type,val\nx,1\ny,2\nx,3\n"
+   },
+   "ci": false,
+   "source": "test_partition.py:100"
+  },
+  {
+   "test": "test_partition_no_headers",
+   "argv": [
+    "partition",
+    "--no-headers",
+    "1",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "data.csv": "a,1\nb,2\na,3\n"
+   },
+   "ci": false,
+   "source": "test_partition.py:115"
+  },
+  {
+   "test": "test_reverse_basic",
+   "argv": [
+    "reverse",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name",
+    "Carol",
+    "Bob",
+    "Alice"
+   ],
+   "files": {
+    "test.csv": "name\nAlice\nBob\nCarol\n"
+   },
+   "ci": false,
+   "source": "test_reverse.py:4"
+  },
+  {
+   "test": "test_reverse_preserves_header",
+   "argv": [
+    "reverse",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "x,y",
+    "5,6",
+    "3,4",
+    "1,2"
+   ],
+   "files": {
+    "test.csv": "x,y\n1,2\n3,4\n5,6\n"
+   },
+   "ci": false,
+   "source": "test_reverse.py:15"
+  },
+  {
+   "test": "test_reverse_no_headers",
+   "argv": [
+    "reverse",
+    "--no-headers",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3",
+    "2",
+    "1"
+   ],
+   "files": {
+    "test.csv": "1\n2\n3\n"
+   },
+   "ci": false,
+   "source": "test_reverse.py:28"
+  },
+  {
+   "test": "test_reverse_single_row",
+   "argv": [
+    "reverse",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "col",
+    "value"
+   ],
+   "files": {
+    "test.csv": "col\nvalue\n"
+   },
+   "ci": false,
+   "source": "test_reverse.py:38"
+  },
+  {
+   "test": "test_reverse_output_file",
+   "argv": [
+    "reverse",
+    "-o",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3",
+    "1"
+   ],
+   "files": {
+    "test.csv": "x\n1\n2\n3\n"
+   },
+   "ci": false,
+   "source": "test_reverse.py:46"
+  },
+  {
+   "test": "test_sample_basic",
+   "argv": [
+    "sample",
+    "5",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "x",
+    "x"
+   ],
+   "files": {
+    "test.csv": "x\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n"
+   },
+   "ci": false,
+   "source": "test_sample.py:4"
+  },
+  {
+   "test": "test_sample_with_seed",
+   "argv": [
+    "sample",
+    "--seed",
+    "42",
+    "3",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "x"
+   ],
+   "files": {
+    "test.csv": "x\n1\n2\n3\n4\n5\n"
+   },
+   "ci": false,
+   "source": "test_sample.py:20"
+  },
+  {
+   "test": "test_sample_from_stdin",
+   "argv": [
+    "sample",
+    "3"
+   ],
+   "stdin": "val\n1\n2\n3\n4\n5\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "val",
+    "val"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sample.py:34"
+  },
+  {
+   "test": "test_sample_no_headers",
+   "argv": [
+    "sample",
+    "--no-headers",
+    "3",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.csv": "1\n2\n3\n4\n5\n"
+   },
+   "ci": false,
+   "source": "test_sample.py:46"
+  },
+  {
+   "test": "test_sample_larger_than_input",
+   "argv": [
+    "sample",
+    "10",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "x",
+    "1",
+    "2"
+   ],
+   "files": {
+    "test.csv": "x\n1\n2\n"
+   },
+   "ci": false,
+   "source": "test_sample.py:57"
+  },
+  {
+   "test": "test_sample_with_index",
+   "argv": [
+    "index"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "val"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sample.py:69"
+  },
+  {
+   "test": "test_sample_output_file",
+   "argv": [
+    "sample",
+    "-o",
+    "3",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "x"
+   ],
+   "files": {
+    "test.csv": "x\n1\n2\n3\n4\n5\n"
+   },
+   "ci": false,
+   "source": "test_sample.py:85"
+  },
+  {
+   "test": "test_search_basic",
+   "argv": [
+    "search",
+    "Bob",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name,value",
+    "Bob,20"
+   ],
+   "files": {
+    "test.csv": "name,value\nAlice,10\nBob,20\nCarol,30\n"
+   },
+   "ci": false,
+   "source": "test_search.py:4"
+  },
+  {
+   "test": "test_search_select_column",
+   "argv": [
+    "search",
+    "-s",
+    "email",
+    "test",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Alice",
+    "Bob"
+   ],
+   "files": {
+    "test.csv": "name,email\nAlice,alice@test.com\nBob,bob@test.com\n"
+   },
+   "ci": false,
+   "source": "test_search.py:14"
+  },
+  {
+   "test": "test_search_invert",
+   "argv": [
+    "search",
+    "-v",
+    "Bob",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Alice",
+    "Carol"
+   ],
+   "files": {
+    "test.csv": "name\nAlice\nBob\nCarol\n"
+   },
+   "ci": false,
+   "source": "test_search.py:22"
+  },
+  {
+   "test": "test_search_case_insensitive",
+   "argv": [
+    "search",
+    "-i",
+    "alice",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Alice"
+   ],
+   "files": {
+    "test.csv": "name\nAlice\nbob\nCAROL\n"
+   },
+   "ci": false,
+   "source": "test_search.py:31"
+  },
+  {
+   "test": "test_search_regex_pattern",
+   "argv": [
+    "search",
+    ".*@.*\\.com",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "user1@test.com",
+    "user2@test.com"
+   ],
+   "files": {
+    "test.csv": "email\nuser1@test.com\nuser2@test.com\ninvalid\n"
+   },
+   "ci": false,
+   "source": "test_search.py:38"
+  },
+  {
+   "test": "test_search_no_matches",
+   "argv": [
+    "search",
+    "Zoe",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name"
+   ],
+   "files": {
+    "test.csv": "name\nAlice\nBob\n"
+   },
+   "ci": false,
+   "source": "test_search.py:47"
+  },
+  {
+   "test": "test_search_select_columns",
+   "argv": [
+    "search",
+    "--select",
+    "city",
+    "NYC",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Alice",
+    "Charlie",
+    "NYC"
+   ],
+   "files": {
+    "test.csv": "name,city\nAlice,NYC\nBob,LA\nCharlie,NYC\n"
+   },
+   "ci": false,
+   "source": "test_search.py:57"
+  },
+  {
+   "test": "test_search_ignore_case",
+   "argv": [
+    "search",
+    "-i",
+    "hello",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.csv": "text\nHello\nhello\nHELLO\n"
+   },
+   "ci": false,
+   "source": "test_search.py:68"
+  },
+  {
+   "test": "test_search_output_file",
+   "argv": [
+    "search",
+    "-o",
+    "Alice",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Alice"
+   ],
+   "files": {
+    "test.csv": "name\nAlice\nBob\n"
+   },
+   "ci": false,
+   "source": "test_search.py:77"
+  },
+  {
+   "test": "test_select_by_name",
+   "argv": [
+    "select",
+    "name,city",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name,city",
+    "Alice,NYC",
+    "Bob,LA"
+   ],
+   "files": {
+    "test.csv": "name,age,city\nAlice,30,NYC\nBob,25,LA\n"
+   },
+   "ci": false,
+   "source": "test_select.py:4"
+  },
+  {
+   "test": "test_select_by_index",
+   "argv": [
+    "select",
+    "1,3",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a,c",
+    "1,3",
+    "5,7"
+   ],
+   "files": {
+    "test.csv": "a,b,c,d\n1,2,3,4\n5,6,7,8\n"
+   },
+   "ci": false,
+   "source": "test_select.py:16"
+  },
+  {
+   "test": "test_select_range",
+   "argv": [
+    "select",
+    "2-4",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "b,c,d",
+    "2,3,4"
+   ],
+   "files": {
+    "test.csv": "a,b,c,d,e\n1,2,3,4,5\n"
+   },
+   "ci": false,
+   "source": "test_select.py:25"
+  },
+  {
+   "test": "test_select_reorder",
+   "argv": [
+    "select",
+    "c,a,b",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "c,a,b",
+    "3,1,2"
+   ],
+   "files": {
+    "test.csv": "a,b,c\n1,2,3\n"
+   },
+   "ci": false,
+   "source": "test_select.py:33"
+  },
+  {
+   "test": "test_select_exclude",
+   "argv": [
+    "select",
+    "!b,d",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a,c",
+    "1,3"
+   ],
+   "files": {
+    "test.csv": "a,b,c,d\n1,2,3,4\n"
+   },
+   "ci": false,
+   "source": "test_select.py:41"
+  },
+  {
+   "test": "test_select_no_headers",
+   "argv": [
+    "select",
+    "--no-headers",
+    "1,3",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,3",
+    "5,7"
+   ],
+   "files": {
+    "test.csv": "1,2,3,4\n5,6,7,8\n"
+   },
+   "ci": false,
+   "source": "test_select.py:49"
+  },
+  {
+   "test": "test_select_single_column",
+   "argv": [
+    "select",
+    "age",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "age",
+    "30"
+   ],
+   "files": {
+    "test.csv": "name,age,city\nAlice,30,NYC\n"
+   },
+   "ci": false,
+   "source": "test_select.py:57"
+  },
+  {
+   "test": "test_select_custom_delimiter",
+   "argv": [
+    "select",
+    "-d",
+    "\t",
+    "a,c",
+    "test.tsv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a,c",
+    "1,3"
+   ],
+   "files": {
+    "test.tsv": "a\tb\tc\n1\t2\t3\n"
+   },
+   "ci": false,
+   "source": "test_select.py:67"
+  },
+  {
+   "test": "test_slice_start",
+   "argv": [
+    "slice",
+    "-s",
+    "2",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a",
+    "3",
+    "4",
+    "5"
+   ],
+   "files": {
+    "test.csv": "a\n1\n2\n3\n4\n5\n"
+   },
+   "ci": false,
+   "source": "test_slice.py:4"
+  },
+  {
+   "test": "test_slice_end",
+   "argv": [
+    "slice",
+    "-e",
+    "3",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a",
+    "1",
+    "2",
+    "3"
+   ],
+   "files": {
+    "test.csv": "a\n1\n2\n3\n4\n5\n"
+   },
+   "ci": false,
+   "source": "test_slice.py:16"
+  },
+  {
+   "test": "test_slice_length",
+   "argv": [
+    "slice",
+    "-l",
+    "2",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1",
+    "2"
+   ],
+   "files": {
+    "test.csv": "a\n1\n2\n3\n4\n5\n"
+   },
+   "ci": false,
+   "source": "test_slice.py:29"
+  },
+  {
+   "test": "test_slice_index",
+   "argv": [
+    "slice",
+    "-i",
+    "1",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a,b",
+    "3,4"
+   ],
+   "files": {
+    "test.csv": "a,b\n1,2\n3,4\n5,6\n"
+   },
+   "ci": false,
+   "source": "test_slice.py:40"
+  },
+  {
+   "test": "test_slice_start_and_length",
+   "argv": [
+    "slice",
+    "-s",
+    "1",
+    "-l",
+    "2",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2",
+    "3"
+   ],
+   "files": {
+    "test.csv": "a\n1\n2\n3\n4\n5\n"
+   },
+   "ci": false,
+   "source": "test_slice.py:50"
+  },
+  {
+   "test": "test_slice_no_headers",
+   "argv": [
+    "slice",
+    "--no-headers",
+    "-s",
+    "1",
+    "-l",
+    "2",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2",
+    "3"
+   ],
+   "files": {
+    "test.csv": "1\n2\n3\n4\n"
+   },
+   "ci": false,
+   "source": "test_slice.py:60"
+  },
+  {
+   "test": "test_slice_with_index",
+   "argv": [
+    "index"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "num",
+    "11"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_slice.py:70"
+  },
+  {
+   "test": "test_slice_with_end",
+   "argv": [
+    "slice",
+    "--start",
+    "1",
+    "--end",
+    "4",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "x",
+    "2",
+    "3",
+    "4"
+   ],
+   "files": {
+    "test.csv": "x\n1\n2\n3\n4\n5\n"
+   },
+   "ci": false,
+   "source": "test_slice.py:86"
+  },
+  {
+   "test": "test_slice_index_option",
+   "argv": [
+    "slice",
+    "--index",
+    "2",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "val",
+    "30"
+   ],
+   "files": {
+    "data.csv": "val\n10\n20\n30\n40\n50\n"
+   },
+   "ci": false,
+   "source": "test_slice.py:100"
+  },
+  {
+   "test": "test_slice_no_headers",
+   "argv": [
+    "slice",
+    "--no-headers",
+    "--len",
+    "3",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1",
+    "2",
+    "3"
+   ],
+   "files": {
+    "test.csv": "1\n2\n3\n4\n5\n"
+   },
+   "ci": false,
+   "source": "test_slice.py:110"
+  },
+  {
+   "test": "test_split_basic",
+   "argv": [
+    "split",
+    "-s",
+    "2",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "x"
+   ],
+   "files": {
+    "test.csv": "x\n1\n2\n3\n4\n5\n"
+   },
+   "ci": false,
+   "source": "test_split.py:6"
+  },
+  {
+   "test": "test_split_custom_size",
+   "argv": [
+    "split",
+    "-s",
+    "3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_split.py:28"
+  },
+  {
+   "test": "test_split_custom_filename",
+   "argv": [
+    "split",
+    "--filename",
+    "part_{}.csv",
+    "-s",
+    "1",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "x"
+   ],
+   "files": {
+    "test.csv": "x\n1\n2\n3\n"
+   },
+   "ci": false,
+   "source": "test_split.py:42"
+  },
+  {
+   "test": "test_split_no_headers",
+   "argv": [
+    "split",
+    "--no-headers",
+    "-s",
+    "2",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.csv": "1\n2\n3\n4\n"
+   },
+   "ci": false,
+   "source": "test_split.py:57"
+  },
+  {
+   "test": "test_split_with_filename_template",
+   "argv": [
+    "split",
+    "--filename",
+    "chunk_{}.csv",
+    "--size",
+    "2",
+    "data.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "data.csv": "id\n1\n2\n3\n4\n5\n"
+   },
+   "ci": false,
+   "source": "test_split.py:93"
+  },
+  {
+   "test": "test_stats_basic",
+   "argv": [
+    "stats",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "field",
+    "value",
+    "mean",
+    "min",
+    "max"
+   ],
+   "files": {
+    "test.csv": "value\n10\n20\n30\n"
+   },
+   "ci": false,
+   "source": "test_stats.py:5"
+  },
+  {
+   "test": "test_stats_everything",
+   "argv": [
+    "stats",
+    "--everything",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "mean",
+    "median",
+    "mode",
+    "cardinality"
+   ],
+   "files": {
+    "test.csv": "num\n1\n2\n3\n4\n5\n"
+   },
+   "ci": false,
+   "source": "test_stats.py:16"
+  },
+  {
+   "test": "test_stats_select_columns",
+   "argv": [
+    "stats",
+    "-s",
+    "a,c",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a",
+    "c"
+   ],
+   "files": {
+    "test.csv": "a,b,c\n1,2,3\n4,5,6\n"
+   },
+   "ci": false,
+   "source": "test_stats.py:26"
+  },
+  {
+   "test": "test_stats_mode_flag",
+   "argv": [
+    "stats",
+    "--mode",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "mode"
+   ],
+   "files": {
+    "test.csv": "val\n1\n2\n2\n3\n"
+   },
+   "ci": false,
+   "source": "test_stats.py:36"
+  },
+  {
+   "test": "test_stats_median_flag",
+   "argv": [
+    "stats",
+    "--median",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "median"
+   ],
+   "files": {
+    "test.csv": "val\n1\n2\n3\n4\n5\n"
+   },
+   "ci": false,
+   "source": "test_stats.py:43"
+  },
+  {
+   "test": "test_stats_cardinality_flag",
+   "argv": [
+    "stats",
+    "--cardinality",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cardinality"
+   ],
+   "files": {
+    "test.csv": "val\n1\n1\n2\n2\n3\n"
+   },
+   "ci": false,
+   "source": "test_stats.py:50"
+  },
+  {
+   "test": "test_stats_string_column",
+   "argv": [
+    "stats",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name",
+    "age"
+   ],
+   "files": {
+    "test.csv": "name,age\nAlice,30\nBob,25\n"
+   },
+   "ci": false,
+   "source": "test_stats.py:57"
+  },
+  {
+   "test": "test_stats_with_nulls_flag",
+   "argv": [
+    "stats",
+    "--nulls",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "mean",
+    "val",
+    "mean"
+   ],
+   "files": {
+    "test.csv": "val\n10\n\n20\n\n30\n"
+   },
+   "ci": false,
+   "source": "test_stats.py:66"
+  },
+  {
+   "test": "test_stats_with_jobs",
+   "argv": [
+    "stats",
+    "--jobs",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "field",
+    "mean"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_stats.py:77"
+  },
+  {
+   "test": "test_stats_everything_with_select",
+   "argv": [
+    "stats",
+    "--everything",
+    "--select",
+    "x,z",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "x",
+    "z",
+    "mean",
+    "median"
+   ],
+   "files": {
+    "test.csv": "x,y,z\n1,2,3\n2,4,6\n3,6,9\n"
+   },
+   "ci": false,
+   "source": "test_stats.py:87"
+  },
+  {
+   "test": "test_stats_output_to_file",
+   "argv": [
+    "stats",
+    "-o",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "field",
+    "mean"
+   ],
+   "files": {
+    "test.csv": "num\n1\n2\n3\n"
+   },
+   "ci": false,
+   "source": "test_stats.py:98"
+  },
+  {
+   "test": "test_stats_with_mixed_types",
+   "argv": [
+    "stats",
+    "mixed.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name",
+    "age",
+    "city",
+    "mean"
+   ],
+   "files": {
+    "mixed.csv": "name,age,city\nAlice,30,NYC\nBob,25,LA\nCharlie,35,SF\n"
+   },
+   "ci": false,
+   "source": "test_stats.py:117"
+  },
+  {
+   "test": "test_table_basic",
+   "argv": [
+    "table",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name",
+    "age",
+    "city",
+    "Alice",
+    "Bob"
+   ],
+   "files": {
+    "test.csv": "name,age,city\nAlice,30,NYC\nBob,25,LA\n"
+   },
+   "ci": false,
+   "source": "test_table.py:4"
+  },
+  {
+   "test": "test_table_width",
+   "argv": [
+    "table",
+    "-w",
+    "10",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "x",
+    "y"
+   ],
+   "files": {
+    "test.csv": "x,y\n1,2\n"
+   },
+   "ci": false,
+   "source": "test_table.py:18"
+  },
+  {
+   "test": "test_table_pad",
+   "argv": [
+    "table",
+    "-p",
+    "5",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a",
+    "b"
+   ],
+   "files": {
+    "test.csv": "a,b\n1,2\n"
+   },
+   "ci": false,
+   "source": "test_table.py:26"
+  },
+  {
+   "test": "test_table_condense",
+   "argv": [
+    "table",
+    "-c",
+    "10",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "text"
+   ],
+   "files": {
+    "test.csv": "text\nThis is a very long text field\n"
+   },
+   "ci": false,
+   "source": "test_table.py:35"
+  },
+  {
+   "test": "test_table_output_file",
+   "argv": [
+    "table",
+    "-o",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a",
+    "b"
+   ],
+   "files": {
+    "test.csv": "a,b\n1,2\n"
+   },
+   "ci": false,
+   "source": "test_table.py:42"
+  },
+  {
+   "test": "test_stdin_pipe_count_works",
+   "argv": [
+    "count"
+   ],
+   "stdin": "a,b\n1,2\n3,4\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "2\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_global.py:46"
+  }
+ ]
+}

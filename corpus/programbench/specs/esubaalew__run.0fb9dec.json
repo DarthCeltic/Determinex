@@ -1,0 +1,6376 @@
+{
+ "slug": "esubaalew__run.0fb9dec",
+ "language": "",
+ "n_branches": 10,
+ "n_tests_total": 1505,
+ "n_examples": 336,
+ "n_with_exact_stdout": 65,
+ "n_with_rc": 327,
+ "n_skipped": 1150,
+ "examples": [
+  {
+   "test": "test_stdin_execution_basic",
+   "argv": [
+    "--lang",
+    "bash",
+    "-"
+   ],
+   "stdin": "echo 'Line1'\nx=42\necho $x\necho 'Done'\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Line1\n42\nDone\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_bash_engine.py:169"
+  },
+  {
+   "test": "test_stdin_with_pipes",
+   "argv": [
+    "--lang",
+    "bash",
+    "-"
+   ],
+   "stdin": "echo 'hello world' | tr 'a-z' 'A-Z'\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "HELLO WORLD\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_bash_engine.py:482"
+  },
+  {
+   "test": "test_stdin_with_no_trailing_newline",
+   "argv": [
+    "--lang",
+    "bash",
+    "-"
+   ],
+   "stdin": "echo hello",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "hello\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_bash_engine.py:744"
+  },
+  {
+   "test": "test_stdin_with_multi_statement_no_final_newline",
+   "argv": [
+    "--lang",
+    "bash",
+    "-"
+   ],
+   "stdin": "x=1\ny=2\necho $x $y",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1 2\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_bash_engine.py:758"
+  },
+  {
+   "test": "test_stdin_mode_basic",
+   "argv": [
+    "--lang",
+    "bash",
+    "-"
+   ],
+   "stdin": "echo 'from stdin'\nx=10\necho $x",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "from stdin\n10\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_bash_engine.py:1309"
+  },
+  {
+   "test": "test_stdin_mode_with_command_not_found",
+   "argv": [
+    "--lang",
+    "bash",
+    "-"
+   ],
+   "stdin": "echo 'before error'\nnonexistent_command_xyz\necho 'after error'",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "before error\nafter error\n",
+   "expect_stderr": null,
+   "expect_in": [
+    "nonexistent_command_xyz: command not found"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_bash_engine.py:1322"
+  },
+  {
+   "test": "test_c_stdin_input_mode",
+   "argv": [
+    "-l",
+    "c"
+   ],
+   "stdin": "#include <stdio.h>\nint main() { printf(\"From stdin\\n\"); return 0; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "From stdin\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_c_cpp_engines.py:586"
+  },
+  {
+   "test": "test_stdin_with_dash_argument",
+   "argv": [
+    "python",
+    "-"
+   ],
+   "stdin": "print(\"stdin dash\")",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:154"
+  },
+  {
+   "test": "test_stdin_implicit_with_language",
+   "argv": [
+    "python"
+   ],
+   "stdin": "print(\"stdin implicit\")",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:163"
+  },
+  {
+   "test": "test_empty_stdin_executes_without_error",
+   "argv": [
+    "python"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:394"
+  },
+  {
+   "test": "test_file_dash_with_flag",
+   "argv": [
+    "python",
+    "-f",
+    "-"
+   ],
+   "stdin": "print(\"dash via flag\")",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "dash via flag\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:419"
+  },
+  {
+   "test": "test_cpp_stdin_input",
+   "argv": [
+    "-l",
+    "cpp"
+   ],
+   "stdin": "#include <iostream>\nint main() {\n    std::cout << \"Simple stdin test\" << std::endl;\n    return 0;\n}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Simple stdin test\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cpp_advanced.py:324"
+  },
+  {
+   "test": "test_stdin_python_detection",
+   "argv": [],
+   "stdin": "import sys; print('stdin python')",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "stdin python\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_detect.py:233"
+  },
+  {
+   "test": "test_stdin_bash_detection",
+   "argv": [],
+   "stdin": "export X=5; echo $X",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "5\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_detect.py:244"
+  },
+  {
+   "test": "test_inline_bash_read_command",
+   "argv": [
+    "-c",
+    "read -p \"Enter: \" VAR; echo $VAR"
+   ],
+   "stdin": "test input",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "test input\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_detect.py:387"
+  },
+  {
+   "test": "test_bash_read_command_signature",
+   "argv": [
+    "-c",
+    "read VAR\necho $VAR"
+   ],
+   "stdin": "input\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "input\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_detect.py:759"
+  },
+  {
+   "test": "test_bash_multiple_signature_types_combined",
+   "argv": [
+    "-c",
+    "export A=1\nread B\necho $A $B"
+   ],
+   "stdin": "test\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1 test\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_detect.py:936"
+  },
+  {
+   "test": "test_bash_read_command_detection",
+   "argv": [
+    "-c",
+    "read var\necho $var"
+   ],
+   "stdin": "test input\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "test input\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_detect.py:1139"
+  },
+  {
+   "test": "test_extremely_long_stdin_input",
+   "argv": [
+    "python"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:143"
+  },
+  {
+   "test": "test_null_byte_in_stdin",
+   "argv": [
+    "python",
+    "-c",
+    "import sys; data = sys.stdin.read(); print(len(data))"
+   ],
+   "stdin": "before\u0000after",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:610"
+  },
+  {
+   "test": "test_kotlin_stdin_with_imports_and_loop",
+   "argv": [
+    "kotlin",
+    "-"
+   ],
+   "stdin": "import kotlin.system.measureTimeMillis\nval N = 1000\nvar sum = 0L\nval t = measureTimeMillis { for (i in 1..N) sum += i }\nprintln(\"[Kotlin] Sum: $sum | Time: ${t} ms\")\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:29"
+  },
+  {
+   "test": "test_python_short_code_flag_reads_stdin",
+   "argv": [
+    "py",
+    "-c",
+    "import sys, json; data = json.load(sys.stdin); print(f\"{data['name']} is {data['age']} years old\")"
+   ],
+   "stdin": "{\"name\":\"Ada\",\"age\":32}\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Ada is 32 years old\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:58"
+  },
+  {
+   "test": "test_bash_stdin_execution",
+   "argv": [
+    "bash",
+    "-"
+   ],
+   "stdin": "echo stdin-bash\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "stdin-bash\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:96"
+  },
+  {
+   "test": "test_javascript_stdin_execution",
+   "argv": [
+    "javascript",
+    "-"
+   ],
+   "stdin": "console.log('stdin-js')\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "stdin-js\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:133"
+  },
+  {
+   "test": "test_ruby_stdin_execution",
+   "argv": [
+    "ruby",
+    "-"
+   ],
+   "stdin": "puts 'stdin-ruby'\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "stdin-ruby\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:170"
+  },
+  {
+   "test": "test_groovy_stdin_execution",
+   "argv": [
+    "groovy",
+    "-"
+   ],
+   "stdin": "println 'stdin-groovy'\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "stdin-groovy\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:207"
+  },
+  {
+   "test": "test_groovy_stdin_trailing_expression_prints",
+   "argv": [
+    "groovy",
+    "-"
+   ],
+   "stdin": "21 * 2\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:218"
+  },
+  {
+   "test": "test_typescript_stdin_execution",
+   "argv": [
+    "typescript",
+    "-"
+   ],
+   "stdin": "console.log('stdin-ts')\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "stdin-ts\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:278"
+  },
+  {
+   "test": "test_rust_stdin_execution",
+   "argv": [
+    "rust",
+    "-"
+   ],
+   "stdin": "fn main() { println!(\"stdin-rust\"); }\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "stdin-rust\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:324"
+  },
+  {
+   "test": "test_go_stdin_execution",
+   "argv": [
+    "go",
+    "-"
+   ],
+   "stdin": "package main\nimport \"fmt\"\nfunc main() { fmt.Println(\"stdin-go\") }\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "stdin-go\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:371"
+  },
+  {
+   "test": "test_csharp_stdin_execution",
+   "argv": [
+    "csharp",
+    "-"
+   ],
+   "stdin": "System.Console.WriteLine(\"stdin-csharp\");\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "stdin-csharp\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:418"
+  },
+  {
+   "test": "test_python_stdin_execution",
+   "argv": [
+    "python",
+    "-"
+   ],
+   "stdin": "print('stdin-python')\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "stdin-python\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:454"
+  },
+  {
+   "test": "test_lua_stdin_execution",
+   "argv": [
+    "lua",
+    "-"
+   ],
+   "stdin": "print('stdin-lua')\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "stdin-lua\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:500"
+  },
+  {
+   "test": "test_c_stdin_execution",
+   "argv": [
+    "c",
+    "-"
+   ],
+   "stdin": "#include <stdio.h>\nint main() { printf(\"stdin-c\\n\"); return 0; }\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "stdin-c\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:559"
+  },
+  {
+   "test": "test_cpp_stdin_execution",
+   "argv": [
+    "cpp",
+    "-"
+   ],
+   "stdin": "#include <iostream>\nint main() { std::cout << \"stdin-cpp\" << std::endl; return 0; }\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "stdin-cpp\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:598"
+  },
+  {
+   "test": "test_java_stdin_execution",
+   "argv": [
+    "java",
+    "-"
+   ],
+   "stdin": "public class Main { public static void main(String[] args) { System.out.println(\"stdin-java\"); } }\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "stdin-java\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:655"
+  },
+  {
+   "test": "test_php_stdin_execution",
+   "argv": [
+    "php",
+    "-"
+   ],
+   "stdin": "<?php echo 'stdin-php\\n';\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "stdin-php\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:702"
+  },
+  {
+   "test": "test_kotlin_stdin_execution",
+   "argv": [
+    "kotlin",
+    "-"
+   ],
+   "stdin": "fun main() { println(\"stdin-kotlin\") }\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "stdin-kotlin\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:740"
+  },
+  {
+   "test": "test_dart_stdin_execution",
+   "argv": [
+    "dart",
+    "-"
+   ],
+   "stdin": "void main() { print('stdin-dart'); }\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "stdin-dart\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:779"
+  },
+  {
+   "test": "test_r_stdin_execution",
+   "argv": [
+    "r",
+    "-"
+   ],
+   "stdin": "cat('stdin-r\\n')\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "stdin-r\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:821"
+  },
+  {
+   "test": "test_crystal_stdin_execution",
+   "argv": [
+    "crystal",
+    "-"
+   ],
+   "stdin": "puts \"stdin-crystal\"\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "stdin-crystal\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:985"
+  },
+  {
+   "test": "test_zig_stdin_execution",
+   "argv": [
+    "zig",
+    "-"
+   ],
+   "stdin": "const std = @import(\"std\");\npub fn main() !void { const stdout = std.io.getStdOut().writer(); try stdout.print(\"stdin-zig\\n\", .{}); }\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "stdin-zig\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:1032"
+  },
+  {
+   "test": "test_nim_stdin_execution",
+   "argv": [
+    "nim",
+    "-"
+   ],
+   "stdin": "echo \"stdin-nim\"\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "stdin-nim\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:1088"
+  },
+  {
+   "test": "test_stdin_execution",
+   "argv": [
+    "python",
+    "-"
+   ],
+   "stdin": "print('Hello from stdin')",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Hello from stdin\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_python_engine.py:42"
+  },
+  {
+   "test": "test_stdin_basic_print",
+   "argv": [
+    "python",
+    "-"
+   ],
+   "stdin": "print('via stdin')",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "via stdin\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_python_engine.py:823"
+  },
+  {
+   "test": "test_stdin_multiline_computation",
+   "argv": [
+    "python",
+    "-"
+   ],
+   "stdin": "x = 1 + 2; y = x * 3; print(y)",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "9\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_python_engine.py:838"
+  },
+  {
+   "test": "test_stdin_multiple_prints",
+   "argv": [
+    "python",
+    "-"
+   ],
+   "stdin": "print('line1')\nprint('line2')\nprint('line3')",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "line1\nline2\nline3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_python_engine.py:854"
+  },
+  {
+   "test": "test_stdin_custom_exit_code",
+   "argv": [
+    "python",
+    "-"
+   ],
+   "stdin": "import sys; sys.exit(77)",
+   "env": {},
+   "expect_rc": 77,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_python_engine.py:885"
+  },
+  {
+   "test": "test_ext_inline_python_execution",
+   "argv": [
+    "--lang",
+    "python",
+    "--code",
+    "print('hello from inline')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "hello from inline\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_externalized.py:26"
+  },
+  {
+   "test": "test_ext_help_flag_prints_usage",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_externalized.py:54"
+  },
+  {
+   "test": "test_ext_version_flag_prints_version",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_externalized.py:66"
+  },
+  {
+   "test": "test_ext_python_file_execution_via_positional_path",
+   "argv": [
+    "script.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "from-file\n",
+    "42\n"
+   ],
+   "files": {
+    "script.py": "print('from-file')\nprint(21*2)\n"
+   },
+   "ci": false,
+   "source": "test_cli_externalized.py:77"
+  },
+  {
+   "test": "test_ext_no_detect_still_allows_default_engine_for_code",
+   "argv": [
+    "--no-detect",
+    "--code",
+    "print('hi')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "hi\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_externalized.py:110"
+  },
+  {
+   "test": "test_code_runs_and_writes_to_stdout",
+   "argv": [
+    "--lang",
+    "python",
+    "--code",
+    "print('hi')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "hi\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_code_and_stdin.py:4"
+  },
+  {
+   "test": "test_stdin_is_passed_through_to_language_process",
+   "argv": [
+    "--lang",
+    "python",
+    "--code",
+    "import sys; data=sys.stdin.read(); print('IN:'+data)"
+   ],
+   "stdin": "abc",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "IN:abc\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_code_and_stdin.py:11"
+  },
+  {
+   "test": "test_code_error_propagates_nonzero_and_stderr_contains_traceback",
+   "argv": [
+    "--lang",
+    "python",
+    "--code",
+    "1/0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ZeroDivisionError"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_code_and_stdin.py:18"
+  },
+  {
+   "test": "test_file_execution_by_flag_f",
+   "argv": [
+    "--lang",
+    "python",
+    "--file",
+    "hello.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "file_hi\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "hello.py": "print('file_hi')\n"
+   },
+   "ci": false,
+   "source": "test_file_input.py:5"
+  },
+  {
+   "test": "test_file_not_found_exit_code_and_error_message",
+   "argv": [
+    "--lang",
+    "python",
+    "--file",
+    "/no/such/file.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "can't open file",
+    "/no/such/file.py"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_input.py:13"
+  },
+  {
+   "test": "test_help_mentions_key_flags",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--lang",
+    "--file",
+    "--code"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_version.py:4"
+  },
+  {
+   "test": "test_version_format_contains_run_kit_and_metadata_lines",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "license:",
+    "repository:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_version.py:14"
+  },
+  {
+   "test": "test_help_exact_output",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basics.py:18"
+  },
+  {
+   "test": "test_code_and_file_are_mutually_exclusive_exact_error",
+   "argv": [
+    "--lang",
+    "python",
+    "--code",
+    "print('x')",
+    "--file",
+    "some.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:18"
+  },
+  {
+   "test": "test_unknown_flag_has_error_and_nonzero_exit",
+   "argv": [
+    "--definitely-not-a-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_errors.py:25"
+  },
+  {
+   "test": "test_exit_code_is_propagated",
+   "argv": [
+    "--lang",
+    "python",
+    "--code",
+    "import sys; sys.exit(3)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_execution_modes.py:34"
+  },
+  {
+   "test": "test_stdin_is_forwarded",
+   "argv": [
+    "--lang",
+    "python",
+    "--code",
+    "import sys; sys.stdout.write(sys.stdin.read())"
+   ],
+   "stdin": "hello\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_execution_modes.py:41"
+  },
+  {
+   "test": "test_run_from_file_flag",
+   "argv": [
+    "--file",
+    "t.py",
+    "--lang",
+    "python"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "file-run\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "t.py": "print('file-run')\n"
+   },
+   "ci": false,
+   "source": "test_execution_modes.py:52"
+  },
+  {
+   "test": "test_positional_file_language_detection",
+   "argv": [
+    "t.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "file-run\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "t.py": "print('file-run')\n"
+   },
+   "ci": false,
+   "source": "test_execution_modes.py:61"
+  },
+  {
+   "test": "test_large_but_bounded_output_not_truncated",
+   "argv": [
+    "--lang",
+    "python",
+    "--code",
+    "for i in range(2000): print(i)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_execution_modes.py:70"
+  },
+  {
+   "test": "test_bash_simple_echo",
+   "argv": [
+    "-l",
+    "bash",
+    "-c",
+    "echo 'hello'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hello"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_bash_comprehensive.py:7"
+  },
+  {
+   "test": "test_bash_variable_assignment",
+   "argv": [
+    "-l",
+    "bash",
+    "-c",
+    "X=5; echo $X"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "5"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_bash_comprehensive.py:14"
+  },
+  {
+   "test": "test_bash_arithmetic",
+   "argv": [
+    "-l",
+    "bash",
+    "-c",
+    "echo $((5 + 3))"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_bash_comprehensive.py:21"
+  },
+  {
+   "test": "test_bash_if_statement",
+   "argv": [
+    "-l",
+    "bash",
+    "-c",
+    "if [ 5 -gt 3 ]; then echo 'yes'; fi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "yes"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_bash_comprehensive.py:28"
+  },
+  {
+   "test": "test_bash_for_loop",
+   "argv": [
+    "-l",
+    "bash",
+    "-c",
+    "for i in 1 2 3; do echo $i; done"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1",
+    "2",
+    "3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_bash_comprehensive.py:35"
+  },
+  {
+   "test": "test_bash_while_loop",
+   "argv": [
+    "-l",
+    "bash",
+    "-c",
+    "i=0; while [ $i -lt 3 ]; do echo $i; i=$((i+1)); done"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0",
+    "1",
+    "2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_bash_comprehensive.py:44"
+  },
+  {
+   "test": "test_bash_array",
+   "argv": [
+    "-l",
+    "bash",
+    "-c",
+    "arr=(a b c); echo ${arr[0]} ${arr[1]} ${arr[2]}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a b c"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_bash_comprehensive.py:53"
+  },
+  {
+   "test": "test_bash_function",
+   "argv": [
+    "-l",
+    "bash",
+    "-c",
+    "greet() {\n    echo \"Hello, $1\"\n}\ngreet World"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Hello, World"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_bash_comprehensive.py:60"
+  },
+  {
+   "test": "test_bash_command_substitution",
+   "argv": [
+    "-l",
+    "bash",
+    "-c",
+    "echo $(echo nested)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "nested"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_bash_comprehensive.py:71"
+  },
+  {
+   "test": "test_bash_pipe_operations",
+   "argv": [
+    "-l",
+    "bash",
+    "-c",
+    "echo 'hello world' | cut -d' ' -f1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hello"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_bash_comprehensive.py:78"
+  },
+  {
+   "test": "test_bash_case_statement",
+   "argv": [
+    "-l",
+    "bash",
+    "-c",
+    "case \"apple\" in\n    apple) echo \"fruit\" ;;\n    car) echo \"vehicle\" ;;\nesac"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "fruit"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_bash_comprehensive.py:85"
+  },
+  {
+   "test": "test_bash_string_operations",
+   "argv": [
+    "-l",
+    "bash",
+    "-c",
+    "STR='hello'; echo ${#STR}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "5"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_bash_comprehensive.py:96"
+  },
+  {
+   "test": "test_bash_substring",
+   "argv": [
+    "-l",
+    "bash",
+    "-c",
+    "STR='hello world'; echo ${STR:0:5}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hello"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_bash_comprehensive.py:103"
+  },
+  {
+   "test": "test_bash_string_replacement",
+   "argv": [
+    "-l",
+    "bash",
+    "-c",
+    "STR='hello world'; echo ${STR/world/universe}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hello universe"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_bash_comprehensive.py:110"
+  },
+  {
+   "test": "test_bash_file_test",
+   "argv": [
+    "-l",
+    "bash",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "exists"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_bash_comprehensive.py:117"
+  },
+  {
+   "test": "test_bash_env_variable",
+   "argv": [
+    "-l",
+    "bash",
+    "-c",
+    "echo $HOME"
+   ],
+   "stdin": null,
+   "env": {
+    "HOME": "/test/home"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "/test/home"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_bash_comprehensive.py:127"
+  },
+  {
+   "test": "test_bash_exit_status",
+   "argv": [
+    "-l",
+    "bash",
+    "-c",
+    "false; echo $?"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_bash_comprehensive.py:134"
+  },
+  {
+   "test": "test_bash_multiline_script",
+   "argv": [
+    "-l",
+    "bash",
+    "-c",
+    "#!/bin/bash\nVAR1=10\nVAR2=20\nRESULT=$((VAR1 + VAR2))\necho \"Result: $RESULT\"\n"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Result: 30"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_bash_comprehensive.py:141"
+  },
+  {
+   "test": "test_bash_quoted_strings",
+   "argv": [
+    "-l",
+    "bash",
+    "-c",
+    "echo 'single quotes' \"double quotes\""
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "single quotes double quotes"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_bash_comprehensive.py:154"
+  },
+  {
+   "test": "test_bash_special_characters",
+   "argv": [
+    "-l",
+    "bash",
+    "-c",
+    "echo '!@#$%^&*()'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "!@#$%^&*()"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_bash_comprehensive.py:161"
+  },
+  {
+   "test": "test_version_long_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "run-kit",
+    "0.3.2",
+    "Universal multi-language runner",
+    "author:",
+    "repository:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:4"
+  },
+  {
+   "test": "test_version_short_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "run-kit",
+    "0.3.2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:14"
+  },
+  {
+   "test": "test_help_long_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Universal multi-language runner",
+    "Usage:",
+    "Options:",
+    "--lang",
+    "--code",
+    "--file",
+    "--no-detect"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:21"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Universal multi-language runner",
+    "Usage:",
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:33"
+  },
+  {
+   "test": "test_c_simple_printf",
+   "argv": [
+    "-l",
+    "c",
+    "-c",
+    "#include <stdio.h>\nint main() { printf(\"hello\\n\"); return 0; }"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hello"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_c_specific.py:6"
+  },
+  {
+   "test": "test_c_with_variables",
+   "argv": [
+    "-l",
+    "c",
+    "-c",
+    "#include <stdio.h>\nint main() {\n    int x = 10;\n    int y = 20;\n    printf(\"%d\\n\", x + y);\n    return 0;\n}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "30"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_c_specific.py:14"
+  },
+  {
+   "test": "test_c_without_main",
+   "argv": [
+    "-l",
+    "c",
+    "-c",
+    "printf(\"no main\\n\");"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "no main"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_c_specific.py:28"
+  },
+  {
+   "test": "test_c_with_function",
+   "argv": [
+    "-l",
+    "c",
+    "-c",
+    "#include <stdio.h>\nvoid greet(const char* name) {\n    printf(\"Hello, %s!\\n\", name);\n}\nint main() {\n    greet(\"World\");\n    return 0;\n}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Hello, World!"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_c_specific.py:36"
+  },
+  {
+   "test": "test_c_with_array",
+   "argv": [
+    "-l",
+    "c",
+    "-c",
+    "#include <stdio.h>\nint main() {\n    int nums[] = {1, 2, 3, 4, 5};\n    int len = sizeof(nums) / sizeof(nums[0]);\n    printf(\"Length: %d\\n\", len);\n    return 0;\n}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Length: 5"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_c_specific.py:51"
+  },
+  {
+   "test": "test_c_file_execution",
+   "argv": [
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "From file"
+   ],
+   "files": {
+    "test.c": "#include <stdio.h>\nint main() {\n    printf(\"From file\\n\");\n    return 0;\n}"
+   },
+   "ci": false,
+   "source": "test_c_specific.py:65"
+  },
+  {
+   "test": "test_c_stdin",
+   "argv": [
+    "c"
+   ],
+   "stdin": "#include <stdio.h>\nint main() { printf(\"From stdin\\n\"); return 0; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "From stdin"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_c_specific.py:78"
+  },
+  {
+   "test": "test_c_for_loop",
+   "argv": [
+    "-l",
+    "c",
+    "-c",
+    "#include <stdio.h>\nint main() {\n    for (int i = 0; i < 3; i++) {\n        printf(\"Number: %d\\n\", i);\n    }\n    return 0;\n}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Number: 0",
+    "Number: 1",
+    "Number: 2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_c_specific.py:86"
+  },
+  {
+   "test": "test_c_multiple_includes",
+   "argv": [
+    "-l",
+    "c",
+    "-c",
+    "#include <stdio.h>\n#include <string.h>\nint main() {\n    char str[] = \"hello\";\n    printf(\"Length: %lu\\n\", strlen(str));\n    return 0;\n}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Length: 5"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_c_specific.py:102"
+  },
+  {
+   "test": "test_rust_inline_with_main",
+   "argv": [
+    "-l",
+    "rust",
+    "-c",
+    "fn main() { println!(\"rust inline\"); }"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "rust inline"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_compiled_languages.py:6"
+  },
+  {
+   "test": "test_rust_inline_without_main",
+   "argv": [
+    "-l",
+    "rust",
+    "-c",
+    "println!(\"rust no main\");"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "rust no main"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_compiled_languages.py:14"
+  },
+  {
+   "test": "test_go_inline_with_main",
+   "argv": [
+    "-l",
+    "go",
+    "-c",
+    "package main\nimport \"fmt\"\nfunc main() { fmt.Println(\"go inline\") }"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "go inline"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_compiled_languages.py:22"
+  },
+  {
+   "test": "test_go_inline_without_main",
+   "argv": [
+    "-l",
+    "go",
+    "-c",
+    "fmt.Println(\"go no main\")"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "go no main"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_compiled_languages.py:30"
+  },
+  {
+   "test": "test_c_inline_with_main",
+   "argv": [
+    "-l",
+    "c",
+    "-c",
+    "#include <stdio.h>\nint main() { printf(\"c inline\\n\"); return 0; }"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "c inline"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_compiled_languages.py:38"
+  },
+  {
+   "test": "test_c_inline_without_main",
+   "argv": [
+    "-l",
+    "c",
+    "-c",
+    "printf(\"c no main\\n\");"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "c no main"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_compiled_languages.py:46"
+  },
+  {
+   "test": "test_cpp_inline_with_main",
+   "argv": [
+    "-l",
+    "cpp",
+    "-c",
+    "#include <iostream>\nint main() { std::cout << \"cpp inline\" << std::endl; return 0; }"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cpp inline"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_compiled_languages.py:54"
+  },
+  {
+   "test": "test_cpp_inline_without_main",
+   "argv": [
+    "-l",
+    "cpp",
+    "-c",
+    "std::cout << \"cpp no main\" << std::endl;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cpp no main"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_compiled_languages.py:62"
+  },
+  {
+   "test": "test_rust_file_with_main",
+   "argv": [
+    "test.rs"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "rust file"
+   ],
+   "files": {
+    "test.rs": "fn main() { println!(\"rust file\"); }"
+   },
+   "ci": false,
+   "source": "test_compiled_languages.py:70"
+  },
+  {
+   "test": "test_go_file_with_main",
+   "argv": [
+    "test.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "go file"
+   ],
+   "files": {
+    "test.go": "package main\nimport \"fmt\"\nfunc main() { fmt.Println(\"go file\") }"
+   },
+   "ci": false,
+   "source": "test_compiled_languages.py:79"
+  },
+  {
+   "test": "test_c_file_with_main",
+   "argv": [
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "c file"
+   ],
+   "files": {
+    "test.c": "#include <stdio.h>\nint main() { printf(\"c file\\n\"); return 0; }"
+   },
+   "ci": false,
+   "source": "test_compiled_languages.py:88"
+  },
+  {
+   "test": "test_rust_with_variables",
+   "argv": [
+    "-l",
+    "rust",
+    "-c",
+    "fn main() {\n    let x = 10;\n    let y = 20;\n    println!(\"{}\", x + y);\n}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "30"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_compiled_languages.py:97"
+  },
+  {
+   "test": "test_go_with_variables",
+   "argv": [
+    "-l",
+    "go",
+    "-c",
+    "package main\nimport \"fmt\"\nfunc main() {\n    x := 10\n    y := 20\n    fmt.Println(x + y)\n}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "30"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_compiled_languages.py:109"
+  },
+  {
+   "test": "test_cpp_with_vectors",
+   "argv": [
+    "-l",
+    "cpp",
+    "-c",
+    "#include <iostream>\n#include <vector>\nint main() {\n    std::vector<int> v = {1, 2, 3, 4, 5};\n    for(int i : v) {\n        std::cout << i << \" \";\n    }\n    std::cout << std::endl;\n    return 0;\n}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1 2 3 4 5"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_compiled_languages.py:137"
+  },
+  {
+   "test": "test_cpp_simple_cout",
+   "argv": [
+    "-l",
+    "cpp",
+    "-c",
+    "#include <iostream>\nint main() { std::cout << \"hello\" << std::endl; return 0; }"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hello"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cpp_specific.py:6"
+  },
+  {
+   "test": "test_cpp_with_variables",
+   "argv": [
+    "-l",
+    "cpp",
+    "-c",
+    "#include <iostream>\nint main() {\n    int x = 10;\n    int y = 20;\n    std::cout << (x + y) << std::endl;\n    return 0;\n}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "30"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cpp_specific.py:14"
+  },
+  {
+   "test": "test_cpp_without_main",
+   "argv": [
+    "-l",
+    "cpp",
+    "-c",
+    "std::cout << \"no main\" << std::endl;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "no main"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cpp_specific.py:28"
+  },
+  {
+   "test": "test_cpp_with_function",
+   "argv": [
+    "-l",
+    "cpp",
+    "-c",
+    "#include <iostream>\n#include <string>\nvoid greet(const std::string& name) {\n    std::cout << \"Hello, \" << name << \"!\" << std::endl;\n}\nint main() {\n    greet(\"World\");\n    return 0;\n}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Hello, World!"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cpp_specific.py:36"
+  },
+  {
+   "test": "test_cpp_with_vector",
+   "argv": [
+    "-l",
+    "cpp",
+    "-c",
+    "#include <iostream>\n#include <vector>\nint main() {\n    std::vector<int> nums = {1, 2, 3, 4, 5};\n    std::cout << \"Length: \" << nums.size() << std::endl;\n    return 0;\n}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Length: 5"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cpp_specific.py:52"
+  },
+  {
+   "test": "test_cpp_file_execution",
+   "argv": [
+    "test.cpp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "From file"
+   ],
+   "files": {
+    "test.cpp": "#include <iostream>\nint main() {\n    std::cout << \"From file\" << std::endl;\n    return 0;\n}"
+   },
+   "ci": false,
+   "source": "test_cpp_specific.py:66"
+  },
+  {
+   "test": "test_cpp_stdin",
+   "argv": [
+    "cpp"
+   ],
+   "stdin": "#include <iostream>\nint main() { std::cout << \"From stdin\" << std::endl; return 0; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "From stdin"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cpp_specific.py:79"
+  },
+  {
+   "test": "test_cpp_for_loop",
+   "argv": [
+    "-l",
+    "cpp",
+    "-c",
+    "#include <iostream>\nint main() {\n    for (int i = 0; i < 3; i++) {\n        std::cout << \"Number: \" << i << std::endl;\n    }\n    return 0;\n}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Number: 0",
+    "Number: 1",
+    "Number: 2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cpp_specific.py:87"
+  },
+  {
+   "test": "test_cpp_string_operations",
+   "argv": [
+    "-l",
+    "cpp",
+    "-c",
+    "#include <iostream>\n#include <string>\nint main() {\n    std::string str = \"hello\";\n    std::cout << \"Length: \" << str.length() << std::endl;\n    return 0;\n}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Length: 5"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cpp_specific.py:103"
+  },
+  {
+   "test": "test_cpp_auto_keyword",
+   "argv": [
+    "-l",
+    "cpp",
+    "-c",
+    "#include <iostream>\nint main() {\n    auto x = 42;\n    auto y = 3.14;\n    std::cout << x << \" \" << y << std::endl;\n    return 0;\n}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "42",
+    "3.14"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cpp_specific.py:117"
+  },
+  {
+   "test": "test_detect_bash_by_shebang_in_file",
+   "argv": [
+    "script.sh"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {
+    "script.sh": "#!/bin/bash\necho 'test'"
+   },
+   "ci": false,
+   "source": "test_detection_comprehensive.py:19"
+  },
+  {
+   "test": "test_detect_py_extension_priority",
+   "argv": [
+    "test.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "python file"
+   ],
+   "files": {
+    "test.py": "print('python file')"
+   },
+   "ci": false,
+   "source": "test_detection_comprehensive.py:28"
+  },
+  {
+   "test": "test_detect_sh_extension_priority",
+   "argv": [
+    "test.sh"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bash file"
+   ],
+   "files": {
+    "test.sh": "echo 'bash file'"
+   },
+   "ci": false,
+   "source": "test_detection_comprehensive.py:38"
+  },
+  {
+   "test": "test_detect_rs_extension",
+   "argv": [
+    "test.rs"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "rust"
+   ],
+   "files": {
+    "test.rs": "fn main() { println!(\"rust\"); }"
+   },
+   "ci": false,
+   "source": "test_detection_comprehensive.py:47"
+  },
+  {
+   "test": "test_detect_go_extension",
+   "argv": [
+    "test.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "go"
+   ],
+   "files": {
+    "test.go": "package main\nimport \"fmt\"\nfunc main() { fmt.Println(\"go\") }"
+   },
+   "ci": false,
+   "source": "test_detection_comprehensive.py:56"
+  },
+  {
+   "test": "test_detect_c_extension",
+   "argv": [
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "c"
+   ],
+   "files": {
+    "test.c": "#include <stdio.h>\nint main() { printf(\"c\\n\"); return 0; }"
+   },
+   "ci": false,
+   "source": "test_detection_comprehensive.py:65"
+  },
+  {
+   "test": "test_detect_cpp_extension",
+   "argv": [
+    "test.cpp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cpp"
+   ],
+   "files": {
+    "test.cpp": "#include <iostream>\nint main() { std::cout << \"cpp\" << std::endl; return 0; }"
+   },
+   "ci": false,
+   "source": "test_detection_comprehensive.py:74"
+  },
+  {
+   "test": "test_explicit_override_detection",
+   "argv": [
+    "--lang",
+    "python",
+    "test.sh"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "python in bash file"
+   ],
+   "files": {
+    "test.sh": "print('python in bash file')"
+   },
+   "ci": false,
+   "source": "test_detection_comprehensive.py:83"
+  },
+  {
+   "test": "test_explicit_override_detection_reverse",
+   "argv": [
+    "--lang",
+    "bash",
+    "test.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bash in python file"
+   ],
+   "files": {
+    "test.py": "echo 'bash in python file'"
+   },
+   "ci": false,
+   "source": "test_detection_comprehensive.py:93"
+  },
+  {
+   "test": "test_bash_specific_syntax_detection",
+   "argv": [
+    "-l",
+    "bash"
+   ],
+   "stdin": "VAR=value; echo $VAR",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_detection_comprehensive.py:104"
+  },
+  {
+   "test": "test_python_specific_syntax_detection",
+   "argv": [
+    "-l",
+    "python"
+   ],
+   "stdin": "x = [i**2 for i in range(3)]; print(x)",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[0, 1, 4]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_detection_comprehensive.py:111"
+  },
+  {
+   "test": "test_very_long_code_line",
+   "argv": [
+    "-l",
+    "python",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:7"
+  },
+  {
+   "test": "test_deeply_nested_code",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "for i in range(3):\n    for j in range(3):\n        for k in range(3):\n            print(f'{i}-{j}-{k}')\n"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0-0-0",
+    "2-2-2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:15"
+  },
+  {
+   "test": "test_special_characters_in_code",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "print('Special: !@#$%^&*()_+-=[]{}|;:,.<>?')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Special: !@#$%^&*()_+-=[]{}|;:,.<>?"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:28"
+  },
+  {
+   "test": "test_escaped_characters",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "print('Line1\\nLine2\\tTabbed')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Line1\nLine2\tTabbed"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:35"
+  },
+  {
+   "test": "test_empty_string_output",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "print('')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:42"
+  },
+  {
+   "test": "test_bash_special_variables",
+   "argv": [
+    "-l",
+    "bash",
+    "-c",
+    "echo PID:$$"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "PID:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:49"
+  },
+  {
+   "test": "test_python_triple_quoted_string",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "print(\"\"\"\nThis is a\nmultiline string\nwith multiple lines\n\"\"\")"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "This is a",
+    "multiline string"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:56"
+  },
+  {
+   "test": "test_python_raw_string",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "print(r'C:\\\\Users\\\\test\\\\path')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "C:\\\\Users\\\\test\\\\path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:65"
+  },
+  {
+   "test": "test_python_f_string",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "x=10; y=20; print(f'Sum: {x+y}')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Sum: 30"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:72"
+  },
+  {
+   "test": "test_bash_backticks",
+   "argv": [
+    "-l",
+    "bash",
+    "-c",
+    "echo `echo nested`"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "nested"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:79"
+  },
+  {
+   "test": "test_code_with_nullbytes",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "print('before\\x00after')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "before\u0000after"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:97"
+  },
+  {
+   "test": "test_multiple_imports",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "import sys\nimport os\nimport math\nimport json\nprint('All imports successful')\n"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "All imports successful"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:104"
+  },
+  {
+   "test": "test_bash_here_document",
+   "argv": [
+    "-l",
+    "bash",
+    "-c",
+    "cat << 'EOF'\nThis is a\nhere document\ntest\nEOF"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "This is a",
+    "here document"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:117"
+  },
+  {
+   "test": "test_python_list_operations",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "nums = [1, 2, 3, 4, 5]; print(f'Sum: {sum(nums)}'); print(f'Max: {max(nums)}'); print(f'Min: {min(nums)}')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Sum: 15",
+    "Max: 5",
+    "Min: 1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:126"
+  },
+  {
+   "test": "test_python_dict_operations",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "data = {'a': 1, 'b': 2, 'c': 3}; print(f'Keys: {list(data.keys())}'); print(f'Values: {list(data.values())}')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Keys:",
+    "Values:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:136"
+  },
+  {
+   "test": "test_bash_pipe",
+   "argv": [
+    "-l",
+    "bash",
+    "-c",
+    "echo 'test' | grep test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:145"
+  },
+  {
+   "test": "test_bash_redirect",
+   "argv": [
+    "-l",
+    "bash",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "redirected"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:152"
+  },
+  {
+   "test": "test_python_exception_handling",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "try:\n    x = 1 / 0\nexcept ZeroDivisionError:\n    print('Caught division by zero')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Caught division by zero"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:163"
+  },
+  {
+   "test": "test_code_and_file_conflict",
+   "argv": [
+    "--code",
+    "print('test')",
+    "--file",
+    "test.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cannot be combined"
+   ],
+   "files": {
+    "test.py": "print('test')"
+   },
+   "ci": true,
+   "source": "test_error_handling.py:40"
+  },
+  {
+   "test": "test_invalid_flag_combination",
+   "argv": [
+    "--version",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:48"
+  },
+  {
+   "test": "test_invalid_utf8_in_code",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "print('valid unicode 你好')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:91"
+  },
+  {
+   "test": "test_python_inline_short",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "print(1)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_execution_modes.py:7"
+  },
+  {
+   "test": "test_python_inline_long",
+   "argv": [
+    "-l",
+    "python",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "4950"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_execution_modes.py:14"
+  },
+  {
+   "test": "test_python_no_output_statement",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "x = 1 + 1; y = x * 2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_execution_modes.py:22"
+  },
+  {
+   "test": "test_python_only_whitespace_output",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "print(' '); print('\\t'); print('\\n')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_execution_modes.py:29"
+  },
+  {
+   "test": "test_bash_empty_echo",
+   "argv": [
+    "-l",
+    "bash",
+    "-c",
+    "echo"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_execution_modes.py:36"
+  },
+  {
+   "test": "test_bash_multiple_commands_semicolon",
+   "argv": [
+    "-l",
+    "bash",
+    "-c",
+    "echo 'a'; echo 'b'; echo 'c'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a",
+    "b",
+    "c"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_execution_modes.py:43"
+  },
+  {
+   "test": "test_bash_multiple_commands_newline",
+   "argv": [
+    "-l",
+    "bash",
+    "-c",
+    "echo 'a'\necho 'b'\necho 'c'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a",
+    "b",
+    "c"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_execution_modes.py:52"
+  },
+  {
+   "test": "test_python_file_without_extension",
+   "argv": [
+    "-l",
+    "python",
+    "myscript"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "no extension"
+   ],
+   "files": {
+    "myscript": "#!/usr/bin/env python3\nprint('no extension')"
+   },
+   "ci": false,
+   "source": "test_execution_modes.py:62"
+  },
+  {
+   "test": "test_bash_file_without_extension",
+   "argv": [
+    "-l",
+    "bash",
+    "myscript"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "no extension"
+   ],
+   "files": {
+    "myscript": "#!/bin/bash\necho 'no extension'"
+   },
+   "ci": false,
+   "source": "test_execution_modes.py:71"
+  },
+  {
+   "test": "test_python_very_short_file",
+   "argv": [
+    "test.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.py": "1"
+   },
+   "ci": false,
+   "source": "test_execution_modes.py:80"
+  },
+  {
+   "test": "test_python_expression_only",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "5 + 3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_execution_modes.py:89"
+  },
+  {
+   "test": "test_bash_true_command",
+   "argv": [
+    "-l",
+    "bash",
+    "-c",
+    "true"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_execution_modes.py:96"
+  },
+  {
+   "test": "test_bash_false_command",
+   "argv": [
+    "-l",
+    "bash",
+    "-c",
+    "false"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_execution_modes.py:103"
+  },
+  {
+   "test": "test_python_sys_exit_0",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "import sys; sys.exit(0)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_execution_modes.py:109"
+  },
+  {
+   "test": "test_python_multiple_statements_single_line",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "a=1; b=2; c=a+b; print(c)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_execution_modes.py:115"
+  },
+  {
+   "test": "test_rust_minimal",
+   "argv": [
+    "-l",
+    "rust",
+    "-c",
+    "println!(\"test\");"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_execution_modes.py:122"
+  },
+  {
+   "test": "test_go_minimal",
+   "argv": [
+    "-l",
+    "go",
+    "-c",
+    "fmt.Println(\"test\")"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_execution_modes.py:129"
+  },
+  {
+   "test": "test_c_minimal",
+   "argv": [
+    "-l",
+    "c",
+    "-c",
+    "printf(\"test\\n\");"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_execution_modes.py:136"
+  },
+  {
+   "test": "test_cpp_minimal",
+   "argv": [
+    "-l",
+    "cpp",
+    "-c",
+    "std::cout << \"test\" << std::endl;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_execution_modes.py:143"
+  },
+  {
+   "test": "test_python_file_with_spaces_in_name",
+   "argv": [
+    "my script.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "spaces"
+   ],
+   "files": {
+    "my script.py": "print('spaces')"
+   },
+   "ci": false,
+   "source": "test_execution_modes.py:150"
+  },
+  {
+   "test": "test_python_shebang_python2_style",
+   "argv": [
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test": "#!/usr/bin/env python3\nprint('test')"
+   },
+   "ci": false,
+   "source": "test_execution_modes.py:159"
+  },
+  {
+   "test": "test_bash_shebang_sh_with_extension",
+   "argv": [
+    "test.sh"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "sh"
+   ],
+   "files": {
+    "test.sh": "#!/bin/bash\necho 'sh'"
+   },
+   "ci": false,
+   "source": "test_execution_modes.py:168"
+  },
+  {
+   "test": "test_python_file_execution",
+   "argv": [
+    "--file",
+    "test.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hello from file"
+   ],
+   "files": {
+    "test.py": "print('hello from file')"
+   },
+   "ci": false,
+   "source": "test_file_execution.py:7"
+  },
+  {
+   "test": "test_python_file_short_flag",
+   "argv": [
+    "-f",
+    "test.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "short flag test"
+   ],
+   "files": {
+    "test.py": "print('short flag test')"
+   },
+   "ci": false,
+   "source": "test_file_execution.py:16"
+  },
+  {
+   "test": "test_bash_file_execution",
+   "argv": [
+    "--file",
+    "test.sh"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bash file test"
+   ],
+   "files": {
+    "test.sh": "#!/bin/bash\necho 'bash file test'"
+   },
+   "ci": false,
+   "source": "test_file_execution.py:25"
+  },
+  {
+   "test": "test_file_with_explicit_lang",
+   "argv": [
+    "--lang",
+    "python",
+    "--file",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "explicit lang"
+   ],
+   "files": {
+    "test.txt": "print('explicit lang')"
+   },
+   "ci": false,
+   "source": "test_file_execution.py:34"
+  },
+  {
+   "test": "test_positional_file_path",
+   "argv": [
+    "test.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "positional file"
+   ],
+   "files": {
+    "test.py": "print('positional file')"
+   },
+   "ci": false,
+   "source": "test_file_execution.py:44"
+  },
+  {
+   "test": "test_file_with_shebang",
+   "argv": [
+    "test.sh"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "shebang test"
+   ],
+   "files": {
+    "test.sh": "#!/bin/bash\necho 'shebang test'"
+   },
+   "ci": false,
+   "source": "test_file_execution.py:53"
+  },
+  {
+   "test": "test_file_multiline_python",
+   "argv": [
+    "test.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Hello, World!"
+   ],
+   "files": {
+    "test.py": "def greet(name):\n    return f\"Hello, {name}!\"\n\nprint(greet(\"World\"))\n"
+   },
+   "ci": false,
+   "source": "test_file_execution.py:62"
+  },
+  {
+   "test": "test_file_with_imports",
+   "argv": [
+    "test.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Python 3."
+   ],
+   "files": {
+    "test.py": "import sys\nimport os\nprint(f\"Python {sys.version_info.major}.{sys.version_info.minor}\")\n"
+   },
+   "ci": false,
+   "source": "test_file_execution.py:76"
+  },
+  {
+   "test": "test_example_python_counter",
+   "argv": [
+    "examples/python/counter.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "11",
+    "16"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_execution.py:96"
+  },
+  {
+   "test": "test_example_rust_hello",
+   "argv": [
+    "examples/rust/hello.rs"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hello from rust"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_execution.py:104"
+  },
+  {
+   "test": "test_file_with_unicode",
+   "argv": [
+    "test.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.py": "print('Unicode: 你好 🎉')"
+   },
+   "ci": false,
+   "source": "test_file_execution.py:111"
+  },
+  {
+   "test": "test_file_with_comments",
+   "argv": [
+    "test.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {
+    "test.py": "# This is a comment\n# Another comment\nprint('test')  # inline comment\n"
+   },
+   "ci": false,
+   "source": "test_file_execution.py:120"
+  },
+  {
+   "test": "test_bash_file_with_args",
+   "argv": [
+    "test.sh"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Args:"
+   ],
+   "files": {
+    "test.sh": "#!/bin/bash\necho Args: $@"
+   },
+   "ci": false,
+   "source": "test_file_execution.py:142"
+  },
+  {
+   "test": "test_python_file_with_classes",
+   "argv": [
+    "test.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8"
+   ],
+   "files": {
+    "test.py": "class Calculator:\n    def add(self, a, b):\n        return a + b\n\ncalc = Calculator()\nprint(calc.add(5, 3))\n"
+   },
+   "ci": false,
+   "source": "test_file_execution.py:151"
+  },
+  {
+   "test": "test_lang_before_code",
+   "argv": [
+    "--lang",
+    "python",
+    "--code",
+    "print('test')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:6"
+  },
+  {
+   "test": "test_code_before_lang",
+   "argv": [
+    "--code",
+    "print('test')",
+    "--lang",
+    "python"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:13"
+  },
+  {
+   "test": "test_short_flags_together",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "print('test')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:20"
+  },
+  {
+   "test": "test_mixed_long_short_flags",
+   "argv": [
+    "--lang",
+    "python",
+    "-c",
+    "print('test')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:27"
+  },
+  {
+   "test": "test_positional_lang_with_code_flag",
+   "argv": [
+    "python",
+    "--code",
+    "print('test')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:34"
+  },
+  {
+   "test": "test_positional_lang_with_c_flag",
+   "argv": [
+    "python",
+    "-c",
+    "print('test')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:41"
+  },
+  {
+   "test": "test_file_flag_variations",
+   "argv": [
+    "--file",
+    "test.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file test",
+    "file test"
+   ],
+   "files": {
+    "test.py": "print('file test')"
+   },
+   "ci": false,
+   "source": "test_flag_combinations.py:48"
+  },
+  {
+   "test": "test_lang_with_file",
+   "argv": [
+    "--lang",
+    "python",
+    "--file",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "lang with file"
+   ],
+   "files": {
+    "test.txt": "print('lang with file')"
+   },
+   "ci": false,
+   "source": "test_flag_combinations.py:64"
+  },
+  {
+   "test": "test_file_before_lang",
+   "argv": [
+    "--file",
+    "test.txt",
+    "--lang",
+    "python"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file before lang"
+   ],
+   "files": {
+    "test.txt": "print('file before lang')"
+   },
+   "ci": false,
+   "source": "test_flag_combinations.py:73"
+  },
+  {
+   "test": "test_python_all_aliases",
+   "argv": [
+    "-l",
+    "-c",
+    "print('works')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "works"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:82"
+  },
+  {
+   "test": "test_bash_all_aliases",
+   "argv": [
+    "-l",
+    "-c",
+    "echo 'works'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "works"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:91"
+  },
+  {
+   "test": "test_equals_syntax_lang",
+   "argv": [
+    "--lang=python",
+    "-c",
+    "print('equals syntax')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "equals syntax"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:100"
+  },
+  {
+   "test": "test_equals_syntax_code",
+   "argv": [
+    "-l",
+    "python",
+    "--code=print('equals')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "equals"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:107"
+  },
+  {
+   "test": "test_equals_syntax_both",
+   "argv": [
+    "--lang=python",
+    "--code=print('both')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "both"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:114"
+  },
+  {
+   "test": "test_positional_file_no_extension",
+   "argv": [
+    "scriptfile"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "no ext"
+   ],
+   "files": {
+    "scriptfile": "#!/usr/bin/env python3\nprint('no ext')"
+   },
+   "ci": false,
+   "source": "test_flag_combinations.py:121"
+  },
+  {
+   "test": "test_go_simple_println",
+   "argv": [
+    "-l",
+    "go",
+    "-c",
+    "fmt.Println(\"hello\")"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hello"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_go_specific.py:6"
+  },
+  {
+   "test": "test_go_with_variables",
+   "argv": [
+    "-l",
+    "go",
+    "-c",
+    "x := 10; y := 20; fmt.Println(x + y)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "30"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_go_specific.py:13"
+  },
+  {
+   "test": "test_go_with_full_main",
+   "argv": [
+    "-l",
+    "go",
+    "-c",
+    "package main\nimport \"fmt\"\nfunc main() {\n    fmt.Println(\"Full program\")\n}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Full program"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_go_specific.py:21"
+  },
+  {
+   "test": "test_go_with_function",
+   "argv": [
+    "-l",
+    "go",
+    "-c",
+    "package main\nimport \"fmt\"\nfunc greet(name string) {\n    fmt.Printf(\"Hello, %s!\\n\", name)\n}\nfunc main() {\n    greet(\"World\")\n}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Hello, World!"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_go_specific.py:33"
+  },
+  {
+   "test": "test_go_with_slice",
+   "argv": [
+    "-l",
+    "go",
+    "-c",
+    "package main\nimport \"fmt\"\nfunc main() {\n    nums := []int{1, 2, 3, 4, 5}\n    fmt.Println(\"Length:\", len(nums))\n}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Length: 5"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_go_specific.py:48"
+  },
+  {
+   "test": "test_go_file_execution",
+   "argv": [
+    "test.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "From file"
+   ],
+   "files": {
+    "test.go": "package main\nimport \"fmt\"\nfunc main() {\n    fmt.Println(\"From file\")\n}"
+   },
+   "ci": false,
+   "source": "test_go_specific.py:61"
+  },
+  {
+   "test": "test_go_stdin",
+   "argv": [
+    "go"
+   ],
+   "stdin": "package main\nimport \"fmt\"\nfunc main() { fmt.Println(\"From stdin\") }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "From stdin"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_go_specific.py:74"
+  },
+  {
+   "test": "test_go_for_loop",
+   "argv": [
+    "-l",
+    "go",
+    "-c",
+    "package main\nimport \"fmt\"\nfunc main() {\n    for i := 0; i < 3; i++ {\n        fmt.Printf(\"Number: %d\\n\", i)\n    }\n}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Number: 0",
+    "Number: 1",
+    "Number: 2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_go_specific.py:84"
+  },
+  {
+   "test": "test_python_inline_code_long_flag",
+   "argv": [
+    "--lang",
+    "python",
+    "--code",
+    "print('hello python')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hello python"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_inline_code.py:6"
+  },
+  {
+   "test": "test_python_inline_code_short_flags",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "print('hello python')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hello python"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_inline_code.py:13"
+  },
+  {
+   "test": "test_bash_inline_code",
+   "argv": [
+    "-l",
+    "bash",
+    "-c",
+    "echo 'test bash'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test bash"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_inline_code.py:20"
+  },
+  {
+   "test": "test_javascript_inline_code",
+   "argv": [
+    "-l",
+    "javascript",
+    "-c",
+    "console.log('test js')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test js"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_inline_code.py:27"
+  },
+  {
+   "test": "test_ruby_inline_code",
+   "argv": [
+    "-l",
+    "ruby",
+    "-c",
+    "puts 'test ruby'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test ruby"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_inline_code.py:34"
+  },
+  {
+   "test": "test_python_multiline_code",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "\nx = 10\ny = 20\nprint(x + y)\n"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "30"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_inline_code.py:41"
+  },
+  {
+   "test": "test_python_with_imports",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "import sys; print(sys.version_info.major)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_inline_code.py:53"
+  },
+  {
+   "test": "test_bash_with_variables",
+   "argv": [
+    "-l",
+    "bash",
+    "-c",
+    "X=hello; Y=world; echo $X $Y"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hello world"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_inline_code.py:60"
+  },
+  {
+   "test": "test_javascript_with_multiple_statements",
+   "argv": [
+    "-l",
+    "javascript",
+    "-c",
+    "let x = 5; let y = 10; console.log(x * y);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "50"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_inline_code.py:67"
+  },
+  {
+   "test": "test_code_with_unicode",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "print('Hello 世界 🌍')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_inline_code.py:75"
+  },
+  {
+   "test": "test_code_with_quotes",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "print(\"It's a test\")"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "It's a test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_inline_code.py:82"
+  },
+  {
+   "test": "test_empty_code_error",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    ""
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_inline_code.py:89"
+  },
+  {
+   "test": "test_positional_language_and_code",
+   "argv": [
+    "python",
+    "print('positional test')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "positional test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_inline_code.py:108"
+  },
+  {
+   "test": "test_language_alias_py",
+   "argv": [
+    "-l",
+    "py",
+    "-c",
+    "print('py alias')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "py alias"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_inline_code.py:115"
+  },
+  {
+   "test": "test_language_alias_js",
+   "argv": [
+    "-l",
+    "js",
+    "-c",
+    "console.log('js alias')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "js alias"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_inline_code.py:122"
+  },
+  {
+   "test": "test_language_alias_rb",
+   "argv": [
+    "-l",
+    "rb",
+    "-c",
+    "puts 'rb alias'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "rb alias"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_inline_code.py:129"
+  },
+  {
+   "test": "test_bash_multiline",
+   "argv": [
+    "-l",
+    "bash",
+    "-c",
+    "\nfor i in 1 2 3; do\n    echo \"Number: $i\"\ndone\n"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Number: 1",
+    "Number: 2",
+    "Number: 3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_inline_code.py:143"
+  },
+  {
+   "test": "test_python_list_comprehension",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "print([x*x for x in range(5)])"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[0, 1, 4, 9, 16]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_inline_code.py:157"
+  },
+  {
+   "test": "test_bash_command_substitution",
+   "argv": [
+    "-l",
+    "bash",
+    "-c",
+    "echo Today is $(date +%A)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Today is"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_inline_code.py:164"
+  },
+  {
+   "test": "test_python_aliases",
+   "argv": [
+    "-l",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_language_aliases.py:6"
+  },
+  {
+   "test": "test_detect_from_python_extension",
+   "argv": [
+    "test.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "detected py"
+   ],
+   "files": {
+    "test.py": "print('detected py')"
+   },
+   "ci": false,
+   "source": "test_language_detection.py:6"
+  },
+  {
+   "test": "test_detect_from_sh_extension",
+   "argv": [
+    "test.sh"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "detected sh"
+   ],
+   "files": {
+    "test.sh": "echo 'detected sh'"
+   },
+   "ci": false,
+   "source": "test_language_detection.py:15"
+  },
+  {
+   "test": "test_detect_from_rs_extension",
+   "argv": [
+    "test.rs"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "detected rs"
+   ],
+   "files": {
+    "test.rs": "fn main() { println!(\"detected rs\"); }"
+   },
+   "ci": false,
+   "source": "test_language_detection.py:24"
+  },
+  {
+   "test": "test_detect_from_go_extension",
+   "argv": [
+    "test.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "detected go"
+   ],
+   "files": {
+    "test.go": "package main\nimport \"fmt\"\nfunc main() { fmt.Println(\"detected go\") }"
+   },
+   "ci": false,
+   "source": "test_language_detection.py:33"
+  },
+  {
+   "test": "test_detect_from_shebang_python",
+   "argv": [
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "shebang python"
+   ],
+   "files": {
+    "test": "#!/usr/bin/env python3\nprint('shebang python')"
+   },
+   "ci": false,
+   "source": "test_language_detection.py:42"
+  },
+  {
+   "test": "test_detect_from_shebang_bash_with_extension",
+   "argv": [
+    "test.sh"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "shebang bash"
+   ],
+   "files": {
+    "test.sh": "#!/bin/bash\necho 'shebang bash'"
+   },
+   "ci": false,
+   "source": "test_language_detection.py:51"
+  },
+  {
+   "test": "test_explicit_lang_overrides_detection",
+   "argv": [
+    "--lang",
+    "bash",
+    "--file",
+    "test.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "override"
+   ],
+   "files": {
+    "test.py": "echo 'override'"
+   },
+   "ci": false,
+   "source": "test_language_detection.py:60"
+  },
+  {
+   "test": "test_detect_from_c_extension",
+   "argv": [
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "detected c"
+   ],
+   "files": {
+    "test.c": "#include <stdio.h>\nint main() { printf(\"detected c\\n\"); return 0; }"
+   },
+   "ci": false,
+   "source": "test_language_detection.py:80"
+  },
+  {
+   "test": "test_detect_from_cpp_extension",
+   "argv": [
+    "test.cpp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "detected cpp"
+   ],
+   "files": {
+    "test.cpp": "#include <iostream>\nint main() { std::cout << \"detected cpp\" << std::endl; return 0; }"
+   },
+   "ci": false,
+   "source": "test_language_detection.py:89"
+  },
+  {
+   "test": "test_stdout_only",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "print('stdout test')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "stdout test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_handling.py:6"
+  },
+  {
+   "test": "test_stderr_only",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "import sys; sys.stderr.write('stderr test\\n')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "stderr test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_handling.py:14"
+  },
+  {
+   "test": "test_mixed_stdout_stderr",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "import sys\nprint('to stdout')\nsys.stderr.write('to stderr\\n')\nprint('more stdout')\n"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "to stdout",
+    "more stdout",
+    "to stderr"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_handling.py:22"
+  },
+  {
+   "test": "test_exit_code_success",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "print('success')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_handling.py:36"
+  },
+  {
+   "test": "test_exit_code_specific",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "import sys; sys.exit(42)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 42,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_handling.py:48"
+  },
+  {
+   "test": "test_bash_exit_codes",
+   "argv": [
+    "-l",
+    "bash",
+    "-c",
+    "exit 0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 123,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_handling.py:54"
+  },
+  {
+   "test": "test_large_output",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "for i in range(1000): print(f'Line {i}')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Line 0",
+    "Line 999"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_handling.py:69"
+  },
+  {
+   "test": "test_no_output",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "x = 1 + 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_handling.py:80"
+  },
+  {
+   "test": "test_bash_no_output",
+   "argv": [
+    "-l",
+    "bash",
+    "-c",
+    "X=5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_handling.py:88"
+  },
+  {
+   "test": "test_unicode_output",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "print('Hello 世界 🌍 مرحبا')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_handling.py:95"
+  },
+  {
+   "test": "test_multiline_output",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "print('Line 1')\nprint('Line 2')\nprint('Line 3')\n"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Line 1",
+    "Line 2",
+    "Line 3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_handling.py:102"
+  },
+  {
+   "test": "test_bash_stderr",
+   "argv": [
+    "-l",
+    "bash",
+    "-c",
+    "echo 'error message' >&2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error message"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_handling.py:117"
+  },
+  {
+   "test": "test_binary_output",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "import sys; sys.stdout.buffer.write(b'\\x00\\x01\\x02\\x03')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u0000\u0001\u0002\u0003"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_handling.py:124"
+  },
+  {
+   "test": "test_python_list_comprehension",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "print([x**2 for x in range(5)])"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[0, 1, 4, 9, 16]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_python_specific.py:6"
+  },
+  {
+   "test": "test_python_dict_comprehension",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "print({x: x**2 for x in range(5)})"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0: 0",
+    "4: 16"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_python_specific.py:13"
+  },
+  {
+   "test": "test_python_lambda",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "f = lambda x: x*2; print(f(5))"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "10"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_python_specific.py:21"
+  },
+  {
+   "test": "test_python_map",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "print(list(map(lambda x: x*2, [1, 2, 3])))"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[2, 4, 6]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_python_specific.py:28"
+  },
+  {
+   "test": "test_python_filter",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "print(list(filter(lambda x: x%2==0, [1,2,3,4,5])))"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[2, 4]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_python_specific.py:35"
+  },
+  {
+   "test": "test_python_classes",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "class Dog:\n    def __init__(self, name):\n        self.name = name\n    def bark(self):\n        return f'{self.name} says woof!'\n\ndog = Dog('Rex')\nprint(dog.bark())\n"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Rex says woof!"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_python_specific.py:42"
+  },
+  {
+   "test": "test_python_decorators",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "def uppercase(func):\n    def wrapper():\n        result = func()\n        return result.upper()\n    return wrapper\n\n@uppercase\ndef greet():\n    return 'hello'\n\nprint(greet())\n"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "HELLO"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_python_specific.py:58"
+  },
+  {
+   "test": "test_python_generator",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "def gen():\n    for i in range(3):\n        yield i\n\nprint(list(gen()))\n"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[0, 1, 2]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_python_specific.py:77"
+  },
+  {
+   "test": "test_python_context_manager",
+   "argv": [
+    "-l",
+    "python",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_python_specific.py:90"
+  },
+  {
+   "test": "test_python_set_operations",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "a = {1, 2, 3, 4}\nb = {3, 4, 5, 6}\nprint(f'Union: {a | b}')\nprint(f'Intersection: {a & b}')\n"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Union:",
+    "Intersection:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_python_specific.py:105"
+  },
+  {
+   "test": "test_python_string_formatting",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "name = 'World'\n# Old style\nprint('Hello, %s!' % name)\n# New style\nprint('Hello, {}!'.format(name))\n# F-string\nprint(f'Hello, {name}!')\n"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_python_specific.py:118"
+  },
+  {
+   "test": "test_python_unpacking",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "a, b, *rest = [1, 2, 3, 4, 5]\nprint(f'a={a}, b={b}, rest={rest}')\n"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a=1",
+    "b=2",
+    "rest=[3, 4, 5]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_python_specific.py:133"
+  },
+  {
+   "test": "test_python_walrus_operator",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "if (n := 10) > 5:\n    print(f'n={n}')\n"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "n=10"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_python_specific.py:145"
+  },
+  {
+   "test": "test_python_json",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "import json\ndata = {'name': 'John', 'age': 30}\njson_str = json.dumps(data)\nparsed = json.loads(json_str)\nprint(parsed['name'])\n"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "John"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_python_specific.py:155"
+  },
+  {
+   "test": "test_python_pathlib",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "from pathlib import Path\np = Path('/tmp/test.txt')\nprint(f'Name: {p.name}')\nprint(f'Suffix: {p.suffix}')\n"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Name: test.txt",
+    "Suffix: .txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_python_specific.py:168"
+  },
+  {
+   "test": "test_python_enumerate",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "for i, val in enumerate(['a', 'b', 'c']):\n    print(f'{i}: {val}')\n"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0: a",
+    "1: b",
+    "2: c"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_python_specific.py:181"
+  },
+  {
+   "test": "test_python_zip",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "names = ['Alice', 'Bob', 'Charlie']\nages = [25, 30, 35]\nfor name, age in zip(names, ages):\n    print(f'{name}: {age}')\n"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Alice: 25",
+    "Bob: 30",
+    "Charlie: 35"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_python_specific.py:193"
+  },
+  {
+   "test": "test_rust_simple_println",
+   "argv": [
+    "-l",
+    "rust",
+    "-c",
+    "println!(\"hello\");"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hello"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rust_specific.py:6"
+  },
+  {
+   "test": "test_rust_with_let_binding",
+   "argv": [
+    "-l",
+    "rust",
+    "-c",
+    "let x = 5; println!(\"{}\", x);"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "5"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rust_specific.py:13"
+  },
+  {
+   "test": "test_rust_with_function",
+   "argv": [
+    "-l",
+    "rust",
+    "-c",
+    "fn greet(name: &str) { println!(\"Hello, {}!\", name); }\nfn main() { greet(\"World\"); }"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Hello, World!"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rust_specific.py:21"
+  },
+  {
+   "test": "test_rust_with_vector",
+   "argv": [
+    "-l",
+    "rust",
+    "-c",
+    "fn main() {\n    let v = vec![1, 2, 3, 4, 5];\n    println!(\"Length: {}\", v.len());\n}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Length: 5"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rust_specific.py:30"
+  },
+  {
+   "test": "test_rust_file_execution",
+   "argv": [
+    "test.rs"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "From file"
+   ],
+   "files": {
+    "test.rs": "fn main() {\n    println!(\"From file\");\n}"
+   },
+   "ci": false,
+   "source": "test_rust_specific.py:41"
+  },
+  {
+   "test": "test_rust_stdin",
+   "argv": [
+    "rust"
+   ],
+   "stdin": "fn main() { println!(\"From stdin\"); }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "From stdin"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rust_specific.py:52"
+  },
+  {
+   "test": "test_rust_multiline",
+   "argv": [
+    "-l",
+    "rust",
+    "-c",
+    "fn main() {\n    for i in 0..3 {\n        println!(\"Number: {}\", i);\n    }\n}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Number: 0",
+    "Number: 1",
+    "Number: 2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rust_specific.py:60"
+  },
+  {
+   "test": "test_rust_string_operations",
+   "argv": [
+    "-l",
+    "rust",
+    "-c",
+    "fn main() {\n    let s = String::from(\"hello\");\n    println!(\"{}\", s.to_uppercase());\n}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "HELLO"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_rust_specific.py:74"
+  },
+  {
+   "test": "test_python_stdin_basic",
+   "argv": [
+    "python"
+   ],
+   "stdin": "print('stdin test')",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "stdin test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_execution.py:6"
+  },
+  {
+   "test": "test_python_stdin_with_lang_flag",
+   "argv": [
+    "--lang",
+    "python"
+   ],
+   "stdin": "print('explicit stdin')",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "explicit stdin"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_execution.py:13"
+  },
+  {
+   "test": "test_bash_stdin",
+   "argv": [
+    "bash"
+   ],
+   "stdin": "echo 'bash stdin'",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bash stdin"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_execution.py:20"
+  },
+  {
+   "test": "test_stdin_multiline",
+   "argv": [
+    "python"
+   ],
+   "stdin": "x = 10\ny = 20\nprint(x + y)\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "30"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_execution.py:27"
+  },
+  {
+   "test": "test_stdin_with_imports",
+   "argv": [
+    "python"
+   ],
+   "stdin": "import math\nprint(math.pi)\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3.14"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_execution.py:38"
+  },
+  {
+   "test": "test_stdin_unicode",
+   "argv": [
+    "python"
+   ],
+   "stdin": "print('Unicode: 你好')",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_execution.py:55"
+  },
+  {
+   "test": "test_bash_stdin_multiline",
+   "argv": [
+    "bash"
+   ],
+   "stdin": "echo \"Line 1\"\necho \"Line 2\"\necho \"Line 3\"\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Line 1",
+    "Line 2",
+    "Line 3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_execution.py:76"
+  },
+  {
+   "test": "test_stdin_with_loops",
+   "argv": [
+    "python"
+   ],
+   "stdin": "for i in range(5):\n    print(i * 2)\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0",
+    "2",
+    "4",
+    "6",
+    "8"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_execution.py:89"
+  },
+  {
+   "test": "test_rust_stdin",
+   "argv": [
+    "rust"
+   ],
+   "stdin": "fn main() { println!(\"rust stdin\"); }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "rust stdin"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_execution.py:103"
+  },
+  {
+   "test": "test_go_stdin",
+   "argv": [
+    "go"
+   ],
+   "stdin": "package main\nimport \"fmt\"\nfunc main() { fmt.Println(\"go stdin\") }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "go stdin"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_execution.py:111"
+  },
+  {
+   "test": "test_c_stdin",
+   "argv": [
+    "c"
+   ],
+   "stdin": "#include <stdio.h>\nint main() { printf(\"c stdin\\n\"); return 0; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "c stdin"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_execution.py:119"
+  },
+  {
+   "test": "test_unknown_subcommand_is_treated_as_code_and_fails_like_python_nameerror",
+   "argv": [
+    "definitely_not_a_real_subcommand_123"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "nameerror"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:35"
+  },
+  {
+   "test": "test_unknown_flag_exit_code_and_message",
+   "argv": [
+    "--no-such-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument '--no-such-flag'",
+    "tip: to pass '--no-such-flag' as a value, use '-- --no-such-flag'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:27"
+  },
+  {
+   "test": "test_lang_accepts_equals_form_and_runs",
+   "argv": [
+    "--lang=python",
+    "--code",
+    "print('eq')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:61"
+  },
+  {
+   "test": "test_code_accepts_equals_form_and_runs",
+   "argv": [
+    "--lang",
+    "python",
+    "--code=print('eq2')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:67"
+  },
+  {
+   "test": "test_short_lang_joined_value_form_runs",
+   "argv": [
+    "-lpython",
+    "-c",
+    "print('joined')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:73"
+  },
+  {
+   "test": "test_short_and_long_equivalents_produce_same_output",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "print('x')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:79"
+  },
+  {
+   "test": "test_unknown_language_is_validation_error",
+   "argv": [
+    "--lang",
+    "notalang",
+    "--code",
+    "print('x')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error: Unknown language 'notalang'.",
+    "Available languages:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:87"
+  },
+  {
+   "test": "test_positional_after_code_is_rejected",
+   "argv": [
+    "--lang",
+    "python",
+    "--code",
+    "print('ok')",
+    "extra"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error: Unexpected positional arguments after specifying --code"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:94"
+  },
+  {
+   "test": "test_double_dash_with_no_following_args_is_ok_with_code",
+   "argv": [
+    "--lang",
+    "python",
+    "--code",
+    "print('dash')",
+    "--"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:100"
+  },
+  {
+   "test": "test_double_dash_followed_by_values_is_still_rejected_with_code",
+   "argv": [
+    "--lang",
+    "python",
+    "--code",
+    "print('dash')",
+    "--",
+    "-n",
+    "5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error: Unexpected positional arguments after specifying --code"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:106"
+  },
+  {
+   "test": "test_flags_after_positional_are_treated_as_unexpected_argument",
+   "argv": [
+    "--lang",
+    "python",
+    "--unknown"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument '--unknown'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:112"
+  },
+  {
+   "test": "test_help_takes_precedence_over_unknown_flag",
+   "argv": [
+    "--help",
+    "--definitely-unknown"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:122"
+  },
+  {
+   "test": "test_help_after_double_dash_is_not_treated_as_help",
+   "argv": [
+    "--",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:129"
+  },
+  {
+   "test": "test_version_short_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "run-kit"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mode_dispatch.py:39"
+  },
+  {
+   "test": "test_version_long_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "run-kit"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mode_dispatch.py:45"
+  },
+  {
+   "test": "test_execute_inline_code_flag",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "print('hello')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hello"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mode_dispatch.py:65"
+  },
+  {
+   "test": "test_execute_inline_code_long_flag",
+   "argv": [
+    "--code",
+    "print('world')",
+    "-l",
+    "python"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "world"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mode_dispatch.py:71"
+  },
+  {
+   "test": "test_execute_with_language_spec",
+   "argv": [
+    "python",
+    "print(42)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "42"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mode_dispatch.py:77"
+  },
+  {
+   "test": "test_execute_with_lang_flag",
+   "argv": [
+    "-l",
+    "python",
+    "-c",
+    "print(99)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "99"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mode_dispatch.py:83"
+  },
+  {
+   "test": "test_execute_from_stdin",
+   "argv": [
+    "-l",
+    "python"
+   ],
+   "stdin": "print('from stdin')",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "from stdin"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mode_dispatch.py:89"
+  },
+  {
+   "test": "test_execute_stdin_with_dash",
+   "argv": [
+    "python",
+    "-"
+   ],
+   "stdin": "print('dash stdin')",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dash stdin"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mode_dispatch.py:95"
+  },
+  {
+   "test": "test_execute_from_file",
+   "argv": [
+    "-l",
+    "python",
+    "-f",
+    "test_script.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "from file"
+   ],
+   "files": {
+    "test_script.py": "print('from file')\n"
+   },
+   "ci": false,
+   "source": "test_mode_dispatch.py:101"
+  },
+  {
+   "test": "test_execute_file_by_path",
+   "argv": [
+    "direct_path.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "direct path"
+   ],
+   "files": {
+    "direct_path.py": "print('direct path')\n"
+   },
+   "ci": false,
+   "source": "test_mode_dispatch.py:112"
+  },
+  {
+   "test": "test_code_and_file_flags_conflict",
+   "argv": [
+    "-c",
+    "print('code')",
+    "-f",
+    "conflict.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cannot be combined"
+   ],
+   "files": {
+    "conflict.py": "print('file')\n"
+   },
+   "ci": false,
+   "source": "test_mode_dispatch.py:125"
+  },
+  {
+   "test": "test_lang_flag_after_code",
+   "argv": [
+    "-c",
+    "print('test2')",
+    "-l",
+    "python"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mode_dispatch.py:142"
+  },
+  {
+   "test": "test_no_detect_flag",
+   "argv": [
+    "--no-detect",
+    "-l",
+    "python",
+    "-c",
+    "print('no detect')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "no detect"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mode_dispatch.py:148"
+  },
+  {
+   "test": "test_file_flag_with_lang_flag",
+   "argv": [
+    "-l",
+    "python",
+    "-f",
+    "flagcombo.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "combo"
+   ],
+   "files": {
+    "flagcombo.txt": "print('combo')\n"
+   },
+   "ci": false,
+   "source": "test_mode_dispatch.py:154"
+  },
+  {
+   "test": "test_code_flag_with_language",
+   "argv": [
+    "python",
+    "-c",
+    "print('flag code')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "flag code"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mode_dispatch.py:177"
+  },
+  {
+   "test": "test_file_flag_with_trailing_args_error",
+   "argv": [
+    "-f",
+    "trailing.py",
+    "extra_arg"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected"
+   ],
+   "files": {
+    "trailing.py": "print('test')\n"
+   },
+   "ci": false,
+   "source": "test_mode_dispatch.py:183"
+  },
+  {
+   "test": "test_positional_file_detection",
+   "argv": [
+    "positional.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "positional file"
+   ],
+   "files": {
+    "positional.py": "print('positional file')\n"
+   },
+   "ci": false,
+   "source": "test_mode_dispatch.py:193"
+  },
+  {
+   "test": "test_language_token_recognized",
+   "argv": [
+    "python",
+    "print('lang token')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "lang token"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mode_dispatch.py:207"
+  },
+  {
+   "test": "test_explicit_lang_flag_precedence",
+   "argv": [
+    "-l",
+    "python",
+    "print('explicit')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "explicit"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mode_dispatch.py:214"
+  },
+  {
+   "test": "test_lang_flag_with_file",
+   "argv": [
+    "-l",
+    "python",
+    "-f",
+    "lang_file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "lang with file"
+   ],
+   "files": {
+    "lang_file.txt": "print('lang with file')\n"
+   },
+   "ci": false,
+   "source": "test_mode_dispatch.py:220"
+  },
+  {
+   "test": "test_lang_with_stdin",
+   "argv": [
+    "python",
+    "-"
+   ],
+   "stdin": "print('lang stdin')",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "lang stdin"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mode_dispatch.py:229"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mode_dispatch.py:271"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mode_dispatch.py:278"
+  },
+  {
+   "test": "test_help_describes_options",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--lang",
+    "--file",
+    "--code",
+    "--version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mode_dispatch.py:284"
+  },
+  {
+   "test": "test_version_mode_priority",
+   "argv": [
+    "--version",
+    "-c",
+    "print('test')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "run-kit"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mode_dispatch.py:298"
+  },
+  {
+   "test": "test_stdin_with_explicit_language",
+   "argv": [
+    "-l",
+    "python"
+   ],
+   "stdin": "print('stdin with lang')",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "stdin with lang"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mode_dispatch.py:306"
+  },
+  {
+   "test": "test_file_with_language_and_no_detect",
+   "argv": [
+    "--no-detect",
+    "-l",
+    "python",
+    "-f",
+    "no_detect.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "no detect file"
+   ],
+   "files": {
+    "no_detect.txt": "print('no detect file')\n"
+   },
+   "ci": false,
+   "source": "test_mode_dispatch.py:322"
+  },
+  {
+   "test": "test_language_then_code",
+   "argv": [
+    "python",
+    "print('positional')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "positional"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mode_dispatch.py:335"
+  },
+  {
+   "test": "test_file_path_detection",
+   "argv": [
+    "detection.py"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "detected"
+   ],
+   "files": {
+    "detection.py": "print('detected')\n"
+   },
+   "ci": false,
+   "source": "test_mode_dispatch.py:349"
+  }
+ ]
+}

@@ -1,0 +1,5203 @@
+[
+ {
+  "name": "test::test_add_basic_command::0",
+  "argv": [
+   "add",
+   "echo 'hello world'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_label::1",
+  "argv": [
+   "add",
+   "--label",
+   "test-label",
+   "echo 'with label'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_stashed_task::2",
+  "argv": [
+   "add",
+   "--stashed",
+   "sleep 60"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_delay::3",
+  "argv": [
+   "add",
+   "--delay",
+   "10 seconds",
+   "echo 'delayed'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_dependency::4",
+  "argv": [
+   "add",
+   "echo 'first'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_priority::5",
+  "argv": [
+   "add",
+   "--priority",
+   "5",
+   "--",
+   "echo 'high priority'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_to_specific_group::6",
+  "argv": [
+   "group",
+   "add",
+   "testgroup"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_working_directory::7",
+  "argv": [
+   "add",
+   "--working-directory",
+   "--",
+   "pwd"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_escape::8",
+  "argv": [
+   "add",
+   "--escape",
+   "--",
+   "echo",
+   "test",
+   "&",
+   "ls"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_print_task_id::9",
+  "argv": [
+   "add",
+   "--print-task-id",
+   "--",
+   "echo 'test'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_nonexistent_dependency_fails::10",
+  "argv": [
+   "add",
+   "--after",
+   "999",
+   "--",
+   "echo 'bad dep'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_invalid_working_directory::11",
+  "argv": [
+   "add",
+   "--working-directory",
+   "/nonexistent/path",
+   "--",
+   "echo test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_complex_shell_command::12",
+  "argv": [
+   "add",
+   "echo \"one\" && echo \"two\" && echo \"three\""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_immediate_when_paused::13",
+  "argv": [
+   "pause"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_preserves_environment::14",
+  "argv": [
+   "add",
+   "echo $HOME"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_priority_ordering::15",
+  "argv": [
+   "add",
+   "--stashed",
+   "--priority",
+   "0",
+   "--",
+   "echo 'low'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_command_with_quotes_and_special_chars::16",
+  "argv": [
+   "add",
+   "echo \"test \\\"nested\\\" quotes\""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_sequential_tasks_increment_ids::17",
+  "argv": [
+   "status",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_label_and_priority_combined::18",
+  "argv": [
+   "add",
+   "--label",
+   "important",
+   "--priority",
+   "5",
+   "--",
+   "echo 'combined'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_task_captures_created_at_timestamp::19",
+  "argv": [
+   "add",
+   "echo 'timestamp test'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_long_command::20",
+  "argv": [
+   "add"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_to_nonexistent_group_fails::21",
+  "argv": [
+   "add",
+   "--group",
+   "nonexistent",
+   "echo test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_negative_priority::22",
+  "argv": [
+   "add",
+   "--priority=-5",
+   "--",
+   "echo 'negative'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_dependency_chain::23",
+  "argv": [
+   "add",
+   "echo 'task0'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_stashed_and_delay_compatible::24",
+  "argv": [
+   "add",
+   "--stashed",
+   "--delay",
+   "1 hour",
+   "--",
+   "echo 'both'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_command_with_multiline_structure::25",
+  "argv": [
+   "add",
+   "echo 'line1'; echo 'line2'; echo 'line3'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_follow_flag::26",
+  "argv": [
+   "add",
+   "--immediate",
+   "--follow",
+   "--",
+   "echo 'followed output'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_follow_without_immediate_fails::27",
+  "argv": [
+   "add",
+   "--follow",
+   "--",
+   "echo test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_simple_alias_expansion::28",
+  "argv": [
+   "add",
+   "ls"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_alias_with_arguments::29",
+  "argv": [
+   "add",
+   "grep pattern file.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_alias_file::30",
+  "argv": [
+   "add",
+   "echo hello"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_alias_not_found::31",
+  "argv": [
+   "add",
+   "echo test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_command::32",
+  "argv": [
+   "add",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_alias_with_pipes_and_redirects::33",
+  "argv": [
+   "add",
+   "loggrep error"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_alias_with_quotes::34",
+  "argv": [
+   "add",
+   "testquote"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_alias_only_first_word::35",
+  "argv": [
+   "add",
+   "echo echo test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_alias_with_special_characters::36",
+  "argv": [
+   "add",
+   "my-cmd"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_alias_with_multiline_value::37",
+  "argv": [
+   "add",
+   "multiline"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_alias_empty_value::38",
+  "argv": [
+   "add",
+   "empty arg1 arg2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_alias_whitespace_handling::39",
+  "argv": [
+   "add",
+   "  ls  "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_alias_with_environment_variables::40",
+  "argv": [
+   "add",
+   "envtest"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parallel_limit_enforced::41",
+  "argv": [
+   "parallel",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parallel_tasks_queue_when_limit_reached::42",
+  "argv": [
+   "parallel",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parallel_zero_means_unlimited::43",
+  "argv": [
+   "parallel",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_kill_multiple_tasks_concurrently::44",
+  "argv": [
+   "parallel",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pause_one_group_not_others::45",
+  "argv": [
+   "group",
+   "add",
+   "group1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_many_tasks_same_directory_no_corruption::46",
+  "argv": [
+   "parallel",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concurrent_group_operations::47",
+  "argv": [
+   "group",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_profile_loads_different_socket_path::48",
+  "argv": [
+   "pkill",
+   "-9",
+   "pueued_cov"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_group_selection::49",
+  "argv": [
+   "add",
+   "echo",
+   "default_task_1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_all_tasks::50",
+  "argv": [
+   "add",
+   "echo",
+   "task_zero"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enqueue_group_selection::51",
+  "argv": [
+   "pause",
+   "-a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enqueue_with_delay::52",
+  "argv": [
+   "add",
+   "--stashed",
+   "echo",
+   "delayed_task"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enqueue_all_with_delay::53",
+  "argv": [
+   "add",
+   "--stashed",
+   "echo",
+   "task1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_json_with_group::54",
+  "argv": [
+   "group",
+   "add",
+   "grp1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_json_all_tasks::55",
+  "argv": [
+   "add",
+   "echo",
+   "output1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_nonexistent_task_id::56",
+  "argv": [
+   "add",
+   "echo",
+   "existing_task"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_lines_truncation_boundary::57",
+  "argv": [
+   "add",
+   "exact_10_lines.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "exact_10_lines.sh": "#!/bin/sh\necho \"line_01\"\necho \"line_02\"\necho \"line_03\"\necho \"line_04\"\necho \"line_05\"\necho \"line_06\"\necho \"line_07\"\necho \"line_08\"\necho \"line_09\"\necho \"line_10\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_empty_group::58",
+  "argv": [
+   "group",
+   "add",
+   "emptygroup"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enqueue_mixed_states_by_id::59",
+  "argv": [
+   "add",
+   "--stashed",
+   "echo",
+   "stashed_task"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_json_single_task::60",
+  "argv": [
+   "add",
+   "echo",
+   "single_output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_lines_zero::61",
+  "argv": [
+   "add",
+   "echo",
+   "some_output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enqueue_with_delay_group_and_all::62",
+  "argv": [
+   "group",
+   "add",
+   "grp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_lines_larger_than_output::63",
+  "argv": [
+   "add",
+   "three_lines.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "three_lines.sh": "#!/bin/sh\necho \"first\"\necho \"second\"\necho \"third\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_group_json_combined::64",
+  "argv": [
+   "group",
+   "add",
+   "alpha"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_command_in_files_mode::65",
+  "argv": [
+   "add",
+   "--stashed",
+   "echo original"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_path_in_files_mode::66",
+  "argv": [
+   "add",
+   "--stashed",
+   "echo test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_multiple_tasks_at_once::67",
+  "argv": [
+   "add",
+   "--stashed",
+   "echo first_task_abc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_cannot_edit_running_task::68",
+  "argv": [
+   "add",
+   "sleep 10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_cannot_edit_completed_task::69",
+  "argv": [
+   "add",
+   "echo done"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_nonexistent_task::70",
+  "argv": [
+   "edit",
+   "999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_with_whitespace_in_fields::71",
+  "argv": [
+   "add",
+   "--stashed",
+   "echo original_ws"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_negative_priority::72",
+  "argv": [
+   "add",
+   "--stashed",
+   "echo test_neg_pri"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_remove_label::73",
+  "argv": [
+   "add",
+   "--stashed",
+   "-l",
+   "original_label_abc",
+   "echo test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_all_fields_at_once::74",
+  "argv": [
+   "add",
+   "--stashed",
+   "echo original_all"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_editor_exits_nonzero::75",
+  "argv": [
+   "add",
+   "--stashed",
+   "echo should_not_change"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_preserves_unedited_fields::76",
+  "argv": [
+   "add",
+   "--stashed",
+   "-l",
+   "preserve_label_abc",
+   "-p",
+   "7",
+   "echo preserve_cmd"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_toml_mode_single_task::77",
+  "argv": [
+   "add",
+   "--stashed",
+   "echo toml_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_toml_mode_multiple_tasks::78",
+  "argv": [
+   "add",
+   "--stashed",
+   "echo task_one"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_no_editor_env_var::79",
+  "argv": [
+   "add",
+   "--stashed",
+   "echo test_no_editor"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_set_on_stashed_task_success::80",
+  "argv": [
+   "add",
+   "--stashed",
+   "bash"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_set_nonexistent_task_error::81",
+  "argv": [
+   "env",
+   "set",
+   "999",
+   "MY_VAR",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_set_on_running_task_error::82",
+  "argv": [
+   "add",
+   "sleep",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_set_on_completed_task_error::83",
+  "argv": [
+   "add",
+   "echo",
+   "done"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_unset_on_nonexistent_task_error::84",
+  "argv": [
+   "env",
+   "unset",
+   "999",
+   "MY_VAR"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_non_existent_task_log::85",
+  "argv": [
+   "log",
+   "999999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_non_existent_task_remove::86",
+  "argv": [
+   "remove",
+   "999999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_to_non_existent_group::87",
+  "argv": [
+   "add",
+   "--group",
+   "nonexistent_group",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_non_existent_group::88",
+  "argv": [
+   "group",
+   "remove",
+   "nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_non_existent_dependency::89",
+  "argv": [
+   "add",
+   "--after",
+   "999",
+   "--",
+   "echo",
+   "depends_on_nothing"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_chars_in_command_ampersand::90",
+  "argv": [
+   "add",
+   "echo",
+   "test&more"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_quotes::91",
+  "argv": [
+   "add",
+   "echo",
+   "hello",
+   "world"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_newlines_in_arg::92",
+  "argv": [
+   "add",
+   "echo",
+   "line1\nline2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_label::93",
+  "argv": [
+   "add",
+   "--label",
+   "",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_whitespace_only_label::94",
+  "argv": [
+   "add",
+   "--label",
+   "   ",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_command::95",
+  "argv": [
+   "add",
+   "echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_many_simultaneous_tasks::96",
+  "argv": [
+   "parallel",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_delay_format::97",
+  "argv": [
+   "add",
+   "--delay",
+   "invalid",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_restart_non_existent_task::98",
+  "argv": [
+   "restart",
+   "999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_switch_non_existent_tasks::99",
+  "argv": [
+   "switch",
+   "999",
+   "1000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_group_add_duplicate_name::100",
+  "argv": [
+   "group",
+   "add",
+   "test_group"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_default_group::101",
+  "argv": [
+   "group",
+   "remove",
+   "default"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stash_with_invalid_group::102",
+  "argv": [
+   "add",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_with_special_characters_in_working_directory::103",
+  "argv": [
+   "add",
+   "--working-directory",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_task_with_dependent::104",
+  "argv": [
+   "add",
+   "echo",
+   "parent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_priority_extreme_values::105",
+  "argv": [
+   "add",
+   "-o=1000",
+   "echo",
+   "high_priority"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_multiple_dependencies::106",
+  "argv": [
+   "add",
+   "echo",
+   "task1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_task_id::107",
+  "argv": [
+   "log",
+   "-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_non_numeric_task_id::108",
+  "argv": [
+   "kill",
+   "abc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_task_id_for_log::109",
+  "argv": [
+   "log",
+   "999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_priority_values::110",
+  "argv": [
+   "add",
+   "-o=-5",
+   "echo",
+   "negative_priority"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clean_successful_only_flag::111",
+  "argv": [
+   "add",
+   "echo",
+   "success"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_working_directory_validation::112",
+  "argv": [
+   "add",
+   "--working-directory",
+   "/nonexistent/path/123456",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_tasks_with_dependencies_chain::113",
+  "argv": [
+   "add",
+   "echo",
+   "task_a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_group_list_default::114",
+  "argv": [
+   "group"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_group_add_with_parallel_setting::115",
+  "argv": [
+   "group",
+   "add",
+   "testing",
+   "--parallel",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_group_pause_and_start_operations::116",
+  "argv": [
+   "group",
+   "add",
+   "testing",
+   "--parallel",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_set_and_execute::117",
+  "argv": [
+   "add",
+   "--stashed",
+   "echo \"MY_VAR=$MY_VAR\""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_unset::118",
+  "argv": [
+   "add",
+   "--stashed",
+   "echo \"TEST_VAR=$TEST_VAR\""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_send_input_to_running_task::119",
+  "argv": [
+   "add",
+   "cat"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wait_for_specific_tasks::120",
+  "argv": [
+   "add",
+   "sleep 2 && echo done1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wait_for_group::121",
+  "argv": [
+   "group",
+   "add",
+   "batch",
+   "--parallel",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_task_output::122",
+  "argv": [
+   "add",
+   "for i in 1 2 3; do echo line$i; sleep 0.5; done"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parallel_tasks_per_group_enforced::123",
+  "argv": [
+   "group",
+   "add",
+   "limited",
+   "--parallel",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_group_add_with_zero_parallel::124",
+  "argv": [
+   "group",
+   "add",
+   "unlimited",
+   "--parallel",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_kill_group_tasks::125",
+  "argv": [
+   "group",
+   "add",
+   "killtest",
+   "--parallel",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_set_on_non_existent_task::126",
+  "argv": [
+   "env",
+   "set",
+   "999",
+   "VAR",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wait_for_all_tasks::127",
+  "argv": [
+   "add",
+   "sleep 1 && echo all1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_group_operations_with_running_tasks::128",
+  "argv": [
+   "group",
+   "add",
+   "active",
+   "--parallel",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_multiple_variables_same_task::129",
+  "argv": [
+   "add",
+   "--stashed",
+   "echo \"A=$A B=$B C=$C\""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wait_success_status_with_failure::130",
+  "argv": [
+   "add",
+   "exit 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_with_lines_limit::131",
+  "argv": [
+   "add",
+   "seq 1 10 | while read i; do echo line$i; done"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_tasks_nonexistent_group::132",
+  "argv": [
+   "add",
+   "echo",
+   "test1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pause_nonexistent_group_error::133",
+  "argv": [
+   "pause",
+   "--group",
+   "nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_start_nonexistent_group_error::134",
+  "argv": [
+   "start",
+   "--group",
+   "nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_task_sequential_ids::135",
+  "argv": [
+   "add",
+   "echo",
+   "first"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pause_specific_group_filters_tasks::136",
+  "argv": [
+   "group",
+   "add",
+   "testing"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_task_directory::137",
+  "argv": [
+   "add",
+   "--stashed",
+   "before"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_all_task_properties::138",
+  "argv": [
+   "add",
+   "--stashed",
+   "this is a test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_delete_label::139",
+  "argv": [
+   "add",
+   "--stashed",
+   "--label",
+   "Testlabel",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_change_priority::140",
+  "argv": [
+   "add",
+   "--stashed",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_fail_restore::141",
+  "argv": [
+   "add",
+   "--stashed",
+   "original_command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_set::142",
+  "argv": [
+   "add",
+   "--stashed",
+   "echo $TEST_VARIABLE"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_default::143",
+  "argv": [
+   "add",
+   "sleep 0.5 && echo test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_last_lines::144",
+  "argv": [
+   "add",
+   "printf \"1\\n2\\n3\\n4\\n5\\n6\\n7\\n8\\n\" && sleep 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_nonexistent::145",
+  "argv": [
+   "follow",
+   "999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_immediate_add::146",
+  "argv": [
+   "add",
+   "--immediate",
+   "--follow",
+   "echo immediate_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_read::147",
+  "argv": [
+   "add",
+   "echo test_output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_truncated::148",
+  "argv": [
+   "add",
+   "printf \"1\\n2\\n3\\n4\\n5\\n6\\n7\\n8\\n9\\n10\\n\""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_with_label::149",
+  "argv": [
+   "add",
+   "--label",
+   "test_label",
+   "echo test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_json::150",
+  "argv": [
+   "add",
+   "echo json_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_restart_normal::151",
+  "argv": [
+   "add",
+   "echo first_run"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_restart_edit_command::152",
+  "argv": [
+   "add",
+   "echo original"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_restart_edit_path::153",
+  "argv": [
+   "add",
+   "pwd"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_default::154",
+  "argv": [
+   "status"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_full::155",
+  "argv": [
+   "add",
+   "--label",
+   "test",
+   "--delay",
+   "1 minute",
+   "ls"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_json::156",
+  "argv": [
+   "add",
+   "echo json_state_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wait_single_task::157",
+  "argv": [
+   "add",
+   "sleep 0.5 && echo done"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wait_success_success::158",
+  "argv": [
+   "add",
+   "true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wait_success_failure::159",
+  "argv": [
+   "add",
+   "false"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wait_multiple_tasks::160",
+  "argv": [
+   "add",
+   "echo 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_daemon_add_normal::161",
+  "argv": [
+   "add",
+   "sleep 0.1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_daemon_clean_normal::162",
+  "argv": [
+   "clean"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_daemon_dependency_basic::163",
+  "argv": [
+   "add",
+   "sleep 0.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_daemon_edit_flow::164",
+  "argv": [
+   "add",
+   "--stashed",
+   "original"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_daemon_isolated_environment::165",
+  "argv": [
+   "add",
+   "echo ${PUEUE_CONFIG_PATH:-empty}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_daemon_group_add_remove::166",
+  "argv": [
+   "group",
+   "add",
+   "newgroup"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_daemon_kill_without_pause::167",
+  "argv": [
+   "add",
+   "sleep 60"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_daemon_log_full::168",
+  "argv": [
+   "add",
+   "echo full_log_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_daemon_log_partial::169",
+  "argv": [
+   "add",
+   "printf \"line1\\nline2\\nline3\\nline4\\nline5\\n\""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_daemon_log_order::170",
+  "argv": [
+   "add",
+   "printf \"A\\nB\\nC\\nD\\n\""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_daemon_logs_for_all::171",
+  "argv": [
+   "add",
+   "echo task0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_daemon_parallel_tasks::172",
+  "argv": [
+   "add",
+   "sleep 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_daemon_reset::173",
+  "argv": [
+   "add",
+   "echo test1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_daemon_shutdown_graceful::174",
+  "argv": [
+   "shutdown"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_daemon_stashed_delayed_tasks::175",
+  "argv": [
+   "add",
+   "--delay",
+   "2 seconds",
+   "echo delayed"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_daemon_stashed_enqueued_tasks::176",
+  "argv": [
+   "start",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_daemon_spawn_fail::177",
+  "argv": [
+   "add",
+   "nonexistent_command_xyz_123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_daemon_worker_env_single::178",
+  "argv": [
+   "add",
+   "echo Worker:$PUEUE_WORKER_ID"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_daemon_worker_env_multiple::179",
+  "argv": [
+   "add",
+   "env | grep PUEUE"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_task_with_label::180",
+  "argv": [
+   "add",
+   "--label",
+   "my_label",
+   "echo test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_task_with_priority::181",
+  "argv": [
+   "add",
+   "--priority",
+   "5",
+   "echo test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_task_with_group::182",
+  "argv": [
+   "group",
+   "add",
+   "mygroup"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_group_colored_output::183",
+  "argv": [
+   "--color",
+   "always",
+   "group"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_task_working_directory::184",
+  "argv": [
+   "add",
+   "--working-directory",
+   "pwd"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_task_print_task_ids::185",
+  "argv": [
+   "add",
+   "--print-task-id",
+   "echo test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_task_escape::186",
+  "argv": [
+   "add",
+   "--escape",
+   "echo",
+   "test arg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default::187",
+  "argv": [
+   "group",
+   "add",
+   "test_2",
+   "--parallel=2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_group::188",
+  "argv": [
+   "group",
+   "add",
+   "testgroup",
+   "--parallel=1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read_truncated::189",
+  "argv": [
+   "add",
+   "echo '1\n2\n3\n4\n5\n6\n7\n8\n9\n10'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_on_immediate_add::190",
+  "argv": [
+   "add",
+   "--immediate",
+   "--follow",
+   "sleep 1 && echo test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_last_lines::191",
+  "argv": [
+   "add",
+   "echo \"1\n2\n3\n4\n5\n6\n7\n8\" && sleep 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wait_for_task::192",
+  "argv": [
+   "add",
+   "--delay",
+   "2 seconds",
+   "echo test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fail_on_non_existing::193",
+  "argv": [
+   "follow",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_with_alias::194",
+  "argv": [
+   "add",
+   "--stashed",
+   "test_command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_tasks::195",
+  "argv": [
+   "add",
+   "--delay",
+   "1 seconds",
+   "sleep 0.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_target_status::196",
+  "argv": [
+   "add",
+   "--delay",
+   "2 seconds",
+   "sleep 5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_success_failure::197",
+  "argv": [
+   "add",
+   "sleep 1 && failing_command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_json_multiple_tasks_structure::198",
+  "argv": [
+   "add",
+   "echo",
+   "task_zero_output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_stderr_only_output::199",
+  "argv": [
+   "add",
+   "printf",
+   "error_text_here\n",
+   ">&2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_json_with_lines_limit::200",
+  "argv": [
+   "add",
+   "multiline_script.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "multiline_script.sh": "#!/bin/sh\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_full_flag_overrides_default_limit::201",
+  "argv": [
+   "add",
+   "many_lines_script.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "many_lines_script.sh": "#!/bin/sh\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_lines_parameter_explicit::202",
+  "argv": [
+   "add",
+   "thirty_lines_script.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "thirty_lines_script.sh": "#!/bin/sh\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_failed_task_exit_code_display::203",
+  "argv": [
+   "add",
+   "exit_42_script.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "exit_42_script.sh": "#!/bin/sh\nexit 42\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_killed_task_display::204",
+  "argv": [
+   "add",
+   "sleep",
+   "100"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_task_with_label_in_info::205",
+  "argv": [
+   "add",
+   "--label",
+   "my_important_task",
+   "echo",
+   "labeled"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_task_start_end_times::206",
+  "argv": [
+   "add",
+   "echo",
+   "timed_task"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_multiple_tasks_with_newline_separator::207",
+  "argv": [
+   "add",
+   "echo",
+   "first_task"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_truncation_indicator_with_lines::208",
+  "argv": [
+   "add",
+   "hundred_lines_script.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "hundred_lines_script.sh": "#!/bin/sh\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_default_line_limit_for_multiple_tasks::209",
+  "argv": [
+   "add",
+   "default_limit_script.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "default_limit_script.sh": "#!/bin/sh\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_json_all_tasks::210",
+  "argv": [
+   "add",
+   "echo",
+   "alpha"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_mixed_stdout_stderr::211",
+  "argv": [
+   "add",
+   "mixed_output_script.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "mixed_output_script.sh": "#!/bin/sh\necho \"stdout_line_1\"\necho \"stderr_line_1\" >&2\necho \"stdout_line_2\"\necho \"stderr_line_2\" >&2\necho \"stdout_line_3\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_very_long_output::212",
+  "argv": [
+   "add",
+   "long_output_script.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "long_output_script.sh": "#!/bin/sh\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_all_tasks_selection::213",
+  "argv": [
+   "add",
+   "echo",
+   "output_alpha_specific_text"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_no_running_tasks::214",
+  "argv": [
+   "follow"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_json_with_task_selection_all::215",
+  "argv": [
+   "add",
+   "echo",
+   "json_all_task_a_unique_output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_remote_read_success::216",
+  "argv": [
+   "add",
+   "echo",
+   "remote_log_test_output_specific"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_with_lines_limit_remote::217",
+  "argv": [
+   "add",
+   "many_lines.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "many_lines.sh": "#!/bin/sh\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_task_ids_order_preserved::218",
+  "argv": [
+   "add",
+   "echo",
+   "task_0_output_unique"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_empty_task_selection::219",
+  "argv": [
+   "add",
+   "echo",
+   "first_task_output_unique_string"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_nonexistent_task_id::220",
+  "argv": [
+   "add",
+   "echo",
+   "test_existing_task"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_kill_with_sigint_signal::221",
+  "argv": [
+   "add",
+   "sleep 30"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_signal_to_task_with_child_processes::222",
+  "argv": [
+   "add",
+   "bash",
+   "-c",
+   "sleep 30 & sleep 30 & wait"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_filter_running::223",
+  "argv": [
+   "add",
+   "--",
+   "sleep",
+   "0.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_datetime_filter_start_date_equal::224",
+  "argv": [
+   "add",
+   "--",
+   "echo",
+   "task_today1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_datetime_filter_start_date_greater_than::225",
+  "argv": [
+   "add",
+   "--",
+   "echo",
+   "task1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_order_by_start_datetime::226",
+  "argv": [
+   "add",
+   "--",
+   "echo",
+   "task_a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_order_by_end_datetime::227",
+  "argv": [
+   "add",
+   "--",
+   "sleep",
+   "0.1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_datetime_filter_with_status_success::228",
+  "argv": [
+   "add",
+   "--",
+   "echo",
+   "success1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_simple_task::229",
+  "argv": [
+   "add",
+   "echo",
+   "hello"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_group_filter_exact::230",
+  "argv": [
+   "group",
+   "add",
+   "custom_group"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_nonexistent_group_error::231",
+  "argv": [
+   "status",
+   "--group",
+   "nonexistent_group"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_single_task_complete::232",
+  "argv": [
+   "add",
+   "printf \"Line 1: Single task log\\nLine 2: with unique string XYZABC123\\nLine 3: End of output\\n\""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_multiple_tasks_selective::233",
+  "argv": [
+   "add",
+   "printf \"TASK_ZERO_OUTPUT_LINE_A\\nTASK_ZERO_OUTPUT_LINE_B\\n\""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_json_structure::234",
+  "argv": [
+   "add",
+   "printf \"JSON log test line 1\\nJSON log test line 2\\nJSON log test line 3\\n\""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_lines_limit::235",
+  "argv": [
+   "add",
+   "printf \"apple\\nbanana\\ncherry\\ndate\\neggplant\\nfig\\ngrape\\nhoneydew\\niwi\\njackfruit\\n\""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_full_vs_default::236",
+  "argv": [
+   "add",
+   "seq 1 50"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_with_stderr_mixed::237",
+  "argv": [
+   "add",
+   "bash -c \"echo stdout_marker_xyz && echo stderr_marker_abc >&2\""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_group_filter::238",
+  "argv": [
+   "group",
+   "add",
+   "group_x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_query_column_selection::239",
+  "argv": [
+   "add",
+   "--label",
+   "task_alpha_unique",
+   "echo alpha"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_query_filter_label::240",
+  "argv": [
+   "add",
+   "--label",
+   "matching_label",
+   "echo A"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_query_order_by::241",
+  "argv": [
+   "add",
+   "--label",
+   "zebra_label",
+   "echo C"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_query_limit::242",
+  "argv": [
+   "status",
+   "first",
+   "2",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_query_combined_filters::243",
+  "argv": [
+   "add",
+   "--label",
+   "important",
+   "echo task1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_all_tasks::244",
+  "argv": [
+   "add",
+   "echo unique_output_marker_first_task"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reset_with_force_flag::245",
+  "argv": [
+   "add",
+   "--stashed",
+   "echo",
+   "stashed1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reset_all_groups::246",
+  "argv": [
+   "group",
+   "add",
+   "test_group1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parallel_command_invalid_value::247",
+  "argv": [
+   "parallel",
+   "abc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_option_never::248",
+  "argv": [
+   "add",
+   "echo",
+   "colortest_unique_marker"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_task_id_to_remove::249",
+  "argv": [
+   "remove",
+   "999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_group_operations_nonexistent_group::250",
+  "argv": [
+   "parallel",
+   "2",
+   "-g",
+   "nonexistent_group"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clean_preserves_running_task::251",
+  "argv": [
+   "add",
+   "sleep",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pause_running_task_then_resume::252",
+  "argv": [
+   "add",
+   "bash",
+   "-c",
+   "echo start; sleep 2; echo end"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_stashed_then_enqueue::253",
+  "argv": [
+   "add",
+   "--stashed",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pause_with_wait_flag::254",
+  "argv": [
+   "add",
+   "bash",
+   "-c",
+   "echo starting; sleep 1; echo done"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tls_client_can_add_and_query_tasks::255",
+  "argv": [
+   "add",
+   "echo",
+   "hello_tls_test_unique_marker"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tls_task_execution_over_secure_connection::256",
+  "argv": [
+   "add",
+   "echo",
+   "TLS_TASK_OUTPUT_TEST"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tls_daemon_restart_preserves_task_state::257",
+  "argv": [
+   "add",
+   "echo",
+   "state_persistence_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wait_no_tasks_found::258",
+  "argv": [
+   "wait",
+   "999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wait_quiet_mode_no_output::259",
+  "argv": [
+   "add",
+   "sleep",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wait_task_dependency_failed::260",
+  "argv": [
+   "add",
+   "sleep",
+   "0.3",
+   "&&",
+   "exit",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wait_multiple_tasks_by_id::261",
+  "argv": [
+   "add",
+   "sleep",
+   "0.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wait_with_group_filter::262",
+  "argv": [
+   "group",
+   "add",
+   "testgroup",
+   "--parallel",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_with_lines_limit::263",
+  "argv": [
+   "add",
+   "bash",
+   "-c",
+   "'for i in 1 2 3 4 5 6 7 8 9 10; do echo line$i; done'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_single_running_task_auto_select::264",
+  "argv": [
+   "add",
+   "bash",
+   "-c",
+   "'for i in 1 2 3; do echo auto$i; sleep 0.2; done'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wait_all_flag_waits_for_all_groups::265",
+  "argv": [
+   "group",
+   "add",
+   "other"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wait_failed_to_spawn_status::266",
+  "argv": [
+   "add",
+   "/nonexistent/command/path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wait_new_task_added_while_waiting::267",
+  "argv": [
+   "add",
+   "sleep",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_non_existent_task::268",
+  "argv": [
+   "follow",
+   "9999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_completed_task_shows_full_output::269",
+  "argv": [
+   "add",
+   "bash",
+   "-c",
+   "'for i in 1 2 3 4 5; do echo completed$i; done'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wait_paused_group_status_transitions::270",
+  "argv": [
+   "group",
+   "add",
+   "pausetest"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_with_stderr_output::271",
+  "argv": [
+   "add",
+   "bash",
+   "-c",
+   "'echo stdout_line; echo stderr_line >&2'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_task_finishes_during_follow::272",
+  "argv": [
+   "add",
+   "bash",
+   "-c",
+   "'echo start; sleep 1; echo end'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wait_status_done_with_all_result_types::273",
+  "argv": [
+   "add",
+   "exit",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_order_by_status_with_mixed_statuses::274",
+  "argv": [
+   "add",
+   "--stashed",
+   "echo stashed_task"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_order_by_status_with_done_tasks::275",
+  "argv": [
+   "add",
+   "echo success"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_order_by_priority_sorts_correctly::276",
+  "argv": [
+   "add",
+   "--stashed",
+   "--priority",
+   "5",
+   "echo high_prio"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pure_number_limit::277",
+  "argv": [
+   "status",
+   "first 2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_order_by_with_limit::278",
+  "argv": [
+   "status",
+   "order_by id desc last 2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_order_by_label_desc::279",
+  "argv": [
+   "add",
+   "--stashed",
+   "--label",
+   "alpha",
+   "echo alpha"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_order_by_path_asc::280",
+  "argv": [
+   "add",
+   "--stashed",
+   "--working-directory",
+   "/tmp",
+   "echo path_tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_order_by_command_asc::281",
+  "argv": [
+   "add",
+   "--stashed",
+   "echo zzz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reset_specific_group_with_running_tasks::282",
+  "argv": [
+   "group",
+   "add",
+   "resetgrp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reset_multiple_groups::283",
+  "argv": [
+   "group",
+   "add",
+   "grp_a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_multiple_tasks::284",
+  "argv": [
+   "add",
+   "--stashed",
+   "echo task_edit_1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_send_input_to_running_task::285",
+  "argv": [
+   "add",
+   "read -r line && echo Got: $line"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_files_mode_empty_command_fails::286",
+  "argv": [
+   "--config",
+   "add",
+   "--stashed",
+   "echo files_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_files_mode_empty_path_fails::287",
+  "argv": [
+   "--config",
+   "add",
+   "--stashed",
+   "echo path_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag::288",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_help_flag::289",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_add_subcommand::290",
+  "argv": [
+   "add",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_remove_subcommand::291",
+  "argv": [
+   "remove",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_status_subcommand::292",
+  "argv": [
+   "status",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_log_subcommand::293",
+  "argv": [
+   "log",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_clean_subcommand::294",
+  "argv": [
+   "clean",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_reset_subcommand::295",
+  "argv": [
+   "reset",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_parallel_subcommand::296",
+  "argv": [
+   "parallel",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_completions_subcommand::297",
+  "argv": [
+   "completions",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_group_subcommand::298",
+  "argv": [
+   "group",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_group_add_subcommand::299",
+  "argv": [
+   "group",
+   "add",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_group_remove_subcommand::300",
+  "argv": [
+   "group",
+   "remove",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_env_subcommand::301",
+  "argv": [
+   "env",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_wait_subcommand::302",
+  "argv": [
+   "wait",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_stash_subcommand::303",
+  "argv": [
+   "stash",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_enqueue_subcommand::304",
+  "argv": [
+   "enqueue",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::305",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_short_flag::306",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_config_path::307",
+  "argv": [
+   "--config",
+   "/nonexistent/path/pueue.yml",
+   "status"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_bash_stdout::308",
+  "argv": [
+   "completions",
+   "bash"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_zsh_stdout::309",
+  "argv": [
+   "completions",
+   "zsh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_fish_stdout::310",
+  "argv": [
+   "completions",
+   "fish"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_nushell_stdout::311",
+  "argv": [
+   "completions",
+   "nushell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_elvish_stdout::312",
+  "argv": [
+   "completions",
+   "elvish"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_powershell_stdout::313",
+  "argv": [
+   "completions",
+   "power-shell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_invalid_shell::314",
+  "argv": [
+   "completions",
+   "invalidshell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_to_nonexistent_dir::315",
+  "argv": [
+   "completions",
+   "bash",
+   "/nonexistent/dir/path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_group_with_unlimited_parallel::316",
+  "argv": [
+   "group",
+   "add",
+   "--parallel",
+   "0",
+   "unlimited_grp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_start_with_time_only::317",
+  "argv": [
+   "add",
+   "echo time_only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_start_with_full_time::318",
+  "argv": [
+   "add",
+   "echo full_time"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enqueue_at_filter_datetime::319",
+  "argv": [
+   "add",
+   "--delay",
+   "1h",
+   "echo stashed_with_delay"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_order_by_enqueue_at::320",
+  "argv": [
+   "add",
+   "--stashed",
+   "echo t0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_columns_and_filter::321",
+  "argv": [
+   "add",
+   "--stashed",
+   "--label",
+   "test",
+   "echo t0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_order_by_command_desc::322",
+  "argv": [
+   "add",
+   "--stashed",
+   "echo aaa"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_order_by_end_desc::323",
+  "argv": [
+   "add",
+   "echo first"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_order_by_label_desc::324",
+  "argv": [
+   "add",
+   "--stashed",
+   "--label",
+   "aaa",
+   "echo labeled_a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_v::325",
+  "argv": [
+   "-v",
+   "status"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_vvv::326",
+  "argv": [
+   "-vvv",
+   "status"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_command::327",
+  "argv": [
+   "unknowncommand"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pause_wait_lets_running_finish::328",
+  "argv": [
+   "add",
+   "sleep 0.3; echo finished"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_json_all::329",
+  "argv": [
+   "group",
+   "add",
+   "grp2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_json_lines::330",
+  "argv": [
+   "add",
+   "for i in 1 2 3 4 5; do echo line$i; done"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_daemon_state_persistence::331",
+  "argv": [
+   "--config",
+   "add",
+   "--stashed",
+   "echo persistent_task"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_v_flag_with_version::332",
+  "argv": [
+   "-v",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_vv_flag_with_version::333",
+  "argv": [
+   "-v",
+   "-v",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_vvv_flag_with_version::334",
+  "argv": [
+   "-v",
+   "-v",
+   "-v",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_vvvv_flag_uses_pretty_mode::335",
+  "argv": [
+   "-v",
+   "-v",
+   "-v",
+   "-v",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_single_running_task_auto_select::336",
+  "argv": [
+   "add",
+   "sleep 3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_with_lines::337",
+  "argv": [
+   "add",
+   "for i in $(seq 1 5); do echo line$i; sleep 0.1; done"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reset_all_with_force::338",
+  "argv": [
+   "add",
+   "echo task1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reset_nonexistent_group_fails::339",
+  "argv": [
+   "reset",
+   "--force",
+   "--groups",
+   "nonexistent_group"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_profile_fails::340",
+  "argv": [
+   "--config",
+   "--profile",
+   "nonexistent_profile",
+   "status"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_in_toml_mode::341",
+  "argv": [
+   "add",
+   "--stashed",
+   "echo original_command_toml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_files_mode_with_editor::342",
+  "argv": [
+   "add",
+   "--stashed",
+   "echo files_mode_command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_with_nonzero_exit_editor::343",
+  "argv": [
+   "add",
+   "--stashed",
+   "echo test_task"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remote_log_lines_limit::344",
+  "argv": [
+   "add",
+   "printf 'line1\\nline2\\nline3\\nline4\\nline5\\n'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remote_log_all_tasks::345",
+  "argv": [
+   "add",
+   "echo remote_all_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remote_log_json_full::346",
+  "argv": [
+   "add",
+   "echo remote_json_output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_no_tasks_at_all::347",
+  "argv": [
+   "log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_specific_nonexistent_task::348",
+  "argv": [
+   "log",
+   "99"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_status_running::349",
+  "argv": [
+   "add",
+   "sleep 5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_last_limit::350",
+  "argv": [
+   "status",
+   "last 2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_order_by_command_desc::351",
+  "argv": [
+   "add",
+   "--stashed",
+   "echo aardvark"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_column_selection::352",
+  "argv": [
+   "add",
+   "--stashed",
+   "echo col_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_label_contains::353",
+  "argv": [
+   "add",
+   "--stashed",
+   "--label",
+   "my_special_label",
+   "echo labeled"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_command_contains::354",
+  "argv": [
+   "add",
+   "--stashed",
+   "echo unique_cmd_xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_all_columns::355",
+  "argv": [
+   "add",
+   "--stashed",
+   "--label",
+   "test_label",
+   "echo test_cmd"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_shows_enqueue_at_column::356",
+  "argv": [
+   "add",
+   "--stashed",
+   "--delay",
+   "1h",
+   "echo delayed_task"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_shows_dependencies_column::357",
+  "argv": [
+   "add",
+   "--stashed",
+   "echo base_task"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clean_successful_only_keeps_failed::358",
+  "argv": [
+   "add",
+   "echo success_task"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_group_status_shows_in_group_list::359",
+  "argv": [
+   "group",
+   "add",
+   "testgrp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_start_all_flag::360",
+  "argv": [
+   "add",
+   "--stashed",
+   "echo task1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pause_all_flag::361",
+  "argv": [
+   "pause",
+   "--all"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_set_invalid_task_id::362",
+  "argv": [
+   "env",
+   "set",
+   "999",
+   "KEY",
+   "VALUE"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_no_color::363",
+  "argv": [
+   "add",
+   "echo color_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_always_color::364",
+  "argv": [
+   "add",
+   "echo color_always_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_stashed_task::365",
+  "argv": [
+   "add",
+   "--stashed",
+   "echo to_remove"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_finished_task::366",
+  "argv": [
+   "add",
+   "echo remove_finished"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_switch_two_stashed_tasks::367",
+  "argv": [
+   "add",
+   "--stashed",
+   "echo task0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_basic::368",
+  "argv": [
+   "add",
+   "--stashed",
+   "echo hello"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_print_task_id::369",
+  "argv": [
+   "add",
+   "--print-task-id",
+   "--stashed",
+   "echo hello"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_multiple_tasks_increments_id::370",
+  "argv": [
+   "add",
+   "--print-task-id",
+   "--stashed",
+   "echo task1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_task_runs_and_completes::371",
+  "argv": [
+   "add",
+   "echo completed_successfully"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_label::372",
+  "argv": [
+   "add",
+   "--stashed",
+   "--label",
+   "my_test_label",
+   "echo labeled"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_working_directory::373",
+  "argv": [
+   "add",
+   "--stashed",
+   "--working-directory",
+   "/tmp",
+   "echo hello"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_dependencies::374",
+  "argv": [
+   "add",
+   "--stashed",
+   "echo first"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_escape::375",
+  "argv": [
+   "add",
+   "--stashed",
+   "--escape",
+   "echo hello world"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_delay_seconds::376",
+  "argv": [
+   "add",
+   "--stashed",
+   "--delay",
+   "3600s",
+   "echo delayed"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_delay_hours::377",
+  "argv": [
+   "add",
+   "--stashed",
+   "--delay",
+   "1h",
+   "echo delayed_hours"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_task_with_dependency_waits::378",
+  "argv": [
+   "add",
+   "--stashed",
+   "echo dep_task"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dependent_task_runs_after_first::379",
+  "argv": [
+   "add",
+   "echo first_task"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_priority_shown_in_status::380",
+  "argv": [
+   "add",
+   "--stashed",
+   "--priority",
+   "5",
+   "echo high"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_priority_in_json::381",
+  "argv": [
+   "add",
+   "--stashed",
+   "--priority",
+   "7",
+   "echo priority_7"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_verbose_flag::382",
+  "argv": [
+   "-vv",
+   "status"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_shows_start_time_for_completed_task::383",
+  "argv": [
+   "add",
+   "echo done_task"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_json_includes_timestamps::384",
+  "argv": [
+   "add",
+   "echo timestamp_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_task_runs_in_working_directory::385",
+  "argv": [
+   "add",
+   "--working-directory",
+   "/tmp",
+   "pwd"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_failed_task_exit_code_in_status::386",
+  "argv": [
+   "add",
+   "exit 42"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_callback_on_task_completion::387",
+  "argv": [
+   "add",
+   "echo task_with_callback"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_callback_with_template_variables::388",
+  "argv": [
+   "add",
+   "echo test_callback"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_single_running_task_auto_select::389",
+  "argv": [
+   "add",
+   "for i in 1 2 3; do echo followme$i; sleep 0.2; done"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_with_lines::390",
+  "argv": [
+   "add",
+   "for i in 1 2 3 4 5; do echo line$i; done && sleep 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_completed_task::391",
+  "argv": [
+   "add",
+   "echo completed_output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_failed_task::392",
+  "argv": [
+   "add",
+   "echo before_failure; exit 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_daemon_with_compress_state::393",
+  "argv": [
+   "--config",
+   "add",
+   "echo compress_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_delay_shows_formatted_time::394",
+  "argv": [
+   "add",
+   "--delay",
+   "2h",
+   "echo delayed_format_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stash_with_delay_shows_enqueue_info::395",
+  "argv": [
+   "add",
+   "--delay",
+   "1h",
+   "echo delayed_stashed"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parallel_no_args_shows_current::396",
+  "argv": [
+   "parallel"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parallel_query_shows_error::397",
+  "argv": [
+   "parallel",
+   "--group",
+   "nonexistent",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_with_large_output::398",
+  "argv": [
+   "add",
+   "for i in $(seq 1 100); do echo line$i; done"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_lines_limit_from_end::399",
+  "argv": [
+   "add",
+   "for i in $(seq 1 50); do echo line$i; done"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

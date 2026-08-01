@@ -1,0 +1,29 @@
+{
+  "schema": "determinex-repair-loop-transcript-v1",
+  "tool": "attrs",
+  "family": "python",
+  "pinned_commit": "d2fbfcc",
+  "repair_type": "seeded_defect (behavioral) - verifier is the project's OWN test suite in a python:3.12 image (toolchain via provider; Docker-OPTIONAL)",
+  "toolchain": "python:3.12",
+  "oracle": "the real python-attrs/attrs repo's own tests: python -m pytest tests/test_make.py -q",
+  "defect": {
+    "file": "src/attr/_make.py",
+    "seed": "_OBJ_SETATTR = object.__setattr__ -> _OBJ_SETATTR = object.__delattr__"
+  },
+  "detect": {
+    "baseline": "280 passed, 1 skipped in 6.52s",
+    "after_seed": "test suite FAILED (exit 4)",
+    "oracle_caught": true,
+    "failure_signature": "seeded defect made the project's own test suite exit non-zero"
+  },
+  "repair": {
+    "fix": "git checkout (restore upstream source)"
+  },
+  "reverify": {
+    "after": "280 passed, 1 skipped in 4.68s",
+    "passed": 280,
+    "failures": 0
+  },
+  "repair_loop_status": "passed",
+  "proves": "closed-loop repair on a real external python project (attrs): its OWN test suite detects the injected defect -> fix -> re-verify (280 passed, 1 skipped in 4.68s). Reproducible."
+}

@@ -1,0 +1,2426 @@
+[
+ {
+  "name": "test::test_help_flag_exits_zero::0",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_flag_exits_zero::1",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_command_exits_zero::2",
+  "argv": [
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_with_other_flags::3",
+  "argv": [
+   "--help",
+   "--verbose"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_with_invalid_command::4",
+  "argv": [
+   "--help",
+   "invalid-command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subcommand_short_help_flag::5",
+  "argv": [
+   "print-config",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_command_for_subcommand::6",
+  "argv": [
+   "help",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_command_for_nested_subcommand::7",
+  "argv": [
+   "help",
+   "theme",
+   "print-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_help_via_theme_command::8",
+  "argv": [
+   "theme",
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_help_for_subcommand::9",
+  "argv": [
+   "theme",
+   "help",
+   "print-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_help_flags_ignored::10",
+  "argv": [
+   "--help",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_position_independence::11",
+  "argv": [
+   "--help",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_config_help_exact_output::12",
+  "argv": [
+   "print-config",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_journals_help_exact_output::13",
+  "argv": [
+   "import-journals",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assign_priority_help_exact_output::14",
+  "argv": [
+   "assign-priority",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_help_exact_output::15",
+  "argv": [
+   "theme",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_print_path_help_exact_output::16",
+  "argv": [
+   "theme",
+   "print-path",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_print_default_help_exact_output::17",
+  "argv": [
+   "theme",
+   "print-default",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_write_defaults_help_exact_output::18",
+  "argv": [
+   "theme",
+   "write-defaults",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sqlite_nonexistent_parent_directory_created::19",
+  "argv": [
+   "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_journals_sqlite_backend_basic::20",
+  "argv": [
+   "SELECT id, title, content, priority FROM entries ORDER BY id"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assign_priority_sqlite_backend_basic::21",
+  "argv": [
+   "SELECT id, title, priority FROM entries ORDER BY id"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_journals_sqlite_preserves_tags_order::22",
+  "argv": [
+   "SELECT tag FROM tags WHERE entry_id = 1 ORDER BY tag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assign_priority_backend_type_flag_sqlite::23",
+  "argv": [
+   "SELECT COUNT(*) FROM entries WHERE priority = 8"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_journals_sqlite_many_entries::24",
+  "argv": [
+   "SELECT COUNT(*) FROM entries"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assign_priority_sqlite_many_entries::25",
+  "argv": [
+   "SELECT COUNT(*) FROM entries WHERE priority = 15"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_open_existing_database_preserves_data::26",
+  "argv": [
+   "SELECT title, priority FROM entries;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_database_tui_initial_state::27",
+  "argv": [
+   "SELECT COUNT(*) FROM entries;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_entry_with_all_fields::28",
+  "argv": [
+   "SELECT id, title, content, priority FROM entries;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_entry_minimal_fields_null_priority::29",
+  "argv": [
+   "SELECT title, content, priority FROM entries;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_entries_ordered_by_date_desc::30",
+  "argv": [
+   "1",
+   "Middle Entry",
+   "2024-02-15T12:00:00Z",
+   "Content B",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_update_entry_all_fields_including_tags::31",
+  "argv": [
+   "1",
+   "Original Title",
+   "2024-01-15T10:00:00Z",
+   "Original content",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_entry_removes_from_database::32",
+  "argv": [
+   "SELECT title FROM entries ORDER BY title;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assign_priority_command_fills_nulls::33",
+  "argv": [
+   "SELECT title, priority FROM entries ORDER BY title;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_content_and_tags::34",
+  "argv": [
+   "SELECT id, title, content FROM entries;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_get_export_object_with_multiple_entries::35",
+  "argv": [
+   "SELECT id, title FROM entries ORDER BY id;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tags_with_commas_in_group_concat::36",
+  "argv": [
+   "\n        SELECT entries.id, entries.title, entries.date, entries.content, \n               entries.priority, GROUP_CONCAT(tags.tag) AS tags\n        FROM entries\n        LEFT JOIN tags ON entries.id = tags.entry_id\n        GROUP BY entries.id\n        ORDER BY date DESC\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_tags_list_in_entry::37",
+  "argv": [
+   "\n        SELECT entries.id, entries.title, GROUP_CONCAT(tags.tag) AS tags\n        FROM entries\n        LEFT JOIN tags ON entries.id = tags.entry_id\n        GROUP BY entries.id\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_sqlite_backend_startup::38",
+  "argv": [
+   "SELECT name FROM sqlite_master WHERE type='table'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_config_dir_is_xdg_config_home::39",
+  "argv": [
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cli_config_dir_overrides_default::40",
+  "argv": [
+   "-c",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cli_config_accepts_file_path_for_backward_compatibility::41",
+  "argv": [
+   "-c",
+   "my_config.toml",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {
+   "my_config.toml": "scroll_per_page = 9\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_import_nonexistent_path_errors::42",
+  "argv": [
+   "import-journals",
+   "--path",
+   "/no/such/file.json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_assign_priority_argument_validation::43",
+  "argv": [
+   "assign-priority",
+   "not-a-number"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_errors_and_nonzero_exit::44",
+  "argv": [
+   "this-subcommand-should-not-exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_flags_must_precede_subcommand_backend_type::45",
+  "argv": [
+   "--backend-type",
+   "json",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_flag_placement_before_and_after_subcommand_differs::46",
+  "argv": [
+   "--verbose",
+   "print-config",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::47",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_short_flag::48",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::49",
+  "argv": [
+   "--invalid-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_short_flag::50",
+  "argv": [
+   "-x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_single::51",
+  "argv": [
+   "-v",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_double::52",
+  "argv": [
+   "-vv",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_triple::53",
+  "argv": [
+   "-vvv",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_long_form::54",
+  "argv": [
+   "--verbose",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_long_form_multiple::55",
+  "argv": [
+   "--verbose",
+   "--verbose",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backend_type_invalid::56",
+  "argv": [
+   "-b",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backend_type_missing_value::57",
+  "argv": [
+   "-b"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backend_type_duplicate::58",
+  "argv": [
+   "-b",
+   "json",
+   "-b",
+   "sqlite"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_config_alias::59",
+  "argv": [
+   "pc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_config_with_flags::60",
+  "argv": [
+   "-b",
+   "json",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_config_unexpected_arg::61",
+  "argv": [
+   "print-config",
+   "extra"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_journals_missing_path::62",
+  "argv": [
+   "import-journals"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_journals_alias::63",
+  "argv": [
+   "imj"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assign_priority_missing_value::64",
+  "argv": [
+   "assign-priority"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assign_priority_valid_value::65",
+  "argv": [
+   "assign-priority",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assign_priority_zero::66",
+  "argv": [
+   "assign-priority",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assign_priority_large_value::67",
+  "argv": [
+   "assign-priority",
+   "999999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assign_priority_invalid_string::68",
+  "argv": [
+   "assign-priority",
+   "abc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assign_priority_negative::69",
+  "argv": [
+   "assign-priority",
+   "-5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assign_priority_negative_with_separator::70",
+  "argv": [
+   "assign-priority",
+   "--",
+   "-5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assign_priority_float::71",
+  "argv": [
+   "assign-priority",
+   "3.14"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assign_priority_alias::72",
+  "argv": [
+   "ap"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assign_priority_extra_args::73",
+  "argv": [
+   "assign-priority",
+   "5",
+   "extra"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_no_subcommand::74",
+  "argv": [
+   "theme"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_print_path::75",
+  "argv": [
+   "theme",
+   "print-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_print_path_alias::76",
+  "argv": [
+   "theme",
+   "path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_print_default::77",
+  "argv": [
+   "theme",
+   "print-default"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_print_default_alias::78",
+  "argv": [
+   "theme",
+   "default"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_alias_style::79",
+  "argv": [
+   "style",
+   "print-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_invalid_subcommand::80",
+  "argv": [
+   "theme",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_after_command::81",
+  "argv": [
+   "print-config",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_string_path::82",
+  "argv": [
+   "-j",
+   "",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_priority_with_whitespace::83",
+  "argv": [
+   "assign-priority",
+   " 5 "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_command::84",
+  "argv": [
+   "unknown-command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_typo_in_command::85",
+  "argv": [
+   "print-confi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_u32_priority::86",
+  "argv": [
+   "assign-priority",
+   "4294967295"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_overflow_priority::87",
+  "argv": [
+   "assign-priority",
+   "4294967296"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_uppercase_command::88",
+  "argv": [
+   "PRINT-CONFIG"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_uppercase_backend_value::89",
+  "argv": [
+   "-b",
+   "JSON",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_case_flag::90",
+  "argv": [
+   "--Version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_arguments::91",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_for_import_journals::92",
+  "argv": [
+   "help",
+   "import-journals"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_for_assign_priority::93",
+  "argv": [
+   "help",
+   "assign-priority"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_for_theme::94",
+  "argv": [
+   "help",
+   "theme"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assign_priority_alias::95",
+  "argv": [
+   "ap",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assign_priority_float::96",
+  "argv": [
+   "assign-priority",
+   "3.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_file_path_option::97",
+  "argv": [
+   "--json-file-path",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_file_path_short_option::98",
+  "argv": [
+   "-j",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sqlite_file_path_option::99",
+  "argv": [
+   "--sqlite-file-path",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sqlite_file_path_short_option::100",
+  "argv": [
+   "-s",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backend_type_option_sqlite::101",
+  "argv": [
+   "--backend-type",
+   "sqlite",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backend_type_invalid_value::102",
+  "argv": [
+   "--backend-type",
+   "invalid",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_option::103",
+  "argv": [
+   "--config",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_option::104",
+  "argv": [
+   "--invalid-option"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_command::105",
+  "argv": [
+   "invalid-command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_argument_exit_code::106",
+  "argv": [
+   "--invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_command_exit_code::107",
+  "argv": [
+   "not-a-command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file_exit_code::108",
+  "argv": [
+   "import-journals",
+   "--path",
+   "nonexistent.json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_write_exists_exit_code::109",
+  "argv": [
+   "--config",
+   "theme",
+   "write-defaults"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_journals_alias::110",
+  "argv": [
+   "imj",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_journals_with_empty_json::111",
+  "argv": [
+   "import-journals",
+   "--path",
+   "empty.json"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.json": "[]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_journals_with_valid_json_structure::112",
+  "argv": [
+   "import-journals",
+   "--path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_journals_short_path_flag::113",
+  "argv": [
+   "import-journals",
+   "-p",
+   "test.json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.json": "[]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_file_option::114",
+  "argv": [
+   "--log",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_file_short_option::115",
+  "argv": [
+   "-l",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_and_log_combined::116",
+  "argv": [
+   "-vv",
+   "--log",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_options_with_command::117",
+  "argv": [
+   "--config",
+   "--json-file-path",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_with_backend_and_command::118",
+  "argv": [
+   "-v",
+   "--backend-type",
+   "json",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_options_combined::119",
+  "argv": [
+   "-vv",
+   "--config",
+   "--json-file-path",
+   "--backend-type",
+   "json",
+   "--log",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_options_combined::120",
+  "argv": [
+   "-v",
+   "-j",
+   "-b",
+   "json",
+   "pc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_path_json::121",
+  "argv": [
+   "--json-file-path",
+   "test.json",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_path_sqlite::122",
+  "argv": [
+   "--sqlite-file-path",
+   "test.db",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_directory_path::123",
+  "argv": [
+   "--config",
+   "theme",
+   "print-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_relative_path::124",
+  "argv": [
+   "import-journals",
+   "--path",
+   "import.json"
+  ],
+  "stdin": null,
+  "files": {
+   "import.json": "[]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_write_defaults_alias::125",
+  "argv": [
+   "--config",
+   "theme",
+   "write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_style_alias::126",
+  "argv": [
+   "style",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_main_subcommand::127",
+  "argv": [
+   "nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_theme_subcommand::128",
+  "argv": [
+   "theme",
+   "nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_typo_in_subcommand::129",
+  "argv": [
+   "print-confg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_flag_after_subcommand_fails::130",
+  "argv": [
+   "print-config",
+   "--verbose"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_verbose_flags::131",
+  "argv": [
+   "-v",
+   "-v",
+   "-v",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_journals_short_flag::132",
+  "argv": [
+   "import-journals",
+   "-p",
+   "/nonexistent/file.json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_backend_flag::133",
+  "argv": [
+   "-b",
+   "sqlite",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_file_path_flag::134",
+  "argv": [
+   "--json-file-path",
+   "/tmp/test.json",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sqlite_file_path_flag::135",
+  "argv": [
+   "--sqlite-file-path",
+   "/tmp/test.db",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_json_flag::136",
+  "argv": [
+   "-j",
+   "/tmp/test.json",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_sqlite_flag::137",
+  "argv": [
+   "-s",
+   "/tmp/test.db",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assign_priority_with_positive_number::138",
+  "argv": [
+   "--sqlite-file-path",
+   "assign-priority",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assign_priority_with_large_number::139",
+  "argv": [
+   "--sqlite-file-path",
+   "assign-priority",
+   "999999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assign_priority_alias_with_number::140",
+  "argv": [
+   "--sqlite-file-path",
+   "ap",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backend_type_invalid_value::141",
+  "argv": [
+   "--backend-type",
+   "invalid-backend",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_file_path_option::142",
+  "argv": [
+   "--json-file-path",
+   "test.json",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {
+   "test.json": "[]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_file_path_short_flag::143",
+  "argv": [
+   "-j",
+   "test.json",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {
+   "test.json": "[]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_backend_options::144",
+  "argv": [
+   "--json-file-path",
+   "test.json",
+   "--sqlite-file-path",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {
+   "test.json": "[]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::145",
+  "argv": [
+   "--invalid-flag-that-does-not-exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_subcommand::146",
+  "argv": [
+   "invalid-subcommand"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_backend_and_config_flags::147",
+  "argv": [
+   "--config",
+   "--json-file-path",
+   "test.json",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {
+   "test.json": "[]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_verbosity_and_log_with_config::148",
+  "argv": [
+   "-vv",
+   "--log",
+   "--config",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_cli_flags_combined::149",
+  "argv": [
+   "-v",
+   "--log",
+   "--config",
+   "--sqlite-file-path",
+   "--backend-type",
+   "sqlite",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_combined_with_other_flags::150",
+  "argv": [
+   "--help",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_is_file_not_directory::151",
+  "argv": [
+   "--config",
+   "config.toml",
+   "theme",
+   "print-path"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "scroll_per_page = 7\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backend_type_missing_value::152",
+  "argv": [
+   "--backend-type"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_missing_value::153",
+  "argv": [
+   "--config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backend_type_overrides::154",
+  "argv": [
+   "--config",
+   "--backend-type",
+   "sqlite",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_flags_combined::155",
+  "argv": [
+   "-vv",
+   "-l",
+   "-j",
+   "test.json",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {
+   "test.json": "[]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_stdin::156",
+  "argv": [
+   "print-config"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commands_ignore_stdin::157",
+  "argv": [
+   "print-config"
+  ],
+  "stdin": "random input data\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backend_files_with_spaces_in_path::158",
+  "argv": [
+   "--json-file-path",
+   "test file.json",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {
+   "test file.json": "[]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_journals_missing_file::159",
+  "argv": [
+   "import-journals",
+   "--path",
+   "/nonexistent/file.json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_journals_invalid_json::160",
+  "argv": [
+   "import-journals",
+   "--path",
+   "invalid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.json": "{ invalid json content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_journals_empty_array::161",
+  "argv": [
+   "--sqlite-file-path",
+   "import-journals",
+   "--path",
+   "empty.json"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.json": "[]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_journals_with_valid_structure::162",
+  "argv": [
+   "--sqlite-file-path",
+   "import-journals",
+   "--path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_journals_short_flag::163",
+  "argv": [
+   "imj",
+   "-p",
+   "test.json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.json": "[]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_file_already_exists::164",
+  "argv": [
+   "--log",
+   "test.log",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {
+   "test.log": "existing log content\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_config_dir::165",
+  "argv": [
+   "--config",
+   "/nonexistent/path/to/config",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cli_json_path_overrides_config::166",
+  "argv": [
+   "--json-file-path",
+   "/cli/override.json",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cli_sqlite_path_overrides_config::167",
+  "argv": [
+   "--sqlite-file-path",
+   "/cli/override.db",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_log_file_path::168",
+  "argv": [
+   "--log",
+   "/tmp/custom.log",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backend_type_rejects_invalid_choice::169",
+  "argv": [
+   "--backend-type",
+   "no"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assign_priority_negative_is_treated_as_flag_with_tip::170",
+  "argv": [
+   "assign-priority",
+   "-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_makes_following_tokens_positional::171",
+  "argv": [
+   "import-journals",
+   "--",
+   "--path",
+   "x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_before_subcommand_changes_parsing::172",
+  "argv": [
+   "-b",
+   "--",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_flag_clustering_not_supported_example::173",
+  "argv": [
+   "-vprint-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_with_valid_json_structure::174",
+  "argv": [
+   "import-journals",
+   "--path",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "{\"journals\": []}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_with_path_flag_variants::175",
+  "argv": [
+   "imj",
+   "-p",
+   "test.json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.json": "{\"journals\": []}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backend_switching_sequence::176",
+  "argv": [
+   "-j",
+   "-b",
+   "json",
+   "pc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_write_with_existing_directory::177",
+  "argv": [
+   "-c",
+   "theme",
+   "write-defaults"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_with_theme_commands::178",
+  "argv": [
+   "-l",
+   "theme",
+   "print-default"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_and_help_together::179",
+  "argv": [
+   "--version",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_directory_vs_file_backward_compat::180",
+  "argv": [
+   "-c",
+   "config.toml",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "backend_type = \"Json\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_file_with_verbose::181",
+  "argv": [
+   "-vv",
+   "-l",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_backend_flags::182",
+  "argv": [
+   "-j",
+   "-b",
+   "json",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_flags_combined::183",
+  "argv": [
+   "-j",
+   "-b",
+   "json",
+   "-c",
+   "-v",
+   "-l",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_cli_overrides_file::184",
+  "argv": [
+   "-c",
+   "-b",
+   "sqlite",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_backend_paths::185",
+  "argv": [
+   "-j",
+   "-s",
+   "print-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_with_theme_commands::186",
+  "argv": [
+   "-v",
+   "theme",
+   "print-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assign_priority_invalid_string::187",
+  "argv": [
+   "assign-priority",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assign_priority_alias_with_value::188",
+  "argv": [
+   "ap",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_journals_short_path_flag::189",
+  "argv": [
+   "import-journals",
+   "-p"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_write_defaults_alias::190",
+  "argv": [
+   "-c",
+   "theme",
+   "write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_print_path_with_custom_config::191",
+  "argv": [
+   "-c",
+   "theme",
+   "print-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_subcommand_shows_error_and_usage_on_stderr_or_stdout::192",
+  "argv": [
+   "nosuchsubcommand",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_separator_help_is_treated_as_subcommand_and_errors::193",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

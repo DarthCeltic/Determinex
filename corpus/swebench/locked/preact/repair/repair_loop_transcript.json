@@ -1,0 +1,16 @@
+{
+  "schema": "determinex-repair-loop-transcript-v1",
+  "tool": "preact", "family": "node_typescript", "pinned_commit": "21dd6d04",
+  "repair_type": "seeded_defect (behavioral) - verifier is the project's OWN vitest suite (no Docker)",
+  "toolchain": "node 24, npm install, vitest",
+  "oracle": "the real preactjs/preact repo's own tests: `npx vitest run test/shared`",
+  "defect": {"file": "src/create-element.js", "function": "isValidElement",
+    "seed": "`vnode.constructor === UNDEFINED` -> `vnode.constructor !== UNDEFINED` (invert the validity check)",
+    "intent": "invert preact's isValidElement contract"},
+  "detect": {"baseline": "test/shared 87 passed", "after_seed": "2 failed, 85 passed", "oracle_caught": true,
+    "failure_signature": "isValidElement assertions failed once the constructor check was inverted"},
+  "repair": {"fix": "restore `=== UNDEFINED` (git checkout)", "oracle_guided": "the failing isValidElement tests point at the inverted check"},
+  "reverify": {"after": "test/shared 87 passed; repaired == upstream @21dd6d04", "passed": 87, "failures": 0},
+  "repair_loop_status": "passed",
+  "proves": "closed-loop repair on a real external JS project (preact): its OWN vitest suite detects the injected validity-check defect -> fix -> re-verify 87 green. Reproducible with npm + vitest, no Docker."
+}

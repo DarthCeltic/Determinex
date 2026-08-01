@@ -143,7 +143,32 @@ def mirror_allowlist(remote: str, branch: str) -> list[str]:
 # than "everything tracked under the directory". A path lands here when the mirror publishes
 # a deliberate handful out of a large local tree -- adding it as a directory would smuggle
 # the rest in on the next publish.
-NARROW: set[str] = {"corpus"}
+#
+# `corpus` was here and is deliberately NOT any more. Being in NARROW made the
+# `elif top == "corpus"` branch in collect() UNREACHABLE, so filter_corpus -- the function
+# written specifically to separate our knowledge layer from vendored upstream source --
+# never ran. The documented split (CLAUDE.md, "Corpus Distribution": knowledge layer in the
+# repo, vendored trees as a dataset) resolved to ONE published corpus file instead of 1,711,
+# and the public repo shipped a product whose knowledge layer was absent.
+#
+# The reason corpus was narrowed is real and is now handled precisely instead of bluntly:
+# GitHub push protection rejected the knowledge layer because secret-DETECTION tools ship
+# secret-shaped test fixtures. That is 6 files out of 1,711 (measured), so the fix is to
+# name those 6, not to withhold the other 1,705.
+NARROW: set[str] = set()
+
+# Files inside the knowledge layer that carry secret-SHAPED strings as test data, because
+# the tool they describe is a secret detector. Nothing here is a live credential -- they are
+# fixtures like ripsecrets' 82 `sk_live_` samples, published by that project on purpose --
+# but GitHub push protection cannot tell the difference and rejects the push. Withheld by
+# name, reported on every run, and retrievable from upstream.
+CORPUS_SECRET_FIXTURES = {
+    "corpus/programbench/specs/sirwart__ripsecrets.34c9e03.json",
+    "corpus/programbench/reimpl_skills/ripsecrets_probes.json",
+    "corpus/programbench/specs/hairyhenderson__gomplate.05eb3aa.json",
+    "corpus/programbench/reimpl_skills/datasurgeon_probes.json",
+    "corpus/programbench/specs/drew-alleman__datasurgeon.d257cee.json",
+}
 
 
 def mirror_files_under(entry: str) -> list[str]:
@@ -193,6 +218,9 @@ def filter_corpus(paths: list[str]) -> tuple[list[str], int]:
             if Path(posix).name not in CORPUS_OVERRIDE_KEEP:
                 dropped += 1
                 continue
+        if posix in CORPUS_SECRET_FIXTURES:
+            dropped += 1
+            continue
         kept.append(path)
     return kept, dropped
 

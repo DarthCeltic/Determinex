@@ -1,0 +1,2557 @@
+{
+ "slug": "tomnomnom__gron.88a6234",
+ "language": "",
+ "n_branches": 1,
+ "n_tests_total": 233,
+ "n_examples": 159,
+ "n_with_exact_stdout": 84,
+ "n_with_rc": 159,
+ "n_skipped": 64,
+ "examples": [
+  {
+   "test": "test_json_format_basic",
+   "argv": [
+    "--json"
+   ],
+   "stdin": "{\"a\":1,\"b\":2}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "[[],{}]\n[[\"a\"],1]\n[[\"b\"],2]\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gaps.py:11"
+  },
+  {
+   "test": "test_stream_json_format",
+   "argv": [
+    "--stream",
+    "--json"
+   ],
+   "stdin": "{\"a\":1}\n{\"b\":2}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "[[],[]]\n[[0],{}]\n[[0,\"a\"],1]\n[[1],{}]\n[[1,\"b\"],2]\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gaps.py:26"
+  },
+  {
+   "test": "test_stream_basic_multiline",
+   "argv": [
+    "--stream",
+    "-m"
+   ],
+   "stdin": "{\"a\":1}\n{\"b\":2}\n{\"c\":3}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = [];\njson[0] = {};\njson[0].a = 1;\njson[1] = {};\njson[1].b = 2;\njson[2] = {};\njson[2].c = 3;\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gaps.py:42"
+  },
+  {
+   "test": "test_values_extraction",
+   "argv": [
+    "--values"
+   ],
+   "stdin": "json = {};\njson.a = \"hello\";\njson.b = 42;\njson.c = true;\njson.d = null;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "hello\n42\ntrue\nnull\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gaps.py:57"
+  },
+  {
+   "test": "test_nested_json_format",
+   "argv": [
+    "--json"
+   ],
+   "stdin": "{\"nested\":{\"deep\":{\"value\":\"test\"}}}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "[[],{}]\n[[\"nested\"],{}]\n[[\"nested\",\"deep\"],{}]\n[[\"nested\",\"deep\",\"value\"],\"test\"]\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gaps.py:72"
+  },
+  {
+   "test": "test_invalid_json_statement_array_length",
+   "argv": [
+    "--ungron"
+   ],
+   "stdin": "[[\"a\"], 1, \"extra\"]",
+   "env": {},
+   "expect_rc": 5,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gaps.py:161"
+  },
+  {
+   "test": "test_invalid_json_statement_type_assertion",
+   "argv": [
+    "--ungron"
+   ],
+   "stdin": "[\"string_not_array\", 123]",
+   "env": {},
+   "expect_rc": 5,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gaps.py:178"
+  },
+  {
+   "test": "test_values_with_array_indices",
+   "argv": [
+    "--values"
+   ],
+   "stdin": "json = [];\njson[0] = \"first\";\njson[1] = \"second\";\njson[2] = 123;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gaps.py:194"
+  },
+  {
+   "test": "test_empty_arrays_and_objects_json_format",
+   "argv": [
+    "--json"
+   ],
+   "stdin": "{\"empty_arr\":[],\"empty_obj\":{},\"nested\":{\"also_empty\":[]}}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gaps.py:212"
+  },
+  {
+   "test": "test_numeric_keys_in_json_format",
+   "argv": [
+    "--json"
+   ],
+   "stdin": "{\"123\":\"val1\",\"456\":\"val2\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gaps.py:238"
+  },
+  {
+   "test": "test_invalid_quoted_key_in_ungron",
+   "argv": [
+    "--ungron"
+   ],
+   "stdin": "json[\"invalid\\xff\"] = 1;",
+   "env": {},
+   "expect_rc": 5,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid quoted key"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_gaps.py:272"
+  },
+  {
+   "test": "test_invalid_numeric_key_in_ungron",
+   "argv": [
+    "--ungron"
+   ],
+   "stdin": "json[99999999999999999999] = 1;",
+   "env": {},
+   "expect_rc": 5,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid integer key"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_gaps.py:287"
+  },
+  {
+   "test": "test_stream_with_monochrome_flag",
+   "argv": [
+    "--stream",
+    "-m"
+   ],
+   "stdin": "{\"a\":1}\n{\"b\":2}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gaps.py:302"
+  },
+  {
+   "test": "test_large_nested_json_format",
+   "argv": [
+    "--json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gaps.py:314"
+  },
+  {
+   "test": "test_values_extraction_with_escaped_strings",
+   "argv": [
+    "--values"
+   ],
+   "stdin": "json.a = \"hello\\tworld\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gaps.py:342"
+  },
+  {
+   "test": "test_stream_mode_with_empty_lines",
+   "argv": [
+    "--stream",
+    "-m"
+   ],
+   "stdin": "{\"a\":1}\n\n{\"b\":2}\n{\"c\":3}",
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "failed to form statements: EOF"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_gaps.py:366"
+  },
+  {
+   "test": "test_basic_data_types",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "{\"string\":\"hello\",\"number\":42,\"float\":3.14,\"bool\":true,\"null_val\":null}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = {};\njson.bool = true;\njson.float = 3.14;\njson.null_val = null;\njson.number = 42;\njson.string = \"hello\";\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gron_core.py:9"
+  },
+  {
+   "test": "test_string_escaping_unicode_emoji",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "{\"unicode\":\"こんにちは\",\"emoji\":\"🎉\",\"special\":\"quote\\\"slash\\\\tab\\tnewline\\n\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = {};\njson.emoji = \"🎉\";\njson.special = \"quote\\\"slash\\\\tab\\tnewline\\n\";\njson.unicode = \"こんにちは\";\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gron_core.py:20"
+  },
+  {
+   "test": "test_number_formats_negative_zero_scientific",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "{\"neg\":-42,\"zero\":0,\"scientific\":1.23e10,\"neg_scientific\":-5.6e-7}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = {};\njson.neg = -42;\njson.neg_scientific = -5.6e-7;\njson.scientific = 1.23e10;\njson.zero = 0;\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gron_core.py:31"
+  },
+  {
+   "test": "test_nested_structures_empty_containers",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "{\"empty_obj\":{},\"empty_arr\":[],\"nested\":{\"inner\":{\"deep\":\"value\"}}}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = {};\njson.empty_arr = [];\njson.empty_obj = {};\njson.nested = {};\njson.nested.inner = {};\njson.nested.inner.deep = \"value\";\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gron_core.py:42"
+  },
+  {
+   "test": "test_arrays_simple_and_nested",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "{\"arr\":[1,2,3],\"nested_arr\":[[1,2],[3,4]]}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = {};\njson.arr = [];\njson.arr[0] = 1;\njson.arr[1] = 2;\njson.arr[2] = 3;\njson.nested_arr = [];\njson.nested_arr[0] = [];\njson.nested_arr[0][0] = 1;\njson.nested_arr[0][1] = 2;\njson.nested_arr[1] = [];\njson.nested_arr[1][0] = 3;\njson.nested_arr[1][1] = 4;\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gron_core.py:53"
+  },
+  {
+   "test": "test_special_keys_requiring_bracket_notation",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "{\"special-key\":\"val1\",\"123\":\"val2\",\"has space\":\"val3\",\"has.dot\":\"val4\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = {};\njson[\"123\"] = \"val2\";\njson[\"has space\"] = \"val3\";\njson[\"has.dot\"] = \"val4\";\njson[\"special-key\"] = \"val1\";\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gron_core.py:64"
+  },
+  {
+   "test": "test_array_of_objects",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "[{\"name\":\"a\"},{\"name\":\"b\"},{\"name\":\"c\"}]",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = [];\njson[0] = {};\njson[0].name = \"a\";\njson[1] = {};\njson[1].name = \"b\";\njson[2] = {};\njson[2].name = \"c\";\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gron_core.py:75"
+  },
+  {
+   "test": "test_no_sort_flag_preserves_insertion_order",
+   "argv": [
+    "-m",
+    "--no-sort"
+   ],
+   "stdin": "{\"z\":1,\"a\":2,\"m\":3}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "json.z = 1;",
+    "json.a = 2;",
+    "json.m = 3;"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_gron_core.py:86"
+  },
+  {
+   "test": "test_invalid_json_syntax_error",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "{invalid json}",
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gron_core.py:113"
+  },
+  {
+   "test": "test_empty_input_error",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gron_core.py:123"
+  },
+  {
+   "test": "test_truncated_json_error",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "{\"a\":1,",
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gron_core.py:132"
+  },
+  {
+   "test": "test_read_from_file",
+   "argv": [
+    "-m",
+    "test.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = {};\njson.from = \"file\";\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.json": "{\"from\":\"file\"}"
+   },
+   "ci": false,
+   "source": "test_gron_core.py:142"
+  },
+  {
+   "test": "test_nonexistent_file_error",
+   "argv": [
+    "-m",
+    "/nonexistent/file.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "no such file or directory"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_gron_core.py:154"
+  },
+  {
+   "test": "test_deep_nesting_six_levels",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "{\"a\":{\"b\":{\"c\":{\"d\":{\"e\":{\"f\":\"deep\"}}}}}}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = {};\njson.a = {};\njson.a.b = {};\njson.a.b.c = {};\njson.a.b.c.d = {};\njson.a.b.c.d.e = {};\njson.a.b.c.d.e.f = \"deep\";\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gron_core.py:164"
+  },
+  {
+   "test": "test_large_array_100_elements",
+   "argv": [
+    "-m"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gron_core.py:175"
+  },
+  {
+   "test": "test_object_with_25_keys",
+   "argv": [
+    "-m"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = {};\njson.key0 = 0;\njson.key1 = 1;\njson.key10 = 10;\njson.key11 = 11;\njson.key12 = 12;\njson.key13 = 13;\njson.key14 = 14;\njson.key15 = 15;\njson.key16 = 16;\njson.key17 = 17;\njson.key18 = 18;\njson.key19 = 19;\njson.key2 = 2;\njson.key20 = 20;\njson.key21 = 21;\njson.key22 = 22;\njson.key23 = 23;\njson.key24 = 24;\njson.key3 = 3;\njson.key4 = 4;\njson.key5 = 5;\njson.key6 = 6;\njson.key7 = 7;\njson.key8 = 8;\njson.key9 = 9;\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gron_core.py:195"
+  },
+  {
+   "test": "test_mixed_nesting_objects_in_arrays_and_vice_versa",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "{\"obj_in_arr\":[{\"a\":1},{\"b\":2}],\"arr_in_obj\":{\"x\":[1,2,3]}}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = {};\njson.arr_in_obj = {};\njson.arr_in_obj.x = [];\njson.arr_in_obj.x[0] = 1;\njson.arr_in_obj.x[1] = 2;\njson.arr_in_obj.x[2] = 3;\njson.obj_in_arr = [];\njson.obj_in_arr[0] = {};\njson.obj_in_arr[0].a = 1;\njson.obj_in_arr[1] = {};\njson.obj_in_arr[1].b = 2;\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gron_core.py:206"
+  },
+  {
+   "test": "test_very_long_string_value_2kb",
+   "argv": [
+    "-m"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = {};\njson.long = \"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\";\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gron_core.py:217"
+  },
+  {
+   "test": "test_control_characters_and_unicode_separators",
+   "argv": [
+    "-m"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = {};\njson.backspace = \"a\\bb\";\njson.carriage = \"a\\rb\";\njson.formfeed = \"a\\fb\";\njson.newline = \"a\\nb\";\njson.tab = \"a\\tb\";\njson.u2028 = \"a\\u2028b\";\njson.u2029 = \"a\\u2029b\";\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gron_core.py:234"
+  },
+  {
+   "test": "test_boolean_values_true_and_false",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "{\"true_val\":true,\"false_val\":false}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = {};\njson.false_val = false;\njson.true_val = true;\n",
+   "expect_stderr": null,
+   "expect_in": [
+    "json.true_val = true;",
+    "json.false_val = false;"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_gron_core.py:253"
+  },
+  {
+   "test": "test_javascript_reserved_word_keys",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "{\"class\":\"a\",\"function\":\"b\",\"var\":\"c\",\"return\":\"d\",\"if\":\"e\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = {};\njson[\"class\"] = \"a\";\njson[\"function\"] = \"b\";\njson[\"if\"] = \"e\";\njson[\"return\"] = \"d\";\njson[\"var\"] = \"c\";\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gron_core.py:269"
+  },
+  {
+   "test": "test_identifier_rules_underscores_unicode_numbers",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "{\"_under_scores\":\"val\",\"ಠ_ಠ\":\"face\",\"123start\":\"num\",\"is-quoted\":\"dash\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = {};\njson._under_scores = \"val\";\njson.ಠ_ಠ = \"face\";\njson[\"123start\"] = \"num\";\njson[\"is-quoted\"] = \"dash\";\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gron_core.py:282"
+  },
+  {
+   "test": "test_empty_string_key",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "{\"\":\"empty\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = {};\njson[\"\"] = \"empty\";\n",
+   "expect_stderr": null,
+   "expect_in": [
+    "json[\"\"] = \"empty\";"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_gron_core.py:293"
+  },
+  {
+   "test": "test_top_level_string",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "\"just a string\"",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = \"just a string\";\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gron_core.py:304"
+  },
+  {
+   "test": "test_top_level_number",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "42",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = 42;\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gron_core.py:314"
+  },
+  {
+   "test": "test_top_level_boolean",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "true",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = true;\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gron_core.py:323"
+  },
+  {
+   "test": "test_top_level_null",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "null",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = null;\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gron_core.py:332"
+  },
+  {
+   "test": "test_array_index_numeric_sorting",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "[10,2,100,20,3]",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = [];\njson[0] = 10;\njson[1] = 2;\njson[2] = 100;\njson[3] = 20;\njson[4] = 3;\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gron_core.py:341"
+  },
+  {
+   "test": "test_stdin_explicit_dash_argument",
+   "argv": [
+    "-m",
+    "-"
+   ],
+   "stdin": "{\"stdin\":true}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = {};\njson.stdin = true;\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gron_core.py:380"
+  },
+  {
+   "test": "test_monochrome_flag_suppresses_ansi_codes",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "{\"test\":\"value\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = {};\njson.test = \"value\";\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gron_core.py:389"
+  },
+  {
+   "test": "test_colorize_flag_produces_ansi_codes",
+   "argv": [
+    "-c"
+   ],
+   "stdin": "{\"test\":\"value\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_gron_core.py:400"
+  },
+  {
+   "test": "test_stream_mode_treats_each_line_as_separate_json",
+   "argv": [
+    "-m",
+    "-s"
+   ],
+   "stdin": "{\"line\":1}\n{\"line\":2}\n{\"line\":3}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = [];\njson[0] = {};\njson[0].line = 1;\njson[1] = {};\njson[1].line = 2;\njson[2] = {};\njson[2].line = 3;\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gron_core.py:418"
+  },
+  {
+   "test": "test_stream_mode_with_no_sort",
+   "argv": [
+    "-m",
+    "-s",
+    "--no-sort"
+   ],
+   "stdin": "{\"z\":1,\"a\":2}\n{\"m\":3}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gron_core.py:429"
+  },
+  {
+   "test": "test_stream_mode_error_on_invalid_line",
+   "argv": [
+    "-m",
+    "-s"
+   ],
+   "stdin": "{\"good\":1}\n{bad json}\n{\"good\":2}",
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "failed to form statements",
+    "json[0].good = 1;"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_gron_core.py:450"
+  },
+  {
+   "test": "test_values_mode_extracts_only_values",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "{\"name\":\"test\",\"age\":30,\"active\":true}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "true\n30\ntest\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gron_core.py:463"
+  },
+  {
+   "test": "test_values_mode_with_array",
+   "argv": [
+    "-v"
+   ],
+   "stdin": "json[0] = \"a\";\njson[1] = \"b\";\njson[2] = \"c\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a\nb\nc\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gron_core.py:482"
+  },
+  {
+   "test": "test_json_mode_output_format",
+   "argv": [
+    "-m",
+    "-j"
+   ],
+   "stdin": "{\"a\":1,\"b\":2}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "[[],{}]\n[[\"a\"],1]\n[[\"b\"],2]\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gron_core.py:497"
+  },
+  {
+   "test": "test_json_mode_with_nested_structures",
+   "argv": [
+    "-m",
+    "-j"
+   ],
+   "stdin": "{\"x\":{\"y\":[1,2]}}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "[[],{}]\n[[\"x\"],{}]\n[[\"x\",\"y\"],[]]\n[[\"x\",\"y\",0],1]\n[[\"x\",\"y\",1],2]\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gron_core.py:516"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "gron version dev\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gron_core.py:527"
+  },
+  {
+   "test": "test_stream_mode_with_json_output",
+   "argv": [
+    "-m",
+    "-s",
+    "-j"
+   ],
+   "stdin": "{\"a\":1}\n{\"b\":2}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "[[],[]]\n[[0],{}]\n[[0,\"a\"],1]\n[[1],{}]\n[[1,\"b\"],2]\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gron_core.py:538"
+  },
+  {
+   "test": "test_multiple_invocations_are_stateless",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "{\"test\":\"stateless\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = {};\njson.test = \"stateless\";\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gron_core.py:555"
+  },
+  {
+   "test": "test_keys_with_quotes_and_escapes_in_names",
+   "argv": [
+    "-m"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "json[\"key\\\"with\\\"quotes\"]",
+    "json[\"key\\\\with\\\\backslashes\"]",
+    "json[\"key\\twith\\ttabs\"]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_gron_core.py:604"
+  },
+  {
+   "test": "test_float_precision_preservation",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "{\"precise\":3.141592653589793,\"small\":0.0000000001,\"large\":999999999999.999999}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = {};\njson.large = 999999999999.999999;\njson.precise = 3.141592653589793;\njson.small = 0.0000000001;\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gron_core.py:623"
+  },
+  {
+   "test": "test_empty_top_level_object_and_array",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "{}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = [];\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gron_core.py:636"
+  },
+  {
+   "test": "test_gron_grep_ungron_workflow_filter_by_email",
+   "argv": [
+    "-m"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "{\n  \"users\": [\n    {\n      \"email\": \"alice@example.com\"\n    }\n  ]\n}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:17"
+  },
+  {
+   "test": "test_gron_grep_ungron_workflow_filter_complete_user",
+   "argv": [
+    "-m"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "{\n  \"users\": [\n    {\n      \"active\": true,\n      \"email\": \"alice@example.com\",\n      \"id\": 1,\n      \"name\": \"Alice Smith\",\n      \"role\": \"admin\"\n    }\n  ]\n}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:45"
+  },
+  {
+   "test": "test_deep_nesting_50_levels_round_trip",
+   "argv": [
+    "-m"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "json.level_49.level_48.level_47.level_46.level_45",
+    "level_4.level_3.level_2.level_1.level_0.value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:69"
+  },
+  {
+   "test": "test_json_mode_output_format_and_ungron",
+   "argv": [
+    "-j",
+    "-m"
+   ],
+   "stdin": "{\"a\":1,\"b\":2}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:128"
+  },
+  {
+   "test": "test_multiple_monochrome_flags",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "{\"test\": \"value\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:161"
+  },
+  {
+   "test": "test_values_mode_extracts_from_gron_statements",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "{\"name\":\"Alice\",\"age\":30,\"active\":true}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:184"
+  },
+  {
+   "test": "test_stdin_vs_file_vs_explicit_dash",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "{\"source\":\"test\",\"value\":42}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:204"
+  },
+  {
+   "test": "test_colorize_monochrome_flag_precedence",
+   "argv": [
+    "-c"
+   ],
+   "stdin": "{\"test\": 1}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:235"
+  },
+  {
+   "test": "test_large_json_1000_array_elements",
+   "argv": [
+    "-m"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "json.items[0] = {};",
+    "json.items[0].id = 0;",
+    "json.items[999] = {};",
+    "json.items[999].id = 999;"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:262"
+  },
+  {
+   "test": "test_gron_ungron_with_json_mode_roundtrip",
+   "argv": [
+    "-j",
+    "-m"
+   ],
+   "stdin": "{\"users\":[{\"name\":\"Alice\",\"age\":30},{\"name\":\"Bob\",\"age\":25}],\"total\":2}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:284"
+  },
+  {
+   "test": "test_stream_mode_multiple_objects_per_file",
+   "argv": [
+    "-s",
+    "-m"
+   ],
+   "stdin": "{\"a\":1}\n{\"b\":2}\n{\"c\":3}\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = [];\njson[0] = {};\njson[0].a = 1;\njson[1] = {};\njson[1].b = 2;\njson[2] = {};\njson[2].c = 3;\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:310"
+  },
+  {
+   "test": "test_values_mode_on_regular_gron_output",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "{\"name\":\"Test\",\"count\":42,\"active\":true}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:325"
+  },
+  {
+   "test": "test_ungron_conflicting_type_assignments_last_wins",
+   "argv": [
+    "-u",
+    "-m"
+   ],
+   "stdin": "json = {};\njson.test = 1;\njson.test = {};\njson.test.sub = 2;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:345"
+  },
+  {
+   "test": "test_ungron_sparse_array_with_gap",
+   "argv": [
+    "-u",
+    "-m"
+   ],
+   "stdin": "json = [];\njson[5] = \"value\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:364"
+  },
+  {
+   "test": "test_ungron_negative_array_index_error",
+   "argv": [
+    "-u",
+    "-m"
+   ],
+   "stdin": "json = [];\njson[-1] = \"negative\";",
+   "env": {},
+   "expect_rc": 5,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:379"
+  },
+  {
+   "test": "test_ungron_empty_string_key",
+   "argv": [
+    "-u",
+    "-m"
+   ],
+   "stdin": "json = {};\njson[\"\"] = \"empty key value\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:390"
+  },
+  {
+   "test": "test_ungron_silently_skips_invalid_statements",
+   "argv": [
+    "-u",
+    "-m"
+   ],
+   "stdin": "json = {};\njson.a = 1;\nthis is not a valid statement\njson.b = 2;\nalso invalid = malformed\njson.c = 3;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:404"
+  },
+  {
+   "test": "test_gron_output_statement_order_deterministic",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "{\"z\":{\"m\":1,\"a\":2},\"a\":{\"z\":3,\"a\":4}}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:434"
+  },
+  {
+   "test": "test_gron_ungron_preserves_unicode_in_keys",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "{\"键\":\"中文\",\"🔑\":\"emoji\",\"Ключ\":\"кириллица\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:484"
+  },
+  {
+   "test": "test_values_mode_with_nested_structures",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "{\"obj\":{\"a\":1},\"arr\":[2,3],\"val\":\"text\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:504"
+  },
+  {
+   "test": "test_no_sort_with_complex_structure",
+   "argv": [
+    "-m"
+   ],
+   "stdin": "{\"z\":1,\"m\":2,\"a\":3}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:524"
+  },
+  {
+   "test": "test_values_mode_extracts_only_values",
+   "argv": [
+    "-v",
+    "-m"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "true\nfalse\nfo\nfum\nHow's tricks?\n1\n2\n3\n4\n66912849\nnull\n1\n2.2\n3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:11"
+  },
+  {
+   "test": "test_values_mode_string_unescaping",
+   "argv": [
+    "-v",
+    "-m"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "🎉\nline\nbreak\nsay \"hello\"\n日本語\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:40"
+  },
+  {
+   "test": "test_json_mode_output_format",
+   "argv": [
+    "-j",
+    "-m"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "[[],{}]\n[[\"abool\"],true]\n[[\"abool2\"],false]\n[[\"five\"],{}]\n[[\"five\",\"alpha\"],[]]\n[[\"five\",\"alpha\",0],\"fo\"]\n[[\"five\",\"alpha\",1],\"fum\"]\n[[\"five\",\"beta\"],{}]\n[[\"five\",\"beta\",\"hey\"],\"How's tricks?\"]\n[[\"four\"],[]]\n[[\"four\",0],1]\n[[\"four\",1],2]\n[[\"four\",2],3]\n[[\"four\",3],4]\n[[\"id\"],66912849]\n[[\"isnull\"],null]\n[[\"one\"],1]\n[[\"two\"],2.2]\n[[\"three-b\"],\"3\"]\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:50"
+  },
+  {
+   "test": "test_json_mode_matches_jgron_golden",
+   "argv": [
+    "-j",
+    "-m"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "[[],{}]\n[[\"abool\"],true]\n[[\"abool2\"],false]\n[[\"five\"],{}]\n[[\"five\",\"alpha\"],[]]\n[[\"five\",\"alpha\",0],\"fo\"]\n[[\"five\",\"alpha\",1],\"fum\"]\n[[\"five\",\"beta\"],{}]\n[[\"five\",\"beta\",\"hey\"],\"How's tricks?\"]\n[[\"four\"],[]]\n[[\"four\",0],1]\n[[\"four\",1],2]\n[[\"four\",2],3]\n[[\"four\",3],4]\n[[\"four\",4],5]\n[[\"four\",5],6]\n[[\"four\",6],7]\n[[\"four\",7],8]\n[[\"four\",8],9]\n[[\"four\",9],10]\n[[\"four\",10],11]\n[[\"four\",11],12]\n[[\"four\",12],13]\n[[\"four\",13],14]\n[[\"isnull\"],null]\n[[\"one\"],1]\n[[\"two\"],2.2]\n[[\"ಠ_ಠ\"],\"yarly\"]\n[[\"three-b\"],\"3\"]\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:72"
+  },
+  {
+   "test": "test_json_mode_with_stream",
+   "argv": [
+    "-s",
+    "-j",
+    "-m"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "[[],[]]\n[[0],{}]\n[[0,\"one\"],1]\n[[0,\"three\"],[]]\n[[0,\"three\",0],1]\n[[0,\"three\",1],2]\n[[0,\"three\",2],3]\n[[0,\"two\"],2]\n[[1],{}]\n[[1,\"one\"],1]\n[[1,\"three\"],[]]\n[[1,\"three\",0],1]\n[[1,\"three\",1],2]\n[[1,\"three\",2],3]\n[[1,\"two\"],2]\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:85"
+  },
+  {
+   "test": "test_json_mode_scalar_stream",
+   "argv": [
+    "-s",
+    "-j",
+    "-m"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "[[],[]]\n[[0],true]\n[[1],false]\n[[2],null]\n[[3],\"hello\"]\n[[4],4]\n[[5],4.4]\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:102"
+  },
+  {
+   "test": "test_ungron_with_json_mode",
+   "argv": [
+    "-u",
+    "-j",
+    "-m"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:124"
+  },
+  {
+   "test": "test_json_mode_empty_object",
+   "argv": [
+    "-j",
+    "-m"
+   ],
+   "stdin": "{}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:137"
+  },
+  {
+   "test": "test_json_mode_empty_array",
+   "argv": [
+    "-j",
+    "-m"
+   ],
+   "stdin": "[]",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:146"
+  },
+  {
+   "test": "test_values_mode_nested_structures",
+   "argv": [
+    "-v",
+    "-m"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "mail@tomnomnom.com\n@TomNomNom\nhttps://github.com/tomnomnom/\ncode\ncheese\nmeat\nTom\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:155"
+  },
+  {
+   "test": "test_json_mode_unsorted_output",
+   "argv": [
+    "-j",
+    "--no-sort",
+    "-m"
+   ],
+   "stdin": "{\"z\":1,\"a\":2,\"m\":3}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:168"
+  },
+  {
+   "test": "test_values_mode_invalid_statement_error",
+   "argv": [
+    "-v",
+    "-m"
+   ],
+   "stdin": "\n",
+   "env": {},
+   "expect_rc": 5,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "failed to parse"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:188"
+  },
+  {
+   "test": "test_json_mode_invalid_json_error",
+   "argv": [
+    "-j",
+    "-m"
+   ],
+   "stdin": "not valid json",
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "failed to form statements"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:198"
+  },
+  {
+   "test": "test_json_mode_preserves_unicode",
+   "argv": [
+    "-j",
+    "-m"
+   ],
+   "stdin": "{\"text\":\"Hello 世界\",\"emoji\":\"🎉🎊\",\"arabic\":\"مرحبا\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:207"
+  },
+  {
+   "test": "test_values_mode_with_monochrome",
+   "argv": [
+    "-v",
+    "-m"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:225"
+  },
+  {
+   "test": "test_json_mode_with_monochrome",
+   "argv": [
+    "-j",
+    "-m"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:236"
+  },
+  {
+   "test": "test_json_mode_deeply_nested_structures",
+   "argv": [
+    "-j",
+    "-m"
+   ],
+   "stdin": "{\"a\":{\"b\":{\"c\":{\"d\":\"deep\"}}}}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:267"
+  },
+  {
+   "test": "test_json_mode_nested_arrays_roundtrip",
+   "argv": [
+    "-j",
+    "-m"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "[[],[]]\n[[0],[]]\n[[0,0],[]]\n[[0,0,0],1]\n[[0,0,1],2]\n[[0,1],[]]\n[[0,1,0],3]\n[[0,1,1],4]\n[[1],[]]\n[[1,0],[]]\n[[1,0,0],5]\n[[1,0,1],6]\n[[1,1],[]]\n[[1,1,0],7]\n[[1,1,1],8]\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:284"
+  },
+  {
+   "test": "test_values_mode_numeric_edge_cases",
+   "argv": [
+    "-v",
+    "-m"
+   ],
+   "stdin": "json.zero = 0;\njson.negative = -123.456;\njson.scientific = 1e10;\njson.large = 999999999999;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:301"
+  },
+  {
+   "test": "test_json_mode_github_data",
+   "argv": [
+    "-j",
+    "-m"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "[[],[]]\n[[0],{}]\n[[0,\"author\"],{}]\n[[0,\"author\",\"avatar_url\"],\"https://avatars.githubusercontent.com/u/58276?v=3\"]\n[[0,\"author\",\"events_url\"],\"https://api.github.com/users/tomnomnom/events{/privacy}\"]\n[[0,\"author\",\"followers_url\"],\"https://api.github.com/users/tomnomnom/followers\"]\n[[0,\"author\",\"following_url\"],\"https://api.github.com/users/tomnomnom/following{/other_user}\"]\n[[0,\"author\",\"gists_url\"],\"https://api.github.com/users/tomnomnom/gists{/gist_id}\"]\n[[0,\"author\",\"gravatar_id\"],\"\"]\n[[0,\"author\",\"html_url\"],\"https://github.com/tomnomnom\"]\n[[0,\"author\",\"id\"],58276]\n[[0,\"author\",\"login\"],\"tomnomnom\"]\n[[0,\"author\",\"organizations_url\"],\"https://api.github.com/users/tomnomnom/orgs\"]\n[[0,\"author\",\"received_events_url\"],\"https://api.github.com/users/tomnomnom/received_events\"]\n[[0,\"author\",\"repos_url\"],\"https://api.github.com/users/tomnomnom/repos\"]\n[[0,\"author\",\"site_admin\"],false]\n[[0,\"author\",\"starred_url\"],\"https://api.github.com/users/tomnomnom/starred{/owner}{/repo}\"]\n[[0,\"author\",\"subscriptions_url\"],\"https://api.github.com/users/tomnomnom/subscriptions\"]\n[[0,\"author\",\"type\"],\"User\"]\n[[0,\"author\",\"url\"],\"https://api.github.com/users/tomnomnom\"]\n[[0,\"comments_url\"],\"https://api.github.com/repos/tomnomnom/gron/commits/cfade78b10e9c0cb9e4e0a902f5383ee4e5efc9e/comments\"]\n[[0,\"commit\"],{}]\n[[0,\"commit\",\"author\"],{}]\n[[0,\"commit\",\"author\",\"date\"],\"2016-09-09T20:08:58Z\"]\n[[0,\"commit\",\"author\",\"email\"],\"mail@tomnomnom.com\"]\n[[0,\"commit\",\"author\",\"name\"],\"Tom Hudson\"]\n[[0,\"commit\",\"comment_count\"],0]\n[[0,\"commit\",\"committer\"],{}]\n[[0,\"commit\",\"committer\",\"date\"],\"2016-09-09T20:08:58Z\"]\n[[0,\"commit\",\"committer\",\"email\"],\"mail@tomnomnom.com\"]\n[[0,\"commit\",\"committer\",\"name\"],\"Tom Hudson\"]\n[[0,\"commit\",\"message\"],\"Unexports statements add/addFull methods\"]\n[[0,\"commit\",\"tree\"],{}]\n[[0,\"commit\",\"tree\",\"sha\"],\"536ec3c40a0510cd048921cd8757c401aad94b91\"]\n[[0,\"commit\",\"tree\",\"url\"],\"https://api.github.com/repos/tomnomnom/gron/git/trees/536ec3c40a0510cd048921cd8757c401aad94b91\"]\n[[0,\"commit\",\"url\"],\"https://api.github.com/repos/tomnomnom/gron/git/commits/cfade78b10e9c0cb9e4e0a902f5383ee4e5efc9e\"]\n[[0,\"committer\"],{}]\n[[0,\"committer\",\"avatar_url\"],\"https://avatars.githubusercontent.com/u/58276?v=3\"]\n[[0,\"committer\",\"events_url\"],\"https://api.github.com/users/tomnomnom/events{/privacy}\"]\n[[0,\"committer\",\"followers_url\"],\"https://api.github.com/users/tomnomnom/followers\"]\n[[0,\"committer\",\"following_url\"],\"https://api.github.com/users/tomnomnom/following{/other_user}\"]\n[[0,\"committer\",\"gists_url\"],\"https://api.github.com/users/tomnomnom/gists{/gist_id}\"]\n[[0,\"committer\",\"gravatar_id\"],\"\"]\n[[0,\"committer\",\"html_url\"],\"https://github.com/tomnomnom\"]\n[[0,\"committer\",\"id\"],58276]\n[[0,\"committer\",\"login\"],\"tomnomnom\"]\n[[0,\"committer\",\"organizations_url\"],\"https://api.github.com/users/tomnomnom/orgs\"]\n[[0,\"committer\",\"received_events_url\"],\"https://api.github.com/users/tomnomnom/received_events\"]\n[[0,\"committer\",\"repos_url\"],\"https://api.github.com/users/tomnomnom/repos\"]\n[[0,\"committer\",\"site_admin\"],false]\n[[0,\"committer\",\"starred_url\"],\"https://api.github.com/users/tomnomnom/starred{/owner}{/repo}\"]\n[[0,\"committer\",\"subscriptions_url\"],\"https://api.github.com/users/tomnomnom/subscriptions\"]\n[[0,\"committer\",\"type\"],\"User\"]\n[[0,\"committer\",\"url\"],\"https://api.github.com/users/tomnomnom\"]\n[[0,\"html_url\"],\"https://github.com/tomnomnom/gron/commit/cfade78b10e9c0cb9e4e0a902f5383ee4e5efc9e\"]\n[[0,\"parents\"],[]]\n[[0,\"parents\",0],{}]\n[[0,\"parents\",0,\"html_url\"],\"https://github.com/tomnomnom/gron/commit/ca66db90d96332a85ec29ea527b3966decf1c6fc\"]\n[[0,\"parents\",0,\"sha\"],\"ca66db90d96332a85ec29ea527b3966decf1c6fc\"]\n[[0,\"parents\",0,\"url\"],\"https://api.github.com/repos/tomnomnom/gron/commits/ca66db90d96332a85ec29ea527b3966decf1c6fc\"]\n[[0,\"sha\"],\"cfade78b10e9c0cb9e4e0a902f5383ee4e5efc9e\"]\n[[0,\"url\"],\"https://api.github.com/repos/tomnomnom/gron/commits/cfade78b10e9c0cb9e4e0a902f5383ee4e5efc9e\"]\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:319"
+  },
+  {
+   "test": "test_values_mode_extracts_from_stream_gron",
+   "argv": [
+    "-s",
+    "-m"
+   ],
+   "stdin": "{\"a\":1}\n{\"b\":2}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:329"
+  },
+  {
+   "test": "test_json_mode_empty_string_value",
+   "argv": [
+    "-j",
+    "-m"
+   ],
+   "stdin": "{\"empty\":\"\",\"nonempty\":\"x\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:345"
+  },
+  {
+   "test": "test_values_mode_empty_string_extraction",
+   "argv": [
+    "-v",
+    "-m"
+   ],
+   "stdin": "json.empty = \"\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:361"
+  },
+  {
+   "test": "test_json_mode_boolean_false_not_omitted",
+   "argv": [
+    "-j",
+    "-m"
+   ],
+   "stdin": "{\"a\":true,\"b\":false,\"c\":null}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:373"
+  },
+  {
+   "test": "test_values_mode_only_scalars_no_containers",
+   "argv": [
+    "-v",
+    "-m"
+   ],
+   "stdin": "json = {};\njson.arr = [];\njson.obj = {};\njson.val = 123;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:392"
+  },
+  {
+   "test": "test_json_mode_special_keys_with_dots_brackets",
+   "argv": [
+    "-j",
+    "-m"
+   ],
+   "stdin": "{\"key.with.dots\":\"val1\",\"key[with]brackets\":\"val2\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:407"
+  },
+  {
+   "test": "test_json_mode_with_null_values",
+   "argv": [
+    "-j",
+    "-m"
+   ],
+   "stdin": "{\"a\":null,\"b\":{\"c\":null},\"d\":[null,null]}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:424"
+  },
+  {
+   "test": "test_values_mode_with_null_values",
+   "argv": [
+    "-v",
+    "-m"
+   ],
+   "stdin": "json.a = null;\njson.b = \"null\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:445"
+  },
+  {
+   "test": "test_json_mode_array_with_mixed_types",
+   "argv": [
+    "-j",
+    "-m"
+   ],
+   "stdin": "[1, \"two\", true, null, {\"five\":5}]",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:459"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Transform JSON",
+    "gron [OPTIONS]",
+    "--ungron"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_smoke.py:17"
+  },
+  {
+   "test": "test_stream_basic_two_objects",
+   "argv": [
+    "-s",
+    "-m"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = [];\njson[0] = {};\njson[0].one = 1;\njson[0].three = [];\njson[0].three[0] = 1;\njson[0].three[1] = 2;\njson[0].three[2] = 3;\njson[0].two = 2;\njson[1] = {};\njson[1].one = 1;\njson[1].three = [];\njson[1].three[0] = 1;\njson[1].three[1] = 2;\njson[1].three[2] = 3;\njson[1].two = 2;\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stream.py:11"
+  },
+  {
+   "test": "test_stream_scalar_values",
+   "argv": [
+    "-s",
+    "-m"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = [];\njson[0] = true;\njson[1] = false;\njson[2] = null;\njson[3] = \"hello\";\njson[4] = 4;\njson[5] = 4.4;\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stream.py:21"
+  },
+  {
+   "test": "test_stream_single_line",
+   "argv": [
+    "-s",
+    "-m"
+   ],
+   "stdin": "{\"single\":true}\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = [];\njson[0] = {};\njson[0].single = true;\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stream.py:41"
+  },
+  {
+   "test": "test_stream_empty_line_fails",
+   "argv": [
+    "-s",
+    "-m"
+   ],
+   "stdin": "{\"a\":1}\n\n{\"b\":2}\n",
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": "json = [];\njson[0] = {};\njson[0].a = 1;\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stream.py:51"
+  },
+  {
+   "test": "test_stream_invalid_json_line_fails",
+   "argv": [
+    "-s",
+    "-m"
+   ],
+   "stdin": "{\"a\":1}\n{\"bad json}\n{\"c\":3}\n",
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": "json = [];\njson[0] = {};\njson[0].a = 1;\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stream.py:66"
+  },
+  {
+   "test": "test_stream_arrays_as_lines",
+   "argv": [
+    "-s",
+    "-m"
+   ],
+   "stdin": "[1,2,3]\n[4,5,6]\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = [];\njson[0] = [];\njson[0][0] = 1;\njson[0][1] = 2;\njson[0][2] = 3;\njson[1] = [];\njson[1][0] = 4;\njson[1][1] = 5;\njson[1][2] = 6;\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stream.py:82"
+  },
+  {
+   "test": "test_stream_scalar_numbers",
+   "argv": [
+    "-s",
+    "-m"
+   ],
+   "stdin": "1\n2\n3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = [];\njson[0] = 1;\njson[1] = 2;\njson[2] = 3;\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stream.py:92"
+  },
+  {
+   "test": "test_stream_scalar_strings",
+   "argv": [
+    "-s",
+    "-m"
+   ],
+   "stdin": "\"string1\"\n\"string2\"\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = [];\njson[0] = \"string1\";\njson[1] = \"string2\";\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stream.py:102"
+  },
+  {
+   "test": "test_stream_with_no_sort_flag",
+   "argv": [
+    "-s",
+    "-m",
+    "--no-sort"
+   ],
+   "stdin": "{\"z\":1,\"a\":2}\n{\"y\":3,\"b\":4}\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "json = [];",
+    "json[0] = {};",
+    "json[0].z = 1;",
+    "json[0].a = 2;",
+    "json[1] = {};",
+    "json[1].y = 3;",
+    "json[1].b = 4;"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_stream.py:112"
+  },
+  {
+   "test": "test_stream_with_json_mode",
+   "argv": [
+    "-s",
+    "-j",
+    "-m"
+   ],
+   "stdin": "{\"a\":1}\n{\"b\":2}\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "[[],[]]\n[[0],{}]\n[[0,\"a\"],1]\n[[1],{}]\n[[1,\"b\"],2]\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stream.py:133"
+  },
+  {
+   "test": "test_stream_mixed_types_per_line",
+   "argv": [
+    "-s",
+    "-m"
+   ],
+   "stdin": "{\"type\":\"object\"}\n[1,2,3]\n\"string\"\n123\ntrue\nnull\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = [];\njson[0] = {};\njson[0].type = \"object\";\njson[1] = [];\njson[1][0] = 1;\njson[1][1] = 2;\njson[1][2] = 3;\njson[2] = \"string\";\njson[3] = 123;\njson[4] = true;\njson[5] = null;\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stream.py:143"
+  },
+  {
+   "test": "test_stream_empty_input",
+   "argv": [
+    "-s",
+    "-m"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = [];\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stream.py:153"
+  },
+  {
+   "test": "test_stream_whitespace_only_line_fails",
+   "argv": [
+    "-s",
+    "-m"
+   ],
+   "stdin": "{\"a\":1}\n   \n{\"b\":2}\n",
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": "json = [];\njson[0] = {};\njson[0].a = 1;\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stream.py:161"
+  },
+  {
+   "test": "test_stream_long_flag_works",
+   "argv": [
+    "--stream",
+    "-m"
+   ],
+   "stdin": "{\"a\":1}\n{\"b\":2}\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = [];\njson[0] = {};\njson[0].a = 1;\njson[1] = {};\njson[1].b = 2;\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stream.py:170"
+  },
+  {
+   "test": "test_stream_nested_objects",
+   "argv": [
+    "-s",
+    "-m"
+   ],
+   "stdin": "{\"user\":{\"name\":\"alice\",\"age\":30}}\n{\"user\":{\"name\":\"bob\",\"age\":25}}\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = [];\njson[0] = {};\njson[0].user = {};\njson[0].user.age = 30;\njson[0].user.name = \"alice\";\njson[1] = {};\njson[1].user = {};\njson[1].user.age = 25;\njson[1].user.name = \"bob\";\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stream.py:179"
+  },
+  {
+   "test": "test_stream_special_values",
+   "argv": [
+    "-s",
+    "-m"
+   ],
+   "stdin": "{\"num\":9999999999999}\n{\"str\":\"hello\\nworld\"}\n{\"unicode\":\"café ☕\"}\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = [];\njson[0] = {};\njson[0].num = 9999999999999;\njson[1] = {};\njson[1].str = \"hello\\nworld\";\njson[2] = {};\njson[2].unicode = \"café ☕\";\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stream.py:189"
+  },
+  {
+   "test": "test_stream_many_lines_head_tail",
+   "argv": [
+    "-s",
+    "-m"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stream.py:199"
+  },
+  {
+   "test": "test_stream_nested_arrays",
+   "argv": [
+    "-s",
+    "-m"
+   ],
+   "stdin": "[1,2,[3,4]]\n[5,6,[7,8]]\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = [];\njson[0] = [];\njson[0][0] = 1;\njson[0][1] = 2;\njson[0][2] = [];\njson[0][2][0] = 3;\njson[0][2][1] = 4;\njson[1] = [];\njson[1][0] = 5;\njson[1][1] = 6;\njson[1][2] = [];\njson[1][2][0] = 7;\njson[1][2][1] = 8;\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stream.py:267"
+  },
+  {
+   "test": "test_stream_objects_with_arrays",
+   "argv": [
+    "-s",
+    "-m"
+   ],
+   "stdin": "{\"users\":[{\"name\":\"alice\"},{\"name\":\"bob\"}]}\n{\"users\":[{\"name\":\"charlie\"}]}\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = [];\njson[0] = {};\njson[0].users = [];\njson[0].users[0] = {};\njson[0].users[0].name = \"alice\";\njson[0].users[1] = {};\njson[0].users[1].name = \"bob\";\njson[1] = {};\njson[1].users = [];\njson[1].users[0] = {};\njson[1].users[0].name = \"charlie\";\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stream.py:277"
+  },
+  {
+   "test": "test_stream_arrays_with_nulls",
+   "argv": [
+    "-s",
+    "-m"
+   ],
+   "stdin": "[true,false,null]\n[1,2,null,4]\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = [];\njson[0] = [];\njson[0][0] = true;\njson[0][1] = false;\njson[0][2] = null;\njson[1] = [];\njson[1][0] = 1;\njson[1][1] = 2;\njson[1][2] = null;\njson[1][3] = 4;\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stream.py:287"
+  },
+  {
+   "test": "test_stream_line_with_trailing_tab",
+   "argv": [
+    "-s",
+    "-m"
+   ],
+   "stdin": "{\"a\":1}\t\n{\"b\":2}\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = [];\njson[0] = {};\njson[0].a = 1;\njson[1] = {};\njson[1].b = 2;\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stream.py:296"
+  },
+  {
+   "test": "test_stream_tab_only_line_fails",
+   "argv": [
+    "-s",
+    "-m"
+   ],
+   "stdin": "{\"a\":1}\n\t\n{\"b\":2}\n",
+   "env": {},
+   "expect_rc": 3,
+   "expect_stdout": "json = [];\njson[0] = {};\njson[0].a = 1;\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stream.py:307"
+  },
+  {
+   "test": "test_stream_empty_object_and_array",
+   "argv": [
+    "-s",
+    "-m"
+   ],
+   "stdin": "{}\n[]\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "json = [];\njson[0] = {};\njson[1] = [];\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stream.py:317"
+  },
+  {
+   "test": "test_stream_float_values",
+   "argv": [
+    "-s",
+    "-m"
+   ],
+   "stdin": "{\"pi\":3.14159}\n{\"e\":2.71828}\n{\"tiny\":0.0001}\n{\"sci\":1.23e-10}\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stream.py:326"
+  },
+  {
+   "test": "test_ungron_simple_object",
+   "argv": [
+    "--ungron"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "{\n  \"name\": \"test\",\n  \"value\": 123\n}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_ungron.py:10"
+  },
+  {
+   "test": "test_ungron_short_flag",
+   "argv": [
+    "-u"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "{\n  \"name\": \"test\",\n  \"value\": 123\n}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_ungron.py:21"
+  },
+  {
+   "test": "test_ungron_type_inference",
+   "argv": [
+    "--ungron"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "{\n  \"bool_false\": false,\n  \"bool_true\": true,\n  \"empty_array\": [],\n  \"empty_object\": {},\n  \"empty_string\": \"\",\n  \"float\": 3.14159,\n  \"int\": 42,\n  \"neg_float\": -2.5,\n  \"neg_int\": -100,\n  \"null_val\": null,\n  \"string\": \"hello\"\n}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_ungron.py:29"
+  },
+  {
+   "test": "test_ungron_nested_structures",
+   "argv": [
+    "--ungron"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "{\n  \"a\": {\n    \"b\": {\n      \"c\": {\n        \"d\": \"deep\"\n      }\n    }\n  },\n  \"arr\": [\n    [\n      [\n        \"nested_array\"\n      ]\n    ]\n  ],\n  \"mixed\": {\n    \"list\": [\n      {\n        \"name\": \"item\"\n      }\n    ]\n  }\n}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_ungron.py:52"
+  },
+  {
+   "test": "test_ungron_unicode_and_special_chars",
+   "argv": [
+    "--ungron"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "{\n  \"arabic\": \"العربية\",\n  \"emoji\": \"👍 🎉 ☕\",\n  \"escaped\": \"line1\\nline2\\ttab\",\n  \"japanese\": \"日本語\",\n  \"key with spaces\": \"value\",\n  \"key-with-dashes\": \"value2\",\n  \"key.with.dots\": \"value3\"\n}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_ungron.py:66"
+  },
+  {
+   "test": "test_ungron_array_with_gaps",
+   "argv": [
+    "--ungron"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "{\n  \"arr\": [\n    \"first\",\n    null,\n    null,\n    null,\n    null,\n    \"sixth\",\n    null,\n    null,\n    null,\n    null,\n    \"eleventh\"\n  ]\n}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_ungron.py:82"
+  },
+  {
+   "test": "test_ungron_roundtrip_complex",
+   "argv": [
+    "--ungron"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_ungron.py:99"
+  },
+  {
+   "test": "test_ungron_error_type_mismatch_object_to_array",
+   "argv": [
+    "--ungron"
+   ],
+   "stdin": "json.foo = {};\njson.foo = [];\n",
+   "env": {},
+   "expect_rc": 5,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cannot merge object with non-object"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ungron.py:118"
+  },
+  {
+   "test": "test_ungron_error_type_mismatch_array_to_object",
+   "argv": [
+    "--ungron"
+   ],
+   "stdin": "json.arr = [];\njson.arr = {};\n",
+   "env": {},
+   "expect_rc": 5,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cannot merge array with non-array"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ungron.py:128"
+  },
+  {
+   "test": "test_ungron_error_missing_semicolon",
+   "argv": [
+    "--ungron"
+   ],
+   "stdin": "json = {};\njson.name = \"test\"\n",
+   "env": {},
+   "expect_rc": 5,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "statement has no value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ungron.py:137"
+  },
+  {
+   "test": "test_ungron_error_malformed_value",
+   "argv": [
+    "--ungron"
+   ],
+   "stdin": "json = {};\njson.likes = [;\n",
+   "env": {},
+   "expect_rc": 5,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ungron failed for `json.likes = [;`: invalid value `[`"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ungron.py:146"
+  },
+  {
+   "test": "test_ungron_error_empty_input",
+   "argv": [
+    "--ungron"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 5,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "no statements were parsed"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ungron.py:155"
+  },
+  {
+   "test": "test_ungron_error_whitespace_only",
+   "argv": [
+    "--ungron"
+   ],
+   "stdin": "   \n\n  \t\n  ",
+   "env": {},
+   "expect_rc": 5,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "no statements were parsed"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ungron.py:163"
+  },
+  {
+   "test": "test_ungron_scalar_override",
+   "argv": [
+    "--ungron"
+   ],
+   "stdin": "json = {};\njson.val = 42;\njson.val = \"string\";\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_ungron.py:171"
+  },
+  {
+   "test": "test_ungron_numeric_precision",
+   "argv": [
+    "--ungron"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "{\n  \"big_int\": 9007199254740991,\n  \"float_precision\": 0.123456789012345,\n  \"negative_exp\": 1.5e-5,\n  \"negative_zero\": -0,\n  \"scientific\": 1.23e10,\n  \"zero\": 0\n}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_ungron.py:243"
+  },
+  {
+   "test": "test_ungron_json_escape_sequences",
+   "argv": [
+    "--ungron"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "{\n  \"backslash\": \"C:\\\\Windows\\\\System32\",\n  \"control_chars\": \"Line1\\nLine2\\rLine3\\tTabbed\",\n  \"forward_slash\": \"https://example.com/path\",\n  \"quotes\": \"He said \\\"hello\\\"\",\n  \"unicode_escape\": \"Unicode: Hello\"\n}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_ungron.py:260"
+  },
+  {
+   "test": "test_ungron_error_invalid_identifier",
+   "argv": [
+    "--ungron"
+   ],
+   "stdin": "json.123invalid = \"test\";\n",
+   "env": {},
+   "expect_rc": 5,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid statement"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ungron.py:274"
+  },
+  {
+   "test": "test_ungron_error_invalid_bracket_content",
+   "argv": [
+    "--ungron"
+   ],
+   "stdin": "json[abc] = \"test\";\n",
+   "env": {},
+   "expect_rc": 5,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid statement"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ungron.py:283"
+  },
+  {
+   "test": "test_ungron_object_merge_preserves_all_keys",
+   "argv": [
+    "--ungron"
+   ],
+   "stdin": "json = {};\njson.a = {};\njson.a.b = 1;\njson.a = {};\njson.a.c = 2;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "{\n  \"a\": {\n    \"b\": 1,\n    \"c\": 2\n  }\n}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_ungron.py:327"
+  },
+  {
+   "test": "test_ungron_array_merge_extends_correctly",
+   "argv": [
+    "--ungron"
+   ],
+   "stdin": "json = {};\njson.arr = [];\njson.arr[0] = 1;\njson.arr[1] = 2;\njson.arr = [];\njson.arr[2] = 3;\njson.arr[3] = 4;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "{\n  \"arr\": [\n    1,\n    2,\n    3,\n    4\n  ]\n}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_ungron.py:346"
+  },
+  {
+   "test": "test_ungron_deep_nested_merge",
+   "argv": [
+    "--ungron"
+   ],
+   "stdin": "json = {};\njson.a = {};\njson.a.b = {};\njson.a.b.c = 1;\njson.a = {};\njson.a.b = {};\njson.a.b.d = 2;\njson.a = {};\njson.a.e = 3;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "{\n  \"a\": {\n    \"b\": {\n      \"c\": 1,\n      \"d\": 2\n    },\n    \"e\": 3\n  }\n}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_ungron.py:366"
+  },
+  {
+   "test": "test_fetch_nonexistent_domain",
+   "argv": [
+    "http://nonexistent.domain.invalid.test/test.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 4,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Get \"http://nonexistent.domain.invalid.test/test.json\": dial tcp:",
+    "lookup nonexistent.domain.invalid.test",
+    ": no such host"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_url_fetch.py:165"
+  },
+  {
+   "test": "test_fetch_connection_refused",
+   "argv": [
+    "http://127.0.0.1:19999/test.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 4,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "connection refused",
+    "dial tcp 127.0.0.1:19999"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_url_fetch.py:179"
+  },
+  {
+   "test": "test_invalid_url_protocol_treated_as_file",
+   "argv": [
+    "htp://invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "no such file or directory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_url_fetch.py:268"
+  }
+ ]
+}

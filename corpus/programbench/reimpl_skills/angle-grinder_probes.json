@@ -1,0 +1,4425 @@
+[
+ {
+  "name": "test::test_count_basic::0",
+  "argv": [
+   "* | json | count"
+  ],
+  "stdin": "{\"level\":\"info\"}\n{\"level\":\"error\"}\n{\"level\":\"info\"}\n{\"level\":\"warning\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_by_field::1",
+  "argv": [
+   "* | json | count by level"
+  ],
+  "stdin": "{\"level\":\"info\"}\n{\"level\":\"error\"}\n{\"level\":\"info\"}\n{\"level\":\"warning\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_single_record::2",
+  "argv": [
+   "* | json | count"
+  ],
+  "stdin": "{}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_zero_lines::3",
+  "argv": [
+   "* | count"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sum_basic::4",
+  "argv": [
+   "* | json | sum(cost)"
+  ],
+  "stdin": "{\"cost\":12.5}\n{\"cost\":7.25}\n{\"cost\":15.99}\n{\"cost\":8.0}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sum_by_group::5",
+  "argv": [
+   "* | json | sum(cost) by region"
+  ],
+  "stdin": "{\"region\":\"us-west\",\"cost\":12.5}\n{\"region\":\"us-east\",\"cost\":7.25}\n{\"region\":\"us-west\",\"cost\":15.99}\n{\"region\":\"us-east\",\"cost\":8.0}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sum_negative_numbers::6",
+  "argv": [
+   "* | json | sum(value)"
+  ],
+  "stdin": "{\"value\":-10}\n{\"value\":-20}\n{\"value\":5}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sum_all_zeros::7",
+  "argv": [
+   "* | json | sum(value)"
+  ],
+  "stdin": "{\"value\":0}\n{\"value\":0}\n{\"value\":0}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_average_basic::8",
+  "argv": [
+   "* | json | average(latency)"
+  ],
+  "stdin": "{\"latency\":125.4}\n{\"latency\":87.2}\n{\"latency\":156.8}\n{\"latency\":93.5}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_average_identical_values::9",
+  "argv": [
+   "* | json | average(value)"
+  ],
+  "stdin": "{\"value\":100}\n{\"value\":100}\n{\"value\":100}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_basic::10",
+  "argv": [
+   "* | json | min(latency)"
+  ],
+  "stdin": "{\"latency\":125.4}\n{\"latency\":87.2}\n{\"latency\":156.8}\n{\"latency\":93.5}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_negative_numbers::11",
+  "argv": [
+   "* | json | min(temp)"
+  ],
+  "stdin": "{\"temp\":-15.5}\n{\"temp\":-8.2}\n{\"temp\":-22.1}\n{\"temp\":-3.7}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_basic::12",
+  "argv": [
+   "* | json | max(latency)"
+  ],
+  "stdin": "{\"latency\":125.4}\n{\"latency\":87.2}\n{\"latency\":156.8}\n{\"latency\":93.5}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_negative_numbers::13",
+  "argv": [
+   "* | json | max(temp)"
+  ],
+  "stdin": "{\"temp\":-15.5}\n{\"temp\":-8.2}\n{\"temp\":-22.1}\n{\"temp\":-3.7}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_percentile_p50::14",
+  "argv": [
+   "* | json | p50(latency)"
+  ],
+  "stdin": "{\"latency\":125.4}\n{\"latency\":87.2}\n{\"latency\":156.8}\n{\"latency\":93.5}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_percentile_p90::15",
+  "argv": [
+   "* | json | p90(latency)"
+  ],
+  "stdin": "{\"latency\":125.4}\n{\"latency\":87.2}\n{\"latency\":156.8}\n{\"latency\":93.5}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_distinct_basic::16",
+  "argv": [
+   "* | json | count_distinct(user)"
+  ],
+  "stdin": "{\"user\":\"alice\"}\n{\"user\":\"bob\"}\n{\"user\":\"alice\"}\n{\"user\":\"charlie\"}\n{\"user\":\"bob\"}\n{\"user\":\"alice\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_distinct_all_same::17",
+  "argv": [
+   "* | json | count_distinct(ip)"
+  ],
+  "stdin": "{\"ip\":\"10.0.0.1\"}\n{\"ip\":\"10.0.0.1\"}\n{\"ip\":\"10.0.0.1\"}\n{\"ip\":\"10.0.0.1\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_distinct_by_group::18",
+  "argv": [
+   "* | json | count_distinct(ip) by service"
+  ],
+  "stdin": "{\"service\":\"api\",\"ip\":\"10.0.0.1\"}\n{\"service\":\"api\",\"ip\":\"10.0.0.2\"}\n{\"service\":\"web\",\"ip\":\"10.0.0.1\"}\n{\"service\":\"web\",\"ip\":\"10.0.0.3\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_total_running_sum::19",
+  "argv": [
+   "* | json | total(value)"
+  ],
+  "stdin": "{\"value\":10}\n{\"value\":20}\n{\"value\":15}\n{\"value\":5}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_by_field_ascending::20",
+  "argv": [
+   "* | json | count by user | sort by user"
+  ],
+  "stdin": "{\"user\":\"alice\"}\n{\"user\":\"bob\"}\n{\"user\":\"alice\"}\n{\"user\":\"charlie\"}\n{\"user\":\"bob\"}\n{\"user\":\"alice\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_by_count_descending::21",
+  "argv": [
+   "* | json | count by region, env | sort by _count desc"
+  ],
+  "stdin": "{\"region\":\"us\",\"env\":\"prod\",\"cost\":100}\n{\"region\":\"us\",\"env\":\"dev\",\"cost\":50}\n{\"region\":\"eu\",\"env\":\"prod\",\"cost\":120}\n{\"region\":\"eu\",\"env\":\"dev\",\"cost\":40}\n{\"region\":\"us\",\"env\":\"prod\",\"cost\":80}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_multi_field::22",
+  "argv": [
+   "* | json | count by region, env | sort by region, env"
+  ],
+  "stdin": "{\"region\":\"us\",\"env\":\"prod\",\"cost\":100}\n{\"region\":\"us\",\"env\":\"dev\",\"cost\":50}\n{\"region\":\"eu\",\"env\":\"prod\",\"cost\":120}\n{\"region\":\"eu\",\"env\":\"dev\",\"cost\":40}\n{\"region\":\"us\",\"env\":\"prod\",\"cost\":80}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sum_multi_group::23",
+  "argv": [
+   "* | json | sum(cost) by region, env"
+  ],
+  "stdin": "{\"region\":\"us\",\"env\":\"prod\",\"cost\":100}\n{\"region\":\"us\",\"env\":\"dev\",\"cost\":50}\n{\"region\":\"eu\",\"env\":\"prod\",\"cost\":120}\n{\"region\":\"eu\",\"env\":\"dev\",\"cost\":40}\n{\"region\":\"us\",\"env\":\"prod\",\"cost\":80}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_average_then_sort::24",
+  "argv": [
+   "* | json | average(latency) by service | sort by _average desc"
+  ],
+  "stdin": "{\"service\":\"api\",\"latency\":100}\n{\"service\":\"api\",\"latency\":200}\n{\"service\":\"web\",\"latency\":50}\n{\"service\":\"web\",\"latency\":150}\n{\"service\":\"db\",\"latency\":300}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_then_sort_by_field::25",
+  "argv": [
+   "* | json | count by service | sort by service"
+  ],
+  "stdin": "{\"service\":\"api\",\"latency\":100}\n{\"service\":\"api\",\"latency\":200}\n{\"service\":\"web\",\"latency\":50}\n{\"service\":\"web\",\"latency\":150}\n{\"service\":\"db\",\"latency\":300}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sum_small_decimals::26",
+  "argv": [
+   "* | json | sum(price)"
+  ],
+  "stdin": "{\"price\":0.01}\n{\"price\":0.02}\n{\"price\":0.03}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sum_large_numbers::27",
+  "argv": [
+   "* | json | sum(price)"
+  ],
+  "stdin": "{\"price\":999999.99}\n{\"price\":888888.88}\n{\"price\":777777.77}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_100_records::28",
+  "argv": [
+   "* | json | count by group"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_percentile_p99_large_dataset::29",
+  "argv": [
+   "* | json | p99(value)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_percentile_p95_large_dataset::30",
+  "argv": [
+   "* | json | p95(value)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sum_1000_records_with_grouping::31",
+  "argv": [
+   "* | json | sum(value) by category"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_average_1000_records_with_grouping::32",
+  "argv": [
+   "* | json | average(value) by category"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_single_value::33",
+  "argv": [
+   "* | json | min(val)"
+  ],
+  "stdin": "{\"val\":5}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_single_value::34",
+  "argv": [
+   "* | json | max(val)"
+  ],
+  "stdin": "{\"val\":5}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_average_single_value::35",
+  "argv": [
+   "* | json | average(val)"
+  ],
+  "stdin": "{\"val\":5}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_percentile_single_value::36",
+  "argv": [
+   "* | json | p50(val)"
+  ],
+  "stdin": "{\"val\":5}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_average_mixed_signs::37",
+  "argv": [
+   "* | json | average(val)"
+  ],
+  "stdin": "{\"val\":-5}\n{\"val\":0}\n{\"val\":10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sum_mixed_signs::38",
+  "argv": [
+   "* | json | sum(val)"
+  ],
+  "stdin": "{\"val\":-5}\n{\"val\":0}\n{\"val\":10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_by_group::39",
+  "argv": [
+   "* | json | min(val) by cat"
+  ],
+  "stdin": "{\"cat\":\"A\",\"val\":100}\n{\"cat\":\"B\",\"val\":200}\n{\"cat\":\"A\",\"val\":150}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_by_group::40",
+  "argv": [
+   "* | json | max(val) by cat"
+  ],
+  "stdin": "{\"cat\":\"A\",\"val\":100}\n{\"cat\":\"B\",\"val\":200}\n{\"cat\":\"A\",\"val\":150}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_average_by_group::41",
+  "argv": [
+   "* | json | average(val) by cat"
+  ],
+  "stdin": "{\"cat\":\"A\",\"val\":100}\n{\"cat\":\"B\",\"val\":200}\n{\"cat\":\"A\",\"val\":150}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_percentile_repeated_values::42",
+  "argv": [
+   "* | json | p50(value)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_sort_descending::43",
+  "argv": [
+   "* | json | count by status | sort by _count desc"
+  ],
+  "stdin": "{\"status\":\"ok\"}\n{\"status\":\"error\"}\n{\"status\":\"ok\"}\n{\"status\":\"ok\"}\n{\"status\":\"error\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_all_zeros::44",
+  "argv": [
+   "* | json | min(val)"
+  ],
+  "stdin": "{\"val\":0}\n{\"val\":0}\n{\"val\":0}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_all_zeros::45",
+  "argv": [
+   "* | json | max(val)"
+  ],
+  "stdin": "{\"val\":0}\n{\"val\":0}\n{\"val\":0}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_three_grouping_fields::46",
+  "argv": [
+   "* | json | count by y, z"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sum_three_grouping_fields::47",
+  "argv": [
+   "* | json | sum(x) by y, z"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_percentile_by_group::48",
+  "argv": [
+   "* | json | p50(value) by category"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_p99_by_group::49",
+  "argv": [
+   "* | json | p99(value) by category"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_average_high_precision::50",
+  "argv": [
+   "* | json | average(val)"
+  ],
+  "stdin": "{\"val\":5.5555}\n{\"val\":3.3333}\n{\"val\":1.1111}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_total_negative_to_positive_range::51",
+  "argv": [
+   "* | json | total(val)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_distinct_multiple_categories::52",
+  "argv": [
+   "* | json | count_distinct(user) by category"
+  ],
+  "stdin": "{\"category\":\"A\",\"user\":\"alice\"}\n{\"category\":\"B\",\"user\":\"bob\"}\n{\"category\":\"A\",\"user\":\"alice\"}\n{\"category\":\"A\",\"user\":\"charlie\"}\n{\"category\":\"B\",\"user\":\"alice\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_aggregates_no_group::53",
+  "argv": [
+   "* | json | sum(a), sum(b)"
+  ],
+  "stdin": "{\"a\":1,\"b\":2}\n{\"a\":2,\"b\":1}\n{\"a\":3,\"b\":3}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_aggregates_with_group::54",
+  "argv": [
+   "* | json | sum(a), average(b) by cat"
+  ],
+  "stdin": "{\"cat\":\"A\",\"a\":1,\"b\":2}\n{\"cat\":\"A\",\"a\":2,\"b\":1}\n{\"cat\":\"B\",\"a\":3,\"b\":3}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_and_sum_combined::55",
+  "argv": [
+   "* | json | count, sum(val) by cat"
+  ],
+  "stdin": "{\"cat\":\"A\",\"val\":10}\n{\"cat\":\"A\",\"val\":20}\n{\"cat\":\"B\",\"val\":30}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_max_average_combined::56",
+  "argv": [
+   "* | json | min(val), max(val), average(val)"
+  ],
+  "stdin": "{\"val\":10}\n{\"val\":5}\n{\"val\":15}\n{\"val\":3}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_numeric_descending::57",
+  "argv": [
+   "* | json | count by val | sort by val desc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_total_all_zeros::58",
+  "argv": [
+   "* | json | total(val)"
+  ],
+  "stdin": "{\"val\":0}\n{\"val\":0}\n{\"val\":0}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_total_single_record::59",
+  "argv": [
+   "* | json | total(val)"
+  ],
+  "stdin": "{\"val\":1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_distinct_mixed_order::60",
+  "argv": [
+   "* | json | count_distinct(val)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_numeric_ascending_proper_order::61",
+  "argv": [
+   "* | json | count by num | sort by num"
+  ],
+  "stdin": "{\"num\":1}\n{\"num\":2}\n{\"num\":10}\n{\"num\":20}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_passthrough::62",
+  "argv": [
+   "*"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_query_error::63",
+  "argv": [],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_stdin_produces_no_output::64",
+  "argv": [
+   "*"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_whitespace_only_input::65",
+  "argv": [
+   "*"
+  ],
+  "stdin": "   \n\t\n  \n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_query_syntax_error::66",
+  "argv": [
+   "invalid | | syntax"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_alias_flag::67",
+  "argv": [
+   "--no-alias",
+   "*"
+  ],
+  "stdin": "test line\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_alias_flags_error::68",
+  "argv": [
+   "--no-alias",
+   "--alias-dir",
+   "/tmp",
+   "*"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_mode_json::69",
+  "argv": [
+   "-o",
+   "json",
+   "* | json"
+  ],
+  "stdin": "{\"key\":\"value\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_mode_logfmt::70",
+  "argv": [
+   "-o",
+   "logfmt",
+   "* | json"
+  ],
+  "stdin": "{\"key\":\"value\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_mode_format_string::71",
+  "argv": [
+   "-o",
+   "format={src} => {dst}",
+   "* | json"
+  ],
+  "stdin": "{\"src\":\"a\",\"dst\":\"b\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_output_mode::72",
+  "argv": [
+   "-o",
+   "invalid",
+   "*"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_format_empty_value::73",
+  "argv": [
+   "-o",
+   "format=",
+   "*"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_format_flags::74",
+  "argv": [
+   "-o",
+   "json",
+   "-m",
+   "{test}",
+   "*"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deprecated_m_flag::75",
+  "argv": [
+   "-m",
+   "{a} -> {b}",
+   "* | json"
+  ],
+  "stdin": "{\"a\":\"x\",\"b\":\"y\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_mode_legacy_explicit::76",
+  "argv": [
+   "-o",
+   "legacy",
+   "* | json"
+  ],
+  "stdin": "{\"key\":\"value\",\"num\":42}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_query_with_fields::77",
+  "argv": [
+   "* | json | fields level"
+  ],
+  "stdin": "{\"level\":\"info\",\"msg\":\"test1\"}\n{\"level\":\"error\",\"msg\":\"test2\"}\n{\"level\":\"info\",\"msg\":\"test3\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_with_where_clause::78",
+  "argv": [
+   "* | json | where level == \"error\""
+  ],
+  "stdin": "{\"level\":\"info\"}\n{\"level\":\"error\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_with_limit::79",
+  "argv": [
+   "* | json | limit 5"
+  ],
+  "stdin": "{\"a\":1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_with_total::80",
+  "argv": [
+   "* | json | total(v)"
+  ],
+  "stdin": "{\"v\":1}\n{\"v\":2}\n{\"v\":3}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_simple_count::81",
+  "argv": [
+   "* | json | count"
+  ],
+  "stdin": "{\"v\":1}\n{\"v\":2}\n{\"v\":3}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_file_with_fields::82",
+  "argv": [
+   "* | json | fields level"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_logfmt_parsing::83",
+  "argv": [
+   "* | logfmt | fields level, tag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_with_split::84",
+  "argv": [
+   "* | split on \",\""
+  ],
+  "stdin": "user1,user2,user3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_input_with_limit::85",
+  "argv": [
+   "* | limit 3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_sort_ascending::86",
+  "argv": [
+   "* | json | sort by v"
+  ],
+  "stdin": "{\"v\":3}\n{\"v\":1}\n{\"v\":2}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_sort_descending::87",
+  "argv": [
+   "* | json | sort by v desc"
+  ],
+  "stdin": "{\"v\":3}\n{\"v\":1}\n{\"v\":2}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_line::88",
+  "argv": [
+   "*"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_builtin_alias_nginx::89",
+  "argv": [
+   "* | nginx | fields addr, status"
+  ],
+  "stdin": "127.0.0.1 - - [01/Jan/2024:10:00:00 +0000] \"GET /index.html HTTP/1.1\" 200 1234 \"-\" \"Mozilla/5.0\" \"-\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_alias_without_custom_dir::90",
+  "argv": [
+   "--no-alias",
+   "* | myalias"
+  ],
+  "stdin": "{\"level\":\"info\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_alias_directory_error::91",
+  "argv": [
+   "--alias-dir",
+   "/nonexistent/dir",
+   "*"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_datetime_subtraction_produces_duration::92",
+  "argv": [
+   "* | json | fields start, end"
+  ],
+  "stdin": "{\"start\": \"2024-01-15T10:30:00Z\", \"end\": \"2024-01-16T10:30:00Z\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_datetime_single_field_serialization::93",
+  "argv": [
+   "* | json | fields time"
+  ],
+  "stdin": "{\"time\": \"2024-01-15T10:30:00Z\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_object_field_access_nested::94",
+  "argv": [
+   "* | json | fields user.name"
+  ],
+  "stdin": "{\"user\": {\"name\": \"Alice\", \"age\": 30}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_negative_indexing::95",
+  "argv": [
+   "* | json | fields items"
+  ],
+  "stdin": "{\"items\": [10, 20, 30, 40, 50]}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_serialization_obj_nested_map::96",
+  "argv": [
+   "* | json | fields config"
+  ],
+  "stdin": "{\"config\": {\"timeout\": 30, \"retry\": 3}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_serialization_array_collect_seq::97",
+  "argv": [
+   "* | json | fields values"
+  ],
+  "stdin": "{\"values\": [1, 2, 3, 4, 5]}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_serialization_none_variant::98",
+  "argv": [
+   "* | json | fields value"
+  ],
+  "stdin": "{\"value\": null}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_float_arithmetic_addition::99",
+  "argv": [
+   "* | json | a + b as sum"
+  ],
+  "stdin": "{\"a\": 1.5, \"b\": 2.3}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_float_arithmetic_subtraction::100",
+  "argv": [
+   "* | json | a - b as diff"
+  ],
+  "stdin": "{\"a\": 5.5, \"b\": 2.3}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_float_arithmetic_multiplication::101",
+  "argv": [
+   "* | json | a * b as product"
+  ],
+  "stdin": "{\"a\": 2.5, \"b\": 4.0}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_float_arithmetic_division::102",
+  "argv": [
+   "* | json | a / b as quotient"
+  ],
+  "stdin": "{\"a\": 10.0, \"b\": 4.0}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_int_arithmetic_multiplication::103",
+  "argv": [
+   "* | json | count * value as product"
+  ],
+  "stdin": "{\"count\": 5, \"value\": 10}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_int_arithmetic_division::104",
+  "argv": [
+   "* | json | dividend / divisor as quotient"
+  ],
+  "stdin": "{\"dividend\": 100, \"divisor\": 4}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_int_arithmetic_addition::105",
+  "argv": [
+   "* | json | x + y as sum"
+  ],
+  "stdin": "{\"x\": 100, \"y\": 234}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_int_arithmetic_subtraction::106",
+  "argv": [
+   "* | json | a - b as diff"
+  ],
+  "stdin": "{\"a\": 500, \"b\": 237}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_value_ordering_mixed_types_int_float_sort::107",
+  "argv": [
+   "* | json | sort by val"
+  ],
+  "stdin": "{\"val\": 5}\n{\"val\": 5.0}\n{\"val\": 4.9}\n{\"val\": 5.1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_value_from_string_int_parsing::108",
+  "argv": [
+   "* | json | fields count, price"
+  ],
+  "stdin": "{\"count\": \"42\", \"price\": \"100\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_value_from_string_float_parsing::109",
+  "argv": [
+   "* | json | fields rate, value"
+  ],
+  "stdin": "{\"rate\": \"3.14159\", \"value\": \"2.5\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_value_from_string_boolean_parsing::110",
+  "argv": [
+   "* | json | fields disabled, enabled, other"
+  ],
+  "stdin": "{\"enabled\": \"true\", \"disabled\": \"false\", \"other\": \"maybe\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_value_rank_ordering_for_incomparable_types::111",
+  "argv": [
+   "* | json | sort by val"
+  ],
+  "stdin": "{\"val\": 5}\n{\"val\": \"hello\"}\n{\"val\": true}\n{\"val\": 3.14}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_int_float_arithmetic::112",
+  "argv": [
+   "* | json | x + y as sum"
+  ],
+  "stdin": "{\"x\": 5, \"y\": 2.5}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_record_ordering_multi_field_comparison::113",
+  "argv": [
+   "* | json | sort by priority, name"
+  ],
+  "stdin": "{\"priority\": 1, \"name\": \"zebra\"}\n{\"priority\": 1, \"name\": \"apple\"}\n{\"priority\": 2, \"name\": \"banana\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_value_display_with_custom_floating_points::114",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"value\": 3.14159265}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_value_display_none_variant::115",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"value\": null}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_datetime_json_serialization_with_timezone::116",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"timestamp\": \"2024-03-15T14:30:45+05:30\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bool_comparison_ordering::117",
+  "argv": [
+   "* | json | sort by flag"
+  ],
+  "stdin": "{\"flag\": true}\n{\"flag\": false}\n{\"flag\": true}\n{\"flag\": false}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_comparison_lexicographic::118",
+  "argv": [
+   "* | json | sort by name"
+  ],
+  "stdin": "{\"name\": \"zebra\"}\n{\"name\": \"apple\"}\n{\"name\": \"banana\"}\n{\"name\": \"cherry\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_value_display_obj_formatting::119",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"meta\": {\"version\": 2, \"author\": \"test\"}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_value_display_array_formatting::120",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"items\": [1, 2, 3]}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_value_from_float_exact_integer::121",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"exact\": 5.0, \"inexact\": 5.1}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggressively_to_num_with_multiple_commas::122",
+  "argv": [
+   "* | json | x + y as sum"
+  ],
+  "stdin": "{\"x\": 5, \"y\": 3}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_try_from_f64_with_datetime::123",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"time\": \"2024-01-15T10:30:00Z\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_try_from_usize_with_negative_int::124",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"count\": -5}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_try_from_usize_with_negative_float::125",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"index\": -2.5}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_record_put_simple_field::126",
+  "argv": [
+   "* | json | fields name"
+  ],
+  "stdin": "{\"name\": \"Alice\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_value_binary_op_with_strings::127",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"a\": \"10\", \"b\": \"5\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_value_rank_for_none::128",
+  "argv": [
+   "* | json | sort by val"
+  ],
+  "stdin": "{\"val\": null}\n{\"val\": 0}\n{\"val\": false}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_value_rank_for_array::129",
+  "argv": [
+   "* | json | sort by val"
+  ],
+  "stdin": "{\"val\": [1,2]}\n{\"val\": \"text\"}\n{\"val\": 5}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_value_rank_for_obj::130",
+  "argv": [
+   "* | json | sort by val"
+  ],
+  "stdin": "{\"val\": {\"a\": 1}}\n{\"val\": [1,2]}\n{\"val\": \"text\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_datetime_display_formatting::131",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"event_time\": \"2024-06-15T09:45:30Z\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_float_int_comparison_cross_type::132",
+  "argv": [
+   "* | json | sort by val"
+  ],
+  "stdin": "{\"val\": 10}\n{\"val\": 10.5}\n{\"val\": 9.5}\n{\"val\": 11}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_float_display_with_precision::133",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"pi\": 3.14159265359}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_obj_comparison_ordering::134",
+  "argv": [
+   "* | json | sort by data"
+  ],
+  "stdin": "{\"data\": {\"x\": 1}}\n{\"data\": {\"x\": 2}}\n{\"data\": {\"x\": 1}}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_value_none_display_in_legacy_format::135",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"field\": null}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bool_display_formatting::136",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"enabled\": true, \"disabled\": false}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_display_with_mixed_types::137",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"mixed\": [1, \"text\", true, null]}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_obj_display_with_nested_objects::138",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"config\": {\"db\": {\"host\": \"localhost\", \"port\": 5432}}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_value_cmp_with_datetime_ordering::139",
+  "argv": [
+   "* | json | sort by ts"
+  ],
+  "stdin": "{\"ts\": \"2024-01-01T00:00:00Z\"}\n{\"ts\": \"2024-06-15T00:00:00Z\"}\n{\"ts\": \"2023-12-31T23:59:59Z\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_partial_ord_implementation::140",
+  "argv": [
+   "* | json | sort by n"
+  ],
+  "stdin": "{\"n\": 3}\n{\"n\": 1}\n{\"n\": 2}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_display_trait_for_datetime::141",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"dt\": \"2024-03-15T14:30:00Z\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_from_f64_to_value_conversion::142",
+  "argv": [
+   "* | json | x * y as product"
+  ],
+  "stdin": "{\"x\": 2.5, \"y\": 1.5}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_try_from_value_to_f64_with_string::143",
+  "argv": [
+   "* | json | x / y as quotient"
+  ],
+  "stdin": "{\"x\": 10, \"y\": 5}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_serialization_with_column_order::144",
+  "argv": [
+   "* | json | count by type"
+  ],
+  "stdin": "{\"type\": \"A\", \"count\": 10}\n{\"type\": \"B\", \"count\": 20}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_record_serialization_sorted_keys::145",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"zebra\": 1, \"apple\": 2, \"banana\": 3}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_datetime_subtraction_produces_duration_value::146",
+  "argv": [
+   "* | json | (parseDate(end) - parseDate(start)) as dur"
+  ],
+  "stdin": "{\"start\": \"2024-01-15T10:30:00Z\", \"end\": \"2024-01-16T10:30:00Z\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duration_addition_operation::147",
+  "argv": [
+   "* | json | ((parseDate(mid) - parseDate(start)) + (parseDate(mid) - parseDate(start))) as doubled"
+  ],
+  "stdin": "{\"start\": \"2024-01-15T10:30:00Z\", \"mid\": \"2024-01-16T10:30:00Z\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_datetime_plus_duration_operation::148",
+  "argv": [
+   "* | json | parseDate(start) + (parseDate(end) - parseDate(start)) as result"
+  ],
+  "stdin": "{\"start\": \"2024-01-15T10:30:00Z\", \"end\": \"2024-01-16T10:30:00Z\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duration_times_int_operation::149",
+  "argv": [
+   "* | json | (parseDate(end) - parseDate(start)) * 3 as tripled"
+  ],
+  "stdin": "{\"start\": \"2024-01-15T10:30:00Z\", \"end\": \"2024-01-16T10:30:00Z\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_int_times_duration_operation::150",
+  "argv": [
+   "* | json | 3 * (parseDate(end) - parseDate(start)) as tripled"
+  ],
+  "stdin": "{\"start\": \"2024-01-15T10:30:00Z\", \"end\": \"2024-01-16T10:30:00Z\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_datetime_minus_duration_operation::151",
+  "argv": [
+   "* | json | parseDate(end) - (parseDate(end) - parseDate(start)) as back_to_start"
+  ],
+  "stdin": "{\"end\": \"2024-01-16T10:30:00Z\", \"start\": \"2024-01-15T10:30:00Z\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duration_subtraction_operation::152",
+  "argv": [
+   "* | json | ((parseDate(end) - parseDate(start)) - (parseDate(mid) - parseDate(start))) as remaining"
+  ],
+  "stdin": "{\"start\": \"2024-01-15T10:30:00Z\", \"mid\": \"2024-01-16T10:30:00Z\", \"end\": \"2024-01-17T10:30:00Z\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duration_plus_datetime_operation::153",
+  "argv": [
+   "* | json | (parseDate(end) - parseDate(start)) + parseDate(start) as result"
+  ],
+  "stdin": "{\"start\": \"2024-01-15T10:30:00Z\", \"end\": \"2024-01-16T10:30:00Z\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duration_display_with_all_time_units::154",
+  "argv": [
+   "* | json | (parseDate(end) - parseDate(start)) as complex_dur"
+  ],
+  "stdin": "{\"start\": \"2024-01-01T10:00:00Z\", \"end\": \"2024-01-15T13:45:30.123456Z\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_datetime_json_serialization_rfc3339::155",
+  "argv": [
+   "* | json | parseDate(date) as dt"
+  ],
+  "stdin": "{\"date\": \"2024-01-15T10:30:00Z\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duration_division_operation::156",
+  "argv": [
+   "* | json | (parseDate(end) - parseDate(start)) / 2 as halved"
+  ],
+  "stdin": "{\"start\": \"2024-01-15T10:30:00Z\", \"end\": \"2024-01-19T10:30:00Z\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duration_comparison_and_sorting::157",
+  "argv": [
+   "* | json | (parseDate(d2) - parseDate(d1)) as dur | sort by dur"
+  ],
+  "stdin": "{\"d1\": \"2024-01-15\", \"d2\": \"2024-01-16\"}\n{\"d1\": \"2024-01-15\", \"d2\": \"2024-01-18\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_datetime_to_f64_conversion_timestamp::158",
+  "argv": [
+   "* | json | parseDate(date) * num as result"
+  ],
+  "stdin": "{\"date\": \"2024-01-15T10:30:00Z\", \"num\": 5}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_datetime_comparison_ordering::159",
+  "argv": [
+   "* | json | parseDate(dt) as date | sort by date"
+  ],
+  "stdin": "{\"dt\": \"2024-01-15T10:30:00Z\"}\n{\"dt\": \"2024-01-16T10:30:00Z\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_usize_conversion_from_float::160",
+  "argv": [
+   "* | json | substring(text, start, end) as result"
+  ],
+  "stdin": "{\"text\": \"hello world\", \"start\": 1.0, \"end\": 5.0}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_usize_conversion_from_string_with_parsing::161",
+  "argv": [
+   "* | json | substring(text, start, end) as result"
+  ],
+  "stdin": "{\"text\": \"hello world\", \"start\": \"1\", \"end\": \"5\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_indexing_non_array_error_path::162",
+  "argv": [
+   "* | json | val[0] as x"
+  ],
+  "stdin": "{\"val\": 42}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_where_missing_condition::163",
+  "argv": [
+   "* | where"
+  ],
+  "stdin": "{\"name\": \"Alice\", \"age\": 30}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_limit_zero::164",
+  "argv": [
+   "* | limit 0"
+  ],
+  "stdin": "{\"a\": 10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_limit_fractional::165",
+  "argv": [
+   "* | limit 5.5"
+  ],
+  "stdin": "{\"a\": 10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_operator::166",
+  "argv": [
+   "* | unknown_operator"
+  ],
+  "stdin": "{\"a\": 10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_distinct_no_argument::167",
+  "argv": [
+   "* | count_distinct()"
+  ],
+  "stdin": "{\"a\": 10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_distinct_multiple_arguments::168",
+  "argv": [
+   "* | count_distinct(a, b)"
+  ],
+  "stdin": "{\"a\": 10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_function::169",
+  "argv": [
+   "* | where unknown_func(a) > 0"
+  ],
+  "stdin": "{\"a\": 10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_unterminated_string::170",
+  "argv": [
+   "* | parse \"pattern"
+  ],
+  "stdin": "{\"a\": 10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_where_unterminated_parenthesis::171",
+  "argv": [
+   "* | where (a > 5"
+  ],
+  "stdin": "{\"a\": 10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_where_condition_not_boolean::172",
+  "argv": [
+   "* | json | where a"
+  ],
+  "stdin": "{\"a\": 10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_pattern_field_count_mismatch::173",
+  "argv": [
+   "* | parse \"*field1* *field2* extra\" from _raw as a"
+  ],
+  "stdin": "log line here\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_timeslice_missing_duration::174",
+  "argv": [
+   "* | timeslice(timestamp)"
+  ],
+  "stdin": "{\"a\": 10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_field_in_expression::175",
+  "argv": [
+   "* | json | where nonexistent > 0"
+  ],
+  "stdin": "{\"a\": 10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_incomplete_comparison_expression::176",
+  "argv": [
+   "* | where a > "
+  ],
+  "stdin": "{\"a\": 10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dangling_logical_operator::177",
+  "argv": [
+   "* | where a &&"
+  ],
+  "stdin": "{\"a\": 10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_unary_operator_operand::178",
+  "argv": [
+   "* | where !!"
+  ],
+  "stdin": "{\"a\": 10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trailing_pipe_no_operator::179",
+  "argv": [
+   "* | json |"
+  ],
+  "stdin": "{\"a\": 10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_json_input::180",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{invalid json}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_where_string_value_not_boolean::181",
+  "argv": [
+   "* | json | where a"
+  ],
+  "stdin": "{\"a\": \"text\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dangling_arithmetic_operator::182",
+  "argv": [
+   "* | where a +"
+  ],
+  "stdin": "{\"a\": 10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_field_missing::183",
+  "argv": [
+   "* | json | where user.nonexistent == \"test\""
+  ],
+  "stdin": "{\"user\": {\"name\": \"Alice\"}}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_index_out_of_bounds::184",
+  "argv": [
+   "* | json | where arr[10] > 0"
+  ],
+  "stdin": "{\"arr\": [1, 2, 3]}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_mismatch_in_arithmetic::185",
+  "argv": [
+   "* | json | where a * b > 0"
+  ],
+  "stdin": "{\"a\": \"text\", \"b\": 10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_percentile_out_of_valid_range::186",
+  "argv": [
+   "* | json | p999(a)"
+  ],
+  "stdin": "{\"a\": 10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_percentile_zero_invalid::187",
+  "argv": [
+   "* | json | p0(a)"
+  ],
+  "stdin": "{\"a\": 10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_where_if_then_else_not_allowed::188",
+  "argv": [
+   "* | json | where if a > 5 then true else false"
+  ],
+  "stdin": "{\"a\": 10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_boolean_in_arithmetic_expression::189",
+  "argv": [
+   "* | json | where a + 5"
+  ],
+  "stdin": "{\"a\": true}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_integer_in_logical_expression::190",
+  "argv": [
+   "* | json | where a && 5"
+  ],
+  "stdin": "{\"a\": 10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_not_operator_on_integer::191",
+  "argv": [
+   "* | json | where !a"
+  ],
+  "stdin": "{\"a\": 10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_pattern_without_output_fields::192",
+  "argv": [
+   "* | parse \"request took *ms\""
+  ],
+  "stdin": "request took 100ms\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_record_aggregate_avg::193",
+  "argv": [
+   "* | json | avg(a)"
+  ],
+  "stdin": "{\"a\": 10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_null_values_sum::194",
+  "argv": [
+   "* | json | sum(a)"
+  ],
+  "stdin": "{\"a\": null}\n{\"a\": null}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_null_values_avg::195",
+  "argv": [
+   "* | json | avg(a)"
+  ],
+  "stdin": "{\"a\": null}\n{\"a\": null}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_null_values_min::196",
+  "argv": [
+   "* | json | min(a)"
+  ],
+  "stdin": "{\"a\": null}\n{\"a\": null}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_array_index_access::197",
+  "argv": [
+   "* | json | where a[0] > 0"
+  ],
+  "stdin": "{\"a\": []}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_operator_on_non_array::198",
+  "argv": [
+   "* | json | where a[0] > 0"
+  ],
+  "stdin": "{\"a\": \"not array\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_field_access_on_scalar::199",
+  "argv": [
+   "* | json | where a.b.c > 0"
+  ],
+  "stdin": "{\"a\": {\"b\": 10}}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unterminated_single_quoted_string::200",
+  "argv": [
+   "* | where a == 'test"
+  ],
+  "stdin": "{\"a\": 10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_timeslice_invalid_by_clause::201",
+  "argv": [
+   "* | json | timeslice(time) by 1x"
+  ],
+  "stdin": "{\"time\": \"2023-01-01T00:00:00Z\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sum_missing_argument::202",
+  "argv": [
+   "* | sum"
+  ],
+  "stdin": "{\"a\": 10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_avg_missing_argument::203",
+  "argv": [
+   "* | avg"
+  ],
+  "stdin": "{\"a\": 10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_missing_argument::204",
+  "argv": [
+   "* | min"
+  ],
+  "stdin": "{\"a\": 10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_missing_argument::205",
+  "argv": [
+   "* | max"
+  ],
+  "stdin": "{\"a\": 10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_subset_of_fields::206",
+  "argv": [
+   "* | json | fields name, city"
+  ],
+  "stdin": "{\"name\":\"Alice\",\"age\":30,\"city\":\"NYC\",\"dept\":\"eng\"}\n{\"name\":\"Bob\",\"age\":25,\"city\":\"LA\",\"dept\":\"sales\"}\n{\"name\":\"Charlie\",\"age\":35,\"city\":\"SF\",\"dept\":\"eng\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_one_field::207",
+  "argv": [
+   "* | json | fields except dept"
+  ],
+  "stdin": "{\"name\":\"Alice\",\"age\":30,\"city\":\"NYC\",\"dept\":\"eng\"}\n{\"name\":\"Bob\",\"age\":25,\"city\":\"LA\",\"dept\":\"sales\"}\n{\"name\":\"Charlie\",\"age\":35,\"city\":\"SF\",\"dept\":\"eng\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_multiple_fields::208",
+  "argv": [
+   "* | json | fields except age, dept"
+  ],
+  "stdin": "{\"name\":\"Alice\",\"age\":30,\"city\":\"NYC\",\"dept\":\"eng\"}\n{\"name\":\"Bob\",\"age\":25,\"city\":\"LA\",\"dept\":\"sales\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arithmetic_addition::209",
+  "argv": [
+   "* | json | a + b as sum"
+  ],
+  "stdin": "{\"a\":10,\"b\":5}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arithmetic_subtraction::210",
+  "argv": [
+   "* | json | a - b as diff"
+  ],
+  "stdin": "{\"a\":10,\"b\":3}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arithmetic_multiplication::211",
+  "argv": [
+   "* | json | a * b as product"
+  ],
+  "stdin": "{\"a\":7,\"b\":6}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arithmetic_division::212",
+  "argv": [
+   "* | json | a / b as quotient"
+  ],
+  "stdin": "{\"a\":20,\"b\":4}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_to_upper_case::213",
+  "argv": [
+   "* | json | toUpperCase(name) as upper_name"
+  ],
+  "stdin": "{\"name\":\"alice\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_to_lower_case::214",
+  "argv": [
+   "* | json | toLowerCase(name) as lower_name"
+  ],
+  "stdin": "{\"name\":\"ALICE\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_length_string::215",
+  "argv": [
+   "* | json | length(name) as name_len"
+  ],
+  "stdin": "{\"name\":\"Alice\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_length_unicode::216",
+  "argv": [
+   "* | json | length(val) as len"
+  ],
+  "stdin": "{\"val\":\"☕\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_length_array::217",
+  "argv": [
+   "* | json | length(arr) as len"
+  ],
+  "stdin": "{\"arr\":[1,2,3]}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_substring::218",
+  "argv": [
+   "* | json | substring(str, 1, 4) as sub"
+  ],
+  "stdin": "{\"str\":\"hello\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_concat::219",
+  "argv": [
+   "* | json | concat(a, \" \", b) as combined"
+  ],
+  "stdin": "{\"a\":\"hello\",\"b\":\"world\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conditional_if_true::220",
+  "argv": [
+   "* | json | if(score > 80, \"pass\", \"fail\") as result"
+  ],
+  "stdin": "{\"score\":85}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conditional_if_false::221",
+  "argv": [
+   "* | json | if(score > 80, \"pass\", \"fail\") as result"
+  ],
+  "stdin": "{\"score\":70}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conditional_nested_if::222",
+  "argv": [
+   "* | json | if(score >= 90, \"A\", if(score >= 80, \"B\", \"C\")) as grade"
+  ],
+  "stdin": "{\"score\":95}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arithmetic_compound_expression::223",
+  "argv": [
+   "* | json | (x + y) * z as result"
+  ],
+  "stdin": "{\"x\":10,\"y\":20,\"z\":30}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_sqrt::224",
+  "argv": [
+   "* | json | sqrt(val) as square_root"
+  ],
+  "stdin": "{\"val\":16}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_abs::225",
+  "argv": [
+   "* | json | abs(val) as absolute"
+  ],
+  "stdin": "{\"val\":-42}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_floor_ceil::226",
+  "argv": [
+   "* | json | floor(val) as floored | ceil(val) as ceiled"
+  ],
+  "stdin": "{\"val\":4.7}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_round::227",
+  "argv": [
+   "* | json | round(val) as rounded"
+  ],
+  "stdin": "{\"val\":2.5}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_log::228",
+  "argv": [
+   "* | json | log(val) as natural_log"
+  ],
+  "stdin": "{\"val\":2.718}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_log10::229",
+  "argv": [
+   "* | json | log10(val) as log_base_10"
+  ],
+  "stdin": "{\"val\":100}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_parse_hex::230",
+  "argv": [
+   "* | json | parseHex(hex) as decimal"
+  ],
+  "stdin": "{\"hex\":\"0xff\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_contains_true::231",
+  "argv": [
+   "* | json | contains(haystack, needle) as found"
+  ],
+  "stdin": "{\"haystack\":\"hello world\",\"needle\":\"world\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_contains_false::232",
+  "argv": [
+   "* | json | contains(haystack, needle) as found"
+  ],
+  "stdin": "{\"haystack\":\"hello world\",\"needle\":\"xyz\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_is_numeric_true::233",
+  "argv": [
+   "* | json | isNumeric(val) as is_num"
+  ],
+  "stdin": "{\"val\":\"123\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_is_numeric_false::234",
+  "argv": [
+   "* | json | isNumeric(val) as is_num"
+  ],
+  "stdin": "{\"val\":\"abc\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_is_empty_true::235",
+  "argv": [
+   "* | json | isEmpty(val) as is_empty"
+  ],
+  "stdin": "{\"val\":\"\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_is_blank_true::236",
+  "argv": [
+   "* | json | isBlank(val) as is_blank"
+  ],
+  "stdin": "{\"val\":\"  \"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_field_access::237",
+  "argv": [
+   "* | json | user.name as name"
+  ],
+  "stdin": "{\"user\":{\"name\":\"Alice\",\"age\":30}}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_index_access::238",
+  "argv": [
+   "* | json | arr[0] as first"
+  ],
+  "stdin": "{\"arr\":[10,20,30]}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_negative_index::239",
+  "argv": [
+   "* | json | arr[-1] as last"
+  ],
+  "stdin": "{\"arr\":[-1,5,2,8,3]}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_division_by_zero_produces_infinity::240",
+  "argv": [
+   "* | json | a / b as result"
+  ],
+  "stdin": "{\"a\":10,\"b\":0}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_field_in_selection::241",
+  "argv": [
+   "* | json | fields a, b"
+  ],
+  "stdin": "{\"a\":1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_single_field::242",
+  "argv": [
+   "* | json | fields a"
+  ],
+  "stdin": "{\"a\":1,\"b\":2,\"c\":3}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comparison_equality::243",
+  "argv": [
+   "* | json | if(a == b, \"equal\", \"not equal\") as result"
+  ],
+  "stdin": "{\"a\":5,\"b\":5}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comparison_inequality::244",
+  "argv": [
+   "* | json | if(a != b, \"different\", \"same\") as result"
+  ],
+  "stdin": "{\"a\":5,\"b\":3}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comparison_greater_than_or_equal::245",
+  "argv": [
+   "* | json | if(a >= b, \"yes\", \"no\") as result"
+  ],
+  "stdin": "{\"a\":10,\"b\":5}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comparison_less_than_or_equal::246",
+  "argv": [
+   "* | json | if(a <= b, \"yes\", \"no\") as result"
+  ],
+  "stdin": "{\"a\":3,\"b\":5}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_logical_and_true::247",
+  "argv": [
+   "* | json | if(a && b, \"both\", \"not both\") as result"
+  ],
+  "stdin": "{\"a\":true,\"b\":true}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_logical_or_true::248",
+  "argv": [
+   "* | json | if(a || b, \"at least one\", \"none\") as result"
+  ],
+  "stdin": "{\"a\":true,\"b\":false}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_logical_not::249",
+  "argv": [
+   "* | json | if(!flag, \"negated\", \"not negated\") as result"
+  ],
+  "stdin": "{\"flag\":false}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_sin::250",
+  "argv": [
+   "* | json | sin(angle) as sine"
+  ],
+  "stdin": "{\"angle\":0}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_cos::251",
+  "argv": [
+   "* | json | cos(angle) as cosine"
+  ],
+  "stdin": "{\"angle\":0}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_exp::252",
+  "argv": [
+   "* | json | exp(val) as exponential"
+  ],
+  "stdin": "{\"val\":1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_hypot::253",
+  "argv": [
+   "* | json | hypot(x, y) as distance"
+  ],
+  "stdin": "{\"x\":3,\"y\":4}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_substring_with_field_expressions::254",
+  "argv": [
+   "* | json | substring(str, start, start + len) as result"
+  ],
+  "stdin": "{\"str\":\"hello\",\"start\":1,\"len\":3}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_all_fields_produces_empty::255",
+  "argv": [
+   "* | json | fields except a, b"
+  ],
+  "stdin": "{\"a\":1,\"b\":2}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_not_operator_on_non_boolean::256",
+  "argv": [
+   "* | json | !val as result"
+  ],
+  "stdin": "{\"val\":\"string\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_parse_hex_invalid_input::257",
+  "argv": [
+   "* | json | parseHex(hex) as result"
+  ],
+  "stdin": "{\"hex\":\"notahex\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_parse_date_invalid_input::258",
+  "argv": [
+   "* | json | parseDate(date) as parsed"
+  ],
+  "stdin": "{\"date\":\"not-a-date\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_substring_no_end_offset::259",
+  "argv": [
+   "* | json | substring(str, 2) as result"
+  ],
+  "stdin": "{\"str\":\"hello\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_substring_end_less_than_start::260",
+  "argv": [
+   "* | json | substring(str, 3, 2) as result"
+  ],
+  "stdin": "{\"str\":\"hello\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_num_converts_string_to_number::261",
+  "argv": [
+   "* | json | num(val) as number"
+  ],
+  "stdin": "{\"val\":\"123\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_contains_filter_matching_records::262",
+  "argv": [
+   "* | json | where contains(text, \"world\") | fields text"
+  ],
+  "stdin": "{\"text\":\"hello world\"}\n{\"text\":\"foo bar\"}\n{\"text\":\"test world\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_contains_as_field_with_boolean_result::263",
+  "argv": [
+   "* | json | contains(text, \"world\") as has_world"
+  ],
+  "stdin": "{\"text\":\"hello world\"}\n{\"text\":\"foo bar\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_substring_two_args_no_end_offset::264",
+  "argv": [
+   "* | json | substring(str, 6) as sub"
+  ],
+  "stdin": "{\"str\":\"hello world\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_substring_one_argument::265",
+  "argv": [
+   "* | json | substring(str) as sub"
+  ],
+  "stdin": "{\"str\":\"hello\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parsedate_valid_iso_format::266",
+  "argv": [
+   "* | json | parseDate(date) as parsed"
+  ],
+  "stdin": "{\"date\":\"2024-01-15\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parsedate_multiple_formats::267",
+  "argv": [
+   "* | json | parseDate(date) as parsed"
+  ],
+  "stdin": "{\"date\":\"Jan 15, 2024\"}\n{\"date\":\"15/01/2024\"}\n{\"date\":\"2024-01-15T10:30:00Z\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parsehex_multiple_formats::268",
+  "argv": [
+   "* | json | parseHex(hex) as decimal"
+  ],
+  "stdin": "{\"hex\":\"FF\"}\n{\"hex\":\"0xFF\"}\n{\"hex\":\"  0xAB  \"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_parsehex_invalid_input::269",
+  "argv": [
+   "* | json | parseHex(hex) as decimal"
+  ],
+  "stdin": "{\"hex\":\"not-hex\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_isempty_with_empty_string::270",
+  "argv": [
+   "* | json | where isEmpty(text)"
+  ],
+  "stdin": "{\"text\":\"\"}\n{\"text\":\"hello\"}\n{\"number\":123}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_isempty_with_number_returns_false::271",
+  "argv": [
+   "* | json | where isEmpty(num)"
+  ],
+  "stdin": "{\"num\":0}\n{\"num\":123}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_isblank_with_whitespace_string::272",
+  "argv": [
+   "* | json | where isBlank(text)"
+  ],
+  "stdin": "{\"text\":\"\"}\n{\"text\":\"   \"}\n{\"text\":\"hello\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_isblank_with_number_returns_false::273",
+  "argv": [
+   "* | json | where isBlank(num)"
+  ],
+  "stdin": "{\"num\":0}\n{\"num\":123}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_isnull_two_arguments::274",
+  "argv": [
+   "* | json | where isNull(a, b)"
+  ],
+  "stdin": "{\"a\":1,\"b\":2}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_isempty_two_arguments::275",
+  "argv": [
+   "* | json | where isEmpty(a, b)"
+  ],
+  "stdin": "{\"a\":1,\"b\":2}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_isblank_two_arguments::276",
+  "argv": [
+   "* | json | where isBlank(a, b)"
+  ],
+  "stdin": "{\"a\":1,\"b\":2}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_isnumeric_two_arguments::277",
+  "argv": [
+   "* | json | where isNumeric(a, b)"
+  ],
+  "stdin": "{\"a\":1,\"b\":2}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_now_one_argument::278",
+  "argv": [
+   "* | json | now(a) as timestamp"
+  ],
+  "stdin": "{\"a\":1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_now_returns_current_timestamp::279",
+  "argv": [
+   "* | json | now() as timestamp"
+  ],
+  "stdin": "{\"a\":1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_atan2_two_float_arguments::280",
+  "argv": [
+   "* | json | atan2(y, x) as angle"
+  ],
+  "stdin": "{\"y\":1,\"x\":1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concat_mixed_types::281",
+  "argv": [
+   "* | json | concat(a, \" \", b, \" \", c) as result"
+  ],
+  "stdin": "{\"a\":\"hello\",\"b\":123,\"c\":true}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_length_object::282",
+  "argv": [
+   "* | json | length(obj) as size"
+  ],
+  "stdin": "{\"obj\":{\"a\":1,\"b\":2,\"c\":3}}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_acos_valid_input::283",
+  "argv": [
+   "* | json | acos(val) as result"
+  ],
+  "stdin": "{\"val\":0.5}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_floor_two_arguments::284",
+  "argv": [
+   "* | json | floor(a, b) as result"
+  ],
+  "stdin": "{\"a\":1,\"b\":2}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_atan2_one_argument::285",
+  "argv": [
+   "* | json | atan2(a) as result"
+  ],
+  "stdin": "{\"a\":1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_floor_non_numeric_input::286",
+  "argv": [
+   "* | json | floor(val) as result"
+  ],
+  "stdin": "{\"val\":\"not a number\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_substring_three_arguments::287",
+  "argv": [
+   "* | json | substring(str, 0, 5) as sub"
+  ],
+  "stdin": "{\"str\":\"hello world\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_substring_end_before_start::288",
+  "argv": [
+   "* | json | substring(str, 4, 2) as sub"
+  ],
+  "stdin": "{\"str\":\"hello\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_substring_unicode_characters::289",
+  "argv": [
+   "* | json | substring(str, 6, 8) as sub"
+  ],
+  "stdin": "{\"str\":\"hello 世界 world\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_length_no_arguments::290",
+  "argv": [
+   "* | json | length() as len"
+  ],
+  "stdin": "{\"a\":1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_isnull_with_null_value::291",
+  "argv": [
+   "* | json | where isNull(a)"
+  ],
+  "stdin": "{\"a\":null}\n{\"a\":1}\n{\"a\":\"\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_isnull_false_for_non_null_values::292",
+  "argv": [
+   "* | json | where !isNull(a)"
+  ],
+  "stdin": "{\"a\":null}\n{\"a\":1}\n{\"a\":\"\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_num_converts_string_to_number::293",
+  "argv": [
+   "* | json | num(val) as number"
+  ],
+  "stdin": "{\"val\":\"123.45\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_touppercase_two_arguments::294",
+  "argv": [
+   "* | json | toUpperCase(a, b) as result"
+  ],
+  "stdin": "{\"a\":\"hi\",\"b\":\"there\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_contains_one_argument::295",
+  "argv": [
+   "* | json | where contains(a)"
+  ],
+  "stdin": "{\"a\":\"hello\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_length_array::296",
+  "argv": [
+   "* | json | length(arr) as len"
+  ],
+  "stdin": "{\"arr\":[1,2,3,4,5]}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_failure::297",
+  "argv": [
+   "* | pasres"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_where_typecheck::298",
+  "argv": [
+   "* | where 5"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_limit_typecheck::299",
+  "argv": [
+   "* | limit 0"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_count::300",
+  "argv": [
+   "* | count"
+  ],
+  "stdin": "1\n2\n3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_table_basic::301",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"method\":\"GET\",\"status\":200,\"size\":1234}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregation_default_output::302",
+  "argv": [
+   "* | json | count by level"
+  ],
+  "stdin": "{\"level\":\"info\",\"msg\":\"hello\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_chars_default::303",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"name\":\"test \\\"quoted\\\"\",\"value\":\"hello\\nworld\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_missing_fields::304",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"method\":\"GET\",\"status\":200}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wide_columns::305",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"short\":\"x\",\"very_long_field_name\":\"this is a very long value that should affect column width alignment\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregation_sum_default::306",
+  "argv": [
+   "* | json | sum(bytes) by user"
+  ],
+  "stdin": "{\"user\":\"alice\",\"bytes\":100}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_json_output::307",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"user\":{\"name\":\"alice\",\"id\":1},\"action\":\"login\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_json_output::308",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"tags\":[\"web\",\"api\"],\"msg\":\"request\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_float_formatting_default::309",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"value\":3.14159265359}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_empty_format_string::310",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"a\":1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_complex_template::311",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"src\":\"10.0.0.1\",\"dst\":\"192.168.1.1\",\"bytes\":1024}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_result_default::312",
+  "argv": [
+   "false"
+  ],
+  "stdin": "{\"a\":1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_boolean_values_default::313",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"enabled\":true,\"name\":\"service1\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_value_default::314",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"value\":null,\"name\":\"test\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_numbers::315",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"value\":1234567890,\"name\":\"big\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_numbers_default::316",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"temp\":-5.5,\"location\":\"freezer\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_strings_default::317",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"name\":\"\",\"value\":\"empty\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_logfmt_values_with_spaces::318",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"name\":\"test value\",\"msg\":\"hello world\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregation_average_default::319",
+  "argv": [
+   "* | json | average(score) by user"
+  ],
+  "stdin": "{\"user\":\"alice\",\"score\":85}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sorted_results_default::320",
+  "argv": [
+   "* | json | sort by priority"
+  ],
+  "stdin": "{\"priority\":3,\"task\":\"c\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_long_field_names::321",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"a_very_long_field_name_that_exceeds_normal_column_widths\":\"value1\",\"short\":\"x\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_types_in_field_default::322",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"value\":\"string\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_string_values::323",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregation_count_distinct_default::324",
+  "argv": [
+   "* | json | count_distinct(session) by user"
+  ],
+  "stdin": "{\"user\":\"alice\",\"session\":\"s1\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregation_min_default::325",
+  "argv": [
+   "* | json | min(value) by user"
+  ],
+  "stdin": "{\"user\":\"alice\",\"value\":10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregation_max_default::326",
+  "argv": [
+   "* | json | max(value) by user"
+  ],
+  "stdin": "{\"user\":\"alice\",\"value\":10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregation_min_max_json::327",
+  "argv": [
+   "* | json | min(value), max(value) by user"
+  ],
+  "stdin": "{\"user\":\"alice\",\"value\":10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_with_literal_text::328",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"name\":\"test\",\"value\":123}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_escaped_braces::329",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"name\":\"test\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unterminated_function_no_arg::330",
+  "argv": [
+   "* | json | count("
+  ],
+  "stdin": "{\"a\": 1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unterminated_function_with_arg::331",
+  "argv": [
+   "* | json | count(a"
+  ],
+  "stdin": "{\"a\": 1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_if_operator_one_arg::332",
+  "argv": [
+   "* | json | if(a"
+  ],
+  "stdin": "{\"a\": 1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_if_operator_two_args::333",
+  "argv": [
+   "* | json | if(a, b)"
+  ],
+  "stdin": "{\"a\": 1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_if_operator_four_args::334",
+  "argv": [
+   "* | json | if(a, b, c, d)"
+  ],
+  "stdin": "{\"a\": 1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unterminated_escaped_identifier::335",
+  "argv": [
+   "* | json | fields [\"a-b"
+  ],
+  "stdin": "{\"a-b\": 1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dangling_or_operator::336",
+  "argv": [
+   "* | json | where a == 1 or"
+  ],
+  "stdin": "{\"a\": 1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dangling_and_operator::337",
+  "argv": [
+   "* | json | where a == 1 and"
+  ],
+  "stdin": "{\"a\": 1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_regex_invalid::338",
+  "argv": [
+   "* | parse regex \"[\""
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_regex_unnamed_capture::339",
+  "argv": [
+   "* | parse regex \"test(\\d+)\""
+  ],
+  "stdin": "test123\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_regex_with_as_clause::340",
+  "argv": [
+   "* | parse regex \"test(?P<num>\\d+)\" as x"
+  ],
+  "stdin": "test123\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_operator_with_parens::341",
+  "argv": [
+   "* | json()"
+  ],
+  "stdin": "{\"a\": 1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_logfmt_operator_with_parens::342",
+  "argv": [
+   "* | logfmt()"
+  ],
+  "stdin": "a=1 b=2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_regex_unknown_escape_in_pattern::343",
+  "argv": [
+   "* | parse regex \"t(?P<val>\\x65)st\""
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_unquoted_pattern::344",
+  "argv": [
+   "* | parse foo bar"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_p95_no_argument::345",
+  "argv": [
+   "* | json | p95"
+  ],
+  "stdin": "{\"a\": 1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_timeslice_no_argument::346",
+  "argv": [
+   "* | json | timeslice"
+  ],
+  "stdin": "{\"a\": 1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sum_no_argument::347",
+  "argv": [
+   "* | json | sum"
+  ],
+  "stdin": "{\"a\": 1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_no_argument::348",
+  "argv": [
+   "* | json | min"
+  ],
+  "stdin": "{\"a\": 1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_no_argument::349",
+  "argv": [
+   "* | json | max"
+  ],
+  "stdin": "{\"a\": 1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_average_no_argument::350",
+  "argv": [
+   "* | json | average"
+  ],
+  "stdin": "{\"a\": 1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_split_on_no_value::351",
+  "argv": [
+   "* | json | split on"
+  ],
+  "stdin": "{\"a\": \"x,y\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unterminated_parenthesized_filter::352",
+  "argv": [
+   "(test"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_from_no_expression::353",
+  "argv": [
+   "* | json from"
+  ],
+  "stdin": "{\"a\": 1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_logfmt_from_no_expression::354",
+  "argv": [
+   "* | logfmt from"
+  ],
+  "stdin": "a=1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_varying_column_widths::355",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"short\":\"a\",\"medium_field\":\"value1\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wide_value_column_expansion::356",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"field1\":\"this_is_a_very_long_value_that_should_test_column_width_calculations_and_see_how_the_renderer_handles_it\",\"field2\":\"short\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_many_columns_layout::357",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"col1\":\"val1\",\"col2\":\"val2\",\"col3\":\"val3\",\"col4\":\"val4\",\"col5\":\"val5\",\"col6\":\"val6\",\"col7\":\"val7\",\"col8\":\"val8\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_wide_column_name::358",
+  "argv": [
+   "* | json | count by this_is_a_very_long_field_name_for_grouping"
+  ],
+  "stdin": "{\"this_is_a_very_long_field_name_for_grouping\":\"group1\",\"value\":10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_many_grouping_columns::359",
+  "argv": [
+   "* | json | sum(val) by g1,g2,g3,g4"
+  ],
+  "stdin": "{\"g1\":\"a\",\"g2\":\"x\",\"g3\":\"m\",\"g4\":\"p\",\"val\":10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_wide_values::360",
+  "argv": [
+   "* | json | sum(value) by group"
+  ],
+  "stdin": "{\"group\":\"very_long_group_name_that_will_make_column_wide\",\"value\":123.456789}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_aggregate_no_data::361",
+  "argv": [
+   "* | json | where x > 10 | count"
+  ],
+  "stdin": "{\"x\":1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_floating_point_precision_display::362",
+  "argv": [
+   "* | json | sum(val)"
+  ],
+  "stdin": "{\"val\":1.234567890123456789}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_column_alphabetical_ordering::363",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"zebra\":\"z\",\"alpha\":\"a\",\"middle\":\"m\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dynamic_column_addition::364",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"a\":\"1\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_value_rendering::365",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"a\":\"1\",\"b\":\"x\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_aggregate_field_layout::366",
+  "argv": [
+   "* | json | sum(count) by field"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_progressive_schema_growth::367",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"field1\":\"value1\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_numeric_value_formatting::368",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"num1\":123,\"num2\":456.789,\"num3\":0.001}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_values::369",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"field\":\"value with spaces\",\"key\":\"data\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_characters_rendering::370",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"name\":\"café\",\"emoji\":\"☕\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_field_records::371",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"onlyfield\":\"value1\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_uniform_column_widths::372",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"a\":\"xxx\",\"b\":\"yyy\",\"c\":\"zzz\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_string_values::373",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"field1\":\"\",\"field2\":\"value\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_sorted_output::374",
+  "argv": [
+   "* | json | sum(val) by group | sort by group"
+  ],
+  "stdin": "{\"group\":\"a\",\"val\":10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_output_mode::375",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"src\":\"host1\",\"dst\":\"host2\",\"bytes\":1024}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_logfmt_aggregate_output::376",
+  "argv": [
+   "* | json | count"
+  ],
+  "stdin": "{\"a\":\"x\",\"b\":\"y\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_logfmt_records_output::377",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"a\":\"x\",\"b\":\"y\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_average_precision::378",
+  "argv": [
+   "* | json | average(value) by category | sort by category"
+  ],
+  "stdin": "{\"category\":\"A\",\"value\":10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_min_max_columns::379",
+  "argv": [
+   "* | json | min(val), max(val) by group | sort by group"
+  ],
+  "stdin": "{\"group\":\"x\",\"val\":100}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_count_distinct::380",
+  "argv": [
+   "* | json | count_distinct(item) by group | sort by group"
+  ],
+  "stdin": "{\"group\":\"a\",\"item\":\"x\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_percentiles::381",
+  "argv": [
+   "* | json | p50(val), p90(val), p99(val)"
+  ],
+  "stdin": "{\"val\":10}\n{\"val\":20}\n{\"val\":30}\n{\"val\":40}\n{\"val\":50}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_text_passthrough::382",
+  "argv": [
+   "*"
+  ],
+  "stdin": "plain text line 1\nplain text line 2\nplain text line 3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_total_operator::383",
+  "argv": [
+   "* | json | total(val)"
+  ],
+  "stdin": "{\"val\":10}\n{\"val\":20}\n{\"val\":30}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_limited_records::384",
+  "argv": [
+   "* | json | limit 3"
+  ],
+  "stdin": "{\"id\":1,\"name\":\"first\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_aggregate_functions::385",
+  "argv": [
+   "* | json | sum(val), average(val), min(val), max(val), count"
+  ],
+  "stdin": "{\"val\":10}\n{\"val\":20}\n{\"val\":30}\n{\"val\":40}\n{\"val\":50}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_values_aggregate::386",
+  "argv": [
+   "* | json | sum(val)"
+  ],
+  "stdin": "{\"val\":0}\n{\"val\":0.00}\n{\"val\":0}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_values_aggregate::387",
+  "argv": [
+   "* | json | sum(val), average(val)"
+  ],
+  "stdin": "{\"val\":-10.5}\n{\"val\":-20}\n{\"val\":15.25}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_by_with_null_values::388",
+  "argv": [
+   "* | json | count by name"
+  ],
+  "stdin": "{\"name\":null,\"val\":1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_by_empty_result::389",
+  "argv": [
+   "* | json | where val > 100 | count by name"
+  ],
+  "stdin": "{\"name\":\"test\",\"val\":5}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_no_match_nodrop::390",
+  "argv": [
+   "* | parse \"IP *\" as ip"
+  ],
+  "stdin": "line: \"abcd 1234\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_operations_empty_output::391",
+  "argv": [
+   "* | json | where val > 100 | total(val)"
+  ],
+  "stdin": "{\"val\":5}\n{\"val\":10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_exists::392",
+  "argv": [
+   "*"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_parsing::393",
+  "argv": [
+   "* | json"
+  ],
+  "stdin": "{\"key\": \"value\", \"num\": 42}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_aggregation::394",
+  "argv": [
+   "* | json | count by level"
+  ],
+  "stdin": "{\"level\": \"info\"}\n{\"level\": \"error\"}\n{\"level\": \"info\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_output_non_tty::395",
+  "argv": [
+   "* | json | count by level"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sum_aggregate_non_tty::396",
+  "argv": [
+   "* | json | sum(value) by level"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multi_group_aggregate_non_tty::397",
+  "argv": [
+   "* | json | sum(count) by region,service,status"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_avg_aggregate_non_tty::398",
+  "argv": [
+   "* | json | avg(value) by level"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_aggregate_only_final_non_tty::399",
+  "argv": [
+   "* | json | count"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

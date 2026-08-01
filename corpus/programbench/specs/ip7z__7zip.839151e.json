@@ -1,0 +1,3348 @@
+{
+ "slug": "ip7z__7zip.839151e",
+ "language": "",
+ "n_branches": 2,
+ "n_tests_total": 1086,
+ "n_examples": 164,
+ "n_with_exact_stdout": 2,
+ "n_with_rc": 159,
+ "n_skipped": 905,
+ "examples": [
+  {
+   "test": "test_help_shows_all_commands",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "7-Zip",
+    "a : Add files to archive",
+    "b : Benchmark",
+    "d : Delete files from archive",
+    "e : Extract files",
+    "h : Calculate hash",
+    "i : Show information",
+    "l : List contents",
+    "rn : Rename files",
+    "t : Test integrity",
+    "u : Update files",
+    "x : eXtract files with full paths"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:74"
+  },
+  {
+   "test": "test_help_shows_switches",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-mx[N]",
+    "-p{Password}",
+    "-o{Directory}",
+    "-r[-|0]",
+    "-t{Type}",
+    "-v{Size}",
+    "-si",
+    "-so"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:100"
+  },
+  {
+   "test": "test_invalid_command_returns_error",
+   "argv": [
+    "badcmd",
+    "archive.7z"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 7,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Command Line Error",
+    "Unsupported command",
+    "badcmd"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:113"
+  },
+  {
+   "test": "test_info_command_shows_formats",
+   "argv": [
+    "i"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Formats:",
+    "7z",
+    "zip",
+    "tar",
+    "gzip",
+    "bzip2",
+    "xz"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:126"
+  },
+  {
+   "test": "test_info_command_shows_codecs",
+   "argv": [
+    "i"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Codecs:",
+    "LZMA2",
+    "LZMA",
+    "BZip2",
+    "Deflate"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:138"
+  },
+  {
+   "test": "test_info_command_shows_hashers",
+   "argv": [
+    "i"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Hashers:",
+    "CRC32",
+    "SHA256",
+    "SHA1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:148"
+  },
+  {
+   "test": "test_add_single_file_7z",
+   "argv": [
+    "a",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok",
+    "Creating archive",
+    "1 file"
+   ],
+   "files": {
+    "test.txt": "Hello World\n"
+   },
+   "ci": false,
+   "source": "test_7zip.py:161"
+  },
+  {
+   "test": "test_add_creates_valid_7z_archive",
+   "argv": [
+    "a",
+    "hello.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok",
+    "Type = 7z"
+   ],
+   "files": {
+    "hello.txt": "Hello World Content\n"
+   },
+   "ci": false,
+   "source": "test_7zip.py:174"
+  },
+  {
+   "test": "test_add_multiple_files",
+   "argv": [
+    "a",
+    "file1.txt",
+    "file2.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2 files",
+    "Everything is Ok",
+    "file1.txt",
+    "file2.txt"
+   ],
+   "files": {
+    "file1.txt": "content1",
+    "file2.txt": "content2"
+   },
+   "ci": false,
+   "source": "test_7zip.py:186"
+  },
+  {
+   "test": "test_add_directory",
+   "argv": [
+    "a"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok",
+    "2 files"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:200"
+  },
+  {
+   "test": "test_add_with_compression_level_mx1",
+   "argv": [
+    "a",
+    "-mx1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:213"
+  },
+  {
+   "test": "test_add_with_compression_level_mx9",
+   "argv": [
+    "a",
+    "-mx9"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:223"
+  },
+  {
+   "test": "test_add_zip_format",
+   "argv": [
+    "a",
+    "-tzip",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok",
+    "Type = zip"
+   ],
+   "files": {
+    "test.txt": "Hello World\n"
+   },
+   "ci": false,
+   "source": "test_7zip.py:233"
+  },
+  {
+   "test": "test_add_gzip_format",
+   "argv": [
+    "a",
+    "-tgzip",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {
+    "test.txt": "Hello World\n"
+   },
+   "ci": false,
+   "source": "test_7zip.py:244"
+  },
+  {
+   "test": "test_add_bzip2_format",
+   "argv": [
+    "a",
+    "-tbzip2",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {
+    "test.txt": "Hello World\n"
+   },
+   "ci": false,
+   "source": "test_7zip.py:257"
+  },
+  {
+   "test": "test_add_tar_format",
+   "argv": [
+    "a",
+    "-ttar",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {
+    "test.txt": "Hello World\n"
+   },
+   "ci": false,
+   "source": "test_7zip.py:269"
+  },
+  {
+   "test": "test_add_xz_format",
+   "argv": [
+    "a",
+    "-txz",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {
+    "test.txt": "Hello World\n"
+   },
+   "ci": false,
+   "source": "test_7zip.py:280"
+  },
+  {
+   "test": "test_add_with_password",
+   "argv": [
+    "a",
+    "-pMYPASS123",
+    "secret.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok",
+    "Encrypted = +"
+   ],
+   "files": {
+    "secret.txt": "Secret Content\n"
+   },
+   "ci": false,
+   "source": "test_7zip.py:292"
+  },
+  {
+   "test": "test_add_split_volumes",
+   "argv": [
+    "a",
+    "-v100b",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Volumes:"
+   ],
+   "files": {
+    "test.txt": "Hello World\n"
+   },
+   "ci": false,
+   "source": "test_7zip.py:304"
+  },
+  {
+   "test": "test_add_with_log_level_bb0",
+   "argv": [
+    "a",
+    "-bb0",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {
+    "test.txt": "content"
+   },
+   "ci": false,
+   "source": "test_7zip.py:316"
+  },
+  {
+   "test": "test_add_with_log_level_bb1",
+   "argv": [
+    "a",
+    "-bb1",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "+ test.txt"
+   ],
+   "files": {
+    "test.txt": "content"
+   },
+   "ci": false,
+   "source": "test_7zip.py:325"
+  },
+  {
+   "test": "test_add_with_no_progress_bd",
+   "argv": [
+    "a",
+    "-bd",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {
+    "test.txt": "content"
+   },
+   "ci": false,
+   "source": "test_7zip.py:335"
+  },
+  {
+   "test": "test_add_with_timing_bt",
+   "argv": [
+    "a",
+    "-bt",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok",
+    "Time"
+   ],
+   "files": {
+    "test.txt": "content"
+   },
+   "ci": false,
+   "source": "test_7zip.py:344"
+  },
+  {
+   "test": "test_add_with_fully_qualified_paths",
+   "argv": [
+    "a",
+    "-spf",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok",
+    "/tmp/"
+   ],
+   "files": {
+    "test.txt": "content"
+   },
+   "ci": false,
+   "source": "test_7zip.py:355"
+  },
+  {
+   "test": "test_add_recurse_subdirectories",
+   "argv": [
+    "a",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok",
+    "deep.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:367"
+  },
+  {
+   "test": "test_add_from_listfile",
+   "argv": [
+    "a"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok",
+    "file1.txt",
+    "file2.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:380"
+  },
+  {
+   "test": "test_list_7z_archive",
+   "argv": [
+    "a",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Listing archive",
+    "Type = 7z",
+    "test.txt",
+    "Date",
+    "Size"
+   ],
+   "files": {
+    "test.txt": "Hello World\n"
+   },
+   "ci": false,
+   "source": "test_7zip.py:398"
+  },
+  {
+   "test": "test_list_zip_archive",
+   "argv": [
+    "a",
+    "-tzip",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Type = zip",
+    "test.txt"
+   ],
+   "files": {
+    "test.txt": "Hello World\n"
+   },
+   "ci": false,
+   "source": "test_7zip.py:423"
+  },
+  {
+   "test": "test_list_with_technical_info_slt",
+   "argv": [
+    "a",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Path = test.txt",
+    "Size = ",
+    "CRC = "
+   ],
+   "files": {
+    "test.txt": "Hello World\n"
+   },
+   "ci": false,
+   "source": "test_7zip.py:434"
+  },
+  {
+   "test": "test_list_password_protected_archive",
+   "argv": [
+    "a",
+    "-pSECRET",
+    "secret.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Encrypted = +"
+   ],
+   "files": {
+    "secret.txt": "secret"
+   },
+   "ci": false,
+   "source": "test_7zip.py:446"
+  },
+  {
+   "test": "test_list_nonexistent_archive",
+   "argv": [
+    "l",
+    "/nonexistent/path/archive.7z"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "No such file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:456"
+  },
+  {
+   "test": "test_extract_flat_e",
+   "argv": [
+    "a",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {
+    "test.txt": "Hello World Content\n"
+   },
+   "ci": false,
+   "source": "test_7zip.py:476"
+  },
+  {
+   "test": "test_extract_with_full_paths_x",
+   "argv": [
+    "a"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:491"
+  },
+  {
+   "test": "test_extract_gz_roundtrip",
+   "argv": [
+    "a",
+    "-tgzip",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "GZ round-trip content\n"
+   },
+   "ci": false,
+   "source": "test_7zip.py:534"
+  },
+  {
+   "test": "test_extract_bzip2_roundtrip",
+   "argv": [
+    "a",
+    "-tbzip2",
+    "mytest.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "mytest.txt": "bzip2 test data\n"
+   },
+   "ci": false,
+   "source": "test_7zip.py:549"
+  },
+  {
+   "test": "test_extract_xz_roundtrip",
+   "argv": [
+    "a",
+    "-txz",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "XZ round-trip content\n"
+   },
+   "ci": false,
+   "source": "test_7zip.py:567"
+  },
+  {
+   "test": "test_extract_with_correct_password",
+   "argv": [
+    "a",
+    "-pMYPASS",
+    "secret.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {
+    "secret.txt": "Secret Data\n"
+   },
+   "ci": false,
+   "source": "test_7zip.py:581"
+  },
+  {
+   "test": "test_extract_skip_existing_aos",
+   "argv": [
+    "a",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "New Content\n"
+   },
+   "ci": false,
+   "source": "test_7zip.py:623"
+  },
+  {
+   "test": "test_test_valid_archive",
+   "argv": [
+    "a",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok",
+    "Testing archive",
+    "Type = 7z"
+   ],
+   "files": {
+    "test.txt": "Hello World\n"
+   },
+   "ci": false,
+   "source": "test_7zip.py:671"
+  },
+  {
+   "test": "test_test_password_protected_correct",
+   "argv": [
+    "a",
+    "-pPASS",
+    "secret.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {
+    "secret.txt": "data"
+   },
+   "ci": false,
+   "source": "test_7zip.py:691"
+  },
+  {
+   "test": "test_delete_file_from_archive",
+   "argv": [
+    "a",
+    "keep.txt",
+    "delete.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Updating archive",
+    "keep.txt"
+   ],
+   "files": {
+    "keep.txt": "keep this",
+    "delete.txt": "delete this"
+   },
+   "ci": false,
+   "source": "test_7zip.py:727"
+  },
+  {
+   "test": "test_rename_file_in_archive",
+   "argv": [
+    "a",
+    "original.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Updating archive",
+    "renamed.txt"
+   ],
+   "files": {
+    "original.txt": "content"
+   },
+   "ci": false,
+   "source": "test_7zip.py:764"
+  },
+  {
+   "test": "test_hash_default_crc32",
+   "argv": [
+    "h",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CRC32",
+    "Everything is Ok",
+    "B095E5E3"
+   ],
+   "files": {
+    "test.txt": "Hello World\n"
+   },
+   "ci": false,
+   "source": "test_7zip.py:781"
+  },
+  {
+   "test": "test_hash_sha256",
+   "argv": [
+    "h",
+    "-scrcSHA256",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SHA256",
+    "Everything is Ok",
+    "d2a84f4b8b650937ec8f73cd8be2c74add5a911ba64df27458ed8229da804a26"
+   ],
+   "files": {
+    "test.txt": "Hello World\n"
+   },
+   "ci": false,
+   "source": "test_7zip.py:791"
+  },
+  {
+   "test": "test_hash_sha1",
+   "argv": [
+    "h",
+    "-scrcSHA1",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SHA1",
+    "Everything is Ok",
+    "648a6a6ffffdaa0badb23b8baf90b6168dd16b3a"
+   ],
+   "files": {
+    "test.txt": "Hello World\n"
+   },
+   "ci": false,
+   "source": "test_7zip.py:801"
+  },
+  {
+   "test": "test_hash_crc64",
+   "argv": [
+    "h",
+    "-scrcCRC64",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CRC64",
+    "Everything is Ok",
+    "3E38EDD53F75E022"
+   ],
+   "files": {
+    "test.txt": "Hello World\n"
+   },
+   "ci": false,
+   "source": "test_7zip.py:811"
+  },
+  {
+   "test": "test_hash_xxh64",
+   "argv": [
+    "h",
+    "-scrcXXH64",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "XXH64",
+    "Everything is Ok",
+    "C8255A431A0F4393"
+   ],
+   "files": {
+    "test.txt": "Hello World\n"
+   },
+   "ci": false,
+   "source": "test_7zip.py:821"
+  },
+  {
+   "test": "test_hash_all_algorithms",
+   "argv": [
+    "h",
+    "-scrc*",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CRC32",
+    "CRC64",
+    "SHA256",
+    "SHA1",
+    "XXH64",
+    "B095E5E3",
+    "3E38EDD53F75E022"
+   ],
+   "files": {
+    "test.txt": "Hello World\n"
+   },
+   "ci": false,
+   "source": "test_7zip.py:831"
+  },
+  {
+   "test": "test_hash_multiple_files",
+   "argv": [
+    "h",
+    "a.txt",
+    "b.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a.txt",
+    "b.txt",
+    "Everything is Ok"
+   ],
+   "files": {
+    "a.txt": "content a",
+    "b.txt": "content b"
+   },
+   "ci": false,
+   "source": "test_7zip.py:845"
+  },
+  {
+   "test": "test_add_from_stdin_with_name",
+   "argv": [
+    "a",
+    "-sistdin_file.txt"
+   ],
+   "stdin": "stdin content\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok",
+    "stdin_file.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:868"
+  },
+  {
+   "test": "test_add_stdin_no_name",
+   "argv": [
+    "a",
+    "-si"
+   ],
+   "stdin": "content data",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:902"
+  },
+  {
+   "test": "test_error_missing_archive_file",
+   "argv": [
+    "l",
+    "/tmp/nonexistent_archive_xyz.7z"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "No such file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:915"
+  },
+  {
+   "test": "test_error_missing_extract_source",
+   "argv": [
+    "e",
+    "/tmp/nonexistent_xyz.7z",
+    "-o/tmp/",
+    "-y"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:922"
+  },
+  {
+   "test": "test_error_invalid_command",
+   "argv": [
+    "zzz",
+    "archive.7z"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 7,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unsupported command"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:928"
+  },
+  {
+   "test": "test_tar_create_and_list",
+   "argv": [
+    "a",
+    "-ttar",
+    "a.txt",
+    "b.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok",
+    "2 files",
+    "Type = tar",
+    "a.txt",
+    "b.txt"
+   ],
+   "files": {
+    "a.txt": "content a",
+    "b.txt": "content b"
+   },
+   "ci": false,
+   "source": "test_7zip.py:962"
+  },
+  {
+   "test": "test_tar_extract_roundtrip",
+   "argv": [
+    "a",
+    "-ttar",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "TAR test content\n"
+   },
+   "ci": false,
+   "source": "test_7zip.py:977"
+  },
+  {
+   "test": "test_list_tar_archive_technical",
+   "argv": [
+    "a",
+    "-ttar",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Path = test.txt"
+   ],
+   "files": {
+    "test.txt": "content"
+   },
+   "ci": false,
+   "source": "test_7zip.py:995"
+  },
+  {
+   "test": "test_list_archive_multiple_files_count",
+   "argv": [
+    "a"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "5 files"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:1005"
+  },
+  {
+   "test": "test_method_ppmd",
+   "argv": [
+    "a",
+    "-m0=PPMd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:1042"
+  },
+  {
+   "test": "test_method_lzma",
+   "argv": [
+    "a",
+    "-m0=LZMA"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:1054"
+  },
+  {
+   "test": "test_zip_with_deflate",
+   "argv": [
+    "a",
+    "-tzip",
+    "-m0=Deflate"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:1064"
+  },
+  {
+   "test": "test_archive_size_info",
+   "argv": [
+    "a",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Archive size:",
+    "bytes"
+   ],
+   "files": {
+    "test.txt": "Hello World\n"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1078"
+  },
+  {
+   "test": "test_case_sensitive_mode",
+   "argv": [
+    "a",
+    "-ssc",
+    "Test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {
+    "Test.txt": "content"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1088"
+  },
+  {
+   "test": "test_hash_directory_recursively",
+   "argv": [
+    "h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok",
+    "CRC32"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:1098"
+  },
+  {
+   "test": "test_set_threads_mmt",
+   "argv": [
+    "a",
+    "-mmt1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:1121"
+  },
+  {
+   "test": "test_unicode_filename",
+   "argv": [
+    "a",
+    "unicode_τεστ.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {
+    "unicode_τεστ.txt": "unicode content"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1131"
+  },
+  {
+   "test": "test_list_shows_method",
+   "argv": [
+    "a",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Method = LZMA2"
+   ],
+   "files": {
+    "test.txt": "content"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1143"
+  },
+  {
+   "test": "test_bs_stream_to_stderr",
+   "argv": [
+    "a",
+    "-bso2",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "content"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1153"
+  },
+  {
+   "test": "test_hash_shows_file_name",
+   "argv": [
+    "h",
+    "myfile.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "myfile.txt",
+    "CRC32"
+   ],
+   "files": {
+    "myfile.txt": "data"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1163"
+  },
+  {
+   "test": "test_add_exclude_from_dir",
+   "argv": [
+    "a"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok",
+    "1 file",
+    "keep.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:1173"
+  },
+  {
+   "test": "test_list_solid_archive",
+   "argv": [
+    "a"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok",
+    "f0.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:1190"
+  },
+  {
+   "test": "test_archive_shows_headers_size",
+   "argv": [
+    "a",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Headers Size = ",
+    "Physical Size = "
+   ],
+   "files": {
+    "test.txt": "content"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1204"
+  },
+  {
+   "test": "test_extract_show_compressed_size",
+   "argv": [
+    "a",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Size:",
+    "Compressed:"
+   ],
+   "files": {
+    "test.txt": "Hello World\n"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1215"
+  },
+  {
+   "test": "test_add_lzma2_method",
+   "argv": [
+    "a",
+    "-m0=LZMA2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok",
+    "Everything is Ok"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:1229"
+  },
+  {
+   "test": "test_test_multiple_archives",
+   "argv": [
+    "a",
+    "f1.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {
+    "f1.txt": "content 1"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1243"
+  },
+  {
+   "test": "test_add_with_archive_name_mode_sae",
+   "argv": [
+    "a",
+    "-sae",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {
+    "test.txt": "content"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1257"
+  },
+  {
+   "test": "test_hash_show_size",
+   "argv": [
+    "h",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "Hello World\n"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1267"
+  },
+  {
+   "test": "test_delete_nonexistent_file",
+   "argv": [
+    "a",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Updating archive",
+    "test.txt"
+   ],
+   "files": {
+    "test.txt": "content"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1278"
+  },
+  {
+   "test": "test_spf2_fully_qualified_paths",
+   "argv": [
+    "a",
+    "-spf2",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {
+    "test.txt": "content"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1294"
+  },
+  {
+   "test": "test_extract_7z_with_multiple_files",
+   "argv": [
+    "a"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:1304"
+  },
+  {
+   "test": "test_zip_list_multiple_files",
+   "argv": [
+    "a",
+    "-tzip",
+    "alpha.txt",
+    "beta.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "alpha.txt",
+    "beta.txt",
+    "2 files"
+   ],
+   "files": {
+    "alpha.txt": "alpha content",
+    "beta.txt": "beta content"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1324"
+  },
+  {
+   "test": "test_sdel_deletes_source_after_add",
+   "argv": [
+    "a",
+    "-sdel",
+    "to_delete.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok",
+    "to_delete.txt"
+   ],
+   "files": {
+    "to_delete.txt": "will be deleted"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1360"
+  },
+  {
+   "test": "test_stl_archive_timestamp",
+   "argv": [
+    "a",
+    "-stl",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {
+    "test.txt": "content"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1375"
+  },
+  {
+   "test": "test_ssp_no_access_time_change",
+   "argv": [
+    "a",
+    "-ssp",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {
+    "test.txt": "content"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1386"
+  },
+  {
+   "test": "test_snl_store_symlinks",
+   "argv": [
+    "a",
+    "-snl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:1396"
+  },
+  {
+   "test": "test_add_missing_file_with_warning",
+   "argv": [
+    "a",
+    "exists.txt",
+    "/nonexistent_xyz_file"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "WARNING",
+    "exists.txt"
+   ],
+   "files": {
+    "exists.txt": "exists"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1408"
+  },
+  {
+   "test": "test_hash_stdin_content",
+   "argv": [
+    "h",
+    "-si"
+   ],
+   "stdin": "Hello World\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CRC32",
+    "Content",
+    "B095E5E3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:1423"
+  },
+  {
+   "test": "test_extract_show_statistics",
+   "argv": [
+    "a",
+    "f1.txt",
+    "f2.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Files:",
+    "Size:",
+    "Compressed:"
+   ],
+   "files": {
+    "f1.txt": "content 1",
+    "f2.txt": "content 2"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1433"
+  },
+  {
+   "test": "test_zip_with_password_extract",
+   "argv": [
+    "a",
+    "-tzip",
+    "-pSECRET",
+    "secret.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok",
+    "Encrypted = +"
+   ],
+   "files": {
+    "secret.txt": "Secret Content"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1449"
+  },
+  {
+   "test": "test_zip_store_no_compression",
+   "argv": [
+    "a",
+    "-tzip",
+    "-mx0",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {
+    "test.txt": "Store no compression content"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1469"
+  },
+  {
+   "test": "test_7z_compression_method_bzip2",
+   "argv": [
+    "a",
+    "-m0=BZip2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:1485"
+  },
+  {
+   "test": "test_list_zip_slt_properties",
+   "argv": [
+    "a",
+    "-tzip",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Folder = ",
+    "CRC = ",
+    "Method = ",
+    "Host OS = "
+   ],
+   "files": {
+    "test.txt": "content for zip listing"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1497"
+  },
+  {
+   "test": "test_list_tar_slt_properties",
+   "argv": [
+    "a",
+    "-ttar",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Path = test.txt",
+    "Size = "
+   ],
+   "files": {
+    "test.txt": "content for tar listing"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1511"
+  },
+  {
+   "test": "test_add_7z_with_delta_filter",
+   "argv": [
+    "a",
+    "-m0=Delta",
+    "-m1=LZMA2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:1523"
+  },
+  {
+   "test": "test_hash_with_bb1_verbosity",
+   "argv": [
+    "h",
+    "-bb1",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CRC32"
+   ],
+   "files": {
+    "test.txt": "content"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1535"
+  },
+  {
+   "test": "test_zip_extract_with_scrc",
+   "argv": [
+    "a",
+    "-tzip",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {
+    "test.txt": "Hash verified content\n"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1555"
+  },
+  {
+   "test": "test_add_large_number_of_files",
+   "argv": [
+    "a",
+    "-tzip"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok",
+    "20 files"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:1585"
+  },
+  {
+   "test": "test_list_zip_multiple_files_stats",
+   "argv": [
+    "a",
+    "-tzip"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "5 files",
+    "Physical Size = "
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:1598"
+  },
+  {
+   "test": "test_hash_recursive_directory",
+   "argv": [
+    "h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CRC32",
+    "Everything is Ok"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:1612"
+  },
+  {
+   "test": "test_list_bz2_archive",
+   "argv": [
+    "a",
+    "-tbzip2",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Type = bzip2"
+   ],
+   "files": {
+    "test.txt": "bzip2 content"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1625"
+  },
+  {
+   "test": "test_list_xz_archive",
+   "argv": [
+    "a",
+    "-txz",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Type = xz"
+   ],
+   "files": {
+    "test.txt": "xz content"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1636"
+  },
+  {
+   "test": "test_list_gz_archive",
+   "argv": [
+    "a",
+    "-tgzip",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Type = gzip"
+   ],
+   "files": {
+    "test.txt": "gz content"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1647"
+  },
+  {
+   "test": "test_extract_bz2_to_specific_dir",
+   "argv": [
+    "a",
+    "-tbzip2",
+    "mydata.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "mydata.txt": "bzip2 extract test\n"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1658"
+  },
+  {
+   "test": "test_extract_tar_multiple_files",
+   "argv": [
+    "a",
+    "-ttar"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:1674"
+  },
+  {
+   "test": "test_test_tar_archive",
+   "argv": [
+    "a",
+    "-ttar",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok",
+    "Type = tar"
+   ],
+   "files": {
+    "test.txt": "TAR integrity test"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1694"
+  },
+  {
+   "test": "test_test_gz_archive",
+   "argv": [
+    "a",
+    "-tgzip",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok",
+    "Type = gzip"
+   ],
+   "files": {
+    "test.txt": "GZ integrity test"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1706"
+  },
+  {
+   "test": "test_test_bz2_archive",
+   "argv": [
+    "a",
+    "-tbzip2",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok",
+    "Type = bzip2"
+   ],
+   "files": {
+    "test.txt": "BZ2 integrity test"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1718"
+  },
+  {
+   "test": "test_test_xz_archive",
+   "argv": [
+    "a",
+    "-txz",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok",
+    "Type = xz"
+   ],
+   "files": {
+    "test.txt": "XZ integrity test"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1730"
+  },
+  {
+   "test": "test_extract_x_from_zip",
+   "argv": [
+    "a",
+    "-tzip"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:1742"
+  },
+  {
+   "test": "test_hash_shows_data_crc",
+   "argv": [
+    "h",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "for data:",
+    "B095E5E3"
+   ],
+   "files": {
+    "test.txt": "Hello World\n"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1757"
+  },
+  {
+   "test": "test_hash_crc32_explicit",
+   "argv": [
+    "h",
+    "-scrcCRC32",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CRC32",
+    "B095E5E3",
+    "Everything is Ok"
+   ],
+   "files": {
+    "test.txt": "Hello World\n"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1767"
+  },
+  {
+   "test": "test_add_zip_with_deflate64",
+   "argv": [
+    "a",
+    "-tzip",
+    "-m0=Deflate64"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:1778"
+  },
+  {
+   "test": "test_add_zip_bzip2_method",
+   "argv": [
+    "a",
+    "-tzip",
+    "-m0=BZip2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:1789"
+  },
+  {
+   "test": "test_list_archive_shows_blocks",
+   "argv": [
+    "a",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Blocks = "
+   ],
+   "files": {
+    "test.txt": "content"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1800"
+  },
+  {
+   "test": "test_update_add_new_file",
+   "argv": [
+    "a",
+    "file1.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok",
+    "file1.txt",
+    "file2.txt"
+   ],
+   "files": {
+    "file1.txt": "content 1"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1811"
+  },
+  {
+   "test": "test_extract_multiple_archives",
+   "argv": [
+    "a",
+    "f1.txt",
+    "f2.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {
+    "f1.txt": "content 1",
+    "f2.txt": "content 2"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1826"
+  },
+  {
+   "test": "test_add_with_recursive_and_exclude",
+   "argv": [
+    "a",
+    "-r",
+    "-x!*.bak"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok",
+    "keep.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:1842"
+  },
+  {
+   "test": "test_list_archive_shows_physical_size",
+   "argv": [
+    "a",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Physical Size = "
+   ],
+   "files": {
+    "test.txt": "content"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1858"
+  },
+  {
+   "test": "test_zip_extract_multiple_files",
+   "argv": [
+    "a",
+    "-tzip"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:1884"
+  },
+  {
+   "test": "test_create_split_archive_and_list",
+   "argv": [
+    "a",
+    "-v50b",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Volumes:",
+    "Type = Split",
+    "test.txt"
+   ],
+   "files": {
+    "test.txt": "Hello World split test\n"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1909"
+  },
+  {
+   "test": "test_extract_split_archive",
+   "argv": [
+    "a",
+    "-v50b",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {
+    "test.txt": "Split archive content\n"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1926"
+  },
+  {
+   "test": "test_test_split_archive",
+   "argv": [
+    "a",
+    "-v100b",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {
+    "test.txt": "Split test\n"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1943"
+  },
+  {
+   "test": "test_create_zip_volumes",
+   "argv": [
+    "a",
+    "-tzip",
+    "-v100b",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Volumes:"
+   ],
+   "files": {
+    "test.txt": "ZIP volume test content\n"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1955"
+  },
+  {
+   "test": "test_list_zip_split_volumes",
+   "argv": [
+    "a",
+    "-tzip",
+    "-v100b",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Type = "
+   ],
+   "files": {
+    "test.txt": "ZIP split\n"
+   },
+   "ci": false,
+   "source": "test_7zip.py:1966"
+  },
+  {
+   "test": "test_hash_empty_file",
+   "argv": [
+    "h",
+    "empty.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CRC32",
+    "Everything is Ok",
+    "00000000"
+   ],
+   "files": {
+    "empty.txt": ""
+   },
+   "ci": false,
+   "source": "test_7zip.py:1983"
+  },
+  {
+   "test": "test_hash_binary_file",
+   "argv": [
+    "h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CRC32",
+    "Everything is Ok",
+    "binary.bin"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:1995"
+  },
+  {
+   "test": "test_hash_multiple_files_total",
+   "argv": [
+    "h",
+    "a.txt",
+    "b.txt",
+    "c.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok",
+    "Size:"
+   ],
+   "files": {
+    "a.txt": "content a",
+    "b.txt": "content b",
+    "c.txt": "content c"
+   },
+   "ci": false,
+   "source": "test_7zip.py:2007"
+  },
+  {
+   "test": "test_hash_sha1_and_sha256_both",
+   "argv": [
+    "h",
+    "-scrcSHA1",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "648a6a6ffffdaa0badb23b8baf90b6168dd16b3a",
+    "SHA1",
+    "d2a84f4b8b650937ec8f73cd8be2c74add5a911ba64df27458ed8229da804a26",
+    "SHA256"
+   ],
+   "files": {
+    "test.txt": "Hello World\n"
+   },
+   "ci": false,
+   "source": "test_7zip.py:2020"
+  },
+  {
+   "test": "test_tar_add_multiple_files_and_extract",
+   "argv": [
+    "a",
+    "-ttar"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Files: 5"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:2038"
+  },
+  {
+   "test": "test_tar_with_directory",
+   "argv": [
+    "a",
+    "-ttar"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok",
+    "2 files",
+    "Type = tar",
+    "file1.txt",
+    "file2.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:2058"
+  },
+  {
+   "test": "test_zip_list_detailed_properties",
+   "argv": [
+    "a",
+    "-tzip",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Version = ",
+    "Offset = ",
+    "Volume Index = "
+   ],
+   "files": {
+    "test.txt": "ZIP detail test content"
+   },
+   "ci": false,
+   "source": "test_7zip.py:2093"
+  },
+  {
+   "test": "test_zip_update_file",
+   "argv": [
+    "a",
+    "-tzip",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "version 1\n"
+   },
+   "ci": false,
+   "source": "test_7zip.py:2123"
+  },
+  {
+   "test": "test_list_with_wildcards",
+   "argv": [
+    "a",
+    "a.txt",
+    "b.txt",
+    "c.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a.txt",
+    "b.txt"
+   ],
+   "files": {
+    "a.txt": "a",
+    "b.txt": "b",
+    "c.log": "c"
+   },
+   "ci": false,
+   "source": "test_7zip.py:2138"
+  },
+  {
+   "test": "test_extract_specific_file_from_archive",
+   "argv": [
+    "a",
+    "a.txt",
+    "b.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "a.txt": "a content",
+    "b.txt": "b content"
+   },
+   "ci": false,
+   "source": "test_7zip.py:2154"
+  },
+  {
+   "test": "test_bzip2_multiple_compress",
+   "argv": [
+    "a",
+    "-tbzip2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:2187"
+  },
+  {
+   "test": "test_xz_create_and_test",
+   "argv": [
+    "a",
+    "-txz"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:2215"
+  },
+  {
+   "test": "test_gz_create_and_test",
+   "argv": [
+    "a",
+    "-tgzip"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:2242"
+  },
+  {
+   "test": "test_output_stream_bso1",
+   "argv": [
+    "a",
+    "-bso1",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "content"
+   },
+   "ci": false,
+   "source": "test_7zip.py:2258"
+  },
+  {
+   "test": "test_output_stream_bsp2",
+   "argv": [
+    "a",
+    "-bsp2",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "content"
+   },
+   "ci": false,
+   "source": "test_7zip.py:2268"
+  },
+  {
+   "test": "test_list_multiple_archive_formats",
+   "argv": [
+    "a",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Type = 7z",
+    "test.txt",
+    "Type = zip",
+    "test.txt"
+   ],
+   "files": {
+    "test.txt": "content"
+   },
+   "ci": false,
+   "source": "test_7zip.py:2282"
+  },
+  {
+   "test": "test_add_with_store_method_7z",
+   "argv": [
+    "a",
+    "-mx0",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {
+    "test.txt": "Store method content"
+   },
+   "ci": false,
+   "source": "test_7zip.py:2302"
+  },
+  {
+   "test": "test_add_solid_archive",
+   "argv": [
+    "a",
+    "-ms=on"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok",
+    "Solid = +"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:2317"
+  },
+  {
+   "test": "test_add_no_solid_archive",
+   "argv": [
+    "a",
+    "-ms=off"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok",
+    "Solid = -"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_7zip.py:2329"
+  },
+  {
+   "test": "test_extract_from_7z_with_exclude",
+   "argv": [
+    "a",
+    "a.txt",
+    "b.log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {
+    "a.txt": "a content",
+    "b.log": "b content"
+   },
+   "ci": false,
+   "source": "test_7zip.py:2341"
+  },
+  {
+   "test": "test_stdin_input",
+   "argv": [
+    "a",
+    "archive.7z",
+    "-si=fromstdin.txt"
+   ],
+   "stdin": "This content comes from stdin.\nMultiple lines.\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok",
+    "=fromstdin.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_add.py:721"
+  },
+  {
+   "test": "test_ppmd8_stdin_input",
+   "argv": [
+    "a",
+    "-m0=PPMd",
+    "-si"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ppmd8_codec.py:744"
+  },
+  {
+   "test": "test_sfx_stdin_input_supported",
+   "argv": [
+    "a",
+    "-si"
+   ],
+   "stdin": "stdin data content\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sfx.py:595"
+  },
+  {
+   "test": "test_gzip_stdin_to_archive",
+   "argv": [
+    "a",
+    "-tgzip",
+    "-si"
+   ],
+   "stdin": "Stdin test data\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_single_file_formats.py:491"
+  },
+  {
+   "test": "test_bzip2_stdin_to_archive",
+   "argv": [
+    "a",
+    "-tbzip2",
+    "-si"
+   ],
+   "stdin": "BZIP2 stdin data\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_single_file_formats.py:513"
+  },
+  {
+   "test": "test_xz_stdin_to_archive",
+   "argv": [
+    "a",
+    "-txz",
+    "-si"
+   ],
+   "stdin": "XZ stdin data\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_single_file_formats.py:531"
+  },
+  {
+   "test": "test_gzip_stdin_stdout_pipeline",
+   "argv": [
+    "a",
+    "-tgzip",
+    "-si"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_single_file_formats.py:1050"
+  },
+  {
+   "test": "test_hash_stdin",
+   "argv": [
+    "h",
+    "-si"
+   ],
+   "stdin": "stdin content",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_special.py:168"
+  },
+  {
+   "test": "test_stdin_basic_text_compression",
+   "argv": [
+    "a",
+    "-si"
+   ],
+   "stdin": "Basic stdin test data\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Basic stdin test data\n",
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_streams.py:11"
+  },
+  {
+   "test": "test_stdin_named_file",
+   "argv": [
+    "a",
+    "-siMyCustomFile.txt"
+   ],
+   "stdin": "Named stdin file content\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "MyCustomFile.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_streams.py:29"
+  },
+  {
+   "test": "test_stdin_empty_input",
+   "argv": [
+    "a",
+    "-siempty.txt"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_streams.py:84"
+  },
+  {
+   "test": "test_stdin_with_zip_format",
+   "argv": [
+    "a",
+    "-si",
+    "-tzip"
+   ],
+   "stdin": "Test ZIP format from stdin\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_streams.py:135"
+  },
+  {
+   "test": "test_stdin_with_gzip_format",
+   "argv": [
+    "a",
+    "-si",
+    "-tgzip"
+   ],
+   "stdin": "Test GZIP format from stdin\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_streams.py:160"
+  },
+  {
+   "test": "test_stdin_with_bzip2_format",
+   "argv": [
+    "a",
+    "-si",
+    "-tbzip2"
+   ],
+   "stdin": "Test bzip2 format from stdin\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_streams.py:186"
+  },
+  {
+   "test": "test_stdin_with_compression_level",
+   "argv": [
+    "a",
+    "-si",
+    "-mx0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_streams.py:211"
+  },
+  {
+   "test": "test_stdin_incompatible_command_list",
+   "argv": [
+    "l",
+    "-si"
+   ],
+   "stdin": "some data\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ERROR:  : opening : E_NOTIMPL : Not implemented",
+    "System ERROR:\nE_NOTIMPL : Not implemented"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_streams.py:290"
+  },
+  {
+   "test": "test_stdin_with_path_in_name",
+   "argv": [
+    "a",
+    "-sisubdir/nested/file.txt"
+   ],
+   "stdin": "Content in subdirectory\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "subdir/nested/file.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_streams.py:371"
+  },
+  {
+   "test": "test_stdin_unicode_filename",
+   "argv": [
+    "a"
+   ],
+   "stdin": "Unicode filename content\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_streams.py:393"
+  },
+  {
+   "test": "test_stdin_solid_archive_mode",
+   "argv": [
+    "a",
+    "-si",
+    "-ms=on"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Everything is Ok"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_streams.py:689"
+  },
+  {
+   "test": "test_zip_zipcrypto_encryption",
+   "argv": [
+    "x"
+   ],
+   "stdin": "\n",
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Encrypted = +",
+    "Method = ZipCrypto",
+    "ERROR: Wrong password"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zip_format.py:281"
+  }
+ ]
+}

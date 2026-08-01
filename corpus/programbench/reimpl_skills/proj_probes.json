@@ -1,0 +1,5065 @@
+[
+ {
+  "name": "test::test_invalid_option_error::0",
+  "argv": [
+   "-X",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_option_double_dash::1",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_projections_short::2",
+  "argv": [
+   "-l"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_projections_long::3",
+  "argv": [
+   "-lP"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_projections_lp::4",
+  "argv": [
+   "-lp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_ellipses::5",
+  "argv": [
+   "-le"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_specific_projection::6",
+  "argv": [
+   "-l=utm"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_specific_projection_merc::7",
+  "argv": [
+   "-l=merc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_nonexistent_projection::8",
+  "argv": [
+   "-l=nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_invalid_option::9",
+  "argv": [
+   "-lx"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utm_zone30_basic::10",
+  "argv": [
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utm_origin::11",
+  "argv": [
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_points::12",
+  "argv": [
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 51.5\n1 52.0\n-1 50.0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_merc_projection::13",
+  "argv": [
+   "+proj=merc",
+   "+ellps=WGS84"
+  ],
+  "stdin": "1 1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_merc_origin::14",
+  "argv": [
+   "+proj=merc",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dms_input_format::15",
+  "argv": [
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0d 51d30N\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trailing_input_appended::16",
+  "argv": [
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 51.5 some_label\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inverse_flag_I::17",
+  "argv": [
+   "-I",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "708216.87 5709696.98\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inverse_noninvertible::18",
+  "argv": [
+   "-I",
+   "+proj=adams_hemi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inverse_with_format::19",
+  "argv": [
+   "-I",
+   "-f",
+   "%.6f",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "708216.87 5709696.98\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_with_f::20",
+  "argv": [
+   "-f",
+   "%.6f",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_with_d::21",
+  "argv": [
+   "-d",
+   "4",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_d_zero_decimals::22",
+  "argv": [
+   "-d",
+   "0",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_format_string::23",
+  "argv": [
+   "-f",
+   "abc",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seconds_precision_w::24",
+  "argv": [
+   "-I",
+   "-w5",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "708216.87 5709696.98\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seconds_constant_width_W::25",
+  "argv": [
+   "-I",
+   "-W3",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "708216.87 5709696.98\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_w_argument::26",
+  "argv": [
+   "-Wx",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_echo_input_E::27",
+  "argv": [
+   "-E",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_dash::28",
+  "argv": [
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84",
+   "-"
+  ],
+  "stdin": "0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comment_lines_passed_through::29",
+  "argv": [
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "# comment line\n0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_tag_character::30",
+  "argv": [
+   "-t%",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "% comment\n0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_input::31",
+  "argv": [
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file_error::32",
+  "argv": [
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84",
+   "nonexistent_xyz.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_t_argument::33",
+  "argv": [
+   "-t",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scale_factors_S_output_format::34",
+  "argv": [
+   "-S",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scale_factors_with_inverse::35",
+  "argv": [
+   "-S",
+   "-I",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "708216.87 5709696.98\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_v_prints_params::36",
+  "argv": [
+   "-v",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_verbose_V_ellipsoid_info::37",
+  "argv": [
+   "-V",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_verbose_V_sphere::38",
+  "argv": [
+   "-V",
+   "+proj=merc",
+   "+R=6371000"
+  ],
+  "stdin": "0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_coords_default_error::39",
+  "argv": [
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "200 99\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_string_e_option::40",
+  "argv": [
+   "-e",
+   "ERROR_MARKER",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "200 99\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_projection_error::41",
+  "argv": [
+   "+proj=invalid_proj_xyz",
+   "+ellps=WGS84"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_projection_requires_angular_input::42",
+  "argv": [
+   "+proj=pipeline",
+   "+step",
+   "+proj=helmert"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_angular_output_error::43",
+  "argv": [
+   "+proj=latlong"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_projection_arg::44",
+  "argv": [
+   "+proj=utm",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_scale_argument::45",
+  "argv": [
+   "-m",
+   "0",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_input_i::46",
+  "argv": [
+   "-i",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_output_o::47",
+  "argv": [
+   "-o",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_both_b::48",
+  "argv": [
+   "-b",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_not_available_in_V::49",
+  "argv": [
+   "-bV",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiplier_colon_notation::50",
+  "argv": [
+   "-m",
+   "1/1000",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiplier_inverse_prescale::51",
+  "argv": [
+   "-I",
+   "-m",
+   "1000",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "708216870 5709696980\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lcc_projection::52",
+  "argv": [
+   "+proj=lcc",
+   "+lat_1=45",
+   "+lat_2=55",
+   "+ellps=WGS84"
+  ],
+  "stdin": "1 50\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stere_projection::53",
+  "argv": [
+   "+proj=stere",
+   "+lat_0=90",
+   "+lon_0=0",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 60\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aea_projection::54",
+  "argv": [
+   "+proj=aea",
+   "+lat_1=29.5",
+   "+lat_2=45.5",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 30\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cart_projection::55",
+  "argv": [
+   "+proj=cart",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tmerc_projection::56",
+  "argv": [
+   "+proj=tmerc",
+   "+ellps=WGS84",
+   "+lon_0=0"
+  ],
+  "stdin": "0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utm_different_zones::57",
+  "argv": [
+   "+proj=utm",
+   "+zone=31",
+   "+ellps=WGS84"
+  ],
+  "stdin": "3 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utm_south_hemisphere::58",
+  "argv": [
+   "+proj=utm",
+   "+zone=30",
+   "+south",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 -51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_and_echo::59",
+  "argv": [
+   "-v",
+   "-E",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reverse_both_r_s::60",
+  "argv": [
+   "-r",
+   "-s",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "51.5 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_and_echo::61",
+  "argv": [
+   "-E",
+   "-f",
+   "%.3f",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scale_and_verbose::62",
+  "argv": [
+   "-S",
+   "-v",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_points_with_comments::63",
+  "argv": [
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 51.5\n# a comment\n1 52.0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_epsg_not_available_error::64",
+  "argv": [
+   "EPSG:32630"
+  ],
+  "stdin": "0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dms_with_compass_dir::65",
+  "argv": [
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0d0'0\"W 51d30'0\"N\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_longitude::66",
+  "argv": [
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "-1 50.0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_projections_uses_stdin::67",
+  "argv": [
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 51.5\n1 52.0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vprocess_inverse_line::68",
+  "argv": [
+   "-V",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "I 708216.87 5709696.98\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vprocess_error_on_bad_input::69",
+  "argv": [
+   "-V",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "9999999 9999999\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utm_dms_input_example_from_docs::70",
+  "argv": [
+   "+proj=utm",
+   "+zone=12",
+   "-r"
+  ],
+  "stdin": "45d15'33.1\" 111.5W\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ob_tran_projection::71",
+  "argv": [
+   "+ellps=WGS84",
+   "+proj=ob_tran",
+   "+o_proj=latlon",
+   "+o_lon_p=0.0",
+   "+o_lat_p=90.0",
+   "+lon_0=360.0",
+   "+to_meter=0.0174532925199433",
+   "+no_defs",
+   "-E",
+   "-f",
+   "%.3f"
+  ],
+  "stdin": "2 49\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_V_reversein::72",
+  "argv": [
+   "-V",
+   "-r",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "51.5 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_stdin::73",
+  "argv": [
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_huge_val_input::74",
+  "argv": [
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "1000 1000\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_d_option_negative::75",
+  "argv": [
+   "-d",
+   "8",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scale_S_with_inverse::76",
+  "argv": [
+   "-S",
+   "-I",
+   "-f",
+   "%.6f",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "708216.87 5709696.98\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_inverse::77",
+  "argv": [
+   "-I",
+   "-o",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "708216.87 5709696.98\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_e_scientific::78",
+  "argv": [
+   "-f",
+   "%e",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_E_scientific::79",
+  "argv": [
+   "-f",
+   "%E",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_g_general::80",
+  "argv": [
+   "-f",
+   "%g",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_G_general::81",
+  "argv": [
+   "-f",
+   "%G",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_with_width::82",
+  "argv": [
+   "-f",
+   "%10.3f",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_with_leading_zero::83",
+  "argv": [
+   "-f",
+   "%010.3f",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_with_plus::84",
+  "argv": [
+   "-f",
+   "%+.3f",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_decimal_only::85",
+  "argv": [
+   "-f",
+   "%.f",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_width_no_decimal::86",
+  "argv": [
+   "-f",
+   "%10f",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_width_dot_no_precision::87",
+  "argv": [
+   "-f",
+   "%10.f",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vprocess_tag_passthrough::88",
+  "argv": [
+   "-V",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "# a comment\n0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vprocess_custom_tag::89",
+  "argv": [
+   "-V",
+   "-t%",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "% comment\n0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vprocess_bad_coords_conversion_failure::90",
+  "argv": [
+   "-V",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "xxx yyy\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vprocess_inverse_i_lowercase::91",
+  "argv": [
+   "-V",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "i 708216.87 5709696.98\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vprocess_with_oform::92",
+  "argv": [
+   "-V",
+   "-f",
+   "%.6f",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vprocess_prescale::93",
+  "argv": [
+   "-V",
+   "-m",
+   "1000",
+   "-I",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "708216870 5709696980\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_valid_format_F::94",
+  "argv": [
+   "-f",
+   "%F",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inverse_DMS_reverseout::95",
+  "argv": [
+   "-I",
+   "-s",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "708216.87 5709696.98\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invproj_binary_does_inverse::96",
+  "argv": [
+   "+proj=tmerc",
+   "+ellps=GRS80"
+  ],
+  "stdin": "146339.48 5431555.61\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invproj_with_echo::97",
+  "argv": [
+   "+proj=tmerc",
+   "+ellps=GRS80",
+   "-E"
+  ],
+  "stdin": "146339.48 5431555.61\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invproj_with_format::98",
+  "argv": [
+   "+proj=tmerc",
+   "+ellps=GRS80",
+   "-f",
+   "%.3f"
+  ],
+  "stdin": "146339.48 5431555.61\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vprocess_overlong_line::99",
+  "argv": [
+   "-V",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vprocess_inverse_no_inverse_proj::100",
+  "argv": [
+   "-V",
+   "+proj=adams_hemi"
+  ],
+  "stdin": "I 0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vprocess_inverse_huge_val_x::101",
+  "argv": [
+   "-V",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "I 1e400 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vprocess_bad_dms_input::102",
+  "argv": [
+   "-V",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "1e400 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vprocess_postscale::103",
+  "argv": [
+   "-V",
+   "-m",
+   "1000",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vprocess_inverse_with_prescale::104",
+  "argv": [
+   "-V",
+   "-m",
+   "1000",
+   "-I",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "I 708216870 5709696980\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_huge_v_second_coord::105",
+  "argv": [
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 1e400\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_huge_v_custom_error_string::106",
+  "argv": [
+   "-e",
+   "OVERFLOW_ERROR",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 1e400\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scale_factors_bad_produce_stars::107",
+  "argv": [
+   "-S",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 89\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utils_parseint_large_value::108",
+  "argv": [
+   "-f",
+   "%2000.3f",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_plus_format_wrong::109",
+  "argv": [
+   "-f",
+   "%++f",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_precision_over_1000_format_wrong::110",
+  "argv": [
+   "-f",
+   "%10.2000f",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_plus_with_width_dot::111",
+  "argv": [
+   "-f",
+   "%+10.f",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_leading_zero_dot_no_precision::112",
+  "argv": [
+   "-f",
+   "%+0.f",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_leading_zero_no_dot::113",
+  "argv": [
+   "-f",
+   "%+0f",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_no_digits_no_dot::114",
+  "argv": [
+   "-f",
+   "%f",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_plus_no_digits_no_dot::115",
+  "argv": [
+   "-f",
+   "%+f",
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 51.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_adams_hemi::116",
+  "argv": [
+   "+proj=adams_hemi"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_adams_ws1::117",
+  "argv": [
+   "+proj=adams_ws1"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_adams_ws2::118",
+  "argv": [
+   "+proj=adams_ws2"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aea_with_params::119",
+  "argv": [
+   "+proj=aea",
+   "+lat_1=20",
+   "+lat_2=60",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 40\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aeqd_forward::120",
+  "argv": [
+   "+proj=aeqd",
+   "+ellps=WGS84"
+  ],
+  "stdin": "10 20\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aeqd_oblique::121",
+  "argv": [
+   "+proj=aeqd",
+   "+lat_0=45",
+   "+lon_0=10",
+   "+ellps=WGS84"
+  ],
+  "stdin": "10 45\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_airy::122",
+  "argv": [
+   "+proj=airy"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aitoff_origin::123",
+  "argv": [
+   "+proj=aitoff"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aitoff_nonzero::124",
+  "argv": [
+   "+proj=aitoff"
+  ],
+  "stdin": "10 20\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_apian::125",
+  "argv": [
+   "+proj=apian"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_august::126",
+  "argv": [
+   "+proj=august"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bacon_origin::127",
+  "argv": [
+   "+proj=bacon"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bacon_nonzero::128",
+  "argv": [
+   "+proj=bacon"
+  ],
+  "stdin": "30 45\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bertin1953::129",
+  "argv": [
+   "+proj=bertin1953"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bipc::130",
+  "argv": [
+   "+proj=bipc"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_boggs::131",
+  "argv": [
+   "+proj=boggs"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bonne_with_lat1::132",
+  "argv": [
+   "+proj=bonne",
+   "+lat_1=45"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_calcofi::133",
+  "argv": [
+   "+proj=calcofi"
+  ],
+  "stdin": "-121 34\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cass::134",
+  "argv": [
+   "+proj=cass"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cc::135",
+  "argv": [
+   "+proj=cc"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ccon_with_params::136",
+  "argv": [
+   "+proj=ccon",
+   "+lat_1=45"
+  ],
+  "stdin": "0 20\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cea::137",
+  "argv": [
+   "+proj=cea"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_chamb_with_params::138",
+  "argv": [
+   "+proj=chamb",
+   "+lat_1=0",
+   "+lon_1=0",
+   "+lat_2=45",
+   "+lon_2=45",
+   "+lat_3=-45",
+   "+lon_3=-45"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_collg::139",
+  "argv": [
+   "+proj=collg"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_col_urban::140",
+  "argv": [
+   "+proj=col_urban",
+   "+lat_0=5",
+   "+lon_0=-74",
+   "+x_0=92334.879",
+   "+y_0=109320.965"
+  ],
+  "stdin": "-74 5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comill::141",
+  "argv": [
+   "+proj=comill"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_crast::142",
+  "argv": [
+   "+proj=crast"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_denoy_origin::143",
+  "argv": [
+   "+proj=denoy"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_denoy_nonzero::144",
+  "argv": [
+   "+proj=denoy"
+  ],
+  "stdin": "30 45\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eck1::145",
+  "argv": [
+   "+proj=eck1"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eck2::146",
+  "argv": [
+   "+proj=eck2"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eck3::147",
+  "argv": [
+   "+proj=eck3"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eck4::148",
+  "argv": [
+   "+proj=eck4"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eck5::149",
+  "argv": [
+   "+proj=eck5"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eck6::150",
+  "argv": [
+   "+proj=eck6"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eqearth_origin::151",
+  "argv": [
+   "+proj=eqearth"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eqearth_nonzero::152",
+  "argv": [
+   "+proj=eqearth"
+  ],
+  "stdin": "10 30\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eqc::153",
+  "argv": [
+   "+proj=eqc"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eqdc_with_params::154",
+  "argv": [
+   "+proj=eqdc",
+   "+lat_1=20",
+   "+lat_2=60",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 40\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_euler_with_params::155",
+  "argv": [
+   "+proj=euler",
+   "+lat_1=20",
+   "+lat_2=60"
+  ],
+  "stdin": "0 40\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_etmerc::156",
+  "argv": [
+   "+proj=etmerc",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fahey::157",
+  "argv": [
+   "+proj=fahey"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fouc::158",
+  "argv": [
+   "+proj=fouc"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fouc_s::159",
+  "argv": [
+   "+proj=fouc_s"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gall::160",
+  "argv": [
+   "+proj=gall"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_geos_with_params::161",
+  "argv": [
+   "+proj=geos",
+   "+h=35786000"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gins8::162",
+  "argv": [
+   "+proj=gins8"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gn_sinu_with_params::163",
+  "argv": [
+   "+proj=gn_sinu",
+   "+n=2",
+   "+m=0.5"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gnom::164",
+  "argv": [
+   "+proj=gnom"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_goode::165",
+  "argv": [
+   "+proj=goode"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gs48::166",
+  "argv": [
+   "+proj=gs48"
+  ],
+  "stdin": "-100 40\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gs50::167",
+  "argv": [
+   "+proj=gs50"
+  ],
+  "stdin": "-100 40\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gstmerc::168",
+  "argv": [
+   "+proj=gstmerc"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_guyou::169",
+  "argv": [
+   "+proj=guyou"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hammer::170",
+  "argv": [
+   "+proj=hammer"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hatano::171",
+  "argv": [
+   "+proj=hatano"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_healpix::172",
+  "argv": [
+   "+proj=healpix"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rhealpix::173",
+  "argv": [
+   "+proj=rhealpix"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_igh::174",
+  "argv": [
+   "+proj=igh"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_igh_o::175",
+  "argv": [
+   "+proj=igh_o"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_imoll::176",
+  "argv": [
+   "+proj=imoll"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_imoll_nonzero::177",
+  "argv": [
+   "+proj=imoll"
+  ],
+  "stdin": "30 45\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_imoll_o::178",
+  "argv": [
+   "+proj=imoll_o"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_imoll_o_nonzero::179",
+  "argv": [
+   "+proj=imoll_o"
+  ],
+  "stdin": "30 45\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_imw_p_with_params::180",
+  "argv": [
+   "+proj=imw_p",
+   "+lat_1=20",
+   "+lat_2=60"
+  ],
+  "stdin": "0 40\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_isea::181",
+  "argv": [
+   "+proj=isea"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_kav5::182",
+  "argv": [
+   "+proj=kav5"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_kav7::183",
+  "argv": [
+   "+proj=kav7"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_krovak::184",
+  "argv": [
+   "+proj=krovak",
+   "+ellps=bessel"
+  ],
+  "stdin": "16 50\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_labrd_with_params::185",
+  "argv": [
+   "+proj=labrd",
+   "+lat_0=-18.9",
+   "+lon_0=44.1",
+   "+azi=18.9",
+   "+k_0=0.9995",
+   "+ellps=intl"
+  ],
+  "stdin": "44 -19\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_laea::186",
+  "argv": [
+   "+proj=laea"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lagrng_with_params::187",
+  "argv": [
+   "+proj=lagrng",
+   "+w=2"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_larr::188",
+  "argv": [
+   "+proj=larr"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lask::189",
+  "argv": [
+   "+proj=lask"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lcc_with_params::190",
+  "argv": [
+   "+proj=lcc",
+   "+lat_1=20",
+   "+lat_2=60",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 40\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lcca_with_params::191",
+  "argv": [
+   "+proj=lcca",
+   "+lat_0=35"
+  ],
+  "stdin": "0 35\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_leac_with_params::192",
+  "argv": [
+   "+proj=leac",
+   "+lat_1=45"
+  ],
+  "stdin": "0 45\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_loxim::193",
+  "argv": [
+   "+proj=loxim"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lsat_with_params::194",
+  "argv": [
+   "+proj=lsat",
+   "+lsat=1",
+   "+path=1"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mbt_fps::195",
+  "argv": [
+   "+proj=mbt_fps"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mbtfpp::196",
+  "argv": [
+   "+proj=mbtfpp"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mbtfpq::197",
+  "argv": [
+   "+proj=mbtfpq"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mbt_s::198",
+  "argv": [
+   "+proj=mbt_s"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_merc_origin::199",
+  "argv": [
+   "+proj=merc"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_merc_wgs84_nonzero::200",
+  "argv": [
+   "+proj=merc",
+   "+ellps=WGS84"
+  ],
+  "stdin": "45 45\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mill::201",
+  "argv": [
+   "+proj=mill"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_misrsom_with_params::202",
+  "argv": [
+   "+proj=misrsom",
+   "+path=1"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mod_krovak::203",
+  "argv": [
+   "+proj=mod_krovak",
+   "+ellps=bessel"
+  ],
+  "stdin": "16 50\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_moll::204",
+  "argv": [
+   "+proj=moll"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_natearth::205",
+  "argv": [
+   "+proj=natearth"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_natearth2::206",
+  "argv": [
+   "+proj=natearth2"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nell::207",
+  "argv": [
+   "+proj=nell"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nell_h::208",
+  "argv": [
+   "+proj=nell_h"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nicol::209",
+  "argv": [
+   "+proj=nicol"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nsper_with_params::210",
+  "argv": [
+   "+proj=nsper",
+   "+h=1000000"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nzmg::211",
+  "argv": [
+   "+proj=nzmg"
+  ],
+  "stdin": "174 -36\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ob_tran::212",
+  "argv": [
+   "+proj=ob_tran",
+   "+o_proj=latlon",
+   "+o_lon_p=0",
+   "+o_lat_p=90",
+   "+lon_0=360",
+   "+to_meter=0.0174532925199433"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ocea_with_params::213",
+  "argv": [
+   "+proj=ocea",
+   "+lat_1=20",
+   "+lat_2=60",
+   "+lon_1=-30",
+   "+lon_2=30"
+  ],
+  "stdin": "0 40\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_oea_with_params::214",
+  "argv": [
+   "+proj=oea",
+   "+n=1.0",
+   "+m=1.0",
+   "+theta=45"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_omerc_with_params::215",
+  "argv": [
+   "+proj=omerc",
+   "+lat_0=0",
+   "+lonc=0",
+   "+alpha=45",
+   "+k_0=1",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ortho::216",
+  "argv": [
+   "+proj=ortho"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_patterson::217",
+  "argv": [
+   "+proj=patterson"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_peirce_q::218",
+  "argv": [
+   "+proj=peirce_q"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_poly::219",
+  "argv": [
+   "+proj=poly"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_putp1::220",
+  "argv": [
+   "+proj=putp1"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_putp2::221",
+  "argv": [
+   "+proj=putp2"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_putp3::222",
+  "argv": [
+   "+proj=putp3"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_putp4p::223",
+  "argv": [
+   "+proj=putp4p"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_putp5::224",
+  "argv": [
+   "+proj=putp5"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_putp6::225",
+  "argv": [
+   "+proj=putp6"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_qua_aut::226",
+  "argv": [
+   "+proj=qua_aut"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_qsc::227",
+  "argv": [
+   "+proj=qsc"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_robin::228",
+  "argv": [
+   "+proj=robin"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rouss::229",
+  "argv": [
+   "+proj=rouss"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rpoly::230",
+  "argv": [
+   "+proj=rpoly"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_s2::231",
+  "argv": [
+   "+proj=s2"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sch_with_params::232",
+  "argv": [
+   "+proj=sch",
+   "+plat_0=0",
+   "+plon_0=0",
+   "+phdg_0=0",
+   "+h_0=1000"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_murd1_with_params::233",
+  "argv": [
+   "+proj=murd1",
+   "+lat_1=20",
+   "+lat_2=60"
+  ],
+  "stdin": "0 40\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_murd2_with_params::234",
+  "argv": [
+   "+proj=murd2",
+   "+lat_1=20",
+   "+lat_2=60"
+  ],
+  "stdin": "0 40\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_murd3_with_params::235",
+  "argv": [
+   "+proj=murd3",
+   "+lat_1=20",
+   "+lat_2=60"
+  ],
+  "stdin": "0 40\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pconic_with_params::236",
+  "argv": [
+   "+proj=pconic",
+   "+lat_1=20",
+   "+lat_2=60"
+  ],
+  "stdin": "0 40\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vitk1_with_params::237",
+  "argv": [
+   "+proj=vitk1",
+   "+lat_1=20",
+   "+lat_2=60"
+  ],
+  "stdin": "0 40\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sinu::238",
+  "argv": [
+   "+proj=sinu"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_som_with_params::239",
+  "argv": [
+   "+proj=som",
+   "+lsat=1",
+   "+path=1"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_somerc::240",
+  "argv": [
+   "+proj=somerc",
+   "+ellps=bessel"
+  ],
+  "stdin": "7 47\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_spilhaus::241",
+  "argv": [
+   "+proj=spilhaus",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stere_origin::242",
+  "argv": [
+   "+proj=stere"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stere_polar::243",
+  "argv": [
+   "+proj=stere",
+   "+lat_0=90",
+   "+lon_0=0",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 90\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sterea::244",
+  "argv": [
+   "+proj=sterea",
+   "+ellps=GRS80",
+   "+lat_0=52",
+   "+lon_0=5"
+  ],
+  "stdin": "5 52\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tcc::245",
+  "argv": [
+   "+proj=tcc"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tcea::246",
+  "argv": [
+   "+proj=tcea"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_times::247",
+  "argv": [
+   "+proj=times"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tmerc::248",
+  "argv": [
+   "+proj=tmerc",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tobmerc::249",
+  "argv": [
+   "+proj=tobmerc"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tpeqd_with_params::250",
+  "argv": [
+   "+proj=tpeqd",
+   "+lat_1=60",
+   "+lon_1=-20",
+   "+lat_2=60",
+   "+lon_2=20"
+  ],
+  "stdin": "0 60\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tpers_with_params::251",
+  "argv": [
+   "+proj=tpers",
+   "+h=5500000"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ups::252",
+  "argv": [
+   "+proj=ups"
+  ],
+  "stdin": "0 90\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_urm5_with_params::253",
+  "argv": [
+   "+proj=urm5",
+   "+n=0.5",
+   "+q=0.5",
+   "+alpha=1"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_urmfps_with_params::254",
+  "argv": [
+   "+proj=urmfps",
+   "+n=0.5"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utm_zone32::255",
+  "argv": [
+   "+proj=utm",
+   "+zone=32",
+   "+ellps=WGS84"
+  ],
+  "stdin": "9 51\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vandg::256",
+  "argv": [
+   "+proj=vandg"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vandg2::257",
+  "argv": [
+   "+proj=vandg2"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vandg3::258",
+  "argv": [
+   "+proj=vandg3"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vandg4::259",
+  "argv": [
+   "+proj=vandg4"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wag1::260",
+  "argv": [
+   "+proj=wag1"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wag2::261",
+  "argv": [
+   "+proj=wag2"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wag3::262",
+  "argv": [
+   "+proj=wag3"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wag4::263",
+  "argv": [
+   "+proj=wag4"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wag5::264",
+  "argv": [
+   "+proj=wag5"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wag6::265",
+  "argv": [
+   "+proj=wag6"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wag7::266",
+  "argv": [
+   "+proj=wag7"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_webmerc::267",
+  "argv": [
+   "+proj=webmerc"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_weren::268",
+  "argv": [
+   "+proj=weren"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wink1::269",
+  "argv": [
+   "+proj=wink1"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wink2::270",
+  "argv": [
+   "+proj=wink2"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wintri::271",
+  "argv": [
+   "+proj=wintri"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_airocean::272",
+  "argv": [
+   "+proj=airocean"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_alsk::273",
+  "argv": [
+   "+proj=alsk"
+  ],
+  "stdin": "-150 60\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_geoc_fails_angular_output::274",
+  "argv": [
+   "+proj=geoc",
+   "+ellps=WGS84"
+  ],
+  "stdin": "10 45\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lonlat_fails_angular_output::275",
+  "argv": [
+   "+proj=lonlat"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inverse_cea::276",
+  "argv": [
+   "+proj=cea",
+   "+ellps=WGS84"
+  ],
+  "stdin": "10 30\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inverse_laea::277",
+  "argv": [
+   "+proj=laea",
+   "+ellps=WGS84"
+  ],
+  "stdin": "10 30\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inverse_moll::278",
+  "argv": [
+   "+proj=moll"
+  ],
+  "stdin": "10 30\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inverse_eqc::279",
+  "argv": [
+   "+proj=eqc"
+  ],
+  "stdin": "45 45\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inverse_stere::280",
+  "argv": [
+   "+proj=stere",
+   "+lat_0=90",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 80\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inverse_eck4::281",
+  "argv": [
+   "+proj=eck4"
+  ],
+  "stdin": "30 45\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inverse_robin::282",
+  "argv": [
+   "+proj=robin"
+  ],
+  "stdin": "30 45\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inverse_hammer::283",
+  "argv": [
+   "+proj=hammer"
+  ],
+  "stdin": "10 20\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inverse_eqearth::284",
+  "argv": [
+   "+proj=eqearth"
+  ],
+  "stdin": "30 45\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inverse_healpix::285",
+  "argv": [
+   "+proj=healpix"
+  ],
+  "stdin": "45 45\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inverse_igh::286",
+  "argv": [
+   "+proj=igh"
+  ],
+  "stdin": "30 45\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inverse_lcc::287",
+  "argv": [
+   "+proj=lcc",
+   "+lat_1=20",
+   "+lat_2=60",
+   "+ellps=WGS84"
+  ],
+  "stdin": "10 40\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inverse_poly::288",
+  "argv": [
+   "+proj=poly",
+   "+ellps=WGS84"
+  ],
+  "stdin": "10 30\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inverse_sinu::289",
+  "argv": [
+   "+proj=sinu"
+  ],
+  "stdin": "30 45\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inverse_vandg::290",
+  "argv": [
+   "+proj=vandg"
+  ],
+  "stdin": "10 20\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inverse_wink1::291",
+  "argv": [
+   "+proj=wink1"
+  ],
+  "stdin": "10 20\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inverse_wink2::292",
+  "argv": [
+   "+proj=wink2"
+  ],
+  "stdin": "10 20\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inverse_with_f_flag::293",
+  "argv": [
+   "+proj=merc",
+   "+ellps=WGS84"
+  ],
+  "stdin": "30 45\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_merc_with_sphere_R::294",
+  "argv": [
+   "+proj=merc",
+   "+R=6370997"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_merc_with_clrk66::295",
+  "argv": [
+   "+proj=merc",
+   "+ellps=clrk66"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aea_with_sphere_R::296",
+  "argv": [
+   "+proj=aea",
+   "+lat_1=20",
+   "+lat_2=60",
+   "+R=6371000"
+  ],
+  "stdin": "0 40\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_laea_with_sphere_R::297",
+  "argv": [
+   "+proj=laea",
+   "+R=6371000"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stere_with_sphere_R::298",
+  "argv": [
+   "+proj=stere",
+   "+R=6371000"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cass_with_grs80::299",
+  "argv": [
+   "+proj=cass",
+   "+ellps=GRS80"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tmerc_with_intl::300",
+  "argv": [
+   "+proj=tmerc",
+   "+ellps=intl"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_north_pole_stere::301",
+  "argv": [
+   "+proj=stere",
+   "+lat_0=90",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 90\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_south_pole_stere::302",
+  "argv": [
+   "+proj=stere",
+   "+lat_0=-90",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 -90\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dateline_merc::303",
+  "argv": [
+   "+proj=merc",
+   "+ellps=WGS84"
+  ],
+  "stdin": "180 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_longitude_utm::304",
+  "argv": [
+   "+proj=utm",
+   "+zone=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "-5 40\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_southern_hemisphere_utm::305",
+  "argv": [
+   "+proj=utm",
+   "+zone=32",
+   "+south",
+   "+ellps=WGS84"
+  ],
+  "stdin": "9 -30\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multi_point_input::306",
+  "argv": [
+   "+proj=merc",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 0\n10 10\n20 20\n30 30\n40 40\n50 50\n-30 -30\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eqearth_multiple_latitudes::307",
+  "argv": [
+   "+proj=eqearth"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_merc_multiple_latitudes::308",
+  "argv": [
+   "+proj=merc",
+   "+ellps=WGS84"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_S_option_aea::309",
+  "argv": [
+   "-S",
+   "+proj=aea",
+   "+lat_1=20",
+   "+lat_2=60",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 40\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_S_option_eqearth::310",
+  "argv": [
+   "-S",
+   "+proj=eqearth"
+  ],
+  "stdin": "10 30\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_S_option_lcc::311",
+  "argv": [
+   "-S",
+   "+proj=lcc",
+   "+lat_1=20",
+   "+lat_2=60",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 40\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_S_option_stere::312",
+  "argv": [
+   "-S",
+   "+proj=stere",
+   "+lat_0=90",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 80\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_S_option_moll::313",
+  "argv": [
+   "-S",
+   "+proj=moll"
+  ],
+  "stdin": "30 45\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_with_aea::314",
+  "argv": [
+   "-v",
+   "+proj=aea",
+   "+lat_1=20",
+   "+lat_2=60",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 40\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_verbose_ellipsoid_info::315",
+  "argv": [
+   "-V",
+   "+proj=aea",
+   "+lat_1=20",
+   "+lat_2=60",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 40\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_verbose_sphere_info::316",
+  "argv": [
+   "-V",
+   "+proj=merc",
+   "+R=6371000"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_verbose_ellipsoid_merc::317",
+  "argv": [
+   "-V",
+   "+proj=merc",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_S_with_inverse::318",
+  "argv": [
+   "-S",
+   "-I",
+   "+proj=utm",
+   "+zone=32",
+   "+ellps=WGS84"
+  ],
+  "stdin": "500000 5000000\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eqc_with_lat_ts::319",
+  "argv": [
+   "+proj=eqc",
+   "+lat_ts=30",
+   "+ellps=WGS84"
+  ],
+  "stdin": "10 30\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gnom_polar::320",
+  "argv": [
+   "+proj=gnom",
+   "+lat_0=90",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 89\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nzmg_specific::321",
+  "argv": [
+   "+proj=nzmg",
+   "+ellps=intl"
+  ],
+  "stdin": "174 -36\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_krovak_czech::322",
+  "argv": [
+   "+proj=krovak",
+   "+lat_0=49.5",
+   "+lon_0=24.8333",
+   "+alpha=30.2881",
+   "+k=0.9999",
+   "+x_0=0",
+   "+y_0=0",
+   "+ellps=bessel"
+  ],
+  "stdin": "16 50\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_somerc_swiss::323",
+  "argv": [
+   "+proj=somerc",
+   "+lat_0=46.95",
+   "+lon_0=7.44",
+   "+k_0=1",
+   "+x_0=600000",
+   "+y_0=200000",
+   "+ellps=bessel"
+  ],
+  "stdin": "7.44 46.95\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_geocent::324",
+  "argv": [
+   "+proj=geocent",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_latlong_fails::325",
+  "argv": [
+   "+proj=latlong"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_geod_basic_forward::326",
+  "argv": [
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 0 90 1000\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_geod_wgs84_forward::327",
+  "argv": [
+   "+ellps=WGS84"
+  ],
+  "stdin": "51.5 0 90 1000000\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_geod_inverse::328",
+  "argv": [
+   "-I",
+   "+ellps=WGS84"
+  ],
+  "stdin": "51.5 0 51.5 10\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_geod_forward_decimal::329",
+  "argv": [
+   "+ellps=WGS84",
+   "-f",
+   "%.6f"
+  ],
+  "stdin": "0 0 90 1000\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_geod_with_grs80::330",
+  "argv": [
+   "+ellps=GRS80"
+  ],
+  "stdin": "0 0 90 1000\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_geod_poles_equator::331",
+  "argv": [
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 0 0 1000000\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_geod_multiple_points::332",
+  "argv": [
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 0 90 1000\n0 0 45 2000\n0 0 180 5000\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_geod_p_flag::333",
+  "argv": [
+   "-p",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 0\n0 10\n10 10\n10 0\n0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cct_basic_proj::334",
+  "argv": [
+   "-z",
+   "0",
+   "+proj=utm",
+   "+zone=32",
+   "+ellps=WGS84"
+  ],
+  "stdin": "9 51 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cct_identity::335",
+  "argv": [
+   "+proj=pipeline",
+   "+step",
+   "+proj=merc",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cct_inv_flag::336",
+  "argv": [
+   "-I",
+   "+proj=utm",
+   "+zone=32",
+   "+ellps=WGS84"
+  ],
+  "stdin": "500000 5650000 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cct_t_flag::337",
+  "argv": [
+   "-t",
+   "#",
+   "+proj=merc",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cct_d_flag::338",
+  "argv": [
+   "-d",
+   "2",
+   "+proj=utm",
+   "+zone=32",
+   "+ellps=WGS84"
+  ],
+  "stdin": "9 51\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cs2cs_basic::339",
+  "argv": [
+   "+proj=longlat",
+   "+datum=WGS84",
+   "+to",
+   "+proj=utm",
+   "+zone=32",
+   "+datum=WGS84"
+  ],
+  "stdin": "9 51\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cs2cs_inverse::340",
+  "argv": [
+   "-I",
+   "+proj=utm",
+   "+zone=32",
+   "+datum=WGS84",
+   "+to",
+   "+proj=longlat",
+   "+datum=WGS84"
+  ],
+  "stdin": "500000 5650000\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cs2cs_format::341",
+  "argv": [
+   "-f",
+   "%.4f",
+   "+proj=longlat",
+   "+datum=WGS84",
+   "+to",
+   "+proj=utm",
+   "+zone=32",
+   "+datum=WGS84"
+  ],
+  "stdin": "9 51\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cs2cs_echo_input::342",
+  "argv": [
+   "-E",
+   "+proj=longlat",
+   "+datum=WGS84",
+   "+to",
+   "+proj=utm",
+   "+zone=32",
+   "+datum=WGS84"
+  ],
+  "stdin": "9 51\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cs2cs_verbose::343",
+  "argv": [
+   "-v",
+   "+proj=longlat",
+   "+datum=WGS84",
+   "+to",
+   "+proj=utm",
+   "+zone=32",
+   "+datum=WGS84"
+  ],
+  "stdin": "9 51\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cs2cs_multiple_points::344",
+  "argv": [
+   "+proj=longlat",
+   "+datum=WGS84",
+   "+to",
+   "+proj=merc",
+   "+datum=WGS84"
+  ],
+  "stdin": "0 0\n9 51\n15 60\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cs2cs_epsg::345",
+  "argv": [
+   "EPSG:4326",
+   "EPSG:32632"
+  ],
+  "stdin": "51 9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cs2cs_wgs84_to_web_merc::346",
+  "argv": [
+   "+proj=longlat",
+   "+datum=WGS84",
+   "+to",
+   "+proj=webmerc",
+   "+datum=WGS84"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cs2cs_datum_shift::347",
+  "argv": [
+   "+proj=longlat",
+   "+datum=NAD83",
+   "+to",
+   "+proj=longlat",
+   "+datum=WGS84"
+  ],
+  "stdin": "-87.6 41.9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cs2cs_geographic_to_geographic::348",
+  "argv": [
+   "EPSG:4326",
+   "EPSG:4258"
+  ],
+  "stdin": "9 51\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cs2cs_w_flag::349",
+  "argv": [
+   "-W4",
+   "+proj=utm",
+   "+zone=32",
+   "+datum=WGS84",
+   "+to",
+   "+proj=longlat",
+   "+datum=WGS84"
+  ],
+  "stdin": "500000 5650000\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cs2cs_r_flag::350",
+  "argv": [
+   "-r",
+   "+proj=longlat",
+   "+datum=WGS84",
+   "+to",
+   "+proj=utm",
+   "+zone=32",
+   "+datum=WGS84"
+  ],
+  "stdin": "51 9\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cs2cs_s_flag::351",
+  "argv": [
+   "-s",
+   "+proj=longlat",
+   "+datum=WGS84",
+   "+to",
+   "+proj=utm",
+   "+zone=32",
+   "+datum=WGS84"
+  ],
+  "stdin": "9 51\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cs2cs_z_height::352",
+  "argv": [
+   "+proj=longlat",
+   "+datum=WGS84",
+   "+to",
+   "+proj=utm",
+   "+zone=32",
+   "+datum=WGS84"
+  ],
+  "stdin": "9 51 100\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cs2cs_multiple_transformations::353",
+  "argv": [
+   "+proj=longlat",
+   "+datum=WGS84",
+   "+to",
+   "+proj=merc",
+   "+datum=WGS84"
+  ],
+  "stdin": "0 0\n9 51\n15 60\n-75 40\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_geod_sphere::354",
+  "argv": [
+   "+ellps=sphere"
+  ],
+  "stdin": "0 0 90 1000\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_geod_bessel::355",
+  "argv": [
+   "+ellps=bessel"
+  ],
+  "stdin": "0 0 90 1000\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_geod_clrk80::356",
+  "argv": [
+   "+ellps=clrk80"
+  ],
+  "stdin": "0 0 90 1000\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_geod_inverse_many_points::357",
+  "argv": [
+   "-I",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 0 1 1\n10 20 15 25\n-30 -10 30 10\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_geod_f_flag::358",
+  "argv": [
+   "-f",
+   "%.4f",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 0 90 1000\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_geod_a_flag::359",
+  "argv": [
+   "-f",
+   "%.6f",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 0 90 1000\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_geod_w_flag::360",
+  "argv": [
+   "-w3",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 0 90 1000\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_geod_t_flag::361",
+  "argv": [
+   "+ellps=WGS84",
+   "-t#"
+  ],
+  "stdin": "#comment\n0 0 90 1000\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_geod_forward_multiple_azimuths::362",
+  "argv": [
+   "+ellps=WGS84"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_epsg_utm32::363",
+  "argv": [
+   "EPSG:32632"
+  ],
+  "stdin": "-63 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_epsg_british_national_grid::364",
+  "argv": [
+   "EPSG:27700"
+  ],
+  "stdin": "0 51\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_epsg_utm31::365",
+  "argv": [
+   "EPSG:32631"
+  ],
+  "stdin": "3 45\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_epsg_utm33::366",
+  "argv": [
+   "EPSG:32633"
+  ],
+  "stdin": "15 45\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_epsg_swiss_lv95::367",
+  "argv": [
+   "EPSG:2056"
+  ],
+  "stdin": "7.44 46.95\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_epsg_etrs89_utm32::368",
+  "argv": [
+   "EPSG:25832"
+  ],
+  "stdin": "9 51\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_epsg_web_merc::369",
+  "argv": [
+   "EPSG:3857"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_epsg_S_factors_utm::370",
+  "argv": [
+   "-S",
+   "EPSG:32620"
+  ],
+  "stdin": "-63 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_epsg_S_factors_lcc::371",
+  "argv": [
+   "EPSG:32620",
+   "-S"
+  ],
+  "stdin": "-63 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_epsg_compound_crs::372",
+  "argv": [
+   "EPSG:5972"
+  ],
+  "stdin": "9 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_epsg_invalid_crs::373",
+  "argv": [
+   "EPSG:4326"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_epsg_invalid_code::374",
+  "argv": [
+   "EPSG:99999999"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_epsg_27571::375",
+  "argv": [
+   "EPSG:27571",
+   "-S"
+  ],
+  "stdin": "2.33722917 49.5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_epsg_inverse_utm32::376",
+  "argv": [
+   "EPSG:32632"
+  ],
+  "stdin": "9 51\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_epsg_verbose_utm32::377",
+  "argv": [
+   "-v",
+   "EPSG:32632"
+  ],
+  "stdin": "9 51\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cct_pipeline_merc_inv::378",
+  "argv": [
+   "+proj=pipeline",
+   "+step",
+   "+proj=merc",
+   "+ellps=WGS84",
+   "+step",
+   "+proj=merc",
+   "+ellps=WGS84",
+   "+inv"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cct_z_value_provided::379",
+  "argv": [
+   "-z",
+   "0",
+   "+proj=utm",
+   "+zone=32",
+   "+ellps=WGS84"
+  ],
+  "stdin": "9 51\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cct_t_value::380",
+  "argv": [
+   "-t",
+   "0",
+   "+proj=utm",
+   "+zone=32",
+   "+ellps=WGS84"
+  ],
+  "stdin": "9 51\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cct_d_decimal_places::381",
+  "argv": [
+   "-d",
+   "4",
+   "+proj=merc",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cct_verbose_flag::382",
+  "argv": [
+   "-v",
+   "+proj=utm",
+   "+zone=32",
+   "+ellps=WGS84"
+  ],
+  "stdin": "9 51\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cct_multiple_points::383",
+  "argv": [
+   "+proj=utm",
+   "+zone=32",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 0\n9 51\n15 60\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mbtfps::384",
+  "argv": [
+   "+proj=mbtfps"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_putp3p::385",
+  "argv": [
+   "+proj=putp3p"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_putp5p::386",
+  "argv": [
+   "+proj=putp5p"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_putp6p::387",
+  "argv": [
+   "+proj=putp6p"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sts::388",
+  "argv": [
+   "+proj=sts",
+   "+n=1"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_kav5_nonzero::389",
+  "argv": [
+   "+proj=kav5"
+  ],
+  "stdin": "30 45\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_kav7_nonzero::390",
+  "argv": [
+   "+proj=kav7"
+  ],
+  "stdin": "30 45\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ortel::391",
+  "argv": [
+   "+proj=ortel"
+  ],
+  "stdin": "0 0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tpers_nonzero::392",
+  "argv": [
+   "+proj=tpers",
+   "+h=5500000"
+  ],
+  "stdin": "10 20\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nsper_nonzero::393",
+  "argv": [
+   "+proj=nsper",
+   "+h=1000000"
+  ],
+  "stdin": "10 20\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aeqd_ellipsoidal::394",
+  "argv": [
+   "+proj=aeqd",
+   "+ellps=WGS84",
+   "+lat_0=90"
+  ],
+  "stdin": "0 60\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_omerc_two_points::395",
+  "argv": [
+   "+proj=omerc",
+   "+lat_1=30",
+   "+lon_1=10",
+   "+lat_2=60",
+   "+lon_2=20",
+   "+ellps=WGS84"
+  ],
+  "stdin": "15 45\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stere_ellipsoidal_oblique::396",
+  "argv": [
+   "+proj=stere",
+   "+lat_0=45",
+   "+lon_0=10",
+   "+ellps=WGS84"
+  ],
+  "stdin": "10 45\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lcc_one_standard_parallel::397",
+  "argv": [
+   "+proj=lcc",
+   "+lat_1=45",
+   "+ellps=WGS84"
+  ],
+  "stdin": "0 45\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_natearth_nonzero::398",
+  "argv": [
+   "+proj=natearth"
+  ],
+  "stdin": "30 45\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_natearth2_nonzero::399",
+  "argv": [
+   "+proj=natearth2"
+  ],
+  "stdin": "30 45\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

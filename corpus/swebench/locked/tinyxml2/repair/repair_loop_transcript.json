@@ -1,0 +1,29 @@
+{
+  "schema": "determinex-repair-loop-transcript-v1",
+  "tool": "tinyxml2",
+  "family": "c_cpp",
+  "pinned_commit": "8224e42",
+  "repair_type": "seeded_defect (behavioral) - verifier is the project's OWN test suite in a host image (toolchain via provider; Docker-OPTIONAL)",
+  "toolchain": "host",
+  "oracle": "the real leethomason/tinyxml2 repo's own tests: cd build && ctest",
+  "defect": {
+    "file": "tinyxml2.cpp",
+    "seed": "TIXML_SSCANF(str, \"%d\", value) -> TIXML_SSCANF(str, \"%x\", value)"
+  },
+  "detect": {
+    "baseline": "100% tests passed, 0 tests failed out of 1",
+    "after_seed": "test suite FAILED (exit 8)",
+    "oracle_caught": true,
+    "failure_signature": "seeded defect made the project's own test suite exit non-zero"
+  },
+  "repair": {
+    "fix": "git checkout (restore upstream source)"
+  },
+  "reverify": {
+    "after": "100% tests passed, 0 tests failed out of 1",
+    "passed": 1,
+    "failures": 0
+  },
+  "repair_loop_status": "passed",
+  "proves": "closed-loop repair on a real external c_cpp project (tinyxml2): its OWN test suite detects the injected defect -> fix -> re-verify (100% tests passed, 0 tests failed out of 1). Reproducible."
+}

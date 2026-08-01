@@ -1,0 +1,3933 @@
+{
+ "slug": "rust-lang__mdbook.37273ba",
+ "language": "",
+ "n_branches": 12,
+ "n_tests_total": 1297,
+ "n_examples": 214,
+ "n_with_exact_stdout": 2,
+ "n_with_rc": 180,
+ "n_skipped": 878,
+ "examples": [
+  {
+   "test": "test_build_help",
+   "argv": [
+    "build",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Builds a book from its markdown files",
+    "Usage: executable build",
+    "--dest-dir",
+    "--open"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_build.py:6"
+  },
+  {
+   "test": "test_build_output_contains_title",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test Book"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_build.py:51"
+  },
+  {
+   "test": "test_build_output_contains_chapter_content",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Chapter 1",
+    "This is chapter 1 content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_build.py:59"
+  },
+  {
+   "test": "test_clean_help",
+   "argv": [
+    "clean",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Deletes a built book",
+    "Usage: executable clean",
+    "--dest-dir"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clean.py:6"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Creates a book from markdown files",
+    "Usage: executable [COMMAND]",
+    "Commands:",
+    "init",
+    "build",
+    "test",
+    "clean",
+    "completions",
+    "watch",
+    "serve"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:5"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "mdbook v0.5.0-alpha.1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:21"
+  },
+  {
+   "test": "test_help_command",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Creates a book from markdown files"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:28"
+  },
+  {
+   "test": "test_version_short_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "mdbook v0.5.0-alpha.1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:41"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Creates a book from markdown files"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:47"
+  },
+  {
+   "test": "test_completions_help",
+   "argv": [
+    "completions",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Generate shell completions"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_completions.py:5"
+  },
+  {
+   "test": "test_unicode_in_book_title",
+   "argv": [
+    "init",
+    "--force",
+    "--title",
+    "日本語 Book 📚"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "日本語",
+    "📚"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:6"
+  },
+  {
+   "test": "test_unicode_in_chapter_content",
+   "argv": [
+    "init",
+    "--force"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "你好世界",
+    "🌍",
+    "Привет"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:18"
+  },
+  {
+   "test": "test_init_help",
+   "argv": [
+    "init",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Creates the boilerplate structure and files for a new book",
+    "Usage: executable init",
+    "--theme",
+    "--force",
+    "--title",
+    "--ignore"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_init.py:6"
+  },
+  {
+   "test": "test_init_force_basic",
+   "argv": [
+    "init",
+    "--force"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[book]",
+    "language = \"en\"",
+    "src = \"src\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_init.py:17"
+  },
+  {
+   "test": "test_init_force_with_title",
+   "argv": [
+    "init",
+    "--force",
+    "--title",
+    "My Custom Book"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "title = \"My Custom Book\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_init.py:34"
+  },
+  {
+   "test": "test_init_summary_content",
+   "argv": [
+    "init",
+    "--force"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "# Summary",
+    "Chapter 1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_init.py:88"
+  },
+  {
+   "test": "test_init_chapter_content",
+   "argv": [
+    "init",
+    "--force"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "# Chapter 1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_init.py:97"
+  },
+  {
+   "test": "test_build_after_modifying_content",
+   "argv": [
+    "init",
+    "--force"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Modified Chapter",
+    "New content!"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:29"
+  },
+  {
+   "test": "test_html_output_structure",
+   "argv": [
+    "init",
+    "--force"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<html",
+    "</html>",
+    "<head",
+    "<body"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_integration.py:122"
+  },
+  {
+   "test": "test_chapter_links_work",
+   "argv": [
+    "init",
+    "--force"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "chapter_2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:140"
+  },
+  {
+   "test": "test_test_help",
+   "argv": [
+    "test",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Tests that a book's Rust code samples compile",
+    "Usage: executable test",
+    "--chapter",
+    "--library-path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_test_command.py:6"
+  },
+  {
+   "test": "test_watch_help",
+   "argv": [
+    "watch",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Watches a book's files and rebuilds it on changes",
+    "--watcher"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_watch_serve.py:9"
+  },
+  {
+   "test": "test_serve_help",
+   "argv": [
+    "serve",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Serves a book at http://localhost:3000",
+    "--hostname",
+    "--port"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_watch_serve.py:17"
+  },
+  {
+   "test": "test_init_without_force_accepts_empty_title",
+   "argv": [
+    "init"
+   ],
+   "stdin": "n\n\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[book]",
+    "authors"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_init.py:456"
+  },
+  {
+   "test": "test_interactive_title_provided",
+   "argv": [
+    "init"
+   ],
+   "stdin": "\nMy Interactive Title\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "title = \"My Interactive Title\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_init_gaps.py:11"
+  },
+  {
+   "test": "test_interactive_empty_title",
+   "argv": [
+    "init"
+   ],
+   "stdin": "\n\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_init_gaps.py:28"
+  },
+  {
+   "test": "test_interactive_gitignore_confirmation_yes",
+   "argv": [
+    "init"
+   ],
+   "stdin": "y\n\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_init_gaps.py:45"
+  },
+  {
+   "test": "test_interactive_gitignore_confirmation_no",
+   "argv": [
+    "init"
+   ],
+   "stdin": "n\n\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_init_gaps.py:63"
+  },
+  {
+   "test": "test_interactive_theme_overwrite_confirmation_yes",
+   "argv": [
+    "init",
+    "--theme"
+   ],
+   "stdin": "y\nn\n\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_init_gaps.py:113"
+  },
+  {
+   "test": "test_interactive_theme_overwrite_confirmation_no",
+   "argv": [
+    "init",
+    "--theme"
+   ],
+   "stdin": "n\nn\n\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_init_gaps.py:137"
+  },
+  {
+   "test": "test_gitignore_confirmation_variations",
+   "argv": [
+    "init"
+   ],
+   "stdin": "Yes\n\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_init_gaps.py:190"
+  },
+  {
+   "test": "test_whitespace_only_title_treated_as_empty",
+   "argv": [
+    "init"
+   ],
+   "stdin": "\n   \n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_init_gaps.py:344"
+  },
+  {
+   "test": "test_yes_lowercase_gitignore_confirmation",
+   "argv": [
+    "init"
+   ],
+   "stdin": "yes\n\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_init_gaps.py:426"
+  },
+  {
+   "test": "test_capital_Y_gitignore_confirmation",
+   "argv": [
+    "init"
+   ],
+   "stdin": "Y\n\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_init_gaps.py:437"
+  },
+  {
+   "test": "test_unknown_subcommand_help_shows_error_and_usage_on_stderr",
+   "argv": [
+    "notacommand",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "error: unrecognized subcommand",
+    "For more information"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_errors_and_separator.py:6"
+  },
+  {
+   "test": "test_double_dash_separator_treats_help_as_subcommand_and_errors",
+   "argv": [
+    "--",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "error: unrecognized subcommand '--help'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_errors_and_separator.py:15"
+  },
+  {
+   "test": "test_help_exits_zero",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:8"
+  },
+  {
+   "test": "test_dash_h_matches_dash_dash_help_exact",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:19"
+  },
+  {
+   "test": "test_help_has_commands_section_with_known_commands",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Commands:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:32"
+  },
+  {
+   "test": "test_help_has_options_section_and_help_version_flags",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Options:",
+    "-h, --help",
+    "-V, --version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:48"
+  },
+  {
+   "test": "test_help_mentions_mdbook_in_footer_text",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "mdBook",
+    "github.com/rust-lang/mdBook"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:55"
+  },
+  {
+   "test": "test_help_takes_precedence_over_unknown_flag",
+   "argv": [
+    "--help",
+    "--definitely-not-a-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable [COMMAND]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:66"
+  },
+  {
+   "test": "test_completions_bash_goes_to_stdout",
+   "argv": [
+    "completions",
+    "bash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "_mdbook"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_completions.py:4"
+  },
+  {
+   "test": "test_help_exit_code_and_mentions_commands",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_version.py:4"
+  },
+  {
+   "test": "test_version_flag_prints_to_stdout_and_exits_zero",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_version.py:14"
+  },
+  {
+   "test": "test_init_creates_expected_files_and_is_idempotent_with_force",
+   "argv": [
+    "init",
+    "--force"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_init_build_clean_io.py:7"
+  },
+  {
+   "test": "test_build_fails_when_summary_missing_and_writes_error_log",
+   "argv": [
+    "build",
+    "-d"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SUMMARY.md"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_init_build_clean_io.py:48"
+  },
+  {
+   "test": "test_unknown_subcommand_errors",
+   "argv": [
+    "nope"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args_parsing.py:53"
+  },
+  {
+   "test": "test_double_dash_makes_dashy_token_positional",
+   "argv": [
+    "build",
+    "--",
+    "--nonexistent-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Couldn't open SUMMARY.md"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args_parsing.py:140"
+  },
+  {
+   "test": "test_unknown_subcommand_errors_and_exit_code_2",
+   "argv": [
+    "nonexistent_subcommand"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unrecognized subcommand"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:100"
+  },
+  {
+   "test": "test_global_version_flag_works_before_or_instead_of_subcommand",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "mdbook",
+    "mdbook"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:108"
+  },
+  {
+   "test": "test_subcommand_version_flag_prints_subcommand_scoped_binary_name",
+   "argv": [
+    "init",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:120"
+  },
+  {
+   "test": "test_unknown_flag_positioned_before_subcommand_is_error_for_main_parser",
+   "argv": [
+    "--quiet",
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:129"
+  },
+  {
+   "test": "test_unknown_flag_positioned_after_subcommand_is_error_for_subcommand_parser",
+   "argv": [
+    "build",
+    "--quiet"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:138"
+  },
+  {
+   "test": "test_help_special_case_behavior",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable init",
+    "unrecognized subcommand"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:146"
+  },
+  {
+   "test": "test_completions_requires_shell_argument",
+   "argv": [
+    "completions"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage:",
+    "completions"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:167"
+  },
+  {
+   "test": "test_build_with_index_preprocessing",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_features.py:6"
+  },
+  {
+   "test": "test_rust_edition_config",
+   "argv": [
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_features.py:101"
+  },
+  {
+   "test": "test_book_with_description",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "description"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_additional_features.py:125"
+  },
+  {
+   "test": "test_auto_links",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_features.py:229"
+  },
+  {
+   "test": "test_html_cname",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "mybook.example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_config.py:218"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Creates a book from markdown files",
+    "Usage: executable [COMMAND]",
+    "Commands:",
+    "For more information about a specific command"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:17"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Creates a book from markdown files",
+    "Usage: executable [COMMAND]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:26"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "mdbook v",
+    "0.5.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:33"
+  },
+  {
+   "test": "test_version_short_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "mdbook v"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:41"
+  },
+  {
+   "test": "test_help_subcommand",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Creates a book from markdown files",
+    "Usage: executable [COMMAND]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:53"
+  },
+  {
+   "test": "test_help_for_specific_command",
+   "argv": [
+    "help",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Creates the boilerplate structure",
+    "--title",
+    "--force"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:60"
+  },
+  {
+   "test": "test_build_with_anchors",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#section-1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_book_structure.py:162"
+  },
+  {
+   "test": "test_build_basic",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Book building has started",
+    "Running the html backend",
+    "Chapter 1",
+    "This is chapter 1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_build.py:29"
+  },
+  {
+   "test": "test_build_with_dest_dir",
+   "argv": [
+    "build",
+    "--dest-dir",
+    "output"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_build.py:49"
+  },
+  {
+   "test": "test_build_with_reserved_filename",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "reserved"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_build.py:123"
+  },
+  {
+   "test": "test_build_help",
+   "argv": [
+    "build",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Builds a book from its markdown files",
+    "--dest-dir",
+    "--open"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_build.py:136"
+  },
+  {
+   "test": "test_build_version",
+   "argv": [
+    "build",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "v0.5.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_build.py:144"
+  },
+  {
+   "test": "test_clean_removes_book_directory",
+   "argv": [
+    "clean"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_clean.py:23"
+  },
+  {
+   "test": "test_clean_with_dest_dir",
+   "argv": [
+    "build",
+    "--dest-dir",
+    "custom_output"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_clean.py:36"
+  },
+  {
+   "test": "test_clean_help",
+   "argv": [
+    "clean",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Deletes a built book",
+    "--dest-dir"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clean.py:85"
+  },
+  {
+   "test": "test_clean_version",
+   "argv": [
+    "clean",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "v0.5.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clean.py:92"
+  },
+  {
+   "test": "test_init_multiple_options_combined",
+   "argv": [
+    "init",
+    "--force",
+    "--title",
+    "Combined Test",
+    "--ignore",
+    "git",
+    "--theme"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Combined Test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_options.py:81"
+  },
+  {
+   "test": "test_completions_output_redirection",
+   "argv": [
+    "completions",
+    "bash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_options.py:110"
+  },
+  {
+   "test": "test_version_all_subcommands",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.5.0"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_cli_options.py:121"
+  },
+  {
+   "test": "test_help_all_subcommands",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_options.py:132"
+  },
+  {
+   "test": "test_build_dest_dir_with_spaces",
+   "argv": [
+    "build",
+    "--dest-dir",
+    "my output dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_options.py:143"
+  },
+  {
+   "test": "test_completions_zsh",
+   "argv": [
+    "completions",
+    "zsh"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_completions.py:12"
+  },
+  {
+   "test": "test_completions_fish",
+   "argv": [
+    "completions",
+    "fish"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_completions.py:19"
+  },
+  {
+   "test": "test_completions_powershell",
+   "argv": [
+    "completions",
+    "powershell"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_completions.py:26"
+  },
+  {
+   "test": "test_completions_elvish",
+   "argv": [
+    "completions",
+    "elvish"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_completions.py:33"
+  },
+  {
+   "test": "test_completions_help",
+   "argv": [
+    "completions",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Generate shell completions",
+    "bash",
+    "zsh",
+    "fish",
+    "powershell",
+    "elvish"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_completions.py:40"
+  },
+  {
+   "test": "test_completions_version",
+   "argv": [
+    "completions",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "v0.5.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_completions.py:51"
+  },
+  {
+   "test": "test_build_with_custom_title",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "My Custom Book Title"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:6"
+  },
+  {
+   "test": "test_build_with_multilanguage",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "lang=\"fr\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:46"
+  },
+  {
+   "test": "test_build_with_output_html_config",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/test/repo"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:66"
+  },
+  {
+   "test": "test_build_with_unicode_content",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "第一章",
+    "中文内容"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:6"
+  },
+  {
+   "test": "test_build_with_readme_as_index",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "index.html"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:104"
+  },
+  {
+   "test": "test_build_with_html_in_markdown",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "HTML Test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:138"
+  },
+  {
+   "test": "test_utf8_bom_handling",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "BOM Chapter",
+    "Content with BOM"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_coverage.py:6"
+  },
+  {
+   "test": "test_chapter_with_parent_directory",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Nested Chapter"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_coverage.py:122"
+  },
+  {
+   "test": "test_build_destination_is_source",
+   "argv": [
+    "build",
+    "--dest-dir",
+    "src"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_conditions.py:210"
+  },
+  {
+   "test": "test_clean_with_custom_dest_dir",
+   "argv": [
+    "build",
+    "-d"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Removed"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_paths_fixed.py:55"
+  },
+  {
+   "test": "test_init_in_nonempty_directory_with_force",
+   "argv": [
+    "init",
+    "--force"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "All done"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_paths_fixed.py:114"
+  },
+  {
+   "test": "test_build_with_absolute_dest_dir",
+   "argv": [
+    "build",
+    "-d"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_paths_fixed.py:128"
+  },
+  {
+   "test": "test_init_with_all_flags_combined",
+   "argv": [
+    "init",
+    "--force",
+    "--title",
+    "Combined Test",
+    "--theme",
+    "--ignore",
+    "git"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "All done",
+    "Combined Test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_paths_fixed.py:207"
+  },
+  {
+   "test": "test_build_then_rebuild_workflow",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Original Content",
+    "Modified Content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_paths_fixed.py:221"
+  },
+  {
+   "test": "test_complex_include_scenarios",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Snippet 1 content",
+    "Snippet 2 content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_final_coverage.py:130"
+  },
+  {
+   "test": "test_complex_markdown_features",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Bold"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_final_coverage.py:255"
+  },
+  {
+   "test": "test_init_no_prompt_variants",
+   "argv": [
+    "init",
+    "--force",
+    "--ignore"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_final_coverage.py:335"
+  },
+  {
+   "test": "test_build_variants",
+   "argv": [
+    "build",
+    "--dest-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_final_coverage.py:343"
+  },
+  {
+   "test": "test_html_output_features",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/test/repo"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_final_push.py:147"
+  },
+  {
+   "test": "test_init_and_build_cycle",
+   "argv": [
+    "init",
+    "--force",
+    "--title"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "All done",
+    "<!DOCTYPE"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_final_push.py:271"
+  },
+  {
+   "test": "test_build_with_print_page",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_html_features.py:57"
+  },
+  {
+   "test": "test_extra_watch_dirs_config_syntax",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "extra-watch-dirs",
+    "extra"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_improved_weak.py:31"
+  },
+  {
+   "test": "test_init_with_force_flag",
+   "argv": [
+    "init",
+    "--force"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "All done, no errors...",
+    "[book]",
+    "language = \"en\"",
+    "src = \"src\"",
+    "# Summary",
+    "Chapter 1",
+    "# Chapter 1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_init.py:6"
+  },
+  {
+   "test": "test_init_with_title",
+   "argv": [
+    "init",
+    "--force",
+    "--title",
+    "My Test Book"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "All done, no errors...",
+    "title = \"My Test Book\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_init.py:30"
+  },
+  {
+   "test": "test_init_with_ignore_git",
+   "argv": [
+    "init",
+    "--force",
+    "--ignore",
+    "git"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "book"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_init.py:40"
+  },
+  {
+   "test": "test_init_with_ignore_none",
+   "argv": [
+    "init",
+    "--force",
+    "--ignore",
+    "none"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_init.py:50"
+  },
+  {
+   "test": "test_init_with_theme",
+   "argv": [
+    "init",
+    "--force",
+    "--theme"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_init.py:58"
+  },
+  {
+   "test": "test_init_version_flag",
+   "argv": [
+    "init",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "v0.5.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_init.py:111"
+  },
+  {
+   "test": "test_init_help_flag",
+   "argv": [
+    "init",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Creates the boilerplate structure",
+    "--title",
+    "--theme",
+    "--force",
+    "--ignore"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_init.py:117"
+  },
+  {
+   "test": "test_markdown_headings",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<h1",
+    "<h2",
+    "<h3",
+    "<h4",
+    "<h5",
+    "<h6"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_markdown.py:18"
+  },
+  {
+   "test": "test_markdown_code_blocks",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "println!",
+    "print(",
+    "console.log"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_markdown.py:41"
+  },
+  {
+   "test": "test_markdown_lists",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<ul>",
+    "<ol>",
+    "<li>",
+    "Item 1",
+    "First"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_markdown.py:71"
+  },
+  {
+   "test": "test_markdown_links",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "page2.html",
+    "example.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_markdown.py:100"
+  },
+  {
+   "test": "test_markdown_emphasis",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<code>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_markdown.py:118"
+  },
+  {
+   "test": "test_markdown_tables",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<table>",
+    "<th>",
+    "<td>",
+    "Column 1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_markdown.py:139"
+  },
+  {
+   "test": "test_markdown_blockquotes",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<blockquote>",
+    "This is a quote"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_markdown.py:160"
+  },
+  {
+   "test": "test_markdown_images",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<img",
+    "alt="
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_markdown.py:179"
+  },
+  {
+   "test": "test_markdown_horizontal_rule",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<hr"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_markdown.py:196"
+  },
+  {
+   "test": "test_init_with_all_options",
+   "argv": [
+    "init",
+    "--force",
+    "--title",
+    "Full Options Test",
+    "--ignore",
+    "git",
+    "--theme"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Full Options Test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_coverage.py:28"
+  },
+  {
+   "test": "test_consecutive_builds_with_changes",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Updated content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_coverage.py:157"
+  },
+  {
+   "test": "test_completions_all_shells",
+   "argv": [
+    "completions"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_more_coverage.py:293"
+  },
+  {
+   "test": "test_include_file_directive",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "included content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_preprocessors.py:18"
+  },
+  {
+   "test": "test_comprehensive_workflow",
+   "argv": [
+    "init",
+    "--force",
+    "--title",
+    "Comprehensive",
+    "--ignore",
+    "git"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "All done",
+    "Comprehensive",
+    "Book building has started",
+    "Comprehensive",
+    "Chapter 1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_reach_70.py:6"
+  },
+  {
+   "test": "test_rust_edition_in_config",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "edition",
+    "2021"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_strong_features_fixed.py:85"
+  },
+  {
+   "test": "test_summary_missing",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SUMMARY.md"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_summary.py:102"
+  },
+  {
+   "test": "test_test_with_dest_dir",
+   "argv": [
+    "test",
+    "--dest-dir",
+    "test_output"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_test.py:62"
+  },
+  {
+   "test": "test_test_help",
+   "argv": [
+    "test",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Tests that a book's Rust code samples compile",
+    "--library-path",
+    "--chapter"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_test.py:69"
+  },
+  {
+   "test": "test_test_version",
+   "argv": [
+    "test",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "v0.5.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_test.py:77"
+  },
+  {
+   "test": "test_watch_help",
+   "argv": [
+    "watch",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Watches a book's files and rebuilds it on changes",
+    "--watcher",
+    "poll",
+    "native",
+    "--dest-dir",
+    "--open"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_watch_serve.py:9"
+  },
+  {
+   "test": "test_watch_version",
+   "argv": [
+    "watch",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "v0.5.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_watch_serve.py:20"
+  },
+  {
+   "test": "test_serve_help",
+   "argv": [
+    "serve",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Serves a book at http://localhost:3000",
+    "--hostname",
+    "--port",
+    "--watcher",
+    "--open"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_watch_serve.py:26"
+  },
+  {
+   "test": "test_serve_version",
+   "argv": [
+    "serve",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "v0.5.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_watch_serve.py:36"
+  },
+  {
+   "test": "test_build_with_configuration_options",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "HTML",
+    "Test Book"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:7"
+  },
+  {
+   "test": "test_build_with_custom_theme_colors",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "HTML"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:42"
+  },
+  {
+   "test": "test_build_with_prefix_chapter",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "HTML",
+    "Prefix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:87"
+  },
+  {
+   "test": "test_build_output_structure",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "function"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_advanced_features.py:175"
+  },
+  {
+   "test": "test_build_with_code_blocks",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "HTML",
+    "println",
+    "console.log"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:228"
+  },
+  {
+   "test": "test_build_with_markdown_features",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "HTML",
+    "<li>",
+    "<a"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:262"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Creates a book from markdown files",
+    "Usage:",
+    "init",
+    "build",
+    "clean",
+    "completions",
+    "watch",
+    "serve"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:18"
+  },
+  {
+   "test": "test_h_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Creates a book from markdown files",
+    "Usage:",
+    "Commands:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:31"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "mdbook"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:39"
+  },
+  {
+   "test": "test_capital_v_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "mdbook"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:47"
+  },
+  {
+   "test": "test_help_for_init",
+   "argv": [
+    "help",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "boilerplate",
+    "--force",
+    "--title",
+    "--theme",
+    "--ignore"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:60"
+  },
+  {
+   "test": "test_help_for_build",
+   "argv": [
+    "help",
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Builds a book",
+    "--dest-dir",
+    "--open"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:70"
+  },
+  {
+   "test": "test_help_for_test",
+   "argv": [
+    "help",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Rust code",
+    "--chapter",
+    "--library-path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:78"
+  },
+  {
+   "test": "test_help_for_clean",
+   "argv": [
+    "help",
+    "clean"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Deletes",
+    "--dest-dir"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:86"
+  },
+  {
+   "test": "test_help_for_completions",
+   "argv": [
+    "help",
+    "completions"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "completions",
+    "bash",
+    "fish",
+    "zsh"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:93"
+  },
+  {
+   "test": "test_help_for_watch",
+   "argv": [
+    "help",
+    "watch"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Watches",
+    "--watcher"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:102"
+  },
+  {
+   "test": "test_help_for_serve",
+   "argv": [
+    "help",
+    "serve"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Serves a book",
+    "--hostname",
+    "--port"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:109"
+  },
+  {
+   "test": "test_load_book_with_multiple_authors",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Chapter"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_book_loading.py:6"
+  },
+  {
+   "test": "test_book_with_src_dir_config",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Chapter Content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_book_loading.py:28"
+  },
+  {
+   "test": "test_book_with_preprocessor_config",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Chapter Text"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_book_loading.py:71"
+  },
+  {
+   "test": "test_book_with_multilanguage_src",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "English Chapter"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_book_loading.py:134"
+  },
+  {
+   "test": "test_book_loads_from_nested_dir",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Chapter Nested"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_book_loading.py:173"
+  },
+  {
+   "test": "test_build_custom_directory",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<html"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_build_command.py:24"
+  },
+  {
+   "test": "test_build_with_dest_dir",
+   "argv": [
+    "build",
+    "--dest-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "HTML",
+    "<html"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_build_command.py:38"
+  },
+  {
+   "test": "test_build_with_open_flag",
+   "argv": [
+    "build",
+    "--open"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<html"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_build_command.py:138"
+  },
+  {
+   "test": "test_build_chapter_html_content",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Introduction",
+    "<html",
+    "<html"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_build_command.py:149"
+  },
+  {
+   "test": "test_clean_basic",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Removed"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clean_command.py:6"
+  },
+  {
+   "test": "test_clean_with_dest_dir",
+   "argv": [
+    "build",
+    "--dest-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Removed"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clean_command.py:38"
+  },
+  {
+   "test": "test_clean_nothing_to_clean",
+   "argv": [
+    "clean"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Removed 0 files"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clean_command.py:52"
+  },
+  {
+   "test": "test_clean_preserves_source",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Removed",
+    "Summary",
+    "Chapter"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clean_command.py:75"
+  },
+  {
+   "test": "test_clean_output_format_multiple_files",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Removed",
+    "file"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_clean_command.py:95"
+  },
+  {
+   "test": "test_completions_help_flag",
+   "argv": [
+    "completions",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Generate shell completions",
+    "bash",
+    "fish",
+    "zsh",
+    "powershell",
+    "elvish"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_completions_command.py:57"
+  },
+  {
+   "test": "test_build_with_book_title_from_config",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "My Custom Book Title",
+    "Introduction"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_options.py:6"
+  },
+  {
+   "test": "test_init_creates_default_config",
+   "argv": [
+    "init",
+    "--title",
+    "Test Book",
+    "--force"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "title",
+    "Test Book"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_options.py:69"
+  },
+  {
+   "test": "test_build_with_authors_in_config",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Intro"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_options.py:98"
+  },
+  {
+   "test": "test_build_with_unicode_content",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "日本語",
+    "こんにちは"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:85"
+  },
+  {
+   "test": "test_build_generates_print_html",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Chapter 1",
+    "Chapter 2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_html_assets.py:183"
+  },
+  {
+   "test": "test_build_respects_custom_theme_dir",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CUSTOM_THEME_MARKER"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_html_assets.py:206"
+  },
+  {
+   "test": "test_html_contains_css_links",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".css"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_html_output.py:33"
+  },
+  {
+   "test": "test_html_markdown_formatting",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<code>",
+    "blockquote"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_html_output.py:97"
+  },
+  {
+   "test": "test_html_table_rendering",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<table>",
+    "Data 1"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_html_output.py:134"
+  },
+  {
+   "test": "test_html_print_page_generated",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Chapter 1",
+    "Chapter 2",
+    "Content 1",
+    "Content 2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_html_output.py:187"
+  },
+  {
+   "test": "test_html_title_in_head",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<title>"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_html_output.py:217"
+  },
+  {
+   "test": "test_html_meta_tags",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<meta"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_html_output.py:234"
+  },
+  {
+   "test": "test_init_with_force",
+   "argv": [
+    "init",
+    "--force"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "All done, no errors",
+    "authors",
+    "language",
+    "src"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_init_command.py:6"
+  },
+  {
+   "test": "test_init_with_title",
+   "argv": [
+    "init",
+    "--force",
+    "--title",
+    "My Custom Book"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "All done",
+    "My Custom Book",
+    "title"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_init_command.py:24"
+  },
+  {
+   "test": "test_init_with_gitignore_none",
+   "argv": [
+    "init",
+    "--force",
+    "--ignore",
+    "none"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "All done"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_init_command.py:34"
+  },
+  {
+   "test": "test_init_with_gitignore_git",
+   "argv": [
+    "init",
+    "--force",
+    "--ignore",
+    "git"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "All done",
+    "book"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_init_command.py:41"
+  },
+  {
+   "test": "test_init_with_theme",
+   "argv": [
+    "init",
+    "--force",
+    "--theme"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "All done"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_init_command.py:51"
+  },
+  {
+   "test": "test_init_custom_directory",
+   "argv": [
+    "init",
+    "--force"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "All done",
+    "language"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_init_command.py:69"
+  },
+  {
+   "test": "test_init_combined_options",
+   "argv": [
+    "init",
+    "--force",
+    "--title",
+    "Test Book",
+    "--ignore",
+    "git"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test Book"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_init_command.py:97"
+  },
+  {
+   "test": "test_init_help_flag",
+   "argv": [
+    "init",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "boilerplate",
+    "--force",
+    "--title",
+    "--theme",
+    "--ignore"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_init_command.py:107"
+  },
+  {
+   "test": "test_init_version_flag",
+   "argv": [
+    "init",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "mdbook"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_init_command.py:117"
+  },
+  {
+   "test": "test_init_with_gitignore_creates_file",
+   "argv": [
+    "init",
+    "--ignore",
+    "git",
+    "--force"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_init_extended.py:6"
+  },
+  {
+   "test": "test_init_with_ignore_none",
+   "argv": [
+    "init",
+    "--ignore",
+    "none",
+    "--force"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_init_extended.py:20"
+  },
+  {
+   "test": "test_init_directory_structure",
+   "argv": [
+    "init",
+    "--title",
+    "My Book",
+    "--force"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_init_extended.py:60"
+  },
+  {
+   "test": "test_init_respects_title_in_toml",
+   "argv": [
+    "init",
+    "--title",
+    "Custom Title",
+    "--force"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Custom Title"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_init_extended.py:73"
+  },
+  {
+   "test": "test_init_with_theme_creates_theme_dir",
+   "argv": [
+    "init",
+    "--theme",
+    "--force"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_init_extended.py:84"
+  },
+  {
+   "test": "test_markdown_code_blocks_rendered",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<code class=\"language-rust\">",
+    "fn main()",
+    "println!",
+    "<code class=\"language-python\">",
+    "print("
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_markdown_rendering.py:6"
+  },
+  {
+   "test": "test_markdown_lists_rendered",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Item 1",
+    "<ol>",
+    "First"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_markdown_rendering.py:72"
+  },
+  {
+   "test": "test_markdown_links_rendered",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "href=\"https://example.com\"",
+    "External Link"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_markdown_rendering.py:104"
+  },
+  {
+   "test": "test_markdown_emphasis_rendered",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "italic",
+    "bold"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_markdown_rendering.py:130"
+  },
+  {
+   "test": "test_markdown_blockquotes_rendered",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<blockquote>",
+    "blockquote"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_markdown_rendering.py:158"
+  },
+  {
+   "test": "test_markdown_tables_rendered",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<table>",
+    "Column 1",
+    "Cell 1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_markdown_rendering.py:183"
+  },
+  {
+   "test": "test_markdown_inline_code_rendered",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<code>",
+    "println!()",
+    "main"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_markdown_rendering.py:212"
+  },
+  {
+   "test": "test_markdown_images_rendered",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<img",
+    "src="
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_markdown_rendering.py:266"
+  },
+  {
+   "test": "test_book_with_internal_links",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ch2.html",
+    "Chapter 2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_preprocessors.py:6"
+  },
+  {
+   "test": "test_book_with_hidden_code_lines",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Visible line"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_preprocessors.py:123"
+  },
+  {
+   "test": "test_book_with_rustdoc_include",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_preprocessors.py:147"
+  },
+  {
+   "test": "test_summary_with_links_and_anchors",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Section 1",
+    "Section 2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_summary_parsing.py:32"
+  },
+  {
+   "test": "test_test_help_flag",
+   "argv": [
+    "test",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Tests that a book's Rust code samples compile",
+    "--chapter",
+    "--library-path",
+    "--dest-dir"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_test_command.py:37"
+  },
+  {
+   "test": "test_test_help_shows_options",
+   "argv": [
+    "test",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_test_extended.py:137"
+  },
+  {
+   "test": "test_watch_help_flag",
+   "argv": [
+    "watch",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Watches a book's files and rebuilds",
+    "--watcher",
+    "poll",
+    "native"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_watch_serve.py:5"
+  },
+  {
+   "test": "test_serve_help_flag",
+   "argv": [
+    "serve",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Serves a book at",
+    "--hostname",
+    "--port",
+    "localhost",
+    "3000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_watch_serve.py:20"
+  }
+ ]
+}

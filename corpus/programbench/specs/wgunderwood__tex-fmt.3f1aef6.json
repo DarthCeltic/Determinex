@@ -1,0 +1,3504 @@
+{
+ "slug": "wgunderwood__tex-fmt.3f1aef6",
+ "language": "",
+ "n_branches": 8,
+ "n_tests_total": 429,
+ "n_examples": 191,
+ "n_with_exact_stdout": 49,
+ "n_with_rc": 188,
+ "n_skipped": 230,
+ "examples": [
+  {
+   "test": "test_unknown_flag_suggests_double_dash_separator_tip",
+   "argv": [
+    "--nonexistent-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tip:",
+    "use '-- --nonexistent-flag'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args_parsing.py:62"
+  },
+  {
+   "test": "test_double_dash_treats_following_tokens_as_positional_not_flags",
+   "argv": [
+    "--",
+    "--nonexistent-flag",
+    "--args"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Could not open file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args_parsing.py:69"
+  },
+  {
+   "test": "test_negative_integer_rejected_for_wraplen",
+   "argv": [
+    "--wraplen=-1",
+    "--args"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid value '-1'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args_parsing.py:132"
+  },
+  {
+   "test": "test_no_files_no_recursive_no_stdin_is_validation_error_rc1",
+   "argv": [
+    "--check",
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "No files specified"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args_parsing.py:177"
+  },
+  {
+   "test": "test_stdin_mode_formats_from_stdin_to_stdout",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:92"
+  },
+  {
+   "test": "test_stdin_rejects_file_arguments",
+   "argv": [
+    "--stdin",
+    "somefile.tex"
+   ],
+   "stdin": "\\item one",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ERROR:",
+    "Do not provide file name(s) when using --stdin"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:158"
+  },
+  {
+   "test": "test_quiet_flag_suppresses_warnings",
+   "argv": [
+    "--stdin",
+    "--wraplen",
+    "5"
+   ],
+   "stdin": "hello world this is a test",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:306"
+  },
+  {
+   "test": "test_trace_overrides_quiet_flag",
+   "argv": [
+    "--stdin",
+    "--trace",
+    "--quiet"
+   ],
+   "stdin": "\\documentclass{article}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:329"
+  },
+  {
+   "test": "test_verbose_overrides_quiet_flag",
+   "argv": [
+    "--stdin",
+    "--verbose",
+    "--quiet"
+   ],
+   "stdin": "\\documentclass{article}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:354"
+  },
+  {
+   "test": "test_wraplen_edge_case_40_chars",
+   "argv": [
+    "--stdin",
+    "--wraplen",
+    "40"
+   ],
+   "stdin": "This is a moderately long line that should wrap nicely at standard widths for testing purposes",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:404"
+  },
+  {
+   "test": "test_wraplen_edge_case_120_chars",
+   "argv": [
+    "--stdin",
+    "--wraplen",
+    "120"
+   ],
+   "stdin": "This is a moderately long line that should wrap nicely at standard widths for testing purposes",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:422"
+  },
+  {
+   "test": "test_wraplen_edge_case_1000_chars",
+   "argv": [
+    "--stdin",
+    "--wraplen",
+    "1000"
+   ],
+   "stdin": "short line",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:439"
+  },
+  {
+   "test": "test_noconfig_ignores_current_dir_config",
+   "argv": [
+    "--stdin",
+    "--noconfig"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "\\begin{itemize}\n  \\item first\n  \\item second\n\\end{itemize}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:69"
+  },
+  {
+   "test": "test_nonexistent_config_file",
+   "argv": [
+    "--stdin",
+    "--config",
+    "/nonexistent/path/config.toml"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "panicked at src/config.rs",
+    "No such file or directory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:110"
+  },
+  {
+   "test": "test_config_print_flag",
+   "argv": [
+    "--stdin",
+    "--config",
+    "config_print.toml"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "\\begin{itemize}\n  \\item first\n  \\item second\n\\end{itemize}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "config_print.toml": "print = true\n"
+   },
+   "ci": false,
+   "source": "test_config.py:340"
+  },
+  {
+   "test": "test_config_wrap_chars",
+   "argv": [
+    "--stdin",
+    "--config",
+    "config_wrap_chars.toml"
+   ],
+   "stdin": "This is a test with-dashes and spaces that should-wrap\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "config_wrap_chars.toml": "wrap-chars = [\" \", \"-\"]\nwraplen = 30\n"
+   },
+   "ci": false,
+   "source": "test_config.py:366"
+  },
+  {
+   "test": "test_gitignore_respected_in_recursive_search",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\item normal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_ops.py:273"
+  },
+  {
+   "test": "test_version",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tex-fmt",
+    "0.5.6"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_smoke.py:5"
+  },
+  {
+   "test": "test_help",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "LaTeX formatter"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_smoke.py:15"
+  },
+  {
+   "test": "test_stdin_basic",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "\\begin{itemize}\n\\item one\n\\item two\n\\end{itemize}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_smoke.py:25"
+  },
+  {
+   "test": "test_unmatched_verbatim_end_triggers_warning",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "% This file has an unmatched end\nSome text here.\n\\end{verbatim}\nMore text.\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Verbatim count is negative"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_verbatim_edge_cases.py:18"
+  },
+  {
+   "test": "test_unmatched_lstlisting_end_triggers_warning",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "% Unmatched lstlisting end\nSome text.\n\\end{lstlisting}\nMore text.\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Verbatim count is negative"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_verbatim_edge_cases.py:36"
+  },
+  {
+   "test": "test_unclosed_verbatim_environment",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "% Unclosed verbatim\n\\begin{verbatim}\nThis verbatim has no end.\nSome code here.\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "% Unclosed verbatim\n\\begin{verbatim}\nThis verbatim has no end.\nSome code here.\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_verbatim_edge_cases.py:52"
+  },
+  {
+   "test": "test_empty_verbatim_environment",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "% Empty verbatim\n\\begin{verbatim}\n\\end{verbatim}\nSome text after.\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "% Empty verbatim\n\\begin{verbatim}\n\\end{verbatim}\nSome text after.\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_verbatim_edge_cases.py:66"
+  },
+  {
+   "test": "test_nested_verbatim_environments",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "% Nested verbatim attempt\n\\begin{verbatim}\nThis is outer verbatim.\n\\begin{verbatim}\nThis is inner - should this work?\n\\end{verbatim}\nStill in outer.\n\\end{verbatim}\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "% Nested verbatim attempt\n\\begin{verbatim}\nThis is outer verbatim.\n\\begin{verbatim}\nThis is inner - should this work?\n\\end{verbatim}\nStill in outer.\n\\end{verbatim}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_verbatim_edge_cases.py:80"
+  },
+  {
+   "test": "test_very_long_line_in_verbatim_no_wrap",
+   "argv": [
+    "--stdin",
+    "--wraplen",
+    "40"
+   ],
+   "stdin": "% Very long line in verbatim\n\\begin{verbatim}\nThis is a very very very very very very very very very very very very very very very very very very very very long line that exceeds 80 characters and should not be wrapped.\n\\end{verbatim}\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "% Very long line in verbatim\n\\begin{verbatim}\nThis is a very very very very very very very very very very very very very very very very very very very very long line that exceeds 80 characters and should not be wrapped.\n\\end{verbatim}\n",
+   "expect_stderr": null,
+   "expect_in": [
+    "very very very very very very very very very very very very very very very very very very very very long line"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_verbatim_edge_cases.py:98"
+  },
+  {
+   "test": "test_special_characters_in_verbatim_preserved",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "% Special characters in verbatim\n\\begin{verbatim}\n$ & % # _ { } ~ ^ \\\n\\command{arg}\n@#$%^&*()\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "% Special characters in verbatim\n\\begin{verbatim}\n$ & % # _ { } ~ ^ \\\n\\command{arg}\n@#$%^&*()\n",
+   "expect_stderr": null,
+   "expect_in": [
+    "$ & % # _ { } ~ ^ \\"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_verbatim_edge_cases.py:114"
+  },
+  {
+   "test": "test_multiple_unmatched_ends_multiple_warnings",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "% Multiple unmatched ends\n\\end{verbatim}\n\\end{verbatim}\n\\end{lstlisting}\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_verbatim_edge_cases.py:133"
+  },
+  {
+   "test": "test_mismatched_begin_end_pairs_depth_tracking",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "% Mismatched begin/end\n\\begin{verbatim}\n\\begin{verbatim}\nSome text.\n\\end{verbatim}\nStill in one level?\n\\end{verbatim}\nNow should be outside.\n\\end{verbatim}\nThis should warn.\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Verbatim count is negative"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_verbatim_edge_cases.py:151"
+  },
+  {
+   "test": "test_verbatim_single_line_begin_and_end",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "% Single-line verbatim\n\\begin{verbatim}code here\\end{verbatim}\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "% Single-line verbatim\n\\begin{verbatim}code here\\end{verbatim}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_verbatim_edge_cases.py:175"
+  },
+  {
+   "test": "test_mixed_verbatim_environment_types",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "% Mixed verbatim types\n\\begin{verbatim}\nCode in verbatim.\n\\end{verbatim}\n\n\\begin{lstlisting}\nCode in lstlisting.\n\\end{lstlisting}\n\nNormal text.\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "% Mixed verbatim types\n\\begin{verbatim}\nCode in verbatim.\n\\end{verbatim}\n\n\\begin{lstlisting}\nCode in lstlisting.\n\\end{lstlisting}\n\nNormal text.\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_verbatim_edge_cases.py:187"
+  },
+  {
+   "test": "test_wrong_environment_type_end_tag",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "% Wrong type matching\n\\begin{verbatim}\nCode here.\n\\end{lstlisting}\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "% Wrong type matching\n\\begin{verbatim}\nCode here.\n\\end{lstlisting}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_verbatim_edge_cases.py:207"
+  },
+  {
+   "test": "test_wrong_environment_type_begin_tag",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "% Wrong type matching reverse\n\\begin{lstlisting}\nCode here.\n\\end{verbatim}\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "% Wrong type matching reverse\n\\begin{lstlisting}\nCode here.\n\\end{verbatim}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_verbatim_edge_cases.py:221"
+  },
+  {
+   "test": "test_latex_commands_in_verbatim_literal",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "% LaTeX commands in verbatim\n\\begin{verbatim}\n\\documentclass{article}\n\\begin{document}\nHello \\textbf{world}!\n\\end{document}\n\\end{verbatim}\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "% LaTeX commands in verbatim\n\\begin{verbatim}\n\\documentclass{article}\n\\begin{document}\nHello \\textbf{world}!\n\\end{document}\n\\end{verbatim}\n",
+   "expect_stderr": null,
+   "expect_in": [
+    "\\documentclass{article}",
+    "Hello \\textbf{world}!"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_verbatim_edge_cases.py:235"
+  },
+  {
+   "test": "test_verbatim_preserves_whitespace_exactly",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "% Whitespace in verbatim\n\\begin{verbatim}\n    indented code\n  different indent\nno indent\n\\end{verbatim}\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "% Whitespace in verbatim\n\\begin{verbatim}\n    indented code\n  different indent\nno indent\n\\end{verbatim}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_verbatim_edge_cases.py:258"
+  },
+  {
+   "test": "test_verbatim_preserves_blank_lines",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "% Blank lines in verbatim\n\\begin{verbatim}\nLine 1\n\nLine 3 with blank above\n\nLine 5\n\\end{verbatim}\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "% Blank lines in verbatim\n\\begin{verbatim}\nLine 1\n\nLine 3 with blank above\n\nLine 5\n\\end{verbatim}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_verbatim_edge_cases.py:274"
+  },
+  {
+   "test": "test_verbatim_tabs_converted_by_default",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "% Tabs in verbatim\n\\begin{verbatim}\n\ttab-indented\n\t\tdouble tab\n\\end{verbatim}\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "% Tabs in verbatim\n\\begin{verbatim}\n  tab-indented\n    double tab\n\\end{verbatim}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_verbatim_edge_cases.py:292"
+  },
+  {
+   "test": "test_quiet_mode_suppresses_verbatim_warnings",
+   "argv": [
+    "--stdin",
+    "--quiet"
+   ],
+   "stdin": "\\end{verbatim}\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "\\end{verbatim}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_verbatim_edge_cases.py:302"
+  },
+  {
+   "test": "test_basic_wrap_default_80",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "This is a very long line that definitely exceeds the default 80 character wrap length and should be wrapped at a space boundary.\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "This is a very long line that definitely exceeds the default 80\ncharacter wrap length and should be wrapped at a space boundary.\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapping.py:8"
+  },
+  {
+   "test": "test_nowrap_flag_preserves_long_lines",
+   "argv": [
+    "--stdin",
+    "--nowrap"
+   ],
+   "stdin": "This is a very long line that definitely exceeds the default 80 character wrap length and should be wrapped at a space boundary.\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "This is a very long line that definitely exceeds the default 80 character wrap length and should be wrapped at a space boundary.\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapping.py:21"
+  },
+  {
+   "test": "test_wraplen_40_short_wrap",
+   "argv": [
+    "--stdin",
+    "--wraplen",
+    "40"
+   ],
+   "stdin": "This is a very long line that definitely exceeds the default 80 character wrap length and should be wrapped at a space boundary.\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "This is a very long line that\ndefinitely exceeds the default 80\ncharacter wrap length and should be\nwrapped at a space boundary.\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapping.py:34"
+  },
+  {
+   "test": "test_wraplen_120_long_wrap",
+   "argv": [
+    "--stdin",
+    "--wraplen",
+    "120"
+   ],
+   "stdin": "This is a very long line that definitely exceeds the default 80 character wrap length and should be wrapped at a space boundary.\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "This is a very long line that definitely exceeds the default 80 character wrap length and should be wrapped\nat a space boundary.\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapping.py:47"
+  },
+  {
+   "test": "test_short_line_no_wrapping",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "Short line.\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Short line.\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapping.py:60"
+  },
+  {
+   "test": "test_exactly_80_chars_no_wrap",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "This line is exactly eighty characters long including the trailing dot here.\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "This line is exactly eighty characters long including the trailing dot here.\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapping.py:73"
+  },
+  {
+   "test": "test_multiple_long_lines_all_wrapped",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "This is the first very long line that definitely exceeds the default 80 character wrap length and should be wrapped.\nThis is the second very long line that also definitely exceeds the default 80 character wrap length and should be wrapped.\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "This is the first very long line that definitely exceeds the default\n80 character wrap length and should be wrapped.\nThis is the second very long line that also definitely exceeds the\ndefault 80 character wrap length and should be wrapped.\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapping.py:86"
+  },
+  {
+   "test": "test_no_spaces_single_long_word_warns",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Line cannot be wrapped",
+    "tex-fmt <stdin>: Line 1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapping.py:101"
+  },
+  {
+   "test": "test_trailing_spaces_preserved_then_wrapped",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "This is a very long line that definitely exceeds the default 80 character wrap length and should be wrapped.    \n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "This is a very long line that definitely exceeds the default 80\ncharacter wrap length and should be wrapped.\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapping.py:118"
+  },
+  {
+   "test": "test_multiple_consecutive_spaces_preserved",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "This is a very  long  line  that  definitely  exceeds  the  default  80  character  wrap  length  and  should  be  wrapped.\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "This is a very  long  line  that  definitely  exceeds  the  default\n80  character  wrap  length  and  should  be  wrapped.\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapping.py:131"
+  },
+  {
+   "test": "test_unicode_characters_counted_correctly",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "This line has some Unicode characters like café, naïve, and 日本語 that make the line exceed the default 80 character wrap limit.\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "This line has some Unicode characters like café, naïve, and 日本語 that\nmake the line exceed the default 80 character wrap limit.\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapping.py:144"
+  },
+  {
+   "test": "test_mixed_tabs_and_spaces",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "This is a very long line with tabs\tand\tspaces\tmixed\ttogether\tthat\texceeds\tthe\tdefault 80 character wrap length.\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "This is a very long line with tabs  and  spaces  mixed  together\nthat  exceeds  the  default 80 character wrap length.\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapping.py:157"
+  },
+  {
+   "test": "test_backslash_space_not_wrap_point",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "This is a line with a backslash-space like this:\\ and it continues on to exceed the default 80 character wrap length definitely.\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "This is a line with a backslash-space like this:\\ and it continues on\nto exceed the default 80 character wrap length definitely.\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapping.py:170"
+  },
+  {
+   "test": "test_over_by_two_chars_no_wrap",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "This line is exactly eighty-two characters long including the trailing dot xxx.\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "This line is exactly eighty-two characters long including the trailing dot xxx.\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapping.py:183"
+  },
+  {
+   "test": "test_comment_line_wrapped_with_percent_continuation",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "% This is a very long comment line that definitely exceeds the default 80 character wrap length and should be wrapped at a space boundary.\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapping.py:196"
+  },
+  {
+   "test": "test_verb_environment_not_split",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "This line contains a \\verb|very long verbatim section that should not be split across lines even if it exceeds the wrap length| which is problematic.\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\verb|",
+    "Line cannot be wrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapping.py:214"
+  },
+  {
+   "test": "test_verbatim_block_no_wrapping",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "\\begin{verbatim}\nThis is a very long line inside a verbatim environment that should not be wrapped at all regardless of length.\n\\end{verbatim}\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "\\begin{verbatim}\nThis is a very long line inside a verbatim environment that should not be wrapped at all regardless of length.\n\\end{verbatim}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapping.py:230"
+  },
+  {
+   "test": "test_math_inline_wrapped_at_operators",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "This is a very long line with inline math $x = y + z + a + b + c + d + e + f + g + h + i + j + k$ that exceeds 80 characters.\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "This is a very long line with inline math $x = y + z + a + b + c + d\n+ e + f + g + h + i + j + k$ that exceeds 80 characters.\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapping.py:246"
+  },
+  {
+   "test": "test_equation_environment_wrapped",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "\\begin{equation}\nx = y + z + a + b + c + d + e + f + g + h + i + j + k + l + m + n + o + p + q + r + s + t + u + v + w\n\\end{equation}\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "\\begin{equation}\n  x = y + z + a + b + c + d + e + f + g + h + i + j + k + l + m + n +\n  o + p + q + r + s + t + u + v + w\n\\end{equation}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapping.py:259"
+  },
+  {
+   "test": "test_table_environment_wrapped",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "\\begin{tabular}{ll}\nColumn1 content that is very long and exceeds the default 80 character wrap length & Column2 content that is also very long \\\\\n\\end{tabular}\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "\\begin{tabular}{ll}\n  Column1 content that is very long and exceeds the default 80\n  character wrap length & Column2 content that is also very long \\\\\n\\end{tabular}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapping.py:275"
+  },
+  {
+   "test": "test_indented_item_wrapped_with_continuation_indent",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "\\begin{itemize}\n\\item This is a very long item that definitely exceeds the default 80 character wrap length and should be wrapped at a space boundary.\n\\end{itemize}\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapping.py:291"
+  },
+  {
+   "test": "test_wraplen_200_very_long",
+   "argv": [
+    "--stdin",
+    "--wraplen",
+    "200"
+   ],
+   "stdin": "This is a very long line that exceeds 80 characters but stays under 200 characters so with wraplen 200 it should not be wrapped at all.\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "This is a very long line that exceeds 80 characters but stays under 200 characters so with wraplen 200 it should not be wrapped at all.\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapping.py:314"
+  },
+  {
+   "test": "test_multiple_wraps_per_line",
+   "argv": [
+    "--stdin",
+    "--wraplen",
+    "40"
+   ],
+   "stdin": "This is a very very very very very very very very very very very very very very very very very very very very very very very very very very long line that will need multiple wraps.\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapping.py:327"
+  },
+  {
+   "test": "test_wraplen_shorter_than_words",
+   "argv": [
+    "--stdin",
+    "--wraplen",
+    "15"
+   ],
+   "stdin": "This is a line with words.\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "This is a line\nwith words.\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapping.py:344"
+  },
+  {
+   "test": "test_paragraph_with_blank_line",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n\nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapping.py:357"
+  },
+  {
+   "test": "test_macro_definition_wrapped",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "\\newcommand{\\verylongmacroname}{This is a very long macro definition that exceeds the default 80 character wrap length and should be wrapped appropriately.}\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "\\newcommand{\\verylongmacroname}{This is a very long macro definition\n  that exceeds the default 80 character wrap length and should be\nwrapped appropriately.}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapping.py:378"
+  },
+  {
+   "test": "test_nested_environments_wrapped_with_correct_indent",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "\\begin{enumerate}\n\\item First item\n\\begin{itemize}\n\\item This is a nested item that is very long and definitely exceeds the default 80 character wrap length and should be wrapped.\n\\end{itemize}\n\\end{enumerate}\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapping.py:391"
+  },
+  {
+   "test": "test_url_command_warns_unwrappable",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "See the documentation at \\url{https://example.com/very/long/path/to/documentation/that/exceeds/the/wrap/length/completely} for more information.\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\url{https://example.com/very/long/path/to/documentation/that/exceeds/the/wrap/length/completely}",
+    "Line cannot be wrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapping.py:416"
+  },
+  {
+   "test": "test_nowrap_preserves_indentation",
+   "argv": [
+    "--stdin",
+    "--nowrap"
+   ],
+   "stdin": "\\begin{itemize}\n\\item This is a very long item that definitely exceeds the default 80 character wrap length but nowrap is enabled so it should stay on one line.\n\\end{itemize}\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "but nowrap is enabled so it should stay on one line."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapping.py:432"
+  },
+  {
+   "test": "test_empty_line_preserved",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapping.py:455"
+  },
+  {
+   "test": "test_line_only_spaces_normalized",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "                                                                                    \n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapping.py:468"
+  },
+  {
+   "test": "test_only_percent_signs_unwrappable",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Line cannot be wrapped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapping.py:481"
+  },
+  {
+   "test": "test_ends_with_percent_sign",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "This is a very long line that exceeds the default 80 character wrap length and ends with a percent sign %\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapping.py:497"
+  },
+  {
+   "test": "test_lstlisting_environment_no_wrapping",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "\\begin{lstlisting}\nThis is a very long line inside a lstlisting environment that should not be wrapped at all regardless of length because it is a verbatim environment.\n\\end{lstlisting}\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "\\begin{lstlisting}\nThis is a very long line inside a lstlisting environment that should not be wrapped at all regardless of length because it is a verbatim environment.\n\\end{lstlisting}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapping.py:515"
+  },
+  {
+   "test": "test_text_then_comment_wrapped_correctly",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "This is text before the comment % This is a very long comment that exceeds the default 80 character wrap length and should be wrapped with percent continuation.\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapping.py:531"
+  },
+  {
+   "test": "test_wraplen_5_very_tiny",
+   "argv": [
+    "--stdin",
+    "--wraplen",
+    "5"
+   ],
+   "stdin": "a b c d\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a b\nc d\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapping.py:549"
+  },
+  {
+   "test": "test_verb_plus_delimiter",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "This line contains a \\verb+very long verbatim section with plus delimiters that should not be split+ end.\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\verb+very long verbatim section with plus delimiters that should not be split+"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wrapping.py:562"
+  },
+  {
+   "test": "test_default_behavior_no_config_keeps_item_on_single_line",
+   "argv": [
+    "--print",
+    "--noconfig",
+    "--stdin"
+   ],
+   "stdin": null,
+   "env": {
+    "RUST_BACKTRACE": "0"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\item Lists with items\n"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_handling.py:31"
+  },
+  {
+   "test": "test_config_file_in_cwd_is_loaded_and_affects_wraplen",
+   "argv": [
+    "--print",
+    "--stdin"
+   ],
+   "stdin": null,
+   "env": {
+    "RUST_BACKTRACE": "0"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\item\n",
+    "Lists\n"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_handling.py:45"
+  },
+  {
+   "test": "test_config_file_at_git_root_is_loaded_from_subdir",
+   "argv": [
+    "git",
+    "init",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\item\n"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_handling.py:62"
+  },
+  {
+   "test": "test_config_path_flag_overrides_discovery",
+   "argv": [
+    "--print",
+    "--stdin",
+    "--config",
+    "other.toml"
+   ],
+   "stdin": null,
+   "env": {
+    "RUST_BACKTRACE": "0"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\item\n"
+   ],
+   "files": {
+    "other.toml": "wraplen = 10\n"
+   },
+   "ci": false,
+   "source": "test_config_handling.py:85"
+  },
+  {
+   "test": "test_noconfig_disables_all_config_including_explicit_config_path",
+   "argv": [
+    "--print",
+    "--stdin",
+    "--config",
+    "tex-fmt.toml",
+    "--noconfig"
+   ],
+   "stdin": null,
+   "env": {
+    "RUST_BACKTRACE": "0"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\item Lists with items\n"
+   ],
+   "files": {
+    "tex-fmt.toml": "wraplen = 10\n"
+   },
+   "ci": false,
+   "source": "test_config_handling.py:105"
+  },
+  {
+   "test": "test_cli_flags_override_config_values",
+   "argv": [
+    "--print",
+    "--stdin",
+    "--wraplen",
+    "80"
+   ],
+   "stdin": null,
+   "env": {
+    "RUST_BACKTRACE": "0"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\item Lists with items\n"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_handling.py:124"
+  },
+  {
+   "test": "test_malformed_config_panics_and_mentions_path",
+   "argv": [
+    "--print",
+    "--stdin",
+    "--config",
+    "bad.toml"
+   ],
+   "stdin": null,
+   "env": {
+    "RUST_BACKTRACE": "0"
+   },
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Failed to read config file"
+   ],
+   "files": {
+    "bad.toml": "wraplen =\n"
+   },
+   "ci": false,
+   "source": "test_config_handling.py:141"
+  },
+  {
+   "test": "test_verbatim_environment",
+   "argv": [
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "  unformatted  code",
+    "    with    spaces"
+   ],
+   "files": {
+    "test.tex": "\\begin{document}\n\\begin{verbatim}\n  unformatted  code\n    with    spaces\n\\end{verbatim}\n\\end{document}"
+   },
+   "ci": false,
+   "source": "test_advanced_formatting.py:5"
+  },
+  {
+   "test": "test_verb_command",
+   "argv": [
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.tex": "\\documentclass{article}\\begin{document}\\verb|code here|\\end{document}"
+   },
+   "ci": false,
+   "source": "test_advanced_formatting.py:19"
+  },
+  {
+   "test": "test_figure_environment",
+   "argv": [
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\centering",
+    "\\includegraphics",
+    "\\caption"
+   ],
+   "files": {
+    "test.tex": "\\begin{figure}\n\\centering\n\\includegraphics{image.png}\n\\caption{A figure}\n\\end{figure}"
+   },
+   "ci": false,
+   "source": "test_advanced_formatting.py:27"
+  },
+  {
+   "test": "test_table_environment",
+   "argv": [
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\begin{tabular}",
+    "\\hline"
+   ],
+   "files": {
+    "test.tex": "\\begin{table}\n\\begin{tabular}{|c|c|}\n\\hline\nA & B \\\\\n\\hline\n\\end{tabular}\n\\end{table}"
+   },
+   "ci": false,
+   "source": "test_advanced_formatting.py:41"
+  },
+  {
+   "test": "test_align_environment",
+   "argv": [
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\\\"
+   ],
+   "files": {
+    "test.tex": "\\begin{align}\na &= b \\\\\nc &= d\n\\end{align}"
+   },
+   "ci": false,
+   "source": "test_advanced_formatting.py:56"
+  },
+  {
+   "test": "test_theorem_environment",
+   "argv": [
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\begin{theorem}",
+    "This is a theorem"
+   ],
+   "files": {
+    "test.tex": "\\begin{theorem}\nThis is a theorem.\n\\end{theorem}"
+   },
+   "ci": false,
+   "source": "test_advanced_formatting.py:68"
+  },
+  {
+   "test": "test_proof_environment",
+   "argv": [
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\begin{proof}",
+    "Proof text here"
+   ],
+   "files": {
+    "test.tex": "\\begin{proof}\nProof text here.\n\\end{proof}"
+   },
+   "ci": false,
+   "source": "test_advanced_formatting.py:79"
+  },
+  {
+   "test": "test_abstract_environment",
+   "argv": [
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\begin{abstract}",
+    "This is the abstract"
+   ],
+   "files": {
+    "test.tex": "\\begin{abstract}\nThis is the abstract.\n\\end{abstract}"
+   },
+   "ci": false,
+   "source": "test_advanced_formatting.py:90"
+  },
+  {
+   "test": "test_minipage_environment",
+   "argv": [
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\begin{minipage}",
+    "Content here"
+   ],
+   "files": {
+    "test.tex": "\\begin{minipage}{0.5\\textwidth}\nContent here\n\\end{minipage}"
+   },
+   "ci": false,
+   "source": "test_advanced_formatting.py:101"
+  },
+  {
+   "test": "test_center_environment",
+   "argv": [
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\begin{center}",
+    "Centered text"
+   ],
+   "files": {
+    "test.tex": "\\begin{center}\nCentered text\n\\end{center}"
+   },
+   "ci": false,
+   "source": "test_advanced_formatting.py:112"
+  },
+  {
+   "test": "test_flushleft_environment",
+   "argv": [
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\begin{flushleft}",
+    "Left aligned"
+   ],
+   "files": {
+    "test.tex": "\\begin{flushleft}\nLeft aligned\n\\end{flushleft}"
+   },
+   "ci": false,
+   "source": "test_advanced_formatting.py:123"
+  },
+  {
+   "test": "test_quote_environment",
+   "argv": [
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\begin{quote}",
+    "A quotation"
+   ],
+   "files": {
+    "test.tex": "\\begin{quote}\nA quotation\n\\end{quote}"
+   },
+   "ci": false,
+   "source": "test_advanced_formatting.py:134"
+  },
+  {
+   "test": "test_lstlisting_environment",
+   "argv": [
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\begin{lstlisting}",
+    "code"
+   ],
+   "files": {
+    "test.tex": "\\begin{lstlisting}\n  code  with  spaces\n\\end{lstlisting}"
+   },
+   "ci": false,
+   "source": "test_advanced_formatting.py:145"
+  },
+  {
+   "test": "test_newcommand_definition",
+   "argv": [
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\newcommand",
+    "\\mycmd"
+   ],
+   "files": {
+    "test.tex": "\\newcommand{\\mycmd}[1]{\\textbf{#1}}\n\\begin{document}\n\\mycmd{test}\n\\end{document}"
+   },
+   "ci": false,
+   "source": "test_advanced_formatting.py:157"
+  },
+  {
+   "test": "test_renewcommand",
+   "argv": [
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\renewcommand"
+   ],
+   "files": {
+    "test.tex": "\\renewcommand{\\labelitemi}{$\\bullet$}"
+   },
+   "ci": false,
+   "source": "test_advanced_formatting.py:169"
+  },
+  {
+   "test": "test_newenvironment",
+   "argv": [
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\newenvironment"
+   ],
+   "files": {
+    "test.tex": "\\newenvironment{myenv}{\\begin{itemize}}{\\end{itemize}}"
+   },
+   "ci": false,
+   "source": "test_advanced_formatting.py:177"
+  },
+  {
+   "test": "test_bibliography_environment",
+   "argv": [
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\begin{thebibliography}",
+    "\\bibitem"
+   ],
+   "files": {
+    "test.tex": "\\begin{thebibliography}{9}\n\\bibitem{ref1} Author, Title\n\\end{thebibliography}"
+   },
+   "ci": false,
+   "source": "test_advanced_formatting.py:185"
+  },
+  {
+   "test": "test_bibtex_entry",
+   "argv": [
+    "--print",
+    "test.bib"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@article",
+    "author",
+    "title"
+   ],
+   "files": {
+    "test.bib": "@article{key2023,\nauthor={Author Name},\ntitle={Article Title},\njournal={Journal},\nyear={2023}\n}"
+   },
+   "ci": true,
+   "source": "test_advanced_formatting.py:196"
+  },
+  {
+   "test": "test_multiline_macro_argument",
+   "argv": [
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\section{",
+    "section title"
+   ],
+   "files": {
+    "test.tex": "\\section{This is a very long section title that might span multiple lines in the source}"
+   },
+   "ci": false,
+   "source": "test_advanced_formatting.py:211"
+  },
+  {
+   "test": "test_multiple_optional_arguments",
+   "argv": [
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\includegraphics",
+    "width"
+   ],
+   "files": {
+    "test.tex": "\\includegraphics[width=0.5\\textwidth,height=3cm]{image.png}"
+   },
+   "ci": false,
+   "source": "test_advanced_formatting.py:230"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tex-fmt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:6"
+  },
+  {
+   "test": "test_version_short_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tex-fmt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:14"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Options:",
+    "--check",
+    "--print",
+    "--stdin",
+    "--recursive"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:22"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Options:",
+    "--check"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:33"
+  },
+  {
+   "test": "test_args_flag",
+   "argv": [
+    "--args",
+    "test.tex",
+    "--check",
+    "--verbose"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tex-fmt",
+    "check",
+    "test.tex"
+   ],
+   "files": {
+    "test.tex": "\\documentclass{article}"
+   },
+   "ci": true,
+   "source": "test_basic_invocation.py:41"
+  },
+  {
+   "test": "test_man_page_generation",
+   "argv": [
+    "--man"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:66"
+  },
+  {
+   "test": "test_config_file_option",
+   "argv": [
+    "--config",
+    "custom.toml",
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "    \\item Test"
+   ],
+   "files": {
+    "custom.toml": "wrap = false\ntabsize = 4",
+    "test.tex": "\\begin{itemize}\n\\item Test\n\\end{itemize}"
+   },
+   "ci": false,
+   "source": "test_configuration.py:7"
+  },
+  {
+   "test": "test_noconfig_option",
+   "argv": [
+    "--noconfig",
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "  \\item Test"
+   ],
+   "files": {
+    "test.tex": "\\begin{itemize}\n\\item Test\n\\end{itemize}"
+   },
+   "ci": false,
+   "source": "test_configuration.py:23"
+  },
+  {
+   "test": "test_config_wrap_option",
+   "argv": [
+    "--config",
+    "config.toml",
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "config.toml": "wrap = false",
+    "test.tex": "This is a very long line with many many words that should definitely exceed eighty characters in total length"
+   },
+   "ci": false,
+   "source": "test_configuration.py:40"
+  },
+  {
+   "test": "test_config_wraplen_option",
+   "argv": [
+    "--config",
+    "config.toml",
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\documentclass{article}"
+   ],
+   "files": {
+    "config.toml": "wraplen = 40",
+    "test.tex": "\\documentclass{article}"
+   },
+   "ci": false,
+   "source": "test_configuration.py:55"
+  },
+  {
+   "test": "test_config_lists_option",
+   "argv": [
+    "--config",
+    "config.toml",
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\item Test",
+    "\\begin{myitemize}"
+   ],
+   "files": {
+    "config.toml": "lists = [\"myitemize\"]",
+    "test.tex": "\\begin{myitemize}\n\\item Test\n\\end{myitemize}"
+   },
+   "ci": false,
+   "source": "test_configuration.py:66"
+  },
+  {
+   "test": "test_config_verbatims_option",
+   "argv": [
+    "--config",
+    "config.toml",
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "  unformatted text",
+    "\\begin{myverbatim}"
+   ],
+   "files": {
+    "config.toml": "verbatims = [\"myverbatim\"]",
+    "test.tex": "\\begin{myverbatim}\n  unformatted text\n\\end{myverbatim}"
+   },
+   "ci": false,
+   "source": "test_configuration.py:82"
+  },
+  {
+   "test": "test_config_no_indent_envs_option",
+   "argv": [
+    "--config",
+    "config.toml",
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\section{Test}",
+    "\\begin{mydocument}"
+   ],
+   "files": {
+    "config.toml": "no-indent-envs = [\"mydocument\"]",
+    "test.tex": "\\begin{mydocument}\n\\section{Test}\n\\end{mydocument}"
+   },
+   "ci": false,
+   "source": "test_configuration.py:98"
+  },
+  {
+   "test": "test_config_tabchar_space",
+   "argv": [
+    "--config",
+    "config.toml",
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "  \\item Test"
+   ],
+   "files": {
+    "config.toml": "tabchar = \"space\"\ntabsize = 2",
+    "test.tex": "\\begin{itemize}\n\\item Test\n\\end{itemize}"
+   },
+   "ci": false,
+   "source": "test_configuration.py:113"
+  },
+  {
+   "test": "test_config_tabchar_tab",
+   "argv": [
+    "--config",
+    "config.toml",
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\item Test"
+   ],
+   "files": {
+    "config.toml": "tabchar = \"tab\" ",
+    "test.tex": "\\begin{itemize}\n\\item Test\n\\end{itemize}"
+   },
+   "ci": false,
+   "source": "test_configuration.py:128"
+  },
+  {
+   "test": "test_cli_overrides_config",
+   "argv": [
+    "--config",
+    "config.toml",
+    "--tabsize",
+    "2",
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "  \\item Test"
+   ],
+   "files": {
+    "config.toml": "tabsize = 4",
+    "test.tex": "\\begin{itemize}\n\\item Test\n\\end{itemize}"
+   },
+   "ci": false,
+   "source": "test_configuration.py:143"
+  },
+  {
+   "test": "test_empty_file",
+   "argv": [
+    "--print",
+    "empty.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "empty.tex": ""
+   },
+   "ci": false,
+   "source": "test_error_handling.py:18"
+  },
+  {
+   "test": "test_file_with_only_whitespace",
+   "argv": [
+    "--print",
+    "whitespace.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "whitespace.tex": "   \n  \n   "
+   },
+   "ci": false,
+   "source": "test_error_handling.py:25"
+  },
+  {
+   "test": "test_invalid_latex_syntax",
+   "argv": [
+    "--print",
+    "invalid.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\begin{itemize}",
+    "\\item test"
+   ],
+   "files": {
+    "invalid.tex": "\\begin{itemize} \\item test"
+   },
+   "ci": false,
+   "source": "test_error_handling.py:33"
+  },
+  {
+   "test": "test_unicode_content",
+   "argv": [
+    "--print",
+    "unicode.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "unicode.tex": "\\documentclass{article}\n\\begin{document}\n文字 αβγ Ñoño\n\\end{document}"
+   },
+   "ci": false,
+   "source": "test_error_handling.py:43"
+  },
+  {
+   "test": "test_very_long_line",
+   "argv": [
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:64"
+  },
+  {
+   "test": "test_many_nested_environments",
+   "argv": [
+    "--print",
+    "nested.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\item A",
+    "\\item B",
+    "\\item C"
+   ],
+   "files": {
+    "nested.tex": "\\begin{document}\n\\begin{itemize}\n\\item A\n\\begin{itemize}\n\\item B\n\\begin{itemize}\n\\item C\n\\end{itemize}\n\\end{itemize}\n\\end{itemize}\n\\end{document}"
+   },
+   "ci": false,
+   "source": "test_error_handling.py:72"
+  },
+  {
+   "test": "test_special_characters_in_content",
+   "argv": [
+    "--print",
+    "special.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\$",
+    "\\%",
+    "\\&"
+   ],
+   "files": {
+    "special.tex": "\\documentclass{article}\n\\begin{document}\n\\$ \\% \\& \\# \\_ \\{ \\}\n\\end{document}"
+   },
+   "ci": false,
+   "source": "test_error_handling.py:92"
+  },
+  {
+   "test": "test_mixed_line_endings",
+   "argv": [
+    "--print",
+    "mixed.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\documentclass{article}",
+    "\\begin{document}"
+   ],
+   "files": {
+    "mixed.tex": "\\documentclass{article}\r\n\\begin{document}\n\\end{document}\r\n"
+   },
+   "ci": false,
+   "source": "test_error_handling.py:105"
+  },
+  {
+   "test": "test_format_single_file_in_place",
+   "argv": [
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "  \\item First item"
+   ],
+   "files": {
+    "test.tex": "\\documentclass{article}\n\\begin{document}\n\\begin{itemize}\n\\item First item\n\\item Second item\n\\end{itemize}\n\\end{document}"
+   },
+   "ci": false,
+   "source": "test_file_operations.py:7"
+  },
+  {
+   "test": "test_format_multiple_files",
+   "argv": [
+    "test1.tex",
+    "test2.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "  \\item First item",
+    "  \\item First item"
+   ],
+   "files": {
+    "test1.tex": "\\documentclass{article}\n\\begin{document}\n\\begin{itemize}\n\\item First item\n\\item Second item\n\\end{itemize}\n\\end{document}",
+    "test2.tex": "\\documentclass{article}\n\\begin{document}\n\\begin{itemize}\n\\item First item\n\\item Second item\n\\end{itemize}\n\\end{document}"
+   },
+   "ci": false,
+   "source": "test_file_operations.py:18"
+  },
+  {
+   "test": "test_print_mode",
+   "argv": [
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\item First item",
+    "  \\item First item"
+   ],
+   "files": {
+    "test.tex": "\\documentclass{article}\n\\begin{document}\n\\begin{itemize}\n\\item First item\n\\item Second item\n\\end{itemize}\n\\end{document}"
+   },
+   "ci": false,
+   "source": "test_file_operations.py:28"
+  },
+  {
+   "test": "test_print_mode_short_flag",
+   "argv": [
+    "-p",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\item First item",
+    "  \\item First item"
+   ],
+   "files": {
+    "test.tex": "\\documentclass{article}\n\\begin{document}\n\\begin{itemize}\n\\item First item\n\\item Second item\n\\end{itemize}\n\\end{document}"
+   },
+   "ci": false,
+   "source": "test_file_operations.py:39"
+  },
+  {
+   "test": "test_check_mode_already_formatted",
+   "argv": [
+    "--check"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_file_operations.py:49"
+  },
+  {
+   "test": "test_fail_on_change_mode_with_changes",
+   "argv": [
+    "--fail-on-change",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "  \\item First item"
+   ],
+   "files": {
+    "test.tex": "\\documentclass{article}\n\\begin{document}\n\\begin{itemize}\n\\item First item\n\\item Second item\n\\end{itemize}\n\\end{document}"
+   },
+   "ci": false,
+   "source": "test_file_operations.py:71"
+  },
+  {
+   "test": "test_fail_on_change_mode_no_changes",
+   "argv": [
+    "--fail-on-change"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_file_operations.py:79"
+  },
+  {
+   "test": "test_stdin_mode",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "\\documentclass{article}\n\\begin{document}\n\\begin{itemize}\n\\item First item\n\\item Second item\n\\end{itemize}\n\\end{document}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\documentclass{article}",
+    "  \\item First item",
+    "\\begin{itemize}"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_operations.py:91"
+  },
+  {
+   "test": "test_stdin_mode_short_flag",
+   "argv": [
+    "-s"
+   ],
+   "stdin": "\\documentclass{article}\n\\begin{document}\n\\begin{itemize}\n\\item First item\n\\item Second item\n\\end{itemize}\n\\end{document}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\documentclass{article}",
+    "  \\item First item"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_operations.py:99"
+  },
+  {
+   "test": "test_recursive_mode",
+   "argv": [
+    "--recursive"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "  \\item First item",
+    "  \\item First item"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_operations.py:106"
+  },
+  {
+   "test": "test_recursive_mode_short_flag",
+   "argv": [
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "  \\item First item"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_operations.py:120"
+  },
+  {
+   "test": "test_tex_file_type",
+   "argv": [
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\documentclass{article}",
+    "\\begin{document}"
+   ],
+   "files": {
+    "test.tex": "\\documentclass{article}\\begin{document}test\\end{document}"
+   },
+   "ci": false,
+   "source": "test_file_operations.py:127"
+  },
+  {
+   "test": "test_bib_file_type",
+   "argv": [
+    "--print",
+    "test.bib"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@article",
+    "title"
+   ],
+   "files": {
+    "test.bib": "@article{example2023,\ntitle = {Example Title},\nauthor = {Smith, John},\nyear = {2023}\n}"
+   },
+   "ci": false,
+   "source": "test_file_operations.py:136"
+  },
+  {
+   "test": "test_cls_file_type",
+   "argv": [
+    "--print",
+    "test.cls"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\NeedsTeXFormat"
+   ],
+   "files": {
+    "test.cls": "\\NeedsTeXFormat{LaTeX2e}\\ProvidesClass{test}"
+   },
+   "ci": false,
+   "source": "test_file_operations.py:144"
+  },
+  {
+   "test": "test_sty_file_type",
+   "argv": [
+    "--print",
+    "test.sty"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\ProvidesPackage"
+   ],
+   "files": {
+    "test.sty": "\\NeedsTeXFormat{LaTeX2e}\\ProvidesPackage{test}"
+   },
+   "ci": false,
+   "source": "test_file_operations.py:152"
+  },
+  {
+   "test": "test_environment_indentation",
+   "argv": [
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "  E = mc^2",
+    "\\begin{equation}"
+   ],
+   "files": {
+    "test.tex": "\\documentclass{article}\n\\begin{document}\n\\begin{equation}\nE = mc^2\n\\end{equation}\n\\end{document}"
+   },
+   "ci": false,
+   "source": "test_formatting.py:6"
+  },
+  {
+   "test": "test_list_indentation",
+   "argv": [
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "  \\item First",
+    "  \\item Second"
+   ],
+   "files": {
+    "test.tex": "\\begin{itemize}\n\\item First\n\\item Second\n\\end{itemize}"
+   },
+   "ci": false,
+   "source": "test_formatting.py:20"
+  },
+  {
+   "test": "test_nested_environments",
+   "argv": [
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "  \\item Test"
+   ],
+   "files": {
+    "test.tex": "\\begin{document}\n\\begin{itemize}\n\\item Test\n\\begin{enumerate}\n\\item Nested\n\\end{enumerate}\n\\end{itemize}\n\\end{document}"
+   },
+   "ci": false,
+   "source": "test_formatting.py:32"
+  },
+  {
+   "test": "test_nowrap_mode",
+   "argv": [
+    "--nowrap",
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.tex": "This is a very long line with many many words that should definitely exceed eighty characters in total length and then some more words to be sure"
+   },
+   "ci": false,
+   "source": "test_formatting.py:49"
+  },
+  {
+   "test": "test_nowrap_short_flag",
+   "argv": [
+    "-n",
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.tex": "This is a very long line with many many words that should definitely exceed eighty characters in total length and then some more words to be sure"
+   },
+   "ci": false,
+   "source": "test_formatting.py:60"
+  },
+  {
+   "test": "test_custom_wraplen",
+   "argv": [
+    "--wraplen",
+    "40",
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_formatting.py:70"
+  },
+  {
+   "test": "test_wraplen_short_flag",
+   "argv": [
+    "-l",
+    "40",
+    "--print"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\documentclass{article}"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_formatting.py:84"
+  },
+  {
+   "test": "test_custom_tabsize",
+   "argv": [
+    "--tabsize",
+    "4",
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "    \\item Test"
+   ],
+   "files": {
+    "test.tex": "\\begin{itemize}\n\\item Test\n\\end{itemize}"
+   },
+   "ci": false,
+   "source": "test_formatting.py:93"
+  },
+  {
+   "test": "test_tabsize_short_flag",
+   "argv": [
+    "-t",
+    "4",
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "    \\item Test"
+   ],
+   "files": {
+    "test.tex": "\\begin{itemize}\n\\item Test\n\\end{itemize}"
+   },
+   "ci": false,
+   "source": "test_formatting.py:104"
+  },
+  {
+   "test": "test_usetabs_option",
+   "argv": [
+    "--usetabs",
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.tex": "\\begin{itemize}\n\\item Test\n\\end{itemize}"
+   },
+   "ci": false,
+   "source": "test_formatting.py:114"
+  },
+  {
+   "test": "test_multiline_item_continuation",
+   "argv": [
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\item",
+    "\\begin{itemize}"
+   ],
+   "files": {
+    "test.tex": "\\begin{itemize}\n\\item This is a very long item that spans multiple lines and should be properly indented\n\\end{itemize}"
+   },
+   "ci": false,
+   "source": "test_formatting.py:125"
+  },
+  {
+   "test": "test_comment_preservation",
+   "argv": [
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "% This is a comment",
+    "% Another comment"
+   ],
+   "files": {
+    "test.tex": "\\documentclass{article}\n% This is a comment\n\\begin{document}\n% Another comment\ntest\n\\end{document}"
+   },
+   "ci": false,
+   "source": "test_formatting.py:137"
+  },
+  {
+   "test": "test_display_math",
+   "argv": [
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "$$",
+    "E=mc^2"
+   ],
+   "files": {
+    "test.tex": "\\begin{document}\n$$E=mc^2$$\n\\end{document}"
+   },
+   "ci": false,
+   "source": "test_formatting.py:159"
+  },
+  {
+   "test": "test_description_environment",
+   "argv": [
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\item[Term]",
+    "Definition"
+   ],
+   "files": {
+    "test.tex": "\\begin{description}\n\\item[Term] Definition\n\\end{description}"
+   },
+   "ci": false,
+   "source": "test_formatting.py:182"
+  },
+  {
+   "test": "test_section_commands",
+   "argv": [
+    "--print",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\section{Introduction}",
+    "\\subsection{Background}",
+    "Text here"
+   ],
+   "files": {
+    "test.tex": "\\documentclass{article}\n\\begin{document}\n\\section{Introduction}\nText here.\n\\subsection{Background}\nMore text.\n\\end{document}"
+   },
+   "ci": false,
+   "source": "test_formatting.py:209"
+  },
+  {
+   "test": "test_verbose_mode",
+   "argv": [
+    "--verbose",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.tex": "\\documentclass{article}\n\\begin{document}\n\\begin{itemize}\n\\item First item\n\\item Second item\n\\end{itemize}\n\\end{document}"
+   },
+   "ci": false,
+   "source": "test_logging.py:5"
+  },
+  {
+   "test": "test_verbose_short_flag",
+   "argv": [
+    "-v",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.tex": "\\documentclass{article}\n\\begin{document}\n\\begin{itemize}\n\\item First item\n\\item Second item\n\\end{itemize}\n\\end{document}"
+   },
+   "ci": false,
+   "source": "test_logging.py:13"
+  },
+  {
+   "test": "test_quiet_mode",
+   "argv": [
+    "--quiet",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.tex": "\\documentclass{article}\n\\begin{document}\n\\begin{itemize}\n\\item First item\n\\item Second item\n\\end{itemize}\n\\end{document}"
+   },
+   "ci": false,
+   "source": "test_logging.py:20"
+  },
+  {
+   "test": "test_quiet_short_flag",
+   "argv": [
+    "-q",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.tex": "\\documentclass{article}\n\\begin{document}\n\\begin{itemize}\n\\item First item\n\\item Second item\n\\end{itemize}\n\\end{document}"
+   },
+   "ci": false,
+   "source": "test_logging.py:29"
+  },
+  {
+   "test": "test_trace_mode",
+   "argv": [
+    "--trace",
+    "test.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.tex": "\\documentclass{article}\n\\begin{document}\n\\begin{itemize}\n\\item First item\n\\item Second item\n\\end{itemize}\n\\end{document}"
+   },
+   "ci": false,
+   "source": "test_logging.py:35"
+  },
+  {
+   "test": "test_quiet_with_check",
+   "argv": [
+    "--quiet",
+    "--check"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_logging.py:51"
+  },
+  {
+   "test": "test_bash_completion",
+   "argv": [
+    "--completion",
+    "bash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_utility.py:5"
+  },
+  {
+   "test": "test_zsh_completion",
+   "argv": [
+    "--completion",
+    "zsh"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_utility.py:13"
+  },
+  {
+   "test": "test_fish_completion",
+   "argv": [
+    "--completion",
+    "fish"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_utility.py:20"
+  },
+  {
+   "test": "test_powershell_completion",
+   "argv": [
+    "--completion",
+    "powershell"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_utility.py:27"
+  },
+  {
+   "test": "test_elvish_completion",
+   "argv": [
+    "--completion",
+    "elvish"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_utility.py:34"
+  },
+  {
+   "test": "test_man_page_structure",
+   "argv": [
+    "--man"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".TH",
+    "tex-fmt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_utility.py:48"
+  },
+  {
+   "test": "test_help_to_stdout_exit0",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:7"
+  },
+  {
+   "test": "test_version_to_stdout_exit0",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:14"
+  },
+  {
+   "test": "test_stdin_formats_and_prints_to_stdout",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "\\begin{itemize}\n  \\item a\n\\end{itemize}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:21"
+  },
+  {
+   "test": "test_print_formats_file_to_stdout_without_modifying_file",
+   "argv": [
+    "--print",
+    "a.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "\\begin{itemize}\n  \\item a\n\\end{itemize}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "a.tex": "\\begin{itemize}\n\\item a\n\\end{itemize}\n"
+   },
+   "ci": false,
+   "source": "test_io_behavior.py:29"
+  },
+  {
+   "test": "test_default_overwrites_file_in_place_and_is_silent",
+   "argv": [
+    "a.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "a.tex": "\\begin{itemize}\n\\item a\n\\end{itemize}\n"
+   },
+   "ci": false,
+   "source": "test_io_behavior.py:43"
+  },
+  {
+   "test": "test_check_exit_codes_and_stderr_message_when_incorrect",
+   "argv": [
+    "--check",
+    "a.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "a.tex": "\\begin{itemize}\n\\item a\n\\end{itemize}\n"
+   },
+   "ci": false,
+   "source": "test_io_behavior.py:55"
+  },
+  {
+   "test": "test_check_ok_on_already_formatted_file",
+   "argv": [
+    "--check",
+    "a.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "a.tex": "\\begin{itemize}\n  \\item a\n\\end{itemize}\n"
+   },
+   "ci": false,
+   "source": "test_io_behavior.py:64"
+  },
+  {
+   "test": "test_fail_on_change_returns_1_if_file_modified_and_modifies_file",
+   "argv": [
+    "--fail-on-change",
+    "a.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "a.tex": "\\begin{itemize}\n\\item a\n\\end{itemize}\n"
+   },
+   "ci": false,
+   "source": "test_io_behavior.py:73"
+  },
+  {
+   "test": "test_nonexistent_file_is_error_on_stderr_exit1",
+   "argv": [
+    "no_such_file_hopefully.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:83"
+  },
+  {
+   "test": "test_args_includes_config_path_from_repo_and_files_list",
+   "argv": [
+    "--args",
+    "--check",
+    "a.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "check:                   true",
+    "files:                   a.tex"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:104"
+  },
+  {
+   "test": "test_noconfig_reports_config_none",
+   "argv": [
+    "--args",
+    "--noconfig",
+    "--check",
+    "a.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "config:                  None"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:117"
+  },
+  {
+   "test": "test_help_exact",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_outputs.py:40"
+  },
+  {
+   "test": "test_version_exact",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "tex-fmt 0.5.6\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_outputs.py:47"
+  },
+  {
+   "test": "test_completion_bash_header",
+   "argv": [
+    "--noconfig",
+    "--completion",
+    "bash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_outputs.py:67"
+  },
+  {
+   "test": "test_manpage_header",
+   "argv": [
+    "--noconfig",
+    "--man"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".TH tex-fmt 1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_outputs.py:74"
+  },
+  {
+   "test": "test_args_prints_and_exits",
+   "argv": [
+    "--noconfig",
+    "--args"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tex-fmt",
+    "wraplen"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_outputs.py:81"
+  },
+  {
+   "test": "test_local_config_applies_and_noconfig_ignores",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "\\begin{document}\nSome long line with words words words words words words words.\n\\end{document}\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\nwords words"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_and_recursive_and_skip.py:8"
+  },
+  {
+   "test": "test_explicit_config_and_cli_overrides",
+   "argv": [
+    "--config",
+    "conf.toml",
+    "--stdin"
+   ],
+   "stdin": "\\begin{document}\nSome long line with words words words words words words words.\n\\end{document}\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\nwords words"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_and_recursive_and_skip.py:24"
+  },
+  {
+   "test": "test_skip_directives_and_verbatim_unchanged",
+   "argv": [
+    "--noconfig",
+    "a.tex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "a.tex": "\\begin{document}\n    This line is skipped % tex-fmt: skip\n% tex-fmt: off\n  These lines are also\n    not formatted or wrapped\n% tex-fmt: on\n\\begin{verbatim}\n  Do   not   touch\n\\end{verbatim}\n\\end{document}\n"
+   },
+   "ci": false,
+   "source": "test_config_and_recursive_and_skip.py:71"
+  },
+  {
+   "test": "test_stdin_basic_formatting_exact",
+   "argv": [
+    "--noconfig",
+    "--stdin"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_formatting_stdin.py:39"
+  },
+  {
+   "test": "test_stdin_wraplen_40_exact",
+   "argv": [
+    "--noconfig",
+    "--stdin",
+    "--wraplen",
+    "40"
+   ],
+   "stdin": "\\begin{document}\nSome long line with words words words words words words words.\n\\end{document}\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_formatting_stdin.py:46"
+  },
+  {
+   "test": "test_stdin_nowrap_disables_wrapping",
+   "argv": [
+    "--noconfig",
+    "--stdin",
+    "--nowrap",
+    "--wraplen",
+    "40"
+   ],
+   "stdin": "\\begin{document}\nSome long line with words words words words words words words.\n\\end{document}\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "words words words words words words words."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_formatting_stdin.py:62"
+  },
+  {
+   "test": "test_stdin_unicode_preserved",
+   "argv": [
+    "--noconfig",
+    "--stdin"
+   ],
+   "stdin": "\\begin{document}\n\\begin{itemize}\n\\item Café\nこんにちは 世界\n\\end{itemize}\n\\end{document}\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_formatting_stdin.py:74"
+  }
+ ]
+}

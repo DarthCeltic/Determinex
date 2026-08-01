@@ -1,0 +1,1323 @@
+{
+  "_schema": "senses_report_v1",
+  "_source_eval": "corpus\\programbench\\locked\\monolith\\eval_report.json",
+  "_generated_by": "pb_senses.py",
+  "summary": {
+    "total_tests": 1554,
+    "passed": 1368,
+    "non_passing": 186,
+    "histogram": {
+      "upstream-skip": 0,
+      "collection-gap": 0,
+      "pty-gap": 0,
+      "image-plumbing": 32,
+      "real-fail": 154,
+      "unclassified": 0
+    }
+  },
+  "classified": [
+    {
+      "test_id": "tests.test_mhtml.test_mhtml_flag",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert 2 == 0  +  where 2 = CompletedProcess(args=['../executable', '-M', '-m', '-'], returncode=2, stdout=b'', stderr=b\"error: unexpected argument '-'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_mhtml.test_mhtml_long_flag",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert 2 == 0  +  where 2 = CompletedProcess(args=['../executable', '-M', '--mhtml', '-'], returncode=2, stdout=b'', stderr=b\"error: unexpected argume'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_mhtml.test_mhtml_removes_javascript",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert 2 == 0  +  where 2 = CompletedProcess(args=['../executable', '-M', '-m', '-'], returncode=2, stdout=b'', stderr=b\"error: unexpected argument '-'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_mhtml.test_mhtml_with_css",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert 2 == 0  +  where 2 = CompletedProcess(args=['../executable', '-M', '-m', '-'], returncode=2, stdout=b'', stderr=b\"error: unexpected argument '-'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_mhtml.test_mhtml_with_images",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert 2 == 0  +  where 2 = CompletedProcess(args=['../executable', '-M', '-m', '-'], returncode=2, stdout=b'', stderr=b\"error: unexpected argument '-'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_mhtml.test_html_vs_mhtml_output",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert 2 == 0  +  where 2 = CompletedProcess(args=['../executable', '-M', '-m', '-'], returncode=2, stdout=b'', stderr=b\"error: unexpected argument '-'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_mhtml.test_mhtml_flag",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert 2 == 0  +  where 2 = CompletedProcess(args=['../executable', '-M', '-m', '-'], returncode=2, stdout=b'', stderr=b\"error: unexpected argument '-'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_mhtml.test_mhtml_long_flag",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert 2 == 0  +  where 2 = CompletedProcess(args=['../executable', '-M', '--mhtml', '-'], returncode=2, stdout=b'', stderr=b\"error: unexpected argume'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_mhtml.test_mhtml_removes_javascript",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert 2 == 0  +  where 2 = CompletedProcess(args=['../executable', '-M', '-m', '-'], returncode=2, stdout=b'', stderr=b\"error: unexpected argument '-'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_mhtml.test_mhtml_with_css",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert 2 == 0  +  where 2 = CompletedProcess(args=['../executable', '-M', '-m', '-'], returncode=2, stdout=b'', stderr=b\"error: unexpected argument '-'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_mhtml.test_mhtml_with_images",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert 2 == 0  +  where 2 = CompletedProcess(args=['../executable', '-M', '-m', '-'], returncode=2, stdout=b'', stderr=b\"error: unexpected argument '-'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_mhtml.test_html_vs_mhtml_output",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert 2 == 0  +  where 2 = CompletedProcess(args=['../executable', '-M', '-m', '-'], returncode=2, stdout=b'', stderr=b\"error: unexpected argument '-'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_cli_operations.test_mhtml_format_flag",
+      "result": "failure",
+      "classification": "image-plumbing",
+      "evidence": "harness path error: '/workspace/executable'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_cli_operations.test_invalid_output_path_panics",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert \"thread 'main' (THREAD_ID) panicked at src/main.rs:\" in 'file:///workspace/eval/test_resources/test_cli_operations/simple.html\\n\\nthread \\'main'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_cli_operations.test_ignore_errors_flag",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!DOCTYPE ht...ody></html>\\n' == '<!DOCTYPE ht...ody></html>\\n'        <!DOCTYPE html><html><head>         <title>External CSS Test</title>   '",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_core_edge.test_mhtml_format_with_metadata",
+      "result": "failure",
+      "classification": "image-plumbing",
+      "evidence": "harness path error: '/workspace/executable'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_core_edge.test_mhtml_format_without_metadata",
+      "result": "failure",
+      "classification": "image-plumbing",
+      "evidence": "harness path error: '/workspace/executable'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_core_edge.test_output_path_with_ext_template_html",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert False  +  where False = exists()  +    where exists = PosixPath('/tmp/tmpopb91r4_/output.htm').exists eval/tests/test_core_edge'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_core_edge.test_output_path_with_ext_template_mhtml",
+      "result": "failure",
+      "classification": "image-plumbing",
+      "evidence": "harness path error: '/workspace/executable'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_core_edge.test_output_path_with_extension_template_html",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert False  +  where False = exists()  +    where exists = PosixPath('/tmp/tmpkzn8imkg/output.html').exists eval/tests/test_core_edg'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_core_edge.test_output_path_with_extension_template_mhtml",
+      "result": "failure",
+      "classification": "image-plumbing",
+      "evidence": "harness path error: '/workspace/executable'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_core_edge.test_mhtml_format_ensures_final_newline",
+      "result": "failure",
+      "classification": "image-plumbing",
+      "evidence": "harness path error: '/workspace/executable'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_core_edge.test_mhtml_with_custom_encoding",
+      "result": "failure",
+      "classification": "image-plumbing",
+      "evidence": "harness path error: '/workspace/executable'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_core_edge.test_mhtml_without_input_target",
+      "result": "failure",
+      "classification": "image-plumbing",
+      "evidence": "harness path error: '/workspace/executable'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_core_edge.test_multiple_templates_in_output_path",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert False  +  where False = exists()  +    where exists = PosixPath('/tmp/tmp0k2df6su/MyDoc.html').exists eval/tests/test_core_edge'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_core_edge.test_mhtml_content_location_header",
+      "result": "failure",
+      "classification": "image-plumbing",
+      "evidence": "harness path error: '/workspace/executable'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_core_edge.test_mhtml_charset_in_content_type",
+      "result": "failure",
+      "classification": "image-plumbing",
+      "evidence": "harness path error: '/workspace/executable'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_core_edge.test_multiple_flags_combination",
+      "result": "failure",
+      "classification": "image-plumbing",
+      "evidence": "harness path error: '/workspace/executable'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_css_final.test_square_bracket_attribute_selectors",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f.../body></html>' == '<!-- Saved f.../body></html>'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_css_final.test_import_url_unreachable_http",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f.../body></html>' == '<!-- Saved f.../body></html>'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_css_final.test_import_url_unreachable_https",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f.../body></html>' == '<!-- Saved f.../body></html>'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_css_final.test_background_url_unreachable_http",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f.../body></html>' == '<!-- Saved f.../body></html>'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_css_final.test_background_url_unreachable_https",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f.../body></html>' == '<!-- Saved f.../body></html>'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_css_final.test_import_quoted_string_unreachable",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f.../body></html>' == '<!-- Saved f.../body></html>'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_css_final.test_css_advanced_url_custom_properties",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f.../body></html>' == '<!-- Saved f.../body></html>'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_css_final.test_nested_square_bracket_selectors",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f.../body></html>' == '<!-- Saved f.../body></html>'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_css_final.test_mixed_import_and_url_errors",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f.../body></html>' == '<!-- Saved f.../body></html>'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_css_final.test_parenthesis_blocks_in_calc",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f.../body></html>' == '<!-- Saved f.../body></html>'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_css_final.test_unquoted_import_url_unreachable",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f.../body></html>' == '<!-- Saved f.../body></html>'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_css_final.test_unquoted_url_unreachable",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f.../body></html>' == '<!-- Saved f.../body></html>'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_error_paths.test_mhtml_output_to_stdout",
+      "result": "failure",
+      "classification": "image-plumbing",
+      "evidence": "harness path error: '/workspace/executable'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_harvest.test_bad_input_data_url",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert 'Hello, World!\\n' == 'Hello, World!'      - Hello, World!   + Hello, World!   ?              + eval/tests/test_harvest.py:310: '",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_html_advanced.test_javascript_closing_tag_escaping",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<\\\\/script>' in '<!-- Saved from local source at 2026-06-10T18:29:41Z using monolith v2.10.1 -->\\n<!DOCTYPE html><html><head><title>Script wit'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_integration.test_large_document_with_multiple_assets_embedded",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_integration.test_deep_nesting_12_levels_preserved",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_integration.test_css_import_chain_three_levels_resolved",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_integration.test_complex_page_all_features_combined",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_integration.test_complex_page_isolated_mode_csp_header",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_integration.test_complex_page_strip_css_images_js_combined",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_integration.test_mixed_encoding_unicode_preservation",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_integration.test_multiple_iframes_embedded_independently",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_integration.test_no_frames_flag_removes_iframe_content",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_integration.test_relative_urls_resolved_to_file_paths",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_integration.test_base_url_flag_overrides_relative_resolution",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_integration.test_mhtml_output_format_multipart_structure",
+      "result": "failure",
+      "classification": "image-plumbing",
+      "evidence": "harness path error: '/workspace/executable'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_integration.test_noscript_elements_preserved_by_default",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_integration.test_unwrap_noscript_flag_converts_to_comments",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_integration.test_document_metadata_comment_added_by_default",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_integration.test_combined_media_removal_flags_audio_video_images",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_polish_edge_cases.test_css_square_bracket_selectors",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_polish_edge_cases.test_css_cdo_cdc_comments",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_polish_edge_cases.test_css_url_with_fragments",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_polish_edge_cases.test_css_empty_url",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_polish_edge_cases.test_css_signed_percentage_and_dimension",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_polish_edge_cases.test_css_function_nested",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_polish_edge_cases.test_css_no_images_replaces_urls",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_polish_edge_cases.test_html_csp_all_flags_combined",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_polish_edge_cases.test_html_integrity_sha384_and_sha512",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_polish_edge_cases.test_html_srcset_file_urls_replaced",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_polish_edge_cases.test_css_number_with_explicit_sign",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_polish_edge_cases.test_css_font_face_stripped_with_no_fonts",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_polish_edge_cases.test_css_delimiter_tokens",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_polish_edge_cases.test_html_metadata_comment_creation",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_stress.test_empty_file_produces_minimal_html",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_stress.test_whitespace_only_file_preserves_whitespace",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_stress.test_single_character_file",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_stress.test_very_long_url_2000_chars_preserved",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_stress.test_html_with_10000_elements",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_stress.test_css_with_1500_rules_embedded",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_stress.test_deeply_nested_50_levels_preserved",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_stress.test_unclosed_html_tags_gracefully_handled",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_stress.test_css_with_unmatched_braces_embedded",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_stress.test_mixed_line_endings_normalized",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_stress.test_utf8_bom_marker_handled",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_stress.test_unicode_and_special_characters_preserved",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_stress.test_very_long_single_line_100kb_no_newlines",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_stress.test_large_attribute_values_10kb_preserved",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_stress.test_invalid_utf8_sequences_replaced_with_replacement_char",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_stress.test_html_with_binary_data_embedded",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_stress.test_null_bytes_in_html_handled",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_stress.test_urls_with_special_characters_preserved",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_stress.test_css_edge_cases_unicode_selectors_nested_comments",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_stress.test_html_entities_in_all_contexts",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_cli_operations.test_mhtml_format_flag",
+      "result": "failure",
+      "classification": "image-plumbing",
+      "evidence": "harness path error: '/workspace/executable'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_cli_operations.test_invalid_output_path_panics",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert \"thread 'main' (THREAD_ID) panicked at src/main.rs:\" in 'file:///workspace/eval/test_resources/test_cli_operations/simple.html\\n\\nthread \\'main'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_cli_operations.test_ignore_errors_flag",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!DOCTYPE ht...ody></html>\\n' == '<!DOCTYPE ht...ody></html>\\n'        <!DOCTYPE html><html><head>         <title>External CSS Test</title>   '",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_core_edge.test_mhtml_format_with_metadata",
+      "result": "failure",
+      "classification": "image-plumbing",
+      "evidence": "harness path error: '/workspace/executable'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_core_edge.test_mhtml_format_without_metadata",
+      "result": "failure",
+      "classification": "image-plumbing",
+      "evidence": "harness path error: '/workspace/executable'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_core_edge.test_output_path_with_ext_template_html",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert False  +  where False = exists()  +    where exists = PosixPath('/tmp/tmpopb91r4_/output.htm').exists eval/tests/test_core_edge'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_core_edge.test_output_path_with_ext_template_mhtml",
+      "result": "failure",
+      "classification": "image-plumbing",
+      "evidence": "harness path error: '/workspace/executable'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_core_edge.test_output_path_with_extension_template_html",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert False  +  where False = exists()  +    where exists = PosixPath('/tmp/tmpkzn8imkg/output.html').exists eval/tests/test_core_edg'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_core_edge.test_output_path_with_extension_template_mhtml",
+      "result": "failure",
+      "classification": "image-plumbing",
+      "evidence": "harness path error: '/workspace/executable'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_core_edge.test_mhtml_format_ensures_final_newline",
+      "result": "failure",
+      "classification": "image-plumbing",
+      "evidence": "harness path error: '/workspace/executable'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_core_edge.test_mhtml_with_custom_encoding",
+      "result": "failure",
+      "classification": "image-plumbing",
+      "evidence": "harness path error: '/workspace/executable'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_core_edge.test_mhtml_without_input_target",
+      "result": "failure",
+      "classification": "image-plumbing",
+      "evidence": "harness path error: '/workspace/executable'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_core_edge.test_multiple_templates_in_output_path",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert False  +  where False = exists()  +    where exists = PosixPath('/tmp/tmp0k2df6su/MyDoc.html').exists eval/tests/test_core_edge'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_core_edge.test_mhtml_content_location_header",
+      "result": "failure",
+      "classification": "image-plumbing",
+      "evidence": "harness path error: '/workspace/executable'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_core_edge.test_mhtml_charset_in_content_type",
+      "result": "failure",
+      "classification": "image-plumbing",
+      "evidence": "harness path error: '/workspace/executable'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_core_edge.test_multiple_flags_combination",
+      "result": "failure",
+      "classification": "image-plumbing",
+      "evidence": "harness path error: '/workspace/executable'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_css_final.test_square_bracket_attribute_selectors",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f.../body></html>' == '<!-- Saved f.../body></html>'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_css_final.test_import_url_unreachable_http",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f.../body></html>' == '<!-- Saved f.../body></html>'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_css_final.test_import_url_unreachable_https",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f.../body></html>' == '<!-- Saved f.../body></html>'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_css_final.test_background_url_unreachable_http",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f.../body></html>' == '<!-- Saved f.../body></html>'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_css_final.test_background_url_unreachable_https",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f.../body></html>' == '<!-- Saved f.../body></html>'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_css_final.test_import_quoted_string_unreachable",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f.../body></html>' == '<!-- Saved f.../body></html>'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_css_final.test_css_advanced_url_custom_properties",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f.../body></html>' == '<!-- Saved f.../body></html>'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_css_final.test_nested_square_bracket_selectors",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f.../body></html>' == '<!-- Saved f.../body></html>'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_css_final.test_mixed_import_and_url_errors",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f.../body></html>' == '<!-- Saved f.../body></html>'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_css_final.test_parenthesis_blocks_in_calc",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f.../body></html>' == '<!-- Saved f.../body></html>'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_css_final.test_unquoted_import_url_unreachable",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f.../body></html>' == '<!-- Saved f.../body></html>'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_css_final.test_unquoted_url_unreachable",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f.../body></html>' == '<!-- Saved f.../body></html>'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_error_paths.test_mhtml_output_to_stdout",
+      "result": "failure",
+      "classification": "image-plumbing",
+      "evidence": "harness path error: '/workspace/executable'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_harvest.test_bad_input_data_url",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert 'Hello, World!\\n' == 'Hello, World!'      - Hello, World!   + Hello, World!   ?              + eval/tests/test_harvest.py:310: '",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_html_advanced.test_javascript_closing_tag_escaping",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<\\\\/script>' in '<!-- Saved from local source at 2026-06-10T18:29:41Z using monolith v2.10.1 -->\\n<!DOCTYPE html><html><head><title>Script wit'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_integration.test_large_document_with_multiple_assets_embedded",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_integration.test_deep_nesting_12_levels_preserved",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_integration.test_css_import_chain_three_levels_resolved",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_integration.test_complex_page_all_features_combined",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_integration.test_complex_page_isolated_mode_csp_header",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_integration.test_complex_page_strip_css_images_js_combined",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_integration.test_mixed_encoding_unicode_preservation",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_integration.test_multiple_iframes_embedded_independently",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_integration.test_no_frames_flag_removes_iframe_content",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_integration.test_relative_urls_resolved_to_file_paths",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_integration.test_base_url_flag_overrides_relative_resolution",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_integration.test_mhtml_output_format_multipart_structure",
+      "result": "failure",
+      "classification": "image-plumbing",
+      "evidence": "harness path error: '/workspace/executable'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_integration.test_noscript_elements_preserved_by_default",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_integration.test_unwrap_noscript_flag_converts_to_comments",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_integration.test_document_metadata_comment_added_by_default",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_integration.test_combined_media_removal_flags_audio_video_images",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_polish_edge_cases.test_css_square_bracket_selectors",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_polish_edge_cases.test_css_cdo_cdc_comments",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_polish_edge_cases.test_css_url_with_fragments",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_polish_edge_cases.test_css_empty_url",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_polish_edge_cases.test_css_signed_percentage_and_dimension",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_polish_edge_cases.test_css_function_nested",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_polish_edge_cases.test_css_no_images_replaces_urls",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_polish_edge_cases.test_html_csp_all_flags_combined",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_polish_edge_cases.test_html_integrity_sha384_and_sha512",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_polish_edge_cases.test_html_srcset_file_urls_replaced",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_polish_edge_cases.test_css_number_with_explicit_sign",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_polish_edge_cases.test_css_font_face_stripped_with_no_fonts",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_polish_edge_cases.test_css_delimiter_tokens",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_polish_edge_cases.test_html_metadata_comment_creation",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_stress.test_empty_file_produces_minimal_html",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_stress.test_whitespace_only_file_preserves_whitespace",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_stress.test_single_character_file",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_stress.test_very_long_url_2000_chars_preserved",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_stress.test_html_with_10000_elements",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_stress.test_css_with_1500_rules_embedded",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_stress.test_deeply_nested_50_levels_preserved",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_stress.test_unclosed_html_tags_gracefully_handled",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_stress.test_css_with_unmatched_braces_embedded",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_stress.test_mixed_line_endings_normalized",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_stress.test_utf8_bom_marker_handled",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_stress.test_unicode_and_special_characters_preserved",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_stress.test_very_long_single_line_100kb_no_newlines",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_stress.test_large_attribute_values_10kb_preserved",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_stress.test_invalid_utf8_sequences_replaced_with_replacement_char",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_stress.test_html_with_binary_data_embedded",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_stress.test_null_bytes_in_html_handled",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_stress.test_urls_with_special_characters_preserved",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_stress.test_css_edge_cases_unicode_selectors_nested_comments",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolit'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_stress.test_html_entities_in_all_contexts",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '<!-- Saved f...ody></html>\\n' == '<!-- Saved f...ody></html>\\n'      - <!-- Saved from local source at TIMESTAMP using monolith v2.11.0 -->   '",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_help_baseline_sanitized.test_help_matches_sanitized_baseline",
+      "result": "failure",
+      "classification": "image-plumbing",
+      "evidence": "harness path error: '/workspace/executable'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_help_behavior.test_help_documents_flag[--mhtml]",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '--mhtml' in ' _____    _____________   __________     ___________________    ___\\n|     \\\\  /             \\\\ |          |   | '",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_help_baseline_sanitized.test_help_matches_sanitized_baseline",
+      "result": "failure",
+      "classification": "image-plumbing",
+      "evidence": "harness path error: '/workspace/executable'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_help_behavior.test_help_documents_flag[--mhtml]",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '--mhtml' in ' _____    _____________   __________     ___________________    ___\\n|     \\\\  /             \\\\ |          |   | '",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_monolith_io.test_mhtml_flag_changes_output_format_header",
+      "result": "failure",
+      "classification": "image-plumbing",
+      "evidence": "harness path error: '/workspace/executable'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_monolith_io.test_mhtml_flag_changes_output_format_header",
+      "result": "failure",
+      "classification": "image-plumbing",
+      "evidence": "harness path error: '/workspace/executable'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_monolith_cli.test_version_exact",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert 'monolith 2.10.1\\n' == 'monolith 2.11.0\\n'      - monolith 2.11.0   ?              --   + monolith 2.10.1   ?             ++ @p'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_monolith_cli.test_help_snapshot",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert ' _____    __...int version\\n' == ' _____    __...int version\\n'         _____    _____________   __________     ______________'",
+      "branches": []
+    },
+    {
+      "test_id": "eval.tests.test_monolith_cli.test_mhtml_output_has_mime_headers",
+      "result": "failure",
+      "classification": "image-plumbing",
+      "evidence": "harness path error: '/workspace/executable'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_monolith_cli.test_version_exact",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert 'monolith 2.10.1\\n' == 'monolith 2.11.0\\n'      - monolith 2.11.0   ?              --   + monolith 2.10.1   ?             ++ @p'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_monolith_cli.test_help_snapshot",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert ' _____    __...int version\\n' == ' _____    __...int version\\n'         _____    _____________   __________     ______________'",
+      "branches": []
+    },
+    {
+      "test_id": "tests.test_monolith_cli.test_mhtml_output_has_mime_headers",
+      "result": "failure",
+      "classification": "image-plumbing",
+      "evidence": "harness path error: '/workspace/executable'",
+      "branches": []
+    }
+  ],
+  "_note": "upstream-skip: proposed only \u2014 reference-diff step required to confirm. unclassified rows: driver must adjudicate manually. Script proposes; never edits fixtures or reference binaries."
+}

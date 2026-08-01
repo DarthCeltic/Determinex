@@ -1,0 +1,303 @@
+[
+ {
+  "name": "test::test_too_many_positionals_errors::0",
+  "argv": [
+   "one",
+   "two"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_makes_following_dashed_token_positional_and_then_panics_on_missing_file::1",
+  "argv": [
+   "--",
+   "--sorted"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dash_prefixed_filename_without_double_dash_is_rejected_as_flag::2",
+  "argv": [
+   "-x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_without_filename_errors_nonzero::3",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sorted_without_filename_errors_nonzero::4",
+  "argv": [
+   "--sorted"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_empty::5",
+  "argv": [],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_invalid_lines::6",
+  "argv": [],
+  "stdin": "no count here\nfunc1;func2 10\ninvalid again\nfunc3;func4 20\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_count::7",
+  "argv": [],
+  "stdin": "func1;func2 0\nfunc3;func4 10\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duplicate_stacks::8",
+  "argv": [],
+  "stdin": "func1;func2 10\nfunc1;func2 20\nfunc1;func2 30\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_short_function_name::9",
+  "argv": [],
+  "stdin": "a;b;c 5\nx 10\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_function_no_stack::10",
+  "argv": [],
+  "stdin": "main 100\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_function_name::11",
+  "argv": [],
+  "stdin": "func1;;func3 10\n;func2;func3 20\nfunc1; 30\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_with_leading_zeros::12",
+  "argv": [],
+  "stdin": "func1;func2 0010\nfunc3;func4 00100\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_crlf_line_endings::13",
+  "argv": [],
+  "stdin": "func1;func2 10\r\nfunc3;func4 20\r\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_line_endings::14",
+  "argv": [],
+  "stdin": "func1;func2 10\nfunc3;func4 20\r\nfunc5;func6 30\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_at_max_u64::15",
+  "argv": [],
+  "stdin": "func1;func2 18446744073709551615\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_sorted_flag::16",
+  "argv": [
+   "--sorted"
+  ],
+  "stdin": "func1;func2 10\nfunc3;func4 20\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_input::17",
+  "argv": [
+   "timeout",
+   "2",
+   "script",
+   "-q",
+   "-c",
+   "./executable",
+   "/dev/null"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::18",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_short_flag::19",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag::20",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_flag::21",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_input::22",
+  "argv": [
+   "--echo"
+  ],
+  "stdin": "main;func1 100\nmain;func2 50\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_echo_flag_with_file::23",
+  "argv": [
+   "--echo",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "main;func1 100\nmain;func2 50"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_flags::24",
+  "argv": [
+   "--echo",
+   "--sorted",
+   "--debug",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "main;func1 100\nmain;func2 50"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_not_found::25",
+  "argv": [
+   "nonexistent_file.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_stdin::26",
+  "argv": [
+   "--echo"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_treats_help_as_filename_and_errors::27",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

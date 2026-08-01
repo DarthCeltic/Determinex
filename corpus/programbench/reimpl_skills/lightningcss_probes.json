@@ -1,0 +1,2886 @@
+[
+ {
+  "name": "test::test_version::0",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help::1",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minify_flag::2",
+  "argv": [
+   "--minify"
+  ],
+  "stdin": ".foo { color: red; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minify_short_flag::3",
+  "argv": [
+   "-m"
+  ],
+  "stdin": ".foo { margin: 10px; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minify_removes_whitespace::4",
+  "argv": [
+   "--minify"
+  ],
+  "stdin": "\n    .foo {\n        color: red;\n        margin: 10px;\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minify_color_optimization::5",
+  "argv": [
+   "--minify"
+  ],
+  "stdin": ".foo { color: yellow; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minify_hex_color_optimization::6",
+  "argv": [
+   "--minify"
+  ],
+  "stdin": ".foo { color: #ff0000; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minify_removes_unnecessary_zeros::7",
+  "argv": [
+   "--minify"
+  ],
+  "stdin": ".foo { margin: 0px; padding: 0.5em; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_flag::8",
+  "argv": [
+   "--targets",
+   "safari 4"
+  ],
+  "stdin": "* { border-radius: 1rem; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_short_flag::9",
+  "argv": [
+   "-t",
+   "safari 4"
+  ],
+  "stdin": "* { border-radius: 1rem; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_modern_browser_no_prefix::10",
+  "argv": [
+   "--targets",
+   "chrome 100"
+  ],
+  "stdin": "* { border-radius: 1rem; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file::11",
+  "argv": [
+   "/nonexistent/file.css"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_css_modules_stdout::12",
+  "argv": [
+   "--css-modules"
+  ],
+  "stdin": ".foo { color: red; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_css_modules_with_keyframes::13",
+  "argv": [
+   "--css-modules"
+  ],
+  "stdin": "@keyframes fade { from { opacity: 0; } to { opacity: 1; } }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_media_flag::14",
+  "argv": [
+   "--custom-media"
+  ],
+  "stdin": "@custom-media --small (max-width: 768px);\n@media (--small) { .foo { color: red; } }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_recovery_flag::15",
+  "argv": [
+   "--error-recovery"
+  ],
+  "stdin": ".foo { color: ; }\n.bar { margin: 10px; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minify_with_targets::16",
+  "argv": [
+   "--minify",
+   "--targets",
+   "safari 4"
+  ],
+  "stdin": "* { border-radius: 1rem; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minify_color_conversion::17",
+  "argv": [
+   "--minify"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minify_preserves_semantics::18",
+  "argv": [
+   "--minify"
+  ],
+  "stdin": "\n    .foo {\n        margin-top: 10px;\n        margin-right: 20px;\n        margin-bottom: 10px;\n        margin-left: 20px;\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_css::19",
+  "argv": [
+   "-t",
+   "chrome 80"
+  ],
+  "stdin": "\n    .parent {\n        color: blue;\n        \n        &:hover {\n            color: red;\n        }\n        \n        .child {\n            padding: 10px;\n            \n            &.active {\n                font-weight: bold;\n            }\n        }\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dir_lang_selectors::20",
+  "argv": [
+   "-t",
+   "chrome 80"
+  ],
+  "stdin": "\n    :lang(ar) { direction: rtl; }\n    :lang(en, fr, de) { font-family: sans-serif; }\n    :dir(rtl) { text-align: right; }\n    :dir(ltr) { text-align: left; }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_short_flag::21",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_flag::22",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_browserslist_file_discovery::23",
+  "argv": [
+   "test.css",
+   "--browserslist"
+  ],
+  "stdin": null,
+  "files": {
+   "test.css": ".box { border-radius: 5px; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_browserslistrc_discovery::24",
+  "argv": [
+   "test.css",
+   "--browserslist"
+  ],
+  "stdin": null,
+  "files": {
+   "test.css": ".box { border-radius: 8px; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_package_json_browserslist::25",
+  "argv": [
+   "test.css",
+   "--browserslist"
+  ],
+  "stdin": null,
+  "files": {
+   "test.css": ".flex { display: flex; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_browserslist_env_var::26",
+  "argv": [
+   "test.css",
+   "--browserslist"
+  ],
+  "stdin": null,
+  "files": {
+   "test.css": ".box { user-select: none; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_browserslist_config_env_var::27",
+  "argv": [
+   "test.css",
+   "--browserslist"
+  ],
+  "stdin": null,
+  "files": {
+   "test.css": ".box { border-radius: 3px; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_browserslist_environment_sections::28",
+  "argv": [
+   "test.css",
+   "--browserslist"
+  ],
+  "stdin": null,
+  "files": {
+   "test.css": ".box { border-radius: 4px; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_browserslist_node_env::29",
+  "argv": [
+   "test.css",
+   "--browserslist"
+  ],
+  "stdin": null,
+  "files": {
+   "test.css": ".box { transform: scale(1.5); }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_browserslist_default_section::30",
+  "argv": [
+   "test.css",
+   "--browserslist"
+  ],
+  "stdin": null,
+  "files": {
+   "test.css": ".box { border-radius: 2px; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_without_browserslist_flag_no_discovery::31",
+  "argv": [
+   "test.css"
+  ],
+  "stdin": null,
+  "files": {
+   "test.css": ".box { border-radius: 10px; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bundle_basic::32",
+  "argv": [
+   "main.css",
+   "--bundle"
+  ],
+  "stdin": null,
+  "files": {
+   "main.css": "@import \"imported.css\";\n.main { color: blue; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bundle_relative_path::33",
+  "argv": [
+   "main.css",
+   "--bundle"
+  ],
+  "stdin": null,
+  "files": {
+   "main.css": "@import \"./styles/component.css\";\n.app { margin: 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bundle_nested_imports::34",
+  "argv": [
+   "main.css",
+   "--bundle"
+  ],
+  "stdin": null,
+  "files": {
+   "main.css": "@import \"component.css\";\n.main { background: white; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bundle_missing_import::35",
+  "argv": [
+   "main.css",
+   "--bundle"
+  ],
+  "stdin": null,
+  "files": {
+   "main.css": "@import \"nonexistent.css\";\n.main { color: red; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bundle_with_minify::36",
+  "argv": [
+   "main.css",
+   "--bundle",
+   "-m"
+  ],
+  "stdin": null,
+  "files": {
+   "main.css": "@import \"imported.css\";\n.main { background: white; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bundle_preserves_order::37",
+  "argv": [
+   "main.css",
+   "--bundle"
+  ],
+  "stdin": null,
+  "files": {
+   "main.css": "@import \"first.css\";\n@import \"second.css\";\n.main { order: 3; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_without_bundle_preserves_import::38",
+  "argv": [
+   "main.css"
+  ],
+  "stdin": null,
+  "files": {
+   "main.css": "@import \"imported.css\";\n.main { color: blue; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minify_with_targets::39",
+  "argv": [
+   "-m",
+   "-t",
+   "chrome 95"
+  ],
+  "stdin": "\n    .box {\n        -webkit-border-radius: 10px;\n        border-radius: 10px;\n        color: #ffffff;\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minify_with_sourcemap::40",
+  "argv": [
+   "test.css",
+   "-o",
+   "-m",
+   "--sourcemap"
+  ],
+  "stdin": null,
+  "files": {
+   "test.css": ".test { color: red; background: blue; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bundle_with_minify::41",
+  "argv": [
+   "main.css",
+   "--bundle",
+   "-m"
+  ],
+  "stdin": null,
+  "files": {
+   "main.css": "@import \"imported.css\";\n.main { margin: 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bundle_with_targets::42",
+  "argv": [
+   "main.css",
+   "--bundle",
+   "-t",
+   "safari 10"
+  ],
+  "stdin": null,
+  "files": {
+   "main.css": "@import \"imported.css\";\n.main { user-select: none; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_with_sourcemap::43",
+  "argv": [
+   "input.css",
+   "-o",
+   "-t",
+   "safari 9",
+   "--sourcemap"
+  ],
+  "stdin": null,
+  "files": {
+   "input.css": ".box { appearance: none; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_css_modules_with_minify::44",
+  "argv": [
+   "input.css",
+   "-o",
+   "--css-modules",
+   "-m"
+  ],
+  "stdin": null,
+  "files": {
+   "input.css": ".button { padding: 10px; background: blue; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_css_modules_with_targets::45",
+  "argv": [
+   "input.css",
+   "-o",
+   "--css-modules",
+   "-t",
+   "safari 4"
+  ],
+  "stdin": null,
+  "files": {
+   "input.css": ".card { border-radius: 8px; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_flags_combined::46",
+  "argv": [
+   "input.css",
+   "-o",
+   "--css-modules",
+   "-m",
+   "-t",
+   "safari 10",
+   "--sourcemap"
+  ],
+  "stdin": null,
+  "files": {
+   "input.css": "\n    .component {\n        border-radius: 4px;\n        user-select: none;\n        color: #ff0000;\n    }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_files_with_all_options::47",
+  "argv": [
+   "file1.css",
+   "file2.css",
+   "-d",
+   "-m",
+   "-t",
+   "safari 9",
+   "--sourcemap"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.css": ".one { transform: rotate(45deg); }",
+   "file2.css": ".two { border-radius: 10px; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_multiple_options::48",
+  "argv": [
+   "-m",
+   "-t",
+   "safari 10"
+  ],
+  "stdin": ".test { appearance: none; color: #ffffff; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_media_with_targets::49",
+  "argv": [
+   "--custom-media",
+   "-t",
+   "chrome 80"
+  ],
+  "stdin": "\n    @custom-media --small (max-width: 600px);\n    @media (--small) {\n        .responsive { display: block; }\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_recovery_with_minify::50",
+  "argv": [
+   "--error-recovery",
+   "-m"
+  ],
+  "stdin": "\n    .valid { color: blue; }\n    .invalid { broken syntax; }\n    .also-valid { background: red; }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_browserslist_with_minify::51",
+  "argv": [
+   "test.css",
+   "--browserslist",
+   "-m"
+  ],
+  "stdin": null,
+  "files": {
+   "test.css": ".box { border-radius: 5px; color: #ff0000; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_transform_properties::52",
+  "argv": [
+   "-t",
+   "chrome 80"
+  ],
+  "stdin": "\n    .transformed {\n        transform: translate(10px, 20px) rotate(45deg) scale(1.5);\n        transform-origin: center center;\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_modern_color_functions_with_targets::53",
+  "argv": [
+   "-t",
+   "chrome 80"
+  ],
+  "stdin": "\n    .modern-colors {\n        color: lab(50% 20 30);\n        background: lch(60% 40 180);\n        border: oklch(0.5 0.2 180);\n        outline: oklab(0.6 0.1 -0.1);\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vendor_prefix_removal::54",
+  "argv": [
+   "-t",
+   "chrome 95"
+  ],
+  "stdin": "\n    .prefixed {\n        -webkit-border-radius: 5px;\n        -moz-border-radius: 5px;\n        border-radius: 5px;\n        \n        -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.5);\n        -moz-box-shadow: 0 0 10px rgba(0,0,0,0.5);\n        box-shadow: 0 0 10px rgba(0,0,0,0.5);\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vendor_prefix_addition::55",
+  "argv": [
+   "-t",
+   "safari 10"
+  ],
+  "stdin": "\n    .needs-prefix {\n        user-select: none;\n        appearance: none;\n        backdrop-filter: blur(10px);\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minify_shorthand_combination::56",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "\n    .combine {\n        margin-top: 10px;\n        margin-right: 20px;\n        margin-bottom: 10px;\n        margin-left: 20px;\n        \n        padding-top: 5px;\n        padding-right: 5px;\n        padding-bottom: 5px;\n        padding-left: 5px;\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_with_layers::57",
+  "argv": [
+   "--bundle"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_css_modules_basic::58",
+  "argv": [
+   "input.css",
+   "-o",
+   "--css-modules"
+  ],
+  "stdin": null,
+  "files": {
+   "input.css": ".foo { color: red; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_css_modules_stdout::59",
+  "argv": [
+   "--css-modules"
+  ],
+  "stdin": ".bar { background: blue; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_css_modules_custom_path::60",
+  "argv": [
+   "input.css",
+   "-o",
+   "--css-modules"
+  ],
+  "stdin": null,
+  "files": {
+   "input.css": ".bar { background: blue; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_css_modules_scopes_classes::61",
+  "argv": [
+   "styles.css",
+   "-o",
+   "--css-modules"
+  ],
+  "stdin": null,
+  "files": {
+   "styles.css": "\n    .button { padding: 10px; }\n    .container { display: flex; }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_css_modules_scopes_ids::62",
+  "argv": [
+   "input.css",
+   "-o",
+   "--css-modules"
+  ],
+  "stdin": null,
+  "files": {
+   "input.css": "#header { height: 60px; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_css_modules_scopes_keyframes::63",
+  "argv": [
+   "input.css",
+   "-o",
+   "--css-modules"
+  ],
+  "stdin": null,
+  "files": {
+   "input.css": "\n    @keyframes fade {\n        from { opacity: 0; }\n        to { opacity: 1; }\n    }\n    .animated { animation: fade 1s; }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_css_modules_local_and_global::64",
+  "argv": [
+   "input.css",
+   "-o",
+   "--css-modules"
+  ],
+  "stdin": null,
+  "files": {
+   "input.css": "\n    :local(.local-class) { color: red; }\n    :global(.global-class) { color: blue; }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_css_modules_pattern::65",
+  "argv": [
+   "input.css",
+   "-o",
+   "--css-modules",
+   "--css-modules-pattern",
+   "[name]_[local]"
+  ],
+  "stdin": null,
+  "files": {
+   "input.css": ".test { color: red; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_css_modules_dashed_idents::66",
+  "argv": [
+   "input.css",
+   "-o",
+   "--css-modules",
+   "--css-modules-dashed-idents"
+  ],
+  "stdin": null,
+  "files": {
+   "input.css": "\n    .foo { \n        --custom-prop: blue;\n        color: var(--custom-prop);\n    }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_css_modules_multiple_files::67",
+  "argv": [
+   "file1.css",
+   "file2.css",
+   "-d",
+   "--css-modules"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.css": ".one { color: red; }",
+   "file2.css": ".two { color: blue; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_without_css_modules_no_scoping::68",
+  "argv": [
+   "input.css",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "input.css": ".regular { color: red; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_modern_color_spaces::69",
+  "argv": [
+   "-t",
+   "chrome 90"
+  ],
+  "stdin": "\n    .c1 { color: lab(50% 40 60); }\n    .c2 { color: lab(50% 40 60 / 0.5); }\n    .c3 { color: lch(50% 50 180); }\n    .c4 { color: lch(50% 50 180deg / 0.5); }\n    .c5 { color: oklab(0.5 0.1 -0.1); }\n    .c6 { color: oklch(0.5 0.2 180); }\n    .c7 { color: color(display-p3 1 0 0); }\n    .c8 { color: color(srgb 1 0 0 / 0.5); }\n    .c9 { color: color(a98-rgb 0.5 0.5 0.5); }\n    .c10 { color: color(prophoto-rgb 0.5 0.5 0.5); }\n    .c11 { color: color(rec2020 0.5 0.5 0.5); }\n    .c12 { color: color(xyz 0.5 0.5 0.5); }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_mix::70",
+  "argv": [
+   "-t",
+   "chrome 100"
+  ],
+  "stdin": "\n    .m1 { color: color-mix(in srgb, red, blue); }\n    .m2 { color: color-mix(in srgb, red 50%, blue); }\n    .m3 { color: color-mix(in oklch, red 30%, blue 70%); }\n    .m4 { color: color-mix(in lab, #ff0000, #0000ff 25%); }\n    .m5 { background: color-mix(in hsl, hsl(0 100% 50%), transparent 50%); }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_colors::71",
+  "argv": [
+   "-t",
+   "chrome 110"
+  ],
+  "stdin": "\n    .r1 { color: rgb(from blue r g b / 0.5); }\n    .r2 { color: hsl(from green h s l / 0.8); }\n    .r3 { color: lab(from purple l a b); }\n    .r4 { color: oklch(from red l c h / 0.9); }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_media_basic::72",
+  "argv": [
+   "input.css",
+   "--custom-media",
+   "-t",
+   "chrome 80"
+  ],
+  "stdin": null,
+  "files": {
+   "input.css": "\n    @custom-media --small (max-width: 600px);\n    \n    @media (--small) {\n        .responsive { font-size: 14px; }\n    }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_media_multiple_definitions::73",
+  "argv": [
+   "--custom-media",
+   "-t",
+   "chrome 80"
+  ],
+  "stdin": "\n    @custom-media --small (max-width: 600px);\n    @custom-media --large (min-width: 1200px);\n    \n    @media (--small) { .small { display: block; } }\n    @media (--large) { .large { display: flex; } }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_media_complex_query::74",
+  "argv": [
+   "--custom-media",
+   "-t",
+   "chrome 80"
+  ],
+  "stdin": "\n    @custom-media --tablet (min-width: 600px) and (max-width: 1024px);\n    \n    @media (--tablet) {\n        .tablet-view { padding: 20px; }\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_media_with_output_file::75",
+  "argv": [
+   "input.css",
+   "-o",
+   "--custom-media",
+   "-t",
+   "chrome 80"
+  ],
+  "stdin": null,
+  "files": {
+   "input.css": "\n    @custom-media --mobile (max-width: 480px);\n    @media (--mobile) { .mobile { width: 100%; } }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_options_output::76",
+  "argv": [
+   "input.css",
+   "input.css",
+   "-o",
+   "output.css"
+  ],
+  "stdin": null,
+  "files": {
+   "input.css": ".test { color: red; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_filename::77",
+  "argv": [
+   "тест.css"
+  ],
+  "stdin": null,
+  "files": {
+   "тест.css": ".unicode { color: blue; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_recovery_skips_invalid_rules::78",
+  "argv": [
+   "--error-recovery"
+  ],
+  "stdin": "\n    .valid { color: red; }\n    .invalid { color: notacolor xyz 123; }\n    .another-valid { background: blue; }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_recovery_with_malformed_syntax::79",
+  "argv": [
+   "--error-recovery"
+  ],
+  "stdin": "\n    .good { padding: 10px; }\n    .broken { padding 10px }\n    .ok { margin: 5px; }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_recovery_with_output_file::80",
+  "argv": [
+   "input.css",
+   "-o",
+   "--error-recovery"
+  ],
+  "stdin": null,
+  "files": {
+   "input.css": "\n    .works { width: 100%; }\n    .broken { width: abc; }\n    .also-works { height: 50px; }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_recovery_produces_warnings::81",
+  "argv": [
+   "--error-recovery"
+  ],
+  "stdin": "\n    .valid { color: blue; }\n    .invalid { not-a-property: invalid-value xyz; }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_recovery_with_minify::82",
+  "argv": [
+   "--error-recovery",
+   "-m"
+  ],
+  "stdin": "\n    .minify-me { margin: 10px; padding: 10px; }\n    .broken { invalid syntax here; }\n    .also-minify { color: #ff0000; }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_css_feature_minified::83",
+  "argv": [
+   "-m"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_css_feature_with_targets::84",
+  "argv": [
+   "-t",
+   "chrome 90"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_css_feature_minified_with_targets::85",
+  "argv": [
+   "-m",
+   "-t",
+   "ie 11"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_input_file::86",
+  "argv": [
+   "input.css"
+  ],
+  "stdin": null,
+  "files": {
+   "input.css": ".bar { width: 100%; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_input_file::87",
+  "argv": [
+   "empty.css"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.css": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file::88",
+  "argv": [
+   "nonexistent_file_12345.css"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_file_option::89",
+  "argv": [
+   "input.css",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "input.css": ".test { padding: 10px; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_file_creates_directories::90",
+  "argv": [
+   "input.css",
+   "--output-file"
+  ],
+  "stdin": null,
+  "files": {
+   "input.css": ".nested { color: green; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_input_files_with_output_dir::91",
+  "argv": [
+   "file1.css",
+   "file2.css",
+   "-d"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.css": ".one { color: red; }",
+   "file2.css": ".two { color: blue; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_input_files_without_output_dir::92",
+  "argv": [
+   "file1.css",
+   "file2.css"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.css": ".one { color: red; }",
+   "file2.css": ".two { color: blue; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_file_overwrites_existing::93",
+  "argv": [
+   "input.css",
+   "-o",
+   "output.css"
+  ],
+  "stdin": null,
+  "files": {
+   "input.css": ".new { color: green; }",
+   "output.css": "old content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_css::94",
+  "argv": [
+   "unicode.css"
+  ],
+  "stdin": null,
+  "files": {
+   "unicode.css": ".emoji::before { content: \"🎨\"; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_huge_varied_css::95",
+  "argv": [
+   "-t",
+   "chrome 90",
+   "-m"
+  ],
+  "stdin": "\n    /* Basic selectors */\n    * { box-sizing: border-box; }\n    body { margin: 0; padding: 0; font-family: sans-serif; }\n    h1, h2, h3, h4, h5, h6 { font-weight: bold; }\n    \n    /* Classes and IDs */\n    .container { width: 100%; max-width: 1200px; margin: 0 auto; }\n    #header { background: linear-gradient(to right, #ff0000, #00ff00); }\n    \n    /* Pseudo-classes and pseudo-elements */\n    a:link { color: blue; }\n    a:visited { color: purple; }\n    a:hover { color: red; text-decoration: underline; }\n    a:active { color: orange; }\n    p::first-letter { font-size: 2em; float: left; }\n    p::first-line { font-weight: bold; }\n    .button::before { content: \"→ \"; }\n    .button::after { content: \" ←\"; }\n    input:focus { outline: 2px solid blue; box-shadow: 0 0 5px rgba(0,0,255,0.5); }\n    input:checked + label { font-weight: bold; }\n    input:disabled { opacity: 0.5; cursor: not-allowed; }\n    \n    /* Combinators */\n    div p { color: inherit; }\n    div > p { margin: 0; }\n    h1 + p { margin-top: 0; }\n    h1 ~ p { color: gray; }\n    \n    /* Attribute selectors */\n    [data-active] { color: green; }\n    [data-state=\"loading\"] { opacity: 0.7; }\n    [href^=\"https\"] { color: green; }\n    [href$=\".pdf\"] { background: url(pdf-icon.png) no-repeat; }\n    [href*=\"example\"] { text-decoration: none; }\n    [lang|=\"en\"] { quotes: '\"' '\"'; }\n    \n    /* Box model */\n    .box {\n        width: 300px;\n        height: 200px;\n        padding: 20px 15px 10px 5px;\n        margin: 10px auto;\n        border: 2px solid #000;\n        border-radius: 10px 20px 30px 40px;\n        box-shadow: 0 4px 6px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.2);\n    }\n    \n    /* Positioning */\n    .absolute { position: absolute; top: 10px; right: 20px; bottom: 30px; left: 40px; z-index: 100; }\n    .relative { position: relative; top: 5px; left: 10px; }\n    .fixed { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; }\n    .sticky { position: sticky; top: 0; }\n    \n    /* Display and visibility */\n    .hide { display: none; }\n    .invisible { visibility: hidden; }\n    .block { display: block; }\n    .inline { display: inline; }\n    .inline-block { display: inline-block; }\n    .flex { display: flex; }\n    .grid { display: grid; }\n    \n    /* Flexbox */\n    .flex-container {\n        display: flex;\n        flex-direction: row;\n        flex-wrap: wrap;\n        justify-content: space-between;\n        align-items: center;\n        align-content: stretch;\n        gap: 10px 20px;\n    }\n    .flex-item {\n        flex: 1 1 auto;\n        flex-grow: 2;\n        flex-shrink: 0;\n        flex-basis: 200px;\n        align-self: flex-end;\n        order: -1;\n    }\n    \n    /* Grid */\n    .grid-container {\n        display: grid;\n        grid-template-columns: repeat(3, 1fr);\n        grid-template-rows: auto 1fr auto;\n        grid-gap: 20px;\n        grid-auto-flow: dense;\n        grid-template-areas:\n            \"header header header\"\n            \"sidebar main main\"\n            \"footer footer footer\";\n    }\n    .grid-item {\n        grid-column: 1 / 3;\n        grid-row: 2 / span 2;\n        grid-area: main;\n    }\n    \n    /* Typography */\n    .text {\n        font-family: \"Helvetica Neue\", Arial, sans-serif;\n        font-size: clamp(14px, 2vw, 18px);\n        font-weight: 600;\n        font-style: italic;\n        font-variant: small-caps;\n        line-height: 1.6;\n        letter-spacing: 0.05em;\n        word-spacing: 0.1em;\n        text-align: justify;\n        text-indent: 2em;\n        text-transform: uppercase;\n        text-decoration: underline wavy red;\n        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);\n        white-space: nowrap;\n        word-wrap: break-word;\n        overflow-wrap: break-word;\n        hyphens: auto;\n    }\n    \n    /* Colors */\n    .colors {\n        color: #f00;\n        background-color: rgb(0, 255, 0);\n        border-color: rgba(0, 0, 255, 0.5);\n        outline-color: hsl(120, 100%, 50%);\n        box-shadow: 0 0 10px hsla(240, 100%, 50%, 0.7);\n    }\n    \n    /* Backgrounds */\n    .background {\n        background-color: white;\n        background-image: url(\"image.png\"), linear-gradient(to bottom, red, blue);\n        background-size: cover, contain;\n        background-position: center, top left;\n        background-repeat: no-repeat, repeat-x;\n        background-attachment: fixed, scroll;\n        background-origin: border-box;\n        background-clip: padding-box;\n    }\n    \n    /* Borders */\n    .borders {\n        border-width: 1px 2px 3px 4px;\n        border-style: solid dashed dotted double;\n        border-color: red green blue yellow;\n        border-radius: 50%;\n        border-image: url(\"border.png\") 30 round;\n    }\n    \n    /* Transforms */\n    .transform {\n        transform: translate(10px, 20px) rotate(45deg) scale(1.5) skew(10deg, 5deg);\n        transform-origin: center center;\n        transform-style: preserve-3d;\n        perspective: 1000px;\n        perspective-origin: 50% 50%;\n    }\n    \n    /* Transitions and animations */\n    .transition {\n        transition: all 0.3s ease-in-out 0.1s;\n        transition-property: opacity, transform;\n        transition-duration: 0.5s, 1s;\n        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);\n        transition-delay: 0s, 0.2s;\n    }\n    \n    @keyframes slide {\n        0% { transform: translateX(-100%); opacity: 0; }\n        50% { transform: translateX(0); opacity: 1; }\n        100% { transform: translateX(100%); opacity: 0; }\n    }\n    \n    .animated {\n        animation: slide 2s ease-in-out infinite;\n        animation-delay: 0.5s;\n        animation-direction: alternate;\n        animation-fill-mode: forwards;\n        animation-iteration-count: 3;\n        animation-play-state: running;\n    }\n    \n    /* Filters */\n    .filtered {\n        filter: blur(5px) brightness(1.2) contrast(1.1) grayscale(0.5) hue-rotate(90deg) invert(0.2) opacity(0.9) saturate(1.5) sepia(0.3);\n        backdrop-filter: blur(10px);\n    }\n    \n    /* Media queries */\n    @media screen and (min-width: 768px) {\n        .responsive { width: 80%; }\n    }\n    @media (min-width: 992px) and (max-width: 1199px) {\n        .responsive { width: 70%; }\n    }\n    @media (orientation: landscape) {\n        .landscape { display: block; }\n    }\n    @media print {\n        .no-print { display: none; }\n        body { color: black; background: white; }\n    }\n    \n    /* Supports queries */\n    @supports (display: grid) {\n        .grid-fallback { display: grid; }\n    }\n    @supports not (display: flex) {\n        .flex-fallback { display: table; }\n    }\n    \n    /* Custom properties */\n    :root {\n        --primary: #007bff;\n        --secondary: #6c757d;\n        --spacing: 1rem;\n        --border-radius: 0.25rem;\n    }\n    .component {\n        color: var(--primary);\n        margin: var(--spacing);\n        border-radius: var(--border-radius);\n    }\n    \n    /* Calc */\n    .calc {\n        width: calc(100% - 40px);\n        height: calc(100vh - 60px);\n        padding: calc(1rem + 5px);\n        margin: calc((100% - 960px) / 2);\n    }\n    \n    /* Multiple columns */\n    .columns {\n        column-count: 3;\n        column-width: 200px;\n        column-gap: 2em;\n        column-rule: 1px solid #ccc;\n        column-span: all;\n    }\n    \n    /* Tables */\n    table {\n        border-collapse: collapse;\n        border-spacing: 0;\n        table-layout: fixed;\n        caption-side: bottom;\n    }\n    \n    /* Lists */\n    ul {\n        list-style-type: circle;\n        list-style-position: inside;\n        list-style-image: url(\"bullet.png\");\n    }\n    \n    /* Overflow */\n    .overflow {\n        overflow: auto;\n        overflow-x: scroll;\n        overflow-y: hidden;\n        text-overflow: ellipsis;\n    }\n    \n    /* Cursor */\n    .pointer { cursor: pointer; }\n    .wait { cursor: wait; }\n    .help { cursor: help; }\n    \n    /* User interaction */\n    .no-select { user-select: none; }\n    .no-pointer { pointer-events: none; }\n    .resizable { resize: both; }\n    \n    /* Misc */\n    .misc {\n        opacity: 0.8;\n        z-index: 999;\n        mix-blend-mode: multiply;\n        will-change: transform, opacity;\n        aspect-ratio: 16 / 9;\n        object-fit: cover;\n        object-position: center;\n        scroll-behavior: smooth;\n        scroll-snap-type: y mandatory;\n        isolation: isolate;\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_logical_properties_complete::96",
+  "argv": [
+   "-t",
+   "chrome 80"
+  ],
+  "stdin": "\n    .logical {\n        margin-block-start: 10px;\n        margin-block-end: 20px;\n        margin-inline-start: 15px;\n        margin-inline-end: 25px;\n        padding-block: 10px 20px;\n        padding-inline: 15px 25px;\n        border-block-width: 2px;\n        border-inline-width: 1px;\n        inset-block: 0 10px;\n        inset-inline: 5px 15px;\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_color_formats::97",
+  "argv": [
+   "-t",
+   "chrome 90"
+  ],
+  "stdin": "\n    .colors {\n        /* Named colors */\n        color: red;\n        background: transparent;\n        border-color: currentColor;\n        \n        /* Hex */\n        outline-color: #f00;\n        box-shadow: 0 0 5px #ff0000;\n        text-shadow: 1px 1px #ff0000ff;\n        \n        /* RGB */\n        color: rgb(255, 0, 0);\n        background: rgba(0, 0, 255, 0.5);\n        border: rgb(255 0 0);\n        outline: rgba(0 0 255 / 0.5);\n        \n        /* HSL */\n        color: hsl(0, 100%, 50%);\n        background: hsla(240, 100%, 50%, 0.7);\n        border: hsl(0 100% 50%);\n        outline: hsla(240 100% 50% / 0.7);\n        \n        /* HWB */\n        color: hwb(0 0% 0%);\n        \n        /* LAB */\n        color: lab(50% 20 30);\n        \n        /* LCH */\n        background: lch(60% 40 180);\n        \n        /* OKLAB */\n        border: oklab(0.5 0.2 0.1);\n        \n        /* OKLCH */\n        outline: oklch(0.6 0.15 180);\n        \n        /* Color function */\n        color: color(display-p3 1 0 0);\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vendor_specific_properties::98",
+  "argv": [
+   "-t",
+   "safari 10"
+  ],
+  "stdin": "\n    .vendor {\n        -webkit-appearance: none;\n        -moz-appearance: none;\n        appearance: none;\n        \n        -webkit-backdrop-filter: blur(10px);\n        backdrop-filter: blur(10px);\n        \n        -webkit-text-fill-color: transparent;\n        -webkit-background-clip: text;\n        background-clip: text;\n        \n        -webkit-line-clamp: 3;\n        -webkit-box-orient: vertical;\n        \n        -ms-overflow-style: none;\n        scrollbar-width: none;\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minify_flag_basic::99",
+  "argv": [
+   "input.css",
+   "-m"
+  ],
+  "stdin": null,
+  "files": {
+   "input.css": "\n    .foo {\n        color: red;\n        background: blue;\n    }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minify_removes_whitespace::100",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "\n    .container    {\n        padding:    20px   ;\n        margin  :  10px  ;\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minify_optimizes_colors::101",
+  "argv": [
+   "--minify"
+  ],
+  "stdin": ".color { background: #ff0000; color: #0000ff; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minify_removes_comments::102",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "\n    /* This is a comment */\n    .foo { color: red; }\n    /* Another comment */\n    .bar { color: blue; }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minify_combines_properties::103",
+  "argv": [
+   "--minify"
+  ],
+  "stdin": "\n    .box {\n        margin-top: 10px;\n        margin-right: 10px;\n        margin-bottom: 10px;\n        margin-left: 10px;\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minify_with_output_file::104",
+  "argv": [
+   "input.css",
+   "-m",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "input.css": "\n    .element {\n        display: block;\n        width: 100%;\n    }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minify_reduces_calc_expressions::105",
+  "argv": [
+   "-m"
+  ],
+  "stdin": ".calc { width: calc(100% - 0px); height: calc(10px + 5px); }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minify_optimizes_zero_values::106",
+  "argv": [
+   "--minify"
+  ],
+  "stdin": ".zero { margin: 0px; padding: 0em; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minify_comprehensive_properties::107",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "\n    .element {\n        margin-top: 0px;\n        margin-right: 0px;\n        margin-bottom: 0px;\n        margin-left: 0px;\n        padding-top: 10px;\n        padding-right: 10px;\n        padding-bottom: 10px;\n        padding-left: 10px;\n        border-top-width: 1px;\n        border-right-width: 1px;\n        border-bottom-width: 1px;\n        border-left-width: 1px;\n        border-top-style: solid;\n        border-right-style: solid;\n        border-bottom-style: solid;\n        border-left-style: solid;\n        border-top-color: #000000;\n        border-right-color: #000000;\n        border-bottom-color: #000000;\n        border-left-color: #000000;\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minify_color_optimization::108",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "\n    .c1 { color: #ffffff; }\n    .c2 { color: #000000; }\n    .c3 { color: #ff0000; }\n    .c4 { color: #00ff00; }\n    .c5 { color: #0000ff; }\n    .c6 { color: rgba(255, 255, 255, 1); }\n    .c7 { color: rgba(0, 0, 0, 1); }\n    .c8 { color: rgb(255, 0, 0); }\n    .c9 { color: hsl(0, 100%, 50%); }\n    .c10 { background: #aabbcc; }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minify_zero_values::109",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "\n    .zero {\n        margin: 0px;\n        padding: 0em;\n        border-width: 0rem;\n        top: 0%;\n        left: 0vw;\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minify_calc_simplification::110",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "\n    .calc {\n        width: calc(10px + 20px);\n        height: calc(100% - 0px);\n        margin: calc(5px * 2);\n        padding: calc(20px / 2);\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minify_gradient_optimization::111",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "\n    .gradient {\n        background: linear-gradient(to bottom, #ffffff 0%, #000000 100%);\n        background-image: radial-gradient(circle at center, red 0%, blue 100%);\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minify_with_targets::112",
+  "argv": [
+   "-m",
+   "-t",
+   "ie 11"
+  ],
+  "stdin": "\n    .prefixed {\n        display: flex;\n        user-select: none;\n        transform: rotate(45deg);\n        transition: all 0.3s ease;\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minify_multiple_selectors::113",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "\n    .a { color: red; }\n    .b { color: red; }\n    .c { color: blue; }\n    .d { color: blue; }\n    .e { margin: 10px; padding: 10px; }\n    .f { margin: 10px; padding: 10px; }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minify_whitespace_removal::114",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "\n    .element {\n        margin:     10px;\n        padding:    20px;\n    }\n    \n    .another    {\n        width:   100%;\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minify_font_weight_optimization::115",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "\n    .normal { font-weight: normal; }\n    .bold { font-weight: bold; }\n    .n400 { font-weight: 400; }\n    .n700 { font-weight: 700; }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minify_length_unit_optimization::116",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "\n    .lengths {\n        margin: 0.5em 0.25rem 0.75vh 0.33vw;\n        padding: 1.00em 2.50rem;\n        border-width: 0.1px 0.2px 0.3px 0.4px;\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minify_transform_optimization::117",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "\n    .t1 { transform: translate(0px, 0px); }\n    .t2 { transform: scale(1, 1); }\n    .t3 { transform: rotate(0deg); }\n    .t4 { transform: translateX(10px) translateY(20px); }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minify_media_query_optimization::118",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "\n    @media screen and (min-width: 768px) and (max-width: 1024px) {\n        .responsive { width: 750px; }\n    }\n    @media (min-width: 768px) {\n        .tablet { display: block; }\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minify_keyframes_optimization::119",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "\n    @keyframes slide {\n        from { transform: translateX(0px); }\n        to { transform: translateX(100px); }\n    }\n    @keyframes fade {\n        0% { opacity: 0; }\n        100% { opacity: 1; }\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minify_custom_properties::120",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "\n    :root {\n        --primary-color: #007bff;\n        --secondary-color: #6c757d;\n        --spacing: 1rem;\n    }\n    .element {\n        color: var(--primary-color);\n        margin: var(--spacing);\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minify_important_preservation::121",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "\n    .important {\n        color: red !important;\n        margin: 0 !important;\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minify_url_handling::122",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "\n    .images {\n        background: url(\"image.png\");\n        content: url('icon.svg');\n        list-style-image: url(bullet.gif);\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minify_selector_optimization::123",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "\n    div.class { color: red; }\n    div#id { color: blue; }\n    *[attr] { color: green; }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bootstrap_like_utilities::124",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "\n    .d-none { display: none; }\n    .d-flex { display: flex; }\n    .flex-row { flex-direction: row; }\n    .flex-column { flex-direction: column; }\n    .justify-content-center { justify-content: center; }\n    .align-items-start { align-items: flex-start; }\n    .m-0 { margin: 0; }\n    .m-1 { margin: 0.25rem; }\n    .p-2 { padding: 0.5rem; }\n    .text-center { text-align: center; }\n    .font-weight-bold { font-weight: bold; }\n    .w-100 { width: 100%; }\n    .h-100 { height: 100%; }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_button_component::125",
+  "argv": [
+   "-t",
+   "safari 10"
+  ],
+  "stdin": "\n    .btn {\n        display: inline-block;\n        font-weight: 400;\n        text-align: center;\n        vertical-align: middle;\n        user-select: none;\n        border: 1px solid transparent;\n        padding: 0.375rem 0.75rem;\n        font-size: 1rem;\n        line-height: 1.5;\n        border-radius: 0.25rem;\n        transition: all 0.15s ease-in-out;\n    }\n    \n    .btn:hover {\n        background-color: #0069d9;\n    }\n    \n    .btn:active {\n        transform: scale(0.98);\n    }\n    \n    .btn:focus {\n        outline: 0;\n        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);\n    }\n    \n    .btn-primary {\n        color: #fff;\n        background-color: #007bff;\n        border-color: #007bff;\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sourcemap_creates_map_file::126",
+  "argv": [
+   "input.css",
+   "-o",
+   "--sourcemap"
+  ],
+  "stdin": null,
+  "files": {
+   "input.css": ".test { color: red; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sourcemap_references_original::127",
+  "argv": [
+   "styles.css",
+   "-o",
+   "--sourcemap"
+  ],
+  "stdin": null,
+  "files": {
+   "styles.css": ".original { display: block; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sourcemap_with_minify::128",
+  "argv": [
+   "input.css",
+   "-o",
+   "--sourcemap",
+   "-m"
+  ],
+  "stdin": null,
+  "files": {
+   "input.css": "\n    .box {\n        width: 100px;\n        height: 100px;\n    }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sourcemap_with_stdin::129",
+  "argv": [
+   "-o",
+   "--sourcemap"
+  ],
+  "stdin": ".stdin { color: blue; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sourcemap_with_output_dir::130",
+  "argv": [
+   "input.css",
+   "-d",
+   "--sourcemap"
+  ],
+  "stdin": null,
+  "files": {
+   "input.css": ".test { margin: 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_without_sourcemap_no_map_file::131",
+  "argv": [
+   "input.css",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "input.css": ".test { color: red; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sourcemap_structure::132",
+  "argv": [
+   "test.css",
+   "-o",
+   "--sourcemap"
+  ],
+  "stdin": null,
+  "files": {
+   "test.css": ".rule { property: value; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_adds_vendor_prefixes::133",
+  "argv": [
+   "-t",
+   "safari 4"
+  ],
+  "stdin": ".box { border-radius: 10px; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_removes_unnecessary_prefixes::134",
+  "argv": [
+   "--targets",
+   "chrome 90"
+  ],
+  "stdin": "\n    .box {\n        -webkit-transition: all 0.3s;\n        -moz-transition: all 0.3s;\n        transition: all 0.3s;\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_with_multiple_browsers::135",
+  "argv": [
+   "-t",
+   "chrome 95, firefox 90, safari 14"
+  ],
+  "stdin": ".flex { display: flex; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_lowering_modern_syntax::136",
+  "argv": [
+   "-t",
+   "chrome 80"
+  ],
+  "stdin": "\n    .modern {\n        color: lab(50% 20 30);\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_image_set_prefix::137",
+  "argv": [
+   "-t",
+   "chrome 80"
+  ],
+  "stdin": ".img { background: image-set(url('img.png') 1x, url('img@2x.png') 2x); }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_with_output_file::138",
+  "argv": [
+   "input.css",
+   "-o",
+   "-t",
+   "safari 10"
+  ],
+  "stdin": null,
+  "files": {
+   "input.css": ".box { user-select: none; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_targets_query::139",
+  "argv": [
+   "-t",
+   "invalidbrowser 999"
+  ],
+  "stdin": ".test { color: red; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_with_minify::140",
+  "argv": [
+   "-t",
+   "safari 8",
+   "-m"
+  ],
+  "stdin": ".box { transform: rotate(45deg); }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_flexbox_prefixes::141",
+  "argv": [
+   "-t",
+   "ie 10"
+  ],
+  "stdin": "\n    .flex {\n        display: flex;\n        flex-direction: row;\n        flex-wrap: wrap;\n        justify-content: center;\n        align-items: stretch;\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_grid_prefixes::142",
+  "argv": [
+   "-t",
+   "ie 11"
+  ],
+  "stdin": "\n    .grid {\n        display: grid;\n        grid-template-columns: 1fr 1fr;\n        grid-gap: 1rem;\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_transform_prefixes::143",
+  "argv": [
+   "-t",
+   "safari 8"
+  ],
+  "stdin": "\n    .transformed {\n        transform: rotate(45deg) scale(1.5);\n        transform-origin: center;\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_transition_prefixes::144",
+  "argv": [
+   "-t",
+   "safari 6"
+  ],
+  "stdin": "\n    .animated {\n        transition: all 0.3s ease;\n        transition-property: transform, opacity;\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_filter_prefixes::145",
+  "argv": [
+   "-t",
+   "safari 8"
+  ],
+  "stdin": "\n    .filtered {\n        filter: blur(5px) brightness(1.2);\n        backdrop-filter: blur(10px);\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_user_select::146",
+  "argv": [
+   "-t",
+   "firefox 65"
+  ],
+  "stdin": "\n    .no-select {\n        user-select: none;\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_appearance::147",
+  "argv": [
+   "-t",
+   "chrome 83"
+  ],
+  "stdin": "\n    .custom {\n        appearance: none;\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_color_lowering::148",
+  "argv": [
+   "-t",
+   "chrome 90"
+  ],
+  "stdin": "\n    .colors {\n        color: lab(50% 40 60);\n        background: lch(50% 50 180);\n        border-color: oklch(0.5 0.2 180);\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_nesting_lowering::149",
+  "argv": [
+   "-t",
+   "chrome 100"
+  ],
+  "stdin": "\n    .card {\n        padding: 1rem;\n        & .title {\n            font-size: 1.5rem;\n        }\n        &:hover {\n            box-shadow: 0 4px 6px rgba(0,0,0,0.1);\n        }\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_logical_properties::150",
+  "argv": [
+   "-t",
+   "chrome 80"
+  ],
+  "stdin": "\n    .box {\n        margin-block-start: 1rem;\n        margin-inline-end: 2rem;\n        padding-block: 1rem;\n        padding-inline: 2rem;\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_gradient_prefixes::151",
+  "argv": [
+   "-t",
+   "safari 6"
+  ],
+  "stdin": "\n    .gradient {\n        background: linear-gradient(to right, red, blue);\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_calc_prefixes::152",
+  "argv": [
+   "-t",
+   "firefox 15"
+  ],
+  "stdin": "\n    .calculated {\n        width: calc(100% - 50px);\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_placeholder_prefix::153",
+  "argv": [
+   "-t",
+   "firefox 50"
+  ],
+  "stdin": "\n    input::placeholder {\n        color: gray;\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_sticky_prefix::154",
+  "argv": [
+   "-t",
+   "safari 12"
+  ],
+  "stdin": "\n    .sticky {\n        position: sticky;\n        top: 0;\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_multiple_browsers::155",
+  "argv": [
+   "-t",
+   "ie 11",
+   "-t",
+   "safari 8"
+  ],
+  "stdin": "\n    .multi {\n        display: flex;\n        user-select: none;\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_no_unnecessary_prefixes::156",
+  "argv": [
+   "-t",
+   "chrome 100"
+  ],
+  "stdin": "\n    .modern {\n        display: flex;\n        transform: rotate(45deg);\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_color_function_lowering::157",
+  "argv": [
+   "-t",
+   "chrome 95"
+  ],
+  "stdin": "\n    .colorful {\n        color: color(display-p3 1 0 0);\n        background: color(srgb 0.5 0.5 0.5);\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_hwb_lowering::158",
+  "argv": [
+   "-t",
+   "chrome 95"
+  ],
+  "stdin": "\n    .hwb {\n        color: hwb(120 25% 25%);\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_image_set_prefix::159",
+  "argv": [
+   "-t",
+   "safari 13"
+  ],
+  "stdin": "\n    .responsive-image {\n        background: image-set(\n            url('image.png') 1x,\n            url('image@2x.png') 2x\n        );\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_media_range_lowering::160",
+  "argv": [
+   "-t",
+   "chrome 100"
+  ],
+  "stdin": "\n    @media (width >= 768px) {\n        .tablet { display: block; }\n    }\n    @media (480px < width < 768px) {\n        .between { display: flex; }\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nesting_compilation::161",
+  "argv": [
+   "-t",
+   "chrome 80"
+  ],
+  "stdin": "\n    .parent {\n        color: blue;\n        \n        .child {\n            color: red;\n        }\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_modern_color_functions::162",
+  "argv": [
+   "-t",
+   "chrome 80"
+  ],
+  "stdin": "\n    .colors {\n        color: lab(50% 20 30);\n        background: lch(60% 40 120);\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_media_query_range_syntax::163",
+  "argv": [
+   "-t",
+   "chrome 80"
+  ],
+  "stdin": "\n    @media (width >= 600px) {\n        .wide { display: block; }\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_logical_properties::164",
+  "argv": [
+   "-t",
+   "chrome 80"
+  ],
+  "stdin": "\n    .logical {\n        margin-inline-start: 10px;\n        padding-block-end: 20px;\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_position_gradients::165",
+  "argv": [
+   "-t",
+   "chrome 90"
+  ],
+  "stdin": "\n    .gradient {\n        background: linear-gradient(red 40% 60%, blue);\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hex_alpha_colors::166",
+  "argv": [
+   "-t",
+   "chrome 60"
+  ],
+  "stdin": "\n    .alpha {\n        color: #ff000088;\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_space_separated_rgb::167",
+  "argv": [
+   "-t",
+   "chrome 70"
+  ],
+  "stdin": "\n    .rgb {\n        color: rgb(255 0 0);\n        background: rgba(0 0 255 / 0.5);\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_not_selector_multiple_args::168",
+  "argv": [
+   "-t",
+   "chrome 80"
+  ],
+  "stdin": "\n    .element:not(.foo, .bar) {\n        display: none;\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_makes_dashy_value_positional_in_error_message::169",
+  "argv": [
+   "--nonexistent-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_treats_following_as_positional_not_flag::170",
+  "argv": [
+   "--",
+   "--nonexistent-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repeated_flag_last_value_wins_no_parse_error::171",
+  "argv": [
+   "--output-file=one.css",
+   "--output-file=two.css"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_short_flags_are_accepted_and_not_a_parse_error::172",
+  "argv": [
+   "-md",
+   "/tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_errors::173",
+  "argv": [
+   "--definitely-not-a-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_formats_css_default_printer::174",
+  "argv": [],
+  "stdin": "a { color: red; }\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_css_modules_stdout_json_when_no_output_file::175",
+  "argv": [
+   "--css-modules",
+   "in.css"
+  ],
+  "stdin": null,
+  "files": {
+   "in.css": ".foo { color: red; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_media_accepted_without_flag::176",
+  "argv": [
+   "cm.css"
+  ],
+  "stdin": null,
+  "files": {
+   "cm.css": "@custom-media --narrow (max-width: 30em);\n@media (--narrow) { a { color: red; } }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minify_from_stdin_basic::177",
+  "argv": [
+   "--minify"
+  ],
+  "stdin": "a { color: red; margin: 0px 0px 0px 0px; }\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_file_argument_pretty_printed::178",
+  "argv": [
+   "in.css"
+  ],
+  "stdin": null,
+  "files": {
+   "in.css": "a { color: red; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_minify::179",
+  "argv": [
+   "--minify"
+  ],
+  "stdin": ".foo { color: red; background: blue; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_flag_adds_vendor_prefixes::180",
+  "argv": [
+   "-t",
+   "> 0.5%, last 2 versions"
+  ],
+  "stdin": ".flex {\n  display: flex;\n}\n\n.grid {\n  display: grid;\n}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minify_preserves_functionality::181",
+  "argv": [
+   "--minify"
+  ],
+  "stdin": ".a .b { color: red; }\n.c > .d { background: blue; }\n.e + .f { margin: 10px; }\n.g ~ .h { padding: 5px; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_css_modules_stdin_with_minify::182",
+  "argv": [
+   "--css-modules",
+   "--minify"
+  ],
+  "stdin": ".test { color: blue; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_composes_duplicate_prevention::183",
+  "argv": [
+   "--css-modules",
+   "--minify"
+  ],
+  "stdin": "\n.base {\n  color: blue;\n}\n\n.button {\n  composes: base base base;\n  padding: 1rem;\n}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_css_with_modules::184",
+  "argv": [
+   "--css-modules",
+   "--minify"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_whitespace_only_css_with_modules::185",
+  "argv": [
+   "--css-modules",
+   "--minify"
+  ],
+  "stdin": "   \n\n\t  \n  ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_css_modules_pattern_with_literals::186",
+  "argv": [
+   "--css-modules",
+   "--css-modules-pattern",
+   "prefix-[local]-suffix",
+   "--minify"
+  ],
+  "stdin": ".button { color: blue; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_class_and_id_in_same_ruleset::187",
+  "argv": [
+   "--css-modules",
+   "--minify"
+  ],
+  "stdin": ".button#primary {\n  background: blue;\n}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_animation_name_with_vendor_prefix_keyframes::188",
+  "argv": [
+   "--css-modules",
+   "--minify"
+  ],
+  "stdin": "@-webkit-keyframes slideIn {\n  from { transform: translateX(-100%); }\n  to { transform: translateX(0); }\n}\n\n@keyframes slideIn {\n  from { transform: translateX(-100%); }\n  to { transform: translateX(0); }\n}\n\n.box {\n  animation: slideIn 1s;\n}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_css_modules_json_export_structure::189",
+  "argv": [
+   "--css-modules",
+   "--minify"
+  ],
+  "stdin": ".button {\n  color: blue;\n}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minify_preserves_custom_properties::190",
+  "argv": [
+   "--minify"
+  ],
+  "stdin": ":root {\n  --primary-color: #ff0000;\n  --spacing: 10px;\n}\n\n.button {\n  color: var(--primary-color);\n  padding: var(--spacing);\n}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_var_minified::191",
+  "argv": [
+   "--minify"
+  ],
+  "stdin": ":root {\n  --primary: #ff0000;\n  --spacing: 10px;\n}\n\n.element {\n  color: var(--primary);\n  margin: var(--spacing);\n}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_font_feature_values_error_recovery::192",
+  "argv": [
+   "--error-recovery"
+  ],
+  "stdin": "@font-feature-values MyFont {\n  @stylistic {\n    invalid: abc;\n    valid: 1;\n  }\n}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_font_feature_values_minified::193",
+  "argv": [
+   "--minify"
+  ],
+  "stdin": "@font-feature-values MyFont {\n  @stylistic {\n    fancy: 1 2 3;\n  }\n  @styleset {\n    cool: 4;\n  }\n}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_font_palette_values_color_fallbacks::194",
+  "argv": [
+   "--targets",
+   "chrome >= 90"
+  ],
+  "stdin": "@font-palette-values --modern {\n  font-family: ColorFont;\n  base-palette: 0;\n  override-colors: 0 lab(50% 40 30), 1 oklch(60% 0.15 120);\n}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_font_palette_values_minified::195",
+  "argv": [
+   "--minify"
+  ],
+  "stdin": "@font-palette-values --minified {\n  font-family: \"My Font\";\n  base-palette: 1;\n  override-colors: 0 #ff0000, 1 #00ff00;\n}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_font_palette_values_wide_gamut_color_fallbacks::196",
+  "argv": [
+   "--targets",
+   "chrome >= 95"
+  ],
+  "stdin": "@font-palette-values --wide-gamut {\n  font-family: ColorFont;\n  base-palette: 0;\n  override-colors: \n    0 color(display-p3 1 0 0),\n    1 oklch(0.5 0.2 180),\n    2 lch(60% 50 120);\n}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_font_weight_keyword_to_numeric_minified::197",
+  "argv": [
+   "--minify"
+  ],
+  "stdin": ".normal { font-weight: normal; }\n.bold { font-weight: bold; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_font_shorthand_minified_conversion::198",
+  "argv": [
+   "--minify"
+  ],
+  "stdin": ".full { font: italic bold 16px/1.5 Georgia, serif; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_font_face_minified::199",
+  "argv": [
+   "--minify"
+  ],
+  "stdin": "@font-face {\n  font-family: \"MinifyTest\";\n  src: url(\"font.woff2\") format(\"woff2\");\n  font-weight: normal;\n  font-style: normal;\n  font-display: swap;\n}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_font_palette_values_minified::200",
+  "argv": [
+   "--minify"
+  ],
+  "stdin": "@font-palette-values --minify-test {\n  font-family: \"TestFont\";\n  base-palette: 1;\n  override-colors: 0 red, 1 blue;\n}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_style_minification_shorthand_collapse::201",
+  "argv": [
+   "--minify"
+  ],
+  "stdin": "\n.minify1 { list-style-type: disc; list-style-position: inside; list-style-image: none; }\n.minify2 { list-style-type: decimal; list-style-position: outside; }\n.minify3 { list-style-image: url('img.png'); list-style-type: circle; }\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_system_color_accent_with_firefox_target::202",
+  "argv": [
+   "--targets",
+   "firefox 103"
+  ],
+  "stdin": "\n.accent { color: AccentColor; background: AccentColorText; }\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_system_color_accent_with_chrome_target_unsupported::203",
+  "argv": [
+   "--targets",
+   "chrome 100"
+  ],
+  "stdin": "\n.accent { color: AccentColor; background: AccentColorText; }\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_system_colors_minification::204",
+  "argv": [
+   "--minify"
+  ],
+  "stdin": "\n.test {\n    color: Canvas;\n    background: CanvasText;\n    border-color: ButtonFace;\n    outline-color: Highlight;\n}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_style_minify_with_browser_targets::205",
+  "argv": [
+   "--minify",
+   "--targets",
+   "chrome 89"
+  ],
+  "stdin": "\n.test1 {\n    list-style-type: disclosure-open;\n    list-style-position: inside;\n}\n.test2 {\n    list-style: hiragana-iroha outside;\n}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_style_types_with_very_old_browser_targets::206",
+  "argv": [
+   "--targets",
+   "ie 6"
+  ],
+  "stdin": "\n.test1 { list-style-type: decimal-leading-zero; }\n.test2 { list-style-type: lower-alpha; }\n.test3 { list-style-type: disclosure-open; }\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_style_with_error_recovery::207",
+  "argv": [
+   "--error-recovery"
+  ],
+  "stdin": "\n.valid { list-style-type: disc; }\n.invalid { list-style-type: not-a-real-type; }\n.valid2 { list-style-type: circle; }\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_style_minify_complex_combinations::208",
+  "argv": [
+   "--minify"
+  ],
+  "stdin": "\n.a { list-style-type: lower-alpha; }\n.b { list-style-position: inside; }\n.c { list-style-image: url('marker.svg'); }\n.d { \n    list-style-type: upper-roman;\n    list-style-position: inside;\n    list-style-image: url('num.png');\n}\n.e { \n    list-style-type: disclosure-closed;\n    list-style-position: outside;\n}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_style_types_safari_targets::209",
+  "argv": [
+   "--targets",
+   "safari 14"
+  ],
+  "stdin": "\n.test1 { list-style-type: disclosure-open; }\n.test2 { list-style-type: ethiopic-numeric; }\n.test3 { list-style-type: japanese-formal; }\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minify_from_stdin::210",
+  "argv": [
+   "--minify"
+  ],
+  "stdin": ".test { color: #ffffff; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_page_minification::211",
+  "argv": [
+   "--minify"
+  ],
+  "stdin": "@page :first { margin-top: 2in; margin-bottom: 1in; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_page_minify_with_margin_box::212",
+  "argv": [
+   "--minify"
+  ],
+  "stdin": "@page rotated:first {\n  size: A4 landscape;\n  margin: 2cm;\n  @top-left {\n    content: \"Title\";\n  }\n}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_page_minify_empty_selector::213",
+  "argv": [
+   "--minify"
+  ],
+  "stdin": "@page { }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_page_declarations_margin_boxes_minified::214",
+  "argv": [
+   "--minify"
+  ],
+  "stdin": "@page {\n  margin: 1in;\n  @top-left { content: \"A\"; }\n  size: A4;\n  @bottom-right { content: \"B\"; }\n  orphans: 2;\n}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_page_important_minified::215",
+  "argv": [
+   "--minify"
+  ],
+  "stdin": "@page {\n  margin: 1in !important;\n  @top-left { content: \"Title\"; }\n  size: A4;\n}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_page_minify_multiple_selectors::216",
+  "argv": [
+   "--minify"
+  ],
+  "stdin": "@page :left, :right, :first { margin: 1in; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_page_minify_named_page::217",
+  "argv": [
+   "--minify"
+  ],
+  "stdin": "@page chapter { margin: 2cm; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_css_modules_local_global::218",
+  "argv": [
+   "--minify",
+   "--css-modules"
+  ],
+  "stdin": ":local(.button) { background: blue; }\n:global(body) { margin: 0; }\n:local(.nav) :global(.icon) { width: 16px; }\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_user_select_autoprefixer_chrome50::219",
+  "argv": [
+   "--targets",
+   "chrome 50"
+  ],
+  "stdin": ".test { user-select: none; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_appearance_autoprefixer_safari10::220",
+  "argv": [
+   "--targets",
+   "safari 10"
+  ],
+  "stdin": ".test { appearance: none; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_scheme_autoprefixer_chrome80_light_dark::221",
+  "argv": [
+   "--targets",
+   "chrome 80"
+  ],
+  "stdin": ".test { color-scheme: light dark; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_scheme_autoprefixer_chrome80_light_only::222",
+  "argv": [
+   "--targets",
+   "chrome 80"
+  ],
+  "stdin": ".light-only-chrome80 { color-scheme: light only; }\n.dark-only-chrome80 { color-scheme: dark only; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_caret_color_fallback_oklch_chrome90::223",
+  "argv": [
+   "--targets",
+   "chrome 90"
+  ],
+  "stdin": ".test { caret-color: oklch(0.7 0.15 30); }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_caret_color_fallback_oklch_chrome50::224",
+  "argv": [
+   "--targets",
+   "chrome 50"
+  ],
+  "stdin": ".test { caret-color: oklch(0.7 0.15 30); }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_caret_shorthand_fallback_oklch_chrome90::225",
+  "argv": [
+   "--targets",
+   "chrome 90"
+  ],
+  "stdin": ".test { caret: oklch(0.7 0.15 30) bar; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_appearance_autoprefixer_firefox60::226",
+  "argv": [
+   "--targets",
+   "firefox 60"
+  ],
+  "stdin": ".test { appearance: none; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_color_adjust_autoprefixer_safari14::227",
+  "argv": [
+   "--targets",
+   "safari 14"
+  ],
+  "stdin": ".test { print-color-adjust: exact; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_user_select_autoprefixer_ie11::228",
+  "argv": [
+   "--targets",
+   "ie 11"
+  ],
+  "stdin": ".test { user-select: text; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_user_select_autoprefixer_multiple_browsers::229",
+  "argv": [
+   "--targets",
+   "chrome 50, safari 10, firefox 60"
+  ],
+  "stdin": ".test { user-select: none; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_appearance_autoprefixer_multiple_browsers::230",
+  "argv": [
+   "--targets",
+   "safari 10, firefox 60"
+  ],
+  "stdin": ".test { appearance: button; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

@@ -1,0 +1,26 @@
+jq — A lightweight and flexible command-line JSON processor
+Author: Stephen Dolan (stedolan), maintained by jqlang/jq
+License: MIT
+URL: https://github.com/jqlang/jq
+Language: C
+Year: 2012
+
+jq is like sed for JSON data - you can use it to slice, filter, map and transform structured data.
+jq is written in portable C, and it has zero runtime dependencies.
+
+Key behaviors:
+- Filters: . (identity), .field, .["field"], .[0], .[], .[] | select(...)
+- Pipe operator: . | .field
+- Array construction: [.[] | .field]
+- Object construction: {name: .name, value: .value}
+- Recursive descent: ..
+- Builtins: length, keys, values, has, in, map, select, empty, add, any, all, flatten
+- --compact-output / -c for compact JSON
+- --raw-output / -r for raw string output
+- --null-input / -n for generating JSON without input
+- --arg and --argjson for passing values
+- Arithmetic, string interpolation, conditionals, try-catch
+- exit status 0 for truthy output, 1 for false/null, 5 for usage errors
+
+Determinex ProgramBench lock: jq — 6874/6874 tests (LOCKED).
+Determinex reimplements jq CLI behavior as a Python implementation.

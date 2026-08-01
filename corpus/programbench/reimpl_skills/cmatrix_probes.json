@@ -1,0 +1,2436 @@
+[
+ {
+  "name": "fuzz1",
+  "argv": [
+   "f1.json"
+  ],
+  "stdin": null,
+  "files": {
+   "f1.json": "[{},{\"1\":{},\"1\":[\"with space\"]},[{\"b\":false,\"a b\":false,\"b\":\"with space\"},\"with space\"]]"
+  },
+  "serve": {}
+ },
+ {
+  "name": "test::test_help_short_flag::0",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_long_flag::1",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_short::2",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_long_shows_help::3",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_green::4",
+  "argv": [
+   "-C",
+   "green",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_red::5",
+  "argv": [
+   "-C",
+   "red",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_blue::6",
+  "argv": [
+   "-C",
+   "blue",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_white::7",
+  "argv": [
+   "-C",
+   "white",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_yellow::8",
+  "argv": [
+   "-C",
+   "yellow",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_cyan::9",
+  "argv": [
+   "-C",
+   "cyan",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_magenta::10",
+  "argv": [
+   "-C",
+   "magenta",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_black::11",
+  "argv": [
+   "-C",
+   "black",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_case_insensitive::12",
+  "argv": [
+   "-C",
+   "RED",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_invalid_shows_error_message::13",
+  "argv": [
+   "-C",
+   "purple"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_update_delay_0::14",
+  "argv": [
+   "-u",
+   "0",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_update_delay_4_default::15",
+  "argv": [
+   "-u",
+   "4",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_update_delay_9::16",
+  "argv": [
+   "-u",
+   "9",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_update_delay_10::17",
+  "argv": [
+   "-u",
+   "10",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bold_flag_b::18",
+  "argv": [
+   "-b",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bold_flag_B::19",
+  "argv": [
+   "-B",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_bold_flag_n::20",
+  "argv": [
+   "-n",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asynchronous_flag::21",
+  "argv": [
+   "-a",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_old_style_flag::22",
+  "argv": [
+   "-o",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_screensaver_flag::23",
+  "argv": [
+   "-s",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lock_flag::24",
+  "argv": [
+   "-L",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_japanese_flag::25",
+  "argv": [
+   "-c",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lambda_flag::26",
+  "argv": [
+   "-m",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_changing_characters_flag::27",
+  "argv": [
+   "-k",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_linux_mode_flag::28",
+  "argv": [
+   "-l",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_force_linux_flag::29",
+  "argv": [
+   "-f",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_x_window_flag::30",
+  "argv": [
+   "-x",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rainbow_flag::31",
+  "argv": [
+   "-r",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_message_simple::32",
+  "argv": [
+   "-M",
+   "Hello",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_message_with_spaces::33",
+  "argv": [
+   "-M",
+   "Hello World",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_message_empty::34",
+  "argv": [
+   "-M",
+   "",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tty_option_with_help::35",
+  "argv": [
+   "-t",
+   "/dev/null",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bold_and_async::36",
+  "argv": [
+   "-b",
+   "-a",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_and_update_delay::37",
+  "argv": [
+   "-C",
+   "red",
+   "-u",
+   "2",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_movie_like_combination::38",
+  "argv": [
+   "-l",
+   "-b",
+   "-a",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_screensaver_like_combination::39",
+  "argv": [
+   "-o",
+   "-l",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_flags_at_once::40",
+  "argv": [
+   "-a",
+   "-b",
+   "-o",
+   "-s",
+   "-x",
+   "-r",
+   "-m",
+   "-k",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_shows_help::41",
+  "argv": [
+   "-z"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_missing_argument_shows_help::42",
+  "argv": [
+   "-C"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_update_missing_argument_shows_help::43",
+  "argv": [
+   "-u"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_message_missing_argument_shows_help::44",
+  "argv": [
+   "-M"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tty_missing_argument_shows_help::45",
+  "argv": [
+   "-t"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_force_flag_overrides_xterm::46",
+  "argv": [
+   "-f",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM": "xterm"
+  }
+ },
+ {
+  "name": "test::test_color_flag_explicit::47",
+  "argv": [
+   "-V",
+   "-C",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_update_speed_flag_explicit::48",
+  "argv": [
+   "-V",
+   "-u",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_flags_with_term::49",
+  "argv": [
+   "-V",
+   "-u",
+   "5",
+   "-C",
+   "blue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM": "xterm"
+  }
+ },
+ {
+  "name": "test::test_tty_flag_with_nonexistent_file::50",
+  "argv": [
+   "-t",
+   "/dev/nonexistent_tty_xyz",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_valid_colors::51",
+  "argv": [
+   "-V",
+   "-C"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_color::52",
+  "argv": [
+   "-V",
+   "-C",
+   "purple"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_valid_update_speeds::53",
+  "argv": [
+   "-V",
+   "-u"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_update_speed_negative::54",
+  "argv": [
+   "-V",
+   "-u",
+   "-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_update_speed_too_high::55",
+  "argv": [
+   "-V",
+   "-u",
+   "99"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_message_flag_with_simple_text::56",
+  "argv": [
+   "-V",
+   "-M",
+   "Hello World"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_message_flag_with_special_chars::57",
+  "argv": [
+   "-V",
+   "-M",
+   "Test!@#$%"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_message_flag_with_empty_string::58",
+  "argv": [
+   "-V",
+   "-M",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_flag_combination::59",
+  "argv": [
+   "-V",
+   "-a",
+   "-b",
+   "-u",
+   "5",
+   "-C",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duplicate_flags::60",
+  "argv": [
+   "-V",
+   "-C",
+   "red",
+   "-C",
+   "blue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_contradictory_bold_flags::61",
+  "argv": [
+   "-V",
+   "-b",
+   "-B",
+   "-n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_before_version::62",
+  "argv": [
+   "-V",
+   "--unknown-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_flag_value::63",
+  "argv": [
+   "-V",
+   "-u",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_force_flag_precedence::64",
+  "argv": [
+   "-V",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM": "xterm"
+  }
+ },
+ {
+  "name": "test::test_invalid_long_flag_shows_help::65",
+  "argv": [
+   "--invalid-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_shows_help::66",
+  "argv": [
+   "--invalid-flag-that-does-not-exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_question_mark::67",
+  "argv": [
+   "-?"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_color_error_message::68",
+  "argv": [
+   "-C",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_case_sensitivity::69",
+  "argv": [
+   "-C",
+   "RED"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_exits_zero::70",
+  "argv": [
+   "--invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_help_flags::71",
+  "argv": [
+   "-h",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_after_other_flags::72",
+  "argv": [
+   "-a",
+   "-b",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_after_other_flags::73",
+  "argv": [
+   "-a",
+   "-b",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag::74",
+  "argv": [
+   "./executable",
+   "-Z"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_flag_without_value::75",
+  "argv": [
+   "./executable",
+   "-C"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delay_flag_without_value::76",
+  "argv": [
+   "./executable",
+   "-u"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_message_flag_without_value::77",
+  "argv": [
+   "./executable",
+   "-M"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag::78",
+  "argv": [
+   "./executable",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_flag::79",
+  "argv": [
+   "./executable",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::80",
+  "argv": [
+   "./executable",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bold_characters_flag::81",
+  "argv": [
+   "-b",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_bold_characters_flag::82",
+  "argv": [
+   "-B",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_bold_characters_flag::83",
+  "argv": [
+   "-n",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_japanese_characters_flag::84",
+  "argv": [
+   "-c",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lambda_mode_flag::85",
+  "argv": [
+   "-m",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_changing_characters_flag::86",
+  "argv": [
+   "-k",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bold_overrides::87",
+  "argv": [
+   "-B",
+   "-n",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_bold_overrides_bold::88",
+  "argv": [
+   "-b",
+   "-B",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_character_modes::89",
+  "argv": [
+   "-m",
+   "-k",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_japanese_with_lambda::90",
+  "argv": [
+   "-c",
+   "-m",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_option_accepted::91",
+  "argv": [
+   "-C",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rainbow_mode_flag::92",
+  "argv": [
+   "-r",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_flag_case_sensitive::93",
+  "argv": [
+   "-C",
+   "green",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_color_flags::94",
+  "argv": [
+   "-C",
+   "red",
+   "-C",
+   "blue",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rainbow_with_color::95",
+  "argv": [
+   "-r",
+   "-C",
+   "red",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_async_mode_flag::96",
+  "argv": [
+   "-a",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_old_style_scrolling_flag::97",
+  "argv": [
+   "-o",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_screensaver_mode_flag::98",
+  "argv": [
+   "-s",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lock_mode_flag::99",
+  "argv": [
+   "-L",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_async_old_style::100",
+  "argv": [
+   "-a",
+   "-o",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_movie_like_combination::101",
+  "argv": [
+   "-l",
+   "-b",
+   "-a",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_screensaver_like_combination::102",
+  "argv": [
+   "-o",
+   "-l",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_large_update_delay::103",
+  "argv": [
+   "-u",
+   "999999",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_update_delay_with_leading_zeros::104",
+  "argv": [
+   "-u",
+   "007",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_message_with_unicode_emoji::105",
+  "argv": [
+   "-M",
+   "Test 🔒 Lock",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_message_with_tabs::106",
+  "argv": [
+   "-M",
+   "Line1\tTabbed\tText",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_message_very_long::107",
+  "argv": [
+   "-M",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_mixed_case::108",
+  "argv": [
+   "-C",
+   "ReD",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_uppercase::109",
+  "argv": [
+   "-C",
+   "GREEN",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_with_spaces::110",
+  "argv": [
+   "-C",
+   " green ",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_flags_together::111",
+  "argv": [
+   "-a",
+   "-b",
+   "-c",
+   "-f",
+   "-l",
+   "-o",
+   "-s",
+   "-x",
+   "-r",
+   "-m",
+   "-k",
+   "-u",
+   "5",
+   "-C",
+   "red",
+   "-M",
+   "Test",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_in_different_order::112",
+  "argv": [
+   "-V",
+   "-C",
+   "blue",
+   "-u",
+   "3",
+   "-a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_with_other_flags::113",
+  "argv": [
+   "-C",
+   "red",
+   "-u",
+   "5",
+   "-h",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_before_help::114",
+  "argv": [
+   "-V",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_before_version::115",
+  "argv": [
+   "-h",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duplicate_flags::116",
+  "argv": [
+   "-a",
+   "-a",
+   "-a",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_flag_no_rainbow::117",
+  "argv": [
+   "-C",
+   "cyan",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lock_mode_with_custom_message::118",
+  "argv": [
+   "-M",
+   "Custom Lock",
+   "-L",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_dash_only::119",
+  "argv": [
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_color_typo::120",
+  "argv": [
+   "-C",
+   "gren"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_color_empty::121",
+  "argv": [
+   "-C",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_color_numeric::122",
+  "argv": [
+   "-C",
+   "123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_tty_path::123",
+  "argv": [
+   "-t",
+   "/dev/nonexistent_tty_12345"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_update_delay_float::124",
+  "argv": [
+   "-u",
+   "3.5",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_update_delay_with_letters::125",
+  "argv": [
+   "-u",
+   "abc",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_double_letter_flag::126",
+  "argv": [
+   "-qq"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_unknown_flags::127",
+  "argv": [
+   "-z",
+   "-y",
+   "-w"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_after_double_dash::128",
+  "argv": [
+   "--",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_flags_order::129",
+  "argv": [
+   "-n",
+   "-B",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_display_flags::130",
+  "argv": [
+   "-a",
+   "-o",
+   "-s",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_character_flags::131",
+  "argv": [
+   "-b",
+   "-c",
+   "-m",
+   "-k",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_with_rainbow::132",
+  "argv": [
+   "-C",
+   "red",
+   "-r",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_terminal_modes::133",
+  "argv": [
+   "-l",
+   "-f",
+   "-x",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_combination_1::134",
+  "argv": [
+   "-l",
+   "-b",
+   "-a",
+   "-u",
+   "2",
+   "-C",
+   "green",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_combination_2::135",
+  "argv": [
+   "-o",
+   "-l",
+   "-s",
+   "-r",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_everything_combined::136",
+  "argv": [
+   "-a",
+   "-b",
+   "-o",
+   "-s",
+   "-r",
+   "-k",
+   "-u",
+   "5",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_bold_flags::137",
+  "argv": [
+   "-b",
+   "-B",
+   "-n",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_message_with_complex_flags::138",
+  "argv": [
+   "-M",
+   "Test",
+   "-L",
+   "-a",
+   "-C",
+   "blue",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_overrides_other_flags::139",
+  "argv": [
+   "-a",
+   "-b",
+   "-c",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_overrides_other_flags::140",
+  "argv": [
+   "-a",
+   "-b",
+   "-c",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_speeds::141",
+  "argv": [
+   "-u",
+   "1",
+   "-u",
+   "5",
+   "-u",
+   "9",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_colors::142",
+  "argv": [
+   "-C",
+   "red",
+   "-C",
+   "blue",
+   "-C",
+   "green",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_japanese_with_lambda_and_changing::143",
+  "argv": [
+   "-c",
+   "-m",
+   "-k",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_message_flag_with_text::144",
+  "argv": [
+   "-M",
+   "Hello World",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_message_flag_empty::145",
+  "argv": [
+   "-M",
+   "",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_message_flag_special_chars::146",
+  "argv": [
+   "-M",
+   "Test!@#$%^&*()",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_message_flag_unicode::147",
+  "argv": [
+   "-M",
+   "Hello 世界 🌍",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_message_with_lock_mode::148",
+  "argv": [
+   "-L",
+   "-M",
+   "Custom Message",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_message_with_quotes::149",
+  "argv": [
+   "-M",
+   "Message with \"quotes\"",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_message_with_newlines::150",
+  "argv": [
+   "-M",
+   "Line1\nLine2",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_update_delay_valid_values::151",
+  "argv": [
+   "-u",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_update_delay_zero::152",
+  "argv": [
+   "-u",
+   "0",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_update_delay_max::153",
+  "argv": [
+   "-u",
+   "10",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_update_delay_negative::154",
+  "argv": [
+   "-u",
+   "-1",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_update_delay_too_large::155",
+  "argv": [
+   "-u",
+   "100",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_linux_mode_flag::156",
+  "argv": [
+   "-l",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_x_window_mode_flag::157",
+  "argv": [
+   "-x",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tty_option::158",
+  "argv": [
+   "-t",
+   "/dev/null",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_linux_with_x_window::159",
+  "argv": [
+   "-l",
+   "-x",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_force_with_linux_mode::160",
+  "argv": [
+   "-f",
+   "-l",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_run_with_quick_exit::161",
+  "argv": [
+   "bash",
+   "-c",
+   "timeout 0.5 script -qec 'TERM=linux ../executable' /dev/null || true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_async_mode_runs::162",
+  "argv": [
+   "bash",
+   "-c",
+   "timeout 0.5 script -qec 'TERM=linux ../executable -a' /dev/null || true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_old_style_runs::163",
+  "argv": [
+   "bash",
+   "-c",
+   "timeout 0.5 script -qec 'TERM=linux ../executable -o' /dev/null || true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bold_mode_runs::164",
+  "argv": [
+   "bash",
+   "-c",
+   "timeout 0.5 script -qec 'TERM=linux ../executable -b' /dev/null || true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_bold_runs::165",
+  "argv": [
+   "bash",
+   "-c",
+   "timeout 0.5 script -qec 'TERM=linux ../executable -B' /dev/null || true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rainbow_mode_runs::166",
+  "argv": [
+   "bash",
+   "-c",
+   "timeout 0.5 script -qec 'TERM=linux ../executable -r' /dev/null || true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lambda_mode_runs::167",
+  "argv": [
+   "bash",
+   "-c",
+   "timeout 0.5 script -qec 'TERM=linux ../executable -m' /dev/null || true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_changing_chars_runs::168",
+  "argv": [
+   "bash",
+   "-c",
+   "timeout 0.5 script -qec 'TERM=linux ../executable -k' /dev/null || true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_japanese_mode_runs::169",
+  "argv": [
+   "bash",
+   "-c",
+   "timeout 0.5 script -qec 'TERM=linux ../executable -c' /dev/null || true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_red_runs::170",
+  "argv": [
+   "bash",
+   "-c",
+   "timeout 0.5 script -qec 'TERM=linux ../executable -C red' /dev/null || true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_blue_runs::171",
+  "argv": [
+   "bash",
+   "-c",
+   "timeout 0.5 script -qec 'TERM=linux ../executable -C blue' /dev/null || true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_update_speed_fast_runs::172",
+  "argv": [
+   "bash",
+   "-c",
+   "timeout 0.5 script -qec 'TERM=linux ../executable -u 0' /dev/null || true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_update_speed_slow_runs::173",
+  "argv": [
+   "bash",
+   "-c",
+   "timeout 0.5 script -qec 'TERM=linux ../executable -u 10' /dev/null || true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_flags_runs::174",
+  "argv": [
+   "bash",
+   "-c",
+   "timeout 0.5 script -qec 'TERM=linux ../executable -a -b -r -u 2' /dev/null || true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_bold_runs::175",
+  "argv": [
+   "bash",
+   "-c",
+   "timeout 0.5 script -qec 'TERM=linux ../executable -n' /dev/null || true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_x_window_mode_runs::176",
+  "argv": [
+   "bash",
+   "-c",
+   "timeout 0.5 script -qec 'TERM=linux ../executable -x' /dev/null || true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_force_linux_mode_runs::177",
+  "argv": [
+   "bash",
+   "-c",
+   "timeout 0.5 script -qec 'TERM=linux ../executable -f' /dev/null || true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_message_display_runs::178",
+  "argv": [
+   "bash",
+   "-c",
+   "timeout 0.5 script -qec 'TERM=linux ../executable -M TestMessage' /dev/null || true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_screensaver_mode_runs::179",
+  "argv": [
+   "bash",
+   "-c",
+   "timeout 0.5 script -qec 'TERM=linux ../executable -s' /dev/null || true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_shows_usage::180",
+  "argv": [
+   "--bogus"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_takes_precedence_over_unknown_flag::181",
+  "argv": [
+   "--help",
+   "--bogus"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_long_flag_prints_usage_and_exits_0::182",
+  "argv": [
+   "--definitely-not-a-real-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_short_flags_supported_and_version_exits_zero::183",
+  "argv": [
+   "-abnV"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dash_dash_is_treated_as_valid_invocation_and_enters_render_loop::184",
+  "argv": [
+   "--",
+   "-Z"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_positional_argument_is_accepted_and_enters_render_loop::185",
+  "argv": [
+   "positional"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_t_with_value_enters_render_loop::186",
+  "argv": [
+   "-t",
+   "/dev/null"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

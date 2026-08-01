@@ -1,0 +1,5314 @@
+{
+ "slug": "noborus__trdsql.d8c5ff6",
+ "language": "",
+ "n_branches": 11,
+ "n_tests_total": 1340,
+ "n_examples": 300,
+ "n_with_exact_stdout": 16,
+ "n_with_rc": 295,
+ "n_skipped": 1022,
+ "examples": [
+  {
+   "test": "test_stdin_input_with_dash_path",
+   "argv": [
+    "-ih",
+    "SELECT a,b FROM -"
+   ],
+   "stdin": "a,b\n1,2\n3,4\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1,2\n3,4\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_trdsql_behavior.py:182"
+  },
+  {
+   "test": "test_invalid_output_path_error",
+   "argv": [
+    "-out",
+    "/invalid/path/output.csv",
+    "SELECT * FROM -"
+   ],
+   "stdin": "a,b\n1,2",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "open /invalid/path/output.csv: no such file or directory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmd_gaps.py:51"
+  },
+  {
+   "test": "test_out_without_guess_defaults_to_csv",
+   "argv": [
+    "-out-without-guess",
+    "SELECT * FROM -"
+   ],
+   "stdin": "a,b\n1,2",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a,b\n1,2\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cmd_gaps.py:66"
+  },
+  {
+   "test": "test_debug_flag_with_db_config_list",
+   "argv": [
+    "-debug",
+    "-config",
+    "SELECT * FROM -"
+   ],
+   "stdin": "a,b\n1,2",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "config found:",
+    ">[driver: mydb:sqlite3::memory:]",
+    " [driver: otherdb:postgres:host=localhost]",
+    "driver: sqlite3, dsn: :memory:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmd_gaps.py:168"
+  },
+  {
+   "test": "test_dsn_only_without_driver",
+   "argv": [
+    "-dsn",
+    ":memory:",
+    "SELECT * FROM -"
+   ],
+   "stdin": "a,b\n1,2",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a,b\n1,2\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cmd_gaps.py:203"
+  },
+  {
+   "test": "test_nonexistent_db_in_config",
+   "argv": [
+    "-config",
+    "-db",
+    "nonexistent",
+    "SELECT * FROM -"
+   ],
+   "stdin": "a,b\n1,2",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ERROR: db[nonexistent] does not found"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmd_gaps.py:217"
+  },
+  {
+   "test": "test_output_file_double_extension_format_guess",
+   "argv": [
+    "-out",
+    "SELECT * FROM -"
+   ],
+   "stdin": "a,b\n1,2",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cmd_gaps.py:241"
+  },
+  {
+   "test": "test_explicit_compression_overrides_extension",
+   "argv": [
+    "-out",
+    "-oz",
+    "gzip",
+    "SELECT * FROM -"
+   ],
+   "stdin": "a,b\n1,2",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cmd_gaps.py:347"
+  },
+  {
+   "test": "test_multiple_output_format_flags_priority",
+   "argv": [
+    "-ojson",
+    "-ocsv",
+    "SELECT * FROM -"
+   ],
+   "stdin": "a,b\n1,2",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cmd_gaps.py:444"
+  },
+  {
+   "test": "test_query_from_stdin_flag",
+   "argv": [
+    "-q",
+    "/dev/stdin"
+   ],
+   "stdin": "SELECT 1 + 1 as result",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "2\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_database_error.py:438"
+  },
+  {
+   "test": "test_stdin_csv",
+   "argv": [
+    "SELECT * FROM -"
+   ],
+   "stdin": "1,Orange\n2,Melon\n3,Apple\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1,Orange\n2,Melon\n3,Apple\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:210"
+  },
+  {
+   "test": "test_stdin_with_header",
+   "argv": [
+    "-ih",
+    "SELECT c1,c2 FROM -"
+   ],
+   "stdin": "c1,c2\n1,Orange\n2,Melon\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1,Orange\n2,Melon\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:216"
+  },
+  {
+   "test": "test_stdin_dash_csv",
+   "argv": [
+    "-ih",
+    "SELECT * FROM -"
+   ],
+   "stdin": "name,age,city\nAlice,30,NYC\nBob,25,LA\nCarol,35,SF\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Alice,30,NYC\nBob,25,LA\nCarol,35,SF\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_advanced.py:68"
+  },
+  {
+   "test": "test_stdin_json",
+   "argv": [
+    "-ijson",
+    "SELECT product, price FROM stdin"
+   ],
+   "stdin": "[{\"product\":\"apple\",\"price\":1.2},{\"product\":\"banana\",\"price\":0.5},{\"product\":\"orange\",\"price\":0.8}]",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "apple,1.2\nbanana,0.5\norange,0.8\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_advanced.py:82"
+  },
+  {
+   "test": "test_stdin_uppercase",
+   "argv": [
+    "-ih",
+    "SELECT * FROM STDIN"
+   ],
+   "stdin": "a,b,c\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_advanced.py:477"
+  },
+  {
+   "test": "test_csv_stdin_input",
+   "argv": [
+    "-ih",
+    "-ojson",
+    "SELECT * FROM -"
+   ],
+   "stdin": "a,b\n1,2\n3,4\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_formats.py:444"
+  },
+  {
+   "test": "test_tsv_tab_delimiter",
+   "argv": [
+    "-ih",
+    "-id",
+    "\t",
+    "-ojson",
+    "SELECT * FROM -"
+   ],
+   "stdin": "id\tname\n1\tAlice\n2\tBob\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_formats.py:460"
+  },
+  {
+   "test": "test_psv_pipe_delimiter",
+   "argv": [
+    "-ih",
+    "-id",
+    "|",
+    "-ojson",
+    "SELECT * FROM -"
+   ],
+   "stdin": "id|name|price\n1|Orange|50\n2|Melon|500\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_formats.py:478"
+  },
+  {
+   "test": "test_stdin_decompression_auto_detection",
+   "argv": [
+    "/workspace/executable",
+    "-ijson",
+    "-ojson",
+    "SELECT * FROM -"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_reader_importer_gaps.py:305"
+  },
+  {
+   "test": "test_stdin_input",
+   "argv": [
+    "-ih",
+    "-icsv",
+    "SELECT * FROM -"
+   ],
+   "stdin": "name,age\nAlice,30\nBob,25\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Alice",
+    "Bob"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_smoke.py:69"
+  },
+  {
+   "test": "test_pipe_delimiter",
+   "argv": [
+    "-id",
+    "|"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,2,3",
+    "4,5,6"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_features.py:4"
+  },
+  {
+   "test": "test_output_to_stdout_explicitly",
+   "argv": [
+    "-ocsv",
+    "SELECT 1, 2, 3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,2,3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_features.py:13"
+  },
+  {
+   "test": "test_null_in_output",
+   "argv": [
+    "SELECT NULL"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_features.py:19"
+  },
+  {
+   "test": "test_empty_string_vs_null",
+   "argv": [
+    "SELECT '', NULL"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_features.py:26"
+  },
+  {
+   "test": "test_numeric_precision",
+   "argv": [
+    "SELECT 1.234567890123456789"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.2345"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_features.py:32"
+  },
+  {
+   "test": "test_very_large_number",
+   "argv": [
+    "SELECT 999999999999999999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "9999"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_features.py:38"
+  },
+  {
+   "test": "test_negative_numbers",
+   "argv": [
+    "SELECT -123, -456"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-123",
+    "-456"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_features.py:44"
+  },
+  {
+   "test": "test_boolean_values",
+   "argv": [
+    "SELECT 1=1, 1=0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_features.py:51"
+  },
+  {
+   "test": "test_query_with_comments",
+   "argv": [
+    "SELECT 1 -- this is a comment"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_features.py:82"
+  },
+  {
+   "test": "test_multiline_value_handling",
+   "argv": [
+    "-ocsv",
+    "SELECT 'line1\nline2'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_features.py:88"
+  },
+  {
+   "test": "test_wildcard_in_where",
+   "argv": [
+    "SELECT * FROM testdata/test.csv WHERE c2 LIKE 'M%'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Melon"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_features.py:94"
+  },
+  {
+   "test": "test_case_insensitive_like",
+   "argv": [
+    "SELECT * FROM testdata/test.csv WHERE c2 LIKE '%apple%'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_features.py:101"
+  },
+  {
+   "test": "test_order_by_multiple_columns",
+   "argv": [
+    "SELECT * FROM testdata/test.csv ORDER BY c2, c1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_features.py:107"
+  },
+  {
+   "test": "test_limit_with_offset",
+   "argv": [
+    "SELECT * FROM testdata/test.csv LIMIT 1 OFFSET 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_features.py:113"
+  },
+  {
+   "test": "test_zero_limit",
+   "argv": [
+    "SELECT * FROM testdata/test.csv LIMIT 0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_features.py:121"
+  },
+  {
+   "test": "test_select_with_arithmetic",
+   "argv": [
+    "SELECT c1, c1*2, c1+10 FROM testdata/test.csv WHERE c1='1'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_features.py:128"
+  },
+  {
+   "test": "test_subquery",
+   "argv": [
+    "SELECT * FROM (SELECT 1 AS a, 2 AS b) AS sub"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_queries.py:4"
+  },
+  {
+   "test": "test_union_query",
+   "argv": [
+    "SELECT 1 UNION SELECT 2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1",
+    "2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_queries.py:10"
+  },
+  {
+   "test": "test_union_all",
+   "argv": [
+    "SELECT 1 UNION ALL SELECT 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_queries.py:17"
+  },
+  {
+   "test": "test_case_when",
+   "argv": [
+    "SELECT CASE WHEN 1>0 THEN 'positive' ELSE 'negative' END"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "positive"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_queries.py:25"
+  },
+  {
+   "test": "test_coalesce",
+   "argv": [
+    "SELECT COALESCE(NULL, 'default')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "default"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_queries.py:31"
+  },
+  {
+   "test": "test_nullif",
+   "argv": [
+    "SELECT NULLIF(1, 1)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_queries.py:37"
+  },
+  {
+   "test": "test_cast",
+   "argv": [
+    "SELECT CAST('123' AS INTEGER)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "123"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_queries.py:43"
+  },
+  {
+   "test": "test_between",
+   "argv": [
+    "SELECT * FROM testdata/test.csv WHERE c1 BETWEEN '1' AND '2'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1",
+    "2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_queries.py:49"
+  },
+  {
+   "test": "test_in_list",
+   "argv": [
+    "SELECT * FROM testdata/test.csv WHERE c1 IN ('1', '3')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Orange",
+    "Apple"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_queries.py:56"
+  },
+  {
+   "test": "test_not_in",
+   "argv": [
+    "SELECT * FROM testdata/test.csv WHERE c1 NOT IN ('2')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Orange",
+    "Apple"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_queries.py:63"
+  },
+  {
+   "test": "test_is_null",
+   "argv": [
+    "SELECT * FROM (SELECT NULL AS val) WHERE val IS NULL"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_queries.py:71"
+  },
+  {
+   "test": "test_is_not_null",
+   "argv": [
+    "SELECT * FROM (SELECT 1 AS val) WHERE val IS NOT NULL"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_queries.py:76"
+  },
+  {
+   "test": "test_round_function",
+   "argv": [
+    "SELECT ROUND(3.14159, 2)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3.14"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_queries.py:82"
+  },
+  {
+   "test": "test_abs_function",
+   "argv": [
+    "SELECT ABS(-5)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "5"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_queries.py:88"
+  },
+  {
+   "test": "test_replace_function",
+   "argv": [
+    "SELECT REPLACE('hello world', 'world', 'test')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hello test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_queries.py:94"
+  },
+  {
+   "test": "test_trim_function",
+   "argv": [
+    "SELECT TRIM('  test  ')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_queries.py:100"
+  },
+  {
+   "test": "test_datetime_now",
+   "argv": [
+    "SELECT datetime('now') IS NOT NULL"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_queries.py:106"
+  },
+  {
+   "test": "test_group_concat",
+   "argv": [
+    "SELECT GROUP_CONCAT(c2) FROM testdata/test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_queries.py:112"
+  },
+  {
+   "test": "test_multiple_aggregates",
+   "argv": [
+    "SELECT COUNT(*), SUM(c1), AVG(c1) FROM testdata/test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3",
+    "6"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_queries.py:119"
+  },
+  {
+   "test": "test_self_join",
+   "argv": [
+    "SELECT a.c1, b.c2 FROM testdata/test.csv AS a JOIN testdata/test.csv AS b ON a.c1=b.c1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_queries.py:126"
+  },
+  {
+   "test": "test_left_join",
+   "argv": [
+    "SELECT * FROM (SELECT 1 AS id) AS a LEFT JOIN (SELECT 2 AS id) AS b ON a.id=b.id"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_queries.py:133"
+  },
+  {
+   "test": "test_analyze_csv",
+   "argv": [
+    "-a",
+    "testdata/test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SELECT",
+    "FROM"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_analysis.py:4"
+  },
+  {
+   "test": "test_analyze_with_header",
+   "argv": [
+    "-ih",
+    "-a",
+    "testdata/header.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "header.csv",
+    "SELECT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_analysis.py:14"
+  },
+  {
+   "test": "test_analyze_json",
+   "argv": [
+    "-ijson",
+    "-a",
+    "testdata/test.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test.json",
+    "SELECT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_analysis.py:23"
+  },
+  {
+   "test": "test_analyze_ltsv",
+   "argv": [
+    "-iltsv",
+    "-a",
+    "testdata/test.ltsv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test.ltsv",
+    "SELECT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_analysis.py:30"
+  },
+  {
+   "test": "test_analyze_sql_only",
+   "argv": [
+    "-A",
+    "testdata/test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SELECT",
+    "FROM",
+    "test.csv"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_analysis.py:37"
+  },
+  {
+   "test": "test_analyze_sql_only_with_header",
+   "argv": [
+    "-ih",
+    "-A",
+    "testdata/header.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SELECT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_analysis.py:46"
+  },
+  {
+   "test": "test_analyze_shows_where_example",
+   "argv": [
+    "-a",
+    "testdata/test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "WHERE"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_analysis.py:54"
+  },
+  {
+   "test": "test_analyze_shows_group_example",
+   "argv": [
+    "-a",
+    "testdata/test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_analysis.py:60"
+  },
+  {
+   "test": "test_analyze_shows_order_example",
+   "argv": [
+    "-a",
+    "testdata/test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ORDER"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_analysis.py:66"
+  },
+  {
+   "test": "test_analyze_shows_limit_example",
+   "argv": [
+    "-a",
+    "testdata/test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "LIMIT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_analysis.py:72"
+  },
+  {
+   "test": "test_help_display",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "trdsql",
+    "Execute SQL",
+    "Usage",
+    "Options:",
+    "Input Formats:",
+    "Output Formats:",
+    "Examples:",
+    "-icsv",
+    "-ojson"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:5"
+  },
+  {
+   "test": "test_version_output",
+   "argv": [
+    "-version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "trdsql version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:21"
+  },
+  {
+   "test": "test_simple_select_query",
+   "argv": [
+    "SELECT 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:29"
+  },
+  {
+   "test": "test_simple_arithmetic",
+   "argv": [
+    "SELECT 2+3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "5"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:36"
+  },
+  {
+   "test": "test_string_literal",
+   "argv": [
+    "SELECT 'hello'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hello"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:42"
+  },
+  {
+   "test": "test_multiple_columns",
+   "argv": [
+    "SELECT 1, 2, 3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1",
+    "2",
+    "3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:48"
+  },
+  {
+   "test": "test_query_with_alias",
+   "argv": [
+    "SELECT 1 AS num"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:82"
+  },
+  {
+   "test": "test_query_with_where",
+   "argv": [
+    "SELECT 1 WHERE 1=1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:88"
+  },
+  {
+   "test": "test_query_with_false_where",
+   "argv": [
+    "SELECT 1 WHERE 1=0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:94"
+  },
+  {
+   "test": "test_case_expression",
+   "argv": [
+    "SELECT CASE WHEN 1=1 THEN 'yes' ELSE 'no' END"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "yes"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:102"
+  },
+  {
+   "test": "test_gzip_input",
+   "argv": [
+    "SELECT * FROM testdata/test.csv.gz"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,Orange",
+    "2,Melon",
+    "3,Apple"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_compressed_input.py:4"
+  },
+  {
+   "test": "test_bzip2_input",
+   "argv": [
+    "SELECT * FROM testdata/test.csv.bz2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,Orange",
+    "2,Melon"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_compressed_input.py:12"
+  },
+  {
+   "test": "test_zstd_input",
+   "argv": [
+    "SELECT * FROM testdata/test.csv.zst"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,Orange",
+    "2,Melon"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_compressed_input.py:19"
+  },
+  {
+   "test": "test_lz4_input",
+   "argv": [
+    "SELECT * FROM testdata/test.csv.lz4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,Orange",
+    "2,Melon"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_compressed_input.py:26"
+  },
+  {
+   "test": "test_xz_input",
+   "argv": [
+    "SELECT * FROM testdata/test.csv.xz"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,Orange",
+    "2,Melon"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_compressed_input.py:33"
+  },
+  {
+   "test": "test_compressed_query_operations",
+   "argv": [
+    "SELECT COUNT(*) FROM testdata/test.csv.gz"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_compressed_input.py:40"
+  },
+  {
+   "test": "test_compressed_where_clause",
+   "argv": [
+    "SELECT * FROM testdata/test.csv.gz WHERE c1='1'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,Orange"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_compressed_input.py:46"
+  },
+  {
+   "test": "test_config_file_custom_location",
+   "argv": [
+    "-config",
+    "SELECT 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_configuration.py:5"
+  },
+  {
+   "test": "test_dblist",
+   "argv": [
+    "-dblist"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_configuration.py:22"
+  },
+  {
+   "test": "test_db_selection",
+   "argv": [
+    "-config",
+    "-db",
+    "test1",
+    "SELECT 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_configuration.py:29"
+  },
+  {
+   "test": "test_csv_basic_query",
+   "argv": [
+    "SELECT * FROM testdata/test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,Orange",
+    "2,Melon",
+    "3,Apple"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csv_input.py:4"
+  },
+  {
+   "test": "test_csv_with_header_flag",
+   "argv": [
+    "-ih",
+    "SELECT id, name FROM testdata/header.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,Orange",
+    "2,Melon",
+    "3,Apple"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csv_input.py:12"
+  },
+  {
+   "test": "test_csv_select_specific_columns",
+   "argv": [
+    "SELECT c1 FROM testdata/test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1",
+    "2",
+    "3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csv_input.py:20"
+  },
+  {
+   "test": "test_csv_where_clause",
+   "argv": [
+    "SELECT * FROM testdata/test.csv WHERE c1='1'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,Orange"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csv_input.py:30"
+  },
+  {
+   "test": "test_csv_order_by",
+   "argv": [
+    "SELECT * FROM testdata/test.csv ORDER BY c2 DESC"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Orange"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csv_input.py:38"
+  },
+  {
+   "test": "test_csv_limit",
+   "argv": [
+    "SELECT * FROM testdata/test.csv LIMIT 2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_csv_input.py:47"
+  },
+  {
+   "test": "test_csv_count",
+   "argv": [
+    "SELECT COUNT(*) FROM testdata/test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csv_input.py:54"
+  },
+  {
+   "test": "test_csv_with_quotes",
+   "argv": [
+    "SELECT * FROM testdata/test_quote.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_csv_input.py:60"
+  },
+  {
+   "test": "test_csv_custom_delimiter",
+   "argv": [
+    "-id",
+    ";"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,2,3",
+    "4,5,6"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csv_input.py:66"
+  },
+  {
+   "test": "test_csv_tab_delimiter",
+   "argv": [
+    "-id",
+    "\t"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,2,3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csv_input.py:75"
+  },
+  {
+   "test": "test_csv_skip_header",
+   "argv": [
+    "-is",
+    "1",
+    "SELECT * FROM testdata/header.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Orange"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csv_input.py:83"
+  },
+  {
+   "test": "test_csv_stdin",
+   "argv": [
+    "-icsv",
+    "SELECT * FROM -"
+   ],
+   "stdin": "1,2\n3,4\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,2",
+    "3,4"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_csv_input.py:91"
+  },
+  {
+   "test": "test_csv_with_row_number",
+   "argv": [
+    "-inum",
+    "SELECT * FROM testdata/test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_csv_input.py:98"
+  },
+  {
+   "test": "test_csv_null_values",
+   "argv": [
+    "SELECT * FROM testdata/testnull.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_csv_input.py:105"
+  },
+  {
+   "test": "test_csv_null_conversion_input",
+   "argv": [
+    "-inull",
+    "NA"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_csv_input.py:111"
+  },
+  {
+   "test": "test_csv_irregular_columns",
+   "argv": [
+    "SELECT * FROM testdata/test_indefinite.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_csv_input.py:119"
+  },
+  {
+   "test": "test_explicit_sqlite3",
+   "argv": [
+    "-driver",
+    "sqlite3",
+    "SELECT 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_database_drivers.py:10"
+  },
+  {
+   "test": "test_debug_mode",
+   "argv": [
+    "-debug",
+    "SELECT 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_database_drivers.py:16"
+  },
+  {
+   "test": "test_debug_with_file",
+   "argv": [
+    "-debug",
+    "SELECT * FROM testdata/test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_database_drivers.py:23"
+  },
+  {
+   "test": "test_conflicting_input_formats",
+   "argv": [
+    "-icsv",
+    "-ijson",
+    "SELECT * FROM testdata/test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Orange"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:57"
+  },
+  {
+   "test": "test_single_file",
+   "argv": [
+    "SELECT * FROM testdata/test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Orange"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_operations.py:4"
+  },
+  {
+   "test": "test_multiple_files_union",
+   "argv": [
+    "SELECT * FROM testdata/test1.csv UNION SELECT * FROM testdata/test2.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_file_operations.py:12"
+  },
+  {
+   "test": "test_wildcard_csv",
+   "argv": [
+    "SELECT * FROM testdata/test*.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_file_operations.py:18"
+  },
+  {
+   "test": "test_join_two_files",
+   "argv": [
+    "SELECT * FROM testdata/test1.csv AS t1 JOIN testdata/test2.csv AS t2 ON t1.c1=t2.c1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_file_operations.py:25"
+  },
+  {
+   "test": "test_stdin_input",
+   "argv": [
+    "SELECT * FROM -"
+   ],
+   "stdin": "1,2\n3,4\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,2",
+    "3,4"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_operations.py:31"
+  },
+  {
+   "test": "test_output_to_file",
+   "argv": [
+    "-out",
+    "SELECT 1, 2, 3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,2,3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_operations.py:38"
+  },
+  {
+   "test": "test_output_compression_gzip",
+   "argv": [
+    "-out",
+    "-oz",
+    "gz",
+    "SELECT 1, 2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_file_operations.py:48"
+  },
+  {
+   "test": "test_output_compression_zstd",
+   "argv": [
+    "-out",
+    "-oz",
+    "zstd",
+    "SELECT 1, 2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_file_operations.py:57"
+  },
+  {
+   "test": "test_guess_output_format_by_extension",
+   "argv": [
+    "-out",
+    "SELECT 1 AS num"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_file_operations.py:65"
+  },
+  {
+   "test": "test_output_without_guess",
+   "argv": [
+    "-out",
+    "-out-without-guess",
+    "-ocsv",
+    "SELECT 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_operations.py:76"
+  },
+  {
+   "test": "test_json_input",
+   "argv": [
+    "-ijson",
+    "SELECT * FROM testdata/test.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,Orange",
+    "2,Melon",
+    "3,Apple"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_formats.py:5"
+  },
+  {
+   "test": "test_json_select_field",
+   "argv": [
+    "-ijson",
+    "SELECT c1 FROM testdata/test.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1",
+    "2",
+    "3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_formats.py:13"
+  },
+  {
+   "test": "test_json_nested",
+   "argv": [
+    "-ijson",
+    "SELECT * FROM testdata/test2.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_formats.py:21"
+  },
+  {
+   "test": "test_json_array",
+   "argv": [
+    "-ijson",
+    "SELECT * FROM testdata/test3.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_formats.py:27"
+  },
+  {
+   "test": "test_ltsv_input",
+   "argv": [
+    "-iltsv",
+    "SELECT * FROM testdata/test.ltsv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_formats.py:33"
+  },
+  {
+   "test": "test_ltsv_with_field_names",
+   "argv": [
+    "-iltsv",
+    "SELECT id, name FROM testdata/test.ltsv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_formats.py:39"
+  },
+  {
+   "test": "test_yaml_input",
+   "argv": [
+    "-iyaml",
+    "SELECT * FROM testdata/test.yaml"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_formats.py:45"
+  },
+  {
+   "test": "test_yaml_select",
+   "argv": [
+    "-iyaml",
+    "SELECT * FROM testdata/sample.yaml"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_formats.py:51"
+  },
+  {
+   "test": "test_tbln_input",
+   "argv": [
+    "-itbln",
+    "SELECT * FROM testdata/test.tbln"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_formats.py:57"
+  },
+  {
+   "test": "test_tbln_fields",
+   "argv": [
+    "-itbln",
+    "SELECT id, name FROM testdata/test.tbln"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_formats.py:63"
+  },
+  {
+   "test": "test_text_input",
+   "argv": [
+    "-itext",
+    "SELECT * FROM testdata/ps.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_formats.py:69"
+  },
+  {
+   "test": "test_width_input",
+   "argv": [
+    "-iwidth",
+    "SELECT * FROM testdata/dpkg.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_formats.py:75"
+  },
+  {
+   "test": "test_auto_detect_json",
+   "argv": [
+    "SELECT * FROM testdata/test.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Orange"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_formats.py:87"
+  },
+  {
+   "test": "test_auto_detect_ltsv",
+   "argv": [
+    "SELECT * FROM testdata/test.ltsv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_formats.py:93"
+  },
+  {
+   "test": "test_format_guess_disabled",
+   "argv": [
+    "-icsv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,2,3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_formats.py:99"
+  },
+  {
+   "test": "test_jq_simple_filter",
+   "argv": [
+    "-ijson",
+    "-ijq",
+    ".[]"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jq_expressions.py:5"
+  },
+  {
+   "test": "test_jq_field_selection",
+   "argv": [
+    "-ijson",
+    "-ijq",
+    ".items[]"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jq_expressions.py:15"
+  },
+  {
+   "test": "test_nested_json_path",
+   "argv": [
+    "-ijson",
+    "-ijq",
+    ".data.records[]"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_jq_expressions.py:24"
+  },
+  {
+   "test": "test_csv_output_with_header",
+   "argv": [
+    "-ocsv",
+    "-oh",
+    "SELECT 1 AS a, 2 AS b"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:12"
+  },
+  {
+   "test": "test_json_output",
+   "argv": [
+    "-ojson",
+    "SELECT 1 AS num, 'test' AS str"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:20"
+  },
+  {
+   "test": "test_jsonl_output",
+   "argv": [
+    "-ojsonl",
+    "SELECT * FROM testdata/test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:32"
+  },
+  {
+   "test": "test_ltsv_output",
+   "argv": [
+    "-oltsv",
+    "SELECT 1 AS a, 2 AS b"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a:1",
+    "b:2",
+    "\t"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:43"
+  },
+  {
+   "test": "test_yaml_output",
+   "argv": [
+    "-oyaml",
+    "SELECT 1 AS num"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:51"
+  },
+  {
+   "test": "test_tbln_output",
+   "argv": [
+    "-otbln",
+    "SELECT 1 AS a, 2 AS b"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "|"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:57"
+  },
+  {
+   "test": "test_raw_output",
+   "argv": [
+    "-oraw",
+    "SELECT 'hello'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hello"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:64"
+  },
+  {
+   "test": "test_ascii_table_output",
+   "argv": [
+    "-oat",
+    "SELECT 1 AS num"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "num",
+    "|"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:70"
+  },
+  {
+   "test": "test_markdown_output",
+   "argv": [
+    "-omd",
+    "SELECT 1 AS a, 2 AS b"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "|",
+    "a",
+    "b",
+    "-"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:79"
+  },
+  {
+   "test": "test_vertical_format_output",
+   "argv": [
+    "-ovf",
+    "SELECT 1 AS num, 'test' AS str"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "num",
+    "str"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:89"
+  },
+  {
+   "test": "test_custom_output_delimiter",
+   "argv": [
+    "-ocsv",
+    "-od",
+    ";",
+    "SELECT 1, 2, 3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1;2;3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:98"
+  },
+  {
+   "test": "test_output_quote_all",
+   "argv": [
+    "-ocsv",
+    "-oaq",
+    "SELECT 1, 2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:104"
+  },
+  {
+   "test": "test_output_custom_quote",
+   "argv": [
+    "-ocsv",
+    "-oq",
+    "'",
+    "-oaq",
+    "SELECT 'test'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:111"
+  },
+  {
+   "test": "test_output_null_conversion",
+   "argv": [
+    "-onull",
+    "NULL_VALUE",
+    "SELECT NULL"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "NULL_VALUE"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:117"
+  },
+  {
+   "test": "test_output_crlf",
+   "argv": [
+    "-ocsv",
+    "-ocrlf",
+    "SELECT 1, 2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\r\n"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:123"
+  },
+  {
+   "test": "test_query_from_command_line",
+   "argv": [
+    "SELECT 1, 2, 3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,2,3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_options.py:4"
+  },
+  {
+   "test": "test_query_from_file",
+   "argv": [
+    "-q",
+    "query.sql"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,2,3"
+   ],
+   "files": {
+    "query.sql": "SELECT 1, 2, 3"
+   },
+   "ci": false,
+   "source": "test_query_options.py:10"
+  },
+  {
+   "test": "test_query_file_with_from",
+   "argv": [
+    "-q",
+    "query.sql"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Orange"
+   ],
+   "files": {
+    "query.sql": "SELECT * FROM testdata/test.csv"
+   },
+   "ci": false,
+   "source": "test_query_options.py:18"
+  },
+  {
+   "test": "test_table_name_from_file",
+   "argv": [
+    "-t",
+    "table.txt",
+    "SELECT * FROM testdata/test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "table.txt": "testdata/test.csv"
+   },
+   "ci": false,
+   "source": "test_query_options.py:26"
+  },
+  {
+   "test": "test_query_with_semicolon",
+   "argv": [
+    "SELECT 1;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_options.py:42"
+  },
+  {
+   "test": "test_multiline_query",
+   "argv": [
+    "-q",
+    "query.sql"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {
+    "query.sql": "SELECT \n        1 AS num,\n        2 AS num2"
+   },
+   "ci": false,
+   "source": "test_query_options.py:48"
+  },
+  {
+   "test": "test_limit_rows_read",
+   "argv": [
+    "-ilr",
+    "2",
+    "SELECT * FROM testdata/test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_special_cases.py:118"
+  },
+  {
+   "test": "test_select_all",
+   "argv": [
+    "SELECT * FROM testdata/test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Orange",
+    "Melon",
+    "Apple"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:4"
+  },
+  {
+   "test": "test_where_equals",
+   "argv": [
+    "SELECT * FROM testdata/test.csv WHERE c1='2'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Melon"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:12"
+  },
+  {
+   "test": "test_where_like",
+   "argv": [
+    "SELECT * FROM testdata/test.csv WHERE c2 LIKE '%e%'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:19"
+  },
+  {
+   "test": "test_order_by_asc",
+   "argv": [
+    "SELECT * FROM testdata/test.csv ORDER BY c2 ASC"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Apple"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:34"
+  },
+  {
+   "test": "test_limit_clause",
+   "argv": [
+    "SELECT * FROM testdata/test.csv LIMIT 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:51"
+  },
+  {
+   "test": "test_offset_clause",
+   "argv": [
+    "SELECT * FROM testdata/test.csv LIMIT 10 OFFSET 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:58"
+  },
+  {
+   "test": "test_group_by",
+   "argv": [
+    "SELECT c1, COUNT(*) FROM testdata/test.csv GROUP BY c1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:66"
+  },
+  {
+   "test": "test_having_clause",
+   "argv": [
+    "SELECT c1, COUNT(*) as cnt FROM testdata/test.csv GROUP BY c1 HAVING COUNT(*) > 0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:74"
+  },
+  {
+   "test": "test_sum_aggregate",
+   "argv": [
+    "SELECT SUM(c1) FROM testdata/test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "6"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:86"
+  },
+  {
+   "test": "test_avg_aggregate",
+   "argv": [
+    "SELECT AVG(c1) FROM testdata/test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:93"
+  },
+  {
+   "test": "test_min_aggregate",
+   "argv": [
+    "SELECT MIN(c1) FROM testdata/test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:100"
+  },
+  {
+   "test": "test_max_aggregate",
+   "argv": [
+    "SELECT MAX(c1) FROM testdata/test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:106"
+  },
+  {
+   "test": "test_distinct",
+   "argv": [
+    "SELECT DISTINCT c1 FROM testdata/test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:112"
+  },
+  {
+   "test": "test_upper_function",
+   "argv": [
+    "SELECT UPPER(c2) FROM testdata/test.csv WHERE c1='1'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ORANGE"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:119"
+  },
+  {
+   "test": "test_lower_function",
+   "argv": [
+    "SELECT LOWER(c2) FROM testdata/test.csv WHERE c1='1'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "orange"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:125"
+  },
+  {
+   "test": "test_length_function",
+   "argv": [
+    "SELECT LENGTH(c2) FROM testdata/test.csv WHERE c1='1'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "6"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:131"
+  },
+  {
+   "test": "test_substr_function",
+   "argv": [
+    "SELECT SUBSTR(c2, 1, 3) FROM testdata/test.csv WHERE c1='1'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Ora"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:138"
+  },
+  {
+   "test": "test_concat_operator",
+   "argv": [
+    "SELECT c1 || '-' || c2 FROM testdata/test.csv WHERE c1='1'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1-Orange"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:144"
+  },
+  {
+   "test": "test_column_alias",
+   "argv": [
+    "-oh",
+    "SELECT c1 AS id, c2 AS fruit FROM testdata/test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "id",
+    "fruit"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:150"
+  },
+  {
+   "test": "test_table_alias",
+   "argv": [
+    "SELECT t.c1 FROM testdata/test.csv AS t"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:157"
+  },
+  {
+   "test": "test_cross_join",
+   "argv": [
+    "SELECT * FROM (SELECT 1) AS a CROSS JOIN (SELECT 2) AS b"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1",
+    "2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:163"
+  },
+  {
+   "test": "test_ext_json_invalid_json_errors",
+   "argv": [
+    "-ijson",
+    "SELECT * FROM -"
+   ],
+   "stdin": "t",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid JSON"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ext_readers_writers.py:68"
+  },
+  {
+   "test": "test_ext_json_object_single_row",
+   "argv": [
+    "-ijson",
+    "SELECT a FROM -"
+   ],
+   "stdin": "{\"a\":\"b\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_ext_readers_writers.py:79"
+  },
+  {
+   "test": "test_ext_json_array_of_scalars_produces_rows",
+   "argv": [
+    "-ijson",
+    "SELECT * FROM -"
+   ],
+   "stdin": "[\"a\",\"b\"]",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_ext_readers_writers.py:90"
+  },
+  {
+   "test": "test_ext_json_jq_employees_projection",
+   "argv": [
+    "-ijson",
+    "-ijq",
+    ".employees",
+    "SELECT name,email FROM -"
+   ],
+   "stdin": "{\"employees\":[{\"name\":\"Shyam\",\"email\":\"shyamjaiswal@gmail.com\"},{\"name\":\"Bob\",\"email\":\"bob32@gmail.com\"},{\"name\":\"Jai\",\"email\":\"jai87@gmail.com\"}]}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Shyam,shyamjaiswal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ext_readers_writers.py:101"
+  },
+  {
+   "test": "test_ext_json_null_literal_becomes_empty_line",
+   "argv": [
+    "-ijson",
+    "SELECT id FROM -"
+   ],
+   "stdin": "[{\"id\":1},{\"id\":null},{\"id\":3}]",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_ext_readers_writers.py:113"
+  },
+  {
+   "test": "test_ext_json_inull_string_converted_to_null",
+   "argv": [
+    "-ijson",
+    "-inull",
+    "N",
+    "SELECT id FROM -"
+   ],
+   "stdin": "[{\"id\":1},{\"id\":\"N\"},{\"id\":3}]",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_ext_readers_writers.py:124"
+  },
+  {
+   "test": "test_ext_ltsv_invalid_column_errors",
+   "argv": [
+    "-iltsv",
+    "SELECT * FROM -"
+   ],
+   "stdin": "ID;1\tname:test",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ext_readers_writers.py:135"
+  },
+  {
+   "test": "test_ext_tbln_unsupported_line_errors",
+   "argv": [
+    "-itbln",
+    "SELECT * FROM -"
+   ],
+   "stdin": "******",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unsupported line"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ext_readers_writers.py:168"
+  },
+  {
+   "test": "test_ext_yaml_blank_errors_invalid_names",
+   "argv": [
+    "-iyaml",
+    "SELECT * FROM -"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid names"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ext_readers_writers.py:179"
+  },
+  {
+   "test": "test_ext_yaml_simple_object_rows",
+   "argv": [
+    "-iyaml",
+    "SELECT * FROM -"
+   ],
+   "stdin": "a: 1\nb: test\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_ext_readers_writers.py:190"
+  },
+  {
+   "test": "test_dash_h_prints_help_to_stderr_and_exit_zero",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:187"
+  },
+  {
+   "test": "test_help_takes_precedence_over_other_flags",
+   "argv": [
+    "--help",
+    "-debug"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:199"
+  },
+  {
+   "test": "test_help_with_invalid_argument_still_shows_usage",
+   "argv": [
+    "--help",
+    "--definitely-not-a-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:205"
+  },
+  {
+   "test": "test_double_dash_separator_then_help_is_not_treated_as_flag",
+   "argv": [
+    "--",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:211"
+  },
+  {
+   "test": "test_help_prints_usage_and_is_option_focused",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage",
+    "options"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_no_subcommands.py:10"
+  },
+  {
+   "test": "test_default_config_path_is_home_dot_config_trdsql_config_json_when_debug_enabled",
+   "argv": [
+    "-debug",
+    "-dblist"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "no such file or directory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_handling.py:46"
+  },
+  {
+   "test": "test_config_file_is_loaded_from_default_location_and_affects_dblist_output",
+   "argv": [
+    "-dblist"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "sdb:sqlite3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_handling.py:58"
+  },
+  {
+   "test": "test_config_flag_overrides_default_location",
+   "argv": [
+    "-config",
+    "-dblist"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "altdb:sqlite3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_handling.py:70"
+  },
+  {
+   "test": "test_invalid_json_config_with_config_flag_is_fatal_and_mentions_config_error",
+   "argv": [
+    "-config",
+    "-dblist"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "config error"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_handling.py:89"
+  },
+  {
+   "test": "test_cli_driver_and_dsn_override_config_database_settings",
+   "argv": [
+    "-debug",
+    "-db",
+    "sdb",
+    "-driver",
+    "postgres",
+    "-dsn",
+    "user=test dbname=test",
+    "SELECT 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "driver: postgres, dsn: user=test dbname=test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_handling.py:106"
+  },
+  {
+   "test": "test_stdin_basic",
+   "argv": [
+    "SELECT * FROM -"
+   ],
+   "stdin": "1,Orange\n2,Melon\n3,Apple\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:77"
+  },
+  {
+   "test": "test_stdin_with_query",
+   "argv": [
+    "SELECT c2 FROM -"
+   ],
+   "stdin": "1,Orange\n2,Melon\n3,Apple\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Orange\nMelon\nApple\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:84"
+  },
+  {
+   "test": "test_custom_delimiter_colon",
+   "argv": [
+    "-id",
+    ":",
+    "SELECT * FROM -"
+   ],
+   "stdin": "1:Orange\n2:Melon\n3:Apple\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Orange"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_options.py:9"
+  },
+  {
+   "test": "test_custom_delimiter_pipe",
+   "argv": [
+    "-id",
+    "|",
+    "SELECT * FROM -"
+   ],
+   "stdin": "1|Orange\n2|Melon\n3|Apple\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Orange"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_options.py:17"
+  },
+  {
+   "test": "test_tab_delimiter",
+   "argv": [
+    "-id",
+    "\t",
+    "SELECT * FROM -"
+   ],
+   "stdin": "1\tOrange\n2\tMelon\n3\tApple\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Orange"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_options.py:24"
+  },
+  {
+   "test": "test_json_nested_structure",
+   "argv": [
+    "-ijson"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1",
+    "2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:6"
+  },
+  {
+   "test": "test_json_boolean_values",
+   "argv": [
+    "-ijson"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:29"
+  },
+  {
+   "test": "test_json_null_values",
+   "argv": [
+    "-ijson"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Alice",
+    "2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:38"
+  },
+  {
+   "test": "test_yaml_nested_structure",
+   "argv": [
+    "-iyaml"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1",
+    "2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:47"
+  },
+  {
+   "test": "test_ltsv_with_spaces",
+   "argv": [
+    "-iltsv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "John Doe",
+    "Jane Smith"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:65"
+  },
+  {
+   "test": "test_header_with_special_chars",
+   "argv": [
+    "-ih"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Alice"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:88"
+  },
+  {
+   "test": "test_tsv_output",
+   "argv": [
+    "-od",
+    "\t"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1\tOrange",
+    "2\tMelon"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:96"
+  },
+  {
+   "test": "test_custom_delimiter_output",
+   "argv": [
+    "-oraw",
+    "-od",
+    ";;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1;;Orange",
+    "2;;Melon"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:105"
+  },
+  {
+   "test": "test_analyze_csv_file",
+   "argv": [
+    "-a",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "type",
+    "SELECT"
+   ],
+   "files": {
+    "test.csv": "1,Orange\n2,Melon\n"
+   },
+   "ci": true,
+   "source": "test_analyze.py:4"
+  },
+  {
+   "test": "test_analyze_csv_with_header",
+   "argv": [
+    "-ih",
+    "-a",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "id",
+    "name",
+    "SELECT"
+   ],
+   "files": {
+    "test.csv": "id,name\n1,Orange\n2,Melon\n"
+   },
+   "ci": false,
+   "source": "test_analyze.py:17"
+  },
+  {
+   "test": "test_analyze_only_sql",
+   "argv": [
+    "-A",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SELECT"
+   ],
+   "files": {
+    "test.csv": "1,Orange\n2,Melon\n"
+   },
+   "ci": false,
+   "source": "test_analyze.py:29"
+  },
+  {
+   "test": "test_analyze_json_file",
+   "argv": [
+    "-a",
+    "test.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SELECT"
+   ],
+   "files": {
+    "test.json": "[{\"id\":\"1\",\"name\":\"Orange\"}]"
+   },
+   "ci": false,
+   "source": "test_analyze.py:40"
+  },
+  {
+   "test": "test_analyze_ltsv_file",
+   "argv": [
+    "-a",
+    "test.ltsv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SELECT"
+   ],
+   "files": {
+    "test.ltsv": "id:1\tname:Orange\n"
+   },
+   "ci": false,
+   "source": "test_analyze.py:50"
+  },
+  {
+   "test": "test_analyze_with_delimiter",
+   "argv": [
+    "-id",
+    "\t",
+    "-a",
+    "test.tsv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SELECT",
+    "type"
+   ],
+   "files": {
+    "test.tsv": "1\tOrange\n2\tMelon\n"
+   },
+   "ci": true,
+   "source": "test_analyze.py:60"
+  },
+  {
+   "test": "test_analyze_suggests_multiple_queries",
+   "argv": [
+    "-ih",
+    "-A",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.csv": "id,name\n1,Orange\n2,Melon\n"
+   },
+   "ci": false,
+   "source": "test_analyze.py:70"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "trdsql - Execute SQL queries on CSV, LTSV, JSON, YAML and TBLN",
+    "Usage",
+    "Options:",
+    "-icsv",
+    "-ojson"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:5"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "trdsql - Execute SQL queries",
+    "Usage"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:15"
+  },
+  {
+   "test": "test_debug_flag",
+   "argv": [
+    "-debug"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Orange"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:47"
+  },
+  {
+   "test": "test_query_testdata_compressed_files",
+   "argv": [
+    "SELECT * FROM testdata/test.csv.gz"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Orange",
+    "Melon",
+    "Apple"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_compression.py:56"
+  },
+  {
+   "test": "test_query_testdata_bz2",
+   "argv": [
+    "SELECT * FROM testdata/test.csv.bz2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Orange",
+    "Melon",
+    "Apple"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_compression.py:65"
+  },
+  {
+   "test": "test_query_testdata_zstd",
+   "argv": [
+    "SELECT * FROM testdata/test.csv.zst"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Orange",
+    "Melon",
+    "Apple"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_compression.py:73"
+  },
+  {
+   "test": "test_query_testdata_lz4",
+   "argv": [
+    "SELECT * FROM testdata/test.csv.lz4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Orange",
+    "Melon",
+    "Apple"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_compression.py:81"
+  },
+  {
+   "test": "test_query_testdata_xz",
+   "argv": [
+    "SELECT * FROM testdata/test.csv.xz"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Orange",
+    "Melon",
+    "Apple"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_compression.py:89"
+  },
+  {
+   "test": "test_config_file_flag",
+   "argv": [
+    "-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,Orange"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_configuration.py:6"
+  },
+  {
+   "test": "test_db_selection",
+   "argv": [
+    "-config",
+    "-db",
+    "other"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,Orange"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_configuration.py:23"
+  },
+  {
+   "test": "test_config_with_debug",
+   "argv": [
+    "-config",
+    "-debug"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_configuration.py:44"
+  },
+  {
+   "test": "test_sqlite3_driver_explicit",
+   "argv": [
+    "-driver",
+    "sqlite3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,Orange"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_database_drivers.py:12"
+  },
+  {
+   "test": "test_sqlite_json_functions",
+   "argv": [
+    "-ijson"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_database_drivers.py:20"
+  },
+  {
+   "test": "test_dsn_with_sqlite",
+   "argv": [
+    "-driver",
+    "sqlite3",
+    "-dsn",
+    ""
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,Orange"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_database_drivers.py:43"
+  },
+  {
+   "test": "test_coalesce_function",
+   "argv": [
+    "-inull",
+    ""
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,Apple",
+    "2,NONE",
+    "3,Cherry"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:151"
+  },
+  {
+   "test": "test_csv_input_explicit",
+   "argv": [
+    "-icsv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,Orange",
+    "2,Melon",
+    "3,Apple"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_formats.py:6"
+  },
+  {
+   "test": "test_json_input_explicit",
+   "argv": [
+    "-ijson"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,Orange",
+    "2,Melon"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_formats.py:16"
+  },
+  {
+   "test": "test_ltsv_input_explicit",
+   "argv": [
+    "-iltsv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,Orange,50",
+    "2,Melon,500"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_formats.py:42"
+  },
+  {
+   "test": "test_yaml_input_explicit",
+   "argv": [
+    "-iyaml"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,Orange",
+    "2,Melon"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_formats.py:59"
+  },
+  {
+   "test": "test_tbln_input_explicit",
+   "argv": [
+    "-itbln"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,Bob",
+    "2,Alice"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_formats.py:84"
+  },
+  {
+   "test": "test_text_input_explicit",
+   "argv": [
+    "-itext"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "line1",
+    "line2",
+    "line3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_formats.py:101"
+  },
+  {
+   "test": "test_text_input_with_blank_lines",
+   "argv": [
+    "-itext"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\n\nb"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_formats.py:111"
+  },
+  {
+   "test": "test_width_input_format",
+   "argv": [
+    "-iwidth"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_formats.py:120"
+  },
+  {
+   "test": "test_input_delimiter_tab",
+   "argv": [
+    "-id",
+    "\t"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2,Melon",
+    "3,Apple"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_options.py:4"
+  },
+  {
+   "test": "test_input_delimiter_pipe",
+   "argv": [
+    "-id",
+    "|"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2,Melon"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_options.py:14"
+  },
+  {
+   "test": "test_input_header_flag",
+   "argv": [
+    "-ih"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2,Melon"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_options.py:23"
+  },
+  {
+   "test": "test_input_skip_rows",
+   "argv": [
+    "-is",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2,Melon"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_options.py:34"
+  },
+  {
+   "test": "test_input_preread_rows",
+   "argv": [
+    "-ir",
+    "3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,a"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_options.py:45"
+  },
+  {
+   "test": "test_input_limit_rows",
+   "argv": [
+    "-ilr",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2,Melon"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_options.py:55"
+  },
+  {
+   "test": "test_input_add_row_number",
+   "argv": [
+    "-inum",
+    "-itext"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2,Melon",
+    "3,Apple"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_options.py:67"
+  },
+  {
+   "test": "test_input_null_conversion",
+   "argv": [
+    "-inull",
+    ""
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2,"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_options.py:77"
+  },
+  {
+   "test": "test_input_jq_expression_option",
+   "argv": [
+    "-ijson",
+    "-ijq",
+    ".items"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2,Melon"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_options.py:87"
+  },
+  {
+   "test": "test_input_jq_array_filter",
+   "argv": [
+    "-ijson",
+    "-ijq",
+    ".[] | .id"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1",
+    "2",
+    "3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_options.py:104"
+  },
+  {
+   "test": "test_csv_output_explicit",
+   "argv": [
+    "-ocsv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,Orange"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:14"
+  },
+  {
+   "test": "test_json_output",
+   "argv": [
+    "-ojson"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:22"
+  },
+  {
+   "test": "test_jsonl_output",
+   "argv": [
+    "-ojsonl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:36"
+  },
+  {
+   "test": "test_ltsv_output",
+   "argv": [
+    "-oltsv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "c1:1\tc2:Orange",
+    "c1:2\tc2:Melon"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:50"
+  },
+  {
+   "test": "test_ascii_table_output",
+   "argv": [
+    "-oat"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "+",
+    "|",
+    "Orange",
+    "Melon"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:59"
+  },
+  {
+   "test": "test_markdown_output",
+   "argv": [
+    "-omd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "|",
+    "-",
+    "Orange",
+    "Melon"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:72"
+  },
+  {
+   "test": "test_raw_output",
+   "argv": [
+    "-oraw"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,Orange",
+    "2,Melon"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:84"
+  },
+  {
+   "test": "test_vertical_format_output",
+   "argv": [
+    "-ovf"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "---[",
+    "Orange",
+    "Melon",
+    "|"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:94"
+  },
+  {
+   "test": "test_yaml_output",
+   "argv": [
+    "-oyaml"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-",
+    "Orange",
+    "Melon"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:109"
+  },
+  {
+   "test": "test_tbln_output",
+   "argv": [
+    "-otbln"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ";",
+    "|",
+    "name:",
+    "type:",
+    "Orange"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:121"
+  },
+  {
+   "test": "test_output_delimiter",
+   "argv": [
+    "-od",
+    "|"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1|Orange",
+    "2|Melon"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_options.py:6"
+  },
+  {
+   "test": "test_output_header",
+   "argv": [
+    "-oh"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,Orange"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_options.py:15"
+  },
+  {
+   "test": "test_output_file",
+   "argv": [
+    "-out"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,Orange",
+    "2,Melon"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_options.py:24"
+  },
+  {
+   "test": "test_output_file_json_guessing",
+   "argv": [
+    "-out"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_options.py:37"
+  },
+  {
+   "test": "test_output_without_guess",
+   "argv": [
+    "-out",
+    "-out-without-guess"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,Orange"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_options.py:51"
+  },
+  {
+   "test": "test_output_quote_character",
+   "argv": [
+    "-oq",
+    "'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_options.py:64"
+  },
+  {
+   "test": "test_output_quote_all",
+   "argv": [
+    "-oaq"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"1\",\"Orange\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_options.py:73"
+  },
+  {
+   "test": "test_output_crlf",
+   "argv": [
+    "-ocrlf"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\r\n"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_options.py:82"
+  },
+  {
+   "test": "test_output_nowrap",
+   "argv": [
+    "-oat",
+    "-onowrap"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "VeryLongTextThatWouldNormallyWrap"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_options.py:91"
+  },
+  {
+   "test": "test_output_null_value",
+   "argv": [
+    "-inull",
+    "",
+    "-onull",
+    "(NULL)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2,(NULL)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_options.py:100"
+  },
+  {
+   "test": "test_output_compression_gz",
+   "argv": [
+    "-oz",
+    "gz"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_options.py:109"
+  },
+  {
+   "test": "test_query_from_file",
+   "argv": [
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,Orange",
+    "2,Melon"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_from_file.py:5"
+  },
+  {
+   "test": "test_query_from_file_complex",
+   "argv": [
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Apple",
+    "Orange"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_from_file.py:15"
+  },
+  {
+   "test": "test_query_file_with_output_format",
+   "argv": [
+    "-q",
+    "-ojson"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "{",
+    "Orange"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_from_file.py:27"
+  },
+  {
+   "test": "test_table_from_file",
+   "argv": [
+    "-t",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,Orange",
+    "2,Melon"
+   ],
+   "files": {
+    "test.csv": "1,Orange\n2,Melon\n"
+   },
+   "ci": false,
+   "source": "test_query_from_file.py:38"
+  },
+  {
+   "test": "test_table_from_file_with_output_format",
+   "argv": [
+    "-ojson",
+    "-t",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[",
+    "{",
+    "Orange"
+   ],
+   "files": {
+    "test.csv": "1,Orange\n2,Melon\n"
+   },
+   "ci": false,
+   "source": "test_query_from_file.py:48"
+  },
+  {
+   "test": "test_table_from_file_format_conversion",
+   "argv": [
+    "-oltsv",
+    "-t",
+    "test.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "c1:1",
+    "c2:Orange"
+   ],
+   "files": {
+    "test.csv": "1,Orange\n"
+   },
+   "ci": false,
+   "source": "test_query_from_file.py:59"
+  },
+  {
+   "test": "test_query_file_with_multiple_queries",
+   "argv": [
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1\n2",
+    "Orange\nMelon"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_from_file.py:75"
+  },
+  {
+   "test": "test_column_alias",
+   "argv": [
+    "-oh"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "id,name",
+    "1,Orange"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:105"
+  },
+  {
+   "test": "test_stdin_dash",
+   "argv": [
+    "SELECT * FROM -"
+   ],
+   "stdin": "1,Orange\n2,Melon\n3,Apple\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Orange",
+    "2,Melon",
+    "3,Apple"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_stdout.py:4"
+  },
+  {
+   "test": "test_stdin_keyword",
+   "argv": [
+    "SELECT * FROM stdin"
+   ],
+   "stdin": "1,Orange\n2,Melon\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Orange",
+    "2,Melon"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_stdout.py:13"
+  },
+  {
+   "test": "test_stdin_with_format_flag",
+   "argv": [
+    "-ijson",
+    "SELECT * FROM -"
+   ],
+   "stdin": "[{\"c1\":\"1\",\"c2\":\"Orange\"},{\"c1\":\"2\",\"c2\":\"Melon\"}]",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Orange",
+    "2,Melon"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_stdout.py:21"
+  },
+  {
+   "test": "test_stdin_ltsv",
+   "argv": [
+    "-iltsv",
+    "SELECT * FROM -"
+   ],
+   "stdin": "id:1\tname:Orange\nid:2\tname:Melon\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Orange",
+    "2,Melon"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_stdout.py:29"
+  },
+  {
+   "test": "test_stdin_with_sql_operations",
+   "argv": [
+    "SELECT * FROM - ORDER BY c1"
+   ],
+   "stdin": "3,Apple\n1,Orange\n2,Melon\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_stdout.py:37"
+  },
+  {
+   "test": "test_stdin_with_header",
+   "argv": [
+    "-ih",
+    "SELECT id,name FROM -"
+   ],
+   "stdin": "id,name\n1,Orange\n2,Melon\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Orange",
+    "2,Melon"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_stdout.py:66"
+  },
+  {
+   "test": "test_wildcard_with_header",
+   "argv": [
+    "-ih"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1,Orange",
+    "2,Melon",
+    "Orange",
+    "Melon"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_wildcard.py:20"
+  },
+  {
+   "test": "test_testdata_wildcard",
+   "argv": [
+    "SELECT * FROM testdata/tt*.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_wildcard.py:63"
+  },
+  {
+   "test": "test_help_flag_prints_usage_to_stdout_and_exit_0",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage",
+    "Input Formats"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:8"
+  },
+  {
+   "test": "test_version_flag_prints_version_and_exit_0",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:17"
+  },
+  {
+   "test": "test_csv_file_with_header_roundtrip_stdout_csv",
+   "argv": [
+    "-icsv",
+    "-ih",
+    "-oh"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a,b\n1,2\n3,4\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:24"
+  },
+  {
+   "test": "test_stdin_marker_dash_reads_from_stdin",
+   "argv": [
+    "-icsv",
+    "-oltsv",
+    "select c1,c2 from -"
+   ],
+   "stdin": "1,2\n3,4\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "c1:1\tc2:2\nc1:3\tc2:4\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:33"
+  },
+  {
+   "test": "test_query_from_file_q_option",
+   "argv": [
+    "-icsv",
+    "-ih",
+    "-oh",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a\n1\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:40"
+  },
+  {
+   "test": "test_out_flag_writes_to_file_and_suppresses_stdout",
+   "argv": [
+    "-icsv",
+    "-ih",
+    "-oh",
+    "-out"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:51"
+  },
+  {
+   "test": "test_error_message_goes_to_stderr_and_exit_nonzero",
+   "argv": [
+    "-icsv",
+    "-ih"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "no such column"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:61"
+  },
+  {
+   "test": "test_no_args_prints_usage_and_exits_0",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage",
+    "trdsql"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:29"
+  },
+  {
+   "test": "test_boolean_flag_with_explicit_value_is_not_supported_and_errors",
+   "argv": [
+    "-ih=true"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "flag provided but not defined"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:126"
+  },
+  {
+   "test": "test_bool_with_space_is_not_taken_as_value_and_changes_positional_interpretation",
+   "argv": [
+    "-ig",
+    "false"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "export:",
+    "syntax error"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:149"
+  },
+  {
+   "test": "test_dashdash_stops_flag_parsing_and_next_arg_treated_as_positional",
+   "argv": [
+    "--",
+    "-ilr"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "syntax error"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:158"
+  },
+  {
+   "test": "test_combined_short_flags_are_not_supported_and_error",
+   "argv": [
+    "-debugdblist"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "flag provided but not defined"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:167"
+  }
+ ]
+}

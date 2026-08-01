@@ -1,0 +1,311 @@
+{
+ "slug": "cheat__cheat.b8098dc",
+ "language": "",
+ "n_branches": 1,
+ "n_tests_total": 298,
+ "n_examples": 17,
+ "n_with_exact_stdout": 7,
+ "n_with_rc": 16,
+ "n_skipped": 281,
+ "examples": [
+  {
+   "test": "test_installer_clone_yes",
+   "argv": [
+    "-l"
+   ],
+   "stdin": "y\ny\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Would you like to create one now?",
+    "Would you like to download the community cheatsheets?",
+    "Cloning community cheatsheets",
+    "Created config file:",
+    "- name: community",
+    "tags: [ community ]",
+    "readonly: true"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clone_installer.py:7"
+  },
+  {
+   "test": "test_installer_clone_no",
+   "argv": [
+    "-l"
+   ],
+   "stdin": "y\nn\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Would you like to create one now?",
+    "Would you like to download the community cheatsheets?",
+    "#- name: community",
+    "#  tags: [ community ]",
+    "- name: personal",
+    "- name: work"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clone_installer.py:108"
+  },
+  {
+   "test": "test_installer_decline_create_config",
+   "argv": [
+    "-l"
+   ],
+   "stdin": "n\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Would you like to create one now?"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clone_installer.py:161"
+  },
+  {
+   "test": "test_clone_creates_personal_work_dirs",
+   "argv": [
+    "-l"
+   ],
+   "stdin": "y\nn\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_clone_installer.py:196"
+  },
+  {
+   "test": "test_clone_to_existing_cloned_dir_fails",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "failed to run installer",
+    "failed to clone cheatsheets",
+    "repository already exists"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clone_installer.py:227"
+  },
+  {
+   "test": "test_installer_creates_all_expected_dirs",
+   "argv": [
+    "-l"
+   ],
+   "stdin": "y\ny\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "editor:",
+    "cheatpaths:",
+    "- name: personal",
+    "- name: work",
+    "- name: community"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clone_installer.py:267"
+  },
+  {
+   "test": "test_clone_network_timeout_handling",
+   "argv": [
+    "-l"
+   ],
+   "stdin": "y\ny\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_clone_installer.py:348"
+  },
+  {
+   "test": "test_installer_prompt_eof_error",
+   "argv": [
+    "tar"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "A config file was not found. Would you like to create one now? [Y/n]:",
+    "failed to prompt: EOF"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:808"
+  },
+  {
+   "test": "test_decline_config_creation",
+   "argv": [],
+   "stdin": "n\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Would you like to create one now?"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:610"
+  },
+  {
+   "test": "test_accept_config_decline_community",
+   "argv": [],
+   "stdin": "y\nn\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Would you like to create one now?",
+    "Would you like to download the community cheatsheets?",
+    "Created config file:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:657"
+  },
+  {
+   "test": "test_update_pull_new_commits",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "test-repo: ok\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_update.py:126"
+  },
+  {
+   "test": "test_update_error_exit_code",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_update.py:307"
+  },
+  {
+   "test": "test_update_multiple_errors_continues_processing",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "good: ok\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_update.py:348"
+  },
+  {
+   "test": "test_update_staged_changes_detected",
+   "argv": [
+    "git",
+    "add",
+    "cheatsheets/new.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "staged: skipped (dirty worktree)\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_update.py:445"
+  },
+  {
+   "test": "test_update_clean_after_commit",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "clean: ok\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_update.py:553"
+  },
+  {
+   "test": "test_update_fetch_only_no_local_commits",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "local-ahead: ok\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_update.py:720"
+  },
+  {
+   "test": "test_update_mixed_success_error_skip",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "success: ok\ndirty-skip: skipped (dirty worktree)\nnonrepo-skip: skipped (not a git repository)\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_update.py:762"
+  }
+ ]
+}

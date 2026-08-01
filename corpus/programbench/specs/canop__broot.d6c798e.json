@@ -1,0 +1,2169 @@
+{
+ "slug": "canop__broot.d6c798e",
+ "language": "",
+ "n_branches": 8,
+ "n_tests_total": 312,
+ "n_examples": 117,
+ "n_with_exact_stdout": 3,
+ "n_with_rc": 89,
+ "n_skipped": 145,
+ "examples": [
+  {
+   "test": "test_version_exact",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "broot 1.54.0\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:22"
+  },
+  {
+   "test": "test_print_shell_function_unknown_shell_error",
+   "argv": [
+    "--print-shell-function",
+    "no_such_shell"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:56"
+  },
+  {
+   "test": "test_invalid_flag_errors",
+   "argv": [
+    "--no-such-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "no-such-flag"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:64"
+  },
+  {
+   "test": "test_env_br_install_unexpected_value_is_not_fatal",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {
+    "BR_INSTALL": "maybe"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:34"
+  },
+  {
+   "test": "test_env_broot_config_dir_sets_default_conf_search_path",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {
+    "BR_INSTALL": "no"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--no-hidden"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:41"
+  },
+  {
+   "test": "test_conf_overrides_and_cli_counterflag_overrides_conf",
+   "argv": [
+    "--conf",
+    "conf.hjson",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {
+    "BR_INSTALL": "no"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--no-hidden",
+    "--hidden"
+   ],
+   "files": {
+    "conf.hjson": "{\n  default_flags: \"--hidden\"\n}\n"
+   },
+   "ci": false,
+   "source": "test_config_env.py:58"
+  },
+  {
+   "test": "test_conf_malformed_hjson_is_ignored_for_early_exit_commands",
+   "argv": [
+    "--conf",
+    "conf.hjson",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {
+    "BR_INSTALL": "no"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "conf.hjson": "{ this is not: valid hjson "
+   },
+   "ci": false,
+   "source": "test_config_env.py:91"
+  },
+  {
+   "test": "test_conf_path_list_semicolon_order_last_wins",
+   "argv": [
+    "--conf",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {
+    "BR_INSTALL": "no"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--hidden"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:102"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:5"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:19"
+  },
+  {
+   "test": "test_help_contains_version",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:27"
+  },
+  {
+   "test": "test_multiple_height_specifications",
+   "argv": [
+    "--height",
+    "20",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:70"
+  },
+  {
+   "test": "test_color_option_values",
+   "argv": [
+    "--color",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:76"
+  },
+  {
+   "test": "test_max_depth_option",
+   "argv": [
+    "--max-depth",
+    "3",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:83"
+  },
+  {
+   "test": "test_cmd_empty_string",
+   "argv": [
+    "-c",
+    "",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmd_execution.py:36"
+  },
+  {
+   "test": "test_dates_flag",
+   "argv": [
+    "--dates",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_flags.py:4"
+  },
+  {
+   "test": "test_dates_short_flag",
+   "argv": [
+    "-d",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_flags.py:10"
+  },
+  {
+   "test": "test_no_dates_flag",
+   "argv": [
+    "--no-dates",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_flags.py:16"
+  },
+  {
+   "test": "test_sizes_flag",
+   "argv": [
+    "--sizes",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_flags.py:22"
+  },
+  {
+   "test": "test_sizes_short_flag",
+   "argv": [
+    "-s",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_flags.py:28"
+  },
+  {
+   "test": "test_no_sizes_flag",
+   "argv": [
+    "--no-sizes",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_flags.py:34"
+  },
+  {
+   "test": "test_permissions_flag",
+   "argv": [
+    "--permissions",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_flags.py:40"
+  },
+  {
+   "test": "test_permissions_short_flag",
+   "argv": [
+    "-p",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_flags.py:46"
+  },
+  {
+   "test": "test_no_permissions_flag",
+   "argv": [
+    "--no-permissions",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_flags.py:52"
+  },
+  {
+   "test": "test_hidden_flag",
+   "argv": [
+    "--hidden",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_flags.py:58"
+  },
+  {
+   "test": "test_no_hidden_flag",
+   "argv": [
+    "--no-hidden",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_flags.py:64"
+  },
+  {
+   "test": "test_git_ignored_flag",
+   "argv": [
+    "--git-ignored",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_flags.py:70"
+  },
+  {
+   "test": "test_git_ignored_short_flag",
+   "argv": [
+    "-i",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_flags.py:76"
+  },
+  {
+   "test": "test_no_git_ignored_flag",
+   "argv": [
+    "--no-git-ignored",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_flags.py:82"
+  },
+  {
+   "test": "test_show_git_info_flag",
+   "argv": [
+    "--show-git-info",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_flags.py:88"
+  },
+  {
+   "test": "test_show_git_info_short_flag",
+   "argv": [
+    "-g",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_flags.py:94"
+  },
+  {
+   "test": "test_no_show_git_info_flag",
+   "argv": [
+    "--no-show-git-info",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_flags.py:100"
+  },
+  {
+   "test": "test_git_status_flag",
+   "argv": [
+    "--git-status",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_flags.py:106"
+  },
+  {
+   "test": "test_only_folders_flag",
+   "argv": [
+    "--only-folders",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_flags.py:112"
+  },
+  {
+   "test": "test_only_folders_short_flag",
+   "argv": [
+    "-f",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_flags.py:118"
+  },
+  {
+   "test": "test_no_only_folders_flag",
+   "argv": [
+    "--no-only-folders",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_flags.py:124"
+  },
+  {
+   "test": "test_show_root_fs_flag",
+   "argv": [
+    "--show-root-fs",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_flags.py:130"
+  },
+  {
+   "test": "test_trim_root_flag",
+   "argv": [
+    "--trim-root",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_flags.py:136"
+  },
+  {
+   "test": "test_trim_root_short_flag",
+   "argv": [
+    "-t",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_flags.py:142"
+  },
+  {
+   "test": "test_no_trim_root_flag",
+   "argv": [
+    "--no-trim-root",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_flags.py:148"
+  },
+  {
+   "test": "test_combined_display_flags",
+   "argv": [
+    "-sdp",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_flags.py:154"
+  },
+  {
+   "test": "test_combined_display_flags_long",
+   "argv": [
+    "--sizes",
+    "--dates",
+    "--permissions",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_flags.py:160"
+  },
+  {
+   "test": "test_combined_git_and_hidden_flags",
+   "argv": [
+    "-ghi",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_flags.py:166"
+  },
+  {
+   "test": "test_contradictory_flags_override",
+   "argv": [
+    "--hidden",
+    "--no-hidden",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_flags.py:172"
+  },
+  {
+   "test": "test_max_depth_upper_bound",
+   "argv": [
+    "--max-depth",
+    "65535",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:59"
+  },
+  {
+   "test": "test_all_display_flags_combined",
+   "argv": [
+    "-sdp",
+    "-ghi",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:4"
+  },
+  {
+   "test": "test_sorting_with_all_display_flags",
+   "argv": [
+    "--sort-by-size",
+    "-sdp",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:10"
+  },
+  {
+   "test": "test_whale_spotting_with_extra_flags",
+   "argv": [
+    "-w",
+    "-p",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:16"
+  },
+  {
+   "test": "test_max_depth_with_sorting",
+   "argv": [
+    "--max-depth",
+    "3",
+    "--sort-by-date",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:22"
+  },
+  {
+   "test": "test_only_folders_with_sizes",
+   "argv": [
+    "-fs",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:28"
+  },
+  {
+   "test": "test_hidden_with_git_ignored",
+   "argv": [
+    "-hi",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:34"
+  },
+  {
+   "test": "test_all_no_flags_combined",
+   "argv": [
+    "-DSFHIGP",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:40"
+  },
+  {
+   "test": "test_trim_root_with_height",
+   "argv": [
+    "--trim-root",
+    "--height",
+    "20",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:46"
+  },
+  {
+   "test": "test_no_trim_root_with_height",
+   "argv": [
+    "--no-trim-root",
+    "--height",
+    "30",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:52"
+  },
+  {
+   "test": "test_show_root_fs_with_sizes",
+   "argv": [
+    "--show-root-fs",
+    "-s",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:58"
+  },
+  {
+   "test": "test_color_auto_with_flags",
+   "argv": [
+    "--color",
+    "auto",
+    "-sdp",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:64"
+  },
+  {
+   "test": "test_color_yes_with_flags",
+   "argv": [
+    "--color",
+    "yes",
+    "-sdp",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:70"
+  },
+  {
+   "test": "test_color_no_with_flags",
+   "argv": [
+    "--color",
+    "no",
+    "-sdp",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:76"
+  },
+  {
+   "test": "test_multiple_sort_types_last_wins",
+   "argv": [
+    "--sort-by-size",
+    "--sort-by-date",
+    "--sort-by-type",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:82"
+  },
+  {
+   "test": "test_dates_and_no_dates_last_wins",
+   "argv": [
+    "--dates",
+    "--no-dates",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:88"
+  },
+  {
+   "test": "test_sizes_and_no_sizes_last_wins",
+   "argv": [
+    "--sizes",
+    "--no-sizes",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:94"
+  },
+  {
+   "test": "test_git_ignored_and_no_git_ignored",
+   "argv": [
+    "--git-ignored",
+    "--no-git-ignored",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:106"
+  },
+  {
+   "test": "test_complex_flag_combination",
+   "argv": [
+    "-sdpghi",
+    "--sort-by-size",
+    "--max-depth",
+    "5",
+    "--color",
+    "yes",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:112"
+  },
+  {
+   "test": "test_max_flags_combination",
+   "argv": [
+    "-sdpghif",
+    "--sort-by-type",
+    "--max-depth",
+    "10",
+    "--height",
+    "25",
+    "--trim-root",
+    "--show-root-fs",
+    "--color",
+    "auto",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:125"
+  },
+  {
+   "test": "test_combined_git_flags",
+   "argv": [
+    "-gi",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_git_features.py:23"
+  },
+  {
+   "test": "test_git_repo_with_nested_structure",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_git_features.py:53"
+  },
+  {
+   "test": "test_set_install_state_refused",
+   "argv": [
+    "--set-install-state",
+    "refused",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_installation.py:6"
+  },
+  {
+   "test": "test_set_install_state_installed",
+   "argv": [
+    "--set-install-state",
+    "installed",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_installation.py:13"
+  },
+  {
+   "test": "test_set_install_state_undefined",
+   "argv": [
+    "--set-install-state",
+    "undefined",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_installation.py:19"
+  },
+  {
+   "test": "test_conf_flag_with_semicolon_separator",
+   "argv": [
+    "--conf",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_installation.py:89"
+  },
+  {
+   "test": "test_outcmd_option",
+   "argv": [
+    "--outcmd",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_installation.py:110"
+  },
+  {
+   "test": "test_verb_output_option",
+   "argv": [
+    "--verb-output",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_installation.py:117"
+  },
+  {
+   "test": "test_current_directory_as_root",
+   "argv": [
+    ".",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_path_operations.py:6"
+  },
+  {
+   "test": "test_parent_directory_as_root",
+   "argv": [
+    "..",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_path_operations.py:12"
+  },
+  {
+   "test": "test_max_depth_limits_tree",
+   "argv": [
+    "--max-depth",
+    "2",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_path_operations.py:79"
+  },
+  {
+   "test": "test_sort_by_size",
+   "argv": [
+    "--sort-by-size",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sorting_options.py:4"
+  },
+  {
+   "test": "test_sort_by_date",
+   "argv": [
+    "--sort-by-date",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sorting_options.py:10"
+  },
+  {
+   "test": "test_sort_by_count",
+   "argv": [
+    "--sort-by-count",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sorting_options.py:16"
+  },
+  {
+   "test": "test_sort_by_type",
+   "argv": [
+    "--sort-by-type",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sorting_options.py:22"
+  },
+  {
+   "test": "test_sort_by_type_dirs_first",
+   "argv": [
+    "--sort-by-type-dirs-first",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sorting_options.py:28"
+  },
+  {
+   "test": "test_sort_by_type_dirs_last",
+   "argv": [
+    "--sort-by-type-dirs-last",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sorting_options.py:34"
+  },
+  {
+   "test": "test_no_sort",
+   "argv": [
+    "--no-sort",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sorting_options.py:40"
+  },
+  {
+   "test": "test_whale_spotting_flag",
+   "argv": [
+    "--whale-spotting",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sorting_options.py:46"
+  },
+  {
+   "test": "test_whale_spotting_short_flag",
+   "argv": [
+    "-w",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sorting_options.py:52"
+  },
+  {
+   "test": "test_sort_options_mutually_exclusive_handling",
+   "argv": [
+    "--sort-by-size",
+    "--sort-by-date",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sorting_options.py:65"
+  },
+  {
+   "test": "test_unknown_flag_errors_with_tip_and_exit_2",
+   "argv": [
+    "--nonexistent-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument '--nonexistent-flag'",
+    "tip: to pass '--nonexistent-flag' as a value, use '-- --nonexistent-flag'",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_arg_parsing_validation.py:42"
+  },
+  {
+   "test": "test_value_required_error_exit_2",
+   "argv": [
+    "--max-depth"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a value is required",
+    "--max-depth"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_arg_parsing_validation.py:51"
+  },
+  {
+   "test": "test_option_rejects_multiple_occurrences",
+   "argv": [
+    "--color=yes",
+    "--color=no",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cannot be used multiple times",
+    "--color"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_arg_parsing_validation.py:105"
+  },
+  {
+   "test": "test_double_dash_makes_later_tokens_positional",
+   "argv": [
+    "--",
+    "--nonexistent-flag",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument '--version'",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_arg_parsing_validation.py:126"
+  },
+  {
+   "test": "test_too_many_positionals_error_exit_2",
+   "argv": [
+    "a",
+    "b"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument 'b'",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_arg_parsing_validation.py:136"
+  },
+  {
+   "test": "test_root_positional_allows_dash_prefixed_value_with_double_dash",
+   "argv": [
+    "--",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Can I install it now?"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_arg_parsing_validation.py:145"
+  },
+  {
+   "test": "test_help_contains_usage_line",
+   "argv": [
+    "--help",
+    "--color",
+    "no"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:47"
+  },
+  {
+   "test": "test_help_mentions_root_argument",
+   "argv": [
+    "--help",
+    "--color",
+    "no"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[ROOT]",
+    "Root Directory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:53"
+  },
+  {
+   "test": "test_help_has_options_section",
+   "argv": [
+    "--help",
+    "--color",
+    "no"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:59"
+  },
+  {
+   "test": "test_help_ansi_includes_escape_codes",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:120"
+  },
+  {
+   "test": "test_help_color_no_still_contains_ansi_codes_in_non_tty_output",
+   "argv": [
+    "--help",
+    "--color",
+    "no"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:125"
+  },
+  {
+   "test": "test_help_color_no_still_has_ascii_table_borders",
+   "argv": [
+    "--help",
+    "--color",
+    "no"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "┌",
+    "┬",
+    "┐",
+    "└",
+    "┴",
+    "┘",
+    "│"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:131"
+  },
+  {
+   "test": "test_help_takes_precedence_over_other_flags",
+   "argv": [
+    "--help",
+    "--hidden"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:147"
+  },
+  {
+   "test": "test_help_with_invalid_flag_returns_error_and_usage",
+   "argv": [
+    "--help",
+    "--definitely-not-a-real-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:153"
+  },
+  {
+   "test": "test_double_dash_treats_next_token_as_root_and_errors_if_missing",
+   "argv": [
+    "--",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "No such file or directory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:160"
+  },
+  {
+   "test": "test_multiple_flags_work_together",
+   "argv": [
+    "--help",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_no_subcommands.py:147"
+  },
+  {
+   "test": "test_no_subcommand_help_variation",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_no_subcommands.py:169"
+  },
+  {
+   "test": "test_help_with_extra_args",
+   "argv": [
+    "--help",
+    "extra"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "broot"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_no_subcommands.py:210"
+  },
+  {
+   "test": "test_color_rejects_invalid_value",
+   "argv": [
+    "--color",
+    "invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid value"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argument_parsing.py:142"
+  },
+  {
+   "test": "test_set_install_state_rejects_invalid_value",
+   "argv": [
+    "--set-install-state",
+    "invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid value"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argument_parsing.py:164"
+  },
+  {
+   "test": "test_invalid_value_error_mentions_value",
+   "argv": [
+    "--max-depth",
+    "abc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "abc"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:562"
+  },
+  {
+   "test": "test_print_shell_function_requires_value",
+   "argv": [
+    "--print-shell-function"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "value is required"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argument_parsing.py:582"
+  },
+  {
+   "test": "test_conf_requires_value",
+   "argv": [
+    "--conf"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "value is required"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argument_parsing.py:602"
+  },
+  {
+   "test": "test_listen_requires_socket_path",
+   "argv": [
+    "--listen"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "value is required"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argument_parsing.py:629"
+  },
+  {
+   "test": "test_send_requires_socket_path",
+   "argv": [
+    "--send"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "value is required"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argument_parsing.py:636"
+  },
+  {
+   "test": "test_write_default_conf_requires_path",
+   "argv": [
+    "--write-default-conf"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "value is required"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argument_parsing.py:647"
+  },
+  {
+   "test": "test_verb_output_requires_path",
+   "argv": [
+    "--verb-output"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "value is required"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argument_parsing.py:658"
+  },
+  {
+   "test": "test_outcmd_requires_path",
+   "argv": [
+    "--outcmd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "value is required"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argument_parsing.py:669"
+  },
+  {
+   "test": "test_help_contains_usage_exit0",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "broot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:24"
+  },
+  {
+   "test": "test_print_shell_function_bash_to_stdout",
+   "argv": [
+    "--print-shell-function",
+    "bash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "function br"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:51"
+  },
+  {
+   "test": "test_print_shell_function_invalid_shell_errors",
+   "argv": [
+    "--print-shell-function",
+    "definitely-not-a-shell"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:59"
+  },
+  {
+   "test": "test_write_default_conf_creates_expected_files",
+   "argv": [
+    "--write-default-conf"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:66"
+  }
+ ]
+}

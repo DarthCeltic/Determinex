@@ -1,0 +1,1932 @@
+{
+ "slug": "ajeetdsouza__zoxide.67ca1bc",
+ "language": "",
+ "n_branches": 2,
+ "n_tests_total": 592,
+ "n_examples": 101,
+ "n_with_exact_stdout": 12,
+ "n_with_rc": 93,
+ "n_skipped": 463,
+ "examples": [
+  {
+   "test": "test_help_flag_shows_help_on_stdout",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "zoxide",
+    "A smarter cd command",
+    "add",
+    "edit",
+    "import",
+    "init",
+    "query",
+    "remove"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:65"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "zoxide",
+    "A smarter cd command"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:78"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "zoxide",
+    "0.9.9"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:85"
+  },
+  {
+   "test": "test_version_short_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "zoxide"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:92"
+  },
+  {
+   "test": "test_help_shows_env_vars",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "_ZO_DATA_DIR",
+    "_ZO_ECHO",
+    "_ZO_EXCLUDE_DIRS",
+    "_ZO_FZF_OPTS",
+    "_ZO_MAXAGE",
+    "_ZO_RESOLVE_SYMLINKS"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:99"
+  },
+  {
+   "test": "test_invalid_subcommand",
+   "argv": [
+    "invalid_subcommand"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:110"
+  },
+  {
+   "test": "test_add_help",
+   "argv": [
+    "add",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Add a new directory",
+    "PATHS",
+    "--score"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:122"
+  },
+  {
+   "test": "test_add_version_flag",
+   "argv": [
+    "add",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "zoxide",
+    "0.9.9"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:129"
+  },
+  {
+   "test": "test_add_existing_directory",
+   "argv": [
+    "add",
+    "/tmp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:135"
+  },
+  {
+   "test": "test_add_nonexistent_directory_fails",
+   "argv": [
+    "add",
+    "/nonexistent_xyz_abc_123"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "not a directory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:151"
+  },
+  {
+   "test": "test_add_multiple_paths",
+   "argv": [
+    "add",
+    "/tmp",
+    "/home"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "/tmp",
+    "/home"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:157"
+  },
+  {
+   "test": "test_add_with_custom_score",
+   "argv": [
+    "add",
+    "/tmp",
+    "--score",
+    "10.0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "/tmp"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:166"
+  },
+  {
+   "test": "test_add_with_short_score_flag",
+   "argv": [
+    "add",
+    "/tmp",
+    "-s",
+    "3.0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "/tmp"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:177"
+  },
+  {
+   "test": "test_add_increments_existing_rank",
+   "argv": [
+    "add",
+    "/tmp",
+    "--score",
+    "5.0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "/tmp",
+    "/tmp"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:186"
+  },
+  {
+   "test": "test_add_no_args_fails",
+   "argv": [
+    "add"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_zoxide.py:200"
+  },
+  {
+   "test": "test_add_file_not_directory_fails",
+   "argv": [
+    "add",
+    "test_file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "not a directory"
+   ],
+   "files": {
+    "test_file.txt": "hello"
+   },
+   "ci": false,
+   "source": "test_zoxide.py:205"
+  },
+  {
+   "test": "test_add_with_symlink_resolved",
+   "argv": [
+    "add"
+   ],
+   "stdin": null,
+   "env": {
+    "_ZO_RESOLVE_SYMLINKS": "1"
+   },
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "/tmp"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:213"
+  },
+  {
+   "test": "test_query_help",
+   "argv": [
+    "query",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Search for a directory",
+    "--all",
+    "--interactive",
+    "--list",
+    "--score",
+    "--exclude",
+    "--base-dir"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:232"
+  },
+  {
+   "test": "test_query_version_flag",
+   "argv": [
+    "query",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "zoxide",
+    "0.9.9"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:243"
+  },
+  {
+   "test": "test_query_returns_best_match",
+   "argv": [
+    "add",
+    "/tmp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "/tmp"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:249"
+  },
+  {
+   "test": "test_query_list_flag",
+   "argv": [
+    "add",
+    "/tmp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "/tmp",
+    "/home"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:256"
+  },
+  {
+   "test": "test_query_score_flag",
+   "argv": [
+    "add",
+    "/tmp",
+    "--score",
+    "5.0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "/tmp"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:272"
+  },
+  {
+   "test": "test_query_no_match_fails",
+   "argv": [
+    "add",
+    "/tmp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "no match found"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:288"
+  },
+  {
+   "test": "test_query_empty_database",
+   "argv": [
+    "query",
+    "anything"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "no match found"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:295"
+  },
+  {
+   "test": "test_query_with_exclude_flag",
+   "argv": [
+    "add",
+    "/tmp",
+    "--score",
+    "5.0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "/home"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:301"
+  },
+  {
+   "test": "test_query_list_with_exclude",
+   "argv": [
+    "add",
+    "/tmp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "/home"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:310"
+  },
+  {
+   "test": "test_query_base_dir_filter",
+   "argv": [
+    "add",
+    "/tmp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:319"
+  },
+  {
+   "test": "test_query_keywords_filter",
+   "argv": [
+    "add",
+    "/tmp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "/usr/local/bin"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:332"
+  },
+  {
+   "test": "test_query_multiple_keywords",
+   "argv": [
+    "add",
+    "/usr/local/bin"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "/usr/local/bin"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:342"
+  },
+  {
+   "test": "test_query_all_flag_shows_nonexistent",
+   "argv": [
+    "import",
+    "--from",
+    "z"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "/nonexistent_ghost_dir",
+    "/tmp"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:349"
+  },
+  {
+   "test": "test_query_all_short_flag",
+   "argv": [
+    "import",
+    "--from",
+    "z"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "/nonexistent_xyz123abc"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:364"
+  },
+  {
+   "test": "test_query_interactive_and_list_conflict",
+   "argv": [
+    "query",
+    "--interactive",
+    "--list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:374"
+  },
+  {
+   "test": "test_query_excludes_when_all_excluded",
+   "argv": [
+    "add",
+    "/tmp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:400"
+  },
+  {
+   "test": "test_remove_help",
+   "argv": [
+    "remove",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Remove a directory",
+    "PATHS"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:414"
+  },
+  {
+   "test": "test_remove_version_flag",
+   "argv": [
+    "remove",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "zoxide",
+    "0.9.9"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:420"
+  },
+  {
+   "test": "test_remove_nonexistent_entry_fails",
+   "argv": [
+    "remove",
+    "/nonexistent_xyz_abc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "path not found in database"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:436"
+  },
+  {
+   "test": "test_remove_then_readd",
+   "argv": [
+    "add",
+    "/tmp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "/tmp"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:453"
+  },
+  {
+   "test": "test_remove_error_message_contains_path",
+   "argv": [
+    "remove",
+    "/some/nonexistent/path/xyz"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "path not found in database",
+    "/some/nonexistent/path/xyz"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:461"
+  },
+  {
+   "test": "test_import_help",
+   "argv": [
+    "import",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Import entries",
+    "--from",
+    "autojump",
+    "--merge"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:474"
+  },
+  {
+   "test": "test_import_version_flag",
+   "argv": [
+    "import",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "zoxide",
+    "0.9.9"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:482"
+  },
+  {
+   "test": "test_import_from_autojump",
+   "argv": [
+    "import",
+    "--from",
+    "autojump",
+    "autojump.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "/tmp",
+    "/home"
+   ],
+   "files": {
+    "autojump.txt": "7.0\t/tmp\n5.0\t/home\n"
+   },
+   "ci": false,
+   "source": "test_zoxide.py:488"
+  },
+  {
+   "test": "test_import_from_z",
+   "argv": [
+    "import",
+    "--from",
+    "z",
+    "z_data.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "/tmp",
+    "/home"
+   ],
+   "files": {
+    "z_data.txt": "/tmp|10|1700000000\n/home|5|1600000000\n"
+   },
+   "ci": false,
+   "source": "test_zoxide.py:499"
+  },
+  {
+   "test": "test_import_from_fasd_alias",
+   "argv": [
+    "import",
+    "--from",
+    "fasd",
+    "fasd_data.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "/tmp",
+    "/home"
+   ],
+   "files": {
+    "fasd_data.txt": "/tmp|10|1700000000\n/home|5|1600000000\n"
+   },
+   "ci": false,
+   "source": "test_zoxide.py:510"
+  },
+  {
+   "test": "test_import_fails_without_merge_when_db_nonempty",
+   "argv": [
+    "add",
+    "/tmp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "not empty",
+    "--merge"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:522"
+  },
+  {
+   "test": "test_import_with_merge_flag",
+   "argv": [
+    "add",
+    "/tmp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "/tmp",
+    "/home"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:532"
+  },
+  {
+   "test": "test_import_nonexistent_file_fails",
+   "argv": [
+    "import",
+    "--from",
+    "autojump",
+    "/nonexistent_file_xyz.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "could not open database"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:544"
+  },
+  {
+   "test": "test_import_invalid_from_value",
+   "argv": [
+    "import",
+    "--from",
+    "invalid_app",
+    "import.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {
+    "import.txt": "data"
+   },
+   "ci": false,
+   "source": "test_zoxide.py:550"
+  },
+  {
+   "test": "test_import_missing_from_flag",
+   "argv": [
+    "import",
+    "import.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {
+    "import.txt": "data"
+   },
+   "ci": false,
+   "source": "test_zoxide.py:558"
+  },
+  {
+   "test": "test_import_autojump_rank_normalized_via_sigmoid",
+   "argv": [
+    "import",
+    "--from",
+    "autojump",
+    "autojump.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "/tmp"
+   ],
+   "files": {
+    "autojump.txt": "100.0\t/tmp\n"
+   },
+   "ci": false,
+   "source": "test_zoxide.py:566"
+  },
+  {
+   "test": "test_import_z_invalid_format",
+   "argv": [
+    "import",
+    "--from",
+    "z",
+    "z_data.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "z_data.txt": "invalid_no_pipes\n"
+   },
+   "ci": false,
+   "source": "test_zoxide.py:591"
+  },
+  {
+   "test": "test_import_autojump_invalid_format",
+   "argv": [
+    "import",
+    "--from",
+    "autojump",
+    "autojump.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "autojump.txt": "no_tab_here\n"
+   },
+   "ci": false,
+   "source": "test_zoxide.py:599"
+  },
+  {
+   "test": "test_init_help",
+   "argv": [
+    "init",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Generate shell configuration",
+    "bash",
+    "--no-cmd",
+    "--cmd",
+    "--hook"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:659"
+  },
+  {
+   "test": "test_init_version_flag",
+   "argv": [
+    "init",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "zoxide",
+    "0.9.9"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:668"
+  },
+  {
+   "test": "test_init_bash",
+   "argv": [
+    "init",
+    "bash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "__zoxide_pwd",
+    "__zoxide_cd"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:674"
+  },
+  {
+   "test": "test_init_zsh",
+   "argv": [
+    "init",
+    "zsh"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "__zoxide_pwd",
+    "__zoxide_cd"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:681"
+  },
+  {
+   "test": "test_init_fish",
+   "argv": [
+    "init",
+    "fish"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "__zoxide_pwd",
+    "zoxide add"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:688"
+  },
+  {
+   "test": "test_init_nushell",
+   "argv": [
+    "init",
+    "nushell"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "zoxide"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:695"
+  },
+  {
+   "test": "test_init_posix",
+   "argv": [
+    "init",
+    "posix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "__zoxide_pwd"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:701"
+  },
+  {
+   "test": "test_init_powershell",
+   "argv": [
+    "init",
+    "powershell"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "zoxide"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:707"
+  },
+  {
+   "test": "test_init_tcsh",
+   "argv": [
+    "init",
+    "tcsh"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "zoxide"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:713"
+  },
+  {
+   "test": "test_init_xonsh",
+   "argv": [
+    "init",
+    "xonsh"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "zoxide"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:719"
+  },
+  {
+   "test": "test_init_elvish",
+   "argv": [
+    "init",
+    "elvish"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "zoxide",
+    "__zoxide_z"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:725"
+  },
+  {
+   "test": "test_init_bash_no_cmd",
+   "argv": [
+    "init",
+    "bash",
+    "--no-cmd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "__zoxide_z"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:732"
+  },
+  {
+   "test": "test_init_bash_custom_cmd",
+   "argv": [
+    "init",
+    "bash",
+    "--cmd",
+    "j"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:742"
+  },
+  {
+   "test": "test_init_bash_hook_none",
+   "argv": [
+    "init",
+    "bash",
+    "--hook",
+    "none"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:749"
+  },
+  {
+   "test": "test_init_bash_hook_prompt",
+   "argv": [
+    "init",
+    "bash",
+    "--hook",
+    "prompt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "PROMPT_COMMAND",
+    "__zoxide_hook"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:756"
+  },
+  {
+   "test": "test_init_bash_hook_pwd",
+   "argv": [
+    "init",
+    "bash",
+    "--hook",
+    "pwd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "__zoxide_oldpwd",
+    "__zoxide_hook"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:762"
+  },
+  {
+   "test": "test_init_invalid_shell",
+   "argv": [
+    "init",
+    "invalidshell"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error",
+    "possible values"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:769"
+  },
+  {
+   "test": "test_init_invalid_hook",
+   "argv": [
+    "init",
+    "bash",
+    "--hook",
+    "invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:775"
+  },
+  {
+   "test": "test_init_bash_with_echo",
+   "argv": [
+    "init",
+    "bash"
+   ],
+   "stdin": null,
+   "env": {
+    "_ZO_ECHO": "1"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "__zoxide_pwd"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:780"
+  },
+  {
+   "test": "test_init_bash_resolve_symlinks_pwd_p",
+   "argv": [
+    "init",
+    "bash"
+   ],
+   "stdin": null,
+   "env": {
+    "_ZO_RESOLVE_SYMLINKS": "1"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pwd -P"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:788"
+  },
+  {
+   "test": "test_init_bash_no_resolve_symlinks_pwd_l",
+   "argv": [
+    "init",
+    "bash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pwd -L"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:794"
+  },
+  {
+   "test": "test_init_posix_alias_ksh",
+   "argv": [
+    "init",
+    "ksh"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "__zoxide_pwd"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:800"
+  },
+  {
+   "test": "test_init_default_cmd_is_z",
+   "argv": [
+    "init",
+    "bash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:806"
+  },
+  {
+   "test": "test_init_no_aliases_is_alias_for_no_cmd",
+   "argv": [
+    "init",
+    "bash",
+    "--no-cmd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:811"
+  },
+  {
+   "test": "test_init_bash_contains_zoxide_add",
+   "argv": [
+    "init",
+    "bash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "zoxide add"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:823"
+  },
+  {
+   "test": "test_init_bash_contains_zoxide_query",
+   "argv": [
+    "init",
+    "bash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "zoxide query"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:828"
+  },
+  {
+   "test": "test_init_output_is_not_empty_all_shells",
+   "argv": [
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:833"
+  },
+  {
+   "test": "test_edit_help",
+   "argv": [
+    "edit",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Edit the database"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:846"
+  },
+  {
+   "test": "test_edit_version_flag",
+   "argv": [
+    "edit",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "zoxide",
+    "0.9.9"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:851"
+  },
+  {
+   "test": "test_edit_reload_subcommand",
+   "argv": [
+    "add",
+    "/tmp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "/tmp",
+    "\t",
+    "\u0000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:857"
+  },
+  {
+   "test": "test_edit_reload_output_format",
+   "argv": [
+    "add",
+    "/tmp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\t",
+    "\u0000",
+    "/tmp",
+    "/home"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:904"
+  },
+  {
+   "test": "test_zo_data_dir_must_be_absolute",
+   "argv": [
+    "add",
+    "/tmp"
+   ],
+   "stdin": null,
+   "env": {
+    "_ZO_DATA_DIR": "relative/path"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "absolute"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:943"
+  },
+  {
+   "test": "test_zo_maxage_invalid_value_fails",
+   "argv": [
+    "add",
+    "/tmp"
+   ],
+   "stdin": null,
+   "env": {
+    "_ZO_MAXAGE": "notanumber"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "_ZO_MAXAGE"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:960"
+  },
+  {
+   "test": "test_database_persists_across_runs",
+   "argv": [
+    "add",
+    "/tmp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "/tmp",
+    "/tmp"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:1013"
+  },
+  {
+   "test": "test_add_to_existing_database_preserves_entries",
+   "argv": [
+    "add",
+    "/tmp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "/tmp",
+    "/home"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:1045"
+  },
+  {
+   "test": "test_remove_updates_database",
+   "argv": [
+    "add",
+    "/tmp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:1056"
+  },
+  {
+   "test": "test_score_output_format_is_padded",
+   "argv": [
+    "add",
+    "/tmp",
+    "--score",
+    "5.0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:1081"
+  },
+  {
+   "test": "test_query_without_keywords_returns_highest_ranked",
+   "argv": [
+    "add",
+    "/tmp",
+    "--score",
+    "1.0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "/home"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:1098"
+  },
+  {
+   "test": "test_last_keyword_must_be_in_last_component",
+   "argv": [
+    "add",
+    "/usr/local/bin"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "/usr/local/bin",
+    "no match found"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:1119"
+  },
+  {
+   "test": "test_error_messages_prefixed_with_zoxide",
+   "argv": [
+    "add",
+    "/nonexistent_xyz_abc"
+   ],
+   "stdin": null,
+   "env": {
+    "_ZO_DATA_DIR": "/tmp/test_errors"
+   },
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "zoxide:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:1159"
+  },
+  {
+   "test": "test_query_error_on_no_match",
+   "argv": [
+    "query",
+    "definitely_not_matching_anything_xyz_abc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "no match found"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:1164"
+  },
+  {
+   "test": "test_add_error_message_contains_path",
+   "argv": [
+    "add",
+    "/nonexistent_xyz_path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "not a directory",
+    "/nonexistent_xyz_path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:1177"
+  },
+  {
+   "test": "test_all_subcommands_have_help",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:1190"
+  },
+  {
+   "test": "test_all_subcommands_show_env_vars",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "_ZO_DATA_DIR",
+    "_ZO_MAXAGE"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:1196"
+  },
+  {
+   "test": "test_add_home_directory",
+   "argv": [
+    "add",
+    "/home"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "/home"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:1222"
+  },
+  {
+   "test": "test_query_list_empty_returns_nothing",
+   "argv": [
+    "query",
+    "--list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:1230"
+  },
+  {
+   "test": "test_remove_no_paths_is_noop",
+   "argv": [
+    "add",
+    "/tmp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "/tmp"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:1236"
+  },
+  {
+   "test": "test_import_empty_file",
+   "argv": [
+    "import",
+    "--from",
+    "z",
+    "empty.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "empty.txt": ""
+   },
+   "ci": false,
+   "source": "test_zoxide.py:1247"
+  },
+  {
+   "test": "test_multiple_removes_one_fails",
+   "argv": [
+    "add",
+    "/tmp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "path not found in database"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_zoxide.py:1272"
+  },
+  {
+   "test": "test_import_z_invalid_rank",
+   "argv": [
+    "import",
+    "--from",
+    "z",
+    "z.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "z.txt": "/tmp|notanumber|1700000000\n"
+   },
+   "ci": false,
+   "source": "test_zoxide.py:1280"
+  }
+ ]
+}

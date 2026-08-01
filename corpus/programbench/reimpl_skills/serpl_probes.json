@@ -1,0 +1,790 @@
+[
+ {
+  "name": "test::test_rapid_invocations::0",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_various_path_formats::1",
+  "argv": [
+   "--project-root"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_and_version_alternating::2",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_flag::3",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_short_flag::4",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::5",
+  "argv": [
+   "--invalid-flag-that-does-not-exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_separator::6",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_flag_variations::7",
+  "argv": [
+   "-p"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repeated_flags::8",
+  "argv": [
+   "--project-root",
+   "--project-root"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_var_expansion::9",
+  "argv": [
+   "--project-root",
+   "$HOME/test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tilde_in_path::10",
+  "argv": [
+   "--project-root",
+   "~/test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_paths::11",
+  "argv": [
+   "--project-root",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_case_sensitive_flags::12",
+  "argv": [
+   "--HELP"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_project_root_paths::13",
+  "argv": [
+   "--project-root",
+   "/nonexistent/xyz/abc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_flags::14",
+  "argv": [
+   "--help",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_message_when_ripgrep_missing::15",
+  "argv": [
+   "rg",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::16",
+  "argv": [
+   "--invalid-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_short_flag::17",
+  "argv": [
+   "-x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_project_root_file_not_dir::18",
+  "argv": [
+   "--project-root",
+   "file.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_project_root_nonexistent::19",
+  "argv": [
+   "--project-root",
+   "/nonexistent/path/xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_errors::20",
+  "argv": [
+   "--invalid1",
+   "--invalid2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_project_root_value::21",
+  "argv": [
+   "--project-root",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_overrides_errors::22",
+  "argv": [
+   "--help",
+   "--invalid-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_overrides_errors::23",
+  "argv": [
+   "--version",
+   "--invalid-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_project_root_with_valid_directory::24",
+  "argv": [
+   "--project-root",
+   "/tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_project_root_short_flag::25",
+  "argv": [
+   "-p",
+   "/tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_project_root_with_nonexistent_directory::26",
+  "argv": [
+   "--project-root",
+   "/nonexistent/path/that/does/not/exist/xyz123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_project_root_with_file_not_directory::27",
+  "argv": [
+   "--project-root",
+   "/dev/null"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_project_root_equals_syntax::28",
+  "argv": [
+   "--project-root=/tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_starts_in_tmux::29",
+  "argv": [
+   "tmux",
+   "capture-pane",
+   "-t",
+   "serpl_test_start",
+   "-p"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_help_dialog::30",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "serpl_test_help",
+   "C-b"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_tab_switching::31",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "serpl_test_tabs",
+   "Tab"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_navigation_keys::32",
+  "argv": [
+   "tmux",
+   "capture-pane",
+   "-t",
+   "serpl_test_nav",
+   "-p"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_search_input::33",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "serpl_test_search",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_quit_with_ctrl_d::34",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "serpl_test_quit_d",
+   "C-d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_exists_check::35",
+  "argv": [
+   "./executable",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_color_named_black::36",
+  "argv": [
+   "/workspace/tui2cli",
+   "-n",
+   "test_parse_color_black",
+   "wait",
+   "--min-wait",
+   "0.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_color_bold_red::37",
+  "argv": [
+   "/workspace/tui2cli",
+   "-n",
+   "test_parse_bold_red",
+   "wait",
+   "--min-wait",
+   "0.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_color_index_format::38",
+  "argv": [
+   "/workspace/tui2cli",
+   "-n",
+   "test_parse_color_index",
+   "wait",
+   "--min-wait",
+   "0.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_color_bright_format::39",
+  "argv": [
+   "/workspace/tui2cli",
+   "-n",
+   "test_parse_bright",
+   "wait",
+   "--min-wait",
+   "0.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_color_gray_scale::40",
+  "argv": [
+   "/workspace/tui2cli",
+   "-n",
+   "test_parse_gray",
+   "wait",
+   "--min-wait",
+   "0.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_color_rgb_format::41",
+  "argv": [
+   "/workspace/tui2cli",
+   "-n",
+   "test_parse_rgb",
+   "wait",
+   "--min-wait",
+   "0.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_color_whitespace_trimming::42",
+  "argv": [
+   "/workspace/tui2cli",
+   "-n",
+   "test_parse_whitespace",
+   "wait",
+   "--min-wait",
+   "0.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_color_invalid_returns_none::43",
+  "argv": [
+   "/workspace/tui2cli",
+   "-n",
+   "test_parse_invalid",
+   "wait",
+   "--min-wait",
+   "0.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_color_index_max_value::44",
+  "argv": [
+   "/workspace/tui2cli",
+   "-n",
+   "test_color_255",
+   "wait",
+   "--min-wait",
+   "0.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_color_gray_min_value::45",
+  "argv": [
+   "/workspace/tui2cli",
+   "-n",
+   "test_gray0",
+   "wait",
+   "--min-wait",
+   "0.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_color_gray_max_value::46",
+  "argv": [
+   "/workspace/tui2cli",
+   "-n",
+   "test_gray23",
+   "wait",
+   "--min-wait",
+   "0.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_color_rgb_all_zeros::47",
+  "argv": [
+   "/workspace/tui2cli",
+   "-n",
+   "test_rgb000",
+   "wait",
+   "--min-wait",
+   "0.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_color_rgb_all_max::48",
+  "argv": [
+   "/workspace/tui2cli",
+   "-n",
+   "test_rgb555",
+   "wait",
+   "--min-wait",
+   "0.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deleteline_mode_removes_matched_lines::49",
+  "argv": [
+   "git",
+   "init"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::50",
+  "argv": [
+   "./executable",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_suspend_signal_handling::51",
+  "argv": [
+   "./executable"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_takes_precedence_over_unknown_flag_when_before_it::52",
+  "argv": [
+   "--help",
+   "--badflag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_errors_and_suggests_help::53",
+  "argv": [
+   "--badflag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_then_help_is_still_error_and_prints_usage_in_stderr::54",
+  "argv": [
+   "--badflag",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extra_args_are_ignored_for_version_subcommand_like_behavior::55",
+  "argv": [
+   "--version",
+   "extra-positional"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_after_version_is_ignored_and_does_not_error::56",
+  "argv": [
+   "--version",
+   "--",
+   "--nonexistent-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_project_root_rejects_missing_value_even_if_next_looks_like_flag::57",
+  "argv": [
+   "--project-root",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_flag_combining_consumes_value_and_starts_program::58",
+  "argv": [
+   "-pV"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_project_root_equal_empty_string_is_rejected_as_missing_value::59",
+  "argv": [
+   "--project-root=",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_args_attempts_to_start_tui_and_is_not_an_argparse_error::60",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

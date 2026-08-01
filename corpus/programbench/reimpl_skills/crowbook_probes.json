@@ -1,0 +1,3589 @@
+[
+ {
+  "name": "test::test_dash_h_output_matches_double_dash_help::0",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_precedes_unknown_flag_and_exits_zero::1",
+  "argv": [
+   "--help",
+   "--this-flag-does-not-exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_separator_treats_help_as_positional_and_errors::2",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_parser_headers_emphasis_via_single_html::3",
+  "argv": [
+   "-s",
+   "-t",
+   "html",
+   "-o",
+   "-"
+  ],
+  "stdin": "Test\n====\n\nsome *emphasis* required\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_parser_inline_link_via_single_html::4",
+  "argv": [
+   "-s",
+   "-t",
+   "html",
+   "-o",
+   "-"
+  ],
+  "stdin": "[a link](http://foo.bar)\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_parser_reference_link_via_single_html::5",
+  "argv": [
+   "-s",
+   "-t",
+   "html",
+   "-o",
+   "-"
+  ],
+  "stdin": "[reference link][1]\n\n[1]: http://foo.bar\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_parser_horizontal_rule_via_single_html::6",
+  "argv": [
+   "-s",
+   "-t",
+   "html",
+   "-o",
+   "-"
+  ],
+  "stdin": "a paragraph\n\n****\n\nanother one\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_parser_blockquote_via_single_html::7",
+  "argv": [
+   "-s",
+   "-t",
+   "html",
+   "-o",
+   "-"
+  ],
+  "stdin": "normal paragraph\n\n> some\n> blockquote\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_parser_fenced_code_blocks_via_single_html::8",
+  "argv": [
+   "-s",
+   "-t",
+   "html",
+   "-o",
+   "-"
+  ],
+  "stdin": "normal paragraph\n\n```\ncode block\n```\n\n```rust\nrust code block\n```\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_parser_strong_and_emphasis_via_single_html::9",
+  "argv": [
+   "-s",
+   "-t",
+   "html",
+   "-o",
+   "-"
+  ],
+  "stdin": "*normal emphasis*\n\n**strong emphasis**\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_parser_inline_code_escaped_via_single_html::10",
+  "argv": [
+   "-s",
+   "-t",
+   "html",
+   "-o",
+   "-"
+  ],
+  "stdin": "some `code` inlined\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_parser_images_reference_and_standalone_via_single_html::11",
+  "argv": [
+   "-s",
+   "-t",
+   "html",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_parser_image_link_standalone_via_single_html::12",
+  "argv": [
+   "-s",
+   "-t",
+   "html",
+   "-o",
+   "-"
+  ],
+  "stdin": "[![alt text](http://foo.bar/baz.png \"Title\")](http://foo.bar)\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_parser_table_simple_via_single_html::13",
+  "argv": [
+   "-s",
+   "-t",
+   "html",
+   "-o",
+   "-"
+  ],
+  "stdin": "| A             | Simple        | Table |\n| ------------- |---------------| ------|\n| bla           | bla           |  bla  |\n| bla           | bla           |  bla  |\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_suggests_double_dash_to_pass_as_value::14",
+  "argv": [
+   "--no-such-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_treats_following_as_positional_not_flag::15",
+  "argv": [
+   "--",
+   "--no-such-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_short_flags_are_accepted::16",
+  "argv": [
+   "-fsn"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_without_to_produces_required_argument_error::17",
+  "argv": [
+   "-o=out.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_create_requires_at_least_one_value::18",
+  "argv": [
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_requires_at_least_two_values::19",
+  "argv": [
+   "--set",
+   "foo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_render_with_to_flag_html::20",
+  "argv": [
+   "--to",
+   "html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_render_to_stdout::21",
+  "argv": [
+   "--to",
+   "html",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_render_tex_output::22",
+  "argv": [
+   "--to",
+   "tex"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_render_with_options_set::23",
+  "argv": [
+   "--set",
+   "author",
+   "Modified Author"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_render_error_missing_chapter::24",
+  "argv": [
+   "error.book"
+  ],
+  "stdin": null,
+  "files": {
+   "error.book": "\nauthor: Error Test\ntitle: Missing Chapter\nlang: en\n\noutput.html: error.html\n\n+ missing_file.md\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_flag::25",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_short_flag::26",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_long_flag::27",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_option_shows_error::28",
+  "argv": [
+   "--invalid-option-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_book_file_shows_error::29",
+  "argv": [
+   "nonexistent_file_xyz.book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_book_with_relative_paths::30",
+  "argv": [
+   "book.book",
+   "--to",
+   "html"
+  ],
+  "stdin": null,
+  "files": {
+   "book.book": "title: Test\nauthor: Me\nlang: en\n\n+ chapters/chapter.md\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_book_missing_chapter_file::31",
+  "argv": [
+   "book.book",
+   "--to",
+   "html"
+  ],
+  "stdin": null,
+  "files": {
+   "book.book": "title: Test\nauthor: Me\nlang: en\n\n+ nonexistent.md\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_book_empty_chapter_list::32",
+  "argv": [
+   "book.book",
+   "--to",
+   "html"
+  ],
+  "stdin": null,
+  "files": {
+   "book.book": "title: Empty Book\nauthor: Nobody\nlang: en\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_book_with_multiple_chapters::33",
+  "argv": [
+   "book.book",
+   "--to",
+   "html"
+  ],
+  "stdin": null,
+  "files": {
+   "book.book": "title: Multi Chapter\nauthor: Author\nlang: en\n\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_create_book_to_stdout::34",
+  "argv": [
+   "--create",
+   "chapter1.md",
+   "chapter2.md"
+  ],
+  "stdin": null,
+  "files": {
+   "chapter1.md": "# Chapter 1\n\nContent here.",
+   "chapter2.md": "# Chapter 2\n\nMore content."
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_create_book_short_flag::35",
+  "argv": [
+   "-c",
+   "test.md"
+  ],
+  "stdin": null,
+  "files": {
+   "test.md": "# Test\n\nContent."
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_create_book_with_filename::36",
+  "argv": [
+   "--create",
+   "chapter.md"
+  ],
+  "stdin": null,
+  "files": {
+   "chapter.md": "# Chapter\n\nText."
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_create_book_multiple_files::37",
+  "argv": [
+   "--create"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_create_book_file_already_exists::38",
+  "argv": [
+   "existing.book",
+   "--create",
+   "test.md"
+  ],
+  "stdin": null,
+  "files": {
+   "existing.book": "# Already exists",
+   "test.md": "# Test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_create_book_template_structure::39",
+  "argv": [
+   "--create",
+   "test.md"
+  ],
+  "stdin": null,
+  "files": {
+   "test.md": "# Test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_yaml_blocks::40",
+  "argv": [
+   "-s",
+   "test.md",
+   "--to",
+   "html"
+  ],
+  "stdin": null,
+  "files": {
+   "test.md": "---\ntitle: First\n---\n\n# Content\n\n---\nnote: Second YAML\n---\n\nMore content.\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_malformed_yaml::41",
+  "argv": [
+   "-s",
+   "test.md",
+   "--to",
+   "html"
+  ],
+  "stdin": null,
+  "files": {
+   "test.md": "---\ntitle: Test\nauthor: [unclosed\n---\n\n# Content\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_to_existing_file::42",
+  "argv": [
+   "--to",
+   "html",
+   "--output",
+   "output.html"
+  ],
+  "stdin": null,
+  "files": {
+   "output.html": "old content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_epub_with_to_flag::43",
+  "argv": [
+   "--to",
+   "epub",
+   "--output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lang_option_english::44",
+  "argv": [
+   "--lang",
+   "en",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lang_option_french::45",
+  "argv": [
+   "--lang",
+   "fr",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lang_short_flag::46",
+  "argv": [
+   "-L",
+   "en",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lang_with_version::47",
+  "argv": [
+   "--lang",
+   "fr",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lang_affects_messages::48",
+  "argv": [
+   "--lang",
+   "en"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lang_invalid_code::49",
+  "argv": [
+   "--lang",
+   "invalid_xyz",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lang_with_book_processing::50",
+  "argv": [
+   "--lang",
+   "fr",
+   "--to",
+   "html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_options_long_flag::51",
+  "argv": [
+   "--list-options"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_options_short_flag::52",
+  "argv": [
+   "-l"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_to_with_short_flag::53",
+  "argv": [
+   "-t",
+   "html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_short_flag::54",
+  "argv": [
+   "-t",
+   "html",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_file_html::55",
+  "argv": [
+   "--to",
+   "html",
+   "--output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_file_tex::56",
+  "argv": [
+   "--to",
+   "tex",
+   "--output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_format_shows_error::57",
+  "argv": [
+   "--to",
+   "invalid_format_xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_without_to_shows_error::58",
+  "argv": [
+   "--output",
+   "out.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_dir_format::59",
+  "argv": [
+   "--to",
+   "html.dir",
+   "--output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_template_html_css::60",
+  "argv": [
+   "--print-template",
+   "html.css"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_template_epub_css::61",
+  "argv": [
+   "--print-template",
+   "epub.css"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_template_tex::62",
+  "argv": [
+   "--print-template",
+   "tex.template"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_template_html_standalone::63",
+  "argv": [
+   "--print-template",
+   "html.standalone.template"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_template_html_dir::64",
+  "argv": [
+   "--print-template",
+   "html.dir.template"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_template_invalid::65",
+  "argv": [
+   "--print-template",
+   "nonexistent.xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_template_epub_chapter::66",
+  "argv": [
+   "--print-template",
+   "epub.chapter.xhtml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_single_option::67",
+  "argv": [
+   "--to",
+   "html",
+   "--set",
+   "author",
+   "New Author"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_multiple_options::68",
+  "argv": [
+   "--to",
+   "html",
+   "--set",
+   "author",
+   "Auth",
+   "title",
+   "New Title"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_rendering_option::69",
+  "argv": [
+   "--to",
+   "html",
+   "--set",
+   "rendering.highlight",
+   "none"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_output_path::70",
+  "argv": [
+   "--set",
+   "output.html",
+   "custom.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_invalid_option::71",
+  "argv": [
+   "--to",
+   "html",
+   "--set",
+   "invalid.option.xyz",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_boolean_option::72",
+  "argv": [
+   "--to",
+   "html",
+   "--set",
+   "rendering.inline_toc",
+   "true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_with_spaces_in_value::73",
+  "argv": [
+   "--to",
+   "html",
+   "--set",
+   "author",
+   "First Last"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_markdown_with_yaml_block::74",
+  "argv": [
+   "--single",
+   "story.md",
+   "--to",
+   "html"
+  ],
+  "stdin": null,
+  "files": {
+   "story.md": "---\nauthor: Test Author\ntitle: Test Story\nlang: en\n---\n\n# Chapter One\n\nThis is a test story with some content.\n\n## Section\n\nMore content here.\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_short_flag::75",
+  "argv": [
+   "-s",
+   "test.md",
+   "--to",
+   "html"
+  ],
+  "stdin": null,
+  "files": {
+   "test.md": "---\ntitle: Test\n---\n\n# Content\n\nText here."
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_with_output_file::76",
+  "argv": [
+   "-s",
+   "story.md",
+   "--to",
+   "html",
+   "--output"
+  ],
+  "stdin": null,
+  "files": {
+   "story.md": "---\ntitle: Story\n---\n\n# Text\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_without_yaml_block::77",
+  "argv": [
+   "-s",
+   "simple.md",
+   "--to",
+   "html"
+  ],
+  "stdin": null,
+  "files": {
+   "simple.md": "# Simple Document\n\nJust some text.\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_with_set_override::78",
+  "argv": [
+   "-s",
+   "test.md",
+   "--to",
+   "html",
+   "--set",
+   "author",
+   "Override Author"
+  ],
+  "stdin": null,
+  "files": {
+   "test.md": "---\nauthor: Original\n---\n\n# Test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_tex_output::79",
+  "argv": [
+   "-s",
+   "test.md",
+   "--to",
+   "tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.md": "---\ntitle: LaTeX Test\n---\n\n# Chapter\n\nText.\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_with_inline_yaml_variations::80",
+  "argv": [
+   "-s",
+   "test.md",
+   "--to",
+   "html"
+  ],
+  "stdin": null,
+  "files": {
+   "test.md": "---\ntitle: Test\nauthor: Me\n...\n\n# Content\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_markdown_features::81",
+  "argv": [
+   "-s",
+   "test.md",
+   "--to",
+   "html"
+  ],
+  "stdin": null,
+  "files": {
+   "test.md": "---\ntitle: Markdown Test\n---\n\n# Heading 1\n\n## Heading 2\n\n**Bold text** and *italic text*.\n\n- List item 1\n- List item 2\n\n[Link](http://example.com)\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_render_to_html::82",
+  "argv": [
+   "--single",
+   "article.md"
+  ],
+  "stdin": null,
+  "files": {
+   "article.md": "---\nauthor: Single Author\ntitle: Single Article\noutput: [html]\n---\n\n# Introduction\n\nThis is a single file article.\n\n## Section 1\n\nContent for section 1.\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_render_to_epub::83",
+  "argv": [
+   "-s",
+   "story.md"
+  ],
+  "stdin": null,
+  "files": {
+   "story.md": "---\nauthor: Story Author\ntitle: Short Story\noutput: [epub]\n---\n\n# The Story\n\nOnce upon a time...\n\n# The End\n\nAnd they lived happily ever after.\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_with_to_flag::84",
+  "argv": [
+   "--single",
+   "doc.md",
+   "--to",
+   "html",
+   "--output",
+   "doc.html"
+  ],
+  "stdin": null,
+  "files": {
+   "doc.md": "---\nauthor: Doc Author\ntitle: Document\n---\n\n# Document\n\nContent.\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_with_output_flag::85",
+  "argv": [
+   "--single",
+   "test.md",
+   "--to",
+   "html",
+   "--output",
+   "custom.html"
+  ],
+  "stdin": null,
+  "files": {
+   "test.md": "---\nauthor: Test\ntitle: Output Test\n---\n\n# Content\n\nTest content.\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_to_stdout::86",
+  "argv": [
+   "-s",
+   "stdout.md",
+   "--to",
+   "html",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {
+   "stdout.md": "---\nauthor: Stdout Test\ntitle: Stdout Output\n---\n\n# Main\n\nStdout content.\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_with_set_options::87",
+  "argv": [
+   "--single",
+   "set.md",
+   "--set",
+   "author",
+   "Override Author"
+  ],
+  "stdin": null,
+  "files": {
+   "set.md": "---\nauthor: Original\ntitle: Original Title\noutput: [html]\n---\n\n# Content\n\nTest.\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_with_multiple_chapters::88",
+  "argv": [
+   "-s",
+   "multi.md"
+  ],
+  "stdin": null,
+  "files": {
+   "multi.md": "---\nauthor: Multi Author\ntitle: Multi Chapter Doc\noutput: [html]\n---\n\n# Chapter 1\n\nFirst chapter content.\n\n# Chapter 2\n\nSecond chapter content.\n\n# Chapter 3\n\nThird chapter content.\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_with_links::89",
+  "argv": [
+   "-s",
+   "links.md"
+  ],
+  "stdin": null,
+  "files": {
+   "links.md": "---\nauthor: Links Author\ntitle: Links Doc\noutput: [html]\n---\n\n# Links\n\n[External link](http://example.com)\n\n[Another link](https://test.org)\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_with_blockquotes::90",
+  "argv": [
+   "-s",
+   "quote.md"
+  ],
+  "stdin": null,
+  "files": {
+   "quote.md": "---\nauthor: Quote Author\ntitle: Quote Doc\noutput: [html]\n---\n\n# Quotes\n\n> This is a blockquote.\n> It has multiple lines.\n\nRegular text.\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_without_yaml::91",
+  "argv": [
+   "-s",
+   "no_yaml.md",
+   "--to",
+   "html",
+   "-o",
+   "no_yaml.html"
+  ],
+  "stdin": null,
+  "files": {
+   "no_yaml.md": "# Simple Document\n\nJust content, no YAML.\n\nContent here.\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_stats::92",
+  "argv": [
+   "-s",
+   "stats.md",
+   "--stats"
+  ],
+  "stdin": null,
+  "files": {
+   "stats.md": "---\nauthor: Stats Author\ntitle: Stats Doc\n---\n\n# Content\n\nThis document has several words for stats testing purposes here today.\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_tex_output::93",
+  "argv": [
+   "-s",
+   "latex.md",
+   "--to",
+   "tex",
+   "-o",
+   "output.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "latex.md": "---\nauthor: LaTeX Author\ntitle: LaTeX Doc\n---\n\n# LaTeX Content\n\nSome content with **bold**.\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_with_syntax_highlighting::94",
+  "argv": [
+   "-s",
+   "code.md"
+  ],
+  "stdin": null,
+  "files": {
+   "code.md": "---\nauthor: Code Author\ntitle: Code Doc\noutput: [html]\n---\n\n# Code Example\n\n```rust\nfn main() {\n    println!(\"Hello, world!\");\n}\n```\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_render_multiple_formats::95",
+  "argv": [
+   "-s",
+   "multi.md"
+  ],
+  "stdin": null,
+  "files": {
+   "multi.md": "---\nauthor: Multi Author\ntitle: Multi Format\noutput: [html, epub]\n---\n\n# Content\n\nMulti format test.\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_fancy_flag::96",
+  "argv": [
+   "--no-fancy",
+   "--to",
+   "html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_fancy_short_flag::97",
+  "argv": [
+   "-n",
+   "--to",
+   "html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_force_emoji_flag::98",
+  "argv": [
+   "--force-emoji",
+   "--to",
+   "html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_force_emoji_short_flag::99",
+  "argv": [
+   "-f",
+   "--to",
+   "html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_autograph_flag::100",
+  "argv": [
+   "--autograph",
+   "--to",
+   "html"
+  ],
+  "stdin": "Test Signature\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_autograph_short_flag::101",
+  "argv": [
+   "-a",
+   "--to",
+   "html"
+  ],
+  "stdin": "Signature\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_flags::102",
+  "argv": [
+   "-n",
+   "-f",
+   "-q",
+   "--to",
+   "html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_with_no_fancy::103",
+  "argv": [
+   "--verbose",
+   "--no-fancy",
+   "--to",
+   "html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_long_flag::104",
+  "argv": [
+   "--stats"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_short_flag::105",
+  "argv": [
+   "-S"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_with_verbose_flag::106",
+  "argv": [
+   "--stats",
+   "--verbose"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_with_no_fancy_flag::107",
+  "argv": [
+   "--stats",
+   "--no-fancy"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_flag::108",
+  "argv": [
+   "--verbose",
+   "--to",
+   "html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_short_flag::109",
+  "argv": [
+   "-v",
+   "--to",
+   "html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_short_flag::110",
+  "argv": [
+   "-q",
+   "--to",
+   "html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_with_error::111",
+  "argv": [
+   "-q",
+   "book.book",
+   "--to",
+   "html"
+  ],
+  "stdin": null,
+  "files": {
+   "book.book": "title: T\nauthor: A\nlang: en\n\n+ nonexistent.md\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_first_positional_arg_is_treated_as_book_path_not_subcommand::112",
+  "argv": [
+   "add",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file_shows_error::113",
+  "argv": [
+   "nonexistent.book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_long_flag::114",
+  "argv": [
+   "--unknown-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_short_flag::115",
+  "argv": [
+   "-z"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_typo_in_flag::116",
+  "argv": [
+   "--verbos"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_template_flag_missing_value::117",
+  "argv": [
+   "--print-template"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_to_flag_invalid_format::118",
+  "argv": [
+   "-t",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_flag_no_values::119",
+  "argv": [
+   "--set"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_flag_one_value::120",
+  "argv": [
+   "--set",
+   "key"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_flag_two_values::121",
+  "argv": [
+   "--set",
+   "key",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_create_flag_single_file::122",
+  "argv": [
+   "-c",
+   "file1.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_create_flag_multiple_files::123",
+  "argv": [
+   "-c",
+   "file1.md",
+   "file2.md",
+   "file3.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_and_quiet_conflict::124",
+  "argv": [
+   "-v",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_and_verbose_conflict::125",
+  "argv": [
+   "-q",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_and_quiet_long_flags_conflict::126",
+  "argv": [
+   "--verbose",
+   "--quiet"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_short_flags_valid::127",
+  "argv": [
+   "-vn"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_short_flags_invalid::128",
+  "argv": [
+   "-abc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_requires_to::129",
+  "argv": [
+   "-o",
+   "test.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_and_to_together::130",
+  "argv": [
+   "-o",
+   "test.html",
+   "-t",
+   "html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_hyphen_alone::131",
+  "argv": [
+   "--"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_hyphen_with_flag_like_argument::132",
+  "argv": [
+   "--",
+   "--verbose"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_book_file_after_flags::133",
+  "argv": [
+   "-v",
+   "nonexistent.book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_book_file_before_flags::134",
+  "argv": [
+   "nonexistent.book",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_flag_with_markdown::135",
+  "argv": [
+   "-s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_to_flags::136",
+  "argv": [
+   "-t",
+   "html",
+   "-t",
+   "pdf"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_output_flags::137",
+  "argv": [
+   "-o",
+   "file1.html",
+   "-o",
+   "file2.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_with_spaces::138",
+  "argv": [
+   "-o",
+   "my file.html",
+   "-t",
+   "html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_with_special_chars::139",
+  "argv": [
+   "-o",
+   "file@#$.html",
+   "-t",
+   "html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_empty_string::140",
+  "argv": [
+   "-o",
+   "",
+   "-t",
+   "html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lang_empty_string::141",
+  "argv": [
+   "-L",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_create_and_single_together::142",
+  "argv": [
+   "-s",
+   "-c",
+   "file1.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_with_list_options::143",
+  "argv": [
+   "-v",
+   "-l"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_with_version::144",
+  "argv": [
+   "-v",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_multiple_pairs::145",
+  "argv": [
+   "--set",
+   "key1",
+   "value1",
+   "--set",
+   "key2",
+   "value2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_sign_as_value::146",
+  "argv": [
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_equals_in_long_flag::147",
+  "argv": [
+   "--to=html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_equals_in_short_flag_invalid::148",
+  "argv": [
+   "-t=html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_two_positional_arguments_error::149",
+  "argv": [
+   "book1.md",
+   "book2.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_three_positional_arguments_error::150",
+  "argv": [
+   "book1.md",
+   "book2.md",
+   "book3.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_html_with_output_file_creates_file_no_stdout::151",
+  "argv": [
+   "-s",
+   "story.md",
+   "-t",
+   "html",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "story.md": "---\nauthor: Me\ntitle: Test\noutput: [html]\n---\n\n# Hello\n\nSome *text*.\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_epub_to_stdout_is_zip_bytes_and_warns_on_stderr::152",
+  "argv": [
+   "-s",
+   "a.md",
+   "-t",
+   "epub"
+  ],
+  "stdin": null,
+  "files": {
+   "a.md": "# Hi\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_metadata_fields::153",
+  "argv": [
+   "test.book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_option_import_merges_settings::154",
+  "argv": [
+   "main.book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_input_file_error::155",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_flag_suppresses_banner::156",
+  "argv": [
+   "--quiet",
+   "--single",
+   "test.md",
+   "--to",
+   "html",
+   "-o",
+   "output.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_flag_shows_debug_output::157",
+  "argv": [
+   "--verbose",
+   "--single",
+   "test.md",
+   "--to",
+   "html",
+   "-o",
+   "output.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_fancy_flag_disables_ui::158",
+  "argv": [
+   "--no-fancy",
+   "--single",
+   "test.md",
+   "--to",
+   "html",
+   "-o",
+   "output.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_quiet_conflict::159",
+  "argv": [
+   "--verbose",
+   "--quiet",
+   "--single",
+   "test.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_mode_epub_output::160",
+  "argv": [
+   "--quiet",
+   "--single",
+   "test.md",
+   "--to",
+   "epub",
+   "-o",
+   "output.epub"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_mode_tex_output::161",
+  "argv": [
+   "--quiet",
+   "--single",
+   "test.md",
+   "--to",
+   "tex",
+   "-o",
+   "output.tex"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_to_stdout::162",
+  "argv": [
+   "--quiet",
+   "--single",
+   "test.md",
+   "--to",
+   "html",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_single_option::163",
+  "argv": [
+   "--quiet",
+   "--single",
+   "test.md",
+   "--to",
+   "html",
+   "-o",
+   "output.html",
+   "--set",
+   "author",
+   "Jane Doe",
+   "title",
+   "Custom Title"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_invalid_option_error::164",
+  "argv": [
+   "--single",
+   "test.md",
+   "--to",
+   "html",
+   "--set",
+   "invalid_option",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_flag_shows_word_count::165",
+  "argv": [
+   "--single",
+   "test.md",
+   "--stats"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_template_invalid_name::166",
+  "argv": [
+   "--print-template",
+   "invalid_template"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_create_book_with_files::167",
+  "argv": [
+   "--create",
+   "ch1.md",
+   "ch2.md",
+   "newbook.book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_create_book_with_set_options::168",
+  "argv": [
+   "--set",
+   "author",
+   "John Doe",
+   "title",
+   "My Book",
+   "--create",
+   "ch1.md",
+   "ch2.md",
+   "book.book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_single_mode::169",
+  "argv": [
+   "--quiet",
+   "--single",
+   "-",
+   "--to",
+   "html",
+   "-o",
+   "output.html"
+  ],
+  "stdin": "# Test from stdin\n\nParagraph content.",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_book_mode::170",
+  "argv": [
+   "--quiet",
+   "-",
+   "--to",
+   "html",
+   "-o",
+   "output.html"
+  ],
+  "stdin": "title: Test Book\nauthor: Test Author\nlang: en\n\n+ content.md\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_book_mode_with_output_path_in_config::171",
+  "argv": [
+   "--quiet",
+   "book.book",
+   "--to",
+   "html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_book_mode_override_output_with_flag::172",
+  "argv": [
+   "--quiet",
+   "book.book",
+   "--to",
+   "html",
+   "-o",
+   "override.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_set_flags_error::173",
+  "argv": [
+   "--quiet",
+   "--single",
+   "test.md",
+   "--to",
+   "html",
+   "-o",
+   "output.html",
+   "--set",
+   "author",
+   "Alice",
+   "--set",
+   "title",
+   "My Title"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_multiple_values_in_single_flag::174",
+  "argv": [
+   "--quiet",
+   "--single",
+   "test.md",
+   "--to",
+   "html",
+   "-o",
+   "output.html",
+   "--set",
+   "author",
+   "Bob",
+   "title",
+   "Test Book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_with_verbose_flag::175",
+  "argv": [
+   "--verbose",
+   "--single",
+   "test.md",
+   "--stats"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_formats_html_dir::176",
+  "argv": [
+   "--quiet",
+   "book.book",
+   "--to",
+   "html.dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_force_emoji_flag::177",
+  "argv": [
+   "--force-emoji",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lang_flag_affects_ui_language::178",
+  "argv": [
+   "--lang",
+   "en",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_autograph_mode_requires_stdin::179",
+  "argv": [
+   "--quiet",
+   "--autograph",
+   "book.book",
+   "--to",
+   "html",
+   "-o",
+   "output.html"
+  ],
+  "stdin": "With love,\nThe Author",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_output_format_error::180",
+  "argv": [
+   "--single",
+   "test.md",
+   "--to",
+   "invalid_format"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_path_handling_in_book::181",
+  "argv": [
+   "--quiet",
+   "book.book",
+   "--to",
+   "html",
+   "-o",
+   "output.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_epub_structure::182",
+  "argv": [
+   "book.book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_malformed_yaml_configuration::183",
+  "argv": [
+   "malformed.book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_markdown_chapter::184",
+  "argv": [
+   "missing_chapter.book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_to_format::185",
+  "argv": [
+   "chapter.md",
+   "--to",
+   "invalid_format"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_without_to_flag::186",
+  "argv": [
+   "chapter.md",
+   "-o",
+   "output.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_mode_suppresses_header::187",
+  "argv": [
+   "--quiet",
+   "missing_chapter.book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_directory_not_found::188",
+  "argv": [
+   "test.book",
+   "--to",
+   "html",
+   "-o",
+   "/nonexistent_dir/output.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_image_in_markdown::189",
+  "argv": [
+   "img_test.book",
+   "--to",
+   "html",
+   "-o",
+   "test.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_cover_image::190",
+  "argv": [
+   "cover_test.book",
+   "--to",
+   "epub",
+   "-o",
+   "test.epub"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_template_name::191",
+  "argv": [
+   "--print-template",
+   "nonexistent_template",
+   "test.book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_quiet_verbose_flags::192",
+  "argv": [
+   "--quiet",
+   "--verbose",
+   "test.book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_invalid_option_key::193",
+  "argv": [
+   "test.book",
+   "--set",
+   "invalid_option",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_with_wrong_argument_count::194",
+  "argv": [
+   "test.book",
+   "--set",
+   "title"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_book_file::195",
+  "argv": [
+   "empty.book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pdf_rendering_latex_missing::196",
+  "argv": [
+   "output_format.book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_mode_shows_debug_info::197",
+  "argv": [
+   "--verbose",
+   "verbose_test.book",
+   "--to",
+   "html",
+   "-o",
+   "test.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_required_metadata_title::198",
+  "argv": [
+   "no_title.book",
+   "--to",
+   "html",
+   "-o",
+   "test.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_yaml_in_book_config::199",
+  "argv": [
+   "invalid_yaml.book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_errors_accumulation::200",
+  "argv": [
+   "multi_error.book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_css_file_in_config::201",
+  "argv": [
+   "test.book",
+   "--to",
+   "html",
+   "-o",
+   "test.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_boolean_option_value::202",
+  "argv": [
+   "bool_test.book",
+   "--to",
+   "html",
+   "-o",
+   "test.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_integer_option_value::203",
+  "argv": [
+   "int_test.book",
+   "--to",
+   "html",
+   "-o",
+   "test.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_to_stdout_with_dash::204",
+  "argv": [
+   "stdout_test.book",
+   "--to",
+   "html",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_create_mode_with_multiple_chapters::205",
+  "argv": [
+   "new_book.book",
+   "--create",
+   "ch1.md",
+   "ch2.md",
+   "ch3.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_mode_with_markdown_file::206",
+  "argv": [
+   "--single",
+   "standalone.md",
+   "--to",
+   "html",
+   "-o",
+   "output.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_with_line_number_precision::207",
+  "argv": [
+   "line_test.book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duplicate_output_format_specification::208",
+  "argv": [
+   "dup_output.book",
+   "--to",
+   "html",
+   "-o",
+   "cli_output.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_book_option_error_formatting::209",
+  "argv": [
+   "invalid_option.book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_book_option_type_error_formatting::210",
+  "argv": [
+   "type_error.book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_template_error_formatting::211",
+  "argv": [
+   "template_test.book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zipper_error_epub_creation::212",
+  "argv": [
+   "zipper_test.book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_render_error_invalid_html_template_var::213",
+  "argv": [
+   "render_test.book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_not_found_with_description::214",
+  "argv": [
+   "file_not_found.book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_parser_error_yaml_syntax::215",
+  "argv": [
+   "config_parse.book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_source_with_line_number_formatting::216",
+  "argv": [
+   "source_test.book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_render_error_pdf_without_latex::217",
+  "argv": [
+   "pdf_test.book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_epub_zipper_error_format::218",
+  "argv": [
+   "epub_zip.book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_render_error_epub_missing_cover::219",
+  "argv": [
+   "missing_cover.book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_latex_render_error_format::220",
+  "argv": [
+   "latex_render.book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_chapter_errors_reported::221",
+  "argv": [
+   "multi_missing.book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_template_not_found_error_format::222",
+  "argv": [
+   "template_missing.book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_yaml_structure_error::223",
+  "argv": [
+   "yaml_struct.book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_structure_valid_parseable::224",
+  "argv": [
+   "--single",
+   "simple.md",
+   "--to",
+   "html",
+   "-o",
+   "output.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_content_preserved::225",
+  "argv": [
+   "--single",
+   "unicode.md",
+   "--to",
+   "html",
+   "-o",
+   "output.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_image_base64_embedded::226",
+  "argv": [
+   "--single",
+   "with_image.md",
+   "--to",
+   "html",
+   "-o",
+   "output.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_markdown_produces_valid_html::227",
+  "argv": [
+   "--single",
+   "empty.md",
+   "--to",
+   "html",
+   "-o",
+   "output.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_lists::228",
+  "argv": [
+   "--single",
+   "nested.md",
+   "--to",
+   "html",
+   "-o",
+   "output.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_paragraphs::229",
+  "argv": [
+   "--single",
+   "para.md",
+   "--to",
+   "html",
+   "-o",
+   "output.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strikethrough_text::230",
+  "argv": [
+   "--single",
+   "strike.md",
+   "--to",
+   "html",
+   "-o",
+   "output.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_code_block_without_language::231",
+  "argv": [
+   "--single",
+   "code.md",
+   "--to",
+   "html",
+   "-o",
+   "output.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_long_document_performance::232",
+  "argv": [
+   "--single",
+   "long.md",
+   "--to",
+   "html",
+   "-o",
+   "output.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_html_characters_escaped::233",
+  "argv": [
+   "--single",
+   "chars.md",
+   "--to",
+   "html",
+   "-o",
+   "output.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_document::234",
+  "argv": [
+   "--single",
+   "-o",
+   "output.html"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_blank_lines::235",
+  "argv": [
+   "--single",
+   "test.md",
+   "--to",
+   "html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_annotation_tokens_grammar_check::236",
+  "argv": [
+   "--single",
+   "test.md",
+   "--to",
+   "html",
+   "--set",
+   "proofread.repetitions",
+   "true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_with_superscript_subscript::237",
+  "argv": [
+   "--single",
+   "test.md",
+   "--stats",
+   "--set",
+   "crowbook.markdown.superscript",
+   "true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_image_embedding_html_base64::238",
+  "argv": [
+   "book_with_image.book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_image_embedding_epub_separate_file::239",
+  "argv": [
+   "book_with_image_epub.book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_image_missing_file_error::240",
+  "argv": [
+   "book_missing_image.book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_css_file_inclusion::241",
+  "argv": [
+   "book_custom_css.book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_images_different_formats::242",
+  "argv": [
+   "book_multiple_images.book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_image_relative_path_resolution::243",
+  "argv": [
+   "book_relative_path.book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_template_invalid_name_error::244",
+  "argv": [
+   "--print-template",
+   "invalid.template"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_simple_single_file_html::245",
+  "argv": [
+   "--single",
+   "test.md",
+   "--to",
+   "html",
+   "-o",
+   "output.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_simple_book_html::246",
+  "argv": [
+   "book.book",
+   "--to",
+   "html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_lang_switches_error_language::247",
+  "argv": [
+   "--single",
+   "--to",
+   "pdf"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "LANG": "en_US.UTF-8"
+  }
+ },
+ {
+  "name": "test::test_cli_lang_overrides_env_lang::248",
+  "argv": [
+   "-L",
+   "fr",
+   "--single",
+   "--to",
+   "pdf"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "LANG": "en_US.UTF-8"
+  }
+ },
+ {
+  "name": "test::test_book_config_paths_resolve_relative_to_config_dir::249",
+  "argv": [
+   "--to",
+   "html",
+   "--output",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_produces_error::250",
+  "argv": [
+   "--nonexistent-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_flag_before_file::251",
+  "argv": [
+   "--verbose",
+   "test.book"
+  ],
+  "stdin": null,
+  "files": {
+   "test.book": "title: Test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_flag_before_file::252",
+  "argv": [
+   "--quiet",
+   "test.book"
+  ],
+  "stdin": null,
+  "files": {
+   "test.book": "title: Test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_flags::253",
+  "argv": [
+   "--quiet",
+   "--no-fancy",
+   "test.book"
+  ],
+  "stdin": null,
+  "files": {
+   "test.book": "title: Test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_mode_flag::254",
+  "argv": [
+   "--single",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_flag_requires_to_flag::255",
+  "argv": [
+   "--output",
+   "test.pdf",
+   "nonexistent.book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_to_flag_with_valid_format::256",
+  "argv": [
+   "--to",
+   "epub",
+   "test.book"
+  ],
+  "stdin": null,
+  "files": {
+   "test.book": "title: Test\n+ test.md"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_format_to_flag::257",
+  "argv": [
+   "--to",
+   "invalid_format",
+   "test.book"
+  ],
+  "stdin": null,
+  "files": {
+   "test.book": "title: Test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_subcommand_help_pattern::258",
+  "argv": [
+   "build",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_create_flag_mode::259",
+  "argv": [
+   "--create",
+   "test.md"
+  ],
+  "stdin": null,
+  "files": {
+   "test.md": "# Test\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_mode::260",
+  "argv": [
+   "--stats",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_flags_error::261",
+  "argv": [
+   "--verbose",
+   "--quiet",
+   "test.book"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_required_argument::262",
+  "argv": [
+   "--output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_values_for_single_value_flag::263",
+  "argv": [
+   "--lang",
+   "en",
+   "fr"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

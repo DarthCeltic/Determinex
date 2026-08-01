@@ -1,0 +1,3795 @@
+{
+ "slug": "y2z__monolith.8702e66",
+ "language": "",
+ "n_branches": 9,
+ "n_tests_total": 725,
+ "n_examples": 202,
+ "n_with_exact_stdout": 25,
+ "n_with_rc": 197,
+ "n_skipped": 508,
+ "examples": [
+  {
+   "test": "test_ext_print_version",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_cli_basic.py:21"
+  },
+  {
+   "test": "test_ext_stdin_target_input_unwrap_metadata",
+   "argv": [
+    "-M",
+    "-"
+   ],
+   "stdin": "Hello from STDIN\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "<html><head><meta name=\"robots\" content=\"none\"></meta></head><body>Hello from STDIN\n</body></html>\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_cli_basic.py:37"
+  },
+  {
+   "test": "test_ext_bad_input_empty_target",
+   "argv": [
+    ""
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_cli_basic.py:54"
+  },
+  {
+   "test": "test_ext_unsupported_scheme_mailto",
+   "argv": [
+    "mailto:snshn@tutanota.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_cli_basic.py:69"
+  },
+  {
+   "test": "test_help_goes_to_stdout_and_exit_0",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_monolith_io.py:9"
+  },
+  {
+   "test": "test_version_flag_prints_version_to_stdout",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_monolith_io.py:16"
+  },
+  {
+   "test": "test_file_input_stdout_output_no_metadata_is_deterministic",
+   "argv": [
+    "-I",
+    "-M",
+    "-o",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_monolith_io.py:23"
+  },
+  {
+   "test": "test_file_input_with_output_file_writes_file_and_not_stdout",
+   "argv": [
+    "-I",
+    "-M",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_monolith_io.py:34"
+  },
+  {
+   "test": "test_stdin_marker_without_base_url_succeeds_without_fetching_assets",
+   "argv": [
+    "-",
+    "-I",
+    "-M",
+    "-o",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_monolith_io.py:50"
+  },
+  {
+   "test": "test_stdin_marker_with_base_url_succeeds_and_outputs_html",
+   "argv": [
+    "-",
+    "-I",
+    "-M",
+    "-b",
+    "http://localhost/",
+    "-o",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_monolith_io.py:57"
+  },
+  {
+   "test": "test_mhtml_flag_changes_output_format_header",
+   "argv": [
+    "-I",
+    "-M",
+    "-m",
+    "-o",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_monolith_io.py:72"
+  },
+  {
+   "test": "test_missing_target_treated_as_url_and_errors",
+   "argv": [
+    "no_such_file_12345.html",
+    "-I",
+    "-M",
+    "-o",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "could not retrieve target document"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_monolith_io.py:78"
+  },
+  {
+   "test": "test_css_with_multiple_url_references",
+   "argv": [
+    "-q",
+    "-i",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "data:image/png,"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_assets.py:558"
+  },
+  {
+   "test": "test_empty_css_import_handled",
+   "argv": [
+    "-q",
+    "-"
+   ],
+   "stdin": "<!DOCTYPE html>\n<html>\n<head>\n    <style>\n        @import '';\n        @import url('');\n        body { color: red; }\n    </style>\n</head>\n<body>Test</body>\n</html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<html>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_assets.py:596"
+  },
+  {
+   "test": "test_css_url_with_fragment_identifier",
+   "argv": [
+    "-q",
+    "-i",
+    "-"
+   ],
+   "stdin": "<!DOCTYPE html>\n<html>\n<head>\n    <style>\n        .icon { background: url('sprite.svg#icon1'); }\n    </style>\n</head>\n<body><div class=\"icon\">Icon</div></body>\n</html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "data:image/png,"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_assets.py:652"
+  },
+  {
+   "test": "test_combined_filters_preserve_document_structure",
+   "argv": [
+    "-q",
+    "-c",
+    "-i",
+    "-j",
+    "-v",
+    "-a",
+    "-f",
+    "-"
+   ],
+   "stdin": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <title>Full Test</title>\n    <link rel=\"stylesheet\" href=\"style.css\">\n    <style>body { color: red; }</style>\n    <script src=\"app.js\"></script>\n</head>\n<body>\n    <h1>Title</h1>\n    <img src=\"image.png\" alt=\"Test\">\n    <video src=\"video.mp4\"></video>\n    <audio src=\"audio.mp3\"></audio>\n    <iframe src=\"embed.html\"></iframe>\n</body>\n</html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "style-src",
+    "script-src",
+    "img-src",
+    "frame-src"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_assets.py:683"
+  },
+  {
+   "test": "test_css_with_various_quote_styles",
+   "argv": [
+    "-q",
+    "-i",
+    "-"
+   ],
+   "stdin": "<!DOCTYPE html>\n<html>\n<head>\n    <style>\n        .single { background: url('image1.png'); }\n        .double { background: url(\"image2.png\"); }\n        .none { background: url(image3.png); }\n    </style>\n</head>\n<body>Test</body>\n</html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_assets.py:760"
+  },
+  {
+   "test": "test_link_rel_preload_handled",
+   "argv": [
+    "-q",
+    "-"
+   ],
+   "stdin": "<!DOCTYPE html>\n<html>\n<head>\n    <link rel=\"preload\" href=\"style.css\" as=\"style\">\n    <link rel=\"preload\" href=\"script.js\" as=\"script\">\n    <link rel=\"preload\" href=\"font.woff2\" as=\"font\">\n</head>\n<body>Test</body>\n</html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<html>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_assets.py:794"
+  },
+  {
+   "test": "test_style_attribute_with_url_embedded",
+   "argv": [
+    "-q",
+    "-i",
+    "-"
+   ],
+   "stdin": "<!DOCTYPE html>\n<html>\n<body>\n    <div style=\"background: url('bg.png'); padding: 10px;\">Content</div>\n</body>\n</html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "data:image/png,"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_assets.py:819"
+  },
+  {
+   "test": "test_background_shorthand_with_url",
+   "argv": [
+    "-q",
+    "-i",
+    "-"
+   ],
+   "stdin": "<!DOCTYPE html>\n<html>\n<head>\n    <style>\n        .bg1 { background: red url('pattern.png') repeat; }\n        .bg2 { background: url('hero.jpg') no-repeat center/cover; }\n    </style>\n</head>\n<body>Test</body>\n</html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "data:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_assets.py:847"
+  },
+  {
+   "test": "test_picture_element_with_source_srcset",
+   "argv": [
+    "-q",
+    "-i",
+    "-"
+   ],
+   "stdin": "<!DOCTYPE html>\n<html>\n<body>\n    <picture>\n        <source media=\"(min-width: 800px)\" srcset=\"large.jpg\">\n        <source media=\"(min-width: 400px)\" srcset=\"medium.jpg\">\n        <img src=\"small.jpg\" alt=\"Responsive\">\n    </picture>\n</body>\n</html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_assets.py:881"
+  },
+  {
+   "test": "test_noscript_element_handling",
+   "argv": [
+    "-q",
+    "-"
+   ],
+   "stdin": "<!DOCTYPE html>\n<html>\n<body>\n    <noscript>\n        <img src=\"fallback.png\" alt=\"No JS\">\n        <p>JavaScript is required</p>\n    </noscript>\n</body>\n</html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_assets.py:919"
+  },
+  {
+   "test": "test_object_and_embed_tags",
+   "argv": [
+    "-q",
+    "-"
+   ],
+   "stdin": "<!DOCTYPE html>\n<html>\n<body>\n    <object data=\"flash.swf\" type=\"application/x-shockwave-flash\"></object>\n    <embed src=\"video.mp4\" type=\"video/mp4\">\n</body>\n</html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<html>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_assets.py:947"
+  },
+  {
+   "test": "test_large_base64_encoding_for_css",
+   "argv": [
+    "-q",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_assets.py:997"
+  },
+  {
+   "test": "test_malformed_html_doesnt_crash",
+   "argv": [
+    "-q",
+    "-"
+   ],
+   "stdin": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Malformed Title</title>\n    <link rel=\"stylesheet\" href=\"style.css\">\n</head>\n<body>\n    <div>\n        <p>Unclosed paragraph\n        <span>Unclosed span\n    </div>\n    <img src=\"image.png\">\n</body>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<html>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_assets.py:1033"
+  },
+  {
+   "test": "test_stdin_basic_html",
+   "argv": [
+    "-"
+   ],
+   "stdin": "<html><body>test stdin</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_operations.py:12"
+  },
+  {
+   "test": "test_stdin_empty_input",
+   "argv": [
+    "-"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_operations.py:116"
+  },
+  {
+   "test": "test_stdin_with_malformed_html",
+   "argv": [
+    "-"
+   ],
+   "stdin": "<html><body><p>Unclosed paragraph<div>Nested wrong</body>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_operations.py:276"
+  },
+  {
+   "test": "test_stdin_with_large_input",
+   "argv": [
+    "-"
+   ],
+   "stdin": "<html><head><title>Large</title></head><body>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<html",
+    "</html>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_operations.py:288"
+  },
+  {
+   "test": "test_stdin_with_special_chars",
+   "argv": [
+    "-"
+   ],
+   "stdin": "<!DOCTYPE html><html><body><p>Special: é à ñ 日本語 🎉</p></body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "é",
+    "à",
+    "ñ",
+    "日本語",
+    "🎉"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_operations.py:446"
+  },
+  {
+   "test": "test_multiple_css_removal_methods",
+   "argv": [
+    "-M",
+    "-c",
+    "-"
+   ],
+   "stdin": "<!DOCTYPE html>\n<html>\n<head>\n    <style>body { color: red; }</style>\n    <link rel=\"stylesheet\" href=\"external.css\">\n</head>\n<body style=\"background: blue;\">\n    <p style=\"color: green;\">Text</p>\n</body>\n</html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "style-src 'none'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_operations.py:461"
+  },
+  {
+   "test": "test_no_audio_flag",
+   "argv": [
+    "-M",
+    "-a",
+    "-"
+   ],
+   "stdin": "<!DOCTYPE html><html><body><audio src=\"http://example.com/audio.mp3\" controls></audio></body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<audio"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_operations.py:595"
+  },
+  {
+   "test": "test_no_video_flag",
+   "argv": [
+    "-M",
+    "-v",
+    "-"
+   ],
+   "stdin": "<!DOCTYPE html><html><body><video src=\"http://example.com/video.mp4\" controls></video></body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<video"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_operations.py:610"
+  },
+  {
+   "test": "test_complex_html_structure",
+   "argv": [
+    "-M",
+    "-"
+   ],
+   "stdin": "<!DOCTYPE html>\n    <html>\n    <head>\n        <title>Complex Structure</title>\n        <style>\n            .nested { color: blue; }\n            .deep { margin: 10px; }\n        </style>\n    </head>\n    <body>\n        <div class=\"level1\">\n            <div class=\"level2\">\n                <div class=\"level3\">\n                    <div class=\"level4\">\n                        <div class=\"level5\">\n                            <p>Deeply nested content</p>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n        <table>\n            <thead>\n                <tr><th>Header 1</th><th>Header 2</th></tr>\n            </thead>\n            <tbody>\n                <tr><td>Data 1</td><td>Data 2</td></tr>\n            </tbody>\n        </table>\n    </body>\n    </html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Deeply nested content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_operations.py:625"
+  },
+  {
+   "test": "test_multiple_domains_whitelist",
+   "argv": [
+    "-M",
+    "-d",
+    "example.com",
+    "-d",
+    "cdn.example.org",
+    "-"
+   ],
+   "stdin": "<!DOCTYPE html>\n    <html>\n    <head>\n        <link rel=\"stylesheet\" href=\"http://example.com/style.css\">\n        <link rel=\"stylesheet\" href=\"http://cdn.example.org/style.css\">\n    </head>\n    <body>Test</body>\n    </html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_operations.py:712"
+  },
+  {
+   "test": "test_stdin_with_cdata_sections",
+   "argv": [
+    "-M",
+    "-"
+   ],
+   "stdin": "<!DOCTYPE html>\n    <html>\n    <head>\n        <script>\n        //<![CDATA[\n        var x = \"<tag>\";\n        //]]>\n        </script>\n    </head>\n    <body>Test</body>\n    </html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<script>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_operations.py:746"
+  },
+  {
+   "test": "test_base_url_file_scheme_ignored_on_stdin",
+   "argv": [
+    "-b",
+    "file:///tmp/",
+    "-"
+   ],
+   "stdin": "<html><body><a href=\"other.html\">link</a></body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<base href=\"file:///tmp/\">",
+    "href=\"data:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_core_edge.py:88"
+  },
+  {
+   "test": "test_robots_meta_tag_already_none",
+   "argv": [
+    "-"
+   ],
+   "stdin": "<html><head><meta name=\"robots\" content=\"none\"></head><body>test</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "content=\"none\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_core_edge.py:194"
+  },
+  {
+   "test": "test_robots_meta_tag_override_other_value",
+   "argv": [
+    "-"
+   ],
+   "stdin": "<html><head><meta name=\"robots\" content=\"index,follow\"></head><body>test</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name=\"robots\"",
+    "content=\"none\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_core_edge.py:208"
+  },
+  {
+   "test": "test_robots_meta_tag_empty_content",
+   "argv": [
+    "-"
+   ],
+   "stdin": "<html><head><meta name=\"robots\" content=\"  \"></head><body>test</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name=\"robots\"",
+    "content=\"none\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_core_edge.py:225"
+  },
+  {
+   "test": "test_stdin_input_with_base_url",
+   "argv": [
+    "-b",
+    "http://example.com/",
+    "-"
+   ],
+   "stdin": "<html><body><a href=\"page.html\">Link</a></body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "href=\"http://example.com/\"",
+    "href=\"http://example.com/page.html\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_core_edge.py:420"
+  },
+  {
+   "test": "test_mhtml_without_input_target",
+   "argv": [
+    "-m",
+    "-"
+   ],
+   "stdin": "<html><head><title>Test</title></head><body>Content</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "MIME-Version: 1.0",
+    "Content-Type: multipart/related",
+    "------=_NextPart_000_0000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_core_edge.py:435"
+  },
+  {
+   "test": "test_html_without_closing_tags",
+   "argv": [
+    "-"
+   ],
+   "stdin": "<html><body><p>Test",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<html>",
+    "<body>",
+    "</body>",
+    "</html>",
+    "Test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_core_edge.py:450"
+  },
+  {
+   "test": "test_charset_detection_from_html_meta",
+   "argv": [
+    "-"
+   ],
+   "stdin": "<!DOCTYPE html>\n<html>\n<head><meta charset=\"utf-8\"></head>\n<body>Hello 世界</body>\n</html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "世界",
+    "charset=\"utf-8\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_core_edge.py:483"
+  },
+  {
+   "test": "test_encoding_flag_overrides_html_charset",
+   "argv": [
+    "-E",
+    "iso-8859-1",
+    "-"
+   ],
+   "stdin": "<!DOCTYPE html>\n<html>\n<head><meta charset=\"utf-8\"></head>\n<body>Test</body>\n</html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "charset=\"iso-8859-1\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_core_edge.py:502"
+  },
+  {
+   "test": "test_data_url_base_url_default",
+   "argv": [
+    "-"
+   ],
+   "stdin": "<html><body><a href=\"page.html\">Link</a></body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "href=\"data:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_core_edge.py:519"
+  },
+  {
+   "test": "test_robots_meta_insertion_when_missing",
+   "argv": [
+    "-"
+   ],
+   "stdin": "<html><head><title>Test</title></head><body>Content</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name=\"robots\"",
+    "content=\"none\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_core_edge.py:551"
+  },
+  {
+   "test": "test_empty_html_document",
+   "argv": [
+    "-"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<html>",
+    "<body>",
+    "</body>",
+    "</html>",
+    "name=\"robots\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_core_edge.py:617"
+  },
+  {
+   "test": "test_html_with_only_whitespace",
+   "argv": [
+    "-"
+   ],
+   "stdin": "   \n\n\t  \n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<html>",
+    "<body>",
+    "</body>",
+    "</html>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_core_edge.py:633"
+  },
+  {
+   "test": "test_stdin_target_with_dash",
+   "argv": [
+    "-"
+   ],
+   "stdin": "<html><head><title>Stdin Test</title></head><body>From stdin</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Stdin Test",
+    "From stdin",
+    "meta name=\"robots\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_paths.py:141"
+  },
+  {
+   "test": "test_stdin_with_http_base_url_without_favicon_no_auto_fetch",
+   "argv": [
+    "-b",
+    "http://example.com/",
+    "-"
+   ],
+   "stdin": "<!DOCTYPE html><html><head><title>STDIN Test</title></head><body><h1>Hello</h1></body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_favicon.py:102"
+  },
+  {
+   "test": "test_shortcut_icon_rel_prevents_auto_fetch",
+   "argv": [
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_favicon.py:357"
+  },
+  {
+   "test": "test_print_help_information",
+   "argv": [
+    "./executable",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:49"
+  },
+  {
+   "test": "test_print_version",
+   "argv": [
+    "./executable",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:60"
+  },
+  {
+   "test": "test_stdin_target_input",
+   "argv": [
+    "./executable",
+    "-M",
+    "-"
+   ],
+   "stdin": "Hello from STDIN\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "<html><head><meta name=\"robots\" content=\"none\"></meta></head><body>Hello from STDIN\n</body></html>\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:74"
+  },
+  {
+   "test": "test_css_import_string",
+   "argv": [
+    "./executable",
+    "-M",
+    "tests/_data_/css/index.html"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:87"
+  },
+  {
+   "test": "test_bad_input_empty_target",
+   "argv": [
+    "./executable",
+    ""
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:120"
+  },
+  {
+   "test": "test_unsupported_scheme",
+   "argv": [
+    "./executable",
+    "mailto:snshn@tutanota.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:129"
+  },
+  {
+   "test": "test_add_new_when_provided",
+   "argv": [
+    "./executable",
+    "-M",
+    "-b",
+    "http://localhost:30701/",
+    "data:text/html,Hello%2C%20World!"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "<html><head><base href=\"http://localhost:30701/\"></base><meta name=\"robots\" content=\"none\"></meta></head><body>Hello, World!</body></html>\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:143"
+  },
+  {
+   "test": "test_keep_existing_when_none_provided",
+   "argv": [
+    "./executable",
+    "-M",
+    "data:text/html,<base href=\"http://localhost:30701/\" />Hello%2C%20World!"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "<html><head><base href=\"http://localhost:30701/\"><meta name=\"robots\" content=\"none\"></meta></head><body>Hello, World!</body></html>\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:158"
+  },
+  {
+   "test": "test_override_existing_when_provided",
+   "argv": [
+    "./executable",
+    "-M",
+    "-b",
+    "http://localhost/",
+    "data:text/html,<base href=\"http://localhost:30701/\" />Hello%2C%20World!"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "<html><head><base href=\"http://localhost/\"><meta name=\"robots\" content=\"none\"></meta></head><body>Hello, World!</body></html>\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:173"
+  },
+  {
+   "test": "test_set_existing_to_empty_when_empty_provided",
+   "argv": [
+    "./executable",
+    "-M",
+    "-b",
+    "",
+    "data:text/html,<base href=\"http://localhost:30701/\" />Hello%2C%20World!"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "<html><head><base href=\"\"><meta name=\"robots\" content=\"none\"></meta></head><body>Hello, World!</body></html>\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:188"
+  },
+  {
+   "test": "test_isolate_data_url",
+   "argv": [
+    "./executable",
+    "-M",
+    "-I",
+    "data:text/html,Hello%2C%20World!"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "<html><head><meta http-equiv=\"Content-Security-Policy\" content=\"default-src 'unsafe-eval' 'unsafe-inline' data:;\"></meta><meta name=\"robots\" content=\"none\"></meta></head><body>Hello, World!</body></html>\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:208"
+  },
+  {
+   "test": "test_remove_css_from_data_url",
+   "argv": [
+    "./executable",
+    "-M",
+    "-c",
+    "data:text/html,<style>body{background-color:pink}</style>Hello"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "<html><head><meta http-equiv=\"Content-Security-Policy\" content=\"style-src 'none';\"></meta><style></style><meta name=\"robots\" content=\"none\"></meta></head><body>Hello</body></html>\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:224"
+  },
+  {
+   "test": "test_remove_fonts_from_data_url",
+   "argv": [
+    "./executable",
+    "-M",
+    "-F",
+    "data:text/html,<style>@font-face { font-family: myFont; src: url(font.woff); }</style>Hi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "<html><head><meta http-equiv=\"Content-Security-Policy\" content=\"font-src 'none';\"></meta><style></style><meta name=\"robots\" content=\"none\"></meta></head><body>Hi</body></html>\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:240"
+  },
+  {
+   "test": "test_remove_frames_from_data_url",
+   "argv": [
+    "./executable",
+    "-M",
+    "-f",
+    "data:text/html,<iframe src=\"https://duckduckgo.com\"></iframe>Hi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "<html><head><meta http-equiv=\"Content-Security-Policy\" content=\"frame-src 'none'; child-src 'none';\"></meta><meta name=\"robots\" content=\"none\"></meta></head><body><iframe src=\"\"></iframe>Hi</body></html>\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:256"
+  },
+  {
+   "test": "test_remove_images_from_data_url",
+   "argv": [
+    "./executable",
+    "-M",
+    "-i",
+    "data:text/html,<img src=\"https://google.com\"/>Hi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:272"
+  },
+  {
+   "test": "test_remove_js_from_data_url",
+   "argv": [
+    "./executable",
+    "-M",
+    "-j",
+    "data:text/html,<script>alert(2)</script>Hi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "<html><head><meta http-equiv=\"Content-Security-Policy\" content=\"script-src 'none';\"></meta><script></script><meta name=\"robots\" content=\"none\"></meta></head><body>Hi</body></html>\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:289"
+  },
+  {
+   "test": "test_bad_input_data_url",
+   "argv": [
+    "./executable",
+    "data:,Hello%2C%20World!"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Hello, World!",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:305"
+  },
+  {
+   "test": "test_security_disallow_local_assets_within_data_url_targets",
+   "argv": [
+    "./executable",
+    "-M",
+    "data:text/html,%3Cscript%20src=\"src/tests/data/basic/local-script.js\"%3E%3C/script%3E"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "<html><head><script></script><meta name=\"robots\" content=\"none\"></meta></head><body></body></html>\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:314"
+  },
+  {
+   "test": "test_local_file_target_input_relative_target_path",
+   "argv": [
+    "./executable",
+    "-M",
+    "tests/_data_/basic/local-file.html"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "local-style-does-not-exist.css (file not found)",
+    "monolith.png (file not found)",
+    "<!DOCTYPE html>",
+    "Local HTML file",
+    "data:text/css;base64,",
+    "document.body.style.backgroundColor = \"green\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:334"
+  },
+  {
+   "test": "test_local_file_target_input_absolute_target_path",
+   "argv": [
+    "./executable",
+    "-M",
+    "-Ijci",
+    "tests/_data_/basic/local-file.html"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<!DOCTYPE html>",
+    "Content-Security-Policy"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:363"
+  },
+  {
+   "test": "test_embed_file_url_local_asset_within_style_attribute",
+   "argv": [
+    "./executable",
+    "-M",
+    "tests/_data_/import-css-via-data-url/index.html"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "data:text/css;base64,"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:399"
+  },
+  {
+   "test": "test_embed_svg_local_asset_via_use",
+   "argv": [
+    "./executable",
+    "-M",
+    "tests/_data_/svg/svg.html"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<symbol id=",
+    "icon-1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:417"
+  },
+  {
+   "test": "test_embed_svg_local_asset_via_image",
+   "argv": [
+    "./executable",
+    "-M",
+    "tests/_data_/svg/image.html"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "data:image/svg+xml;base64,"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:437"
+  },
+  {
+   "test": "test_discard_integrity_for_local_files",
+   "argv": [
+    "./executable",
+    "-M",
+    "-i",
+    "tests/_data_/integrity/index.html"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "crossorigin="
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:456"
+  },
+  {
+   "test": "test_parse_noscript_contents",
+   "argv": [
+    "./executable",
+    "-M",
+    "tests/_data_/noscript/index.html"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<noscript>",
+    "data:image/svg+xml;base64,"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:475"
+  },
+  {
+   "test": "test_unwrap_noscript_contents",
+   "argv": [
+    "./executable",
+    "-Mn",
+    "tests/_data_/noscript/index.html"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<!--noscript-->",
+    "<!--/noscript-->"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:494"
+  },
+  {
+   "test": "test_unwrap_noscript_contents_nested",
+   "argv": [
+    "./executable",
+    "-Mn",
+    "tests/_data_/noscript/nested.html"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:508"
+  },
+  {
+   "test": "test_unwrap_noscript_contents_with_script",
+   "argv": [
+    "./executable",
+    "-Mn",
+    "tests/_data_/noscript/script.html"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<!--noscript-->",
+    "<!--/noscript-->"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:521"
+  },
+  {
+   "test": "test_unwrap_noscript_contents_attr_data_url",
+   "argv": [
+    "./executable",
+    "-M",
+    "-n",
+    "data:text/html,<noscript class=\"\">test</noscript>"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<!--noscript class=\"\"-->test<!--/noscript-->"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:533"
+  },
+  {
+   "test": "test_properly_save_document_with_gb2312",
+   "argv": [
+    "./executable",
+    "-M",
+    "tests/_data_/unusual_encodings/gb2312.html"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GB2312"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:552"
+  },
+  {
+   "test": "test_properly_save_document_with_gb2312_from_stdin",
+   "argv": [
+    "./executable",
+    "-M",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GB2312"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:570"
+  },
+  {
+   "test": "test_properly_save_document_with_gb2312_custom_charset",
+   "argv": [
+    "./executable",
+    "-M",
+    "-E",
+    "utf8",
+    "tests/_data_/unusual_encodings/gb2312.html"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "utf8"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:587"
+  },
+  {
+   "test": "test_properly_save_document_with_gb2312_custom_charset_bad",
+   "argv": [
+    "./executable",
+    "-M",
+    "-E",
+    "utf0",
+    "tests/_data_/unusual_encodings/gb2312.html"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:604"
+  },
+  {
+   "test": "test_change_iso88591_to_utf8_to_properly_display_html_entities",
+   "argv": [
+    "./executable",
+    "-M",
+    "tests/_data_/unusual_encodings/iso-8859-1.html"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iso-8859-1",
+    "�"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:615"
+  },
+  {
+   "test": "test_stdin_input_with_dash_argument",
+   "argv": [
+    "-q",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Testing Stdin Input",
+    "body { color: blue; }"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:1070"
+  },
+  {
+   "test": "test_stdin_basic_domain_filter",
+   "argv": [
+    "-d",
+    "example.com",
+    "-t",
+    "1",
+    "-"
+   ],
+   "stdin": "<html><body><img src=\"http://example.com/a.png\"><img src=\"http://other.com/b.png\"></body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "http://example.com/a.png"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_network_domains.py:426"
+  },
+  {
+   "test": "test_stdin_isolation_mode",
+   "argv": [
+    "-I",
+    "-t",
+    "1",
+    "-"
+   ],
+   "stdin": "<html><body><img src=\"http://example.com/test.png\"></body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content-Security-Policy",
+    "default-src 'unsafe-eval' 'unsafe-inline' data:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_network_domains.py:443"
+  },
+  {
+   "test": "test_case_insensitive_domain_matching",
+   "argv": [
+    "-d",
+    "example.com",
+    "-t",
+    "1",
+    "-"
+   ],
+   "stdin": "<html><body><img src=\"http://Example.COM/a.png\"><img src=\"http://EXAMPLE.com/b.png\"></body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "http://example.com/a.png",
+    "http://example.com/b.png"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_network_domains.py:597"
+  },
+  {
+   "test": "test_domain_filter_ignores_non_http_schemes",
+   "argv": [
+    "-d",
+    "other.com",
+    "-t",
+    "1",
+    "-"
+   ],
+   "stdin": "<html><body>\n        <img src=\"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7\">\n        <a href=\"javascript:void(0)\">JS</a>\n        <img src=\"http://example.com/test.png\">\n    </body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "data:image/gif;base64,",
+    "R0lGODlhAQABAIAAAAAAAP",
+    "href=\"javascript:void(0)\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_network_domains.py:660"
+  },
+  {
+   "test": "test_relative_url_with_fragment",
+   "argv": [
+    "-t",
+    "1",
+    "-"
+   ],
+   "stdin": "<html><head><base href=\"http://example.com/path/\"></head><body><a href=\"page.html#section\">Link</a></body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "href=\"http://example.com/path/page.html#section\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_network_domains.py:703"
+  },
+  {
+   "test": "test_relative_url_with_query_and_fragment",
+   "argv": [
+    "-t",
+    "1",
+    "-"
+   ],
+   "stdin": "<html><head><base href=\"http://example.com/\"></head><body><a href=\"search?q=test#result\">Link</a></body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "href=\"http://example.com/search?q=test#result\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_network_domains.py:716"
+  },
+  {
+   "test": "test_base_url_trailing_slash_matters",
+   "argv": [
+    "-b",
+    "http://example.com/dir/",
+    "-t",
+    "1",
+    "-"
+   ],
+   "stdin": "<html><body><a href=\"page.html\">Link</a></body></html>",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "href=\"http://example.com/dir/page.html\"",
+    "href=\"http://example.com/page.html\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_network_domains.py:729"
+  },
+  {
+   "test": "test_robots_meta_tag_injection",
+   "argv": [
+    "-t",
+    "1",
+    "-"
+   ],
+   "stdin": "<html><head><title>Test</title></head><body>Content</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<meta name=\"robots\" content=\"none\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_network_domains.py:743"
+  },
+  {
+   "test": "test_existing_robots_meta_preserved",
+   "argv": [
+    "-t",
+    "1",
+    "-"
+   ],
+   "stdin": "<html><head><meta name=\"robots\" content=\"none\"><title>Test</title></head><body>Content</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_network_domains.py:757"
+  },
+  {
+   "test": "test_domain_with_port_number",
+   "argv": [
+    "-d",
+    "example.com",
+    "-t",
+    "1",
+    "-"
+   ],
+   "stdin": "<html><body><img src=\"http://example.com:8080/img.png\"><img src=\"http://other.com:8080/img.png\"></body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "http://example.com:8080/img.png"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_network_domains.py:771"
+  },
+  {
+   "test": "test_binary_exists",
+   "argv": [
+    "./executable",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "monolith"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_smoke.py:6"
+  },
+  {
+   "test": "test_help_output",
+   "argv": [
+    "./executable",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "monolith",
+    "Usage:",
+    "Arguments:",
+    "Options:",
+    "--no-css",
+    "--no-images",
+    "--no-js"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_smoke.py:20"
+  },
+  {
+   "test": "test_stdin_basic",
+   "argv": [
+    "./executable",
+    "-"
+   ],
+   "stdin": "<html><body>test</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<html>",
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_smoke.py:43"
+  },
+  {
+   "test": "test_no_audio_flag",
+   "argv": [
+    "-M",
+    "-a",
+    "-"
+   ],
+   "stdin": "<html><body><audio src=\"test.mp3\"></audio>Content</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_asset_removal.py:19"
+  },
+  {
+   "test": "test_no_css_flag",
+   "argv": [
+    "-M",
+    "-c",
+    "-"
+   ],
+   "stdin": "<html><head><style>body{color:red;}</style></head><body>Content</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_asset_removal.py:31"
+  },
+  {
+   "test": "test_no_images_flag",
+   "argv": [
+    "-M",
+    "-i",
+    "-"
+   ],
+   "stdin": "<html><body><img src=\"test.png\" alt=\"Test\"/>Content</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_asset_removal.py:41"
+  },
+  {
+   "test": "test_no_js_flag",
+   "argv": [
+    "-M",
+    "-j",
+    "-"
+   ],
+   "stdin": "<html><body><script>alert(\"test\");</script>Content</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_asset_removal.py:52"
+  },
+  {
+   "test": "test_no_video_flag",
+   "argv": [
+    "-M",
+    "-v",
+    "-"
+   ],
+   "stdin": "<html><body><video src=\"test.mp4\"></video>Content</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_asset_removal.py:62"
+  },
+  {
+   "test": "test_no_fonts_flag",
+   "argv": [
+    "-M",
+    "-F",
+    "-"
+   ],
+   "stdin": "<html><head><style>@font-face{font-family:\"Test\";src:url(\"test.woff\");}</style></head><body>Content</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_asset_removal.py:73"
+  },
+  {
+   "test": "test_no_frames_flag",
+   "argv": [
+    "-M",
+    "-f",
+    "-"
+   ],
+   "stdin": "<html><body><iframe src=\"frame.html\"></iframe>Content</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_asset_removal.py:84"
+  },
+  {
+   "test": "test_multiple_removal_flags",
+   "argv": [
+    "-M",
+    "-i",
+    "-j",
+    "-v",
+    "-c",
+    "-"
+   ],
+   "stdin": "<html>\n    <head><style>body{color:red;}</style></head>\n    <body>\n        <img src=\"test.png\"/>\n        <script>alert(\"test\");</script>\n        <video src=\"test.mp4\"></video>\n        Content\n    </body>\n    </html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_asset_removal.py:95"
+  },
+  {
+   "test": "test_all_removal_flags",
+   "argv": [
+    "-M",
+    "-a",
+    "-c",
+    "-f",
+    "-F",
+    "-i",
+    "-j",
+    "-v",
+    "-"
+   ],
+   "stdin": "<html>\n    <head><style>body{color:red;}</style></head>\n    <body>\n        <img src=\"test.png\"/>\n        <script>alert(\"test\");</script>\n        <video src=\"test.mp4\"></video>\n        <audio src=\"test.mp3\"></audio>\n        <iframe src=\"frame.html\"></iframe>\n        Content\n    </body>\n    </html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_asset_removal.py:116"
+  },
+  {
+   "test": "test_base_url_flag",
+   "argv": [
+    "-M",
+    "-b",
+    "https://example.com/",
+    "-"
+   ],
+   "stdin": "<html><body><a href=\"page.html\">Link</a></body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Link"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_base_url.py:19"
+  },
+  {
+   "test": "test_base_url_with_relative_links",
+   "argv": [
+    "-M",
+    "-b",
+    "https://example.com/subdir/",
+    "-"
+   ],
+   "stdin": "<html><body><img src=\"image.png\"/><a href=\"/page.html\">Link</a></body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "href",
+    "Link"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_base_url.py:27"
+  },
+  {
+   "test": "test_base_url_long_flag",
+   "argv": [
+    "-M",
+    "--base-url",
+    "https://example.com/",
+    "-"
+   ],
+   "stdin": "<html><body>Content</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_base_url.py:37"
+  },
+  {
+   "test": "test_base_url_with_local_file",
+   "argv": [
+    "-M",
+    "-b",
+    "https://example.com/"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_base_url.py:44"
+  },
+  {
+   "test": "test_base_url_with_protocol_relative",
+   "argv": [
+    "-M",
+    "-b",
+    "https://example.com/",
+    "-"
+   ],
+   "stdin": "<html><body><a href=\"//example.org/page.html\">Link</a></body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Link"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_base_url.py:52"
+  },
+  {
+   "test": "test_base_url_trailing_slash",
+   "argv": [
+    "-M",
+    "-b",
+    "https://example.com/",
+    "-"
+   ],
+   "stdin": "<html><body><a href=\"page.html\">Link</a></body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Link",
+    "Link"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_base_url.py:59"
+  },
+  {
+   "test": "test_help_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "monolith",
+    "--help",
+    "--version",
+    "_____"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:20"
+  },
+  {
+   "test": "test_help_long",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "monolith"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:34"
+  },
+  {
+   "test": "test_version_short",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "monolith"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:46"
+  },
+  {
+   "test": "test_version_long",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "monolith"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:56"
+  },
+  {
+   "test": "test_unsupported_scheme_mailto",
+   "argv": [
+    "mailto:test@example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:81"
+  },
+  {
+   "test": "test_unsupported_scheme_ftp",
+   "argv": [
+    "ftp://ftp.example.com/file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:88"
+  },
+  {
+   "test": "test_exit_code_success",
+   "argv": [
+    "-M",
+    "-"
+   ],
+   "stdin": "<html><body>Test</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:95"
+  },
+  {
+   "test": "test_cookie_file_nonexistent",
+   "argv": [
+    "-M",
+    "-C",
+    "/tmp/nonexistent-cookie-file-xyz123.txt",
+    "-"
+   ],
+   "stdin": "<html><body>Test</body></html>",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cookies.py:20"
+  },
+  {
+   "test": "test_cookie_file_flag",
+   "argv": [
+    "-M",
+    "-C",
+    "-"
+   ],
+   "stdin": "<html><body>Test</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cookies.py:28"
+  },
+  {
+   "test": "test_cookie_file_long_flag",
+   "argv": [
+    "-M",
+    "--cookie-file",
+    "-"
+   ],
+   "stdin": "<html><body>Test</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cookies.py:44"
+  },
+  {
+   "test": "test_cookie_file_malformed",
+   "argv": [
+    "-M",
+    "-C",
+    "-"
+   ],
+   "stdin": "<html><body>Test</body></html>",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cookies.py:59"
+  },
+  {
+   "test": "test_domain_whitelist_single",
+   "argv": [
+    "-M",
+    "-d",
+    "example.com",
+    "-"
+   ],
+   "stdin": "<html><body><img src=\"https://example.com/img.png\"/>Content</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_domain_filtering.py:18"
+  },
+  {
+   "test": "test_domain_whitelist_multiple",
+   "argv": [
+    "-M",
+    "-d",
+    "example.com",
+    "-d",
+    "example.org",
+    "-"
+   ],
+   "stdin": "<html><body>Content</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_domain_filtering.py:26"
+  },
+  {
+   "test": "test_domain_blacklist_single",
+   "argv": [
+    "-M",
+    "-B",
+    "-d",
+    "ads.example.com",
+    "-"
+   ],
+   "stdin": "<html><body><img src=\"https://ads.example.com/ad.png\"/>Content</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_domain_filtering.py:33"
+  },
+  {
+   "test": "test_domain_blacklist_multiple",
+   "argv": [
+    "-M",
+    "-B",
+    "-d",
+    "ads.com",
+    "-d",
+    "tracking.com",
+    "-"
+   ],
+   "stdin": "<html><body>Content</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_domain_filtering.py:41"
+  },
+  {
+   "test": "test_domain_long_flag",
+   "argv": [
+    "-M",
+    "--domain",
+    "example.com",
+    "-"
+   ],
+   "stdin": "<html><body>Content</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_domain_filtering.py:48"
+  },
+  {
+   "test": "test_blacklist_domains_long_flag",
+   "argv": [
+    "-M",
+    "--blacklist-domains",
+    "-d",
+    "ads.com",
+    "-"
+   ],
+   "stdin": "<html><body>Content</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_domain_filtering.py:55"
+  },
+  {
+   "test": "test_isolate_with_domain_filter",
+   "argv": [
+    "-M",
+    "-I",
+    "-d",
+    "example.com",
+    "-"
+   ],
+   "stdin": "<html><body>Content</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_domain_filtering.py:62"
+  },
+  {
+   "test": "test_encoding_utf8_default",
+   "argv": [
+    "-M",
+    "-"
+   ],
+   "stdin": "<html><body>Unicode: café</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "caf"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encoding.py:19"
+  },
+  {
+   "test": "test_encoding_custom_flag",
+   "argv": [
+    "-M",
+    "-E",
+    "UTF-8",
+    "-"
+   ],
+   "stdin": "<html><body>Content</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encoding.py:27"
+  },
+  {
+   "test": "test_encoding_long_flag",
+   "argv": [
+    "-M",
+    "--encoding",
+    "UTF-8",
+    "-"
+   ],
+   "stdin": "<html><body>Content</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encoding.py:34"
+  },
+  {
+   "test": "test_encoding_unusual_charset",
+   "argv": [
+    "-M"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_encoding.py:41"
+  },
+  {
+   "test": "test_encoding_iso_8859_1",
+   "argv": [
+    "-M",
+    "-E",
+    "ISO-8859-1",
+    "-"
+   ],
+   "stdin": "<html><body>Content</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encoding.py:49"
+  },
+  {
+   "test": "test_encoding_with_meta_tag",
+   "argv": [
+    "-M",
+    "-"
+   ],
+   "stdin": "<html><head><meta charset=\"UTF-8\"></head><body>Content</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encoding.py:56"
+  },
+  {
+   "test": "test_stdin_simple_html",
+   "argv": [
+    "-M",
+    "-"
+   ],
+   "stdin": "<html><body>Hello from STDIN</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Hello from STDIN"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_handling.py:20"
+  },
+  {
+   "test": "test_stdin_with_metadata_suppressed",
+   "argv": [
+    "-M",
+    "-"
+   ],
+   "stdin": "<html><body>Test</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_handling.py:29"
+  },
+  {
+   "test": "test_stdin_empty",
+   "argv": [
+    "-M",
+    "-"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_handling.py:38"
+  },
+  {
+   "test": "test_local_file",
+   "argv": [
+    "-M"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Local HTML file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_handling.py:45"
+  },
+  {
+   "test": "test_data_url_input",
+   "argv": [
+    "-M",
+    "data:text/html,<html><body>Data URL</body></html>"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Data URL"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_handling.py:73"
+  },
+  {
+   "test": "test_stdin_with_inline_styles",
+   "argv": [
+    "-M",
+    "-"
+   ],
+   "stdin": "<html><body style=\"color: red;\">Styled</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Styled"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_handling.py:91"
+  },
+  {
+   "test": "test_stdin_with_script",
+   "argv": [
+    "-M",
+    "-"
+   ],
+   "stdin": "<html><body><script>console.log(\"test\");</script>Content</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_handling.py:99"
+  },
+  {
+   "test": "test_isolate_flag",
+   "argv": [
+    "-M",
+    "-I",
+    "-"
+   ],
+   "stdin": "<html><body>Content</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content",
+    "none"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_isolation_and_metadata.py:20"
+  },
+  {
+   "test": "test_isolate_adds_csp",
+   "argv": [
+    "-M",
+    "-I",
+    "-"
+   ],
+   "stdin": "<html><body><img src=\"https://example.com/image.png\"/>Content</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content",
+    "meta"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_isolation_and_metadata.py:31"
+  },
+  {
+   "test": "test_no_metadata_flag",
+   "argv": [
+    "-"
+   ],
+   "stdin": "<html><body>Content</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content",
+    "Content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_isolation_and_metadata.py:53"
+  },
+  {
+   "test": "test_isolate_and_no_metadata",
+   "argv": [
+    "-I",
+    "-M",
+    "-"
+   ],
+   "stdin": "<html><body>Test</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_isolation_and_metadata.py:70"
+  },
+  {
+   "test": "test_isolate_long_flag",
+   "argv": [
+    "-M",
+    "--isolate",
+    "-"
+   ],
+   "stdin": "<html><body>Content</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_isolation_and_metadata.py:80"
+  },
+  {
+   "test": "test_no_metadata_long_flag",
+   "argv": [
+    "--no-metadata",
+    "-"
+   ],
+   "stdin": "<html><body>Content</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_isolation_and_metadata.py:89"
+  },
+  {
+   "test": "test_mhtml_flag",
+   "argv": [
+    "-M",
+    "-m",
+    "-"
+   ],
+   "stdin": "<html><body>Content</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mhtml.py:18"
+  },
+  {
+   "test": "test_mhtml_long_flag",
+   "argv": [
+    "-M",
+    "--mhtml",
+    "-"
+   ],
+   "stdin": "<html><body>Test</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mhtml.py:29"
+  },
+  {
+   "test": "test_mhtml_removes_javascript",
+   "argv": [
+    "-M",
+    "-m",
+    "-"
+   ],
+   "stdin": "<html><body><script>alert(\"test\");</script>Content</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mhtml.py:38"
+  },
+  {
+   "test": "test_mhtml_with_css",
+   "argv": [
+    "-M",
+    "-m",
+    "-"
+   ],
+   "stdin": "<html><head><style>body{color:red;}</style></head><body>Content</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mhtml.py:48"
+  },
+  {
+   "test": "test_mhtml_with_images",
+   "argv": [
+    "-M",
+    "-m",
+    "-"
+   ],
+   "stdin": "<html><body><img src=\"data:image/png;base64,iVBORw0KGgo=\"/>Content</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mhtml.py:57"
+  },
+  {
+   "test": "test_html_vs_mhtml_output",
+   "argv": [
+    "-M",
+    "-"
+   ],
+   "stdin": "<html><body>Test</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test",
+    "Test",
+    "content-type:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mhtml.py:66"
+  },
+  {
+   "test": "test_user_agent_flag",
+   "argv": [
+    "-M",
+    "-u",
+    "CustomBot/1.0",
+    "-"
+   ],
+   "stdin": "<html><body>Test</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_network_options.py:19"
+  },
+  {
+   "test": "test_timeout_flag",
+   "argv": [
+    "-M",
+    "-t",
+    "30",
+    "-"
+   ],
+   "stdin": "<html><body>Test</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_network_options.py:27"
+  },
+  {
+   "test": "test_timeout_very_short",
+   "argv": [
+    "-M",
+    "-t",
+    "1",
+    "-"
+   ],
+   "stdin": "<html><body>Test</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_network_options.py:34"
+  },
+  {
+   "test": "test_ignore_errors_flag",
+   "argv": [
+    "-M",
+    "-e",
+    "-"
+   ],
+   "stdin": "<html><body><img src=\"nonexistent.png\"/>Test</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_network_options.py:41"
+  },
+  {
+   "test": "test_insecure_flag",
+   "argv": [
+    "-M",
+    "-k",
+    "-"
+   ],
+   "stdin": "<html><body>Test</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_network_options.py:49"
+  },
+  {
+   "test": "test_user_agent_long_flag",
+   "argv": [
+    "-M",
+    "--user-agent",
+    "Mozilla/5.0",
+    "-"
+   ],
+   "stdin": "<html><body>Test</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_network_options.py:56"
+  },
+  {
+   "test": "test_timeout_long_flag",
+   "argv": [
+    "-M",
+    "--timeout",
+    "60",
+    "-"
+   ],
+   "stdin": "<html><body>Test</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_network_options.py:63"
+  },
+  {
+   "test": "test_ignore_errors_long_flag",
+   "argv": [
+    "-M",
+    "--ignore-errors",
+    "-"
+   ],
+   "stdin": "<html><body>Test</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_network_options.py:70"
+  },
+  {
+   "test": "test_insecure_long_flag",
+   "argv": [
+    "-M",
+    "--insecure",
+    "-"
+   ],
+   "stdin": "<html><body>Test</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_network_options.py:77"
+  },
+  {
+   "test": "test_combined_network_flags",
+   "argv": [
+    "-M",
+    "-u",
+    "Bot/1.0",
+    "-t",
+    "30",
+    "-e",
+    "-k",
+    "-"
+   ],
+   "stdin": "<html><body>Test</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_network_options.py:84"
+  },
+  {
+   "test": "test_noscript_default",
+   "argv": [
+    "-M",
+    "-"
+   ],
+   "stdin": "<html><body><noscript>No JS content</noscript>Content</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content",
+    "noscript"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_noscript.py:19"
+  },
+  {
+   "test": "test_unwrap_noscript_flag",
+   "argv": [
+    "-M",
+    "-n",
+    "-"
+   ],
+   "stdin": "<html><body><noscript><p>Fallback content</p></noscript>Other</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Other",
+    "Fallback content",
+    "Fallback content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_noscript.py:29"
+  },
+  {
+   "test": "test_unwrap_noscript_long_flag",
+   "argv": [
+    "-M",
+    "--unwrap-noscript",
+    "-"
+   ],
+   "stdin": "<html><body><noscript>Fallback</noscript>Main</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Main",
+    "Fallback"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_noscript.py:41"
+  },
+  {
+   "test": "test_noscript_nested",
+   "argv": [
+    "-M",
+    "-n",
+    "-"
+   ],
+   "stdin": "<html><body><div><noscript>Inner</noscript></div>Outer</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Outer",
+    "Inner"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_noscript.py:63"
+  },
+  {
+   "test": "test_noscript_with_no_js_flag",
+   "argv": [
+    "-M",
+    "-j",
+    "-n",
+    "-"
+   ],
+   "stdin": "<html><body><script>alert(\"js\");</script><noscript>No JS</noscript></body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "No JS"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_noscript.py:71"
+  },
+  {
+   "test": "test_output_to_stdout_explicit",
+   "argv": [
+    "-M",
+    "-o",
+    "-",
+    "-"
+   ],
+   "stdin": "<html><body>Explicit</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Explicit"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_handling.py:28"
+  },
+  {
+   "test": "test_output_to_file",
+   "argv": [
+    "-M",
+    "-o",
+    "-"
+   ],
+   "stdin": "<html><body>File output</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "File output"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_handling.py:35"
+  },
+  {
+   "test": "test_output_file_overwrite",
+   "argv": [
+    "-M",
+    "-o",
+    "output.html",
+    "-"
+   ],
+   "stdin": "<html><body>New content</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "New content"
+   ],
+   "files": {
+    "output.html": "Initial content"
+   },
+   "ci": false,
+   "source": "test_output_handling.py:49"
+  },
+  {
+   "test": "test_output_short_flag",
+   "argv": [
+    "-M",
+    "-o",
+    "-"
+   ],
+   "stdin": "<html><body>Short flag</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Short flag"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_handling.py:64"
+  },
+  {
+   "test": "test_output_long_flag",
+   "argv": [
+    "-M",
+    "--output",
+    "-"
+   ],
+   "stdin": "<html><body>Long flag</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Long flag"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_handling.py:73"
+  },
+  {
+   "test": "test_output_creates_missing_dirs",
+   "argv": [
+    "-M",
+    "-o",
+    "-"
+   ],
+   "stdin": "<html><body>Nested</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Nested"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_handling.py:82"
+  },
+  {
+   "test": "test_minimal_html",
+   "argv": [
+    "-M",
+    "-"
+   ],
+   "stdin": "<html></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_special_cases.py:26"
+  },
+  {
+   "test": "test_html_with_data_urls",
+   "argv": [
+    "-M",
+    "-"
+   ],
+   "stdin": "<html><body><img src=\"data:image/png;base64,iVBORw0KGgo=\"/></body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "data:image/png"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_cases.py:32"
+  },
+  {
+   "test": "test_svg_embedding",
+   "argv": [
+    "-M",
+    "-"
+   ],
+   "stdin": "<html><body><svg width=\"100\" height=\"100\"><circle cx=\"50\" cy=\"50\" r=\"40\"/></svg></body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_special_cases.py:40"
+  },
+  {
+   "test": "test_inline_styles",
+   "argv": [
+    "-M",
+    "-"
+   ],
+   "stdin": "<html><body style=\"background: blue; color: white;\">Styled</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Styled"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_cases.py:48"
+  },
+  {
+   "test": "test_inline_scripts",
+   "argv": [
+    "-M",
+    "-"
+   ],
+   "stdin": "<html><body><script>var x = 1;</script>Content</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_cases.py:56"
+  },
+  {
+   "test": "test_large_data_url",
+   "argv": [
+    "-M",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_cases.py:80"
+  },
+  {
+   "test": "test_multiple_stylesheets",
+   "argv": [
+    "-M",
+    "-"
+   ],
+   "stdin": "<html>\n    <head>\n        <link rel=\"stylesheet\" href=\"style1.css\">\n        <link rel=\"stylesheet\" href=\"style2.css\">\n    </head>\n    <body>Content</body>\n    </html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_cases.py:88"
+  },
+  {
+   "test": "test_unicode_content",
+   "argv": [
+    "-M",
+    "-"
+   ],
+   "stdin": "<html><body>Unicode: 你好 café naïve</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_special_cases.py:101"
+  },
+  {
+   "test": "test_special_characters_in_content",
+   "argv": [
+    "-M",
+    "-"
+   ],
+   "stdin": "<html><body>&lt; &gt; &amp; &quot; &#39;</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_special_cases.py:109"
+  },
+  {
+   "test": "test_nested_elements",
+   "argv": [
+    "-M",
+    "-"
+   ],
+   "stdin": "<html><body><div><div><div><div><div>Deep</div></div></div></div></div></body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Deep"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_cases.py:117"
+  },
+  {
+   "test": "test_comments_preservation",
+   "argv": [
+    "-M",
+    "-"
+   ],
+   "stdin": "<html><body><!-- This is a comment -->Content</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_cases.py:124"
+  },
+  {
+   "test": "test_quiet_mode",
+   "argv": [
+    "-M",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_verbosity.py:30"
+  },
+  {
+   "test": "test_quiet_mode_long_flag",
+   "argv": [
+    "-M",
+    "--quiet",
+    "-"
+   ],
+   "stdin": "<html><body>Test</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_verbosity.py:40"
+  },
+  {
+   "test": "test_error_suppressed_in_quiet",
+   "argv": [
+    "-q",
+    "https://this-domain-definitely-does-not-exist-xyz123.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_verbosity.py:55"
+  },
+  {
+   "test": "test_quiet_with_stdin",
+   "argv": [
+    "-M",
+    "-q",
+    "-"
+   ],
+   "stdin": "<html><body>Quiet test</body></html>",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Quiet test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_verbosity.py:65"
+  },
+  {
+   "test": "test_dash_dash_makes_next_token_positional_not_flag",
+   "argv": [
+    "--",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "could not retrieve target document"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:82"
+  },
+  {
+   "test": "test_flags_after_positional_are_allowed",
+   "argv": [
+    "example.com",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:93"
+  },
+  {
+   "test": "test_combined_short_flags_are_supported",
+   "argv": [
+    "-qi",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:105"
+  },
+  {
+   "test": "test_output_requires_value_and_supports_equals_syntax",
+   "argv": [
+    "--output",
+    "example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:112"
+  },
+  {
+   "test": "test_no_color_env_disables_ansi_in_error_message",
+   "argv": [
+    "-o",
+    "-",
+    "-C"
+   ],
+   "stdin": null,
+   "env": {
+    "NO_COLOR": "1"
+   },
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "could not read specified cookie file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_env_config.py:32"
+  },
+  {
+   "test": "test_malformed_cookie_file_exits_nonzero",
+   "argv": [
+    "-o",
+    "-",
+    "-C",
+    "cookies.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "could not parse specified cookie file"
+   ],
+   "files": {
+    "cookies.txt": "this is not a netscape cookie file\n"
+   },
+   "ci": false,
+   "source": "test_env_config.py:76"
+  },
+  {
+   "test": "test_stdin_target_input",
+   "argv": [
+    "-M",
+    "-"
+   ],
+   "stdin": "Hello from STDIN\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Hello from STDIN",
+    "<meta name=\"robots\" content=\"none\">"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:22"
+  },
+  {
+   "test": "test_properly_save_document_with_gb2312_from_stdin",
+   "argv": [
+    "-M",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_unusual_encodings.py:14"
+  }
+ ]
+}

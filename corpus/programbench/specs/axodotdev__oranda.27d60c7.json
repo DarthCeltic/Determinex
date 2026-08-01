@@ -1,0 +1,2633 @@
+{
+ "slug": "axodotdev__oranda.27d60c7",
+ "language": "",
+ "n_branches": 15,
+ "n_tests_total": 927,
+ "n_examples": 144,
+ "n_with_exact_stdout": 2,
+ "n_with_rc": 127,
+ "n_skipped": 721,
+ "examples": [
+  {
+   "test": "test_h_is_summary_variant_of_help",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {
+    "COLUMNS": "120",
+    "TERM": "dumb"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable [OPTIONS] <COMMAND>",
+    "Usage: executable [OPTIONS] <COMMAND>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_alias_and_precedence.py:4"
+  },
+  {
+   "test": "test_help_command_matches_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {
+    "COLUMNS": "120",
+    "TERM": "dumb"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_alias_and_precedence.py:16"
+  },
+  {
+   "test": "test_help_takes_precedence_over_other_flags",
+   "argv": [
+    "--help",
+    "--verbose"
+   ],
+   "stdin": null,
+   "env": {
+    "COLUMNS": "120",
+    "TERM": "dumb"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_alias_and_precedence.py:24"
+  },
+  {
+   "test": "test_help_with_invalid_flag_shows_error_and_usage",
+   "argv": [
+    "--badflag",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {
+    "COLUMNS": "120",
+    "TERM": "dumb"
+   },
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument",
+    "Usage: executable",
+    "For more information"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_alias_and_precedence.py:31"
+  },
+  {
+   "test": "test_double_dash_separator_keeps_help_working",
+   "argv": [
+    "--",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {
+    "COLUMNS": "120",
+    "TERM": "dumb"
+   },
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_alias_and_precedence.py:38"
+  },
+  {
+   "test": "test_build_help_documents_json_only",
+   "argv": [
+    "build",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--json-only",
+    "Only build"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_subcommands.py:21"
+  },
+  {
+   "test": "test_dev_help_documents_port_and_include_paths",
+   "argv": [
+    "dev",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--port <PORT>",
+    "--no-first-build",
+    "-i, --include-paths <INCLUDE_PATHS>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_subcommands.py:27"
+  },
+  {
+   "test": "test_serve_help_documents_default_port",
+   "argv": [
+    "serve",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--port <PORT>",
+    "[default: 7979]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_subcommands.py:34"
+  },
+  {
+   "test": "test_generate_ci_help_documents_ci_possible_values",
+   "argv": [
+    "generate",
+    "ci",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--ci <CI>",
+    "Possible values:",
+    "github"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_subcommands.py:45"
+  },
+  {
+   "test": "test_subcommand_help_includes_global_options",
+   "argv": [
+    "serve",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GLOBAL OPTIONS:",
+    "--output-format <OUTPUT_FORMAT>",
+    "-v, --verbose"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_subcommands.py:52"
+  },
+  {
+   "test": "test_no_arguments_shows_usage",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:55"
+  },
+  {
+   "test": "test_invalid_command",
+   "argv": [
+    "invalid-command"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unrecognized subcommand 'invalid-command'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:61"
+  },
+  {
+   "test": "test_version_long_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "oranda"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:67"
+  },
+  {
+   "test": "test_version_short_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "oranda"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:73"
+  },
+  {
+   "test": "test_invalid_global_flag",
+   "argv": [
+    "--invalid-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument '--invalid-flag' found"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:83"
+  },
+  {
+   "test": "test_output_format_invalid_value",
+   "argv": [
+    "--output-format",
+    "invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid value 'invalid' for '--output-format <OUTPUT_FORMAT>'",
+    "possible values: human, json"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:89"
+  },
+  {
+   "test": "test_output_format_missing_value",
+   "argv": [
+    "--output-format"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a value is required for '--output-format <OUTPUT_FORMAT>'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:96"
+  },
+  {
+   "test": "test_build_invalid_flag",
+   "argv": [
+    "build",
+    "--invalid-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument '--invalid-flag' found"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:124"
+  },
+  {
+   "test": "test_dev_port_invalid_value",
+   "argv": [
+    "dev",
+    "--port",
+    "invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid value 'invalid' for '--port <PORT>'",
+    "invalid digit found in string"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:155"
+  },
+  {
+   "test": "test_dev_port_missing_value",
+   "argv": [
+    "dev",
+    "--port"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a value is required for '--port <PORT>'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:162"
+  },
+  {
+   "test": "test_dev_invalid_flag",
+   "argv": [
+    "dev",
+    "--invalid-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument '--invalid-flag' found"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:190"
+  },
+  {
+   "test": "test_serve_port_invalid_value",
+   "argv": [
+    "serve",
+    "--port",
+    "invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid value 'invalid' for '--port <PORT>'",
+    "invalid digit found in string"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:216"
+  },
+  {
+   "test": "test_serve_port_missing_value",
+   "argv": [
+    "serve",
+    "--port"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a value is required for '--port <PORT>'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:223"
+  },
+  {
+   "test": "test_serve_invalid_flag",
+   "argv": [
+    "serve",
+    "--invalid-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument '--invalid-flag' found"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:229"
+  },
+  {
+   "test": "test_generate_requires_subcommand",
+   "argv": [
+    "generate"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Commands:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:248"
+  },
+  {
+   "test": "test_generate_invalid_subcommand",
+   "argv": [
+    "generate",
+    "invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unrecognized subcommand 'invalid'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:256"
+  },
+  {
+   "test": "test_generate_with_output_path_but_no_subcommand",
+   "argv": [
+    "generate",
+    "--output-path",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:262"
+  },
+  {
+   "test": "test_generate_ci_invalid_ci_value",
+   "argv": [
+    "generate",
+    "ci",
+    "--ci",
+    "invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid value 'invalid' for '--ci <CI>'",
+    "possible values: github"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:285"
+  },
+  {
+   "test": "test_generate_ci_invalid_flag",
+   "argv": [
+    "generate",
+    "ci",
+    "--invalid-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument '--invalid-flag' found"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:312"
+  },
+  {
+   "test": "test_unknown_flag_mentions_flag_name",
+   "argv": [
+    "--unknown"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--unknown"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:401"
+  },
+  {
+   "test": "test_error_suggests_help",
+   "argv": [
+    "invalid-command"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:407"
+  },
+  {
+   "test": "test_missing_value_error_is_clear",
+   "argv": [
+    "--output-format"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "value is required",
+    "output-format"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argument_parsing.py:413"
+  },
+  {
+   "test": "test_invalid_choice_shows_valid_options",
+   "argv": [
+    "--output-format",
+    "xml"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "possible values",
+    "human",
+    "json"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argument_parsing.py:420"
+  },
+  {
+   "test": "test_invalid_subcommand_mentions_available_subcommands",
+   "argv": [
+    "generate",
+    "invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unrecognized subcommand"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:428"
+  },
+  {
+   "test": "test_output_format_empty_string",
+   "argv": [
+    "--output-format",
+    "",
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:472"
+  },
+  {
+   "test": "test_version_short_equals_long",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "oranda",
+    "oranda"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:506"
+  },
+  {
+   "test": "test_generate_needs_subcommand",
+   "argv": [
+    "generate"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:526"
+  },
+  {
+   "test": "test_ci_invalid_value",
+   "argv": [
+    "generate",
+    "ci",
+    "--ci",
+    "gitlab"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid value 'gitlab'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:585"
+  },
+  {
+   "test": "test_ci_case_sensitive",
+   "argv": [
+    "generate",
+    "ci",
+    "--ci",
+    "GitHub"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:591"
+  },
+  {
+   "test": "test_unknown_global_flag",
+   "argv": [
+    "--nonexistent",
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:694"
+  },
+  {
+   "test": "test_unknown_subcommand_flag",
+   "argv": [
+    "build",
+    "--nonexistent"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:700"
+  },
+  {
+   "test": "test_output_format_requires_value",
+   "argv": [
+    "--output-format"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "value is required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:710"
+  },
+  {
+   "test": "test_port_requires_value",
+   "argv": [
+    "serve",
+    "--port"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "value is required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:716"
+  },
+  {
+   "test": "test_port_must_be_numeric",
+   "argv": [
+    "serve",
+    "--port",
+    "not-a-number"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argument_parsing.py:732"
+  },
+  {
+   "test": "test_output_format_must_be_valid_enum",
+   "argv": [
+    "--output-format",
+    "invalid-format",
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid value",
+    "possible values"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argument_parsing.py:738"
+  },
+  {
+   "test": "test_ci_must_be_valid_enum",
+   "argv": [
+    "generate",
+    "ci",
+    "--ci",
+    "travis"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid value"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argument_parsing.py:745"
+  },
+  {
+   "test": "test_tarball_with_target_triple_inference_and_labeling",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "x86_64-unknown-linux-gnu"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_artifact_inference.py:17"
+  },
+  {
+   "test": "test_msi_bundle_detection_and_labeling",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "x86_64-pc-windows-msvc"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_artifact_inference.py:120"
+  },
+  {
+   "test": "test_installer_script_detection_shell_and_powershell",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_artifact_inference.py:231"
+  },
+  {
+   "test": "test_run_method_for_scripts_download_method_for_archives",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "run_hint",
+    "file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_artifact_inference.py:953"
+  },
+  {
+   "test": "test_no_releases_creates_current_state",
+   "argv": [
+    "/workspace/executable",
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_release_data.py:337"
+  },
+  {
+   "test": "test_help_prints_usage_to_stdout_exit_0",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable",
+    "Commands:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_io.py:7"
+  },
+  {
+   "test": "test_version_prints_to_stdout_exit_0",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_io.py:16"
+  },
+  {
+   "test": "test_unknown_subcommand_goes_to_stderr_exit_2",
+   "argv": [
+    "nonsense"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "unrecognized subcommand",
+    "Usage: executable"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_io.py:24"
+  },
+  {
+   "test": "test_build_creates_public_dir_and_files_exit_0",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SUCCESS",
+    "public"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_io.py:33"
+  },
+  {
+   "test": "test_build_in_empty_dir_warns_about_missing_readme_but_succeeds",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "WARNING",
+    "README.md could not be found"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_io.py:58"
+  },
+  {
+   "test": "test_build_with_invalid_oranda_json_errors_to_stderr_exit_255",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 255,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "failed to parse JSON",
+    "oranda.json"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_io.py:69"
+  },
+  {
+   "test": "test_build_supports_json_only_flag_and_still_creates_public_dir",
+   "argv": [
+    "build",
+    "--json-only"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_io.py:80"
+  },
+  {
+   "test": "test_global_output_format_json_is_accepted_and_does_not_break_output",
+   "argv": [
+    "--output-format",
+    "json",
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SUCCESS"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_io.py:92"
+  },
+  {
+   "test": "test_ext_it_adds_additional_css",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:48"
+  },
+  {
+   "test": "test_ext_it_adds_oranda_css_with_pinned_version",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "/oranda-v0.1.0.css"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:136"
+  },
+  {
+   "test": "test_ext_creates_footer",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<footer",
+    "footer"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_externalized.py:184"
+  },
+  {
+   "test": "test_ext_adds_prefix",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<html"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:219"
+  },
+  {
+   "test": "test_ext_it_inserts_plausible_tag",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "plausible.io/js/script.js"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:235"
+  },
+  {
+   "test": "test_ext_it_detects_a_js_project",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "axo"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:258"
+  },
+  {
+   "test": "test_ext_it_loads_a_js_project_config",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ">o_o<"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:281"
+  },
+  {
+   "test": "test_ext_it_loads_a_rust_project_config",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "blublublub",
+    "<title>axo"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:331"
+  },
+  {
+   "test": "test_ext_it_loads_a_workspace",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<title"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:362"
+  },
+  {
+   "test": "test_subcommand_help_recognized",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage:"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:88"
+  },
+  {
+   "test": "test_subcommand_help_differs_from_main_help",
+   "argv": [
+    "build",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage: executable build"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:94"
+  },
+  {
+   "test": "test_generate_has_nested_subcommand_ci",
+   "argv": [
+    "generate",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ci"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:134"
+  },
+  {
+   "test": "test_nested_subcommand_help_recognized",
+   "argv": [
+    "generate",
+    "ci",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage: executable generate ci"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:141"
+  },
+  {
+   "test": "test_help_subcommand_is_top_level_dispatcher",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage:",
+    "commands:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:155"
+  },
+  {
+   "test": "test_build_with_path_prefix",
+   "argv": [
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SUCCESS"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_config.py:5"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "build",
+    "--verbose",
+    "--output-format"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:18"
+  },
+  {
+   "test": "test_help_flag_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:29"
+  },
+  {
+   "test": "test_help_command",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:64"
+  },
+  {
+   "test": "test_help_for_build",
+   "argv": [
+    "help",
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Build an oranda site",
+    "--json-only"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:70"
+  },
+  {
+   "test": "test_build_help",
+   "argv": [
+    "build",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Build an oranda site",
+    "--json-only"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_build_command.py:6"
+  },
+  {
+   "test": "test_dev_help",
+   "argv": [
+    "dev",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Start a local development server",
+    "--port",
+    "--no-first-build",
+    "--include-paths"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dev_command.py:7"
+  },
+  {
+   "test": "test_dev_port_option",
+   "argv": [
+    "dev",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--port",
+    "The port for the file server"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dev_command.py:16"
+  },
+  {
+   "test": "test_dev_no_first_build_option",
+   "argv": [
+    "dev",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--no-first-build",
+    "Skip the first build"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dev_command.py:23"
+  },
+  {
+   "test": "test_dev_include_paths_option",
+   "argv": [
+    "dev",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "extra paths to watch"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dev_command.py:30"
+  },
+  {
+   "test": "test_multiple_flags_combined",
+   "argv": [
+    "--verbose",
+    "--output-format",
+    "json",
+    "build"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:72"
+  },
+  {
+   "test": "test_generate_help",
+   "argv": [
+    "generate",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Generate infrastructure files",
+    "ci",
+    "--output-path",
+    "--site-path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_generate_command.py:5"
+  },
+  {
+   "test": "test_generate_ci_help",
+   "argv": [
+    "generate",
+    "ci",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Generates a CI file",
+    "--ci",
+    "github",
+    "--output-path",
+    "--site-path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_generate_command.py:14"
+  },
+  {
+   "test": "test_generate_ci_accepts_output_path_flag",
+   "argv": [
+    "generate",
+    "ci",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-o",
+    "--output-path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_generate_command.py:59"
+  },
+  {
+   "test": "test_generate_accepts_site_path_flag",
+   "argv": [
+    "generate",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-s",
+    "--site-path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_generate_command.py:66"
+  },
+  {
+   "test": "test_verbose_flag_with_version",
+   "argv": [
+    "--verbose",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "oranda"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_global_options.py:4"
+  },
+  {
+   "test": "test_verbose_flag_short",
+   "argv": [
+    "-v",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "oranda"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_global_options.py:10"
+  },
+  {
+   "test": "test_output_format_human",
+   "argv": [
+    "--output-format",
+    "human",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "oranda"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_global_options.py:16"
+  },
+  {
+   "test": "test_output_format_json",
+   "argv": [
+    "--output-format",
+    "json",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_global_options.py:22"
+  },
+  {
+   "test": "test_global_options_order",
+   "argv": [
+    "--verbose",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_global_options.py:36"
+  },
+  {
+   "test": "test_config_schema_command",
+   "argv": [
+    "config-schema"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_hidden_commands.py:5"
+  },
+  {
+   "test": "test_config_schema_help",
+   "argv": [
+    "config-schema",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "config schema",
+    "--output"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_hidden_commands.py:16"
+  },
+  {
+   "test": "test_config_schema_with_output_file",
+   "argv": [
+    "config-schema",
+    "--output"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_hidden_commands.py:23"
+  },
+  {
+   "test": "test_generate_css_help",
+   "argv": [
+    "generate-css",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "generate-css",
+    "--out-dir"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_hidden_commands.py:42"
+  },
+  {
+   "test": "test_output_format_human_with_help",
+   "argv": [
+    "--output-format",
+    "human",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Commands:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:33"
+  },
+  {
+   "test": "test_verbose_with_json_format",
+   "argv": [
+    "--verbose",
+    "--output-format",
+    "json",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:39"
+  },
+  {
+   "test": "test_serve_help",
+   "argv": [
+    "serve",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Start a file server",
+    "--port",
+    "7979"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_serve_command.py:9"
+  },
+  {
+   "test": "test_serve_with_custom_port_help",
+   "argv": [
+    "serve",
+    "--port",
+    "8080",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Start a file server"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_serve_command.py:24"
+  },
+  {
+   "test": "test_dev_help_content",
+   "argv": [
+    "dev",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "development server",
+    "--port",
+    "--no-first-build"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_help.py:12"
+  },
+  {
+   "test": "test_serve_help_content",
+   "argv": [
+    "serve",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file server",
+    "--port",
+    "7979"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_help.py:21"
+  },
+  {
+   "test": "test_generate_help_content",
+   "argv": [
+    "generate",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "infrastructure files",
+    "ci"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_help.py:29"
+  },
+  {
+   "test": "test_generate_ci_help_content",
+   "argv": [
+    "generate",
+    "ci",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CI file",
+    "--ci",
+    "github"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_help.py:37"
+  },
+  {
+   "test": "test_help_generate_ci",
+   "argv": [
+    "help",
+    "generate",
+    "ci"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CI file",
+    "github"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_help.py:56"
+  },
+  {
+   "test": "test_verbose_short_and_long_are_equivalent_accept_once",
+   "argv": [
+    "-v",
+    "build",
+    "--json-only",
+    "--output-format",
+    "json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_args_parsing.py:72"
+  },
+  {
+   "test": "test_dev_port_accepts_flaglike_value_with_double_dash_then_errors_on_type",
+   "argv": [
+    "dev",
+    "--port",
+    "--",
+    "--not-a-number"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_args_parsing.py:131"
+  },
+  {
+   "test": "test_generate_subcommand_recognized",
+   "argv": [
+    "generate",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:44"
+  },
+  {
+   "test": "test_main_help_output",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "build",
+    "dev",
+    "serve",
+    "generate",
+    "Commands:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:54"
+  },
+  {
+   "test": "test_dev_help_content",
+   "argv": [
+    "dev",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--port"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:85"
+  },
+  {
+   "test": "test_serve_help_content",
+   "argv": [
+    "serve",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--port"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:94"
+  },
+  {
+   "test": "test_generate_help_content",
+   "argv": [
+    "generate",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ci",
+    "Commands:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:103"
+  },
+  {
+   "test": "test_generate_ci_help_content",
+   "argv": [
+    "generate",
+    "ci",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--ci"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:113"
+  },
+  {
+   "test": "test_help_subcommand_shows_main_help",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Commands:",
+    "build"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:126"
+  },
+  {
+   "test": "test_help_with_nested_subcommand",
+   "argv": [
+    "help",
+    "generate",
+    "ci"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:144"
+  },
+  {
+   "test": "test_verbose_flag_before_subcommand",
+   "argv": [
+    "--verbose",
+    "build",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:156"
+  },
+  {
+   "test": "test_verbose_flag_after_subcommand",
+   "argv": [
+    "build",
+    "--verbose",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:161"
+  },
+  {
+   "test": "test_output_format_flag_before_subcommand",
+   "argv": [
+    "--output-format",
+    "json",
+    "build",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:166"
+  },
+  {
+   "test": "test_output_format_flag_after_subcommand",
+   "argv": [
+    "build",
+    "--output-format",
+    "json",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:171"
+  },
+  {
+   "test": "test_global_flags_in_help_for_each_subcommand",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--verbose",
+    "--output-format"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:176"
+  },
+  {
+   "test": "test_unknown_subcommand_error",
+   "argv": [
+    "nonexistent_subcommand"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:215"
+  },
+  {
+   "test": "test_unknown_subcommand_shows_usage",
+   "argv": [
+    "invalid_cmd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:230"
+  },
+  {
+   "test": "test_generate_requires_subcommand",
+   "argv": [
+    "generate"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "ci"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:251"
+  },
+  {
+   "test": "test_generate_ci_recognized",
+   "argv": [
+    "generate",
+    "ci",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:266"
+  },
+  {
+   "test": "test_build_json_only_flag",
+   "argv": [
+    "build",
+    "--json-only",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:289"
+  },
+  {
+   "test": "test_dev_port_flag",
+   "argv": [
+    "dev",
+    "--port",
+    "8080",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:294"
+  },
+  {
+   "test": "test_dev_no_first_build_flag",
+   "argv": [
+    "dev",
+    "--no-first-build",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:299"
+  },
+  {
+   "test": "test_serve_port_flag",
+   "argv": [
+    "serve",
+    "--port",
+    "9090",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:304"
+  },
+  {
+   "test": "test_generate_output_path_flag",
+   "argv": [
+    "generate",
+    "-o",
+    "test.txt",
+    "ci",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:309"
+  },
+  {
+   "test": "test_generate_ci_ci_flag",
+   "argv": [
+    "generate",
+    "ci",
+    "--ci",
+    "github",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:314"
+  },
+  {
+   "test": "test_short_version_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:341"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Commands:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:347"
+  },
+  {
+   "test": "test_short_help_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Commands:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:354"
+  },
+  {
+   "test": "test_help_then_subcommand_invalid",
+   "argv": [
+    "--verbose",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:365"
+  },
+  {
+   "test": "test_multiple_global_flags_with_subcommand",
+   "argv": [
+    "--verbose",
+    "--output-format",
+    "json",
+    "build",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:370"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "generate beautiful landing pages",
+    "Commands:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_oranda_comprehensive.py:19"
+  },
+  {
+   "test": "test_invalid_command",
+   "argv": [
+    "nonexistent-command"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_oranda_comprehensive.py:35"
+  },
+  {
+   "test": "test_generate_help",
+   "argv": [
+    "generate",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Generate infrastructure",
+    "ci"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_oranda_comprehensive.py:128"
+  },
+  {
+   "test": "test_generate_ci_help",
+   "argv": [
+    "generate",
+    "ci",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--ci",
+    "github"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_oranda_comprehensive.py:136"
+  },
+  {
+   "test": "test_serve_help",
+   "argv": [
+    "serve",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--port",
+    "7979"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_oranda_comprehensive.py:156"
+  },
+  {
+   "test": "test_dev_help",
+   "argv": [
+    "dev",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--port",
+    "--no-first-build"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_oranda_comprehensive.py:175"
+  },
+  {
+   "test": "test_serve_with_port_variations",
+   "argv": [
+    "serve",
+    "--port",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--port"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_oranda_comprehensive.py:1259"
+  },
+  {
+   "test": "test_dev_with_port_variations",
+   "argv": [
+    "dev",
+    "--port",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--port"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_oranda_comprehensive.py:1268"
+  }
+ ]
+}

@@ -1,0 +1,29 @@
+{
+  "schema": "determinex-repair-loop-transcript-v1",
+  "tool": "falcon",
+  "family": "python",
+  "pinned_commit": "5119682b",
+  "repair_type": "seeded_defect (behavioral) - verifier is the project's OWN test suite in a python:3.12 image (toolchain via provider; Docker-OPTIONAL)",
+  "toolchain": "python:3.12",
+  "oracle": "the real falconry/falcon repo's own tests: python -m pytest tests/test_httpstatus.py -q",
+  "defect": {
+    "file": "falcon/status_codes.py",
+    "seed": "HTTP_200: Final[str] = '200 OK' -> HTTP_200: Final[str] = '201 OK'"
+  },
+  "detect": {
+    "baseline": "51 passed in 0.14s",
+    "after_seed": "test suite FAILED (exit 1)",
+    "oracle_caught": true,
+    "failure_signature": "seeded defect made the project's own test suite exit non-zero"
+  },
+  "repair": {
+    "fix": "git checkout (restore upstream source)"
+  },
+  "reverify": {
+    "after": "51 passed in 0.13s",
+    "passed": 51,
+    "failures": 0
+  },
+  "repair_loop_status": "passed",
+  "proves": "closed-loop repair on a real external python project (falcon): its OWN test suite detects the injected defect -> fix -> re-verify (51 passed in 0.13s). Reproducible."
+}

@@ -1,0 +1,5722 @@
+[
+ {
+  "name": "test::test_gdal2tiles_logger::0",
+  "argv": [
+   "gdal2tiles",
+   "--verbose",
+   "--legacy",
+   "-z",
+   "13-14",
+   "../../gcore/data/byte.tif",
+   "/vsimem/gdal2tiles"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gdal2tiles_vsimem::1",
+  "argv": [
+   "gdal2tiles",
+   "--legacy",
+   "-q",
+   "../../gcore/data/byte.tif",
+   "/vsimem/gdal2tiles"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_output::2",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_output::3",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_flag::4",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_command_error::5",
+  "argv": [
+   "nonexistent_command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_drivers_output_is_json::6",
+  "argv": [
+   "--drivers"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_usage_output::7",
+  "argv": [
+   "--json-usage"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_option::8",
+  "argv": [
+   "--config",
+   "GDAL_CACHEMAX=128",
+   "raster",
+   "info"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_help::9",
+  "argv": [
+   "raster",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_help::10",
+  "argv": [
+   "vector",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dataset_help::11",
+  "argv": [
+   "dataset",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vsi_help::12",
+  "argv": [
+   "vsi",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mdim_help::13",
+  "argv": [
+   "mdim",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_driver_help::14",
+  "argv": [
+   "driver",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pipeline_help::15",
+  "argv": [
+   "pipeline",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dataset_identify_raster::16",
+  "argv": [
+   "dataset",
+   "identify"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dataset_identify_report_failures::17",
+  "argv": [
+   "dataset",
+   "identify",
+   "--report-failures",
+   "/nonexistent.xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dataset_identify_help::18",
+  "argv": [
+   "dataset",
+   "identify",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dataset_identify_detailed::19",
+  "argv": [
+   "dataset",
+   "identify",
+   "--detailed"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dataset_check_raster::20",
+  "argv": [
+   "dataset",
+   "check"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dataset_check_help::21",
+  "argv": [
+   "dataset",
+   "check",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dataset_copy::22",
+  "argv": [
+   "dataset",
+   "copy"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dataset_copy_help::23",
+  "argv": [
+   "dataset",
+   "copy",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dataset_delete_help::24",
+  "argv": [
+   "dataset",
+   "delete",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dataset_rename_help::25",
+  "argv": [
+   "dataset",
+   "rename",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dataset_copy_alias_cp::26",
+  "argv": [
+   "dataset",
+   "cp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dataset_identify_recursive::27",
+  "argv": [
+   "dataset",
+   "identify",
+   "--recursive",
+   "autotest/gcore/data/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dataset_identify_quiet::28",
+  "argv": [
+   "dataset",
+   "identify",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dataset_identify_json_output::29",
+  "argv": [
+   "dataset",
+   "identify",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dataset_check_quiet::30",
+  "argv": [
+   "dataset",
+   "check",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dataset_identify_no_report_failures::31",
+  "argv": [
+   "dataset",
+   "identify",
+   "/nonexistent.xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dataset_check_with_input_format::32",
+  "argv": [
+   "dataset",
+   "check",
+   "--if",
+   "GTiff"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dataset_check_json_usage::33",
+  "argv": [
+   "dataset",
+   "check",
+   "--json-usage"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dataset_check_with_oo::34",
+  "argv": [
+   "dataset",
+   "check",
+   "--oo",
+   "OVERVIEW_LEVEL=NONE"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dataset_identify_report_failures_only::35",
+  "argv": [
+   "dataset",
+   "identify",
+   "--report-failures"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dataset_check_reads_polygon::36",
+  "argv": [
+   "dataset",
+   "check",
+   "autotest/ogr/data/geojson/polygon.geojson"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dataset_check_all_types::37",
+  "argv": [
+   "raster",
+   "create",
+   "--size",
+   "5,5",
+   "--datatype"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_info_missing_input::38",
+  "argv": [
+   "raster",
+   "info"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_info_missing_input::39",
+  "argv": [
+   "vector",
+   "info"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_convert_missing_output::40",
+  "argv": [
+   "raster",
+   "convert"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_subcommand::41",
+  "argv": [
+   "raster",
+   "nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_info_invalid_format::42",
+  "argv": [
+   "vector",
+   "info",
+   "-f",
+   "invalid_format"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_info_invalid_format::43",
+  "argv": [
+   "raster",
+   "info",
+   "-f",
+   "invalid_format"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_reproject_no_dst_crs::44",
+  "argv": [
+   "raster",
+   "reproject"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_filter_no_args::45",
+  "argv": [
+   "vector",
+   "filter"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_clip_no_clip_args::46",
+  "argv": [
+   "raster",
+   "clip"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vsi_delete_nonexistent::47",
+  "argv": [
+   "vsi",
+   "delete",
+   "/nonexistent_file.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vsi_copy_nonexistent_source::48",
+  "argv": [
+   "vsi",
+   "copy",
+   "/nonexistent/src.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dataset_copy_nonexistent::49",
+  "argv": [
+   "dataset",
+   "copy",
+   "/nonexistent.tif"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dataset_check_nonexistent::50",
+  "argv": [
+   "dataset",
+   "check",
+   "/nonexistent.tif"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_info_options_via_if_flag::51",
+  "argv": [
+   "raster",
+   "info",
+   "--if",
+   "GTiff"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_create_no_size::52",
+  "argv": [
+   "raster",
+   "create"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_select_no_fields::53",
+  "argv": [
+   "vector",
+   "select"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_select_invalid_band::54",
+  "argv": [
+   "raster",
+   "select",
+   "99"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_shortcut_nonexistent::55",
+  "argv": [
+   "info",
+   "/nonexistent/path.tif"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_usage_raster_convert::56",
+  "argv": [
+   "raster",
+   "convert",
+   "--json-usage"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_usage_vector_info::57",
+  "argv": [
+   "vector",
+   "info",
+   "--json-usage"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_drivers_output::58",
+  "argv": [
+   "raster",
+   "--drivers"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_drivers_output::59",
+  "argv": [
+   "vector",
+   "--drivers"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_gdal_option::60",
+  "argv": [
+   "raster",
+   "info",
+   "--config",
+   "GDAL_CACHEMAX=64"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_raster_shortcut::61",
+  "argv": [
+   "info"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_shortcut_help::62",
+  "argv": [
+   "info",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_nonexistent::63",
+  "argv": [
+   "info",
+   "/nonexistent.tif"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_convert_shortcut_help::64",
+  "argv": [
+   "convert",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_convert_shortcut_raster::65",
+  "argv": [
+   "convert"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mdim_info_help::66",
+  "argv": [
+   "mdim",
+   "info",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mdim_convert_help::67",
+  "argv": [
+   "mdim",
+   "convert",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mdim_mosaic_help::68",
+  "argv": [
+   "mdim",
+   "mosaic",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mdim_drivers::69",
+  "argv": [
+   "mdim",
+   "--drivers"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mdim_info_hdf::70",
+  "argv": [
+   "mdim",
+   "info",
+   "autotest/gcore/data/SDS.hdf"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mdim_json_usage::71",
+  "argv": [
+   "mdim",
+   "--json-usage"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_neighbors_with_kernel::72",
+  "argv": [
+   "raster",
+   "neighbors",
+   "--kernel",
+   "sharpen"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_sql_multiple::73",
+  "argv": [
+   "vector",
+   "sql",
+   "--sql",
+   "SELECT * FROM data WHERE val = 10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_layer_algebra_basic::74",
+  "argv": [
+   "vector",
+   "layer-algebra",
+   "--operation",
+   "union"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_scale_custom::75",
+  "argv": [
+   "raster",
+   "scale",
+   "--src-min",
+   "0",
+   "--src-max",
+   "255",
+   "--dst-min",
+   "0",
+   "--dst-max",
+   "1",
+   "--ot",
+   "Float32"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_filter_update_extent::76",
+  "argv": [
+   "vector",
+   "filter",
+   "--where",
+   "value > 1",
+   "--update-extent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_filter_active_layer::77",
+  "argv": [
+   "vector",
+   "filter",
+   "--active-layer",
+   "data",
+   "--where",
+   "value = 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_sql_dialect::78",
+  "argv": [
+   "vector",
+   "sql",
+   "--sql",
+   "SELECT * FROM data WHERE value > 1",
+   "--dialect",
+   "OGRSQL"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_sql_skip_errors::79",
+  "argv": [
+   "vector",
+   "sql",
+   "--sql",
+   "SELECT * FROM data",
+   "--skip-errors"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_tile_webviewer_mapml::80",
+  "argv": [
+   "raster",
+   "reproject",
+   "--dst-crs",
+   "EPSG:4326"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_concat_overwrite::81",
+  "argv": [
+   "vector",
+   "concat",
+   "--mode",
+   "single"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_concat_with_source_field::82",
+  "argv": [
+   "vector",
+   "concat",
+   "--mode",
+   "single",
+   "--source-layer-field-name",
+   "source"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dataset_identify_output_file::83",
+  "argv": [
+   "dataset",
+   "identify",
+   "-o",
+   "--report-failures"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_reproject_with_size::84",
+  "argv": [
+   "raster",
+   "reproject",
+   "--dst-crs",
+   "EPSG:4326",
+   "--size",
+   "10,10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_reproject_with_resolution::85",
+  "argv": [
+   "raster",
+   "reproject",
+   "--dst-crs",
+   "EPSG:4326",
+   "--resolution",
+   "0.001,0.001"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_clip_bbox::86",
+  "argv": [
+   "vector",
+   "clip",
+   "--bbox",
+   "0,0,100,100"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_scale_to_uint8::87",
+  "argv": [
+   "raster",
+   "scale",
+   "--src-min",
+   "74",
+   "--src-max",
+   "255",
+   "--dst-min",
+   "0",
+   "--dst-max",
+   "255",
+   "--ot",
+   "Byte"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_reproject_overwrite::88",
+  "argv": [
+   "vector",
+   "reproject",
+   "--dst-crs",
+   "EPSG:4326"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_reproject_quiet::89",
+  "argv": [
+   "vector",
+   "reproject",
+   "-q",
+   "--dst-crs",
+   "EPSG:4326"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_footprint_with_overview::90",
+  "argv": [
+   "raster",
+   "footprint"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_footprint_quiet::91",
+  "argv": [
+   "raster",
+   "footprint",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_pipeline_help::92",
+  "argv": [
+   "raster",
+   "pipeline",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_pipeline_basic_read_write::93",
+  "argv": [
+   "raster",
+   "pipeline",
+   "read",
+   "!",
+   "write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_pipeline_help::94",
+  "argv": [
+   "vector",
+   "pipeline",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_pipeline_basic::95",
+  "argv": [
+   "vector",
+   "pipeline",
+   "read",
+   "!",
+   "write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_pipeline_quiet::96",
+  "argv": [
+   "raster",
+   "pipeline",
+   "--quiet",
+   "read",
+   "!",
+   "write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_pipeline_with_filter::97",
+  "argv": [
+   "vector",
+   "pipeline",
+   "read",
+   "!",
+   "filter",
+   "--where",
+   "val = 1",
+   "!",
+   "write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_pipeline_reproject::98",
+  "argv": [
+   "raster",
+   "pipeline",
+   "read",
+   "!",
+   "reproject",
+   "--dst-crs",
+   "EPSG:4326",
+   "!",
+   "write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_pipeline_clip::99",
+  "argv": [
+   "raster",
+   "pipeline",
+   "read",
+   "!",
+   "clip",
+   "--bbox",
+   "440800,3750200,441800,3751200",
+   "!",
+   "write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_pipeline_scale::100",
+  "argv": [
+   "raster",
+   "pipeline",
+   "read",
+   "!",
+   "scale",
+   "!",
+   "write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_pipeline_select::101",
+  "argv": [
+   "vector",
+   "pipeline",
+   "read",
+   "!",
+   "select",
+   "--fields",
+   "name",
+   "!",
+   "write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_pipeline_sort::102",
+  "argv": [
+   "vector",
+   "pipeline",
+   "read",
+   "!",
+   "sort",
+   "!",
+   "write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_pipeline_reproject::103",
+  "argv": [
+   "vector",
+   "pipeline",
+   "read",
+   "!",
+   "reproject",
+   "--dst-crs",
+   "EPSG:4326",
+   "!",
+   "write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_pipeline_segmentize::104",
+  "argv": [
+   "vector",
+   "pipeline",
+   "read",
+   "!",
+   "segmentize",
+   "--max-length",
+   "10",
+   "!",
+   "write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_pipeline_set_field_type::105",
+  "argv": [
+   "vector",
+   "pipeline",
+   "read",
+   "!",
+   "set-field-type",
+   "--field-name",
+   "value",
+   "--dst-field-type",
+   "String",
+   "!",
+   "write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_pipeline_info::106",
+  "argv": [
+   "raster",
+   "pipeline",
+   "read",
+   "!",
+   "info"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_pipeline_info::107",
+  "argv": [
+   "vector",
+   "pipeline",
+   "read",
+   "!",
+   "info"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pipeline_read_shortcut::108",
+  "argv": [
+   "read",
+   "!",
+   "write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_pipeline_slope::109",
+  "argv": [
+   "raster",
+   "pipeline",
+   "read",
+   "!",
+   "slope",
+   "!",
+   "write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_pipeline_hillshade::110",
+  "argv": [
+   "raster",
+   "pipeline",
+   "read",
+   "!",
+   "hillshade",
+   "!",
+   "write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_pipeline_calc::111",
+  "argv": [
+   "raster",
+   "pipeline",
+   "read",
+   "!",
+   "calc",
+   "--calc",
+   "sum",
+   "--dialect",
+   "builtin",
+   "!",
+   "write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_pipeline_select::112",
+  "argv": [
+   "raster",
+   "pipeline",
+   "read",
+   "!",
+   "select",
+   "--band",
+   "1",
+   "!",
+   "write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_pipeline_swap_xy::113",
+  "argv": [
+   "vector",
+   "pipeline",
+   "read",
+   "!",
+   "swap-xy",
+   "!",
+   "write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_pipeline_no_steps::114",
+  "argv": [
+   "raster",
+   "pipeline"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_pipeline_no_steps::115",
+  "argv": [
+   "vector",
+   "pipeline"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_pipeline_invalid_step::116",
+  "argv": [
+   "raster",
+   "pipeline",
+   "read",
+   "!",
+   "invalid_step",
+   "!",
+   "write",
+   "/tmp/out.tif"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_pipeline_missing_write::117",
+  "argv": [
+   "raster",
+   "pipeline",
+   "read"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_pipeline_missing_write::118",
+  "argv": [
+   "vector",
+   "pipeline",
+   "read"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_pipeline_with_json_usage::119",
+  "argv": [
+   "raster",
+   "pipeline",
+   "--json-usage"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_pipeline_with_json_usage::120",
+  "argv": [
+   "vector",
+   "pipeline",
+   "--json-usage"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_pipeline_create_as_first::121",
+  "argv": [
+   "raster",
+   "pipeline",
+   "create",
+   "--size",
+   "5,5",
+   "!",
+   "write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_pipeline_mosaic_as_first::122",
+  "argv": [
+   "raster",
+   "pipeline",
+   "mosaic",
+   "!",
+   "write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_pipeline_calc::123",
+  "argv": [
+   "raster",
+   "pipeline",
+   "read",
+   "!",
+   "calc",
+   "--calc",
+   "sqrt",
+   "--dialect",
+   "builtin",
+   "--ot",
+   "Float32",
+   "!",
+   "write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_pipeline_roughness::124",
+  "argv": [
+   "raster",
+   "pipeline",
+   "read",
+   "!",
+   "roughness",
+   "!",
+   "write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_pipeline_tri::125",
+  "argv": [
+   "raster",
+   "pipeline",
+   "read",
+   "!",
+   "tri",
+   "!",
+   "write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_pipeline_set_type::126",
+  "argv": [
+   "raster",
+   "pipeline",
+   "read",
+   "!",
+   "set-type",
+   "--ot",
+   "Float32",
+   "!",
+   "write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_pipeline_aspect_tpi::127",
+  "argv": [
+   "raster",
+   "pipeline",
+   "read",
+   "!",
+   "aspect",
+   "!",
+   "write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_pipeline_progress::128",
+  "argv": [
+   "raster",
+   "pipeline",
+   "--progress",
+   "read",
+   "!",
+   "write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_pipeline_step_help::129",
+  "argv": [
+   "raster",
+   "pipeline",
+   "read",
+   "!",
+   "reproject",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_pipeline_step_help::130",
+  "argv": [
+   "vector",
+   "pipeline",
+   "read",
+   "!",
+   "filter",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_pipeline_with_output_format::131",
+  "argv": [
+   "raster",
+   "pipeline",
+   "read",
+   "!",
+   "write",
+   "-f",
+   "GTiff"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_pipeline_with_output_format::132",
+  "argv": [
+   "vector",
+   "pipeline",
+   "read",
+   "!",
+   "write",
+   "-f",
+   "GeoJSON"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_pipeline_calc_diff::133",
+  "argv": [
+   "raster",
+   "pipeline",
+   "calc",
+   "--calc",
+   "diff",
+   "--dialect",
+   "builtin",
+   "!",
+   "write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_pipeline_tpi_tri::134",
+  "argv": [
+   "raster",
+   "pipeline",
+   "read",
+   "!",
+   "tpi",
+   "!",
+   "write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_pipeline_stack_multiple::135",
+  "argv": [
+   "raster",
+   "pipeline",
+   "stack",
+   "!",
+   "write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_pipeline_rename_layer::136",
+  "argv": [
+   "vector",
+   "pipeline",
+   "read",
+   "!",
+   "rename-layer",
+   "--output-layer",
+   "new_name",
+   "!",
+   "write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_pipeline_concat::137",
+  "argv": [
+   "vector",
+   "pipeline",
+   "concat",
+   "--mode",
+   "single",
+   "!",
+   "write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_pipeline_make_point::138",
+  "argv": [
+   "vector",
+   "pipeline",
+   "read",
+   "!",
+   "make-point",
+   "--x",
+   "lon",
+   "--y",
+   "lat",
+   "!",
+   "write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_pixel_info_with_band::139",
+  "argv": [
+   "raster",
+   "pixel-info",
+   "--band",
+   "1",
+   "5,5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_pixel_info_position_crs::140",
+  "argv": [
+   "raster",
+   "pixel-info",
+   "--position-crs",
+   "EPSG:26711",
+   "441000,3750600"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_pixel_info_bilinear::141",
+  "argv": [
+   "raster",
+   "pixel-info",
+   "--resampling",
+   "bilinear",
+   "5,5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_pixel_info_promote_to_z::142",
+  "argv": [
+   "raster",
+   "pixel-info",
+   "--promote-pixel-value-to-z",
+   "5,5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_pixel_info_output_file::143",
+  "argv": [
+   "raster",
+   "pixel-info",
+   "-o",
+   "0,0",
+   "5,5",
+   "10,10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_pixel_info_with_position_dataset::144",
+  "argv": [
+   "raster",
+   "pixel-info",
+   "--position-dataset",
+   "--position-crs",
+   "EPSG:26711",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_pixel_info_no_include_fields::145",
+  "argv": [
+   "raster",
+   "pixel-info",
+   "--position-dataset",
+   "--position-crs",
+   "EPSG:26711",
+   "--include-field",
+   "NONE",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_pixel_info_format_geojson::146",
+  "argv": [
+   "raster",
+   "pixel-info",
+   "-f",
+   "GeoJSON",
+   "5,5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_viewshed_basic::147",
+  "argv": [
+   "raster",
+   "viewshed",
+   "--position",
+   "441320,3750720"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_viewshed_help::148",
+  "argv": [
+   "raster",
+   "viewshed",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_viewshed_quiet::149",
+  "argv": [
+   "raster",
+   "viewshed",
+   "-q",
+   "--position",
+   "441320,3750720"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_tile_raster_scheme::150",
+  "argv": [
+   "raster",
+   "tile",
+   "-f",
+   "GTiff",
+   "--tiling-scheme",
+   "raster"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_tile_help::151",
+  "argv": [
+   "raster",
+   "tile",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_zonal_stats_help::152",
+  "argv": [
+   "raster",
+   "zonal-stats",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_zonal_stats_basic::153",
+  "argv": [
+   "raster",
+   "zonal-stats",
+   "--zones",
+   "--stat",
+   "mean"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_overview_add_help::154",
+  "argv": [
+   "raster",
+   "overview",
+   "add",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_overview_delete_help::155",
+  "argv": [
+   "raster",
+   "overview",
+   "delete",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_nodata_to_alpha_help::156",
+  "argv": [
+   "raster",
+   "nodata-to-alpha",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_rgb_to_palette_help::157",
+  "argv": [
+   "raster",
+   "rgb-to-palette",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_update_help::158",
+  "argv": [
+   "raster",
+   "update",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_clean_collar_help::159",
+  "argv": [
+   "raster",
+   "clean-collar",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_sieve_basic::160",
+  "argv": [
+   "raster",
+   "sieve",
+   "--size-threshold",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_color_map_basic::161",
+  "argv": [
+   "raster",
+   "color-map",
+   "--color-map"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_compare_help::162",
+  "argv": [
+   "raster",
+   "compare",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_reproject_src_crs::163",
+  "argv": [
+   "raster",
+   "reproject",
+   "--src-crs",
+   "EPSG:26711",
+   "--dst-crs",
+   "EPSG:4326"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_blend_help::164",
+  "argv": [
+   "raster",
+   "blend",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_reclassify_help::165",
+  "argv": [
+   "raster",
+   "reclassify",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_reclassify_basic::166",
+  "argv": [
+   "raster",
+   "reclassify",
+   "--mapping",
+   "(0,100]=1; (100,255]=2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_calc_sqrt::167",
+  "argv": [
+   "raster",
+   "calc",
+   "--calc",
+   "sqrt",
+   "--dialect",
+   "builtin",
+   "--ot",
+   "Float32"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_overview_json_usage::168",
+  "argv": [
+   "raster",
+   "overview",
+   "--json-usage"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_blend_operator_multiply::169",
+  "argv": [
+   "raster",
+   "blend",
+   "--operator",
+   "multiply"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_blend_operator_screen::170",
+  "argv": [
+   "raster",
+   "blend",
+   "--operator",
+   "screen"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_blend_operator_overlay::171",
+  "argv": [
+   "raster",
+   "blend",
+   "--operator",
+   "overlay"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_blend_opacity::172",
+  "argv": [
+   "raster",
+   "blend",
+   "--opacity",
+   "50"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_blend_operator_darken::173",
+  "argv": [
+   "raster",
+   "blend",
+   "--operator",
+   "darken"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_blend_operator_lighten::174",
+  "argv": [
+   "raster",
+   "blend",
+   "--operator",
+   "lighten"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_blend_hard_light::175",
+  "argv": [
+   "raster",
+   "blend",
+   "--operator",
+   "hard-light"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_blend_color_dodge::176",
+  "argv": [
+   "raster",
+   "blend",
+   "--operator",
+   "color-dodge"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_blend_color_burn::177",
+  "argv": [
+   "raster",
+   "blend",
+   "--operator",
+   "color-burn"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_compare_skip_binary::178",
+  "argv": [
+   "raster",
+   "compare",
+   "--skip-binary"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_compare_skip_crs::179",
+  "argv": [
+   "raster",
+   "compare",
+   "--skip-crs"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_compare_skip_geotransform::180",
+  "argv": [
+   "raster",
+   "compare",
+   "--skip-geotransform"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_compare_skip_metadata::181",
+  "argv": [
+   "raster",
+   "compare",
+   "--skip-metadata"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_compare_skip_all_optional::182",
+  "argv": [
+   "raster",
+   "compare",
+   "--skip-all-optional"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_compare_different_quiet::183",
+  "argv": [
+   "raster",
+   "compare",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_compare_size_difference::184",
+  "argv": [
+   "raster",
+   "compare"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_blend_hsv_value::185",
+  "argv": [
+   "raster",
+   "stack"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_blend_pipeline::186",
+  "argv": [
+   "raster",
+   "pipeline",
+   "read",
+   "!",
+   "blend",
+   "--overlay",
+   "!",
+   "write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_calc_builtin_sum::187",
+  "argv": [
+   "raster",
+   "calc",
+   "--calc",
+   "sum",
+   "--dialect",
+   "builtin"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_calc_builtin_sqrt::188",
+  "argv": [
+   "raster",
+   "calc",
+   "--calc",
+   "sqrt",
+   "--dialect",
+   "builtin"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_calc_help::189",
+  "argv": [
+   "raster",
+   "calc",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_calc_muparser_unsupported::190",
+  "argv": [
+   "raster",
+   "calc",
+   "--calc",
+   "X*2",
+   "--dialect",
+   "muparser"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_calc_diff_two_inputs::191",
+  "argv": [
+   "raster",
+   "calc",
+   "--calc",
+   "diff",
+   "--dialect",
+   "builtin"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_clip_bbox::192",
+  "argv": [
+   "raster",
+   "clip",
+   "--bbox",
+   "440800,3750200,441800,3751200"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_clip_window::193",
+  "argv": [
+   "raster",
+   "clip",
+   "--window",
+   "2,2,10,10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_clip_overwrite::194",
+  "argv": [
+   "raster",
+   "clip",
+   "--window",
+   "0,0,5,5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_clip_help::195",
+  "argv": [
+   "raster",
+   "clip",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_clip_quiet::196",
+  "argv": [
+   "raster",
+   "clip",
+   "--window",
+   "0,0,5,5",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_clip_geometry::197",
+  "argv": [
+   "raster",
+   "clip",
+   "--geometry",
+   "POLYGON((440800 3750200, 441800 3750200, 441800 3751200, 440800 3751200, 440800 3750200))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_compare_pixel_data::198",
+  "argv": [
+   "raster",
+   "create",
+   "--size",
+   "20,20",
+   "--datatype",
+   "Byte",
+   "--crs",
+   "EPSG:26711",
+   "--bbox",
+   "440720,3750120,441920,3751320"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_compare_skip_overview::199",
+  "argv": [
+   "raster",
+   "compare",
+   "--skip-overview"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_compare_skip_rpc::200",
+  "argv": [
+   "raster",
+   "compare",
+   "--skip-rpc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_compare_skip_geolocation::201",
+  "argv": [
+   "raster",
+   "compare",
+   "--skip-geolocation"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_compare_skip_subdataset::202",
+  "argv": [
+   "raster",
+   "compare",
+   "--skip-subdataset"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_compare_all_skips::203",
+  "argv": [
+   "raster",
+   "compare",
+   "--skip-binary",
+   "--skip-crs",
+   "--skip-geotransform",
+   "--skip-overview",
+   "--skip-metadata",
+   "--skip-rpc",
+   "--skip-geolocation",
+   "--skip-subdataset"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_compare_from_pipeline::204",
+  "argv": [
+   "raster",
+   "scale",
+   "--ot",
+   "Float32"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_compare_json_usage::205",
+  "argv": [
+   "raster",
+   "compare",
+   "--json-usage"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_compare_int16_data::206",
+  "argv": [
+   "raster",
+   "set-type",
+   "--ot",
+   "Int16"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_compare_uint16_data::207",
+  "argv": [
+   "raster",
+   "set-type",
+   "--ot",
+   "UInt16"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_compare_int32_data::208",
+  "argv": [
+   "raster",
+   "set-type",
+   "--ot",
+   "Int32"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_compare_float64_data::209",
+  "argv": [
+   "raster",
+   "set-type",
+   "--ot",
+   "Float64"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_convert_quiet::210",
+  "argv": [
+   "raster",
+   "convert",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_convert_help::211",
+  "argv": [
+   "raster",
+   "convert",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_convert_append_flag::212",
+  "argv": [
+   "raster",
+   "convert",
+   "--append"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_create_basic::213",
+  "argv": [
+   "raster",
+   "create",
+   "--size",
+   "10,10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_create_multiband::214",
+  "argv": [
+   "raster",
+   "create",
+   "--size",
+   "5,5",
+   "--band-count",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_create_with_datatype::215",
+  "argv": [
+   "raster",
+   "create",
+   "--size",
+   "5,5",
+   "--datatype",
+   "Float32"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_create_overwrite::216",
+  "argv": [
+   "raster",
+   "create",
+   "--size",
+   "5,5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_create_help::217",
+  "argv": [
+   "raster",
+   "create",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_create_quiet::218",
+  "argv": [
+   "raster",
+   "create",
+   "-q",
+   "--size",
+   "5,5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_create_with_crs::219",
+  "argv": [
+   "raster",
+   "create",
+   "--size",
+   "5,5",
+   "--crs",
+   "EPSG:4326"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_create_with_nodata::220",
+  "argv": [
+   "raster",
+   "create",
+   "--size",
+   "5,5",
+   "--nodata",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_create_with_bbox::221",
+  "argv": [
+   "raster",
+   "create",
+   "--size",
+   "10,10",
+   "--crs",
+   "EPSG:4326",
+   "--bbox",
+   "-180,-90,180,90"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_create_with_burn::222",
+  "argv": [
+   "raster",
+   "create",
+   "--size",
+   "5,5",
+   "--burn",
+   "100"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_create_from_like::223",
+  "argv": [
+   "raster",
+   "create",
+   "--like"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_create_with_metadata::224",
+  "argv": [
+   "raster",
+   "create",
+   "--size",
+   "5,5",
+   "--metadata",
+   "KEY=VALUE",
+   "--metadata",
+   "ANOTHER=DATA"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_create_with_int16::225",
+  "argv": [
+   "raster",
+   "create",
+   "--size",
+   "5,5",
+   "--datatype",
+   "Int16"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_create_multiple_bands_and_burn::226",
+  "argv": [
+   "raster",
+   "create",
+   "--size",
+   "5,5",
+   "--band-count",
+   "3",
+   "--burn",
+   "10",
+   "--burn",
+   "20",
+   "--burn",
+   "30"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_edit_pipeline_crs::227",
+  "argv": [
+   "raster",
+   "pipeline",
+   "read",
+   "!",
+   "edit",
+   "--nodata",
+   "0",
+   "!",
+   "write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_compare_pipeline::228",
+  "argv": [
+   "raster",
+   "pipeline",
+   "read",
+   "!",
+   "compare",
+   "--reference"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_clip_with_bbox_crs::229",
+  "argv": [
+   "raster",
+   "clip",
+   "--bbox",
+   "-117.64,-117.63,33.89,33.91",
+   "--bbox-crs",
+   "EPSG:4326"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_fill_nodata_help::230",
+  "argv": [
+   "raster",
+   "fill-nodata",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_sieve_help::231",
+  "argv": [
+   "raster",
+   "sieve",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_proximity_help::232",
+  "argv": [
+   "raster",
+   "proximity",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_proximity_basic::233",
+  "argv": [
+   "raster",
+   "proximity"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_neighbors_help::234",
+  "argv": [
+   "raster",
+   "neighbors",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_color_map_help::235",
+  "argv": [
+   "raster",
+   "color-map",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_info_json_format::236",
+  "argv": [
+   "raster",
+   "info",
+   "-f",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_info_min_max::237",
+  "argv": [
+   "raster",
+   "info",
+   "--mm"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_info_min_max_json::238",
+  "argv": [
+   "raster",
+   "info",
+   "-f",
+   "json",
+   "--mm"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_info_checksum::239",
+  "argv": [
+   "raster",
+   "info",
+   "--checksum"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_info_json_format_flag_alias::240",
+  "argv": [
+   "raster",
+   "info",
+   "--format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_info_nonexistent_file::241",
+  "argv": [
+   "raster",
+   "info",
+   "/nonexistent/file.tif"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_info_help::242",
+  "argv": [
+   "raster",
+   "info",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_info_json_usage::243",
+  "argv": [
+   "raster",
+   "info",
+   "--json-usage"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_info_input_flag::244",
+  "argv": [
+   "raster",
+   "info",
+   "-i"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_info_crs_format_projjson::245",
+  "argv": [
+   "raster",
+   "info",
+   "--crs-format",
+   "PROJJSON"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_info_approx_stats::246",
+  "argv": [
+   "raster",
+   "info",
+   "--approx-stats"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_info_hist::247",
+  "argv": [
+   "raster",
+   "info",
+   "--hist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_info_no_mask::248",
+  "argv": [
+   "raster",
+   "info",
+   "--no-mask"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_info_list_mdd::249",
+  "argv": [
+   "raster",
+   "info",
+   "--list-mdd"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_info_no_ct::250",
+  "argv": [
+   "raster",
+   "info",
+   "--no-ct"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_info_open_option::251",
+  "argv": [
+   "raster",
+   "info",
+   "--oo",
+   "OVERVIEW_LEVEL=NONE"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_info_mdd::252",
+  "argv": [
+   "raster",
+   "info",
+   "--mdd",
+   "IMAGE_STRUCTURE"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_info_multiple_oo::253",
+  "argv": [
+   "raster",
+   "info",
+   "--oo",
+   "OVERVIEW_LEVEL=NONE",
+   "--oo",
+   "NUM_THREADS=1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_mosaic_help::254",
+  "argv": [
+   "raster",
+   "mosaic",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_mosaic_basic::255",
+  "argv": [
+   "raster",
+   "mosaic"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_stack_help::256",
+  "argv": [
+   "raster",
+   "stack",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_index_help::257",
+  "argv": [
+   "raster",
+   "index",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_index_basic::258",
+  "argv": [
+   "raster",
+   "index",
+   "-i",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_as_features_help::259",
+  "argv": [
+   "raster",
+   "as-features",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_as_features_basic::260",
+  "argv": [
+   "raster",
+   "clip",
+   "--window",
+   "0,0,3,3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_scale_help::261",
+  "argv": [
+   "raster",
+   "scale",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_scale_basic::262",
+  "argv": [
+   "raster",
+   "scale"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_unscale_help::263",
+  "argv": [
+   "raster",
+   "unscale",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_set_type_help::264",
+  "argv": [
+   "raster",
+   "set-type",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_set_type_basic::265",
+  "argv": [
+   "raster",
+   "set-type",
+   "--ot",
+   "Float32"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_footprint_help::266",
+  "argv": [
+   "raster",
+   "footprint",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_polygonize_help::267",
+  "argv": [
+   "raster",
+   "polygonize",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_polygonize_basic::268",
+  "argv": [
+   "raster",
+   "polygonize"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_edit_help::269",
+  "argv": [
+   "raster",
+   "edit",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_resize_help::270",
+  "argv": [
+   "raster",
+   "resize",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_resize_basic::271",
+  "argv": [
+   "raster",
+   "resize",
+   "--size",
+   "10,10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_contour_help::272",
+  "argv": [
+   "raster",
+   "contour",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_contour_basic::273",
+  "argv": [
+   "raster",
+   "contour",
+   "--interval",
+   "50"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_compare_different::274",
+  "argv": [
+   "raster",
+   "create",
+   "--size",
+   "20,20",
+   "--datatype",
+   "Byte"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_overview_help::275",
+  "argv": [
+   "raster",
+   "overview",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_pixel_info_basic::276",
+  "argv": [
+   "raster",
+   "pixel-info",
+   "0,0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_pixel_info_multiple_positions::277",
+  "argv": [
+   "raster",
+   "pixel-info",
+   "0,0",
+   "5,5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_pixel_info_help::278",
+  "argv": [
+   "raster",
+   "pixel-info",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_pixel_info_coordinate_check::279",
+  "argv": [
+   "raster",
+   "pixel-info",
+   "5,10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_reproject_help::280",
+  "argv": [
+   "raster",
+   "reproject",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_reproject_quiet::281",
+  "argv": [
+   "raster",
+   "reproject",
+   "--dst-crs",
+   "EPSG:4326",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_reproject_resampling::282",
+  "argv": [
+   "raster",
+   "reproject",
+   "--dst-crs",
+   "EPSG:4326",
+   "--resampling",
+   "bilinear"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_scale_quiet::283",
+  "argv": [
+   "raster",
+   "scale",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_scale_custom_range::284",
+  "argv": [
+   "raster",
+   "scale",
+   "--src-min",
+   "74",
+   "--src-max",
+   "255",
+   "--dst-min",
+   "0",
+   "--dst-max",
+   "100"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_select_single_band::285",
+  "argv": [
+   "raster",
+   "select",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_select_second_band::286",
+  "argv": [
+   "raster",
+   "select",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_select_help::287",
+  "argv": [
+   "raster",
+   "select",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_select_quiet::288",
+  "argv": [
+   "raster",
+   "select",
+   "-q",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_slope_basic::289",
+  "argv": [
+   "raster",
+   "slope"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_slope_help::290",
+  "argv": [
+   "raster",
+   "slope",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_aspect_basic::291",
+  "argv": [
+   "raster",
+   "aspect"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_aspect_help::292",
+  "argv": [
+   "raster",
+   "aspect",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_hillshade_basic::293",
+  "argv": [
+   "raster",
+   "hillshade"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_hillshade_help::294",
+  "argv": [
+   "raster",
+   "hillshade",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_tpi_basic::295",
+  "argv": [
+   "raster",
+   "tpi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_tri_basic::296",
+  "argv": [
+   "raster",
+   "tri"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_roughness_basic::297",
+  "argv": [
+   "raster",
+   "roughness"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_tile_webviewer_none::298",
+  "argv": [
+   "raster",
+   "tile",
+   "-f",
+   "GTiff",
+   "--tiling-scheme",
+   "raster",
+   "--webviewer",
+   "none"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_tile_convention_tms::299",
+  "argv": [
+   "raster",
+   "tile",
+   "-f",
+   "GTiff",
+   "--tiling-scheme",
+   "raster",
+   "--convention",
+   "tms"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_tile_with_zoom_levels::300",
+  "argv": [
+   "raster",
+   "tile",
+   "-f",
+   "GTiff",
+   "--tiling-scheme",
+   "raster",
+   "--min-zoom",
+   "0",
+   "--max-zoom",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_tile_quiet::301",
+  "argv": [
+   "raster",
+   "tile",
+   "-f",
+   "GTiff",
+   "-q",
+   "--tiling-scheme",
+   "raster"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_tile_resampling::302",
+  "argv": [
+   "raster",
+   "tile",
+   "-f",
+   "GTiff",
+   "--tiling-scheme",
+   "raster",
+   "--resampling",
+   "nearest"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_tile_no_intersection_ok::303",
+  "argv": [
+   "raster",
+   "tile",
+   "-f",
+   "GTiff",
+   "--tiling-scheme",
+   "raster",
+   "--no-intersection-ok",
+   "--webviewer",
+   "none"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_tile_x_y_limits::304",
+  "argv": [
+   "raster",
+   "tile",
+   "-f",
+   "GTiff",
+   "--tiling-scheme",
+   "raster",
+   "--min-x",
+   "0",
+   "--max-x",
+   "0",
+   "--min-y",
+   "0",
+   "--max-y",
+   "0",
+   "--webviewer",
+   "none"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_tile_leaflet_viewer::305",
+  "argv": [
+   "raster",
+   "tile",
+   "-f",
+   "GTiff",
+   "--tiling-scheme",
+   "raster",
+   "--webviewer",
+   "leaflet"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_tile_openlayers_viewer::306",
+  "argv": [
+   "raster",
+   "tile",
+   "-f",
+   "GTiff",
+   "--tiling-scheme",
+   "raster",
+   "--webviewer",
+   "openlayers"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_tile_multiple_threads::307",
+  "argv": [
+   "raster",
+   "tile",
+   "-f",
+   "GTiff",
+   "--tiling-scheme",
+   "raster",
+   "--num-threads",
+   "2",
+   "--webviewer",
+   "none"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_blend_basic::308",
+  "argv": [
+   "raster",
+   "blend"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_blend_quiet::309",
+  "argv": [
+   "raster",
+   "blend",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_compare_with_reference_flag::310",
+  "argv": [
+   "raster",
+   "compare",
+   "--reference"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_combine_basic::311",
+  "argv": [
+   "vector",
+   "combine"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_combine_help::312",
+  "argv": [
+   "vector",
+   "combine",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_combine_quiet::313",
+  "argv": [
+   "vector",
+   "combine",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_create_with_fields::314",
+  "argv": [
+   "vector",
+   "create",
+   "--field",
+   "name:String"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_create_empty::315",
+  "argv": [
+   "vector",
+   "create"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_create_help::316",
+  "argv": [
+   "vector",
+   "create",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_create_from_template::317",
+  "argv": [
+   "vector",
+   "create",
+   "--like"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_edit_basic::318",
+  "argv": [
+   "vector",
+   "edit",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_edit_update_crs::319",
+  "argv": [
+   "vector",
+   "convert"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_index_basic::320",
+  "argv": [
+   "vector",
+   "index",
+   "-i",
+   "-i",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_index_help::321",
+  "argv": [
+   "vector",
+   "index",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_set_geom_type_basic::322",
+  "argv": [
+   "vector",
+   "set-geom-type",
+   "--geometry-type",
+   "PointZ"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_layer_algebra_help::323",
+  "argv": [
+   "vector",
+   "layer-algebra",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_partition_help::324",
+  "argv": [
+   "vector",
+   "partition",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_check_coverage_help::325",
+  "argv": [
+   "vector",
+   "check-coverage",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_clean_coverage_help::326",
+  "argv": [
+   "vector",
+   "clean-coverage",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_concave_hull_help::327",
+  "argv": [
+   "vector",
+   "concave-hull",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_simplify_coverage_help::328",
+  "argv": [
+   "vector",
+   "simplify-coverage",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_clean_collar_basic::329",
+  "argv": [
+   "raster",
+   "clean-collar"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_clean_collar_quiet::330",
+  "argv": [
+   "raster",
+   "clean-collar",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_fill_nodata_with_nodata::331",
+  "argv": [
+   "raster",
+   "create",
+   "--size",
+   "10,10",
+   "--nodata",
+   "0",
+   "--burn",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raster_neighbors_basic::332",
+  "argv": [
+   "raster",
+   "neighbors",
+   "--kernel",
+   "edge1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_sort_basic::333",
+  "argv": [
+   "vector",
+   "sort"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_sort_quiet::334",
+  "argv": [
+   "vector",
+   "sort",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_sort_help::335",
+  "argv": [
+   "vector",
+   "sort",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_rename_layer_basic::336",
+  "argv": [
+   "vector",
+   "rename-layer",
+   "--output-layer",
+   "new_name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_rename_layer_quiet::337",
+  "argv": [
+   "vector",
+   "rename-layer",
+   "-q",
+   "--output-layer",
+   "new"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_rename_layer_overwrite::338",
+  "argv": [
+   "vector",
+   "rename-layer",
+   "--output-layer",
+   "first"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_rename_layer_lowercase::339",
+  "argv": [
+   "vector",
+   "rename-layer",
+   "--lower-case"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_set_field_type_integer_to_string::340",
+  "argv": [
+   "vector",
+   "set-field-type",
+   "--field-name",
+   "value",
+   "--dst-field-type",
+   "String"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_set_field_type_quiet::341",
+  "argv": [
+   "vector",
+   "set-field-type",
+   "-q",
+   "--field-name",
+   "value",
+   "--dst-field-type",
+   "String"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_rasterize_basic::342",
+  "argv": [
+   "vector",
+   "rasterize",
+   "--size",
+   "10,10",
+   "--extent",
+   "-1,-1,6,6",
+   "--burn",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_rasterize_quiet::343",
+  "argv": [
+   "vector",
+   "rasterize",
+   "-q",
+   "--size",
+   "10,10",
+   "--extent",
+   "-1,-1,6,6",
+   "--burn",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_segmentize_basic::344",
+  "argv": [
+   "vector",
+   "segmentize",
+   "--max-length",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_segmentize_quiet::345",
+  "argv": [
+   "vector",
+   "segmentize",
+   "-q",
+   "--max-length",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_explode_collections_basic::346",
+  "argv": [
+   "vector",
+   "explode-collections"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_make_valid_basic::347",
+  "argv": [
+   "vector",
+   "make-valid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_update_help::348",
+  "argv": [
+   "vector",
+   "update",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_dissolve_basic::349",
+  "argv": [
+   "vector",
+   "dissolve"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_dissolve_help::350",
+  "argv": [
+   "vector",
+   "dissolve",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_export_schema_basic::351",
+  "argv": [
+   "vector",
+   "export-schema"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_make_point_basic::352",
+  "argv": [
+   "vector",
+   "make-point",
+   "--x",
+   "lon",
+   "--y",
+   "lat"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_check_geometry_basic::353",
+  "argv": [
+   "vector",
+   "check-geometry"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_set_geom_type_help::354",
+  "argv": [
+   "vector",
+   "set-geom-type",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_simplify_basic::355",
+  "argv": [
+   "vector",
+   "simplify",
+   "--tolerance",
+   "0.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_convert_quiet::356",
+  "argv": [
+   "vector",
+   "convert",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_convert_help::357",
+  "argv": [
+   "vector",
+   "convert",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_filter_where::358",
+  "argv": [
+   "vector",
+   "filter",
+   "--where",
+   "value > 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_filter_bbox::359",
+  "argv": [
+   "vector",
+   "filter",
+   "--bbox",
+   "0.5,0.5,1.5,1.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_filter_overwrite::360",
+  "argv": [
+   "vector",
+   "filter",
+   "--where",
+   "value = 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_filter_quiet::361",
+  "argv": [
+   "vector",
+   "filter",
+   "-q",
+   "--where",
+   "value > 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_filter_help::362",
+  "argv": [
+   "vector",
+   "filter",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_filter_no_match::363",
+  "argv": [
+   "vector",
+   "filter",
+   "--where",
+   "value > 100"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_grid_invdist::364",
+  "argv": [
+   "vector",
+   "grid",
+   "invdist",
+   "--z-field",
+   "z",
+   "--size",
+   "10,10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_grid_nearest::365",
+  "argv": [
+   "vector",
+   "grid",
+   "nearest",
+   "--z-field",
+   "z",
+   "--size",
+   "10,10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_grid_average::366",
+  "argv": [
+   "vector",
+   "grid",
+   "average",
+   "--z-field",
+   "z",
+   "--size",
+   "10,10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_grid_linear::367",
+  "argv": [
+   "vector",
+   "grid",
+   "linear",
+   "--z-field",
+   "z",
+   "--size",
+   "10,10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_grid_invdistnn::368",
+  "argv": [
+   "vector",
+   "grid",
+   "invdistnn",
+   "--z-field",
+   "z",
+   "--radius",
+   "5",
+   "--size",
+   "10,10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_grid_count::369",
+  "argv": [
+   "vector",
+   "grid",
+   "count",
+   "--z-field",
+   "z",
+   "--size",
+   "10,10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_grid_minimum::370",
+  "argv": [
+   "vector",
+   "grid",
+   "minimum",
+   "--z-field",
+   "z",
+   "--size",
+   "10,10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_grid_maximum::371",
+  "argv": [
+   "vector",
+   "grid",
+   "maximum",
+   "--z-field",
+   "z",
+   "--size",
+   "10,10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_grid_quiet::372",
+  "argv": [
+   "vector",
+   "grid",
+   "nearest",
+   "-q",
+   "--z-field",
+   "z",
+   "--size",
+   "10,10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_info_json_format::373",
+  "argv": [
+   "vector",
+   "info",
+   "-f",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_info_features::374",
+  "argv": [
+   "vector",
+   "info",
+   "--features",
+   "multi.geojson"
+  ],
+  "stdin": null,
+  "files": {
+   "multi.geojson": "{\n  \"type\": \"FeatureCollection\",\n  \"features\": [\n    {\"type\": \"Feature\", \"properties\": {\"name\": \"A\"}, \"geometry\": {\"type\": \"Point\", \"coordinates\": [0, 0]}},\n    {\"type\": \"Feature\", \"properties\": {\"name\": \"B\"}, \"geometry\": {\"type\": \"Point\", \"coordinates\": [1, 1]}}\n  ]\n}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_info_summary::375",
+  "argv": [
+   "vector",
+   "info",
+   "--summary"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_info_json_feature_count::376",
+  "argv": [
+   "vector",
+   "info",
+   "-f",
+   "json",
+   "multi.geojson"
+  ],
+  "stdin": null,
+  "files": {
+   "multi.geojson": "{\n  \"type\": \"FeatureCollection\",\n  \"features\": [\n    {\"type\": \"Feature\", \"properties\": {}, \"geometry\": {\"type\": \"Point\", \"coordinates\": [0, 0]}},\n    {\"type\": \"Feature\", \"properties\": {}, \"geometry\": {\"type\": \"Point\", \"coordinates\": [1, 1]}}\n  ]\n}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_info_nonexistent_file::377",
+  "argv": [
+   "vector",
+   "info",
+   "/nonexistent/file.geojson"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_info_help::378",
+  "argv": [
+   "vector",
+   "info",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_info_fid::379",
+  "argv": [
+   "vector",
+   "info",
+   "--fid",
+   "0",
+   "multi.geojson"
+  ],
+  "stdin": null,
+  "files": {
+   "multi.geojson": "{\n  \"type\": \"FeatureCollection\",\n  \"features\": [\n    {\"type\": \"Feature\", \"properties\": {\"name\": \"first\"}, \"geometry\": {\"type\": \"Point\", \"coordinates\": [0, 0]}},\n    {\"type\": \"Feature\", \"properties\": {\"name\": \"second\"}, \"geometry\": {\"type\": \"Point\", \"coordinates\": [1, 1]}}\n  ]\n}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_info_sql::380",
+  "argv": [
+   "vector",
+   "info",
+   "--sql",
+   "SELECT name FROM mydata WHERE val > 10",
+   "--features"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_info_limit::381",
+  "argv": [
+   "vector",
+   "info",
+   "--limit",
+   "1",
+   "multi.geojson"
+  ],
+  "stdin": null,
+  "files": {
+   "multi.geojson": "{\n  \"type\": \"FeatureCollection\",\n  \"features\": [\n    {\"type\": \"Feature\", \"properties\": {\"name\": \"A\"}, \"geometry\": {\"type\": \"Point\", \"coordinates\": [0, 0]}},\n    {\"type\": \"Feature\", \"properties\": {\"name\": \"B\"}, \"geometry\": {\"type\": \"Point\", \"coordinates\": [1, 1]}},\n    {\"type\": \"Feature\", \"properties\": {\"name\": \"C\"}, \"geometry\": {\"type\": \"Point\", \"coordinates\": [2, 2]}}\n  ]\n}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_info_features_json::382",
+  "argv": [
+   "vector",
+   "info",
+   "-f",
+   "json",
+   "--features"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_info_where::383",
+  "argv": [
+   "vector",
+   "info",
+   "--where",
+   "val > 10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_info_open_option::384",
+  "argv": [
+   "vector",
+   "info",
+   "--oo",
+   "FLATTEN_NESTED_ATTRIBUTES=YES"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_info_fid_json::385",
+  "argv": [
+   "vector",
+   "info",
+   "-f",
+   "json",
+   "--fid",
+   "0",
+   "--features"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_info_layer::386",
+  "argv": [
+   "vector",
+   "info",
+   "-l",
+   "point"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_info_limit_json::387",
+  "argv": [
+   "vector",
+   "info",
+   "-f",
+   "json",
+   "--limit",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_reproject_help::388",
+  "argv": [
+   "vector",
+   "reproject",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_buffer_help::389",
+  "argv": [
+   "vector",
+   "buffer",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_buffer_basic::390",
+  "argv": [
+   "vector",
+   "buffer",
+   "--distance",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_convex_hull_help::391",
+  "argv": [
+   "vector",
+   "convex-hull",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_convex_hull_basic::392",
+  "argv": [
+   "vector",
+   "convex-hull"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_simplify_help::393",
+  "argv": [
+   "vector",
+   "simplify",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_concat_help::394",
+  "argv": [
+   "vector",
+   "concat",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_concat_basic::395",
+  "argv": [
+   "vector",
+   "concat"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_make_valid_help::396",
+  "argv": [
+   "vector",
+   "make-valid",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_explode_collections_help::397",
+  "argv": [
+   "vector",
+   "explode-collections",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_segmentize_help::398",
+  "argv": [
+   "vector",
+   "segmentize",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vector_swap_xy_help::399",
+  "argv": [
+   "vector",
+   "swap-xy",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

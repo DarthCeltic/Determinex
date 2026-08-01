@@ -1,0 +1,29 @@
+{
+  "schema": "determinex-repair-loop-transcript-v1",
+  "tool": "liquid",
+  "family": "ruby",
+  "pinned_commit": "742ac3db",
+  "repair_type": "seeded_defect (behavioral) - verifier is the project's OWN test suite in a ruby:3.3 Docker image (toolchain via provider; Docker-OPTIONAL)",
+  "toolchain": "ruby 3.3 (Docker image) + bundler",
+  "oracle": "the real Shopify/liquid repo's own tests: bundle exec ruby -Itest -Ilib test/integration/standard_filter_test.rb",
+  "defect": {
+    "file": "lib/liquid/standardfilters.rb",
+    "seed": "Utils.to_s(input).upcase -> Utils.to_s(input).downcase (StandardFilters#upcase -> downcase)"
+  },
+  "detect": {
+    "baseline": "132 runs, 396 assertions, 0 failures, 0 errors, 0 skips",
+    "after_seed": "test suite FAILED (exit 1)",
+    "oracle_caught": true,
+    "failure_signature": "seeded defect made the project's own test suite exit non-zero"
+  },
+  "repair": {
+    "fix": "git checkout (restore upstream source)"
+  },
+  "reverify": {
+    "after": "132 runs, 396 assertions, 0 failures, 0 errors, 0 skips",
+    "passed": 132,
+    "failures": 0
+  },
+  "repair_loop_status": "passed",
+  "proves": "closed-loop repair on a real external Ruby project (liquid): its OWN test suite detects the injected defect -> fix -> re-verify (132 runs, 396 assertions, 0 failures, 0 errors, 0 skips), in a clean ruby:3.3 image on Hetzner. Reproducible."
+}

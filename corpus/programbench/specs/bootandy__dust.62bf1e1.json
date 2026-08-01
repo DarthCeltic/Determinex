@@ -1,0 +1,3649 @@
+{
+ "slug": "bootandy__dust.62bf1e1",
+ "language": "",
+ "n_branches": 12,
+ "n_tests_total": 514,
+ "n_examples": 200,
+ "n_with_exact_stdout": 0,
+ "n_with_rc": 164,
+ "n_skipped": 260,
+ "examples": [
+  {
+   "test": "test_filecount_flag",
+   "argv": [
+    "-P",
+    "-c",
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_alternative_metrics.py:4"
+  },
+  {
+   "test": "test_filecount_with_apparent_size",
+   "argv": [
+    "-P",
+    "-c",
+    "-f",
+    "-s"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_alternative_metrics.py:16"
+  },
+  {
+   "test": "test_version_output",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Dust"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:5"
+  },
+  {
+   "test": "test_version_short_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Dust"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:13"
+  },
+  {
+   "test": "test_help_output",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Arguments:",
+    "Options:",
+    "PATH",
+    "--depth",
+    "--version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:20"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:31"
+  },
+  {
+   "test": "test_no_arguments_current_directory",
+   "argv": [
+    "-P",
+    "-c",
+    "-n",
+    "5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:38"
+  },
+  {
+   "test": "test_single_directory_argument",
+   "argv": [
+    "-P",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:48"
+  },
+  {
+   "test": "test_multiple_directory_arguments",
+   "argv": [
+    "-P",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dir1",
+    "dir2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:59"
+  },
+  {
+   "test": "test_multiple_filters_combined",
+   "argv": [
+    "-P",
+    "-c",
+    "-e",
+    "\\.txt$",
+    "-z",
+    "5000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_combinations.py:4"
+  },
+  {
+   "test": "test_depth_with_file_count",
+   "argv": [
+    "-P",
+    "-c",
+    "-d",
+    "2",
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_combinations.py:15"
+  },
+  {
+   "test": "test_reverse_with_no_bars",
+   "argv": [
+    "-P",
+    "-c",
+    "-r",
+    "-b"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_combinations.py:24"
+  },
+  {
+   "test": "test_apparent_size_with_output_format",
+   "argv": [
+    "-P",
+    "-c",
+    "-s",
+    "-o",
+    "si"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_combinations.py:33"
+  },
+  {
+   "test": "test_full_paths_with_screen_reader",
+   "argv": [
+    "-P",
+    "-c",
+    "-p",
+    "-R"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_combinations.py:41"
+  },
+  {
+   "test": "test_only_files_with_filter",
+   "argv": [
+    "-P",
+    "-c",
+    "-F",
+    "-e",
+    "\\.txt$"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_combinations.py:49"
+  },
+  {
+   "test": "test_only_directories_with_depth",
+   "argv": [
+    "-P",
+    "-c",
+    "-D",
+    "-d",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_combinations.py:60"
+  },
+  {
+   "test": "test_ignore_hidden_with_filter",
+   "argv": [
+    "-P",
+    "-c",
+    "-i",
+    "-e",
+    "\\.txt$"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_combinations.py:70"
+  },
+  {
+   "test": "test_min_size_with_only_files",
+   "argv": [
+    "-P",
+    "-c",
+    "-F",
+    "-z",
+    "5000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_combinations.py:80"
+  },
+  {
+   "test": "test_time_filter_with_depth",
+   "argv": [
+    "-P",
+    "-c",
+    "-M",
+    "-1",
+    "-d",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_combinations.py:90"
+  },
+  {
+   "test": "test_config_file_flag",
+   "argv": [
+    "-P",
+    "--config",
+    "dust.toml"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "dust.toml": "reverse=true\nno-colors=true\n"
+   },
+   "ci": false,
+   "source": "test_config.py:5"
+  },
+  {
+   "test": "test_config_file_toml",
+   "argv": [
+    "-P",
+    "--config",
+    "config.toml"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "config.toml": "reverse=true\ndisplay-full-paths=true\nno-colors=true\n"
+   },
+   "ci": false,
+   "source": "test_config.py:17"
+  },
+  {
+   "test": "test_large_number_of_files",
+   "argv": [
+    "-P",
+    "-c",
+    "-n",
+    "20"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:42"
+  },
+  {
+   "test": "test_conflicting_only_dir_and_only_file",
+   "argv": [
+    "-P",
+    "-c",
+    "-D",
+    "-F"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_error_handling.py:31"
+  },
+  {
+   "test": "test_missing_config_file",
+   "argv": [
+    "--config",
+    "/nonexistent/config.toml",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:41"
+  },
+  {
+   "test": "test_negative_depth",
+   "argv": [
+    "-d",
+    "-1",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_error_handling.py:61"
+  },
+  {
+   "test": "test_limit_filesystem_flag",
+   "argv": [
+    "-P",
+    "-c",
+    "-x"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_filesystem_limits.py:4"
+  },
+  {
+   "test": "test_collapse_directory",
+   "argv": [
+    "-P",
+    "-c",
+    "--collapse",
+    "node_modules"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_filesystem_limits.py:12"
+  },
+  {
+   "test": "test_depth_flag",
+   "argv": [
+    "-P",
+    "-c",
+    "-d",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_filtering.py:5"
+  },
+  {
+   "test": "test_depth_zero",
+   "argv": [
+    "-P",
+    "-c",
+    "-d",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_filtering.py:21"
+  },
+  {
+   "test": "test_min_size_bytes",
+   "argv": [
+    "-P",
+    "-c",
+    "-z",
+    "5000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_filtering.py:30"
+  },
+  {
+   "test": "test_min_size_with_unit_mb",
+   "argv": [
+    "-P",
+    "-c",
+    "-z",
+    "1MB"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_filtering.py:42"
+  },
+  {
+   "test": "test_min_size_with_unit_kib",
+   "argv": [
+    "-P",
+    "-c",
+    "-z",
+    "10kib"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_filtering.py:53"
+  },
+  {
+   "test": "test_ignore_directory",
+   "argv": [
+    "-P",
+    "-c",
+    "-X",
+    "ignore"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_filtering.py:61"
+  },
+  {
+   "test": "test_ignore_hidden_files",
+   "argv": [
+    "-P",
+    "-c",
+    "-i"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_filtering.py:72"
+  },
+  {
+   "test": "test_invert_filter_regex",
+   "argv": [
+    "-P",
+    "-c",
+    "-v",
+    "\\.png$"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_filtering.py:82"
+  },
+  {
+   "test": "test_filter_regex",
+   "argv": [
+    "-P",
+    "-c",
+    "-e",
+    "\\.txt$"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_filtering.py:94"
+  },
+  {
+   "test": "test_only_directories",
+   "argv": [
+    "-P",
+    "-c",
+    "-D"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_filtering.py:105"
+  },
+  {
+   "test": "test_only_files",
+   "argv": [
+    "-P",
+    "-c",
+    "-F"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_filtering.py:116"
+  },
+  {
+   "test": "test_file_types",
+   "argv": [
+    "-P",
+    "-c",
+    "-t"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_filtering.py:127"
+  },
+  {
+   "test": "test_ignore_all_in_file",
+   "argv": [
+    "-P",
+    "-c",
+    "-I",
+    "ignorelist"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "ignorelist": "ignore.*\n"
+   },
+   "ci": false,
+   "source": "test_filtering.py:138"
+  },
+  {
+   "test": "test_files_from_newline",
+   "argv": [
+    "-P",
+    "-c",
+    "--files-from"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_sources.py:5"
+  },
+  {
+   "test": "test_files_from_stdin",
+   "argv": [
+    "-P",
+    "-c",
+    "--files-from",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_sources.py:19"
+  },
+  {
+   "test": "test_files0_from_nul",
+   "argv": [
+    "-P",
+    "-c",
+    "--files0-from"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_sources.py:28"
+  },
+  {
+   "test": "test_files0_from_stdin",
+   "argv": [
+    "-P",
+    "-c",
+    "--files0-from",
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_sources.py:41"
+  },
+  {
+   "test": "test_json_output_flag",
+   "argv": [
+    "-P",
+    "-j"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_json_output.py:5"
+  },
+  {
+   "test": "test_json_with_depth",
+   "argv": [
+    "-P",
+    "-j",
+    "-d",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_json_output.py:23"
+  },
+  {
+   "test": "test_json_with_filters",
+   "argv": [
+    "-P",
+    "-j",
+    "-e",
+    "\\.txt$"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_json_output.py:32"
+  },
+  {
+   "test": "test_full_paths_flag",
+   "argv": [
+    "-P",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "subdir"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_display.py:4"
+  },
+  {
+   "test": "test_force_colors_flag",
+   "argv": [
+    "-P",
+    "-C"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_display.py:28"
+  },
+  {
+   "test": "test_no_percent_bars_flag",
+   "argv": [
+    "-P",
+    "-c",
+    "-b"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_display.py:38"
+  },
+  {
+   "test": "test_bars_on_right_flag",
+   "argv": [
+    "-P",
+    "-c",
+    "-B"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_display.py:48"
+  },
+  {
+   "test": "test_terminal_width_flag",
+   "argv": [
+    "-P",
+    "-c",
+    "-w",
+    "80"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_display.py:58"
+  },
+  {
+   "test": "test_screen_reader_flag",
+   "argv": [
+    "-P",
+    "-c",
+    "-R"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_display.py:94"
+  },
+  {
+   "test": "test_bars_on_right_shows_bars",
+   "argv": [
+    "-P",
+    "-B"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:5"
+  },
+  {
+   "test": "test_terminal_width_affects_output",
+   "argv": [
+    "-P",
+    "-c",
+    "-w",
+    "40"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:74"
+  },
+  {
+   "test": "test_number_of_lines_limits_output",
+   "argv": [
+    "-P",
+    "-c",
+    "-n",
+    "3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:87"
+  },
+  {
+   "test": "test_threads_flag",
+   "argv": [
+    "-P",
+    "-c",
+    "-T",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_performance.py:4"
+  },
+  {
+   "test": "test_threads_multiple",
+   "argv": [
+    "-P",
+    "-c",
+    "-T",
+    "4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_performance.py:13"
+  },
+  {
+   "test": "test_stack_size_flag",
+   "argv": [
+    "-P",
+    "-c",
+    "-S",
+    "2097152"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_performance.py:22"
+  },
+  {
+   "test": "test_print_errors_flag",
+   "argv": [
+    "-P",
+    "-c",
+    "--print-errors"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_progress.py:14"
+  },
+  {
+   "test": "test_output_format_si",
+   "argv": [
+    "-P",
+    "-c",
+    "-o",
+    "si"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_size_display.py:18"
+  },
+  {
+   "test": "test_output_format_bytes",
+   "argv": [
+    "-P",
+    "-c",
+    "-o",
+    "b"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_size_display.py:27"
+  },
+  {
+   "test": "test_output_format_kibibyte",
+   "argv": [
+    "-P",
+    "-c",
+    "-o",
+    "k"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_size_display.py:36"
+  },
+  {
+   "test": "test_output_format_mebibyte",
+   "argv": [
+    "-P",
+    "-c",
+    "-o",
+    "m"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_size_display.py:44"
+  },
+  {
+   "test": "test_output_format_gibibyte",
+   "argv": [
+    "-P",
+    "-c",
+    "-o",
+    "g"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_size_display.py:52"
+  },
+  {
+   "test": "test_output_format_tebibyte",
+   "argv": [
+    "-P",
+    "-c",
+    "-o",
+    "t"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_size_display.py:60"
+  },
+  {
+   "test": "test_output_format_kilobyte",
+   "argv": [
+    "-P",
+    "-c",
+    "-o",
+    "kb"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_size_display.py:68"
+  },
+  {
+   "test": "test_output_format_megabyte",
+   "argv": [
+    "-P",
+    "-c",
+    "-o",
+    "mb"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_size_display.py:76"
+  },
+  {
+   "test": "test_output_format_gigabyte",
+   "argv": [
+    "-P",
+    "-c",
+    "-o",
+    "gb"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_size_display.py:84"
+  },
+  {
+   "test": "test_output_format_terabyte",
+   "argv": [
+    "-P",
+    "-c",
+    "-o",
+    "tb"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_size_display.py:92"
+  },
+  {
+   "test": "test_dereference_links",
+   "argv": [
+    "-P",
+    "-c",
+    "-L"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_symlinks.py:15"
+  },
+  {
+   "test": "test_mtime_filter_plus",
+   "argv": [
+    "-P",
+    "-c",
+    "-M",
+    "+1000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_time_filtering.py:6"
+  },
+  {
+   "test": "test_mtime_filter_minus",
+   "argv": [
+    "-P",
+    "-c",
+    "-M",
+    "-1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_time_filtering.py:16"
+  },
+  {
+   "test": "test_mtime_filter_exact",
+   "argv": [
+    "-P",
+    "-c",
+    "-M",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_time_filtering.py:26"
+  },
+  {
+   "test": "test_atime_filter",
+   "argv": [
+    "-P",
+    "-c",
+    "-A",
+    "-1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_time_filtering.py:35"
+  },
+  {
+   "test": "test_ctime_filter",
+   "argv": [
+    "-P",
+    "-c",
+    "-y",
+    "-1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_time_filtering.py:44"
+  },
+  {
+   "test": "test_filetime_modified",
+   "argv": [
+    "-P",
+    "-c",
+    "-m",
+    "m"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_time_filtering.py:53"
+  },
+  {
+   "test": "test_filetime_accessed",
+   "argv": [
+    "-P",
+    "-c",
+    "-m",
+    "a"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_time_filtering.py:63"
+  },
+  {
+   "test": "test_filetime_changed",
+   "argv": [
+    "-P",
+    "-c",
+    "-m",
+    "c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_time_filtering.py:71"
+  },
+  {
+   "test": "test_collapse_option",
+   "argv": [
+    "-P",
+    "--collapse",
+    "node_modules"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "node_modules"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:5"
+  },
+  {
+   "test": "test_no_color_env_variable",
+   "argv": [
+    "-P"
+   ],
+   "stdin": null,
+   "env": {
+    "NO_COLOR": "1"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:18"
+  },
+  {
+   "test": "test_percentage_calculation",
+   "argv": [
+    "-P"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:41"
+  },
+  {
+   "test": "test_combined_flags",
+   "argv": [
+    "-P",
+    "-c",
+    "-r",
+    "-b",
+    "-d",
+    "2",
+    "-i"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dir"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:76"
+  },
+  {
+   "test": "test_size_units_consistency",
+   "argv": [
+    "-P",
+    "-o",
+    "si"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:92"
+  },
+  {
+   "test": "test_empty_directory",
+   "argv": [
+    "-P"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "empty_dir"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:102"
+  },
+  {
+   "test": "test_single_file_input",
+   "argv": [
+    "-P",
+    "single.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "single"
+   ],
+   "files": {
+    "single.txt": "content"
+   },
+   "ci": false,
+   "source": "test_advanced_features.py:113"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Like du but more intuitive",
+    "Usage:",
+    "--depth",
+    "--version",
+    "Arguments:",
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:7"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Like du but more intuitive",
+    "Usage:",
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:18"
+  },
+  {
+   "test": "test_single_directory_argument",
+   "argv": [
+    "-P"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dir1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:50"
+  },
+  {
+   "test": "test_multiple_directory_arguments",
+   "argv": [
+    "-P"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dir1",
+    "dir2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:62"
+  },
+  {
+   "test": "test_config_with_display_options",
+   "argv": [
+    "-P",
+    "--config",
+    "config.toml"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file"
+   ],
+   "files": {
+    "config.toml": "\ndisplay-full-paths=true\nno-bars=true\nskip-total=true\n"
+   },
+   "ci": false,
+   "source": "test_configuration_files.py:34"
+  },
+  {
+   "test": "test_config_with_ignore_hidden",
+   "argv": [
+    "-P",
+    "--config",
+    "config.toml"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "visible"
+   ],
+   "files": {
+    "config.toml": "ignore-hidden=true\n"
+   },
+   "ci": false,
+   "source": "test_configuration_files.py:71"
+  },
+  {
+   "test": "test_filecount_mode",
+   "argv": [
+    "-P",
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_counting_time_modes.py:6"
+  },
+  {
+   "test": "test_file_types_grouping",
+   "argv": [
+    "-P",
+    "-t"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_counting_time_modes.py:19"
+  },
+  {
+   "test": "test_filetime_accessed",
+   "argv": [
+    "-P",
+    "-m",
+    "a"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_counting_time_modes.py:32"
+  },
+  {
+   "test": "test_filetime_changed",
+   "argv": [
+    "-P",
+    "-m",
+    "c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_counting_time_modes.py:42"
+  },
+  {
+   "test": "test_filetime_modified",
+   "argv": [
+    "-P",
+    "-m",
+    "m"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_counting_time_modes.py:52"
+  },
+  {
+   "test": "test_mtime_filter_plus",
+   "argv": [
+    "-P",
+    "-M",
+    "+1000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_counting_time_modes.py:62"
+  },
+  {
+   "test": "test_mtime_filter_minus",
+   "argv": [
+    "-P",
+    "-M",
+    "-1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_counting_time_modes.py:73"
+  },
+  {
+   "test": "test_mtime_filter_exact",
+   "argv": [
+    "-P",
+    "-M",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_counting_time_modes.py:83"
+  },
+  {
+   "test": "test_atime_filter",
+   "argv": [
+    "-P",
+    "-A",
+    "-1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_counting_time_modes.py:93"
+  },
+  {
+   "test": "test_ctime_filter",
+   "argv": [
+    "-P",
+    "-y",
+    "-1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_counting_time_modes.py:104"
+  },
+  {
+   "test": "test_number_of_lines",
+   "argv": [
+    "-P",
+    "-n",
+    "5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_display_configuration.py:5"
+  },
+  {
+   "test": "test_full_paths",
+   "argv": [
+    "-P",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "nested"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_configuration.py:18"
+  },
+  {
+   "test": "test_reverse_order",
+   "argv": [
+    "-P",
+    "-r",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_display_configuration.py:32"
+  },
+  {
+   "test": "test_bars_on_right",
+   "argv": [
+    "-P",
+    "-B",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_configuration.py:81"
+  },
+  {
+   "test": "test_terminal_width",
+   "argv": [
+    "-P",
+    "-w",
+    "40"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_display_configuration.py:91"
+  },
+  {
+   "test": "test_screen_reader_mode",
+   "argv": [
+    "-P",
+    "-R"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_display_configuration.py:118"
+  },
+  {
+   "test": "test_very_large_file",
+   "argv": [
+    "-P"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "large_file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:43"
+  },
+  {
+   "test": "test_many_small_files",
+   "argv": [
+    "-P",
+    "-n",
+    "20"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "small"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:55"
+  },
+  {
+   "test": "test_depth_with_filecount",
+   "argv": [
+    "-P",
+    "-d",
+    "2",
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:79"
+  },
+  {
+   "test": "test_filter_with_reverse",
+   "argv": [
+    "-P",
+    "-r",
+    "-e",
+    "\\.txt$"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:91"
+  },
+  {
+   "test": "test_apparent_size_with_min_size",
+   "argv": [
+    "-P",
+    "-s",
+    "-z",
+    "1K"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "large"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:103"
+  },
+  {
+   "test": "test_json_output_with_depth",
+   "argv": [
+    "-P",
+    "-j",
+    "-d",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:115"
+  },
+  {
+   "test": "test_screen_reader_with_full_paths",
+   "argv": [
+    "-P",
+    "-R",
+    "-p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:136"
+  },
+  {
+   "test": "test_only_files_with_filecount",
+   "argv": [
+    "-P",
+    "-F",
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:146"
+  },
+  {
+   "test": "test_ignore_hidden_with_depth",
+   "argv": [
+    "-P",
+    "-i",
+    "-d",
+    "3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:156"
+  },
+  {
+   "test": "test_multiple_ignore_directories",
+   "argv": [
+    "-P",
+    "-X",
+    "ignore1",
+    "-X",
+    "ignore2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "keep"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:168"
+  },
+  {
+   "test": "test_file_types_with_min_size",
+   "argv": [
+    "-P",
+    "-t",
+    "-z",
+    "1K"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:182"
+  },
+  {
+   "test": "test_reverse_with_skip_total",
+   "argv": [
+    "-P",
+    "-r",
+    "--skip-total"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:193"
+  },
+  {
+   "test": "test_output_format_with_only_dirs",
+   "argv": [
+    "-P",
+    "-D",
+    "-o",
+    "kb"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dir"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:204"
+  },
+  {
+   "test": "test_files_from_stdin",
+   "argv": [
+    "-P",
+    "--files-from=-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_handling.py:27"
+  },
+  {
+   "test": "test_files0_from_stdin",
+   "argv": [
+    "-P",
+    "--files0-from=-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_handling.py:50"
+  },
+  {
+   "test": "test_output_format_bytes",
+   "argv": [
+    "-P",
+    "-o",
+    "b"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:14"
+  },
+  {
+   "test": "test_output_format_kibibyte",
+   "argv": [
+    "-P",
+    "-o",
+    "k"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:23"
+  },
+  {
+   "test": "test_output_format_mebibyte",
+   "argv": [
+    "-P",
+    "-o",
+    "m"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:32"
+  },
+  {
+   "test": "test_output_format_gibibyte",
+   "argv": [
+    "-P",
+    "-o",
+    "g"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:41"
+  },
+  {
+   "test": "test_output_format_tebibyte",
+   "argv": [
+    "-P",
+    "-o",
+    "t"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:50"
+  },
+  {
+   "test": "test_output_format_kilobyte",
+   "argv": [
+    "-P",
+    "-o",
+    "kb"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:59"
+  },
+  {
+   "test": "test_output_format_megabyte",
+   "argv": [
+    "-P",
+    "-o",
+    "mb"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:68"
+  },
+  {
+   "test": "test_output_format_gigabyte",
+   "argv": [
+    "-P",
+    "-o",
+    "gb"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:77"
+  },
+  {
+   "test": "test_output_format_terabyte",
+   "argv": [
+    "-P",
+    "-o",
+    "tb"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formats.py:86"
+  },
+  {
+   "test": "test_threads_option",
+   "argv": [
+    "-P",
+    "-T",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_performance_progress.py:4"
+  },
+  {
+   "test": "test_threads_multiple",
+   "argv": [
+    "-P",
+    "-T",
+    "4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_performance_progress.py:15"
+  },
+  {
+   "test": "test_stack_size_option",
+   "argv": [
+    "-P",
+    "-S",
+    "2097152"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_performance_progress.py:34"
+  },
+  {
+   "test": "test_depth_limiting",
+   "argv": [
+    "-P",
+    "-d",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "level1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_size_filtering.py:6"
+  },
+  {
+   "test": "test_depth_zero",
+   "argv": [
+    "-P",
+    "-d",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dir1",
+    "dir2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_size_filtering.py:24"
+  },
+  {
+   "test": "test_min_size_filter",
+   "argv": [
+    "-P",
+    "-z",
+    "5K"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "large"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_size_filtering.py:35"
+  },
+  {
+   "test": "test_apparent_size",
+   "argv": [
+    "-P"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file",
+    "file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_size_filtering.py:48"
+  },
+  {
+   "test": "test_only_directories",
+   "argv": [
+    "-P",
+    "-D"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dir1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_size_filtering.py:61"
+  },
+  {
+   "test": "test_only_files",
+   "argv": [
+    "-P",
+    "-F"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file",
+    ".txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_size_filtering.py:74"
+  },
+  {
+   "test": "test_ignore_directory",
+   "argv": [
+    "-P",
+    "-X",
+    "exclude"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "include"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_size_filtering.py:103"
+  },
+  {
+   "test": "test_invert_filter_regex",
+   "argv": [
+    "-P",
+    "-v",
+    "\\.png$"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_size_filtering.py:115"
+  },
+  {
+   "test": "test_filter_regex",
+   "argv": [
+    "-P",
+    "-e",
+    "\\.png$"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_size_filtering.py:129"
+  },
+  {
+   "test": "test_ignore_all_in_file",
+   "argv": [
+    "-P",
+    "-I"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_size_filtering.py:143"
+  },
+  {
+   "test": "test_limit_filesystem",
+   "argv": [
+    "-P",
+    "-x"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_size_filtering.py:160"
+  },
+  {
+   "test": "test_dereference_links",
+   "argv": [
+    "-P",
+    "-L"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_size_filtering.py:169"
+  },
+  {
+   "test": "test_invalid_flag_errors",
+   "argv": [
+    "--definitely-not-a-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_behavior_tree.py:155"
+  },
+  {
+   "test": "test_help_exact_match",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_version.py:6"
+  },
+  {
+   "test": "test_version_exact_match",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_version.py:13"
+  },
+  {
+   "test": "test_help_precedence_with_extra_args_shows_help",
+   "argv": [
+    "--help",
+    "--definitely-not-a-real-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_invocation.py:48"
+  },
+  {
+   "test": "test_help_to_stdout_and_exit0",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:22"
+  },
+  {
+   "test": "test_nonexistent_path_errors_to_stderr_and_exit1",
+   "argv": [
+    "-c",
+    "-b",
+    "-n",
+    "50",
+    "/no/such/path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "No such file or directory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:36"
+  },
+  {
+   "test": "test_plain_output_mentions_input_basename",
+   "argv": [
+    "-c",
+    "-b",
+    "-n",
+    "50"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:43"
+  },
+  {
+   "test": "test_output_json_is_valid_json_and_has_expected_keys",
+   "argv": [
+    "-c",
+    "-b",
+    "-n",
+    "50",
+    "--output-json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:60"
+  },
+  {
+   "test": "test_files_from_newline_delimited_file",
+   "argv": [
+    "-c",
+    "-b",
+    "-n",
+    "50"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "(total)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:69"
+  },
+  {
+   "test": "test_files0_from_stdin_nul_delimited",
+   "argv": [
+    "-c",
+    "-b",
+    "-n",
+    "50",
+    "--files0-from=-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "(total)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:82"
+  },
+  {
+   "test": "test_unknown_flag_tip_for_double_dash_value",
+   "argv": [
+    "--badflag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tip: to pass '--badflag' as a value, use '-- --badflag'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:38"
+  },
+  {
+   "test": "test_double_dash_makes_dashlike_value_positional_not_flag",
+   "argv": [
+    "--",
+    "-notAFlag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "No such file or directory: -notAFlag"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:134"
+  },
+  {
+   "test": "test_positional_paths_accept_multiple",
+   "argv": [
+    "/tmp",
+    "/tmp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tmp"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:143"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_no_subcommands.py:62"
+  },
+  {
+   "test": "test_current_directory_as_argument",
+   "argv": [
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_no_subcommands.py:109"
+  },
+  {
+   "test": "test_flag_without_path_uses_current_dir",
+   "argv": [
+    "--depth",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_no_subcommands.py:128"
+  },
+  {
+   "test": "test_flag_with_path",
+   "argv": [
+    "--depth",
+    "1",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_no_subcommands.py:134"
+  },
+  {
+   "test": "test_help_with_flag",
+   "argv": [
+    "--help",
+    "--depth",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_no_subcommands.py:149"
+  },
+  {
+   "test": "test_multiple_flags_combination",
+   "argv": [
+    "--depth",
+    "1",
+    "--reverse",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_no_subcommands.py:156"
+  },
+  {
+   "test": "test_short_flags",
+   "argv": [
+    "-d",
+    "1",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_no_subcommands.py:161"
+  },
+  {
+   "test": "test_boolean_flags",
+   "argv": [
+    "--reverse",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_no_subcommands.py:166"
+  },
+  {
+   "test": "test_no_subcommand_help_pattern",
+   "argv": [
+    "add",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_no_subcommands.py:178"
+  },
+  {
+   "test": "test_help_is_consistent",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_no_subcommands.py:194"
+  },
+  {
+   "test": "test_main_basic",
+   "argv": [
+    "-c",
+    "-B",
+    "/tmp/test_dir/"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a_file",
+    "hello_file",
+    "many",
+    "test_dir"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_exact_output.py:37"
+  },
+  {
+   "test": "test_main_multi_arg",
+   "argv": [
+    "-c",
+    "-B",
+    "/tmp/test_dir/many/",
+    "/tmp/test_dir",
+    "/tmp/test_dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a_file",
+    "hello_file",
+    "many",
+    "test_dir"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_exact_output.py:46"
+  },
+  {
+   "test": "test_main_long_paths",
+   "argv": [
+    "-c",
+    "-p",
+    "-B",
+    "/tmp/test_dir/"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "/tmp/test_dir/many/a_file",
+    "/tmp/test_dir/many/hello_file",
+    "/tmp/test_dir/many",
+    "/tmp/test_dir"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_exact_output.py:55"
+  },
+  {
+   "test": "test_substring_of_names_and_long_names",
+   "argv": [
+    "-c",
+    "-B",
+    "/tmp/test_dir2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "long_dir_name_what_a_very_long_dir_name",
+    "dir_name_clash",
+    "dir_substring",
+    "test_dir2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_exact_output.py:64"
+  },
+  {
+   "test": "test_unicode_directories",
+   "argv": [
+    "-c",
+    "-B",
+    "/tmp/test_dir_unicode"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test_dir_unicode"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_exact_output.py:73"
+  },
+  {
+   "test": "test_apparent_size",
+   "argv": [
+    "-c",
+    "-s",
+    "-b",
+    "/tmp/test_dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a_file",
+    "hello_file",
+    "0B",
+    "6B"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_exact_output.py:79"
+  },
+  {
+   "test": "test_permission_normal",
+   "argv": [
+    "/tmp/unreadable_dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Did not have permissions"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_exact_output.py:92"
+  },
+  {
+   "test": "test_permission_flag",
+   "argv": [
+    "--print-errors",
+    "/tmp/unreadable_dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Did not have permissions",
+    "/tmp/unreadable_dir"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_exact_output.py:102"
+  },
+  {
+   "test": "test_output_no_bars_means_no_excess_spaces",
+   "argv": [
+    "-b"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "many"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:24"
+  },
+  {
+   "test": "test_reverse_flag",
+   "argv": [
+    "-r",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hello_file",
+    "a_file",
+    "test_dir"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:31"
+  },
+  {
+   "test": "test_d0_works_on_multiple",
+   "argv": [
+    "-d",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test_dir ",
+    "test_dir2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:45"
+  },
+  {
+   "test": "test_threads_flag_works",
+   "argv": [
+    "-T",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hello_file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:51"
+  },
+  {
+   "test": "test_d_flag_works_and_still_recurses_down",
+   "argv": [
+    "-d",
+    "1",
+    "-f",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dir",
+    "test_dir2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:56"
+  },
+  {
+   "test": "test_ignore_all_in_file",
+   "argv": [
+    "-c",
+    "-I"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test_dir_hidden_entries"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:67"
+  },
+  {
+   "test": "test_files_from_flag_file",
+   "argv": [
+    "--files-from"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a_file",
+    "hello_file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:74"
+  },
+  {
+   "test": "test_files0_from_flag_file",
+   "argv": [
+    "--files0-from"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a_file",
+    "hello_file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:81"
+  },
+  {
+   "test": "test_with_bad_param",
+   "argv": [
+    "bad_place"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "No such file or directory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:116"
+  },
+  {
+   "test": "test_hidden_flag",
+   "argv": [
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".hidden_file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:122"
+  },
+  {
+   "test": "test_number_of_files",
+   "argv": [
+    "-c",
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a_file",
+    "hello_file",
+    "many",
+    "test_dir"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:130"
+  },
+  {
+   "test": "test_show_files_by_type",
+   "argv": [
+    "-c",
+    "-t",
+    "tests"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".unicode",
+    ".japan",
+    ".rs",
+    "(no extension)",
+    "(total)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:138"
+  },
+  {
+   "test": "test_show_files_only",
+   "argv": [
+    "-c",
+    "-F"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a_file",
+    "hello_file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:147"
+  },
+  {
+   "test": "test_output_skip_total",
+   "argv": [
+    "--skip-total"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hello_file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:154"
+  },
+  {
+   "test": "test_output_screen_reader",
+   "argv": [
+    "--screen-reader",
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test_dir   0",
+    "many       1",
+    "hello_file 2",
+    "a_file     2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:162"
+  },
+  {
+   "test": "test_show_files_by_regex_match_lots",
+   "argv": [
+    "-c",
+    "-e",
+    "\\.rs$",
+    "tests"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tests"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:172"
+  },
+  {
+   "test": "test_show_files_by_regex_match_nothing",
+   "argv": [
+    "-c",
+    "-e",
+    "match_nothing$",
+    "tests"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tests"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:178"
+  },
+  {
+   "test": "test_show_files_by_regex_match_multiple",
+   "argv": [
+    "-c",
+    "-e",
+    "test_dir_hidden",
+    "-e",
+    "test_dir2",
+    "-n",
+    "100",
+    "tests"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test_dir2",
+    "test_dir_hidden"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:183"
+  },
+  {
+   "test": "test_show_files_by_invert_regex_match_multiple",
+   "argv": [
+    "-c",
+    "-v",
+    "test_dir2",
+    "-v",
+    "test_dir_unicode",
+    "-n",
+    "100",
+    "tests"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "many"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:201"
+  },
+  {
+   "test": "test_force_color",
+   "argv": [
+    "-C"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[31m",
+    "\u001b[0m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:214"
+  },
+  {
+   "test": "test_collapse",
+   "argv": [
+    "--collapse",
+    "many"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "many"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:220"
+  },
+  {
+   "test": "test_handle_duplicate_names",
+   "argv": [
+    "ci"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "andy",
+    "dave",
+    "ci",
+    "dup_name"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:226"
+  }
+ ]
+}

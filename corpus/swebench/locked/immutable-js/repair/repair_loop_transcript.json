@@ -1,0 +1,16 @@
+{
+  "schema": "determinex-repair-loop-transcript-v1",
+  "tool": "immutable-js", "family": "node_typescript", "pinned_commit": "9acd11a8",
+  "repair_type": "seeded_defect (behavioral) - verifier is the project's OWN jest suite (ts-jest, no Docker)",
+  "toolchain": "node 24, npm install, jest + ts-jest",
+  "oracle": "the real immutable-js repo's own tests: `npx jest __tests__/Range.ts`",
+  "defect": {"file": "src/Range.js", "function": "Range (size calc)",
+    "seed": "`Math.ceil((end - start) / step - 1) + 1` -> `Math.floor(...)` (ceil->floor)",
+    "intent": "off-by-one the Range size computation for non-integer step divisions"},
+  "detect": {"baseline": "Range.ts 25 passed", "after_seed": "1 failed, 24 passed", "oracle_caught": true,
+    "failure_signature": "a Range size assertion failed once ceil was changed to floor"},
+  "repair": {"fix": "restore Math.ceil (git checkout)", "oracle_guided": "the failing size test points at the size calc"},
+  "reverify": {"after": "Range.ts 25 passed; repaired == upstream @9acd11a8", "passed": 25, "failures": 0},
+  "repair_loop_status": "passed",
+  "proves": "closed-loop repair on a real external TypeScript project (immutable-js): its OWN jest/ts-jest suite detects the injected size defect -> fix -> re-verify 25 green. Reproducible with npm + jest, no Docker."
+}

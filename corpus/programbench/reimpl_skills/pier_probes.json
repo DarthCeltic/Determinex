@@ -1,0 +1,2843 @@
+[
+ {
+  "name": "test::test_add_show_remove_roundtrip::0",
+  "argv": [
+   "config-init"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_mentions_subcommands_and_usage::1",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_config_file_error_goes_to_stdout_and_exit_zero::2",
+  "argv": [
+   "list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version::3",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_toml_errors::4",
+  "argv": [
+   "-c",
+   "bad.toml",
+   "list"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.toml": "not=toml=["
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_creates_new_script::5",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "add",
+   "--alias",
+   "newone",
+   "echo added"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_without_command_uses_editor::6",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "add",
+   "--alias",
+   "ed"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_flag::7",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_short_flag::8",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::9",
+  "argv": [
+   "--invalid-flag-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_subcommand::10",
+  "argv": [
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_option_variants::11",
+  "argv": [
+   "--config-file",
+   "list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_flag_variants::12",
+  "argv": [
+   "-v",
+   "-c",
+   "list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_all_flag_combinations::13",
+  "argv": [
+   "-c",
+   "list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_multiple_tags::14",
+  "argv": [
+   "-c",
+   "list",
+   "-t",
+   "tag1",
+   "-t",
+   "tag2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_cmd_width_various_values::15",
+  "argv": [
+   "-c",
+   "list",
+   "--cmd_width",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_init_with_alias::16",
+  "argv": [
+   "init"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_duplicates_script::17",
+  "argv": [
+   "-c",
+   "copy",
+   "original",
+   "duplicate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cp_alias::18",
+  "argv": [
+   "-c",
+   "cp",
+   "cptest",
+   "cptest2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_nonexistent_source::19",
+  "argv": [
+   "-c",
+   "copy",
+   "doesnotexist",
+   "newname"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_to_existing_alias::20",
+  "argv": [
+   "-c",
+   "copy",
+   "source",
+   "dest"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_move_renames_script::21",
+  "argv": [
+   "-c",
+   "move",
+   "oldname",
+   "newname"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mv_alias::22",
+  "argv": [
+   "-c",
+   "mv",
+   "mvtest",
+   "mvtest2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rename_alias::23",
+  "argv": [
+   "-c",
+   "rename",
+   "renametest",
+   "renamed"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_move_with_force::24",
+  "argv": [
+   "-c",
+   "move",
+   "--force",
+   "movesrc",
+   "movedst"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_move_with_short_force::25",
+  "argv": [
+   "-c",
+   "move",
+   "-f",
+   "fsrc",
+   "fdst"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_move_nonexistent_source::26",
+  "argv": [
+   "-c",
+   "move",
+   "doesnotexist",
+   "newname"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_move_to_existing_without_force::27",
+  "argv": [
+   "-c",
+   "move",
+   "movesrc2",
+   "movedst2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_without_config_fails::28",
+  "argv": [
+   "nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_aliases_only_mode::29",
+  "argv": [
+   "-c",
+   "list",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_cmd_full_flag::30",
+  "argv": [
+   "-c",
+   "list",
+   "-l"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_script_with_reference_field::31",
+  "argv": [
+   "-c",
+   "add",
+   "-a",
+   "reftest",
+   "echo test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_script_with_special_shell_chars::32",
+  "argv": [
+   "-c",
+   "run",
+   "specialchars"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_preserves_description_and_tags::33",
+  "argv": [
+   "-c",
+   "copy",
+   "original",
+   "copied"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_script_with_shebang::34",
+  "argv": [
+   "-c",
+   "show",
+   "shebangshow"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_python_shebang_script::35",
+  "argv": [
+   "-c",
+   "run",
+   "pyscript"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_without_command_fails_noninteractive::36",
+  "argv": [
+   "-c",
+   "add",
+   "-a",
+   "nocommand"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_updates_config_file::37",
+  "argv": [
+   "-c",
+   "remove",
+   "toremove"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_updates_config_file::38",
+  "argv": [
+   "-c",
+   "add",
+   "-a",
+   "newscript",
+   "echo new"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_nonexistent_alias_error_message::39",
+  "argv": [
+   "-c",
+   "show",
+   "doesnotexist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_inline_script_with_default_shell::40",
+  "argv": [
+   "-c",
+   "run",
+   "bashscript"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_to_same_name_fails::41",
+  "argv": [
+   "-c",
+   "copy",
+   "same",
+   "same"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_move_force_overwrites_existing::42",
+  "argv": [
+   "-c",
+   "move",
+   "--force",
+   "source",
+   "dest"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_with_env_variables::43",
+  "argv": [
+   "-c",
+   "run",
+   "envtest"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TEST_VAR": "test_value"
+  }
+ },
+ {
+  "name": "test::test_list_custom_command_width::44",
+  "argv": [
+   "-c",
+   "list",
+   "-c",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_script_with_multiline_command::45",
+  "argv": [
+   "-c",
+   "run",
+   "multiline"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "SHELL": "/bin/sh"
+  }
+ },
+ {
+  "name": "test::test_add_with_empty_tags::46",
+  "argv": [
+   "-c",
+   "add",
+   "-a",
+   "notags",
+   "echo test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_alias_name::47",
+  "argv": [
+   "-c",
+   "run",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_script_with_empty_command::48",
+  "argv": [
+   "-c",
+   "run",
+   "empty"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "SHELL": "/bin/sh"
+  }
+ },
+ {
+  "name": "test::test_list_with_no_matching_tags::49",
+  "argv": [
+   "-c",
+   "list",
+   "-t",
+   "nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_script_that_outputs_nothing::50",
+  "argv": [
+   "-c",
+   "run",
+   "silent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "SHELL": "/bin/sh"
+  }
+ },
+ {
+  "name": "test::test_remove_last_script::51",
+  "argv": [
+   "-c",
+   "remove",
+   "only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_script_with_newlines::52",
+  "argv": [
+   "-c",
+   "show",
+   "multiline"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_with_many_arguments::53",
+  "argv": [
+   "-c",
+   "run",
+   "manyargs"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "SHELL": "/bin/sh"
+  }
+ },
+ {
+  "name": "test::test_move_to_same_name_fails::54",
+  "argv": [
+   "-c",
+   "move",
+   "same",
+   "same"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_cmd_width_zero::55",
+  "argv": [
+   "-c",
+   "list",
+   "-c",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shebang_with_spaces::56",
+  "argv": [
+   "-c",
+   "run",
+   "shebangspace"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interpreter_with_multiple_args::57",
+  "argv": [
+   "-c",
+   "run",
+   "interptest"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_direct_run_nonexistent_alias::58",
+  "argv": [
+   "-c",
+   "doesnotexist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_with_no_scripts::59",
+  "argv": [
+   "-c",
+   "show",
+   "anything"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_move_and_run_workflow::60",
+  "argv": [
+   "-c",
+   "move",
+   "oldscript",
+   "newscript"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_by_tag_and_run::61",
+  "argv": [
+   "-c",
+   "list",
+   "-t",
+   "group1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_scripts_with_same_tags::62",
+  "argv": [
+   "-c",
+   "list",
+   "-t",
+   "web"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_force_then_run::63",
+  "argv": [
+   "-c",
+   "add",
+   "-f",
+   "--alias",
+   "forcible",
+   "echo version 2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shebang_python_script::64",
+  "argv": [
+   "-c",
+   "run",
+   "pythontest"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_multiline_script::65",
+  "argv": [
+   "-c",
+   "run",
+   "complex"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_script_with_special_characters::66",
+  "argv": [
+   "-c",
+   "run",
+   "special"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "SHELL": "/bin/sh"
+  }
+ },
+ {
+  "name": "test::test_ls_alias::67",
+  "argv": [
+   "-c",
+   "ls"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_aliases_only_long_flag::68",
+  "argv": [
+   "-c",
+   "list",
+   "--list_aliases"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_full_command_long_flag::69",
+  "argv": [
+   "-c",
+   "list",
+   "--cmd_full"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_filter_by_single_tag::70",
+  "argv": [
+   "-c",
+   "list",
+   "-t",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rm_alias::71",
+  "argv": [
+   "-c",
+   "rm",
+   "rmtest"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_nonexistent_alias::72",
+  "argv": [
+   "-c",
+   "remove",
+   "doesnotexist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_empty_config::73",
+  "argv": [
+   "-c",
+   "remove",
+   "anything"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_preserves_other_scripts::74",
+  "argv": [
+   "-c",
+   "remove",
+   "script2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_executes_script::75",
+  "argv": [
+   "-c",
+   "run",
+   "runtest"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "SHELL": "/bin/sh"
+  }
+ },
+ {
+  "name": "test::test_run_with_positional_args::76",
+  "argv": [
+   "-c",
+   "run",
+   "withargs",
+   "arg1",
+   "arg2",
+   "arg3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "SHELL": "/bin/sh"
+  }
+ },
+ {
+  "name": "test::test_run_shebang_script::77",
+  "argv": [
+   "-c",
+   "run",
+   "shebangrun"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_shebang_with_args::78",
+  "argv": [
+   "-c",
+   "run",
+   "shebangargs",
+   "Hello",
+   "World"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_inline_with_args::79",
+  "argv": [
+   "-c",
+   "run",
+   "inlineargs",
+   "Hi",
+   "There"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "SHELL": "/bin/sh"
+  }
+ },
+ {
+  "name": "test::test_run_with_custom_interpreter::80",
+  "argv": [
+   "-c",
+   "run",
+   "custominterp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_script_exit_zero::81",
+  "argv": [
+   "-c",
+   "run",
+   "exitzero"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_script_exit_nonzero::82",
+  "argv": [
+   "-c",
+   "run",
+   "exitone"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_script_exit_custom_code::83",
+  "argv": [
+   "-c",
+   "run",
+   "exit100"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_script_stdout::84",
+  "argv": [
+   "-c",
+   "run",
+   "outstdout"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "SHELL": "/bin/sh"
+  }
+ },
+ {
+  "name": "test::test_run_script_stderr::85",
+  "argv": [
+   "-c",
+   "run",
+   "outstderr"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_nonexistent_alias::86",
+  "argv": [
+   "-c",
+   "run",
+   "doesnotexist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_empty_config::87",
+  "argv": [
+   "-c",
+   "run",
+   "anything"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_direct_alias_execution::88",
+  "argv": [
+   "-c",
+   "direct"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "SHELL": "/bin/sh"
+  }
+ },
+ {
+  "name": "test::test_direct_alias_with_args::89",
+  "argv": [
+   "-c",
+   "directargs",
+   "foo",
+   "bar"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "SHELL": "/bin/sh"
+  }
+ },
+ {
+  "name": "test::test_run_verbose_mode::90",
+  "argv": [
+   "-v",
+   "-c",
+   "run",
+   "verbosetest"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "SHELL": "/bin/sh"
+  }
+ },
+ {
+  "name": "test::test_show_displays_script::91",
+  "argv": [
+   "-c",
+   "show",
+   "showme"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_multiline_script::92",
+  "argv": [
+   "-c",
+   "show",
+   "multishow"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_integer_option_rejects_negative_numbers_with_equals_form::93",
+  "argv": [
+   "list",
+   "--cmd_width=-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_treats_dash_prefixed_values_as_positional_for_run::94",
+  "argv": [
+   "run",
+   "--",
+   "--not-a-flag",
+   "arg2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_subcommand_rejects_unexpected_long_flag::95",
+  "argv": [
+   "add",
+   "--alias",
+   "foo",
+   "--command",
+   "hi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_subcommand_dash_dash_single_command_arg_only::96",
+  "argv": [
+   "add",
+   "--alias",
+   "foo",
+   "--",
+   "echo",
+   "hi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_simple_script::97",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "add",
+   "--alias",
+   "test1",
+   "--",
+   "echo hello"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_short_alias_flag::98",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "add",
+   "-a",
+   "test2",
+   "--",
+   "ls -la"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_description::99",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "add",
+   "--alias",
+   "test3",
+   "--description",
+   "A test script",
+   "--",
+   "echo test"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_description_short_flag::100",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "add",
+   "-a",
+   "test4",
+   "-d",
+   "Short desc",
+   "--",
+   "pwd"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_single_tag::101",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "add",
+   "--alias",
+   "test5",
+   "--tag",
+   "utility",
+   "--",
+   "date"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_multiple_tags::102",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "add",
+   "--alias",
+   "test6",
+   "--tag",
+   "docker",
+   "--tag",
+   "utility",
+   "--tag",
+   "admin",
+   "--",
+   "docker ps"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_tag_short_flag::103",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "add",
+   "-a",
+   "test7",
+   "-t",
+   "network",
+   "--",
+   "ping localhost"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_multiline_script::104",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "add",
+   "--alias",
+   "test8",
+   "--",
+   "echo line1\necho line2\necho line3"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_duplicate_alias_without_force::105",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "add",
+   "--alias",
+   "existing",
+   "--",
+   "echo new"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "[scripts.existing]\ncommand = 'echo exists'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_duplicate_alias_with_force::106",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "add",
+   "--alias",
+   "existing",
+   "--force",
+   "--",
+   "echo overwritten"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "[scripts.existing]\ncommand = 'echo exists'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_force_short_flag::107",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "add",
+   "-a",
+   "existing",
+   "-f",
+   "--",
+   "echo new"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "[scripts.existing]\ncommand = 'echo old'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_script_with_special_characters::108",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "add",
+   "--alias",
+   "test_special",
+   "--",
+   "echo 'hello world' && echo done"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_with_all_options::109",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "add",
+   "--alias",
+   "complex",
+   "--description",
+   "A complex script",
+   "--tag",
+   "tag1",
+   "--tag",
+   "tag2",
+   "--",
+   "echo complex && date"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_subcommand::110",
+  "argv": [
+   "invalid_subcommand_xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_flag::111",
+  "argv": [
+   "-c",
+   "custom.toml",
+   "list"
+  ],
+  "stdin": null,
+  "files": {
+   "custom.toml": "\n[scripts.test]\ncommand = 'echo \"custom config\"'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_short_flag::112",
+  "argv": [
+   "-c",
+   "custom.toml",
+   "list"
+  ],
+  "stdin": null,
+  "files": {
+   "custom.toml": "\n[scripts.short]\ncommand = 'echo \"test\"'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_config_file::113",
+  "argv": [
+   "-c",
+   "/tmp/nonexistent_pier_config_12345.toml",
+   "list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_malformed_toml_config::114",
+  "argv": [
+   "-c",
+   "bad.toml",
+   "list"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.toml": "\n[scripts.bad\ncommand = 'echo \"missing bracket\"\nthis is not valid toml\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toml_format_support::115",
+  "argv": [
+   "-c",
+   "test.toml",
+   "list"
+  ],
+  "stdin": null,
+  "files": {
+   "test.toml": "\n[scripts.toml_test]\ncommand = 'echo \"toml works\"'\ndescription = 'TOML test'\ntags = ['toml', 'test']\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_config_file::116",
+  "argv": [
+   "-c",
+   "empty.toml",
+   "list"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.toml": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_default_section::117",
+  "argv": [
+   "-c",
+   "defaults.toml",
+   "list"
+  ],
+  "stdin": null,
+  "files": {
+   "defaults.toml": "\n[default]\ninterpreter = [\"sh\", \"-c\"]\n\n[scripts.test]\ncommand = 'echo \"test\"'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_flag::118",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "-v",
+   "list"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.test]\ncommand = 'echo \"test\"'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_with_run::119",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "--verbose",
+   "run",
+   "vtest"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.vtest]\ncommand = 'echo \"verbose test\"'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_existing_script::120",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "copy",
+   "original",
+   "copied"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.original]\ncommand = 'echo \"original\"'\ndescription = 'Original script'\ntags = ['test']\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cp_alias_works::121",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "cp",
+   "source",
+   "dest"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.source]\ncommand = 'ls -la'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_nonexistent_source::122",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "copy",
+   "nonexistent",
+   "new"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_to_existing_destination::123",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "copy",
+   "source",
+   "existing"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.source]\ncommand = 'echo \"source\"'\n[scripts.existing]\ncommand = 'echo \"existing\"'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_preserves_metadata::124",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "copy",
+   "orig",
+   "copy_test"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.orig]\ncommand = 'echo \"test\"'\ndescription = 'A description'\ntags = ['tag1', 'tag2']\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_script_with_special_chars_in_command::125",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "list"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.special]\ncommand = 'echo \"Hello\" && echo \"done\"'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_script_with_newlines_in_command::126",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "run",
+   "multiline"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.multiline]\ncommand = '''\necho \"line 1\"\necho \"line 2\"\necho \"line 3\"\n'''\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_script_with_unicode::127",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "run",
+   "unicode"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.unicode]\ncommand = 'echo \"Hello World\"'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_alias_with_special_chars::128",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "list"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.\"test-alias\"]\ncommand = 'echo \"dash alias\"'\n\n[scripts.\"test_underscore\"]\ncommand = 'echo \"underscore alias\"'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_command::129",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "list"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.empty]\ncommand = ''\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_script_that_times_out::130",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "run",
+   "sleep_test"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.sleep_test]\ncommand = 'sleep 0.1 && echo \"done\"'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_script_with_environment_variables::131",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "run",
+   "env_var"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.env_var]\ncommand = 'echo \"$HOME\"'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_script_with_subshell::132",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "run",
+   "subshell"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.subshell]\ncommand = 'echo \"outer\" && (echo \"inner\")'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_with_formatting::133",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "show",
+   "formatted"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.formatted]\ncommand = '''\n#!/bin/sh\nif [ -f \"/tmp/test\" ]; then\n    echo \"exists\"\nelse\n    echo \"not found\"\nfi\n'''\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_cmd_width::134",
+  "argv": [
+   "-c",
+   "list",
+   "--cmd_width",
+   "20"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_cmd_width_short_flag::135",
+  "argv": [
+   "-c",
+   "list",
+   "-c",
+   "15"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_filter_by_tag::136",
+  "argv": [
+   "-c",
+   "list",
+   "--tag",
+   "utility"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_filter_by_tag_short_flag::137",
+  "argv": [
+   "-c",
+   "list",
+   "-t",
+   "echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_filter_by_multiple_tags::138",
+  "argv": [
+   "-c",
+   "list",
+   "--tag",
+   "utility",
+   "--tag",
+   "files"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_empty_config::139",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "list"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_move_existing_script::140",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "move",
+   "old_name",
+   "new_name"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.old_name]\ncommand = 'echo \"test\"'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mv_alias_works::141",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "mv",
+   "old",
+   "new"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.old]\ncommand = 'echo \"test\"'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rename_alias_works::142",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "rename",
+   "old",
+   "renamed"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.old]\ncommand = 'echo \"test\"'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_move_nonexistent_source::143",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "move",
+   "nonexistent",
+   "new"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_move_to_existing_without_force::144",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "move",
+   "source",
+   "existing"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.source]\ncommand = 'echo \"source\"'\n[scripts.existing]\ncommand = 'echo \"existing\"'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_move_to_existing_with_force::145",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "move",
+   "source",
+   "existing",
+   "--force"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.source]\ncommand = 'echo \"source\"'\n[scripts.existing]\ncommand = 'echo \"existing\"'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_move_with_force_short_flag::146",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "move",
+   "src",
+   "dst",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.src]\ncommand = 'echo \"src\"'\n[scripts.dst]\ncommand = 'echo \"dst\"'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_move_preserves_metadata::147",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "move",
+   "old",
+   "new"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.old]\ncommand = 'echo \"test\"'\ndescription = 'A description'\ntags = ['tag1', 'tag2']\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_existing_script::148",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "remove",
+   "to_remove"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.to_remove]\ncommand = 'echo \"remove me\"'\n[scripts.keep]\ncommand = 'echo \"keep me\"'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rm_alias_works::149",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "rm",
+   "to_remove"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.to_remove]\ncommand = 'echo \"test\"'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_nonexistent_alias::150",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "remove",
+   "nonexistent"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_preserves_other_scripts::151",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "remove",
+   "script2"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.script1]\ncommand = 'echo \"1\"'\n[scripts.script2]\ncommand = 'echo \"2\"'\n[scripts.script3]\ncommand = 'echo \"3\"'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_simple_script::152",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "run",
+   "hello"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.hello]\ncommand = 'echo \"Hello World\"'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_script_with_shebang::153",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "run",
+   "shebang_test"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.shebang_test]\ncommand = '''\n#!/bin/sh\necho \"Shebang works\"\n'''\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_script_with_arguments::154",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "run",
+   "with_args",
+   "first",
+   "second"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.with_args]\ncommand = '''\n#!/bin/sh\necho \"arg1=$1 arg2=$2\"\n'''\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_nonexistent_alias::155",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "run",
+   "nonexistent"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_script_with_stdout::156",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "run",
+   "output"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.output]\ncommand = 'echo \"line1\" && echo \"line2\" && echo \"line3\"'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_script_with_stderr::157",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "run",
+   "error_output"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.error_output]\ncommand = '''\n#!/bin/sh\necho \"error message\" >&2\n'''\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_script_with_pipe::158",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "run",
+   "pipe_test"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.pipe_test]\ncommand = '''\n#!/bin/sh\necho \"UPPERCASE\" | tr '[:upper:]' '[:lower:]'\n'''\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_script_with_and_operator::159",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "run",
+   "and_test"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.and_test]\ncommand = '''\n#!/bin/sh\necho \"first\" && echo \"second\"\n'''\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_script_with_exit_code_zero::160",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "run",
+   "success"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.success]\ncommand = '''\n#!/bin/sh\nexit 0\n'''\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_script_with_nonzero_exit_code::161",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "run",
+   "failure"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.failure]\ncommand = '''\n#!/bin/sh\nexit 1\n'''\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_script_with_custom_exit_code::162",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "run",
+   "exit_100"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.exit_100]\ncommand = '''\n#!/bin/sh\nexit 100\n'''\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_with_default_interpreter::163",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "run",
+   "python_test"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[default]\ninterpreter = [\"python3\", \"-c\"]\n\n[scripts.python_test]\ncommand = 'print(\"Python works\")'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_direct_alias_execution::164",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "direct"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.direct]\ncommand = 'echo \"Direct execution\"'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_direct_alias_with_arguments::165",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "direct_args",
+   "arg1",
+   "arg2"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.direct_args]\ncommand = '''\n#!/bin/sh\necho \"Got: $1 and $2\"\n'''\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_python_script_with_shebang::166",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "run",
+   "python_shebang"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.python_shebang]\ncommand = '''\n#!/usr/bin/env python3\nprint(\"Python with shebang\")\n'''\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_inline_script_with_shell::167",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "run",
+   "inline"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.inline]\ncommand = 'echo \"inline\" && date > /dev/null'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "SHELL": "/bin/sh"
+  }
+ },
+ {
+  "name": "test::test_show_simple_script::168",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "show",
+   "test_show"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.test_show]\ncommand = 'echo \"test\"'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_multiline_script::169",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "show",
+   "multiline"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.multiline]\ncommand = '''\n#!/bin/sh\necho \"line1\"\necho \"line2\"\necho \"line3\"\n'''\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_script_with_shebang::170",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "show",
+   "with_shebang"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.with_shebang]\ncommand = '''\n#!/bin/sh\nfor i in 1 2 3; do\n    echo \"$i\"\ndone\n'''\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_nonexistent_alias::171",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "show",
+   "nonexistent"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_displays_script_content::172",
+  "argv": [
+   "-c",
+   "pier.toml",
+   "show",
+   "content_test"
+  ],
+  "stdin": null,
+  "files": {
+   "pier.toml": "\n[scripts.content_test]\ncommand = 'ls -la && pwd && echo \"done\"'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_help::173",
+  "argv": [
+   "add",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_help::174",
+  "argv": [
+   "list",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_help::175",
+  "argv": [
+   "ls",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_help::176",
+  "argv": [
+   "run",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_help::177",
+  "argv": [
+   "show",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_help::178",
+  "argv": [
+   "edit",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remove_help::179",
+  "argv": [
+   "remove",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rm_help::180",
+  "argv": [
+   "rm",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_help::181",
+  "argv": [
+   "copy",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cp_help::182",
+  "argv": [
+   "cp",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_move_help::183",
+  "argv": [
+   "move",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mv_help::184",
+  "argv": [
+   "mv",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_init_help::185",
+  "argv": [
+   "config-init",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_help::186",
+  "argv": [
+   "init",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_mode_is_alias_execution_not_subcommand::187",
+  "argv": [
+   "-c",
+   "hello"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_token_without_help_is_treated_as_alias::188",
+  "argv": [
+   "-c",
+   "nonexistent_alias"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_with_help_shows_main_help::189",
+  "argv": [
+   "-c",
+   "definitely-not-a-command",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_flag_verbose_works_before_subcommand::190",
+  "argv": [
+   "-c",
+   "--verbose",
+   "list",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_flag_verbose_rejected_after_subcommand::191",
+  "argv": [
+   "-c",
+   "list",
+   "-q",
+   "--verbose"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_required_args_prints_usage::192",
+  "argv": [
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

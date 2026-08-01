@@ -1,0 +1,7106 @@
+[
+ {
+  "name": "test::test_basic_bundle_analysis::0",
+  "argv": [
+   "bundle",
+   "-f",
+   "-s",
+   "-n",
+   "-na",
+   "2",
+   "-ol",
+   "-od",
+   "-oz",
+   "-ot",
+   "-otr",
+   "-otl"
+  ],
+  "stdin": "0\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_kink_angle_analysis::1",
+  "argv": [
+   "bundle",
+   "-f",
+   "-s",
+   "-n",
+   "-na",
+   "2",
+   "-ol",
+   "-od",
+   "-oz",
+   "-ot",
+   "-otr",
+   "-otl",
+   "-ok",
+   "-okr",
+   "-okl"
+  ],
+  "stdin": "0\n1\n2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_z_axis_reference::2",
+  "argv": [
+   "bundle",
+   "-f",
+   "-s",
+   "-n",
+   "-na",
+   "2",
+   "-z",
+   "-ol",
+   "-od",
+   "-oz",
+   "-ot",
+   "-otr",
+   "-otl"
+  ],
+  "stdin": "0\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_axes_pdb_output::3",
+  "argv": [
+   "bundle",
+   "-f",
+   "-s",
+   "-n",
+   "-na",
+   "2",
+   "-ol",
+   "-od",
+   "-oz",
+   "-ot",
+   "-otr",
+   "-otl",
+   "-oa"
+  ],
+  "stdin": "0\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_kink_group_fatal_error::4",
+  "argv": [
+   "bundle",
+   "-f",
+   "-s",
+   "-n",
+   "-na",
+   "2",
+   "-ol",
+   "-od",
+   "-oz",
+   "-ot",
+   "-otr",
+   "-otl",
+   "-ok"
+  ],
+  "stdin": "0\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_insufficient_atoms_per_axis_fatal_error::5",
+  "argv": [
+   "bundle",
+   "-f",
+   "-s",
+   "-n",
+   "too_few.ndx",
+   "-na",
+   "5",
+   "-ol",
+   "-od",
+   "-oz",
+   "-ot",
+   "-otr",
+   "-otl"
+  ],
+  "stdin": "0\n1\n",
+  "files": {
+   "too_few.ndx": "[ small_top ]\n1 2 3\n\n[ small_bottom ]\n4 5 6\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_range_selection::6",
+  "argv": [
+   "bundle",
+   "-f",
+   "-s",
+   "-n",
+   "-na",
+   "2",
+   "-b",
+   "5",
+   "-e",
+   "10",
+   "-ol",
+   "-od",
+   "-oz",
+   "-ot",
+   "-otr",
+   "-otl"
+  ],
+  "stdin": "0\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_axes_na_5::7",
+  "argv": [
+   "bundle",
+   "-f",
+   "-s",
+   "-n",
+   "-na",
+   "5",
+   "-ol",
+   "-od",
+   "-oz",
+   "-ot",
+   "-otr",
+   "-otl"
+  ],
+  "stdin": "0\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_kink_with_pdb_output::8",
+  "argv": [
+   "bundle",
+   "-f",
+   "-s",
+   "-n",
+   "-na",
+   "2",
+   "-ol",
+   "-od",
+   "-oz",
+   "-ot",
+   "-otr",
+   "-otl",
+   "-ok",
+   "-okr",
+   "-okl",
+   "-oa"
+  ],
+  "stdin": "0\n1\n2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_na_produces_division_error::9",
+  "argv": [
+   "bundle",
+   "-f",
+   "-s",
+   "-n",
+   "-na",
+   "0",
+   "-ol",
+   "-od",
+   "-oz",
+   "-ot",
+   "-otr",
+   "-otl"
+  ],
+  "stdin": "0\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_frame_time_range::10",
+  "argv": [
+   "bundle",
+   "-f",
+   "-s",
+   "-n",
+   "-na",
+   "2",
+   "-b",
+   "0",
+   "-e",
+   "0",
+   "-ol",
+   "-od",
+   "-oz",
+   "-ot",
+   "-otr",
+   "-otl"
+  ],
+  "stdin": "0\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_z_flag_with_kink_produces_all_outputs::11",
+  "argv": [
+   "bundle",
+   "-f",
+   "-s",
+   "-n",
+   "-na",
+   "2",
+   "-z",
+   "-ol",
+   "-od",
+   "-oz",
+   "-ot",
+   "-otr",
+   "-otl",
+   "-ok",
+   "-okr",
+   "-okl"
+  ],
+  "stdin": "0\n1\n2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_groups_without_index_file::12",
+  "argv": [
+   "bundle",
+   "-f",
+   "-s",
+   "-na",
+   "2",
+   "-ol",
+   "-od",
+   "-oz",
+   "-ot",
+   "-otr",
+   "-otl"
+  ],
+  "stdin": "1\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cluster_gromos_basic::13",
+  "argv": [
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/test_cluster.xpm",
+   "-g",
+   "/tmp/test_cluster.log",
+   "-method",
+   "gromos",
+   "-cutoff",
+   "0.1",
+   "-dist",
+   "/tmp/test_dist.xvg",
+   "-sz",
+   "/tmp/test_sz.xvg"
+  ],
+  "stdin": "3\n3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cluster_linkage_method::14",
+  "argv": [
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/test_linkage.xpm",
+   "-g",
+   "/tmp/test_linkage.log",
+   "-method",
+   "linkage",
+   "-cutoff",
+   "0.1"
+  ],
+  "stdin": "3\n3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cluster_jarvis_patrick::15",
+  "argv": [
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/test_jp.xpm",
+   "-g",
+   "/tmp/test_jp.log",
+   "-method",
+   "jarvis-patrick",
+   "-cutoff",
+   "0.1",
+   "-M",
+   "2",
+   "-P",
+   "1"
+  ],
+  "stdin": "3\n3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cluster_diagonalization::16",
+  "argv": [
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/test_diag.xpm",
+   "-g",
+   "/tmp/test_diag.log",
+   "-method",
+   "diagonalization",
+   "-ev",
+   "/tmp/test_ev.xvg"
+  ],
+  "stdin": "3\n3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cluster_nofit_option::17",
+  "argv": [
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/test_nofit.xpm",
+   "-g",
+   "/tmp/test_nofit.log",
+   "-method",
+   "gromos",
+   "-cutoff",
+   "0.1",
+   "-nofit"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cluster_dista_option::18",
+  "argv": [
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/test_dista.xpm",
+   "-g",
+   "/tmp/test_dista.log",
+   "-method",
+   "gromos",
+   "-cutoff",
+   "0.1",
+   "-dista"
+  ],
+  "stdin": "3\n3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cluster_backbone_atoms::19",
+  "argv": [
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/test_bb.xpm",
+   "-g",
+   "/tmp/test_bb.log",
+   "-method",
+   "gromos",
+   "-cutoff",
+   "0.05"
+  ],
+  "stdin": "4\n4\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cluster_output_structures::20",
+  "argv": [
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/test_structures.xpm",
+   "-g",
+   "/tmp/test_structures.log",
+   "-method",
+   "gromos",
+   "-cutoff",
+   "0.05",
+   "-cl",
+   "/tmp/test_clusters.pdb"
+  ],
+  "stdin": "4\n4\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cluster_clndx_output::21",
+  "argv": [
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/test_clndx.xpm",
+   "-g",
+   "/tmp/test_clndx.log",
+   "-method",
+   "gromos",
+   "-cutoff",
+   "0.05",
+   "-clndx",
+   "/tmp/test_clusters.ndx"
+  ],
+  "stdin": "4\n4\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cluster_size_output::22",
+  "argv": [
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/test_sz.xpm",
+   "-g",
+   "/tmp/test_sz.log",
+   "-method",
+   "gromos",
+   "-cutoff",
+   "0.1",
+   "-sz",
+   "/tmp/test_sizes.xvg"
+  ],
+  "stdin": "3\n3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cluster_different_cutoffs::23",
+  "argv": [
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/test_cut1.xpm",
+   "-g",
+   "/tmp/test_cut1.log",
+   "-method",
+   "gromos",
+   "-cutoff",
+   "0.03"
+  ],
+  "stdin": "4\n4\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cluster_rmsd_range_in_log::24",
+  "argv": [
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/test_range.xpm",
+   "-g",
+   "/tmp/test_range.log",
+   "-method",
+   "gromos",
+   "-cutoff",
+   "0.1"
+  ],
+  "stdin": "3\n3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cluster_xpm_matrix_output::25",
+  "argv": [
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/test_xpm.xpm",
+   "-g",
+   "/tmp/test_xpm.log",
+   "-method",
+   "gromos",
+   "-cutoff",
+   "0.1"
+  ],
+  "stdin": "3\n3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cluster_binary_option::26",
+  "argv": [
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/test_binary.xpm",
+   "-g",
+   "/tmp/test_binary.log",
+   "-method",
+   "gromos",
+   "-cutoff",
+   "0.1",
+   "-binary"
+  ],
+  "stdin": "3\n3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cluster_max_option::27",
+  "argv": [
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/test_max.xpm",
+   "-g",
+   "/tmp/test_max.log",
+   "-method",
+   "gromos",
+   "-cutoff",
+   "0.1",
+   "-max",
+   "0.2"
+  ],
+  "stdin": "3\n3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cluster_combined_dista_nofit::28",
+  "argv": [
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/test_combined.xpm",
+   "-g",
+   "/tmp/test_combined.log",
+   "-method",
+   "gromos",
+   "-cutoff",
+   "0.1",
+   "-dista",
+   "-nofit"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cluster_multiple_output_files::29",
+  "argv": [
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/test_multi.xpm",
+   "-g",
+   "/tmp/test_multi.log",
+   "-method",
+   "gromos",
+   "-cutoff",
+   "0.1",
+   "-dist",
+   "/tmp/test_multi_dist.xvg",
+   "-sz",
+   "/tmp/test_multi_sz.xvg"
+  ],
+  "stdin": "3\n3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cluster_nlevels_option::30",
+  "argv": [
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/test_levels.xpm",
+   "-g",
+   "/tmp/test_levels.log",
+   "-method",
+   "gromos",
+   "-cutoff",
+   "0.1",
+   "-nlevels",
+   "20"
+  ],
+  "stdin": "3\n3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cluster_log_file_cluster_details::31",
+  "argv": [
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/test_details.xpm",
+   "-g",
+   "/tmp/test_details.log",
+   "-method",
+   "gromos",
+   "-cutoff",
+   "0.05"
+  ],
+  "stdin": "4\n4\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cluster_protein_h_selection::32",
+  "argv": [
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/test_proteinh.xpm",
+   "-g",
+   "/tmp/test_proteinh.log",
+   "-method",
+   "gromos",
+   "-cutoff",
+   "0.08"
+  ],
+  "stdin": "2\n2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cluster_rmsd_matrix_symmetry::33",
+  "argv": [
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/test_symmetry.xpm",
+   "-g",
+   "/tmp/test_symmetry.log",
+   "-method",
+   "gromos",
+   "-cutoff",
+   "0.1"
+  ],
+  "stdin": "3\n3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cluster_energy_calculation::34",
+  "argv": [
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/test_energy.xpm",
+   "-g",
+   "/tmp/test_energy.log",
+   "-method",
+   "gromos",
+   "-cutoff",
+   "0.1"
+  ],
+  "stdin": "3\n3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cluster_different_jp_parameters::35",
+  "argv": [
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/test_jp_params.xpm",
+   "-g",
+   "/tmp/test_jp_params.log",
+   "-method",
+   "jarvis-patrick",
+   "-M",
+   "3",
+   "-P",
+   "2",
+   "-cutoff",
+   "0.1"
+  ],
+  "stdin": "3\n3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_identical_structures_zero_rmsd::36",
+  "argv": [
+   "confrms",
+   "-f1",
+   "-f2",
+   "-o"
+  ],
+  "stdin": "0\n0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_translated_structure_nonzero_rmsd_nofit::37",
+  "argv": [
+   "confrms",
+   "-f1",
+   "-f2",
+   "-o",
+   "-nofit"
+  ],
+  "stdin": "0\n0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_name_matching_with_different_atom_counts::38",
+  "argv": [
+   "confrms",
+   "-f1",
+   "-f2",
+   "-o",
+   "-name"
+  ],
+  "stdin": "0\n0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_one_flag_outputs_only_fitted_structure::39",
+  "argv": [
+   "confrms",
+   "-f1",
+   "-f2",
+   "-o",
+   "-one"
+  ],
+  "stdin": "0\n0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_label_flag_adds_chain_identifiers::40",
+  "argv": [
+   "confrms",
+   "-f1",
+   "-f2",
+   "-o",
+   "-label"
+  ],
+  "stdin": "0\n0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bfac_flag_outputs_msd_as_bfactors::41",
+  "argv": [
+   "confrms",
+   "-f1",
+   "-f2",
+   "-o",
+   "-bfac"
+  ],
+  "stdin": "0\n0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_index_file_selection::42",
+  "argv": [
+   "confrms",
+   "-f1",
+   "-f2",
+   "-n1",
+   "-n2",
+   "-o"
+  ],
+  "stdin": "0\n0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fewer_than_three_atoms_fails::43",
+  "argv": [
+   "confrms",
+   "-f1",
+   "-f2",
+   "-n1",
+   "-n2",
+   "-o"
+  ],
+  "stdin": "1\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_match_output_file_with_name_flag::44",
+  "argv": [
+   "confrms",
+   "-f1",
+   "-f2",
+   "-o",
+   "-name",
+   "-no"
+  ],
+  "stdin": "0\n0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_flags_one_bfac_label::45",
+  "argv": [
+   "confrms",
+   "-f1",
+   "-f2",
+   "-o",
+   "-one",
+   "-bfac",
+   "-label"
+  ],
+  "stdin": "0\n0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nofit_with_name_matching::46",
+  "argv": [
+   "confrms",
+   "-f1",
+   "-f2",
+   "-o",
+   "-name",
+   "-nofit"
+  ],
+  "stdin": "0\n0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_covar_basic_protein_analysis::47",
+  "argv": [
+   "covar",
+   "-f",
+   "-s",
+   "-o",
+   "-v",
+   "-av",
+   "-l"
+  ],
+  "stdin": "1\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_anaeig_project_trajectory_on_eigenvectors::48",
+  "argv": [
+   "anaeig",
+   "-v",
+   "-f",
+   "-s",
+   "-eig",
+   "-proj",
+   "-first",
+   "1",
+   "-last",
+   "1"
+  ],
+  "stdin": "1\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_covar_calpha_only_selection::49",
+  "argv": [
+   "covar",
+   "-f",
+   "-s",
+   "-o",
+   "-v",
+   "-l"
+  ],
+  "stdin": "3\n3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_covar_no_fit_option::50",
+  "argv": [
+   "covar",
+   "-f",
+   "-s",
+   "-o",
+   "-v",
+   "-l",
+   "-nofit"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_covar_ascii_matrix_output::51",
+  "argv": [
+   "covar",
+   "-f",
+   "-s",
+   "-o",
+   "-v",
+   "-ascii"
+  ],
+  "stdin": "3\n3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_anaeig_component_analysis::52",
+  "argv": [
+   "anaeig",
+   "-v",
+   "-comp",
+   "-first",
+   "1",
+   "-last",
+   "1"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_anaeig_rmsf_calculation::53",
+  "argv": [
+   "anaeig",
+   "-v",
+   "-s",
+   "-eig",
+   "-rmsf",
+   "-first",
+   "1",
+   "-last",
+   "1"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_anaeig_2d_projection::54",
+  "argv": [
+   "anaeig",
+   "-v",
+   "-f",
+   "-s",
+   "-eig",
+   "-2d",
+   "-first",
+   "1",
+   "-last",
+   "1"
+  ],
+  "stdin": "1\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_anaeig_extract_extreme_structures::55",
+  "argv": [
+   "anaeig",
+   "-v",
+   "-f",
+   "-s",
+   "-eig",
+   "-extr",
+   "-first",
+   "1",
+   "-last",
+   "1",
+   "-nframes",
+   "5"
+  ],
+  "stdin": "1\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_anaeig_filtered_trajectory_output::56",
+  "argv": [
+   "anaeig",
+   "-v",
+   "-f",
+   "-s",
+   "-eig",
+   "-filt",
+   "-first",
+   "1",
+   "-last",
+   "1"
+  ],
+  "stdin": "1\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_anaeig_entropy_calculation::57",
+  "argv": [
+   "anaeig",
+   "-v",
+   "-eig",
+   "-entropy",
+   "-temp",
+   "300",
+   "-first",
+   "1",
+   "-last",
+   "1"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_covar_mass_weighted_analysis::58",
+  "argv": [
+   "covar",
+   "-f",
+   "-s",
+   "-o",
+   "-v",
+   "-l",
+   "-mwa"
+  ],
+  "stdin": "1\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_covar_different_fit_and_analysis_groups::59",
+  "argv": [
+   "covar",
+   "-f",
+   "-s",
+   "-o",
+   "-v",
+   "-l"
+  ],
+  "stdin": "4\n3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_covar_time_range_selection::60",
+  "argv": [
+   "covar",
+   "-f",
+   "-s",
+   "-o",
+   "-v",
+   "-l",
+   "-b",
+   "5",
+   "-e",
+   "10"
+  ],
+  "stdin": "1\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_anaeig_skip_eigenvectors::61",
+  "argv": [
+   "anaeig",
+   "-v",
+   "-f",
+   "-s",
+   "-eig",
+   "-proj",
+   "-first",
+   "1",
+   "-last",
+   "1",
+   "-skip",
+   "1"
+  ],
+  "stdin": "1\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_anaeig_3d_projection_requires_three_eigenvectors::62",
+  "argv": [
+   "anaeig",
+   "-v",
+   "-f",
+   "-s",
+   "-eig",
+   "-3d",
+   "-first",
+   "1",
+   "-last",
+   "1"
+  ],
+  "stdin": "1\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_covar_ref_structure_option::63",
+  "argv": [
+   "covar",
+   "-f",
+   "-s",
+   "-o",
+   "-v",
+   "-l",
+   "-ref"
+  ],
+  "stdin": "1\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_covar_xpm_output_formats::64",
+  "argv": [
+   "covar",
+   "-f",
+   "-s",
+   "-o",
+   "-v",
+   "-xpm",
+   "-xpma"
+  ],
+  "stdin": "3\n3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_covar_pbc_option::65",
+  "argv": [
+   "covar",
+   "-f",
+   "-s",
+   "-o",
+   "-v",
+   "-pbc"
+  ],
+  "stdin": "1\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_protein_dipole_calculation::66",
+  "argv": [
+   "current",
+   "-s",
+   "-f",
+   "-o",
+   "-mj",
+   "-md",
+   "-dsp"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_system_group_multi_molecule::67",
+  "argv": [
+   "current",
+   "-s",
+   "-f",
+   "-o",
+   "-mj",
+   "-md",
+   "-dsp"
+  ],
+  "stdin": "0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_temperature_and_eps_rf_parameters::68",
+  "argv": [
+   "current",
+   "-s",
+   "-f",
+   "-temp",
+   "310",
+   "-eps",
+   "78.5",
+   "-sh",
+   "100",
+   "-o",
+   "-mj",
+   "-md",
+   "-dsp"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nojump_flag_affects_translational_dipole::69",
+  "argv": [
+   "current",
+   "-s",
+   "-f",
+   "-nonojump",
+   "-o",
+   "-mj",
+   "-md",
+   "-dsp"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shift_parameter::70",
+  "argv": [
+   "current",
+   "-s",
+   "-f",
+   "-sh",
+   "50",
+   "-o",
+   "-mj",
+   "-md",
+   "-dsp"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_partial_molecule_group_error::71",
+  "argv": [
+   "current",
+   "-s",
+   "-f",
+   "-o",
+   "-mj",
+   "-md",
+   "-dsp"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fit_range_parameters::72",
+  "argv": [
+   "current",
+   "-s",
+   "-f",
+   "-bfit",
+   "0",
+   "-efit",
+   "5",
+   "-bvit",
+   "0",
+   "-evit",
+   "3",
+   "-o",
+   "-mj",
+   "-md",
+   "-dsp"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xvg_format_none::73",
+  "argv": [
+   "current",
+   "-s",
+   "-f",
+   "-xvg",
+   "none",
+   "-o",
+   "-mj",
+   "-md",
+   "-dsp"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_temperature_parameter::74",
+  "argv": [
+   "current",
+   "-s",
+   "-f",
+   "-temp",
+   "1000",
+   "-o",
+   "-mj",
+   "-md",
+   "-dsp"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_density_basic_mass_profile::75",
+  "argv": [
+   "density",
+   "-f",
+   "-s",
+   "-o",
+   "-d",
+   "Z",
+   "-sl",
+   "50"
+  ],
+  "stdin": "0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_density_number_density::76",
+  "argv": [
+   "density",
+   "-f",
+   "-s",
+   "-o",
+   "-dens",
+   "number",
+   "-d",
+   "Z"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_density_centered::77",
+  "argv": [
+   "density",
+   "-f",
+   "-s",
+   "-o",
+   "-center",
+   "-d",
+   "Z"
+  ],
+  "stdin": "1\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_density_axis_selection::78",
+  "argv": [
+   "density",
+   "-f",
+   "-s",
+   "-o",
+   "-d",
+   "-sl",
+   "30"
+  ],
+  "stdin": "0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_density_slice_count::79",
+  "argv": [
+   "density",
+   "-f",
+   "-s",
+   "-o",
+   "-sl"
+  ],
+  "stdin": "0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_densmap_basic_2d_map::80",
+  "argv": [
+   "densmap",
+   "-f",
+   "-s",
+   "-o",
+   "-bin",
+   "0.1"
+  ],
+  "stdin": "0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_densmap_averaging_direction::81",
+  "argv": [
+   "densmap",
+   "-f",
+   "-s",
+   "-o",
+   "-aver",
+   "-bin",
+   "0.15"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_densmap_bin_size::82",
+  "argv": [
+   "densmap",
+   "-f",
+   "-s",
+   "-o",
+   "-bin"
+  ],
+  "stdin": "0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_densmap_dat_output::83",
+  "argv": [
+   "densmap",
+   "-f",
+   "-s",
+   "-od",
+   "-bin",
+   "0.2"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_densmap_unit_options::84",
+  "argv": [
+   "densmap",
+   "-f",
+   "-s",
+   "-o",
+   "-unit",
+   "-bin",
+   "0.15"
+  ],
+  "stdin": "0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_density_multiple_groups::85",
+  "argv": [
+   "density",
+   "-f",
+   "-s",
+   "-o",
+   "-ng",
+   "2",
+   "-d",
+   "Z"
+  ],
+  "stdin": "1\n12\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_density_charge_density::86",
+  "argv": [
+   "density",
+   "-f",
+   "-s",
+   "-o",
+   "-dens",
+   "charge",
+   "-d",
+   "Z"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_density_symmetrize::87",
+  "argv": [
+   "density",
+   "-f",
+   "-s",
+   "-o",
+   "-symm",
+   "-d",
+   "Z"
+  ],
+  "stdin": "1\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_densmap_grid_size_n1_n2::88",
+  "argv": [
+   "densmap",
+   "-f",
+   "-s",
+   "-o",
+   "-n1",
+   "20",
+   "-n2",
+   "20"
+  ],
+  "stdin": "0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_densmap_coordinate_limits::89",
+  "argv": [
+   "densmap",
+   "-f",
+   "-s",
+   "-o",
+   "-aver",
+   "z",
+   "-xmin",
+   "0.5",
+   "-xmax",
+   "1.5",
+   "-bin",
+   "0.1"
+  ],
+  "stdin": "0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_density_time_range::90",
+  "argv": [
+   "density",
+   "-f",
+   "-s",
+   "-o",
+   "-d",
+   "Z"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_densmap_time_range::91",
+  "argv": [
+   "densmap",
+   "-f",
+   "-s",
+   "-o",
+   "-b",
+   "0",
+   "-e",
+   "5",
+   "-bin",
+   "0.1"
+  ],
+  "stdin": "0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_density_no_topology_file::92",
+  "argv": [
+   "density",
+   "-f",
+   "-s",
+   "/nonexistent/file.tpr",
+   "-o"
+  ],
+  "stdin": "0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_densmap_no_structure_file::93",
+  "argv": [
+   "densmap",
+   "-f",
+   "-s",
+   "/nonexistent/structure.tpr",
+   "-o"
+  ],
+  "stdin": "0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_dipoles_system::94",
+  "argv": [
+   "dipoles",
+   "-s",
+   "-f",
+   "-o",
+   "-eps",
+   "-a",
+   "-d"
+  ],
+  "stdin": "0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dipoles_protein_only::95",
+  "argv": [
+   "dipoles",
+   "-s",
+   "-f",
+   "-o",
+   "-eps",
+   "-a",
+   "-d"
+  ],
+  "stdin": "12\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dipoles_autocorrelation_mol::96",
+  "argv": [
+   "dipoles",
+   "-s",
+   "-f",
+   "-o",
+   "-eps",
+   "-a",
+   "-d",
+   "-c",
+   "-corr",
+   "mol"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dipoles_custom_parameters::97",
+  "argv": [
+   "dipoles",
+   "-s",
+   "-f",
+   "-o",
+   "-eps",
+   "-a",
+   "-d",
+   "-temp",
+   "350",
+   "-mumax",
+   "100",
+   "-mu",
+   "80"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dipoles_time_range_selection::98",
+  "argv": [
+   "dipoles",
+   "-s",
+   "-f",
+   "-o",
+   "-eps",
+   "-a",
+   "-d",
+   "-b",
+   "0",
+   "-e",
+   "5"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dipoles_quadrupole_calculation::99",
+  "argv": [
+   "dipoles",
+   "-s",
+   "-f",
+   "-o",
+   "-eps",
+   "-a",
+   "-d",
+   "-quad"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dipoles_corr_total_mode::100",
+  "argv": [
+   "dipoles",
+   "-s",
+   "-f",
+   "-o",
+   "-eps",
+   "-a",
+   "-d",
+   "-c",
+   "-corr",
+   "total"
+  ],
+  "stdin": "12\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dipoles_legendre_polynomial_order::101",
+  "argv": [
+   "dipoles",
+   "-s",
+   "-f",
+   "-o",
+   "-eps",
+   "-a",
+   "-d",
+   "-c",
+   "-corr",
+   "mol",
+   "-P",
+   "2"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dipoles_epsilonRF_parameter::102",
+  "argv": [
+   "dipoles",
+   "-s",
+   "-f",
+   "-o",
+   "-eps",
+   "-a",
+   "-d",
+   "-epsilonRF",
+   "80"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dipoles_skip_frames::103",
+  "argv": [
+   "dipoles",
+   "-s",
+   "-f",
+   "-o",
+   "-eps",
+   "-a",
+   "-d",
+   "-skip",
+   "1"
+  ],
+  "stdin": "12\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dipoles_xvg_format_option::104",
+  "argv": [
+   "dipoles",
+   "-s",
+   "-f",
+   "-o",
+   "-eps",
+   "-a",
+   "-d",
+   "-xvg",
+   "xmgr"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dipoles_multiple_output_formats::105",
+  "argv": [
+   "dipoles",
+   "-s",
+   "-f",
+   "-o",
+   "-eps",
+   "-a",
+   "-d"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dipoles_single_frame_trajectory::106",
+  "argv": [
+   "dipoles",
+   "-s",
+   "-f",
+   "-o",
+   "-eps",
+   "-a",
+   "-d",
+   "-e",
+   "1"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mindist_basic::107",
+  "argv": [
+   "mindist",
+   "-s",
+   "-f",
+   "-od",
+   "/tmp/test_mindist.xvg",
+   "-n",
+   "test.ndx"
+  ],
+  "stdin": "Protein\nWater\n",
+  "files": {
+   "test.ndx": "[ Protein ]\n   1    2    3    4    5    6    7    8    9   10   11   12   13   14   15   16\n  17   18   19   20   21   22   23   24   25   26   27   28   29   30   31   32\n  33   34   35   36   37   38   39   40   41   42   43   44   45   46   47   48\n  49   50   51   52   53   54   55   56   57   58   59   60   61   62   63   64\n  65   66   67   68   69   70   71   72   73   74   75   76   77   78   79   80\n  81   82   83   84   85   86   87   88   89   90   91   92   93   94   95   96\n  97   98   99  100  101  102  103  104  105  106  107  108  109  110  111  112\n 113  114  115  116  117  118  119  120  121  122  123  124  125  126  127  128\n 129  130  131  132  133  134  135  136  137  138  139  140  141  142  143  144\n 145  146  147  148  149  150  151  152  153  154  155  156  157  158  159  160\n 161  162  163  164  165  166  167  168  169  170  171  172  173  174  175  176\n 177  178  179  180  181  182  183  184  185  186  187  188  189  190  191  192\n 193  194  195  196  197  198  199  200  201  202  203  204  205  206  207  208\n 209  210  211  212  213  214  215  216  217  218  219  220  221  222  223  224\n 225  226  227  228  229  230  231  232  233  234  235  236  237  238  239  240\n 241  242  243  244  245  246  247  248  249  250  251  252  253  254  255  256\n 257  258  259  260  261  262  263  264  265  266  267  268  269  270  271  272\n 273  274  275  276  277  278  279  280  281  282  283  284  285  286  287  288\n 289  290  291  292  293  294  295  296  297  298  299  300  301  302  303  304\n\n[ Water ]\n 305  306  307  308  309  310  311  312  313  314  315  316  317  318  319  320\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mindist_contacts::108",
+  "argv": [
+   "mindist",
+   "-s",
+   "-f",
+   "-on",
+   "/tmp/test_contacts.xvg",
+   "-n",
+   "test.ndx"
+  ],
+  "stdin": "Protein\nWater\n",
+  "files": {
+   "test.ndx": "[ Protein ]\n   1    2    3    4    5    6    7    8    9   10   11   12   13   14   15   16\n  17   18   19   20   21   22   23   24   25   26   27   28   29   30   31   32\n  33   34   35   36   37   38   39   40   41   42   43   44   45   46   47   48\n  49   50   51   52   53   54   55   56   57   58   59   60   61   62   63   64\n  65   66   67   68   69   70   71   72   73   74   75   76   77   78   79   80\n  81   82   83   84   85   86   87   88   89   90   91   92   93   94   95   96\n  97   98   99  100  101  102  103  104  105  106  107  108  109  110  111  112\n 113  114  115  116  117  118  119  120  121  122  123  124  125  126  127  128\n 129  130  131  132  133  134  135  136  137  138  139  140  141  142  143  144\n 145  146  147  148  149  150  151  152  153  154  155  156  157  158  159  160\n 161  162  163  164  165  166  167  168  169  170  171  172  173  174  175  176\n 177  178  179  180  181  182  183  184  185  186  187  188  189  190  191  192\n 193  194  195  196  197  198  199  200  201  202  203  204  205  206  207  208\n 209  210  211  212  213  214  215  216  217  218  219  220  221  222  223  224\n 225  226  227  228  229  230  231  232  233  234  235  236  237  238  239  240\n 241  242  243  244  245  246  247  248  249  250  251  252  253  254  255  256\n 257  258  259  260  261  262  263  264  265  266  267  268  269  270  271  272\n 273  274  275  276  277  278  279  280  281  282  283  284  285  286  287  288\n 289  290  291  292  293  294  295  296  297  298  299  300  301  302  303  304\n\n[ Water ]\n 305  306  307  308  309  310  311  312  313  314  315  316  317  318  319  320\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mindist_custom_cutoff::109",
+  "argv": [
+   "mindist",
+   "-s",
+   "-f",
+   "-on",
+   "/tmp/test_mindist_d08.xvg",
+   "-d",
+   "0.8",
+   "-n",
+   "test.ndx"
+  ],
+  "stdin": "Protein\nWater\n",
+  "files": {
+   "test.ndx": "[ Protein ]\n   1    2    3    4    5    6    7    8    9   10   11   12   13   14   15   16\n  17   18   19   20   21   22   23   24   25   26   27   28   29   30   31   32\n  33   34   35   36   37   38   39   40   41   42   43   44   45   46   47   48\n  49   50   51   52   53   54   55   56   57   58   59   60   61   62   63   64\n  65   66   67   68   69   70   71   72   73   74   75   76   77   78   79   80\n  81   82   83   84   85   86   87   88   89   90   91   92   93   94   95   96\n  97   98   99  100  101  102  103  104  105  106  107  108  109  110  111  112\n 113  114  115  116  117  118  119  120  121  122  123  124  125  126  127  128\n 129  130  131  132  133  134  135  136  137  138  139  140  141  142  143  144\n 145  146  147  148  149  150  151  152  153  154  155  156  157  158  159  160\n 161  162  163  164  165  166  167  168  169  170  171  172  173  174  175  176\n 177  178  179  180  181  182  183  184  185  186  187  188  189  190  191  192\n 193  194  195  196  197  198  199  200  201  202  203  204  205  206  207  208\n 209  210  211  212  213  214  215  216  217  218  219  220  221  222  223  224\n 225  226  227  228  229  230  231  232  233  234  235  236  237  238  239  240\n 241  242  243  244  245  246  247  248  249  250  251  252  253  254  255  256\n 257  258  259  260  261  262  263  264  265  266  267  268  269  270  271  272\n 273  274  275  276  277  278  279  280  281  282  283  284  285  286  287  288\n 289  290  291  292  293  294  295  296  297  298  299  300  301  302  303  304\n\n[ Water ]\n 305  306  307  308  309  310  311  312  313  314  315  316  317  318  319  320\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mindist_residue_distances::110",
+  "argv": [
+   "mindist",
+   "-s",
+   "-f",
+   "-or",
+   "/tmp/test_mindist_res.xvg",
+   "-n",
+   "test.ndx"
+  ],
+  "stdin": "Protein\nWater\n",
+  "files": {
+   "test.ndx": "[ Protein ]\n   1    2    3    4    5    6    7    8    9   10   11   12   13   14   15   16\n  17   18   19   20   21   22   23   24   25   26   27   28   29   30   31   32\n  33   34   35   36   37   38   39   40   41   42   43   44   45   46   47   48\n  49   50   51   52   53   54   55   56   57   58   59   60   61   62   63   64\n  65   66   67   68   69   70   71   72   73   74   75   76   77   78   79   80\n  81   82   83   84   85   86   87   88   89   90   91   92   93   94   95   96\n  97   98   99  100  101  102  103  104  105  106  107  108  109  110  111  112\n 113  114  115  116  117  118  119  120  121  122  123  124  125  126  127  128\n 129  130  131  132  133  134  135  136  137  138  139  140  141  142  143  144\n 145  146  147  148  149  150  151  152  153  154  155  156  157  158  159  160\n 161  162  163  164  165  166  167  168  169  170  171  172  173  174  175  176\n 177  178  179  180  181  182  183  184  185  186  187  188  189  190  191  192\n 193  194  195  196  197  198  199  200  201  202  203  204  205  206  207  208\n 209  210  211  212  213  214  215  216  217  218  219  220  221  222  223  224\n 225  226  227  228  229  230  231  232  233  234  235  236  237  238  239  240\n 241  242  243  244  245  246  247  248  249  250  251  252  253  254  255  256\n 257  258  259  260  261  262  263  264  265  266  267  268  269  270  271  272\n 273  274  275  276  277  278  279  280  281  282  283  284  285  286  287  288\n 289  290  291  292  293  294  295  296  297  298  299  300  301  302  303  304\n\n[ Water ]\n 305  306  307  308  309  310  311  312  313  314  315  316  317  318  319  320\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mindist_pbc::111",
+  "argv": [
+   "mindist",
+   "-s",
+   "-f",
+   "-od",
+   "/tmp/test_mindist_pbc.xvg",
+   "-pbc",
+   "-n",
+   "test.ndx"
+  ],
+  "stdin": "Protein\nWater\n",
+  "files": {
+   "test.ndx": "[ Protein ]\n   1    2    3    4    5    6    7    8    9   10   11   12   13   14   15   16\n  17   18   19   20   21   22   23   24   25   26   27   28   29   30   31   32\n  33   34   35   36   37   38   39   40   41   42   43   44   45   46   47   48\n  49   50   51   52   53   54   55   56   57   58   59   60   61   62   63   64\n  65   66   67   68   69   70   71   72   73   74   75   76   77   78   79   80\n  81   82   83   84   85   86   87   88   89   90   91   92   93   94   95   96\n  97   98   99  100  101  102  103  104  105  106  107  108  109  110  111  112\n 113  114  115  116  117  118  119  120  121  122  123  124  125  126  127  128\n 129  130  131  132  133  134  135  136  137  138  139  140  141  142  143  144\n 145  146  147  148  149  150  151  152  153  154  155  156  157  158  159  160\n 161  162  163  164  165  166  167  168  169  170  171  172  173  174  175  176\n 177  178  179  180  181  182  183  184  185  186  187  188  189  190  191  192\n 193  194  195  196  197  198  199  200  201  202  203  204  205  206  207  208\n 209  210  211  212  213  214  215  216  217  218  219  220  221  222  223  224\n 225  226  227  228  229  230  231  232  233  234  235  236  237  238  239  240\n 241  242  243  244  245  246  247  248  249  250  251  252  253  254  255  256\n 257  258  259  260  261  262  263  264  265  266  267  268  269  270  271  272\n 273  274  275  276  277  278  279  280  281  282  283  284  285  286  287  288\n 289  290  291  292  293  294  295  296  297  298  299  300  301  302  303  304\n\n[ Water ]\n 305  306  307  308  309  310  311  312  313  314  315  316  317  318  319  320\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mindist_no_pbc::112",
+  "argv": [
+   "mindist",
+   "-s",
+   "-f",
+   "-od",
+   "/tmp/test_mindist_nopbc.xvg",
+   "-nopbc",
+   "-n",
+   "test.ndx"
+  ],
+  "stdin": "Protein\nWater\n",
+  "files": {
+   "test.ndx": "[ Protein ]\n   1    2    3    4    5    6    7    8    9   10   11   12   13   14   15   16\n  17   18   19   20   21   22   23   24   25   26   27   28   29   30   31   32\n  33   34   35   36   37   38   39   40   41   42   43   44   45   46   47   48\n  49   50   51   52   53   54   55   56   57   58   59   60   61   62   63   64\n  65   66   67   68   69   70   71   72   73   74   75   76   77   78   79   80\n  81   82   83   84   85   86   87   88   89   90   91   92   93   94   95   96\n  97   98   99  100  101  102  103  104  105  106  107  108  109  110  111  112\n 113  114  115  116  117  118  119  120  121  122  123  124  125  126  127  128\n 129  130  131  132  133  134  135  136  137  138  139  140  141  142  143  144\n 145  146  147  148  149  150  151  152  153  154  155  156  157  158  159  160\n 161  162  163  164  165  166  167  168  169  170  171  172  173  174  175  176\n 177  178  179  180  181  182  183  184  185  186  187  188  189  190  191  192\n 193  194  195  196  197  198  199  200  201  202  203  204  205  206  207  208\n 209  210  211  212  213  214  215  216  217  218  219  220  221  222  223  224\n 225  226  227  228  229  230  231  232  233  234  235  236  237  238  239  240\n 241  242  243  244  245  246  247  248  249  250  251  252  253  254  255  256\n 257  258  259  260  261  262  263  264  265  266  267  268  269  270  271  272\n 273  274  275  276  277  278  279  280  281  282  283  284  285  286  287  288\n 289  290  291  292  293  294  295  296  297  298  299  300  301  302  303  304\n\n[ Water ]\n 305  306  307  308  309  310  311  312  313  314  315  316  317  318  319  320\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mindist_matrix::113",
+  "argv": [
+   "mindist",
+   "-s",
+   "-f",
+   "-od",
+   "/tmp/test_matrix.xvg",
+   "-matrix",
+   "-n",
+   "test_matrix.ndx"
+  ],
+  "stdin": "Group1\n",
+  "files": {
+   "test_matrix.ndx": "[ Group1 ]\n   1    2    3    4    5    6    7    8    9   10\n\n[ Group2 ]\n  11   12   13   14   15   16   17   18   19   20\n\n[ Group3 ]\n  21   22   23   24   25   26   27   28   29   30\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mindist_max_distance::114",
+  "argv": [
+   "mindist",
+   "-s",
+   "-f",
+   "-od",
+   "/tmp/test_maxdist.xvg",
+   "-max",
+   "-n",
+   "test.ndx"
+  ],
+  "stdin": "Protein\nWater\n",
+  "files": {
+   "test.ndx": "[ Protein ]\n   1    2    3    4    5    6    7    8    9   10   11   12   13   14   15   16\n  17   18   19   20   21   22   23   24   25   26   27   28   29   30   31   32\n  33   34   35   36   37   38   39   40   41   42   43   44   45   46   47   48\n  49   50   51   52   53   54   55   56   57   58   59   60   61   62   63   64\n  65   66   67   68   69   70   71   72   73   74   75   76   77   78   79   80\n  81   82   83   84   85   86   87   88   89   90   91   92   93   94   95   96\n  97   98   99  100  101  102  103  104  105  106  107  108  109  110  111  112\n 113  114  115  116  117  118  119  120  121  122  123  124  125  126  127  128\n 129  130  131  132  133  134  135  136  137  138  139  140  141  142  143  144\n 145  146  147  148  149  150  151  152  153  154  155  156  157  158  159  160\n 161  162  163  164  165  166  167  168  169  170  171  172  173  174  175  176\n 177  178  179  180  181  182  183  184  185  186  187  188  189  190  191  192\n 193  194  195  196  197  198  199  200  201  202  203  204  205  206  207  208\n 209  210  211  212  213  214  215  216  217  218  219  220  221  222  223  224\n 225  226  227  228  229  230  231  232  233  234  235  236  237  238  239  240\n 241  242  243  244  245  246  247  248  249  250  251  252  253  254  255  256\n 257  258  259  260  261  262  263  264  265  266  267  268  269  270  271  272\n 273  274  275  276  277  278  279  280  281  282  283  284  285  286  287  288\n 289  290  291  292  293  294  295  296  297  298  299  300  301  302  303  304\n\n[ Water ]\n 305  306  307  308  309  310  311  312  313  314  315  316  317  318  319  320\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mindist_group_counting::115",
+  "argv": [
+   "mindist",
+   "-s",
+   "-f",
+   "-on",
+   "/tmp/test_group_count.xvg",
+   "-group",
+   "-n",
+   "test.ndx"
+  ],
+  "stdin": "Protein\nWater\n",
+  "files": {
+   "test.ndx": "[ Protein ]\n   1    2    3    4    5    6    7    8    9   10   11   12   13   14   15   16\n  17   18   19   20   21   22   23   24   25   26   27   28   29   30   31   32\n  33   34   35   36   37   38   39   40   41   42   43   44   45   46   47   48\n  49   50   51   52   53   54   55   56   57   58   59   60   61   62   63   64\n  65   66   67   68   69   70   71   72   73   74   75   76   77   78   79   80\n  81   82   83   84   85   86   87   88   89   90   91   92   93   94   95   96\n  97   98   99  100  101  102  103  104  105  106  107  108  109  110  111  112\n 113  114  115  116  117  118  119  120  121  122  123  124  125  126  127  128\n 129  130  131  132  133  134  135  136  137  138  139  140  141  142  143  144\n 145  146  147  148  149  150  151  152  153  154  155  156  157  158  159  160\n 161  162  163  164  165  166  167  168  169  170  171  172  173  174  175  176\n 177  178  179  180  181  182  183  184  185  186  187  188  189  190  191  192\n 193  194  195  196  197  198  199  200  201  202  203  204  205  206  207  208\n 209  210  211  212  213  214  215  216  217  218  219  220  221  222  223  224\n 225  226  227  228  229  230  231  232  233  234  235  236  237  238  239  240\n 241  242  243  244  245  246  247  248  249  250  251  252  253  254  255  256\n 257  258  259  260  261  262  263  264  265  266  267  268  269  270  271  272\n 273  274  275  276  277  278  279  280  281  282  283  284  285  286  287  288\n 289  290  291  292  293  294  295  296  297  298  299  300  301  302  303  304\n\n[ Water ]\n 305  306  307  308  309  310  311  312  313  314  315  316  317  318  319  320\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mindist_time_selection::116",
+  "argv": [
+   "mindist",
+   "-s",
+   "-f",
+   "-od",
+   "/tmp/test_mindist_time.xvg",
+   "-b",
+   "5",
+   "-e",
+   "15",
+   "-n",
+   "test.ndx"
+  ],
+  "stdin": "Protein\nWater\n",
+  "files": {
+   "test.ndx": "[ Protein ]\n   1    2    3    4    5    6    7    8    9   10   11   12   13   14   15   16\n  17   18   19   20   21   22   23   24   25   26   27   28   29   30   31   32\n  33   34   35   36   37   38   39   40   41   42   43   44   45   46   47   48\n  49   50   51   52   53   54   55   56   57   58   59   60   61   62   63   64\n  65   66   67   68   69   70   71   72   73   74   75   76   77   78   79   80\n  81   82   83   84   85   86   87   88   89   90   91   92   93   94   95   96\n  97   98   99  100  101  102  103  104  105  106  107  108  109  110  111  112\n 113  114  115  116  117  118  119  120  121  122  123  124  125  126  127  128\n 129  130  131  132  133  134  135  136  137  138  139  140  141  142  143  144\n 145  146  147  148  149  150  151  152  153  154  155  156  157  158  159  160\n 161  162  163  164  165  166  167  168  169  170  171  172  173  174  175  176\n 177  178  179  180  181  182  183  184  185  186  187  188  189  190  191  192\n 193  194  195  196  197  198  199  200  201  202  203  204  205  206  207  208\n 209  210  211  212  213  214  215  216  217  218  219  220  221  222  223  224\n 225  226  227  228  229  230  231  232  233  234  235  236  237  238  239  240\n 241  242  243  244  245  246  247  248  249  250  251  252  253  254  255  256\n 257  258  259  260  261  262  263  264  265  266  267  268  269  270  271  272\n 273  274  275  276  277  278  279  280  281  282  283  284  285  286  287  288\n 289  290  291  292  293  294  295  296  297  298  299  300  301  302  303  304\n\n[ Water ]\n 305  306  307  308  309  310  311  312  313  314  315  316  317  318  319  320\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dos_insufficient_frames_error::117",
+  "argv": [
+   "dos",
+   "-f",
+   "-s",
+   "-vacf",
+   "/tmp/vacf.xvg",
+   "-mvacf",
+   "/tmp/mvacf.xvg",
+   "-dos",
+   "/tmp/dos.xvg",
+   "-g",
+   "/tmp/dos.log"
+  ],
+  "stdin": "0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dos_basic_calculation_with_log_output::118",
+  "argv": [
+   "dos",
+   "-f",
+   "-s",
+   "-vacf",
+   "-mvacf",
+   "-dos",
+   "-g"
+  ],
+  "stdin": "0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dos_reciprocal_units_flag::119",
+  "argv": [
+   "dos",
+   "-f",
+   "-s",
+   "-vacf",
+   "-mvacf",
+   "-dos",
+   "-g",
+   "-recip"
+  ],
+  "stdin": "0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dos_absolute_value_flag::120",
+  "argv": [
+   "dos",
+   "-f",
+   "-s",
+   "-vacf",
+   "-mvacf",
+   "-dos",
+   "-g",
+   "-abs"
+  ],
+  "stdin": "0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dos_temperature_parameter::121",
+  "argv": [
+   "dos",
+   "-f",
+   "-s",
+   "-vacf",
+   "-mvacf",
+   "-dos",
+   "-g",
+   "-T",
+   "350"
+  ],
+  "stdin": "0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dyecoupl_basic_distance_kappa2_trajectory::122",
+  "argv": [
+   "dyecoupl",
+   "-f",
+   "-n",
+   "-ot",
+   "-o"
+  ],
+  "stdin": "Donor\nAcceptor\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dyecoupl_instantaneous_fret_efficiency_with_R0::123",
+  "argv": [
+   "dyecoupl",
+   "-f",
+   "-n",
+   "-R0",
+   "5.0",
+   "-oe"
+  ],
+  "stdin": "Donor\nAcceptor\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dyecoupl_distance_histogram::124",
+  "argv": [
+   "dyecoupl",
+   "-f",
+   "-n",
+   "-rhist"
+  ],
+  "stdin": "Donor\nAcceptor\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dyecoupl_kappa2_histogram::125",
+  "argv": [
+   "dyecoupl",
+   "-f",
+   "-n",
+   "-khist"
+  ],
+  "stdin": "Donor\nAcceptor\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dyecoupl_normalized_histogram::126",
+  "argv": [
+   "dyecoupl",
+   "-f",
+   "-n",
+   "-rhist",
+   "-norm"
+  ],
+  "stdin": "Donor\nAcceptor\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dyecoupl_custom_bin_count::127",
+  "argv": [
+   "dyecoupl",
+   "-f",
+   "-n",
+   "-bins",
+   "20",
+   "-rhist"
+  ],
+  "stdin": "Donor\nAcceptor\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dyecoupl_multiple_atom_pairs::128",
+  "argv": [
+   "dyecoupl",
+   "-f",
+   "-n",
+   "-ot"
+  ],
+  "stdin": "DonorMulti\nAcceptorMulti\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dyecoupl_error_R0_required_for_insteff::129",
+  "argv": [
+   "dyecoupl",
+   "-f",
+   "-n",
+   "-R0",
+   "-1.0",
+   "-oe"
+  ],
+  "stdin": "Donor\nAcceptor\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dyecoupl_error_identical_donor_acceptor_groups::130",
+  "argv": [
+   "dyecoupl",
+   "-f",
+   "-n"
+  ],
+  "stdin": "SameGroup\nSameGroup\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dyecoupl_error_atom_index_out_of_range::131",
+  "argv": [
+   "dyecoupl",
+   "-f",
+   "-n"
+  ],
+  "stdin": "DonorOK\nAcceptorOutOfRange\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dyecoupl_combined_outputs::132",
+  "argv": [
+   "dyecoupl",
+   "-f",
+   "-n",
+   "-R0",
+   "5.0",
+   "-ot",
+   "-oe",
+   "-o",
+   "-rhist",
+   "-khist"
+  ],
+  "stdin": "Donor\nAcceptor\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dyecoupl_stdout_averages_output::133",
+  "argv": [
+   "dyecoupl",
+   "-f",
+   "-n",
+   "-R0",
+   "5.0"
+  ],
+  "stdin": "Donor\nAcceptor\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dyecoupl_xvg_format_headers::134",
+  "argv": [
+   "dyecoupl",
+   "-f",
+   "-n",
+   "-ot"
+  ],
+  "stdin": "Donor\nAcceptor\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dyecoupl_histogram_allocation_realloc::135",
+  "argv": [
+   "dyecoupl",
+   "-f",
+   "-n",
+   "-rhist",
+   "-khist"
+  ],
+  "stdin": "Donor\nAcceptor\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dyecoupl_citation_reminder::136",
+  "argv": [
+   "dyecoupl",
+   "-f",
+   "-n"
+  ],
+  "stdin": "Donor\nAcceptor\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_single_file_conversion::137",
+  "argv": [
+   "energy",
+   "-f",
+   "-o"
+  ],
+  "stdin": "1\n0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_file_preserves_all_energy_terms::138",
+  "argv": [
+   "energy",
+   "-f",
+   "-o"
+  ],
+  "stdin": "0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_fit_option_with_group_input::139",
+  "argv": [
+   "filter",
+   "-f",
+   "-s",
+   "-ol",
+   "-nf",
+   "1",
+   "-fit"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_fit_option_golden::140",
+  "argv": [
+   "filter",
+   "-f",
+   "-s",
+   "-nf",
+   "1",
+   "-fit"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_combined_options::141",
+  "argv": [
+   "filter",
+   "-f",
+   "-s",
+   "-ol",
+   "-nf",
+   "1",
+   "-all",
+   "-b",
+   "0",
+   "-e",
+   "10",
+   "-fit"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_genion_basic_add_single_positive_ion::142",
+  "argv": [
+   "genion",
+   "-s",
+   "-o",
+   "-p",
+   "-np",
+   "1",
+   "-nn",
+   "0"
+  ],
+  "stdin": "SOL\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_genion_add_both_positive_and_negative_ions::143",
+  "argv": [
+   "genion",
+   "-s",
+   "-o",
+   "-p",
+   "-np",
+   "1",
+   "-nn",
+   "1"
+  ],
+  "stdin": "SOL\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_genion_different_ion_types::144",
+  "argv": [
+   "genion",
+   "-s",
+   "-o",
+   "-p",
+   "-np",
+   "1",
+   "-pname",
+   "K"
+  ],
+  "stdin": "SOL\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_genion_custom_ion_charges::145",
+  "argv": [
+   "genion",
+   "-s",
+   "-o",
+   "-p",
+   "-np",
+   "1",
+   "-pname",
+   "CA",
+   "-pq",
+   "2"
+  ],
+  "stdin": "SOL\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_genion_insufficient_solvent_molecules_error::146",
+  "argv": [
+   "genion",
+   "-s",
+   "-o",
+   "-p",
+   "-np",
+   "3",
+   "-nn",
+   "2"
+  ],
+  "stdin": "SOL\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_genion_neutral_flag_adds_counterions::147",
+  "argv": [
+   "genion",
+   "-s",
+   "-o",
+   "-p",
+   "-neutral"
+  ],
+  "stdin": "SOL\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_genion_seed_flag_for_reproducibility::148",
+  "argv": [
+   "genion",
+   "-s",
+   "-o",
+   "-p",
+   "-np",
+   "2",
+   "-seed",
+   "12345"
+  ],
+  "stdin": "SOL\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_genion_concentration_flag_calculates_ions::149",
+  "argv": [
+   "genion",
+   "-s",
+   "-o",
+   "-p",
+   "-conc",
+   "0.15"
+  ],
+  "stdin": "SOL\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_genion_rmin_maintains_minimum_distance::150",
+  "argv": [
+   "genion",
+   "-s",
+   "-o",
+   "-p",
+   "-np",
+   "1",
+   "-rmin",
+   "2.0"
+  ],
+  "stdin": "SOL\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_genion_without_topology_update::151",
+  "argv": [
+   "genion",
+   "-s",
+   "-o",
+   "-np",
+   "1"
+  ],
+  "stdin": "SOL\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_genion_multiple_ion_types_in_sequence::152",
+  "argv": [
+   "genion",
+   "-s",
+   "-o",
+   "-p",
+   "-np",
+   "1",
+   "-pname",
+   "NA",
+   "-nn",
+   "1",
+   "-nname",
+   "CL"
+  ],
+  "stdin": "SOL\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_genion_no_ions_needed_message::153",
+  "argv": [
+   "genion",
+   "-s",
+   "-o",
+   "-p",
+   "-np",
+   "0",
+   "-nn",
+   "0"
+  ],
+  "stdin": "SOL\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_genion_non_continuous_group_error::154",
+  "argv": [
+   "genion",
+   "-s",
+   "-n",
+   "-o",
+   "-p",
+   "-np",
+   "1"
+  ],
+  "stdin": "NonContinuous\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_genion_group_size_not_multiple_error::155",
+  "argv": [
+   "genion",
+   "-s",
+   "-n",
+   "-o",
+   "-p",
+   "bigger.top",
+   "-np",
+   "1"
+  ],
+  "stdin": "SOL\n",
+  "files": {
+   "bigger.top": "#include \"amber03.ff/forcefield.itp\"\n#include \"amber03.ff/spce.itp\"\n#include \"amber03.ff/ions.itp\"\n\n[ system ]\nBigger water box\n\n[ molecules ]\nSOL         6\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_genion_unneutralizable_system_error::156",
+  "argv": [
+   "genion",
+   "-s",
+   "-o",
+   "-p",
+   "-neutral",
+   "-pq",
+   "2",
+   "-nq",
+   "-2"
+  ],
+  "stdin": "SOL\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_genion_combined_neutral_and_concentration::157",
+  "argv": [
+   "genion",
+   "-s",
+   "-o",
+   "-np",
+   "1",
+   "-nn",
+   "1"
+  ],
+  "stdin": "SOL\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_genion_output_file_formats::158",
+  "argv": [
+   "genion",
+   "-s",
+   "-o",
+   "-p",
+   "-np",
+   "1"
+  ],
+  "stdin": "SOL\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_system_gyration::159",
+  "argv": [
+   "gyrate-legacy",
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/gyrate_basic.xvg"
+  ],
+  "stdin": "0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_protein_group_gyration::160",
+  "argv": [
+   "gyrate-legacy",
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/gyrate_protein.xvg"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_principal_axes_rotation::161",
+  "argv": [
+   "gyrate-legacy",
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/gyrate_principal.xvg",
+   "-p"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_moments_of_inertia::162",
+  "argv": [
+   "gyrate-legacy",
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/gyrate_moi.xvg",
+   "-moi"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_charge_weighted_gyration::163",
+  "argv": [
+   "gyrate-legacy",
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/gyrate_charge.xvg",
+   "-q"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_molecules::164",
+  "argv": [
+   "gyrate-legacy",
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/gyrate_nmol2.xvg",
+   "-nmol",
+   "2"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_range_selection::165",
+  "argv": [
+   "gyrate-legacy",
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/gyrate_time_range.xvg",
+   "-b",
+   "5",
+   "-e",
+   "10"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_format_xvg_structure::166",
+  "argv": [
+   "gyrate-legacy",
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/gyrate_structure.xvg"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_trajectory_file_error::167",
+  "argv": [
+   "gyrate-legacy",
+   "-f",
+   "/nonexistent/path/missing.xtc",
+   "-s",
+   "-o",
+   "/tmp/gyrate_error.xvg"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_structure_file_error::168",
+  "argv": [
+   "gyrate-legacy",
+   "-f",
+   "-s",
+   "/nonexistent/path/missing.tpr",
+   "-o",
+   "/tmp/gyrate_error.xvg"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_nmol_not_divisible::169",
+  "argv": [
+   "gyrate-legacy",
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/gyrate_error.xvg",
+   "-nmol",
+   "3"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_acf_with_nmol_error::170",
+  "argv": [
+   "gyrate-legacy",
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/gyrate_error.xvg",
+   "-acf",
+   "/tmp/gyrate_acf_error.xvg",
+   "-nmol",
+   "2"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_autocorrelation_function_output::171",
+  "argv": [
+   "gyrate-legacy",
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/gyrate_acf_test.xvg",
+   "-acf",
+   "/tmp/gyrate_moi_acf.xvg",
+   "-p"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_2d_slices_along_z_axis::172",
+  "argv": [
+   "gyrate-legacy",
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/gyrate_2d_slices.xvg",
+   "-nz",
+   "5"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_charge_and_principal_axes::173",
+  "argv": [
+   "gyrate-legacy",
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/gyrate_charge_principal.xvg",
+   "-q",
+   "-p"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backbone_group_selection::174",
+  "argv": [
+   "gyrate-legacy",
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/gyrate_backbone.xvg"
+  ],
+  "stdin": "4\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sidechain_group_selection::175",
+  "argv": [
+   "gyrate-legacy",
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/gyrate_sidechain.xvg"
+  ],
+  "stdin": "8\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xvg_format_none::176",
+  "argv": [
+   "gyrate-legacy",
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/gyrate_noformat.xvg",
+   "-xvg",
+   "none"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_water_group_large_system::177",
+  "argv": [
+   "gyrate-legacy",
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/gyrate_water.xvg"
+  ],
+  "stdin": "12\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_h2order_z_axis::178",
+  "argv": [
+   "h2order",
+   "-f",
+   "-s",
+   "-n",
+   "-o"
+  ],
+  "stdin": "13\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_h2order_x_axis::179",
+  "argv": [
+   "h2order",
+   "-f",
+   "-s",
+   "-n",
+   "-o",
+   "-d",
+   "X"
+  ],
+  "stdin": "13\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_h2order_y_axis::180",
+  "argv": [
+   "h2order",
+   "-f",
+   "-s",
+   "-n",
+   "-o",
+   "-d",
+   "Y"
+  ],
+  "stdin": "13\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_h2order_custom_slice_count::181",
+  "argv": [
+   "h2order",
+   "-f",
+   "-s",
+   "-n",
+   "-o",
+   "-sl",
+   "10"
+  ],
+  "stdin": "13\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_h2order_time_range::182",
+  "argv": [
+   "h2order",
+   "-f",
+   "-s",
+   "-n",
+   "-o",
+   "-b",
+   "0",
+   "-e",
+   "5"
+  ],
+  "stdin": "13\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_h2order_large_slice_count::183",
+  "argv": [
+   "h2order",
+   "-f",
+   "-s",
+   "-n",
+   "-o",
+   "-sl",
+   "50"
+  ],
+  "stdin": "13\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_h2order_small_slice_count::184",
+  "argv": [
+   "h2order",
+   "-f",
+   "-s",
+   "-n",
+   "-o",
+   "-sl",
+   "3"
+  ],
+  "stdin": "13\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_h2order_slice_width_consistency::185",
+  "argv": [
+   "h2order",
+   "-f",
+   "-s",
+   "-n",
+   "-o",
+   "-sl",
+   "20"
+  ],
+  "stdin": "13\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_h2order_all_three_axes_different::186",
+  "argv": [
+   "h2order",
+   "-f",
+   "-s",
+   "-n",
+   "-o",
+   "-d"
+  ],
+  "stdin": "13\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_h2order_invalid_group_selection::187",
+  "argv": [
+   "h2order",
+   "-f",
+   "-s",
+   "-n",
+   "-o"
+  ],
+  "stdin": "999\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_h2order_combined_flags_x_axis_custom_slices::188",
+  "argv": [
+   "h2order",
+   "-f",
+   "-s",
+   "-n",
+   "-o",
+   "-d",
+   "X",
+   "-sl",
+   "20"
+  ],
+  "stdin": "13\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_h2order_y_axis_custom_slices::189",
+  "argv": [
+   "h2order",
+   "-f",
+   "-s",
+   "-n",
+   "-o",
+   "-d",
+   "Y",
+   "-sl",
+   "15"
+  ],
+  "stdin": "13\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_h2order_numerical_stability::190",
+  "argv": [
+   "h2order",
+   "-f",
+   "-s",
+   "-n",
+   "-o",
+   "-sl",
+   "100"
+  ],
+  "stdin": "13\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_helix_analysis::191",
+  "argv": [
+   "helix",
+   "-s",
+   "-f",
+   "-n",
+   "-b",
+   "0",
+   "-e",
+   "1"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_helix_time_evolution::192",
+  "argv": [
+   "helix",
+   "-s",
+   "-f",
+   "-n",
+   "-b",
+   "0",
+   "-e",
+   "10"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_helix_check_every_step::193",
+  "argv": [
+   "helix",
+   "-s",
+   "-f",
+   "-n",
+   "-b",
+   "0",
+   "-e",
+   "10",
+   "-q"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_helix_no_fit::194",
+  "argv": [
+   "helix",
+   "-s",
+   "-f",
+   "-n",
+   "-b",
+   "0",
+   "-e",
+   "1",
+   "-noF"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_helix_residue_offset::195",
+  "argv": [
+   "helix",
+   "-s",
+   "-f",
+   "-n",
+   "-b",
+   "0",
+   "-e",
+   "1",
+   "-r0",
+   "10"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_helix_time_selection::196",
+  "argv": [
+   "helix",
+   "-s",
+   "-f",
+   "-n",
+   "-b",
+   "5",
+   "-e",
+   "15"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_helix_zconf_output::197",
+  "argv": [
+   "helix",
+   "-s",
+   "-f",
+   "-n",
+   "-b",
+   "0",
+   "-e",
+   "1",
+   "-cz"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_helix_missing_index_file::198",
+  "argv": [
+   "helix",
+   "-s",
+   "-f",
+   "-b",
+   "0",
+   "-e",
+   "1"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_helix_manual_range::199",
+  "argv": [
+   "helix",
+   "-s",
+   "-f",
+   "-n",
+   "-b",
+   "0",
+   "-e",
+   "1",
+   "-ahxstart",
+   "3",
+   "-ahxend",
+   "8"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_helix_dt_frame_selection::200",
+  "argv": [
+   "helix",
+   "-s",
+   "-f",
+   "-n",
+   "-b",
+   "0",
+   "-e",
+   "100",
+   "-dt",
+   "20"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_helix_combined_flags::201",
+  "argv": [
+   "helix",
+   "-s",
+   "-f",
+   "-n",
+   "-b",
+   "0",
+   "-e",
+   "10",
+   "-q",
+   "-noF",
+   "-r0",
+   "5"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_helix_full_trajectory::202",
+  "argv": [
+   "helix",
+   "-s",
+   "-f",
+   "-n"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_helixorient_calpha_group::203",
+  "argv": [
+   "helixorient",
+   "-s",
+   "-f",
+   "-n",
+   "-oaxis",
+   "-ocenter",
+   "-orise",
+   "-oradius",
+   "-otwist",
+   "-obending",
+   "-otilt",
+   "-orot"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_incremental_rotation_tilt::204",
+  "argv": [
+   "helixorient",
+   "-s",
+   "-f",
+   "-n",
+   "-incremental",
+   "-otilt",
+   "-orot",
+   "-oaxis",
+   "-ocenter",
+   "-orise",
+   "-oradius",
+   "-otwist",
+   "-obending"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_range_b_e_options::205",
+  "argv": [
+   "helixorient",
+   "-s",
+   "-f",
+   "-n",
+   "-b",
+   "5",
+   "-e",
+   "10",
+   "-otilt",
+   "-orot",
+   "-oaxis",
+   "-ocenter",
+   "-orise",
+   "-oradius",
+   "-otwist",
+   "-obending"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tilt_xvg_format_structure::206",
+  "argv": [
+   "helixorient",
+   "-s",
+   "-f",
+   "-n",
+   "-otilt",
+   "-oaxis",
+   "-ocenter",
+   "-orise",
+   "-oradius",
+   "-otwist",
+   "-obending",
+   "-orot"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_segfault_too_few_atoms::207",
+  "argv": [
+   "helixorient",
+   "-s",
+   "-f",
+   "-n",
+   "-oaxis",
+   "-ocenter",
+   "-orise",
+   "-oradius",
+   "-otwist",
+   "-obending",
+   "-otilt",
+   "-orot"
+  ],
+  "stdin": "17\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xvg_format_none::208",
+  "argv": [
+   "helixorient",
+   "-s",
+   "-f",
+   "-xvg",
+   "none",
+   "-otilt",
+   "-oaxis",
+   "-ocenter",
+   "-orise",
+   "-oradius",
+   "-otwist",
+   "-obending",
+   "-orot"
+  ],
+  "stdin": "3\n3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_index_file_uses_builtin_groups::209",
+  "argv": [
+   "helixorient",
+   "-s",
+   "-f",
+   "-otilt",
+   "-oaxis",
+   "-ocenter",
+   "-orise",
+   "-oradius",
+   "-otwist",
+   "-obending",
+   "-orot"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rotation_xvg_euler_angles::210",
+  "argv": [
+   "helixorient",
+   "-s",
+   "-f",
+   "-n",
+   "-orot",
+   "-oaxis",
+   "-ocenter",
+   "-orise",
+   "-oradius",
+   "-otwist",
+   "-obending",
+   "-otilt"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_twist_bending_output_values::211",
+  "argv": [
+   "helixorient",
+   "-s",
+   "-f",
+   "-n",
+   "-otwist",
+   "-obending",
+   "-oaxis",
+   "-ocenter",
+   "-orise",
+   "-oradius",
+   "-otilt",
+   "-orot"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_radius_rise_values_realistic::212",
+  "argv": [
+   "helixorient",
+   "-s",
+   "-f",
+   "-n",
+   "-oradius",
+   "-orise",
+   "-oaxis",
+   "-ocenter",
+   "-otwist",
+   "-obending",
+   "-otilt",
+   "-orot"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_monitoring::213",
+  "argv": [
+   "make_edi",
+   "-f",
+   "-eig",
+   "-s",
+   "-o",
+   "-mon",
+   "1"
+  ],
+  "stdin": "1\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_linfix_mode::214",
+  "argv": [
+   "make_edi",
+   "-f",
+   "-eig",
+   "-s",
+   "-o",
+   "-linfix",
+   "1",
+   "-linstep",
+   "0.01"
+  ],
+  "stdin": "1\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_eigenvectors_mon::215",
+  "argv": [
+   "make_edi",
+   "-f",
+   "-eig",
+   "-s",
+   "-o",
+   "-mon",
+   "1-3"
+  ],
+  "stdin": "1\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flooding_parameters::216",
+  "argv": [
+   "make_edi",
+   "-f",
+   "-eig",
+   "-s",
+   "-o",
+   "-flood",
+   "1",
+   "-deltaF0",
+   "200",
+   "-tau",
+   "0.5",
+   "-T",
+   "310"
+  ],
+  "stdin": "1\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_outfrq_parameter::217",
+  "argv": [
+   "make_edi",
+   "-f",
+   "-eig",
+   "-s",
+   "-o",
+   "-mon",
+   "1",
+   "-outfrq",
+   "500"
+  ],
+  "stdin": "1\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wrong_group_size_error::218",
+  "argv": [
+   "make_edi",
+   "-f",
+   "-eig",
+   "-s",
+   "-o",
+   "-mon",
+   "1"
+  ],
+  "stdin": "3\n3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_radfix_mode::219",
+  "argv": [
+   "make_edi",
+   "-f",
+   "-eig",
+   "-s",
+   "-o",
+   "-radfix",
+   "1",
+   "-radstep",
+   "0.02"
+  ],
+  "stdin": "1\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stepped_range_parsing::220",
+  "argv": [
+   "make_edi",
+   "-f",
+   "-eig",
+   "-s",
+   "-o",
+   "-mon",
+   "1-3:2"
+  ],
+  "stdin": "1\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_constant_force_flooding::221",
+  "argv": [
+   "make_edi",
+   "-f",
+   "-eig",
+   "-s",
+   "-o",
+   "-flood",
+   "1-2",
+   "-constF",
+   "1.5 -2.3"
+  ],
+  "stdin": "1\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_modes::222",
+  "argv": [
+   "make_edi",
+   "-f",
+   "-eig",
+   "-s",
+   "-o",
+   "-mon",
+   "1",
+   "-linfix",
+   "2",
+   "-linstep",
+   "0.01"
+  ],
+  "stdin": "1\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_maxedsteps_and_eqsteps::223",
+  "argv": [
+   "make_edi",
+   "-f",
+   "-eig",
+   "-s",
+   "-o",
+   "-mon",
+   "1",
+   "-maxedsteps",
+   "1000",
+   "-eqsteps",
+   "500"
+  ],
+  "stdin": "1\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slope_parameter::224",
+  "argv": [
+   "make_edi",
+   "-f",
+   "-eig",
+   "-s",
+   "-o",
+   "-radacc",
+   "1",
+   "-slope",
+   "0.01"
+  ],
+  "stdin": "1\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_harmonic_flag::225",
+  "argv": [
+   "make_edi",
+   "-f",
+   "-eig",
+   "-s",
+   "-o",
+   "-flood",
+   "1",
+   "-harmonic"
+  ],
+  "stdin": "1\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_alpha_parameter::226",
+  "argv": [
+   "make_edi",
+   "-f",
+   "-eig",
+   "-s",
+   "-o",
+   "-flood",
+   "1",
+   "-alpha",
+   "2.0"
+  ],
+  "stdin": "1\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_restrain_flag::227",
+  "argv": [
+   "make_edi",
+   "-f",
+   "-eig",
+   "-s",
+   "-o",
+   "-flood",
+   "1",
+   "-restrain",
+   "-Eflnull",
+   "50",
+   "-alpha",
+   "1.5"
+  ],
+  "stdin": "1\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_eigenvector_index::228",
+  "argv": [
+   "make_edi",
+   "-f",
+   "-eig",
+   "-s",
+   "-o",
+   "-mon",
+   "5"
+  ],
+  "stdin": "1\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_make_ndx_default_groups_simple_structure::229",
+  "argv": [
+   "make_ndx",
+   "-f",
+   "-o"
+  ],
+  "stdin": "q\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_make_ndx_and_operation::230",
+  "argv": [
+   "make_ndx",
+   "-f",
+   "-o"
+  ],
+  "stdin": "1 & 2\nq\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_make_ndx_or_operation::231",
+  "argv": [
+   "make_ndx",
+   "-f",
+   "-o"
+  ],
+  "stdin": "3 | 4\nq\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_make_ndx_not_operation::232",
+  "argv": [
+   "make_ndx",
+   "-f",
+   "-o"
+  ],
+  "stdin": "!1\nq\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_make_ndx_complex_boolean_expression::233",
+  "argv": [
+   "make_ndx",
+   "-f",
+   "-o"
+  ],
+  "stdin": "1 & 4 | 15\nq\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_genrestr_basic_position_restraints::234",
+  "argv": [
+   "genrestr",
+   "-f",
+   "-o"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_genrestr_custom_force_constants::235",
+  "argv": [
+   "genrestr",
+   "-f",
+   "-o",
+   "-fc",
+   "500",
+   "500",
+   "1500"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_genrestr_distance_restraints::236",
+  "argv": [
+   "genrestr",
+   "-f",
+   "-o",
+   "-disre"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_genrestr_distance_restraints_custom_params::237",
+  "argv": [
+   "genrestr",
+   "-f",
+   "-o",
+   "-disre",
+   "-disre_dist",
+   "0.2",
+   "-disre_up2",
+   "2.0"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_genrestr_backbone_restraints::238",
+  "argv": [
+   "genrestr",
+   "-f",
+   "-o"
+  ],
+  "stdin": "4\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_genrestr_protein_restraints::239",
+  "argv": [
+   "genrestr",
+   "-f",
+   "-o"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_make_ndx_residue_selection::240",
+  "argv": [
+   "make_ndx",
+   "-f",
+   "-o"
+  ],
+  "stdin": "r 1\nq\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_make_ndx_atom_name_selection::241",
+  "argv": [
+   "make_ndx",
+   "-f",
+   "-o"
+  ],
+  "stdin": "a CA\nq\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_make_ndx_delete_groups::242",
+  "argv": [
+   "make_ndx",
+   "-f",
+   "-o"
+  ],
+  "stdin": "del 2\ndel 3\nq\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_make_ndx_keep_groups::243",
+  "argv": [
+   "make_ndx",
+   "-f",
+   "-o"
+  ],
+  "stdin": "keep 0 1 3\nq\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_make_ndx_name_group::244",
+  "argv": [
+   "make_ndx",
+   "-f",
+   "-o"
+  ],
+  "stdin": "name 3 \"MyCalpha\"\nq\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_make_ndx_splitres_operation::245",
+  "argv": [
+   "make_ndx",
+   "-f",
+   "-o"
+  ],
+  "stdin": "splitres 3\nq\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_genrestr_constraints_format::246",
+  "argv": [
+   "genrestr",
+   "-f",
+   "-o",
+   "-constr"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_genrestr_cutoff_distance_restraints::247",
+  "argv": [
+   "genrestr",
+   "-f",
+   "-o",
+   "-disre",
+   "-cutoff",
+   "0.5"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_genrestr_with_index_file::248",
+  "argv": [
+   "make_ndx",
+   "-f",
+   "-o"
+  ],
+  "stdin": "3\nq\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_genrestr_anisotropic_force_constants::249",
+  "argv": [
+   "genrestr",
+   "-f",
+   "-o",
+   "-fc",
+   "100",
+   "200",
+   "300"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_make_ndx_no_input_file_error::250",
+  "argv": [
+   "make_ndx",
+   "-o"
+  ],
+  "stdin": "q\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_make_ndx_empty_group_handling::251",
+  "argv": [
+   "make_ndx",
+   "-f",
+   "-o"
+  ],
+  "stdin": "1 & 12\nq\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_make_ndx_case_sensitive_mode::252",
+  "argv": [
+   "make_ndx",
+   "-f",
+   "-o"
+  ],
+  "stdin": "case\na ca\nq\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_make_ndx_multiple_operations_sequence::253",
+  "argv": [
+   "make_ndx",
+   "-f",
+   "-o"
+  ],
+  "stdin": "1 & 2\nname 17 \"CustomProtein\"\n3 | 4\ndel 2\nq\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_make_ndx_with_natoms_flag::254",
+  "argv": [
+   "make_ndx",
+   "-n",
+   "input.ndx",
+   "-o",
+   "-natoms",
+   "100"
+  ],
+  "stdin": "q\n",
+  "files": {
+   "input.ndx": "[ Test ]\n1 2 3 4 5\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_make_ndx_twin_duplicate_groups::255",
+  "argv": [
+   "make_ndx",
+   "-f",
+   "-o",
+   "-twin",
+   "-natoms",
+   "1000"
+  ],
+  "stdin": "q\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_genrestr_disre_frac_parameter::256",
+  "argv": [
+   "genrestr",
+   "-f",
+   "-o",
+   "-disre",
+   "-disre_frac",
+   "0.1",
+   "-disre_dist",
+   "0.05"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_make_ndx_splitat_operation::257",
+  "argv": [
+   "make_ndx",
+   "-f",
+   "-o"
+  ],
+  "stdin": "splitat 3\nq\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_genrestr_mainchain_heavy_atoms::258",
+  "argv": [
+   "genrestr",
+   "-f",
+   "-o"
+  ],
+  "stdin": "5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mdmat_basic_mean_distance_matrix::259",
+  "argv": [
+   "mdmat",
+   "-f",
+   "-s",
+   "-mean"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mdmat_contact_count_output::260",
+  "argv": [
+   "mdmat",
+   "-f",
+   "-s",
+   "-mean",
+   "-no"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mdmat_per_frame_matrices::261",
+  "argv": [
+   "mdmat",
+   "-f",
+   "-s",
+   "-mean",
+   "-frames"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mdmat_distance_cutoff::262",
+  "argv": [
+   "mdmat",
+   "-f",
+   "-s",
+   "-mean",
+   "-t",
+   "0.6"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mdmat_discretization_levels::263",
+  "argv": [
+   "mdmat",
+   "-f",
+   "-s",
+   "-mean",
+   "-nlevels",
+   "10"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mdmat_calpha_selection::264",
+  "argv": [
+   "mdmat",
+   "-f",
+   "-s",
+   "-mean"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mdmat_time_range_selection::265",
+  "argv": [
+   "mdmat",
+   "-f",
+   "-s",
+   "-mean",
+   "-b",
+   "5",
+   "-e",
+   "10"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mdmat_missing_trajectory_file::266",
+  "argv": [
+   "mdmat",
+   "-f",
+   "/nonexistent.xtc",
+   "-s",
+   "-mean"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mdmat_backbone_selection::267",
+  "argv": [
+   "mdmat",
+   "-f",
+   "-s",
+   "-mean"
+  ],
+  "stdin": "4\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mdmat_combined_outputs::268",
+  "argv": [
+   "mdmat",
+   "-f",
+   "-s",
+   "-mean",
+   "-frames",
+   "-no"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_msd_protein_basic_3d::269",
+  "argv": [
+   "msd",
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/msd_out.xvg"
+  ],
+  "stdin": "Protein\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_msd_lateral_2d::270",
+  "argv": [
+   "msd",
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/msd_lateral.xvg",
+   "-lateral",
+   "z"
+  ],
+  "stdin": "Protein\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_msd_type_1d_x::271",
+  "argv": [
+   "msd",
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/msd_type_x.xvg",
+   "-type",
+   "x"
+  ],
+  "stdin": "Protein\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_msd_with_trestart::272",
+  "argv": [
+   "msd",
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/msd_trestart.xvg",
+   "-trestart",
+   "20"
+  ],
+  "stdin": "Protein\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_msd_beginfit_endfit::273",
+  "argv": [
+   "msd",
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/msd_fit.xvg",
+   "-beginfit",
+   "1",
+   "-endfit",
+   "8"
+  ],
+  "stdin": "Protein\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_msd_time_range::274",
+  "argv": [
+   "msd",
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/msd_timerange.xvg",
+   "-b",
+   "0",
+   "-e",
+   "10"
+  ],
+  "stdin": "Protein\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_msd_no_rmpbc::275",
+  "argv": [
+   "msd",
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/msd_normpbc.xvg",
+   "-normpbc"
+  ],
+  "stdin": "Protein\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_msd_no_pbc::276",
+  "argv": [
+   "msd",
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/msd_nopbc.xvg",
+   "-nopbc"
+  ],
+  "stdin": "Protein\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_msd_type_y::277",
+  "argv": [
+   "msd",
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/msd_type_y.xvg",
+   "-type",
+   "y"
+  ],
+  "stdin": "Protein\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_msd_type_z::278",
+  "argv": [
+   "msd",
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/msd_type_z.xvg",
+   "-type",
+   "z"
+  ],
+  "stdin": "Protein\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_msd_lateral_x::279",
+  "argv": [
+   "msd",
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/msd_lateral_x.xvg",
+   "-lateral",
+   "x"
+  ],
+  "stdin": "Protein\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_msd_lateral_y::280",
+  "argv": [
+   "msd",
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/msd_lateral_y.xvg",
+   "-lateral",
+   "y"
+  ],
+  "stdin": "Protein\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_msd_xvg_none::281",
+  "argv": [
+   "msd",
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/msd_xvg_none.xvg",
+   "-xvg",
+   "none"
+  ],
+  "stdin": "Protein\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_msd_missing_input_file::282",
+  "argv": [
+   "msd",
+   "-f",
+   "/nonexistent/trajectory.xtc",
+   "-s",
+   "-o",
+   "/tmp/msd_out.xvg"
+  ],
+  "stdin": "Protein\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_msd_missing_structure_file::283",
+  "argv": [
+   "msd",
+   "-f",
+   "-s",
+   "/nonexistent/topology.tpr",
+   "-o",
+   "/tmp/msd_out.xvg"
+  ],
+  "stdin": "Protein\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_msd_invalid_selection::284",
+  "argv": [
+   "msd",
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/msd_out.xvg"
+  ],
+  "stdin": "InvalidGroup123\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_msd_combined_type_lateral::285",
+  "argv": [
+   "msd",
+   "-f",
+   "-s",
+   "-o",
+   "/tmp/msd_out.xvg",
+   "-type",
+   "x",
+   "-lateral",
+   "z"
+  ],
+  "stdin": "Protein\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nmens_basic_ensemble_generation::286",
+  "argv": [
+   "nmens",
+   "-v",
+   "-e",
+   "-s",
+   "-o",
+   "-num",
+   "5",
+   "-seed",
+   "12345",
+   "-temp",
+   "300",
+   "-first",
+   "1",
+   "-last",
+   "1"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nmens_seed_reproducibility::287",
+  "argv": [
+   "nmens",
+   "-v",
+   "-e",
+   "-s",
+   "-o",
+   "-num",
+   "3",
+   "-seed",
+   "99999",
+   "-first",
+   "1",
+   "-last",
+   "1"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nmens_different_seeds_produce_different_output::288",
+  "argv": [
+   "nmens",
+   "-v",
+   "-e",
+   "-s",
+   "-o",
+   "-num",
+   "3",
+   "-seed",
+   "11111",
+   "-first",
+   "1",
+   "-last",
+   "1"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nmens_temperature_effect_on_amplitude::289",
+  "argv": [
+   "nmens",
+   "-v",
+   "-e",
+   "-s",
+   "-o",
+   "-num",
+   "1",
+   "-seed",
+   "333",
+   "-temp",
+   "100",
+   "-first",
+   "1",
+   "-last",
+   "1"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nmens_num_structures_parameter::290",
+  "argv": [
+   "nmens",
+   "-v",
+   "-e",
+   "-s",
+   "-o",
+   "-num",
+   "-seed",
+   "777",
+   "-first",
+   "1",
+   "-last",
+   "1"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nmens_zero_seed_generates_random_seed::291",
+  "argv": [
+   "nmens",
+   "-v",
+   "-e",
+   "-s",
+   "-o",
+   "-num",
+   "2",
+   "-seed",
+   "0",
+   "-first",
+   "1",
+   "-last",
+   "1"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nmens_wrong_atom_count_error::292",
+  "argv": [
+   "nmens",
+   "-v",
+   "-e",
+   "-s",
+   "-o",
+   "-num",
+   "2",
+   "-first",
+   "1",
+   "-last",
+   "1"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nmens_missing_eigenvector_file_error::293",
+  "argv": [
+   "nmens",
+   "-v",
+   "/nonexistent/eigenvec.trr",
+   "-e",
+   "-s",
+   "-o",
+   "-num",
+   "2"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nmens_with_index_file::294",
+  "argv": [
+   "nmens",
+   "-v",
+   "-e",
+   "-s",
+   "-n",
+   "index.ndx",
+   "-o",
+   "-num",
+   "3",
+   "-seed",
+   "888",
+   "-first",
+   "1",
+   "-last",
+   "1"
+  ],
+  "stdin": "0\n",
+  "files": {
+   "index.ndx": "[ C-alpha ]\n   1    4    7   10   13   16   19   22   25   28\n  31   34   37   40   43   46   49   52   55   58\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nmens_large_ensemble::295",
+  "argv": [
+   "nmens",
+   "-v",
+   "-e",
+   "-s",
+   "-o",
+   "-num",
+   "50",
+   "-seed",
+   "999",
+   "-first",
+   "1",
+   "-last",
+   "1"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nmens_first_greater_than_last_error::296",
+  "argv": [
+   "nmens",
+   "-v",
+   "-e",
+   "-s",
+   "-o",
+   "-num",
+   "3",
+   "-seed",
+   "444",
+   "-first",
+   "10",
+   "-last",
+   "5"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nmens_missing_eigenvalue_file_error::297",
+  "argv": [
+   "nmens",
+   "-v",
+   "-e",
+   "/nonexistent/eigenval.xvg",
+   "-s",
+   "-o",
+   "-num",
+   "2"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nmens_no_eigenvectors_selected::298",
+  "argv": [
+   "nmens",
+   "-v",
+   "-e",
+   "-s",
+   "-o",
+   "-num",
+   "5",
+   "-seed",
+   "111",
+   "-first",
+   "100",
+   "-last",
+   "200"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hydorder_basic_execution::299",
+  "argv": [
+   "make_ndx",
+   "-f",
+   "-o"
+  ],
+  "stdin": "13\nq\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pdb2gmx_disulfide_bond_detection::300",
+  "argv": [
+   "pdb2gmx",
+   "-f",
+   "-o",
+   "-p",
+   "-ff",
+   "amber03",
+   "-water",
+   "tip3p",
+   "-ss"
+  ],
+  "stdin": "1\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_polystat_system_group::301",
+  "argv": [
+   "polystat",
+   "-s",
+   "-f",
+   "-o"
+  ],
+  "stdin": "0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_protein_group_with_all_outputs::302",
+  "argv": [
+   "polystat",
+   "-s",
+   "-f",
+   "-o",
+   "-v",
+   "-p",
+   "-i"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_principal_components_option::303",
+  "argv": [
+   "polystat",
+   "-s",
+   "-f",
+   "-o",
+   "-pc"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_mass_weighting_option::304",
+  "argv": [
+   "polystat",
+   "-s",
+   "-f",
+   "-o"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_calpha_group::305",
+  "argv": [
+   "polystat",
+   "-s",
+   "-f",
+   "-o"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_selection_begin_end::306",
+  "argv": [
+   "polystat",
+   "-s",
+   "-f",
+   "-o",
+   "-b",
+   "5",
+   "-e",
+   "10"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backbone_mainchain_groups::307",
+  "argv": [
+   "polystat",
+   "-s",
+   "-f",
+   "-o"
+  ],
+  "stdin": "4\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xvg_format_none::308",
+  "argv": [
+   "polystat",
+   "-s",
+   "-f",
+   "-o",
+   "-xvg",
+   "none"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_pc_and_eigenvectors::309",
+  "argv": [
+   "polystat",
+   "-s",
+   "-f",
+   "-o",
+   "-v",
+   "-pc"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_internal_distances_structure::310",
+  "argv": [
+   "polystat",
+   "-s",
+   "-f",
+   "-o",
+   "-i"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_persistence_length_output_structure::311",
+  "argv": [
+   "polystat",
+   "-s",
+   "-f",
+   "-o",
+   "-p"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_invalid_group::312",
+  "argv": [
+   "polystat",
+   "-s",
+   "-f",
+   "-o"
+  ],
+  "stdin": "99\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sidechain_group::313",
+  "argv": [
+   "polystat",
+   "-s",
+   "-f",
+   "-o"
+  ],
+  "stdin": "8\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_water_molecules::314",
+  "argv": [
+   "polystat",
+   "-s",
+   "-f",
+   "-o"
+  ],
+  "stdin": "12\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_all_flags::315",
+  "argv": [
+   "polystat",
+   "-s",
+   "-f",
+   "-o",
+   "-v",
+   "-p",
+   "-i",
+   "-pc",
+   "-nomw",
+   "-tu",
+   "ns",
+   "-xvg",
+   "xmgrace"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exact_eigenvector_values::316",
+  "argv": [
+   "polystat",
+   "-s",
+   "-f",
+   "-o",
+   "-v"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_potential_z_axis_basic_structure::317",
+  "argv": [
+   "potential",
+   "-f",
+   "-s",
+   "-n",
+   "-o",
+   "-oc",
+   "-of",
+   "-sl",
+   "20"
+  ],
+  "stdin": "0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_potential_x_axis_structure::318",
+  "argv": [
+   "potential",
+   "-f",
+   "-s",
+   "-n",
+   "-o",
+   "-d",
+   "X",
+   "-sl",
+   "20"
+  ],
+  "stdin": "0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_potential_y_axis_structure::319",
+  "argv": [
+   "potential",
+   "-f",
+   "-s",
+   "-n",
+   "-o",
+   "-d",
+   "Y",
+   "-sl",
+   "20"
+  ],
+  "stdin": "0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_potential_slice_count_50_structure::320",
+  "argv": [
+   "potential",
+   "-f",
+   "-s",
+   "-n",
+   "-o",
+   "-sl",
+   "50"
+  ],
+  "stdin": "0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_potential_slice_count_5_warning::321",
+  "argv": [
+   "potential",
+   "-f",
+   "-s",
+   "-n",
+   "-o",
+   "-sl",
+   "5"
+  ],
+  "stdin": "0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_potential_time_range_selection::322",
+  "argv": [
+   "potential",
+   "-f",
+   "-s",
+   "-n",
+   "-o",
+   "-b",
+   "5",
+   "-e",
+   "10",
+   "-sl",
+   "20"
+  ],
+  "stdin": "0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_potential_multiple_groups_structure::323",
+  "argv": [
+   "potential",
+   "-f",
+   "-s",
+   "-n",
+   "-o",
+   "-ng",
+   "2",
+   "-sl",
+   "20"
+  ],
+  "stdin": "1\n12\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_potential_center_flag_effect::324",
+  "argv": [
+   "potential",
+   "-f",
+   "-s",
+   "-n",
+   "-o",
+   "-center",
+   "-sl",
+   "20"
+  ],
+  "stdin": "0\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_potential_symmetrize_flag_effect::325",
+  "argv": [
+   "potential",
+   "-f",
+   "-s",
+   "-n",
+   "-o",
+   "-symm",
+   "-sl",
+   "10"
+  ],
+  "stdin": "0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_potential_correct_flag_effect::326",
+  "argv": [
+   "potential",
+   "-f",
+   "-s",
+   "-n",
+   "-o",
+   "-correct",
+   "-sl",
+   "20"
+  ],
+  "stdin": "0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_potential_discard_slices_cb_ce::327",
+  "argv": [
+   "potential",
+   "-f",
+   "-s",
+   "-n",
+   "-o",
+   "-cb",
+   "2",
+   "-ce",
+   "2",
+   "-sl",
+   "20"
+  ],
+  "stdin": "0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_potential_translate_coordinates_tz::328",
+  "argv": [
+   "potential",
+   "-f",
+   "-s",
+   "-n",
+   "-o",
+   "-tz",
+   "1.5",
+   "-sl",
+   "20"
+  ],
+  "stdin": "0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_potential_spherical_coordinates_mode::329",
+  "argv": [
+   "potential",
+   "-f",
+   "-s",
+   "-n",
+   "-o",
+   "-spherical",
+   "-sl",
+   "20"
+  ],
+  "stdin": "0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_potential_all_output_files_created::330",
+  "argv": [
+   "potential",
+   "-f",
+   "-s",
+   "-n",
+   "-o",
+   "-oc",
+   "-of",
+   "-sl",
+   "10"
+  ],
+  "stdin": "0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_potential_protein_group_only::331",
+  "argv": [
+   "potential",
+   "-f",
+   "-s",
+   "-n",
+   "-o",
+   "-sl",
+   "10"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_potential_combined_flags_center_symm_correct::332",
+  "argv": [
+   "potential",
+   "-f",
+   "-s",
+   "-n",
+   "-o",
+   "-center",
+   "-symm",
+   "-correct",
+   "-sl",
+   "10"
+  ],
+  "stdin": "0\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_potential_three_groups_analysis::333",
+  "argv": [
+   "potential",
+   "-f",
+   "-s",
+   "-n",
+   "-o",
+   "-ng",
+   "3",
+   "-sl",
+   "10"
+  ],
+  "stdin": "1\n12\n15\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_potential_different_slice_widths_produce_different_outputs::334",
+  "argv": [
+   "potential",
+   "-f",
+   "-s",
+   "-n",
+   "-o",
+   "-sl",
+   "10"
+  ],
+  "stdin": "0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_potential_xyz_axes_produce_different_results::335",
+  "argv": [
+   "potential",
+   "-f",
+   "-s",
+   "-n",
+   "-o",
+   "-d",
+   "-sl",
+   "15"
+  ],
+  "stdin": "0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_potential_with_ions_group::336",
+  "argv": [
+   "potential",
+   "-f",
+   "-s",
+   "-n",
+   "-o",
+   "-sl",
+   "10"
+  ],
+  "stdin": "15\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_potential_spherical_incompatible_with_center_symm::337",
+  "argv": [
+   "potential",
+   "-f",
+   "-s",
+   "-n",
+   "-o",
+   "-spherical",
+   "-center",
+   "-symm",
+   "-sl",
+   "10"
+  ],
+  "stdin": "0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_potential_xvg_format_complete_structure::338",
+  "argv": [
+   "potential",
+   "-f",
+   "-s",
+   "-n",
+   "-o",
+   "-sl",
+   "12"
+  ],
+  "stdin": "0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_system_principal_axes::339",
+  "argv": [
+   "principal",
+   "-f",
+   "-s",
+   "-a1",
+   "-a2",
+   "-a3",
+   "-om"
+  ],
+  "stdin": "0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_protein_only_principal_axes::340",
+  "argv": [
+   "principal",
+   "-f",
+   "-s",
+   "-a1",
+   "-om"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_calpha_principal_axes::341",
+  "argv": [
+   "principal",
+   "-f",
+   "-s",
+   "-om"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_range_selection::342",
+  "argv": [
+   "principal",
+   "-f",
+   "-s",
+   "-b",
+   "5",
+   "-e",
+   "10",
+   "-om"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_principal_axes_xvg_structure::343",
+  "argv": [
+   "principal",
+   "-f",
+   "-s",
+   "-a1"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_moments_of_inertia_xvg_structure::344",
+  "argv": [
+   "principal",
+   "-f",
+   "-s",
+   "-om"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_output_filenames::345",
+  "argv": [
+   "principal",
+   "-f",
+   "-s",
+   "-a1",
+   "-a2",
+   "-a3",
+   "-om"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_two_atom_degenerate_case::346",
+  "argv": [
+   "principal",
+   "-f",
+   "-s",
+   "-n",
+   "two_atoms.ndx",
+   "-om"
+  ],
+  "stdin": "two\n",
+  "files": {
+   "two_atoms.ndx": "[ two ]\n1 2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_atom_trivial_case::347",
+  "argv": [
+   "principal",
+   "-f",
+   "-s",
+   "-n",
+   "single_atom.ndx",
+   "-a1"
+  ],
+  "stdin": "single\n",
+  "files": {
+   "single_atom.ndx": "[ single ]\n1\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_axes_orthogonality::348",
+  "argv": [
+   "principal",
+   "-f",
+   "-s",
+   "-a1",
+   "-a2",
+   "-a3"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_rmsdist_system::349",
+  "argv": [
+   "rmsdist",
+   "-f",
+   "-s",
+   "-o"
+  ],
+  "stdin": "0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rmsdist_calpha::350",
+  "argv": [
+   "rmsdist",
+   "-f",
+   "-s",
+   "-o"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rmsdist_with_xpm_matrices::351",
+  "argv": [
+   "rmsdist",
+   "-f",
+   "-s",
+   "-o",
+   "-rms",
+   "-scl",
+   "-mean"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rmsdist_nmr_averaging::352",
+  "argv": [
+   "rmsdist",
+   "-f",
+   "-s",
+   "-o",
+   "-nmr3",
+   "-nmr6",
+   "-max",
+   "0.6"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rmsdist_noe_output::353",
+  "argv": [
+   "rmsdist",
+   "-f",
+   "-s",
+   "-o",
+   "-noe",
+   "-max",
+   "0.5"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rmsdist_time_range::354",
+  "argv": [
+   "rmsdist",
+   "-f",
+   "-s",
+   "-o",
+   "-b",
+   "5",
+   "-e",
+   "10"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rmsdist_nopbc::355",
+  "argv": [
+   "rmsdist",
+   "-f",
+   "-s",
+   "-o",
+   "-nopbc"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rmsdist_nosumh::356",
+  "argv": [
+   "rmsdist",
+   "-f",
+   "-s",
+   "-o",
+   "-noe",
+   "-nosumh",
+   "-max",
+   "0.5"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rmsdist_custom_nlevels::357",
+  "argv": [
+   "rmsdist",
+   "-f",
+   "-s",
+   "-o",
+   "-rms",
+   "-nlevels",
+   "20"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rmsdist_with_index_file::358",
+  "argv": [
+   "rmsdist",
+   "-f",
+   "-s",
+   "-n",
+   "-o"
+  ],
+  "stdin": "0\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rmsdist_zero_frames::359",
+  "argv": [
+   "rmsdist",
+   "-f",
+   "-s",
+   "-o",
+   "-b",
+   "1000",
+   "-e",
+   "2000"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rmsdist_max_parameter::360",
+  "argv": [
+   "rmsdist",
+   "-f",
+   "-s",
+   "-o",
+   "-noe",
+   "-max",
+   "0.3"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rmsdist_protein_vs_calpha::361",
+  "argv": [
+   "rmsdist",
+   "-f",
+   "-s",
+   "-o"
+  ],
+  "stdin": "1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rmsdist_xpm_matrix_size::362",
+  "argv": [
+   "rmsdist",
+   "-f",
+   "-s",
+   "-rms"
+  ],
+  "stdin": "3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_rotmat_system_group::363",
+  "argv": [
+   "rotmat",
+   "-f",
+   "-s",
+   "-o"
+  ],
+  "stdin": "System\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rotmat_calpha_atoms::364",
+  "argv": [
+   "rotmat",
+   "-f",
+   "-s",
+   "-o"
+  ],
+  "stdin": "C-alpha\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rotmat_fitxy_option::365",
+  "argv": [
+   "rotmat",
+   "-f",
+   "-s",
+   "-o",
+   "-fitxy"
+  ],
+  "stdin": "C-alpha\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rotmat_no_mass_weighting::366",
+  "argv": [
+   "rotmat",
+   "-f",
+   "-s",
+   "-o",
+   "-nomw"
+  ],
+  "stdin": "C-alpha\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rotmat_ref_xyz_option::367",
+  "argv": [
+   "rotmat",
+   "-f",
+   "-s",
+   "-o",
+   "-ref",
+   "xyz"
+  ],
+  "stdin": "C-alpha\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rotmat_ref_xy_option::368",
+  "argv": [
+   "rotmat",
+   "-f",
+   "-s",
+   "-o",
+   "-ref",
+   "xy"
+  ],
+  "stdin": "C-alpha\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rotmat_missing_trajectory_file::369",
+  "argv": [
+   "rotmat",
+   "-f",
+   "nonexistent.xtc",
+   "-s",
+   "-o"
+  ],
+  "stdin": "C-alpha\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rotmat_missing_structure_file::370",
+  "argv": [
+   "rotmat",
+   "-f",
+   "-s",
+   "nonexistent.tpr",
+   "-o"
+  ],
+  "stdin": "C-alpha\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rotmat_backbone_atoms::371",
+  "argv": [
+   "rotmat",
+   "-f",
+   "-s",
+   "-o"
+  ],
+  "stdin": "Backbone\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rotmat_combined_fitxy_nomw::372",
+  "argv": [
+   "rotmat",
+   "-f",
+   "-s",
+   "-o",
+   "-fitxy",
+   "-nomw"
+  ],
+  "stdin": "C-alpha\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_sasa_calculation::373",
+  "argv": [
+   "sasa",
+   "-s",
+   "-f",
+   "-surface",
+   "Protein",
+   "-o"
+  ],
+  "stdin": "Protein\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_per_residue_sasa::374",
+  "argv": [
+   "sasa",
+   "-s",
+   "-f",
+   "-surface",
+   "Protein",
+   "-or"
+  ],
+  "stdin": "Protein\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_per_atom_sasa::375",
+  "argv": [
+   "sasa",
+   "-s",
+   "-f",
+   "-surface",
+   "Protein",
+   "-oa"
+  ],
+  "stdin": "Protein\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_volume_calculation::376",
+  "argv": [
+   "sasa",
+   "-s",
+   "-f",
+   "-surface",
+   "Protein",
+   "-tv"
+  ],
+  "stdin": "Protein\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_probe_radius_0_2::377",
+  "argv": [
+   "sasa",
+   "-s",
+   "-f",
+   "-surface",
+   "Protein",
+   "-probe",
+   "0.2",
+   "-o"
+  ],
+  "stdin": "Protein\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_probe_radius_0_1::378",
+  "argv": [
+   "sasa",
+   "-s",
+   "-f",
+   "-surface",
+   "Protein",
+   "-probe",
+   "0.1",
+   "-o"
+  ],
+  "stdin": "Protein\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_solvation_free_energy::379",
+  "argv": [
+   "sasa",
+   "-s",
+   "-f",
+   "-surface",
+   "Protein",
+   "-dgs",
+   "10",
+   "-odg"
+  ],
+  "stdin": "Protein\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ndots_parameter::380",
+  "argv": [
+   "sasa",
+   "-s",
+   "-f",
+   "-surface",
+   "Protein",
+   "-ndots",
+   "48",
+   "-o"
+  ],
+  "stdin": "Protein\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ndots_12::381",
+  "argv": [
+   "sasa",
+   "-s",
+   "-f",
+   "-surface",
+   "Protein",
+   "-ndots",
+   "12",
+   "-o"
+  ],
+  "stdin": "Protein\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_range_filtering::382",
+  "argv": [
+   "sasa",
+   "-s",
+   "-f",
+   "-surface",
+   "Protein",
+   "-b",
+   "5",
+   "-e",
+   "10",
+   "-o"
+  ],
+  "stdin": "Protein\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nopbc_flag::383",
+  "argv": [
+   "sasa",
+   "-s",
+   "-f",
+   "-surface",
+   "Protein",
+   "-nopbc",
+   "-o"
+  ],
+  "stdin": "Protein\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_output_groups::384",
+  "argv": [
+   "sasa",
+   "-s",
+   "-f",
+   "-surface",
+   "Protein",
+   "-output",
+   "resname TRP; resname PRO",
+   "-o"
+  ],
+  "stdin": "Protein\nresname TRP\nresname PRO\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_group_calpha::385",
+  "argv": [
+   "sasa",
+   "-s",
+   "-f",
+   "-surface",
+   "Protein",
+   "-output",
+   "name CA",
+   "-o"
+  ],
+  "stdin": "Protein\nname CA\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xvg_none_format::386",
+  "argv": [
+   "sasa",
+   "-s",
+   "-f",
+   "-surface",
+   "Protein",
+   "-xvg",
+   "none",
+   "-o"
+  ],
+  "stdin": "Protein\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_selection_error::387",
+  "argv": [
+   "sasa",
+   "-s",
+   "-f",
+   "-surface",
+   "InvalidSelection",
+   "-o"
+  ],
+  "stdin": "InvalidSelection\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_structure_file_error::388",
+  "argv": [
+   "sasa",
+   "-s",
+   "/nonexistent/structure.tpr",
+   "-f",
+   "-surface",
+   "Protein",
+   "-o"
+  ],
+  "stdin": "Protein\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_trajectory_file_error::389",
+  "argv": [
+   "sasa",
+   "-s",
+   "-f",
+   "/nonexistent/trajectory.xtc",
+   "-surface",
+   "Protein",
+   "-o"
+  ],
+  "stdin": "Protein\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_probe_radius_zero::390",
+  "argv": [
+   "sasa",
+   "-s",
+   "-f",
+   "-surface",
+   "Protein",
+   "-probe",
+   "0.0",
+   "-o"
+  ],
+  "stdin": "Protein\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ndots_96_high_accuracy::391",
+  "argv": [
+   "sasa",
+   "-s",
+   "-f",
+   "-surface",
+   "Protein",
+   "-ndots",
+   "96",
+   "-o"
+  ],
+  "stdin": "Protein\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_frame_analysis::392",
+  "argv": [
+   "sasa",
+   "-s",
+   "-f",
+   "-surface",
+   "Protein",
+   "-b",
+   "0",
+   "-e",
+   "0",
+   "-o"
+  ],
+  "stdin": "Protein\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_dgs_value::393",
+  "argv": [
+   "sasa",
+   "-s",
+   "-f",
+   "-surface",
+   "Protein",
+   "-dgs",
+   "-5",
+   "-odg"
+  ],
+  "stdin": "Protein\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_all_output_files::394",
+  "argv": [
+   "sasa",
+   "-s",
+   "-f",
+   "-surface",
+   "Protein",
+   "-o",
+   "-or",
+   "-oa",
+   "-tv"
+  ],
+  "stdin": "Protein\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_spatial_basic_protein_sdf::395",
+  "argv": [
+   "spatial",
+   "-s",
+   "-f",
+   "-nab",
+   "10"
+  ],
+  "stdin": "1\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_spatial_different_nab_values::396",
+  "argv": [
+   "spatial",
+   "-s",
+   "-f",
+   "-nab",
+   "2"
+  ],
+  "stdin": "1\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_spatial_pbc_flag::397",
+  "argv": [
+   "spatial",
+   "-s",
+   "-f",
+   "-nab",
+   "10",
+   "-pbc"
+  ],
+  "stdin": "1\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_spatial_div_normalization::398",
+  "argv": [
+   "spatial",
+   "-s",
+   "-f",
+   "-nab",
+   "10",
+   "-nodiv"
+  ],
+  "stdin": "1\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_spatial_bin_width_parameter::399",
+  "argv": [
+   "spatial",
+   "-s",
+   "-f",
+   "-nab",
+   "10",
+   "-bin",
+   "0.05"
+  ],
+  "stdin": "1\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

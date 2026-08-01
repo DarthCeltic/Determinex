@@ -1,0 +1,5232 @@
+[
+ {
+  "name": "test::test_delimiter_valid_forms::0",
+  "argv": [
+   "count"
+  ],
+  "stdin": "a,b\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_headers_short_form::1",
+  "argv": [
+   "count",
+   "-n"
+  ],
+  "stdin": "a,b\n1,2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_headers_long_form::2",
+  "argv": [
+   "count",
+   "--no-headers"
+  ],
+  "stdin": "a,b\n1,2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_with_negative_index::3",
+  "argv": [
+   "select",
+   "--",
+   "-1"
+  ],
+  "stdin": "a,b\n1,2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_search_ignore_case_flag::4",
+  "argv": [
+   "search",
+   "-i",
+   "test"
+  ],
+  "stdin": "a,b\nTEST,2\ntest,3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_search_invert_match_flag::5",
+  "argv": [
+   "search",
+   "-v",
+   "test"
+  ],
+  "stdin": "a,b\ntest,2\nother,3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_everything_flag::6",
+  "argv": [
+   "stats",
+   "--everything"
+  ],
+  "stdin": "a,b\n1,2\n3,4\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_mode_flag::7",
+  "argv": [
+   "stats",
+   "--mode"
+  ],
+  "stdin": "a,b\n1,2\n3,4\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_select_flag::8",
+  "argv": [
+   "stats",
+   "-s",
+   "a"
+  ],
+  "stdin": "a,b\n1,2\n3,4\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_search_select_flag::9",
+  "argv": [
+   "search",
+   "-s",
+   "a",
+   "1"
+  ],
+  "stdin": "a,b\n1,2\n3,4\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_frequency_select_flag::10",
+  "argv": [
+   "frequency",
+   "-s",
+   "a"
+  ],
+  "stdin": "a,b\n1,2\n1,3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sample_seed_valid::11",
+  "argv": [
+   "sample",
+   "--seed",
+   "42",
+   "2"
+  ],
+  "stdin": "a,b\n1,2\n3,4\n5,6\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sample_seed_non_integer::12",
+  "argv": [
+   "sample",
+   "--seed",
+   "abc",
+   "2"
+  ],
+  "stdin": "a,b\n1,2\n3,4\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fixlengths_length_valid::13",
+  "argv": [
+   "fixlengths",
+   "-l",
+   "3"
+  ],
+  "stdin": "a,b\n1,2\n3,4,5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fixlengths_length_non_integer::14",
+  "argv": [
+   "fixlengths",
+   "-l",
+   "abc"
+  ],
+  "stdin": "a,b\n1,2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fmt_out_delimiter::15",
+  "argv": [
+   "fmt",
+   "-t",
+   "\t"
+  ],
+  "stdin": "a,b\n1,2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fmt_crlf_flag::16",
+  "argv": [
+   "fmt",
+   "--crlf"
+  ],
+  "stdin": "a,b\n1,2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fmt_quote_flag::17",
+  "argv": [
+   "fmt",
+   "--quote",
+   "'"
+  ],
+  "stdin": "a,b\n1,2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fmt_quote_always_flag::18",
+  "argv": [
+   "fmt",
+   "--quote-always"
+  ],
+  "stdin": "a,b\n1,2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_quote_flag::19",
+  "argv": [
+   "input",
+   "--quote",
+   "'"
+  ],
+  "stdin": "a,b\n1,2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_no_quoting_flag::20",
+  "argv": [
+   "input",
+   "--no-quoting"
+  ],
+  "stdin": "a,b\n1,2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_headers_just_names_flag::21",
+  "argv": [
+   "headers",
+   "-j"
+  ],
+  "stdin": "a,b,c\n1,2,3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_frequency_asc_flag::22",
+  "argv": [
+   "frequency",
+   "-a"
+  ],
+  "stdin": "a\n1\n1\n2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_frequency_no_nulls_flag::23",
+  "argv": [
+   "frequency",
+   "--no-nulls"
+  ],
+  "stdin": "a\n1\n\n2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_cardinality_flag::24",
+  "argv": [
+   "stats",
+   "--cardinality"
+  ],
+  "stdin": "a\n1\n1\n2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_median_flag::25",
+  "argv": [
+   "stats",
+   "--median"
+  ],
+  "stdin": "a\n1\n2\n3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_nulls_flag::26",
+  "argv": [
+   "stats",
+   "--nulls"
+  ],
+  "stdin": "a\n1\n\n3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flatten_condense_flag::27",
+  "argv": [
+   "flatten",
+   "-c",
+   "10"
+  ],
+  "stdin": "a,b\n1,2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flatten_separator_flag::28",
+  "argv": [
+   "flatten",
+   "-s",
+   "---"
+  ],
+  "stdin": "a,b\n1,2\n3,4\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_condense_flag::29",
+  "argv": [
+   "table",
+   "-c",
+   "5"
+  ],
+  "stdin": "a,b\n1,2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slice_start_zero::30",
+  "argv": [
+   "slice",
+   "-s",
+   "0"
+  ],
+  "stdin": "a\n1\n2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slice_end_large::31",
+  "argv": [
+   "slice",
+   "-e",
+   "999999"
+  ],
+  "stdin": "a\n1\n2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sample_size_zero::32",
+  "argv": [
+   "sample",
+   "0"
+  ],
+  "stdin": "a\n1\n2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_jobs_zero::33",
+  "argv": [
+   "stats",
+   "-j",
+   "0"
+  ],
+  "stdin": "a\n1\n2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_frequency_limit_zero::34",
+  "argv": [
+   "frequency",
+   "-l",
+   "0"
+  ],
+  "stdin": "a\n1\n1\n2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_delimiter_and_no_headers::35",
+  "argv": [
+   "count",
+   "-d",
+   "\t",
+   "-n"
+  ],
+  "stdin": "a\tb\n1\t2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_multiple_flags::36",
+  "argv": [
+   "stats",
+   "--mode",
+   "--median",
+   "--cardinality"
+  ],
+  "stdin": "a\n1\n2\n3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_from_stdin::37",
+  "argv": [
+   "count"
+  ],
+  "stdin": "a,b\n1,2\n3,4\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_from_stdin::38",
+  "argv": [
+   "select",
+   "a"
+  ],
+  "stdin": "a,b\n1,2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slice_from_stdin::39",
+  "argv": [
+   "slice",
+   "-s",
+   "0",
+   "-e",
+   "1"
+  ],
+  "stdin": "a\n1\n2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tab_delimiter::40",
+  "argv": [
+   "count",
+   "-d",
+   "\t"
+  ],
+  "stdin": "a\tb\n1\t2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pipe_delimiter::41",
+  "argv": [
+   "count",
+   "-d",
+   "|"
+  ],
+  "stdin": "a|b\n1|2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_semicolon_delimiter::42",
+  "argv": [
+   "count",
+   "-d",
+   ";"
+  ],
+  "stdin": "a;b\n1;2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_after_positional_arg::43",
+  "argv": [
+   "select",
+   "1",
+   "-n"
+  ],
+  "stdin": "a,b\n1,2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_stdin::44",
+  "argv": [
+   "count"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delimiter_equals_format::45",
+  "argv": [
+   "count",
+   "--delimiter=\t"
+  ],
+  "stdin": "a\tb\n1\t2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_long_flag_with_equals_and_space::46",
+  "argv": [
+   "count",
+   "-d",
+   "\t"
+  ],
+  "stdin": "a\tb\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_search_requires_regex::47",
+  "argv": [
+   "search"
+  ],
+  "stdin": "a\n1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_search_with_regex::48",
+  "argv": [
+   "search",
+   "[0-9]"
+  ],
+  "stdin": "a\n1\n2\nx\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_search_regex_with_dash::49",
+  "argv": [
+   "search",
+   "--",
+   "-[0-9]"
+  ],
+  "stdin": "a\n-1\n2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slice_start_very_large_number::50",
+  "argv": [
+   "slice",
+   "-s",
+   "999999999999"
+  ],
+  "stdin": "a\n1\n2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sample_size_very_large::51",
+  "argv": [
+   "sample",
+   "999999999"
+  ],
+  "stdin": "a\n1\n2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fmt_escape_single_char::52",
+  "argv": [
+   "fmt",
+   "--escape",
+   "\\"
+  ],
+  "stdin": "a,b\n1,2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fmt_ascii_flag::53",
+  "argv": [
+   "fmt",
+   "--ascii"
+  ],
+  "stdin": "a,b\n1,2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_frequency_jobs_zero::54",
+  "argv": [
+   "frequency",
+   "-j",
+   "0"
+  ],
+  "stdin": "a\n1\n1\n2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slice_start_no_space::55",
+  "argv": [
+   "slice",
+   "-s10"
+  ],
+  "stdin": "a\n1\n2\n3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slice_start_with_space::56",
+  "argv": [
+   "slice",
+   "-s",
+   "10"
+  ],
+  "stdin": "a\n1\n2\n3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_long_flag_with_equals::57",
+  "argv": [
+   "slice",
+   "--start=10"
+  ],
+  "stdin": "a\n1\n2\n3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_long_flag_with_space::58",
+  "argv": [
+   "slice",
+   "--start",
+   "10"
+  ],
+  "stdin": "a\n1\n2\n3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_headers_single_file::59",
+  "argv": [
+   "headers"
+  ],
+  "stdin": "a,b,c\n1,2,3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subcommand_help_accessible::60",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subcommand_help_flag_h::61",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_subcommand_error::62",
+  "argv": [
+   "nonexistent_subcommand"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_subcommand_error_message::63",
+  "argv": [
+   "notacommand"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::64",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_flag::65",
+  "argv": [
+   "--list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delimiter_flag_common_option::66",
+  "argv": [
+   "count",
+   "--delimiter",
+   ","
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_headers_flag_common_option::67",
+  "argv": [
+   "count",
+   "--no-headers"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_requires_selection_argument::68",
+  "argv": [
+   "select"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_join_requires_columns_argument::69",
+  "argv": [
+   "join"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_subcommand_works::70",
+  "argv": [
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_with_valid_csv::71",
+  "argv": [
+   "count"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_headers_with_valid_csv::72",
+  "argv": [
+   "headers"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_with_valid_args::73",
+  "argv": [
+   "select",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subcommand_with_nonexistent_file::74",
+  "argv": [
+   "count",
+   "/nonexistent/file.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subcommand_with_invalid_flag::75",
+  "argv": [
+   "count",
+   "--invalid-flag-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_with_stdin::76",
+  "argv": [
+   "select",
+   "1"
+  ],
+  "stdin": "a,b,c\n1,2,3\n4,5,6",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_dash_as_stdin::77",
+  "argv": [
+   "select",
+   "1",
+   "-"
+  ],
+  "stdin": "a,b,c\n1,2,3\n4,5,6",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_slice_sort_pipeline::78",
+  "argv": [
+   "slice",
+   "-l",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_stats_pipeline::79",
+  "argv": [
+   "stats"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_join_select_stats_workflow::80",
+  "argv": [
+   "select",
+   "product,sales,category,margin"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_search_select_stats_workflow::81",
+  "argv": [
+   "select",
+   "product,sales"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fixlengths_select_workflow::82",
+  "argv": [
+   "select",
+   "name,city"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_slice_flatten_workflow::83",
+  "argv": [
+   "slice",
+   "-l",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reverse_slice_workflow::84",
+  "argv": [
+   "slice",
+   "-l",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_fmt_conversion_workflow::85",
+  "argv": [
+   "fmt",
+   "-t",
+   "|"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_slice_select_workflow::86",
+  "argv": [
+   "slice",
+   "-s",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_join_select_sort_numeric_reverse_workflow::87",
+  "argv": [
+   "select",
+   "name,dept,salary,manager,location"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multi_stage_filter_aggregate_workflow::88",
+  "argv": [
+   "select",
+   "name,salary"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sample_then_analyze_workflow::89",
+  "argv": [
+   "frequency",
+   "-s",
+   "dept"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slice_sort_select_numeric_workflow::90",
+  "argv": [
+   "select",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reverse_then_reverse_idempotent::91",
+  "argv": [
+   "reverse"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_stdin::92",
+  "argv": [
+   "table"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xsv_help::93",
+  "argv": [
+   "./executable",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xsv_count_basic::94",
+  "argv": [
+   "./executable",
+   "count",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "a,b,c\n1,2,3\n4,5,6\n7,8,9\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xsv_headers::95",
+  "argv": [
+   "./executable",
+   "headers",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "name,age,city\nAlice,30,NYC\nBob,25,LA\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_from_stdin::96",
+  "argv": [
+   "select",
+   "2,4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slice_from_stdin::97",
+  "argv": [
+   "slice",
+   "-s",
+   "0",
+   "-l",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_search_from_stdin::98",
+  "argv": [
+   "search",
+   "Furniture"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fixlengths_stdin_with_length_flag::99",
+  "argv": [
+   "fixlengths",
+   "--length",
+   "2"
+  ],
+  "stdin": "a,b\n1,2,3,4\nx\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fixlengths_error_stdin_without_length::100",
+  "argv": [
+   "fixlengths"
+  ],
+  "stdin": "a,b,c\n1,2,3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_headers_with_no_input_uses_stdin::101",
+  "argv": [
+   "headers"
+  ],
+  "stdin": "name,age,city\nAlice,30,NYC\nBob,25,LA\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toggle_headers_applies_to_stdin_input_too::102",
+  "argv": [
+   "select",
+   "-n",
+   "a",
+   "-"
+  ],
+  "stdin": "a,b\n1,2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "XSV_TOGGLE_HEADERS": "1"
+  }
+ },
+ {
+  "name": "test::test_select_reorders_columns_by_name_with_header_row::103",
+  "argv": [
+   "select",
+   "b,a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_search_filters_rows_and_keeps_header_row::104",
+  "argv": [
+   "search",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_file_errors_to_stderr_and_exit_1::105",
+  "argv": [
+   "count",
+   "does_not_exist.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bad_subcommand_has_nonzero_exit_and_error_message::106",
+  "argv": [
+   "not-a-command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_partition::107",
+  "argv": [
+   "partition",
+   "state",
+   "in.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_partition_drop::108",
+  "argv": [
+   "partition",
+   "--drop",
+   "state",
+   "in.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_partition_no_headers::109",
+  "argv": [
+   "partition",
+   "--no-headers",
+   "1",
+   "in.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_partition_drop_no_headers::110",
+  "argv": [
+   "partition",
+   "--drop",
+   "--no-headers",
+   "1",
+   "in.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_partition_custom_filename::111",
+  "argv": [
+   "partition",
+   "--filename",
+   "state-{}-partition.csv",
+   "state",
+   "in.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_partition_custom_filename_with_directory::112",
+  "argv": [
+   "partition",
+   "--filename",
+   "{}/cities.csv",
+   "state",
+   "in.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_partition_with_prefix_length::113",
+  "argv": [
+   "partition",
+   "--prefix-length",
+   "1",
+   "state",
+   "in.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_split::114",
+  "argv": [
+   "split",
+   "--size",
+   "2",
+   "in.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_split_no_headers::115",
+  "argv": [
+   "split",
+   "--no-headers",
+   "--size",
+   "2",
+   "in.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_split_one::116",
+  "argv": [
+   "split",
+   "--size",
+   "1",
+   "in.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_split_uneven::117",
+  "argv": [
+   "split",
+   "--size",
+   "4",
+   "in.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_split_custom_filename::118",
+  "argv": [
+   "split",
+   "--size",
+   "2",
+   "--filename",
+   "prefix-{}.csv",
+   "in.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flatten_basic::119",
+  "argv": [
+   "flatten",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name,age,city\nAlice,30,NYC\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flatten_separator::120",
+  "argv": [
+   "flatten",
+   "-s",
+   "---",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name,age\nAlice,30\nBob,25\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flatten_condense::121",
+  "argv": [
+   "flatten",
+   "-c",
+   "10",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name,description\nAlice,A very long description text\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fmt_basic::122",
+  "argv": [
+   "fmt",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name,age\nAlice,30\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fmt_out_delimiter::123",
+  "argv": [
+   "fmt",
+   "-t",
+   "\t",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name,age\nAlice,30\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fmt_crlf::124",
+  "argv": [
+   "fmt",
+   "--crlf",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name,age\nAlice,30\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fixlengths_basic::125",
+  "argv": [
+   "fixlengths",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name,age,city\nAlice,30\nBob,25,LA,extra\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fixlengths_length::126",
+  "argv": [
+   "fixlengths",
+   "-l",
+   "2",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name,age\nAlice,30\nBob,25,extra\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_frequency_basic::127",
+  "argv": [
+   "frequency",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name,city\nAlice,NYC\nBob,LA\nCharlie,NYC\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_frequency_select::128",
+  "argv": [
+   "frequency",
+   "-s",
+   "city",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name,city\nAlice,NYC\nBob,LA\nCharlie,NYC\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_frequency_limit::129",
+  "argv": [
+   "frequency",
+   "--limit",
+   "2",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name\nA\nB\nC\nD\nE\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_basic::130",
+  "argv": [
+   "table",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name,age\nAlice,30\nBob,25\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_width::131",
+  "argv": [
+   "table",
+   "-w",
+   "10",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "a,b\n1,2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reverse_basic::132",
+  "argv": [
+   "reverse",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name\nAlice\nBob\nCharlie\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sample_basic::133",
+  "argv": [
+   "sample",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sample_seed::134",
+  "argv": [
+   "sample",
+   "3",
+   "--seed",
+   "42",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name\nAlice\nBob\nCharlie\nDave\nEve\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_command::135",
+  "argv": [
+   "nonexistent_command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_basic::136",
+  "argv": [
+   "count",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name,age\nAlice,30\nBob,25\nCharlie,35\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_no_headers::137",
+  "argv": [
+   "count",
+   "--no-headers",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "Alice,30\nBob,25\nCharlie,35\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_with_headers_included::138",
+  "argv": [
+   "count",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name,age\nAlice,30\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_stdin::139",
+  "argv": [
+   "count"
+  ],
+  "stdin": "name,age\nAlice,30\nBob,25\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_custom_delimiter::140",
+  "argv": [
+   "count",
+   "-d",
+   ";",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name;age\nAlice;30\nBob;25\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_empty_file::141",
+  "argv": [
+   "count",
+   "empty.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.csv": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_only_headers::142",
+  "argv": [
+   "count",
+   "headers_only.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "headers_only.csv": "name,age\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_help::143",
+  "argv": [
+   "count",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_join_right_outer::144",
+  "argv": [
+   "join",
+   "--right",
+   "id",
+   "a.csv",
+   "id",
+   "b.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "a.csv": "id,name\n1,Alice\n2,Bob\n",
+   "b.csv": "id,salary\n2,80000\n3,90000\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_join_full_outer::145",
+  "argv": [
+   "join",
+   "--full",
+   "id",
+   "a.csv",
+   "id",
+   "b.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "a.csv": "id,name\n1,Alice\n2,Bob\n",
+   "b.csv": "id,salary\n2,80000\n3,90000\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_frequency_no_nulls::146",
+  "argv": [
+   "frequency",
+   "--no-nulls",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name,value\nAlice,\nBob,100\nAlice,200\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_frequency_asc::147",
+  "argv": [
+   "frequency",
+   "--asc",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name\nAlice\nBob\nAlice\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sample_larger_than_input::148",
+  "argv": [
+   "sample",
+   "10",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name\nAlice\nBob\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slice_no_headers::149",
+  "argv": [
+   "slice",
+   "--len",
+   "2",
+   "--no-headers",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "Alice,30\nBob,25\nCharlie,35\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_mode::150",
+  "argv": [
+   "stats",
+   "--mode",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "value\n10\n20\n10\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_cardinality::151",
+  "argv": [
+   "stats",
+   "--cardinality",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "value\n10\n20\n10\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_median::152",
+  "argv": [
+   "stats",
+   "--median",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "value\n10\n20\n30\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_nulls::153",
+  "argv": [
+   "stats",
+   "--nulls",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "value\n10\n\n30\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fixlengths_truncate::154",
+  "argv": [
+   "fixlengths",
+   "-l",
+   "2",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "a,b\n1,2\n3,4,5,6\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flatten_no_headers::155",
+  "argv": [
+   "flatten",
+   "--no-headers",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "Alice,30\nBob,25\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_condense::156",
+  "argv": [
+   "table",
+   "-c",
+   "10",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name,description\nAlice,Very long text that should be truncated\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_pad::157",
+  "argv": [
+   "table",
+   "-p",
+   "5",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "a,b\n1,2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_delimiter::158",
+  "argv": [
+   "count",
+   "-d",
+   "toolong"
+  ],
+  "stdin": "a,b\n1,2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_headers_basic::159",
+  "argv": [
+   "headers",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name,age,city\nAlice,30,NYC\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_headers_just_names::160",
+  "argv": [
+   "headers",
+   "--just-names",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name,age,city\nAlice,30,NYC\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_headers_custom_delimiter::161",
+  "argv": [
+   "headers",
+   "-d",
+   ";",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name;age;city\nAlice;30;NYC\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_headers_stdin::162",
+  "argv": [
+   "headers"
+  ],
+  "stdin": "name,age,city\nAlice,30,NYC\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_headers_help::163",
+  "argv": [
+   "headers",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_basic::164",
+  "argv": [
+   "input",
+   "--quote",
+   "'",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name,value\n'Alice Smith',100\n'Bob Jones',200\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_escape::165",
+  "argv": [
+   "input",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name,value\n\"Alice\"\"s Data\",100\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_output_file::166",
+  "argv": [
+   "input",
+   "--quote",
+   "'",
+   "data.csv",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name,value\n'test',1\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_help::167",
+  "argv": [
+   "input",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_join_basic::168",
+  "argv": [
+   "join",
+   "id",
+   "a.csv",
+   "id",
+   "b.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "a.csv": "id,name\n1,Alice\n2,Bob\n",
+   "b.csv": "id,salary\n1,100000\n2,80000\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_join_left::169",
+  "argv": [
+   "join",
+   "--left",
+   "id",
+   "a.csv",
+   "id",
+   "b.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "a.csv": "id,name\n1,Alice\n2,Bob\n3,Charlie\n",
+   "b.csv": "id,salary\n1,100000\n2,80000\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_join_no_case::170",
+  "argv": [
+   "join",
+   "--no-case",
+   "name",
+   "a.csv",
+   "name",
+   "b.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "a.csv": "name,value\nalice,1\n",
+   "b.csv": "name,score\nALICE,100\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_split_basic::171",
+  "argv": [
+   "split",
+   "-s",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_split_filename_template::172",
+  "argv": [
+   "split",
+   "-s",
+   "1",
+   "--filename",
+   "part_{}.csv",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name\nAlice\nBob\nCharlie\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_partition_basic::173",
+  "argv": [
+   "partition",
+   "city",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "city,name\nNYC,Alice\nLA,Bob\nNYC,Charlie\nLA,Dave\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_partition_filename::174",
+  "argv": [
+   "partition",
+   "type",
+   "data.csv",
+   "--filename",
+   "type_{}.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "type,value\nA,1\nB,2\nA,3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_basic::175",
+  "argv": [
+   "index",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name,age\nAlice,30\nBob,25\nCharlie,35\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_usage_with_count::176",
+  "argv": [
+   "index"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_search_basic::177",
+  "argv": [
+   "search",
+   "Alice",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name,city\nAlice,NYC\nBob,LA\nCharlie,Chicago\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_search_select_column::178",
+  "argv": [
+   "search",
+   "-s",
+   "name",
+   "^A",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name,city\nAlice,NYC\nBob,LA\nAlan,Chicago\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_search_invert_match::179",
+  "argv": [
+   "search",
+   "-v",
+   "Alice",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name,city\nAlice,NYC\nBob,LA\nCharlie,Chicago\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_search_case_insensitive::180",
+  "argv": [
+   "search",
+   "-i",
+   "ALICE",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name,city\nalice,NYC\nBob,LA\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_search_output_file::181",
+  "argv": [
+   "search",
+   "Alice",
+   "data.csv",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name,city\nAlice,NYC\nBob,LA\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_search_help::182",
+  "argv": [
+   "search",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_single_column::183",
+  "argv": [
+   "select",
+   "name",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name,age,city\nAlice,30,NYC\nBob,25,LA\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_multiple_columns::184",
+  "argv": [
+   "select",
+   "name,city",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name,age,city\nAlice,30,NYC\nBob,25,LA\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_reorder_columns::185",
+  "argv": [
+   "select",
+   "city,name,age",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name,age,city\nAlice,30,NYC\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_column_range::186",
+  "argv": [
+   "select",
+   "1-3",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "a,b,c,d,e\n1,2,3,4,5\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_exclude_column::187",
+  "argv": [
+   "select",
+   "!age",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name,age,city\nAlice,30,NYC\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_output_file::188",
+  "argv": [
+   "select",
+   "name",
+   "data.csv",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name,age,city\nAlice,30,NYC\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_no_headers::189",
+  "argv": [
+   "select",
+   "1,3",
+   "--no-headers",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "Alice,30,NYC\nBob,25,LA\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_help::190",
+  "argv": [
+   "select",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slice_start::191",
+  "argv": [
+   "slice",
+   "--start",
+   "1",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name,age\nAlice,30\nBob,25\nCharlie,35\nDave,40\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slice_end::192",
+  "argv": [
+   "slice",
+   "--end",
+   "2",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name,age\nAlice,30\nBob,25\nCharlie,35\nDave,40\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slice_len::193",
+  "argv": [
+   "slice",
+   "--len",
+   "2",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name,age\nAlice,30\nBob,25\nCharlie,35\nDave,40\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slice_start_and_len::194",
+  "argv": [
+   "slice",
+   "--start",
+   "1",
+   "--len",
+   "2",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name,age\nAlice,30\nBob,25\nCharlie,35\nDave,40\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slice_index_single::195",
+  "argv": [
+   "slice",
+   "--index",
+   "1",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name,age\nAlice,30\nBob,25\nCharlie,35\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slice_output_file::196",
+  "argv": [
+   "slice",
+   "--len",
+   "1",
+   "data.csv",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name,age\nAlice,30\nBob,25\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slice_help::197",
+  "argv": [
+   "slice",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_basic::198",
+  "argv": [
+   "stats",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name,age,score\nAlice,30,85\nBob,25,90\nCharlie,35,75\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_everything::199",
+  "argv": [
+   "stats",
+   "--everything",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name,value\nA,10\nB,20\nC,30\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_select::200",
+  "argv": [
+   "stats",
+   "-s",
+   "age",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "name,age,score\nAlice,30,85\nBob,25,90\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_output_file::201",
+  "argv": [
+   "stats",
+   "data.csv",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "value\n10\n20\n30\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_help::202",
+  "argv": [
+   "stats",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_flag_is_error::203",
+  "argv": [
+   "count",
+   "--definitely-not-a-flag"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_double_dash_makes_dash_prefixed_value_positional::204",
+  "argv": [
+   "select",
+   "--",
+   "--foo"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_split_size_must_be_gt_zero::205",
+  "argv": [
+   "split",
+   "--size",
+   "0",
+   "outdir"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_has_clear_message::206",
+  "argv": [
+   "this_subcommand_should_not_exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_global_flag_prints_unknown_flag::207",
+  "argv": [
+   "--definitely-not-a-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_command::208",
+  "argv": [
+   "invalidcommand"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_file::209",
+  "argv": [
+   "count",
+   "nonexistent.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_basic::210",
+  "argv": [
+   "count",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "name,age\nAlice,30\nBob,25\nCarol,35\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_with_headers::211",
+  "argv": [
+   "count",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "a,b,c\n1,2,3\n4,5,6\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_no_headers::212",
+  "argv": [
+   "count",
+   "--no-headers",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "a,b,c\n1,2,3\n4,5,6\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_from_stdin::213",
+  "argv": [
+   "count"
+  ],
+  "stdin": "x,y\n1,2\n3,4\n5,6\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_only_headers::214",
+  "argv": [
+   "count",
+   "headers.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "headers.csv": "name,age,city\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_custom_delimiter::215",
+  "argv": [
+   "count",
+   "-d",
+   "\t",
+   "test.tsv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tsv": "name\tage\nAlice\t30\nBob\t25\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_single_row::216",
+  "argv": [
+   "count",
+   "single.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "single.csv": "col1,col2\nval1,val2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_only_headers::217",
+  "argv": [
+   "headers",
+   "headers.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "headers.csv": "name,age,city\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_column::218",
+  "argv": [
+   "stats",
+   "single.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "single.csv": "value\n1\n2\n3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_row::219",
+  "argv": [
+   "count",
+   "single_row.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "single_row.csv": "a,b,c\n1,2,3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_content::220",
+  "argv": [
+   "count",
+   "unicode.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "unicode.csv": "name\nAlice\nBob\nCarol™\n日本語\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quoted_fields_with_delimiter::221",
+  "argv": [
+   "headers",
+   "quoted.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "quoted.csv": "name,desc\n\"Alice\",\"Hello, World\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_operations::222",
+  "argv": [
+   "count"
+  ],
+  "stdin": "name,value\nAlice,100\nBob,200\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_chained_commands::223",
+  "argv": [
+   "select",
+   "name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_column_name::224",
+  "argv": [
+   "select",
+   "nonexistent",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "name,age\nAlice,30\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_delimiter::225",
+  "argv": [
+   "count",
+   "-d",
+   "ab"
+  ],
+  "stdin": "a,b\n1,2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_options::226",
+  "argv": [
+   "slice",
+   "-e",
+   "2",
+   "-l",
+   "5",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "x\n1\n2\n3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slice_invalid_range::227",
+  "argv": [
+   "slice",
+   "--start",
+   "5",
+   "--end",
+   "2",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "x\n1\n2\n3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_slice_options::228",
+  "argv": [
+   "slice",
+   "--index",
+   "0",
+   "--start",
+   "1",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "x\n1\n2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_delimiter::229",
+  "argv": [
+   "count",
+   "-d",
+   ",,",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "a,b\n1,2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_partition_output_required::230",
+  "argv": [
+   "partition",
+   "a",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "a,b\n1,x\n2,y\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_invalid_column_selection::231",
+  "argv": [
+   "stats",
+   "--select",
+   "nonexistent",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "a,b\n1,2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_join_missing_file::232",
+  "argv": [
+   "join",
+   "a",
+   "test.csv",
+   "a",
+   "nonexistent.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "a\n1\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flatten_with_custom_separator::233",
+  "argv": [
+   "flatten",
+   "--separator",
+   "---",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "a,b\n1,2\n3,4\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flatten_condense::234",
+  "argv": [
+   "flatten",
+   "--condense",
+   "5",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "name,description\nAlice,Long description here\nBob,Another long text\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_command::235",
+  "argv": [
+   "input",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "a,b\n1,2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reverse_from_stdin::236",
+  "argv": [
+   "reverse"
+  ],
+  "stdin": "x\n1\n2\n3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_search_case_sensitive::237",
+  "argv": [
+   "search",
+   "Alice",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "name\nAlice\nalice\nBob\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_reorder_columns::238",
+  "argv": [
+   "select",
+   "c,a,b",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "a,b,c\n1,2,3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_headers_from_multiple_files::239",
+  "argv": [
+   "headers",
+   "f1.csv",
+   "f2.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "f1.csv": "a,b\n1,2\n",
+   "f2.csv": "a,b\n3,4\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fixlengths_with_length_option::240",
+  "argv": [
+   "fixlengths",
+   "--length",
+   "3",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "a,b\n1,2,3\n4,5\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_with_condense::241",
+  "argv": [
+   "table",
+   "--condense",
+   "10",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "name,description\nAlice,Very long description here\nBob,Short\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_with_width_and_pad::242",
+  "argv": [
+   "table",
+   "--width",
+   "5",
+   "--pad",
+   "3",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "a,b\n1,2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fixlengths_auto::243",
+  "argv": [
+   "fixlengths",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "a,b,c\n1,2\n3,4,5\n6\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fixlengths_force_length::244",
+  "argv": [
+   "fixlengths",
+   "--length",
+   "3",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "a,b\n1,2,3\n4\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fixlengths_truncate::245",
+  "argv": [
+   "fixlengths",
+   "--length",
+   "2",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "a,b\n1,2,3,4\n5,6\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fixlengths_output_file::246",
+  "argv": [
+   "fixlengths",
+   "-o",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "a,b,c\n1,2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flatten_basic::247",
+  "argv": [
+   "flatten",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "name,age,city\nAlice,30,NYC\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flatten_multiple_records::248",
+  "argv": [
+   "flatten",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "x,y\n1,2\n3,4\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flatten_custom_separator::249",
+  "argv": [
+   "flatten",
+   "-s",
+   "---",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "x,y\n1,2\n3,4\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flatten_condense::250",
+  "argv": [
+   "flatten",
+   "-c",
+   "10",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "text\nThis is a very long text that should be condensed\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flatten_no_headers::251",
+  "argv": [
+   "flatten",
+   "--no-headers",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "1,2,3\n4,5,6\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fmt_change_delimiter::252",
+  "argv": [
+   "fmt",
+   "-t",
+   "\t",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "a,b,c\n1,2,3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fmt_crlf::253",
+  "argv": [
+   "fmt",
+   "--crlf",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "a,b\n1,2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fmt_quote_character::254",
+  "argv": [
+   "fmt",
+   "--quote",
+   "'",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "name,value\ntest data,123\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fmt_quote_always::255",
+  "argv": [
+   "fmt",
+   "--quote-always",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "a,b\n1,2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fmt_output_file::256",
+  "argv": [
+   "fmt",
+   "-t",
+   "|",
+   "-o",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "a,b\n1,2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fmt_crlf::257",
+  "argv": [
+   "fmt",
+   "--crlf",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "a,b\n1,2\n3,4\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fmt_ascii::258",
+  "argv": [
+   "fmt",
+   "--ascii",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "x,y\n1,2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fmt_quote_always::259",
+  "argv": [
+   "fmt",
+   "--quote-always",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "a,b\n1,hello\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fmt_custom_quote::260",
+  "argv": [
+   "fmt",
+   "--quote",
+   "'",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "a,b\n1,text with space\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fmt_escape::261",
+  "argv": [
+   "fmt",
+   "--escape",
+   "\\",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "a,b\n1,\"text\"\"here\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fmt_combined_options::262",
+  "argv": [
+   "fmt",
+   "--out-delimiter",
+   "|",
+   "--crlf",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "x,y,z\n1,2,3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fmt_from_stdin::263",
+  "argv": [
+   "fmt",
+   "--out-delimiter",
+   ";"
+  ],
+  "stdin": "a,b\n1,2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_frequency_basic::264",
+  "argv": [
+   "frequency",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "color\nred\nblue\nred\ngreen\nred\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_frequency_select_column::265",
+  "argv": [
+   "frequency",
+   "-s",
+   "city",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "name,city\nAlice,NYC\nBob,LA\nCarol,NYC\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_frequency_limit::266",
+  "argv": [
+   "frequency",
+   "-l",
+   "3",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "val\n1\n2\n3\n4\n5\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_frequency_asc::267",
+  "argv": [
+   "frequency",
+   "-a",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "x\na\na\nb\nc\nc\nc\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_frequency_no_headers::268",
+  "argv": [
+   "frequency",
+   "--no-headers",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "1\n1\n2\n2\n2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_frequency_with_limit::269",
+  "argv": [
+   "frequency",
+   "--limit",
+   "3",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "val\na\nb\nc\nd\ne\nf\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_frequency_no_nulls::270",
+  "argv": [
+   "frequency",
+   "--no-nulls",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "val\na\n\nb\n\nc\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_frequency_with_select_and_asc::271",
+  "argv": [
+   "frequency",
+   "--select",
+   "b",
+   "--asc",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "a,b,c\n1,x,10\n2,y,20\n3,x,30\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_frequency_output_to_file::272",
+  "argv": [
+   "frequency",
+   "-o",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "val\na\na\nb\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_headers_basic::273",
+  "argv": [
+   "headers",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "name,age,city\nAlice,30,NYC\nBob,25,LA\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_headers_just_names::274",
+  "argv": [
+   "headers",
+   "--just-names",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "col1,col2,col3\n1,2,3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_headers_custom_delimiter::275",
+  "argv": [
+   "headers",
+   "-d",
+   "\t",
+   "test.tsv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tsv": "name\tage\tvalue\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_headers_single_column::276",
+  "argv": [
+   "headers",
+   "single.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "single.csv": "only_column\n1\n2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_headers_empty_names::277",
+  "argv": [
+   "headers",
+   "empty.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.csv": "name,,value\n1,2,3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_create::278",
+  "argv": [
+   "index",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "name,age\nAlice,30\nBob,25\nCarol,35\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_with_output::279",
+  "argv": [
+   "index",
+   "-o",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "x\n1\n2\n3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_custom_delimiter::280",
+  "argv": [
+   "index",
+   "-d",
+   "\t",
+   "test.tsv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tsv": "a\tb\n1\t2\n3\t4\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_basic::281",
+  "argv": [
+   "input",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "name,value\n\"Alice\",10\n\"Bob\",20\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_custom_quote::282",
+  "argv": [
+   "input",
+   "--quote",
+   "'",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "name,value\n'Alice',10\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_no_quoting::283",
+  "argv": [
+   "input",
+   "--no-quoting",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "a,b\n1,2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_output_file::284",
+  "argv": [
+   "input",
+   "-o",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "x\n1\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_join_inner::285",
+  "argv": [
+   "join",
+   "id",
+   "left.csv",
+   "id",
+   "right.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "left.csv": "id,name\n1,Alice\n2,Bob\n",
+   "right.csv": "id,value\n1,100\n3,300\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_join_left::286",
+  "argv": [
+   "join",
+   "--left",
+   "id",
+   "left.csv",
+   "id",
+   "right.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "left.csv": "id,name\n1,Alice\n2,Bob\n",
+   "right.csv": "id,value\n1,100\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_join_right::287",
+  "argv": [
+   "join",
+   "--right",
+   "id",
+   "left.csv",
+   "id",
+   "right.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "left.csv": "id,name\n1,Alice\n",
+   "right.csv": "id,value\n1,100\n2,200\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_join_full::288",
+  "argv": [
+   "join",
+   "--full",
+   "id",
+   "left.csv",
+   "id",
+   "right.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "left.csv": "id,name\n1,Alice\n2,Bob\n",
+   "right.csv": "id,value\n1,100\n3,300\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_join_no_case::289",
+  "argv": [
+   "join",
+   "--no-case",
+   "key",
+   "left.csv",
+   "key",
+   "right.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "left.csv": "key,val\nABC,1\n",
+   "right.csv": "key,val\nabc,2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_join_left::290",
+  "argv": [
+   "join",
+   "--left",
+   "id",
+   "left.csv",
+   "id",
+   "right.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "left.csv": "id,name\n1,Alice\n2,Bob\n3,Charlie\n",
+   "right.csv": "id,score\n1,90\n2,85\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_join_right::291",
+  "argv": [
+   "join",
+   "--right",
+   "id",
+   "left.csv",
+   "id",
+   "right.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "left.csv": "id,name\n1,Alice\n2,Bob\n",
+   "right.csv": "id,score\n1,90\n2,85\n3,95\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_join_full::292",
+  "argv": [
+   "join",
+   "--full",
+   "id",
+   "left.csv",
+   "id",
+   "right.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "left.csv": "id,name\n1,Alice\n3,Charlie\n",
+   "right.csv": "id,score\n1,90\n2,85\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_join_no_case::293",
+  "argv": [
+   "join",
+   "--no-case",
+   "name",
+   "left.csv",
+   "name",
+   "right.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "left.csv": "name,val\nALICE,1\n",
+   "right.csv": "name,score\nalice,90\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_join_output_file::294",
+  "argv": [
+   "join",
+   "-o",
+   "id",
+   "left.csv",
+   "id",
+   "right.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "left.csv": "id,name\n1,Alice\n",
+   "right.csv": "id,score\n1,90\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_join_with_delimiter::295",
+  "argv": [
+   "join",
+   "-d",
+   "\t",
+   "id",
+   "left.tsv",
+   "id",
+   "right.tsv"
+  ],
+  "stdin": null,
+  "files": {
+   "left.tsv": "id\tname\n1\tAlice\n",
+   "right.tsv": "id\tscore\n1\t90\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_partition_basic::296",
+  "argv": [
+   "partition",
+   "city",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "city,name\nNYC,Alice\nLA,Bob\nNYC,Carol\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_partition_prefix_length::297",
+  "argv": [
+   "partition",
+   "--prefix-length",
+   "3",
+   "type",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "type,val\nABCDEF,1\nXYZABC,2\nABC123,3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_partition_filename_template::298",
+  "argv": [
+   "partition",
+   "--filename",
+   "data_{}.csv",
+   "cat",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "cat,val\nX,1\nY,2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_partition_no_headers::299",
+  "argv": [
+   "partition",
+   "--no-headers",
+   "1",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "A,1\nB,2\nA,3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_partition_drop::300",
+  "argv": [
+   "partition",
+   "--drop",
+   "cat",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "cat,name\nA,Alice\nB,Bob\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_partition_with_filename_template::301",
+  "argv": [
+   "partition",
+   "--filename",
+   "{}_data.csv",
+   "category",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "category,value\nA,1\nB,2\nA,3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_partition_prefix_and_suffix::302",
+  "argv": [
+   "partition",
+   "type",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "type,val\nx,1\ny,2\nx,3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_partition_no_headers::303",
+  "argv": [
+   "partition",
+   "--no-headers",
+   "1",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "a,1\nb,2\na,3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reverse_basic::304",
+  "argv": [
+   "reverse",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "name\nAlice\nBob\nCarol\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reverse_preserves_header::305",
+  "argv": [
+   "reverse",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "x,y\n1,2\n3,4\n5,6\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reverse_no_headers::306",
+  "argv": [
+   "reverse",
+   "--no-headers",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "1\n2\n3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reverse_single_row::307",
+  "argv": [
+   "reverse",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "col\nvalue\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reverse_output_file::308",
+  "argv": [
+   "reverse",
+   "-o",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "x\n1\n2\n3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sample_basic::309",
+  "argv": [
+   "sample",
+   "5",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "x\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sample_with_seed::310",
+  "argv": [
+   "sample",
+   "--seed",
+   "42",
+   "3",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "x\n1\n2\n3\n4\n5\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sample_from_stdin::311",
+  "argv": [
+   "sample",
+   "3"
+  ],
+  "stdin": "val\n1\n2\n3\n4\n5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sample_no_headers::312",
+  "argv": [
+   "sample",
+   "--no-headers",
+   "3",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "1\n2\n3\n4\n5\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sample_larger_than_input::313",
+  "argv": [
+   "sample",
+   "10",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "x\n1\n2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sample_output_file::314",
+  "argv": [
+   "sample",
+   "-o",
+   "3",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "x\n1\n2\n3\n4\n5\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_search_basic::315",
+  "argv": [
+   "search",
+   "Bob",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "name,value\nAlice,10\nBob,20\nCarol,30\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_search_select_column::316",
+  "argv": [
+   "search",
+   "-s",
+   "email",
+   "test",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "name,email\nAlice,alice@test.com\nBob,bob@test.com\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_search_invert::317",
+  "argv": [
+   "search",
+   "-v",
+   "Bob",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "name\nAlice\nBob\nCarol\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_search_case_insensitive::318",
+  "argv": [
+   "search",
+   "-i",
+   "alice",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "name\nAlice\nbob\nCAROL\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_search_regex_pattern::319",
+  "argv": [
+   "search",
+   ".*@.*\\.com",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "email\nuser1@test.com\nuser2@test.com\ninvalid\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_search_no_matches::320",
+  "argv": [
+   "search",
+   "Zoe",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "name\nAlice\nBob\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_search_select_columns::321",
+  "argv": [
+   "search",
+   "--select",
+   "city",
+   "NYC",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "name,city\nAlice,NYC\nBob,LA\nCharlie,NYC\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_search_ignore_case::322",
+  "argv": [
+   "search",
+   "-i",
+   "hello",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "text\nHello\nhello\nHELLO\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_search_output_file::323",
+  "argv": [
+   "search",
+   "-o",
+   "Alice",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "name\nAlice\nBob\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_by_name::324",
+  "argv": [
+   "select",
+   "name,city",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "name,age,city\nAlice,30,NYC\nBob,25,LA\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_by_index::325",
+  "argv": [
+   "select",
+   "1,3",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "a,b,c,d\n1,2,3,4\n5,6,7,8\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_range::326",
+  "argv": [
+   "select",
+   "2-4",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "a,b,c,d,e\n1,2,3,4,5\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_exclude::327",
+  "argv": [
+   "select",
+   "!b,d",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "a,b,c,d\n1,2,3,4\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_no_headers::328",
+  "argv": [
+   "select",
+   "--no-headers",
+   "1,3",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "1,2,3,4\n5,6,7,8\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_single_column::329",
+  "argv": [
+   "select",
+   "age",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "name,age,city\nAlice,30,NYC\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_custom_delimiter::330",
+  "argv": [
+   "select",
+   "-d",
+   "\t",
+   "a,c",
+   "test.tsv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tsv": "a\tb\tc\n1\t2\t3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slice_start::331",
+  "argv": [
+   "slice",
+   "-s",
+   "2",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "a\n1\n2\n3\n4\n5\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slice_end::332",
+  "argv": [
+   "slice",
+   "-e",
+   "3",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "a\n1\n2\n3\n4\n5\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slice_length::333",
+  "argv": [
+   "slice",
+   "-l",
+   "2",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "a\n1\n2\n3\n4\n5\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slice_index::334",
+  "argv": [
+   "slice",
+   "-i",
+   "1",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "a,b\n1,2\n3,4\n5,6\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slice_start_and_length::335",
+  "argv": [
+   "slice",
+   "-s",
+   "1",
+   "-l",
+   "2",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "a\n1\n2\n3\n4\n5\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slice_no_headers::336",
+  "argv": [
+   "slice",
+   "--no-headers",
+   "-s",
+   "1",
+   "-l",
+   "2",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "1\n2\n3\n4\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slice_with_end::337",
+  "argv": [
+   "slice",
+   "--start",
+   "1",
+   "--end",
+   "4",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "x\n1\n2\n3\n4\n5\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slice_index_option::338",
+  "argv": [
+   "slice",
+   "--index",
+   "2",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "val\n10\n20\n30\n40\n50\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slice_no_headers::339",
+  "argv": [
+   "slice",
+   "--no-headers",
+   "--len",
+   "3",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "1\n2\n3\n4\n5\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_split_basic::340",
+  "argv": [
+   "split",
+   "-s",
+   "2",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "x\n1\n2\n3\n4\n5\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_split_custom_filename::341",
+  "argv": [
+   "split",
+   "--filename",
+   "part_{}.csv",
+   "-s",
+   "1",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "x\n1\n2\n3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_split_no_headers::342",
+  "argv": [
+   "split",
+   "--no-headers",
+   "-s",
+   "2",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "1\n2\n3\n4\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_split_with_filename_template::343",
+  "argv": [
+   "split",
+   "--filename",
+   "chunk_{}.csv",
+   "--size",
+   "2",
+   "data.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "id\n1\n2\n3\n4\n5\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_split_to_stdout_error::344",
+  "argv": [
+   "split",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "x\n1\n2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_basic::345",
+  "argv": [
+   "stats",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "value\n10\n20\n30\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_everything::346",
+  "argv": [
+   "stats",
+   "--everything",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "num\n1\n2\n3\n4\n5\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_select_columns::347",
+  "argv": [
+   "stats",
+   "-s",
+   "a,c",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "a,b,c\n1,2,3\n4,5,6\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_mode_flag::348",
+  "argv": [
+   "stats",
+   "--mode",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "val\n1\n2\n2\n3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_median_flag::349",
+  "argv": [
+   "stats",
+   "--median",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "val\n1\n2\n3\n4\n5\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_cardinality_flag::350",
+  "argv": [
+   "stats",
+   "--cardinality",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "val\n1\n1\n2\n2\n3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_string_column::351",
+  "argv": [
+   "stats",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "name,age\nAlice,30\nBob,25\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_with_nulls_flag::352",
+  "argv": [
+   "stats",
+   "--nulls",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "val\n10\n\n20\n\n30\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_with_jobs::353",
+  "argv": [
+   "stats",
+   "--jobs",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_everything_with_select::354",
+  "argv": [
+   "stats",
+   "--everything",
+   "--select",
+   "x,z",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "x,y,z\n1,2,3\n2,4,6\n3,6,9\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_output_to_file::355",
+  "argv": [
+   "stats",
+   "-o",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "num\n1\n2\n3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_empty_csv::356",
+  "argv": [
+   "stats",
+   "empty.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.csv": "x,y,z\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_with_mixed_types::357",
+  "argv": [
+   "stats",
+   "mixed.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "mixed.csv": "name,age,city\nAlice,30,NYC\nBob,25,LA\nCharlie,35,SF\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_basic::358",
+  "argv": [
+   "table",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "name,age,city\nAlice,30,NYC\nBob,25,LA\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_width::359",
+  "argv": [
+   "table",
+   "-w",
+   "10",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "x,y\n1,2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_pad::360",
+  "argv": [
+   "table",
+   "-p",
+   "5",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "a,b\n1,2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_condense::361",
+  "argv": [
+   "table",
+   "-c",
+   "10",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "text\nThis is a very long text field\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_output_file::362",
+  "argv": [
+   "table",
+   "-o",
+   "test.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "a,b\n1,2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

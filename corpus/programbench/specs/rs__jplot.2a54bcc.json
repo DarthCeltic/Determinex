@@ -1,0 +1,5787 @@
+{
+ "slug": "rs__jplot.2a54bcc",
+ "language": "",
+ "n_branches": 8,
+ "n_tests_total": 691,
+ "n_examples": 326,
+ "n_with_exact_stdout": 0,
+ "n_with_rc": 304,
+ "n_skipped": 309,
+ "examples": [
+  {
+   "test": "test_double_dash_treats_following_dashes_as_positional_field_spec",
+   "argv": [
+    "--",
+    "-steps"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:140"
+  },
+  {
+   "test": "test_help_flag_displays_usage",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:9"
+  },
+  {
+   "test": "test_invalid_flag_shows_error_and_usage",
+   "argv": [
+    "--invalid-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:22"
+  },
+  {
+   "test": "test_no_graphics_support_error",
+   "argv": [
+    "field.name"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:36"
+  },
+  {
+   "test": "test_screen_tmux_not_supported",
+   "argv": [
+    "field.name"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM": "screen",
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "screen and tmux not supported"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:46"
+  },
+  {
+   "test": "test_invalid_interval_format_error",
+   "argv": [
+    "--interval",
+    "invalid",
+    "field.name"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:55"
+  },
+  {
+   "test": "test_invalid_steps_format_error",
+   "argv": [
+    "--steps",
+    "invalid",
+    "field.name"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:68"
+  },
+  {
+   "test": "test_invalid_rows_format_error",
+   "argv": [
+    "--rows",
+    "invalid",
+    "field.name"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:81"
+  },
+  {
+   "test": "test_invalid_field_option_error",
+   "argv": [
+    "invalidoption:field.name"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:94"
+  },
+  {
+   "test": "test_valid_interval_milliseconds",
+   "argv": [
+    "--interval",
+    "100ms",
+    "field.name"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:107"
+  },
+  {
+   "test": "test_valid_interval_minutes",
+   "argv": [
+    "--interval",
+    "2m",
+    "field.name"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:117"
+  },
+  {
+   "test": "test_valid_interval_mixed_units",
+   "argv": [
+    "--interval",
+    "1h30m",
+    "field.name"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:126"
+  },
+  {
+   "test": "test_negative_interval_accepted",
+   "argv": [
+    "--interval",
+    "-5s",
+    "field.name"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:135"
+  },
+  {
+   "test": "test_negative_steps_accepted",
+   "argv": [
+    "--steps",
+    "-1",
+    "field.name"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:145"
+  },
+  {
+   "test": "test_zero_steps_accepted",
+   "argv": [
+    "--steps",
+    "0",
+    "field.name"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:154"
+  },
+  {
+   "test": "test_negative_rows_accepted",
+   "argv": [
+    "--rows",
+    "-5",
+    "field.name"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:163"
+  },
+  {
+   "test": "test_steps_integer_overflow_error",
+   "argv": [
+    "--steps",
+    "10000000000000000000",
+    "field.name"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:172"
+  },
+  {
+   "test": "test_rows_integer_overflow_error",
+   "argv": [
+    "--rows",
+    "10000000000000000000",
+    "field.name"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:186"
+  },
+  {
+   "test": "test_multiple_invalid_field_options_first_reported",
+   "argv": [
+    "invalid1,invalid2:field"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:200"
+  },
+  {
+   "test": "test_counter_field_option_accepted",
+   "argv": [
+    "counter:field.name"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Cannot get window size"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:213"
+  },
+  {
+   "test": "test_marker_field_option_accepted",
+   "argv": [
+    "marker:field.name"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Cannot get window size"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:225"
+  },
+  {
+   "test": "test_counter_and_marker_combined",
+   "argv": [
+    "counter,marker:field.name"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Cannot get window size"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:236"
+  },
+  {
+   "test": "test_marker_and_counter_order_accepted",
+   "argv": [
+    "marker,counter:field.name"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Cannot get window size"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:247"
+  },
+  {
+   "test": "test_backward_compatible_colon_separator",
+   "argv": [
+    "marker:counter:field.name"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Cannot get window size"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:258"
+  },
+  {
+   "test": "test_multiple_fields_with_plus_operator",
+   "argv": [
+    "field1+field2"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Cannot get window size"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:269"
+  },
+  {
+   "test": "test_multiple_fields_with_options_and_plus",
+   "argv": [
+    "counter:field1+marker:field2"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Cannot get window size"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:280"
+  },
+  {
+   "test": "test_multiple_separate_field_specs",
+   "argv": [
+    "field1",
+    "field2"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Cannot get window size"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:291"
+  },
+  {
+   "test": "test_three_fields_combined_with_plus",
+   "argv": [
+    "field1+field2+field3"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Cannot get window size"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:302"
+  },
+  {
+   "test": "test_all_flags_combined",
+   "argv": [
+    "--interval",
+    "5s",
+    "--steps",
+    "50",
+    "--rows",
+    "10",
+    "field.name"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Cannot get window size"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:313"
+  },
+  {
+   "test": "test_empty_field_name_accepted",
+   "argv": [
+    ""
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Cannot get window size"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:327"
+  },
+  {
+   "test": "test_empty_field_name_with_option_accepted",
+   "argv": [
+    "counter:"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Cannot get window size"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:338"
+  },
+  {
+   "test": "test_url_with_invalid_scheme",
+   "argv": [
+    "--url",
+    "not-a-url",
+    "field.name"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:349"
+  },
+  {
+   "test": "test_large_positive_steps_accepted",
+   "argv": [
+    "--steps",
+    "999999999",
+    "field.name"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:363"
+  },
+  {
+   "test": "test_very_large_rows_accepted",
+   "argv": [
+    "--rows",
+    "999999999",
+    "field.name"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:374"
+  },
+  {
+   "test": "test_zero_interval_accepted",
+   "argv": [
+    "--interval",
+    "0s",
+    "field.name"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:385"
+  },
+  {
+   "test": "test_zero_duration_numeric_accepted",
+   "argv": [
+    "--interval",
+    "0",
+    "field.name"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:396"
+  },
+  {
+   "test": "test_nanosecond_interval_accepted",
+   "argv": [
+    "--interval",
+    "1ns",
+    "field.name"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:407"
+  },
+  {
+   "test": "test_day_duration_24h_accepted",
+   "argv": [
+    "--interval",
+    "24h",
+    "field.name"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:418"
+  },
+  {
+   "test": "test_flags_after_field_specs",
+   "argv": [
+    "field.name",
+    "--interval",
+    "5s"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:429"
+  },
+  {
+   "test": "test_flags_interspersed_with_args",
+   "argv": [
+    "--steps",
+    "50",
+    "field.name",
+    "--interval",
+    "5s"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:441"
+  },
+  {
+   "test": "test_steps_decimal_error",
+   "argv": [
+    "--steps",
+    "5.5",
+    "field.name"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:452"
+  },
+  {
+   "test": "test_field_name_with_hyphens_accepted",
+   "argv": [
+    "field-name.sub_field"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Cannot get window size"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:465"
+  },
+  {
+   "test": "test_field_name_with_underscores_accepted",
+   "argv": [
+    "field_name.sub_field"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Cannot get window size"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:476"
+  },
+  {
+   "test": "test_field_name_with_numbers_accepted",
+   "argv": [
+    "field.0.value"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Cannot get window size"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:487"
+  },
+  {
+   "test": "test_multiple_spec_args_with_options",
+   "argv": [
+    "counter:field1",
+    "marker:field2",
+    "field3"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Cannot get window size"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:498"
+  },
+  {
+   "test": "test_complex_multi_graph_spec",
+   "argv": [
+    "counter:cpu.user+counter:cpu.system",
+    "marker:events.alert+events.warning",
+    "memory.used"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Cannot get window size"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:512"
+  },
+  {
+   "test": "test_url_empty_string_accepted",
+   "argv": [
+    "--url",
+    "",
+    "field.name"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Cannot get window size"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:542"
+  },
+  {
+   "test": "test_single_field_spec_basic",
+   "argv": [
+    "field.name"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dashboard.py:40"
+  },
+  {
+   "test": "test_multiple_field_specs_creates_multiple_graphs",
+   "argv": [
+    "field1",
+    "field2",
+    "field3"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dashboard.py:55"
+  },
+  {
+   "test": "test_plus_separator_combines_fields_in_single_graph",
+   "argv": [
+    "field1+field2"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dashboard.py:70"
+  },
+  {
+   "test": "test_mixed_single_and_multi_series_graphs",
+   "argv": [
+    "field1",
+    "field2+field3",
+    "field4"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dashboard.py:85"
+  },
+  {
+   "test": "test_counter_option_parses_correctly",
+   "argv": [
+    "counter:requests.total"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dashboard.py:100"
+  },
+  {
+   "test": "test_marker_option_parses_correctly",
+   "argv": [
+    "marker:deploy.event"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dashboard.py:115"
+  },
+  {
+   "test": "test_multiple_options_comma_separated",
+   "argv": [
+    "marker,counter:field.name"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dashboard.py:130"
+  },
+  {
+   "test": "test_invalid_option_rejected_during_parsing",
+   "argv": [
+    "invalidopt:field.name"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dashboard.py:145"
+  },
+  {
+   "test": "test_complex_multi_graph_dashboard_all_features",
+   "argv": [
+    "counter:cpu.usage",
+    "marker:deploy+error",
+    "counter,marker:requests.total"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dashboard.py:160"
+  },
+  {
+   "test": "test_backward_compat_marker_counter_colon_format",
+   "argv": [
+    "marker:counter:field.name"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dashboard.py:180"
+  },
+  {
+   "test": "test_special_characters_in_json_paths",
+   "argv": [
+    "field_name-123.sub-field_2"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dashboard.py:216"
+  },
+  {
+   "test": "test_url_flag_with_multi_graph_dashboard",
+   "argv": [
+    "-url",
+    "http://example.com/data.json",
+    "field1",
+    "field2"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dashboard.py:261"
+  },
+  {
+   "test": "test_steps_flag_applies_to_all_graphs",
+   "argv": [
+    "-steps",
+    "100",
+    "field1",
+    "field2"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dashboard.py:279"
+  },
+  {
+   "test": "test_rows_flag_affects_per_graph_height_calculation",
+   "argv": [
+    "-rows",
+    "50",
+    "field1",
+    "field2"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dashboard.py:296"
+  },
+  {
+   "test": "test_interval_flag_with_counter_in_multi_graph",
+   "argv": [
+    "-interval",
+    "2s",
+    "-url",
+    "http://example.com",
+    "counter:requests"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dashboard.py:313"
+  },
+  {
+   "test": "test_colon_without_option_name",
+   "argv": [
+    ":field.name"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dashboard.py:338"
+  },
+  {
+   "test": "test_case_sensitivity_of_options",
+   "argv": [
+    "Counter:field.name"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dashboard.py:359"
+  },
+  {
+   "test": "test_unicode_in_field_names",
+   "argv": [
+    "field.ñame.日本語"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dashboard.py:394"
+  },
+  {
+   "test": "test_graph_construction_unit_tests",
+   "argv": [
+    "go",
+    "test",
+    "-v",
+    "./graph/..."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "PASS"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_graph.py:23"
+  },
+  {
+   "test": "test_simple_field_spec",
+   "argv": [
+    "field"
+   ],
+   "stdin": "{\"field\": 1}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_parsing.py:44"
+  },
+  {
+   "test": "test_nested_field_path",
+   "argv": [
+    "field.subfield"
+   ],
+   "stdin": "{\"field\": {\"subfield\": 1}}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_parsing.py:55"
+  },
+  {
+   "test": "test_deeply_nested_path",
+   "argv": [
+    "a.b.c.d.e"
+   ],
+   "stdin": "{\"a\": {\"b\": {\"c\": {\"d\": {\"e\": 1}}}}}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_parsing.py:66"
+  },
+  {
+   "test": "test_counter_option",
+   "argv": [
+    "counter:field"
+   ],
+   "stdin": "{\"field\": 1}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_parsing.py:78"
+  },
+  {
+   "test": "test_marker_option",
+   "argv": [
+    "marker:field"
+   ],
+   "stdin": "{\"field\": 1}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_parsing.py:89"
+  },
+  {
+   "test": "test_combined_options_comma_separated",
+   "argv": [
+    "counter,marker:field"
+   ],
+   "stdin": "{\"field\": 1}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_parsing.py:100"
+  },
+  {
+   "test": "test_backward_compat_marker_counter",
+   "argv": [
+    "marker:counter:field"
+   ],
+   "stdin": "{\"field\": 1}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_parsing.py:111"
+  },
+  {
+   "test": "test_counter_with_nested_path",
+   "argv": [
+    "counter:field.subfield.value"
+   ],
+   "stdin": "{\"field\": {\"subfield\": {\"value\": 1}}}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_parsing.py:122"
+  },
+  {
+   "test": "test_marker_with_nested_path",
+   "argv": [
+    "marker:a.b.c"
+   ],
+   "stdin": "{\"a\": {\"b\": {\"c\": 1}}}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_parsing.py:133"
+  },
+  {
+   "test": "test_two_fields_with_plus",
+   "argv": [
+    "field1+field2"
+   ],
+   "stdin": "{\"field1\": 1, \"field2\": 2}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_parsing.py:144"
+  },
+  {
+   "test": "test_many_fields_with_plus",
+   "argv": [
+    "a+b+c+d+e"
+   ],
+   "stdin": "{\"a\": 1, \"b\": 2, \"c\": 3, \"d\": 4, \"e\": 5}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_parsing.py:156"
+  },
+  {
+   "test": "test_mixed_options_in_multi_field_spec",
+   "argv": [
+    "counter:a+marker:b+c"
+   ],
+   "stdin": "{\"a\": 1, \"b\": 2, \"c\": 3}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_parsing.py:167"
+  },
+  {
+   "test": "test_multiple_separate_specs",
+   "argv": [
+    "field1",
+    "field2",
+    "field3"
+   ],
+   "stdin": "{\"field1\": 1, \"field2\": 2, \"field3\": 3}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_parsing.py:178"
+  },
+  {
+   "test": "test_multiple_specs_with_options",
+   "argv": [
+    "counter:a",
+    "marker:b"
+   ],
+   "stdin": "{\"a\": 1, \"b\": 2}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_parsing.py:189"
+  },
+  {
+   "test": "test_multiple_specs_mixing_simple_and_complex",
+   "argv": [
+    "simple",
+    "counter:value",
+    "a+b",
+    "marker,counter:x+y.z"
+   ],
+   "stdin": "{\"simple\": 1, \"value\": 2, \"a\": 3, \"b\": 4, \"x\": 5, \"y\": {\"z\": 6}}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_parsing.py:200"
+  },
+  {
+   "test": "test_field_with_hyphen_in_name",
+   "argv": [
+    "field.sub-field"
+   ],
+   "stdin": "{\"field\": {\"sub-field\": 1}}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_parsing.py:212"
+  },
+  {
+   "test": "test_field_with_underscore_in_name",
+   "argv": [
+    "field.sub_field"
+   ],
+   "stdin": "{\"field\": {\"sub_field\": 1}}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_parsing.py:223"
+  },
+  {
+   "test": "test_field_with_numbers_in_name",
+   "argv": [
+    "field123.field2"
+   ],
+   "stdin": "{\"field123\": {\"field2\": 1}}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_parsing.py:234"
+  },
+  {
+   "test": "test_reverse_option_order",
+   "argv": [
+    "marker,counter:field"
+   ],
+   "stdin": "{\"field\": 1}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_parsing.py:245"
+  },
+  {
+   "test": "test_plus_at_end_of_multifield",
+   "argv": [
+    "a+b+"
+   ],
+   "stdin": "{\"a\": 1, \"b\": 2}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_parsing.py:256"
+  },
+  {
+   "test": "test_single_character_field_names",
+   "argv": [
+    "a",
+    "b",
+    "c"
+   ],
+   "stdin": "{\"a\": 1, \"b\": 2, \"c\": 3}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_parsing.py:267"
+  },
+  {
+   "test": "test_long_field_name",
+   "argv": [
+    "very_long_field_name_that_goes_on_and_on_and_on"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_parsing.py:278"
+  },
+  {
+   "test": "test_deeply_nested_multifield",
+   "argv": [
+    "a.b.c+d.e.f+g.h.i"
+   ],
+   "stdin": "{\"a\": {\"b\": {\"c\": 1}}, \"d\": {\"e\": {\"f\": 2}}, \"g\": {\"h\": {\"i\": 3}}}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_parsing.py:290"
+  },
+  {
+   "test": "test_options_on_all_fields_in_multifield",
+   "argv": [
+    "counter:a+counter:b+counter:c"
+   ],
+   "stdin": "{\"a\": 1, \"b\": 2, \"c\": 3}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_parsing.py:302"
+  },
+  {
+   "test": "test_different_options_on_multifield_members",
+   "argv": [
+    "counter:a+marker:b+counter,marker:c+d"
+   ],
+   "stdin": "{\"a\": 1, \"b\": 2, \"c\": 3, \"d\": 4}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_parsing.py:313"
+  },
+  {
+   "test": "test_no_args_shows_usage",
+   "argv": [],
+   "stdin": "{\"field\": 1}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_parsing.py:325"
+  },
+  {
+   "test": "test_help_shows_spec_documentation",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "FIELD_SPEC:",
+    "counter",
+    "marker",
+    "JSON field path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_parsing.py:336"
+  },
+  {
+   "test": "test_field_name_with_dots_and_special_chars",
+   "argv": [
+    "field.sub-field_123.value"
+   ],
+   "stdin": "{\"field\": {\"sub-field_123\": {\"value\": 1}}}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_parsing.py:351"
+  },
+  {
+   "test": "test_empty_string_field_path",
+   "argv": [
+    "counter:"
+   ],
+   "stdin": "{\"\": 1}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_parsing.py:363"
+  },
+  {
+   "test": "test_multiple_colons_in_path",
+   "argv": [
+    "counter:field:name"
+   ],
+   "stdin": "{\"field:name\": 1}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_parsing.py:374"
+  },
+  {
+   "test": "test_whitespace_in_field_name",
+   "argv": [
+    "field.sub field"
+   ],
+   "stdin": "{\"field\": {\"sub field\": 1}}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_parsing.py:386"
+  },
+  {
+   "test": "test_unicode_in_field_name",
+   "argv": [
+    "field.子フィールド"
+   ],
+   "stdin": "{\"field\": {\"子フィールド\": 1}}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_parsing.py:397"
+  },
+  {
+   "test": "test_option_with_empty_comma_segment",
+   "argv": [
+    "counter,,marker:field"
+   ],
+   "stdin": "{\"field\": 1}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_parsing.py:408"
+  },
+  {
+   "test": "test_duplicate_field_names_in_multifield",
+   "argv": [
+    "field+field+field"
+   ],
+   "stdin": "{\"field\": 1}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_parsing.py:431"
+  },
+  {
+   "test": "test_options_only_no_field_name",
+   "argv": [
+    "marker:"
+   ],
+   "stdin": "{\"\": 1}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_parsing.py:442"
+  },
+  {
+   "test": "test_no_colon_but_looks_like_option",
+   "argv": [
+    "counter"
+   ],
+   "stdin": "{\"counter\": 1}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_parsing.py:452"
+  },
+  {
+   "test": "test_plus_at_beginning",
+   "argv": [
+    "+field"
+   ],
+   "stdin": "{\"field\": 1}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_parsing.py:463"
+  },
+  {
+   "test": "test_multiple_plus_consecutive",
+   "argv": [
+    "field++field"
+   ],
+   "stdin": "{\"field\": 1}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_parsing.py:473"
+  },
+  {
+   "test": "test_case_sensitive_options",
+   "argv": [
+    "Counter:field"
+   ],
+   "stdin": "{\"field\": 1}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_parsing.py:483"
+  },
+  {
+   "test": "test_option_with_whitespace",
+   "argv": [
+    "counter :field"
+   ],
+   "stdin": "{\"field\": 1}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_parsing.py:494"
+  },
+  {
+   "test": "test_no_graphics_support_error_message",
+   "argv": [
+    "value"
+   ],
+   "stdin": "{\"value\": 10}\n{\"value\": 20}\n{\"value\": 30}\n",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_terminal_common.py:17"
+  },
+  {
+   "test": "test_screen_with_iterm2_rejected",
+   "argv": [
+    "value"
+   ],
+   "stdin": "{\"value\": 10}\n{\"value\": 20}\n",
+   "env": {
+    "TERM": "screen",
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_terminal_common.py:125"
+  },
+  {
+   "test": "test_no_field_spec_shows_usage",
+   "argv": [],
+   "stdin": "{\"value\": 10}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_terminal_common.py:161"
+  },
+  {
+   "test": "test_case_sensitive_iterm_detection",
+   "argv": [
+    "value"
+   ],
+   "stdin": "{\"value\": 10}\n",
+   "env": {
+    "TERM_PROGRAM": "iterm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_terminal_common.py:179"
+  },
+  {
+   "test": "test_multiple_field_specs_no_graphics",
+   "argv": [
+    "value1",
+    "value2",
+    "counter:value3"
+   ],
+   "stdin": "{\"value1\": 10, \"value2\": 20, \"value3\": 30}\n",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_terminal_common.py:214"
+  },
+  {
+   "test": "test_rows_flag_without_graphics",
+   "argv": [
+    "-rows",
+    "10",
+    "value"
+   ],
+   "stdin": "{\"value\": 10}\n{\"value\": 20}\n",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_terminal_common.py:337"
+  },
+  {
+   "test": "test_steps_flag_without_graphics",
+   "argv": [
+    "-steps",
+    "50",
+    "value"
+   ],
+   "stdin": "{\"value\": 10}\n{\"value\": 20}\n",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_terminal_common.py:354"
+  },
+  {
+   "test": "test_url_flag_without_graphics",
+   "argv": [
+    "-url",
+    "http://example.com/data.json",
+    "value"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_terminal_common.py:371"
+  },
+  {
+   "test": "test_interval_flag_without_graphics",
+   "argv": [
+    "-interval",
+    "2s",
+    "-url",
+    "http://example.com/data.json",
+    "value"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_terminal_common.py:387"
+  },
+  {
+   "test": "test_all_flags_combined_without_graphics",
+   "argv": [
+    "-rows",
+    "20",
+    "-steps",
+    "100",
+    "-interval",
+    "1s",
+    "-url",
+    "http://example.com/data.json",
+    "value"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_terminal_common.py:403"
+  },
+  {
+   "test": "test_invalid_flag_shows_error_and_usage",
+   "argv": [
+    "-invalid-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_terminal_common.py:422"
+  },
+  {
+   "test": "test_invalid_rows_value_shows_error_and_usage",
+   "argv": [
+    "-rows",
+    "notanumber",
+    "value"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_terminal_common.py:437"
+  },
+  {
+   "test": "test_negative_rows_accepted_but_no_graphics",
+   "argv": [
+    "-rows",
+    "-5",
+    "value"
+   ],
+   "stdin": "{\"value\": 10}\n",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_terminal_common.py:452"
+  },
+  {
+   "test": "test_zero_rows_accepted_but_no_graphics",
+   "argv": [
+    "-rows",
+    "0",
+    "value"
+   ],
+   "stdin": "{\"value\": 10}\n",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_terminal_common.py:469"
+  },
+  {
+   "test": "test_very_large_rows_value_no_graphics",
+   "argv": [
+    "-rows",
+    "10000",
+    "value"
+   ],
+   "stdin": "{\"value\": 10}\n",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_terminal_common.py:485"
+  },
+  {
+   "test": "test_invalid_steps_value_shows_error",
+   "argv": [
+    "-steps",
+    "notanumber",
+    "value"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_terminal_common.py:503"
+  },
+  {
+   "test": "test_invalid_interval_value_shows_error",
+   "argv": [
+    "-interval",
+    "notaduration",
+    "value"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_terminal_common.py:518"
+  },
+  {
+   "test": "test_negative_steps_no_graphics",
+   "argv": [
+    "-steps",
+    "-10",
+    "value"
+   ],
+   "stdin": "{\"value\": 10}\n",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_terminal_common.py:533"
+  },
+  {
+   "test": "test_zero_steps_no_graphics",
+   "argv": [
+    "-steps",
+    "0",
+    "value"
+   ],
+   "stdin": "{\"value\": 10}\n",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_terminal_common.py:549"
+  },
+  {
+   "test": "test_valid_interval_no_graphics",
+   "argv": [
+    "-interval",
+    "500ms",
+    "-url",
+    "http://example.com",
+    "value"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_terminal_common.py:565"
+  },
+  {
+   "test": "test_help_flag_shows_complete_usage",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: jplot",
+    "OPTIONS",
+    "FIELD_SPEC",
+    "-url",
+    "-interval",
+    "-steps",
+    "-rows",
+    "counter:",
+    "marker:",
+    "JSON field path",
+    "monotonically",
+    "100",
+    "1s"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_01_help_and_basic.py:5"
+  },
+  {
+   "test": "test_invalid_flag_shows_error_with_usage",
+   "argv": [
+    "--nonexistent-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "flag provided but not defined",
+    "nonexistent-flag",
+    "Usage: jplot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_01_help_and_basic.py:25"
+  },
+  {
+   "test": "test_help_describes_options_purpose",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "URL to fetch",
+    "interval"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_01_help_and_basic.py:40"
+  },
+  {
+   "test": "test_help_describes_field_options",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "counter",
+    "difference",
+    "marker"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_01_help_and_basic.py:48"
+  },
+  {
+   "test": "test_invalid_interval_duration",
+   "argv": [
+    "-interval",
+    "invalid",
+    "value"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_01_help_and_basic.py:57"
+  },
+  {
+   "test": "test_invalid_steps_value",
+   "argv": [
+    "-steps",
+    "abc",
+    "value"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_01_help_and_basic.py:63"
+  },
+  {
+   "test": "test_invalid_rows_value",
+   "argv": [
+    "-rows",
+    "xyz",
+    "value"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_01_help_and_basic.py:69"
+  },
+  {
+   "test": "test_no_graphics_support_error",
+   "argv": [
+    "value"
+   ],
+   "stdin": "{\"value\": 42}",
+   "env": {
+    "TERM_PROGRAM": ""
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_02_environment.py:4"
+  },
+  {
+   "test": "test_invalid_json_shows_error",
+   "argv": [
+    "value"
+   ],
+   "stdin": "{invalid json}",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_03_input_and_json.py:24"
+  },
+  {
+   "test": "test_missing_field_shows_error",
+   "argv": [
+    "nonexistent"
+   ],
+   "stdin": "{\"value\": 42}",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_03_input_and_json.py:30"
+  },
+  {
+   "test": "test_non_numeric_field_shows_error",
+   "argv": [
+    "value"
+   ],
+   "stdin": "{\"value\": \"not a number\"}",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_03_input_and_json.py:36"
+  },
+  {
+   "test": "test_empty_json_object_missing_field",
+   "argv": [
+    "value"
+   ],
+   "stdin": "{}",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_03_input_and_json.py:60"
+  },
+  {
+   "test": "test_no_input_source_error",
+   "argv": [
+    "value"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_03_input_and_json.py:66"
+  },
+  {
+   "test": "test_invalid_field_option",
+   "argv": [
+    "invalid_option:value"
+   ],
+   "stdin": "{\"value\": 42}",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_04_field_specs.py:55"
+  },
+  {
+   "test": "test_http_connection_error",
+   "argv": [
+    "-url",
+    "http://127.0.0.1:19999/",
+    "-interval",
+    "100ms",
+    "value"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_05_http_source.py:56"
+  },
+  {
+   "test": "test_http_invalid_json_response",
+   "argv": [
+    "-url",
+    "-interval",
+    "100ms",
+    "value"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_05_http_source.py:76"
+  },
+  {
+   "test": "test_http_missing_field_in_response",
+   "argv": [
+    "-url",
+    "-interval",
+    "100ms",
+    "missing_field"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_05_http_source.py:104"
+  },
+  {
+   "test": "test_steps_option_default",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "100",
+    "steps"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_06_options.py:4"
+  },
+  {
+   "test": "test_interval_default_one_second",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1s",
+    "interval"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_06_options.py:60"
+  },
+  {
+   "test": "test_help_emits_terminal_reset_sequence_somewhere",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[c"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:104"
+  },
+  {
+   "test": "test_help_precedence_when_combined_with_unknown_flag_shows_help_and_exits_zero",
+   "argv": [
+    "--help",
+    "--definitely-unknown-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: jplot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:118"
+  },
+  {
+   "test": "test_help_flag_long",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: jplot [OPTIONS] FIELD_SPEC",
+    "-url string",
+    "-interval duration",
+    "-steps int",
+    "-rows int",
+    "counter:",
+    "marker:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:6"
+  },
+  {
+   "test": "test_help_flag_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: jplot [OPTIONS] FIELD_SPEC",
+    "FIELD_SPEC: [<option>[,<option>...]:]path",
+    "JSON field path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:19"
+  },
+  {
+   "test": "test_invalid_flag",
+   "argv": [
+    "--invalid-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "flag provided but not defined",
+    "Usage: jplot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:35"
+  },
+  {
+   "test": "test_help_describes_counter_option",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "counter: Computes the difference with the last value",
+    "value must increase monotonically"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:43"
+  },
+  {
+   "test": "test_help_describes_marker_option",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "marker: When the value is none-zero, a vertical line is drawn"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:51"
+  },
+  {
+   "test": "test_help_describes_url_option",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-url string",
+    "URL to fetch",
+    "Read JSON objects from stdin if not specified"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:58"
+  },
+  {
+   "test": "test_help_describes_interval_option",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-interval duration",
+    "default 1s",
+    "counter fields are computed based on this interval"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:67"
+  },
+  {
+   "test": "test_help_describes_steps_option",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-steps int",
+    "Number of values to plot",
+    "default 100"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:76"
+  },
+  {
+   "test": "test_help_describes_rows_option",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-rows int",
+    "Limits the height of the graph output"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:85"
+  },
+  {
+   "test": "test_help_field_spec_syntax",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "FIELD_SPEC: [<option>[,<option>...]:]path",
+    "JSON field path (eg: field.sub-field)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:93"
+  },
+  {
+   "test": "test_many_fields_single_graph",
+   "argv": [
+    "a+b+c+d+e"
+   ],
+   "stdin": "{\"a\": 1, \"b\": 2, \"c\": 3, \"d\": 4, \"e\": 5}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_scenarios.py:6"
+  },
+  {
+   "test": "test_all_counter_fields",
+   "argv": [
+    "counter:a+counter:b+counter:c"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_scenarios.py:14"
+  },
+  {
+   "test": "test_all_marker_fields",
+   "argv": [
+    "marker:a+marker:b+marker:c"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_scenarios.py:24"
+  },
+  {
+   "test": "test_mixed_regular_counter_marker",
+   "argv": [
+    "reg+counter:cnt+marker:mrk"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_scenarios.py:34"
+  },
+  {
+   "test": "test_deeply_nested_plus_combinations",
+   "argv": [
+    "a.x+b.y+c.z"
+   ],
+   "stdin": "{\"a\": {\"x\": 1}, \"b\": {\"y\": 2}, \"c\": {\"z\": 3}}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_scenarios.py:44"
+  },
+  {
+   "test": "test_many_graphs_many_fields",
+   "argv": [
+    "a1+a2",
+    "b1+b2",
+    "c1+c2"
+   ],
+   "stdin": "{\"a1\": 1, \"a2\": 2, \"b1\": 3, \"b2\": 4, \"c1\": 5, \"c2\": 6}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_scenarios.py:54"
+  },
+  {
+   "test": "test_counter_on_floating_point",
+   "argv": [
+    "counter:val"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_scenarios.py:64"
+  },
+  {
+   "test": "test_marker_on_alternating_pattern",
+   "argv": [
+    "marker:mark"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_scenarios.py:74"
+  },
+  {
+   "test": "test_steps_smaller_than_data",
+   "argv": [
+    "--steps",
+    "10",
+    "val"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_scenarios.py:84"
+  },
+  {
+   "test": "test_steps_larger_than_data",
+   "argv": [
+    "--steps",
+    "1000",
+    "val"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_scenarios.py:94"
+  },
+  {
+   "test": "test_rows_with_multiple_graphs",
+   "argv": [
+    "--rows",
+    "5",
+    "a",
+    "b",
+    "c"
+   ],
+   "stdin": "{\"a\": 1, \"b\": 2, \"c\": 3}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_scenarios.py:104"
+  },
+  {
+   "test": "test_very_long_json_line",
+   "argv": [
+    "field"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_edge_cases.py:7"
+  },
+  {
+   "test": "test_many_json_lines",
+   "argv": [
+    "val"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_edge_cases.py:18"
+  },
+  {
+   "test": "test_json_with_unicode",
+   "argv": [
+    "field"
+   ],
+   "stdin": "{\"field\": 42, \"name\": \"テスト\"}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_edge_cases.py:43"
+  },
+  {
+   "test": "test_json_with_escaped_quotes",
+   "argv": [
+    "field"
+   ],
+   "stdin": "{\"field\": 42, \"text\": \"quote\\\"test\"}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_edge_cases.py:51"
+  },
+  {
+   "test": "test_json_with_newlines_in_strings",
+   "argv": [
+    "field"
+   ],
+   "stdin": "{\"field\": 42, \"text\": \"line1\\nline2\"}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_edge_cases.py:59"
+  },
+  {
+   "test": "test_multiple_graphs_different_fields",
+   "argv": [
+    "a",
+    "b",
+    "c"
+   ],
+   "stdin": "{\"a\": 1, \"b\": 2, \"c\": 3}\n{\"a\": 4, \"b\": 5, \"c\": 6}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_edge_cases.py:67"
+  },
+  {
+   "test": "test_multiple_graphs_with_plus",
+   "argv": [
+    "a+b",
+    "c+d"
+   ],
+   "stdin": "{\"a\": 1, \"b\": 2, \"c\": 3, \"d\": 4}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_edge_cases.py:75"
+  },
+  {
+   "test": "test_ten_graphs",
+   "argv": [
+    "f1",
+    "f2",
+    "f3",
+    "f4",
+    "f5",
+    "f6",
+    "f7",
+    "f8",
+    "f9",
+    "f10"
+   ],
+   "stdin": "{\"f1\": 1, \"f2\": 2, \"f3\": 3, \"f4\": 4, \"f5\": 5, \"f6\": 6, \"f7\": 7, \"f8\": 8, \"f9\": 9, \"f10\": 10}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_edge_cases.py:83"
+  },
+  {
+   "test": "test_field_name_all_special_chars",
+   "argv": [
+    "field-name_123"
+   ],
+   "stdin": "{\"field-name_123\": 42}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_edge_cases.py:92"
+  },
+  {
+   "test": "test_numeric_field_name",
+   "argv": [
+    "123"
+   ],
+   "stdin": "{\"123\": 42}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_edge_cases.py:100"
+  },
+  {
+   "test": "test_very_large_number_value",
+   "argv": [
+    "field"
+   ],
+   "stdin": "{\"field\": 9999999999999999999}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_edge_cases.py:108"
+  },
+  {
+   "test": "test_very_small_number_value",
+   "argv": [
+    "field"
+   ],
+   "stdin": "{\"field\": 0.0000000001}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_edge_cases.py:116"
+  },
+  {
+   "test": "test_negative_infinity",
+   "argv": [
+    "field"
+   ],
+   "stdin": "{\"field\": -1e308}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_edge_cases.py:124"
+  },
+  {
+   "test": "test_steps_value_one",
+   "argv": [
+    "--steps",
+    "1",
+    "field"
+   ],
+   "stdin": "{\"field\": 42}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_edge_cases.py:132"
+  },
+  {
+   "test": "test_steps_value_large",
+   "argv": [
+    "--steps",
+    "100000",
+    "field"
+   ],
+   "stdin": "{\"field\": 42}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_edge_cases.py:140"
+  },
+  {
+   "test": "test_rows_value_one",
+   "argv": [
+    "--rows",
+    "1",
+    "field"
+   ],
+   "stdin": "{\"field\": 42}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_edge_cases.py:148"
+  },
+  {
+   "test": "test_rows_value_large",
+   "argv": [
+    "--rows",
+    "1000",
+    "field"
+   ],
+   "stdin": "{\"field\": 42}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_edge_cases.py:156"
+  },
+  {
+   "test": "test_interval_microseconds",
+   "argv": [
+    "--interval",
+    "1us",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: jplot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_edge_cases.py:164"
+  },
+  {
+   "test": "test_interval_hours",
+   "argv": [
+    "--interval",
+    "1h",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: jplot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_edge_cases.py:172"
+  },
+  {
+   "test": "test_json_array_at_root",
+   "argv": [
+    "0"
+   ],
+   "stdin": "[1, 2, 3]\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_edge_cases.py:179"
+  },
+  {
+   "test": "test_json_string_at_root",
+   "argv": [
+    "field"
+   ],
+   "stdin": "\"string\"\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_edge_cases.py:188"
+  },
+  {
+   "test": "test_json_number_at_root",
+   "argv": [
+    "field"
+   ],
+   "stdin": "42\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_edge_cases.py:197"
+  },
+  {
+   "test": "test_mixed_json_lines",
+   "argv": [
+    "a"
+   ],
+   "stdin": "{\"a\": 1}\n{\"b\": 2}\n{\"a\": 3}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_edge_cases.py:206"
+  },
+  {
+   "test": "test_counter_monotonic_increase",
+   "argv": [
+    "counter:count"
+   ],
+   "stdin": "{\"count\": 10}\n{\"count\": 20}\n{\"count\": 30}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_counter_marker.py:6"
+  },
+  {
+   "test": "test_counter_with_zero_initial",
+   "argv": [
+    "counter:count"
+   ],
+   "stdin": "{\"count\": 0}\n{\"count\": 10}\n{\"count\": 20}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_counter_marker.py:16"
+  },
+  {
+   "test": "test_counter_with_same_values",
+   "argv": [
+    "counter:count"
+   ],
+   "stdin": "{\"count\": 10}\n{\"count\": 10}\n{\"count\": 10}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_counter_marker.py:24"
+  },
+  {
+   "test": "test_counter_large_increment",
+   "argv": [
+    "counter:count"
+   ],
+   "stdin": "{\"count\": 100}\n{\"count\": 1000000}\n{\"count\": 2000000}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_counter_marker.py:33"
+  },
+  {
+   "test": "test_marker_zero_and_nonzero",
+   "argv": [
+    "marker:mark"
+   ],
+   "stdin": "{\"mark\": 0}\n{\"mark\": 1}\n{\"mark\": 0}\n{\"mark\": 5}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_counter_marker.py:41"
+  },
+  {
+   "test": "test_marker_all_zero",
+   "argv": [
+    "marker:mark"
+   ],
+   "stdin": "{\"mark\": 0}\n{\"mark\": 0}\n{\"mark\": 0}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_counter_marker.py:50"
+  },
+  {
+   "test": "test_marker_all_nonzero",
+   "argv": [
+    "marker:mark"
+   ],
+   "stdin": "{\"mark\": 1}\n{\"mark\": 2}\n{\"mark\": 3}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_counter_marker.py:58"
+  },
+  {
+   "test": "test_counter_and_marker_combined",
+   "argv": [
+    "counter,marker:val"
+   ],
+   "stdin": "{\"val\": 10}\n{\"val\": 20}\n{\"val\": 30}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_counter_marker.py:66"
+  },
+  {
+   "test": "test_counter_and_marker_different_order",
+   "argv": [
+    "marker,counter:val"
+   ],
+   "stdin": "{\"val\": 10}\n{\"val\": 20}\n{\"val\": 30}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_counter_marker.py:75"
+  },
+  {
+   "test": "test_counter_multiple_fields",
+   "argv": [
+    "counter:a+counter:b"
+   ],
+   "stdin": "{\"a\": 10, \"b\": 5}\n{\"a\": 20, \"b\": 15}\n{\"a\": 30, \"b\": 25}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_counter_marker.py:84"
+  },
+  {
+   "test": "test_marker_multiple_fields",
+   "argv": [
+    "marker:a+marker:b"
+   ],
+   "stdin": "{\"a\": 1, \"b\": 0}\n{\"a\": 0, \"b\": 1}\n{\"a\": 1, \"b\": 1}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_counter_marker.py:93"
+  },
+  {
+   "test": "test_mixed_options_multiple_fields",
+   "argv": [
+    "counter:c+marker:m"
+   ],
+   "stdin": "{\"c\": 100, \"m\": 1}\n{\"c\": 150, \"m\": 0}\n{\"c\": 200, \"m\": 1}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_counter_marker.py:102"
+  },
+  {
+   "test": "test_counter_with_negative_increment",
+   "argv": [
+    "counter:count"
+   ],
+   "stdin": "{\"count\": 100}\n{\"count\": 50}\n{\"count\": 25}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_counter_marker.py:112"
+  },
+  {
+   "test": "test_counter_with_float_values",
+   "argv": [
+    "counter:count"
+   ],
+   "stdin": "{\"count\": 10.5}\n{\"count\": 20.7}\n{\"count\": 30.9}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_counter_marker.py:121"
+  },
+  {
+   "test": "test_marker_with_negative_values",
+   "argv": [
+    "marker:mark"
+   ],
+   "stdin": "{\"mark\": -1}\n{\"mark\": 0}\n{\"mark\": -5}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_counter_marker.py:130"
+  },
+  {
+   "test": "test_backward_compat_marker_counter",
+   "argv": [
+    "marker:counter:val"
+   ],
+   "stdin": "{\"val\": 10}\n{\"val\": 20}\n{\"val\": 30}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_counter_marker.py:140"
+  },
+  {
+   "test": "test_counter_single_value",
+   "argv": [
+    "counter:count"
+   ],
+   "stdin": "{\"count\": 42}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_counter_marker.py:150"
+  },
+  {
+   "test": "test_marker_single_value",
+   "argv": [
+    "marker:mark"
+   ],
+   "stdin": "{\"mark\": 1}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_counter_marker.py:159"
+  },
+  {
+   "test": "test_counter_empty_stream",
+   "argv": [
+    "counter:field"
+   ],
+   "stdin": "",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_counter_marker.py:167"
+  },
+  {
+   "test": "test_marker_empty_stream",
+   "argv": [
+    "marker:field"
+   ],
+   "stdin": "",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_counter_marker.py:175"
+  },
+  {
+   "test": "test_malformed_json_stdin",
+   "argv": [
+    "field"
+   ],
+   "stdin": "not valid json\n",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:15"
+  },
+  {
+   "test": "test_empty_json_stdin",
+   "argv": [
+    "field"
+   ],
+   "stdin": "{}\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:24"
+  },
+  {
+   "test": "test_multiple_json_objects",
+   "argv": [
+    "a"
+   ],
+   "stdin": "{\"a\": 1}\n{\"a\": 2}\n{\"a\": 3}\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:38"
+  },
+  {
+   "test": "test_json_with_nested_structure",
+   "argv": [
+    "outer.inner.deep"
+   ],
+   "stdin": "{\"outer\": {\"inner\": {\"deep\": 42}}}\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:45"
+  },
+  {
+   "test": "test_json_with_special_characters",
+   "argv": [
+    "field-name"
+   ],
+   "stdin": "{\"field-name\": 1, \"field_name\": 2}\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:90"
+  },
+  {
+   "test": "test_unicode_in_json",
+   "argv": [
+    "field"
+   ],
+   "stdin": "{\"field\": 42, \"名前\": 123}\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:97"
+  },
+  {
+   "test": "test_marker_with_zero_value",
+   "argv": [
+    "marker:mark"
+   ],
+   "stdin": "{\"mark\": 0}\n{\"mark\": 1}\n{\"mark\": 0}\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:119"
+  },
+  {
+   "test": "test_very_long_field_path",
+   "argv": [
+    "a.b.c.d.e.f.g.h"
+   ],
+   "stdin": "{\"a\": {\"b\": {\"c\": {\"d\": {\"e\": {\"f\": {\"g\": {\"h\": 123}}}}}}}}\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:126"
+  },
+  {
+   "test": "test_all_option_combinations",
+   "argv": [
+    "counter:a",
+    "marker:b",
+    "counter,marker:c",
+    "d"
+   ],
+   "stdin": "{\"a\": 10, \"b\": 20, \"c\": 1, \"d\": 30}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_final_edge_cases.py:34"
+  },
+  {
+   "test": "test_deeply_nested_15_levels",
+   "argv": [
+    "v"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_final_edge_cases.py:44"
+  },
+  {
+   "test": "test_field_names_with_dots",
+   "argv": [
+    "field.name"
+   ],
+   "stdin": "{\"field.name\": 42}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_final_edge_cases.py:57"
+  },
+  {
+   "test": "test_json_with_many_fields",
+   "argv": [
+    "f50"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_final_edge_cases.py:74"
+  },
+  {
+   "test": "test_counter_overflow_protection",
+   "argv": [
+    "counter:c"
+   ],
+   "stdin": "{\"c\": 9223372036854775800}\n{\"c\": 9223372036854775807}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_final_edge_cases.py:83"
+  },
+  {
+   "test": "test_marker_with_very_large_nonzero",
+   "argv": [
+    "marker:m"
+   ],
+   "stdin": "{\"m\": 999999999999}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_final_edge_cases.py:90"
+  },
+  {
+   "test": "test_interval_one_nanosecond",
+   "argv": [
+    "--interval",
+    "1ns",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_final_edge_cases.py:98"
+  },
+  {
+   "test": "test_steps_max_int",
+   "argv": [
+    "--steps",
+    "2147483647",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_final_edge_cases.py:105"
+  },
+  {
+   "test": "test_rows_max_reasonable",
+   "argv": [
+    "--rows",
+    "10000",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_final_edge_cases.py:111"
+  },
+  {
+   "test": "test_json_empty_string_value",
+   "argv": [
+    "field"
+   ],
+   "stdin": "{\"field\": \"\"}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_final_edge_cases.py:117"
+  },
+  {
+   "test": "test_json_object_in_array",
+   "argv": [
+    "data"
+   ],
+   "stdin": "{\"data\": [{\"value\": 42}]}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_final_edge_cases.py:125"
+  },
+  {
+   "test": "test_mixed_type_values",
+   "argv": [
+    "field"
+   ],
+   "stdin": "{\"field\": 42}\n{\"field\": \"text\"}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_final_edge_cases.py:133"
+  },
+  {
+   "test": "test_counter_with_reset",
+   "argv": [
+    "counter:c"
+   ],
+   "stdin": "{\"c\": 100}\n{\"c\": 200}\n{\"c\": 0}\n{\"c\": 50}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_final_edge_cases.py:141"
+  },
+  {
+   "test": "test_marker_alternating_fast",
+   "argv": [
+    "marker:m"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_final_edge_cases.py:149"
+  },
+  {
+   "test": "test_valid_interval_formats",
+   "argv": [
+    "--interval",
+    "5s",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: jplot",
+    "Usage: jplot",
+    "Usage: jplot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_parsing.py:14"
+  },
+  {
+   "test": "test_url_basic",
+   "argv": [
+    "--url",
+    "value"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_http_simple.py:38"
+  },
+  {
+   "test": "test_url_with_nested",
+   "argv": [
+    "--url",
+    "outer.inner"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_http_simple.py:50"
+  },
+  {
+   "test": "test_stdin_mode_with_json",
+   "argv": [
+    "value"
+   ],
+   "stdin": "{\"value\": 10}\n{\"value\": 20}\n{\"value\": 30}\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_modes.py:16"
+  },
+  {
+   "test": "test_stdin_mode_empty",
+   "argv": [
+    "field"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_modes.py:24"
+  },
+  {
+   "test": "test_stdin_mode_single_line",
+   "argv": [
+    "value"
+   ],
+   "stdin": "{\"value\": 42}\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_modes.py:31"
+  },
+  {
+   "test": "test_stdin_mode_multiple_fields",
+   "argv": [
+    "a",
+    "b"
+   ],
+   "stdin": "{\"a\": 1, \"b\": 2}\n{\"a\": 3, \"b\": 4}\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_modes.py:37"
+  },
+  {
+   "test": "test_url_mode_invalid_url",
+   "argv": [
+    "--url",
+    "http://localhost:19999/nonexistent",
+    "field"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_modes.py:44"
+  },
+  {
+   "test": "test_url_mode_malformed_url",
+   "argv": [
+    "--url",
+    "not-a-url",
+    "field"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_modes.py:53"
+  },
+  {
+   "test": "test_url_with_interval",
+   "argv": [
+    "--url",
+    "http://localhost:9999",
+    "--interval",
+    "2s",
+    "field"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_modes.py:60"
+  },
+  {
+   "test": "test_url_with_steps",
+   "argv": [
+    "--url",
+    "http://localhost:9999",
+    "--steps",
+    "50",
+    "field"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_modes.py:67"
+  },
+  {
+   "test": "test_stdin_with_steps",
+   "argv": [
+    "--steps",
+    "10",
+    "field"
+   ],
+   "stdin": "{\"field\": 1}\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_modes.py:73"
+  },
+  {
+   "test": "test_stdin_with_rows",
+   "argv": [
+    "--rows",
+    "5",
+    "field"
+   ],
+   "stdin": "{\"field\": 1}\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_modes.py:79"
+  },
+  {
+   "test": "test_simple_numeric_field",
+   "argv": [
+    "value"
+   ],
+   "stdin": "{\"value\": 42}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_json_processing.py:6"
+  },
+  {
+   "test": "test_nested_field_access",
+   "argv": [
+    "outer.inner"
+   ],
+   "stdin": "{\"outer\": {\"inner\": 123}}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_json_processing.py:15"
+  },
+  {
+   "test": "test_deeply_nested_field",
+   "argv": [
+    "a.b.c.d"
+   ],
+   "stdin": "{\"a\": {\"b\": {\"c\": {\"d\": 99}}}}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_json_processing.py:23"
+  },
+  {
+   "test": "test_field_with_hyphen",
+   "argv": [
+    "field-name"
+   ],
+   "stdin": "{\"field-name\": 10}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_json_processing.py:31"
+  },
+  {
+   "test": "test_field_with_underscore",
+   "argv": [
+    "field_name"
+   ],
+   "stdin": "{\"field_name\": 20}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_json_processing.py:39"
+  },
+  {
+   "test": "test_field_with_numbers",
+   "argv": [
+    "field123"
+   ],
+   "stdin": "{\"field123\": 30}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_json_processing.py:47"
+  },
+  {
+   "test": "test_camelcase_field",
+   "argv": [
+    "fieldName"
+   ],
+   "stdin": "{\"fieldName\": 40}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_json_processing.py:55"
+  },
+  {
+   "test": "test_nonexistent_field",
+   "argv": [
+    "nonexistent"
+   ],
+   "stdin": "{\"existing\": 50}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_json_processing.py:63"
+  },
+  {
+   "test": "test_partial_path_to_object",
+   "argv": [
+    "outer"
+   ],
+   "stdin": "{\"outer\": {\"inner\": 60}}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_json_processing.py:72"
+  },
+  {
+   "test": "test_string_value_instead_of_number",
+   "argv": [
+    "field"
+   ],
+   "stdin": "{\"field\": \"text\"}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_json_processing.py:81"
+  },
+  {
+   "test": "test_null_value",
+   "argv": [
+    "field"
+   ],
+   "stdin": "{\"field\": null}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_json_processing.py:90"
+  },
+  {
+   "test": "test_boolean_value",
+   "argv": [
+    "field"
+   ],
+   "stdin": "{\"field\": true}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_json_processing.py:99"
+  },
+  {
+   "test": "test_array_value",
+   "argv": [
+    "field"
+   ],
+   "stdin": "{\"field\": [1, 2, 3]}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_json_processing.py:108"
+  },
+  {
+   "test": "test_negative_number",
+   "argv": [
+    "field"
+   ],
+   "stdin": "{\"field\": -42}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_json_processing.py:117"
+  },
+  {
+   "test": "test_floating_point",
+   "argv": [
+    "field"
+   ],
+   "stdin": "{\"field\": 3.14159}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_json_processing.py:126"
+  },
+  {
+   "test": "test_zero_value",
+   "argv": [
+    "field"
+   ],
+   "stdin": "{\"field\": 0}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_json_processing.py:135"
+  },
+  {
+   "test": "test_very_large_number",
+   "argv": [
+    "field"
+   ],
+   "stdin": "{\"field\": 999999999999}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_json_processing.py:143"
+  },
+  {
+   "test": "test_scientific_notation",
+   "argv": [
+    "field"
+   ],
+   "stdin": "{\"field\": 1.23e10}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_json_processing.py:151"
+  },
+  {
+   "test": "test_multiple_json_lines",
+   "argv": [
+    "field"
+   ],
+   "stdin": "{\"field\": 1}\n{\"field\": 2}\n{\"field\": 3}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_json_processing.py:159"
+  },
+  {
+   "test": "test_incomplete_json",
+   "argv": [
+    "field"
+   ],
+   "stdin": "{\"field\": \n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_json_processing.py:177"
+  },
+  {
+   "test": "test_empty_json_object",
+   "argv": [
+    "field"
+   ],
+   "stdin": "{}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_json_processing.py:184"
+  },
+  {
+   "test": "test_json_with_extra_fields",
+   "argv": [
+    "target"
+   ],
+   "stdin": "{\"target\": 42, \"extra1\": 1, \"extra2\": 2, \"extra3\": 3}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_json_processing.py:193"
+  },
+  {
+   "test": "test_term_env_variations",
+   "argv": [
+    "field"
+   ],
+   "stdin": "{\"field\": 1}\n",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_terminal_checks.py:7"
+  },
+  {
+   "test": "test_iterm_with_screen_term",
+   "argv": [
+    "field"
+   ],
+   "stdin": "{\"field\": 1}\n",
+   "env": {
+    "TERM": "screen",
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_more_terminal_checks.py:17"
+  },
+  {
+   "test": "test_render_with_rows_parameter",
+   "argv": [
+    "--rows",
+    "10",
+    "field"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rendering_init.py:19"
+  },
+  {
+   "test": "test_render_multiple_graphs",
+   "argv": [
+    "a",
+    "b",
+    "c"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rendering_init.py:30"
+  },
+  {
+   "test": "test_render_with_combined_fields",
+   "argv": [
+    "a+b"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rendering_init.py:41"
+  },
+  {
+   "test": "test_render_with_options",
+   "argv": [
+    "counter:count",
+    "marker:mark"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rendering_init.py:52"
+  },
+  {
+   "test": "test_invalid_field_option",
+   "argv": [
+    "invalid_option:field"
+   ],
+   "stdin": "{\"field\": 1}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_validation.py:9"
+  },
+  {
+   "test": "test_multiple_invalid_options",
+   "argv": [
+    "invalid1,invalid2:field"
+   ],
+   "stdin": "{\"field\": 1}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_validation.py:18"
+  },
+  {
+   "test": "test_mixed_valid_invalid_options",
+   "argv": [
+    "counter,invalid:field"
+   ],
+   "stdin": "{\"field\": 1}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_validation.py:25"
+  },
+  {
+   "test": "test_empty_option",
+   "argv": [
+    ":field"
+   ],
+   "stdin": "{\"field\": 1}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_validation.py:32"
+  },
+  {
+   "test": "test_trailing_colon",
+   "argv": [
+    "counter:"
+   ],
+   "stdin": "{\"field\": 1}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_validation.py:40"
+  },
+  {
+   "test": "test_multiple_colons_backward_compat",
+   "argv": [
+    "marker:counter:field"
+   ],
+   "stdin": "{\"field\": 10}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_validation.py:49"
+  },
+  {
+   "test": "test_colon_in_field_name",
+   "argv": [
+    "field:name"
+   ],
+   "stdin": "{\"name\": 1}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_validation.py:57"
+  },
+  {
+   "test": "test_complex_invalid_spec",
+   "argv": [
+    "counter,marker,invalid:field1+bad_opt:field2"
+   ],
+   "stdin": "{\"field1\": 1, \"field2\": 2}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_validation.py:65"
+  },
+  {
+   "test": "test_case_sensitive_options",
+   "argv": [
+    "Counter:field"
+   ],
+   "stdin": "{\"field\": 1}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_validation.py:74"
+  },
+  {
+   "test": "test_valid_counter_option",
+   "argv": [
+    "counter:field"
+   ],
+   "stdin": "{\"field\": 10}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_validation.py:82"
+  },
+  {
+   "test": "test_valid_marker_option",
+   "argv": [
+    "marker:field"
+   ],
+   "stdin": "{\"field\": 1}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_validation.py:91"
+  },
+  {
+   "test": "test_valid_combined_options",
+   "argv": [
+    "counter,marker:field"
+   ],
+   "stdin": "{\"field\": 10}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_validation.py:99"
+  },
+  {
+   "test": "test_multiple_graphs_with_options",
+   "argv": [
+    "counter:field1",
+    "marker:field2",
+    "field3"
+   ],
+   "stdin": "{\"field1\": 1, \"field2\": 2, \"field3\": 3}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_validation.py:107"
+  },
+  {
+   "test": "test_field_plus_with_options",
+   "argv": [
+    "counter:field1+marker:field2"
+   ],
+   "stdin": "{\"field1\": 10, \"field2\": 1}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_spec_validation.py:117"
+  },
+  {
+   "test": "test_stdin_with_blank_lines",
+   "argv": [
+    "field"
+   ],
+   "stdin": "{\"field\": 1}\n\n{\"field\": 2}\n\n{\"field\": 3}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_edge_cases.py:14"
+  },
+  {
+   "test": "test_stdin_whitespace_only_lines",
+   "argv": [
+    "field"
+   ],
+   "stdin": "{\"field\": 1}\n   \n{\"field\": 2}\n\t\n{\"field\": 3}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_edge_cases.py:22"
+  },
+  {
+   "test": "test_stdin_comments_not_supported",
+   "argv": [
+    "field"
+   ],
+   "stdin": "// comment\n{\"field\": 1}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_edge_cases.py:29"
+  },
+  {
+   "test": "test_stdin_trailing_comma",
+   "argv": [
+    "field"
+   ],
+   "stdin": "{\"field\": 1,}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_edge_cases.py:37"
+  },
+  {
+   "test": "test_stdin_single_quotes",
+   "argv": [
+    "field"
+   ],
+   "stdin": "{'field': 1}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_edge_cases.py:45"
+  },
+  {
+   "test": "test_stdin_unquoted_keys",
+   "argv": [
+    "field"
+   ],
+   "stdin": "{field: 1}\n",
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_edge_cases.py:53"
+  },
+  {
+   "test": "test_graphics_requirement_message",
+   "argv": [
+    "field"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required",
+    "iTerm2",
+    "Kitty",
+    "Sixel"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_terminal_detection.py:6"
+  },
+  {
+   "test": "test_screen_incompatibility",
+   "argv": [
+    "field"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM": "screen"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "screen and tmux not supported",
+    "graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_terminal_detection.py:17"
+  },
+  {
+   "test": "test_iterm_detection",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: jplot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_terminal_detection.py:30"
+  },
+  {
+   "test": "test_screen_terminal_error",
+   "argv": [
+    "field"
+   ],
+   "stdin": "{\"field\": 1}\n",
+   "env": {
+    "TERM": "screen",
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "screen and tmux not supported"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_terminal_types.py:28"
+  },
+  {
+   "test": "test_help_goes_to_stderr_and_exit0",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: jplot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_jplot_io.py:10"
+  },
+  {
+   "test": "test_missing_graphics_support_error_on_stdout_exit1",
+   "argv": [
+    "Threads"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_jplot_io.py:26"
+  },
+  {
+   "test": "test_stdin_without_url_is_accepted_when_piped_but_still_fails_on_graphics_first",
+   "argv": [
+    "Threads"
+   ],
+   "stdin": "{\"Threads\": 1}\n",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_jplot_io.py:45"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: jplot [OPTIONS] FIELD_SPEC",
+    "OPTIONS:",
+    "-interval",
+    "-rows",
+    "-steps",
+    "-url",
+    "FIELD_SPEC:",
+    "counter:",
+    "marker:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:29"
+  },
+  {
+   "test": "test_help_contains_defaults",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "(default 1s)",
+    "(default 100)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:44"
+  },
+  {
+   "test": "test_no_args_shows_usage",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:54"
+  },
+  {
+   "test": "test_no_field_spec_after_flags",
+   "argv": [
+    "--steps",
+    "50"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:62"
+  },
+  {
+   "test": "test_invalid_flag",
+   "argv": [
+    "--invalid-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "flag provided but not defined",
+    "Usage: jplot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:71"
+  },
+  {
+   "test": "test_unknown_short_flag",
+   "argv": [
+    "-z"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "flag provided but not defined"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:79"
+  },
+  {
+   "test": "test_invalid_flag_exits_two",
+   "argv": [
+    "--invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:94"
+  },
+  {
+   "test": "test_graphics_not_supported_exits_one",
+   "argv": [
+    "field"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM_PROGRAM": ""
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "iTerm2, Kitty, or DRCS Sixel graphics required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:99"
+  },
+  {
+   "test": "test_screen_not_supported",
+   "argv": [
+    "field"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM": "screen",
+    "TERM_PROGRAM": "iTerm.app"
+   },
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "screen and tmux not supported"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:38"
+  },
+  {
+   "test": "test_malformed_json_bracket",
+   "argv": [
+    "field"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "input error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_errors.py:56"
+  },
+  {
+   "test": "test_string_instead_of_number",
+   "argv": [
+    "field"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid type"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_errors.py:88"
+  },
+  {
+   "test": "test_boolean_value",
+   "argv": [
+    "field"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid type"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_errors.py:104"
+  },
+  {
+   "test": "test_nonexistent_top_level_field",
+   "argv": [
+    "missing"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cannot get"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_errors.py:131"
+  },
+  {
+   "test": "test_nonexistent_nested_field",
+   "argv": [
+    "obj.missing"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cannot get"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_errors.py:139"
+  },
+  {
+   "test": "test_path_through_non_object",
+   "argv": [
+    "value.nested"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cannot get"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_errors.py:147"
+  },
+  {
+   "test": "test_some_fields_missing",
+   "argv": [
+    "present",
+    "missing"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cannot get"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_errors.py:218"
+  },
+  {
+   "test": "test_interval_invalid_duration",
+   "argv": [
+    "--interval",
+    "invalid",
+    "field"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid value"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_flags.py:39"
+  },
+  {
+   "test": "test_interval_missing_value",
+   "argv": [
+    "--interval"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:46"
+  },
+  {
+   "test": "test_steps_invalid_string",
+   "argv": [
+    "--steps",
+    "abc",
+    "field"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid value"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_flags.py:68"
+  },
+  {
+   "test": "test_steps_missing_value",
+   "argv": [
+    "--steps"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:75"
+  },
+  {
+   "test": "test_rows_invalid_string",
+   "argv": [
+    "--rows",
+    "abc",
+    "field"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid value"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_flags.py:95"
+  },
+  {
+   "test": "test_missing_field",
+   "argv": [
+    "nonexistent"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cannot get"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_input.py:96"
+  },
+  {
+   "test": "test_invalid_option",
+   "argv": [
+    "invalid:field"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid field option"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_specs.py:135"
+  },
+  {
+   "test": "test_multiple_invalid_options",
+   "argv": [
+    "foo,bar:field"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid field option"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_specs.py:142"
+  },
+  {
+   "test": "test_invalid_mixed_with_valid",
+   "argv": [
+    "counter,invalid:field"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid field option"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_specs.py:149"
+  }
+ ]
+}

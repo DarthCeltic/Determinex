@@ -1,0 +1,21 @@
+{
+  "schema": "determinex-repair-loop-transcript-v1",
+  "tool": "requests",
+  "family": "python",
+  "pinned_commit": "8f6cda99",
+  "repair_type": "seeded_defect (behavioral) - verifier is the project's OWN pytest suite (no Docker, no build)",
+  "toolchain": "python 3.11 venv, pip install -e . + pytest",
+  "oracle": "the real psf/requests repo's own test suite: `pytest tests/test_structures.py`",
+  "defect": {
+    "file": "src/requests/structures.py",
+    "function": "CaseInsensitiveDict.__getitem__",
+    "seed": "`return self._store[key.lower()][1]` -> `return self._store[key][1]` (drop case-folding)",
+    "intent": "break CaseInsensitiveDict's case-insensitive lookup contract"
+  },
+  "detect": {"baseline": "24 passed", "after_seed": "5 failed, 19 passed", "oracle_caught": true,
+    "failure_signature": "case-insensitive getitem tests failed once the .lower() fold was removed"},
+  "repair": {"fix": "restore `self._store[key.lower()][1]`", "oracle_guided": "the failing case-insensitive tests point at __getitem__"},
+  "reverify": {"after": "24 passed (== baseline; repaired source == upstream @8f6cda99)", "passed": 24, "failures": 0},
+  "repair_loop_status": "passed",
+  "proves": "closed-loop repair on a real external Python project (requests): its OWN pytest suite detects the injected case-folding defect -> targeted fix -> re-verify green. Reproducible locally with pip + pytest, no Docker."
+}

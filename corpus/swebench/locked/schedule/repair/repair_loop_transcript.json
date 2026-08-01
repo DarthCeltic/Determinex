@@ -1,0 +1,29 @@
+{
+  "schema": "determinex-repair-loop-transcript-v1",
+  "tool": "schedule",
+  "family": "python",
+  "pinned_commit": "82a43db",
+  "repair_type": "seeded_defect (behavioral) - verifier is the project's OWN test suite in a python:3.12 image (toolchain via provider; Docker-OPTIONAL)",
+  "toolchain": "python:3.12",
+  "oracle": "the real dbader/schedule repo's own tests: python -m pytest test_schedule.py -q",
+  "defect": {
+    "file": "schedule/__init__.py",
+    "seed": "return datetime.datetime.now() >= self.next_run -> return datetime.datetime.now() > self.next_run"
+  },
+  "detect": {
+    "baseline": "40 passed, 41 skipped in 0.51s",
+    "after_seed": "test suite FAILED (exit 1)",
+    "oracle_caught": true,
+    "failure_signature": "seeded defect made the project's own test suite exit non-zero"
+  },
+  "repair": {
+    "fix": "git checkout (restore upstream source)"
+  },
+  "reverify": {
+    "after": "40 passed, 41 skipped in 0.22s",
+    "passed": 40,
+    "failures": 0
+  },
+  "repair_loop_status": "passed",
+  "proves": "closed-loop repair on a real external python project (schedule): its OWN test suite detects the injected defect -> fix -> re-verify (40 passed, 41 skipped in 0.22s). Reproducible."
+}

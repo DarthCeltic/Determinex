@@ -1,0 +1,4913 @@
+[
+ {
+  "name": "test::test_config_missing_file_error::0",
+  "argv": [
+   "--config-file",
+   "/nonexistent/path/to/config.toml"
+  ],
+  "stdin": "{\"level\":\"info\",\"msg\":\"test message\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file_error::1",
+  "argv": [
+   "/nonexistent/file/path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deeply_nested_json_object::2",
+  "argv": [
+   "-d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_filter_expression_error_message::3",
+  "argv": [
+   "-f",
+   "invalid lua syntax }}"
+  ],
+  "stdin": "{\"message\":\"test\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_config_file_error_message::4",
+  "argv": [
+   "--config-file",
+   "invalid.toml"
+  ],
+  "stdin": "{\"message\":\"test\"}",
+  "files": {
+   "invalid.toml": "[invalid toml\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_placeholder_format_error::5",
+  "argv": [
+   "-s",
+   "-F",
+   "invalid"
+  ],
+  "stdin": "{\"message\":\"test\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_completion_bash_structure::6",
+  "argv": [
+   "--generate-completions",
+   "bash"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_completion_zsh_structure::7",
+  "argv": [
+   "--generate-completions",
+   "zsh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_completion_fish_structure::8",
+  "argv": [
+   "--generate-completions",
+   "fish"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_with_null_value_comparison::9",
+  "argv": [
+   "-f",
+   "value == \"unsupported\""
+  ],
+  "stdin": "{\"message\":\"test\",\"value\":null}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_undefined_variable_returns_false::10",
+  "argv": [
+   "-f",
+   "value ~= nil and value > 100"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prefix_with_no_json_after_brace::11",
+  "argv": [
+   "--with-prefix"
+  ],
+  "stdin": "2023-01-01 prefix: {invalid json",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_explicit_dash_argument::12",
+  "argv": [
+   "-"
+  ],
+  "stdin": "{\"message\":\"from stdin\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_level_mapping_with_numeric_levels::13",
+  "argv": [
+   "--map-level",
+   "10=TRACE"
+  ],
+  "stdin": "{\"message\":\"test\",\"level\":\"10\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_key_with_array_substitution::14",
+  "argv": [
+   "-s"
+  ],
+  "stdin": "{\"message\":\"Value at {0} and {1}\",\"context\":[\"first\",\"second\"]}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_key_missing_shows_placeholder::15",
+  "argv": [
+   "-s"
+  ],
+  "stdin": "{\"message\":\"Value {missing}\",\"context\":{\"exists\":\"value\"}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_placeholder_format_with_brackets::16",
+  "argv": [
+   "-s",
+   "-F",
+   "[[key]]"
+  ],
+  "stdin": "{\"message\":\"Value [[mykey]]\",\"context\":{\"mykey\":\"replaced\"}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_placeholder_format_dollar_brace::17",
+  "argv": [
+   "-s",
+   "-F",
+   "${key}"
+  ],
+  "stdin": "{\"message\":\"User ${user} at ${location}\",\"context\":{\"user\":\"alice\",\"location\":\"NYC\"}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_substitution_with_nested_object_context::18",
+  "argv": [
+   "-s"
+  ],
+  "stdin": "{\"message\":\"Error code {code}: {desc}\",\"context\":{\"code\":404,\"desc\":\"Not Found\"}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_null_value_in_json::19",
+  "argv": [
+   "--print-lua",
+   "-f",
+   "true"
+  ],
+  "stdin": "{\"message\":\"test\",\"field_a\":null,\"field_b\":\"value\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_expression_with_complex_logic::20",
+  "argv": [
+   "-f",
+   "(level == \"error\" or level == \"critical\") and priority >= 3 and string.find(message, \"alert\") ~= nil"
+  ],
+  "stdin": "{\"message\":\"important alert\",\"level\":\"error\",\"priority\":5}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_file_input::21",
+  "argv": [
+   "empty.log"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.log": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_only_whitespace::22",
+  "argv": [
+   "whitespace.log"
+  ],
+  "stdin": null,
+  "files": {
+   "whitespace.log": "   \n\t\t\n  \t  \n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_array_with_mixed_types::23",
+  "argv": [
+   "-d"
+  ],
+  "stdin": "{\"message\":\"test\",\"array\":[null,false,true,123,\"text\"]}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_boolean_field_values::24",
+  "argv": [
+   "--print-lua",
+   "-f",
+   "true"
+  ],
+  "stdin": "{\"message\":\"test\",\"enabled\":true,\"disabled\":false}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_numeric_field_values_float::25",
+  "argv": [
+   "--print-lua",
+   "-f",
+   "true"
+  ],
+  "stdin": "{\"message\":\"test\",\"pi\":3.14159,\"e\":2.71828}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_field_names::26",
+  "argv": [
+   "--print-lua",
+   "-f",
+   "true"
+  ],
+  "stdin": "{\"message\":\"test\",\"log.level\":\"info\",\"user-id\":\"123\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_with_nested_array_access::27",
+  "argv": [
+   "-f",
+   "data.items[2] == \"second\""
+  ],
+  "stdin": "{\"message\":\"test\",\"data\":{\"items\":[\"first\",\"second\",\"third\"]}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_substitution_with_boolean_context_values::28",
+  "argv": [
+   "-s"
+  ],
+  "stdin": "{\"message\":\"Status: {enabled}\",\"context\":{\"enabled\":true}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_substitution_with_numeric_context_values::29",
+  "argv": [
+   "-s"
+  ],
+  "stdin": "{\"message\":\"Count: {count}\",\"context\":{\"count\":42}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_main_line_format_custom::30",
+  "argv": [
+   "--main-line-format",
+   "{{fblog_level}}: {{fblog_message}}"
+  ],
+  "stdin": "{\"message\":\"test\",\"level\":\"info\",\"custom\":\"value\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_additional_value_format_custom::31",
+  "argv": [
+   "-a",
+   "field",
+   "--additional-value-format",
+   "[{{key}}]={{value}}"
+  ],
+  "stdin": "{\"message\":\"test\",\"field\":\"value\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_level_map_multiple_mappings::32",
+  "argv": [
+   "--map-level",
+   "0=DEBUG",
+   "--map-level",
+   "1=INFO",
+   "--map-level",
+   "2=WARN"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_context_key::33",
+  "argv": [
+   "-s",
+   "-c",
+   "params"
+  ],
+  "stdin": "{\"message\":\"Value {x}\",\"params\":{\"x\":\"replaced\"}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_implicit_filter_return_multiline::34",
+  "argv": [
+   "--no-implicit-filter-return-statement",
+   "-f",
+   "if priority > 3 then return true else return false end"
+  ],
+  "stdin": "{\"message\":\"test\",\"priority\":5}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_with_string_operations::35",
+  "argv": [
+   "-f",
+   "string.lower(message) == \"test message\""
+  ],
+  "stdin": "{\"message\":\"TEST MESSAGE\",\"level\":\"info\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prefix_with_multiple_opening_braces::36",
+  "argv": [
+   "--with-prefix"
+  ],
+  "stdin": "2023-01-01 {container} prefix: {\"message\":\"test\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dump_all_alphabetical_ordering::37",
+  "argv": [
+   "-d"
+  ],
+  "stdin": "{\"message\":\"test\",\"zebra\":\"z\",\"apple\":\"a\",\"middle\":\"m\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_excluded_values_mutually_exclusive_with_additional::38",
+  "argv": [
+   "-x",
+   "field1",
+   "-a",
+   "field1"
+  ],
+  "stdin": "{\"message\":\"test\",\"field1\":\"a\",\"field2\":\"b\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_map_level_missing_equals_error::39",
+  "argv": [
+   "--map-level",
+   "NOEQUALHERE"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_template_render_type_mismatch_error::40",
+  "argv": [
+   "--main-line-format",
+   "{{color_rgb \"not\" \"numbers\" \"here\" fblog_message}}"
+  ],
+  "stdin": "{\"message\": \"test\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_additional_value_template_render_error::41",
+  "argv": [
+   "-d",
+   "--additional-value-format",
+   "{{min_size \"not_a_number\" key}}"
+  ],
+  "stdin": "{\"message\": \"test\", \"extra_field\": \"value\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_error::42",
+  "argv": [
+   "--unknown-flag"
+  ],
+  "stdin": "{\"message\":\"test\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_config_file_error::43",
+  "argv": [
+   "--config-file",
+   "/nonexistent/config.toml"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_map_level_format_missing_equals::44",
+  "argv": [
+   "--map-level",
+   "0DEBUG"
+  ],
+  "stdin": "{\"message\":\"test\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_placeholder_format_missing_key::45",
+  "argv": [
+   "-s",
+   "-F",
+   "{{value}}"
+  ],
+  "stdin": "{\"message\":\"test\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_exit_zero::46",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_exit_zero::47",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_unreadable_error::48",
+  "argv": [
+   "--config-file",
+   "unreadable.toml"
+  ],
+  "stdin": "",
+  "files": {
+   "unreadable.toml": "message_keys = []"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_placeholder_format_error::49",
+  "argv": [
+   "-s",
+   "-F",
+   ""
+  ],
+  "stdin": "{\"message\":\"test\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_regex_in_filter_graceful_error::50",
+  "argv": [
+   "-f",
+   "string.find(message, '[[[')"
+  ],
+  "stdin": "{\"message\":\"test\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_unclosed_string_syntax_error::51",
+  "argv": [
+   "-f",
+   "message == \"test"
+  ],
+  "stdin": "{\"message\":\"test\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toml_config_wrong_type_error::52",
+  "argv": [
+   "--config-file",
+   "bad_type.toml"
+  ],
+  "stdin": "",
+  "files": {
+   "bad_type.toml": "message_keys = \"not_an_array\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_output_to_stderr_not_stdout::53",
+  "argv": [
+   "--nonexistent-flag"
+  ],
+  "stdin": "{\"message\":\"test\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_runtime_error_no_crash::54",
+  "argv": [
+   "-f",
+   "1/0"
+  ],
+  "stdin": "{\"message\":\"test\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_time_keys_first_wins::55",
+  "argv": [
+   "-t",
+   "time1",
+   "-t",
+   "time2"
+  ],
+  "stdin": "{\"message\":\"test\",\"time1\":\"2023-01-01T10:00:00Z\",\"time2\":\"2023-01-02T10:00:00Z\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_lua_flag::56",
+  "argv": [
+   "--print-lua",
+   "-f",
+   "level == \"info\""
+  ],
+  "stdin": "{\"level\":\"info\",\"message\":\"test\",\"process\":\"app\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_field_sanitization_dots_to_underscores::57",
+  "argv": [
+   "--print-lua",
+   "-f",
+   "log_level == \"info\""
+  ],
+  "stdin": "{\"log.level\":\"info\",\"message\":\"test\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_undefined_variable_evaluates_to_nil::58",
+  "argv": [
+   "-f",
+   "nonexistent_field == \"value\""
+  ],
+  "stdin": "{\"level\":\"info\",\"message\":\"test\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_syntax_error_produces_stderr::59",
+  "argv": [
+   "-f",
+   "invalid syntax here @#$"
+  ],
+  "stdin": "{\"level\":\"info\",\"message\":\"test\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_json_parsing_with_standard_fields::60",
+  "argv": [
+   "-"
+  ],
+  "stdin": "{\"message\":\"hello world\",\"level\":\"info\",\"timestamp\":\"2023-01-01T00:00:00Z\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_alternative_message_field_names::61",
+  "argv": [
+   "-"
+  ],
+  "stdin": "{\"msg\":\"using msg field\",\"level\":\"debug\",\"time\":\"2023-01-01T12:00:00Z\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_alternative_level_and_time_field_names::62",
+  "argv": [
+   "-"
+  ],
+  "stdin": "{\"short_message\":\"using short_message\",\"severity\":\"WARN\",\"@timestamp\":\"2023-01-01T18:00:00Z\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_level_colorization_error_fatal_trace::63",
+  "argv": [
+   "-"
+  ],
+  "stdin": "{\"level\":\"error\",\"msg\":\"error message\",\"time\":\"2023-01-01T00:00:00Z\"}\n{\"level\":\"fatal\",\"msg\":\"fatal message\",\"time\":\"2023-01-01T00:00:00Z\"}\n{\"level\":\"trace\",\"msg\":\"trace message\",\"time\":\"2023-01-01T00:00:00Z\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_plain_text_non_json_line::64",
+  "argv": [
+   "-"
+  ],
+  "stdin": "plain text line not JSON",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_malformed_json_line::65",
+  "argv": [
+   "-"
+  ],
+  "stdin": "{\"incomplete\":\"json\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_timestamp_field::66",
+  "argv": [
+   "-"
+  ],
+  "stdin": "{\"message\":\"no timestamp\",\"level\":\"info\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_level_field::67",
+  "argv": [
+   "-"
+  ],
+  "stdin": "{\"message\":\"no level\",\"timestamp\":\"2023-01-01T00:00:00Z\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_numeric_timestamp_milliseconds::68",
+  "argv": [
+   "-"
+  ],
+  "stdin": "{\"message\":\"numeric timestamp test\",\"level\":\"info\",\"timestamp\":\"1716292213381\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_numeric_timestamp_seconds::69",
+  "argv": [
+   "-"
+  ],
+  "stdin": "{\"message\":\"numeric timestamp seconds\",\"level\":\"info\",\"timestamp\":\"1716292213\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_additional_values_flag::70",
+  "argv": [
+   "-",
+   "-a",
+   "user",
+   "-a",
+   "request_id"
+  ],
+  "stdin": "{\"message\":\"test\",\"level\":\"info\",\"time\":\"2023-01-01T00:00:00Z\",\"user\":\"alice\",\"request_id\":\"abc123\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dump_all_flag::71",
+  "argv": [
+   "-",
+   "--dump-all"
+  ],
+  "stdin": "{\"message\":\"test\",\"level\":\"info\",\"time\":\"2023-01-01T00:00:00Z\",\"user\":\"alice\",\"request_id\":\"abc123\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_json_fields::72",
+  "argv": [
+   "-",
+   "-a",
+   "context"
+  ],
+  "stdin": "{\"message\":\"nested test\",\"level\":\"info\",\"time\":\"2023-01-01T00:00:00Z\",\"context\":{\"user\":\"bob\",\"ip\":\"192.168.1.1\"}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_field_indexing::73",
+  "argv": [
+   "-",
+   "-a",
+   "tags"
+  ],
+  "stdin": "{\"message\":\"array test\",\"level\":\"info\",\"time\":\"2023-01-01T00:00:00Z\",\"tags\":[\"prod\",\"api\",\"v2\"]}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_with_prefix_flag::74",
+  "argv": [
+   "-",
+   "--with-prefix"
+  ],
+  "stdin": "prefix data | {\"message\":\"with prefix\",\"level\":\"info\",\"time\":\"2023-01-01T00:00:00Z\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_field_names_via_flags::75",
+  "argv": [
+   "-",
+   "--message-key",
+   "text",
+   "--level-key",
+   "lvl",
+   "--time-key",
+   "ts"
+  ],
+  "stdin": "{\"text\":\"custom message field\",\"lvl\":\"warn\",\"ts\":\"2023-01-01T00:00:00Z\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_valid_and_invalid_lines::76",
+  "argv": [
+   "-"
+  ],
+  "stdin": "{\"message\":\"valid 1\",\"level\":\"info\",\"time\":\"2023-01-01T00:00:00Z\"}\ninvalid line\n{\"message\":\"valid 2\",\"level\":\"warn\",\"time\":\"2023-01-01T00:00:00Z\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_boolean_field_values::77",
+  "argv": [
+   "-",
+   "--dump-all"
+  ],
+  "stdin": "{\"message\":\"boolean test\",\"level\":\"info\",\"time\":\"2023-01-01T00:00:00Z\",\"enabled\":true,\"disabled\":false}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_numeric_field_values::78",
+  "argv": [
+   "-",
+   "--dump-all"
+  ],
+  "stdin": "{\"message\":\"number test\",\"level\":\"info\",\"time\":\"2023-01-01T00:00:00Z\",\"count\":42,\"pi\":3.14159,\"negative\":-100}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_field_values_are_omitted::79",
+  "argv": [
+   "-",
+   "--dump-all"
+  ],
+  "stdin": "{\"message\":\"null test\",\"level\":\"info\",\"time\":\"2023-01-01T00:00:00Z\",\"nullable\":null,\"value\":\"present\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_and_missing_message_fields::80",
+  "argv": [
+   "-"
+  ],
+  "stdin": "{\"message\":\"empty message test\",\"level\":\"info\",\"time\":\"2023-01-01T00:00:00Z\"}\n{\"message\":\"\",\"level\":\"info\",\"time\":\"2023-01-01T00:00:00Z\"}\n{\"level\":\"info\",\"time\":\"2023-01-01T00:00:00Z\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_excluded_value_flag_implicitly_enables_dump_all::81",
+  "argv": [
+   "-",
+   "--excluded-value",
+   "sensitive"
+  ],
+  "stdin": "{\"message\":\"exclude test\",\"level\":\"info\",\"time\":\"2023-01-01T00:00:00Z\",\"sensitive\":\"secret\",\"user\":\"alice\",\"request_id\":\"abc\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_level_case_normalization::82",
+  "argv": [
+   "-"
+  ],
+  "stdin": "{\"level\":\"WARN\",\"msg\":\"warn uppercase\",\"time\":\"2023-01-01T00:00:00Z\"}\n{\"level\":\"warning\",\"msg\":\"warning lowercase\",\"time\":\"2023-01-01T00:00:00Z\"}\n{\"level\":\"WaRn\",\"msg\":\"mixed case\",\"time\":\"2023-01-01T00:00:00Z\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_newline_characters_in_message::83",
+  "argv": [
+   "-"
+  ],
+  "stdin": "{\"msg\":\"message with\\nnewline\",\"level\":\"info\",\"time\":\"2023-01-01T00:00:00Z\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tab_characters_in_message::84",
+  "argv": [
+   "-"
+  ],
+  "stdin": "{\"msg\":\"message with\\ttab\\tcharacters\",\"level\":\"info\",\"time\":\"2023-01-01T00:00:00Z\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_characters_in_message::85",
+  "argv": [
+   "-"
+  ],
+  "stdin": "{\"msg\":\"unicode test: 你好世界 🚀 ñoño\",\"level\":\"info\",\"time\":\"2023-01-01T00:00:00Z\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_array_instead_of_object::86",
+  "argv": [
+   "-"
+  ],
+  "stdin": "[]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_string_instead_of_object::87",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\"just a string\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_message_line::88",
+  "argv": [
+   "-"
+  ],
+  "stdin": "{\"msg\":\"very long message that goes on and on and on with lots of text to see how the formatter handles it when the message is quite lengthy and contains multiple thoughts and ideas all in one single line without any breaks or formatting\",\"level\":\"info\",\"time\":\"2023-01-01T00:00:00Z\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_array_flattening::89",
+  "argv": [
+   "-",
+   "-a",
+   "nested_array"
+  ],
+  "stdin": "{\"message\":\"test\",\"level\":\"info\",\"time\":\"2023-01-01T00:00:00Z\",\"nested_array\":[[1,2],[3,4]]}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_level_string::90",
+  "argv": [
+   "-"
+  ],
+  "stdin": "{\"message\":\"test\",\"level\":\"\",\"time\":\"2023-01-01T00:00:00Z\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_timestamp_string::91",
+  "argv": [
+   "-"
+  ],
+  "stdin": "{\"message\":\"test\",\"level\":\"info\",\"time\":\"\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_message::92",
+  "argv": [
+   "-"
+  ],
+  "stdin": "{\"message\":\"test <>&\",\"level\":\"info\",\"time\":\"2023-01-01T12:00:00Z\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_field_names_with_dots::93",
+  "argv": [
+   "-",
+   "--dump-all"
+  ],
+  "stdin": "{\"message\":\"test\",\"level\":\"info\",\"time\":\"2023-01-01T00:00:00Z\",\"field.with.dots\":\"value\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completely_empty_json_object::94",
+  "argv": [
+   "-"
+  ],
+  "stdin": "{}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_additional_value_exact_match_not_prefix::95",
+  "argv": [
+   "-",
+   "-a",
+   "user"
+  ],
+  "stdin": "{\"message\":\"test\",\"level\":\"info\",\"time\":\"2023-01-01T00:00:00Z\",\"user\":\"alice\",\"user_id\":\"123\",\"user_name\":\"Alice Smith\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_message_keys_priority_order::96",
+  "argv": [
+   "-",
+   "--message-key",
+   "text",
+   "--message-key",
+   "msg"
+  ],
+  "stdin": "{\"text\":\"primary\",\"msg\":\"fallback\",\"level\":\"info\",\"time\":\"2023-01-01T00:00:00Z\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_message_key_fallback_to_second_option::97",
+  "argv": [
+   "-",
+   "--message-key",
+   "text",
+   "--message-key",
+   "msg"
+  ],
+  "stdin": "{\"msg\":\"fallback only\",\"level\":\"info\",\"time\":\"2023-01-01T00:00:00Z\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_integer_precision::98",
+  "argv": [
+   "-",
+   "--dump-all"
+  ],
+  "stdin": "{\"message\":\"test\",\"level\":\"info\",\"time\":\"2023-01-01T00:00:00Z\",\"big_number\":9007199254740991}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prefix_extraction_simple_text::99",
+  "argv": [
+   "-p"
+  ],
+  "stdin": "simple-prefix {\"level\":\"info\",\"msg\":\"test message\",\"time\":\"2017-07-06T15:21:16Z\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prefix_extraction_with_brackets::100",
+  "argv": [
+   "-p"
+  ],
+  "stdin": "[pod-name] {\"level\":\"error\",\"msg\":\"connection failed\",\"time\":\"2017-07-06T15:21:16Z\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prefix_extraction_with_pipe::101",
+  "argv": [
+   "-p"
+  ],
+  "stdin": "namespace/pod-name | {\"level\":\"warn\",\"msg\":\"deprecated API\",\"time\":\"2017-07-06T15:21:16Z\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prefix_whitespace_trimming::102",
+  "argv": [
+   "-p"
+  ],
+  "stdin": "  whitespace-prefix  {\"level\":\"debug\",\"msg\":\"verbose output\",\"time\":\"2017-07-06T15:21:16Z\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_prefix_line::103",
+  "argv": [
+   "-p"
+  ],
+  "stdin": "{\"level\":\"info\",\"msg\":\"no prefix here\",\"time\":\"2017-07-06T15:21:16Z\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prefix_disabled_default_behavior::104",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prefix_enabled_multiple_formats::105",
+  "argv": [
+   "-p"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prefix_in_custom_format::106",
+  "argv": [
+   "-p",
+   "--main-line-format",
+   "{{fblog_prefix}}::{{fblog_message}}"
+  ],
+  "stdin": "myprefix | {\"level\":\"info\",\"msg\":\"test\",\"time\":\"2017-07-06T15:21:16Z\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prefix_with_filter::107",
+  "argv": [
+   "-p",
+   "--filter",
+   "level == \"error\""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prefix_with_additional_values::108",
+  "argv": [
+   "-p",
+   "-a",
+   "process"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prefix_with_dump_all::109",
+  "argv": [
+   "-p",
+   "-d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_invocation::110",
+  "argv": [],
+  "stdin": "{\"message\":\"test\",\"level\":\"info\",\"timestamp\":\"2023-01-01T00:00:00Z\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repeated_map_level_same_key_last_wins::111",
+  "argv": [
+   "--map-level",
+   "debug=INFO",
+   "--map-level",
+   "debug=WARN",
+   "--map-level",
+   "debug=ERROR"
+  ],
+  "stdin": "{\"message\":\"test\",\"level\":\"debug\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prefix_mode_line_without_opening_brace::112",
+  "argv": [
+   "--with-prefix"
+  ],
+  "stdin": "prefix without opening brace",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_large_number_scientific_notation::113",
+  "argv": [
+   "-d"
+  ],
+  "stdin": "{\"message\":\"test\",\"count\":9999999999999999999999}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_main_line_format_simple::114",
+  "argv": [
+   "--main-line-format",
+   "{{uppercase fblog_level}}: {{fblog_message}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_main_line_format_red_helper::115",
+  "argv": [
+   "--main-line-format",
+   "{{red (uppercase fblog_level)}}: {{fblog_message}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_main_line_format_bold_yellow::116",
+  "argv": [
+   "--main-line-format",
+   "{{bold (yellow fblog_level)}}: {{fblog_message}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_main_line_format_blue_timestamp::117",
+  "argv": [
+   "--main-line-format",
+   "{{blue fblog_timestamp}} | {{fblog_message}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_main_line_format_purple_cyan::118",
+  "argv": [
+   "--main-line-format",
+   "{{purple (uppercase fblog_level)}}: {{cyan fblog_message}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_main_line_format_green::119",
+  "argv": [
+   "--main-line-format",
+   "{{green fblog_level}}: {{fblog_message}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_main_line_format_color_rgb::120",
+  "argv": [
+   "--main-line-format",
+   "{{color_rgb 255 128 0 fblog_level}}: {{fblog_message}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_main_line_format_level_style::121",
+  "argv": [
+   "--main-line-format",
+   "{{level_style fblog_level}}: {{fblog_message}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_main_line_format_fixed_size::122",
+  "argv": [
+   "--main-line-format",
+   "{{fixed_size 10 fblog_level}}: {{fblog_message}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_main_line_format_min_size::123",
+  "argv": [
+   "--main-line-format",
+   "{{min_size 10 fblog_level}}: {{fblog_message}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_main_line_format_custom_json_field::124",
+  "argv": [
+   "--main-line-format",
+   "{{fblog_level}}: {{fblog_message}} [status={{status_code}}]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_main_line_format_conditional_rendering::125",
+  "argv": [
+   "--main-line-format",
+   "{{fblog_level}}: {{fblog_message}}{{#if status_code}} [status={{status_code}}]{{/if}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_additional_value_format_custom_simple::126",
+  "argv": [
+   "-d",
+   "--additional-value-format",
+   "{{uppercase key}}: {{value}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_additional_value_format_custom_colored::127",
+  "argv": [
+   "-d",
+   "--additional-value-format",
+   "{{red (fixed_size 15 key)}}: {{green value}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_field_access_in_template::128",
+  "argv": [
+   "--main-line-format",
+   "{{fblog_level}}: {{fblog_message}} (user={{user.name}})"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_template_multiple_helpers_and_conditionals::129",
+  "argv": [
+   "--main-line-format",
+   "{{level_style (uppercase (fixed_size 5 fblog_level))}}: {{bold fblog_message}}{{#if user.name}} [{{cyan user.name}}]{{/if}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_template_syntax_error::130",
+  "argv": [
+   "--main-line-format",
+   "{{invalid syntax"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unclosed_if_block_error::131",
+  "argv": [
+   "--main-line-format",
+   "{{#if unclosed}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_readme_example_red_short_message::132",
+  "argv": [
+   "--main-line-format",
+   "{{fblog_timestamp}} {{level_style fblog_level}}: {{red short_message}}",
+   "--message-key",
+   "short_message"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fixed_size_truncation::133",
+  "argv": [
+   "--main-line-format",
+   "{{fixed_size 20 fblog_message}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_size_no_truncation::134",
+  "argv": [
+   "--main-line-format",
+   "{{min_size 20 fblog_message}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_template_with_prefix_variable::135",
+  "argv": [
+   "-p",
+   "--main-line-format",
+   "{{yellow fblog_level}}{{#if fblog_prefix}} [{{red fblog_prefix}}]{{/if}}: {{fblog_message}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deeply_nested_helpers_four_levels::136",
+  "argv": [
+   "--main-line-format",
+   "{{bold (red (uppercase (fixed_size 10 fblog_level)))}}: {{fblog_message}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_rgb_black_zero_values::137",
+  "argv": [
+   "--main-line-format",
+   "{{color_rgb 0 0 0 fblog_level}}: {{fblog_message}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_rgb_white_max_values::138",
+  "argv": [
+   "--main-line-format",
+   "{{color_rgb 255 255 255 fblog_level}}: {{fblog_message}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_additional_value_with_specific_field::139",
+  "argv": [
+   "-a",
+   "status_code",
+   "--additional-value-format",
+   "{{bold key}}: {{cyan value}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_config_read_defaults_from_empty_config::140",
+  "argv": [
+   "--config-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_config_read_empty_level_map::141",
+  "argv": [
+   "--config-file",
+   "--main-line-format",
+   "{{fblog_level}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_filter_allow_all::142",
+  "argv": [
+   "-f",
+   "true",
+   "--main-line-format",
+   "{{message}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_filter_deny_all::143",
+  "argv": [
+   "-f",
+   "false",
+   "--main-line-format",
+   "{{message}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_filter_process::144",
+  "argv": [
+   "-f",
+   "process == \"rust\"",
+   "--main-line-format",
+   "{{process}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_filter_logical_operators::145",
+  "argv": [
+   "-f",
+   "process == \"rust\" and fu == \"bower\"",
+   "--main-line-format",
+   "{{process}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_filter_contains::146",
+  "argv": [
+   "-f",
+   "string.find(message, \"something\") ~= nil",
+   "--main-line-format",
+   "{{message}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_filter_regex::147",
+  "argv": [
+   "-f",
+   "string.find(fu, \"bow.*\") ~= nil",
+   "--main-line-format",
+   "{{fu}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_filter_unknown_variable::148",
+  "argv": [
+   "-f",
+   "sdkfjsdfjsf ~= nil and string.find(sdkfjsdfjsf, \"bow.*\") ~= nil",
+   "--main-line-format",
+   "{{message}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_filter_no_implicit_return::149",
+  "argv": [
+   "-f",
+   "if 3 > 2 then return true else return false end",
+   "--no-implicit-filter-return-statement",
+   "--main-line-format",
+   "{{process}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_filter_nested::150",
+  "argv": [
+   "-f",
+   "nested.log_level == \"debug\"",
+   "--main-line-format",
+   "{{message}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_filter_nested_with_array::151",
+  "argv": [
+   "-f",
+   "nested_with_array.array[2] == \"b\"",
+   "--main-line-format",
+   "{{message}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_substitution_common_placeholder_formats__brace::152",
+  "argv": [
+   "-s",
+   "--main-line-format",
+   "{{fblog_message}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_substitution_common_placeholder_formats__bracket::153",
+  "argv": [
+   "-s",
+   "-F",
+   "[key]",
+   "--main-line-format",
+   "{{fblog_message}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_time_try_convert_millis::154",
+  "argv": [
+   "--main-line-format",
+   "{{fblog_timestamp}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_log_write_log_entry::155",
+  "argv": [
+   "--main-line-format",
+   "{{fblog_timestamp}}  {{fblog_level}}: {{fblog_message}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_log_write_log_entry_with_mapped_level::156",
+  "argv": [
+   "--map-level",
+   "30=info",
+   "--main-line-format",
+   "{{fblog_timestamp}}  {{fblog_level}}: {{fblog_message}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_log_write_log_entry_with_prefix::157",
+  "argv": [
+   "-p",
+   "--main-line-format",
+   "{{fblog_timestamp}}  {{fblog_level}}: {{fblog_prefix}} {{fblog_message}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_log_write_log_entry_with_additional_field::158",
+  "argv": [
+   "-a",
+   "process",
+   "-a",
+   "fu",
+   "--main-line-format",
+   "{{fblog_timestamp}}  {{fblog_level}}: {{fblog_message}}",
+   "--additional-value-format",
+   "{{key}}: {{value}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_log_write_log_entry_dump_all::159",
+  "argv": [
+   "-d",
+   "--main-line-format",
+   "{{fblog_timestamp}}  {{fblog_level}}: {{fblog_message}}",
+   "--additional-value-format",
+   "{{key}}: {{value}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_log_write_log_entry_with_exotic_fields::160",
+  "argv": [
+   "-m",
+   "process",
+   "-t",
+   "moep",
+   "-l",
+   "hugo",
+   "--main-line-format",
+   "{{fblog_timestamp}}  {{fblog_level}}: {{fblog_message}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_takes_precedence_when_first::161",
+  "argv": [
+   "--help",
+   "--bogus"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_then_help_shows_error_and_usage::162",
+  "argv": [
+   "--bogus",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_matches_file_for_sample_json_log::163",
+  "argv": [
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "NO_COLOR": "1"
+  }
+ },
+ {
+  "name": "test::test_help_flag_works::164",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_word_treated_as_file_input::165",
+  "argv": [
+   "nonexistent_file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_word_not_a_subcommand::166",
+  "argv": [
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_with_stdin_input::167",
+  "argv": [
+   "--dump-all"
+  ],
+  "stdin": "{\"message\": \"test\", \"level\": \"info\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dash_means_stdin::168",
+  "argv": [
+   "-"
+  ],
+  "stdin": "{\"message\": \"test\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_completions_requires_argument::169",
+  "argv": [
+   "--generate-completions"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_input_with_flags::170",
+  "argv": [
+   "--dump-all"
+  ],
+  "stdin": "{\"message\": \"test message\", \"level\": \"info\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_error::171",
+  "argv": [
+   "--nonexistent-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_flags_work_together::172",
+  "argv": [
+   "--dump-all",
+   "--with-prefix"
+  ],
+  "stdin": "{\"message\": \"test\", \"level\": \"info\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_additional_value_and_excluded_value_conflict::173",
+  "argv": [
+   "--additional-value",
+   "a",
+   "--excluded-value",
+   "b"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflict_is_symmetric_excluded_value_then_additional_value::174",
+  "argv": [
+   "--excluded-value",
+   "b",
+   "--additional-value",
+   "a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_map_level_accepts_equals_form_and_space_form::175",
+  "argv": [
+   "--map-level",
+   "info=INFO"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_short_flags_are_accepted_for_boolean_switches::176",
+  "argv": [
+   "-dp"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_makes_next_token_a_positional_input_value_even_if_it_looks_like_flag::177",
+  "argv": [
+   "--unknown-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_positional_input_default_is_dash_and_allows_no_args::178",
+  "argv": [],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_too_many_positionals_rejected::179",
+  "argv": [
+   "a",
+   "b"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_short_flag::180",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_explicit_dash::181",
+  "argv": [
+   "-"
+  ],
+  "stdin": "{\"message\": \"from stdin\", \"level\": \"info\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_config_file::182",
+  "argv": [
+   "--config-file",
+   "custom.toml"
+  ],
+  "stdin": "{\"custom_msg\": \"test\", \"custom_level\": \"info\"}\n",
+  "files": {
+   "custom.toml": "\nmessage_keys = [\"custom_msg\"]\nlevel_keys = [\"custom_level\"]\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_level_map::183",
+  "argv": [
+   "--config-file",
+   "config.toml"
+  ],
+  "stdin": "{\"message\": \"test\", \"level\": \"10\"}\n",
+  "files": {
+   "config.toml": "\nmessage_keys = [\"message\"]\n[level_map]\n10 = \"trace\"\n20 = \"debug\"\n30 = \"info\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_custom_format::184",
+  "argv": [
+   "--config-file",
+   "format.toml"
+  ],
+  "stdin": "{\"message\": \"test\"}\n",
+  "files": {
+   "format.toml": "\nmessage_keys = [\"message\"]\nmain_line_format = \"CUSTOM: {{fblog_message}}\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_config_file_error::185",
+  "argv": [
+   "--config-file",
+   "/nonexistent/config.toml"
+  ],
+  "stdin": "{\"message\": \"test\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commandline_overrides_config::186",
+  "argv": [
+   "--config-file",
+   "config.toml",
+   "-m",
+   "custom_message"
+  ],
+  "stdin": "{\"custom_message\": \"from cli\", \"msg\": \"from config\"}\n",
+  "files": {
+   "config.toml": "\nmessage_keys = [\"msg\"]\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_message_key::187",
+  "argv": [
+   "-m",
+   "custom_msg"
+  ],
+  "stdin": "{\"custom_msg\": \"my message\", \"level\": \"info\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_message_key_long_form::188",
+  "argv": [
+   "--message-key",
+   "log_message"
+  ],
+  "stdin": "{\"log_message\": \"custom\", \"level\": \"info\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_custom_message_keys::189",
+  "argv": [
+   "-m",
+   "msg1",
+   "-m",
+   "msg2"
+  ],
+  "stdin": "{\"msg2\": \"second key matched\", \"level\": \"info\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_time_key::190",
+  "argv": [
+   "-t",
+   "custom_time"
+  ],
+  "stdin": "{\"message\": \"test\", \"custom_time\": \"2023-06-01T12:00:00Z\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_time_key_long_form::191",
+  "argv": [
+   "--time-key",
+   "log_time"
+  ],
+  "stdin": "{\"message\": \"test\", \"log_time\": \"2023-07-15T08:30:00Z\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_level_key::192",
+  "argv": [
+   "-l",
+   "custom_level"
+  ],
+  "stdin": "{\"message\": \"test\", \"custom_level\": \"error\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_level_key_long_form::193",
+  "argv": [
+   "--level-key",
+   "log_severity"
+  ],
+  "stdin": "{\"message\": \"test\", \"log_severity\": \"warn\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_custom_keys_combined::194",
+  "argv": [
+   "-m",
+   "text",
+   "-t",
+   "ts",
+   "-l",
+   "sev"
+  ],
+  "stdin": "{\"text\": \"combined\", \"ts\": \"2023-01-01T00:00:00Z\", \"sev\": \"info\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_with_boolean_field::195",
+  "argv": [
+   "-f",
+   "active == true"
+  ],
+  "stdin": "{\"message\": \"active\", \"active\": true, \"level\": \"info\"}\n{\"message\": \"inactive\", \"active\": false, \"level\": \"info\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_with_number_field::196",
+  "argv": [
+   "-f",
+   "count > 5"
+  ],
+  "stdin": "{\"message\": \"many\", \"count\": 10, \"level\": \"info\"}\n{\"message\": \"few\", \"count\": 3, \"level\": \"info\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_lua_string::197",
+  "argv": [
+   "-f",
+   "string.find(message, \"test\") ~= nil"
+  ],
+  "stdin": "{\"message\": \"test\\nwith\\nnewlines\", \"level\": \"info\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_with_bool_values_in_filter::198",
+  "argv": [
+   "-d"
+  ],
+  "stdin": "{\"message\": \"test\", \"flags\": [true, false, true]}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_with_number_values_in_filter::199",
+  "argv": [
+   "-d"
+  ],
+  "stdin": "{\"message\": \"test\", \"numbers\": [1, 2, 3]}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_object_in_nested_object::200",
+  "argv": [
+   "-d"
+  ],
+  "stdin": "{\"message\": \"test\", \"a\": {\"b\": {\"c\": {\"d\": \"value\"}}}}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_nested_object::201",
+  "argv": [
+   "-d"
+  ],
+  "stdin": "{\"message\": \"test\", \"nested\": {}}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_array_field::202",
+  "argv": [
+   "-d"
+  ],
+  "stdin": "{\"message\": \"test\", \"items\": []}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_in_array::203",
+  "argv": [
+   "-d"
+  ],
+  "stdin": "{\"message\": \"test\", \"items\": [1, null, 3]}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_object_in_array::204",
+  "argv": [
+   "-d"
+  ],
+  "stdin": "{\"message\": \"test\", \"items\": [{\"a\": 1}, {\"b\": 2}]}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_substitution_array_with_nested_values::205",
+  "argv": [
+   "-s"
+  ],
+  "stdin": "{\"message\": \"{0} items\", \"context\": [5], \"level\": \"info\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_format_with_array_in_context::206",
+  "argv": [
+   "-s"
+  ],
+  "stdin": "{\"message\": \"Items: {items}\", \"context\": {\"items\": [1, 2, 3]}, \"level\": \"info\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_format_with_object_in_context::207",
+  "argv": [
+   "-s"
+  ],
+  "stdin": "{\"message\": \"Data: {obj}\", \"context\": {\"obj\": {\"key\": \"val\"}}, \"level\": \"info\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_level_color_trace::208",
+  "argv": [
+   "--map-level",
+   "10=trace"
+  ],
+  "stdin": "{\"message\": \"trace log\", \"level\": \"10\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_level_color_fatal::209",
+  "argv": [
+   "--map-level",
+   "60=fatal"
+  ],
+  "stdin": "{\"message\": \"fatal error\", \"level\": \"60\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_prefixes_same_log::210",
+  "argv": [
+   "-p"
+  ],
+  "stdin": "pod-1 | {\"message\": \"msg1\", \"level\": \"info\"}\npod-2 | {\"message\": \"msg2\", \"level\": \"warn\"}\npod-3 | {\"message\": \"msg3\", \"level\": \"error\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_flags_additional_and_excluded::211",
+  "argv": [
+   "-a",
+   "field1",
+   "-x",
+   "field2"
+  ],
+  "stdin": "{\"message\": \"test\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_filter_expression::212",
+  "argv": [
+   "-f",
+   "this is not valid lua syntax {{{}"
+  ],
+  "stdin": "{\"message\": \"test\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_placeholder_format::213",
+  "argv": [
+   "-F",
+   "invalid"
+  ],
+  "stdin": "{\"message\": \"test\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read_from_file::214",
+  "argv": [
+   "test.log"
+  ],
+  "stdin": null,
+  "files": {
+   "test.log": "{\"message\": \"from file\", \"level\": \"info\", \"time\": \"2023-01-01T00:00:00Z\"}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read_multiple_lines_from_file::215",
+  "argv": [
+   "test.log"
+  ],
+  "stdin": null,
+  "files": {
+   "test.log": "{\"message\": \"line1\", \"level\": \"info\"}\n{\"message\": \"line2\", \"level\": \"error\"}\n{\"message\": \"line3\", \"level\": \"debug\"}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_file::216",
+  "argv": [
+   "/nonexistent/file.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_only_invalid_json::217",
+  "argv": [
+   "invalid.log"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.log": "line 1 not json\nline 2 also not json\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_by_level_exact_match::218",
+  "argv": [
+   "-f",
+   "level == \"info\""
+  ],
+  "stdin": "{\"message\": \"info log\", \"level\": \"info\"}\n{\"message\": \"error log\", \"level\": \"error\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_by_level_not_equal::219",
+  "argv": [
+   "-f",
+   "level ~= \"debug\""
+  ],
+  "stdin": "{\"message\": \"info log\", \"level\": \"info\"}\n{\"message\": \"debug log\", \"level\": \"debug\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_long_form::220",
+  "argv": [
+   "--filter",
+   "level == \"error\""
+  ],
+  "stdin": "{\"message\": \"error log\", \"level\": \"error\"}\n{\"message\": \"info log\", \"level\": \"info\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_by_custom_field::221",
+  "argv": [
+   "-f",
+   "process == \"api\""
+  ],
+  "stdin": "{\"message\": \"api log\", \"process\": \"api\", \"level\": \"info\"}\n{\"message\": \"web log\", \"process\": \"web\", \"level\": \"info\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_with_string_find::222",
+  "argv": [
+   "-f",
+   "string.find(message, \"error\") ~= nil"
+  ],
+  "stdin": "{\"message\": \"an error occurred\", \"level\": \"error\"}\n{\"message\": \"success\", \"level\": \"info\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_with_boolean_and::223",
+  "argv": [
+   "-f",
+   "level == \"info\" and process == \"api\""
+  ],
+  "stdin": "{\"message\": \"api info\", \"level\": \"info\", \"process\": \"api\"}\n{\"message\": \"web info\", \"level\": \"info\", \"process\": \"web\"}\n{\"message\": \"api error\", \"level\": \"error\", \"process\": \"api\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_with_boolean_or::224",
+  "argv": [
+   "-f",
+   "level == \"error\" or level == \"warn\""
+  ],
+  "stdin": "{\"message\": \"error\", \"level\": \"error\"}\n{\"message\": \"warn\", \"level\": \"warn\"}\n{\"message\": \"info\", \"level\": \"info\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_nested_field::225",
+  "argv": [
+   "-f",
+   "status.code == 200"
+  ],
+  "stdin": "{\"message\": \"ok\", \"status\": {\"code\": 200}}\n{\"message\": \"error\", \"status\": {\"code\": 500}}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_array_access::226",
+  "argv": [
+   "-f",
+   "items[1] == \"first\""
+  ],
+  "stdin": "{\"message\": \"has first\", \"items\": [\"first\", \"second\"]}\n{\"message\": \"no first\", \"items\": [\"other\", \"things\"]}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_implicit_return::227",
+  "argv": [
+   "-f",
+   "level == \"info\""
+  ],
+  "stdin": "{\"message\": \"info\", \"level\": \"info\"}\n{\"message\": \"error\", \"level\": \"error\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_no_implicit_return::228",
+  "argv": [
+   "-f",
+   "return level == \"info\"",
+   "--no-implicit-filter-return-statement"
+  ],
+  "stdin": "{\"message\": \"info\", \"level\": \"info\"}\n{\"message\": \"error\", \"level\": \"error\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_complex_expression::229",
+  "argv": [
+   "-f",
+   "if level == \"error\" then return true else return false end",
+   "--no-implicit-filter-return-statement"
+  ],
+  "stdin": "{\"message\": \"error\", \"level\": \"error\"}\n{\"message\": \"info\", \"level\": \"info\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_numeric_comparison::230",
+  "argv": [
+   "-f",
+   "status_code >= 400"
+  ],
+  "stdin": "{\"message\": \"client error\", \"status_code\": 404}\n{\"message\": \"success\", \"status_code\": 200}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_log_level_field::231",
+  "argv": [
+   "-l",
+   "log > level"
+  ],
+  "stdin": "{\"message\": \"test\", \"log\": {\"level\": \"debug\"}}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_map_multiple_levels::232",
+  "argv": [
+   "--map-level",
+   "10=trace",
+   "--map-level",
+   "20=debug"
+  ],
+  "stdin": "{\"message\": \"trace\", \"level\": \"10\"}\n{\"message\": \"debug\", \"level\": \"20\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_map_level_bunyan_style::233",
+  "argv": [
+   "--map-level",
+   "30=info",
+   "--map-level",
+   "40=warn",
+   "--map-level",
+   "50=error"
+  ],
+  "stdin": "{\"message\": \"info\", \"level\": \"30\"}\n{\"message\": \"warn\", \"level\": \"40\"}\n{\"message\": \"error\", \"level\": \"50\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_map_string_level_to_another::234",
+  "argv": [
+   "--map-level",
+   "warning=warn"
+  ],
+  "stdin": "{\"message\": \"test\", \"level\": \"warning\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unmapped_level_passthrough::235",
+  "argv": [
+   "--map-level",
+   "10=trace"
+  ],
+  "stdin": "{\"message\": \"test\", \"level\": \"info\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_lua_flag::236",
+  "argv": [
+   "--print-lua"
+  ],
+  "stdin": "{\"message\": \"test\", \"level\": \"info\", \"custom\": \"value\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_lua_with_filter::237",
+  "argv": [
+   "--print-lua",
+   "-f",
+   "level == \"info\""
+  ],
+  "stdin": "{\"message\": \"test\", \"level\": \"info\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_lua_with_nested_fields::238",
+  "argv": [
+   "--print-lua"
+  ],
+  "stdin": "{\"message\": \"test\", \"nested\": {\"key\": \"value\"}}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_main_line_format_custom::239",
+  "argv": [
+   "--main-line-format",
+   "{{fblog_level}}: {{fblog_message}}"
+  ],
+  "stdin": "{\"message\": \"test\", \"level\": \"info\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_main_line_format_with_timestamp::240",
+  "argv": [
+   "--main-line-format",
+   "[{{fblog_timestamp}}] {{fblog_message}}"
+  ],
+  "stdin": "{\"message\": \"test\", \"time\": \"2023-01-01T00:00:00Z\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_main_line_format_with_prefix::241",
+  "argv": [
+   "-p",
+   "--main-line-format",
+   "{{fblog_prefix}} {{fblog_message}}"
+  ],
+  "stdin": "myprefix | {\"message\": \"test\", \"level\": \"info\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_additional_value_format_custom::242",
+  "argv": [
+   "-a",
+   "custom_field",
+   "--additional-value-format",
+   "{{key}}={{value}}"
+  ],
+  "stdin": "{\"message\": \"test\", \"custom_field\": \"myvalue\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_with_nested_field_access::243",
+  "argv": [
+   "--main-line-format",
+   "{{nested.value}}"
+  ],
+  "stdin": "{\"message\": \"test\", \"nested\": {\"value\": \"deep\"}}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_with_helpers_bold::244",
+  "argv": [
+   "--main-line-format",
+   "{{bold fblog_message}}"
+  ],
+  "stdin": "{\"message\": \"bold text\", \"level\": \"info\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_with_helpers_uppercase::245",
+  "argv": [
+   "--main-line-format",
+   "{{uppercase fblog_level}}"
+  ],
+  "stdin": "{\"message\": \"test\", \"level\": \"info\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_with_color_helpers::246",
+  "argv": [
+   "--main-line-format",
+   "{{red fblog_message}}"
+  ],
+  "stdin": "{\"message\": \"error text\", \"level\": \"error\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_with_fixed_size::247",
+  "argv": [
+   "--main-line-format",
+   "{{fixed_size 10 fblog_level}}"
+  ],
+  "stdin": "{\"message\": \"test\", \"level\": \"info\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_with_min_size::248",
+  "argv": [
+   "--main-line-format",
+   "{{min_size 20 fblog_message}}"
+  ],
+  "stdin": "{\"message\": \"short\", \"level\": \"info\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_level_style_helper::249",
+  "argv": [
+   "--main-line-format",
+   "{{level_style fblog_level}}"
+  ],
+  "stdin": "{\"message\": \"test\", \"level\": \"error\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_with_prefix_flag::250",
+  "argv": [
+   "-p"
+  ],
+  "stdin": "pod-name | {\"message\": \"test\", \"level\": \"info\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_with_prefix_long_form::251",
+  "argv": [
+   "--with-prefix"
+  ],
+  "stdin": "container-123 | {\"message\": \"log message\", \"level\": \"debug\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prefix_with_spaces::252",
+  "argv": [
+   "-p"
+  ],
+  "stdin": "my pod name | {\"message\": \"test\", \"level\": \"info\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_prefix_with_flag_enabled::253",
+  "argv": [
+   "-p"
+  ],
+  "stdin": "{\"message\": \"no prefix\", \"level\": \"info\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prefix_with_invalid_json::254",
+  "argv": [
+   "-p"
+  ],
+  "stdin": "prefix | not valid json\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prefix_multiple_logs::255",
+  "argv": [
+   "-p"
+  ],
+  "stdin": "pod-1 | {\"message\": \"first\", \"level\": \"info\"}\npod-2 | {\"message\": \"second\", \"level\": \"warn\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sample_json_log::256",
+  "argv": [
+   "sample.json.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sample_json_log_with_prefix::257",
+  "argv": [
+   "-p",
+   "sample.json.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sample_json_log_dump_all::258",
+  "argv": [
+   "-d",
+   "sample.json.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sample_nested_json::259",
+  "argv": [
+   "sample_nested.json.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sample_nested_with_additional_values::260",
+  "argv": [
+   "-a",
+   "status > a",
+   "sample_nested.json.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sample_nested_filter_by_status::261",
+  "argv": [
+   "-f",
+   "status.a == 100",
+   "sample_nested.json.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sample_context_log::262",
+  "argv": [
+   "sample_context.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sample_context_with_substitution::263",
+  "argv": [
+   "-s",
+   "sample_context.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sample_elastic_log::264",
+  "argv": [
+   "sample_elastic.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sample_elastic_filter_by_log_level::265",
+  "argv": [
+   "-f",
+   "log_level == \"INFO\"",
+   "sample_elastic.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sample_numbered_log::266",
+  "argv": [
+   "sample_numbered.json.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sample_numbered_with_level_mapping::267",
+  "argv": [
+   "--map-level",
+   "10=trace",
+   "--map-level",
+   "20=debug",
+   "--map-level",
+   "30=info",
+   "--map-level",
+   "40=warn",
+   "--map-level",
+   "50=error",
+   "--map-level",
+   "60=fatal",
+   "sample_numbered.json.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sample_json_array_log::268",
+  "argv": [
+   "sample.json.array.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sample_json_array_with_dump_all::269",
+  "argv": [
+   "-d",
+   "sample.json.array.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_substitution_flag_enables_substitution::270",
+  "argv": [
+   "-s"
+  ],
+  "stdin": "{\"message\": \"Found {count} items\", \"context\": {\"count\": 5}, \"level\": \"info\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_substitution_long_form::271",
+  "argv": [
+   "--substitute"
+  ],
+  "stdin": "{\"message\": \"User {name} logged in\", \"context\": {\"name\": \"Alice\"}, \"level\": \"info\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_substitution_with_custom_context_key::272",
+  "argv": [
+   "-s",
+   "-c",
+   "data"
+  ],
+  "stdin": "{\"message\": \"Value: {x}\", \"data\": {\"x\": 42}, \"level\": \"info\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_substitution_with_custom_placeholder_format::273",
+  "argv": [
+   "-s",
+   "-F",
+   "#{key}"
+  ],
+  "stdin": "{\"message\": \"Found #{count} items\", \"context\": {\"count\": 10}, \"level\": \"info\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_substitution_array_context::274",
+  "argv": [
+   "-s"
+  ],
+  "stdin": "{\"message\": \"{0} new items: {1}\", \"context\": [3, \"items\"], \"level\": \"info\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_substitution_missing_key_in_context::275",
+  "argv": [
+   "-s"
+  ],
+  "stdin": "{\"message\": \"Key {missing} not found\", \"context\": {\"other\": \"value\"}, \"level\": \"warning\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_substitution_nested_object_in_context::276",
+  "argv": [
+   "-s"
+  ],
+  "stdin": "{\"message\": \"Item: {item}\", \"context\": {\"item\": {\"name\": \"Test\"}}, \"level\": \"info\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_substitution_multiple_placeholders::277",
+  "argv": [
+   "-s"
+  ],
+  "stdin": "{\"message\": \"{a} {b} {c}\", \"context\": {\"a\": 1, \"b\": 2, \"c\": 3}, \"level\": \"info\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_substitution_with_boolean_values::278",
+  "argv": [
+   "-s"
+  ],
+  "stdin": "{\"message\": \"Forced: {forced}\", \"context\": {\"forced\": true}, \"level\": \"info\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_additional_value_single::279",
+  "argv": [
+   "-a",
+   "extra"
+  ],
+  "stdin": "{\"message\": \"test\", \"level\": \"info\", \"extra\": \"visible\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_additional_value_long_form::280",
+  "argv": [
+   "--additional-value",
+   "field1"
+  ],
+  "stdin": "{\"message\": \"test\", \"level\": \"info\", \"field1\": \"value1\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_additional_values::281",
+  "argv": [
+   "-a",
+   "field1",
+   "-a",
+   "field2"
+  ],
+  "stdin": "{\"message\": \"test\", \"field1\": \"val1\", \"field2\": \"val2\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dump_all::282",
+  "argv": [
+   "-d"
+  ],
+  "stdin": "{\"message\": \"test\", \"level\": \"info\", \"field1\": \"a\", \"field2\": \"b\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dump_all_long_form::283",
+  "argv": [
+   "--dump-all"
+  ],
+  "stdin": "{\"message\": \"test\", \"extra1\": \"x\", \"extra2\": \"y\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_excluded_value_single::284",
+  "argv": [
+   "-x",
+   "field1"
+  ],
+  "stdin": "{\"message\": \"test\", \"field1\": \"excluded\", \"field2\": \"included\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_excluded_value_long_form::285",
+  "argv": [
+   "--excluded-value",
+   "secret"
+  ],
+  "stdin": "{\"message\": \"test\", \"secret\": \"hidden\", \"public\": \"visible\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_excluded_values::286",
+  "argv": [
+   "-x",
+   "field1",
+   "-x",
+   "field2"
+  ],
+  "stdin": "{\"message\": \"test\", \"field1\": \"x1\", \"field2\": \"x2\", \"field3\": \"visible\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_additional_value::287",
+  "argv": [
+   "-a",
+   "status > code"
+  ],
+  "stdin": "{\"message\": \"test\", \"status\": {\"code\": 200}}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_additional_value::288",
+  "argv": [
+   "-a",
+   "items"
+  ],
+  "stdin": "{\"message\": \"test\", \"items\": [1, 2, 3]}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_short_flag::289",
+  "argv": [
+   "-z"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_misspelled_flag::290",
+  "argv": [
+   "--dumpa-ll"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_lua_flag::291",
+  "argv": [
+   "--print-lua"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_implicit_filter_return_statement_flag::292",
+  "argv": [
+   "--no-implicit-filter-return-statement"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_short_boolean_flags::293",
+  "argv": [
+   "-dp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_with_equals_value::294",
+  "argv": [
+   "--filter=message ~= nil"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_additional_value_multiple::295",
+  "argv": [
+   "-a",
+   "field1",
+   "-a",
+   "field2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_additional_value_with_equals::296",
+  "argv": [
+   "--additional-value=field1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_main_line_format_missing_value::297",
+  "argv": [
+   "--main-line-format"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_main_line_format_with_value::298",
+  "argv": [
+   "--main-line-format",
+   "{{fblog_message}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_additional_value_format_missing_value::299",
+  "argv": [
+   "--additional-value-format"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_additional_value_format_with_value::300",
+  "argv": [
+   "--additional-value-format",
+   "{{key}}: {{value}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_map_level_missing_value::301",
+  "argv": [
+   "--map-level"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_map_level_invalid_format_no_equals::302",
+  "argv": [
+   "--map-level",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_map_level_multiple::303",
+  "argv": [
+   "--map-level",
+   "info=INFO",
+   "--map-level",
+   "warn=WARNING"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_map_level_empty_from::304",
+  "argv": [
+   "--map-level",
+   "=INFO"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_map_level_empty_to::305",
+  "argv": [
+   "--map-level",
+   "info="
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_additional_value_conflicts_with_excluded_value::306",
+  "argv": [
+   "--additional-value",
+   "field1",
+   "--excluded-value",
+   "field2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_additional_value_short_conflicts_with_excluded_value_short::307",
+  "argv": [
+   "-a",
+   "field1",
+   "-x",
+   "field2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file::308",
+  "argv": [
+   "nonexistent_file.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_too_many_positional_arguments::309",
+  "argv": [
+   "file1.txt",
+   "file2.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_nonexistent::310",
+  "argv": [
+   "--config-file",
+   "nonexistent_config.toml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_valid::311",
+  "argv": [
+   "--config-file",
+   "default_config.toml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_placeholder_format_missing_key::312",
+  "argv": [
+   "--placeholder-format",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_message_keys::313",
+  "argv": [
+   "-m",
+   "msg",
+   "-m",
+   "message"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_time_keys::314",
+  "argv": [
+   "-t",
+   "ts",
+   "-t",
+   "timestamp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_level_keys::315",
+  "argv": [
+   "-l",
+   "lvl",
+   "-l",
+   "level"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_boolean_flags_together::316",
+  "argv": [
+   "-d",
+   "-p",
+   "--print-lua",
+   "--no-implicit-filter-return-statement"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_with_no_implicit_return::317",
+  "argv": [
+   "--filter",
+   "return message ~= nil",
+   "--no-implicit-filter-return-statement"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_substitution_with_context_and_format::318",
+  "argv": [
+   "-s",
+   "-c",
+   "ctx",
+   "-F",
+   "{key}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_with_quotes::319",
+  "argv": [
+   "--filter",
+   "message == \"test\""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_with_special_lua_chars::320",
+  "argv": [
+   "--filter",
+   "message ~= nil and string.find(message, \".*\") ~= nil"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_additional_value_with_spaces::321",
+  "argv": [
+   "-a",
+   "field with spaces"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_additional_value_with_special_chars::322",
+  "argv": [
+   "-a",
+   "field-name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_message_key_with_dots::323",
+  "argv": [
+   "-m",
+   "log.message"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_string_value::324",
+  "argv": [
+   "--additional-value",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_map_level_with_numbers::325",
+  "argv": [
+   "--map-level",
+   "10=trace",
+   "--map-level",
+   "20=debug"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_with_empty_stdin::326",
+  "argv": [
+   "-f",
+   "message ~= nil"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_value_flags_different_order::327",
+  "argv": [
+   "-a",
+   "field1",
+   "-m",
+   "message"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_additional_value_equivalence::328",
+  "argv": [
+   "-a",
+   "field"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_flag_multiple_times_error::329",
+  "argv": [
+   "--filter",
+   "false",
+   "--filter",
+   "true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_multiple_times_error::330",
+  "argv": [
+   "--config-file",
+   "default_config.toml",
+   "--config-file",
+   "default_config.toml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_boolean_flag_multiple_times_error::331",
+  "argv": [
+   "-d",
+   "-d",
+   "-d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_main_line_format_multiple_times_error::332",
+  "argv": [
+   "--main-line-format",
+   "fmt1",
+   "--main-line-format",
+   "fmt2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read_from_stdin::333",
+  "argv": [],
+  "stdin": "{\"level\":\"info\",\"msg\":\"test message\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read_from_stdin_dash::334",
+  "argv": [
+   "-"
+  ],
+  "stdin": "{\"level\":\"info\",\"msg\":\"stdin test\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dump_all_shows_all_fields::335",
+  "argv": [
+   "-d"
+  ],
+  "stdin": "{\"level\":\"info\",\"msg\":\"test\",\"custom\":\"field\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_additional_value::336",
+  "argv": [
+   "-a",
+   "extra"
+  ],
+  "stdin": "{\"level\":\"info\",\"msg\":\"test\",\"extra\":\"value\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_additional_values::337",
+  "argv": [
+   "-a",
+   "field1",
+   "-a",
+   "field2"
+  ],
+  "stdin": "{\"level\":\"info\",\"msg\":\"test\",\"field1\":\"v1\",\"field2\":\"v2\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_excluded_value::338",
+  "argv": [
+   "-x",
+   "secret",
+   "-d"
+  ],
+  "stdin": "{\"level\":\"info\",\"msg\":\"test\",\"secret\":\"hidden\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_filter_level::339",
+  "argv": [
+   "-d",
+   "-f",
+   "level == 'info'"
+  ],
+  "stdin": "{\"level\":\"info\",\"msg\":\"info msg\"}\n{\"level\":\"error\",\"msg\":\"error msg\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_message_contains::340",
+  "argv": [
+   "-f",
+   "string.find(msg, 'world') ~= nil"
+  ],
+  "stdin": "{\"msg\":\"hello world\"}\n{\"msg\":\"foo bar\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_with_and::341",
+  "argv": [
+   "-f",
+   "level == 'info' and process == 'app'"
+  ],
+  "stdin": "{\"level\":\"info\",\"msg\":\"test\",\"process\":\"app\"}\n{\"level\":\"error\",\"msg\":\"test\",\"process\":\"app\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_nested_fields::342",
+  "argv": [
+   "-d",
+   "-f",
+   "status.a == 100"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_array_access::343",
+  "argv": [
+   "-d",
+   "-f",
+   "status.d[2] == 'a'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_implicit_return::344",
+  "argv": [
+   "-f",
+   "true"
+  ],
+  "stdin": "{\"level\":\"info\",\"msg\":\"test\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_message_key::345",
+  "argv": [
+   "-m",
+   "custom_msg"
+  ],
+  "stdin": "{\"custom_msg\":\"my message\",\"level\":\"info\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_time_key::346",
+  "argv": [
+   "-t",
+   "my_time"
+  ],
+  "stdin": "{\"my_time\":\"2023-01-01\",\"level\":\"info\",\"msg\":\"test\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_level_key::347",
+  "argv": [
+   "-l",
+   "severity"
+  ],
+  "stdin": "{\"severity\":\"error\",\"msg\":\"test\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_map_level::348",
+  "argv": [
+   "--map-level",
+   "xyz=info"
+  ],
+  "stdin": "{\"level\":\"xyz\",\"msg\":\"test\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_placeholder_format::349",
+  "argv": [
+   "-s",
+   "-c",
+   "context",
+   "-F",
+   "{key}",
+   "-d"
+  ],
+  "stdin": "{\"message\":\"Hello {name}!\",\"context\":{\"name\":\"World\"}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_main_line_format::350",
+  "argv": [
+   "--main-line-format",
+   "{{fblog_message}}"
+  ],
+  "stdin": "{\"level\":\"info\",\"msg\":\"test\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_additional_value_format::351",
+  "argv": [
+   "-a",
+   "extra",
+   "--additional-value-format",
+   "{{extra}}"
+  ],
+  "stdin": "{\"level\":\"info\",\"msg\":\"test\",\"extra\":\"value\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_config_loading::352",
+  "argv": [],
+  "stdin": "{\"level\":\"info\",\"msg\":\"test\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_lua::353",
+  "argv": [
+   "--print-lua",
+   "-f",
+   "level == 'info'"
+  ],
+  "stdin": "{\"level\":\"info\",\"msg\":\"test\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_json_input::354",
+  "argv": [],
+  "stdin": "not valid json",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_level_colors::355",
+  "argv": [],
+  "stdin": "{\"level\":\"trace\",\"msg\":\"t\"}\n{\"level\":\"debug\",\"msg\":\"d\"}\n{\"level\":\"info\",\"msg\":\"i\"}\n{\"level\":\"warn\",\"msg\":\"w\"}\n{\"level\":\"error\",\"msg\":\"e\"}\n{\"level\":\"fatal\",\"msg\":\"f\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_with_dump_all::356",
+  "argv": [
+   "-d",
+   "-f",
+   "level == 'info'"
+  ],
+  "stdin": "{\"level\":\"info\",\"msg\":\"test\",\"extra\":\"val\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prefix_with_filter::357",
+  "argv": [
+   "-p",
+   "-f",
+   "level == 'info'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_substitution_options::358",
+  "argv": [
+   "-s",
+   "-c",
+   "context",
+   "-F",
+   "#{key}",
+   "-d"
+  ],
+  "stdin": "{\"message\":\"Hello {name}!\",\"context\":{\"name\":\"World\"}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_message_keys::359",
+  "argv": [
+   "-m",
+   "msg",
+   "-m",
+   "custom_msg"
+  ],
+  "stdin": "{\"custom_msg\": \"hello world\", \"level\": \"info\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_time_keys::360",
+  "argv": [
+   "-t",
+   "custom_time",
+   "-t",
+   "ts"
+  ],
+  "stdin": "{\"custom_time\": \"2023-06-15T10:00:00Z\", \"message\": \"test\", \"level\": \"info\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_level_keys::361",
+  "argv": [
+   "-l",
+   "severity",
+   "-l",
+   "lvl"
+  ],
+  "stdin": "{\"severity\": \"warning\", \"message\": \"test\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dump_all_with_additional::362",
+  "argv": [
+   "-d"
+  ],
+  "stdin": "{\"message\": \"test\", \"level\": \"info\", \"field1\": \"value1\", \"field2\": \"value2\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_excluded_values::363",
+  "argv": [
+   "-x",
+   "password"
+  ],
+  "stdin": "{\"message\": \"test\", \"level\": \"info\", \"password\": \"secret\", \"username\": \"user\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_excluded_multiple_values::364",
+  "argv": [
+   "-x",
+   "secret1",
+   "-x",
+   "secret2"
+  ],
+  "stdin": "{\"message\": \"test\", \"level\": \"info\", \"secret1\": \"s1\", \"secret2\": \"s2\", \"public\": \"p1\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_additional_values::365",
+  "argv": [
+   "-a",
+   "field1",
+   "-a",
+   "field2"
+  ],
+  "stdin": "{\"message\": \"test\", \"level\": \"info\", \"field1\": \"v1\", \"field2\": \"v2\", \"field3\": \"v3\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prefix_with_partial_json::366",
+  "argv": [
+   "-p"
+  ],
+  "stdin": "pod-123 | {\"message\": \"test\", \"level\": \"info\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prefix_without_json::367",
+  "argv": [
+   "-p"
+  ],
+  "stdin": "pod-456 | not json at all",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_nested_object_field::368",
+  "argv": [
+   "-f",
+   "meta.user == \"alice\""
+  ],
+  "stdin": "{\"message\": \"test\", \"meta\": {\"user\": \"alice\", \"id\": 123}, \"level\": \"info\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_nested_array_index::369",
+  "argv": [
+   "-f",
+   "items[2] == \"b\""
+  ],
+  "stdin": "{\"message\": \"test\", \"items\": [\"a\", \"b\", \"c\"], \"level\": \"info\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_boolean_true::370",
+  "argv": [
+   "-f",
+   "enabled == true"
+  ],
+  "stdin": "{\"message\": \"test\", \"enabled\": true, \"level\": \"info\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_boolean_false::371",
+  "argv": [
+   "-f",
+   "enabled == false"
+  ],
+  "stdin": "{\"message\": \"test\", \"enabled\": false, \"level\": \"info\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_number_comparison::372",
+  "argv": [
+   "-f",
+   "count > 50"
+  ],
+  "stdin": "{\"message\": \"test\", \"count\": 100, \"level\": \"info\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_number_less_than::373",
+  "argv": [
+   "-f",
+   "count < 50"
+  ],
+  "stdin": "{\"message\": \"test\", \"count\": 25, \"level\": \"info\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_main_line_format::374",
+  "argv": [
+   "--main-line-format",
+   "{{fblog_level}}: {{fblog_message}}"
+  ],
+  "stdin": "{\"message\": \"test\", \"level\": \"info\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_additional_value_format::375",
+  "argv": [
+   "-a",
+   "user",
+   "--additional-value-format",
+   "{{key}}={{value}}"
+  ],
+  "stdin": "{\"message\": \"test\", \"level\": \"info\", \"user\": \"alice\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_lua_flag::376",
+  "argv": [
+   "--print-lua",
+   "-f",
+   "field == \"value\""
+  ],
+  "stdin": "{\"message\": \"test\", \"level\": \"info\", \"field\": \"value\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_implicit_return_with_explicit_return::377",
+  "argv": [
+   "--no-implicit-filter-return-statement",
+   "-f",
+   "return level == \"info\""
+  ],
+  "stdin": "{\"message\": \"test\", \"level\": \"info\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_level_map_from_config::378",
+  "argv": [
+   "--config-file",
+   "config.toml"
+  ],
+  "stdin": "{\"message\": \"test\", \"level\": \"10\"}",
+  "files": {
+   "config.toml": "\n[level_map]\n10 = \"trace\"\n20 = \"debug\"\n30 = \"info\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_always_print_fields_from_config::379",
+  "argv": [
+   "--config-file",
+   "config.toml"
+  ],
+  "stdin": "{\"message\": \"test\", \"level\": \"info\", \"request_id\": \"req-123\"}",
+  "files": {
+   "config.toml": "\nmessage_keys = [\"message\"]\nalways_print_fields = [\"request_id\"]\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_custom_message_keys::380",
+  "argv": [
+   "--config-file",
+   "config.toml"
+  ],
+  "stdin": "{\"custom_message\": \"hello\", \"level\": \"info\"}",
+  "files": {
+   "config.toml": "\nmessage_keys = [\"custom_message\", \"msg\"]\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_dash_explicit::381",
+  "argv": [
+   "-"
+  ],
+  "stdin": "{\"message\": \"from stdin\", \"level\": \"info\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_substitution_with_array_value::382",
+  "argv": [
+   "-s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_completions_invalid::383",
+  "argv": [
+   "--generate-completions",
+   "invalid_shell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_config_file::384",
+  "argv": [
+   "--config-file",
+   "custom_config.toml"
+  ],
+  "stdin": "{\"custom_msg\": \"test message\", \"custom_level\": \"info\"}",
+  "files": {
+   "custom_config.toml": "\nmessage_keys = [\"custom_msg\"]\ntime_keys = [\"custom_time\"]\nlevel_keys = [\"custom_level\"]\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_level_mapping::385",
+  "argv": [
+   "--config-file",
+   "level_config.toml"
+  ],
+  "stdin": "{\"message\": \"test\", \"level\": 30}",
+  "files": {
+   "level_config.toml": "\nmessage_keys = [\"message\"]\nlevel_keys = [\"level\"]\n\n[level_map]\n10 = \"trace\"\n20 = \"debug\"\n30 = \"info\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_map_level_flag::386",
+  "argv": [
+   "--map-level",
+   "warning=warn"
+  ],
+  "stdin": "{\"message\": \"test\", \"level\": \"warning\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_level_mappings::387",
+  "argv": [
+   "--map-level",
+   "critical=error",
+   "--map-level",
+   "notice=info"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_custom_format::388",
+  "argv": [
+   "--config-file",
+   "format_config.toml"
+  ],
+  "stdin": "{\"message\": \"formatted\", \"level\": \"info\"}",
+  "files": {
+   "format_config.toml": "\nmessage_keys = [\"message\"]\nmain_line_format = \"{{fblog_level}}: {{fblog_message}}\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_config_file::389",
+  "argv": [
+   "--config-file",
+   "/nonexistent/config.toml"
+  ],
+  "stdin": "{\"message\": \"test\", \"level\": \"info\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_lua::390",
+  "argv": [
+   "--print-lua",
+   "-f",
+   "level == \"info\""
+  ],
+  "stdin": "{\"message\": \"test\", \"level\": \"info\", \"extra\": \"value\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_lua_with_nested_fields::391",
+  "argv": [
+   "--print-lua",
+   "-f",
+   "status.code == 200"
+  ],
+  "stdin": "{\"message\": \"test\", \"log\": {\"level\": \"info\"}, \"status\": {\"code\": 200}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_lua_with_arrays::392",
+  "argv": [
+   "--print-lua",
+   "-f",
+   "tags[1] == \"a\""
+  ],
+  "stdin": "{\"message\": \"test\", \"tags\": [\"a\", \"b\", \"c\"]}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_lua_with_filter::393",
+  "argv": [
+   "--print-lua",
+   "-f",
+   "level == \"info\""
+  ],
+  "stdin": "{\"message\": \"test\", \"level\": \"info\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deeply_nested_json::394",
+  "argv": [
+   "-d"
+  ],
+  "stdin": "{\"message\": \"test\", \"a\": {\"b\": {\"c\": {\"d\": {\"e\": \"deep\"}}}}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_with_null_values::395",
+  "argv": [
+   "-d"
+  ],
+  "stdin": "{\"message\": \"test\", \"nullable\": null, \"level\": \"info\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_with_boolean_values::396",
+  "argv": [
+   "-d"
+  ],
+  "stdin": "{\"message\": \"test\", \"success\": true, \"failed\": false, \"level\": \"info\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_with_numeric_values::397",
+  "argv": [
+   "-d"
+  ],
+  "stdin": "{\"message\": \"test\", \"count\": 42, \"ratio\": 3.14, \"large\": 9999999999}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_filter_expression::398",
+  "argv": [
+   "-f",
+   "invalid lua syntax ]["
+  ],
+  "stdin": "{\"message\": \"test\", \"level\": \"info\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_with_undefined_variable::399",
+  "argv": [
+   "-f",
+   "undefined_var == 'value'"
+  ],
+  "stdin": "{\"message\": \"test\", \"level\": \"info\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

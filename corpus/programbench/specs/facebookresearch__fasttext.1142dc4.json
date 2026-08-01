@@ -1,0 +1,2239 @@
+{
+ "slug": "facebookresearch__fasttext.1142dc4",
+ "language": "",
+ "n_branches": 2,
+ "n_tests_total": 352,
+ "n_examples": 104,
+ "n_with_exact_stdout": 7,
+ "n_with_rc": 59,
+ "n_skipped": 239,
+ "examples": [
+  {
+   "test": "test_autotune_basic_with_validation",
+   "argv": [
+    "supervised",
+    "-input",
+    "-output",
+    "-autotune-validation",
+    "-autotune-duration",
+    "2",
+    "-verbose",
+    "0",
+    "-dim",
+    "10",
+    "-epoch",
+    "1",
+    "-thread",
+    "1",
+    "-minCount",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "model sup",
+    "dim"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_autotune.py:63"
+  },
+  {
+   "test": "test_autotune_shows_progress",
+   "argv": [
+    "supervised",
+    "-input",
+    "-output",
+    "-autotune-validation",
+    "-autotune-duration",
+    "2",
+    "-verbose",
+    "2",
+    "-dim",
+    "10",
+    "-epoch",
+    "1",
+    "-thread",
+    "1",
+    "-minCount",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_autotune.py:95"
+  },
+  {
+   "test": "test_autotune_produces_good_model",
+   "argv": [
+    "supervised",
+    "-input",
+    "-output",
+    "-autotune-validation",
+    "-autotune-duration",
+    "2",
+    "-verbose",
+    "0",
+    "-dim",
+    "10",
+    "-epoch",
+    "1",
+    "-thread",
+    "1",
+    "-minCount",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "__label__"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_autotune.py:120"
+  },
+  {
+   "test": "test_autotune_with_predictions_arg",
+   "argv": [
+    "supervised",
+    "-input",
+    "-output",
+    "-autotune-validation",
+    "-autotune-duration",
+    "2",
+    "-autotune-predictions",
+    "1",
+    "-verbose",
+    "0",
+    "-dim",
+    "10",
+    "-epoch",
+    "1",
+    "-thread",
+    "1",
+    "-minCount",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "model sup"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_autotune.py:149"
+  },
+  {
+   "test": "test_autotune_with_metric_f1",
+   "argv": [
+    "supervised",
+    "-input",
+    "-output",
+    "-autotune-validation",
+    "-autotune-duration",
+    "2",
+    "-autotune-metric",
+    "f1",
+    "-verbose",
+    "0",
+    "-dim",
+    "10",
+    "-epoch",
+    "1",
+    "-thread",
+    "1",
+    "-minCount",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "model sup"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_autotune.py:180"
+  },
+  {
+   "test": "test_autotune_metric_for_specific_label",
+   "argv": [
+    "supervised",
+    "-input",
+    "-output",
+    "-autotune-validation",
+    "-autotune-duration",
+    "2",
+    "-autotune-metric",
+    "f1:__label__pos",
+    "-verbose",
+    "0",
+    "-dim",
+    "10",
+    "-epoch",
+    "1",
+    "-thread",
+    "1",
+    "-minCount",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "__label__"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_autotune.py:210"
+  },
+  {
+   "test": "test_invalid_command_shows_usage",
+   "argv": [
+    "invalidcommand"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage: fasttext"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:64"
+  },
+  {
+   "test": "test_invalid_command_shows_command_list",
+   "argv": [
+    "NOTACOMMAND"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "The commands supported by fasttext are"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:70"
+  },
+  {
+   "test": "test_invalid_command_stderr_not_stdout",
+   "argv": [
+    "invalidcommand"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:75"
+  },
+  {
+   "test": "test_supervised_without_args_shows_help",
+   "argv": [
+    "supervised"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Empty input or output path",
+    "-input",
+    "-output"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:84"
+  },
+  {
+   "test": "test_supervised_without_args_shows_all_optional_args",
+   "argv": [
+    "supervised"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-verbose",
+    "-minCount",
+    "-lr",
+    "-dim",
+    "-epoch",
+    "-loss",
+    "-wordNgrams",
+    "-bucket",
+    "-minn",
+    "-maxn"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:92"
+  },
+  {
+   "test": "test_skipgram_without_args_shows_help",
+   "argv": [
+    "skipgram"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Empty input or output path",
+    "-input"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:107"
+  },
+  {
+   "test": "test_cbow_without_args_shows_help",
+   "argv": [
+    "cbow"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Empty input or output path",
+    "-input"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:113"
+  },
+  {
+   "test": "test_test_without_args_shows_usage",
+   "argv": [
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage: fasttext test",
+    "<model>",
+    "<test-data>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:119"
+  },
+  {
+   "test": "test_predict_without_args_shows_usage",
+   "argv": [
+    "predict"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage: fasttext predict"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:127"
+  },
+  {
+   "test": "test_predict_prob_without_args_shows_usage",
+   "argv": [
+    "predict-prob"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage: fasttext predict"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:133"
+  },
+  {
+   "test": "test_test_label_without_args_shows_usage",
+   "argv": [
+    "test-label"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage: fasttext test-label"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:139"
+  },
+  {
+   "test": "test_print_word_vectors_without_args_shows_usage",
+   "argv": [
+    "print-word-vectors"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage: fasttext print-word-vectors"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:145"
+  },
+  {
+   "test": "test_print_sentence_vectors_without_args_shows_usage",
+   "argv": [
+    "print-sentence-vectors"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage: fasttext print-sentence-vectors"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:151"
+  },
+  {
+   "test": "test_print_ngrams_without_args_shows_usage",
+   "argv": [
+    "print-ngrams"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage: fasttext print-ngrams"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:157"
+  },
+  {
+   "test": "test_nn_without_args_shows_usage",
+   "argv": [
+    "nn"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage: fasttext nn"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:163"
+  },
+  {
+   "test": "test_analogies_without_args_shows_usage",
+   "argv": [
+    "analogies"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage: fasttext analogies"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:169"
+  },
+  {
+   "test": "test_dump_without_args_shows_usage",
+   "argv": [
+    "dump"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage: fasttext dump"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:175"
+  },
+  {
+   "test": "test_supervised_default_values",
+   "argv": [
+    "supervised"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[0.1]",
+    "[2]",
+    "[1]",
+    "[0]",
+    "softmax"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:185"
+  },
+  {
+   "test": "test_skipgram_default_values",
+   "argv": [
+    "skipgram"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[0.05]",
+    "[5]",
+    "[3]",
+    "[6]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:196"
+  },
+  {
+   "test": "test_predict_with_missing_model",
+   "argv": [
+    "predict",
+    "/nonexistent/model.bin",
+    "/nonexistent/test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:60"
+  },
+  {
+   "test": "test_supervised_without_output_path",
+   "argv": [
+    "supervised",
+    "-input",
+    "train.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Empty input or output path"
+   ],
+   "files": {
+    "train.txt": "__label__pos good product\n"
+   },
+   "ci": false,
+   "source": "test_error_handling.py:69"
+  },
+  {
+   "test": "test_supervised_without_input_path",
+   "argv": [
+    "supervised",
+    "-output"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Empty input or output path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:80"
+  },
+  {
+   "test": "test_supervised_without_dash_in_flag",
+   "argv": [
+    "supervised",
+    "-input",
+    "train.txt",
+    "-output",
+    "nodash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Provided argument without a dash"
+   ],
+   "files": {
+    "train.txt": "__label__pos good product\n"
+   },
+   "ci": false,
+   "source": "test_error_handling.py:90"
+  },
+  {
+   "test": "test_print_word_vectors_nonexistent_model",
+   "argv": [
+    "print-word-vectors",
+    "/nonexistent/model.bin"
+   ],
+   "stdin": "word",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:141"
+  },
+  {
+   "test": "test_print_ngrams_nonexistent_model",
+   "argv": [
+    "print-ngrams",
+    "/nonexistent/model.bin",
+    "word"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:150"
+  },
+  {
+   "test": "test_argument_without_value",
+   "argv": [
+    "supervised",
+    "-input",
+    "train.txt",
+    "-output"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "missing an argument"
+   ],
+   "files": {
+    "train.txt": "__label__pos good\n"
+   },
+   "ci": false,
+   "source": "test_error_handling.py:163"
+  },
+  {
+   "test": "test_unknown_argument_shows_help",
+   "argv": [
+    "supervised",
+    "-input",
+    "train.txt",
+    "-output",
+    "/tmp/model",
+    "-badarg",
+    "value"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unknown argument"
+   ],
+   "files": {
+    "train.txt": "__label__pos good\n"
+   },
+   "ci": false,
+   "source": "test_error_handling.py:174"
+  },
+  {
+   "test": "test_predict_from_file",
+   "argv": [
+    "predict"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "__label__"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_prediction.py:93"
+  },
+  {
+   "test": "test_predict_from_stdin",
+   "argv": [
+    "predict",
+    "-"
+   ],
+   "stdin": "excellent great wonderful amazing",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "__label__"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_prediction.py:105"
+  },
+  {
+   "test": "test_predict_positive_class",
+   "argv": [
+    "predict",
+    "-"
+   ],
+   "stdin": "excellent outstanding wonderful superb brilliant great",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "__label__pos"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_prediction.py:115"
+  },
+  {
+   "test": "test_predict_negative_class",
+   "argv": [
+    "predict",
+    "-"
+   ],
+   "stdin": "terrible awful pathetic dreadful horrible useless",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "__label__neg"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_prediction.py:125"
+  },
+  {
+   "test": "test_predict_top_k",
+   "argv": [
+    "predict",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_prediction.py:135"
+  },
+  {
+   "test": "test_predict_with_threshold",
+   "argv": [
+    "predict",
+    "1",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "__label__"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_prediction.py:149"
+  },
+  {
+   "test": "test_predict_prob_shows_probabilities",
+   "argv": [
+    "predict-prob"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "__label__"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_prediction.py:167"
+  },
+  {
+   "test": "test_predict_prob_probabilities_sum_to_one",
+   "argv": [
+    "predict-prob",
+    "-",
+    "2"
+   ],
+   "stdin": "excellent great wonderful",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_prediction.py:183"
+  },
+  {
+   "test": "test_predict_prob_from_stdin",
+   "argv": [
+    "predict-prob",
+    "-"
+   ],
+   "stdin": "good great wonderful excellent",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "__label__"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_prediction.py:200"
+  },
+  {
+   "test": "test_test_command_output_format",
+   "argv": [
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "N\t",
+    "P@1",
+    "R@1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_prediction.py:218"
+  },
+  {
+   "test": "test_test_command_n_count",
+   "argv": [
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_prediction.py:230"
+  },
+  {
+   "test": "test_test_with_k2",
+   "argv": [
+    "test",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "P@2",
+    "R@2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_prediction.py:243"
+  },
+  {
+   "test": "test_test_with_threshold",
+   "argv": [
+    "test",
+    "1",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "P@1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_prediction.py:255"
+  },
+  {
+   "test": "test_test_stdin_input",
+   "argv": [
+    "test",
+    "-"
+   ],
+   "stdin": "__label__pos excellent great\n__label__neg terrible bad",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "N\t"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_prediction.py:266"
+  },
+  {
+   "test": "test_test_label_output_format",
+   "argv": [
+    "test-label"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "F1-Score",
+    "Precision",
+    "Recall"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_prediction.py:298"
+  },
+  {
+   "test": "test_test_label_shows_all_labels",
+   "argv": [
+    "test-label"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "__label__pos",
+    "__label__neg"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_prediction.py:310"
+  },
+  {
+   "test": "test_test_label_also_shows_aggregate",
+   "argv": [
+    "test-label"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_prediction.py:321"
+  },
+  {
+   "test": "test_test_label_with_k_value",
+   "argv": [
+    "test-label",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "F1-Score"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_prediction.py:334"
+  },
+  {
+   "test": "test_test_label_with_threshold",
+   "argv": [
+    "test-label",
+    "1",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "F1-Score"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_prediction.py:345"
+  },
+  {
+   "test": "test_predict_nonexistent_model",
+   "argv": [
+    "predict",
+    "/nonexistent/model.bin",
+    "/tmp/some_file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_prediction.py:360"
+  },
+  {
+   "test": "test_test_wrong_number_of_args",
+   "argv": [
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage: fasttext test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_prediction.py:378"
+  },
+  {
+   "test": "test_quantize_creates_ftz_file",
+   "argv": [
+    "quantize",
+    "-input",
+    "-output",
+    "-cutoff",
+    "300",
+    "-verbose",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dim"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_quantize_dump.py:127"
+  },
+  {
+   "test": "test_quantized_model_can_predict",
+   "argv": [
+    "quantize",
+    "-input",
+    "-output",
+    "-cutoff",
+    "300",
+    "-verbose",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "__label__"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_quantize_dump.py:174"
+  },
+  {
+   "test": "test_quantized_model_can_test",
+   "argv": [
+    "quantize",
+    "-input",
+    "-output",
+    "-cutoff",
+    "300",
+    "-verbose",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "P@1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_quantize_dump.py:192"
+  },
+  {
+   "test": "test_quantize_without_args_shows_usage",
+   "argv": [
+    "quantize"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage: fasttext quantize"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_quantize_dump.py:210"
+  },
+  {
+   "test": "test_quantize_input_dump_not_supported",
+   "argv": [
+    "quantize",
+    "-input",
+    "-output",
+    "-cutoff",
+    "300",
+    "-verbose",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Not supported"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_quantize_dump.py:216"
+  },
+  {
+   "test": "test_dump_args",
+   "argv": [
+    "dump",
+    "args"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dim",
+    "epoch",
+    "loss",
+    "lr",
+    "model"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_quantize_dump.py:238"
+  },
+  {
+   "test": "test_dump_args_correct_values",
+   "argv": [
+    "dump",
+    "args"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dim 100",
+    "epoch 3",
+    "model sup",
+    "loss softmax"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_quantize_dump.py:252"
+  },
+  {
+   "test": "test_dump_dict",
+   "argv": [
+    "dump",
+    "dict"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_quantize_dump.py:264"
+  },
+  {
+   "test": "test_dump_input_matrix",
+   "argv": [
+    "dump",
+    "input"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_quantize_dump.py:293"
+  },
+  {
+   "test": "test_dump_output_matrix",
+   "argv": [
+    "dump",
+    "output"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_quantize_dump.py:310"
+  },
+  {
+   "test": "test_dump_wrong_option_shows_usage",
+   "argv": [
+    "dump",
+    "invalidoption"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage: fasttext dump"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_quantize_dump.py:327"
+  },
+  {
+   "test": "test_dump_args_for_skipgram_model",
+   "argv": [
+    "skipgram",
+    "-input",
+    "-output",
+    "-epoch",
+    "3",
+    "-dim",
+    "10",
+    "-thread",
+    "1",
+    "-verbose",
+    "0",
+    "-minCount",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "model sg"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_quantize_dump.py:342"
+  },
+  {
+   "test": "test_dump_args_for_cbow_model",
+   "argv": [
+    "cbow",
+    "-input",
+    "-output",
+    "-epoch",
+    "3",
+    "-dim",
+    "10",
+    "-thread",
+    "1",
+    "-verbose",
+    "0",
+    "-minCount",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "model cbow"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_quantize_dump.py:368"
+  },
+  {
+   "test": "test_supervised_training_creates_bin_and_vec",
+   "argv": [
+    "supervised",
+    "-input",
+    "-output",
+    "-epoch",
+    "3",
+    "-dim",
+    "100",
+    "-thread",
+    "1",
+    "-lr",
+    "0.1",
+    "-minCount",
+    "1",
+    "-verbose",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "model sup",
+    "dim 100"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_training.py:84"
+  },
+  {
+   "test": "test_supervised_training_shows_progress",
+   "argv": [
+    "supervised",
+    "-input",
+    "-output",
+    "-epoch",
+    "3",
+    "-dim",
+    "100",
+    "-thread",
+    "1",
+    "-lr",
+    "0.1",
+    "-minCount",
+    "1",
+    "-verbose",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Progress",
+    "Number of words",
+    "Number of labels"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_training.py:140"
+  },
+  {
+   "test": "test_supervised_verbose0_quiet",
+   "argv": [
+    "supervised",
+    "-input",
+    "-output",
+    "-epoch",
+    "1",
+    "-dim",
+    "100",
+    "-thread",
+    "1",
+    "-lr",
+    "0.1",
+    "-minCount",
+    "1",
+    "-verbose",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_training.py:162"
+  },
+  {
+   "test": "test_supervised_with_saveoutput",
+   "argv": [
+    "supervised",
+    "-input",
+    "-output",
+    "-epoch",
+    "3",
+    "-dim",
+    "100",
+    "-thread",
+    "1",
+    "-lr",
+    "0.1",
+    "-minCount",
+    "1",
+    "-verbose",
+    "0",
+    "-saveOutput"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_training.py:182"
+  },
+  {
+   "test": "test_supervised_custom_label_prefix",
+   "argv": [
+    "supervised",
+    "-input",
+    "-output",
+    "-epoch",
+    "3",
+    "-dim",
+    "100",
+    "-thread",
+    "1",
+    "-lr",
+    "0.1",
+    "-minCount",
+    "1",
+    "-verbose",
+    "0",
+    "-label",
+    "__cat__"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_training.py:209"
+  },
+  {
+   "test": "test_supervised_missing_input_file",
+   "argv": [
+    "supervised",
+    "-input",
+    "/nonexistent/path/file.txt",
+    "-output",
+    "-verbose",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_training.py:257"
+  },
+  {
+   "test": "test_supervised_unknown_flag_shows_help",
+   "argv": [
+    "supervised",
+    "-input",
+    "-output",
+    "-unknownflag",
+    "value"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unknown argument",
+    "-unknownflag"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_training.py:269"
+  },
+  {
+   "test": "test_supervised_invalid_loss_shows_error",
+   "argv": [
+    "supervised",
+    "-input",
+    "-output",
+    "-loss",
+    "invalidloss"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unknown loss"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_training.py:284"
+  },
+  {
+   "test": "test_supervised_missing_flag_argument",
+   "argv": [
+    "supervised",
+    "-input",
+    "-output"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "missing an argument"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_training.py:298"
+  },
+  {
+   "test": "test_supervised_help_flag",
+   "argv": [
+    "supervised",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Here is the help",
+    "-input",
+    "-output"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_training.py:309"
+  },
+  {
+   "test": "test_supervised_hs_loss",
+   "argv": [
+    "supervised",
+    "-input",
+    "-output",
+    "-epoch",
+    "3",
+    "-dim",
+    "100",
+    "-thread",
+    "1",
+    "-lr",
+    "0.1",
+    "-minCount",
+    "1",
+    "-verbose",
+    "0",
+    "-loss",
+    "hs"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "loss hs"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_training.py:316"
+  },
+  {
+   "test": "test_skipgram_creates_model_files",
+   "argv": [
+    "skipgram",
+    "-input",
+    "-output",
+    "-epoch",
+    "5",
+    "-dim",
+    "10",
+    "-thread",
+    "1",
+    "-lr",
+    "0.05",
+    "-minCount",
+    "1",
+    "-verbose",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_training.py:342"
+  },
+  {
+   "test": "test_skipgram_default_model_in_dump",
+   "argv": [
+    "skipgram",
+    "-input",
+    "-output",
+    "-epoch",
+    "3",
+    "-dim",
+    "10",
+    "-thread",
+    "1",
+    "-lr",
+    "0.05",
+    "-minCount",
+    "1",
+    "-verbose",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "model sg"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_training.py:371"
+  },
+  {
+   "test": "test_skipgram_progress_output",
+   "argv": [
+    "skipgram",
+    "-input",
+    "-output",
+    "-epoch",
+    "5",
+    "-dim",
+    "10",
+    "-thread",
+    "1",
+    "-lr",
+    "0.05",
+    "-minCount",
+    "1",
+    "-verbose",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Progress",
+    "avg.loss"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_training.py:390"
+  },
+  {
+   "test": "test_cbow_creates_model_files",
+   "argv": [
+    "cbow",
+    "-input",
+    "-output",
+    "-epoch",
+    "5",
+    "-dim",
+    "10",
+    "-thread",
+    "1",
+    "-lr",
+    "0.05",
+    "-minCount",
+    "1",
+    "-verbose",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\n"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_training.py:414"
+  },
+  {
+   "test": "test_cbow_model_type_in_dump",
+   "argv": [
+    "cbow",
+    "-input",
+    "-output",
+    "-epoch",
+    "3",
+    "-dim",
+    "10",
+    "-thread",
+    "1",
+    "-lr",
+    "0.05",
+    "-minCount",
+    "1",
+    "-verbose",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "model cbow"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_training.py:441"
+  },
+  {
+   "test": "test_cbow_with_wordngrams",
+   "argv": [
+    "cbow",
+    "-input",
+    "-output",
+    "-epoch",
+    "3",
+    "-dim",
+    "10",
+    "-thread",
+    "1",
+    "-lr",
+    "0.05",
+    "-minCount",
+    "1",
+    "-verbose",
+    "0",
+    "-wordNgrams",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "wordNgrams 2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_training.py:460"
+  },
+  {
+   "test": "test_custom_dim_in_model",
+   "argv": [
+    "supervised",
+    "-input",
+    "-output",
+    "-epoch",
+    "1",
+    "-dim",
+    "50",
+    "-thread",
+    "1",
+    "-minCount",
+    "1",
+    "-verbose",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dim 50"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_training.py:485"
+  },
+  {
+   "test": "test_custom_epoch_in_model",
+   "argv": [
+    "supervised",
+    "-input",
+    "-output",
+    "-epoch",
+    "7",
+    "-dim",
+    "100",
+    "-thread",
+    "1",
+    "-minCount",
+    "1",
+    "-verbose",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "epoch 7"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_training.py:503"
+  },
+  {
+   "test": "test_mincountlabel_argument",
+   "argv": [
+    "supervised",
+    "-input",
+    "-output",
+    "-epoch",
+    "3",
+    "-dim",
+    "100",
+    "-thread",
+    "1",
+    "-minCount",
+    "1",
+    "-minCountLabel",
+    "0",
+    "-verbose",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "word",
+    "label"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_training.py:521"
+  },
+  {
+   "test": "test_ova_loss_function",
+   "argv": [
+    "supervised",
+    "-input",
+    "-output",
+    "-epoch",
+    "3",
+    "-dim",
+    "100",
+    "-thread",
+    "1",
+    "-lr",
+    "0.1",
+    "-minCount",
+    "1",
+    "-verbose",
+    "0",
+    "-loss",
+    "ova"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "loss one-vs-all"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_training.py:546"
+  },
+  {
+   "test": "test_supervised_with_pretrained_vectors",
+   "argv": [
+    "supervised",
+    "-input",
+    "-output",
+    "-epoch",
+    "3",
+    "-dim",
+    "-thread",
+    "1",
+    "-lr",
+    "0.1",
+    "-minCount",
+    "1",
+    "-verbose",
+    "0",
+    "-pretrainedVectors"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "P@1",
+    "N\t2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vec_file.py:143"
+  },
+  {
+   "test": "test_print_word_vector_for_known_word",
+   "argv": [
+    "print-word-vectors"
+   ],
+   "stdin": "the",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "the"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_word_vectors.py:76"
+  },
+  {
+   "test": "test_print_word_vector_for_oov_word",
+   "argv": [
+    "print-word-vectors"
+   ],
+   "stdin": "unknownword123",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unknownword123"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_word_vectors.py:91"
+  },
+  {
+   "test": "test_print_multiple_word_vectors",
+   "argv": [
+    "print-word-vectors"
+   ],
+   "stdin": "the machine learning",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_word_vectors.py:100"
+  },
+  {
+   "test": "test_print_word_vector_empty_stdout_without_input",
+   "argv": [
+    "print-word-vectors"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_word_vectors.py:110"
+  },
+  {
+   "test": "test_word_vector_dimensions_match",
+   "argv": [
+    "print-word-vectors"
+   ],
+   "stdin": "word",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_word_vectors.py:125"
+  },
+  {
+   "test": "test_print_sentence_vector",
+   "argv": [
+    "print-sentence-vectors"
+   ],
+   "stdin": "the quick brown fox",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_word_vectors.py:141"
+  },
+  {
+   "test": "test_print_multiple_sentence_vectors",
+   "argv": [
+    "print-sentence-vectors"
+   ],
+   "stdin": "the quick fox\nmachine learning model\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_word_vectors.py:154"
+  },
+  {
+   "test": "test_sentence_vector_dimensions",
+   "argv": [
+    "print-sentence-vectors"
+   ],
+   "stdin": "this is a sentence with words",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_word_vectors.py:165"
+  },
+  {
+   "test": "test_print_ngrams_for_word",
+   "argv": [
+    "print-ngrams",
+    "learning"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_word_vectors.py:186"
+  },
+  {
+   "test": "test_print_ngrams_format",
+   "argv": [
+    "print-ngrams",
+    "word"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_word_vectors.py:197"
+  },
+  {
+   "test": "test_nn_with_query_word",
+   "argv": [
+    "nn",
+    "10"
+   ],
+   "stdin": "the",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Query word?"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_word_vectors.py:225"
+  },
+  {
+   "test": "test_nn_output_has_words_and_scores",
+   "argv": [
+    "nn",
+    "5"
+   ],
+   "stdin": "the",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_word_vectors.py:236"
+  },
+  {
+   "test": "test_nn_default_k",
+   "argv": [
+    "nn"
+   ],
+   "stdin": "the",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Query word?"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_word_vectors.py:253"
+  },
+  {
+   "test": "test_empty_file_wrong_format_error",
+   "argv": [
+    "predict",
+    "empty.bin",
+    "-"
+   ],
+   "stdin": "test\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "wrong file format"
+   ],
+   "files": {
+    "empty.bin": ""
+   },
+   "ci": false,
+   "source": "test_model_io.py:276"
+  },
+  {
+   "test": "test_model_without_training_throws_error",
+   "argv": [
+    "predict",
+    "untrained.bin",
+    "-"
+   ],
+   "stdin": "test\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "wrong file format"
+   ],
+   "files": {
+    "untrained.bin": ""
+   },
+   "ci": false,
+   "source": "test_model_io.py:689"
+  }
+ ]
+}

@@ -1,0 +1,1237 @@
+{
+ "slug": "wintermute-cell__ngrrram.8ea13c3",
+ "language": "",
+ "n_branches": 6,
+ "n_tests_total": 255,
+ "n_examples": 61,
+ "n_with_exact_stdout": 0,
+ "n_with_rc": 56,
+ "n_skipped": 194,
+ "examples": [
+  {
+   "test": "test_help_exact",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_help_and_errors.py:6"
+  },
+  {
+   "test": "test_n_invalid_treated_as_file_path_error",
+   "argv": [
+    "--n"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "File not found"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_validation.py:12"
+  },
+  {
+   "test": "test_help_takes_precedence_over_other_valid_flags",
+   "argv": [
+    "--help",
+    "--n",
+    "3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:127"
+  },
+  {
+   "test": "test_help_takes_precedence_over_invalid_flags",
+   "argv": [
+    "--help",
+    "--definitely-not-a-real-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:135"
+  },
+  {
+   "test": "test_double_dash_then_help_is_not_treated_as_help",
+   "argv": [
+    "--",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument '--help'",
+    "For more information, try '--help'."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:142"
+  },
+  {
+   "test": "test_n_flag_other_values_treated_as_filename",
+   "argv": [
+    "-n",
+    "5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "File not found: 5"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:173"
+  },
+  {
+   "test": "test_interleaved_flags_after_flags_are_ok",
+   "argv": [
+    "--rep",
+    "3",
+    "--top",
+    "50"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:191"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable [OPTIONS]",
+    "-n, --n <2|3|4|w|file>",
+    "-t, --top <1-200>",
+    "-c, --combi <1-200>",
+    "-r, --rep <number>",
+    "-w, --wpm <number>",
+    "-a, --acc <0-100>",
+    "--emu-in <layout>",
+    "--emu-out <layout>",
+    "--show-ortho",
+    "--nokb",
+    "--cat",
+    "-h, --help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:6"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable [OPTIONS]",
+    "-n, --n <2|3|4|w|file>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:24"
+  },
+  {
+   "test": "test_invalid_flag",
+   "argv": [
+    "--invalid-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:34"
+  },
+  {
+   "test": "test_help_contains_all_options",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tetragrams",
+    "repeat",
+    "wpm",
+    "accuracy",
+    "keyboard layout",
+    "ortholinear",
+    "cat"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:41"
+  },
+  {
+   "test": "test_help_shows_defaults",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[default: 2]",
+    "[default: 50]",
+    "[default: 3]",
+    "[default: 40]",
+    "[default: 94]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:60"
+  },
+  {
+   "test": "test_show_ortho_flag",
+   "argv": [
+    "--show-ortho",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "ortholinear"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_display_options.py:5"
+  },
+  {
+   "test": "test_nokb_flag",
+   "argv": [
+    "--nokb",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_options.py:12"
+  },
+  {
+   "test": "test_cat_flag",
+   "argv": [
+    "--cat",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "cat"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_display_options.py:19"
+  },
+  {
+   "test": "test_show_ortho_and_nokb",
+   "argv": [
+    "--show-ortho",
+    "--nokb",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_options.py:26"
+  },
+  {
+   "test": "test_all_display_flags",
+   "argv": [
+    "--show-ortho",
+    "--nokb",
+    "--cat",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_options.py:32"
+  },
+  {
+   "test": "test_cat_with_emulation",
+   "argv": [
+    "--cat",
+    "--emu-in",
+    "qwerty",
+    "--emu-out",
+    "dvorak",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_options.py:38"
+  },
+  {
+   "test": "test_nokb_with_emulation",
+   "argv": [
+    "--nokb",
+    "--emu-in",
+    "qwerty",
+    "--emu-out",
+    "colemak",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_options.py:44"
+  },
+  {
+   "test": "test_show_ortho_with_emulation",
+   "argv": [
+    "--show-ortho",
+    "--emu-in",
+    "dvorak",
+    "--emu-out",
+    "qwerty",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_options.py:50"
+  },
+  {
+   "test": "test_display_flags_with_numeric_args",
+   "argv": [
+    "--show-ortho",
+    "--cat",
+    "-t",
+    "50",
+    "-w",
+    "80",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_options.py:56"
+  },
+  {
+   "test": "test_all_flags_combined",
+   "argv": [
+    "-n",
+    "3",
+    "-t",
+    "100",
+    "-c",
+    "5",
+    "-r",
+    "10",
+    "-w",
+    "60",
+    "-a",
+    "95",
+    "--emu-in",
+    "qwerty",
+    "--emu-out",
+    "colemak",
+    "--show-ortho",
+    "--nokb",
+    "--cat",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_options.py:68"
+  },
+  {
+   "test": "test_emu_in_without_emu_out",
+   "argv": [
+    "--emu-in",
+    "qwerty"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "specify both emu_in and emu_out"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_layout_emulation.py:7"
+  },
+  {
+   "test": "test_emu_out_without_emu_in",
+   "argv": [
+    "--emu-out",
+    "dvorak"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "specify both emu_in and emu_out"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_layout_emulation.py:14"
+  },
+  {
+   "test": "test_emu_both_valid_qwerty_dvorak",
+   "argv": [
+    "--emu-in",
+    "qwerty",
+    "--emu-out",
+    "dvorak",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_layout_emulation.py:21"
+  },
+  {
+   "test": "test_emu_both_valid_qwertz_colemak",
+   "argv": [
+    "--emu-in",
+    "qwertz",
+    "--emu-out",
+    "colemak",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_layout_emulation.py:27"
+  },
+  {
+   "test": "test_emu_both_valid_azerty_colemakdh",
+   "argv": [
+    "--emu-in",
+    "azerty",
+    "--emu-out",
+    "colemakdh",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_layout_emulation.py:33"
+  },
+  {
+   "test": "test_emu_both_valid_same_layout",
+   "argv": [
+    "--emu-in",
+    "qwerty",
+    "--emu-out",
+    "qwerty",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_layout_emulation.py:39"
+  },
+  {
+   "test": "test_emu_all_valid_layouts",
+   "argv": [
+    "--emu-in",
+    "--emu-out",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_layout_emulation.py:45"
+  },
+  {
+   "test": "test_emu_invalid_layout_name",
+   "argv": [
+    "--emu-in",
+    "invalid",
+    "--emu-out",
+    "qwerty",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_layout_emulation.py:54"
+  },
+  {
+   "test": "test_emu_case_sensitive",
+   "argv": [
+    "--emu-in",
+    "QWERTY",
+    "--emu-out",
+    "DVORAK",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_layout_emulation.py:62"
+  },
+  {
+   "test": "test_emu_with_other_flags",
+   "argv": [
+    "--emu-in",
+    "qwerty",
+    "--emu-out",
+    "colemak",
+    "-n",
+    "3",
+    "-t",
+    "100",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_layout_emulation.py:69"
+  },
+  {
+   "test": "test_emu_empty_strings",
+   "argv": [
+    "--emu-in",
+    "",
+    "--emu-out",
+    "",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_layout_emulation.py:81"
+  },
+  {
+   "test": "test_n_flag_default_bigrams",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[default: 2]",
+    "use bi-(2), tri-(3), tetragrams(4)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ngram_selection.py:6"
+  },
+  {
+   "test": "test_n_flag_bigrams_explicit",
+   "argv": [
+    "-n",
+    "2",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ngram_selection.py:13"
+  },
+  {
+   "test": "test_n_flag_trigrams",
+   "argv": [
+    "-n",
+    "3",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ngram_selection.py:20"
+  },
+  {
+   "test": "test_n_flag_tetragrams",
+   "argv": [
+    "-n",
+    "4",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ngram_selection.py:27"
+  },
+  {
+   "test": "test_n_flag_words",
+   "argv": [
+    "-n",
+    "w",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ngram_selection.py:34"
+  },
+  {
+   "test": "test_n_flag_invalid_value",
+   "argv": [
+    "-n",
+    "5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "File not found: 5"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ngram_selection.py:41"
+  },
+  {
+   "test": "test_n_flag_file_nonexistent",
+   "argv": [
+    "-n",
+    "/nonexistent/file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "File not found"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ngram_selection.py:47"
+  },
+  {
+   "test": "test_n_flag_file_valid",
+   "argv": [
+    "-n",
+    "wordlist.txt",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Options:"
+   ],
+   "files": {
+    "wordlist.txt": "the,and,ing,ion\n"
+   },
+   "ci": false,
+   "source": "test_ngram_selection.py:53"
+  },
+  {
+   "test": "test_n_flag_file_empty",
+   "argv": [
+    "-n",
+    "empty.txt",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {
+    "empty.txt": ""
+   },
+   "ci": false,
+   "source": "test_ngram_selection.py:62"
+  },
+  {
+   "test": "test_n_flag_file_with_newlines",
+   "argv": [
+    "-n",
+    "words.txt",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {
+    "words.txt": "the,and,ing\nion,tio,ent\n"
+   },
+   "ci": false,
+   "source": "test_ngram_selection.py:70"
+  },
+  {
+   "test": "test_n_flag_file_no_commas",
+   "argv": [
+    "-n",
+    "no_comma.txt",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {
+    "no_comma.txt": "the and ing"
+   },
+   "ci": false,
+   "source": "test_ngram_selection.py:77"
+  },
+  {
+   "test": "test_n_long_flag",
+   "argv": [
+    "--n",
+    "3",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ngram_selection.py:85"
+  },
+  {
+   "test": "test_top_flag_valid_range",
+   "argv": [
+    "-t",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_numeric_arguments.py:5"
+  },
+  {
+   "test": "test_top_flag_zero",
+   "argv": [
+    "-t",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Invalid argument for top",
+    "Use a number between 1 and 200"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_numeric_arguments.py:19"
+  },
+  {
+   "test": "test_top_flag_above_max",
+   "argv": [
+    "-t",
+    "201"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Invalid argument for top",
+    "Use a number between 1 and 200"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_numeric_arguments.py:26"
+  },
+  {
+   "test": "test_combi_flag_valid_range",
+   "argv": [
+    "-c",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_numeric_arguments.py:39"
+  },
+  {
+   "test": "test_combi_flag_zero",
+   "argv": [
+    "-c",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Invalid argument for combi",
+    "Use a number between 1 and 200"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_numeric_arguments.py:46"
+  },
+  {
+   "test": "test_combi_flag_above_max",
+   "argv": [
+    "-c",
+    "201"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Invalid argument for combi"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_numeric_arguments.py:53"
+  },
+  {
+   "test": "test_rep_flag_valid_range",
+   "argv": [
+    "-r",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_numeric_arguments.py:59"
+  },
+  {
+   "test": "test_rep_flag_zero",
+   "argv": [
+    "-r",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Invalid argument for rep",
+    "Use a number between 1 and 200"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_numeric_arguments.py:66"
+  },
+  {
+   "test": "test_rep_flag_above_max",
+   "argv": [
+    "-r",
+    "201"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Invalid argument for rep"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_numeric_arguments.py:73"
+  },
+  {
+   "test": "test_wpm_flag_valid_range",
+   "argv": [
+    "-w",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_numeric_arguments.py:79"
+  },
+  {
+   "test": "test_wpm_flag_zero",
+   "argv": [
+    "-w",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Invalid argument for wpm",
+    "Use a number between 1 and 200"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_numeric_arguments.py:86"
+  },
+  {
+   "test": "test_wpm_flag_above_max",
+   "argv": [
+    "-w",
+    "201"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Invalid argument for wpm"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_numeric_arguments.py:93"
+  },
+  {
+   "test": "test_acc_flag_valid_range",
+   "argv": [
+    "-a",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_numeric_arguments.py:99"
+  },
+  {
+   "test": "test_acc_flag_above_max",
+   "argv": [
+    "-a",
+    "101"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Invalid argument for acc",
+    "Use a number between 0 and 100"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_numeric_arguments.py:113"
+  },
+  {
+   "test": "test_multiple_numeric_flags_valid",
+   "argv": [
+    "-t",
+    "75",
+    "-c",
+    "3",
+    "-r",
+    "5",
+    "-w",
+    "50",
+    "-a",
+    "95",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_numeric_arguments.py:120"
+  },
+  {
+   "test": "test_multiple_numeric_flags_one_invalid",
+   "argv": [
+    "-t",
+    "75",
+    "-c",
+    "0",
+    "-r",
+    "5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Invalid argument for combi"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_numeric_arguments.py:126"
+  }
+ ]
+}

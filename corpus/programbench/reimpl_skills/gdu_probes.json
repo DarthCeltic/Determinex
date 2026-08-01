@@ -1,0 +1,4984 @@
+[
+ {
+  "name": "test::test_help_prints_to_stdout_and_exit_0::0",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_noninteractive_lists_entries_deterministically::1",
+  "argv": [
+   "-n",
+   "--no-color",
+   "--no-unicode",
+   "--no-progress"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_summarize_no_prefix_outputs_raw_total::2",
+  "argv": [
+   "-n",
+   "--summarize",
+   "--no-prefix",
+   "--no-color",
+   "--no-unicode",
+   "--no-progress"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_file_writes_json_and_stdout_empty::3",
+  "argv": [
+   "-n",
+   "--output-file",
+   "--no-progress"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_path_errors_to_stderr_and_exit_1::4",
+  "argv": [
+   "-n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_cores_rejects_non_int::5",
+  "argv": [
+   "-n",
+   "--max-cores",
+   "nope"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_short_flags_are_accepted_in_non_interactive_mode::6",
+  "argv": [
+   "-np",
+   "--summarize",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_stops_flag_parsing_and_treats_next_as_positional::7",
+  "argv": [
+   "--non-interactive",
+   "--summarize",
+   "--",
+   "-n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_positional_after_flags_is_accepted::8",
+  "argv": [
+   "--non-interactive",
+   "--summarize",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_after_positional_are_accepted::9",
+  "argv": [
+   ".",
+   "--non-interactive",
+   "--summarize"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_too_many_positionals_is_an_error::10",
+  "argv": [
+   "--non-interactive",
+   "--summarize",
+   ".",
+   ".."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_args_runs_successfully_by_default_non_interactive_fallback::11",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_duration_format_is_rejected_for_min_age::12",
+  "argv": [
+   "--min-age=notaduration",
+   "--non-interactive",
+   "--summarize",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_rfc3339_date_is_rejected_for_since::13",
+  "argv": [
+   "--since=not-a-date",
+   "--non-interactive",
+   "--summarize",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_precedence_with_double_dash_treats_help_as_argument::14",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_errors_and_exit_nonzero::15",
+  "argv": [
+   "--badflag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_with_help_still_errors_and_does_not_print_help::16",
+  "argv": [
+   "--badflag",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_cores_variations::17",
+  "argv": [
+   "-n",
+   "-p",
+   "-m",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sorting_by_name::18",
+  "argv": [
+   "-n",
+   "-p"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_filter_combinations::19",
+  "argv": [
+   "-n",
+   "-p",
+   "--max-age",
+   "7d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_export_with_various_options::20",
+  "argv": [
+   "-n",
+   "-p",
+   "-a",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_import_with_filtering::21",
+  "argv": [
+   "-n",
+   "-p",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_and_unicode_combinations::22",
+  "argv": [
+   "-n",
+   "-p",
+   "-c",
+   "-u"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_database_with_filtering::23",
+  "argv": [
+   "-n",
+   "-p",
+   "-T",
+   "txt",
+   "-D"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_depth_variations::24",
+  "argv": [
+   "-n",
+   "-p",
+   "--depth",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_patterns_advanced::25",
+  "argv": [
+   "-n",
+   "-p",
+   "-I",
+   ".*/test/.*"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_disks::26",
+  "argv": [
+   "-d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_file::27",
+  "argv": [
+   "-n",
+   "-p",
+   "-l"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_write_config::28",
+  "argv": [
+   "--write-config",
+   "--config-file",
+   "-n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_progress_variations::29",
+  "argv": [
+   "-n",
+   "-p",
+   "-s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_and_exclude_type_together::30",
+  "argv": [
+   "-n",
+   "-p",
+   "-T",
+   "txt",
+   "-E",
+   "py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_various_size_formats::31",
+  "argv": [
+   "-n",
+   "-p",
+   "--si",
+   "-k"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_size_with_multiple_files::32",
+  "argv": [
+   "-n",
+   "-p",
+   "-B"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_item_count_and_mtime_together::33",
+  "argv": [
+   "-n",
+   "-p",
+   "-C",
+   "-M"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_archive_browsing_flag::34",
+  "argv": [
+   "-n",
+   "-p",
+   "--archive-browsing"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_collapse_path_flag::35",
+  "argv": [
+   "-n",
+   "-p",
+   "--collapse-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mouse_flag::36",
+  "argv": [
+   "-n",
+   "--mouse",
+   "-p"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_delete_flag::37",
+  "argv": [
+   "-n",
+   "-p",
+   "--no-delete"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_spawn_shell_flag::38",
+  "argv": [
+   "-n",
+   "-p",
+   "--no-spawn-shell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_profiling_flag::39",
+  "argv": [
+   "-n",
+   "-p",
+   "--enable-profiling"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version::40",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_top_n::41",
+  "argv": [
+   "-n",
+   "-p",
+   "-t",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_color::42",
+  "argv": [
+   "-n",
+   "-p",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_apparent_size::43",
+  "argv": [
+   "-n",
+   "-p",
+   "-a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_dirs::44",
+  "argv": [
+   "-n",
+   "-p",
+   "-i",
+   "ignore",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_hidden::45",
+  "argv": [
+   "-n",
+   "-p",
+   "-H"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_cross_filesystem::46",
+  "argv": [
+   "-n",
+   "-p",
+   "-x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_depth_limit::47",
+  "argv": [
+   "-n",
+   "-p",
+   "--depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_item_count::48",
+  "argv": [
+   "-n",
+   "-p",
+   "-C"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_mtime::49",
+  "argv": [
+   "-n",
+   "-p",
+   "-M"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_in_kib::50",
+  "argv": [
+   "-n",
+   "-p",
+   "-k"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_si_prefix::51",
+  "argv": [
+   "-n",
+   "-p",
+   "--si"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_prefix::52",
+  "argv": [
+   "-n",
+   "-p",
+   "--no-prefix"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reverse_sort::53",
+  "argv": [
+   "-n",
+   "-p",
+   "--reverse-sort"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_cores::54",
+  "argv": [
+   "-n",
+   "-p",
+   "-m",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sequential_scanning::55",
+  "argv": [
+   "-n",
+   "-p",
+   "--sequential"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_directory::56",
+  "argv": [
+   "-n",
+   "-p",
+   "/nonexistent/directory/path/xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_with_sorting_options::57",
+  "argv": [
+   "-n",
+   "-p",
+   "--config-file",
+   "config.yaml"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yaml": "\nsorting:\n  by: name\n  order: asc\nno-color: true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_with_display_options::58",
+  "argv": [
+   "-n",
+   "-p",
+   "--config-file",
+   "config.yaml"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yaml": "\nshow-apparent-size: true\nshow-item-count: true\nno-unicode: true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_with_ignore_patterns::59",
+  "argv": [
+   "-n",
+   "-p",
+   "--config-file",
+   "config.yaml"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yaml": "\nignore-dirs:\n  - ignored\nno-hidden: true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_with_size_options::60",
+  "argv": [
+   "-n",
+   "-p",
+   "--config-file",
+   "config.yaml"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yaml": "\nuse-si-prefix: true\nshow-relative-size: true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_noninteractive_mode::61",
+  "argv": [
+   "--config-file",
+   "config.yaml"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yaml": "\nnon-interactive: true\nno-progress: true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_write_config_creates_valid_yaml::62",
+  "argv": [
+   "--config-file",
+   "--write-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_max_cores::63",
+  "argv": [
+   "-n",
+   "-p",
+   "--config-file",
+   "config.yaml"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yaml": "\nmax-cores: 2\nsequential-scanning: false\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_sequential_scanning::64",
+  "argv": [
+   "-n",
+   "-p",
+   "--config-file",
+   "config.yaml"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yaml": "\nsequential-scanning: true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_ignored_dirs_with_pattern::65",
+  "argv": [
+   "-n",
+   "-p",
+   "-I",
+   "tmp.*,cache"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_symlinks_with_file::66",
+  "argv": [
+   "-n",
+   "-p",
+   "-L"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_top_files_sorting::67",
+  "argv": [
+   "-n",
+   "-p",
+   "-t",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_disks_non_interactive::68",
+  "argv": [
+   "-n",
+   "-p",
+   "-d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_filter_inclusion::69",
+  "argv": [
+   "-n",
+   "-p",
+   "-T",
+   "py,json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_filter_exclusion::70",
+  "argv": [
+   "-n",
+   "-p",
+   "-E",
+   "log,tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_filter_since_date::71",
+  "argv": [
+   "-n",
+   "-p",
+   "--since",
+   "2024-01-01"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_filter_until_date::72",
+  "argv": [
+   "-n",
+   "-p",
+   "--until",
+   "2099-12-31"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_filter_max_age_days::73",
+  "argv": [
+   "-n",
+   "-p",
+   "--max-age",
+   "5d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_filter_min_age_days::74",
+  "argv": [
+   "-n",
+   "-p",
+   "--min-age",
+   "5d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_database_sqlite_persistence::75",
+  "argv": [
+   "-n",
+   "-p",
+   "-D"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_display_flags::76",
+  "argv": [
+   "-n",
+   "-p",
+   "-a",
+   "-C",
+   "-M",
+   "-B"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_directory_path::77",
+  "argv": [
+   "-n",
+   "-p",
+   "/this/path/does/not/exist/anywhere"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_depth_with_complex_structure::78",
+  "argv": [
+   "-n",
+   "-p",
+   "--depth",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_sort_by_name_asc::79",
+  "argv": [
+   "--config-file",
+   "config.yaml"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yaml": "\nsorting:\n  by: name\n  order: asc\nnon-interactive: true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_sort_by_name_desc::80",
+  "argv": [
+   "--config-file",
+   "config.yaml"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yaml": "\nsorting:\n  by: name\n  order: desc\nnon-interactive: true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_sort_by_item_count::81",
+  "argv": [
+   "--config-file",
+   "config.yaml"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yaml": "\nsorting:\n  by: itemCount\n  order: desc\nnon-interactive: true\nshow-item-count: true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_sort_by_mtime::82",
+  "argv": [
+   "--config-file",
+   "config.yaml"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yaml": "\nsorting:\n  by: mtime\n  order: desc\nnon-interactive: true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_max_cores::83",
+  "argv": [
+   "--config-file",
+   "config.yaml"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yaml": "\nmax-cores: 2\nnon-interactive: true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_sequential_scanning::84",
+  "argv": [
+   "--config-file",
+   "config.yaml"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yaml": "\nsequential-scanning: true\nnon-interactive: true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_follow_symlinks::85",
+  "argv": [
+   "--config-file",
+   "config.yaml"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yaml": "\nfollow-symlinks: true\nnon-interactive: true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_archive_browsing::86",
+  "argv": [
+   "--config-file",
+   "config.yaml"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yaml": "\narchive-browsing: true\nnon-interactive: true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_show_apparent_size::87",
+  "argv": [
+   "--config-file",
+   "config.yaml"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yaml": "\nshow-apparent-size: true\nnon-interactive: true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_show_relative_size::88",
+  "argv": [
+   "--config-file",
+   "config.yaml"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yaml": "\nshow-relative-size: true\nnon-interactive: true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_no_color::89",
+  "argv": [
+   "--config-file",
+   "config.yaml"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yaml": "\nno-color: true\nnon-interactive: true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_no_progress::90",
+  "argv": [
+   "--config-file",
+   "config.yaml"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yaml": "\nno-progress: true\nnon-interactive: true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_no_cross::91",
+  "argv": [
+   "--config-file",
+   "config.yaml"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yaml": "\nno-cross: true\nnon-interactive: true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_no_hidden::92",
+  "argv": [
+   "--config-file",
+   "config.yaml"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yaml": "\nno-hidden: true\nnon-interactive: true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_use_si_prefix::93",
+  "argv": [
+   "--config-file",
+   "config.yaml"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yaml": "\nuse-si-prefix: true\nnon-interactive: true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_no_prefix::94",
+  "argv": [
+   "--config-file",
+   "config.yaml"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yaml": "\nno-prefix: true\nnon-interactive: true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_reverse_sort::95",
+  "argv": [
+   "--config-file",
+   "config.yaml"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yaml": "\nreverse-sort: true\nnon-interactive: true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_summarize::96",
+  "argv": [
+   "--config-file",
+   "config.yaml"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yaml": "\nsummarize: true\nnon-interactive: true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_ignore_dirs::97",
+  "argv": [
+   "--config-file",
+   "config.yaml"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yaml": "\nignore-dirs:\n  - node_modules\n  - .git\nnon-interactive: true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_log_file::98",
+  "argv": [
+   "--config-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_multiple_settings::99",
+  "argv": [
+   "--config-file",
+   "config.yaml"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yaml": "\nnon-interactive: true\nshow-apparent-size: true\nshow-item-count: true\nno-color: true\nuse-si-prefix: true\nsorting:\n  by: size\n  order: desc\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_disks_non_interactive::100",
+  "argv": [
+   "-d",
+   "-n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_annexed_size::101",
+  "argv": [
+   "-n",
+   "-p",
+   "-A"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_filter_since_with_timestamp::102",
+  "argv": [
+   "-n",
+   "-p",
+   "--since",
+   "2020-01-01T00:00:00Z"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_filter_until_with_timestamp::103",
+  "argv": [
+   "-n",
+   "-p",
+   "--until",
+   "2030-12-31T23:59:59Z"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_max_age_format::104",
+  "argv": [
+   "-n",
+   "-p",
+   "--max-age",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_min_age_format::105",
+  "argv": [
+   "-n",
+   "-p",
+   "--min-age",
+   "badformat"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_since_format::106",
+  "argv": [
+   "-n",
+   "-p",
+   "--since",
+   "not-a-date"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_until_format::107",
+  "argv": [
+   "-n",
+   "-p",
+   "--until",
+   "invalid-date"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_type_filters::108",
+  "argv": [
+   "-n",
+   "-p",
+   "-T",
+   "txt,md,go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_exclude_type_filters::109",
+  "argv": [
+   "-n",
+   "-p",
+   "-E",
+   "py,go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reverse_sort_with_summarize::110",
+  "argv": [
+   "-n",
+   "-p",
+   "-s",
+   "--reverse-sort"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_size_display_options_together::111",
+  "argv": [
+   "-n",
+   "-p",
+   "-a",
+   "-B"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_unicode_no_color_together::112",
+  "argv": [
+   "-n",
+   "-p",
+   "-u",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sequential_with_max_cores::113",
+  "argv": [
+   "-n",
+   "-p",
+   "--sequential",
+   "-m",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_import_with_filters::114",
+  "argv": [
+   "-n",
+   "-p",
+   "-T",
+   "txt",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_export_with_item_count::115",
+  "argv": [
+   "-n",
+   "-p",
+   "-C",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cross_filesystem_with_no_cross::116",
+  "argv": [
+   "-n",
+   "-p",
+   "-x",
+   "/tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_default_dirs::117",
+  "argv": [
+   "-n",
+   "-p",
+   "/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_summarize_with_multiple_options::118",
+  "argv": [
+   "-n",
+   "-p",
+   "-s",
+   "-a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_top_larger_than_file_count::119",
+  "argv": [
+   "-n",
+   "-p",
+   "-t",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_symlinks_with_filters::120",
+  "argv": [
+   "-n",
+   "-p",
+   "-L",
+   "-T",
+   "txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_dirs_multiple_patterns::121",
+  "argv": [
+   "-n",
+   "-p",
+   "-I",
+   ".*/\\.git/.*,.*/node_modules/.*",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_flags_combination::122",
+  "argv": [
+   "-n",
+   "-p",
+   "-a",
+   "-c",
+   "-u",
+   "-C",
+   "-M"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_nonexistent::123",
+  "argv": [
+   "-n",
+   "-p",
+   "--config-file",
+   "/nonexistent/config.yaml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_device_file_handling::124",
+  "argv": [
+   "-n",
+   "-p",
+   "-i",
+   "/dev,/proc",
+   "-t",
+   "5",
+   "/dev"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_permission_denied_handling::125",
+  "argv": [
+   "-n",
+   "-p",
+   "/root"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_age_various_durations::126",
+  "argv": [
+   "-n",
+   "-p",
+   "--max-age",
+   "24h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_age_various_durations::127",
+  "argv": [
+   "-n",
+   "-p",
+   "--min-age",
+   "1y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_filter_exclusion::128",
+  "argv": [
+   "-n",
+   "-p",
+   "--until",
+   "2010-01-01"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_pattern_complex::129",
+  "argv": [
+   "-n",
+   "-p",
+   "-I",
+   "node_modules,.git,build"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_from_file_multiple_patterns::130",
+  "argv": [
+   "-n",
+   "-p",
+   "-X",
+   "ignore.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "ignore.txt": "*.tmp\n*.bak\nnode_modules\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_filter_case_sensitivity::131",
+  "argv": [
+   "-n",
+   "-p",
+   "-T",
+   "txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_type_multiple::132",
+  "argv": [
+   "-n",
+   "-p",
+   "-E",
+   "log,tmp,bak"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_dirs_multiple::133",
+  "argv": [
+   "-n",
+   "-p",
+   "-i",
+   "skip1,skip2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_cross_with_bind_mount::134",
+  "argv": [
+   "-n",
+   "-p",
+   "-x",
+   "-s",
+   "/var"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reverse_sort_with_depth::135",
+  "argv": [
+   "-n",
+   "-p",
+   "--reverse-sort",
+   "--depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_color_ansi_escapes::136",
+  "argv": [
+   "-n",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_unicode_ascii_only::137",
+  "argv": [
+   "-n",
+   "-p",
+   "-u"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_yaml_syntax::138",
+  "argv": [
+   "-n",
+   "-p",
+   "--config-file",
+   "config.yaml"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yaml": "\nno-color: true\nshow-apparent-size: true\nmax-cores: 2\n        "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_file_scan::139",
+  "argv": [
+   "-n",
+   "-p",
+   "single.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "single.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_directory::140",
+  "argv": [
+   "-n",
+   "-p",
+   "/nonexistent/directory/path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_option_combination::141",
+  "argv": [
+   "-n",
+   "-p",
+   "--invalid-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_not_supported::142",
+  "argv": [
+   "-n",
+   "-p"
+  ],
+  "stdin": "some input\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_from_file_multiple_patterns_fixed::143",
+  "argv": [
+   "-n",
+   "-p",
+   "-X",
+   "ignore.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "ignore.txt": "*.tmp\n*.bak\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_si_prefix_with_kib::144",
+  "argv": [
+   "-n",
+   "-p",
+   "-k",
+   "--si"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_from_file_with_patterns::145",
+  "argv": [
+   "-n",
+   "-p",
+   "-X",
+   ".ignore"
+  ],
+  "stdin": null,
+  "files": {
+   ".ignore": ".*\\.log\ntemp\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_multiple_types::146",
+  "argv": [
+   "-n",
+   "-p",
+   "-E",
+   "py,json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_include_specific_types::147",
+  "argv": [
+   "-n",
+   "-p",
+   "-T",
+   "py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_export_with_all_flags::148",
+  "argv": [
+   "-n",
+   "-p",
+   "-o",
+   "-C",
+   "-M"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_filter_max_age_variations::149",
+  "argv": [
+   "-n",
+   "-p",
+   "--max-age"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_filter_min_age_variations::150",
+  "argv": [
+   "-n",
+   "-p",
+   "--min-age",
+   "1d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_since_filter_with_date::151",
+  "argv": [
+   "-n",
+   "-p",
+   "--since",
+   "2020-01-01"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_time_filters::152",
+  "argv": [
+   "-n",
+   "-p",
+   "--since",
+   "2020-01-01",
+   "--until",
+   "2099-12-31"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_dirs_pattern_matching::153",
+  "argv": [
+   "-n",
+   "-p",
+   "-I",
+   ".*node.*,build"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_top_with_various_counts::154",
+  "argv": [
+   "-n",
+   "-p",
+   "-t",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_directory_error::155",
+  "argv": [
+   "-n",
+   "-p",
+   "/nonexistent/path/that/does/not/exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_input_file::156",
+  "argv": [
+   "-n",
+   "-p",
+   "-f",
+   "/nonexistent/file.json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_json_input::157",
+  "argv": [
+   "-n",
+   "-p",
+   "-f",
+   "invalid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.json": "not valid json {]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_file_permission_denied::158",
+  "argv": [
+   "-n",
+   "-p",
+   "-o",
+   "/root/nonexistent/dir/output.json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::159",
+  "argv": [
+   "--invalid-flag-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_flags::160",
+  "argv": [
+   "-n",
+   "-p",
+   "--si",
+   "--no-prefix"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_multiple_dirs::161",
+  "argv": [
+   "-n",
+   "-p",
+   "-i",
+   "ignore1,ignore2",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_patterns::162",
+  "argv": [
+   "-n",
+   "-p",
+   "-I",
+   ".*/test.*",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_from_file::163",
+  "argv": [
+   "-n",
+   "-p",
+   "-X",
+   "ignore_patterns.txt",
+   "."
+  ],
+  "stdin": null,
+  "files": {
+   "ignore_patterns.txt": "ignore\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_filter_include::164",
+  "argv": [
+   "-n",
+   "-p",
+   "-T",
+   "txt,md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_filter_exclude::165",
+  "argv": [
+   "-n",
+   "-p",
+   "-E",
+   "py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_filter::166",
+  "argv": [
+   "-n",
+   "-p",
+   "--until",
+   "2030-12-31"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_filters::167",
+  "argv": [
+   "-n",
+   "-p",
+   "-i",
+   "ignore",
+   "-E",
+   "py",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_loading::168",
+  "argv": [
+   "-n",
+   "-p",
+   "--config-file",
+   "config.yaml"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yaml": "no-color: true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hidden_and_ignore_together::169",
+  "argv": [
+   "-n",
+   "-p",
+   "-H",
+   "-i",
+   "ignore",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concurrent_execution::170",
+  "argv": [
+   "-n",
+   "-p",
+   "-m"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_export_completeness::171",
+  "argv": [
+   "-n",
+   "-p",
+   "-a",
+   "-C",
+   "-M",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_patterns_with_nested_matches::172",
+  "argv": [
+   "-n",
+   "-p",
+   "-i"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_top_files_with_depth::173",
+  "argv": [
+   "-n",
+   "-p",
+   "-t",
+   "3",
+   "--depth",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_yaml_parsing::174",
+  "argv": [
+   "-n",
+   "-p",
+   "--config-file",
+   "config.yaml"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yaml": "\nno-color: true\nno-unicode: true\nmax-cores: 2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comprehensive_filtering_scenario::175",
+  "argv": [
+   "-n",
+   "-p",
+   "-i",
+   "-T",
+   "py,md",
+   "--max-age",
+   "30d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_to_stdout::176",
+  "argv": [
+   "-o",
+   "-",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_export_with_archive_content::177",
+  "argv": [
+   "--archive-browsing",
+   "-o",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sequential_with_all_filters::178",
+  "argv": [
+   "--sequential",
+   "-T",
+   "py",
+   "-H",
+   "--max-age",
+   "30d",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_no_prefix_and_si::179",
+  "argv": [
+   "--no-prefix",
+   "--si",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_import_from_file::180",
+  "argv": [
+   "-o",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_database_with_filters::181",
+  "argv": [
+   "-D",
+   "-T",
+   "py",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sequential_with_time_filters_and_archive::182",
+  "argv": [
+   "--sequential",
+   "--archive-browsing",
+   "--max-age",
+   "1y",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_with_all_options::183",
+  "argv": [
+   "-o",
+   "-a",
+   "-C",
+   "-M",
+   "-B",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdout_ui_with_all_display_options::184",
+  "argv": [
+   "-a",
+   "-B",
+   "-C",
+   "-M",
+   "-k",
+   "--si",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reverse_sort_with_top::185",
+  "argv": [
+   "--reverse-sort",
+   "-t",
+   "5",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_apparent_size_vs_usage::186",
+  "argv": [
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_dirs_multiple_paths::187",
+  "argv": [
+   "-i",
+   "node_modules,.git,build",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_cross_with_symlink::188",
+  "argv": [
+   "-x",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_filter_edge_cases::189",
+  "argv": [
+   "--max-age",
+   "0h",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_depth_with_json_export::190",
+  "argv": [
+   "--depth",
+   "2",
+   "-o",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_summarize_with_filters::191",
+  "argv": [
+   "-s",
+   "-T",
+   "py,txt",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_ignore_patterns::192",
+  "argv": [
+   "-I",
+   "test_*,backup_*",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_color_removes_ansi::193",
+  "argv": [
+   "-c",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_mtime_format::194",
+  "argv": [
+   "-M",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_size_display::195",
+  "argv": [
+   "-B",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_item_count_display::196",
+  "argv": [
+   "-C",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sequential_with_no_progress::197",
+  "argv": [
+   "--sequential",
+   "-p",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_database_sqlite_with_sequential::198",
+  "argv": [
+   "--sequential",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combine_type_and_time_filters::199",
+  "argv": [
+   "-T",
+   "py",
+   "--max-age",
+   "30d",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_symlink_to_symlink::200",
+  "argv": [
+   "-L",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_nonexistent::201",
+  "argv": [
+   "--config-file",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_flags_combination::202",
+  "argv": [
+   "-n",
+   "-p",
+   "-a",
+   "-c",
+   "-u",
+   "-s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_database_with_filters::203",
+  "argv": [
+   "-n",
+   "-p",
+   "-D",
+   "-E",
+   "log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_filter_with_database::204",
+  "argv": [
+   "-n",
+   "-p",
+   "-D",
+   "--max-age",
+   "30d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_badger_database_with_options::205",
+  "argv": [
+   "-n",
+   "-p",
+   "-D",
+   "-a",
+   "-C"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read_from_storage_without_data::206",
+  "argv": [
+   "-n",
+   "-p",
+   "-r",
+   "-D"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_with_mtime::207",
+  "argv": [
+   "-n",
+   "-p",
+   "-M",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reverse_sort_with_top::208",
+  "argv": [
+   "-n",
+   "-p",
+   "--reverse-sort",
+   "-t",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_from_file_empty::209",
+  "argv": [
+   "-n",
+   "-p",
+   "-X",
+   ".ignore"
+  ],
+  "stdin": null,
+  "files": {
+   ".ignore": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_from_nonexistent_file::210",
+  "argv": [
+   "-n",
+   "-p",
+   "-X",
+   "/nonexistent/ignore/file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_type_all_files::211",
+  "argv": [
+   "-n",
+   "-p",
+   "-E",
+   "txt,py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_filter_invalid_format::212",
+  "argv": [
+   "-n",
+   "-p",
+   "--max-age",
+   "notavalidformat"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_filter_until_invalid::213",
+  "argv": [
+   "-n",
+   "-p",
+   "--until",
+   "99-99-9999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_filter_conflicting::214",
+  "argv": [
+   "-n",
+   "-p",
+   "--max-age",
+   "1d",
+   "--min-age",
+   "30d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mouse_flag::215",
+  "argv": [
+   "-n",
+   "-p",
+   "--mouse"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_max_cores::216",
+  "argv": [
+   "-n",
+   "-p",
+   "-m",
+   "-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_cores_higher_than_available::217",
+  "argv": [
+   "-n",
+   "-p",
+   "-m",
+   "9999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_disks_no_color::218",
+  "argv": [
+   "-n",
+   "-p",
+   "-d",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_disks_with_si::219",
+  "argv": [
+   "-n",
+   "-p",
+   "-d",
+   "--si"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_read_nonexistent::220",
+  "argv": [
+   "-n",
+   "-p",
+   "--config-file",
+   "/nonexistent/config.yaml",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_to_dev_null::221",
+  "argv": [
+   "-n",
+   "-p",
+   "-l",
+   "/dev/null"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_display_flags_combined::222",
+  "argv": [
+   "-n",
+   "-p",
+   "-a",
+   "-C",
+   "-M",
+   "-B",
+   "-c",
+   "-u"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_depth_with_all_display_options::223",
+  "argv": [
+   "-n",
+   "-p",
+   "--depth"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_filters_comprehensive::224",
+  "argv": [
+   "-n",
+   "-p",
+   "--max-age",
+   "1h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_database_with_filters_comprehensive::225",
+  "argv": [
+   "-n",
+   "-p",
+   "-T",
+   "txt,md",
+   "-D"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_comprehensive::226",
+  "argv": [
+   "-n",
+   "-p",
+   "--config-file",
+   "config.yaml"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yaml": "\nno-color: true\nshow-apparent-size: true\nshow-item-count: true\nshow-mtime: true\nmax-cores: 2\nno-hidden: true\nno-cross: true\nsequential-scanning: false\n        "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_handling_comprehensive::227",
+  "argv": [
+   "-n",
+   "-p",
+   "/totally/nonexistent/path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_order_independence::228",
+  "argv": [
+   "-n",
+   "-p",
+   "-a",
+   "-C"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_database_and_json_combined::229",
+  "argv": [
+   "-n",
+   "-p",
+   "-D",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_info_flags_combined::230",
+  "argv": [
+   "-n",
+   "-p",
+   "-a",
+   "-B",
+   "-C",
+   "-M",
+   "-k",
+   "--si"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filtering_with_output_modes::231",
+  "argv": [
+   "-n",
+   "-p",
+   "-E",
+   "log",
+   "-t",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_filters_with_other_options::232",
+  "argv": [
+   "-n",
+   "-p",
+   "--max-age",
+   "1d",
+   "-t",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cross_filesystem_scenarios::233",
+  "argv": [
+   "-n",
+   "-p",
+   "-x",
+   "-s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_values::234",
+  "argv": [
+   "-n",
+   "-p",
+   "-m",
+   "10000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zip_with_subdirectories::235",
+  "argv": [
+   "--archive-browsing",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_database_with_large_structure::236",
+  "argv": [
+   "-D",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_filter_with_future_date::237",
+  "argv": [
+   "--since",
+   "2030-01-01",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_filter_with_past_date::238",
+  "argv": [
+   "--until",
+   "2020-01-01",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_filter_seconds::239",
+  "argv": [
+   "--max-age",
+   "1h30m",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_filter_months::240",
+  "argv": [
+   "--min-age",
+   "3mo",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_filter_years::241",
+  "argv": [
+   "--min-age",
+   "1y",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_many_file_types::242",
+  "argv": [
+   "-T",
+   "py,go,rs",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_common_types::243",
+  "argv": [
+   "-E",
+   "pyc,cache,o",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_with_depth::244",
+  "argv": [
+   "--depth",
+   "3",
+   "-o",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_with_filters::245",
+  "argv": [
+   "-T",
+   "py",
+   "-o",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_display_options_together::246",
+  "argv": [
+   "-a",
+   "-B",
+   "-C",
+   "-M",
+   "-k",
+   "--si",
+   "-c",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_with_no_unicode_flag::247",
+  "argv": [
+   "-u",
+   "-B",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_absolute_ignore_path::248",
+  "argv": [
+   "-i",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_ignore_path::249",
+  "argv": [
+   "-i",
+   "node_modules",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_top_with_reverse::250",
+  "argv": [
+   "-t",
+   "10",
+   "--reverse-sort",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_depth_with_top::251",
+  "argv": [
+   "--depth",
+   "1",
+   "-t",
+   "5",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sequential_with_all_options::252",
+  "argv": [
+   "--sequential",
+   "-a",
+   "-k",
+   "--si",
+   "-C",
+   "-M",
+   "--non-interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_overrides::253",
+  "argv": [
+   "--config-file",
+   "config.yaml",
+   "--si"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yaml": "\nshow-apparent-size: true\nnon-interactive: true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_top_with_reverse_sort::254",
+  "argv": [
+   "-n",
+   "-p",
+   "-t",
+   "2",
+   "--reverse-sort"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_depth_with_summarize::255",
+  "argv": [
+   "-n",
+   "-p",
+   "--depth",
+   "1",
+   "-s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_filter_multiple_extensions::256",
+  "argv": [
+   "-n",
+   "-p",
+   "-T",
+   "txt,json,yaml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_filters_with_various_units::257",
+  "argv": [
+   "-n",
+   "-p",
+   "--max-age",
+   "1w"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_with_relative_paths::258",
+  "argv": [
+   "-n",
+   "-p",
+   "-i",
+   "subdir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_ignore_options::259",
+  "argv": [
+   "-n",
+   "-p",
+   "-H",
+   "-i"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_disks_with_colors_unicode::260",
+  "argv": [
+   "-d",
+   "-n",
+   "-p"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_summarize_without_progress_flag::261",
+  "argv": [
+   "-n",
+   "-s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_top_files_without_progress::262",
+  "argv": [
+   "-n",
+   "-t",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_export_without_progress::263",
+  "argv": [
+   "-n",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_depth_without_progress::264",
+  "argv": [
+   "-n",
+   "--depth",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_filters_without_progress::265",
+  "argv": [
+   "-n",
+   "--max-age",
+   "30d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_filters_without_progress::266",
+  "argv": [
+   "-n",
+   "-T",
+   "txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_dirs_without_progress::267",
+  "argv": [
+   "-n",
+   "-i"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sequential_without_progress::268",
+  "argv": [
+   "-n",
+   "--sequential"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_cores_without_progress::269",
+  "argv": [
+   "-n",
+   "-m",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_si_units_without_progress::270",
+  "argv": [
+   "-n",
+   "--si"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_workspace_directory::271",
+  "argv": [
+   "-n",
+   "-p",
+   "-i",
+   "/workspace/.git,/workspace/node_modules",
+   "/workspace"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_workspace_with_various_options::272",
+  "argv": [
+   "-i",
+   "/workspace/.git",
+   "/workspace"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_tmp_directory::273",
+  "argv": [
+   "-n",
+   "-p",
+   "-t",
+   "20",
+   "/tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_with_type_filters_on_real_dirs::274",
+  "argv": [
+   "-n",
+   "-p",
+   "-T",
+   "go,py",
+   "-i",
+   "/workspace/.git",
+   "/workspace"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_workspace_to_json::275",
+  "argv": [
+   "-n",
+   "-p",
+   "-o",
+   "-i",
+   "/workspace/.git,/workspace/node_modules",
+   "-t",
+   "50",
+   "/workspace"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_workspace_json::276",
+  "argv": [
+   "-n",
+   "-p",
+   "-o",
+   "-t",
+   "30",
+   "/workspace/eval"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_with_hidden_dirs::277",
+  "argv": [
+   "-n",
+   "-p",
+   "/tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_with_time_filters_real::278",
+  "argv": [
+   "-n",
+   "-p",
+   "--max-age",
+   "7d",
+   "/tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_with_cross_filesystem::279",
+  "argv": [
+   "-n",
+   "-p",
+   "-x",
+   "-t",
+   "10",
+   "/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parallel_scan_real_directory::280",
+  "argv": [
+   "-n",
+   "-p",
+   "-m",
+   "-t",
+   "10",
+   "/tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sequential_scan_real_directory::281",
+  "argv": [
+   "-n",
+   "-p",
+   "--sequential",
+   "-t",
+   "10",
+   "/tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_database_real_directory::282",
+  "argv": [
+   "-n",
+   "-p",
+   "-D",
+   "-t",
+   "20",
+   "/tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_database_read_real::283",
+  "argv": [
+   "-n",
+   "-p",
+   "-D",
+   "/workspace/eval"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_size_formats_real::284",
+  "argv": [
+   "-n",
+   "-p",
+   "-t",
+   "5",
+   "/tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_depth_on_real_directory::285",
+  "argv": [
+   "-n",
+   "-p",
+   "--depth",
+   "/tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reverse_sort_real::286",
+  "argv": [
+   "-n",
+   "-p",
+   "--reverse-sort",
+   "-t",
+   "10",
+   "/tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_summarize_real::287",
+  "argv": [
+   "-n",
+   "-p",
+   "-s",
+   "/tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_size_real::288",
+  "argv": [
+   "-n",
+   "-p",
+   "-B",
+   "-t",
+   "10",
+   "/tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_unicode_real::289",
+  "argv": [
+   "-n",
+   "-p",
+   "-c",
+   "-t",
+   "5",
+   "/tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_file_real::290",
+  "argv": [
+   "-n",
+   "-p",
+   "-l",
+   "-t",
+   "5",
+   "/tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_patterns_real::291",
+  "argv": [
+   "-n",
+   "-p",
+   "-i",
+   "/tmp/pytest-of-root",
+   "/tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_etc_directory::292",
+  "argv": [
+   "-n",
+   "-p",
+   "-t",
+   "20",
+   "/etc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_var_directory::293",
+  "argv": [
+   "-n",
+   "-p",
+   "-t",
+   "10",
+   "/var"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scan_usr_directory::294",
+  "argv": [
+   "-n",
+   "-p",
+   "-t",
+   "15",
+   "-s",
+   "/usr"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_flags_real_world::295",
+  "argv": [
+   "-n",
+   "-p",
+   "-a",
+   "-C",
+   "-M",
+   "-B",
+   "--si",
+   "-t",
+   "10",
+   "/tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_roundtrip_real::296",
+  "argv": [
+   "-n",
+   "-p",
+   "-a",
+   "-C",
+   "-o",
+   "-t",
+   "10",
+   "/tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_database_with_options_real::297",
+  "argv": [
+   "-n",
+   "-p",
+   "-a",
+   "-C",
+   "-M",
+   "-D",
+   "-t",
+   "10",
+   "/tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_filter_comprehensive_real::298",
+  "argv": [
+   "-n",
+   "-p",
+   "-T",
+   "go",
+   "/workspace/cmd"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_multiple_flags_combined::299",
+  "argv": [
+   "-n",
+   "-p",
+   "-a",
+   "-C",
+   "-M"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_min_age_error_message::300",
+  "argv": [
+   "-n",
+   "-p",
+   "--min-age",
+   "bad"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_since_error_message::301",
+  "argv": [
+   "-n",
+   "-p",
+   "--since",
+   "notadate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_until_error_message::302",
+  "argv": [
+   "-n",
+   "-p",
+   "--until",
+   "xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_from_file_content::303",
+  "argv": [
+   "-n",
+   "-p",
+   "-X",
+   "ignore.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "ignore.txt": "skip_*\nignore_dir\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_filter_multiple_extensions::304",
+  "argv": [
+   "-n",
+   "-p",
+   "-T",
+   "txt,csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_type_filter::305",
+  "argv": [
+   "-n",
+   "-p",
+   "-E",
+   "log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_dirs_list::306",
+  "argv": [
+   "-n",
+   "-p",
+   "-i",
+   "skip"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_dir_patterns::307",
+  "argv": [
+   "-n",
+   "-p",
+   "-I",
+   "tmp_*"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_age_filter_recent_files::308",
+  "argv": [
+   "-n",
+   "-p",
+   "--max-age",
+   "1d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_cross_filesystem_boundary::309",
+  "argv": [
+   "-n",
+   "-p",
+   "-x",
+   "-s",
+   "/usr"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_loading::310",
+  "argv": [
+   "-n",
+   "-p",
+   "--config-file",
+   "config.yaml"
+  ],
+  "stdin": null,
+  "files": {
+   "config.yaml": "no-color: true\nshow-apparent-size: true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_time_filters::311",
+  "argv": [
+   "-n",
+   "-p",
+   "--since",
+   "2020-01-01",
+   "--until",
+   "2030-12-31"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_ignore_patterns::312",
+  "argv": [
+   "-n",
+   "-p",
+   "-I",
+   "tmp,cache"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_and_exclude_type_combined::313",
+  "argv": [
+   "-n",
+   "-p",
+   "-T",
+   "txt",
+   "-E",
+   "csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_summarize_with_top_n::314",
+  "argv": [
+   "-n",
+   "-p",
+   "-s",
+   "-t",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_on_invalid_flag::315",
+  "argv": [
+   "--invalid-flag-that-does-not-exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_directory_with_device_files::316",
+  "argv": [
+   "-n",
+   "-p",
+   "-i",
+   "/dev",
+   "/tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_ignore_list::317",
+  "argv": [
+   "-n",
+   "-p",
+   "-i",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_top_with_zero::318",
+  "argv": [
+   "-n",
+   "-p",
+   "-t",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_large_max_cores::319",
+  "argv": [
+   "-n",
+   "-p",
+   "-m",
+   "1000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_filter_edge_cases::320",
+  "argv": [
+   "-n",
+   "-p",
+   "--since",
+   "1970-01-01"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_filter_minutes::321",
+  "argv": [
+   "-n",
+   "-p",
+   "--max-age",
+   "30m"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_filter_months::322",
+  "argv": [
+   "-n",
+   "-p",
+   "--max-age",
+   "1mo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_filter_years::323",
+  "argv": [
+   "-n",
+   "-p",
+   "--max-age",
+   "1y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_include_multiple_types::324",
+  "argv": [
+   "-n",
+   "-p",
+   "-T",
+   "txt,py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_summarize_with_filters::325",
+  "argv": [
+   "-n",
+   "-p",
+   "-s",
+   "-T",
+   "txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_import_empty::326",
+  "argv": [
+   "-n",
+   "-p",
+   "-f",
+   "empty.json"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.json": "[]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_disks_with_filtering::327",
+  "argv": [
+   "-d",
+   "-n",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_disks_with_various_options::328",
+  "argv": [
+   "-d",
+   "-n",
+   "-u"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_database_with_apparent_size::329",
+  "argv": [
+   "-n",
+   "-p",
+   "-a",
+   "-D"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_database_with_all_options::330",
+  "argv": [
+   "-n",
+   "-p",
+   "-a",
+   "-C",
+   "-M",
+   "-D"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_ignore_patterns_complex::331",
+  "argv": [
+   "-n",
+   "-p",
+   "-I",
+   ".*/build/.*",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sqlite_with_time_filter_persisted::332",
+  "argv": [
+   "touch",
+   "-d",
+   "2020-01-01",
+   "old.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "old.txt": "old"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_from_stdin_with_dash::333",
+  "argv": [
+   "-f",
+   "-",
+   "-n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_since_filter_ignored_on_storage_read::334",
+  "argv": [
+   "touch",
+   "-d",
+   "2026-01-01",
+   "old_file.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "old_file.txt": "old"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_filter_with_stored_analyzer::335",
+  "argv": [
+   "touch",
+   "-d",
+   "2020-01-01",
+   "old_file.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "old_file.txt": "old content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_archive_and_filters_with_stored::336",
+  "argv": [
+   "touch",
+   "-d",
+   "2020-01-01",
+   "old.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "old.txt": "old content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_age_filter_with_stored_analyzer::337",
+  "argv": [
+   "touch",
+   "-d",
+   "1 day ago",
+   "recent.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "recent.txt": "recent content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_age_filter_with_stored_analyzer::338",
+  "argv": [
+   "touch",
+   "-d",
+   "365 days ago",
+   "very_old.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "very_old.txt": "very old content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_until_filter_with_stored_analyzer::339",
+  "argv": [
+   "touch",
+   "-d",
+   "2022-06-15",
+   "before.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "before.txt": "before content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_path_error_message::340",
+  "argv": [
+   "nonexistent_directory_12345"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_command_with_flags::341",
+  "argv": [
+   "-n",
+   "-s",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_argument_with_flags::342",
+  "argv": [
+   "-n",
+   "-s",
+   "nonexistent_path_xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_after_path::343",
+  "argv": [
+   ".",
+   "-n",
+   "-s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dash_dash_separator_behavior::344",
+  "argv": [
+   "--",
+   "nonexistent_path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_path_arguments::345",
+  "argv": [
+   ".",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hyphen_argument_not_subcommand::346",
+  "argv": [
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_flag_combinations::347",
+  "argv": [
+   "-n",
+   "-c",
+   "-s",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_and_long_flags_mixed::348",
+  "argv": [
+   "-n",
+   "--no-color",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_required_args_no_subcommand_mention::349",
+  "argv": [
+   "--invalid-flag-test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_incorrect_flag_format_error::350",
+  "argv": [
+   "-help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_string_argument::351",
+  "argv": [
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_numeric_argument::352",
+  "argv": [
+   "123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_chars_argument::353",
+  "argv": [
+   "@#$%"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_with_dashes_not_confused_with_flags::354",
+  "argv": [
+   "./nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

@@ -1,0 +1,353 @@
+[
+ {
+  "name": "test::test_bamtobed_t8_split_vs_bed12::0",
+  "argv": [
+   "bed12tobed6"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bed12tobed6_t5_reverse_strand_numbering::1",
+  "argv": [
+   "bed12tobed6",
+   "-n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_getfasta_t10::2",
+  "argv": [
+   "getfasta",
+   "-fi",
+   "test.fa",
+   "-bed",
+   "-"
+  ],
+  "stdin": "chr2\t2\t10\n",
+  "files": {
+   "test.fa": ">chr1\ncggggggggg\n>chr2\nAAATTTTTTTTTT\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_groupby_t18::3",
+  "argv": [
+   "groupby",
+   "-g",
+   "1",
+   "-i",
+   "-",
+   "-c",
+   "1",
+   "-o",
+   "collapse"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_groupby_t20::4",
+  "argv": [
+   "groupby",
+   "-i",
+   "-",
+   "-g",
+   "1",
+   "-c",
+   "2,3",
+   "-o",
+   "distinct,min"
+  ],
+  "stdin": "a\t1253555555355577777777\t7777788888899999\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_general_t01_negative_coordinates::5",
+  "argv": [
+   "merge",
+   "-i",
+   "-"
+  ],
+  "stdin": "chr1\t1\t10\nchr1\t-1\t10\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_general_t02_start_greater_than_end::6",
+  "argv": [
+   "merge",
+   "-i",
+   "-"
+  ],
+  "stdin": "chr1\t1\t2\nchr1\t10\t5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_general_t03_non_integer_coordinates::7",
+  "argv": [
+   "merge",
+   "-i",
+   "-"
+  ],
+  "stdin": "chr1\t.\t2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_general_t05_non_tab_delimited::8",
+  "argv": [
+   "merge",
+   "-i",
+   "-"
+  ],
+  "stdin": "chr1 1 2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_intersect_shell_suite::9",
+  "argv": [
+   "bash",
+   "test-intersect.sh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "BT": "/workspace/executable",
+   "htsutil": "../htsutil"
+  }
+ },
+ {
+  "name": "test::test_slop_t13::10",
+  "argv": [
+   "-l",
+   "200",
+   "-r",
+   "200",
+   "-i",
+   "-",
+   "-g",
+   "../genomes/human.hg19.genome"
+  ],
+  "stdin": "chr1\t16778271\t16778571\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slop_t14::11",
+  "argv": [
+   "-l",
+   "200",
+   "-r",
+   "200",
+   "-i",
+   "-",
+   "-g",
+   "../genomes/human.hg19.genome"
+  ],
+  "stdin": "chr1\t16778272\t16778572\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slop_t15::12",
+  "argv": [
+   "-b",
+   "0.1",
+   "-pct",
+   "-i",
+   "-",
+   "-g",
+   "../genomes/human.hg19.genome"
+  ],
+  "stdin": "chr1\t160\t170\nchr1\t100\t200\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slop_t16::13",
+  "argv": [
+   "-l",
+   "-60",
+   "-r",
+   "60",
+   "-i",
+   "-",
+   "-g",
+   "tiny.genome"
+  ],
+  "stdin": "chr1\t300\t320\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slop_t17::14",
+  "argv": [
+   "-s",
+   "-l",
+   "-60",
+   "-r",
+   "60",
+   "-i",
+   "-",
+   "-g",
+   "tiny.genome"
+  ],
+  "stdin": "chr1\t300\t320\ta1\t5\t-\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slop_t18::15",
+  "argv": [
+   "-l",
+   "60",
+   "-r",
+   "-60",
+   "-i",
+   "-",
+   "-g",
+   "tiny.genome"
+  ],
+  "stdin": "chr1\t300\t320\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slop_t19::16",
+  "argv": [
+   "-s",
+   "-l",
+   "60",
+   "-r",
+   "-60",
+   "-i",
+   "-",
+   "-g",
+   "tiny.genome"
+  ],
+  "stdin": "chr1\t300\t320\ta1\t5\t-\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slop_t20::17",
+  "argv": [
+   "-s",
+   "-l",
+   "-60",
+   "-r",
+   "-60",
+   "-i",
+   "-",
+   "-g",
+   "tiny.genome"
+  ],
+  "stdin": "chr1\t300\t320\ta1\t5\t-\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slop_t21::18",
+  "argv": [
+   "-s",
+   "-l",
+   "60",
+   "-r",
+   "-60",
+   "-i",
+   "-",
+   "-g",
+   "tiny.genome"
+  ],
+  "stdin": "chr1\t950\t970\ta1\t5\t-\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slop_t22::19",
+  "argv": [
+   "-s",
+   "-l",
+   "-60",
+   "-r",
+   "60",
+   "-i",
+   "-",
+   "-g",
+   "tiny.genome"
+  ],
+  "stdin": "chr1\t50\t60\ta1\t5\t-\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_igv_stdin_input::20",
+  "argv": [
+   "igv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_links_stdin_input::21",
+  "argv": [
+   "links"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

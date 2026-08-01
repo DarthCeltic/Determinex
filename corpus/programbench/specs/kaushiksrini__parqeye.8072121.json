@@ -1,0 +1,1225 @@
+{
+ "slug": "kaushiksrini__parqeye.8072121",
+ "language": "",
+ "n_branches": 11,
+ "n_tests_total": 343,
+ "n_examples": 70,
+ "n_with_exact_stdout": 1,
+ "n_with_rc": 68,
+ "n_skipped": 265,
+ "examples": [
+  {
+   "test": "test_help_takes_precedence_over_other_flags",
+   "argv": [
+    "--help",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable <PATH>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:96"
+  },
+  {
+   "test": "test_invalid_flag_before_help_is_error_and_shows_usage_hint",
+   "argv": [
+    "--foo",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument",
+    "Usage: executable <PATH>",
+    "try '--help'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:104"
+  },
+  {
+   "test": "test_help_ignores_parquet_test_data_env_if_invalid_dir",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {
+    "PARQUET_TEST_DATA": "/does/not/exist"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:25"
+  },
+  {
+   "test": "test_version_ignores_parquet_test_data_env_if_invalid_dir",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {
+    "PARQUET_TEST_DATA": "/does/not/exist"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "parqeye"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_config_env.py:34"
+  },
+  {
+   "test": "test_parquet_test_data_env_whitespace_is_trimmed_and_used_for_data_dir_lookup",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:41"
+  },
+  {
+   "test": "test_unknown_flag_errors",
+   "argv": [
+    "--definitely-not-a-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_behavior.py:48"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Command line tool to visualize parquet files",
+    "Usage:",
+    "<PATH>",
+    "Path to the parquet file",
+    "--help",
+    "--version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:21"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Command line tool to visualize parquet files",
+    "Usage:",
+    "<PATH>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:33"
+  },
+  {
+   "test": "test_version_short_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "parqeye"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:51"
+  },
+  {
+   "test": "test_invalid_flag",
+   "argv": [
+    "--invalid-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:69"
+  },
+  {
+   "test": "test_multiple_paths",
+   "argv": [
+    "file1.parquet",
+    "file2.parquet"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:77"
+  },
+  {
+   "test": "test_help_with_extra_args",
+   "argv": [
+    "--help",
+    "extra_arg"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:94"
+  },
+  {
+   "test": "test_version_with_extra_args",
+   "argv": [
+    "--version",
+    "extra_arg"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "parqeye"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:102"
+  },
+  {
+   "test": "test_nulls_parquet",
+   "argv": [
+    "parquet-testing/data/nulls.snappy.parquet",
+    "test_nulls"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "nulls"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_parquet_files.py:44"
+  },
+  {
+   "test": "test_single_nan_parquet",
+   "argv": [
+    "parquet-testing/data/single_nan.parquet",
+    "test_nan"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "single_nan"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_parquet_files.py:56"
+  },
+  {
+   "test": "test_nested_lists_parquet",
+   "argv": [
+    "parquet-testing/data/nested_lists.snappy.parquet",
+    "test_nest_list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "nested_lists"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_parquet_files.py:68"
+  },
+  {
+   "test": "test_non_hadoop_lz4_compressed",
+   "argv": [
+    "parquet-testing/data/non_hadoop_lz4_compressed.parquet",
+    "test_lz4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "lz4"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_parquet_files.py:80"
+  },
+  {
+   "test": "test_fixed_length_decimal_parquet",
+   "argv": [
+    "parquet-testing/data/fixed_length_decimal.parquet",
+    "test_fixed_dec"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "decimal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_parquet_files.py:92"
+  },
+  {
+   "test": "test_fixed_length_decimal_legacy",
+   "argv": [
+    "parquet-testing/data/fixed_length_decimal_legacy.parquet",
+    "test_fixed_leg"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "decimal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_parquet_files.py:104"
+  },
+  {
+   "test": "test_delta_byte_array",
+   "argv": [
+    "parquet-testing/data/delta_byte_array.parquet",
+    "test_delta_ba"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "delta_byte_array"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_parquet_files.py:116"
+  },
+  {
+   "test": "test_delta_encoding_required_column",
+   "argv": [
+    "parquet-testing/data/delta_encoding_required_column.parquet",
+    "test_delta_req"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "delta_encoding"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_parquet_files.py:128"
+  },
+  {
+   "test": "test_delta_encoding_optional_column",
+   "argv": [
+    "parquet-testing/data/delta_encoding_optional_column.parquet",
+    "test_delta_opt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "delta_encoding"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_parquet_files.py:140"
+  },
+  {
+   "test": "test_delta_length_byte_array",
+   "argv": [
+    "parquet-testing/data/delta_length_byte_array.parquet",
+    "test_delta_len"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "delta_length"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_parquet_files.py:152"
+  },
+  {
+   "test": "test_rle_boolean_encoding",
+   "argv": [
+    "parquet-testing/data/rle_boolean_encoding.parquet",
+    "test_rle_bool"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "rle_boolean"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_parquet_files.py:164"
+  },
+  {
+   "test": "test_int32_decimal",
+   "argv": [
+    "parquet-testing/data/int32_decimal.parquet",
+    "test_i32dec"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "decimal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_parquet_types.py:51"
+  },
+  {
+   "test": "test_int64_decimal",
+   "argv": [
+    "parquet-testing/data/int64_decimal.parquet",
+    "test_i64dec"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "decimal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_parquet_types.py:63"
+  },
+  {
+   "test": "test_plain_dict_uncompressed_checksum",
+   "argv": [
+    "parquet-testing/data/plain-dict-uncompressed-checksum.parquet",
+    "test_pdu_cs"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_more_parquet_types.py:87"
+  },
+  {
+   "test": "test_rle_dict_snappy",
+   "argv": [
+    "parquet-testing/data/rle-dict-snappy-checksum.parquet",
+    "test_rle_ds"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_more_parquet_types.py:98"
+  },
+  {
+   "test": "test_alltypes_dictionary",
+   "argv": [
+    "parquet-testing/data/alltypes_dictionary.parquet",
+    "test_dict"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "alltypes_dictionary.parquet"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_parquet_formats.py:44"
+  },
+  {
+   "test": "test_alltypes_plain",
+   "argv": [
+    "parquet-testing/data/alltypes_plain.parquet",
+    "test_plain"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "alltypes_plain.parquet"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_parquet_formats.py:56"
+  },
+  {
+   "test": "test_alltypes_snappy",
+   "argv": [
+    "parquet-testing/data/alltypes_plain.snappy.parquet",
+    "test_snappy"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "snappy.parquet"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_parquet_formats.py:68"
+  },
+  {
+   "test": "test_alltypes_tiny_pages",
+   "argv": [
+    "parquet-testing/data/alltypes_tiny_pages.parquet",
+    "test_tiny"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "alltypes_tiny_pages.parquet"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_parquet_formats.py:80"
+  },
+  {
+   "test": "test_binary_parquet",
+   "argv": [
+    "parquet-testing/data/binary.parquet",
+    "test_binary"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "binary.parquet"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_parquet_formats.py:92"
+  },
+  {
+   "test": "test_byte_array_decimal",
+   "argv": [
+    "parquet-testing/data/byte_array_decimal.parquet",
+    "test_decimal"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "byte_array_decimal.parquet"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_parquet_formats.py:104"
+  },
+  {
+   "test": "test_byte_stream_split_zstd",
+   "argv": [
+    "parquet-testing/data/byte_stream_split.zstd.parquet",
+    "test_zstd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "zstd.parquet"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_parquet_formats.py:116"
+  },
+  {
+   "test": "test_datapage_v2_snappy",
+   "argv": [
+    "parquet-testing/data/datapage_v2.snappy.parquet",
+    "test_v2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "datapage_v2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_parquet_formats.py:128"
+  },
+  {
+   "test": "test_nested_structs",
+   "argv": [
+    "parquet-testing/data/nested_structs.rust.parquet",
+    "test_nested"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "nested_structs"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_parquet_formats.py:141"
+  },
+  {
+   "test": "test_list_columns",
+   "argv": [
+    "parquet-testing/data/list_columns.parquet",
+    "test_lists"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "list_columns.parquet"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_parquet_formats.py:153"
+  },
+  {
+   "test": "test_repeated_no_annotation",
+   "argv": [
+    "parquet-testing/data/repeated_no_annotation.parquet",
+    "test_repeated"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "repeated_no_annotation.parquet"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_parquet_formats.py:165"
+  },
+  {
+   "test": "test_tui_starts_with_valid_file",
+   "argv": [
+    "test_tui_start"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_interaction.py:22"
+  },
+  {
+   "test": "test_tui_quit_with_q",
+   "argv": [
+    "test_tui_quit"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_interaction.py:52"
+  },
+  {
+   "test": "test_tui_quit_with_capital_q",
+   "argv": [
+    "test_tui_quit_q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_interaction.py:87"
+  },
+  {
+   "test": "test_tui_tab_navigation",
+   "argv": [
+    "test_tui_tabs"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_interaction.py:116"
+  },
+  {
+   "test": "test_tui_shows_filename",
+   "argv": [
+    "test_tui_filename"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "alltypes_plain.parquet"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_interaction.py:153"
+  },
+  {
+   "test": "test_tui_arrow_key_navigation",
+   "argv": [
+    "test_tui_arrows"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "alltypes_plain"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_interaction.py:179"
+  },
+  {
+   "test": "test_tui_escape_key_reset",
+   "argv": [
+    "test_tui_escape"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "alltypes_plain"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_interaction.py:210"
+  },
+  {
+   "test": "test_visualize_tab_default",
+   "argv": [
+    "test_viz_tab"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "alltypes_plain"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_tabs_detailed.py:22"
+  },
+  {
+   "test": "test_schema_tab",
+   "argv": [
+    "test_schema_tab"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_tabs_detailed.py:49"
+  },
+  {
+   "test": "test_metadata_tab",
+   "argv": [
+    "test_meta_tab"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_tabs_detailed.py:77"
+  },
+  {
+   "test": "test_row_groups_tab",
+   "argv": [
+    "test_rg_tab"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_tabs_detailed.py:105"
+  },
+  {
+   "test": "test_backtab_navigation",
+   "argv": [
+    "test_backtab"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_tabs_detailed.py:133"
+  },
+  {
+   "test": "test_page_down_navigation",
+   "argv": [
+    "test_pgdn"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "alltypes_plain"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_tabs_detailed.py:161"
+  },
+  {
+   "test": "test_page_up_navigation",
+   "argv": [
+    "test_pgup"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "alltypes_plain"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_tabs_detailed.py:189"
+  },
+  {
+   "test": "test_left_right_navigation_sequence",
+   "argv": [
+    "test_lr_seq"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_tabs_detailed.py:217"
+  },
+  {
+   "test": "test_up_down_navigation_sequence",
+   "argv": [
+    "test_ud_seq"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_tabs_detailed.py:245"
+  },
+  {
+   "test": "test_help_shows_no_subcommands",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage:",
+    "<path>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:37"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:60"
+  },
+  {
+   "test": "test_short_help_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage:"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:66"
+  },
+  {
+   "test": "test_help_flag_takes_precedence",
+   "argv": [
+    "--help",
+    "somefile.parquet"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage:"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:122"
+  },
+  {
+   "test": "test_version_flag_takes_precedence",
+   "argv": [
+    "--version",
+    "somefile.parquet"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:129"
+  },
+  {
+   "test": "test_help_has_usage_section",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage:"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:189"
+  },
+  {
+   "test": "test_help_has_arguments_section",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "argument",
+    "path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:195"
+  },
+  {
+   "test": "test_help_has_options_section",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "option"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:204"
+  },
+  {
+   "test": "test_help_describes_tool_purpose",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "parquet"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:210"
+  },
+  {
+   "test": "test_flag_after_argument",
+   "argv": [
+    "file.parquet",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Command line tool",
+    "parquet"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_edge_cases.py:212"
+  },
+  {
+   "test": "test_unknown_flag_tip_about_double_dash",
+   "argv": [
+    "--unknown"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tip: to pass '--unknown' as a value, use '-- --unknown'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args.py:60"
+  },
+  {
+   "test": "test_double_dash_causes_value_not_flag_but_then_app_runs_and_fails_no_tty",
+   "argv": [
+    "--",
+    "--unknown"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "failed to initialize terminal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args.py:65"
+  },
+  {
+   "test": "test_version_flag_allows_extra_args_ignored",
+   "argv": [
+    "--version",
+    "extra"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_args.py:86"
+  },
+  {
+   "test": "test_help_outputs_usage_to_stdout_and_exit_0",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Options:",
+    "--help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_io.py:4"
+  },
+  {
+   "test": "test_unknown_flag_errors_to_stderr_and_exit_2",
+   "argv": [
+    "--definitely-not-a-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "--definitely-not-a-flag",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_io.py:33"
+  }
+ ]
+}

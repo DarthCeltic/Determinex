@@ -1,0 +1,4838 @@
+{
+ "slug": "multiprocessio__dsq.c3ae0ba",
+ "language": "",
+ "n_branches": 10,
+ "n_tests_total": 735,
+ "n_examples": 283,
+ "n_with_exact_stdout": 7,
+ "n_with_rc": 273,
+ "n_skipped": 424,
+ "examples": [
+  {
+   "test": "test_help_includes_usage_and_examples",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Examples:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dsq_io.py:6"
+  },
+  {
+   "test": "test_dump_file_without_query_outputs_json_rows",
+   "argv": [
+    "testdata/join/users.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\"name\":"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dsq_io.py:15"
+  },
+  {
+   "test": "test_query_argument_outputs_json_in_stable_format_for_known_input",
+   "argv": [
+    "testdata/join/users.csv",
+    "select name from {} order by id limit 3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "[{\"name\":\"Ted\"},\n{\"name\":\"Marjory\"},\n{\"name\":\"Micah\"}]\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dsq_io.py:25"
+  },
+  {
+   "test": "test_pretty_flag_outputs_ascii_table_and_row_count",
+   "argv": [
+    "--pretty",
+    "testdata/join/users.csv",
+    "select name from {} order by id limit 3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "(3 rows)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dsq_io.py:32"
+  },
+  {
+   "test": "test_stdin_requires_source_type_and_produces_json",
+   "argv": [
+    "-s",
+    "csv",
+    "select name from {} order by id"
+   ],
+   "stdin": "id,name\n1,Alice\n2,Bob\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "[{\"name\":\"Alice\"},\n{\"name\":\"Bob\"}]\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dsq_io.py:45"
+  },
+  {
+   "test": "test_missing_input_file_is_error_and_mentions_path_on_stderr",
+   "argv": [
+    "does_not_exist.csv",
+    "select 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "open does_not_exist.csv"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dsq_io.py:53"
+  },
+  {
+   "test": "test_invalid_sql_goes_to_stderr_and_exit_1",
+   "argv": [
+    "testdata/join/users.csv",
+    "select does_not_exist from {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "no such column"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dsq_io.py:60"
+  },
+  {
+   "test": "test_query_from_file_flag_f_reads_sql_file",
+   "argv": [
+    "testdata/join/users.csv",
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "[{\"name\":\"Ted\"},\n{\"name\":\"Marjory\"}]\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dsq_io.py:67"
+  },
+  {
+   "test": "test_f_without_argument_prints_message_to_stderr_and_exit_1",
+   "argv": [
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Must specify a SQL file."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dsq_io.py:80"
+  },
+  {
+   "test": "test_stdin_with_source_flag_s_csv",
+   "argv": [
+    "-s",
+    "csv",
+    "select count(*) from {}"
+   ],
+   "stdin": "id,name\n1,A\n2,B\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dsq_behavior.py:124"
+  },
+  {
+   "test": "test_help_shows_no_subcommands",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:42"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dsq"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommands.py:57"
+  },
+  {
+   "test": "test_help_flag_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:89"
+  },
+  {
+   "test": "test_version_flag_short",
+   "argv": [
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:99"
+  },
+  {
+   "test": "test_version_flag_long",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:104"
+  },
+  {
+   "test": "test_help_precedence_over_unknown_flag",
+   "argv": [
+    "--help",
+    "--definitely-not-a-real-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:111"
+  },
+  {
+   "test": "test_help_after_double_dash_still_shows_help",
+   "argv": [
+    "--",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:117"
+  },
+  {
+   "test": "test_regexp_matching",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT * FROM {} WHERE name REGEXP '^M'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:7"
+  },
+  {
+   "test": "test_regexp_case_insensitive",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT * FROM {} WHERE name REGEXP '[mt]'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:19"
+  },
+  {
+   "test": "test_aggregate_with_filter",
+   "argv": [
+    "testdata/join/ages.json",
+    "SELECT COUNT(*) as count FROM {} WHERE age > 50"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:28"
+  },
+  {
+   "test": "test_multiple_aggregates",
+   "argv": [
+    "testdata/join/ages.json",
+    "SELECT MIN(age) as min, MAX(age) as max, AVG(age) as avg FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:36"
+  },
+  {
+   "test": "test_trim_function",
+   "argv": [
+    "trim.csv",
+    "SELECT TRIM(text) as trimmed FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "trim.csv": "text\n  hello  \n  world  "
+   },
+   "ci": false,
+   "source": "test_advanced_features.py:47"
+  },
+  {
+   "test": "test_abs_function",
+   "argv": [
+    "nums.csv",
+    "SELECT ABS(CAST(num AS INTEGER)) as absolute FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "nums.csv": "num\n-5\n10\n-3"
+   },
+   "ci": false,
+   "source": "test_advanced_features.py:57"
+  },
+  {
+   "test": "test_null_comparison",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT * FROM {} WHERE name IS NOT NULL"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:68"
+  },
+  {
+   "test": "test_and_or_operators",
+   "argv": [
+    "testdata/join/ages.json",
+    "SELECT * FROM {} WHERE age > 30 AND age < 60"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:76"
+  },
+  {
+   "test": "test_not_operator",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT * FROM {} WHERE NOT (id = '1')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:84"
+  },
+  {
+   "test": "test_glob_operator",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT * FROM {} WHERE name GLOB 'M*'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:92"
+  },
+  {
+   "test": "test_numeric_operations",
+   "argv": [
+    "testdata/join/ages.json",
+    "SELECT age, age + 10 as plus, age - 5 as minus, age * 2 as times, age / 2 as div FROM {} LIMIT 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:101"
+  },
+  {
+   "test": "test_modulo_operation",
+   "argv": [
+    "testdata/join/ages.json",
+    "SELECT age, age % 10 as mod10 FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:113"
+  },
+  {
+   "test": "test_ifnull_function",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT IFNULL(name, 'default') as name FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:121"
+  },
+  {
+   "test": "test_nullif_function",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT NULLIF(id, '1') as result FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:130"
+  },
+  {
+   "test": "test_datetime_functions",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT date('now') as today FROM {} LIMIT 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "today"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:138"
+  },
+  {
+   "test": "test_random_function",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT RANDOM() as rand FROM {} LIMIT 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "rand"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:147"
+  },
+  {
+   "test": "test_hex_function",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT HEX(name) as hex FROM {} LIMIT 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hex"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:156"
+  },
+  {
+   "test": "test_typeof_function",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT TYPEOF(id) as type FROM {} LIMIT 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:166"
+  },
+  {
+   "test": "test_alias_in_where",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT name as user_name FROM {} WHERE name = 'Ted'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:175"
+  },
+  {
+   "test": "test_multiple_where_conditions",
+   "argv": [
+    "testdata/join/ages.json",
+    "SELECT * FROM {} WHERE age > 30 AND age < 90 AND id > 0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:185"
+  },
+  {
+   "test": "test_nested_subquery",
+   "argv": [
+    "testdata/join/ages.json",
+    "SELECT * FROM {} WHERE age IN (SELECT age FROM {} WHERE age > 50)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:193"
+  },
+  {
+   "test": "test_exists_operator",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT * FROM {} WHERE EXISTS (SELECT 1)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:203"
+  },
+  {
+   "test": "test_help_flag_long",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dsq",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:12"
+  },
+  {
+   "test": "test_help_flag_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dsq"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:23"
+  },
+  {
+   "test": "test_version_flag_short",
+   "argv": [
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dsq"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:43"
+  },
+  {
+   "test": "test_basic_csv_dump_no_query",
+   "argv": [
+    "testdata/join/users.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:52"
+  },
+  {
+   "test": "test_simple_select_query",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT * FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Ted",
+    "Marjory",
+    "Micah"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:64"
+  },
+  {
+   "test": "test_where_clause",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT * FROM {} WHERE id = '1'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:77"
+  },
+  {
+   "test": "test_limit_clause",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT * FROM {} LIMIT 2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:86"
+  },
+  {
+   "test": "test_count_aggregation",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT COUNT(*) as count FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:93"
+  },
+  {
+   "test": "test_order_by",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT * FROM {} ORDER BY name"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:101"
+  },
+  {
+   "test": "test_distinct",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT DISTINCT name FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:110"
+  },
+  {
+   "test": "test_multiple_files_join",
+   "argv": [
+    "testdata/join/users.csv",
+    "testdata/join/ages.json",
+    "SELECT {0}.name, {1}.age FROM {0} JOIN {1} ON {0}.id = {1}.id"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:120"
+  },
+  {
+   "test": "test_table_reference_with_numbers",
+   "argv": [
+    "testdata/join/users.csv",
+    "testdata/join/ages.json",
+    "SELECT * FROM {0} LIMIT 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:134"
+  },
+  {
+   "test": "test_unknown_file_type_error",
+   "argv": [
+    "test.unknown"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.unknown": "some data"
+   },
+   "ci": false,
+   "source": "test_basic_invocation.py:146"
+  },
+  {
+   "test": "test_missing_file_error",
+   "argv": [
+    "nonexistent_file.csv",
+    "SELECT * FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:156"
+  },
+  {
+   "test": "test_invalid_sql_syntax",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELEKT * FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:163"
+  },
+  {
+   "test": "test_convert_numbers_flag_long",
+   "argv": [
+    "--convert-numbers",
+    "testdata/convert.csv",
+    "SELECT * FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_caching_and_numbers.py:46"
+  },
+  {
+   "test": "test_convert_numbers_flag_short",
+   "argv": [
+    "-n",
+    "testdata/convert.csv",
+    "SELECT * FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_caching_and_numbers.py:57"
+  },
+  {
+   "test": "test_convert_numbers_env_variable",
+   "argv": [
+    "testdata/convert.csv",
+    "SELECT * FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_caching_and_numbers.py:64"
+  },
+  {
+   "test": "test_no_convert_numbers_default",
+   "argv": [
+    "testdata/csv/numberconvert.csv",
+    "SELECT * FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_caching_and_numbers.py:82"
+  },
+  {
+   "test": "test_verbose_flag",
+   "argv": [
+    "--verbose",
+    "testdata/join/users.csv",
+    "SELECT * FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_caching_and_numbers.py:89"
+  },
+  {
+   "test": "test_no_sqlite_writer_flag",
+   "argv": [
+    "--no-sqlite-writer",
+    "testdata/join/users.csv",
+    "SELECT * FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_caching_and_numbers.py:98"
+  },
+  {
+   "test": "test_no_sqlite_writer_env",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT * FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_caching_and_numbers.py:105"
+  },
+  {
+   "test": "test_window_function_row_number",
+   "argv": [
+    "testdata/join/ages.json",
+    "SELECT id, age, ROW_NUMBER() OVER (ORDER BY age) as row_num FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_queries.py:5"
+  },
+  {
+   "test": "test_window_function_rank",
+   "argv": [
+    "testdata/join/ages.json",
+    "SELECT age, RANK() OVER (ORDER BY age DESC) as rank FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_queries.py:16"
+  },
+  {
+   "test": "test_cte_with_clause",
+   "argv": [
+    "testdata/join/ages.json",
+    "WITH older AS (SELECT * FROM {} WHERE age > 50) SELECT * FROM older"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_queries.py:24"
+  },
+  {
+   "test": "test_multiple_ctes",
+   "argv": [
+    "testdata/join/users.csv",
+    "WITH \n                    first AS (SELECT * FROM {} WHERE id = '1'),\n                    second AS (SELECT * FROM {} WHERE id = '2')\n                    SELECT * FROM first UNION ALL SELECT * FROM second"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_queries.py:33"
+  },
+  {
+   "test": "test_recursive_cte",
+   "argv": [
+    "testdata/join/users.csv",
+    "WITH RECURSIVE cnt(x) AS (\n                     SELECT 1\n                     UNION ALL\n                     SELECT x+1 FROM cnt WHERE x < 5\n                 )\n                 SELECT x FROM cnt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_queries.py:44"
+  },
+  {
+   "test": "test_except_operator",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT name FROM {} EXCEPT SELECT name FROM {} WHERE id = '1'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_queries.py:57"
+  },
+  {
+   "test": "test_intersect_operator",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT name FROM {} INTERSECT SELECT name FROM {} WHERE id IN ('1', '2')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_queries.py:68"
+  },
+  {
+   "test": "test_union_all",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT name FROM {} UNION ALL SELECT name FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_queries.py:76"
+  },
+  {
+   "test": "test_json_extract",
+   "argv": [
+    "testdata/nested/nested.json",
+    "SELECT name FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_queries.py:85"
+  },
+  {
+   "test": "test_complex_arithmetic",
+   "argv": [
+    "testdata/join/ages.json",
+    "SELECT age, (age * 2 + 10) / 3 - 5 as complex FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_queries.py:94"
+  },
+  {
+   "test": "test_string_functions_combination",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT UPPER(SUBSTR(name, 1, 1)) || LOWER(SUBSTR(name, 2)) as formatted FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_queries.py:107"
+  },
+  {
+   "test": "test_nested_case_expressions",
+   "argv": [
+    "testdata/join/ages.json",
+    "SELECT age,\n                    CASE \n                        WHEN age > 80 THEN \n                            CASE WHEN age > 85 THEN 'very old' ELSE 'old' END\n                        ELSE 'younger'\n                    END as category\n                    FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_queries.py:115"
+  },
+  {
+   "test": "test_aggregate_in_case",
+   "argv": [
+    "testdata/join/ages.json",
+    "SELECT \n                    CASE WHEN MAX(age) > 80 THEN 'has seniors' ELSE 'no seniors' END as result\n                    FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_queries.py:129"
+  },
+  {
+   "test": "test_correlated_subquery",
+   "argv": [
+    "testdata/join/ages.json",
+    "SELECT age, \n                    (SELECT COUNT(*) FROM {} t2 WHERE t2.age <= t1.age) as rank\n                    FROM {} t1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_queries.py:140"
+  },
+  {
+   "test": "test_scalar_subquery",
+   "argv": [
+    "testdata/join/ages.json",
+    "SELECT age, (SELECT MAX(age) FROM {}) as max_age FROM {} LIMIT 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_queries.py:150"
+  },
+  {
+   "test": "test_multiple_joins_complex",
+   "argv": [
+    "t1.csv",
+    "t2.csv",
+    "t3.csv",
+    "SELECT {0}.id, {0}.val, {1}.val as val2, {2}.val as val3\n                        FROM {0}\n                        LEFT JOIN {1} ON {0}.id = {1}.id\n                        LEFT JOIN {2} ON {0}.id = {2}.id\n                        WHERE {0}.id > 0\n                        ORDER BY {0}.id"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "t1.csv": "id,val\n1,a\n2,b\n3,c",
+    "t2.csv": "id,val\n1,x\n2,y",
+    "t3.csv": "id,val\n2,m\n3,n"
+   },
+   "ci": false,
+   "source": "test_complex_queries.py:159"
+  },
+  {
+   "test": "test_group_by_multiple_columns",
+   "argv": [
+    "multi.csv",
+    "SELECT cat, subcat, SUM(CAST(val AS INTEGER)) as total FROM {} GROUP BY cat, subcat"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "multi.csv": "cat,subcat,val\nA,1,10\nA,1,20\nA,2,30\nB,1,40"
+   },
+   "ci": false,
+   "source": "test_complex_queries.py:177"
+  },
+  {
+   "test": "test_having_with_aggregate",
+   "argv": [
+    "groups.csv",
+    "SELECT \"group\", SUM(CAST(value AS INTEGER)) as total FROM {} GROUP BY \"group\" HAVING total > 15"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "groups.csv": "group,value\nA,10\nA,20\nB,5\nB,3\nC,100"
+   },
+   "ci": false,
+   "source": "test_complex_queries.py:187"
+  },
+  {
+   "test": "test_order_by_computed_column",
+   "argv": [
+    "testdata/join/ages.json",
+    "SELECT age, age * 2 as doubled FROM {} ORDER BY doubled DESC"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_queries.py:198"
+  },
+  {
+   "test": "test_csv_with_empty_values",
+   "argv": [
+    "empty_vals.csv",
+    "SELECT * FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "empty_vals.csv": "a,b,c\n1,,3\n,2,\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:24"
+  },
+  {
+   "test": "test_unicode_content",
+   "argv": [
+    "unicode.csv",
+    "SELECT * FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "日本語"
+   ],
+   "files": {
+    "unicode.csv": "name,value\n日本語,123\nΕλληνικά,456\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:33"
+  },
+  {
+   "test": "test_special_characters_in_data",
+   "argv": [
+    "special.csv",
+    "SELECT * FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test-comma"
+   ],
+   "files": {
+    "special.csv": "name,value\ntest-comma,1\ntest-quote,2\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:43"
+  },
+  {
+   "test": "test_large_number_of_rows",
+   "argv": [
+    "SELECT COUNT(*) as count FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:55"
+  },
+  {
+   "test": "test_query_with_zero_results",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT * FROM {} WHERE id = '999999'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:78"
+  },
+  {
+   "test": "test_whitespace_in_column_names",
+   "argv": [
+    "spaces.csv",
+    "SELECT \"first name\" FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "spaces.csv": "first name,last name\nJohn,Doe\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:98"
+  },
+  {
+   "test": "test_case_sensitivity",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT NAME, ID FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:108"
+  },
+  {
+   "test": "test_reserved_sql_keywords_as_columns",
+   "argv": [
+    "reserved.csv",
+    "SELECT \"select\", \"from\", \"where\" FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "reserved.csv": "select,from,where\n1,2,3\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:116"
+  },
+  {
+   "test": "test_numeric_column_names",
+   "argv": [
+    "numeric.csv",
+    "SELECT * FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "numeric.csv": "1,2,3\na,b,c\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:125"
+  },
+  {
+   "test": "test_newlines_in_quoted_fields",
+   "argv": [
+    "newlines.csv",
+    "SELECT * FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\n"
+   ],
+   "files": {
+    "newlines.csv": "text,value\n\"line1\nline2\",1\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:142"
+  },
+  {
+   "test": "test_mixed_type_columns",
+   "argv": [
+    "mixed.csv",
+    "SELECT * FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "mixed.csv": "value\n123\nabc\n45.6\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:152"
+  },
+  {
+   "test": "test_table_not_found",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT * FROM {5}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:26"
+  },
+  {
+   "test": "test_column_not_found",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT nonexistent_column FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:33"
+  },
+  {
+   "test": "test_syntax_error_unclosed_quote",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT * FROM {} WHERE name = 'unclosed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:40"
+  },
+  {
+   "test": "test_syntax_error_missing_from",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT * WHERE id = '1'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:47"
+  },
+  {
+   "test": "test_empty_query_string",
+   "argv": [
+    "testdata/join/users.csv",
+    ""
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:64"
+  },
+  {
+   "test": "test_circular_reference",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT * FROM {} WHERE id IN (SELECT id FROM {})"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:70"
+  },
+  {
+   "test": "test_group_by_without_aggregate",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT name FROM {} GROUP BY name"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:79"
+  },
+  {
+   "test": "test_limit_zero",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT * FROM {} LIMIT 0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:94"
+  },
+  {
+   "test": "test_negative_limit",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT * FROM {} LIMIT -1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:102"
+  },
+  {
+   "test": "test_offset_without_limit",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT * FROM {} OFFSET 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:111"
+  },
+  {
+   "test": "test_order_by_nonexistent_column",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT name FROM {} ORDER BY nonexistent"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:119"
+  },
+  {
+   "test": "test_duplicate_table_reference",
+   "argv": [
+    "testdata/join/users.csv",
+    "testdata/join/users.csv",
+    "SELECT {0}.name, {1}.id FROM {0}, {1}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:126"
+  },
+  {
+   "test": "test_invalid_join_condition",
+   "argv": [
+    "testdata/join/users.csv",
+    "testdata/join/ages.json",
+    "SELECT * FROM {0} JOIN {1} ON invalid_condition"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:135"
+  },
+  {
+   "test": "test_stdin_with_file",
+   "argv": [
+    "-s",
+    "csv",
+    "testdata/join/users.csv",
+    "SELECT * FROM {0}, {1}"
+   ],
+   "stdin": "x\n1",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:142"
+  },
+  {
+   "test": "test_very_large_result_set",
+   "argv": [
+    "SELECT * FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:151"
+  },
+  {
+   "test": "test_csv_format",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT * FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name",
+    "id"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_formats.py:5"
+  },
+  {
+   "test": "test_tsv_format",
+   "argv": [
+    "testdata/userdata.tsv",
+    "SELECT COUNT(*) as count FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_file_formats.py:14"
+  },
+  {
+   "test": "test_json_format",
+   "argv": [
+    "testdata/join/ages.json",
+    "SELECT * FROM {} ORDER BY id"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_file_formats.py:23"
+  },
+  {
+   "test": "test_jsonl_format",
+   "argv": [
+    "testdata/userdata.jsonl",
+    "SELECT COUNT(*) as count FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_file_formats.py:32"
+  },
+  {
+   "test": "test_parquet_format",
+   "argv": [
+    "testdata/userdata.parquet",
+    "SELECT COUNT(*) as count FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_file_formats.py:39"
+  },
+  {
+   "test": "test_parquet_with_limit",
+   "argv": [
+    "testdata/userdata.parquet",
+    "SELECT * FROM {} LIMIT 5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_file_formats.py:46"
+  },
+  {
+   "test": "test_xlsx_format",
+   "argv": [
+    "testdata/userdata.xlsx",
+    "SELECT COUNT(*) as count FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_file_formats.py:55"
+  },
+  {
+   "test": "test_ods_format",
+   "argv": [
+    "testdata/userdata.ods",
+    "SELECT COUNT(*) as count FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_file_formats.py:62"
+  },
+  {
+   "test": "test_yaml_format",
+   "argv": [
+    "testdata/yaml/userdata.yaml",
+    "SELECT COUNT(*) as count FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_file_formats.py:69"
+  },
+  {
+   "test": "test_avro_format",
+   "argv": [
+    "testdata/avro/test_data.avro",
+    "SELECT * FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_file_formats.py:76"
+  },
+  {
+   "test": "test_orc_format",
+   "argv": [
+    "testdata/orc/test_data.orc",
+    "SELECT * FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_file_formats.py:84"
+  },
+  {
+   "test": "test_logfmt_format",
+   "argv": [
+    "testdata/logfmt/log.logfmt",
+    "SELECT * FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_file_formats.py:92"
+  },
+  {
+   "test": "test_json_without_query",
+   "argv": [
+    "testdata/join/ages.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_file_formats.py:108"
+  },
+  {
+   "test": "test_nested_object_access",
+   "argv": [
+    "testdata/nested/nested.json",
+    "SELECT name, \"location.city\" as city FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Toronto",
+    "Mexico City"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_nested_data.py:5"
+  },
+  {
+   "test": "test_deeply_nested_object",
+   "argv": [
+    "testdata/nested/nested.json",
+    "SELECT name, \"location.address.number\" as num FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_nested_data.py:17"
+  },
+  {
+   "test": "test_path_extraction_syntax",
+   "argv": [
+    "testdata/path/path.json",
+    "SELECT * FROM {0, 'data.data'}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_nested_data.py:29"
+  },
+  {
+   "test": "test_path_extraction_alternative",
+   "argv": [
+    "testdata/path/path.json",
+    "SELECT * FROM {0, 'data.data2'}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_nested_data.py:39"
+  },
+  {
+   "test": "test_nested_with_aggregation",
+   "argv": [
+    "testdata/nested/nested.json",
+    "SELECT COUNT(*) as count, \"location.city\" as city FROM {} GROUP BY city"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_nested_data.py:71"
+  },
+  {
+   "test": "test_nested_null_handling",
+   "argv": [
+    "testdata/nested/nested.json",
+    "SELECT * FROM {} WHERE name IS NOT NULL"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_nested_data.py:81"
+  },
+  {
+   "test": "test_default_compact_json",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT * FROM {} LIMIT 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formatting.py:5"
+  },
+  {
+   "test": "test_pretty_flag_long",
+   "argv": [
+    "--pretty",
+    "testdata/join/users.csv",
+    "SELECT * FROM {} LIMIT 2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "row"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_output_formatting.py:16"
+  },
+  {
+   "test": "test_pretty_flag_short",
+   "argv": [
+    "-p",
+    "testdata/join/users.csv",
+    "SELECT * FROM {} LIMIT 2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "row"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_output_formatting.py:28"
+  },
+  {
+   "test": "test_pretty_flag_no_query",
+   "argv": [
+    "-p",
+    "testdata/join/users.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "row"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_output_formatting.py:36"
+  },
+  {
+   "test": "test_empty_result_output",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT * FROM {} WHERE id = '999'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formatting.py:45"
+  },
+  {
+   "test": "test_null_values_in_output",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT id, NULL as null_col FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formatting.py:61"
+  },
+  {
+   "test": "test_numeric_output_format",
+   "argv": [
+    "testdata/join/ages.json",
+    "SELECT age, age * 2 as doubled FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formatting.py:70"
+  },
+  {
+   "test": "test_string_output_format",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT name, 'test,\"quote' as special FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formatting.py:80"
+  },
+  {
+   "test": "test_column_ordering",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT name, id FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name",
+    "id"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formatting.py:88"
+  },
+  {
+   "test": "test_regression_36",
+   "argv": [
+    "testdata/regr/36.json",
+    "SELECT * FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_regression.py:5"
+  },
+  {
+   "test": "test_regression_67",
+   "argv": [
+    "testdata/regr/67.jsonl",
+    "SELECT * FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_regression.py:14"
+  },
+  {
+   "test": "test_regression_74",
+   "argv": [
+    "testdata/regr/74.csv",
+    "SELECT * FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_regression.py:21"
+  },
+  {
+   "test": "test_basic_logs_csv",
+   "argv": [
+    "testdata/basic_logs.csv",
+    "SELECT * FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_regression.py:28"
+  },
+  {
+   "test": "test_taxi_truncated",
+   "argv": [
+    "testdata/taxi_trunc.csv",
+    "SELECT COUNT(*) as count FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_regression.py:36"
+  },
+  {
+   "test": "test_taxi_with_aggregation",
+   "argv": [
+    "testdata/taxi_trunc.csv",
+    "SELECT COUNT(*) as count FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "count"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_regression.py:43"
+  },
+  {
+   "test": "test_userdata_count",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT COUNT(*) as count FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_regression.py:52"
+  },
+  {
+   "test": "test_userdata_with_where",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT \" Name \" FROM {} WHERE State = 'Nebraska' LIMIT 10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_regression.py:59"
+  },
+  {
+   "test": "test_userdata_group_by_country",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT State, COUNT(*) as count FROM {} GROUP BY State ORDER BY count DESC LIMIT 5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_regression.py:68"
+  },
+  {
+   "test": "test_convert_csv_basic",
+   "argv": [
+    "testdata/convert.csv",
+    "SELECT COUNT(*) as count FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_regression.py:91"
+  },
+  {
+   "test": "test_numberconvert_with_conversion",
+   "argv": [
+    "-n",
+    "testdata/csv/numberconvert.csv",
+    "SELECT * FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_regression.py:105"
+  },
+  {
+   "test": "test_schema_flag_long",
+   "argv": [
+    "--schema",
+    "testdata/join/users.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_and_files.py:6"
+  },
+  {
+   "test": "test_schema_flag_short",
+   "argv": [
+    "-c",
+    "testdata/join/users.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_and_files.py:17"
+  },
+  {
+   "test": "test_schema_with_pretty",
+   "argv": [
+    "-c",
+    "-p",
+    "testdata/join/users.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_and_files.py:25"
+  },
+  {
+   "test": "test_schema_different_formats",
+   "argv": [
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_and_files.py:34"
+  },
+  {
+   "test": "test_query_from_file_flag_long",
+   "argv": [
+    "testdata/userdata.csv",
+    "--file",
+    "testdata/sql/simple.sql"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_and_files.py:46"
+  },
+  {
+   "test": "test_query_from_file_flag_short",
+   "argv": [
+    "testdata/userdata.csv",
+    "-f",
+    "testdata/sql/simple.sql"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_and_files.py:56"
+  },
+  {
+   "test": "test_query_file_missing_error",
+   "argv": [
+    "testdata/join/users.csv",
+    "-f",
+    "nonexistent.sql"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_and_files.py:63"
+  },
+  {
+   "test": "test_query_file_empty_error",
+   "argv": [
+    "testdata/join/users.csv",
+    "-f",
+    "empty.sql"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "empty"
+   ],
+   "files": {
+    "empty.sql": ""
+   },
+   "ci": true,
+   "source": "test_schema_and_files.py:69"
+  },
+  {
+   "test": "test_query_file_complex_query",
+   "argv": [
+    "testdata/join/users.csv",
+    "-f",
+    "complex.sql"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "complex.sql": "\n            SELECT \n                name,\n                id,\n                id || '-' || name as combined\n            FROM {}\n            WHERE id > '1'\n            ORDER BY name\n        "
+   },
+   "ci": false,
+   "source": "test_schema_and_files.py:77"
+  },
+  {
+   "test": "test_stdin_flag_csv",
+   "argv": [
+    "-s",
+    "csv",
+    "SELECT * FROM {}"
+   ],
+   "stdin": "id,name\n1,Alice\n2,Bob",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_and_files.py:97"
+  },
+  {
+   "test": "test_stdin_flag_json",
+   "argv": [
+    "-s",
+    "json",
+    "SELECT * FROM {}"
+   ],
+   "stdin": "[{\"id\": 1, \"name\": \"Alice\"}, {\"id\": 2, \"name\": \"Bob\"}]",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_and_files.py:106"
+  },
+  {
+   "test": "test_stdin_flag_long",
+   "argv": [
+    "--stdin",
+    "csv",
+    "SELECT * FROM {}"
+   ],
+   "stdin": "id,name\n1,Test",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_and_files.py:115"
+  },
+  {
+   "test": "test_stdin_missing_type_error",
+   "argv": [
+    "-s"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_and_files.py:123"
+  },
+  {
+   "test": "test_stdin_with_query",
+   "argv": [
+    "-s",
+    "csv",
+    "SELECT SUM(a) as total FROM {}"
+   ],
+   "stdin": "a,b\n1,2\n3,4",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_and_files.py:131"
+  },
+  {
+   "test": "test_stdin_no_query_dump",
+   "argv": [
+    "-s",
+    "csv"
+   ],
+   "stdin": "x,y\n1,2",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "x",
+    "y"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_and_files.py:141"
+  },
+  {
+   "test": "test_group_by_with_aggregates",
+   "argv": [
+    "testdata/join/ages.json",
+    "SELECT COUNT(*) as count, AVG(age) as avg_age, MIN(age) as min_age, MAX(age) as max_age FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:5"
+  },
+  {
+   "test": "test_sum_aggregation",
+   "argv": [
+    "testdata/join/ages.json",
+    "SELECT SUM(age) as total FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:16"
+  },
+  {
+   "test": "test_having_clause",
+   "argv": [
+    "testdata/join/ages.json",
+    "SELECT age, COUNT(*) as count FROM {} GROUP BY age HAVING count > 0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:24"
+  },
+  {
+   "test": "test_order_by_desc",
+   "argv": [
+    "testdata/join/ages.json",
+    "SELECT * FROM {} ORDER BY age DESC"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:32"
+  },
+  {
+   "test": "test_limit_with_offset",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT * FROM {} ORDER BY id LIMIT 1 OFFSET 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:42"
+  },
+  {
+   "test": "test_string_concatenation",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT name || ' (' || id || ')' as labeled FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Ted (1)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:51"
+  },
+  {
+   "test": "test_like_pattern_matching",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT * FROM {} WHERE name LIKE 'M%'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Marjory",
+    "Micah"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:60"
+  },
+  {
+   "test": "test_in_operator",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT * FROM {} WHERE id IN ('1', '3')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1",
+    "3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:72"
+  },
+  {
+   "test": "test_between_operator",
+   "argv": [
+    "testdata/join/ages.json",
+    "SELECT * FROM {} WHERE age BETWEEN 40 AND 90"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:83"
+  },
+  {
+   "test": "test_case_expression",
+   "argv": [
+    "testdata/join/ages.json",
+    "SELECT id, age,\n                    CASE \n                        WHEN age >= 60 THEN 'senior'\n                        WHEN age >= 30 THEN 'adult'\n                        ELSE 'young'\n                    END as category\n                    FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "senior",
+    "adult"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:94"
+  },
+  {
+   "test": "test_subquery",
+   "argv": [
+    "testdata/join/ages.json",
+    "SELECT * FROM {} WHERE age > (SELECT AVG(age) FROM {})"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:111"
+  },
+  {
+   "test": "test_union",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT name FROM {} WHERE id = '1' UNION SELECT name FROM {} WHERE id = '2'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Ted",
+    "Marjory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:120"
+  },
+  {
+   "test": "test_left_join",
+   "argv": [
+    "testdata/join/users.csv",
+    "testdata/join/ages.json",
+    "SELECT {0}.name, {1}.age FROM {0} LEFT JOIN {1} ON {0}.id = {1}.id"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:131"
+  },
+  {
+   "test": "test_inner_join",
+   "argv": [
+    "testdata/join/users.csv",
+    "testdata/join/ages.json",
+    "SELECT {0}.name, {1}.age FROM {0} INNER JOIN {1} ON {0}.id = {1}.id"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:139"
+  },
+  {
+   "test": "test_cross_join",
+   "argv": [
+    "a.csv",
+    "b.csv",
+    "SELECT {0}.x, {1}.y FROM {0} CROSS JOIN {1}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "a.csv": "x\n1\n2",
+    "b.csv": "y\nA\nB"
+   },
+   "ci": false,
+   "source": "test_sql_features.py:147"
+  },
+  {
+   "test": "test_multiple_table_join",
+   "argv": [
+    "t1.csv",
+    "t2.csv",
+    "t3.csv",
+    "SELECT {0}.id, {0}.val1, {1}.val2, {2}.val3 \n                        FROM {0} \n                        JOIN {1} ON {0}.id = {1}.id \n                        JOIN {2} ON {0}.id = {2}.id"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "t1.csv": "id,val1\n1,a\n2,b",
+    "t2.csv": "id,val2\n1,x\n2,y",
+    "t3.csv": "id,val3\n1,m\n2,n"
+   },
+   "ci": false,
+   "source": "test_sql_features.py:159"
+  },
+  {
+   "test": "test_coalesce_function",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT COALESCE(NULL, name) as result FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:175"
+  },
+  {
+   "test": "test_length_function",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT name, LENGTH(name) as len FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:184"
+  },
+  {
+   "test": "test_upper_lower_functions",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT UPPER(name) as upper, LOWER(name) as lower FROM {} LIMIT 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:195"
+  },
+  {
+   "test": "test_substr_function",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT name, SUBSTR(name, 1, 3) as short FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:205"
+  },
+  {
+   "test": "test_replace_function",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT REPLACE(name, 'a', 'X') as modified FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:216"
+  },
+  {
+   "test": "test_cast_function",
+   "argv": [
+    "testdata/join/users.csv",
+    "SELECT CAST(id AS INTEGER) as id_int FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:224"
+  },
+  {
+   "test": "test_round_function",
+   "argv": [
+    "testdata/join/ages.json",
+    "SELECT ROUND(age / 10.0) * 10 as decade FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sql_features.py:234"
+  },
+  {
+   "test": "test_missing_file",
+   "argv": [
+    "nonexistent_file.csv",
+    "SELECT * FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "open nonexistent_file.csv: no such file or directory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:20"
+  },
+  {
+   "test": "test_invalid_mimetype_in_stdin_flag",
+   "argv": [
+    "-s",
+    "unknownformat"
+   ],
+   "stdin": "some data\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unknown mimetype for file:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:212"
+  },
+  {
+   "test": "test_multiple_missing_files",
+   "argv": [
+    "missing1.csv",
+    "missing2.csv",
+    "SELECT * FROM {0}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "open missing1.csv: no such file or directory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:355"
+  },
+  {
+   "test": "test_csv_with_empty_fields",
+   "argv": [
+    "empty_fields.csv",
+    "SELECT * FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "empty_fields.csv": "a,b,c\n1,,3\n,2,\n4,5,6\n"
+   },
+   "ci": false,
+   "source": "test_formats.py:455"
+  },
+  {
+   "test": "test_version",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dsq",
+    "latest"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_smoke.py:6"
+  },
+  {
+   "test": "test_help",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "dsq",
+    "commandline SQL engine",
+    "Examples:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_smoke.py:16"
+  },
+  {
+   "test": "test_basic_csv_query",
+   "argv": [
+    "test.csv",
+    "SELECT * FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.csv": "id,name\n1,Alice\n2,Bob\n"
+   },
+   "ci": false,
+   "source": "test_smoke.py:29"
+  },
+  {
+   "test": "test_stdin_csv_with_where_clause",
+   "argv": [
+    "-s",
+    "csv",
+    "SELECT name, age FROM {} WHERE age > 25"
+   ],
+   "stdin": "id,name,age\n1,Alice,30\n2,Bob,25\n3,Charlie,35",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Alice",
+    "Charlie"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_file.py:38"
+  },
+  {
+   "test": "test_stdin_missing_format_specification",
+   "argv": [
+    "-s"
+   ],
+   "stdin": "some,data",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Must specify stdin mimetype."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_file.py:112"
+  },
+  {
+   "test": "test_query_file_empty",
+   "argv": [
+    "data.csv",
+    "-f",
+    "empty.sql"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SQL file is empty."
+   ],
+   "files": {
+    "data.csv": "id,value\n1,100",
+    "empty.sql": ""
+   },
+   "ci": false,
+   "source": "test_stdin_file.py:272"
+  },
+  {
+   "test": "test_stdin_csv_with_header_only",
+   "argv": [
+    "-s",
+    "csv",
+    "SELECT * FROM {}"
+   ],
+   "stdin": "id,name,age",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "no such table: t_0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_file.py:445"
+  },
+  {
+   "test": "test_excel_multiple_sheets",
+   "argv": [
+    "testdata/excel/multiple-sheets.xlsx"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:5"
+  },
+  {
+   "test": "test_path_specification",
+   "argv": [
+    "testdata/path/path.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "data"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:18"
+  },
+  {
+   "test": "test_no_sqlite_writer_flag",
+   "argv": [
+    "--no-sqlite-writer",
+    "testdata/userdata.csv",
+    "SELECT COUNT(*) as total FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "total"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:31"
+  },
+  {
+   "test": "test_no_sqlite_writer_env",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT COUNT(*) as total FROM {}"
+   ],
+   "stdin": null,
+   "env": {
+    "DSQ_NO_SQLITE_WRITER": "true"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "total"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:38"
+  },
+  {
+   "test": "test_string_functions",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT UPPER(State) as upper_state FROM {} LIMIT 3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:46"
+  },
+  {
+   "test": "test_length_function",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT LENGTH(State) as len FROM {} LIMIT 5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:57"
+  },
+  {
+   "test": "test_substr_function",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT SUBSTR(State, 1, 3) as prefix FROM {} LIMIT 5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:67"
+  },
+  {
+   "test": "test_case_expression",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT CASE WHEN State = 'California' THEN 'CA' ELSE 'Other' END as region FROM {} LIMIT 5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:76"
+  },
+  {
+   "test": "test_coalesce_function",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT COALESCE(State, 'Unknown') as state FROM {} LIMIT 5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:86"
+  },
+  {
+   "test": "test_in_operator",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT State FROM {} WHERE State IN ('California', 'Texas', 'Florida') LIMIT 10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:93"
+  },
+  {
+   "test": "test_like_operator",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT State FROM {} WHERE State LIKE 'New%' LIMIT 5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:103"
+  },
+  {
+   "test": "test_between_operator",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT State FROM {} WHERE LENGTH(State) BETWEEN 5 AND 8 LIMIT 5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:112"
+  },
+  {
+   "test": "test_having_clause",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT State, COUNT(*) as count FROM {} GROUP BY State HAVING count > 1 LIMIT 5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:123"
+  },
+  {
+   "test": "test_multiple_table_references",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT a.State FROM {} a LIMIT 5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "State"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:133"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file",
+    "query"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:14"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dsq",
+    "Usage:",
+    "file",
+    "query"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:26"
+  },
+  {
+   "test": "test_single_csv_file_no_query",
+   "argv": [
+    "testdata/userdata.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:60"
+  },
+  {
+   "test": "test_single_json_file_no_query",
+   "argv": [
+    "testdata/userdata.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:72"
+  },
+  {
+   "test": "test_single_jsonl_file_no_query",
+   "argv": [
+    "testdata/userdata.jsonl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:81"
+  },
+  {
+   "test": "test_verbose_flag",
+   "argv": [
+    "--verbose",
+    "testdata/userdata.csv",
+    "SELECT COUNT(*) as count FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "count"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:90"
+  },
+  {
+   "test": "test_cache_flag_short",
+   "argv": [
+    "-C",
+    "testdata/userdata.csv",
+    "SELECT COUNT(*) as total FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "total"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_caching.py:6"
+  },
+  {
+   "test": "test_cache_flag_long",
+   "argv": [
+    "--cache",
+    "testdata/userdata.csv",
+    "SELECT COUNT(*) as total FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "total"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_caching.py:15"
+  },
+  {
+   "test": "test_cache_file_flag_short",
+   "argv": [
+    "-D",
+    "testdata/userdata.csv",
+    "SELECT COUNT(*) as total FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_caching.py:22"
+  },
+  {
+   "test": "test_cache_file_flag_long",
+   "argv": [
+    "--cache-file",
+    "testdata/userdata.csv",
+    "SELECT COUNT(*) as total FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_caching.py:33"
+  },
+  {
+   "test": "test_cache_with_multiple_runs",
+   "argv": [
+    "-C",
+    "testdata/userdata.csv",
+    "SELECT COUNT(*) as total FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_caching.py:50"
+  },
+  {
+   "test": "test_json_with_single_object",
+   "argv": [
+    "single.json",
+    "SELECT * FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "single.json": "[{\"id\": 1, \"name\": \"test\"}]"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:27"
+  },
+  {
+   "test": "test_csv_with_special_characters",
+   "argv": [
+    "special.csv",
+    "SELECT * FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "special.csv": "name,value\n\"Test,Name\",\"Value\nWith\nNewlines\"\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:37"
+  },
+  {
+   "test": "test_csv_with_quotes",
+   "argv": [
+    "quoted.csv",
+    "SELECT * FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name"
+   ],
+   "files": {
+    "quoted.csv": "name,desc\n\"Alice\",\"She said \"\"hello\"\"\"\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:46"
+  },
+  {
+   "test": "test_very_long_query",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT State, COUNT(*) as count FROM {} WHERE State IS NOT NULL GROUP BY State ORDER BY count DESC LIMIT 10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:56"
+  },
+  {
+   "test": "test_multiple_aggregations",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT COUNT(*) as cnt, COUNT(DISTINCT State) as states, MIN(State) as min_state, MAX(State) as max_state FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cnt",
+    "states",
+    "min_state",
+    "max_state"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:67"
+  },
+  {
+   "test": "test_union_query",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT State FROM {} UNION SELECT State FROM {} LIMIT 5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "State"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:80"
+  },
+  {
+   "test": "test_nested_select",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT State FROM {} WHERE State IN (SELECT State FROM {} LIMIT 10) LIMIT 5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:92"
+  },
+  {
+   "test": "test_cross_join",
+   "argv": [
+    "testdata/join/users.csv",
+    "testdata/join/ages.json",
+    "SELECT {0}.name, {1}.age FROM {0} CROSS JOIN {1} LIMIT 5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name",
+    "age"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:100"
+  },
+  {
+   "test": "test_null_handling",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT State, CASE WHEN State IS NULL THEN 'Unknown' ELSE State END as state_clean FROM {} LIMIT 5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:121"
+  },
+  {
+   "test": "test_cast_operations",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT CAST(1 as TEXT) as text_val, CAST('123' as INTEGER) as int_val FROM {} LIMIT 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "text_val",
+    "int_val"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:129"
+  },
+  {
+   "test": "test_date_functions",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT datetime('now') as current_time, date('now') as current_date FROM {} LIMIT 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "current_time",
+    "current_date"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:139"
+  },
+  {
+   "test": "test_math_functions",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT ABS(-5) as abs_val, ROUND(3.14159, 2) as rounded FROM {} LIMIT 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:149"
+  },
+  {
+   "test": "test_string_concatenation",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT State || ', USA' as full_location FROM {} LIMIT 3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ", USA"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:159"
+  },
+  {
+   "test": "test_division_by_zero",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT 1/0 as result FROM {} LIMIT 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:27"
+  },
+  {
+   "test": "test_tsv_file_basic_query",
+   "argv": [
+    "testdata/userdata.tsv",
+    "SELECT COUNT(*) as total FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "total"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_formats.py:15"
+  },
+  {
+   "test": "test_json_file_basic_query",
+   "argv": [
+    "testdata/userdata.json",
+    "SELECT COUNT(*) as total FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "total"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_formats.py:24"
+  },
+  {
+   "test": "test_jsonl_file_basic_query",
+   "argv": [
+    "testdata/userdata.jsonl",
+    "SELECT COUNT(*) as total FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "total"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_formats.py:33"
+  },
+  {
+   "test": "test_parquet_file_basic_query",
+   "argv": [
+    "testdata/userdata.parquet",
+    "SELECT COUNT(*) as total FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "total"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_formats.py:42"
+  },
+  {
+   "test": "test_excel_file_basic_query",
+   "argv": [
+    "testdata/userdata.xlsx",
+    "SELECT COUNT(*) as total FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "total"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_formats.py:51"
+  },
+  {
+   "test": "test_ods_file_basic_query",
+   "argv": [
+    "testdata/userdata.ods",
+    "SELECT COUNT(*) as total FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "total"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_formats.py:60"
+  },
+  {
+   "test": "test_yaml_file_basic_query",
+   "argv": [
+    "testdata/yaml/userdata.yaml",
+    "SELECT COUNT(*) as total FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "total"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_formats.py:69"
+  },
+  {
+   "test": "test_avro_file_basic_query",
+   "argv": [
+    "testdata/avro/test_data.avro",
+    "SELECT COUNT(*) as total FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "total"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_formats.py:78"
+  },
+  {
+   "test": "test_orc_file_basic_query",
+   "argv": [
+    "testdata/orc/test_data.orc",
+    "SELECT COUNT(*) as total FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "total"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_formats.py:87"
+  },
+  {
+   "test": "test_logfmt_file_basic_query",
+   "argv": [
+    "testdata/logfmt/log.logfmt",
+    "SELECT COUNT(*) as total FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "total"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_formats.py:96"
+  },
+  {
+   "test": "test_number_conversion_long_flag",
+   "argv": [
+    "--convert-numbers",
+    "testdata/csv/numberconvert.csv",
+    "SELECT * FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_number_conversion.py:22"
+  },
+  {
+   "test": "test_number_conversion_with_query",
+   "argv": [
+    "-n",
+    "testdata/csv/numberconvert.csv",
+    "SELECT * FROM {} LIMIT 3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_number_conversion.py:37"
+  },
+  {
+   "test": "test_number_conversion_ordering",
+   "argv": [
+    "testdata/convert.csv",
+    "SELECT * FROM {} ORDER BY test LIMIT 5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_number_conversion.py:44"
+  },
+  {
+   "test": "test_default_compact_json",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT State FROM {} LIMIT 3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formatting.py:5"
+  },
+  {
+   "test": "test_pretty_print_flag",
+   "argv": [
+    "-p",
+    "testdata/userdata.csv",
+    "SELECT State FROM {} LIMIT 3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\n"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formatting.py:17"
+  },
+  {
+   "test": "test_pretty_print_without_query",
+   "argv": [
+    "-p",
+    "testdata/userdata.csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\n"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formatting.py:30"
+  },
+  {
+   "test": "test_column_order",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT State, Email FROM {} LIMIT 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "State",
+    "Email"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formatting.py:62"
+  },
+  {
+   "test": "test_output_is_valid_json_array",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT COUNT(*) as total FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formatting.py:74"
+  },
+  {
+   "test": "test_select_all",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT * FROM {} LIMIT 5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_query_features.py:5"
+  },
+  {
+   "test": "test_where_clause",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT * FROM {} WHERE State = 'California' LIMIT 10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_query_features.py:15"
+  },
+  {
+   "test": "test_group_by",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT State, COUNT(*) as count FROM {} GROUP BY State LIMIT 5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "State",
+    "count"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_features.py:34"
+  },
+  {
+   "test": "test_limit_clause",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT * FROM {} LIMIT 3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_query_features.py:57"
+  },
+  {
+   "test": "test_table_placeholder_with_index",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT COUNT(*) as total FROM {0}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "total"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_features.py:72"
+  },
+  {
+   "test": "test_multiple_files_join",
+   "argv": [
+    "testdata/join/users.csv",
+    "testdata/join/ages.json",
+    "SELECT {0}.name, {1}.age FROM {0} JOIN {1} ON {0}.id = {1}.id"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name",
+    "age"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_features.py:80"
+  },
+  {
+   "test": "test_table_alias",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT u.State, COUNT(*) as count FROM {} u GROUP BY u.State LIMIT 5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "State",
+    "count"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_features.py:92"
+  },
+  {
+   "test": "test_regexp_function",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT State FROM {} WHERE State REGEXP 'Cali.*' LIMIT 5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_query_features.py:102"
+  },
+  {
+   "test": "test_avg_aggregation",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT AVG(LENGTH(State)) as avg_len FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "avg_len"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_features.py:113"
+  },
+  {
+   "test": "test_sum_aggregation",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT SUM(LENGTH(State)) as total_len FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "total_len"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_features.py:122"
+  },
+  {
+   "test": "test_min_max_aggregation",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT MIN(State) as min_state, MAX(State) as max_state FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "min_state",
+    "max_state"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_features.py:130"
+  },
+  {
+   "test": "test_distinct_keyword",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT DISTINCT State FROM {} LIMIT 10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_query_features.py:140"
+  },
+  {
+   "test": "test_nested_value_extraction",
+   "argv": [
+    "testdata/nested/nested.json",
+    "SELECT * FROM {}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_query_features.py:150"
+  },
+  {
+   "test": "test_empty_result_set",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT * FROM {} WHERE 1=0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_regression.py:26"
+  },
+  {
+   "test": "test_null_values",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT NULL as null_col, State FROM {} LIMIT 3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_regression.py:44"
+  },
+  {
+   "test": "test_empty_string_values",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT '' as empty_col, State FROM {} LIMIT 3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_regression.py:53"
+  },
+  {
+   "test": "test_special_characters_in_data",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT Email FROM {} LIMIT 5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "@"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_regression.py:62"
+  },
+  {
+   "test": "test_large_text_fields",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT \"  Description\" FROM {} LIMIT 5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_regression.py:74"
+  },
+  {
+   "test": "test_sql_file_with_complex_query",
+   "argv": [
+    "testdata/userdata.csv",
+    "-f",
+    "query.sql"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "State",
+    "count"
+   ],
+   "files": {
+    "query.sql": "SELECT State, COUNT(*) as count FROM {} GROUP BY State ORDER BY count DESC LIMIT 5"
+   },
+   "ci": false,
+   "source": "test_sql_file.py:43"
+  },
+  {
+   "test": "test_stdin_csv",
+   "argv": [
+    "-s",
+    "csv",
+    "SELECT * FROM {}"
+   ],
+   "stdin": "name,age\nAlice,30\nBob,25\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name",
+    "age"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_input.py:5"
+  },
+  {
+   "test": "test_stdin_json",
+   "argv": [
+    "-s",
+    "json",
+    "SELECT * FROM {}"
+   ],
+   "stdin": "[{\"name\": \"Alice\", \"age\": 30}, {\"name\": \"Bob\", \"age\": 25}]",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_input.py:16"
+  },
+  {
+   "test": "test_stdin_jsonl",
+   "argv": [
+    "-s",
+    "jsonl",
+    "SELECT * FROM {}"
+   ],
+   "stdin": "{\"name\": \"Alice\", \"age\": 30}\n{\"name\": \"Bob\", \"age\": 25}\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_input.py:25"
+  },
+  {
+   "test": "test_stdin_with_query",
+   "argv": [
+    "-s",
+    "csv",
+    "SELECT name FROM {} WHERE score > 90"
+   ],
+   "stdin": "name,score\nAlice,95\nBob,87\nCharlie,92\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Alice",
+    "Charlie"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_input.py:33"
+  },
+  {
+   "test": "test_stdin_no_query",
+   "argv": [
+    "-s",
+    "csv"
+   ],
+   "stdin": "name,value\ntest,123\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_input.py:44"
+  },
+  {
+   "test": "test_stdin_tsv",
+   "argv": [
+    "-s",
+    "tsv",
+    "SELECT * FROM {}"
+   ],
+   "stdin": "name\tage\nAlice\t30\nBob\t25\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_stdin_input.py:60"
+  },
+  {
+   "test": "test_url_parsing_functions",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT URL_HOST('http://example.com/path') as host FROM {} LIMIT 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "host"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_url_functions.py:5"
+  },
+  {
+   "test": "test_url_path_function",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT URL_PATH('http://example.com/path/to/page') as path FROM {} LIMIT 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "path",
+    "/path/to/page"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_url_functions.py:16"
+  },
+  {
+   "test": "test_url_scheme_function",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT URL_SCHEME('https://example.com') as scheme FROM {} LIMIT 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "scheme"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_url_functions.py:26"
+  },
+  {
+   "test": "test_url_functions_on_data",
+   "argv": [
+    "testdata/userdata.csv",
+    "SELECT URL_SCHEME(\"Profile Photo\") as scheme FROM {} WHERE \"Profile Photo\" LIKE 'http%' LIMIT 5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_url_functions.py:36"
+  },
+  {
+   "test": "test_no_args_errors",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "No input files."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_arg_parsing.py:43"
+  },
+  {
+   "test": "test_unknown_flag_is_treated_as_filename_and_errors_unknown_mimetype",
+   "argv": [
+    "--nonexistent-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unknown mimetype for file: --nonexistent-flag"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_arg_parsing.py:64"
+  },
+  {
+   "test": "test_stdin_requires_mimetype",
+   "argv": [
+    "--stdin"
+   ],
+   "stdin": "id,name\n1,A\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Must specify stdin mimetype."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_arg_parsing.py:144"
+  }
+ ]
+}

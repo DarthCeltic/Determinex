@@ -1,0 +1,2501 @@
+[
+ {
+  "name": "test::test_stdin_input::0",
+  "argv": [
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fir_stdin_coefficients::1",
+  "argv": [
+   "fir"
+  ],
+  "stdin": "0.1\n0.2\n0.4\n0.2\n0.1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_noisered_profile_from_stdin::2",
+  "argv": [
+   "noisered",
+   "-",
+   "0.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_noisered_default_profile_stdin::3",
+  "argv": [
+   "noisered"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_format_signed16::4",
+  "argv": [
+   "-t",
+   "raw",
+   "-e",
+   "signed-integer",
+   "-b",
+   "16",
+   "-r",
+   "8000",
+   "-c",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_format_unsigned8::5",
+  "argv": [
+   "-t",
+   "raw",
+   "-e",
+   "unsigned-integer",
+   "-b",
+   "8",
+   "-r",
+   "8000",
+   "-c",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_format_float32::6",
+  "argv": [
+   "-t",
+   "raw",
+   "-e",
+   "floating-point",
+   "-b",
+   "32",
+   "-r",
+   "8000",
+   "-c",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wav_pcm_16bit::7",
+  "argv": [
+   "-b",
+   "16"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wav_pcm_8bit::8",
+  "argv": [
+   "-b",
+   "8"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wav_float32::9",
+  "argv": [
+   "-e",
+   "floating-point",
+   "-b",
+   "32"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_au_ulaw::10",
+  "argv": [
+   "-e",
+   "mu-law",
+   "-b",
+   "8"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_au_alaw::11",
+  "argv": [
+   "-e",
+   "a-law",
+   "-b",
+   "8"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stereo_wav_format::12",
+  "argv": [
+   "-n",
+   "-r",
+   "44100",
+   "-c",
+   "2",
+   "-b",
+   "16",
+   "synth",
+   "0.5",
+   "sine",
+   "440"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_flag_explicit::13",
+  "argv": [
+   "-t",
+   "wav",
+   "-t",
+   "au"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rate_change_in_conversion::14",
+  "argv": [
+   "-r",
+   "16000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_channels_change_in_conversion::15",
+  "argv": [
+   "-c",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_endian_big::16",
+  "argv": [
+   "--endian",
+   "big",
+   "-t",
+   "raw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compression_factor::17",
+  "argv": [
+   "-C",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comment_in_aiff::18",
+  "argv": [
+   "--comment",
+   "MyTestComment"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_comment_aiff::19",
+  "argv": [
+   "--add-comment",
+   "AddedComment"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comment_file::20",
+  "argv": [
+   "--comment-file",
+   "comment.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "comment.txt": "FileComment"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_output::21",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_output::22",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_flag::23",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_effect_all::24",
+  "argv": [
+   "--help-effect",
+   "all"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_effect_specific::25",
+  "argv": [
+   "--help-effect",
+   "stat"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_effect_synth::26",
+  "argv": [
+   "--help-effect",
+   "synth"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_format_all::27",
+  "argv": [
+   "--help-format",
+   "all"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_format_wav::28",
+  "argv": [
+   "--help-format",
+   "wav"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_format_au::29",
+  "argv": [
+   "--help-format",
+   "au"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file_error::30",
+  "argv": [
+   "/tmp/nonexistent_file_xyz.wav",
+   "/tmp/out.wav"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gain_reduces_volume::31",
+  "argv": [
+   "gain",
+   "-6"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gain_norm::32",
+  "argv": [
+   "gain",
+   "-n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trim_shortens_duration::33",
+  "argv": [
+   "trim",
+   "0",
+   "0.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trim_with_offset::34",
+  "argv": [
+   "trim",
+   "0.3",
+   "0.4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rate_effect_changes_sample_rate::35",
+  "argv": [
+   "rate",
+   "16000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rate_down::36",
+  "argv": [
+   "rate",
+   "4000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_channels_mono_to_stereo::37",
+  "argv": [
+   "channels",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_channels_stereo_to_mono::38",
+  "argv": [
+   "channels",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reverse_effect::39",
+  "argv": [
+   "reverse"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pad_adds_silence::40",
+  "argv": [
+   "pad",
+   "0.5",
+   "0.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repeat_effect::41",
+  "argv": [
+   "repeat",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_echo_effect::42",
+  "argv": [
+   "echo",
+   "0.8",
+   "0.88",
+   "60",
+   "0.4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_echos_effect::43",
+  "argv": [
+   "echos",
+   "0.8",
+   "0.7",
+   "700",
+   "0.25",
+   "900",
+   "0.3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delay_effect::44",
+  "argv": [
+   "delay",
+   "0.3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fade_effect::45",
+  "argv": [
+   "fade",
+   "0.3",
+   "1",
+   "0.3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vol_half::46",
+  "argv": [
+   "vol",
+   "0.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dcshift_effect::47",
+  "argv": [
+   "dcshift",
+   "0.1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_norm_effect::48",
+  "argv": [
+   "norm"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highpass_filter::49",
+  "argv": [
+   "highpass",
+   "3000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lowpass_filter::50",
+  "argv": [
+   "lowpass",
+   "1000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_allpass_filter::51",
+  "argv": [
+   "allpass",
+   "1000",
+   "0.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_band_filter::52",
+  "argv": [
+   "band",
+   "440",
+   "100"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bandpass_filter::53",
+  "argv": [
+   "bandpass",
+   "440",
+   "100"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bandreject_filter::54",
+  "argv": [
+   "bandreject",
+   "440",
+   "0.5q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_equalizer_effect::55",
+  "argv": [
+   "equalizer",
+   "440",
+   "0.5q",
+   "6"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bass_effect::56",
+  "argv": [
+   "bass",
+   "6",
+   "100"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_treble_effect::57",
+  "argv": [
+   "treble",
+   "6",
+   "3000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_contrast_effect::58",
+  "argv": [
+   "contrast",
+   "75"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_overdrive_effect::59",
+  "argv": [
+   "overdrive",
+   "20"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_swap_effect::60",
+  "argv": [
+   "swap"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remix_effect::61",
+  "argv": [
+   "remix",
+   "2",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_oops_effect::62",
+  "argv": [
+   "oops"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reverb_effect::63",
+  "argv": [
+   "reverb"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_chorus_effect::64",
+  "argv": [
+   "chorus",
+   "0.7",
+   "0.9",
+   "55",
+   "0.4",
+   "0.25",
+   "2",
+   "-t"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flanger_effect::65",
+  "argv": [
+   "flanger"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_phaser_effect::66",
+  "argv": [
+   "phaser",
+   "0.89",
+   "0.85",
+   "1",
+   "0.24",
+   "2",
+   "-t"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_speed_effect::67",
+  "argv": [
+   "speed",
+   "2.0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_downsample_effect::68",
+  "argv": [
+   "downsample",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dither_effect::69",
+  "argv": [
+   "dither"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sinc_filter::70",
+  "argv": [
+   "sinc",
+   "3000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compand_effect::71",
+  "argv": [
+   "compand",
+   "0.3,1",
+   "6:-70,-60,-20",
+   "-5",
+   "-90",
+   "0.2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_effects_chain::72",
+  "argv": [
+   "gain",
+   "-3",
+   "highpass",
+   "200",
+   "lowpass",
+   "3000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pitch_effect::73",
+  "argv": [
+   "pitch",
+   "200"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_noiseprof_effect::74",
+  "argv": [
+   "-n",
+   "noiseprof"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_loudness_effect::75",
+  "argv": [
+   "loudness"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deemph_effect::76",
+  "argv": [
+   "deemph"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_riaa_effect::77",
+  "argv": [
+   "riaa"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_biquad_effect::78",
+  "argv": [
+   "biquad",
+   "1",
+   "0",
+   "0",
+   "1",
+   "0",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_upsample_effect::79",
+  "argv": [
+   "upsample",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vad_effect::80",
+  "argv": [
+   "vad"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_input_file::81",
+  "argv": [
+   "/tmp/does_not_exist_abc123.wav",
+   "/tmp/out.wav"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_format_name::82",
+  "argv": [
+   "-n",
+   "-r",
+   "8000",
+   "-c",
+   "1",
+   "-t",
+   "invalidformat_xyz",
+   "synth",
+   "0.1",
+   "sine",
+   "440"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_effect_name::83",
+  "argv": [
+   "nonexistent_effect_xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clipping_warning::84",
+  "argv": [
+   "gain",
+   "20"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_guard_prevents_clipping::85",
+  "argv": [
+   "-G",
+   "gain",
+   "6"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_corrupt_wav_file::86",
+  "argv": [
+   "corrupt.wav"
+  ],
+  "stdin": null,
+  "files": {
+   "corrupt.wav": "RIFF\u0000\u0000\u0000\u0000WAVE"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_file::87",
+  "argv": [
+   "empty.wav"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.wav": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unrecognized_option::88",
+  "argv": [
+   "--completely-invalid-option-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fail_message_in_stderr::89",
+  "argv": [
+   "/tmp/nonexistent_file_abc.wav",
+   "/tmp/out.wav"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_filename_with_options::90",
+  "argv": [
+   "-r",
+   "8000",
+   "-c",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_encoding_for_format::91",
+  "argv": [
+   "-e",
+   "gsm-full-rate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_effects_file::92",
+  "argv": [
+   "--effects-file",
+   "/tmp/nonexistent_effects_xyz.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_rate_zero::93",
+  "argv": [
+   "-n",
+   "-r",
+   "0",
+   "-c",
+   "1",
+   "-t",
+   "wav",
+   "/tmp/out.wav",
+   "synth",
+   "0.1",
+   "sine",
+   "440"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_effect_argument::94",
+  "argv": [
+   "echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wav_to_au::95",
+  "argv": [
+   "--info",
+   "-t"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wav_24bit::96",
+  "argv": [
+   "-b",
+   "24"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbosity_level_3::97",
+  "argv": [
+   "-V3",
+   "gain",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbosity_level_1::98",
+  "argv": [
+   "-V1",
+   "gain",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_mode::99",
+  "argv": [
+   "-q",
+   "gain",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_dither::100",
+  "argv": [
+   "-D",
+   "gain",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_buffer_size::101",
+  "argv": [
+   "--buffer",
+   "4096",
+   "gain",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_buffer_size::102",
+  "argv": [
+   "--input-buffer",
+   "4096",
+   "gain",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clobber_allows_overwrite::103",
+  "argv": [
+   "--clobber",
+   "gain",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_clobber_prevents_overwrite::104",
+  "argv": [
+   "--no-clobber",
+   "gain",
+   "0"
+  ],
+  "stdin": "n\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combine_concatenate::105",
+  "argv": [
+   "--combine",
+   "concatenate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combine_mix::106",
+  "argv": [
+   "--combine",
+   "mix"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combine_mix_short_flag::107",
+  "argv": [
+   "-m"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combine_merge::108",
+  "argv": [
+   "-M"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combine_multiply::109",
+  "argv": [
+   "-T"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combine_mix_power::110",
+  "argv": [
+   "--combine",
+   "mix-power"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_temp_directory::111",
+  "argv": [
+   "--temp",
+   "gain",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deterministic_random::112",
+  "argv": [
+   "-R",
+   "-n",
+   "-r",
+   "8000",
+   "-c",
+   "1",
+   "synth",
+   "0.1",
+   "noise"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_effects_file::113",
+  "argv": [
+   "--effects-file",
+   "effects.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "effects.txt": "gain 3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_volume_input_adjustment::114",
+  "argv": [
+   "-v",
+   "0.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sox_opts_env_variable::115",
+  "argv": [
+   "gain",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "SOX_OPTS": "-V3"
+  }
+ },
+ {
+  "name": "test::test_dft_min_option::116",
+  "argv": [
+   "--dft-min",
+   "8",
+   "rate",
+   "16000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_plot_gnuplot::117",
+  "argv": [
+   "--plot",
+   "gnuplot",
+   "-n",
+   "lowpass",
+   "400"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_plot_octave::118",
+  "argv": [
+   "--plot",
+   "octave",
+   "-n",
+   "lowpass",
+   "400"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_length::119",
+  "argv": [
+   "--ignore-length"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_replay_gain_off::120",
+  "argv": [
+   "--replay-gain",
+   "off"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_full_output::121",
+  "argv": [
+   "--info"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_short_flag::122",
+  "argv": [
+   "--i"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_sample_rate::123",
+  "argv": [
+   "--info",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_channels::124",
+  "argv": [
+   "--info",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_samples::125",
+  "argv": [
+   "--info",
+   "-s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_duration_hms::126",
+  "argv": [
+   "--info",
+   "-d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_duration_seconds::127",
+  "argv": [
+   "--info",
+   "-D"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_bits::128",
+  "argv": [
+   "--info",
+   "-b"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_bitrate::129",
+  "argv": [
+   "--info",
+   "-B"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_precision::130",
+  "argv": [
+   "--info",
+   "-p"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_encoding::131",
+  "argv": [
+   "--info",
+   "-e"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_total_flag::132",
+  "argv": [
+   "--info",
+   "-T",
+   "-s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_annotations::133",
+  "argv": [
+   "--info",
+   "-a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_nonexistent_file::134",
+  "argv": [
+   "--info",
+   "/tmp/nofile_xyz.wav"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_earwax_effect::135",
+  "argv": [
+   "earwax"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stretch_effect::136",
+  "argv": [
+   "stretch",
+   "1.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tempo_effect::137",
+  "argv": [
+   "tempo",
+   "1.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bend_effect::138",
+  "argv": [
+   "bend",
+   "0.5,500,0.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hilbert_effect::139",
+  "argv": [
+   "hilbert"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tremolo_effect::140",
+  "argv": [
+   "tremolo",
+   "5",
+   "60"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_splice_effect::141",
+  "argv": [
+   "splice",
+   "0.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gain_reclaim_headroom::142",
+  "argv": [
+   "gain",
+   "-h",
+   "-6"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gain_equalize::143",
+  "argv": [
+   "gain",
+   "-e"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gain_balance_rms::144",
+  "argv": [
+   "gain",
+   "-b"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mcompand_effect::145",
+  "argv": [
+   "mcompand",
+   "0.005,0.1 -47,-40,-34,-34,-17,-33",
+   "100",
+   "0.003,0.05 -47,-40,-34,-34,-17,-33",
+   "400",
+   "0.000625,0.0125 -47,-40,-34,-34,-15,-33",
+   "1600",
+   "0.0001,0.025 -47,-40,-34,-34,-31,-31,-0,-30",
+   "6400",
+   "0,0.025 -38,-31,-28,-28,-0,-25"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_synth_whitenoise::146",
+  "argv": [
+   "-n",
+   "-r",
+   "8000",
+   "-c",
+   "1",
+   "synth",
+   "0.5",
+   "whitenoise"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_synth_pluck::147",
+  "argv": [
+   "-n",
+   "-r",
+   "8000",
+   "-c",
+   "1",
+   "synth",
+   "1",
+   "pluck",
+   "440"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_synth_exp_envelope::148",
+  "argv": [
+   "-n",
+   "-r",
+   "8000",
+   "-c",
+   "1",
+   "synth",
+   "0.5",
+   "exp",
+   "440"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_synth_trapezium::149",
+  "argv": [
+   "-n",
+   "-r",
+   "8000",
+   "-c",
+   "1",
+   "synth",
+   "0.5",
+   "trapezium",
+   "440"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_synth_tpdfnoise::150",
+  "argv": [
+   "-n",
+   "-r",
+   "8000",
+   "-c",
+   "1",
+   "synth",
+   "0.5",
+   "tpdfnoise"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highpass_second_order::151",
+  "argv": [
+   "highpass",
+   "-2",
+   "1000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_highpass_first_order::152",
+  "argv": [
+   "highpass",
+   "-1",
+   "1000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lowpass_first_order::153",
+  "argv": [
+   "lowpass",
+   "-1",
+   "1000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stat_scale_option::154",
+  "argv": [
+   "-n",
+   "stat",
+   "-s",
+   "32768"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stat_d_option::155",
+  "argv": [
+   "-n",
+   "stat",
+   "-d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dither_sloped_tpdf::156",
+  "argv": [
+   "dither",
+   "-S"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dither_shibata_filter::157",
+  "argv": [
+   "dither",
+   "-s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_norm_with_level::158",
+  "argv": [
+   "norm",
+   "-3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trim_absolute_position::159",
+  "argv": [
+   "trim",
+   "0.3",
+   "=0.7"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reverb_with_options::160",
+  "argv": [
+   "reverb",
+   "50",
+   "50",
+   "100"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vol_with_type::161",
+  "argv": [
+   "vol",
+   "0.5",
+   "power"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fir_effect::162",
+  "argv": [
+   "fir",
+   "coefs.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "coefs.txt": "0 0 1 0 0\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ima_adpcm_wav_write::163",
+  "argv": [
+   "-e",
+   "ima-adpcm"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ms_adpcm_wav_write::164",
+  "argv": [
+   "-e",
+   "ms-adpcm"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lpc10_format::165",
+  "argv": [
+   "-t",
+   "lpc10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sf_ircam_format::166",
+  "argv": [
+   "-t",
+   "sf"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sln_asterisk_format::167",
+  "argv": [
+   "-t",
+   "sln",
+   "-r",
+   "8000",
+   "-c",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wve_psion_format::168",
+  "argv": [
+   "-n",
+   "-r",
+   "8000",
+   "-c",
+   "1",
+   "synth",
+   "0.5",
+   "sine",
+   "440"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wav_float64::169",
+  "argv": [
+   "-e",
+   "floating-point",
+   "-b",
+   "64"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wavpcm_alias::170",
+  "argv": [
+   "-t",
+   "wavpcm"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdout_pipe_output::171",
+  "argv": [
+   "-t",
+   "wav",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_pipe_input::172",
+  "argv": [
+   "-t",
+   "wav",
+   "-",
+   "-t",
+   "wav",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sox_pipe_format::173",
+  "argv": [
+   "-p",
+   "gain",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_input_with_synth::174",
+  "argv": [
+   "-n",
+   "-r",
+   "8000",
+   "-c",
+   "1",
+   "-t",
+   "wav",
+   "-",
+   "synth",
+   "0.1",
+   "sine",
+   "440"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_output_with_stat::175",
+  "argv": [
+   "-n",
+   "stat"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_glob_flag::176",
+  "argv": [
+   "--no-glob"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdout_raw_output::177",
+  "argv": [
+   "-t",
+   "raw",
+   "-e",
+   "signed-integer",
+   "-b",
+   "16",
+   "-r",
+   "8000",
+   "-c",
+   "1",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_synth_sine::178",
+  "argv": [
+   "-n",
+   "-r",
+   "8000",
+   "-c",
+   "1",
+   "synth",
+   "1",
+   "sine",
+   "440"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_synth_square::179",
+  "argv": [
+   "-n",
+   "-r",
+   "8000",
+   "-c",
+   "1",
+   "synth",
+   "0.5",
+   "square",
+   "440"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_synth_triangle::180",
+  "argv": [
+   "-n",
+   "-r",
+   "8000",
+   "-c",
+   "1",
+   "synth",
+   "0.5",
+   "triangle",
+   "440"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_synth_sawtooth::181",
+  "argv": [
+   "-n",
+   "-r",
+   "8000",
+   "-c",
+   "1",
+   "synth",
+   "0.5",
+   "sawtooth",
+   "440"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_synth_noise::182",
+  "argv": [
+   "-n",
+   "-r",
+   "8000",
+   "-c",
+   "1",
+   "synth",
+   "0.5",
+   "noise"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_synth_stereo::183",
+  "argv": [
+   "-n",
+   "-r",
+   "44100",
+   "-c",
+   "2",
+   "synth",
+   "1",
+   "sine",
+   "440"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_synth_with_stats_pipe::184",
+  "argv": [
+   "-n",
+   "-r",
+   "8000",
+   "-c",
+   "1",
+   "-p",
+   "synth",
+   "1",
+   "sine",
+   "440"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stat_freq_option::185",
+  "argv": [
+   "-n",
+   "-r",
+   "8000",
+   "-c",
+   "1",
+   "synth",
+   "0.1",
+   "sine",
+   "440"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

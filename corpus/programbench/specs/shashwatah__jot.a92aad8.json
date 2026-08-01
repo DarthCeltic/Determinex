@@ -1,0 +1,2453 @@
+{
+ "slug": "shashwatah__jot.a92aad8",
+ "language": "",
+ "n_branches": 10,
+ "n_tests_total": 654,
+ "n_examples": 141,
+ "n_with_exact_stdout": 1,
+ "n_with_rc": 120,
+ "n_skipped": 483,
+ "examples": [
+  {
+   "test": "test_help_command",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage: jt <command>",
+    "commands:",
+    "vault",
+    "vl",
+    "create a vault or list vaults"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:44"
+  },
+  {
+   "test": "test_help_flag_dash_h",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage: jt <command>",
+    "commands:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:55"
+  },
+  {
+   "test": "test_help_flag_double_dash",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage: jt <command>",
+    "commands:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:63"
+  },
+  {
+   "test": "test_invalid_command",
+   "argv": [
+    "invalidcommand"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalidcommand"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:71"
+  },
+  {
+   "test": "test_help_output_contains_version",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:81"
+  },
+  {
+   "test": "test_config_display_editor",
+   "argv": [
+    "config",
+    "editor"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_operations.py:48"
+  },
+  {
+   "test": "test_config_display_conflict",
+   "argv": [
+    "config",
+    "conflict"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_operations.py:59"
+  },
+  {
+   "test": "test_config_set_editor",
+   "argv": [
+    "config",
+    "editor",
+    "vim"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_operations.py:70"
+  },
+  {
+   "test": "test_config_set_conflict",
+   "argv": [
+    "config",
+    "conflict",
+    "false"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "false"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_operations.py:84"
+  },
+  {
+   "test": "test_config_with_alias",
+   "argv": [
+    "cf",
+    "editor"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_operations.py:98"
+  },
+  {
+   "test": "test_enter_vault",
+   "argv": [
+    "vault",
+    "entervault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_enter_operations.py:28"
+  },
+  {
+   "test": "test_enter_vault_with_alias",
+   "argv": [
+    "vault",
+    "envault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_enter_operations.py:56"
+  },
+  {
+   "test": "test_switch_between_vaults",
+   "argv": [
+    "vault",
+    "switch1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_enter_operations.py:84"
+  },
+  {
+   "test": "test_vault_with_nonexistent_location",
+   "argv": [
+    "vault",
+    "badvault",
+    "/nonexistent/path/that/does/not/exist"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_cases.py:28"
+  },
+  {
+   "test": "test_enter_nonexistent_vault",
+   "argv": [
+    "enter",
+    "nonexistent"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_cases.py:48"
+  },
+  {
+   "test": "test_operations_without_vault",
+   "argv": [
+    "note",
+    "failnote"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_cases.py:66"
+  },
+  {
+   "test": "test_chdir_to_nonexistent_folder",
+   "argv": [
+    "vault",
+    "testvault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_cases.py:84"
+  },
+  {
+   "test": "test_folder_create",
+   "argv": [
+    "folder",
+    "testfolder"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_folder_operations.py:53"
+  },
+  {
+   "test": "test_folder_create_with_alias",
+   "argv": [
+    "fd",
+    "aliasfolder"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_folder_operations.py:69"
+  },
+  {
+   "test": "test_chdir_to_folder",
+   "argv": [
+    "folder",
+    "navfolder"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_folder_operations.py:83"
+  },
+  {
+   "test": "test_chdir_with_alias",
+   "argv": [
+    "folder",
+    "cdfolder"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_folder_operations.py:99"
+  },
+  {
+   "test": "test_chdir_parent_directory",
+   "argv": [
+    "folder",
+    "parenttest"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_folder_operations.py:117"
+  },
+  {
+   "test": "test_chdir_nested_path",
+   "argv": [
+    "folder",
+    "level1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_folder_operations.py:132"
+  },
+  {
+   "test": "test_folder_list",
+   "argv": [
+    "folder",
+    "listfolder"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_folder_operations.py:151"
+  },
+  {
+   "test": "test_folder_list_filter",
+   "argv": [
+    "folder",
+    "testfolder"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "testfolder"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_folder_operations.py:165"
+  },
+  {
+   "test": "test_subcommand_help",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_commands.py:39"
+  },
+  {
+   "test": "test_help_with_command_argument",
+   "argv": [
+    "help",
+    "vault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:",
+    "vault"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_commands.py:69"
+  },
+  {
+   "test": "test_short_help_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:",
+    "--help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_commands.py:81"
+  },
+  {
+   "test": "test_move_note_to_folder_verifies_paths",
+   "argv": [
+    "note",
+    "movenote"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_move_operations.py:53"
+  },
+  {
+   "test": "test_move_note_with_mv_alias_checks_content",
+   "argv": [
+    "note",
+    "mvnote"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_move_operations.py:78"
+  },
+  {
+   "test": "test_move_folder_and_verify_location",
+   "argv": [
+    "folder",
+    "movefolder"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_move_operations.py:101"
+  },
+  {
+   "test": "test_move_vault_to_new_location_checks_paths",
+   "argv": [
+    "vault",
+    "movevault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_move_operations.py:127"
+  },
+  {
+   "test": "test_vmove_note_to_different_vault_checks_both_vaults",
+   "argv": [
+    "vault",
+    "vault1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_move_operations.py:165"
+  },
+  {
+   "test": "test_vmove_with_vm_alias_verifies_both_locations",
+   "argv": [
+    "vault",
+    "vaultA"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_move_operations.py:208"
+  },
+  {
+   "test": "test_note_create",
+   "argv": [
+    "note",
+    "testnote"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_note_operations.py:55"
+  },
+  {
+   "test": "test_note_create_with_alias",
+   "argv": [
+    "nt",
+    "aliasnote"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_note_operations.py:73"
+  },
+  {
+   "test": "test_note_create_verifies_multiple_notes",
+   "argv": [
+    "note"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_note_operations.py:87"
+  },
+  {
+   "test": "test_note_list",
+   "argv": [
+    "note",
+    "listnote"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_note_operations.py:106"
+  },
+  {
+   "test": "test_note_list_filter",
+   "argv": [
+    "note",
+    "testnote"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "testnote"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_note_operations.py:120"
+  },
+  {
+   "test": "test_remove_note",
+   "argv": [
+    "note",
+    "removenote"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_remove_operations.py:53"
+  },
+  {
+   "test": "test_remove_note_with_rm_alias",
+   "argv": [
+    "note",
+    "rmalias"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_remove_operations.py:73"
+  },
+  {
+   "test": "test_remove_note_with_item_type_alias",
+   "argv": [
+    "note",
+    "itemalias"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_remove_operations.py:90"
+  },
+  {
+   "test": "test_remove_folder",
+   "argv": [
+    "folder",
+    "removefolder"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_remove_operations.py:108"
+  },
+  {
+   "test": "test_remove_folder_with_fd_alias",
+   "argv": [
+    "folder",
+    "fdalias"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_remove_operations.py:128"
+  },
+  {
+   "test": "test_remove_vault",
+   "argv": [
+    "vault",
+    "removevault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_remove_operations.py:146"
+  },
+  {
+   "test": "test_rename_note",
+   "argv": [
+    "note",
+    "oldnote"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rename_operations.py:53"
+  },
+  {
+   "test": "test_rename_note_using_rn_alias",
+   "argv": [
+    "note",
+    "rnold"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rename_operations.py:76"
+  },
+  {
+   "test": "test_rename_folder",
+   "argv": [
+    "folder",
+    "oldfolder"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rename_operations.py:97"
+  },
+  {
+   "test": "test_rename_vault",
+   "argv": [
+    "vault",
+    "oldvault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rename_operations.py:120"
+  },
+  {
+   "test": "test_rename_with_nt_item_alias",
+   "argv": [
+    "note",
+    "test1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_rename_operations.py:156"
+  },
+  {
+   "test": "test_vault_help",
+   "argv": [
+    "vault",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "create a vault or list vaults",
+    "USAGE:",
+    "<vault name>",
+    "<vault location>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vault_operations.py:68"
+  },
+  {
+   "test": "test_vault_help_short",
+   "argv": [
+    "vault",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "create a vault or list vaults",
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vault_operations.py:78"
+  },
+  {
+   "test": "test_vault_alias_help",
+   "argv": [
+    "vl",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "create a vault or list vaults"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vault_operations.py:86"
+  },
+  {
+   "test": "test_vault_list_empty",
+   "argv": [
+    "vault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vault_operations.py:93"
+  },
+  {
+   "test": "test_vault_create",
+   "argv": [
+    "vault",
+    "testvault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vault_operations.py:104"
+  },
+  {
+   "test": "test_vault_create_with_alias",
+   "argv": [
+    "vl",
+    "aliasvault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vault_operations.py:126"
+  },
+  {
+   "test": "test_vault_list_after_creation",
+   "argv": [
+    "vault",
+    "listvault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vault_operations.py:141"
+  },
+  {
+   "test": "test_vault_list_with_location_flag",
+   "argv": [
+    "vault",
+    "locvault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vault_operations.py:158"
+  },
+  {
+   "test": "test_config_reading_from_file_affects_command_output",
+   "argv": [
+    "config",
+    "editor"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "editor:",
+    "vim"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_handling.py:75"
+  },
+  {
+   "test": "test_config_set_persists_to_file_and_roundtrips",
+   "argv": [
+    "config",
+    "editor",
+    "micro"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "micro"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_handling.py:85"
+  },
+  {
+   "test": "test_aliases_create_list_and_cd",
+   "argv": [
+    "fd",
+    "a"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "v1",
+    "a",
+    "n",
+    "folder changed"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_aliases_and_edge_cases.py:12"
+  },
+  {
+   "test": "test_invalid_chdir_errors",
+   "argv": [
+    "chdir",
+    "does-not-exist"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_aliases_and_edge_cases.py:39"
+  },
+  {
+   "test": "test_help_banner",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage: jt <command>",
+    "commands:",
+    "vault"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_errors.py:6"
+  },
+  {
+   "test": "test_help_vault",
+   "argv": [
+    "help",
+    "vault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "create a vault or list vaults",
+    "OPTIONS:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_errors.py:15"
+  },
+  {
+   "test": "test_unknown_command_error",
+   "argv": [
+    "nonsense"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Found argument 'nonsense'",
+    "For more information try --help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_errors.py:23"
+  },
+  {
+   "test": "test_create_note_and_folder",
+   "argv": [
+    "note",
+    "alpha"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_notes_folders_ops.py:13"
+  },
+  {
+   "test": "test_list_tree_and_filters",
+   "argv": [
+    "note",
+    "alpha"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[0;34malpha\u001b[0m",
+    "alpha",
+    "docs"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_notes_folders_ops.py:24"
+  },
+  {
+   "test": "test_chdir_relative_and_note_in_subfolder",
+   "argv": [
+    "folder",
+    "docs"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "folder changed",
+    "folder changed"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_notes_folders_ops.py:45"
+  },
+  {
+   "test": "test_remove_note_not_found_in_current_folder_errors",
+   "argv": [
+    "folder",
+    "docs"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error",
+    "not found"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_notes_folders_ops.py:75"
+  },
+  {
+   "test": "test_remove_note_in_current_folder",
+   "argv": [
+    "folder",
+    "docs"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "removed"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_notes_folders_ops.py:87"
+  },
+  {
+   "test": "test_vault_create_creates_dirs",
+   "argv": [
+    "vault",
+    "v1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vault_and_state.py:6"
+  },
+  {
+   "test": "test_vault_list_and_list_locations",
+   "argv": [
+    "vault",
+    "v1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "v1",
+    "v1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vault_and_state.py:17"
+  },
+  {
+   "test": "test_vault_create_duplicate_errors",
+   "argv": [
+    "vault",
+    "v1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error",
+    "already exists"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_vault_and_state.py:31"
+  },
+  {
+   "test": "test_enter_persists_current_vault",
+   "argv": [
+    "vault",
+    "v1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "entered"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vault_and_state.py:39"
+  },
+  {
+   "test": "test_subcommand_help_is_recognized",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:68"
+  },
+  {
+   "test": "test_global_help_flag_after_subcommand_shows_subcommand_help",
+   "argv": [
+    "vault",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "executable-vault"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:136"
+  },
+  {
+   "test": "test_help_precedence_with_garbage_arg",
+   "argv": [
+    "--help",
+    "definitely-not-a-valid-subcommand"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage: jt <command>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_edge_cases.py:25"
+  },
+  {
+   "test": "test_unknown_subcommand_has_nonzero_exit_and_error_message",
+   "argv": [
+    "this-subcommand-does-not-exist"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_edge_cases.py:40"
+  },
+  {
+   "test": "test_help_flag_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage: jt <command>",
+    "commands:",
+    "enter"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:16"
+  },
+  {
+   "test": "test_help_flag_long",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage: jt <command>",
+    "vault",
+    "create items"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:24"
+  },
+  {
+   "test": "test_help_command",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage: jt <command>",
+    "commands:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:32"
+  },
+  {
+   "test": "test_help_vault_command",
+   "argv": [
+    "help",
+    "vault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "create a vault or list vaults",
+    "USAGE:",
+    "<vault name>",
+    "<vault location>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:45"
+  },
+  {
+   "test": "test_help_note_command",
+   "argv": [
+    "help",
+    "note"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "create a note",
+    "USAGE:",
+    "note name"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:54"
+  },
+  {
+   "test": "test_help_folder_command",
+   "argv": [
+    "help",
+    "folder"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "create a folder",
+    "USAGE:",
+    "folder name"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:62"
+  },
+  {
+   "test": "test_help_enter_command",
+   "argv": [
+    "help",
+    "enter"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "enter a vault",
+    "vault name"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:70"
+  },
+  {
+   "test": "test_help_open_command",
+   "argv": [
+    "help",
+    "open"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "open a note",
+    "note name"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:77"
+  },
+  {
+   "test": "test_help_opdir_command",
+   "argv": [
+    "help",
+    "opdir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "open current folder"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:84"
+  },
+  {
+   "test": "test_help_chdir_command",
+   "argv": [
+    "help",
+    "chdir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "change folder",
+    "folder path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:90"
+  },
+  {
+   "test": "test_help_list_command",
+   "argv": [
+    "help",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "list items"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:97"
+  },
+  {
+   "test": "test_help_remove_command",
+   "argv": [
+    "help",
+    "remove"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "remove an item",
+    "item type"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:103"
+  },
+  {
+   "test": "test_help_rename_command",
+   "argv": [
+    "help",
+    "rename"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "rename an item",
+    "new name"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:110"
+  },
+  {
+   "test": "test_help_move_command",
+   "argv": [
+    "help",
+    "move"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "move an item",
+    "new location"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:117"
+  },
+  {
+   "test": "test_help_vmove_command",
+   "argv": [
+    "help",
+    "vmove"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "move notes and folders to a different vault",
+    "vault name"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:124"
+  },
+  {
+   "test": "test_help_config_command",
+   "argv": [
+    "help",
+    "config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "display, set or open config",
+    "config type"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:131"
+  },
+  {
+   "test": "test_config_set_editor",
+   "argv": [
+    "vault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "vim"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_operations.py:33"
+  },
+  {
+   "test": "test_config_set_conflict",
+   "argv": [
+    "vault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "false"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_config_operations.py:46"
+  },
+  {
+   "test": "test_config_set_custom_editor",
+   "argv": [
+    "vault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "code"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_operations.py:68"
+  },
+  {
+   "test": "test_list_empty_vault",
+   "argv": [
+    "vault",
+    "emptyvault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:90"
+  },
+  {
+   "test": "test_create_folder_in_vault",
+   "argv": [
+    "vault",
+    "foldervault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_folder_operations.py:5"
+  },
+  {
+   "test": "test_create_folder_with_alias",
+   "argv": [
+    "vault",
+    "fdvault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_folder_operations.py:21"
+  },
+  {
+   "test": "test_list_folders",
+   "argv": [
+    "vault",
+    "listfdvault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "folder1",
+    "folder2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_folder_operations.py:35"
+  },
+  {
+   "test": "test_list_only_folders",
+   "argv": [
+    "vault",
+    "filterfdvault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "testfolder"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_folder_operations.py:48"
+  },
+  {
+   "test": "test_chdir_to_subfolder",
+   "argv": [
+    "vault",
+    "chdrvault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_folder_operations.py:62"
+  },
+  {
+   "test": "test_chdir_with_alias",
+   "argv": [
+    "vault",
+    "cdvault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_folder_operations.py:74"
+  },
+  {
+   "test": "test_chdir_parent_directory",
+   "argv": [
+    "vault",
+    "parentvault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_folder_operations.py:86"
+  },
+  {
+   "test": "test_chdir_relative_path",
+   "argv": [
+    "vault",
+    "relpathvault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_folder_operations.py:99"
+  },
+  {
+   "test": "test_remove_folder",
+   "argv": [
+    "vault",
+    "rmfdvault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_folder_operations.py:114"
+  },
+  {
+   "test": "test_remove_folder_with_alias",
+   "argv": [
+    "vault",
+    "rmfdaliasvault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_folder_operations.py:130"
+  },
+  {
+   "test": "test_rename_folder",
+   "argv": [
+    "vault",
+    "renamefdvault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_folder_operations.py:142"
+  },
+  {
+   "test": "test_rename_folder_with_alias",
+   "argv": [
+    "vault",
+    "rnfdaliasvault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_folder_operations.py:161"
+  },
+  {
+   "test": "test_vmove_folder_to_different_vault",
+   "argv": [
+    "vault",
+    "vaultX"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_folder_operations.py:204"
+  },
+  {
+   "test": "test_vmove_folder_with_alias",
+   "argv": [
+    "vault",
+    "vaultP"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_folder_operations.py:225"
+  },
+  {
+   "test": "test_create_note_in_vault",
+   "argv": [
+    "vault",
+    "notevault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_note_operations.py:5"
+  },
+  {
+   "test": "test_create_note_with_alias",
+   "argv": [
+    "vault",
+    "ntvault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_note_operations.py:21"
+  },
+  {
+   "test": "test_list_notes",
+   "argv": [
+    "vault",
+    "listvault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "note1",
+    "note2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_note_operations.py:35"
+  },
+  {
+   "test": "test_list_notes_with_alias",
+   "argv": [
+    "vault",
+    "lsvault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "testnote"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_note_operations.py:48"
+  },
+  {
+   "test": "test_list_only_notes",
+   "argv": [
+    "vault",
+    "filtervault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "onlynote"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_note_operations.py:59"
+  },
+  {
+   "test": "test_remove_note",
+   "argv": [
+    "vault",
+    "rmnotevault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_note_operations.py:73"
+  },
+  {
+   "test": "test_remove_note_with_alias",
+   "argv": [
+    "vault",
+    "rmaliasvault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_note_operations.py:89"
+  },
+  {
+   "test": "test_rename_note",
+   "argv": [
+    "vault",
+    "renamevault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_note_operations.py:101"
+  },
+  {
+   "test": "test_rename_note_with_alias",
+   "argv": [
+    "vault",
+    "rnaliasvault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_note_operations.py:120"
+  },
+  {
+   "test": "test_list_vaults_after_creation",
+   "argv": [
+    "vault",
+    "vault1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "vault1",
+    "vault2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vault_operations.py:42"
+  },
+  {
+   "test": "test_list_vaults_with_location_flag",
+   "argv": [
+    "vault",
+    "locvault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "locvault"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_vault_operations.py:53"
+  },
+  {
+   "test": "test_remove_vault",
+   "argv": [
+    "vault",
+    "removeme"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vault_operations.py:93"
+  },
+  {
+   "test": "test_remove_vault_with_alias",
+   "argv": [
+    "vault",
+    "rmvault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vault_operations.py:106"
+  },
+  {
+   "test": "test_rename_vault_with_alias",
+   "argv": [
+    "vault",
+    "oldname"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_vault_operations.py:131"
+  },
+  {
+   "test": "test_vault_flag_duplicate_is_error",
+   "argv": [
+    "vault",
+    "-l",
+    "-l"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "was provided more than once",
+    "'-l'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse.py:67"
+  },
+  {
+   "test": "test_vault_combined_short_flags_repeat_is_error",
+   "argv": [
+    "vault",
+    "-ll"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "was provided more than once",
+    "'-l'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse.py:74"
+  },
+  {
+   "test": "test_vault_unknown_long_flag_suggests_double_dash_separator",
+   "argv": [
+    "vault",
+    "--nonexistent"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Found argument '--nonexistent'",
+    "If you tried to supply `--nonexistent` as a value",
+    "use `-- --nonexistent`"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse.py:81"
+  },
+  {
+   "test": "test_vault_dash_dash_treats_flag_like_value_then_missing_location",
+   "argv": [
+    "vault",
+    "--",
+    "-l"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "required arguments were not provided",
+    "<vault location>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse.py:89"
+  },
+  {
+   "test": "test_vault_dash_equals_is_parsed_as_unknown_flag_cluster",
+   "argv": [
+    "vault",
+    "-l=1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Found argument '-='"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse.py:97"
+  },
+  {
+   "test": "test_subcommand_rejects_unexpected_positional",
+   "argv": [
+    "open",
+    "note",
+    "extra"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Found argument 'extra' which wasn't expected"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse.py:138"
+  },
+  {
+   "test": "test_list_rejects_unknown_flag",
+   "argv": [
+    "list",
+    "--bogus"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Found argument '--bogus'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse.py:144"
+  },
+  {
+   "test": "test_no_args_prints_usage_banner_not_error",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage:",
+    "commands:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse.py:150"
+  },
+  {
+   "test": "test_help_has_logo_and_usage_to_stdout",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage: jt <command>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_jot_io.py:27"
+  },
+  {
+   "test": "test_vault_create_requires_absolute_existing_location",
+   "argv": [
+    "vault",
+    "myvault",
+    "relative/path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jot_io.py:51"
+  },
+  {
+   "test": "test_create_vault_writes_to_data_file_and_creates_dotjot",
+   "argv": [
+    "vault",
+    "myvault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name = 'myvault'",
+    "folder = ''"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_jot_io.py:63"
+  },
+  {
+   "test": "test_note_requires_being_inside_vault",
+   "argv": [
+    "note",
+    "n1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jot_io.py:87"
+  },
+  {
+   "test": "test_enter_then_note_creates_markdown_file_in_vault_root",
+   "argv": [
+    "vault",
+    "myvault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jot_io.py:94"
+  },
+  {
+   "test": "test_folder_and_chdir_affect_note_creation_location",
+   "argv": [
+    "vault",
+    "myvault"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "folder changed\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_jot_io.py:131"
+  },
+  {
+   "test": "test_config_get_and_set_editor",
+   "argv": [
+    "config",
+    "editor"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "editor = 'nano'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_jot_io.py:178"
+  }
+ ]
+}

@@ -1,0 +1,4636 @@
+{
+ "slug": "foriequal0__git-trim.07c2f50",
+ "language": "",
+ "n_branches": 12,
+ "n_tests_total": 671,
+ "n_examples": 238,
+ "n_with_exact_stdout": 3,
+ "n_with_rc": 212,
+ "n_skipped": 319,
+ "examples": [
+  {
+   "test": "test_dry_run_no_update_prints_summary_and_exit_0",
+   "argv": [
+    "--no-update",
+    "--dry-run"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Branches that will remain:",
+    "local branches:",
+    "remote references:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dry_run_output.py:6"
+  },
+  {
+   "test": "test_dry_run_disables_confirmation_prompt_in_non_tty",
+   "argv": [
+    "--dry-run",
+    "--bases",
+    ""
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dry_run_output.py:20"
+  },
+  {
+   "test": "test_requires_git_remote_errors_and_exit_1",
+   "argv": [
+    "--no-update",
+    "--dry-run"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "requires at least one remote"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:7"
+  },
+  {
+   "test": "test_invalid_flag_exits_nonzero_and_mentions_unrecognized",
+   "argv": [
+    "--definitely-not-a-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--definitely-not-a-flag"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:17"
+  },
+  {
+   "test": "test_help_succeeds_and_mentions_usage",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--dry-run"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_version.py:4"
+  },
+  {
+   "test": "test_version_prints_version_and_exits_zero",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_version.py:12"
+  },
+  {
+   "test": "test_delete_merged_local_with_no_confirm",
+   "argv": [
+    "--no-update",
+    "--no-confirm",
+    "--delete",
+    "merged-local"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "feature-to-delete"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_actual_deletion.py:89"
+  },
+  {
+   "test": "test_no_branches_to_delete",
+   "argv": [
+    "--no-update",
+    "--no-confirm",
+    "--delete",
+    "merged-local"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_actual_deletion.py:128"
+  },
+  {
+   "test": "test_protected_branch_not_deleted",
+   "argv": [
+    "--no-update",
+    "--no-confirm",
+    "--protected",
+    "release-*",
+    "--delete",
+    "merged-local"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "release-1.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_actual_deletion.py:216"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_interface.py:32"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_interface.py:40"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "git-trim",
+    "0.4.4"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_interface.py:46"
+  },
+  {
+   "test": "test_version_short_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "git-trim",
+    "0.4.4"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_interface.py:53"
+  },
+  {
+   "test": "test_help_output_contains_all_options",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_interface.py:66"
+  },
+  {
+   "test": "test_merged_feature_with_merge_commit",
+   "argv": [
+    "--dry-run",
+    "--no-update",
+    "--delete",
+    "merged-local"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_branch_trimming.py:82"
+  },
+  {
+   "test": "test_stray_branch_upstream_deleted",
+   "argv": [
+    "--dry-run",
+    "--no-update",
+    "--delete",
+    "stray"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_branch_trimming.py:147"
+  },
+  {
+   "test": "test_protected_pattern_prevents_deletion",
+   "argv": [
+    "--dry-run",
+    "--no-update",
+    "--protected",
+    "release-*",
+    "--delete",
+    "merged-local"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_branch_trimming.py:176"
+  },
+  {
+   "test": "test_base_branch_not_deleted",
+   "argv": [
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_branch_trimming.py:208"
+  },
+  {
+   "test": "test_dry_run_preserves_branches",
+   "argv": [
+    "--dry-run",
+    "--no-update",
+    "--delete",
+    "merged-local"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "feature-dryrun"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_branch_trimming.py:250"
+  },
+  {
+   "test": "test_protected_single_pattern",
+   "argv": [
+    "--dry-run",
+    "--no-update",
+    "--protected",
+    "release-*"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_command_options.py:129"
+  },
+  {
+   "test": "test_protected_multiple_patterns",
+   "argv": [
+    "--dry-run",
+    "--no-update",
+    "--protected",
+    "release-*,hotfix/*"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_command_options.py:137"
+  },
+  {
+   "test": "test_protected_short_flag",
+   "argv": [
+    "--dry-run",
+    "--no-update",
+    "-p",
+    "release-*"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_command_options.py:145"
+  },
+  {
+   "test": "test_update_interval",
+   "argv": [
+    "--dry-run",
+    "--no-update",
+    "--update-interval",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_command_options.py:165"
+  },
+  {
+   "test": "test_update_interval_zero",
+   "argv": [
+    "--dry-run",
+    "--no-update",
+    "--update-interval",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_command_options.py:173"
+  },
+  {
+   "test": "test_no_confirm_flag",
+   "argv": [
+    "--dry-run",
+    "--no-update",
+    "--no-confirm"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_command_options.py:185"
+  },
+  {
+   "test": "test_no_detach_flag",
+   "argv": [
+    "--dry-run",
+    "--no-update",
+    "--no-detach"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_command_options.py:193"
+  },
+  {
+   "test": "test_delete_merged",
+   "argv": [
+    "--dry-run",
+    "--no-update",
+    "--delete",
+    "merged:origin"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_command_options.py:205"
+  },
+  {
+   "test": "test_delete_merged_remote",
+   "argv": [
+    "--dry-run",
+    "--no-update",
+    "--delete",
+    "merged-remote:origin"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_command_options.py:221"
+  },
+  {
+   "test": "test_delete_multiple_ranges",
+   "argv": [
+    "--dry-run",
+    "--no-update",
+    "--delete",
+    "merged-local,stray"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_command_options.py:237"
+  },
+  {
+   "test": "test_delete_short_flag",
+   "argv": [
+    "--dry-run",
+    "--no-update",
+    "-d",
+    "merged-local"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_command_options.py:245"
+  },
+  {
+   "test": "test_dry_run_flag",
+   "argv": [
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "feature"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_command_options.py:257"
+  },
+  {
+   "test": "test_empty_protected",
+   "argv": [
+    "--dry-run",
+    "--no-update",
+    "--protected",
+    ""
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:195"
+  },
+  {
+   "test": "test_non_tracking_local_branch",
+   "argv": [
+    "--dry-run",
+    "--no-update",
+    "--delete",
+    "local"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:210"
+  },
+  {
+   "test": "test_git_config_trim_update",
+   "argv": [
+    "--dry-run"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:332"
+  },
+  {
+   "test": "test_feature_merged_to_develop",
+   "argv": [
+    "--dry-run",
+    "--no-update",
+    "--bases",
+    "develop",
+    "--delete",
+    "merged-local"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_git_flow.py:87"
+  },
+  {
+   "test": "test_empty_repository",
+   "argv": [
+    "--dry-run"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "remote"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_git_repository.py:117"
+  },
+  {
+   "test": "test_actual_merged_branch_deletion",
+   "argv": [
+    "--delete",
+    "merged-local",
+    "--bases",
+    "master",
+    "--no-update",
+    "--no-confirm"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "to-delete"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_actual_deletion.py:5"
+  },
+  {
+   "test": "test_dry_run_vs_actual_deletion",
+   "argv": [
+    "--delete",
+    "merged-local",
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test-dry",
+    "test-dry"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_actual_deletion.py:38"
+  },
+  {
+   "test": "test_no_branches_to_delete",
+   "argv": [
+    "--bases",
+    "master",
+    "--no-update",
+    "--no-confirm"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_actual_deletion.py:75"
+  },
+  {
+   "test": "test_bases_flag_single_branch",
+   "argv": [
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_bases_configuration.py:5"
+  },
+  {
+   "test": "test_bases_flag_multiple_branches",
+   "argv": [
+    "--bases",
+    "master,develop",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_bases_configuration.py:15"
+  },
+  {
+   "test": "test_bases_empty_uses_default",
+   "argv": [
+    "--bases",
+    "",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_bases_configuration.py:28"
+  },
+  {
+   "test": "test_bases_with_alias_base",
+   "argv": [
+    "--base",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_bases_configuration.py:38"
+  },
+  {
+   "test": "test_bases_with_nonexistent_branch_succeeds",
+   "argv": [
+    "--bases",
+    "nonexistent-branch",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_bases_configuration.py:47"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Automatically trims your tracking branches",
+    "Usage:",
+    "--bases",
+    "--protected",
+    "--delete",
+    "--dry-run",
+    "--no-update",
+    "--no-confirm",
+    "--no-detach"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:6"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:20"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "git-trim"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:27"
+  },
+  {
+   "test": "test_version_short_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "git-trim"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:35"
+  },
+  {
+   "test": "test_no_confirm_flag",
+   "argv": [
+    "--no-confirm",
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_confirmation.py:5"
+  },
+  {
+   "test": "test_dry_run_with_no_confirm",
+   "argv": [
+    "--dry-run",
+    "--no-confirm",
+    "--bases",
+    "master",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_confirmation.py:14"
+  },
+  {
+   "test": "test_delete_merged_with_remote",
+   "argv": [
+    "--delete",
+    "merged:origin",
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delete_ranges.py:5"
+  },
+  {
+   "test": "test_delete_merged_local",
+   "argv": [
+    "--delete",
+    "merged-local",
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delete_ranges.py:14"
+  },
+  {
+   "test": "test_delete_merged_remote",
+   "argv": [
+    "--delete",
+    "merged-remote:origin",
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delete_ranges.py:22"
+  },
+  {
+   "test": "test_delete_stray",
+   "argv": [
+    "--delete",
+    "stray",
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delete_ranges.py:30"
+  },
+  {
+   "test": "test_delete_diverged",
+   "argv": [
+    "--delete",
+    "diverged:origin",
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delete_ranges.py:38"
+  },
+  {
+   "test": "test_delete_local",
+   "argv": [
+    "--delete",
+    "local",
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delete_ranges.py:46"
+  },
+  {
+   "test": "test_delete_remote",
+   "argv": [
+    "--delete",
+    "remote:origin",
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delete_ranges.py:54"
+  },
+  {
+   "test": "test_delete_multiple_ranges",
+   "argv": [
+    "--delete",
+    "merged-local,stray",
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delete_ranges.py:62"
+  },
+  {
+   "test": "test_delete_wildcard_remote",
+   "argv": [
+    "--delete",
+    "merged-remote:*",
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delete_ranges.py:70"
+  },
+  {
+   "test": "test_no_detach_flag",
+   "argv": [
+    "--no-detach",
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_detach_control.py:5"
+  },
+  {
+   "test": "test_detach_default_behavior",
+   "argv": [
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update",
+    "--no-confirm"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_detach_control.py:14"
+  },
+  {
+   "test": "test_dry_run_flag",
+   "argv": [
+    "--dry-run",
+    "--bases",
+    "master",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "feature"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dry_run.py:5"
+  },
+  {
+   "test": "test_dry_run_does_not_delete",
+   "argv": [
+    "--dry-run",
+    "--bases",
+    "master",
+    "--no-update",
+    "--no-confirm"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "to-delete"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dry_run.py:29"
+  },
+  {
+   "test": "test_dry_run_output_format",
+   "argv": [
+    "--dry-run",
+    "--bases",
+    "master",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dry_run.py:48"
+  },
+  {
+   "test": "test_protected_pattern_edge_cases",
+   "argv": [
+    "--protected",
+    "release-*,hotfix-*,feature/*",
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:109"
+  },
+  {
+   "test": "test_trim_protected_config",
+   "argv": [
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "release-1.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_git_config_integration.py:18"
+  },
+  {
+   "test": "test_trim_update_config",
+   "argv": [
+    "--bases",
+    "master",
+    "--dry-run"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_git_config_integration.py:35"
+  },
+  {
+   "test": "test_merged_branch_detected",
+   "argv": [
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "feature"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_integration_merged_branches.py:6"
+  },
+  {
+   "test": "test_merged_local_branch_deletion",
+   "argv": [
+    "--delete",
+    "merged-local",
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "merged-feature"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_integration_merged_branches.py:34"
+  },
+  {
+   "test": "test_stray_branch_detection",
+   "argv": [
+    "--delete",
+    "stray",
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "rejected-feature"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_integration_merged_branches.py:61"
+  },
+  {
+   "test": "test_protected_branch_not_deleted",
+   "argv": [
+    "--protected",
+    "release-*",
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "release-1.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_integration_merged_branches.py:86"
+  },
+  {
+   "test": "test_multiple_merged_branches",
+   "argv": [
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "feature-0",
+    "feature-1",
+    "feature-2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_integration_merged_branches.py:105"
+  },
+  {
+   "test": "test_output_shows_branch_types",
+   "argv": [
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Branches"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_parsing.py:5"
+  },
+  {
+   "test": "test_output_shows_base_branches",
+   "argv": [
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "master"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_parsing.py:17"
+  },
+  {
+   "test": "test_deletion_output_format",
+   "argv": [
+    "--delete",
+    "merged-local",
+    "--bases",
+    "master",
+    "--no-update",
+    "--no-confirm"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "to-show"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_parsing.py:42"
+  },
+  {
+   "test": "test_output_with_multiple_bases",
+   "argv": [
+    "--bases",
+    "master,develop",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Branches"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_parsing.py:78"
+  },
+  {
+   "test": "test_protected_single_pattern",
+   "argv": [
+    "--protected",
+    "release-*",
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_protected_branches.py:5"
+  },
+  {
+   "test": "test_protected_multiple_patterns",
+   "argv": [
+    "--protected",
+    "release-*,feature/*,hotfix-*",
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_protected_branches.py:14"
+  },
+  {
+   "test": "test_delete_remote_branch",
+   "argv": [
+    "--delete",
+    "merged-remote:origin",
+    "--bases",
+    "master",
+    "--no-update",
+    "--no-confirm"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_remote_operations.py:32"
+  },
+  {
+   "test": "test_wildcard_remote_deletion",
+   "argv": [
+    "--delete",
+    "merged:*",
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_remote_operations.py:56"
+  },
+  {
+   "test": "test_no_update_flag",
+   "argv": [
+    "--no-update",
+    "--bases",
+    "master",
+    "--dry-run"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_update_control.py:5"
+  },
+  {
+   "test": "test_default_update_behavior",
+   "argv": [
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-confirm"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_update_control.py:27"
+  },
+  {
+   "test": "test_squash_merge_detection",
+   "argv": [
+    "git",
+    "merge",
+    "--squash",
+    "feature-squash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_scenarios.py:6"
+  },
+  {
+   "test": "test_rebase_merge_detection",
+   "argv": [
+    "git",
+    "merge",
+    "--ff-only",
+    "feature-rebase"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_scenarios.py:32"
+  },
+  {
+   "test": "test_diverged_branch_detection",
+   "argv": [
+    "--bases",
+    "master",
+    "--delete",
+    "diverged:origin",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "branch"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_advanced_scenarios.py:55"
+  },
+  {
+   "test": "test_multiple_delete_ranges",
+   "argv": [
+    "--delete",
+    "merged-local,stray,local",
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "branch"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_advanced_scenarios.py:78"
+  },
+  {
+   "test": "test_remote_branch_deletion",
+   "argv": [
+    "git",
+    "merge",
+    "feature-remote",
+    "--no-ff",
+    "-m",
+    "Merge feature"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_scenarios.py:90"
+  },
+  {
+   "test": "test_branch_name_with_special_chars",
+   "argv": [
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "branch"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_advanced_scenarios.py:114"
+  },
+  {
+   "test": "test_detached_head_state",
+   "argv": [
+    "git",
+    "rev-parse",
+    "HEAD"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_scenarios.py:131"
+  },
+  {
+   "test": "test_empty_protected_pattern",
+   "argv": [
+    "--protected",
+    "",
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "branch"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_advanced_scenarios.py:151"
+  },
+  {
+   "test": "test_all_delete_ranges",
+   "argv": [
+    "--delete",
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "branch"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_advanced_scenarios.py:164"
+  },
+  {
+   "test": "test_git_config_all_options",
+   "argv": [
+    "git",
+    "config",
+    "trim.bases",
+    "master"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "branch"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_advanced_scenarios.py:188"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Automatically trims your tracking branches",
+    "Usage:",
+    "--bases",
+    "--protected",
+    "--dry-run",
+    "--no-update",
+    "--no-confirm"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:7"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Automatically trims your tracking branches",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:19"
+  },
+  {
+   "test": "test_help_contains_all_options",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--no-update",
+    "--update-interval",
+    "--no-confirm",
+    "--no-detach",
+    "--dry-run"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:59"
+  },
+  {
+   "test": "test_help_output_structure",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Options:",
+    "trim",
+    "branch"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:75"
+  },
+  {
+   "test": "test_config_update_true",
+   "argv": [
+    "git",
+    "config",
+    "trim.update",
+    "true"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "branch"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_config_combinations.py:5"
+  },
+  {
+   "test": "test_config_confirm_true",
+   "argv": [
+    "git",
+    "config",
+    "trim.confirm",
+    "true"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "branch"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_config_combinations.py:21"
+  },
+  {
+   "test": "test_config_detach_false",
+   "argv": [
+    "git",
+    "config",
+    "trim.detach",
+    "false"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "branch"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_config_combinations.py:35"
+  },
+  {
+   "test": "test_config_update_interval_custom",
+   "argv": [
+    "git",
+    "config",
+    "trim.updateInterval",
+    "100"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "branch"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_config_combinations.py:49"
+  },
+  {
+   "test": "test_config_delete_merged_local",
+   "argv": [
+    "git",
+    "config",
+    "trim.delete",
+    "merged-local"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "branch"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_config_combinations.py:63"
+  },
+  {
+   "test": "test_config_delete_multiple",
+   "argv": [
+    "git",
+    "config",
+    "trim.delete",
+    "merged-local,stray"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "branch"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_config_combinations.py:77"
+  },
+  {
+   "test": "test_config_bases_multiple",
+   "argv": [
+    "git",
+    "config",
+    "trim.bases",
+    "master,develop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "branch"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_config_combinations.py:109"
+  },
+  {
+   "test": "test_config_protected_multiple",
+   "argv": [
+    "git",
+    "config",
+    "trim.protected",
+    "release-*,hotfix-*"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "branch"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_config_combinations.py:124"
+  },
+  {
+   "test": "test_invalid_update_interval",
+   "argv": [
+    "--update-interval",
+    "999999",
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "branch"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_config_combinations.py:150"
+  },
+  {
+   "test": "test_explicit_update_flag",
+   "argv": [
+    "--update",
+    "--bases",
+    "master",
+    "--dry-run",
+    "--update-interval",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "branch"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_conflicting_flags.py:40"
+  },
+  {
+   "test": "test_explicit_confirm_flag",
+   "argv": [
+    "--confirm",
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "branch"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_conflicting_flags.py:53"
+  },
+  {
+   "test": "test_explicit_detach_flag",
+   "argv": [
+    "--detach",
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "branch"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_conflicting_flags.py:65"
+  },
+  {
+   "test": "test_delete_range_with_wildcard",
+   "argv": [
+    "--delete",
+    "merged-remote:*",
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "branch"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_conflicting_flags.py:76"
+  },
+  {
+   "test": "test_delete_range_diverged",
+   "argv": [
+    "--delete",
+    "diverged:origin",
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "branch"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_conflicting_flags.py:88"
+  },
+  {
+   "test": "test_delete_range_remote",
+   "argv": [
+    "--delete",
+    "remote:origin",
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "branch"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_conflicting_flags.py:99"
+  },
+  {
+   "test": "test_multiple_bases",
+   "argv": [
+    "--bases",
+    "master,develop",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "branch"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_conflicting_flags.py:110"
+  },
+  {
+   "test": "test_multiple_protected_patterns",
+   "argv": [
+    "--protected",
+    "release-*,hotfix-*,feature/*",
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "branch"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_conflicting_flags.py:122"
+  },
+  {
+   "test": "test_base_alias",
+   "argv": [
+    "--base",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "branch"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_conflicting_flags.py:133"
+  },
+  {
+   "test": "test_multiple_merged_branches",
+   "argv": [
+    "--bases",
+    "master",
+    "--delete",
+    "merged-local",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:55"
+  },
+  {
+   "test": "test_protected_pattern_with_wildcard_prefix",
+   "argv": [
+    "--protected",
+    "*-release",
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:79"
+  },
+  {
+   "test": "test_protected_pattern_with_wildcard_middle",
+   "argv": [
+    "--protected",
+    "release-*-final",
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "branch"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_edge_cases.py:94"
+  },
+  {
+   "test": "test_update_interval_with_explicit_zero",
+   "argv": [
+    "--update-interval",
+    "0",
+    "--bases",
+    "master",
+    "--dry-run"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "branch"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_edge_cases.py:162"
+  },
+  {
+   "test": "test_empty_bases_behavior",
+   "argv": [
+    "--bases",
+    "",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "branch"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:5"
+  },
+  {
+   "test": "test_no_base_branches_detected",
+   "argv": [
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "base"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:20"
+  },
+  {
+   "test": "test_git_config_integration",
+   "argv": [
+    "git",
+    "config",
+    "trim.bases",
+    "master"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "branch"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_error_handling.py:45"
+  },
+  {
+   "test": "test_cli_overrides_git_config",
+   "argv": [
+    "git",
+    "config",
+    "trim.bases",
+    "develop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "branch"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_error_handling.py:63"
+  },
+  {
+   "test": "test_invalid_protected_pattern",
+   "argv": [
+    "--protected",
+    "**invalid**",
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "branch"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_error_handling.py:91"
+  },
+  {
+   "test": "test_update_interval_zero",
+   "argv": [
+    "--update-interval",
+    "0",
+    "--bases",
+    "master",
+    "--dry-run"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "branch"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_error_handling.py:105"
+  },
+  {
+   "test": "test_wildcard_remote_in_delete",
+   "argv": [
+    "--delete",
+    "merged:*",
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "branch"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_error_handling.py:130"
+  },
+  {
+   "test": "test_detects_merged_local_branch",
+   "argv": [
+    "git",
+    "merge",
+    "feature",
+    "--no-ff",
+    "-m",
+    "Merge feature"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "feature"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_git_operations.py:6"
+  },
+  {
+   "test": "test_detects_stray_branch",
+   "argv": [
+    "git",
+    "push",
+    "origin",
+    "--delete",
+    "feature"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_git_operations.py:28"
+  },
+  {
+   "test": "test_protected_branches_not_deleted",
+   "argv": [
+    "git",
+    "merge",
+    "release-1.0",
+    "--no-ff",
+    "-m",
+    "Merge release"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "release",
+    "remain"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_git_operations.py:56"
+  },
+  {
+   "test": "test_local_non_tracking_branches",
+   "argv": [
+    "git",
+    "merge",
+    "local-feature",
+    "--no-ff",
+    "-m",
+    "Merge local"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "local"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_git_operations.py:142"
+  },
+  {
+   "test": "test_branch_with_commits_ahead",
+   "argv": [
+    "--bases",
+    "master",
+    "--delete",
+    "merged-local",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "branch"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_git_operations.py:163"
+  },
+  {
+   "test": "test_remote_tracking_branches",
+   "argv": [
+    "git",
+    "merge",
+    "feature",
+    "--no-ff",
+    "-m",
+    "Merge feature"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "feature",
+    "branch"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_git_operations.py:184"
+  },
+  {
+   "test": "test_dry_run_shows_what_would_be_deleted",
+   "argv": [
+    "git",
+    "merge",
+    "to-delete",
+    "--no-ff",
+    "-m",
+    "Merge"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_verification.py:5"
+  },
+  {
+   "test": "test_output_shows_branch_classification",
+   "argv": [
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "branch",
+    "master",
+    "base"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_verification.py:28"
+  },
+  {
+   "test": "test_output_with_no_remotes",
+   "argv": [
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "remote"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_verification.py:44"
+  },
+  {
+   "test": "test_output_shows_protected_branches",
+   "argv": [
+    "--protected",
+    "release-*",
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "release"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_verification.py:56"
+  },
+  {
+   "test": "test_verbose_output_with_multiple_branches",
+   "argv": [
+    "--bases",
+    "master",
+    "--delete",
+    "merged-local",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "feature"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_output_verification.py:73"
+  },
+  {
+   "test": "test_output_format_consistency",
+   "argv": [
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "branch",
+    "\n"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_output_verification.py:97"
+  },
+  {
+   "test": "test_help_output_to_stdout",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_verification.py:147"
+  },
+  {
+   "test": "test_remote_with_https_url",
+   "argv": [
+    "git",
+    "remote",
+    "add",
+    "origin",
+    "https://github.com/user/repo.git"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "branch"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_special_cases.py:34"
+  },
+  {
+   "test": "test_remote_with_ssh_url",
+   "argv": [
+    "git",
+    "remote",
+    "add",
+    "origin",
+    "git@github.com:user/repo.git"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "branch"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_special_cases.py:47"
+  },
+  {
+   "test": "test_branch_fully_merged",
+   "argv": [
+    "git",
+    "merge",
+    "fully-merged",
+    "--no-ff",
+    "-m",
+    "Merge"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_special_cases.py:79"
+  },
+  {
+   "test": "test_protected_exact_match",
+   "argv": [
+    "--protected",
+    "production",
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_special_cases.py:130"
+  },
+  {
+   "test": "test_delete_merged_with_explicit_origin",
+   "argv": [
+    "--delete",
+    "merged:origin",
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "branch"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_special_cases.py:144"
+  },
+  {
+   "test": "test_stray_with_no_upstream",
+   "argv": [
+    "--delete",
+    "stray",
+    "--bases",
+    "master",
+    "--dry-run",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "branch"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_special_cases.py:155"
+  },
+  {
+   "test": "test_local_delete_range",
+   "argv": [
+    "git",
+    "merge",
+    "local-only",
+    "--no-ff",
+    "-m",
+    "Merge"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_special_cases.py:168"
+  },
+  {
+   "test": "test_update_with_interval_zero",
+   "argv": [
+    "--update-interval",
+    "0",
+    "--bases",
+    "master",
+    "--dry-run"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_update_behavior.py:6"
+  },
+  {
+   "test": "test_skip_update_when_recent",
+   "argv": [
+    "--update-interval",
+    "1000",
+    "--bases",
+    "master",
+    "--dry-run"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_update_behavior.py:20"
+  },
+  {
+   "test": "test_update_with_small_interval",
+   "argv": [
+    "--update-interval",
+    "1",
+    "--bases",
+    "master",
+    "--dry-run"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_update_behavior.py:51"
+  },
+  {
+   "test": "test_no_update_with_config",
+   "argv": [
+    "git",
+    "config",
+    "trim.update",
+    "true"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_update_behavior.py:63"
+  },
+  {
+   "test": "test_update_flag_with_zero_interval",
+   "argv": [
+    "--update",
+    "--update-interval",
+    "0",
+    "--bases",
+    "master",
+    "--dry-run"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_update_behavior.py:80"
+  },
+  {
+   "test": "test_help_shows_no_subcommands",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable [OPTIONS]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:33"
+  },
+  {
+   "test": "test_version_flag_works",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:69"
+  },
+  {
+   "test": "test_help_short_flag_works",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:81"
+  },
+  {
+   "test": "test_help_precedence_with_other_flags_shows_help",
+   "argv": [
+    "--help",
+    "--no-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable [OPTIONS]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:121"
+  },
+  {
+   "test": "test_dashdash_then_help_is_error_and_points_to_help",
+   "argv": [
+    "--",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable [OPTIONS]",
+    "For more information, try '--help'."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:129"
+  },
+  {
+   "test": "test_prompt_survey_for_push_upstream_config",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_flows.py:92"
+  },
+  {
+   "test": "test_skip_suggestions_non_tracking_and_non_upstream",
+   "argv": [
+    "git",
+    "init",
+    "--bare"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_flows.py:119"
+  },
+  {
+   "test": "test_recent_fetch_head_skips_update",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Repository is updated recently. Skip to update it"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_flows.py:156"
+  },
+  {
+   "test": "test_delete_range_diverged_flag_accepted",
+   "argv": [
+    "git",
+    "init",
+    "--bare"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Branches that will remain:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_flows.py:222"
+  },
+  {
+   "test": "test_bases_flag_single_value",
+   "argv": [
+    "git",
+    "remote",
+    "add",
+    "origin",
+    "https://github.com/fake/repo.git"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:123"
+  },
+  {
+   "test": "test_config_bases_from_git_config",
+   "argv": [
+    "git",
+    "config",
+    "trim.bases",
+    "master"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:87"
+  },
+  {
+   "test": "test_config_bases_cli_overrides_git_config",
+   "argv": [
+    "git",
+    "config",
+    "trim.bases",
+    "nonexistent"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:107"
+  },
+  {
+   "test": "test_config_protected_from_git_config",
+   "argv": [
+    "git",
+    "config",
+    "trim.protected",
+    "release-*,hotfix/*"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Branches that will remain:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:129"
+  },
+  {
+   "test": "test_config_update_boolean_false",
+   "argv": [
+    "git",
+    "config",
+    "trim.update",
+    "false"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Branches that will remain:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:146"
+  },
+  {
+   "test": "test_config_update_interval_numeric",
+   "argv": [
+    "git",
+    "config",
+    "trim.updateInterval",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Branches that will remain:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:162"
+  },
+  {
+   "test": "test_config_confirm_boolean",
+   "argv": [
+    "git",
+    "config",
+    "trim.confirm",
+    "false"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Branches that will remain:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:177"
+  },
+  {
+   "test": "test_config_detach_boolean",
+   "argv": [
+    "git",
+    "config",
+    "trim.detach",
+    "false"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Branches that will remain:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:192"
+  },
+  {
+   "test": "test_config_whitespace_in_bases_rejected",
+   "argv": [
+    "git",
+    "config",
+    "trim.bases",
+    " master , develop "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:267"
+  },
+  {
+   "test": "test_config_multiple_bases_entries_merged",
+   "argv": [
+    "git",
+    "config",
+    "--add",
+    "trim.bases",
+    "master"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:289"
+  },
+  {
+   "test": "test_config_bases_comma_separated_in_single_entry",
+   "argv": [
+    "git",
+    "config",
+    "trim.bases",
+    "master,develop,release"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:311"
+  },
+  {
+   "test": "test_config_protected_multiple_entries_and_comma_separated",
+   "argv": [
+    "git",
+    "config",
+    "--add",
+    "trim.protected",
+    "release-*,hotfix/*"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Branches that will remain:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:331"
+  },
+  {
+   "test": "test_config_delete_filter_from_git_config",
+   "argv": [
+    "git",
+    "config",
+    "trim.delete",
+    "merged:origin,stray"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Branches that will remain:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:348"
+  },
+  {
+   "test": "test_config_delete_filter_multiple_entries",
+   "argv": [
+    "git",
+    "config",
+    "--add",
+    "trim.delete",
+    "merged:origin"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Branches that will remain:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:363"
+  },
+  {
+   "test": "test_config_update_boolean_yes",
+   "argv": [
+    "git",
+    "config",
+    "trim.update",
+    "yes"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:436"
+  },
+  {
+   "test": "test_config_update_boolean_no",
+   "argv": [
+    "git",
+    "config",
+    "trim.update",
+    "no"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:449"
+  },
+  {
+   "test": "test_config_update_boolean_one",
+   "argv": [
+    "git",
+    "config",
+    "trim.update",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:462"
+  },
+  {
+   "test": "test_config_update_boolean_zero",
+   "argv": [
+    "git",
+    "config",
+    "trim.update",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:475"
+  },
+  {
+   "test": "test_config_negative_update_interval_panics",
+   "argv": [
+    "git",
+    "config",
+    "trim.updateInterval",
+    "-5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 101,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:488"
+  },
+  {
+   "test": "test_config_cli_override_update_interval",
+   "argv": [
+    "git",
+    "config",
+    "trim.updateInterval",
+    "100"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:512"
+  },
+  {
+   "test": "test_config_cli_override_protected",
+   "argv": [
+    "git",
+    "config",
+    "trim.protected",
+    "config-pattern"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:527"
+  },
+  {
+   "test": "test_config_cli_override_delete",
+   "argv": [
+    "git",
+    "config",
+    "trim.delete",
+    "merged:origin"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:542"
+  },
+  {
+   "test": "test_config_cli_no_confirm_flag",
+   "argv": [
+    "git",
+    "config",
+    "trim.confirm",
+    "true"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:572"
+  },
+  {
+   "test": "test_config_cli_no_detach_flag",
+   "argv": [
+    "git",
+    "config",
+    "trim.detach",
+    "true"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:586"
+  },
+  {
+   "test": "test_config_zero_update_interval",
+   "argv": [
+    "git",
+    "config",
+    "trim.updateInterval",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:600"
+  },
+  {
+   "test": "test_config_large_update_interval",
+   "argv": [
+    "git",
+    "config",
+    "trim.updateInterval",
+    "86400"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:613"
+  },
+  {
+   "test": "test_push_remote_fallback_to_origin_when_no_config",
+   "argv": [
+    "git",
+    "checkout",
+    "-b",
+    "feature"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_edge_cases.py:173"
+  },
+  {
+   "test": "test_config_get_remote_name_none_when_not_set",
+   "argv": [
+    "git",
+    "checkout",
+    "-b",
+    "new-feature"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_edge_cases.py:211"
+  },
+  {
+   "test": "test_config_get_merge_none_when_not_set",
+   "argv": [
+    "git",
+    "checkout",
+    "-b",
+    "detached-feature"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "detached-feature *2",
+    "master [base]",
+    "origin/master [base]",
+    "*2: Set an upstream to make it a tracking branch"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_edge_cases.py:252"
+  },
+  {
+   "test": "test_config_get_remote_invalid_remote_name",
+   "argv": [
+    "git",
+    "config",
+    "trim.bases",
+    "master"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_edge_cases.py:295"
+  },
+  {
+   "test": "test_config_empty_comma_separated_items_ignored",
+   "argv": [
+    "git",
+    "config",
+    "trim.protected",
+    ",branch1,,branch2,"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_edge_cases.py:325"
+  },
+  {
+   "test": "test_config_multivalue_non_comma_separated",
+   "argv": [
+    "git",
+    "config",
+    "--add",
+    "trim.protected",
+    "feature-0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_edge_cases.py:353"
+  },
+  {
+   "test": "test_config_error_propagation_on_config_read_failure",
+   "argv": [
+    "git",
+    "config",
+    "trim.bases",
+    "master"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_edge_cases.py:399"
+  },
+  {
+   "test": "test_config_default_value_when_empty_git_config",
+   "argv": [
+    "git",
+    "config",
+    "trim.protected",
+    ""
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_edge_cases.py:431"
+  },
+  {
+   "test": "test_refspec_with_nested_path_components",
+   "argv": [
+    "git",
+    "push",
+    "origin",
+    "main"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_defensive_paths.py:132"
+  },
+  {
+   "test": "test_implicit_single_remote_specific_name_in_message",
+   "argv": [
+    "git",
+    "remote",
+    "add",
+    "my-custom-remote",
+    "https://github.com/test/test.git"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "my-custom-remote",
+    "git remote set-head my-custom-remote --auto"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_no_bases.py:169"
+  },
+  {
+   "test": "test_all_help_suggestions_present_git_config",
+   "argv": [
+    "git",
+    "remote",
+    "add",
+    "origin",
+    "https://github.com/test/test.git"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "`git config trim.bases develop,master` for a repository.",
+    "`git config --global trim.bases develop,master` to set globally.",
+    "`git trim --bases develop,master` to set temporarily.",
+    "Try any following commands to set valid bases:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_no_bases.py:191"
+  },
+  {
+   "test": "test_all_help_suggestions_present_implicit",
+   "argv": [
+    "git",
+    "remote",
+    "add",
+    "origin",
+    "https://github.com/test/test.git"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "`git config trim.bases develop,master` for a repository.",
+    "`git config --global trim.bases develop,master` to set globally.",
+    "`git trim --bases develop,master` to set temporarily.",
+    "You also can set bases manually"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_no_bases.py:215"
+  },
+  {
+   "test": "test_multi_remote_for_loop_command_present",
+   "argv": [
+    "git",
+    "remote",
+    "add",
+    "origin",
+    "https://github.com/test/test.git"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "for REMOTE in $(git remote)",
+    "git remote set-head \"$REMOTE\" --auto"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_no_bases.py:256"
+  },
+  {
+   "test": "test_single_remote_no_for_loop_command",
+   "argv": [
+    "git",
+    "remote",
+    "add",
+    "origin",
+    "https://github.com/test/test.git"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "git config trim.bases"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_no_bases.py:277"
+  },
+  {
+   "test": "test_no_bases_single_remote",
+   "argv": [
+    "git",
+    "init",
+    "--initial-branch=main"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "I can't detect base branch!",
+    "`git remote set-head origin --auto`",
+    "`git config trim.bases develop,master`",
+    "Error: No base branch is found!",
+    "You also can set bases manually"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:64"
+  },
+  {
+   "test": "test_no_bases_multiple_remotes",
+   "argv": [
+    "git",
+    "init",
+    "--initial-branch=main"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "I can't detect base branch!",
+    "for REMOTE in $(git remote)",
+    "`git config trim.bases develop,master`",
+    "Error: No base branch is found!",
+    "You also can set bases manually"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:94"
+  },
+  {
+   "test": "test_confirm_yes_deletes_branches",
+   "argv": [
+    "git",
+    "branch"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Delete merged local branches:",
+    "Delete merged remote refs:",
+    "Deleted branch feature1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_interactive.py:71"
+  },
+  {
+   "test": "test_confirm_no_cancels_deletion",
+   "argv": [
+    "git",
+    "branch"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Delete merged local branches:",
+    "Cancelled"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_interactive.py:137"
+  },
+  {
+   "test": "test_confirm_default_is_no",
+   "argv": [
+    "git",
+    "branch"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Delete merged local branches:",
+    "Cancelled",
+    "origin/feature1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_interactive.py:186"
+  },
+  {
+   "test": "test_no_confirm_flag_skips_prompt",
+   "argv": [
+    "git",
+    "branch"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Delete merged local branches:",
+    "Deleted branch feature1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_interactive.py:239"
+  },
+  {
+   "test": "test_dry_run_skips_confirmation",
+   "argv": [
+    "git",
+    "branch"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Delete merged local branches:",
+    "Delete merged remote refs:",
+    "Delete branch feature1 (dry run)",
+    "origin/feature1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_interactive.py:286"
+  },
+  {
+   "test": "test_should_update_with_zero_interval",
+   "argv": [
+    "git",
+    "remote",
+    "add",
+    "origin",
+    "https://github.com/test/test.git"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_main_errors.py:37"
+  },
+  {
+   "test": "test_should_update_recent_fetch_head",
+   "argv": [
+    "git",
+    "remote",
+    "add",
+    "origin",
+    "https://github.com/test/test.git"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_main_errors.py:132"
+  },
+  {
+   "test": "test_multiple_remotes_push_config",
+   "argv": [
+    "git",
+    "remote",
+    "add",
+    "origin",
+    "https://github.com/test/test1.git"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_main_errors.py:225"
+  },
+  {
+   "test": "test_confirmation_cancelled",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Delete merged local branches:",
+    "  - feature-to-merge (non-tracking)",
+    "feature-to-merge"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_main_gaps.py:95"
+  },
+  {
+   "test": "test_update_interval_zero_always_updates",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Branches that will remain:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_main_gaps.py:205"
+  },
+  {
+   "test": "test_no_remotes_configured_error",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "git-trim requires at least one remote"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_main_gaps.py:388"
+  },
+  {
+   "test": "test_refspec_no_matching_refspec_returns_none",
+   "argv": [
+    "git",
+    "checkout",
+    "-b",
+    "feature/test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_small_gaps.py:113"
+  },
+  {
+   "test": "test_exact_refspec_pattern_no_wildcard",
+   "argv": [
+    "git",
+    "push",
+    "-u",
+    "origin",
+    "main"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_small_gaps.py:162"
+  },
+  {
+   "test": "test_refspec_wildcard_prefix_expansion",
+   "argv": [
+    "git",
+    "checkout",
+    "-b",
+    "release-1.0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_small_gaps.py:212"
+  },
+  {
+   "test": "test_refspec_wildcard_suffix_expansion",
+   "argv": [
+    "git",
+    "checkout",
+    "-b",
+    "v1-stable"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_small_gaps.py:259"
+  },
+  {
+   "test": "test_refspec_wildcard_middle_expansion",
+   "argv": [
+    "git",
+    "checkout",
+    "-b",
+    "rel-1.0-branch"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_small_gaps.py:306"
+  },
+  {
+   "test": "test_refspec_nonmatching_pattern",
+   "argv": [
+    "git",
+    "push",
+    "origin",
+    "main:main"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_small_gaps.py:417"
+  },
+  {
+   "test": "test_refspec_empty_remote_list",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "requires at least one remote"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_small_gaps.py:468"
+  },
+  {
+   "test": "test_merged_branch_detection_with_ff_merge",
+   "argv": [
+    "git",
+    "add",
+    "file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subprocess.py:55"
+  },
+  {
+   "test": "test_branch_delete_with_worktree_protection",
+   "argv": [
+    "git",
+    "add",
+    "file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error: Cannot delete branch 'feature' checked out at"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subprocess.py:123"
+  },
+  {
+   "test": "test_push_delete_success",
+   "argv": [
+    "git",
+    "add",
+    "file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    " - [deleted]         feature"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subprocess.py:160"
+  },
+  {
+   "test": "test_ls_remote_head_symref",
+   "argv": [
+    "git",
+    "add",
+    "file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "refs/heads/master"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subprocess.py:253"
+  },
+  {
+   "test": "test_checkout_detached_head",
+   "argv": [
+    "git",
+    "add",
+    "file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "You are in 'detached HEAD' state"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subprocess.py:290"
+  },
+  {
+   "test": "test_push_delete_nonexistent_branch_error",
+   "argv": [
+    "git",
+    "add",
+    "file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error: unable to delete 'nonexistent': remote ref does not exist",
+    "error: failed to push some refs to"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subprocess.py:387"
+  },
+  {
+   "test": "test_branch_delete_force_flag",
+   "argv": [
+    "git",
+    "add",
+    "file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "not fully merged",
+    "Deleted branch unmerged"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subprocess.py:471"
+  },
+  {
+   "test": "test_remote_update_with_prune",
+   "argv": [
+    "git",
+    "add",
+    "file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    " - [deleted]         (none)     -> origin/temp"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subprocess.py:501"
+  },
+  {
+   "test": "test_git_trim_branch_deletion_dry_run",
+   "argv": [
+    "git",
+    "add",
+    "file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "refs/heads/merged"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subprocess.py:549"
+  },
+  {
+   "test": "test_git_trim_push_delete_dry_run",
+   "argv": [
+    "git",
+    "add",
+    "file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Delete merged remote refs:",
+    "refs/heads/merged",
+    "refs/heads/merged"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subprocess.py:601"
+  },
+  {
+   "test": "test_push_delete_with_no_verify_flag",
+   "argv": [
+    "git",
+    "add",
+    "file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    " - [deleted]         temp"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subprocess.py:685"
+  },
+  {
+   "test": "test_glob_empty_pattern_protects_nothing",
+   "argv": [
+    "git",
+    "checkout",
+    "-b",
+    "feature/temp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Delete merged local branches:\n  - feature/temp",
+    "Delete branch feature/temp (dry run)."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_utils.py:236"
+  },
+  {
+   "test": "test_glob_protection_prevents_deletion_of_merged_branches",
+   "argv": [
+    "git",
+    "checkout",
+    "-b",
+    "feature/new-auth"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_utils.py:274"
+  },
+  {
+   "test": "test_glob_no_pattern_no_protection",
+   "argv": [
+    "git",
+    "checkout",
+    "-b",
+    "temp/branch"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Delete merged local branches:\n  - temp/branch",
+    "Delete branch temp/branch (dry run)."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_utils.py:382"
+  },
+  {
+   "test": "test_glob_overlapping_patterns",
+   "argv": [
+    "git",
+    "checkout",
+    "-b",
+    "feature/release-1.0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "feature/release-1.0",
+    "protected by a pattern"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_utils.py:472"
+  },
+  {
+   "test": "test_no_update_flag_skips_remote_fetch",
+   "argv": [
+    "git",
+    "remote",
+    "set-url",
+    "origin",
+    "/nonexistent/repo.git"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_utils.py:549"
+  },
+  {
+   "test": "test_bases_flag_accepts_comma_separated_values",
+   "argv": [
+    "git",
+    "checkout",
+    "-b",
+    "develop"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_utils.py:573"
+  },
+  {
+   "test": "test_bases_with_whitespace_causes_error",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_utils.py:605"
+  },
+  {
+   "test": "test_update_interval_rejects_out_of_range_large_value",
+   "argv": [
+    "--update-interval",
+    "18446744073709551616"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--update-interval <UPDATE_INTERVAL>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:112"
+  }
+ ]
+}

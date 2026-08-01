@@ -1,0 +1,328 @@
+[
+ {
+  "name": "test::test_help_exact_text::0",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_help_is_invalid_option_and_prints_usage_to_stdout::1",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_exact::2",
+  "argv": [
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_exact::3",
+  "argv": [
+   "-i"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_precedence_with_other_flags_shows_usage::4",
+  "argv": [
+   "-h",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_separator_does_not_trigger_help::5",
+  "argv": [
+   "--",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_stops_option_parsing_and_treats_following_as_positional::6",
+  "argv": [
+   "--",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_after_positional_are_not_parsed_as_flags::7",
+  "argv": [
+   "foo",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_short_option::8",
+  "argv": [
+   "-z"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_option_missing_argument::9",
+  "argv": [
+   "-C"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delay_option_missing_argument::10",
+  "argv": [
+   "-d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nsdelay_option_missing_argument::11",
+  "argv": [
+   "-a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_option_missing_argument::12",
+  "argv": [
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tty_option_missing_argument::13",
+  "argv": [
+   "-T"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tty_option_nonexistent_device::14",
+  "argv": [
+   "-T",
+   "/dev/nonexistent_tty_12345"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tty_error_messages_clear::15",
+  "argv": [
+   "-T",
+   "/nonexistent/path/to/tty"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sigterm_clean_exit::16",
+  "argv": [
+   "tmux",
+   "list-panes",
+   "-t",
+   "test_sigterm",
+   "-F",
+   "#{pane_pid}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sigint_clean_exit::17",
+  "argv": [
+   "tmux",
+   "list-panes",
+   "-t",
+   "test_sigint",
+   "-F",
+   "#{pane_pid}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_normal_quit_with_q_key::18",
+  "argv": [
+   "tmux",
+   "list-panes",
+   "-t",
+   "test_quit_q",
+   "-F",
+   "#{pane_pid}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_uppercase_Q_key_quit::19",
+  "argv": [
+   "tmux",
+   "list-panes",
+   "-t",
+   "test_quit_Q",
+   "-F",
+   "#{pane_pid}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_noquit_flag_prevents_q_exit::20",
+  "argv": [
+   "tmux",
+   "list-panes",
+   "-t",
+   "test_noquit",
+   "-F",
+   "#{pane_pid}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_screensaver_mode_quit_on_any_key::21",
+  "argv": [
+   "tmux",
+   "list-panes",
+   "-t",
+   "test_screen_quit",
+   "-F",
+   "#{pane_pid}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_screensaver_mode_with_noquit_prevents_exit::22",
+  "argv": [
+   "tmux",
+   "list-panes",
+   "-t",
+   "test_screen_noquit",
+   "-F",
+   "#{pane_pid}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sigterm_during_key_processing::23",
+  "argv": [
+   "tmux",
+   "list-panes",
+   "-t",
+   "test_sig_key_race",
+   "-F",
+   "#{pane_pid}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_rapid_signals::24",
+  "argv": [
+   "tmux",
+   "list-panes",
+   "-t",
+   "test_rapid_signals",
+   "-F",
+   "#{pane_pid}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

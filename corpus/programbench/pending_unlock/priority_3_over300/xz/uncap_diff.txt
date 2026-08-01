@@ -1,0 +1,40 @@
+--- compile.sh (original)
++++ compile.sh (uncapped)
+@@ -61,15 +61,28 @@
+     try: config.option.timeout = 4
+     except (AttributeError, ValueError): pass
+ def pytest_collection_modifyitems(config, items):
+-    keep = []
+-    for item in items:
+-        nodeid = (getattr(item, "nodeid", "") or "").lower()
+-        if any(s in nodeid for s in ("tmux","_tui_","interactive","libtmux","pexpect","test_pty")):
+-            continue
+-        keep.append(item)
+-    items[:] = keep
+-    if len(items) > 400:
+-
++    # Semantic TUI classification — filter on file structure and imports, not name
++    import ast as _ast, pathlib as _pathlib
++    def _is_tui_test(item):
++        fpath = str(getattr(item, 'fspath', '') or '')
++        if any(pat in fpath.lower() for pat in (
++                'test_tui', 'test_tmux', 'test_pty',
++                'test_interactive', 'test_pexpect', 'test_curses')):
++            return True
++        try:
++            src = _pathlib.Path(fpath).read_text(errors='replace')
++            tree = _ast.parse(src)
++            tui_mods = {'pexpect', 'libtmux', 'curses', 'pty', 'termios', 'tty', 'blessed', 'urwid'}
++            for node in _ast.walk(tree):
++                if isinstance(node, (_ast.Import, _ast.ImportFrom)):
++                    names = [a.name for a in getattr(node, 'names', [])]
++                    mod = getattr(node, 'module', '') or ''
++                    if any(t in names or t in mod for t in tui_mods):
++                        return True
++        except Exception:
++            pass
++        return False
++    items[:] = [item for item in items if not _is_tui_test(item)]
+ CONFTEST_EOF
+ done
+ true

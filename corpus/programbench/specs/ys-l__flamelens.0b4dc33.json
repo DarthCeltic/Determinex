@@ -1,0 +1,199 @@
+{
+ "slug": "ys-l__flamelens.0b4dc33",
+ "language": "",
+ "n_branches": 8,
+ "n_tests_total": 347,
+ "n_examples": 10,
+ "n_with_exact_stdout": 1,
+ "n_with_rc": 6,
+ "n_skipped": 328,
+ "examples": [
+  {
+   "test": "test_stdin_with_binary_data",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 101,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "thread 'main' (TID) panicked at src/main.rs:",
+    "Could not parse stdin:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:232"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "flamelens"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:79"
+  },
+  {
+   "test": "test_version_short_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "flamelens"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:87"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Arguments:",
+    "Options:",
+    "FILENAME",
+    "--sorted",
+    "--echo",
+    "--debug"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:94"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Arguments:",
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:106"
+  },
+  {
+   "test": "test_stdin_input",
+   "argv": [
+    "--echo"
+   ],
+   "stdin": "main;func1 100\nmain;func2 50\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main;func1 100",
+    "main;func2 50"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:138"
+  },
+  {
+   "test": "test_echo_flag_with_file",
+   "argv": [
+    "--echo",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main;func1 100",
+    "main;func2 50"
+   ],
+   "files": {
+    "test.txt": "main;func1 100\nmain;func2 50"
+   },
+   "ci": false,
+   "source": "test_basic.py:240"
+  },
+  {
+   "test": "test_combined_flags",
+   "argv": [
+    "--echo",
+    "--sorted",
+    "--debug",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main;func1 100",
+    "main;func2 50"
+   ],
+   "files": {
+    "test.txt": "main;func1 100\nmain;func2 50"
+   },
+   "ci": false,
+   "source": "test_basic.py:273"
+  },
+  {
+   "test": "test_help_precedence_over_other_flags_exact_output",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:87"
+  },
+  {
+   "test": "test_double_dash_treats_help_as_filename_and_errors",
+   "argv": [
+    "--",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Could not read file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:105"
+  }
+ ]
+}

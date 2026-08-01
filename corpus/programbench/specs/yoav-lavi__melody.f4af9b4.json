@@ -1,0 +1,3456 @@
+{
+ "slug": "yoav-lavi__melody.f4af9b4",
+ "language": "",
+ "n_branches": 9,
+ "n_tests_total": 1263,
+ "n_examples": 205,
+ "n_with_exact_stdout": 65,
+ "n_with_rc": 197,
+ "n_skipped": 1031,
+ "examples": [
+  {
+   "test": "test_short_help_matches_long_help",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:87"
+  },
+  {
+   "test": "test_help_takes_precedence_over_unknown_flag",
+   "argv": [
+    "--help",
+    "--definitely-not-a-real-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:94"
+  },
+  {
+   "test": "test_help_no_color_flag_does_not_change_help",
+   "argv": [
+    "--help",
+    "--no-color"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:101"
+  },
+  {
+   "test": "test_double_dash_then_help_is_treated_as_input_path_error",
+   "argv": [
+    "--",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error:",
+    "--help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:108"
+  },
+  {
+   "test": "test_help_baseline_exact_match",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:116"
+  },
+  {
+   "test": "test_stdin_to_stdout_workflow",
+   "argv": [
+    "--test",
+    "12345"
+   ],
+   "stdin": "// Quick test pattern\n<start>; some of <digit>; <end>;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "'abc' did not match\n",
+   "expect_stderr": null,
+   "expect_in": [
+    "'12345' matched"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_acceptance.py:356"
+  },
+  {
+   "test": "test_stdin_without_pipe_error",
+   "argv": [
+    "script",
+    "-q",
+    "-e",
+    "-c",
+    "./executable",
+    "/dev/null"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 66,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "No input file supplied and no input piped",
+    "Try adding a path argument",
+    "Usage:",
+    "melody_cli"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_edge_cases.py:33"
+  },
+  {
+   "test": "test_repl_with_piped_stdin_error",
+   "argv": [
+    "--repl"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 64,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_edge_cases.py:55"
+  },
+  {
+   "test": "test_repl_with_piped_stdout_error",
+   "argv": [
+    "bash",
+    "-c",
+    "./executable --repl 2>&1 | cat"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "repl argument supplied with piped input or output"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_edge_cases.py:66"
+  },
+  {
+   "test": "test_file_not_found_error",
+   "argv": [
+    "/nonexistent/file.mdy"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 65,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_edge_cases.py:87"
+  },
+  {
+   "test": "test_directory_as_input_file_error",
+   "argv": [
+    "/tmp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 65,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_edge_cases.py:98"
+  },
+  {
+   "test": "test_write_file_to_nonexistent_directory",
+   "argv": [
+    "-o",
+    "/nonexistent/dir/output.txt"
+   ],
+   "stdin": "\"test\";",
+   "env": {},
+   "expect_rc": 74,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_edge_cases.py:109"
+  },
+  {
+   "test": "test_write_to_read_only_location",
+   "argv": [
+    "-o",
+    "/proc/version"
+   ],
+   "stdin": "\"test\";",
+   "env": {},
+   "expect_rc": 74,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "/proc/version",
+    "Error:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_edge_cases.py:120"
+  },
+  {
+   "test": "test_explicit_stdin_marker_with_pipe",
+   "argv": [
+    "-"
+   ],
+   "stdin": "\"test\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "test\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_edge_cases.py:159"
+  },
+  {
+   "test": "test_explicit_stdin_marker_without_pipe",
+   "argv": [
+    "script",
+    "-q",
+    "-e",
+    "-c",
+    "./executable -",
+    "/dev/null"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 66,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "No input file supplied and no input piped"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_edge_cases.py:170"
+  },
+  {
+   "test": "test_test_file_not_found_error",
+   "argv": [
+    "--test-file",
+    "/nonexistent/test.txt"
+   ],
+   "stdin": "some of \"a\";",
+   "env": {},
+   "expect_rc": 74,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_edge_cases.py:190"
+  },
+  {
+   "test": "test_invalid_utf8_in_input_file",
+   "argv": [
+    "invalid.mdy"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 65,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unable read file at path"
+   ],
+   "files": {
+    "invalid.mdy": "��"
+   },
+   "ci": false,
+   "source": "test_cli_edge_cases.py:205"
+  },
+  {
+   "test": "test_test_mode_match_success",
+   "argv": [
+    "--test",
+    "aaa"
+   ],
+   "stdin": "some of \"a\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "'aaa' matched\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_edge_cases.py:224"
+  },
+  {
+   "test": "test_test_mode_no_match",
+   "argv": [
+    "--test",
+    "bbb"
+   ],
+   "stdin": "some of \"a\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "'bbb' did not match\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_edge_cases.py:235"
+  },
+  {
+   "test": "test_test_file_mode_match_success",
+   "argv": [
+    "--test-file",
+    "test_input.txt"
+   ],
+   "stdin": "some of \"a\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "matched"
+   ],
+   "files": {
+    "test_input.txt": "aaa"
+   },
+   "ci": false,
+   "source": "test_cli_edge_cases.py:246"
+  },
+  {
+   "test": "test_no_color_flag_produces_plain_output",
+   "argv": [
+    "--no-color"
+   ],
+   "stdin": "\"test\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_edge_cases.py:265"
+  },
+  {
+   "test": "test_multiple_input_files_rejected",
+   "argv": [
+    "./executable",
+    "/tmp/test1.mdy",
+    "/tmp/test2.mdy"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_edge_cases.py:281"
+  },
+  {
+   "test": "test_stdin_input_with_dash",
+   "argv": [
+    "-"
+   ],
+   "stdin": "\"#\"; some of <word>;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_io.py:29"
+  },
+  {
+   "test": "test_stdin_test_flag",
+   "argv": [
+    "-t",
+    "#test"
+   ],
+   "stdin": "\"#\"; some of <word>;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "'#test' matched"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_io.py:271"
+  },
+  {
+   "test": "test_output_to_nonexistent_directory",
+   "argv": [
+    "test.mdy",
+    "-o",
+    "/nonexistent/dir/out.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 74,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.mdy": "\"a\";"
+   },
+   "ci": false,
+   "source": "test_errors.py:206"
+  },
+  {
+   "test": "test_deeply_nested_groups",
+   "argv": [
+    "nested.mdy"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "(?:(?:(?:(?:(?:(?:(?:(?:(?:(?:a))))))))))\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "nested.mdy": "match {\n  match {\n    match {\n      match {\n        match {\n          match {\n            match {\n              match {\n                match {\n                  match {\n                    \"a\";\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}"
+   },
+   "ci": false,
+   "source": "test_errors.py:304"
+  },
+  {
+   "test": "test_multiline_error_reporting",
+   "argv": [
+    "multiline.mdy"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 65,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "multiline.mdy": "\"line1\";\n\"line2\";\n5 to 3 of \"a\";\n\"line4\";\n"
+   },
+   "ci": false,
+   "source": "test_errors.py:420"
+  },
+  {
+   "test": "test_cli_file_stdout",
+   "argv": [
+    "test.mdy"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.mdy": "/* comment */\n\n5 of 'A\\'';\n\nmatch {\n  capture test {\n    \"x\";\n    \"y\";\n  }\n}\n\n`[abc]`;\n\n// comment\neither {\n  \"a\\\"\";\n  \"b\";\n  <char>;\n}\n\nsome of \"a\";\n"
+   },
+   "ci": false,
+   "source": "test_harvest.py:55"
+  },
+  {
+   "test": "test_cli_stdin_stdout",
+   "argv": [
+    "-"
+   ],
+   "stdin": "some of \"a\";\nsome of \"b\";\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:93"
+  },
+  {
+   "test": "test_cli_stdin_test",
+   "argv": [
+    "-t",
+    "aabb"
+   ],
+   "stdin": "some of \"a\";\nsome of \"b\";\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:107"
+  },
+  {
+   "test": "test_cli_stdin_unmatching_test",
+   "argv": [
+    "-t",
+    "zzz"
+   ],
+   "stdin": "some of \"a\";\nsome of \"b\";\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:121"
+  },
+  {
+   "test": "test_colored_output_to_tty",
+   "argv": [
+    "script",
+    "-q",
+    "-c",
+    "./executable eval/test_resources/test_output/simple.mdy",
+    "/dev/null"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[94m",
+    "\u001b[0m",
+    "a{5}"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output.py:19"
+  },
+  {
+   "test": "test_no_color_flag_strips_ansi_codes",
+   "argv": [
+    "script",
+    "-q",
+    "-c",
+    "./executable --no-color eval/test_resources/test_output/simple.mdy",
+    "/dev/null"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a{5}"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output.py:39"
+  },
+  {
+   "test": "test_no_color_short_flag",
+   "argv": [
+    "script",
+    "-q",
+    "-c",
+    "./executable -n eval/test_resources/test_output/simple.mdy",
+    "/dev/null"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a{5}"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output.py:57"
+  },
+  {
+   "test": "test_colored_error_output_to_tty",
+   "argv": [
+    "script",
+    "-q",
+    "-c",
+    "./executable eval/test_resources/test_output/invalid_syntax.mdy 2>&1",
+    "/dev/null"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[91m",
+    "\u001b[0m",
+    "Error:",
+    "expected literal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output.py:71"
+  },
+  {
+   "test": "test_no_color_flag_strips_error_ansi",
+   "argv": [
+    "script",
+    "-q",
+    "-c",
+    "./executable --no-color eval/test_resources/test_output/invalid_syntax.mdy 2>&1",
+    "/dev/null"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error:",
+    "expected literal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output.py:91"
+  },
+  {
+   "test": "test_test_mode_colored_matched",
+   "argv": [
+    "script",
+    "-q",
+    "-c",
+    "./executable --test aaaaa eval/test_resources/test_output/simple.mdy",
+    "/dev/null"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[92m",
+    "\u001b[0m",
+    "matched"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output.py:292"
+  },
+  {
+   "test": "test_test_mode_colored_not_matched",
+   "argv": [
+    "script",
+    "-q",
+    "-c",
+    "./executable --test bbb eval/test_resources/test_output/simple.mdy",
+    "/dev/null"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[91m",
+    "\u001b[0m",
+    "did not match"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output.py:307"
+  },
+  {
+   "test": "test_no_color_stdin",
+   "argv": [
+    "script",
+    "-q",
+    "-c",
+    "echo '5 of \"a\";' | ./executable --no-color",
+    "/dev/null"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a{5}"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output.py:423"
+  },
+  {
+   "test": "test_stdin_dash_explicit",
+   "argv": [
+    "./executable",
+    "-"
+   ],
+   "stdin": "5 of \"x\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "x{5}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output.py:656"
+  },
+  {
+   "test": "test_executable_exists",
+   "argv": [
+    "./executable",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_smoke.py:4"
+  },
+  {
+   "test": "test_stdin_basic_compilation",
+   "argv": [
+    "./executable"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_smoke.py:18"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "./executable",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--output",
+    "--test",
+    "--repl"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_smoke.py:35"
+  },
+  {
+   "test": "test_short_flag",
+   "argv": [
+    "-t",
+    "aaa"
+   ],
+   "stdin": "some of \"a\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "'aaa' matched\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_test_mode.py:58"
+  },
+  {
+   "test": "test_long_test_string_truncated",
+   "argv": [
+    "--test",
+    "verylongstringabcdabcdabcd"
+   ],
+   "stdin": "some of \"a\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "'verylongst...' matched\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_test_mode.py:69"
+  },
+  {
+   "test": "test_empty_test_string",
+   "argv": [
+    "--test",
+    ""
+   ],
+   "stdin": "some of \"a\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "'' did not match\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_test_mode.py:81"
+  },
+  {
+   "test": "test_unicode_test_string",
+   "argv": [
+    "--test",
+    "Café"
+   ],
+   "stdin": "\"Café\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "'Café' matched\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_test_mode.py:93"
+  },
+  {
+   "test": "test_invalid_melody_syntax_before_testing",
+   "argv": [
+    "--test",
+    "test"
+   ],
+   "stdin": "invalid syntax here",
+   "env": {},
+   "expect_rc": 65,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error:",
+    "expected root"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_test_mode.py:105"
+  },
+  {
+   "test": "test_capture_group_matching",
+   "argv": [
+    "--test",
+    "xyz"
+   ],
+   "stdin": "capture foo { \"x\"; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "'xyz' matched\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_test_mode.py:118"
+  },
+  {
+   "test": "test_optional_quantifier_matching",
+   "argv": [
+    "--test",
+    "b"
+   ],
+   "stdin": "option of \"a\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "'b' matched\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_test_mode.py:130"
+  },
+  {
+   "test": "test_symbol_class_digit_match",
+   "argv": [
+    "--test",
+    "5"
+   ],
+   "stdin": "<digit>;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "'5' matched\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_test_mode.py:142"
+  },
+  {
+   "test": "test_symbol_class_digit_no_match",
+   "argv": [
+    "--test",
+    "x"
+   ],
+   "stdin": "<digit>;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "'x' did not match\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_test_mode.py:153"
+  },
+  {
+   "test": "test_escape_sequences_in_pattern",
+   "argv": [
+    "--test",
+    "a\"b"
+   ],
+   "stdin": "\"a\\\"b\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "'a\"b' matched\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_test_mode.py:165"
+  },
+  {
+   "test": "test_backslash_in_pattern",
+   "argv": [
+    "--test",
+    "\\"
+   ],
+   "stdin": "\"\\\\\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "'\\' matched\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_test_mode.py:176"
+  },
+  {
+   "test": "test_newline_in_test_string",
+   "argv": [
+    "--test",
+    "\n"
+   ],
+   "stdin": "<newline>;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "'\n' matched\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_test_mode.py:187"
+  },
+  {
+   "test": "test_partial_match_in_longer_string",
+   "argv": [
+    "--test",
+    "hello world"
+   ],
+   "stdin": "\"hello\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "'hello worl...' matched\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_test_mode.py:199"
+  },
+  {
+   "test": "test_test_file_nonexistent",
+   "argv": [
+    "--test-file",
+    "/nonexistent/file.txt"
+   ],
+   "stdin": "some of \"a\";",
+   "env": {},
+   "expect_rc": 74,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_test_mode.py:250"
+  },
+  {
+   "test": "test_completion_bash",
+   "argv": [
+    "--generate-completions",
+    "bash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "_melody()",
+    "COMPREPLY=()",
+    "complete -F _melody"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_test_mode.py:280"
+  },
+  {
+   "test": "test_completion_zsh",
+   "argv": [
+    "--generate-completions",
+    "zsh"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#compdef melody",
+    "_melody()",
+    "_arguments"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_test_mode.py:300"
+  },
+  {
+   "test": "test_completion_fish",
+   "argv": [
+    "--generate-completions",
+    "fish"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "complete -c melody",
+    "-l test",
+    "-l repl"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_test_mode.py:320"
+  },
+  {
+   "test": "test_completion_powershell",
+   "argv": [
+    "--generate-completions",
+    "powershell"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Register-ArgumentCompleter",
+    "melody"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_test_mode.py:340"
+  },
+  {
+   "test": "test_completion_elvish",
+   "argv": [
+    "--generate-completions",
+    "elvish"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "edit:completion:arg-completer[melody]",
+    "use builtin",
+    "use str"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_test_mode.py:359"
+  },
+  {
+   "test": "test_completion_invalid_shell",
+   "argv": [
+    "--generate-completions",
+    "invalid-shell"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unknown or unsupported shell",
+    "invalid-shell",
+    "bash",
+    "zsh",
+    "fish"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_test_mode.py:379"
+  },
+  {
+   "test": "test_either_block_no_match",
+   "argv": [
+    "--test",
+    "c"
+   ],
+   "stdin": "either { \"a\"; \"b\"; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "'c' did not match\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_test_mode.py:401"
+  },
+  {
+   "test": "test_range_quantifier_match",
+   "argv": [
+    "--test",
+    "aaaaaaa"
+   ],
+   "stdin": "5 to 10 of \"a\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "'aaaaaaa' matched\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_test_mode.py:413"
+  },
+  {
+   "test": "test_range_quantifier_no_match",
+   "argv": [
+    "--test",
+    "aaa"
+   ],
+   "stdin": "5 to 10 of \"a\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "'aaa' did not match\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_test_mode.py:425"
+  },
+  {
+   "test": "test_tab_character_in_pattern",
+   "argv": [
+    "--test",
+    "\t"
+   ],
+   "stdin": "<tab>;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "'\t' matched\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_test_mode.py:437"
+  },
+  {
+   "test": "test_complex_pattern_with_test",
+   "argv": [
+    "--test",
+    "user@example.com"
+   ],
+   "stdin": "\n    capture email {\n        some of <alphanumeric>;\n        \"@\";\n        some of <alphanumeric>;\n        \".\";\n        2 to 3 of <char>;\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "'user@examp...' matched\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_test_mode.py:448"
+  },
+  {
+   "test": "test_completion_case_sensitivity",
+   "argv": [
+    "--generate-completions",
+    "BASH"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Unknown or unsupported shell",
+    "BASH"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_test_mode.py:496"
+  },
+  {
+   "test": "test_test_string_exactly_10_chars",
+   "argv": [
+    "--test",
+    "aaaaaaaaaa"
+   ],
+   "stdin": "some of \"a\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_test_mode.py:561"
+  },
+  {
+   "test": "test_test_string_11_chars",
+   "argv": [
+    "--test",
+    "aaaaaaaaaaa"
+   ],
+   "stdin": "some of \"a\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_test_mode.py:576"
+  },
+  {
+   "test": "test_version_exact",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_behavior.py:32"
+  },
+  {
+   "test": "test_compile_from_stdin_dash_exact",
+   "argv": [
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "#\\w+\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_behavior.py:49"
+  },
+  {
+   "test": "test_generate_completions_bash_exact",
+   "argv": [
+    "--generate-completions",
+    "bash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_behavior.py:104"
+  },
+  {
+   "test": "test_unknown_flag_error_exitcode_and_text",
+   "argv": [
+    "--does-not-exist"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument '--does-not-exist'",
+    "Usage: executable"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_behavior.py:113"
+  },
+  {
+   "test": "test_missing_input_file_exitcode_65_and_message",
+   "argv": [
+    "/does/not/exist"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 65,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_behavior.py:123"
+  },
+  {
+   "test": "test_test_mode_no_match",
+   "argv": [
+    "--test",
+    "xyz"
+   ],
+   "stdin": "some of <digit>;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_test_mode.py:31"
+  },
+  {
+   "test": "test_test_mode_match",
+   "argv": [
+    "--test",
+    "12345"
+   ],
+   "stdin": "some of <digit>;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_test_mode.py:37"
+  },
+  {
+   "test": "test_test_mode_partial_match",
+   "argv": [
+    "--test",
+    "abc123def"
+   ],
+   "stdin": "some of <digit>;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_test_mode.py:43"
+  },
+  {
+   "test": "test_test_mode_long_input",
+   "argv": [
+    "--test"
+   ],
+   "stdin": "some of <alphabetic>;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_test_mode.py:50"
+  },
+  {
+   "test": "test_test_mode_empty_input",
+   "argv": [
+    "--test",
+    ""
+   ],
+   "stdin": "option of <digit>;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_test_mode.py:57"
+  },
+  {
+   "test": "test_test_mode_special_chars",
+   "argv": [
+    "--test",
+    "!@#$%"
+   ],
+   "stdin": "some of <char>;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_test_mode.py:64"
+  },
+  {
+   "test": "test_test_mode_unicode",
+   "argv": [
+    "--test",
+    "café"
+   ],
+   "stdin": "some of <char>;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_test_mode.py:70"
+  },
+  {
+   "test": "test_test_file_mode_match",
+   "argv": [
+    "--test-file",
+    "test.txt"
+   ],
+   "stdin": "some of <digit>;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "12345"
+   },
+   "ci": false,
+   "source": "test_additional_test_mode.py:76"
+  },
+  {
+   "test": "test_test_file_mode_empty_file",
+   "argv": [
+    "--test-file",
+    "test.txt"
+   ],
+   "stdin": "option of <digit>;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": ""
+   },
+   "ci": false,
+   "source": "test_additional_test_mode.py:100"
+  },
+  {
+   "test": "test_test_file_mode_large_file",
+   "argv": [
+    "--test-file"
+   ],
+   "stdin": "some of <digit>;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_test_mode.py:108"
+  },
+  {
+   "test": "test_test_with_complex_pattern",
+   "argv": [
+    "--test",
+    "test@example.com"
+   ],
+   "stdin": "some of <word>; \"@\"; some of <word>; \".\"; some of <alphabetic>;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_test_mode.py:117"
+  },
+  {
+   "test": "test_test_with_anchors",
+   "argv": [
+    "--test",
+    "12345"
+   ],
+   "stdin": "<start>; some of <digit>; <end>;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_test_mode.py:123"
+  },
+  {
+   "test": "test_test_with_anchors_no_match",
+   "argv": [
+    "--test",
+    "abc12345def"
+   ],
+   "stdin": "<start>; some of <digit>; <end>;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_test_mode.py:129"
+  },
+  {
+   "test": "test_file_extension",
+   "argv": [
+    "test.mdy"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\d+"
+   ],
+   "files": {
+    "test.mdy": "some of <digit>;"
+   },
+   "ci": false,
+   "source": "test_advanced_features.py:292"
+  },
+  {
+   "test": "test_file_extension_melody",
+   "argv": [
+    "test.melody"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[a-zA-Z]+"
+   ],
+   "files": {
+    "test.melody": "some of <alphabetic>;"
+   },
+   "ci": false,
+   "source": "test_advanced_features.py:300"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--help",
+    "--version",
+    "--output",
+    "--repl",
+    "--test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:14"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:26"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "melody"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:33"
+  },
+  {
+   "test": "test_version_short_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "melody"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:41"
+  },
+  {
+   "test": "test_output_short_flag",
+   "argv": [
+    "-o"
+   ],
+   "stdin": "\"test\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_combinations.py:40"
+  },
+  {
+   "test": "test_output_long_flag",
+   "argv": [
+    "--output"
+   ],
+   "stdin": "\"test\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_combinations.py:53"
+  },
+  {
+   "test": "test_no_color_short",
+   "argv": [
+    "-n"
+   ],
+   "stdin": "\"test\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_combinations.py:66"
+  },
+  {
+   "test": "test_test_short_flag",
+   "argv": [
+    "-t",
+    "123"
+   ],
+   "stdin": "<digit>;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_combinations.py:78"
+  },
+  {
+   "test": "test_test_long_flag",
+   "argv": [
+    "--test",
+    "123"
+   ],
+   "stdin": "<digit>;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_combinations.py:84"
+  },
+  {
+   "test": "test_test_file_short",
+   "argv": [
+    "-f"
+   ],
+   "stdin": "\"test\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_combinations.py:90"
+  },
+  {
+   "test": "test_test_file_long",
+   "argv": [
+    "--test-file"
+   ],
+   "stdin": "\"test\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_combinations.py:102"
+  },
+  {
+   "test": "test_completions_zsh",
+   "argv": [
+    "--generate-completions",
+    "zsh"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_combinations.py:132"
+  },
+  {
+   "test": "test_completions_fish",
+   "argv": [
+    "--generate-completions",
+    "fish"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_combinations.py:138"
+  },
+  {
+   "test": "test_completions_elvish",
+   "argv": [
+    "--generate-completions",
+    "elvish"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_combinations.py:144"
+  },
+  {
+   "test": "test_completions_powershell",
+   "argv": [
+    "--generate-completions",
+    "powershell"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_combinations.py:150"
+  },
+  {
+   "test": "test_regex_compilation_error_malformed_regex",
+   "argv": [
+    "--test",
+    "["
+   ],
+   "stdin": "<digit>;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_compiler_errors.py:138"
+  },
+  {
+   "test": "test_unsupported_shell",
+   "argv": [
+    "--generate-completions",
+    "unsupportedshell"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_completions.py:66"
+  },
+  {
+   "test": "test_output_file_writing",
+   "argv": [
+    "input.mdy",
+    "--output"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\d+"
+   ],
+   "files": {
+    "input.mdy": "some of <digit>;"
+   },
+   "ci": false,
+   "source": "test_comprehensive_coverage.py:246"
+  },
+  {
+   "test": "test_stdin_with_dash",
+   "argv": [
+    "-"
+   ],
+   "stdin": "some of <word>;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\w+"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_coverage.py:257"
+  },
+  {
+   "test": "test_multiple_outputs_to_files",
+   "argv": [
+    "-o"
+   ],
+   "stdin": "\"test1\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test1",
+    "test2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_patterns.py:133"
+  },
+  {
+   "test": "test_test_mode_with_many_strings",
+   "argv": [
+    "--test"
+   ],
+   "stdin": "some of <digit>;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "match"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_comprehensive_patterns.py:149"
+  },
+  {
+   "test": "test_test_file_mode",
+   "argv": [
+    "--test-file"
+   ],
+   "stdin": "<digit>;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_patterns.py:158"
+  },
+  {
+   "test": "test_no_color_with_complex_output",
+   "argv": [
+    "-n"
+   ],
+   "stdin": "some of <digit>;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\d"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_patterns.py:231"
+  },
+  {
+   "test": "test_dash_for_stdin_explicitly",
+   "argv": [
+    "-"
+   ],
+   "stdin": "\"explicit\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "explicit"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_patterns.py:255"
+  },
+  {
+   "test": "test_stdin_with_dash_argument",
+   "argv": [
+    "-"
+   ],
+   "stdin": "\"world\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "world"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_handling.py:39"
+  },
+  {
+   "test": "test_read_from_file",
+   "argv": [
+    "test.mdy"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {
+    "test.mdy": "\"test\";"
+   },
+   "ci": false,
+   "source": "test_input_handling.py:46"
+  },
+  {
+   "test": "test_negative_char_class_testing",
+   "argv": [
+    "--test",
+    "x"
+   ],
+   "stdin": "not abc;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "match"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_negative_char_class.py:124"
+  },
+  {
+   "test": "test_negative_char_class_testing_no_match",
+   "argv": [
+    "--test",
+    "a"
+   ],
+   "stdin": "not abc;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_negative_char_class.py:130"
+  },
+  {
+   "test": "test_no_color_flag",
+   "argv": [
+    "--no-color"
+   ],
+   "stdin": "some of <digit>;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\d+"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_no_color_mode.py:17"
+  },
+  {
+   "test": "test_no_color_short_flag",
+   "argv": [
+    "-n"
+   ],
+   "stdin": "some of <digit>;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\\d+"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_no_color_mode.py:27"
+  },
+  {
+   "test": "test_no_color_with_test_mode",
+   "argv": [
+    "--no-color",
+    "--test",
+    "123"
+   ],
+   "stdin": "some of <digit>;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_no_color_mode.py:52"
+  },
+  {
+   "test": "test_output_to_file_long_flag",
+   "argv": [
+    "--output"
+   ],
+   "stdin": "\"test\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_handling.py:39"
+  },
+  {
+   "test": "test_output_file_with_input_file",
+   "argv": [
+    "input.mdy",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hello"
+   ],
+   "files": {
+    "input.mdy": "\"hello\";"
+   },
+   "ci": false,
+   "source": "test_output_handling.py:76"
+  },
+  {
+   "test": "test_output_complex_regex",
+   "argv": [
+    "-o"
+   ],
+   "stdin": "\n        5 of \"a\";\n        some of <digit>;\n        capture test {\n            \"x\";\n            \"y\";\n        }\n        ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a{5}",
+    "\\d+",
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_handling.py:86"
+  },
+  {
+   "test": "test_digit_matching_various",
+   "argv": [
+    "--test"
+   ],
+   "stdin": "<digit>;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_engine_extensive.py:16"
+  },
+  {
+   "test": "test_word_matching_various",
+   "argv": [
+    "--test"
+   ],
+   "stdin": "<word>;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_engine_extensive.py:30"
+  },
+  {
+   "test": "test_quantifier_matching",
+   "argv": [
+    "--test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_engine_extensive.py:40"
+  },
+  {
+   "test": "test_either_pattern_matching",
+   "argv": [
+    "--test"
+   ],
+   "stdin": "either { \"cat\"; \"dog\"; \"bird\"; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_engine_extensive.py:52"
+  },
+  {
+   "test": "test_capture_group_matching",
+   "argv": [
+    "--test"
+   ],
+   "stdin": "capture { some of <digit>; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_engine_extensive.py:60"
+  },
+  {
+   "test": "test_start_anchor_matching",
+   "argv": [
+    "--test"
+   ],
+   "stdin": "<start>; \"test\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_engine_extensive.py:69"
+  },
+  {
+   "test": "test_end_anchor_matching",
+   "argv": [
+    "--test"
+   ],
+   "stdin": "\"test\"; <end>;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_engine_extensive.py:77"
+  },
+  {
+   "test": "test_boundary_matching",
+   "argv": [
+    "--test"
+   ],
+   "stdin": "<boundary>; \"word\"; <boundary>;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_engine_extensive.py:85"
+  },
+  {
+   "test": "test_whitespace_variations",
+   "argv": [
+    "--test",
+    " "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_engine_extensive.py:93"
+  },
+  {
+   "test": "test_lazy_quantifiers",
+   "argv": [
+    "--test",
+    "aaa"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_engine_extensive.py:130"
+  },
+  {
+   "test": "test_ahead_assertion",
+   "argv": [
+    "--test"
+   ],
+   "stdin": "\"test\"; ahead { \"ing\"; }",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_engine_extensive.py:141"
+  },
+  {
+   "test": "test_behind_assertion",
+   "argv": [
+    "--test"
+   ],
+   "stdin": "behind { \"pre\"; } \"fix\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_engine_extensive.py:149"
+  },
+  {
+   "test": "test_complex_email_pattern",
+   "argv": [
+    "--test"
+   ],
+   "stdin": "\n        some of <alphanumeric>;\n        \"@\";\n        some of <alphanumeric>;\n        \".\";\n        2 to 4 of <alphabetic>;\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_engine_extensive.py:157"
+  },
+  {
+   "test": "test_variable_pattern_matching",
+   "argv": [
+    "--test"
+   ],
+   "stdin": "\n        let .word = { some of <word>; }\n        .word;\n        <space>;\n        .word;\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_engine_extensive.py:175"
+  },
+  {
+   "test": "test_test_file_mode_extensive",
+   "argv": [
+    "--test-file"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_engine_extensive.py:188"
+  },
+  {
+   "test": "test_empty_string_matching",
+   "argv": [
+    "--test",
+    ""
+   ],
+   "stdin": "any of \"x\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_engine_extensive.py:217"
+  },
+  {
+   "test": "test_special_chars_in_test",
+   "argv": [
+    "--test"
+   ],
+   "stdin": "\"x\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_engine_extensive.py:231"
+  },
+  {
+   "test": "test_newlines_in_test",
+   "argv": [
+    "--test",
+    "line1\nline2"
+   ],
+   "stdin": "<newline>;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_engine_extensive.py:239"
+  },
+  {
+   "test": "test_tabs_in_test",
+   "argv": [
+    "--test",
+    "word\tword"
+   ],
+   "stdin": "<tab>;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_engine_extensive.py:245"
+  },
+  {
+   "test": "test_test_flag_matching",
+   "argv": [
+    "--test",
+    "hello"
+   ],
+   "stdin": "\"hello\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "matched",
+    "hello"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_testing_mode.py:32"
+  },
+  {
+   "test": "test_test_flag_not_matching",
+   "argv": [
+    "--test",
+    "world"
+   ],
+   "stdin": "\"hello\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "did not match",
+    "world"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_testing_mode.py:39"
+  },
+  {
+   "test": "test_test_short_flag_matching",
+   "argv": [
+    "-t",
+    "test123"
+   ],
+   "stdin": "some of <digit>;",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "matched"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_testing_mode.py:46"
+  },
+  {
+   "test": "test_test_flag_partial_match",
+   "argv": [
+    "-t",
+    "hello world"
+   ],
+   "stdin": "\"hello\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "matched"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_testing_mode.py:52"
+  },
+  {
+   "test": "test_test_flag_complex_regex",
+   "argv": [
+    "-t",
+    "12345"
+   ],
+   "stdin": "\n    <start>;\n    some of <digit>;\n    <end>;\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "matched"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_testing_mode.py:58"
+  },
+  {
+   "test": "test_test_flag_complex_regex_not_match",
+   "argv": [
+    "-t",
+    "abc"
+   ],
+   "stdin": "\n    <start>;\n    some of <digit>;\n    <end>;\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "did not match"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_testing_mode.py:69"
+  },
+  {
+   "test": "test_test_file_matching",
+   "argv": [
+    "--test-file",
+    "test.txt"
+   ],
+   "stdin": "\"hello\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "matched"
+   ],
+   "files": {
+    "test.txt": "hello world"
+   },
+   "ci": false,
+   "source": "test_testing_mode.py:80"
+  },
+  {
+   "test": "test_test_file_not_matching",
+   "argv": [
+    "--test-file",
+    "test.txt"
+   ],
+   "stdin": "\"hello\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "did not match"
+   ],
+   "files": {
+    "test.txt": "goodbye world"
+   },
+   "ci": false,
+   "source": "test_testing_mode.py:89"
+  },
+  {
+   "test": "test_test_file_short_flag",
+   "argv": [
+    "-f",
+    "test.txt"
+   ],
+   "stdin": "\"test\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "matched"
+   ],
+   "files": {
+    "test.txt": "test content"
+   },
+   "ci": false,
+   "source": "test_testing_mode.py:98"
+  },
+  {
+   "test": "test_test_file_missing",
+   "argv": [
+    "--test-file",
+    "/nonexistent/file.txt"
+   ],
+   "stdin": "\"test\";",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_testing_mode.py:106"
+  },
+  {
+   "test": "test_test_flag_long_string",
+   "argv": [
+    "-t"
+   ],
+   "stdin": "\"a\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "matched"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_testing_mode.py:112"
+  },
+  {
+   "test": "test_test_with_capture_groups",
+   "argv": [
+    "-t",
+    "John"
+   ],
+   "stdin": "\n    capture name {\n        some of <alphabetic>;\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "matched"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_testing_mode.py:121"
+  },
+  {
+   "test": "test_test_file_multiline",
+   "argv": [
+    "-f",
+    "test.txt"
+   ],
+   "stdin": "\"line2\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "matched"
+   ],
+   "files": {
+    "test.txt": "line1\nline2\nline3"
+   },
+   "ci": false,
+   "source": "test_testing_mode.py:132"
+  },
+  {
+   "test": "test_test_flag_special_chars",
+   "argv": [
+    "-t",
+    "test@example.com"
+   ],
+   "stdin": "\"@\";",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "matched"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_testing_mode.py:140"
+  },
+  {
+   "test": "test_ext_quantifier_test",
+   "argv": [
+    "-"
+   ],
+   "stdin": "5 of \"A\";\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "A{5}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:27"
+  },
+  {
+   "test": "test_ext_capture_test",
+   "argv": [
+    "-"
+   ],
+   "stdin": "\n    capture {\n      5 of \"A\";\n      0 to 9;\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "(A{5}[0-9])\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:40"
+  },
+  {
+   "test": "test_ext_named_capture_test",
+   "argv": [
+    "-"
+   ],
+   "stdin": "\n    capture name {\n      5 of \"A\";\n      0 to 9;\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "(?<name>A{5}[0-9])\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:53"
+  },
+  {
+   "test": "test_ext_number_quantifier_range_test",
+   "argv": [
+    "-"
+   ],
+   "stdin": "1 to 5 of \"A\";\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "A{1,5}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:66"
+  },
+  {
+   "test": "test_ext_uppercase_range_test",
+   "argv": [
+    "-"
+   ],
+   "stdin": "A to Z;\n7 of A to Z;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "[A-Z][A-Z]{7}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:73"
+  },
+  {
+   "test": "test_ext_lowercase_range_test",
+   "argv": [
+    "-"
+   ],
+   "stdin": "a to z;\n8 of a to z;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "[a-z][a-z]{8}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:81"
+  },
+  {
+   "test": "test_ext_open_range_expression_test",
+   "argv": [
+    "-"
+   ],
+   "stdin": "over 4 of \"a\";\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a{5,}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:89"
+  },
+  {
+   "test": "test_ext_start_end_test",
+   "argv": [
+    "-"
+   ],
+   "stdin": "<start>;\n\"a\";\n<end>;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "^a$\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:96"
+  },
+  {
+   "test": "test_ext_symbol_test",
+   "argv": [
+    "-"
+   ],
+   "stdin": "\n    <start>;\n    <char>;\n    <whitespace>;\n    not <whitespace>;\n    <newline>;\n    not <newline>;\n    <tab>;\n    not <tab>;\n    <return>;\n    not <return>;\n    <feed>;\n    not <feed>;\n    <null>;\n    not <null>;\n    <digit>;\n    not <digit>;\n    <word>;\n    not <word>;\n    <vertical>;\n    not <vertical>;\n    <alphabetic>;\n    not <alphabetic>;\n    <alphanumeric>;\n    not <alphanumeric>;\n    <space>;\n    not <space>;\n    <boundary>;\n    not <boundary>;\n    <backspace>;\n    not <backspace>;\n    <end>;\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:104"
+  },
+  {
+   "test": "test_ext_symbol_unicode_category_test",
+   "argv": [
+    "-"
+   ],
+   "stdin": "\n    <category::cased_letter>;\n    <category::close_punctuation>;\n    <category::connector_punctuation>;\n    <category::control>;\n    <category::currency_symbol>;\n    <category::dash_punctuation>;\n    <category::decimal_digit_number>;\n    <category::enclosing_mark>;\n    <category::final_punctuation>;\n    <category::format>;\n    <category::initial_punctuation>;\n    <category::letter_number>;\n    <category::letter>;\n    <category::line_separator>;\n    <category::lowercase_letter>;\n    <category::mark>;\n    <category::math_symbol>;\n    <category::modifier_letter>;\n    <category::modifier_symbol>;\n    <category::non_spacing_mark>;\n    <category::number>;\n    <category::open_punctuation>;\n    <category::other_letter>;\n    <category::other_number>;\n    <category::other_punctuation>;\n    <category::other_symbol>;\n    <category::other>;\n    <category::paragraph_separator>;\n    <category::private_use>;\n    <category::punctuation>;\n    <category::separator>;\n    <category::space_separator>;\n    <category::spacing_combining_mark>;\n    <category::surrogate>;\n    <category::symbol>;\n    <category::titlecase_letter>;\n    <category::unassigned>;\n    <category::uppercase_letter>;\n    5 of <category::cased_letter>;\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:145"
+  },
+  {
+   "test": "test_ext_symbol_unicode_category_negative_test",
+   "argv": [
+    "-"
+   ],
+   "stdin": "\n    not <category::cased_letter>;\n    not <category::close_punctuation>;\n    not <category::connector_punctuation>;\n    not <category::control>;\n    not <category::currency_symbol>;\n    not <category::dash_punctuation>;\n    not <category::decimal_digit_number>;\n    not <category::enclosing_mark>;\n    not <category::final_punctuation>;\n    not <category::format>;\n    not <category::initial_punctuation>;\n    not <category::letter_number>;\n    not <category::letter>;\n    not <category::line_separator>;\n    not <category::lowercase_letter>;\n    not <category::mark>;\n    not <category::math_symbol>;\n    not <category::modifier_letter>;\n    not <category::modifier_symbol>;\n    not <category::non_spacing_mark>;\n    not <category::number>;\n    not <category::open_punctuation>;\n    not <category::other_letter>;\n    not <category::other_number>;\n    not <category::other_punctuation>;\n    not <category::other_symbol>;\n    not <category::other>;\n    not <category::paragraph_separator>;\n    not <category::private_use>;\n    not <category::punctuation>;\n    not <category::separator>;\n    not <category::space_separator>;\n    not <category::spacing_combining_mark>;\n    not <category::surrogate>;\n    not <category::symbol>;\n    not <category::titlecase_letter>;\n    not <category::unassigned>;\n    not <category::uppercase_letter>;\n    5 of not <category::cased_letter>;\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:196"
+  },
+  {
+   "test": "test_ext_match_test",
+   "argv": [
+    "-"
+   ],
+   "stdin": "\n    3 of match {\n      5 of \"A\";\n      0 to 9;\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "(?:A{5}[0-9]){3}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:245"
+  },
+  {
+   "test": "test_ext_comment_test",
+   "argv": [
+    "-"
+   ],
+   "stdin": "\n    /* a single digit in the range of 0 to 5 */\n    // other comment\n    0 to 5;\n    match {\n      \"x\";\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "[0-5](?:x)\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:258"
+  },
+  {
+   "test": "test_ext_char_test",
+   "argv": [
+    "-"
+   ],
+   "stdin": "3 of <char>;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": ".{3}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:273"
+  },
+  {
+   "test": "test_ext_negative_range_test",
+   "argv": [
+    "-"
+   ],
+   "stdin": "not 3 to 5;\nnot a to z;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "[^3-5][^a-z]\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:280"
+  },
+  {
+   "test": "test_ext_some_test_single",
+   "argv": [
+    "-"
+   ],
+   "stdin": "some of <char>;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": ".+\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:287"
+  },
+  {
+   "test": "test_ext_some_test_multiple",
+   "argv": [
+    "-"
+   ],
+   "stdin": "some of \"ABC\";\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "(?:ABC)+\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:294"
+  },
+  {
+   "test": "test_ext_option_test_single",
+   "argv": [
+    "-"
+   ],
+   "stdin": "option of <char>;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": ".?\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:301"
+  },
+  {
+   "test": "test_ext_option_test_multiple",
+   "argv": [
+    "-"
+   ],
+   "stdin": "option of \"ABC\";\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "(?:ABC)?\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:308"
+  },
+  {
+   "test": "test_ext_either_test",
+   "argv": [
+    "-"
+   ],
+   "stdin": "\n    either {\n      \"first\";\n      \"second\";\n      a to z;\n    }\n    either {\n      \"first\";\n      \"second\";\n    }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "(?:first|second|[a-z])(?:first|second)\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:315"
+  },
+  {
+   "test": "test_ext_any_test_single",
+   "argv": [
+    "-"
+   ],
+   "stdin": "any of <char>;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": ".*\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:333"
+  },
+  {
+   "test": "test_ext_any_test_multiple",
+   "argv": [
+    "-"
+   ],
+   "stdin": "any of \"ABC\";\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "(?:ABC)*\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:340"
+  },
+  {
+   "test": "test_ext_directly_quantifiable",
+   "argv": [
+    "-"
+   ],
+   "stdin": "5 of <word>;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "\\w{5}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:347"
+  },
+  {
+   "test": "test_ext_raw_test",
+   "argv": [
+    "-"
+   ],
+   "stdin": "5 of `.*\\``;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "(?:.*`){5}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:354"
+  },
+  {
+   "test": "test_ext_assertion_test",
+   "argv": [
+    "-"
+   ],
+   "stdin": "\n    ahead { \"a\"; }\n    behind { \"a\"; }\n    not ahead { \"a\"; }\n    not behind { \"a\"; }\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "(?=a)(?<=a)(?!a)(?<!a)\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:361"
+  },
+  {
+   "test": "test_ext_negative_char_class_test",
+   "argv": [
+    "-"
+   ],
+   "stdin": "not abcd;\n5 of not abcd;\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "[^abcd][^abcd]{5}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:374"
+  },
+  {
+   "test": "test_ext_single_quote_test",
+   "argv": [
+    "-"
+   ],
+   "stdin": "'hello \\'quoted\\'';\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "hello 'quoted'\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:381"
+  },
+  {
+   "test": "test_ext_double_quote_test",
+   "argv": [
+    "-"
+   ],
+   "stdin": "\"hello \\\"quoted\\\"\";\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "hello \"quoted\"\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:388"
+  },
+  {
+   "test": "test_ext_auto_escape_test",
+   "argv": [
+    "-"
+   ],
+   "stdin": "\"[](){}*+?|^$.\";\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "\\[\\]\\(\\)\\{\\}\\*\\+\\?\\|\\^\\$\\.\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:395"
+  },
+  {
+   "test": "test_ext_lazy_test",
+   "argv": [
+    "-"
+   ],
+   "stdin": "\n    lazy any of \"A\";\n    lazy some of \"A\";\n    lazy option of \"A\";\n    lazy 5 of \"A\";\n    lazy over 5 of \"A\";\n    lazy 5 to 6 of \"A\";\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "A*?A+?A??A{5}?A{6,}?A{5,6}?\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:402"
+  },
+  {
+   "test": "test_ext_variable_test",
+   "argv": [
+    "-"
+   ],
+   "stdin": "\n    let .test_variable = {\n      \"A\";\n      \"B\";\n    }\n    let .second_test_variable = {\n      \"C\";\n    }\n    .test_variable;\n    .second_test_variable;\n    ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "ABC\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:417"
+  },
+  {
+   "test": "test_ext_literal_hyphen",
+   "argv": [
+    "-"
+   ],
+   "stdin": "\"-\";\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "-\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:435"
+  },
+  {
+   "test": "test_ext_cli_stdin_stdout_test",
+   "argv": [
+    "-"
+   ],
+   "stdin": "some of \"a\";\nsome of \"b\";\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a+b+\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:477"
+  },
+  {
+   "test": "test_ext_cli_stdin_test_test",
+   "argv": [
+    "-t",
+    "aabb",
+    "-"
+   ],
+   "stdin": "some of \"a\";\nsome of \"b\";\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "'aabb' matched\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:485"
+  },
+  {
+   "test": "test_ext_cli_stdin_unmatching_test_test",
+   "argv": [
+    "-t",
+    "zzz",
+    "-"
+   ],
+   "stdin": "some of \"a\";\nsome of \"b\";\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "'zzz' did not match\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:497"
+  },
+  {
+   "test": "test_dash_input_is_allowed_and_reads_stdin_empty_ok",
+   "argv": [
+    "-"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_args.py:46"
+  },
+  {
+   "test": "test_help_to_stdout_exit0",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_compile_io.py:10"
+  },
+  {
+   "test": "test_version_to_stdout_exit0",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_compile_io.py:17"
+  },
+  {
+   "test": "test_compile_from_explicit_stdin_dash_marker",
+   "argv": [
+    "-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_compile_io.py:40"
+  },
+  {
+   "test": "test_compile_output_to_file_flag_creates_file_and_suppresses_stdout",
+   "argv": [
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_compile_io.py:47"
+  },
+  {
+   "test": "test_nonexistent_input_file_is_error_to_stderr_exit_65",
+   "argv": [
+    "/definitely/not/a/real/file.mel"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 65,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Error:",
+    "unable read file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_compile_io.py:56"
+  },
+  {
+   "test": "test_generate_completions_bash_has_expected_preamble",
+   "argv": [
+    "--generate-completions",
+    "bash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "COMPREPLY"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_generate_completions_io.py:4"
+  },
+  {
+   "test": "test_test_flag_matched_writes_message_to_stdout_exit0",
+   "argv": [
+    "-t",
+    "#melody"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "'#melody' matched\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_test_mode_io.py:8"
+  },
+  {
+   "test": "test_test_flag_not_matched_writes_message_to_stdout_exit0",
+   "argv": [
+    "-t",
+    "nope"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "'nope' did not match\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_test_mode_io.py:15"
+  },
+  {
+   "test": "test_test_file_flag_reads_test_string_from_file",
+   "argv": [
+    "--test-file",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "#melody"
+   },
+   "ci": false,
+   "source": "test_test_mode_io.py:22"
+  },
+  {
+   "test": "test_test_file_nonexistent_is_error_exit_65",
+   "argv": [
+    "--test-file",
+    "/definitely/not/a/real/test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 74,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Error:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_test_mode_io.py:32"
+  },
+  {
+   "test": "test_no_color_flag_overrides_clicolor_force",
+   "argv": [
+    "--no-color"
+   ],
+   "stdin": null,
+   "env": {
+    "CLICOLOR_FORCE": "1"
+   },
+   "expect_rc": 0,
+   "expect_stdout": "a\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_env_config_handling.py:49"
+  }
+ ]
+}

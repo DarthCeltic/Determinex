@@ -1,0 +1,29 @@
+{
+  "schema": "determinex-repair-loop-transcript-v1",
+  "tool": "commons-io",
+  "family": "java",
+  "pinned_commit": "c1184e0ca",
+  "repair_type": "seeded_defect (behavioral) - verifier is the project's OWN test suite in a maven:3-eclipse-temurin-21 image (toolchain via provider; Docker-OPTIONAL)",
+  "toolchain": "maven:3-eclipse-temurin-21",
+  "oracle": "the real apache/commons-io repo's own tests: mvn test -Dtest=FilenameUtilsTest -Dmaven.repo.local=/app/.m2 -DfailIfNoTests=false",
+  "defect": {
+    "file": "src/main/java/org/apache/commons/io/FilenameUtils.java",
+    "seed": "return fileName.substring(index + 1); -> return fileName.substring(index);"
+  },
+  "detect": {
+    "baseline": "[INFO] Tests run: 41, Failures: 0, Errors: 0, Skipped: 1",
+    "after_seed": "test suite FAILED (exit 1)",
+    "oracle_caught": true,
+    "failure_signature": "seeded defect made the project's own test suite exit non-zero"
+  },
+  "repair": {
+    "fix": "git checkout (restore upstream source)"
+  },
+  "reverify": {
+    "after": "[INFO] Tests run: 41, Failures: 0, Errors: 0, Skipped: 1",
+    "passed": 41,
+    "failures": 0
+  },
+  "repair_loop_status": "passed",
+  "proves": "closed-loop repair on a real external java project (commons-io): its OWN test suite detects the injected defect -> fix -> re-verify ([INFO] Tests run: 41, Failures: 0, Errors: 0, Skipped: 1). Reproducible."
+}

@@ -1,0 +1,2659 @@
+[
+ {
+  "name": "test::test_unknown_flag_suggests_double_dash_separator_tip::0",
+  "argv": [
+   "--nonexistent-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_treats_following_tokens_as_positional_not_flags::1",
+  "argv": [
+   "--",
+   "--nonexistent-flag",
+   "--args"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_integer_rejected_for_wraplen::2",
+  "argv": [
+   "--wraplen=-1",
+   "--args"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_files_no_recursive_no_stdin_is_validation_error_rc1::3",
+  "argv": [
+   "--check",
+   "--print"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_mode_formats_from_stdin_to_stdout::4",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_rejects_file_arguments::5",
+  "argv": [
+   "--stdin",
+   "somefile.tex"
+  ],
+  "stdin": "\\item one",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_flag_suppresses_warnings::6",
+  "argv": [
+   "--stdin",
+   "--wraplen",
+   "5"
+  ],
+  "stdin": "hello world this is a test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trace_overrides_quiet_flag::7",
+  "argv": [
+   "--stdin",
+   "--trace",
+   "--quiet"
+  ],
+  "stdin": "\\documentclass{article}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_overrides_quiet_flag::8",
+  "argv": [
+   "--stdin",
+   "--verbose",
+   "--quiet"
+  ],
+  "stdin": "\\documentclass{article}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wraplen_edge_case_40_chars::9",
+  "argv": [
+   "--stdin",
+   "--wraplen",
+   "40"
+  ],
+  "stdin": "This is a moderately long line that should wrap nicely at standard widths for testing purposes",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wraplen_edge_case_120_chars::10",
+  "argv": [
+   "--stdin",
+   "--wraplen",
+   "120"
+  ],
+  "stdin": "This is a moderately long line that should wrap nicely at standard widths for testing purposes",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wraplen_edge_case_1000_chars::11",
+  "argv": [
+   "--stdin",
+   "--wraplen",
+   "1000"
+  ],
+  "stdin": "short line",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_noconfig_ignores_current_dir_config::12",
+  "argv": [
+   "--stdin",
+   "--noconfig"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_config_file::13",
+  "argv": [
+   "--stdin",
+   "--config",
+   "/nonexistent/path/config.toml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_print_flag::14",
+  "argv": [
+   "--stdin",
+   "--config",
+   "config_print.toml"
+  ],
+  "stdin": null,
+  "files": {
+   "config_print.toml": "print = true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_wrap_chars::15",
+  "argv": [
+   "--stdin",
+   "--config",
+   "config_wrap_chars.toml"
+  ],
+  "stdin": "This is a test with-dashes and spaces that should-wrap\n",
+  "files": {
+   "config_wrap_chars.toml": "wrap-chars = [\" \", \"-\"]\nwraplen = 30\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gitignore_respected_in_recursive_search::16",
+  "argv": [
+   "git",
+   "init"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version::17",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help::18",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_basic::19",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "\\begin{itemize}\n\\item one\n\\item two\n\\end{itemize}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unmatched_verbatim_end_triggers_warning::20",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "% This file has an unmatched end\nSome text here.\n\\end{verbatim}\nMore text.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unmatched_lstlisting_end_triggers_warning::21",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "% Unmatched lstlisting end\nSome text.\n\\end{lstlisting}\nMore text.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unclosed_verbatim_environment::22",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "% Unclosed verbatim\n\\begin{verbatim}\nThis verbatim has no end.\nSome code here.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_verbatim_environment::23",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "% Empty verbatim\n\\begin{verbatim}\n\\end{verbatim}\nSome text after.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_verbatim_environments::24",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "% Nested verbatim attempt\n\\begin{verbatim}\nThis is outer verbatim.\n\\begin{verbatim}\nThis is inner - should this work?\n\\end{verbatim}\nStill in outer.\n\\end{verbatim}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_line_in_verbatim_no_wrap::25",
+  "argv": [
+   "--stdin",
+   "--wraplen",
+   "40"
+  ],
+  "stdin": "% Very long line in verbatim\n\\begin{verbatim}\nThis is a very very very very very very very very very very very very very very very very very very very very long line that exceeds 80 characters and should not be wrapped.\n\\end{verbatim}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_verbatim_preserved::26",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "% Special characters in verbatim\n\\begin{verbatim}\n$ & % # _ { } ~ ^ \\\n\\command{arg}\n@#$%^&*()\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_unmatched_ends_multiple_warnings::27",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "% Multiple unmatched ends\n\\end{verbatim}\n\\end{verbatim}\n\\end{lstlisting}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mismatched_begin_end_pairs_depth_tracking::28",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "% Mismatched begin/end\n\\begin{verbatim}\n\\begin{verbatim}\nSome text.\n\\end{verbatim}\nStill in one level?\n\\end{verbatim}\nNow should be outside.\n\\end{verbatim}\nThis should warn.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbatim_single_line_begin_and_end::29",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "% Single-line verbatim\n\\begin{verbatim}code here\\end{verbatim}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_verbatim_environment_types::30",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "% Mixed verbatim types\n\\begin{verbatim}\nCode in verbatim.\n\\end{verbatim}\n\n\\begin{lstlisting}\nCode in lstlisting.\n\\end{lstlisting}\n\nNormal text.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wrong_environment_type_end_tag::31",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "% Wrong type matching\n\\begin{verbatim}\nCode here.\n\\end{lstlisting}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wrong_environment_type_begin_tag::32",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "% Wrong type matching reverse\n\\begin{lstlisting}\nCode here.\n\\end{verbatim}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_latex_commands_in_verbatim_literal::33",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "% LaTeX commands in verbatim\n\\begin{verbatim}\n\\documentclass{article}\n\\begin{document}\nHello \\textbf{world}!\n\\end{document}\n\\end{verbatim}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbatim_preserves_whitespace_exactly::34",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "% Whitespace in verbatim\n\\begin{verbatim}\n    indented code\n  different indent\nno indent\n\\end{verbatim}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbatim_preserves_blank_lines::35",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "% Blank lines in verbatim\n\\begin{verbatim}\nLine 1\n\nLine 3 with blank above\n\nLine 5\n\\end{verbatim}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbatim_tabs_converted_by_default::36",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "% Tabs in verbatim\n\\begin{verbatim}\n\ttab-indented\n\t\tdouble tab\n\\end{verbatim}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_mode_suppresses_verbatim_warnings::37",
+  "argv": [
+   "--stdin",
+   "--quiet"
+  ],
+  "stdin": "\\end{verbatim}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_wrap_default_80::38",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "This is a very long line that definitely exceeds the default 80 character wrap length and should be wrapped at a space boundary.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nowrap_flag_preserves_long_lines::39",
+  "argv": [
+   "--stdin",
+   "--nowrap"
+  ],
+  "stdin": "This is a very long line that definitely exceeds the default 80 character wrap length and should be wrapped at a space boundary.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wraplen_40_short_wrap::40",
+  "argv": [
+   "--stdin",
+   "--wraplen",
+   "40"
+  ],
+  "stdin": "This is a very long line that definitely exceeds the default 80 character wrap length and should be wrapped at a space boundary.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wraplen_120_long_wrap::41",
+  "argv": [
+   "--stdin",
+   "--wraplen",
+   "120"
+  ],
+  "stdin": "This is a very long line that definitely exceeds the default 80 character wrap length and should be wrapped at a space boundary.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_line_no_wrapping::42",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "Short line.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exactly_80_chars_no_wrap::43",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "This line is exactly eighty characters long including the trailing dot here.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_long_lines_all_wrapped::44",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "This is the first very long line that definitely exceeds the default 80 character wrap length and should be wrapped.\nThis is the second very long line that also definitely exceeds the default 80 character wrap length and should be wrapped.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_spaces_single_long_word_warns::45",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trailing_spaces_preserved_then_wrapped::46",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "This is a very long line that definitely exceeds the default 80 character wrap length and should be wrapped.    \n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_consecutive_spaces_preserved::47",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "This is a very  long  line  that  definitely  exceeds  the  default  80  character  wrap  length  and  should  be  wrapped.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_characters_counted_correctly::48",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "This line has some Unicode characters like café, naïve, and 日本語 that make the line exceed the default 80 character wrap limit.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_tabs_and_spaces::49",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "This is a very long line with tabs\tand\tspaces\tmixed\ttogether\tthat\texceeds\tthe\tdefault 80 character wrap length.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backslash_space_not_wrap_point::50",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "This is a line with a backslash-space like this:\\ and it continues on to exceed the default 80 character wrap length definitely.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_over_by_two_chars_no_wrap::51",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "This line is exactly eighty-two characters long including the trailing dot xxx.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comment_line_wrapped_with_percent_continuation::52",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "% This is a very long comment line that definitely exceeds the default 80 character wrap length and should be wrapped at a space boundary.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_environment_not_split::53",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "This line contains a \\verb|very long verbatim section that should not be split across lines even if it exceeds the wrap length| which is problematic.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbatim_block_no_wrapping::54",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "\\begin{verbatim}\nThis is a very long line inside a verbatim environment that should not be wrapped at all regardless of length.\n\\end{verbatim}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_math_inline_wrapped_at_operators::55",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "This is a very long line with inline math $x = y + z + a + b + c + d + e + f + g + h + i + j + k$ that exceeds 80 characters.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_equation_environment_wrapped::56",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "\\begin{equation}\nx = y + z + a + b + c + d + e + f + g + h + i + j + k + l + m + n + o + p + q + r + s + t + u + v + w\n\\end{equation}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_environment_wrapped::57",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "\\begin{tabular}{ll}\nColumn1 content that is very long and exceeds the default 80 character wrap length & Column2 content that is also very long \\\\\n\\end{tabular}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_indented_item_wrapped_with_continuation_indent::58",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "\\begin{itemize}\n\\item This is a very long item that definitely exceeds the default 80 character wrap length and should be wrapped at a space boundary.\n\\end{itemize}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wraplen_200_very_long::59",
+  "argv": [
+   "--stdin",
+   "--wraplen",
+   "200"
+  ],
+  "stdin": "This is a very long line that exceeds 80 characters but stays under 200 characters so with wraplen 200 it should not be wrapped at all.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_wraps_per_line::60",
+  "argv": [
+   "--stdin",
+   "--wraplen",
+   "40"
+  ],
+  "stdin": "This is a very very very very very very very very very very very very very very very very very very very very very very very very very very long line that will need multiple wraps.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wraplen_shorter_than_words::61",
+  "argv": [
+   "--stdin",
+   "--wraplen",
+   "15"
+  ],
+  "stdin": "This is a line with words.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paragraph_with_blank_line::62",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\n\nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_macro_definition_wrapped::63",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "\\newcommand{\\verylongmacroname}{This is a very long macro definition that exceeds the default 80 character wrap length and should be wrapped appropriately.}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_environments_wrapped_with_correct_indent::64",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "\\begin{enumerate}\n\\item First item\n\\begin{itemize}\n\\item This is a nested item that is very long and definitely exceeds the default 80 character wrap length and should be wrapped.\n\\end{itemize}\n\\end{enumerate}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_command_warns_unwrappable::65",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "See the documentation at \\url{https://example.com/very/long/path/to/documentation/that/exceeds/the/wrap/length/completely} for more information.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nowrap_preserves_indentation::66",
+  "argv": [
+   "--stdin",
+   "--nowrap"
+  ],
+  "stdin": "\\begin{itemize}\n\\item This is a very long item that definitely exceeds the default 80 character wrap length but nowrap is enabled so it should stay on one line.\n\\end{itemize}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_line_preserved::67",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_only_spaces_normalized::68",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "                                                                                    \n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_only_percent_signs_unwrappable::69",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ends_with_percent_sign::70",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "This is a very long line that exceeds the default 80 character wrap length and ends with a percent sign %\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lstlisting_environment_no_wrapping::71",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "\\begin{lstlisting}\nThis is a very long line inside a lstlisting environment that should not be wrapped at all regardless of length because it is a verbatim environment.\n\\end{lstlisting}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_text_then_comment_wrapped_correctly::72",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "This is text before the comment % This is a very long comment that exceeds the default 80 character wrap length and should be wrapped with percent continuation.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wraplen_5_very_tiny::73",
+  "argv": [
+   "--stdin",
+   "--wraplen",
+   "5"
+  ],
+  "stdin": "a b c d\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_plus_delimiter::74",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "This line contains a \\verb+very long verbatim section with plus delimiters that should not be split+ end.\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_behavior_no_config_keeps_item_on_single_line::75",
+  "argv": [
+   "--print",
+   "--noconfig",
+   "--stdin"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "RUST_BACKTRACE": "0"
+  }
+ },
+ {
+  "name": "test::test_config_file_in_cwd_is_loaded_and_affects_wraplen::76",
+  "argv": [
+   "--print",
+   "--stdin"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "RUST_BACKTRACE": "0"
+  }
+ },
+ {
+  "name": "test::test_config_file_at_git_root_is_loaded_from_subdir::77",
+  "argv": [
+   "git",
+   "init",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_path_flag_overrides_discovery::78",
+  "argv": [
+   "--print",
+   "--stdin",
+   "--config",
+   "other.toml"
+  ],
+  "stdin": null,
+  "files": {
+   "other.toml": "wraplen = 10\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "RUST_BACKTRACE": "0"
+  }
+ },
+ {
+  "name": "test::test_noconfig_disables_all_config_including_explicit_config_path::79",
+  "argv": [
+   "--print",
+   "--stdin",
+   "--config",
+   "tex-fmt.toml",
+   "--noconfig"
+  ],
+  "stdin": null,
+  "files": {
+   "tex-fmt.toml": "wraplen = 10\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "RUST_BACKTRACE": "0"
+  }
+ },
+ {
+  "name": "test::test_cli_flags_override_config_values::80",
+  "argv": [
+   "--print",
+   "--stdin",
+   "--wraplen",
+   "80"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "RUST_BACKTRACE": "0"
+  }
+ },
+ {
+  "name": "test::test_malformed_config_panics_and_mentions_path::81",
+  "argv": [
+   "--print",
+   "--stdin",
+   "--config",
+   "bad.toml"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.toml": "wraplen =\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "RUST_BACKTRACE": "0"
+  }
+ },
+ {
+  "name": "test::test_verbatim_environment::82",
+  "argv": [
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\begin{document}\n\\begin{verbatim}\n  unformatted  code\n    with    spaces\n\\end{verbatim}\n\\end{document}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verb_command::83",
+  "argv": [
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\documentclass{article}\\begin{document}\\verb|code here|\\end{document}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_figure_environment::84",
+  "argv": [
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\begin{figure}\n\\centering\n\\includegraphics{image.png}\n\\caption{A figure}\n\\end{figure}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_environment::85",
+  "argv": [
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\begin{table}\n\\begin{tabular}{|c|c|}\n\\hline\nA & B \\\\\n\\hline\n\\end{tabular}\n\\end{table}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_align_environment::86",
+  "argv": [
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\begin{align}\na &= b \\\\\nc &= d\n\\end{align}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theorem_environment::87",
+  "argv": [
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\begin{theorem}\nThis is a theorem.\n\\end{theorem}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_proof_environment::88",
+  "argv": [
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\begin{proof}\nProof text here.\n\\end{proof}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_abstract_environment::89",
+  "argv": [
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\begin{abstract}\nThis is the abstract.\n\\end{abstract}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minipage_environment::90",
+  "argv": [
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\begin{minipage}{0.5\\textwidth}\nContent here\n\\end{minipage}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_center_environment::91",
+  "argv": [
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\begin{center}\nCentered text\n\\end{center}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flushleft_environment::92",
+  "argv": [
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\begin{flushleft}\nLeft aligned\n\\end{flushleft}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quote_environment::93",
+  "argv": [
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\begin{quote}\nA quotation\n\\end{quote}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lstlisting_environment::94",
+  "argv": [
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\begin{lstlisting}\n  code  with  spaces\n\\end{lstlisting}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_newcommand_definition::95",
+  "argv": [
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\newcommand{\\mycmd}[1]{\\textbf{#1}}\n\\begin{document}\n\\mycmd{test}\n\\end{document}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_renewcommand::96",
+  "argv": [
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\renewcommand{\\labelitemi}{$\\bullet$}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_newenvironment::97",
+  "argv": [
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\newenvironment{myenv}{\\begin{itemize}}{\\end{itemize}}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bibliography_environment::98",
+  "argv": [
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\begin{thebibliography}{9}\n\\bibitem{ref1} Author, Title\n\\end{thebibliography}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bibtex_entry::99",
+  "argv": [
+   "--print",
+   "test.bib"
+  ],
+  "stdin": null,
+  "files": {
+   "test.bib": "@article{key2023,\nauthor={Author Name},\ntitle={Article Title},\njournal={Journal},\nyear={2023}\n}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiline_macro_argument::100",
+  "argv": [
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\section{This is a very long section title that might span multiple lines in the source}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_optional_arguments::101",
+  "argv": [
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\documentclass[12pt,a4paper]{article}\n\\usepackage[utf8]{inputenc}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_optional_arguments::102",
+  "argv": [
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\includegraphics[width=0.5\\textwidth,height=3cm]{image.png}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_short_flag::103",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_flag::104",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_args_flag::105",
+  "argv": [
+   "--args",
+   "test.tex",
+   "--check",
+   "--verbose"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\documentclass{article}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_option::106",
+  "argv": [
+   "--invalid-option-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_man_page_generation::107",
+  "argv": [
+   "--man"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_option::108",
+  "argv": [
+   "--config",
+   "custom.toml",
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "custom.toml": "wrap = false\ntabsize = 4",
+   "test.tex": "\\begin{itemize}\n\\item Test\n\\end{itemize}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_noconfig_option::109",
+  "argv": [
+   "--noconfig",
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\begin{itemize}\n\\item Test\n\\end{itemize}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_wrap_option::110",
+  "argv": [
+   "--config",
+   "config.toml",
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "wrap = false",
+   "test.tex": "This is a very long line with many many words that should definitely exceed eighty characters in total length"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_wraplen_option::111",
+  "argv": [
+   "--config",
+   "config.toml",
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "wraplen = 40",
+   "test.tex": "\\documentclass{article}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_lists_option::112",
+  "argv": [
+   "--config",
+   "config.toml",
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "lists = [\"myitemize\"]",
+   "test.tex": "\\begin{myitemize}\n\\item Test\n\\end{myitemize}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_verbatims_option::113",
+  "argv": [
+   "--config",
+   "config.toml",
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "verbatims = [\"myverbatim\"]",
+   "test.tex": "\\begin{myverbatim}\n  unformatted text\n\\end{myverbatim}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_no_indent_envs_option::114",
+  "argv": [
+   "--config",
+   "config.toml",
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "no-indent-envs = [\"mydocument\"]",
+   "test.tex": "\\begin{mydocument}\n\\section{Test}\n\\end{mydocument}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_tabchar_space::115",
+  "argv": [
+   "--config",
+   "config.toml",
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "tabchar = \"space\"\ntabsize = 2",
+   "test.tex": "\\begin{itemize}\n\\item Test\n\\end{itemize}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_tabchar_tab::116",
+  "argv": [
+   "--config",
+   "config.toml",
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "tabchar = \"tab\" ",
+   "test.tex": "\\begin{itemize}\n\\item Test\n\\end{itemize}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cli_overrides_config::117",
+  "argv": [
+   "--config",
+   "config.toml",
+   "--tabsize",
+   "2",
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "config.toml": "tabsize = 4",
+   "test.tex": "\\begin{itemize}\n\\item Test\n\\end{itemize}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_config_file::118",
+  "argv": [
+   "--config",
+   "invalid.toml",
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.toml": "this is not valid toml [[[",
+   "test.tex": "\\documentclass{article}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file::119",
+  "argv": [
+   "/tmp/nonexistent_file_xyz123.tex"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_nonexistent_files::120",
+  "argv": [
+   "/tmp/fake1.tex",
+   "/tmp/fake2.tex"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_file::121",
+  "argv": [
+   "--print",
+   "empty.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.tex": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_only_whitespace::122",
+  "argv": [
+   "--print",
+   "whitespace.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "whitespace.tex": "   \n  \n   "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_latex_syntax::123",
+  "argv": [
+   "--print",
+   "invalid.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.tex": "\\begin{itemize} \\item test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_content::124",
+  "argv": [
+   "--print",
+   "unicode.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "unicode.tex": "\\documentclass{article}\n\\begin{document}\n文字 αβγ Ñoño\n\\end{document}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_file::125",
+  "argv": [
+   "--print"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_many_nested_environments::126",
+  "argv": [
+   "--print",
+   "nested.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "nested.tex": "\\begin{document}\n\\begin{itemize}\n\\item A\n\\begin{itemize}\n\\item B\n\\begin{itemize}\n\\item C\n\\end{itemize}\n\\end{itemize}\n\\end{itemize}\n\\end{document}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_content::127",
+  "argv": [
+   "--print",
+   "special.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "special.tex": "\\documentclass{article}\n\\begin{document}\n\\$ \\% \\& \\# \\_ \\{ \\}\n\\end{document}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_line_endings::128",
+  "argv": [
+   "--print",
+   "mixed.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "mixed.tex": "\\documentclass{article}\r\n\\begin{document}\n\\end{document}\r\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_options_check_and_print::129",
+  "argv": [
+   "--check",
+   "--print",
+   "--stdin"
+  ],
+  "stdin": "\\documentclass{article}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_file_arguments::130",
+  "argv": [
+   "--stdin",
+   "test.tex"
+  ],
+  "stdin": "\\documentclass{article}",
+  "files": {
+   "test.tex": "\\documentclass{article}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_recursive_on_nonexistent_directory::131",
+  "argv": [
+   "--recursive",
+   "/tmp/nonexistent_dir_xyz123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_wraplen_value::132",
+  "argv": [
+   "--wraplen",
+   "invalid",
+   "--stdin"
+  ],
+  "stdin": "\\documentclass{article}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_tabsize_value::133",
+  "argv": [
+   "--tabsize",
+   "invalid",
+   "--stdin"
+  ],
+  "stdin": "\\documentclass{article}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_wraplen::134",
+  "argv": [
+   "--wraplen",
+   "-10",
+   "--stdin"
+  ],
+  "stdin": "\\documentclass{article}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_tabsize::135",
+  "argv": [
+   "--tabsize",
+   "0",
+   "--stdin"
+  ],
+  "stdin": "\\documentclass{article}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_no_extension::136",
+  "argv": [
+   "--print",
+   "noext"
+  ],
+  "stdin": null,
+  "files": {
+   "noext": "\\documentclass{article}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_single_file_in_place::137",
+  "argv": [
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\documentclass{article}\n\\begin{document}\n\\begin{itemize}\n\\item First item\n\\item Second item\n\\end{itemize}\n\\end{document}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_multiple_files::138",
+  "argv": [
+   "test1.tex",
+   "test2.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test1.tex": "\\documentclass{article}\n\\begin{document}\n\\begin{itemize}\n\\item First item\n\\item Second item\n\\end{itemize}\n\\end{document}",
+   "test2.tex": "\\documentclass{article}\n\\begin{document}\n\\begin{itemize}\n\\item First item\n\\item Second item\n\\end{itemize}\n\\end{document}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_mode::139",
+  "argv": [
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\documentclass{article}\n\\begin{document}\n\\begin{itemize}\n\\item First item\n\\item Second item\n\\end{itemize}\n\\end{document}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_mode_short_flag::140",
+  "argv": [
+   "-p",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\documentclass{article}\n\\begin{document}\n\\begin{itemize}\n\\item First item\n\\item Second item\n\\end{itemize}\n\\end{document}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_mode_already_formatted::141",
+  "argv": [
+   "--check"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_mode_needs_formatting::142",
+  "argv": [
+   "--check",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\documentclass{article}\n\\begin{document}\n\\begin{itemize}\n\\item First item\n\\item Second item\n\\end{itemize}\n\\end{document}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_mode_short_flag::143",
+  "argv": [
+   "-c",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\documentclass{article}\n\\begin{document}\n\\begin{itemize}\n\\item First item\n\\item Second item\n\\end{itemize}\n\\end{document}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fail_on_change_mode_with_changes::144",
+  "argv": [
+   "--fail-on-change",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\documentclass{article}\n\\begin{document}\n\\begin{itemize}\n\\item First item\n\\item Second item\n\\end{itemize}\n\\end{document}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fail_on_change_mode_no_changes::145",
+  "argv": [
+   "--fail-on-change"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fail_on_change_short_flag::146",
+  "argv": [
+   "-f",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\documentclass{article}\n\\begin{document}\n\\begin{itemize}\n\\item First item\n\\item Second item\n\\end{itemize}\n\\end{document}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_mode::147",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "\\documentclass{article}\n\\begin{document}\n\\begin{itemize}\n\\item First item\n\\item Second item\n\\end{itemize}\n\\end{document}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_mode_short_flag::148",
+  "argv": [
+   "-s"
+  ],
+  "stdin": "\\documentclass{article}\n\\begin{document}\n\\begin{itemize}\n\\item First item\n\\item Second item\n\\end{itemize}\n\\end{document}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_recursive_mode::149",
+  "argv": [
+   "--recursive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_recursive_mode_short_flag::150",
+  "argv": [
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tex_file_type::151",
+  "argv": [
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\documentclass{article}\\begin{document}test\\end{document}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bib_file_type::152",
+  "argv": [
+   "--print",
+   "test.bib"
+  ],
+  "stdin": null,
+  "files": {
+   "test.bib": "@article{example2023,\ntitle = {Example Title},\nauthor = {Smith, John},\nyear = {2023}\n}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cls_file_type::153",
+  "argv": [
+   "--print",
+   "test.cls"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cls": "\\NeedsTeXFormat{LaTeX2e}\\ProvidesClass{test}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sty_file_type::154",
+  "argv": [
+   "--print",
+   "test.sty"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sty": "\\NeedsTeXFormat{LaTeX2e}\\ProvidesPackage{test}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_environment_indentation::155",
+  "argv": [
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\documentclass{article}\n\\begin{document}\n\\begin{equation}\nE = mc^2\n\\end{equation}\n\\end{document}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_indentation::156",
+  "argv": [
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\begin{itemize}\n\\item First\n\\item Second\n\\end{itemize}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_environments::157",
+  "argv": [
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\begin{document}\n\\begin{itemize}\n\\item Test\n\\begin{enumerate}\n\\item Nested\n\\end{enumerate}\n\\end{itemize}\n\\end{document}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nowrap_mode::158",
+  "argv": [
+   "--nowrap",
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "This is a very long line with many many words that should definitely exceed eighty characters in total length and then some more words to be sure"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nowrap_short_flag::159",
+  "argv": [
+   "-n",
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "This is a very long line with many many words that should definitely exceed eighty characters in total length and then some more words to be sure"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_wraplen::160",
+  "argv": [
+   "--wraplen",
+   "40",
+   "--print"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wraplen_short_flag::161",
+  "argv": [
+   "-l",
+   "40",
+   "--print"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_tabsize::162",
+  "argv": [
+   "--tabsize",
+   "4",
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\begin{itemize}\n\\item Test\n\\end{itemize}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tabsize_short_flag::163",
+  "argv": [
+   "-t",
+   "4",
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\begin{itemize}\n\\item Test\n\\end{itemize}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_usetabs_option::164",
+  "argv": [
+   "--usetabs",
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\begin{itemize}\n\\item Test\n\\end{itemize}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiline_item_continuation::165",
+  "argv": [
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\begin{itemize}\n\\item This is a very long item that spans multiple lines and should be properly indented\n\\end{itemize}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comment_preservation::166",
+  "argv": [
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\documentclass{article}\n% This is a comment\n\\begin{document}\n% Another comment\ntest\n\\end{document}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inline_math::167",
+  "argv": [
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\documentclass{article}\\begin{document}The equation $E=mc^2$ is famous.\\end{document}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_display_math::168",
+  "argv": [
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\begin{document}\n$$E=mc^2$$\n\\end{document}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enumerate_environment::169",
+  "argv": [
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\begin{enumerate}\n\\item First\n\\item Second\n\\end{enumerate}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_description_environment::170",
+  "argv": [
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\begin{description}\n\\item[Term] Definition\n\\end{description}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_lines_preserved::171",
+  "argv": [
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\documentclass{article}\n\n\\begin{document}\n\ntest\n\n\\end{document}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_section_commands::172",
+  "argv": [
+   "--print",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\documentclass{article}\n\\begin{document}\n\\section{Introduction}\nText here.\n\\subsection{Background}\nMore text.\n\\end{document}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_mode::173",
+  "argv": [
+   "--verbose",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\documentclass{article}\n\\begin{document}\n\\begin{itemize}\n\\item First item\n\\item Second item\n\\end{itemize}\n\\end{document}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_short_flag::174",
+  "argv": [
+   "-v",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\documentclass{article}\n\\begin{document}\n\\begin{itemize}\n\\item First item\n\\item Second item\n\\end{itemize}\n\\end{document}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_mode::175",
+  "argv": [
+   "--quiet",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\documentclass{article}\n\\begin{document}\n\\begin{itemize}\n\\item First item\n\\item Second item\n\\end{itemize}\n\\end{document}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_short_flag::176",
+  "argv": [
+   "-q",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\documentclass{article}\n\\begin{document}\n\\begin{itemize}\n\\item First item\n\\item Second item\n\\end{itemize}\n\\end{document}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trace_mode::177",
+  "argv": [
+   "--trace",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\documentclass{article}\n\\begin{document}\n\\begin{itemize}\n\\item First item\n\\item Second item\n\\end{itemize}\n\\end{document}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_with_check::178",
+  "argv": [
+   "--verbose",
+   "--check",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\documentclass{article}\n\\begin{document}\n\\begin{itemize}\n\\item First item\n\\item Second item\n\\end{itemize}\n\\end{document}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_with_check::179",
+  "argv": [
+   "--quiet",
+   "--check"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_completion::180",
+  "argv": [
+   "--completion",
+   "bash"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zsh_completion::181",
+  "argv": [
+   "--completion",
+   "zsh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fish_completion::182",
+  "argv": [
+   "--completion",
+   "fish"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_powershell_completion::183",
+  "argv": [
+   "--completion",
+   "powershell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_elvish_completion::184",
+  "argv": [
+   "--completion",
+   "elvish"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_completion_shell::185",
+  "argv": [
+   "--completion",
+   "invalid-shell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_formats_file_to_stdout_without_modifying_file::186",
+  "argv": [
+   "--print",
+   "a.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "a.tex": "\\begin{itemize}\n\\item a\n\\end{itemize}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_overwrites_file_in_place_and_is_silent::187",
+  "argv": [
+   "a.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "a.tex": "\\begin{itemize}\n\\item a\n\\end{itemize}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_exit_codes_and_stderr_message_when_incorrect::188",
+  "argv": [
+   "--check",
+   "a.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "a.tex": "\\begin{itemize}\n\\item a\n\\end{itemize}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_ok_on_already_formatted_file::189",
+  "argv": [
+   "--check",
+   "a.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "a.tex": "\\begin{itemize}\n  \\item a\n\\end{itemize}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fail_on_change_returns_1_if_file_modified_and_modifies_file::190",
+  "argv": [
+   "--fail-on-change",
+   "a.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "a.tex": "\\begin{itemize}\n\\item a\n\\end{itemize}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file_is_error_on_stderr_exit1::191",
+  "argv": [
+   "no_such_file_hopefully.tex"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_args_includes_config_path_from_repo_and_files_list::192",
+  "argv": [
+   "--args",
+   "--check",
+   "a.tex"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_noconfig_reports_config_none::193",
+  "argv": [
+   "--args",
+   "--noconfig",
+   "--check",
+   "a.tex"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_bash_header::194",
+  "argv": [
+   "--noconfig",
+   "--completion",
+   "bash"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_manpage_header::195",
+  "argv": [
+   "--noconfig",
+   "--man"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_args_prints_and_exits::196",
+  "argv": [
+   "--noconfig",
+   "--args"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_local_config_applies_and_noconfig_ignores::197",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "\\begin{document}\nSome long line with words words words words words words words.\n\\end{document}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explicit_config_and_cli_overrides::198",
+  "argv": [
+   "--config",
+   "conf.toml",
+   "--stdin"
+  ],
+  "stdin": "\\begin{document}\nSome long line with words words words words words words words.\n\\end{document}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_skip_directives_and_verbatim_unchanged::199",
+  "argv": [
+   "--noconfig",
+   "a.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "a.tex": "\\begin{document}\n    This line is skipped % tex-fmt: skip\n% tex-fmt: off\n  These lines are also\n    not formatted or wrapped\n% tex-fmt: on\n\\begin{verbatim}\n  Do   not   touch\n\\end{verbatim}\n\\end{document}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_basic_formatting_exact::200",
+  "argv": [
+   "--noconfig",
+   "--stdin"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_wraplen_40_exact::201",
+  "argv": [
+   "--noconfig",
+   "--stdin",
+   "--wraplen",
+   "40"
+  ],
+  "stdin": "\\begin{document}\nSome long line with words words words words words words words.\n\\end{document}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_nowrap_disables_wrapping::202",
+  "argv": [
+   "--noconfig",
+   "--stdin",
+   "--nowrap",
+   "--wraplen",
+   "40"
+  ],
+  "stdin": "\\begin{document}\nSome long line with words words words words words words words.\n\\end{document}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_unicode_preserved::203",
+  "argv": [
+   "--noconfig",
+   "--stdin"
+  ],
+  "stdin": "\\begin{document}\n\\begin{itemize}\n\\item Café\nこんにちは 世界\n\\end{itemize}\n\\end{document}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

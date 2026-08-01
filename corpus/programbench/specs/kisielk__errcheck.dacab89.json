@@ -1,0 +1,1115 @@
+{
+ "slug": "kisielk__errcheck.dacab89",
+ "language": "",
+ "n_branches": 10,
+ "n_tests_total": 484,
+ "n_examples": 64,
+ "n_with_exact_stdout": 0,
+ "n_with_rc": 52,
+ "n_skipped": 412,
+ "examples": [
+  {
+   "test": "test_mod_flag_invalid_value_is_not_a_flag_parse_error_and_exit_code_is_zero",
+   "argv": [
+    "-mod",
+    "foo"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-mod=foo not supported"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:112"
+  },
+  {
+   "test": "test_double_dash_stops_flag_parsing_unknown_flag_after_double_dash_is_positional",
+   "argv": [
+    "-weird.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "flag provided but not defined",
+    "malformed import path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:121"
+  },
+  {
+   "test": "test_abspath_default_relative_paths",
+   "argv": [
+    "./testdata"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_abspath_flag.py:6"
+  },
+  {
+   "test": "test_abspath_flag_shows_absolute_paths",
+   "argv": [
+    "-abspath",
+    "./testdata"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_abspath_flag.py:15"
+  },
+  {
+   "test": "test_asserts_flag_checks_type_assertions",
+   "argv": [
+    "-asserts",
+    "./testdata"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_asserts_flag.py:13"
+  },
+  {
+   "test": "test_asserts_flag_with_blank",
+   "argv": [
+    "-asserts",
+    "-blank",
+    "./testdata"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_asserts_flag.py:21"
+  },
+  {
+   "test": "test_help_flag_displays_usage",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage of",
+    "-abspath",
+    "-asserts",
+    "-blank",
+    "-exclude",
+    "-ignoretests",
+    "print absolute paths"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:5"
+  },
+  {
+   "test": "test_exit_code_unchecked_errors",
+   "argv": [
+    "./testdata"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "UNCHECKED",
+    "testdata/main.go"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:24"
+  },
+  {
+   "test": "test_exit_code_invalid_flag",
+   "argv": [
+    "-invalid-flag-xyz"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "flag provided but not defined",
+    "Usage of"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:49"
+  },
+  {
+   "test": "test_exit_code_nonexistent_package",
+   "argv": [
+    "./nonexistent_directory_xyz"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:56"
+  },
+  {
+   "test": "test_blank_flag_checks_blank_assignments",
+   "argv": [
+    "-blank",
+    "./testdata"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_blank_flag.py:14"
+  },
+  {
+   "test": "test_detects_unchecked_function_errors",
+   "argv": [
+    "./testdata"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a()     // UNCHECKED",
+    "b()        // UNCHECKED"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_core_checking.py:5"
+  },
+  {
+   "test": "test_detects_unchecked_recover",
+   "argv": [
+    "./testdata"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "recover()     // UNCHECKED"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_core_checking.py:13"
+  },
+  {
+   "test": "test_detects_defer_errors",
+   "argv": [
+    "./testdata"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "defer recover() // UNCHECKED",
+    "defer a() // UNCHECKED"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_core_checking.py:19"
+  },
+  {
+   "test": "test_detects_go_statement_errors",
+   "argv": [
+    "./testdata"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "go a()    // UNCHECKED"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_core_checking.py:26"
+  },
+  {
+   "test": "test_detects_custom_error_types",
+   "argv": [
+    "./testdata"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "customError()     // UNCHECKED",
+    "customConcreteError()             // UNCHECKED"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_core_checking.py:32"
+  },
+  {
+   "test": "test_detects_tuple_returns",
+   "argv": [
+    "./testdata"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "customConcreteErrorTuple()        // UNCHECKED"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_core_checking.py:39"
+  },
+  {
+   "test": "test_detects_method_errors",
+   "argv": [
+    "./testdata"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "x.a()     // UNCHECKED",
+    "y.t.a()     // UNCHECKED"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_core_checking.py:45"
+  },
+  {
+   "test": "test_detects_stdlib_errors",
+   "argv": [
+    "./testdata"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "os.ReadFile",
+    "UNCHECKED"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_core_checking.py:61"
+  },
+  {
+   "test": "test_exclude_missing_file",
+   "argv": [
+    "-exclude",
+    "/nonexistent/file.txt",
+    "./testdata"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Could not read exclude file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_exclude_flag.py:37"
+  },
+  {
+   "test": "test_excludeonly_without_exclude_file",
+   "argv": [
+    "-excludeonly",
+    "./testdata"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_exclude_flag.py:62"
+  },
+  {
+   "test": "test_ignore_invalid_regex",
+   "argv": [
+    "-ignore",
+    "fmt:[invalid(regex",
+    "./testdata"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_ignore_flag.py:29"
+  },
+  {
+   "test": "test_ignore_empty_value",
+   "argv": [
+    "-ignore",
+    "",
+    "./testdata"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "UNCHECKED"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ignore_flag.py:35"
+  },
+  {
+   "test": "test_ignorepkg_empty_value",
+   "argv": [
+    "-ignorepkg",
+    "",
+    "./testdata"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "UNCHECKED"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ignorepkg_flag.py:27"
+  },
+  {
+   "test": "test_ignorepkg_nonexistent_package",
+   "argv": [
+    "-ignorepkg",
+    "nonexistent/package",
+    "./testdata"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "UNCHECKED"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ignorepkg_flag.py:34"
+  },
+  {
+   "test": "test_ignoretests_default_checks_test_files",
+   "argv": [
+    "./testdata"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main_test.go"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ignoretests_flag.py:5"
+  },
+  {
+   "test": "test_standard_output_format",
+   "argv": [
+    "./testdata"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\t",
+    ":",
+    ".go"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_format.py:6"
+  },
+  {
+   "test": "test_verbose_output_format",
+   "argv": [
+    "-verbose",
+    "./testdata"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_format.py:23"
+  },
+  {
+   "test": "test_single_package_path",
+   "argv": [
+    "./testdata"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "testdata/main.go",
+    "UNCHECKED"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_package_paths.py:6"
+  },
+  {
+   "test": "test_multiple_package_paths",
+   "argv": [
+    "./testdata",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_package_paths.py:13"
+  },
+  {
+   "test": "test_absolute_path",
+   "argv": [
+    "/workspace/testdata"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main.go",
+    "UNCHECKED"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_package_paths.py:29"
+  },
+  {
+   "test": "test_invalid_package_path",
+   "argv": [
+    "invalid/package/path/xyz123"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_package_paths.py:37"
+  },
+  {
+   "test": "test_verbose_flag_shows_stderr_logging",
+   "argv": [
+    "-verbose",
+    "./testdata"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "checking"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_verbose_flag.py:30"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-abspath",
+    "-asserts",
+    "-blank",
+    "-exclude",
+    "-ignoretests",
+    "-verbose",
+    "Usage of"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_errcheck.py:55"
+  },
+  {
+   "test": "test_invalid_flag",
+   "argv": [
+    "--invalid-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "flag provided but not defined",
+    "Usage of"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_errcheck.py:68"
+  },
+  {
+   "test": "test_invalid_package_path",
+   "argv": [
+    "github.com/nonexistent/invalid/package/path/that/does/not/exist"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errcheck.py:93"
+  },
+  {
+   "test": "test_blank_flag_with_testdata",
+   "argv": [
+    "-blank"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errcheck.py:131"
+  },
+  {
+   "test": "test_asserts_flag_with_testdata",
+   "argv": [
+    "-asserts"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errcheck.py:150"
+  },
+  {
+   "test": "test_ignoretests_flag",
+   "argv": [
+    "-ignoretests"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "main_test.go"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_errcheck.py:169"
+  },
+  {
+   "test": "test_ignorepkg_reduces_errors",
+   "argv": [
+    "-ignorepkg",
+    "os"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errcheck.py:186"
+  },
+  {
+   "test": "test_ignore_invalid_regex",
+   "argv": [
+    "-ignore",
+    "fmt:[invalid(regex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errcheck.py:206"
+  },
+  {
+   "test": "test_exclude_nonexistent_file",
+   "argv": [
+    "-exclude",
+    "/nonexistent/file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Could not read exclude file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_errcheck.py:217"
+  },
+  {
+   "test": "test_exclude_with_comments",
+   "argv": [
+    "-exclude"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errcheck.py:243"
+  },
+  {
+   "test": "test_excludeonly_disables_defaults",
+   "argv": [
+    "-excludeonly"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errcheck.py:262"
+  },
+  {
+   "test": "test_abspath_prints_absolute_paths",
+   "argv": [
+    "-abspath"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errcheck.py:295"
+  },
+  {
+   "test": "test_verbose_prints_function_names",
+   "argv": [
+    "-verbose"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\t"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_errcheck.py:312"
+  },
+  {
+   "test": "test_invalid_flag_syntax",
+   "argv": [
+    "-invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "flag provided but not defined"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_errcheck.py:370"
+  },
+  {
+   "test": "test_package_loading_error",
+   "argv": [
+    "github.com/nonexistent/package/xyz123"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errcheck.py:377"
+  },
+  {
+   "test": "test_excludeonly_with_custom_file",
+   "argv": [
+    "-excludeonly",
+    "-exclude"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errcheck.py:513"
+  },
+  {
+   "test": "test_ignore_pattern_deprecated_still_works",
+   "argv": [
+    "-ignore",
+    ":recover.*"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errcheck.py:528"
+  },
+  {
+   "test": "test_blank_and_asserts_combined",
+   "argv": [
+    "-blank",
+    "-asserts"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errcheck.py:545"
+  },
+  {
+   "test": "test_verbose_with_abspath",
+   "argv": [
+    "-verbose",
+    "-abspath"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errcheck.py:553"
+  },
+  {
+   "test": "test_ignoretests_with_verbose",
+   "argv": [
+    "-ignoretests",
+    "-verbose"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errcheck.py:565"
+  },
+  {
+   "test": "test_fprintln_detected_with_excludeonly",
+   "argv": [
+    "-excludeonly"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Fprintln"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_errcheck.py:583"
+  },
+  {
+   "test": "test_help_takes_precedence_over_other_flags",
+   "argv": [
+    "--help",
+    "-verbose"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:106"
+  },
+  {
+   "test": "test_help_with_dashdash_still_shows_usage",
+   "argv": [
+    "--",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "malformed import path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:112"
+  },
+  {
+   "test": "test_unknown_flag_error_message_and_usage_are_printed",
+   "argv": [
+    "-version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "flag provided but not defined",
+    "Usage of "
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:120"
+  },
+  {
+   "test": "test_subcommand_like_help_is_treated_as_pkg_and_errors",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "failed to check packages"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:127"
+  },
+  {
+   "test": "test_help_flag_works",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-blank",
+    "-asserts",
+    "-verbose"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:102"
+  },
+  {
+   "test": "test_help_exact_output_and_exit_code",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {
+    "GOFLAGS": ""
+   },
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-exclude"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_errcheck_behavior.py:35"
+  },
+  {
+   "test": "test_excludeonly_matches_golden_and_contains_excluded_lines",
+   "argv": [
+    "-excludeonly",
+    "./testdata"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "// EXCLUDED"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_errcheck_behavior.py:84"
+  },
+  {
+   "test": "test_missing_exclude_file_is_reported_and_exit_code_is_two",
+   "argv": [
+    "-exclude",
+    "does_not_exist.txt",
+    "./testdata"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Could not read exclude file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_errcheck_behavior.py:92"
+  },
+  {
+   "test": "test_invalid_mod_value_reports_error_and_exit_code_is_two",
+   "argv": [
+    "-mod",
+    "wat",
+    "./testdata"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-mod=wat not supported"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_errcheck_behavior.py:99"
+  },
+  {
+   "test": "test_invalid_package_path_reports_error_and_exit_code_is_two",
+   "argv": [
+    "./doesnotexist"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error: failed to check packages"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_errcheck_behavior.py:106"
+  }
+ ]
+}

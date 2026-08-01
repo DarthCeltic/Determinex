@@ -1,0 +1,29 @@
+{
+  "schema": "determinex-repair-loop-transcript-v1",
+  "tool": "PyHamcrest",
+  "family": "python",
+  "pinned_commit": "517a75e",
+  "repair_type": "seeded_defect (behavioral) - verifier is the project's OWN test suite in a python:3.12 image (toolchain via provider; Docker-OPTIONAL)",
+  "toolchain": "python:3.12",
+  "oracle": "the real hamcrest/PyHamcrest repo's own tests: python -m pytest tests -q",
+  "defect": {
+    "file": "src/hamcrest/core/core/isequal.py",
+    "seed": "return item == self.object -> return item != self.object"
+  },
+  "detect": {
+    "baseline": "439 passed, 14 skipped, 4 warnings in 0.67s",
+    "after_seed": "test suite FAILED (exit 1)",
+    "oracle_caught": true,
+    "failure_signature": "seeded defect made the project's own test suite exit non-zero"
+  },
+  "repair": {
+    "fix": "git checkout (restore upstream source)"
+  },
+  "reverify": {
+    "after": "439 passed, 14 skipped, 4 warnings in 0.57s",
+    "passed": 439,
+    "failures": 0
+  },
+  "repair_loop_status": "passed",
+  "proves": "closed-loop repair on a real external python project (PyHamcrest): its OWN test suite detects the injected defect -> fix -> re-verify (439 passed, 14 skipped, 4 warnings in 0.57s). Reproducible."
+}

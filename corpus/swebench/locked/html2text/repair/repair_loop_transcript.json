@@ -1,0 +1,29 @@
+{
+  "schema": "determinex-repair-loop-transcript-v1",
+  "tool": "html2text",
+  "family": "python",
+  "pinned_commit": "5cf8551",
+  "repair_type": "seeded_defect (behavioral) - verifier is the project's OWN test suite in a python:3.12 image (toolchain via provider; Docker-OPTIONAL)",
+  "toolchain": "python:3.12",
+  "oracle": "the real Alir3z4/html2text repo's own tests: python -m pytest -q",
+  "defect": {
+    "file": "html2text/config.py",
+    "seed": "BODY_WIDTH = 78 -> BODY_WIDTH = 40"
+  },
+  "detect": {
+    "baseline": "196 passed in 3.87s",
+    "after_seed": "test suite FAILED (exit 1)",
+    "oracle_caught": true,
+    "failure_signature": "seeded defect made the project's own test suite exit non-zero"
+  },
+  "repair": {
+    "fix": "git checkout (restore upstream source)"
+  },
+  "reverify": {
+    "after": "196 passed in 3.93s",
+    "passed": 196,
+    "failures": 0
+  },
+  "repair_loop_status": "passed",
+  "proves": "closed-loop repair on a real external python project (html2text): its OWN test suite detects the injected defect -> fix -> re-verify (196 passed in 3.93s). Reproducible."
+}

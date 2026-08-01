@@ -1,0 +1,4998 @@
+[
+ {
+  "name": "test::test_version_exact::0",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_contains_usage_and_options::1",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_help_has_options_header::2",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_combined_with_other_flag_shows_help::3",
+  "argv": [
+   "--help",
+   "--dark"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "NO_COLOR": "1",
+   "TERM": "dumb"
+  }
+ },
+ {
+  "name": "test::test_help_after_double_dash_treated_as_arg_not_help::4",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "NO_COLOR": "1",
+   "TERM": "dumb"
+  }
+ },
+ {
+  "name": "test::test_invalid_flag_shows_error_and_usage::5",
+  "argv": [
+   "--definitely-not-a-real-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "NO_COLOR": "1",
+   "TERM": "dumb"
+  }
+ },
+ {
+  "name": "test::test_csi_clear_sequences_stripped::6",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "\u001b[1K\u001b[2KText\u001b[H\u001b[J",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_osc_window_title_stripped::7",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "\u001b]0;Window Title\u001b\\Text\u001b]2;Icon Name\u001b\\",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cursor_movement_no_sgr_style::8",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "Plain text\u001b[A\u001b[B\u001b[C\u001b[D no style",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_misc_csi_sequences_stripped::9",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "\u001b[s\u001b[u\u001b[?25h\u001b[?25lText",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_sgr_codes::10",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "\u001b[31m\u001b[1m\u001b[4mNested\u001b[0m\u001b[0m\u001b[0m\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sequential_style_changes::11",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "Start\u001b[31mRed\u001b[32mGreen\u001b[0mReset\u001b[1mBold\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rgb_foreground_and_background::12",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "\u001b[38;2;255;0;0mRGB\u001b[0m \u001b[48;2;0;255;0mBG\u001b[0m",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_malformed_escape_sequences::13",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "\u001b[Text\u001b[99mMore\u001b[;;mEnd",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_incomplete_256color_sequence::14",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "\u001b[38;5mIncomplete",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_incomplete_rgb_sequence::15",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "\u001b[38;2;255mIncompleteRGB",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_input_parse_ansi::16",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_only_reset_sequence::17",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "\u001b[0m",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_alternating_single_char_styles::18",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "A\u001b[31mB\u001b[32mC\u001b[0mD",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_accumulated_attributes::19",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "\u001b[31m\u001b[1m\u001b[4m\u001b[7mMulti",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ansi_with_cjk_characters::20",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "A\u001b[31m日本語\u001b[0mB",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ansi_with_emoji::21",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "\u001b[31m😀\u001b[0m",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_truncate_long_line_with_indicator::22",
+  "argv": [
+   "--max-line-length",
+   "20",
+   "--width",
+   "80"
+  ],
+  "stdin": "diff --git a/file.txt b/file.txt\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-Short\n+VeryLongLine1234567890123456789012345678901234567890\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_truncate_preserves_ansi_codes::23",
+  "argv": [
+   "--max-line-length",
+   "15",
+   "--width",
+   "80"
+  ],
+  "stdin": "diff --git a/file.txt b/file.txt\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-Old\n+New text with many words that will be truncated\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_truncate_double_width_character::24",
+  "argv": [
+   "--max-line-length",
+   "5",
+   "--width",
+   "80"
+  ],
+  "stdin": "diff --git a/file.txt b/file.txt\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-Old\n+1＃4567890ABC\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_truncate_at_double_width_boundary::25",
+  "argv": [
+   "--max-line-length",
+   "5",
+   "--width",
+   "80"
+  ],
+  "stdin": "diff --git a/file.txt b/file.txt\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-Old\n+12＃4567890ABC\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_truncate_with_csi_sequences::26",
+  "argv": [
+   "--max-line-length",
+   "20",
+   "--width",
+   "80"
+  ],
+  "stdin": "diff --git a/file.txt b/file.txt\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-Old\n+NewText\u001b[A\u001b[BMoreTextHere123456789\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_syntax_highlighting_length_uses_truncate_str_short::27",
+  "argv": [
+   "--max-syntax-highlighting-length",
+   "15"
+  ],
+  "stdin": "diff --git a/file.py b/file.py\n--- a/file.py\n+++ b/file.py\n@@ -1 +1 @@\n-short\n+def new_function_with_very_long_name_exceeding_syntax_highlighting_limit(): pass\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_grep_colored_output::28",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_italic_text_attribute::29",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "\u001b[3mItalic\u001b[0m\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_blink_fast_attribute::30",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "\u001b[6mBlink fast\u001b[0m\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reverse_attribute::31",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "\u001b[7mReverse\u001b[0m\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hidden_attribute::32",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "\u001b[8mHidden\u001b[0m\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strikethrough_attribute::33",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "\u001b[9mStrikethrough\u001b[0m\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_black_foreground::34",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "\u001b[30mBlack\u001b[0m\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_purple_foreground::35",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "\u001b[35mPurple\u001b[0m\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_white_foreground::36",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "\u001b[37mWhite\u001b[0m\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_green_background::37",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "\u001b[42mGreen BG\u001b[0m\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yellow_background::38",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "\u001b[43mYellow BG\u001b[0m\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_blue_background::39",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "\u001b[44mBlue BG\u001b[0m\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_purple_background::40",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "\u001b[45mPurple BG\u001b[0m\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cyan_background::41",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "\u001b[46mCyan BG\u001b[0m\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_white_background::42",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "\u001b[47mWhite BG\u001b[0m\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bright_white_foreground::43",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "\u001b[97mBright White\u001b[0m\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bright_white_background::44",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "\u001b[107mBright White BG\u001b[0m\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rgb_foreground_color::45",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "\u001b[38;2;255;128;0mRGB Orange\u001b[0m\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fixed_foreground_color::46",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "\u001b[38;5;123mFixed 123\u001b[0m\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rgb_background_color::47",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "\u001b[48;2;100;200;50mRGB BG\u001b[0m\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fixed_background_color::48",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "\u001b[48;5;200mFixed BG\u001b[0m\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_attributes::49",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "\u001b[1;31;42mBold Red Green\u001b[0m\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_non_sgr_csi_sequence::50",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "\u001b[2JCleared\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csi_erase_in_line::51",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "Text\u001b[KMore\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_osc_hyperlink_sequence::52",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "\u001b]8;;http://example.com\u001b\\Link\u001b]8;;\u001b\\\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_sgr_parameters::53",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "\u001b[mReset\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fixed_foreground_colon_separator::54",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "\u001b[38:5:200mFixed colon\u001b[0m\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rgb_foreground_colon_separator::55",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "\u001b[38:2::255:128:0mRGB colon\u001b[0m\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fixed_background_colon_separator::56",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "\u001b[48:5:100mBG colon\u001b[0m\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rgb_background_colon_separator::57",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "\u001b[48:2::50:100:200mRGB BG colon\u001b[0m\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_text_and_ansi::58",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "Plain \u001b[31mRed\u001b[0m and \u001b[1mBold\u001b[0m text\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_underline_with_subparameters::59",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "\u001b[4:1mSingle underline\u001b[0m\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dimmed_attribute::60",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "\u001b[2mDimmed\u001b[0m\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_blink_slow_attribute::61",
+  "argv": [
+   "--parse-ansi"
+  ],
+  "stdin": "\u001b[5mBlink slow\u001b[0m\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paging_never_mode::62",
+  "argv": [
+   "--paging",
+   "never"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paging_always_with_pager_env_var::63",
+  "argv": [
+   "--paging",
+   "always"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paging_always_with_pager_option::64",
+  "argv": [
+   "--paging",
+   "always",
+   "--pager",
+   "cat"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_pager_fallback_to_stdout::65",
+  "argv": [
+   "--paging",
+   "always",
+   "--pager",
+   "nonexistent_pager_xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pager_with_arguments::66",
+  "argv": [
+   "--paging",
+   "always",
+   "--pager",
+   "cat -n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_mode_with_pager::67",
+  "argv": [
+   "--paging",
+   "always",
+   "--navigate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paging_auto_mode_no_tty::68",
+  "argv": [
+   "--paging",
+   "auto"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_pager_command_fallback::69",
+  "argv": [
+   "--paging",
+   "always",
+   "--pager",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multi_file_diff_paging::70",
+  "argv": [
+   "--paging",
+   "never"
+  ],
+  "stdin": "diff --git a/file1.txt b/file1.txt\nindex 1234567..abcdefg 100644\n--- a/file1.txt\n+++ b/file1.txt\n@@ -1,2 +1,2 @@\n-old content 1\n+new content 1\n unchanged 1\ndiff --git a/file2.txt b/file2.txt\nindex 2345678..bcdefgh 100644\n--- a/file2.txt\n+++ b/file2.txt\n@@ -1,2 +1,2 @@\n-old content 2\n+new content 2\n unchanged 2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pager_spawn_failure_fallback::71",
+  "argv": [
+   "--paging",
+   "always",
+   "--pager",
+   "/tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_content_through_pager::72",
+  "argv": [
+   "--paging",
+   "never"
+  ],
+  "stdin": "diff --git a/image.png b/image.png\nindex 1234567..abcdefg 100644\nBinary files a/image.png and b/image.png differ\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_blame_format_author_commit::73",
+  "argv": [
+   "--blame-format",
+   "{author} {commit}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_blame_format_timestamp_only::74",
+  "argv": [
+   "--blame-format",
+   "{timestamp}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_blame_timestamp_custom_output_format::75",
+  "argv": [
+   "--blame-format",
+   "{timestamp}",
+   "--blame-timestamp-output-format",
+   "%Y-%m-%d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_blame_palette_custom_colors::76",
+  "argv": [
+   "--blame-palette",
+   "red green blue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_blame_separator_custom_format::77",
+  "argv": [
+   "--blame-separator-format",
+   "||{n:>4}||"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_blame_code_style_syntax::78",
+  "argv": [
+   "--blame-code-style",
+   "syntax"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_blame_format_complex_with_alignment::79",
+  "argv": [
+   "--blame-format",
+   "{commit:<8} {author:<20} {timestamp}",
+   "--blame-timestamp-output-format",
+   "%Y-%m-%d %H:%M"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_blame_separator_style_with_colors::80",
+  "argv": [
+   "--blame-separator-style",
+   "red bold"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_blame_color_recycling_with_multiple_authors::81",
+  "argv": [
+   "--blame-palette",
+   "blue yellow"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_blame_palette_rgb_hex_colors::82",
+  "argv": [
+   "--blame-palette",
+   "#FF0000 #00FF00 #0000FF"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_blame_combined_all_options::83",
+  "argv": [
+   "--blame-format",
+   "{author:<12}",
+   "--blame-palette",
+   "cyan magenta",
+   "--blame-separator-format",
+   " [{n}] ",
+   "--blame-code-style",
+   "syntax"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_blame_timestamp_time_only_format::84",
+  "argv": [
+   "--blame-timestamp-output-format",
+   "%H:%M:%S"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_blame_separator_empty_format::85",
+  "argv": [
+   "--blame-separator-format",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_blame_single_color_palette::86",
+  "argv": [
+   "--blame-palette",
+   "yellow"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_blame_format_with_truncation::87",
+  "argv": [
+   "--blame-format",
+   "{author:<10.8} {commit}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_blame_format_no_placeholders::88",
+  "argv": [
+   "--blame-format",
+   "BLAME: ",
+   "--blame-code-style",
+   "raw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commit_style_bold_yellow::89",
+  "argv": [
+   "--commit-style",
+   "bold yellow"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commit_decoration_style_box::90",
+  "argv": [
+   "--commit-style",
+   "bold yellow",
+   "--commit-decoration-style",
+   "box"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commit_decoration_style_underline::91",
+  "argv": [
+   "--commit-style",
+   "bold cyan",
+   "--commit-decoration-style",
+   "underline"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commit_style_omit::92",
+  "argv": [
+   "--commit-style",
+   "omit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commit_with_hyperlinks::93",
+  "argv": [
+   "--hyperlinks"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_commit_regex::94",
+  "argv": [
+   "--commit-regex",
+   "^mycommit "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commit_decoration_none::95",
+  "argv": [
+   "--commit-decoration-style",
+   "none"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_merge_commit_with_styling::96",
+  "argv": [
+   "--commit-style",
+   "bold green",
+   "--commit-decoration-style",
+   "box"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commit_with_color_only_mode::97",
+  "argv": [
+   "--color-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_paths_from_src_subdir::98",
+  "argv": [
+   "--relative-paths"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_process_substitution_basic::99",
+  "argv": [
+   "bash -c './executable --no-gitconfig <(echo \"Line A\") <(echo \"Line B\")'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_process_substitution_with_u_flag::100",
+  "argv": [
+   "bash -c './executable --no-gitconfig --diff-args=\"-u\" <(echo -e \"Line 1\\nLine 2\\nLine 3\") <(echo -e \"Line 1\\nLine X\\nLine 3\")'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_process_substitution_with_U_space::101",
+  "argv": [
+   "bash -c './executable --no-gitconfig --diff-args=\"-U 2\" <(echo -e \"Line 1\\nLine 2\\nLine 3\") <(echo -e \"Line 1\\nLine X\\nLine 3\")'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_process_substitution_with_U0::102",
+  "argv": [
+   "bash -c './executable --no-gitconfig --diff-args=\"-U0\" <(echo -e \"Line 1\\nLine 2\\nLine 3\") <(echo -e \"Line 1\\nLine X\\nLine 3\")'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_process_substitution_invalid_Ux_suffix::103",
+  "argv": [
+   "bash -c './executable --no-gitconfig -@\"-Ux\" <(echo -e \"Line 1\\nLine 2\\nLine 3\") <(echo -e \"Line 1\\nLine X\\nLine 3\")'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_decoration_overline::104",
+  "argv": [
+   "--file-decoration-style",
+   "blue overline"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_decoration_underoverline::105",
+  "argv": [
+   "--file-decoration-style",
+   "green ul ol"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hunk_header_decoration_underline::106",
+  "argv": [
+   "--hunk-header-decoration-style",
+   "yellow ul"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_decoration_box_with_underline::107",
+  "argv": [
+   "--file-decoration-style",
+   "cyan box ul"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_decoration_box_bold::108",
+  "argv": [
+   "--file-decoration-style",
+   "bold magenta box"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_decoration_box_underline_bold::109",
+  "argv": [
+   "--file-decoration-style",
+   "bold red box ul"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_decoration_underline_width_fixed::110",
+  "argv": [
+   "--file-decoration-style",
+   "blue ul",
+   "--width",
+   "50"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_decoration_overline_width_variable::111",
+  "argv": [
+   "--file-decoration-style",
+   "yellow ol",
+   "--width",
+   "variable"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_decoration_underline_bold::112",
+  "argv": [
+   "--file-decoration-style",
+   "bold cyan ul"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_decoration_overline_bold::113",
+  "argv": [
+   "--file-decoration-style",
+   "bold green ol"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_decoration_underoverline_bold::114",
+  "argv": [
+   "--file-decoration-style",
+   "bold magenta ul ol"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commit_decoration_overline::115",
+  "argv": [
+   "--commit-decoration-style",
+   "bold blue ol"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commit_decoration_underoverline::116",
+  "argv": [
+   "--commit-decoration-style",
+   "red ul ol"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_decoration_unicode_box::117",
+  "argv": [
+   "--file-decoration-style",
+   "bold yellow box"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_decoration_unicode_box_underline::118",
+  "argv": [
+   "--file-decoration-style",
+   "bold yellow box ul"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_decoration_box_underline_narrow_width::119",
+  "argv": [
+   "--file-decoration-style",
+   "bold cyan box ul",
+   "--width",
+   "30"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_decoration_box_underline_width_shorter_than_text::120",
+  "argv": [
+   "--file-decoration-style",
+   "green box ul",
+   "--width",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_decoration_long_filename_box::121",
+  "argv": [
+   "--file-decoration-style",
+   "red box"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_decoration_none::122",
+  "argv": [
+   "--file-decoration-style",
+   "none"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_decoration_raw_box::123",
+  "argv": [
+   "--raw",
+   "--file-decoration-style",
+   "yellow box"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_decoration_raw_none::124",
+  "argv": [
+   "--raw",
+   "--file-decoration-style",
+   "none"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_decoration_box_underline_variable_width::125",
+  "argv": [
+   "--file-decoration-style",
+   "cyan box ul",
+   "--width",
+   "variable"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_log_basic::126",
+  "argv": [
+   "git",
+   "log",
+   "--oneline",
+   "-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_show_output_structure::127",
+  "argv": [
+   "git",
+   "show",
+   "HEAD"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_diff_with_refs::128",
+  "argv": [
+   "git",
+   "diff",
+   "HEAD^",
+   "HEAD"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_rev_parse_plain_output::129",
+  "argv": [
+   "git",
+   "rev-parse",
+   "HEAD"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_status_output_structure::130",
+  "argv": [
+   "git",
+   "status"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delta_flags_before_git_subcommand::131",
+  "argv": [
+   "--line-numbers",
+   "git",
+   "show",
+   "HEAD"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_delta_flag_before_git::132",
+  "argv": [
+   "--invalid-delta-flag",
+   "git",
+   "show",
+   "HEAD"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_with_dash_flags_directly_after::133",
+  "argv": [
+   "git",
+   "-c",
+   "color.diff=never",
+   "log",
+   "--oneline",
+   "-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rg_missing_executable::134",
+  "argv": [
+   "rg",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_subcommand_with_name::135",
+  "argv": [
+   "git",
+   "show",
+   "HEAD",
+   "--stat"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_log_with_color_option::136",
+  "argv": [
+   "git",
+   "log",
+   "--oneline",
+   "--color=always",
+   "-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rg_with_delta_flags::137",
+  "argv": [
+   "rg",
+   "test",
+   "src/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_only_no_subcommand::138",
+  "argv": [
+   "git"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_with_only_flags::139",
+  "argv": [
+   "git",
+   "-c",
+   "user.name=test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_delta_flags_before_git::140",
+  "argv": [
+   "--paging",
+   "never",
+   "git",
+   "log",
+   "--oneline",
+   "-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_with_multiple_dash_c_flags::141",
+  "argv": [
+   "git",
+   "-c",
+   "user.name=Test",
+   "-c",
+   "user.email=test@test.com",
+   "log",
+   "--oneline",
+   "-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rg_with_pattern_and_multiple_args::142",
+  "argv": [
+   "rg",
+   "pattern",
+   "src/",
+   "--line-number",
+   "--color",
+   "always"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_cat_file_with_delta_flags::143",
+  "argv": [
+   "--line-numbers",
+   "git",
+   "cat-file",
+   "-t",
+   "HEAD"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_no_args_after::144",
+  "argv": [
+   "--no-gitconfig",
+   "git"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rg_just_command::145",
+  "argv": [
+   "rg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_branch_command::146",
+  "argv": [
+   "git",
+   "branch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_config_list::147",
+  "argv": [
+   "git",
+   "config",
+   "--list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_show_with_side_by_side::148",
+  "argv": [
+   "--side-by-side",
+   "git",
+   "show",
+   "HEAD"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rg_with_multiple_delta_options::149",
+  "argv": [
+   "--line-numbers",
+   "--width",
+   "100",
+   "rg",
+   "pattern"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_log_with_graph::150",
+  "argv": [
+   "git",
+   "log",
+   "--graph",
+   "--oneline",
+   "-3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repo::151",
+  "argv": [
+   "git",
+   "init"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_config_from_global_file::152",
+  "argv": [
+   "git",
+   "diff",
+   "sample.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unrecognized_file_type_no_syntax_theme::153",
+  "argv": [
+   "--syntax-theme",
+   "none",
+   "--width",
+   "variable"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_with_merge_conflict_is_passed_on_unchanged_under_raw::154",
+  "argv": [
+   "--raw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_simple_dirty_submodule_diff::155",
+  "argv": [
+   "--width",
+   "30"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_submodule_diff_log::156",
+  "argv": [
+   "--width",
+   "49"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_files_differ::157",
+  "argv": [
+   "--file-modified-label",
+   "modified:"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commit_style_raw_no_decoration::158",
+  "argv": [
+   "--commit-style",
+   "raw",
+   "--commit-decoration-style",
+   "none"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hyperlinks_commit_link_format::159",
+  "argv": [
+   "--hyperlinks",
+   "--hyperlinks-commit-link-format",
+   "https://example.com/{commit}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commit_style_colored_input_color_is_preserved_under_raw::160",
+  "argv": [
+   "--commit-style",
+   "raw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commit_style_box::161",
+  "argv": [
+   "--commit-decoration-style",
+   "box"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commit_style_underline::162",
+  "argv": [
+   "--commit-decoration-style",
+   "underline"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_style_box::163",
+  "argv": [
+   "--file-decoration-style",
+   "box"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hunk_header_style_box::164",
+  "argv": [
+   "--hunk-header-style",
+   "box"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hunk_header_style_underline::165",
+  "argv": [
+   "--hunk-header-decoration-style",
+   "ul"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_whitespace_error::166",
+  "argv": [
+   "--whitespace-error-style",
+   "reverse red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hunk_header_omit_code_fragment::167",
+  "argv": [
+   "--hunk-header-style",
+   "omit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hunk_header_style_raw_no_decoration::168",
+  "argv": [
+   "--hunk-header-style",
+   "raw",
+   "--hunk-header-decoration-style",
+   "none"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_style_raw_no_decoration::169",
+  "argv": [
+   "--file-style",
+   "raw",
+   "--file-decoration-style",
+   "none"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hunk_header_decoration_style_omit::170",
+  "argv": [
+   "--hunk-header-decoration-style",
+   "omit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commit_decoration_style_omit::171",
+  "argv": [
+   "--commit-decoration-style",
+   "omit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_decoration_style_omit::172",
+  "argv": [
+   "--file-decoration-style",
+   "omit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keep_plus_minus_markers_under_inspect_raw_lines::173",
+  "argv": [
+   "--keep-plus-minus-markers"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lines_with_syntax_width_limit::174",
+  "argv": [
+   "--width",
+   "81"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_language_is_used_for_syntax_highlighting::175",
+  "argv": [
+   "--default-language",
+   "python"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_language_is_not_used_when_other_language_is_detected::176",
+  "argv": [
+   "--default-language",
+   "ruby"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commit_decoration_style_empty_string::177",
+  "argv": [
+   "--commit-decoration-style",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commit_style_box_ul::178",
+  "argv": [
+   "--commit-decoration-style",
+   "box",
+   "ul"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commit_style_box_ol::179",
+  "argv": [
+   "--commit-decoration-style",
+   "box",
+   "ol"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commit_style_box_raw::180",
+  "argv": [
+   "--commit-style",
+   "raw",
+   "--commit-decoration-style",
+   "box"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_style_colored_input_color_is_stripped_under_normal::181",
+  "argv": [
+   "--file-style",
+   "blue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_style_colored_input_color_is_preserved_under_raw::182",
+  "argv": [
+   "--file-style",
+   "raw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_decoration_style_empty_string::183",
+  "argv": [
+   "--file-decoration-style",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_style_omit::184",
+  "argv": [
+   "--file-style",
+   "omit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_style_box_ul::185",
+  "argv": [
+   "--file-decoration-style",
+   "box",
+   "ul"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_style_box_ol::186",
+  "argv": [
+   "--file-decoration-style",
+   "box",
+   "ol"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_style_box_raw::187",
+  "argv": [
+   "--file-style",
+   "raw",
+   "--file-decoration-style",
+   "box"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hunk_header_style_raw_no_decoration_with_line_numbers::188",
+  "argv": [
+   "--hunk-header-style",
+   "raw",
+   "--hunk-header-decoration-style",
+   "none",
+   "--line-numbers"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_style_with_color_only_has_style::189",
+  "argv": [
+   "--color-only",
+   "--file-style",
+   "bold"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hunk_header_style_with_color_only_has_style::190",
+  "argv": [
+   "--color-only",
+   "--hunk-header-style",
+   "bold"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hunk_header_style_with_file::191",
+  "argv": [
+   "--hunk-header-file-style",
+   "file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commit_style_with_color_only_has_style::192",
+  "argv": [
+   "--color-only",
+   "--commit-style",
+   "bold"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hunk_header_style_colored_input_color_is_preserved_under_raw::193",
+  "argv": [
+   "--hunk-header-style",
+   "raw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hunk_header_decoration_style_none::194",
+  "argv": [
+   "--hunk-header-decoration-style",
+   "none"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hunk_header_decoration_style_empty_string::195",
+  "argv": [
+   "--hunk-header-decoration-style",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hunk_header_style_empty_string::196",
+  "argv": [
+   "--hunk-header-style",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hunk_header_style_none::197",
+  "argv": [
+   "--hunk-header-style",
+   "none"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hunk_header_style_box_line_number::198",
+  "argv": [
+   "--hunk-header-style",
+   "box",
+   "--hunk-header-line-number-style",
+   "blue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hunk_header_style_box_file_line_number::199",
+  "argv": [
+   "--hunk-header-style",
+   "box",
+   "--hunk-header-file-style",
+   "blue",
+   "--hunk-header-line-number-style",
+   "blue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hunk_header_style_box_file::200",
+  "argv": [
+   "--hunk-header-style",
+   "box",
+   "--hunk-header-file-style",
+   "blue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hunk_header_style_box_raw::201",
+  "argv": [
+   "--hunk-header-style",
+   "raw",
+   "--hunk-header-decoration-style",
+   "box"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hunk_header_style_box_with_syntax_highlighting::202",
+  "argv": [
+   "--hunk-header-decoration-style",
+   "box",
+   "--hunk-header-style",
+   "syntax"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lines_with_syntax_width_limit_wrapping::203",
+  "argv": [
+   "--width",
+   "81",
+   "--wrap-max-lines",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_only_diff_filter_zero_style_bg::204",
+  "argv": [
+   "--color-only",
+   "--zero-style",
+   "normal"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_style_underline::205",
+  "argv": [
+   "--file-style",
+   "magenta",
+   "--file-decoration-style",
+   "magenta",
+   "underline"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_style_for_minus_plus::206",
+  "argv": [
+   "--minus-style",
+   "raw",
+   "--plus-style",
+   "raw"
+  ],
+  "stdin": "commit abc123\nAuthor: Test <test@example.com>\nDate:   Mon Jan 1 00:00:00 2024 +0000\n\n    Test commit\n\ndiff --git a/file.txt b/file.txt\nindex 1234567..abcdefg 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1,3 +1,3 @@\n line one\n-line two\n+line TWO\n line three\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_style_raw::207",
+  "argv": [
+   "--zero-style",
+   "raw"
+  ],
+  "stdin": "diff --git a/file.txt b/file.txt\nindex 1234567..abcdefg 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1,3 +1,3 @@\n unchanged line 1\n-old content\n+new content\n unchanged line 2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_small_line_buffer_size::208",
+  "argv": [
+   "--line-buffer-size",
+   "2"
+  ],
+  "stdin": "diff --git a/file.txt b/file.txt\nindex 1234567..abcdefg 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1,6 +1,6 @@\n-line 1\n-line 2\n-line 3\n+new 1\n+new 2\n+new 3\n unchanged\n-line 4\n+new 4\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_file_link_format::209",
+  "argv": [
+   "--hyperlinks",
+   "--hyperlinks-file-link-format",
+   "vscode://file{path}:{line}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hyperlinks_side_by_side::210",
+  "argv": [
+   "--hyperlinks",
+   "--side-by-side"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hyperlinks_with_line_numbers::211",
+  "argv": [
+   "--hyperlinks",
+   "--line-numbers"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commit_hyperlinks_custom_format::212",
+  "argv": [
+   "--hyperlinks",
+   "--hyperlinks-commit-link-format",
+   "https://github.com/user/repo/commit/{commit}",
+   "--commit-style",
+   "blue bold"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_numbers_basic_display::213",
+  "argv": [
+   "--line-numbers"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_numbers_custom_format_strings::214",
+  "argv": [
+   "--line-numbers",
+   "--line-numbers-left-format",
+   "{nm:>6} | ",
+   "--line-numbers-right-format",
+   " {np:<6}| "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_numbers_custom_styles::215",
+  "argv": [
+   "--line-numbers",
+   "--line-numbers-minus-style",
+   "red bold",
+   "--line-numbers-plus-style",
+   "green bold",
+   "--line-numbers-zero-style",
+   "cyan"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_numbers_left_right_column_styles::216",
+  "argv": [
+   "--line-numbers",
+   "--line-numbers-left-style",
+   "yellow",
+   "--line-numbers-right-style",
+   "magenta"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_numbers_with_side_by_side_mode::217",
+  "argv": [
+   "--line-numbers",
+   "--side-by-side",
+   "--width",
+   "100"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_numbers_minimal_format::218",
+  "argv": [
+   "--line-numbers",
+   "--line-numbers-left-format",
+   "│",
+   "--line-numbers-right-format",
+   "│"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_numbers_alignment_variations::219",
+  "argv": [
+   "--line-numbers",
+   "--line-numbers-left-format",
+   "{nm:<5}|",
+   "--line-numbers-right-format",
+   "{np:^5}|"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_numbers_with_hyperlinks::220",
+  "argv": [
+   "--line-numbers",
+   "--hyperlinks"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_numbers_side_by_side_with_wrapping::221",
+  "argv": [
+   "--line-numbers",
+   "--side-by-side",
+   "--width",
+   "60"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_numbers_wide_format_strings::222",
+  "argv": [
+   "--line-numbers",
+   "--line-numbers-left-format",
+   "{nm:>10}:::",
+   "--line-numbers-right-format",
+   ":::{np:<10}>>>"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_numbers_empty_format_strings::223",
+  "argv": [
+   "--line-numbers",
+   "--line-numbers-left-format",
+   "",
+   "--line-numbers-right-format",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_numbers_only_placeholders::224",
+  "argv": [
+   "--line-numbers",
+   "--line-numbers-left-format",
+   "{nm}",
+   "--line-numbers-right-format",
+   "{np}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_numbers_combined_column_and_line_styles::225",
+  "argv": [
+   "--line-numbers",
+   "--line-numbers-left-style",
+   "yellow",
+   "--line-numbers-right-style",
+   "magenta",
+   "--line-numbers-minus-style",
+   "red bold",
+   "--line-numbers-plus-style",
+   "green bold",
+   "--line-numbers-zero-style",
+   "cyan"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_numbers_side_by_side_odd_width_with_ansi_fill::226",
+  "argv": [
+   "--line-numbers",
+   "--side-by-side",
+   "--width",
+   "61",
+   "--line-fill-method",
+   "ansi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_themes_no_themes::227",
+  "argv": [
+   "--show-themes"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_languages::228",
+  "argv": [
+   "--list-languages"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_args_parse_error::229",
+  "argv": [
+   "--diff-args",
+   "invalid'quote",
+   "test_a.txt",
+   "test_b.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test_a.txt": "line 1\nline 2\n",
+   "test_b.txt": "line 1\nline 3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_nonexistent_files::230",
+  "argv": [
+   "/nonexistent_xyz_123.txt",
+   "/nonexistent_abc_456.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_subcommand_unknown_option::231",
+  "argv": [
+   "git",
+   "--invalid-flag"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rg_command_not_found::232",
+  "argv": [
+   "rg",
+   "--invalid-flag"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_diff_with_valid_files::233",
+  "argv": [
+   "git",
+   "diff",
+   "--no-index",
+   "test_a.txt",
+   "test_b.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test_a.txt": "line 1\nline 2\n",
+   "test_b.txt": "line 1\nline 3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_subcommand_with_context::234",
+  "argv": [
+   "diff_a.txt",
+   "diff_b.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "diff_a.txt": "apple\nbanana\ncherry\n",
+   "diff_b.txt": "apple\nblueberry\ncherry\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_diff_stderr_multiline::235",
+  "argv": [
+   "git",
+   "diff",
+   "--stat=nonnum"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_config_output::236",
+  "argv": [
+   "--show-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_with_malformed_utf8::237",
+  "argv": [
+   "binary_a.bin",
+   "binary_b.bin"
+  ],
+  "stdin": null,
+  "files": {
+   "binary_a.bin": "normal text\n��\nmore text\n",
+   "binary_b.bin": "normal text\n��\nmore text\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_file_diff::238",
+  "argv": [
+   "empty.txt",
+   "nonempty.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.txt": "",
+   "nonempty.txt": "content\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_diff_invalid_option_exit_code::239",
+  "argv": [
+   "git",
+   "diff",
+   "--no-such-option"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_identical_files_diff::240",
+  "argv": [
+   "identical_a.txt",
+   "identical_b.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "identical_a.txt": "line 1\nline 2\nline 3\n",
+   "identical_b.txt": "line 1\nline 2\nline 3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_with_special_characters::241",
+  "argv": [
+   "special_a.txt",
+   "special_b.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "special_a.txt": "line with\ttabs\nline with  spaces\nline with 'single quotes'\n",
+   "special_b.txt": "line with\ttabs\nline with  spaces\nline with \"double quotes\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_flags_combination::242",
+  "argv": [
+   "--side-by-side",
+   "--line-numbers",
+   "flags_a.txt",
+   "flags_b.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "flags_a.txt": "old\n",
+   "flags_b.txt": "new\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_merge_conflict_side_by_side_mode::243",
+  "argv": [
+   "--side-by-side"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_merge_conflict_custom_begin_end_symbols::244",
+  "argv": [
+   "--merge-conflict-begin-symbol",
+   "===BEGIN===",
+   "--merge-conflict-end-symbol",
+   "===END==="
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_basic_multifile_diff::245",
+  "argv": [
+   "--navigate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_custom_file_modified_label::246",
+  "argv": [
+   "--navigate",
+   "--file-modified-label",
+   "MODIFIED:"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_custom_hunk_label::247",
+  "argv": [
+   "--navigate",
+   "--hunk-label",
+   "HUNK:"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_custom_labels_combined::248",
+  "argv": [
+   "--navigate",
+   "--file-modified-label",
+   "MODIFIED:",
+   "--hunk-label",
+   "HUNK:"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_with_side_by_side::249",
+  "argv": [
+   "--navigate",
+   "--side-by-side"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_with_line_numbers::250",
+  "argv": [
+   "--navigate",
+   "--line-numbers"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_empty_labels_no_markers::251",
+  "argv": [
+   "--navigate",
+   "--file-modified-label",
+   "",
+   "--hunk-label",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_custom_file_added_removed_labels::252",
+  "argv": [
+   "--navigate",
+   "--file-added-label",
+   "NEW:",
+   "--file-removed-label",
+   "DELETED:"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_custom_file_renamed_label::253",
+  "argv": [
+   "--navigate",
+   "--file-renamed-label",
+   "MOVED:"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_custom_file_copied_label::254",
+  "argv": [
+   "--navigate",
+   "--file-copied-label",
+   "DUPLICATED:"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_incompatible_with_color_only::255",
+  "argv": [
+   "--navigate",
+   "--color-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_incompatible_with_raw::256",
+  "argv": [
+   "--navigate",
+   "--raw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_with_special_character_labels::257",
+  "argv": [
+   "--navigate",
+   "--file-modified-label",
+   ">>> MODIFIED >>>",
+   "--hunk-label",
+   "@@"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_with_unicode_labels::258",
+  "argv": [
+   "--navigate",
+   "--file-modified-label",
+   "🔧",
+   "--hunk-label",
+   "➤"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_with_custom_width::259",
+  "argv": [
+   "--navigate",
+   "--width",
+   "40"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_combined_side_by_side_and_line_numbers::260",
+  "argv": [
+   "--navigate",
+   "--side-by-side",
+   "--line-numbers"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_regex_special_characters_in_label::261",
+  "argv": [
+   "--navigate",
+   "--hunk-label",
+   "[HUNK]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_regex_escaping_with_pipe_character::262",
+  "argv": [
+   "--navigate",
+   "--file-modified-label",
+   "MOD|IFIED"
+  ],
+  "stdin": "diff --git a/file.txt b/file.txt\nindex 257cc56..5716ca5 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_regex_escaping_with_parentheses::263",
+  "argv": [
+   "--navigate",
+   "--hunk-label",
+   "(hunk)"
+  ],
+  "stdin": "diff --git a/file.txt b/file.txt\nindex 257cc56..5716ca5 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_regex_escaping_with_caret_and_dollar::264",
+  "argv": [
+   "--navigate",
+   "--file-modified-label",
+   "^MOD$"
+  ],
+  "stdin": "diff --git a/file.txt b/file.txt\nindex 257cc56..5716ca5 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_regex_escaping_with_backslash::265",
+  "argv": [
+   "--navigate",
+   "--hunk-label",
+   "\\hunk\\"
+  ],
+  "stdin": "diff --git a/file.txt b/file.txt\nindex 257cc56..5716ca5 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_all_labels_empty::266",
+  "argv": [
+   "--navigate",
+   "--file-modified-label",
+   "",
+   "--hunk-label",
+   ""
+  ],
+  "stdin": "diff --git a/file.txt b/file.txt\nindex 257cc56..5716ca5 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_label_with_newline_character::267",
+  "argv": [
+   "--navigate",
+   "--file-modified-label",
+   "MOD\\nLABEL"
+  ],
+  "stdin": "diff --git a/file.txt b/file.txt\nindex 257cc56..5716ca5 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_label_with_tab_character::268",
+  "argv": [
+   "--navigate",
+   "--file-modified-label",
+   "MOD\tLABEL"
+  ],
+  "stdin": "diff --git a/file.txt b/file.txt\nindex 257cc56..5716ca5 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_with_mixed_empty_and_non_empty_labels::269",
+  "argv": [
+   "--navigate",
+   "--file-modified-label",
+   "MODIFIED:",
+   "--hunk-label",
+   ""
+  ],
+  "stdin": "diff --git a/new.txt b/new.txt\nnew file mode 100644\nindex 0000000..257cc56\n--- /dev/null\n+++ b/new.txt\n@@ -0,0 +1 @@\n+foo\ndiff --git a/modified.txt b/modified.txt\nindex 257cc56..5716ca5 100644\n--- a/modified.txt\n+++ b/modified.txt\n@@ -1 +1 @@\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_regex_escaping_with_question_mark::270",
+  "argv": [
+   "--navigate",
+   "--file-modified-label",
+   "MOD?"
+  ],
+  "stdin": "diff --git a/file.txt b/file.txt\nindex 257cc56..5716ca5 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_regex_escaping_with_plus_and_asterisk::271",
+  "argv": [
+   "--navigate",
+   "--hunk-label",
+   "H*U+NK"
+  ],
+  "stdin": "diff --git a/file.txt b/file.txt\nindex 257cc56..5716ca5 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_regex_escaping_with_curly_braces::272",
+  "argv": [
+   "--navigate",
+   "--file-modified-label",
+   "M{O}D"
+  ],
+  "stdin": "diff --git a/file.txt b/file.txt\nindex 257cc56..5716ca5 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_label_with_multiple_regex_special_chars::273",
+  "argv": [
+   "--navigate",
+   "--file-modified-label",
+   "[M.O*D+](?)"
+  ],
+  "stdin": "diff --git a/file.txt b/file.txt\nindex 257cc56..5716ca5 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_with_only_file_added_label_customized::274",
+  "argv": [
+   "--navigate",
+   "--file-added-label",
+   "CREATED:"
+  ],
+  "stdin": "diff --git a/new.txt b/new.txt\nnew file mode 100644\nindex 0000000..257cc56\n--- /dev/null\n+++ b/new.txt\n@@ -0,0 +1 @@\n+content\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_with_only_file_removed_label_customized::275",
+  "argv": [
+   "--navigate",
+   "--file-removed-label",
+   "DELETED:"
+  ],
+  "stdin": "diff --git a/old.txt b/old.txt\ndeleted file mode 100644\nindex 257cc56..0000000\n--- a/old.txt\n+++ /dev/null\n@@ -1 +0,0 @@\n-content\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_with_only_file_renamed_label_customized::276",
+  "argv": [
+   "--navigate",
+   "--file-renamed-label",
+   "MOVED:"
+  ],
+  "stdin": "diff --git a/old_name.txt b/new_name.txt\nsimilarity index 100%\nrename from old_name.txt\nrename to new_name.txt\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_with_file_copied_label::277",
+  "argv": [
+   "--navigate",
+   "--file-copied-label",
+   "COPIED:"
+  ],
+  "stdin": "diff --git a/original.txt b/copy.txt\nsimilarity index 100%\ncopy from original.txt\ncopy to copy.txt\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_with_whitespace_only_label::278",
+  "argv": [
+   "--navigate",
+   "--file-modified-label",
+   "   "
+  ],
+  "stdin": "diff --git a/file.txt b/file.txt\nindex 257cc56..5716ca5 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_with_label_containing_quotes::279",
+  "argv": [
+   "--navigate",
+   "--file-modified-label",
+   "\"MOD\""
+  ],
+  "stdin": "diff --git a/file.txt b/file.txt\nindex 257cc56..5716ca5 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_with_label_containing_single_quotes::280",
+  "argv": [
+   "--navigate",
+   "--hunk-label",
+   "'hunk'"
+  ],
+  "stdin": "diff --git a/file.txt b/file.txt\nindex 257cc56..5716ca5 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_with_slash_in_label::281",
+  "argv": [
+   "--navigate",
+   "--file-modified-label",
+   "MOD/IFIED"
+  ],
+  "stdin": "diff --git a/file.txt b/file.txt\nindex 257cc56..5716ca5 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_with_equals_sign_in_label::282",
+  "argv": [
+   "--navigate",
+   "--hunk-label",
+   "hunk=marker"
+  ],
+  "stdin": "diff --git a/file.txt b/file.txt\nindex 257cc56..5716ca5 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_with_hyphen_in_label::283",
+  "argv": [
+   "--navigate",
+   "--file-modified-label",
+   "MOD-IFIED"
+  ],
+  "stdin": "diff --git a/file.txt b/file.txt\nindex 257cc56..5716ca5 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_with_colon_in_label::284",
+  "argv": [
+   "--navigate",
+   "--file-modified-label",
+   "M:O:D"
+  ],
+  "stdin": "diff --git a/file.txt b/file.txt\nindex 257cc56..5716ca5 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_with_underscore_in_label::285",
+  "argv": [
+   "--navigate",
+   "--hunk-label",
+   "hunk_marker"
+  ],
+  "stdin": "diff --git a/file.txt b/file.txt\nindex 257cc56..5716ca5 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_with_number_only_label::286",
+  "argv": [
+   "--navigate",
+   "--file-modified-label",
+   "123"
+  ],
+  "stdin": "diff --git a/file.txt b/file.txt\nindex 257cc56..5716ca5 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_label_with_leading_and_trailing_spaces::287",
+  "argv": [
+   "--navigate",
+   "--file-modified-label",
+   "  MOD  "
+  ],
+  "stdin": "diff --git a/file.txt b/file.txt\nindex 257cc56..5716ca5 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_with_ampersand_in_label::288",
+  "argv": [
+   "--navigate",
+   "--hunk-label",
+   "H&NK"
+  ],
+  "stdin": "diff --git a/file.txt b/file.txt\nindex 257cc56..5716ca5 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_with_semicolon_in_label::289",
+  "argv": [
+   "--navigate",
+   "--file-modified-label",
+   "MOD;IFIED"
+  ],
+  "stdin": "diff --git a/file.txt b/file.txt\nindex 257cc56..5716ca5 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_submodule_change::290",
+  "argv": [
+   "--navigate"
+  ],
+  "stdin": "diff --git a/mysubmodule b/mysubmodule\nindex abc1234..def5678 160000\n--- a/mysubmodule\n+++ b/mysubmodule\n@@ -1 +1 @@\n-Subproject commit abc1234567890abcdef1234567890abcdef12345\n+Subproject commit def5678901234abcdef5678901234abcdef56789\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_with_combined_diff::291",
+  "argv": [
+   "--navigate"
+  ],
+  "stdin": "diff --cc file.txt\nindex abc1234,def5678..1234567\n--- a/file.txt\n+++ b/file.txt\n@@@ -1,1 -1,1 +1,1 @@@\n- ours\n -theirs\n++merged\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_with_multiple_hunks_very_far_apart::292",
+  "argv": [
+   "--navigate"
+  ],
+  "stdin": "diff --git a/bigfile.txt b/bigfile.txt\nindex 111..222 100644\n--- a/bigfile.txt\n+++ b/bigfile.txt\n@@ -10,1 +10,1 @@\n-old line 10\n+new line 10\n@@ -5000,1 +5000,1 @@\n-old line 5000\n+new line 5000\n@@ -99999,1 +99999,1 @@\n-old line 99999\n+new line 99999\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_with_context_lines_only_hunk::293",
+  "argv": [
+   "--navigate"
+  ],
+  "stdin": "diff --git a/file.txt b/file.txt\nindex 111..222 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -5,3 +5,3 @@\n context1\n context2\n context3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_with_git_diff_no_index::294",
+  "argv": [
+   "--navigate"
+  ],
+  "stdin": "diff --git a/file1.txt b/file2.txt\nindex 0000000..1111111\n--- a/file1.txt\n+++ b/file2.txt\n@@ -1 +1 @@\n-content1\n+content2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_with_file_path_containing_spaces::295",
+  "argv": [
+   "--navigate"
+  ],
+  "stdin": "diff --git a/my file.txt b/my file.txt\nindex 111..222 100644\n--- a/my file.txt\n+++ b/my file.txt\n@@ -1 +1 @@\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_with_file_path_containing_unicode::296",
+  "argv": [
+   "--navigate"
+  ],
+  "stdin": "diff --git a/файл.txt b/файл.txt\nindex 111..222 100644\n--- a/файл.txt\n+++ b/файл.txt\n@@ -1 +1 @@\n-старый\n+новый\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_with_only_commit_markers::297",
+  "argv": [
+   "--navigate"
+  ],
+  "stdin": "commit abc123def456789\nAuthor: Test <test@example.com>\nDate:   Mon Jan 1 00:00:00 2024 +0000\n\n    Commit message\n\ndiff --git a/file.txt b/file.txt\nindex 111..222 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_zero_line_context::298",
+  "argv": [
+   "--navigate"
+  ],
+  "stdin": "diff --git a/file.txt b/file.txt\nindex 111..222 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -5 +5 @@\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_with_stat_output_before_diff::299",
+  "argv": [
+   "--navigate"
+  ],
+  "stdin": " file.txt | 2 +-\n 1 file changed, 1 insertion(+), 1 deletion(-)\n\ndiff --git a/file.txt b/file.txt\nindex 111..222 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_regex_format_with_all_labels::300",
+  "argv": [
+   "--navigate"
+  ],
+  "stdin": "diff --git a/new.txt b/new.txt\nnew file mode 100644\nindex 0000000..257cc56\n--- /dev/null\n+++ b/new.txt\n@@ -0,0 +1 @@\n+foo\ndiff --git a/old.txt b/old.txt\ndeleted file mode 100644\nindex 257cc56..0000000\n--- a/old.txt\n+++ /dev/null\n@@ -1 +0,0 @@\n-bar\ndiff --git a/modified.txt b/modified.txt\nindex 257cc56..5716ca5 100644\n--- a/modified.txt\n+++ b/modified.txt\n@@ -1 +1 @@\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_with_regex_special_chars_in_all_labels::301",
+  "argv": [
+   "--navigate",
+   "--file-modified-label",
+   "[MODIFIED]",
+   "--hunk-label",
+   ".**HUNK**."
+  ],
+  "stdin": "diff --git a/file.txt b/file.txt\nindex 257cc56..5716ca5 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_labels_with_unicode::302",
+  "argv": [
+   "--navigate",
+   "--file-modified-label",
+   "📝",
+   "--hunk-label",
+   "🔍"
+  ],
+  "stdin": "diff --git a/file.txt b/file.txt\nindex 257cc56..5716ca5 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_empty_hunk_label_only::303",
+  "argv": [
+   "--navigate",
+   "--hunk-label",
+   ""
+  ],
+  "stdin": "diff --git a/file.txt b/file.txt\nindex 257cc56..5716ca5 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_with_commit_message::304",
+  "argv": [
+   "--navigate"
+  ],
+  "stdin": "commit abc123def456\nAuthor: Test User <test@example.com>\nDate:   Mon Jan 1 12:00:00 2024 +0000\n\n    Test commit message\n\ndiff --git a/file.txt b/file.txt\nindex 257cc56..5716ca5 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_multiline_commit_message::305",
+  "argv": [
+   "--navigate"
+  ],
+  "stdin": "commit abc123\nAuthor: Test <test@example.com>\nDate:   Mon Jan 1 12:00:00 2024 +0000\n\n    First line of commit message\n    \n    Second paragraph with details.\n    More details here.\n\ndiff --git a/file.txt b/file.txt\nindex 257cc56..5716ca5 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_multiple_commits::306",
+  "argv": [
+   "--navigate"
+  ],
+  "stdin": "commit abc123\nAuthor: Test <test@example.com>\nDate:   Mon Jan 1 12:00:00 2024 +0000\n\n    First commit\n\ndiff --git a/file1.txt b/file1.txt\nindex 111..222 100644\n--- a/file1.txt\n+++ b/file1.txt\n@@ -1 +1 @@\n-old1\n+new1\n\ncommit def456\nAuthor: Test <test@example.com>\nDate:   Mon Jan 2 12:00:00 2024 +0000\n\n    Second commit\n\ndiff --git a/file2.txt b/file2.txt\nindex 333..444 100644\n--- a/file2.txt\n+++ b/file2.txt\n@@ -1 +1 @@\n-old2\n+new2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_without_commit_only_files::307",
+  "argv": [
+   "--navigate"
+  ],
+  "stdin": "diff --git a/file.txt b/file.txt\nindex 257cc56..5716ca5 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_regex_construction_order::308",
+  "argv": [
+   "--navigate"
+  ],
+  "stdin": "commit abc123\nAuthor: Test <test@example.com>\nDate:   Mon Jan 1 12:00:00 2024 +0000\n\n    Multi-operation commit\n\ndiff --git a/new.txt b/new.txt\nnew file mode 100644\nindex 0000000..5716ca5\n--- /dev/null\n+++ b/new.txt\n@@ -0,0 +1 @@\n+content\ndiff --git a/old.txt b/old.txt\ndeleted file mode 100644\nindex 257cc56..0000000\n--- a/old.txt\n+++ /dev/null\n@@ -1 +0,0 @@\n-gone\ndiff --git a/mod.txt b/mod.txt\nindex 111..222 100644\n--- a/mod.txt\n+++ b/mod.txt\n@@ -1 +1 @@\n-before\n+after\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_with_whitespace_only_labels::309",
+  "argv": [
+   "--navigate",
+   "--file-modified-label",
+   "   ",
+   "--hunk-label",
+   "\t"
+  ],
+  "stdin": "diff --git a/file.txt b/file.txt\nindex 257cc56..5716ca5 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_with_newline_in_label::310",
+  "argv": [
+   "--navigate",
+   "--file-modified-label",
+   "MODIFIED\nLABEL:"
+  ],
+  "stdin": "diff --git a/file.txt b/file.txt\nindex 257cc56..5716ca5 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_with_tab_in_label::311",
+  "argv": [
+   "--navigate",
+   "--file-modified-label",
+   "MOD\tIFIED:"
+  ],
+  "stdin": "diff --git a/file.txt b/file.txt\nindex 257cc56..5716ca5 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_added_removed_renamed_custom_labels::312",
+  "argv": [
+   "--navigate",
+   "--file-added-label",
+   "ADDED:",
+   "--file-removed-label",
+   "REMOVED:",
+   "--file-renamed-label",
+   "RENAMED:"
+  ],
+  "stdin": "diff --git a/new.txt b/new.txt\nnew file mode 100644\nindex 0000000..5716ca5\n--- /dev/null\n+++ b/new.txt\n@@ -0,0 +1 @@\n+content\ndiff --git a/old.txt b/old.txt\ndeleted file mode 100644\nindex 257cc56..0000000\n--- a/old.txt\n+++ /dev/null\n@@ -1 +0,0 @@\n-gone\ndiff --git a/from.txt b/to.txt\nsimilarity index 100%\nrename from from.txt\nrename to to.txt\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_file_copied_operation::313",
+  "argv": [
+   "--navigate"
+  ],
+  "stdin": "diff --git a/original.txt b/copy.txt\nsimilarity index 100%\ncopy from original.txt\ncopy to copy.txt\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_with_merge_conflict_markers::314",
+  "argv": [
+   "--navigate"
+  ],
+  "stdin": "diff --git a/conflict.txt b/conflict.txt\nindex 111..222 100644\n--- a/conflict.txt\n+++ b/conflict.txt\n@@ -1,7 +1,3 @@\n-<<<<<<< HEAD\n-version A\n-=======\n-version B\n->>>>>>> branch\n+resolved\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_complex_rename_with_modifications::315",
+  "argv": [
+   "--navigate"
+  ],
+  "stdin": "diff --git a/oldname.txt b/newname.txt\nsimilarity index 80%\nrename from oldname.txt\nrename to newname.txt\nindex 111..222 100644\n--- a/oldname.txt\n+++ b/newname.txt\n@@ -1,3 +1,4 @@\n line 1\n line 2\n+line 3\n line 4\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_binary_file_with_textconv::316",
+  "argv": [
+   "--navigate"
+  ],
+  "stdin": "diff --git a/image.png b/image.png\nindex 1234567..abcdefg 100644\nBinary files a/image.png and b/image.png differ\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_with_color_only_mode::317",
+  "argv": [
+   "--navigate",
+   "--color-only"
+  ],
+  "stdin": "diff --git a/file.txt b/file.txt\nindex 257cc56..5716ca5 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_with_raw_mode::318",
+  "argv": [
+   "--navigate",
+   "--raw"
+  ],
+  "stdin": "diff --git a/file.txt b/file.txt\nindex 257cc56..5716ca5 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_multiple_files_same_name_different_dirs::319",
+  "argv": [
+   "--navigate"
+  ],
+  "stdin": "diff --git a/dir1/file.txt b/dir1/file.txt\nindex 111..222 100644\n--- a/dir1/file.txt\n+++ b/dir1/file.txt\n@@ -1 +1 @@\n-old1\n+new1\ndiff --git a/dir2/file.txt b/dir2/file.txt\nindex 333..444 100644\n--- a/dir2/file.txt\n+++ b/dir2/file.txt\n@@ -1 +1 @@\n-old2\n+new2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_empty_file_addition::320",
+  "argv": [
+   "--navigate"
+  ],
+  "stdin": "diff --git a/empty.txt b/empty.txt\nnew file mode 100644\nindex 0000000..e69de29\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_permission_change_only::321",
+  "argv": [
+   "--navigate"
+  ],
+  "stdin": "diff --git a/script.sh b/script.sh\nold mode 100644\nnew mode 100755\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_navigate_with_no_newline_at_eof_markers::322",
+  "argv": [
+   "--navigate"
+  ],
+  "stdin": "diff --git a/file.txt b/file.txt\nindex 257cc56..5716ca5 100644\n--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-old\n\\ No newline at end of file\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_float_option_max_line_distance::323",
+  "argv": [
+   "--max-line-distance=invalid"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_int_option_line_buffer_size::324",
+  "argv": [
+   "--line-buffer-size=not_a_number"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_int_option_tabs::325",
+  "argv": [
+   "--tabs=invalid"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_value_for_line_buffer_size::326",
+  "argv": [
+   "--line-buffer-size=0"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_float_max_line_distance::327",
+  "argv": [
+   "--max-line-distance=-1.0"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_config_line_numbers_with_cli_override::328",
+  "argv": [
+   "./executable",
+   "--line-numbers"
+  ],
+  "stdin": "--- a/file\n+++ b/file\n@@ -1,2 +1,2 @@\n unchanged\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_style_option_accepted::329",
+  "argv": [
+   "--minus-style="
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_style_option_exact_error::330",
+  "argv": [
+   "--minus-style=invalid_color"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delta_features_env_var_replaces_git_config::331",
+  "argv": [
+   "./executable"
+  ],
+  "stdin": "--- a/file\n+++ b/file\n@@ -1 +1 @@\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_inspect_raw_lines_value::332",
+  "argv": [
+   "--inspect-raw-lines=invalid"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_paging_mode::333",
+  "argv": [
+   "--paging=invalid"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_width_non_numeric::334",
+  "argv": [
+   "--width=invalid"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_width_negative_exceeds_terminal::335",
+  "argv": [
+   "--width=-5000"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_width_expression_negative_result::336",
+  "argv": [
+   "--width=10-20"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_width_expression_positive_result::337",
+  "argv": [
+   "--width=80-10"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_features_last_wins::338",
+  "argv": [
+   "--features",
+   "line-numbers side-by-side"
+  ],
+  "stdin": "--- a/file\n+++ b/file\n@@ -1 +1 @@\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_git_config_main_section_overrides_features::339",
+  "argv": [
+   "./executable"
+  ],
+  "stdin": "--- a/file\n+++ b/file\n@@ -1,2 +1,2 @@\n unchanged\n-old\n+new\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_syntax_length_boundary::340",
+  "argv": [
+   "--max-syntax-highlighting-length=0"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_transformation_sed_style::341",
+  "argv": [
+   "--file-transformation",
+   "s|src/|sources/|"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_transformation_multiple_substitutions::342",
+  "argv": [
+   "--file-transformation",
+   "s|test|spec|g"
+  ],
+  "stdin": "diff --git a/test/test/file.rs b/test/test/file.rs\nindex 1234567..abcdef0 100644\n--- a/test/test/file.rs\n+++ b/test/test/file.rs\n@@ -1,3 +1,3 @@\n fn test() {\n-    let x = 1;\n+    let x = 2;\n }\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_transformation_no_match::343",
+  "argv": [
+   "--file-transformation",
+   "s|xyz|abc|"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_paths_with_file_transformation::344",
+  "argv": [
+   "--relative-paths",
+   "--file-transformation",
+   "s|src|source|"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_transformation_with_capture_groups::345",
+  "argv": [
+   "--file-transformation",
+   "s|src_v(\\d+)|src_version_\\1|"
+  ],
+  "stdin": "diff --git a/src_v1/main.rs b/src_v1/main.rs\nindex 1234567..abcdef0 100644\n--- a/src_v1/main.rs\n+++ b/src_v1/main.rs\n@@ -1,3 +1,3 @@\n fn test() {\n-    let x = 1;\n+    let x = 2;\n }\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_sed_replacement::346",
+  "argv": [
+   "--file-transformation",
+   "s,src/,SOURCE/,"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_g_flag_global_replacement::347",
+  "argv": [
+   "--file-transformation",
+   "s,/,_,"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_i_flag_case_insensitive::348",
+  "argv": [
+   "--file-transformation",
+   "s,src,SOURCE,i"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_capture_groups_in_replacement::349",
+  "argv": [
+   "--file-transformation",
+   "s,src/([^/]+),modules/$1,"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_flags_combined::350",
+  "argv": [
+   "--file-transformation",
+   "s,SRC,SOURCE,gi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_pattern_matches_start::351",
+  "argv": [
+   "--file-transformation",
+   "s,,PREFIX-,"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_sed_command_ignored::352",
+  "argv": [
+   "--file-transformation",
+   "s,foo,bar"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_anchor_start_of_string::353",
+  "argv": [
+   "--file-transformation",
+   "s,^,ROOT/,"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_anchor_end_of_string::354",
+  "argv": [
+   "--file-transformation",
+   "s,\\.rs$,.rust,"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_U_flag_swap_greed::355",
+  "argv": [
+   "--file-transformation",
+   "s,a+,X,"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_x_flag_ignore_whitespace_in_pattern::356",
+  "argv": [
+   "--file-transformation",
+   "s, s r c ,NOSPACE,x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_m_and_s_flags_accepted::357",
+  "argv": [
+   "--file-transformation",
+   "s,^src,SRC,m"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_side_by_side_modification::358",
+  "argv": [
+   "--side-by-side"
+  ],
+  "stdin": "--- a/file.txt\n+++ b/file.txt\n@@ -1,3 +1,3 @@\n line1\n-old line\n+new line\n line3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_side_by_side_additions::359",
+  "argv": [
+   "--side-by-side"
+  ],
+  "stdin": "--- a/file.txt\n+++ b/file.txt\n@@ -1,2 +1,4 @@\n line1\n+added line 2\n+added line 3\n line2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_side_by_side_deletions::360",
+  "argv": [
+   "--side-by-side"
+  ],
+  "stdin": "--- a/file.txt\n+++ b/file.txt\n@@ -1,4 +1,2 @@\n line1\n-deleted line 2\n-deleted line 3\n line4\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_side_by_side_with_width_constraint::361",
+  "argv": [
+   "--side-by-side",
+   "--width",
+   "60"
+  ],
+  "stdin": "--- a/file.txt\n+++ b/file.txt\n@@ -1,2 +1,2 @@\n-This is a very long line that should be truncated or wrapped when width is constrained\n+This is a modified very long line that should be truncated or wrapped when width is constrained\n line2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_side_by_side_unicode_content::362",
+  "argv": [
+   "--side-by-side"
+  ],
+  "stdin": "--- a/file.txt\n+++ b/file.txt\n@@ -1,3 +1,3 @@\n 日本語テキスト\n-古いライン\n+新しいライン\n 終わり\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_side_by_side_empty_lines::363",
+  "argv": [
+   "--side-by-side"
+  ],
+  "stdin": "--- a/file.txt\n+++ b/file.txt\n@@ -1,5 +1,5 @@\n line1\n\n-old content\n+new content\n\n line5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_side_by_side_wrapping_multiline::364",
+  "argv": [
+   "--side-by-side",
+   "--width",
+   "80",
+   "--wrap-max-lines",
+   "5"
+  ],
+  "stdin": "--- a/file.txt\n+++ b/file.txt\n@@ -1,2 +1,2 @@\n-short\n+This is a very long replacement line that definitely needs wrapping to display properly\n line2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_side_by_side_multiple_hunks::365",
+  "argv": [
+   "--side-by-side"
+  ],
+  "stdin": "--- a/file.txt\n+++ b/file.txt\n@@ -1,3 +1,3 @@\n line1\n-old2\n+new2\n line3\n@@ -10,3 +10,3 @@\n line10\n-old11\n+new11\n line12\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_side_by_side_with_tabs::366",
+  "argv": [
+   "--side-by-side"
+  ],
+  "stdin": "--- a/file.txt\n+++ b/file.txt\n@@ -1,2 +1,2 @@\n-\ttab indented\n+\t\tdouble tab indented\n normal\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_side_by_side_mixed_changes::367",
+  "argv": [
+   "--side-by-side"
+  ],
+  "stdin": "--- a/file.txt\n+++ b/file.txt\n@@ -1,6 +1,7 @@\n unchanged1\n-removed1\n-removed2\n+added1\n+modified line\n unchanged2\n+added2\n unchanged3\n unchanged4\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_side_by_side_keep_plus_minus_markers::368",
+  "argv": [
+   "--side-by-side",
+   "--keep-plus-minus-markers"
+  ],
+  "stdin": "--- a/file.txt\n+++ b/file.txt\n@@ -1,3 +1,3 @@\n line1\n-old\n+new\n line3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_side_by_side_no_wrapping::369",
+  "argv": [
+   "--side-by-side",
+   "--wrap-max-lines",
+   "0",
+   "--width",
+   "60"
+  ],
+  "stdin": "--- a/file.txt\n+++ b/file.txt\n@@ -1,2 +1,2 @@\n-This is a very long line that should be truncated when wrap-max-lines is 0\n+This is a modified very long line that should be truncated when wrap-max-lines is 0\n short\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_side_by_side_new_file::370",
+  "argv": [
+   "--side-by-side"
+  ],
+  "stdin": "--- /dev/null\n+++ b/newfile.txt\n@@ -0,0 +1,3 @@\n+line1\n+line2\n+line3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_side_by_side_deleted_file::371",
+  "argv": [
+   "--side-by-side"
+  ],
+  "stdin": "--- a/oldfile.txt\n+++ /dev/null\n@@ -1,3 +0,0 @@\n-line1\n-line2\n-line3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_side_by_side_trailing_whitespace::372",
+  "argv": [
+   "--side-by-side"
+  ],
+  "stdin": "--- a/file.txt\n+++ b/file.txt\n@@ -1,3 +1,3 @@\n line1\n-line2   \n+line2\n line3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_side_by_side_special_characters::373",
+  "argv": [
+   "--side-by-side"
+  ],
+  "stdin": "--- a/file.txt\n+++ b/file.txt\n@@ -1,3 +1,3 @@\n line1\n-special: <>?!@#$%^&*()\n+modified: []{}|;:'\",<>?\n line3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_side_by_side_line_fill_method_spaces::374",
+  "argv": [
+   "--side-by-side",
+   "--line-fill-method",
+   "spaces",
+   "--width",
+   "60"
+  ],
+  "stdin": "--- a/file.txt\n+++ b/file.txt\n@@ -1,3 +1,3 @@\n line1\n-short\n+longer content here\n line3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_side_by_side_line_fill_method_ansi::375",
+  "argv": [
+   "--side-by-side",
+   "--line-fill-method",
+   "ansi",
+   "--width",
+   "60"
+  ],
+  "stdin": "--- a/file.txt\n+++ b/file.txt\n@@ -1,3 +1,3 @@\n line1\n-short\n+longer content here\n line3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_side_by_side_very_long_lines_with_wrapping::376",
+  "argv": [
+   "--side-by-side",
+   "--width",
+   "70",
+   "--wrap-max-lines",
+   "10"
+  ],
+  "stdin": "--- a/file.txt\n+++ b/file.txt\n@@ -1,2 +1,2 @@\n-This is an extremely long line with lots of content that will require multiple wrapping iterations to display properly in side-by-side mode with reasonable width constraints\n+This is a different extremely long line with modified content that will also require multiple wrapping iterations to display properly in side-by-side mode with reasonable width constraints\n short\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_side_by_side_with_context_lines::377",
+  "argv": [
+   "--side-by-side"
+  ],
+  "stdin": "--- a/file.txt\n+++ b/file.txt\n@@ -1,7 +1,7 @@\n context1\n context2\n context3\n-old line 4\n+new line 4\n context5\n context6\n context7\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_side_by_side_narrow_width::378",
+  "argv": [
+   "--side-by-side",
+   "--width",
+   "30"
+  ],
+  "stdin": "--- a/file.txt\n+++ b/file.txt\n@@ -1,2 +1,2 @@\n-old\n+new\n x\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_side_by_side_emoji_characters::379",
+  "argv": [
+   "--side-by-side"
+  ],
+  "stdin": "--- a/file.txt\n+++ b/file.txt\n@@ -1,3 +1,3 @@\n 😀 emoji line\n-old 🚀 content\n+new 🎉 content\n end 🌟\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_side_by_side_large_hunk_multiple_changes::380",
+  "argv": [
+   "--side-by-side"
+  ],
+  "stdin": "--- a/file.txt\n+++ b/file.txt\n@@ -1,10 +1,10 @@\n line1\n line2\n-old3\n+new3\n line4\n line5\n-old6\n+new6\n line7\n-old8\n+new8\n line9\n line10\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_side_by_side_custom_line_number_format::381",
+  "argv": [
+   "--side-by-side",
+   "--line-numbers-left-format",
+   "{nm:>4} ",
+   "--line-numbers-right-format",
+   " {np:<4}"
+  ],
+  "stdin": "--- a/file.txt\n+++ b/file.txt\n@@ -1,3 +1,3 @@\n line1\n-old\n+new\n line3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_side_by_side_single_line_diff::382",
+  "argv": [
+   "--side-by-side"
+  ],
+  "stdin": "--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-old single line\n+new single line\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_side_by_side_no_newline_at_eof::383",
+  "argv": [
+   "--side-by-side"
+  ],
+  "stdin": "--- a/file.txt\n+++ b/file.txt\n@@ -1 +1 @@\n-no newline at end\n\\ No newline at end of file\n+also no newline here\n\\ No newline at end of file\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_side_by_side_binary_file::384",
+  "argv": [
+   "--side-by-side"
+  ],
+  "stdin": "diff --git a/file.bin b/file.bin\nindex 1234567..abcdefg 100644\nBinary files a/file.bin and b/file.bin differ\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_side_by_side_only_context_lines::385",
+  "argv": [
+   "--side-by-side"
+  ],
+  "stdin": "--- a/file.txt\n+++ b/file.txt\n@@ -1,3 +1,3 @@\n line1\n line2\n line3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_side_by_side_unbalanced_deletions::386",
+  "argv": [
+   "--side-by-side"
+  ],
+  "stdin": "--- a/file.txt\n+++ b/file.txt\n@@ -1,5 +1,2 @@\n-line1\n-line2\n-line3\n line4\n line5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_side_by_side_unbalanced_additions::387",
+  "argv": [
+   "--side-by-side"
+  ],
+  "stdin": "--- a/file.txt\n+++ b/file.txt\n@@ -1,2 +1,5 @@\n line1\n line2\n+line3\n+line4\n+line5\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_utf8_truncation_at_boundary::388",
+  "argv": [
+   "--max-line-length",
+   "20",
+   "--raw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_utf8_at_line_start::389",
+  "argv": [
+   "--max-line-length",
+   "30",
+   "--raw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_utf8_mixed_with_valid_multibyte::390",
+  "argv": [
+   "--max-line-length",
+   "25",
+   "--raw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_utf8_no_truncation::391",
+  "argv": [
+   "--max-line-length",
+   "50",
+   "--raw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_valid_utf8_truncation_preserves_char_boundary::392",
+  "argv": [
+   "--max-line-length",
+   "15",
+   "--raw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_truncation_at_exact_line_length::393",
+  "argv": [
+   "--max-line-length",
+   "5",
+   "--raw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ansi_theme_terminal_color_palette::394",
+  "argv": [
+   "--syntax-theme",
+   "ansi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base16_theme_basic_terminal_colors::395",
+  "argv": [
+   "--syntax-theme",
+   "base16"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base16_256_theme_extended_palette::396",
+  "argv": [
+   "--syntax-theme",
+   "base16-256"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_theme_rgb_colors::397",
+  "argv": [
+   "--syntax-theme",
+   "Monokai Extended"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_true_color_never_uses_256_color_palette::398",
+  "argv": [
+   "--true-color",
+   "never"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_true_color_always_emits_rgb::399",
+  "argv": [
+   "--true-color",
+   "always"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

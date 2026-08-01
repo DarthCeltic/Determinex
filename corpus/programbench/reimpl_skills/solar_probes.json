@@ -1,0 +1,5260 @@
+[
+ {
+  "name": "test::test_help_full_matches_golden::0",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_matches_golden::1",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_matches_golden::2",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_args_prints_short_help_and_exits_2::3",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_emit_value_exit_2_message::4",
+  "argv": [
+   "--emit",
+   "nope"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zhelp_contains_known_flags::5",
+  "argv": [
+   "-Zhelp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_emit_abi_exact_json::6",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "contract C { function f() external pure returns(uint){ return 1; } }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_emit_hashes_exact_json::7",
+  "argv": [
+   "-",
+   "--emit",
+   "hashes"
+  ],
+  "stdin": "contract C { function f() external pure returns(uint){ return 1; } }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_emit_abi_and_hashes_exact_json::8",
+  "argv": [
+   "-",
+   "--emit",
+   "abi,hashes"
+  ],
+  "stdin": "contract C { function f() external pure returns(uint){ return 1; } }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pretty_json_is_multiline_and_valid_json::9",
+  "argv": [
+   "-",
+   "--emit",
+   "abi",
+   "--pretty-json"
+  ],
+  "stdin": "contract C { function f() external pure returns(uint){ return 1; } }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_threads_0_accepted_and_output_same_as_default_for_simple_contract::10",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "contract C {}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_files_with_imports_produces_two_contract_entries::11",
+  "argv": [
+   "A.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "A.sol": "import \"./B.sol\";\ncontract A { function x() external pure returns(uint){ return B.y(); } }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_syntax_error_json_format_exit_1_and_json_lines_parseable::12",
+  "argv": [
+   "-",
+   "--emit",
+   "abi",
+   "--error-format",
+   "json"
+  ],
+  "stdin": "contract C { function f() external pure returns(uint){ return 1 } }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_file_error_exit_1_json_message::13",
+  "argv": [
+   "/tmp/solar_missing_file_hopefully.sol",
+   "--emit",
+   "abi",
+   "--error-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_input_dash::14",
+  "argv": [
+   "-"
+  ],
+  "stdin": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\ncontract StdinTest {\n    uint256 public value;\n}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_emit_flags::15",
+  "argv": [
+   "--emit",
+   "hashes",
+   "-"
+  ],
+  "stdin": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\ncontract StdinEmit {\n    function test() public pure returns (uint256) {\n        return 123;\n    }\n}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_multiple_occurrences_ignored::16",
+  "argv": [
+   "-",
+   "-",
+   "--emit",
+   "hashes"
+  ],
+  "stdin": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\ncontract StdinMulti {\n    uint256 public x = 1;\n}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_dash_argument::17",
+  "argv": [
+   "--emit",
+   "abi",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_types_fixed_size_arrays::18",
+  "argv": [
+   "--emit",
+   "abi",
+   "-"
+  ],
+  "stdin": "\n    // SPDX-License-Identifier: MIT\n    pragma solidity ^0.8.0;\n    contract Arrays {\n        function fixedArray(uint256[3] memory arr) external {}\n        function dynamicArray(uint256[] memory arr) external {}\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_error_shows_stdin_location::19",
+  "argv": [
+   "-"
+  ],
+  "stdin": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\ncontract StdinError {\n    function test() public {\n        uint256 x = nonExistent;\n    }\n}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_success_compiles_cleanly::20",
+  "argv": [
+   "-"
+  ],
+  "stdin": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\ncontract StdinTest {\n    uint256 public value = 42;\n}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_stdin_compilation::21",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_emit_hashes::22",
+  "argv": [
+   "-",
+   "--emit",
+   "hashes"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_evm_version::23",
+  "argv": [
+   "-",
+   "--evm-version",
+   "paris",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_stop_after_parsing::24",
+  "argv": [
+   "-",
+   "--stop-after",
+   "parsing"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_invalid_syntax_error::25",
+  "argv": [
+   "-"
+  ],
+  "stdin": "contract Invalid { uint x }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_empty_input::26",
+  "argv": [
+   "-"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_error_format_json::27",
+  "argv": [
+   "-",
+   "--error-format",
+   "json"
+  ],
+  "stdin": "contract Invalid { uint x }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_pretty_json::28",
+  "argv": [
+   "-",
+   "--emit",
+   "abi",
+   "--pretty-json"
+  ],
+  "stdin": "contract C { function test() public pure returns (uint) { return 1; } }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_utf8_unicode_literals::29",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\ncontract UTF8Unicode {\n    string public greeting = unicode\"Hello 世界 🌍\";\n    \n    function getGreeting() public view returns (string memory) {\n        return greeting;\n    }\n}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_stdin_arguments_deduplicated::30",
+  "argv": [
+   "-",
+   "-",
+   "-",
+   "--emit",
+   "hashes"
+  ],
+  "stdin": "contract DuplicateTest { uint public x = 42; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_threads_flag::31",
+  "argv": [
+   "-",
+   "--threads",
+   "4",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "contract Test {}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_multiple_contracts_in_one_file::32",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "contract A {} contract B {} contract C {}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_inline_assembly::33",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\ncontract InlineAssembly {\n    function doubleValue(uint x) public pure returns (uint result) {\n        assembly {\n            result := mul(x, 2)\n        }\n    }\n}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_payable_constructor::34",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "contract C { constructor() payable {} }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_version_pragma_honored::35",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "pragma solidity 0.8.20;\ncontract V20 {\n    uint public x;\n}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_whitespace_only::36",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n    \n        \n            \n    // Just comments and whitespace\n    \n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_comments_only::37",
+  "argv": [
+   "-"
+  ],
+  "stdin": "// SPDX-License-Identifier: MIT\n// This file has no contracts\n// Just comments\n/* Multi-line comment\n   spanning multiple lines\n   with no actual code */\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_input_with_zast_stats::38",
+  "argv": [
+   "-Zast-stats",
+   "-"
+  ],
+  "stdin": "\n// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\ncontract StdinTest {\n    uint256 public x;\n}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_precedence_over_other_flags::39",
+  "argv": [
+   "--help",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_with_help_shows_error_and_usage_to_stderr::40",
+  "argv": [
+   "--bogus",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_makes_help_become_input_file_and_errors::41",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_identifier::42",
+  "argv": [
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_structs::43",
+  "argv": [
+   "nested.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "nested.sol": "\npragma solidity ^0.8.0;\ncontract Test {\n    struct Inner {\n        uint value;\n    }\n    struct Middle {\n        Inner inner;\n        string name;\n    }\n    struct Outer {\n        Middle middle;\n        bool flag;\n    }\n    Outer public data;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_inheritance::44",
+  "argv": [
+   "multi_inherit.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "multi_inherit.sol": "\npragma solidity ^0.8.0;\ncontract A { uint a; }\ncontract B { uint b; }\ncontract C is A, B { uint c; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_indexed_event_parameters::45",
+  "argv": [
+   "indexed.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "indexed.sol": "\npragma solidity ^0.8.0;\ncontract Test {\n    event Transfer(\n        address indexed from,\n        address indexed to,\n        uint256 value\n    );\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_with_returns::46",
+  "argv": [
+   "returns.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "returns.sol": "\npragma solidity ^0.8.0;\ncontract Test {\n    function compute() public pure returns (uint result, bool success) {\n        result = 42;\n        success = true;\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bytes_types::47",
+  "argv": [
+   "bytes.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "bytes.sol": "\npragma solidity ^0.8.0;\ncontract Test {\n    bytes1 public b1;\n    bytes32 public b32;\n    bytes public dynamic;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_address_types::48",
+  "argv": [
+   "addr.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "addr.sol": "\npragma solidity ^0.8.0;\ncontract Test {\n    address public owner;\n    address payable public recipient;\n    \n    function setRecipient(address payable _recipient) public {\n        recipient = _recipient;\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tuple_return_types::49",
+  "argv": [
+   "tuple.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "tuple.sol": "\npragma solidity ^0.8.0;\ncontract Test {\n    function getTuple() public pure returns (uint, string memory, bool) {\n        return (1, \"hello\", true);\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_memory_and_storage_locations::50",
+  "argv": [
+   "location.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "location.sol": "\npragma solidity ^0.8.0;\ncontract Test {\n    uint[] storage_array;\n    \n    function process(uint[] memory mem_array) public {\n        storage_array = mem_array;\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_require_and_revert::51",
+  "argv": [
+   "require.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "require.sol": "\npragma solidity ^0.8.0;\ncontract Test {\n    function checkValue(uint x) public pure {\n        require(x > 0, \"Value must be positive\");\n        if (x > 100) {\n            revert(\"Value too large\");\n        }\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_while_loops::52",
+  "argv": [
+   "loops.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "loops.sol": "\npragma solidity ^0.8.0;\ncontract Test {\n    function sum(uint n) public pure returns (uint) {\n        uint result = 0;\n        for (uint i = 0; i < n; i++) {\n            result += i;\n        }\n        return result;\n    }\n    \n    function countdown(uint n) public pure returns (uint) {\n        while (n > 0) {\n            n--;\n        }\n        return n;\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conditional_expressions::53",
+  "argv": [
+   "cond.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "cond.sol": "\npragma solidity ^0.8.0;\ncontract Test {\n    function max(uint a, uint b) public pure returns (uint) {\n        return a > b ? a : b;\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unchecked_block::54",
+  "argv": [
+   "unchecked.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "unchecked.sol": "\npragma solidity ^0.8.0;\ncontract Test {\n    function unsafeAdd(uint a, uint b) public pure returns (uint) {\n        unchecked {\n            return a + b;\n        }\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_try_catch::55",
+  "argv": [
+   "trycatch.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "trycatch.sol": "\npragma solidity ^0.8.0;\ncontract External {\n    function doSomething() public pure returns (uint) {\n        return 42;\n    }\n}\ncontract Test {\n    function callExternal(address addr) public returns (uint) {\n        try External(addr).doSomething() returns (uint result) {\n            return result;\n        } catch {\n            return 0;\n        }\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_short::56",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_evm_version_prague::57",
+  "argv": [
+   "testdata/Counter.sol",
+   "--evm-version",
+   "prague",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_evm_version_cancun::58",
+  "argv": [
+   "testdata/Counter.sol",
+   "--evm-version",
+   "cancun",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_evm_version_shanghai::59",
+  "argv": [
+   "testdata/Counter.sol",
+   "--evm-version",
+   "shanghai",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_evm_version_london::60",
+  "argv": [
+   "testdata/Counter.sol",
+   "--evm-version",
+   "london",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_evm_version_istanbul::61",
+  "argv": [
+   "testdata/Counter.sol",
+   "--evm-version",
+   "istanbul",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_evm_version_homestead::62",
+  "argv": [
+   "testdata/Counter.sol",
+   "--evm-version",
+   "homestead",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_evm_version_osaka::63",
+  "argv": [
+   "testdata/Counter.sol",
+   "--evm-version",
+   "osaka",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_evm_version::64",
+  "argv": [
+   "testdata/Counter.sol",
+   "--evm-version",
+   "invalid123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stop_after_parsing::65",
+  "argv": [
+   "testdata/Counter.sol",
+   "--stop-after",
+   "parsing"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stop_after_lowering::66",
+  "argv": [
+   "testdata/Counter.sol",
+   "--stop-after",
+   "lowering"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stop_after_analysis::67",
+  "argv": [
+   "testdata/Counter.sol",
+   "--stop-after",
+   "analysis"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_threads_option::68",
+  "argv": [
+   "testdata/Counter.sol",
+   "--threads",
+   "4",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_threads_alias_jobs::69",
+  "argv": [
+   "testdata/Counter.sol",
+   "--jobs",
+   "2",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_threads_short::70",
+  "argv": [
+   "testdata/Counter.sol",
+   "-j",
+   "1",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_threads_zero::71",
+  "argv": [
+   "testdata/Counter.sol",
+   "--threads",
+   "0",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_contracts_in_one_file::72",
+  "argv": [
+   "multi.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "multi.sol": "\npragma solidity ^0.8.0;\ncontract A { uint x; }\ncontract B { uint y; }\ncontract C { uint z; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_inheritance_chain::73",
+  "argv": [
+   "inheritance.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "inheritance.sol": "\npragma solidity ^0.8.0;\ncontract A { uint a; }\ncontract B is A { uint b; }\ncontract C is B { uint c; }\ncontract D is C { uint d; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_abstract_contract::74",
+  "argv": [
+   "abstract.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "abstract.sol": "\npragma solidity ^0.8.0;\nabstract contract Abstract {\n    function foo() public virtual;\n}\ncontract Concrete is Abstract {\n    function foo() public override {}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_overloading::75",
+  "argv": [
+   "overload.sol",
+   "--emit",
+   "abi,hashes"
+  ],
+  "stdin": null,
+  "files": {
+   "overload.sol": "\npragma solidity ^0.8.0;\ncontract Test {\n    function foo(uint x) public {}\n    function foo(uint x, uint y) public {}\n    function foo(string memory s) public {}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_types_and_enums::76",
+  "argv": [
+   "types.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "types.sol": "\npragma solidity ^0.8.0;\ncontract Test {\n    type Price is uint256;\n    enum Status { Pending, Active, Closed }\n    \n    Price public price;\n    Status public status;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_constants_and_immutables::77",
+  "argv": [
+   "const.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "const.sol": "\npragma solidity ^0.8.0;\ncontract Test {\n    uint constant MAX = 100;\n    uint immutable INIT;\n    constructor(uint _init) {\n        INIT = _init;\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_types::78",
+  "argv": [
+   "arrays.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "arrays.sol": "\npragma solidity ^0.8.0;\ncontract Test {\n    uint[] public dynamicArray;\n    uint[5] public fixedArray;\n    uint[][] public nested;\n    \n    function getArray() public view returns (uint[] memory) {\n        return dynamicArray;\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_external_function::79",
+  "argv": [
+   "external.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "external.sol": "\npragma solidity ^0.8.0;\ncontract Test {\n    function external_func() external {}\n    function public_func() public {}\n    function internal_func() internal {}\n    function private_func() private {}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_evm_versions::80",
+  "argv": [
+   "test.sol",
+   "--evm-version",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sol": "contract Test { uint x; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_using_for_directive::81",
+  "argv": [
+   "using.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "using.sol": "\npragma solidity ^0.8.0;\nlibrary Math {\n    function add(uint a, uint b) internal pure returns (uint) {\n        return a + b;\n    }\n}\ncontract Test {\n    using Math for uint;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_anonymous_event::82",
+  "argv": [
+   "anon.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "anon.sol": "\npragma solidity ^0.8.0;\ncontract Test {\n    event NormalEvent(uint x);\n    event AnonEvent(uint x) anonymous;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_constructor::83",
+  "argv": [
+   "ctor.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "ctor.sol": "\npragma solidity ^0.8.0;\ncontract Test {\n    constructor(\n        uint a,\n        address b,\n        string memory c,\n        bool d,\n        bytes32 e\n    ) payable {}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yul_file_without_parse_yul_flag::84",
+  "argv": [
+   "test.yul"
+  ],
+  "stdin": null,
+  "files": {
+   "test.yul": "\nobject \"Test\" {\n    code {\n        {\n            let x := 1\n        }\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yul_file_with_parse_yul_flag::85",
+  "argv": [
+   "test.yul",
+   "-Zparse-yul"
+  ],
+  "stdin": null,
+  "files": {
+   "test.yul": "\nobject \"Test\" {\n    code {\n        {\n            let x := 1\n        }\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_stdin_inputs::86",
+  "argv": [
+   "-",
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "\npragma solidity ^0.8.0;\ncontract Test {}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_only_marker::87",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "\npragma solidity ^0.8.0;\ncontract StdinTest {\n    uint256 public value;\n}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remapping_with_file::88",
+  "argv": [
+   "Main.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "Main.sol": "\npragma solidity ^0.8.0;\nimport \"mylib/Dep.sol\";\ncontract Main {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_allow_paths_option::89",
+  "argv": [
+   "testdata/Counter.sol",
+   "--allow-paths",
+   "testdata",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_include_paths::90",
+  "argv": [
+   "testdata/Counter.sol",
+   "-I",
+   "testdata",
+   "-I",
+   ".",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base_path_with_out_dir::91",
+  "argv": [
+   "contract.sol",
+   "--base-path",
+   "--out-dir",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "contract.sol": "\npragma solidity ^0.8.0;\ncontract Test {\n    uint256 public value;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_emit_abi_with_hashes_combined::92",
+  "argv": [
+   "testdata/Counter.sol",
+   "--emit",
+   "abi,hashes"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stop_after_with_verbose::93",
+  "argv": [
+   "testdata/Counter.sol",
+   "--stop-after",
+   "parsing",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_threads_with_multiple_files::94",
+  "argv": [
+   "testdata/Counter.sol",
+   "testdata/Vm.sol",
+   "--threads",
+   "2",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_format_json_with_syntax_error::95",
+  "argv": [
+   "bad.sol",
+   "--error-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.sol": "\npragma solidity ^0.8.0;\ncontract Bad {\n    uint x\n    uint y;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_format_rustc_json_with_error::96",
+  "argv": [
+   "bad.sol",
+   "--error-format",
+   "rustc-json"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.sol": "\npragma solidity ^0.8.0;\ncontract Bad { uint x }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pretty_json_with_emit::97",
+  "argv": [
+   "testdata/Counter.sol",
+   "--emit",
+   "abi",
+   "--pretty-json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pretty_json_err_with_error::98",
+  "argv": [
+   "bad.sol",
+   "--pretty-json-err",
+   "--error-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.sol": "contract Bad { uint x }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diagnostic_width_option::99",
+  "argv": [
+   "bad.sol",
+   "--diagnostic-width",
+   "80"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.sol": "contract Bad { uint x }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_warnings_flag::100",
+  "argv": [
+   "warn.sol",
+   "--no-warnings",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "warn.sol": "\npragma solidity ^0.8.0;\ncontract Test {\n    function unused() internal pure returns (uint) {\n        return 42;\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_always_option::101",
+  "argv": [
+   "testdata/Counter.sol",
+   "--color",
+   "always",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_never_option::102",
+  "argv": [
+   "testdata/Counter.sol",
+   "--color",
+   "never",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_evm_version_all::103",
+  "argv": [
+   "testdata/Counter.sol",
+   "--evm-version",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_z_dump_ast_with_file::104",
+  "argv": [
+   "testdata/Counter.sol",
+   "-Zdump=ast"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_z_dump_hir_with_file::105",
+  "argv": [
+   "testdata/Counter.sol",
+   "-Zdump=hir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_z_ast_stats::106",
+  "argv": [
+   "testdata/Counter.sol",
+   "-Zast-stats"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_z_span_visitor::107",
+  "argv": [
+   "testdata/Counter.sol",
+   "-Zspan-visitor"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_z_print_max_storage_sizes::108",
+  "argv": [
+   "testdata/Counter.sol",
+   "-Zprint-max-storage-sizes"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_z_typeck::109",
+  "argv": [
+   "testdata/Counter.sol",
+   "-Ztypeck"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_unstable_flags::110",
+  "argv": [
+   "testdata/Counter.sol",
+   "-Zui-testing",
+   "-Ztrack-diagnostics",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_contract_with_multiple_options::111",
+  "argv": [
+   "testdata/Seaport.sol",
+   "--evm-version",
+   "london",
+   "--threads",
+   "4",
+   "--color",
+   "never",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_remapping::112",
+  "argv": [
+   "-",
+   "mylib=/tmp",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "\npragma solidity ^0.8.0;\ncontract StdinWithMapping {}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_pragma_abicoder::113",
+  "argv": [
+   "abicoder.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "abicoder.sol": "\npragma solidity ^0.8.0;\npragma abicoder v2;\n\ncontract Test {\n    struct Data {\n        uint256 x;\n        string y;\n    }\n    \n    function getData() public pure returns (Data memory) {\n        return Data(1, \"test\");\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_experimental_pragma::114",
+  "argv": [
+   "experimental.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "experimental.sol": "\npragma solidity ^0.8.0;\npragma experimental ABIEncoderV2;\n\ncontract Test {\n    uint256 public x;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_with_multiple_contracts::115",
+  "argv": [
+   "good.sol",
+   "bad.sol"
+  ],
+  "stdin": null,
+  "files": {
+   "good.sol": "\npragma solidity ^0.8.0;\ncontract Good {}\n",
+   "bad.sol": "\npragma solidity ^0.8.0;\ncontract Bad { uint x }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_simple_yul::116",
+  "argv": [
+   "simple.yul",
+   "-Zparse-yul"
+  ],
+  "stdin": null,
+  "files": {
+   "simple.yul": "\n{\n    let x := 1\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_z_no_resolve_imports_with_import::117",
+  "argv": [
+   "import.sol",
+   "-Zno-resolve-imports",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "import.sol": "\npragma solidity ^0.8.0;\nimport \"./NonExistent.sol\";\n\ncontract Test {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_out_dir_creates_directory::118",
+  "argv": [
+   "test.sol",
+   "--out-dir",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sol": "\npragma solidity ^0.8.0;\ncontract Test { uint256 public x; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_base_path::119",
+  "argv": [
+   "testdata/Counter.sol",
+   "--base-path",
+   "/nonexistent/path/xyz",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_emit_option::120",
+  "argv": [
+   "testdata/Counter.sol",
+   "--emit",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_base_paths::121",
+  "argv": [
+   "testdata/Counter.sol",
+   "--base-path",
+   ".",
+   "--base-path",
+   "testdata",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_auto::122",
+  "argv": [
+   "testdata/Counter.sol",
+   "--color",
+   "auto",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose::123",
+  "argv": [
+   "testdata/Counter.sol",
+   "-v",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_long::124",
+  "argv": [
+   "testdata/Counter.sol",
+   "--verbose",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_format_human::125",
+  "argv": [
+   "bad.sol",
+   "--error-format",
+   "human"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.sol": "contract Bad { uint x }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_format_json::126",
+  "argv": [
+   "bad.sol",
+   "--error-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.sol": "contract Bad { uint x }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_format_rustc_json::127",
+  "argv": [
+   "bad.sol",
+   "--error-format",
+   "rustc-json"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.sol": "contract Bad { uint x }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_format_human_ascii::128",
+  "argv": [
+   "bad.sol",
+   "--error-format-human",
+   "ascii"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.sol": "contract Bad { uint x }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_format_human_unicode::129",
+  "argv": [
+   "bad.sol",
+   "--error-format-human",
+   "unicode"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.sol": "contract Bad { uint x }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_format_human_short::130",
+  "argv": [
+   "bad.sol",
+   "--error-format-human",
+   "short"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.sol": "contract Bad { uint x }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_warnings::131",
+  "argv": [
+   "test.sol",
+   "--no-warnings",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sol": "\npragma solidity ^0.8.0;\ncontract Test {\n    uint unused;\n    function f() public {}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pretty_json_err::132",
+  "argv": [
+   "bad.sol",
+   "--error-format",
+   "json",
+   "--pretty-json-err"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.sol": "contract Bad { uint x }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_syntax_error::133",
+  "argv": [
+   "bad.sol"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.sol": "contract Bad { uint x }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_semicolon::134",
+  "argv": [
+   "bad.sol"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.sol": "\npragma solidity ^0.8.0;\ncontract Test {\n    uint x = 1\n    uint y = 2;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_pragma::135",
+  "argv": [
+   "test.sol"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sol": "\npragma solidity invalid;\ncontract Test {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_file::136",
+  "argv": [
+   "empty.sol"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.sol": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_whitespace_only::137",
+  "argv": [
+   "ws.sol"
+  ],
+  "stdin": null,
+  "files": {
+   "ws.sol": "   \n\n  \t  \n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comments_only::138",
+  "argv": [
+   "comments.sol"
+  ],
+  "stdin": null,
+  "files": {
+   "comments.sol": "\n// This is a comment\n/* Multi-line\n   comment */\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_option::139",
+  "argv": [
+   "--invalid-option-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_emit_type::140",
+  "argv": [
+   "testdata/Counter.sol",
+   "--emit",
+   "invalid123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_file_path::141",
+  "argv": [
+   "/nonexistent/path/to/file.sol"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_directory_as_input::142",
+  "argv": [
+   "testdata/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_file::143",
+  "argv": [
+   "./executable"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_file::144",
+  "argv": [
+   "testdata/Seaport.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_content::145",
+  "argv": [
+   "unicode.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "unicode.sol": "\n// Unicode: 你好 мир 🚀\npragma solidity ^0.8.0;\ncontract Test {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_path::146",
+  "argv": [
+   "test file.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "test file.sol": "contract Test {}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_file_input::147",
+  "argv": [
+   "testdata/Counter.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_input::148",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\ncontract Simple {\n    uint256 public value;\n    function setValue(uint256 _value) public {\n        value = _value;\n    }\n}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_echo::149",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "contract C { function f() public {} }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_files::150",
+  "argv": [
+   "A.sol",
+   "B.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "A.sol": "contract A { uint x; }",
+   "B.sol": "contract B { uint y; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file::151",
+  "argv": [
+   "nonexistent_file_12345.sol"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base_path::152",
+  "argv": [
+   "--base-path",
+   "testdata",
+   "Counter.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_include_path::153",
+  "argv": [
+   "-I",
+   "Main.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "Main.sol": "import \"Lib.sol\"; contract Main {}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remapping::154",
+  "argv": [
+   "@lib/=mylib/",
+   "Main.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "Main.sol": "import \"@lib/Lib.sol\"; contract Main {}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_emit_hashes::155",
+  "argv": [
+   "testdata/Counter.sol",
+   "--emit",
+   "hashes"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_out_dir::156",
+  "argv": [
+   "testdata/Counter.sol",
+   "--emit",
+   "abi",
+   "--out-dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_emit_option::157",
+  "argv": [
+   "testdata/Counter.sol"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pragma_abicoder::158",
+  "argv": [
+   "test.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sol": "\npragma solidity ^0.8.0;\npragma abicoder v2;\ncontract Test {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_simple::159",
+  "argv": [
+   "Main.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "Main.sol": "\npragma solidity ^0.8.0;\nimport \"./Base.sol\";\ncontract Main is Base { }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_with_alias::160",
+  "argv": [
+   "Main.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "Main.sol": "\npragma solidity ^0.8.0;\nimport {Lib as MyLib} from \"./Lib.sol\";\ncontract Main { }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_natspec_comments::161",
+  "argv": [
+   "doc.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "doc.sol": "\npragma solidity ^0.8.0;\n\n/// @title A test contract\n/// @author Test Author\n/// @notice This is a notice\ncontract Test {\n    /// @notice Gets the value\n    /// @return The value\n    function getValue() public pure returns (uint) {\n        return 42;\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiline_comments::162",
+  "argv": [
+   "multi.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "multi.sol": "\npragma solidity ^0.8.0;\n\n/* This is a\n   multiline\n   comment */\ncontract Test {\n    /* Another\n    multiline comment */\n    uint x;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inline_assembly::163",
+  "argv": [
+   "asm.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "asm.sol": "\npragma solidity ^0.8.0;\ncontract Test {\n    function getChainId() public view returns (uint) {\n        uint id;\n        assembly {\n            id := chainid()\n        }\n        return id;\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_contract_with_constructor::164",
+  "argv": [
+   "test.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sol": "\npragma solidity ^0.8.0;\ncontract Test {\n    uint public x;\n    constructor(uint _x) {\n        x = _x;\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_contract_with_events::165",
+  "argv": [
+   "test.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sol": "\npragma solidity ^0.8.0;\ncontract Test {\n    event Transfer(address indexed from, address indexed to, uint256 value);\n    function emitEvent() public {\n        emit Transfer(msg.sender, address(0), 100);\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_contract_with_errors::166",
+  "argv": [
+   "test.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sol": "\npragma solidity ^0.8.0;\ncontract Test {\n    error InsufficientBalance(uint requested, uint available);\n    function fail() public pure {\n        revert InsufficientBalance(100, 50);\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_contract_with_modifiers::167",
+  "argv": [
+   "test.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sol": "\npragma solidity ^0.8.0;\ncontract Test {\n    address owner;\n    modifier onlyOwner() {\n        require(msg.sender == owner);\n        _;\n    }\n    function restricted() public onlyOwner {}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_contract_with_inheritance::168",
+  "argv": [
+   "test.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sol": "\npragma solidity ^0.8.0;\ncontract Base {\n    uint public x;\n}\ncontract Derived is Base {\n    uint public y;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_contract_with_interface::169",
+  "argv": [
+   "test.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sol": "\npragma solidity ^0.8.0;\ninterface ITest {\n    function foo() external;\n}\ncontract Test is ITest {\n    function foo() external {}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_library::170",
+  "argv": [
+   "test.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sol": "\npragma solidity ^0.8.0;\nlibrary Math {\n    function add(uint a, uint b) internal pure returns (uint) {\n        return a + b;\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_struct_types::171",
+  "argv": [
+   "test.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sol": "\npragma solidity ^0.8.0;\ncontract Test {\n    struct Person {\n        string name;\n        uint age;\n    }\n    Person public person;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enum_types::172",
+  "argv": [
+   "test.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sol": "\npragma solidity ^0.8.0;\ncontract Test {\n    enum State { Pending, Active, Closed }\n    State public state;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mapping_types::173",
+  "argv": [
+   "test.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sol": "\npragma solidity ^0.8.0;\ncontract Test {\n    mapping(address => uint) public balances;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_payable_functions::174",
+  "argv": [
+   "test.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sol": "\npragma solidity ^0.8.0;\ncontract Test {\n    function deposit() public payable {}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_view_and_pure_functions::175",
+  "argv": [
+   "test.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sol": "\npragma solidity ^0.8.0;\ncontract Test {\n    uint x;\n    function getX() public view returns (uint) { return x; }\n    function add(uint a, uint b) public pure returns (uint) { return a + b; }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fallback_and_receive::176",
+  "argv": [
+   "test.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sol": "\npragma solidity ^0.8.0;\ncontract Test {\n    fallback() external {}\n    receive() external payable {}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_z_ui_testing::177",
+  "argv": [
+   "testdata/Counter.sol",
+   "-Zui-testing",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_z_track_diagnostics::178",
+  "argv": [
+   "bad.sol",
+   "-Ztrack-diagnostics"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.sol": "contract Bad { uint x }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_z_parse_yul::179",
+  "argv": [
+   "test.yul",
+   "-Zparse-yul"
+  ],
+  "stdin": null,
+  "files": {
+   "test.yul": "{ let x := 1 }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_z_no_resolve_imports::180",
+  "argv": [
+   "test.sol",
+   "-Zno-resolve-imports",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sol": "import \"missing.sol\"; contract Test {}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_z_flags::181",
+  "argv": [
+   "testdata/Counter.sol",
+   "-Zui-testing",
+   "-Zast-stats",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yul_file_extension_detection::182",
+  "argv": [
+   "test.yul"
+  ],
+  "stdin": null,
+  "files": {
+   "test.yul": "\n    object \"SimpleStore\" {\n        code {\n            datacopy(0, dataoffset(\"runtime\"), datasize(\"runtime\"))\n            return(0, datasize(\"runtime\"))\n        }\n        object \"runtime\" {\n            code {\n                let x := 42\n            }\n        }\n    }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_solidity_file_extension_detection::183",
+  "argv": [
+   "test.sol"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sol": "\n    pragma solidity ^0.8.0;\n    contract Test {\n        uint x;\n    }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_dash_flag::184",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n    pragma solidity ^0.8.0;\n    contract StdinTest {\n        uint public value = 123;\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_remapping_format::185",
+  "argv": [
+   "mycontext:lib=./libs",
+   "main.sol"
+  ],
+  "stdin": null,
+  "files": {
+   "main.sol": "\n    pragma solidity ^0.8.0;\n    import \"lib/Helper.sol\";\n    contract Main {}\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prefix_equals_path_remapping::186",
+  "argv": [
+   "@lib/=node_modules/lib/",
+   "test.sol"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sol": "\n    pragma solidity ^0.8.0;\n    import \"@lib/Token.sol\";\n    contract Test {}\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_emit_abi_to_stdout::187",
+  "argv": [
+   "abi.sol",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "abi.sol": "\n    pragma solidity ^0.8.0;\n    contract ABITest {\n        event Transfer(address indexed from, address indexed to, uint256 value);\n        function transfer(address to, uint256 amount) public returns (bool) {\n            return true;\n        }\n    }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_emit_hashes_to_stdout::188",
+  "argv": [
+   "hash.sol",
+   "--emit",
+   "hashes"
+  ],
+  "stdin": null,
+  "files": {
+   "hash.sol": "\n    pragma solidity ^0.8.0;\n    contract HashTest {\n        function foo() public {}\n        function bar(uint x) public {}\n        function baz(address a, uint256 b) public {}\n    }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_output_modes::189",
+  "argv": [
+   "color.sol",
+   "--color"
+  ],
+  "stdin": null,
+  "files": {
+   "color.sol": "\n    pragma solidity ^0.8.0;\n    contract ColorTest { uint x; }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_warnings_flag::190",
+  "argv": [
+   "warn.sol",
+   "--no-warnings"
+  ],
+  "stdin": null,
+  "files": {
+   "warn.sol": "\n    pragma solidity ^0.8.0;\n    contract WarnTest {\n        uint private unused;\n        function test() public {}\n    }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_error_format_structure::191",
+  "argv": [
+   "broken.sol",
+   "--error-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "broken.sol": "\n    pragma solidity ^0.8.0;\n    contract Broken {\n        function bad() {\n            uint x\n        }\n    }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_files_compilation::192",
+  "argv": [
+   "File1.sol",
+   "File2.sol",
+   "File3.sol"
+  ],
+  "stdin": null,
+  "files": {
+   "File1.sol": "\n        pragma solidity ^0.8.0;\n        contract File1 { uint x; }\n    ",
+   "File2.sol": "\n        pragma solidity ^0.8.0;\n        contract File2 { uint y; }\n    ",
+   "File3.sol": "\n        pragma solidity ^0.8.0;\n        contract File3 { uint z; }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_contract_with_imports_and_inheritance::193",
+  "argv": [
+   "Derived.sol"
+  ],
+  "stdin": null,
+  "files": {
+   "Derived.sol": "\n        pragma solidity ^0.8.0;\n        import \"./Base.sol\";\n        contract Derived is Base {\n            uint public derivedValue;\n            function setDerived(uint x) public { derivedValue = x; }\n        }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_library_usage::194",
+  "argv": [
+   "library.sol"
+  ],
+  "stdin": null,
+  "files": {
+   "library.sol": "\n    pragma solidity ^0.8.0;\n    library Math {\n        function add(uint a, uint b) internal pure returns (uint) {\n            return a + b;\n        }\n    }\n    contract LibUser {\n        using Math for uint;\n        function calculate(uint a, uint b) public pure returns (uint) {\n            return Math.add(a, b);\n        }\n    }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interface_definition::195",
+  "argv": [
+   "interface.sol"
+  ],
+  "stdin": null,
+  "files": {
+   "interface.sol": "\n    pragma solidity ^0.8.0;\n    interface IToken {\n        function transfer(address to, uint amount) external returns (bool);\n        function balanceOf(address account) external view returns (uint);\n    }\n    contract TokenUser {\n        IToken token;\n        function useToken(address to, uint amount) public {\n            token.transfer(to, amount);\n        }\n    }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_abstract_contract::196",
+  "argv": [
+   "abstract.sol"
+  ],
+  "stdin": null,
+  "files": {
+   "abstract.sol": "\n    pragma solidity ^0.8.0;\n    abstract contract Abstract {\n        function mustImplement() public virtual returns (uint);\n        function implemented() public pure returns (string memory) {\n            return \"implemented\";\n        }\n    }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_errors::197",
+  "argv": [
+   "errors.sol"
+  ],
+  "stdin": null,
+  "files": {
+   "errors.sol": "\n    pragma solidity ^0.8.0;\n    error InsufficientBalance(uint requested, uint available);\n    error Unauthorized(address caller);\n    \n    contract ErrorTest {\n        mapping(address => uint) balances;\n        \n        function withdraw(uint amount) public {\n            if (balances[msg.sender] < amount) {\n                revert InsufficientBalance(amount, balances[msg.sender]);\n            }\n        }\n    }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_receive_and_fallback_functions::198",
+  "argv": [
+   "receiver.sol"
+  ],
+  "stdin": null,
+  "files": {
+   "receiver.sol": "\n    pragma solidity ^0.8.0;\n    contract Receiver {\n        event Received(address sender, uint amount);\n        event Fallback(address sender, bytes data);\n        \n        receive() external payable {\n            emit Received(msg.sender, msg.value);\n        }\n        \n        fallback() external payable {\n            emit Fallback(msg.sender, msg.data);\n        }\n    }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_modifier_with_parameters::199",
+  "argv": [
+   "modifier.sol"
+  ],
+  "stdin": null,
+  "files": {
+   "modifier.sol": "\n    pragma solidity ^0.8.0;\n    contract ModifierTest {\n        address owner;\n        \n        modifier onlyOwner() {\n            require(msg.sender == owner);\n            _;\n        }\n        \n        modifier minAmount(uint min) {\n            require(msg.value >= min);\n            _;\n        }\n        \n        function restricted() public onlyOwner minAmount(1 ether) {\n            // Do something\n        }\n    }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_immutable_and_constant_variables::200",
+  "argv": [
+   "constants.sol"
+  ],
+  "stdin": null,
+  "files": {
+   "constants.sol": "\n    pragma solidity ^0.8.0;\n    contract Constants {\n        uint public constant MAX_SUPPLY = 1000000;\n        address public immutable deployer;\n        uint public immutable deployTime;\n        \n        constructor() {\n            deployer = msg.sender;\n            deployTime = block.timestamp;\n        }\n    }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_user_defined_value_types::201",
+  "argv": [
+   "valuetypes.sol"
+  ],
+  "stdin": null,
+  "files": {
+   "valuetypes.sol": "\n    pragma solidity ^0.8.0;\n    type Price is uint128;\n    type Quantity is uint128;\n    \n    contract ValueTypes {\n        function calculate(Price p, Quantity q) public pure returns (uint) {\n            return Price.unwrap(p) * Quantity.unwrap(q);\n        }\n    }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inline_assembly_block::202",
+  "argv": [
+   "assembly.sol"
+  ],
+  "stdin": null,
+  "files": {
+   "assembly.sol": "\n    pragma solidity ^0.8.0;\n    contract Assembly {\n        function getCodeSize(address addr) public view returns (uint size) {\n            assembly {\n                size := extcodesize(addr)\n            }\n        }\n    }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_statements::203",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n    // SPDX-License-Identifier: MIT\n    pragma solidity ^0.8.0;\n    import \"./Other.sol\";\n    contract Test {}\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_contract_with_error_definition::204",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "\n    pragma solidity ^0.8.0;\n    contract Test {\n        error InsufficientBalance(uint256 available, uint256 required);\n        function test() public pure {\n            revert InsufficientBalance(0, 100);\n        }\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_using_for_directive::205",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "\n    pragma solidity ^0.8.0;\n    library SafeMath {\n        function add(uint a, uint b) internal pure returns (uint) {\n            return a + b;\n        }\n    }\n    contract Test {\n        using SafeMath for uint;\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_receive_fallback_functions::206",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "\n    pragma solidity ^0.8.0;\n    contract Test {\n        receive() external payable {}\n        fallback() external payable {}\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assembly_blocks::207",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "\n    pragma solidity ^0.8.0;\n    contract Test {\n        function getBalance() public view returns (uint) {\n            uint bal;\n            assembly {\n                bal := selfbalance()\n            }\n            return bal;\n        }\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_try_catch::208",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "\n    pragma solidity ^0.8.0;\n    interface IExternal {\n        function doSomething() external returns (bool);\n    }\n    contract Test {\n        function test(address addr) public returns (bool) {\n            try IExternal(addr).doSomething() returns (bool success) {\n                return success;\n            } catch {\n                return false;\n            }\n        }\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unchecked_block::209",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "\n    pragma solidity ^0.8.0;\n    contract Test {\n        function uncheckedAdd(uint a, uint b) public pure returns (uint) {\n            unchecked {\n                return a + b;\n            }\n        }\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_user_defined_value_types::210",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "\n    pragma solidity ^0.8.0;\n    type Price is uint128;\n    contract Test {\n        Price public price;\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_immutable_variables::211",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "\n    pragma solidity ^0.8.0;\n    contract Test {\n        uint public immutable IMMUTABLE_VAR;\n        constructor(uint _value) {\n            IMMUTABLE_VAR = _value;\n        }\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_constant_variables::212",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "\n    pragma solidity ^0.8.0;\n    contract Test {\n        uint public constant MAX_VALUE = 100;\n        string public constant NAME = \"Test\";\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_visibility_modifiers::213",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "\n    pragma solidity ^0.8.0;\n    contract Test {\n        function publicFunc() public {}\n        function externalFunc() external {}\n        function internalFunc() internal {}\n        function privateFunc() private {}\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_state_mutability::214",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "\n    pragma solidity ^0.8.0;\n    contract Test {\n        function pureFunc() public pure returns (uint) { return 1; }\n        function viewFunc() public view returns (uint) { return block.timestamp; }\n        function nonPayableFunc() public {}\n        function payableFunc() public payable {}\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_virtual_override::215",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "\n    pragma solidity ^0.8.0;\n    contract Base {\n        function foo() public virtual returns (uint) {\n            return 1;\n        }\n    }\n    contract Derived is Base {\n        function foo() public override returns (uint) {\n            return 2;\n        }\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_inheritance::216",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "\n    pragma solidity ^0.8.0;\n    contract A {\n        function a() public pure returns (uint) { return 1; }\n    }\n    contract B {\n        function b() public pure returns (uint) { return 2; }\n    }\n    contract C is A, B {\n        function c() public pure returns (uint) { return 3; }\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_constructor_with_modifiers::217",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "\n    pragma solidity ^0.8.0;\n    contract Test {\n        address public owner;\n        modifier onlyOwner() {\n            require(msg.sender == owner);\n            _;\n        }\n        constructor() {\n            owner = msg.sender;\n        }\n        function restricted() public onlyOwner {}\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_indexed_event_parameters::218",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "\n    pragma solidity ^0.8.0;\n    contract Test {\n        event Transfer(\n            address indexed from,\n            address indexed to,\n            uint256 value\n        );\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_types::219",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "\n    pragma solidity ^0.8.0;\n    contract Test {\n        mapping(address => mapping(uint => bool)) public nested;\n        uint[][] public matrix;\n        mapping(address => uint[]) public arrayMap;\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_modifiers_with_params::220",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "\n    pragma solidity ^0.8.0;\n    contract Test {\n        modifier onlyValue(uint value) {\n            require(value > 0);\n            _;\n        }\n        function test(uint val) public onlyValue(val) {}\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::221",
+  "argv": [
+   "--invalid-flag-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stop_after_parsing_with_syntax_error::222",
+  "argv": [
+   "-",
+   "--stop-after",
+   "parsing"
+  ],
+  "stdin": "syntax error",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stop_after_with_emit::223",
+  "argv": [
+   "testdata/Counter.sol",
+   "--stop-after",
+   "parsing",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stop_after_parsing_valid_contract::224",
+  "argv": [
+   "-",
+   "--stop-after",
+   "parsing"
+  ],
+  "stdin": "\n    contract Test {\n        uint256 public value;\n        function setValue(uint256 _value) public {\n            value = _value;\n        }\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stop_after_invalid_stage::225",
+  "argv": [
+   "testdata/Counter.sol",
+   "--stop-after",
+   "invalid_stage"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dump_ast::226",
+  "argv": [
+   "-Zdump=ast",
+   "-"
+  ],
+  "stdin": "contract C {}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dump_hir::227",
+  "argv": [
+   "-Zdump=hir",
+   "-"
+  ],
+  "stdin": "contract C {}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dump_ast_with_file::228",
+  "argv": [
+   "-Zdump=ast"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dump_hir_with_analysis::229",
+  "argv": [
+   "-Zdump=hir",
+   "-"
+  ],
+  "stdin": "contract C { function f() public {} }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ast_stats_simple::230",
+  "argv": [
+   "-Zast-stats",
+   "-"
+  ],
+  "stdin": "contract C {}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ast_stats_complex::231",
+  "argv": [
+   "-Zast-stats",
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            uint x;\n            function f() public returns (uint) { return x; }\n            event E(uint indexed x);\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_span_visitor::232",
+  "argv": [
+   "-Zspan-visitor",
+   "-"
+  ],
+  "stdin": "contract C {}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_span_visitor_with_errors::233",
+  "argv": [
+   "-Zspan-visitor",
+   "-"
+  ],
+  "stdin": "contract C {",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_max_storage_sizes::234",
+  "argv": [
+   "-Zprint-max-storage-sizes",
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            uint256 a;\n            uint256 b;\n            mapping(uint => uint) m;\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_track_diagnostics_with_error::235",
+  "argv": [
+   "-Ztrack-diagnostics",
+   "-"
+  ],
+  "stdin": "contract C {",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_track_diagnostics_with_warning::236",
+  "argv": [
+   "-Ztrack-diagnostics",
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            function f() public {}\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ui_testing_mode::237",
+  "argv": [
+   "-Zui-testing",
+   "-"
+  ],
+  "stdin": "contract C {}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_yul_with_yul_file::238",
+  "argv": [
+   "-Zparse-yul",
+   "-"
+  ],
+  "stdin": "\n        {\n            let x := 1\n            let y := add(x, 2)\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_resolve_imports::239",
+  "argv": [
+   "-Zno-resolve-imports",
+   "-"
+  ],
+  "stdin": "\n        import \"./NotExist.sol\";\n        contract C {}\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remapping_format::240",
+  "argv": [
+   "Main.sol"
+  ],
+  "stdin": null,
+  "files": {
+   "Main.sol": "import \"lib/Lib.sol\"; contract C {}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_remapping::241",
+  "argv": [
+   "-"
+  ],
+  "stdin": "contract C {}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_files::242",
+  "argv": [
+   "A.sol",
+   "B.sol"
+  ],
+  "stdin": null,
+  "files": {
+   "A.sol": "contract A {}",
+   "B.sol": "contract B {}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_and_files::243",
+  "argv": [
+   "A.sol",
+   "-"
+  ],
+  "stdin": "contract B {}",
+  "files": {
+   "A.sol": "contract A {}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duplicate_stdin::244",
+  "argv": [
+   "-",
+   "-",
+   "-"
+  ],
+  "stdin": "contract C {}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diagnostic_width_narrow::245",
+  "argv": [
+   "--diagnostic-width",
+   "40",
+   "-"
+  ],
+  "stdin": "contract C {",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diagnostic_width_wide::246",
+  "argv": [
+   "--diagnostic-width",
+   "200",
+   "-"
+  ],
+  "stdin": "contract C {",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diagnostic_width_zero::247",
+  "argv": [
+   "--diagnostic-width",
+   "0",
+   "-"
+  ],
+  "stdin": "contract C {",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_warnings_suppresses_warnings::248",
+  "argv": [
+   "--no-warnings",
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            function f() public {}\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_format_ascii::249",
+  "argv": [
+   "--error-format-human",
+   "ascii",
+   "-"
+  ],
+  "stdin": "contract C {",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_format_unicode::250",
+  "argv": [
+   "--error-format-human",
+   "unicode",
+   "-"
+  ],
+  "stdin": "contract C {",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_format_short::251",
+  "argv": [
+   "--error-format-human",
+   "short",
+   "-"
+  ],
+  "stdin": "contract C {",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_contract_with_inheritance::252",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract A {\n            uint public a;\n        }\n        contract B is A {\n            uint public b;\n        }\n        contract C is B {\n            uint public c;\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_contract_with_interfaces::253",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        interface I {\n            function f() external;\n        }\n        contract C is I {\n            function f() external override {}\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_library_usage::254",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        library Math {\n            function add(uint a, uint b) internal pure returns (uint) {\n                return a + b;\n            }\n        }\n        contract C {\n            using Math for uint;\n            function f() public pure returns (uint) {\n                return 1.add(2);\n            }\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_abstract_contract::255",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        abstract contract A {\n            function f() public virtual;\n        }\n        contract B is A {\n            function f() public override {}\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_emit_abi_and_hashes::256",
+  "argv": [
+   "--emit",
+   "abi,hashes",
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            function f() public {}\n            event E();\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_emit_to_out_dir::257",
+  "argv": [
+   "--emit",
+   "abi",
+   "--out-dir",
+   "-"
+  ],
+  "stdin": "contract C { function f() public {} }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_assembly_block::258",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            function f() public pure returns (uint ret) {\n                assembly {\n                    ret := 42\n                }\n            }\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unchecked_block::259",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            function f(uint a, uint b) public pure returns (uint) {\n                unchecked {\n                    return a + b;\n                }\n            }\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_try_catch::260",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            function f() public {\n                try this.g() {\n                } catch {\n                }\n            }\n            function g() public {}\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_receive_function::261",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            receive() external payable {}\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fallback_function::262",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            fallback() external payable {}\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_large_number::263",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            uint constant X = 115792089237316195423570985008687907853269984665640564039457584007913129639935;\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_strings::264",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            string s = unicode\"Hello 世界 🌍\";\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hex_strings::265",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            bytes b = hex\"deadbeef\";\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_long_identifiers::266",
+  "argv": [
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_typeck_function_calls::267",
+  "argv": [
+   "-Ztypeck",
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            function f(uint x) public pure returns (uint) {\n                return g(x);\n            }\n            function g(uint y) internal pure returns (uint) {\n                return y * 2;\n            }\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_typeck_type_conversions::268",
+  "argv": [
+   "-Ztypeck",
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            function f() public pure {\n                uint256 a = 1;\n                uint8 b = uint8(a);\n            }\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_typeck_operators::269",
+  "argv": [
+   "-Ztypeck",
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            function f(uint a, uint b) public pure returns (uint) {\n                return a + b * 2 - 1;\n            }\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stop_after_parsing_with_emit::270",
+  "argv": [
+   "--stop-after",
+   "parsing",
+   "--emit",
+   "abi",
+   "-"
+  ],
+  "stdin": "contract C {}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stop_after_lowering_with_emit::271",
+  "argv": [
+   "--stop-after",
+   "lowering",
+   "--emit",
+   "abi",
+   "-"
+  ],
+  "stdin": "contract C {}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stop_after_analysis::272",
+  "argv": [
+   "--stop-after",
+   "analysis",
+   "-"
+  ],
+  "stdin": "contract C {}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_allow_paths_single::273",
+  "argv": [
+   "--allow-paths",
+   "A.sol"
+  ],
+  "stdin": null,
+  "files": {
+   "A.sol": "contract A {}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_include_path_single::274",
+  "argv": [
+   "-I",
+   "Main.sol"
+  ],
+  "stdin": null,
+  "files": {
+   "Main.sol": "import \"Lib.sol\"; contract C {}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_include_path_multiple::275",
+  "argv": [
+   "-I",
+   "-I",
+   "Main.sol"
+  ],
+  "stdin": null,
+  "files": {
+   "Main.sol": "contract C {}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base_path::276",
+  "argv": [
+   "--base-path",
+   "A.sol"
+  ],
+  "stdin": null,
+  "files": {
+   "A.sol": "contract A {}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_always_with_error::277",
+  "argv": [
+   "--color",
+   "always",
+   "-"
+  ],
+  "stdin": "contract C {",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_never_with_error::278",
+  "argv": [
+   "--color",
+   "never",
+   "-"
+  ],
+  "stdin": "contract C {",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_auto::279",
+  "argv": [
+   "--color",
+   "auto",
+   "-"
+  ],
+  "stdin": "contract C {",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yul_file_without_parse_flag::280",
+  "argv": [
+   "test.yul"
+  ],
+  "stdin": null,
+  "files": {
+   "test.yul": "\n    {\n        let x := 1\n        let y := add(x, 2)\n    }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_stdin_inputs::281",
+  "argv": [
+   "-",
+   "-",
+   "-"
+  ],
+  "stdin": "contract C { uint x; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_remapping_in_arguments::282",
+  "argv": [
+   "@openzeppelin/=lib/openzeppelin/",
+   "test.sol"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sol": "\n    // SPDX-License-Identifier: MIT\n    pragma solidity ^0.8.0;\n    import \"@openzeppelin/contracts/token/ERC20/IERC20.sol\";\n    \n    contract Test {}\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_emit_multiple_values::283",
+  "argv": [
+   "multi.sol",
+   "--emit",
+   "abi,hashes"
+  ],
+  "stdin": null,
+  "files": {
+   "multi.sol": "\n    pragma solidity ^0.8.0;\n    contract Multi {\n        function test() public pure returns (uint) { return 42; }\n    }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_emit_invalid_value::284",
+  "argv": [
+   "test.sol",
+   "--emit",
+   "invalid_output_type"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sol": "pragma solidity ^0.8.0; contract C {}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_format_json::285",
+  "argv": [
+   "broken.sol",
+   "--error-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "broken.sol": "\n    pragma solidity ^0.8.0;\n    contract Broken {\n        function test() public {\n            missing_semicolon_here\n        }\n    }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_format_rustc_json::286",
+  "argv": [
+   "broken.sol",
+   "--error-format",
+   "rustc-json"
+  ],
+  "stdin": null,
+  "files": {
+   "broken.sol": "\n    pragma solidity ^0.8.0;\n    contract Broken {\n        uint x\n    }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diagnostic_width_verified::287",
+  "argv": [
+   "test.sol",
+   "--diagnostic-width",
+   "80"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sol": "\n    pragma solidity ^0.8.0;\n    contract C {\n        function veryLongFunctionNameThatExceedsTypicalWidth() public {\n            uint256 x = 1;\n        }\n    }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diagnostic_width_invalid::288",
+  "argv": [
+   "test.sol",
+   "--diagnostic-width",
+   "not_a_number"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sol": "pragma solidity ^0.8.0; contract C {}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_evm_versions::289",
+  "argv": [
+   "evm.sol",
+   "--evm-version"
+  ],
+  "stdin": null,
+  "files": {
+   "evm.sol": "\n    pragma solidity ^0.8.0;\n    contract EVMTest {\n        function test() public pure returns (uint) { return 1; }\n    }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stop_after_with_emit::290",
+  "argv": [
+   "stop.sol",
+   "--stop-after",
+   "parsing",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "stop.sol": "\n    pragma solidity ^0.8.0;\n    contract StopTest {\n        function test() public pure returns (uint) { return 42; }\n    }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_with_operations::291",
+  "argv": [
+   "verbose.sol",
+   "--verbose",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {
+   "verbose.sol": "\n    pragma solidity ^0.8.0;\n    contract Verbose {\n        uint public x;\n        function setX(uint _x) public { x = _x; }\n    }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_out_dir_with_emit::292",
+  "argv": [
+   "outdir.sol",
+   "--emit",
+   "abi",
+   "--out-dir"
+  ],
+  "stdin": null,
+  "files": {
+   "outdir.sol": "\n    pragma solidity ^0.8.0;\n    contract OutDir {\n        function test() public pure returns (string memory) {\n            return \"test\";\n        }\n    }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pretty_json_output::293",
+  "argv": [
+   "pretty.sol",
+   "--emit",
+   "abi",
+   "--pretty-json"
+  ],
+  "stdin": null,
+  "files": {
+   "pretty.sol": "\n    pragma solidity ^0.8.0;\n    contract Pretty {\n        function getValue() public pure returns (uint) {\n            return 123;\n        }\n    }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pretty_json_err_output::294",
+  "argv": [
+   "error.sol",
+   "--error-format",
+   "json",
+   "--pretty-json-err"
+  ],
+  "stdin": null,
+  "files": {
+   "error.sol": "\n    pragma solidity ^0.8.0;\n    contract Error {\n        function bad() public {\n            syntax error here\n        }\n    }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base_path_resolution::295",
+  "argv": [
+   "Main.sol",
+   "--base-path"
+  ],
+  "stdin": null,
+  "files": {
+   "Main.sol": "\n    pragma solidity ^0.8.0;\n    import \"./lib/Imported.sol\";\n    contract Main is Imported {\n        function test() public {}\n    }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_allow_paths_multiple::296",
+  "argv": [
+   "test.sol",
+   "--allow-paths"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sol": "\n    pragma solidity ^0.8.0;\n    contract AllowPaths {\n        uint x;\n    }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_threads_high_value::297",
+  "argv": [
+   "threads.sol",
+   "--threads",
+   "32"
+  ],
+  "stdin": null,
+  "files": {
+   "threads.sol": "\n    pragma solidity ^0.8.0;\n    contract ThreadTest {\n        uint[] public data;\n        function add(uint x) public { data.push(x); }\n    }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zdump_with_paths::298",
+  "argv": [
+   "dump.sol"
+  ],
+  "stdin": null,
+  "files": {
+   "dump.sol": "\n    pragma solidity ^0.8.0;\n    contract DumpTest {\n        function test() public {}\n    }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_missing_file::299",
+  "argv": [
+   "import.sol"
+  ],
+  "stdin": null,
+  "files": {
+   "import.sol": "\n    pragma solidity ^0.8.0;\n    import \"./NonExistent.sol\";\n    contract Test {}\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_utf8_handling::300",
+  "argv": [
+   "invalid.sol"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.sol": "pragma solidity ^0.8.0;\ncontract Test { �� }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deeply_nested_structures::301",
+  "argv": [
+   "nested.sol"
+  ],
+  "stdin": null,
+  "files": {
+   "nested.sol": "\n    pragma solidity ^0.8.0;\n    contract Nested {\n        struct Inner {\n            uint value;\n        }\n        struct Outer {\n            Inner inner;\n        }\n        mapping(uint => mapping(uint => mapping(uint => Outer))) public nested;\n    }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_expressions::302",
+  "argv": [
+   "complex.sol"
+  ],
+  "stdin": null,
+  "files": {
+   "complex.sol": "\n    pragma solidity ^0.8.0;\n    contract Complex {\n        function calc(uint a, uint b, uint c) public pure returns (uint) {\n            return ((a + b) * c - (a * b) / (c + 1)) % 100 + \n                   (a << 2) | (b >> 1) & (c ^ 0xFF);\n        }\n    }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_natspec_comments::303",
+  "argv": [
+   "natspec.sol"
+  ],
+  "stdin": null,
+  "files": {
+   "natspec.sol": "\n    pragma solidity ^0.8.0;\n    \n    /// @title A test contract\n    /// @author Test Author\n    /// @notice This is a test\n    /// @dev Developer notes\n    contract NatSpec {\n        /// @notice Gets a value\n        /// @param x The input value\n        /// @return The output value\n        function getValue(uint x) public pure returns (uint) {\n            return x * 2;\n        }\n    }\n    "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_visibility_modifiers::304",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            function a() public {}\n            function b() private {}\n            function c() internal {}\n            function d() external {}\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_mutability_modifiers::305",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            function a() public pure returns (uint) { return 1; }\n            function b() public view returns (uint) { return 1; }\n            function c() public payable {}\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_virtual_override::306",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract A {\n            function f() public virtual {}\n        }\n        contract B is A {\n            function f() public override {}\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_event_with_indexed_params::307",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            event Transfer(address indexed from, address indexed to, uint256 value);\n            \n            function transfer(address to, uint256 value) public {\n                emit Transfer(msg.sender, to, value);\n            }\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_anonymous_event::308",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            event E() anonymous;\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_simple_error::309",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        error InsufficientBalance(uint requested, uint available);\n        \n        contract C {\n            function f() public pure {\n                revert InsufficientBalance(100, 50);\n            }\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_with_emit_abi::310",
+  "argv": [
+   "--emit",
+   "abi",
+   "-"
+  ],
+  "stdin": "\n        error MyError(uint x);\n        contract C {}\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_simple_enum::311",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            enum State { Active, Inactive, Pending }\n            State public state;\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enum_usage::312",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            enum Status { None, Pending, Complete }\n            \n            function getStatus() public pure returns (Status) {\n                return Status.Complete;\n            }\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_structs::313",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            struct Inner {\n                uint x;\n            }\n            struct Outer {\n                Inner inner;\n                uint y;\n            }\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_struct_with_mapping::314",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            struct Data {\n                mapping(uint => uint) values;\n                uint count;\n            }\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_mapping::315",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            mapping(address => mapping(address => uint)) public allowances;\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mapping_with_struct::316",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            struct User {\n                uint id;\n                string name;\n            }\n            mapping(address => User) public users;\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fixed_size_arrays::317",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            uint[10] public arr;\n            uint[2][3] public matrix;\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dynamic_arrays::318",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            uint[] public arr;\n            \n            function push(uint x) public {\n                arr.push(x);\n            }\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_operations::319",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            function f(uint[] memory arr) public pure returns (uint) {\n                return arr.length;\n            }\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_memory_keyword::320",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            function f(string memory s) public pure returns (string memory) {\n                return s;\n            }\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_storage_keyword::321",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            uint[] arr;\n            \n            function f() public view {\n                uint[] storage s = arr;\n            }\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_calldata_keyword::322",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            function f(uint[] calldata data) external pure returns (uint) {\n                return data.length;\n            }\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_address_literals::323",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            address constant addr = 0x0000000000000000000000000000000000000000;\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_literals::324",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            string constant s1 = \"hello\";\n            string constant s2 = 'world';\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hex_literals::325",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            uint constant x = 0xff;\n            bytes constant b = hex\"deadbeef\";\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scientific_notation::326",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            uint constant x = 1e18;\n            uint constant y = 2.5e10;\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arithmetic_operators::327",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            function f(uint a, uint b) public pure returns (uint) {\n                return a + b - 1 * 2 / 3 % 4;\n            }\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comparison_operators::328",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            function f(uint a, uint b) public pure returns (bool) {\n                return a > b && a < b || a >= b || a <= b || a == b || a != b;\n            }\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bitwise_operators::329",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            function f(uint a, uint b) public pure returns (uint) {\n                return a & b | a ^ b << 1 >> 2;\n            }\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_logical_operators::330",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            function f(bool a, bool b) public pure returns (bool) {\n                return a && b || !a;\n            }\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ternary_operator::331",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            function f(bool cond) public pure returns (uint) {\n                return cond ? 1 : 2;\n            }\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_if_statement::332",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            function f(uint x) public pure returns (uint) {\n                if (x > 10) {\n                    return 1;\n                } else if (x > 5) {\n                    return 2;\n                } else {\n                    return 3;\n                }\n            }\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_for_loop::333",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            function f() public pure returns (uint) {\n                uint sum = 0;\n                for (uint i = 0; i < 10; i++) {\n                    sum += i;\n                }\n                return sum;\n            }\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_while_loop::334",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            function f() public pure returns (uint) {\n                uint x = 0;\n                while (x < 10) {\n                    x++;\n                }\n                return x;\n            }\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_do_while_loop::335",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            function f() public pure returns (uint) {\n                uint x = 0;\n                do {\n                    x++;\n                } while (x < 10);\n                return x;\n            }\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_break_continue::336",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            function f() public pure returns (uint) {\n                uint sum = 0;\n                for (uint i = 0; i < 20; i++) {\n                    if (i < 5) continue;\n                    if (i > 15) break;\n                    sum += i;\n                }\n                return sum;\n            }\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_member_access::337",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            struct S {\n                uint x;\n            }\n            S public s;\n            \n            function f() public view returns (uint) {\n                return s.x;\n            }\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_access::338",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            uint[] public arr;\n            \n            function f() public view returns (uint) {\n                return arr[0];\n            }\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_call_expressions::339",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            function g(uint x) internal pure returns (uint) {\n                return x * 2;\n            }\n            \n            function f() public pure returns (uint) {\n                return g(g(5));\n            }\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_conversion::340",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            function f() public pure returns (uint8) {\n                uint256 x = 100;\n                return uint8(x);\n            }\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_simple_constructor::341",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            uint public x;\n            \n            constructor(uint _x) {\n                x = _x;\n            }\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_constructor_with_modifiers::342",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            uint public x;\n            \n            constructor(uint _x) payable {\n                x = _x;\n            }\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_using_for_library::343",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        library Math {\n            function add(uint a, uint b) internal pure returns (uint) {\n                return a + b;\n            }\n        }\n        \n        contract C {\n            using Math for uint;\n            \n            function f() public pure returns (uint) {\n                return uint(5).add(3);\n            }\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_using_for_global::344",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        library Math {\n            function double(uint x) internal pure returns (uint) {\n                return x * 2;\n            }\n        }\n        \n        using Math for uint;\n        \n        contract C {\n            function f() public pure returns (uint) {\n                return uint(5).double();\n            }\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_simple_import::345",
+  "argv": [
+   "Main.sol"
+  ],
+  "stdin": null,
+  "files": {
+   "Main.sol": "import \"./Lib.sol\"; contract C {}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_named_import::346",
+  "argv": [
+   "Main.sol"
+  ],
+  "stdin": null,
+  "files": {
+   "Main.sol": "import {A, B} from \"./Lib.sol\"; contract C {}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_as::347",
+  "argv": [
+   "Main.sol"
+  ],
+  "stdin": null,
+  "files": {
+   "Main.sol": "import {Lib as L} from \"./Lib.sol\"; contract C {}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_solidity_pragma_range::348",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        pragma solidity >=0.8.0 <0.9.0;\n        contract C {}\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_pragmas::349",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        pragma solidity ^0.8.0;\n        pragma experimental ABIEncoderV2;\n        contract C {}\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_constant_state_variable::350",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            uint constant X = 100;\n            address constant ADDR = 0x0000000000000000000000000000000000000000;\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_immutable_state_variable::351",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            uint immutable x;\n            \n            constructor(uint _x) {\n                x = _x;\n            }\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_elementary_types::352",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            bool b;\n            uint u;\n            int i;\n            address a;\n            bytes32 b32;\n            string s;\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sized_types::353",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            uint8 u8;\n            uint16 u16;\n            uint256 u256;\n            int8 i8;\n            int128 i128;\n            bytes1 b1;\n            bytes32 b32;\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_types::354",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract C {\n            function(uint) external returns (uint) f;\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_inheritance::355",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract A {}\n        contract B {}\n        contract C is A, B {}\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inheritance_with_constructor_args::356",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract A {\n            constructor(uint x) {}\n        }\n        contract B is A(10) {}\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_super_keyword::357",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n        contract A {\n            function f() public virtual {}\n        }\n        contract B is A {\n            function f() public override {\n                super.f();\n            }\n        }\n        ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_contract::358",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "contract Empty {}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_whitespace_only::359",
+  "argv": [
+   "-"
+  ],
+  "stdin": "   \n  \t  \n  ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comments_only::360",
+  "argv": [
+   "-"
+  ],
+  "stdin": "// comment\n/* block comment */",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_strings::361",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n    pragma solidity ^0.8.0;\n    contract Unicode {\n        string public greeting = \"Hello 世界\";\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_identifier::362",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "\n    pragma solidity ^0.8.0;\n    contract Test {\n        uint public veryVeryVeryVeryVeryVeryLongVariableName = 42;\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_structures::363",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "\n    pragma solidity ^0.8.0;\n    contract Nested {\n        function deeply() public pure returns (uint) {\n            {\n                {\n                    {\n                        return 1;\n                    }\n                }\n            }\n        }\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_number_literal::364",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "\n    pragma solidity ^0.8.0;\n    contract Large {\n        uint public big = 999999999999999999999999999999;\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_comments::365",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "\n    pragma solidity ^0.8.0;\n    // Comment with special chars: <>!@#$%^&*()\n    /* Block comment with emoji */\n    contract Special {}\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_line_endings::366",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "pragma solidity ^0.8.0;\r\ncontract Test {\n    uint x;\r\n}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_pragma::367",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "contract NoPragma { uint x; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_pragmas::368",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "\n    pragma solidity ^0.8.0;\n    pragma experimental ABIEncoderV2;\n    contract Test { uint x; }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hex_literals::369",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "\n    pragma solidity ^0.8.0;\n    contract Hex {\n        bytes public data = hex\"deadbeef\";\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_escapes::370",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "\n    pragma solidity ^0.8.0;\n    contract Escapes {\n        string public s = \"Line1\\nLine2\\tTab\\\"Quote\";\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_function::371",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "\n    pragma solidity ^0.8.0;\n    contract Empty {\n        function empty() public {}\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_overloading::372",
+  "argv": [
+   "-",
+   "--emit",
+   "hashes"
+  ],
+  "stdin": "\n    pragma solidity ^0.8.0;\n    contract Overload {\n        function foo(uint x) public pure returns (uint) { return x; }\n        function foo(uint x, uint y) public pure returns (uint) { return x + y; }\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_circular_dependency_simulation::373",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "\n    pragma solidity ^0.8.0;\n    contract A {\n        B b;\n    }\n    contract B {\n        A a;\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_value_expressions::374",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "\n    pragma solidity ^0.8.0;\n    contract Zero {\n        uint public zero = 0;\n        address public nullAddr = address(0);\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_contract_name_with_underscore::375",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "contract Test_Contract { uint x; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_contract_name_with_numbers::376",
+  "argv": [
+   "-",
+   "--emit",
+   "abi"
+  ],
+  "stdin": "contract Test123 { uint x; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_syntax_error_human::377",
+  "argv": [
+   "-"
+  ],
+  "stdin": "syntax error",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_syntax_error_json::378",
+  "argv": [
+   "-",
+   "--error-format",
+   "json"
+  ],
+  "stdin": "syntax error",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_syntax_error_rustc_json::379",
+  "argv": [
+   "-",
+   "--error-format",
+   "rustc-json"
+  ],
+  "stdin": "syntax error",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_format_human_ascii::380",
+  "argv": [
+   "-",
+   "--error-format-human",
+   "ascii"
+  ],
+  "stdin": "syntax error",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_format_human_unicode::381",
+  "argv": [
+   "-",
+   "--error-format-human",
+   "unicode"
+  ],
+  "stdin": "syntax error",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_format_human_short::382",
+  "argv": [
+   "-",
+   "--error-format-human",
+   "short"
+  ],
+  "stdin": "syntax error",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_semicolon_error::383",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n    contract Test {\n        uint x = 1\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_undefined_identifier_error::384",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n    contract Test {\n        function foo() public {\n            undefined_var = 1;\n        }\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pretty_json_err::385",
+  "argv": [
+   "-",
+   "--pretty-json-err"
+  ],
+  "stdin": "syntax error",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_warnings::386",
+  "argv": [
+   "testdata/Counter.sol",
+   "--no-warnings",
+   "--emit",
+   "abi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diagnostic_width::387",
+  "argv": [
+   "-",
+   "--diagnostic-width",
+   "80"
+  ],
+  "stdin": "syntax error",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_errors::388",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n    contract Test {\n        uint x = 1\n        uint y = 2\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_with_line_numbers::389",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n    contract Test {\n        syntax error here\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duplicate_contract_names::390",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n    pragma solidity ^0.8.0;\n    contract Test {}\n    contract Test {}\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_pragma_version::391",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n    pragma solidity 0.7.0;\n    contract Test {}\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_function_name::392",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n    pragma solidity ^0.8.0;\n    contract Test {\n        function 123invalid() public {}\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_return_type::393",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n    pragma solidity ^0.8.0;\n    contract Test {\n        function test() public {\n            return 123;\n        }\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_type::394",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n    pragma solidity ^0.8.0;\n    contract Test {\n        InvalidType public x;\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_visibility::395",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n    pragma solidity ^0.8.0;\n    contract Test {\n        function test() public private {}\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_state_mutability::396",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n    pragma solidity ^0.8.0;\n    contract Test {\n        function test() public pure view {}\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unclosed_brace::397",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n    pragma solidity ^0.8.0;\n    contract Test {\n        function test() public {\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unclosed_paren::398",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n    pragma solidity ^0.8.0;\n    contract Test {\n        function test(uint x public {}\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_number_literal::399",
+  "argv": [
+   "-"
+  ],
+  "stdin": "\n    pragma solidity ^0.8.0;\n    contract Test {\n        uint x = 123abc;\n    }\n    ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

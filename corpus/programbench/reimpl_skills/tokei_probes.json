@@ -1,0 +1,1200 @@
+[
+ {
+  "name": "test::test_input_file_behaves_like_ignoring_path_arg::0",
+  "argv": [
+   "--output",
+   "json",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_path_errors::1",
+  "argv": [
+   "/definitely/does/not/exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_malformed_config_is_ignored_not_fatal::2",
+  "argv": [
+   "--output",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_baseline_matches_saved_fixture_exactly::3",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_takes_precedence_over_other_flags::4",
+  "argv": [
+   "--help",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_with_unknown_positional_still_shows_help::5",
+  "argv": [
+   "asdf",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_separator_treats_help_as_positional_and_errors::6",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_from_stdin::7",
+  "argv": [
+   "--input",
+   "stdin"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_is_error_with_tip::8",
+  "argv": [
+   "--nonexistent-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_value_for_output_is_error::9",
+  "argv": [
+   "--output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_empty_value_for_output_is_error::10",
+  "argv": [
+   "--output="
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_cannot_be_specified_twice::11",
+  "argv": [
+   "--output",
+   "json",
+   "--output",
+   "yaml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_num_format_conflicts_with_output::12",
+  "argv": [
+   "--num-format",
+   "commas",
+   "--output",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_columns_rejects_non_integer::13",
+  "argv": [
+   "--columns",
+   "abc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_columns_space_negative_is_parsed_as_flag_error::14",
+  "argv": [
+   "-c",
+   "-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_columns_equals_negative_is_value_error::15",
+  "argv": [
+   "-c=-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_rejects_invalid_choice::16",
+  "argv": [
+   "--sort",
+   "nope"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_requires_value::17",
+  "argv": [
+   "--exclude"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_files_flag_rejects_attached_value::18",
+  "argv": [
+   "--files=1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_flag_requires_value::19",
+  "argv": [
+   "-i"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hidden_flag_includes_hidden_files::20",
+  "argv": [
+   "--output",
+   "json",
+   "--hidden"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_glob_excludes_matching_files::21",
+  "argv": [
+   "--output",
+   "json",
+   "--exclude",
+   "a.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_path_exits_nonzero_and_reports_error::22",
+  "argv": [
+   "this_path_should_not_exist_12345"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_prints_to_stdout::23",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_path::24",
+  "argv": [
+   "/nonexistent/path/that/does/not/exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_languages_list_comprehensive::25",
+  "argv": [
+   "--languages"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_no_ignore_option::26",
+  "argv": [
+   "git",
+   "init"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_multiline_comment_c::27",
+  "argv": [
+   "test.c",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "/* This is a\n * multi-line\n * comment */\nint main() {\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_multiline_comments_cpp::28",
+  "argv": [
+   "test.cpp",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cpp": "/* outer /* inner */ still outer */\nint x = 1;\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_containing_comment_syntax::29",
+  "argv": [
+   "test.c",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() {\n    char *s = \"// not a comment\";\n    char *t = \"/* also not */\";\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_code_and_comment_same_line::30",
+  "argv": [
+   "test.c",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int x = 1; // comment at end\n/* comment */ int y = 2;\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_docstrings_vs_regular_comments::31",
+  "argv": [
+   "test.py",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.py": "def foo():\n    \"\"\"This is a docstring\"\"\"\n    pass\n\n# Regular comment\ndef bar():\n    '''Another docstring'''\n    return 1\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rust_doc_comments_vs_regular::32",
+  "argv": [
+   "test.rs",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.rs": "/// Documentation comment\nfn foo() {}\n\n//! Module doc\nfn bar() {}\n\n// Regular comment\nfn baz() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_multiline_comment::33",
+  "argv": [
+   "test.c",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "/**/\nint x = 1;\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unclosed_multiline_comment::34",
+  "argv": [
+   "test.c",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "/* This comment is never closed\nint x = 1;\nint y = 2;\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_comments::35",
+  "argv": [
+   "test.html",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.html": "<!DOCTYPE html>\n<html>\n<!-- This is a comment -->\n<body>\n<!-- Multi\n     line\n     comment -->\n<p>Hello</p>\n</body>\n</html>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sql_double_dash_comments::36",
+  "argv": [
+   "test.sql",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sql": "-- SQL comment\nSELECT * FROM users;\n/* Multi-line\n   SQL comment */\nINSERT INTO users VALUES (1, 'test');\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_c_preprocessor_directives::37",
+  "argv": [
+   "test.c",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "#include <stdio.h>\n#define MAX 100\n#ifdef DEBUG\nint debug = 1;\n#endif\nint main() {\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_blank_lines_with_whitespace::38",
+  "argv": [
+   "test.c",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int x = 1;   \n    \nint y = 2;\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_raw_and_triple_quoted_strings::39",
+  "argv": [
+   "test.py",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.py": "s = r\"This is a raw string with \\n and // comment syntax\"\nt = \"\"\"Triple\nquoted\nstring\"\"\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_javadoc_vs_regular_comments::40",
+  "argv": [
+   "test.java",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.java": "/**\n * JavaDoc comment\n * @param x the parameter\n */\npublic void foo(int x) {\n    // Regular comment\n    int y = x + 1;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_hash_comments_inline::41",
+  "argv": [
+   "test.sh",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sh": "#!/bin/bash\n# This is a comment\necho \"Hello\" # inline comment\n# Another comment\necho \"World\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_heredoc_not_parsed_as_comments::42",
+  "argv": [
+   "test.sh",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sh": "#!/bin/bash\ncat << ENDMARKER\nThis is a heredoc\n# Not a comment\n// Also not a comment\nENDMARKER\necho \"done\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_escaped_quotes_in_strings::43",
+  "argv": [
+   "test.c",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "char *s = \"String with \\\" escaped quote\";\nchar *t = \"String with \\\\ backslash\";\nchar *u = \"String with // comment\";\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_statements_per_line::44",
+  "argv": [
+   "test.c",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int x = 1; int y = 2; int z = 3;\nfor (int i = 0; i < 10; i++) { printf(\"%d\\n\", i); }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiline_string_with_backslash_continuation::45",
+  "argv": [
+   "test.c",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "char *s = \"Line 1\\\nLine 2\\\nLine 3\";\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deeply_nested_comments_rust::46",
+  "argv": [
+   "test.rs",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.rs": "/* outer /* nested /* deeply */ nested */ outer */\nfn main() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ruby_multiline_comments::47",
+  "argv": [
+   "test.rb",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.rb": "# Ruby comment\ndef foo\n  # Another comment\n  puts \"Hello\"\n=begin\nMulti-line\nRuby comment\n=end\n  return 1\nend\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fortran_column_seven_comments::48",
+  "argv": [
+   "test.f",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.f": "C     Fortran comment\n      PROGRAM HELLO\nC     Another comment\n      PRINT *, 'Hello'\n!     Modern Fortran comment\n      END PROGRAM\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comment_only_file::49",
+  "argv": [
+   "test.c",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "/* Only comments here */\n// Another comment\n/* And another */\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_code_then_multiline_comment_then_code::50",
+  "argv": [
+   "test.c",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int x = 1; /* comment\ncontinues here\nand here */ int y = 2;\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_javascript_template_strings_with_comment_syntax::51",
+  "argv": [
+   "test.js",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.js": "const s = `Template string\nwith // comment syntax\nand /* multiline syntax */\nin it`;\nconsole.log(s);\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_blank_lines::52",
+  "argv": [
+   "test.c",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int x = 1;\n\n\nint y = 2;\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_various_comment_syntaxes_cpp::53",
+  "argv": [
+   "test.cpp",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cpp": "// C++ comment\n/* C comment */\n/** Doc comment */\nint x = 1;\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comment_blocks_with_blanks_between::54",
+  "argv": [
+   "test.c",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "// Block 1\n// Block 1 continued\n\n/* Block 2\n   Block 2 continued */\n\n// Block 3\n\nint x = 1;\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_go_import_and_comments::55",
+  "argv": [
+   "test.go",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\n// Regular comment\nimport \"fmt\"\n\n/*\nMulti-line\ncomment\n*/\nfunc main() {\n    // Inline comment\n    fmt.Println(\"Hello\")\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xml_multiline_comments::56",
+  "argv": [
+   "test.xml",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.xml": "<?xml version=\"1.0\"?>\n<root>\n  <!-- XML comment -->\n  <element>Content</element>\n  <!-- Another\n       multiline\n       comment -->\n</root>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_css_inline_and_block_comments::57",
+  "argv": [
+   "test.css",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.css": "/* CSS comment */\nbody {\n    color: red;\n    /* Inline comment */\n    background: blue;\n}\n/* Another comment */\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lua_multiline_comments::58",
+  "argv": [
+   "test.lua",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.lua": "-- Lua comment\nprint(\"Hello\")\n--[[ Multi-line\n     Lua comment ]]\nprint(\"World\")\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_perl_pod_documentation::59",
+  "argv": [
+   "test.pl",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.pl": "#!/usr/bin/perl\n# Perl comment\nprint \"Hello\\n\";\n=pod\nMulti-line POD comment\nCan span many lines\n=cut\nprint \"World\\n\";\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rust_raw_strings_with_hashes::60",
+  "argv": [
+   "test.rs",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.rs": "fn main() {\n    let s = r#\"Raw string with \" quote\"#;\n    let t = r##\"Even rawer with # in it\"##;\n    let u = r\"Raw with // comment syntax\";\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_c_character_literals_with_special_chars::61",
+  "argv": [
+   "test.c",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "char c1 = '/';\nchar c2 = '*';\nchar c3 = '\"';\nchar c4 = '\\\\';\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_typescript_interface_and_comments::62",
+  "argv": [
+   "test.ts",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.ts": "// TypeScript comment\ninterface User {\n    name: string; // Field comment\n}\n\n/* Multi-line\n   comment */\nfunction greet(user: User): void {\n    console.log(`Hello ${user.name}`);\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_kotlin_triple_quoted_strings::63",
+  "argv": [
+   "test.kt",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.kt": "// Kotlin comment\nfun main() {\n    /* Block comment */\n    println(\"Hello\")\n    val s = \"\"\"\n        Triple quoted\n        string\n    \"\"\"\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_haskell_nested_comments::64",
+  "argv": [
+   "test.hs",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.hs": "-- Haskell comment\nmain :: IO ()\nmain = do\n    {- Multi-line\n       comment -}\n    putStrLn \"Hello\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scala_triple_quoted_strings::65",
+  "argv": [
+   "test.scala",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.scala": "// Scala comment\nobject Main {\n  /* Multi-line comment */\n  def main(args: Array[String]): Unit = {\n    val s = \"\"\"Triple\n               quoted\n               string\"\"\"\n    println(s)\n  }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_d_nested_comments::66",
+  "argv": [
+   "test.d",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.d": "/* D allows /* nested /* deeply */ comments */ too */\nint main() {\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_swift_doc_comments::67",
+  "argv": [
+   "test.swift",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.swift": "// Swift comment\nfunc greet(name: String) -> String {\n    /* Block comment */\n    return \"Hello, \\(name)\"\n}\n\n/** Documentation comment\n * with multiple lines\n */\nclass MyClass {\n    var x: Int = 0\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_php_multiple_comment_styles::68",
+  "argv": [
+   "test.php",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.php": "<?php\n// PHP comment\n# Another PHP comment\n/* Multi-line\n   PHP comment */\nfunction hello() {\n    echo \"Hello\";\n}\n?>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_jsx_comments_in_jsx_blocks::69",
+  "argv": [
+   "test.jsx",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsx": "// JSX comment\nfunction Component() {\n  return (\n    <div>\n      {/* JSX comment inside */}\n      <p>Hello</p>\n    </div>\n  );\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_with_embedded_code::70",
+  "argv": [
+   "test.md",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.md": "# Title\n\nRegular text\n\n<!-- HTML comment in markdown -->\n\n```python\n# This is code in markdown\ndef foo():\n    pass\n```\n\nMore text\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vim_script_comments::71",
+  "argv": [
+   "test.vim",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.vim": "\" Vim comment\nfunction! Hello()\n    echo \"Hello\"\nendfunction\n\n\" Another comment\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_emacs_lisp_semicolon_comments::72",
+  "argv": [
+   "test.el",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.el": ";; Emacs Lisp comment\n(defun hello ()\n  \"Docstring\"\n  (message \"Hello\"))\n\n;; Another comment\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_no_comments::73",
+  "argv": [
+   "test.json",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.json": "{\n  \"key\": \"value\",\n  \"number\": 123,\n  \"array\": [1, 2, 3]\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_file::74",
+  "argv": [
+   "test.c",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_only_blank_lines::75",
+  "argv": [
+   "test.c",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n\n\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cpp_raw_string_literals_with_comment_syntax::76",
+  "argv": [
+   "test.cpp",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cpp": "#include <string>\nint main() {\n    std::string s = R\"(Raw string\nwith // comment\nand /* block */ comment)\";\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_path::77",
+  "argv": [
+   "/nonexistent/path/to/nowhere"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_path_json_mode::78",
+  "argv": [
+   "/nonexistent/directory",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_nonexistent_paths::79",
+  "argv": [
+   "/path1",
+   "/path2",
+   "/path3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_glob_pattern_logs_error_continues::80",
+  "argv": [
+   ".",
+   "--exclude",
+   "[invalid(pattern"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_output_format_clear_error::81",
+  "argv": [
+   ".",
+   "--output",
+   "xml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_file_malformed_data::82",
+  "argv": [
+   "--input",
+   "bad.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.txt": "not json at all"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_sort_option::83",
+  "argv": [
+   ".",
+   "--sort",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_flags_columns_and_output::84",
+  "argv": [
+   ".",
+   "--columns",
+   "80",
+   "--output",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_at_root_of_filesystem::85",
+  "argv": [
+   "/dev/null"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_current_directory_dot_path::86",
+  "argv": [
+   ".",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

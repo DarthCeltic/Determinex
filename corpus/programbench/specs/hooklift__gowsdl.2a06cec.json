@@ -1,0 +1,2459 @@
+{
+ "slug": "hooklift__gowsdl.2a06cec",
+ "language": "",
+ "n_branches": 10,
+ "n_tests_total": 396,
+ "n_examples": 125,
+ "n_with_exact_stdout": 1,
+ "n_with_rc": 112,
+ "n_skipped": 253,
+ "examples": [
+  {
+   "test": "test_no_args_prints_usage_and_exits_zero",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:28"
+  },
+  {
+   "test": "test_bool_flag_invalid_value_is_error",
+   "argv": [
+    "-make-public=wat"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid boolean value \"wat\"",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:64"
+  },
+  {
+   "test": "test_positional_first_then_flag_treated_as_filename_and_causes_open_error",
+   "argv": [
+    "fixtures/example.wsdl",
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Reading file",
+    "open"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:85"
+  },
+  {
+   "test": "test_double_dash_forces_following_token_to_be_positional_not_flag",
+   "argv": [
+    "--",
+    "--nonexistent"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Reading file",
+    "--nonexistent"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:94"
+  },
+  {
+   "test": "test_too_many_positionals_uses_last_as_wsdl_filename",
+   "argv": [
+    "fixtures/example.wsdl",
+    "extra.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Reading file",
+    "extra.wsdl"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:103"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:554"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "-p",
+    "-o"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:566"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "v0.5.0",
+    "🍀"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_gowsdl.py:43"
+  },
+  {
+   "test": "test_help_no_args",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "-o string",
+    "-p string",
+    "-d string",
+    "-v",
+    "-i",
+    "-make-public"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_gowsdl.py:50"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_gowsdl.py:64"
+  },
+  {
+   "test": "test_nonexistent_file",
+   "argv": [
+    "nonexistent.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "no such file or directory"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_gowsdl.py:197"
+  },
+  {
+   "test": "test_relative_path",
+   "argv": [
+    "test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done 👍"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_gowsdl.py:362"
+  },
+  {
+   "test": "test_help_exit_code",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gowsdl.py:441"
+  },
+  {
+   "test": "test_missing_wsdl_file_nonzero_exit_and_message_to_stdout",
+   "argv": [
+    "-d",
+    "does_not_exist.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Reading file",
+    "no such file or directory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_cases.py:8"
+  },
+  {
+   "test": "test_invalid_wsdl_content_exits_nonzero_and_prints_EOF",
+   "argv": [
+    "-d",
+    "x.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Reading file",
+    "EOF"
+   ],
+   "files": {
+    "x.wsdl": "not really wsdl"
+   },
+   "ci": false,
+   "source": "test_error_cases.py:27"
+  },
+  {
+   "test": "test_generate_default_creates_package_dir_and_two_files",
+   "argv": [
+    "-d"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "package myservice"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_generate_from_wsdl.py:9"
+  },
+  {
+   "test": "test_generate_with_custom_package_and_output_filename",
+   "argv": [
+    "-d",
+    "-p",
+    "mystock",
+    "-o",
+    "out.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "package mystock"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_generate_from_wsdl.py:24"
+  },
+  {
+   "test": "test_absolute_output_path_causes_error_and_creates_package_dir",
+   "argv": [
+    "-d",
+    "-p",
+    "mypkg",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "no such file or directory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_generate_from_wsdl.py:35"
+  },
+  {
+   "test": "test_help_mentions_usage_and_flags",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "-d",
+    "-o",
+    "-p",
+    "-i",
+    "-v",
+    "-make-public"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_version.py:5"
+  },
+  {
+   "test": "test_tls_skip_flag",
+   "argv": [
+    "-i",
+    "-d",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:8"
+  },
+  {
+   "test": "test_make_public_flag_explicit_true",
+   "argv": [
+    "-make-public=true",
+    "-d",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done",
+    "type GetInfo struct"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:16"
+  },
+  {
+   "test": "test_make_public_flag_false",
+   "argv": [
+    "-make-public=false",
+    "-d",
+    "-p",
+    "private",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done",
+    "package private"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:27"
+  },
+  {
+   "test": "test_output_to_existing_parent_directory",
+   "argv": [
+    "-d",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:38"
+  },
+  {
+   "test": "test_multiple_operations_wsdl",
+   "argv": [
+    "-d",
+    "fixtures/stock.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GetLastTradePrice"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:47"
+  },
+  {
+   "test": "test_wsdl_with_imports",
+   "argv": [
+    "-d",
+    "fixtures/mnb-exchange.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done",
+    "package myservice",
+    "type",
+    "struct"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:59"
+  },
+  {
+   "test": "test_complex_wsdl_chromedata",
+   "argv": [
+    "-d",
+    "fixtures/chromedata.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done",
+    "DriveTrain"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:73"
+  },
+  {
+   "test": "test_wsdl_with_documentation",
+   "argv": [
+    "-d",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "//"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:88"
+  },
+  {
+   "test": "test_server_file_structure",
+   "argv": [
+    "-d",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "import (",
+    "<?xml",
+    "wsdl:definitions"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:102"
+  },
+  {
+   "test": "test_package_name_validation",
+   "argv": [
+    "-d",
+    "-p",
+    "my_package",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done",
+    "Done"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:118"
+  },
+  {
+   "test": "test_filename_variations",
+   "argv": [
+    "-d",
+    "-p",
+    "pkg1",
+    "-o",
+    "client.go",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:131"
+  },
+  {
+   "test": "test_concurrent_generation",
+   "argv": [
+    "-d",
+    "-p",
+    "svc1",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:144"
+  },
+  {
+   "test": "test_error_messages_format",
+   "argv": [
+    "nonexistent.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "🍀",
+    "no such file"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_additional_coverage.py:161"
+  },
+  {
+   "test": "test_success_messages",
+   "argv": [
+    "-d",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Reading file",
+    "Done",
+    "👍"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:170"
+  },
+  {
+   "test": "test_relative_path_wsdl",
+   "argv": [
+    "-d",
+    "./fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:181"
+  },
+  {
+   "test": "test_absolute_path_wsdl",
+   "argv": [
+    "-d"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:188"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "-o string",
+    "-p string",
+    "-d string",
+    "-i",
+    "-v",
+    "-make-public"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:16"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "🍀",
+    "v"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:29"
+  },
+  {
+   "test": "test_help_describes_all_flags",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-o string",
+    "-p string",
+    "-d string",
+    "-i",
+    "-v",
+    "-make-public",
+    "File where the generated code will be saved",
+    "Package under which code will be generated",
+    "Directory under which package directory will be created",
+    "Skips TLS Verification",
+    "Shows gowsdl version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:49"
+  },
+  {
+   "test": "test_output_file_same_as_input",
+   "argv": [
+    "-o",
+    "fixtures/test.wsdl",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cannot be the same"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_error_handling.py:14"
+  },
+  {
+   "test": "test_treat_last_arg_as_wsdl",
+   "argv": [
+    "-p",
+    "testpkg"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:120"
+  },
+  {
+   "test": "test_dyndns_wsdl",
+   "argv": [
+    "-d"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done",
+    "package myservice"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_fixtures.py:5"
+  },
+  {
+   "test": "test_chromedata_wsdl",
+   "argv": [
+    "-d"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done",
+    "package myservice",
+    "DriveTrain"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_fixtures.py:63"
+  },
+  {
+   "test": "test_multiple_wsdl_generations_different_packages",
+   "argv": [
+    "-d",
+    "-p",
+    "pkg1",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "package pkg1",
+    "package pkg2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_fixtures.py:93"
+  },
+  {
+   "test": "test_epcis_wsdl_with_external_xsd",
+   "argv": [
+    "-d",
+    "-i"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done",
+    "package myservice"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_fixtures.py:114"
+  },
+  {
+   "test": "test_large_wsdl_files",
+   "argv": [
+    "-d"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_fixtures.py:135"
+  },
+  {
+   "test": "test_custom_output_file",
+   "argv": [
+    "-o",
+    "custom.go",
+    "-p",
+    "testcustom"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_generation.py:36"
+  },
+  {
+   "test": "test_custom_package_name",
+   "argv": [
+    "-p",
+    "testpkg"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done",
+    "package testpkg"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_generation.py:54"
+  },
+  {
+   "test": "test_combined_flags",
+   "argv": [
+    "-d",
+    "-p",
+    "api",
+    "-o",
+    "client.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done",
+    "package api"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_generation.py:87"
+  },
+  {
+   "test": "test_stock_wsdl",
+   "argv": [
+    "-d"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done",
+    "TradePriceRequest",
+    "TradePrice",
+    "GetLastTradePrice"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_generation.py:105"
+  },
+  {
+   "test": "test_generated_code_has_correct_structure",
+   "argv": [
+    "-d"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "import (",
+    "encoding/xml",
+    "github.com/hooklift/gowsdl/soap",
+    "type GetInfo struct",
+    "type GetInfoResponse struct",
+    "xml:\"",
+    "json:\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_generation.py:120"
+  },
+  {
+   "test": "test_reading_file_message",
+   "argv": [
+    "-d"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Reading file",
+    ".wsdl"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_generation.py:143"
+  },
+  {
+   "test": "test_generates_both_client_and_server",
+   "argv": [
+    "-d"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_generation.py:154"
+  },
+  {
+   "test": "test_make_public_flag_default_true",
+   "argv": [
+    "-d"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "type GetInfo struct",
+    "type GetInfoResponse struct"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_generation.py:175"
+  },
+  {
+   "test": "test_complex_type_generation",
+   "argv": [
+    "-d",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "type GetInfo struct",
+    "XMLName xml.Name",
+    "xml:\"http://www.mnb.hu/webservices/ GetInfo\"",
+    "type GetInfoResponse struct",
+    "GetInfoResult"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_type_generation.py:5"
+  },
+  {
+   "test": "test_enum_generation",
+   "argv": [
+    "-d",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "type ElementWithLocalSimpleType string",
+    "ElementWithLocalSimpleTypeEnum1",
+    "ElementWithLocalSimpleTypeEnum2",
+    "ElementWithLocalSimpleType = \"enum1\"",
+    "ElementWithLocalSimpleType = \"enum2\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_type_generation.py:22"
+  },
+  {
+   "test": "test_datetime_type_generation",
+   "argv": [
+    "-d",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "type StartDate soap.XSDDateTime",
+    "func (xdt StartDate) MarshalXML",
+    "return soap.XSDDateTime(xdt).MarshalXML",
+    "func (xdt *StartDate) UnmarshalXML",
+    "return (*soap.XSDDateTime)(xdt).UnmarshalXML"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_type_generation.py:39"
+  },
+  {
+   "test": "test_attribute_generation",
+   "argv": [
+    "-d",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "type ResponseStatus struct",
+    "ResponseCode",
+    "responseCode,attr"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_type_generation.py:58"
+  },
+  {
+   "test": "test_simple_type_with_restriction",
+   "argv": [
+    "-d",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Id string"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_type_generation.py:71"
+  },
+  {
+   "test": "test_nested_complex_types",
+   "argv": [
+    "-d",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Status",
+    "Code"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_type_generation.py:82"
+  },
+  {
+   "test": "test_xml_tags_in_generated_code",
+   "argv": [
+    "-d",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "xml:\"http://www.mnb.hu/webservices/",
+    "omitempty",
+    "json:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_type_generation.py:94"
+  },
+  {
+   "test": "test_soap_operations_generation",
+   "argv": [
+    "-d",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GetInfoSoap"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_type_generation.py:111"
+  },
+  {
+   "test": "test_server_code_generation",
+   "argv": [
+    "-d",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "package myservice",
+    "Code generated by gowsdl DO NOT EDIT",
+    "func"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_type_generation.py:123"
+  },
+  {
+   "test": "test_imports_in_generated_code",
+   "argv": [
+    "-d",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "encoding/xml",
+    "context",
+    "time",
+    "github.com/hooklift/gowsdl/soap",
+    "import ("
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_type_generation.py:140"
+  },
+  {
+   "test": "test_any_type_generation",
+   "argv": [
+    "-d",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "type AnyType struct",
+    "InnerXML",
+    "xml:\",innerxml\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_type_generation.py:159"
+  },
+  {
+   "test": "test_comments_preserved",
+   "argv": [
+    "-d",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_type_generation.py:172"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "[options] myservice.wsdl",
+    "-o string",
+    "-p string",
+    "-d string",
+    "-i",
+    "-make-public",
+    "-v"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:44"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "🍀"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:62"
+  },
+  {
+   "test": "test_invalid_flag",
+   "argv": [
+    "--invalid-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "flag provided but not defined"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:71"
+  },
+  {
+   "test": "test_valid_local_wsdl_file",
+   "argv": [
+    "-d",
+    "-p",
+    "testpkg",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done",
+    "👍",
+    "Reading file",
+    "package testpkg",
+    "import",
+    "package testpkg"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:82"
+  },
+  {
+   "test": "test_empty_file_path",
+   "argv": [
+    ""
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "WSDL file is required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:114"
+  },
+  {
+   "test": "test_default_output_location",
+   "argv": [
+    "-d",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done",
+    "package myservice"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:138"
+  },
+  {
+   "test": "test_custom_output_file",
+   "argv": [
+    "-d",
+    "-o",
+    "custom.go",
+    "-p",
+    "mypkg",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done",
+    "package mypkg"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:155"
+  },
+  {
+   "test": "test_custom_package_name",
+   "argv": [
+    "-d",
+    "-p",
+    "custompackage",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done",
+    "package custompackage"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:170"
+  },
+  {
+   "test": "test_custom_directory",
+   "argv": [
+    "-d",
+    "-p",
+    "testpkg",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:183"
+  },
+  {
+   "test": "test_output_same_as_input_error",
+   "argv": [
+    "-o",
+    "test.wsdl",
+    "test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Output file cannot be the same WSDL file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:197"
+  },
+  {
+   "test": "test_generates_valid_go_code",
+   "argv": [
+    "-d",
+    "-p",
+    "testpkg",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done",
+    "package testpkg",
+    "import",
+    "GetInfo",
+    "GetInfoResponse"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:213"
+  },
+  {
+   "test": "test_generates_types_from_wsdl",
+   "argv": [
+    "-d",
+    "-p",
+    "testpkg",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "type GetInfo struct",
+    "type GetInfoResponse struct",
+    "type ResponseStatus struct",
+    "XMLName xml.Name"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:232"
+  },
+  {
+   "test": "test_generates_soap_operations",
+   "argv": [
+    "-d",
+    "-p",
+    "testpkg",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "soap"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:246"
+  },
+  {
+   "test": "test_generates_server_stubs",
+   "argv": [
+    "-d",
+    "-p",
+    "testpkg",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "package testpkg"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:258"
+  },
+  {
+   "test": "test_enum_generation",
+   "argv": [
+    "-d",
+    "-p",
+    "testpkg",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ElementWithLocalSimpleType",
+    "ElementWithLocalSimpleTypeEnum1",
+    "ElementWithLocalSimpleTypeEnum2",
+    "ElementWithLocalSimpleType = \"enum1\"",
+    "ElementWithLocalSimpleType = \"enum2\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:272"
+  },
+  {
+   "test": "test_make_public_flag_true",
+   "argv": [
+    "-make-public=true",
+    "-d",
+    "-p",
+    "testpkg",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "type GetInfo struct",
+    "type GetInfoResponse struct"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:287"
+  },
+  {
+   "test": "test_make_public_flag_false",
+   "argv": [
+    "-make-public=false",
+    "-d",
+    "-p",
+    "testpkg",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "package testpkg"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:299"
+  },
+  {
+   "test": "test_stock_wsdl",
+   "argv": [
+    "-d",
+    "-p",
+    "stock",
+    "fixtures/stock.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done",
+    "package stock"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:315"
+  },
+  {
+   "test": "test_dyndns_wsdl",
+   "argv": [
+    "-d",
+    "-p",
+    "dyndns",
+    "fixtures/dyndns.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done",
+    "package dyndns"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:328"
+  },
+  {
+   "test": "test_mnb_exchange_wsdl",
+   "argv": [
+    "-d",
+    "-p",
+    "mnb",
+    "fixtures/mnb-exchange.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done",
+    "package mnb"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:340"
+  },
+  {
+   "test": "test_workday_time_min_wsdl",
+   "argv": [
+    "-d",
+    "-p",
+    "workday",
+    "fixtures/workday-time-min.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done",
+    "package workday",
+    "WorkerObjectIDType"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:352"
+  },
+  {
+   "test": "test_ec2_wsdl",
+   "argv": [
+    "-d",
+    "-p",
+    "ec2",
+    "fixtures/ec2.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done",
+    "package ec2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:31"
+  },
+  {
+   "test": "test_ferry_wsdl",
+   "argv": [
+    "-d",
+    "-p",
+    "ferry",
+    "fixtures/ferry.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done",
+    "package ferry"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:45"
+  },
+  {
+   "test": "test_usda_awdb_wsdl",
+   "argv": [
+    "-d",
+    "-p",
+    "awdb",
+    "fixtures/usda-awdb.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done",
+    "package awdb"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:57"
+  },
+  {
+   "test": "test_chromedata_wsdl",
+   "argv": [
+    "-d",
+    "-p",
+    "chromedata",
+    "fixtures/chromedata.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done",
+    "package chromedata",
+    "DriveTrain"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:69"
+  },
+  {
+   "test": "test_all_flags_together",
+   "argv": [
+    "-d",
+    "-p",
+    "allflags",
+    "-o",
+    "output.go",
+    "-make-public=true",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done",
+    "package allflags"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:87"
+  },
+  {
+   "test": "test_insecure_flag_with_local_file",
+   "argv": [
+    "-i",
+    "-d",
+    "-p",
+    "insecure",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done",
+    "package insecure"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:107"
+  },
+  {
+   "test": "test_special_package_names",
+   "argv": [
+    "-d",
+    "-p",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:119"
+  },
+  {
+   "test": "test_generated_code_has_expected_sections",
+   "argv": [
+    "-d",
+    "-p",
+    "sections",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "DO NOT EDIT",
+    "package sections",
+    "import (",
+    "encoding/xml",
+    "context",
+    "type",
+    "struct"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:142"
+  },
+  {
+   "test": "test_server_file_structure",
+   "argv": [
+    "-d",
+    "-p",
+    "serv",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "DO NOT EDIT",
+    "package serv"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:166"
+  },
+  {
+   "test": "test_multiple_operations_generation",
+   "argv": [
+    "-d",
+    "-p",
+    "multiop",
+    "fixtures/mnb-exchange.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:183"
+  },
+  {
+   "test": "test_creates_directory_if_not_exists",
+   "argv": [
+    "-d",
+    "-p",
+    "newdir",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done",
+    "package newdir"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:199"
+  },
+  {
+   "test": "test_overwrites_existing_files",
+   "argv": [
+    "-d",
+    "-p",
+    "overwrite",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "package overwrite"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:214"
+  },
+  {
+   "test": "test_wsdl_with_external_schema",
+   "argv": [
+    "-d",
+    "-p",
+    "epcis"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "package epcis"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:240"
+  },
+  {
+   "test": "test_minimal_wsdl",
+   "argv": [
+    "-d",
+    "-p",
+    "minimal",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "package minimal",
+    "import",
+    "type"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:256"
+  },
+  {
+   "test": "test_very_long_package_name",
+   "argv": [
+    "-d",
+    "-p",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:273"
+  },
+  {
+   "test": "test_very_long_output_filename",
+   "argv": [
+    "-d",
+    "-o",
+    "-p",
+    "longfile",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done",
+    "package longfile"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:285"
+  },
+  {
+   "test": "test_directory_with_special_chars",
+   "argv": [
+    "-d",
+    "-p",
+    "special",
+    "fixtures/test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done",
+    "package special"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:299"
+  },
+  {
+   "test": "test_ext_element_generation_doesnt_comment_out_struct_property",
+   "argv": [
+    "-d",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_gowsdl.py:39"
+  },
+  {
+   "test": "test_ext_attribute_ref_generated",
+   "argv": [
+    "-d",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "type ResponseStatus struct",
+    "code,attr",
+    "responseCode,attr",
+    "xml:\"http://www.mnb.hu/webservices/ code,attr,omitempty\"",
+    "xml:\"http://www.mnb.hu/webservices/ responseCode,attr,omitempty\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_gowsdl.py:87"
+  },
+  {
+   "test": "test_ext_element_with_local_simple_type_and_enums",
+   "argv": [
+    "-d",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "type ElementWithLocalSimpleType string",
+    "type ElementWithLocalSimpleType string",
+    "= \"enum1\"",
+    "= \"enum2\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_gowsdl.py:109"
+  },
+  {
+   "test": "test_ext_datetime_type_generates_methods",
+   "argv": [
+    "-d",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "type StartDate soap.XSDDateTime",
+    "func (xdt StartDate) MarshalXML",
+    "return soap.XSDDateTime(xdt).MarshalXML",
+    "func (xdt *StartDate) UnmarshalXML",
+    "return (*soap.XSDDateTime)(xdt).UnmarshalXML"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_gowsdl.py:129"
+  },
+  {
+   "test": "test_ext_complex_type_generated_correctly",
+   "argv": [
+    "-d",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "type WorkerObjectIDType struct"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_gowsdl.py:199"
+  },
+  {
+   "test": "test_ext_epcis_wsdl_generates_expected_source",
+   "argv": [
+    "-d",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "type EPCISQueryDocumentType",
+    "type PartnerIdentification"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_gowsdl.py:215"
+  },
+  {
+   "test": "test_ext_location_parse_location_file_and_relative_output",
+   "argv": [
+    "-d",
+    "-o",
+    "my.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "my.wsdl": "<?xml version='1.0'?>\n<definitions xmlns='http://schemas.xmlsoap.org/wsdl/'\n             xmlns:xs='http://www.w3.org/2001/XMLSchema'\n             targetNamespace='http://example.org/'>\n  <types>\n    <xs:schema>\n      <xs:import namespace='http://example.org/' schemaLocation='schemas/some.xsd'/>\n    </xs:schema>\n  </types>\n</definitions>\n"
+   },
+   "ci": false,
+   "source": "test_externalized_gowsdl.py:367"
+  },
+  {
+   "test": "test_help_h_exact_except_usage_path",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gowsdl_cli.py:35"
+  },
+  {
+   "test": "test_help_long_exact_except_usage_path",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gowsdl_cli.py:42"
+  },
+  {
+   "test": "test_no_args_prints_usage_and_exits_zero",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "myservice.wsdl"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_gowsdl_cli.py:49"
+  },
+  {
+   "test": "test_unknown_flag_errors_nonzero",
+   "argv": [
+    "-definitely-not-a-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "flag provided but not defined"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_gowsdl_cli.py:64"
+  },
+  {
+   "test": "test_missing_wsdl_errors_nonzero",
+   "argv": [
+    "does-not-exist.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "no such file or directory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_gowsdl_cli.py:71"
+  },
+  {
+   "test": "test_generate_default_outputs_match_golden",
+   "argv": [
+    "test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Reading file",
+    "Done"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_gowsdl_cli.py:78"
+  },
+  {
+   "test": "test_generate_with_output_and_package_flags",
+   "argv": [
+    "-o",
+    "gen.go",
+    "-p",
+    "pkgname",
+    "test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done",
+    "package pkgname"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_gowsdl_cli.py:104"
+  },
+  {
+   "test": "test_d_flag_requires_directory_to_exist",
+   "argv": [
+    "-d",
+    "out",
+    "test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "no such file or directory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_gowsdl_cli.py:124"
+  },
+  {
+   "test": "test_d_flag_writes_under_existing_directory",
+   "argv": [
+    "-d",
+    "out",
+    "test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Done"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_gowsdl_cli.py:134"
+  },
+  {
+   "test": "test_make_public_flag_changes_generated_code",
+   "argv": [
+    "-make-public=false",
+    "test.wsdl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "elementWithLocalSimpleType",
+    "elementWithLocalSimpleTypeenum1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_gowsdl_cli.py:148"
+  },
+  {
+   "test": "test_help_precedence_over_unknown_flag",
+   "argv": [
+    "--help",
+    "--definitely-not-a-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:87"
+  },
+  {
+   "test": "test_help_output_matches_baseline_exactly",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:100"
+  },
+  {
+   "test": "test_help_flag_shows_usage",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-o",
+    "-p"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:46"
+  },
+  {
+   "test": "test_usage_shows_expected_flags",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-o",
+    "-p",
+    "-d",
+    "-i",
+    "-v",
+    "-make-public"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:128"
+  },
+  {
+   "test": "test_usage_pattern_mentions_wsdl",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "wsdl"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:143"
+  }
+ ]
+}

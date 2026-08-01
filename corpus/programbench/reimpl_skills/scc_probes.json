@@ -1,0 +1,245 @@
+[
+ {
+  "name": "test::test_invalid_directory_fails::0",
+  "argv": [
+   "NOTAREALDIRECTORYORFILE"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_directory_specified_succeeds::1",
+  "argv": [
+   "processor"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_options::2",
+  "argv": [
+   "--avg-wage",
+   "10000",
+   "--binary",
+   "--by-file",
+   "--no-cocomo",
+   "--no-size",
+   "--size-unit",
+   "si",
+   "--include-symlinks",
+   "--debug",
+   "--exclude-dir",
+   ".git",
+   "-f",
+   "tabular",
+   "-i",
+   "go",
+   "-c",
+   "-d",
+   "-M",
+   "something",
+   "-s",
+   "name",
+   "-w",
+   "processor"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regular_expression_ignore::3",
+  "argv": [
+   "-i",
+   "sh",
+   "-M",
+   "vendor|examples|p.*"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ci_param::4",
+  "argv": [
+   "--ci"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_specified::5",
+  "argv": [
+   "main.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_file_arguments_go::6",
+  "argv": [
+   "main.go",
+   "README.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_directory_specified::7",
+  "argv": [
+   "processor",
+   "scripts"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_regex_equivalence::8",
+  "argv": [
+   "--not-match",
+   "(.*\\.hex|.*\\.d|.*\\.o|.*\\.csv|^(./)?[0-9]{8}_.*)",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_filter_respected::9",
+  "argv": [
+   "--no-ignore"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minified_check::10",
+  "argv": [
+   "-i",
+   "js",
+   "--no-scc-ignore"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minified_ignored_check::11",
+  "argv": [
+   "-i",
+   "js",
+   "-z",
+   "--no-scc-ignore"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_removed_min::12",
+  "argv": [
+   "--no-min-gen",
+   "--no-scc-ignore"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flagged_as_gen::13",
+  "argv": [
+   "-z",
+   "--no-scc-ignore"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_gen_line_length::14",
+  "argv": [
+   "-z",
+   "--min-gen-line-length",
+   "1",
+   "--no-min-gen",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_large_byte_test::15",
+  "argv": [
+   "--no-large",
+   "--large-byte-count",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_large_line_test::16",
+  "argv": [
+   "--no-large",
+   "--large-line-count",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mcp_initialize_handshake::17",
+  "argv": [
+   "--mcp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

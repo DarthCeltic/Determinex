@@ -1,0 +1,26 @@
+ripgrep — A line-oriented search tool that recursively searches the current directory for a regex pattern.
+Author: Andrew Gallant (BurntSushi)
+License: MIT OR Unlicense
+URL: https://github.com/BurntSushi/ripgrep
+Language: Rust
+Year: 2016
+
+ripgrep is a line-oriented search tool that recursively searches directories for a regex pattern.
+By default, ripgrep will respect your .gitignore and automatically skip hidden files/directories
+and binary files. ripgrep has first class support on Windows, macOS, and Linux.
+
+Key behaviors:
+- Recursively search directories for a regex pattern
+- Respects .gitignore, .ignore, and .rgignore files
+- Supports PCRE2 regular expressions via --pcre2 flag
+- Colored output by default for terminals
+- --type and --type-not flags for filtering by file type
+- --glob for file path patterns
+- --count and --count-matches for counting
+- -l / --files-with-matches for listing matching files only
+- -n / --line-number (on by default) and -N / --no-line-number
+- --stats for aggregate statistics after results
+- stdin input support
+- Output formats: path:linenum:match (default), JSON (--json)
+
+Determinex uses ripgrep extensively for code search in the Hive pipeline.

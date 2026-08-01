@@ -1,0 +1,29 @@
+{
+  "schema": "determinex-repair-loop-transcript-v1",
+  "tool": "cJSON",
+  "family": "c_cpp",
+  "pinned_commit": "fb16e5c",
+  "repair_type": "seeded_defect (behavioral) - verifier is the project's OWN test suite in a host image (toolchain via provider; Docker-OPTIONAL)",
+  "toolchain": "host",
+  "oracle": "the real DaveGamble/cJSON repo's own tests: cd build && ctest",
+  "defect": {
+    "file": "cJSON.c",
+    "seed": "item->valuedouble = number; -> item->valuedouble = number + 1;"
+  },
+  "detect": {
+    "baseline": "100% tests passed, 0 tests failed out of 19",
+    "after_seed": "test suite FAILED (exit 8)",
+    "oracle_caught": true,
+    "failure_signature": "seeded defect made the project's own test suite exit non-zero"
+  },
+  "repair": {
+    "fix": "git checkout (restore upstream source)"
+  },
+  "reverify": {
+    "after": "100% tests passed, 0 tests failed out of 19",
+    "passed": 19,
+    "failures": 0
+  },
+  "repair_loop_status": "passed",
+  "proves": "closed-loop repair on a real external c_cpp project (cJSON): its OWN test suite detects the injected defect -> fix -> re-verify (100% tests passed, 0 tests failed out of 19). Reproducible."
+}

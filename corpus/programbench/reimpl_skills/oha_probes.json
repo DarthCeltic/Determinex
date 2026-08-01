@@ -1,0 +1,4351 @@
+[
+ {
+  "name": "test::test_request_count_m_suffix::0",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "0.001m",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_request_count_decimal::1",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "2.5k",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_qps_rate_limiting::2",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "10",
+   "-q",
+   "5",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_burst_mode::3",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "8",
+   "--burst-delay",
+   "1s",
+   "--burst-rate",
+   "4",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_latency_correction::4",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "10",
+   "-q",
+   "5",
+   "--latency-correction",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_compression::5",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "--disable-compression",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_keepalive::6",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "5",
+   "--disable-keepalive",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_redirect_limit::7",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "-r",
+   "5",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_redirects::8",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "-r",
+   "0",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ipv4_only::9",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "--ipv4",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_pre_lookup::10",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "--no-pre-lookup",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_request_timeout::11",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "-t",
+   "0.5s",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_connect_timeout::12",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "--connect-timeout",
+   "2s",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_urls_from_file::13",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "6",
+   "--urls-from-file",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dump_urls::14",
+  "argv": [
+   "--dump-urls",
+   "5",
+   "http://example.com/test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rand_regex_url::15",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "3",
+   "--rand-regex-url",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_repeat::16",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "2",
+   "--rand-regex-url",
+   "--max-repeat",
+   "2",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_success_breakdown::17",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "5",
+   "--stats-success-breakdown",
+   "--output-format",
+   "text"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_unit_ns::18",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "2",
+   "-u",
+   "ns",
+   "--output-format",
+   "text"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_unit_ms::19",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "2",
+   "-u",
+   "ms",
+   "--output-format",
+   "text"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_unit_s::20",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "2",
+   "-u",
+   "s",
+   "--output-format",
+   "text"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_database_url::21",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "5",
+   "--db-url",
+   "--output-format",
+   "quiet"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_accept_header::22",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "-A",
+   "application/json",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_content_type::23",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "-m",
+   "POST",
+   "-d",
+   "data",
+   "-T",
+   "application/json",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_host_header::24",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "--host",
+   "example.com",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http2::25",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "--http2",
+   "--output-format",
+   "quiet"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_headers::26",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "-H",
+   "X-Test: 1",
+   "-H",
+   "X-Test2: 2",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wait_ongoing_after_deadline::27",
+  "argv": [
+   "--no-tui",
+   "-z",
+   "0.5s",
+   "-w",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fps_option::28",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "5",
+   "--fps",
+   "30",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag::29",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_h_flag::30",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::31",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_short::32",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_request_quiet_mode::33",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "--output-format",
+   "quiet"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_request_text_output::34",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "2",
+   "--output-format",
+   "text"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_output_format::35",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "3",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_output_format::36",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "2",
+   "--output-format",
+   "csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_request_count_plain::37",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "5",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_request_count_k_suffix::38",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "0.5k",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concurrent_connections::39",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "10",
+   "-c",
+   "5",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duration_based::40",
+  "argv": [
+   "--no-tui",
+   "-z",
+   "1s",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_get_method_default::41",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_post_method::42",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "-m",
+   "POST",
+   "-d",
+   "test data",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_header::43",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "-H",
+   "X-Custom: TestValue",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_request_body_string::44",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "-m",
+   "POST",
+   "-d",
+   "Hello World",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_request_body_from_file::45",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "-m",
+   "POST",
+   "-D",
+   "body.txt",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "body.txt": "File content here"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_tui_flag::46",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "--output-format",
+   "text"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_to_file::47",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "--output-format",
+   "text",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_color_flag::48",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "--no-color",
+   "--output-format",
+   "text"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_mode::49",
+  "argv": [
+   "--debug"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_url::50",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "--output-format",
+   "quiet",
+   "not-a-valid-url"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_url::51",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_form_data::52",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "-F",
+   "field=value",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_form_data_with_file::53",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "-F",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_body_path_lines::54",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "3",
+   "-m",
+   "POST",
+   "-Z",
+   "lines.txt",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "lines.txt": "line1\nline2\nline3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_version_10::55",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "--http-version",
+   "1.0",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_version_11::56",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "--http-version",
+   "1.1",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_version_09::57",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "--http-version",
+   "0.9",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_unit_us::58",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "2",
+   "-u",
+   "us",
+   "--output-format",
+   "text"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_unit_h::59",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "2",
+   "-u",
+   "h",
+   "--output-format",
+   "text"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_unit_m::60",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "2",
+   "-u",
+   "m",
+   "--output-format",
+   "text"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_put_method::61",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "-m",
+   "PUT",
+   "-d",
+   "data",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_method::62",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "-m",
+   "DELETE",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_head_method::63",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "-m",
+   "HEAD",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_output_with_csv_body::64",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "-m",
+   "POST",
+   "-D",
+   "data.csv",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "a,b,c\n1,2,3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_short_duration::65",
+  "argv": [
+   "--no-tui",
+   "-z",
+   "0.1s",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decimal_qps::66",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "5",
+   "-q",
+   "2.5",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_qps_unlimited::67",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "10",
+   "-q",
+   "0",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_proxy_header::68",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "--proxy-header",
+   "X-Proxy: test",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_burst_default_rate::69",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "4",
+   "--burst-delay",
+   "0.5s",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http2_parallel::70",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "4",
+   "-p",
+   "2",
+   "--http2",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_connect_to::71",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "--connect-to",
+   "--output-format",
+   "json",
+   "http://example.com/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aws_sigv4_valid_format::72",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "--aws-sigv4",
+   "aws:amz:us-east-1:s3",
+   "--output-format",
+   "quiet",
+   "http://192.0.2.1:9999/",
+   "--connect-timeout",
+   "0.1s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_auth::73",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "-a",
+   "user:pass",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_request_count::74",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "not-a-number",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_concurrent_connections::75",
+  "argv": [
+   "--no-tui",
+   "-c",
+   "invalid",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_duration::76",
+  "argv": [
+   "--no-tui",
+   "-z",
+   "invalid",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_qps::77",
+  "argv": [
+   "--no-tui",
+   "-q",
+   "not-a-number",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_http_version::78",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "--http-version",
+   "5",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_output_format::79",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "--output-format",
+   "invalid",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_body_file::80",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "-D",
+   "/nonexistent/file.txt",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_urls_file::81",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "--urls-from-file",
+   "/nonexistent/urls.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_url_scheme::82",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "--connect-timeout",
+   "0.1s",
+   "--output-format",
+   "json",
+   "ftp://192.0.2.1:9999/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cert_without_key::83",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "--cert",
+   "/tmp/cert.pem",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_key_without_cert::84",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "--key",
+   "/tmp/key.pem",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_urls_file::85",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "--urls-from-file",
+   "empty.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.txt": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_urls_file_with_invalid_url::86",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "--urls-from-file",
+   "invalid_urls.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid_urls.txt": "not-a-url\ninvalid"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_request_count::87",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "-5",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_request_count::88",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "0",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_large_request_count::89",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "999999999k",
+   "--output-format",
+   "quiet",
+   "-z",
+   "0.1s",
+   "http://192.0.2.1:9999/",
+   "--connect-timeout",
+   "0.1s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_time_unit::90",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "-u",
+   "invalid",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_burst_delay::91",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "5",
+   "--burst-delay",
+   "invalid",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_qps_with_burst::92",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "5",
+   "-q",
+   "10",
+   "--burst-delay",
+   "1s",
+   "--output-format",
+   "quiet",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_redirect_limit::93",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "-r",
+   "not-a-number",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unreachable_host::94",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "--connect-timeout",
+   "0.1s",
+   "--output-format",
+   "json",
+   "http://192.0.2.1:9999/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_regex_url::95",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "--rand-regex-url",
+   "http://example.com/[[[invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_connect_to::96",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "--connect-to",
+   "invalid-format",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_body_path_lines_nonexistent::97",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "-Z",
+   "/nonexistent/file.txt",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_method::98",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "-m",
+   "INVALID123",
+   "--output-format",
+   "quiet"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_body_string::99",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "-m",
+   "POST",
+   "-d",
+   "",
+   "--output-format",
+   "quiet"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_header::100",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "-H",
+   "--output-format",
+   "quiet"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_aws_sigv4_format::101",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "--aws-sigv4",
+   "invalid",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duration_minutes::102",
+  "argv": [
+   "--no-tui",
+   "-z",
+   "0.01m",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duration_hours::103",
+  "argv": [
+   "--no-tui",
+   "-z",
+   "0.0001h",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duration_milliseconds::104",
+  "argv": [
+   "--no-tui",
+   "-z",
+   "500ms",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_timeout_milliseconds::105",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "-t",
+   "2000ms",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_connect_timeout_milliseconds::106",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "--connect-timeout",
+   "5000ms",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_request_count::107",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "50",
+   "-c",
+   "10",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_text_output_with_colors::108",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "5",
+   "--output-format",
+   "text"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_connection_refused::109",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "--connect-timeout",
+   "0.1s",
+   "--output-format",
+   "json",
+   "http://127.0.0.1:9/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rapid_requests::110",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "100",
+   "-c",
+   "20",
+   "-q",
+   "0",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_breakdown_json::111",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "10",
+   "--stats-success-breakdown",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_more_connections_than_requests::112",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "5",
+   "-c",
+   "10",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rand_regex_complex::113",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "5",
+   "--rand-regex-url",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_time_units_csv::114",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "2",
+   "-u",
+   "--output-format",
+   "csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_latency_correction_various_qps::115",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "15",
+   "-q",
+   "10",
+   "--latency-correction",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_burst_with_large_rate::116",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "20",
+   "--burst-delay",
+   "0.5s",
+   "--burst-rate",
+   "10",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_many_headers::117",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "2",
+   "-H",
+   "X-Header-1: value1",
+   "-H",
+   "X-Header-2: value2",
+   "-H",
+   "X-Header-3: value3",
+   "-H",
+   "X-Header-4: value4",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_with_query_params::118",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "2",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_request_body::119",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "-m",
+   "POST",
+   "-d",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_patch_method::120",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "-m",
+   "PATCH",
+   "-d",
+   "data",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_options_method::121",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "-m",
+   "OPTIONS",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_form_fields::122",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "-F",
+   "field1=value1",
+   "-F",
+   "field2=value2",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_accept_and_content_type::123",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "-m",
+   "POST",
+   "-A",
+   "application/json",
+   "-T",
+   "application/json",
+   "-d",
+   "{\"key\":\"value\"}",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_high_concurrency::124",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "20",
+   "-c",
+   "20",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duration_with_concurrency::125",
+  "argv": [
+   "--no-tui",
+   "-z",
+   "0.5s",
+   "-c",
+   "5",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_output_multiple_requests::126",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "5",
+   "--output-format",
+   "csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_urls_from_file_mixed::127",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "8",
+   "--urls-from-file",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_features::128",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "5",
+   "-c",
+   "2",
+   "-m",
+   "POST",
+   "-H",
+   "X-Test: value",
+   "-d",
+   "test body",
+   "-A",
+   "text/plain",
+   "--disable-keepalive",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_file_json::129",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "3",
+   "--output-format",
+   "json",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_file_csv::130",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "3",
+   "--output-format",
+   "csv",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dump_urls_with_regex::131",
+  "argv": [
+   "--dump-urls",
+   "3",
+   "--rand-regex-url",
+   "http://test.com/[0-9][a-z]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decimal_k_variations::132",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "0.1k",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_takes_precedence_over_invalid_option::133",
+  "argv": [
+   "--help",
+   "--definitely-not-a-real-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_after_double_dash_is_not_treated_as_help::134",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_treats_next_token_as_positional_url::135",
+  "argv": [
+   "--",
+   "http://example.com",
+   "--no-tui"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_with_flag_like_url_value_produces_too_many_positionals_error::136",
+  "argv": [
+   "--",
+   "-x",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repeated_flag_last_one_wins_for_output_format::137",
+  "argv": [
+   "--output-format=text",
+   "--output-format=quiet",
+   "--no-tui",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_help_subcommand::138",
+  "argv": [
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_version_subcommand::139",
+  "argv": [
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_command_treated_as_url::140",
+  "argv": [
+   "nonexistent_command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_argument_is_url_error::141",
+  "argv": [
+   "invalid_input_string"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_subcommand_suggestions::142",
+  "argv": [
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_database_creation_and_schema::143",
+  "argv": [
+   "SELECT name FROM sqlite_master WHERE type='table' AND name='oha'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_request_data_persisted_correctly::144",
+  "argv": [
+   "SELECT COUNT(*) FROM oha"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_codes_stored_correctly::145",
+  "argv": [
+   "SELECT status, url FROM oha"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_response_sizes_stored_correctly::146",
+  "argv": [
+   "SELECT len_bytes, url FROM oha"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_timing_field_coherence::147",
+  "argv": [
+   "SELECT start, end, duration FROM oha"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_path_and_query_stored::148",
+  "argv": [
+   "SELECT DISTINCT url FROM oha"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_id_is_unix_timestamp::149",
+  "argv": [
+   "SELECT DISTINCT run FROM oha"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_start_latency_correction_field::150",
+  "argv": [
+   "PRAGMA table_info(oha)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_id_uniqueness_across_runs::151",
+  "argv": [
+   "SELECT DISTINCT run FROM oha ORDER BY run"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_different_status_code_ranges::152",
+  "argv": [
+   "SELECT DISTINCT status FROM oha"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_byte_response::153",
+  "argv": [
+   "SELECT len_bytes, status FROM oha"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_database_with_https_url::154",
+  "argv": [
+   "SELECT DISTINCT url, status FROM oha"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_large_response_size::155",
+  "argv": [
+   "SELECT len_bytes FROM oha"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_database_with_very_long_url::156",
+  "argv": [
+   "SELECT url FROM oha LIMIT 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ipv6_address::157",
+  "argv": [
+   "--no-tui",
+   "--output-format",
+   "quiet",
+   "-n",
+   "1",
+   "--ipv4",
+   "--connect-timeout",
+   "1s",
+   "http://[::1]:9999/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_connect_timeout::158",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "--connect-timeout",
+   "1s",
+   "http://192.0.2.1/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http3_not_enabled_error::159",
+  "argv": [
+   "--no-tui",
+   "--output-format",
+   "quiet",
+   "-n",
+   "1",
+   "--http-version",
+   "3",
+   "http://example.com/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_insecure_flag_accepted::160",
+  "argv": [
+   "--no-tui",
+   "--output-format",
+   "quiet",
+   "-n",
+   "1",
+   "--insecure",
+   "--connect-timeout",
+   "1s",
+   "https://192.0.2.1/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_url_errors::161",
+  "argv": [
+   "--no-tui"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_n_suffix_errors::162",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1x",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_duration_errors::163",
+  "argv": [
+   "--no-tui",
+   "-z",
+   "10",
+   "http://example.com"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dns_failure_is_exit_1::164",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "-c",
+   "1",
+   "http://nonexistent.invalid",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_connection_refused_is_reported_in_json_and_exit_0::165",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "-c",
+   "1",
+   "http://127.0.0.1:1",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_format_json_success::166",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "2",
+   "-c",
+   "1",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_format_csv_header_and_rows::167",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "3",
+   "-c",
+   "1",
+   "--output-format",
+   "csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_format_quiet_has_no_output::168",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "-c",
+   "1",
+   "--output-format",
+   "quiet"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_file_option_writes_file_and_no_stdout::169",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "-c",
+   "1",
+   "--output-format",
+   "json",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_header_is_sent::170",
+  "argv": [
+   "--no-tui",
+   "--debug",
+   "-H",
+   "X-Test: abc123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_host_override_is_sent::171",
+  "argv": [
+   "--no-tui",
+   "--debug",
+   "--host",
+   "example.test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_post_body_with_d_is_sent_as_utf8_bytes::172",
+  "argv": [
+   "--no-tui",
+   "--debug",
+   "-m",
+   "POST",
+   "-d",
+   "héllö☃"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_post_body_with_D_file_is_sent_as_bytes::173",
+  "argv": [
+   "--no-tui",
+   "--debug",
+   "-m",
+   "POST",
+   "-D",
+   "body.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "body.txt": "line1\nline2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_request_count_suffix_m::174",
+  "argv": [
+   "--dump-urls",
+   "3",
+   "--rand-regex-url",
+   "http://127.0.0.1/test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_proxy_header_option::175",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "2",
+   "--proxy-header",
+   "X-Proxy: value",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_version_0_9::176",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "2",
+   "--http-version",
+   "0.9",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_output_structure::177",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "10",
+   "--output-format",
+   "csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_units_all::178",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "3",
+   "-u"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_redirect_chain::179",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "5",
+   "-r",
+   "5",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_success_failure::180",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "10",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_high_concurrency::181",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "50",
+   "-c",
+   "50",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_url_error::182",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "not-a-valid-url"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_compression::183",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "5",
+   "--disable-compression",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_redirect_disabled::184",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "2",
+   "-r",
+   "0",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_connect_timeout::185",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "--connect-timeout",
+   "1s",
+   "--output-format",
+   "json",
+   "http://192.0.2.1:8080"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_request_timeout::186",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "2",
+   "-t",
+   "10s",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ipv4_only::187",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "3",
+   "--ipv4",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_version_1_1::188",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "3",
+   "--http-version",
+   "1.1",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_version_1_0::189",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "3",
+   "--http-version",
+   "1.0",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_tui_option::190",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_success_breakdown::191",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "5",
+   "--stats-success-breakdown"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_mode_with_headers::192",
+  "argv": [
+   "--debug",
+   "-H",
+   "X-Test: DebugValue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_mode_post_with_body::193",
+  "argv": [
+   "--debug",
+   "-m",
+   "POST",
+   "-d",
+   "test body"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_db_url_option::194",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "5",
+   "--db-url",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_auth::195",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "2",
+   "-a",
+   "user:password",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_form_data::196",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "2",
+   "-F",
+   "field=value",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_form_data_with_file::197",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "2",
+   "-F",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_pre_lookup::198",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "3",
+   "--no-pre-lookup",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_latency_correction::199",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "10",
+   "-q",
+   "10",
+   "--latency-correction",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_burst_delay_and_rate::200",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "8",
+   "--burst-delay",
+   "500ms",
+   "--burst-rate",
+   "4",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wait_ongoing_requests_after_deadline::201",
+  "argv": [
+   "--no-tui",
+   "-z",
+   "1s",
+   "-w",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http2_parallel_requests::202",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "10",
+   "-c",
+   "2",
+   "-p",
+   "5",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_body_post::203",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "2",
+   "-m",
+   "POST",
+   "-d",
+   "",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_header::204",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "2",
+   "-H",
+   "X-Special: value@#$",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_long_header_value::205",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "2",
+   "-H",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_request_count_as_float::206",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "0.01k",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_output_histogram::207",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "20",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_output_line_count::208",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "--output-format",
+   "csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_short_duration::209",
+  "argv": [
+   "--no-tui",
+   "-z",
+   "0.5s",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_host_header_override::210",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "3",
+   "--host",
+   "custom.example.com",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_accept_header_override::211",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "3",
+   "-A",
+   "text/html",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_request_generator_patterns::212",
+  "argv": [
+   "--dump-urls",
+   "3",
+   "--rand-regex-url"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_low_concurrency_high_requests::213",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "100",
+   "-c",
+   "1",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_burst_rate_default::214",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "10",
+   "--burst-delay",
+   "0.5s",
+   "--burst-rate",
+   "5",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_redirect_with_custom_limit::215",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "2",
+   "-r",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_with_zero_requests::216",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "0",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_keepalive_with_high_requests::217",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "50",
+   "--disable-keepalive",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_url_format::218",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "not-a-url"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unreachable_host::219",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "--connect-timeout",
+   "1s",
+   "--output-format",
+   "json",
+   "http://192.0.2.1:80"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_port::220",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "http://127.0.0.1:99999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_file_for_body::221",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "-D",
+   "/nonexistent/file.txt",
+   "http://127.0.0.1:8080"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_http_version::222",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "--http-version",
+   "99",
+   "http://127.0.0.1:8080"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_duration_format::223",
+  "argv": [
+   "--no-tui",
+   "-z",
+   "invalid",
+   "http://127.0.0.1:8080"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_request_count::224",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "-5",
+   "http://127.0.0.1:8080"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_output_format::225",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "--output-format",
+   "invalid",
+   "http://127.0.0.1:8080"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_body_options::226",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "-d",
+   "string data",
+   "-D",
+   "body.txt",
+   "http://127.0.0.1:8080"
+  ],
+  "stdin": null,
+  "files": {
+   "body.txt": "file content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_custom_header::227",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "2",
+   "-H",
+   "X-Empty:",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_regex_url::228",
+  "argv": [
+   "--dump-urls",
+   "1",
+   "--rand-regex-url",
+   "http://127.0.0.1/["
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cert_without_key::229",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "--cert",
+   "/tmp/cert.pem",
+   "https://127.0.0.1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_request_count_with_suffix::230",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "3k",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_url::231",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_body_from_file::232",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "2",
+   "-m",
+   "POST",
+   "-D",
+   "body.txt",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "body.txt": "file content for testing"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dump_urls_option::233",
+  "argv": [
+   "--dump-urls",
+   "5",
+   "--rand-regex-url",
+   "http://127.0.0.1/test[0-9]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_repeat_option::234",
+  "argv": [
+   "--dump-urls",
+   "3",
+   "--rand-regex-url",
+   "http://127.0.0.1/[a-z]*",
+   "--max-repeat",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_body_from_file_line_by_line::235",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "6",
+   "-m",
+   "POST",
+   "-Z",
+   "bodies.txt",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {
+   "bodies.txt": "line1\nline2\nline3"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_file_creation::236",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "3",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_qps_variations::237",
+  "argv": [
+   "--no-tui",
+   "-z",
+   "0.8s",
+   "-q",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_method_variations_extensive::238",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "12",
+   "-m",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_longer_duration::239",
+  "argv": [
+   "--no-tui",
+   "-z",
+   "15s",
+   "-q",
+   "5",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_header_format::240",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "-H",
+   "InvalidHeader",
+   "http://127.0.0.1:8080"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_insecure_https::241",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "1",
+   "--insecure",
+   "--connect-timeout",
+   "1s",
+   "--output-format",
+   "json",
+   "https://127.0.0.1:8443"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http2_option::242",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "5",
+   "--http2",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_content_type_header::243",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "2",
+   "-m",
+   "POST",
+   "-d",
+   "{\"key\":\"value\"}",
+   "-T",
+   "application/json",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_status_codes::244",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "4",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_text_output_format_structure::245",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_request_variations::246",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "-c",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_text_output_format::247",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_output_format::248",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "5",
+   "--output-format",
+   "quiet"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_to_file::249",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "5",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_json_to_file::250",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "5",
+   "--output-format",
+   "json",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_unit_option::251",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "5",
+   "-u",
+   "ms"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_color_option::252",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "5",
+   "--no-color"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_request_count::253",
+  "argv": [
+   "--no-tui",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_request_count_with_k_suffix::254",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "200",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concurrent_connections::255",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "20",
+   "-c",
+   "5",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_per_second_rate_limit::256",
+  "argv": [
+   "--no-tui",
+   "-z",
+   "1s",
+   "-q",
+   "10",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_method_post::257",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "3",
+   "-m",
+   "POST",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_method_put::258",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "2",
+   "-m",
+   "PUT",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_method_delete::259",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "2",
+   "-m",
+   "DELETE",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_header::260",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "2",
+   "-H",
+   "X-Custom: TestValue",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_custom_headers::261",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "2",
+   "-H",
+   "X-First: value1",
+   "-H",
+   "X-Second: value2",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_accept_header::262",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "2",
+   "-A",
+   "application/json",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_request_body_string::263",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "2",
+   "-m",
+   "POST",
+   "-d",
+   "test body content",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_content_type::264",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "2",
+   "-m",
+   "POST",
+   "-d",
+   "data",
+   "-T",
+   "application/json",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_color_env_disables_ansi_colors::265",
+  "argv": [
+   "--debug",
+   "http://127.0.0.1:1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "NO_COLOR": "1"
+  }
+ },
+ {
+  "name": "test::test_cli_no_color_overrides_env_unset::266",
+  "argv": [
+   "--no-color",
+   "--debug",
+   "http://127.0.0.1:1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_urls_file_exits_nonzero::267",
+  "argv": [
+   "--no-tui",
+   "--urls-from-file",
+   "--output-format",
+   "json",
+   "does_not_exist.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_text_output_contains_expected_sections_and_exit_0::268",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "5",
+   "-c",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_output_is_valid_and_contains_status_code_distribution::269",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "3",
+   "-c",
+   "1",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_file_writes_results_and_suppresses_stdout::270",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "2",
+   "-c",
+   "1",
+   "--output-format",
+   "json",
+   "--output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_format_quiet_produces_no_stdout::271",
+  "argv": [
+   "--no-tui",
+   "-n",
+   "2",
+   "-c",
+   "1",
+   "--output-format",
+   "quiet"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_urls_from_file_reads_url_list_file_and_sends_requests::272",
+  "argv": [
+   "--no-tui",
+   "--urls-from-file",
+   "-n",
+   "4",
+   "-c",
+   "2",
+   "--output-format",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

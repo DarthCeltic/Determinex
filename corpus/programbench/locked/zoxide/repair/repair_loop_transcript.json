@@ -1,0 +1,31 @@
+{
+  "schema": "determinex-repair-loop-transcript-v1",
+  "tool": "zoxide",
+  "family": "rust",
+  "pinned_commit": "67ca1bc",
+  "repair_type": "seeded_defect (oracle-driven, SWE-bench-style)",
+  "defect": {
+    "file": "src/main.rs",
+    "seed": "Ok(()) => ExitCode::SUCCESS  ->  ExitCode::FAILURE",
+    "intent": "break the success exit contract"
+  },
+  "detect": {
+    "eval": "205/577 passed, 372 FAILED",
+    "oracle_caught": true,
+    "lead_failing_tests": [
+      "test_add_existing_directory",
+      "test_query_returns_best_match"
+    ]
+  },
+  "repair": {
+    "fix": "restore Ok(()) => ExitCode::SUCCESS",
+    "oracle_guided": "failing add/query tests assert success exit"
+  },
+  "reverify": {
+    "after": "577/577 (== archived native green)",
+    "passed": 577,
+    "failures": 0
+  },
+  "repair_loop_status": "passed",
+  "proves": "closed-loop repair on a real external Rust project (zoxide): oracle detects injected defect -> fix -> re-verify green."
+}

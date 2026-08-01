@@ -1,0 +1,27 @@
+CodeCipher: Learning to Obfuscate Source Code Against LLMs
+Yalan Lin, Chengcheng Wan, Yixiong Fang, Xiaodong Gu
+Fudan University
+arXiv: 2410.05797
+Submitted: October 8, 2024
+
+Abstract:
+CodeCipher addresses cloud code-LLM privacy by learning to transform the LLM's
+embedding matrix such that each token maps to a different word in the vocabulary.
+A trainable perturbed embedding matrix E' is optimized by minimizing task-specific
+loss while applying discrete optimization that snaps vectors to nearest vocabulary
+tokens. The approach requires white-box access during optimization but transfers
+to black-box models. Evaluation on CodeLlama-7B for code completion, summarization,
+and translation.
+
+Key finding:
+- Achieves code obfuscation at the embedding/token level
+- 0% compilation rate on obfuscated code (explicitly reported)
+- ~34% token recovery via LLM-based deobfuscation
+
+Relationship to Determinex Project Cloak:
+Project Cloak operates at the AST identifier level (not embedding matrix level),
+preserves syntactic validity such that obfuscated code compiles successfully,
+and uses a deterministic bidirectional SymbolMap enabling complete patch restoration.
+CodeCipher's 0% compile rate makes it incompatible with compile-gate pipelines.
+Project Cloak's compilability invariant is the clearest technical differentiator.
+Both systems address the same problem (hiding code from cloud LLMs) via orthogonal approaches.

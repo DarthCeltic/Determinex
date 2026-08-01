@@ -1,0 +1,5333 @@
+[
+ {
+  "name": "test::test_ls_bytes_apparent_count::0",
+  "argv": [
+   "ls",
+   "-b",
+   "-a",
+   "--count",
+   "/tmp/complex_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_classify_graph_ascii::1",
+  "argv": [
+   "ls",
+   "-F",
+   "-g",
+   "--ascii",
+   "/tmp/complex_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_recursive_name_sort::2",
+  "argv": [
+   "ls",
+   "-R",
+   "-n",
+   "/tmp/complex_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cgi_with_query_string::3",
+  "argv": [
+   "cgi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "QUERY_STRING": "path=/tmp/complex_test"
+  }
+ },
+ {
+  "name": "test::test_cgi_gradient_palette_combo::4",
+  "argv": [
+   "cgi",
+   "--gradient",
+   "--palette=size"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_color_classify::5",
+  "argv": [
+   "ls",
+   "-c",
+   "-F",
+   "/tmp/complex_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_color_graph::6",
+  "argv": [
+   "ls",
+   "--color",
+   "--graph",
+   "/tmp/complex_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_pdf_with_options::7",
+  "argv": [
+   "graph",
+   "-f",
+   "pdf",
+   "--gradient",
+   "--dpi=150",
+   "/tmp/testdir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_html_with_options::8",
+  "argv": [
+   "graph",
+   "--format=html",
+   "--size=600",
+   "--levels=3",
+   "/tmp/testdir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xml_min_size_10::9",
+  "argv": [
+   "xml",
+   "-s",
+   "10",
+   "/tmp/complex_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_min_size_10::10",
+  "argv": [
+   "json",
+   "-s",
+   "10",
+   "/tmp/complex_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xml_min_size_100::11",
+  "argv": [
+   "xml",
+   "--min_size=100",
+   "/tmp/complex_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_min_size_100::12",
+  "argv": [
+   "json",
+   "--min_size=100",
+   "/tmp/complex_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_topn_bytes_flag::13",
+  "argv": [
+   "topn",
+   "-b"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_topn_no_args::14",
+  "argv": [
+   "topn"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_histogram_all_flags::15",
+  "argv": [
+   "histogram",
+   "-a",
+   "-b",
+   "-t"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_all_flags::16",
+  "argv": [
+   "info",
+   "-a",
+   "-b",
+   "-H"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_dpi_300::17",
+  "argv": [
+   "graph",
+   "--dpi=300",
+   "/tmp/testdir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_dpi_72::18",
+  "argv": [
+   "graph",
+   "--dpi=72",
+   "/tmp/testdir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_fuzz_0::19",
+  "argv": [
+   "graph",
+   "--fuzz=0",
+   "/tmp/testdir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_fuzz_1::20",
+  "argv": [
+   "graph",
+   "--fuzz=1.0",
+   "/tmp/testdir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_ring_gap_0::21",
+  "argv": [
+   "graph",
+   "--ring-gap=0",
+   "/tmp/testdir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_ring_gap_10::22",
+  "argv": [
+   "graph",
+   "--ring-gap=10",
+   "/tmp/testdir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_color_various_paths::23",
+  "argv": [
+   "ls",
+   "--color",
+   "/tmp/complex_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_stdout_svg_format::24",
+  "argv": [
+   "graph",
+   "--format=svg",
+   "--output=-",
+   "/tmp/testdir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xml_nested_deep_paths::25",
+  "argv": [
+   "xml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_nested_deep_paths::26",
+  "argv": [
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_full_path_all_dirs::27",
+  "argv": [
+   "ls",
+   "--full-path",
+   "/tmp/complex_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_histogram_all_databases::28",
+  "argv": [
+   "histogram"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_all_databases::29",
+  "argv": [
+   "info"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_all_detailed::30",
+  "argv": [
+   "help",
+   "--all"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_help_invocations::31",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_output_format_detailed::32",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_database_path_variations::33",
+  "argv": [
+   "info",
+   "-d",
+   "test.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_output_path_variations::34",
+  "argv": [
+   "graph",
+   "-o",
+   "-d",
+   "/tmp/nonexist.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_multiple_options::35",
+  "argv": [
+   "index",
+   "-b",
+   "-v",
+   "-p",
+   "-H",
+   "-x",
+   "-e",
+   "*.tmp",
+   "-m",
+   "5",
+   "-d",
+   "/nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_multiple_options_combined::36",
+  "argv": [
+   "ls",
+   "-b",
+   "-a",
+   "-F",
+   "-c",
+   "-g",
+   "-R",
+   "-n",
+   "-l",
+   "3",
+   "-d",
+   "/tmp/nonexist.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_all_options_combined::37",
+  "argv": [
+   "graph",
+   "-a",
+   "--count",
+   "--gradient",
+   "--palette",
+   "rainbow",
+   "--fuzz",
+   "0.5",
+   "--dpi",
+   "120",
+   "--ring-gap",
+   "2",
+   "-l",
+   "5",
+   "-s",
+   "800",
+   "-f",
+   "png",
+   "-o",
+   "-d",
+   "/tmp/nonexist.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cgi_all_options_combined::38",
+  "argv": [
+   "cgi",
+   "-b",
+   "-a",
+   "--count",
+   "--list",
+   "--gradient",
+   "--tooltip",
+   "--palette",
+   "rainbow",
+   "--fuzz",
+   "0.5",
+   "--dpi",
+   "120",
+   "--ring-gap",
+   "2",
+   "-l",
+   "5",
+   "-s",
+   "800",
+   "--css-url",
+   "http://example.com/style.css",
+   "--header",
+   "h.html",
+   "--footer",
+   "f.html",
+   "-d",
+   "/tmp/nonexist.db"
+  ],
+  "stdin": null,
+  "files": {
+   "h.html": "<html>",
+   "f.html": "</html>"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ui_all_options_combined::39",
+  "argv": [
+   "ui",
+   "-b",
+   "-a",
+   "--count",
+   "-n",
+   "--no-color",
+   "-d",
+   "/tmp/nonexist.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gui_all_options_combined::40",
+  "argv": [
+   "gui",
+   "-b",
+   "-a",
+   "--count",
+   "--dark",
+   "--gradient",
+   "--palette",
+   "rainbow",
+   "--fuzz",
+   "0.5",
+   "--ring-gap",
+   "2",
+   "-l",
+   "5",
+   "-d",
+   "/tmp/nonexist.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xml_all_options_combined::41",
+  "argv": [
+   "xml",
+   "-a",
+   "-x",
+   "-s",
+   "1024",
+   "-d",
+   "/tmp/nonexist.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_all_options_combined::42",
+  "argv": [
+   "json",
+   "-a",
+   "-x",
+   "-s",
+   "2048",
+   "-d",
+   "/tmp/nonexist.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_histogram_all_options_combined::43",
+  "argv": [
+   "histogram",
+   "-b",
+   "-a",
+   "-t",
+   "-d",
+   "/tmp/nonexist.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_topn_all_options_combined::44",
+  "argv": [
+   "topn",
+   "-b",
+   "-d",
+   "/tmp/nonexist.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_all_options_combined::45",
+  "argv": [
+   "info",
+   "-b",
+   "-a",
+   "-H",
+   "-d",
+   "/tmp/nonexist.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_manual_command_exists::46",
+  "argv": [
+   "manual"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_verbose_together::47",
+  "argv": [
+   "--debug",
+   "--verbose",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_with_version::48",
+  "argv": [
+   "--quiet",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_with_help::49",
+  "argv": [
+   "--debug",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_with_invalid_command::50",
+  "argv": [
+   "--verbose",
+   "nonexistent_command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_subcommand_without_args::51",
+  "argv": [
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_all_short_form::52",
+  "argv": [
+   "help",
+   "-a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_with_fs_exclude::53",
+  "argv": [
+   "index",
+   "--fs-exclude=tmpfs",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_with_fs_include::54",
+  "argv": [
+   "index",
+   "--fs-include=ext4",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_with_uid::55",
+  "argv": [
+   "index",
+   "--uid=1000",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_with_username::56",
+  "argv": [
+   "index",
+   "--username=root",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_with_topn_options::57",
+  "argv": [
+   "index",
+   "--topn=20",
+   "--topn-min=1024",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_with_buckets::58",
+  "argv": [
+   "index",
+   "--buckets=32",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_uncompressed_option::59",
+  "argv": [
+   "index",
+   "--uncompressed",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_with_dpi::60",
+  "argv": [
+   "graph",
+   "--dpi=150",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_with_ring_gap::61",
+  "argv": [
+   "graph",
+   "--ring-gap=5",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_with_fuzz::62",
+  "argv": [
+   "graph",
+   "--fuzz=0.5",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_multiple_options_combined::63",
+  "argv": [
+   "graph",
+   "--gradient",
+   "--palette=rainbow",
+   "--fuzz=0.5",
+   "--dpi=300",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_with_classify::64",
+  "argv": [
+   "ls",
+   "--classify",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_with_color::65",
+  "argv": [
+   "ls",
+   "--color",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_with_graph::66",
+  "argv": [
+   "ls",
+   "--graph",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_with_levels::67",
+  "argv": [
+   "ls",
+   "--levels=3",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_with_name_sort::68",
+  "argv": [
+   "ls",
+   "--name-sort",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_with_count::69",
+  "argv": [
+   "ls",
+   "--count",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_with_full_path::70",
+  "argv": [
+   "ls",
+   "--full-path",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_with_ascii::71",
+  "argv": [
+   "ls",
+   "--ascii",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_dirs_only::72",
+  "argv": [
+   "ls",
+   "--dirs-only",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cgi_with_css_url::73",
+  "argv": [
+   "cgi",
+   "--css-url=style.css",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cgi_with_header::74",
+  "argv": [
+   "cgi",
+   "--header=Custom",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cgi_with_footer::75",
+  "argv": [
+   "cgi",
+   "--footer=Footer",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cgi_with_tooltip::76",
+  "argv": [
+   "cgi",
+   "--tooltip",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cgi_with_list::77",
+  "argv": [
+   "cgi",
+   "--list",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gui_with_dark::78",
+  "argv": [
+   "gui",
+   "--dark",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ui_with_no_color::79",
+  "argv": [
+   "ui",
+   "--no-color",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xml_with_exclude_files::80",
+  "argv": [
+   "xml",
+   "--exclude-files",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xml_with_min_size::81",
+  "argv": [
+   "xml",
+   "--min_size=1024",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_with_exclude_files::82",
+  "argv": [
+   "json",
+   "--exclude-files",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_with_min_size::83",
+  "argv": [
+   "json",
+   "--min_size=1024",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_with_histogram::84",
+  "argv": [
+   "info",
+   "--histogram",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_apparent::85",
+  "argv": [
+   "info",
+   "--apparent",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_apparent::86",
+  "argv": [
+   "ls",
+   "--apparent",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_histogram_apparent::87",
+  "argv": [
+   "histogram",
+   "--apparent",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_apparent::88",
+  "argv": [
+   "json",
+   "--apparent",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xml_apparent::89",
+  "argv": [
+   "xml",
+   "--apparent",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_apparent::90",
+  "argv": [
+   "graph",
+   "--apparent",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_bytes::91",
+  "argv": [
+   "index",
+   "--bytes",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_bytes::92",
+  "argv": [
+   "info",
+   "--bytes",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_bytes::93",
+  "argv": [
+   "ls",
+   "--bytes",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_histogram_bytes::94",
+  "argv": [
+   "histogram",
+   "--bytes",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cgi_bytes::95",
+  "argv": [
+   "cgi",
+   "--bytes",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gui_bytes::96",
+  "argv": [
+   "gui",
+   "--bytes",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ui_bytes::97",
+  "argv": [
+   "ui",
+   "--bytes",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_database_with_value::98",
+  "argv": [
+   "info",
+   "--database=/tmp/test.db",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_database_short_form::99",
+  "argv": [
+   "info",
+   "-d",
+   "/tmp/test.db",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_form_q::100",
+  "argv": [
+   "-q",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_form_v::101",
+  "argv": [
+   "-v",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_short_options::102",
+  "argv": [
+   "-v",
+   "-q",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_option_with_equals::103",
+  "argv": [
+   "index",
+   "--database=/tmp/test.db",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_option_with_space::104",
+  "argv": [
+   "index",
+   "--database",
+   "/tmp/test.db",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_numeric_option_values::105",
+  "argv": [
+   "index",
+   "--max-depth=5",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_option_values::106",
+  "argv": [
+   "index",
+   "--exclude=/tmp",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_command_shows_error::107",
+  "argv": [
+   "invalid_command_xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_database_error::108",
+  "argv": [
+   "info",
+   "--database=/nonexistent/path/db.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_multiple_paths::109",
+  "argv": [
+   "index",
+   "--exclude=/tmp",
+   "--exclude=/var",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dry_run_option::110",
+  "argv": [
+   "index",
+   "--dry-run",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_progress_option::111",
+  "argv": [
+   "index",
+   "--progress",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_recursive_option::112",
+  "argv": [
+   "ls",
+   "--recursive",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_count::113",
+  "argv": [
+   "graph",
+   "--count",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cgi_count::114",
+  "argv": [
+   "cgi",
+   "--count",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gui_count::115",
+  "argv": [
+   "gui",
+   "--count",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ui_count::116",
+  "argv": [
+   "ui",
+   "--count",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_palette::117",
+  "argv": [
+   "graph",
+   "--palette=rainbow",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cgi_palette::118",
+  "argv": [
+   "cgi",
+   "--palette=rainbow",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gui_palette::119",
+  "argv": [
+   "gui",
+   "--palette=rainbow",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_gradient::120",
+  "argv": [
+   "graph",
+   "--gradient",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cgi_gradient::121",
+  "argv": [
+   "cgi",
+   "--gradient",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gui_gradient::122",
+  "argv": [
+   "gui",
+   "--gradient",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_levels::123",
+  "argv": [
+   "graph",
+   "--levels=5",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_levels::124",
+  "argv": [
+   "ls",
+   "--levels=5",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cgi_levels::125",
+  "argv": [
+   "cgi",
+   "--levels=5",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gui_levels::126",
+  "argv": [
+   "gui",
+   "--levels=5",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_format_png::127",
+  "argv": [
+   "graph",
+   "--format=png",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_format_svg::128",
+  "argv": [
+   "graph",
+   "--format=svg",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_format_pdf::129",
+  "argv": [
+   "graph",
+   "--format=pdf",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_format_html::130",
+  "argv": [
+   "graph",
+   "--format=html",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_histogram_base10::131",
+  "argv": [
+   "histogram",
+   "--base10",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_shows_help::132",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_specific_subcommand::133",
+  "argv": [
+   "help",
+   "index"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_command::134",
+  "argv": [
+   "nonexistent-command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_debug_flag::135",
+  "argv": [
+   "--debug",
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_quiet_flag::136",
+  "argv": [
+   "--quiet",
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_verbose_flag::137",
+  "argv": [
+   "--verbose",
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cgi_help::138",
+  "argv": [
+   "cgi",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cgi_help_shows_all_options::139",
+  "argv": [
+   "cgi",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cgi_without_cgi_environment::140",
+  "argv": [
+   "cgi",
+   "-d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cgi_list_option::141",
+  "argv": [
+   "cgi",
+   "--list",
+   "-d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cgi_size_levels_options::142",
+  "argv": [
+   "cgi",
+   "-s",
+   "400",
+   "-l",
+   "3",
+   "-d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cgi_gradient_palette_options::143",
+  "argv": [
+   "cgi",
+   "--gradient",
+   "--palette",
+   "rainbow",
+   "-d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cgi_tooltip_option::144",
+  "argv": [
+   "cgi",
+   "--tooltip",
+   "-d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cgi_bytes_apparent_options::145",
+  "argv": [
+   "cgi",
+   "-b",
+   "-a",
+   "-d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cgi_count_option::146",
+  "argv": [
+   "cgi",
+   "--count",
+   "-d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cgi_css_url_option::147",
+  "argv": [
+   "cgi",
+   "--css-url",
+   "http://example.com/style.css",
+   "-d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cgi_header_footer_options::148",
+  "argv": [
+   "cgi",
+   "--header",
+   "header.html",
+   "--footer",
+   "footer.html",
+   "-d"
+  ],
+  "stdin": null,
+  "files": {
+   "header.html": "<html><body>",
+   "footer.html": "</body></html>"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cgi_dpi_fuzz_ringgap_options::149",
+  "argv": [
+   "cgi",
+   "--dpi",
+   "120",
+   "--fuzz",
+   "0.5",
+   "--ring-gap",
+   "2",
+   "-d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_missing_path_argument::150",
+  "argv": [
+   "index",
+   "--database=/tmp/test.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_with_nonexistent_path::151",
+  "argv": [
+   "index",
+   "--database=/tmp/test.db",
+   "/nonexistent/path/xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_with_too_many_topn::152",
+  "argv": [
+   "index",
+   "--database=/tmp/test.db",
+   "--topn=99999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_with_too_many_buckets::153",
+  "argv": [
+   "index",
+   "--database=/tmp/test.db",
+   "--buckets=99999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_with_nonexistent_database::154",
+  "argv": [
+   "info",
+   "--database=/nonexistent/db.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_with_directory_as_database::155",
+  "argv": [
+   "info",
+   "--database=/tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_with_nonexistent_database::156",
+  "argv": [
+   "ls",
+   "--database=/nonexistent/db.db",
+   "/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_missing_database::157",
+  "argv": [
+   "ls",
+   "/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "DUC_DATABASE": ""
+  }
+ },
+ {
+  "name": "test::test_histogram_with_nonexistent_database::158",
+  "argv": [
+   "histogram",
+   "--database=/nonexistent/db.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xml_with_nonexistent_database::159",
+  "argv": [
+   "xml",
+   "--database=/nonexistent/db.db",
+   "/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_with_nonexistent_database::160",
+  "argv": [
+   "json",
+   "--database=/nonexistent/db.db",
+   "/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_with_nonexistent_database::161",
+  "argv": [
+   "graph",
+   "--database=/nonexistent/db.db",
+   "--output=/tmp/test.png",
+   "/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_topn_with_nonexistent_database::162",
+  "argv": [
+   "topn",
+   "--database=/nonexistent/db.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cgi_without_environment::163",
+  "argv": [
+   "cgi",
+   "--database=/nonexistent/db.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ui_with_nonexistent_database::164",
+  "argv": [
+   "ui",
+   "--database=/nonexistent/db.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gui_without_display::165",
+  "argv": [
+   "gui",
+   "--database=/tmp/test.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "DISPLAY": ""
+  }
+ },
+ {
+  "name": "test::test_index_uses_env_database::166",
+  "argv": [
+   "index"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "DUC_DATABASE": "/tmp/env_test.db"
+  }
+ },
+ {
+  "name": "test::test_verbose_flag_with_error::167",
+  "argv": [
+   "--verbose",
+   "info",
+   "--database=/nonexistent/db.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_flag_with_error::168",
+  "argv": [
+   "--debug",
+   "info",
+   "--database=/nonexistent/db.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_with_exclude_pattern::169",
+  "argv": [
+   "index",
+   "--exclude=/tmp/xyz",
+   "--database=/tmp/test.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_with_multiple_exclude_patterns::170",
+  "argv": [
+   "index",
+   "--exclude=/a",
+   "--exclude=/b",
+   "--database=/tmp/test.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_with_empty_database::171",
+  "argv": [
+   "index",
+   "--database=",
+   "/tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_with_output_file::172",
+  "argv": [
+   "graph",
+   "--database=/nonexistent/db.db",
+   "--output=/tmp/test_graph.png",
+   "/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_without_output_file::173",
+  "argv": [
+   "graph",
+   "--database=/nonexistent/db.db",
+   "/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_with_recursive_and_levels::174",
+  "argv": [
+   "ls",
+   "--recursive",
+   "--levels=5",
+   "--database=/nonexistent/db.db",
+   "/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_with_invalid_format::175",
+  "argv": [
+   "graph",
+   "--format=invalid",
+   "--database=/tmp/test.db",
+   "/tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_histogram_with_base10::176",
+  "argv": [
+   "histogram",
+   "--base10",
+   "--database=/nonexistent/db.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_with_apparent::177",
+  "argv": [
+   "ls",
+   "--apparent",
+   "--database=/nonexistent/db.db",
+   "/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_with_apparent::178",
+  "argv": [
+   "json",
+   "--apparent",
+   "--database=/nonexistent/db.db",
+   "/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_force_option::179",
+  "argv": [
+   "index",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_classify_option::180",
+  "argv": [
+   "ls",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_format_option::181",
+  "argv": [
+   "graph",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ui_no_color_option::182",
+  "argv": [
+   "ui",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gui_dark_option::183",
+  "argv": [
+   "gui",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_missing_database::184",
+  "argv": [
+   "ls",
+   "--database=/tmp/nonexistent_duc_db_12345.db",
+   "/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_missing_database::185",
+  "argv": [
+   "info",
+   "--database=/tmp/nonexistent_duc_db_12345.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_histogram_missing_database::186",
+  "argv": [
+   "histogram",
+   "--database=/tmp/nonexistent_duc_db_12345.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_topn_missing_database::187",
+  "argv": [
+   "topn",
+   "--database=/tmp/nonexistent_duc_db_12345.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_missing_database::188",
+  "argv": [
+   "json",
+   "--database=/tmp/nonexistent_duc_db_12345.db",
+   "/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xml_missing_database::189",
+  "argv": [
+   "xml",
+   "--database=/tmp/nonexistent_duc_db_12345.db",
+   "/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_missing_database::190",
+  "argv": [
+   "graph",
+   "--database=/tmp/nonexistent_duc_db_12345.db",
+   "/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_ls::191",
+  "argv": [
+   "help",
+   "ls"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_info::192",
+  "argv": [
+   "help",
+   "info"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_histogram::193",
+  "argv": [
+   "help",
+   "histogram"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_topn::194",
+  "argv": [
+   "help",
+   "topn"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_json::195",
+  "argv": [
+   "help",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_xml::196",
+  "argv": [
+   "help",
+   "xml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_graph::197",
+  "argv": [
+   "help",
+   "graph"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_cgi::198",
+  "argv": [
+   "help",
+   "cgi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_gui::199",
+  "argv": [
+   "help",
+   "gui"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_ui::200",
+  "argv": [
+   "help",
+   "ui"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_flag_with_help::201",
+  "argv": [
+   "--verbose",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_flag_with_help::202",
+  "argv": [
+   "--quiet",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_verbose_flags::203",
+  "argv": [
+   "-v",
+   "-v",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_database_with_special_characters::204",
+  "argv": [
+   "info",
+   "--database=/tmp/test-db_123.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_database_with_relative_path::205",
+  "argv": [
+   "info",
+   "--database=./relative/path.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_database_empty_string::206",
+  "argv": [
+   "info",
+   "--database="
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xml_with_min_size_option::207",
+  "argv": [
+   "xml",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_with_min_size_option::208",
+  "argv": [
+   "json",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_histogram_base10_option::209",
+  "argv": [
+   "histogram",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_topn_bytes_option::210",
+  "argv": [
+   "topn",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_histogram_option::211",
+  "argv": [
+   "info",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_subcommand_shows_help::212",
+  "argv": [
+   "invalidcmd"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_database_error_is_clear::213",
+  "argv": [
+   "info",
+   "--database=/nonexistent/path.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_after_error::214",
+  "argv": [
+   "--invalid-option",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_with_verbose::215",
+  "argv": [
+   "--verbose",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_with_force_flag::216",
+  "argv": [
+   "index",
+   "--force"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_with_progress_flag::217",
+  "argv": [
+   "index",
+   "--progress"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_with_bytes_flag::218",
+  "argv": [
+   "index",
+   "--bytes"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_with_check_hard_links::219",
+  "argv": [
+   "index",
+   "--check-hard-links"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_with_hide_file_names::220",
+  "argv": [
+   "index",
+   "--hide-file-names"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_with_one_file_system::221",
+  "argv": [
+   "index",
+   "--one-file-system"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_with_uncompressed::222",
+  "argv": [
+   "index",
+   "--uncompressed"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_with_buckets::223",
+  "argv": [
+   "index",
+   "--buckets=32"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_with_topn::224",
+  "argv": [
+   "index",
+   "--topn=10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_with_topn_min::225",
+  "argv": [
+   "index",
+   "--topn-min=1024"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_with_uid::226",
+  "argv": [
+   "index",
+   "--uid=1000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_with_username::227",
+  "argv": [
+   "index",
+   "--username=root"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_with_fs_exclude::228",
+  "argv": [
+   "index",
+   "--fs-exclude=tmpfs,proc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_with_fs_include::229",
+  "argv": [
+   "index",
+   "--fs-include=ext4,xfs"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_short_options::230",
+  "argv": [
+   "index",
+   "-b",
+   "-p"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_database_with_equals_sign::231",
+  "argv": [
+   "ls",
+   "--database=/tmp/test.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_database_with_space::232",
+  "argv": [
+   "ls",
+   "--database",
+   "/tmp/test.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_database_short_form::233",
+  "argv": [
+   "ls",
+   "-d",
+   "/tmp/test.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_database_short_form_no_space::234",
+  "argv": [
+   "ls",
+   "-d/tmp/test.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_palette_size::235",
+  "argv": [
+   "graph",
+   "--palette=size",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_palette_greyscale::236",
+  "argv": [
+   "graph",
+   "--palette=greyscale",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_palette_monochrome::237",
+  "argv": [
+   "graph",
+   "--palette=monochrome",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_palette_classic::238",
+  "argv": [
+   "graph",
+   "--palette=classic",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_size_option::239",
+  "argv": [
+   "graph",
+   "--size=1024",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_ring_gap::240",
+  "argv": [
+   "graph",
+   "--ring-gap=2",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_bytes::241",
+  "argv": [
+   "graph",
+   "--bytes",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_dark::242",
+  "argv": [
+   "graph",
+   "--dark",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_apparent::243",
+  "argv": [
+   "info",
+   "--apparent",
+   "--database=/tmp/nonexistent.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_bytes::244",
+  "argv": [
+   "info",
+   "--bytes",
+   "--database=/tmp/nonexistent.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_histogram::245",
+  "argv": [
+   "info",
+   "--histogram",
+   "--database=/tmp/nonexistent.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_short_options::246",
+  "argv": [
+   "info",
+   "-a",
+   "-b",
+   "-H",
+   "--database=/tmp/nonexistent.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_histogram_apparent::247",
+  "argv": [
+   "histogram",
+   "--apparent",
+   "--database=/tmp/nonexistent.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_histogram_bytes::248",
+  "argv": [
+   "histogram",
+   "--bytes",
+   "--database=/tmp/nonexistent.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_histogram_base10::249",
+  "argv": [
+   "histogram",
+   "--base10",
+   "--database=/tmp/nonexistent.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_histogram_short_options::250",
+  "argv": [
+   "histogram",
+   "-a",
+   "-b",
+   "-t",
+   "--database=/tmp/nonexistent.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_topn_apparent::251",
+  "argv": [
+   "topn",
+   "--apparent",
+   "--database=/tmp/nonexistent.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_topn_bytes::252",
+  "argv": [
+   "topn",
+   "--bytes",
+   "--database=/tmp/nonexistent.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_topn_short_options::253",
+  "argv": [
+   "topn",
+   "-a",
+   "-b",
+   "--database=/tmp/nonexistent.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_database_option_overrides_env_var::254",
+  "argv": [
+   "info",
+   "--database=/tmp/other_db.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "DUC_DATABASE": "/tmp/first_db.db"
+  }
+ },
+ {
+  "name": "test::test_json_with_text_file_as_database::255",
+  "argv": [
+   "json",
+   "/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xml_with_empty_database_file::256",
+  "argv": [
+   "xml",
+   "/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_with_lmdb_database::257",
+  "argv": [
+   "info",
+   "--database=testing/dbs/lmdb.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_with_sqlite3_database::258",
+  "argv": [
+   "ls",
+   "--database=testing/dbs/sqlite3.db",
+   "/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_histogram_with_kyotocabinet_database::259",
+  "argv": [
+   "histogram",
+   "--database=testing/dbs/kyotocabinet.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_topn_with_tokyocabinet_database::260",
+  "argv": [
+   "topn",
+   "--database=testing/dbs/tokyocabinet.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_with_unreadable_database_path::261",
+  "argv": [
+   "ls",
+   "--database=/nonexistent/dir/db.db",
+   "/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_with_relative_database_path::262",
+  "argv": [
+   "json",
+   "--database=./relative/path/db.db",
+   "/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xml_with_special_characters_in_path::263",
+  "argv": [
+   "xml",
+   "--database=/tmp/test with spaces.db",
+   "/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_database_with_tilde_expansion::264",
+  "argv": [
+   "info",
+   "--database=~/nonexistent.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_database_with_environment_variable::265",
+  "argv": [
+   "info",
+   "--database=$HOME/test.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_uncompressed_without_path::266",
+  "argv": [
+   "index",
+   "--database=/tmp/test.db",
+   "--uncompressed"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_dry_run_without_path::267",
+  "argv": [
+   "index",
+   "--database=/tmp/test.db",
+   "--dry-run"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_string_arguments::268",
+  "argv": [
+   "info",
+   "-d",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_path::269",
+  "argv": [
+   "info",
+   "-d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bytes_flag_alone::270",
+  "argv": [
+   "info",
+   "-b",
+   "-d",
+   "/tmp/nonexist.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_apparent_flag_alone::271",
+  "argv": [
+   "info",
+   "-a",
+   "-d",
+   "/tmp/nonexist.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_histogram_base10_flag::272",
+  "argv": [
+   "histogram",
+   "-t",
+   "-d",
+   "/tmp/nonexist.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_classify_flag::273",
+  "argv": [
+   "ls",
+   "-F",
+   "-d",
+   "/tmp/nonexist.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_color_flag::274",
+  "argv": [
+   "ls",
+   "-c",
+   "-d",
+   "/tmp/nonexist.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_graph_flag::275",
+  "argv": [
+   "ls",
+   "-g",
+   "-d",
+   "/tmp/nonexist.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_recursive_flag::276",
+  "argv": [
+   "ls",
+   "-R",
+   "-d",
+   "/tmp/nonexist.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_directory_flag::277",
+  "argv": [
+   "ls",
+   "-D",
+   "-d",
+   "/tmp/nonexist.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_name_sort_flag::278",
+  "argv": [
+   "ls",
+   "-n",
+   "-d",
+   "/tmp/nonexist.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_levels_option::279",
+  "argv": [
+   "ls",
+   "-l",
+   "5",
+   "-d",
+   "/tmp/nonexist.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_format_png::280",
+  "argv": [
+   "graph",
+   "-f",
+   "png",
+   "-d",
+   "/tmp/nonexist.db",
+   "-o",
+   "/tmp/out.png"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_format_svg::281",
+  "argv": [
+   "graph",
+   "-f",
+   "svg",
+   "-d",
+   "/tmp/nonexist.db",
+   "-o",
+   "/tmp/out.svg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_format_pdf::282",
+  "argv": [
+   "graph",
+   "-f",
+   "pdf",
+   "-d",
+   "/tmp/nonexist.db",
+   "-o",
+   "/tmp/out.pdf"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_format_html::283",
+  "argv": [
+   "graph",
+   "-f",
+   "html",
+   "-d",
+   "/tmp/nonexist.db",
+   "-o",
+   "/tmp/out.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_with_size::284",
+  "argv": [
+   "graph",
+   "-s",
+   "1024",
+   "-d",
+   "/tmp/nonexist.db",
+   "-o",
+   "/tmp/out.png"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_with_levels::285",
+  "argv": [
+   "graph",
+   "-l",
+   "6",
+   "-d",
+   "/tmp/nonexist.db",
+   "-o",
+   "/tmp/out.png"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_with_gradient::286",
+  "argv": [
+   "graph",
+   "--gradient",
+   "-d",
+   "/tmp/nonexist.db",
+   "-o",
+   "/tmp/out.png"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_with_palette::287",
+  "argv": [
+   "graph",
+   "--palette",
+   "rainbow",
+   "-d",
+   "/tmp/nonexist.db",
+   "-o",
+   "/tmp/out.png"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_with_count::288",
+  "argv": [
+   "graph",
+   "--count",
+   "-d",
+   "/tmp/nonexist.db",
+   "-o",
+   "/tmp/out.png"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ui_with_no_color::289",
+  "argv": [
+   "ui",
+   "--no-color",
+   "-d",
+   "/tmp/nonexist.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ui_with_name_sort::290",
+  "argv": [
+   "ui",
+   "-n",
+   "-d",
+   "/tmp/nonexist.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gui_with_dark::291",
+  "argv": [
+   "gui",
+   "--dark",
+   "-d",
+   "/tmp/nonexist.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xml_with_exclude_files::292",
+  "argv": [
+   "xml",
+   "-x",
+   "-d",
+   "/tmp/nonexist.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xml_with_min_size::293",
+  "argv": [
+   "xml",
+   "-s",
+   "1024",
+   "-d",
+   "/tmp/nonexist.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_with_exclude_files::294",
+  "argv": [
+   "json",
+   "-x",
+   "-d",
+   "/tmp/nonexist.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_with_min_size::295",
+  "argv": [
+   "json",
+   "-s",
+   "2048",
+   "-d",
+   "/tmp/nonexist.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_with_exclude_pattern::296",
+  "argv": [
+   "index",
+   "-e",
+   "*.tmp",
+   "-d",
+   "/tmp/test.db",
+   "/nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_with_max_depth::297",
+  "argv": [
+   "index",
+   "-m",
+   "3",
+   "-d",
+   "/tmp/test.db",
+   "/nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_with_one_file_system::298",
+  "argv": [
+   "index",
+   "-x",
+   "-d",
+   "/tmp/test.db",
+   "/nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_with_check_hard_links::299",
+  "argv": [
+   "index",
+   "-H",
+   "-d",
+   "/tmp/test.db",
+   "/nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_with_verbose::300",
+  "argv": [
+   "index",
+   "--verbose",
+   "-d",
+   "/tmp/test.db",
+   "/nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_recursive_with_levels_0::301",
+  "argv": [
+   "ls",
+   "--recursive",
+   "--levels=0",
+   "/tmp/testdir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_recursive_with_levels_10::302",
+  "argv": [
+   "ls",
+   "--recursive",
+   "--levels=10",
+   "/tmp/testdir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_bytes_exact::303",
+  "argv": [
+   "ls",
+   "--bytes",
+   "/tmp/testdir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_bytes_exact::304",
+  "argv": [
+   "info",
+   "--bytes"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_color_with_tty::305",
+  "argv": [
+   "ls",
+   "--color",
+   "/tmp/testdir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_palette_greyscale::306",
+  "argv": [
+   "graph",
+   "--palette=greyscale",
+   "/tmp/testdir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_palette_size::307",
+  "argv": [
+   "graph",
+   "--palette=size",
+   "/tmp/testdir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xml_min_size_large::308",
+  "argv": [
+   "xml",
+   "--min_size=1000000",
+   "/tmp/testdir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_min_size_large::309",
+  "argv": [
+   "json",
+   "--min_size=1000000",
+   "/tmp/testdir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xml_min_size_zero::310",
+  "argv": [
+   "xml",
+   "--min_size=0",
+   "/tmp/testdir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_min_size_zero::311",
+  "argv": [
+   "json",
+   "--min_size=0",
+   "/tmp/testdir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_count_mode::312",
+  "argv": [
+   "ls",
+   "--count",
+   "/tmp/testdir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_count_mode::313",
+  "argv": [
+   "graph",
+   "--count",
+   "/tmp/testdir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cgi_count_mode::314",
+  "argv": [
+   "cgi",
+   "--count"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_apparent_size::315",
+  "argv": [
+   "ls",
+   "--apparent",
+   "/tmp/testdir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_histogram_apparent_size::316",
+  "argv": [
+   "histogram",
+   "--apparent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_size_100::317",
+  "argv": [
+   "graph",
+   "--size=100",
+   "/tmp/testdir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_size_1200::318",
+  "argv": [
+   "graph",
+   "--size=1200",
+   "/tmp/testdir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_classify_shows_indicators::319",
+  "argv": [
+   "ls",
+   "--classify",
+   "/tmp/testdir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_name_sort::320",
+  "argv": [
+   "ls",
+   "--name-sort",
+   "/tmp/testdir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_before_subcommand::321",
+  "argv": [
+   "--verbose",
+   "info"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_after_subcommand::322",
+  "argv": [
+   "info",
+   "--quiet"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cgi_list_generates_table::323",
+  "argv": [
+   "cgi",
+   "--list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cgi_tooltip_enabled::324",
+  "argv": [
+   "cgi",
+   "--tooltip"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_full_path_recursive::325",
+  "argv": [
+   "ls",
+   "--full-path",
+   "--recursive",
+   "/tmp/testdir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_ascii_tree::326",
+  "argv": [
+   "ls",
+   "--ascii",
+   "/tmp/testdir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_database_path::327",
+  "argv": [
+   "info",
+   "-d",
+   "/dev/null/impossible.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_required_arguments::328",
+  "argv": [
+   "index",
+   "-d",
+   "/tmp/test.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_database_option_recognized::329",
+  "argv": [
+   "info",
+   "--database",
+   "/tmp/nonexist.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_recursive_all_levels_all_paths::330",
+  "argv": [
+   "ls",
+   "-R"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_all_size_level_combinations::331",
+  "argv": [
+   "graph",
+   "/tmp/complex_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cgi_all_combinations::332",
+  "argv": [
+   "cgi",
+   "--size=500",
+   "--levels=3",
+   "--dpi=96",
+   "--fuzz=0.7",
+   "--ring-gap=4",
+   "--gradient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_with_unknown_option::333",
+  "argv": [
+   "index",
+   "--unknown-option"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_info_with_unknown_short_option::334",
+  "argv": [
+   "info",
+   "-Z"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_with_invalid_option_format::335",
+  "argv": [
+   "ls",
+   "--database"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_exclude_empty::336",
+  "argv": [
+   "index",
+   "--exclude=",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_database_empty_via_equals::337",
+  "argv": [
+   "ls",
+   "--database=",
+   "/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_and_long::338",
+  "argv": [
+   "index",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_database_short_and_long::339",
+  "argv": [
+   "info",
+   "-d",
+   "/tmp/test.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_option_before_command::340",
+  "argv": [
+   "--verbose",
+   "info",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_option_after_command::341",
+  "argv": [
+   "info",
+   "--verbose",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_with_many_options::342",
+  "argv": [
+   "ls",
+   "--bytes",
+   "--apparent",
+   "--classify",
+   "--color",
+   "--database=/tmp/test.db",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_with_all_visual_options::343",
+  "argv": [
+   "graph",
+   "--gradient",
+   "--palette=rainbow",
+   "--fuzz=0.5",
+   "--dpi=150",
+   "--ring-gap=5",
+   "--levels=6",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cgi_with_multiple_customizations::344",
+  "argv": [
+   "cgi",
+   "--css-url=style.css",
+   "--header=Header",
+   "--footer=Footer",
+   "--tooltip",
+   "--list",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_max_depth_zero::345",
+  "argv": [
+   "index",
+   "--max-depth=0",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_levels_very_large::346",
+  "argv": [
+   "ls",
+   "--levels=999",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_size_small::347",
+  "argv": [
+   "graph",
+   "--size=100",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_dpi_extreme::348",
+  "argv": [
+   "graph",
+   "--dpi=600",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_exclude_absolute_path::349",
+  "argv": [
+   "index",
+   "--exclude=/usr/local",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_exclude_relative_path::350",
+  "argv": [
+   "index",
+   "--exclude=./relative",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_fuzz_zero::351",
+  "argv": [
+   "graph",
+   "--fuzz=0",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_fuzz_one::352",
+  "argv": [
+   "graph",
+   "--fuzz=1.0",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_fuzz_decimal::353",
+  "argv": [
+   "graph",
+   "--fuzz=0.123",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_force_flag::354",
+  "argv": [
+   "index",
+   "--force",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_fs_exclude_multiple::355",
+  "argv": [
+   "index",
+   "--fs-exclude=tmpfs,devfs,procfs",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_fs_include::356",
+  "argv": [
+   "index",
+   "--fs-include=ext4,xfs",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_one_file_system::357",
+  "argv": [
+   "index",
+   "--one-file-system",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_uid_numeric::358",
+  "argv": [
+   "index",
+   "--uid=0",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_uid_large::359",
+  "argv": [
+   "index",
+   "--uid=65534",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_username_nobody::360",
+  "argv": [
+   "index",
+   "--username=nobody",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_topn_small::361",
+  "argv": [
+   "index",
+   "--topn=5",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_topn_default::362",
+  "argv": [
+   "index",
+   "--topn=10",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_topn_min_size::363",
+  "argv": [
+   "index",
+   "--topn-min=1048576",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xml_min_size::364",
+  "argv": [
+   "xml",
+   "--min_size=0",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_min_size_large::365",
+  "argv": [
+   "json",
+   "--min_size=1000000000",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_directory_option::366",
+  "argv": [
+   "ls",
+   "--directory",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ui_name_sort::367",
+  "argv": [
+   "ui",
+   "--name-sort",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_hide_file_names::368",
+  "argv": [
+   "index",
+   "--hide-file-names",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_ring_gap_zero::369",
+  "argv": [
+   "graph",
+   "--ring-gap=0",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cgi_ring_gap::370",
+  "argv": [
+   "cgi",
+   "--ring-gap=10",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gui_ring_gap::371",
+  "argv": [
+   "gui",
+   "--ring-gap=3",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cgi_size_option::372",
+  "argv": [
+   "cgi",
+   "--size=600",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_directory_recursive::373",
+  "argv": [
+   "ls",
+   "-D",
+   "-R",
+   "/tmp/complex_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xml_all_subdirs::374",
+  "argv": [
+   "xml",
+   "/tmp/complex_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_all_subdirs::375",
+  "argv": [
+   "json",
+   "/tmp/complex_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_levels_0_through_5::376",
+  "argv": [
+   "ls",
+   "/tmp/complex_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_with_invalid_max_depth::377",
+  "argv": [
+   "index",
+   "--max-depth=-1",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_with_uid_and_username::378",
+  "argv": [
+   "index",
+   "--uid=1000",
+   "--username=root",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_with_topn_and_topn_min::379",
+  "argv": [
+   "index",
+   "--topn=10",
+   "--topn-min=1000",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_with_buckets::380",
+  "argv": [
+   "index",
+   "--buckets=256",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ls_with_invalid_levels::381",
+  "argv": [
+   "ls",
+   "--levels=0",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_with_invalid_size::382",
+  "argv": [
+   "graph",
+   "--size=400",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_with_dpi::383",
+  "argv": [
+   "graph",
+   "--dpi=300",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_with_ring_gap::384",
+  "argv": [
+   "graph",
+   "--ring-gap=10",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_with_min_size::385",
+  "argv": [
+   "json",
+   "--min_size=1000",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xml_with_min_size::386",
+  "argv": [
+   "xml",
+   "--min_size=1000",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cgi_with_all_options::387",
+  "argv": [
+   "cgi",
+   "--css-url=http://example.com/style.css",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cgi_with_header_footer::388",
+  "argv": [
+   "cgi",
+   "--header=header.html",
+   "--footer=footer.html",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ui_with_all_options::389",
+  "argv": [
+   "ui",
+   "--bytes",
+   "--apparent",
+   "--count",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gui_with_all_options::390",
+  "argv": [
+   "gui",
+   "--bytes",
+   "--apparent",
+   "--count",
+   "--dark",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gui_with_gradient_palette::391",
+  "argv": [
+   "gui",
+   "--gradient",
+   "--palette=rainbow",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_database_not_found_clear_message::392",
+  "argv": [
+   "ls",
+   "--database=/tmp/definitely_not_existing_duc_database_12345.db",
+   "/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_with_invalid_subcommand::393",
+  "argv": [
+   "help",
+   "nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_help::394",
+  "argv": [
+   "help",
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_option_with_space::395",
+  "argv": [
+   "index",
+   "--max-depth",
+   "5",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_option_with_equals::396",
+  "argv": [
+   "index",
+   "-m=5",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_option_with_space::397",
+  "argv": [
+   "index",
+   "-m",
+   "5",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_verbose_flags::398",
+  "argv": [
+   "-v",
+   "-v",
+   "-v",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_overrides_verbose::399",
+  "argv": [
+   "--debug",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

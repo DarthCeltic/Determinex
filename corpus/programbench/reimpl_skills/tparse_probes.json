@@ -1,0 +1,1949 @@
+[
+ {
+  "name": "test::test_markdown_table_output::0",
+  "argv": [
+   "-file",
+   "test.jsonl",
+   "-format",
+   "markdown",
+   "-pass"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"Test1\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Test\":\"Test1\",\"Elapsed\":1.5}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"Test2\"}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Test\":\"Test2\",\"Elapsed\":0.5}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Elapsed\":2.0}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compare_flag_experimental::1",
+  "argv": [
+   "-file",
+   "test2.jsonl",
+   "-compare",
+   "test1.jsonl"
+  ],
+  "stdin": null,
+  "files": {
+   "test2.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"Test1\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Test\":\"Test1\",\"Elapsed\":2.0}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Elapsed\":2.0}\n",
+   "test1.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"Test1\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Test\":\"Test1\",\"Elapsed\":1.0}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Elapsed\":1.0}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_by_elapsed_descending::2",
+  "argv": [
+   "-file",
+   "test.jsonl",
+   "-pass",
+   "-sort",
+   "elapsed"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"Fast\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Test\":\"Fast\",\"Elapsed\":0.1}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"Medium\"}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Test\":\"Medium\",\"Elapsed\":0.5}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"Slow\"}\n{\"Time\":\"2024-01-01T00:00:03Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Test\":\"Slow\",\"Elapsed\":2.0}\n{\"Time\":\"2024-01-01T00:00:03Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Elapsed\":2.6}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_package_with_build_error::3",
+  "argv": [
+   "-file",
+   "test.jsonl"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"output\",\"Package\":\"badpkg\",\"Output\":\"# badpkg\\n\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"output\",\"Package\":\"badpkg\",\"Output\":\"./main.go:5:2: undefined: foo\\n\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"fail\",\"Package\":\"badpkg\",\"Elapsed\":0.1}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_package_cached_result::4",
+  "argv": [
+   "-file",
+   "test.jsonl"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"output\",\"Package\":\"cachepkg\",\"Output\":\"ok  \\tcachepkg\\t(cached)\\n\"}\n{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"pass\",\"Package\":\"cachepkg\"}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coverage_with_multiple_packages::5",
+  "argv": [
+   "-file",
+   "test.jsonl",
+   "-sort",
+   "cover"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg1\",\"Test\":\"Test1\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg1\",\"Test\":\"Test1\",\"Elapsed\":0.1}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"output\",\"Package\":\"pkg1\",\"Output\":\"coverage: 60.5% of statements\\n\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg1\",\"Elapsed\":0.1}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"run\",\"Package\":\"pkg2\",\"Test\":\"Test2\"}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"pass\",\"Package\":\"pkg2\",\"Test\":\"Test2\",\"Elapsed\":0.1}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"output\",\"Package\":\"pkg2\",\"Output\":\"coverage: 85.0% of statements\\n\"}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"pass\",\"Package\":\"pkg2\",\"Elapsed\":0.1}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subtest_with_smallscreen::6",
+  "argv": [
+   "-file",
+   "test.jsonl",
+   "-pass",
+   "-smallscreen"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"TestParent/SubtestLongName/NestedSubtest\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Test\":\"TestParent/SubtestLongName/NestedSubtest\",\"Elapsed\":0.5}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Elapsed\":0.5}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_plain_format_output::7",
+  "argv": [
+   "-file",
+   "test.jsonl",
+   "-format",
+   "plain",
+   "-pass"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"Test1\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Test\":\"Test1\",\"Elapsed\":0.5}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Elapsed\":0.5}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_skip_tests::8",
+  "argv": [
+   "-file",
+   "test.jsonl",
+   "-skip"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"TestSkip1\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Test\":\"TestSkip1\",\"Output\":\"--- SKIP: TestSkip1\\n\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"skip\",\"Package\":\"pkg\",\"Test\":\"TestSkip1\",\"Elapsed\":0.0}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"TestSkip2\"}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Test\":\"TestSkip2\",\"Output\":\"--- SKIP: TestSkip2\\n\"}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"skip\",\"Package\":\"pkg\",\"Test\":\"TestSkip2\",\"Elapsed\":0.0}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Elapsed\":0.0}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_long_package_name_trimming::9",
+  "argv": [
+   "-file",
+   "-trimpath",
+   "github.com/very/long/organization/name/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_elapsed_time_formatting::10",
+  "argv": [
+   "-file",
+   "test.jsonl",
+   "-pass"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"TestVeryFast\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Test\":\"TestVeryFast\",\"Elapsed\":0.001}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"TestVerySlow\"}\n{\"Time\":\"2024-01-01T00:00:10Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Test\":\"TestVerySlow\",\"Elapsed\":9.5}\n{\"Time\":\"2024-01-01T00:00:10Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Elapsed\":9.501}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_h::11",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_help::12",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_v::13",
+  "argv": [
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_version::14",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read_from_file::15",
+  "argv": [
+   "-file",
+   "test.jsonl"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"testpkg\",\"Test\":\"TestExample\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"output\",\"Package\":\"testpkg\",\"Test\":\"TestExample\",\"Output\":\"=== RUN   TestExample\\n\"}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"output\",\"Package\":\"testpkg\",\"Test\":\"TestExample\",\"Output\":\"--- PASS: TestExample (1.00s)\\n\"}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"pass\",\"Package\":\"testpkg\",\"Test\":\"TestExample\",\"Elapsed\":1.0}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"output\",\"Package\":\"testpkg\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"pass\",\"Package\":\"testpkg\",\"Elapsed\":1.0}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_does_not_exist::16",
+  "argv": [
+   "-file",
+   "/nonexistent/path/to/file.jsonl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pass_flag_shows_passed_tests::17",
+  "argv": [
+   "-file",
+   "test.jsonl",
+   "-pass"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"TestPass\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Test\":\"TestPass\",\"Elapsed\":0.5}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Elapsed\":0.5}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_skip_flag_shows_skipped_tests::18",
+  "argv": [
+   "-file",
+   "test.jsonl",
+   "-skip"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"TestSkip\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"skip\",\"Package\":\"pkg\",\"Test\":\"TestSkip\",\"Elapsed\":0.0}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Elapsed\":0.1}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_flag_shows_pass_and_skip::19",
+  "argv": [
+   "-file",
+   "test.jsonl",
+   "-all"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"TestPass\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Test\":\"TestPass\",\"Elapsed\":0.5}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"TestSkip\"}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"skip\",\"Package\":\"pkg\",\"Test\":\"TestSkip\",\"Elapsed\":0.0}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Elapsed\":0.6}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_failed_tests_always_shown::20",
+  "argv": [
+   "-file",
+   "test.jsonl"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"TestFail\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Test\":\"TestFail\",\"Output\":\"=== RUN   TestFail\\n\"}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Test\":\"TestFail\",\"Output\":\"    test.go:10: assertion failed\\n\"}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"fail\",\"Package\":\"pkg\",\"Test\":\"TestFail\",\"Elapsed\":1.0}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Output\":\"FAIL\\n\"}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"fail\",\"Package\":\"pkg\",\"Elapsed\":1.0}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_notests_flag::21",
+  "argv": [
+   "-file",
+   "test.jsonl",
+   "-notests"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"output\",\"Package\":\"emptypkg\",\"Output\":\"?   \\temptypkg\\t[no test files]\\n\"}\n{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"skip\",\"Package\":\"emptypkg\"}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_no_pass_shown::22",
+  "argv": [
+   "-file",
+   "test.jsonl"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"TestPass\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Test\":\"TestPass\",\"Elapsed\":0.5}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Elapsed\":0.5}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_malformed_json::23",
+  "argv": [
+   "-file",
+   "test.jsonl"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\" INVALID\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Elapsed\":0.1}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_file::24",
+  "argv": [
+   "-file",
+   "test.jsonl"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_only_whitespace::25",
+  "argv": [
+   "-file",
+   "test.jsonl"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "   \n\n   "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_incomplete_json_lines::26",
+  "argv": [
+   "-file",
+   "test.jsonl"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_required_fields::27",
+  "argv": [
+   "-file",
+   "test.jsonl"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\"}\n{\"Action\":\"pass\"}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_test_name::28",
+  "argv": [
+   "-file",
+   "-pass"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_output::29",
+  "argv": [
+   "-file",
+   "test.jsonl"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"TestLong\"}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_output::30",
+  "argv": [
+   "-file",
+   "test.jsonl",
+   "-pass"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"TestUnicode\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Test\":\"TestUnicode\",\"Output\":\"Hello 世界 🌍\\n\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Test\":\"TestUnicode\",\"Elapsed\":0.1}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Elapsed\":0.1}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_package_name::31",
+  "argv": [
+   "-file",
+   "test.jsonl"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"github.com/user/pkg-name_v2\",\"Test\":\"Test1\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"github.com/user/pkg-name_v2\",\"Test\":\"Test1\",\"Elapsed\":0.1}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"github.com/user/pkg-name_v2\",\"Elapsed\":0.1}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_elapsed_time::32",
+  "argv": [
+   "-file",
+   "test.jsonl",
+   "-pass"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"TestInstant\"}\n{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Test\":\"TestInstant\",\"Elapsed\":0.0}\n{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Elapsed\":0.0}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_packages_mixed_results::33",
+  "argv": [
+   "-file",
+   "test.jsonl"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg1\",\"Test\":\"Test1\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg1\",\"Test\":\"Test1\",\"Elapsed\":0.1}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg1\",\"Elapsed\":0.1}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"run\",\"Package\":\"pkg2\",\"Test\":\"Test2\"}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"output\",\"Package\":\"pkg2\",\"Test\":\"Test2\",\"Output\":\"test failed\\n\"}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"fail\",\"Package\":\"pkg2\",\"Test\":\"Test2\",\"Elapsed\":0.1}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"fail\",\"Package\":\"pkg2\",\"Elapsed\":0.1}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"run\",\"Package\":\"pkg3\",\"Test\":\"Test3\"}\n{\"Time\":\"2024-01-01T00:00:03Z\",\"Action\":\"skip\",\"Package\":\"pkg3\",\"Test\":\"Test3\",\"Elapsed\":0.0}\n{\"Time\":\"2024-01-01T00:00:03Z\",\"Action\":\"pass\",\"Package\":\"pkg3\",\"Elapsed\":0.0}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_failure_details_shown::34",
+  "argv": [
+   "-file",
+   "test.jsonl"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"TestFail\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Test\":\"TestFail\",\"Output\":\"=== RUN   TestFail\\n\"}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Test\":\"TestFail\",\"Output\":\"    test.go:10: expected true, got false\\n\"}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Test\":\"TestFail\",\"Output\":\"--- FAIL: TestFail (0.50s)\\n\"}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"fail\",\"Package\":\"pkg\",\"Test\":\"TestFail\",\"Elapsed\":0.5}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Output\":\"FAIL\\n\"}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"fail\",\"Package\":\"pkg\",\"Elapsed\":0.5}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_failures_shown::35",
+  "argv": [
+   "-file",
+   "test.jsonl"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"TestFail1\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Test\":\"TestFail1\",\"Output\":\"    error1\\n\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"fail\",\"Package\":\"pkg\",\"Test\":\"TestFail1\",\"Elapsed\":0.1}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"TestFail2\"}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Test\":\"TestFail2\",\"Output\":\"    error2\\n\"}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"fail\",\"Package\":\"pkg\",\"Test\":\"TestFail2\",\"Elapsed\":0.1}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Output\":\"FAIL\\n\"}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"fail\",\"Package\":\"pkg\",\"Elapsed\":0.2}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_failure_with_stack_trace::36",
+  "argv": [
+   "-file",
+   "test.jsonl"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"TestFail\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Test\":\"TestFail\",\"Output\":\"    test.go:10: assertion failed\\n\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Test\":\"TestFail\",\"Output\":\"        goroutine 1 [running]:\\n\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Test\":\"TestFail\",\"Output\":\"        pkg.TestFail(0x1234)\\n\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"fail\",\"Package\":\"pkg\",\"Test\":\"TestFail\",\"Elapsed\":0.1}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Output\":\"FAIL\\n\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"fail\",\"Package\":\"pkg\",\"Elapsed\":0.1}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subtest_failure_shown::37",
+  "argv": [
+   "-file",
+   "test.jsonl"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"TestParent\"}\n{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"TestParent/SubtestFail\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Test\":\"TestParent/SubtestFail\",\"Output\":\"    subtest failed\\n\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"fail\",\"Package\":\"pkg\",\"Test\":\"TestParent/SubtestFail\",\"Elapsed\":0.1}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"fail\",\"Package\":\"pkg\",\"Test\":\"TestParent\",\"Elapsed\":0.1}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Output\":\"FAIL\\n\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"fail\",\"Package\":\"pkg\",\"Elapsed\":0.1}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_failure_output_formatting::38",
+  "argv": [
+   "-file",
+   "test.jsonl"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"TestFail\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Test\":\"TestFail\",\"Output\":\"--- FAIL: TestFail (0.10s)\\n\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"fail\",\"Package\":\"pkg\",\"Test\":\"TestFail\",\"Elapsed\":0.1}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Output\":\"FAIL\\n\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"fail\",\"Package\":\"pkg\",\"Elapsed\":0.1}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_flag_prints_raw_output::39",
+  "argv": [
+   "-file",
+   "test.jsonl",
+   "-follow"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Test\":\"TestExample\",\"Output\":\"=== RUN   TestExample\\n\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Test\":\"TestExample\",\"Output\":\"--- PASS: TestExample (0.50s)\\n\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Test\":\"TestExample\",\"Elapsed\":0.5}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Elapsed\":0.5}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_output_writes_to_file::40",
+  "argv": [
+   "-file",
+   "test.jsonl",
+   "-follow-output"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Test\":\"TestExample\",\"Output\":\"=== RUN   TestExample\\n\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Test\":\"TestExample\",\"Output\":\"--- PASS: TestExample (0.50s)\\n\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Test\":\"TestExample\",\"Elapsed\":0.5}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Elapsed\":0.5}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_output_takes_precedence::41",
+  "argv": [
+   "-file",
+   "test.jsonl",
+   "-follow",
+   "-follow-output"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Output\":\"test output\\n\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Elapsed\":0.1}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_include_timestamp_flag::42",
+  "argv": [
+   "-file",
+   "test.jsonl",
+   "-follow",
+   "-include-timestamp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T12:34:56Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Output\":\"test output\\n\"}\n{\"Time\":\"2024-01-01T12:34:57Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Elapsed\":0.1}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_with_multiple_packages::43",
+  "argv": [
+   "-file",
+   "test.jsonl",
+   "-follow"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"output\",\"Package\":\"pkg1\",\"Output\":\"=== RUN   Test1\\n\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg1\",\"Test\":\"Test1\",\"Elapsed\":0.1}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"output\",\"Package\":\"pkg1\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg1\",\"Elapsed\":0.1}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"output\",\"Package\":\"pkg2\",\"Output\":\"=== RUN   Test2\\n\"}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"pass\",\"Package\":\"pkg2\",\"Test\":\"Test2\",\"Elapsed\":0.1}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"output\",\"Package\":\"pkg2\",\"Output\":\"PASS\\n\"}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"pass\",\"Package\":\"pkg2\",\"Elapsed\":0.1}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_without_flag_no_raw_output::44",
+  "argv": [
+   "-file",
+   "test.jsonl"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Test\":\"TestExample\",\"Output\":\"=== RUN   TestExample\\n\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Test\":\"TestExample\",\"Output\":\"--- PASS: TestExample (0.50s)\\n\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Test\":\"TestExample\",\"Elapsed\":0.5}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Elapsed\":0.5}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_basic::45",
+  "argv": [
+   "-file",
+   "test.jsonl",
+   "-format",
+   "basic"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"TestExample\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Test\":\"TestExample\",\"Elapsed\":0.5}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Elapsed\":0.5}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_plain::46",
+  "argv": [
+   "-file",
+   "test.jsonl",
+   "-format",
+   "plain"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"TestExample\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Test\":\"TestExample\",\"Elapsed\":0.5}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Elapsed\":0.5}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_markdown::47",
+  "argv": [
+   "-file",
+   "test.jsonl",
+   "-format",
+   "markdown"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"TestExample\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Test\":\"TestExample\",\"Elapsed\":0.5}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Elapsed\":0.5}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nocolor_flag::48",
+  "argv": [
+   "-file",
+   "test.jsonl",
+   "-nocolor"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"TestExample\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Test\":\"TestExample\",\"Elapsed\":0.5}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Elapsed\":0.5}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_color_env_var::49",
+  "argv": [
+   "-file",
+   "test.jsonl"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"TestExample\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Test\":\"TestExample\",\"Elapsed\":0.5}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Elapsed\":0.5}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "NO_COLOR": "1"
+  }
+ },
+ {
+  "name": "test::test_smallscreen_flag::50",
+  "argv": [
+   "-file",
+   "test.jsonl",
+   "-pass",
+   "-smallscreen"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"TestLongTestName/with_subtest/and_more\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Test\":\"TestLongTestName/with_subtest/and_more\",\"Elapsed\":0.5}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Elapsed\":0.5}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_format_value::51",
+  "argv": [
+   "-file",
+   "test.jsonl",
+   "-format",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Elapsed\":0.5}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_package_summary_shows_status::52",
+  "argv": [
+   "-file",
+   "test.jsonl"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"Test1\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Test\":\"Test1\",\"Elapsed\":0.5}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Elapsed\":0.5}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_package_summary_shows_elapsed::53",
+  "argv": [
+   "-file",
+   "test.jsonl"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"Test1\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Test\":\"Test1\",\"Elapsed\":1.5}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Elapsed\":1.5}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_package_summary_shows_counts::54",
+  "argv": [
+   "-file",
+   "test.jsonl"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"Test1\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Test\":\"Test1\",\"Elapsed\":0.1}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"Test2\"}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Test\":\"Test2\",\"Elapsed\":0.1}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"Test3\"}\n{\"Time\":\"2024-01-01T00:00:03Z\",\"Action\":\"skip\",\"Package\":\"pkg\",\"Test\":\"Test3\",\"Elapsed\":0.0}\n{\"Time\":\"2024-01-01T00:00:03Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Elapsed\":0.2}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_package_summary_with_coverage::55",
+  "argv": [
+   "-file",
+   "test.jsonl"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"Test1\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Test\":\"Test1\",\"Elapsed\":0.5}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Output\":\"coverage: 75.5% of statements\\n\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Elapsed\":0.5}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_package_summary_multiple_packages::56",
+  "argv": [
+   "-file",
+   "test.jsonl"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg1\",\"Test\":\"Test1\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg1\",\"Test\":\"Test1\",\"Elapsed\":0.5}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg1\",\"Elapsed\":0.5}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"run\",\"Package\":\"pkg2\",\"Test\":\"Test2\"}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"pass\",\"Package\":\"pkg2\",\"Test\":\"Test2\",\"Elapsed\":0.3}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"pass\",\"Package\":\"pkg2\",\"Elapsed\":0.3}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_package_summary_failed_package::57",
+  "argv": [
+   "-file",
+   "test.jsonl"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"TestFail\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Test\":\"TestFail\",\"Output\":\"test failed\\n\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"fail\",\"Package\":\"pkg\",\"Test\":\"TestFail\",\"Elapsed\":0.5}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Output\":\"FAIL\\n\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"fail\",\"Package\":\"pkg\",\"Elapsed\":0.5}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_panic_detection::58",
+  "argv": [
+   "-file",
+   "test.jsonl"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"TestPanic\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Test\":\"TestPanic\",\"Output\":\"panic: runtime error\\n\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Test\":\"TestPanic\",\"Output\":\"goroutine 1 [running]:\\n\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"fail\",\"Package\":\"pkg\",\"Test\":\"TestPanic\",\"Elapsed\":0.1}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Output\":\"FAIL\\n\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"fail\",\"Package\":\"pkg\",\"Elapsed\":0.1}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_panic_with_stack_trace::59",
+  "argv": [
+   "-file",
+   "test.jsonl"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"TestPanic\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Test\":\"TestPanic\",\"Output\":\"panic: nil pointer dereference\\n\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Test\":\"TestPanic\",\"Output\":\"goroutine 1 [running]:\\n\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Test\":\"TestPanic\",\"Output\":\"main.foo()\\n\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Test\":\"TestPanic\",\"Output\":\"    /path/to/file.go:42 +0x123\\n\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"fail\",\"Package\":\"pkg\",\"Test\":\"TestPanic\",\"Elapsed\":0.1}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Output\":\"FAIL\\n\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"fail\",\"Package\":\"pkg\",\"Elapsed\":0.1}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_panics::60",
+  "argv": [
+   "-file",
+   "test.jsonl"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"TestPanic1\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Test\":\"TestPanic1\",\"Output\":\"panic: error1\\n\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"fail\",\"Package\":\"pkg\",\"Test\":\"TestPanic1\",\"Elapsed\":0.1}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"TestPanic2\"}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Test\":\"TestPanic2\",\"Output\":\"panic: error2\\n\"}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"fail\",\"Package\":\"pkg\",\"Test\":\"TestPanic2\",\"Elapsed\":0.1}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Output\":\"FAIL\\n\"}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"fail\",\"Package\":\"pkg\",\"Elapsed\":0.2}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_progress_flag_single_line_per_package::61",
+  "argv": [
+   "-file",
+   "test.jsonl",
+   "-progress"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg1\",\"Test\":\"Test1\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg1\",\"Test\":\"Test1\",\"Elapsed\":0.5}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg1\",\"Elapsed\":0.5}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"run\",\"Package\":\"pkg2\",\"Test\":\"Test2\"}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"pass\",\"Package\":\"pkg2\",\"Test\":\"Test2\",\"Elapsed\":0.5}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"pass\",\"Package\":\"pkg2\",\"Elapsed\":0.5}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_progress_with_failed_package::62",
+  "argv": [
+   "-file",
+   "test.jsonl",
+   "-progress"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"TestFail\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Test\":\"TestFail\",\"Output\":\"test failed\\n\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"fail\",\"Package\":\"pkg\",\"Test\":\"TestFail\",\"Elapsed\":0.5}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"output\",\"Package\":\"pkg\",\"Output\":\"FAIL\\n\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"fail\",\"Package\":\"pkg\",\"Elapsed\":0.5}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_progress_multiple_packages::63",
+  "argv": [
+   "-file",
+   "test.jsonl",
+   "-progress"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg1\",\"Test\":\"Test1\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg1\",\"Test\":\"Test1\",\"Elapsed\":0.1}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg1\",\"Elapsed\":0.1}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"run\",\"Package\":\"pkg2\",\"Test\":\"Test2\"}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"pass\",\"Package\":\"pkg2\",\"Test\":\"Test2\",\"Elapsed\":0.2}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"pass\",\"Package\":\"pkg2\",\"Elapsed\":0.2}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"run\",\"Package\":\"pkg3\",\"Test\":\"Test3\"}\n{\"Time\":\"2024-01-01T00:00:03Z\",\"Action\":\"pass\",\"Package\":\"pkg3\",\"Test\":\"Test3\",\"Elapsed\":0.3}\n{\"Time\":\"2024-01-01T00:00:03Z\",\"Action\":\"pass\",\"Package\":\"pkg3\",\"Elapsed\":0.3}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_elapsed_testdata::64",
+  "argv": [
+   "-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_elapsed_testdata_with_all::65",
+  "argv": [
+   "-file",
+   "-all"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_testdata::66",
+  "argv": [
+   "-file",
+   "-follow"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_by_name_default::67",
+  "argv": [
+   "-file",
+   "test.jsonl",
+   "-pass"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"TestZ\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Test\":\"TestZ\",\"Elapsed\":0.1}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"TestA\"}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Test\":\"TestA\",\"Elapsed\":0.2}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Elapsed\":0.3}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_by_elapsed::68",
+  "argv": [
+   "-file",
+   "test.jsonl",
+   "-pass",
+   "-sort",
+   "elapsed"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"TestFast\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Test\":\"TestFast\",\"Elapsed\":0.1}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"TestSlow\"}\n{\"Time\":\"2024-01-01T00:00:03Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Test\":\"TestSlow\",\"Elapsed\":2.0}\n{\"Time\":\"2024-01-01T00:00:03Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Elapsed\":2.1}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_by_cover::69",
+  "argv": [
+   "-file",
+   "test.jsonl",
+   "-sort",
+   "cover"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg1\",\"Test\":\"TestA\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg1\",\"Test\":\"TestA\",\"Elapsed\":0.1}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"output\",\"Package\":\"pkg1\",\"Output\":\"coverage: 50.0% of statements\\n\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg1\",\"Elapsed\":0.1}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"run\",\"Package\":\"pkg2\",\"Test\":\"TestB\"}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"pass\",\"Package\":\"pkg2\",\"Test\":\"TestB\",\"Elapsed\":0.1}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"output\",\"Package\":\"pkg2\",\"Output\":\"coverage: 80.0% of statements\\n\"}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"pass\",\"Package\":\"pkg2\",\"Elapsed\":0.1}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slow_flag_limits_output::70",
+  "argv": [
+   "-file",
+   "test.jsonl",
+   "-pass",
+   "-slow",
+   "2"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"Test1\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Test\":\"Test1\",\"Elapsed\":0.1}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"Test2\"}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Test\":\"Test2\",\"Elapsed\":0.2}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"Test3\"}\n{\"Time\":\"2024-01-01T00:00:03Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Test\":\"Test3\",\"Elapsed\":0.3}\n{\"Time\":\"2024-01-01T00:00:03Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Elapsed\":0.6}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slow_zero_shows_all::71",
+  "argv": [
+   "-file",
+   "test.jsonl",
+   "-pass",
+   "-slow",
+   "0"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"Test1\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Test\":\"Test1\",\"Elapsed\":0.1}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"run\",\"Package\":\"pkg\",\"Test\":\"Test2\"}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Test\":\"Test2\",\"Elapsed\":0.2}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Elapsed\":0.3}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_sort_value::72",
+  "argv": [
+   "-file",
+   "test.jsonl",
+   "-sort",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"pass\",\"Package\":\"pkg\",\"Elapsed\":0.5}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trimpath_removes_prefix::73",
+  "argv": [
+   "-file",
+   "test.jsonl",
+   "-trimpath",
+   "github.com/user/project/"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"github.com/user/project/internal/pkg\",\"Test\":\"Test1\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"github.com/user/project/internal/pkg\",\"Test\":\"Test1\",\"Elapsed\":0.1}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"github.com/user/project/internal/pkg\",\"Elapsed\":0.1}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trimpath_with_multiple_packages::74",
+  "argv": [
+   "-file",
+   "test.jsonl",
+   "-trimpath",
+   "github.com/user/project/"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"github.com/user/project/pkg1\",\"Test\":\"Test1\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"github.com/user/project/pkg1\",\"Test\":\"Test1\",\"Elapsed\":0.1}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"github.com/user/project/pkg1\",\"Elapsed\":0.1}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"run\",\"Package\":\"github.com/user/project/pkg2\",\"Test\":\"Test2\"}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"pass\",\"Package\":\"github.com/user/project/pkg2\",\"Test\":\"Test2\",\"Elapsed\":0.1}\n{\"Time\":\"2024-01-01T00:00:02Z\",\"Action\":\"pass\",\"Package\":\"github.com/user/project/pkg2\",\"Elapsed\":0.1}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trimpath_no_match::75",
+  "argv": [
+   "-file",
+   "test.jsonl",
+   "-trimpath",
+   "different.com/"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"example.com/pkg\",\"Test\":\"Test1\"}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"example.com/pkg\",\"Test\":\"Test1\",\"Elapsed\":0.1}\n{\"Time\":\"2024-01-01T00:00:01Z\",\"Action\":\"pass\",\"Package\":\"example.com/pkg\",\"Elapsed\":0.1}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_args_requires_pipe_or_file::76",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_stops_flag_parsing_and_prevents_unknown_flag_error::77",
+  "argv": [
+   "-sort",
+   "name",
+   "--",
+   "-unknown"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_short_flags_are_not_supported::78",
+  "argv": [
+   "-vnocolor"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_progress_is_boolean_flag_does_not_take_value::79",
+  "argv": [
+   "-progress",
+   "true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compare_requires_file_value_parse_error_exit_2::80",
+  "argv": [
+   "-compare"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_file_exits_1_and_prints_error_to_stderr_only::81",
+  "argv": [
+   "-file",
+   "does_not_exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_exit_nonzero_and_mentions_flag::82",
+  "argv": [
+   "--definitely-not-a-real-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_markdown_exact_output_bytes::83",
+  "argv": [
+   "-file",
+   "-nocolor",
+   "-format",
+   "markdown"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_basic_contains_box_drawing_chars::84",
+  "argv": [
+   "-file",
+   "-nocolor",
+   "-format",
+   "basic"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_input_plain_format_exact_output_bytes::85",
+  "argv": [
+   "-file",
+   "-nocolor",
+   "-format",
+   "plain"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_input_matches_file_input::86",
+  "argv": [
+   "-nocolor",
+   "-format",
+   "plain"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_stdin_returns_error_message_and_exit_1::87",
+  "argv": [
+   "-nocolor"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_precedence_even_with_invalid_flag::88",
+  "argv": [
+   "--help",
+   "--definitely-not-a-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_color_env_changes_output::89",
+  "argv": [
+   "-pass"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "NO_COLOR": "1"
+  }
+ },
+ {
+  "name": "test::test_nocolor_flag_disables_ansi_sequences_even_without_env::90",
+  "argv": [
+   "-pass",
+   "-nocolor"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "NO_COLOR": ""
+  }
+ },
+ {
+  "name": "test::test_empty_input_basic_format_error::91",
+  "argv": [
+   "-format",
+   "basic"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "GOCOVERDIR": "/tmp/gocoverdir"
+  }
+ },
+ {
+  "name": "test::test_empty_input_markdown_format_error::92",
+  "argv": [
+   "-format",
+   "markdown"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "GOCOVERDIR": "/tmp/gocoverdir"
+  }
+ },
+ {
+  "name": "test::test_empty_input_plain_format_error::93",
+  "argv": [
+   "-format",
+   "plain"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "GOCOVERDIR": "/tmp/gocoverdir"
+  }
+ },
+ {
+  "name": "test::test_malformed_json_basic_format_error::94",
+  "argv": [
+   "-format",
+   "basic"
+  ],
+  "stdin": "{\"invalid json",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "GOCOVERDIR": "/tmp/gocoverdir"
+  }
+ },
+ {
+  "name": "test::test_missing_file_errors::95",
+  "argv": [
+   "-file",
+   "does-not-exist.jsonl",
+   "-nocolor"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_test_name::96",
+  "argv": [
+   "-all"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_smallscreen_with_long_names::97",
+  "argv": [
+   "-all",
+   "-smallscreen"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compare_flag_with_valid_file::98",
+  "argv": [
+   "-file",
+   "-compare"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compare_with_nonexistent_file::99",
+  "argv": [
+   "-file",
+   "-compare",
+   "/nonexistent.jsonl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_flags_all_options::100",
+  "argv": [
+   "-all",
+   "-slow",
+   "5",
+   "-sort",
+   "elapsed",
+   "-nocolor",
+   "-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_markdown_with_pass::101",
+  "argv": [
+   "-format",
+   "markdown",
+   "-pass",
+   "-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_plain_with_failed_tests::102",
+  "argv": [
+   "-format",
+   "plain",
+   "-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_progress_with_nocolor::103",
+  "argv": [
+   "-progress",
+   "-nocolor",
+   "-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slow_with_sort_elapsed::104",
+  "argv": [
+   "-slow",
+   "1",
+   "-sort",
+   "elapsed",
+   "-pass",
+   "-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trimpath_with_nocolor::105",
+  "argv": [
+   "-trimpath=github.com",
+   "-nocolor",
+   "-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_with_format_markdown::106",
+  "argv": [
+   "-all",
+   "-format",
+   "markdown",
+   "-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_format_flags_last_wins::107",
+  "argv": [
+   "-format",
+   "plain",
+   "-format",
+   "markdown",
+   "-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_elapsed_time::108",
+  "argv": [
+   "-pass",
+   "-file",
+   "zero_elapsed.jsonl"
+  ],
+  "stdin": null,
+  "files": {
+   "zero_elapsed.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"example\",\"Test\":\"TestZero\"}\n{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"pass\",\"Package\":\"example\",\"Test\":\"TestZero\",\"Elapsed\":0.0}\n{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"pass\",\"Package\":\"example\",\"Elapsed\":0.0}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_package_name::109",
+  "argv": [
+   "-file",
+   "empty_pkg.jsonl"
+  ],
+  "stdin": null,
+  "files": {
+   "empty_pkg.jsonl": "{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"run\",\"Package\":\"\",\"Test\":\"TestSomething\"}\n{\"Time\":\"2024-01-01T00:00:00Z\",\"Action\":\"pass\",\"Package\":\"\",\"Test\":\"TestSomething\",\"Elapsed\":0.1}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_skip_with_coverage_data::110",
+  "argv": [
+   "-skip",
+   "-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_with_progress::111",
+  "argv": [
+   "-follow",
+   "-progress",
+   "-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_notests_with_actual_tests::112",
+  "argv": [
+   "-notests",
+   "-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_flag_prints_raw_output::113",
+  "argv": [
+   "-follow",
+   "-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_output_to_file::114",
+  "argv": [
+   "-follow-output",
+   "-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_output_precedence_over_follow::115",
+  "argv": [
+   "-follow",
+   "-follow-output",
+   "-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_include_timestamp_flag::116",
+  "argv": [
+   "-follow",
+   "-include-timestamp",
+   "-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_verbose_flag::117",
+  "argv": [
+   "-follow-verbose",
+   "-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_follow_without_file_stdin::118",
+  "argv": [
+   "-follow"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_basic_explicit::119",
+  "argv": [
+   "-format",
+   "basic",
+   "-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_markdown::120",
+  "argv": [
+   "-format",
+   "markdown",
+   "-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nocolor_flag::121",
+  "argv": [
+   "-nocolor",
+   "-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_not_found::122",
+  "argv": [
+   "-file",
+   "/nonexistent/file.jsonl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_file::123",
+  "argv": [
+   "-file",
+   "empty.jsonl"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.jsonl": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_malformed_json_file::124",
+  "argv": [
+   "-file",
+   "bad.jsonl"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.jsonl": "{\"incomplete\": "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_flag_shows_pass_and_skip::125",
+  "argv": [
+   "-all",
+   "-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pass_flag_shows_passed_tests::126",
+  "argv": [
+   "-pass",
+   "-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_smallscreen_flag::127",
+  "argv": [
+   "-smallscreen",
+   "-pass",
+   "-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slow_flag_zero_shows_all::128",
+  "argv": [
+   "-slow",
+   "0",
+   "-pass",
+   "-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slow_flag_limits_display::129",
+  "argv": [
+   "-slow",
+   "1",
+   "-pass",
+   "-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pass_and_skip_together::130",
+  "argv": [
+   "-pass",
+   "-skip",
+   "-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_progress_flag_single_package::131",
+  "argv": [
+   "-progress",
+   "-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_progress_with_follow::132",
+  "argv": [
+   "-progress",
+   "-follow",
+   "-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_name_explicit::133",
+  "argv": [
+   "-sort",
+   "name",
+   "-pass",
+   "-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_elapsed::134",
+  "argv": [
+   "-sort",
+   "elapsed",
+   "-pass",
+   "-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_cover::135",
+  "argv": [
+   "-sort",
+   "cover",
+   "-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_sort_option::136",
+  "argv": [
+   "-sort",
+   "invalid",
+   "-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trimpath_removes_prefix::137",
+  "argv": [
+   "-trimpath",
+   "github.com",
+   "-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trimpath_auto_mode::138",
+  "argv": [
+   "-trimpath=auto",
+   "-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trimpath_specific_prefix::139",
+  "argv": [
+   "-trimpath=github.com/mfridman",
+   "-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trimpath_empty_value::140",
+  "argv": [
+   "-trimpath=",
+   "-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

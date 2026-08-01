@@ -1,0 +1,3174 @@
+[
+ {
+  "name": "test::test_no_files_uses_default_location::0",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file::1",
+  "argv": [
+   "nonexistent.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_separator::2",
+  "argv": [
+   "--",
+   "test-data/access.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_string_values::3",
+  "argv": [
+   "-p",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::4",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_suggests_usage::5",
+  "argv": [
+   "--invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_value_error_clarity::6",
+  "argv": [
+   "-k"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_value_shows_valid_options::7",
+  "argv": [
+   "--color",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_large_length_value::8",
+  "argv": [
+   "--length",
+   "999999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_length_value_zero::9",
+  "argv": [
+   "-l",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duplicate_flags::10",
+  "argv": [
+   "-k",
+   "hits",
+   "-k",
+   "bytes"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_output_formats::11",
+  "argv": [
+   "-o",
+   "csv",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_filter::12",
+  "argv": [
+   "-p",
+   "café"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_status_filter::13",
+  "argv": [
+   "-s",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_directory_as_argument::14",
+  "argv": [
+   "test-data"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_changes_flag_with_sample_log::15",
+  "argv": [
+   "--silent-load",
+   "--changes",
+   "test.log"
+  ],
+  "stdin": null,
+  "files": {
+   "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /page1 HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n192.168.1.1 - - [22/Jan/2021:11:00:00 +0000] \"GET /page1 HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n192.168.1.1 - - [23/Jan/2021:10:00:00 +0000] \"GET /page2 HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n192.168.1.2 - - [23/Jan/2021:11:00:00 +0000] \"GET /page3 HTTP/1.1\" 200 100 \"http://example.com\" \"Mozilla\"\n192.168.1.3 - - [24/Jan/2021:10:00:00 +0000] \"GET /page4 HTTP/1.1\" 200 100 \"http://test.com\" \"Mozilla\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_name_check_flag::16",
+  "argv": [
+   "--silent-load",
+   "--no-name-check",
+   "unusual_name.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "unusual_name.txt": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /test HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_method_filter_none::17",
+  "argv": [
+   "--silent-load",
+   "--method",
+   "none",
+   "test.log"
+  ],
+  "stdin": null,
+  "files": {
+   "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /page1 HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n192.168.1.2 - - [22/Jan/2021:11:00:00 +0000] \"POST /page2 HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n192.168.1.3 - - [22/Jan/2021:12:00:00 +0000] \"- /page3 HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_method_filter_other::18",
+  "argv": [
+   "--silent-load",
+   "--method",
+   "other",
+   "test.log"
+  ],
+  "stdin": null,
+  "files": {
+   "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /page1 HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n192.168.1.2 - - [22/Jan/2021:11:00:00 +0000] \"POST /page2 HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n192.168.1.3 - - [22/Jan/2021:12:00:00 +0000] \"OPTIONS /page3 HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_filter_with_pipe_or::19",
+  "argv": [
+   "--silent-load",
+   "--path",
+   "blog|miaou",
+   "-o",
+   "raw",
+   "test.log"
+  ],
+  "stdin": null,
+  "files": {
+   "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /blog/post1 HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n192.168.1.2 - - [22/Jan/2021:11:00:00 +0000] \"GET /miaou/chat HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n192.168.1.3 - - [22/Jan/2021:12:00:00 +0000] \"GET /other/page HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_date_format::20",
+  "argv": [
+   "--silent-load",
+   "--date",
+   "invalid-date-format",
+   "test.log"
+  ],
+  "stdin": null,
+  "files": {
+   "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /test HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_paths::21",
+  "argv": [
+   "--silent-load"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_key_bytes_shows_byte_statistics::22",
+  "argv": [
+   "--silent-load",
+   "--key",
+   "bytes",
+   "test.log"
+  ],
+  "stdin": null,
+  "files": {
+   "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /small HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n192.168.1.2 - - [22/Jan/2021:11:00:00 +0000] \"GET /large HTTP/1.1\" 200 50000 \"-\" \"Mozilla\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_valid_invalid_lines::23",
+  "argv": [
+   "--silent-load",
+   "test.log"
+  ],
+  "stdin": null,
+  "files": {
+   "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /valid1 HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\nThis is not a valid log line\n192.168.1.2 - - [22/Jan/2021:11:00:00 +0000] \"GET /valid2 HTTP/1.1\" 200 200 \"-\" \"Mozilla\"\nAnother invalid line here\n192.168.1.3 - - [22/Jan/2021:12:00:00 +0000] \"GET /valid3 HTTP/1.1\" 200 300 \"-\" \"Mozilla\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_range_multiple_months::24",
+  "argv": [
+   "--silent-load",
+   "--date",
+   "2021/01/25-2021/02/10",
+   "-o",
+   "raw",
+   "test.log"
+  ],
+  "stdin": null,
+  "files": {
+   "test.log": "192.168.1.1 - - [28/Jan/2021:10:00:00 +0000] \"GET /jan HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n192.168.1.2 - - [05/Feb/2021:11:00:00 +0000] \"GET /feb HTTP/1.1\" 200 200 \"-\" \"Mozilla\"\n192.168.1.3 - - [15/Mar/2021:12:00:00 +0000] \"GET /mar HTTP/1.1\" 200 300 \"-\" \"Mozilla\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_flag_includes_resources::25",
+  "argv": [
+   "--silent-load",
+   "test.log"
+  ],
+  "stdin": null,
+  "files": {
+   "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /page.html HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n192.168.1.2 - - [22/Jan/2021:11:00:00 +0000] \"GET /style.css HTTP/1.1\" 200 200 \"-\" \"Mozilla\"\n192.168.1.3 - - [22/Jan/2021:12:00:00 +0000] \"GET /image.png HTTP/1.1\" 200 300 \"-\" \"Mozilla\"\n192.168.1.4 - - [22/Jan/2021:13:00:00 +0000] \"GET /script.js HTTP/1.1\" 200 400 \"-\" \"Mozilla\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_json_with_filters::26",
+  "argv": [
+   "--silent-load",
+   "-o",
+   "json",
+   "-s",
+   "200",
+   "test.log"
+  ],
+  "stdin": null,
+  "files": {
+   "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /page1 HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n192.168.1.2 - - [22/Jan/2021:11:00:00 +0000] \"GET /page2 HTTP/1.1\" 404 200 \"-\" \"Mozilla\"\n192.168.1.3 - - [22/Jan/2021:12:00:00 +0000] \"GET /page3 HTTP/1.1\" 200 300 \"-\" \"Mozilla\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_output_with_filters::27",
+  "argv": [
+   "--silent-load",
+   "-o",
+   "csv",
+   "-m",
+   "GET",
+   "test.log"
+  ],
+  "stdin": null,
+  "files": {
+   "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /page1 HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n192.168.1.2 - - [22/Jan/2021:11:00:00 +0000] \"POST /page2 HTTP/1.1\" 201 200 \"-\" \"Mozilla\"\n192.168.1.3 - - [22/Jan/2021:12:00:00 +0000] \"GET /page3 HTTP/1.1\" 200 300 \"-\" \"Mozilla\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_length_boundary_values::28",
+  "argv": [
+   "--silent-load",
+   "--length",
+   "0",
+   "test.log"
+  ],
+  "stdin": null,
+  "files": {
+   "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /page1 HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n192.168.1.2 - - [22/Jan/2021:11:00:00 +0000] \"GET /page2 HTTP/1.1\" 200 200 \"-\" \"Mozilla\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_path_patterns::29",
+  "argv": [
+   "--silent-load",
+   "--path",
+   "^/api/v[12]",
+   "-o",
+   "raw",
+   "test.log"
+  ],
+  "stdin": null,
+  "files": {
+   "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /api/v1/users HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n192.168.1.2 - - [22/Jan/2021:11:00:00 +0000] \"GET /api/v2/items HTTP/1.1\" 200 200 \"-\" \"Mozilla\"\n192.168.1.3 - - [22/Jan/2021:12:00:00 +0000] \"GET /page HTTP/1.1\" 200 300 \"-\" \"Mozilla\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_filter_complex_exclusion::30",
+  "argv": [
+   "--silent-load",
+   "--status",
+   "5xx,!502",
+   "-o",
+   "raw",
+   "test.log"
+  ],
+  "stdin": null,
+  "files": {
+   "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /page1 HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n192.168.1.2 - - [22/Jan/2021:11:00:00 +0000] \"GET /page2 HTTP/1.1\" 502 200 \"-\" \"Mozilla\"\n192.168.1.3 - - [22/Jan/2021:12:00:00 +0000] \"GET /page3 HTTP/1.1\" 503 300 \"-\" \"Mozilla\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_filter_boundaries::31",
+  "argv": [
+   "--silent-load",
+   "--time",
+   ">12:00",
+   "-o",
+   "raw",
+   "test.log"
+  ],
+  "stdin": null,
+  "files": {
+   "test.log": "192.168.1.1 - - [22/Jan/2021:00:00:00 +0000] \"GET /midnight HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n192.168.1.2 - - [22/Jan/2021:12:00:00 +0000] \"GET /noon HTTP/1.1\" 200 200 \"-\" \"Mozilla\"\n192.168.1.3 - - [22/Jan/2021:23:59:59 +0000] \"GET /late HTTP/1.1\" 200 300 \"-\" \"Mozilla\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_range_custom::32",
+  "argv": [
+   "--silent-load",
+   "-s",
+   "300-350",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_5xx_range::33",
+  "argv": [
+   "--silent-load",
+   "-s",
+   "5xx",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_method_filter_uppercase::34",
+  "argv": [
+   "--silent-load",
+   "-m",
+   "GET",
+   "-o",
+   "csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_method_filter_put::35",
+  "argv": [
+   "--silent-load",
+   "-m",
+   "PUT",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_filter_multiple_patterns::36",
+  "argv": [
+   "--silent-load",
+   "-p",
+   "api|admin",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_filter_anchored_regex::37",
+  "argv": [
+   "--silent-load",
+   "-p",
+   "^/\\d+$",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_referer_filter_lowercase::38",
+  "argv": [
+   "--silent-load",
+   "-r",
+   "google",
+   "-o",
+   "csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_referer_filter_regex::39",
+  "argv": [
+   "--silent-load",
+   "-r",
+   "site[12]",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_date_status_filters::40",
+  "argv": [
+   "--silent-load",
+   "-d",
+   "2021/01/22",
+   "-s",
+   "404",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_time_method_filters::41",
+  "argv": [
+   "--silent-load",
+   "-t",
+   "<12:00",
+   "-m",
+   "GET",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag::42",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::43",
+  "argv": [
+   "--invalid-flag-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file::44",
+  "argv": [
+   "/nonexistent/path/to/file.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_range_filter::45",
+  "argv": [
+   "--silent-load",
+   "-d",
+   "2021/01/21-2021/01/24",
+   "-o",
+   "csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_year_filter::46",
+  "argv": [
+   "--silent-load",
+   "-d",
+   "2021",
+   "-o",
+   "csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_month_filter::47",
+  "argv": [
+   "--silent-load",
+   "-d",
+   "2021/01",
+   "-o",
+   "csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_with_spaces::48",
+  "argv": [
+   "--silent-load",
+   "-d",
+   "> 2021/01/21",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_less_than::49",
+  "argv": [
+   "--silent-load",
+   "-t",
+   "<12:00",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_range::50",
+  "argv": [
+   "--silent-load",
+   "-t",
+   "09:00-13:00",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_not_equal::51",
+  "argv": [
+   "--silent-load",
+   "-d",
+   "!2021/01/22",
+   "-o",
+   "csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_iso_format::52",
+  "argv": [
+   "--silent-load",
+   "-o",
+   "csv",
+   "test.log"
+  ],
+  "stdin": null,
+  "files": {
+   "test.log": "2021-01-22T10:00:00.000Z 192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /test HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_with_slash_format::53",
+  "argv": [
+   "--silent-load",
+   "-d",
+   "01/22",
+   "-o",
+   "csv",
+   "test.log"
+  ],
+  "stdin": null,
+  "files": {
+   "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /test HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fields_default::54",
+  "argv": [
+   "--silent-load",
+   "-o",
+   "csv",
+   "test-data/access.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fields_custom_selection::55",
+  "argv": [
+   "--silent-load",
+   "-f",
+   "date,time,method,status",
+   "-o",
+   "csv",
+   "test-data/access.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fields_add_ip::56",
+  "argv": [
+   "--silent-load",
+   "-f",
+   "+ip",
+   "-o",
+   "csv",
+   "test-data/access.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fields_all::57",
+  "argv": [
+   "--silent-load",
+   "-f",
+   "a",
+   "-o",
+   "csv",
+   "test-data/access.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_length_option_0::58",
+  "argv": [
+   "--silent-load",
+   "-l",
+   "0",
+   "test-data/access.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_length_option_6::59",
+  "argv": [
+   "--silent-load",
+   "-l",
+   "6",
+   "test-data/access.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_key_hits::60",
+  "argv": [
+   "--silent-load",
+   "-k",
+   "hits",
+   "test-data/access.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_key_bytes::61",
+  "argv": [
+   "--silent-load",
+   "-k",
+   "bytes",
+   "test-data/access.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_changes_flag::62",
+  "argv": [
+   "--silent-load",
+   "-c",
+   "test-data/access.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_paths_flag::63",
+  "argv": [
+   "--silent-load",
+   "-a",
+   "test-data/access.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_auto::64",
+  "argv": [
+   "--silent-load",
+   "--color",
+   "auto",
+   "test-data/access.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_yes::65",
+  "argv": [
+   "--silent-load",
+   "--color",
+   "yes",
+   "test-data/access.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_no::66",
+  "argv": [
+   "--silent-load",
+   "--color",
+   "no",
+   "test-data/access.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_silent_load_flag::67",
+  "argv": [
+   "--silent-load",
+   "test-data/access.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fields_short_form::68",
+  "argv": [
+   "--silent-load",
+   "-f",
+   "date,status",
+   "-o",
+   "csv",
+   "test-data/access.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_filter_result::69",
+  "argv": [
+   "--silent-load",
+   "-s",
+   "500",
+   "-o",
+   "csv",
+   "test.log"
+  ],
+  "stdin": null,
+  "files": {
+   "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /page HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_date_format::70",
+  "argv": [
+   "--silent-load",
+   "-d",
+   "invalid-date",
+   "test.log"
+  ],
+  "stdin": null,
+  "files": {
+   "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /page HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_large_status_code::71",
+  "argv": [
+   "--silent-load",
+   "-o",
+   "csv",
+   "test.log"
+  ],
+  "stdin": null,
+  "files": {
+   "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /page HTTP/1.1\" 999 100 \"-\" \"Mozilla\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_byte_response::72",
+  "argv": [
+   "--silent-load",
+   "-o",
+   "csv",
+   "test.log"
+  ],
+  "stdin": null,
+  "files": {
+   "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /page HTTP/1.1\" 204 0 \"-\" \"Mozilla\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_path::73",
+  "argv": [
+   "--silent-load",
+   "-o",
+   "csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_path::74",
+  "argv": [
+   "--silent-load",
+   "-o",
+   "csv",
+   "test.log"
+  ],
+  "stdin": null,
+  "files": {
+   "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /path?query=value&foo=bar HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_user_agent::75",
+  "argv": [
+   "--silent-load",
+   "-o",
+   "csv",
+   "test.log"
+  ],
+  "stdin": null,
+  "files": {
+   "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /page HTTP/1.1\" 200 100 \"-\" \"Mozilla/5.0 (Unicode: 日本語)\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_line_file::76",
+  "argv": [
+   "--silent-load",
+   "test.log"
+  ],
+  "stdin": null,
+  "files": {
+   "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /single HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_output_format::77",
+  "argv": [
+   "--silent-load",
+   "-o",
+   "invalid",
+   "test.log"
+  ],
+  "stdin": null,
+  "files": {
+   "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /page HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_filters::78",
+  "argv": [
+   "--silent-load",
+   "-d",
+   ">2021/01/25",
+   "-o",
+   "csv",
+   "test.log"
+  ],
+  "stdin": null,
+  "files": {
+   "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /page HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_filter_exact::79",
+  "argv": [
+   "--silent-load",
+   "-d",
+   "2021/01/22",
+   "-o",
+   "csv",
+   "test-data/access.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_filter_greater_than::80",
+  "argv": [
+   "--silent-load",
+   "-d",
+   ">2021/01/21",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_filter_less_than::81",
+  "argv": [
+   "--silent-load",
+   "-d",
+   "<2021/01/23",
+   "-o",
+   "csv",
+   "test-data/access.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_filter_single::82",
+  "argv": [
+   "--silent-load",
+   "-s",
+   "200",
+   "-o",
+   "csv",
+   "test-data/access.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_filter_range_4xx::83",
+  "argv": [
+   "--silent-load",
+   "-s",
+   "4xx",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_filter_multiple::84",
+  "argv": [
+   "--silent-load",
+   "-s",
+   "200,404",
+   "-o",
+   "csv",
+   "test-data/access.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_filter_negative::85",
+  "argv": [
+   "--silent-load",
+   "-s",
+   "5xx,!502",
+   "-o",
+   "json",
+   "test-data/access.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_method_filter_get::86",
+  "argv": [
+   "--silent-load",
+   "-m",
+   "GET",
+   "-o",
+   "csv",
+   "test-data/access.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_method_filter_post::87",
+  "argv": [
+   "--silent-load",
+   "-m",
+   "POST",
+   "-o",
+   "csv",
+   "test-data/access.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_method_filter_negative::88",
+  "argv": [
+   "--silent-load",
+   "-m",
+   "!DELETE",
+   "-o",
+   "csv",
+   "test-data/access.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_filter_string::89",
+  "argv": [
+   "--silent-load",
+   "-p",
+   "log",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_filter_regex::90",
+  "argv": [
+   "--silent-load",
+   "-p",
+   "^/[a-z]+$",
+   "-o",
+   "csv",
+   "test-data/access.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_referer_filter::91",
+  "argv": [
+   "--silent-load",
+   "-r",
+   "dystroy",
+   "-o",
+   "csv",
+   "test-data/access.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_filter_greater_than::92",
+  "argv": [
+   "--silent-load",
+   "-t",
+   ">19:00",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_filters::93",
+  "argv": [
+   "--silent-load",
+   "-d",
+   "2021/01/22",
+   "-s",
+   "200",
+   "-m",
+   "GET",
+   "-o",
+   "csv",
+   "test-data/access.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_log_files::94",
+  "argv": [
+   "--silent-load",
+   "-o",
+   "csv",
+   "log1.log",
+   "log2.log"
+  ],
+  "stdin": null,
+  "files": {
+   "log1.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /page1 HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n",
+   "log2.log": "192.168.1.2 - - [23/Jan/2021:11:00:00 +0000] \"GET /page2 HTTP/1.1\" 200 200 \"-\" \"Mozilla\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_log_file::95",
+  "argv": [
+   "--silent-load",
+   "empty.log"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.log": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_malformed_log_lines::96",
+  "argv": [
+   "--silent-load",
+   "-o",
+   "csv",
+   "mixed.log"
+  ],
+  "stdin": null,
+  "files": {
+   "mixed.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /valid HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\nThis is not a valid log line\nAnother invalid line without proper format\n192.168.1.2 - - [22/Jan/2021:10:00:01 +0000] \"GET /valid2 HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_with_ipv6_addresses::97",
+  "argv": [
+   "--silent-load",
+   "-o",
+   "csv",
+   "ipv6.log"
+  ],
+  "stdin": null,
+  "files": {
+   "ipv6.log": "fe80::1 - - [22/Jan/2021:10:00:00 +0000] \"GET /ipv6 HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_name_check_flag::98",
+  "argv": [
+   "--silent-load",
+   "--no-name-check",
+   "-o",
+   "csv",
+   "weird_name.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "weird_name.txt": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /test HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file_error::99",
+  "argv": [
+   "/tmp/nonexistent_file_xyz.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_permission_handling::100",
+  "argv": [
+   "restricted.log"
+  ],
+  "stdin": null,
+  "files": {
+   "restricted.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /test HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_file_name_not_checked::101",
+  "argv": [
+   "--silent-load",
+   "-o",
+   "csv",
+   "not_a_log.xyz"
+  ],
+  "stdin": null,
+  "files": {
+   "not_a_log.xyz": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /test HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_csv::102",
+  "argv": [
+   "--silent-load",
+   "--output",
+   "csv",
+   "test-data/access.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_json_small_file::103",
+  "argv": [
+   "--silent-load",
+   "--output",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_json_field_types::104",
+  "argv": [
+   "--silent-load",
+   "--output",
+   "json",
+   "test.log"
+  ],
+  "stdin": null,
+  "files": {
+   "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /test HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_raw::105",
+  "argv": [
+   "--silent-load",
+   "--output",
+   "raw",
+   "test-data/access.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_short_form_json::106",
+  "argv": [
+   "--silent-load",
+   "-o",
+   "json",
+   "test.log"
+  ],
+  "stdin": null,
+  "files": {
+   "test.log": "192.168.1.1 - - [22/Jan/2021:10:00:00 +0000] \"GET /test HTTP/1.1\" 200 100 \"-\" \"Mozilla\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_short_form_raw::107",
+  "argv": [
+   "--silent-load",
+   "-o",
+   "r",
+   "test-data/access.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_tip_mentions_double_dash_separator::108",
+  "argv": [
+   "--nonexistent-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_enum_value_for_color_exit_2_mentions_choices::109",
+  "argv": [
+   "--color",
+   "maybe"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_key_value_exit_2_mentions_unrecognized_key::110",
+  "argv": [
+   "--key",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_makes_unknown_flag_be_treated_as_positional_path::111",
+  "argv": [
+   "--silent-load",
+   "--",
+   "--nonexistent-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_non_existent_file::112",
+  "argv": [
+   "/nonexistent/file.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_malformed_log::113",
+  "argv": [
+   "bad.log",
+   "--silent-load",
+   "--no-name-check"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.log": "This is not a valid log line\nAnother bad line\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_tables_explicit::114",
+  "argv": [
+   "--silent-load",
+   "--output",
+   "tables"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_csv::115",
+  "argv": [
+   "--silent-load",
+   "--output",
+   "csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_json::116",
+  "argv": [
+   "--silent-load",
+   "--output",
+   "json",
+   "-s",
+   "404",
+   "-l",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_raw::117",
+  "argv": [
+   "--silent-load",
+   "--output",
+   "raw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_short_forms::118",
+  "argv": [
+   "--silent-load",
+   "-o",
+   "t"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_auto::119",
+  "argv": [
+   "--silent-load",
+   "--color",
+   "auto"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_yes::120",
+  "argv": [
+   "--silent-load",
+   "--color",
+   "yes"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_no::121",
+  "argv": [
+   "--silent-load",
+   "--color",
+   "no"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_key_bytes::122",
+  "argv": [
+   "--silent-load",
+   "--key",
+   "bytes"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_key_short_form::123",
+  "argv": [
+   "--silent-load",
+   "-k",
+   "hits"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_length_0_minimal::124",
+  "argv": [
+   "--silent-load",
+   "--length",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_length_1_default::125",
+  "argv": [
+   "--silent-load",
+   "--length",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_length_3::126",
+  "argv": [
+   "--silent-load",
+   "--length",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_length_6_maximum::127",
+  "argv": [
+   "--silent-load",
+   "--length",
+   "6"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_length_short_form::128",
+  "argv": [
+   "--silent-load",
+   "-l",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fields_all::129",
+  "argv": [
+   "--silent-load",
+   "-f",
+   "a",
+   "-o",
+   "csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fields_individual::130",
+  "argv": [
+   "--silent-load",
+   "-f",
+   "date",
+   "-o",
+   "csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fields_multiple::131",
+  "argv": [
+   "--silent-load",
+   "-f",
+   "date,method,status",
+   "-o",
+   "csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fields_add_to_default::132",
+  "argv": [
+   "--silent-load",
+   "-f",
+   "+ip",
+   "-o",
+   "csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fields_remove_from_all::133",
+  "argv": [
+   "--silent-load",
+   "-f",
+   "a,-ip",
+   "-o",
+   "csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_changes_flag::134",
+  "argv": [
+   "--silent-load",
+   "--changes",
+   "-l",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_changes_short_form::135",
+  "argv": [
+   "--silent-load",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_exact::136",
+  "argv": [
+   "--silent-load",
+   "-d",
+   "2021/01/22",
+   "-o",
+   "csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_greater_than::137",
+  "argv": [
+   "--silent-load",
+   "-d",
+   ">2021/01/15"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_less_than::138",
+  "argv": [
+   "--silent-load",
+   "-d",
+   "<2021/01/25"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_negative::139",
+  "argv": [
+   "--silent-load",
+   "-d",
+   "!2021/01/23"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_greater_than::140",
+  "argv": [
+   "--silent-load",
+   "-t",
+   ">19:30"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_less_than::141",
+  "argv": [
+   "--silent-load",
+   "-t",
+   "<06:00"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_range::142",
+  "argv": [
+   "--silent-load",
+   "-t",
+   "09:00-17:00"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ip_exact::143",
+  "argv": [
+   "--silent-load",
+   "-i",
+   "208.225.221.135",
+   "-o",
+   "csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ip_pattern::144",
+  "argv": [
+   "--silent-load",
+   "-i",
+   "40.205",
+   "-o",
+   "raw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ip_negative::145",
+  "argv": [
+   "--silent-load",
+   "-i",
+   "!1.2.3.4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_method_get::146",
+  "argv": [
+   "--silent-load",
+   "-m",
+   "GET",
+   "-o",
+   "raw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_method_post::147",
+  "argv": [
+   "--silent-load",
+   "-m",
+   "POST",
+   "-o",
+   "raw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_method_negative::148",
+  "argv": [
+   "--silent-load",
+   "-m",
+   "!DELETE"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_method_none::149",
+  "argv": [
+   "--silent-load",
+   "-m",
+   "none"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_simple_string::150",
+  "argv": [
+   "--silent-load",
+   "-p",
+   "broot",
+   "-o",
+   "raw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_regex::151",
+  "argv": [
+   "--silent-load",
+   "-p",
+   "^/login",
+   "-o",
+   "raw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_multiple_patterns::152",
+  "argv": [
+   "--silent-load",
+   "-p",
+   "login|webhook",
+   "-o",
+   "raw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_referer_simple::153",
+  "argv": [
+   "--silent-load",
+   "-r",
+   "github"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_referer_regex::154",
+  "argv": [
+   "--silent-load",
+   "-r",
+   "dystroy|github"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_single::155",
+  "argv": [
+   "--silent-load",
+   "-s",
+   "404",
+   "-o",
+   "raw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_range_4xx::156",
+  "argv": [
+   "--silent-load",
+   "-s",
+   "4xx",
+   "-o",
+   "csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_range_5xx::157",
+  "argv": [
+   "--silent-load",
+   "-s",
+   "5xx",
+   "-o",
+   "raw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_multiple::158",
+  "argv": [
+   "--silent-load",
+   "-s",
+   "404,500",
+   "-o",
+   "raw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_numeric_range::159",
+  "argv": [
+   "--silent-load",
+   "-s",
+   "400-450"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_complex::160",
+  "argv": [
+   "--silent-load",
+   "-s",
+   "4xx,5xx"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_negative::161",
+  "argv": [
+   "--silent-load",
+   "-s",
+   "5xx,!502"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_flag::162",
+  "argv": [
+   "--silent-load",
+   "--all"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_short_form::163",
+  "argv": [
+   "--silent-load",
+   "-a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_name_check::164",
+  "argv": [
+   "--silent-load",
+   "--no-name-check"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_and_status::165",
+  "argv": [
+   "--silent-load",
+   "-d",
+   "2021/01/22",
+   "-s",
+   "404",
+   "-o",
+   "raw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_method_and_path::166",
+  "argv": [
+   "--silent-load",
+   "-m",
+   "GET",
+   "-p",
+   "login",
+   "-o",
+   "raw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_and_ip::167",
+  "argv": [
+   "--silent-load",
+   "-s",
+   "200",
+   "-i",
+   "40.205"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_filters_combined::168",
+  "argv": [
+   "--silent-load",
+   "-d",
+   "2021/01/22",
+   "-s",
+   "200",
+   "-m",
+   "GET",
+   "-o",
+   "csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_option::169",
+  "argv": [
+   "--invalid-option"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_not_found::170",
+  "argv": [
+   "/nonexistent/path/to/log.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_directory_not_found::171",
+  "argv": [
+   "/nonexistent/directory/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_date_format::172",
+  "argv": [
+   "-d",
+   "invalid-date"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_length_value::173",
+  "argv": [
+   "-l",
+   "99"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_log_file::174",
+  "argv": [
+   "empty.log",
+   "--silent-load",
+   "--no-name-check"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.log": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_matching_entries::175",
+  "argv": [
+   "--silent-load",
+   "-d",
+   "1999/01/01"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_paths::176",
+  "argv": [
+   "special.log",
+   "--silent-load",
+   "--no-name-check",
+   "-o",
+   "raw"
+  ],
+  "stdin": null,
+  "files": {
+   "special.log": "1.2.3.4 - - [22/Jan/2021:01:47:05 +0000] \"GET /path?query=value&x=1 HTTP/1.1\" 200 100 \"-\" \"Agent\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_format_consistency::177",
+  "argv": [
+   "--silent-load",
+   "-o",
+   "csv",
+   "-f",
+   "date,status,path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_format_structure::178",
+  "argv": [
+   "--silent-load",
+   "-o",
+   "json",
+   "-s",
+   "200",
+   "-l",
+   "0",
+   "-p",
+   "^/login$"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_histogram_in_tables::179",
+  "argv": [
+   "--silent-load",
+   "-l",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bytes_vs_hits_sorting::180",
+  "argv": [
+   "--silent-load",
+   "-k",
+   "hits",
+   "-o",
+   "csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_changes_with_ip_field::181",
+  "argv": [
+   "--silent-load",
+   "-c",
+   "-f",
+   "+ip"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_histogram::182",
+  "argv": [
+   "--silent-load",
+   "-l",
+   "4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_histogram_with_long_output::183",
+  "argv": [
+   "--silent-load",
+   "-l",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_filtering_with_hours::184",
+  "argv": [
+   "--silent-load",
+   "-t",
+   "01:00-02:00",
+   "-o",
+   "csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time_filtering_various_ranges::185",
+  "argv": [
+   "--silent-load",
+   "-t",
+   "00:00-06:00"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_changes_with_multiple_dates::186",
+  "argv": [
+   "trend.log",
+   "--silent-load",
+   "--changes",
+   "-l",
+   "4",
+   "--no-name-check"
+  ],
+  "stdin": null,
+  "files": {
+   "trend.log": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_changes_with_different_ips::187",
+  "argv": [
+   "ip_trend.log",
+   "--silent-load",
+   "--changes",
+   "-f",
+   "+ip",
+   "-l",
+   "3",
+   "--no-name-check"
+  ],
+  "stdin": null,
+  "files": {
+   "ip_trend.log": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_changes_with_referers::188",
+  "argv": [
+   "ref_trend.log",
+   "--silent-load",
+   "--changes",
+   "-l",
+   "3",
+   "--no-name-check"
+  ],
+  "stdin": null,
+  "files": {
+   "ref_trend.log": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_parsing_various_formats::189",
+  "argv": [
+   "--silent-load",
+   "--no-name-check",
+   "-o",
+   "raw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_range_filtering::190",
+  "argv": [
+   "--silent-load",
+   "-d",
+   "2021/01/15-2021/01/25"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_with_time_precision::191",
+  "argv": [
+   "--silent-load",
+   "-d",
+   "2021/01/22"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_str_filter_regex_patterns::192",
+  "argv": [
+   "--silent-load",
+   "-p",
+   "(?i)LOGIN",
+   "-o",
+   "raw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_referer_filter_patterns::193",
+  "argv": [
+   "--silent-load",
+   "-r",
+   "dystroy",
+   "-o",
+   "raw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ip_filter_patterns::194",
+  "argv": [
+   "--silent-load",
+   "-i",
+   "^40.",
+   "-o",
+   "raw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_with_grouping::195",
+  "argv": [
+   "--silent-load",
+   "-l",
+   "6"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_histogram_rendering::196",
+  "argv": [
+   "--silent-load",
+   "-l",
+   "4",
+   "--key",
+   "bytes"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_method_special_values::197",
+  "argv": [
+   "--silent-load",
+   "-m",
+   "other"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_method_display_in_tables::198",
+  "argv": [
+   "--silent-load",
+   "-f",
+   "method",
+   "-o",
+   "csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_histogram_with_range::199",
+  "argv": [
+   "multiday.log",
+   "--silent-load",
+   "-l",
+   "3",
+   "--no-name-check"
+  ],
+  "stdin": null,
+  "files": {
+   "multiday.log": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_printer_with_all_fields::200",
+  "argv": [
+   "--silent-load",
+   "-f",
+   "all",
+   "-l",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_printer_with_minimal_fields::201",
+  "argv": [
+   "--silent-load",
+   "-f",
+   "date"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_printer_color_variations::202",
+  "argv": [
+   "--silent-load",
+   "--color",
+   "yes",
+   "-l",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_with_no_matches::203",
+  "argv": [
+   "--silent-load",
+   "-d",
+   "1990/01/01"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_filter_combinations::204",
+  "argv": [
+   "--silent-load",
+   "-d",
+   "2021/01/22",
+   "-t",
+   "01:00-12:00",
+   "-s",
+   "2xx,3xx",
+   "-m",
+   "GET",
+   "-p",
+   "login|auth",
+   "-l",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_filter_edge_cases::205",
+  "argv": [
+   "--silent-load",
+   "-s",
+   "200"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_length_levels::206",
+  "argv": [
+   "--silent-load",
+   "-l"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_key_bytes_with_filters::207",
+  "argv": [
+   "--silent-load",
+   "-k",
+   "bytes",
+   "-s",
+   "200",
+   "-l",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fields_time_column::208",
+  "argv": [
+   "--silent-load",
+   "-f",
+   "date,time",
+   "-o",
+   "csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_ipv4_ipv6::209",
+  "argv": [
+   "--silent-load",
+   "-f",
+   "+ip",
+   "--no-name-check",
+   "-o",
+   "csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_byte_values::210",
+  "argv": [
+   "--silent-load",
+   "--no-name-check",
+   "-k",
+   "bytes"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_arguments_treated_as_paths::211",
+  "argv": [
+   "file1.log",
+   "file2.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_before_argument::212",
+  "argv": [
+   "--color",
+   "no",
+   "nonexistent.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_error::213",
+  "argv": [
+   "--nonexistent-flag-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_did_you_mean_subcommands::214",
+  "argv": [
+   "lst"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_path_errors_to_stderr_and_nonzero::215",
+  "argv": [
+   "--silent-load",
+   "-o",
+   "raw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_json_starts_like_json_array_and_contains_expected_keys_strings::216",
+  "argv": [
+   "--silent-load",
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_plain_output_matches_baseline_exactly::217",
+  "argv": [
+   "--help",
+   "--color",
+   "no"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_precedence_over_other_options::218",
+  "argv": [
+   "--help",
+   "--output",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_after_double_dash_is_not_parsed_as_flag::219",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_h_is_invalid_and_errors_with_usage_on_stderr::220",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

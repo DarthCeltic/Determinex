@@ -1,0 +1,29 @@
+{
+  "schema": "determinex-repair-loop-transcript-v1",
+  "tool": "tabulate",
+  "family": "python",
+  "pinned_commit": "268615a",
+  "repair_type": "seeded_defect (behavioral) - verifier is the project's OWN test suite in a python:3.12 image (toolchain via provider; Docker-OPTIONAL)",
+  "toolchain": "python:3.12",
+  "oracle": "the real astanin/python-tabulate repo's own tests: python -m pytest -q",
+  "defect": {
+    "file": "tabulate/__init__.py",
+    "seed": "MIN_PADDING = 2 -> MIN_PADDING = 5"
+  },
+  "detect": {
+    "baseline": "======================= 323 passed, 60 skipped in 1.81s ========================",
+    "after_seed": "test suite FAILED (exit 1)",
+    "oracle_caught": true,
+    "failure_signature": "seeded defect made the project's own test suite exit non-zero"
+  },
+  "repair": {
+    "fix": "git checkout (restore upstream source)"
+  },
+  "reverify": {
+    "after": "======================= 323 passed, 60 skipped in 1.73s ========================",
+    "passed": 323,
+    "failures": 0
+  },
+  "repair_loop_status": "passed",
+  "proves": "closed-loop repair on a real external python project (tabulate): its OWN test suite detects the injected defect -> fix -> re-verify (======================= 323 passed, 60 skipped in 1.73s ========================). Reproducible."
+}

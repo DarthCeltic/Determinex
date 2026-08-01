@@ -1,0 +1,4869 @@
+{
+ "slug": "ismaelgv__rnr.fc0733b",
+ "language": "",
+ "n_branches": 11,
+ "n_tests_total": 700,
+ "n_examples": 230,
+ "n_with_exact_stdout": 10,
+ "n_with_rc": 205,
+ "n_skipped": 443,
+ "examples": [
+  {
+   "test": "test_ext_cli_verify_help_smoke",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable",
+    "Rename files and directories using a regular expression"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:31"
+  },
+  {
+   "test": "test_ext_fileutils_backup",
+   "argv": [
+    "regex",
+    "-f",
+    "-b",
+    "test",
+    "passed",
+    "test_file_1.txt",
+    "test_file_2.txt",
+    "--color",
+    "never"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test_file_1.txt": "x",
+    "test_file_2.txt": "x"
+   },
+   "ci": false,
+   "source": "test_externalized.py:48"
+  },
+  {
+   "test": "test_ext_fileutils_unique_name_conflict_errors",
+   "argv": [
+    "regex",
+    "-f",
+    "test_file_1$",
+    "test_file_1.1",
+    "--color",
+    "never"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Conflict with existing path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:80"
+  },
+  {
+   "test": "test_ext_fileutils_create_symlinks_are_renamed",
+   "argv": [
+    "regex",
+    "-f",
+    "test",
+    "passed",
+    "-r",
+    "--color",
+    "never"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:112"
+  },
+  {
+   "test": "test_ext_fileutils_is_same_file_broken_symlink_handled",
+   "argv": [
+    "regex",
+    "-f",
+    "test",
+    "passed",
+    "--color",
+    "never"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:170"
+  },
+  {
+   "test": "test_ext_fileutils_get_paths_recursive_excludes_hidden",
+   "argv": [
+    "regex",
+    "-n",
+    "test",
+    "passed",
+    "-r",
+    "--color",
+    "never"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "mock_dir_1/test_file.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:244"
+  },
+  {
+   "test": "test_ext_fileutils_get_paths_recursive_depth_limit",
+   "argv": [
+    "regex",
+    "-n",
+    "test",
+    "passed",
+    "-r",
+    "-d",
+    "2",
+    "--color",
+    "never"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "mock_dir_1/test_file.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:270"
+  },
+  {
+   "test": "test_ext_fileutils_get_paths_recursive_hidden_included",
+   "argv": [
+    "regex",
+    "-n",
+    "test",
+    "passed",
+    "-r",
+    "-x",
+    "--color",
+    "never"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".hidden_test_file.txt",
+    ".hidden_mock_dir/test_file.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:297"
+  },
+  {
+   "test": "test_ext_renamer_rename_files_with_backup",
+   "argv": [
+    "regex",
+    "-f",
+    "-b",
+    "test",
+    "passed",
+    "--color",
+    "never"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:359"
+  },
+  {
+   "test": "test_ext_renamer_rename_files_and_dirs_with_backup_include_dirs",
+   "argv": [
+    "regex",
+    "-f",
+    "-b",
+    "-D",
+    "test",
+    "passed",
+    "--color",
+    "never"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:396"
+  },
+  {
+   "test": "test_ext_renamer_replace_limit_zero_means_all",
+   "argv": [
+    "regex",
+    "-f",
+    "-l",
+    "0",
+    "a",
+    "b",
+    "replace_all_aaaaa.txt",
+    "--color",
+    "never"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "replace_all_aaaaa.txt": "x"
+   },
+   "ci": false,
+   "source": "test_externalized.py:437"
+  },
+  {
+   "test": "test_ext_renamer_to_ascii_subcommand_renames_files",
+   "argv": [
+    "to-ascii",
+    "-f",
+    "--color",
+    "never"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:463"
+  },
+  {
+   "test": "test_ext_renamer_captures_transform_none_upper_lower_ascii",
+   "argv": [
+    "regex",
+    "-f",
+    "--color",
+    "never",
+    "(\\w+)-(\\w+)-my-fîle",
+    "${1}.${2}-a-Fïle",
+    "Thïs-Îs-my-fîle.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "Thïs-Îs-my-fîle.txt": "x"
+   },
+   "ci": false,
+   "source": "test_externalized.py:493"
+  },
+  {
+   "test": "test_ext_solver_solve_rename_order_chain_uses_safe_order",
+   "argv": [
+    "regex",
+    "-f",
+    "^a",
+    "aa",
+    "--color",
+    "never"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:561"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_version.py:28"
+  },
+  {
+   "test": "test_unknown_subcommand_errors",
+   "argv": [
+    "does-not-exist"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_version.py:34"
+  },
+  {
+   "test": "test_subcommand_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:44"
+  },
+  {
+   "test": "test_help_command_for_subcommand",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:51"
+  },
+  {
+   "test": "test_regex_help_shows_specific_options",
+   "argv": [
+    "regex",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "EXPRESSION",
+    "REPLACEMENT"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:79"
+  },
+  {
+   "test": "test_fromfile_help_shows_specific_options",
+   "argv": [
+    "from-file",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "DUMPFILE"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:92"
+  },
+  {
+   "test": "test_toascii_help_shows_specific_options",
+   "argv": [
+    "to-ascii",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "PATH"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:103"
+  },
+  {
+   "test": "test_unknown_subcommand_suggests_help",
+   "argv": [
+    "notacommand"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:127"
+  },
+  {
+   "test": "test_help_flag_before_subcommand",
+   "argv": [
+    "--help",
+    "regex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Commands:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:173"
+  },
+  {
+   "test": "test_help_flag_works_alone",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:181"
+  },
+  {
+   "test": "test_version_flag_before_subcommand",
+   "argv": [
+    "--version",
+    "regex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:187"
+  },
+  {
+   "test": "test_short_help_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:205"
+  },
+  {
+   "test": "test_short_version_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:211"
+  },
+  {
+   "test": "test_subcommand_accepts_own_help",
+   "argv": [
+    "regex",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "EXPRESSION"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:250"
+  },
+  {
+   "test": "test_subcommand_accepts_short_help",
+   "argv": [
+    "regex",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:256"
+  },
+  {
+   "test": "test_help_with_no_args",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Commands:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:266"
+  },
+  {
+   "test": "test_all_subcommands_have_color",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--color"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:340"
+  },
+  {
+   "test": "test_fromfile_no_recursive",
+   "argv": [
+    "from-file",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:373"
+  },
+  {
+   "test": "test_main_help_has_description_lines",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "RnR is a command-line tool",
+    "supports regular expressions"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_main_help.py:17"
+  },
+  {
+   "test": "test_main_help_has_usage_line",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable <COMMAND>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_main_help.py:23"
+  },
+  {
+   "test": "test_main_help_has_commands_section_and_known_subcommands_listed",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Commands:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_main_help.py:28"
+  },
+  {
+   "test": "test_main_help_has_options_section_and_help_version_flags",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Options:",
+    "-h, --help",
+    "-V, --version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_main_help.py:35"
+  },
+  {
+   "test": "test_regex_help_documents_key_flags_and_options_header",
+   "argv": [
+    "regex",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_help.py:26"
+  },
+  {
+   "test": "test_regex_help_has_arguments_section_and_placeholders",
+   "argv": [
+    "regex",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Arguments:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_help.py:48"
+  },
+  {
+   "test": "test_from_file_help_documents_undo_flag",
+   "argv": [
+    "from-file",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-u, --undo"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_help.py:55"
+  },
+  {
+   "test": "test_to_ascii_help_mentions_utf8_and_ascii_in_description",
+   "argv": [
+    "to-ascii",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "UTF-8",
+    "ASCII"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_help.py:60"
+  },
+  {
+   "test": "test_help_precedence_with_other_args_still_shows_help",
+   "argv": [
+    "regex",
+    "--help",
+    "ignored"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable regex"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_help.py:75"
+  },
+  {
+   "test": "test_invalid_subcommand_error_message_and_exit_code",
+   "argv": [
+    "bogus"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable <COMMAND>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_help.py:82"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "RnR is a command-line tool",
+    "Commands:",
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:17"
+  },
+  {
+   "test": "test_help_flag_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "RnR is a command-line tool",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:26"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "rnr"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:33"
+  },
+  {
+   "test": "test_version_flag_short",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "rnr"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:41"
+  },
+  {
+   "test": "test_help_subcommand",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "RnR is a command-line tool",
+    "Commands:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:48"
+  },
+  {
+   "test": "test_help_regex_subcommand",
+   "argv": [
+    "help",
+    "regex"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Rename files and directories using a regular expression",
+    "EXPRESSION",
+    "REPLACEMENT",
+    "PATH(S)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:55"
+  },
+  {
+   "test": "test_help_from_file_subcommand",
+   "argv": [
+    "help",
+    "from-file"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Read operations from a dump file",
+    "DUMPFILE",
+    "--undo"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:64"
+  },
+  {
+   "test": "test_help_to_ascii_subcommand",
+   "argv": [
+    "help",
+    "to-ascii"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Replace file name UTF-8 chars with ASCII",
+    "PATH(S)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:72"
+  },
+  {
+   "test": "test_regex_help_flag",
+   "argv": [
+    "regex",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Rename files and directories using a regular expression",
+    "--dry-run",
+    "--force",
+    "--backup"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:79"
+  },
+  {
+   "test": "test_from_file_help_flag",
+   "argv": [
+    "from-file",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Read operations from a dump file",
+    "--undo"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:88"
+  },
+  {
+   "test": "test_to_ascii_help_flag",
+   "argv": [
+    "to-ascii",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Replace file name UTF-8 chars with ASCII",
+    "--recursive"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:95"
+  },
+  {
+   "test": "test_invalid_subcommand",
+   "argv": [
+    "invalid-command"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:102"
+  },
+  {
+   "test": "test_empty_filename",
+   "argv": [
+    "regex",
+    "-f",
+    "spaces",
+    "renamed",
+    "  spaces  .txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "renamed"
+   ],
+   "files": {
+    "  spaces  .txt": "content"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:7"
+  },
+  {
+   "test": "test_special_characters_in_filename",
+   "argv": [
+    "regex",
+    "-f",
+    "\\[123\\]",
+    "[456]",
+    "file[123].txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[456]"
+   ],
+   "files": {
+    "file[123].txt": "content"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:16"
+  },
+  {
+   "test": "test_very_long_filename",
+   "argv": [
+    "regex",
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:25"
+  },
+  {
+   "test": "test_symlink_handling",
+   "argv": [
+    "regex",
+    "-f",
+    "test",
+    "renamed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "link-"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:48"
+  },
+  {
+   "test": "test_empty_directory",
+   "argv": [
+    "regex",
+    "-f",
+    "-D",
+    "test",
+    "renamed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "renamed-empty-dir"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:73"
+  },
+  {
+   "test": "test_nested_directories",
+   "argv": [
+    "regex",
+    "-f",
+    "-r",
+    "test",
+    "renamed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "renamed-file.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:82"
+  },
+  {
+   "test": "test_directory_with_many_files",
+   "argv": [
+    "regex",
+    "-f",
+    "test",
+    "renamed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "renamed-"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:91"
+  },
+  {
+   "test": "test_unicode_in_pattern",
+   "argv": [
+    "regex",
+    "-f",
+    "café",
+    "coffee",
+    "café-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "coffee"
+   ],
+   "files": {
+    "café-01.txt": "content"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:108"
+  },
+  {
+   "test": "test_regex_with_dot_metachar",
+   "argv": [
+    "regex",
+    "-f",
+    "t..t",
+    "XXXX",
+    "test-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "XXXX-01.txt"
+   ],
+   "files": {
+    "test-01.txt": "content"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:117"
+  },
+  {
+   "test": "test_regex_with_anchors",
+   "argv": [
+    "regex",
+    "-f",
+    "^test",
+    "START",
+    "test-file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "START-file.txt"
+   ],
+   "files": {
+    "test-file.txt": "content"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:126"
+  },
+  {
+   "test": "test_regex_with_character_class",
+   "argv": [
+    "regex",
+    "-f",
+    "\\d+",
+    "NUM",
+    "test-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test-NUM.txt"
+   ],
+   "files": {
+    "test-01.txt": "content"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:135"
+  },
+  {
+   "test": "test_multiple_capture_groups",
+   "argv": [
+    "regex",
+    "-f",
+    "(\\w+)-(\\d+)-(\\w+)",
+    "${3}-${2}-${1}",
+    "file-01-test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test-01-file.txt"
+   ],
+   "files": {
+    "file-01-test.txt": "content"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:144"
+  },
+  {
+   "test": "test_case_insensitive_filesystem",
+   "argv": [
+    "regex",
+    "-f",
+    "Test",
+    "test",
+    "Test-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test-01.txt"
+   ],
+   "files": {
+    "Test-01.txt": "content"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:153"
+  },
+  {
+   "test": "test_whitespace_in_replacement",
+   "argv": [
+    "regex",
+    "-f",
+    "-",
+    " - ",
+    "test-file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test-file.txt": "content"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:165"
+  },
+  {
+   "test": "test_empty_replacement",
+   "argv": [
+    "regex",
+    "-f",
+    "-",
+    "",
+    "test-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test01.txt"
+   ],
+   "files": {
+    "test-01.txt": "content"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:173"
+  },
+  {
+   "test": "test_replace_with_period",
+   "argv": [
+    "regex",
+    "-f",
+    "-",
+    ".",
+    "test-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test.01.txt"
+   ],
+   "files": {
+    "test-01.txt": "content"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:181"
+  },
+  {
+   "test": "test_glob_pattern_in_path",
+   "argv": [
+    "regex",
+    "-f",
+    "test",
+    "renamed",
+    "test-01.txt",
+    "test-02.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "renamed"
+   ],
+   "files": {
+    "test-01.txt": "content1",
+    "test-02.txt": "content2"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:189"
+  },
+  {
+   "test": "test_relative_path",
+   "argv": [
+    "regex",
+    "-f",
+    "test",
+    "renamed",
+    "test-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "renamed-01.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:200"
+  },
+  {
+   "test": "test_absolute_path",
+   "argv": [
+    "regex",
+    "-f",
+    "test",
+    "renamed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "renamed-01.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:210"
+  },
+  {
+   "test": "test_mixed_files_and_dirs",
+   "argv": [
+    "regex",
+    "-f",
+    "-D",
+    "test",
+    "renamed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "renamed-file.txt",
+    "renamed-dir"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:219"
+  },
+  {
+   "test": "test_rename_to_same_name",
+   "argv": [
+    "regex",
+    "-f",
+    "nomatch",
+    "anything",
+    "test-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test-01.txt": "content"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:234"
+  },
+  {
+   "test": "test_from_file_basic",
+   "argv": [
+    "regex",
+    "-f",
+    "test",
+    "renamed",
+    "test-01.txt",
+    "test-02.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test-01.txt": "content1",
+    "test-02.txt": "content2"
+   },
+   "ci": false,
+   "source": "test_from_file.py:6"
+  },
+  {
+   "test": "test_from_file_redo",
+   "argv": [
+    "regex",
+    "--dump",
+    "test",
+    "renamed",
+    "test-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "renamed-01.txt"
+   ],
+   "files": {
+    "test-01.txt": "content1"
+   },
+   "ci": false,
+   "source": "test_from_file.py:31"
+  },
+  {
+   "test": "test_from_file_undo",
+   "argv": [
+    "regex",
+    "-f",
+    "test",
+    "renamed",
+    "test-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test-01.txt"
+   ],
+   "files": {
+    "test-01.txt": "content1"
+   },
+   "ci": false,
+   "source": "test_from_file.py:53"
+  },
+  {
+   "test": "test_from_file_backup",
+   "argv": [
+    "regex",
+    "--dump",
+    "test",
+    "renamed",
+    "test-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test-01.txt": "original"
+   },
+   "ci": false,
+   "source": "test_from_file.py:92"
+  },
+  {
+   "test": "test_from_file_silent",
+   "argv": [
+    "regex",
+    "-f",
+    "test",
+    "renamed",
+    "test-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test-01.txt": "content"
+   },
+   "ci": false,
+   "source": "test_from_file.py:108"
+  },
+  {
+   "test": "test_from_file_color_options",
+   "argv": [
+    "regex",
+    "-f",
+    "test",
+    "renamed",
+    "test-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test-01.txt": "content"
+   },
+   "ci": false,
+   "source": "test_from_file.py:120"
+  },
+  {
+   "test": "test_from_file_missing_argument",
+   "argv": [
+    "from-file"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_from_file.py:201"
+  },
+  {
+   "test": "test_from_file_multiple_operations",
+   "argv": [
+    "regex",
+    "-f",
+    "test",
+    "renamed",
+    "test-01.txt",
+    "test-02.txt",
+    "test-03.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test-01.txt",
+    "test-02.txt",
+    "test-03.txt"
+   ],
+   "files": {
+    "test-01.txt": "content1",
+    "test-02.txt": "content2",
+    "test-03.txt": "content3"
+   },
+   "ci": false,
+   "source": "test_from_file.py:207"
+  },
+  {
+   "test": "test_from_file_complex_undo_redo_cycle",
+   "argv": [
+    "regex",
+    "-f",
+    "original",
+    "renamed",
+    "original.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "original.txt",
+    "renamed.txt"
+   ],
+   "files": {
+    "original.txt": "content"
+   },
+   "ci": false,
+   "source": "test_from_file.py:232"
+  },
+  {
+   "test": "test_regex_dry_run_default",
+   "argv": [
+    "regex",
+    "test",
+    "renamed",
+    "test-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test-01.txt",
+    "renamed-01.txt"
+   ],
+   "files": {
+    "test-01.txt": "content1"
+   },
+   "ci": false,
+   "source": "test_regex.py:6"
+  },
+  {
+   "test": "test_regex_dry_run_explicit",
+   "argv": [
+    "regex",
+    "--dry-run",
+    "test",
+    "renamed",
+    "test-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test-01.txt",
+    "renamed-01.txt"
+   ],
+   "files": {
+    "test-01.txt": "content1"
+   },
+   "ci": false,
+   "source": "test_regex.py:18"
+  },
+  {
+   "test": "test_regex_dry_run_short_flag",
+   "argv": [
+    "regex",
+    "-n",
+    "test",
+    "renamed",
+    "test-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test-01.txt",
+    "renamed-01.txt"
+   ],
+   "files": {
+    "test-01.txt": "content1"
+   },
+   "ci": false,
+   "source": "test_regex.py:29"
+  },
+  {
+   "test": "test_regex_force_mode",
+   "argv": [
+    "regex",
+    "--force",
+    "test",
+    "renamed",
+    "test-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test-01.txt",
+    "renamed-01.txt"
+   ],
+   "files": {
+    "test-01.txt": "content1"
+   },
+   "ci": false,
+   "source": "test_regex.py:39"
+  },
+  {
+   "test": "test_regex_multiple_files",
+   "argv": [
+    "regex",
+    "-f",
+    "test",
+    "renamed",
+    "test-01.txt",
+    "test-02.txt",
+    "test-03.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test-01.txt",
+    "test-02.txt",
+    "test-03.txt",
+    "renamed-01.txt",
+    "renamed-02.txt",
+    "renamed-03.txt"
+   ],
+   "files": {
+    "test-01.txt": "content1",
+    "test-02.txt": "content2",
+    "test-03.txt": "content3"
+   },
+   "ci": false,
+   "source": "test_regex.py:65"
+  },
+  {
+   "test": "test_regex_no_match",
+   "argv": [
+    "regex",
+    "-f",
+    "nomatch",
+    "renamed",
+    "file-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "file-01.txt": "content"
+   },
+   "ci": false,
+   "source": "test_regex.py:86"
+  },
+  {
+   "test": "test_regex_partial_match",
+   "argv": [
+    "regex",
+    "-f",
+    "test",
+    "renamed",
+    "test-file-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "renamed-file-01.txt"
+   ],
+   "files": {
+    "test-file-01.txt": "content"
+   },
+   "ci": false,
+   "source": "test_regex.py:96"
+  },
+  {
+   "test": "test_regex_extension_replacement",
+   "argv": [
+    "regex",
+    "-f",
+    "\\.ext\\d",
+    ".txt",
+    "file-01.ext1",
+    "file-02.ext2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".txt"
+   ],
+   "files": {
+    "file-01.ext1": "content1",
+    "file-02.ext2": "content2"
+   },
+   "ci": false,
+   "source": "test_regex.py:105"
+  },
+  {
+   "test": "test_regex_capture_groups",
+   "argv": [
+    "regex",
+    "-f",
+    "(\\w+)-(\\d+)",
+    "${2}-${1}",
+    "file-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "01-file.txt"
+   ],
+   "files": {
+    "file-01.txt": "content"
+   },
+   "ci": false,
+   "source": "test_regex.py:116"
+  },
+  {
+   "test": "test_regex_named_capture_groups",
+   "argv": [
+    "regex",
+    "-f",
+    "(?P<name>\\w+)-(?P<num>\\d+)",
+    "${num}-${name}",
+    "file-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "01-file.txt"
+   ],
+   "files": {
+    "file-01.txt": "content"
+   },
+   "ci": false,
+   "source": "test_regex.py:125"
+  },
+  {
+   "test": "test_regex_silent_mode",
+   "argv": [
+    "regex",
+    "-f",
+    "--silent",
+    "test",
+    "renamed",
+    "test-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test-01.txt": "content"
+   },
+   "ci": false,
+   "source": "test_regex.py:134"
+  },
+  {
+   "test": "test_regex_silent_short_flag",
+   "argv": [
+    "regex",
+    "-f",
+    "-s",
+    "test",
+    "renamed",
+    "test-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test-01.txt": "content"
+   },
+   "ci": false,
+   "source": "test_regex.py:143"
+  },
+  {
+   "test": "test_regex_backup_mode",
+   "argv": [
+    "regex",
+    "-f",
+    "--backup",
+    "test",
+    "renamed",
+    "test-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test-01.txt": "original content"
+   },
+   "ci": false,
+   "source": "test_regex.py:151"
+  },
+  {
+   "test": "test_regex_backup_short_flag",
+   "argv": [
+    "regex",
+    "-f",
+    "-b",
+    "test",
+    "renamed",
+    "test-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "renamed-01.txt"
+   ],
+   "files": {
+    "test-01.txt": "content"
+   },
+   "ci": false,
+   "source": "test_regex.py:166"
+  },
+  {
+   "test": "test_regex_color_always",
+   "argv": [
+    "regex",
+    "--color",
+    "always",
+    "test",
+    "renamed",
+    "test-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test-01.txt": "content"
+   },
+   "ci": false,
+   "source": "test_regex.py:177"
+  },
+  {
+   "test": "test_regex_color_never",
+   "argv": [
+    "regex",
+    "--color",
+    "never",
+    "test",
+    "renamed",
+    "test-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test-01.txt"
+   ],
+   "files": {
+    "test-01.txt": "content"
+   },
+   "ci": false,
+   "source": "test_regex.py:186"
+  },
+  {
+   "test": "test_regex_color_auto",
+   "argv": [
+    "regex",
+    "--color",
+    "auto",
+    "test",
+    "renamed",
+    "test-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test-01.txt"
+   ],
+   "files": {
+    "test-01.txt": "content"
+   },
+   "ci": false,
+   "source": "test_regex.py:195"
+  },
+  {
+   "test": "test_regex_nonexistent_file",
+   "argv": [
+    "regex",
+    "-f",
+    "test",
+    "renamed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_regex.py:221"
+  },
+  {
+   "test": "test_regex_force_flag_with_output",
+   "argv": [
+    "regex",
+    "-f",
+    "test",
+    "renamed",
+    "test-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test-01.txt",
+    "renamed-01.txt"
+   ],
+   "files": {
+    "test-01.txt": "content"
+   },
+   "ci": false,
+   "source": "test_regex.py:238"
+  },
+  {
+   "test": "test_regex_backup_creates_backup_file",
+   "argv": [
+    "regex",
+    "-f",
+    "-b",
+    "test",
+    "renamed",
+    "test-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "renamed"
+   ],
+   "files": {
+    "test-01.txt": "content"
+   },
+   "ci": false,
+   "source": "test_regex.py:246"
+  },
+  {
+   "test": "test_regex_extension_change_output",
+   "argv": [
+    "regex",
+    "-f",
+    "\\.ext\\d",
+    ".txt",
+    "file-01.ext1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".txt",
+    "file-01"
+   ],
+   "files": {
+    "file-01.ext1": "content1"
+   },
+   "ci": false,
+   "source": "test_regex.py:256"
+  },
+  {
+   "test": "test_regex_recursive_mode",
+   "argv": [
+    "regex",
+    "-f",
+    "--recursive",
+    "test",
+    "renamed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test-01.txt",
+    "test-02.txt",
+    "test-03.txt",
+    "renamed-01.txt",
+    "renamed-02.txt",
+    "renamed-03.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_advanced.py:5"
+  },
+  {
+   "test": "test_regex_recursive_short_flag",
+   "argv": [
+    "regex",
+    "-f",
+    "-r",
+    "test",
+    "renamed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "renamed-01.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_advanced.py:24"
+  },
+  {
+   "test": "test_regex_max_depth",
+   "argv": [
+    "regex",
+    "-f",
+    "-r",
+    "--max-depth",
+    "2",
+    "test",
+    "renamed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "renamed-00.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_advanced.py:35"
+  },
+  {
+   "test": "test_regex_max_depth_short_flag",
+   "argv": [
+    "regex",
+    "-f",
+    "-r",
+    "-d",
+    "2",
+    "test",
+    "renamed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "renamed-01.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_advanced.py:52"
+  },
+  {
+   "test": "test_regex_include_dirs",
+   "argv": [
+    "regex",
+    "-f",
+    "--include-dirs",
+    "test-dir",
+    "renamed-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test-dir",
+    "renamed-dir"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_advanced.py:64"
+  },
+  {
+   "test": "test_regex_include_dirs_short_flag",
+   "argv": [
+    "regex",
+    "-f",
+    "-D",
+    "test-dir",
+    "renamed-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "renamed-dir"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_advanced.py:78"
+  },
+  {
+   "test": "test_regex_hidden_files",
+   "argv": [
+    "regex",
+    "-f",
+    "-r",
+    "--hidden",
+    "test",
+    "renamed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_advanced.py:87"
+  },
+  {
+   "test": "test_regex_hidden_short_flag",
+   "argv": [
+    "regex",
+    "-f",
+    "-r",
+    "-x",
+    "test",
+    "renamed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "renamed"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_advanced.py:99"
+  },
+  {
+   "test": "test_regex_without_hidden_flag",
+   "argv": [
+    "regex",
+    "-f",
+    "-r",
+    "test",
+    "renamed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "renamed"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_advanced.py:108"
+  },
+  {
+   "test": "test_regex_replace_limit_one",
+   "argv": [
+    "regex",
+    "-f",
+    "--replace-limit",
+    "1",
+    "test",
+    "X",
+    "test-test-test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "X-test-test.txt"
+   ],
+   "files": {
+    "test-test-test.txt": "content"
+   },
+   "ci": false,
+   "source": "test_regex_advanced.py:121"
+  },
+  {
+   "test": "test_regex_replace_limit_short_flag",
+   "argv": [
+    "regex",
+    "-f",
+    "-l",
+    "2",
+    "test",
+    "X",
+    "test-test-test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "X-X-test.txt"
+   ],
+   "files": {
+    "test-test-test.txt": "content"
+   },
+   "ci": false,
+   "source": "test_regex_advanced.py:131"
+  },
+  {
+   "test": "test_regex_replace_limit_zero",
+   "argv": [
+    "regex",
+    "-f",
+    "--replace-limit",
+    "0",
+    "test",
+    "X",
+    "test-test-test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "X-X-X.txt"
+   ],
+   "files": {
+    "test-test-test.txt": "content"
+   },
+   "ci": false,
+   "source": "test_regex_advanced.py:141"
+  },
+  {
+   "test": "test_regex_transform_upper",
+   "argv": [
+    "regex",
+    "-f",
+    "--replace-transform",
+    "upper",
+    "(\\w+)-(\\d+)",
+    "${2}-${1}",
+    "file-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "01-FILE.txt"
+   ],
+   "files": {
+    "file-01.txt": "content"
+   },
+   "ci": false,
+   "source": "test_regex_advanced.py:151"
+  },
+  {
+   "test": "test_regex_transform_lower",
+   "argv": [
+    "regex",
+    "-f",
+    "--replace-transform",
+    "lower",
+    "(\\w+)-(\\d+)",
+    "${2}-${1}",
+    "FILE-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "01-file.txt"
+   ],
+   "files": {
+    "FILE-01.txt": "content"
+   },
+   "ci": false,
+   "source": "test_regex_advanced.py:161"
+  },
+  {
+   "test": "test_regex_transform_ascii",
+   "argv": [
+    "regex",
+    "-f",
+    "--replace-transform",
+    "ascii",
+    "ñ",
+    "n",
+    "file-ñ.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file-n.txt"
+   ],
+   "files": {
+    "file-ñ.txt": "content"
+   },
+   "ci": false,
+   "source": "test_regex_advanced.py:171"
+  },
+  {
+   "test": "test_regex_transform_short_flag",
+   "argv": [
+    "regex",
+    "-f",
+    "-t",
+    "upper",
+    "file",
+    "renamed",
+    "file-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "RENAMED-01.txt"
+   ],
+   "files": {
+    "file-01.txt": "content"
+   },
+   "ci": false,
+   "source": "test_regex_advanced.py:180"
+  },
+  {
+   "test": "test_regex_no_dump_flag",
+   "argv": [
+    "regex",
+    "-f",
+    "--no-dump",
+    "test",
+    "renamed",
+    "test-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "renamed-01.txt"
+   ],
+   "files": {
+    "test-01.txt": "content"
+   },
+   "ci": false,
+   "source": "test_regex_advanced.py:200"
+  },
+  {
+   "test": "test_regex_dump_prefix",
+   "argv": [
+    "regex",
+    "-f",
+    "--dump-prefix",
+    "custom-",
+    "test",
+    "renamed",
+    "test-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "renamed-01.txt"
+   ],
+   "files": {
+    "test-01.txt": "content"
+   },
+   "ci": false,
+   "source": "test_regex_advanced.py:222"
+  },
+  {
+   "test": "test_regex_combined_flags",
+   "argv": [
+    "regex",
+    "-f",
+    "-r",
+    "-D",
+    "-x",
+    "-b",
+    "test",
+    "renamed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "renamed"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_advanced.py:233"
+  },
+  {
+   "test": "test_to_ascii_basic",
+   "argv": [
+    "to-ascii",
+    "fïlé-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file-01.txt"
+   ],
+   "files": {
+    "fïlé-01.txt": "content"
+   },
+   "ci": false,
+   "source": "test_to_ascii.py:5"
+  },
+  {
+   "test": "test_to_ascii_force",
+   "argv": [
+    "to-ascii",
+    "-f",
+    "fïlé-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file-01.txt"
+   ],
+   "files": {
+    "fïlé-01.txt": "content"
+   },
+   "ci": false,
+   "source": "test_to_ascii.py:15"
+  },
+  {
+   "test": "test_to_ascii_multiple_files",
+   "argv": [
+    "to-ascii",
+    "-f",
+    "fïlé-01.txt",
+    "FïĹÊ-02.txt",
+    "file-03.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "fïlé-01.txt": "content1",
+    "FïĹÊ-02.txt": "content2",
+    "file-03.txt": "content3"
+   },
+   "ci": false,
+   "source": "test_to_ascii.py:26"
+  },
+  {
+   "test": "test_to_ascii_unicode_chars",
+   "argv": [
+    "to-ascii",
+    "-f",
+    "café.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cafe.txt"
+   ],
+   "files": {
+    "café.txt": "content"
+   },
+   "ci": false,
+   "source": "test_to_ascii.py:39"
+  },
+  {
+   "test": "test_to_ascii_cyrillic",
+   "argv": [
+    "to-ascii",
+    "-f",
+    "файл.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "файл.txt": "content"
+   },
+   "ci": false,
+   "source": "test_to_ascii.py:48"
+  },
+  {
+   "test": "test_to_ascii_chinese",
+   "argv": [
+    "to-ascii",
+    "-f",
+    "文件.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "文件.txt": "content"
+   },
+   "ci": false,
+   "source": "test_to_ascii.py:58"
+  },
+  {
+   "test": "test_to_ascii_emoji",
+   "argv": [
+    "to-ascii",
+    "-f",
+    "file😀.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "file😀.txt": "content"
+   },
+   "ci": false,
+   "source": "test_to_ascii.py:68"
+  },
+  {
+   "test": "test_to_ascii_recursive",
+   "argv": [
+    "to-ascii",
+    "-f",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_to_ascii.py:78"
+  },
+  {
+   "test": "test_to_ascii_include_dirs",
+   "argv": [
+    "to-ascii",
+    "-f",
+    "-D"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dir-test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_to_ascii.py:89"
+  },
+  {
+   "test": "test_to_ascii_hidden",
+   "argv": [
+    "to-ascii",
+    "-f",
+    "-r",
+    "-x"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hidden-file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_to_ascii.py:101"
+  },
+  {
+   "test": "test_to_ascii_backup",
+   "argv": [
+    "to-ascii",
+    "-f",
+    "-b",
+    "fïlé-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "fïlé-01.txt": "original"
+   },
+   "ci": false,
+   "source": "test_to_ascii.py:110"
+  },
+  {
+   "test": "test_to_ascii_silent",
+   "argv": [
+    "to-ascii",
+    "-f",
+    "-s",
+    "fïlé-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "fïlé-01.txt": "content"
+   },
+   "ci": false,
+   "source": "test_to_ascii.py:122"
+  },
+  {
+   "test": "test_to_ascii_color_options",
+   "argv": [
+    "to-ascii",
+    "--color",
+    "never",
+    "fïlé-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file-01.txt"
+   ],
+   "files": {
+    "fïlé-01.txt": "content"
+   },
+   "ci": false,
+   "source": "test_to_ascii.py:130"
+  },
+  {
+   "test": "test_to_ascii_max_depth",
+   "argv": [
+    "to-ascii",
+    "-f",
+    "-r",
+    "-d",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file-01.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_to_ascii.py:138"
+  },
+  {
+   "test": "test_to_ascii_no_unicode",
+   "argv": [
+    "to-ascii",
+    "-f",
+    "regular-file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "regular-file.txt": "content"
+   },
+   "ci": false,
+   "source": "test_to_ascii.py:152"
+  },
+  {
+   "test": "test_to_ascii_no_dump",
+   "argv": [
+    "to-ascii",
+    "-f",
+    "--no-dump",
+    "fïlé-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file-01.txt"
+   ],
+   "files": {
+    "fïlé-01.txt": "content"
+   },
+   "ci": false,
+   "source": "test_to_ascii.py:173"
+  },
+  {
+   "test": "test_to_ascii_missing_paths",
+   "argv": [
+    "to-ascii"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_to_ascii.py:184"
+  },
+  {
+   "test": "test_to_ascii_nonexistent_file",
+   "argv": [
+    "to-ascii",
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_to_ascii.py:190"
+  },
+  {
+   "test": "test_unknown_subcommand_errors_with_usage_and_nonzero_exit",
+   "argv": [
+    "nonexistent_subcmd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unrecognized subcommand",
+    "usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:85"
+  },
+  {
+   "test": "test_help_subcommand_does_not_accept_help_flag",
+   "argv": [
+    "help",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unrecognized subcommand"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:94"
+  },
+  {
+   "test": "test_subcommand_specific_flag_rejected_globally_before_subcommand",
+   "argv": [
+    "--color",
+    "never",
+    "regex",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument",
+    "regex --color"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:103"
+  },
+  {
+   "test": "test_subcommand_specific_flag_accepted_after_subcommand",
+   "argv": [
+    "regex",
+    "--color",
+    "never",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--color"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:113"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "RnR is a command-line tool",
+    "Usage:",
+    "regex",
+    "from-file",
+    "to-ascii"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:12"
+  },
+  {
+   "test": "test_short_help_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "regex"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:22"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "rnr",
+    "0.5.1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:29"
+  },
+  {
+   "test": "test_short_version_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "rnr",
+    "0.5.1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:36"
+  },
+  {
+   "test": "test_regex_help",
+   "argv": [
+    "regex",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Rename files and directories",
+    "EXPRESSION",
+    "REPLACEMENT",
+    "--force",
+    "--backup",
+    "--recursive"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:49"
+  },
+  {
+   "test": "test_from_file_help",
+   "argv": [
+    "from-file",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Read operations from a dump file",
+    "DUMPFILE",
+    "--undo",
+    "--force"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:60"
+  },
+  {
+   "test": "test_to_ascii_help",
+   "argv": [
+    "to-ascii",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "UTF-8 chars with ASCII",
+    "PATH(S)",
+    "--recursive",
+    "--force"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:69"
+  },
+  {
+   "test": "test_empty_replacement",
+   "argv": [
+    "regex",
+    "-f",
+    "-test",
+    "",
+    "file-test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file"
+   ],
+   "files": {
+    "file-test.txt": "content"
+   },
+   "ci": false,
+   "source": "test_error_handling.py:51"
+  },
+  {
+   "test": "test_empty_input_no_files",
+   "argv": [
+    "regex",
+    "-f",
+    "-r",
+    "pattern",
+    "replacement"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:101"
+  },
+  {
+   "test": "test_special_chars_in_filename",
+   "argv": [
+    "regex",
+    "-f",
+    "file",
+    "renamed",
+    "file with spaces.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "renamed with spaces.txt"
+   ],
+   "files": {
+    "file with spaces.txt": "content"
+   },
+   "ci": false,
+   "source": "test_error_handling.py:111"
+  },
+  {
+   "test": "test_file_with_no_extension",
+   "argv": [
+    "regex",
+    "-f",
+    "file",
+    "renamed",
+    "file"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file",
+    "renamed"
+   ],
+   "files": {
+    "file": "content"
+   },
+   "ci": false,
+   "source": "test_error_handling.py:136"
+  },
+  {
+   "test": "test_file_with_multiple_dots",
+   "argv": [
+    "regex",
+    "-f",
+    "file",
+    "archive",
+    "file.tar.gz"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file.tar.gz",
+    "archive.tar.gz"
+   ],
+   "files": {
+    "file.tar.gz": "content"
+   },
+   "ci": false,
+   "source": "test_error_handling.py:148"
+  },
+  {
+   "test": "test_symlink_handling",
+   "argv": [
+    "regex",
+    "-f",
+    "link",
+    "renamed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "link.txt",
+    "renamed.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:160"
+  },
+  {
+   "test": "test_zero_replacements_no_match",
+   "argv": [
+    "regex",
+    "-f",
+    "nomatch",
+    "replacement",
+    "file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "file.txt": "content"
+   },
+   "ci": false,
+   "source": "test_error_handling.py:176"
+  },
+  {
+   "test": "test_recursive_depth_zero",
+   "argv": [
+    "regex",
+    "-f",
+    "-r",
+    "-d",
+    "0",
+    "file",
+    "renamed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:188"
+  },
+  {
+   "test": "test_from_file_basic_redo",
+   "argv": [
+    "regex",
+    "-f",
+    "original",
+    "renamed",
+    "original.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "operations",
+    "source",
+    "target"
+   ],
+   "files": {
+    "original.txt": "content"
+   },
+   "ci": false,
+   "source": "test_from_file.py:7"
+  },
+  {
+   "test": "test_from_file_undo",
+   "argv": [
+    "regex",
+    "-f",
+    "original",
+    "renamed",
+    "original.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "original.txt": "content"
+   },
+   "ci": false,
+   "source": "test_from_file.py:41"
+  },
+  {
+   "test": "test_from_file_with_backup",
+   "argv": [
+    "from-file",
+    "-f",
+    "-b"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_from_file.py:65"
+  },
+  {
+   "test": "test_from_file_silent",
+   "argv": [
+    "from-file",
+    "-f",
+    "-s"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_from_file.py:86"
+  },
+  {
+   "test": "test_from_file_dump_flag",
+   "argv": [
+    "from-file",
+    "--dump"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_from_file.py:103"
+  },
+  {
+   "test": "test_from_file_no_dump",
+   "argv": [
+    "from-file",
+    "-f",
+    "--no-dump"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_from_file.py:125"
+  },
+  {
+   "test": "test_from_file_dry_run_default",
+   "argv": [
+    "from-file"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_from_file.py:174"
+  },
+  {
+   "test": "test_from_file_backup_verification",
+   "argv": [
+    "from-file",
+    "-f",
+    "-b"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "original.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_from_file.py:194"
+  },
+  {
+   "test": "test_from_file_dump_content",
+   "argv": [
+    "from-file",
+    "--dump"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "source.txt",
+    "operations"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_from_file.py:214"
+  },
+  {
+   "test": "test_simple_rename_dry_run",
+   "argv": [
+    "regex",
+    "file",
+    "renamed",
+    "file-01.txt",
+    "file-02.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file-01.txt",
+    "renamed-01.txt",
+    "file-02.txt",
+    "renamed-02.txt"
+   ],
+   "files": {
+    "file-01.txt": "content1",
+    "file-02.txt": "content2"
+   },
+   "ci": false,
+   "source": "test_regex_basic.py:6"
+  },
+  {
+   "test": "test_simple_rename_force",
+   "argv": [
+    "regex",
+    "-f",
+    "file",
+    "renamed",
+    "file-01.txt",
+    "file-02.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file-01.txt",
+    "renamed-01.txt"
+   ],
+   "files": {
+    "file-01.txt": "content1",
+    "file-02.txt": "content2"
+   },
+   "ci": false,
+   "source": "test_regex_basic.py:23"
+  },
+  {
+   "test": "test_regex_pattern_matching",
+   "argv": [
+    "regex",
+    "-f",
+    "\\d+",
+    "NUM",
+    "test_file_123.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test_file_123.txt",
+    "test_file_NUM.txt"
+   ],
+   "files": {
+    "test_file_123.txt": "content"
+   },
+   "ci": false,
+   "source": "test_regex_basic.py:43"
+  },
+  {
+   "test": "test_numbered_capture_groups",
+   "argv": [
+    "regex",
+    "-f",
+    "(\\w+)-(\\d+)\\.(\\w+)",
+    "${2}-${1}.${3}",
+    "file-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file-01.txt",
+    "01-file.txt"
+   ],
+   "files": {
+    "file-01.txt": "content"
+   },
+   "ci": false,
+   "source": "test_regex_basic.py:56"
+  },
+  {
+   "test": "test_named_capture_groups",
+   "argv": [
+    "regex",
+    "-f",
+    "(?P<name>\\w+)-(?P<num>\\d+)\\.(?P<ext>\\w+)",
+    "${num}-${name}.${ext}",
+    "file-01.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file-01.txt",
+    "01-file.txt"
+   ],
+   "files": {
+    "file-01.txt": "content"
+   },
+   "ci": false,
+   "source": "test_regex_basic.py:69"
+  },
+  {
+   "test": "test_extension_replacement",
+   "argv": [
+    "regex",
+    "-f",
+    "\\.ext\\d$",
+    ".txt",
+    "file1.ext1",
+    "file2.ext2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file1.txt",
+    "file2.txt"
+   ],
+   "files": {
+    "file1.ext1": "content1",
+    "file2.ext2": "content2"
+   },
+   "ci": false,
+   "source": "test_regex_basic.py:82"
+  },
+  {
+   "test": "test_number_replacement",
+   "argv": [
+    "regex",
+    "-f",
+    "\\d",
+    "X",
+    "file-01.txt",
+    "file-02.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file-01.txt",
+    "file-X1.txt"
+   ],
+   "files": {
+    "file-01.txt": "content1",
+    "file-02.txt": "content2"
+   },
+   "ci": false,
+   "source": "test_regex_basic.py:97"
+  },
+  {
+   "test": "test_multiple_file_arguments",
+   "argv": [
+    "regex",
+    "-f",
+    "test",
+    "renamed",
+    "test1.txt",
+    "test2.txt",
+    "test3.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test1.txt",
+    "renamed1.txt",
+    "test2.txt",
+    "test3.txt"
+   ],
+   "files": {
+    "test1.txt": "c1",
+    "test2.txt": "c2",
+    "test3.txt": "c3"
+   },
+   "ci": false,
+   "source": "test_regex_basic.py:110"
+  },
+  {
+   "test": "test_no_match_pattern",
+   "argv": [
+    "regex",
+    "-f",
+    "nomatch",
+    "replaced",
+    "file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "file.txt": "content"
+   },
+   "ci": false,
+   "source": "test_regex_basic.py:127"
+  },
+  {
+   "test": "test_case_sensitive_matching",
+   "argv": [
+    "regex",
+    "-f",
+    "file",
+    "renamed",
+    "FILE.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "FILE.txt": "content"
+   },
+   "ci": false,
+   "source": "test_regex_basic.py:138"
+  },
+  {
+   "test": "test_dry_run_flag_explicit",
+   "argv": [
+    "regex",
+    "-n",
+    "file",
+    "renamed",
+    "file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file.txt",
+    "renamed.txt"
+   ],
+   "files": {
+    "file.txt": "content"
+   },
+   "ci": false,
+   "source": "test_regex_flags.py:7"
+  },
+  {
+   "test": "test_backup_flag",
+   "argv": [
+    "regex",
+    "-f",
+    "-b",
+    "file",
+    "renamed",
+    "file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file.txt",
+    "renamed.txt"
+   ],
+   "files": {
+    "file.txt": "original content"
+   },
+   "ci": false,
+   "source": "test_regex_flags.py:18"
+  },
+  {
+   "test": "test_silent_flag",
+   "argv": [
+    "regex",
+    "-f",
+    "-s",
+    "file",
+    "renamed",
+    "file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "file.txt": "content"
+   },
+   "ci": false,
+   "source": "test_regex_flags.py:37"
+  },
+  {
+   "test": "test_color_always",
+   "argv": [
+    "regex",
+    "--color",
+    "always",
+    "file",
+    "renamed",
+    "file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {
+    "file.txt": "content"
+   },
+   "ci": false,
+   "source": "test_regex_flags.py:51"
+  },
+  {
+   "test": "test_color_never",
+   "argv": [
+    "regex",
+    "--color",
+    "never",
+    "file",
+    "renamed",
+    "file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file.txt"
+   ],
+   "files": {
+    "file.txt": "content"
+   },
+   "ci": false,
+   "source": "test_regex_flags.py:60"
+  },
+  {
+   "test": "test_dump_flag_in_dry_run",
+   "argv": [
+    "regex",
+    "--dump",
+    "file",
+    "renamed",
+    "file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file.txt",
+    "renamed.txt",
+    "operations"
+   ],
+   "files": {
+    "file.txt": "content"
+   },
+   "ci": false,
+   "source": "test_regex_flags.py:70"
+  },
+  {
+   "test": "test_dump_prefix_custom",
+   "argv": [
+    "regex",
+    "-f",
+    "--dump-prefix",
+    "custom-",
+    "file",
+    "renamed",
+    "file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file.txt",
+    "operations"
+   ],
+   "files": {
+    "file.txt": "content"
+   },
+   "ci": false,
+   "source": "test_regex_flags.py:86"
+  },
+  {
+   "test": "test_no_dump_flag",
+   "argv": [
+    "regex",
+    "-f",
+    "--no-dump",
+    "file",
+    "renamed",
+    "file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file.txt",
+    "renamed.txt"
+   ],
+   "files": {
+    "file.txt": "content"
+   },
+   "ci": false,
+   "source": "test_regex_flags.py:101"
+  },
+  {
+   "test": "test_replace_limit_one",
+   "argv": [
+    "regex",
+    "-f",
+    "-l",
+    "1",
+    "a",
+    "b",
+    "aaa.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "aaa.txt",
+    "baa.txt"
+   ],
+   "files": {
+    "aaa.txt": "content"
+   },
+   "ci": false,
+   "source": "test_regex_flags.py:116"
+  },
+  {
+   "test": "test_replace_limit_zero",
+   "argv": [
+    "regex",
+    "-f",
+    "-l",
+    "0",
+    "a",
+    "b",
+    "aaa.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "aaa.txt",
+    "bbb.txt"
+   ],
+   "files": {
+    "aaa.txt": "content"
+   },
+   "ci": false,
+   "source": "test_regex_flags.py:129"
+  },
+  {
+   "test": "test_replace_transform_upper",
+   "argv": [
+    "regex",
+    "-f",
+    "-t",
+    "upper",
+    "test",
+    "new",
+    "test-file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test-file.txt",
+    "NEW-file.txt"
+   ],
+   "files": {
+    "test-file.txt": "content"
+   },
+   "ci": false,
+   "source": "test_regex_flags.py:142"
+  },
+  {
+   "test": "test_replace_transform_lower",
+   "argv": [
+    "regex",
+    "-f",
+    "-t",
+    "lower",
+    "TEST",
+    "NEW",
+    "TEST-FILE.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TEST-FILE.txt",
+    "new-FILE.txt"
+   ],
+   "files": {
+    "TEST-FILE.txt": "content"
+   },
+   "ci": false,
+   "source": "test_regex_flags.py:154"
+  },
+  {
+   "test": "test_replace_transform_ascii",
+   "argv": [
+    "regex",
+    "-f",
+    "-t",
+    "ascii",
+    "tëst",
+    "tëst",
+    "tëst.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test.txt"
+   ],
+   "files": {
+    "tëst.txt": "content"
+   },
+   "ci": false,
+   "source": "test_regex_flags.py:166"
+  },
+  {
+   "test": "test_replace_transform_with_capture_groups",
+   "argv": [
+    "regex",
+    "-f",
+    "-t",
+    "upper",
+    "(\\w+)-(\\w+)",
+    "${2}-${1}",
+    "file-test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file-test.txt",
+    "TEST-FILE.txt"
+   ],
+   "files": {
+    "file-test.txt": "content"
+   },
+   "ci": false,
+   "source": "test_regex_flags.py:178"
+  },
+  {
+   "test": "test_include_dirs_flag",
+   "argv": [
+    "regex",
+    "-f",
+    "-D",
+    "test",
+    "renamed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test-dir",
+    "renamed-dir"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_flags.py:191"
+  },
+  {
+   "test": "test_recursive_flag_basic",
+   "argv": [
+    "regex",
+    "-f",
+    "-r",
+    "file",
+    "renamed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file1.txt",
+    "file2.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_flags.py:206"
+  },
+  {
+   "test": "test_max_depth_flag",
+   "argv": [
+    "regex",
+    "-f",
+    "-r",
+    "-d",
+    "2",
+    "file",
+    "renamed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file1.txt",
+    "renamed1.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_flags.py:220"
+  },
+  {
+   "test": "test_hidden_flag",
+   "argv": [
+    "regex",
+    "-r",
+    "file",
+    "renamed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "visible-file.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_flags.py:240"
+  },
+  {
+   "test": "test_force_with_backup_combination",
+   "argv": [
+    "regex",
+    "-f",
+    "-b",
+    "file",
+    "renamed",
+    "file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file.txt"
+   ],
+   "files": {
+    "file.txt": "original"
+   },
+   "ci": false,
+   "source": "test_regex_flags.py:256"
+  },
+  {
+   "test": "test_recursive_with_include_dirs",
+   "argv": [
+    "regex",
+    "-f",
+    "-r",
+    "-D",
+    "test",
+    "renamed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test-dir1",
+    "renamed-dir1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_flags.py:270"
+  },
+  {
+   "test": "test_to_ascii_basic",
+   "argv": [
+    "to-ascii",
+    "-f",
+    "fïlé.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file.txt"
+   ],
+   "files": {
+    "fïlé.txt": "content"
+   },
+   "ci": false,
+   "source": "test_to_ascii.py:6"
+  },
+  {
+   "test": "test_to_ascii_multiple_files",
+   "argv": [
+    "to-ascii",
+    "-f",
+    "fïlé1.txt",
+    "tëst2.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file1.txt",
+    "test2.txt"
+   ],
+   "files": {
+    "fïlé1.txt": "c1",
+    "tëst2.txt": "c2"
+   },
+   "ci": false,
+   "source": "test_to_ascii.py:18"
+  },
+  {
+   "test": "test_to_ascii_with_backup",
+   "argv": [
+    "to-ascii",
+    "-f",
+    "-b",
+    "fïlé.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "fïlé.txt": "original"
+   },
+   "ci": false,
+   "source": "test_to_ascii.py:31"
+  },
+  {
+   "test": "test_to_ascii_recursive",
+   "argv": [
+    "to-ascii",
+    "-f",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file1.txt",
+    "file2.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_to_ascii.py:46"
+  },
+  {
+   "test": "test_to_ascii_include_dirs",
+   "argv": [
+    "to-ascii",
+    "-f",
+    "-D"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_to_ascii.py:60"
+  },
+  {
+   "test": "test_to_ascii_hidden",
+   "argv": [
+    "to-ascii",
+    "-f",
+    "-r",
+    "-x"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_to_ascii.py:73"
+  },
+  {
+   "test": "test_to_ascii_silent",
+   "argv": [
+    "to-ascii",
+    "-f",
+    "-s",
+    "fïlé.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "fïlé.txt": "content"
+   },
+   "ci": false,
+   "source": "test_to_ascii.py:83"
+  },
+  {
+   "test": "test_to_ascii_special_chars",
+   "argv": [
+    "to-ascii",
+    "-f",
+    "café-naïve.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "café-naïve.txt": "content"
+   },
+   "ci": false,
+   "source": "test_to_ascii.py:92"
+  },
+  {
+   "test": "test_to_ascii_dry_run",
+   "argv": [
+    "to-ascii",
+    "fïlé.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file.txt"
+   ],
+   "files": {
+    "fïlé.txt": "content"
+   },
+   "ci": false,
+   "source": "test_to_ascii.py:102"
+  },
+  {
+   "test": "test_to_ascii_already_ascii",
+   "argv": [
+    "to-ascii",
+    "-f",
+    "plain-file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "plain-file.txt": "content"
+   },
+   "ci": false,
+   "source": "test_to_ascii.py:114"
+  },
+  {
+   "test": "test_to_ascii_with_max_depth",
+   "argv": [
+    "to-ascii",
+    "-f",
+    "-r",
+    "-d",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_to_ascii.py:135"
+  },
+  {
+   "test": "test_to_ascii_include_dirs_verification",
+   "argv": [
+    "to-ascii",
+    "-f",
+    "-D"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test-dir"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_to_ascii.py:195"
+  },
+  {
+   "test": "test_top_level_unknown_subcommand",
+   "argv": [
+    "nope"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error:",
+    "unrecognized subcommand 'nope'",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:33"
+  },
+  {
+   "test": "test_subcommand_unknown_flag_suggests_double_dash_tip",
+   "argv": [
+    "regex",
+    "--unknown"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error: unexpected argument '--unknown' found",
+    "tip: to pass '--unknown' as a value, use '-- --unknown'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:54"
+  },
+  {
+   "test": "test_double_dash_allows_dash_prefixed_positional",
+   "argv": [
+    "regex",
+    "a",
+    "b",
+    "--foo"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument '--foo'",
+    "This is a DRY-RUN"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:60"
+  },
+  {
+   "test": "test_flag_with_value_supports_space_and_equals_forms",
+   "argv": [
+    "regex",
+    "--color",
+    "always",
+    "file",
+    "x",
+    "file1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b",
+    "\u001b"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:103"
+  },
+  {
+   "test": "test_flag_after_positionals_is_accepted",
+   "argv": [
+    "regex",
+    "file",
+    "x",
+    "file1",
+    "-n"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "This is a DRY-RUN"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:115"
+  },
+  {
+   "test": "test_duplicate_flag_rejected_color",
+   "argv": [
+    "regex",
+    "--color",
+    "never",
+    "--color",
+    "always",
+    "file",
+    "x",
+    "file1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error: the argument '--color <COLOR>' cannot be used multiple times"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:134"
+  },
+  {
+   "test": "test_from_file_rejects_unknown_flag",
+   "argv": [
+    "from-file",
+    "--nope"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error:",
+    "unexpected argument '--nope'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:139"
+  },
+  {
+   "test": "test_help_lists_subcommands_and_usage",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "regex",
+    "from-file",
+    "to-ascii"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_version.py:4"
+  },
+  {
+   "test": "test_regex_dry_run_default_outputs_banner_and_no_fs_change",
+   "argv": [
+    "regex",
+    "foo",
+    "bar",
+    "foo.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "foo.txt -> bar.txt\n"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_basic.py:8"
+  },
+  {
+   "test": "test_regex_force_renames_and_writes_dump_by_default",
+   "argv": [
+    "regex",
+    "-f",
+    "foo",
+    "bar",
+    "foo.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "operations"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_basic.py:22"
+  },
+  {
+   "test": "test_regex_force_no_dump_suppresses_dump_file",
+   "argv": [
+    "regex",
+    "-f",
+    "--no-dump",
+    "foo",
+    "bar",
+    "foo.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_basic.py:41"
+  },
+  {
+   "test": "test_regex_force_backup_creates_bk_and_renames",
+   "argv": [
+    "regex",
+    "-f",
+    "-b",
+    "--no-dump",
+    "foo",
+    "bar",
+    "foo.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Info:  Backup created - foo.txt -> foo.txt.bk\n"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_basic.py:50"
+  },
+  {
+   "test": "test_regex_silent_suppresses_all_output",
+   "argv": [
+    "regex",
+    "-s",
+    "foo",
+    "bar",
+    "foo.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_basic.py:63"
+  },
+  {
+   "test": "test_regex_color_always_emits_ansi_codes",
+   "argv": [
+    "regex",
+    "--color=always",
+    "foo",
+    "bar",
+    "foo.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_basic.py:72"
+  },
+  {
+   "test": "test_regex_color_never_has_no_ansi_codes",
+   "argv": [
+    "regex",
+    "--color=never",
+    "foo",
+    "bar",
+    "foo.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_basic.py:81"
+  },
+  {
+   "test": "test_regex_force_nonexistent_path_is_noop_success",
+   "argv": [
+    "regex",
+    "-f",
+    "foo",
+    "bar",
+    "does_not_exist.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_basic.py:90"
+  },
+  {
+   "test": "test_to_ascii_dry_run_does_not_rename",
+   "argv": [
+    "to-ascii",
+    "--color=never",
+    "café.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_to_ascii.py:6"
+  },
+  {
+   "test": "test_to_ascii_force_renames",
+   "argv": [
+    "to-ascii",
+    "-f",
+    "--no-dump",
+    "--color=never",
+    "café.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_to_ascii.py:17"
+  }
+ ]
+}

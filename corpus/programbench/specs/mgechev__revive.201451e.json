@@ -1,0 +1,907 @@
+{
+ "slug": "mgechev__revive.201451e",
+ "language": "",
+ "n_branches": 7,
+ "n_tests_total": 230,
+ "n_examples": 47,
+ "n_with_exact_stdout": 1,
+ "n_with_rc": 31,
+ "n_skipped": 177,
+ "examples": [
+  {
+   "test": "test_explicit_config_flag_overrides_auto_discovery",
+   "argv": [
+    "-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:113"
+  },
+  {
+   "test": "test_help_shows_no_subcommands",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage of",
+    "-config",
+    "-formatter"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:41"
+  },
+  {
+   "test": "test_version_flag_works",
+   "argv": [
+    "-version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:77"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage of"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:108"
+  },
+  {
+   "test": "test_config_flag_syntax",
+   "argv": [
+    "-config",
+    "/nonexistent/config.toml",
+    "-version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:115"
+  },
+  {
+   "test": "test_version_is_global_flag",
+   "argv": [
+    "-version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:226"
+  },
+  {
+   "test": "test_formatter_is_global_flag",
+   "argv": [
+    "-formatter",
+    "json",
+    "-version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:247"
+  },
+  {
+   "test": "test_set_exit_status_is_global_flag",
+   "argv": [
+    "-set_exit_status",
+    "-version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:253"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "revive",
+    "Usage of",
+    "-config",
+    "-formatter",
+    "-exclude",
+    "-set_exit_status",
+    "-version",
+    "-max_open_files",
+    "Example:",
+    "path to the configuration TOML file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:21"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "-version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Version:",
+    "Commit:",
+    "Built"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:39"
+  },
+  {
+   "test": "test_help_shows_all_flags",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "path to the configuration TOML file",
+    "formatter to be used",
+    "maximum number of open files",
+    "exclude"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:69"
+  },
+  {
+   "test": "test_config_disable_all_rules",
+   "argv": [
+    "-config",
+    "norules.toml",
+    "test.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "norules.toml": "\nignoreGeneratedHeader = false\n",
+    "test.go": "package test\nfunc test() {}\n"
+   },
+   "ci": false,
+   "source": "test_configuration.py:199"
+  },
+  {
+   "test": "test_exclude_nonexistent_file",
+   "argv": [
+    "-exclude",
+    "/nonexistent/file.go",
+    "testdata/atomic.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "atomic.go",
+    "atomic"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_exclusions.py:123"
+  },
+  {
+   "test": "test_set_exit_status_with_issues",
+   "argv": [
+    "-set_exit_status",
+    "test.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.go": "package main\nfunc main() {\n    println(\"test\")\n}\n"
+   },
+   "ci": false,
+   "source": "test_flags.py:36"
+  },
+  {
+   "test": "test_set_exit_status_no_issues",
+   "argv": [
+    "-config",
+    "revive.toml",
+    "-set_exit_status",
+    "test.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "revive.toml": "\nignoreGeneratedHeader = false\n",
+    "test.go": "package main\n\nfunc main() {}\n"
+   },
+   "ci": false,
+   "source": "test_flags.py:51"
+  },
+  {
+   "test": "test_config_and_set_exit_status",
+   "argv": [
+    "-config",
+    "config.toml",
+    "-set_exit_status",
+    "test.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "exported"
+   ],
+   "files": {
+    "config.toml": "\nerrorCode = 0\nwarningCode = 0\n[rule.exported]\n",
+    "test.go": "package test\nfunc Test() {}\n"
+   },
+   "ci": true,
+   "source": "test_flags.py:140"
+  },
+  {
+   "test": "test_default_formatter",
+   "argv": [
+    "testdata/atomic.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "atomic.go:",
+    ":"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_formatters.py:24"
+  },
+  {
+   "test": "test_friendly_formatter",
+   "argv": [
+    "-formatter",
+    "friendly",
+    "testdata/atomic.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "atomic.go"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_formatters.py:35"
+  },
+  {
+   "test": "test_stylish_formatter",
+   "argv": [
+    "-formatter",
+    "stylish",
+    "testdata/atomic.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "problems",
+    "atomic.go"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_formatters.py:44"
+  },
+  {
+   "test": "test_unix_formatter",
+   "argv": [
+    "-formatter",
+    "unix",
+    "testdata/atomic.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "atomic.go"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_formatters.py:64"
+  },
+  {
+   "test": "test_json_formatter",
+   "argv": [
+    "-formatter",
+    "json",
+    "testdata/atomic.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Severity",
+    "Failure",
+    "RuleName",
+    "Position",
+    "Confidence"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_formatters.py:73"
+  },
+  {
+   "test": "test_ndjson_formatter",
+   "argv": [
+    "-formatter",
+    "ndjson",
+    "testdata/atomic.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Severity",
+    "Failure",
+    "RuleName"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_formatters.py:89"
+  },
+  {
+   "test": "test_checkstyle_formatter",
+   "argv": [
+    "-formatter",
+    "checkstyle",
+    "testdata/atomic.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "line",
+    "message",
+    "severity"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_formatters.py:102"
+  },
+  {
+   "test": "test_sarif_formatter",
+   "argv": [
+    "-formatter",
+    "sarif",
+    "testdata/atomic.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "runs",
+    "results",
+    "ruleId",
+    "message",
+    "level"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_formatters.py:122"
+  },
+  {
+   "test": "test_formatter_with_no_issues",
+   "argv": [
+    "-config",
+    "revive.toml",
+    "-formatter",
+    "json",
+    "test.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "revive.toml": "ignoreGeneratedHeader = false\n",
+    "test.go": "package main\n\nfunc main() {}\n"
+   },
+   "ci": false,
+   "source": "test_formatters.py:147"
+  },
+  {
+   "test": "test_package_path",
+   "argv": [
+    "testdata/atomic.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "atomic.go"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_handling.py:112"
+  },
+  {
+   "test": "test_package_comments_rule_detailed",
+   "argv": [
+    "-config",
+    "config.toml",
+    "test.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "package comment"
+   ],
+   "files": {
+    "config.toml": "\n[rule.package-comments]\n",
+    "test.go": "package test\n\nfunc test() {}\n"
+   },
+   "ci": true,
+   "source": "test_more_rules.py:273"
+  },
+  {
+   "test": "test_package_comments_rule",
+   "argv": [
+    "test.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "package comment"
+   ],
+   "files": {
+    "test.go": "package test\n\nfunc test() {}\n"
+   },
+   "ci": true,
+   "source": "test_rules.py:52"
+  },
+  {
+   "test": "test_atomic_rule",
+   "argv": [
+    "testdata/atomic.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "atomic"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_rules.py:108"
+  },
+  {
+   "test": "test_help_exits_zero_long_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_behavior.py:7"
+  },
+  {
+   "test": "test_help_exits_zero_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_behavior.py:12"
+  },
+  {
+   "test": "test_help_stdout_contains_banner_and_example",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "revive",
+    "Example:",
+    "revive -config"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_behavior.py:23"
+  },
+  {
+   "test": "test_help_usage_is_on_stderr_and_stdout_is_nonempty",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage of"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_behavior.py:35"
+  },
+  {
+   "test": "test_help_combined_with_other_flags_still_shows_help",
+   "argv": [
+    "--help",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage of",
+    "Example:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_behavior.py:63"
+  },
+  {
+   "test": "test_missing_config_argument_returns_error_and_includes_usage",
+   "argv": [
+    "-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "flag needs an argument",
+    "Usage of"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_behavior.py:70"
+  },
+  {
+   "test": "test_ext_cli_version_flag_prints_version_block",
+   "argv": [
+    "-version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Version:\t",
+    "Commit:\t",
+    "Built"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_config_and_version.py:31"
+  },
+  {
+   "test": "test_ext_cli_unknown_formatter_errors",
+   "argv": [
+    "-formatter",
+    "unknown",
+    "./..."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unknown formatter unknown"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_config_and_version.py:57"
+  },
+  {
+   "test": "test_ext_cli_missing_config_file_errors",
+   "argv": [
+    "-config",
+    "does-not-exist.toml",
+    "./..."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cannot read the config file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_config_and_version.py:78"
+  },
+  {
+   "test": "test_ext_cli_malformed_config_file_errors",
+   "argv": [
+    "-config",
+    "bad.toml",
+    "./..."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cannot parse the config file"
+   ],
+   "files": {
+    "bad.toml": "[rule\n"
+   },
+   "ci": false,
+   "source": "test_cli_config_and_version.py:98"
+  },
+  {
+   "test": "test_ext_cli_rule_configure_error_surfaces",
+   "argv": [
+    "-config",
+    "./..."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cannot configure rule: \"var-naming\"",
+    "got string"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_config_and_version.py:120"
+  },
+  {
+   "test": "test_ext_cli_set_exit_status_makes_warnings_fail",
+   "argv": [
+    "-config",
+    "c.toml",
+    "-formatter",
+    "friendly",
+    "-set_exit_status"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "package-comments"
+   ],
+   "files": {
+    "c.toml": "enableAllRules = true\nseverity = \"warning\"\nconfidence = 0.0\n"
+   },
+   "ci": false,
+   "source": "test_cli_config_and_version.py:152"
+  },
+  {
+   "test": "test_help_emitted_on_stderr_exit_zero",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage of",
+    "-config"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_revive_io.py:7"
+  },
+  {
+   "test": "test_version_to_stdout_and_exit_zero",
+   "argv": [
+    "-version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Commit:\t\t"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_revive_io.py:18"
+  },
+  {
+   "test": "test_lint_single_file_emits_issue_on_stdout_and_exit_one",
+   "argv": [
+    "bad.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "should have a package comment"
+   ],
+   "files": {
+    "bad.go": "package p\n\nfunc f( ) {\n}\n"
+   },
+   "ci": false,
+   "source": "test_revive_io.py:27"
+  },
+  {
+   "test": "test_formatter_json_outputs_valid_json_array_and_exit_one",
+   "argv": [
+    "-formatter",
+    "json",
+    "bad.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "bad.go": "package p\n\nfunc f( ) {\n}\n"
+   },
+   "ci": false,
+   "source": "test_revive_io.py:43"
+  },
+  {
+   "test": "test_formatter_ndjson_outputs_one_json_object_per_line",
+   "argv": [
+    "-formatter",
+    "ndjson",
+    "bad.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "bad.go": "package p\n\nfunc f( ) {\n}\n"
+   },
+   "ci": false,
+   "source": "test_revive_io.py:61"
+  },
+  {
+   "test": "test_nonexistent_target_emits_error_on_stderr_and_exit_one",
+   "argv": [
+    "-formatter",
+    "friendly",
+    "does-not-exist.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "no required module provides package"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_revive_io.py:80"
+  }
+ ]
+}

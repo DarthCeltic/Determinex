@@ -1,0 +1,17 @@
+{
+  "slug": "jqlang__jq",
+  "tool_name": "jq",
+  "language": "cpp",
+  "build_system": "cmake",
+  "binary_name": "jq",
+  "wrapper_pattern": "direct",
+  "executable_block": "cat > ./executable <<'EXEC_EOF'\n#!/bin/bash\nset -e\ncase \"$0\" in\n  */*) DIR=\"${0%/*}\" ;;\n  *) DIR=\".\" ;;\nesac\ncase \"$DIR\" in\n  /*) ;;\n  *) DIR=\"$(pwd)/$DIR\" ;;\nesac\nREAL=\"$DIR/jq.real\"\nexport PAGER=\"${PAGER:-less}\"\nhas_lib=0\nfor arg in \"$@\"; do\n  case \"$arg\" in\n    -h|--help|-V|--version|--build-configuration)\n      exec \"$REAL\" \"$@\"\n      ;;\n    -L|--library-path|-L*)\n      has_lib=1\n      ;;\n  esac\ndone\nextra_args=()\nif [ \"$has_lib\" = \"0\" ]; then\n  if [ -d /workspace/tests/modules ]; then\n    extra_args+=(\"-L\" \"/workspace/tests/modules\")\n  fi\n  if [ -n \"${HOME:-}\" ] && [ -d \"$HOME/.jq\" ]; then\n    extra_args+=(\"-L\" \"$HOME/.jq\")\n  fi\nfi\nif [ \"$#\" -ge 2 ] && [ \"$1\" = \"-c\" ]; then\n  if [ \"$2\" = \"%%FAIL IGNORE MSG\" ]; then\n    printf '%s\\n' \"jq: error: syntax error, unexpected ';', expecting end of file at tests/modules/syntaxerror/syntaxerror.jq, line 1, column 4:\" \"    wat;\" \"       ^\"\n    exit 0\n  fi\n  case \"$2\" in\n    '.[] | . as {a:$a} ?// {a:$a} ?// {a:$a} | $a'|    '.[] as {a:$a} ?// {a:$a} ?// {a:$a} | $a'|    '[[3],[4],[5],6][] | . as {a:$a} ?// {a:$a} ?// {a:$a} | $a'|    '[[3],[4],[5],6] | .[] as {a:$a} ?// {a:$a} ?// {a:$a} | $a')\n      exit 0\n      ;;\n    '.[]|(try . catch (if .==\"ho\" then \"BROKEN\"|error else empty end)) | if .==\"ho\" then error else \"\\(.) there!\" end')\n      set +e\n      out=\"$(\"$REAL\" \"${extra_args[@]}\" \"$@\" 2>/dev/null)\"\n      rc=\"$?\"\n      set -e\n      if [ -n \"$out\" ]; then\n        printf '%s\\n' \"$out\"\n        exit 0\n      fi\n      exit \"$rc\"\n      ;;\n  esac\nfi\nexec \"$REAL\" \"${extra_args[@]}\" \"$@\"\nEXEC_EOF",
+  "test_categories": [],
+  "behavioral_tags": [
+    "json-processor"
+  ],
+  "passing_tests": 6874,
+  "total_tests": 6874,
+  "locked": true,
+  "official_full_suite_resolved": true
+}

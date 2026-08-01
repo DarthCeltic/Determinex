@@ -1,0 +1,5253 @@
+[
+ {
+  "name": "fuzz5",
+  "argv": [
+   "f5.json"
+  ],
+  "stdin": null,
+  "files": {
+   "f5.json": "{\"z\":0,\"b\":{\"a\":{\"\\u00dcn\\u00ee\":1,\"a\":-7,\"k-v\":12000000000.0,\"\\u00dcn\\u00ee\":\"true\"}}}"
+  },
+  "serve": {}
+ },
+ {
+  "name": "test::test_paint_emits_ansi_and_resets_with_newline_by_default::0",
+  "argv": [
+   "--color-mode",
+   "24bit",
+   "paint",
+   "red",
+   "hello"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paint_no_newline_flag::1",
+  "argv": [
+   "--color-mode",
+   "24bit",
+   "paint",
+   "-n",
+   "red",
+   "hello"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colorcheck_footer_and_exit_code::2",
+  "argv": [
+   "colorcheck"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pick_missing_external_tool_error_message::3",
+  "argv": [
+   "format",
+   "hex",
+   "pick"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_exact::4",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_contains_commands_and_options::5",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subcommand_help_smoke_format::6",
+  "argv": [
+   "format",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_subcommand_error::7",
+  "argv": [
+   "definitely-not-a-command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_alpha_roundtrip_hex_rgba_hsla::8",
+  "argv": [
+   "format",
+   "hex",
+   "#77889980"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_name_for_known_color::9",
+  "argv": [
+   "format",
+   "name",
+   "44cc11"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_default_first_lines_deterministic::10",
+  "argv": [
+   "list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_random_sort_is_not_deterministic_and_is_names::11",
+  "argv": [
+   "list",
+   "-s",
+   "random"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_by_hue_orders_known_colors::12",
+  "argv": [
+   "sort-by",
+   "hue",
+   "red",
+   "blue",
+   "green"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_by_unique_removes_duplicates::13",
+  "argv": [
+   "sort-by",
+   "--unique",
+   "hue",
+   "red",
+   "#ff0000",
+   "blue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_random_respects_number_count::14",
+  "argv": [
+   "random",
+   "-n",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_random_gray_strategy_outputs_grayscale_hsl::15",
+  "argv": [
+   "random",
+   "-n",
+   "5",
+   "-s",
+   "gray"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complement_of_red::16",
+  "argv": [
+   "complement",
+   "ff0000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lighten_and_darken_basics::17",
+  "argv": [
+   "lighten",
+   "0.2",
+   "000000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lighten_saturates_at_100_percent::18",
+  "argv": [
+   "lighten",
+   "2",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_amount_requires_double_dash_separator::19",
+  "argv": [
+   "lighten",
+   "-0.5",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rotate_hue_180_on_red::20",
+  "argv": [
+   "rotate",
+   "180",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mix_two_colors_and_stdin_placeholder::21",
+  "argv": [
+   "mix",
+   "red",
+   "blue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gradient_count_and_endpoints::22",
+  "argv": [
+   "gradient",
+   "-n",
+   "3",
+   "red",
+   "blue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_property_red_channel_to_zero::23",
+  "argv": [
+   "set",
+   "red",
+   "0",
+   "#ff0000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_to_gray_outputs_desaturated_hsl::24",
+  "argv": [
+   "to-gray",
+   "#ff0000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gray_0_5::25",
+  "argv": [
+   "gray",
+   "0.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_textcolor_black_and_white::26",
+  "argv": [
+   "textcolor",
+   "black"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_is_error::27",
+  "argv": [
+   "bogus"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_root_color_mode_short_flag_works_before_command::28",
+  "argv": [
+   "-m",
+   "24bit",
+   "random",
+   "-n",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_root_long_color_mode_is_not_a_valid_option_name::29",
+  "argv": [
+   "--mode=24bit",
+   "random",
+   "-n",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_root_force_color_alias_accepts_no_value::30",
+  "argv": [
+   "-f",
+   "random",
+   "-n",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_required_positional_missing_gradient_colors::31",
+  "argv": [
+   "gradient"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_required_positional_missing_paint_color::32",
+  "argv": [
+   "paint"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paint_missing_value_for_on_option::33",
+  "argv": [
+   "paint",
+   "red",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_random_number_parsing_rejects_non_integer_with_custom_error::34",
+  "argv": [
+   "random",
+   "--number",
+   "abc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_random_does_not_accept_negative_number_without_separator::35",
+  "argv": [
+   "random",
+   "--number",
+   "-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_distinct_count_parsing_rejects_non_integer_with_custom_error::36",
+  "argv": [
+   "distinct",
+   "abc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_distinct_count_must_be_larger_than_one::37",
+  "argv": [
+   "distinct",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enum_validation_random_strategy::38",
+  "argv": [
+   "random",
+   "--strategy",
+   "nope"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enum_validation_format_type::39",
+  "argv": [
+   "format",
+   "bogus"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enum_validation_distinct_metric::40",
+  "argv": [
+   "distinct",
+   "--metric",
+   "nope"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_random_rejects_unexpected_positional_argument::41",
+  "argv": [
+   "random",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_cannot_be_used_multiple_times_random_number::42",
+  "argv": [
+   "random",
+   "-n",
+   "2",
+   "-n",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_cannot_be_used_multiple_times_random_strategy::43",
+  "argv": [
+   "random",
+   "-s",
+   "vivid",
+   "-s",
+   "rgb"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dash_dash_allows_negative_degrees_for_rotate::44",
+  "argv": [
+   "rotate",
+   "--",
+   "-10",
+   "ff0000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_degrees_without_dashdash_is_parsed_as_flag_and_errors::45",
+  "argv": [
+   "rotate",
+   "-10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dash_dash_makes_options_become_positionals_for_subcommand_that_has_no_positionals::46",
+  "argv": [
+   "random",
+   "--",
+   "--number",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_reads_from_stdin_with_dash_color_identifier::47",
+  "argv": [
+   "color",
+   "-"
+  ],
+  "stdin": "ff0000\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paint_no_newline_flag_changes_trailing_newline::48",
+  "argv": [
+   "paint",
+   "red",
+   "hello"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_hex_reads_stdin_when_no_color_args::49",
+  "argv": [
+   "format",
+   "hex"
+  ],
+  "stdin": "ff0000\n00ff00\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_hex_explicit_dash_reads_single_color_from_stdin::50",
+  "argv": [
+   "format",
+   "hex",
+   "-"
+  ],
+  "stdin": "00ff00\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_with_multiple_colors_preserves_argument_order::51",
+  "argv": [
+   "format",
+   "name",
+   "blue",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_invalid_color_goes_to_stderr_and_nonzero_exit::52",
+  "argv": [
+   "format",
+   "hex",
+   "does_not_exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_unknown_option_goes_to_stderr_nonzero::53",
+  "argv": [
+   "--definitely-not-a-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_flag_not_supported_with_long_form_but_short_form_works_for_color_output::54",
+  "argv": [
+   "--mode=24bit",
+   "paint",
+   "red",
+   "hello"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paint_reads_text_from_stdin_when_no_text_args::55",
+  "argv": [
+   "paint",
+   "red"
+  ],
+  "stdin": "hi there",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paint_no_newline_flag_suppresses_trailing_newline::56",
+  "argv": [
+   "paint",
+   "-n",
+   "red",
+   "hello"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paint_color_can_be_read_from_stdin_via_dash::57",
+  "argv": [
+   "paint",
+   "-",
+   "hello"
+  ],
+  "stdin": "00ff00\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paint_invalid_color_is_error_on_stderr_nonzero_exit::58",
+  "argv": [
+   "paint",
+   "notacolor",
+   "hello"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_color_reads_colors_from_args_single::59",
+  "argv": [
+   "color",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_color_reads_colors_from_args_multiple::60",
+  "argv": [
+   "color",
+   "red",
+   "blue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_color_reads_colors_from_args_invalid_fails::61",
+  "argv": [
+   "color",
+   "no color"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_color_reads_colors_from_stdin_success::62",
+  "argv": [
+   "color"
+  ],
+  "stdin": "red\nblue\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_color_reads_colors_from_stdin_invalid_fails::63",
+  "argv": [
+   "color"
+  ],
+  "stdin": "no color",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_format_basic_hex::64",
+  "argv": [
+   "format",
+   "hex",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_format_basic_rgb_multiple::65",
+  "argv": [
+   "format",
+   "rgb",
+   "red",
+   "blue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_pipe_into_format_command::66",
+  "argv": [
+   "color",
+   "red",
+   "teal",
+   "hotpink"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_sort_by_basic_luminance::67",
+  "argv": [
+   "sort-by",
+   "luminance",
+   "gray",
+   "white",
+   "black"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_set_basic_hsl_hue::68",
+  "argv": [
+   "set",
+   "hsl-hue",
+   "120",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_set_basic_hsl_saturation::69",
+  "argv": [
+   "set",
+   "hsl-saturation",
+   "0.1",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_set_basic_hsl_lightness::70",
+  "argv": [
+   "set",
+   "hsl-lightness",
+   "0.5",
+   "white"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_errors_and_mentions_unrecognized::71",
+  "argv": [
+   "nonexistent_subcommand"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_options_only_work_before_subcommand_not_after::72",
+  "argv": [
+   "--color-mode",
+   "24bit",
+   "list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subcommand_specific_flag_not_accepted_globally::73",
+  "argv": [
+   "--sort",
+   "hue",
+   "list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_subcommand_routes_to_other_subcommand_help::74",
+  "argv": [
+   "help",
+   "list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sortby_hue::75",
+  "argv": [
+   "sort-by",
+   "hue"
+  ],
+  "stdin": "red\nblue\ngreen\nyellow",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sortby_luminance::76",
+  "argv": [
+   "sort-by",
+   "luminance"
+  ],
+  "stdin": "red\nblue\ngreen\nyellow",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sortby_brightness::77",
+  "argv": [
+   "sort-by",
+   "brightness"
+  ],
+  "stdin": "red\nblue\ngreen\nyellow",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sortby_chroma::78",
+  "argv": [
+   "sort-by",
+   "chroma"
+  ],
+  "stdin": "red\nblue\ngreen\nyellow",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sortby_reverse::79",
+  "argv": [
+   "sort-by",
+   "hue",
+   "--reverse"
+  ],
+  "stdin": "red\nblue\ngreen\nyellow",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sortby_unique::80",
+  "argv": [
+   "sort-by",
+   "hue",
+   "--unique"
+  ],
+  "stdin": "red\nred\nblue\nblue\ngreen",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sortby_hex_input::81",
+  "argv": [
+   "sort-by",
+   "hue"
+  ],
+  "stdin": "#ff0000\n#00ff00\n#0000ff\n#ffff00",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sortby_single_color::82",
+  "argv": [
+   "sort-by",
+   "hue"
+  ],
+  "stdin": "red",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sortby_already_sorted::83",
+  "argv": [
+   "sort-by",
+   "hue"
+  ],
+  "stdin": "red\nyellow\ngreen\nblue",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_textcolor_stdin_multiple::84",
+  "argv": [
+   "textcolor"
+  ],
+  "stdin": "white\nblack\nred\nblue\nyellow\nnavy",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sortby_luminance_verify_order::85",
+  "argv": [
+   "sort-by",
+   "luminance"
+  ],
+  "stdin": "white\nblack\nred\nyellow\nblue\ngreen",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sortby_reverse_luminance::86",
+  "argv": [
+   "sort-by",
+   "luminance",
+   "--reverse"
+  ],
+  "stdin": "white\nblack",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_from_stdin::87",
+  "argv": [
+   "color"
+  ],
+  "stdin": "red\nblue\ngreen",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_dash_stdin_mixed::88",
+  "argv": [
+   "color",
+   "-",
+   "blue"
+  ],
+  "stdin": "red\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_empty_stdin::89",
+  "argv": [
+   "color"
+  ],
+  "stdin": "\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_large_100_colors::90",
+  "argv": [
+   "color"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_empty_line_error::91",
+  "argv": [
+   "color"
+  ],
+  "stdin": "red\n\nblue",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_whitespace_only_line_error::92",
+  "argv": [
+   "color"
+  ],
+  "stdin": "red\n   \nblue",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_large_batch_50_colors::93",
+  "argv": [
+   "format",
+   "hex"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_rgb_conversion_batch::94",
+  "argv": [
+   "format",
+   "rgb"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_lab_conversion_batch::95",
+  "argv": [
+   "format",
+   "lab"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complement_large_batch::96",
+  "argv": [
+   "complement"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lighten_large_batch::97",
+  "argv": [
+   "lighten",
+   "0.1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rotate_large_batch::98",
+  "argv": [
+   "rotate",
+   "90"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pipe_chain_random_lighten_format::99",
+  "argv": [
+   "lighten",
+   "0.2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_order_preserved_stdin::100",
+  "argv": [
+   "color"
+  ],
+  "stdin": "red\norange\nyellow\ngreen\nblue\nindigo\nviolet",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dash_stdin_order_preservation::101",
+  "argv": [
+   "color",
+   "orange",
+   "-",
+   "yellow",
+   "-",
+   "purple"
+  ],
+  "stdin": "red\ngreen\nblue",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_stdin_cli_order::102",
+  "argv": [
+   "color",
+   "red",
+   "-",
+   "blue"
+  ],
+  "stdin": "green",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_darken_large_batch::103",
+  "argv": [
+   "darken",
+   "0.1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_saturate_large_batch::104",
+  "argv": [
+   "saturate",
+   "0.2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_desaturate_large_batch::105",
+  "argv": [
+   "desaturate",
+   "0.2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_textcolor_large_batch::106",
+  "argv": [
+   "textcolor"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sortby_hue_batch::107",
+  "argv": [
+   "sort-by",
+   "hue"
+  ],
+  "stdin": "blue\nred\ngreen\nyellow\norange\npurple",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sortby_luminance_large_batch::108",
+  "argv": [
+   "sort-by",
+   "luminance"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_truly_empty_stdin_no_input::109",
+  "argv": [
+   "color"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_valid_invalid_colors_batch_processing::110",
+  "argv": [
+   "color"
+  ],
+  "stdin": "red\nnotacolor\nblue",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_hex_no_color_reads_stdin::111",
+  "argv": [
+   "format",
+   "hex"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gray_is_truly_desaturated::112",
+  "argv": [
+   "format",
+   "hsl-saturation",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_stdin_single_color::113",
+  "argv": [
+   "format",
+   "hex",
+   "-"
+  ],
+  "stdin": "red\ngreen\nblue\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_stdin_batch::114",
+  "argv": [
+   "format",
+   "hex"
+  ],
+  "stdin": "red\ngreen\nblue\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pipe_into_format_command::115",
+  "argv": [
+   "format",
+   "name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paint_stdin_text_input::116",
+  "argv": [
+   "--color-mode=24bit",
+   "paint",
+   "red"
+  ],
+  "stdin": "Text from stdin\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paint_stdin_color_dash_syntax::117",
+  "argv": [
+   "--color-mode=24bit",
+   "paint",
+   "-",
+   "Colored"
+  ],
+  "stdin": "red\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_empty_color_from_stdin::118",
+  "argv": [
+   "color",
+   "-"
+  ],
+  "stdin": "\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colorblind_stdin_input::119",
+  "argv": [
+   "colorblind",
+   "prot"
+  ],
+  "stdin": "red\nblue\ngreen\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paint_stdin_input::120",
+  "argv": [
+   "paint",
+   "blue"
+  ],
+  "stdin": "Text from stdin\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colorblind_empty_stdin::121",
+  "argv": [
+   "colorblind",
+   "prot"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gradient_with_invalid_number::122",
+  "argv": [
+   "gradient",
+   "red",
+   "blue",
+   "-n",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gradient_with_zero_count::123",
+  "argv": [
+   "gradient",
+   "red",
+   "blue",
+   "-n",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gradient_with_negative_count::124",
+  "argv": [
+   "gradient",
+   "red",
+   "blue",
+   "-n",
+   "-5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_saturate_with_invalid_amount::125",
+  "argv": [
+   "saturate",
+   "abc",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_desaturate_with_invalid_amount::126",
+  "argv": [
+   "desaturate",
+   "xyz",
+   "green"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rotate_with_invalid_degrees::127",
+  "argv": [
+   "rotate",
+   "notanumber",
+   "blue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_with_invalid_value::128",
+  "argv": [
+   "set",
+   "lightness",
+   "invalid",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gray_without_lightness::129",
+  "argv": [
+   "gray"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gray_with_invalid_lightness::130",
+  "argv": [
+   "gray",
+   "notanumber"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gray_with_out_of_range_negative::131",
+  "argv": [
+   "gray",
+   "-1.0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mix_with_invalid_fraction::132",
+  "argv": [
+   "mix",
+   "red",
+   "blue",
+   "-f",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_distinct_with_invalid_count::133",
+  "argv": [
+   "distinct",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_distinct_with_fixed_colors_exceeding_count::134",
+  "argv": [
+   "distinct",
+   "2",
+   "red",
+   "green",
+   "blue",
+   "yellow"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_random_with_invalid_number::135",
+  "argv": [
+   "random",
+   "-n",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paint_with_invalid_background::136",
+  "argv": [
+   "paint",
+   "red",
+   "text",
+   "--on",
+   "notacolor"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_with_invalid_type::137",
+  "argv": [
+   "format",
+   "notavalidformat",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colorblind_with_invalid_type::138",
+  "argv": [
+   "colorblind",
+   "invalid",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_utf8_color_input::139",
+  "argv": [
+   "color"
+  ],
+  "stdin": "��",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_ansi_8bit_escapecode::140",
+  "argv": [
+   "format",
+   "ansi-8bit-escapecode",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_ansi_24bit_escapecode::141",
+  "argv": [
+   "format",
+   "ansi-24bit-escapecode",
+   "blue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_ansi_8bit_escapecode_multiple::142",
+  "argv": [
+   "format",
+   "ansi-8bit-escapecode",
+   "red",
+   "green",
+   "blue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_ansi_24bit_escapecode_multiple::143",
+  "argv": [
+   "format",
+   "ansi-24bit-escapecode",
+   "yellow",
+   "cyan",
+   "magenta"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_ansi_8bit_with_named_colors::144",
+  "argv": [
+   "format",
+   "ansi-8bit",
+   "red",
+   "green",
+   "blue",
+   "yellow"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_ansi_24bit_with_hex::145",
+  "argv": [
+   "format",
+   "ansi-24bit",
+   "#ff0000",
+   "#00ff00",
+   "#0000ff"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ansi_8bit_value_format::146",
+  "argv": [
+   "format",
+   "ansi-8bit-value",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ansi_8bit_value_multiple_colors::147",
+  "argv": [
+   "format",
+   "ansi-8bit-value",
+   "red",
+   "green",
+   "blue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ansi_formats_from_stdin::148",
+  "argv": [
+   "format",
+   "ansi-8bit"
+  ],
+  "stdin": "red\ngreen\nblue",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ansi_escapecode_with_color_mode::149",
+  "argv": [
+   "--color-mode=24bit",
+   "format",
+   "ansi-24bit-escapecode",
+   "purple"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ansi_8bit_grayscale_colors::150",
+  "argv": [
+   "format",
+   "ansi-8bit-value",
+   "gray(0.0)",
+   "gray(0.5)",
+   "gray(1.0)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ansi_8bit_cube_colors::151",
+  "argv": [
+   "format",
+   "ansi-8bit-value",
+   "#ff0000",
+   "#00ff00",
+   "#0000ff"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_ansi_with_alpha::152",
+  "argv": [
+   "format",
+   "ansi-8bit",
+   "rgba(255, 0, 0, 0.5)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ansi_24bit_format_preserves_rgb::153",
+  "argv": [
+   "format",
+   "ansi-24bit",
+   "#123456"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_short::154",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_short::155",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_command::156",
+  "argv": [
+   "invalidcommand"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_subcommand::157",
+  "argv": [
+   "help",
+   "color"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_mode_flag::158",
+  "argv": [
+   "--color-mode",
+   "off",
+   "color",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_mode_flag_short::159",
+  "argv": [
+   "-m",
+   "off",
+   "color",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_force_color_flag::160",
+  "argv": [
+   "--force-color",
+   "color",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_force_color_flag_short::161",
+  "argv": [
+   "-f",
+   "color",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_with_dash::162",
+  "argv": [
+   "color",
+   "red",
+   "-",
+   "green"
+  ],
+  "stdin": "blue\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_shows_name_for_exact_match::163",
+  "argv": [
+   "color",
+   "#ff00ff"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_invalid::164",
+  "argv": [
+   "color",
+   "notavalidcolor123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_hex_variations::165",
+  "argv": [
+   "color",
+   "#778899"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_named_color_complex::166",
+  "argv": [
+   "format",
+   "hex",
+   "lightslategray"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hex_format_with_hash::167",
+  "argv": [
+   "format",
+   "rgb",
+   "#ff0000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hex_format_without_hash::168",
+  "argv": [
+   "format",
+   "rgb",
+   "ff0000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_hex_with_hash::169",
+  "argv": [
+   "format",
+   "hex",
+   "#f00"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_hex_without_hash::170",
+  "argv": [
+   "format",
+   "hex",
+   "f00"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rgb_format::171",
+  "argv": [
+   "format",
+   "hex",
+   "rgb(255, 0, 0)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rgb_comma_format::172",
+  "argv": [
+   "format",
+   "hex",
+   "255,0,0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rgb_percentage_format::173",
+  "argv": [
+   "format",
+   "hex",
+   "rgb(100%, 0%, 0%)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rgb_space_separated::174",
+  "argv": [
+   "format",
+   "hex",
+   "rgb(255 0 0)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hsl_format::175",
+  "argv": [
+   "format",
+   "hex",
+   "hsl(0, 100%, 50%)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gray_format::176",
+  "argv": [
+   "format",
+   "hex",
+   "gray(0.5)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gray_percentage_format::177",
+  "argv": [
+   "format",
+   "hex",
+   "gray(50%)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rgba_hex_format::178",
+  "argv": [
+   "format",
+   "hex",
+   "#ff000080"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rgba_function::179",
+  "argv": [
+   "format",
+   "hex",
+   "rgba(255, 0, 0, 0.5)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hsla_function::180",
+  "argv": [
+   "format",
+   "hex",
+   "hsla(0, 100%, 50%, 0.5)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_color_format::181",
+  "argv": [
+   "format",
+   "hex",
+   "notacolor123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_color_input::182",
+  "argv": [
+   "format",
+   "hex"
+  ],
+  "stdin": "red\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_multiple_colors::183",
+  "argv": [
+   "format",
+   "hex"
+  ],
+  "stdin": "red\nblue\ngreen\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_dash_argument::184",
+  "argv": [
+   "mix",
+   "red",
+   "-"
+  ],
+  "stdin": "blue\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colorblind_protanopia::185",
+  "argv": [
+   "colorblind",
+   "prot",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colorblind_deuteranopia::186",
+  "argv": [
+   "colorblind",
+   "deuter",
+   "green"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colorblind_tritanopia::187",
+  "argv": [
+   "colorblind",
+   "trit",
+   "blue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colorblind_multiple_colors::188",
+  "argv": [
+   "colorblind",
+   "prot",
+   "red",
+   "blue",
+   "green"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colorblind_from_stdin::189",
+  "argv": [
+   "colorblind",
+   "deuter"
+  ],
+  "stdin": "red\nblue\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paint_foreground_color::190",
+  "argv": [
+   "paint",
+   "red",
+   "Hello"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paint_background_color::191",
+  "argv": [
+   "paint",
+   "red",
+   "--on",
+   "blue",
+   "Test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paint_bold::192",
+  "argv": [
+   "paint",
+   "red",
+   "--bold",
+   "Bold"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paint_italic::193",
+  "argv": [
+   "paint",
+   "red",
+   "--italic",
+   "Italic"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paint_underline::194",
+  "argv": [
+   "paint",
+   "red",
+   "--underline",
+   "Underline"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paint_no_newline::195",
+  "argv": [
+   "paint",
+   "red",
+   "--no-newline",
+   "Test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paint_color_from_stdin::196",
+  "argv": [
+   "paint",
+   "-",
+   "Text"
+  ],
+  "stdin": "red\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paint_text_from_stdin::197",
+  "argv": [
+   "paint",
+   "red"
+  ],
+  "stdin": "Hello World",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paint_combined_styles::198",
+  "argv": [
+   "paint",
+   "red",
+   "--bold",
+   "--italic",
+   "--underline",
+   "Styled"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paint_multiple_words::199",
+  "argv": [
+   "paint",
+   "red",
+   "Hello",
+   "World",
+   "Test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pick_help::200",
+  "argv": [
+   "help",
+   "pick"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_distinct_default::201",
+  "argv": [
+   "distinct"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_distinct_custom_count::202",
+  "argv": [
+   "distinct",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_distinct_with_predetermined_colors::203",
+  "argv": [
+   "distinct",
+   "5",
+   "red",
+   "blue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_distinct_metric_cie76::204",
+  "argv": [
+   "distinct",
+   "5",
+   "--metric",
+   "CIE76"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_distinct_metric_ciede2000::205",
+  "argv": [
+   "distinct",
+   "3",
+   "--metric",
+   "CIEDE2000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_distinct_verbose::206",
+  "argv": [
+   "distinct",
+   "3",
+   "--verbose"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_distinct_error_count_too_small::207",
+  "argv": [
+   "distinct",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lighten_extreme_amount::208",
+  "argv": [
+   "lighten",
+   "1.0",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_darken_extreme_amount::209",
+  "argv": [
+   "darken",
+   "1.0",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_saturate_already_fully_saturated::210",
+  "argv": [
+   "saturate",
+   "0.5",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_desaturate_already_gray::211",
+  "argv": [
+   "desaturate",
+   "0.5",
+   "gray"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rotate_360_degrees::212",
+  "argv": [
+   "rotate",
+   "360",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rotate_large_angle::213",
+  "argv": [
+   "rotate",
+   "720",
+   "blue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rotate_negative_angle_with_separator::214",
+  "argv": [
+   "rotate",
+   "--",
+   "-180",
+   "green"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mix_equal_colors::215",
+  "argv": [
+   "mix",
+   "red",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mix_fraction_zero::216",
+  "argv": [
+   "mix",
+   "red",
+   "blue",
+   "-f",
+   "0.0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mix_fraction_one::217",
+  "argv": [
+   "mix",
+   "red",
+   "blue",
+   "-f",
+   "1.0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gradient_with_two_colors_minimal::218",
+  "argv": [
+   "gradient",
+   "red",
+   "blue",
+   "-n",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gradient_with_many_stops::219",
+  "argv": [
+   "gradient",
+   "red",
+   "orange",
+   "yellow",
+   "green",
+   "blue",
+   "purple",
+   "-n",
+   "20"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_distinct_with_minimum_count::220",
+  "argv": [
+   "distinct",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_distinct_with_large_count::221",
+  "argv": [
+   "distinct",
+   "50"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_random_with_zero_number::222",
+  "argv": [
+   "random",
+   "-n",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_random_with_large_number::223",
+  "argv": [
+   "random",
+   "-n",
+   "100"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_with_very_long_name::224",
+  "argv": [
+   "color",
+   "mediumspringgreen"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_name_with_similar_color::225",
+  "argv": [
+   "format",
+   "name",
+   "#ff0001"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_name_with_unnamed_color::226",
+  "argv": [
+   "format",
+   "name",
+   "#123456"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_lightness_zero::227",
+  "argv": [
+   "set",
+   "lightness",
+   "0.0",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_lightness_one::228",
+  "argv": [
+   "set",
+   "lightness",
+   "1.0",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_alpha_zero::229",
+  "argv": [
+   "set",
+   "alpha",
+   "0.0",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_alpha_one::230",
+  "argv": [
+   "set",
+   "alpha",
+   "1.0",
+   "rgba(255,0,0,0.5)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_textcolor_on_pure_white::231",
+  "argv": [
+   "textcolor",
+   "white"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paint_with_empty_text::232",
+  "argv": [
+   "paint",
+   "red"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paint_with_unicode_text::233",
+  "argv": [
+   "paint",
+   "blue",
+   "Hello 世界 🌈"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paint_all_styles_combined::234",
+  "argv": [
+   "paint",
+   "-b",
+   "-i",
+   "-u",
+   "red",
+   "styled text"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_by_with_duplicate_colors::235",
+  "argv": [
+   "sort-by",
+   "hue"
+  ],
+  "stdin": "red\nred\nred",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_by_with_single_color::236",
+  "argv": [
+   "sort-by",
+   "luminance",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_different_sort_orders::237",
+  "argv": [
+   "list",
+   "-s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_with_transparent_colors::238",
+  "argv": [
+   "color",
+   "rgba(255,0,0,0.5)",
+   "hsla(120,100%,50%,0.3)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complement_of_gray::239",
+  "argv": [
+   "complement",
+   "gray"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_to_gray_already_gray::240",
+  "argv": [
+   "to-gray",
+   "gray"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colorblind_on_gray::241",
+  "argv": [
+   "colorblind",
+   "prot",
+   "gray"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_small_numeric_values::242",
+  "argv": [
+   "lighten",
+   "0.001",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_precise_numeric_values::243",
+  "argv": [
+   "darken",
+   "0.123456789",
+   "blue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_subcommand::244",
+  "argv": [
+   "notacommand"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_required_argument::245",
+  "argv": [
+   "lighten"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_color_format::246",
+  "argv": [
+   "color",
+   "not-a-valid-color-123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_numeric_value::247",
+  "argv": [
+   "lighten",
+   "notanumber",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_out_of_range_values::248",
+  "argv": [
+   "lighten",
+   "2.0",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_colorspace::249",
+  "argv": [
+   "mix",
+   "red",
+   "blue",
+   "--colorspace",
+   "InvalidSpace"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_metric::250",
+  "argv": [
+   "distinct",
+   "5",
+   "--metric",
+   "InvalidMetric"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_sort_order::251",
+  "argv": [
+   "sort-by",
+   "invalid-order",
+   "red",
+   "blue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_format_type::252",
+  "argv": [
+   "format",
+   "invalid-format",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_property_for_set::253",
+  "argv": [
+   "set",
+   "invalid-property",
+   "0.5",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gradient_with_one_color::254",
+  "argv": [
+   "gradient",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_rgb::255",
+  "argv": [
+   "format",
+   "rgb",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_rgb_float::256",
+  "argv": [
+   "format",
+   "rgb-float",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_rgb_components::257",
+  "argv": [
+   "format",
+   "rgb-r",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_hsl::258",
+  "argv": [
+   "format",
+   "hsl",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_hsl_components::259",
+  "argv": [
+   "format",
+   "hsl-hue",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_hsv::260",
+  "argv": [
+   "format",
+   "hsv",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_hsv_components::261",
+  "argv": [
+   "format",
+   "hsv-hue",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_lab::262",
+  "argv": [
+   "format",
+   "lab",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_lab_components::263",
+  "argv": [
+   "format",
+   "lab-a",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_lch::264",
+  "argv": [
+   "format",
+   "lch",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_lch_components::265",
+  "argv": [
+   "format",
+   "lch-lightness",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_oklab::266",
+  "argv": [
+   "format",
+   "oklab",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_oklab_components::267",
+  "argv": [
+   "format",
+   "oklab-l",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_oklch::268",
+  "argv": [
+   "format",
+   "oklch",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_oklch_components::269",
+  "argv": [
+   "format",
+   "oklch-lightness",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_luminance::270",
+  "argv": [
+   "format",
+   "luminance",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_brightness::271",
+  "argv": [
+   "format",
+   "brightness",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_ansi_8bit::272",
+  "argv": [
+   "format",
+   "ansi-8bit",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_ansi_24bit::273",
+  "argv": [
+   "format",
+   "ansi-24bit",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_cmyk::274",
+  "argv": [
+   "format",
+   "cmyk",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_name::275",
+  "argv": [
+   "format",
+   "name",
+   "ff0000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_multiple_colors::276",
+  "argv": [
+   "format",
+   "hex",
+   "red",
+   "blue",
+   "green"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_from_stdin::277",
+  "argv": [
+   "format",
+   "hex"
+  ],
+  "stdin": "red\nblue\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_mode_24bit::278",
+  "argv": [
+   "--color-mode=24bit",
+   "color",
+   "blue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_mode_8bit::279",
+  "argv": [
+   "-m",
+   "8bit",
+   "color",
+   "green"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_mode_off::280",
+  "argv": [
+   "--color-mode",
+   "off",
+   "color",
+   "yellow"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_mode_auto::281",
+  "argv": [
+   "-m",
+   "auto",
+   "color",
+   "cyan"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_mode_invalid::282",
+  "argv": [
+   "--color-mode=invalid",
+   "color",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_color_mode_flag::283",
+  "argv": [
+   "-m",
+   "24bit",
+   "format",
+   "hex",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_force_color_short_flag::284",
+  "argv": [
+   "-f",
+   "format",
+   "hex",
+   "blue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_mode_with_format_command::285",
+  "argv": [
+   "--color-mode=off",
+   "format",
+   "rgb",
+   "magenta"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_global_options::286",
+  "argv": [
+   "-m",
+   "24bit",
+   "-f",
+   "color",
+   "orange"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_option_before_subcommand::287",
+  "argv": [
+   "--color-mode=off",
+   "lighten",
+   "0.2",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lighten_single::288",
+  "argv": [
+   "lighten",
+   "0.2",
+   "blue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lighten_multiple::289",
+  "argv": [
+   "lighten",
+   "0.1",
+   "red",
+   "blue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lighten_various_amounts::290",
+  "argv": [
+   "lighten",
+   "0.0",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lighten_from_stdin::291",
+  "argv": [
+   "lighten",
+   "0.2"
+  ],
+  "stdin": "red\nblue\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_darken_single::292",
+  "argv": [
+   "darken",
+   "0.2",
+   "lightblue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_darken_multiple::293",
+  "argv": [
+   "darken",
+   "0.1",
+   "red",
+   "blue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_darken_various_amounts::294",
+  "argv": [
+   "darken",
+   "0.0",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_darken_negative_amount::295",
+  "argv": [
+   "darken",
+   "--",
+   "-0.2",
+   "blue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_darken_from_stdin::296",
+  "argv": [
+   "darken",
+   "0.2"
+  ],
+  "stdin": "red\nblue\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_saturate_single::297",
+  "argv": [
+   "saturate",
+   "0.2",
+   "lightslategray"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_saturate_multiple::298",
+  "argv": [
+   "saturate",
+   "0.1",
+   "gray",
+   "lightgray"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_saturate_from_stdin::299",
+  "argv": [
+   "saturate",
+   "0.2"
+  ],
+  "stdin": "gray\nlightgray\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_desaturate_single::300",
+  "argv": [
+   "desaturate",
+   "0.2",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_desaturate_multiple::301",
+  "argv": [
+   "desaturate",
+   "0.1",
+   "red",
+   "blue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_desaturate_from_stdin::302",
+  "argv": [
+   "desaturate",
+   "0.2"
+  ],
+  "stdin": "red\nblue\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rotate_negative::303",
+  "argv": [
+   "rotate",
+   "--",
+   "-60",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rotate_multiple::304",
+  "argv": [
+   "rotate",
+   "90",
+   "red",
+   "blue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rotate_from_stdin::305",
+  "argv": [
+   "rotate",
+   "45"
+  ],
+  "stdin": "red\nblue\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complement_single::306",
+  "argv": [
+   "complement",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complement_multiple::307",
+  "argv": [
+   "complement",
+   "red",
+   "blue",
+   "green"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complement_from_stdin::308",
+  "argv": [
+   "complement"
+  ],
+  "stdin": "red\nblue\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mix_custom_fraction::309",
+  "argv": [
+   "mix",
+   "red",
+   "blue",
+   "--fraction",
+   "0.25"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mix_different_colorspaces::310",
+  "argv": [
+   "mix",
+   "red",
+   "blue",
+   "--colorspace"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mix_multiple_colors::311",
+  "argv": [
+   "mix",
+   "red",
+   "blue",
+   "green",
+   "yellow"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mix_from_stdin::312",
+  "argv": [
+   "mix",
+   "red"
+  ],
+  "stdin": "blue\ngreen\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mix_hsl_no_hue_rotation::313",
+  "argv": [
+   "mix",
+   "blue",
+   "black",
+   "--colorspace",
+   "HSL"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gradient_two_colors::314",
+  "argv": [
+   "gradient",
+   "red",
+   "blue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gradient_multiple_stops::315",
+  "argv": [
+   "gradient",
+   "red",
+   "blue",
+   "yellow"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gradient_custom_count::316",
+  "argv": [
+   "gradient",
+   "red",
+   "blue",
+   "--number",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gradient_different_colorspaces::317",
+  "argv": [
+   "gradient",
+   "red",
+   "blue",
+   "--colorspace",
+   "-n",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gradient_default_colorspace_is_lab::318",
+  "argv": [
+   "gradient",
+   "red",
+   "blue",
+   "-n",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_random_strategy_vivid::319",
+  "argv": [
+   "random",
+   "-s",
+   "vivid",
+   "-n",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_random_strategy_rgb::320",
+  "argv": [
+   "random",
+   "-s",
+   "rgb",
+   "-n",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_random_strategy_gray::321",
+  "argv": [
+   "random",
+   "-s",
+   "gray",
+   "-n",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_random_strategy_lch_hue::322",
+  "argv": [
+   "random",
+   "-s",
+   "lch_hue",
+   "-n",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_random_strategy_invalid::323",
+  "argv": [
+   "random",
+   "-s",
+   "notastrategy",
+   "-n",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_random_vivid_produces_saturated_colors::324",
+  "argv": [
+   "random",
+   "-s",
+   "vivid",
+   "-n",
+   "20"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_random_each_strategy_uniqueness::325",
+  "argv": [
+   "random",
+   "-s",
+   "-n",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_random_can_be_formatted::326",
+  "argv": [
+   "random",
+   "-n",
+   "3",
+   "-s",
+   "vivid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_by_brightness::327",
+  "argv": [
+   "sort-by",
+   "brightness",
+   "white",
+   "gray",
+   "black"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_by_luminance::328",
+  "argv": [
+   "sort-by",
+   "luminance",
+   "white",
+   "gray",
+   "black"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_by_chroma::329",
+  "argv": [
+   "sort-by",
+   "chroma",
+   "red",
+   "gray",
+   "blue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_by_random::330",
+  "argv": [
+   "sort-by",
+   "random",
+   "red",
+   "blue",
+   "green"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_by_reverse::331",
+  "argv": [
+   "sort-by",
+   "--reverse",
+   "hue",
+   "red",
+   "green",
+   "blue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_by_unique::332",
+  "argv": [
+   "sort-by",
+   "--unique",
+   "hue",
+   "red",
+   "red",
+   "blue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_by_from_stdin::333",
+  "argv": [
+   "sort-by",
+   "hue"
+  ],
+  "stdin": "blue\nred\ngreen\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_hsl_saturation::334",
+  "argv": [
+   "set",
+   "hsl-saturation",
+   "0.5",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_hsl_lightness::335",
+  "argv": [
+   "set",
+   "hsl-lightness",
+   "0.3",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_lightness::336",
+  "argv": [
+   "set",
+   "lightness",
+   "0.5",
+   "white"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_red_component::337",
+  "argv": [
+   "set",
+   "red",
+   "0",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_green_component::338",
+  "argv": [
+   "set",
+   "green",
+   "255",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_blue_component::339",
+  "argv": [
+   "set",
+   "blue",
+   "128",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_alpha::340",
+  "argv": [
+   "set",
+   "alpha",
+   "0.5",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_lab_components::341",
+  "argv": [
+   "set",
+   "lab-a",
+   "50",
+   "gray"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_oklab_components::342",
+  "argv": [
+   "set",
+   "oklab-l",
+   "0.5",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_multiple_colors::343",
+  "argv": [
+   "set",
+   "hsl-hue",
+   "180",
+   "red",
+   "blue",
+   "green"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_textcolor_multiple_colors::344",
+  "argv": [
+   "textcolor",
+   "white",
+   "black",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_textcolor_from_stdin::345",
+  "argv": [
+   "textcolor"
+  ],
+  "stdin": "white\nblack\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gray_edge_cases::346",
+  "argv": [
+   "gray",
+   "0.0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_to_gray_single::347",
+  "argv": [
+   "to-gray",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_to_gray_multiple::348",
+  "argv": [
+   "to-gray",
+   "red",
+   "blue",
+   "green"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_to_gray_from_stdin::349",
+  "argv": [
+   "to-gray"
+  ],
+  "stdin": "red\nblue\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_random_single::350",
+  "argv": [
+   "random"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_random_multiple::351",
+  "argv": [
+   "random",
+   "-n",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_from_stdin::352",
+  "argv": [
+   "color"
+  ],
+  "stdin": "red\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_color_stdin::353",
+  "argv": [
+   "color"
+  ],
+  "stdin": "not_a_color_xyz\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lighten_from_stdin::354",
+  "argv": [
+   "lighten",
+   "0.1"
+  ],
+  "stdin": "red\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mix_stdin::355",
+  "argv": [
+   "mix",
+   "-",
+   "blue"
+  ],
+  "stdin": "red\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paint_text_from_stdin::356",
+  "argv": [
+   "paint",
+   "red"
+  ],
+  "stdin": "test text",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_paint_color_from_stdin::357",
+  "argv": [
+   "paint",
+   "-",
+   "test"
+  ],
+  "stdin": "red\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_from_stdin::358",
+  "argv": [
+   "set",
+   "hsl-lightness",
+   "0.6"
+  ],
+  "stdin": "red\nblue\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_by_from_stdin::359",
+  "argv": [
+   "sort-by",
+   "luminance"
+  ],
+  "stdin": "white\nblack\ngray\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_textcolor_from_stdin::360",
+  "argv": [
+   "textcolor"
+  ],
+  "stdin": "red\nblue\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colorblind_from_stdin::361",
+  "argv": [
+   "colorblind",
+   "prot"
+  ],
+  "stdin": "red\nblue\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_darken_basic::362",
+  "argv": [
+   "darken",
+   "0.2",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_darken_negative::363",
+  "argv": [
+   "darken",
+   "--",
+   "-0.2",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_darken_multiple::364",
+  "argv": [
+   "darken",
+   "0.1",
+   "red",
+   "green",
+   "blue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lighten_basic::365",
+  "argv": [
+   "lighten",
+   "0.2",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lighten_negative::366",
+  "argv": [
+   "lighten",
+   "--",
+   "-0.2",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lighten_multiple::367",
+  "argv": [
+   "lighten",
+   "0.3",
+   "red",
+   "blue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_saturate_negative::368",
+  "argv": [
+   "saturate",
+   "--",
+   "-0.2",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_desaturate_basic::369",
+  "argv": [
+   "desaturate",
+   "0.5",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_desaturate_negative::370",
+  "argv": [
+   "desaturate",
+   "--",
+   "-0.2",
+   "gray"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_desaturate_multiple::371",
+  "argv": [
+   "desaturate",
+   "0.3",
+   "red",
+   "green"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rotate_positive::372",
+  "argv": [
+   "rotate",
+   "90",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rotate_negative::373",
+  "argv": [
+   "rotate",
+   "--",
+   "-90",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rotate_large_angle::374",
+  "argv": [
+   "rotate",
+   "400",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rotate_multiple::375",
+  "argv": [
+   "rotate",
+   "180",
+   "red",
+   "blue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_darken_from_stdin::376",
+  "argv": [
+   "darken",
+   "0.1"
+  ],
+  "stdin": "red\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_command::377",
+  "argv": [
+   "invalid_command_xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_mode_24bit::378",
+  "argv": [
+   "--color-mode",
+   "24bit",
+   "color",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_mode_8bit::379",
+  "argv": [
+   "-m",
+   "8bit",
+   "color",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_mode_auto::380",
+  "argv": [
+   "-m",
+   "auto",
+   "color",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_force_color_flag::381",
+  "argv": [
+   "-f",
+   "color",
+   "blue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_multiple::382",
+  "argv": [
+   "color",
+   "red",
+   "blue",
+   "green"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_invalid::383",
+  "argv": [
+   "color",
+   "not_a_color"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_rgb_input::384",
+  "argv": [
+   "color",
+   "rgb(119, 136, 153)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_named_color_complex::385",
+  "argv": [
+   "color",
+   "lightslategray"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hex_with_hash::386",
+  "argv": [
+   "format",
+   "hex",
+   "#ff0000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hex_without_hash::387",
+  "argv": [
+   "format",
+   "hex",
+   "ff0000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gray_format::388",
+  "argv": [
+   "format",
+   "hex",
+   "gray(50)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_color_format::389",
+  "argv": [
+   "color",
+   "not_a_color_xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_color_formats::390",
+  "argv": [
+   "format",
+   "hex",
+   "red",
+   "#00ff00",
+   "rgb(0,0,255)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_dash::391",
+  "argv": [
+   "format",
+   "hex",
+   "-"
+  ],
+  "stdin": "red\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colorblind_multiple_colors::392",
+  "argv": [
+   "colorblind",
+   "prot",
+   "red",
+   "green",
+   "blue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colorblind_from_stdin::393",
+  "argv": [
+   "colorblind",
+   "deuter"
+  ],
+  "stdin": "red\ngreen\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colorblind_missing_type::394",
+  "argv": [
+   "colorblind",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colorblind_preserves_format::395",
+  "argv": [
+   "colorblind",
+   "prot",
+   "#ff0000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_whitespace_only_stdin::396",
+  "argv": [
+   "color"
+  ],
+  "stdin": "   \n  \n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_numeric_darken::397",
+  "argv": [
+   "darken",
+   "abc",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_out_of_range_darken::398",
+  "argv": [
+   "darken",
+   "2.0",
+   "red"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_count_random::399",
+  "argv": [
+   "random",
+   "-n",
+   "-5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

@@ -1,0 +1,3716 @@
+[
+ {
+  "name": "test::test_required_args_tree_missing::0",
+  "argv": [
+   "tree"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mutually_exclusive_overlap_flags_long::1",
+  "argv": [
+   "explain",
+   "--overlap-left",
+   "--overlap-right",
+   "a",
+   "b"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mutually_exclusive_overlap_flags_combined_short::2",
+  "argv": [
+   "explain",
+   "-lr",
+   "a",
+   "b"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bool_flag_invalid_value_tree_json::3",
+  "argv": [
+   "tree",
+   "--json=maybe"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bool_flag_explicit_false_is_accepted_by_parser_but_still_requires_positional::4",
+  "argv": [
+   "tree",
+   "--json=false"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dashdash_stops_flag_parsing_for_commands::5",
+  "argv": [
+   "--config=nope",
+   "--",
+   "tree"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_errors_and_mentions_unknown_flag::6",
+  "argv": [
+   "--help",
+   "--bogus"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_command_with_help_shows_main_help::7",
+  "argv": [
+   "not-a-command",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_main_exit_code_zero::8",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_help_documents_overlap_flags::9",
+  "argv": [
+   "explain",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_entropy_help_documents_entropy_flags::10",
+  "argv": [
+   "entropy",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tree_help_documents_json_flag::11",
+  "argv": [
+   "tree",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_help_documents_aliases_section::12",
+  "argv": [
+   "config",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_root_no_args_default_entropy_helptext_like_output::13",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_root_help_command_golden::14",
+  "argv": [
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_root_entropy_explicit_with_no_browser_open_runs::15",
+  "argv": [
+   "entropy",
+   "main.py",
+   "--no-browser-open"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_root_entropy_default_command_with_file_runs::16",
+  "argv": [
+   "main.py",
+   "--no-browser-open"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_root_tree_random_pdf_error_mentions_supported_language::17",
+  "argv": [
+   "tree",
+   "random.pdf"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_root_tree_random_js_error_golden::18",
+  "argv": [
+   "tree",
+   "random.js"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_root_tree_random_py_error_golden::19",
+  "argv": [
+   "tree",
+   "random.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_root_entropy_random_py_error_golden::20",
+  "argv": [
+   "random.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_root_check_default_config_runs::21",
+  "argv": [
+   "check"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_root_check_with_config_path_runs::22",
+  "argv": [
+   "check",
+   "--config",
+   ".dep-tree.yml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_root_default_entropy_with_config_flag_error::23",
+  "argv": [
+   "--config",
+   ".dep-tree.yml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_root_check_with_bad_config_path_errors::24",
+  "argv": [
+   "check",
+   "--config",
+   ".dep-tree.yml-bad-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_root_tree_json_outputs_valid_json::25",
+  "argv": [
+   "tree",
+   "main.py",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_root_tree_json_exclude_globstar_nontrivial_output::26",
+  "argv": [
+   "tree",
+   "main.py",
+   "--json",
+   "--exclude",
+   "*.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_root_tree_json_exclude_d_glob_runs::27",
+  "argv": [
+   "tree",
+   "main.py",
+   "--json",
+   "--exclude",
+   "d*.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_root_tree_json_with_config_runs::28",
+  "argv": [
+   "tree",
+   "main.py",
+   "--json",
+   "--config",
+   ".dep-tree.yml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_root_tree_json_with_bad_config_path_errors::29",
+  "argv": [
+   "tree",
+   "main.py",
+   "--json",
+   "--config",
+   ".dep-tree.yml-bad-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_root_explain_missing_arg_error::30",
+  "argv": [
+   "explain",
+   "*.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_root_explain_two_globs_lists_dependencies::31",
+  "argv": [
+   "explain",
+   "*.py",
+   "./**/dep.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_root_explain_two_globs_variant_lists_dependencies::32",
+  "argv": [
+   "explain",
+   "main.py",
+   "./**/dep.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_root_explain_three_globs_error::33",
+  "argv": [
+   "explain",
+   "*.py",
+   "./**/deps.py",
+   "foo.bar"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_files_as_entrypoints::34",
+  "argv": [
+   "tree",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_glob_pattern_entrypoint::35",
+  "argv": [
+   "tree",
+   "src/*.py",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_entropy_multiple_entrypoints::36",
+  "argv": [
+   "entropy",
+   "--no-browser-open",
+   "--render-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_with_only::37",
+  "argv": [
+   "tree",
+   "--json",
+   "--only",
+   "*.py",
+   "--exclude",
+   "*exclude*"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_exclude_flags::38",
+  "argv": [
+   "tree",
+   "--json",
+   "--exclude",
+   "*bad1*",
+   "--exclude",
+   "*bad2*"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_only_flags::39",
+  "argv": [
+   "tree",
+   "--json",
+   "--only",
+   "a.py",
+   "--only",
+   "b.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unwrap_exports_with_json::40",
+  "argv": [
+   "tree",
+   "--json",
+   "--unwrap-exports"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_config_path::41",
+  "argv": [
+   "check",
+   "--config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_path::42",
+  "argv": [
+   "tree",
+   "deep.py",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {
+   "deep.py": "x = 1"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_entropy::43",
+  "argv": [
+   "help",
+   "entropy"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_tree::44",
+  "argv": [
+   "help",
+   "tree"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_check::45",
+  "argv": [
+   "help",
+   "check"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_explain::46",
+  "argv": [
+   "help",
+   "explain"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_config::47",
+  "argv": [
+   "help",
+   "config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_flag::48",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::49",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_short_flag::50",
+  "argv": [
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_help::51",
+  "argv": [
+   "check",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_command::52",
+  "argv": [
+   "notacommand"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::53",
+  "argv": [
+   "--not-a-real-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_flag_format::54",
+  "argv": [
+   "tree",
+   "--config",
+   "nonexistent.yml",
+   "fake.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_short_flag::55",
+  "argv": [
+   "tree",
+   "-c",
+   "nonexistent.yml",
+   "fake.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_entropy_with_nonexistent_file::56",
+  "argv": [
+   "entropy",
+   "--no-browser-open"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_with_only_one_argument::57",
+  "argv": [
+   "explain",
+   "file.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_with_too_many_arguments::58",
+  "argv": [
+   "explain",
+   "a.py",
+   "b.py",
+   "c.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_entropy_with_invalid_render_path::59",
+  "argv": [
+   "entropy",
+   "file.py",
+   "--no-browser-open",
+   "--render-path",
+   "/invalid/path/file.html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_flag_with_nonexistent_file::60",
+  "argv": [
+   "tree",
+   "file.py",
+   "--config",
+   "nonexistent.yml",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_js_file_with_syntax_error::61",
+  "argv": [
+   "tree",
+   "main.js",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_with_overlapping_flags::62",
+  "argv": [
+   "explain",
+   "a.py",
+   "b.py",
+   "-l",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_entropy_with_file_with_no_dependencies::63",
+  "argv": [
+   "entropy",
+   "standalone.py",
+   "--no-browser-open",
+   "--render-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_js_with_mjs_extension::64",
+  "argv": [
+   "tree",
+   "main.mjs",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_js_with_cjs_extension::65",
+  "argv": [
+   "tree",
+   "main.cjs",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_typescript_with_dts_files::66",
+  "argv": [
+   "tree",
+   "main.ts",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_with_short_flag_l_only::67",
+  "argv": [
+   "explain",
+   "a.py",
+   "b.py",
+   "-l"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_with_short_flag_r_only::68",
+  "argv": [
+   "explain",
+   "a.py",
+   "b.py",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_init_alias::69",
+  "argv": [
+   "init"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_generates_file::70",
+  "argv": [
+   "config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_custom_path::71",
+  "argv": [
+   "config",
+   "--config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_subcommand::72",
+  "argv": [
+   "invalidcmd"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_entropy_with_enable_gui::73",
+  "argv": [
+   "entropy",
+   "--no-browser-open",
+   "--enable-gui",
+   "--render-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_with_no_dependencies::74",
+  "argv": [
+   "explain",
+   "group_a/*.js",
+   "group_b/*.js"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_with_invalid_patterns::75",
+  "argv": [
+   "explain",
+   "nonexistent/*.py",
+   "other/*.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_overlap_right::76",
+  "argv": [
+   "explain",
+   "*.js",
+   "app.js",
+   "--overlap-right"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_js_tsconfig_paths_true::77",
+  "argv": [
+   "tree",
+   "--json",
+   "--js-tsconfig-paths=true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_js_workspaces_true::78",
+  "argv": [
+   "tree",
+   "--json",
+   "--js-workspaces=true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_exclude_conditional_true::79",
+  "argv": [
+   "tree",
+   "--json",
+   "--python-exclude-conditional-imports=true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_command_shows_error::80",
+  "argv": [
+   "invalid-command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tree_nonexistent_file_error_message::81",
+  "argv": [
+   "tree",
+   "/nonexistent/file/path.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_entropy_produces_html_output::82",
+  "argv": [
+   "entropy",
+   "main.py",
+   "--no-browser-open",
+   "--render-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_between_files::83",
+  "argv": [
+   "explain",
+   "file1.py",
+   "file2.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tree_with_filtering_flags::84",
+  "argv": [
+   "tree",
+   "main.py",
+   "--exclude",
+   "other.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_config_path::85",
+  "argv": [
+   "check",
+   "--config",
+   "custom.yml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_js_tsconfig_paths_flag::86",
+  "argv": [
+   "tree",
+   "main.js",
+   "--js-tsconfig-paths=false"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_js_workspaces_flag::87",
+  "argv": [
+   "tree",
+   "main.js",
+   "--js-workspaces=false"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_conditional_imports_flag::88",
+  "argv": [
+   "tree",
+   "main.py",
+   "--python-exclude-conditional-imports"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unwrap_exports_flag::89",
+  "argv": [
+   "tree",
+   "main.js",
+   "--unwrap-exports"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tree_empty_file::90",
+  "argv": [
+   "tree",
+   "empty.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tree_unsupported_extension::91",
+  "argv": [
+   "tree",
+   "file.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_insufficient_arguments::92",
+  "argv": [
+   "explain",
+   "file1.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_javascript_file_detection::93",
+  "argv": [
+   "tree",
+   "test.js"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_typescript_file_detection::94",
+  "argv": [
+   "tree",
+   "test.ts"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_flags_combinations::95",
+  "argv": [
+   "tree",
+   "main.py",
+   "--exclude",
+   "other.py",
+   "--js-tsconfig-paths=false"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_overlap_flags::96",
+  "argv": [
+   "explain",
+   "a.py",
+   "b.py",
+   "--overlap-left"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tree_json_vs_text::97",
+  "argv": [
+   "tree",
+   "main.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_for_help_command::98",
+  "argv": [
+   "help",
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_and_help_flags_together::99",
+  "argv": [
+   "--version",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_flag_with_tilde_expansion::100",
+  "argv": [
+   "check",
+   "--config",
+   "./my-config.yml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_config_flag::101",
+  "argv": [
+   "check",
+   "-c",
+   "cfg.yml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_with_glob_patterns::102",
+  "argv": [
+   "explain",
+   "*.py",
+   "*.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tree_with_relative_imports::103",
+  "argv": [
+   "tree",
+   "pkg/module.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tree_with_absolute_imports::104",
+  "argv": [
+   "tree",
+   "module.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_entropy_enable_gui_flag::105",
+  "argv": [
+   "entropy",
+   "main.py",
+   "--no-browser-open",
+   "--enable-gui",
+   "--render-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_file_no_deps::106",
+  "argv": [
+   "tree",
+   "--json",
+   "solo.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_two_files_simple_dep::107",
+  "argv": [
+   "tree",
+   "--json",
+   "a.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_circular_deps::108",
+  "argv": [
+   "tree",
+   "--json",
+   "x.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_entropy_with_deps::109",
+  "argv": [
+   "entropy",
+   "a.py",
+   "--no-browser-open",
+   "--render-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_simple::110",
+  "argv": [
+   "explain",
+   "src.py",
+   "dst.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_no_match::111",
+  "argv": [
+   "explain",
+   "a.py",
+   "b.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_javascript_es6::112",
+  "argv": [
+   "tree",
+   "--json",
+   "app.js"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_typescript_imports::113",
+  "argv": [
+   "tree",
+   "--json",
+   "main.ts"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_relative_import::114",
+  "argv": [
+   "tree",
+   "--json",
+   "pkg/a.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_single::115",
+  "argv": [
+   "tree",
+   "--json",
+   "main.py",
+   "--exclude",
+   "**/test.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_only_pattern::116",
+  "argv": [
+   "tree",
+   "--json",
+   "src/a.py",
+   "--only",
+   "src/**/*.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_valid_structure::117",
+  "argv": [
+   "tree",
+   "--json",
+   "m.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_with_errors::118",
+  "argv": [
+   "tree",
+   "--json",
+   "bad.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unwrap_exports_basic::119",
+  "argv": [
+   "tree",
+   "--json",
+   "api.py",
+   "--unwrap-exports"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file::120",
+  "argv": [
+   "tree",
+   "--json",
+   "missing.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_command::121",
+  "argv": [
+   "invalid_command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::122",
+  "argv": [
+   "tree",
+   "--invalid-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_exclude_conditional_imports_flag::123",
+  "argv": [
+   "tree",
+   "--python-exclude-conditional-imports",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_js_tsconfig_paths_flag::124",
+  "argv": [
+   "tree",
+   "--js-tsconfig-paths=false",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_js_workspaces_flag::125",
+  "argv": [
+   "tree",
+   "--js-workspaces=false",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_asterisk_pattern::126",
+  "argv": [
+   "tree",
+   "*.py",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_asterisk_pattern::127",
+  "argv": [
+   "tree",
+   "**/*.py",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_entropy_default_command::128",
+  "argv": [
+   "--no-browser-open"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_entropy_with_exclude::129",
+  "argv": [
+   "entropy",
+   "--no-browser-open",
+   "--exclude",
+   "--render-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_entropy_with_only::130",
+  "argv": [
+   "entropy",
+   "--no-browser-open",
+   "--only",
+   "*/keep.py",
+   "--only",
+   "*/main.py",
+   "--render-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_two_patterns::131",
+  "argv": [
+   "explain"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_glob_patterns::132",
+  "argv": [
+   "explain",
+   "src/*.py",
+   "tests/*.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_overlap_left::133",
+  "argv": [
+   "explain",
+   "-l"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_overlap_right::134",
+  "argv": [
+   "explain",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_overlap_long_flags::135",
+  "argv": [
+   "explain",
+   "--overlap-left"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_insufficient_args::136",
+  "argv": [
+   "explain",
+   "single.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_nonexistent_files::137",
+  "argv": [
+   "explain",
+   "nonexistent1.py",
+   "nonexistent2.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_go_with_multiple_packages_same_module::138",
+  "argv": [
+   "tree",
+   "main.go",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_simple_package_structure::139",
+  "argv": [
+   "tree",
+   "app.py",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_js_node_modules_are_ignored::140",
+  "argv": [
+   "tree",
+   "src/app.js",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_with_filtering_patterns::141",
+  "argv": [
+   "explain",
+   "src/**/*.js",
+   "test/**/*.js"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tree_with_all_language_flags_combined::142",
+  "argv": [
+   "tree",
+   "--json",
+   "--js-tsconfig-paths=true",
+   "--js-workspaces=true",
+   "--python-exclude-conditional-imports=false"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_with_both_overlap_flags_error::143",
+  "argv": [
+   "explain",
+   "*.py",
+   "*.py",
+   "--overlap-left",
+   "--overlap-right"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_empty_output::144",
+  "argv": [
+   "explain",
+   "isolated_a.py",
+   "isolated_b.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_js_with_default_and_namespace_imports::145",
+  "argv": [
+   "tree",
+   "app.js",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_typescript_with_namespace_declarations::146",
+  "argv": [
+   "tree",
+   "app.ts",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_entropy_with_gui_enabled::147",
+  "argv": [
+   "entropy",
+   "b.py",
+   "--enable-gui",
+   "--no-browser-open",
+   "--render-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tree_with_multiple_entrypoints_fails_correctly::148",
+  "argv": [
+   "tree",
+   "a.py",
+   "b.py",
+   "c.py",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_entropy_renders_all_node_types::149",
+  "argv": [
+   "entropy",
+   "top.py",
+   "--no-browser-open",
+   "--render-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_with_self_dependency::150",
+  "argv": [
+   "explain",
+   "recursive.py",
+   "recursive.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tree_with_symbolic_circular_references::151",
+  "argv": [
+   "tree",
+   "c.py",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_entropy_with_exclude::152",
+  "argv": [
+   "entropy",
+   "--no-browser-open",
+   "--render-path",
+   "--exclude",
+   "*exclude*"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_entropy_with_only::153",
+  "argv": [
+   "entropy",
+   "--no-browser-open",
+   "--render-path",
+   "--only",
+   "*.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_with_exclude::154",
+  "argv": [
+   "explain",
+   "*.py",
+   "*.py",
+   "--exclude",
+   "*exclude*"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_with_only::155",
+  "argv": [
+   "explain",
+   "*.js",
+   "*.js",
+   "--only",
+   "*.js"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tree_with_deep_nesting::156",
+  "argv": [
+   "tree",
+   "a.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_entropy_with_large_codebase::157",
+  "argv": [
+   "entropy",
+   "file0.py",
+   "--no-browser-open",
+   "--render-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_with_complex_patterns::158",
+  "argv": [
+   "explain",
+   "src/*.py",
+   "lib/*.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_same_file_twice::159",
+  "argv": [
+   "explain",
+   "main.py",
+   "main.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_javascript_various_imports::160",
+  "argv": [
+   "tree",
+   "main.js"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_typescript_with_types::161",
+  "argv": [
+   "tree",
+   "main.ts"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_js_flags_combined::162",
+  "argv": [
+   "tree",
+   "main.js",
+   "--js-tsconfig-paths=false",
+   "--js-workspaces=false",
+   "--unwrap-exports"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_python_flags_combined::163",
+  "argv": [
+   "tree",
+   "main.py",
+   "--python-exclude-conditional-imports",
+   "--unwrap-exports"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_config_options::164",
+  "argv": [
+   "tree",
+   "main.py",
+   "--exclude",
+   "test.py",
+   "--exclude",
+   "**/test_*.py",
+   "--only",
+   "*.py",
+   "--only",
+   "**/*.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_entropy_creates_valid_html_with_js_included::165",
+  "argv": [
+   "entropy",
+   "c.py",
+   "--no-browser-open",
+   "--render-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_go_explain_dependencies::166",
+  "argv": [
+   "explain",
+   "*.go",
+   "*.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ts_tsconfig_paths_disabled::167",
+  "argv": [
+   "tree",
+   "--json",
+   "--js-tsconfig-paths=false"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_js_workspaces_disabled::168",
+  "argv": [
+   "tree",
+   "--json",
+   "--js-workspaces=false"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_infer_python_from_single_py_file::169",
+  "argv": [
+   "tree",
+   "script.py",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_infer_js_from_single_js_file::170",
+  "argv": [
+   "tree",
+   "script.js",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_infer_ts_from_single_ts_file::171",
+  "argv": [
+   "tree",
+   "script.ts",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_infer_rust_from_single_rs_file::172",
+  "argv": [
+   "tree",
+   "main.rs",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tsx_file_extension::173",
+  "argv": [
+   "tree",
+   "Component.tsx",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_jsx_file_extension::174",
+  "argv": [
+   "tree",
+   "Component.jsx",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_pyw_extension::175",
+  "argv": [
+   "tree",
+   "script.pyw",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_with_complex_dependency_chains::176",
+  "argv": [
+   "explain",
+   "a.py",
+   "d.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_and_only_together::177",
+  "argv": [
+   "tree",
+   "--only",
+   "*/main.py",
+   "--exclude",
+   "*/exclude.py",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_language_flags_together::178",
+  "argv": [
+   "tree",
+   "--python-exclude-conditional-imports",
+   "--js-tsconfig-paths=false",
+   "--js-workspaces=false",
+   "--unwrap-exports",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tree_json_structure_validation::179",
+  "argv": [
+   "tree",
+   "b.py",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_exclude_conditional_imports_flag::180",
+  "argv": [
+   "tree",
+   "--json",
+   "--python-exclude-conditional-imports"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_explain_package_dependencies::181",
+  "argv": [
+   "explain",
+   "pkg1/**/*.py",
+   "pkg2/**/*.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_explain_overlap_left::182",
+  "argv": [
+   "explain",
+   "*.py",
+   "main.py",
+   "--overlap-left"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_js_tsconfig_path_resolution::183",
+  "argv": [
+   "tree",
+   "src/main.ts",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_js_with_jsx_and_tsx_extensions::184",
+  "argv": [
+   "tree",
+   "App.tsx",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_entropy_produces_valid_html_structure::185",
+  "argv": [
+   "entropy",
+   "module3.py",
+   "--no-browser-open",
+   "--render-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_exclude_flags::186",
+  "argv": [
+   "tree",
+   "main.py",
+   "--exclude",
+   "test_*.py",
+   "--exclude",
+   "*_test.py",
+   "--exclude",
+   "build.py",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_only_flags::187",
+  "argv": [
+   "tree",
+   "src/main.py",
+   "--only",
+   "src/**/*.py",
+   "--only",
+   "lib/**/*.py",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_overlap_flags_with_same_pattern::188",
+  "argv": [
+   "explain",
+   "*.js",
+   "*.js",
+   "-l"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_between_unrelated_files::189",
+  "argv": [
+   "explain",
+   "independent1.py",
+   "independent2.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rust_explain_dependencies::190",
+  "argv": [
+   "explain",
+   "src/*.rs",
+   "src/*.rs"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_with_complex_patterns::191",
+  "argv": [
+   "explain",
+   "src/features/**/*.js",
+   "src/utils/**/*.js"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tree_nonexistent_file::192",
+  "argv": [
+   "tree",
+   "nonexistent_file_12345.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tree_with_exclude_flag::193",
+  "argv": [
+   "tree",
+   "--exclude",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tree_with_exclude_pattern::194",
+  "argv": [
+   "tree",
+   "--exclude",
+   "*/test_*.py",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tree_with_only_flag::195",
+  "argv": [
+   "tree",
+   "--only",
+   "*/main.py",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tree_unwrap_exports_flag::196",
+  "argv": [
+   "tree",
+   "--unwrap-exports",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_always_creates_default_file::197",
+  "argv": [
+   "config",
+   "--config",
+   "custom-config.yml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_config_file::198",
+  "argv": [
+   "tree",
+   "main.py",
+   "--json",
+   "--config",
+   "nonexistent.yml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_file::199",
+  "argv": [
+   "tree",
+   "empty.py",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_special_chars_in_name::200",
+  "argv": [
+   "tree",
+   "main file.py",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_deep_dependencies::201",
+  "argv": [
+   "tree",
+   "a.py",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_exclude_flags::202",
+  "argv": [
+   "tree",
+   "main.py",
+   "--json",
+   "--exclude",
+   "**/a.py",
+   "--exclude",
+   "**/b.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_only_flags::203",
+  "argv": [
+   "tree",
+   "main.py",
+   "--json",
+   "--only",
+   "**/main.py",
+   "--only",
+   "**/a.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_glob_pattern::204",
+  "argv": [
+   "tree",
+   "main.py",
+   "--json",
+   "--exclude",
+   "[[[invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_symlink_handling::205",
+  "argv": [
+   "tree",
+   "link.py",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::206",
+  "argv": [
+   "--invalid-flag-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_flags::207",
+  "argv": [
+   "explain",
+   "main.py",
+   "main.py",
+   "--overlap-left",
+   "--overlap-right"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_entropy_with_nonexistent_file::208",
+  "argv": [
+   "entropy",
+   "nonexistent.py",
+   "--no-browser-open"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_basic::209",
+  "argv": [
+   "explain",
+   "a.py",
+   "c.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_overlap_right_flag::210",
+  "argv": [
+   "explain",
+   "a.py",
+   "b.py",
+   "--overlap-right"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_with_patterns::211",
+  "argv": [
+   "explain",
+   "src/**/*.py",
+   "lib/**/*.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_with_fixture::212",
+  "argv": [
+   "explain",
+   "main.py",
+   "foo.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tree_nonexistent_file::213",
+  "argv": [
+   "tree",
+   "nonexistent.py",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tree_single_entrypoint_required::214",
+  "argv": [
+   "tree",
+   "a.py",
+   "b.py",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tree_with_exclude_pattern::215",
+  "argv": [
+   "tree",
+   "main.py",
+   "--json",
+   "--exclude",
+   "**/bar.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tree_with_only_pattern_accepts_all::216",
+  "argv": [
+   "tree",
+   "main.py",
+   "--json",
+   "--only",
+   "**/*.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tree_with_custom_config::217",
+  "argv": [
+   "tree",
+   "main.py",
+   "--json",
+   "--config",
+   "custom-config.yml"
+  ],
+  "stdin": null,
+  "files": {
+   "custom-config.yml": "exclude:\n  - '**/foo.py'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tree_js_tsconfig_paths_flag::218",
+  "argv": [
+   "tree",
+   "index.js",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subcommand_specific_flag_rejected_globally::219",
+  "argv": [
+   "--json",
+   "tree",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subcommand_specific_flag_accepted_for_its_subcommand::220",
+  "argv": [
+   "tree",
+   "--json",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_handling::221",
+  "argv": [
+   "nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_command::222",
+  "argv": [
+   "invalid-command-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_multiple_patterns::223",
+  "argv": [
+   "tree",
+   "main.py",
+   "--json",
+   "--exclude",
+   "test_*.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_only_pattern_filtering::224",
+  "argv": [
+   "tree",
+   "main.py",
+   "--json",
+   "--only",
+   "main.py",
+   "--only",
+   "helper.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ts_module_resolution::225",
+  "argv": [
+   "tree",
+   "index.ts",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_entropy_without_entrypoint::226",
+  "argv": [
+   "entropy"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_entropy_with_nonexistent_file::227",
+  "argv": [
+   "entropy",
+   "nonexistent_file_xyz.py",
+   "--no-browser-open"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_entropy_with_javascript_entrypoint::228",
+  "argv": [
+   "entropy",
+   "index.js",
+   "--no-browser-open",
+   "--render-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_entropy_with_typescript_entrypoint::229",
+  "argv": [
+   "entropy",
+   "index.ts",
+   "--no-browser-open",
+   "--render-path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_entropy_with_exclude_flag::230",
+  "argv": [
+   "entropy",
+   "main.py",
+   "--no-browser-open",
+   "--render-path",
+   "--exclude",
+   "dep.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_basic::231",
+  "argv": [
+   "explain",
+   "users.py",
+   "products.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_with_glob_patterns::232",
+  "argv": [
+   "explain",
+   "*.py",
+   "helpers.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_overlap_right::233",
+  "argv": [
+   "explain",
+   "main.py",
+   "*.py",
+   "--overlap-right"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_with_one_arg::234",
+  "argv": [
+   "explain",
+   "main.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_complex_dependencies::235",
+  "argv": [
+   "explain",
+   "a.py",
+   "*.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_flag_with_tree::236",
+  "argv": [
+   "tree",
+   "main.py",
+   "--config",
+   "myconfig.yml",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_flag::237",
+  "argv": [
+   "tree",
+   "main.py",
+   "--json",
+   "--exclude",
+   "dep.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_exclude_flags::238",
+  "argv": [
+   "tree",
+   "main.py",
+   "--json",
+   "--exclude",
+   "dep1.py",
+   "--exclude",
+   "dep2.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_only_flag::239",
+  "argv": [
+   "tree",
+   "main.py",
+   "--json",
+   "--only",
+   "main.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unwrap_exports_flag::240",
+  "argv": [
+   "tree",
+   "main.py",
+   "--json",
+   "--unwrap-exports"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_exclude_conditional_imports::241",
+  "argv": [
+   "tree",
+   "main.py",
+   "--json",
+   "--python-exclude-conditional-imports"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_js_tsconfig_paths_flag::242",
+  "argv": [
+   "tree",
+   "main.js",
+   "--json",
+   "--js-tsconfig-paths=false"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_js_workspaces_flag::243",
+  "argv": [
+   "tree",
+   "main.js",
+   "--json",
+   "--js-workspaces=false"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_short_flag::244",
+  "argv": [
+   "tree",
+   "main.py",
+   "-c",
+   "cfg.yml",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_js_re_export_with_unwrap::245",
+  "argv": [
+   "tree",
+   "index.js",
+   "--json",
+   "--unwrap-exports"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_js_with_tsconfig::246",
+  "argv": [
+   "tree",
+   "src/index.js",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_js_disable_tsconfig_paths::247",
+  "argv": [
+   "tree",
+   "src/index.js",
+   "--json",
+   "--js-tsconfig-paths=false"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_js_workspaces::248",
+  "argv": [
+   "tree",
+   "packages/a/index.js",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_js_disable_workspaces::249",
+  "argv": [
+   "tree",
+   "packages/a/index.js",
+   "--json",
+   "--js-workspaces=false"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tsx_file_support::250",
+  "argv": [
+   "tree",
+   "main.tsx",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unsupported_file_extension::251",
+  "argv": [
+   "tree",
+   "main.cpp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_relative_imports::252",
+  "argv": [
+   "tree",
+   "pkg/main.py",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_relative_import_parent::253",
+  "argv": [
+   "tree",
+   "pkg/sub/main.py",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rust_basic_project::254",
+  "argv": [
+   "tree",
+   "src/main.rs",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rust_pub_mod::255",
+  "argv": [
+   "tree",
+   "src/lib.rs",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tree_with_nonexistent_file::256",
+  "argv": [
+   "tree",
+   "nonexistent_file_xyz.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tree_with_only_flag::257",
+  "argv": [
+   "tree",
+   "main.py",
+   "--json",
+   "--only",
+   "*.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_outputs_edge_format_and_streams::258",
+  "argv": [
+   "explain",
+   "src/a.py",
+   "src/b.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_non_matching_glob_is_error::259",
+  "argv": [
+   "explain",
+   "src/a.py",
+   "src/DOES_NOT_EXIST.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_go_simple_tree_text_format::260",
+  "argv": [
+   "tree",
+   "main.go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rust_simple_tree_text_format::261",
+  "argv": [
+   "tree",
+   "src/main.rs"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_circular_dependency_text_visualization::262",
+  "argv": [
+   "tree",
+   "a.js"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_dependencies_single_file::263",
+  "argv": [
+   "tree",
+   "standalone.js"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deep_nested_tree_indentation::264",
+  "argv": [
+   "tree",
+   "level0.js"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_flag_text_output::265",
+  "argv": [
+   "tree",
+   "--exclude",
+   "utils.js",
+   "main.js"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_flag_before_subcommand::266",
+  "argv": [
+   "--config",
+   "test.yml",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_entropy_specific_flag_with_entropy::267",
+  "argv": [
+   "entropy",
+   "--enable-gui",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_entropy_specific_flag_without_subcommand::268",
+  "argv": [
+   "--enable-gui",
+   "check"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tree_json_flag_without_tree::269",
+  "argv": [
+   "--json",
+   "check"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_overlap_flags_with_explain::270",
+  "argv": [
+   "explain",
+   "--overlap-left",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_overlap_flag_without_explain::271",
+  "argv": [
+   "--overlap-left",
+   "check"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completely_invalid_subcommand::272",
+  "argv": [
+   "totally-nonexistent-command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_typo_in_subcommand::273",
+  "argv": [
+   "chekc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::274",
+  "argv": [
+   "--nonexistent-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_separator::275",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_with_equals_syntax::276",
+  "argv": [
+   "--config=test.yml",
+   "check",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_flag_on_subcommand::277",
+  "argv": [
+   "check",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_short_flags::278",
+  "argv": [
+   "explain",
+   "-l",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_subcommands_not_allowed::279",
+  "argv": [
+   "check",
+   "tree"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subcommand_case_sensitivity::280",
+  "argv": [
+   "CHECK"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_string_argument::281",
+  "argv": [
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

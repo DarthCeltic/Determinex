@@ -1,0 +1,28 @@
+Latent Collaboration in Multi-Agent Systems (LatentMAS)
+Jiaru Zou, Ruizhong Qiu, Gaotang Li, Xiyuan Yang, Katherine Tieu, Pan Lu, Ke Shen,
+Hanghang Tong, Yejin Choi, Jingrui He, James Zou, Mengdi Wang, Ling Yang
+arXiv: 2511.20639 | ICML 2026 Spotlight
+Submitted: November 25, 2025
+
+Abstract:
+LatentMAS enables purely latent collaboration among LLM agents in multi-agent systems
+by replacing text-based inter-agent messages with last-layer hidden-state embeddings
+stored in and transmitted via KV caches. After agent A1 completes its generation pass,
+the system extracts KV caches from all L transformer layers as paired (K, V) tensors.
+The successor agent A2 prepends those caches layer-wise, conditioning its generation
+on A1's full internal state without text serialization. A linear alignment matrix W_a
+is computed via ridge regression to prevent out-of-distribution activations.
+
+Key results:
+- 14.6% accuracy improvement over text-based baselines
+- 4-4.3x inference speedup across nine benchmarks
+- Training-free: no gradient updates required
+- Validated on Qwen3 4B/8B/14B models on MBPP+ and HumanEval+
+
+Relationship to Determinex Rosetta Stone:
+LatentMAS operates on same-family models with matching hidden dimensionality.
+Determinex Rosetta Stone bridges architecturally distinct models with different
+embedding dimensions (e.g. Qwen2 3584-dim and Llama 4096-dim) using trained
+nonlinear MLP encoder/decoder pairs with InfoNCE contrastive learning.
+The Rosetta Stone requires a training phase; LatentMAS is training-free.
+These are complementary approaches addressing overlapping but distinct problem spaces.

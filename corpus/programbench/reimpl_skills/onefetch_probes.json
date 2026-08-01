@@ -1,0 +1,2629 @@
+[
+ {
+  "name": "test::test_disabled_fields_requires_double_dash_before_path_when_values_present::0",
+  "argv": [
+   "-o",
+   "json",
+   "-d",
+   "pending",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disabled_fields_with_double_dash_produces_json_without_pending_section::1",
+  "argv": [
+   "-o",
+   "json",
+   "-d",
+   "pending",
+   "--",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_input_directory_errors_to_stderr_and_nonzero_exit::2",
+  "argv": [
+   "-o",
+   "json",
+   "/no/such/path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_succeeds_and_mentions_usage::3",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_format::4",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_output_is_valid_and_has_expected_keys::5",
+  "argv": [
+   "-o",
+   "json",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yaml_output_is_valid_and_has_expected_keys::6",
+  "argv": [
+   "-o",
+   "yaml",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_bash_completion_writes_to_stdout::7",
+  "argv": [
+   "--generate",
+   "bash"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_package_managers_includes_cargo_and_npm::8",
+  "argv": [
+   "-p"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_word_after_exe_is_treated_as_input_path_not_subcommand::9",
+  "argv": [
+   "languages"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rust_default_ascii_art::10",
+  "argv": [
+   "git",
+   "init"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_merge_commits_excluded_with_no_merges_flag::11",
+  "argv": [
+   "git",
+   "checkout",
+   "-b",
+   "feature"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_branch_repo_json::12",
+  "argv": [
+   "git",
+   "add",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repo_with_remote_url::13",
+  "argv": [
+   "git",
+   "init",
+   "--bare"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_uneven_author_contributions::14",
+  "argv": [
+   "git",
+   "config",
+   "user.name",
+   "Bob"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ascii_colors_out_of_range_error::15",
+  "argv": [
+   "--ascii-colors",
+   "16",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_text_colors_out_of_range_error::16",
+  "argv": [
+   "--text-colors",
+   "0",
+   "20",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_languages_flag_lists_all_supported_languages::17",
+  "argv": [
+   "--languages"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_package_managers_flag_lists_supported_managers::18",
+  "argv": [
+   "--package-managers"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ascii_language_invalid_value_error::19",
+  "argv": [
+   "--ascii-language",
+   "invalidlanguage",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_invalid_shell_error::20",
+  "argv": [
+   "--generate",
+   "invalidshell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_repository_no_commits::21",
+  "argv": [
+   "git",
+   "init",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_path_nonexistent::22",
+  "argv": [
+   "/nonexistent/path/to/nowhere"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_path_instead_of_directory::23",
+  "argv": [
+   "testfile.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "testfile.txt": "not a directory"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_non_master_default_branch::24",
+  "argv": [
+   "git",
+   "init",
+   "-q",
+   "-b",
+   "main"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_include_hidden_files_affects_loc::25",
+  "argv": [
+   "git",
+   "add",
+   "-f",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_churn_pool_size_limits_diff_computation::26",
+  "argv": [
+   "-o",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_from_most_recent_tag::27",
+  "argv": [
+   "git",
+   "tag",
+   "v1.0.0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_project_number_separator_comma::28",
+  "argv": [
+   "git",
+   "remote",
+   "add",
+   "upstream",
+   "https://github.com/upstream/project.git"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_project_single_branch_singular_form::29",
+  "argv": [
+   "git",
+   "branch",
+   "remotes/origin/main"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_project_display_with_tags_only::30",
+  "argv": [
+   "git",
+   "tag",
+   "v1.0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_no_remote_url_method_returns_none::31",
+  "argv": [
+   "git",
+   "remote",
+   "add",
+   "origin",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_head_info_field_enabled_and_pushed::32",
+  "argv": [
+   "git",
+   "checkout",
+   "-b",
+   "feature-branch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gitignored_files_excluded_if_not_tracked::33",
+  "argv": [
+   "git",
+   "add",
+   ".gitignore",
+   "main.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_churn_pool_size_option::34",
+  "argv": [
+   "-o",
+   "json",
+   "--churn-pool-size",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_number_of_file_churns_option::35",
+  "argv": [
+   "-o",
+   "json",
+   "--number-of-file-churns",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_bots_option::36",
+  "argv": [
+   "-o",
+   "json",
+   "--no-bots"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_bots_with_regex::37",
+  "argv": [
+   "-o",
+   "json",
+   "--no-bots=bot.*"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_text_colors::38",
+  "argv": [
+   "-t",
+   "1",
+   "2",
+   "3",
+   "4",
+   "5",
+   "6"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_ascii_colors::39",
+  "argv": [
+   "-c",
+   "10",
+   "11",
+   "12"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disabled_fields_with_json::40",
+  "argv": [
+   "-o",
+   "json",
+   "-d",
+   "version",
+   "-d",
+   "created",
+   "-d",
+   "authors"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_data_filter::41",
+  "argv": [
+   "-o",
+   "json",
+   "-T",
+   "data"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_prose_filter::42",
+  "argv": [
+   "-o",
+   "json",
+   "-T",
+   "prose"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_formatting_options::43",
+  "argv": [
+   "-o",
+   "json",
+   "--no-bold",
+   "--iso-time",
+   "--number-separator",
+   "comma"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_visual_options::44",
+  "argv": [
+   "--no-art",
+   "--no-color-palette"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_directory_pattern::45",
+  "argv": [
+   "-o",
+   "json",
+   "--exclude",
+   "subdir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_yaml_structure_detailed::46",
+  "argv": [
+   "-o",
+   "yaml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ascii_language_option::47",
+  "argv": [
+   "--ascii-language",
+   "rust"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ascii_language_short_flag::48",
+  "argv": [
+   "-a",
+   "python"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ascii_colors_option::49",
+  "argv": [
+   "--ascii-colors",
+   "1",
+   "2",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ascii_colors_short_flag::50",
+  "argv": [
+   "-c",
+   "4",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ascii_input_option::51",
+  "argv": [
+   "--ascii-input",
+   "CUSTOM\nASCII\nART"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_true_color_auto::52",
+  "argv": [
+   "-o",
+   "json",
+   "--true-color",
+   "auto"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_true_color_always::53",
+  "argv": [
+   "-o",
+   "json",
+   "--true-color",
+   "always"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_true_color_never::54",
+  "argv": [
+   "-o",
+   "json",
+   "--true-color",
+   "never"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_short_flag::55",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_flag::56",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_disabled_fields::57",
+  "argv": [
+   "-o",
+   "json",
+   "-d",
+   "project",
+   "-d",
+   "version",
+   "-d",
+   "created",
+   "-d",
+   "authors",
+   "-d",
+   "last-change",
+   "-d",
+   "license"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_excludes_combined::58",
+  "argv": [
+   "-o",
+   "json",
+   "-e",
+   "*.txt",
+   "-e",
+   "*.md",
+   "-e",
+   "test_*"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_text_colors_valid_range::59",
+  "argv": [
+   "-t",
+   "0",
+   "7",
+   "15",
+   "1",
+   "2",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_text_color_value::60",
+  "argv": [
+   "-t",
+   "255"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_argument::61",
+  "argv": [
+   "--invalid-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_path::62",
+  "argv": [
+   "/nonexistent/path/to/repo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_output_format::63",
+  "argv": [
+   "-o",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_shell_for_generate::64",
+  "argv": [
+   "--generate",
+   "invalid-shell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_color_resolution::65",
+  "argv": [
+   "--color-resolution",
+   "999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_true_color_value::66",
+  "argv": [
+   "--true-color",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_number_separator::67",
+  "argv": [
+   "--number-separator",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_options::68",
+  "argv": [
+   "--no-art",
+   "--ascii-language",
+   "rust"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_option::69",
+  "argv": [
+   "-o",
+   "json",
+   "--exclude",
+   "*.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_short_flag::70",
+  "argv": [
+   "-o",
+   "json",
+   "-e",
+   "*.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_multiple_patterns::71",
+  "argv": [
+   "-o",
+   "json",
+   "-e",
+   "*.txt",
+   "-e",
+   "*.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_filter_programming::72",
+  "argv": [
+   "-o",
+   "json",
+   "--type",
+   "programming"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_filter_markup::73",
+  "argv": [
+   "-o",
+   "json",
+   "--type",
+   "markup"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_filter_multiple::74",
+  "argv": [
+   "-o",
+   "json",
+   "--type",
+   "programming",
+   "markup"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_short_flag::75",
+  "argv": [
+   "-o",
+   "json",
+   "-T",
+   "programming"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_zsh_completion::76",
+  "argv": [
+   "--generate",
+   "zsh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_fish_completion::77",
+  "argv": [
+   "--generate",
+   "fish"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_powershell_completion::78",
+  "argv": [
+   "--generate",
+   "powershell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_elvish_completion::79",
+  "argv": [
+   "--generate",
+   "elvish"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_image_option_with_nonexistent_file::80",
+  "argv": [
+   "--image",
+   "/nonexistent/image.png"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_resolution_requires_image::81",
+  "argv": [
+   "--color-resolution",
+   "16"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_image_protocol_requires_image::82",
+  "argv": [
+   "--image-protocol",
+   "kitty"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disabled_fields_option::83",
+  "argv": [
+   "-o",
+   "json",
+   "--disabled-fields",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disabled_fields_multiple::84",
+  "argv": [
+   "-o",
+   "json",
+   "--disabled-fields",
+   "version",
+   "created"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_title_option::85",
+  "argv": [
+   "-o",
+   "json",
+   "--no-title"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_number_of_authors_option::86",
+  "argv": [
+   "-o",
+   "json",
+   "--number-of-authors",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_number_of_languages_option::87",
+  "argv": [
+   "-o",
+   "json",
+   "--number-of-languages",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_email_option::88",
+  "argv": [
+   "-o",
+   "json",
+   "--email"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_email_short_flag::89",
+  "argv": [
+   "-o",
+   "json",
+   "-E"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_iso_time_option::90",
+  "argv": [
+   "-o",
+   "json",
+   "--iso-time"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_iso_time_short_flag::91",
+  "argv": [
+   "-o",
+   "json",
+   "-z"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_merges_option::92",
+  "argv": [
+   "-o",
+   "json",
+   "--no-merges"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_include_hidden_option::93",
+  "argv": [
+   "-o",
+   "json",
+   "--include-hidden"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_languages_short_flag::94",
+  "argv": [
+   "-l"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_output_long_form::95",
+  "argv": [
+   "--output",
+   "json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yaml_output_long_form::96",
+  "argv": [
+   "--output",
+   "yaml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yaml_output_with_options::97",
+  "argv": [
+   "-o",
+   "yaml",
+   "--iso-time"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_text_colors_option::98",
+  "argv": [
+   "--text-colors",
+   "1",
+   "2",
+   "3",
+   "4",
+   "5",
+   "6"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_text_colors_short_flag::99",
+  "argv": [
+   "-t",
+   "9",
+   "10",
+   "11"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_number_separator_plain::100",
+  "argv": [
+   "-o",
+   "json",
+   "--number-separator",
+   "plain"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_number_separator_comma::101",
+  "argv": [
+   "-o",
+   "json",
+   "--number-separator",
+   "comma"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_number_separator_space::102",
+  "argv": [
+   "-o",
+   "json",
+   "--number-separator",
+   "space"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_number_separator_underscore::103",
+  "argv": [
+   "-o",
+   "json",
+   "--number-separator",
+   "underscore"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_bold_option::104",
+  "argv": [
+   "--no-bold"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_url_option::105",
+  "argv": [
+   "-o",
+   "json",
+   "--http-url"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hide_token_option::106",
+  "argv": [
+   "-o",
+   "json",
+   "--hide-token"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_url_and_hide_token::107",
+  "argv": [
+   "-o",
+   "json",
+   "--http-url",
+   "--hide-token"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_color_palette_option::108",
+  "argv": [
+   "--no-color-palette"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_art_option::109",
+  "argv": [
+   "--no-art"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_art_with_json::110",
+  "argv": [
+   "-o",
+   "json",
+   "--no-art"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nerd_fonts_option::111",
+  "argv": [
+   "--nerd-fonts"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nerd_fonts_with_json::112",
+  "argv": [
+   "-o",
+   "json",
+   "--nerd-fonts"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_repo_outputs_json_has_expected_fields::113",
+  "argv": [
+   "-o",
+   "json",
+   "-E",
+   "-z",
+   "--churn-pool-size",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_precedence_over_unknown_flag::114",
+  "argv": [
+   "--help",
+   "--definitely-not-a-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_treats_help_as_input_and_errors::115",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ascii_colors_single::116",
+  "argv": [
+   "--ascii-colors",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ascii_colors_invalid_out_of_bounds::117",
+  "argv": [
+   ".",
+   "--ascii-colors",
+   "20"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ascii_language_python::118",
+  "argv": [
+   "--ascii-language",
+   "python"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ascii_language_javascript::119",
+  "argv": [
+   "--ascii-language",
+   "javascript"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_true_color_auto::120",
+  "argv": [
+   "--true-color",
+   "auto"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_true_color_never::121",
+  "argv": [
+   "--true-color",
+   "never"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_true_color_always::122",
+  "argv": [
+   "--true-color",
+   "always"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::123",
+  "argv": [
+   "--invalid-flag-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_directory::124",
+  "argv": [
+   "/path/that/does/not/exist/xyz123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_json_with_no_art::125",
+  "argv": [
+   "--output",
+   "json",
+   "--no-art"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_yaml_with_disabled_fields::126",
+  "argv": [
+   "--output",
+   "yaml",
+   "--disabled-fields",
+   "url",
+   "license"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_iso_time_with_json_output::127",
+  "argv": [
+   "--output",
+   "json",
+   "--iso-time"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_text_colors_and_ascii_colors::128",
+  "argv": [
+   "--text-colors",
+   "1",
+   "2",
+   "3",
+   "--ascii-colors",
+   "4",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nerd_fonts_with_no_color_palette::129",
+  "argv": [
+   "--nerd-fonts",
+   "--no-color-palette"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_email_with_number_of_authors::130",
+  "argv": [
+   "--email",
+   "--number-of-authors",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_merges_with_no_bots::131",
+  "argv": [
+   "--no-merges",
+   "--no-bots"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_include_hidden_with_exclude::132",
+  "argv": [
+   "--include-hidden",
+   "--exclude",
+   "*.tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_number_separator_with_iso_time::133",
+  "argv": [
+   "--number-separator",
+   "comma",
+   "--iso-time"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disabled_fields_comprehensive::134",
+  "argv": [
+   "--disabled-fields",
+   "authors",
+   "churn",
+   "size",
+   "lines-of-code"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_ascii_with_colors::135",
+  "argv": [
+   "--ascii-input",
+   "Hello\\nWorld\\nTest",
+   "--ascii-colors",
+   "6",
+   "7"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_true_color_with_ascii_language::136",
+  "argv": [
+   "--true-color",
+   "always",
+   "--ascii-language",
+   "rust"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_url_with_hide_token::137",
+  "argv": [
+   "--http-url",
+   "--hide-token"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_filter_all_types::138",
+  "argv": [
+   "--type",
+   "programming",
+   "markup",
+   "prose",
+   "data"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_bold_with_text_colors::139",
+  "argv": [
+   "--no-bold",
+   "--text-colors",
+   "8",
+   "9"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_churn_pool_size_with_file_churns::140",
+  "argv": [
+   "--churn-pool-size",
+   "10",
+   "--number-of-file-churns",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repo_with_multiple_commits::141",
+  "argv": [
+   "git",
+   "add",
+   "file2.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repo_with_readme::142",
+  "argv": [
+   "git",
+   "add",
+   "README.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_disabled_fields_at_once::143",
+  "argv": [
+   "--disabled-fields"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_color_value::144",
+  "argv": [
+   ".",
+   "--ascii-colors",
+   "999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_options_image_protocol_without_image::145",
+  "argv": [
+   ".",
+   "--image-protocol",
+   "sixel"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_number_of_authors::146",
+  "argv": [
+   "--number-of-authors",
+   "1000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_number_of_authors::147",
+  "argv": [
+   "--number-of-authors",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_output_formats::148",
+  "argv": [
+   ".",
+   "--output",
+   "json",
+   "--output",
+   "yaml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ascii_input_empty_string::149",
+  "argv": [
+   "--ascii-input",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_everything::150",
+  "argv": [
+   "--exclude",
+   "*"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_churn_pool_size_zero::151",
+  "argv": [
+   "--churn-pool-size",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_type_value::152",
+  "argv": [
+   ".",
+   "--type",
+   "invalid_type"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_number_separator::153",
+  "argv": [
+   ".",
+   "--number-separator",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_true_color_value::154",
+  "argv": [
+   ".",
+   "--true-color",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_image_protocol::155",
+  "argv": [
+   ".",
+   "--image",
+   "/tmp/test.png",
+   "--image-protocol",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_color_resolution::156",
+  "argv": [
+   ".",
+   "--color-resolution",
+   "999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_single_pattern::157",
+  "argv": [
+   "--exclude",
+   "*.log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_multiple_patterns::158",
+  "argv": [
+   "--exclude",
+   "*.log",
+   "*.tmp",
+   "node_modules"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_bots_flag::159",
+  "argv": [
+   "--no-bots"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_bots_with_custom_regex::160",
+  "argv": [
+   "--no-bots=custom.*bot"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_merges_flag::161",
+  "argv": [
+   "--no-merges"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_include_hidden_flag::162",
+  "argv": [
+   "--include-hidden"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_filter_programming::163",
+  "argv": [
+   "--type",
+   "programming"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_filter_markup::164",
+  "argv": [
+   "--type",
+   "markup"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_filter_multiple::165",
+  "argv": [
+   "--type",
+   "programming",
+   "markup"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_filter_data::166",
+  "argv": [
+   "--type",
+   "data"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_filter_prose::167",
+  "argv": [
+   "--type",
+   "prose"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_image_protocol_without_image::168",
+  "argv": [
+   ".",
+   "--image-protocol",
+   "kitty"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_resolution_without_image::169",
+  "argv": [
+   ".",
+   "--color-resolution",
+   "64"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_image_protocol_kitty_valid::170",
+  "argv": [
+   "--image",
+   "--image-protocol",
+   "kitty"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_image_protocol_sixel_valid::171",
+  "argv": [
+   "--image",
+   "--image-protocol",
+   "sixel"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_image_protocol_iterm_valid::172",
+  "argv": [
+   "--image",
+   "--image-protocol",
+   "iterm"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_resolution_16::173",
+  "argv": [
+   "--image",
+   "--image-protocol",
+   "sixel",
+   "--color-resolution",
+   "16"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_resolution_256::174",
+  "argv": [
+   "--image",
+   "--image-protocol",
+   "sixel",
+   "--color-resolution",
+   "256"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disabled_fields_single::175",
+  "argv": [
+   "--disabled-fields",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disabled_fields_multiple::176",
+  "argv": [
+   "--disabled-fields",
+   "version",
+   "url",
+   "commits"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_title_flag::177",
+  "argv": [
+   "--no-title"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_number_of_authors::178",
+  "argv": [
+   "--number-of-authors",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_number_of_languages::179",
+  "argv": [
+   "--number-of-languages",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_number_of_file_churns::180",
+  "argv": [
+   "--number-of-file-churns",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_churn_pool_size::181",
+  "argv": [
+   "--churn-pool-size",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_email_flag::182",
+  "argv": [
+   "--email"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_url_flag::183",
+  "argv": [
+   "--http-url"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hide_token_flag::184",
+  "argv": [
+   "--hide-token"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_json_with_disabled_fields::185",
+  "argv": [
+   "--output",
+   "json",
+   "--disabled-fields",
+   "version",
+   "commits"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repo_with_remote_url::186",
+  "argv": [
+   "git",
+   "remote",
+   "add",
+   "origin",
+   "https://github.com/test/repo.git"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repo_with_ssh_remote_url::187",
+  "argv": [
+   "git",
+   "remote",
+   "add",
+   "origin",
+   "git@github.com:test/repo.git"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repo_with_license_file::188",
+  "argv": [
+   "git",
+   "add",
+   "LICENSE"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repo_with_cargo_toml::189",
+  "argv": [
+   "git",
+   "add",
+   "Cargo.toml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repo_with_staged_changes::190",
+  "argv": [
+   "git",
+   "add",
+   "staged.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_text_colors_single::191",
+  "argv": [
+   "--text-colors",
+   "9"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_text_colors_multiple::192",
+  "argv": [
+   "--text-colors",
+   "9",
+   "10",
+   "11",
+   "12",
+   "13",
+   "14"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_text_colors_invalid_out_of_bounds::193",
+  "argv": [
+   ".",
+   "--text-colors",
+   "17"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_iso_time_flag::194",
+  "argv": [
+   "--iso-time"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_number_separator_plain::195",
+  "argv": [
+   "--number-separator",
+   "plain"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_number_separator_comma::196",
+  "argv": [
+   "--number-separator",
+   "comma"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_number_separator_space::197",
+  "argv": [
+   "--number-separator",
+   "space"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_number_separator_underscore::198",
+  "argv": [
+   "--number-separator",
+   "underscore"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_url_transforms_git_remote::199",
+  "argv": [
+   "git",
+   "remote",
+   "set-url",
+   "origin",
+   "git@github.com:user/repo.git"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bare_repo_pending_is_zero::200",
+  "argv": [
+   "git",
+   "init",
+   "-q",
+   "--bare"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

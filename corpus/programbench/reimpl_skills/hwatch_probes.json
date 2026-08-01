@@ -1,0 +1,6474 @@
+[
+ {
+  "name": "test::test_help_shows_no_subcommands::0",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_works::1",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_add_subcommand::2",
+  "argv": [
+   "add",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_remove_subcommand::3",
+  "argv": [
+   "remove",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_list_subcommand::4",
+  "argv": [
+   "list",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_only_lines_flag::5",
+  "argv": [
+   "rm",
+   "-f",
+   "/tmp/toggle_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_precedence_with_other_flags_shows_help::6",
+  "argv": [
+   "--help",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_with_unknown_flag_still_shows_help_or_usage::7",
+  "argv": [
+   "--help",
+   "--definitely-unknown-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_separator_double_dash_before_help_is_not_treated_as_help::8",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_HWATCH_injects_default_args_and_runs_in_batch_mode::9",
+  "argv": [
+   "echo",
+   "hi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "HWATCH": "--batch -n 0.1"
+  }
+ },
+ {
+  "name": "test::test_cli_overrides_env_vars_by_appending_after_HWATCH::10",
+  "argv": [
+   "-n",
+   "0.2",
+   "echo",
+   "hi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "HWATCH": "--batch -n 0.1"
+  }
+ },
+ {
+  "name": "test::test_env_and_cli_duplicate_flag_errors_like_duplicate_cli::11",
+  "argv": [
+   "--batch",
+   "echo",
+   "hi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "HWATCH": "--batch"
+  }
+ },
+ {
+  "name": "test::test_keymap_valid_ini_string_is_accepted::12",
+  "argv": [
+   "-K",
+   "a=up",
+   "--batch",
+   "echo",
+   "hi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keymap_invalid_action_rejected_with_nonzero_exit::13",
+  "argv": [
+   "-K",
+   "a=NO_SUCH_ACTION",
+   "--batch",
+   "echo",
+   "hi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keymap_malformed_ini_rejected_with_nonzero_exit::14",
+  "argv": [
+   "-K",
+   "a==up",
+   "--batch",
+   "echo",
+   "hi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_is_ignored_with_exit_0_and_no_output::15",
+  "argv": [
+   "--definitely-not-a-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_is_treated_as_command_in_tui_mode::16",
+  "argv": [
+   "--nonexistent-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_mode_stdout_explicit::17",
+  "argv": [
+   "-b",
+   "-o",
+   "stdout",
+   "-n",
+   "0.1",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_mode_stderr_explicit::18",
+  "argv": [
+   "-b",
+   "-o",
+   "stderr",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "echo test >&2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_mode_watch_explicit::19",
+  "argv": [
+   "-b",
+   "-d",
+   "watch",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_mode_line_explicit::20",
+  "argv": [
+   "-b",
+   "-d",
+   "line",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_mode_word_explicit::21",
+  "argv": [
+   "-b",
+   "-d",
+   "word",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_logfile_with_value::22",
+  "argv": [
+   "-b",
+   "-l",
+   "-n",
+   "0.1",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_after_command_simple::23",
+  "argv": [
+   "-b",
+   "-A",
+   "echo changed",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_shell_special_chars::24",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "echo $$"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_exit_code::25",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "echo test; exit 0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_precise_timing_mode::26",
+  "argv": [
+   "-b",
+   "--precise",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_with_diff::27",
+  "argv": [
+   "-b",
+   "-C",
+   "-d",
+   "watch",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_beep_with_diff::28",
+  "argv": [
+   "-b",
+   "-B",
+   "-d",
+   "line",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_visual_options::29",
+  "argv": [
+   "-b",
+   "-c",
+   "-N",
+   "-r",
+   "--border",
+   "--with-scrollbar",
+   "--mouse",
+   "-t",
+   "--no-help-banner",
+   "--tab-size",
+   "2",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_diff_options::30",
+  "argv": [
+   "-b",
+   "-d",
+   "word",
+   "-O",
+   "--enable-summary-char",
+   "--no-summary",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_mode_no_shell::31",
+  "argv": [
+   "-b",
+   "-x",
+   "-n",
+   "0.1",
+   "/bin/echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_shell_command::32",
+  "argv": [
+   "-b",
+   "-s",
+   "/bin/sh -c",
+   "-n",
+   "0.1",
+   "date +%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interval_with_limit::33",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "-L",
+   "100",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_with_ansi_codes::34",
+  "argv": [
+   "-b",
+   "-c",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "printf '\u001b[31mred\u001b[0m\n'; date +%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiline_with_line_numbers::35",
+  "argv": [
+   "-b",
+   "-N",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "seq 1 5; date +%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reverse_with_multiline::36",
+  "argv": [
+   "-b",
+   "-r",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "seq 1 3; date +%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aftercommand_flag::37",
+  "argv": [
+   "-b",
+   "-A",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aftercommand_hwatch_data_env::38",
+  "argv": [
+   "-b",
+   "-A",
+   "echo aftercmd",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_flag::39",
+  "argv": [
+   "-b",
+   "-C",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_with_small_output::40",
+  "argv": [
+   "-b",
+   "-C",
+   "-n",
+   "0.1",
+   "echo",
+   "small"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_with_large_output::41",
+  "argv": [
+   "-b",
+   "-C",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "date +%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_beep_flag::42",
+  "argv": [
+   "-b",
+   "-B",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_beep_on_change::43",
+  "argv": [
+   "-b",
+   "-B",
+   "-n",
+   "0.1",
+   "date",
+   "+%s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keymap_flag::44",
+  "argv": [
+   "-b",
+   "-K",
+   "q=quit",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keymap_multiple::45",
+  "argv": [
+   "-b",
+   "-K",
+   "q=quit",
+   "-K",
+   "h=help",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_and_diff::46",
+  "argv": [
+   "-b",
+   "-C",
+   "-d",
+   "line",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_beep_with_color::47",
+  "argv": [
+   "-b",
+   "-B",
+   "-c",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_with_command_placeholder::48",
+  "argv": [
+   "-s",
+   "sh -c {COMMAND}",
+   "-n",
+   "0.1",
+   "echo",
+   "PLACEHOLDER"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_with_pipes::49",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "echo",
+   "TEST"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_with_redirection::50",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "echo",
+   "REDIRECT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_mode_no_shell::51",
+  "argv": [
+   "-b",
+   "-x",
+   "-n",
+   "0.1",
+   "echo",
+   "NO_SHELL"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_mode_with_args::52",
+  "argv": [
+   "-b",
+   "-x",
+   "-n",
+   "0.1",
+   "printf",
+   "ARG1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aftercommand_basic::53",
+  "argv": [
+   "-b",
+   "-A",
+   "-n",
+   "0.05",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aftercommand_with_script::54",
+  "argv": [
+   "-b",
+   "-A",
+   "-n",
+   "0.05",
+   "date",
+   "+%s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_special_chars::55",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "echo",
+   "TEST123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_quotes::56",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "echo",
+   "quoted string"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_env_vars::57",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "echo $HOME"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_multiword::58",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "echo",
+   "word1",
+   "word2",
+   "word3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_precise_interval_timing::59",
+  "argv": [
+   "-b",
+   "--precise",
+   "-n",
+   "0.1",
+   "echo",
+   "PRECISE"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interval_zero_rejected::60",
+  "argv": [
+   "-n",
+   "0",
+   "echo",
+   "TEST"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interval_negative_rejected::61",
+  "argv": [
+   "-n",
+   "-1",
+   "echo",
+   "TEST"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_short_interval::62",
+  "argv": [
+   "-b",
+   "-n",
+   "0.01",
+   "echo",
+   "FAST"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_interval::63",
+  "argv": [
+   "-b",
+   "-n",
+   "10",
+   "echo",
+   "SLOW"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_limit_zero_unlimited::64",
+  "argv": [
+   "-b",
+   "-L",
+   "0",
+   "-n",
+   "0.1",
+   "echo",
+   "UNLIMITED"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_limit_very_small::65",
+  "argv": [
+   "-b",
+   "-L",
+   "1",
+   "-n",
+   "0.1",
+   "echo",
+   "LIMITED"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_limit_very_large::66",
+  "argv": [
+   "-b",
+   "-L",
+   "999999",
+   "-n",
+   "0.1",
+   "echo",
+   "HUGE"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tab_size_zero::67",
+  "argv": [
+   "--tab-size",
+   "0",
+   "-n",
+   "0.1",
+   "echo",
+   "TAB"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tab_size_large::68",
+  "argv": [
+   "-b",
+   "--tab-size",
+   "20",
+   "-n",
+   "0.1",
+   "printf",
+   "A\\tB"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keymap_multiple::69",
+  "argv": [
+   "-K",
+   "Q:quit",
+   "-K",
+   "H:help",
+   "-n",
+   "0.1",
+   "echo",
+   "KEYMAP"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keymap_invalid_format::70",
+  "argv": [
+   "-K",
+   "invalid_keymap",
+   "-n",
+   "0.1",
+   "echo",
+   "TEST"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_batch_flags_combined::71",
+  "argv": [
+   "-b",
+   "-c",
+   "-N",
+   "-r",
+   "-C",
+   "-d",
+   "line",
+   "-o",
+   "output",
+   "-l",
+   "-L",
+   "100",
+   "--tab-size",
+   "8",
+   "--precise",
+   "-n",
+   "0.1",
+   "echo",
+   "ALL_FLAGS"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_flag::72",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_short_flag::73",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_mode_simple_command::74",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_mode_with_interval::75",
+  "argv": [
+   "-b",
+   "-n",
+   "0.2",
+   "date",
+   "+%s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_with_color::76",
+  "argv": [
+   "-b",
+   "-c",
+   "-n",
+   "0.1",
+   "echo",
+   "-e",
+   "\\033[31mRED\\033[0m"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_with_line_numbers::77",
+  "argv": [
+   "-b",
+   "-N",
+   "-n",
+   "0.1",
+   "printf",
+   "line1\\nline2\\nline3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_with_reverse::78",
+  "argv": [
+   "-b",
+   "-r",
+   "-n",
+   "0.1",
+   "printf",
+   "AAA\\nBBB\\nCCC"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_with_diff_line::79",
+  "argv": [
+   "-b",
+   "-d",
+   "line",
+   "-n",
+   "0.1",
+   "date",
+   "+%s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_with_diff_word::80",
+  "argv": [
+   "-b",
+   "-d",
+   "word",
+   "-n",
+   "0.1",
+   "date",
+   "+%s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_with_output_stdout::81",
+  "argv": [
+   "-b",
+   "-o",
+   "stdout",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "echo STDOUT; echo STDERR >&2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_with_output_stderr::82",
+  "argv": [
+   "-b",
+   "-o",
+   "stderr",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "echo STDOUT; echo STDERR >&2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_with_diff_output_only::83",
+  "argv": [
+   "-b",
+   "-O",
+   "-d",
+   "line",
+   "-n",
+   "0.1",
+   "date",
+   "+%s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_with_logfile::84",
+  "argv": [
+   "-b",
+   "-l",
+   "-n",
+   "0.1",
+   "echo",
+   "TEST"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_with_compress::85",
+  "argv": [
+   "-b",
+   "-C",
+   "-n",
+   "0.1",
+   "echo",
+   "COMPRESSED_DATA"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_combined_flags::86",
+  "argv": [
+   "-b",
+   "-c",
+   "-N",
+   "-d",
+   "line",
+   "-n",
+   "0.1",
+   "echo",
+   "TEST"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_with_exec_mode::87",
+  "argv": [
+   "-b",
+   "-x",
+   "-n",
+   "0.1",
+   "echo",
+   "DIRECT"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_empty_output::88",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_command_with_error::89",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "exit 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_unicode_output::90",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "echo",
+   "Hello World"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_ansi_sequences::91",
+  "argv": [
+   "-b",
+   "-c",
+   "-n",
+   "0.1",
+   "printf",
+   "\\x1b[31mRED\\x1b[0m"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_tabs::92",
+  "argv": [
+   "-b",
+   "--tab-size",
+   "8",
+   "-n",
+   "0.1",
+   "printf",
+   "A\\tB\\tC"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_long_output::93",
+  "argv": [
+   "-b",
+   "-n",
+   "0.2",
+   "seq",
+   "1",
+   "100"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_with_custom_shell::94",
+  "argv": [
+   "-b",
+   "-s",
+   "sh -c",
+   "-n",
+   "0.1",
+   "echo SHELL"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_multiline_command::95",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "printf",
+   "line1\\nline2\\nline3\\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_rapid_changes::96",
+  "argv": [
+   "-b",
+   "-n",
+   "0.05",
+   "date",
+   "+%s%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_with_limit::97",
+  "argv": [
+   "-b",
+   "-L",
+   "10",
+   "-n",
+   "0.1",
+   "echo",
+   "LIMITED"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_args::98",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "printf",
+   "%s\\n",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_env_variable::99",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "date +%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_generates_error::100",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "ls /nonexistent 2>&1; date +%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_very_fast::101",
+  "argv": [
+   "-b",
+   "-n",
+   "0.05",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_redirection::102",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "date +%N > /dev/null; echo done"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_pipe_chain::103",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "date +%N | cat | cat"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_background::104",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "echo test; date +%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_produces_numbers::105",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "date +%s%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_produces_json::106",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "echo '{\"ts\":\"'$(date +%N)'\"}'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_subshell::107",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "echo $(date +%N)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_variables::108",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "X=$(date +%N); echo $X"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_for_loop::109",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "for i in $(date +%N); do echo $i; done"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_if_statement::110",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "if [ 1 -eq 1 ]; then date +%N; fi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_case_statement::111",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "X=$(date +%N); case $X in *) echo $X;; esac"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_arithmetic::112",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "echo $(($(date +%N) % 1000))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_string_manipulation::113",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "X=$(date +%N); echo ${X:0:5}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_multiline_script::114",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "echo line1\necho line2\ndate +%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_semicolons::115",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "echo a; echo b; date +%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_and_operator::116",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "true && date +%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_or_operator::117",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "false || date +%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_flags_combined::118",
+  "argv": [
+   "-b",
+   "-c",
+   "-N",
+   "-d",
+   "line",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_color_diff_combo::119",
+  "argv": [
+   "-b",
+   "-c",
+   "-d",
+   "word",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_border_with_scrollbar::120",
+  "argv": [
+   "-b",
+   "--border",
+   "--with-scrollbar",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_output_only_with_line_diff::121",
+  "argv": [
+   "-b",
+   "-O",
+   "-d",
+   "line",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_output_only_with_word_diff::122",
+  "argv": [
+   "-b",
+   "-O",
+   "-d",
+   "word",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiline_output::123",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "echo line1; echo line2; date +%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tab_separated_values::124",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "printf 'a\tb\tc'; date +%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_output::125",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "echo '{\"time\": \"'\"$(date +%N)\"'\"}' "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_pipes::126",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "date +%N | cat"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_expansion::127",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "echo $((2+2)); date +%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_with_large_changing_output::128",
+  "argv": [
+   "-b",
+   "-C",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "date +%s%N; seq 1 100"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_with_each_output_mode::129",
+  "argv": [
+   "-b",
+   "-C",
+   "-o",
+   "output",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_with_all_diff_modes::130",
+  "argv": [
+   "-b",
+   "-C",
+   "-d",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_with_diff_output_only::131",
+  "argv": [
+   "-b",
+   "-C",
+   "-O",
+   "-d",
+   "line",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_with_color::132",
+  "argv": [
+   "-b",
+   "-C",
+   "-c",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_with_line_numbers::133",
+  "argv": [
+   "-b",
+   "-C",
+   "-N",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_with_reverse::134",
+  "argv": [
+   "-b",
+   "-C",
+   "-r",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_with_beep::135",
+  "argv": [
+   "-b",
+   "-C",
+   "-B",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_with_precise::136",
+  "argv": [
+   "-b",
+   "-C",
+   "--precise",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_exec_mode::137",
+  "argv": [
+   "-b",
+   "-C",
+   "-x",
+   "-n",
+   "0.1",
+   "/bin/date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_custom_shell::138",
+  "argv": [
+   "-b",
+   "-C",
+   "-s",
+   "/bin/sh -c",
+   "-n",
+   "0.1",
+   "date +%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_mode_none_explicit::139",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "-d",
+   "none",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_keymaps_defined::140",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "-K",
+   "ctrl-p=history_pane_up",
+   "-K",
+   "ctrl-n=history_pane_down",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_with_complex_command::141",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "-s",
+   "bash -c",
+   "echo test | cat"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_mode_with_complex_args::142",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "-x",
+   "echo",
+   "hello",
+   "world",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_with_small_output::143",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "-C",
+   "echo",
+   "x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_with_medium_output::144",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "-C",
+   "seq",
+   "100"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_limit_with_batch_mode::145",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "-L",
+   "10",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_precise_interval_with_fast_command::146",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "--precise",
+   "echo",
+   "fast"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_mode_combined_with_color::147",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "-o",
+   "stdout",
+   "-c",
+   "sh",
+   "-c",
+   "echo -e '\\033[31mred\\033[0m'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_mode_with_all_visual_flags::148",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "--border",
+   "--with-scrollbar",
+   "--mouse",
+   "-N",
+   "-r",
+   "echo",
+   "visual"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_title_with_batch::149",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "-t",
+   "echo",
+   "notitle"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_help_banner_with_batch::150",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "--no-help-banner",
+   "echo",
+   "nobanner"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_beep_with_no_changes::151",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "-B",
+   "echo",
+   "constant"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_output_only_with_line_diff::152",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "-O",
+   "-d",
+   "line",
+   "date"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_output_only_with_word_diff::153",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "-O",
+   "-d",
+   "word",
+   "date"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_summary_char_with_diff::154",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "--enable-summary-char",
+   "-d",
+   "line",
+   "date"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_summary_flag::155",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "--no-summary",
+   "echo",
+   "nosummary"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reverse_with_multiline::156",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "-r",
+   "sh",
+   "-c",
+   "echo line1; echo line2; echo line3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_with_non_ansi_output::157",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "-c",
+   "echo",
+   "plain text"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_after_command_no_change::158",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "-A",
+   "echo",
+   "same"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_quotes_in_args::159",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "echo",
+   "hello 'world'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_special_chars::160",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "echo",
+   "test$var"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_multiple_iterations_timestamp::161",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "date",
+   "+%s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_limit_zero_unlimited::162",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "-L",
+   "0",
+   "echo",
+   "unlimited"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_default_with_complex_syntax::163",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "echo test && echo success"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_with_null_bytes::164",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "printf 'a\\x00b\\x00c'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_with_control_chars::165",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "printf 'line1\\rline2\\n'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_produces_large_stderr::166",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "-o",
+   "stderr",
+   "sh",
+   "-c",
+   "for i in $(seq 100); do echo error$i >&2; done"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_environment_variables::167",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "echo $USER"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keymap_with_simple_format::168",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "-K",
+   "a=quit",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_mode_watch_with_changing_output::169",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "-d",
+   "watch",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_with_command_substitution::170",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "echo $(date +%s)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_with_no_summary::171",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "-C",
+   "--no-summary",
+   "seq",
+   "50"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_output_modes_cycle::172",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "-o",
+   "sh",
+   "-c",
+   "echo out; echo err >&2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_with_nonexistent_binary::173",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "-x",
+   "nonexistent_command_xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_with_multiline_command::174",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "echo line1\necho line2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_with_border_and_scrollbar::175",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "--border",
+   "--with-scrollbar",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interval_with_millisecond_precision::176",
+  "argv": [
+   "-b",
+   "-n",
+   "0.05",
+   "echo",
+   "precise"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_long_arguments::177",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_line_with_color::178",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "-d",
+   "line",
+   "-c",
+   "date"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_word_with_color::179",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "-d",
+   "word",
+   "-c",
+   "date"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_with_shell_operators::180",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "-x",
+   "echo",
+   "test",
+   "|",
+   "cat"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_with_precise_and_compress::181",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "--precise",
+   "-C",
+   "seq",
+   "20"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_stderr_with_no_stderr::182",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "-o",
+   "stderr",
+   "echo",
+   "only_stdout"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_stdout_with_no_stdout::183",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "-o",
+   "stdout",
+   "sh",
+   "-c",
+   "echo err >&2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_beep_with_changing_output::184",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "-B",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tab_size_minimum::185",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "--tab-size",
+   "1",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_limit_very_large::186",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "-L",
+   "999999",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_produces_only_whitespace::187",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "echo '   '"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_after_command_with_changing_output::188",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "-A",
+   "date",
+   "+%s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_mode_none::189",
+  "argv": [
+   "-b",
+   "-d",
+   "none",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_flag_without_value::190",
+  "argv": [
+   "-b",
+   "-d",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_summary_char_flag::191",
+  "argv": [
+   "-b",
+   "--enable-summary-char",
+   "-d",
+   "line",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_summary_flag::192",
+  "argv": [
+   "-b",
+   "--no-summary",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_mode_with_color::193",
+  "argv": [
+   "-b",
+   "-d",
+   "line",
+   "-c",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_diff_mode::194",
+  "argv": [
+   "-b",
+   "-d",
+   "invalid",
+   "-n",
+   "0.1",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_large_output::195",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "seq 1 1000; date +%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_character_output::196",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "echo x; date +%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_whitespace_only_output::197",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "echo '   '; date +%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_newline_variations::198",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "printf 'a\\n\\nb\\n'; date +%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_carriage_return::199",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "printf 'test\\r'; date +%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bell_character::200",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "printf 'test\\a'; date +%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_escape_sequences::201",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "printf '\\033[1mtest\\033[0m'; date +%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_bytes::202",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "printf 'a\\x00b'; date +%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_utf8_multibyte::203",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "echo '你好世界'; date +%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_emoji_output::204",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "echo '🎉'; date +%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_encodings::205",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "echo 'test123αβγ你好'; date +%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_many_short_lines::206",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "seq 1 50; date +%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_like_output::207",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "printf '\\x01\\x02\\x03\\x04'; date +%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_stdout_stderr::208",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "echo out; echo err >&2; date +%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rapid_successive_changes::209",
+  "argv": [
+   "-b",
+   "-n",
+   "0.05",
+   "date",
+   "+%N%n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slow_command::210",
+  "argv": [
+   "-b",
+   "-n",
+   "0.2",
+   "sh",
+   "-c",
+   "sleep 0.05; date +%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_length_fields::211",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "echo '::'; date +%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_environment_passed::212",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "echo HOME=$HOME | head -c 20"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_env_vars::213",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "echo PATH | head -c 10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_working_directory::214",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "ls testfile.txt 2>&1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::215",
+  "argv": [
+   "--invalid-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_option_value::216",
+  "argv": [
+   "-n",
+   "notanumber",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_command::217",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_interval_negative::218",
+  "argv": [
+   "-b",
+   "-n",
+   "-1",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_limit_negative::219",
+  "argv": [
+   "-b",
+   "-L",
+   "-1",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_diff_mode_value::220",
+  "argv": [
+   "-b",
+   "-d",
+   "invalid",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_output_mode_value::221",
+  "argv": [
+   "-b",
+   "-o",
+   "invalid",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_tab_size::222",
+  "argv": [
+   "-b",
+   "--tab-size",
+   "invalid",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_command::223",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "nonexistent_command_xyz_123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_only_stderr::224",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "echo error >&2; date +%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_logfile_readonly_location::225",
+  "argv": [
+   "-b",
+   "-l",
+   "/dev/null/impossible.log",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_with_shell_mode::226",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "-s",
+   "bash -c",
+   "echo 'BASH'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_with_error_status::227",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "exit 42"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_with_mixed_output::228",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "echo OUT; echo ERR >&2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_multiline_output::229",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "printf",
+   "A\\nB\\nC\\nD\\nE"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_with_tab_characters::230",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "--tab-size",
+   "8",
+   "printf",
+   "A\\tB\\tC"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_with_unicode::231",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "echo",
+   "Hello★World"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_precise_timing::232",
+  "argv": [
+   "-b",
+   "--precise",
+   "-n",
+   "0.1",
+   "date"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_with_limit::233",
+  "argv": [
+   "-b",
+   "-L",
+   "3",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_with_compress_flag::234",
+  "argv": [
+   "-b",
+   "-C",
+   "-n",
+   "0.1",
+   "echo",
+   "COMPRESSED"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_changing_output::235",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "date",
+   "+%s%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_with_custom_shell::236",
+  "argv": [
+   "-b",
+   "-s",
+   "sh -c",
+   "-n",
+   "0.1",
+   "echo CUSTOM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_batch_with_line_numbers::237",
+  "argv": [
+   "-b",
+   "-N",
+   "-n",
+   "0.1",
+   "printf",
+   "Line1\\nLine2\\nLine3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_batch_with_reverse::238",
+  "argv": [
+   "-b",
+   "-r",
+   "-n",
+   "0.1",
+   "printf",
+   "A\\nB\\nC"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_batch_with_diff_watch::239",
+  "argv": [
+   "-b",
+   "-d",
+   "watch",
+   "-n",
+   "0.1",
+   "date",
+   "+%s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interval_default::240",
+  "argv": [
+   "-b",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interval_fractional::241",
+  "argv": [
+   "-b",
+   "-n",
+   "0.5",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_default::242",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "echo $((1+1))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_custom::243",
+  "argv": [
+   "-b",
+   "-s",
+   "sh -c",
+   "-n",
+   "0.1",
+   "echo test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_with_command_placeholder::244",
+  "argv": [
+   "-b",
+   "-s",
+   "sh -c '{COMMAND}'",
+   "-n",
+   "0.1",
+   "echo placeholder"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_flag::245",
+  "argv": [
+   "-b",
+   "-x",
+   "-n",
+   "0.1",
+   "echo",
+   "direct"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_with_args::246",
+  "argv": [
+   "-b",
+   "-x",
+   "-n",
+   "0.1",
+   "echo",
+   "arg1",
+   "arg2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_long_running_command::247",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "sleep 0.05; date +%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_interval::248",
+  "argv": [
+   "-b",
+   "-n",
+   "invalid",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_limit_custom::249",
+  "argv": [
+   "-b",
+   "-L",
+   "10",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_limit_zero::250",
+  "argv": [
+   "-b",
+   "-L",
+   "0",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_logfile_creation::251",
+  "argv": [
+   "-b",
+   "-l",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_limit_value::252",
+  "argv": [
+   "-b",
+   "-L",
+   "invalid",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_logfile_basic_creation::253",
+  "argv": [
+   "-b",
+   "-l",
+   "-n",
+   "0.1",
+   "echo",
+   "DATA"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_logfile_append_mode::254",
+  "argv": [
+   "-b",
+   "-l",
+   "-n",
+   "0.1",
+   "echo",
+   "RUN1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_logfile_with_compress::255",
+  "argv": [
+   "-b",
+   "-l",
+   "-C",
+   "-n",
+   "0.1",
+   "echo",
+   "COMPRESSED"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_logfile_with_multiple_executions::256",
+  "argv": [
+   "-b",
+   "-l",
+   "-n",
+   "0.1",
+   "date",
+   "+%s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_logfile_load_existing::257",
+  "argv": [
+   "-b",
+   "-l",
+   "-n",
+   "0.1",
+   "echo",
+   "INITIAL"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_logfile_empty_file_handling::258",
+  "argv": [
+   "-b",
+   "-l",
+   "-n",
+   "0.1",
+   "echo",
+   "AFTER_EMPTY"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_logfile_nonexistent_directory::259",
+  "argv": [
+   "-b",
+   "-l",
+   "/nonexistent/dir/file.log",
+   "-n",
+   "0.1",
+   "echo",
+   "TEST"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_logfile_with_all_flags::260",
+  "argv": [
+   "-b",
+   "-l",
+   "-c",
+   "-N",
+   "-d",
+   "line",
+   "-n",
+   "0.1",
+   "echo",
+   "FULL_TEST"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_logfile_with_output_modes::261",
+  "argv": [
+   "-b",
+   "-l",
+   "-o",
+   "stdout",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "echo OUT; echo ERR >&2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_logfile_unicode_content::262",
+  "argv": [
+   "-b",
+   "-l",
+   "-n",
+   "0.1",
+   "echo",
+   "Hello World"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_logfile_binary_output::263",
+  "argv": [
+   "-b",
+   "-l",
+   "-n",
+   "0.1",
+   "printf",
+   "\\x00\\x01\\x02"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_logfile_with_compress::264",
+  "argv": [
+   "-b",
+   "-C",
+   "-l",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_logfile::265",
+  "argv": [
+   "-b",
+   "-l",
+   "date",
+   "+%N"
+  ],
+  "stdin": "y\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_mode_stdout_only::266",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "-o",
+   "stdout",
+   "sh",
+   "-c",
+   "date +%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_mode_stderr_only::267",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "-o",
+   "stderr",
+   "sh",
+   "-c",
+   "date +%N >&2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_mode_with_color::268",
+  "argv": [
+   "-b",
+   "-c",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_mode_output_changing::269",
+  "argv": [
+   "-b",
+   "-o",
+   "output",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_mode_stdout_changing::270",
+  "argv": [
+   "-b",
+   "-o",
+   "stdout",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "date +%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_mode_stderr_changing::271",
+  "argv": [
+   "-b",
+   "-o",
+   "stderr",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "date +%N >&2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_mode_with_mixed_streams::272",
+  "argv": [
+   "-b",
+   "-o",
+   "output",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "echo out; echo err >&2; date +%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_mode_with_diff_modes::273",
+  "argv": [
+   "-b",
+   "-o",
+   "-d",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "date +%N >&2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_mode_with_color::274",
+  "argv": [
+   "-b",
+   "-c",
+   "-o",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "date +%N >&2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_mode_with_line_numbers::275",
+  "argv": [
+   "-b",
+   "-N",
+   "-o",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "echo line1 >&2; echo line2 >&2; date +%N >&2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_help_screen::276",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_help",
+   "h",
+   "Enter"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_toggle_operations::277",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_toggle",
+   "c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_navigation::278",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_nav",
+   "Down"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_with_border_and_scrollbar::279",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_border",
+   "Down"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_pause_and_resume::280",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_pause",
+   "P"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_interval_adjustment::281",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_interval",
+   "+"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tui_reset::282",
+  "argv": [
+   "tmux",
+   "send-keys",
+   "-t",
+   "test_reset",
+   "Escape"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_long_flag::283",
+  "argv": [
+   "-b",
+   "--color",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_border_flag::284",
+  "argv": [
+   "-b",
+   "--border",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mouse_flag::285",
+  "argv": [
+   "-b",
+   "--mouse",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reverse_flag::286",
+  "argv": [
+   "-b",
+   "-r",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_title_flag::287",
+  "argv": [
+   "-b",
+   "-t",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_number_flag::288",
+  "argv": [
+   "-b",
+   "-N",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "echo line1; echo line2; date +%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_help_banner_flag::289",
+  "argv": [
+   "-b",
+   "--no-help-banner",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tab_size_default::290",
+  "argv": [
+   "-b",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "printf 'a\tb'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tab_size_custom::291",
+  "argv": [
+   "-b",
+   "--tab-size",
+   "8",
+   "-n",
+   "0.1",
+   "sh",
+   "-c",
+   "printf 'a\tb'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_visual_flags::292",
+  "argv": [
+   "-b",
+   "-c",
+   "-N",
+   "-r",
+   "--border",
+   "-n",
+   "0.1",
+   "date",
+   "+%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_commands_concatenated::293",
+  "argv": [
+   "-b",
+   "-n",
+   "0.5",
+   "sh",
+   "-c",
+   "echo first && echo second"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_environment_vars::294",
+  "argv": [
+   "-b",
+   "-n",
+   "0.5",
+   "sh",
+   "-c",
+   "echo VAR=$HOME"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_with_all_display_flags::295",
+  "argv": [
+   "-b",
+   "-c",
+   "-r",
+   "-N",
+   "-t",
+   "--no-help-banner",
+   "-n",
+   "0.5",
+   "echo",
+   "full_flags"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_with_all_modes::296",
+  "argv": [
+   "-b",
+   "-C",
+   "-d",
+   "watch",
+   "-n",
+   "0.5",
+   "echo",
+   "modes_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_limit_boundary_values::297",
+  "argv": [
+   "-b",
+   "-L",
+   "1",
+   "-n",
+   "0.5",
+   "echo",
+   "limit1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interval_boundary_values::298",
+  "argv": [
+   "-b",
+   "-n",
+   "0.001",
+   "echo",
+   "tiny"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tab_size_boundary::299",
+  "argv": [
+   "-b",
+   "--tab-size",
+   "1",
+   "-n",
+   "0.5",
+   "echo",
+   "tab1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_with_long_lines::300",
+  "argv": [
+   "-b",
+   "-n",
+   "0.5",
+   "echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_with_many_lines::301",
+  "argv": [
+   "-b",
+   "-n",
+   "0.5",
+   "seq",
+   "1",
+   "50"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aftercommand_with_changes::302",
+  "argv": [
+   "-b",
+   "-A",
+   "-n",
+   "0.5",
+   "sh",
+   "-c",
+   "date +%s%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_beep_on_change_detection::303",
+  "argv": [
+   "-b",
+   "-B",
+   "-n",
+   "0.5",
+   "sh",
+   "-c",
+   "date +%s%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_with_repeated_output::304",
+  "argv": [
+   "-b",
+   "-C",
+   "-n",
+   "0.3",
+   "seq",
+   "1",
+   "20"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_summary_mode::305",
+  "argv": [
+   "-b",
+   "--no-summary",
+   "-n",
+   "0.5",
+   "echo",
+   "no_sum"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_summary_char_mode::306",
+  "argv": [
+   "-b",
+   "--enable-summary-char",
+   "-d",
+   "watch",
+   "-n",
+   "0.5",
+   "sh",
+   "-c",
+   "date +%s%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_border_and_scrollbar_combined::307",
+  "argv": [
+   "-b",
+   "--border",
+   "--with-scrollbar",
+   "-n",
+   "0.5",
+   "seq",
+   "1",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mouse_support_flag::308",
+  "argv": [
+   "-b",
+   "--mouse",
+   "-n",
+   "0.5",
+   "echo",
+   "mouse_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_with_ansi_output::309",
+  "argv": [
+   "-b",
+   "-c",
+   "-n",
+   "0.5",
+   "echo",
+   "RED"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reverse_mode_output::310",
+  "argv": [
+   "-b",
+   "-r",
+   "-n",
+   "0.5",
+   "echo",
+   "reversed"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_number_mode_output::311",
+  "argv": [
+   "-b",
+   "-N",
+   "-n",
+   "0.5",
+   "seq",
+   "1",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_precise_timing_mode::312",
+  "argv": [
+   "-b",
+   "--precise",
+   "-n",
+   "0.5",
+   "echo",
+   "precise_timing"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_mode_direct_execution::313",
+  "argv": [
+   "-b",
+   "-x",
+   "-n",
+   "0.5",
+   "echo",
+   "direct_exec"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shell_custom_command::314",
+  "argv": [
+   "-b",
+   "-s",
+   "/bin/sh -c",
+   "-n",
+   "0.5",
+   "echo shell_custom"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_logfile_with_changing_data::315",
+  "argv": [
+   "-b",
+   "-l",
+   "-n",
+   "0.5",
+   "sh",
+   "-c",
+   "date +%s%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_mode_stderr_capture::316",
+  "argv": [
+   "-b",
+   "-o",
+   "stderr",
+   "-n",
+   "0.5",
+   "sh",
+   "-c",
+   "echo error_msg >&2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_mode_stdout_capture::317",
+  "argv": [
+   "-b",
+   "-o",
+   "stdout",
+   "-n",
+   "0.5",
+   "echo",
+   "stdout_msg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_output_only_mode::318",
+  "argv": [
+   "-b",
+   "-d",
+   "line",
+   "-O",
+   "-n",
+   "0.5",
+   "sh",
+   "-c",
+   "date +%s%N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aftercommand_flag::319",
+  "argv": [
+   "-b",
+   "-A",
+   "-n",
+   "0.5",
+   "date",
+   "+%s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aftercommand_with_static_output::320",
+  "argv": [
+   "-b",
+   "-A",
+   "-n",
+   "0.5",
+   "echo",
+   "static"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aftercommand_env_variable::321",
+  "argv": [
+   "-b",
+   "-A",
+   "echo $HWATCH_DATA",
+   "-n",
+   "0.5",
+   "date",
+   "+%s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aftercommand_multiple::322",
+  "argv": [
+   "-b",
+   "-A",
+   "echo first",
+   "-A",
+   "echo second",
+   "-n",
+   "0.5",
+   "date",
+   "+%s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aftercommand_with_diff::323",
+  "argv": [
+   "-b",
+   "-d",
+   "watch",
+   "-A",
+   "echo changed",
+   "-n",
+   "0.5",
+   "date",
+   "+%s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::324",
+  "argv": [
+   "-b",
+   "-n",
+   "0.5",
+   "invalid_command_that_doesnt_exist_xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_simple_command::325",
+  "argv": [
+   "-b",
+   "-n",
+   "0.5",
+   "echo",
+   "hello world"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_multiple_runs::326",
+  "argv": [
+   "-b",
+   "-n",
+   "0.3",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_with_date_command::327",
+  "argv": [
+   "-b",
+   "-n",
+   "0.5",
+   "date",
+   "+%Y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_command_with_args::328",
+  "argv": [
+   "-b",
+   "-n",
+   "0.5",
+   "echo",
+   "arg1",
+   "arg2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_no_command::329",
+  "argv": [
+   "-b"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_with_exit_code::330",
+  "argv": [
+   "-b",
+   "-n",
+   "0.5",
+   "sh",
+   "-c",
+   "exit 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_interval_respected::331",
+  "argv": [
+   "-b",
+   "-n",
+   "1",
+   "echo",
+   "interval_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_with_shell_command::332",
+  "argv": [
+   "-b",
+   "-n",
+   "0.5",
+   "sh",
+   "-c",
+   "echo testline"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_timestamp_format::333",
+  "argv": [
+   "-b",
+   "-n",
+   "0.5",
+   "echo",
+   "timestamp_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_with_color_flag::334",
+  "argv": [
+   "-b",
+   "-c",
+   "-n",
+   "0.5",
+   "echo",
+   "color_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_output_stdout::335",
+  "argv": [
+   "-b",
+   "-n",
+   "0.5",
+   "echo",
+   "stdout-test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_beep_flag::336",
+  "argv": [
+   "-b",
+   "-B",
+   "-n",
+   "0.5",
+   "echo",
+   "beep_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_beep_with_diff::337",
+  "argv": [
+   "-b",
+   "-B",
+   "-d",
+   "watch",
+   "-n",
+   "0.5",
+   "echo",
+   "beep_diff"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_beep_with_changing_output::338",
+  "argv": [
+   "-b",
+   "-B",
+   "-n",
+   "0.5",
+   "date",
+   "+%s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_beep_short_flag::339",
+  "argv": [
+   "-b",
+   "-B",
+   "-n",
+   "0.5",
+   "echo",
+   "beep_short"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_date_command_changes::340",
+  "argv": [
+   "-b",
+   "-n",
+   "0.5",
+   "date",
+   "+%s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_with_multiline_output::341",
+  "argv": [
+   "-b",
+   "-n",
+   "0.5",
+   "seq",
+   "1",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_flags_combined::342",
+  "argv": [
+   "-b",
+   "-c",
+   "-r",
+   "-N",
+   "-C",
+   "-n",
+   "0.5",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_pipes::343",
+  "argv": [
+   "-b",
+   "-n",
+   "0.5",
+   "sh",
+   "-c",
+   "echo piptest | cat"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_redirection::344",
+  "argv": [
+   "-b",
+   "-n",
+   "0.5",
+   "sh",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_output_diff::345",
+  "argv": [
+   "-b",
+   "-d",
+   "watch",
+   "-n",
+   "0.5",
+   "true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_fast_interval::346",
+  "argv": [
+   "-b",
+   "-n",
+   "0.05",
+   "echo",
+   "fast"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_precise_with_fast_command::347",
+  "argv": [
+   "-b",
+   "--precise",
+   "-n",
+   "0.5",
+   "echo",
+   "precise"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_mode_with_command_that_uses_both::348",
+  "argv": [
+   "-b",
+   "-o",
+   "stdout",
+   "-n",
+   "0.5",
+   "sh",
+   "-c",
+   "echo outstd"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_with_ansi_codes::349",
+  "argv": [
+   "-b",
+   "-c",
+   "-n",
+   "0.5",
+   "echo",
+   "colortest"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reverse_with_multiline::350",
+  "argv": [
+   "-b",
+   "-r",
+   "-n",
+   "0.5",
+   "seq",
+   "1",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_numbers_with_multiline::351",
+  "argv": [
+   "-b",
+   "-N",
+   "-n",
+   "0.5",
+   "seq",
+   "1",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_with_large_output::352",
+  "argv": [
+   "-b",
+   "-C",
+   "-n",
+   "0.5",
+   "seq",
+   "1",
+   "100"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tab_size_with_tabs::353",
+  "argv": [
+   "-b",
+   "--tab-size",
+   "8",
+   "-n",
+   "0.5",
+   "echo",
+   "a\tb"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_mode_with_shell_metacharacters::354",
+  "argv": [
+   "-b",
+   "-x",
+   "-n",
+   "0.5",
+   "echo",
+   "testpipe"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_line_with_changing_lines::355",
+  "argv": [
+   "-b",
+   "-d",
+   "line",
+   "-n",
+   "0.5",
+   "date",
+   "+%s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_word_with_changing_words::356",
+  "argv": [
+   "-b",
+   "-d",
+   "word",
+   "-n",
+   "0.5",
+   "date",
+   "+%s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_diff_none::357",
+  "argv": [
+   "-b",
+   "-d",
+   "none",
+   "-n",
+   "0.5",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_diff_watch::358",
+  "argv": [
+   "-b",
+   "-d",
+   "watch",
+   "-n",
+   "0.5",
+   "echo",
+   "watchtest"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_diff_line::359",
+  "argv": [
+   "-b",
+   "-d",
+   "line",
+   "-n",
+   "0.5",
+   "echo",
+   "linetest"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_diff_word::360",
+  "argv": [
+   "-b",
+   "-d",
+   "word",
+   "-n",
+   "0.5",
+   "echo",
+   "wordtest"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_diff_default_value::361",
+  "argv": [
+   "-b",
+   "-d",
+   "-n",
+   "0.5",
+   "echo",
+   "defaulttest"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_mode_invalid::362",
+  "argv": [
+   "-b",
+   "-d",
+   "invalid",
+   "-n",
+   "0.5",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_diff_with_changing_output::363",
+  "argv": [
+   "-b",
+   "-d",
+   "watch",
+   "-n",
+   "0.3",
+   "date",
+   "+%s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_output_only_flag::364",
+  "argv": [
+   "-b",
+   "-d",
+   "line",
+   "-O",
+   "-n",
+   "0.5",
+   "echo",
+   "diffonly"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_output_only_requires_differences::365",
+  "argv": [
+   "-b",
+   "-O",
+   "-n",
+   "0.5",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_with_color::366",
+  "argv": [
+   "-b",
+   "-c",
+   "-d",
+   "watch",
+   "-n",
+   "0.5",
+   "echo",
+   "colorddiff"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_multiple_lines::367",
+  "argv": [
+   "-b",
+   "-d",
+   "line",
+   "-n",
+   "0.5",
+   "seq",
+   "1",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_flag::368",
+  "argv": [
+   "-b",
+   "-c",
+   "-n",
+   "0.5",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reverse_flag::369",
+  "argv": [
+   "-b",
+   "-r",
+   "-n",
+   "0.5",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_number_flag::370",
+  "argv": [
+   "-b",
+   "-N",
+   "-n",
+   "0.5",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_title_flag::371",
+  "argv": [
+   "-b",
+   "-t",
+   "-n",
+   "0.5",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_border_flag::372",
+  "argv": [
+   "-b",
+   "--border",
+   "-n",
+   "0.5",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_with_scrollbar_flag::373",
+  "argv": [
+   "-b",
+   "--border",
+   "--with-scrollbar",
+   "-n",
+   "0.5",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mouse_flag::374",
+  "argv": [
+   "-b",
+   "--mouse",
+   "-n",
+   "0.5",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tab_size_default::375",
+  "argv": [
+   "-b",
+   "-n",
+   "0.5",
+   "printf",
+   "test\\ttab"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tab_size_custom::376",
+  "argv": [
+   "-b",
+   "--tab-size",
+   "8",
+   "-n",
+   "0.5",
+   "printf",
+   "a\\tb"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tab_size_invalid::377",
+  "argv": [
+   "-b",
+   "--tab-size",
+   "not_a_number",
+   "-n",
+   "0.5",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_help_banner_flag::378",
+  "argv": [
+   "-b",
+   "--no-help-banner",
+   "-n",
+   "0.5",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_flag::379",
+  "argv": [
+   "-b",
+   "-C",
+   "-n",
+   "0.5",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_summary_flag::380",
+  "argv": [
+   "-b",
+   "--no-summary",
+   "-n",
+   "0.5",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_summary_char_flag::381",
+  "argv": [
+   "-b",
+   "--enable-summary-char",
+   "-n",
+   "0.5",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_display_flags::382",
+  "argv": [
+   "-b",
+   "-c",
+   "-N",
+   "-r",
+   "-n",
+   "0.5",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hwatch_env_basic::383",
+  "argv": [
+   "-b",
+   "-n",
+   "0.5",
+   "echo",
+   "env_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hwatch_env_interval::384",
+  "argv": [
+   "-b",
+   "echo",
+   "env_interval"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hwatch_env_diff_mode::385",
+  "argv": [
+   "-b",
+   "-n",
+   "0.5",
+   "echo",
+   "env_diff"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hwatch_env_multiple_flags::386",
+  "argv": [
+   "-b",
+   "-n",
+   "0.5",
+   "echo",
+   "env_multi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hwatch_env_override::387",
+  "argv": [
+   "-b",
+   "-n",
+   "0.5",
+   "echo",
+   "env_override"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hwatch_env_empty::388",
+  "argv": [
+   "-b",
+   "-n",
+   "0.5",
+   "echo",
+   "env_empty"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hwatch_env_border_scrollbar::389",
+  "argv": [
+   "-b",
+   "-n",
+   "0.5",
+   "echo",
+   "env_border"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_not_found::390",
+  "argv": [
+   "-b",
+   "-n",
+   "0.5",
+   "nonexistent_command_xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_combination::391",
+  "argv": [
+   "-O",
+   "-n",
+   "0.5",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_command::392",
+  "argv": [
+   "-b",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_with_stderr::393",
+  "argv": [
+   "-b",
+   "-n",
+   "0.5",
+   "sh",
+   "-c",
+   "echo error >&2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_shell::394",
+  "argv": [
+   "-b",
+   "-s",
+   "/nonexistent/shell",
+   "-n",
+   "0.5",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_timeout::395",
+  "argv": [
+   "-b",
+   "-n",
+   "0.5",
+   "sleep",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_required_arg::396",
+  "argv": [
+   "-b",
+   "-n",
+   "0.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_malformed_json_logfile::397",
+  "argv": [
+   "-b",
+   "-l",
+   "malformed.log",
+   "-n",
+   "0.5",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {
+   "malformed.log": "not valid json {{{"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_command::398",
+  "argv": [
+   "-b",
+   "-n",
+   "0.5",
+   "echo",
+   "test!@#$%"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_command::399",
+  "argv": [
+   "-b",
+   "-n",
+   "0.5",
+   "echo",
+   "テスト"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

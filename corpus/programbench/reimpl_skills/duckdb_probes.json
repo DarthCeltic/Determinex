@@ -1,0 +1,4191 @@
+[
+ {
+  "name": "test::test_csv_output::0",
+  "argv": [
+   "--csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_output_mixed_types_with_nulls::1",
+  "argv": [
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_jsonlines_multiple_rows::2",
+  "argv": [
+   "--jsonlines"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_with_header_unicode_null::3",
+  "argv": [
+   "--csv",
+   "--header"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_noheader_flag::4",
+  "argv": [
+   "--csv",
+   "--noheader"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_output_escaping::5",
+  "argv": [
+   "--html"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_nullvalue_in_csv::6",
+  "argv": [
+   "--csv",
+   "--nullvalue",
+   "(null)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_format_custom_separator::7",
+  "argv": [
+   "--list",
+   "--separator",
+   "::"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_table_format::8",
+  "argv": [
+   "--markdown"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_box_format_unicode_drawing::9",
+  "argv": [
+   "--box"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_format_ascii_borders::10",
+  "argv": [
+   "--table"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_format_key_value_pairs::11",
+  "argv": [
+   "--line"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_column_format_aligned_output::12",
+  "argv": [
+   "--column"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quote_format_string_quoting::13",
+  "argv": [
+   "--quote"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ascii_format_simple_output::14",
+  "argv": [
+   "--ascii"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_execution_json_output::15",
+  "argv": [
+   "--json"
+  ],
+  "stdin": "SELECT 'from stdin' as source, 123 as value;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_echo_flag_prints_commands::16",
+  "argv": [
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cmd_flag_runs_before_stdin::17",
+  "argv": [
+   "--json",
+   "--cmd",
+   "CREATE TABLE test(id INT); INSERT INTO test VALUES (1), (2);"
+  ],
+  "stdin": "SELECT * FROM test;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_c_flags_execute_in_order::18",
+  "argv": [
+   "--json",
+   "-c",
+   "SELECT 1 as first;",
+   "-c",
+   "SELECT 2 as second;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_safe_mode_blocks_file_system_operations::19",
+  "argv": [
+   "--safe"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_newline_separator_in_list_mode::20",
+  "argv": [
+   "--list",
+   "--newline",
+   "|||"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_header_flag_adds_column_names::21",
+  "argv": [
+   "--list",
+   "--header"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_noheader_suppresses_column_names_in_list::22",
+  "argv": [
+   "--list",
+   "--noheader"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tab_separator_in_list_mode::23",
+  "argv": [
+   "--list",
+   "--separator",
+   "\t"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_s_flag_shorthand_for_c::24",
+  "argv": [
+   "--json",
+   "-s",
+   "SELECT 42 as answer;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cmd_executes_before_multiple_c_commands::25",
+  "argv": [
+   "--json",
+   "--cmd",
+   "CREATE TABLE test(id INT); INSERT INTO test VALUES (1);",
+   "-c",
+   "SELECT 'row1' as text;",
+   "-c",
+   "SELECT 'row2' as text;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_null_in_different_output_modes::26",
+  "argv": [
+   "--csv",
+   "--nullvalue",
+   "N/A"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_stdin_flag_exits_after_commands::27",
+  "argv": [
+   "--no-stdin",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_format_flags_last_wins::28",
+  "argv": [
+   "--csv",
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_switch_between_multiple_c_commands::29",
+  "argv": [
+   "--csv",
+   "-c",
+   "SELECT 1 as first;",
+   "--json",
+   "-c",
+   "SELECT 2 as second;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_echo_with_multiple_statements::30",
+  "argv": [
+   "--echo",
+   "-c",
+   "SELECT 1;",
+   "-c",
+   "SELECT 2;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_column_count_mismatch_handling::31",
+  "argv": [
+   "--csv",
+   "-c",
+   "SELECT 1 as a;",
+   "-c",
+   "SELECT 2 as x, 3 as y;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_jsonlines_with_errors_continues_after_valid::32",
+  "argv": [
+   "--jsonlines",
+   "-c",
+   "SELECT 1 as first;",
+   "-c",
+   "SELECT * FROM nonexistent;",
+   "-c",
+   "SELECT 3 as third;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_h::33",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_help::34",
+  "argv": [
+   "-help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::35",
+  "argv": [
+   "-version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_stdin_exits_cleanly::36",
+  "argv": [
+   "--batch",
+   "--no-stdin"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unrecognized_option::37",
+  "argv": [
+   "-xyz_nonexistent_option"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_c_flag_executes_and_exits::38",
+  "argv": [
+   "-c",
+   "SELECT 42"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_s_flag_executes_and_exits::39",
+  "argv": [
+   "-s",
+   "SELECT 84"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_flag::40",
+  "argv": [
+   "--batch",
+   "--no-init"
+  ],
+  "stdin": "SELECT 42;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_echo_flag::41",
+  "argv": [
+   "-echo"
+  ],
+  "stdin": "SELECT 99;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cmd_flag_runs_before_stdin::42",
+  "argv": [
+   "--batch",
+   "--no-init",
+   "-cmd",
+   ".mode csv"
+  ],
+  "stdin": "SELECT 42 as x;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_f_flag_missing_file::43",
+  "argv": [
+   "--batch",
+   "--no-init",
+   "-f",
+   "/nonexistent/path/file.sql"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_header_flag::44",
+  "argv": [
+   "-csv",
+   "-header",
+   "-c",
+   "SELECT 42 as mycolumn"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_noheader_flag::45",
+  "argv": [
+   "-csv",
+   "-noheader",
+   "-c",
+   "SELECT 42 as mycolumn"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_separator_flag::46",
+  "argv": [
+   "-csv",
+   "-separator",
+   ";",
+   "-c",
+   "SELECT 1 a, 2 b, 3 c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nullvalue_flag::47",
+  "argv": [
+   "-csv",
+   "-nullvalue",
+   "NOTHING",
+   "-c",
+   "SELECT NULL as x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_storage_version_valid_latest::48",
+  "argv": [
+   "-storage-version",
+   "latest"
+  ],
+  "stdin": "SELECT 1;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_storage_version_v0_10_0::49",
+  "argv": [
+   "-storage-version",
+   "v0.10.0"
+  ],
+  "stdin": "SELECT 1;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_storage_version_invalid_reports_error::50",
+  "argv": [
+   "-storage-version",
+   "invalid_ver"
+  ],
+  "stdin": "SELECT 1;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_readonly_flag_allows_reads::51",
+  "argv": [
+   "--batch",
+   "--no-init",
+   "-c",
+   "CREATE TABLE t (i INT); INSERT INTO t VALUES (1)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_newline_flag_changes_row_separator::52",
+  "argv": [
+   "-csv",
+   "-newline",
+   ";",
+   "-c",
+   "SELECT 42 as num"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bail_flag_exits_on_error::53",
+  "argv": [
+   "-bail"
+  ],
+  "stdin": "INVALID SQL;\nSELECT 42;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_csv::54",
+  "argv": [
+   "-csv",
+   "-c",
+   "SELECT 1 a, 2 b"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_csv_no_box_drawing::55",
+  "argv": [
+   "-csv",
+   "-c",
+   "SELECT 42"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_json::56",
+  "argv": [
+   "-json",
+   "-c",
+   "SELECT 42 as num, 'hello' as str"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_json_empty_result::57",
+  "argv": [
+   "-json",
+   "-c",
+   "SELECT 42 as x WHERE 1=0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_jsonlines::58",
+  "argv": [
+   "-jsonlines",
+   "-c",
+   "SELECT 42 as num, 'world' as str"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_jsonlines_multiple_rows::59",
+  "argv": [
+   "-jsonlines",
+   "-c",
+   "SELECT x FROM range(3) t(x)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_table::60",
+  "argv": [
+   "-table",
+   "-c",
+   "SELECT 42 as num"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_markdown::61",
+  "argv": [
+   "-markdown",
+   "-c",
+   "SELECT 42 a, 'hello' str"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_html::62",
+  "argv": [
+   "-html",
+   "-c",
+   "SELECT 42 as num"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_line::63",
+  "argv": [
+   "-line",
+   "-c",
+   "SELECT 42 as num"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_list::64",
+  "argv": [
+   "-list",
+   "-c",
+   "SELECT 42 as num"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_box::65",
+  "argv": [
+   "-box",
+   "-c",
+   "SELECT 42 as num"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_column::66",
+  "argv": [
+   "-column",
+   "-c",
+   "SELECT 42 as num"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_ascii_outputs_fields::67",
+  "argv": [
+   "-ascii",
+   "-c",
+   "SELECT 42 as num"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mode_quote::68",
+  "argv": [
+   "-quote",
+   "-c",
+   "SELECT 42 as num, 'hello' as str"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_headers_off_in_csv_mode::69",
+  "argv": [
+   "-csv",
+   "--batch",
+   "--no-init"
+  ],
+  "stdin": ".headers off\nSELECT 42 as mycolumn;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_headers_on_shows_header_in_csv::70",
+  "argv": [
+   "-csv",
+   "--batch",
+   "--no-init"
+  ],
+  "stdin": ".headers on\nSELECT 42 as mycolumn;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_separator_column::71",
+  "argv": [
+   "-csv",
+   "--batch",
+   "--no-init"
+  ],
+  "stdin": ".separator ;\nSELECT 1 a, 2 b;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_width_affects_column_mode::72",
+  "argv": [
+   "--batch",
+   "--no-init",
+   "-column"
+  ],
+  "stdin": ".width 5 10\nSELECT 42 a, 'hello world' b;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_select::73",
+  "argv": [
+   "-c",
+   "SELECT 42 as num"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_multiple_columns::74",
+  "argv": [
+   "-c",
+   "SELECT 1 a, 2 b, 3 c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_string::75",
+  "argv": [
+   "-c",
+   "SELECT 'hello world' as str"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arithmetic::76",
+  "argv": [
+   "-csv",
+   "-c",
+   "SELECT 3 + 4 * 2 as result"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_display_default::77",
+  "argv": [
+   "-c",
+   "SELECT NULL as empty_val"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_boolean_values::78",
+  "argv": [
+   "-csv",
+   "-c",
+   "SELECT TRUE as t, FALSE as f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregation_sum::79",
+  "argv": [
+   "-csv",
+   "-c",
+   "SELECT SUM(i) FROM range(10) t(i)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_window_function::80",
+  "argv": [
+   "-csv",
+   "-c",
+   "SELECT row_number() OVER () as rn FROM range(3) ORDER BY rn"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subquery::81",
+  "argv": [
+   "-csv",
+   "-c",
+   "SELECT x FROM (SELECT 42 as x) sub"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_list_type::82",
+  "argv": [
+   "-c",
+   "SELECT LIST_VALUE(1, 2, 3) as lst"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_struct_type::83",
+  "argv": [
+   "-c",
+   "SELECT STRUCT_PACK(x := 10, y := 20)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cte::84",
+  "argv": [
+   "-csv",
+   "-c",
+   "WITH cte AS (SELECT 42 as x) SELECT x FROM cte"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parser_error_reported_to_stderr::85",
+  "argv": [
+   "-c",
+   "INVALID SQL STATEMENT HERE"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_catalog_error_mentions_table_name::86",
+  "argv": [
+   "-c",
+   "SELECT * FROM nonexistent_table_xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prepared_statement_error_message::87",
+  "argv": [
+   "-c",
+   "SELECT ?"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sql_as_second_positional_arg::88",
+  "argv": [
+   "--batch",
+   "--no-init",
+   "SELECT 77 as result"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_division_by_zero_returns_inf::89",
+  "argv": [
+   "-c",
+   "SELECT 1/0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_persistent_database_read_back::90",
+  "argv": [
+   "--batch",
+   "--no-init",
+   "-c",
+   "CREATE TABLE t (i INT); INSERT INTO t VALUES (42)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_in_memory_database::91",
+  "argv": [
+   "--batch",
+   "--no-init",
+   ":memory:",
+   "-c",
+   "SELECT 1 as x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_file_sets_mode::92",
+  "argv": [
+   "--batch",
+   "-init",
+   "init.sql"
+  ],
+  "stdin": "SELECT 42 as num;\n",
+  "files": {
+   "init.sql": ".mode csv\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_missing_file_reports_error::93",
+  "argv": [
+   "--batch",
+   "-init",
+   "/nonexistent/path/init.sql"
+  ],
+  "stdin": "SELECT 42;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_f_flag_processes_sql_file::94",
+  "argv": [
+   "--batch",
+   "--no-init",
+   "-f",
+   "query.sql"
+  ],
+  "stdin": null,
+  "files": {
+   "query.sql": "SELECT 123 as from_file;\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_open_readonly_via_dot_command::95",
+  "argv": [
+   "--batch",
+   "--no-init",
+   "-c",
+   "CREATE TABLE t(x INT); INSERT INTO t VALUES (1)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_safe_mode_basic_query_works::96",
+  "argv": [
+   "-safe"
+  ],
+  "stdin": "SELECT 42;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_safe_mode_blocks_file_access::97",
+  "argv": [
+   "-safe",
+   "-c",
+   "SELECT * FROM read_text('/etc/hosts')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_safe_mode_blocks_shell_command::98",
+  "argv": [
+   "-safe"
+  ],
+  "stdin": ".sh ls\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_safe_mode_blocks_cd::99",
+  "argv": [
+   "-safe"
+  ],
+  "stdin": ".cd /tmp\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_safe_mode_blocks_log::100",
+  "argv": [
+   "-safe"
+  ],
+  "stdin": ".log file.log\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_safe_mode_blocks_output::101",
+  "argv": [
+   "-safe"
+  ],
+  "stdin": ".output file.out\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_safe_mode_blocks_import::102",
+  "argv": [
+   "-safe"
+  ],
+  "stdin": ".import file.csv tbl\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_safe_mode_blocks_read::103",
+  "argv": [
+   "-safe"
+  ],
+  "stdin": ".read file.sql\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_safe_mode_blocks_once::104",
+  "argv": [
+   "-safe"
+  ],
+  "stdin": ".once file.out\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_safe_mode_blocks_excel::105",
+  "argv": [
+   "-safe"
+  ],
+  "stdin": ".excel file.out\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_safe_mode_blocks_copy_to_file::106",
+  "argv": [
+   "-safe"
+  ],
+  "stdin": "COPY (SELECT 42) TO 'out.csv';\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_safe_mode_locks_config_changes::107",
+  "argv": [
+   "-safe"
+  ],
+  "stdin": "SET memory_limit='-1';\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_safe_mode_with_persistent_db::108",
+  "argv": [
+   "--batch",
+   "--no-init",
+   "-safe"
+  ],
+  "stdin": "CREATE TABLE t(i INT); INSERT INTO t VALUES (1),(2),(3); SELECT SUM(i) FROM t;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_null_value_is_null::109",
+  "argv": [
+   "-json",
+   "-c",
+   "SELECT NULL as my_val"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_multiple_rows::110",
+  "argv": [
+   "-json",
+   "-c",
+   "SELECT x FROM range(3) t(x)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_escaping_in_jsonlines_arrays_only::111",
+  "argv": [
+   "-jsonlines",
+   "-c",
+   "SELECT 'test' as name, 42 as num"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_array_wraps_all_rows::112",
+  "argv": [
+   "-json",
+   "-c",
+   "SELECT x FROM range(5) t(x)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_storage_version_underscore_alias::113",
+  "argv": [
+   "-storage_version",
+   "latest"
+  ],
+  "stdin": "SELECT 1;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_storage_version_error_lists_valid_versions::114",
+  "argv": [
+   "-storage-version",
+   "bad_ver"
+  ],
+  "stdin": "SELECT 1;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_storage_version_v1_0_0::115",
+  "argv": [
+   "-storage-version",
+   "v1.0.0"
+  ],
+  "stdin": "SELECT 1;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_syntax_error_reported_to_stderr::116",
+  "argv": [
+   "-c",
+   "SELEC 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_not_found_error::117",
+  "argv": [
+   "-c",
+   "SELECT * FROM no_such_table"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_cast_error::118",
+  "argv": [
+   "-c",
+   "SELECT 'not_a_number'::INTEGER"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_file_error::119",
+  "argv": [
+   "-c",
+   "SELECT * FROM '/nonexistent/path/file.csv'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_option_error::120",
+  "argv": [
+   "-zzz_invalid_option"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_c_flag_error_exits_nonzero::121",
+  "argv": [
+   "-c",
+   "INVALID SQL"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_attach_database::122",
+  "argv": [
+   "--batch",
+   "--no-init",
+   "-c",
+   "CREATE TABLE t(x INT); INSERT INTO t VALUES (99)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cmd_multiple_flags_combine::123",
+  "argv": [
+   "--batch",
+   "--no-init",
+   "-cmd",
+   ".mode csv",
+   "-cmd",
+   ".headers off"
+  ],
+  "stdin": "SELECT 42 as mycolumn;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_type_query::124",
+  "argv": [
+   "-csv",
+   "-c",
+   "SELECT DATE '2023-01-15' as d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_range_function::125",
+  "argv": [
+   "-csv",
+   "-c",
+   "SELECT * FROM range(5)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_escaping_in_jsonlines_arrays::126",
+  "argv": [
+   "-jsonlines",
+   "-c",
+   "SELECT 'test' as name, [4, 5, 6] a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_command::127",
+  "argv": [],
+  "stdin": ".help\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_about_command::128",
+  "argv": [],
+  "stdin": ".about\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_command::129",
+  "argv": [],
+  "stdin": ".version\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_databases_empty::130",
+  "argv": [],
+  "stdin": ".databases\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tables_empty_database::131",
+  "argv": [],
+  "stdin": ".tables\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_command::132",
+  "argv": [],
+  "stdin": ".print Hello, World!\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_echo_on::133",
+  "argv": [],
+  "stdin": ".echo on\nSELECT 1 + 1;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_settings::134",
+  "argv": [],
+  "stdin": ".show\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read_nonexistent_file_error::135",
+  "argv": [],
+  "stdin": ".read /nonexistent/file.sql\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_open_database::136",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exit_with_code::137",
+  "argv": [],
+  "stdin": ".exit 42\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quit_command::138",
+  "argv": [],
+  "stdin": ".quit\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_with_special_characters::139",
+  "argv": [],
+  "stdin": ".print This is a test: $VAR @HOME /path/to/file\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_echo_off::140",
+  "argv": [],
+  "stdin": ".echo on\nSELECT 1;\n.echo off\nSELECT 2;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cmd_with_stdin::141",
+  "argv": [
+   "-cmd",
+   "CREATE TABLE mytable(x INTEGER); INSERT INTO mytable VALUES (10), (20);"
+  ],
+  "stdin": "SELECT * FROM mytable;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_stdin_ignores_input::142",
+  "argv": [
+   "-no-stdin",
+   "-c",
+   "SELECT 777;"
+  ],
+  "stdin": "SELECT 999;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_cmd_commands::143",
+  "argv": [
+   "-cmd",
+   "CREATE TABLE t1(x INT); INSERT INTO t1 VALUES (10);",
+   "-cmd",
+   "CREATE TABLE t2(y INT); INSERT INTO t2 VALUES (20);"
+  ],
+  "stdin": "SELECT * FROM t1; SELECT * FROM t2;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_without_flags::144",
+  "argv": [],
+  "stdin": "SELECT 'from stdin' AS source;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cmd_with_error_prevents_stdin_processing::145",
+  "argv": [
+   "-cmd",
+   "INVALID SQL HERE"
+  ],
+  "stdin": "SELECT 1;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_multiline_query::146",
+  "argv": [],
+  "stdin": "SELECT \n        1 AS first_col,\n        2 AS second_col,\n        3 AS third_col;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_flag_requires_extension::147",
+  "argv": [
+   "-format"
+  ],
+  "stdin": "select * from table where x=1 and y=2;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_simple_query::148",
+  "argv": [],
+  "stdin": "SELECT 42 AS answer;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_multi_statement::149",
+  "argv": [],
+  "stdin": "SELECT 1;\nSELECT 2;\nSELECT 3;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_error_continues_execution::150",
+  "argv": [],
+  "stdin": "SELECT * FROM nonexistent_table;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bail_flag_exit_on_error::151",
+  "argv": [
+   "-bail"
+  ],
+  "stdin": "SELECT * FROM nonexistent_table;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bail_stops_after_error::152",
+  "argv": [
+   "-bail"
+  ],
+  "stdin": "SELECT 1;\nSELECT * FROM nonexistent_table;\nSELECT 3;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_echo_with_stdin::153",
+  "argv": [
+   "-echo"
+  ],
+  "stdin": "SELECT 42;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_stdin_ignores_input::154",
+  "argv": [
+   "-no-stdin",
+   "-c",
+   "SELECT 42;"
+  ],
+  "stdin": "SELECT 1;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_cmd_with_stdin::155",
+  "argv": [
+   "-cmd",
+   "CREATE TABLE test(x INT);",
+   "-cmd",
+   "INSERT INTO test VALUES (1);"
+  ],
+  "stdin": "SELECT * FROM test;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_create_and_query::156",
+  "argv": [],
+  "stdin": "SELECT 1; CREATE TABLE test(x INT); INSERT INTO test VALUES (1), (2), (3); SELECT * FROM test;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_batch_mode_output::157",
+  "argv": [
+   "-batch"
+  ],
+  "stdin": "SELECT 42;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_mode_output::158",
+  "argv": [
+   "-list"
+  ],
+  "stdin": "SELECT 1 AS x, 2 AS y;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_mode_output::159",
+  "argv": [
+   "-csv"
+  ],
+  "stdin": "SELECT 1 AS x, 2 AS y;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_noheader_flag::160",
+  "argv": [
+   "-csv",
+   "-noheader"
+  ],
+  "stdin": "SELECT 1 AS x, 2 AS y;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_null_default_value::161",
+  "argv": [
+   "-csv"
+  ],
+  "stdin": "SELECT NULL AS x, 42 AS y;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nullvalue_flag_custom_text::162",
+  "argv": [
+   "-csv",
+   "-nullvalue",
+   "<null>"
+  ],
+  "stdin": "SELECT NULL AS x, 42 AS y;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_separator_custom::163",
+  "argv": [
+   "-list",
+   "-separator",
+   ":"
+  ],
+  "stdin": "SELECT 1 AS x, 2 AS y;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_mode_output::164",
+  "argv": [
+   "-json"
+  ],
+  "stdin": "SELECT 1 AS x, 'hello' AS y, NULL AS z;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_multi_statement::165",
+  "argv": [
+   "-json"
+  ],
+  "stdin": "SELECT 1 AS x; SELECT 2 AS x;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_mode_output::166",
+  "argv": [
+   "-html"
+  ],
+  "stdin": "SELECT 1 AS x, 'test' AS y;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_mode_output::167",
+  "argv": [
+   "-markdown"
+  ],
+  "stdin": "SELECT 1 AS x, 'test' AS y;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_csv_new_table::168",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_nonexistent_file::169",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".import /nonexistent/file.csv products\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_missing_file_argument_shows_usage::170",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".import\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_missing_table_argument_shows_usage::171",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".import file.csv\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_parquet_format_flag::172",
+  "argv": [
+   ":memory:"
+  ],
+  "stdin": ".import --parquet test.parquet items\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binder_column_not_found_with_candidates::173",
+  "argv": [],
+  "stdin": "SELECT nonexistent_col FROM (SELECT a FROM (SELECT 1 AS a));",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binder_column_missing_from_clause::174",
+  "argv": [],
+  "stdin": "SELECT xyz;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binder_function_type_mismatch_with_candidates::175",
+  "argv": [],
+  "stdin": "SELECT abs('not a number');",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binder_incompatible_types_arithmetic::176",
+  "argv": [],
+  "stdin": "SELECT 'text' + 5;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binder_aggregate_wrong_type::177",
+  "argv": [],
+  "stdin": "SELECT AVG(name) FROM (SELECT 'text' AS name);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binder_window_function_without_over_clause::178",
+  "argv": [],
+  "stdin": "SELECT ROW_NUMBER();",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conversion_bigint_to_tinyint_overflow::179",
+  "argv": [],
+  "stdin": "SELECT CAST(9223372036854775808 AS TINYINT);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conversion_negative_overflow_tinyint::180",
+  "argv": [],
+  "stdin": "SELECT CAST(-200 AS TINYINT);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conversion_invalid_date_format::181",
+  "argv": [],
+  "stdin": "SELECT CAST('not a date' AS DATE);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_catalog_missing_table_with_suggestion::182",
+  "argv": [],
+  "stdin": "SELECT * FROM nonexistent_table_xyz;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_catalog_duplicate_table::183",
+  "argv": [],
+  "stdin": "CREATE TABLE test (id INT PRIMARY KEY); CREATE TABLE test (id INT);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_catalog_duplicate_column::184",
+  "argv": [],
+  "stdin": "CREATE TABLE t (id INT, id INT);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_constraint_primary_key_violation::185",
+  "argv": [],
+  "stdin": "CREATE TABLE t (id INT PRIMARY KEY, name VARCHAR); INSERT INTO t VALUES (1, 'a'); INSERT INTO t VALUES (1, 'b');",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_constraint_not_null_violation::186",
+  "argv": [],
+  "stdin": "CREATE TABLE t (id INT NOT NULL); INSERT INTO t VALUES (NULL);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_constraint_unique_violation::187",
+  "argv": [],
+  "stdin": "CREATE TABLE t (id INT UNIQUE); INSERT INTO t VALUES (1); INSERT INTO t VALUES (1);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_constraint_check_violation::188",
+  "argv": [],
+  "stdin": "CREATE TABLE t (id INT CHECK (id > 0)); INSERT INTO t VALUES (-1);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parser_incomplete_where_clause::189",
+  "argv": [],
+  "stdin": "SELECT * FROM table WHERE;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parser_misspelled_keyword::190",
+  "argv": [],
+  "stdin": "SELECT * FORM table1;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_runtime_sqrt_negative::191",
+  "argv": [],
+  "stdin": "SELECT sqrt(-1);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_runtime_log_negative::192",
+  "argv": [],
+  "stdin": "SELECT ln(-5);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_runtime_log_zero::193",
+  "argv": [],
+  "stdin": "SELECT ln(0);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_runtime_integer_overflow_addition::194",
+  "argv": [],
+  "stdin": "SELECT CAST(2147483647 AS INTEGER) + 1;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_runtime_integer_underflow_subtraction::195",
+  "argv": [],
+  "stdin": "SELECT CAST(-2147483648 AS INTEGER) - 1;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_runtime_integer_overflow_multiplication::196",
+  "argv": [],
+  "stdin": "SELECT CAST(2147483647 AS INTEGER) * 2;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conversion_string_to_bigint_overflow::197",
+  "argv": [],
+  "stdin": "SELECT CAST('9999999999999999999999999' AS BIGINT);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conversion_invalid_date_day_out_of_range::198",
+  "argv": [],
+  "stdin": "SELECT CAST('2023-02-30' AS DATE);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conversion_invalid_boolean_from_string::199",
+  "argv": [],
+  "stdin": "SELECT '1.5'::BOOLEAN;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conversion_invalid_time_all_fields::200",
+  "argv": [],
+  "stdin": "SELECT CAST('25:99:99' AS TIME);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conversion_invalid_time_minute_out_of_range::201",
+  "argv": [],
+  "stdin": "SELECT CAST('12:60:00' AS TIME);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conversion_ubigint_to_bigint_overflow::202",
+  "argv": [],
+  "stdin": "SELECT CAST(18446744073709551615 AS BIGINT);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_catalog_missing_table_join::203",
+  "argv": [],
+  "stdin": "SELECT * FROM t1 JOIN t2 ON t1.id = t2.id;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binder_column_not_in_qualified_table::204",
+  "argv": [],
+  "stdin": "CREATE TABLE t1 (id INT); CREATE TABLE t2 (id INT); SELECT t1.id, t2.id, t1.name FROM t1, t2;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binder_group_by_column_out_of_range::205",
+  "argv": [],
+  "stdin": "SELECT 1 GROUP BY 2;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binder_group_by_column_not_found::206",
+  "argv": [],
+  "stdin": "SELECT id FROM (SELECT 1 AS id) GROUP BY name;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binder_aggregate_without_group_by::207",
+  "argv": [],
+  "stdin": "CREATE TABLE t (id INT); SELECT COUNT(*), id FROM t;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parser_values_unequal_length::208",
+  "argv": [],
+  "stdin": "SELECT * FROM (VALUES (1, 2), (3));",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binder_union_column_count_mismatch::209",
+  "argv": [],
+  "stdin": "SELECT * FROM (SELECT 1 AS a) UNION SELECT 1, 2;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_runtime_tinyint_overflow_addition::210",
+  "argv": [],
+  "stdin": "SELECT CAST(CAST(127 AS TINYINT) + CAST(1 AS TINYINT) AS TINYINT);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_runtime_tinyint_underflow_subtraction::211",
+  "argv": [],
+  "stdin": "SELECT CAST(CAST(-128 AS TINYINT) - CAST(1 AS TINYINT) AS TINYINT);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_runtime_invalid_regex_pattern::212",
+  "argv": [],
+  "stdin": "SELECT regexp_matches('test', '[');",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_io_file_not_found_read_csv::213",
+  "argv": [],
+  "stdin": "SELECT * FROM read_csv('nonexistent_file.csv');",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parser_duplicate_primary_key_column::214",
+  "argv": [],
+  "stdin": "CREATE TABLE t (a INT, b INT, PRIMARY KEY (a, a));",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conversion_string_to_array_type::215",
+  "argv": [],
+  "stdin": "SELECT 'test'::INT[];",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_constraint_primary_key_null_on_update::216",
+  "argv": [],
+  "stdin": "CREATE TABLE t (id INT PRIMARY KEY); INSERT INTO t VALUES (1); UPDATE t SET id = NULL WHERE id = 1;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_constraint_foreign_key_violation_insert::217",
+  "argv": [],
+  "stdin": "CREATE TABLE parent (id INT PRIMARY KEY); CREATE TABLE child (id INT, parent_id INT, FOREIGN KEY (parent_id) REFERENCES parent(id)); INSERT INTO child VALUES (1, 999);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binder_negative_limit::218",
+  "argv": [],
+  "stdin": "SELECT 1 LIMIT -1;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binder_negative_offset::219",
+  "argv": [],
+  "stdin": "SELECT 1 OFFSET -1;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_runtime_bigint_overflow_addition::220",
+  "argv": [],
+  "stdin": "SELECT CAST(9223372036854775807 + 1 AS BIGINT);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conversion_invalid_date_month_and_day::221",
+  "argv": [],
+  "stdin": "SELECT CAST('2023-13-32' AS DATE);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conversion_invalid_date_month_zero::222",
+  "argv": [],
+  "stdin": "SELECT CAST('2023-00-15' AS DATE);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conversion_invalid_time_second_60::223",
+  "argv": [],
+  "stdin": "SELECT CAST('23:59:60' AS TIME);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conversion_invalid_timestamp_hour_out_of_range::224",
+  "argv": [],
+  "stdin": "SELECT CAST('2023-01-01 25:00:00' AS TIMESTAMP);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conversion_int_to_smallint_overflow::225",
+  "argv": [],
+  "stdin": "SELECT CAST(32768 AS SMALLINT);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conversion_int_to_smallint_underflow::226",
+  "argv": [],
+  "stdin": "SELECT CAST(-32769 AS SMALLINT);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_runtime_smallint_overflow_multiplication::227",
+  "argv": [],
+  "stdin": "SELECT CAST(CAST(32767 AS SMALLINT) * CAST(2 AS SMALLINT) AS SMALLINT);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_catalog_drop_table_on_view::228",
+  "argv": [],
+  "stdin": "CREATE VIEW v AS SELECT 1 AS x; DROP TABLE v;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_runtime_format_argument_index_out_of_range::229",
+  "argv": [],
+  "stdin": "SELECT FORMAT('{5}', 'test');",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_catalog_alter_add_duplicate_column::230",
+  "argv": [],
+  "stdin": "CREATE TABLE t (id INT); ALTER TABLE t ADD COLUMN id INT;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_catalog_alter_missing_table::231",
+  "argv": [],
+  "stdin": "ALTER TABLE nonexistent ADD COLUMN x INT;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parser_invalid_drop_column_syntax::232",
+  "argv": [],
+  "stdin": "CREATE TABLE t (id INT); DROP COLUMN id FROM t;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_runtime_strptime_format_mismatch::233",
+  "argv": [],
+  "stdin": "SELECT strptime('invalid', '%Y-%m-%d');",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_runtime_strftime_invalid_format_specifier::234",
+  "argv": [],
+  "stdin": "SELECT strftime('%Q', DATE '2023-01-01');",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_runtime_date_diff_invalid_unit::235",
+  "argv": [],
+  "stdin": "SELECT date_diff('invalid_unit', DATE '2023-01-01', DATE '2023-01-02');",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_runtime_to_timestamp_epoch_overflow::236",
+  "argv": [],
+  "stdin": "SELECT to_timestamp(9999999999999);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sequences_work_perfectly::237",
+  "argv": [],
+  "stdin": "\nCREATE SEQUENCE seq;\nSELECT nextval('seq');\nSELECT nextval('seq');\nSELECT currval('seq');\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_indexes_work_perfectly::238",
+  "argv": [],
+  "stdin": "\nCREATE TABLE t (id INTEGER, name VARCHAR);\nINSERT INTO t VALUES (1, 'Alice'), (2, 'Bob'), (3, 'Charlie');\nCREATE INDEX idx_id ON t(id);\nSELECT * FROM t WHERE id = 2;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_between_works_perfectly::239",
+  "argv": [],
+  "stdin": "\nSELECT 5 BETWEEN 1 AND 10 AS test1;\nSELECT 15 BETWEEN 1 AND 10 AS test2;\nSELECT 0 BETWEEN 1 AND 10 AS test3;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_window_functions_work_perfectly::240",
+  "argv": [],
+  "stdin": "\nCREATE TABLE sales (id INT, amount INT);\nINSERT INTO sales VALUES (1, 100), (2, 200), (3, 150);\nSELECT \n    id,\n    amount,\n    SUM(amount) OVER (ORDER BY id) as running_total,\n    ROW_NUMBER() OVER (ORDER BY amount) as rank\nFROM sales;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_functions_work_perfectly::241",
+  "argv": [],
+  "stdin": "\nSELECT DATE '2024-01-15' as d1;\nSELECT DATE '2024-01-15' + INTERVAL 7 DAYS as d2;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interval_arithmetic_works_perfectly::242",
+  "argv": [],
+  "stdin": "\nSELECT INTERVAL '1 day' + INTERVAL '2 hours' as result;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_blob_operations_work_perfectly::243",
+  "argv": [],
+  "stdin": "\nSELECT '\\xABCD'::BLOB as binary_data;\nSELECT LENGTH('\\xABCD'::BLOB) as blob_length;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_operations_work_perfectly::244",
+  "argv": [],
+  "stdin": "\nSELECT [1, 2, 3] as arr;\nSELECT [1, 2, 3][2] as second_element;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_union_types_work_perfectly::245",
+  "argv": [],
+  "stdin": "\nCREATE TABLE t (data UNION(num INT, str VARCHAR));\nINSERT INTO t VALUES (1), ('hello');\nSELECT * FROM t;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comparison_operators_work_perfectly::246",
+  "argv": [],
+  "stdin": "\nSELECT 1 < 2 as lt, 3 > 2 as gt, 5 = 5 as eq, 4 <> 5 as ne;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_is_distinct_from_works_perfectly::247",
+  "argv": [],
+  "stdin": "\nSELECT 1 IS DISTINCT FROM 2 as result1;\nSELECT NULL IS DISTINCT FROM NULL as result2;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_time_basic_types::248",
+  "argv": [
+   "-csv"
+  ],
+  "stdin": "-- Test basic DATE, TIME, TIMESTAMP, and INTERVAL types\nSELECT DATE '2024-01-15' AS date_literal,\n       TIME '14:30:00' AS time_literal,\n       TIMESTAMP '2024-01-15 14:30:00' AS timestamp_literal,\n       INTERVAL '3 days' AS interval_literal;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_arithmetic_operations::249",
+  "argv": [
+   "-csv"
+  ],
+  "stdin": "-- Date arithmetic: adding and subtracting intervals\nSELECT DATE '2024-01-15' + INTERVAL '3 days' AS date_plus_days,\n       DATE '2024-01-15' + INTERVAL '2 months' AS date_plus_months,\n       DATE '2024-01-15' + INTERVAL '1 year' AS date_plus_year,\n       DATE '2024-01-15' - INTERVAL '10 days' AS date_minus_days,\n       TIMESTAMP '2024-01-15 14:30:00' + INTERVAL '2 hours' AS timestamp_plus_hours,\n       TIMESTAMP '2024-01-15 14:30:00' + INTERVAL '30 minutes' AS timestamp_plus_minutes,\n       TIMESTAMP '2024-01-15 14:30:00' + INTERVAL '45 seconds' AS timestamp_plus_seconds;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_difference_functions::250",
+  "argv": [
+   "-csv"
+  ],
+  "stdin": "-- Date differences using subtraction\nSELECT DATE '2024-01-20' - DATE '2024-01-15' AS date_diff_days,\n       TIMESTAMP '2024-01-15 18:00:00' - TIMESTAMP '2024-01-15 14:30:00' AS timestamp_diff,\n       AGE(DATE '2024-01-15', DATE '2020-01-15') AS age_function,\n       DATEDIFF('day', DATE '2024-01-15', DATE '2024-01-20') AS datediff_days,\n       DATEDIFF('month', DATE '2024-01-15', DATE '2024-06-15') AS datediff_months,\n       DATEDIFF('year', DATE '2020-01-15', DATE '2024-01-15') AS datediff_years;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_part_extraction::251",
+  "argv": [
+   "-csv"
+  ],
+  "stdin": "-- Extract date components using DATE_PART and EXTRACT\nSELECT DATE_PART('year', DATE '2024-01-15') AS year_part,\n       DATE_PART('month', DATE '2024-01-15') AS month_part,\n       DATE_PART('day', DATE '2024-01-15') AS day_part,\n       DATE_PART('hour', TIMESTAMP '2024-01-15 14:30:45') AS hour_part,\n       DATE_PART('minute', TIMESTAMP '2024-01-15 14:30:45') AS minute_part,\n       DATE_PART('second', TIMESTAMP '2024-01-15 14:30:45') AS second_part,\n       DATE_PART('dow', DATE '2024-01-15') AS day_of_week,\n       DATE_PART('doy', DATE '2024-01-15') AS day_of_year,\n       DATE_PART('week', DATE '2024-01-15') AS week_of_year;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extract_function_syntax::252",
+  "argv": [
+   "-csv"
+  ],
+  "stdin": "-- Extract date components using EXTRACT syntax\nSELECT EXTRACT(year FROM DATE '2024-01-15') AS extract_year,\n       EXTRACT(month FROM DATE '2024-01-15') AS extract_month,\n       EXTRACT(day FROM DATE '2024-01-15') AS extract_day,\n       EXTRACT(hour FROM TIMESTAMP '2024-01-15 14:30:45') AS extract_hour,\n       EXTRACT(minute FROM TIMESTAMP '2024-01-15 14:30:45') AS extract_minute,\n       EXTRACT(second FROM TIMESTAMP '2024-01-15 14:30:45') AS extract_second,\n       EXTRACT(epoch FROM TIMESTAMP '2024-01-15 14:30:45') AS extract_epoch;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_trunc_function::253",
+  "argv": [
+   "-csv"
+  ],
+  "stdin": "-- Date truncation using DATE_TRUNC\nSELECT DATE_TRUNC('year', TIMESTAMP '2024-06-15 14:30:45') AS trunc_year,\n       DATE_TRUNC('month', TIMESTAMP '2024-06-15 14:30:45') AS trunc_month,\n       DATE_TRUNC('day', TIMESTAMP '2024-06-15 14:30:45') AS trunc_day,\n       DATE_TRUNC('hour', TIMESTAMP '2024-06-15 14:30:45') AS trunc_hour,\n       DATE_TRUNC('minute', TIMESTAMP '2024-06-15 14:30:45') AS trunc_minute,\n       DATE_TRUNC('week', TIMESTAMP '2024-06-15 14:30:45') AS trunc_week,\n       DATE_TRUNC('quarter', TIMESTAMP '2024-06-15 14:30:45') AS trunc_quarter;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strftime_date_formatting::254",
+  "argv": [
+   "-csv"
+  ],
+  "stdin": "-- Date formatting with STRFTIME\nSELECT STRFTIME(DATE '2024-01-15', '%Y-%m-%d') AS format_ymd,\n       STRFTIME(DATE '2024-01-15', '%d/%m/%Y') AS format_dmy,\n       STRFTIME(TIMESTAMP '2024-01-15 14:30:45', '%Y-%m-%d %H:%M:%S') AS format_full,\n       STRFTIME(TIMESTAMP '2024-01-15 14:30:45', '%A, %B %d, %Y') AS format_long,\n       STRFTIME(TIMESTAMP '2024-01-15 14:30:45', '%I:%M %p') AS format_12hour;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strptime_date_parsing::255",
+  "argv": [
+   "-csv"
+  ],
+  "stdin": "-- Date parsing with STRPTIME\nSELECT STRPTIME('2024-01-15', '%Y-%m-%d') AS parse_ymd,\n       STRPTIME('15/01/2024', '%d/%m/%Y') AS parse_dmy,\n       STRPTIME('2024-01-15 14:30:45', '%Y-%m-%d %H:%M:%S') AS parse_full,\n       STRPTIME('January 15, 2024', '%B %d, %Y') AS parse_long;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_leap_year_edge_cases::256",
+  "argv": [
+   "-csv"
+  ],
+  "stdin": "-- Leap year edge cases\nSELECT DATE '2024-02-29' AS leap_date_2024,\n       DATE '2024-02-29' + INTERVAL '1 year' AS leap_plus_year,\n       DATE '2024-02-29' - INTERVAL '1 year' AS leap_minus_year,\n       DATE '2024-02-28' + INTERVAL '1 day' AS feb28_plus_day,\n       DATE '2024-03-01' - INTERVAL '1 day' AS mar1_minus_day,\n       DATE '2000-02-29' AS leap_date_2000,\n       DATEDIFF('day', DATE '2024-02-01', DATE '2024-03-01') AS feb_2024_days;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_month_boundary_edge_cases::257",
+  "argv": [
+   "-csv"
+  ],
+  "stdin": "-- Month boundary edge cases\nSELECT DATE '2024-01-31' + INTERVAL '1 month' AS jan31_plus_month,\n       DATE '2024-03-31' + INTERVAL '1 month' AS mar31_plus_month,\n       DATE '2024-05-31' + INTERVAL '1 month' AS may31_plus_month,\n       DATE '2024-01-31' - INTERVAL '1 month' AS jan31_minus_month,\n       DATE '2024-03-31' - INTERVAL '1 month' AS mar31_minus_month,\n       DATE '2024-01-31' + INTERVAL '3 months' AS jan31_plus_3months,\n       DATEDIFF('month', DATE '2024-01-31', DATE '2024-02-29') AS jan_to_feb_months;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_epoch_and_extreme_dates::258",
+  "argv": [
+   "-csv"
+  ],
+  "stdin": "-- Epoch and extreme dates\nSELECT DATE '1970-01-01' AS unix_epoch,\n       TIMESTAMP '1970-01-01 00:00:00' AS unix_epoch_timestamp,\n       DATE '1900-01-01' AS old_date,\n       DATE '2100-12-31' AS far_future,\n       EXTRACT(epoch FROM TIMESTAMP '1970-01-01 00:00:00') AS epoch_seconds,\n       EXTRACT(epoch FROM TIMESTAMP '2024-01-15 14:30:45') AS current_epoch,\n       DATEDIFF('year', DATE '1900-01-01', DATE '2100-12-31') AS century_span;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interval_types_and_combinations::259",
+  "argv": [
+   "-csv"
+  ],
+  "stdin": "-- Various interval types and combinations\nSELECT INTERVAL '1 year' AS interval_year,\n       INTERVAL '6 months' AS interval_months,\n       INTERVAL '30 days' AS interval_days,\n       INTERVAL '12 hours' AS interval_hours,\n       INTERVAL '45 minutes' AS interval_minutes,\n       INTERVAL '30 seconds' AS interval_seconds,\n       INTERVAL '1 year 2 months 3 days' AS interval_combined,\n       INTERVAL '2 hours 30 minutes 15 seconds' AS interval_time_combined;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_week_calculations::260",
+  "argv": [
+   "-csv"
+  ],
+  "stdin": "-- Week calculations: day of week, week of year, ISO weeks\nSELECT DATE '2024-01-15' AS test_date,\n       DAYOFWEEK(DATE '2024-01-15') AS dayofweek,\n       DAYOFYEAR(DATE '2024-01-15') AS dayofyear,\n       WEEKOFYEAR(DATE '2024-01-15') AS weekofyear,\n       YEARWEEK(DATE '2024-01-15') AS yearweek,\n       DAYNAME(DATE '2024-01-15') AS dayname,\n       MONTHNAME(DATE '2024-01-15') AS monthname,\n       QUARTER(DATE '2024-01-15') AS quarter;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_handling_in_date_operations::261",
+  "argv": [
+   "-csv"
+  ],
+  "stdin": "-- NULL handling in date operations\nSELECT NULL::DATE AS null_date,\n       NULL::TIMESTAMP AS null_timestamp,\n       NULL::TIME AS null_time,\n       NULL::INTERVAL AS null_interval,\n       DATE '2024-01-15' + NULL::INTERVAL AS date_plus_null,\n       NULL::DATE + INTERVAL '1 day' AS null_plus_interval,\n       DATE_PART('year', NULL::DATE) AS part_of_null,\n       DATE_TRUNC('month', NULL::TIMESTAMP) AS trunc_null,\n       STRFTIME(NULL::DATE, '%Y-%m-%d') AS format_null;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_comparisons_and_ranges::262",
+  "argv": [
+   "-csv"
+  ],
+  "stdin": "-- Date comparisons and ranges\nSELECT DATE '2024-01-15' > DATE '2024-01-10' AS date_gt,\n       DATE '2024-01-15' < DATE '2024-01-20' AS date_lt,\n       DATE '2024-01-15' = DATE '2024-01-15' AS date_eq,\n       DATE '2024-01-15' BETWEEN DATE '2024-01-10' AND DATE '2024-01-20' AS date_between,\n       TIMESTAMP '2024-01-15 14:30:00' > TIMESTAMP '2024-01-15 14:00:00' AS timestamp_gt,\n       TIME '14:30:00' < TIME '15:00:00' AS time_lt;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_sequences_with_generate_series::263",
+  "argv": [
+   "-csv"
+  ],
+  "stdin": "-- Date sequences using GENERATE_SERIES\nSELECT * FROM GENERATE_SERIES(DATE '2024-01-01', DATE '2024-01-10', INTERVAL '1 day') AS t(date_value);\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_type_casting::264",
+  "argv": [
+   "-csv"
+  ],
+  "stdin": "-- Date type casting and conversions\nSELECT CAST('2024-01-15' AS DATE) AS cast_string_to_date,\n       CAST('2024-01-15 14:30:00' AS TIMESTAMP) AS cast_string_to_timestamp,\n       CAST('14:30:00' AS TIME) AS cast_string_to_time,\n       CAST(DATE '2024-01-15' AS VARCHAR) AS cast_date_to_string,\n       CAST(TIMESTAMP '2024-01-15 14:30:00' AS DATE) AS cast_timestamp_to_date,\n       CAST(TIMESTAMP '2024-01-15 14:30:00' AS TIME) AS cast_timestamp_to_time;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_make_date_time_functions::265",
+  "argv": [
+   "-csv"
+  ],
+  "stdin": "-- Constructing dates from components\nSELECT MAKE_DATE(2024, 1, 15) AS make_date_func,\n       MAKE_TIME(14, 30, 45) AS make_time_func,\n       MAKE_TIMESTAMP(2024, 1, 15, 14, 30, 45) AS make_timestamp_func,\n       MAKE_DATE(2024, 2, 29) AS make_leap_date,\n       MAKE_TIME(23, 59, 59) AS make_time_max;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_parsing_format_variations::266",
+  "argv": [
+   "-csv"
+  ],
+  "stdin": "-- Various date parsing formats that work\nSELECT DATE '2024-01-15' AS format_iso,\n       TIMESTAMP '2024-01-15T14:30:45' AS iso8601_t,\n       TIMESTAMP '2024-01-15 14:30:45.123' AS with_milliseconds,\n       TIMESTAMP '2024-01-15 14:30:45.123456' AS with_microseconds;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_invalid_date_string::267",
+  "argv": [
+   "-csv"
+  ],
+  "stdin": "-- Invalid date string\nSELECT DATE '2024-13-01' AS invalid_month;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_invalid_day::268",
+  "argv": [
+   "-csv"
+  ],
+  "stdin": "-- Invalid day\nSELECT DATE '2024-02-30' AS invalid_day;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_non_leap_year_feb29::269",
+  "argv": [
+   "-csv"
+  ],
+  "stdin": "-- Non-leap year Feb 29\nSELECT DATE '2023-02-29' AS non_leap_feb29;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_invalid_time_hour::270",
+  "argv": [
+   "-csv"
+  ],
+  "stdin": "-- Invalid time\nSELECT TIME '25:00:00' AS invalid_hour;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_last_day_function::271",
+  "argv": [
+   "-csv"
+  ],
+  "stdin": "-- LAST_DAY function - returns last day of the month\nSELECT LAST_DAY(DATE '2024-01-15') AS last_day_jan,\n       LAST_DAY(DATE '2024-02-15') AS last_day_feb_leap,\n       LAST_DAY(DATE '2023-02-15') AS last_day_feb_nonleap,\n       LAST_DAY(DATE '2024-04-15') AS last_day_april,\n       LAST_DAY(DATE '2024-12-01') AS last_day_dec;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_timestamp_precision_microseconds::272",
+  "argv": [
+   "-csv"
+  ],
+  "stdin": "-- Timestamp precision with microseconds\nSELECT TIMESTAMP '2024-01-15 14:30:45' AS timestamp_no_frac,\n       TIMESTAMP '2024-01-15 14:30:45.1' AS timestamp_tenth,\n       TIMESTAMP '2024-01-15 14:30:45.12' AS timestamp_hundredth,\n       TIMESTAMP '2024-01-15 14:30:45.123' AS timestamp_millisec,\n       TIMESTAMP '2024-01-15 14:30:45.123456' AS timestamp_microsec,\n       EXTRACT(microsecond FROM TIMESTAMP '2024-01-15 14:30:45.123456') AS extract_microsec,\n       DATE_PART('microsecond', TIMESTAMP '2024-01-15 14:30:45.123456') AS part_microsec;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interval_arithmetic_operations::273",
+  "argv": [
+   "-csv"
+  ],
+  "stdin": "-- Interval arithmetic operations\nSELECT INTERVAL '1 day' * 5 AS interval_multiply,\n       INTERVAL '10 days' / 2 AS interval_divide,\n       INTERVAL '2 hours' + INTERVAL '30 minutes' AS interval_add,\n       INTERVAL '3 hours' - INTERVAL '45 minutes' AS interval_subtract,\n       DATE '2024-01-15' + (INTERVAL '1 day' * 10) AS date_plus_multiplied_interval;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unix_timestamp_conversion::274",
+  "argv": [
+   "-csv"
+  ],
+  "stdin": "-- Unix timestamp conversions\nSELECT TO_TIMESTAMP(0) AS epoch_timestamp,\n       TO_TIMESTAMP(1705329045) AS to_timestamp_test,\n       EPOCH(TIMESTAMP '1970-01-01 00:00:00') AS epoch_func_zero,\n       EPOCH(TIMESTAMP '2024-01-15 14:30:45') AS epoch_func_current,\n       EPOCH_MS(TIMESTAMP '2024-01-15 14:30:45.123') AS epoch_milliseconds;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_range_filtering_with_cte::275",
+  "argv": [
+   "-csv"
+  ],
+  "stdin": "-- Date range filtering in WHERE clauses\nWITH dates AS (\n    SELECT * FROM GENERATE_SERIES(DATE '2024-01-01', DATE '2024-12-31', INTERVAL '30 days') AS t(date_value)\n)\nSELECT date_value,\n       EXTRACT(month FROM date_value) AS month,\n       EXTRACT(day FROM date_value) AS day\nFROM dates\nWHERE date_value BETWEEN DATE '2024-03-01' AND DATE '2024-09-30'\nORDER BY date_value;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_age_function_various_cases::276",
+  "argv": [
+   "-csv"
+  ],
+  "stdin": "-- AGE function with different signatures\nSELECT AGE(DATE '2024-01-15', DATE '2020-01-15') AS age_two_args,\n       AGE(DATE '2024-02-29', DATE '2020-02-29') AS age_leap_to_leap,\n       AGE(DATE '2024-01-31', DATE '2023-12-31') AS age_one_month,\n       AGE(DATE '2024-06-15', DATE '2024-01-15') AS age_five_months;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_series_with_timestamp_intervals::277",
+  "argv": [
+   "-csv"
+  ],
+  "stdin": "-- GENERATE_SERIES with different interval types\nSELECT * FROM GENERATE_SERIES(TIMESTAMP '2024-01-15 00:00:00', TIMESTAMP '2024-01-15 06:00:00', INTERVAL '2 hours') AS t(ts);\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_month_and_day_names_all_months::278",
+  "argv": [
+   "-csv"
+  ],
+  "stdin": "-- MONTHNAME and DAYNAME for all months and days\nSELECT DATE '2024-01-01' AS test_date, MONTHNAME(DATE '2024-01-01') AS month_name, DAYNAME(DATE '2024-01-01') AS day_name\nUNION ALL SELECT DATE '2024-02-05', MONTHNAME(DATE '2024-02-05'), DAYNAME(DATE '2024-02-05')\nUNION ALL SELECT DATE '2024-03-10', MONTHNAME(DATE '2024-03-10'), DAYNAME(DATE '2024-03-10')\nUNION ALL SELECT DATE '2024-04-15', MONTHNAME(DATE '2024-04-15'), DAYNAME(DATE '2024-04-15')\nUNION ALL SELECT DATE '2024-05-20', MONTHNAME(DATE '2024-05-20'), DAYNAME(DATE '2024-05-20')\nUNION ALL SELECT DATE '2024-06-25', MONTHNAME(DATE '2024-06-25'), DAYNAME(DATE '2024-06-25')\nUNION ALL SELECT DATE '2024-07-01', MONTHNAME(DATE '2024-07-01'), DAYNAME(DATE '2024-07-01')\nUNION ALL SELECT DATE '2024-08-05', MONTHNAME(DATE '2024-08-05'), DAYNAME(DATE '2024-08-05')\nUNION ALL SELECT DATE '2024-09-10', MONTHNAME(DATE '2024-09-10'), DAYNAME(DATE '2024-09-10')\nUNION ALL SELECT DATE '2024-10-15', MONTHNAME(DATE '2024-10-15'), DAYNAME(DATE '2024-10-15')\nUNION ALL SELECT DATE '2024-11-20', MONTHNAME(DATE '2024-11-20'), DAYNAME(DATE '2024-11-20')\nUNION ALL SELECT DATE '2024-12-25', MONTHNAME(DATE '2024-12-25'), DAYNAME(DATE '2024-12-25')\nORDER BY test_date;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_make_date_invalid_month::279",
+  "argv": [
+   "-csv"
+  ],
+  "stdin": "-- Invalid MAKE_DATE\nSELECT MAKE_DATE(2024, 13, 1) AS invalid_month;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_make_time_invalid_hour::280",
+  "argv": [
+   "-csv"
+  ],
+  "stdin": "-- Invalid MAKE_TIME\nSELECT MAKE_TIME(25, 0, 0) AS invalid_hour;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cast_string_to_int_invalid::281",
+  "argv": [],
+  "stdin": "SELECT CAST('abc' AS INTEGER);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cast_invalid_date_month_out_of_range::282",
+  "argv": [],
+  "stdin": "SELECT CAST('2023-13-01' AS DATE);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cast_bigint_to_int32_overflow::283",
+  "argv": [],
+  "stdin": "SELECT CAST(9999999999999 AS INTEGER);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cast_invalid_time_hour_out_of_range::284",
+  "argv": [],
+  "stdin": "SELECT CAST('25:00:00' AS TIME);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cast_invalid_timestamp_format::285",
+  "argv": [],
+  "stdin": "SELECT CAST('not a timestamp' AS TIMESTAMP);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_column_not_found_error::286",
+  "argv": [],
+  "stdin": "SELECT unknown_column FROM (SELECT 1 AS a);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ambiguous_column_reference::287",
+  "argv": [],
+  "stdin": "SELECT a FROM (SELECT 1 AS a) t1, (SELECT 2 AS a) t2;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_limit_error::288",
+  "argv": [],
+  "stdin": "SELECT * FROM (SELECT 1) LIMIT -1;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_offset_error::289",
+  "argv": [],
+  "stdin": "SELECT * FROM (SELECT 1) OFFSET -5;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sqrt_negative_number_error::290",
+  "argv": [],
+  "stdin": "SELECT SQRT(-1);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_negative_number_error::291",
+  "argv": [],
+  "stdin": "SELECT LOG(-5);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_int32_addition_overflow::292",
+  "argv": [],
+  "stdin": "SELECT 2147483647 + 1;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_int32_multiplication_overflow::293",
+  "argv": [],
+  "stdin": "SELECT 2147483647 * 2;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_already_exists_error::294",
+  "argv": [],
+  "stdin": "CREATE TABLE t1 AS SELECT 1 AS x; CREATE TABLE t1 AS SELECT 2 AS y;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_function_error::295",
+  "argv": [],
+  "stdin": "SELECT unknown_function(1);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_column_count_mismatch_in_table_alias::296",
+  "argv": [],
+  "stdin": "SELECT * FROM (VALUES (1,2), (3,4)) t(a,b,c);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_group_by_unknown_column_error::297",
+  "argv": [],
+  "stdin": "CREATE TABLE t(a INT); INSERT INTO t VALUES (1), (2); SELECT a FROM t GROUP BY b;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_nonexistent_column_error::298",
+  "argv": [],
+  "stdin": "CREATE TABLE t(a INT); SELECT b FROM t;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_union_column_count_mismatch_error::299",
+  "argv": [],
+  "stdin": "SELECT 1 UNION SELECT 1,2;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_primary_key_violation_error::300",
+  "argv": [],
+  "stdin": "CREATE TABLE t(a INT PRIMARY KEY); INSERT INTO t VALUES (1); INSERT INTO t VALUES (1);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_foreign_key_violation_error::301",
+  "argv": [],
+  "stdin": "CREATE TABLE parent(id INT PRIMARY KEY); CREATE TABLE child(pid INT, FOREIGN KEY (pid) REFERENCES parent(id)); INSERT INTO child VALUES (999);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_not_null_violation_error::302",
+  "argv": [],
+  "stdin": "CREATE TABLE t(a INT NOT NULL); INSERT INTO t VALUES (NULL);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_check_constraint_violation_error::303",
+  "argv": [],
+  "stdin": "CREATE TABLE t(a INT CHECK (a > 0)); INSERT INTO t VALUES (-5);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unique_constraint_violation_error::304",
+  "argv": [],
+  "stdin": "CREATE TABLE t(a INT UNIQUE); INSERT INTO t VALUES (1), (1);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bigint_overflow_in_cast_error::305",
+  "argv": [],
+  "stdin": "SELECT CAST('9999999999999999999999999999' AS BIGINT);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scalar_subquery_multiple_columns_error::306",
+  "argv": [],
+  "stdin": "SELECT (SELECT 1, 2);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_part_invalid_specifier_error::307",
+  "argv": [],
+  "stdin": "SELECT DATE_PART('invalid_part', DATE '2023-01-01');",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_join_without_condition_syntax_error::308",
+  "argv": [],
+  "stdin": "SELECT * FROM t1 JOIN t2;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_drop_nonexistent_column_error::309",
+  "argv": [],
+  "stdin": "CREATE TABLE t(a INT); ALTER TABLE t DROP COLUMN b;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_duplicate_column_error::310",
+  "argv": [],
+  "stdin": "CREATE TABLE t(a INT); ALTER TABLE t ADD COLUMN a INT;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_view_already_exists_error::311",
+  "argv": [],
+  "stdin": "CREATE VIEW v1 AS SELECT 1; CREATE VIEW v1 AS SELECT 2;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bigint_addition_overflow::312",
+  "argv": [],
+  "stdin": "SELECT 9223372036854775807::BIGINT + 1;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_dropped_then_referenced_error::313",
+  "argv": [],
+  "stdin": "CREATE TABLE t(a INT); DROP TABLE t; SELECT * FROM t;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cte_duplicate_table_reference_error::314",
+  "argv": [],
+  "stdin": "WITH t AS (SELECT 1) SELECT * FROM t, t;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_syntax_error_group_by_before_from::315",
+  "argv": [],
+  "stdin": "SELECT COUNT(*) GROUP BY x FROM (SELECT 1);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_function_no_arguments_error::316",
+  "argv": [],
+  "stdin": "SELECT AVG();",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_function_with_star_invalid::317",
+  "argv": [],
+  "stdin": "SELECT AVG(*);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_substring_non_numeric_position_error::318",
+  "argv": [],
+  "stdin": "SELECT SUBSTRING('hello', 'world');",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_insert_type_mismatch_error::319",
+  "argv": [],
+  "stdin": "CREATE TABLE t(a INT); INSERT INTO t VALUES ('not a number');",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_insert_column_count_mismatch_error::320",
+  "argv": [],
+  "stdin": "CREATE TABLE t(a INT, b INT); INSERT INTO t VALUES (1);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_insert_unknown_column_error::321",
+  "argv": [],
+  "stdin": "CREATE TABLE t(a INT, b INT); INSERT INTO t(a, b, c) VALUES (1, 2, 3);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_where_clause_unknown_column_error::322",
+  "argv": [],
+  "stdin": "SELECT * FROM (SELECT 1 AS a) WHERE b = 1;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_order_by_unknown_column_error::323",
+  "argv": [],
+  "stdin": "SELECT * FROM (SELECT 1 AS a) ORDER BY b;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_index_already_exists_error::324",
+  "argv": [],
+  "stdin": "CREATE TABLE t(id INT); CREATE INDEX idx_duplicate ON t(id); CREATE INDEX idx_duplicate ON t(id);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sequence_already_exists_error::325",
+  "argv": [],
+  "stdin": "CREATE SEQUENCE seq1; CREATE SEQUENCE seq1;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_drop_nonexistent_table_error::326",
+  "argv": [],
+  "stdin": "DROP TABLE nonexistent_table;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_drop_nonexistent_index_error::327",
+  "argv": [],
+  "stdin": "DROP INDEX nonexistent_index;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_truncate_nonexistent_table_error::328",
+  "argv": [],
+  "stdin": "TRUNCATE nonexistent_table;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_having_without_group_by_error::329",
+  "argv": [],
+  "stdin": "CREATE TABLE t(a INT); SELECT * FROM t HAVING COUNT(*) > 1;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_with_non_grouped_column_error::330",
+  "argv": [],
+  "stdin": "CREATE TABLE t(a INT); SELECT COUNT(*), a FROM t;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_error_string_arithmetic::331",
+  "argv": [],
+  "stdin": "SELECT CASE WHEN 1=1 THEN 'text' END + 5;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_temporary_table_already_exists_error::332",
+  "argv": [],
+  "stdin": "CREATE TEMPORARY TABLE t(a INT); CREATE TEMPORARY TABLE t(a INT);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_transaction_error::333",
+  "argv": [],
+  "stdin": "BEGIN TRANSACTION; BEGIN TRANSACTION;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commit_without_transaction_error::334",
+  "argv": [],
+  "stdin": "COMMIT;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rollback_without_transaction_error::335",
+  "argv": [],
+  "stdin": "ROLLBACK;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read_csv_nonexistent_file_error::336",
+  "argv": [],
+  "stdin": "SELECT * FROM read_csv_auto('nonexistent_file.csv');",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cast_string_to_double_invalid::337",
+  "argv": [],
+  "stdin": "SELECT CAST('abc' AS DOUBLE);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cast_to_unknown_type_error::338",
+  "argv": [],
+  "stdin": "SELECT 'test'::UNKNOWN_TYPE;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_update_nonexistent_column_error::339",
+  "argv": [],
+  "stdin": "CREATE TABLE t(a INT); UPDATE t SET b = 1;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_update_nonexistent_table_error::340",
+  "argv": [],
+  "stdin": "CREATE TABLE t(a INT); UPDATE nonexistent_table SET a = 1;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_from_nonexistent_table_error::341",
+  "argv": [],
+  "stdin": "CREATE TABLE t(a INT); DELETE FROM nonexistent_table;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interval_invalid_format_error::342",
+  "argv": [],
+  "stdin": "SELECT INTERVAL 'abc';",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interval_invalid_number_error::343",
+  "argv": [],
+  "stdin": "SELECT DATE '2023-01-01' + INTERVAL 'not_a_number days';",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trigger_already_exists_error::344",
+  "argv": [],
+  "stdin": "CREATE TABLE t(a INT); CREATE TRIGGER trg1 AFTER INSERT ON t BEGIN SELECT 1; END; CREATE TRIGGER trg1 AFTER INSERT ON t BEGIN SELECT 2; END;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unique_index_violation_error::345",
+  "argv": [],
+  "stdin": "CREATE TABLE t(a INT); CREATE UNIQUE INDEX idx ON t(a); INSERT INTO t VALUES (1), (1);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_drop_table_with_foreign_key_reference_error::346",
+  "argv": [],
+  "stdin": "CREATE TABLE parent(id INT PRIMARY KEY); CREATE TABLE child(parent_id INT REFERENCES parent(id)); DROP TABLE parent;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_agg_order_by_unknown_column_error::347",
+  "argv": [],
+  "stdin": "SELECT ARRAY_AGG(a ORDER BY b) FROM (SELECT 1 AS a);",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_case_basic_searched_forms::348",
+  "argv": [],
+  "stdin": "-- Test basic searched CASE (no base expression)\nSELECT CASE \n  WHEN 1 = 1 THEN 'first'\n  WHEN 2 = 2 THEN 'second'\n  ELSE 'default'\nEND AS searched_case;\n\n-- Test CASE with multiple conditions\nSELECT \n  x,\n  CASE \n    WHEN x < 0 THEN 'negative'\n    WHEN x = 0 THEN 'zero'\n    WHEN x > 0 THEN 'positive'\n  END AS sign\nFROM (VALUES (-5), (0), (7), (-2), (10)) AS t(x);\n\n-- Test CASE with no ELSE clause (returns NULL for unmatched)\nSELECT \n  x,\n  CASE \n    WHEN x > 5 THEN 'big'\n    WHEN x > 2 THEN 'medium'\n  END AS category\nFROM (VALUES (1), (3), (6), (10)) AS t(x);\n\n-- Test CASE with NULL values in conditions\nSELECT \n  x,\n  CASE \n    WHEN x IS NULL THEN 'is null'\n    WHEN x = 0 THEN 'is zero'\n    ELSE 'has value'\n  END AS null_check\nFROM (VALUES (NULL), (0), (5), (NULL)) AS t(x);\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_case_type_coercion_in_branches::349",
+  "argv": [],
+  "stdin": "-- Test type coercion in CASE branches\nSELECT \n  x,\n  CASE \n    WHEN x < 0 THEN -1\n    WHEN x = 0 THEN 0\n    WHEN x > 0 THEN 1.5\n  END AS numeric_result\nFROM (VALUES (-5), (0), (7)) AS t(x);\n\n-- Test mixed string and numeric (should coerce)\nSELECT \n  x,\n  CASE \n    WHEN x < 5 THEN CAST(x AS VARCHAR)\n    WHEN x >= 5 THEN 'big'\n  END AS string_result\nFROM (VALUES (1), (5), (10)) AS t(x);\n\n-- Test CASE returning different types (int, bigint, double)\nSELECT \n  x,\n  CASE \n    WHEN x = 1 THEN 1::INTEGER\n    WHEN x = 2 THEN 999999999999::BIGINT\n    WHEN x = 3 THEN 3.14159::DOUBLE\n    ELSE 0\n  END AS mixed_numeric\nFROM (VALUES (1), (2), (3), (4)) AS t(x);\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_case_nested_expressions::350",
+  "argv": [],
+  "stdin": "-- Test nested CASE expressions\nSELECT \n  x, y,\n  CASE \n    WHEN x > 0 THEN \n      CASE \n        WHEN y > 0 THEN 'both positive'\n        WHEN y < 0 THEN 'x pos, y neg'\n        ELSE 'x pos, y zero'\n      END\n    WHEN x < 0 THEN\n      CASE \n        WHEN y > 0 THEN 'x neg, y pos'\n        WHEN y < 0 THEN 'both negative'\n        ELSE 'x neg, y zero'\n      END\n    ELSE 'x is zero'\n  END AS classification\nFROM (VALUES (5, 3), (-2, 4), (1, -1), (0, 5), (-3, -2)) AS t(x, y);\n\n-- Deeply nested CASE\nSELECT \n  val,\n  CASE \n    WHEN val < 10 THEN \n      CASE \n        WHEN val < 5 THEN\n          CASE \n            WHEN val < 2 THEN 'very small'\n            ELSE 'small'\n          END\n        ELSE 'medium-small'\n      END\n    ELSE 'large'\n  END AS size_category\nFROM (VALUES (1), (3), (7), (15)) AS t(val);\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_case_in_select_where_groupby_orderby::351",
+  "argv": [],
+  "stdin": "-- Test CASE in SELECT, WHERE, GROUP BY, ORDER BY\nCREATE TEMP TABLE orders (id INTEGER, amount INTEGER, status VARCHAR);\nINSERT INTO orders VALUES \n  (1, 100, 'pending'),\n  (2, 250, 'completed'),\n  (3, 50, 'pending'),\n  (4, 300, 'completed'),\n  (5, 75, 'cancelled'),\n  (6, 400, 'completed');\n\n-- CASE in WHERE clause\nSELECT id, amount, status \nFROM orders \nWHERE CASE \n  WHEN status = 'completed' THEN amount > 200\n  WHEN status = 'pending' THEN amount > 60\n  ELSE FALSE\nEND\nORDER BY id;\n\n-- CASE in GROUP BY clause\nSELECT \n  CASE \n    WHEN amount < 100 THEN 'small'\n    WHEN amount < 300 THEN 'medium'\n    ELSE 'large'\n  END AS size_category,\n  COUNT(*) AS count,\n  SUM(amount) AS total\nFROM orders\nGROUP BY CASE \n  WHEN amount < 100 THEN 'small'\n  WHEN amount < 300 THEN 'medium'\n  ELSE 'large'\nEND\nORDER BY size_category;\n\n-- CASE in ORDER BY clause\nSELECT id, amount, status\nFROM orders\nORDER BY CASE \n  WHEN status = 'completed' THEN 1\n  WHEN status = 'pending' THEN 2\n  WHEN status = 'cancelled' THEN 3\nEND, amount DESC;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coalesce_multiple_arguments_nulls::352",
+  "argv": [],
+  "stdin": "-- Test COALESCE with various argument counts\nSELECT COALESCE(NULL, 'first non-null') AS two_args;\nSELECT COALESCE(NULL, NULL, NULL, 'found') AS four_args;\nSELECT COALESCE('immediate', NULL, 'later') AS first_is_nonnull;\nSELECT COALESCE(NULL, NULL, NULL) AS all_nulls;\n\n-- Test COALESCE with different types\nSELECT \n  x, y, z,\n  COALESCE(x, y, z, 0) AS result\nFROM (VALUES \n  (1, NULL, NULL),\n  (NULL, 2, NULL),\n  (NULL, NULL, 3),\n  (NULL, NULL, NULL)\n) AS t(x, y, z);\n\n-- Test COALESCE with expressions\nSELECT \n  a, b,\n  COALESCE(a * 2, b + 10, 100) AS computed\nFROM (VALUES \n  (5, NULL),\n  (NULL, 3),\n  (NULL, NULL)\n) AS t(a, b);\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coalesce_type_coercion::353",
+  "argv": [],
+  "stdin": "-- Test COALESCE with compatible numeric types\nSELECT \n  COALESCE(NULL, 42, 3.14) AS int_then_double,\n  COALESCE(NULL, 1::BIGINT, 2::INTEGER) AS bigint_int_mix;\n\n-- Test COALESCE with string types\nSELECT\n  COALESCE(NULL, 'text', 'other') AS all_strings;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nullif_basic_and_division_by_zero::354",
+  "argv": [],
+  "stdin": "-- Test NULLIF basic behavior\nSELECT NULLIF(5, 5) AS equal_values;\nSELECT NULLIF(5, 10) AS different_values;\nSELECT NULLIF('hello', 'hello') AS equal_strings;\nSELECT NULLIF('hello', 'world') AS different_strings;\n\n-- Test NULLIF with NULL inputs\nSELECT NULLIF(NULL, 5) AS first_null;\nSELECT NULLIF(5, NULL) AS second_null;\nSELECT NULLIF(NULL, NULL) AS both_null;\n\n-- Test NULLIF in practical scenarios (avoiding division by zero)\nSELECT \n  a, b,\n  a / NULLIF(b, 0) AS safe_division\nFROM (VALUES \n  (10, 2),\n  (15, 0),\n  (20, 5),\n  (8, 0)\n) AS t(a, b);\n\n-- Test NULLIF with expressions\nSELECT \n  x,\n  NULLIF(x * 2, 10) AS nullif_expr,\n  NULLIF(CAST(x AS VARCHAR), '3') AS nullif_cast\nFROM (VALUES (1), (3), (5), (7)) AS t(x);\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_greatest_least_multiple_arguments::355",
+  "argv": [],
+  "stdin": "-- Test GREATEST with multiple arguments\nSELECT GREATEST(1, 5, 3, 9, 2) AS max_of_five;\nSELECT GREATEST(1) AS single_arg;\nSELECT GREATEST(-10, -5, -20, -1) AS negative_numbers;\n\n-- Test LEAST with multiple arguments\nSELECT LEAST(10, 2, 8, 4, 15) AS min_of_five;\nSELECT LEAST(100) AS single_arg;\nSELECT LEAST(-10, -5, -20, -1) AS negative_numbers;\n\n-- Test with NULL values\nSELECT GREATEST(1, NULL, 5, 3) AS greatest_with_null;\nSELECT LEAST(10, 2, NULL, 8) AS least_with_null;\nSELECT GREATEST(NULL, NULL) AS all_nulls_greatest;\nSELECT LEAST(NULL, NULL) AS all_nulls_least;\n\n-- Test with different numeric types\nSELECT \n  GREATEST(1, 2.5, 3::BIGINT) AS mixed_types_greatest,\n  LEAST(10, 5.5, 3::BIGINT) AS mixed_types_least;\n\n-- Test with strings\nSELECT GREATEST('apple', 'zebra', 'banana', 'cherry') AS string_greatest;\nSELECT LEAST('apple', 'zebra', 'banana', 'cherry') AS string_least;\n\n-- Test in table context\nSELECT \n  a, b, c,\n  GREATEST(a, b, c) AS max_value,\n  LEAST(a, b, c) AS min_value\nFROM (VALUES \n  (5, 10, 3),\n  (8, 2, 12),\n  (7, 7, 7),\n  (1, 100, 50)\n) AS t(a, b, c);\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_if_function_macro::356",
+  "argv": [],
+  "stdin": "-- Test IF function (should be translated to CASE)\nSELECT IF(1 > 0, 'true', 'false') AS if_true;\nSELECT IF(1 < 0, 'true', 'false') AS if_false;\n\n-- Test IF with NULL condition\nSELECT IF(NULL, 'true', 'false') AS if_null_condition;\n\n-- Test IF with NULL branches\nSELECT \n  x,\n  IF(x > 0, 'positive', NULL) AS if_with_null_else\nFROM (VALUES (-1), (0), (5)) AS t(x);\n\n-- Test IF with expressions\nSELECT \n  a, b,\n  IF(a > b, a * 2, b * 3) AS if_expr\nFROM (VALUES (10, 5), (3, 8), (7, 7)) AS t(a, b);\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_case_short_circuit_evaluation::357",
+  "argv": [],
+  "stdin": "-- Test short-circuit evaluation in CASE\n-- If first WHEN is true, division by zero in second WHEN should not be evaluated\nCREATE TEMP TABLE test_table (id INTEGER, val INTEGER);\nINSERT INTO test_table VALUES (1, 10), (2, 0), (3, 5);\n\nSELECT \n  id, val,\n  CASE \n    WHEN id = 1 THEN 'first'\n    WHEN 100 / val > 10 THEN 'risky'\n    ELSE 'safe'\n  END AS result\nFROM test_table\nORDER BY id;\n\n-- Test division by zero protection with CASE\nSELECT \n  id, val,\n  CASE \n    WHEN val = 0 THEN NULL\n    ELSE 100 / val\n  END AS safe_div\nFROM test_table\nORDER BY id;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_case_with_aggregate_functions::358",
+  "argv": [],
+  "stdin": "-- Test CASE with aggregate functions\nCREATE TEMP TABLE sales (id INTEGER, category VARCHAR, amount INTEGER);\nINSERT INTO sales VALUES \n  (1, 'electronics', 500),\n  (2, 'clothing', 100),\n  (3, 'electronics', 800),\n  (4, 'food', 50),\n  (5, 'clothing', 150),\n  (6, 'electronics', 300);\n\n-- CASE inside aggregate\nSELECT \n  category,\n  COUNT(*) AS total_sales,\n  SUM(CASE WHEN amount > 200 THEN amount ELSE 0 END) AS high_value_sum,\n  COUNT(CASE WHEN amount > 200 THEN 1 END) AS high_value_count,\n  AVG(CASE WHEN amount <= 200 THEN amount END) AS avg_low_value\nFROM sales\nGROUP BY category\nORDER BY category;\n\n-- Aggregate of CASE expression\nSELECT \n  SUM(CASE \n    WHEN category = 'electronics' THEN amount * 1.1\n    WHEN category = 'clothing' THEN amount * 1.2\n    ELSE amount\n  END) AS weighted_total\nFROM sales;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_case_simple_form_with_base_expression::359",
+  "argv": [],
+  "stdin": "-- Test simple CASE (with base expression)\nSELECT \n  x,\n  CASE x\n    WHEN 1 THEN 'one'\n    WHEN 2 THEN 'two'\n    WHEN 3 THEN 'three'\n    ELSE 'other'\n  END AS number_name\nFROM (VALUES (1), (2), (3), (5)) AS t(x);\n\n-- Test simple CASE with expressions in WHEN\nSELECT \n  x,\n  CASE x * 2\n    WHEN 10 THEN 'ten'\n    WHEN 20 THEN 'twenty'\n    ELSE 'unknown'\n  END AS doubled\nFROM (VALUES (5), (10), (7)) AS t(x);\n\n-- Test simple CASE with NULL\nSELECT \n  x,\n  CASE x\n    WHEN NULL THEN 'is null'\n    WHEN 0 THEN 'is zero'\n    ELSE 'has value'\n  END AS result\nFROM (VALUES (NULL), (0), (5)) AS t(x);\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expressions_with_subqueries::360",
+  "argv": [],
+  "stdin": "-- Test CASE with subquery\nCREATE TEMP TABLE products (id INTEGER, name VARCHAR, stock INTEGER);\nINSERT INTO products VALUES (1, 'Widget', 10), (2, 'Gadget', 0), (3, 'Doohickey', 5);\n\nSELECT \n  id,\n  name,\n  CASE \n    WHEN stock > (SELECT AVG(stock) FROM products) THEN 'above average'\n    WHEN stock < (SELECT AVG(stock) FROM products) THEN 'below average'\n    ELSE 'average'\n  END AS stock_level\nFROM products\nORDER BY id;\n\n-- Test COALESCE with subquery\nSELECT \n  id,\n  COALESCE(\n    (SELECT name FROM products WHERE id = 999),\n    'Not Found'\n  ) AS product_name\nFROM (VALUES (1)) AS t(id);\n\n-- Test NULLIF with subquery result\nSELECT \n  id,\n  name,\n  NULLIF(stock, (SELECT MIN(stock) FROM products)) AS stock_if_not_min\nFROM products\nORDER BY id;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_greatest_least_with_dates_timestamps::361",
+  "argv": [],
+  "stdin": "-- Test GREATEST/LEAST with dates and timestamps\nSELECT \n  GREATEST(DATE '2024-01-01', DATE '2024-06-15', DATE '2024-03-20') AS latest_date,\n  LEAST(DATE '2024-01-01', DATE '2024-06-15', DATE '2024-03-20') AS earliest_date;\n\nSELECT \n  GREATEST(TIMESTAMP '2024-01-01 10:00:00', TIMESTAMP '2024-01-01 15:30:00') AS latest_time,\n  LEAST(TIMESTAMP '2024-01-01 10:00:00', TIMESTAMP '2024-01-01 15:30:00') AS earliest_time;\n\n-- Test with NULL dates\nSELECT \n  GREATEST(DATE '2024-01-01', NULL, DATE '2024-03-20') AS greatest_with_null,\n  LEAST(DATE '2024-01-01', NULL, DATE '2024-03-20') AS least_with_null;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_case_type_incompatibility_error::362",
+  "argv": [],
+  "stdin": "-- Test CASE with incompatible types in branches (should error)\nSELECT CASE \n  WHEN 1 = 1 THEN 'text'\n  WHEN 2 = 2 THEN 123\n  ELSE 'default'\nEND;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expressions_with_complex_types::363",
+  "argv": [],
+  "stdin": "-- Test CASE with array types\nSELECT \n  x,\n  CASE \n    WHEN x > 0 THEN [1, 2, 3]\n    ELSE [4, 5, 6]\n  END AS array_result\nFROM (VALUES (-1), (5)) AS t(x);\n\n-- Test COALESCE with arrays\nSELECT \n  COALESCE(NULL, [1, 2, 3]) AS array_coalesce,\n  COALESCE([10, 20], [30, 40]) AS array_first;\n\n-- Test CASE with struct types\nSELECT \n  x,\n  CASE \n    WHEN x > 0 THEN {'name': 'positive', 'value': x}\n    ELSE {'name': 'negative', 'value': x}\n  END AS struct_result\nFROM (VALUES (-5), (10)) AS t(x);\n\n-- Test GREATEST/LEAST with arrays (should compare lexicographically)\nSELECT \n  GREATEST([1, 2, 3], [1, 3, 2], [2, 1, 1]) AS greatest_array,\n  LEAST([1, 2, 3], [1, 3, 2], [2, 1, 1]) AS least_array;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nullif_with_various_types::364",
+  "argv": [],
+  "stdin": "-- Test NULLIF with string comparisons\nSELECT \n  name,\n  NULLIF(name, 'default') AS non_default_name\nFROM (VALUES ('Alice'), ('default'), ('Bob'), ('default')) AS t(name);\n\n-- Test NULLIF with floating point comparisons (careful with precision)\nSELECT \n  val,\n  NULLIF(val, 0.0) AS non_zero,\n  NULLIF(ROUND(val, 2), 3.14) AS not_pi\nFROM (VALUES (0.0), (3.14), (2.71), (3.14159)) AS t(val);\n\n-- Test NULLIF with CAST\nSELECT \n  x,\n  NULLIF(CAST(x AS VARCHAR), 'special') AS filtered\nFROM (VALUES (100), (200), (300)) AS t(x)\nUNION ALL\nSELECT NULL, NULLIF(CAST(NULL AS INTEGER), 5) AS filtered;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_case_in_having_and_with_window_functions::365",
+  "argv": [],
+  "stdin": "-- Test CASE in HAVING clause\nCREATE TEMP TABLE employees (dept VARCHAR, salary INTEGER);\nINSERT INTO employees VALUES \n  ('Sales', 50000), ('Sales', 60000), ('Sales', 45000),\n  ('IT', 70000), ('IT', 75000),\n  ('HR', 55000), ('HR', 52000), ('HR', 58000);\n\nSELECT \n  dept,\n  AVG(salary) AS avg_salary,\n  COUNT(*) AS emp_count\nFROM employees\nGROUP BY dept\nHAVING CASE \n  WHEN dept = 'Sales' THEN AVG(salary) > 45000\n  WHEN dept = 'IT' THEN AVG(salary) > 65000\n  ELSE COUNT(*) >= 2\nEND\nORDER BY dept;\n\n-- Test CASE with window functions\nSELECT \n  dept,\n  salary,\n  CASE \n    WHEN ROW_NUMBER() OVER (PARTITION BY dept ORDER BY salary DESC) = 1 THEN 'highest'\n    WHEN ROW_NUMBER() OVER (PARTITION BY dept ORDER BY salary DESC) = 2 THEN 'second'\n    ELSE 'other'\n  END AS rank_label\nFROM employees\nORDER BY dept, salary DESC;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coalesce_with_many_arguments_and_nesting::366",
+  "argv": [],
+  "stdin": "-- Test COALESCE with many arguments (10+)\nSELECT COALESCE(\n  NULL, NULL, NULL, NULL, NULL,\n  NULL, NULL, NULL, NULL, NULL,\n  'finally found'\n) AS many_nulls;\n\n-- Test nested COALESCE\nSELECT \n  x,\n  COALESCE(\n    x,\n    COALESCE(NULL, NULL, 0),\n    -1\n  ) AS nested_coalesce\nFROM (VALUES (NULL), (5), (NULL)) AS t(x);\n\n-- Test COALESCE chain for default values\nCREATE TEMP TABLE config (key VARCHAR, user_value INTEGER, system_default INTEGER);\nINSERT INTO config VALUES \n  ('timeout', 30, 60),\n  ('retries', NULL, 3),\n  ('max_conn', NULL, 100);\n\nSELECT \n  key,\n  COALESCE(user_value, system_default, 0) AS effective_value\nFROM config\nORDER BY key;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_handling_edge_cases::367",
+  "argv": [],
+  "stdin": "-- Test CASE with all NULL branches\nSELECT \n  x,\n  CASE \n    WHEN x = 1 THEN NULL\n    WHEN x = 2 THEN NULL\n    ELSE NULL\n  END AS all_null_result\nFROM (VALUES (1), (2), (3)) AS t(x);\n\n-- Test COALESCE preserving NULL when all args are NULL  \nSELECT \n  x,\n  COALESCE(x, NULL, NULL) AS still_null\nFROM (VALUES (NULL), (5)) AS t(x);\n\n-- Test NULLIF comparing NULL to NULL\nSELECT \n  NULLIF(NULL, NULL) AS null_vs_null,\n  NULLIF(NULL, 5) AS null_vs_value,\n  NULLIF(5, NULL) AS value_vs_null;\n\n-- Test GREATEST/LEAST with all NULLs\nSELECT \n  GREATEST(NULL, NULL, NULL) AS all_null_greatest,\n  LEAST(NULL, NULL, NULL) AS all_null_least;\n\n-- Test CASE evaluating NULL = NULL (should be false, not true)\nSELECT \n  CASE NULL\n    WHEN NULL THEN 'matched'\n    ELSE 'not matched'\n  END AS null_equality_check;\n\n-- Test nested NULL handling\nSELECT \n  COALESCE(\n    CASE WHEN NULL THEN 'unreachable' END,\n    NULLIF('test', 'test'),\n    'fallback'\n  ) AS deeply_nested_nulls;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_geometry_conversions_basic::368",
+  "argv": [],
+  "stdin": "\nSELECT ST_AsText('POINT(1.5 2.5)'::GEOMETRY) as wkt;\nSELECT ST_AsWKB('POINT(1 2)'::GEOMETRY) as wkb;\nSELECT ST_GeomFromWKB(ST_AsWKB('LINESTRING(0 0, 10 20)'::GEOMETRY));\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_geometry_type_checks::369",
+  "argv": [],
+  "stdin": "\nSELECT typeof('POINT(1 2)'::GEOMETRY);\nSELECT typeof(ST_AsWKB('POINT(1 2)'::GEOMETRY));\nSELECT typeof(ST_AsText('POINT(1 2)'::GEOMETRY));\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_geometry_intersects_extent_basic::370",
+  "argv": [],
+  "stdin": "\nSELECT 'POINT(5 5)'::GEOMETRY && 'LINESTRING(0 0, 10 20)'::GEOMETRY as intersects1;\nSELECT 'POINT(100 100)'::GEOMETRY && 'LINESTRING(0 0, 10 20)'::GEOMETRY as intersects2;\nSELECT ST_Intersects_Extent('POLYGON((0 0, 10 0, 10 10, 0 10, 0 0))'::GEOMETRY, 'POINT(5 5)'::GEOMETRY) as inside;\nSELECT ST_Intersects_Extent('POLYGON((0 0, 10 0, 10 10, 0 10, 0 0))'::GEOMETRY, 'POINT(50 50)'::GEOMETRY) as outside;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_geometry_bbox_operator_detailed::371",
+  "argv": [],
+  "stdin": "\nSELECT 'POINT(5 5)'::GEOMETRY && 'LINESTRING(0 0, 10 20)'::GEOMETRY;\nSELECT 'POINT(100 100)'::GEOMETRY && 'LINESTRING(0 0, 10 20)'::GEOMETRY;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_geometry_bbox_all_types::372",
+  "argv": [],
+  "stdin": "\nSELECT 'POINT(5 5)'::GEOMETRY && 'POLYGON((0 0, 10 0, 10 10, 0 10, 0 0))'::GEOMETRY as pt_in_poly;\nSELECT 'POINT(50 50)'::GEOMETRY && 'POLYGON((0 0, 10 0, 10 10, 0 10, 0 0))'::GEOMETRY as pt_out_poly;\nSELECT 'LINESTRING(5 5, 15 15)'::GEOMETRY && 'POLYGON((0 0, 10 0, 10 10, 0 10, 0 0))'::GEOMETRY as line_crosses;\nSELECT 'LINESTRING(50 50, 60 60)'::GEOMETRY && 'POLYGON((0 0, 10 0, 10 10, 0 10, 0 0))'::GEOMETRY as line_outside;\nSELECT 'POLYGON((5 5, 15 5, 15 15, 5 15, 5 5))'::GEOMETRY && 'POLYGON((0 0, 10 0, 10 10, 0 10, 0 0))'::GEOMETRY as poly_overlap;\nSELECT 'POLYGON((50 50, 60 50, 60 60, 50 60, 50 50))'::GEOMETRY && 'POLYGON((0 0, 10 0, 10 10, 0 10, 0 0))'::GEOMETRY as poly_disjoint;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_geometry_empty_geometries::373",
+  "argv": [],
+  "stdin": "\nSELECT 'POINT EMPTY'::GEOMETRY;\nSELECT 'LINESTRING EMPTY'::GEOMETRY;\nSELECT 'POLYGON EMPTY'::GEOMETRY;\nSELECT ST_AsText('POINT EMPTY'::GEOMETRY);\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_geometry_empty_bbox_interactions::374",
+  "argv": [],
+  "stdin": "\nSELECT 'POINT EMPTY'::GEOMETRY && 'POINT(1 1)'::GEOMETRY;\nSELECT 'POINT(1 1)'::GEOMETRY && 'POINT EMPTY'::GEOMETRY;\nSELECT 'LINESTRING EMPTY'::GEOMETRY && 'LINESTRING(0 0, 1 1)'::GEOMETRY;\nSELECT 'POINT EMPTY'::GEOMETRY && 'POINT EMPTY'::GEOMETRY;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_geometry_3d_all_types::375",
+  "argv": [],
+  "stdin": "\nSELECT 'POINT Z (1 2 3)'::GEOMETRY;\nSELECT 'LINESTRING Z (0 0 0, 1 1 1, 2 2 2)'::GEOMETRY;\nSELECT 'POLYGON Z ((0 0 0, 4 0 0, 4 4 0, 0 4 0, 0 0 0))'::GEOMETRY;\nSELECT ST_AsText('POINT Z (10 20 30)'::GEOMETRY);\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_geometry_m_all_types::376",
+  "argv": [],
+  "stdin": "\nSELECT 'POINT M (1 2 100)'::GEOMETRY;\nSELECT 'LINESTRING M (0 0 0, 1 1 50, 2 2 100)'::GEOMETRY;\nSELECT ST_AsText('POINT M (10 20 999)'::GEOMETRY);\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_geometry_zm_all_types::377",
+  "argv": [],
+  "stdin": "\nSELECT 'POINT ZM (1 2 3 100)'::GEOMETRY;\nSELECT 'LINESTRING ZM (0 0 0 0, 1 1 1 50, 2 2 2 100)'::GEOMETRY;\nSELECT ST_AsText('POINT ZM (10 20 30 999)'::GEOMETRY);\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_geometry_null_handling::378",
+  "argv": [],
+  "stdin": "\nSELECT ST_AsText(NULL::GEOMETRY);\nSELECT ST_AsWKB(NULL::GEOMETRY);\nSELECT NULL::GEOMETRY && 'POINT(1 1)'::GEOMETRY;\nSELECT 'POINT(1 1)'::GEOMETRY && NULL::GEOMETRY;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_geometry_polygon_holes::379",
+  "argv": [],
+  "stdin": "\nSELECT 'POLYGON((0 0, 10 0, 10 10, 0 10, 0 0), (2 2, 8 2, 8 8, 2 8, 2 2))'::GEOMETRY;\nSELECT ST_AsText('POLYGON((0 0, 10 0, 10 10, 0 10, 0 0), (2 2, 8 2, 8 8, 2 8, 2 2))'::GEOMETRY);\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_geometry_wkb_roundtrip_all_types::380",
+  "argv": [],
+  "stdin": "\nSELECT ST_AsText(ST_GeomFromWKB(ST_AsWKB('POINT(1.5 2.5)'::GEOMETRY))) as point_rt;\nSELECT ST_AsText(ST_GeomFromWKB(ST_AsWKB('LINESTRING(0 0, 1 1, 2 2)'::GEOMETRY))) as line_rt;\nSELECT ST_AsText(ST_GeomFromWKB(ST_AsWKB('POLYGON((0 0, 4 0, 4 4, 0 4, 0 0))'::GEOMETRY))) as poly_rt;\nSELECT ST_AsText(ST_GeomFromWKB(ST_AsWKB('MULTIPOINT(1 1, 2 2)'::GEOMETRY))) as mpoint_rt;\nSELECT ST_AsText(ST_GeomFromWKB(ST_AsWKB('POINT Z (1 2 3)'::GEOMETRY))) as point3d_rt;\nSELECT ST_AsText(ST_GeomFromWKB(ST_AsWKB('POINT M (1 2 100)'::GEOMETRY))) as pointm_rt;\nSELECT ST_AsText(ST_GeomFromWKB(ST_AsWKB('POINT ZM (1 2 3 100)'::GEOMETRY))) as pointzm_rt;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_geometry_crs_functions::381",
+  "argv": [],
+  "stdin": "\nSELECT ST_CRS('POINT(1 2)'::GEOMETRY);\nSELECT ST_CRS(ST_SetCRS('POINT(1 2)'::GEOMETRY, 'EPSG:4326'));\nSELECT ST_AsText(ST_SetCRS('POINT(1 2)'::GEOMETRY, 'EPSG:4326'));\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_geometry_complex_collection::382",
+  "argv": [],
+  "stdin": "\nSELECT 'GEOMETRYCOLLECTION(\n  POINT(1 1),\n  LINESTRING(0 0, 5 5),\n  POLYGON((0 0, 10 0, 10 10, 0 10, 0 0)),\n  MULTIPOINT(1 1, 2 2)\n)'::GEOMETRY;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_geometry_large_coordinates::383",
+  "argv": [],
+  "stdin": "\nSELECT 'POINT(1000000 2000000)'::GEOMETRY;\nSELECT 'POINT(-1000000 -2000000)'::GEOMETRY;\nSELECT 'POINT(0.00000001 0.00000002)'::GEOMETRY;\nSELECT ST_AsText('POINT(123.456789 987.654321)'::GEOMETRY);\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inner_join_basic::384",
+  "argv": [],
+  "stdin": "\nCREATE TABLE employees (id INT, name VARCHAR, dept_id INT);\nINSERT INTO employees VALUES (1, 'Alice', 10), (2, 'Bob', 20), (3, 'Charlie', 10), (4, 'David', 30), (5, 'Eve', NULL);\n\nCREATE TABLE departments (id INT, name VARCHAR);\nINSERT INTO departments VALUES (10, 'Engineering'), (20, 'Sales'), (40, 'Marketing');\n\nSELECT e.id, e.name, d.name AS dept_name \nFROM employees e \nINNER JOIN departments d ON e.dept_id = d.id\nORDER BY e.id;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_left_join_basic::385",
+  "argv": [],
+  "stdin": "\nCREATE TABLE employees (id INT, name VARCHAR, dept_id INT);\nINSERT INTO employees VALUES (1, 'Alice', 10), (2, 'Bob', 20), (3, 'Charlie', 10), (4, 'David', 30), (5, 'Eve', NULL);\n\nCREATE TABLE departments (id INT, name VARCHAR);\nINSERT INTO departments VALUES (10, 'Engineering'), (20, 'Sales'), (40, 'Marketing');\n\nSELECT e.id, e.name, d.name AS dept_name \nFROM employees e \nLEFT JOIN departments d ON e.dept_id = d.id\nORDER BY e.id;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_right_join_basic::386",
+  "argv": [],
+  "stdin": "\nCREATE TABLE employees (id INT, name VARCHAR, dept_id INT);\nINSERT INTO employees VALUES (1, 'Alice', 10), (2, 'Bob', 20), (3, 'Charlie', 10), (4, 'David', 30), (5, 'Eve', NULL);\n\nCREATE TABLE departments (id INT, name VARCHAR);\nINSERT INTO departments VALUES (10, 'Engineering'), (20, 'Sales'), (40, 'Marketing');\n\nSELECT e.id, e.name, d.name AS dept_name \nFROM employees e \nRIGHT JOIN departments d ON e.dept_id = d.id\nORDER BY d.id;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_full_outer_join::387",
+  "argv": [],
+  "stdin": "\nCREATE TABLE employees (id INT, name VARCHAR, dept_id INT);\nINSERT INTO employees VALUES (1, 'Alice', 10), (2, 'Bob', 20), (3, 'Charlie', 10), (4, 'David', 30), (5, 'Eve', NULL);\n\nCREATE TABLE departments (id INT, name VARCHAR);\nINSERT INTO departments VALUES (10, 'Engineering'), (20, 'Sales'), (40, 'Marketing');\n\nSELECT COALESCE(e.id, 0) as emp_id, e.name, d.name AS dept_name \nFROM employees e \nFULL OUTER JOIN departments d ON e.dept_id = d.id\nORDER BY emp_id;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cross_join::388",
+  "argv": [],
+  "stdin": "\nCREATE TABLE colors (color VARCHAR);\nINSERT INTO colors VALUES ('Red'), ('Blue');\n\nCREATE TABLE sizes (size VARCHAR);\nINSERT INTO sizes VALUES ('Small'), ('Large');\n\nSELECT c.color, s.size \nFROM colors c \nCROSS JOIN sizes s\nORDER BY c.color, s.size;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_natural_join::389",
+  "argv": [],
+  "stdin": "\nCREATE TABLE employees (id INT, name VARCHAR, dept_id INT);\nINSERT INTO employees VALUES (1, 'Alice', 10), (2, 'Bob', 20), (3, 'Charlie', 10);\n\nCREATE TABLE departments (dept_id INT, dept_name VARCHAR);\nINSERT INTO departments VALUES (10, 'Engineering'), (20, 'Sales');\n\nSELECT * \nFROM employees \nNATURAL JOIN departments\nORDER BY id;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_using_clause::390",
+  "argv": [],
+  "stdin": "\nCREATE TABLE employees (id INT, name VARCHAR, dept_id INT);\nINSERT INTO employees VALUES (1, 'Alice', 10), (2, 'Bob', 20), (3, 'Charlie', 10);\n\nCREATE TABLE departments (dept_id INT, dept_name VARCHAR);\nINSERT INTO departments VALUES (10, 'Engineering'), (20, 'Sales');\n\nSELECT * \nFROM employees \nJOIN departments USING (dept_id)\nORDER BY id;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_self_join::391",
+  "argv": [],
+  "stdin": "\nCREATE TABLE employees (id INT, name VARCHAR, manager_id INT);\nINSERT INTO employees VALUES \n  (1, 'Alice', NULL),\n  (2, 'Bob', 1),\n  (3, 'Charlie', 1),\n  (4, 'David', 2),\n  (5, 'Eve', 2);\n\nSELECT e.id, e.name, m.name AS manager_name\nFROM employees e\nLEFT JOIN employees m ON e.manager_id = m.id\nORDER BY e.id;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multi_table_join::392",
+  "argv": [],
+  "stdin": "\nCREATE TABLE employees (id INT, name VARCHAR, dept_id INT, location_id INT);\nINSERT INTO employees VALUES (1, 'Alice', 10, 1), (2, 'Bob', 20, 2), (3, 'Charlie', 10, 1);\n\nCREATE TABLE departments (id INT, name VARCHAR);\nINSERT INTO departments VALUES (10, 'Engineering'), (20, 'Sales');\n\nCREATE TABLE locations (id INT, city VARCHAR);\nINSERT INTO locations VALUES (1, 'Seattle'), (2, 'Boston');\n\nSELECT e.name, d.name AS dept, l.city\nFROM employees e\nJOIN departments d ON e.dept_id = d.id\nJOIN locations l ON e.location_id = l.id\nORDER BY e.id;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_anti_join::393",
+  "argv": [],
+  "stdin": "\nCREATE TABLE employees (id INT, name VARCHAR, dept_id INT);\nINSERT INTO employees VALUES (1, 'Alice', 10), (2, 'Bob', 20), (3, 'Charlie', 30), (4, 'David', NULL);\n\nCREATE TABLE departments (id INT, name VARCHAR);\nINSERT INTO departments VALUES (10, 'Engineering'), (20, 'Sales');\n\nSELECT e.id, e.name\nFROM employees e\nLEFT JOIN departments d ON e.dept_id = d.id\nWHERE d.id IS NULL\nORDER BY e.id;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duplicate_keys::394",
+  "argv": [],
+  "stdin": "\nCREATE TABLE orders (order_id INT, customer_id INT, amount DECIMAL(10,2));\nINSERT INTO orders VALUES (1, 100, 50.00), (2, 100, 75.50), (3, 101, 100.00), (4, 100, 25.00);\n\nCREATE TABLE customers (id INT, name VARCHAR);\nINSERT INTO customers VALUES (100, 'Alice'), (101, 'Bob');\n\nSELECT o.order_id, c.name, o.amount\nFROM orders o\nJOIN customers c ON o.customer_id = c.id\nORDER BY o.order_id;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inequality_join::395",
+  "argv": [],
+  "stdin": "\nCREATE TABLE ranges (id INT, min_val INT, max_val INT);\nINSERT INTO ranges VALUES (1, 0, 10), (2, 11, 20), (3, 21, 30);\n\nCREATE TABLE values (id INT, val INT);\nINSERT INTO values VALUES (1, 5), (2, 15), (3, 25), (4, 35);\n\nSELECT v.id, v.val, r.id AS range_id\nFROM values v\nLEFT JOIN ranges r ON v.val >= r.min_val AND v.val <= r.max_val\nORDER BY v.id;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_conditions::396",
+  "argv": [],
+  "stdin": "\nCREATE TABLE users (id INT, name VARCHAR, age INT, city VARCHAR);\nINSERT INTO users VALUES (1, 'Alice', 30, 'Seattle'), (2, 'Bob', 25, 'Seattle'), (3, 'Charlie', 30, 'Boston');\n\nCREATE TABLE matches (user_id INT, matched_age INT, matched_city VARCHAR);\nINSERT INTO matches VALUES (1, 30, 'Seattle'), (2, 25, 'Seattle'), (3, 30, 'Boston');\n\nSELECT u.name, m.matched_age, m.matched_city\nFROM users u\nJOIN matches m ON u.age = m.matched_age AND u.city = m.matched_city\nORDER BY u.id;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_join_with_aggregate::397",
+  "argv": [],
+  "stdin": "\nCREATE TABLE orders (order_id INT, customer_id INT, amount DECIMAL(10,2));\nINSERT INTO orders VALUES (1, 100, 50.00), (2, 100, 75.50), (3, 101, 100.00), (4, 100, 25.00), (5, 102, 200.00);\n\nCREATE TABLE customers (id INT, name VARCHAR);\nINSERT INTO customers VALUES (100, 'Alice'), (101, 'Bob'), (102, 'Charlie');\n\nSELECT c.name, COUNT(o.order_id) AS order_count, SUM(o.amount) AS total_amount\nFROM customers c\nLEFT JOIN orders o ON c.id = o.customer_id\nGROUP BY c.id, c.name\nORDER BY c.id;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_join_with_subquery::398",
+  "argv": [],
+  "stdin": "\nCREATE TABLE employees (id INT, name VARCHAR, dept_id INT, salary INT);\nINSERT INTO employees VALUES (1, 'Alice', 10, 80000), (2, 'Bob', 10, 90000), (3, 'Charlie', 20, 70000), (4, 'David', 20, 85000);\n\nCREATE TABLE departments (id INT, name VARCHAR);\nINSERT INTO departments VALUES (10, 'Engineering'), (20, 'Sales');\n\nSELECT d.name AS dept_name, e.name, e.salary\nFROM departments d\nJOIN employees e ON d.id = e.dept_id\nWHERE e.salary > (SELECT AVG(salary) FROM employees WHERE dept_id = d.id)\nORDER BY d.id, e.id;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_in_join_keys::399",
+  "argv": [],
+  "stdin": "\nCREATE TABLE table_a (id INT, value VARCHAR);\nINSERT INTO table_a VALUES (1, 'A'), (2, 'B'), (NULL, 'C'), (3, 'D');\n\nCREATE TABLE table_b (id INT, description VARCHAR);\nINSERT INTO table_b VALUES (1, 'Match1'), (NULL, 'NullB'), (3, 'Match3'), (4, 'NoMatch');\n\nSELECT a.id AS a_id, a.value, b.id AS b_id, b.description\nFROM table_a a\nFULL OUTER JOIN table_b b ON a.id = b.id\nORDER BY a.id NULLS LAST, b.id NULLS LAST;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

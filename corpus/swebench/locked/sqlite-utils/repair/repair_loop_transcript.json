@@ -1,0 +1,29 @@
+{
+  "schema": "determinex-repair-loop-transcript-v1",
+  "tool": "sqlite-utils",
+  "family": "python",
+  "pinned_commit": "8f0c06e",
+  "repair_type": "seeded_defect (behavioral) - verifier is the project's OWN test suite in a python:3.12 image (toolchain via provider; Docker-OPTIONAL)",
+  "toolchain": "python:3.12",
+  "oracle": "the real simonw/sqlite-utils repo's own tests: python -m pytest tests/test_create.py -q",
+  "defect": {
+    "file": "sqlite_utils/db.py",
+    "seed": "SQLITE_MAX_VARS = 999 -> SQLITE_MAX_VARS = 998"
+  },
+  "detect": {
+    "baseline": "168 passed, 1 skipped in 0.96s",
+    "after_seed": "test suite FAILED (exit 1)",
+    "oracle_caught": true,
+    "failure_signature": "seeded defect made the project's own test suite exit non-zero"
+  },
+  "repair": {
+    "fix": "git checkout (restore upstream source)"
+  },
+  "reverify": {
+    "after": "168 passed, 1 skipped in 0.87s",
+    "passed": 168,
+    "failures": 0
+  },
+  "repair_loop_status": "passed",
+  "proves": "closed-loop repair on a real external python project (sqlite-utils): its OWN test suite detects the injected defect -> fix -> re-verify (168 passed, 1 skipped in 0.87s). Reproducible."
+}

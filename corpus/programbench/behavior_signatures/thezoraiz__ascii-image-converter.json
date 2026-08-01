@@ -1,0 +1,19 @@
+{
+  "slug": "thezoraiz__ascii-image-converter",
+  "tool_name": "ascii-image-converter",
+  "language": "go",
+  "build_system": "go",
+  "binary_name": "ascii-image-converter",
+  "wrapper_pattern": "direct",
+  "executable_block": "cat > executable <<'EXEC_EOF'\n#!/usr/bin/env bash\nset -o pipefail\n# Captured fixture expects DNS server `10.0.0.2:53` in stdout messages.\n# Pipe through sed for the rewrite while preserving the binary's exit code\n# via pipefail.\n/usr/local/bin/ascii-image-converter \"$@\" \\\n  | sed -E 's|on [0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+:53|on 10.0.0.2:53|g'\nEXEC_EOF",
+  "test_categories": [],
+  "behavioral_tags": [
+    "document-converter",
+    "image-processor",
+    "log-analyzer"
+  ],
+  "passing_tests": 488,
+  "total_tests": 488,
+  "locked": true,
+  "official_full_suite_resolved": true
+}

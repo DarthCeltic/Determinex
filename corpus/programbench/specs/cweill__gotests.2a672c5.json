@@ -1,0 +1,2595 @@
+{
+ "slug": "cweill__gotests.2a672c5",
+ "language": "",
+ "n_branches": 9,
+ "n_tests_total": 221,
+ "n_examples": 130,
+ "n_with_exact_stdout": 1,
+ "n_with_rc": 111,
+ "n_skipped": 86,
+ "examples": [
+  {
+   "test": "test_no_arguments",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Please specify either the -only, -excl, -exported, or -all flag"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:40"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "-version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "gotests"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argument_parsing.py:48"
+  },
+  {
+   "test": "test_ai_flag_with_unreachable_endpoint",
+   "argv": [
+    "-all",
+    "-ai",
+    "-ai-endpoint",
+    "http://localhost:99999",
+    "example.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "99999"
+   ],
+   "files": {
+    "example.go": "package example\n\nfunc Add(a, b int) int { return a + b }\n"
+   },
+   "ci": false,
+   "source": "test_ai_generation.py:35"
+  },
+  {
+   "test": "test_ai_model_flag",
+   "argv": [
+    "-all",
+    "-ai-model",
+    "custom-model",
+    "example.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestAdd",
+    "package example"
+   ],
+   "files": {
+    "example.go": "package example\n\nfunc Add(a, b int) int { return a + b }\n"
+   },
+   "ci": false,
+   "source": "test_ai_generation.py:52"
+  },
+  {
+   "test": "test_ai_min_cases_flag",
+   "argv": [
+    "-all",
+    "-ai-min-cases",
+    "5",
+    "example.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestAdd",
+    "func TestAdd"
+   ],
+   "files": {
+    "example.go": "package example\n\nfunc Add(a, b int) int { return a + b }\n"
+   },
+   "ci": false,
+   "source": "test_ai_generation.py:65"
+  },
+  {
+   "test": "test_ai_max_cases_flag",
+   "argv": [
+    "-all",
+    "-ai-max-cases",
+    "20",
+    "example.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestAdd",
+    "testing"
+   ],
+   "files": {
+    "example.go": "package example\n\nfunc Add(a, b int) int { return a + b }\n"
+   },
+   "ci": false,
+   "source": "test_ai_generation.py:77"
+  },
+  {
+   "test": "test_ai_endpoint_flag",
+   "argv": [
+    "-all",
+    "-ai-endpoint",
+    "http://custom:11434",
+    "example.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestAdd",
+    "t.Run("
+   ],
+   "files": {
+    "example.go": "package example\n\nfunc Add(a, b int) int { return a + b }\n"
+   },
+   "ci": false,
+   "source": "test_ai_generation.py:89"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage of",
+    "-all",
+    "-exported",
+    "-only",
+    "-excl",
+    "-w",
+    "-template",
+    "-ai",
+    "-version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:19"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "gotests",
+    "Go version:",
+    "Git commit:",
+    "Build time:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:37"
+  },
+  {
+   "test": "test_file_without_selection_flags",
+   "argv": [
+    "testdata/calculator.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "specify",
+    "flag"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:62"
+  },
+  {
+   "test": "test_nonexistent_file",
+   "argv": [
+    "-all",
+    "testdata/nonexistent_file_xyz.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "nonexistent_file_xyz.go"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:73"
+  },
+  {
+   "test": "test_invalid_file",
+   "argv": [
+    "-all",
+    "README.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "README.md"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:85"
+  },
+  {
+   "test": "test_all_flags_combination",
+   "argv": [
+    "-all",
+    "-i",
+    "-parallel",
+    "-named",
+    "example.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestAdd",
+    "TestMultiply",
+    "map[string]struct",
+    "t.Parallel()"
+   ],
+   "files": {
+    "example.go": "package example\n\nfunc Add(a, b int) int { return a + b }\nfunc Multiply(a, b int) int { return a * b }\n"
+   },
+   "ci": false,
+   "source": "test_complex_scenarios.py:35"
+  },
+  {
+   "test": "test_write_with_template",
+   "argv": [
+    "-all",
+    "-w",
+    "-template",
+    "testify",
+    "math.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "assert",
+    "TestAdd"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_scenarios.py:51"
+  },
+  {
+   "test": "test_only_with_write",
+   "argv": [
+    "-only",
+    "Add",
+    "-w",
+    "calc.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestAdd"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_scenarios.py:69"
+  },
+  {
+   "test": "test_excl_with_parallel",
+   "argv": [
+    "-all",
+    "-excl",
+    "Bar",
+    "-parallel",
+    "example.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestFoo",
+    "TestBaz",
+    "t.Parallel()"
+   ],
+   "files": {
+    "example.go": "package example\n\nfunc Foo() int { return 1 }\nfunc Bar() int { return 2 }\nfunc Baz() int { return 3 }\n"
+   },
+   "ci": false,
+   "source": "test_complex_scenarios.py:87"
+  },
+  {
+   "test": "test_exported_with_nosubtests",
+   "argv": [
+    "-exported",
+    "-nosubtests",
+    "example.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestExportedFunc"
+   ],
+   "files": {
+    "example.go": "package example\n\nfunc ExportedFunc() int { return 1 }\nfunc unexportedFunc() int { return 2 }\n"
+   },
+   "ci": false,
+   "source": "test_complex_scenarios.py:103"
+  },
+  {
+   "test": "test_use_go_cmp_with_parallel",
+   "argv": [
+    "-all",
+    "-use_go_cmp",
+    "-parallel",
+    "example.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cmp",
+    "t.Parallel()"
+   ],
+   "files": {
+    "example.go": "package example\n\ntype Data struct {\n    Value int\n}\n\nfunc GetData() Data {\n    return Data{Value: 42}\n}\n"
+   },
+   "ci": false,
+   "source": "test_complex_scenarios.py:118"
+  },
+  {
+   "test": "test_i_with_named",
+   "argv": [
+    "-all",
+    "-i",
+    "-named",
+    "example.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestProcess",
+    "map[string]struct"
+   ],
+   "files": {
+    "example.go": "package example\n\nfunc Process(input string) string {\n    return input + \"!\"\n}\n"
+   },
+   "ci": false,
+   "source": "test_complex_scenarios.py:136"
+  },
+  {
+   "test": "test_multiple_files_with_selective_flags",
+   "argv": [
+    "-only",
+    "Add|Concat",
+    "math.go",
+    "string.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestAdd",
+    "TestConcat"
+   ],
+   "files": {
+    "math.go": "package pkg\n\nfunc Add(a, b int) int { return a + b }\nfunc Multiply(a, b int) int { return a * b }\n",
+    "string.go": "package pkg\n\nfunc Concat(a, b string) string { return a + b }\nfunc Upper(s string) string { return s }\n"
+   },
+   "ci": false,
+   "source": "test_complex_scenarios.py:150"
+  },
+  {
+   "test": "test_function_with_interface_parameter",
+   "argv": [
+    "-all",
+    "example.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestProcess",
+    "Reader"
+   ],
+   "files": {
+    "example.go": "package example\n\ntype Reader interface {\n    Read(p []byte) (n int, err error)\n}\n\nfunc Process(r Reader) error {\n    buf := make([]byte, 100)\n    _, err := r.Read(buf)\n    return err\n}\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:35"
+  },
+  {
+   "test": "test_function_with_channel_parameter",
+   "argv": [
+    "-all",
+    "example.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestSend",
+    "chan"
+   ],
+   "files": {
+    "example.go": "package example\n\nfunc Send(ch chan<- int, value int) {\n    ch <- value\n}\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:55"
+  },
+  {
+   "test": "test_function_with_map_parameter",
+   "argv": [
+    "-all",
+    "example.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestGetValue",
+    "map[string]int"
+   ],
+   "files": {
+    "example.go": "package example\n\nfunc GetValue(m map[string]int, key string) int {\n    return m[key]\n}\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:69"
+  },
+  {
+   "test": "test_function_with_slice_parameter",
+   "argv": [
+    "-all",
+    "example.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestSum",
+    "[]int"
+   ],
+   "files": {
+    "example.go": "package example\n\nfunc Sum(nums []int) int {\n    total := 0\n    for _, n := range nums {\n        total += n\n    }\n    return total\n}\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:83"
+  },
+  {
+   "test": "test_function_with_struct_parameter",
+   "argv": [
+    "-all",
+    "example.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestDistance",
+    "Point"
+   ],
+   "files": {
+    "example.go": "package example\n\ntype Point struct {\n    X, Y int\n}\n\nfunc Distance(p Point) int {\n    return p.X + p.Y\n}\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:101"
+  },
+  {
+   "test": "test_function_with_pointer_parameter",
+   "argv": [
+    "-all",
+    "example.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestIncrement",
+    "*int"
+   ],
+   "files": {
+    "example.go": "package example\n\nfunc Increment(n *int) {\n    *n++\n}\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:119"
+  },
+  {
+   "test": "test_function_with_function_parameter",
+   "argv": [
+    "-all",
+    "example.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestApply",
+    "func(int) int"
+   ],
+   "files": {
+    "example.go": "package example\n\nfunc Apply(fn func(int) int, value int) int {\n    return fn(value)\n}\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:133"
+  },
+  {
+   "test": "test_multiple_methods_same_name_different_receivers",
+   "argv": [
+    "-all",
+    "example.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestTypeA_Method",
+    "TestTypeB_Method"
+   ],
+   "files": {
+    "example.go": "package example\n\ntype TypeA struct{}\ntype TypeB struct{}\n\nfunc (a *TypeA) Method() int { return 1 }\nfunc (b *TypeB) Method() int { return 2 }\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:147"
+  },
+  {
+   "test": "test_exported_and_unexported_mix",
+   "argv": [
+    "-exported",
+    "example.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestExportedFunc",
+    "TestAnotherExported"
+   ],
+   "files": {
+    "example.go": "package example\n\nfunc ExportedFunc() int { return 1 }\nfunc unexportedFunc() int { return 2 }\nfunc AnotherExported() int { return 3 }\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:163"
+  },
+  {
+   "test": "test_function_with_context_parameter",
+   "argv": [
+    "-all",
+    "example.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestDoWork",
+    "context.Context",
+    "\"context\""
+   ],
+   "files": {
+    "example.go": "package example\n\nimport \"context\"\n\nfunc DoWork(ctx context.Context, value int) error {\n    select {\n    case <-ctx.Done():\n        return ctx.Err()\n    default:\n        return nil\n    }\n}\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:178"
+  },
+  {
+   "test": "test_package_level_var",
+   "argv": [
+    "-all",
+    "example.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestGetGlobal"
+   ],
+   "files": {
+    "example.go": "package example\n\nvar GlobalVar = 42\n\nfunc GetGlobal() int { return GlobalVar }\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:200"
+  },
+  {
+   "test": "test_const_declaration",
+   "argv": [
+    "-all",
+    "example.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestGetMax"
+   ],
+   "files": {
+    "example.go": "package example\n\nconst MaxSize = 100\n\nfunc GetMax() int { return MaxSize }\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:215"
+  },
+  {
+   "test": "test_print_inputs_flag",
+   "argv": [
+    "-all",
+    "-i",
+    "example.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestAdd",
+    "t.Errorf",
+    "Add("
+   ],
+   "files": {
+    "example.go": "package example\n\nfunc Add(a, b int) int {\n    return a + b\n}\n"
+   },
+   "ci": false,
+   "source": "test_formatting_options.py:35"
+  },
+  {
+   "test": "test_use_go_cmp_flag",
+   "argv": [
+    "-all",
+    "-use_go_cmp",
+    "example.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestGetData",
+    "github.com/google/go-cmp/cmp",
+    "cmp."
+   ],
+   "files": {
+    "example.go": "package example\n\ntype Data struct {\n    Value int\n}\n\nfunc GetData() Data {\n    return Data{Value: 42}\n}\n"
+   },
+   "ci": false,
+   "source": "test_formatting_options.py:55"
+  },
+  {
+   "test": "test_default_uses_reflect",
+   "argv": [
+    "-all",
+    "example.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestGetData"
+   ],
+   "files": {
+    "example.go": "package example\n\ntype Data struct {\n    Value int\n}\n\nfunc GetData() Data {\n    return Data{Value: 42}\n}\n"
+   },
+   "ci": false,
+   "source": "test_formatting_options.py:78"
+  },
+  {
+   "test": "test_i_and_use_go_cmp_together",
+   "argv": [
+    "-all",
+    "-i",
+    "-use_go_cmp",
+    "example.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestProcess",
+    "cmp."
+   ],
+   "files": {
+    "example.go": "package example\n\ntype Data struct {\n    Values []int\n}\n\nfunc Process(input string) Data {\n    return Data{Values: []int{1, 2, 3}}\n}\n"
+   },
+   "ci": false,
+   "source": "test_formatting_options.py:98"
+  },
+  {
+   "test": "test_function_no_params_no_return",
+   "argv": [
+    "-all",
+    "example.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestDoSomething",
+    "func TestDoSomething(t *testing.T)",
+    "DoSomething()"
+   ],
+   "files": {
+    "example.go": "package example\n\nfunc DoSomething() {\n    // do something\n}\n"
+   },
+   "ci": false,
+   "source": "test_function_types.py:35"
+  },
+  {
+   "test": "test_function_with_single_param",
+   "argv": [
+    "-all",
+    "example.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestSquare",
+    "type args struct",
+    "n int",
+    "tt.args.n"
+   ],
+   "files": {
+    "example.go": "package example\n\nfunc Square(n int) int {\n    return n * n\n}\n"
+   },
+   "ci": false,
+   "source": "test_function_types.py:51"
+  },
+  {
+   "test": "test_function_with_multiple_params",
+   "argv": [
+    "-all",
+    "example.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestAdd"
+   ],
+   "files": {
+    "example.go": "package example\n\nfunc Add(a, b, c int) int {\n    return a + b + c\n}\n"
+   },
+   "ci": false,
+   "source": "test_function_types.py:69"
+  },
+  {
+   "test": "test_function_with_single_return",
+   "argv": [
+    "-all",
+    "example.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestGetValue",
+    "want int",
+    "got != tt.want"
+   ],
+   "files": {
+    "example.go": "package example\n\nfunc GetValue() int {\n    return 42\n}\n"
+   },
+   "ci": false,
+   "source": "test_function_types.py:86"
+  },
+  {
+   "test": "test_function_with_multiple_returns",
+   "argv": [
+    "-all",
+    "example.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestDivide"
+   ],
+   "files": {
+    "example.go": "package example\n\nfunc Divide(a, b int) (int, int) {\n    return a / b, a % b\n}\n"
+   },
+   "ci": false,
+   "source": "test_function_types.py:104"
+  },
+  {
+   "test": "test_function_with_error_return",
+   "argv": [
+    "-all",
+    "testdata/calculator.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestCalculator_Divide",
+    "wantErr bool",
+    "(err != nil) != tt.wantErr"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_function_types.py:119"
+  },
+  {
+   "test": "test_method_on_struct",
+   "argv": [
+    "-all",
+    "testdata/calculator.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestCalculator_Multiply",
+    "Calculator",
+    "&Calculator{}"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_function_types.py:132"
+  },
+  {
+   "test": "test_method_on_pointer_receiver",
+   "argv": [
+    "-all",
+    "example.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestCounter_Increment",
+    "Counter",
+    "&Counter{"
+   ],
+   "files": {
+    "example.go": "package example\n\ntype Counter struct {\n    count int\n}\n\nfunc (c *Counter) Increment() {\n    c.count++\n}\n"
+   },
+   "ci": false,
+   "source": "test_function_types.py:143"
+  },
+  {
+   "test": "test_variadic_function",
+   "argv": [
+    "-all",
+    "example.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestSum",
+    "nums"
+   ],
+   "files": {
+    "example.go": "package example\n\nfunc Sum(nums ...int) int {\n    total := 0\n    for _, n := range nums {\n        total += n\n    }\n    return total\n}\n"
+   },
+   "ci": false,
+   "source": "test_function_types.py:163"
+  },
+  {
+   "test": "test_function_with_named_returns",
+   "argv": [
+    "-all",
+    "example.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestCompute",
+    "want",
+    "wantErr"
+   ],
+   "files": {
+    "example.go": "package example\n\nfunc Compute(x int) (result int, err error) {\n    result = x * 2\n    return\n}\n"
+   },
+   "ci": false,
+   "source": "test_function_types.py:183"
+  },
+  {
+   "test": "test_generic_function_any_constraint",
+   "argv": [
+    "-all",
+    "generic.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestIdentity",
+    "Identity[int]",
+    "type args struct"
+   ],
+   "files": {
+    "generic.go": "package generic\n\nfunc Identity[T any](val T) T {\n    return val\n}\n"
+   },
+   "ci": false,
+   "source": "test_generics.py:35"
+  },
+  {
+   "test": "test_generic_function_comparable_constraint",
+   "argv": [
+    "-all",
+    "generic.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestEqual",
+    "Equal[string]",
+    "type args struct"
+   ],
+   "files": {
+    "generic.go": "package generic\n\nfunc Equal[T comparable](a, b T) bool {\n    return a == b\n}\n"
+   },
+   "ci": false,
+   "source": "test_generics.py:52"
+  },
+  {
+   "test": "test_generic_function_multiple_type_params",
+   "argv": [
+    "-all",
+    "generic.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestPair",
+    "first",
+    "second"
+   ],
+   "files": {
+    "generic.go": "package generic\n\nfunc Pair[T, U any](first T, second U) (T, U) {\n    return first, second\n}\n"
+   },
+   "ci": false,
+   "source": "test_generics.py:69"
+  },
+  {
+   "test": "test_generic_method_on_generic_type",
+   "argv": [
+    "-all",
+    "generic.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestSet_Add",
+    "Set[string]",
+    "*Set[string]"
+   ],
+   "files": {
+    "generic.go": "package generic\n\ntype Set[T comparable] struct {\n    items map[T]struct{}\n}\n\nfunc (s *Set[T]) Add(item T) {\n    if s.items == nil {\n        s.items = make(map[T]struct{})\n    }\n    s.items[item] = struct{}{}\n}\n"
+   },
+   "ci": false,
+   "source": "test_generics.py:87"
+  },
+  {
+   "test": "test_generic_function_union_constraint",
+   "argv": [
+    "-all",
+    "generic.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestMax",
+    "Max[int64]",
+    "type args struct"
+   ],
+   "files": {
+    "generic.go": "package generic\n\nfunc Max[T int64 | float64](a, b T) T {\n    if a > b {\n        return a\n    }\n    return b\n}\n"
+   },
+   "ci": false,
+   "source": "test_generics.py:111"
+  },
+  {
+   "test": "test_generic_approximation_constraint",
+   "argv": [
+    "-all",
+    "generic.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestDouble",
+    "Double[int]"
+   ],
+   "files": {
+    "generic.go": "package generic\n\nfunc Double[T ~int](val T) T {\n    return val * 2\n}\n"
+   },
+   "ci": false,
+   "source": "test_generics.py:131"
+  },
+  {
+   "test": "test_generic_function_with_error_return",
+   "argv": [
+    "-all",
+    "generic.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestFind",
+    "wantErr bool",
+    "Find[string]"
+   ],
+   "files": {
+    "generic.go": "package generic\n\nimport \"errors\"\n\nfunc Find[T comparable](slice []T, target T) (int, error) {\n    for i, v := range slice {\n        if v == target {\n            return i, nil\n        }\n    }\n    return -1, errors.New(\"not found\")\n}\n"
+   },
+   "ci": false,
+   "source": "test_generics.py:146"
+  },
+  {
+   "test": "test_single_file",
+   "argv": [
+    "-all",
+    "testdata/calculator.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestCalculator_Multiply",
+    "TestCalculator_Divide",
+    "package testdata"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_handling.py:35"
+  },
+  {
+   "test": "test_multiple_files",
+   "argv": [
+    "-all",
+    "math.go",
+    "logic.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestAdd",
+    "TestAnd"
+   ],
+   "files": {
+    "math.go": "package math\n\nfunc Add(a, b int) int { return a + b }\n",
+    "logic.go": "package math\n\nfunc And(a, b bool) bool { return a && b }\n"
+   },
+   "ci": false,
+   "source": "test_input_handling.py:43"
+  },
+  {
+   "test": "test_directory_path",
+   "argv": [
+    "-all",
+    "testdata/mixedpkg/"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test",
+    "package"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_handling.py:60"
+  },
+  {
+   "test": "test_recursive_directory",
+   "argv": [
+    "-all"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "testing"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_input_handling.py:72"
+  },
+  {
+   "test": "test_test_file_as_input",
+   "argv": [
+    "-all",
+    "-only",
+    "wrapToString",
+    "testdata/test103_test.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_handling.py:104"
+  },
+  {
+   "test": "test_empty_file",
+   "argv": [
+    "-all",
+    "empty.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "empty.go": ""
+   },
+   "ci": false,
+   "source": "test_input_handling.py:112"
+  },
+  {
+   "test": "test_file_with_syntax_errors",
+   "argv": [
+    "-all",
+    "bad.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ":"
+   ],
+   "files": {
+    "bad.go": "package bad\n\nfunc Bad( {\n    this is not valid go code\n}\n"
+   },
+   "ci": false,
+   "source": "test_input_handling.py:135"
+  },
+  {
+   "test": "test_package_with_mixed_files",
+   "argv": [
+    "-all",
+    "testdata/mixedpkg/"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_handling.py:163"
+  },
+  {
+   "test": "test_default_stdout_output",
+   "argv": [
+    "-all",
+    "testdata/calculator.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "package testdata",
+    "TestCalculator_Multiply",
+    "import \"testing\"",
+    "Generated"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:35"
+  },
+  {
+   "test": "test_write_flag_creates_test_file",
+   "argv": [
+    "-all",
+    "-w",
+    "math.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "package math",
+    "TestAdd",
+    "import \"testing\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:46"
+  },
+  {
+   "test": "test_write_flag_appends_to_existing",
+   "argv": [
+    "-only",
+    "Add",
+    "-w",
+    "calc.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestExisting",
+    "TestAdd"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:70"
+  },
+  {
+   "test": "test_output_is_valid_go_code",
+   "argv": [
+    "-all",
+    "testdata/calculator.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "package testdata",
+    "func Test",
+    "t.Run("
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:100"
+  },
+  {
+   "test": "test_generation_messages_on_stdout",
+   "argv": [
+    "-all",
+    "testdata/calculator.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Generated",
+    "TestCalculator_Multiply",
+    "TestCalculator_Divide"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_modes.py:123"
+  },
+  {
+   "test": "test_all_flag",
+   "argv": [
+    "-all",
+    "testdata/calculator.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestCalculator_Multiply",
+    "TestCalculator_Divide",
+    "package testdata",
+    "import \"testing\"",
+    "tests := []struct",
+    "t.Run("
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_selection_flags.py:35"
+  },
+  {
+   "test": "test_exported_flag",
+   "argv": [
+    "-exported",
+    "example.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestExportedFunc"
+   ],
+   "files": {
+    "example.go": "package example\n\nfunc ExportedFunc() int { return 42 }\nfunc unexportedFunc() int { return 0 }\n"
+   },
+   "ci": false,
+   "source": "test_selection_flags.py:48"
+  },
+  {
+   "test": "test_only_flag_matching",
+   "argv": [
+    "-only",
+    "Multiply",
+    "testdata/calculator.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestCalculator_Multiply",
+    "package testdata",
+    "import \"testing\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_selection_flags.py:65"
+  },
+  {
+   "test": "test_only_flag_no_match",
+   "argv": [
+    "-only",
+    "NonexistentFunction",
+    "testdata/calculator.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_selection_flags.py:77"
+  },
+  {
+   "test": "test_excl_flag",
+   "argv": [
+    "-excl",
+    "Multiply",
+    "-all",
+    "testdata/calculator.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestCalculator_Divide",
+    "package testdata"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_selection_flags.py:86"
+  },
+  {
+   "test": "test_excl_precedence_over_only",
+   "argv": [
+    "-only",
+    "Multiply",
+    "-excl",
+    "Multiply",
+    "-all",
+    "testdata/calculator.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_selection_flags.py:96"
+  },
+  {
+   "test": "test_excl_precedence_over_exported",
+   "argv": [
+    "-exported",
+    "-excl",
+    "Add",
+    "example.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestSubtract"
+   ],
+   "files": {
+    "example.go": "package example\n\nfunc Add() int { return 1 }\nfunc Subtract() int { return 2 }\n"
+   },
+   "ci": false,
+   "source": "test_selection_flags.py:105"
+  },
+  {
+   "test": "test_exported_precedence_over_only",
+   "argv": [
+    "-only",
+    "Func",
+    "-exported",
+    "example.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestExportedFunc"
+   ],
+   "files": {
+    "example.go": "package example\n\nfunc ExportedFunc() int { return 1 }\nfunc unexportedFunc() int { return 2 }\n"
+   },
+   "ci": false,
+   "source": "test_selection_flags.py:120"
+  },
+  {
+   "test": "test_only_precedence_over_all",
+   "argv": [
+    "-only",
+    "Multiply",
+    "-all",
+    "testdata/calculator.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestCalculator_Multiply"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_selection_flags.py:134"
+  },
+  {
+   "test": "test_invalid_regexp_pattern",
+   "argv": [
+    "-only",
+    "[invalid(regexp",
+    "testdata/calculator.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_selection_flags.py:143"
+  },
+  {
+   "test": "test_default_subtests_enabled",
+   "argv": [
+    "-all",
+    "testdata/calculator.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "t.Run(",
+    "t.Run(tt.name, func(t *testing.T)",
+    "tests := []struct"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_structure_options.py:35"
+  },
+  {
+   "test": "test_nosubtests_flag",
+   "argv": [
+    "-all",
+    "-nosubtests",
+    "testdata/calculator.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tests := []struct"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_structure_options.py:45"
+  },
+  {
+   "test": "test_parallel_flag",
+   "argv": [
+    "-all",
+    "-parallel",
+    "testdata/calculator.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "t.Parallel()",
+    "t.Run(",
+    "t.Parallel()"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_structure_options.py:56"
+  },
+  {
+   "test": "test_parallel_with_nosubtests",
+   "argv": [
+    "-all",
+    "-parallel",
+    "-nosubtests",
+    "testdata/calculator.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "t.Parallel()"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_structure_options.py:68"
+  },
+  {
+   "test": "test_named_flag_uses_map",
+   "argv": [
+    "-all",
+    "-named",
+    "testdata/calculator.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tests := map[string]struct"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_structure_options.py:77"
+  },
+  {
+   "test": "test_named_with_nosubtests",
+   "argv": [
+    "-all",
+    "-named",
+    "-nosubtests",
+    "testdata/calculator.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tests := map[string]struct"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_structure_options.py:88"
+  },
+  {
+   "test": "test_named_with_parallel",
+   "argv": [
+    "-all",
+    "-named",
+    "-parallel",
+    "testdata/calculator.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tests := map[string]struct",
+    "t.Parallel()"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_structure_options.py:97"
+  },
+  {
+   "test": "test_default_template",
+   "argv": [
+    "-all",
+    "testdata/calculator.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_templates.py:35"
+  },
+  {
+   "test": "test_testify_template",
+   "argv": [
+    "-all",
+    "-template",
+    "testify",
+    "testdata/calculator.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "assert",
+    "github.com/stretchr/testify/assert",
+    "assert."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_templates.py:44"
+  },
+  {
+   "test": "test_template_via_env_var",
+   "argv": [
+    "-all",
+    "testdata/calculator.go"
+   ],
+   "stdin": null,
+   "env": {
+    "GOTESTS_TEMPLATE": "testify"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "assert",
+    "github.com/stretchr/testify/assert"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_templates.py:54"
+  },
+  {
+   "test": "test_template_flag_overrides_env",
+   "argv": [
+    "-all",
+    "-template",
+    "",
+    "testdata/calculator.go"
+   ],
+   "stdin": null,
+   "env": {
+    "GOTESTS_TEMPLATE": "testify"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "package testdata"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_templates.py:62"
+  },
+  {
+   "test": "test_custom_template_dir",
+   "argv": [
+    "-all",
+    "-template_dir",
+    "testdata/customtemplates",
+    "testdata/calculator.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestCalculator",
+    "package testdata"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_templates.py:71"
+  },
+  {
+   "test": "test_template_dir_via_env_var",
+   "argv": [
+    "-all",
+    "testdata/calculator.go"
+   ],
+   "stdin": null,
+   "env": {
+    "GOTESTS_TEMPLATE_DIR": "testdata/customtemplates"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestCalculator"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_templates.py:80"
+  },
+  {
+   "test": "test_template_dir_precedence_over_template",
+   "argv": [
+    "-all",
+    "-template",
+    "testify",
+    "-template_dir",
+    "testdata/customtemplates",
+    "testdata/calculator.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TestCalculator"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_templates.py:88"
+  },
+  {
+   "test": "test_required_selector_flag_missing",
+   "argv": [
+    "testdata/calculator.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Please specify either the -only, -excl, -exported, or -all flag"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:78"
+  },
+  {
+   "test": "test_last_value_wins_for_repeated_flag_only",
+   "argv": [
+    "-only",
+    "Multiply",
+    "-only",
+    "Divide",
+    "testdata/calculator.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Generated TestCalculator_Divide"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:101"
+  },
+  {
+   "test": "test_precedence_excl_over_only",
+   "argv": [
+    "-excl",
+    "Multiply",
+    "-only",
+    "Multiply",
+    "testdata/calculator.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "No tests generated"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:109"
+  },
+  {
+   "test": "test_double_dash_stops_flag_parsing_for_following_args",
+   "argv": [
+    "-only",
+    "Multiply",
+    "--",
+    "testdata/calculator.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Generated TestCalculator_Multiply",
+    "Please specify either the -only, -excl, -exported, or -all flag"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:115"
+  },
+  {
+   "test": "test_bool_flag_rejects_attached_non_bool_value",
+   "argv": [
+    "-all=testdata/calculator.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid boolean value",
+    "for -all",
+    "Usage of"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:129"
+  },
+  {
+   "test": "test_template_params_invalid_json_errors_without_usage",
+   "argv": [
+    "-template_params",
+    "{",
+    "-all",
+    "testdata/calculator.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Failed to unmarshal template_params JSON"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:138"
+  },
+  {
+   "test": "test_help_flag_works",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-all",
+    "-exported",
+    "-only"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:41"
+  },
+  {
+   "test": "test_no_subcommand_in_help",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:53"
+  },
+  {
+   "test": "test_version_flag_not_subcommand",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Please specify either"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:91"
+  },
+  {
+   "test": "test_flags_work_with_dash_dash",
+   "argv": [
+    "--all",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage of"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:109"
+  },
+  {
+   "test": "test_single_dash_flags_work",
+   "argv": [
+    "-i",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:116"
+  },
+  {
+   "test": "test_flag_before_path_argument",
+   "argv": [
+    "--help",
+    "somepath.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:121"
+  },
+  {
+   "test": "test_template_flag_accepts_value",
+   "argv": [
+    "-template",
+    "testify",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:127"
+  },
+  {
+   "test": "test_boolean_flags_no_value_needed",
+   "argv": [
+    "-all",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:132"
+  },
+  {
+   "test": "test_exported_flag_is_global",
+   "argv": [
+    "-exported",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:210"
+  },
+  {
+   "test": "test_write_flag_is_global",
+   "argv": [
+    "-w",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:215"
+  },
+  {
+   "test": "test_flags_can_be_combined",
+   "argv": [
+    "-all",
+    "-w",
+    "-i",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:225"
+  },
+  {
+   "test": "test_ai_flags_are_global",
+   "argv": [
+    "-ai",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:230"
+  },
+  {
+   "test": "test_no_help_subcommand",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Please specify either"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:248"
+  },
+  {
+   "test": "test_no_version_subcommand",
+   "argv": [
+    "version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Please specify either"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:256"
+  },
+  {
+   "test": "test_flag_order_independence",
+   "argv": [
+    "-all",
+    "-i",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage of",
+    "Usage of"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:278"
+  },
+  {
+   "test": "test_equal_sign_flag_syntax",
+   "argv": [
+    "-template=testify",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:292"
+  },
+  {
+   "test": "test_generate_to_stdout_contains_generated_banner_and_test_code",
+   "argv": [
+    "-all"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "func TestAdd",
+    "package gotestsio"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_generation_stdout_and_write_mode.py:13"
+  },
+  {
+   "test": "test_write_mode_creates_test_file_and_prints_only_banner",
+   "argv": [
+    "-all",
+    "-w"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "func TestAdd"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_generation_stdout_and_write_mode.py:27"
+  },
+  {
+   "test": "test_help_prints_usage_to_stdout_and_exit_0",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage of"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_version_and_errors.py:4"
+  },
+  {
+   "test": "test_version_contains_fields_exit_0",
+   "argv": [
+    "-version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "gotests v",
+    "Go version:",
+    "Git commit:",
+    "Build time:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_version_and_errors.py:11"
+  },
+  {
+   "test": "test_missing_selector_flag_prints_message_exit_0",
+   "argv": [
+    "/tmp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Please specify either the -only"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_version_and_errors.py:22"
+  },
+  {
+   "test": "test_nonexistent_input_file_prints_error_to_stdout_exit_0",
+   "argv": [
+    "-all",
+    "/no/such/file.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "no such file or directory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_version_and_errors.py:29"
+  },
+  {
+   "test": "test_invalid_template_params_file_prints_error_to_stdout_exit_0",
+   "argv": [
+    "-all",
+    "-template_params_file",
+    "params_invalid.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid character"
+   ],
+   "files": {
+    "params_invalid.json": "{not json}\n"
+   },
+   "ci": false,
+   "source": "test_template_params_file.py:12"
+  },
+  {
+   "test": "test_short_help_flag_exits_zero",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:53"
+  },
+  {
+   "test": "test_help_prints_to_stderr_not_stdout",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:58"
+  },
+  {
+   "test": "test_help_documents_default_endpoint_url",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "default \"http://localhost:11434\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:105"
+  },
+  {
+   "test": "test_help_mentions_template_env_vars",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GOTESTS_TEMPLATE",
+    "GOTESTS_TEMPLATE_DIR"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:110"
+  },
+  {
+   "test": "test_help_with_extra_unknown_flag_still_exits_zero_and_prints_usage",
+   "argv": [
+    "--help",
+    "--definitely-not-a-real-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:128"
+  },
+  {
+   "test": "test_double_dash_stops_flag_parsing_and_tool_prints_non_help_message",
+   "argv": [
+    "--",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-only"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:134"
+  },
+  {
+   "test": "test_help_mentions_template_env_vars",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "GOTESTS_TEMPLATE",
+    "GOTESTS_TEMPLATE_DIR"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_env_and_config.py:29"
+  },
+  {
+   "test": "test_env_GOTESTS_TEMPLATE_selects_testify_template",
+   "argv": [
+    "-all"
+   ],
+   "stdin": null,
+   "env": {
+    "GOTESTS_TEMPLATE": "testify"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_env_and_config.py:37"
+  },
+  {
+   "test": "test_empty_template_flag_does_not_override_env_template",
+   "argv": [
+    "-template",
+    "",
+    "-all"
+   ],
+   "stdin": null,
+   "env": {
+    "GOTESTS_TEMPLATE": "testify"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/stretchr/testify/"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_env_and_config.py:46"
+  },
+  {
+   "test": "test_env_GOTESTS_TEMPLATE_DIR_is_used_when_flag_not_set",
+   "argv": [
+    "-template_dir",
+    "-all"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "testCases := []struct"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_env_and_config.py:60"
+  },
+  {
+   "test": "test_bad_template_dir_reports_error_message_and_exits_zero",
+   "argv": [
+    "-template_dir",
+    "-all"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_env_and_config.py:83"
+  }
+ ]
+}

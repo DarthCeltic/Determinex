@@ -1,0 +1,2196 @@
+[
+ {
+  "name": "test::test_gap_stdin::0",
+  "argv": [
+   "gap",
+   "-l",
+   "3",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_listhet_stdin::1",
+  "argv": [
+   "listhet",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gc_stdin::2",
+  "argv": [
+   "gc",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hety_stdin::3",
+  "argv": [
+   "hety",
+   "-w",
+   "50",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comp_stdin_input::4",
+  "argv": [
+   "comp",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_size_stdin_input::5",
+  "argv": [
+   "size",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fqchk_stdin_input::6",
+  "argv": [
+   "fqchk",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dropse_stdin_input::7",
+  "argv": [
+   "dropse",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trimfq_stdin_input::8",
+  "argv": [
+   "trimfq",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_input::9",
+  "argv": [
+   "seq",
+   "-a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_input_file::10",
+  "argv": [
+   "seq",
+   "-a"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sample_stdin_with_twopass_error::11",
+  "argv": [
+   "sample",
+   "-2",
+   "-s100",
+   "-",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sample_stdin_streaming_mode::12",
+  "argv": [
+   "sample",
+   "-s100",
+   "-",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hrun_stdin_input::13",
+  "argv": [
+   "hrun",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_kfreq_stdin_input::14",
+  "argv": [
+   "kfreq",
+   "ATG",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hrun_empty_sequence::15",
+  "argv": [
+   "hrun",
+   "-"
+  ],
+  "stdin": ">seq_with_run\nAAAAAAAA\n>empty\n\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_kfreq_empty_sequence::16",
+  "argv": [
+   "kfreq",
+   "ATG",
+   "-"
+  ],
+  "stdin": ">empty\n\n>seq\nATGATG\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hrun_very_long_homopolymer::17",
+  "argv": [
+   "hrun",
+   "-",
+   "100"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_kfreq_very_long_kmer::18",
+  "argv": [
+   "kfreq",
+   "ATGCATGCAT",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hrun_sequence_with_only_ns::19",
+  "argv": [
+   "hrun",
+   "-"
+  ],
+  "stdin": ">all_ns\nNNNNNNNNNN\n>normal\nAAAAAAAA\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hrun_tab_and_whitespace_in_sequence_name::20",
+  "argv": [
+   "hrun",
+   "-"
+  ],
+  "stdin": ">seq with spaces\nAAAAAAAA\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hpc_stdin_input::21",
+  "argv": [
+   "hpc",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_randbase_stdin::22",
+  "argv": [
+   "randbase",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rename_stdin_input::23",
+  "argv": [
+   "rename",
+   "-",
+   "stdin_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unrecognized_command::24",
+  "argv": [
+   "unknowncmd"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_unrecognized::25",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seq_fasta_passthrough::26",
+  "argv": [
+   "seq"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seq_A_flag_same_as_a::27",
+  "argv": [
+   "seq",
+   "-A"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seq_reverse_complement::28",
+  "argv": [
+   "seq",
+   "-r",
+   "in.fa"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fa": ">seq1\nACGT\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seq_reverse_complement_acga::29",
+  "argv": [
+   "seq",
+   "-r",
+   "in.fa"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fa": ">seq1\nACGA\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seq_reverse_both_strands::30",
+  "argv": [
+   "seq",
+   "-R",
+   "in.fa"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fa": ">seq1\nACGT\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seq_line_length::31",
+  "argv": [
+   "seq",
+   "-l",
+   "4",
+   "in.fa"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fa": ">seq1\nACGTACGTACGTACGTACGT\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seq_uppercase::32",
+  "argv": [
+   "seq",
+   "-U",
+   "in.fa"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fa": ">seq1\nacgtacgt\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seq_min_length_filter::33",
+  "argv": [
+   "seq",
+   "-L",
+   "10",
+   "in.fa"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fa": ">short\nACGT\n>long\nACGTACGTACGTACGT\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seq_drop_comments::34",
+  "argv": [
+   "seq",
+   "-C",
+   "in.fa"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fa": ">seq1 this is a comment\nACGT\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seq_drop_ambiguous::35",
+  "argv": [
+   "seq",
+   "-N",
+   "in.fa"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fa": ">seq1\nACGTN\n>seq2\nACGT\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seq_quality_masking::36",
+  "argv": [
+   "seq",
+   "-q",
+   "20"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seq_quality_masking_with_n::37",
+  "argv": [
+   "seq",
+   "-q",
+   "20",
+   "-n",
+   "N"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seq_fake_quality::38",
+  "argv": [
+   "seq",
+   "-F",
+   "I"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seq_strip_whitespace::39",
+  "argv": [
+   "seq",
+   "-S",
+   "in.fa"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fa": ">seq1\nACGT ACGT\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seq_odd_reads_only::40",
+  "argv": [
+   "seq",
+   "-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seq_even_reads_only::41",
+  "argv": [
+   "seq",
+   "-2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seq_mask_bed_regions::42",
+  "argv": [
+   "seq",
+   "-M",
+   "mask.bed",
+   "in.fa"
+  ],
+  "stdin": null,
+  "files": {
+   "mask.bed": "chr1\t2\t6\n",
+   "in.fa": ">chr1\nACGTACGTACGT\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seq_nonexistent_file::43",
+  "argv": [
+   "seq",
+   "/nonexistent/file.fa"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seq_fraction_sampling::44",
+  "argv": [
+   "seq",
+   "-f",
+   "0.1",
+   "-s",
+   "42"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seq_stdin::45",
+  "argv": [
+   "seq",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seq_x_lowercase_to_n::46",
+  "argv": [
+   "seq",
+   "-x",
+   "-n",
+   "N",
+   "in.fa"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fa": ">seq1\nACGTacgtACGT\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seq_quality_shift::47",
+  "argv": [
+   "seq",
+   "-Q",
+   "64",
+   "in.fq"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fq": "@read1\nACGT\n+\ngggg\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_size_basic::48",
+  "argv": [
+   "size"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_size_empty_counts_zero::49",
+  "argv": [
+   "size",
+   "empty.fa"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.fa": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_size_nonexistent_file::50",
+  "argv": [
+   "size",
+   "/nonexistent/file.fa"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seq_complement_mask::51",
+  "argv": [
+   "seq",
+   "-M",
+   "mask.bed",
+   "-c",
+   "in.fa"
+  ],
+  "stdin": null,
+  "files": {
+   "mask.bed": "chr1\t0\t4\n",
+   "in.fa": ">chr1\nACGTACGTACGT\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seq_mask_with_n_char::52",
+  "argv": [
+   "seq",
+   "-M",
+   "mask.bed",
+   "-n",
+   "N",
+   "in.fa"
+  ],
+  "stdin": null,
+  "files": {
+   "mask.bed": "chr1\t2\t6\n",
+   "in.fa": ">chr1\nACGTACGTACGT\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seq_quality_shift_V::53",
+  "argv": [
+   "seq",
+   "-V",
+   "-Q",
+   "64",
+   "in.fq"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fq": "@read1\nACGT\n+\ngggg\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seq_max_quality_X::54",
+  "argv": [
+   "seq",
+   "-X",
+   "35",
+   "-q",
+   "1",
+   "in.fq"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fq": "@read1\nACGTACGT\n+\nIIIIIIII\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seq_reverse_complement_fastq::55",
+  "argv": [
+   "seq",
+   "-r",
+   "in.fq"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fq": "@read1\nACGTA\n+\nIIIIJ\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seq_preserves_comments::56",
+  "argv": [
+   "seq",
+   "in.fa"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fa": ">seq1 gene=tp53 chr=17\nACGT\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seq_drops_comments::57",
+  "argv": [
+   "seq",
+   "-C",
+   "in.fa"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fa": ">seq1 gene=tp53 chr=17\nACGT\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seq_split_output_comments::58",
+  "argv": [
+   "seq",
+   "-R",
+   "in.fq"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fq": "@read1 comment here\nACGT\n+\nIIII\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comp_basic::59",
+  "argv": [
+   "comp",
+   "in.fa"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fa": ">seq1\nACGT\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comp_base_counts::60",
+  "argv": [
+   "comp",
+   "in.fa"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fa": ">seq1\nAAAACCCCGGGGTTTT\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comp_multiple_seqs::61",
+  "argv": [
+   "comp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comp_upper_only::62",
+  "argv": [
+   "comp",
+   "in.fa"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fa": ">seq1\nACGTacgt\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comp_with_region_bed::63",
+  "argv": [
+   "comp",
+   "-r",
+   "region.bed",
+   "in.fa"
+  ],
+  "stdin": null,
+  "files": {
+   "region.bed": "chr1\t0\t4\n",
+   "in.fa": ">chr1\nAAAACCCCGGGGTTTT\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comp_nonexistent_file::64",
+  "argv": [
+   "comp",
+   "/nonexistent/file.fa"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comp_output_format::65",
+  "argv": [
+   "comp",
+   "in.fa"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fa": ">seq1\nACGCGTACGT\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fqchk_basic::66",
+  "argv": [
+   "fqchk"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fqchk_quality_threshold::67",
+  "argv": [
+   "fqchk",
+   "-q",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fqchk_nonexistent_file::68",
+  "argv": [
+   "fqchk",
+   "/nonexistent/file.fq"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fqchk_length_stats::69",
+  "argv": [
+   "fqchk",
+   "in.fq"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fq": "@read1\nACGT\n+\nIIII\n@read2\nACGTACGT\n+\nIIIIIIII\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hety_basic::70",
+  "argv": [
+   "hety"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hety_window_size::71",
+  "argv": [
+   "hety",
+   "-w",
+   "500"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hety_t_option::72",
+  "argv": [
+   "hety",
+   "-t",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hety_nonexistent_file::73",
+  "argv": [
+   "hety",
+   "/nonexistent/file.fa"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gc_basic_high_gc::74",
+  "argv": [
+   "gc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gc_high_at::75",
+  "argv": [
+   "gc",
+   "-w"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gc_min_length::76",
+  "argv": [
+   "gc",
+   "-l",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gc_output_format::77",
+  "argv": [
+   "gc",
+   "-f",
+   "0.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gc_nonexistent_file::78",
+  "argv": [
+   "gc",
+   "/nonexistent/file.fa"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gc_xdropoff::79",
+  "argv": [
+   "gc",
+   "-x",
+   "5.0",
+   "-f",
+   "0.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gap_detects_gaps::80",
+  "argv": [
+   "gap"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gap_min_size_custom::81",
+  "argv": [
+   "gap",
+   "-l",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gap_no_gaps::82",
+  "argv": [
+   "gap",
+   "in.fa"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fa": ">chr1\nACGTACGTACGT\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gap_stdin::83",
+  "argv": [
+   "gap",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cutn_basic::84",
+  "argv": [
+   "cutN"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cutn_gap_only::85",
+  "argv": [
+   "cutN",
+   "-g"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cutn_min_n_tract::86",
+  "argv": [
+   "cutN",
+   "-n",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cutn_stdin::87",
+  "argv": [
+   "cutN",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cutn_nonexistent_file::88",
+  "argv": [
+   "cutN",
+   "/nonexistent/file.fa"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cutn_penalty::89",
+  "argv": [
+   "cutN",
+   "-p",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_listhet_basic::90",
+  "argv": [
+   "listhet",
+   "in.fa"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fa": ">seq1\nACGTMRWS\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_listhet_no_args_shows_usage::91",
+  "argv": [
+   "listhet"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_listhet_no_hets::92",
+  "argv": [
+   "listhet",
+   "in.fa"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fa": ">seq1\nACGTACGT\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mergefa_basic::93",
+  "argv": [
+   "mergefa",
+   "in1.fa",
+   "in2.fa"
+  ],
+  "stdin": null,
+  "files": {
+   "in1.fa": ">seq1\nACGT\n",
+   "in2.fa": ">seq1\nACGT\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mergefa_no_args_shows_usage::94",
+  "argv": [
+   "mergefa"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mergefa_intersection::95",
+  "argv": [
+   "mergefa",
+   "-i",
+   "in1.fa",
+   "in2.fa"
+  ],
+  "stdin": null,
+  "files": {
+   "in1.fa": ">seq1\nACGT\n>seq2\nTTTT\n",
+   "in2.fa": ">seq1\nACGT\n>seq3\nGGGG\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mergefa_quality_threshold::96",
+  "argv": [
+   "mergefa",
+   "-q",
+   "30",
+   "in1.fa",
+   "in2.fa"
+  ],
+  "stdin": null,
+  "files": {
+   "in1.fa": ">seq1\nACGT\n",
+   "in2.fa": ">seq1\nACGT\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mergefa_lowercase_mask::97",
+  "argv": [
+   "mergefa",
+   "-m",
+   "in1.fa",
+   "in2.fa"
+  ],
+  "stdin": null,
+  "files": {
+   "in1.fa": ">seq1\nACGT\n",
+   "in2.fa": ">seq1\nNNNN\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mergefa_suppress_hets::98",
+  "argv": [
+   "mergefa",
+   "-h",
+   "in1.fa",
+   "in2.fa"
+  ],
+  "stdin": null,
+  "files": {
+   "in1.fa": ">seq1\nACGT\n",
+   "in2.fa": ">seq1\nACGT\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_famask_basic::99",
+  "argv": [
+   "famask",
+   "src.fa",
+   "mask.fa"
+  ],
+  "stdin": null,
+  "files": {
+   "src.fa": ">seq1\nACGTACGT\n",
+   "mask.fa": ">seq1\nACGTXXXX\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_famask_no_args_shows_usage::100",
+  "argv": [
+   "famask"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mutfa_basic::101",
+  "argv": [
+   "mutfa",
+   "in.fa",
+   "in.snp"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fa": ">chr1\nACGTACGT\n",
+   "in.snp": "chr1\t3\tA\tT\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mutfa_no_args_shows_usage::102",
+  "argv": [
+   "mutfa"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_split_basic::103",
+  "argv": [
+   "split",
+   "-n",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_split_no_args_shows_usage::104",
+  "argv": [
+   "split"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_split_contents::105",
+  "argv": [
+   "split",
+   "-n",
+   "1",
+   "in.fa"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fa": ">seq1\nACGT\n>seq2\nGGGG\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_split_line_length::106",
+  "argv": [
+   "split",
+   "-n",
+   "1",
+   "-l",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rename_with_prefix::107",
+  "argv": [
+   "rename",
+   "in.fq",
+   "new_prefix_"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fq": "@read1\nACGT\n+\nIIII\n@read2\nACGT\n+\nIIII\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rename_sequential::108",
+  "argv": [
+   "rename",
+   "in.fq",
+   "seq"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fq": "@read1\nACGT\n+\nIIII\n@read2\nGGGG\n+\nIIII\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rename_no_prefix::109",
+  "argv": [
+   "rename",
+   "in.fq"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fq": "@read1\nACGT\n+\nIIII\n@read2\nACGT\n+\nIIII\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rename_no_args_reads_empty_stdin::110",
+  "argv": [
+   "rename"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rename_fasta::111",
+  "argv": [
+   "rename",
+   "in.fa",
+   "chr"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fa": ">seq1\nACGT\n>seq2\nGGGG\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_randbase_basic::112",
+  "argv": [
+   "randbase",
+   "in.fa"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fa": ">seq1\nMRWSYK\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_randbase_no_args_shows_usage::113",
+  "argv": [
+   "randbase"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_randbase_no_hets_unchanged::114",
+  "argv": [
+   "randbase",
+   "in.fa"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fa": ">seq1\nACGT\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hpc_basic::115",
+  "argv": [
+   "hpc",
+   "in.fa"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fa": ">seq1\nAAAACCCCGGGGTTTT\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hpc_no_homopolymers::116",
+  "argv": [
+   "hpc",
+   "in.fa"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fa": ">seq1\nACGTACGT\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hpc_no_args_reads_empty_stdin::117",
+  "argv": [
+   "hpc"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hpc_stdin::118",
+  "argv": [
+   "hpc",
+   "-"
+  ],
+  "stdin": ">seq1\nAAAACCCCGGGGTTTT\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hpc_fastq::119",
+  "argv": [
+   "hpc",
+   "in.fq"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fq": "@read1\nAAAACCCC\n+\nIIIIIIII\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hrun_basic::120",
+  "argv": [
+   "hrun",
+   "in.fa"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fa": ">seq1\nAAAAAAAAAAAACGGGGGGGGGG\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hrun_min_length::121",
+  "argv": [
+   "hrun",
+   "in.fa",
+   "10"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fa": ">seq1\nAAAAAAAAAAAACGGGGGGGGGG\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hrun_shows_usage::122",
+  "argv": [
+   "hrun"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hrun_stdin::123",
+  "argv": [
+   "hrun",
+   "-"
+  ],
+  "stdin": ">seq1\nAAAAAAAAAAAACGGGGGGGGGG\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_kfreq_basic::124",
+  "argv": [
+   "kfreq",
+   "ACGT",
+   "in.fa"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fa": ">seq1\nACGTACGTACGT\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_kfreq_shows_usage::125",
+  "argv": [
+   "kfreq"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_kfreq_stdin::126",
+  "argv": [
+   "kfreq",
+   "ACGT",
+   "-"
+  ],
+  "stdin": ">seq1\nACGTACGTACGT\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sample_by_fraction::127",
+  "argv": [
+   "sample",
+   "-s",
+   "42",
+   "0.1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sample_by_number::128",
+  "argv": [
+   "sample",
+   "-s",
+   "42",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sample_reproducible_with_seed::129",
+  "argv": [
+   "sample",
+   "-s",
+   "100",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sample_different_seeds_different_output::130",
+  "argv": [
+   "sample",
+   "-s",
+   "1",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sample_fasta::131",
+  "argv": [
+   "sample",
+   "-s",
+   "42",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sample_no_args_shows_usage::132",
+  "argv": [
+   "sample"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sample_twopass_mode::133",
+  "argv": [
+   "sample",
+   "-2",
+   "-s",
+   "42",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sample_all_sequences::134",
+  "argv": [
+   "sample",
+   "100"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subseq_by_name_list::135",
+  "argv": [
+   "subseq",
+   "in.fa",
+   "names.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fa": ">chr1\nACGTACGT\n>chr2\nGGGGGGGG\n>chr3\nTTTTTTTT\n",
+   "names.txt": "chr1\nchr3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subseq_by_bed::136",
+  "argv": [
+   "subseq",
+   "in.fa",
+   "regions.bed"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fa": ">chr1\nACGTACGTACGT\n",
+   "regions.bed": "chr1\t2\t6\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subseq_tab_output::137",
+  "argv": [
+   "subseq",
+   "-t",
+   "in.fa",
+   "names.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fa": ">chr1\nACGTACGT\n",
+   "names.txt": "chr1\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subseq_no_args_shows_usage::138",
+  "argv": [
+   "subseq"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subseq_missing_region_file::139",
+  "argv": [
+   "subseq",
+   "/nonexistent/regions.bed"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subseq_line_length::140",
+  "argv": [
+   "subseq",
+   "-l",
+   "4",
+   "in.fa",
+   "names.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fa": ">chr1\nACGTACGTACGTACGTACGT\n",
+   "names.txt": "chr1\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subseq_fastq::141",
+  "argv": [
+   "subseq",
+   "in.fq",
+   "names.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fq": "@read1\nACGTACGT\n+\nIIIIIIII\n@read2\nGGGGGGGG\n+\nIIIIIIII\n",
+   "names.txt": "read1\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subseq_strand_aware::142",
+  "argv": [
+   "subseq",
+   "-s",
+   "in.fa",
+   "regions.bed"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fa": ">chr1\nACGTACGT\n",
+   "regions.bed": "chr1\t0\t4\t.\t.\t-\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_telo_detects_telomere::143",
+  "argv": [
+   "telo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_telo_custom_motif::144",
+  "argv": [
+   "telo",
+   "-m",
+   "CCCTAA"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_telo_empty_stdin_zero_result::145",
+  "argv": [
+   "telo",
+   "-"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_telo_min_score::146",
+  "argv": [
+   "telo",
+   "-s",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_telo_stdin::147",
+  "argv": [
+   "telo",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_telo_show_profile::148",
+  "argv": [
+   "telo",
+   "-P"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_telo_max_drop::149",
+  "argv": [
+   "telo",
+   "-d",
+   "1000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trimfq_basic::150",
+  "argv": [
+   "trimfq"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trimfq_quality_threshold::151",
+  "argv": [
+   "trimfq",
+   "-q",
+   "0.01"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trimfq_left_trim::152",
+  "argv": [
+   "trimfq",
+   "-b",
+   "3",
+   "in.fq"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fq": "@read1\nACGTACGTACGT\n+\nIIIIIIIIIIII\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trimfq_right_trim::153",
+  "argv": [
+   "trimfq",
+   "-e",
+   "3",
+   "in.fq"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fq": "@read1\nACGTACGTACGT\n+\nIIIIIIIIIIII\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trimfq_both_trim::154",
+  "argv": [
+   "trimfq",
+   "-b",
+   "2",
+   "-e",
+   "2",
+   "in.fq"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fq": "@read1\nACGTACGTACGT\n+\nIIIIIIIIIIII\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trimfq_fixed_length::155",
+  "argv": [
+   "trimfq",
+   "-L",
+   "5",
+   "in.fq"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fq": "@read1\nACGTACGTACGT\n+\nIIIIIIIIIIII\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trimfq_nonexistent_file::156",
+  "argv": [
+   "trimfq",
+   "/nonexistent/file.fq"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trimfq_min_length::157",
+  "argv": [
+   "trimfq",
+   "-l",
+   "30"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mergepe_basic::158",
+  "argv": [
+   "mergepe",
+   "r1.fq",
+   "r2.fq"
+  ],
+  "stdin": null,
+  "files": {
+   "r1.fq": "@read1/1\nACGT\n+\nIIII\n@read2/1\nTTTT\n+\nIIII\n",
+   "r2.fq": "@read1/2\nGGGG\n+\nIIII\n@read2/2\nCCCC\n+\nIIII\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mergepe_no_args_shows_usage::159",
+  "argv": [
+   "mergepe"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dropse_paired_output::160",
+  "argv": [
+   "dropse",
+   "in.fq"
+  ],
+  "stdin": null,
+  "files": {
+   "in.fq": "@read1/1\nACGT\n+\nIIII\n@read1/2\nACGT\n+\nIIII\n@read2/1\nACGT\n+\nIIII\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dropse_stdin::161",
+  "argv": [
+   "dropse",
+   "-"
+  ],
+  "stdin": "@read1/1\nACGT\n+\nIIII\n@read1/2\nACGT\n+\nIIII\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

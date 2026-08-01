@@ -1,0 +1,1844 @@
+{
+ "slug": "kyoheiu__felix.95df390",
+ "language": "",
+ "n_branches": 10,
+ "n_tests_total": 967,
+ "n_examples": 104,
+ "n_with_exact_stdout": 2,
+ "n_with_rc": 99,
+ "n_skipped": 810,
+ "examples": [
+  {
+   "test": "test_log_flag_short",
+   "argv": [
+    "-l"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_coverage.py:35"
+  },
+  {
+   "test": "test_log_flag_long",
+   "argv": [
+    "--log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_coverage.py:44"
+  },
+  {
+   "test": "test_log_flag_with_invalid_path",
+   "argv": [
+    "-l",
+    "/nonexistent/path/that/does/not/exist"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Invalid path",
+    "fx -h"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_coverage.py:61"
+  },
+  {
+   "test": "test_three_arguments_invalid",
+   "argv": [
+    "arg1",
+    "arg2",
+    "arg3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "felix v2.16.1",
+    "Usage"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_coverage.py:192"
+  },
+  {
+   "test": "test_four_or_more_arguments",
+   "argv": [
+    "arg1",
+    "arg2",
+    "arg3",
+    "arg4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "felix v2.16.1",
+    "Usage"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_coverage.py:199"
+  },
+  {
+   "test": "test_invalid_utf8_in_path",
+   "argv": [
+    "/tmp/test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Invalid path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_coverage.py:247"
+  },
+  {
+   "test": "test_file_not_directory",
+   "argv": [
+    "testfile.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Path should be directory",
+    "fx -h"
+   ],
+   "files": {
+    "testfile.txt": "content"
+   },
+   "ci": false,
+   "source": "test_cli_coverage.py:268"
+  },
+  {
+   "test": "test_relative_path_dot",
+   "argv": [
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Cannot detect terminal size"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_coverage.py:346"
+  },
+  {
+   "test": "test_relative_path_dotdot",
+   "argv": [
+    ".."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Cannot detect terminal size"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_coverage.py:353"
+  },
+  {
+   "test": "test_help_flag_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "felix v2.16.1",
+    "A simple TUI file manager",
+    "Usage",
+    "Options",
+    "Manual"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_felix.py:102"
+  },
+  {
+   "test": "test_help_flag_long",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "felix v2.16.1",
+    "A simple TUI file manager",
+    "Usage"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_felix.py:112"
+  },
+  {
+   "test": "test_help_contains_all_sections",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "## Usage",
+    "## Options",
+    "## Manual",
+    "## Preview feature",
+    "## Configuration"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_felix.py:120"
+  },
+  {
+   "test": "test_help_contains_version_number",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_felix.py:133"
+  },
+  {
+   "test": "test_help_contains_key_bindings",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "j / <Down>",
+    "k / <Up>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_felix.py:140"
+  },
+  {
+   "test": "test_help_contains_config_paths",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "config file",
+    "trash directory"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_felix.py:153"
+  },
+  {
+   "test": "test_init_flag",
+   "argv": [
+    "--init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "runtime_dir",
+    "mkdir"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_felix.py:163"
+  },
+  {
+   "test": "test_init_creates_fx_function",
+   "argv": [
+    "--init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "fx()",
+    "RUNTIME_DIR",
+    "SHELL_PID"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_felix.py:175"
+  },
+  {
+   "test": "test_init_handles_runtime_dir",
+   "argv": [
+    "--init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "XDG_RUNTIME_DIR",
+    "TMPDIR",
+    "/tmp/felix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_felix.py:185"
+  },
+  {
+   "test": "test_init_cleans_old_files",
+   "argv": [
+    "--init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "find",
+    "-mmin +1",
+    "-delete"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_felix.py:196"
+  },
+  {
+   "test": "test_init_output_is_valid_shell_syntax",
+   "argv": [
+    "--init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_felix.py:298"
+  },
+  {
+   "test": "test_init_changes_directory_on_exit",
+   "argv": [
+    "--init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cd ",
+    "cat "
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_felix.py:319"
+  },
+  {
+   "test": "test_help_output_is_markdown_formatted",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "##",
+    "`"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_felix.py:336"
+  },
+  {
+   "test": "test_help_output_not_empty",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_felix.py:357"
+  },
+  {
+   "test": "test_help_documents_file_operations",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dd",
+    "yy"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_felix.py:492"
+  },
+  {
+   "test": "test_help_documents_visual_mode",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "V"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_felix.py:503"
+  },
+  {
+   "test": "test_help_documents_command_mode",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "command"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_felix.py:512"
+  },
+  {
+   "test": "test_help_documents_registers",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ":reg"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_felix.py:548"
+  },
+  {
+   "test": "test_help_documents_zoxide_integration",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "zoxide"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_felix.py:557"
+  },
+  {
+   "test": "test_help_documents_chafa_integration",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "chafa",
+    "image"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_felix.py:566"
+  },
+  {
+   "test": "test_help_flag_with_path_argument",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "felix v2.16.1",
+    "Usage"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_felix.py:593"
+  },
+  {
+   "test": "test_xdg_environment_variables",
+   "argv": [
+    "--init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "XDG_RUNTIME_DIR"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_felix.py:623"
+  },
+  {
+   "test": "test_help_with_log_flag",
+   "argv": [
+    "--help",
+    "--log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "felix v2.16.1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_felix.py:691"
+  },
+  {
+   "test": "test_init_with_log_flag",
+   "argv": [
+    "--init",
+    "--log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_felix.py:698"
+  },
+  {
+   "test": "test_invalid_path_error_format",
+   "argv": [
+    "/nonexistent/invalid/path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Invalid path:",
+    "`fx -h` shows help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_felix.py:712"
+  },
+  {
+   "test": "test_file_path_error_format",
+   "argv": [
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Path should be directory",
+    "`fx -h` shows help"
+   ],
+   "files": {
+    "test.txt": "content"
+   },
+   "ci": false,
+   "source": "test_felix.py:719"
+  },
+  {
+   "test": "test_help_lists_all_options",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--help",
+    "-h",
+    "--log",
+    "-l",
+    "--init"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_felix.py:911"
+  },
+  {
+   "test": "test_help_documents_exit_keys",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ZZ",
+    "ZQ"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_felix.py:924"
+  },
+  {
+   "test": "test_log_with_help",
+   "argv": [
+    "-l",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Invalid path: --help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_felix.py:1017"
+  },
+  {
+   "test": "test_multiple_help_flags",
+   "argv": [
+    "--help",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_felix.py:1031"
+  },
+  {
+   "test": "test_init_multiple_times",
+   "argv": [
+    "--init",
+    "--init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_felix.py:1038"
+  },
+  {
+   "test": "test_init_script_structure",
+   "argv": [
+    "--init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "eval",
+    "fx()",
+    "fi",
+    "EOF"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_felix.py:1072"
+  },
+  {
+   "test": "test_error_messages_go_to_stderr",
+   "argv": [
+    "/nonexistent"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Invalid path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_felix.py:1084"
+  },
+  {
+   "test": "test_help_version_matches_expected",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "v2.16.1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_felix.py:1129"
+  },
+  {
+   "test": "test_help_github_link",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/kyoheiu/felix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_felix.py:1135"
+  },
+  {
+   "test": "test_help_documents_half_page_scroll",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<C-d>",
+    "<C-u>",
+    "1/2 page"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_felix.py:1141"
+  },
+  {
+   "test": "test_help_documents_unpack_operation",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "e"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_felix.py:1149"
+  },
+  {
+   "test": "test_help_documents_trash_operations",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ":trash",
+    ":empty",
+    "trash directory"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_felix.py:1158"
+  },
+  {
+   "test": "test_init_script_exports_function",
+   "argv": [
+    "--init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "fx()"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_felix.py:1183"
+  },
+  {
+   "test": "test_terminal_too_small_3x3_columns",
+   "argv": [
+    "sleep",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Too small window size"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_layout_calculations.py:49"
+  },
+  {
+   "test": "test_minimum_terminal_size_4x4_accepted",
+   "argv": [
+    "sleep",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_layout_calculations.py:114"
+  },
+  {
+   "test": "test_very_wide_terminal_layout",
+   "argv": [
+    "sleep",
+    "0.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "very_long_filename_that_should_not_be_truncated.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_layout_calculations.py:339"
+  },
+  {
+   "test": "test_sort_operations",
+   "argv": [
+    "sleep",
+    "0.1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "apple.txt",
+    "middle.txt",
+    "zebra.txt",
+    "apple.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_state_reachable.py:496"
+  },
+  {
+   "test": "test_git_repo_branch_display_color",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "on test-branch"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_term.py:277"
+  },
+  {
+   "test": "test_three_args_not_log_flag",
+   "argv": [
+    "notaflag",
+    "arg2",
+    "arg3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:23"
+  },
+  {
+   "test": "test_four_args_shows_help",
+   "argv": [
+    "arg1",
+    "arg2",
+    "arg3",
+    "arg4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "felix"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_additional_coverage.py:30"
+  },
+  {
+   "test": "test_five_args_shows_help",
+   "argv": [
+    "a",
+    "b",
+    "c",
+    "d",
+    "e"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:37"
+  },
+  {
+   "test": "test_error_output_to_stderr",
+   "argv": [
+    "/nonexistent/path/xyz"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:147"
+  },
+  {
+   "test": "test_case_sensitive_flags",
+   "argv": [
+    "-H"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:169"
+  },
+  {
+   "test": "test_mixed_case_flag",
+   "argv": [
+    "--Help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:178"
+  },
+  {
+   "test": "test_three_args_first_not_log",
+   "argv": [
+    "arg1",
+    "arg2",
+    "arg3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "felix"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_additional_coverage.py:224"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "felix",
+    "tui file manager",
+    "usage",
+    "--help",
+    "--log",
+    "--init",
+    "manual"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:7"
+  },
+  {
+   "test": "test_help_flag_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "felix",
+    "tui file manager",
+    "usage",
+    "--help"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:19"
+  },
+  {
+   "test": "test_help_flag_content_includes_keybindings",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "gg",
+    "dd",
+    "yy",
+    ":q"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:28"
+  },
+  {
+   "test": "test_help_flag_content_includes_configuration",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "config",
+    "trash"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:40"
+  },
+  {
+   "test": "test_init_flag",
+   "argv": [
+    "--init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "fx()",
+    "cd",
+    "command fx"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:47"
+  },
+  {
+   "test": "test_init_flag_shell_script_structure",
+   "argv": [
+    "--init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "fx()",
+    "$"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:60"
+  },
+  {
+   "test": "test_invalid_path_argument",
+   "argv": [
+    "/nonexistent/path/that/does/not/exist"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:71"
+  },
+  {
+   "test": "test_invalid_path_with_special_pattern",
+   "argv": [
+    "/path/../../../invalid/nonexistent"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:78"
+  },
+  {
+   "test": "test_file_path_instead_of_directory",
+   "argv": [
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.txt": "content"
+   },
+   "ci": false,
+   "source": "test_basic_invocation.py:87"
+  },
+  {
+   "test": "test_too_many_arguments",
+   "argv": [
+    "arg1",
+    "arg2",
+    "arg3",
+    "arg4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:125"
+  },
+  {
+   "test": "test_version_in_help",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "felix"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:131"
+  },
+  {
+   "test": "test_home_directory_tilde",
+   "argv": [
+    "~"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:175"
+  },
+  {
+   "test": "test_help_contains_version_number",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tui file manager"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_comprehensive_cli.py:7"
+  },
+  {
+   "test": "test_init_creates_runtime_dir",
+   "argv": [
+    "--init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "mkdir",
+    "runtime_dir"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_cli.py:14"
+  },
+  {
+   "test": "test_init_handles_lwd_cleanup",
+   "argv": [
+    "--init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-mmin +1",
+    "-delete"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_cli.py:21"
+  },
+  {
+   "test": "test_nonexistent_path_shows_error_message",
+   "argv": [
+    "/this/path/absolutely/does/not/exist/anywhere"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_environment_and_edge_cases.py:7"
+  },
+  {
+   "test": "test_file_instead_of_directory_error",
+   "argv": [
+    "not_a_dir.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "not_a_dir.txt": "content"
+   },
+   "ci": false,
+   "source": "test_environment_and_edge_cases.py:15"
+  },
+  {
+   "test": "test_empty_path_argument_error",
+   "argv": [
+    ""
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_environment_and_edge_cases.py:25"
+  },
+  {
+   "test": "test_nonexistent_directory",
+   "argv": [
+    "/this/path/definitely/does/not/exist/anywhere"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:7"
+  },
+  {
+   "test": "test_log_flag_with_invalid_path",
+   "argv": [
+    "--log",
+    "/nonexistent/path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:119"
+  },
+  {
+   "test": "test_l_flag_with_invalid_path",
+   "argv": [
+    "-l",
+    "/nonexistent/path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:125"
+  },
+  {
+   "test": "test_file_not_directory_error_message",
+   "argv": [
+    "regular_file.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "regular_file.txt": "content"
+   },
+   "ci": false,
+   "source": "test_error_handling.py:143"
+  },
+  {
+   "test": "test_mixed_valid_invalid_args",
+   "argv": [
+    "--log",
+    "--invalid-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:154"
+  },
+  {
+   "test": "test_init_produces_valid_bash_syntax",
+   "argv": [
+    "--init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "fx()",
+    "="
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_shell_integration.py:6"
+  },
+  {
+   "test": "test_init_runtime_dir_logic",
+   "argv": [
+    "--init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "XDG_RUNTIME_DIR",
+    "runtime_dir"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_shell_integration.py:23"
+  },
+  {
+   "test": "test_init_handles_lwd",
+   "argv": [
+    "--init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "if",
+    "cd",
+    "rm"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_shell_integration.py:53"
+  },
+  {
+   "test": "test_init_creates_directory",
+   "argv": [
+    "--init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "mkdir",
+    "mkdir -p"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_shell_integration.py:80"
+  },
+  {
+   "test": "test_no_subcommands_in_help",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:41"
+  },
+  {
+   "test": "test_help_flag_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "felix"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:76"
+  },
+  {
+   "test": "test_invalid_flag",
+   "argv": [
+    "--unknown-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid path"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:113"
+  },
+  {
+   "test": "test_invalid_directory_path",
+   "argv": [
+    "/nonexistent/directory/path/12345"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:121"
+  },
+  {
+   "test": "test_too_many_arguments",
+   "argv": [
+    "arg1",
+    "arg2",
+    "arg3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:127"
+  },
+  {
+   "test": "test_no_global_flags_before_subcommand",
+   "argv": [
+    "--log",
+    "add"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:184"
+  },
+  {
+   "test": "test_flag_position_matters",
+   "argv": [
+    ".",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:192"
+  },
+  {
+   "test": "test_invalid_path_error_no_subcommand_suggestion",
+   "argv": [
+    "nonexistent"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid path"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:203"
+  },
+  {
+   "test": "test_double_dash_not_separator",
+   "argv": [
+    "--",
+    "something"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:224"
+  },
+  {
+   "test": "test_single_argument_dispatch",
+   "argv": [
+    "src"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "felix"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:230"
+  },
+  {
+   "test": "test_help_contains_expected_sections",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "## Usage\n",
+    "## Options\n",
+    "## Manual\n",
+    "## Preview feature\n",
+    "## Configuration\n"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_help_init.py:22"
+  },
+  {
+   "test": "test_init_script_invariants",
+   "argv": [
+    "--init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "mkdir -p \"$runtime_dir\"",
+    "find \"$runtime_dir\" -type f -and -mmin +1 -delete",
+    "fx() {",
+    "  SHELL_PID=\\$\\$ command fx \"\\$@\"",
+    "    cd \"\\$(cat \"\\$RUNTIME_DIR/\\$\\$\")\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_help_init.py:34"
+  },
+  {
+   "test": "test_unknown_argument_is_treated_as_path_error",
+   "argv": [
+    "--definitely-not-a-real-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "\n",
+   "expect_stderr": null,
+   "expect_in": [
+    "`fx -h` shows help."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_help_init.py:50"
+  },
+  {
+   "test": "test_log_flag_followed_by_help_is_treated_as_path",
+   "argv": [
+    "--log",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "\n",
+   "expect_stderr": null,
+   "expect_in": [
+    "`fx -h` shows help."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_help_init.py:68"
+  },
+  {
+   "test": "test_help_takes_precedence_when_first_arg_even_with_other_flags",
+   "argv": [
+    "--help",
+    "--log"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "## Usage"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:109"
+  },
+  {
+   "test": "test_help_shown_even_if_unknown_flag_present",
+   "argv": [
+    "--badflag",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:117"
+  },
+  {
+   "test": "test_double_dash_separator_does_not_block_help",
+   "argv": [
+    "--",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "## Options"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:125"
+  }
+ ]
+}

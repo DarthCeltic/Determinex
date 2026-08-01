@@ -1,0 +1,6912 @@
+{
+ "slug": "rust-ethereum__ethabi.b1710ad",
+ "language": "",
+ "n_branches": 10,
+ "n_tests_total": 1033,
+ "n_examples": 323,
+ "n_with_exact_stdout": 5,
+ "n_with_rc": 308,
+ "n_skipped": 685,
+ "examples": [
+  {
+   "test": "test_help_flag_long",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ethabi-cli",
+    "USAGE:",
+    "FLAGS:",
+    "-h, --help",
+    "-V, --version",
+    "SUBCOMMANDS:",
+    "encode",
+    "decode"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:19"
+  },
+  {
+   "test": "test_help_flag_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ethabi-cli",
+    "USAGE:",
+    "SUBCOMMANDS:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:32"
+  },
+  {
+   "test": "test_version_flag_long",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ethabi-cli",
+    "18.0.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:40"
+  },
+  {
+   "test": "test_version_flag_short",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ethabi-cli",
+    "18.0.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:50"
+  },
+  {
+   "test": "test_invalid_subcommand",
+   "argv": [
+    "invalid-command"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:60"
+  },
+  {
+   "test": "test_help_subcommand",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ethabi-cli",
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:69"
+  },
+  {
+   "test": "test_encode_with_eip20_abi",
+   "argv": [
+    "encode",
+    "function",
+    "res/eip20.abi",
+    "transfer",
+    "-p",
+    "1111111111111111111111111111111111111111",
+    "-p",
+    "100",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a9059cbb",
+    "1111111111111111111111111111111111111111"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_contract_operations.py:5"
+  },
+  {
+   "test": "test_encode_with_constructor_abi",
+   "argv": [
+    "encode",
+    "function",
+    "res/constructor.abi",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_contract_operations.py:13"
+  },
+  {
+   "test": "test_decode_with_eip20_abi",
+   "argv": [
+    "decode",
+    "function",
+    "res/eip20.abi",
+    "balanceOf",
+    "0000000000000000000000000000000000000000000000000000000000000064"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "uint256",
+    "64"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_contract_operations.py:20"
+  },
+  {
+   "test": "test_encode_allowance_function",
+   "argv": [
+    "encode",
+    "function",
+    "res/eip20.abi",
+    "allowance",
+    "-p",
+    "1111111111111111111111111111111111111111",
+    "-p",
+    "2222222222222222222222222222222222222222"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dd62ed3e",
+    "1111111111111111111111111111111111111111",
+    "2222222222222222222222222222222222222222"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_contract_operations.py:28"
+  },
+  {
+   "test": "test_encode_approve_function",
+   "argv": [
+    "encode",
+    "function",
+    "res/eip20.abi",
+    "approve",
+    "-p",
+    "1111111111111111111111111111111111111111",
+    "-p",
+    "1000",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "095ea7b3",
+    "1111111111111111111111111111111111111111"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_contract_operations.py:38"
+  },
+  {
+   "test": "test_encode_transferFrom_function",
+   "argv": [
+    "encode",
+    "function",
+    "res/eip20.abi",
+    "transferFrom",
+    "-p",
+    "1111111111111111111111111111111111111111",
+    "-p",
+    "2222222222222222222222222222222222222222",
+    "-p",
+    "500",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "23b872dd",
+    "1111111111111111111111111111111111111111",
+    "2222222222222222222222222222222222222222"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_contract_operations.py:48"
+  },
+  {
+   "test": "test_decode_totalSupply",
+   "argv": [
+    "decode",
+    "function",
+    "res/eip20.abi",
+    "totalSupply",
+    "00000000000000000000000000000000000000000000000000000000000f4240"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "uint256"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_contract_operations.py:60"
+  },
+  {
+   "test": "test_encode_with_operations_abi",
+   "argv": [
+    "encode",
+    "function",
+    "res/Operations.abi",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_contract_operations.py:67"
+  },
+  {
+   "test": "test_encode_with_validators_abi",
+   "argv": [
+    "encode",
+    "function",
+    "res/Validators.abi",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_contract_operations.py:73"
+  },
+  {
+   "test": "test_encode_function_with_event_signature_style",
+   "argv": [
+    "encode",
+    "function",
+    "res/eip20.abi",
+    "transfer(address,uint256):(bool)",
+    "-p",
+    "1111111111111111111111111111111111111111",
+    "-p",
+    "100",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a9059cbb"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_contract_operations.py:98"
+  },
+  {
+   "test": "test_multiple_params_same_function",
+   "argv": [
+    "encode",
+    "function",
+    "res/eip20.abi",
+    "transferFrom",
+    "-p",
+    "0000000000000000000000000000000000000001",
+    "-p",
+    "0000000000000000000000000000000000000002",
+    "-p",
+    "1",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "23b872dd",
+    "0000000000000000000000000000000000000001",
+    "0000000000000000000000000000000000000002"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_contract_operations.py:106"
+  },
+  {
+   "test": "test_encode_uint8",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "uint8",
+    "255",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "00000000000000000000000000000000000000000000000000000000000000ff"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_data_types.py:4"
+  },
+  {
+   "test": "test_encode_uint16",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "uint16",
+    "65535",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "000000000000000000000000000000000000000000000000000000000000ffff"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_data_types.py:10"
+  },
+  {
+   "test": "test_encode_uint32",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "uint32",
+    "4294967295",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "00000000000000000000000000000000000000000000000000000000ffffffff"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_data_types.py:16"
+  },
+  {
+   "test": "test_encode_int8",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "int8",
+    "127",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "000000000000000000000000000000000000000000000000000000000000007f"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_data_types.py:22"
+  },
+  {
+   "test": "test_encode_int8_negative",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "int8",
+    "-128",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff80"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_data_types.py:28"
+  },
+  {
+   "test": "test_encode_bytes1",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "bytes1",
+    "ff"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ff"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_data_types.py:34"
+  },
+  {
+   "test": "test_encode_bytes4",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "bytes4",
+    "12345678"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "12345678"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_data_types.py:40"
+  },
+  {
+   "test": "test_encode_bytes8",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "bytes8",
+    "1234567890abcdef"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1234567890abcdef"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_data_types.py:46"
+  },
+  {
+   "test": "test_decode_uint8",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "uint8",
+    "00000000000000000000000000000000000000000000000000000000000000ff"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "uint8",
+    "ff"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_data_types.py:52"
+  },
+  {
+   "test": "test_decode_uint16",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "uint16",
+    "000000000000000000000000000000000000000000000000000000000000ffff"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "uint16",
+    "ffff"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_data_types.py:59"
+  },
+  {
+   "test": "test_decode_int8_negative",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "int8",
+    "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff80"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "int8",
+    "80"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_data_types.py:66"
+  },
+  {
+   "test": "test_decode_bytes1",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "bytes1",
+    "ff00000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ff"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_data_types.py:73"
+  },
+  {
+   "test": "test_decode_bytes4",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "bytes4",
+    "1234567800000000000000000000000000000000000000000000000000000000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "12345678"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_data_types.py:79"
+  },
+  {
+   "test": "test_encode_string_with_spaces",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "string",
+    "hello world"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "68656c6c6f20776f726c64"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_data_types.py:85"
+  },
+  {
+   "test": "test_encode_string_with_special_chars",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "string",
+    "test!@#"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_data_types.py:92"
+  },
+  {
+   "test": "test_encode_nested_array",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "uint256[][]",
+    "[[1,2],[3,4]]",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_data_types.py:99"
+  },
+  {
+   "test": "test_encode_address_array",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "address[]",
+    "[1111111111111111111111111111111111111111,2222222222222222222222222222222222222222]",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1111111111111111111111111111111111111111",
+    "2222222222222222222222222222222222222222"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_data_types.py:106"
+  },
+  {
+   "test": "test_encode_string_array",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "string[]",
+    "[hello,world]"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "68656c6c6f",
+    "776f726c64"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_data_types.py:113"
+  },
+  {
+   "test": "test_decode_address_array",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "address[]",
+    "0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000200000000000000000000000011111111111111111111111111111111111111110000000000000000000000002222222222222222222222222222222222222222"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "address[]",
+    "1111111111111111111111111111111111111111"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_data_types.py:120"
+  },
+  {
+   "test": "test_encode_complex_tuple",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "(uint256,address,bool)",
+    "(42,1111111111111111111111111111111111111111,true)",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "000000000000000000000000000000000000000000000000000000000000002a",
+    "1111111111111111111111111111111111111111",
+    "0000000000000000000000000000000000000000000000000000000000000001"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_data_types.py:131"
+  },
+  {
+   "test": "test_encode_tuple_with_array",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "(uint256,uint256[])",
+    "(1,[2,3])",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0000000000000000000000000000000000000000000000000000000000000001"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_data_types.py:139"
+  },
+  {
+   "test": "test_zero_value",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "uint256",
+    "0",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_data_types.py:145"
+  },
+  {
+   "test": "test_max_uint256",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "uint256",
+    "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_data_types.py:151"
+  },
+  {
+   "test": "test_decode_function_help",
+   "argv": [
+    "decode",
+    "function",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "decode-function",
+    "USAGE:",
+    "abi-path",
+    "function-name-or-signature",
+    "data"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_function.py:4"
+  },
+  {
+   "test": "test_decode_function_by_name",
+   "argv": [
+    "decode",
+    "function",
+    "res/foo.abi",
+    "bar",
+    "0000000000000000000000000000000000000000000000000000000000000001"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bool",
+    "true"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_function.py:14"
+  },
+  {
+   "test": "test_decode_function_by_signature",
+   "argv": [
+    "decode",
+    "function",
+    "res/foo.abi",
+    "bar(address):(bool)",
+    "0000000000000000000000000000000000000000000000000000000000000001"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bool",
+    "true"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_function.py:21"
+  },
+  {
+   "test": "test_decode_function_false_value",
+   "argv": [
+    "decode",
+    "function",
+    "res/foo.abi",
+    "bar",
+    "0000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bool",
+    "false"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_function.py:28"
+  },
+  {
+   "test": "test_decode_log_help",
+   "argv": [
+    "decode",
+    "log",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "decode-log",
+    "USAGE:",
+    "abi-path",
+    "event-name-or-signature",
+    "-l",
+    "topic"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_log.py:4"
+  },
+  {
+   "test": "test_decode_log_by_name",
+   "argv": [
+    "decode",
+    "log",
+    "res/event.abi",
+    "Event",
+    "-l",
+    "0000000000000000000000000000000000000000000000000000000000000001",
+    "0000000000000000000000004444444444444444444444444444444444444444"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a",
+    "true",
+    "b",
+    "4444444444444444444444444444444444444444"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_log.py:15"
+  },
+  {
+   "test": "test_decode_log_by_signature",
+   "argv": [
+    "decode",
+    "log",
+    "res/event.abi",
+    "Event(bool,address)",
+    "-l",
+    "0000000000000000000000000000000000000000000000000000000000000001",
+    "0000000000000000000000004444444444444444444444444444444444444444"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a",
+    "true",
+    "b",
+    "4444444444444444444444444444444444444444"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_log.py:27"
+  },
+  {
+   "test": "test_decode_log_false_value",
+   "argv": [
+    "decode",
+    "log",
+    "res/event.abi",
+    "Event",
+    "-l",
+    "0000000000000000000000000000000000000000000000000000000000000000",
+    "0000000000000000000000004444444444444444444444444444444444444444"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a",
+    "false",
+    "b",
+    "4444444444444444444444444444444444444444"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_log.py:38"
+  },
+  {
+   "test": "test_decode_params_help",
+   "argv": [
+    "decode",
+    "params",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "decode-params",
+    "USAGE:",
+    "-t",
+    "data"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_params.py:4"
+  },
+  {
+   "test": "test_decode_single_bool_true",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "bool",
+    "0000000000000000000000000000000000000000000000000000000000000001"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bool",
+    "true"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_params.py:13"
+  },
+  {
+   "test": "test_decode_single_bool_false",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "bool",
+    "0000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bool",
+    "false"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_params.py:20"
+  },
+  {
+   "test": "test_decode_uint256",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "uint256",
+    "000000000000000000000000000000000000000000000000000000000000002a"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "uint256",
+    "2a"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_params.py:27"
+  },
+  {
+   "test": "test_decode_int256_negative",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "int256",
+    "fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "int256",
+    "fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_params.py:35"
+  },
+  {
+   "test": "test_decode_multiple_params",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "bool",
+    "-t",
+    "string",
+    "-t",
+    "bool",
+    "00000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000060000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000096761766f66796f726b0000000000000000000000000000000000000000000000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bool",
+    "true",
+    "string",
+    "gavofyork",
+    "false"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_params.py:43"
+  },
+  {
+   "test": "test_decode_address",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "address",
+    "0000000000000000000000001111111111111111111111111111111111111111"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "address",
+    "1111111111111111111111111111111111111111"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_params.py:55"
+  },
+  {
+   "test": "test_decode_string",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "string"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "string",
+    "hello"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_params.py:62"
+  },
+  {
+   "test": "test_decode_bool_array",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "bool[]",
+    "00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000003000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bool[]",
+    "true",
+    "false"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_params.py:71"
+  },
+  {
+   "test": "test_decode_uint_array",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "uint256[]",
+    "00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000003000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000003"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "uint256[]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_params.py:81"
+  },
+  {
+   "test": "test_decode_tuple",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "(string,bool,string)",
+    "00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000060000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000a00000000000000000000000000000000000000000000000000000000000000006737069726163000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000067175617361720000000000000000000000000000000000000000000000000000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "spirac",
+    "quasar",
+    "true"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_params.py:92"
+  },
+  {
+   "test": "test_decode_bytes",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "bytes",
+    "000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000021234000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bytes",
+    "1234"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_params.py:102"
+  },
+  {
+   "test": "test_decode_bytes32",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "bytes32",
+    "1234000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1234"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_params.py:109"
+  },
+  {
+   "test": "test_decode_empty_string",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "string",
+    "00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "string"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_params.py:116"
+  },
+  {
+   "test": "test_decode_empty_array",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "uint256[]",
+    "00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "uint256[]",
+    "[]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_params.py:123"
+  },
+  {
+   "test": "test_decode_params_with_no_types_outputs_empty",
+   "argv": [
+    "decode",
+    "params",
+    "0000000000000000000000000000000000000000000000000000000000000001"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_params.py:152"
+  },
+  {
+   "test": "test_encode_very_long_string",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "string"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "61"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:31"
+  },
+  {
+   "test": "test_decode_very_long_data",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "bytes"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bytes"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:41"
+  },
+  {
+   "test": "test_encode_multiple_same_type",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "uint256",
+    "1",
+    "-v",
+    "uint256",
+    "2",
+    "-v",
+    "uint256",
+    "3",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0000000000000000000000000000000000000000000000000000000000000001",
+    "0000000000000000000000000000000000000000000000000000000000000002",
+    "0000000000000000000000000000000000000000000000000000000000000003"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:56"
+  },
+  {
+   "test": "test_decode_multiple_same_type",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "uint256",
+    "-t",
+    "uint256",
+    "-t",
+    "uint256",
+    "000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000003"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "uint256"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:64"
+  },
+  {
+   "test": "test_encode_bool_variations",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "bool"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0000000000000000000000000000000000000000000000000000000000000001",
+    "0000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:74"
+  },
+  {
+   "test": "test_encode_empty_bytes",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "bytes",
+    ""
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0000000000000000000000000000000000000000000000000000000000000020",
+    "0000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:87"
+  },
+  {
+   "test": "test_decode_wrong_type_for_data",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "uint256",
+    "0000000000000000000000000000000000000000000000000000000000000001"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "uint256"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:95"
+  },
+  {
+   "test": "test_encode_hex_string_as_param",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "string",
+    "0x1234"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "307831323334"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:103"
+  },
+  {
+   "test": "test_encode_params_version_flag",
+   "argv": [
+    "encode",
+    "params",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "18.0.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:148"
+  },
+  {
+   "test": "test_decode_params_version_flag",
+   "argv": [
+    "decode",
+    "params",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "18.0.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:154"
+  },
+  {
+   "test": "test_encode_function_version_flag",
+   "argv": [
+    "encode",
+    "function",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "18.0.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:160"
+  },
+  {
+   "test": "test_decode_function_version_flag",
+   "argv": [
+    "decode",
+    "function",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "18.0.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:166"
+  },
+  {
+   "test": "test_decode_log_version_flag",
+   "argv": [
+    "decode",
+    "log",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "18.0.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:172"
+  },
+  {
+   "test": "test_encode_with_0x_prefix",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "address",
+    "0x1111111111111111111111111111111111111111"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1111111111111111111111111111111111111111"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:178"
+  },
+  {
+   "test": "test_encode_function_help",
+   "argv": [
+    "encode",
+    "function",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "encode-function",
+    "USAGE:",
+    "abi-path",
+    "function-name-or-signature",
+    "-p",
+    "-l, --lenient"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_function.py:6"
+  },
+  {
+   "test": "test_encode_function_by_name",
+   "argv": [
+    "encode",
+    "function",
+    "res/test.abi",
+    "foo",
+    "-p",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_function.py:17"
+  },
+  {
+   "test": "test_encode_function_by_signature",
+   "argv": [
+    "encode",
+    "function",
+    "res/test.abi",
+    "foo(bool)",
+    "-p",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_function.py:27"
+  },
+  {
+   "test": "test_encode_overloaded_function_by_first_signature",
+   "argv": [
+    "encode",
+    "function",
+    "res/test.abi",
+    "bar(bool)",
+    "-p",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_function.py:41"
+  },
+  {
+   "test": "test_encode_overloaded_function_by_second_signature",
+   "argv": [
+    "encode",
+    "function",
+    "res/test.abi",
+    "bar(string):(uint256)",
+    "-p",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "d473a8ed",
+    "0000000000000000000000000000000000000000000000000000000000000020",
+    "31"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_function.py:49"
+  },
+  {
+   "test": "test_encode_function_multiple_params",
+   "argv": [
+    "encode",
+    "function",
+    "res/test.abi",
+    "foo",
+    "-p",
+    "true"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "45557578",
+    "0000000000000000000000000000000000000000000000000000000000000001"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_function.py:59"
+  },
+  {
+   "test": "test_encode_function_with_lenient",
+   "argv": [
+    "encode",
+    "function",
+    "res/test.abi",
+    "foo",
+    "-p",
+    "1",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "45557578"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_function.py:66"
+  },
+  {
+   "test": "test_encode_function_address_param",
+   "argv": [
+    "encode",
+    "function",
+    "res/foo.abi",
+    "bar",
+    "-p",
+    "0x1111111111111111111111111111111111111111"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0000000000000000000000001111111111111111111111111111111111111111"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_function.py:102"
+  },
+  {
+   "test": "test_encode_params_help",
+   "argv": [
+    "encode",
+    "params",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "encode-params",
+    "USAGE:",
+    "-v",
+    "-l, --lenient"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:4"
+  },
+  {
+   "test": "test_encode_single_bool_true",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "bool",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:13"
+  },
+  {
+   "test": "test_encode_single_bool_false",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "bool",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:22"
+  },
+  {
+   "test": "test_encode_single_bool_false_word",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "bool",
+    "false"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:30"
+  },
+  {
+   "test": "test_encode_single_bool_true_word",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "bool",
+    "true"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:37"
+  },
+  {
+   "test": "test_encode_multiple_params",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "bool",
+    "1",
+    "-v",
+    "string",
+    "gavofyork",
+    "-v",
+    "bool",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0000000000000000000000000000000000000000000000000000000000000001",
+    "0000000000000000000000000000000000000000000000000000000000000060",
+    "6761766f66796f726b"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:44"
+  },
+  {
+   "test": "test_encode_uint256_hex",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "uint256",
+    "000000000000000000000000000000000000000000000000000000000000002a"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:54"
+  },
+  {
+   "test": "test_encode_uint256_lenient",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "uint256",
+    "42",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:61"
+  },
+  {
+   "test": "test_encode_uint256_large_lenient",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "uint256",
+    "123456789",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "00000000000000000000000000000000000000000000000000000000075bcd15"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:68"
+  },
+  {
+   "test": "test_encode_address",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "address",
+    "0x1111111111111111111111111111111111111111"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0000000000000000000000001111111111111111111111111111111111111111"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:75"
+  },
+  {
+   "test": "test_encode_address_no_prefix",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "address",
+    "1111111111111111111111111111111111111111"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0000000000000000000000001111111111111111111111111111111111111111"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:81"
+  },
+  {
+   "test": "test_encode_string",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "string",
+    "hello"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0000000000000000000000000000000000000000000000000000000000000020",
+    "68656c6c6f"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:87"
+  },
+  {
+   "test": "test_encode_bytes",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "bytes",
+    "1234"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1234"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:95"
+  },
+  {
+   "test": "test_encode_bytes32",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "bytes32",
+    "1234000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1234000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:102"
+  },
+  {
+   "test": "test_encode_int256_positive_lenient",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "int256",
+    "42",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "000000000000000000000000000000000000000000000000000000000000002a"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:108"
+  },
+  {
+   "test": "test_encode_int256_negative_lenient",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "int256",
+    "-1",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:114"
+  },
+  {
+   "test": "test_encode_bool_array",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "bool[]",
+    "[1,0,false]"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0000000000000000000000000000000000000000000000000000000000000020",
+    "0000000000000000000000000000000000000000000000000000000000000003"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:121"
+  },
+  {
+   "test": "test_encode_uint_array_lenient",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "uint256[]",
+    "[1,2,3]",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0000000000000000000000000000000000000000000000000000000000000003",
+    "0000000000000000000000000000000000000000000000000000000000000001",
+    "0000000000000000000000000000000000000000000000000000000000000002"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:129"
+  },
+  {
+   "test": "test_encode_fixed_array_lenient",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "uint256[3]",
+    "[1,2,3]",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0000000000000000000000000000000000000000000000000000000000000001",
+    "0000000000000000000000000000000000000000000000000000000000000002",
+    "0000000000000000000000000000000000000000000000000000000000000003"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:137"
+  },
+  {
+   "test": "test_encode_tuple",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "(string,bool,string)",
+    "(test,1,cyborg)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "74657374",
+    "6379626f7267",
+    "0000000000000000000000000000000000000000000000000000000000000001"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:145"
+  },
+  {
+   "test": "test_encode_empty_string",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "string",
+    ""
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0000000000000000000000000000000000000000000000000000000000000020",
+    "0000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:155"
+  },
+  {
+   "test": "test_encode_empty_array",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "uint256[]",
+    "[]"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0000000000000000000000000000000000000000000000000000000000000020",
+    "0000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:163"
+  },
+  {
+   "test": "test_encode_with_lenient_flag",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "uint256",
+    "1",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0000000000000000000000000000000000000000000000000000000000000001"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:171"
+  },
+  {
+   "test": "test_encode_int128",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "int128",
+    "1000",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "00000000000000000000000000000000000000000000000000000000000003e8"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_types.py:4"
+  },
+  {
+   "test": "test_encode_int128_negative",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "int128",
+    "-1000",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc18"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_types.py:10"
+  },
+  {
+   "test": "test_encode_uint128",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "uint128",
+    "1000000",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "00000000000000000000000000000000000000000000000000000000000f4240"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_types.py:17"
+  },
+  {
+   "test": "test_encode_uint64",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "uint64",
+    "18446744073709551615",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ffffffffffffffff"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_types.py:23"
+  },
+  {
+   "test": "test_encode_int64",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "int64",
+    "9223372036854775807",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "7fffffffffffffff"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_types.py:29"
+  },
+  {
+   "test": "test_encode_bytes16",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "bytes16",
+    "1234567890abcdef1234567890abcdef"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1234567890abcdef1234567890abcdef"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_types.py:35"
+  },
+  {
+   "test": "test_decode_uint128",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "uint128",
+    "00000000000000000000000000000000000000000000000000000000000f4240"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "uint128"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_types.py:41"
+  },
+  {
+   "test": "test_decode_int128",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "int128",
+    "00000000000000000000000000000000000000000000000000000000000003e8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "int128"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_types.py:47"
+  },
+  {
+   "test": "test_decode_int128_negative",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "int128",
+    "fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc18"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "int128"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_types.py:53"
+  },
+  {
+   "test": "test_encode_address_zero",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "address",
+    "0000000000000000000000000000000000000000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_types.py:59"
+  },
+  {
+   "test": "test_decode_address_zero",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "address",
+    "0000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "address",
+    "0000000000000000000000000000000000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_types.py:65"
+  },
+  {
+   "test": "test_encode_string_with_newline",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "string",
+    "hello\nworld"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0a"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_types.py:72"
+  },
+  {
+   "test": "test_encode_string_with_unicode",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "string",
+    "hello🌍"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_more_types.py:79"
+  },
+  {
+   "test": "test_encode_bool_array_long",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "bool[]",
+    "[true,false,true,false,true,false,true,false,true,false]"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "000000000000000000000000000000000000000000000000000000000000000a"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_types.py:86"
+  },
+  {
+   "test": "test_encode_mixed_params",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "address",
+    "1111111111111111111111111111111111111111",
+    "-v",
+    "uint256",
+    "100",
+    "-v",
+    "string",
+    "test",
+    "-v",
+    "bool",
+    "true",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1111111111111111111111111111111111111111",
+    "0000000000000000000000000000000000000000000000000000000000000064",
+    "0000000000000000000000000000000000000000000000000000000000000001"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_types.py:93"
+  },
+  {
+   "test": "test_decode_mixed_params",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "address",
+    "-t",
+    "uint256",
+    "-t",
+    "string",
+    "-t",
+    "bool",
+    "00000000000000000000000011111111111111111111111111111111111111110000000000000000000000000000000000000000000000000000000000000064000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000004746573740000000000000000000000000000000000000000000000000000000000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "address",
+    "uint256",
+    "string",
+    "bool"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_types.py:106"
+  },
+  {
+   "test": "test_encode_nested_tuple",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "((uint256,bool),string)",
+    "((42,true),test)",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "000000000000000000000000000000000000000000000000000000000000002a",
+    "74657374"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_types.py:116"
+  },
+  {
+   "test": "test_encode_tuple_array",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "(uint256,bool)[]",
+    "[(1,true),(2,false)]",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0000000000000000000000000000000000000000000000000000000000000001",
+    "0000000000000000000000000000000000000000000000000000000000000002"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_types.py:123"
+  },
+  {
+   "test": "test_encode_subcommand_help",
+   "argv": [
+    "encode",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "encode",
+    "function",
+    "params"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_special_cases.py:5"
+  },
+  {
+   "test": "test_decode_subcommand_help",
+   "argv": [
+    "decode",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "decode",
+    "function",
+    "params",
+    "log"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_special_cases.py:13"
+  },
+  {
+   "test": "test_encode_function_help_subcommand",
+   "argv": [
+    "encode",
+    "function",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Load function from JSON ABI file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_cases.py:22"
+  },
+  {
+   "test": "test_decode_function_help_subcommand",
+   "argv": [
+    "decode",
+    "function",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Load function from JSON ABI file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_cases.py:28"
+  },
+  {
+   "test": "test_decode_params_help_subcommand",
+   "argv": [
+    "decode",
+    "params",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Specify types of input params inline"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_cases.py:34"
+  },
+  {
+   "test": "test_encode_params_help_subcommand",
+   "argv": [
+    "encode",
+    "params",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Specify types of input params inline"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_cases.py:40"
+  },
+  {
+   "test": "test_decode_log_help_subcommand",
+   "argv": [
+    "decode",
+    "log",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Decode event log"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_cases.py:46"
+  },
+  {
+   "test": "test_encode_with_no_params",
+   "argv": [
+    "encode",
+    "function",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_special_cases.py:52"
+  },
+  {
+   "test": "test_encode_bytes_with_0x_prefix",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "bytes",
+    "0x1234"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1234"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_cases.py:84"
+  },
+  {
+   "test": "test_urlhint_abi_operations",
+   "argv": [
+    "encode",
+    "function",
+    "res/urlhint.abi",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "encode-function"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_cases.py:97"
+  },
+  {
+   "test": "test_operations_abi_file",
+   "argv": [
+    "encode",
+    "function",
+    "res/Operations.abi",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "encode-function"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_cases.py:104"
+  },
+  {
+   "test": "test_validators_abi_file",
+   "argv": [
+    "encode",
+    "function",
+    "res/Validators.abi",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "encode-function"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_cases.py:112"
+  },
+  {
+   "test": "test_test_rust_keywords_abi",
+   "argv": [
+    "encode",
+    "function",
+    "res/test_rust_keywords.abi",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "encode-function"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_cases.py:119"
+  },
+  {
+   "test": "test_invalid_subcommand_has_usage_hint_and_nonzero_exit_code",
+   "argv": [
+    "nonsense"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:",
+    "For more information try --help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:98"
+  },
+  {
+   "test": "test_double_dash_stops_option_parsing_for_decode_params_and_changes_error",
+   "argv": [
+    "decode",
+    "params",
+    "--",
+    "0x00"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Invalid character 'x' at position 1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:88"
+  },
+  {
+   "test": "test_encode_params_bool_is_case_sensitive",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "bool",
+    "TRUE"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error: Invalid data"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:127"
+  },
+  {
+   "test": "test_ext_cli_int_encode_negative_two_lenient",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "int256",
+    "-2",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_externalized.py:37"
+  },
+  {
+   "test": "test_ext_cli_int_encode_negative_zero_lenient",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "int256",
+    "-0",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_externalized.py:49"
+  },
+  {
+   "test": "test_ext_cli_uint_encode_must_be_positive_errors",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "uint256",
+    "-2",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_externalized.py:61"
+  },
+  {
+   "test": "test_ext_cli_uint_encode_big_numbers",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "uint256",
+    "100000000000000000000000000000000022222222222222221111111111111",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_externalized.py:88"
+  },
+  {
+   "test": "test_ext_cli_int_encode_min_value_ok_lenient",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "int256",
+    "-57896044618658097711785492504343953926634992332820282019728792003956564819968",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_externalized.py:107"
+  },
+  {
+   "test": "test_ext_cli_int_encode_max_value_ok_lenient",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "int256",
+    "57896044618658097711785492504343953926634992332820282019728792003956564819967",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_externalized.py:164"
+  },
+  {
+   "test": "test_ext_cli_multi_encode_bool_string_bool",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "bool",
+    "1",
+    "-v",
+    "string",
+    "gavofyork",
+    "-v",
+    "bool",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_externalized.py:202"
+  },
+  {
+   "test": "test_ext_cli_array_encode_bool_array",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "bool[]",
+    "[1,0,false]"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_externalized.py:221"
+  },
+  {
+   "test": "test_ext_cli_function_encode_by_name",
+   "argv": [
+    "encode",
+    "function",
+    "foo",
+    "-p",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_externalized.py:240"
+  },
+  {
+   "test": "test_ext_cli_function_encode_by_signature",
+   "argv": [
+    "encode",
+    "function",
+    "foo(bool)",
+    "-p",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_externalized.py:253"
+  },
+  {
+   "test": "test_ext_cli_nonexistent_function_errors",
+   "argv": [
+    "encode",
+    "function",
+    "nope",
+    "-p",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_externalized.py:265"
+  },
+  {
+   "test": "test_ext_cli_overloaded_function_encode_by_name_errors",
+   "argv": [
+    "encode",
+    "function",
+    "bar",
+    "-p",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "More than one function"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_externalized.py:277"
+  },
+  {
+   "test": "test_ext_cli_overloaded_function_encode_by_first_signature",
+   "argv": [
+    "encode",
+    "function",
+    "bar(bool)",
+    "-p",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_externalized.py:289"
+  },
+  {
+   "test": "test_ext_cli_overloaded_function_encode_by_second_signature",
+   "argv": [
+    "encode",
+    "function",
+    "bar(string):(uint256)",
+    "-p",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_externalized.py:301"
+  },
+  {
+   "test": "test_ext_cli_simple_decode_bool",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "bool",
+    "0000000000000000000000000000000000000000000000000000000000000001"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_externalized.py:317"
+  },
+  {
+   "test": "test_ext_cli_int_decode_negative_two",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "int256"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_externalized.py:336"
+  },
+  {
+   "test": "test_ext_cli_multi_decode_bool_string_bool",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "bool",
+    "-t",
+    "string",
+    "-t",
+    "bool",
+    "00000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000060000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000096761766f66796f726b0000000000000000000000000000000000000000000000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_externalized.py:348"
+  },
+  {
+   "test": "test_ext_cli_array_decode_bool_array",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "bool[]",
+    "00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000003000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_externalized.py:367"
+  },
+  {
+   "test": "test_ext_cli_abi_decode_function_output",
+   "argv": [
+    "decode",
+    "function",
+    "bar",
+    "0000000000000000000000000000000000000000000000000000000000000001"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_externalized.py:386"
+  },
+  {
+   "test": "test_ext_cli_log_decode_by_name",
+   "argv": [
+    "decode",
+    "log",
+    "Event",
+    "-l",
+    "0000000000000000000000000000000000000000000000000000000000000001",
+    "0000000000000000000000004444444444444444444444444444444444444444"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_externalized.py:404"
+  },
+  {
+   "test": "test_ext_cli_log_decode_by_signature",
+   "argv": [
+    "decode",
+    "log",
+    "Event(bool,address)",
+    "-l",
+    "0000000000000000000000000000000000000000000000000000000000000001",
+    "0000000000000000000000004444444444444444444444444444444444444444"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_externalized.py:424"
+  },
+  {
+   "test": "test_ext_cli_nonexistent_event_errors",
+   "argv": [
+    "decode",
+    "log",
+    "Nope(bool,address)",
+    "-l",
+    "0000000000000000000000000000000000000000000000000000000000000000",
+    "0000000000000000000000004444444444444444444444444444444444444444"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_externalized.py:444"
+  },
+  {
+   "test": "test_no_config_flag_or_subcommand_in_help",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_handling.py:21"
+  },
+  {
+   "test": "test_encode_params_invalid_bool_goes_to_stderr_and_nonzero_exit",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "bool",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_decode_params.py:29"
+  },
+  {
+   "test": "test_encode_function_invalid_name_is_error_to_stderr",
+   "argv": [
+    "encode",
+    "function",
+    "bar(bool)",
+    "-p",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_function_abi_file.py:22"
+  },
+  {
+   "test": "test_decode_function_requires_existing_abi_file",
+   "argv": [
+    "decode",
+    "function",
+    "foo(bool)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Error:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_function_abi_file.py:29"
+  },
+  {
+   "test": "test_help_lists_subcommands_and_exits_0",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:",
+    "SUBCOMMANDS:",
+    "encode",
+    "decode"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_version.py:4"
+  },
+  {
+   "test": "test_version_flag_exits_0_and_prints_version",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_version.py:15"
+  },
+  {
+   "test": "test_global_version_before_subcommand_shortcircuits_routing",
+   "argv": [
+    "--version",
+    "decode"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ethabi-cli"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:103"
+  },
+  {
+   "test": "test_help_subcommand_accepts_args_but_not_help_flag",
+   "argv": [
+    "help",
+    "decode"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "executable-decode",
+    "wasn't recognized"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:112"
+  },
+  {
+   "test": "test_unknown_subcommand_is_error_and_mentions_usage",
+   "argv": [
+    "nope"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:123"
+  },
+  {
+   "test": "test_encode_array_empty_elements",
+   "argv": [
+    "encode",
+    "params",
+    "-l",
+    "-v",
+    "uint256[]",
+    "[]"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:62"
+  },
+  {
+   "test": "test_encode_string_array",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "string[]",
+    "[hello,world]"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:72"
+  },
+  {
+   "test": "test_decode_string_array",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "string[]",
+    "0000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000080000000000000000000000000000000000000000000000000000000000000000568656c6c6f000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005776f726c64000000000000000000000000000000000000000000000000000000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:80"
+  },
+  {
+   "test": "test_encode_address_array",
+   "argv": [
+    "encode",
+    "params",
+    "-l",
+    "-v",
+    "address[]",
+    "[1111111111111111111111111111111111111111,2222222222222222222222222222222222222222]"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1111111111111111111111111111111111111111",
+    "2222222222222222222222222222222222222222"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:91"
+  },
+  {
+   "test": "test_decode_bool_array",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "bool[]",
+    "00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000003000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "true",
+    "false"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:100"
+  },
+  {
+   "test": "test_encode_uint_array_hex",
+   "argv": [
+    "encode",
+    "params",
+    "-l",
+    "-v",
+    "uint256[]",
+    "[10,20,30]"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:112"
+  },
+  {
+   "test": "test_encode_bytes_arrays",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "bytes[]",
+    "[1234,5678]"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1234",
+    "5678"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:120"
+  },
+  {
+   "test": "test_encode_mixed_array_tuple",
+   "argv": [
+    "encode",
+    "params",
+    "-l",
+    "-v",
+    "(uint256,uint256[])",
+    "(42,[1,2,3])"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:130"
+  },
+  {
+   "test": "test_decode_mixed_array_tuple",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "(uint256,uint256)",
+    "000000000000000000000000000000000000000000000000000000000000002a0000000000000000000000000000000000000000000000000000000000000064"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:138"
+  },
+  {
+   "test": "test_encode_nested_tuple",
+   "argv": [
+    "encode",
+    "params",
+    "-l",
+    "-v",
+    "(uint256,(bool,uint256))",
+    "(42,(true,100))"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:148"
+  },
+  {
+   "test": "test_decode_nested_tuple",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "(uint256,(bool,uint256))",
+    "000000000000000000000000000000000000000000000000000000000000002a00000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000064"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:156"
+  },
+  {
+   "test": "test_encode_function_with_array_param",
+   "argv": [
+    "encode",
+    "function",
+    "-l",
+    "test.abi",
+    "test",
+    "-p",
+    "[1,2,3]"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.abi": "[{\n            \"type\": \"function\",\n            \"name\": \"test\",\n            \"inputs\": [{\"name\": \"values\", \"type\": \"uint256[]\"}],\n            \"outputs\": []\n        }]"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:167"
+  },
+  {
+   "test": "test_decode_function_with_array_return",
+   "argv": [
+    "decode",
+    "function",
+    "test.abi",
+    "test",
+    "00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000003000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000003"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.abi": "[{\n            \"type\": \"function\",\n            \"name\": \"test\",\n            \"inputs\": [],\n            \"outputs\": [{\"name\": \"values\", \"type\": \"uint256[]\"}]\n        }]"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:183"
+  },
+  {
+   "test": "test_encode_uint32_value",
+   "argv": [
+    "encode",
+    "params",
+    "-l",
+    "-v",
+    "uint32",
+    "4294967295"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "00000000000000000000000000000000000000000000000000000000ffffffff"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:201"
+  },
+  {
+   "test": "test_decode_uint32_value",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "uint32",
+    "00000000000000000000000000000000000000000000000000000000ffffffff"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "uint32",
+    "ffffffff"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:208"
+  },
+  {
+   "test": "test_encode_int32_value",
+   "argv": [
+    "encode",
+    "params",
+    "-l",
+    "-v",
+    "int32",
+    "-2147483648"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:216"
+  },
+  {
+   "test": "test_decode_int32_value",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "int32",
+    "ffffffffffffffffffffffffffffffffffffffffffffffffffffffff80000000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "int32"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:225"
+  },
+  {
+   "test": "test_decode_bytes8",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "bytes8",
+    "1122334455667788000000000000000000000000000000000000000000000000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bytes8"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:239"
+  },
+  {
+   "test": "test_encode_tuple_with_string",
+   "argv": [
+    "encode",
+    "params",
+    "-l",
+    "-v",
+    "(string,uint256)",
+    "(hello,42)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "68656c6c6f"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:246"
+  },
+  {
+   "test": "test_decode_simple_tuple_alternative",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "(uint256,bool)",
+    "000000000000000000000000000000000000000000000000000000000000002a0000000000000000000000000000000000000000000000000000000000000001"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:264"
+  },
+  {
+   "test": "test_encode_decode_roundtrip_simple",
+   "argv": [
+    "encode",
+    "params",
+    "-l",
+    "-v",
+    "uint256",
+    "12345"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "uint256"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:275"
+  },
+  {
+   "test": "test_encode_decode_string_roundtrip",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "string",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "string",
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:287"
+  },
+  {
+   "test": "test_help_flag_long",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ethabi-cli",
+    "Ethereum ABI coder",
+    "USAGE:",
+    "FLAGS:",
+    "SUBCOMMANDS:",
+    "encode",
+    "decode"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:32"
+  },
+  {
+   "test": "test_help_flag_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ethabi-cli",
+    "Ethereum ABI coder",
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:45"
+  },
+  {
+   "test": "test_version_flag_long",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ethabi-cli"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:54"
+  },
+  {
+   "test": "test_version_flag_short",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ethabi-cli"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:63"
+  },
+  {
+   "test": "test_encode_function_help",
+   "argv": [
+    "encode",
+    "function",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "function",
+    "abi-path",
+    "function-name-or-signature",
+    "lenient"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:98"
+  },
+  {
+   "test": "test_encode_params_help",
+   "argv": [
+    "encode",
+    "params",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "params",
+    "type-or-param",
+    "lenient"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:108"
+  },
+  {
+   "test": "test_decode_function_help",
+   "argv": [
+    "decode",
+    "function",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "function",
+    "abi-path"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:117"
+  },
+  {
+   "test": "test_decode_params_help",
+   "argv": [
+    "decode",
+    "params",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "params",
+    "type"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:125"
+  },
+  {
+   "test": "test_decode_log_help",
+   "argv": [
+    "decode",
+    "log",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "log",
+    "event",
+    "topic"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:133"
+  },
+  {
+   "test": "test_decode_function_bool",
+   "argv": [
+    "decode",
+    "function",
+    "res/foo.abi",
+    "bar",
+    "0000000000000000000000000000000000000000000000000000000000000001"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bool true"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_function.py:37"
+  },
+  {
+   "test": "test_decode_function_with_signature",
+   "argv": [
+    "decode",
+    "function",
+    "res/foo.abi",
+    "bar(address):(bool)",
+    "0000000000000000000000000000000000000000000000000000000000000001"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bool true"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_function.py:44"
+  },
+  {
+   "test": "test_decode_function_uint256",
+   "argv": [
+    "decode",
+    "function",
+    "res/test.abi",
+    "bar(string):(uint256)",
+    "000000000000000000000000000000000000000000000000000000000000002a"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "uint256",
+    "2a"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_function.py:51"
+  },
+  {
+   "test": "test_decode_function_multiple_returns",
+   "argv": [
+    "decode",
+    "function",
+    "test.abi",
+    "test",
+    "000000000000000000000000000000000000000000000000000000000000002a0000000000000000000000000000000000000000000000000000000000000001"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "uint256",
+    "2a",
+    "bool",
+    "true"
+   ],
+   "files": {
+    "test.abi": "[{\n            \"type\": \"function\",\n            \"name\": \"test\",\n            \"inputs\": [],\n            \"outputs\": [\n                {\"name\": \"a\", \"type\": \"uint256\"},\n                {\"name\": \"b\", \"type\": \"bool\"}\n            ]\n        }]"
+   },
+   "ci": false,
+   "source": "test_decode_function.py:60"
+  },
+  {
+   "test": "test_decode_function_string_return",
+   "argv": [
+    "decode",
+    "function",
+    "test.abi",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "string",
+    "hello"
+   ],
+   "files": {
+    "test.abi": "[{\n            \"type\": \"function\",\n            \"name\": \"test\",\n            \"inputs\": [],\n            \"outputs\": [{\"name\": \"s\", \"type\": \"string\"}]\n        }]"
+   },
+   "ci": false,
+   "source": "test_decode_function.py:83"
+  },
+  {
+   "test": "test_decode_function_no_returns",
+   "argv": [
+    "decode",
+    "function",
+    "test.abi",
+    "test",
+    ""
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.abi": "[{\n            \"type\": \"function\",\n            \"name\": \"test\",\n            \"inputs\": [],\n            \"outputs\": []\n        }]"
+   },
+   "ci": false,
+   "source": "test_decode_function.py:101"
+  },
+  {
+   "test": "test_decode_function_with_0x_prefix",
+   "argv": [
+    "decode",
+    "function",
+    "res/foo.abi",
+    "bar",
+    "0x0000000000000000000000000000000000000000000000000000000000000001"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bool true"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_function.py:158"
+  },
+  {
+   "test": "test_decode_function_address_return",
+   "argv": [
+    "decode",
+    "function",
+    "test.abi",
+    "test",
+    "0000000000000000000000001234567890123456789012345678901234567890"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "addr",
+    "1234567890123456789012345678901234567890"
+   ],
+   "files": {
+    "test.abi": "[{\n            \"type\": \"function\",\n            \"name\": \"test\",\n            \"inputs\": [],\n            \"outputs\": [{\"name\": \"addr\", \"type\": \"address\"}]\n        }]"
+   },
+   "ci": false,
+   "source": "test_decode_function.py:169"
+  },
+  {
+   "test": "test_decode_log_event_by_signature",
+   "argv": [
+    "decode",
+    "log",
+    "res/event.abi",
+    "Event(bool,address)",
+    "-l",
+    "0000000000000000000000000000000000000000000000000000000000000001",
+    "0000000000000000000000004444444444444444444444444444444444444444"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "4444444444444444444444444444444444444444"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_log.py:52"
+  },
+  {
+   "test": "test_decode_log_basic_event",
+   "argv": [
+    "decode",
+    "log",
+    "res/event.abi",
+    "Event",
+    "-l",
+    "0000000000000000000000000000000000000000000000000000000000000000",
+    "0000000000000000000000001111111111111111111111111111111111111111"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1111111111111111111111111111111111111111"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_log.py:64"
+  },
+  {
+   "test": "test_decode_log_with_0x_prefix",
+   "argv": [
+    "decode",
+    "log",
+    "res/event.abi",
+    "Event",
+    "-l",
+    "0x0000000000000000000000000000000000000000000000000000000000000001",
+    "0x0000000000000000000000004444444444444444444444444444444444444444"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "4444444444444444444444444444444444444444"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_log.py:119"
+  },
+  {
+   "test": "test_decode_log_anonymous_event",
+   "argv": [
+    "decode",
+    "log",
+    "res/event.abi",
+    "Event",
+    "-l",
+    "0000000000000000000000000000000000000000000000000000000000000001",
+    "0000000000000000000000004444444444444444444444444444444444444444"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_log.py:133"
+  },
+  {
+   "test": "test_decode_log_multiple_topics",
+   "argv": [
+    "decode",
+    "log",
+    "res/event.abi",
+    "Event",
+    "-l",
+    "0000000000000000000000000000000000000000000000000000000000000000",
+    "0000000000000000000000002222222222222222222222222222222222222222"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2222222222222222222222222222222222222222"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_log.py:147"
+  },
+  {
+   "test": "test_decode_params_bool_true",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "bool",
+    "0000000000000000000000000000000000000000000000000000000000000001"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bool true"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_params.py:19"
+  },
+  {
+   "test": "test_decode_params_bool_false",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "bool",
+    "0000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bool false"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_params.py:26"
+  },
+  {
+   "test": "test_decode_params_uint256_large",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "uint256",
+    "00000000000000000000000000000000000000000000000000000000075bcd15"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "uint256",
+    "75bcd15"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_params.py:42"
+  },
+  {
+   "test": "test_decode_params_int256_positive",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "int256",
+    "000000000000000000000000000000000000000000000000000000000000002a"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "int256",
+    "2a"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_params.py:50"
+  },
+  {
+   "test": "test_decode_params_int256_negative",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "int256",
+    "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "int256"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_params.py:58"
+  },
+  {
+   "test": "test_decode_params_multiple_bools",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "bool",
+    "-t",
+    "bool",
+    "00000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "true",
+    "false"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_decode_params.py:68"
+  },
+  {
+   "test": "test_decode_params_string",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "string",
+    "00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000009676176666f796f726b0000000000000000000000000000000000000000000000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "string"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_params.py:80"
+  },
+  {
+   "test": "test_decode_params_address",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "address",
+    "0000000000000000000000001234567890123456789012345678901234567890"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "address",
+    "1234567890123456789012345678901234567890"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_params.py:91"
+  },
+  {
+   "test": "test_decode_params_bytes32",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "bytes32",
+    "0000000000000000000000000000000000000000000000000000000000000001"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bytes32",
+    "bytes32"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_params.py:99"
+  },
+  {
+   "test": "test_decode_params_bool_array",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "bool[]",
+    "00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000003000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bool[]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_params.py:111"
+  },
+  {
+   "test": "test_decode_params_tuple",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "(string,bool,string)",
+    "00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000060000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000a00000000000000000000000000000000000000000000000000000000000000006737069726c000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000671756173617200000000000000000000000000000000000000000000000000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_params.py:124"
+  },
+  {
+   "test": "test_decode_params_mixed_types",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "bool",
+    "-t",
+    "string",
+    "-t",
+    "bool",
+    "00000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000060000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000096761766f66796f726b0000000000000000000000000000000000000000000000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "string"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_params.py:137"
+  },
+  {
+   "test": "test_decode_params_zero_uint",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "uint256",
+    "0000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "uint256",
+    "0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_params.py:161"
+  },
+  {
+   "test": "test_decode_params_invalid_type_fallback",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "invalid_type",
+    "0000000000000000000000000000000000000000000000000000000000000001"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "uint8"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_decode_params.py:183"
+  },
+  {
+   "test": "test_decode_params_with_0x_prefix",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "bool",
+    "0x0000000000000000000000000000000000000000000000000000000000000001"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bool",
+    "true"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_decode_params.py:201"
+  },
+  {
+   "test": "test_encode_max_uint256",
+   "argv": [
+    "encode",
+    "params",
+    "-l",
+    "-v",
+    "uint256",
+    "115792089237316195423570985008687907853269984665640564039457584007913129639935"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:37"
+  },
+  {
+   "test": "test_encode_nested_array",
+   "argv": [
+    "encode",
+    "params",
+    "-l",
+    "-v",
+    "uint256[][]",
+    "[[1,2],[3,4]]"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:44"
+  },
+  {
+   "test": "test_encode_fixed_array",
+   "argv": [
+    "encode",
+    "params",
+    "-l",
+    "-v",
+    "uint256[3]",
+    "[1,2,3]"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:52"
+  },
+  {
+   "test": "test_encode_bytes16",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "bytes16",
+    "00112233445566778899aabbccddeeff"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "00112233445566778899aabbccddeeff"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:69"
+  },
+  {
+   "test": "test_decode_fixed_array",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "uint256[3]",
+    "000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000003"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:76"
+  },
+  {
+   "test": "test_encode_unicode_string",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "string",
+    "Hello 世界"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:86"
+  },
+  {
+   "test": "test_encode_string_with_quotes",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "string",
+    "test\"quote"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:96"
+  },
+  {
+   "test": "test_encode_address_checksum",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "address",
+    "5aAeb6053f3E94C9b9A09f33669435E7Ef1BeAed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": true,
+   "source": "test_edge_cases.py:104"
+  },
+  {
+   "test": "test_encode_negative_int128",
+   "argv": [
+    "encode",
+    "params",
+    "-l",
+    "-v",
+    "int128",
+    "-100"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:111"
+  },
+  {
+   "test": "test_encode_int8_boundary",
+   "argv": [
+    "encode",
+    "params",
+    "-l",
+    "-v",
+    "int8",
+    "127"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "000000000000000000000000000000000000000000000000000000000000007f"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:120"
+  },
+  {
+   "test": "test_decode_bytes_dynamic",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "bytes",
+    "00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000002123400000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bytes"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:127"
+  },
+  {
+   "test": "test_encode_tuple_complex",
+   "argv": [
+    "encode",
+    "params",
+    "-l",
+    "-v",
+    "(uint256,string,bool)",
+    "(42,hello,true)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:136"
+  },
+  {
+   "test": "test_encode_multiple_strings",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "string",
+    "first",
+    "-v",
+    "string",
+    "second"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:146"
+  },
+  {
+   "test": "test_decode_address_with_leading_zeros",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "address",
+    "000000000000000000000000000000000000000000000000000000000000000a"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "address"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:155"
+  },
+  {
+   "test": "test_encode_very_long_string",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "string"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:172"
+  },
+  {
+   "test": "test_encode_function_from_abi",
+   "argv": [
+    "encode",
+    "function",
+    "res/test.abi",
+    "foo",
+    "-p",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "45557578",
+    "0000000000000000000000000000000000000000000000000000000000000001"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_function.py:37"
+  },
+  {
+   "test": "test_encode_function_with_signature_full",
+   "argv": [
+    "encode",
+    "function",
+    "res/test.abi",
+    "bar(string):(uint256)",
+    "-p",
+    "hello"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "d473a8ed",
+    "68656c6c6f"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_function.py:50"
+  },
+  {
+   "test": "test_encode_function_overloaded_with_signature",
+   "argv": [
+    "encode",
+    "function",
+    "res/test.abi",
+    "bar(bool)",
+    "-p",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "6fae9412"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_function.py:70"
+  },
+  {
+   "test": "test_encode_function_multiple_params",
+   "argv": [
+    "encode",
+    "function",
+    "-l",
+    "test.abi",
+    "test",
+    "-p",
+    "42",
+    "-p",
+    "true"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "000000000000000000000000000000000000000000000000000000000000002a"
+   ],
+   "files": {
+    "test.abi": "[{\n            \"type\": \"function\",\n            \"name\": \"test\",\n            \"inputs\": [\n                {\"name\": \"a\", \"type\": \"uint256\"},\n                {\"name\": \"b\", \"type\": \"bool\"}\n            ],\n            \"outputs\": []\n        }]"
+   },
+   "ci": false,
+   "source": "test_encode_function.py:80"
+  },
+  {
+   "test": "test_encode_function_lenient_mode",
+   "argv": [
+    "encode",
+    "function",
+    "-l",
+    "res/test.abi",
+    "foo",
+    "-p",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_function.py:102"
+  },
+  {
+   "test": "test_encode_function_no_params",
+   "argv": [
+    "encode",
+    "function",
+    "test.abi",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.abi": "[{\n            \"type\": \"function\",\n            \"name\": \"test\",\n            \"inputs\": [],\n            \"outputs\": []\n        }]"
+   },
+   "ci": false,
+   "source": "test_encode_function.py:111"
+  },
+  {
+   "test": "test_encode_function_extra_params_ignored",
+   "argv": [
+    "encode",
+    "function",
+    "res/test.abi",
+    "foo",
+    "-p",
+    "1",
+    "-p",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "45557578",
+    "0000000000000000000000000000000000000000000000000000000000000001"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_function.py:151"
+  },
+  {
+   "test": "test_encode_function_with_string_param",
+   "argv": [
+    "encode",
+    "function",
+    "res/test.abi",
+    "bar(string):(uint256)",
+    "-p",
+    "hello"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "68656c6c6f"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_function.py:163"
+  },
+  {
+   "test": "test_encode_function_with_address",
+   "argv": [
+    "encode",
+    "function",
+    "test.abi",
+    "test",
+    "-p",
+    "1234567890123456789012345678901234567890"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1234567890123456789012345678901234567890"
+   ],
+   "files": {
+    "test.abi": "[{\n            \"type\": \"function\",\n            \"name\": \"test\",\n            \"inputs\": [{\"name\": \"addr\", \"type\": \"address\"}],\n            \"outputs\": []\n        }]"
+   },
+   "ci": false,
+   "source": "test_encode_function.py:172"
+  },
+  {
+   "test": "test_encode_function_empty_string",
+   "argv": [
+    "encode",
+    "function",
+    "res/test.abi",
+    "bar(string):(uint256)",
+    "-p",
+    ""
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "d473a8ed"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_function.py:188"
+  },
+  {
+   "test": "test_encode_function_real_abi_files",
+   "argv": [
+    "encode",
+    "function",
+    "res/foo.abi",
+    "bar",
+    "-p",
+    "1234567890123456789012345678901234567890"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1234567890123456789012345678901234567890"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_function.py:200"
+  },
+  {
+   "test": "test_encode_params_bool_true",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "bool",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0000000000000000000000000000000000000000000000000000000000000001"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:19"
+  },
+  {
+   "test": "test_encode_params_bool_false",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "bool",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:29"
+  },
+  {
+   "test": "test_encode_params_bool_true_string",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "bool",
+    "true"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0000000000000000000000000000000000000000000000000000000000000001"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:38"
+  },
+  {
+   "test": "test_encode_params_bool_false_string",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "bool",
+    "false"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:45"
+  },
+  {
+   "test": "test_encode_params_multiple_bools",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "bool",
+    "1",
+    "-v",
+    "bool",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0000000000000000000000000000000000000000000000000000000000000001",
+    "0000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:52"
+  },
+  {
+   "test": "test_encode_params_uint256_lenient",
+   "argv": [
+    "encode",
+    "params",
+    "-l",
+    "-v",
+    "uint256",
+    "42"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "000000000000000000000000000000000000000000000000000000000000002a"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:64"
+  },
+  {
+   "test": "test_encode_params_uint256_large_lenient",
+   "argv": [
+    "encode",
+    "params",
+    "-l",
+    "-v",
+    "uint256",
+    "123456789"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "00000000000000000000000000000000000000000000000000000000075bcd15"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:71"
+  },
+  {
+   "test": "test_encode_params_uint8_lenient",
+   "argv": [
+    "encode",
+    "params",
+    "-l",
+    "-v",
+    "uint8",
+    "255"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "00000000000000000000000000000000000000000000000000000000000000ff"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:78"
+  },
+  {
+   "test": "test_encode_params_uint16_lenient",
+   "argv": [
+    "encode",
+    "params",
+    "-l",
+    "-v",
+    "uint16",
+    "65535"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "000000000000000000000000000000000000000000000000000000000000ffff"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:85"
+  },
+  {
+   "test": "test_encode_params_int256_positive_lenient",
+   "argv": [
+    "encode",
+    "params",
+    "-l",
+    "-v",
+    "int256",
+    "42"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "000000000000000000000000000000000000000000000000000000000000002a"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:92"
+  },
+  {
+   "test": "test_encode_params_int256_negative_lenient",
+   "argv": [
+    "encode",
+    "params",
+    "-l",
+    "-v",
+    "int256",
+    "-1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:99"
+  },
+  {
+   "test": "test_encode_params_string_simple",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "string",
+    "hello"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "68656c6c6f"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:107"
+  },
+  {
+   "test": "test_encode_params_address",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "address",
+    "1234567890123456789012345678901234567890"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0000000000000000000000001234567890123456789012345678901234567890"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:128"
+  },
+  {
+   "test": "test_encode_params_bytes32",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "bytes32",
+    "0000000000000000000000000000000000000000000000000000000000000001"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0000000000000000000000000000000000000000000000000000000000000001"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:135"
+  },
+  {
+   "test": "test_encode_params_bool_array",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "bool[]",
+    "[true,false,true]"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0000000000000000000000000000000000000000000000000000000000000003"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:152"
+  },
+  {
+   "test": "test_encode_params_uint_array_lenient",
+   "argv": [
+    "encode",
+    "params",
+    "-l",
+    "-v",
+    "uint256[]",
+    "[1,2,3]"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0000000000000000000000000000000000000000000000000000000000000003"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:164"
+  },
+  {
+   "test": "test_encode_params_tuple_lenient",
+   "argv": [
+    "encode",
+    "params",
+    "-l",
+    "-v",
+    "(uint256,bool)",
+    "(42,true)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "000000000000000000000000000000000000000000000000000000000000002a"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:175"
+  },
+  {
+   "test": "test_encode_params_mixed_types",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "bool",
+    "1",
+    "-v",
+    "string",
+    "test",
+    "-v",
+    "bool",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "74657374"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:187"
+  },
+  {
+   "test": "test_encode_params_lenient_mode",
+   "argv": [
+    "encode",
+    "params",
+    "-l",
+    "-v",
+    "uint256",
+    "100"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0000000000000000000000000000000000000000000000000000000000000064"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:198"
+  },
+  {
+   "test": "test_encode_params_empty_string",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "string",
+    ""
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:205"
+  },
+  {
+   "test": "test_encode_params_zero_uint_lenient",
+   "argv": [
+    "encode",
+    "params",
+    "-l",
+    "-v",
+    "uint256",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:214"
+  },
+  {
+   "test": "test_encode_params_empty_array",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "uint256[]",
+    "[]"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:221"
+  },
+  {
+   "test": "test_encode_params_no_params",
+   "argv": [
+    "encode",
+    "params"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:244"
+  },
+  {
+   "test": "test_encode_params_address_with_0x",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "address",
+    "0x1234567890123456789012345678901234567890"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0000000000000000000000001234567890123456789012345678901234567890"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encode_params.py:254"
+  },
+  {
+   "test": "test_decode_extra_data_at_end",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "bool",
+    "00000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000001"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_paths.py:19"
+  },
+  {
+   "test": "test_encode_uint16_lenient",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "uint16",
+    "1234",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "00000000000000000000000000000000000000000000000000000000000004d2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_coverage.py:20"
+  },
+  {
+   "test": "test_encode_int16_lenient",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "int16",
+    "-100",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_more_coverage.py:26"
+  },
+  {
+   "test": "test_decode_int16",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "int16",
+    "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "int16"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_coverage.py:33"
+  },
+  {
+   "test": "test_encode_bytes3",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "bytes3",
+    "0xaabbcc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "aabbcc"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_more_coverage.py:41"
+  },
+  {
+   "test": "test_decode_bytes3",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "bytes3",
+    "aabbcc0000000000000000000000000000000000000000000000000000000000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bytes3",
+    "aabbcc"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_more_coverage.py:48"
+  },
+  {
+   "test": "test_encode_bytes5",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "bytes5",
+    "0x0102030405"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0102030405"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_more_coverage.py:56"
+  },
+  {
+   "test": "test_decode_bytes5",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "bytes5",
+    "0102030405000000000000000000000000000000000000000000000000000000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bytes5",
+    "0102030405"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_more_coverage.py:62"
+  },
+  {
+   "test": "test_encode_bytes10",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "bytes10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ab"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_more_coverage.py:70"
+  },
+  {
+   "test": "test_decode_bytes10",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "bytes10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bytes10",
+    "ab"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_more_coverage.py:76"
+  },
+  {
+   "test": "test_encode_bytes20",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "bytes20"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "12"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_more_coverage.py:84"
+  },
+  {
+   "test": "test_decode_bytes20",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "bytes20"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bytes20",
+    "12"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_more_coverage.py:90"
+  },
+  {
+   "test": "test_encode_bytes24",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "bytes24"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "ff"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_more_coverage.py:98"
+  },
+  {
+   "test": "test_decode_bytes24",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "bytes24"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bytes24",
+    "ff"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_more_coverage.py:104"
+  },
+  {
+   "test": "test_encode_int64_lenient",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "int64",
+    "-999",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_more_coverage.py:112"
+  },
+  {
+   "test": "test_decode_int64",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "int64",
+    "fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc19"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "int64"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_coverage.py:118"
+  },
+  {
+   "test": "test_encode_uint128_lenient",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "uint128",
+    "999999999",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "000000000000000000000000000000000000000000000000000000003b9ac9ff"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_coverage.py:126"
+  },
+  {
+   "test": "test_decode_uint128",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "uint128",
+    "000000000000000000000000000000000000000000000000000000003b9ac9ff"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "uint128"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_coverage.py:133"
+  },
+  {
+   "test": "test_encode_very_long_string",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "string"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "00000000000000000000000000000000000000000000000000000000000003e8",
+    "61"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_more_coverage.py:141"
+  },
+  {
+   "test": "test_decode_very_long_string",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "string",
+    "0000000000000000000000000000000000000000000000000000000000000020"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "string",
+    "a"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_more_coverage.py:151"
+  },
+  {
+   "test": "test_encode_empty_bytes_dynamic",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "bytes",
+    "0x"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0000000000000000000000000000000000000000000000000000000000000020",
+    "0000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_coverage.py:166"
+  },
+  {
+   "test": "test_encode_address_lowercase",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "address",
+    "0xabcdefabcdefabcdefabcdefabcdefabcdefabcd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "abcdefabcdefabcdefabcdefabcdefabcdefabcd"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_more_coverage.py:199"
+  },
+  {
+   "test": "test_decode_address_uppercase",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "address",
+    "000000000000000000000000abcdefabcdefabcdefabcdefabcdefabcdefabcd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "address",
+    "abcdefabcdefabcdefabcdefabcdefabcdefabcd"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_more_coverage.py:205"
+  },
+  {
+   "test": "test_encode_multiple_addresses",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "address",
+    "0x1111111111111111111111111111111111111111",
+    "-v",
+    "address",
+    "0x2222222222222222222222222222222222222222",
+    "-v",
+    "address",
+    "0x3333333333333333333333333333333333333333"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1111111111111111111111111111111111111111",
+    "2222222222222222222222222222222222222222",
+    "3333333333333333333333333333333333333333"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_coverage.py:213"
+  },
+  {
+   "test": "test_decode_multiple_addresses",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "address",
+    "-t",
+    "address",
+    "-t",
+    "address"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "address",
+    "1111111111111111111111111111111111111111",
+    "2222222222222222222222222222222222222222",
+    "3333333333333333333333333333333333333333"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_coverage.py:224"
+  },
+  {
+   "test": "test_encode_tuple_two_uints",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "(uint256,uint256)",
+    "(10,20)",
+    "--lenient"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "000000000000000000000000000000000000000000000000000000000000000a",
+    "0000000000000000000000000000000000000000000000000000000000000014"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_coverage.py:236"
+  },
+  {
+   "test": "test_decode_tuple_two_uints",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "(uint256,uint256)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "(",
+    ")",
+    "a",
+    "14"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_more_coverage.py:243"
+  },
+  {
+   "test": "test_encode_bool_array_all_true",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "bool[]",
+    "[true,true,true]"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0000000000000000000000000000000000000000000000000000000000000003"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_coverage.py:255"
+  },
+  {
+   "test": "test_decode_bool_array_all_true",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "bool[]"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bool[]",
+    "true"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_more_coverage.py:264"
+  },
+  {
+   "test": "test_encode_bool_array_mixed",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "bool[]",
+    "[true,false,true,false]"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0000000000000000000000000000000000000000000000000000000000000004",
+    "0000000000000000000000000000000000000000000000000000000000000001",
+    "0000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_coverage.py:278"
+  },
+  {
+   "test": "test_decode_bool_array_mixed",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "bool[]"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bool[]",
+    "true",
+    "false"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_more_coverage.py:288"
+  },
+  {
+   "test": "test_encode_empty_bool_array",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "bool[]",
+    "[]"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0000000000000000000000000000000000000000000000000000000000000020",
+    "0000000000000000000000000000000000000000000000000000000000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_coverage.py:302"
+  },
+  {
+   "test": "test_decode_empty_bool_array",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "bool[]"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bool[]",
+    "[]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_coverage.py:311"
+  },
+  {
+   "test": "test_eip20_abi_functions",
+   "argv": [
+    "encode",
+    "function",
+    "res/eip20.abi",
+    "transfer(address,uint256):(bool)",
+    "-l",
+    "-p",
+    "1234567890123456789012345678901234567890",
+    "-p",
+    "1000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1234567890123456789012345678901234567890"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_real_abi_files.py:19"
+  },
+  {
+   "test": "test_eip20_abi_balanceOf",
+   "argv": [
+    "encode",
+    "function",
+    "res/eip20.abi",
+    "balanceOf(address):(uint256)",
+    "-p",
+    "1234567890123456789012345678901234567890"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1234567890123456789012345678901234567890"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_real_abi_files.py:31"
+  },
+  {
+   "test": "test_decode_eip20_balance",
+   "argv": [
+    "decode",
+    "function",
+    "res/eip20.abi",
+    "balanceOf(address):(uint256)",
+    "0000000000000000000000000000000000000000000000000000000000000064"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "uint256",
+    "64"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_real_abi_files.py:41"
+  },
+  {
+   "test": "test_encode_complex_types",
+   "argv": [
+    "encode",
+    "params",
+    "-l",
+    "-v",
+    "address[]",
+    "[1111111111111111111111111111111111111111,2222222222222222222222222222222222222222,3333333333333333333333333333333333333333]"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1111111111111111111111111111111111111111",
+    "2222222222222222222222222222222222222222",
+    "3333333333333333333333333333333333333333"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_real_abi_files.py:119"
+  },
+  {
+   "test": "test_decode_complex_types",
+   "argv": [
+    "decode",
+    "params",
+    "-t",
+    "address[]",
+    "00000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000001"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_real_abi_files.py:129"
+  },
+  {
+   "test": "test_encode_bytes_array_multiple",
+   "argv": [
+    "encode",
+    "params",
+    "-v",
+    "bytes",
+    "1234",
+    "-v",
+    "bytes",
+    "5678"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1234",
+    "5678"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_real_abi_files.py:140"
+  },
+  {
+   "test": "test_signature_variations",
+   "argv": [
+    "encode",
+    "function",
+    "res/test.abi",
+    "bar(string):(uint256)",
+    "-p",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_real_abi_files.py:149"
+  }
+ ]
+}

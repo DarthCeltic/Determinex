@@ -1,0 +1,3269 @@
+{
+ "slug": "danmar__cppcheck.0a5b103",
+ "language": "",
+ "n_branches": 11,
+ "n_tests_total": 2174,
+ "n_examples": 171,
+ "n_with_exact_stdout": 0,
+ "n_with_rc": 165,
+ "n_skipped": 1947,
+ "examples": [
+  {
+   "test": "test_help_flag_works",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Cppcheck",
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:46"
+  },
+  {
+   "test": "test_version_flag_works",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Cppcheck"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:53"
+  },
+  {
+   "test": "test_help_subcommand_treated_as_path",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "could not find or open"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:71"
+  },
+  {
+   "test": "test_flags_come_before_paths",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:85"
+  },
+  {
+   "test": "test_double_dash_flags",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:91"
+  },
+  {
+   "test": "test_errorlist_flag",
+   "argv": [
+    "--errorlist"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:106"
+  },
+  {
+   "test": "test_help_shows_options_not_commands",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:127"
+  },
+  {
+   "test": "test_flag_with_value",
+   "argv": [
+    "--std=c++11",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:157"
+  },
+  {
+   "test": "test_all_flags_available_always",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--enable"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:176"
+  },
+  {
+   "test": "test_no_subcommand_specific_help_exists",
+   "argv": [
+    "check",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:186"
+  },
+  {
+   "test": "test_examples_use_flags_not_subcommands",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cppcheck"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:229"
+  },
+  {
+   "test": "test_main_syntax_is_simple",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Syntax:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:245"
+  },
+  {
+   "test": "test_no_command_aliases",
+   "argv": [
+    "ls"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "could not find or open"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:267"
+  },
+  {
+   "test": "test_clangimport_nonexistent_file",
+   "argv": [
+    "./executable",
+    "--clang",
+    "/nonexistent/file.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "could not find or open"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_clangimport_error_handling.py:12"
+  },
+  {
+   "test": "test_file_list_from_stdin",
+   "argv": [
+    "--file-list=-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cmdlineparser.py:128"
+  },
+  {
+   "test": "test_misra_c_builtin_style_checks",
+   "argv": [
+    "./cppcheck",
+    "--premium=autosar",
+    "--xml",
+    "test.cpp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "id=\"unusedVariable\"",
+    "id=\"checkersReport\"",
+    "id=\"unusedVariable\"",
+    "<safety/>",
+    "<inline-suppr/>",
+    "<suppression errorId=\"foo\" inline=\"false\" />"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest_premium.py:48"
+  },
+  {
+   "test": "test_build_dir_hash_cppcheck_product",
+   "argv": [
+    "./cppcheck",
+    "--cppcheck-build-dir=b",
+    "test.cpp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest_premium.py:102"
+  },
+  {
+   "test": "test_misra_py",
+   "argv": [
+    "./cppcheck",
+    "--enable=style",
+    "--addon=misra",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Did not find addon misra.py",
+    "Checking"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest_premium.py:156"
+  },
+  {
+   "test": "test_help",
+   "argv": [
+    "./cppcheck",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--premium=",
+    "cppchecksolutions.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest_premium.py:214"
+  },
+  {
+   "test": "test_subcommand_like_help_is_not_supported",
+   "argv": [
+    "check",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Cppcheck - A tool"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_no_subcommands_dispatch.py:47"
+  },
+  {
+   "test": "test_no_input_reports_error",
+   "argv": [
+    "--help"
+   ],
+   "stdin": "int main(){}\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Syntax:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_io.py:61"
+  },
+  {
+   "test": "test_ext_help_smoke",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Cppcheck"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_smoke_help.py:14"
+  },
+  {
+   "test": "test_complex_pointer_error",
+   "argv": [
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.c": "\n#include <stdlib.h>\nint main() {\n    int *p = malloc(sizeof(int));\n    int *q = p;\n    free(p);\n    *q = 5;  // use after free through alias\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:37"
+  },
+  {
+   "test": "test_include_with_defines",
+   "argv": [
+    "-I",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.c": "\n#include \"config.h\"\nint main() {\n    int arr[MAX_SIZE];\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:72"
+  },
+  {
+   "test": "test_multiple_defines",
+   "argv": [
+    "-DFEATURE_A",
+    "-DFEATURE_B",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.c": "\n#if defined(FEATURE_A) && defined(FEATURE_B)\nint both_enabled = 1;\n#endif\nint main() { return 0; }\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:92"
+  },
+  {
+   "test": "test_enable_all_with_inconclusive",
+   "argv": [
+    "--enable=all",
+    "--inconclusive",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.c": "\nint main() {\n    int arr[10];\n    int idx = 5;\n    arr[idx] = 0;  // potentially unsafe but not definite\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:105"
+  },
+  {
+   "test": "test_xml_version_2",
+   "argv": [
+    "--xml",
+    "--xml-version=2",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<?xml",
+    "version=\"2\""
+   ],
+   "files": {
+    "test.c": "\nint main() {\n    int x;\n    return x;\n}\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:120"
+  },
+  {
+   "test": "test_platform_win64",
+   "argv": [
+    "--platform=win64",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.c": "\nint main() {\n    long l = 0;\n    void* p = (void*)l;\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:146"
+  },
+  {
+   "test": "test_force_with_multiple_configs",
+   "argv": [
+    "--force",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.c": "\n#ifdef CONFIG_A\nint a = 1;\n#else\nint a = 0;\n#endif\n#ifdef CONFIG_B\nint b = 1;\n#else\nint b = 0;\n#endif\nint main() { return 0; }\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:160"
+  },
+  {
+   "test": "test_missingInclude_check",
+   "argv": [
+    "--enable=missingInclude",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.c": "\n#include \"nonexistent.h\"\nint main() { return 0; }\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:180"
+  },
+  {
+   "test": "test_multiple_errors_in_file",
+   "argv": [
+    "--enable=all",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.c": "\n#include <stdlib.h>\nint main() {\n    int x;\n    int y = x;  // uninitialized\n    \n    int *p = malloc(10);  // potential leak\n    \n    int arr[5];\n    arr[10] = 0;  // out of bounds\n    \n    int z = 5 / 0;  // division by zero\n    \n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:191"
+  },
+  {
+   "test": "test_cpp_class_with_errors",
+   "argv": [
+    "--enable=all",
+    "test.cpp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.cpp": "\nclass MyClass {\npublic:\n    MyClass(int val) {  // missing explicit\n        value = val;\n    }\nprivate:\n    int value;  // uninitialized in some constructors\n    int* ptr;  // uninitialized\n};\n\nint main() {\n    MyClass obj(5);\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:216"
+  },
+  {
+   "test": "test_template_cppcheck1",
+   "argv": [
+    "--template=cppcheck1",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test.c"
+   ],
+   "files": {
+    "test.c": "\nint main() {\n    int x;\n    return x;\n}\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:239"
+  },
+  {
+   "test": "test_template_edit",
+   "argv": [
+    "--template=edit",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test.c"
+   ],
+   "files": {
+    "test.c": "\nint main() {\n    int x;\n    return x;\n}\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:252"
+  },
+  {
+   "test": "test_relative_paths",
+   "argv": [
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test.c"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:265"
+  },
+  {
+   "test": "test_std_cpp03",
+   "argv": [
+    "--std=c++03",
+    "test.cpp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.cpp": "\nint main() {\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:274"
+  },
+  {
+   "test": "test_error_with_quiet",
+   "argv": [
+    "--quiet",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.c": "\nint main() {\n    int x;\n    return x;\n}\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:286"
+  },
+  {
+   "test": "test_warning_exitcode",
+   "argv": [
+    "--enable=warning",
+    "--error-exitcode=3",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.c": "\nint main() {\n    int x;\n    x++;  // might trigger warning\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:317"
+  },
+  {
+   "test": "test_library_combined",
+   "argv": [
+    "--library=posix",
+    "--library=gnu",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.c": "\n#include <stdio.h>\nint main() {\n    FILE *f = fopen(\"test.txt\", \"r\");\n    fclose(f);\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:332"
+  },
+  {
+   "test": "test_checkers_report",
+   "argv": [
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.c": "int main() { return 0; }"
+   },
+   "ci": false,
+   "source": "test_advanced_features.py:37"
+  },
+  {
+   "test": "test_max_ctu_depth",
+   "argv": [
+    "--max-ctu-depth=3",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.c": "\nvoid func1() { }\nvoid func2() { func1(); }\nvoid func3() { func2(); }\nint main() { func3(); return 0; }\n"
+   },
+   "ci": false,
+   "source": "test_advanced_features.py:48"
+  },
+  {
+   "test": "test_addon_python_interpreter",
+   "argv": [
+    "--addon-python=python3",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.c": "int main() { return 0; }"
+   },
+   "ci": false,
+   "source": "test_advanced_features.py:116"
+  },
+  {
+   "test": "test_config_exclude",
+   "argv": [
+    "--config-exclude=/usr/include",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.c": "\n#include <stdio.h>\nint main() { return 0; }\n"
+   },
+   "ci": false,
+   "source": "test_advanced_features.py:139"
+  },
+  {
+   "test": "test_check_level_combinations",
+   "argv": [
+    "--check-level=exhaustive",
+    "--enable=all",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.c": "\nint main() {\n    int arr[10];\n    arr[5] = 0;\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_advanced_features.py:183"
+  },
+  {
+   "test": "test_library_with_check_library",
+   "argv": [
+    "--library=posix",
+    "--check-library",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.c": "\n#include <stdio.h>\nint main() {\n    fopen(\"test.txt\", \"r\");\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_advanced_features.py:197"
+  },
+  {
+   "test": "test_inline_suppression_comment",
+   "argv": [
+    "--inline-suppr",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.c": "\nint main() {\n    int x;\n    // cppcheck-suppress uninitvar\n    return x;\n}\n"
+   },
+   "ci": false,
+   "source": "test_advanced_features.py:231"
+  },
+  {
+   "test": "test_template_with_all_fields",
+   "argv": [
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ":"
+   ],
+   "files": {
+    "test.c": "\nint main() {\n    int x;\n    return x;\n}\n"
+   },
+   "ci": false,
+   "source": "test_advanced_features.py:245"
+  },
+  {
+   "test": "test_xml_with_template",
+   "argv": [
+    "--xml",
+    "--template=gcc",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<?xml"
+   ],
+   "files": {
+    "test.c": "\nint main() {\n    int x;\n    return x;\n}\n"
+   },
+   "ci": false,
+   "source": "test_advanced_features.py:260"
+  },
+  {
+   "test": "test_performance_checks",
+   "argv": [
+    "--enable=performance",
+    "test.cpp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.cpp": "\n#include <string>\nvoid inefficient(std::string str) {\n    str += \"suffix\";\n}\nint main() { return 0; }\n"
+   },
+   "ci": false,
+   "source": "test_advanced_features.py:274"
+  },
+  {
+   "test": "test_portability_checks",
+   "argv": [
+    "--enable=portability",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.c": "\nint main() {\n    int *p = 0x12345678;  // assign int to pointer\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_advanced_features.py:288"
+  },
+  {
+   "test": "test_information_checks",
+   "argv": [
+    "--enable=information",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.c": "\n#ifdef UNUSED_DEFINE\nint x;\n#endif\nint main() { return 0; }\n"
+   },
+   "ci": false,
+   "source": "test_advanced_features.py:301"
+  },
+  {
+   "test": "test_enable_warning",
+   "argv": [
+    "--enable=warning",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.c": "\nint main() {\n    int x;\n    x++;\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_analysis_options.py:51"
+  },
+  {
+   "test": "test_enable_style",
+   "argv": [
+    "--enable=style",
+    "test.cpp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.cpp": "\nclass MyClass {\n    int x;\n};\nint main() { return 0; }\n"
+   },
+   "ci": false,
+   "source": "test_analysis_options.py:65"
+  },
+  {
+   "test": "test_enable_multiple",
+   "argv": [
+    "--enable=warning,performance,style",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.c": "int main() { return 0; }"
+   },
+   "ci": false,
+   "source": "test_analysis_options.py:112"
+  },
+  {
+   "test": "test_disable",
+   "argv": [
+    "--enable=all",
+    "--disable=style",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.c": "int main() { return 0; }"
+   },
+   "ci": false,
+   "source": "test_analysis_options.py:120"
+  },
+  {
+   "test": "test_inconclusive",
+   "argv": [
+    "--inconclusive",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.c": "\nint main() {\n    int arr[10];\n    int i = 5;\n    arr[i] = 0;\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_analysis_options.py:128"
+  },
+  {
+   "test": "test_check_level_normal",
+   "argv": [
+    "--check-level=normal",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.c": "int main() { return 0; }"
+   },
+   "ci": false,
+   "source": "test_analysis_options.py:143"
+  },
+  {
+   "test": "test_check_level_exhaustive",
+   "argv": [
+    "--check-level=exhaustive",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.c": "int main() { return 0; }"
+   },
+   "ci": false,
+   "source": "test_analysis_options.py:151"
+  },
+  {
+   "test": "test_check_level_reduced",
+   "argv": [
+    "--check-level=reduced",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.c": "int main() { return 0; }"
+   },
+   "ci": false,
+   "source": "test_analysis_options.py:159"
+  },
+  {
+   "test": "test_language_c",
+   "argv": [
+    "--language=c",
+    "test.cpp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.cpp": "int main() { return 0; }"
+   },
+   "ci": false,
+   "source": "test_analysis_options.py:167"
+  },
+  {
+   "test": "test_language_cpp",
+   "argv": [
+    "--language=c++",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.c": "int main() { return 0; }"
+   },
+   "ci": false,
+   "source": "test_analysis_options.py:175"
+  },
+  {
+   "test": "test_language_short_form",
+   "argv": [
+    "-x",
+    "c",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.txt": "int main() { return 0; }"
+   },
+   "ci": false,
+   "source": "test_analysis_options.py:183"
+  },
+  {
+   "test": "test_std_c89",
+   "argv": [
+    "--std=c89",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.c": "int main() { return 0; }"
+   },
+   "ci": false,
+   "source": "test_analysis_options.py:191"
+  },
+  {
+   "test": "test_std_c99",
+   "argv": [
+    "--std=c99",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.c": "int main() { return 0; }"
+   },
+   "ci": false,
+   "source": "test_analysis_options.py:199"
+  },
+  {
+   "test": "test_std_c11",
+   "argv": [
+    "--std=c11",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.c": "int main() { return 0; }"
+   },
+   "ci": false,
+   "source": "test_analysis_options.py:207"
+  },
+  {
+   "test": "test_std_cpp11",
+   "argv": [
+    "--std=c++11",
+    "test.cpp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.cpp": "int main() { auto x = 5; return 0; }"
+   },
+   "ci": false,
+   "source": "test_analysis_options.py:215"
+  },
+  {
+   "test": "test_std_cpp14",
+   "argv": [
+    "--std=c++14",
+    "test.cpp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.cpp": "int main() { return 0; }"
+   },
+   "ci": false,
+   "source": "test_analysis_options.py:223"
+  },
+  {
+   "test": "test_std_cpp17",
+   "argv": [
+    "--std=c++17",
+    "test.cpp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.cpp": "int main() { return 0; }"
+   },
+   "ci": false,
+   "source": "test_analysis_options.py:231"
+  },
+  {
+   "test": "test_std_cpp20",
+   "argv": [
+    "--std=c++20",
+    "test.cpp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.cpp": "int main() { return 0; }"
+   },
+   "ci": false,
+   "source": "test_analysis_options.py:239"
+  },
+  {
+   "test": "test_help_output",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Cppcheck - A tool for static C/C++ code analysis",
+    "Syntax:",
+    "Options:",
+    "--enable",
+    "--addon"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:37"
+  },
+  {
+   "test": "test_help_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Cppcheck - A tool for static C/C++ code analysis",
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:47"
+  },
+  {
+   "test": "test_errorlist",
+   "argv": [
+    "--errorlist"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<?xml version",
+    "<results",
+    "<error id=",
+    "severity=",
+    "uninit",
+    "nullPointer",
+    "memleak"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:69"
+  },
+  {
+   "test": "test_simple_cpp_file",
+   "argv": [
+    "test.cpp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.cpp": "\n#include <iostream>\nint main() {\n    int* p = nullptr;\n    *p = 5;  // null pointer dereference\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_basic.py:99"
+  },
+  {
+   "test": "test_clean_file_no_errors",
+   "argv": [
+    "clean.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "clean.c": "\n#include <stdio.h>\nint main() {\n    int x = 5;\n    printf(\"%d\", x);\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_basic.py:115"
+  },
+  {
+   "test": "test_multiple_files",
+   "argv": [
+    "file1.c",
+    "file2.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "file1.c": "int main() { return 0; }",
+    "file2.c": "void foo() { int x; x++; }"
+   },
+   "ci": false,
+   "source": "test_basic.py:132"
+  },
+  {
+   "test": "test_invalid_file",
+   "argv": [
+    "/nonexistent/file.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:158"
+  },
+  {
+   "test": "test_verbose_mode",
+   "argv": [
+    "-v",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.c": "int main() { int x; x++; return 0; }"
+   },
+   "ci": false,
+   "source": "test_basic.py:174"
+  },
+  {
+   "test": "test_exit_code_with_errors",
+   "argv": [
+    "--error-exitcode=42",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 42,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.c": "\nint main() {\n    int x;\n    return x;  // uninitialized\n}\n"
+   },
+   "ci": false,
+   "source": "test_basic.py:183"
+  },
+  {
+   "test": "test_empty_file",
+   "argv": [
+    "empty.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "empty.c": ""
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:36"
+  },
+  {
+   "test": "test_file_with_only_comments",
+   "argv": [
+    "comments.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "comments.c": "\n// This is a comment\n/* This is\n   a multi-line\n   comment */\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:44"
+  },
+  {
+   "test": "test_file_with_only_preprocessor",
+   "argv": [
+    "preproc.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "preproc.c": "\n#ifndef HEADER_H\n#define HEADER_H\n#define MAX 100\n#endif\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:57"
+  },
+  {
+   "test": "test_deeply_nested_code",
+   "argv": [
+    "nested.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "nested.c": "\nint main() {\n    if (1) {\n        if (1) {\n            if (1) {\n                if (1) {\n                    if (1) {\n                        int x = 0;\n                    }\n                }\n            }\n        }\n    }\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:70"
+  },
+  {
+   "test": "test_recursive_function",
+   "argv": [
+    "recursive.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "recursive.c": "\nint factorial(int n) {\n    if (n <= 1)\n        return 1;\n    return n * factorial(n - 1);\n}\n\nint main() {\n    int result = factorial(5);\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:93"
+  },
+  {
+   "test": "test_function_pointers",
+   "argv": [
+    "funcptr.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "funcptr.c": "\nint add(int a, int b) { return a + b; }\nint subtract(int a, int b) { return a - b; }\n\nint main() {\n    int (*operation)(int, int);\n    operation = add;\n    int result = operation(5, 3);\n    operation = subtract;\n    result = operation(5, 3);\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:112"
+  },
+  {
+   "test": "test_struct_operations",
+   "argv": [
+    "struct.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "struct.c": "\nstruct Point {\n    int x;\n    int y;\n};\n\nstruct Point create_point(int x, int y) {\n    struct Point p;\n    p.x = x;\n    p.y = y;\n    return p;\n}\n\nint main() {\n    struct Point p1 = {1, 2};\n    struct Point p2 = create_point(3, 4);\n    \n    struct Point *ptr = &p1;\n    ptr->x = 10;\n    \n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:132"
+  },
+  {
+   "test": "test_union_usage",
+   "argv": [
+    "union.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "union.c": "\nunion Data {\n    int i;\n    float f;\n    char str[20];\n};\n\nint main() {\n    union Data data;\n    data.i = 10;\n    int x = data.i;\n    data.f = 3.14;\n    float y = data.f;\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:162"
+  },
+  {
+   "test": "test_bitwise_operations",
+   "argv": [
+    "bitwise.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "bitwise.c": "\nint main() {\n    unsigned int a = 5;\n    unsigned int b = 3;\n    \n    unsigned int and_result = a & b;\n    unsigned int or_result = a | b;\n    unsigned int xor_result = a ^ b;\n    unsigned int not_result = ~a;\n    unsigned int left_shift = a << 2;\n    unsigned int right_shift = a >> 1;\n    \n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:185"
+  },
+  {
+   "test": "test_goto_statement",
+   "argv": [
+    "goto.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "goto.c": "\nint main() {\n    int x = 0;\n    \n    loop_start:\n    x++;\n    if (x < 5)\n        goto loop_start;\n    \n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:207"
+  },
+  {
+   "test": "test_switch_statement",
+   "argv": [
+    "switch.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "switch.c": "\nint main() {\n    int value = 2;\n    int result;\n    \n    switch (value) {\n        case 1:\n            result = 10;\n            break;\n        case 2:\n            result = 20;\n            break;\n        case 3:\n            result = 30;\n            break;\n        default:\n            result = 0;\n            break;\n    }\n    \n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:226"
+  },
+  {
+   "test": "test_switch_fallthrough",
+   "argv": [
+    "fallthrough.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "fallthrough.c": "\nint main() {\n    int value = 2;\n    int result = 0;\n    \n    switch (value) {\n        case 1:\n            result += 10;\n        case 2:\n            result += 20;\n        case 3:\n            result += 30;\n            break;\n        default:\n            result = 0;\n    }\n    \n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:256"
+  },
+  {
+   "test": "test_conditional_operator",
+   "argv": [
+    "ternary.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "ternary.c": "\nint main() {\n    int a = 5;\n    int b = 10;\n    int max = (a > b) ? a : b;\n    int min = (a < b) ? a : b;\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:283"
+  },
+  {
+   "test": "test_comma_operator",
+   "argv": [
+    "comma.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "comma.c": "\nint main() {\n    int a, b, c;\n    a = (b = 3, c = 4, b + c);\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:299"
+  },
+  {
+   "test": "test_sizeof_operator",
+   "argv": [
+    "sizeof.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "sizeof.c": "\nint main() {\n    int x;\n    size_t size1 = sizeof(int);\n    size_t size2 = sizeof(x);\n    size_t size3 = sizeof(x + 1);\n    \n    int arr[10];\n    size_t arr_size = sizeof(arr);\n    size_t elem_count = sizeof(arr) / sizeof(arr[0]);\n    \n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:313"
+  },
+  {
+   "test": "test_typedef",
+   "argv": [
+    "typedef.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "typedef.c": "\ntypedef int Integer;\ntypedef struct {\n    int x;\n    int y;\n} Point;\n\ntypedef void (*FuncPtr)(int);\n\nint main() {\n    Integer num = 42;\n    Point p = {1, 2};\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:334"
+  },
+  {
+   "test": "test_enum",
+   "argv": [
+    "enum.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "enum.c": "\nenum Color {\n    RED,\n    GREEN,\n    BLUE\n};\n\nenum Status {\n    OK = 0,\n    ERROR = -1,\n    PENDING = 1\n};\n\nint main() {\n    enum Color c = RED;\n    enum Status s = OK;\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:356"
+  },
+  {
+   "test": "test_inline_function",
+   "argv": [
+    "inline.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "inline.c": "\ninline int add(int a, int b) {\n    return a + b;\n}\n\nint main() {\n    int result = add(5, 3);\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:382"
+  },
+  {
+   "test": "test_static_function",
+   "argv": [
+    "static.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "static.c": "\nstatic int helper(int x) {\n    return x * 2;\n}\n\nint main() {\n    int result = helper(21);\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:399"
+  },
+  {
+   "test": "test_extern_variable",
+   "argv": [
+    "-I",
+    "extern.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "extern.c": "\n#include \"extern.h\"\nint global_var = 42;\n\nint main() {\n    int x = global_var;\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:416"
+  },
+  {
+   "test": "test_volatile_keyword",
+   "argv": [
+    "volatile.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "volatile.c": "\nint main() {\n    volatile int hardware_register;\n    hardware_register = 0x1234;\n    int value = hardware_register;\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:433"
+  },
+  {
+   "test": "test_const_keyword",
+   "argv": [
+    "const.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "const.c": "\nint main() {\n    const int x = 42;\n    const int* ptr1 = &x;\n    int const* ptr2 = &x;\n    int* const ptr3 = (int*)&x;\n    const int* const ptr4 = &x;\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:448"
+  },
+  {
+   "test": "test_restrict_keyword",
+   "argv": [
+    "--std=c99",
+    "restrict.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "restrict.c": "\nvoid copy(int* restrict dest, const int* restrict src, int n) {\n    for (int i = 0; i < n; i++) {\n        dest[i] = src[i];\n    }\n}\n\nint main() {\n    int arr1[10] = {0};\n    int arr2[10] = {1,2,3,4,5,6,7,8,9,10};\n    copy(arr1, arr2, 10);\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:465"
+  },
+  {
+   "test": "test_variable_length_array",
+   "argv": [
+    "--std=c99",
+    "vla.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "vla.c": "\nint main() {\n    int n = 10;\n    int arr[n];\n    for (int i = 0; i < n; i++) {\n        arr[i] = i;\n    }\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:486"
+  },
+  {
+   "test": "test_designated_initializers",
+   "argv": [
+    "--std=c99",
+    "designated.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "designated.c": "\nstruct Point {\n    int x;\n    int y;\n};\n\nint main() {\n    struct Point p = {.x = 1, .y = 2};\n    int arr[5] = {[0] = 1, [2] = 3, [4] = 5};\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:503"
+  },
+  {
+   "test": "test_compound_literals",
+   "argv": [
+    "--std=c99",
+    "compound.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "compound.c": "\nstruct Point {\n    int x;\n    int y;\n};\n\nint main() {\n    struct Point p = (struct Point){.x = 1, .y = 2};\n    int *arr = (int[]){1, 2, 3, 4, 5};\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:522"
+  },
+  {
+   "test": "test_detect_uninitialized_variable",
+   "argv": [
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error:"
+   ],
+   "files": {
+    "test.c": "\nint main() {\n    int x;\n    return x;\n}\n"
+   },
+   "ci": false,
+   "source": "test_error_detection.py:36"
+  },
+  {
+   "test": "test_detect_unused_variable",
+   "argv": [
+    "--enable=style",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.c": "\nint main() {\n    int unused = 5;\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_error_detection.py:107"
+  },
+  {
+   "test": "test_file_list_stdin",
+   "argv": [
+    "--file-list=-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_handling.py:48"
+  },
+  {
+   "test": "test_file_filter",
+   "argv": [
+    "--file-filter=*test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_handling.py:58"
+  },
+  {
+   "test": "test_ignore_pattern",
+   "argv": [
+    "-i",
+    "ignore.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_handling.py:67"
+  },
+  {
+   "test": "test_ignore_directory",
+   "argv": [
+    "-i",
+    "ignore_dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_handling.py:76"
+  },
+  {
+   "test": "test_single_c_file",
+   "argv": [
+    "single.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "single.c": "int main() { return 0; }"
+   },
+   "ci": false,
+   "source": "test_file_handling.py:99"
+  },
+  {
+   "test": "test_single_cpp_file",
+   "argv": [
+    "single.cpp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "single.cpp": "int main() { return 0; }"
+   },
+   "ci": false,
+   "source": "test_file_handling.py:107"
+  },
+  {
+   "test": "test_nonexistent_path",
+   "argv": [
+    "/nonexistent/path/file.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_file_handling.py:138"
+  },
+  {
+   "test": "test_macro_expansion",
+   "argv": [
+    "macro.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "macro.c": "\n#define MAX(a, b) ((a) > (b) ? (a) : (b))\n#define MIN(a, b) ((a) < (b) ? (a) : (b))\n#define SQUARE(x) ((x) * (x))\n\nint main() {\n    int a = 5, b = 10;\n    int max = MAX(a, b);\n    int min = MIN(a, b);\n    int sq = SQUARE(5);\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_final_coverage.py:36"
+  },
+  {
+   "test": "test_stringification",
+   "argv": [
+    "stringify.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "stringify.c": "\n#include <stdio.h>\n#define STRINGIFY(x) #x\n#define TOSTRING(x) STRINGIFY(x)\n\nint main() {\n    const char* str = TOSTRING(TEST);\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_final_coverage.py:56"
+  },
+  {
+   "test": "test_token_pasting",
+   "argv": [
+    "paste.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "paste.c": "\n#define CONCAT(a, b) a##b\n\nint main() {\n    int xy = 42;\n    int value = CONCAT(x, y);\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_final_coverage.py:73"
+  },
+  {
+   "test": "test_variadic_macro",
+   "argv": [
+    "--std=c99",
+    "variadic.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "variadic.c": "\n#include <stdio.h>\n#define LOG(fmt, ...) printf(fmt, __VA_ARGS__)\n\nint main() {\n    LOG(\"Value: %d\\n\", 42);\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_final_coverage.py:89"
+  },
+  {
+   "test": "test_predefined_macros",
+   "argv": [
+    "predefined.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "predefined.c": "\n#include <stdio.h>\n\nint main() {\n    printf(\"File: %s\\n\", __FILE__);\n    printf(\"Line: %d\\n\", __LINE__);\n    printf(\"Date: %s\\n\", __DATE__);\n    printf(\"Time: %s\\n\", __TIME__);\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_final_coverage.py:105"
+  },
+  {
+   "test": "test_pragma_directive",
+   "argv": [
+    "pragma.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "pragma.c": "\n#pragma once\n#pragma message(\"Compiling pragma test\")\n\nint main() {\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_final_coverage.py:123"
+  },
+  {
+   "test": "test_line_directive",
+   "argv": [
+    "line.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "line.c": "\n#line 100 \"virtual.c\"\nint main() {\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_final_coverage.py:138"
+  },
+  {
+   "test": "test_error_directive",
+   "argv": [
+    "error_dir.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "error_dir.c": "\n#if 0\n#error \"This should not trigger\"\n#endif\n\nint main() {\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_final_coverage.py:151"
+  },
+  {
+   "test": "test_warning_directive",
+   "argv": [
+    "warning.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "warning.c": "\n#if 0\n#warning \"Test warning\"\n#endif\n\nint main() {\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_final_coverage.py:167"
+  },
+  {
+   "test": "test_complex_ifdef",
+   "argv": [
+    "ifdef.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "ifdef.c": "\n#if defined(A) && !defined(B)\n    int value1 = 1;\n#elif defined(B) || defined(C)\n    int value2 = 2;\n#else\n    int value3 = 3;\n#endif\n\nint main() {\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_final_coverage.py:183"
+  },
+  {
+   "test": "test_operators_all",
+   "argv": [
+    "operators.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "operators.c": "\nint main() {\n    int a = 5, b = 3, c;\n    \n    // Arithmetic\n    c = a + b;\n    c = a - b;\n    c = a * b;\n    c = a / b;\n    c = a % b;\n    \n    // Increment/Decrement\n    c = ++a;\n    c = a++;\n    c = --b;\n    c = b--;\n    \n    // Comparison\n    c = a == b;\n    c = a != b;\n    c = a > b;\n    c = a < b;\n    c = a >= b;\n    c = a <= b;\n    \n    // Logical\n    c = a && b;\n    c = a || b;\n    c = !a;\n    \n    // Bitwise\n    c = a & b;\n    c = a | b;\n    c = a ^ b;\n    c = ~a;\n    c = a << 2;\n    c = a >> 1;\n    \n    // Assignment\n    c = a;\n    c += a;\n    c -= a;\n    c *= a;\n    c /= a;\n    c %= a;\n    c &= a;\n    c |= a;\n    c ^= a;\n    c <<= 1;\n    c >>= 1;\n    \n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_final_coverage.py:203"
+  },
+  {
+   "test": "test_pointer_arithmetic",
+   "argv": [
+    "ptrarith.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "ptrarith.c": "\nint main() {\n    int arr[10] = {0,1,2,3,4,5,6,7,8,9};\n    int *p = arr;\n    \n    int val1 = *p;\n    int val2 = *(p + 5);\n    p += 3;\n    int val3 = *p;\n    p--;\n    int val4 = *p;\n    \n    long diff = (arr + 9) - arr;\n    \n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_final_coverage.py:264"
+  },
+  {
+   "test": "test_cast_operations",
+   "argv": [
+    "cast.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "cast.c": "\nint main() {\n    int i = 65;\n    char c = (char)i;\n    \n    double d = 3.14;\n    int i2 = (int)d;\n    \n    void *vp = (void*)&i;\n    int *ip = (int*)vp;\n    \n    unsigned int ui = (unsigned int)i;\n    \n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_final_coverage.py:288"
+  },
+  {
+   "test": "test_complex_expressions",
+   "argv": [
+    "complex.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "complex.c": "\nint main() {\n    int a = 5, b = 3, c = 2, d = 7;\n    \n    int result1 = (a + b) * (c - d) / (a % b);\n    int result2 = a > b ? (c < d ? a : b) : (c > d ? c : d);\n    int result3 = ((a & 0xFF) << 8) | (b & 0xFF);\n    \n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_final_coverage.py:311"
+  },
+  {
+   "test": "test_loops_all",
+   "argv": [
+    "loops.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "loops.c": "\nint main() {\n    int i, sum = 0;\n    \n    // for loop\n    for (i = 0; i < 10; i++) {\n        sum += i;\n    }\n    \n    // while loop\n    i = 0;\n    while (i < 10) {\n        sum += i;\n        i++;\n    }\n    \n    // do-while loop\n    i = 0;\n    do {\n        sum += i;\n        i++;\n    } while (i < 10);\n    \n    // nested loops\n    for (i = 0; i < 5; i++) {\n        for (int j = 0; j < 5; j++) {\n            sum += i * j;\n        }\n    }\n    \n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_final_coverage.py:329"
+  },
+  {
+   "test": "test_break_continue",
+   "argv": [
+    "break_cont.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "break_cont.c": "\nint main() {\n    int sum = 0;\n    \n    for (int i = 0; i < 20; i++) {\n        if (i == 10)\n            break;\n        if (i % 2 == 0)\n            continue;\n        sum += i;\n    }\n    \n    int j = 0;\n    while (1) {\n        j++;\n        if (j == 10)\n            break;\n    }\n    \n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_final_coverage.py:369"
+  },
+  {
+   "test": "test_multi_dimensional_arrays",
+   "argv": [
+    "multidim.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "multidim.c": "\nint main() {\n    int matrix[3][3] = {\n        {1, 2, 3},\n        {4, 5, 6},\n        {7, 8, 9}\n    };\n    \n    int sum = 0;\n    for (int i = 0; i < 3; i++) {\n        for (int j = 0; j < 3; j++) {\n            sum += matrix[i][j];\n        }\n    }\n    \n    int cube[2][2][2] = {\n        {{1, 2}, {3, 4}},\n        {{5, 6}, {7, 8}}\n    };\n    \n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_final_coverage.py:398"
+  },
+  {
+   "test": "test_string_operations",
+   "argv": [
+    "strings.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "strings.c": "\n#include <string.h>\n#include <stdio.h>\n\nint main() {\n    char str1[20] = \"Hello\";\n    char str2[20] = \"World\";\n    char str3[40];\n    \n    strcpy(str3, str1);\n    strcat(str3, \" \");\n    strcat(str3, str2);\n    \n    int len = strlen(str3);\n    int cmp = strcmp(str1, str2);\n    \n    char *found = strchr(str3, 'o');\n    char *found2 = strstr(str3, \"World\");\n    \n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_final_coverage.py:428"
+  },
+  {
+   "test": "test_file_operations",
+   "argv": [
+    "fileops.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "fileops.c": "\n#include <stdio.h>\n\nint main() {\n    FILE *fp = fopen(\"test.txt\", \"w\");\n    if (fp) {\n        fprintf(fp, \"Hello, World!\\n\");\n        fclose(fp);\n    }\n    \n    fp = fopen(\"test.txt\", \"r\");\n    if (fp) {\n        char buffer[100];\n        fgets(buffer, sizeof(buffer), fp);\n        fclose(fp);\n    }\n    \n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_final_coverage.py:457"
+  },
+  {
+   "test": "test_dynamic_memory",
+   "argv": [
+    "dynmem.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "dynmem.c": "\n#include <stdlib.h>\n#include <string.h>\n\nint main() {\n    int *p1 = (int*)malloc(sizeof(int) * 10);\n    if (p1) {\n        for (int i = 0; i < 10; i++) {\n            p1[i] = i;\n        }\n        free(p1);\n    }\n    \n    int *p2 = (int*)calloc(10, sizeof(int));\n    if (p2) {\n        free(p2);\n    }\n    \n    int *p3 = (int*)malloc(sizeof(int) * 5);\n    if (p3) {\n        p3 = (int*)realloc(p3, sizeof(int) * 10);\n        free(p3);\n    }\n    \n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_final_coverage.py:484"
+  },
+  {
+   "test": "test_command_line_args",
+   "argv": [
+    "args.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "args.c": "\n#include <stdio.h>\n\nint main(int argc, char *argv[]) {\n    for (int i = 0; i < argc; i++) {\n        printf(\"arg[%d] = %s\\n\", i, argv[i]);\n    }\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_final_coverage.py:518"
+  },
+  {
+   "test": "test_library_posix",
+   "argv": [
+    "--library=posix",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.c": "\n#include <unistd.h>\nint main() {\n    read(0, NULL, 0);\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_library_config.py:36"
+  },
+  {
+   "test": "test_library_windows",
+   "argv": [
+    "--library=windows",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.c": "\nint main() {\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_library_config.py:50"
+  },
+  {
+   "test": "test_library_gnu",
+   "argv": [
+    "--library=gnu",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.c": "int main() { return 0; }"
+   },
+   "ci": false,
+   "source": "test_library_config.py:62"
+  },
+  {
+   "test": "test_library_qt",
+   "argv": [
+    "--library=qt",
+    "test.cpp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.cpp": "int main() { return 0; }"
+   },
+   "ci": false,
+   "source": "test_library_config.py:70"
+  },
+  {
+   "test": "test_check_library",
+   "argv": [
+    "--check-library",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.c": "\n#include <stdio.h>\nint main() {\n    FILE *f = fopen(\"test.txt\", \"r\");\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_library_config.py:78"
+  },
+  {
+   "test": "test_platform_option",
+   "argv": [
+    "--platform=unix64",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.c": "int main() { return 0; }"
+   },
+   "ci": false,
+   "source": "test_library_config.py:92"
+  },
+  {
+   "test": "test_move_semantics",
+   "argv": [
+    "--std=c++11",
+    "--enable=all",
+    "test.cpp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.cpp": "\n#include <utility>\n#include <vector>\n\nclass Resource {\npublic:\n    Resource() : data(new int[100]) {}\n    ~Resource() { delete[] data; }\n    Resource(Resource&& other) : data(other.data) {\n        other.data = nullptr;\n    }\nprivate:\n    int* data;\n};\n\nint main() {\n    Resource r1;\n    Resource r2 = std::move(r1);\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_more_coverage.py:110"
+  },
+  {
+   "test": "test_xml_output",
+   "argv": [
+    "--xml",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<?xml",
+    "<results",
+    "<results"
+   ],
+   "files": {
+    "test.c": "\nint main() {\n    int x;\n    return x;\n}\n"
+   },
+   "ci": false,
+   "source": "test_output_formats.py:37"
+  },
+  {
+   "test": "test_template_gcc",
+   "argv": [
+    "--template=gcc",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ":",
+    "test.c"
+   ],
+   "files": {
+    "test.c": "\nint main() {\n    int x;\n    return x;\n}\n"
+   },
+   "ci": false,
+   "source": "test_output_formats.py:59"
+  },
+  {
+   "test": "test_template_vs",
+   "argv": [
+    "--template=vs",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test.c"
+   ],
+   "files": {
+    "test.c": "\nint main() {\n    int x;\n    return x;\n}\n"
+   },
+   "ci": false,
+   "source": "test_output_formats.py:74"
+  },
+  {
+   "test": "test_template_custom",
+   "argv": [
+    "--template={file}:{line}:{severity}:{id}",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ":",
+    "test.c"
+   ],
+   "files": {
+    "test.c": "\nint main() {\n    int x;\n    return x;\n}\n"
+   },
+   "ci": false,
+   "source": "test_output_formats.py:87"
+  },
+  {
+   "test": "test_template_with_message",
+   "argv": [
+    "--template=[{severity}] {message}",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.c": "\nint main() {\n    int x;\n    return x;\n}\n"
+   },
+   "ci": false,
+   "source": "test_output_formats.py:101"
+  },
+  {
+   "test": "test_dump_option",
+   "argv": [
+    "--dump",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<?xml"
+   ],
+   "files": {
+    "test.c": "int main() { return 0; }"
+   },
+   "ci": false,
+   "source": "test_output_formats.py:114"
+  },
+  {
+   "test": "test_showtime_summary",
+   "argv": [
+    "--showtime=summary",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.c": "int main() { return 0; }"
+   },
+   "ci": false,
+   "source": "test_output_formats.py:151"
+  },
+  {
+   "test": "test_showtime_file",
+   "argv": [
+    "--showtime=file",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.c": "int main() { return 0; }"
+   },
+   "ci": false,
+   "source": "test_output_formats.py:160"
+  },
+  {
+   "test": "test_showtime_top5",
+   "argv": [
+    "--showtime=top5_file",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.c": "int main() { return 0; }"
+   },
+   "ci": false,
+   "source": "test_output_formats.py:168"
+  },
+  {
+   "test": "test_parallel_jobs_1",
+   "argv": [
+    "-j",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_parallelization.py:36"
+  },
+  {
+   "test": "test_parallel_jobs_2",
+   "argv": [
+    "-j",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_parallelization.py:45"
+  },
+  {
+   "test": "test_parallel_jobs_4",
+   "argv": [
+    "-j",
+    "4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_parallelization.py:55"
+  },
+  {
+   "test": "test_define_macro",
+   "argv": [
+    "-DDEBUG",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.c": "\n#ifdef DEBUG\nint debug_mode = 1;\n#else\nint debug_mode = 0;\n#endif\nint main() { return 0; }\n"
+   },
+   "ci": false,
+   "source": "test_preprocessing.py:36"
+  },
+  {
+   "test": "test_define_macro_with_value",
+   "argv": [
+    "-DMAX_SIZE=100",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.c": "\n#if MAX_SIZE == 100\nint valid = 1;\n#endif\nint main() { return 0; }\n"
+   },
+   "ci": false,
+   "source": "test_preprocessing.py:51"
+  },
+  {
+   "test": "test_undefine_macro",
+   "argv": [
+    "-UFEATURE_X",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.c": "\n#ifndef FEATURE_X\nint feature_disabled = 1;\n#endif\nint main() { return 0; }\n"
+   },
+   "ci": false,
+   "source": "test_preprocessing.py:64"
+  },
+  {
+   "test": "test_preprocessor_output",
+   "argv": [
+    "-E",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.c": "\n#define MAX 10\nint main() {\n    int x = MAX;\n    return 0;\n}\n"
+   },
+   "ci": false,
+   "source": "test_preprocessing.py:110"
+  },
+  {
+   "test": "test_check_config",
+   "argv": [
+    "--check-config",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.c": "\n#ifdef UNDEFINED_MACRO\nint x;\n#endif\nint main() { return 0; }\n"
+   },
+   "ci": false,
+   "source": "test_preprocessing.py:126"
+  },
+  {
+   "test": "test_max_configs",
+   "argv": [
+    "--max-configs=5",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.c": "\n#ifdef A\n#ifdef B\n#ifdef C\nint x;\n#endif\n#endif\n#endif\nint main() { return 0; }\n"
+   },
+   "ci": false,
+   "source": "test_preprocessing.py:140"
+  },
+  {
+   "test": "test_fsigned_char",
+   "argv": [
+    "--fsigned-char",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.c": "int main() { char c = 200; return 0; }"
+   },
+   "ci": false,
+   "source": "test_preprocessing.py:172"
+  },
+  {
+   "test": "test_funsigned_char",
+   "argv": [
+    "--funsigned-char",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Checking"
+   ],
+   "files": {
+    "test.c": "int main() { char c = 200; return 0; }"
+   },
+   "ci": false,
+   "source": "test_preprocessing.py:180"
+  },
+  {
+   "test": "test_suppress_by_id",
+   "argv": [
+    "--suppress=uninitvar",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.c": "\nint main() {\n    int x;\n    return x;\n}\n"
+   },
+   "ci": false,
+   "source": "test_suppressions.py:36"
+  },
+  {
+   "test": "test_inline_suppression",
+   "argv": [
+    "--inline-suppr",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.c": "\nint main() {\n    // cppcheck-suppress uninitvar\n    int x;\n    return x;\n}\n"
+   },
+   "ci": false,
+   "source": "test_suppressions.py:90"
+  },
+  {
+   "test": "test_exitcode_suppressions",
+   "argv": [
+    "--error-exitcode=5",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.c": "\nint main() {\n    int x;\n    return x;\n}\n"
+   },
+   "ci": false,
+   "source": "test_suppressions.py:105"
+  },
+  {
+   "test": "test_wildcard_suppression",
+   "argv": [
+    "--suppress=*",
+    "test.c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.c": "\nint main() {\n    int x;\n    return x;\n}\n"
+   },
+   "ci": false,
+   "source": "test_suppressions.py:121"
+  },
+  {
+   "test": "test_help_combined_with_unknown_flag_still_prints_help_and_exits_zero",
+   "argv": [
+    "--help",
+    "--definitely-not-a-real-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:106"
+  },
+  {
+   "test": "test_double_dash_stops_option_parsing_allows_unknown_tokens",
+   "argv": [
+    "--",
+    "--unknown",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:87"
+  },
+  {
+   "test": "test_debug_lookup_config_reports_search_paths",
+   "argv": [
+    "--debug-lookup=config",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "looking for",
+    "cppcheck.cfg"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_and_env.py:70"
+  },
+  {
+   "test": "test_malformed_cppcheck_cfg_fails",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "could not load cppcheck.cfg"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_and_env.py:80"
+  },
+  {
+   "test": "test_cppcheck_cfg_type_error_fails",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "'productName' is not a string"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_and_env.py:89"
+  },
+  {
+   "test": "test_env_clicolor_force_enables_ansi_colors_even_without_tty",
+   "argv": [
+    "--enable=style",
+    "a.c"
+   ],
+   "stdin": null,
+   "env": {
+    "CLICOLOR_FORCE": "1"
+   },
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b["
+   ],
+   "files": {
+    "a.c": "int main(){int x;return 0;}\n"
+   },
+   "ci": false,
+   "source": "test_config_and_env.py:108"
+  }
+ ]
+}

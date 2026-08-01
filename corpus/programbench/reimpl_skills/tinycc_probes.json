@@ -1,0 +1,5704 @@
+[
+ {
+  "name": "test::test_help_flag::0",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_long_flag::1",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_hh_flag::2",
+  "argv": [
+   "-hh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::3",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_short_flag::4",
+  "argv": [
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dumpversion::5",
+  "argv": [
+   "-dumpversion"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_search_dirs::6",
+  "argv": [
+   "-print-search-dirs"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_to_executable::7",
+  "argv": [
+   "-o",
+   "hello.c"
+  ],
+  "stdin": null,
+  "files": {
+   "hello.c": "#include <stdio.h>\nint main() { printf(\"hello\\n\"); return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_only_flag::8",
+  "argv": [
+   "-c",
+   "test.c",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int foo() { return 42; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_default_object_output::9",
+  "argv": [
+   "-c",
+   "myprog.c"
+  ],
+  "stdin": null,
+  "files": {
+   "myprog.c": "int bar() { return 1; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_mode::10",
+  "argv": [
+   "-run",
+   "run_test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "run_test.c": "#include <stdio.h>\nint main() { printf(\"running\\n\"); return 7; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_mode_with_arguments::11",
+  "argv": [
+   "-run",
+   "args.c",
+   "hello",
+   "world"
+  ],
+  "stdin": null,
+  "files": {
+   "args.c": "\n#include <stdio.h>\nint main(int argc, char *argv[]) {\n    printf(\"argc=%d\\n\", argc);\n    if (argc > 1) printf(\"arg1=%s\\n\", argv[1]);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_from_stdin::12",
+  "argv": [
+   "-run",
+   "-"
+  ],
+  "stdin": "#include <stdio.h>\nint main() { printf(\"stdin\\n\"); return 0; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_output_aout::13",
+  "argv": [
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "#include <stdio.h>\nint main() { printf(\"aout\\n\"); return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_input_files::14",
+  "argv": [
+   "-o",
+   "lib.c",
+   "main.c"
+  ],
+  "stdin": null,
+  "files": {
+   "lib.c": "int add(int a, int b) { return a + b; }",
+   "main.c": "\n#include <stdio.h>\nint add(int a, int b);\nint main() { printf(\"sum=%d\\n\", add(3, 4)); return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relocatable_object::15",
+  "argv": [
+   "-r",
+   "-o",
+   "a.c",
+   "b.c"
+  ],
+  "stdin": null,
+  "files": {
+   "a.c": "int funcA() { return 1; }",
+   "b.c": "int funcB() { return 2; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shared_library::16",
+  "argv": [
+   "-shared",
+   "-o",
+   "mylib.c"
+  ],
+  "stdin": null,
+  "files": {
+   "mylib.c": "int exported() { return 99; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preprocess_only::17",
+  "argv": [
+   "-E",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "#define FOO 42\nint x = FOO;"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preprocess_to_file::18",
+  "argv": [
+   "-E",
+   "-o",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "#define BAR 100\nint y = BAR;"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_define_flag::19",
+  "argv": [
+   "-E",
+   "-DMYVAL=99",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int x = MYVAL;"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_define_no_value::20",
+  "argv": [
+   "-E",
+   "-DMYFLAG",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#ifdef MYFLAG\nint x = 1;\n#else\nint x = 0;\n#endif\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_undef_flag::21",
+  "argv": [
+   "-E",
+   "-U__TINYC__",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#ifdef __TINYC__\nint tcc = 1;\n#else\nint tcc = 0;\n#endif\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_include_path::22",
+  "argv": [
+   "-E",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "#include <mylib.h>\nint x = MYLIB_VALUE;"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nostdinc::23",
+  "argv": [
+   "-nostdinc",
+   "-c",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "#include <stdio.h>\nint x;"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preprocess_no_line_directives::24",
+  "argv": [
+   "-E",
+   "-P",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "#define FOO bar\nFOO"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preprocess_p1_alternative_line::25",
+  "argv": [
+   "-E",
+   "-P1",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "#define FOO bar\nFOO"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preprocess_dd_flag::26",
+  "argv": [
+   "-E",
+   "-dD",
+   "-"
+  ],
+  "stdin": "#define MY_MACRO 42\nint x = MY_MACRO;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preprocess_dm_flag::27",
+  "argv": [
+   "-E",
+   "-dM",
+   "-"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_include_file_option::28",
+  "argv": [
+   "-E",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int x = COMMON;"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_isystem_option::29",
+  "argv": [
+   "-E",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "#include <sysheader.h>\nint x = SYS_VAL;"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_md_flag::30",
+  "argv": [
+   "-c",
+   "prog.c",
+   "-o",
+   "-MD"
+  ],
+  "stdin": null,
+  "files": {
+   "prog.c": "#include <stdio.h>\nint main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mmd_flag::31",
+  "argv": [
+   "-c",
+   "prog.c",
+   "-o",
+   "-MMD"
+  ],
+  "stdin": null,
+  "files": {
+   "prog.c": "#include <stdio.h>\nint main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_m_flag::32",
+  "argv": [
+   "-M",
+   "prog.c"
+  ],
+  "stdin": null,
+  "files": {
+   "prog.c": "#include <stdio.h>\nint main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mm_flag::33",
+  "argv": [
+   "-MM",
+   "prog.c"
+  ],
+  "stdin": null,
+  "files": {
+   "prog.c": "#include <stdio.h>\nint main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mf_flag::34",
+  "argv": [
+   "-c",
+   "prog.c",
+   "-MD",
+   "-MF"
+  ],
+  "stdin": null,
+  "files": {
+   "prog.c": "#include <stdio.h>\nint main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_funsigned_char::35",
+  "argv": [
+   "-funsigned-char",
+   "-run",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#include <stdio.h>\nint main() {\n    char c = 0xFF;\n    printf(\"%d\\n\", (int)c);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fsigned_char::36",
+  "argv": [
+   "-fsigned-char",
+   "-run",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#include <stdio.h>\nint main() {\n    char c = 0xFF;\n    printf(\"%d\\n\", (int)c);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fcommon::37",
+  "argv": [
+   "-fcommon",
+   "-o",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int common_var; int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fno_common::38",
+  "argv": [
+   "-fno-common",
+   "-o",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int bss_var; int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fms_extensions::39",
+  "argv": [
+   "-fms-extensions",
+   "-run",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#include <stdio.h>\nstruct outer {\n    struct { int x; int y; }; // anonymous struct\n    int z;\n};\nint main() {\n    struct outer o;\n    o.x = 1; o.y = 2; o.z = 3;\n    printf(\"%d %d %d\\n\", o.x, o.y, o.z);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_optimization_flag::40",
+  "argv": [
+   "-O1",
+   "-run",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#include <stdio.h>\nint main() {\n#ifdef __OPTIMIZE__\n    printf(\"optimized\\n\");\n#else\n    printf(\"not optimized\\n\");\n#endif\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wall_warnings::41",
+  "argv": [
+   "-c",
+   "-Wall",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { int x; return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_w_disables_warnings::42",
+  "argv": [
+   "-c",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { foo(); return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wimplicit_function_declaration::43",
+  "argv": [
+   "-c",
+   "-Wimplicit-function-declaration",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { undeclared_func(); return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wno_implicit_function_declaration::44",
+  "argv": [
+   "-c",
+   "-Wno-implicit-function-declaration",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { undeclared_func(); return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_werror::45",
+  "argv": [
+   "-c",
+   "-Werror",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { undeclared_func(); return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wwrite_strings::46",
+  "argv": [
+   "-c",
+   "-Wwrite-strings",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { char *s = \"hello\"; return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wunsupported::47",
+  "argv": [
+   "-c",
+   "-Wunsupported",
+   "-pipe",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_library_path::48",
+  "argv": [
+   "-L/tmp",
+   "-o",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "#include <stdio.h>\nint main() { printf(\"test\\n\"); return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nostdlib::49",
+  "argv": [
+   "-nostdlib",
+   "-o",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nvoid _start() {\n    __asm__(\"movl $42, %edi; movl $60, %eax; syscall\");\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rdynamic::50",
+  "argv": [
+   "-rdynamic",
+   "-o",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "#include <stdio.h>\nint main() { printf(\"rdynamic\\n\"); return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wl_rpath::51",
+  "argv": [
+   "-Wl,-rpath=/tmp",
+   "-o",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "#include <stdio.h>\nint main() { printf(\"rpath\\n\"); return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wl_soname::52",
+  "argv": [
+   "-shared",
+   "-Wl,-soname=libmylib.so.1",
+   "-o",
+   "mylib.c"
+  ],
+  "stdin": null,
+  "files": {
+   "mylib.c": "int func() { return 42; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_g_stab_debug::53",
+  "argv": [
+   "-g",
+   "-c",
+   "test.c",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gdwarf_debug::54",
+  "argv": [
+   "-gdwarf",
+   "-c",
+   "test.c",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_b_bounds_checker::55",
+  "argv": [
+   "-b",
+   "-run",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "#include <stdio.h>\nint main() { printf(\"bounds ok\\n\"); return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bt_backtrace::56",
+  "argv": [
+   "-bt5",
+   "-run",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "#include <stdio.h>\nint main() { printf(\"bt ok\\n\"); return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_std_c11::57",
+  "argv": [
+   "-std=c11",
+   "-run",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#include <stdio.h>\nint main() {\n    _Static_assert(sizeof(int) >= 2, \"int too small\");\n    printf(\"c11 ok\\n\");\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_std_gnu11::58",
+  "argv": [
+   "-std=gnu11",
+   "-run",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#include <stdio.h>\nint main() {\n    printf(\"%ld\\n\", (long)__STDC_VERSION__);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_x_c_type::59",
+  "argv": [
+   "-xc",
+   "-run",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "#include <stdio.h>\nint main() { printf(\"xc\\n\"); return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bench_flag::60",
+  "argv": [
+   "-bench",
+   "-run",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "#include <stdio.h>\nint main() { printf(\"bench\\n\"); return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vv_show_files::61",
+  "argv": [
+   "-vv",
+   "-E",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "#include <stdio.h>\nint main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_b_dir::62",
+  "argv": [
+   "-B/usr/local/lib/tcc",
+   "-o",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pthread_flag::63",
+  "argv": [
+   "-run",
+   "-pthread",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#include <stdio.h>\nint main() {\n#ifdef _REENTRANT\n    printf(\"reentrant\\n\");\n#else\n    printf(\"not reentrant\\n\");\n#endif\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ar_create::64",
+  "argv": [
+   "-c",
+   "func1.c",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "func1.c": "int func1() { return 1; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ar_list::65",
+  "argv": [
+   "-c",
+   "func.c",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "func.c": "int func() { return 1; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ar_extract::66",
+  "argv": [
+   "-c",
+   "myobj.c",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "myobj.c": "int myfunc() { return 1; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_link_with_library::67",
+  "argv": [
+   "-c",
+   "lib.c",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "lib.c": "int libfunc() { return 42; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_input_files_error::68",
+  "argv": [
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_not_found_error::69",
+  "argv": [
+   "nonexistent_file.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_error::70",
+  "argv": [
+   "-c",
+   "bad.c"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.c": "int main() { this_is_not_c; return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_libraries_with_c_error::71",
+  "argv": [
+   "-c",
+   "test.c",
+   "-lm"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_outfile_with_c_error::72",
+  "argv": [
+   "-c",
+   "a.c",
+   "b.c",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "a.c": "int a() { return 1; }",
+   "b.c": "int b() { return 2; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_undefined_symbol_error::73",
+  "argv": [
+   "-o",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nextern int undefined_func();\nint main() { return undefined_func(); }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_syntax_error::74",
+  "argv": [
+   "-c",
+   "bad.c"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.c": "int main() { return; /* no value */ }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_include_file_not_found::75",
+  "argv": [
+   "-nostdinc",
+   "-c",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "#include <nonexistent_header.h>\nint main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_c_include_path_env::76",
+  "argv": [
+   "-E",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "#include <env_header.h>\nint x = ENV_DEFINED;"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cpath_env::77",
+  "argv": [
+   "-E",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "#include \"cpath_header.h\"\nint y = CPATH_DEFINED;"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_library_path_env::78",
+  "argv": [
+   "-o",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "#include <stdio.h>\nint main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "LIBRARY_PATH": "/tmp"
+  }
+ },
+ {
+  "name": "test::test_stdin_with_run::79",
+  "argv": [
+   "-run",
+   "-"
+  ],
+  "stdin": "#include <stdio.h>\nint main() { printf(\"from stdin\\n\"); return 5; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_compile::80",
+  "argv": [
+   "-c",
+   "-",
+   "-o",
+   "/tmp/test_stdin_compile.o"
+  ],
+  "stdin": "int stdin_func() { return 10; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rstdin_file::81",
+  "argv": [
+   "-rstdin",
+   "input.txt",
+   "-run",
+   "reader.c"
+  ],
+  "stdin": null,
+  "files": {
+   "input.txt": "hello from file\n",
+   "reader.c": "\n#include <stdio.h>\nint main() {\n    char buf[100];\n    if (fgets(buf, sizeof(buf), stdin)) {\n        printf(\"Got: %s\", buf);\n    }\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hello_world::82",
+  "argv": [
+   "-o",
+   "hello.c"
+  ],
+  "stdin": null,
+  "files": {
+   "hello.c": "\n#include <stdio.h>\nint main() {\n    printf(\"Hello, World!\\n\");\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arithmetic::83",
+  "argv": [
+   "-run",
+   "arith.c"
+  ],
+  "stdin": null,
+  "files": {
+   "arith.c": "\n#include <stdio.h>\nint main() {\n    int a = 10, b = 3;\n    printf(\"%d %d %d %d\\n\", a+b, a-b, a*b, a/b);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_calls::84",
+  "argv": [
+   "-run",
+   "funcs.c"
+  ],
+  "stdin": null,
+  "files": {
+   "funcs.c": "\n#include <stdio.h>\nint factorial(int n) {\n    if (n <= 1) return 1;\n    return n * factorial(n-1);\n}\nint main() {\n    printf(\"%d\\n\", factorial(5));\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_structs::85",
+  "argv": [
+   "-run",
+   "struct.c"
+  ],
+  "stdin": null,
+  "files": {
+   "struct.c": "\n#include <stdio.h>\nstruct Point { int x; int y; };\nint main() {\n    struct Point p = {3, 4};\n    printf(\"%d %d\\n\", p.x, p.y);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arrays::86",
+  "argv": [
+   "-run",
+   "arrays.c"
+  ],
+  "stdin": null,
+  "files": {
+   "arrays.c": "\n#include <stdio.h>\nint main() {\n    int arr[5] = {1, 2, 3, 4, 5};\n    int sum = 0;\n    for (int i = 0; i < 5; i++) sum += arr[i];\n    printf(\"sum=%d\\n\", sum);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_operations::87",
+  "argv": [
+   "-run",
+   "strings.c"
+  ],
+  "stdin": null,
+  "files": {
+   "strings.c": "\n#include <stdio.h>\n#include <string.h>\nint main() {\n    char buf[50];\n    strcpy(buf, \"Hello\");\n    strcat(buf, \" World\");\n    printf(\"%s %zu\\n\", buf, strlen(buf));\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pointers::88",
+  "argv": [
+   "-run",
+   "pointers.c"
+  ],
+  "stdin": null,
+  "files": {
+   "pointers.c": "\n#include <stdio.h>\nint main() {\n    int x = 42;\n    int *p = &x;\n    *p = 100;\n    printf(\"%d\\n\", x);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_typedef::89",
+  "argv": [
+   "-run",
+   "typedef.c"
+  ],
+  "stdin": null,
+  "files": {
+   "typedef.c": "\n#include <stdio.h>\ntypedef int MyInt;\ntypedef struct { int x; int y; } MyPoint;\nint main() {\n    MyInt n = 5;\n    MyPoint p = {1, 2};\n    printf(\"%d %d %d\\n\", n, p.x, p.y);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enum::90",
+  "argv": [
+   "-run",
+   "enum.c"
+  ],
+  "stdin": null,
+  "files": {
+   "enum.c": "\n#include <stdio.h>\nenum Color { RED=0, GREEN=1, BLUE=2 };\nint main() {\n    enum Color c = GREEN;\n    printf(\"%d\\n\", c);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inline_asm::91",
+  "argv": [
+   "-run",
+   "asm.c"
+  ],
+  "stdin": null,
+  "files": {
+   "asm.c": "\n#include <stdio.h>\nint main() {\n    int result = 0;\n    __asm__(\"movl $42, %0\" : \"=r\"(result));\n    printf(\"%d\\n\", result);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_varargs::92",
+  "argv": [
+   "-run",
+   "varargs.c"
+  ],
+  "stdin": null,
+  "files": {
+   "varargs.c": "\n#include <stdio.h>\n#include <stdarg.h>\nint sum(int n, ...) {\n    va_list ap;\n    va_start(ap, n);\n    int total = 0;\n    for (int i = 0; i < n; i++) total += va_arg(ap, int);\n    va_end(ap);\n    return total;\n}\nint main() {\n    printf(\"%d\\n\", sum(3, 1, 2, 3));\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdlib_math::93",
+  "argv": [
+   "-o",
+   "math.c",
+   "-lm"
+  ],
+  "stdin": null,
+  "files": {
+   "math.c": "\n#include <stdio.h>\n#include <math.h>\nint main() {\n    double r = sqrt(16.0);\n    printf(\"%.1f\\n\", r);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_assembly_S::94",
+  "argv": [
+   "-c",
+   "test.S",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.S": "\n.text\n.global my_asm_func\nmy_asm_func:\n    movl $0x1234, %eax\n    ret\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_assembly_s::95",
+  "argv": [
+   "-xa",
+   "-c",
+   "test.asm",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.asm": "\n.text\n.global asm_func2\nasm_func2:\n    movl $0x5678, %eax\n    ret\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wl_oformat_binary::96",
+  "argv": [
+   "-nostdlib",
+   "-Wl,-oformat=binary",
+   "-o",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wl_image_base::97",
+  "argv": [
+   "-Wl,-image-base=0x400000",
+   "-o",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "#include <stdio.h>\nint main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_soname_option::98",
+  "argv": [
+   "-shared",
+   "-soname",
+   "libtest.so.1",
+   "-o",
+   "lib.c"
+  ],
+  "stdin": null,
+  "files": {
+   "lib.c": "int libfunc() { return 42; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_exit_code::99",
+  "argv": [
+   "-run",
+   "exit.c"
+  ],
+  "stdin": null,
+  "files": {
+   "exit.c": "#include <stdio.h>\nint main() { printf(\"ec42\\n\"); return 42; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_exit_zero::100",
+  "argv": [
+   "-run",
+   "ok.c"
+  ],
+  "stdin": null,
+  "files": {
+   "ok.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_error_exit_one::101",
+  "argv": [
+   "-c",
+   "bad.c"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.c": "this is not valid C code;"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_predefined_tinyc_macro::102",
+  "argv": [
+   "-run",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#include <stdio.h>\nint main() {\n#ifdef __TINYC__\n    printf(\"tinyc=%d\\n\", __TINYC__);\n#else\n    printf(\"not tinyc\\n\");\n#endif\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_predefined_x86_64_macro::103",
+  "argv": [
+   "-run",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#include <stdio.h>\nint main() {\n#ifdef __x86_64__\n    printf(\"x86_64\\n\");\n#else\n    printf(\"not x86_64\\n\");\n#endif\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_predefined_linux_macro::104",
+  "argv": [
+   "-run",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#include <stdio.h>\nint main() {\n#ifdef __linux__\n    printf(\"linux\\n\");\n#else\n    printf(\"not linux\\n\");\n#endif\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ex1_hello_world::105",
+  "argv": [
+   "-run",
+   "examples/ex1.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ex5_hello_world::106",
+  "argv": [
+   "-run",
+   "examples/ex5.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_example_stdin_echo::107",
+  "argv": [
+   "-run",
+   "-"
+  ],
+  "stdin": "main(){puts(\"hello\");}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tests2_assignment::108",
+  "argv": [
+   "-run",
+   "tests/tests2/00_assignment.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tests2_comment::109",
+  "argv": [
+   "-run",
+   "tests/tests2/01_comment.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tests2_printf::110",
+  "argv": [
+   "-run",
+   "tests/tests2/02_printf.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tests2_struct::111",
+  "argv": [
+   "-run",
+   "tests/tests2/03_struct.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tests2_for::112",
+  "argv": [
+   "-run",
+   "tests/tests2/04_for.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tests2_array::113",
+  "argv": [
+   "-run",
+   "tests/tests2/05_array.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tests2_case::114",
+  "argv": [
+   "-run",
+   "tests/tests2/06_case.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tests2_function::115",
+  "argv": [
+   "-run",
+   "tests/tests2/07_function.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tests2_while::116",
+  "argv": [
+   "-run",
+   "tests/tests2/08_while.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tests2_do_while::117",
+  "argv": [
+   "-run",
+   "tests/tests2/09_do_while.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tests2_pointer::118",
+  "argv": [
+   "-run",
+   "tests/tests2/10_pointer.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tests2_precedence::119",
+  "argv": [
+   "-run",
+   "tests/tests2/11_precedence.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tests2_hashdefine::120",
+  "argv": [
+   "-run",
+   "tests/tests2/12_hashdefine.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tests2_integer_literals::121",
+  "argv": [
+   "-run",
+   "tests/tests2/13_integer_literals.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tests2_if::122",
+  "argv": [
+   "-run",
+   "tests/tests2/14_if.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tests2_recursion::123",
+  "argv": [
+   "-run",
+   "tests/tests2/15_recursion.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tests2_conditional::124",
+  "argv": [
+   "-run",
+   "tests/tests2/16_nesting.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tests2_string::125",
+  "argv": [
+   "-run",
+   "tests/tests2/17_enum.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tests2_char::126",
+  "argv": [
+   "-run",
+   "tests/tests2/18_include.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tests2_functions2::127",
+  "argv": [
+   "-run",
+   "tests/tests2/19_pointer_arithmetic.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tests2_20_pointer::128",
+  "argv": [
+   "-run",
+   "tests/tests2/20_pointer_comparison.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tests2_21::129",
+  "argv": [
+   "-run",
+   "tests/tests2/21_char_array.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tests2_float::130",
+  "argv": [
+   "-run",
+   "tests/tests2/22_floating_point.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tests2_short::131",
+  "argv": [
+   "-run",
+   "tests/tests2/24_math_library.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tests2_stdlib::132",
+  "argv": [
+   "-run",
+   "tests/tests2/25_quicksort.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tests2_switch::133",
+  "argv": [
+   "-run",
+   "tests/tests2/26_character_constants.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tests2_27::134",
+  "argv": [
+   "-run",
+   "tests/tests2/27_sizeof.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tests2_28::135",
+  "argv": [
+   "-run",
+   "tests/tests2/28_strings.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tests2_29::136",
+  "argv": [
+   "-run",
+   "tests/tests2/29_array_address.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tests2_30::137",
+  "argv": [
+   "-run",
+   "tests/tests2/30_hanoi.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tests2_args::138",
+  "argv": [
+   "-run",
+   "tests/tests2/31_args.c",
+   "arg1",
+   "arg2",
+   "arg3",
+   "arg4",
+   "arg5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tests2_32::139",
+  "argv": [
+   "-run",
+   "tests/tests2/32_led.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tests2_36_to_40::140",
+  "argv": [
+   "-run"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tests2_float_struct::141",
+  "argv": [
+   "-run",
+   "tests/tests2/109_float_struct_calling.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tests2_conversion::142",
+  "argv": [
+   "-run",
+   "tests/tests2/111_conversion.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tests2_builtins::143",
+  "argv": [
+   "-run",
+   "tests/tests2/117_builtins.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tests2_switch_118::144",
+  "argv": [
+   "-run",
+   "tests/tests2/118_switch.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compile_asm_file::145",
+  "argv": [
+   "-c",
+   "test.S",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.S": "\n.section .text\n.global my_func\nmy_func:\n    movl $42, %eax\n    ret\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inline_asm_basic::146",
+  "argv": [
+   "-run",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#include <stdio.h>\nint main() {\n    int result;\n    __asm__ (\"movl $100, %0\" : \"=r\"(result));\n    printf(\"result=%d\\n\", result);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inline_asm_constraints::147",
+  "argv": [
+   "-run",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#include <stdio.h>\nint main() {\n    int a = 5, b = 3, sum;\n    __asm__ (\"addl %2, %0\" : \"=r\"(sum) : \"0\"(a), \"r\"(b));\n    printf(\"sum=%d\\n\", sum);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_with_data_section::148",
+  "argv": [
+   "-o",
+   "data.S",
+   "main.c"
+  ],
+  "stdin": null,
+  "files": {
+   "data.S": "\n.section .data\nmydata:\n    .long 12345\n\n.section .text\n.global get_data\nget_data:\n    movl mydata(%rip), %eax\n    ret\n",
+   "main.c": "\n#include <stdio.h>\nint get_data();\nint main() {\n    printf(\"data=%d\\n\", get_data());\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_directives::149",
+  "argv": [
+   "-c",
+   "directives.S",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "directives.S": "\n.section .data\n.byte 0xff\n.short 1, 2\n.long 3, 4\n.string \"hello\"\n.align 4\n.global asm_func\n.section .text\nasm_func:\n    xorl %eax, %eax\n    ret\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_labels_and_jumps::150",
+  "argv": [
+   "-o",
+   "jumps.S",
+   "main.c"
+  ],
+  "stdin": null,
+  "files": {
+   "jumps.S": "\n.section .text\n.global count_to_5\ncount_to_5:\n    xorl %eax, %eax\n.loop:\n    incl %eax\n    cmpl $5, %eax\n    jl .loop\n    ret\n",
+   "main.c": "\n#include <stdio.h>\nint count_to_5();\nint main() {\n    printf(\"result=%d\\n\", count_to_5());\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_floating_point_ops::151",
+  "argv": [
+   "-run",
+   "float.c",
+   "-lm"
+  ],
+  "stdin": null,
+  "files": {
+   "float.c": "\n#include <stdio.h>\n#include <math.h>\nint main() {\n    double a = 3.14, b = 2.71;\n    printf(\"%.2f\\n\", a + b);\n    printf(\"%.2f\\n\", a * b);\n    printf(\"%.2f\\n\", a / b);\n    float f = 1.5f;\n    printf(\"%.1f\\n\", f * 2.0f);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_long_double::152",
+  "argv": [
+   "-run",
+   "ldouble.c"
+  ],
+  "stdin": null,
+  "files": {
+   "ldouble.c": "\n#include <stdio.h>\nint main() {\n    long double ld = 1.23456789L;\n    printf(\"%.8Lf\\n\", ld * 2.0L);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bitwise_operations::153",
+  "argv": [
+   "-run",
+   "bitwise.c"
+  ],
+  "stdin": null,
+  "files": {
+   "bitwise.c": "\n#include <stdio.h>\nint main() {\n    int a = 0xF0, b = 0x0F;\n    printf(\"and=%d\\n\", a & b);\n    printf(\"or=%d\\n\", a | b);\n    printf(\"xor=%d\\n\", a ^ b);\n    printf(\"not=%d\\n\", ~0 & 0xFF);\n    printf(\"shl=%d\\n\", 1 << 4);\n    printf(\"shr=%d\\n\", 256 >> 4);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_64bit_integers::154",
+  "argv": [
+   "-run",
+   "int64.c"
+  ],
+  "stdin": null,
+  "files": {
+   "int64.c": "\n#include <stdio.h>\n#include <stdint.h>\nint main() {\n    long long big = 1234567890123LL;\n    printf(\"%lld\\n\", big);\n    uint64_t u = 0xFFFFFFFFFFFFFFFFULL;\n    printf(\"%llu\\n\", u);\n    int64_t i = -9223372036854775807LL;\n    printf(\"%lld\\n\", i);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_structs::155",
+  "argv": [
+   "-run",
+   "complex_struct.c"
+  ],
+  "stdin": null,
+  "files": {
+   "complex_struct.c": "\n#include <stdio.h>\n#include <string.h>\ntypedef struct {\n    int x, y;\n    double val;\n    char name[20];\n} Point;\nvoid init_point(Point *p, int x, int y, double v, const char *n) {\n    p->x = x; p->y = y; p->val = v;\n    strncpy(p->name, n, sizeof(p->name)-1);\n}\nint main() {\n    Point p;\n    init_point(&p, 3, 4, 5.0, \"origin\");\n    printf(\"%d %d %.1f %s\\n\", p.x, p.y, p.val, p.name);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_union_operations::156",
+  "argv": [
+   "-run",
+   "union.c"
+  ],
+  "stdin": null,
+  "files": {
+   "union.c": "\n#include <stdio.h>\nunion Data {\n    int i;\n    float f;\n    char bytes[4];\n};\nint main() {\n    union Data d;\n    d.i = 0x41424344;\n    printf(\"bytes: %c%c%c%c\\n\", d.bytes[3], d.bytes[2], d.bytes[1], d.bytes[0]);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_pointers::157",
+  "argv": [
+   "-run",
+   "funcptr.c"
+  ],
+  "stdin": null,
+  "files": {
+   "funcptr.c": "\n#include <stdio.h>\nint add(int a, int b) { return a + b; }\nint mul(int a, int b) { return a * b; }\ntypedef int (*op_t)(int, int);\nint apply(op_t op, int a, int b) { return op(a, b); }\nint main() {\n    printf(\"%d\\n\", apply(add, 3, 4));\n    printf(\"%d\\n\", apply(mul, 3, 4));\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dynamic_arrays::158",
+  "argv": [
+   "-run",
+   "dynarray.c"
+  ],
+  "stdin": null,
+  "files": {
+   "dynarray.c": "\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main() {\n    int n = 5;\n    int *arr = (int*)malloc(n * sizeof(int));\n    for (int i = 0; i < n; i++) arr[i] = i * i;\n    int sum = 0;\n    for (int i = 0; i < n; i++) sum += arr[i];\n    printf(\"sum=%d\\n\", sum);\n    free(arr);\n    \n    char *s = (char*)malloc(50);\n    strcpy(s, \"dynamic string\");\n    printf(\"%s\\n\", s);\n    free(s);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_goto_statement::159",
+  "argv": [
+   "-run",
+   "goto.c"
+  ],
+  "stdin": null,
+  "files": {
+   "goto.c": "\n#include <stdio.h>\nint main() {\n    int i = 0;\n    loop:\n    i++;\n    if (i < 5) goto loop;\n    printf(\"i=%d\\n\", i);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_preprocessor::160",
+  "argv": [
+   "-run",
+   "macros.c"
+  ],
+  "stdin": null,
+  "files": {
+   "macros.c": "\n#include <stdio.h>\n#define MAX(a, b) ((a) > (b) ? (a) : (b))\n#define STRINGIFY(x) #x\n#define CONCAT(a, b) a ## b\n\nint CONCAT(my, func)() { return 42; }\n\nint main() {\n    printf(\"MAX: %d\\n\", MAX(3, 5));\n    printf(\"STR: %s\\n\", STRINGIFY(hello));\n    printf(\"FUNC: %d\\n\", myfunc());\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_variables::161",
+  "argv": [
+   "-run",
+   "globals.c"
+  ],
+  "stdin": null,
+  "files": {
+   "globals.c": "\n#include <stdio.h>\nint g_int = 100;\ndouble g_float = 3.14;\nchar g_str[] = \"global string\";\nint g_arr[] = {1, 2, 3, 4, 5};\nint main() {\n    printf(\"%d %.2f %s\\n\", g_int, g_float, g_str);\n    int sum = 0;\n    for (int i = 0; i < 5; i++) sum += g_arr[i];\n    printf(\"sum=%d\\n\", sum);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_static_variables::162",
+  "argv": [
+   "-run",
+   "static.c"
+  ],
+  "stdin": null,
+  "files": {
+   "static.c": "\n#include <stdio.h>\nint count() {\n    static int n = 0;\n    return ++n;\n}\nint main() {\n    printf(\"%d %d %d\\n\", count(), count(), count());\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_volatile_qualifier::163",
+  "argv": [
+   "-run",
+   "volatile.c"
+  ],
+  "stdin": null,
+  "files": {
+   "volatile.c": "\n#include <stdio.h>\nvolatile int v = 42;\nint main() {\n    printf(\"%d\\n\", v);\n    v = 100;\n    printf(\"%d\\n\", v);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cast_operations::164",
+  "argv": [
+   "-run",
+   "casts.c"
+  ],
+  "stdin": null,
+  "files": {
+   "casts.c": "\n#include <stdio.h>\nint main() {\n    double d = 3.99;\n    int i = (int)d;\n    printf(\"%d\\n\", i);\n    \n    unsigned char uc = 200;\n    signed char sc = (signed char)uc;\n    printf(\"%d\\n\", sc);\n    \n    long l = 100000L;\n    short s = (short)l;\n    printf(\"%d\\n\", s);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_expressions::165",
+  "argv": [
+   "-run",
+   "complex.c"
+  ],
+  "stdin": null,
+  "files": {
+   "complex.c": "\n#include <stdio.h>\nint main() {\n    int a = 5, b = 3, c = 2;\n    int result = (a + b) * c - a / b + (a % b);\n    printf(\"%d\\n\", result);\n    \n    // Comma operator\n    int x = (a=1, b=2, a+b);\n    printf(\"%d\\n\", x);\n    \n    // Pre/post increment\n    int n = 5;\n    printf(\"%d %d\\n\", n++, ++n);  // 5, 7\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_literal_types::166",
+  "argv": [
+   "-run",
+   "strings.c"
+  ],
+  "stdin": null,
+  "files": {
+   "strings.c": "\n#include <stdio.h>\nint main() {\n    printf(\"tab:\\there\\n\");\n    printf(\"newline:done\\n\");\n    printf(\"hex: %d\\n\", '\\x41');  // 'A' = 65\n    printf(\"octal: %d\\n\", '\\101');  // 'A' = 65\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vla::167",
+  "argv": [
+   "-run",
+   "vla.c"
+  ],
+  "stdin": null,
+  "files": {
+   "vla.c": "\n#include <stdio.h>\nint main() {\n    int n = 5;\n    int arr[n];\n    for (int i = 0; i < n; i++) arr[i] = i + 1;\n    int sum = 0;\n    for (int i = 0; i < n; i++) sum += arr[i];\n    printf(\"vla sum=%d\\n\", sum);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_compile::168",
+  "argv": [
+   "-vv",
+   "-c",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "#include <stdio.h>\nint main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vvv_shows_tries::169",
+  "argv": [
+   "-vvv",
+   "-c",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_g_debug_larger_object::170",
+  "argv": [
+   "-c",
+   "test.c",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#include <stdio.h>\nint foo(int x, int y) {\n    int result = x + y;\n    printf(\"%d\\n\", result);\n    return result;\n}\nint main() { return foo(1, 2); }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gdwarf_debug_info::171",
+  "argv": [
+   "-gdwarf",
+   "-o",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nvoid helper_func() {}\nint main() { helper_func(); return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ar_usage_error::172",
+  "argv": [
+   "-ar"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ar_missing_lib::173",
+  "argv": [
+   "-ar",
+   "t",
+   "/nonexistent/lib.a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ar_create_empty::174",
+  "argv": [
+   "-ar",
+   "c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ar_invalid_archive::175",
+  "argv": [
+   "-ar",
+   "t",
+   "notanar.a"
+  ],
+  "stdin": null,
+  "files": {
+   "notanar.a": "this is not an ar file"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_link_multiple_objects::176",
+  "argv": [
+   "-c",
+   "a.c",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "a.c": "int funcA() { return 10; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shared_lib_and_link::177",
+  "argv": [
+   "-shared",
+   "-o",
+   "mylib.c"
+  ],
+  "stdin": null,
+  "files": {
+   "mylib.c": "\nint lib_add(int a, int b) { return a + b; }\nint lib_mul(int a, int b) { return a * b; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_weak_symbol::178",
+  "argv": [
+   "-run",
+   "weak.c"
+  ],
+  "stdin": null,
+  "files": {
+   "weak.c": "\n#include <stdio.h>\n__attribute__((weak)) int weak_func() { return -1; }\nint main() {\n    printf(\"weak=%d\\n\", weak_func());\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_constructor_destructor::179",
+  "argv": [
+   "-run",
+   "tests/tests2/108_constructor.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_alias_attribute::180",
+  "argv": [
+   "-o",
+   "tests/tests2/120+_alias.c",
+   "tests/tests2/120_alias.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_macros::181",
+  "argv": [
+   "-E",
+   "nested.c"
+  ],
+  "stdin": null,
+  "files": {
+   "nested.c": "\n#define A(x) x + 1\n#define B(x) A(x) * 2\nint main() { return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_variadic_macros::182",
+  "argv": [
+   "-run",
+   "va_macro.c"
+  ],
+  "stdin": null,
+  "files": {
+   "va_macro.c": "\n#include <stdio.h>\n#define DEBUG(fmt, ...) printf(\"DBG: \" fmt \"\\n\", ##__VA_ARGS__)\nint main() {\n    DEBUG(\"hello %d\", 42);\n    DEBUG(\"just a string\");\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conditional_includes::183",
+  "argv": [
+   "-run",
+   "cond.c"
+  ],
+  "stdin": null,
+  "files": {
+   "cond.c": "\n#include <stdio.h>\n#define VERSION 2\nint main() {\n#if VERSION == 1\n    printf(\"v1\\n\");\n#elif VERSION == 2\n    printf(\"v2\\n\");\n#else\n    printf(\"vother\\n\");\n#endif\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_macro_stringification::184",
+  "argv": [
+   "-run",
+   "stringify.c"
+  ],
+  "stdin": null,
+  "files": {
+   "stringify.c": "\n#include <stdio.h>\n#define STR(x) #x\n#define XSTR(x) STR(x)\n#define VALUE 42\nint main() {\n    printf(\"%s\\n\", STR(hello world));\n    printf(\"%s\\n\", XSTR(VALUE));\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_macro_concatenation::185",
+  "argv": [
+   "-run",
+   "concat.c"
+  ],
+  "stdin": null,
+  "files": {
+   "concat.c": "\n#include <stdio.h>\n#define CAT(a, b) a ## b\nint main() {\n    int CAT(my, var) = 42;\n    printf(\"%d\\n\", myvar);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_with_return_value::186",
+  "argv": [
+   "-run",
+   "exit_rv123.c"
+  ],
+  "stdin": null,
+  "files": {
+   "exit_rv123.c": "#include <stdio.h>\nint main() { printf(\"rv123\\n\"); return 123; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_runtime_bounds_check::187",
+  "argv": [
+   "-b",
+   "-run",
+   "bounds.c"
+  ],
+  "stdin": null,
+  "files": {
+   "bounds.c": "\n#include <stdio.h>\nint main() {\n    int arr[5];\n    for (int i = 0; i < 5; i++) arr[i] = i;\n    int sum = 0;\n    for (int i = 0; i < 5; i++) sum += arr[i];\n    printf(\"sum=%d\\n\", sum);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backtrace_flag::188",
+  "argv": [
+   "-bt",
+   "-run",
+   "bt.c"
+  ],
+  "stdin": null,
+  "files": {
+   "bt.c": "\n#include <stdio.h>\nvoid inner() { printf(\"inner\\n\"); }\nvoid outer() { inner(); }\nint main() { outer(); return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdlib_qsort::189",
+  "argv": [
+   "-run",
+   "qsort.c"
+  ],
+  "stdin": null,
+  "files": {
+   "qsort.c": "\n#include <stdio.h>\n#include <stdlib.h>\nint cmp(const void *a, const void *b) { return *(int*)a - *(int*)b; }\nint main() {\n    int arr[] = {5, 2, 8, 1, 9, 3};\n    int n = 6;\n    qsort(arr, n, sizeof(int), cmp);\n    for (int i = 0; i < n; i++) printf(\"%d \", arr[i]);\n    printf(\"\\n\");\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdlib_strings::190",
+  "argv": [
+   "-run",
+   "stdlib_str.c"
+  ],
+  "stdin": null,
+  "files": {
+   "stdlib_str.c": "\n#include <stdio.h>\n#include <string.h>\n#include <ctype.h>\nint main() {\n    char s[] = \"Hello World\";\n    printf(\"len=%zu\\n\", strlen(s));\n    printf(\"lower=%c\\n\", tolower('A'));\n    printf(\"upper=%c\\n\", toupper('a'));\n    printf(\"cmp=%d\\n\", strcmp(\"abc\", \"abc\"));\n    printf(\"ncmp=%d\\n\", strncmp(\"abcd\", \"abce\", 3));\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_io::191",
+  "argv": [
+   "-run",
+   "fileio.c"
+  ],
+  "stdin": null,
+  "files": {
+   "fileio.c": "\n#include <stdio.h>\nint main() {\n    FILE *f = fopen(\"/tmp/tcc_test_io.txt\", \"w\");\n    if (!f) return 1;\n    fprintf(f, \"test line\\n\");\n    fclose(f);\n    f = fopen(\"/tmp/tcc_test_io.txt\", \"r\");\n    if (!f) return 1;\n    char buf[50];\n    fgets(buf, sizeof(buf), f);\n    printf(\"%s\", buf);\n    fclose(f);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_x86_registers::192",
+  "argv": [
+   "-run",
+   "asm_regs.c"
+  ],
+  "stdin": null,
+  "files": {
+   "asm_regs.c": "\n#include <stdio.h>\nint main() {\n    long rax = 0, rbx = 0, rcx = 0, rdx = 0;\n    __asm__ volatile (\n        \"movq $1, %0\\n\"\n        \"movq $2, %1\\n\"\n        \"movq $3, %2\\n\"\n        \"movq $4, %3\\n\"\n        : \"=r\"(rax), \"=r\"(rbx), \"=r\"(rcx), \"=r\"(rdx)\n    );\n    printf(\"%ld %ld %ld %ld\\n\", rax, rbx, rcx, rdx);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_memory_operands::193",
+  "argv": [
+   "-run",
+   "asm_mem.c"
+  ],
+  "stdin": null,
+  "files": {
+   "asm_mem.c": "\n#include <stdio.h>\nint main() {\n    int x = 42;\n    int y;\n    __asm__ (\"movl %1, %0\" : \"=r\"(y) : \"m\"(x));\n    printf(\"%d\\n\", y);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_clobber::194",
+  "argv": [
+   "-run",
+   "asm_clobber.c"
+  ],
+  "stdin": null,
+  "files": {
+   "asm_clobber.c": "\n#include <stdio.h>\nint main() {\n    int result;\n    __asm__ volatile (\n        \"movl $100, %%eax\\n\"\n        \"movl $50, %%ebx\\n\"\n        \"addl %%ebx, %%eax\\n\"\n        \"movl %%eax, %0\\n\"\n        : \"=r\"(result)\n        :\n        : \"eax\", \"ebx\"\n    );\n    printf(\"%d\\n\", result);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_multiply::195",
+  "argv": [
+   "-run",
+   "asm_mul.c"
+  ],
+  "stdin": null,
+  "files": {
+   "asm_mul.c": "\n#include <stdio.h>\nint main() {\n    int a = 6, b = 7, c;\n    __asm__ (\"imull %2, %0\" : \"=r\"(c) : \"0\"(a), \"r\"(b));\n    printf(\"%d\\n\", c);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_compare_branch::196",
+  "argv": [
+   "-run",
+   "asm_branch.c"
+  ],
+  "stdin": null,
+  "files": {
+   "asm_branch.c": "\n#include <stdio.h>\nint max(int a, int b) {\n    int result;\n    __asm__ (\n        \"cmpl %2, %1\\n\"\n        \"jg .Lthen\\n\"\n        \"movl %2, %0\\n\"\n        \"jmp .Ldone\\n\"\n        \".Lthen:\\n\"\n        \"movl %1, %0\\n\"\n        \".Ldone:\\n\"\n        : \"=r\"(result)\n        : \"r\"(a), \"r\"(b)\n    );\n    return result;\n}\nint main() {\n    printf(\"%d %d\\n\", max(5, 3), max(2, 8));\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_standalone_asm_file::197",
+  "argv": [
+   "-o",
+   "instrs.S",
+   "main.c"
+  ],
+  "stdin": null,
+  "files": {
+   "instrs.S": "\n.section .text\n.global string_len\nstring_len:\n    movq $0, %rax\n.loop:\n    cmpb $0, (%rdi, %rax)\n    je .done\n    incq %rax\n    jmp .loop\n.done:\n    ret\n\n.global test_pushpop\ntest_pushpop:\n    pushq %rbp\n    movq %rsp, %rbp\n    movl $99, %eax\n    popq %rbp\n    ret\n",
+   "main.c": "\n#include <stdio.h>\nunsigned long string_len(const char *s);\nint test_pushpop();\nint main() {\n    printf(\"len=%lu\\n\", string_len(\"hello\"));\n    printf(\"pushpop=%d\\n\", test_pushpop());\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_float_ops::198",
+  "argv": [
+   "-run",
+   "asm_float.c"
+  ],
+  "stdin": null,
+  "files": {
+   "asm_float.c": "\n#include <stdio.h>\nint main() {\n    double a = 3.0, b = 4.0;\n    double result = a + b;\n    printf(\"%.1f\\n\", result);\n    result = a * b;\n    printf(\"%.1f\\n\", result);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_with_labels::199",
+  "argv": [
+   "-o",
+   "labeled.S",
+   "main.c"
+  ],
+  "stdin": null,
+  "files": {
+   "labeled.S": "\n.section .text\n.global my_factorial\nmy_factorial:\n    cmpl $1, %edi\n    jle .done\n    pushq %rbp\n    pushq %rbx\n    movl %edi, %ebx\n    leal -1(%edi), %edi\n    call my_factorial\n    imull %ebx, %eax\n    popq %rbx\n    popq %rbp\n    ret\n.done:\n    movl $1, %eax\n    ret\n",
+   "main.c": "\n#include <stdio.h>\nint my_factorial(int n);\nint main() {\n    printf(\"5! = %d\\n\", my_factorial(5));\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_extended_syntax::200",
+  "argv": [
+   "-run",
+   "asm_ext.c"
+  ],
+  "stdin": null,
+  "files": {
+   "asm_ext.c": "\n#include <stdio.h>\nint main() {\n    int x = 10;\n    // Test multiple output constraints\n    int high, low;\n    __asm__ (\"movl %2, %%eax\\n\"\n             \"xorl %%edx, %%edx\\n\"\n             \"divl %3\\n\"\n             \"movl %%eax, %0\\n\"\n             \"movl %%edx, %1\\n\"\n             : \"=r\"(high), \"=r\"(low)\n             : \"r\"(100), \"r\"(x)\n             : \"eax\", \"edx\"\n    );\n    printf(\"quot=%d rem=%d\\n\", high, low);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_standalone_asm_basic::201",
+  "argv": [
+   "-c",
+   "basic.S",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "basic.S": "\n.section .data\n.align 8\nmy_long: .quad 12345678\n\n.section .text\n.global get_long\nget_long:\n    movq my_long(%rip), %rax\n    ret\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_runtime_signal_handling::202",
+  "argv": [
+   "-bt",
+   "-run",
+   "bt.c"
+  ],
+  "stdin": null,
+  "files": {
+   "bt.c": "\n#include <stdio.h>\nvoid func2() { printf(\"func2\\n\"); }\nvoid func1() { func2(); }\nint main() { func1(); return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_runtime_backtrace_N::203",
+  "argv": [
+   "-bt3",
+   "-run",
+   "bt.c"
+  ],
+  "stdin": null,
+  "files": {
+   "bt.c": "\n#include <stdio.h>\nvoid func() { printf(\"ok\\n\"); }\nint main() { func(); return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_with_alloca::204",
+  "argv": [
+   "-run",
+   "alloca.c"
+  ],
+  "stdin": null,
+  "files": {
+   "alloca.c": "\n#include <stdio.h>\n#include <alloca.h>\n#include <string.h>\nint main() {\n    int n = 10;\n    char *buf = (char*)alloca(n);\n    strncpy(buf, \"alloca ok\", n-1);\n    printf(\"%s\\n\", buf);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_setjmp_longjmp::205",
+  "argv": [
+   "-run",
+   "setjmp.c"
+  ],
+  "stdin": null,
+  "files": {
+   "setjmp.c": "\n#include <stdio.h>\n#include <setjmp.h>\njmp_buf buf;\nvoid will_throw() {\n    longjmp(buf, 42);\n}\nint main() {\n    int val = setjmp(buf);\n    if (val == 0) {\n        printf(\"try\\n\");\n        will_throw();\n    } else {\n        printf(\"caught %d\\n\", val);\n    }\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tls_variable::206",
+  "argv": [
+   "-o",
+   "tls.c"
+  ],
+  "stdin": null,
+  "files": {
+   "tls.c": "\nstatic int tls_counter = 0;\nint increment() { return ++tls_counter; }\n#include <stdio.h>\nint main() { printf(\"%d %d %d\\n\", increment(), increment(), increment()); return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_got_plt_relocation::207",
+  "argv": [
+   "-o",
+   "plt.c"
+  ],
+  "stdin": null,
+  "files": {
+   "plt.c": "\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main() {\n    char *s = strdup(\"test string\");\n    printf(\"len=%zu\\n\", strlen(s));\n    free(s);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_executable_with_sections::208",
+  "argv": [
+   "-o",
+   "sections.c"
+  ],
+  "stdin": null,
+  "files": {
+   "sections.c": "\n#include <stdio.h>\n// text section (functions)\nint add(int a, int b) { return a + b; }\n// data section (initialized global)\nint g_data = 42;\n// rodata section (string literal)\nconst char *g_str = \"hello\";\n// bss section (uninitialized global)\nint g_bss;\nint main() {\n    printf(\"data=%d str=%s bss=%d add=%d\\n\", g_data, g_str, g_bss, add(1,2));\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_declarations::209",
+  "argv": [
+   "-run",
+   "decl.c"
+  ],
+  "stdin": null,
+  "files": {
+   "decl.c": "\n#include <stdio.h>\ntypedef void (*func_ptr)(int);\nvoid callback(int x) { printf(\"cb: %d\\n\", x); }\nfunc_ptr funcs[] = { callback, callback, NULL };\nint matrix[3][3] = {{1,2,3},{4,5,6},{7,8,9}};\nint main() {\n    funcs[0](42);\n    printf(\"matrix[1][1]=%d\\n\", matrix[1][1]);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_fields::210",
+  "argv": [
+   "-run",
+   "bitfield.c"
+  ],
+  "stdin": null,
+  "files": {
+   "bitfield.c": "\n#include <stdio.h>\nstruct Flags {\n    unsigned int a : 1;\n    unsigned int b : 2;\n    unsigned int c : 4;\n    unsigned int d : 8;\n};\nint main() {\n    struct Flags f;\n    f.a = 1; f.b = 3; f.c = 15; f.d = 255;\n    printf(\"%u %u %u %u\\n\", f.a, f.b, f.c, f.d);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_initializer_lists::211",
+  "argv": [
+   "-run",
+   "init.c"
+  ],
+  "stdin": null,
+  "files": {
+   "init.c": "\n#include <stdio.h>\nstruct Point { int x, y; };\nstruct Segment { struct Point a, b; };\nstruct Segment seg = { {1, 2}, {3, 4} };\nint arr[3][3] = { [0][0] = 1, [1][1] = 5, [2][2] = 9 };\nint main() {\n    printf(\"seg: %d,%d -> %d,%d\\n\", seg.a.x, seg.a.y, seg.b.x, seg.b.y);\n    printf(\"diag: %d %d %d\\n\", arr[0][0], arr[1][1], arr[2][2]);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_functions_calls::212",
+  "argv": [
+   "-run",
+   "nested.c"
+  ],
+  "stdin": null,
+  "files": {
+   "nested.c": "\n#include <stdio.h>\nint triple(int x) { return x * 3; }\nint square(int x) { return x * x; }\nint double_val(int x) { return x * 2; }\nint main() {\n    printf(\"%d\\n\", triple(square(double_val(3))));\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_switch::213",
+  "argv": [
+   "-run",
+   "switch.c"
+  ],
+  "stdin": null,
+  "files": {
+   "switch.c": "\n#include <stdio.h>\nint main() {\n    for (int i = 0; i < 4; i++) {\n        switch(i) {\n        case 0:\n            printf(\"zero\\n\");\n            break;\n        case 1:\n        case 2:\n            printf(\"one-two: %d\\n\", i);\n            break;\n        default:\n            printf(\"other\\n\");\n        }\n    }\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_returns::214",
+  "argv": [
+   "-run",
+   "multi_ret.c"
+  ],
+  "stdin": null,
+  "files": {
+   "multi_ret.c": "\n#include <stdio.h>\nconst char *classify(int n) {\n    if (n < 0) return \"negative\";\n    if (n == 0) return \"zero\";\n    if (n < 10) return \"small\";\n    return \"large\";\n}\nint main() {\n    printf(\"%s %s %s %s\\n\", classify(-5), classify(0), classify(5), classify(100));\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generic_swap::215",
+  "argv": [
+   "-run",
+   "swap.c"
+  ],
+  "stdin": null,
+  "files": {
+   "swap.c": "\n#include <stdio.h>\n#include <string.h>\nvoid swap(void *a, void *b, size_t size) {\n    char tmp[256];\n    memcpy(tmp, a, size);\n    memcpy(a, b, size);\n    memcpy(b, tmp, size);\n}\nint main() {\n    int x = 5, y = 10;\n    swap(&x, &y, sizeof(int));\n    printf(\"%d %d\\n\", x, y);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_callback_array::216",
+  "argv": [
+   "-run",
+   "dispatch.c"
+  ],
+  "stdin": null,
+  "files": {
+   "dispatch.c": "\n#include <stdio.h>\nint op_add(int a, int b) { return a + b; }\nint op_sub(int a, int b) { return a - b; }\nint op_mul(int a, int b) { return a * b; }\ntypedef int (*op_func)(int, int);\nop_func ops[] = { op_add, op_sub, op_mul };\nint main() {\n    for (int i = 0; i < 3; i++) {\n        printf(\"%d\\n\", ops[i](10, 3));\n    }\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bounds_check_array_access::217",
+  "argv": [
+   "-b",
+   "-run",
+   "bound_ok.c"
+  ],
+  "stdin": null,
+  "files": {
+   "bound_ok.c": "\n#include <stdio.h>\nint main() {\n    int arr[10];\n    for (int i = 0; i < 10; i++) arr[i] = i;\n    int sum = 0;\n    for (int i = 0; i < 10; i++) sum += arr[i];\n    printf(\"sum=%d\\n\", sum);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bounds_check_malloc::218",
+  "argv": [
+   "-b",
+   "-run",
+   "bound_malloc.c"
+  ],
+  "stdin": null,
+  "files": {
+   "bound_malloc.c": "\n#include <stdio.h>\n#include <stdlib.h>\nint main() {\n    int *arr = (int*)malloc(5 * sizeof(int));\n    for (int i = 0; i < 5; i++) arr[i] = i * 2;\n    int sum = 0;\n    for (int i = 0; i < 5; i++) sum += arr[i];\n    printf(\"sum=%d\\n\", sum);\n    free(arr);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bounds_with_str::219",
+  "argv": [
+   "-b",
+   "-run",
+   "bound_str.c"
+  ],
+  "stdin": null,
+  "files": {
+   "bound_str.c": "\n#include <stdio.h>\n#include <string.h>\nint main() {\n    char buf[20];\n    strcpy(buf, \"hello\");\n    printf(\"len=%zu\\n\", strlen(buf));\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gdwarf_with_functions::220",
+  "argv": [
+   "-gdwarf",
+   "-o",
+   "dbg.c"
+  ],
+  "stdin": null,
+  "files": {
+   "dbg.c": "\nint add(int a, int b) { return a + b; }\nint sub(int a, int b) { return a - b; }\nint main() {\n    return add(3, 4) - 7;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gdwarf2::221",
+  "argv": [
+   "-gdwarf-2",
+   "-c",
+   "test.c",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gdwarf5::222",
+  "argv": [
+   "-gdwarf-5",
+   "-c",
+   "test.c",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stab_with_run::223",
+  "argv": [
+   "-g",
+   "-run",
+   "stab.c"
+  ],
+  "stdin": null,
+  "files": {
+   "stab.c": "\n#include <stdio.h>\nvoid helper() { printf(\"helper\\n\"); }\nint main() { helper(); return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ar_creat_and_list_verbose::224",
+  "argv": [
+   "-c",
+   "obj1.c",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "obj1.c": "int func1() { return 1; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ar_update::225",
+  "argv": [
+   "-c",
+   "func.c",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "func.c": "int func() { return 99; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ar_and_link::226",
+  "argv": [
+   "-c",
+   "lib.c",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "lib.c": "\nint multiply(int a, int b) { return a * b; }\nint divide(int a, int b) { return b ? a / b : 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_defines::227",
+  "argv": [
+   "-DALPHA=1",
+   "-DBETA=2",
+   "-DGAMMA=3",
+   "-run",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#include <stdio.h>\nint main() {\n    printf(\"%d %d %d\\n\", ALPHA, BETA, GAMMA);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_include_and_define::228",
+  "argv": [
+   "-DUSE_CONFIG",
+   "-run",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#include <stdio.h>\n#ifdef USE_CONFIG\n#include <myconfig.h>\n#endif\nint main() {\n#ifdef USE_CONFIG\n    printf(\"configured\\n\");\n#else\n    printf(\"not configured\\n\");\n#endif\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_whole_archive::229",
+  "argv": [
+   "-c",
+   "lib.c",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "lib.c": "\nint lib_func() { return 55; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_runtime_segfault_backtrace::230",
+  "argv": [
+   "-bt",
+   "-run",
+   "segfault.c"
+  ],
+  "stdin": null,
+  "files": {
+   "segfault.c": "\nvoid crash() {\n    int *p = (int*)0;\n    *p = 42;\n}\nvoid middle() { crash(); }\nint main() { middle(); return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_runtime_g_bt_backtrace::231",
+  "argv": [
+   "-g",
+   "-bt3",
+   "-run",
+   "bt_detail.c"
+  ],
+  "stdin": null,
+  "files": {
+   "bt_detail.c": "\nvoid level3() {\n    int *p = (int*)0;\n    *p = 99;\n}\nvoid level2() { level3(); }\nvoid level1() { level2(); }\nint main() { level1(); return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_runtime_gdwarf_backtrace::232",
+  "argv": [
+   "-bt",
+   "-gdwarf",
+   "-run",
+   "dwarf_bt.c"
+  ],
+  "stdin": null,
+  "files": {
+   "dwarf_bt.c": "\nvoid f() { int *p = (int*)0; *p = 1; }\nint main() { f(); return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_runtime_bounds_overflow::233",
+  "argv": [
+   "-b",
+   "-run",
+   "overflow.c"
+  ],
+  "stdin": null,
+  "files": {
+   "overflow.c": "\n#include <stdio.h>\nint main() {\n    int arr[5] = {1,2,3,4,5};\n    // Access out of bounds\n    int x = arr[10];\n    printf(\"x=%d\\n\", x);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_runtime_bt_with_many_levels::234",
+  "argv": [
+   "-g",
+   "-bt5",
+   "-run",
+   "deep.c"
+  ],
+  "stdin": null,
+  "files": {
+   "deep.c": "\nvoid d5() { int *p = 0; *p = 1; }\nvoid d4() { d5(); }\nvoid d3() { d4(); }\nvoid d2() { d3(); }\nvoid d1() { d2(); }\nint main() { d1(); return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_many_asm_instructions::235",
+  "argv": [
+   "-o",
+   "instructions.S",
+   "main.c"
+  ],
+  "stdin": null,
+  "files": {
+   "instructions.S": "\n.section .text\n\n# Test arithmetic operations\n.global asm_add_test\nasm_add_test:\n    movl $10, %eax\n    addl $5, %eax\n    subl $2, %eax\n    imull $3, %eax\n    ret\n\n# Test shift operations  \n.global asm_shift_test\nasm_shift_test:\n    movl $1, %eax\n    shll $4, %eax\n    shrl $2, %eax\n    sarl $1, %eax\n    ret\n\n# Test compare and set\n.global asm_cmp_test\nasm_cmp_test:\n    movl $5, %eax\n    cmpl $5, %edi\n    sete %al\n    movzbl %al, %eax\n    ret\n\n# Test bit operations\n.global asm_bit_test\nasm_bit_test:\n    movl $0xF0, %eax\n    andl $0xFF, %eax\n    orl $0x0F, %eax\n    xorl $0x55, %eax\n    ret\n\n# Test memory operations\n.global asm_mem_test\nasm_mem_test:\n    pushq %rbp\n    movq %rsp, %rbp\n    subq $16, %rsp\n    movl $42, -4(%rbp)\n    movl -4(%rbp), %eax\n    leave\n    ret\n\n# Test conditional jumps\n.global asm_jmp_test\nasm_jmp_test:\n    xorl %eax, %eax\n    testl %edi, %edi\n    jz .Lzero\n    movl $1, %eax\n    jmp .Ldone2\n.Lzero:\n    movl $2, %eax\n.Ldone2:\n    ret\n\n# Test byte/word/dword operations\n.global asm_size_test\nasm_size_test:\n    movb $0xAB, %al\n    movzbq %al, %rax\n    movw $0x1234, %ax\n    movzwl %ax, %eax\n    ret\n",
+   "main.c": "\n#include <stdio.h>\nint asm_add_test();\nint asm_shift_test();\nint asm_cmp_test(int);\nint asm_bit_test();\nint asm_mem_test();\nint asm_jmp_test(int);\nint asm_size_test();\nint main() {\n    printf(\"add=%d\\n\", asm_add_test());\n    printf(\"shift=%d\\n\", asm_shift_test());\n    printf(\"cmp=%d\\n\", asm_cmp_test(5));\n    printf(\"bit=%d\\n\", asm_bit_test());\n    printf(\"mem=%d\\n\", asm_mem_test());\n    printf(\"jmp0=%d\\n\", asm_jmp_test(0));\n    printf(\"jmp1=%d\\n\", asm_jmp_test(1));\n    printf(\"size=%d\\n\", asm_size_test());\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_lea_instruction::236",
+  "argv": [
+   "-o",
+   "lea.S",
+   "main.c"
+  ],
+  "stdin": null,
+  "files": {
+   "lea.S": "\n.section .text\n.global asm_lea_test\nasm_lea_test:\n    leaq 16(%rdi), %rax\n    ret\n\n.global asm_lea_scaled\nasm_lea_scaled:\n    leaq (%rdi,%rsi,4), %rax\n    ret\n",
+   "main.c": "\n#include <stdio.h>\nlong asm_lea_test(long x);\nlong asm_lea_scaled(long base, long idx);\nint main() {\n    printf(\"%ld\\n\", asm_lea_test(10));\n    printf(\"%ld\\n\", asm_lea_scaled(100, 5));\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_xchg_instruction::237",
+  "argv": [
+   "-run",
+   "xchg.c"
+  ],
+  "stdin": null,
+  "files": {
+   "xchg.c": "\n#include <stdio.h>\nint main() {\n    int a = 5, b = 10;\n    __asm__ (\"xchgl %0, %1\" : \"+r\"(a), \"+r\"(b));\n    printf(\"%d %d\\n\", a, b);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_rep_instructions::238",
+  "argv": [
+   "-run",
+   "rep.c"
+  ],
+  "stdin": null,
+  "files": {
+   "rep.c": "\n#include <stdio.h>\n#include <string.h>\nint main() {\n    char src_buf[10] = \"hello\";\n    char dst_buf[10] = {0};\n    // Use rep movsb to copy\n    __asm__ volatile (\n        \"movq %1, %%rsi\\n\"\n        \"movq %0, %%rdi\\n\"\n        \"movl $5, %%ecx\\n\"\n        \"rep movsb\\n\"\n        : \n        : \"r\"(dst_buf), \"r\"(src_buf)\n        : \"rsi\", \"rdi\", \"rcx\", \"memory\"\n    );\n    printf(\"copied: %s\\n\", dst_buf);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_divl_instruction::239",
+  "argv": [
+   "-run",
+   "div.c"
+  ],
+  "stdin": null,
+  "files": {
+   "div.c": "\n#include <stdio.h>\nint main() {\n    int dividend = 100, divisor = 7, quotient, remainder;\n    __asm__ (\n        \"xorl %%edx, %%edx\\n\"\n        \"divl %3\\n\"\n        : \"=a\"(quotient), \"=d\"(remainder)\n        : \"a\"(dividend), \"r\"(divisor)\n    );\n    printf(\"quot=%d rem=%d\\n\", quotient, remainder);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_with_segment_override::240",
+  "argv": [
+   "-o",
+   "addr_modes.S",
+   "main.c"
+  ],
+  "stdin": null,
+  "files": {
+   "addr_modes.S": "\n.section .text\n.global test_addr_modes\ntest_addr_modes:\n    pushq %rbp\n    movq %rsp, %rbp\n    # Test various addressing modes\n    movl $100, %eax\n    movl %eax, -4(%rbp)\n    movl -4(%rbp), %eax    # base+disp\n    addl $1, %eax\n    popq %rbp\n    ret\n",
+   "main.c": "\n#include <stdio.h>\nint test_addr_modes();\nint main() {\n    printf(\"result=%d\\n\", test_addr_modes());\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inline_asm_nop::241",
+  "argv": [
+   "-run",
+   "nop.c"
+  ],
+  "stdin": null,
+  "files": {
+   "nop.c": "\n#include <stdio.h>\nint main() {\n    int x = 5;\n    __asm__ (\"nop\");\n    __asm__ (\"nop\\n nop\\n nop\");\n    printf(\"x=%d\\n\", x);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_section_directives::242",
+  "argv": [
+   "-o",
+   "sections.S",
+   "main.c"
+  ],
+  "stdin": null,
+  "files": {
+   "sections.S": "\n.section .rodata\nmy_string:\n    .string \"hello\"\n    .byte 10, 0\n\n.section .data\nmy_int:\n    .long 42\nmy_other:\n    .long 0x12345678\n\n.section .text\n.global get_int\nget_int:\n    movl my_int(%rip), %eax\n    ret\n",
+   "main.c": "\n#include <stdio.h>\nint get_int();\nint main() {\n    printf(\"int=%d\\n\", get_int());\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_numeric_labels::243",
+  "argv": [
+   "-run",
+   "numeric_labels.c"
+  ],
+  "stdin": null,
+  "files": {
+   "numeric_labels.c": "\n#include <stdio.h>\nint main() {\n    int count = 0;\n    __asm__ (\n        \"movl $0, %0\\n\"\n        \"1:\\n\"\n        \"incl %0\\n\"\n        \"cmpl $5, %0\\n\"\n        \"jl 1b\\n\"\n        : \"=r\"(count)\n    );\n    printf(\"count=%d\\n\", count);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_fill_directive::244",
+  "argv": [
+   "-o",
+   "fill.S",
+   "main.c"
+  ],
+  "stdin": null,
+  "files": {
+   "fill.S": "\n.section .data\n.align 4\nfill_area:\n    .fill 4, 4, 0x1234\n\n.section .text\n.global get_fill\nget_fill:\n    movl fill_area(%rip), %eax\n    ret\n",
+   "main.c": "\n#include <stdio.h>\nint get_fill();\nint main() {\n    printf(\"%x\\n\", get_fill());\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_comparison_expressions::245",
+  "argv": [
+   "-c",
+   "cmp_expr.S",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "cmp_expr.S": "\n.section .data\n.align 4\ncmp1: .long 5 == 5\ncmp2: .long 5 != 3\ncmp3: .long 5 < 3\ncmp4: .long 3 < 5\ncmp5: .long 5 >= 5\ncmp6: .long 5 > 3\n\n.section .text\n.global get_cmp\nget_cmp:\n    movl cmp1(%rip), %eax\n    ret\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_arithmetic_expressions::246",
+  "argv": [
+   "-c",
+   "arith_expr.S",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "arith_expr.S": "\n.section .data\n.align 4\nval1: .long 10 * 3 + 2\nval2: .long 100 / 5\nval3: .long 15 % 4\nval4: .long 7 << 2\nval5: .long 64 >> 3\nval6: .long 0xF0 & 0x0F\nval7: .long 0xF0 | 0x0F\nval8: .long 0xFF ^ 0x0F\nval9: .long (5 + 3) * 2\n\n.section .text\n.global get_arith_vals\nget_arith_vals:\n    movl val1(%rip), %eax\n    ret\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_set_directive::247",
+  "argv": [
+   "-c",
+   "set.S",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "set.S": "\n.set MY_CONST, 42\n.set DOUBLE_CONST, MY_CONST * 2\n\n.section .data\n.long MY_CONST\n.long DOUBLE_CONST\n\n.section .text\n.global get_const\nget_const:\n    movl $MY_CONST, %eax\n    ret\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_equ_directive_SKIP_UNSUPPORTED::248",
+  "argv": [
+   "-c",
+   "set_def.S",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "set_def.S": "\n.set SIZE, 16\n.set MASK, 0xFF\n\n.section .text\n.global get_mask\nget_mask:\n    movl $MASK, %eax\n    andl $SIZE, %eax\n    ret\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_previous_section::249",
+  "argv": [
+   "-c",
+   "prev.S",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "prev.S": "\n.section .data\ndata1: .long 100\n\n.section .text\n.global func1\nfunc1:\n    movl $1, %eax\n    ret\n\n.previous\ndata2: .long 200\n\n.section .text\n.global func2\nfunc2:\n    movl $2, %eax\n    ret\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_pushsection_popsection::250",
+  "argv": [
+   "-c",
+   "pushpop.S",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "pushpop.S": "\n.section .text\n.global f\nf:\n    movl $1, %eax\n.pushsection .data\nd1: .long 42\n.popsection\n    ret\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_type_directive::251",
+  "argv": [
+   "-c",
+   "type.S",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "type.S": "\n.section .text\n.global typed_func\n.type typed_func, @function\ntyped_func:\n    movl $42, %eax\n    ret\n.size typed_func, . - typed_func\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_global_weak::252",
+  "argv": [
+   "-c",
+   "weak.S",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "weak.S": "\n.section .text\n.global strong_func\nstrong_func:\n    movl $1, %eax\n    ret\n\n.weak weak_func\nweak_func:\n    movl $2, %eax\n    ret\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_hidden_directive::253",
+  "argv": [
+   "-c",
+   "hidden.S",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "hidden.S": "\n.section .text\n.global hidden_func\n.hidden hidden_func\nhidden_func:\n    movl $99, %eax\n    ret\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_byte_data::254",
+  "argv": [
+   "-c",
+   "bytedata.S",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "bytedata.S": "\n.section .data\nmy_bytes:\n    .byte 0x01, 0x02, 0x03, 0x04, 0x05\n    .byte 0, 0, 0\n.section .text\n.global get_byte\nget_byte:\n    movzbl my_bytes(%rip), %eax\n    ret\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_complex_inline::255",
+  "argv": [
+   "-run",
+   "complex_asm.c"
+  ],
+  "stdin": null,
+  "files": {
+   "complex_asm.c": "\n#include <stdio.h>\n// Simple bit manipulation using inline assembly\nstatic int __attribute__((noinline)) popcount(int x) {\n    int result = 0;\n    while (x) {\n        result += (x & 1);\n        x >>= 1;\n    }\n    return result;\n}\nint main() {\n    printf(\"popcount(0xFF)=%d\\n\", popcount(0xFF));\n    printf(\"popcount(0xF0)=%d\\n\", popcount(0xF0));\n    printf(\"popcount(0)=%d\\n\", popcount(0));\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_section_alignment::256",
+  "argv": [
+   "-Wl,-section-alignment=16",
+   "-o",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_enable_new_dtags::257",
+  "argv": [
+   "-Wl,-rpath=/tmp",
+   "-Wl,-enable-new-dtags",
+   "-o",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_all_symbols::258",
+  "argv": [
+   "-Wl,-export-all-symbols",
+   "-o",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "#include <stdio.h>\nint main() { printf(\"exported\\n\"); return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_image_base::259",
+  "argv": [
+   "-Wl,-image-base=0x400000",
+   "-o",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ttext_base::260",
+  "argv": [
+   "-Wl,-Ttext=0x400000",
+   "-o",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bsymbolic::261",
+  "argv": [
+   "-shared",
+   "-Wl,-Bsymbolic",
+   "-o",
+   "lib.c"
+  ],
+  "stdin": null,
+  "files": {
+   "lib.c": "int shared_func() { return 42; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fdollars_in_identifiers::262",
+  "argv": [
+   "-fdollars-in-identifiers",
+   "-run",
+   "dollar.c"
+  ],
+  "stdin": null,
+  "files": {
+   "dollar.c": "\n#include <stdio.h>\nint func$with$dollar() { return 42; }\nint main() {\n    printf(\"%d\\n\", func$with$dollar());\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fno_unsigned_char::263",
+  "argv": [
+   "-fno-unsigned-char",
+   "-run",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#include <stdio.h>\nint main() {\n    char c = 0xFF;\n    printf(\"%d\\n\", (int)c);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_freverse_funcargs::264",
+  "argv": [
+   "-freverse-funcargs",
+   "-run",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "#include <stdio.h>\nint main() { printf(\"ok\\n\"); return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fgnu89_inline::265",
+  "argv": [
+   "-fgnu89-inline",
+   "-run",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "#include <stdio.h>\nint main() { printf(\"gnu89\\n\"); return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fasynchronous_unwind_tables::266",
+  "argv": [
+   "-fasynchronous-unwind-tables",
+   "-o",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fno_asynchronous_unwind_tables::267",
+  "argv": [
+   "-fno-asynchronous-unwind-tables",
+   "-o",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_include_paths::268",
+  "argv": [
+   "-run",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#include <h1.h>\n#include <h2.h>\n#include <stdio.h>\nint main() {\n    printf(\"%d %d\\n\", H1_VAL, H2_VAL);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_pointer_arithmetic::269",
+  "argv": [
+   "-run",
+   "ptrarith.c"
+  ],
+  "stdin": null,
+  "files": {
+   "ptrarith.c": "\n#include <stdio.h>\nint arr[] = {10, 20, 30, 40, 50};\nint main() {\n    int *p = arr;\n    p += 2;\n    printf(\"%d\\n\", *p);\n    p = arr + 4;\n    printf(\"%d\\n\", *(p - 2));\n    printf(\"%d\\n\", p - arr);  // pointer difference\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compound_assignment::270",
+  "argv": [
+   "-run",
+   "compound.c"
+  ],
+  "stdin": null,
+  "files": {
+   "compound.c": "\n#include <stdio.h>\nint main() {\n    int x = 10;\n    x += 5;   printf(\"%d\\n\", x);  // 15\n    x -= 3;   printf(\"%d\\n\", x);  // 12\n    x *= 2;   printf(\"%d\\n\", x);  // 24\n    x /= 4;   printf(\"%d\\n\", x);  // 6\n    x %= 4;   printf(\"%d\\n\", x);  // 2\n    x <<= 3;  printf(\"%d\\n\", x);  // 16\n    x >>= 1;  printf(\"%d\\n\", x);  // 8\n    x &= 5;   printf(\"%d\\n\", x);  // 0\n    x |= 7;   printf(\"%d\\n\", x);  // 7\n    x ^= 3;   printf(\"%d\\n\", x);  // 4\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_for_loops::271",
+  "argv": [
+   "-run",
+   "forloop.c"
+  ],
+  "stdin": null,
+  "files": {
+   "forloop.c": "\n#include <stdio.h>\nint main() {\n    // Multiple init and increment\n    int i, j;\n    for (i = 0, j = 10; i < 5; i++, j--) {\n        if (i == 2) continue;\n        if (i == 4) break;\n    }\n    printf(\"%d %d\\n\", i, j);\n    \n    // Infinite loop with break\n    int k = 0;\n    for(;;) {\n        if (++k >= 3) break;\n    }\n    printf(\"k=%d\\n\", k);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_structs::272",
+  "argv": [
+   "-run",
+   "nested_struct.c"
+  ],
+  "stdin": null,
+  "files": {
+   "nested_struct.c": "\n#include <stdio.h>\ntypedef struct {\n    int x, y;\n} Point;\n\ntypedef struct {\n    Point center;\n    double radius;\n} Circle;\n\nvoid print_circle(Circle *c) {\n    printf(\"center=(%d,%d) r=%.1f\\n\", c->center.x, c->center.y, c->radius);\n}\n\nint main() {\n    Circle c = {{3, 4}, 5.0};\n    print_circle(&c);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multi_dim_array::273",
+  "argv": [
+   "-run",
+   "multidim.c"
+  ],
+  "stdin": null,
+  "files": {
+   "multidim.c": "\n#include <stdio.h>\nint main() {\n    int mat[3][4];\n    // Fill with sequential values\n    for (int i = 0; i < 3; i++)\n        for (int j = 0; j < 4; j++)\n            mat[i][j] = i * 4 + j;\n    \n    // Print diagonal (only square portion)\n    for (int i = 0; i < 3; i++)\n        printf(\"%d \", mat[i][i]);\n    printf(\"\\n\");\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_recursive_struct::274",
+  "argv": [
+   "-run",
+   "linked_list.c"
+  ],
+  "stdin": null,
+  "files": {
+   "linked_list.c": "\n#include <stdio.h>\n#include <stdlib.h>\ntypedef struct Node {\n    int val;\n    struct Node *next;\n} Node;\n\nNode *create(int v, Node *next) {\n    Node *n = (Node*)malloc(sizeof(Node));\n    n->val = v; n->next = next;\n    return n;\n}\n\nvoid print_list(Node *n) {\n    while (n) {\n        printf(\"%d \", n->val);\n        n = n->next;\n    }\n    printf(\"\\n\");\n}\n\nint main() {\n    Node *list = create(1, create(2, create(3, NULL)));\n    print_list(list);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dwarf_with_subdir_include::275",
+  "argv": [
+   "-gdwarf",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dwarf5_generation::276",
+  "argv": [
+   "-gdwarf-5",
+   "-c",
+   "test.c",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nvoid helper_a() {}\nvoid helper_b() { helper_a(); }\nint main() { helper_b(); return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gdwarf_multiple_files::277",
+  "argv": [
+   "-gdwarf",
+   "-o",
+   "file1.c",
+   "file2.c"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.c": "\nint file1_func(int x) {\n    return x + 1;\n}\n",
+   "file2.c": "\n#include <stdio.h>\nint file1_func(int);\nint main() {\n    printf(\"%d\\n\", file1_func(41));\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stab_debug_run::278",
+  "argv": [
+   "-g",
+   "-bt",
+   "-run",
+   "stab_bt.c"
+  ],
+  "stdin": null,
+  "files": {
+   "stab_bt.c": "\nvoid crash_here(int *p) {\n    *p = 1;\n}\nvoid middle() { crash_here(0); }\nint main() { middle(); return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dwarf_backtrace_run::279",
+  "argv": [
+   "-bt",
+   "-gdwarf",
+   "-run",
+   "dwarf_crash.c"
+  ],
+  "stdin": null,
+  "files": {
+   "dwarf_crash.c": "\nvoid inner(int *p) { *p = 1; }\nvoid outer() { inner(0); }\nint main() { outer(); return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gdwarf3_generation::280",
+  "argv": [
+   "-gdwarf-3",
+   "-c",
+   "test.c",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\nint compute(int x, int y) { return x * y; }\nint main() { return compute(6, 7) - 42; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gdwarf4_generation::281",
+  "argv": [
+   "-gdwarf-4",
+   "-c",
+   "test.c",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int f(int x) { return x; } int main() { return f(0); }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_runtime_divide_by_zero::282",
+  "argv": [
+   "-bt",
+   "-run",
+   "divzero.c"
+  ],
+  "stdin": null,
+  "files": {
+   "divzero.c": "\n#include <stdio.h>\nint divide(int a, int b) { return a / b; }\nint main() {\n    printf(\"%d\\n\", divide(10, 0));\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_runtime_with_stdlib::283",
+  "argv": [
+   "-run",
+   "stdlib.c"
+  ],
+  "stdin": null,
+  "files": {
+   "stdlib.c": "\n#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\nint main() {\n    // Test various stdlib functions\n    char *buf = (char*)malloc(100);\n    if (!buf) return 1;\n    sprintf(buf, \"value=%d\", 42);\n    printf(\"%s\\n\", buf);\n    free(buf);\n    \n    int arr[] = {5,3,1,4,2};\n    // Sort manually\n    for (int i = 0; i < 4; i++)\n        for (int j = i+1; j < 5; j++)\n            if (arr[i] > arr[j]) {\n                int t = arr[i]; arr[i] = arr[j]; arr[j] = t;\n            }\n    for (int i = 0; i < 5; i++) printf(\"%d \", arr[i]);\n    printf(\"\\n\");\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pp_line_directive::284",
+  "argv": [
+   "-E",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#line 100 \"fake_file.c\"\nint main() { return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pp_warning_directive::285",
+  "argv": [
+   "-c",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#warning \"this is a custom warning\"\nint main() { return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pp_error_directive::286",
+  "argv": [
+   "-c",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#ifdef TRIGGER_ERROR\n#error \"Triggered error\"\n#endif\nint main() { return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pp_file_line_macros::287",
+  "argv": [
+   "-run",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#include <stdio.h>\nint main() {\n    printf(\"file=%s\\n\", __FILE__);\n    printf(\"line=%d\\n\", __LINE__);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pp_date_time_macros::288",
+  "argv": [
+   "-run",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#include <stdio.h>\nint main() {\n    printf(\"date=%s\\n\", __DATE__);\n    printf(\"time=%s\\n\", __TIME__);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pp_func_macro::289",
+  "argv": [
+   "-run",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#include <stdio.h>\nvoid my_function() {\n    printf(\"func=%s\\n\", __func__);\n}\nint main() {\n    my_function();\n    printf(\"main=%s\\n\", __FUNCTION__);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compound_literals::290",
+  "argv": [
+   "-run",
+   "compound.c"
+  ],
+  "stdin": null,
+  "files": {
+   "compound.c": "\n#include <stdio.h>\ntypedef struct { int x, y; } Point;\nvoid print_point(Point p) {\n    printf(\"(%d,%d)\\n\", p.x, p.y);\n}\nint main() {\n    print_point((Point){3, 4});\n    int sum = ((int[]){1,2,3,4,5})[2];\n    printf(\"sum=%d\\n\", sum);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_designated_initializers::291",
+  "argv": [
+   "-run",
+   "designated.c"
+  ],
+  "stdin": null,
+  "files": {
+   "designated.c": "\n#include <stdio.h>\ntypedef struct { int a, b, c; } S;\nint main() {\n    S s = {.b = 2, .c = 3, .a = 1};\n    printf(\"%d %d %d\\n\", s.a, s.b, s.c);\n    int arr[5] = {[1]=10, [3]=30};\n    printf(\"%d %d %d\\n\", arr[0], arr[1], arr[3]);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flexible_array_member::292",
+  "argv": [
+   "-run",
+   "flex.c"
+  ],
+  "stdin": null,
+  "files": {
+   "flex.c": "\n#include <stdio.h>\n#include <stdlib.h>\ntypedef struct {\n    int count;\n    int data[];\n} FlexArray;\nint main() {\n    int n = 5;\n    FlexArray *fa = (FlexArray*)malloc(sizeof(FlexArray) + n * sizeof(int));\n    fa->count = n;\n    for (int i = 0; i < n; i++) fa->data[i] = i * 2;\n    int sum = 0;\n    for (int i = 0; i < fa->count; i++) sum += fa->data[i];\n    printf(\"sum=%d\\n\", sum);\n    free(fa);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_restrict_qualifier::293",
+  "argv": [
+   "-run",
+   "restrict.c"
+  ],
+  "stdin": null,
+  "files": {
+   "restrict.c": "\n#include <stdio.h>\nvoid add_arrays(int *restrict a, int *restrict b, int *restrict c, int n) {\n    for (int i = 0; i < n; i++) c[i] = a[i] + b[i];\n}\nint main() {\n    int a[] = {1,2,3}, b[] = {4,5,6}, c[3];\n    add_arrays(a, b, c, 3);\n    for (int i = 0; i < 3; i++) printf(\"%d \", c[i]);\n    printf(\"\\n\");\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_typeof_operator::294",
+  "argv": [
+   "-run",
+   "typeof.c"
+  ],
+  "stdin": null,
+  "files": {
+   "typeof.c": "\n#include <stdio.h>\nint main() {\n    int x = 5;\n    typeof(x) y = 10;\n    typeof(x + y) z = x + y;\n    printf(\"%d\\n\", z);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_builtin_types::295",
+  "argv": [
+   "-run",
+   "types.c"
+  ],
+  "stdin": null,
+  "files": {
+   "types.c": "\n#include <stdio.h>\n#include <stdint.h>\nint main() {\n    uint8_t u8 = 255;\n    int8_t i8 = -1;\n    uint16_t u16 = 65535;\n    int16_t i16 = -32768;\n    uint32_t u32 = 4294967295U;\n    int32_t i32 = -2147483648;\n    printf(\"%u %d %u %d %u %d\\n\", u8, i8, u16, i16, u32, i32);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ftest_coverage_flag::296",
+  "argv": [
+   "-ftest-coverage",
+   "-run",
+   "tcov.c"
+  ],
+  "stdin": null,
+  "files": {
+   "tcov.c": "\n#include <stdio.h>\nint add(int a, int b) { return a + b; }\nint main() {\n    printf(\"%d\\n\", add(3, 4));\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ftest_coverage_complex::297",
+  "argv": [
+   "-ftest-coverage",
+   "-run",
+   "tcov_complex.c"
+  ],
+  "stdin": null,
+  "files": {
+   "tcov_complex.c": "\n#include <stdio.h>\nint classify(int n) {\n    if (n < 0) return -1;\n    if (n == 0) return 0;\n    if (n < 10) return 1;\n    return 2;\n}\nint main() {\n    for (int i = -2; i < 15; i++) {\n        int c = classify(i);\n        if (i == -1 || i == 0 || i == 5 || i == 12) {\n            printf(\"%d->%d\\n\", i, c);\n        }\n    }\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ftest_coverage_loops::298",
+  "argv": [
+   "-ftest-coverage",
+   "-run",
+   "tcov_loops.c"
+  ],
+  "stdin": null,
+  "files": {
+   "tcov_loops.c": "\n#include <stdio.h>\nint sum(int n) {\n    int s = 0;\n    for (int i = 1; i <= n; i++) s += i;\n    return s;\n}\nint main() {\n    printf(\"%d\\n\", sum(10));\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ftest_coverage_multiple_funcs::299",
+  "argv": [
+   "-ftest-coverage",
+   "-run",
+   "tcov_multi.c"
+  ],
+  "stdin": null,
+  "files": {
+   "tcov_multi.c": "\n#include <stdio.h>\nstatic int helper1(int x) { return x * 2; }\nstatic int helper2(int x) { return x * 3; }\nint main() {\n    printf(\"%d %d\\n\", helper1(5), helper2(5));\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dwarf_global_vars::300",
+  "argv": [
+   "-gdwarf",
+   "-o",
+   "dwarf_globals.c"
+  ],
+  "stdin": null,
+  "files": {
+   "dwarf_globals.c": "\nint g_int = 42;\nstatic int s_int = 100;\nint g_arr[5] = {1,2,3,4,5};\nchar g_str[] = \"hello\";\nint main() { return g_int + s_int - 142; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dwarf_local_vars::301",
+  "argv": [
+   "-gdwarf",
+   "-o",
+   "dwarf_locals.c"
+  ],
+  "stdin": null,
+  "files": {
+   "dwarf_locals.c": "\n#include <stdio.h>\nint compute(int x, int y) {\n    int a = x + y;\n    int b = a * 2;\n    int c = b - x;\n    return c;\n}\nint main() {\n    printf(\"%d\\n\", compute(3, 4));\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dwarf_struct_types::302",
+  "argv": [
+   "-gdwarf",
+   "-o",
+   "dwarf_struct.c"
+  ],
+  "stdin": null,
+  "files": {
+   "dwarf_struct.c": "\n#include <stdio.h>\ntypedef struct {\n    int x, y;\n    double val;\n} Point;\nPoint g_point = {1, 2, 3.0};\nint main() {\n    printf(\"%d %d %.1f\\n\", g_point.x, g_point.y, g_point.val);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dwarf_function_params::303",
+  "argv": [
+   "-gdwarf",
+   "-o",
+   "dwarf_params.c"
+  ],
+  "stdin": null,
+  "files": {
+   "dwarf_params.c": "\n#include <stdio.h>\nint add(int a, int b) { return a + b; }\ndouble scale(double x, double factor) { return x * factor; }\nint main() {\n    printf(\"%d %.1f\\n\", add(5, 7), scale(3.0, 2.5));\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ar_with_verbose::304",
+  "argv": [
+   "-c",
+   "func.c",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "func.c": "int f() { return 1; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ar_with_str_symbols::305",
+  "argv": [
+   "-ar",
+   "cr"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ar_invalid_options::306",
+  "argv": [
+   "-ar",
+   "-invalid.option",
+   "/tmp/test.a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ar_conflict_options::307",
+  "argv": [
+   "-ar",
+   "cx",
+   "/nonexistent.a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ar_extract_nonexistent::308",
+  "argv": [
+   "-ar",
+   "x",
+   "/nonexistent/lib.a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_incompatibility_warning::309",
+  "argv": [
+   "-c",
+   "typecomp.c"
+  ],
+  "stdin": null,
+  "files": {
+   "typecomp.c": "\n#include <stdio.h>\nstatic void f(void) {}\nvoid (*fp)(void) = f;\nint main() {\n    /* Ternary with mismatched pointer types - triggers warning */\n    void *xx = fp ? f : (void*)1;\n    printf(\"ok\\n\");\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pointer_mismatch_ternary::310",
+  "argv": [
+   "-run",
+   "ptermatch.c"
+  ],
+  "stdin": null,
+  "files": {
+   "ptermatch.c": "\n#include <stdio.h>\nint a, b;\nint main() {\n    int *p = 1 ? &a : (int*)0;\n    printf(\"%p\\n\", (void*)p);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wdiscarded_qualifiers::311",
+  "argv": [
+   "-c",
+   "-Wdiscarded-qualifiers",
+   "quals.c"
+  ],
+  "stdin": null,
+  "files": {
+   "quals.c": "\nconst int x = 5;\nint *p = &x;  /* discards const */\nint main() { return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_initializer_types::312",
+  "argv": [
+   "-run",
+   "init_types.c"
+  ],
+  "stdin": null,
+  "files": {
+   "init_types.c": "\n#include <stdio.h>\ntypedef struct { int a, b; } S;\nS arr[3] = { {1,2}, {3,4}, {5,6} };\nint flat[2][3] = { {1,2,3}, {4,5,6} };\nint main() {\n    printf(\"%d %d\\n\", arr[1].a, arr[2].b);\n    printf(\"%d %d\\n\", flat[0][2], flat[1][1]);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_type_compatibility::313",
+  "argv": [
+   "-run",
+   "functype.c"
+  ],
+  "stdin": null,
+  "files": {
+   "functype.c": "\n#include <stdio.h>\ntypedef int (*int_func)(int);\nint square(int x) { return x * x; }\nint main() {\n    int_func f = square;\n    printf(\"%d\\n\", f(5));\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_void_pointer_casting::314",
+  "argv": [
+   "-run",
+   "voidptr.c"
+  ],
+  "stdin": null,
+  "files": {
+   "voidptr.c": "\n#include <stdio.h>\n#include <stdlib.h>\nint main() {\n    void *v = malloc(100);\n    int *ip = (int*)v;\n    *ip = 42;\n    printf(\"%d\\n\", *ip);\n    free(v);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_conditional_jump_variants::315",
+  "argv": [
+   "-o",
+   "cond_jumps.S",
+   "main.c"
+  ],
+  "stdin": null,
+  "files": {
+   "cond_jumps.S": "\n.section .text\n\n# Test jz/jnz (je/jne equivalents)\n.global test_jz\ntest_jz:\n    testl %edi, %edi\n    jz .Lzero2\n    movl $1, %eax\n    ret\n.Lzero2:\n    movl $0, %eax\n    ret\n\n# Test jl/jg\n.global test_jl\ntest_jl:\n    cmpl $5, %edi\n    jl .Lless\n    movl $0, %eax\n    ret\n.Lless:\n    movl $1, %eax\n    ret\n\n# Test loop instruction\n.global test_loop\ntest_loop:\n    movl $0, %eax\n    movl $5, %ecx\n.Lloop:\n    addl $1, %eax\n    loop .Lloop\n    ret\n",
+   "main.c": "\n#include <stdio.h>\nint test_jz(int x);\nint test_jl(int x);\nint test_loop();\nint main() {\n    printf(\"%d %d\\n\", test_jz(0), test_jz(1));\n    printf(\"%d %d\\n\", test_jl(3), test_jl(7));\n    printf(\"%d\\n\", test_loop());\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_string_instructions::316",
+  "argv": [
+   "-run",
+   "str_instrs.c"
+  ],
+  "stdin": null,
+  "files": {
+   "str_instrs.c": "\n#include <stdio.h>\n#include <string.h>\nint main() {\n    char src[10] = \"hello\";\n    char dst[10] = {0};\n    // Use rep movsb\n    __asm__ volatile (\n        \"movq %1, %%rsi\\n\"\n        \"movq %0, %%rdi\\n\"\n        \"movl $5, %%ecx\\n\"\n        \"rep movsb\\n\"\n        :\n        : \"r\"(dst), \"r\"(src)\n        : \"rsi\", \"rdi\", \"rcx\", \"memory\"\n    );\n    printf(\"copied: %s\\n\", dst);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_with_macros::317",
+  "argv": [
+   "-run",
+   "asm_macro.c"
+  ],
+  "stdin": null,
+  "files": {
+   "asm_macro.c": "\n#include <stdio.h>\n#define ASM_ADD(a, b, r) __asm__(\"addl %2, %0\" : \"=r\"(r) : \"0\"(a), \"r\"(b))\nint main() {\n    int x = 5, y = 10, result = 0;\n    ASM_ADD(x, y, result);\n    printf(\"%d\\n\", result);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_struct_access::318",
+  "argv": [
+   "-run",
+   "asm_struct.c"
+  ],
+  "stdin": null,
+  "files": {
+   "asm_struct.c": "\n#include <stdio.h>\ntypedef struct { int a, b; } MyStruct;\nint main() {\n    MyStruct s = {10, 20};\n    int result;\n    __asm__ (\n        \"movl %1, %0\\n\"\n        \"addl %2, %0\\n\"\n        : \"=r\"(result)\n        : \"m\"(s.a), \"m\"(s.b)\n    );\n    printf(\"%d\\n\", result);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_warn_error_specific::319",
+  "argv": [
+   "-c",
+   "-Werror=implicit-function-declaration",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { int x; return x; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_Wno_all::320",
+  "argv": [
+   "-c",
+   "-Wno-all",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { undeclared_func(); return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_D_flags::321",
+  "argv": [
+   "-DA=1",
+   "-DB=2",
+   "-DC=3",
+   "-run",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#include <stdio.h>\nint main() {\n    printf(\"%d %d %d\\n\", A, B, C);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_U_flag_undefines::322",
+  "argv": [
+   "-U__linux__",
+   "-run",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#include <stdio.h>\nint main() {\n#ifdef __linux__\n    printf(\"linux\\n\");\n#else\n    printf(\"not linux\\n\");\n#endif\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_isystem_with_system_header::323",
+  "argv": [
+   "-run",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#include <myheader.h>\n#include <stdio.h>\nint main() { printf(\"%d\\n\", MYSYM); return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nostdinc_with_explicit_include::324",
+  "argv": [
+   "-nostdinc",
+   "-run",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "\n#include <stdio.h>\nint main() { printf(\"hello\\n\"); return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_got::325",
+  "argv": [
+   "-shared",
+   "-o",
+   "libwithgot.c"
+  ],
+  "stdin": null,
+  "files": {
+   "libwithgot.c": "\n#include <stdio.h>\n// Export a global variable (triggers GOT entry)\nint shared_global = 100;\n// Export a function that references another exported symbol\nint get_shared_global() { return shared_global; }\nint compute(int x) { return x + shared_global; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_plt_entries::326",
+  "argv": [
+   "-shared",
+   "-o",
+   "pltest.c"
+  ],
+  "stdin": null,
+  "files": {
+   "pltest.c": "\nextern int printf(const char*, ...);\nvoid lib_print(const char *msg) {\n    printf(\"%s\\n\", msg);  // Calls printf via PLT\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shared_lib_complex::327",
+  "argv": [
+   "-shared",
+   "-o",
+   "complex_lib.c"
+  ],
+  "stdin": null,
+  "files": {
+   "complex_lib.c": "\n#include <string.h>\n// Various types of exports\nint counter = 0;\nvoid increment() { counter++; }\nint get_counter() { return counter; }\nint string_length(const char *s) { return strlen(s); }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_builtin_types_compatible_p::328",
+  "argv": [
+   "-run",
+   "compat.c"
+  ],
+  "stdin": null,
+  "files": {
+   "compat.c": "\n#include <stdio.h>\nint main() {\n    int r1 = __builtin_types_compatible_p(int, int);\n    int r2 = __builtin_types_compatible_p(int, float);\n    int r3 = __builtin_types_compatible_p(char*, char*);\n    printf(\"%d %d %d\\n\", r1, r2, r3);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_builtin_choose_expr::329",
+  "argv": [
+   "-run",
+   "choose.c"
+  ],
+  "stdin": null,
+  "files": {
+   "choose.c": "\n#include <stdio.h>\nint main() {\n    int x = __builtin_choose_expr(1, 42, 99);\n    int y = __builtin_choose_expr(0, 42, 99);\n    printf(\"%d %d\\n\", x, y);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generic_expression::330",
+  "argv": [
+   "-run",
+   "generic.c"
+  ],
+  "stdin": null,
+  "files": {
+   "generic.c": "\n#include <stdio.h>\n#define type_name(x) _Generic((x), \\\n    int: \"int\", \\\n    float: \"float\", \\\n    double: \"double\", \\\n    default: \"other\")\nint main() {\n    int i = 0;\n    float f = 0.0f;\n    double d = 0.0;\n    printf(\"%s %s %s\\n\", type_name(i), type_name(f), type_name(d));\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_label_address::331",
+  "argv": [
+   "-run",
+   "label_addr.c"
+  ],
+  "stdin": null,
+  "files": {
+   "label_addr.c": "\n#include <stdio.h>\nint main() {\n    void *label_ptr;\n    int x = 0;\n    label_ptr = &&my_label;\n    goto *label_ptr;\n    x = -1;\n    my_label:\n    printf(\"x=%d\\n\", x);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_builtin_mode_attributes::332",
+  "argv": [
+   "-run",
+   "mode.c"
+  ],
+  "stdin": null,
+  "files": {
+   "mode.c": "\n#include <stdio.h>\ntypedef unsigned int __u32 __attribute__((__mode__(SI)));\ntypedef unsigned short __u16 __attribute__((__mode__(HI)));\nint main() {\n    __u32 a = 100;\n    __u16 b = 200;\n    printf(\"%d %d\\n\", a, b);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_attribute_packed::333",
+  "argv": [
+   "-run",
+   "packed.c"
+  ],
+  "stdin": null,
+  "files": {
+   "packed.c": "\n#include <stdio.h>\ntypedef struct __attribute__((packed)) {\n    char c;\n    int i;\n    short s;\n} PackedStruct;\nint main() {\n    PackedStruct ps;\n    ps.c = 1; ps.i = 2; ps.s = 3;\n    printf(\"size=%zu %d %d %d\\n\", sizeof(ps), ps.c, ps.i, ps.s);\n    // Packed struct should be 7 bytes, not 8\n    printf(\"packed=%d\\n\", sizeof(ps) == 7);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_attribute_aligned::334",
+  "argv": [
+   "-run",
+   "aligned.c"
+  ],
+  "stdin": null,
+  "files": {
+   "aligned.c": "\n#include <stdio.h>\nint __attribute__((aligned(16))) aligned_var = 42;\ntypedef struct {\n    char c;\n    int  i __attribute__((aligned(8)));\n} AlignedStruct;\nint main() {\n    AlignedStruct as;\n    as.c = 1; as.i = 2;\n    printf(\"size=%zu val=%d\\n\", sizeof(as), aligned_var);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_typeof_expression::335",
+  "argv": [
+   "-run",
+   "typeof.c"
+  ],
+  "stdin": null,
+  "files": {
+   "typeof.c": "\n#include <stdio.h>\nint main() {\n    int x = 5;\n    typeof(x * 2.0) d = x * 2.0;  // double\n    typeof(x + x) y = x + x;       // int\n    printf(\"%.1f %d\\n\", d, y);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compound_statements_as_expressions::336",
+  "argv": [
+   "-run",
+   "compound_expr.c"
+  ],
+  "stdin": null,
+  "files": {
+   "compound_expr.c": "\n#include <stdio.h>\nint main() {\n    int result = ({\n        int a = 5;\n        int b = 10;\n        a + b;\n    });\n    printf(\"%d\\n\", result);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_functions_pointers::337",
+  "argv": [
+   "-run",
+   "funcptrs.c"
+  ],
+  "stdin": null,
+  "files": {
+   "funcptrs.c": "\n#include <stdio.h>\ntypedef int (*op_t)(int, int);\nint add(int a, int b) { return a + b; }\nint sub(int a, int b) { return a - b; }\nint mul(int a, int b) { return a * b; }\nop_t get_op(char c) {\n    switch(c) {\n    case '+': return add;\n    case '-': return sub;\n    case '*': return mul;\n    default: return 0;\n    }\n}\nint main() {\n    char ops[] = {'+', '-', '*'};\n    for (int i = 0; i < 3; i++) {\n        op_t op = get_op(ops[i]);\n        if (op) printf(\"%d\\n\", op(10, 3));\n    }\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_variadic_macros_edge::338",
+  "argv": [
+   "-run",
+   "va_macros.c"
+  ],
+  "stdin": null,
+  "files": {
+   "va_macros.c": "\n#include <stdio.h>\n#define LOG(fmt, ...) printf(\"LOG: \" fmt \"\\n\", ##__VA_ARGS__)\n#define MAX3(a, b, c) ((a) > (b) ? ((a) > (c) ? (a) : (c)) : ((b) > (c) ? (b) : (c)))\nint main() {\n    LOG(\"simple message\");\n    LOG(\"value=%d\", 42);\n    printf(\"max3=%d\\n\", MAX3(3, 7, 5));\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_static_assert::339",
+  "argv": [
+   "-run",
+   "static_assert.c"
+  ],
+  "stdin": null,
+  "files": {
+   "static_assert.c": "\n#include <stdio.h>\n_Static_assert(sizeof(int) == 4, \"int must be 4 bytes\");\n_Static_assert(sizeof(char) == 1, \"char must be 1 byte\");\nint main() {\n    printf(\"assertions passed\\n\");\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_expressions_operators::340",
+  "argv": [
+   "-run",
+   "comma.c"
+  ],
+  "stdin": null,
+  "files": {
+   "comma.c": "\n#include <stdio.h>\nint main() {\n    int a, b, c;\n    // Comma operator\n    c = (a = 1, b = 2, a + b);\n    printf(\"comma: %d\\n\", c);\n    \n    // Complex assignment in condition\n    int x = 5;\n    while ((x -= 1) > 2) {\n        printf(\"x=%d\\n\", x);\n    }\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wide_chars::341",
+  "argv": [
+   "-run",
+   "wchar.c"
+  ],
+  "stdin": null,
+  "files": {
+   "wchar.c": "\n#include <stdio.h>\nint main() {\n    wchar_t wc = L'A';\n    printf(\"wchar=%d\\n\", (int)wc);\n    wchar_t ws[] = L\"hello\";\n    printf(\"wsize=%zu\\n\", sizeof(ws));\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_integer_overflow::342",
+  "argv": [
+   "-run",
+   "overflow.c"
+  ],
+  "stdin": null,
+  "files": {
+   "overflow.c": "\n#include <stdio.h>\nint main() {\n    unsigned int u = 0xFFFFFFFF;\n    u++;\n    printf(\"overflow=%u\\n\", u);\n    \n    int i = 0x7FFFFFFF;\n    i++;\n    printf(\"signed overflow=%d\\n\", i);\n    \n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wide_string_literals::343",
+  "argv": [
+   "-run",
+   "widelit.c"
+  ],
+  "stdin": null,
+  "files": {
+   "widelit.c": "\n#include <stdio.h>\nint main() {\n    wchar_t wc = L'A';\n    wchar_t ws[] = L\"hello\";\n    printf(\"wchar=%d size=%zu\\n\", (int)wc, sizeof(ws));\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_escape_in_string::344",
+  "argv": [
+   "-run",
+   "unicode.c"
+  ],
+  "stdin": null,
+  "files": {
+   "unicode.c": "\n#include <stdio.h>\nint main() {\n    char s[] = \"\\x41\\x42\\x43\";  // ABC\n    printf(\"%s\\n\", s);\n    // Wide char with non-ASCII\n    wchar_t wc = L'\\u0041';  // 'A' = 65\n    printf(\"wc=%d\\n\", (int)wc);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_macro_with_escape_chars::345",
+  "argv": [
+   "-run",
+   "esc_macro.c"
+  ],
+  "stdin": null,
+  "files": {
+   "esc_macro.c": "\n#define NEWLINE '\\n'\n#define TAB '\\t'\n#define NULL_CHAR '\\0'\n#define BELL '\\a'\n#include <stdio.h>\nint main() {\n    printf(\"nl=%d tab=%d null=%d bell=%d\\n\", NEWLINE, TAB, NULL_CHAR, BELL);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_crlf_line_endings::346",
+  "argv": [
+   "-run",
+   "crlf.c"
+  ],
+  "stdin": null,
+  "files": {
+   "crlf.c": "#include <stdio.h>\r\nint main() {\r\n    printf(\"crlf\\n\");\r\n    return 0;\r\n}\r\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiline_string_continuation::347",
+  "argv": [
+   "-run",
+   "multiline.c"
+  ],
+  "stdin": null,
+  "files": {
+   "multiline.c": "\n#include <stdio.h>\nconst char *s = \"hello \"\n                \"world\";\nint main() {\n    printf(\"%s\\n\", s);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_token_stringification::348",
+  "argv": [
+   "-run",
+   "stringify.c"
+  ],
+  "stdin": null,
+  "files": {
+   "stringify.c": "\n#include <stdio.h>\n#define STRINGIFY(x) #x\nint main() {\n    printf(STRINGIFY(hello world));\n    printf(\"\\n\");\n    printf(STRINGIFY(3.14));\n    printf(\"\\n\");\n    printf(STRINGIFY(a+b));\n    printf(\"\\n\");\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_numbers::349",
+  "argv": [
+   "-run",
+   "largenum.c"
+  ],
+  "stdin": null,
+  "files": {
+   "largenum.c": "\n#include <stdio.h>\nint main() {\n    long long max = 9223372036854775807LL;\n    unsigned long long umax = 18446744073709551615ULL;\n    printf(\"%lld %llu\\n\", max, umax);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hex_literals::350",
+  "argv": [
+   "-run",
+   "hex.c"
+  ],
+  "stdin": null,
+  "files": {
+   "hex.c": "\n#include <stdio.h>\nint main() {\n    int a = 0xDEAD;\n    unsigned b = 0xBEEFu;\n    long c = 0xCAFEL;\n    unsigned long long d = 0xFFFFFFFFFFFFFFFFULL;\n    printf(\"%x %x %lx %llx\\n\", a, b, c, d);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_octal_literals::351",
+  "argv": [
+   "-run",
+   "octal.c"
+  ],
+  "stdin": null,
+  "files": {
+   "octal.c": "\n#include <stdio.h>\nint main() {\n    int a = 0777;  // 511\n    int b = 0100;  // 64\n    int c = 010;   // 8\n    printf(\"%d %d %d\\n\", a, b, c);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_float_literals_formats::352",
+  "argv": [
+   "-run",
+   "floatlit.c"
+  ],
+  "stdin": null,
+  "files": {
+   "floatlit.c": "\n#include <stdio.h>\nint main() {\n    float f1 = 1.5f;\n    float f2 = 1.5e0f;\n    double d1 = 3.14;\n    double d2 = 3.14e0;\n    long double ld = 1.0L;\n    printf(\"%.1f %.1f %.2f %.2f %.1Lf\\n\", f1, f2, d1, d2, ld);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_escape_sequences::353",
+  "argv": [
+   "-run",
+   "escapes.c"
+  ],
+  "stdin": null,
+  "files": {
+   "escapes.c": "\n#include <stdio.h>\nint main() {\n    printf(\"bell=\\a\\n\");  // bell\n    printf(\"backspace=\\b\\n\");\n    printf(\"tab=\\t|\\n\");\n    printf(\"newline=\\n|\\n\");\n    printf(\"carriage=\\r|\\n\");\n    printf(\"hex=\\x41\\n\");  // A\n    printf(\"oct=\\101\\n\");  // A\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bit_manipulation::354",
+  "argv": [
+   "-run",
+   "bits.c"
+  ],
+  "stdin": null,
+  "files": {
+   "bits.c": "\n#include <stdio.h>\nint popcount(unsigned int x) {\n    int count = 0;\n    while (x) { count += x & 1; x >>= 1; }\n    return count;\n}\nunsigned int reverse_bits(unsigned int x) {\n    unsigned int r = 0;\n    for (int i = 0; i < 32; i++) {\n        r = (r << 1) | (x & 1);\n        x >>= 1;\n    }\n    return r;\n}\nint main() {\n    printf(\"pop(0xFF)=%d\\n\", popcount(0xFF));\n    printf(\"pop(0xF0)=%d\\n\", popcount(0xF0));\n    unsigned int rev = reverse_bits(0x80000001);\n    printf(\"rev=%08x\\n\", rev);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_warn_unsupported::355",
+  "argv": [
+   "-pipe",
+   "-c",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignored_options::356",
+  "argv": [
+   "-arch",
+   "x86_64",
+   "-pipe",
+   "-pedantic",
+   "-o",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wl_dynamic_linker::357",
+  "argv": [
+   "-Wl,-dynamic-linker=/lib64/ld-linux-x86-64.so.2",
+   "-o",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wl_export_dynamic::358",
+  "argv": [
+   "-Wl,-export-dynamic",
+   "-o",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "#include <stdio.h>\nint main() { printf(\"dynamic\\n\"); return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_balign::359",
+  "argv": [
+   "-o",
+   "balign.S",
+   "main.c"
+  ],
+  "stdin": null,
+  "files": {
+   "balign.S": "\n.section .data\n.byte 1\n.balign 4\naligned_val: .long 42\n\n.section .text\n.global get_aligned\nget_aligned:\n    movl aligned_val(%rip), %eax\n    ret\n",
+   "main.c": "\n#include <stdio.h>\nint get_aligned();\nint main() {\n    printf(\"val=%d\\n\", get_aligned());\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_p2align::360",
+  "argv": [
+   "-o",
+   "p2align.S",
+   "main.c"
+  ],
+  "stdin": null,
+  "files": {
+   "p2align.S": "\n.section .data\n.byte 1\n.p2align 2  /* align to 4 = 2^2 bytes */\np2_val: .long 99\n\n.section .text\n.global get_p2val\nget_p2val:\n    movl p2_val(%rip), %eax\n    ret\n",
+   "main.c": "\n#include <stdio.h>\nint get_p2val();\nint main() {\n    printf(\"p2=%d\\n\", get_p2val());\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_rept_directive::361",
+  "argv": [
+   "-c",
+   "rept.S",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "rept.S": "\n.section .data\n.rept 4\n    .byte 0xAB\n.endr\nsentinel: .byte 0\n\n.section .text\n.global get_rept\nget_rept:\n    movzbl rept_data(%rip), %eax\n    ret\n\n.section .data\nrept_data:\n.rept 3\n    .byte 0x01\n.endr\n.byte 0\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_builtin_constant_p::362",
+  "argv": [
+   "-run",
+   "const_p.c"
+  ],
+  "stdin": null,
+  "files": {
+   "const_p.c": "\n#include <stdio.h>\nint main() {\n    int x = 5;\n    printf(\"%d %d\\n\", __builtin_constant_p(x), __builtin_constant_p(42));\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_builtin_frame_address::363",
+  "argv": [
+   "-run",
+   "frame_addr.c"
+  ],
+  "stdin": null,
+  "files": {
+   "frame_addr.c": "\n#include <stdio.h>\nint main() {\n    void *fp = __builtin_frame_address(0);\n    printf(\"fp=%s\\n\", fp ? \"non-null\" : \"null\");\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_builtin_return_address::364",
+  "argv": [
+   "-run",
+   "ret_addr.c"
+  ],
+  "stdin": null,
+  "files": {
+   "ret_addr.c": "\n#include <stdio.h>\nint main() {\n    void *ra = __builtin_return_address(0);\n    printf(\"ra=%s\\n\", ra ? \"non-null\" : \"null\");\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_builtin_unreachable::365",
+  "argv": [
+   "-run",
+   "unreachable.c"
+  ],
+  "stdin": null,
+  "files": {
+   "unreachable.c": "\n#include <stdio.h>\nint main() {\n    int x = 1;\n    if (0) __builtin_unreachable();\n    printf(\"ok\\n\");\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_builtin_popcount_clz_ctz::366",
+  "argv": [
+   "-run",
+   "bitcount.c"
+  ],
+  "stdin": null,
+  "files": {
+   "bitcount.c": "\n#include <stdio.h>\nint main() {\n    printf(\"popcount=%d\\n\", __builtin_popcount(0xF0F0));\n    printf(\"clz=%d\\n\", __builtin_clz(0x80000000));\n    printf(\"ctz=%d\\n\", __builtin_ctz(0x80000000));\n    printf(\"parity=%d\\n\", __builtin_parity(0xF));\n    // 64-bit variants\n    printf(\"popcountll=%d\\n\", __builtin_popcountll(0xFFFFFFFFFFFFFFFFULL));\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_builtin_expect::367",
+  "argv": [
+   "-run",
+   "expect.c"
+  ],
+  "stdin": null,
+  "files": {
+   "expect.c": "\n#include <stdio.h>\nint main() {\n    int x = 5;\n    // These are hints, not guaranteed to change behavior\n    if (__builtin_expect(x > 0, 1)) {\n        printf(\"likely\\n\");\n    }\n    if (__builtin_expect(x < 0, 0)) {\n        printf(\"unlikely\\n\");\n    } else {\n        printf(\"not unlikely\\n\");\n    }\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_builtin_prefetch::368",
+  "argv": [
+   "-run",
+   "prefetch.c"
+  ],
+  "stdin": null,
+  "files": {
+   "prefetch.c": "\n#include <stdio.h>\nint arr[1000];\nint main() {\n    // __builtin_prefetch is not supported by TCC - should give warning but compile\n    arr[0] = 42;\n    printf(\"%d\\n\", arr[0]);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_function_declarations::369",
+  "argv": [
+   "-run",
+   "complex_decl.c"
+  ],
+  "stdin": null,
+  "files": {
+   "complex_decl.c": "\n#include <stdio.h>\n// Function returning a pointer to function\nint (*make_adder(int n))(int) { \n    // This is a simplified version - just return 0 for now\n    (void)n;\n    return 0;\n}\n// Array of function pointers\nint add(int a, int b) { return a + b; }\nint sub(int a, int b) { return a - b; }\nint (*operations[2])(int, int) = { add, sub };\nint main() {\n    printf(\"%d %d\\n\", operations[0](10, 3), operations[1](10, 3));\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_variadic_function::370",
+  "argv": [
+   "-run",
+   "variadic.c"
+  ],
+  "stdin": null,
+  "files": {
+   "variadic.c": "\n#include <stdio.h>\n#include <stdarg.h>\nint sum_all(int count, ...) {\n    va_list ap;\n    va_start(ap, count);\n    int total = 0;\n    for (int i = 0; i < count; i++) {\n        total += va_arg(ap, int);\n    }\n    va_end(ap);\n    return total;\n}\ndouble avg_all(int count, ...) {\n    va_list ap;\n    va_start(ap, count);\n    double total = 0;\n    for (int i = 0; i < count; i++) {\n        total += va_arg(ap, double);\n    }\n    va_end(ap);\n    return total / count;\n}\nint main() {\n    printf(\"sum=%d\\n\", sum_all(5, 1, 2, 3, 4, 5));\n    printf(\"avg=%.1f\\n\", avg_all(3, 1.0, 2.0, 3.0));\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inline_functions::371",
+  "argv": [
+   "-run",
+   "inline.c"
+  ],
+  "stdin": null,
+  "files": {
+   "inline.c": "\n#include <stdio.h>\nstatic inline int fast_add(int a, int b) { return a + b; }\nstatic inline int fast_mul(int a, int b) { return a * b; }\nint main() {\n    printf(\"%d %d\\n\", fast_add(3, 4), fast_mul(3, 4));\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extern_declarations::372",
+  "argv": [
+   "-o",
+   "global.c",
+   "main.c"
+  ],
+  "stdin": null,
+  "files": {
+   "global.c": "\nint g_value = 42;\nchar g_buf[] = \"hello\";\ndouble g_double = 3.14;\n",
+   "main.c": "\n#include <stdio.h>\nextern int g_value;\nextern char g_buf[];\nextern double g_double;\nint main() {\n    printf(\"%d %s %.2f\\n\", g_value, g_buf, g_double);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_multibyte_instructions::373",
+  "argv": [
+   "-o",
+   "multibyte.S",
+   "main.c"
+  ],
+  "stdin": null,
+  "files": {
+   "multibyte.S": "\n.section .text\n.global test_byte_word_long\ntest_byte_word_long:\n    # Test various instruction sizes\n    movb $1, %al\n    movw $0x0100, %ax\n    movl $0x01000000, %eax\n    movzbq %al, %rax\n    ret\n\n.global test_extend\ntest_extend:\n    movl %edi, %edi    # zero-extend\n    movl $0, %eax\n    cmpl $0, %edi\n    setne %al\n    movzbl %al, %eax\n    ret\n",
+   "main.c": "\n#include <stdio.h>\nlong test_byte_word_long();\nint test_extend(int x);\nint main() {\n    printf(\"val=%ld\\n\", test_byte_word_long());\n    printf(\"ext0=%d ext1=%d\\n\", test_extend(0), test_extend(5));\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_call_instruction::374",
+  "argv": [
+   "-o",
+   "call.S",
+   "main.c"
+  ],
+  "stdin": null,
+  "files": {
+   "call.S": "\n.section .text\n.global asm_helper\nasm_helper:\n    movl $42, %eax\n    ret\n\n.global test_call\ntest_call:\n    call asm_helper\n    ret\n",
+   "main.c": "\n#include <stdio.h>\nint test_call();\nint main() {\n    printf(\"call=%d\\n\", test_call());\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_file_directive::375",
+  "argv": [
+   "-c",
+   "file_dir.S",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "file_dir.S": "\n.file \"myfile.c\"\n.section .text\n.global dummy_func\ndummy_func:\n    movl $0, %eax\n    ret\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_ident_directive::376",
+  "argv": [
+   "-Wunsupported",
+   "-c",
+   "ident.S",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "ident.S": "\n.ident \"My Assembler: 1.0\"\n.section .text\n.global ident_func\nident_func:\n    movl $1, %eax\n    ret\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_type_function::377",
+  "argv": [
+   "-c",
+   "type_dir.S",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "type_dir.S": "\n.section .text\n.global my_func\n.type my_func, @function\nmy_func:\n    movl $42, %eax\n    ret\n.size my_func, . - my_func\n\n.section .data\n.global my_obj\n.type my_obj, @object\nmy_obj: .long 123\n.size my_obj, . - my_obj\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_section_with_flags::378",
+  "argv": [
+   "-c",
+   "sect_flags.S",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "sect_flags.S": "\n.section .mysect, \"ax\"\n.global sect_func\nsect_func:\n    movl $99, %eax\n    ret\n\n.section .mydata, \"aw\"\n.global sect_data\nsect_data:\n    .long 42\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_code64_directive::379",
+  "argv": [
+   "-c",
+   "code64.S",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "code64.S": "\n.section .text\n.code64\n.global code64_func\ncode64_func:\n    movl $0x64, %eax\n    ret\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_init_fini_sections::380",
+  "argv": [
+   "-c",
+   "init_fini.S",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "init_fini.S": "\n.section .init\n    # init code\n    nop\n\n.section .fini\n    # fini code\n    nop\n\n.section .text\n.global dummy\ndummy:\n    ret\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_local_labels_complex::381",
+  "argv": [
+   "-run",
+   "local_lbl.c"
+  ],
+  "stdin": null,
+  "files": {
+   "local_lbl.c": "\n#include <stdio.h>\nint main() {\n    int result = 0;\n    int i;\n    // Use local labels with multiple occurrences\n    for (i = 0; i < 5; i++) {\n        __asm__ (\n            \"addl $1, %0\\n\"\n            : \"+r\"(result)\n        );\n    }\n    printf(\"result=%d\\n\", result);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wl_as_needed::382",
+  "argv": [
+   "-Wl,-as-needed",
+   "-o",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wl_O_option::383",
+  "argv": [
+   "-Wl,-O",
+   "-o",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wl_z_option::384",
+  "argv": [
+   "-Wl,-z=now",
+   "-o",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wl_init_fini::385",
+  "argv": [
+   "-Wl,-init=my_init",
+   "-o",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wl_Map::386",
+  "argv": [
+   "-Wl,-Map=/tmp/test.map",
+   "-o",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wl_multiple_options::387",
+  "argv": [
+   "-Wl,-rpath=/tmp,-O",
+   "-o",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "#include <stdio.h>\nint main() { printf(\"ok\\n\"); return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inline_asm_goto::388",
+  "argv": [
+   "-run",
+   "asm_output.c"
+  ],
+  "stdin": null,
+  "files": {
+   "asm_output.c": "\n#include <stdio.h>\nint main() {\n    int a = 10, b = 20, max;\n    // Use inline asm to find max\n    __asm__ (\n        \"cmpl %2, %1\\n\"\n        \"jge .Lmax_done\\n\"\n        \"movl %2, %1\\n\"\n        \".Lmax_done: movl %1, %0\\n\"\n        : \"=r\"(max)\n        : \"r\"(a), \"r\"(b)\n    );\n    printf(\"max=%d\\n\", max);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_conditional_asm::389",
+  "argv": [
+   "-run",
+   "cond_asm.c"
+  ],
+  "stdin": null,
+  "files": {
+   "cond_asm.c": "\n#include <stdio.h>\nstatic int asm_abs(int x) {\n    int result;\n    __asm__ (\n        \"movl %1, %0\\n\"\n        \"testl %0, %0\\n\"\n        \"jns .Labs_done\\n\"\n        \"negl %0\\n\"\n        \".Labs_done:\\n\"\n        : \"=r\"(result)\n        : \"r\"(x)\n    );\n    return result;\n}\nint main() {\n    printf(\"%d %d %d\\n\", asm_abs(5), asm_abs(-5), asm_abs(0));\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_long_long_operations::390",
+  "argv": [
+   "-run",
+   "ll_ops.c"
+  ],
+  "stdin": null,
+  "files": {
+   "ll_ops.c": "\n#include <stdio.h>\nint main() {\n    long long a = 1000000000LL * 1000000000LL;\n    long long b = a + 1;\n    unsigned long long u = 0xFFFFFFFFFFFFFFFFULL;\n    printf(\"a=%lld b=%lld u=%llu\\n\", a, b, u);\n    printf(\"a>>32=%lld\\n\", a >> 32);\n    printf(\"a<<1=%lld\\n\", (a & 0x3FFFFFFFFFFFFFFFLL) << 1);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_struct_init::391",
+  "argv": [
+   "-run",
+   "struct_init.c"
+  ],
+  "stdin": null,
+  "files": {
+   "struct_init.c": "\n#include <stdio.h>\n#include <string.h>\ntypedef struct {\n    int type;\n    union {\n        int i;\n        float f;\n        char s[32];\n    } value;\n} Variant;\n\nint main() {\n    Variant v1 = { 1, { .i = 42 } };\n    Variant v2 = { 2, { .f = 3.14f } };\n    Variant v3;\n    v3.type = 3;\n    strncpy(v3.value.s, \"hello\", sizeof(v3.value.s)-1);\n    \n    printf(\"int=%d float=%.2f str=%s\\n\", v1.value.i, v2.value.f, v3.value.s);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_macros_expansion::392",
+  "argv": [
+   "-run",
+   "nested_macro.c"
+  ],
+  "stdin": null,
+  "files": {
+   "nested_macro.c": "\n#include <stdio.h>\n#define A(x) B(x)\n#define B(x) C(x)\n#define C(x) (x * 2)\n#define SUM(a, b) ((a) + (b))\n#define APPLY(f, x) f(x)\nint main() {\n    printf(\"A(5)=%d\\n\", A(5));\n    printf(\"SUM=%d\\n\", SUM(3, APPLY(A, 4)));  // SUM(3, A(4)) = SUM(3, 8) = 11\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gnu_attributes::393",
+  "argv": [
+   "-o",
+   "attrs_gnu.c"
+  ],
+  "stdin": null,
+  "files": {
+   "attrs_gnu.c": "\n#include <stdio.h>\n__attribute__((unused)) static void unused_fn2() { }\n__attribute__((visibility(\"default\"))) int pub_fn2() { return 99; }\n// packed struct of 3 chars = 3 bytes\nstruct __attribute__((packed)) pst2 { char a; char b; char c; };\nint main() {\n    printf(\"pub=%d\\n\", pub_fn2());\n    printf(\"sz=%d\\n\", (int)sizeof(struct pst2));\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_return_values::394",
+  "argv": [
+   "-run",
+   "struct_ret.c"
+  ],
+  "stdin": null,
+  "files": {
+   "struct_ret.c": "\n#include <stdio.h>\ntypedef struct { int x, y; } Point;\ntypedef struct { double a, b, c; } Triple;\n\nPoint make_point(int x, int y) { return (Point){x, y}; }\nTriple make_triple(double a, double b, double c) { \n    Triple t = {a, b, c}; \n    return t; \n}\n\nint main() {\n    Point p = make_point(3, 4);\n    Triple t = make_triple(1.1, 2.2, 3.3);\n    printf(\"p=%d,%d\\n\", p.x, p.y);\n    printf(\"t=%.1f,%.1f,%.1f\\n\", t.a, t.b, t.c);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_pointer_casting::395",
+  "argv": [
+   "-run",
+   "ptrcast.c"
+  ],
+  "stdin": null,
+  "files": {
+   "ptrcast.c": "\n#include <stdio.h>\n#include <stdint.h>\nint main() {\n    // Cast between different integer pointer types\n    uint64_t val = 0x0102030405060708ULL;\n    uint8_t *b = (uint8_t*)&val;\n    \n    // Check byte order (little-endian on x86)\n    printf(\"b[0]=%02x b[7]=%02x\\n\", b[0], b[7]);\n    \n    // Double-pointer cast\n    int x = 42;\n    void *vp = &x;\n    int *ip = (int*)vp;\n    printf(\"val=%d\\n\", *ip);\n    \n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_function_pointers_array::396",
+  "argv": [
+   "-o",
+   "funcptr_arr.c",
+   "-lm"
+  ],
+  "stdin": null,
+  "files": {
+   "funcptr_arr.c": "\n#include <stdio.h>\n#include <math.h>\ntypedef double (*mathfunc)(double);\nmathfunc funcs[] = {\n    sqrt,\n    fabs,\n};\nint main() {\n    for (int i = 0; i < 2; i++) {\n        printf(\"%.1f\\n\", funcs[i](4.0));\n    }\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_register_constraints::397",
+  "argv": [
+   "-run",
+   "reg_constraints.c"
+  ],
+  "stdin": null,
+  "files": {
+   "reg_constraints.c": "\n#include <stdio.h>\nint main() {\n    int r;\n    // 'b' = rbx/ebx register\n    __asm__ (\"movl %1, %0\" : \"=r\"(r) : \"b\"(11));\n    printf(\"b=%d\\n\", r);\n    // 'c' = rcx/ecx register\n    __asm__ (\"movl %1, %0\" : \"=r\"(r) : \"c\"(12));\n    printf(\"c=%d\\n\", r);\n    // 'd' = rdx/edx register\n    __asm__ (\"movl %1, %0\" : \"=r\"(r) : \"d\"(13));\n    printf(\"d=%d\\n\", r);\n    // 'S' = rsi/esi register\n    __asm__ (\"movl %1, %0\" : \"=r\"(r) : \"S\"(14));\n    printf(\"S=%d\\n\", r);\n    // 'D' = rdi/edi register\n    __asm__ (\"movl %1, %0\" : \"=r\"(r) : \"D\"(15));\n    printf(\"D=%d\\n\", r);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_immediate_constraint::398",
+  "argv": [
+   "-run",
+   "imm_constraint.c"
+  ],
+  "stdin": null,
+  "files": {
+   "imm_constraint.c": "\n#include <stdio.h>\nint main() {\n    int result;\n    // 'i' = immediate integer\n    __asm__ (\"movl $42, %0\" : \"=r\"(result));\n    printf(\"%d\\n\", result);\n    // 'n' = integer immediate not needing to be in a particular range\n    int x = 100;\n    __asm__ (\"addl %1, %0\" : \"+r\"(x) : \"i\"(5));\n    printf(\"%d\\n\", x);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_match_constraint::399",
+  "argv": [
+   "-run",
+   "match_constraint.c"
+  ],
+  "stdin": null,
+  "files": {
+   "match_constraint.c": "\n#include <stdio.h>\nint main() {\n    int x = 5, y = 3;\n    // 0 matches first output (a += b using matching constraint)\n    __asm__ (\"addl %2, %0\" : \"=r\"(x) : \"0\"(x), \"r\"(y));\n    printf(\"%d\\n\", x);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

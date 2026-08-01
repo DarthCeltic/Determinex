@@ -1,0 +1,1678 @@
+[
+ {
+  "name": "test::test_empty_args_requires_mode::0",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_is_rejected_with_suggestion::1",
+  "argv": [
+   "--nonexistent-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_value_for_dir_errors::2",
+  "argv": [
+   "--dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_value_for_regex_errors::3",
+  "argv": [
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_enum_validation_rejects_unknown_value::4",
+  "argv": [
+   "--sort",
+   "foo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_depth_type_validation_non_integer::5",
+  "argv": [
+   "--depth",
+   "foo",
+   "-r",
+   "a",
+   "{1}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_depth_negative_is_not_accepted_and_is_not_parsed_as_value::6",
+  "argv": [
+   "--depth",
+   "-1",
+   "-r",
+   "a",
+   "{1}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_depth_negative_rejected_in_equals_form::7",
+  "argv": [
+   "--depth=-1",
+   "-r",
+   "a",
+   "{1}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_positional_source_only_is_not_enough::8",
+  "argv": [
+   "a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_source_and_output_positionals_work_in_source_mode::9",
+  "argv": [
+   "-t",
+   "a",
+   "{1}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_too_many_positionals_with_sort_is_rejected::10",
+  "argv": [
+   "-t",
+   "-s",
+   "asc",
+   "{1}",
+   "extra"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_only_without_mode_is_rejected::11",
+  "argv": [
+   "-t",
+   "{1}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interleaved_flag_after_positionals_is_accepted::12",
+  "argv": [
+   "-t",
+   "-s",
+   "asc",
+   "{1}",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_treats_dash_args_as_positionals::13",
+  "argv": [
+   "-t",
+   "--",
+   "--weird",
+   "{1}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_to_stdout_exit0::14",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_requires_mode_error_to_stderr_exit1::15",
+  "argv": [
+   "-t",
+   "{:2}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_testmode_prints_table_and_no_fs_changes::16",
+  "argv": [
+   "-t",
+   "-s",
+   "asc",
+   "{:2}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_without_testmode_renames_files::17",
+  "argv": [
+   "-s",
+   "asc",
+   "{:2}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_extension_flag_drops_extension_in_output_column::18",
+  "argv": [
+   "-t",
+   "-s",
+   "asc",
+   "-E",
+   "{:2}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_flag_suppresses_stdout::19",
+  "argv": [
+   "-t",
+   "-s",
+   "asc",
+   "-q",
+   "{:2}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_writes_json_map_file_and_stdout_table::20",
+  "argv": [
+   "-t",
+   "-s",
+   "asc",
+   "-g",
+   "{:2}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_map_file_drives_table_output_in_testmode::21",
+  "argv": [
+   "-t",
+   "-m",
+   "m.json"
+  ],
+  "stdin": null,
+  "files": {
+   "m.json": "{\"x.txt\":\"y.txt\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_map_file_errors_to_stderr_exit1::22",
+  "argv": [
+   "-t",
+   "-m",
+   "missing.json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mkdir_flag_creates_parent_directories::23",
+  "argv": [
+   "-s",
+   "asc",
+   "-k",
+   "subdir/{:2}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_collision_prepends_underscore_unless_overwrite_flag::24",
+  "argv": [
+   "-t",
+   "-m",
+   "m.json"
+  ],
+  "stdin": null,
+  "files": {
+   "m.json": "{\"same.txt\":\"target.txt\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_exit_code_zero::25",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_precedence_over_invalid_flag::26",
+  "argv": [
+   "--help",
+   "--definitely-not-a-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_regex_unclosed_bracket::27",
+  "argv": [
+   "[a-",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_regex_unclosed_group::28",
+  "argv": [
+   "(?P<name",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_regex_unclosed_paren::29",
+  "argv": [
+   "(",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_directory::30",
+  "argv": [
+   "-d",
+   "/nonexistent/directory",
+   "file(\\d+)",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_map_file_not_found::31",
+  "argv": [
+   "--map",
+   "/nonexistent/map.json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_sort_order::32",
+  "argv": [
+   "--sort",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_with_map_conflicting_sources::33",
+  "argv": [
+   "--map",
+   "map.json",
+   "pattern",
+   "output"
+  ],
+  "stdin": null,
+  "files": {
+   "map.json": "{}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_invalid_repetition_operator::34",
+  "argv": [
+   "*",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_empty_group_name::35",
+  "argv": [
+   "(?P<>test)",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag::36",
+  "argv": [
+   "./executable",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::37",
+  "argv": [
+   "./executable",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_default::38",
+  "argv": [
+   "-E",
+   "-d",
+   "-r",
+   ".*E(\\d+).*",
+   "{:2}.mkv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_default_not_overwrite::39",
+  "argv": [
+   "-E",
+   "-d",
+   "-r",
+   ".*E(\\d+).*",
+   "1.mkv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_default_overwrite::40",
+  "argv": [
+   "-E",
+   "-d",
+   "-w",
+   "-r",
+   ".*E(\\d+).*",
+   "1.mkv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_default_subdir::41",
+  "argv": [
+   "-E",
+   "-d",
+   "-k"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_default_subdir_depth::42",
+  "argv": [
+   "-E",
+   "--depth",
+   "2",
+   "-d",
+   "-k"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_default_subdir_max_depth::43",
+  "argv": [
+   "-E",
+   "--depth",
+   "3",
+   "--max-depth",
+   "2",
+   "-d",
+   "-k"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_default_subdir_overwrite::44",
+  "argv": [
+   "-E",
+   "-d",
+   "-k",
+   "-w"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_map_and_undo::45",
+  "argv": [
+   "-E",
+   "-d",
+   "-m",
+   "map.json",
+   "-g",
+   "undo.json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_named_regex_mode::46",
+  "argv": [
+   "-E",
+   "-d",
+   "-r",
+   ".*E(?<episode>\\d+).*",
+   "{episode:2}.mkv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_regex_subdir::47",
+  "argv": [
+   "-E",
+   "-d",
+   "-k",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_regex_subdir_depth::48",
+  "argv": [
+   "-E",
+   "--depth",
+   "2",
+   "-d",
+   "-k",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_regex_subdir_max_depth::49",
+  "argv": [
+   "-E",
+   "--depth",
+   "3",
+   "--max-depth",
+   "2",
+   "-d",
+   "-k",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_regex_subdir_overwrite::50",
+  "argv": [
+   "-E",
+   "-d",
+   "-k",
+   "-w",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_sort_asc::51",
+  "argv": [
+   "-E",
+   "-d",
+   "-s",
+   "asc",
+   "{:3}.mkv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_long::52",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_short::53",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_directory::54",
+  "argv": [
+   "-d",
+   "/nonexistent/directory/path",
+   "-s",
+   "asc",
+   "{}.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_escaped_braces_in_output::55",
+  "argv": [
+   "-E",
+   "-d",
+   "-s",
+   "asc",
+   "\\{prefix\\}_{}."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_output_pattern::56",
+  "argv": [
+   "-d",
+   "-s",
+   "asc",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_placeholder_format::57",
+  "argv": [
+   "-d",
+   "-r",
+   "file(\\d+)",
+   "{99999:abc}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_depth::58",
+  "argv": [
+   "--depth",
+   "-1",
+   "-d",
+   "-r",
+   ".*",
+   "{}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_depth_with_non_regex_mode::59",
+  "argv": [
+   "--depth",
+   "1",
+   "-d",
+   "-s",
+   "asc",
+   "{}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_depth_with_non_regex_mode::60",
+  "argv": [
+   "--max-depth",
+   "2",
+   "-d",
+   "-s",
+   "asc",
+   "{}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_same_input_output_name::61",
+  "argv": [
+   "-d",
+   "-r",
+   "(file)\\.txt",
+   "{1}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_with_no_capture_groups::62",
+  "argv": [
+   "-d",
+   "-r",
+   "file\\d+\\.txt",
+   "renamed_{}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_to_subdirectory_without_mkdir::63",
+  "argv": [
+   "-d",
+   "-r",
+   "file",
+   "subdir/newfile"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_without_extension::64",
+  "argv": [
+   "-d",
+   "-s",
+   "asc",
+   "file_{}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_file_content::65",
+  "argv": [
+   "-d",
+   "-s",
+   "asc",
+   "renamed"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_placeholder_without_match::66",
+  "argv": [
+   "-d",
+   "-r",
+   "(file)",
+   "{2}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filename_with_newlines::67",
+  "argv": [
+   "-d",
+   "-s",
+   "asc",
+   "clean_{}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_to_invalid_path::68",
+  "argv": [
+   "-g",
+   "/invalid/path/output.json",
+   "-d",
+   "-s",
+   "asc",
+   "{}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_overwrite_mode::69",
+  "argv": [
+   "-w",
+   "-m",
+   "-d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_overwrite_default::70",
+  "argv": [
+   "-s",
+   "asc",
+   "-d",
+   "same"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mkdir_flag::71",
+  "argv": [
+   "-k",
+   "-m",
+   "-d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mkdir_without_flag_fails::72",
+  "argv": [
+   "-m",
+   "-d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_map_file::73",
+  "argv": [
+   "-s",
+   "asc",
+   "-d",
+   "-g",
+   "file_{}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generate_map_with_quiet::74",
+  "argv": [
+   "-q",
+   "-g",
+   "-s",
+   "asc",
+   "-d",
+   "y{}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_directory_flag::75",
+  "argv": [
+   "-d",
+   "-s",
+   "asc",
+   "renamed_{}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_filename::76",
+  "argv": [
+   "-s",
+   "asc",
+   "-d",
+   "clean_{}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_filename::77",
+  "argv": [
+   "-s",
+   "asc",
+   "-d",
+   "file_{}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_filename::78",
+  "argv": [
+   "-s",
+   "asc",
+   "-d",
+   "short"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_preserve_file_content::79",
+  "argv": [
+   "-s",
+   "asc",
+   "-d",
+   "renamed"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_collisions::80",
+  "argv": [
+   "-s",
+   "asc",
+   "-d",
+   "collision"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_map_from_file_alias::81",
+  "argv": [
+   "--from-file",
+   "-d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_map_missing_file::82",
+  "argv": [
+   "-m",
+   "nonexistent.json",
+   "-d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_map_malformed_json::83",
+  "argv": [
+   "-m",
+   "bad.json",
+   "-d"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.json": "{invalid json"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_map_test_mode::84",
+  "argv": [
+   "-t",
+   "-m",
+   "-d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_map_quiet_mode::85",
+  "argv": [
+   "-q",
+   "-m",
+   "-d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_map_inverted_format::86",
+  "argv": [
+   "-m",
+   "-d",
+   "-g"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_map_empty::87",
+  "argv": [
+   "-m",
+   "empty.json",
+   "-d"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.json": "{}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_basic_capture_group::88",
+  "argv": [
+   "-d",
+   "-r",
+   "file_(\\d+)\\.txt",
+   "renamed_{}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_with_padding::89",
+  "argv": [
+   "-d",
+   "-r",
+   "ep(\\d+)\\.mkv",
+   "episode_{:3}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_named_capture_groups::90",
+  "argv": [
+   "-d",
+   "-r",
+   "S(?<season>\\d+)E(?<episode>\\d+)\\.mkv",
+   "Season{season}_Episode{episode}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_named_with_padding::91",
+  "argv": [
+   "-d",
+   "-r",
+   "item(?<num>\\d+)\\.txt",
+   "file{num:4}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_no_match::92",
+  "argv": [
+   "-d",
+   "-r",
+   "xyz(\\d+)",
+   "out{}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_preserve_extension::93",
+  "argv": [
+   "-d",
+   "-r",
+   "movie_(\\d+)",
+   "film_{}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_no_extension_flag::94",
+  "argv": [
+   "-E",
+   "-d",
+   "-r",
+   "movie_(\\d+)",
+   "film_{}.mp4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_test_mode::95",
+  "argv": [
+   "-t",
+   "-d",
+   "-r",
+   "test(\\d+)",
+   "out{}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_dry_run_alias::96",
+  "argv": [
+   "--dry-run",
+   "-d",
+   "-r",
+   "file(\\d+)",
+   "new{}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_quiet_mode::97",
+  "argv": [
+   "-q",
+   "-d",
+   "-r",
+   "a(\\d+)",
+   "b{}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_invalid_pattern::98",
+  "argv": [
+   "-d",
+   "-r",
+   "[invalid(regex",
+   "out.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_multiple_capture_groups::99",
+  "argv": [
+   "-d",
+   "-r",
+   "S(\\d+)E(\\d+)_(\\d+)p\\.mkv",
+   "Season{1}_Ep{2}_{3}p"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_with_full_filename_placeholder::100",
+  "argv": [
+   "-d",
+   "-r",
+   "(movie)",
+   "backup_{0}_old"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_descending::101",
+  "argv": [
+   "-s",
+   "desc",
+   "-d",
+   "file_{}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_with_padding::102",
+  "argv": [
+   "-s",
+   "asc",
+   "-d",
+   "{:3}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_preserve_extension::103",
+  "argv": [
+   "-s",
+   "asc",
+   "-d",
+   "video_{}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_no_extension::104",
+  "argv": [
+   "-E",
+   "-s",
+   "asc",
+   "-d",
+   "video_{}.mp4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_invalid_order::105",
+  "argv": [
+   "-s",
+   "invalid",
+   "-d",
+   "{}.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_test_mode::106",
+  "argv": [
+   "-t",
+   "-s",
+   "asc",
+   "-d",
+   "sorted_{}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_quiet_mode::107",
+  "argv": [
+   "-q",
+   "-s",
+   "asc",
+   "-d",
+   "f{}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_empty_directory::108",
+  "argv": [
+   "-s",
+   "asc",
+   "-d",
+   "{}.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_natural_ordering::109",
+  "argv": [
+   "-s",
+   "asc",
+   "-d",
+   "sorted_{:2}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_source_argument_basic::110",
+  "argv": [
+   "-d",
+   "test(\\d+)",
+   "file_{}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_source_argument_with_padding::111",
+  "argv": [
+   "-d",
+   "ep(\\d+)",
+   "episode_{:3}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_source_argument_conflicts_with_regex_flag::112",
+  "argv": [
+   "-d",
+   "-r",
+   "pattern1",
+   "pattern2",
+   "output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_source_argument_conflicts_with_sort_flag::113",
+  "argv": [
+   "-d",
+   "-s",
+   "asc",
+   "pattern",
+   "output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_source_argument_conflicts_with_map_flag::114",
+  "argv": [
+   "-d",
+   "-m",
+   "map.json",
+   "pattern",
+   "output"
+  ],
+  "stdin": null,
+  "files": {
+   "map.json": "{}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_source_only_output_argument::115",
+  "argv": [
+   "-d",
+   "output_pattern"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_source_argument_preserve_extension::116",
+  "argv": [
+   "-d",
+   "movie(\\d+)",
+   "film_{}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_source_argument_no_extension::117",
+  "argv": [
+   "-E",
+   "-d",
+   "video(\\d+)",
+   "movie_{}.mp4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_source_argument_named_groups::118",
+  "argv": [
+   "-d",
+   "S(?<s>\\d+)E(?<e>\\d+)",
+   "Season{s}_Episode{e}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_source_argument_test_mode::119",
+  "argv": [
+   "-t",
+   "-d",
+   "old(\\d+)",
+   "new_{}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_source_argument_quiet_mode::120",
+  "argv": [
+   "-q",
+   "-d",
+   "a(\\d+)",
+   "b_{}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

@@ -1,0 +1,408 @@
+{
+  "_schema": "senses_report_v1",
+  "_source_eval": "corpus\\programbench\\in_progress\\codex_override_001\\bartib\\eval_report.json",
+  "_generated_by": "pb_senses.py",
+  "summary": {
+    "total_tests": 929,
+    "passed": 886,
+    "non_passing": 43,
+    "histogram": {
+      "upstream-skip": 0,
+      "collection-gap": 1,
+      "pty-gap": 0,
+      "image-plumbing": 0,
+      "real-fail": 41,
+      "unclassified": 1
+    }
+  },
+  "classified": [
+    {
+      "test_id": "tests.test_change_continue.test_change_with_time_specification",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '2026-04-12 10:00' in 'Started activity: \"Task A\" (ProjectA) at 2026-06-10 10:00\\n'  +  where 'Started activity: \"Task A\" (ProjectA) at 2026-06'",
+      "branches": [
+        "b8fe31987098"
+      ]
+    },
+    {
+      "test_id": "tests.test_change_continue.test_change_all_fields",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert 'Changed activity: \"New task\" (NewProject) started at 2026-04-12 10:00' in 'Changed activity: \"New task\" (NewProject) started at 2026-06-10 10:'",
+      "branches": [
+        "b8fe31987098"
+      ]
+    },
+    {
+      "test_id": "tests.test_change_continue.test_change_affects_only_running_activity",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '2026-04-12 09:00 - 2026-04-12 10:00 | ProjectA | Task A' in '2026-06-10 09:00 - 2026-06-10 10:00 | ProjectA | Task A' tests/te'",
+      "branches": [
+        "b8fe31987098"
+      ]
+    },
+    {
+      "test_id": "tests.test_change_continue.test_continue_with_time_specification",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '2026-04-12 14:30' in 'Started activity: \"Task A\" (ProjectA) at 2026-06-10 14:30\\n'  +  where 'Started activity: \"Task A\" (ProjectA) at 2026-06'",
+      "branches": [
+        "b8fe31987098"
+      ]
+    },
+    {
+      "test_id": "tests.test_change_continue.test_continue_stops_running_activity",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '2026-04-12 13:00 - 2026-04-12 14:00' in '2026-06-10 13:00 - 2026-06-10 14:00 | ProjectC | Task C' tests/test_change_continue.p'",
+      "branches": [
+        "b8fe31987098"
+      ]
+    },
+    {
+      "test_id": "tests.test_change_continue.test_change_output_format_verification",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '2026-04-12 10:00' in 'Changed activity: \"New task\" (NewProject) started at 2026-06-10 10:00' tests/test_change_continue.py:398: in test_change'",
+      "branches": [
+        "b8fe31987098"
+      ]
+    },
+    {
+      "test_id": "tests.test_change_continue.test_continue_output_format_verification",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert '2026-04-12 13:00' in 'Started activity: \"Task A\" (ProjectA) at 2026-06-10 13:00' tests/test_change_continue.py:421: in test_continue_output_fo'",
+      "branches": [
+        "b8fe31987098"
+      ]
+    },
+    {
+      "test_id": "tests.test_change_continue.test_file_format_after_change",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '2026-04-12 11:00' in '2026-06-10 11:00' tests/test_change_continue.py:451: in test_file_format_after_change     assert \"2026-0'",
+      "branches": [
+        "b8fe31987098"
+      ]
+    },
+    {
+      "test_id": "tests.test_change_continue.test_file_format_after_continue",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '2026-06-10 0...ectA | Task A' == '2026-04-12 0...ectA | Task A'      - 2026-04-12 09:00 - 2026-04-12 10:00 | ProjectA | Task A'",
+      "branches": [
+        "b8fe31987098"
+      ]
+    },
+    {
+      "test_id": "tests.test_change_continue.test_change_preserves_other_activities",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '2026-04-12 09:00 - 2026-04-12 10:00 | ProjectA | Task A' in '2026-06-10 09:00 - 2026-06-10 10:00 | ProjectA | Task A' tests/te'",
+      "branches": [
+        "b8fe31987098"
+      ]
+    },
+    {
+      "test_id": "tests.test_change_continue.test_continue_with_same_project_and_description_multiple_times",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '2026-04-12 1...ectA | Task A' == '2026-06-10 1...ectA | Task A'      - 2026-06-10 13:00 | ProjectA | Task A   ?       ^  ^   +'",
+      "branches": [
+        "b8fe31987098"
+      ]
+    },
+    {
+      "test_id": "tests.test_change_continue.test_change_time_only",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '2026-04-12 11:30 | ProjectA | Task A' in '2026-06-10 11:30 | ProjectA | Task A\\n' tests/test_change_continue.py:615: in test_c'",
+      "branches": [
+        "b8fe31987098"
+      ]
+    },
+    {
+      "test_id": "tests.test_change_continue.test_continue_all_combinations_of_overrides",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '2026-04-12 10:00 - 2026-04-12 11:00 | OrigProject | Orig desc' in '2026-06-10 12:27 - 2026-06-10 12:27 | OrigProject | Orig de'",
+      "branches": [
+        "b8fe31987098"
+      ]
+    },
+    {
+      "test_id": "tests.test_current_status.test_status_with_completed_activities_no_running_exact",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '======= Stat............ <1m' == '======= Stat......... 3h 45m'        ======= Status for ALL projects  =======             NO'",
+      "branches": [
+        "b8fe31987098"
+      ]
+    },
+    {
+      "test_id": "tests.test_current_status.test_status_with_project_filter_exact",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '======= Stat............ <1m' == '======= Stat......... 2h 30m'        ======= Status for project: ProjectA =======           '",
+      "branches": [
+        "b8fe31987098"
+      ]
+    },
+    {
+      "test_id": "tests.test_current_status.test_status_multiple_time_periods_exact",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '======= Stat............ <1m' == '======= Stat......... 2h 00m'        ======= Status for ALL projects  =======             NO'",
+      "branches": [
+        "b8fe31987098"
+      ]
+    },
+    {
+      "test_id": "tests.test_current_status.test_status_duration_format_exact",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '======= Stat............ <1m' == '======= Stat......... 4h 15m'        ======= Status for ALL projects  =======             NO'",
+      "branches": [
+        "b8fe31987098"
+      ]
+    },
+    {
+      "test_id": "tests.test_current_status.test_status_single_project_all_periods_exact",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '======= Stat............ <1m' == '======= Stat......... 2h 00m'        ======= Status for project: ProjectA =======           '",
+      "branches": [
+        "b8fe31987098"
+      ]
+    },
+    {
+      "test_id": "tests.test_current_status.test_current_special_characters_in_names",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert 'Started At\\x...@123 DURATION' == 'Started At\\x...@123 DURATION'      - Started At\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 Description\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 Project'",
+      "branches": [
+        "b8fe31987098"
+      ]
+    },
+    {
+      "test_id": "tests.test_current_status.test_status_with_zero_duration_activities",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '======= Stat............ <1m' == '======= Stat......... 1h 00m'        ======= Status for ALL projects  =======             NO'",
+      "branches": [
+        "b8fe31987098"
+      ]
+    },
+    {
+      "test_id": "tests.test_current_status.test_status_week_boundary_calculations",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '======= Stat............ <1m' == '======= Stat......... 3h 00m'        ======= Status for ALL projects  =======             NO'",
+      "branches": [
+        "b8fe31987098"
+      ]
+    },
+    {
+      "test_id": "tests.test_current_status.test_status_month_boundary_first_day",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '1h 00m' in '  Today......................... <1m' tests/test_current_status.py:580: in test_status_month_boundary_first_day   '",
+      "branches": [
+        "b8fe31987098"
+      ]
+    },
+    {
+      "test_id": "tests.test_current_status.test_status_aggregation_multiple_same_project",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '3h 30m' in '  Today......................... <1m' tests/test_current_status.py:655: in test_status_aggregation_multiple_same_p'",
+      "branches": [
+        "b8fe31987098"
+      ]
+    },
+    {
+      "test_id": "tests.test_edge_cases.test_pipe_character_escaped_in_project_and_description",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '\\n\\x1b[4mSta...\\xa0\\xa0 \\n\\n' == '\\n\\x1b[4mSta...\\xa0\\xa0 \\n\\n'             #x1B[4mStarted#x1B[0m #x1B[4mStopped#x1B[0m #x1B[4'",
+      "branches": [
+        "b8fe31987098"
+      ]
+    },
+    {
+      "test_id": "tests.test_edge_cases.test_backslash_escaping_preserved",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '\\n\\x1b[4mSta...\\xa0\\xa0 \\n\\n' == '\\n\\x1b[4mSta...\\xa0\\xa0 \\n\\n'             #x1B[4mStarted#x1B[0m #x1B[4mStopped#x1B[0m #x1B[4'",
+      "branches": [
+        "b8fe31987098"
+      ]
+    },
+    {
+      "test_id": "tests.test_edge_cases.test_unicode_in_project_and_description",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '\\n\\x1b[4mSta...\\xa0\\xa0 \\n\\n' == '\\n\\x1b[4mSta...\\xa0\\xa0 \\n\\n'             #x1B[4mStarted#x1B[0m #x1B[4mStopped#x1B[0m #x1B[4'",
+      "branches": [
+        "b8fe31987098"
+      ]
+    },
+    {
+      "test_id": "tests.test_list.test_list_today",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert 'No activity to display\\n' == '\\n\\x1b[4mSta...\\xa0\\xa0 \\n\\n'      + No activity to display   -    - #x1B[4mStarted#x1B[0m #x1B['",
+      "branches": [
+        "b8fe31987098"
+      ]
+    },
+    {
+      "test_id": "tests.test_list.test_list_yesterday",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert 'No activity to display\\n' == '\\n\\x1b[4mSta...\\xa0\\xa0 \\n\\n'      + No activity to display   -    - #x1B[4mStarted#x1B[0m #x1B['",
+      "branches": [
+        "b8fe31987098"
+      ]
+    },
+    {
+      "test_id": "tests.test_list.test_list_current_week",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert 'No activity to display\\n' == '\\n\\x1b[4mSta...\\xa0\\xa0 \\n\\n'      + No activity to display   -    - #x1B[4mStarted#x1B[0m #x1B['",
+      "branches": [
+        "b8fe31987098"
+      ]
+    },
+    {
+      "test_id": "tests.test_list.test_list_last_week",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert 'No activity to display\\n' == '\\n\\x1b[4mSta...\\xa0\\xa0 \\n\\n'      + No activity to display   -    - #x1B[4mStarted#x1B[0m #x1B['",
+      "branches": [
+        "b8fe31987098"
+      ]
+    },
+    {
+      "test_id": "tests.test_report.test_report_today_filter",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '\\n\\x1b[1mTot...1m\\x1b[0m\\n\\n' == '\\n\\x1b[1mTod...0m\\x1b[0m\\n\\n'           + #x1B[1mTotal <1m#x1B[0m   - #x1B[1mTodayProject...'",
+      "branches": [
+        "b8fe31987098"
+      ]
+    },
+    {
+      "test_id": "tests.test_report.test_report_yesterday_filter",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '\\n\\x1b[1mTot...1m\\x1b[0m\\n\\n' == '\\n\\x1b[1mYes...0m\\x1b[0m\\n\\n'           + #x1B[1mTotal <1m#x1B[0m   - #x1B[1mYesterdayProjec'",
+      "branches": [
+        "b8fe31987098"
+      ]
+    },
+    {
+      "test_id": "tests.test_report.test_report_current_week_filter",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '\\n\\x1b[1mTot...1m\\x1b[0m\\n\\n' == '\\n\\x1b[1mCur...0m\\x1b[0m\\n\\n'           + #x1B[1mTotal <1m#x1B[0m   - #x1B[1mCurrentWeekProj'",
+      "branches": [
+        "b8fe31987098"
+      ]
+    },
+    {
+      "test_id": "tests.test_report.test_report_last_week_filter",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '\\n\\x1b[1mTot...1m\\x1b[0m\\n\\n' == '\\n\\x1b[1mLas...0m\\x1b[0m\\n\\n'           + #x1B[1mTotal <1m#x1B[0m   - #x1B[1mLastWeekProject'",
+      "branches": [
+        "b8fe31987098"
+      ]
+    },
+    {
+      "test_id": "tests.test_report.test_report_combined_today_and_project",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '\\n\\x1b[1mTot...1m\\x1b[0m\\n\\n' == '\\n\\x1b[1mTod...0m\\x1b[0m\\n\\n'           + #x1B[1mTotal <1m#x1B[0m   - #x1B[1mTodayProject...'",
+      "branches": [
+        "b8fe31987098"
+      ]
+    },
+    {
+      "test_id": "tests.test_start_stop.test_multiple_concurrent_activities_all_stopped",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '2026-04-12 09:00 - 2026-04-12 15:00 | ProjectA | Task A' in '2026-04-12 09:00 - 2026-06-10 15:00 | ProjectA | Task A\\n2026-04-'",
+      "branches": [
+        "b8fe31987098"
+      ]
+    },
+    {
+      "test_id": "tests.test_start_stop.test_stop_preserves_completed_activities",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'AssertionError: assert '2026-04-12 1...| New running' == '2026-04-12 1...| New running'      - 2026-04-12 11:00 - 2026-04-12 12:00 | P2 | New running '",
+      "branches": [
+        "b8fe31987098"
+      ]
+    },
+    {
+      "test_id": "tests.test_start_stop.test_stop_duration_calculation_hours_minutes",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert 'Stopped acti...15 (3h 32m)\\n' == 'Stopped acti...15 (3h 32m)\\n'      - Stopped activity: \"Task\" (P) started at 2026-04-12 08:15 (3h 32m)   ?  '",
+      "branches": [
+        "b8fe31987098"
+      ]
+    },
+    {
+      "test_id": "tests.test_start_stop.test_time_midnight",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert 'Started acti...06-10 00:00\\n' == 'Started acti...04-12 00:00\\n'      - Started activity: \"Task\" (P) at 2026-04-12 00:00   ?                   '",
+      "branches": [
+        "b8fe31987098"
+      ]
+    },
+    {
+      "test_id": "tests.test_start_stop.test_time_end_of_day",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert 'Started acti...06-10 23:59\\n' == 'Started acti...04-12 23:59\\n'      - Started activity: \"Task\" (P) at 2026-04-12 23:59   ?                   '",
+      "branches": [
+        "b8fe31987098"
+      ]
+    },
+    {
+      "test_id": "tests.test_start_stop.test_stop_calculates_duration_correctly_for_long_activity",
+      "result": "failure",
+      "classification": "real-fail",
+      "evidence": "assertion failure: 'assert 'Stopped acti...0 (23h 59m)\\n' == 'Stopped acti...0 (23h 59m)\\n'      - Stopped activity: \"Long task\" (P) started at 2026-04-12 00:00 (23h 59m)'",
+      "branches": [
+        "b8fe31987098"
+      ]
+    },
+    {
+      "test_id": "eval.tests.test_subcommands.TestSubcommandRecognition.test_subcommand_has_help[help]",
+      "result": "skipped",
+      "classification": "unclassified",
+      "evidence": "skipped but no skip marker found; reason='help subcommand doesn't support --help /workspace/eval/tests/test_subcommands.py:53: help subcommand doesn't support --h'",
+      "branches": [
+        "ca144004ddcb"
+      ]
+    },
+    {
+      "test_id": "eval.tests.test_interactive.test_edit_command_with_tmux",
+      "result": "not_run",
+      "classification": "collection-gap",
+      "evidence": "absent from JUnit XML (not collected)",
+      "branches": [
+        "7f4ebb47f215"
+      ]
+    }
+  ],
+  "_note": "upstream-skip: proposed only \u2014 reference-diff step required to confirm. unclassified rows: driver must adjudicate manually. Script proposes; never edits fixtures or reference binaries."
+}

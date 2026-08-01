@@ -1,0 +1,5838 @@
+{
+ "slug": "oppiliappan__eva.41ae245",
+ "language": "",
+ "n_branches": 9,
+ "n_tests_total": 932,
+ "n_examples": 341,
+ "n_with_exact_stdout": 21,
+ "n_with_rc": 339,
+ "n_skipped": 513,
+ "examples": [
+  {
+   "test": "test_unknown_flag_errors_and_exit_code_2",
+   "argv": [
+    "--nonexistent",
+    "1+1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:32"
+  },
+  {
+   "test": "test_unknown_flag_tip_for_double_dash_value_passing",
+   "argv": [
+    "--nonexistent",
+    "1+1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tip: to pass '--nonexistent' as a value, use '-- --nonexistent'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:44"
+  },
+  {
+   "test": "test_missing_value_for_fix_is_error_rc_2",
+   "argv": [
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:50"
+  },
+  {
+   "test": "test_missing_value_for_base_is_error_rc_2",
+   "argv": [
+    "--base"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:61"
+  },
+  {
+   "test": "test_missing_value_for_angle_unit_is_error_rc_2_and_lists_choices",
+   "argv": [
+    "--angle_unit"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:71"
+  },
+  {
+   "test": "test_too_many_positionals_is_error_rc_2",
+   "argv": [
+    "1+1",
+    "2+2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:82"
+  },
+  {
+   "test": "test_double_dash_allows_negative_value_as_positional_input",
+   "argv": [
+    "--",
+    "-1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:93"
+  },
+  {
+   "test": "test_negative_fix_value_is_not_accepted_as_option_value_without_double_dash",
+   "argv": [
+    "-f",
+    "-1",
+    "1+1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:101"
+  },
+  {
+   "test": "test_negative_base_value_is_not_accepted_as_option_value_without_double_dash",
+   "argv": [
+    "-b",
+    "-2",
+    "1+1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:112"
+  },
+  {
+   "test": "test_invalid_angle_unit_choice_is_error_rc_2_and_lists_choices",
+   "argv": [
+    "-a",
+    "foo",
+    "1+1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:123"
+  },
+  {
+   "test": "test_fix_type_validation_non_integer",
+   "argv": [
+    "-f",
+    "abc",
+    "1+1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:152"
+  },
+  {
+   "test": "test_base_type_validation_non_integer",
+   "argv": [
+    "-b",
+    "foo",
+    "1+1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:162"
+  },
+  {
+   "test": "test_short_option_allows_attached_value_fix_and_base",
+   "argv": [
+    "-f2",
+    "1+1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:192"
+  },
+  {
+   "test": "test_combined_short_flags_not_supported_for_value_taking_options",
+   "argv": [
+    "-fb",
+    "1+1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:203"
+  },
+  {
+   "test": "test_repeated_fix_option_is_error_rc_2",
+   "argv": [
+    "-f",
+    "2",
+    "-f",
+    "4",
+    "1+1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:214"
+  },
+  {
+   "test": "test_help_takes_precedence_over_unknown_flag",
+   "argv": [
+    "--help",
+    "--definitely-not-a-real-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:125"
+  },
+  {
+   "test": "test_double_dash_separator_allows_input_help_is_not_treated_as_flag",
+   "argv": [
+    "--",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Parser Error"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:139"
+  },
+  {
+   "test": "test_help_does_not_advertise_config_or_env_vars",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env_handling.py:19"
+  },
+  {
+   "test": "test_command_mode_output_unchanged_by_xdg_and_home_env_vars",
+   "argv": [
+    "-f",
+    "3",
+    "1/3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env_handling.py:37"
+  },
+  {
+   "test": "test_version_exact",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "eva 0.3.1\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_eva_behavior.py:52"
+  },
+  {
+   "test": "test_help_smoke_contains_usage",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--fix",
+    "--base",
+    "--angle_unit"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_eva_behavior.py:59"
+  },
+  {
+   "test": "test_angle_units_degree_default_vs_radian",
+   "argv": [
+    "--angle_unit",
+    "radian",
+    "sin(1)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "0.8414709848\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_eva_behavior.py:129"
+  },
+  {
+   "test": "test_fix_changes_decimal_places",
+   "argv": [
+    "--fix",
+    "3",
+    "1/8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "0.125\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_eva_behavior.py:140"
+  },
+  {
+   "test": "test_base_changes_output_radix_hex",
+   "argv": [
+    "--base",
+    "16",
+    "255"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": " ,   ,   , FF.0\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_eva_behavior.py:146"
+  },
+  {
+   "test": "test_repl_previous_answer_var_underscore",
+   "argv": [],
+   "stdin": "1+1\n_^2\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_eva_behavior.py:180"
+  },
+  {
+   "test": "test_history_is_persistent_across_runs_in_same_home",
+   "argv": [],
+   "stdin": "1+1\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "No previous history."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_eva_behavior.py:191"
+  },
+  {
+   "test": "test_hyperbolic_functions",
+   "argv": [
+    "sinh(1)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.175201193"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_functions.py:4"
+  },
+  {
+   "test": "test_cosh_value",
+   "argv": [
+    "cosh(1)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.543080634"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_functions.py:10"
+  },
+  {
+   "test": "test_tanh_value",
+   "argv": [
+    "tanh(1)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.7615941560"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_functions.py:16"
+  },
+  {
+   "test": "test_log_base_custom",
+   "argv": [
+    "log(8, 2)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_functions.py:22"
+  },
+  {
+   "test": "test_log_base_e",
+   "argv": [
+    "log(e, e)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_functions.py:28"
+  },
+  {
+   "test": "test_nroot_square",
+   "argv": [
+    "nroot(16, 2)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "4.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_functions.py:34"
+  },
+  {
+   "test": "test_nroot_cube",
+   "argv": [
+    "nroot(8, 3)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_functions.py:40"
+  },
+  {
+   "test": "test_nroot_fourth",
+   "argv": [
+    "nroot(16, 4)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_functions.py:46"
+  },
+  {
+   "test": "test_exp_zero",
+   "argv": [
+    "exp(0)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_functions.py:52"
+  },
+  {
+   "test": "test_exp2_zero",
+   "argv": [
+    "exp2(0)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_functions.py:58"
+  },
+  {
+   "test": "test_log2_of_2",
+   "argv": [
+    "log2(2)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_functions.py:64"
+  },
+  {
+   "test": "test_log10_of_10",
+   "argv": [
+    "log10(10)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_functions.py:70"
+  },
+  {
+   "test": "test_abs_zero",
+   "argv": [
+    "abs(0)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_functions.py:76"
+  },
+  {
+   "test": "test_abs_positive",
+   "argv": [
+    "abs(5)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "5.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_functions.py:82"
+  },
+  {
+   "test": "test_ceil_integer",
+   "argv": [
+    "ceil(5)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "5.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_functions.py:88"
+  },
+  {
+   "test": "test_floor_integer",
+   "argv": [
+    "floor(5)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "5.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_functions.py:94"
+  },
+  {
+   "test": "test_round_half",
+   "argv": [
+    "round(0.5)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_functions.py:100"
+  },
+  {
+   "test": "test_round_negative",
+   "argv": [
+    "round(-2.7)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-3.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_functions.py:107"
+  },
+  {
+   "test": "test_deg_zero",
+   "argv": [
+    "deg(0)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_functions.py:113"
+  },
+  {
+   "test": "test_rad_zero",
+   "argv": [
+    "rad(0)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_functions.py:119"
+  },
+  {
+   "test": "test_deg_pi",
+   "argv": [
+    "deg(pi)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "180.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_functions.py:125"
+  },
+  {
+   "test": "test_rad_180",
+   "argv": [
+    "rad(180)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3.1415926536"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_functions.py:131"
+  },
+  {
+   "test": "test_sin_zero",
+   "argv": [
+    "sin(0)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_functions.py:137"
+  },
+  {
+   "test": "test_cos_zero",
+   "argv": [
+    "cos(0)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_functions.py:143"
+  },
+  {
+   "test": "test_tan_zero",
+   "argv": [
+    "tan(0)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_functions.py:149"
+  },
+  {
+   "test": "test_default_angle_unit_degree",
+   "argv": [
+    "sin(90)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_angle_units.py:5"
+  },
+  {
+   "test": "test_angle_unit_radian",
+   "argv": [
+    "-a",
+    "radian",
+    "sin(1.5707963267948966)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_angle_units.py:11"
+  },
+  {
+   "test": "test_angle_unit_radian_long_form",
+   "argv": [
+    "--angle_unit",
+    "radian",
+    "cos(3.1415926535897932)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-1.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_angle_units.py:17"
+  },
+  {
+   "test": "test_angle_unit_gradian",
+   "argv": [
+    "-a",
+    "gradian",
+    "sin(100)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.9848077530"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_angle_units.py:23"
+  },
+  {
+   "test": "test_degree_mode_trig",
+   "argv": [
+    "-a",
+    "degree",
+    "cos(0)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_angle_units.py:30"
+  },
+  {
+   "test": "test_radian_mode_tan",
+   "argv": [
+    "-a",
+    "radian",
+    "tan(0.7853981633974483)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_angle_units.py:36"
+  },
+  {
+   "test": "test_addition",
+   "argv": [
+    "1 + 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_arithmetic.py:4"
+  },
+  {
+   "test": "test_subtraction",
+   "argv": [
+    "5 - 3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_arithmetic.py:10"
+  },
+  {
+   "test": "test_multiplication",
+   "argv": [
+    "3 * 4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "12.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_arithmetic.py:16"
+  },
+  {
+   "test": "test_division",
+   "argv": [
+    "10 / 2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "5.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_arithmetic.py:22"
+  },
+  {
+   "test": "test_modulo",
+   "argv": [
+    "10 % 3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_arithmetic.py:28"
+  },
+  {
+   "test": "test_exponentiation_caret",
+   "argv": [
+    "2 ^ 3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_arithmetic.py:34"
+  },
+  {
+   "test": "test_exponentiation_double_star",
+   "argv": [
+    "2 ** 3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_arithmetic.py:40"
+  },
+  {
+   "test": "test_exponentiation_right_associative",
+   "argv": [
+    "2 ** 2 ** 3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "256.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_arithmetic.py:46"
+  },
+  {
+   "test": "test_factorial",
+   "argv": [
+    "5!"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "120.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_arithmetic.py:52"
+  },
+  {
+   "test": "test_factorial_large",
+   "argv": [
+    "21!"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_arithmetic.py:58"
+  },
+  {
+   "test": "test_complex_expression",
+   "argv": [
+    "6*2 + 3 + 12 - 3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "24.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_arithmetic.py:66"
+  },
+  {
+   "test": "test_operator_precedence",
+   "argv": [
+    "2 + 3 * 4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "14.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_arithmetic.py:72"
+  },
+  {
+   "test": "test_parentheses_override_precedence",
+   "argv": [
+    "(2 + 3) * 4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "20.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_arithmetic.py:78"
+  },
+  {
+   "test": "test_nested_parentheses",
+   "argv": [
+    "(((1 + 2 + 3) ^ 2) - 4)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "32.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_arithmetic.py:84"
+  },
+  {
+   "test": "test_unary_minus",
+   "argv": [
+    "--",
+    "-5 + 3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-2.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_arithmetic.py:90"
+  },
+  {
+   "test": "test_unary_plus",
+   "argv": [
+    "+5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "5.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_arithmetic.py:96"
+  },
+  {
+   "test": "test_floating_point_arithmetic",
+   "argv": [
+    "1.2816 + 1 + 1.2816/1.2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3.3496"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_arithmetic.py:102"
+  },
+  {
+   "test": "test_version",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "eva"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic.py:5"
+  },
+  {
+   "test": "test_help",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--fix",
+    "--base",
+    "--angle_unit"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:12"
+  },
+  {
+   "test": "test_empty_expression",
+   "argv": [
+    ""
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "No previous history"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:28"
+  },
+  {
+   "test": "test_help_command",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Constants",
+    "Functions",
+    "Operators",
+    "pi",
+    "e",
+    "+",
+    "-",
+    "*",
+    "/"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:35"
+  },
+  {
+   "test": "test_invalid_fix_too_low",
+   "argv": [
+    "-f",
+    "0",
+    "1.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_cli_edge_cases.py:4"
+  },
+  {
+   "test": "test_invalid_fix_too_high",
+   "argv": [
+    "-f",
+    "65",
+    "1.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_cli_edge_cases.py:10"
+  },
+  {
+   "test": "test_valid_fix_boundary_1",
+   "argv": [
+    "-f",
+    "1",
+    "3.14159"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3.1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_edge_cases.py:16"
+  },
+  {
+   "test": "test_valid_fix_boundary_64",
+   "argv": [
+    "-f",
+    "64",
+    "pi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_edge_cases.py:22"
+  },
+  {
+   "test": "test_invalid_base_too_low",
+   "argv": [
+    "-b",
+    "0",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_cli_edge_cases.py:30"
+  },
+  {
+   "test": "test_invalid_base_too_high",
+   "argv": [
+    "-b",
+    "37",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_cli_edge_cases.py:36"
+  },
+  {
+   "test": "test_valid_base_boundary_2",
+   "argv": [
+    "-b",
+    "2",
+    "5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "101"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_edge_cases.py:42"
+  },
+  {
+   "test": "test_valid_base_boundary_36",
+   "argv": [
+    "-b",
+    "36",
+    "100"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_edge_cases.py:49"
+  },
+  {
+   "test": "test_invalid_angle_unit",
+   "argv": [
+    "-a",
+    "invalid",
+    "sin(30)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_cli_edge_cases.py:56"
+  },
+  {
+   "test": "test_unknown_flag",
+   "argv": [
+    "--unknown-flag",
+    "1+1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_edge_cases.py:62"
+  },
+  {
+   "test": "test_flag_without_value",
+   "argv": [
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_cli_edge_cases.py:68"
+  },
+  {
+   "test": "test_negative_number_as_flag_without_double_dash",
+   "argv": [
+    "-5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_edge_cases.py:74"
+  },
+  {
+   "test": "test_multiple_expressions",
+   "argv": [
+    "1+1",
+    "2+2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_edge_cases.py:81"
+  },
+  {
+   "test": "test_base_3",
+   "argv": [
+    "-b",
+    "3",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "101"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_edge_cases.py:89"
+  },
+  {
+   "test": "test_base_7",
+   "argv": [
+    "-b",
+    "7",
+    "50"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "101"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_edge_cases.py:96"
+  },
+  {
+   "test": "test_combined_all_flags",
+   "argv": [
+    "-f",
+    "5",
+    "-b",
+    "16",
+    "-a",
+    "radian",
+    "pi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_edge_cases.py:103"
+  },
+  {
+   "test": "test_nested_arithmetic",
+   "argv": [
+    "((2+3)*(4+5))/(6+7)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3.46"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_expressions.py:4"
+  },
+  {
+   "test": "test_mixed_trig",
+   "argv": [
+    "sin(30) + cos(60)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_expressions.py:11"
+  },
+  {
+   "test": "test_nested_power",
+   "argv": [
+    "2^(3^2)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "512.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_expressions.py:18"
+  },
+  {
+   "test": "test_factorial_in_division",
+   "argv": [
+    "10! / 5!"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_expressions.py:25"
+  },
+  {
+   "test": "test_sqrt_of_sum",
+   "argv": [
+    "sqrt(9 + 16)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "5.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_expressions.py:32"
+  },
+  {
+   "test": "test_log_of_product",
+   "argv": [
+    "log10(10 * 10)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_expressions.py:38"
+  },
+  {
+   "test": "test_exp_of_ln",
+   "argv": [
+    "exp(ln(5))"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "5.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_expressions.py:44"
+  },
+  {
+   "test": "test_power_of_sqrt",
+   "argv": [
+    "sqrt(7)^2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "7.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_expressions.py:50"
+  },
+  {
+   "test": "test_abs_of_difference",
+   "argv": [
+    "abs(3 - 7)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "4.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_expressions.py:56"
+  },
+  {
+   "test": "test_modulo_chain",
+   "argv": [
+    "17 % 5 % 3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_expressions.py:62"
+  },
+  {
+   "test": "test_mixed_operations",
+   "argv": [
+    "2 + 3 * 4 - 5 / 2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "11.5"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_expressions.py:69"
+  },
+  {
+   "test": "test_parentheses_change_precedence",
+   "argv": [
+    "(2 + 3) * (4 - 5) / 2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-2.5"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_expressions.py:76"
+  },
+  {
+   "test": "test_implicit_mult_with_parens",
+   "argv": [
+    "2(3+4)(5+6)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "154.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_expressions.py:83"
+  },
+  {
+   "test": "test_constants_in_expression",
+   "argv": [
+    "e + pi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "5.859"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_expressions.py:90"
+  },
+  {
+   "test": "test_division_by_constant",
+   "argv": [
+    "10 / pi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3.183"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_expressions.py:97"
+  },
+  {
+   "test": "test_power_of_constant",
+   "argv": [
+    "pi^2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "9.869"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_expressions.py:104"
+  },
+  {
+   "test": "test_negative_in_complex_expr",
+   "argv": [
+    "(-2)^2 + (-3)^2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "13.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_expressions.py:111"
+  },
+  {
+   "test": "test_division_chain",
+   "argv": [
+    "100 / 10 / 2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "5.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_expressions.py:118"
+  },
+  {
+   "test": "test_subtraction_chain",
+   "argv": [
+    "10 - 3 - 2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "5.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_expressions.py:125"
+  },
+  {
+   "test": "test_mixed_trig_and_arithmetic",
+   "argv": [
+    "2 * sin(30) + 3 * cos(60)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2.5"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_expressions.py:132"
+  },
+  {
+   "test": "test_constant_pi",
+   "argv": [
+    "pi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3.1415926536"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_constants.py:4"
+  },
+  {
+   "test": "test_constant_e",
+   "argv": [
+    "e"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2.7182818285"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_constants.py:10"
+  },
+  {
+   "test": "test_pi_arithmetic",
+   "argv": [
+    "pi * 5^2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_constants.py:16"
+  },
+  {
+   "test": "test_e_in_expression",
+   "argv": [
+    "e^2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "7.3890560989"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_constants.py:23"
+  },
+  {
+   "test": "test_implicit_multiplication_with_constant",
+   "argv": [
+    "2pi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "6.2831853072"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_constants.py:29"
+  },
+  {
+   "test": "test_constant_times_number",
+   "argv": [
+    "e2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_constants.py:35"
+  },
+  {
+   "test": "test_e_times_zero",
+   "argv": [
+    "e0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_constants.py:41"
+  },
+  {
+   "test": "test_zero",
+   "argv": [
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:4"
+  },
+  {
+   "test": "test_very_large_number",
+   "argv": [
+    "10^100"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:10"
+  },
+  {
+   "test": "test_very_small_number",
+   "argv": [
+    "0.0000000001"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.0000000001"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:17"
+  },
+  {
+   "test": "test_zero_factorial",
+   "argv": [
+    "0!"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:23"
+  },
+  {
+   "test": "test_one_factorial",
+   "argv": [
+    "1!"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:29"
+  },
+  {
+   "test": "test_negative_sqrt_error",
+   "argv": [
+    "sqrt(-4)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:35"
+  },
+  {
+   "test": "test_log_zero",
+   "argv": [
+    "ln(0)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:41"
+  },
+  {
+   "test": "test_division_by_very_small",
+   "argv": [
+    "1 / 0.0000000001"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "10"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:47"
+  },
+  {
+   "test": "test_multiple_operators_no_space",
+   "argv": [
+    "1+2-3*4/5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.6"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:55"
+  },
+  {
+   "test": "test_nested_functions",
+   "argv": [
+    "sqrt(abs(sin(cos(0))))"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:62"
+  },
+  {
+   "test": "test_many_parentheses",
+   "argv": [
+    "((((1))))"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:70"
+  },
+  {
+   "test": "test_expression_with_spaces",
+   "argv": [
+    "  1   +   2   "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:76"
+  },
+  {
+   "test": "test_pi_arithmetic_complex",
+   "argv": [
+    "2*pi*10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "62.83"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:82"
+  },
+  {
+   "test": "test_e_exponent",
+   "argv": [
+    "e^1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2.7182818285"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:89"
+  },
+  {
+   "test": "test_negative_number_in_parens",
+   "argv": [
+    "(-5)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-5.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:95"
+  },
+  {
+   "test": "test_modulo_float",
+   "argv": [
+    "5.5 % 2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.5"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:107"
+  },
+  {
+   "test": "test_power_zero",
+   "argv": [
+    "5^0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:113"
+  },
+  {
+   "test": "test_zero_power",
+   "argv": [
+    "0^5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:119"
+  },
+  {
+   "test": "test_negative_exponent",
+   "argv": [
+    "2^-3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.125"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:125"
+  },
+  {
+   "test": "test_implicit_multiplication_nested",
+   "argv": [
+    "2(3)(4)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "24.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:132"
+  },
+  {
+   "test": "test_multiple_decimals_error",
+   "argv": [
+    "1.2.3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:138"
+  },
+  {
+   "test": "test_empty_string_input",
+   "argv": [
+    "   "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:145"
+  },
+  {
+   "test": "test_extremely_large_factorial",
+   "argv": [
+    "100!"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:151"
+  },
+  {
+   "test": "test_asin_out_of_range",
+   "argv": [
+    "asin(2)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:159"
+  },
+  {
+   "test": "test_acos_out_of_range",
+   "argv": [
+    "acos(2)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:165"
+  },
+  {
+   "test": "test_sqrt_zero",
+   "argv": [
+    "sqrt(0)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:171"
+  },
+  {
+   "test": "test_ln_one",
+   "argv": [
+    "ln(1)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:177"
+  },
+  {
+   "test": "test_complex_nested_auto_balance",
+   "argv": [
+    "sin(cos(tan(45"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:183"
+  },
+  {
+   "test": "test_factorial_in_expression",
+   "argv": [
+    "5! + 3!"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "126.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:191"
+  },
+  {
+   "test": "test_multiple_factorials",
+   "argv": [
+    "3!!"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "720"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:198"
+  },
+  {
+   "test": "test_power_of_negative",
+   "argv": [
+    "(-2)^3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-8.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:205"
+  },
+  {
+   "test": "test_negative_base_even_exponent",
+   "argv": [
+    "(-2)^2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "4.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:211"
+  },
+  {
+   "test": "test_division_produces_decimal",
+   "argv": [
+    "1/3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.3333333333"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:217"
+  },
+  {
+   "test": "test_very_small_difference",
+   "argv": [
+    "1.0000000001 - 1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.0000000001"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:223"
+  },
+  {
+   "test": "test_log_negative_base",
+   "argv": [
+    "log(10, (-2))"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:229"
+  },
+  {
+   "test": "test_division_by_zero",
+   "argv": [
+    "1/0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "divide by zero"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_errors.py:4"
+  },
+  {
+   "test": "test_sqrt_negative",
+   "argv": [
+    "sqrt(-1)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "out of bounds"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_errors.py:10"
+  },
+  {
+   "test": "test_ln_negative",
+   "argv": [
+    "ln(-1)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "out of bounds"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_errors.py:16"
+  },
+  {
+   "test": "test_factorial_negative",
+   "argv": [
+    "(-1)!"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "out of bounds"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_errors.py:22"
+  },
+  {
+   "test": "test_factorial_non_integer",
+   "argv": [
+    "1.5!"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "out of bounds"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_errors.py:28"
+  },
+  {
+   "test": "test_unknown_function",
+   "argv": [
+    "foo(1)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unknown function"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_errors.py:34"
+  },
+  {
+   "test": "test_unexpected_character",
+   "argv": [
+    "1 + @"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:40"
+  },
+  {
+   "test": "test_mismatched_parentheses_too_many_close",
+   "argv": [
+    "1 + 2)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:46"
+  },
+  {
+   "test": "test_empty_argument",
+   "argv": [
+    "log(2,,3)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "empty argument"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_errors.py:52"
+  },
+  {
+   "test": "test_too_few_arguments",
+   "argv": [
+    "nroot(23)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:58"
+  },
+  {
+   "test": "test_too_many_arguments",
+   "argv": [
+    "nroot(23, 3, 4)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:64"
+  },
+  {
+   "test": "test_comma_without_function",
+   "argv": [
+    "1 + 2, 3 + 4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:70"
+  },
+  {
+   "test": "test_unexpected_comma",
+   "argv": [
+    "(1+1,2+2)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:76"
+  },
+  {
+   "test": "test_mismatched_comma_paren",
+   "argv": [
+    "exp(2,3)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:82"
+  },
+  {
+   "test": "test_function_name_without_parens",
+   "argv": [
+    "exp 2,3)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:89"
+  },
+  {
+   "test": "test_log_with_brackets_error",
+   "argv": [
+    "log(1+(2^16, 4)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:95"
+  },
+  {
+   "test": "test_sin",
+   "argv": [
+    "sin(30)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.5000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_functions.py:5"
+  },
+  {
+   "test": "test_cos",
+   "argv": [
+    "cos(60)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.5000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_functions.py:11"
+  },
+  {
+   "test": "test_tan",
+   "argv": [
+    "tan(45)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_functions.py:17"
+  },
+  {
+   "test": "test_csc",
+   "argv": [
+    "csc(30)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_functions.py:23"
+  },
+  {
+   "test": "test_sec",
+   "argv": [
+    "sec(60)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_functions.py:29"
+  },
+  {
+   "test": "test_cot",
+   "argv": [
+    "cot(45)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_functions.py:35"
+  },
+  {
+   "test": "test_sinh",
+   "argv": [
+    "sinh(0)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_functions.py:41"
+  },
+  {
+   "test": "test_cosh",
+   "argv": [
+    "cosh(0)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_functions.py:47"
+  },
+  {
+   "test": "test_tanh",
+   "argv": [
+    "tanh(0)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_functions.py:53"
+  },
+  {
+   "test": "test_asin",
+   "argv": [
+    "asin(1)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.5707963268"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_functions.py:59"
+  },
+  {
+   "test": "test_acos",
+   "argv": [
+    "acos(1)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_functions.py:66"
+  },
+  {
+   "test": "test_atan",
+   "argv": [
+    "atan(1)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.7853981634"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_functions.py:72"
+  },
+  {
+   "test": "test_acsc",
+   "argv": [
+    "acsc(2)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.5235987756"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_functions.py:79"
+  },
+  {
+   "test": "test_asec",
+   "argv": [
+    "asec(2)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.0471975512"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_functions.py:86"
+  },
+  {
+   "test": "test_acot",
+   "argv": [
+    "acot(1)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.7853981634"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_functions.py:93"
+  },
+  {
+   "test": "test_ln",
+   "argv": [
+    "ln(e)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_functions.py:100"
+  },
+  {
+   "test": "test_log2",
+   "argv": [
+    "log2(1024)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "10.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_functions.py:106"
+  },
+  {
+   "test": "test_log10",
+   "argv": [
+    "log10(1000)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_functions.py:112"
+  },
+  {
+   "test": "test_sqrt",
+   "argv": [
+    "sqrt(16)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "4.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_functions.py:118"
+  },
+  {
+   "test": "test_ceil",
+   "argv": [
+    "ceil(3.2)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "4.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_functions.py:124"
+  },
+  {
+   "test": "test_floor",
+   "argv": [
+    "floor(3.8)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_functions.py:130"
+  },
+  {
+   "test": "test_abs",
+   "argv": [
+    "abs(-5)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "5.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_functions.py:136"
+  },
+  {
+   "test": "test_round",
+   "argv": [
+    "round(0.5)+round(2.4)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_functions.py:142"
+  },
+  {
+   "test": "test_exp",
+   "argv": [
+    "exp(3)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "20.0855369232"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_functions.py:148"
+  },
+  {
+   "test": "test_exp2",
+   "argv": [
+    "exp2(8)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "256.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_functions.py:154"
+  },
+  {
+   "test": "test_deg",
+   "argv": [
+    "deg(3.1415926536)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_functions.py:166"
+  },
+  {
+   "test": "test_log_two_args",
+   "argv": [
+    "log(2^16, 4)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_functions.py:172"
+  },
+  {
+   "test": "test_nroot",
+   "argv": [
+    "nroot(27, 3)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_functions.py:178"
+  },
+  {
+   "test": "test_function_with_expression_args",
+   "argv": [
+    "nroot(2+2, 4+e^2)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.1294396449"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_functions.py:184"
+  },
+  {
+   "test": "test_trig_with_auto_balanced_parens",
+   "argv": [
+    "sin(30) + tan(45"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.5"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_functions.py:190"
+  },
+  {
+   "test": "test_inverse_trig_with_deg",
+   "argv": [
+    "deg(asin(1) + acos(1))"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "90.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_functions.py:196"
+  },
+  {
+   "test": "test_sigmoid_function",
+   "argv": [
+    "1 / (1 + e^-7)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.9990889488"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_functions.py:202"
+  },
+  {
+   "test": "test_nested_sqrt_floor",
+   "argv": [
+    "floor(sqrt(3^2 + 5^2))"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "5.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_functions.py:208"
+  },
+  {
+   "test": "test_default_output_format",
+   "argv": [
+    "1.123456789012345"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.1234567890"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_format.py:4"
+  },
+  {
+   "test": "test_fix_option_2_places",
+   "argv": [
+    "-f",
+    "2",
+    "1.23456"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.23"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_format.py:10"
+  },
+  {
+   "test": "test_fix_option_5_places",
+   "argv": [
+    "-f",
+    "5",
+    "1.123456789"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.12346"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_format.py:17"
+  },
+  {
+   "test": "test_fix_long_form",
+   "argv": [
+    "--fix",
+    "3",
+    "3.14159"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3.142"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_format.py:23"
+  },
+  {
+   "test": "test_base_binary",
+   "argv": [
+    "-b",
+    "2",
+    "15"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_format.py:29"
+  },
+  {
+   "test": "test_base_octal",
+   "argv": [
+    "-b",
+    "8",
+    "64"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "100"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_format.py:37"
+  },
+  {
+   "test": "test_base_hexadecimal",
+   "argv": [
+    "-b",
+    "16",
+    "255"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "FF"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_format.py:43"
+  },
+  {
+   "test": "test_base_36",
+   "argv": [
+    "-b",
+    "36",
+    "1295"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Z"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_format.py:49"
+  },
+  {
+   "test": "test_base_long_form",
+   "argv": [
+    "--base",
+    "16",
+    "240"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "F0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_format.py:56"
+  },
+  {
+   "test": "test_combined_fix_and_base",
+   "argv": [
+    "-f",
+    "2",
+    "-b",
+    "2",
+    "3.75"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "11"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_format.py:62"
+  },
+  {
+   "test": "test_implicit_mult_number_paren",
+   "argv": [
+    "2(3 + 4)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "14.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_features.py:4"
+  },
+  {
+   "test": "test_implicit_mult_paren_paren",
+   "argv": [
+    "(2)(3)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "6.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_features.py:10"
+  },
+  {
+   "test": "test_implicit_mult_number_function",
+   "argv": [
+    "2sin(30)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_features.py:16"
+  },
+  {
+   "test": "test_implicit_mult_nested",
+   "argv": [
+    "12sin(45(2))"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "12.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_features.py:22"
+  },
+  {
+   "test": "test_auto_balance_parentheses",
+   "argv": [
+    "ceil(sqrt(3^2 + 5^2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "6.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_features.py:29"
+  },
+  {
+   "test": "test_auto_balance_multiple_parens",
+   "argv": [
+    "((1 + 2) * (3 + 4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "21.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_features.py:36"
+  },
+  {
+   "test": "test_whitespace_ignored",
+   "argv": [
+    "1    +    2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_features.py:42"
+  },
+  {
+   "test": "test_no_whitespace",
+   "argv": [
+    "1+2*3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "7.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_features.py:48"
+  },
+  {
+   "test": "test_implicit_mult_constant_number",
+   "argv": [
+    "pi2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "6.2831853072"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_features.py:54"
+  },
+  {
+   "test": "test_function_without_explicit_mult",
+   "argv": [
+    "sin30"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_special_features.py:60"
+  },
+  {
+   "test": "test_command_mode_basic_expression_stdout_only",
+   "argv": [
+    "1+2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "3.0000000000\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_command_mode.py:4"
+  },
+  {
+   "test": "test_fix_sets_decimal_places",
+   "argv": [
+    "--fix",
+    "3",
+    "1/3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "0.333\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_command_mode.py:11"
+  },
+  {
+   "test": "test_angle_unit_radian_affects_trig",
+   "argv": [
+    "--angle_unit",
+    "radian",
+    "sin(pi/2)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "1.0000000000\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_command_mode.py:24"
+  },
+  {
+   "test": "test_domain_error_goes_to_stderr_and_exit_1",
+   "argv": [
+    "1 + ln(-1)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors_and_streams.py:4"
+  },
+  {
+   "test": "test_syntax_error_exit_1_and_stderr",
+   "argv": [
+    "log10100"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Syntax Error:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_errors_and_streams.py:11"
+  },
+  {
+   "test": "test_help_exit_code_and_mentions_usage",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--base"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_version.py:4"
+  },
+  {
+   "test": "test_version_prints_and_exits_0",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_version.py:12"
+  },
+  {
+   "test": "test_degree_mode_explicit",
+   "argv": [
+    "-a",
+    "degree",
+    "sin(30)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.5000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_angle_units.py:10"
+  },
+  {
+   "test": "test_radian_mode",
+   "argv": [
+    "-a",
+    "radian",
+    "sin(pi/6)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.5000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_angle_units.py:16"
+  },
+  {
+   "test": "test_radian_mode_pi",
+   "argv": [
+    "-a",
+    "radian",
+    "sin(pi)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_angle_units.py:22"
+  },
+  {
+   "test": "test_radian_mode_cos",
+   "argv": [
+    "-a",
+    "radian",
+    "cos(pi)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-1.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_angle_units.py:31"
+  },
+  {
+   "test": "test_gradian_mode",
+   "argv": [
+    "-a",
+    "gradian",
+    "sin(100)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_angle_units.py:37"
+  },
+  {
+   "test": "test_angle_unit_long_form",
+   "argv": [
+    "--angle_unit",
+    "radian",
+    "sin(pi/2)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_angle_units.py:45"
+  },
+  {
+   "test": "test_degree_mode_tan",
+   "argv": [
+    "-a",
+    "degree",
+    "tan(45)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_angle_units.py:51"
+  },
+  {
+   "test": "test_radian_mode_tan",
+   "argv": [
+    "-a",
+    "radian",
+    "tan(pi/4)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_angle_units.py:57"
+  },
+  {
+   "test": "test_inverse_trig_returns_radians",
+   "argv": [
+    "-a",
+    "degree",
+    "asin(1)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.570"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_angle_units.py:63"
+  },
+  {
+   "test": "test_addition_multiple",
+   "argv": [
+    "1 + 2 + 3 + 4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "10.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_arithmetic_operations.py:10"
+  },
+  {
+   "test": "test_subtraction_negative_result",
+   "argv": [
+    "3 - 5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-2.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_arithmetic_operations.py:22"
+  },
+  {
+   "test": "test_division_floating_point",
+   "argv": [
+    "10 / 3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3.3333333333"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_arithmetic_operations.py:40"
+  },
+  {
+   "test": "test_modulo_exact_division",
+   "argv": [
+    "10 % 5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_arithmetic_operations.py:70"
+  },
+  {
+   "test": "test_factorial_large",
+   "argv": [
+    "10!"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_arithmetic_operations.py:88"
+  },
+  {
+   "test": "test_unary_plus",
+   "argv": [
+    "(+5)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "5.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_arithmetic_operations.py:95"
+  },
+  {
+   "test": "test_unary_minus",
+   "argv": [
+    "(0-5)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-5.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_arithmetic_operations.py:101"
+  },
+  {
+   "test": "test_nested_parentheses",
+   "argv": [
+    "((1 + 2) * 3) - 4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "5.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_arithmetic_operations.py:119"
+  },
+  {
+   "test": "test_floating_point_numbers",
+   "argv": [
+    "1.5 + 2.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "4.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_arithmetic_operations.py:131"
+  },
+  {
+   "test": "test_floating_point_division",
+   "argv": [
+    "1.2816 + 1 + 1.2816/1.2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3.349"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_arithmetic_operations.py:137"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Calculator REPL similar to bc(1)",
+    "--help",
+    "--version",
+    "--fix",
+    "--base",
+    "--angle_unit"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:5"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Calculator",
+    "--help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:17"
+  },
+  {
+   "test": "test_help_expression",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Constants",
+    "Functions",
+    "Operators",
+    "pi",
+    "e",
+    "sin",
+    "cos"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:25"
+  },
+  {
+   "test": "test_version_short_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "eva"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:46"
+  },
+  {
+   "test": "test_empty_expression",
+   "argv": [
+    ""
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:60"
+  },
+  {
+   "test": "test_expression_with_only_spaces",
+   "argv": [
+    "   "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:67"
+  },
+  {
+   "test": "test_pi_in_expression",
+   "argv": [
+    "pi * 2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "6.2831853072"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_constants.py:16"
+  },
+  {
+   "test": "test_e_in_expression",
+   "argv": [
+    "e * 2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "5.4365636569"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_constants.py:22"
+  },
+  {
+   "test": "test_pi_squared",
+   "argv": [
+    "pi^2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "9.8696044011"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_constants.py:28"
+  },
+  {
+   "test": "test_constant_implicit_multiplication",
+   "argv": [
+    "e2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "5.4365636569"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_constants.py:46"
+  },
+  {
+   "test": "test_pi_implicit_multiplication",
+   "argv": [
+    "pi5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "15.7079632679"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_constants.py:52"
+  },
+  {
+   "test": "test_chained_functions",
+   "argv": [
+    "sqrt(sqrt(256))"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "4.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:23"
+  },
+  {
+   "test": "test_nested_functions_deep",
+   "argv": [
+    "sin(cos(tan(0)))"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.017452"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:29"
+  },
+  {
+   "test": "test_expression_with_all_operators",
+   "argv": [
+    "5! + 3^2 - 4*2 / 2 + 10%3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "126.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:35"
+  },
+  {
+   "test": "test_zero_to_zero_power",
+   "argv": [
+    "0^0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:42"
+  },
+  {
+   "test": "test_negative_zero",
+   "argv": [
+    "0-0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:48"
+  },
+  {
+   "test": "test_leading_zeros",
+   "argv": [
+    "0001 + 0002"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:62"
+  },
+  {
+   "test": "test_log_of_one",
+   "argv": [
+    "log(1, 10)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:99"
+  },
+  {
+   "test": "test_abs_expression",
+   "argv": [
+    "abs(3 - 5)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:121"
+  },
+  {
+   "test": "test_pi_times_pi",
+   "argv": [
+    "pi * pi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "9.869"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:133"
+  },
+  {
+   "test": "test_e_to_the_pi",
+   "argv": [
+    "e^pi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "23.1406926328"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:139"
+  },
+  {
+   "test": "test_implicit_multiplication_constant_function",
+   "argv": [
+    "pi*sin(30)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.570"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:145"
+  },
+  {
+   "test": "test_base_3",
+   "argv": [
+    "-b",
+    "3",
+    "9"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "100"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:152"
+  },
+  {
+   "test": "test_base_5",
+   "argv": [
+    "-b",
+    "5",
+    "25"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "100"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:158"
+  },
+  {
+   "test": "test_fix_64_max",
+   "argv": [
+    "-f",
+    "64",
+    "pi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:164"
+  },
+  {
+   "test": "test_fix_1_min",
+   "argv": [
+    "-f",
+    "1",
+    "pi"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3.1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:172"
+  },
+  {
+   "test": "test_expression_ending_with_operator_autobalance",
+   "argv": [
+    "(5 + 3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:178"
+  },
+  {
+   "test": "test_sin_large_angle",
+   "argv": [
+    "sin(360)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:184"
+  },
+  {
+   "test": "test_cos_large_angle",
+   "argv": [
+    "cos(360)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:193"
+  },
+  {
+   "test": "test_division_by_zero",
+   "argv": [
+    "1/0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Divide by zero"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:4"
+  },
+  {
+   "test": "test_division_by_zero_in_expression",
+   "argv": [
+    "5 + 1/0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Divide by zero"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:11"
+  },
+  {
+   "test": "test_sqrt_negative",
+   "argv": [
+    "sqrt(-1)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Out of bounds"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:17"
+  },
+  {
+   "test": "test_ln_negative",
+   "argv": [
+    "ln(-1)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Out of bounds"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:23"
+  },
+  {
+   "test": "test_factorial_negative",
+   "argv": [
+    "(-1)!"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Out of bounds"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:35"
+  },
+  {
+   "test": "test_factorial_non_integer",
+   "argv": [
+    "(2.5)!"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Out of bounds"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:41"
+  },
+  {
+   "test": "test_too_many_right_parens",
+   "argv": [
+    "1 + 2)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Mismatched parentheses"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:47"
+  },
+  {
+   "test": "test_mismatched_parens_complex",
+   "argv": [
+    "log(1+(2^16, 4)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Mismatched parentheses"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:53"
+  },
+  {
+   "test": "test_empty_function_argument",
+   "argv": [
+    "log(2,,3)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:59"
+  },
+  {
+   "test": "test_too_many_function_arguments",
+   "argv": [
+    "nroot(23,3,4)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:65"
+  },
+  {
+   "test": "test_consecutive_operators_valid",
+   "argv": [
+    "1 ++ 2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:78"
+  },
+  {
+   "test": "test_comma_without_multiarg_function",
+   "argv": [
+    "1+(2^16, 4)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:85"
+  },
+  {
+   "test": "test_invalid_base_too_high",
+   "argv": [
+    "-b",
+    "37",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "not in 1..=36"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:98"
+  },
+  {
+   "test": "test_invalid_base_zero",
+   "argv": [
+    "-b",
+    "0",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "not in 1..=36"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:104"
+  },
+  {
+   "test": "test_invalid_fix_too_high",
+   "argv": [
+    "-f",
+    "65",
+    "1.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "not in 1..=64"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:110"
+  },
+  {
+   "test": "test_invalid_fix_zero",
+   "argv": [
+    "-f",
+    "0",
+    "1.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "not in 1..=64"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:116"
+  },
+  {
+   "test": "test_invalid_angle_unit",
+   "argv": [
+    "-a",
+    "invalid",
+    "sin(30)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:122"
+  },
+  {
+   "test": "test_unknown_function",
+   "argv": [
+    "unknown(5)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:128"
+  },
+  {
+   "test": "test_log_negative",
+   "argv": [
+    "log10(-1)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:148"
+  },
+  {
+   "test": "test_nroot_negative_even",
+   "argv": [
+    "nroot(-8, 2)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:154"
+  },
+  {
+   "test": "test_sqrt_non_perfect",
+   "argv": [
+    "sqrt(2)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.4142135624"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mathematical_functions.py:10"
+  },
+  {
+   "test": "test_ceil_negative",
+   "argv": [
+    "ceil(-3.2)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-3.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mathematical_functions.py:40"
+  },
+  {
+   "test": "test_floor_negative",
+   "argv": [
+    "floor(-3.2)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-4.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mathematical_functions.py:52"
+  },
+  {
+   "test": "test_round_up",
+   "argv": [
+    "round(2.6)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mathematical_functions.py:58"
+  },
+  {
+   "test": "test_round_down",
+   "argv": [
+    "round(2.4)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mathematical_functions.py:64"
+  },
+  {
+   "test": "test_round_half",
+   "argv": [
+    "round(2.5)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mathematical_functions.py:70"
+  },
+  {
+   "test": "test_log2",
+   "argv": [
+    "log2(8)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mathematical_functions.py:89"
+  },
+  {
+   "test": "test_log10",
+   "argv": [
+    "log10(100)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mathematical_functions.py:101"
+  },
+  {
+   "test": "test_exp_one",
+   "argv": [
+    "exp(1)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2.7182818285"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mathematical_functions.py:119"
+  },
+  {
+   "test": "test_log_two_args",
+   "argv": [
+    "log(100, 10)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mathematical_functions.py:137"
+  },
+  {
+   "test": "test_fix_2_decimal_places",
+   "argv": [
+    "-f",
+    "2",
+    "1/3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.33"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formatting.py:12"
+  },
+  {
+   "test": "test_fix_5_decimal_places",
+   "argv": [
+    "-f",
+    "5",
+    "1/3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.33333"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formatting.py:18"
+  },
+  {
+   "test": "test_fix_1_decimal_place",
+   "argv": [
+    "-f",
+    "1",
+    "1/3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formatting.py:24"
+  },
+  {
+   "test": "test_fix_long_form",
+   "argv": [
+    "--fix",
+    "3",
+    "1/3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.333"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formatting.py:30"
+  },
+  {
+   "test": "test_base_10_default",
+   "argv": [
+    "-b",
+    "10",
+    "100"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "100"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formatting.py:62"
+  },
+  {
+   "test": "test_base_with_fix",
+   "argv": [
+    "-b",
+    "2",
+    "-f",
+    "2",
+    "7.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "111"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formatting.py:68"
+  },
+  {
+   "test": "test_base_long_form",
+   "argv": [
+    "--base",
+    "16",
+    "255"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "FF"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formatting.py:75"
+  },
+  {
+   "test": "test_fix_affects_precision",
+   "argv": [
+    "-f",
+    "20",
+    "1/3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_formatting.py:81"
+  },
+  {
+   "test": "test_auto_balance_missing_right_paren",
+   "argv": [
+    "(1 + 2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_features.py:4"
+  },
+  {
+   "test": "test_auto_balance_multiple_missing",
+   "argv": [
+    "((1 + 2) * 3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "9.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_features.py:10"
+  },
+  {
+   "test": "test_implicit_multiplication_number_paren",
+   "argv": [
+    "2(3)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "6.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_features.py:22"
+  },
+  {
+   "test": "test_implicit_multiplication_number_function",
+   "argv": [
+    "5sin(30)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2.5000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_features.py:34"
+  },
+  {
+   "test": "test_space_handling",
+   "argv": [
+    "1 + 2 * 3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "7.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_features.py:46"
+  },
+  {
+   "test": "test_many_spaces",
+   "argv": [
+    "1   +   2   *   3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "7.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_features.py:58"
+  },
+  {
+   "test": "test_implicit_multiplication_after_constant",
+   "argv": [
+    "pi*2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "6.2831853072"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_features.py:64"
+  },
+  {
+   "test": "test_nested_auto_balance",
+   "argv": [
+    "((1 + 2 + 3) ^ 2 ) - 4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "32.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_features.py:70"
+  },
+  {
+   "test": "test_implicit_multiplication_number_number",
+   "argv": [
+    "12"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "12.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_features.py:76"
+  },
+  {
+   "test": "test_asin",
+   "argv": [
+    "asin(0.5)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.523598"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_trigonometric_functions.py:52"
+  },
+  {
+   "test": "test_asin_convert_to_degrees",
+   "argv": [
+    "deg(asin(0.5))"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "30.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_trigonometric_functions.py:59"
+  },
+  {
+   "test": "test_acos",
+   "argv": [
+    "acos(0.5)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.047197"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_trigonometric_functions.py:65"
+  },
+  {
+   "test": "test_acos_convert_to_degrees",
+   "argv": [
+    "deg(acos(0.5))"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "60.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_trigonometric_functions.py:72"
+  },
+  {
+   "test": "test_atan",
+   "argv": [
+    "atan(1)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.785398"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_trigonometric_functions.py:78"
+  },
+  {
+   "test": "test_atan_convert_to_degrees",
+   "argv": [
+    "deg(atan(1))"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "45.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_trigonometric_functions.py:85"
+  },
+  {
+   "test": "test_acsc",
+   "argv": [
+    "acsc(2)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.523598"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_trigonometric_functions.py:91"
+  },
+  {
+   "test": "test_acsc_convert_to_degrees",
+   "argv": [
+    "deg(acsc(2))"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "30.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_trigonometric_functions.py:98"
+  },
+  {
+   "test": "test_asec",
+   "argv": [
+    "asec(2)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.047197"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_trigonometric_functions.py:104"
+  },
+  {
+   "test": "test_asec_convert_to_degrees",
+   "argv": [
+    "deg(asec(2))"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "60.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_trigonometric_functions.py:111"
+  },
+  {
+   "test": "test_acot",
+   "argv": [
+    "acot(1)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.785398"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_trigonometric_functions.py:117"
+  },
+  {
+   "test": "test_acot_convert_to_degrees",
+   "argv": [
+    "deg(acot(1))"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "45.0000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_trigonometric_functions.py:124"
+  },
+  {
+   "test": "test_trig_with_expression",
+   "argv": [
+    "sin(30 + 30)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.8660254038"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_trigonometric_functions.py:148"
+  },
+  {
+   "test": "test_combined_trig_functions",
+   "argv": [
+    "sin(30) + tan(45)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.5000000000"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_trigonometric_functions.py:154"
+  }
+ ]
+}

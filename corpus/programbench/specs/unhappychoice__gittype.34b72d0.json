@@ -1,0 +1,1207 @@
+{
+ "slug": "unhappychoice__gittype.34b72d0",
+ "language": "",
+ "n_branches": 9,
+ "n_tests_total": 892,
+ "n_examples": 67,
+ "n_with_exact_stdout": 16,
+ "n_with_rc": 47,
+ "n_skipped": 809,
+ "examples": [
+  {
+   "test": "test_rust_log_env_included_in_error_log_when_present",
+   "argv": [
+    "repo",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error details written to:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_and_env.py:30"
+  },
+  {
+   "test": "test_malformed_config_json_does_not_change_terminal_error_message",
+   "argv": [
+    "repo",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Terminal error: Failed to create terminal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_and_env.py:72"
+  },
+  {
+   "test": "test_subcommand_rejects_extra_positional_arguments_export",
+   "argv": [
+    "export",
+    "extra"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable export"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args_parsing_validation.py:77"
+  },
+  {
+   "test": "test_subcommand_rejects_extra_positional_arguments_cache_clear",
+   "argv": [
+    "cache",
+    "clear",
+    "extra"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable cache clear"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args_parsing_validation.py:83"
+  },
+  {
+   "test": "test_global_options_can_precede_positionals_and_command",
+   "argv": [
+    "--langs",
+    "rust,python",
+    "repo_path",
+    "history"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "History command"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args_parsing_validation.py:94"
+  },
+  {
+   "test": "test_trending_period_accepts_equals_syntax_and_parses",
+   "argv": [
+    "trending",
+    "--period=daily",
+    "Rust"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args_parsing_validation.py:117"
+  },
+  {
+   "test": "test_cache_stats_empty",
+   "argv": [
+    "cache",
+    "stats"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Challenge Cache Statistics:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cache_commands.py:18"
+  },
+  {
+   "test": "test_cache_list_empty",
+   "argv": [
+    "cache",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "No cached challenges found.\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cache_commands.py:27"
+  },
+  {
+   "test": "test_cache_clear_is_idempotent",
+   "argv": [
+    "cache",
+    "clear"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Challenge cache cleared successfully.\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cache_commands.py:34"
+  },
+  {
+   "test": "test_unknown_flag_exit_2_and_message",
+   "argv": [
+    "--badflag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument '--badflag' found",
+    "For more information, try '--help'."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_errors.py:18"
+  },
+  {
+   "test": "test_documented_config_flag_is_rejected",
+   "argv": [
+    "--config",
+    "foo.toml"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument '--config' found"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_errors.py:26"
+  },
+  {
+   "test": "test_unknown_subcommand_errors_without_tty_and_writes_log",
+   "argv": [
+    "nosuchcmd"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Error details written to: gittype_error_",
+    "Error: IO error: No such device or address",
+    "COMMAND_ARGS:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_errors.py:33"
+  },
+  {
+   "test": "test_help_matches_fixture_exact",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_help_and_version.py:27"
+  },
+  {
+   "test": "test_version_matches_fixture_exact",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_help_and_version.py:34"
+  },
+  {
+   "test": "test_history_stub_message",
+   "argv": [
+    "history"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "History command is not yet implemented",
+    "planned for a future release"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_stubbed_commands.py:17"
+  },
+  {
+   "test": "test_stats_stub_message",
+   "argv": [
+    "stats"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Stats command is not yet implemented",
+    "planned for a future release"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_stubbed_commands.py:25"
+  },
+  {
+   "test": "test_export_stub_message_and_format",
+   "argv": [
+    "export"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Export command is not yet implemented",
+    "Requested format: json",
+    "planned for a future release"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_stubbed_commands.py:33"
+  },
+  {
+   "test": "test_repo_list_without_tty_creates_error_log",
+   "argv": [
+    "repo",
+    "list"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Error: Terminal error: Failed to create terminal",
+    "ERROR OCCURRED AT:",
+    "ERROR MESSAGE: Terminal error: Failed to create terminal",
+    "COMMAND_ARGS:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tty_dependent_errors.py:19"
+  },
+  {
+   "test": "test_dash_h_exits_zero_and_stdout_only",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:15"
+  },
+  {
+   "test": "test_help_has_usage_line",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable [OPTIONS] [REPO_PATH] [COMMAND]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:27"
+  },
+  {
+   "test": "test_h_and_help_are_different_outputs",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Supports formats:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:67"
+  },
+  {
+   "test": "test_help_precedence_with_other_valid_flags",
+   "argv": [
+    "--help",
+    "--langs",
+    "rust"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:76"
+  },
+  {
+   "test": "test_error_on_unknown_flag_is_on_stderr_and_shows_usage_hint",
+   "argv": [
+    "--bogus",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument",
+    "Usage: executable",
+    "For more information, try '--help'."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:83"
+  },
+  {
+   "test": "test_export_help_documents_format_and_output_flags",
+   "argv": [
+    "export",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[default: json]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_subcommands.py:26"
+  },
+  {
+   "test": "test_repo_clear_help_documents_force_flag",
+   "argv": [
+    "repo",
+    "clear",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--force"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_subcommands.py:45"
+  },
+  {
+   "test": "test_trending_help_mentions_period_default_daily",
+   "argv": [
+    "trending",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--period <PERIOD>",
+    "[default: daily]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_subcommands.py:68"
+  },
+  {
+   "test": "test_trending_help_mentions_supported_languages_titlecase",
+   "argv": [
+    "trending",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Supported languages:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_subcommands.py:74"
+  },
+  {
+   "test": "test_cache_stats_stdout_only_exit_0",
+   "argv": [
+    "cache",
+    "stats"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Challenge Cache Statistics:\n  Cached repositories: 0\n  Total size: 0 bytes\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cache_commands.py:4"
+  },
+  {
+   "test": "test_version_flag_outputs_version_and_exit_0",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_help_version.py:4"
+  },
+  {
+   "test": "test_help_contains_usage_and_commands_exit_0",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Commands:",
+    "export",
+    "cache"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_help_version.py:11"
+  },
+  {
+   "test": "test_stats_not_implemented_is_stderr_exit_1",
+   "argv": [
+    "stats"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_not_implemented_commands.py:4"
+  },
+  {
+   "test": "test_history_not_implemented_is_stderr_exit_1",
+   "argv": [
+    "history"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_not_implemented_commands.py:14"
+  },
+  {
+   "test": "test_export_not_implemented_goes_to_stdout_exit_0_default_format_json",
+   "argv": [
+    "export"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_not_implemented_commands.py:24"
+  },
+  {
+   "test": "test_export_format_flag_is_reflected_in_output",
+   "argv": [
+    "export",
+    "--format",
+    "csv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Requested format: csv"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_not_implemented_commands.py:35"
+  },
+  {
+   "test": "test_database_tables_have_foreign_key_definitions",
+   "argv": [
+    "PRAGMA foreign_key_list(sessions)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "repositories"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_database_daos.py:286"
+  },
+  {
+   "test": "test_database_persists_across_commands",
+   "argv": [
+    "SELECT name FROM sqlite_master WHERE type='table'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "sessions"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_database_daos.py:368"
+  },
+  {
+   "test": "test_database_stages_table_schema",
+   "argv": [
+    "PRAGMA foreign_key_list(stages)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "sessions",
+    "challenges"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_database_daos.py:553"
+  },
+  {
+   "test": "test_local_repo_without_remote",
+   "argv": [
+    "git",
+    "remote",
+    "-v"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_git_integration.py:82"
+  },
+  {
+   "test": "test_local_repo_dirty_working_directory",
+   "argv": [
+    "git",
+    "status",
+    "--porcelain"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_git_integration.py:98"
+  },
+  {
+   "test": "test_local_repo_https_github_url",
+   "argv": [
+    "git",
+    "remote",
+    "get-url",
+    "origin"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_git_integration.py:134"
+  },
+  {
+   "test": "test_local_repo_current_branch_detection",
+   "argv": [
+    "git",
+    "branch",
+    "--show-current"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_git_integration.py:224"
+  },
+  {
+   "test": "test_local_repo_commit_hash_extraction",
+   "argv": [
+    "git",
+    "rev-parse",
+    "HEAD"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_git_integration.py:236"
+  },
+  {
+   "test": "test_local_repo_detached_head_state",
+   "argv": [
+    "git",
+    "rev-parse",
+    "HEAD"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "HEAD detached at"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_git_integration.py:250"
+  },
+  {
+   "test": "test_local_repo_multiple_remotes",
+   "argv": [
+    "git",
+    "remote",
+    "add",
+    "upstream",
+    "https://github.com/upstream/repo.git"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "origin",
+    "upstream",
+    "backup"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_git_integration.py:273"
+  },
+  {
+   "test": "test_local_repo_nested_git_directories",
+   "argv": [
+    "git",
+    "remote",
+    "get-url",
+    "origin"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "refs/heads/",
+    "refs/heads/"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_git_integration.py:672"
+  },
+  {
+   "test": "test_local_repo_very_long_commit_history",
+   "argv": [
+    "git",
+    "rev-list",
+    "--count",
+    "HEAD"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_git_integration.py:738"
+  },
+  {
+   "test": "test_repo_clear_empty_cache_noforce",
+   "argv": [
+    "repo",
+    "clear"
+   ],
+   "stdin": "n\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "No cached repositories directory found.\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_repo.py:37"
+  },
+  {
+   "test": "test_repo_clear_with_repos_cancel",
+   "argv": [
+    "repo",
+    "clear"
+   ],
+   "stdin": "n\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Are you sure you want to continue? [y/N]:",
+    "Operation cancelled."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_repo.py:48"
+  },
+  {
+   "test": "test_repo_clear_with_repos_confirm",
+   "argv": [
+    "repo",
+    "clear"
+   ],
+   "stdin": "y\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Are you sure you want to continue? [y/N]:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_repo.py:84"
+  },
+  {
+   "test": "test_repo_clear_no_git_repos",
+   "argv": [
+    "repo",
+    "clear"
+   ],
+   "stdin": "y\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "No cached repositories found.\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_repo.py:165"
+  },
+  {
+   "test": "test_repo_clear_nested_git_repos",
+   "argv": [
+    "repo",
+    "clear"
+   ],
+   "stdin": "y\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "(1 cached repositories will be removed)",
+    "Successfully deleted all cached repositories."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_repo.py:188"
+  },
+  {
+   "test": "test_repo_clear_multiple_repos",
+   "argv": [
+    "repo",
+    "clear"
+   ],
+   "stdin": "y\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "(5 cached repositories will be removed)",
+    "Successfully deleted all cached repositories."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_repo.py:213"
+  },
+  {
+   "test": "test_repo_clear_single_repo",
+   "argv": [
+    "repo",
+    "clear"
+   ],
+   "stdin": "y\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "(1 cached repositories will be removed)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_repo.py:239"
+  },
+  {
+   "test": "test_repo_clear_yes_variations",
+   "argv": [
+    "repo",
+    "clear"
+   ],
+   "stdin": "yes\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Successfully deleted all cached repositories."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_repo.py:257"
+  },
+  {
+   "test": "test_repo_clear_no_variations",
+   "argv": [
+    "repo",
+    "clear"
+   ],
+   "stdin": "no\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Operation cancelled."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_repo.py:274"
+  },
+  {
+   "test": "test_repo_clear_empty_input",
+   "argv": [
+    "repo",
+    "clear"
+   ],
+   "stdin": "\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Operation cancelled."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_repo.py:294"
+  },
+  {
+   "test": "test_repo_clear_invalid_input",
+   "argv": [
+    "repo",
+    "clear"
+   ],
+   "stdin": "maybe\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Operation cancelled."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_repo.py:314"
+  },
+  {
+   "test": "test_repo_clear_case_sensitive_yes",
+   "argv": [
+    "repo",
+    "clear"
+   ],
+   "stdin": "Y\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Successfully deleted all cached repositories."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_repo.py:363"
+  },
+  {
+   "test": "test_repo_clear_whitespace_handling",
+   "argv": [
+    "repo",
+    "clear"
+   ],
+   "stdin": " y \n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Successfully deleted all cached repositories."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_repo.py:380"
+  },
+  {
+   "test": "test_repo_clear_multi_level_nesting",
+   "argv": [
+    "repo",
+    "clear"
+   ],
+   "stdin": "y\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "(3 cached repositories will be removed)",
+    "Successfully deleted all cached repositories."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_repo.py:396"
+  },
+  {
+   "test": "test_repo_clear_mixed_repos_and_non_repos",
+   "argv": [
+    "repo",
+    "clear"
+   ],
+   "stdin": "y\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "(2 cached repositories will be removed)",
+    "Successfully deleted all cached repositories."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_repo.py:458"
+  },
+  {
+   "test": "test_global_flag_repo_before_subcommand_accepted_for_help",
+   "argv": [
+    "--repo",
+    "owner/repo",
+    "history",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:102"
+  },
+  {
+   "test": "test_nested_subcommands_listed_in_parent_help",
+   "argv": [
+    "cache",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:135"
+  },
+  {
+   "test": "test_ext_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "gittype"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_cli_basic.py:21"
+  },
+  {
+   "test": "test_ext_help_contains_commands",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Commands:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:32"
+  },
+  {
+   "test": "test_ext_cache_stats_empty",
+   "argv": [
+    "cache",
+    "clear"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Cached repositories",
+    "Total size"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:45"
+  },
+  {
+   "test": "test_ext_export_json_default",
+   "argv": [
+    "export",
+    "--output"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "not yet implemented"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_cli_basic.py:60"
+  }
+ ]
+}

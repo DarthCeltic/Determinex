@@ -1,0 +1,656 @@
+{
+ "slug": "svenstaro__miniserve.8449e8b",
+ "language": "",
+ "n_branches": 9,
+ "n_tests_total": 397,
+ "n_examples": 37,
+ "n_with_exact_stdout": 3,
+ "n_with_rc": 21,
+ "n_skipped": 349,
+ "examples": [
+  {
+   "test": "test_version_format",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:18"
+  },
+  {
+   "test": "test_help_contains_key_options",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli.py:26"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "miniserve"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_cli_basic.py:12"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basic.py:19"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "miniserve"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_cli_basic.py:25"
+  },
+  {
+   "test": "test_version_short_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "miniserve"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_cli_basic.py:34"
+  },
+  {
+   "test": "test_title_option",
+   "argv": [
+    "--title",
+    "My Custom Title"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "My Custom Title"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_features.py:11"
+  },
+  {
+   "test": "test_show_wget_footer",
+   "argv": [
+    "--show-wget-footer"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "wget"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_features.py:52"
+  },
+  {
+   "test": "test_enable_tar",
+   "argv": [
+    "--enable-tar"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tar"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_features.py:115"
+  },
+  {
+   "test": "test_enable_zip",
+   "argv": [
+    "--enable-zip"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "zip"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_features.py:127"
+  },
+  {
+   "test": "test_custom_header_single",
+   "argv": [
+    "--header",
+    "X-Custom-Header:CustomValue"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "X-Custom-Header"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_headers.py:11"
+  },
+  {
+   "test": "test_custom_header_multiple",
+   "argv": [
+    "--header",
+    "X-Custom-1:Value1",
+    "--header",
+    "X-Custom-2:Value2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "X-Custom-1",
+    "X-Custom-2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_headers.py:28"
+  },
+  {
+   "test": "test_cache_control_header",
+   "argv": [
+    "--header",
+    "Cache-Control:no-cache"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "no-cache"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_headers.py:49"
+  },
+  {
+   "test": "test_hidden_files_shown_with_flag",
+   "argv": [
+    "-H"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".hidden"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hidden_files.py:24"
+  },
+  {
+   "test": "test_index_file_served_instead_of_listing",
+   "argv": [
+    "--index",
+    "index.html"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Index Page"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_index_spa.py:12"
+  },
+  {
+   "test": "test_spa_mode_returns_index_for_nonexistent_paths",
+   "argv": [
+    "--spa",
+    "--index",
+    "index.html"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SPA Index"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_index_spa.py:28"
+  },
+  {
+   "test": "test_pretty_urls_serves_html_without_extension",
+   "argv": [
+    "--pretty-urls"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "About Page"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_index_spa.py:57"
+  },
+  {
+   "test": "test_route_prefix",
+   "argv": [
+    "--route-prefix",
+    "/myprefix"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_routes.py:15"
+  },
+  {
+   "test": "test_help_precedence_over_invalid_flag",
+   "argv": [
+    "--help",
+    "--definitely-not-a-real-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:130"
+  },
+  {
+   "test": "test_double_dash_treats_help_as_path_and_errors",
+   "argv": [
+    "--",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Failed to resolve path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:138"
+  },
+  {
+   "test": "test_default_port_8080",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "8080",
+    "default"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_additional_coverage.py:8"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable [OPTIONS] [PATH]",
+    "For when you really just want to serve some files over HTTP right now!",
+    "--help",
+    "--version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:6"
+  },
+  {
+   "test": "test_help_long_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable [OPTIONS] [PATH]",
+    "--verbose",
+    "--port",
+    "--auth"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:15"
+  },
+  {
+   "test": "test_print_completions_bash",
+   "argv": [
+    "--print-completions",
+    "bash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:39"
+  },
+  {
+   "test": "test_print_completions_zsh",
+   "argv": [
+    "--print-completions",
+    "zsh"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:47"
+  },
+  {
+   "test": "test_print_completions_fish",
+   "argv": [
+    "--print-completions",
+    "fish"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:55"
+  },
+  {
+   "test": "test_print_completions_powershell",
+   "argv": [
+    "--print-completions",
+    "powershell"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:63"
+  },
+  {
+   "test": "test_print_completions_elvish",
+   "argv": [
+    "--print-completions",
+    "elvish"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:71"
+  },
+  {
+   "test": "test_print_manpage",
+   "argv": [
+    "--print-manpage"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".TH",
+    "miniserve"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:84"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "miniserve"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:30"
+  },
+  {
+   "test": "test_print_completions_powershell",
+   "argv": [
+    "--print-completions",
+    "powershell"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "miniserve"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:68"
+  },
+  {
+   "test": "test_print_completions_elvish",
+   "argv": [
+    "--print-completions",
+    "elvish"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "miniserve"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:76"
+  },
+  {
+   "test": "test_print_manpage",
+   "argv": [
+    "--print-manpage"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".TH miniserve",
+    ".SH NAME",
+    ".SH SYNOPSIS"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:90"
+  },
+  {
+   "test": "test_cli_verbose_flag_overrides_env_by_disabling_value_flag_form",
+   "argv": [
+    "--interfaces",
+    "127.0.0.1",
+    "--verbose=false"
+   ],
+   "stdin": null,
+   "env": {
+    "MINISERVE_VERBOSE": "true"
+   },
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected value"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_env_config.py:107"
+  },
+  {
+   "test": "test_nonexistent_path_is_error_and_nonzero_exit_code",
+   "argv": [
+    "/definitely/does/not/exist"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_env_and_errors.py:23"
+  },
+  {
+   "test": "test_help_contains_usage_and_options_and_exit_0",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_version.py:13"
+  },
+  {
+   "test": "test_unknown_flag_is_error_nonzero_and_on_stderr",
+   "argv": [
+    "--definitely-not-a-real-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_invalid_args.py:4"
+  }
+ ]
+}

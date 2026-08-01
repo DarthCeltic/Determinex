@@ -1,0 +1,346 @@
+{
+ "slug": "boyter__scc.515f91c",
+ "language": "",
+ "n_branches": 1,
+ "n_tests_total": 476,
+ "n_examples": 19,
+ "n_with_exact_stdout": 1,
+ "n_with_rc": 19,
+ "n_skipped": 441,
+ "examples": [
+  {
+   "test": "test_directory_specified_succeeds",
+   "argv": [
+    "processor"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:66"
+  },
+  {
+   "test": "test_multiple_options",
+   "argv": [
+    "--avg-wage",
+    "10000",
+    "--binary",
+    "--by-file",
+    "--no-cocomo",
+    "--no-size",
+    "--size-unit",
+    "si",
+    "--include-symlinks",
+    "--debug",
+    "--exclude-dir",
+    ".git",
+    "-f",
+    "tabular",
+    "-i",
+    "go",
+    "-c",
+    "-d",
+    "-M",
+    "something",
+    "-s",
+    "name",
+    "-w",
+    "processor"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:80"
+  },
+  {
+   "test": "test_regular_expression_ignore",
+   "argv": [
+    "-i",
+    "sh",
+    "-M",
+    "vendor|examples|p.*"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:125"
+  },
+  {
+   "test": "test_ci_param",
+   "argv": [
+    "--ci"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:161"
+  },
+  {
+   "test": "test_file_specified",
+   "argv": [
+    "main.go"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:227"
+  },
+  {
+   "test": "test_multiple_file_arguments_go",
+   "argv": [
+    "main.go",
+    "README.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:243"
+  },
+  {
+   "test": "test_multiple_directory_specified",
+   "argv": [
+    "processor",
+    "scripts"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:258"
+  },
+  {
+   "test": "test_multiple_regex_equivalence",
+   "argv": [
+    "--not-match",
+    "(.*\\.hex|.*\\.d|.*\\.o|.*\\.csv|^(./)?[0-9]{8}_.*)",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:272"
+  },
+  {
+   "test": "test_ignore_filter_respected",
+   "argv": [
+    "--no-ignore"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:305"
+  },
+  {
+   "test": "test_minified_check",
+   "argv": [
+    "-i",
+    "js",
+    "--no-scc-ignore"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:335"
+  },
+  {
+   "test": "test_minified_ignored_check",
+   "argv": [
+    "-i",
+    "js",
+    "-z",
+    "--no-scc-ignore"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:359"
+  },
+  {
+   "test": "test_removed_min",
+   "argv": [
+    "--no-min-gen",
+    "--no-scc-ignore"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:386"
+  },
+  {
+   "test": "test_flagged_as_gen",
+   "argv": [
+    "-z",
+    "--no-scc-ignore"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:422"
+  },
+  {
+   "test": "test_min_gen_line_length",
+   "argv": [
+    "-z",
+    "--min-gen-line-length",
+    "1",
+    "--no-min-gen",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:459"
+  },
+  {
+   "test": "test_no_large_byte_test",
+   "argv": [
+    "--no-large",
+    "--large-byte-count",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:492"
+  },
+  {
+   "test": "test_no_large_line_test",
+   "argv": [
+    "--no-large",
+    "--large-line-count",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:510"
+  },
+  {
+   "test": "test_mcp_initialize_handshake",
+   "argv": [
+    "--mcp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_special.py:347"
+  },
+  {
+   "test": "test_mcp_nonexistent_path_error",
+   "argv": [
+    "--mcp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"protocolVersion\":\"2025-11-25\",\"capabilities\":{\"tools\":{}},\"serverInfo\":{\"name\":\"scc\",\"version\":\"3.7.0\"}}}\n{\"jsonrpc\":\"2.0\",\"id\":2,\"result\":{\"content\":[{\"type\":\"text\",\"text\":\"path cannot be accessed: /nonexistent/path/does/not/exist: stat /nonexistent/path/does/not/exist: no such file or directory\"}],\"isError\":true}}\n",
+   "expect_stderr": null,
+   "expect_in": [
+    "path cannot be accessed: /nonexistent/path/does/not/exist"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special.py:504"
+  },
+  {
+   "test": "test_mcp_locomo_parameter",
+   "argv": [
+    "--mcp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "locomo"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special.py:1132"
+  }
+ ]
+}

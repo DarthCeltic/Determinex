@@ -1,0 +1,5833 @@
+[
+ {
+  "name": "test::test_stdin_as_target_file::0",
+  "argv": [
+   "--includefile",
+   "-",
+   "-p80",
+   "--echo"
+  ],
+  "stdin": "192.168.1.1\n10.0.0.1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xml_output_file_created::1",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "-oX",
+   "--offline",
+   "--wait",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_output_file_created::2",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "-oJ",
+   "--offline",
+   "--wait",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_grepable_output_file_created::3",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "-oG",
+   "--offline",
+   "--wait",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_output_file_created::4",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "-oL",
+   "--offline",
+   "--wait",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_output_file_created::5",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "-oB",
+   "--offline",
+   "--wait",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_scan_sL_generates_list::6",
+  "argv": [
+   "-p80",
+   "192.168.1.1-192.168.1.5",
+   "-sL",
+   "-oL",
+   "--wait",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_output_formats::7",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--output-format",
+   "xml",
+   "--output-filename",
+   "--offline",
+   "--wait",
+   "0",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_echo_all_output_formats::8",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--output-format",
+   "--output-filename",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_banners_with_various_protocols::9",
+  "argv": [
+   "-p21,22,25,80",
+   "127.0.0.1",
+   "--banners",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_offline_with_packet_trace::10",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--offline",
+   "--packet-trace",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seed_affects_randomization::11",
+  "argv": [
+   "-p80",
+   "192.168.0.0/24",
+   "--seed",
+   "12345",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_all_major_params::12",
+  "argv": [
+   "-c",
+   "full.conf",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "full.conf": "\nrate = 1000\nports = 80,443,22\nrange = 192.168.1.0/24\nexclude = 192.168.1.1\nseed = 54321\nbanners = true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_various_adapter_configurations::13",
+  "argv": [
+   "-p80",
+   "--adapter-ip",
+   "192.168.1.50",
+   "--adapter-mac",
+   "aa:bb:cc:dd:ee:ff",
+   "--adapter-port",
+   "40000",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_ip_range_echo::14",
+  "argv": [
+   "-p80",
+   "10.0.0.0/8",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_port_types::15",
+  "argv": [
+   "--ports",
+   "T:80,T:443,U:53,U:161",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_resume_with_index_and_count::16",
+  "argv": [
+   "-p80",
+   "192.168.0.0/16",
+   "--resume-index",
+   "1000",
+   "--resume-count",
+   "5000",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sharding_multiple_instances::17",
+  "argv": [
+   "-p80",
+   "192.168.0.0/16",
+   "--shard",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ping_with_tcp_scan::18",
+  "argv": [
+   "-p80,443",
+   "192.168.1.0/24",
+   "--ping",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_excludes_and_includes::19",
+  "argv": [
+   "-p80",
+   "-iL",
+   "inc.txt",
+   "--excludefile",
+   "exc.txt",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "inc.txt": "10.0.0.0/8\n172.16.0.0/12\n192.168.0.0/16",
+   "exc.txt": "10.1.0.0/16\n192.168.1.0/24"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_adapter_parameter::20",
+  "argv": [
+   "--adapter",
+   "eth0",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_adapter_ip_specification::21",
+  "argv": [
+   "--adapter-ip",
+   "192.168.1.50",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_adapter_mac_specification::22",
+  "argv": [
+   "--adapter-mac",
+   "00:11:22:33:44:55",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_adapter_port_specification::23",
+  "argv": [
+   "--adapter-port",
+   "40000",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_adapter_vlan_specification::24",
+  "argv": [
+   "--adapter-vlan",
+   "200",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_e_short_adapter::25",
+  "argv": [
+   "-e",
+   "lo",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_iflist_command::26",
+  "argv": [
+   "--iflist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_router_mac_specification::27",
+  "argv": [
+   "--router-mac",
+   "aa:bb:cc:dd:ee:ff",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_router_ip_specification::28",
+  "argv": [
+   "--router-ip",
+   "192.168.1.1",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_source_mac_option::29",
+  "argv": [
+   "--source-mac",
+   "12:34:56:78:9a:bc",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_adapter_options::30",
+  "argv": [
+   "--adapter",
+   "eth0",
+   "--adapter-ip",
+   "10.0.0.5",
+   "--adapter-mac",
+   "00:11:22:33:44:55",
+   "--adapter-port",
+   "50000",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_source_ip_range::31",
+  "argv": [
+   "--source-ip",
+   "10.0.0.1-10.0.0.4",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ipv4_option::32",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ipv6_option::33",
+  "argv": [
+   "-p80",
+   "::1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_adapter_with_ipv6::34",
+  "argv": [
+   "--adapter",
+   "lo",
+   "-p80",
+   "::1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_retries_option::35",
+  "argv": [
+   "--retries",
+   "3",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_retry_send::36",
+  "argv": [
+   "--retries",
+   "2",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_datadir_option::37",
+  "argv": [
+   "--datadir",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_infinite_wait::38",
+  "argv": [
+   "--wait",
+   "forever",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wait_zero::39",
+  "argv": [
+   "--wait",
+   "0",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_connection_timeout::40",
+  "argv": [
+   "--banners",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_source_ip_option::41",
+  "argv": [
+   "--source-ip",
+   "192.168.1.100",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_source_port_option::42",
+  "argv": [
+   "--source-port",
+   "61000",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_source_port_range::43",
+  "argv": [
+   "--source-port",
+   "61000-61003",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_router_mac_option::44",
+  "argv": [
+   "--router-mac",
+   "11-22-33-44-55-66",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vlan_option::45",
+  "argv": [
+   "--vlan",
+   "100",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pfring_option::46",
+  "argv": [
+   "--pfring",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_rate_option::47",
+  "argv": [
+   "--rate",
+   "10000",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hello_string_parameter::48",
+  "argv": [
+   "-p80",
+   "--hello-string[80]",
+   "SGVsbG8=",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_capture_parameter::49",
+  "argv": [
+   "-p80",
+   "--capture",
+   "html",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nocapture_parameter::50",
+  "argv": [
+   "-p80",
+   "--nocapture",
+   "cert",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_resume_index_parameter::51",
+  "argv": [
+   "-p80",
+   "192.168.1.0/24",
+   "--resume-index",
+   "1000",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_resume_count_parameter::52",
+  "argv": [
+   "-p80",
+   "192.168.1.0/24",
+   "--resume-count",
+   "5000",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_send_eth_parameter::53",
+  "argv": [
+   "-p80",
+   "--send-eth",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_Pn_flag::54",
+  "argv": [
+   "-p80",
+   "-Pn",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_n_flag::55",
+  "argv": [
+   "-p80",
+   "-n",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sS_flag::56",
+  "argv": [
+   "-p80",
+   "-sS",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_required_port::57",
+  "argv": [
+   "192.168.1.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_rate_negative::58",
+  "argv": [
+   "-p80",
+   "--rate",
+   "-100",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_ttl_too_high::59",
+  "argv": [
+   "-p80",
+   "--ttl",
+   "999",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_mac_address::60",
+  "argv": [
+   "-p80",
+   "--adapter-mac",
+   "invalid-mac",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_input_file::61",
+  "argv": [
+   "-p80",
+   "-iL",
+   "/nonexistent/targets.txt",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_input_file::62",
+  "argv": [
+   "-p80",
+   "-iL",
+   "empty.txt",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.txt": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_file_with_whitespace::63",
+  "argv": [
+   "-p80",
+   "-iL",
+   "targets_ws.txt",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "targets_ws.txt": "\n# Comment line\n192.168.1.1\n\n10.0.0.0/24\n  # Another comment\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_large_port_range::64",
+  "argv": [
+   "-p1-65535",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_rate::65",
+  "argv": [
+   "-p80",
+   "--rate",
+   "0",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fractional_rate::66",
+  "argv": [
+   "-p80",
+   "--rate",
+   "0.5",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_high_rate::67",
+  "argv": [
+   "-p80",
+   "--rate",
+   "10000000",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interactive_flag::68",
+  "argv": [
+   "-p80",
+   "--interactive",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_adapter_ip_range::69",
+  "argv": [
+   "-p80",
+   "--adapter-ip",
+   "192.168.1.100-192.168.1.103",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_source_port_range::70",
+  "argv": [
+   "-p80",
+   "--source-port",
+   "40000-40003",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wait_forever::71",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--wait",
+   "forever",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_shows_usage::72",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_h_flag_shows_short_help::73",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_shows_version_info::74",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_V_flag::75",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regress_flag_runs_regression_test::76",
+  "argv": [
+   "--regress"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_selftest_flag_runs_regression_test::77",
+  "argv": [
+   "--selftest"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nmap_flag_shows_nmap_compatible_options::78",
+  "argv": [
+   "--nmap"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_all_options::79",
+  "argv": [
+   "-c",
+   "full.conf",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "full.conf": "\n# Comprehensive config\nrange = 127.0.0.1\nports = 80,443,8080-8090\nrate = 1000\nadapter-ip = 127.0.0.1\nadapter-mac = 00:11:22:33:44:55\nrouter-mac = 66:55:44:33:22:11\nrouter-ip = 127.0.0.1\noutput-format = json\noutput-filename = /tmp/out.json\nbanners = true\nconnection-timeout = 30\nmax-rate = 10000\nseed = 12345\nshard = 1/2\nrandomize-hosts = true\noffline = true\nwait = 0\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_include_exclude::80",
+  "argv": [
+   "-c",
+   "ranges.conf",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "ranges.conf": "\nrange = 192.168.0.0/16\nexclude = 192.168.1.0/24\nexclude = 192.168.2.100\nports = 80\noffline = true\nwait = 0\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_ipv6_ranges::81",
+  "argv": [
+   "-c",
+   "ipv6.conf",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "ipv6.conf": "\nrange = 2001:db8::/96\nports = 80,443\noffline = true\nwait = 0\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_multiline_ranges::82",
+  "argv": [
+   "-c",
+   "multi.conf",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "multi.conf": "\nrange = 10.0.0.0/8\nrange = 172.16.0.0/12\nrange = 192.168.0.0/16\nports = 22,80,443\noffline = true\nwait = 0\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_includefile_with_multiple_targets::83",
+  "argv": [
+   "-iL",
+   "targets.txt",
+   "-p80",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "targets.txt": "127.0.0.1\n127.0.0.2\n127.0.0.3-127.0.0.10\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_excludefile_with_multiple_ranges::84",
+  "argv": [
+   "127.0.0.0/24",
+   "-p80",
+   "--excludefile",
+   "excludes.txt",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "excludes.txt": "127.0.0.1\n127.0.0.10-127.0.0.20\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_port_range::85",
+  "argv": [
+   "127.0.0.1",
+   "-p1-65535",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_tcp_udp_sctp_ports::86",
+  "argv": [
+   "127.0.0.1",
+   "-p80,443,U:53,U:161",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ipv6_bracket_notation::87",
+  "argv": [
+   "[::1]",
+   "-p80",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ipv6_compressed_addresses::88",
+  "argv": [
+   "2001:db8::1",
+   "-p80",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cidr_slash_32::89",
+  "argv": [
+   "192.168.1.1/32",
+   "-p80",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cidr_slash_0::90",
+  "argv": [
+   "0.0.0.0/0",
+   "-p80",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_adapter_vlan_option::91",
+  "argv": [
+   "--adapter-vlan",
+   "100",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_adapter_mac_option::92",
+  "argv": [
+   "--adapter-mac",
+   "aa:bb:cc:dd:ee:ff",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_adapter_ip_option::93",
+  "argv": [
+   "--adapter-ip",
+   "10.0.0.1",
+   "-p80",
+   "10.0.0.100",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_source_port_range::94",
+  "argv": [
+   "--source-port",
+   "40000-40255",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_banners_timeout_option::95",
+  "argv": [
+   "--banners",
+   "--connection-timeout",
+   "5",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_header_options::96",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--banners",
+   "--http-method",
+   "PUT",
+   "--http-version",
+   "1.1",
+   "--http-url",
+   "/api/test",
+   "--http-host",
+   "api.example.com",
+   "--http-user-agent",
+   "TestBot/1.0",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_top_ports_option::97",
+  "argv": [
+   "127.0.0.1",
+   "--top-ports",
+   "10",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ports_from_file::98",
+  "argv": [
+   "127.0.0.1",
+   "-p",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_blackrock_rounds_option::99",
+  "argv": [
+   "--blackrock",
+   "4",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_option::100",
+  "argv": [
+   "--status",
+   "60",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tcp_mss_option::101",
+  "argv": [
+   "--mss",
+   "1460",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_field_option::102",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--banners",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decimal_ip_format::103",
+  "argv": [
+   "2130706433",
+   "-p80",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read_extended_binary_to_xml::104",
+  "argv": [
+   "--readscan",
+   "-oX"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read_extended_binary_to_json::105",
+  "argv": [
+   "--readscan",
+   "-oJ"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read_extended_binary_to_list::106",
+  "argv": [
+   "--readscan",
+   "-oL"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read_extended_binary_to_grepable::107",
+  "argv": [
+   "--readscan",
+   "-oG"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read_extended_binary_to_binary::108",
+  "argv": [
+   "--readscan",
+   "-oB"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read_binary_with_banners::109",
+  "argv": [
+   "--readscan",
+   "-oX",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_readscan_stdout_output::110",
+  "argv": [
+   "--readscan"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_readscan_multiple_output_formats::111",
+  "argv": [
+   "--readscan",
+   "-oX",
+   "-oL"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_readscan_with_status_filters::112",
+  "argv": [
+   "--readscan",
+   "--open",
+   "-oL",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_with_multiple_ips::113",
+  "argv": [
+   "--readscan",
+   "-oJ",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_readscan_requires_input_file::114",
+  "argv": [
+   "--readscan",
+   "/nonexistent/file.bin"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_readscan_with_echo::115",
+  "argv": [
+   "--readscan",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_resume_from_config_file::116",
+  "argv": [
+   "--resume",
+   "resume.conf",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "resume.conf": "\nrate = 500\nports = 80\nrange = 192.168.1.0/24\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hello_file_parameter::117",
+  "argv": [
+   "-p80",
+   "--hello-file[80]",
+   "hello.txt",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "hello.txt": "GET / HTTP/1.0\r\n\r\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_with_open_filter::118",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--open",
+   "--offline",
+   "--wait",
+   "0",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interactive_with_offline::119",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--interactive",
+   "--offline",
+   "--wait",
+   "0",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_router_mac_with_adapter_mac::120",
+  "argv": [
+   "-p80",
+   "--adapter-mac",
+   "11:22:33:44:55:66",
+   "--router-mac",
+   "aa:bb:cc:dd:ee:ff",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vlan_configuration::121",
+  "argv": [
+   "-p80",
+   "192.168.1.0/24",
+   "--adapter-vlan",
+   "42",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_source_port_with_source_ip::122",
+  "argv": [
+   "-p80",
+   "--source-ip",
+   "10.0.0.50",
+   "--source-port",
+   "40000-40003",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_heartbleed_check::123",
+  "argv": [
+   "-p443",
+   "127.0.0.1",
+   "--banners",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_benchmark_mode::124",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--rate",
+   "1000000",
+   "--offline",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_excludefile_with_empty_lines::125",
+  "argv": [
+   "-p80",
+   "192.168.0.0/16",
+   "--excludefile",
+   "exclude_ws.txt",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "exclude_ws.txt": "\n\n192.168.1.0/24\n\n10.0.0.1\n    \n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nocapture_servername::126",
+  "argv": [
+   "-p80",
+   "--nocapture",
+   "servername",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_capture_cert::127",
+  "argv": [
+   "-p443",
+   "--capture",
+   "cert",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_small_cidr::128",
+  "argv": [
+   "-p80",
+   "192.168.1.0/30",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ipv4_and_ipv6_mixed::129",
+  "argv": [
+   "-p80",
+   "-iL",
+   "mixed.txt",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "mixed.txt": "192.168.1.0/24\n2001:db8::1"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rate_option_variations::130",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--rate",
+   "1000",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_adapter_configuration_options::131",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--adapter-ip",
+   "192.168.1.100",
+   "--adapter-mac",
+   "00:11:22:33:44:55",
+   "--router-mac",
+   "66:55:44:33:22:11",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_range_specifications::132",
+  "argv": [
+   "-p80",
+   "10.0.0.0/8",
+   "--exclude",
+   "10.0.0.0/24",
+   "--exclude",
+   "10.1.1.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_include_range_specifications::133",
+  "argv": [
+   "-p80",
+   "--includefile",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_port_specification_variations::134",
+  "argv": [
+   "-p",
+   "80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ttl_option::135",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--ttl",
+   "64",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wait_option_variations::136",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--wait",
+   "10",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_retries_option::137",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--retries",
+   "3",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ping_option::138",
+  "argv": [
+   "--ping",
+   "10.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_file_option::139",
+  "argv": [
+   "-p80",
+   "0.0.0.0/0",
+   "--excludefile",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sharding_options::140",
+  "argv": [
+   "-p80",
+   "10.0.0.0/16",
+   "--shard",
+   "1/10",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seed_option::141",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--seed",
+   "12345678",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_connection_timeout_option::142",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--connection-timeout",
+   "30",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hello_options::143",
+  "argv": [
+   "-p21",
+   "127.0.0.1",
+   "--hello-string",
+   "USER anonymous\\r\\n",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_options_group::144",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--http-method",
+   "GET",
+   "--http-url",
+   "/index.html",
+   "--http-user-agent",
+   "masscan/1.0",
+   "--http-host",
+   "example.com",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_packet_option::145",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--min-packet",
+   "60",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interface_option::146",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--interface",
+   "eth0",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_source_port_option::147",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--source-port",
+   "61000-61255",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vlan_option::148",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--vlan",
+   "100",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_status_option::149",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--output-status",
+   "all",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_open_only_option::150",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--open-only",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reason_option::151",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--reason",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_packet_trace_option::152",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--packet-trace",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pfring_option::153",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--pfring",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_resume_options_group::154",
+  "argv": [
+   "-p80",
+   "10.0.0.0/24",
+   "--resume-index",
+   "--resume-count",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_heartbleed_option::155",
+  "argv": [
+   "-p443",
+   "127.0.0.1",
+   "--heartbleed",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hello_timeout_option::156",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--hello-timeout",
+   "5",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stylesheet_option::157",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--stylesheet",
+   "style.xsl",
+   "--output-format",
+   "xml",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nocapture_option::158",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--nocapture",
+   "cert",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_capture_option::159",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--capture",
+   "html",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_option::160",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--show",
+   "all",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_noshow_option::161",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--noshow",
+   "closed",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_infinite_option::162",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--infinite",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_benchmark_option::163",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--offline",
+   "--rate",
+   "1000000",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_badsum_option::164",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--badsum",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sendq_option::165",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--sendq",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pcap_payloads_option::166",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--pcap-payloads",
+   "payloads.pcap",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interactive_option::167",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--interactive",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_option::168",
+  "argv": [
+   "--test",
+   "csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_multiple_ranges::169",
+  "argv": [
+   "-p80",
+   "10.0.0.0/24",
+   "192.168.1.0/24",
+   "172.16.0.0/16",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_ipv4_and_ipv6::170",
+  "argv": [
+   "-p80,443",
+   "127.0.0.1",
+   "::1",
+   "192.168.1.1",
+   "2001:db8::1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_port_range::171",
+  "argv": [
+   "-p1-65535",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tcp_and_udp_ports::172",
+  "argv": [
+   "-p",
+   "T:80,T:443,U:53,U:161,U:123",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_with_range::173",
+  "argv": [
+   "-p80",
+   "10.0.0.0/8",
+   "--exclude",
+   "10.0.0.0/16",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_includefile_with_valid_file::174",
+  "argv": [
+   "-p80",
+   "--includefile",
+   "ips.txt",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "ips.txt": "192.168.1.1\n192.168.1.2\n192.168.1.3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_excludefile_with_valid_file::175",
+  "argv": [
+   "-p80",
+   "192.168.0.0/16",
+   "--excludefile",
+   "exclude.txt",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "exclude.txt": "192.168.1.0/24\n10.0.0.0/8\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shard_configuration::176",
+  "argv": [
+   "--shard",
+   "2/4",
+   "-p80",
+   "10.0.0.0/24",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seed_configuration::177",
+  "argv": [
+   "--seed",
+   "12345",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seed_time::178",
+  "argv": [
+   "--seed",
+   "time",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_resume_index_and_count::179",
+  "argv": [
+   "--resume-index",
+   "1000",
+   "--resume-count",
+   "5000",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rate_variations::180",
+  "argv": [
+   "--rate",
+   "0.1",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wait_variations::181",
+  "argv": [
+   "--wait",
+   "5",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_retries_configuration::182",
+  "argv": [
+   "--retries",
+   "5",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ttl_configurations::183",
+  "argv": [
+   "--ttl",
+   "64",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_adapter_configurations_combined::184",
+  "argv": [
+   "--adapter-ip",
+   "10.0.0.1",
+   "--adapter-mac",
+   "aa:bb:cc:dd:ee:ff",
+   "--adapter-port",
+   "50000-50003",
+   "--router-mac",
+   "11:22:33:44:55:66",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_banners_with_options::185",
+  "argv": [
+   "--banners",
+   "-p80,443,21,22,25,110",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pcap_output_option::186",
+  "argv": [
+   "--pcap",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_packet_trace_option::187",
+  "argv": [
+   "--packet-trace",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_all_basic_options::188",
+  "argv": [
+   "-c",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_override_with_commandline::189",
+  "argv": [
+   "-c",
+   "--rate",
+   "5000",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_echo_with_port_displays_config::190",
+  "argv": [
+   "-p80",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_echo_with_target_and_port::191",
+  "argv": [
+   "-p80",
+   "192.168.1.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_echo_with_multiple_ports::192",
+  "argv": [
+   "-p80,443,8080-8090",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_echo_with_rate_setting::193",
+  "argv": [
+   "-p80",
+   "--rate",
+   "1000",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_echo_with_exclude::194",
+  "argv": [
+   "-p80",
+   "192.168.0.0/16",
+   "--exclude",
+   "192.168.1.0/24",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_reading::195",
+  "argv": [
+   "-c",
+   "test.conf",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "test.conf": "\n# Test config\nrate = 500\nports = 80,443\nrange = 10.0.0.0/24\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_with_comments::196",
+  "argv": [
+   "-c",
+   "commented.conf",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "commented.conf": "\n# This is a comment\nrate = 100\n# Another comment\nports = 22\nrange = 192.168.1.0/24\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_config_file_reports_error::197",
+  "argv": [
+   "-c",
+   "/nonexistent/config.conf",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_echo_output_can_be_used_as_config::198",
+  "argv": [
+   "-p80,443",
+   "10.0.0.0/24",
+   "--rate",
+   "200",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_echo_with_source_ip::199",
+  "argv": [
+   "-p80",
+   "--source-ip",
+   "192.168.10.5",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_echo_with_adapter_mac::200",
+  "argv": [
+   "-p80",
+   "--adapter-mac",
+   "00:11:22:33:44:55",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_with_all_options::201",
+  "argv": [
+   "-c",
+   "full.conf",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "full.conf": "\n# Comprehensive config test\nrate = 1000\nseed = 54321\nshard = 1/1\nretries = 3\nttl = 128\nwait = 10\n\n# Targets\nrange = 192.168.1.0/24\nrange = 10.0.0.1-10.0.0.10\nports = 80,443,22,21,25\n\n# Adapter settings\nadapter-ip = 192.168.1.100\nadapter-port = 61000-61003\nrouter-mac = aa:bb:cc:dd:ee:ff\n\n# Output\noutput-format = xml\noutput-filename = scan.xml\nappend-output = true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_with_excludes::202",
+  "argv": [
+   "-c",
+   "exclude.conf",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "exclude.conf": "\nrange = 0.0.0.0/0\nports = 80\nexclude = 10.0.0.0/8\nexclude = 192.168.0.0/16\nexclude = 172.16.0.0/12\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_with_banners::203",
+  "argv": [
+   "-c",
+   "banners.conf",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "banners.conf": "\nbanners = true\nports = 80,443,22\nrange = 127.0.0.1\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_with_http_options::204",
+  "argv": [
+   "-c",
+   "http.conf",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "http.conf": "\nbanners = true\nports = 80\nrange = 127.0.0.1\nhttp-user-agent = CustomAgent/1.0\nhttp-url = /test\nhttp-method = GET\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_comments_and_whitespace::205",
+  "argv": [
+   "-c",
+   "comments.conf",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "comments.conf": "\n# This is a comment\n   # Indented comment\n   \nrange = 127.0.0.1   # inline comment\nports = 80          \n\n# Another comment\nrate = 100\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_with_rotate_options::206",
+  "argv": [
+   "-c",
+   "rotate.conf",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "rotate.conf": "\nports = 80\nrange = 127.0.0.1\nrotate = hourly\nrotate-offset = 0\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_udp_ports::207",
+  "argv": [
+   "-c",
+   "udp.conf",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "udp.conf": "\nports = U:53,U:161,U:123,U:514\nrange = 127.0.0.1\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_sctp_ports::208",
+  "argv": [
+   "-c",
+   "sctp.conf",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "sctp.conf": "\nports = S:36412,S:2905\nrange = 127.0.0.1\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_ipv6_ranges::209",
+  "argv": [
+   "-c",
+   "ipv6.conf",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "ipv6.conf": "\nports = 80\nrange = ::1\nrange = 2001:db8::/120\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_source_options::210",
+  "argv": [
+   "-c",
+   "source.conf",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "source.conf": "\nports = 80\nrange = 127.0.0.1\nsource-ip = 10.0.0.5\nsource-port = 61000-61003\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_override_with_cmdline::211",
+  "argv": [
+   "-c",
+   "base.conf",
+   "--rate",
+   "5000",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "base.conf": "\nrate = 100\nports = 80\nrange = 127.0.0.1\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_sharding::212",
+  "argv": [
+   "-c",
+   "shard.conf",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "shard.conf": "\nports = 80\nrange = 10.0.0.0/8\nshard = 3/10\nseed = 99999\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_resume_params::213",
+  "argv": [
+   "-c",
+   "resume.conf",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "resume.conf": "\nports = 80\nrange = 10.0.0.0/16\nresume-index = 50000\nresume-count = 100000\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_config_file::214",
+  "argv": [
+   "-c",
+   "empty.conf",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.conf": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_basic::215",
+  "argv": [
+   "-c",
+   "masscan.conf",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "masscan.conf": "\n# Masscan config file\nrate = 1000\nports = 80,443\nrange = 192.168.1.0/24\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_with_excludes::216",
+  "argv": [
+   "-c",
+   "masscan.conf",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "masscan.conf": "\nports = 80\nrange = 192.168.1.0/24\nexclude = 192.168.1.1\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_with_adapter_settings::217",
+  "argv": [
+   "-c",
+   "masscan.conf",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "masscan.conf": "\nports = 80\nrange = 127.0.0.1\nadapter-ip = 127.0.0.1\nadapter-mac = 00:11:22:33:44:55\nrouter-mac = 66:55:44:33:22:11\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_with_banners::218",
+  "argv": [
+   "-c",
+   "masscan.conf",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "masscan.conf": "\nports = 80,443\nrange = 192.168.1.1\nbanners = true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_with_http_options::219",
+  "argv": [
+   "-c",
+   "masscan.conf",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "masscan.conf": "\nports = 80\nrange = 127.0.0.1\nhttp-user-agent = TestAgent/1.0\nhttp-method = POST\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_comments::220",
+  "argv": [
+   "-c",
+   "masscan.conf",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "masscan.conf": "\n# This is a comment\nports = 80  # port comment\n# Another comment\nrange = 192.168.1.1\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_multiline::221",
+  "argv": [
+   "-c",
+   "masscan.conf",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "masscan.conf": "\nports = 80\nports = 443\nports = 8080\nrange = 192.168.1.1\nrange = 10.0.0.1\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_override_commandline::222",
+  "argv": [
+   "-c",
+   "masscan.conf",
+   "--rate",
+   "5000",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "masscan.conf": "\nports = 80\nrange = 192.168.1.1\nrate = 100\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_with_seed::223",
+  "argv": [
+   "-c",
+   "masscan.conf",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "masscan.conf": "\nports = 80\nrange = 192.168.1.0/24\nseed = 123456789\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_with_wait::224",
+  "argv": [
+   "-c",
+   "masscan.conf",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "masscan.conf": "\nports = 80\nrange = 127.0.0.1\nwait = 10\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_with_retries::225",
+  "argv": [
+   "-c",
+   "masscan.conf",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "masscan.conf": "\nports = 80\nrange = 127.0.0.1\nretries = 3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_empty_lines::226",
+  "argv": [
+   "-c",
+   "masscan.conf",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "masscan.conf": "\nports = 80\n\nrange = 192.168.1.1\n\nrate = 100\n\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_shard_setting::227",
+  "argv": [
+   "-c",
+   "masscan.conf",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "masscan.conf": "\nports = 80\nrange = 192.168.0.0/16\nshard = 1/4\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_format_combinations::228",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "-oL",
+   "/tmp/out.list",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ipv6_source_ip_configuration::229",
+  "argv": [
+   "--source-ip",
+   "2001:db8::1",
+   "-p80",
+   "::1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_router_ip_configuration::230",
+  "argv": [
+   "--router-ip",
+   "192.168.1.1",
+   "-p80",
+   "192.168.1.100",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_router_mac_configuration::231",
+  "argv": [
+   "--router-mac",
+   "00:11:22:33:44:55",
+   "-p80",
+   "192.168.1.100",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_adapter_port_configuration::232",
+  "argv": [
+   "--adapter-port",
+   "60000",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ping_option::233",
+  "argv": [
+   "--ping",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_connection_timeout_option::234",
+  "argv": [
+   "--connection-timeout",
+   "10",
+   "-p80",
+   "127.0.0.1",
+   "--banners",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hello_string_option::235",
+  "argv": [
+   "--hello-string",
+   "[test]",
+   "-p80",
+   "127.0.0.1",
+   "--banners",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_method_option::236",
+  "argv": [
+   "--http-method",
+   "POST",
+   "-p80",
+   "127.0.0.1",
+   "--banners",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_version_option::237",
+  "argv": [
+   "--http-version",
+   "1.0",
+   "-p80",
+   "127.0.0.1",
+   "--banners",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_url_option::238",
+  "argv": [
+   "--http-url",
+   "/test",
+   "-p80",
+   "127.0.0.1",
+   "--banners",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_user_agent_option::239",
+  "argv": [
+   "--http-user-agent",
+   "MasscanBot",
+   "-p80",
+   "127.0.0.1",
+   "--banners",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_host_option::240",
+  "argv": [
+   "--http-host",
+   "example.com",
+   "-p80",
+   "127.0.0.1",
+   "--banners",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_payload_option::241",
+  "argv": [
+   "--http-payload",
+   "data=test",
+   "-p80",
+   "127.0.0.1",
+   "--banners",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_cookie_option::242",
+  "argv": [
+   "--http-cookie",
+   "session=abc123",
+   "-p80",
+   "127.0.0.1",
+   "--banners",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_packet_size_option::243",
+  "argv": [
+   "--min-packet",
+   "100",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nmap_payloads_option::244",
+  "argv": [
+   "--nmap-payloads",
+   "payloads.txt",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "payloads.txt": "# Test payloads\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nmap_service_probes_option::245",
+  "argv": [
+   "--nmap-service-probes",
+   "probes.txt",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "probes.txt": "# Test probes\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pcap_payloads_option::246",
+  "argv": [
+   "--pcap-payloads",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pcap_option::247",
+  "argv": [
+   "--pcap",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_space_in_ranges_ipv6::248",
+  "argv": [
+   "-p80",
+   "2001:db8::1-2001:db8::10",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_udp_scan_mode::249",
+  "argv": [
+   "-pU:53,161",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sctp_scan_mode::250",
+  "argv": [
+   "-pS:80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_resume_paused_scan::251",
+  "argv": [
+   "--resume"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stylesheet_option::252",
+  "argv": [
+   "--stylesheet",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vuln_option::253",
+  "argv": [
+   "-p443",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_format_redis::254",
+  "argv": [
+   "--output-format",
+   "redis",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_format_hostonly::255",
+  "argv": [
+   "--output-format",
+   "hostonly",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_format_cert::256",
+  "argv": [
+   "--output-format",
+   "certs",
+   "-p443",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tcp_services_output_format::257",
+  "argv": [
+   "--output-format",
+   "binary",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_echo_all_flag::258",
+  "argv": [
+   "--echo-all",
+   "-p80",
+   "127.0.0.1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_offline_with_seed::259",
+  "argv": [
+   "--offline",
+   "--seed",
+   "12345",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hexdump_style_packet_trace::260",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--offline",
+   "--wait",
+   "0",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_config_comprehensive::261",
+  "argv": [
+   "-c",
+   "deep.conf",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "deep.conf": "\n# Network configuration\nrange = 10.0.0.0/8\nrange = 172.16.0.0/12  \nrange = 192.168.0.0/16\nrange = 2001:db8::/96\n\nexclude = 10.0.0.0/16\nexclude = 172.16.0.0/16\nexclude = 192.168.1.0/24\n\n# Ports\nports = 21-23,25,53,80,110,111,135,139,143,443,445,993,995,1723,3306,3389,5900,8080\nports = U:53,U:67,U:123,U:161,U:500\n\n# Adapter settings\nadapter-mac = 00:0a:95:9d:68:16\nrouter-mac = 66:55:44:33:22:11\nadapter-ip = 192.168.1.10\nrouter-ip = 192.168.1.1\nsource-port = 40000-40255\n\n# Banner grabbing\nbanners = true\nconnection-timeout = 30\nhello-string = [hello]\n\n# HTTP options\nhttp-method = GET\nhttp-version = 1.1\nhttp-url = /\nhttp-user-agent = Mozilla/5.0\nhttp-host = example.com\n\n# Performance\nrate = 10000\nmax-rate = 50000\nretries = 1\n\n# Randomization\nseed = 1234567890\nrandomize-hosts = true\nshard = 1/4\n\n# Output\noutput-format = xml\noutput-filename = /tmp/scan.xml\nappend-output = false\npacket-trace = false\n\n# Other\nttl = 64\nwait = 10\noffline = true\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_many_excludes::262",
+  "argv": [
+   "10.0.0.0/16",
+   "-p80",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_ipv4_ipv6_ranges::263",
+  "argv": [
+   "10.0.0.0/24,192.168.1.0/24,::1,2001:db8::1/96",
+   "-p80,443",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_output_formats_separately::264",
+  "argv": [
+   "127.0.0.1",
+   "-p80",
+   "--output-format",
+   "--output-filename",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_banner_hello_variations::265",
+  "argv": [
+   "127.0.0.1",
+   "-p80",
+   "--banners",
+   "--hello-string",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_rate_values::266",
+  "argv": [
+   "127.0.0.1",
+   "-p80",
+   "--rate",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_configurations::267",
+  "argv": [
+   "127.0.0.1",
+   "-p80",
+   "--shard",
+   "5/2",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_scan_many_ips::268",
+  "argv": [
+   "-sL",
+   "192.168.1.0/24"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_large_cidr::269",
+  "argv": [
+   "0.0.0.0/1",
+   "-p80",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ipv6_full_range::270",
+  "argv": [
+   "fe80::/96",
+   "-p80",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiplefiles_config_chain::271",
+  "argv": [
+   "-c",
+   "c1.conf",
+   "-c",
+   "c2.conf",
+   "-c",
+   "c3.conf",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "c1.conf": "range = 10.0.0.0/8\n",
+   "c2.conf": "ports = 80\nrate = 1000\n",
+   "c3.conf": "banners = true\noffline = true\nwait = 0\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_options::272",
+  "argv": [
+   "127.0.0.1",
+   "-p80",
+   "--http-user-agent",
+   "Tëst-Âgent-™",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_only_comments::273",
+  "argv": [
+   "-c",
+   "comments.conf",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "comments.conf": "\n# This is a comment\n    # Indented comment\n# Another comment\n# And another\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_shard_combinations::274",
+  "argv": [
+   "10.0.0.0/24",
+   "-p80",
+   "--shard",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_resume_with_various_indices::275",
+  "argv": [
+   "10.0.0.0/16",
+   "-p80",
+   "--resume-index",
+   "--resume-count",
+   "100",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seed_variations::276",
+  "argv": [
+   "127.0.0.1",
+   "-p80",
+   "--seed",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_blackrock_algorithm_invocation::277",
+  "argv": [
+   "10.0.0.0/16",
+   "-p1-1000",
+   "--seed",
+   "12345",
+   "--randomize-hosts",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_adapter_configuration_variations::278",
+  "argv": [
+   "192.168.1.0/24",
+   "-p80",
+   "--adapter-ip",
+   "192.168.1.10",
+   "--adapter-mac",
+   "00:11:22:33:44:55",
+   "--adapter-port",
+   "50000-50255",
+   "--router-ip",
+   "192.168.1.1",
+   "--router-mac",
+   "aa:bb:cc:dd:ee:ff",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ttl_boundary_values::279",
+  "argv": [
+   "127.0.0.1",
+   "-p80",
+   "--ttl",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_port_0_explicit::280",
+  "argv": [
+   "-p0",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_port_65535_boundary::281",
+  "argv": [
+   "-p65535",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rate_decimal::282",
+  "argv": [
+   "--rate",
+   "0.5",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_ip_cidr_32::283",
+  "argv": [
+   "-p80",
+   "192.168.1.100/32",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ipv6_single_address::284",
+  "argv": [
+   "-p80",
+   "2001:db8::1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_tcp_udp_sctp::285",
+  "argv": [
+   "-p",
+   "T:80,U:53,S:36412",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_many_port_ranges::286",
+  "argv": [
+   "-p",
+   "1-10,20-30,40-50,60-70,80-90,100-110",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_many_ip_ranges::287",
+  "argv": [
+   "-p80",
+   "192.168.1.1-192.168.1.10",
+   "192.168.2.1-192.168.2.10",
+   "192.168.3.1-192.168.3.10",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_ttl::288",
+  "argv": [
+   "--ttl",
+   "255",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_ttl::289",
+  "argv": [
+   "--ttl",
+   "1",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shard_edge_1_of_1::290",
+  "argv": [
+   "--shard",
+   "1/1",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shard_large_denominator::291",
+  "argv": [
+   "--shard",
+   "5/100",
+   "-p80",
+   "10.0.0.0/16",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_string_options::292",
+  "argv": [
+   "--http-user-agent",
+   "",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_string_option::293",
+  "argv": [
+   "--http-user-agent",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_adapter_ips::294",
+  "argv": [
+   "--adapter-ip",
+   "10.0.0.1-10.0.0.4",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_source_port_single::295",
+  "argv": [
+   "--source-port",
+   "50000",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_source_port_power_of_2_range::296",
+  "argv": [
+   "--source-port",
+   "50000-50007",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vlan_zero::297",
+  "argv": [
+   "--vlan",
+   "0",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vlan_max::298",
+  "argv": [
+   "--vlan",
+   "4095",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rate_scientific_notation::299",
+  "argv": [
+   "--rate",
+   "1e6",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wait_large_value::300",
+  "argv": [
+   "--wait",
+   "86400",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_retries_zero::301",
+  "argv": [
+   "--retries",
+   "0",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_retries_large::302",
+  "argv": [
+   "--retries",
+   "100",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_resume_index_zero::303",
+  "argv": [
+   "--resume-index",
+   "0",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_resume_count_very_large::304",
+  "argv": [
+   "--resume-count",
+   "999999999",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seed_zero::305",
+  "argv": [
+   "--seed",
+   "0",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seed_max_uint64::306",
+  "argv": [
+   "--seed",
+   "18446744073709551615",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_config_file::307",
+  "argv": [
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_options_source_ip_adapter::308",
+  "argv": [
+   "--source-ip",
+   "10.0.0.1",
+   "--adapter-ip",
+   "192.168.1.1",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_cidr_notation::309",
+  "argv": [
+   "-p80",
+   "192.168.1.0/33"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_ipv6_cidr::310",
+  "argv": [
+   "-p80",
+   "2001:db8::/129"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_port_out_of_range_high::311",
+  "argv": [
+   "-p80000",
+   "127.0.0.1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_rate::312",
+  "argv": [
+   "--rate",
+   "-100",
+   "-p80",
+   "127.0.0.1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_ttl_zero::313",
+  "argv": [
+   "--ttl",
+   "0",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_ttl_over_255::314",
+  "argv": [
+   "--ttl",
+   "256",
+   "-p80",
+   "127.0.0.1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_shard_format::315",
+  "argv": [
+   "--shard",
+   "invalid",
+   "-p80",
+   "127.0.0.1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shard_zero_denominator::316",
+  "argv": [
+   "--shard",
+   "1/0",
+   "-p80",
+   "127.0.0.1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shard_numerator_larger_than_denominator::317",
+  "argv": [
+   "--shard",
+   "5/3",
+   "-p80",
+   "127.0.0.1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_port_list::318",
+  "argv": [
+   "-p",
+   "",
+   "127.0.0.1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_target_list::319",
+  "argv": [
+   "-p80"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_mac_format::320",
+  "argv": [
+   "--adapter-mac",
+   "invalid-mac",
+   "-p80",
+   "127.0.0.1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_ip_format::321",
+  "argv": [
+   "-p80",
+   "999.999.999.999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_file_directory_not_exist::322",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "-oX",
+   "/nonexistent/dir/output.xml",
+   "--offline",
+   "--wait",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rate_too_high::323",
+  "argv": [
+   "--rate",
+   "999999999999",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_seed_with_invalid_value::324",
+  "argv": [
+   "--seed",
+   "invalid",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_resume_nonexistent_file::325",
+  "argv": [
+   "--resume",
+   "/nonexistent/paused.conf"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_excludefile_nonexistent::326",
+  "argv": [
+   "--excludefile",
+   "/nonexistent/exclude.txt",
+   "-p80",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_port_specifications::327",
+  "argv": [
+   "-p",
+   "99999",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_ip_specifications::328",
+  "argv": [
+   "-p80",
+   "999.999.999.999",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_rate_specifications::329",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--rate",
+   "-1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_config_file::330",
+  "argv": [
+   "-c",
+   "/nonexistent/file.conf",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_output_format::331",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--output-format",
+   "invalid",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_mac_address::332",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--adapter-mac",
+   "invalid",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_ip_address::333",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--adapter-ip",
+   "invalid",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_options::334",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--open",
+   "--show",
+   "closed",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_required_options::335",
+  "argv": [
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_port_list::336",
+  "argv": [
+   "-p",
+   "",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_ip_list::337",
+  "argv": [
+   "-p80",
+   "",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_shard_specification::338",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--shard",
+   "invalid",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_seed::339",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--seed",
+   "invalid",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_ttl::340",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--ttl",
+   "300",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_vlan::341",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--vlan",
+   "5000",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_timeout_values::342",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--connection-timeout",
+   "-1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_retries::343",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--retries",
+   "-1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_to_directory::344",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "-oX",
+   "--offline"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_conflicting_output_formats::345",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "-oX",
+   "-oX",
+   "--offline"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_source_port_range::346",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--source-port",
+   "61000-61100",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_source_port_range_too_small::347",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--source-port",
+   "61000-61001",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_rotate_value::348",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--rotate",
+   "invalid",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_min_packet_size::349",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--min-packet",
+   "10",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_http_options::350",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--http-method",
+   "INVALID",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_command_line::351",
+  "argv": [
+   "-p",
+   "127.0.0.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_single_ip::352",
+  "argv": [
+   "-p80",
+   "192.168.0.0/16",
+   "--exclude",
+   "192.168.1.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_cidr_range::353",
+  "argv": [
+   "-p80",
+   "10.0.0.0/8",
+   "--exclude",
+   "10.1.0.0/16",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_multiple_ranges::354",
+  "argv": [
+   "-p80",
+   "10.0.0.0/8",
+   "--exclude",
+   "10.1.0.0/16,10.2.0.0/16",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_excludefile::355",
+  "argv": [
+   "-p80",
+   "192.168.0.0/16",
+   "--excludefile",
+   "excludes.txt",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "excludes.txt": "192.168.1.0/24\n10.0.0.1\n172.16.0.0/16"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xml_output_format::356",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "-oX",
+   "--offline",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_output_format::357",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "-oJ",
+   "--offline",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_output_format::358",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "-oB",
+   "--offline",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_grepable_output_format::359",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "-oG",
+   "--offline",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_output_format::360",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "-oL",
+   "--offline",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ndjson_output_format::361",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "-oD",
+   "--offline",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_format_and_filename_params::362",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--output-format",
+   "list",
+   "--output-filename",
+   "--offline",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_append_output_flag::363",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--append-output",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sl_list_scan_mode::364",
+  "argv": [
+   "-p80",
+   "192.168.1.1-192.168.1.5",
+   "-sL",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_offline_mode::365",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--offline",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shard_parameter::366",
+  "argv": [
+   "-p80",
+   "192.168.0.0/16",
+   "--shard",
+   "1/4",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arpscan_parameter::367",
+  "argv": [
+   "-p80",
+   "192.168.1.0/24",
+   "--arpscan",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_header_parameter::368",
+  "argv": [
+   "-p80",
+   "--http-header",
+   "User-Agent:Test",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_file_alias::369",
+  "argv": [
+   "-p80",
+   "192.168.0.0/16",
+   "--exclude-file",
+   "exc2.txt",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "exc2.txt": "192.168.1.0/24"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_include_file_alias::370",
+  "argv": [
+   "-p80",
+   "--include-file",
+   "inc2.txt",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "inc2.txt": "10.0.0.0/24"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rotate_parameters::371",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--rotate",
+   "hourly",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rotate_offset::372",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--rotate-offset",
+   "30m",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rotate_size::373",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--rotate-size",
+   "100MB",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rotate_dir::374",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--rotate-dir",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_rate_parameter::375",
+  "argv": [
+   "-p80",
+   "--min-rate",
+   "10",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_parameters::376",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--status",
+   "1s",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_top_parameter::377",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--top",
+   "10",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_parameter::378",
+  "argv": [
+   "-p80",
+   "127.0.0.1",
+   "--show",
+   "open",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pcap_payloads_param::379",
+  "argv": [
+   "-p80",
+   "--pcap-payloads",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nmap_payloads_param::380",
+  "argv": [
+   "-p80",
+   "--nmap-payloads",
+   "payloads.txt",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "payloads.txt": "# Test payloads\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dynamic_ssl_param::381",
+  "argv": [
+   "-p443",
+   "--dynamic-ssl",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_infinite_rate::382",
+  "argv": [
+   "-p80",
+   "--infinite",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_benchmark_parameter::383",
+  "argv": [
+   "--benchmark"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_datadir_parameter::384",
+  "argv": [
+   "-p80",
+   "--datadir",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hello_timeout_parameter::385",
+  "argv": [
+   "-p80",
+   "--hello-timeout",
+   "5",
+   "--banners",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tcp_mss_parameter::386",
+  "argv": [
+   "-p80",
+   "--tcp-mss",
+   "1460",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_user_agent::387",
+  "argv": [
+   "-p80",
+   "--http-user-agent",
+   "TestAgent/1.0",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_method::388",
+  "argv": [
+   "-p80",
+   "--http-method",
+   "POST",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_url::389",
+  "argv": [
+   "-p80",
+   "--http-url",
+   "/test",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_version::390",
+  "argv": [
+   "-p80",
+   "--http-version",
+   "1.1",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_host::391",
+  "argv": [
+   "-p80",
+   "--http-host",
+   "example.com",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_payload::392",
+  "argv": [
+   "-p80",
+   "--http-payload",
+   "payload.txt",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "payload.txt": "test=data"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_http_cookie::393",
+  "argv": [
+   "-p80",
+   "--http-cookie",
+   "session=abc123",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssl_versions::394",
+  "argv": [
+   "-p443",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vuln_check_params::395",
+  "argv": [
+   "-p443",
+   "--heartbleed",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_poodle_check::396",
+  "argv": [
+   "-p443",
+   "--poodle",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ticketbleed_check::397",
+  "argv": [
+   "-p443",
+   "--ticketbleed",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_script_parameter::398",
+  "argv": [
+   "-p80",
+   "--script",
+   "script.lua",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {
+   "script.lua": "print('test')"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pfring_parameter::399",
+  "argv": [
+   "-p80",
+   "--pfring",
+   "--echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

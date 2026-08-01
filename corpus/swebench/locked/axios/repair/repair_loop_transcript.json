@@ -1,0 +1,16 @@
+{
+  "schema": "determinex-repair-loop-transcript-v1",
+  "tool": "axios", "family": "node_typescript", "pinned_commit": "0506080",
+  "repair_type": "seeded_defect (behavioral) - verifier is the project's OWN vitest suite (node env, no browser, no Docker)",
+  "toolchain": "node 24, npm install, vitest",
+  "oracle": "the real axios/axios repo's own unit tests: `npx vitest run tests/unit/helpers`",
+  "defect": {"file": "lib/helpers/isAbsoluteURL.js", "function": "isAbsoluteURL",
+    "seed": "negate the scheme-regex result: `return RE.test(url)` -> `return !(RE.test(url))`",
+    "intent": "invert absolute-URL detection (a core URL-handling contract)"},
+  "detect": {"baseline": "isAbsoluteURL.test.js 4 passed", "after_seed": "4 failed", "oracle_caught": true,
+    "failure_signature": "all isAbsoluteURL assertions flipped once the regex result was negated"},
+  "repair": {"fix": "restore `return RE.test(url)` (git checkout)", "oracle_guided": "the failing isAbsoluteURL tests point at the negated return"},
+  "reverify": {"after": "tests/unit/helpers 87 passed (12 files); repaired == upstream @0506080", "passed": 87, "failures": 0},
+  "repair_loop_status": "passed",
+  "proves": "closed-loop repair on a real external JS project (axios): its OWN vitest unit suite detects the injected URL-detection defect -> fix -> re-verify 87 green. Reproducible with npm + vitest (node env), no browser, no Docker."
+}

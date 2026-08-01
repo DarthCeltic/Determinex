@@ -1,0 +1,192 @@
+[
+ {
+  "name": "test::test_short_help_matches_long_help::0",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_unknown_flag_error_has_expected_streams_and_usage::1",
+  "argv": [
+   "--help",
+   "--bogus"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_with_double_dash_treats_help_as_operand_not_flag::2",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_formats_flag_outputs_supported_formats_list_and_exits_zero::3",
+  "argv": [
+   "--formats"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_piped_stdin_dash_path_matches_file_input::4",
+  "argv": [
+   "-",
+   "-d",
+   "2,1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_args_errors_and_mentions_help_flag::5",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file_errors::6",
+  "argv": [
+   "/tmp/does-not-exist-xyz.png"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_small_solid_image_ascii_dimensions_and_newlines::7",
+  "argv": [
+   "-d",
+   "4,4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file_prints_error_to_stdout_and_exit_0::8",
+  "argv": [
+   "does_not_exist.png"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_outputs_version_and_exits_0::9",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_contains_usage_and_exits_0::10",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_save_txt_creates_file_and_only_save_suppresses_ascii_art::11",
+  "argv": [
+   "-d",
+   "4,4",
+   "--save-txt",
+   "--only-save"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_piped_input_invalid_data::12",
+  "argv": [
+   "-"
+  ],
+  "stdin": "not an image\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gif_from_piped_stdin::13",
+  "argv": [
+   "-",
+   "-W",
+   "20",
+   "--only-save",
+   "--save-gif"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_dash_argument::14",
+  "argv": [
+   "-",
+   "-W",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_invalid_data_error::15",
+  "argv": [
+   "-",
+   "-W",
+   "10"
+  ],
+  "stdin": "invalid data",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

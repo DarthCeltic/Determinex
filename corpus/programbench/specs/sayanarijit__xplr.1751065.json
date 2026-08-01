@@ -1,0 +1,329 @@
+{
+ "slug": "sayanarijit__xplr.1751065",
+ "language": "",
+ "n_branches": 6,
+ "n_tests_total": 106,
+ "n_examples": 19,
+ "n_with_exact_stdout": 2,
+ "n_with_rc": 9,
+ "n_skipped": 85,
+ "examples": [
+  {
+   "test": "test_version_long_exact",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "xplr 1.1.0\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basics.py:30"
+  },
+  {
+   "test": "test_version_short_exact",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "xplr 1.1.0\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basics.py:37"
+  },
+  {
+   "test": "test_help_long_matches_golden",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basics.py:44"
+  },
+  {
+   "test": "test_help_short_matches_golden",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_basics.py:51"
+  },
+  {
+   "test": "test_help_contains_program_name_and_tagline",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "xplr",
+    "file explorer"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_output.py:50"
+  },
+  {
+   "test": "test_help_has_usage_section_header_and_synopsis",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:56"
+  },
+  {
+   "test": "test_help_documents_null_combined_flag_spelling",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-0  --null",
+    "Combines --read0 and --write0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:86"
+  },
+  {
+   "test": "test_help_documents_version_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-V, --version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:92"
+  },
+  {
+   "test": "test_help_documents_config_option_default_path_hint",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-c, --config <PATH>",
+    "$HOME/.config/xplr/init.lua"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:97"
+  },
+  {
+   "test": "test_help_documents_extra_config_option_variadic",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-C, --extra-config <PATH>..."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:103"
+  },
+  {
+   "test": "test_help_documents_on_load_message_variadic",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--on-load <MESSAGE>..."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:108"
+  },
+  {
+   "test": "test_help_documents_vroot_option",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--vroot <PATH>",
+    "virtual root"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_output.py:113"
+  },
+  {
+   "test": "test_help_documents_args_path_and_selection",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<SELECTION>..."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:119"
+  },
+  {
+   "test": "test_help_with_invalid_flag_shows_error_and_hints_help",
+   "argv": [
+    "--definitely-not-a-real-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid argument",
+    "--help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:129"
+  },
+  {
+   "test": "test_ext_cli_version_long_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:21"
+  },
+  {
+   "test": "test_ext_cli_version_short_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:35"
+  },
+  {
+   "test": "test_ext_cli_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:49"
+  },
+  {
+   "test": "test_ext_cli_help_long_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:62"
+  },
+  {
+   "test": "test_env_xplr_pipe_msg_in_writes_to_file_with_delimiter",
+   "argv": [
+    "-m",
+    "Quit"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Quit"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:52"
+  }
+ ]
+}

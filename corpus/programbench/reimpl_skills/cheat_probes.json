@@ -1,0 +1,102 @@
+[
+ {
+  "name": "test::test_installer_clone_yes::0",
+  "argv": [
+   "-l"
+  ],
+  "stdin": "y\ny\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_installer_clone_no::1",
+  "argv": [
+   "-l"
+  ],
+  "stdin": "y\nn\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_installer_decline_create_config::2",
+  "argv": [
+   "-l"
+  ],
+  "stdin": "n\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clone_to_existing_cloned_dir_fails::3",
+  "argv": [
+   "git",
+   "init"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_installer_prompt_eof_error::4",
+  "argv": [
+   "tar"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decline_config_creation::5",
+  "argv": [],
+  "stdin": "n\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_accept_config_decline_community::6",
+  "argv": [],
+  "stdin": "y\nn\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_update_pull_new_commits::7",
+  "argv": [
+   "git",
+   "add",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_update_staged_changes_detected::8",
+  "argv": [
+   "git",
+   "add",
+   "cheatsheets/new.md"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

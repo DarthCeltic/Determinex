@@ -1,0 +1,29 @@
+{
+  "schema": "determinex-repair-loop-transcript-v1",
+  "tool": "bottle",
+  "family": "python",
+  "pinned_commit": "2a743a3",
+  "repair_type": "seeded_defect (behavioral) - verifier is the project's OWN test suite in a python:3.12 image (toolchain via provider; Docker-OPTIONAL)",
+  "toolchain": "python:3.12",
+  "oracle": "the real bottlepy/bottle repo's own tests: python -m pytest test/test_wsgi.py -q",
+  "defect": {
+    "file": "bottle.py",
+    "seed": "default_status = 200 -> default_status = 500"
+  },
+  "detect": {
+    "baseline": "43 passed in 0.15s",
+    "after_seed": "test suite FAILED (exit 1)",
+    "oracle_caught": true,
+    "failure_signature": "seeded defect made the project's own test suite exit non-zero"
+  },
+  "repair": {
+    "fix": "git checkout (restore upstream source)"
+  },
+  "reverify": {
+    "after": "43 passed in 0.14s",
+    "passed": 43,
+    "failures": 0
+  },
+  "repair_loop_status": "passed",
+  "proves": "closed-loop repair on a real external python project (bottle): its OWN test suite detects the injected defect -> fix -> re-verify (43 passed in 0.14s). Reproducible."
+}

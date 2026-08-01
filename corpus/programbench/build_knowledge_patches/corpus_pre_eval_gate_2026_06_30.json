@@ -1,0 +1,49 @@
+{
+  "_doc": "Corpus patch: Addendum H/I pre-eval route gate. Loaded by determinex_pb_ask_corpus on top of build_knowledge.json so the rule survives without rewriting the giant generated corpus file.",
+  "class_patterns": {
+    "corpus_pre_eval_gate": {
+      "detect": "Any ProgramBench tool before repack, autofix, reimpl fallback, or official eval. Especially source_shape=upstream-source-prohibited, recommended_engine=native-reimpl-loop, reimpl-skill-oracle, spec-local-oracle, or extract-spec-first from determinex_pb_ask_corpus.",
+      "symptom": "Watch/autodrive can burn official evals or mutate candidates from corpus advice before Addendum H/I gates are satisfied. Upstream-source tarballs may be re-evaled even though they can never be legitimate solves; near-lock reimpl tails may collapse from direct autofix without local oracle.",
+      "fix": "Route through scripts/determinex_pb_corpus_router.py before _repack/_fresh_eval/autofix. If official_eval_allowed=false, stop with needs-native-reimpl, needs-spec-extraction, or needs-local-oracle-tail. Only official-eval after local oracle is green and provenance is few-file source-only.",
+      "applies_to": [
+        "__all__"
+      ],
+      "generalized_in": "determinex_pb_corpus_router.route_from_corpus + determinex_pb_autodrive.drive_one pre-eval gate",
+      "proven": "Remote bounded validation 2026-06-30: ov -> needs-native-reimpl; csview -> needs-local-oracle-tail; official evals launched=0"
+    }
+  },
+  "corpus_pre_eval_gate_2026_06_30": {
+    "symptom": "Corpus/adjudicator output existed but was advisory, not a hard stoplight before official eval; broad watch could still repack/eval or direct-autofix a tool before native-reimpl/local-oracle gates.",
+    "root_cause": "No reusable route record connected determinex_pb_ask_corpus to autodrive preflight. Corpus prescription did not have an enforceable official_eval_allowed/autofix_allowed/local_oracle_required decision.",
+    "fix": "Added determinex_pb_corpus_router.py and wired determinex_pb_autodrive.drive_one to consult corpus and route before repack/eval. Added global class pattern corpus_pre_eval_gate so every tool sees the rule.",
+    "evidence": {
+      "local_test": "tests/corpus/programbench/test_pb_corpus_router_lock.py -> 6 passed",
+      "remote_probe_ov": "needs-native-reimpl, official_eval_allowed=false",
+      "remote_probe_csview": "needs-local-oracle, official_eval_allowed=false",
+      "remote_autodrive_validation": "ov needs-native-reimpl; csview needs-local-oracle-tail; newly LOCKED 0; evals launched 0"
+    },
+    "status": "applied_on_box_and_local"
+  },
+  "pb_churn_free_model_ladder_2026_06_30": {
+    "symptom": "The native reimpl loop could be started with a local Ollama model tag containing ':' such as qwen2.5-coder:7b-instruct, but the --models parser treated the tag suffix as tier metadata and failed before generation.",
+    "root_cause": "determinex_pb_reimpl split model ladder entries on every ':' even though Ollama model tags use ':' as part of the model name.",
+    "fix": "Added parse_model_ladder so only numeric trailing ':tier:cost' fields are metadata. determinex_pb_churn now defaults to a free local ladder: local/deepseek-coder-v2:16b -> local/qwen2.5-coder:7b-instruct -> local/qwen2.5-coder:3b -> determinex-coder-base-tiny:latest. The reimpl provider normalizes legacy local/ollama/tiny prefixes before calling raw Ollama and keeps local/deepseek-coder-v2 off the cloud DeepSeek API path.",
+    "evidence": {
+      "local_test": "tests/corpus/programbench/test_pb_churn_lock.py + test_pb_corpus_router_lock.py -> 14 passed",
+      "syntax": "py_compile determinex_pb_churn.py determinex_pb_reimpl.py determinex_reimpl_drive.py determinex_pb_corpus_router.py passed",
+      "hetzner_model_smoke": "deepseek-coder-v2:16b installed via Ollama and API smoke returned OK in ~12s cold"
+    },
+    "status": "ready_for_hetzner_pull_and_watch"
+  },
+  "build_knowledge_trailing_data_salvage_2026_06_30": {
+    "symptom": "Remote corpus consult crashed with JSONDecodeError: Extra data when loading /root/Determinex/corpus/programbench/build_knowledge.json.",
+    "root_cause": "The box copy of build_knowledge.json contains a valid JSON object followed by stray trailing data from a prior corpus sync/append.",
+    "fix": "determinex_pb_ask_corpus._loads_knowledge_json now salvages the first valid JSON object and preserves _load_warning so corpus consult continues while the hygiene issue remains visible.",
+    "evidence": {
+      "remote_failure": "pytest test_build_knowledge_patches_merge_into_ask_corpus failed on Hetzner with JSONDecodeError Extra data line 23274",
+      "local_test": "tests/corpus/programbench/test_pb_corpus_router_lock.py::test_build_knowledge_loader_salvages_first_json_object_with_trailing_junk passed",
+      "focused_suite": "test_pb_churn_lock.py + test_pb_corpus_router_lock.py -> 15 passed"
+    },
+    "status": "loader_hardened; corpus_source_file_still_should_be_cleaned_by_driver"
+  }
+}

@@ -1,0 +1,1191 @@
+{
+ "generated": "2026-06-09",
+ "generator": "scripts/pb_ceiling_register.py",
+ "metric": "official ProgramBench: score = passed / total(incl. not_run, skipped)",
+ "ledger_definitions": {
+  "strict_lock": "passed==total, 0 skipped, 0 not_run, no eval_override, guard-clean",
+  "reference_parity": "every non-passing test is a hard_upstream/root_container skip the reference binary also cannot pass; failed==0, not_run==0",
+  "ceiling_confirmed": "structurally impossible; proof recorded per tool"
+ },
+ "tools": {
+  "htmlq": {
+   "ledger": "reference_parity_ceiling",
+   "official": "2057/2058",
+   "skip_classes": {
+    "hard_upstream": 1
+   },
+   "skips": [
+    {
+     "test": "eval.tests.test_15_final_massive_push.test_flag_combinations_matrix[True-True]",
+     "reason": "Incompatible flags",
+     "class": "hard_upstream"
+    }
+   ],
+   "strict_eligible": false,
+   "parity_ceiling_if_hard_stand": "2057/2058",
+   "status_at_generation": "upstream_skips"
+  },
+  "ripgrep": {
+   "ledger": "mixed_needs_probe",
+   "official": "2536/2538",
+   "skip_classes": {
+    "root_container": 1,
+    "dependency_cascade": 1
+   },
+   "skips": [
+    {
+     "test": "tests.test_walk_errors.test_files_with_no_read_permission_as_non_root",
+     "reason": "Test requires non-root user (root bypasses permissions)",
+     "class": "root_container"
+    },
+    {
+     "test": "eval.tests.test_rg_behavior.test_line_number_default_and_no_filename_behavior",
+     "reason": "test_line_number_default_and_no_filename_behavior depends on test_basic_recursive_search",
+     "class": "dependency_cascade"
+    }
+   ],
+   "strict_eligible": false,
+   "parity_ceiling_if_hard_stand": "2537/2538",
+   "status_at_generation": "upstream_skips"
+  },
+  "quickjs": {
+   "ledger": "mixed_needs_probe",
+   "official": "3038/3044",
+   "skip_classes": {
+    "env_conditional": 1,
+    "hard_upstream": 5
+   },
+   "skips": [
+    {
+     "test": "tests.test_harvest.test_bjson",
+     "reason": "bjson.so not available - shared library not built",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_libc_http_url_gaps.test_basic_http_get",
+     "reason": "gold-env-limitation: requires reliable HTTP server for status code testing (200, 404)",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_libc_http_url_gaps.test_http_status_codes",
+     "reason": "gold-env-limitation: requires reliable HTTP server for status code testing (200, 404)",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_libc_http_url_gaps.test_header_parsing",
+     "reason": "gold-env-limitation: requires reliable HTTP server for header parsing testing",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_libc_http_url_gaps.test_url_formats",
+     "reason": "gold-env-limitation: requires reliable HTTP server for URL format testing",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_libc_workers_timers_async.test_timer_and_handler_interaction",
+     "reason": "gold-env-limitation: test times out in gold environment due to event loop interaction timing",
+     "class": "hard_upstream"
+    }
+   ],
+   "strict_eligible": false,
+   "parity_ceiling_if_hard_stand": "3039/3044",
+   "status_at_generation": "upstream_skips"
+  },
+  "csview": {
+   "ledger": "reference_parity_ceiling",
+   "official": "347/348",
+   "skip_classes": {
+    "root_container": 1
+   },
+   "skips": [
+    {
+     "test": "eval.tests.test_csview_io.test_unreadable_file_permission_denied_exit_1",
+     "reason": "running as root; cannot reliably make file unreadable",
+     "class": "root_container"
+    }
+   ],
+   "strict_eligible": false,
+   "parity_ceiling_if_hard_stand": "347/348",
+   "status_at_generation": "upstream_skips"
+  },
+  "xq": {
+   "ledger": "mixed_needs_probe",
+   "official": "876/879",
+   "skip_classes": {
+    "unverified": 3
+   },
+   "skips": [
+    {
+     "test": "eval.tests.test_e2e_xq.test_ext_format_xml_matches_golden_files[unformatted6.xml-formatted6.xml]",
+     "reason": "",
+     "class": "unverified"
+    },
+    {
+     "test": "eval.tests.test_e2e_xq.test_ext_is_html_heuristic_via_html_flag[<?xml ?>-False]",
+     "reason": "",
+     "class": "unverified"
+    },
+    {
+     "test": "eval.tests.test_e2e_xq.test_ext_process_as_json_plain_text_wraps_in_text_key",
+     "reason": "",
+     "class": "unverified"
+    }
+   ],
+   "strict_eligible": true,
+   "parity_ceiling_if_hard_stand": "879/879",
+   "status_at_generation": "upstream_skips"
+  },
+  "chroma": {
+   "ledger": "mixed_needs_probe",
+   "official": "524/531",
+   "skip_classes": {
+    "unverified": 7
+   },
+   "skips": [],
+   "strict_eligible": true,
+   "parity_ceiling_if_hard_stand": "531/531",
+   "status_at_generation": "upstream_skips"
+  },
+  "entr": {
+   "ledger": "reference_parity_ceiling",
+   "official": "684/719",
+   "skip_classes": {
+    "hard_upstream": 1
+   },
+   "skips": [
+    {
+     "test": "tests.test_harvest.test_exec_when_symlink_changed",
+     "reason": "Symlink watching behavior varies",
+     "class": "hard_upstream"
+    }
+   ],
+   "strict_eligible": false,
+   "parity_ceiling_if_hard_stand": "718/719",
+   "status_at_generation": "pending_unlock"
+  },
+  "elfcat": {
+   "ledger": "strict_candidate_after_env_fix",
+   "official": "644/714",
+   "skip_classes": {
+    "env_conditional": 1
+   },
+   "skips": [
+    {
+     "test": "tests.test_elf_parsing.test_parse_elf32_if_available",
+     "reason": "32-bit compilation not available",
+     "class": "env_conditional"
+    }
+   ],
+   "strict_eligible": true,
+   "parity_ceiling_if_hard_stand": "714/714",
+   "status_at_generation": "pending_unlock"
+  },
+  "oha": {
+   "ledger": "mixed_needs_probe",
+   "official": "1063/1228",
+   "skip_classes": {
+    "env_conditional": 2,
+    "hard_upstream": 2
+   },
+   "skips": [
+    {
+     "test": "tests.test_client_easy_wins.test_format_host_port_ipv6_basic",
+     "reason": "IPv6 not available on this system",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_harvest.TestGoogle.test_google",
+     "reason": "External test, skip for CI/CD",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_harvest_clean.TestGoogleLive.test_google",
+     "reason": "Live external test - enable manually if needed",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_output.test_json_schema_validation",
+     "reason": "jsonschema not installed",
+     "class": "env_conditional"
+    }
+   ],
+   "strict_eligible": false,
+   "parity_ceiling_if_hard_stand": "1226/1228",
+   "status_at_generation": "pending_unlock"
+  },
+  "pingu": {
+   "ledger": "reference_parity_ceiling",
+   "official": "416/514",
+   "skip_classes": {
+    "hard_upstream": 3
+   },
+   "skips": [
+    {
+     "test": "tests.test_art_rendering.test_renderASCIIArt_wraparound_at_40",
+     "reason": "Too slow (45 pings); core wraparound logic tested in wraparound_at_20",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_art_rendering.test_renderASCIIArt_wraparound_high_index",
+     "reason": "Too slow (105 pings); core wraparound logic tested in wraparound_at_20",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_art_rendering.test_wraparound_preserves_exact_art",
+     "reason": "Too slow (45 pings); core wraparound logic tested in wraparound_at_20",
+     "class": "hard_upstream"
+    }
+   ],
+   "strict_eligible": false,
+   "parity_ceiling_if_hard_stand": "511/514",
+   "status_at_generation": "pending_unlock"
+  },
+  "hck": {
+   "ledger": "strict_candidate_after_env_fix",
+   "official": "883/1138",
+   "skip_classes": {
+    "env_conditional": 1
+   },
+   "skips": [
+    {
+     "test": "tests.test_compression.test_zstd_decompression",
+     "reason": "zstd not available",
+     "class": "env_conditional"
+    }
+   ],
+   "strict_eligible": true,
+   "parity_ceiling_if_hard_stand": "1138/1138",
+   "status_at_generation": "pending_unlock"
+  },
+  "rustowl": {
+   "ledger": "reference_parity_ceiling",
+   "official": "536/724",
+   "skip_classes": {
+    "hard_upstream": 27
+   },
+   "skips": [
+    {
+     "test": "tests.test_check_success.test_check_simple_project",
+     "reason": "Known bug: check command fails due to cargo metadata parsing issue in Analyzer::new",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_check_success.test_check_with_borrowing",
+     "reason": "Known bug: check command fails due to cargo metadata parsing issue in Analyzer::new",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_check_success.test_check_generates_cache",
+     "reason": "Known bug: check command fails due to cargo metadata parsing issue in Analyzer::new",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_check_success.test_check_workspace",
+     "reason": "Known bug: check command fails due to cargo metadata parsing issue in Analyzer::new",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_check_success.test_check_with_multiple_functions",
+     "reason": "Known bug: check command fails due to cargo metadata parsing issue in Analyzer::new",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_lsp_decoration.test_simple_immutable_borrow_decoration",
+     "reason": "Toolchain workaround failed:     Blocking waiting for file lock on build directory     Finished `release` profile [optimized] target(s) in 31.87s cp: cannot stat 'target/release/rustowlc': No such fil",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_lsp_decoration.test_analyze_basic_response_structure",
+     "reason": "Toolchain workaround failed:     Blocking waiting for file lock on build directory     Finished `release` profile [optimized] target(s) in 31.87s cp: cannot stat 'target/release/rustowlc': No such fil",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_lsp_decoration.test_mutable_borrow_decoration",
+     "reason": "Toolchain workaround failed:     Blocking waiting for file lock on build directory     Finished `release` profile [optimized] target(s) in 31.87s cp: cannot stat 'target/release/rustowlc': No such fil",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_lsp_decoration.test_move_semantics_decoration",
+     "reason": "Toolchain workaround failed:     Blocking waiting for file lock on build directory     Finished `release` profile [optimized] target(s) in 31.87s cp: cannot stat 'target/release/rustowlc': No such fil",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_lsp_decoration.test_lifetime_decoration",
+     "reason": "Toolchain workaround failed:     Blocking waiting for file lock on build directory     Finished `release` profile [optimized] target(s) in 31.87s cp: cannot stat 'target/release/rustowlc': No such fil",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_lsp_decoration.test_cursor_response_structure_complete",
+     "reason": "Toolchain workaround failed:     Blocking waiting for file lock on build directory     Finished `release` profile [optimized] target(s) in 31.87s cp: cannot stat 'target/release/rustowlc': No such fil",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_lsp_decoration.test_decoration_local_field_structure",
+     "reason": "Toolchain workaround failed:     Blocking waiting for file lock on build directory     Finished `release` profile [optimized] target(s) in 31.87s cp: cannot stat 'target/release/rustowlc': No such fil",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_lsp_decoration.test_overlapped_flag_when_ranges_overlap",
+     "reason": "Toolchain workaround failed:     Blocking waiting for file lock on build directory     Finished `release` profile [optimized] target(s) in 31.87s cp: cannot stat 'target/release/rustowlc': No such fil",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_lsp_decoration.test_call_decoration_for_function_calls",
+     "reason": "Toolchain workaround failed:     Blocking waiting for file lock on build directory     Finished `release` profile [optimized] target(s) in 31.87s cp: cannot stat 'target/release/rustowlc': No such fil",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_lsp_decoration.test_outlive_decoration_for_lifetime_constraints",
+     "reason": "Toolchain workaround failed:     Blocking waiting for file lock on build directory     Finished `release` profile [optimized] target(s) in 31.87s cp: cannot stat 'target/release/rustowlc': No such fil",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_lsp_decoration.test_empty_file_no_decorations",
+     "reason": "Toolchain workaround failed:     Blocking waiting for file lock on build directory     Finished `release` profile [optimized] target(s) in 31.87s cp: cannot stat 'target/release/rustowlc': No such fil",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_lsp_decoration.test_invalid_position_returns_empty_decorations",
+     "reason": "Toolchain workaround failed:     Blocking waiting for file lock on build directory     Finished `release` profile [optimized] target(s) in 31.87s cp: cannot stat 'target/release/rustowlc': No such fil",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_lsp_decoration.test_nonexistent_file_returns_no_path",
+     "reason": "Toolchain workaround failed:     Blocking waiting for file lock on build directory     Finished `release` profile [optimized] target(s) in 31.87s cp: cannot stat 'target/release/rustowlc': No such fil",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_lsp_decoration.test_analyze_without_workspace_returns_error_status",
+     "reason": "Toolchain workaround failed:     Blocking waiting for file lock on build directory     Finished `release` profile [optimized] target(s) in 31.87s cp: cannot stat 'target/release/rustowlc': No such fil",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_lsp_decoration.test_multiple_cursor_requests_same_file",
+     "reason": "Toolchain workaround failed:     Blocking waiting for file lock on build directory     Finished `release` profile [optimized] target(s) in 31.87s cp: cannot stat 'target/release/rustowlc': No such fil",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_lsp_decoration.test_decoration_types_are_distinct",
+     "reason": "Toolchain workaround failed:     Blocking waiting for file lock on build directory     Finished `release` profile [optimized] target(s) in 31.87s cp: cannot stat 'target/release/rustowlc': No such fil",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_lsp_decoration.test_range_end_after_start",
+     "reason": "Toolchain workaround failed:     Blocking waiting for file lock on build directory     Finished `release` profile [optimized] target(s) in 31.87s cp: cannot stat 'target/release/rustowlc': No such fil",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_lsp_decoration.test_hover_text_format_consistency",
+     "reason": "Toolchain workaround failed:     Blocking waiting for file lock on build directory     Finished `release` profile [optimized] target(s) in 31.87s cp: cannot stat 'target/release/rustowlc': No such fil",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_lsp_decoration.test_is_analyzed_false_before_analysis",
+     "reason": "Toolchain workaround failed:     Blocking waiting for file lock on build directory     Finished `release` profile [optimized] target(s) in 31.87s cp: cannot stat 'target/release/rustowlc': No such fil",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_lsp_decoration.test_status_field_valid_values",
+     "reason": "Toolchain workaround failed:     Blocking waiting for file lock on build directory     Finished `release` profile [optimized] target(s) in 31.87s cp: cannot stat 'target/release/rustowlc': No such fil",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_lsp_decoration.test_different_positions_same_variable",
+     "reason": "Toolchain workaround failed:     Blocking waiting for file lock on build directory     Finished `release` profile [optimized] target(s) in 31.87s cp: cannot stat 'target/release/rustowlc': No such fil",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "eval.tests.test_argparse_validation.test_combined_short_flags_rejected[NOTSET]",
+     "reason": "got empty parameter set for (argv)",
+     "class": "hard_upstream"
+    }
+   ],
+   "strict_eligible": false,
+   "parity_ceiling_if_hard_stand": "697/724",
+   "status_at_generation": "pending_unlock"
+  },
+  "zip-password-finder": {
+   "ledger": "reference_parity_ceiling",
+   "official": "791/1127",
+   "skip_classes": {
+    "hard_upstream": 1
+   },
+   "skips": [
+    {
+     "test": "tests.test_zip_password_finder.TestDictionaryAttack.test_dictionary_password_not_found",
+     "reason": "File 4 takes too long to process - encrypted differently",
+     "class": "hard_upstream"
+    }
+   ],
+   "strict_eligible": false,
+   "parity_ceiling_if_hard_stand": "1126/1127",
+   "status_at_generation": "pending_unlock"
+  },
+  "sd": {
+   "ledger": "reference_parity_ceiling",
+   "official": "864/1241",
+   "skip_classes": {
+    "hard_upstream": 1,
+    "root_container": 4
+   },
+   "skips": [
+    {
+     "test": "tests.test_harvest.test_ambiguous_replace_ensure_styling",
+     "reason": "Original test is ignored - TODO: wait for proper colorization",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_harvest.test_correctly_fails_on_unreadable_file",
+     "reason": "Test requires non-root user for permission checks",
+     "class": "root_container"
+    },
+    {
+     "test": "tests.test_harvest.test_reports_errors_on_atomic_file_swap_creation_failure",
+     "reason": "Test requires non-root user for permission checks",
+     "class": "root_container"
+    },
+    {
+     "test": "tests.test_cli.test_correctly_fails_on_unreadable_file",
+     "reason": "root bypasses file permission restrictions",
+     "class": "root_container"
+    },
+    {
+     "test": "tests.test_cli.test_reports_errors_on_atomic_file_swap_creation_failure",
+     "reason": "root bypasses file permission restrictions",
+     "class": "root_container"
+    }
+   ],
+   "strict_eligible": false,
+   "parity_ceiling_if_hard_stand": "1236/1241",
+   "status_at_generation": "pending_unlock"
+  },
+  "keifu": {
+   "ledger": "strict_candidate_after_env_fix",
+   "official": "274/415",
+   "skip_classes": {
+    "dependency_cascade": 4
+   },
+   "skips": [
+    {
+     "test": "eval.tests.test_tui.test_help_overlay_opens_and_closes",
+     "reason": "test_help_overlay_opens_and_closes depends on test_tui_initial_screen_has_panes_and_footer",
+     "class": "dependency_cascade"
+    },
+    {
+     "test": "eval.tests.test_tui.test_move_selection_changes_commit_detail",
+     "reason": "test_move_selection_changes_commit_detail depends on test_tui_initial_screen_has_panes_and_footer",
+     "class": "dependency_cascade"
+    },
+    {
+     "test": "eval.tests.test_tui.test_search_mode_can_be_entered_and_cancelled",
+     "reason": "test_search_mode_can_be_entered_and_cancelled depends on test_tui_initial_screen_has_panes_and_footer",
+     "class": "dependency_cascade"
+    },
+    {
+     "test": "eval.tests.test_tui.test_unbound_key_does_not_crash_or_exit",
+     "reason": "test_unbound_key_does_not_crash_or_exit depends on test_tui_initial_screen_has_panes_and_footer",
+     "class": "dependency_cascade"
+    }
+   ],
+   "strict_eligible": true,
+   "parity_ceiling_if_hard_stand": "415/415",
+   "status_at_generation": "pending_unlock"
+  },
+  "fzf": {
+   "ledger": "strict_candidate_after_env_fix",
+   "official": "1797/2760",
+   "skip_classes": {
+    "env_conditional": 3
+   },
+   "skips": [
+    {
+     "test": "tests.test_shell_integration.test_man_page_output_contains_groff_format",
+     "reason": "man command failed and binary didn't fall back to raw output. Output: This system has been minimized by removing packages and content that are not required on a system that users do not log into.  To ",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_shell_integration.test_man_page_exact_content",
+     "reason": "man command didn't produce raw groff output. Got: This system has been minimized by removing packages and content that are not required on a system that users do not log into.  To restore this content",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_shell_integration.test_man_page_is_non_empty_groff_text",
+     "reason": "man command not fully functional on this system",
+     "class": "env_conditional"
+    }
+   ],
+   "strict_eligible": true,
+   "parity_ceiling_if_hard_stand": "2760/2760",
+   "status_at_generation": "pending_unlock"
+  },
+  "tuc": {
+   "ledger": "reference_parity_ceiling",
+   "official": "1245/1827",
+   "skip_classes": {
+    "hard_upstream": 3,
+    "root_container": 1
+   },
+   "skips": [
+    {
+     "test": "tests.test_harvest.test_fails_to_cut_characters_when_no_regex_support",
+     "reason": "Binary has regex support - this test is for no-regex builds",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_harvest.test_does_not_panic_if_attempting_to_use_regex_arg_with_noregex_build",
+     "reason": "Binary has regex support - this test is for no-regex builds",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_harvest.test_cannot_use_characters_without_regex",
+     "reason": "Binary has regex support - this test is for no-regex builds",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_input_advanced.test_unreadable_file_permission_error",
+     "reason": "Permission test not applicable in root containers",
+     "class": "root_container"
+    }
+   ],
+   "strict_eligible": false,
+   "parity_ceiling_if_hard_stand": "1823/1827",
+   "status_at_generation": "pending_unlock"
+  },
+  "parqeye": {
+   "ledger": "reference_parity_ceiling",
+   "official": "380/697",
+   "skip_classes": {
+    "hard_upstream": 1
+   },
+   "skips": [
+    {
+     "test": "tests.test_error_handling.test_path_component_too_long",
+     "reason": "OS doesn't support 300-char filenames",
+     "class": "hard_upstream"
+    }
+   ],
+   "strict_eligible": false,
+   "parity_ceiling_if_hard_stand": "696/697",
+   "status_at_generation": "pending_unlock"
+  },
+  "run": {
+   "ledger": "strict_candidate_after_env_fix",
+   "official": "693/1585",
+   "skip_classes": {
+    "env_conditional": 79
+   },
+   "skips": [
+    {
+     "test": "tests.test_c_specific.test_c_simple_printf",
+     "reason": "c is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_c_specific.test_c_with_variables",
+     "reason": "c is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_c_specific.test_c_without_main",
+     "reason": "c is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_c_specific.test_c_with_function",
+     "reason": "c is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_c_specific.test_c_with_array",
+     "reason": "c is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_c_specific.test_c_file_execution",
+     "reason": "c is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_c_specific.test_c_stdin",
+     "reason": "c is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_c_specific.test_c_for_loop",
+     "reason": "c is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_c_specific.test_c_multiple_includes",
+     "reason": "c is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_compiled_languages.test_rust_inline_with_main",
+     "reason": "rust is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_compiled_languages.test_rust_inline_without_main",
+     "reason": "rust is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_compiled_languages.test_go_inline_with_main",
+     "reason": "go is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_compiled_languages.test_go_inline_without_main",
+     "reason": "go is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_compiled_languages.test_c_inline_with_main",
+     "reason": "c is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_compiled_languages.test_c_inline_without_main",
+     "reason": "c is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_compiled_languages.test_cpp_inline_with_main",
+     "reason": "cpp is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_compiled_languages.test_cpp_inline_without_main",
+     "reason": "cpp is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_compiled_languages.test_rust_file_with_main",
+     "reason": "rust is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_compiled_languages.test_go_file_with_main",
+     "reason": "go is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_compiled_languages.test_c_file_with_main",
+     "reason": "c is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_compiled_languages.test_rust_with_variables",
+     "reason": "rust is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_compiled_languages.test_go_with_variables",
+     "reason": "go is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_compiled_languages.test_c_with_variables",
+     "reason": "c is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_compiled_languages.test_cpp_with_vectors",
+     "reason": "cpp is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_cpp_specific.test_cpp_simple_cout",
+     "reason": "cpp is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_cpp_specific.test_cpp_with_variables",
+     "reason": "cpp is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_cpp_specific.test_cpp_without_main",
+     "reason": "cpp is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_cpp_specific.test_cpp_with_function",
+     "reason": "cpp is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_cpp_specific.test_cpp_with_vector",
+     "reason": "cpp is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_cpp_specific.test_cpp_file_execution",
+     "reason": "cpp is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_cpp_specific.test_cpp_stdin",
+     "reason": "cpp is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_cpp_specific.test_cpp_for_loop",
+     "reason": "cpp is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_cpp_specific.test_cpp_string_operations",
+     "reason": "cpp is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_cpp_specific.test_cpp_auto_keyword",
+     "reason": "cpp is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_detection_comprehensive.test_detect_rs_extension",
+     "reason": "rust is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_detection_comprehensive.test_detect_go_extension",
+     "reason": "go is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_detection_comprehensive.test_detect_c_extension",
+     "reason": "c is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_detection_comprehensive.test_detect_cpp_extension",
+     "reason": "cpp is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_error_handling.test_compilation_error_rust",
+     "reason": "rust is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_error_handling.test_compilation_error_c",
+     "reason": "c is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_error_handling.test_compilation_error_go",
+     "reason": "go is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_error_handling.test_rust_borrow_error",
+     "reason": "rust is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_execution_modes.test_rust_minimal",
+     "reason": "rust is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_execution_modes.test_go_minimal",
+     "reason": "go is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_execution_modes.test_c_minimal",
+     "reason": "c is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_execution_modes.test_cpp_minimal",
+     "reason": "cpp is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_file_execution.test_example_rust_hello",
+     "reason": "rust is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_go_specific.test_go_simple_println",
+     "reason": "go is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_go_specific.test_go_with_variables",
+     "reason": "go is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_go_specific.test_go_with_full_main",
+     "reason": "go is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_go_specific.test_go_with_function",
+     "reason": "go is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_go_specific.test_go_with_slice",
+     "reason": "go is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_go_specific.test_go_file_execution",
+     "reason": "go is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_go_specific.test_go_stdin",
+     "reason": "go is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_go_specific.test_go_for_loop",
+     "reason": "go is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_inline_code.test_javascript_inline_code",
+     "reason": "javascript is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_inline_code.test_ruby_inline_code",
+     "reason": "ruby is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_inline_code.test_javascript_with_multiple_statements",
+     "reason": "javascript is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_inline_code.test_language_alias_js",
+     "reason": "javascript is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_inline_code.test_language_alias_rb",
+     "reason": "ruby is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_language_aliases.test_rust_aliases",
+     "reason": "rust is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_language_aliases.test_go_aliases",
+     "reason": "go is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_language_aliases.test_c_aliases",
+     "reason": "c is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_language_aliases.test_cpp_aliases",
+     "reason": "cpp is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_language_detection.test_detect_from_rs_extension",
+     "reason": "rust is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_language_detection.test_detect_from_go_extension",
+     "reason": "go is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_language_detection.test_detect_from_c_extension",
+     "reason": "c is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_language_detection.test_detect_from_cpp_extension",
+     "reason": "cpp is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_rust_specific.test_rust_simple_println",
+     "reason": "rust is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_rust_specific.test_rust_with_let_binding",
+     "reason": "rust is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_rust_specific.test_rust_with_function",
+     "reason": "rust is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_rust_specific.test_rust_with_vector",
+     "reason": "rust is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_rust_specific.test_rust_file_execution",
+     "reason": "rust is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_rust_specific.test_rust_stdin",
+     "reason": "rust is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_rust_specific.test_rust_multiline",
+     "reason": "rust is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_rust_specific.test_rust_string_operations",
+     "reason": "rust is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_stdin_execution.test_rust_stdin",
+     "reason": "rust is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_stdin_execution.test_go_stdin",
+     "reason": "go is not available",
+     "class": "env_conditional"
+    },
+    {
+     "test": "tests.test_stdin_execution.test_c_stdin",
+     "reason": "c is not available",
+     "class": "env_conditional"
+    }
+   ],
+   "strict_eligible": true,
+   "parity_ceiling_if_hard_stand": "1585/1585",
+   "status_at_generation": "pending_unlock"
+  },
+  "rumdl": {
+   "ledger": "reference_parity_ceiling",
+   "official": "1311/4542",
+   "skip_classes": {
+    "hard_upstream": 29
+   },
+   "skips": [
+    {
+     "test": "tests.test_all_rules_comprehensive.test_all_output_formats",
+     "reason": "May crash worker in parallel execution",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_code_block_processor_gapfill.test_on_error_skip_continues_processing",
+     "reason": "gold-env-limitation: returncode -13 SIGPIPE when external tool scripts run",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_code_block_processor_gapfill.test_multiple_tools_for_language_all_run",
+     "reason": "gold-env-limitation: returncode -13 SIGPIPE when external tool scripts run",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_code_block_processor_gapfill.test_per_language_on_error_override",
+     "reason": "gold-env-limitation: returncode -13 SIGPIPE when external tool script runs",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_code_block_processor_gapfill.test_tool_output_parsing_standard_format",
+     "reason": "gold-env-limitation: returncode -13 SIGPIPE when tool script runs",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_code_block_processor_gapfill.test_tool_output_parsing_eslint_format",
+     "reason": "gold-env-limitation: returncode -13 SIGPIPE when external tool scripts run",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_code_block_processor_gapfill.test_tool_output_parsing_shellcheck_format",
+     "reason": "gold-env-limitation: returncode -13 SIGPIPE when external tool scripts run",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_code_block_processor_gapfill.test_strip_fixable_markers_from_tool_output",
+     "reason": "gold-env-limitation: returncode -13 SIGPIPE when external tool scripts run",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_code_block_processor_gapfill_pt2.test_tool_output_parsing_standard_format",
+     "reason": "gold-env-limitation: returncode -13 SIGPIPE when external tool scripts run",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_code_block_processor_gapfill_pt2.test_tool_output_parsing_eslint_format",
+     "reason": "gold-env-limitation: returncode -13 SIGPIPE when external tool scripts run",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_code_block_processor_gapfill_pt2.test_tool_output_parsing_shellcheck_format",
+     "reason": "gold-env-limitation: returncode -13 SIGPIPE when external tool scripts run",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_code_block_processor_gapfill_pt2.test_strip_fixable_markers_from_tool_output",
+     "reason": "gold-env-limitation: returncode -13 SIGPIPE when external tool scripts run",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_code_block_processor_gapfill_pt2.test_code_blocks_in_blockquote",
+     "reason": "gold-env-limitation: returncode -13 SIGPIPE when external tool scripts run",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_code_block_processor_gapfill_pt3.test_infer_severity_from_warning_w_prefix",
+     "reason": "gold-env-limitation: returncode -13 SIGPIPE when external tool scripts run",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_code_block_processor_gapfill_pt3.test_strip_fixable_markers_multiple_patterns",
+     "reason": "gold-env-limitation: returncode -13 SIGPIPE with mock tool",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_code_block_processor_gapfill_pt3.test_apply_indent_single_newline_only",
+     "reason": "gold-env-limitation: returncode -13 SIGPIPE when external tool scripts run",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_code_block_processor_gapfill_pt3.test_ruby_language_processing",
+     "reason": "gold-env-limitation: returncode -13 SIGPIPE with mock tool",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_code_block_processor_gapfill_pt3.test_go_language_processing",
+     "reason": "gold-env-limitation: returncode -13 SIGPIPE with mock tool",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_code_block_processor_gapfill_pt3.test_typescript_language_processing",
+     "reason": "gold-env-limitation: returncode -13 SIGPIPE with mock tool",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_code_block_processor_gapfill_pt3.test_c_language_processing",
+     "reason": "gold-env-limitation: returncode -13 SIGPIPE with mock tool",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_code_block_processor_gapfill_pt3.test_cpp_language_processing",
+     "reason": "gold-env-limitation: returncode -13 SIGPIPE with mock tool",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_code_block_processor_gapfill_pt3.test_java_language_processing",
+     "reason": "gold-env-limitation: returncode -13 SIGPIPE with mock tool",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_code_block_processor_gapfill_pt3.test_eslint_format_with_severity_info",
+     "reason": "gold-env-limitation: returncode -13 SIGPIPE with mock tool",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_code_block_processor_gapfill_pt3.test_parse_standard_format_no_column",
+     "reason": "gold-env-limitation: returncode -13 SIGPIPE when mock tool outputs multiple diagnostics",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_code_block_processor_gapfill_pt3.test_tool_output_generic_failure_with_empty_output",
+     "reason": "gold-env-limitation: returncode -13 SIGPIPE with mock tool that exits 42",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_code_block_processor_gapfill_pt3.test_tool_output_generic_failure_stderr_only",
+     "reason": "gold-env-limitation: returncode -13 SIGPIPE with mock tool that outputs stderr",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_code_block_processor_gapfill_pt3.test_on_error_warn_logs_but_continues",
+     "reason": "gold-env-limitation: returncode -13 SIGPIPE when tool writes to stderr and exits non-zero",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "tests.test_code_block_processor_gapfill_pt3.test_language_alias_with_normalize_exact",
+     "reason": "gold-env-limitation: returncode -13 SIGPIPE with mock tool",
+     "class": "hard_upstream"
+    },
+    {
+     "test": "eval.tests.test_check_io.test_check_unreadable_file_is_error",
+     "reason": "Cannot make file unreadable in this environment (likely elevated privileges)",
+     "class": "hard_upstream"
+    }
+   ],
+   "strict_eligible": false,
+   "parity_ceiling_if_hard_stand": "4513/4542",
+   "status_at_generation": "pending_unlock"
+  },
+  "doxygen__doxygen": {
+   "ledger": "ceiling_confirmed",
+   "ceiling": "~250/394 (63.6%)",
+   "blocker": "tests.json for 2 of 3 branches carries duplicate test IDs with both eval.tests. and tests. prefixes; JUnit XML only ever emits one prefix — the other half is permanently not_run.",
+   "strict_eligible": false,
+   "status_at_generation": "ceiling_confirmed"
+  },
+  "orf__gping": {
+   "ledger": "ceiling_confirmed",
+   "ceiling": "649/655 (99.08%)",
+   "blocker": "2 ping-missing ENXIO failures irreconcilable with ping-present branches; 4 upstream skips.",
+   "strict_eligible": false,
+   "status_at_generation": "ceiling_confirmed"
+  },
+  "kyoh86__richgo": {
+   "ledger": "ceiling_confirmed",
+   "ceiling": "~787/823 (95.6%)",
+   "blocker": "@go_test phantom test IDs in tests.json never appear in JUnit XML.",
+   "strict_eligible": false,
+   "status_at_generation": "ceiling_confirmed"
+  },
+  "dalance__amber": {
+   "ledger": "ceiling_confirmed",
+   "ceiling": "~587/600 (97.8%)",
+   "blocker": "Camp A branches assert rc=1 on no-TTY pipe; Camp B asserts rc=0+file-modify for the same invocation. No single binary satisfies both.",
+   "strict_eligible": false,
+   "status_at_generation": "ceiling_confirmed"
+  },
+  "johanneskaufmann__html-to-markdown": {
+   "ledger": "ceiling_confirmed",
+   "ceiling": "971/974 (99.69%)",
+   "blocker": "Three branches assert conflicting --version strings for identical invocations. 4 independent evals all land at 971/974.",
+   "strict_eligible": false,
+   "status_at_generation": "ceiling_confirmed"
+  },
+  "sharkdp__fd": {
+   "ledger": "ceiling_confirmed",
+   "ceiling": "~1263/1271 (99.37%)",
+   "blocker": "Root user makes all files executable (defeats chmod tests); subprocess FileNotFoundError on deleted cwd; \\Ac literal in Rust regex.",
+   "strict_eligible": false,
+   "status_at_generation": "ceiling_confirmed"
+  },
+  "sharkdp__hexyl": {
+   "ledger": "ceiling_confirmed",
+   "ceiling": "~940/946 (99.37%)",
+   "blocker": "--panels=1 row-width conflict with passing golden snapshot; decimal/octal zero-pad regex mismatch ({i:03} vs \\b10\\b).",
+   "strict_eligible": false,
+   "status_at_generation": "ceiling_confirmed"
+  }
+ },
+ "summary": {
+  "reference_parity_ceiling": 10,
+  "mixed_needs_probe": 5,
+  "strict_candidate_after_env_fix": 5,
+  "ceiling_confirmed": 7
+ }
+}

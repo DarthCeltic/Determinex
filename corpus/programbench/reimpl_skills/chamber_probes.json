@@ -1,0 +1,6074 @@
+[
+ {
+  "name": "test::test_write_tags_on_existing_secret_error_path::0",
+  "argv": [
+   "./executable",
+   "write",
+   "testservice",
+   "testkey",
+   "value1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_kms_key_alias_without_prefix::1",
+  "argv": [
+   "./executable",
+   "write",
+   "svc",
+   "key",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_s3_write_with_tags_error::2",
+  "argv": [
+   "./executable",
+   "write",
+   "--backend",
+   "s3",
+   "--backend-s3-bucket",
+   "test-bucket",
+   "-t",
+   "env=prod",
+   "myservice",
+   "mykey",
+   "myvalue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_s3_tag_read_not_implemented::3",
+  "argv": [
+   "./executable",
+   "tag",
+   "read",
+   "--backend",
+   "s3",
+   "--backend-s3-bucket",
+   "test",
+   "svc",
+   "key"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "AWS_REGION": "us-east-1"
+  }
+ },
+ {
+  "name": "test::test_s3_delete_tags_not_implemented::4",
+  "argv": [
+   "./executable",
+   "tag",
+   "delete",
+   "--backend",
+   "s3",
+   "--backend-s3-bucket",
+   "test",
+   "svc",
+   "key",
+   "tagkey"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "AWS_REGION": "us-east-1"
+  }
+ },
+ {
+  "name": "test::test_write_stdin_singleline_mode_with_eof::5",
+  "argv": [
+   "write",
+   "--backend",
+   "null",
+   "--singleline",
+   "myservice",
+   "mykey",
+   "-"
+  ],
+  "stdin": "test value",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_write_stdin_singleline_mode_with_newline::6",
+  "argv": [
+   "write",
+   "--backend",
+   "null",
+   "--singleline",
+   "myservice",
+   "mykey",
+   "-"
+  ],
+  "stdin": "test value\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_write_stdin_multiline_mode::7",
+  "argv": [
+   "write",
+   "--backend",
+   "null",
+   "myservice",
+   "mykey",
+   "-"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_write_stdin_singleline_with_tags::8",
+  "argv": [
+   "write",
+   "--backend",
+   "null",
+   "--singleline",
+   "--tags",
+   "env=prod",
+   "myservice",
+   "mykey",
+   "-"
+  ],
+  "stdin": "value\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_write_stdin_empty::9",
+  "argv": [
+   "write",
+   "--backend",
+   "null",
+   "myservice",
+   "mykey",
+   "-"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_write_stdin_singleline_empty::10",
+  "argv": [
+   "write",
+   "--backend",
+   "null",
+   "--singleline",
+   "myservice",
+   "mykey",
+   "-"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_write_stdin_long_value::11",
+  "argv": [
+   "write",
+   "--backend",
+   "null",
+   "myservice",
+   "mykey",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_normalize_keys_flag_transforms_keys::12",
+  "argv": [
+   "import",
+   "test-service",
+   "-",
+   "--normalize-keys",
+   "--backend",
+   "null"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_without_normalize_keys_preserves_original::13",
+  "argv": [
+   "import",
+   "test-service",
+   "-",
+   "--backend",
+   "null"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_write_from_stdin_singleline_mode::14",
+  "argv": [
+   "write",
+   "test-service",
+   "test-key",
+   "-",
+   "--singleline",
+   "--backend",
+   "null"
+  ],
+  "stdin": "test value\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_write_from_stdin_multiline_mode::15",
+  "argv": [
+   "write",
+   "test-service",
+   "test-key",
+   "-",
+   "--backend",
+   "null"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_yaml_with_complex_multiline_values::16",
+  "argv": [
+   "import",
+   "test-service",
+   "-",
+   "--backend",
+   "null"
+  ],
+  "stdin": "\nkey1: |\n  Line 1\n  Line 2\n  Line 3\nkey2: \"single line value\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_from_stdin_json::17",
+  "argv": [
+   "import",
+   "myservice",
+   "-",
+   "--backend",
+   "null"
+  ],
+  "stdin": "{\"STDIN_KEY\": \"stdin_value\", \"ANOTHER\": \"test\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_invalid_service_name_with_spaces::18",
+  "argv": [
+   "import",
+   "invalid service name",
+   "-",
+   "--backend",
+   "null"
+  ],
+  "stdin": "{\"key1\": \"value1\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_service_name_starting_with_slash::19",
+  "argv": [
+   "import",
+   "/invalid",
+   "-",
+   "--backend",
+   "null"
+  ],
+  "stdin": "{\"key1\": \"value1\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_write_with_stdin_value::20",
+  "argv": [
+   "write",
+   "--backend",
+   "null",
+   "myservice",
+   "mykey",
+   "-"
+  ],
+  "stdin": "test value\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_write_with_singleline_flag::21",
+  "argv": [
+   "write",
+   "--backend",
+   "null",
+   "--singleline",
+   "myservice",
+   "mykey",
+   "-"
+  ],
+  "stdin": "single line value\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssm_write_attempt::22",
+  "argv": [
+   "--backend",
+   "ssm",
+   "write",
+   "testservice",
+   "testkey",
+   "testvalue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssm_read_attempt::23",
+  "argv": [
+   "--backend",
+   "ssm",
+   "read",
+   "testservice",
+   "testkey"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssm_list_attempt::24",
+  "argv": [
+   "--backend",
+   "ssm",
+   "list",
+   "testservice"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssm_list_services_attempt::25",
+  "argv": [
+   "--backend",
+   "ssm",
+   "list-services"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssm_delete_attempt::26",
+  "argv": [
+   "--backend",
+   "ssm",
+   "delete",
+   "testservice",
+   "testkey"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssm_history_attempt::27",
+  "argv": [
+   "--backend",
+   "ssm",
+   "history",
+   "testservice",
+   "testkey"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssm_exec_attempt::28",
+  "argv": [
+   "--backend",
+   "ssm",
+   "exec",
+   "testservice",
+   "--",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssm_env_attempt::29",
+  "argv": [
+   "--backend",
+   "ssm",
+   "env",
+   "testservice"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssm_export_attempt::30",
+  "argv": [
+   "--backend",
+   "ssm",
+   "export",
+   "testservice"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssm_find_attempt::31",
+  "argv": [
+   "--backend",
+   "ssm",
+   "find",
+   "testkey"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sm_write_attempt::32",
+  "argv": [
+   "--backend",
+   "secretsmanager",
+   "write",
+   "testservice",
+   "testkey",
+   "testvalue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sm_read_attempt::33",
+  "argv": [
+   "--backend",
+   "secretsmanager",
+   "read",
+   "testservice",
+   "testkey"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sm_list_attempt::34",
+  "argv": [
+   "--backend",
+   "secretsmanager",
+   "list",
+   "testservice"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sm_delete_attempt::35",
+  "argv": [
+   "--backend",
+   "secretsmanager",
+   "delete",
+   "testservice",
+   "testkey"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_s3_requires_bucket::36",
+  "argv": [
+   "--backend",
+   "s3",
+   "list-services"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_s3_with_bucket_attempt::37",
+  "argv": [
+   "--backend",
+   "s3",
+   "--backend-s3-bucket",
+   "testbucket",
+   "list-services"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_s3_kms_requires_bucket::38",
+  "argv": [
+   "--backend",
+   "s3-kms",
+   "list-services"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_s3_kms_with_params_attempt::39",
+  "argv": [
+   "--backend",
+   "s3-kms",
+   "--backend-s3-bucket",
+   "testbucket",
+   "--kms-key-alias",
+   "alias/testkey",
+   "list-services"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssm_tag_write_attempt::40",
+  "argv": [
+   "--backend",
+   "ssm",
+   "tag",
+   "write",
+   "testsvc",
+   "testkey",
+   "tag1=value1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssm_tag_read_attempt::41",
+  "argv": [
+   "--backend",
+   "ssm",
+   "tag",
+   "read",
+   "testsvc",
+   "testkey"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssm_tag_delete_attempt::42",
+  "argv": [
+   "--backend",
+   "ssm",
+   "tag",
+   "delete",
+   "testsvc",
+   "testkey",
+   "tag1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssm_import_attempt::43",
+  "argv": [
+   "--backend",
+   "ssm",
+   "import",
+   "testsvc"
+  ],
+  "stdin": "{\"key1\": \"value1\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssm_export_json_attempt::44",
+  "argv": [
+   "--backend",
+   "ssm",
+   "export",
+   "--format",
+   "json",
+   "testsvc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssm_export_yaml_attempt::45",
+  "argv": [
+   "--backend",
+   "ssm",
+   "export",
+   "--format",
+   "yaml",
+   "testsvc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssm_export_csv_attempt::46",
+  "argv": [
+   "--backend",
+   "ssm",
+   "export",
+   "--format",
+   "csv",
+   "testsvc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssm_export_tsv_attempt::47",
+  "argv": [
+   "--backend",
+   "ssm",
+   "export",
+   "--format",
+   "tsv",
+   "testsvc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssm_export_dotenv_attempt::48",
+  "argv": [
+   "--backend",
+   "ssm",
+   "export",
+   "--format",
+   "dotenv",
+   "testsvc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssm_export_tfvars_attempt::49",
+  "argv": [
+   "--backend",
+   "ssm",
+   "export",
+   "--format",
+   "tfvars",
+   "testsvc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssm_export_java_properties_attempt::50",
+  "argv": [
+   "--backend",
+   "ssm",
+   "export",
+   "--format",
+   "java-properties",
+   "testsvc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssm_list_expand_attempt::51",
+  "argv": [
+   "--backend",
+   "ssm",
+   "list",
+   "--expand",
+   "testsvc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssm_list_sort_time_attempt::52",
+  "argv": [
+   "--backend",
+   "ssm",
+   "list",
+   "--time",
+   "testsvc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssm_list_sort_user_attempt::53",
+  "argv": [
+   "--backend",
+   "ssm",
+   "list",
+   "--user",
+   "testsvc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssm_list_sort_version_attempt::54",
+  "argv": [
+   "--backend",
+   "ssm",
+   "list",
+   "--version",
+   "testsvc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssm_read_version_attempt::55",
+  "argv": [
+   "--backend",
+   "ssm",
+   "read",
+   "--version",
+   "1",
+   "testsvc",
+   "testkey"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssm_read_quiet_attempt::56",
+  "argv": [
+   "--backend",
+   "ssm",
+   "read",
+   "--quiet",
+   "testsvc",
+   "testkey"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssm_write_with_tags_attempt::57",
+  "argv": [
+   "--backend",
+   "ssm",
+   "write",
+   "-t",
+   "env=prod",
+   "testsvc",
+   "testkey",
+   "testvalue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssm_write_singleline_attempt::58",
+  "argv": [
+   "--backend",
+   "ssm",
+   "write",
+   "--singleline",
+   "testsvc",
+   "testkey",
+   "testvalue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssm_write_skip_unchanged_attempt::59",
+  "argv": [
+   "--backend",
+   "ssm",
+   "write",
+   "--skip-unchanged",
+   "testsvc",
+   "testkey",
+   "testvalue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssm_delete_exact_key_attempt::60",
+  "argv": [
+   "--backend",
+   "ssm",
+   "delete",
+   "--exact-key",
+   "testsvc",
+   "TestKey"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssm_find_by_value_attempt::61",
+  "argv": [
+   "--backend",
+   "ssm",
+   "find",
+   "--by-value",
+   "testvalue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssm_exec_pristine_attempt::62",
+  "argv": [
+   "--backend",
+   "ssm",
+   "exec",
+   "--pristine",
+   "testsvc",
+   "--",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssm_exec_strict_attempt::63",
+  "argv": [
+   "--backend",
+   "ssm",
+   "exec",
+   "--strict",
+   "testsvc",
+   "--",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssm_exec_strict_value_attempt::64",
+  "argv": [
+   "--backend",
+   "ssm",
+   "exec",
+   "--strict-value",
+   "expected",
+   "testsvc",
+   "--",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssm_env_preserve_case_attempt::65",
+  "argv": [
+   "--backend",
+   "ssm",
+   "env",
+   "--preserve-case",
+   "testsvc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssm_env_escape_strings_attempt::66",
+  "argv": [
+   "--backend",
+   "ssm",
+   "env",
+   "--escape-strings",
+   "testsvc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sm_tag_write_attempt::67",
+  "argv": [
+   "--backend",
+   "secretsmanager",
+   "tag",
+   "write",
+   "testsvc",
+   "testkey",
+   "tag1=value1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sm_tag_read_attempt::68",
+  "argv": [
+   "--backend",
+   "secretsmanager",
+   "tag",
+   "read",
+   "testsvc",
+   "testkey"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sm_tag_delete_attempt::69",
+  "argv": [
+   "--backend",
+   "secretsmanager",
+   "tag",
+   "delete",
+   "testsvc",
+   "testkey",
+   "tag1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sm_history_attempt::70",
+  "argv": [
+   "--backend",
+   "secretsmanager",
+   "history",
+   "testsvc",
+   "testkey"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sm_list_services_attempt::71",
+  "argv": [
+   "--backend",
+   "secretsmanager",
+   "list-services"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sm_export_attempt::72",
+  "argv": [
+   "--backend",
+   "secretsmanager",
+   "export",
+   "testsvc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sm_import_attempt::73",
+  "argv": [
+   "--backend",
+   "secretsmanager",
+   "import",
+   "testsvc"
+  ],
+  "stdin": "{\"key1\": \"value1\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sm_env_attempt::74",
+  "argv": [
+   "--backend",
+   "secretsmanager",
+   "env",
+   "testsvc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sm_exec_attempt::75",
+  "argv": [
+   "--backend",
+   "secretsmanager",
+   "exec",
+   "testsvc",
+   "--",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sm_find_attempt::76",
+  "argv": [
+   "--backend",
+   "secretsmanager",
+   "find",
+   "testkey"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssm_with_retries_0::77",
+  "argv": [
+   "--backend",
+   "ssm",
+   "--retries",
+   "0",
+   "list-services"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssm_with_retries_1::78",
+  "argv": [
+   "--backend",
+   "ssm",
+   "--retries",
+   "1",
+   "list-services"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssm_with_verbose::79",
+  "argv": [
+   "--backend",
+   "ssm",
+   "--verbose",
+   "list-services"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssm_retry_mode_adaptive::80",
+  "argv": [
+   "--backend",
+   "ssm",
+   "--retry-mode",
+   "adaptive",
+   "list-services"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssm_retry_mode_standard::81",
+  "argv": [
+   "--backend",
+   "ssm",
+   "--retry-mode",
+   "standard",
+   "list-services"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag::82",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_h_flag::83",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_command::84",
+  "argv": [
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_command::85",
+  "argv": [
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_for_specific_command::86",
+  "argv": [
+   "help",
+   "write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_command::87",
+  "argv": [
+   "invalidcommand"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backend_flag_null::88",
+  "argv": [
+   "--backend",
+   "null",
+   "list-services"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backend_flag_ssm::89",
+  "argv": [
+   "--backend",
+   "ssm",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backend_flag_secretsmanager::90",
+  "argv": [
+   "--backend",
+   "secretsmanager",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backend_flag_s3::91",
+  "argv": [
+   "--backend",
+   "s3",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backend_flag_s3_kms::92",
+  "argv": [
+   "--backend",
+   "s3-kms",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_retries_flag::93",
+  "argv": [
+   "--retries",
+   "5",
+   "--backend",
+   "null",
+   "list-services"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_retry_mode_standard::94",
+  "argv": [
+   "--retry-mode",
+   "standard",
+   "--backend",
+   "null",
+   "list-services"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_retry_mode_adaptive::95",
+  "argv": [
+   "--retry-mode",
+   "adaptive",
+   "--backend",
+   "null",
+   "list-services"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_flag::96",
+  "argv": [
+   "--verbose",
+   "--backend",
+   "null",
+   "list-services"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backend_s3_bucket_flag::97",
+  "argv": [
+   "--backend-s3-bucket",
+   "mybucket",
+   "--backend",
+   "s3",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_kms_key_alias_flag::98",
+  "argv": [
+   "--kms-key-alias",
+   "alias/mykey",
+   "--backend",
+   "s3-kms",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_chamber_secret_backend_env::99",
+  "argv": [
+   "list-services"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "CHAMBER_SECRET_BACKEND": "null"
+  }
+ },
+ {
+  "name": "test::test_env_with_special_chars_triggers_sanitize::100",
+  "argv": [
+   "--backend",
+   "null",
+   "env",
+   "test-service"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_escape_strings_triggers_double_quote_escape::101",
+  "argv": [
+   "--backend",
+   "null",
+   "env",
+   "-e",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_null_backend_triggers_sorting::102",
+  "argv": [
+   "--backend",
+   "null",
+   "list",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_find_by_key_triggers_findKeyMatch::103",
+  "argv": [
+   "--backend",
+   "null",
+   "find",
+   "mykey"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_find_by_value_triggers_findValueMatch::104",
+  "argv": [
+   "--backend",
+   "null",
+   "find",
+   "-v",
+   "myvalue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_service_name_triggers_validateService::105",
+  "argv": [
+   "--backend",
+   "null",
+   "list",
+   "invalid@service"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_service_with_label_triggers_validateServiceWithLabel::106",
+  "argv": [
+   "--backend",
+   "null",
+   "exec",
+   "service=label",
+   "--",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_tag_syntax_triggers_validateTag::107",
+  "argv": [
+   "--backend",
+   "null",
+   "write",
+   "--tags",
+   "invalidtag",
+   "svc",
+   "key",
+   "val"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tag_read_with_null_backend::108",
+  "argv": [
+   "--backend",
+   "null",
+   "tag",
+   "read",
+   "service",
+   "key"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_to_output_file::109",
+  "argv": [
+   "--backend",
+   "null",
+   "export",
+   "-o",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_yaml_to_file::110",
+  "argv": [
+   "--backend",
+   "null",
+   "export",
+   "-f",
+   "yaml",
+   "-o",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_csv_to_file::111",
+  "argv": [
+   "--backend",
+   "null",
+   "export",
+   "-f",
+   "csv",
+   "-o",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_dotenv_with_empty_service::112",
+  "argv": [
+   "--backend",
+   "null",
+   "export",
+   "--format=dotenv",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_tfvars_with_empty_service::113",
+  "argv": [
+   "--backend",
+   "null",
+   "export",
+   "--format=tfvars",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_java_properties_with_empty_service::114",
+  "argv": [
+   "--backend",
+   "null",
+   "export",
+   "--format=java-properties",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_expand_flag::115",
+  "argv": [
+   "--backend",
+   "null",
+   "list",
+   "--expand",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_time_sort::116",
+  "argv": [
+   "--backend",
+   "null",
+   "list",
+   "--time",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_user_sort::117",
+  "argv": [
+   "--backend",
+   "null",
+   "list",
+   "--user",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_version_sort::118",
+  "argv": [
+   "--backend",
+   "null",
+   "list",
+   "--version",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read_with_version_flag::119",
+  "argv": [
+   "--backend",
+   "null",
+   "read",
+   "-v",
+   "2",
+   "service",
+   "key"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read_with_quiet_flag::120",
+  "argv": [
+   "--backend",
+   "null",
+   "read",
+   "--quiet",
+   "service",
+   "key"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_with_exact_key_flag::121",
+  "argv": [
+   "--backend",
+   "null",
+   "delete",
+   "--exact-key",
+   "Service",
+   "KeyName"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_write_with_singleline_flag::122",
+  "argv": [
+   "--backend",
+   "null",
+   "write",
+   "-s",
+   "svc",
+   "key",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_write_with_skip_unchanged_flag::123",
+  "argv": [
+   "--backend",
+   "null",
+   "write",
+   "--skip-unchanged",
+   "svc",
+   "key",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_write_multiline_value_from_stdin::124",
+  "argv": [
+   "--backend",
+   "null",
+   "write",
+   "svc",
+   "key",
+   "-"
+  ],
+  "stdin": "line1\nline2\nline3",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_history_with_null_backend::125",
+  "argv": [
+   "--backend",
+   "null",
+   "history",
+   "service",
+   "key"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_json_with_multiple_keys::126",
+  "argv": [
+   "--backend",
+   "null",
+   "import",
+   "svc",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_yaml_with_nested_structure::127",
+  "argv": [
+   "--backend",
+   "null",
+   "import",
+   "svc",
+   "-"
+  ],
+  "stdin": "\nkey1: value1\nkey2: value2\nkey3: value3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_with_strict_and_pristine::128",
+  "argv": [
+   "--backend",
+   "null",
+   "exec",
+   "--strict",
+   "--pristine",
+   "svc",
+   "--",
+   "echo",
+   "hi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_with_multiple_services_and_command_args::129",
+  "argv": [
+   "--backend",
+   "null",
+   "exec",
+   "svc1",
+   "svc2",
+   "svc3",
+   "--",
+   "echo",
+   "-n",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_bash_structure::130",
+  "argv": [
+   "completion",
+   "bash"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_zsh_structure::131",
+  "argv": [
+   "completion",
+   "zsh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_fish_structure::132",
+  "argv": [
+   "completion",
+   "fish"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_with_nonexistent_command::133",
+  "argv": [
+   "--backend",
+   "null",
+   "exec",
+   "svc",
+   "--",
+   "nonexistent-command-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_to_nonexistent_directory::134",
+  "argv": [
+   "--backend",
+   "null",
+   "export",
+   "-o",
+   "/nonexistent/dir/file.json",
+   "svc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_with_invalid_json::135",
+  "argv": [
+   "--backend",
+   "null",
+   "import",
+   "svc",
+   "-"
+  ],
+  "stdin": "{invalid json",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_with_empty_stdin::136",
+  "argv": [
+   "--backend",
+   "null",
+   "import",
+   "svc",
+   "-"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_write_help::137",
+  "argv": [
+   "write",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_write_missing_arguments::138",
+  "argv": [
+   "--backend",
+   "null",
+   "write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_write_missing_key::139",
+  "argv": [
+   "--backend",
+   "null",
+   "write",
+   "testservice"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_write_missing_value::140",
+  "argv": [
+   "--backend",
+   "null",
+   "write",
+   "testservice",
+   "key1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read_help::141",
+  "argv": [
+   "read",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read_missing_arguments::142",
+  "argv": [
+   "--backend",
+   "null",
+   "read"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read_missing_key::143",
+  "argv": [
+   "--backend",
+   "null",
+   "read",
+   "testservice"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_help::144",
+  "argv": [
+   "delete",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_missing_arguments::145",
+  "argv": [
+   "--backend",
+   "null",
+   "delete"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_missing_key::146",
+  "argv": [
+   "--backend",
+   "null",
+   "delete",
+   "testservice"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_exact_key_flag::147",
+  "argv": [
+   "--backend",
+   "null",
+   "delete",
+   "--exact-key",
+   "testservice",
+   "key1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_help::148",
+  "argv": [
+   "list",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_missing_service::149",
+  "argv": [
+   "--backend",
+   "null",
+   "list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_history_help::150",
+  "argv": [
+   "history",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_history_missing_arguments::151",
+  "argv": [
+   "--backend",
+   "null",
+   "history"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_history_missing_key::152",
+  "argv": [
+   "--backend",
+   "null",
+   "history",
+   "testservice"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_find_help::153",
+  "argv": [
+   "find",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_find_missing_key::154",
+  "argv": [
+   "--backend",
+   "null",
+   "find"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_help::155",
+  "argv": [
+   "import",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_missing_arguments::156",
+  "argv": [
+   "--backend",
+   "null",
+   "import"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_missing_file::157",
+  "argv": [
+   "--backend",
+   "null",
+   "import",
+   "testservice"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_nonexistent_file::158",
+  "argv": [
+   "--backend",
+   "null",
+   "import",
+   "testservice",
+   "/nonexistent/file.json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_invalid_json::159",
+  "argv": [
+   "--backend",
+   "null",
+   "import",
+   "testservice",
+   "invalid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.json": "{ invalid json }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_valid_json_from_file::160",
+  "argv": [
+   "--backend",
+   "null",
+   "import",
+   "testservice",
+   "valid.json"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.json": "{\"key1\": \"value1\", \"key2\": \"value2\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_from_stdin::161",
+  "argv": [
+   "--backend",
+   "null",
+   "import",
+   "testservice",
+   "-"
+  ],
+  "stdin": "{\"key1\": \"value1\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_normalize_keys_flag::162",
+  "argv": [
+   "--backend",
+   "null",
+   "import",
+   "--normalize-keys",
+   "chamber write",
+   "testservice",
+   "data.json"
+  ],
+  "stdin": null,
+  "files": {
+   "data.json": "{\"my_key\": \"value\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tag_help::163",
+  "argv": [
+   "tag",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tag_read_help::164",
+  "argv": [
+   "tag",
+   "read",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tag_read_missing_arguments::165",
+  "argv": [
+   "--backend",
+   "null",
+   "tag",
+   "read"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tag_write_help::166",
+  "argv": [
+   "tag",
+   "write",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tag_write_missing_arguments::167",
+  "argv": [
+   "--backend",
+   "null",
+   "tag",
+   "write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tag_delete_help::168",
+  "argv": [
+   "tag",
+   "delete",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tag_delete_missing_arguments::169",
+  "argv": [
+   "--backend",
+   "null",
+   "tag",
+   "delete"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_powershell::170",
+  "argv": [
+   "completion",
+   "powershell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_help::171",
+  "argv": [
+   "completion",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_no_args::172",
+  "argv": [
+   "completion"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_invalid_shell::173",
+  "argv": [
+   "completion",
+   "invalidshell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_dotenv_with_output_file::174",
+  "argv": [
+   "--backend",
+   "null",
+   "export",
+   "--format",
+   "dotenv",
+   "--output-file",
+   "myservice"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_tfvars_output::175",
+  "argv": [
+   "--backend",
+   "null",
+   "export",
+   "--format",
+   "tfvars",
+   "svc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_java_properties_output::176",
+  "argv": [
+   "--backend",
+   "null",
+   "export",
+   "--format",
+   "java-properties",
+   "svc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_csv_with_headers::177",
+  "argv": [
+   "--backend",
+   "null",
+   "export",
+   "--format",
+   "csv",
+   "svc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_tsv_with_tabs::178",
+  "argv": [
+   "--backend",
+   "null",
+   "export",
+   "--format",
+   "tsv",
+   "svc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_expand::179",
+  "argv": [
+   "--backend",
+   "null",
+   "list",
+   "--expand",
+   "svc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_sort_by_time::180",
+  "argv": [
+   "--backend",
+   "null",
+   "list",
+   "--time",
+   "svc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_sort_by_user::181",
+  "argv": [
+   "--backend",
+   "null",
+   "list",
+   "--user",
+   "svc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_sort_by_version::182",
+  "argv": [
+   "--backend",
+   "null",
+   "list",
+   "--version",
+   "svc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read_quiet_flag::183",
+  "argv": [
+   "--backend",
+   "null",
+   "read",
+   "-q",
+   "svc",
+   "key"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read_with_version_flag::184",
+  "argv": [
+   "--backend",
+   "null",
+   "read",
+   "--version",
+   "1",
+   "svc",
+   "key"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_with_pristine::185",
+  "argv": [
+   "--backend",
+   "null",
+   "exec",
+   "--pristine",
+   "svc",
+   "--",
+   "printenv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_with_strict::186",
+  "argv": [
+   "--backend",
+   "null",
+   "exec",
+   "--strict",
+   "svc",
+   "--",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_with_strict_value::187",
+  "argv": [
+   "--backend",
+   "null",
+   "exec",
+   "--strict-value",
+   "required_key",
+   "svc",
+   "--",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_write_from_stdin_dash::188",
+  "argv": [
+   "--backend",
+   "null",
+   "write",
+   "svc",
+   "key",
+   "-"
+  ],
+  "stdin": "secret_value_from_stdin",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_write_with_singleline_flag::189",
+  "argv": [
+   "--backend",
+   "null",
+   "write",
+   "--singleline",
+   "svc",
+   "key",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_write_with_multiple_tags::190",
+  "argv": [
+   "--backend",
+   "null",
+   "write",
+   "--tags",
+   "env=prod,team=infra,owner=test",
+   "svc",
+   "key",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_with_exact_key::191",
+  "argv": [
+   "--backend",
+   "null",
+   "delete",
+   "--exact-key",
+   "svc",
+   "MixedCaseKey"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_with_preserve_case::192",
+  "argv": [
+   "--backend",
+   "null",
+   "env",
+   "--preserve-case",
+   "svc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_with_escape_strings::193",
+  "argv": [
+   "--backend",
+   "null",
+   "env",
+   "--escape-strings",
+   "svc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_both_flags::194",
+  "argv": [
+   "--backend",
+   "null",
+   "env",
+   "--preserve-case",
+   "--escape-strings",
+   "svc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_find_key_search::195",
+  "argv": [
+   "--backend",
+   "null",
+   "find",
+   "search_key"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_find_with_by_value_flag::196",
+  "argv": [
+   "--backend",
+   "null",
+   "find",
+   "--by-value",
+   "search_value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_history_basic::197",
+  "argv": [
+   "--backend",
+   "null",
+   "history",
+   "svc",
+   "key"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tag_write_single_tag::198",
+  "argv": [
+   "--backend",
+   "null",
+   "tag",
+   "write",
+   "svc",
+   "key",
+   "tagkey=tagvalue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tag_write_multiple_tags::199",
+  "argv": [
+   "--backend",
+   "null",
+   "tag",
+   "write",
+   "svc",
+   "key",
+   "tag1=val1",
+   "tag2=val2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tag_read::200",
+  "argv": [
+   "--backend",
+   "null",
+   "tag",
+   "read",
+   "svc",
+   "key"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tag_delete::201",
+  "argv": [
+   "--backend",
+   "null",
+   "tag",
+   "delete",
+   "svc",
+   "key",
+   "tagkey"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_service_name_with_slashes::202",
+  "argv": [
+   "--backend",
+   "null",
+   "read",
+   "svc/with/slashes",
+   "key"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_key_name_with_spaces::203",
+  "argv": [
+   "--backend",
+   "null",
+   "read",
+   "svc",
+   "key with spaces"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_key_name::204",
+  "argv": [
+   "--backend",
+   "null",
+   "read",
+   "svc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_service_name::205",
+  "argv": [
+   "--backend",
+   "null",
+   "list",
+   "svc_测试"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_key_name::206",
+  "argv": [
+   "--backend",
+   "null",
+   "read",
+   "svc",
+   "key_测试"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_with_multiple_commands::207",
+  "argv": [
+   "--verbose",
+   "--backend",
+   "null"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_retries_with_various_values::208",
+  "argv": [
+   "--retries",
+   "--backend",
+   "null",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_retry_mode_variations::209",
+  "argv": [
+   "--retry-mode",
+   "--backend",
+   "null",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_with_multiple_services::210",
+  "argv": [
+   "--backend",
+   "null",
+   "exec",
+   "svc1",
+   "svc2",
+   "svc3",
+   "--",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_with_output_flag::211",
+  "argv": [
+   "--backend",
+   "null",
+   "export",
+   "--format",
+   "json",
+   "svc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_services_with_prefix::212",
+  "argv": [
+   "--backend",
+   "null",
+   "list-services",
+   "my"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_escape_strings_flag::213",
+  "argv": [
+   "--backend",
+   "null",
+   "env",
+   "--escape-strings",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_preserve_case_flag::214",
+  "argv": [
+   "--backend",
+   "null",
+   "env",
+   "--preserve-case",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_both_flags_together::215",
+  "argv": [
+   "--backend",
+   "null",
+   "env",
+   "-e",
+   "-p",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_tfvars_format::216",
+  "argv": [
+   "--backend",
+   "null",
+   "export",
+   "--format=tfvars",
+   "test-service"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_csv_format::217",
+  "argv": [
+   "--backend",
+   "null",
+   "export",
+   "--format=csv",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_tsv_format::218",
+  "argv": [
+   "--backend",
+   "null",
+   "export",
+   "--format=tsv",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_json_format::219",
+  "argv": [
+   "--backend",
+   "null",
+   "export",
+   "--format=json",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_yaml_format::220",
+  "argv": [
+   "--backend",
+   "null",
+   "export",
+   "--format=yaml",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_invalid_format::221",
+  "argv": [
+   "--backend",
+   "null",
+   "export",
+   "--format=invalid",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_multiple_services::222",
+  "argv": [
+   "--backend",
+   "null",
+   "export",
+   "service1",
+   "service2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_find_by_value_flag::223",
+  "argv": [
+   "--backend",
+   "null",
+   "find",
+   "--by-value",
+   "somevalue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_find_by_key_default::224",
+  "argv": [
+   "--backend",
+   "null",
+   "find",
+   "somekey"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_find_with_single_arg::225",
+  "argv": [
+   "--backend",
+   "null",
+   "find",
+   "key"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_with_strict_mode::226",
+  "argv": [
+   "--backend",
+   "null",
+   "exec",
+   "--strict",
+   "test",
+   "--",
+   "echo",
+   "hello"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_without_strict::227",
+  "argv": [
+   "--backend",
+   "null",
+   "exec",
+   "test",
+   "--",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_with_pristine_flag::228",
+  "argv": [
+   "--backend",
+   "null",
+   "exec",
+   "--pristine",
+   "test",
+   "--",
+   "echo",
+   "clean"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_multiple_services::229",
+  "argv": [
+   "--backend",
+   "null",
+   "exec",
+   "service1",
+   "service2",
+   "--",
+   "echo",
+   "multi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_with_chamber_no_paths_env::230",
+  "argv": [
+   "--backend",
+   "null",
+   "exec",
+   "test",
+   "--",
+   "env"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "CHAMBER_NO_PATHS": "1"
+  }
+ },
+ {
+  "name": "test::test_exec_prints_env_vars::231",
+  "argv": [
+   "--backend",
+   "null",
+   "exec",
+   "test",
+   "--",
+   "printenv",
+   "PATH"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_service::232",
+  "argv": [
+   "--backend",
+   "null",
+   "list",
+   "test-service"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_history_basic::233",
+  "argv": [
+   "--backend",
+   "null",
+   "history",
+   "test-service",
+   "test-key"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_history_with_output::234",
+  "argv": [
+   "--backend",
+   "null",
+   "history",
+   "test",
+   "key"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_write_singleline_flag::235",
+  "argv": [
+   "--backend",
+   "null",
+   "write",
+   "--singleline",
+   "test",
+   "key",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_write_skip_unchanged_flag::236",
+  "argv": [
+   "--backend",
+   "null",
+   "write",
+   "--skip-unchanged",
+   "test",
+   "key",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_write_with_tags::237",
+  "argv": [
+   "--backend",
+   "null",
+   "write",
+   "--tags",
+   "env=test,app=myapp",
+   "test",
+   "key",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_write_from_stdin::238",
+  "argv": [
+   "--backend",
+   "null",
+   "write",
+   "test",
+   "key",
+   "-"
+  ],
+  "stdin": "secret-value",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read_specific_version::239",
+  "argv": [
+   "--backend",
+   "null",
+   "read",
+   "-v",
+   "1",
+   "test",
+   "key"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read_quiet_mode::240",
+  "argv": [
+   "--backend",
+   "null",
+   "read",
+   "--quiet",
+   "test",
+   "key"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_with_exact_key::241",
+  "argv": [
+   "--backend",
+   "null",
+   "delete",
+   "--exact-key",
+   "test",
+   "ExactCaseKey"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tag_write_command::242",
+  "argv": [
+   "--backend",
+   "null",
+   "tag",
+   "write",
+   "test",
+   "key",
+   "tag1=value1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tag_read_command::243",
+  "argv": [
+   "--backend",
+   "null",
+   "tag",
+   "read",
+   "test",
+   "key"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tag_delete_command::244",
+  "argv": [
+   "--backend",
+   "null",
+   "tag",
+   "delete",
+   "test",
+   "key",
+   "tag1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_json_stdin::245",
+  "argv": [
+   "--backend",
+   "null",
+   "import",
+   "test",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_yaml_stdin::246",
+  "argv": [
+   "--backend",
+   "null",
+   "import",
+   "test",
+   "-"
+  ],
+  "stdin": "key1: value1\nkey2: value2",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_flag::247",
+  "argv": [
+   "--verbose",
+   "--backend",
+   "null",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_retries_flag::248",
+  "argv": [
+   "--backend",
+   "null",
+   "--retries",
+   "5",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_retry_mode_adaptive::249",
+  "argv": [
+   "--backend",
+   "null",
+   "--retry-mode",
+   "adaptive",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_retry_mode_standard::250",
+  "argv": [
+   "--backend",
+   "null",
+   "--retry-mode",
+   "standard",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_kms_key_alias_flag::251",
+  "argv": [
+   "--backend",
+   "null",
+   "--kms-key-alias",
+   "alias/custom-key",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_s3_backend_with_bucket::252",
+  "argv": [
+   "--backend",
+   "s3",
+   "--backend-s3-bucket",
+   "test-bucket",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_s3_kms_backend_with_params::253",
+  "argv": [
+   "--backend",
+   "s3-kms",
+   "--backend-s3-bucket",
+   "test-bucket",
+   "--kms-key-alias",
+   "alias/test-key",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_backend_with_list::254",
+  "argv": [
+   "--backend",
+   "invalid-backend",
+   "list-services"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_required_args_write::255",
+  "argv": [
+   "write"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_required_args_read::256",
+  "argv": [
+   "read"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_required_args_delete::257",
+  "argv": [
+   "delete"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_export_format::258",
+  "argv": [
+   "--backend",
+   "null",
+   "export",
+   "--format=unsupported",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_output_with_special_characters_in_keys::259",
+  "argv": [
+   "-b",
+   "null",
+   "env",
+   "service-with-dash"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_preserve_case_affects_output_format::260",
+  "argv": [
+   "-b",
+   "null",
+   "env",
+   "-p",
+   "myservice"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_escape_strings_double_quotes::261",
+  "argv": [
+   "-b",
+   "null",
+   "env",
+   "-e",
+   "myservice"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_tfvars_format::262",
+  "argv": [
+   "-b",
+   "null",
+   "export",
+   "--format",
+   "tfvars",
+   "myservice"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_dotenv_format::263",
+  "argv": [
+   "-b",
+   "null",
+   "export",
+   "--format",
+   "dotenv",
+   "myservice"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_java_properties_format::264",
+  "argv": [
+   "-b",
+   "null",
+   "export",
+   "--format",
+   "java-properties",
+   "myservice"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_csv_format_structure::265",
+  "argv": [
+   "-b",
+   "null",
+   "export",
+   "--format",
+   "csv",
+   "myservice"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_tsv_format_structure::266",
+  "argv": [
+   "-b",
+   "null",
+   "export",
+   "--format",
+   "tsv",
+   "myservice"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_json_format_valid_json::267",
+  "argv": [
+   "-b",
+   "null",
+   "export",
+   "--format",
+   "json",
+   "myservice"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_yaml_format_valid_yaml::268",
+  "argv": [
+   "-b",
+   "null",
+   "export",
+   "--format",
+   "yaml",
+   "myservice"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_find_missing_key_arg::269",
+  "argv": [
+   "-b",
+   "null",
+   "find"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_find_with_key::270",
+  "argv": [
+   "-b",
+   "null",
+   "find",
+   "mykey"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_find_with_by_value_flag::271",
+  "argv": [
+   "-b",
+   "null",
+   "find",
+   "--by-value",
+   "myvalue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_find_by_value_short_flag::272",
+  "argv": [
+   "-b",
+   "null",
+   "find",
+   "-v",
+   "myvalue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_find_empty_key::273",
+  "argv": [
+   "-b",
+   "null",
+   "find",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_by_key_sort::274",
+  "argv": [
+   "-b",
+   "null",
+   "list",
+   "myservice"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_by_time_sort::275",
+  "argv": [
+   "-b",
+   "null",
+   "list",
+   "--time",
+   "myservice"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_by_time_short_flag::276",
+  "argv": [
+   "-b",
+   "null",
+   "list",
+   "-t",
+   "myservice"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_by_user_sort::277",
+  "argv": [
+   "-b",
+   "null",
+   "list",
+   "--user",
+   "myservice"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_by_user_short_flag::278",
+  "argv": [
+   "-b",
+   "null",
+   "list",
+   "-u",
+   "myservice"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_by_version_sort::279",
+  "argv": [
+   "-b",
+   "null",
+   "list",
+   "--version",
+   "myservice"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_by_version_short_flag::280",
+  "argv": [
+   "-b",
+   "null",
+   "list",
+   "-v",
+   "myservice"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_expand_flag::281",
+  "argv": [
+   "-b",
+   "null",
+   "list",
+   "--expand",
+   "myservice"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_basic_null_backend::282",
+  "argv": [
+   "-b",
+   "null",
+   "exec",
+   "myservice",
+   "--",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_pristine_mode::283",
+  "argv": [
+   "-b",
+   "null",
+   "exec",
+   "--pristine",
+   "myservice",
+   "--",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_multiple_services::284",
+  "argv": [
+   "-b",
+   "null",
+   "exec",
+   "service1",
+   "service2",
+   "--",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tag_read_with_null_backend_not_implemented::285",
+  "argv": [
+   "-b",
+   "null",
+   "tag",
+   "read",
+   "myservice",
+   "mykey"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tag_write_with_null_backend_not_implemented::286",
+  "argv": [
+   "-b",
+   "null",
+   "tag",
+   "write",
+   "myservice",
+   "mykey",
+   "tag1=value1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tag_write_with_delete_other_tags_flag_accepted::287",
+  "argv": [
+   "-b",
+   "null",
+   "tag",
+   "write",
+   "--delete-other-tags",
+   "myservice",
+   "mykey",
+   "tag1=value1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tag_delete_with_null_backend_not_implemented::288",
+  "argv": [
+   "-b",
+   "null",
+   "tag",
+   "delete",
+   "myservice",
+   "mykey",
+   "tag1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_write_with_stdin_dash_not_implemented::289",
+  "argv": [
+   "-b",
+   "null",
+   "write",
+   "myservice",
+   "mykey",
+   "-"
+  ],
+  "stdin": "secret_value",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_write_basic_value_not_implemented::290",
+  "argv": [
+   "-b",
+   "null",
+   "write",
+   "myservice",
+   "mykey",
+   "myvalue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read_with_quiet_flag_not_implemented::291",
+  "argv": [
+   "-b",
+   "null",
+   "read",
+   "-q",
+   "myservice",
+   "mykey"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_with_exact_key_flag_not_implemented::292",
+  "argv": [
+   "-b",
+   "null",
+   "delete",
+   "--exact-key",
+   "myservice",
+   "MyKey"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_basic_not_implemented::293",
+  "argv": [
+   "-b",
+   "null",
+   "delete",
+   "myservice",
+   "mykey"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_history_basic::294",
+  "argv": [
+   "-b",
+   "null",
+   "history",
+   "myservice",
+   "mykey"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_from_stdin_json_not_implemented::295",
+  "argv": [
+   "-b",
+   "null",
+   "import",
+   "myservice",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_from_stdin_yaml_not_implemented::296",
+  "argv": [
+   "-b",
+   "null",
+   "import",
+   "myservice",
+   "-"
+  ],
+  "stdin": "key1: value1\nkey2: value2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_services_help::297",
+  "argv": [
+   "list-services",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_services_basic::298",
+  "argv": [
+   "-b",
+   "null",
+   "list-services"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_fish_no_descriptions::299",
+  "argv": [
+   "completion",
+   "fish",
+   "--no-descriptions"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backend_s3_requires_bucket::300",
+  "argv": [
+   "-b",
+   "s3",
+   "list-services"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backend_s3_kms_requires_bucket::301",
+  "argv": [
+   "-b",
+   "s3-kms",
+   "list-services"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_retry_mode_standard::302",
+  "argv": [
+   "--retry-mode",
+   "standard",
+   "-b",
+   "null",
+   "list-services"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_retry_mode_adaptive::303",
+  "argv": [
+   "--retry-mode",
+   "adaptive",
+   "-b",
+   "null",
+   "list-services"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_with_version::304",
+  "argv": [
+   "--verbose",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_with_list_services::305",
+  "argv": [
+   "--verbose",
+   "-b",
+   "null",
+   "list-services"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_with_escape_strings::306",
+  "argv": [
+   "--backend",
+   "null",
+   "env",
+   "--escape-strings",
+   "myservice"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_with_preserve_case::307",
+  "argv": [
+   "--backend",
+   "null",
+   "env",
+   "--preserve-case",
+   "myservice"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_find_by_value::308",
+  "argv": [
+   "--backend",
+   "null",
+   "find",
+   "somevalue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_find_exact_match::309",
+  "argv": [
+   "--backend",
+   "null",
+   "find",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_by_name::310",
+  "argv": [
+   "--backend",
+   "null",
+   "list",
+   "myservice"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_by_version::311",
+  "argv": [
+   "--backend",
+   "null",
+   "list",
+   "myservice",
+   "--by-version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_multiple_services::312",
+  "argv": [
+   "--backend",
+   "null",
+   "list",
+   "service1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_dotenv_format::313",
+  "argv": [
+   "--backend",
+   "null",
+   "export",
+   "--format",
+   "dotenv",
+   "myservice"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_tfvars_format::314",
+  "argv": [
+   "--backend",
+   "null",
+   "export",
+   "--format",
+   "tfvars",
+   "myservice"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_java_properties_format::315",
+  "argv": [
+   "--backend",
+   "null",
+   "export",
+   "--format",
+   "java-properties",
+   "myservice"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_csv_format::316",
+  "argv": [
+   "--backend",
+   "null",
+   "export",
+   "--format",
+   "csv",
+   "myservice"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_tsv_format::317",
+  "argv": [
+   "--backend",
+   "null",
+   "export",
+   "--format",
+   "tsv",
+   "myservice"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_json_format::318",
+  "argv": [
+   "--backend",
+   "null",
+   "export",
+   "--format",
+   "json",
+   "myservice"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_yaml_format::319",
+  "argv": [
+   "--backend",
+   "null",
+   "export",
+   "--format",
+   "yaml",
+   "myservice"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read_quiet_mode::320",
+  "argv": [
+   "--backend",
+   "null",
+   "read",
+   "myservice",
+   "mykey"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read_nonexistent_key::321",
+  "argv": [
+   "--backend",
+   "null",
+   "read",
+   "nonexistent-service",
+   "nonexistent-key"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_with_exact_key::322",
+  "argv": [
+   "--backend",
+   "null",
+   "delete",
+   "--exact-key",
+   "myservice",
+   "MyKey"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_normal::323",
+  "argv": [
+   "--backend",
+   "null",
+   "delete",
+   "myservice",
+   "mykey"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_write_with_tags::324",
+  "argv": [
+   "--backend",
+   "null",
+   "write",
+   "--tags",
+   "env=prod,team=infra",
+   "svc",
+   "key",
+   "value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_write_from_stdin::325",
+  "argv": [
+   "--backend",
+   "null",
+   "write",
+   "svc",
+   "key",
+   "-"
+  ],
+  "stdin": "secret_value",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tag_write::326",
+  "argv": [
+   "--backend",
+   "null",
+   "tag",
+   "write",
+   "myservice",
+   "mykey",
+   "tagkey=tagvalue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tag_read::327",
+  "argv": [
+   "--backend",
+   "null",
+   "tag",
+   "read",
+   "myservice",
+   "mykey"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tag_delete::328",
+  "argv": [
+   "--backend",
+   "null",
+   "tag",
+   "delete",
+   "myservice",
+   "mykey",
+   "tagkey"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_history_basic::329",
+  "argv": [
+   "--backend",
+   "null",
+   "history",
+   "myservice",
+   "mykey"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_history_with_ssm::330",
+  "argv": [
+   "--backend",
+   "ssm",
+   "history",
+   "myservice",
+   "mykey"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_from_stdin_json::331",
+  "argv": [
+   "--backend",
+   "null",
+   "import",
+   "myservice",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_service_name_with_special_chars::332",
+  "argv": [
+   "--backend",
+   "null",
+   "list",
+   "my_service-name.test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_key_name_with_special_chars::333",
+  "argv": [
+   "--backend",
+   "null",
+   "read",
+   "svc",
+   "my-key.name_test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_service_name::334",
+  "argv": [
+   "--backend",
+   "null",
+   "list",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_key_name::335",
+  "argv": [
+   "--backend",
+   "null",
+   "read",
+   "svc",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_with_pristine_flag::336",
+  "argv": [
+   "--backend",
+   "null",
+   "exec",
+   "--pristine",
+   "myservice",
+   "--",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_with_strict_flag::337",
+  "argv": [
+   "--backend",
+   "null",
+   "exec",
+   "--strict",
+   "myservice",
+   "--",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_multiple_services::338",
+  "argv": [
+   "--backend",
+   "null",
+   "exec",
+   "svc1",
+   "svc2",
+   "--",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_backend::339",
+  "argv": [
+   "--backend",
+   "invalid_backend",
+   "list",
+   "svc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_retry_mode::340",
+  "argv": [
+   "--retry-mode",
+   "invalid",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_retries::341",
+  "argv": [
+   "--retries",
+   "-1",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_write_missing_value::342",
+  "argv": [
+   "--backend",
+   "null",
+   "write",
+   "svc",
+   "key"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_missing_key::343",
+  "argv": [
+   "--backend",
+   "null",
+   "delete",
+   "svc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_with_list::344",
+  "argv": [
+   "--verbose",
+   "--backend",
+   "null",
+   "list",
+   "svc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_with_exec::345",
+  "argv": [
+   "--verbose",
+   "--backend",
+   "null",
+   "exec",
+   "svc",
+   "--",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_single_service::346",
+  "argv": [
+   "-b",
+   "null",
+   "env",
+   "service1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_handles_empty_response::347",
+  "argv": [
+   "-b",
+   "null",
+   "env",
+   "emptyservice"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_with_env_vars_set::348",
+  "argv": [
+   "-b",
+   "null",
+   "exec",
+   "svc",
+   "--",
+   "env"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TEST_VAR": "test_value",
+   "ANOTHER": "value"
+  }
+ },
+ {
+  "name": "test::test_exec_pristine_with_env_vars::349",
+  "argv": [
+   "-b",
+   "null",
+   "exec",
+   "--pristine",
+   "svc",
+   "--",
+   "env"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TEST_VAR": "test_value",
+   "HOME": "/tmp"
+  }
+ },
+ {
+  "name": "test::test_export_json_empty_service::350",
+  "argv": [
+   "-b",
+   "null",
+   "export",
+   "--format",
+   "json",
+   "empty"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_yaml_empty_service::351",
+  "argv": [
+   "-b",
+   "null",
+   "export",
+   "--format",
+   "yaml",
+   "empty"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_csv_headers::352",
+  "argv": [
+   "-b",
+   "null",
+   "export",
+   "--format",
+   "csv",
+   "empty"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_tsv_format_tabs::353",
+  "argv": [
+   "-b",
+   "null",
+   "export",
+   "--format",
+   "tsv",
+   "empty"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_dotenv_format_syntax::354",
+  "argv": [
+   "-b",
+   "null",
+   "export",
+   "--format",
+   "dotenv",
+   "svc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_tfvars_format_syntax::355",
+  "argv": [
+   "-b",
+   "null",
+   "export",
+   "--format",
+   "tfvars",
+   "svc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_java_properties_format_syntax::356",
+  "argv": [
+   "-b",
+   "null",
+   "export",
+   "--format",
+   "java-properties",
+   "svc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_find_simple_key::357",
+  "argv": [
+   "-b",
+   "null",
+   "find",
+   "simplekey"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_find_key_with_hyphens::358",
+  "argv": [
+   "-b",
+   "null",
+   "find",
+   "my-key-name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_find_key_with_underscores::359",
+  "argv": [
+   "-b",
+   "null",
+   "find",
+   "my_key_name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_find_by_value_simple::360",
+  "argv": [
+   "-b",
+   "null",
+   "find",
+   "-v",
+   "simplevalue"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_find_by_value_with_spaces::361",
+  "argv": [
+   "-b",
+   "null",
+   "find",
+   "-v",
+   "value with spaces"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_default_sort::362",
+  "argv": [
+   "-b",
+   "null",
+   "list",
+   "svc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_sort_by_time::363",
+  "argv": [
+   "-b",
+   "null",
+   "list",
+   "-t",
+   "svc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_sort_by_user::364",
+  "argv": [
+   "-b",
+   "null",
+   "list",
+   "-u",
+   "svc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_sort_by_version::365",
+  "argv": [
+   "-b",
+   "null",
+   "list",
+   "-v",
+   "svc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_with_expand::366",
+  "argv": [
+   "-b",
+   "null",
+   "list",
+   "-e",
+   "svc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_expand_with_time_sort::367",
+  "argv": [
+   "-b",
+   "null",
+   "list",
+   "-e",
+   "-t",
+   "svc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_expand_with_user_sort::368",
+  "argv": [
+   "-b",
+   "null",
+   "list",
+   "-e",
+   "-u",
+   "svc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_expand_with_version_sort::369",
+  "argv": [
+   "-b",
+   "null",
+   "list",
+   "-e",
+   "-v",
+   "svc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_history_simple_key::370",
+  "argv": [
+   "-b",
+   "null",
+   "history",
+   "svc",
+   "key"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_history_key_with_special_chars::371",
+  "argv": [
+   "-b",
+   "null",
+   "history",
+   "svc",
+   "my-key"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_for_read::372",
+  "argv": [
+   "help",
+   "read"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_for_list::373",
+  "argv": [
+   "help",
+   "list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_for_exec::374",
+  "argv": [
+   "help",
+   "exec"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_retries_with_null::375",
+  "argv": [
+   "-r",
+   "3",
+   "-b",
+   "null",
+   "list-services"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_kms_key_alias::376",
+  "argv": [
+   "--kms-key-alias",
+   "alias/test",
+   "-b",
+   "null",
+   "list-services"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_global_flags::377",
+  "argv": [
+   "--verbose",
+   "--retry-mode",
+   "adaptive",
+   "-r",
+   "5",
+   "-b",
+   "null",
+   "list-services"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_missing_arguments::378",
+  "argv": [
+   "-b",
+   "null",
+   "delete"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_missing_key::379",
+  "argv": [
+   "-b",
+   "null",
+   "delete",
+   "myservice"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_invalid_service::380",
+  "argv": [
+   "-b",
+   "null",
+   "delete",
+   "my@service",
+   "mykey"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_invalid_key::381",
+  "argv": [
+   "-b",
+   "null",
+   "delete",
+   "myservice",
+   "my key"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_with_verbose::382",
+  "argv": [
+   "--verbose",
+   "-b",
+   "null",
+   "delete",
+   "myservice",
+   "mykey"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_key_with_uppercase::383",
+  "argv": [
+   "-b",
+   "null",
+   "delete",
+   "myservice",
+   "MYKEY"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_key_with_mixed_case::384",
+  "argv": [
+   "-b",
+   "null",
+   "delete",
+   "myservice",
+   "MyKey"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_exact_key_preserves_case::385",
+  "argv": [
+   "-b",
+   "null",
+   "delete",
+   "--exact-key",
+   "myservice",
+   "MixedCase_Key"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_service_with_underscores::386",
+  "argv": [
+   "--backend",
+   "null",
+   "list",
+   "test_service"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_key_with_special_chars::387",
+  "argv": [
+   "--backend",
+   "null",
+   "read",
+   "service",
+   "key_with_underscore"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_service_name::388",
+  "argv": [
+   "--backend",
+   "null",
+   "list",
+   "service-é"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_help_contains_examples::389",
+  "argv": [
+   "exec",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_help_shows_formats::390",
+  "argv": [
+   "export",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backend_flag_before_and_after_command::391",
+  "argv": [
+   "--backend",
+   "null",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_with_env_command::392",
+  "argv": [
+   "--backend",
+   "null",
+   "exec",
+   "testsvc",
+   "--",
+   "env"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_with_printenv::393",
+  "argv": [
+   "--backend",
+   "null",
+   "exec",
+   "testsvc",
+   "--",
+   "printenv",
+   "PATH"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_with_bash_c::394",
+  "argv": [
+   "--backend",
+   "null",
+   "exec",
+   "testsvc",
+   "--",
+   "bash",
+   "-c",
+   "echo $HOME"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_pristine_removes_environment::395",
+  "argv": [
+   "--backend",
+   "null",
+   "exec",
+   "--pristine",
+   "testsvc",
+   "--",
+   "env"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_multiple_services_order::396",
+  "argv": [
+   "--backend",
+   "null",
+   "exec",
+   "svc1",
+   "svc2",
+   "svc3",
+   "--",
+   "echo",
+   "ok"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_outputs_export_format::397",
+  "argv": [
+   "--backend",
+   "null",
+   "env",
+   "testsvc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_json_structure::398",
+  "argv": [
+   "--backend",
+   "null",
+   "export",
+   "--format",
+   "json",
+   "testsvc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_yaml_structure::399",
+  "argv": [
+   "--backend",
+   "null",
+   "export",
+   "--format",
+   "yaml",
+   "testsvc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

@@ -1,0 +1,5656 @@
+{
+ "slug": "ammarabouzor__tui-journal.2b4540d",
+ "language": "",
+ "n_branches": 22,
+ "n_tests_total": 1752,
+ "n_examples": 303,
+ "n_with_exact_stdout": 0,
+ "n_with_rc": 236,
+ "n_skipped": 1301,
+ "examples": [
+  {
+   "test": "test_help_with_invalid_command",
+   "argv": [
+    "--help",
+    "invalid-command"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_edge_cases.py:5"
+  },
+  {
+   "test": "test_subcommand_short_help_flag",
+   "argv": [
+    "print-config",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable print-config"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_edge_cases.py:13"
+  },
+  {
+   "test": "test_help_command_for_subcommand",
+   "argv": [
+    "help",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable print-config"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_edge_cases.py:19"
+  },
+  {
+   "test": "test_help_command_for_nested_subcommand",
+   "argv": [
+    "help",
+    "theme",
+    "print-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable theme print-path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_edge_cases.py:25"
+  },
+  {
+   "test": "test_theme_help_via_theme_command",
+   "argv": [
+    "theme",
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable theme <COMMAND>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_edge_cases.py:31"
+  },
+  {
+   "test": "test_theme_help_for_subcommand",
+   "argv": [
+    "theme",
+    "help",
+    "print-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable theme print-path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_edge_cases.py:37"
+  },
+  {
+   "test": "test_multiple_help_flags_ignored",
+   "argv": [
+    "--help",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_edge_cases.py:43"
+  },
+  {
+   "test": "test_help_flag_position_independence",
+   "argv": [
+    "--help",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_edge_cases.py:49"
+  },
+  {
+   "test": "test_print_config_help_has_description",
+   "argv": [
+    "print-config",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Print the current settings",
+    "paths for the back-end files"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_help.py:12"
+  },
+  {
+   "test": "test_print_config_help_has_usage",
+   "argv": [
+    "print-config",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable print-config"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_help.py:18"
+  },
+  {
+   "test": "test_print_config_help_has_help_option",
+   "argv": [
+    "print-config",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-h, --help",
+    "Print help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_help.py:23"
+  },
+  {
+   "test": "test_import_journals_help_has_description",
+   "argv": [
+    "import-journals",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Import journals",
+    "transfer JSON file",
+    "current back-end file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_help.py:37"
+  },
+  {
+   "test": "test_import_journals_help_has_usage",
+   "argv": [
+    "import-journals",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable import-journals --path <FILE PATH>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_help.py:44"
+  },
+  {
+   "test": "test_import_journals_help_has_path_option",
+   "argv": [
+    "import-journals",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-p, --path <FILE PATH>",
+    "Path of the JSON file to import from"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_help.py:49"
+  },
+  {
+   "test": "test_assign_priority_help_has_description",
+   "argv": [
+    "assign-priority",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Assign priority",
+    "empty priority field"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_help.py:63"
+  },
+  {
+   "test": "test_assign_priority_help_has_usage",
+   "argv": [
+    "assign-priority",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable assign-priority <PRIORITY>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_help.py:69"
+  },
+  {
+   "test": "test_assign_priority_help_has_arguments_section",
+   "argv": [
+    "assign-priority",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Arguments:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_help.py:74"
+  },
+  {
+   "test": "test_assign_priority_help_documents_priority_arg",
+   "argv": [
+    "assign-priority",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<PRIORITY>",
+    "Priority value",
+    "Positive number"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_help.py:79"
+  },
+  {
+   "test": "test_theme_help_has_description",
+   "argv": [
+    "theme",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "themes and styles"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_theme_subcommand_help.py:12"
+  },
+  {
+   "test": "test_theme_help_has_usage",
+   "argv": [
+    "theme",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable theme <COMMAND>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_theme_subcommand_help.py:17"
+  },
+  {
+   "test": "test_theme_help_has_commands_section",
+   "argv": [
+    "theme",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Commands:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_theme_subcommand_help.py:22"
+  },
+  {
+   "test": "test_theme_help_lists_print_path",
+   "argv": [
+    "theme",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "print-path",
+    "Prints the path to the user themes file",
+    "[aliases: path]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_theme_subcommand_help.py:27"
+  },
+  {
+   "test": "test_theme_help_lists_print_default",
+   "argv": [
+    "theme",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "print-default",
+    "Dumps the styles with the default values",
+    "[aliases: default]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_theme_subcommand_help.py:34"
+  },
+  {
+   "test": "test_theme_help_lists_write_defaults",
+   "argv": [
+    "theme",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "write-defaults",
+    "Creates user custom themes file",
+    "[aliases: write]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_theme_subcommand_help.py:41"
+  },
+  {
+   "test": "test_theme_print_path_help_has_description",
+   "argv": [
+    "theme",
+    "print-path",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Prints the path to the user themes file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_theme_subcommand_help.py:62"
+  },
+  {
+   "test": "test_theme_print_path_help_has_usage",
+   "argv": [
+    "theme",
+    "print-path",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable theme print-path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_theme_subcommand_help.py:67"
+  },
+  {
+   "test": "test_theme_print_default_help_has_description",
+   "argv": [
+    "theme",
+    "print-default",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Dumps the styles with the default values",
+    "reference and base for user custom themes"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_theme_subcommand_help.py:80"
+  },
+  {
+   "test": "test_theme_print_default_help_has_usage",
+   "argv": [
+    "theme",
+    "print-default",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable theme print-default"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_theme_subcommand_help.py:86"
+  },
+  {
+   "test": "test_theme_write_defaults_help_has_description",
+   "argv": [
+    "theme",
+    "write-defaults",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Creates user custom themes file",
+    "writes the default styles to it"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_theme_subcommand_help.py:99"
+  },
+  {
+   "test": "test_theme_write_defaults_help_has_usage",
+   "argv": [
+    "theme",
+    "write-defaults",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable theme write-defaults"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_theme_subcommand_help.py:105"
+  },
+  {
+   "test": "test_sqlite_nonexistent_parent_directory_created",
+   "argv": [
+    "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Use 'n' to create new",
+    "entries",
+    "tags"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_backend_error_handling.py:455"
+  },
+  {
+   "test": "test_database_creation_from_nonexistent_path",
+   "argv": [
+    "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "_sqlx_migrations",
+    "entries",
+    "tags",
+    "Journals"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite_backend.py:27"
+  },
+  {
+   "test": "test_open_existing_database_preserves_data",
+   "argv": [
+    "SELECT title, priority FROM entries;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Existing Entry"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite_backend.py:95"
+  },
+  {
+   "test": "test_empty_database_tui_initial_state",
+   "argv": [
+    "SELECT COUNT(*) FROM entries;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Use 'n' to create new",
+    "entry",
+    "Exit: 'q'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite_backend.py:162"
+  },
+  {
+   "test": "test_add_entry_with_all_fields",
+   "argv": [
+    "SELECT id, title, content, priority FROM entries;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test Entry A",
+    "Priority: 7",
+    "tag1",
+    "tag2",
+    "tag3",
+    "save the changes"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_sqlite_backend.py:212"
+  },
+  {
+   "test": "test_add_entry_minimal_fields_null_priority",
+   "argv": [
+    "SELECT title, content, priority FROM entries;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Minimal Entry"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite_backend.py:294"
+  },
+  {
+   "test": "test_multiple_entries_ordered_by_date_desc",
+   "argv": [
+    "1",
+    "Middle Entry",
+    "2024-02-15T12:00:00Z",
+    "Content B",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Latest Entry",
+    "Middle Entry",
+    "Oldest Entry"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite_backend.py:353"
+  },
+  {
+   "test": "test_update_entry_all_fields_including_tags",
+   "argv": [
+    "1",
+    "Original Title",
+    "2024-01-15T10:00:00Z",
+    "Original content",
+    "3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Updated Title",
+    "Priority: 8",
+    "keep",
+    "new"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite_backend.py:436"
+  },
+  {
+   "test": "test_delete_entry_removes_from_database",
+   "argv": [
+    "SELECT title FROM entries ORDER BY title;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "remove the current",
+    "Entry One"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_sqlite_backend.py:549"
+  },
+  {
+   "test": "test_assign_priority_command_fills_nulls",
+   "argv": [
+    "SELECT title, priority FROM entries ORDER BY title;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite_backend.py:627"
+  },
+  {
+   "test": "test_get_export_object_with_multiple_entries",
+   "argv": [
+    "SELECT id, title FROM entries ORDER BY id;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Export Entry 1",
+    "Export Entry 3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite_backend.py:777"
+  },
+  {
+   "test": "test_empty_tags_list_in_entry",
+   "argv": [
+    "\n        SELECT entries.id, entries.title, GROUP_CONCAT(tags.tag) AS tags\n        FROM entries\n        LEFT JOIN tags ON entries.id = tags.entry_id\n        GROUP BY entries.id\n    "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "No Tags Entry"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite_backend.py:945"
+  },
+  {
+   "test": "test_large_number_of_entries_pagination",
+   "argv": [
+    "SELECT COUNT(*) FROM entries;"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Entry",
+    "50",
+    "Entry"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite_backend.py:1004"
+  },
+  {
+   "test": "test_tui_sqlite_backend_startup",
+   "argv": [
+    "SELECT name FROM sqlite_master WHERE type='table'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "entries",
+    "tags"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_basics.py:333"
+  },
+  {
+   "test": "test_default_config_dir_is_xdg_config_home",
+   "argv": [
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:40"
+  },
+  {
+   "test": "test_cli_config_dir_overrides_default",
+   "argv": [
+    "-c",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:58"
+  },
+  {
+   "test": "test_cli_config_accepts_file_path_for_backward_compatibility",
+   "argv": [
+    "-c",
+    "my_config.toml",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "my_config.toml": "scroll_per_page = 9\n"
+   },
+   "ci": false,
+   "source": "test_config_env.py:84"
+  },
+  {
+   "test": "test_malformed_config_is_reported_as_error_message",
+   "argv": [
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "failed to read configuration file",
+    "toml"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:117"
+  },
+  {
+   "test": "test_ext_print_config_runs",
+   "argv": [
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_non_tty.py:21"
+  },
+  {
+   "test": "test_subcommand_help_recognized",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:98"
+  },
+  {
+   "test": "test_global_flags_must_precede_subcommand_backend_type",
+   "argv": [
+    "--backend-type",
+    "json",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:126"
+  },
+  {
+   "test": "test_verbose_flag_placement_before_and_after_subcommand_differs",
+   "argv": [
+    "--verbose",
+    "print-config",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:137"
+  },
+  {
+   "test": "test_theme_has_nested_subcommands_and_aliases",
+   "argv": [
+    "theme",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Commands:",
+    "print-path",
+    "print-default",
+    "write-defaults",
+    "aliases:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:160"
+  },
+  {
+   "test": "test_theme_nested_aliases",
+   "argv": [
+    "theme",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:181"
+  },
+  {
+   "test": "test_backend_type_invalid",
+   "argv": [
+    "-b",
+    "invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid value",
+    "possible values"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argument_parsing.py:108"
+  },
+  {
+   "test": "test_backend_type_duplicate",
+   "argv": [
+    "-b",
+    "json",
+    "-b",
+    "sqlite"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cannot be used multiple times"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argument_parsing.py:123"
+  },
+  {
+   "test": "test_print_config",
+   "argv": [
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:225"
+  },
+  {
+   "test": "test_print_config_alias",
+   "argv": [
+    "pc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:231"
+  },
+  {
+   "test": "test_import_journals_missing_path",
+   "argv": [
+    "import-journals"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "required"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argument_parsing.py:253"
+  },
+  {
+   "test": "test_import_journals_alias",
+   "argv": [
+    "imj"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "required"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argument_parsing.py:287"
+  },
+  {
+   "test": "test_assign_priority_missing_value",
+   "argv": [
+    "assign-priority"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "required"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argument_parsing.py:310"
+  },
+  {
+   "test": "test_assign_priority_invalid_string",
+   "argv": [
+    "assign-priority",
+    "abc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argument_parsing.py:334"
+  },
+  {
+   "test": "test_assign_priority_float",
+   "argv": [
+    "assign-priority",
+    "3.14"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argument_parsing.py:355"
+  },
+  {
+   "test": "test_assign_priority_alias",
+   "argv": [
+    "ap"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "required"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argument_parsing.py:362"
+  },
+  {
+   "test": "test_theme_print_path",
+   "argv": [
+    "theme",
+    "print-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "themes.toml"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:387"
+  },
+  {
+   "test": "test_theme_print_path_alias",
+   "argv": [
+    "theme",
+    "path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "themes.toml"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:394"
+  },
+  {
+   "test": "test_priority_with_whitespace",
+   "argv": [
+    "assign-priority",
+    " 5 "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argument_parsing.py:505"
+  },
+  {
+   "test": "test_overflow_priority",
+   "argv": [
+    "assign-priority",
+    "4294967296"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argument_parsing.py:559"
+  },
+  {
+   "test": "test_uppercase_backend_value",
+   "argv": [
+    "-b",
+    "JSON",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argument_parsing.py:592"
+  },
+  {
+   "test": "test_help_for_import_journals",
+   "argv": [
+    "help",
+    "import-journals"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:631"
+  },
+  {
+   "test": "test_assign_priority_help",
+   "argv": [
+    "assign-priority",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Assign priority for all the entries",
+    "PRIORITY"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_assign_priority.py:5"
+  },
+  {
+   "test": "test_assign_priority_alias",
+   "argv": [
+    "ap",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Assign priority for all the entries"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_assign_priority.py:12"
+  },
+  {
+   "test": "test_assign_priority_missing_argument",
+   "argv": [
+    "assign-priority"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_assign_priority.py:18"
+  },
+  {
+   "test": "test_assign_priority_invalid_value",
+   "argv": [
+    "assign-priority",
+    "abc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_assign_priority.py:24"
+  },
+  {
+   "test": "test_assign_priority_negative_value",
+   "argv": [
+    "assign-priority",
+    "-5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_assign_priority.py:30"
+  },
+  {
+   "test": "test_assign_priority_float",
+   "argv": [
+    "assign-priority",
+    "3.5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_assign_priority.py:60"
+  },
+  {
+   "test": "test_json_file_path_option",
+   "argv": [
+    "--json-file-path",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_backend_options.py:6"
+  },
+  {
+   "test": "test_json_file_path_short_option",
+   "argv": [
+    "-j",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test.json"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_backend_options.py:15"
+  },
+  {
+   "test": "test_sqlite_file_path_option",
+   "argv": [
+    "--sqlite-file-path",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_backend_options.py:24"
+  },
+  {
+   "test": "test_sqlite_file_path_short_option",
+   "argv": [
+    "-s",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test.db"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_backend_options.py:33"
+  },
+  {
+   "test": "test_backend_type_option_json",
+   "argv": [
+    "--backend-type",
+    "json",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type = \"Json\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_backend_options.py:42"
+  },
+  {
+   "test": "test_backend_type_option_sqlite",
+   "argv": [
+    "--backend-type",
+    "sqlite",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type = \"Sqlite\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_backend_options.py:49"
+  },
+  {
+   "test": "test_backend_type_short_option",
+   "argv": [
+    "-b",
+    "json",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type = \"Json\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_backend_options.py:56"
+  },
+  {
+   "test": "test_backend_type_invalid_value",
+   "argv": [
+    "--backend-type",
+    "invalid",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_backend_options.py:63"
+  },
+  {
+   "test": "test_config_option",
+   "argv": [
+    "--config",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_backend_options.py:69"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable",
+    "Commands:",
+    "print-config",
+    "import-journals",
+    "assign-priority",
+    "theme"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_commands.py:5"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tui-journal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_commands.py:16"
+  },
+  {
+   "test": "test_short_version_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tui-journal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_commands.py:24"
+  },
+  {
+   "test": "test_help_with_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_commands.py:30"
+  },
+  {
+   "test": "test_invalid_option",
+   "argv": [
+    "--invalid-option"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_commands.py:36"
+  },
+  {
+   "test": "test_invalid_command",
+   "argv": [
+    "invalid-command"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_commands.py:42"
+  },
+  {
+   "test": "test_theme_print_path_exit_code",
+   "argv": [
+    "theme",
+    "print-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_exit_codes.py:16"
+  },
+  {
+   "test": "test_invalid_argument_exit_code",
+   "argv": [
+    "--invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_exit_codes.py:21"
+  },
+  {
+   "test": "test_invalid_command_exit_code",
+   "argv": [
+    "not-a-command"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_exit_codes.py:26"
+  },
+  {
+   "test": "test_missing_required_arg_exit_code",
+   "argv": [
+    "import-journals"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_exit_codes.py:31"
+  },
+  {
+   "test": "test_invalid_value_exit_code",
+   "argv": [
+    "assign-priority",
+    "not-a-number"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_exit_codes.py:36"
+  },
+  {
+   "test": "test_nonexistent_file_exit_code",
+   "argv": [
+    "import-journals",
+    "--path",
+    "nonexistent.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_exit_codes.py:41"
+  },
+  {
+   "test": "test_import_journals_help",
+   "argv": [
+    "import-journals",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Import journals from the given transfer JSON file",
+    "--path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_import_journals.py:7"
+  },
+  {
+   "test": "test_import_journals_alias",
+   "argv": [
+    "imj",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Import journals from the given transfer JSON file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_import_journals.py:14"
+  },
+  {
+   "test": "test_verbose_option_single",
+   "argv": [
+    "-v",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_logging_options.py:6"
+  },
+  {
+   "test": "test_verbose_option_double",
+   "argv": [
+    "-vv",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_logging_options.py:13"
+  },
+  {
+   "test": "test_verbose_option_triple",
+   "argv": [
+    "-vvv",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_logging_options.py:19"
+  },
+  {
+   "test": "test_log_file_option",
+   "argv": [
+    "--log",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_logging_options.py:25"
+  },
+  {
+   "test": "test_log_file_short_option",
+   "argv": [
+    "-l",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_logging_options.py:34"
+  },
+  {
+   "test": "test_verbose_and_log_combined",
+   "argv": [
+    "-vv",
+    "--log",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_logging_options.py:41"
+  },
+  {
+   "test": "test_multiple_options_with_command",
+   "argv": [
+    "--config",
+    "--json-file-path",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_option_combinations.py:6"
+  },
+  {
+   "test": "test_verbose_with_backend_and_command",
+   "argv": [
+    "-v",
+    "--backend-type",
+    "json",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_option_combinations.py:21"
+  },
+  {
+   "test": "test_all_options_combined",
+   "argv": [
+    "-vv",
+    "--config",
+    "--json-file-path",
+    "--backend-type",
+    "json",
+    "--log",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_option_combinations.py:27"
+  },
+  {
+   "test": "test_short_options_combined",
+   "argv": [
+    "-v",
+    "-j",
+    "-b",
+    "json",
+    "pc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_option_combinations.py:46"
+  },
+  {
+   "test": "test_option_order_independence",
+   "argv": [
+    "-v",
+    "--backend-type",
+    "json",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Json",
+    "Json"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_option_combinations.py:54"
+  },
+  {
+   "test": "test_version_output_consistent",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_consistency.py:16"
+  },
+  {
+   "test": "test_theme_default_output_consistent",
+   "argv": [
+    "theme",
+    "print-default"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_consistency.py:24"
+  },
+  {
+   "test": "test_theme_write_exists_error_to_stderr",
+   "argv": [
+    "--config",
+    "theme",
+    "write-defaults"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "already exists"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_streams.py:62"
+  },
+  {
+   "test": "test_relative_path_json",
+   "argv": [
+    "--json-file-path",
+    "test.json",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test.json"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_path_handling.py:6"
+  },
+  {
+   "test": "test_absolute_path_json",
+   "argv": [
+    "--json-file-path",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test.json"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_path_handling.py:15"
+  },
+  {
+   "test": "test_relative_path_sqlite",
+   "argv": [
+    "--sqlite-file-path",
+    "test.db",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test.db"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_path_handling.py:25"
+  },
+  {
+   "test": "test_absolute_path_sqlite",
+   "argv": [
+    "--sqlite-file-path",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test.db"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_path_handling.py:31"
+  },
+  {
+   "test": "test_config_directory_path",
+   "argv": [
+    "--config",
+    "theme",
+    "print-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "themes.toml"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_path_handling.py:39"
+  },
+  {
+   "test": "test_print_config_basic",
+   "argv": [
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type",
+    "file_path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_print_config.py:6"
+  },
+  {
+   "test": "test_print_config_alias",
+   "argv": [
+    "pc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_print_config.py:20"
+  },
+  {
+   "test": "test_print_config_help",
+   "argv": [
+    "print-config",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Print the current settings"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_print_config.py:26"
+  },
+  {
+   "test": "test_print_config_with_custom_config_dir",
+   "argv": [
+    "--config",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_print_config.py:38"
+  },
+  {
+   "test": "test_print_config_stdout_format",
+   "argv": [
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "="
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_print_config.py:48"
+  },
+  {
+   "test": "test_theme_help",
+   "argv": [
+    "theme",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Provides commands regarding changing themes",
+    "print-path",
+    "print-default",
+    "write-defaults"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_theme_commands.py:6"
+  },
+  {
+   "test": "test_theme_print_path",
+   "argv": [
+    "theme",
+    "print-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "themes.toml"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_theme_commands.py:15"
+  },
+  {
+   "test": "test_theme_print_path_alias",
+   "argv": [
+    "theme",
+    "path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "themes.toml"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_theme_commands.py:24"
+  },
+  {
+   "test": "test_theme_print_default_alias",
+   "argv": [
+    "theme",
+    "default"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_theme_commands.py:38"
+  },
+  {
+   "test": "test_theme_print_default_is_valid_toml",
+   "argv": [
+    "theme",
+    "print-default"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "="
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_theme_commands.py:44"
+  },
+  {
+   "test": "test_theme_write_defaults_creates_file",
+   "argv": [
+    "--config",
+    "theme",
+    "write-defaults"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Default themes have been written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_theme_commands.py:54"
+  },
+  {
+   "test": "test_theme_write_defaults_alias",
+   "argv": [
+    "--config",
+    "theme",
+    "write"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Default themes have been written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_theme_commands.py:69"
+  },
+  {
+   "test": "test_theme_style_alias",
+   "argv": [
+    "style",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Provides commands regarding changing themes"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_theme_commands.py:91"
+  },
+  {
+   "test": "test_theme_requires_subcommand",
+   "argv": [
+    "theme"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:106"
+  },
+  {
+   "test": "test_theme_subcommand_execution",
+   "argv": [
+    "theme",
+    "print-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".toml"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:130"
+  },
+  {
+   "test": "test_verbose_flag_before_subcommand",
+   "argv": [
+    "--verbose",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:164"
+  },
+  {
+   "test": "test_verbose_flag_after_subcommand_fails",
+   "argv": [
+    "print-config",
+    "--verbose"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:169"
+  },
+  {
+   "test": "test_multiple_verbose_flags",
+   "argv": [
+    "-v",
+    "-v",
+    "-v",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:175"
+  },
+  {
+   "test": "test_help_flag_with_subcommand",
+   "argv": [
+    "print-config",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:180"
+  },
+  {
+   "test": "test_help_without_args",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:196"
+  },
+  {
+   "test": "test_help_for_theme",
+   "argv": [
+    "help",
+    "theme"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "print-path",
+    "print-default"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:217"
+  },
+  {
+   "test": "test_assign_priority_requires_arg",
+   "argv": [
+    "assign-priority"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "required arguments were not provided",
+    "PRIORITY"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:234"
+  },
+  {
+   "test": "test_import_journals_requires_path",
+   "argv": [
+    "import-journals"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "required arguments were not provided",
+    "--path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:241"
+  },
+  {
+   "test": "test_backend_type_flag",
+   "argv": [
+    "--backend-type",
+    "json",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "json"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:281"
+  },
+  {
+   "test": "test_short_backend_flag",
+   "argv": [
+    "-b",
+    "sqlite",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:287"
+  },
+  {
+   "test": "test_help_flag_on_nested_subcommand",
+   "argv": [
+    "theme",
+    "print-path",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "print-path"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:296"
+  },
+  {
+   "test": "test_theme_alias_with_subcommand",
+   "argv": [
+    "style",
+    "print-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:302"
+  },
+  {
+   "test": "test_multiple_global_flags",
+   "argv": [
+    "-v",
+    "--backend-type",
+    "json",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:311"
+  },
+  {
+   "test": "test_theme_print_path_produces_path",
+   "argv": [
+    "theme",
+    "print-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "themes"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:328"
+  },
+  {
+   "test": "test_theme_print_default_produces_theme_data",
+   "argv": [
+    "theme",
+    "print-default"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "["
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:336"
+  },
+  {
+   "test": "test_unknown_subcommand_suggests_help",
+   "argv": [
+    "unknown-command"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:348"
+  },
+  {
+   "test": "test_missing_required_arg_shows_usage",
+   "argv": [
+    "assign-priority"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "assign-priority"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:354"
+  },
+  {
+   "test": "test_backend_sqlite",
+   "argv": [
+    "--backend-type",
+    "sqlite",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:377"
+  },
+  {
+   "test": "test_short_flag_b",
+   "argv": [
+    "-b",
+    "json",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:382"
+  },
+  {
+   "test": "test_json_file_path_flag",
+   "argv": [
+    "--json-file-path",
+    "/tmp/test.json",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "/tmp/test.json"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:391"
+  },
+  {
+   "test": "test_sqlite_file_path_flag",
+   "argv": [
+    "--sqlite-file-path",
+    "/tmp/test.db",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "/tmp/test.db"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:397"
+  },
+  {
+   "test": "test_short_json_flag",
+   "argv": [
+    "-j",
+    "/tmp/test.json",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:403"
+  },
+  {
+   "test": "test_short_sqlite_flag",
+   "argv": [
+    "-s",
+    "/tmp/test.db",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:408"
+  },
+  {
+   "test": "test_assign_priority_help",
+   "argv": [
+    "assign-priority",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Assign priority for all the entries",
+    "PRIORITY",
+    "Positive number"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_assign_priority.py:21"
+  },
+  {
+   "test": "test_assign_priority_alias_help",
+   "argv": [
+    "ap",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Assign priority",
+    "PRIORITY"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_assign_priority.py:30"
+  },
+  {
+   "test": "test_backend_type_json_option",
+   "argv": [
+    "--backend-type",
+    "json",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_backend_options.py:21"
+  },
+  {
+   "test": "test_backend_type_sqlite_option",
+   "argv": [
+    "--backend-type",
+    "sqlite",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_backend_options.py:30"
+  },
+  {
+   "test": "test_backend_type_short_flag",
+   "argv": [
+    "-b",
+    "json",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_backend_options.py:38"
+  },
+  {
+   "test": "test_json_file_path_option",
+   "argv": [
+    "--json-file-path",
+    "test.json",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type",
+    "file_path"
+   ],
+   "files": {
+    "test.json": "[]"
+   },
+   "ci": false,
+   "source": "test_backend_options.py:52"
+  },
+  {
+   "test": "test_json_file_path_short_flag",
+   "argv": [
+    "-j",
+    "test.json",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file_path"
+   ],
+   "files": {
+    "test.json": "[]"
+   },
+   "ci": false,
+   "source": "test_backend_options.py:64"
+  },
+  {
+   "test": "test_sqlite_file_path_option",
+   "argv": [
+    "--sqlite-file-path",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type",
+    "file_path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_backend_options.py:86"
+  },
+  {
+   "test": "test_sqlite_file_path_short_flag",
+   "argv": [
+    "-s",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file_path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_backend_options.py:97"
+  },
+  {
+   "test": "test_multiple_backend_options",
+   "argv": [
+    "--json-file-path",
+    "test.json",
+    "--sqlite-file-path",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file_path"
+   ],
+   "files": {
+    "test.json": "[]"
+   },
+   "ci": false,
+   "source": "test_backend_options.py:118"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable",
+    "Commands:",
+    "print-config",
+    "import-journals",
+    "assign-priority",
+    "theme",
+    "Options:",
+    "--help",
+    "--version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:20"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable",
+    "Commands:",
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:35"
+  },
+  {
+   "test": "test_version_short_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:53"
+  },
+  {
+   "test": "test_default_journal_priority_in_config",
+   "argv": [
+    "--config",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type",
+    "scroll_per_page",
+    "backend_type"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_configs.py:22"
+  },
+  {
+   "test": "test_app_state_dir_in_config",
+   "argv": [
+    "--config",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "app_state_dir"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_configs.py:37"
+  },
+  {
+   "test": "test_export_default_path_in_config",
+   "argv": [
+    "--config",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[export]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_configs.py:51"
+  },
+  {
+   "test": "test_full_external_editor_config",
+   "argv": [
+    "--config",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[external_editor]",
+    "auto_save = true",
+    "temp_file_extension"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_configs.py:78"
+  },
+  {
+   "test": "test_external_editor_as_string",
+   "argv": [
+    "--config",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[external_editor]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_configs.py:98"
+  },
+  {
+   "test": "test_all_boolean_settings_true",
+   "argv": [
+    "--config",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "sync_os_clipboard = true",
+    "colored_tags = true"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_configs.py:111"
+  },
+  {
+   "test": "test_all_boolean_settings_false",
+   "argv": [
+    "--config",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "sync_os_clipboard = false",
+    "colored_tags = false"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_configs.py:134"
+  },
+  {
+   "test": "test_combined_backend_and_config_flags",
+   "argv": [
+    "--config",
+    "--json-file-path",
+    "test.json",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type",
+    "file_path"
+   ],
+   "files": {
+    "test.json": "[]"
+   },
+   "ci": false,
+   "source": "test_comprehensive_configs.py:157"
+  },
+  {
+   "test": "test_combined_verbosity_and_log_with_config",
+   "argv": [
+    "-vv",
+    "--log",
+    "--config",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_configs.py:171"
+  },
+  {
+   "test": "test_all_cli_flags_combined",
+   "argv": [
+    "-v",
+    "--log",
+    "--config",
+    "--sqlite-file-path",
+    "--backend-type",
+    "sqlite",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type",
+    "file_path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_configs.py:183"
+  },
+  {
+   "test": "test_minimal_valid_config",
+   "argv": [
+    "--config",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "history_limit = 15",
+    "backend_type"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_configs.py:229"
+  },
+  {
+   "test": "test_config_with_custom_scroll_per_page",
+   "argv": [
+    "--config",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "scroll_per_page = 10"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_files.py:35"
+  },
+  {
+   "test": "test_config_with_custom_history_limit",
+   "argv": [
+    "--config",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "history_limit = 20"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_files.py:48"
+  },
+  {
+   "test": "test_config_with_sync_clipboard",
+   "argv": [
+    "--config",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "sync_os_clipboard = true"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_files.py:61"
+  },
+  {
+   "test": "test_config_with_colored_tags",
+   "argv": [
+    "--config",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "colored_tags = false"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_files.py:74"
+  },
+  {
+   "test": "test_config_with_datum_visibility",
+   "argv": [
+    "--config",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "datum_visibility",
+    "hide"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_files.py:87"
+  },
+  {
+   "test": "test_config_with_export_settings",
+   "argv": [
+    "--config",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[export]",
+    "show_confirmation = false"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_files.py:101"
+  },
+  {
+   "test": "test_config_with_json_backend_path",
+   "argv": [
+    "--config",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[json_backend]",
+    "file_path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_files.py:130"
+  },
+  {
+   "test": "test_config_with_sqlite_backend_path",
+   "argv": [
+    "--config",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[sqlite_backend]",
+    "file_path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_files.py:145"
+  },
+  {
+   "test": "test_config_with_multiple_settings",
+   "argv": [
+    "--config",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type",
+    "scroll_per_page = 15",
+    "sync_os_clipboard = true",
+    "history_limit = 50",
+    "colored_tags = false",
+    "show_confirmation = false"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_files.py:160"
+  },
+  {
+   "test": "test_empty_config_file",
+   "argv": [
+    "--config",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type",
+    "scroll_per_page"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:24"
+  },
+  {
+   "test": "test_multiple_help_flags",
+   "argv": [
+    "--help",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:61"
+  },
+  {
+   "test": "test_help_combined_with_other_flags",
+   "argv": [
+    "--help",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:68"
+  },
+  {
+   "test": "test_zero_history_limit",
+   "argv": [
+    "--config",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "history_limit = 0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:75"
+  },
+  {
+   "test": "test_invalid_theme_toml_format",
+   "argv": [
+    "--config",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_paths.py:21"
+  },
+  {
+   "test": "test_multiple_backend_selections",
+   "argv": [
+    "--json-file-path",
+    "test.json",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.json": "[]"
+   },
+   "ci": false,
+   "source": "test_flag_combinations.py:46"
+  },
+  {
+   "test": "test_backend_type_overrides",
+   "argv": [
+    "--config",
+    "--backend-type",
+    "sqlite",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:62"
+  },
+  {
+   "test": "test_short_flags_combined",
+   "argv": [
+    "-vv",
+    "-l",
+    "-j",
+    "test.json",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type"
+   ],
+   "files": {
+    "test.json": "[]"
+   },
+   "ci": false,
+   "source": "test_flag_combinations.py:153"
+  },
+  {
+   "test": "test_help_flag_alone",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Commands:",
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:182"
+  },
+  {
+   "test": "test_empty_stdin",
+   "argv": [
+    "print-config"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:205"
+  },
+  {
+   "test": "test_commands_ignore_stdin",
+   "argv": [
+    "print-config"
+   ],
+   "stdin": "random input data\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:212"
+  },
+  {
+   "test": "test_backend_files_with_spaces_in_path",
+   "argv": [
+    "--json-file-path",
+    "test file.json",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file_path"
+   ],
+   "files": {
+    "test file.json": "[]"
+   },
+   "ci": false,
+   "source": "test_flag_combinations.py:219"
+  },
+  {
+   "test": "test_import_journals_help",
+   "argv": [
+    "import-journals",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Import journals from the given transfer JSON file",
+    "--path",
+    "-p",
+    "FILE PATH"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_import_journals.py:22"
+  },
+  {
+   "test": "test_import_journals_alias_help",
+   "argv": [
+    "imj",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Import journals",
+    "--path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_import_journals.py:32"
+  },
+  {
+   "test": "test_verbose_flag_long_form",
+   "argv": [
+    "--verbose",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_logging_and_verbosity.py:36"
+  },
+  {
+   "test": "test_log_file_option",
+   "argv": [
+    "--log",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_logging_and_verbosity.py:43"
+  },
+  {
+   "test": "test_log_file_short_flag",
+   "argv": [
+    "-l",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_logging_and_verbosity.py:55"
+  },
+  {
+   "test": "test_log_file_already_exists",
+   "argv": [
+    "--log",
+    "test.log",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type"
+   ],
+   "files": {
+    "test.log": "existing log content\n"
+   },
+   "ci": false,
+   "source": "test_more_combinations.py:21"
+  },
+  {
+   "test": "test_theme_write_to_custom_location",
+   "argv": [
+    "--config",
+    "theme",
+    "write-defaults"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_more_combinations.py:197"
+  },
+  {
+   "test": "test_all_editor_temp_file_extensions",
+   "argv": [
+    "--config",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "temp_file_extension"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_combinations.py:223"
+  },
+  {
+   "test": "test_print_config_basic",
+   "argv": [
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type",
+    "scroll_per_page",
+    "sync_os_clipboard",
+    "history_limit",
+    "colored_tags",
+    "datum_visibility",
+    "app_state_dir",
+    "[export]",
+    "[external_editor]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_print_config.py:22"
+  },
+  {
+   "test": "test_print_config_alias",
+   "argv": [
+    "pc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type",
+    "scroll_per_page"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_print_config.py:41"
+  },
+  {
+   "test": "test_print_config_with_help",
+   "argv": [
+    "print-config",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Print the current settings",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_print_config.py:50"
+  },
+  {
+   "test": "test_theme_help",
+   "argv": [
+    "theme",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Provides commands regarding changing themes",
+    "print-path",
+    "print-default",
+    "write-defaults",
+    "path",
+    "default",
+    "write"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_theme_commands.py:22"
+  },
+  {
+   "test": "test_theme_print_default",
+   "argv": [
+    "theme",
+    "print-default"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[general",
+    "[journals_list",
+    "[editor",
+    "[msgbox",
+    "fg = ",
+    "bg = ",
+    "modifiers = ",
+    "input_block_active",
+    "list_highlight_active"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_theme_commands.py:54"
+  },
+  {
+   "test": "test_theme_print_default_alias",
+   "argv": [
+    "theme",
+    "default"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[general",
+    "fg = "
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_theme_commands.py:73"
+  },
+  {
+   "test": "test_theme_write_defaults",
+   "argv": [
+    "--config",
+    "theme",
+    "write-defaults"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Default themes have been written",
+    "[general",
+    "fg = "
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_theme_commands.py:81"
+  },
+  {
+   "test": "test_theme_print_path_with_custom_config",
+   "argv": [
+    "--config",
+    "theme",
+    "print-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_theme_commands.py:127"
+  },
+  {
+   "test": "test_theme_print_default_structure",
+   "argv": [
+    "theme",
+    "print-default"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[general.input_block_active]",
+    "[general.input_block_invalid]",
+    "[general.input_corsur_active]",
+    "[general.list_item_selected]",
+    "[general.list_highlight_active]",
+    "[journals_list.block_active]",
+    "[journals_list.highlight_active]",
+    "[editor",
+    "[msgbox"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_theme_parsing.py:21"
+  },
+  {
+   "test": "test_theme_write_creates_file_with_full_content",
+   "argv": [
+    "--config",
+    "theme",
+    "write-defaults"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[general",
+    "[journals_list",
+    "[editor",
+    "[msgbox",
+    "fg = ",
+    "modifiers"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_theme_parsing.py:57"
+  },
+  {
+   "test": "test_theme_write_twice_fails_second_time",
+   "argv": [
+    "--config",
+    "theme",
+    "write-defaults"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "written"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_theme_parsing.py:166"
+  },
+  {
+   "test": "test_import_journals_missing_required_path_arg_exits_nonzero_and_writes_error",
+   "argv": [
+    "import-journals"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:5"
+  },
+  {
+   "test": "test_help_includes_usage_and_commands",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable",
+    "print-config",
+    "import-journals",
+    "assign-priority",
+    "theme"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_version.py:4"
+  },
+  {
+   "test": "test_print_config_outputs_toml_like_config_to_stdout_only",
+   "argv": [
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type = \"",
+    "[json_backend]",
+    "[sqlite_backend]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_print_config.py:4"
+  },
+  {
+   "test": "test_default_config_location_with_xdg",
+   "argv": [
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "scroll_per_page = 25",
+    "colored_tags = false"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:74"
+  },
+  {
+   "test": "test_custom_config_via_flag",
+   "argv": [
+    "--config",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "scroll_per_page = 30",
+    "sync_os_clipboard = true"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:84"
+  },
+  {
+   "test": "test_custom_config_file_path_backward_compat",
+   "argv": [
+    "--config",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "scroll_per_page = 35"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:96"
+  },
+  {
+   "test": "test_missing_config_file_uses_defaults",
+   "argv": [
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "scroll_per_page = 5",
+    "colored_tags = true"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:105"
+  },
+  {
+   "test": "test_empty_config_file",
+   "argv": [
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "scroll_per_page = 5"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:114"
+  },
+  {
+   "test": "test_config_with_valid_fixture",
+   "argv": [
+    "--config",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "scroll_per_page = 10",
+    "sync_os_clipboard = true",
+    "colored_tags = false",
+    "auto_save = true",
+    "temp_file_extension = \"md\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:122"
+  },
+  {
+   "test": "test_minimal_config",
+   "argv": [
+    "--config",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "scroll_per_page = 15"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:133"
+  },
+  {
+   "test": "test_xdg_config_home",
+   "argv": [
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "scroll_per_page = 40"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:168"
+  },
+  {
+   "test": "test_custom_xdg_paths",
+   "argv": [
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "scroll_per_page = 50"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:191"
+  },
+  {
+   "test": "test_cli_json_path_overrides_config",
+   "argv": [
+    "--json-file-path",
+    "/cli/override.json",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file_path = \"/cli/override.json\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:227"
+  },
+  {
+   "test": "test_cli_sqlite_path_overrides_config",
+   "argv": [
+    "--sqlite-file-path",
+    "/cli/override.db",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file_path = \"/cli/override.db\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:237"
+  },
+  {
+   "test": "test_config_overrides_defaults",
+   "argv": [
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "scroll_per_page = 100",
+    "history_limit = 50",
+    "colored_tags = false"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:246"
+  },
+  {
+   "test": "test_cli_config_path_overrides_xdg",
+   "argv": [
+    "--config",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "scroll_per_page = 70"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:258"
+  },
+  {
+   "test": "test_json_backend_config",
+   "argv": [
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type = \"Json\"",
+    "file_path = \"/tmp/my_journal.json\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:277"
+  },
+  {
+   "test": "test_sqlite_backend_config",
+   "argv": [
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type = \"Sqlite\"",
+    "file_path = \"/tmp/my_journal.db\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:287"
+  },
+  {
+   "test": "test_both_backends_configured",
+   "argv": [
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file_path = \"/tmp/json_entries.json\"",
+    "file_path = \"/tmp/sqlite_entries.db\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:297"
+  },
+  {
+   "test": "test_external_editor_in_config",
+   "argv": [
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "command = \"vim\"",
+    "auto_save = true",
+    "temp_file_extension = \"txt\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:317"
+  },
+  {
+   "test": "test_external_editor_defaults",
+   "argv": [
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "auto_save = false",
+    "temp_file_extension = \"txt\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:332"
+  },
+  {
+   "test": "test_export_confirmation_config",
+   "argv": [
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "show_confirmation = false"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:344"
+  },
+  {
+   "test": "test_export_confirmation_default",
+   "argv": [
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "show_confirmation = true"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:353"
+  },
+  {
+   "test": "test_datum_visibility_show",
+   "argv": [
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "datum_visibility = \"show\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:364"
+  },
+  {
+   "test": "test_datum_visibility_hide",
+   "argv": [
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "datum_visibility = \"hide\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:373"
+  },
+  {
+   "test": "test_datum_visibility_empty_line",
+   "argv": [
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "datum_visibility = \"empty_line\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:382"
+  },
+  {
+   "test": "test_app_state_dir_override",
+   "argv": [
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "app_state_dir = \"/custom/state/path\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:402"
+  },
+  {
+   "test": "test_history_limit_config",
+   "argv": [
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "history_limit = 100"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:421"
+  },
+  {
+   "test": "test_custom_log_file_path",
+   "argv": [
+    "--log",
+    "/tmp/custom.log",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:434"
+  },
+  {
+   "test": "test_verbosity_levels",
+   "argv": [
+    "-v",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:441"
+  },
+  {
+   "test": "test_help_output",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--config"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:460"
+  },
+  {
+   "test": "test_comprehensive_config",
+   "argv": [
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type = \"Sqlite\"",
+    "scroll_per_page = 8",
+    "sync_os_clipboard = true",
+    "history_limit = 15",
+    "colored_tags = false",
+    "datum_visibility = \"empty_line\"",
+    "app_state_dir = \"/tmp/app_state\"",
+    "show_confirmation = false",
+    "command = \"emacs\"",
+    "auto_save = true",
+    "temp_file_extension = \"md\"",
+    "file_path = \"/tmp/journals.json\"",
+    "file_path = \"/tmp/journals.db\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:490"
+  },
+  {
+   "test": "test_backend_switching_sequence",
+   "argv": [
+    "-j",
+    "-b",
+    "json",
+    "pc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Json",
+    "Sqlite"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:48"
+  },
+  {
+   "test": "test_theme_write_with_existing_directory",
+   "argv": [
+    "-c",
+    "theme",
+    "write-defaults"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "general"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:64"
+  },
+  {
+   "test": "test_log_with_theme_commands",
+   "argv": [
+    "-l",
+    "theme",
+    "print-default"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:88"
+  },
+  {
+   "test": "test_config_path_normalization",
+   "argv": [
+    "-c",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:97"
+  },
+  {
+   "test": "test_json_backend_path_normalization",
+   "argv": [
+    "-j",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:108"
+  },
+  {
+   "test": "test_version_and_help_together",
+   "argv": [
+    "--version",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tui-journal"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:138"
+  },
+  {
+   "test": "test_theme_write_creates_directory",
+   "argv": [
+    "-c",
+    "theme",
+    "write-defaults"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:170"
+  },
+  {
+   "test": "test_all_help_aliases",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pc]",
+    "imj]",
+    "ap]",
+    "style]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:182"
+  },
+  {
+   "test": "test_sqlite_backend_flag",
+   "argv": [
+    "-s",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_backend_logging.py:26"
+  },
+  {
+   "test": "test_log_file_with_verbose",
+   "argv": [
+    "-vv",
+    "-l",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_backend_logging.py:152"
+  },
+  {
+   "test": "test_combined_backend_flags",
+   "argv": [
+    "-j",
+    "-b",
+    "json",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_backend_logging.py:183"
+  },
+  {
+   "test": "test_all_flags_combined",
+   "argv": [
+    "-j",
+    "-b",
+    "json",
+    "-c",
+    "-v",
+    "-l",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_backend_logging.py:193"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Tui app allows writing and managing journals",
+    "Usage: executable [OPTIONS] [COMMAND]",
+    "print-config",
+    "import-journals",
+    "assign-priority",
+    "theme"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:7"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Tui app allows writing and managing journals",
+    "Usage: executable"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:19"
+  },
+  {
+   "test": "test_invalid_flag",
+   "argv": [
+    "--invalid-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument",
+    "--invalid-flag",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:43"
+  },
+  {
+   "test": "test_help_contains_all_options",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--json-file-path",
+    "--sqlite-file-path",
+    "--backend-type",
+    "--config",
+    "--verbose",
+    "--log",
+    "-j",
+    "-s",
+    "-b",
+    "-c",
+    "-v",
+    "-l"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:59"
+  },
+  {
+   "test": "test_help_contains_all_commands",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "print-config",
+    "import-journals",
+    "assign-priority",
+    "theme",
+    "help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:81"
+  },
+  {
+   "test": "test_help_contains_aliases",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "pc",
+    "imj",
+    "ap",
+    "style"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:93"
+  },
+  {
+   "test": "test_config_cli_overrides_file",
+   "argv": [
+    "-c",
+    "-b",
+    "sqlite",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_files.py:56"
+  },
+  {
+   "test": "test_config_file_with_export_settings",
+   "argv": [
+    "-c",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "export"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_files.py:69"
+  },
+  {
+   "test": "test_config_file_with_external_editor",
+   "argv": [
+    "-c",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "external_editor",
+    "command"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_files.py:86"
+  },
+  {
+   "test": "test_help_command",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Commands:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:8"
+  },
+  {
+   "test": "test_help_for_print_config",
+   "argv": [
+    "help",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Print the current settings"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:16"
+  },
+  {
+   "test": "test_help_for_theme",
+   "argv": [
+    "help",
+    "theme"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "print-path",
+    "print-default",
+    "write-defaults"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:23"
+  },
+  {
+   "test": "test_multiple_backend_paths",
+   "argv": [
+    "-j",
+    "-s",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:32"
+  },
+  {
+   "test": "test_verbose_with_theme_commands",
+   "argv": [
+    "-v",
+    "theme",
+    "print-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "themes.toml"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:45"
+  },
+  {
+   "test": "test_backend_path_with_spaces",
+   "argv": [
+    "-j",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "path with spaces"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:52"
+  },
+  {
+   "test": "test_backend_path_with_unicode",
+   "argv": [
+    "-j",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file_path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:65"
+  },
+  {
+   "test": "test_theme_output_completeness",
+   "argv": [
+    "theme",
+    "print-default"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "input_block_active",
+    "block_active",
+    "block_normal_active"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:132"
+  },
+  {
+   "test": "test_multiple_verbose_flags_separate",
+   "argv": [
+    "-v",
+    "-v",
+    "-v",
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:151"
+  },
+  {
+   "test": "test_import_journals_help",
+   "argv": [
+    "import-journals",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Import journals",
+    "--path",
+    "FILE PATH"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_import_assign.py:14"
+  },
+  {
+   "test": "test_import_journals_alias_help",
+   "argv": [
+    "imj",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Import journals"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_import_assign.py:23"
+  },
+  {
+   "test": "test_assign_priority_help",
+   "argv": [
+    "assign-priority",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Assign priority",
+    "PRIORITY",
+    "Positive number"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_import_assign.py:50"
+  },
+  {
+   "test": "test_assign_priority_alias_help",
+   "argv": [
+    "ap",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Assign priority"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_import_assign.py:59"
+  },
+  {
+   "test": "test_import_journals_alias_missing_path",
+   "argv": [
+    "imj"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "required arguments"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_import_assign.py:89"
+  },
+  {
+   "test": "test_print_config_basic",
+   "argv": [
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type",
+    "json_backend",
+    "sqlite_backend",
+    "file_path",
+    "file_path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_print_config.py:7"
+  },
+  {
+   "test": "test_print_config_contains_all_settings",
+   "argv": [
+    "print-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "backend_type",
+    "scroll_per_page",
+    "sync_os_clipboard",
+    "history_limit",
+    "colored_tags",
+    "datum_visibility",
+    "app_state_dir",
+    "export",
+    "show_confirmation",
+    "external_editor",
+    "auto_save",
+    "temp_file_extension",
+    "json_backend",
+    "file_path",
+    "sqlite_backend",
+    "file_path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_print_config.py:33"
+  },
+  {
+   "test": "test_print_config_help",
+   "argv": [
+    "print-config",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Print the current settings",
+    "Usage: executable print-config"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_print_config.py:114"
+  },
+  {
+   "test": "test_theme_print_default",
+   "argv": [
+    "theme",
+    "print-default"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "general",
+    "journals_list",
+    "editor",
+    "msgbox"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_theme_commands.py:26"
+  },
+  {
+   "test": "test_theme_print_default_alias",
+   "argv": [
+    "theme",
+    "default"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "general"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_theme_commands.py:41"
+  },
+  {
+   "test": "test_theme_print_default_contains_styles",
+   "argv": [
+    "theme",
+    "print-default"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "input_block_active",
+    "input_block_invalid",
+    "list_item_selected",
+    "list_highlight_active",
+    "fg"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_theme_commands.py:50"
+  },
+  {
+   "test": "test_theme_write_defaults",
+   "argv": [
+    "-c",
+    "theme",
+    "write-defaults"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "general",
+    "journals_list",
+    "Default themes have been written"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_theme_commands.py:67"
+  },
+  {
+   "test": "test_theme_write_defaults_alias",
+   "argv": [
+    "-c",
+    "theme",
+    "write"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_theme_commands.py:87"
+  },
+  {
+   "test": "test_theme_print_path_with_custom_config",
+   "argv": [
+    "-c",
+    "theme",
+    "print-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "themes.toml"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_theme_commands.py:108"
+  },
+  {
+   "test": "test_style_alias_for_theme",
+   "argv": [
+    "style",
+    "print-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "themes.toml"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_theme_commands.py:118"
+  },
+  {
+   "test": "test_theme_help",
+   "argv": [
+    "theme",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "print-path",
+    "print-default",
+    "write-defaults",
+    "path",
+    "default",
+    "write"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_theme_commands.py:125"
+  },
+  {
+   "test": "test_theme_print_path_help",
+   "argv": [
+    "theme",
+    "print-path",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Prints the path",
+    "themes file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_theme_commands.py:138"
+  },
+  {
+   "test": "test_theme_print_default_help",
+   "argv": [
+    "theme",
+    "print-default",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_theme_commands.py:146"
+  },
+  {
+   "test": "test_theme_write_defaults_help",
+   "argv": [
+    "theme",
+    "write-defaults",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_theme_commands.py:153"
+  },
+  {
+   "test": "test_invalid_subcommand_shows_error_and_usage_on_stderr_or_stdout",
+   "argv": [
+    "nosuchsubcommand",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error: unrecognized subcommand 'nosuchsubcommand'",
+    "Usage: executable [OPTIONS] [COMMAND]",
+    "For more information, try '--help'."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_errors.py:22"
+  },
+  {
+   "test": "test_double_dash_separator_help_is_treated_as_subcommand_and_errors",
+   "argv": [
+    "--",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error: unrecognized subcommand '--help'",
+    "Usage: executable [OPTIONS] [COMMAND]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_errors.py:32"
+  }
+ ]
+}

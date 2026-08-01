@@ -1,0 +1,16 @@
+{
+  "schema": "determinex-repair-loop-transcript-v1",
+  "tool": "php-cs-fixer", "family": "php", "pinned_commit": "6587f537",
+  "repair_type": "seeded_defect (behavioral) - verifier is the project's OWN phpunit suite (Docker php toolchain, composer:2 image; Docker-OPTIONAL via toolchain_provider)",
+  "toolchain": "php 8.3 + composer (Docker image; or portable php + composer.phar)",
+  "oracle": "the real php-cs-fixer repo's own tests: `phpunit tests/Tokenizer/TokenTest.php`",
+  "defect": {"file": "src/Tokenizer/Token.php", "function": "Token::equals",
+    "seed": "`$this->content === $otherPrototype` -> `!==` (invert token equality)",
+    "intent": "break Token equality comparison"},
+  "detect": {"baseline": "135 passed", "after_seed": "FAILURES, 4 failed", "oracle_caught": true,
+    "failure_signature": "Token equality assertions failed once === was inverted to !=="},
+  "repair": {"fix": "restore `===` (git checkout)", "oracle_guided": "the failing equals tests point at Token::equals"},
+  "reverify": {"after": "135 passed; repaired == upstream @6587f537", "passed": 135, "failures": 0},
+  "repair_loop_status": "passed",
+  "proves": "closed-loop repair on a real external PHP project (php-cs-fixer): its OWN phpunit suite detects the injected equality defect -> fix -> re-verify 135 green. Toolchain provisioned via the backend-agnostic provider (Docker here; portable php works without Docker)."
+}

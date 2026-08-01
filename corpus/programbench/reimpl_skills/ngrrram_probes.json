@@ -1,0 +1,869 @@
+[
+ {
+  "name": "test::test_help_exact::0",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_n_invalid_treated_as_file_path_error::1",
+  "argv": [
+   "--n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_n_file_empty_errors::2",
+  "argv": [
+   "--n",
+   "empty.csv"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.csv": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_takes_precedence_over_other_valid_flags::3",
+  "argv": [
+   "--help",
+   "--n",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_takes_precedence_over_invalid_flags::4",
+  "argv": [
+   "--help",
+   "--definitely-not-a-real-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_then_help_is_not_treated_as_help::5",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_does_not_enable_positional_args::6",
+  "argv": [
+   "--",
+   "-n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_n_flag_other_values_treated_as_filename::7",
+  "argv": [
+   "-n",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duplicate_single_value_flag_is_rejected::8",
+  "argv": [
+   "--top",
+   "10",
+   "--top",
+   "50"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_boolean_flags_reject_explicit_values::9",
+  "argv": [
+   "--cat=true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interleaved_flags_after_flags_are_ok::10",
+  "argv": [
+   "--rep",
+   "3",
+   "--top",
+   "50"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_flag::11",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::12",
+  "argv": [
+   "--invalid-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_invalid_arguments::13",
+  "argv": [
+   "--invalid1",
+   "--invalid2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_ortho_flag::14",
+  "argv": [
+   "--show-ortho",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nokb_flag::15",
+  "argv": [
+   "--nokb",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cat_flag::16",
+  "argv": [
+   "--cat",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_ortho_and_nokb::17",
+  "argv": [
+   "--show-ortho",
+   "--nokb",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_display_flags::18",
+  "argv": [
+   "--show-ortho",
+   "--nokb",
+   "--cat",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cat_with_emulation::19",
+  "argv": [
+   "--cat",
+   "--emu-in",
+   "qwerty",
+   "--emu-out",
+   "dvorak",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nokb_with_emulation::20",
+  "argv": [
+   "--nokb",
+   "--emu-in",
+   "qwerty",
+   "--emu-out",
+   "colemak",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_ortho_with_emulation::21",
+  "argv": [
+   "--show-ortho",
+   "--emu-in",
+   "dvorak",
+   "--emu-out",
+   "qwerty",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_display_flags_with_numeric_args::22",
+  "argv": [
+   "--show-ortho",
+   "--cat",
+   "-t",
+   "50",
+   "-w",
+   "80",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_flags_combined::23",
+  "argv": [
+   "-n",
+   "3",
+   "-t",
+   "100",
+   "-c",
+   "5",
+   "-r",
+   "10",
+   "-w",
+   "60",
+   "-a",
+   "95",
+   "--emu-in",
+   "qwerty",
+   "--emu-out",
+   "colemak",
+   "--show-ortho",
+   "--nokb",
+   "--cat",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_emu_in_without_emu_out::24",
+  "argv": [
+   "--emu-in",
+   "qwerty"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_emu_out_without_emu_in::25",
+  "argv": [
+   "--emu-out",
+   "dvorak"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_emu_both_valid_qwerty_dvorak::26",
+  "argv": [
+   "--emu-in",
+   "qwerty",
+   "--emu-out",
+   "dvorak",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_emu_both_valid_qwertz_colemak::27",
+  "argv": [
+   "--emu-in",
+   "qwertz",
+   "--emu-out",
+   "colemak",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_emu_both_valid_azerty_colemakdh::28",
+  "argv": [
+   "--emu-in",
+   "azerty",
+   "--emu-out",
+   "colemakdh",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_emu_both_valid_same_layout::29",
+  "argv": [
+   "--emu-in",
+   "qwerty",
+   "--emu-out",
+   "qwerty",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_emu_all_valid_layouts::30",
+  "argv": [
+   "--emu-in",
+   "--emu-out",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_emu_invalid_layout_name::31",
+  "argv": [
+   "--emu-in",
+   "invalid",
+   "--emu-out",
+   "qwerty",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_emu_case_sensitive::32",
+  "argv": [
+   "--emu-in",
+   "QWERTY",
+   "--emu-out",
+   "DVORAK",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_emu_with_other_flags::33",
+  "argv": [
+   "--emu-in",
+   "qwerty",
+   "--emu-out",
+   "colemak",
+   "-n",
+   "3",
+   "-t",
+   "100",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_emu_empty_strings::34",
+  "argv": [
+   "--emu-in",
+   "",
+   "--emu-out",
+   "",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_n_flag_bigrams_explicit::35",
+  "argv": [
+   "-n",
+   "2",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_n_flag_trigrams::36",
+  "argv": [
+   "-n",
+   "3",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_n_flag_tetragrams::37",
+  "argv": [
+   "-n",
+   "4",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_n_flag_words::38",
+  "argv": [
+   "-n",
+   "w",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_n_flag_file_nonexistent::39",
+  "argv": [
+   "-n",
+   "/nonexistent/file.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_n_flag_file_valid::40",
+  "argv": [
+   "-n",
+   "wordlist.txt",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {
+   "wordlist.txt": "the,and,ing,ion\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_n_flag_file_empty::41",
+  "argv": [
+   "-n",
+   "empty.txt",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.txt": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_n_flag_file_with_newlines::42",
+  "argv": [
+   "-n",
+   "words.txt",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {
+   "words.txt": "the,and,ing\nion,tio,ent\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_n_flag_file_no_commas::43",
+  "argv": [
+   "-n",
+   "no_comma.txt",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {
+   "no_comma.txt": "the and ing"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_n_long_flag::44",
+  "argv": [
+   "--n",
+   "3",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_top_flag_valid_range::45",
+  "argv": [
+   "-t",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_top_flag_negative::46",
+  "argv": [
+   "-t",
+   "-5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_top_flag_zero::47",
+  "argv": [
+   "-t",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_top_flag_above_max::48",
+  "argv": [
+   "-t",
+   "201"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_top_flag_non_numeric::49",
+  "argv": [
+   "-t",
+   "abc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combi_flag_valid_range::50",
+  "argv": [
+   "-c",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combi_flag_zero::51",
+  "argv": [
+   "-c",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combi_flag_above_max::52",
+  "argv": [
+   "-c",
+   "201"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rep_flag_valid_range::53",
+  "argv": [
+   "-r",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rep_flag_zero::54",
+  "argv": [
+   "-r",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rep_flag_above_max::55",
+  "argv": [
+   "-r",
+   "201"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wpm_flag_valid_range::56",
+  "argv": [
+   "-w",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wpm_flag_zero::57",
+  "argv": [
+   "-w",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wpm_flag_above_max::58",
+  "argv": [
+   "-w",
+   "201"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_acc_flag_valid_range::59",
+  "argv": [
+   "-a",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_acc_flag_negative::60",
+  "argv": [
+   "-a",
+   "-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_acc_flag_above_max::61",
+  "argv": [
+   "-a",
+   "101"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_numeric_flags_valid::62",
+  "argv": [
+   "-t",
+   "75",
+   "-c",
+   "3",
+   "-r",
+   "5",
+   "-w",
+   "50",
+   "-a",
+   "95",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_numeric_flags_one_invalid::63",
+  "argv": [
+   "-t",
+   "75",
+   "-c",
+   "0",
+   "-r",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

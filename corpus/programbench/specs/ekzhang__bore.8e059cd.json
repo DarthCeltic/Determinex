@@ -1,0 +1,741 @@
+{
+ "slug": "ekzhang__bore.8e059cd",
+ "language": "",
+ "n_branches": 9,
+ "n_tests_total": 430,
+ "n_examples": 39,
+ "n_with_exact_stdout": 5,
+ "n_with_rc": 27,
+ "n_skipped": 385,
+ "examples": [
+  {
+   "test": "test_subcommand_recognized_via_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:67"
+  },
+  {
+   "test": "test_help_subcommand_requires_target_or_no_extra_args",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unrecognized subcommand"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:81"
+  },
+  {
+   "test": "test_unknown_subcommand_errors",
+   "argv": [
+    "nonexistent_subcommand"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unrecognized subcommand"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:94"
+  },
+  {
+   "test": "test_global_help_routing_and_position",
+   "argv": [
+    "--help",
+    "local"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable <COMMAND>",
+    "Usage: executable local"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:111"
+  },
+  {
+   "test": "test_local_missing_required_args_errors_and_mentions_requirements",
+   "argv": [
+    "local"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "required arguments",
+    "--to",
+    "local_port"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:137"
+  },
+  {
+   "test": "test_server_rejects_unknown_flag",
+   "argv": [
+    "server",
+    "--unknown"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:147"
+  },
+  {
+   "test": "test_empty_port_range",
+   "argv": [
+    "./executable",
+    "server",
+    "--min-port",
+    "5000",
+    "--max-port",
+    "3000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "port range is empty"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:392"
+  },
+  {
+   "test": "test_server_port_range_validation",
+   "argv": [
+    "./executable",
+    "server",
+    "--min-port",
+    "50000",
+    "--max-port",
+    "40000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "port range is empty",
+    "Usage: bore-cli <COMMAND>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:47"
+  },
+  {
+   "test": "test_server_help_shows_usage",
+   "argv": [
+    "./executable",
+    "server",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable server"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_server.py:562"
+  },
+  {
+   "test": "test_version_exact",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_bore_cli.py:82"
+  },
+  {
+   "test": "test_local_help_exact",
+   "argv": [
+    "local",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_bore_cli.py:90"
+  },
+  {
+   "test": "test_server_help_exact",
+   "argv": [
+    "server",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_bore_cli.py:98"
+  },
+  {
+   "test": "test_invalid_subcommand_has_nonzero_exit_and_usage",
+   "argv": [
+    "does-not-exist"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_bore_cli.py:106"
+  },
+  {
+   "test": "test_local_requires_to_flag",
+   "argv": [
+    "local",
+    "8000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--to"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_bore_cli.py:114"
+  },
+  {
+   "test": "test_top_level_help_exit_0_and_mentions_commands",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Commands:",
+    "local",
+    "server"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_io.py:6"
+  },
+  {
+   "test": "test_subcommand_help_local_contains_env_hints_and_defaults",
+   "argv": [
+    "local",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable local",
+    "[env: BORE_LOCAL_PORT",
+    "[env: BORE_SERVER",
+    "[default: localhost]",
+    "[env: BORE_SECRET"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_io.py:26"
+  },
+  {
+   "test": "test_subcommand_help_server_contains_range_defaults_and_env_hints",
+   "argv": [
+    "server",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable server",
+    "[env: BORE_MIN_PORT",
+    "[env: BORE_MAX_PORT",
+    "[default: 1024]",
+    "[default: 65535]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_io.py:38"
+  },
+  {
+   "test": "test_local_missing_required_to_flag_is_usage_error_exit_2",
+   "argv": [
+    "local",
+    "8000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "--to",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_io.py:50"
+  },
+  {
+   "test": "test_local_uses_bore_server_env_when_to_not_provided_and_connection_refused_exit_1",
+   "argv": [
+    "local",
+    "8000"
+   ],
+   "stdin": null,
+   "env": {
+    "BORE_SERVER": "127.0.0.1"
+   },
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "could not connect to 127.0.0.1:7835"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_io.py:60"
+  },
+  {
+   "test": "test_local_invalid_host_name_exit_1_and_shows_name_or_service_not_known",
+   "argv": [
+    "local",
+    "--to",
+    "foo",
+    "8000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "could not connect to foo:7835",
+    "Name or service not known"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_io.py:68"
+  },
+  {
+   "test": "test_server_empty_port_range_is_clap_invalid_value_exit_2",
+   "argv": [
+    "server",
+    "--min-port",
+    "9000",
+    "--max-port",
+    "8000"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "port range is empty",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_io.py:77"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "local",
+    "server"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_01_basic_invocation.py:9"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "local",
+    "server"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_01_basic_invocation.py:25"
+  },
+  {
+   "test": "test_version_short_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_01_basic_invocation.py:45"
+  },
+  {
+   "test": "test_local_help_flag",
+   "argv": [
+    "local",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "local",
+    "BORE_SERVER"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_01_basic_invocation.py:82"
+  },
+  {
+   "test": "test_local_help_short_flag",
+   "argv": [
+    "local",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "local"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_01_basic_invocation.py:101"
+  },
+  {
+   "test": "test_server_help_flag",
+   "argv": [
+    "server",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "server",
+    "--min-port",
+    "--max-port",
+    "--bind-addr",
+    "--bind-tunnels",
+    "BORE_MIN_PORT",
+    "BORE_MAX_PORT",
+    "BORE_SECRET",
+    "1024",
+    "65535"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_01_basic_invocation.py:111"
+  },
+  {
+   "test": "test_server_help_short_flag",
+   "argv": [
+    "server",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "server",
+    "--min-port"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_01_basic_invocation.py:133"
+  },
+  {
+   "test": "test_help_command",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "local",
+    "server"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_01_basic_invocation.py:143"
+  },
+  {
+   "test": "test_help_local",
+   "argv": [
+    "help",
+    "local"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "local"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_01_basic_invocation.py:151"
+  },
+  {
+   "test": "test_help_server",
+   "argv": [
+    "help",
+    "server"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "server",
+    "--min-port"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_01_basic_invocation.py:158"
+  },
+  {
+   "test": "test_unknown_global_flag_shows_error_on_stderr_and_usage_hint",
+   "argv": [
+    "--bogus",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument",
+    "Usage: executable <COMMAND>",
+    "try '--help'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_errors.py:16"
+  },
+  {
+   "test": "test_main_help_has_expected_usage_line",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable <COMMAND>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:42"
+  },
+  {
+   "test": "test_main_help_documents_help_and_version_flags",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-h, --help",
+    "-V, --version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:59"
+  },
+  {
+   "test": "test_help_precedes_other_flags",
+   "argv": [
+    "--help",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:65"
+  },
+  {
+   "test": "test_local_help_has_usage_and_arguments_section",
+   "argv": [
+    "local",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable local"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_subcommands.py:31"
+  },
+  {
+   "test": "test_local_help_documents_required_args_and_key_flags",
+   "argv": [
+    "local",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--to <TO>",
+    "<LOCAL_PORT>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_subcommands.py:38"
+  },
+  {
+   "test": "test_server_help_has_usage_and_expected_flags",
+   "argv": [
+    "server",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable server"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_subcommands.py:48"
+  },
+  {
+   "test": "test_local_help_ignores_unknown_flag_after_help",
+   "argv": [
+    "local",
+    "--help",
+    "--bogus"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_subcommands.py:56"
+  }
+ ]
+}

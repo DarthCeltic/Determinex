@@ -1,0 +1,4278 @@
+[
+ {
+  "name": "test::test_filter_mode_stdin::0",
+  "argv": [
+   "--filter"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filelist_reads_from_stdin::1",
+  "argv": [
+   "-L",
+   "-",
+   "-f",
+   "-"
+  ],
+  "stdin": "sample1.c\nsample2.c\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_basic_two_files::2",
+  "argv": [
+   "--filter",
+   "--output-format=json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_with_terminator::3",
+  "argv": [
+   "--filter",
+   "--filter-terminator=---END---",
+   "--output-format=json"
+  ],
+  "stdin": "test1.c\ntest2.c\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_multiple_languages::4",
+  "argv": [
+   "--filter",
+   "--output-format=json"
+  ],
+  "stdin": "test3.c\ntest4.py\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_nonexistent_file::5",
+  "argv": [
+   "--filter",
+   "--output-format=json"
+  ],
+  "stdin": "nonexistent.c\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interactive_basic_generate_tags::6",
+  "argv": [
+   "--_interactive"
+  ],
+  "stdin": "{\"command\": \"generate-tags\", \"filename\": \"test1.c\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interactive_with_inline_content::7",
+  "argv": [
+   "--_interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interactive_invalid_json::8",
+  "argv": [
+   "--_interactive"
+  ],
+  "stdin": "invalid json\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interactive_missing_command_field::9",
+  "argv": [
+   "--_interactive"
+  ],
+  "stdin": "{\"filename\": \"test.c\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interactive_unknown_command::10",
+  "argv": [
+   "--_interactive"
+  ],
+  "stdin": "{\"command\": \"unknown-command\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interactive_missing_filename::11",
+  "argv": [
+   "--_interactive"
+  ],
+  "stdin": "{\"command\": \"generate-tags\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interactive_multiple_commands_sequentially::12",
+  "argv": [
+   "--_interactive"
+  ],
+  "stdin": "{\"command\": \"generate-tags\", \"filename\": \"test1.c\"}\n{\"command\": \"generate-tags\", \"filename\": \"test2.c\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interactive_empty_line_handling::13",
+  "argv": [
+   "--_interactive"
+  ],
+  "stdin": "\n{\"command\": \"generate-tags\", \"filename\": \"test1.c\"}\n\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_large_file_with_many_tags::14",
+  "argv": [
+   "--filter",
+   "--output-format=json"
+  ],
+  "stdin": "large_file.c\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_empty_stdin::15",
+  "argv": [
+   "--filter",
+   "--output-format=json"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_mixed_parseable_and_binary_files::16",
+  "argv": [
+   "--filter",
+   "--output-format=json"
+  ],
+  "stdin": "test1.c\nbinary_data.bin\ntest2.c\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_terminator_with_single_file::17",
+  "argv": [
+   "--filter",
+   "--filter-terminator=***",
+   "--output-format=json"
+  ],
+  "stdin": "test1.c\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interactive_continues_after_error::18",
+  "argv": [
+   "--_interactive"
+  ],
+  "stdin": "{\"command\": \"unknown\"}\n{\"command\": \"generate-tags\", \"filename\": \"test1.c\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_with_custom_terminator_newline::19",
+  "argv": [
+   "--filter",
+   "--filter-terminator=\n---\n",
+   "--output-format=json"
+  ],
+  "stdin": "test1.c\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interactive_whitespace_only_line::20",
+  "argv": [
+   "--_interactive"
+  ],
+  "stdin": "   \t  \n{\"command\": \"generate-tags\", \"filename\": \"test1.c\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_duplicate_file_in_input::21",
+  "argv": [
+   "--filter",
+   "--output-format=json"
+  ],
+  "stdin": "test1.c\ntest1.c\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interactive_zero_size_inline_content::22",
+  "argv": [
+   "--_interactive"
+  ],
+  "stdin": "{\"command\": \"generate-tags\", \"filename\": \"empty.c\", \"size\": 0}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_with_trailing_newlines_in_input::23",
+  "argv": [
+   "--filter",
+   "--output-format=json"
+  ],
+  "stdin": "test1.c\n\n\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_mode_disables_totals_warning::24",
+  "argv": [
+   "--filter",
+   "--totals=yes"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_mode_ignores_output_file_warning::25",
+  "argv": [
+   "--filter",
+   "-f",
+   "/tmp/ignored.tags"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_mode_single_file::26",
+  "argv": [
+   "--filter"
+  ],
+  "stdin": "test_resources/test_stdin_pipes/sample.c\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_mode_multiple_files::27",
+  "argv": [
+   "--filter"
+  ],
+  "stdin": "test_resources/test_stdin_pipes/sample.c\ntest_resources/test_stdin_pipes/sample.py\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_mode_with_terminator::28",
+  "argv": [
+   "--filter",
+   "--filter-terminator=---EOF---"
+  ],
+  "stdin": "test_resources/test_stdin_pipes/sample.c\ntest_resources/test_stdin_pipes/sample.py\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_mode_json_output::29",
+  "argv": [
+   "--filter",
+   "--output-format=json"
+  ],
+  "stdin": "test_resources/test_stdin_pipes/sample.c\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_mode_language_force::30",
+  "argv": [
+   "--filter",
+   "--language-force=JavaScript"
+  ],
+  "stdin": "test_resources/test_stdin_pipes/noext\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_mode_with_sort::31",
+  "argv": [
+   "--filter",
+   "--sort=yes"
+  ],
+  "stdin": "test_resources/test_stdin_pipes/sample.c\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_mode_empty_stdin::32",
+  "argv": [
+   "--filter"
+  ],
+  "stdin": "\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_mode_xref_output::33",
+  "argv": [
+   "--filter",
+   "--output-format=xref"
+  ],
+  "stdin": "test_resources/test_stdin_pipes/sample.c\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_mode_large_input::34",
+  "argv": [
+   "--filter"
+  ],
+  "stdin": "test_resources/test_stdin_pipes/large_file.c\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_mode_nonexistent_file::35",
+  "argv": [
+   "--filter"
+  ],
+  "stdin": "nonexistent_file.c\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_mode_with_fields::36",
+  "argv": [
+   "--filter",
+   "--fields=+n"
+  ],
+  "stdin": "test_resources/test_stdin_pipes/sample.c\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_mode_with_spaces_in_filename::37",
+  "argv": [
+   "--filter"
+  ],
+  "stdin": "test_resources/test_stdin_pipes/file with spaces.c\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_mode_blank_lines_ignored::38",
+  "argv": [
+   "--filter"
+  ],
+  "stdin": "test_resources/test_stdin_pipes/sample.c\n\n\ntest_resources/test_stdin_pipes/sample.py\n\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_mode_with_kinds_specification::39",
+  "argv": [
+   "--filter",
+   "--kinds-c=f"
+  ],
+  "stdin": "test_resources/test_stdin_pipes/large_file.c\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_mode_with_exclude_pattern::40",
+  "argv": [
+   "--filter",
+   "--exclude=*.py"
+  ],
+  "stdin": "test_resources/test_stdin_pipes/sample.c\ntest_resources/test_stdin_pipes/sample.py\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_mode_extras_field::41",
+  "argv": [
+   "--filter",
+   "--extras=+q"
+  ],
+  "stdin": "test_resources/test_stdin_pipes/sample.py\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ada_parsing::42",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.ads"
+  ],
+  "stdin": null,
+  "files": {
+   "test.ads": "with Ada.Text_IO;\nuse Ada.Text_IO;\n\npackage Hello is\n   procedure Greet (Name : in String);\n   function Add (A, B : Integer) return Integer;\nend Hello;\n\npackage body Hello is\n   procedure Greet (Name : in String) is\n   begin\n      Put_Line (\"Hello, \" & Name & \"!\");\n   end Greet;\n\n   function Add (A, B : Integer) return Integer is\n   begin\n      return A + B;\n   end Add;\nend Hello;\n\nprocedure Main is\nbegin\n   Hello.Greet (\"World\");\nend Main;\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_julia_parsing::43",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.jl"
+  ],
+  "stdin": null,
+  "files": {
+   "test.jl": "module MyModule\n\nstruct Point\n    x::Float64\n    y::Float64\nend\n\nabstract type Shape end\n\nfunction area(s::Shape)\n    return 0.0\nend\n\nfunction greet(name::String)\n    println(\"Hello, \", name)\nend\n\nconst PI = 3.14159\n\nmacro mymacro(expr)\n    return :($expr + 1)\nend\n\nend # module\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_r_parsing::44",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.R"
+  ],
+  "stdin": null,
+  "files": {
+   "test.R": "# R source code\ngreet <- function(name) {\n  cat(\"Hello,\", name, \"\n\")\n}\n\nMyClass <- setRefClass(\"MyClass\",\n  fields = list(\n    name = \"character\",\n    value = \"numeric\"\n  ),\n  methods = list(\n    initialize = function(n, v) {\n      name <<- n\n      value <<- v\n    },\n    show_info = function() {\n      cat(\"Name:\", name, \"Value:\", value, \"\n\")\n    }\n  )\n)\n\nadd <- function(a, b) {\n  return(a + b)\n}\n\nMY_CONST <- 42\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ocaml_parsing::45",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.ml"
+  ],
+  "stdin": null,
+  "files": {
+   "test.ml": "(* OCaml module *)\nmodule MyModule = struct\n  type point = { x: float; y: float }\n  \n  let create x y = { x; y }\n  \n  let distance p1 p2 =\n    let dx = p1.x -. p2.x in\n    let dy = p1.y -. p2.y in\n    sqrt (dx *. dx +. dy *. dy)\nend\n\nlet greet name = \n  Printf.printf \"Hello, %s!\n\" name\n\ntype color = Red | Green | Blue\n\nclass animal name = object\n  val mutable name = name\n  method get_name = name\n  method speak = Printf.printf \"%s speaks\n\" name\nend\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_objc_parsing::46",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.m"
+  ],
+  "stdin": null,
+  "files": {
+   "test.m": "#import <Foundation/Foundation.h>\n\n@interface Animal : NSObject {\n    NSString *name;\n}\n@property (nonatomic, strong) NSString *name;\n- (id)initWithName:(NSString *)aName;\n- (NSString *)speak;\n@end\n\n@implementation Animal\n- (id)initWithName:(NSString *)aName {\n    self = [super init];\n    if (self) {\n        name = aName;\n    }\n    return self;\n}\n\n- (NSString *)speak {\n    return [NSString stringWithFormat:@\"%@ says hello\", name];\n}\n@end\n\n@protocol Speakable\n- (NSString *)speak;\n@end\n\nint main(int argc, char *argv[]) {\n    Animal *a = [[Animal alloc] initWithName:@\"Dog\"];\n    NSLog(@\"%@\", [a speak]);\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_powershell_parsing::47",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.ps1"
+  ],
+  "stdin": null,
+  "files": {
+   "test.ps1": "function Get-Greeting {\n    param(\n        [string]$Name = \"World\"\n    )\n    return \"Hello, $Name!\"\n}\n\nfunction Add-Numbers {\n    param(\n        [int]$A,\n        [int]$B\n    )\n    return $A + $B\n}\n\nclass MyClass {\n    [string]$Name\n    \n    MyClass([string]$name) {\n        $this.Name = $name\n    }\n    \n    [string]Greet() {\n        return \"Hello from $($this.Name)\"\n    }\n}\n\n$global:MyConst = 42\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vhdl_parsing::48",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.vhd"
+  ],
+  "stdin": null,
+  "files": {
+   "test.vhd": "library IEEE;\nuse IEEE.STD_LOGIC_1164.ALL;\n\nentity Adder is\n    Port (\n        A : in STD_LOGIC_VECTOR(7 downto 0);\n        B : in STD_LOGIC_VECTOR(7 downto 0);\n        Sum : out STD_LOGIC_VECTOR(8 downto 0)\n    );\nend Adder;\n\narchitecture Behavioral of Adder is\nbegin\n    Sum <= ('0' & A) + ('0' & B);\nend Behavioral;\n\npackage MyPkg is\n    type Color is (Red, Green, Blue);\n    function to_string(c: Color) return string;\nend MyPkg;\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pascal_parsing::49",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.pas"
+  ],
+  "stdin": null,
+  "files": {
+   "test.pas": "program HelloWorld;\n\nuses SysUtils;\n\ntype\n  TAnimal = class\n  private\n    FName: string;\n  public\n    constructor Create(AName: string);\n    function Speak: string;\n    property Name: string read FName;\n  end;\n\nfunction Add(A, B: Integer): Integer;\nbegin\n  Result := A + B;\nend;\n\nconstructor TAnimal.Create(AName: string);\nbegin\n  FName := AName;\nend;\n\nfunction TAnimal.Speak: string;\nbegin\n  Result := Format('%s speaks', [FName]);\nend;\n\nvar\n  MyAnimal: TAnimal;\nbegin\n  MyAnimal := TAnimal.Create('Dog');\n  WriteLn(MyAnimal.Speak);\n  WriteLn(Add(3, 4));\nend.\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verilog_parsing::50",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.v"
+  ],
+  "stdin": null,
+  "files": {
+   "test.v": "module adder(\n    input wire [7:0] a,\n    input wire [7:0] b,\n    output wire [8:0] sum\n);\n    assign sum = {1'b0, a} + {1'b0, b};\nendmodule\n\nmodule counter(\n    input wire clk,\n    input wire reset,\n    output reg [3:0] count\n);\n    always @(posedge clk) begin\n        if (reset)\n            count <= 4'b0;\n        else\n            count <= count + 1;\n    end\nendmodule\n\n`define MAX_WIDTH 8\n`define MIN_WIDTH 1\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_eiffel_parsing::51",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.e"
+  ],
+  "stdin": null,
+  "files": {
+   "test.e": "class HELLO_WORLD\n\ncreate\n    make\n\nfeature\n    make\n        do\n            print (\"Hello, World!%N\")\n        end\n\n    greet (name: STRING): STRING\n        do\n            Result := \"Hello, \" + name + \"!\"\n        end\n\nend -- class HELLO_WORLD\n\nclass ANIMAL\n\nfeature\n    name: STRING\n    \n    make (a_name: STRING)\n        do\n            name := a_name\n        end\n    \n    speak: STRING\n        do\n            Result := name + \" speaks\"\n        end\n\nend\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_html_parsing::52",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.html"
+  ],
+  "stdin": null,
+  "files": {
+   "test.html": "<!DOCTYPE html>\n<html>\n<head>\n    <title>Test Page</title>\n    <script>\n    function greet(name) {\n        return \"Hello, \" + name;\n    }\n    </script>\n</head>\n<body>\n    <h1 id=\"header\">Hello World</h1>\n    <a name=\"section1\">Section 1</a>\n    <a name=\"section2\">Section 2</a>\n</body>\n</html>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tex_parsing::53",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.tex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tex": "\\documentclass{article}\n\n\\begin{document}\n\n\\section{Introduction}\nThis is the introduction.\n\n\\subsection{Background}\nSome background info.\n\n\\section{Methods}\n\n\\subsection{Data Collection}\nHow we collected data.\n\n\\subsubsection{Instruments}\nThe instruments used.\n\n\\end{document}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_protobuf_parsing::54",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.proto"
+  ],
+  "stdin": null,
+  "files": {
+   "test.proto": "syntax = \"proto3\";\n\npackage mypackage;\n\nmessage Person {\n    string name = 1;\n    int32 age = 2;\n    repeated string emails = 3;\n}\n\nmessage Address {\n    string street = 1;\n    string city = 2;\n    string country = 3;\n}\n\nservice PersonService {\n    rpc GetPerson (Person) returns (Person);\n    rpc ListPersons (Person) returns (Person);\n}\n\nenum Status {\n    UNKNOWN = 0;\n    ACTIVE = 1;\n    INACTIVE = 2;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clojure_parsing::55",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.clj"
+  ],
+  "stdin": null,
+  "files": {
+   "test.clj": "(ns myapp.core)\n\n(defn greet [name]\n  (str \"Hello, \" name \"!\"))\n\n(defn add [a b]\n  (+ a b))\n\n(defmacro my-if [cond then else]\n  `(if ~cond ~then ~else))\n\n(defrecord Point [x y])\n\n(defprotocol Shape\n  (area [this])\n  (perimeter [this]))\n\n(def MY-CONST 42)\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scheme_parsing::56",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.scm"
+  ],
+  "stdin": null,
+  "files": {
+   "test.scm": "(define (greet name)\n  (string-append \"Hello, \" name \"!\"))\n\n(define (factorial n)\n  (if (= n 0)\n      1\n      (* n (factorial (- n 1)))))\n\n(define PI 3.14159)\n\n(define-record-type point\n  (make-point x y)\n  point?\n  (x point-x)\n  (y point-y))\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lisp_parsing::57",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.lisp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.lisp": "(defpackage :mypackage\n  (:use :cl))\n\n(in-package :mypackage)\n\n(defun greet (name)\n  (format t \"Hello, ~a!~%\" name))\n\n(defun add (a b)\n  (+ a b))\n\n(defmacro my-let (bindings &body body)\n  `(let ,bindings ,@body))\n\n(defclass animal ()\n  ((name :initarg :name :accessor animal-name)\n   (sound :initarg :sound :accessor animal-sound)))\n\n(defmethod speak ((a animal))\n  (format t \"~a says ~a~%\" (animal-name a) (animal-sound a)))\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asm_parsing::58",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.asm"
+  ],
+  "stdin": null,
+  "files": {
+   "test.asm": "section .text\n    global main\n    global _start\n\nmain:\n    push rbp\n    mov rbp, rsp\n    \ngreet:\n    mov rdi, message\n    call print\n    ret\n\nprint:\n    mov rax, 1\n    syscall\n    ret\n\nsection .data\n    message db \"Hello, World!\", 10, 0\n\nsection .bss\n    buffer resb 64\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cmake_parsing::59",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "CMakeLists.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "CMakeLists.txt": "cmake_minimum_required(VERSION 3.10)\nproject(MyProject VERSION 1.0)\n\nset(CMAKE_CXX_STANDARD 17)\n\nfunction(my_function arg1 arg2)\n    message(STATUS \"Function called with ${arg1} and ${arg2}\")\nendfunction()\n\nmacro(my_macro arg)\n    message(STATUS \"Macro called with ${arg}\")\nendmacro()\n\nadd_executable(myapp main.cpp)\nadd_library(mylib STATIC lib.cpp)\ntarget_link_libraries(myapp mylib)\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scala_parsing::60",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.scala"
+  ],
+  "stdin": null,
+  "files": {
+   "test.scala": "package myapp\n\nobject HelloWorld extends App {\n    println(\"Hello, World!\")\n}\n\nclass Animal(val name: String) {\n    def speak(): String = s\"$name speaks\"\n}\n\nclass Dog(name: String) extends Animal(name) {\n    override def speak(): String = s\"$name says Woof\"\n}\n\ntrait Greeter {\n    def greet(name: String): String\n}\n\nobject MathUtils {\n    def add(a: Int, b: Int): Int = a + b\n    val PI = 3.14159\n}\n\ncase class Point(x: Double, y: Double)\n\nsealed trait Color\ncase object Red extends Color\ncase object Green extends Color\ncase object Blue extends Color\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_swift_parsing::61",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.swift"
+  ],
+  "stdin": null,
+  "files": {
+   "test.swift": "import Foundation\n\nstruct Point {\n    var x: Double\n    var y: Double\n    \n    func distance(to other: Point) -> Double {\n        return sqrt(pow(x - other.x, 2) + pow(y - other.y, 2))\n    }\n}\n\nclass Animal {\n    var name: String\n    \n    init(name: String) {\n        self.name = name\n    }\n    \n    func speak() -> String {\n        return \"\\(name) speaks\"\n    }\n}\n\nprotocol Greetable {\n    func greet() -> String\n}\n\nenum Color {\n    case red, green, blue\n}\n\nfunc add(_ a: Int, _ b: Int) -> Int {\n    return a + b\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_kotlin_parsing::62",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.kt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.kt": "package com.example\n\ndata class Point(val x: Double, val y: Double)\n\nabstract class Animal(val name: String) {\n    abstract fun speak(): String\n}\n\nclass Dog(name: String) : Animal(name) {\n    override fun speak(): String = \"$name says Woof\"\n}\n\ninterface Greeter {\n    fun greet(name: String): String\n}\n\nobject MathUtils {\n    fun add(a: Int, b: Int) = a + b\n    const val PI = 3.14159\n}\n\nfun main() {\n    val dog = Dog(\"Rex\")\n    println(dog.speak())\n}\n\nenum class Color {\n    RED, GREEN, BLUE\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csharp_parsing::63",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.cs"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cs": "using System;\nusing System.Collections.Generic;\n\nnamespace MyApp {\n    interface IAnimal {\n        string Speak();\n    }\n    \n    abstract class Animal : IAnimal {\n        public string Name { get; set; }\n        \n        public Animal(string name) {\n            Name = name;\n        }\n        \n        public abstract string Speak();\n    }\n    \n    class Dog : Animal {\n        public Dog(string name) : base(name) {}\n        \n        public override string Speak() {\n            return $\"{Name} says Woof\";\n        }\n    }\n    \n    struct Point {\n        public double X;\n        public double Y;\n    }\n    \n    enum Color {\n        Red,\n        Green,\n        Blue\n    }\n    \n    class Program {\n        static void Main(string[] args) {\n            var dog = new Dog(\"Rex\");\n            Console.WriteLine(dog.Speak());\n        }\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_elixir_parsing::64",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.ex"
+  ],
+  "stdin": null,
+  "files": {
+   "test.ex": "defmodule HelloWorld do\n  def greet(name) do\n    IO.puts \"Hello, #{name}!\"\n  end\n\n  def add(a, b), do: a + b\n\n  defmacro my_macro(x) do\n    quote do\n      unquote(x) + 1\n    end\n  end\nend\n\ndefmodule Animal do\n  defstruct [:name, :sound]\n\n  def speak(%Animal{name: name, sound: sound}) do\n    \"#{name} says #{sound}\"\n  end\nend\n\ndefprotocol Greeter do\n  def greet(data)\nend\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_elm_parsing::65",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.elm"
+  ],
+  "stdin": null,
+  "files": {
+   "test.elm": "module Main exposing (..)\n\nimport Html exposing (Html, text)\n\ntype Color\n    = Red\n    | Green\n    | Blue\n\ntype alias Point =\n    { x : Float\n    , y : Float\n    }\n\ngreet : String -> String\ngreet name =\n    \"Hello, \" ++ name ++ \"!\"\n\nadd : Int -> Int -> Int\nadd a b =\n    a + b\n\nmain : Html msg\nmain =\n    text (greet \"World\")\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gdscript_parsing::66",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.gd"
+  ],
+  "stdin": null,
+  "files": {
+   "test.gd": "extends Node\n\nclass_name MyClass\n\nvar player_speed: float = 200.0\nconst MAX_HEALTH: int = 100\n\nsignal health_changed(new_health)\n\nfunc _ready():\n    print(\"Ready!\")\n\nfunc greet(name: String) -> String:\n    return \"Hello, \" + name + \"!\"\n\nfunc add(a: int, b: int) -> int:\n    return a + b\n\nclass InnerClass:\n    var value: int = 0\n    \n    func get_value() -> int:\n        return value\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_haxe_parsing::67",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.hx"
+  ],
+  "stdin": null,
+  "files": {
+   "test.hx": "package mypackage;\n\nclass Animal {\n    public var name: String;\n    \n    public function new(name: String) {\n        this.name = name;\n    }\n    \n    public function speak(): String {\n        return '$name speaks';\n    }\n}\n\ninterface Greeter {\n    function greet(name: String): String;\n}\n\ntypedef Point = {\n    x: Float,\n    y: Float\n}\n\nenum Color {\n    Red;\n    Green;\n    Blue;\n}\n\nfunction add(a: Int, b: Int): Int {\n    return a + b;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_d_parsing::68",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.d"
+  ],
+  "stdin": null,
+  "files": {
+   "test.d": "module mymodule;\n\nimport std.stdio;\n\nclass Animal {\n    string name;\n    \n    this(string name) {\n        this.name = name;\n    }\n    \n    string speak() {\n        return name ~ \" speaks\";\n    }\n}\n\ninterface Greeter {\n    string greet(string name);\n}\n\nstruct Point {\n    double x;\n    double y;\n}\n\nenum Color {\n    Red,\n    Green,\n    Blue\n}\n\nint add(int a, int b) {\n    return a + b;\n}\n\nvoid main() {\n    auto a = new Animal(\"Dog\");\n    writeln(a.speak());\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_iniconf_parsing::69",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.ini"
+  ],
+  "stdin": null,
+  "files": {
+   "test.ini": "[general]\nname = MyApp\nversion = 1.0\n\n[database]\nhost = localhost\nport = 5432\nname = mydb\n\n[server]\nhost = 0.0.0.0\nport = 8080\ndebug = false\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_org_parsing::70",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.org"
+  ],
+  "stdin": null,
+  "files": {
+   "test.org": "* Introduction\nSome text here.\n\n** Background\nMore detailed text.\n\n*** Sub-section\nEven more detail.\n\n* Methods\n\n** Data Collection\nHow data is collected.\n\n* Results\n\n** Analysis\nThe analysis.\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asciidoc_parsing::71",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.adoc"
+  ],
+  "stdin": null,
+  "files": {
+   "test.adoc": "= Document Title\nAuthor Name <email@example.com>\n\n== Introduction\n\nThis is an introduction.\n\n=== Sub Section\n\nSome content.\n\n== Chapter 2\n\nMore content.\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_fields_output::72",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--output-format=json",
+   "--fields=*",
+   "-o",
+   "-",
+   "test.py"
+  ],
+  "stdin": null,
+  "files": {
+   "test.py": "class MyClass:\n    def my_method(self):\n        pass\n\ndef my_func(x, y):\n    return x + y\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ctags_self_test_language::73",
+  "argv": [
+   "--list-kinds=Ctags"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bats_parsing::74",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.bats"
+  ],
+  "stdin": null,
+  "files": {
+   "test.bats": "#!/usr/bin/env bats\n\n@test \"basic test\" {\n    run echo \"hello\"\n    [ \"$status\" -eq 0 ]\n    [ \"$output\" = \"hello\" ]\n}\n\n@test \"addition test\" {\n    result=$(( 2 + 2 ))\n    [ \"$result\" -eq 4 ]\n}\n\nsetup() {\n    mkdir -p /tmp/test_dir\n}\n\nteardown() {\n    rm -rf /tmp/test_dir\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_autoconf_parsing::75",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "configure.ac"
+  ],
+  "stdin": null,
+  "files": {
+   "configure.ac": "AC_PREREQ([2.69])\nAC_INIT([mypackage], [1.0], [bugs@example.com])\nAM_INIT_AUTOMAKE([foreign])\n\nAC_PROG_CC\nAC_PROG_CXX\n\nAC_FUNC_MALLOC\nAC_FUNC_REALLOC\n\nAC_CHECK_HEADERS([stdlib.h string.h])\nAC_CHECK_FUNCS([memset])\n\nAC_CONFIG_FILES([Makefile src/Makefile])\nAC_OUTPUT\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_systemd_unit_parsing::76",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "myservice.service"
+  ],
+  "stdin": null,
+  "files": {
+   "myservice.service": "[Unit]\nDescription=My Service\nAfter=network.target\n\n[Service]\nType=simple\nUser=myuser\nExecStart=/usr/bin/myapp\nRestart=on-failure\n\n[Install]\nWantedBy=multi-user.target\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_entry_points_parsing::77",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--language-force=PythonEntryPoints",
+   "-o",
+   "-",
+   "setup.cfg"
+  ],
+  "stdin": null,
+  "files": {
+   "setup.cfg": "[metadata]\nname = mypackage\n\n[options.entry_points]\nconsole_scripts =\n    my-command = mypackage.main:main\n    other-command = mypackage.other:run\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_output::78",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_output::79",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short::80",
+  "argv": [
+   "-?"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_full::81",
+  "argv": [
+   "--help-full"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_license_output::82",
+  "argv": [
+   "--license"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_option::83",
+  "argv": [
+   "--totally-invalid-option-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_c_file::84",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file_warning::85",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "/nonexistent/file.c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_mode_reads_stdin::86",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--filter",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_L_option_reads_file_list::87",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-L",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_L_option_stdin::88",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-L",
+   "-",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_to_file::89",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-f",
+   "tags"
+  ],
+  "stdin": null,
+  "files": {
+   "tags": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_to_stdout::90",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-f",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_format_json::91",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--output-format=json",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_format_xref::92",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-x",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_format_etags::93",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-e",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_format_ectags_mode_marker::94",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--output-format=e-ctags",
+   "-f",
+   "e_out.tags"
+  ],
+  "stdin": null,
+  "files": {
+   "e_out.tags": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_1::95",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--format=1",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_yes::96",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--sort=yes",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_foldcase::97",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--sort=foldcase",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_u_flag_equivalent_to_sort_no::98",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-u",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backward_search_pattern::99",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-B",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_forward_search_pattern::100",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-F",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_excmd_number::101",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--excmd=number",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_excmd_pattern::102",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--excmd=pattern",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_n_flag_equivalent_to_excmd_number::103",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-n",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fields_plus_n::104",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--fields=+n",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fields_plus_l::105",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--fields=+l",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fields_plus_kz::106",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--fields=+kz",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extras_inputFile::107",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--extras=+{inputFile}",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pattern_length_limit::108",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--pattern-length-limit=0",
+   "-o",
+   "-",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int very_long_function_name_exceeding_limit() { return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pseudo_tags_disabled::109",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--pseudo-tags=-TAG_FILE_SORTED",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pseudo_tags_all::110",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--pseudo-tags=*",
+   "-f",
+   "tags"
+  ],
+  "stdin": null,
+  "files": {
+   "tags": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_put_field_prefix::111",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--fields=+e",
+   "--put-field-prefix",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_language_force::112",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--language-force=Python",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_print_language::113",
+  "argv": [
+   "--print-language"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_guess_language_eagerly::114",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-G",
+   "--print-language",
+   "test_script"
+  ],
+  "stdin": null,
+  "files": {
+   "test_script": "#!/usr/bin/env python3\ndef my_func():\n    pass\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_languages_filter::115",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--languages=C",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_languages::116",
+  "argv": [
+   "--list-languages"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_langmap_add_extension::117",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--langmap=Python:+.mypy",
+   "--print-language"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_map_extensions::118",
+  "argv": [
+   "--list-map-extensions=Python"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_map_patterns::119",
+  "argv": [
+   "--list-map-patterns=Make"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_maps::120",
+  "argv": [
+   "--list-maps=C"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_aliases::121",
+  "argv": [
+   "--list-aliases=Python"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_alias_lang::122",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--alias-Python=+.pyx",
+   "--print-language"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_kinds_C::123",
+  "argv": [
+   "--list-kinds=C"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_kinds_all::124",
+  "argv": [
+   "--list-kinds=all"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_kinds_full::125",
+  "argv": [
+   "--list-kinds-full=C"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_kinds_C_disable::126",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--kinds-C=-f",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_fields::127",
+  "argv": [
+   "--list-fields"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_fields_for_language::128",
+  "argv": [
+   "--list-fields=C"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fields_star::129",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--fields=*",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_extras::130",
+  "argv": [
+   "--list-extras"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extras_anonymous::131",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--extras=+{anonymous}",
+   "-o",
+   "-",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "typedef struct {\n    int x;\n} MyStruct;\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extras_qualified::132",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--extras=+q",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fields_E_shows_extras::133",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--fields=+E",
+   "--extras=+{anonymous}",
+   "-o",
+   "-",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "typedef struct {\n    int x;\n} Point;\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_features::134",
+  "argv": [
+   "--list-features"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_pseudo_tags::135",
+  "argv": [
+   "--list-pseudo-tags"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_regex_flags::136",
+  "argv": [
+   "--list-regex-flags"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_mline_regex_flags::137",
+  "argv": [
+   "--list-mline-regex-flags"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_output_formats::138",
+  "argv": [
+   "--list-output-formats"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_roles::139",
+  "argv": [
+   "--list-roles=C"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_subparsers::140",
+  "argv": [
+   "--list-subparsers=C"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_excludes::141",
+  "argv": [
+   "--list-excludes"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_params::142",
+  "argv": [
+   "--list-params=C"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_map_rexprs::143",
+  "argv": [
+   "--list-map-rexprs=Python"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_machinable_output::144",
+  "argv": [
+   "--machinable",
+   "--list-features"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_machinable_list_extras::145",
+  "argv": [
+   "--machinable",
+   "--list-extras"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_mode::146",
+  "argv": [
+   "--options=NONE",
+   "--verbose",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_totals_output::147",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--totals",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_V_equivalent_to_verbose::148",
+  "argv": [
+   "--options=NONE",
+   "-V",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_a_flag_equivalent_to_append::149",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--append=yes",
+   "-f",
+   "tags1"
+  ],
+  "stdin": null,
+  "files": {
+   "tags1": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_describe_language::150",
+  "argv": [
+   "--describe-language=C"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_describe_language_python::151",
+  "argv": [
+   "--describe-language=Python"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_if0_default_disabled::152",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "#if 0\nint hidden() { return 0; }\n#endif\nint visible() { return 1; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_if0_enabled::153",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--if0=yes",
+   "-o",
+   "-",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "#if 0\nint hidden() { return 0; }\n#endif\nint visible() { return 1; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_D_macro_definition::154",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-D",
+   "MY_TYPE=int",
+   "-o",
+   "-",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "typedef MY_TYPE int;\nvoid foo(MY_TYPE x) {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_I_ignore_tokens::155",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-I",
+   "DLLEXPORT",
+   "-o",
+   "-",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "void DLLEXPORT foo() {}\nvoid bar() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_langdef_custom_language::156",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--langdef=MyConf",
+   "--map-MyConf=+.myconf",
+   "--kinddef-MyConf=k,key,keys",
+   "--regex-MyConf=/^([a-z][a-z0-9]*):/\\1/k/",
+   "-o",
+   "-",
+   "test.myconf"
+  ],
+  "stdin": null,
+  "files": {
+   "test.myconf": "key1: value1\nkey2: value2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_lang_definition::157",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--kinddef-C=i,include,includes",
+   "--regex-C=/^#include.*<([^>]+)>/\\1/i/",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_pattern::158",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--exclude=*.c",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exclude_exception::159",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--exclude=*.c",
+   "--exclude-exception=important.c",
+   "-o",
+   "-",
+   "important.c",
+   "other.c"
+  ],
+  "stdin": null,
+  "files": {
+   "important.c": "int important_func() { return 1; }\n",
+   "other.c": "int other_func() { return 2; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_recurse_option::160",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--recurse",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_R_equivalent_to_recurse::161",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-R",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_maxdepth::162",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--recurse",
+   "--maxdepth=1",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_etags_file_written::163",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-e",
+   "-f",
+   "TAGS"
+  ],
+  "stdin": null,
+  "files": {
+   "TAGS": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_for_language::164",
+  "argv": [
+   "--version=C"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_for_python::165",
+  "argv": [
+   "--version=Python"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_output_has_header::166",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--output-format=json",
+   "-f",
+   "out.json"
+  ],
+  "stdin": null,
+  "files": {
+   "out.json": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_terminator::167",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--filter",
+   "--filter-terminator=---END---",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_links_option::168",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--links=yes",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_encoding::169",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--input-encoding=UTF-8",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_encoding::170",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--input-encoding=UTF-8",
+   "--output-encoding=UTF-8",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_source_file::171",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "empty.c"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.c": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_o_option_alternative_for_f::172",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-f",
+   "tags1"
+  ],
+  "stdin": null,
+  "files": {
+   "tags1": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_c_include_header_tag::173",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--extras=+r",
+   "--fields=+r",
+   "-o",
+   "-",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "#include <stdio.h>\nint main() { return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tag_relative_no::174",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--tag-relative=no",
+   "-f",
+   "tags"
+  ],
+  "stdin": null,
+  "files": {
+   "tags": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yaml_parsing::175",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.yaml"
+  ],
+  "stdin": null,
+  "files": {
+   "test.yaml": "name: test\nversion: '1.0'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_css_parsing::176",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.css"
+  ],
+  "stdin": null,
+  "files": {
+   "test.css": ".container { display: flex; }\n#header { color: blue; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_with_decorators::177",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.py"
+  ],
+  "stdin": null,
+  "files": {
+   "test.py": "class MyClass:\n    @staticmethod\n    def static_method():\n        pass\n\n    @classmethod\n    def class_method(cls):\n        pass\n\n    @property\n    def my_property(self):\n        return self._value\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_options_file_loading::178",
+  "argv": [
+   "--quiet",
+   "-o",
+   "-",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int add(int a, int b) { return a+b; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_options_file_maybe::179",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--options-maybe=/nonexistent/path/options.ctags",
+   "-o",
+   "-",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int foo() { return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cpp_namespace::180",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--kinds-C++=+n",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_java_parsing::181",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.java"
+  ],
+  "stdin": null,
+  "files": {
+   "test.java": "public class HelloWorld {\n    enum Direction { NORTH, SOUTH, EAST, WEST }\n    interface Greeter { String greet(); }\n    public static void main(String[] args) {}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_thrift_parsing::182",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.thrift"
+  ],
+  "stdin": null,
+  "files": {
+   "test.thrift": "namespace py myservice\nnamespace java com.example.myservice\n\ntypedef string Name\ntypedef i64 Timestamp\n\nstruct Person {\n    1: required string name;\n    2: optional i32 age;\n    3: optional string email;\n}\n\nenum Status {\n    UNKNOWN = 0,\n    ACTIVE = 1,\n    INACTIVE = 2\n}\n\nexception ServiceException {\n    1: string message;\n    2: i32 code;\n}\n\nservice PersonService {\n    Person getPerson(1: i64 id) throws (1: ServiceException e);\n    list<Person> listPersons(1: i32 limit);\n    void createPerson(1: Person person);\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toml_parsing::183",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--languages=+TOML",
+   "-o",
+   "-",
+   "Cargo.toml"
+  ],
+  "stdin": null,
+  "files": {
+   "Cargo.toml": "[package]\nname = \"my-crate\"\nversion = \"1.0.0\"\nedition = \"2021\"\n\n[dependencies]\nserde = { version = \"1.0\", features = [\"derive\"] }\ntokio = { version = \"1.0\", features = [\"full\"] }\n\n[dev-dependencies]\nmockall = \"0.11\"\n\n[[bin]]\nname = \"my-binary\"\npath = \"src/main.rs\"\n\n[profile.release]\nopt-level = 3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_varlink_parsing::184",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.varlink"
+  ],
+  "stdin": null,
+  "files": {
+   "test.varlink": "interface org.example.myservice\n\ntype Point (\n    x: float,\n    y: float\n)\n\ntype Color (\n    red: int,\n    green: int,\n    blue: int\n)\n\nmethod GetPoint() -> (point: Point)\nmethod SetColor(color: Color) -> ()\nmethod ListPoints() -> (points: []Point)\n\nerror NotFound (message: string)\nerror InvalidInput (field: string, message: string)\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_typespec_parsing::185",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.tsp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.tsp": "namespace MyNamespace;\n\nmodel Point {\n    x: float32;\n    y: float32;\n}\n\nmodel Person {\n    @doc(\"Person's name\")\n    name: string;\n    \n    age?: int32;\n    email?: string;\n}\n\nenum Status {\n    Active: \"active\";\n    Inactive: \"inactive\";\n}\n\ninterface PersonService {\n    getPerson(@path id: string): Person;\n    listPersons(): Person[];\n    createPerson(@body person: Person): Person;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_asp_parsing::186",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.asp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.asp": "<%\nSub HelloWorld()\n    Response.Write \"Hello, World!\"\nEnd Sub\n\nFunction Add(a, b)\n    Add = a + b\nEnd Function\n\nClass MyClass\n    Private name\n    \n    Public Sub Initialize(n)\n        name = n\n    End Sub\n    \n    Public Function GetName()\n        GetName = name\n    End Function\nEnd Class\n\nDim myVar\nmyVar = \"test\"\n%>\n<html>\n<body>\n<% HelloWorld() %>\n</body>\n</html>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_beta_parsing::187",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.bet"
+  ],
+  "stdin": null,
+  "files": {
+   "test.bet": "ORIGIN 'betaenv';\n--  PROGRAM: Descriptor\n-- This is a BETA program\n\nPROGRAM: Print ;\n(* Main program *)\n(# \nDO \n    'Hello, World!'->putLine;\n    INNER\n#);\n\nGreetingStr: Text ;\n(# \nDO \n   'Hello' -> GreetingStr \n#);\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ttcn_parsing::188",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.ttcn"
+  ],
+  "stdin": null,
+  "files": {
+   "test.ttcn": "module MyTestSuite {\n    \n    type record Point {\n        float x,\n        float y\n    }\n    \n    type enumerated Color {\n        red, green, blue\n    }\n    \n    type component MyComponent {\n        var integer count := 0;\n    }\n    \n    function greet(in charstring name) return charstring {\n        return \"Hello, \" & name & \"!\";\n    }\n    \n    testcase TC_Hello() runs on MyComponent {\n        var charstring result := greet(\"World\");\n        log(\"Result: \", result);\n        setverdict(pass);\n    }\n    \n    control {\n        execute(TC_Hello());\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flex_lex_parsing::189",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.l"
+  ],
+  "stdin": null,
+  "files": {
+   "test.l": "%{\n#include <stdio.h>\n#define TOKEN_ID 1\n#define TOKEN_NUM 2\n%}\n\n%x COMMENT\n%s STRING\n\n%%\n\n\"//\"              { BEGIN(COMMENT); }\n<COMMENT>\\n      { BEGIN(INITIAL); }\n<COMMENT>.        ;\n\n[a-zA-Z_][a-zA-Z_0-9]* { return TOKEN_ID; }\n[0-9]+            { return TOKEN_NUM; }\n\\n               ;\n.                 ;\n\n%%\n\nint yywrap() { return 1; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vera_parsing::190",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.vr"
+  ],
+  "stdin": null,
+  "files": {
+   "test.vr": "#include <vera_defines.vrh>\n\nprogram main_test;\n\ntask greet(string name);\nfunction integer add(integer a, integer b);\n\nclass Animal {\n    string name;\n    \n    task new(string n) {\n        name = n;\n    }\n    \n    task speak() {\n        printf(\"I am %s\\n\", name);\n    }\n}\n\ninteger MY_CONST = 42;\n\ntask greet(string name) {\n    printf(\"Hello, %s!\\n\", name);\n}\n\nfunction integer add(integer a, integer b) {\n    return a + b;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gemspec_parsing::191",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "my_gem.gemspec"
+  ],
+  "stdin": null,
+  "files": {
+   "my_gem.gemspec": "Gem::Specification.new do |spec|\n    spec.name = \"my-gem\"\n    spec.version = \"1.0.0\"\n    spec.authors = [\"John Doe\"]\n    spec.email = [\"john@example.com\"]\n    \n    spec.summary = \"A short summary\"\n    spec.description = \"A longer description\"\n    spec.homepage = \"https://example.com\"\n    spec.license = \"MIT\"\n    \n    spec.files = Dir[\"lib/**/*\", \"README.md\"]\n    spec.require_paths = [\"lib\"]\n    \n    spec.add_dependency \"rake\", \"~> 13.0\"\n    spec.add_development_dependency \"rspec\", \"~> 3.0\"\nend\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_autoit_parsing::192",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.au3"
+  ],
+  "stdin": null,
+  "files": {
+   "test.au3": "; AutoIt Script\n#include <MsgBoxConstants.au3>\n\nFunc Greet($sName)\n    MsgBox($MB_OK, \"Greeting\", \"Hello, \" & $sName & \"!\")\nEndFunc\n\nFunc Add($iA, $iB)\n    Return $iA + $iB\nEndFunc\n\nGlobal Const $MY_CONST = 42\nGlobal $gVar = \"test\"\n\n$result = Add(3, 4)\nGreet(\"World\")\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_automake_am_parsing::193",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "Makefile.am"
+  ],
+  "stdin": null,
+  "files": {
+   "Makefile.am": "AUTOMAKE_OPTIONS = foreign subdir-objects\n\nAM_CFLAGS = -Wall -Wextra -O2\n\nbin_PROGRAMS = myapp another_prog\n\nmyapp_SOURCES = \\\n    src/main.c \\\n    src/utils.c \\\n    src/config.c\n\nmyapp_CFLAGS = $(AM_CFLAGS) -DDEBUG\nmyapp_LDADD = libmylib.a\n\nanother_prog_SOURCES = src/other.c\nanother_prog_CFLAGS = $(AM_CFLAGS)\n\nlib_LIBRARIES = libmylib.a\nlibmylib_a_SOURCES = lib/mylib.c lib/helpers.c\n\nEXTRA_DIST = \\\n    README \\\n    COPYING \\\n    autogen.sh\n\ndist_noinst_DATA = test_data.txt\n\ncheck_PROGRAMS = test_suite\ntest_suite_SOURCES = tests/test_main.c\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_itcl_parsing::194",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.itcl"
+  ],
+  "stdin": null,
+  "files": {
+   "test.itcl": "package require Itcl\n\nitcl::class Animal {\n    protected variable name\n    \n    constructor {n} {\n        set name $n\n    }\n    \n    public method speak {} {\n        return \"$name speaks\"\n    }\n    \n    public method getName {} {\n        return $name\n    }\n}\n\nitcl::class Dog {\n    inherit Animal\n    \n    constructor {n} {\n        Animal::constructor $n\n    }\n    \n    public method speak {} {\n        return \"$name says Woof\"\n    }\n}\n\nproc greet {name} {\n    return \"Hello, $name!\"\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raku_advanced_parsing::195",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.raku"
+  ],
+  "stdin": null,
+  "files": {
+   "test.raku": "use v6;\n\nmodule MyModule {\n    our sub greet(Str $name) {\n        say \"Hello, $name!\";\n    }\n}\n\nrole Printable {\n    method print() {\n        say self.to-string;\n    }\n}\n\nclass Point does Printable {\n    has Num $.x = 0;\n    has Num $.y = 0;\n    \n    method to-string() {\n        return \"($!x, $!y)\";\n    }\n    \n    method distance(Point $other) {\n        return sqrt(($!x - $other.x)**2 + ($!y - $other.y)**2);\n    }\n}\n\ngrammar NumberGrammar {\n    rule TOP { <integer> }\n    token integer { \\d+ }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_myrddin_parsing::196",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.myr"
+  ],
+  "stdin": null,
+  "files": {
+   "test.myr": "use std\n\npkg main =\n    const main : (-> void)\n;;\n\npkg mylib =\n    type point = struct\n        x : flt32\n        y : flt32\n    ;;\n    \n    const mkpoint : (x : flt32, y : flt32 -> point)\n    const greet : (name : byte[:] -> void)\n;;\n\nconst main = {\n    greet(\"World\")\n}\n\nconst mkpoint = {x, y\n    -> [.x = x, .y = y]\n}\n\nconst greet = {name\n    std.put(\"Hello, {}!\n\", name)\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inko_parsing::197",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.inko"
+  ],
+  "stdin": null,
+  "files": {
+   "test.inko": "import std::io::Write\n\nclass Animal {\n    let @name: String\n    \n    fn pub static new(name: String) -> Animal {\n        Animal { @name = name }\n    }\n    \n    fn pub name -> String {\n        @name\n    }\n    \n    fn pub speak -> String {\n        \"${@name} speaks\"\n    }\n}\n\ntrait Printable {\n    fn pub to_string -> String\n}\n\nfn pub greet(name: String) -> String {\n    \"Hello, ${name}!\"\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_txt2tags_parsing::198",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.t2t"
+  ],
+  "stdin": null,
+  "files": {
+   "test.t2t": "My Document Title\nAuthor Name\nDate\n\n= Introduction =\n\nThis is the introduction.\n\n== Sub Section ==\n\nSome content here.\n\n=== Deep Section ===\n\nMore content.\n\n= Chapter 2 =\n\nSecond chapter.\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_robot_framework_parsing::199",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.robot"
+  ],
+  "stdin": null,
+  "files": {
+   "test.robot": "*** Settings ***\nLibrary    Collections\nLibrary    String\n\n*** Variables ***\n${GREETING}    Hello\n${NAME}        World\n\n*** Test Cases ***\nBasic Test\n    [Documentation]    A simple test\n    Log    ${GREETING}, ${NAME}!\n    Should Be Equal    ${GREETING}    Hello\n\nAnother Test\n    [Tags]    smoke    regression\n    ${result}=    Catenate    ${GREETING}    ${NAME}\n    Should Contain    ${result}    Hello\n\n*** Keywords ***\nGreet User\n    [Arguments]    ${name}\n    [Return]    ${GREETING}, ${name}!\n    Log    Greeting ${name}\n\nAdd Numbers\n    [Arguments]    ${a}    ${b}\n    ${result}=    Evaluate    ${a} + ${b}\n    [Return]    ${result}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quarto_parsing::200",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.qmd"
+  ],
+  "stdin": null,
+  "files": {
+   "test.qmd": "---\ntitle: \"My Analysis\"\nauthor: \"John Doe\"\nformat: html\n---\n\n# Introduction\n\nThis is a Quarto document.\n\n## Methods\n\nAnalysis methods here.\n\n```{python}\ndef analyze(data):\n    return sum(data)\n```\n\n## Results\n\nResults section.\n\n### Tables\n\nTable content.\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rmarkdown_parsing::201",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.Rmd"
+  ],
+  "stdin": null,
+  "files": {
+   "test.Rmd": "---\ntitle: \"My Report\"\noutput: html_document\n---\n\n# Introduction\n\n```{r setup, include=FALSE}\nknitr::opts_chunk$set(echo = TRUE)\n```\n\n## Data Analysis\n\n```{r analysis}\ndata <- c(1, 2, 3, 4, 5)\nmean_val <- mean(data)\n```\n\n## Visualization\n\nSome text with `inline code`.\n\n## Conclusion\n\nFinal thoughts.\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_restructuredtext_parsing::202",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.rst"
+  ],
+  "stdin": null,
+  "files": {
+   "test.rst": "My Document\n===========\n\nIntroduction\n------------\n\nThis is the intro.\n\nSub Section\n~~~~~~~~~~~\n\nNested content.\n\nMethods\n-------\n\nThe methods section.\n\nSubsection\n~~~~~~~~~~\n\nMethod details.\n\nConclusion\n----------\n\nFinal section.\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_man_page_parsing::203",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "myapp.1"
+  ],
+  "stdin": null,
+  "files": {
+   "myapp.1": ".TH MYAPP 1 \"2024\" \"Version 1.0\" \"User Commands\"\n.SH NAME\nmyapp \\- A sample application\n.SH SYNOPSIS\n.B myapp\n[\\fIOPTIONS\\fR] [\\fIFILE\\fR...]\n.SH DESCRIPTION\nThe \\fBmyapp\\fR command does something useful.\n.SH OPTIONS\n.TP\n.BR \\-v \", \" \\-\\-verbose\nEnable verbose output.\n.TP\n.BR \\-h \", \" \\-\\-help\nShow this help message.\n.SH EXAMPLES\nRun myapp on a file:\n.PP\n.nf\n.RS 4\nmyapp input.txt\n.RE\n.fi\n.SH \"SEE ALSO\"\n.BR ls (1),\n.BR cat (1)\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nftables_parsing::204",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.nft"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nft": "#!/usr/sbin/nft -f\n\ntable inet filter {\n    chain input {\n        type filter hook input priority 0; policy accept;\n        \n        iif lo accept\n        ct state established,related accept\n        tcp dport 22 accept\n        drop\n    }\n    \n    chain forward {\n        type filter hook forward priority 0; policy drop;\n    }\n    \n    chain output {\n        type filter hook output priority 0; policy accept;\n    }\n}\n\ntable ip nat {\n    chain prerouting {\n        type nat hook prerouting priority -100;\n        tcp dport 80 dnat to 192.168.1.100:8080\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dts_device_tree_parsing::205",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.dts"
+  ],
+  "stdin": null,
+  "files": {
+   "test.dts": "/dts-v1/;\n/ {\n    compatible = \"vendor,board\";\n    \n    memory@80000000 {\n        device_type = \"memory\";\n        reg = <0x80000000 0x20000000>;\n    };\n    \n    cpus {\n        cpu@0 {\n            compatible = \"arm,cortex-a7\";\n            device_type = \"cpu\";\n            reg = <0>;\n        };\n    };\n    \n    uart0: serial@40004400 {\n        compatible = \"st,stm32-usart\";\n        reg = <0x40004400 0x400>;\n        status = \"okay\";\n    };\n};\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_kconfig_parsing::206",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "Kconfig"
+  ],
+  "stdin": null,
+  "files": {
+   "Kconfig": "mainmenu \"My Project Configuration\"\n\nconfig MY_PROJECT\n    bool \"Enable My Project\"\n    default y\n    help\n      Enable the main project.\n\nconfig MY_FEATURE\n    bool \"Enable Feature\"\n    depends on MY_PROJECT\n    default n\n    help\n      Enable an optional feature.\n\nmenu \"Advanced Settings\"\n\nconfig BUFFER_SIZE\n    int \"Buffer size\"\n    range 64 4096\n    default 256\n\nconfig LOG_LEVEL\n    int \"Log level\"\n    range 0 5\n    default 2\n\nendmenu\n\nchoice\n    prompt \"Select mode\"\n    default MODE_NORMAL\n\nconfig MODE_NORMAL\n    bool \"Normal mode\"\n\nconfig MODE_FAST\n    bool \"Fast mode\"\n\nendchoice\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_selinux_parsing::207",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "myapp.te"
+  ],
+  "stdin": null,
+  "files": {
+   "myapp.te": "policy_module(myapp, 1.0.0)\n\n########################################\n#\n# Declarations\n#\n\ntype myapp_t;\ntype myapp_exec_t;\ntype myapp_conf_t;\ntype myapp_log_t;\ntype myapp_var_t;\n\n########################################\n#\n# myapp local policy\n#\n\nallow myapp_t myapp_exec_t:file { execute execute_no_trans };\nallow myapp_t myapp_conf_t:file { read getattr };\nallow myapp_t myapp_log_t:file { write append };\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rpm_spec_parsing::208",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "mypackage.spec"
+  ],
+  "stdin": null,
+  "files": {
+   "mypackage.spec": "Name: mypackage\nVersion: 1.0.0\nRelease: 1%{?dist}\nSummary: My application\nLicense: MIT\nURL: https://example.com\n\nBuildRequires: gcc\nRequires: glibc\n\n%description\nThis is my application description.\n\n%prep\n%autosetup\n\n%build\nmake %{?_smp_mflags}\n\n%install\nmake install DESTDIR=%{buildroot}\n\n%files\n%license COPYING\n%doc README.md\n%{_bindir}/myapp\n\n%changelog\n* Mon Jan 01 2024 John Doe <john@example.com> - 1.0.0-1\n- Initial package\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_openapi_yaml_parsing::209",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--language-force=OpenAPI",
+   "-o",
+   "-",
+   "openapi.yaml"
+  ],
+  "stdin": null,
+  "files": {
+   "openapi.yaml": "openapi: \"3.0.0\"\ninfo:\n  title: My API\n  version: \"1.0\"\n  description: A sample API\n\npaths:\n  /users:\n    get:\n      summary: List users\n      operationId: listUsers\n      responses:\n        \"200\":\n          description: Success\n    post:\n      summary: Create user\n      operationId: createUser\n      \n  /users/{id}:\n    get:\n      summary: Get user\n      operationId: getUser\n      parameters:\n        - name: id\n          in: path\n          required: true\n      responses:\n        \"200\":\n          description: Success\n\ncomponents:\n  schemas:\n    User:\n      type: object\n      properties:\n        id:\n          type: integer\n        name:\n          type: string\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_java_properties_parsing::210",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "application.properties"
+  ],
+  "stdin": null,
+  "files": {
+   "application.properties": "# Application properties\napp.name=My Application\napp.version=1.0.0\napp.description=A sample application\n\n# Database settings\ndb.host=localhost\ndb.port=5432\ndb.name=mydb\ndb.username=admin\n\n# Server settings\nserver.host=0.0.0.0\nserver.port=8080\nserver.debug=false\n\n# Logging\nlogging.level=INFO\nlogging.file=/var/log/myapp.log\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pkgconfig_parsing::211",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "mylib.pc"
+  ],
+  "stdin": null,
+  "files": {
+   "mylib.pc": "prefix=/usr/local\nexec_prefix=${prefix}\nlibdir=${exec_prefix}/lib\nincludedir=${prefix}/include\n\nName: mylib\nDescription: My Library\nVersion: 1.0.0\nRequires: glib-2.0 >= 2.44\nLibs: -L${libdir} -lmylib\nCflags: -I${includedir}/mylib\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gdbinit_parsing::212",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.gdb"
+  ],
+  "stdin": null,
+  "files": {
+   "test.gdb": "# GDB init file\nset pagination off\nset print pretty on\n\ndefine greet\n    echo Hello from GDB!\\n\nend\n\ndefine analyze_struct\n    print $arg0\n    ptype $arg0\nend\n\ndocument greet\n    Print a greeting message\nend\n\nset solib-search-path /usr/lib\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_passwd_file_parsing::213",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--language-force=Passwd",
+   "-o",
+   "-",
+   "passwd"
+  ],
+  "stdin": null,
+  "files": {
+   "passwd": "root:x:0:0:root:/root:/bin/bash\ndaemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin\nbin:x:2:2:bin:/bin:/usr/sbin/nologin\nsys:x:3:3:sys:/dev:/usr/sbin/nologin\nsync:x:4:65534:sync:/bin:/bin/sync\ngames:x:5:60:games:/usr/games:/usr/sbin/nologin\nman:x:6:12:man:/var/cache/man:/usr/sbin/nologin\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_encoding_setting::214",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--input-encoding=UTF-8",
+   "--output-encoding=UTF-8",
+   "-o",
+   "-",
+   "test.py"
+  ],
+  "stdin": null,
+  "files": {
+   "test.py": "def hello(): pass\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_language_specific_params::215",
+  "argv": [
+   "--list-params=Python"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_map_extensions_all::216",
+  "argv": [
+   "--list-map-extensions=all"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_map_patterns_all::217",
+  "argv": [
+   "--list-map-patterns=all"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_c_field_combinations::218",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--fields=+niKlZz",
+   "--output-format=json",
+   "-o",
+   "-",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "typedef struct node {\n    int value;\n    struct node *next;\n} Node;\n\nvoid process(Node *list, int count) {\n    int i;\n    for (i = 0; i < count; i++) {\n        list = list->next;\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_decorators_field::219",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--fields-Python=+{decorators}",
+   "-o",
+   "-",
+   "test.py"
+  ],
+  "stdin": null,
+  "files": {
+   "test.py": "class MyClass:\n    @staticmethod\n    def static_method():\n        pass\n    \n    @classmethod\n    def class_method(cls):\n        pass\n    \n    @property\n    def value(self):\n        return self._value\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_javascript_es_modules::220",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.js"
+  ],
+  "stdin": null,
+  "files": {
+   "test.js": "// ES6 modules\nimport React from 'react';\nimport { useState, useEffect } from 'react';\n\nconst MyComponent = () => {\n    const [count, setCount] = useState(0);\n    \n    useEffect(() => {\n        document.title = `Count: ${count}`;\n    }, [count]);\n    \n    return null;\n};\n\nasync function fetchData(url) {\n    const response = await fetch(url);\n    return response.json();\n}\n\nconst obj = {\n    method() {\n        return 42;\n    },\n    arrowMethod: () => 'hello'\n};\n\nexport { MyComponent, fetchData };\nexport default obj;\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_go_interfaces::221",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\n\nimport \"fmt\"\n\ntype Stringer interface {\n    String() string\n}\n\ntype Animal interface {\n    Speak() string\n    Name() string\n}\n\ntype Dog struct {\n    name string\n    breed string\n}\n\nfunc (d Dog) Speak() string { return \"Woof\" }\nfunc (d Dog) Name() string { return d.name }\nfunc (d Dog) String() string { return fmt.Sprintf(\"Dog(%s)\", d.name) }\n\ntype Cat struct {\n    name string\n}\n\nfunc (c Cat) Speak() string { return \"Meow\" }\nfunc (c Cat) Name() string { return c.name }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_c_bitfield_struct::222",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "#include <stdint.h>\n\ntypedef struct {\n    uint32_t flag1 : 1;\n    uint32_t flag2 : 1;\n    uint32_t value : 6;\n    uint32_t reserved : 24;\n} Flags;\n\nunion Data {\n    uint32_t as_word;\n    uint8_t as_bytes[4];\n    struct {\n        uint16_t low;\n        uint16_t high;\n    } as_halves;\n};\n\ntypedef union Data Data;\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_pseudo_tags_option::223",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--pseudo-tags=*",
+   "--pseudo-tags=-TAG_FILE_FORMAT",
+   "--pseudo-tags=-TAG_FILE_SORTED",
+   "-f",
+   "tags",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "tags": "",
+   "test.c": "int foo() { return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_langdef_with_regex::224",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--langdef=MyML",
+   "--map-MyML=+.myml",
+   "--kinddef-MyML=c,class,classes",
+   "--kinddef-MyML=f,function,functions",
+   "--kinddef-MyML=t,type,types",
+   "--regex-MyML=/^class ([A-Z][a-z0-9]+)/\\1/c/",
+   "--regex-MyML=/^function ([a-z][a-zA-Z0-9]+)/\\1/f/",
+   "--regex-MyML=/^type ([A-Z][a-zA-Z0-9]+)/\\1/t/",
+   "-o",
+   "-",
+   "test.myml"
+  ],
+  "stdin": null,
+  "files": {
+   "test.myml": "class MyClass:\n    def myMethod(self):\n        pass\n\nfunction myFunc():\n    pass\n\ntype MyType = string | number\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_odin_parsing::225",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.odin"
+  ],
+  "stdin": null,
+  "files": {
+   "test.odin": "package main\n\nimport \"core:fmt\"\n\nPoint :: struct {\n    x: f64,\n    y: f64,\n}\n\nmake_point :: proc(x, y: f64) -> Point {\n    return {x, y}\n}\n\ngreet :: proc(name: string) {\n    fmt.printf(\"Hello, %s!\\n\", name)\n}\n\nmain :: proc() {\n    p := make_point(1.0, 2.0)\n    greet(\"World\")\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_v_parsing::226",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.v"
+  ],
+  "stdin": null,
+  "files": {
+   "test.v": "module main\n\nstruct Point {\npub:\n    x f64\n    y f64\n}\n\nfn (p Point) distance(other Point) f64 {\n    dx := p.x - other.x\n    dy := p.y - other.y\n    return f64_sqrt(dx*dx + dy*dy)\n}\n\ninterface Shape {\n    area() f64\n}\n\nenum Color {\n    red\n    green  \n    blue\n}\n\nfn greet(name string) string {\n    return 'Hello, ${name}!'\n}\n\nfn main() {\n    p := Point{x: 0.0, y: 0.0}\n    println(greet('World'))\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flex_parsing::227",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.l"
+  ],
+  "stdin": null,
+  "files": {
+   "test.l": "%{\n#include <stdio.h>\nint line_count = 0;\n%}\n\n%%\n[0-9]+      { printf(\"NUMBER: %s\\n\", yytext); }\n[a-zA-Z]+   { printf(\"WORD: %s\\n\", yytext); }\n\\n          { line_count++; }\n.           ;\n%%\n\nint main() {\n    yylex();\n    printf(\"Lines: %d\\n\", line_count);\n    return 0;\n}\n\nint yywrap() {\n    return 1;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rst_parsing::228",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.rst"
+  ],
+  "stdin": null,
+  "files": {
+   "test.rst": "Introduction\n============\n\nThis is the introduction.\n\nSub Section\n-----------\n\nSome content here.\n\nAnother Section\n===============\n\nMore content.\n\n.. _my-target:\n\nNested Sub\n----------\n\nDetailed content.\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_parsing::229",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.bas"
+  ],
+  "stdin": null,
+  "files": {
+   "test.bas": "10 PRINT \"Hello, World!\"\n20 INPUT \"What is your name? \"; N$\n30 PRINT \"Hello, \"; N$; \"!\"\n40 FOR I = 1 TO 10\n50   PRINT I\n60 NEXT I\n70 GOSUB 200\n80 END\n200 REM This is a subroutine\n210 PRINT \"Subroutine\"\n220 RETURN\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prolog_parsing::230",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--language-force=Prolog",
+   "-o",
+   "-",
+   "test.pl"
+  ],
+  "stdin": null,
+  "files": {
+   "test.pl": ":- module(mymodule, [greet/1, add/3]).\n\ngreet(Name) :-\n    format(\"Hello, ~w!~n\", [Name]).\n\nadd(A, B, Sum) :-\n    Sum is A + B.\n\nanimal(dog).\nanimal(cat).\nanimal(bird).\n\nspeaks(dog, woof).\nspeaks(cat, meow).\nspeaks(bird, tweet).\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sml_parsing::231",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.sml"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sml": "structure MyModule = struct\n  type point = { x: real, y: real }\n  \n  fun greet (name: string) =\n    print (\"Hello, \" ^ name ^ \"!\n\")\n  \n  fun add (a: int) (b: int) = a + b\n  \n  datatype color = Red | Green | Blue\n  \n  exception MyException of string\nend\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raku_parsing::232",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.raku"
+  ],
+  "stdin": null,
+  "files": {
+   "test.raku": "#!/usr/bin/env perl6\nuse v6;\n\nclass Animal {\n    has Str $.name;\n    \n    method greet() {\n        say \"Hello, I'm $.name\";\n    }\n    \n    method speak() { ... }\n}\n\nclass Dog is Animal {\n    method speak() {\n        say \"Woof!\";\n    }\n}\n\nsub add(Int $a, Int $b --> Int) {\n    return $a + $b;\n}\n\nmy constant PI = 3.14159;\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nsis_parsing::233",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.nsi"
+  ],
+  "stdin": null,
+  "files": {
+   "test.nsi": "; NSIS Installer Script\nName \"My Application\"\nOutFile \"installer.exe\"\n\nSection \"Main\"\n    SetOutPath \"$INSTDIR\"\n    File \"main.exe\"\nSectionEnd\n\nSection \"Documentation\"\n    SetOutPath \"$INSTDIR\\docs\"\n    File \"readme.txt\"\nSectionEnd\n\nFunction MyFunction\n    MessageBox MB_OK \"Hello from function\"\nFunctionEnd\n\n!macro MyMacro arg1\n    MessageBox MB_OK \"Macro called with ${arg1}\"\n!macroend\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bibtex_parsing::234",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.bib"
+  ],
+  "stdin": null,
+  "files": {
+   "test.bib": "@article{smith2020,\n    author = {Smith, John},\n    title = {A Study of Something},\n    journal = {Journal of Things},\n    year = {2020},\n    volume = {10},\n    pages = {1-10}\n}\n\n@book{doe2019,\n    author = {Doe, Jane},\n    title = {Introduction to Nothing},\n    publisher = {Publisher Inc.},\n    year = {2019}\n}\n\n@inproceedings{jones2021,\n    author = {Jones, Bob},\n    title = {Fast Algorithm},\n    booktitle = {Proceedings of Conference},\n    year = {2021}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cobol_parsing::235",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.cob"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cob": "       IDENTIFICATION DIVISION.\n       PROGRAM-ID. HELLO-WORLD.\n       AUTHOR. PROGRAMMER.\n\n       DATA DIVISION.\n       WORKING-STORAGE SECTION.\n       01 WS-NAME          PIC X(30).\n       01 WS-COUNT         PIC 9(5).\n\n       PROCEDURE DIVISION.\n       MAIN-PARAGRAPH.\n           MOVE \"World\" TO WS-NAME\n           DISPLAY \"Hello, \" WS-NAME\n           STOP RUN.\n       \n       GREET-PARAGRAPH.\n           DISPLAY \"Hello from GREET\"\n           EXIT PARAGRAPH.\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_m4_parsing::236",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.m4"
+  ],
+  "stdin": null,
+  "files": {
+   "test.m4": "dnl This is an M4 macro file\nm4_define([MY_VERSION], [1.0.0])\nm4_define([MY_PACKAGE], [mypackage])\n\nAC_DEFUN([MY_MACRO], [\n    AC_MSG_NOTICE([Running MY_MACRO])\n    $1\n])\n\nm4_include([config.m4])\n\nm4_define([greet], [Hello, $1!])\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dtd_parsing::237",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.dtd"
+  ],
+  "stdin": null,
+  "files": {
+   "test.dtd": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!ELEMENT library (book+)>\n<!ELEMENT book (title, author+, year)>\n<!ELEMENT title (#PCDATA)>\n<!ELEMENT author (#PCDATA)>\n<!ELEMENT year (#PCDATA)>\n\n<!ATTLIST book\n    id ID #REQUIRED\n    genre CDATA #IMPLIED\n>\n\n<!ENTITY publisher \"My Publisher\">\n<!ENTITY copy \"&#169;\">\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xml_parsing::238",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.xml"
+  ],
+  "stdin": null,
+  "files": {
+   "test.xml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n    <item id=\"1\">\n        <name>Item One</name>\n        <value>42</value>\n    </item>\n    <item id=\"2\">\n        <name>Item Two</name>\n        <value>84</value>\n    </item>\n</root>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_maven_xml_parsing::239",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "pom.xml"
+  ],
+  "stdin": null,
+  "files": {
+   "pom.xml": "<project xmlns=\"http://maven.apache.org/POM/4.0.0\">\n    <groupId>com.example</groupId>\n    <artifactId>my-project</artifactId>\n    <version>1.0.0</version>\n    <packaging>jar</packaging>\n    \n    <dependencies>\n        <dependency>\n            <groupId>junit</groupId>\n            <artifactId>junit</artifactId>\n            <version>4.13</version>\n        </dependency>\n    </dependencies>\n</project>\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_automake_parsing::240",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "Makefile.am"
+  ],
+  "stdin": null,
+  "files": {
+   "Makefile.am": "AUTOMAKE_OPTIONS = foreign\n\nbin_PROGRAMS = myprog\n\nmyprog_SOURCES = main.c utils.c\nmyprog_CFLAGS = -Wall -O2\nmyprog_LDFLAGS = -lm\n\nlib_LTLIBRARIES = libmylib.la\nlibmylib_la_SOURCES = lib.c\nlibmylib_la_LIBADD = -lm\n\nEXTRA_DIST = README.md config.h.in\n\nCLEANFILES = *.o\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rexx_parsing::241",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.rexx"
+  ],
+  "stdin": null,
+  "files": {
+   "test.rexx": "/* REXX Program */\nsay 'Hello, World!'\n\ngreet: procedure\n    parse arg name\n    say 'Hello, ' name || '!'\n    return\n\nadd: procedure\n    parse arg a b\n    return a + b\n\nmyvar = 42\ncall greet 'World'\nresult = add(3, 4)\nsay result\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_systemverilog_parsing::242",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.sv"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sv": "module adder #(parameter WIDTH = 8) (\n    input logic [WIDTH-1:0] a, b,\n    output logic [WIDTH:0] sum\n);\n    assign sum = {1'b0, a} + {1'b0, b};\nendmodule\n\ninterface MyInterface (input logic clk);\n    logic data;\n    logic valid;\nendinterface\n\nclass MyClass;\n    local int count;\n    \n    function new();\n        count = 0;\n    endfunction\n    \n    task increment();\n        count++;\n    endtask\nendclass\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_terraform_parsing::243",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "main.tf"
+  ],
+  "stdin": null,
+  "files": {
+   "main.tf": "terraform {\n    required_version = \">= 1.0\"\n    required_providers {\n        aws = {\n            source = \"hashicorp/aws\"\n            version = \"~> 4.0\"\n        }\n    }\n}\n\nresource \"aws_instance\" \"web_server\" {\n    ami           = \"ami-12345678\"\n    instance_type = \"t2.micro\"\n    \n    tags = {\n        Name = \"web-server\"\n    }\n}\n\nvariable \"region\" {\n    type    = string\n    default = \"us-east-1\"\n}\n\noutput \"instance_ip\" {\n    value = aws_instance.web_server.public_ip\n}\n\nmodule \"vpc\" {\n    source = \"./modules/vpc\"\n    cidr   = \"10.0.0.0/16\"\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ldscript_parsing::244",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.ld"
+  ],
+  "stdin": null,
+  "files": {
+   "test.ld": "/* Linker script */\nMEMORY {\n    ROM (rx) : ORIGIN = 0x00000000, LENGTH = 256K\n    RAM (rwx) : ORIGIN = 0x20000000, LENGTH = 64K\n}\n\nSECTIONS {\n    .text : {\n        *(.text*)\n        *(.rodata*)\n    } > ROM\n    \n    .data : {\n        *(.data*)\n    } > RAM AT > ROM\n    \n    .bss : {\n        *(.bss*)\n    } > RAM\n}\n\nSTACK_SIZE = 0x1000;\nENTRY(Reset_Handler)\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_windres_parsing::245",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.rc"
+  ],
+  "stdin": null,
+  "files": {
+   "test.rc": "#include <windows.h>\n\nLANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US\n\nIDR_MAINMENU MENU\nBEGIN\n    POPUP \"&File\"\n    BEGIN\n        MENUITEM \"&Open\", ID_FILE_OPEN\n        MENUITEM \"&Save\", ID_FILE_SAVE\n        MENUITEM SEPARATOR\n        MENUITEM \"E&xit\", ID_FILE_EXIT\n    END\n    POPUP \"&Help\"\n    BEGIN\n        MENUITEM \"&About\", ID_HELP_ABOUT\n    END\nEND\n\nIDD_ABOUTDLG DIALOGEX 0, 0, 300, 200\nCAPTION \"About\"\nBEGIN\n    PUSHBUTTON \"OK\", IDOK, 10, 10, 80, 14\nEND\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xref_with_python::246",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-x",
+   "-o",
+   "-",
+   "test.py"
+  ],
+  "stdin": null,
+  "files": {
+   "test.py": "class MyClass:\n    def method1(self):\n        pass\n    def method2(self, x):\n        return x\n\ndef helper():\n    return 42\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_format_python::247",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--output-format=json",
+   "-o",
+   "-",
+   "test.py"
+  ],
+  "stdin": null,
+  "files": {
+   "test.py": "class Calculator:\n    def add(self, a, b):\n        return a + b\n    def subtract(self, a, b):\n        return a - b\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extras_reference_tags::248",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--extras=+r",
+   "--kinds-C=+h",
+   "-o",
+   "-",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "#include <stdio.h>\n#include <stdlib.h>\n\nvoid my_func() {\n    printf(\"hello\");\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_c_external_vars::249",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--kinds-C=+xv",
+   "-o",
+   "-",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "extern int global_int;\nextern char* global_str;\nextern void external_func(void);\n\nint defined_global = 42;\nstatic int static_var = 10;\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_c_goto_labels::250",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--kinds-C=+L",
+   "-o",
+   "-",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() {\n    int i = 0;\nstart:\n    i++;\n    if (i < 10) goto start;\nend:\n    return i;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cpp_template_parsing::251",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.cpp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cpp": "template<typename T>\nclass Stack {\nprivate:\n    T data[100];\n    int top;\npublic:\n    Stack() : top(-1) {}\n    void push(T item) { data[++top] = item; }\n    T pop() { return data[top--]; }\n    bool empty() const { return top == -1; }\n};\n\ntemplate<typename T>\nT maximum(T a, T b) {\n    return (a > b) ? a : b;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cpp_namespace_parsing::252",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--kinds-C++=+n",
+   "-o",
+   "-",
+   "test.cpp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cpp": "namespace geometry {\n    struct Point {\n        double x, y;\n    };\n    \n    double distance(const Point& p1, const Point& p2) {\n        double dx = p1.x - p2.x;\n        double dy = p1.y - p2.y;\n        return __builtin_sqrt(dx*dx + dy*dy);\n    }\n    \n    namespace shapes {\n        class Circle {\n        public:\n            Point center;\n            double radius;\n            double area() const;\n        };\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_perl_module_parsing::253",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.pm"
+  ],
+  "stdin": null,
+  "files": {
+   "test.pm": "package My::Module;\n\nuse strict;\nuse warnings;\n\nour $VERSION = '1.0';\n\nsub new {\n    my ($class, %args) = @_;\n    return bless { %args }, $class;\n}\n\nsub greet {\n    my ($self, $name) = @_;\n    return \"Hello, $name!\";\n}\n\nsub helper {\n    my $x = shift;\n    return $x * 2;\n}\n\n1;\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_maps_all::254",
+  "argv": [
+   "--list-maps=all"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_kinds_full_all::255",
+  "argv": [
+   "--list-kinds-full=all"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_extras_all::256",
+  "argv": [
+   "--list-extras=all"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_fields_all::257",
+  "argv": [
+   "--list-fields=all"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_params_all::258",
+  "argv": [
+   "--list-params=all"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_roles_all::259",
+  "argv": [
+   "--list-roles=all"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_subparsers_all::260",
+  "argv": [
+   "--list-subparsers=all"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_machinable_list_kinds::261",
+  "argv": [
+   "--machinable",
+   "--list-kinds-full=C"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_machinable_list_roles::262",
+  "argv": [
+   "--machinable",
+   "--list-roles=C"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_machinable_list_subparsers::263",
+  "argv": [
+   "--machinable",
+   "--list-subparsers=all"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_machinable_list_params::264",
+  "argv": [
+   "--machinable",
+   "--list-params=all"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_machinable_list_aliases::265",
+  "argv": [
+   "--machinable",
+   "--list-aliases=Python"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_machinable_list_pseudo_tags::266",
+  "argv": [
+   "--machinable",
+   "--list-pseudo-tags"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_machinable_list_regex_flags::267",
+  "argv": [
+   "--machinable",
+   "--list-regex-flags"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_with_list_header_no_extras::268",
+  "argv": [
+   "--with-list-header=no",
+   "--list-extras"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_with_list_header_no_fields::269",
+  "argv": [
+   "--with-list-header=no",
+   "--list-fields"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_c_combined_options::270",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--kinds-C=+pt",
+   "--fields=+nti",
+   "-o",
+   "-",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "#include <stdio.h>\ntypedef int MyInt;\nenum Status { OK = 0, ERROR = 1, PENDING = 2 };\nstruct Config { int timeout; char *host; };\ntypedef struct Config Config;\nint process(Config *cfg, MyInt count);\nint process(Config *cfg, MyInt count) {\n    return count;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_class_hierarchy::271",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--extras=+q",
+   "--fields=+i",
+   "-o",
+   "-",
+   "test.py"
+  ],
+  "stdin": null,
+  "files": {
+   "test.py": "class Base:\n    class_var = 0\n    \n    def base_method(self):\n        return \"base\"\n\nclass Child(Base):\n    def child_method(self):\n        return \"child\"\n\nclass GrandChild(Child):\n    def grand_method(self):\n        return \"grand\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_describe_language_ruby::272",
+  "argv": [
+   "--describe-language=Ruby"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_describe_language_javascript::273",
+  "argv": [
+   "--describe-language=JavaScript"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_describe_language_go::274",
+  "argv": [
+   "--describe-language=Go"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_no_output_on_success::275",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int main() { return 0; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_etags_include_option::276",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-e",
+   "-f",
+   "TAGS1",
+   "file1.c"
+  ],
+  "stdin": null,
+  "files": {
+   "TAGS1": "",
+   "file1.c": "int func1() { return 1; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_output_formats_consistency::277",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int add(int a, int b) { return a+b; }\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_foldcase_mixed::278",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--sort=foldcase",
+   "-o",
+   "-",
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "int Alpha() {}\nint beta() {}\nint GAMMA() {}\nint delta() {}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_recursive_with_python_files::279",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--languages=Python",
+   "--recurse",
+   "-o",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_CUDA_parsing::280",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.cu"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cu": "#include <cuda_runtime.h>\n\n__global__ void add_vectors(float *a, float *b, float *c, int n) {\n    int idx = blockIdx.x * blockDim.x + threadIdx.x;\n    if (idx < n) {\n        c[idx] = a[idx] + b[idx];\n    }\n}\n\n__device__ float my_device_func(float x) {\n    return x * x;\n}\n\n__host__ void host_func(int n) {\n    printf(\"n = %d\\n\", n);\n}\n\nint main() {\n    return 0;\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cxx_operator_parsing::281",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.cpp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cpp": "class Vector {\npublic:\n    double x, y, z;\n    Vector(double x=0, double y=0, double z=0) : x(x), y(y), z(z) {}\n    Vector operator+(const Vector& other) const {\n        return Vector(x + other.x, y + other.y, z + other.z);\n    }\n    Vector& operator=(const Vector& other) {\n        x = other.x; y = other.y; z = other.z;\n        return *this;\n    }\n    bool operator==(const Vector& other) const {\n        return x == other.x && y == other.y && z == other.z;\n    }\n    double& operator[](int i) {\n        if (i == 0) return x;\n        if (i == 1) return y;\n        return z;\n    }\n};\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_erlang_records::282",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.erl"
+  ],
+  "stdin": null,
+  "files": {
+   "test.erl": "-module(records).\n-record(person, {name, age, email}).\n-record(point, {x = 0, y = 0}).\n\ncreate_person(Name, Age) ->\n    #person{name = Name, age = Age}.\n\ngreet(#person{name = Name}) ->\n    io:format(\"Hello, ~s!~n\", [Name]).\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_javascript_module_parsing::283",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--language-force=JavaScript",
+   "-o",
+   "-",
+   "test.mjs"
+  ],
+  "stdin": null,
+  "files": {
+   "test.mjs": "export function greet(name) {\n    return `Hello, ${name}!`;\n}\n\nexport class Animal {\n    constructor(name) {\n        this.name = name;\n    }\n    speak() {\n        return `${this.name} speaks`;\n    }\n}\n\nexport const MY_CONST = 42;\n\nexport default class DefaultClass {\n    method() {}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_c_header_file_parsing::284",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "--kinds-C=+dp",
+   "-o",
+   "-",
+   "test.h"
+  ],
+  "stdin": null,
+  "files": {
+   "test.h": "#ifndef TEST_H\n#define TEST_H\n\ntypedef struct {\n    int x;\n    int y;\n} Point;\n\ntypedef enum {\n    COLOR_RED,\n    COLOR_GREEN,\n    COLOR_BLUE\n} Color;\n\nextern int global_var;\n\nint add(int a, int b);\nvoid print_point(const Point *p);\n\n#define MAX_SIZE 100\n#define CLAMP(x, min, max) ((x) < (min) ? (min) : ((x) > (max) ? (max) : (x)))\n\n#endif /* TEST_H */\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yaml_front_matter_parsing::285",
+  "argv": [
+   "--quiet",
+   "--options=NONE",
+   "-o",
+   "-",
+   "test.md"
+  ],
+  "stdin": null,
+  "files": {
+   "test.md": "---\ntitle: My Document\nauthor: John Doe\ndate: 2024-01-01\ntags:\n  - programming\n  - ctags\n---\n\n# Introduction\n\nThis is the content.\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

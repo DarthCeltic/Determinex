@@ -1,0 +1,3689 @@
+[
+ {
+  "name": "test::test_stat_parsing_and_edge_cases::0",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_escaping_in_paths::1",
+  "argv": [
+   "-f",
+   "build.ninja"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_phony_with_multiple_outputs::2",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "all"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_with_multiple_targets::3",
+  "argv": [
+   "-t",
+   "graph",
+   "c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dry_run_with_verbose::4",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-n",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_with_actual_build::5",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-d",
+   "stats"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_nonexistent_file::6",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-t",
+   "query",
+   "nonexistent.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_phony_cycle_warning::7",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-w",
+   "phonycycle=warn"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_by_depth_detailed::8",
+  "argv": [
+   "-t",
+   "targets",
+   "depth"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inputs_with_many_dependencies::9",
+  "argv": [
+   "-t",
+   "inputs",
+   "d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multi_inputs_tool::10",
+  "argv": [
+   "-t",
+   "multi-inputs",
+   "a",
+   "b"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_manifest_with_many_rules::11",
+  "argv": [
+   "-t",
+   "rules"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_with_cycles_detection::12",
+  "argv": [
+   "-t",
+   "graph"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compdb_with_complex_commands::13",
+  "argv": [
+   "-t",
+   "compdb"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_browse_with_build_file::14",
+  "argv": [
+   "-t",
+   "browse",
+   "--no-browser"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_console_pool_builtin::15",
+  "argv": [
+   "output.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_outputs::16",
+  "argv": [
+   "out1.txt",
+   "out2.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_implicit_outputs::17",
+  "argv": [
+   "main.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_order_only_dependencies::18",
+  "argv": [
+   "main"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_phony_cycle_warning_warn::19",
+  "argv": [
+   "-w",
+   "phonycycle=warn"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_load_average_limit::20",
+  "argv": [
+   "-l",
+   "100",
+   "a.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compdb_expand_rsp::21",
+  "argv": [
+   "-t",
+   "compdb",
+   "-x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compdb_targets_expand_rsp::22",
+  "argv": [
+   "-t",
+   "compdb-targets",
+   "-x",
+   "foo.o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clean_with_generator_flag::23",
+  "argv": [
+   "gen_file",
+   "normal_file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_source_list::24",
+  "argv": [
+   "-t",
+   "targets",
+   "rule"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missingdeps_tool::25",
+  "argv": [
+   "-t",
+   "missingdeps",
+   "consumer"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_depth_zero::26",
+  "argv": [
+   "-t",
+   "targets",
+   "depth",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commands_tool_single_command::27",
+  "argv": [
+   "-t",
+   "commands",
+   "-s",
+   "program"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_pool::28",
+  "argv": [
+   "a",
+   "b"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_level_variable_binding::29",
+  "argv": [
+   "-n",
+   "normal.o",
+   "debug.o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::30",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag::31",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_short::32",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_build_file_missing::33",
+  "argv": [
+   "-f",
+   "nonexistent.ninja"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::34",
+  "argv": [
+   "--invalid-flag-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_list_flag::35",
+  "argv": [
+   "-d",
+   "list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tool_list_flag::36",
+  "argv": [
+   "-t",
+   "list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_warning_list_flag::37",
+  "argv": [
+   "-w",
+   "list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_debug_mode::38",
+  "argv": [
+   "-d",
+   "invalid_mode_xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_tool::39",
+  "argv": [
+   "-t",
+   "invalid_tool_xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_specific_target::40",
+  "argv": [
+   "b.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_multiple_targets::41",
+  "argv": [
+   "a.txt",
+   "b.txt",
+   "c.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_mode::42",
+  "argv": [
+   "-v",
+   "output.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_mode_long_flag::43",
+  "argv": [
+   "--verbose",
+   "x.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_mode::44",
+  "argv": [
+   "--quiet",
+   "output.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dry_run_mode::45",
+  "argv": [
+   "-n",
+   "output.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parallel_jobs_zero_means_unlimited::46",
+  "argv": [
+   "-j",
+   "0",
+   "a.txt",
+   "b.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keep_going_option::47",
+  "argv": [
+   "-k",
+   "1",
+   "fail.txt",
+   "success.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_change_directory_option::48",
+  "argv": [
+   "-C",
+   "subdir",
+   "output.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_build_file_option::49",
+  "argv": [
+   "-f",
+   "custom.ninja",
+   "result.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_with_deep_dependency_chain::50",
+  "argv": [
+   "e"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_with_wide_dependency_tree::51",
+  "argv": [
+   "final"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_failure_with_keep_going::52",
+  "argv": [
+   "-k",
+   "0",
+   "fail1",
+   "fail2",
+   "success1",
+   "success2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parallel_build_j2::53",
+  "argv": [
+   "-j",
+   "2",
+   "a",
+   "b",
+   "c",
+   "d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_with_spaces_in_output::54",
+  "argv": [
+   "my output.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_with_cycles_detection::55",
+  "argv": [
+   "a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_mode_shows_reason::56",
+  "argv": [
+   "-d",
+   "explain",
+   "output.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_mode_shows_metrics::57",
+  "argv": [
+   "-d",
+   "stats",
+   "a",
+   "b",
+   "c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_mode_suppresses_output::58",
+  "argv": [
+   "--quiet",
+   "a",
+   "b",
+   "c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_and_quiet_interaction::59",
+  "argv": [
+   "-v",
+   "--quiet",
+   "a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parse_with_equals_in_arguments::60",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "output.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_flags_combined::61",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-v",
+   "-n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_handling::62",
+  "argv": [
+   "--unknown-flag-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_requires_argument::63",
+  "argv": [
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_separator::64",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "--",
+   "target.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_numeric_flag_values::65",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-j",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_jobs::66",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-j",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_flag_values::67",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-j",
+   "-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_large_job_count::68",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-j",
+   "9999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_mode_shows_commands::69",
+  "argv": [
+   "-v",
+   "-f",
+   "build.ninja"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_mode_suppresses_progress::70",
+  "argv": [
+   "--quiet",
+   "-f",
+   "build.ninja"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_tool_shows_path_info::71",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-t",
+   "query",
+   "output.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_tool_lists_targets::72",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-t",
+   "targets"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compdb_tool_outputs_json::73",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-t",
+   "compdb"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_tool_outputs_graphviz::74",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-t",
+   "graph",
+   "output.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_stats_shows_metrics::75",
+  "argv": [
+   "-d",
+   "stats",
+   "-f",
+   "build.ninja"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_on_invalid_flag::76",
+  "argv": [
+   "--invalid-flag-that-does-not-exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_build_file_with_f_option::77",
+  "argv": [
+   "-f",
+   "custom.ninja"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_specific_target::78",
+  "argv": [
+   "target1.txt",
+   "-f",
+   "build.ninja"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commands_tool::79",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-t",
+   "commands",
+   "output.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inputs_tool::80",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-t",
+   "inputs",
+   "output.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rules_tool::81",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-t",
+   "rules"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clparser_coverage::82",
+  "argv": [
+   "-C",
+   "-f",
+   "build.ninja"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_printer_coverage::83",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-j",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_variations::84",
+  "argv": [
+   "-t",
+   "graph",
+   "c.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_browse_tool_coverage::85",
+  "argv": [
+   "-t",
+   "browse",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_stats_mode::86",
+  "argv": [
+   "-d",
+   "stats",
+   "output.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_keepdepfile_mode::87",
+  "argv": [
+   "-d",
+   "keepdepfile",
+   "output.o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_multiple_modes::88",
+  "argv": [
+   "-d",
+   "stats",
+   "-d",
+   "explain",
+   "output.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deps_gcc_format::89",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_depfile_basic_parsing::90",
+  "argv": [
+   "output.o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_depfile_with_spaces_in_paths::91",
+  "argv": [
+   "out.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_builds_with_depfiles::92",
+  "argv": [
+   "a.o",
+   "b.o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_depfile_update_triggers_rebuild::93",
+  "argv": [
+   "main.o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_log_format::94",
+  "argv": [
+   "a",
+   "b",
+   "c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deps_tool_basic::95",
+  "argv": [
+   "foo.o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inputs_tool_no_shell_escape::96",
+  "argv": [
+   "-t",
+   "inputs",
+   "--no-shell-escape",
+   "foo.o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multi_inputs_tool_with_delimiter::97",
+  "argv": [
+   "-t",
+   "multi-inputs",
+   "--delimiter",
+   ":",
+   "foo.o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multi_inputs_tool_with_print0::98",
+  "argv": [
+   "-t",
+   "multi-inputs",
+   "--print0",
+   "foo.o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_target::99",
+  "argv": [
+   "nonexistent_target"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_paths::100",
+  "argv": [
+   "file with spaces.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_generator_attribute::101",
+  "argv": [
+   "generated.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pool_usage::102",
+  "argv": [
+   "a.txt",
+   "b.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_target_not_in_build_file::103",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "nonexistent.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_with_missing_input::104",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-d",
+   "explain"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_with_cycles::105",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-t",
+   "graph"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inputs_with_phony::106",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-t",
+   "inputs",
+   "all"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commands_with_phony::107",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-t",
+   "commands",
+   "phony_target"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_restat_nonexistent_log::108",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-t",
+   "restat"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_directory_as_output::109",
+  "argv": [
+   "mydir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parallel_build_with_failures::110",
+  "argv": [
+   "-j",
+   "4",
+   "-k",
+   "0",
+   "s1",
+   "s2",
+   "f1",
+   "f2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clean_nonexistent_build_log::111",
+  "argv": [
+   "-t",
+   "clean"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deps_nonexistent_log::112",
+  "argv": [
+   "-t",
+   "deps"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_restat_nonexistent_log::113",
+  "argv": [
+   "-t",
+   "restat"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interrupted_build::114",
+  "argv": [
+   "output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_with_no_edges::115",
+  "argv": [
+   "-t",
+   "query",
+   "orphan.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_empty_graph::116",
+  "argv": [
+   "-t",
+   "targets"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missingdeps_no_deps::117",
+  "argv": [
+   "-t",
+   "missingdeps",
+   "a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commands_nonexistent_target::118",
+  "argv": [
+   "-t",
+   "commands",
+   "nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inputs_nonexistent_target::119",
+  "argv": [
+   "-t",
+   "inputs",
+   "nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clean_with_generator_but_no_log::120",
+  "argv": [
+   "-t",
+   "clean",
+   "-g"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_phony_targets::121",
+  "argv": [
+   "all"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_phony_with_no_deps::122",
+  "argv": [
+   "empty"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_job_count::123",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-j"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_flags::124",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-v",
+   "--quiet"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_failed_command_keeps_going::125",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-k",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explicit_target_with_deps::126",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pool_with_depth_1::127",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-j",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_indirect_dependency_chain::128",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "level5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_suppresses_output::129",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "--quiet"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_printer_multiple_jobs::130",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-j",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_with_rule_filter::131",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-t",
+   "targets",
+   "rule",
+   "r1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commands_list_all::132",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-t",
+   "commands"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_multiple_files::133",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-t",
+   "query",
+   "mid.txt",
+   "out.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_all_option::134",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-t",
+   "targets",
+   "all"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keep_going_builds::135",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-k",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_tool_variations::136",
+  "argv": [
+   "-t",
+   "targets",
+   "all"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_tool_variations::137",
+  "argv": [
+   "-t",
+   "query"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inputs_tool_comprehensive::138",
+  "argv": [
+   "-t",
+   "inputs",
+   "level3.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commands_tool_comprehensive::139",
+  "argv": [
+   "-t",
+   "commands",
+   "program"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compdb_targets_tool::140",
+  "argv": [
+   "-t",
+   "compdb-targets",
+   "obj1.o",
+   "obj2.o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_load_average_flag::141",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-l",
+   "10.0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_during_build_with_multiple_jobs::142",
+  "argv": [
+   "-j",
+   "4",
+   "s1",
+   "s2",
+   "f1",
+   "s3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inputs_deep_dependency_chain::143",
+  "argv": [
+   "-t",
+   "inputs",
+   "level5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_large_dependency_graph::144",
+  "argv": [
+   "-t",
+   "graph",
+   "file29"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clean_recursive::145",
+  "argv": [
+   "c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_mode_verbose::146",
+  "argv": [
+   "-d",
+   "explain",
+   "-v",
+   "output.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_mode_detailed::147",
+  "argv": [
+   "-d",
+   "stats"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_progress_status::148",
+  "argv": [
+   "a",
+   "b",
+   "c",
+   "d",
+   "e"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keepdepfile_and_keeprsp_combined::149",
+  "argv": [
+   "-d",
+   "keepdepfile",
+   "-d",
+   "keeprsp",
+   "output.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keepdepfile_mode::150",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-d",
+   "keepdepfile"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keeprsp_mode::151",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-d",
+   "keeprsp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_debug_modes::152",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-d",
+   "stats",
+   "-d",
+   "explain"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cleandead_removes_old_outputs::153",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-t",
+   "cleandead"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_recompact_after_many_builds::154",
+  "argv": [
+   "-t",
+   "recompact"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_depfile_with_target_mismatch::155",
+  "argv": [
+   "correct.o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_load_average_flag::156",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-l",
+   "4.0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_directory_change_flag::157",
+  "argv": [
+   "-C"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_build_file_path::158",
+  "argv": [
+   "-f",
+   "custom.build"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_target_with_hat_syntax::159",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "input.c^"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_targets_specified::160",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "t1.txt",
+   "t2.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_tool_with_multiple_targets::161",
+  "argv": [
+   "-t",
+   "graph",
+   "foo.o",
+   "bar.o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commands_with_no_targets::162",
+  "argv": [
+   "-t",
+   "commands"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compdb_targets_with_multiple_targets::163",
+  "argv": [
+   "-t",
+   "compdb-targets",
+   "foo.o",
+   "bar.o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_with_explicit_input_list::164",
+  "argv": [
+   "result.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_with_outputs::165",
+  "argv": [
+   "-t",
+   "query",
+   "program"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_list_with_specific_depth::166",
+  "argv": [
+   "-t",
+   "targets",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_statement_with_variable_in_path::167",
+  "argv": [
+   "out/file.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_escaping_in_build_statements::168",
+  "argv": [
+   "file\\$with\\$dollars.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_tool_with_multiple_targets::169",
+  "argv": [
+   "-t",
+   "inputs",
+   "program"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_by_nonexistent_rule::170",
+  "argv": [
+   "-t",
+   "targets",
+   "rule",
+   "nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clean_nonexistent_target::171",
+  "argv": [
+   "-t",
+   "clean",
+   "nonexistent.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keeprsp_debug_mode::172",
+  "argv": [
+   "-d",
+   "keeprsp",
+   "output.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_depth_0::173",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-t",
+   "targets",
+   "depth",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_depth_2::174",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-t",
+   "targets",
+   "depth",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multi_inputs_all_targets::175",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-t",
+   "multi-inputs",
+   "o1.txt",
+   "o2.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_variable_scope::176",
+  "argv": [
+   "output1.txt",
+   "output2.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_space_escaping::177",
+  "argv": [
+   "file with space.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_special_characters_in_compdb::178",
+  "argv": [
+   "-t",
+   "compdb",
+   "cc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_operations_with_special_chars::179",
+  "argv": [
+   "-t",
+   "query",
+   "out.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_browse_tool_functionality::180",
+  "argv": [
+   "-t",
+   "browse"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_line_printer_special_sequences::181",
+  "argv": [
+   "-v",
+   "-n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clparser_with_cl_env::182",
+  "argv": [
+   "-n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_deps_checker_functionality::183",
+  "argv": [
+   "-t",
+   "missingdeps"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_unicode_and_control_chars::184",
+  "argv": [
+   "-t",
+   "compdb",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_query_with_dependencies::185",
+  "argv": [
+   "-t",
+   "query",
+   "c.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inputs_tool_functionality::186",
+  "argv": [
+   "-t",
+   "inputs",
+   "output.o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cleandead_tool_functionality::187",
+  "argv": [
+   "-t",
+   "cleandead"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multi_inputs_tool_functionality::188",
+  "argv": [
+   "-t",
+   "multi-inputs",
+   "obj1.o",
+   "obj2.o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_distance_functionality::189",
+  "argv": [
+   "real_targt.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graphviz_output_format::190",
+  "argv": [
+   "-t",
+   "graph",
+   "d.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_debug_flags::191",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-d",
+   "stats",
+   "-d",
+   "keepdepfile"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parallel_with_failures::192",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-j",
+   "2",
+   "-k",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_output_inference::193",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "step3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_tool_by_rule::194",
+  "argv": [
+   "-t",
+   "targets",
+   "rule",
+   "cc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_tool_depth::195",
+  "argv": [
+   "-t",
+   "targets",
+   "depth",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_tool::196",
+  "argv": [
+   "-t",
+   "query",
+   "foo.o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_tool_multiple_targets::197",
+  "argv": [
+   "-t",
+   "query",
+   "foo.o",
+   "bar.o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commands_tool::198",
+  "argv": [
+   "-t",
+   "commands",
+   "foo.o",
+   "bar.o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_tool::199",
+  "argv": [
+   "-t",
+   "graph",
+   "foo.o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compdb_targets_tool::200",
+  "argv": [
+   "-t",
+   "compdb-targets",
+   "foo.o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clean_tool_by_rule::201",
+  "argv": [
+   "foo.o",
+   "bar.o",
+   "program"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multi_inputs_tool::202",
+  "argv": [
+   "-t",
+   "multi-inputs",
+   "foo.o",
+   "bar.o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_tool_with_depth::203",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-t",
+   "targets",
+   "depth",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_targets_tool_with_rule::204",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-t",
+   "targets",
+   "rule",
+   "rule_a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compdb_targets_multiple::205",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-t",
+   "compdb-targets",
+   "obj1.o",
+   "obj2.o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_tool_with_target::206",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-t",
+   "graph",
+   "b.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_tool_multiple_paths::207",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-t",
+   "query",
+   "out1.txt",
+   "out2.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inputs_tool_transitive::208",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-t",
+   "inputs",
+   "final.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commands_tool_with_multiple_targets::209",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-t",
+   "commands",
+   "t1.txt",
+   "t2.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multi_inputs_tool::210",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-t",
+   "multi-inputs",
+   "out1.txt",
+   "out2.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concurrent_builds::211",
+  "argv": [
+   "-f",
+   "build.ninja",
+   "-j",
+   "4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_long_flag_is_error_and_mentions_flag::212",
+  "argv": [
+   "--no-such-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_short_flag_is_error_and_mentions_flag::213",
+  "argv": [
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dash_j_missing_value_is_fatal_invalid_j_parameter::214",
+  "argv": [
+   "-j"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dash_dash_stops_option_parsing_and_causes_default_buildfile_lookup_error::215",
+  "argv": [
+   "--",
+   "-f",
+   "empty.ninja",
+   "-n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pool_usage::216",
+  "argv": [
+   "-j",
+   "4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_with_dependencies::217",
+  "argv": [
+   "c.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tool_inputs_with_depth::218",
+  "argv": [
+   "-t",
+   "inputs",
+   "b.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clean_with_rule_flag::219",
+  "argv": [
+   "-t",
+   "clean",
+   "-r",
+   "touch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_with_verbose::220",
+  "argv": [
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_with_quiet::221",
+  "argv": [
+   "--quiet"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_specific_target::222",
+  "argv": [
+   "target1.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_targets::223",
+  "argv": [
+   "target1.txt",
+   "target2.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parallel_jobs::224",
+  "argv": [
+   "-j",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_target::225",
+  "argv": [
+   "nonexistent_target.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_explain::226",
+  "argv": [
+   "-d",
+   "explain"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_keepdepfile::227",
+  "argv": [
+   "-d",
+   "keepdepfile"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_debug_multiple_modes::228",
+  "argv": [
+   "-d",
+   "stats",
+   "-d",
+   "explain"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keep_going_flag::229",
+  "argv": [
+   "-k",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_directory_change::230",
+  "argv": [
+   "-C",
+   "/nonexistent/directory/path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tool_browse_help::231",
+  "argv": [
+   "-t",
+   "browse",
+   "--port=0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tool_commands_multiple_targets::232",
+  "argv": [
+   "-t",
+   "commands",
+   "a.txt",
+   "b.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tool_query_multiple_paths::233",
+  "argv": [
+   "-t",
+   "query",
+   "intermediate.txt",
+   "output.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compdb_targets_specific::234",
+  "argv": [
+   "-t",
+   "compdb-targets",
+   "obj1.o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_warning_phonycycle_err::235",
+  "argv": [
+   "-w",
+   "phonycycle=err"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_load_average_limit::236",
+  "argv": [
+   "-l",
+   "1000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_infinite_jobs::237",
+  "argv": [
+   "-j",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_with_verbose::238",
+  "argv": [
+   "--quiet",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tool_targets_with_rule::239",
+  "argv": [
+   "-t",
+   "targets",
+   "rule",
+   "touch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tool_commands::240",
+  "argv": [
+   "-t",
+   "commands",
+   "output.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tool_inputs::241",
+  "argv": [
+   "-t",
+   "inputs",
+   "output.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tool_query::242",
+  "argv": [
+   "-t",
+   "query",
+   "intermediate.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tool_graph::243",
+  "argv": [
+   "-t",
+   "graph",
+   "output.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tool_clean_specific_target::244",
+  "argv": [
+   "-t",
+   "clean",
+   "target1.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_specific_target_only::245",
+  "argv": [
+   "out1.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_target_error::246",
+  "argv": [
+   "nonexistent.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_directory_flag::247",
+  "argv": [
+   "-C",
+   "subdir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parallelism_flag::248",
+  "argv": [
+   "-j",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_phony_target_as_rebuild_alias::249",
+  "argv": [
+   "rebuild"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_multiple_specific_targets::250",
+  "argv": [
+   "out2.txt",
+   "out4.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parallel_directory_creation::251",
+  "argv": [
+   "-j",
+   "50"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_issue_1418::252",
+  "argv": [
+   "rule echo\n  command = sleep $delay && echo $out\n  description = echo $out\n\nbuild a: echo\n  delay = 3\nbuild b: echo\n  delay = 2\nbuild c: echo\n  delay = 1\n",
+   "-j3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_issue_1214::253",
+  "argv": [
+   "rule echo\n  command = printf '\u001b[31mred\u001b[0m'\n  description = echo $out\n\nbuild a: echo\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_issue_1966::254",
+  "argv": [
+   "rule cat\n  command = cat $rspfile $rspfile > $out\n  rspfile = cat.rsp\n  rspfile_content = a b c\n\nbuild cat: cat\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_issue_2499::255",
+  "argv": [
+   "rule touch\n  command = touch $out\n\nbuild foo: touch\nbuild bar: touch foo\nbuild zoo: touch bar\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_depfile_directory_creation::256",
+  "argv": [
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status::257",
+  "argv": [
+   "rule echo\n  command = echo $out > $out\nbuild a: echo\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tool_inputs::258",
+  "argv": [
+   "\nrule cat\n  command = cat $in $out\nbuild out1 : cat in1\nbuild out2 : cat in2 out1\nbuild out3 : cat out2 out1 | implicit || order_only\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tool_multi_inputs::259",
+  "argv": [
+   "\nrule cat\n  command = cat $in $out\nbuild out1 : cat in1\nbuild out2 : cat in1 in2\nbuild out3 : cat in1 in2 in3\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explain_output::260",
+  "argv": [
+   "-v -d explain"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_issue_2586::261",
+  "argv": [
+   "rule echo\n  command = echo echo\nbuild dep: echo\nbuild console1: echo dep\n  pool = console\nbuild console2: echo\n  pool = console\nbuild all: phony console1 console2\ndefault all\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "NINJA_STATUS": ""
+  }
+ },
+ {
+  "name": "test::test_chdir_to_missing_directory_is_fatal_stderr_and_exit_code_1::262",
+  "argv": [
+   "-C",
+   "/tmp/ninja_missing_dir_for_io_tests",
+   "-n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_n_dry_run_prints_command_but_does_not_create_output_file::263",
+  "argv": [
+   "-C",
+   "-n",
+   "out.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_build_creates_output_file_and_progress_on_stdout::264",
+  "argv": [
+   "-C",
+   "out.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_suppresses_progress_but_not_command_output::265",
+  "argv": [
+   "-C",
+   "--quiet",
+   "out"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_includes_command_line::266",
+  "argv": [
+   "-C",
+   "--verbose",
+   "out"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_exits_nonzero_and_mentions_option_on_stderr::267",
+  "argv": [
+   "--definitely-not-a-real-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subtool_recognized::268",
+  "argv": [
+   "-t"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subtool_error::269",
+  "argv": [
+   "-t",
+   "nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subtool_typo::270",
+  "argv": [
+   "-t",
+   "targest"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_subtool_with_target::271",
+  "argv": [
+   "-t",
+   "query",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clean_subtool_help::272",
+  "argv": [
+   "-t",
+   "clean",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compdb_subtool_help::273",
+  "argv": [
+   "-t",
+   "compdb",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_C_flag_before_subtool::274",
+  "argv": [
+   "-C",
+   "-t",
+   "rules"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_f_flag_with_subtool::275",
+  "argv": [
+   "-f",
+   "custom.ninja",
+   "-t",
+   "rules"
+  ],
+  "stdin": null,
+  "files": {
+   "custom.ninja": "rule touch\n  command = touch $out\n\nbuild test.txt: touch\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_v_flag_with_subtool::276",
+  "argv": [
+   "-v",
+   "-C",
+   "-t",
+   "rules"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_global_flags_with_subtool::277",
+  "argv": [
+   "-C",
+   "-f",
+   "build.ninja",
+   "-t",
+   "targets"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compdb_targets_subtool::278",
+  "argv": [
+   "-t",
+   "compdb-targets",
+   "test.o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_graph_subtool::279",
+  "argv": [
+   "-t",
+   "graph",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commands_subtool::280",
+  "argv": [
+   "-t",
+   "commands",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inputs_subtool::281",
+  "argv": [
+   "-t",
+   "inputs",
+   "test.o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multi_inputs_subtool::282",
+  "argv": [
+   "-t",
+   "multi-inputs",
+   "test.o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subtool_errors_and_is_distinct_from_missing_buildfile::283",
+  "argv": [
+   "-t",
+   "definitely_not_a_tool"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subtool_dispatch_terminates_toplevel_options::284",
+  "argv": [
+   "-v",
+   "-t",
+   "clean"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

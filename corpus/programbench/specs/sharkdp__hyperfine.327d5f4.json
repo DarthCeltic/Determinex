@@ -1,0 +1,58 @@
+{
+ "slug": "sharkdp__hyperfine.327d5f4",
+ "language": "",
+ "n_branches": 1,
+ "n_tests_total": 298,
+ "n_examples": 2,
+ "n_with_exact_stdout": 0,
+ "n_with_rc": 2,
+ "n_skipped": 296,
+ "examples": [
+  {
+   "test": "test_style_nocolor_has_progress_no_colors",
+   "argv": [
+    "script",
+    "-q",
+    "-c",
+    "./executable --runs=5 --warmup=0 --style=nocolor 'sleep 0.01'",
+    "/dev/null"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Benchmark 1: sleep 0.01",
+    "Time (mean ± σ):"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_progress.py:94"
+  },
+  {
+   "test": "test_style_full_has_progress_and_colors",
+   "argv": [
+    "script",
+    "-q",
+    "-c",
+    "./executable --runs=5 --warmup=0 --style=full 'sleep 0.01'",
+    "/dev/null"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Benchmark 1: sleep 0.01",
+    "Time (mean ± σ):",
+    "\u001b[1m",
+    "\u001b[32m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_progress.py:127"
+  }
+ ]
+}

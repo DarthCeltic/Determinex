@@ -1,0 +1,7037 @@
+{
+ "slug": "sstadick__hck.b66c751",
+ "language": "",
+ "n_branches": 9,
+ "n_tests_total": 856,
+ "n_examples": 367,
+ "n_with_exact_stdout": 143,
+ "n_with_rc": 342,
+ "n_skipped": 465,
+ "examples": [
+  {
+   "test": "test_ext_test_parse_header_fields",
+   "argv": [
+    "-d",
+    "-",
+    "-r",
+    "-F",
+    "^is_.*$",
+    "-F",
+    "dog",
+    "-F",
+    "\\$%"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_executable_externalized.py:610"
+  },
+  {
+   "test": "test_ext_test_parse_header_fields_literal",
+   "argv": [
+    "-d",
+    "-",
+    "-F",
+    "is"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_executable_externalized.py:626"
+  },
+  {
+   "test": "test_reordering_with_overlapping_ranges",
+   "argv": [
+    "-f",
+    "4,2,1-3"
+   ],
+   "stdin": "a b c d e\n1 2 3 4 5\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "d",
+    "b",
+    "a"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:7"
+  },
+  {
+   "test": "test_exclude_then_include_same_field",
+   "argv": [
+    "-f",
+    "1-5",
+    "-e",
+    "3"
+   ],
+   "stdin": "a b c d e\n1 2 3 4 5\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\td\te"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:17"
+  },
+  {
+   "test": "test_header_selection_with_reordering",
+   "argv": [
+    "-F",
+    "city",
+    "-F",
+    "name",
+    "-F",
+    "age"
+   ],
+   "stdin": "name age city country\nAlice 30 NYC USA\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "city",
+    "name"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:25"
+  },
+  {
+   "test": "test_compression_output_creates_valid_file",
+   "argv": [
+    "-Z",
+    "-o",
+    "input.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc",
+    "1\t2\t3",
+    "4\t5\t6"
+   ],
+   "files": {
+    "input.txt": "a b c\n1 2 3\n4 5 6\n"
+   },
+   "ci": false,
+   "source": "test_advanced_features.py:35"
+  },
+  {
+   "test": "test_literal_delimiter_performance_path",
+   "argv": [
+    "-L",
+    "-d",
+    "|",
+    "-f",
+    "1,3,5",
+    "input.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tc\te",
+    "1\t3\t5"
+   ],
+   "files": {
+    "input.txt": "a|b|c|d|e\n1|2|3|4|5\n"
+   },
+   "ci": false,
+   "source": "test_advanced_features.py:51"
+  },
+  {
+   "test": "test_header_regex_matches_multiple",
+   "argv": [
+    "-r",
+    "-F",
+    "^[an]"
+   ],
+   "stdin": "name age city amount\nAlice 30 NYC 100\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:59"
+  },
+  {
+   "test": "test_exclude_header_with_literal",
+   "argv": [
+    "-E",
+    "age"
+   ],
+   "stdin": "name age city\nAlice 30 NYC\nBob 25 LA\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name\tcity",
+    "Alice\tNYC"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:68"
+  },
+  {
+   "test": "test_multiple_exclude_headers_regex",
+   "argv": [
+    "-r",
+    "-E",
+    "^a",
+    "-E",
+    "city$"
+   ],
+   "stdin": "name age amount city\nAlice 30 100 NYC\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name",
+    "Alice"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:78"
+  },
+  {
+   "test": "test_gzip_input_with_field_selection_and_output",
+   "argv": [
+    "-z",
+    "-f",
+    "1,3,5",
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tc\te",
+    "1\t3\t5",
+    "6\t8\t10"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:89"
+  },
+  {
+   "test": "test_escaped_delimiter_newline",
+   "argv": [
+    "-L",
+    "-d",
+    "\\t"
+   ],
+   "stdin": "a\tb\tc\n1\t2\t3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc",
+    "1\t2\t3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:106"
+  },
+  {
+   "test": "test_delimiter_that_matches_entire_line",
+   "argv": [
+    "-d",
+    ".*"
+   ],
+   "stdin": "a b c\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:120"
+  },
+  {
+   "test": "test_complex_field_range_with_gaps",
+   "argv": [
+    "-f",
+    "1-2,5-6,10-"
+   ],
+   "stdin": "a b c d e f g h i j k l\n1 2 3 4 5 6 7 8 9 10 11 12\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb",
+    "e\tf"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:126"
+  },
+  {
+   "test": "test_output_delimiter_multibyte",
+   "argv": [
+    "-D",
+    "<==>"
+   ],
+   "stdin": "a b c\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a<==>b<==>c",
+    "1<==>2<==>3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:134"
+  },
+  {
+   "test": "test_version_output",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hck"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:6"
+  },
+  {
+   "test": "test_short_version_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hck"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:14"
+  },
+  {
+   "test": "test_help_output",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--delimiter",
+    "--fields",
+    "--output"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:20"
+  },
+  {
+   "test": "test_short_help_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:29"
+  },
+  {
+   "test": "test_gzip_decompression",
+   "argv": [
+    "-z"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc",
+    "1\t2\t3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_compression.py:8"
+  },
+  {
+   "test": "test_gzip_decompression_with_field_selection",
+   "argv": [
+    "-z",
+    "-f",
+    "1,3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tc",
+    "1\t3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_compression.py:21"
+  },
+  {
+   "test": "test_gzip_output_compression",
+   "argv": [
+    "-Z",
+    "-o",
+    "input.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc"
+   ],
+   "files": {
+    "input.txt": "a b c\n1 2 3\n"
+   },
+   "ci": false,
+   "source": "test_compression.py:33"
+  },
+  {
+   "test": "test_compression_threads_option",
+   "argv": [
+    "-Z",
+    "-t",
+    "2",
+    "-o",
+    "input.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "input.txt": "a b c\n1 2 3\n"
+   },
+   "ci": false,
+   "source": "test_compression.py:47"
+  },
+  {
+   "test": "test_compression_level_option",
+   "argv": [
+    "-Z",
+    "-l",
+    "1",
+    "-o",
+    "input.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "input.txt": "a b c\n1 2 3\n"
+   },
+   "ci": false,
+   "source": "test_compression.py:56"
+  },
+  {
+   "test": "test_zstd_decompression",
+   "argv": [
+    "-z"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_compression.py:81"
+  },
+  {
+   "test": "test_bzip2_decompression",
+   "argv": [
+    "bzip2",
+    "-k",
+    "input.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc"
+   ],
+   "files": {
+    "input.txt": "a b c\n1 2 3\n"
+   },
+   "ci": false,
+   "source": "test_compression.py:97"
+  },
+  {
+   "test": "test_custom_regex_delimiter",
+   "argv": [
+    "-d",
+    "[,;]"
+   ],
+   "stdin": "a,b;c\n1;2,3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc",
+    "1\t2\t3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_delimiter_handling.py:12"
+  },
+  {
+   "test": "test_literal_delimiter",
+   "argv": [
+    "-L",
+    "-d",
+    ","
+   ],
+   "stdin": "a,b,c\n1,2,3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc",
+    "1\t2\t3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_delimiter_handling.py:19"
+  },
+  {
+   "test": "test_single_byte_literal_delimiter",
+   "argv": [
+    "-L",
+    "-d",
+    "|"
+   ],
+   "stdin": "a|b|c\n1|2|3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc",
+    "1\t2\t3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_delimiter_handling.py:26"
+  },
+  {
+   "test": "test_multi_char_literal_delimiter",
+   "argv": [
+    "-L",
+    "-d",
+    "::"
+   ],
+   "stdin": "a::b::c\n1::2::3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc",
+    "1\t2\t3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_delimiter_handling.py:33"
+  },
+  {
+   "test": "test_complex_regex_delimiter",
+   "argv": [
+    "-d",
+    "\\d+"
+   ],
+   "stdin": "a123b456c\n1x2y3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_delimiter_handling.py:40"
+  },
+  {
+   "test": "test_escaped_newline_in_delimiter",
+   "argv": [
+    "-d",
+    " "
+   ],
+   "stdin": "a b c\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_delimiter_handling.py:55"
+  },
+  {
+   "test": "test_delimiter_with_special_chars",
+   "argv": [
+    "-L",
+    "-d",
+    "$;$"
+   ],
+   "stdin": "a$;$b$;$c\n1$;$2$;$3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc",
+    "1\t2\t3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_delimiter_handling.py:62"
+  },
+  {
+   "test": "test_space_delimiter_literal",
+   "argv": [
+    "-L",
+    "-d",
+    " "
+   ],
+   "stdin": "a b c\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc",
+    "1\t2\t3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_delimiter_handling.py:69"
+  },
+  {
+   "test": "test_output_to_dash_means_stdout",
+   "argv": [
+    "-o",
+    "-"
+   ],
+   "stdin": "a b c\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc",
+    "1\t2\t3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:6"
+  },
+  {
+   "test": "test_large_field_numbers",
+   "argv": [
+    "-f",
+    "1,1000"
+   ],
+   "stdin": "a b c\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:13"
+  },
+  {
+   "test": "test_very_long_line",
+   "argv": [
+    "-f",
+    "1,50,99"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "field0",
+    "0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:20"
+  },
+  {
+   "test": "test_empty_fields",
+   "argv": [
+    "-L",
+    "-d",
+    ","
+   ],
+   "stdin": "a,,c\n1,,3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:48"
+  },
+  {
+   "test": "test_trailing_delimiter",
+   "argv": [
+    "-L",
+    "-d",
+    ","
+   ],
+   "stdin": "a,b,c,\n1,2,3,\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:56"
+  },
+  {
+   "test": "test_consecutive_delimiters",
+   "argv": [
+    "-L",
+    "-d",
+    ","
+   ],
+   "stdin": "a,,,,b,c\n1,,,,2,3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:71"
+  },
+  {
+   "test": "test_field_selection_all_range",
+   "argv": [
+    "-f",
+    "1-"
+   ],
+   "stdin": "a b c d e\n1 2 3 4 5\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc\td\te",
+    "1\t2\t3\t4\t5"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:110"
+  },
+  {
+   "test": "test_exclude_all_fields_error",
+   "argv": [
+    "-e",
+    "1-"
+   ],
+   "stdin": "a b c\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:117"
+  },
+  {
+   "test": "test_multiple_files_with_different_delimiters",
+   "argv": [
+    "-L",
+    "-d",
+    ",",
+    "-f",
+    "1,3",
+    "file1.txt",
+    "file2.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tc",
+    "1\t3",
+    "d\tf",
+    "4\t6"
+   ],
+   "files": {
+    "file1.txt": "a,b,c\n1,2,3\n",
+    "file2.txt": "d,e,f\n4,5,6\n"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:125"
+  },
+  {
+   "test": "test_field_with_spaces_in_literal_mode",
+   "argv": [
+    "-L",
+    "-d",
+    "|"
+   ],
+   "stdin": "hello world|foo bar|baz\ntest 1|test 2|test 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hello world\tfoo bar\tbaz",
+    "test 1\ttest 2\ttest 3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:144"
+  },
+  {
+   "test": "test_exclude_single_field",
+   "argv": [
+    "-e",
+    "2"
+   ],
+   "stdin": "a b c d\n1 2 3 4\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tc\td",
+    "1\t3\t4"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_field_exclusion.py:5"
+  },
+  {
+   "test": "test_exclude_multiple_fields",
+   "argv": [
+    "-e",
+    "2,4"
+   ],
+   "stdin": "a b c d e\n1 2 3 4 5\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tc\te",
+    "1\t3\t5"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_field_exclusion.py:14"
+  },
+  {
+   "test": "test_exclude_range",
+   "argv": [
+    "-e",
+    "2-4"
+   ],
+   "stdin": "a b c d e f\n1 2 3 4 5 6\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\te\tf",
+    "1\t5\t6"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_field_exclusion.py:21"
+  },
+  {
+   "test": "test_exclude_open_ended_range",
+   "argv": [
+    "-e",
+    "3-"
+   ],
+   "stdin": "a b c d e\n1 2 3 4 5\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb",
+    "1\t2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_field_exclusion.py:28"
+  },
+  {
+   "test": "test_exclude_with_include",
+   "argv": [
+    "-f",
+    "1-4",
+    "-e",
+    "2"
+   ],
+   "stdin": "a b c d e\n1 2 3 4 5\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tc\td",
+    "1\t3\t4"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_field_exclusion.py:37"
+  },
+  {
+   "test": "test_exclude_takes_precedence",
+   "argv": [
+    "-f",
+    "1,2,3",
+    "-e",
+    "2"
+   ],
+   "stdin": "a b c d\n1 2 3 4\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tc",
+    "1\t3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_field_exclusion.py:45"
+  },
+  {
+   "test": "test_exclude_out_of_bounds",
+   "argv": [
+    "-e",
+    "10"
+   ],
+   "stdin": "a b c\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_field_exclusion.py:62"
+  },
+  {
+   "test": "test_single_field_selection",
+   "argv": [
+    "-f",
+    "2"
+   ],
+   "stdin": "a b c\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "b",
+    "2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_field_selection.py:5"
+  },
+  {
+   "test": "test_multiple_discrete_fields",
+   "argv": [
+    "-f",
+    "1,3"
+   ],
+   "stdin": "a b c d\n1 2 3 4\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tc",
+    "1\t3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_field_selection.py:17"
+  },
+  {
+   "test": "test_field_range",
+   "argv": [
+    "-f",
+    "2-4"
+   ],
+   "stdin": "a b c d e\n1 2 3 4 5\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "b\tc\td",
+    "2\t3\t4"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_field_selection.py:24"
+  },
+  {
+   "test": "test_open_ended_range_from_start",
+   "argv": [
+    "-f",
+    "-3"
+   ],
+   "stdin": "a b c d e\n1 2 3 4 5\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc",
+    "1\t2\t3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_field_selection.py:31"
+  },
+  {
+   "test": "test_open_ended_range_to_end",
+   "argv": [
+    "-f",
+    "3-"
+   ],
+   "stdin": "a b c d e\n1 2 3 4 5\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "c\td\te",
+    "3\t4\t5"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_field_selection.py:38"
+  },
+  {
+   "test": "test_combined_ranges_and_discrete",
+   "argv": [
+    "-f",
+    "1-2,4,5-"
+   ],
+   "stdin": "a b c d e f\n1 2 3 4 5 6\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\td\te\tf",
+    "1\t2\t4\t5\t6"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_field_selection.py:45"
+  },
+  {
+   "test": "test_field_reordering",
+   "argv": [
+    "-f",
+    "3,1,2"
+   ],
+   "stdin": "a b c d\n1 2 3 4\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "c\ta\tb",
+    "3\t1\t2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_field_selection.py:52"
+  },
+  {
+   "test": "test_duplicate_field_selection",
+   "argv": [
+    "-f",
+    "1,2,1"
+   ],
+   "stdin": "a b c\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_field_selection.py:59"
+  },
+  {
+   "test": "test_out_of_bounds_field",
+   "argv": [
+    "-f",
+    "1,10"
+   ],
+   "stdin": "a b c\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_field_selection.py:67"
+  },
+  {
+   "test": "test_field_selection_with_custom_delimiter",
+   "argv": [
+    "-d",
+    ",",
+    "-f",
+    "1,3"
+   ],
+   "stdin": "a,b,c,d\n1,2,3,4\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tc",
+    "1\t3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_field_selection.py:81"
+  },
+  {
+   "test": "test_overlapping_ranges",
+   "argv": [
+    "-f",
+    "1-3,2-4"
+   ],
+   "stdin": "a b c d e\n1 2 3 4 5\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc\td"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_field_selection.py:88"
+  },
+  {
+   "test": "test_exclude_by_header_regex",
+   "argv": [
+    "-r",
+    "-E",
+    "^a"
+   ],
+   "stdin": "name age city amount\nAlice 30 NYC 100\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name\tcity",
+    "Alice\tNYC"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_header_exclusion.py:14"
+  },
+  {
+   "test": "test_multiple_header_exclusions",
+   "argv": [
+    "-E",
+    "age",
+    "-E",
+    "city"
+   ],
+   "stdin": "name age city country\nAlice 30 NYC USA\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name\tcountry",
+    "Alice\tUSA"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_header_exclusion.py:22"
+  },
+  {
+   "test": "test_exclude_header_not_found",
+   "argv": [
+    "-E",
+    "nonexistent"
+   ],
+   "stdin": "name age city\nAlice 30 NYC\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name\tage\tcity"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_header_exclusion.py:29"
+  },
+  {
+   "test": "test_combine_include_and_exclude_headers",
+   "argv": [
+    "-F",
+    "name",
+    "-F",
+    "age",
+    "-E",
+    "age"
+   ],
+   "stdin": "name age city\nAlice 30 NYC\nBob 25 LA\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name",
+    "Alice"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_header_exclusion.py:36"
+  },
+  {
+   "test": "test_exclude_header_with_regex",
+   "argv": [
+    "-r",
+    "-E",
+    ".*city$"
+   ],
+   "stdin": "name age bigcity smallcity\nAlice 30 NYC LA\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name\tage",
+    "Alice\t30"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_header_exclusion.py:47"
+  },
+  {
+   "test": "test_select_by_header_literal",
+   "argv": [
+    "-F",
+    "name",
+    "-F",
+    "age"
+   ],
+   "stdin": "name age city\nAlice 30 NYC\nBob 25 LA\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name\tage",
+    "Alice\t30",
+    "Bob\t25"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_header_selection.py:5"
+  },
+  {
+   "test": "test_select_by_header_regex",
+   "argv": [
+    "-r",
+    "-F",
+    "^na"
+   ],
+   "stdin": "name age city\nAlice 30 NYC\nBob 25 LA\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name",
+    "Alice"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_header_selection.py:13"
+  },
+  {
+   "test": "test_multiple_header_selections",
+   "argv": [
+    "-F",
+    "city",
+    "-F",
+    "name"
+   ],
+   "stdin": "name age city\nAlice 30 NYC\nBob 25 LA\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_header_selection.py:20"
+  },
+  {
+   "test": "test_header_with_escaped_sequences",
+   "argv": [
+    "-L",
+    "-d",
+    "\\t",
+    "-F",
+    "name"
+   ],
+   "stdin": "name\tage\tcity\nAlice\t30\tNYC\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name",
+    "Alice"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_header_selection.py:35"
+  },
+  {
+   "test": "test_header_regex_multiple_matches",
+   "argv": [
+    "-r",
+    "-F",
+    "^[ac]"
+   ],
+   "stdin": "age name city\n30 Alice NYC\n25 Bob LA\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_header_selection.py:42"
+  },
+  {
+   "test": "test_header_selection_ordering",
+   "argv": [
+    "-F",
+    "city",
+    "-F",
+    "age",
+    "-F",
+    "name"
+   ],
+   "stdin": "name age city\nAlice 30 NYC\nBob 25 LA\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_header_selection.py:50"
+  },
+  {
+   "test": "test_single_input_file",
+   "argv": [
+    "input.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc",
+    "1\t2\t3",
+    "4\t5\t6"
+   ],
+   "files": {
+    "input.txt": "a b c\n1 2 3\n4 5 6\n"
+   },
+   "ci": false,
+   "source": "test_input_handling.py:6"
+  },
+  {
+   "test": "test_multiple_input_files",
+   "argv": [
+    "input1.txt",
+    "input2.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc",
+    "1\t2\t3",
+    "d\te\tf",
+    "4\t5\t6"
+   ],
+   "files": {
+    "input1.txt": "a b c\n1 2 3\n",
+    "input2.txt": "d e f\n4 5 6\n"
+   },
+   "ci": false,
+   "source": "test_input_handling.py:15"
+  },
+  {
+   "test": "test_file_with_empty_lines",
+   "argv": [
+    "empty_lines.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "empty_lines.txt": "a b c\n\n1 2 3\n\n"
+   },
+   "ci": false,
+   "source": "test_input_handling.py:34"
+  },
+  {
+   "test": "test_file_with_only_header",
+   "argv": [
+    "header_only.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "header1\theader2\theader3"
+   ],
+   "files": {
+    "header_only.txt": "header1 header2 header3\n"
+   },
+   "ci": false,
+   "source": "test_input_handling.py:42"
+  },
+  {
+   "test": "test_file_with_crlf_newlines",
+   "argv": [
+    "--crlf",
+    "crlf.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc",
+    "1\t2\t3"
+   ],
+   "files": {
+    "crlf.txt": "a b c\r\n1 2 3\r\n"
+   },
+   "ci": false,
+   "source": "test_input_handling.py:49"
+  },
+  {
+   "test": "test_default_mmap_behavior",
+   "argv": [
+    "input.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc",
+    "1\t2\t3"
+   ],
+   "files": {
+    "input.txt": "a b c\n1 2 3\n4 5 6\n"
+   },
+   "ci": false,
+   "source": "test_memory_mapping.py:5"
+  },
+  {
+   "test": "test_no_mmap_flag",
+   "argv": [
+    "--no-mmap",
+    "input.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc",
+    "1\t2\t3"
+   ],
+   "files": {
+    "input.txt": "a b c\n1 2 3\n4 5 6\n"
+   },
+   "ci": false,
+   "source": "test_memory_mapping.py:13"
+  },
+  {
+   "test": "test_no_mmap_with_field_selection",
+   "argv": [
+    "--no-mmap",
+    "-f",
+    "1,3",
+    "input.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tc",
+    "1\t3"
+   ],
+   "files": {
+    "input.txt": "a b c d\n1 2 3 4\n"
+   },
+   "ci": false,
+   "source": "test_memory_mapping.py:21"
+  },
+  {
+   "test": "test_no_mmap_with_stdin",
+   "argv": [
+    "--no-mmap"
+   ],
+   "stdin": "a b c\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_memory_mapping.py:29"
+  },
+  {
+   "test": "test_combine_index_and_header_selection",
+   "argv": [
+    "-f",
+    "3",
+    "-F",
+    "name"
+   ],
+   "stdin": "name age city\nAlice 30 NYC\nBob 25 LA\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mixed_selection.py:5"
+  },
+  {
+   "test": "test_combine_all_selection_exclusion",
+   "argv": [
+    "-f",
+    "1-4",
+    "-F",
+    "name",
+    "-e",
+    "2",
+    "-E",
+    "city"
+   ],
+   "stdin": "name age city country\nAlice 30 NYC USA\nBob 25 LA Canada\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_mixed_selection.py:14"
+  },
+  {
+   "test": "test_mixed_selection_output_ordering",
+   "argv": [
+    "-f",
+    "2",
+    "-F",
+    "name"
+   ],
+   "stdin": "name age city\nAlice 30 NYC\nBob 25 LA\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_mixed_selection.py:24"
+  },
+  {
+   "test": "test_exclude_index_and_header",
+   "argv": [
+    "-e",
+    "2",
+    "-E",
+    "city"
+   ],
+   "stdin": "name age city country\nAlice 30 NYC USA\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name\tcountry",
+    "Alice\tUSA"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_mixed_selection.py:34"
+  },
+  {
+   "test": "test_stdout_default",
+   "argv": [
+    "input.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc"
+   ],
+   "files": {
+    "input.txt": "a b c\n1 2 3\n"
+   },
+   "ci": false,
+   "source": "test_output_handling.py:6"
+  },
+  {
+   "test": "test_output_to_file",
+   "argv": [
+    "-o",
+    "input.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc",
+    "1\t2\t3"
+   ],
+   "files": {
+    "input.txt": "a b c\n1 2 3\n"
+   },
+   "ci": false,
+   "source": "test_output_handling.py:14"
+  },
+  {
+   "test": "test_output_file_overwrite",
+   "argv": [
+    "-o",
+    "output.txt",
+    "input.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc"
+   ],
+   "files": {
+    "output.txt": "old content\n",
+    "input.txt": "a b c\n1 2 3\n"
+   },
+   "ci": false,
+   "source": "test_output_handling.py:25"
+  },
+  {
+   "test": "test_custom_output_delimiter",
+   "argv": [
+    "-D",
+    ",",
+    "input.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a,b,c",
+    "1,2,3"
+   ],
+   "files": {
+    "input.txt": "a b c\n1 2 3\n"
+   },
+   "ci": false,
+   "source": "test_output_handling.py:35"
+  },
+  {
+   "test": "test_output_delimiter_with_spaces",
+   "argv": [
+    "-D",
+    " | ",
+    "input.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a | b | c",
+    "1 | 2 | 3"
+   ],
+   "files": {
+    "input.txt": "a b c\n1 2 3\n"
+   },
+   "ci": false,
+   "source": "test_output_handling.py:43"
+  },
+  {
+   "test": "test_use_input_delimiter_as_output",
+   "argv": [
+    "-L",
+    "-d",
+    ",",
+    "-I",
+    "input.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a,b,c",
+    "1,2,3"
+   ],
+   "files": {
+    "input.txt": "a,b,c\n1,2,3\n"
+   },
+   "ci": false,
+   "source": "test_output_handling.py:51"
+  },
+  {
+   "test": "test_use_input_delimiter_with_regex_delimiter",
+   "argv": [
+    "-I",
+    "-d",
+    ","
+   ],
+   "stdin": "a,b,c\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_handling.py:59"
+  },
+  {
+   "test": "test_use_input_delimiter_precedence_over_output_delim",
+   "argv": [
+    "-L",
+    "-d",
+    ",",
+    "-I",
+    "-D",
+    "|"
+   ],
+   "stdin": "a,b,c\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_output_handling.py:67"
+  },
+  {
+   "test": "test_escaped_output_delimiter",
+   "argv": [
+    "-D",
+    "\\n"
+   ],
+   "stdin": "a b c\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\nb\nc"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_handling.py:82"
+  },
+  {
+   "test": "test_help_long_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "delimiter",
+    "fields"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_hck.py:49"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "delimiter"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_hck.py:58"
+  },
+  {
+   "test": "test_single_file_input",
+   "argv": [
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "col1\tcol2\tcol3",
+    "val1\tval2\tval3"
+   ],
+   "files": {
+    "test.txt": "col1 col2 col3\nval1 val2 val3\n"
+   },
+   "ci": false,
+   "source": "test_hck.py:91"
+  },
+  {
+   "test": "test_multiple_file_input",
+   "argv": [
+    "test1.txt",
+    "test2.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb",
+    "1\t2",
+    "c\td",
+    "3\t4"
+   ],
+   "files": {
+    "test1.txt": "a b\n1 2\n",
+    "test2.txt": "c d\n3 4\n"
+   },
+   "ci": false,
+   "source": "test_hck.py:100"
+  },
+  {
+   "test": "test_empty_file_handling",
+   "argv": [
+    "empty.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "empty.txt": ""
+   },
+   "ci": false,
+   "source": "test_hck.py:120"
+  },
+  {
+   "test": "test_custom_regex_delimiter",
+   "argv": [
+    "-d",
+    ":"
+   ],
+   "stdin": "a:b:c\n1:2:3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc",
+    "1\t2\t3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:182"
+  },
+  {
+   "test": "test_complex_regex_delimiter",
+   "argv": [
+    "-d",
+    "[,;]+"
+   ],
+   "stdin": "a,b;c;;d\n1,2;3;;4\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc\td",
+    "1\t2\t3\t4"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:210"
+  },
+  {
+   "test": "test_multiple_space_delimiter",
+   "argv": [
+    "-L",
+    "-d",
+    "  "
+   ],
+   "stdin": "a  b  c\n1  2  3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc",
+    "1\t2\t3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:238"
+  },
+  {
+   "test": "test_escaped_newline_delimiter",
+   "argv": [
+    "-L",
+    "-d",
+    "\\n"
+   ],
+   "stdin": "a\\nb\\nc\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a",
+    "b",
+    "c"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:245"
+  },
+  {
+   "test": "test_range_from_beginning",
+   "argv": [
+    "-f",
+    "-3"
+   ],
+   "stdin": "a b c d\n1 2 3 4\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc",
+    "1\t2\t3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:274"
+  },
+  {
+   "test": "test_range_to_end",
+   "argv": [
+    "-f",
+    "2-"
+   ],
+   "stdin": "a b c d\n1 2 3 4\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "b\tc\td",
+    "2\t3\t4"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:282"
+  },
+  {
+   "test": "test_full_range",
+   "argv": [
+    "-f",
+    "1-"
+   ],
+   "stdin": "a b c\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc",
+    "1\t2\t3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:296"
+  },
+  {
+   "test": "test_complex_field_combination",
+   "argv": [
+    "-f",
+    "1,3,5-"
+   ],
+   "stdin": "a b c d e f\n1 2 3 4 5 6\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tc\te\tf",
+    "1\t3\t5\t6"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:303"
+  },
+  {
+   "test": "test_out_of_bounds_field",
+   "argv": [
+    "-f",
+    "10"
+   ],
+   "stdin": "a b c\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:310"
+  },
+  {
+   "test": "test_reverse_order_fields",
+   "argv": [
+    "-f",
+    "3,2,1"
+   ],
+   "stdin": "a b c\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "c\tb\ta",
+    "3\t2\t1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:318"
+  },
+  {
+   "test": "test_duplicate_field_selection",
+   "argv": [
+    "-f",
+    "1,2,1"
+   ],
+   "stdin": "a b c\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a",
+    "b"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:325"
+  },
+  {
+   "test": "test_exclude_single_field",
+   "argv": [
+    "-e",
+    "2"
+   ],
+   "stdin": "a b c\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tc",
+    "1\t3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:353"
+  },
+  {
+   "test": "test_exclude_multiple_fields",
+   "argv": [
+    "-e",
+    "1,3"
+   ],
+   "stdin": "a b c d\n1 2 3 4\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "b\td",
+    "2\t4"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:361"
+  },
+  {
+   "test": "test_exclude_range",
+   "argv": [
+    "-e",
+    "2-4"
+   ],
+   "stdin": "a b c d e\n1 2 3 4 5\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\te",
+    "1\t5"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:368"
+  },
+  {
+   "test": "test_exclude_precedence_over_field",
+   "argv": [
+    "-f",
+    "1,2,3",
+    "-e",
+    "2"
+   ],
+   "stdin": "a b c\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tc",
+    "1\t3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:382"
+  },
+  {
+   "test": "test_exclude_out_of_bounds",
+   "argv": [
+    "-e",
+    "10"
+   ],
+   "stdin": "a b c\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc",
+    "1\t2\t3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:390"
+  },
+  {
+   "test": "test_single_header_literal",
+   "argv": [
+    "-F",
+    "col2"
+   ],
+   "stdin": "col1 col2 col3\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "col2",
+    "2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:401"
+  },
+  {
+   "test": "test_multiple_header_literals",
+   "argv": [
+    "-F",
+    "col1",
+    "-F",
+    "col3"
+   ],
+   "stdin": "col1 col2 col3\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "col1\tcol3",
+    "1\t3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:408"
+  },
+  {
+   "test": "test_header_regex_with_r_flag",
+   "argv": [
+    "-r",
+    "-F",
+    "col[13]"
+   ],
+   "stdin": "col1 col2 col3\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "col1",
+    "col3",
+    "1",
+    "3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:415"
+  },
+  {
+   "test": "test_multiple_header_regexes",
+   "argv": [
+    "-r",
+    "-F",
+    "^col[12]$"
+   ],
+   "stdin": "col1 col2 col3\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "col1",
+    "col2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:424"
+  },
+  {
+   "test": "test_header_ordering_in_output",
+   "argv": [
+    "-F",
+    "col3",
+    "-F",
+    "col1"
+   ],
+   "stdin": "col1 col2 col3\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "col3\tcol1",
+    "3\t1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:439"
+  },
+  {
+   "test": "test_header_with_special_characters",
+   "argv": [
+    "-F",
+    "col-1"
+   ],
+   "stdin": "col-1 col.2 col_3\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "col-1",
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:454"
+  },
+  {
+   "test": "test_exclude_header_literal",
+   "argv": [
+    "-E",
+    "col2"
+   ],
+   "stdin": "col1 col2 col3\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "col1\tcol3",
+    "1\t3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:465"
+  },
+  {
+   "test": "test_exclude_header_regex",
+   "argv": [
+    "-r",
+    "-E",
+    "col[23]"
+   ],
+   "stdin": "col1 col2 col3\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "col1",
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:473"
+  },
+  {
+   "test": "test_multiple_header_exclusions",
+   "argv": [
+    "-E",
+    "col1",
+    "-E",
+    "col3"
+   ],
+   "stdin": "col1 col2 col3\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "col2",
+    "2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:481"
+  },
+  {
+   "test": "test_mix_header_exclusion_and_selection",
+   "argv": [
+    "-F",
+    "col1",
+    "-F",
+    "col2",
+    "-E",
+    "col1"
+   ],
+   "stdin": "col1 col2 col3\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "col2",
+    "2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:488"
+  },
+  {
+   "test": "test_mix_header_exclusion_and_field",
+   "argv": [
+    "-f",
+    "1-3",
+    "-E",
+    "col2"
+   ],
+   "stdin": "col1 col2 col3\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "col1\tcol3",
+    "1\t3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:498"
+  },
+  {
+   "test": "test_nonexistent_header_exclusion_no_error",
+   "argv": [
+    "-E",
+    "nonexistent"
+   ],
+   "stdin": "col1 col2 col3\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "col1\tcol2\tcol3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:505"
+  },
+  {
+   "test": "test_custom_output_delimiter",
+   "argv": [
+    "-D",
+    ","
+   ],
+   "stdin": "a b c\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a,b,c",
+    "1,2,3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:515"
+  },
+  {
+   "test": "test_pipe_output_delimiter",
+   "argv": [
+    "-D",
+    "|"
+   ],
+   "stdin": "a b c\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a|b|c",
+    "1|2|3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:529"
+  },
+  {
+   "test": "test_multichar_output_delimiter",
+   "argv": [
+    "-D",
+    " | "
+   ],
+   "stdin": "a b c\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a | b | c",
+    "1 | 2 | 3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:536"
+  },
+  {
+   "test": "test_escaped_output_delimiter",
+   "argv": [
+    "-D",
+    "\\n"
+   ],
+   "stdin": "a b c\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\nb\nc"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:543"
+  },
+  {
+   "test": "test_use_input_delimiter_as_output",
+   "argv": [
+    "-L",
+    "-d",
+    ",",
+    "-I"
+   ],
+   "stdin": "a,b,c\n1,2,3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a,b,c",
+    "1,2,3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:550"
+  },
+  {
+   "test": "test_use_input_delim_without_literal",
+   "argv": [
+    "-I",
+    "-d",
+    ","
+   ],
+   "stdin": "a,b,c\n1,2,3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\t"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:557"
+  },
+  {
+   "test": "test_use_input_delim_alone",
+   "argv": [
+    "-I"
+   ],
+   "stdin": "a b c\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\t"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:564"
+  },
+  {
+   "test": "test_conflicting_flags_I_with_D",
+   "argv": [
+    "-L",
+    "-d",
+    ",",
+    "-I",
+    "-D",
+    "|"
+   ],
+   "stdin": "a,b,c\n1,2,3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:571"
+  },
+  {
+   "test": "test_write_to_file",
+   "argv": [
+    "-o"
+   ],
+   "stdin": "a b c\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc",
+    "1\t2\t3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:583"
+  },
+  {
+   "test": "test_overwrite_existing_file",
+   "argv": [
+    "-o",
+    "existing.txt"
+   ],
+   "stdin": "a b c\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc"
+   ],
+   "files": {
+    "existing.txt": "old content"
+   },
+   "ci": false,
+   "source": "test_hck.py:595"
+  },
+  {
+   "test": "test_create_new_output_file",
+   "argv": [
+    "-o"
+   ],
+   "stdin": "a b c\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:605"
+  },
+  {
+   "test": "test_auto_decompress_gz",
+   "argv": [
+    "-z"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "col1\tcol2\tcol3",
+    "1\t2\t3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:629"
+  },
+  {
+   "test": "test_compress_output",
+   "argv": [
+    "-Z",
+    "-o"
+   ],
+   "stdin": "a b c\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc",
+    "1\t2\t3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:641"
+  },
+  {
+   "test": "test_compression_threads",
+   "argv": [
+    "-Z",
+    "-t",
+    "2",
+    "-o"
+   ],
+   "stdin": "a b c\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc",
+    "1\t2\t3",
+    "a\tb\tc"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:656"
+  },
+  {
+   "test": "test_compression_level",
+   "argv": [
+    "-Z",
+    "-l",
+    "1",
+    "-o"
+   ],
+   "stdin": "a b c\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:673"
+  },
+  {
+   "test": "test_no_mmap_flag",
+   "argv": [
+    "--no-mmap",
+    "test.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc",
+    "1\t2\t3"
+   ],
+   "files": {
+    "test.txt": "a b c\n1 2 3\n"
+   },
+   "ci": false,
+   "source": "test_hck.py:688"
+  },
+  {
+   "test": "test_crlf_line_endings",
+   "argv": [
+    "--crlf"
+   ],
+   "stdin": "a b c\r\n1 2 3\r\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc",
+    "1\t2\t3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:719"
+  },
+  {
+   "test": "test_no_delimiter_in_line",
+   "argv": [
+    "-L",
+    "-d",
+    ","
+   ],
+   "stdin": "abc\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "abc"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:809"
+  },
+  {
+   "test": "test_line_with_only_delimiters",
+   "argv": [
+    "-L",
+    "-d",
+    " "
+   ],
+   "stdin": "a b c\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:815"
+  },
+  {
+   "test": "test_field_selection_beyond_available",
+   "argv": [
+    "-f",
+    "1-10"
+   ],
+   "stdin": "a b c\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc",
+    "1\t2\t3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:847"
+  },
+  {
+   "test": "test_process_csv_data",
+   "argv": [
+    "-L",
+    "-d",
+    ",",
+    "-D",
+    "|"
+   ],
+   "stdin": "name,age,city\nAlice,30,NYC\nBob,25,LA\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name|age|city",
+    "Alice|30|NYC",
+    "Bob|25|LA"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:858"
+  },
+  {
+   "test": "test_process_tsv_data",
+   "argv": [
+    "-L",
+    "-d",
+    "\\t"
+   ],
+   "stdin": "name\tage\tcity\nAlice\t30\tNYC\nBob\t25\tLA\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name\tage\tcity",
+    "Alice\t30\tNYC"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:867"
+  },
+  {
+   "test": "test_reorder_columns_practical",
+   "argv": [
+    "-f",
+    "3,1,2"
+   ],
+   "stdin": "first second third\nA B C\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "third\tfirst\tsecond",
+    "C\tA\tB"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:875"
+  },
+  {
+   "test": "test_filter_wide_dataset",
+   "argv": [
+    "-f",
+    "1,5,10,15"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "c0\tc4\tc9\tc14",
+    "0\t4\t9\t14"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:882"
+  },
+  {
+   "test": "test_exclude_columns_from_dataset",
+   "argv": [
+    "-e",
+    "2"
+   ],
+   "stdin": "col1 col2 col3 col4\n1 2 3 4\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "col1\tcol3\tcol4",
+    "1\t3\t4"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:899"
+  },
+  {
+   "test": "test_select_and_reorder_with_headers",
+   "argv": [
+    "-F",
+    "city",
+    "-F",
+    "name"
+   ],
+   "stdin": "name age city\nAlice 30 NYC\nBob 25 LA\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "city\tname",
+    "NYC\tAlice",
+    "LA\tBob"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:930"
+  },
+  {
+   "test": "test_large_file_mmap_threshold",
+   "argv": [
+    "-f",
+    "1,3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tc"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:943"
+  },
+  {
+   "test": "test_small_file_no_mmap",
+   "argv": [
+    "tiny.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc"
+   ],
+   "files": {
+    "tiny.txt": "a b c\n"
+   },
+   "ci": false,
+   "source": "test_hck.py:955"
+  },
+  {
+   "test": "test_field_range_edge_cases",
+   "argv": [
+    "-f",
+    "-2"
+   ],
+   "stdin": "a b c d\n1 2 3 4\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb",
+    "1\t2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:963"
+  },
+  {
+   "test": "test_field_with_whitespace_literal",
+   "argv": [
+    "-L",
+    "-d",
+    "|"
+   ],
+   "stdin": "a b|c d|e f\n1 2|3 4|5 6\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a b\tc d\te f",
+    "1 2\t3 4\t5 6"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:984"
+  },
+  {
+   "test": "test_empty_fields",
+   "argv": [
+    "-L",
+    "-d",
+    ","
+   ],
+   "stdin": "a,,c\n1,,3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\t\tc",
+    "1\t\t3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:991"
+  },
+  {
+   "test": "test_trailing_delimiter",
+   "argv": [
+    "-L",
+    "-d",
+    ","
+   ],
+   "stdin": "a,b,c,\n1,2,3,\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:998"
+  },
+  {
+   "test": "test_leading_delimiter",
+   "argv": [
+    "-L",
+    "-d",
+    ","
+   ],
+   "stdin": "a,b,c\n1,2,3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:1005"
+  },
+  {
+   "test": "test_consecutive_delimiters",
+   "argv": [
+    "-L",
+    "-d",
+    ","
+   ],
+   "stdin": "a,,,b\n1,,,2\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a",
+    "b"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:1012"
+  },
+  {
+   "test": "test_unicode_delimiter",
+   "argv": [
+    "-L",
+    "-d",
+    "•"
+   ],
+   "stdin": "a•b•c\n1•2•3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc",
+    "1\t2\t3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:1020"
+  },
+  {
+   "test": "test_regex_special_chars_literal",
+   "argv": [
+    "-L",
+    "-d",
+    "."
+   ],
+   "stdin": "a.b.c\n1.2.3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc",
+    "1\t2\t3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:1027"
+  },
+  {
+   "test": "test_regex_special_chars_as_regex",
+   "argv": [
+    "-d",
+    "\\."
+   ],
+   "stdin": "a.b.c\n1.2.3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc",
+    "1\t2\t3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:1034"
+  },
+  {
+   "test": "test_header_with_numbers",
+   "argv": [
+    "-F",
+    "123"
+   ],
+   "stdin": "123 456 789\nA B C\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "123",
+    "A"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:1041"
+  },
+  {
+   "test": "test_header_regex_anchors",
+   "argv": [
+    "-r",
+    "-F",
+    "^col"
+   ],
+   "stdin": "col1 notcol col2\nA B C\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "col1",
+    "col2",
+    "A",
+    "C"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:1048"
+  },
+  {
+   "test": "test_exclude_all_but_one",
+   "argv": [
+    "-e",
+    "1,3,4,5"
+   ],
+   "stdin": "a b c d e\n1 2 3 4 5\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "b",
+    "2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:1057"
+  },
+  {
+   "test": "test_field_selection_with_gaps",
+   "argv": [
+    "-f",
+    "1,5,10"
+   ],
+   "stdin": "a b c d e f g h i j k\n1 2 3 4 5 6 7 8 9 10 11\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\te\tj",
+    "1\t5\t10"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:1065"
+  },
+  {
+   "test": "test_output_delimiter_multiline",
+   "argv": [
+    "-D",
+    ","
+   ],
+   "stdin": "a b c\n1 2 3\n4 5 6\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a,b,c",
+    "1,2,3",
+    "4,5,6"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:1072"
+  },
+  {
+   "test": "test_compression_with_field_selection",
+   "argv": [
+    "-z",
+    "-f",
+    "1,3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "col1\tcol3",
+    "1\t3",
+    "4\t6"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:1090"
+  },
+  {
+   "test": "test_multiple_files_with_headers",
+   "argv": [
+    "-F",
+    "name",
+    "file1.txt",
+    "file2.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name",
+    "Alice",
+    "Bob"
+   ],
+   "files": {
+    "file1.txt": "name age\nAlice 30\n",
+    "file2.txt": "name age\nBob 25\n"
+   },
+   "ci": false,
+   "source": "test_hck.py:1105"
+  },
+  {
+   "test": "test_exclude_with_reordering",
+   "argv": [
+    "-f",
+    "3,1,2",
+    "-e",
+    "2"
+   ],
+   "stdin": "a b c d\n1 2 3 4\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "c\ta",
+    "3\t1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:1116"
+  },
+  {
+   "test": "test_very_large_field_count",
+   "argv": [
+    "-f",
+    "1,50,100,150,200"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0\t49\t99\t149\t199"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:1126"
+  },
+  {
+   "test": "test_regex_delimiter_alternation",
+   "argv": [
+    "-d",
+    ",|;"
+   ],
+   "stdin": "a,b;c,d\n1,2;3,4\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc\td",
+    "1\t2\t3\t4"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:1139"
+  },
+  {
+   "test": "test_header_selection_preserves_data",
+   "argv": [
+    "-F",
+    "col2",
+    "-F",
+    "col4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "col2\tcol4",
+    "r0c2\tr0c4",
+    "r9c2\tr9c4"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:1146"
+  },
+  {
+   "test": "test_input_from_stdin_with_dash",
+   "argv": [
+    "-"
+   ],
+   "stdin": "a b c\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc",
+    "1\t2\t3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:1167"
+  },
+  {
+   "test": "test_compressed_stdin_with_header_field_warning",
+   "argv": [
+    "-z",
+    "-F",
+    "col1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "col1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:1174"
+  },
+  {
+   "test": "test_output_to_special_path",
+   "argv": [
+    "-o"
+   ],
+   "stdin": "a b c\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc",
+    "1\t2\t3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:1203"
+  },
+  {
+   "test": "test_very_long_line",
+   "argv": [
+    "-f",
+    "1,500,999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0",
+    "499",
+    "998"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:1217"
+  },
+  {
+   "test": "test_regex_with_special_chars",
+   "argv": [
+    "-d",
+    "\\s*,\\s*"
+   ],
+   "stdin": "a , b , c\n1 , 2 , 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc",
+    "1\t2\t3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:1227"
+  },
+  {
+   "test": "test_literal_delimiter_with_backslash",
+   "argv": [
+    "-L",
+    "-d",
+    "\\"
+   ],
+   "stdin": "a\\b\\c\n1\\2\\3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tb\tc",
+    "1\t2\t3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:1234"
+  },
+  {
+   "test": "test_header_field_with_escaped_chars",
+   "argv": [
+    "-d",
+    "\\t",
+    "-F",
+    "col2"
+   ],
+   "stdin": "col1\tcol2\tcol3\n1\t2\t3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "col2",
+    "2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:1241"
+  },
+  {
+   "test": "test_multiple_input_files_with_different_delimiters",
+   "argv": [
+    "-L",
+    "-d",
+    ",",
+    "-f",
+    "1,3",
+    "test1.txt",
+    "test2.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tc",
+    "1\t3",
+    "d\tf",
+    "4\t6"
+   ],
+   "files": {
+    "test1.txt": "a,b,c\n1,2,3\n",
+    "test2.txt": "d,e,f\n4,5,6\n"
+   },
+   "ci": false,
+   "source": "test_hck.py:1248"
+  },
+  {
+   "test": "test_field_selection_with_no_delimiter_match",
+   "argv": [
+    "-L",
+    "-d",
+    "|",
+    "-f",
+    "1"
+   ],
+   "stdin": "a b c\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a b c",
+    "1 2 3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:1260"
+  },
+  {
+   "test": "test_exclude_and_include_same_field",
+   "argv": [
+    "-f",
+    "1-3",
+    "-e",
+    "2"
+   ],
+   "stdin": "a b c d\n1 2 3 4\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a\tc",
+    "1\t3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:1269"
+  },
+  {
+   "test": "test_empty_output_delimiter",
+   "argv": [
+    "-D",
+    ""
+   ],
+   "stdin": "a b c\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "abc",
+    "123"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_hck.py:1288"
+  },
+  {
+   "test": "test_stdin_default_splits_whitespace_regex_and_outputs_tsv",
+   "argv": [
+    "-f2,1"
+   ],
+   "stdin": "a  b\tc\n1   2\t3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "b\ta\n2\t1\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_hck_io.py:11"
+  },
+  {
+   "test": "test_literal_delimiter_and_use_input_delim_outputs_same_delimiter",
+   "argv": [
+    "-L",
+    "-d",
+    ",",
+    "-I",
+    "-f1-2"
+   ],
+   "stdin": "x,y,z\n1,2,3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "x,y\n1,2\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_hck_io.py:20"
+  },
+  {
+   "test": "test_multiple_inputs_preserve_order_across_files",
+   "argv": [
+    "-f2",
+    "a.txt",
+    "b.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "b\nd\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "a.txt": "a b\n",
+    "b.txt": "c d\n"
+   },
+   "ci": false,
+   "source": "test_hck_io.py:28"
+  },
+  {
+   "test": "test_explicit_output_file_flag_writes_file_and_no_stdout",
+   "argv": [
+    "-f1",
+    "-o"
+   ],
+   "stdin": "a b\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_hck_io.py:41"
+  },
+  {
+   "test": "test_header_field_selection_merges_with_index_selection_order",
+   "argv": [
+    "-F",
+    "PID",
+    "-F",
+    "USER",
+    "-f3"
+   ],
+   "stdin": "USER PID CPU\nroot 1 0.0\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "PID\tCPU\tUSER\n1\t0.0\troot\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_hck_io.py:51"
+  },
+  {
+   "test": "test_exclude_fields_take_precedence_over_fields",
+   "argv": [
+    "-f1-3",
+    "-e2"
+   ],
+   "stdin": "a b c\n1 2 3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a\tc\n1\t3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_hck_io.py:62"
+  },
+  {
+   "test": "test_nonexistent_input_file_exits_1_and_writes_error_to_stderr_only",
+   "argv": [
+    "/no/such/file"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_hck_io.py:70"
+  },
+  {
+   "test": "test_try_decompress_gz_file_with_z_flag",
+   "argv": [
+    "-z",
+    "-f2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "b\n2\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_hck_io.py:78"
+  },
+  {
+   "test": "test_help_precedes_other_flags_even_if_invalid",
+   "argv": [
+    "--help",
+    "--definitely-not-a-real-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:122"
+  },
+  {
+   "test": "test_double_dash_separator_does_not_trigger_help",
+   "argv": [
+    "--",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "No such file or directory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:129"
+  },
+  {
+   "test": "test_default_whitespace_delimiter",
+   "argv": [
+    "-f",
+    "1,3"
+   ],
+   "stdin": "a b c d\n1 2 3 4\nx y z w\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a\tc\n1\t3\nx\tz\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delimiters.py:9"
+  },
+  {
+   "test": "test_regex_comma_delimiter",
+   "argv": [
+    "-d",
+    ",",
+    "-f",
+    "1,3"
+   ],
+   "stdin": "a,b,c,d\n1,2,3,4\nx,y,z,w\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a\tc\n1\t3\nx\tz\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delimiters.py:20"
+  },
+  {
+   "test": "test_regex_multiple_commas",
+   "argv": [
+    "-d",
+    ",+",
+    "-f",
+    "1,3"
+   ],
+   "stdin": "a,,b,,,c,d\n1,2,,3,4\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a\tc\n1\t3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delimiters.py:31"
+  },
+  {
+   "test": "test_literal_comma_delimiter",
+   "argv": [
+    "-Ld",
+    ",",
+    "-f",
+    "1,3"
+   ],
+   "stdin": "a,b,c,d\n1,2,3,4\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a\tc\n1\t3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delimiters.py:42"
+  },
+  {
+   "test": "test_literal_multichar_delimiter",
+   "argv": [
+    "-Ld",
+    "::",
+    "-f",
+    "1,3"
+   ],
+   "stdin": "a::b::c::d\n1::2::3::4\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a\tc\n1\t3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delimiters.py:53"
+  },
+  {
+   "test": "test_literal_pipe_metachar",
+   "argv": [
+    "-Ld",
+    "|",
+    "-f",
+    "1,3"
+   ],
+   "stdin": "a|b|c|d\n1|2|3|4\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a\tc\n1\t3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delimiters.py:64"
+  },
+  {
+   "test": "test_literal_dot_metachar",
+   "argv": [
+    "-Ld",
+    ".",
+    "-f",
+    "1,3"
+   ],
+   "stdin": "a.b.c.d\n1.2.3.4\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a\tc\n1\t3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delimiters.py:75"
+  },
+  {
+   "test": "test_output_delimiter_comma",
+   "argv": [
+    "-Ld",
+    ",",
+    "-D",
+    ",",
+    "-f",
+    "1,3"
+   ],
+   "stdin": "a,b,c,d\n1,2,3,4\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a,c\n1,3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delimiters.py:86"
+  },
+  {
+   "test": "test_output_delimiter_multichar",
+   "argv": [
+    "-Ld",
+    ",",
+    "-D",
+    " | ",
+    "-f",
+    "1,3"
+   ],
+   "stdin": "a,b,c,d\n1,2,3,4\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a | c\n1 | 3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delimiters.py:97"
+  },
+  {
+   "test": "test_use_input_delimiter_flag",
+   "argv": [
+    "-Ld",
+    ",",
+    "-I",
+    "-f",
+    "1,3"
+   ],
+   "stdin": "a,b,c,d\n1,2,3,4\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a,c\n1,3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delimiters.py:108"
+  },
+  {
+   "test": "test_regex_alternation_pattern",
+   "argv": [
+    "-d",
+    "[,;:|]",
+    "-f",
+    "1,3,5"
+   ],
+   "stdin": "a,b;c|d:e\n1,2;3|4:5\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a\tc\te\n1\t3\t5\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delimiters.py:119"
+  },
+  {
+   "test": "test_consecutive_delimiters_regex_mode",
+   "argv": [
+    "-d",
+    ",",
+    "-f",
+    "1-6"
+   ],
+   "stdin": "a,,b,,,c,d\n1,,2,3,,4\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a\t\tb\t\t\tc\n1\t\t2\t3\t\t4\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delimiters.py:130"
+  },
+  {
+   "test": "test_consecutive_delimiters_literal_mode",
+   "argv": [
+    "-Ld",
+    ",",
+    "-f",
+    "1-6"
+   ],
+   "stdin": "a,,b,,,c,d\n1,,2,3,,4\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a\t\tb\t\t\tc\n1\t\t2\t3\t\t4\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delimiters.py:141"
+  },
+  {
+   "test": "test_mixed_whitespace_default_regex",
+   "argv": [
+    "-f",
+    "1,3"
+   ],
+   "stdin": "a\t b  c   d\n1\t\t2   3  4\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a\tc\n1\t3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delimiters.py:152"
+  },
+  {
+   "test": "test_tab_delimiter_literal",
+   "argv": [
+    "-Ld",
+    "\t",
+    "-f",
+    "1,3"
+   ],
+   "stdin": "a\tb\tc\td\n1\t2\t3\t4\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a\tc\n1\t3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delimiters.py:163"
+  },
+  {
+   "test": "test_empty_lines_preserved",
+   "argv": [
+    "-f",
+    "1"
+   ],
+   "stdin": "a\n\nb\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a\n\nb\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delimiters.py:194"
+  },
+  {
+   "test": "test_regex_digit_delimiter",
+   "argv": [
+    "-d",
+    "[0-9]+",
+    "-f",
+    "1,2,3"
+   ],
+   "stdin": "abc123def456ghi\nabc789def012ghi\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "abc\tdef\tghi\nabc\tdef\tghi\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delimiters.py:205"
+  },
+  {
+   "test": "test_regex_multiple_colons",
+   "argv": [
+    "-d",
+    ":+",
+    "-f",
+    "1,3"
+   ],
+   "stdin": "a:::b::c:d\n1::2:::3:4\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a\tc\n1\t3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delimiters.py:216"
+  },
+  {
+   "test": "test_regex_posix_character_class",
+   "argv": [
+    "-d",
+    "[[:space:]]+",
+    "-f",
+    "1,3"
+   ],
+   "stdin": "a  b\tc   d\n1\t\t2  3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a\tc\n1\t3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delimiters.py:227"
+  },
+  {
+   "test": "test_field_range_beyond_available",
+   "argv": [
+    "-Ld",
+    ",",
+    "-f",
+    "1-10"
+   ],
+   "stdin": "a,b,c\n1,2,3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a\tb\tc\n1\t2\t3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delimiters.py:238"
+  },
+  {
+   "test": "test_tab_as_regex_delimiter",
+   "argv": [
+    "-d",
+    "\\t",
+    "-f",
+    "1,3"
+   ],
+   "stdin": "a\tb\tc\n1\t2\t3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a\tc\n1\t3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delimiters.py:249"
+  },
+  {
+   "test": "test_output_delimiter_multichar_colons",
+   "argv": [
+    "-Ld",
+    ",",
+    "-D",
+    "::",
+    "-f",
+    "1,3"
+   ],
+   "stdin": "a,b,c,d\n1,2,3,4\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a::c\n1::3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delimiters.py:259"
+  },
+  {
+   "test": "test_unicode_bullet_literal_delimiter",
+   "argv": [
+    "-Ld",
+    "•",
+    "-f",
+    "1,3"
+   ],
+   "stdin": "a•b•c•d\n1•2•3•4\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a\tc\n1\t3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delimiters.py:269"
+  },
+  {
+   "test": "test_unicode_katakana_literal_delimiter",
+   "argv": [
+    "-Ld",
+    "ー",
+    "-f",
+    "1,3"
+   ],
+   "stdin": "aーbーcーd\n1ー2ー3ー4\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a\tc\n1\t3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delimiters.py:279"
+  },
+  {
+   "test": "test_use_input_delim_all_fields",
+   "argv": [
+    "-Ld",
+    ",",
+    "-I",
+    "-f",
+    "1-4"
+   ],
+   "stdin": "a,b,c,d\n1,2,3,4\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a,b,c,d\n1,2,3,4\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delimiters.py:289"
+  },
+  {
+   "test": "test_invalid_regex_delimiter_error",
+   "argv": [
+    "-d",
+    "(",
+    "-f",
+    "1"
+   ],
+   "stdin": "a,b,c\n",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delimiters.py:311"
+  },
+  {
+   "test": "test_reordered_field_selection",
+   "argv": [
+    "-Ld",
+    ",",
+    "-f",
+    "5,3,1"
+   ],
+   "stdin": "a,b,c,d,e\n1,2,3,4,5\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "e\tc\ta\n5\t3\t1\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delimiters.py:323"
+  },
+  {
+   "test": "test_field_range_combinations",
+   "argv": [
+    "-Ld",
+    ",",
+    "-D",
+    " | ",
+    "-f",
+    "1-3,5-"
+   ],
+   "stdin": "a,b,c,d,e,f\n1,2,3,4,5,6\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a | b | c | e | f\n1 | 2 | 3 | 5 | 6\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delimiters.py:334"
+  },
+  {
+   "test": "test_single_byte_fast_mode_sorted_fields",
+   "argv": [
+    "-Ld",
+    ",",
+    "-f",
+    "1,2,4"
+   ],
+   "stdin": "a,b,c,d,e\n1,2,3,4,5\nx,y,z,w,v\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a\tb\td\n1\t2\t4\nx\ty\tw\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delimiters.py:345"
+  },
+  {
+   "test": "test_crlf_line_terminator",
+   "argv": [
+    "--crlf",
+    "-Ld",
+    ",",
+    "-f",
+    "1,3"
+   ],
+   "stdin": "a,b,c\r\n1,2,3\r\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delimiters.py:356"
+  },
+  {
+   "test": "test_missing_fields_preserved",
+   "argv": [
+    "-Ld",
+    ",",
+    "-f",
+    "1,2"
+   ],
+   "stdin": "a,b\n,c\nd,\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a\tb\n\tc\nd\t\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delimiters.py:383"
+  },
+  {
+   "test": "test_space_plus_regex_collapse",
+   "argv": [
+    "-d",
+    " +",
+    "-f",
+    "1,3"
+   ],
+   "stdin": "a b  c   d\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a\tc\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delimiters.py:394"
+  },
+  {
+   "test": "test_nonexistent_field_selection",
+   "argv": [
+    "-Ld",
+    ",",
+    "-f",
+    "10"
+   ],
+   "stdin": "a,b,c\n1,2,3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "\n\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delimiters.py:405"
+  },
+  {
+   "test": "test_field_zero_error",
+   "argv": [
+    "-Ld",
+    ",",
+    "-f",
+    "0"
+   ],
+   "stdin": "a,b,c\n",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_delimiters.py:416"
+  },
+  {
+   "test": "test_empty_stdin",
+   "argv": [
+    "-f",
+    "1"
+   ],
+   "stdin": "\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:20"
+  },
+  {
+   "test": "test_single_field_first",
+   "argv": [
+    "-L",
+    "-d",
+    "\t",
+    "-f",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Name\nAlice\nBob\nCarol\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:11"
+  },
+  {
+   "test": "test_single_field_middle",
+   "argv": [
+    "-L",
+    "-d",
+    "\t",
+    "-f",
+    "3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "City\nNew York\nLondon\nParis\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:23"
+  },
+  {
+   "test": "test_multiple_fields_non_consecutive",
+   "argv": [
+    "-L",
+    "-d",
+    "\t",
+    "-f",
+    "1,3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Name\tCity\nAlice\tNew York\nBob\tLondon\nCarol\tParis\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:36"
+  },
+  {
+   "test": "test_range_consecutive",
+   "argv": [
+    "-L",
+    "-d",
+    "\t",
+    "-f",
+    "1-3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Name\tAge\tCity\nAlice\t28\tNew York\nBob\t35\tLondon\nCarol\t42\tParis\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:48"
+  },
+  {
+   "test": "test_open_ended_range_to_end",
+   "argv": [
+    "-L",
+    "-d",
+    "\t",
+    "-f",
+    "2-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Age\tCity\tCountry\n28\tNew York\tUSA\n35\tLondon\tUK\n42\tParis\tFrance\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:60"
+  },
+  {
+   "test": "test_open_ended_range_from_start",
+   "argv": [
+    "-L",
+    "-d",
+    "\t",
+    "-f",
+    "-2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Name\tAge\nAlice\t28\nBob\t35\nCarol\t42\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:73"
+  },
+  {
+   "test": "test_complex_combination",
+   "argv": [
+    "-L",
+    "-d",
+    "\t",
+    "-f",
+    "1,3-4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Name\tCity\tCountry\nAlice\tNew York\tUSA\nBob\tLondon\tUK\nCarol\tParis\tFrance\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:85"
+  },
+  {
+   "test": "test_out_of_order_specification",
+   "argv": [
+    "-L",
+    "-d",
+    "\t",
+    "-f",
+    "3,1,2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "City\tName\tAge\nNew York\tAlice\t28\nLondon\tBob\t35\nParis\tCarol\t42\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:98"
+  },
+  {
+   "test": "test_deduplication_overlapping_ranges",
+   "argv": [
+    "-L",
+    "-d",
+    "\t",
+    "-f",
+    "4-,1,5-8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "f4\tf5\tf6\tf7\tf8\tf9\tf10\tf1\n4\t5\t6\t7\t8\t9\t10\t1\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:111"
+  },
+  {
+   "test": "test_empty_fields_preserved",
+   "argv": [
+    "-L",
+    "-d",
+    "\t",
+    "-f",
+    "1,2,3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a\tb\tc\n1\t\t3\n5\t6\t\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:124"
+  },
+  {
+   "test": "test_missing_fields_handled",
+   "argv": [
+    "-L",
+    "-d",
+    "\t",
+    "-f",
+    "1,3,4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a\tc\n1\n3\t5\t6\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:137"
+  },
+  {
+   "test": "test_empty_lines_preserved",
+   "argv": [
+    "-L",
+    "-d",
+    "\t",
+    "-f",
+    "1,2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a\tb\n\n1\t2\n\n4\t5\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:150"
+  },
+  {
+   "test": "test_space_delimited_default_regex",
+   "argv": [
+    "-f",
+    "1,3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Name\tCity\nAlice\tNYC\nBob\tLondon\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:162"
+  },
+  {
+   "test": "test_fields_beyond_range_ignored",
+   "argv": [
+    "-L",
+    "-d",
+    "\t",
+    "-f",
+    "1,5,10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Name\nAlice\nBob\nCarol\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:175"
+  },
+  {
+   "test": "test_error_field_zero",
+   "argv": [
+    "-f",
+    "0"
+   ],
+   "stdin": "a\tb\tc\n",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "numbered from 1"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_fields_basic.py:188"
+  },
+  {
+   "test": "test_error_inverted_range",
+   "argv": [
+    "-f",
+    "5-2"
+   ],
+   "stdin": "a\tb\tc\n",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:200"
+  },
+  {
+   "test": "test_error_invalid_field_spec",
+   "argv": [
+    "-f",
+    "abc"
+   ],
+   "stdin": "a\tb\tc\n",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:215"
+  },
+  {
+   "test": "test_complete_reverse_order",
+   "argv": [
+    "-L",
+    "-d",
+    "\t",
+    "-f",
+    "4,2,1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Discount\tPrice\tProduct\n0.10\t19.99\tWidget\n0.15\t29.99\tGadget\n0.05\t39.99\tTool\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:229"
+  },
+  {
+   "test": "test_duplicate_field_specifications_deduplicated",
+   "argv": [
+    "-L",
+    "-d",
+    "\t",
+    "-f",
+    "1,2,3,4,1,2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Product\tPrice\tQuantity\tDiscount\nWidget\t19.99\t5\t0.10\nGadget\t29.99\t3\t0.15\nTool\t39.99\t10\t0.05\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:242"
+  },
+  {
+   "test": "test_single_column_input",
+   "argv": [
+    "-L",
+    "-d",
+    "\t",
+    "-f",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Single\nOne\nTwo\nThree\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:255"
+  },
+  {
+   "test": "test_csv_format_comma_delimiter",
+   "argv": [
+    "-L",
+    "-d",
+    ",",
+    "-f",
+    "1,3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Name\tCity\nAlice\tNYC\nBob\tLondon\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:267"
+  },
+  {
+   "test": "test_custom_output_delimiter",
+   "argv": [
+    "-L",
+    "-d",
+    ",",
+    "-D",
+    "|",
+    "-f",
+    "1,3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Name|City\nAlice|NYC\nBob|London\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:280"
+  },
+  {
+   "test": "test_very_large_field_number",
+   "argv": [
+    "-L",
+    "-d",
+    "\t",
+    "-f",
+    "100"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:293"
+  },
+  {
+   "test": "test_multiple_non_overlapping_ranges",
+   "argv": [
+    "-L",
+    "-d",
+    "\t",
+    "-f",
+    "1-10,12-15,20"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "f1\tf2\tf3\tf4\tf5\tf6\tf7\tf8\tf9\tf10\n1\t2\t3\t4\t5\t6\t7\t8\t9\t10\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:310"
+  },
+  {
+   "test": "test_realistic_data_selection",
+   "argv": [
+    "-L",
+    "-d",
+    "\t",
+    "-f",
+    "2,3,7,8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "FirstName\tLastName\tCity\tState\nJohn\tDoe\tSpringfield\tIL\nJane\tSmith\tPortland\tOR\nBob\tJohnson\tAustin\tTX\nAlice\tWilliams\tSeattle\tWA\nCharlie\tBrown\tBoston\tMA\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:323"
+  },
+  {
+   "test": "test_realistic_data_with_range",
+   "argv": [
+    "-L",
+    "-d",
+    "\t",
+    "-f",
+    "1,4-6,10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "ID\tEmail\tPhone\tAddress\tCountry\n001\tjohn.doe@example.com\t555-1234\t123 Main St\tUSA\n002\tjane.smith@example.com\t555-5678\t456 Oak Ave\tUSA\n003\tbob.j@example.com\t555-9012\t789 Pine Rd\tUSA\n004\talice.w@example.com\t555-3456\t321 Elm Blvd\tUSA\n005\tcharlie.b@example.com\t555-7890\t654 Maple Dr\tUSA\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:336"
+  },
+  {
+   "test": "test_use_input_delimiter_as_output",
+   "argv": [
+    "-L",
+    "-d",
+    ",",
+    "-I",
+    "-f",
+    "1,3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Name,City\nAlice,NYC\nBob,London\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:349"
+  },
+  {
+   "test": "test_leading_trailing_whitespace_preserved",
+   "argv": [
+    "-L",
+    "-d",
+    "\t",
+    "-f",
+    "1,2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "  a\tb\n  1\t2\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:362"
+  },
+  {
+   "test": "test_special_characters_in_fields",
+   "argv": [
+    "-L",
+    "-d",
+    "\t",
+    "-f",
+    "2,3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "value\tspecial\n00\t@#%\nbar\t<>&\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:375"
+  },
+  {
+   "test": "test_very_long_field_values",
+   "argv": [
+    "-L",
+    "-d",
+    "\t",
+    "-f",
+    "1,10,20"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "field1\tfield10\tfield20\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\tX\tX\n11111111111111111111111111111111111111111111111111\tY\tY\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:388"
+  },
+  {
+   "test": "test_consecutive_delimiters_create_empty_fields",
+   "argv": [
+    "-L",
+    "-d",
+    "\t",
+    "-f",
+    "1,2,3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a\t\tb\n1\t\t2\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:401"
+  },
+  {
+   "test": "test_many_fields_sparse_selection",
+   "argv": [
+    "-L",
+    "-d",
+    "\t",
+    "-f",
+    "1,10,20,30,40,50"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "f1\tf10\tf20\tf30\tf40\tf50\n1\t10\t20\t30\t40\t50\n2\t20\t40\t60\t80\t100\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:414"
+  },
+  {
+   "test": "test_many_fields_range_to_end",
+   "argv": [
+    "-L",
+    "-d",
+    "\t",
+    "-f",
+    "25-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "f25\tf26\tf27\tf28\tf29\tf30\tf31\tf32\tf33\tf34\tf35\tf36\tf37\tf38\tf39\tf40\tf41\tf42\tf43\tf44\tf45\tf46\tf47\tf48\tf49\tf50\n25\t26\t27\t28\t29\t30\t31\t32\t33\t34\t35\t36\t37\t38\t39\t40\t41\t42\t43\t44\t45\t46\t47\t48\t49\t50\n50\t52\t54\t56\t58\t60\t62\t64\t66\t68\t70\t72\t74\t76\t78\t80\t82\t84\t86\t88\t90\t92\t94\t96\t98\t100\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:427"
+  },
+  {
+   "test": "test_empty_input",
+   "argv": [
+    "-L",
+    "-d",
+    "\t",
+    "-f",
+    "1,2"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:440"
+  },
+  {
+   "test": "test_only_empty_lines",
+   "argv": [
+    "-L",
+    "-d",
+    "\t",
+    "-f",
+    "1,2"
+   ],
+   "stdin": "\n\n\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "\n\n\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:451"
+  },
+  {
+   "test": "test_range_from_first_to_end",
+   "argv": [
+    "-L",
+    "-d",
+    "\t",
+    "-f",
+    "1-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Name\tAge\tCity\tCountry\nAlice\t28\tNew York\tUSA\nBob\t35\tLondon\tUK\nCarol\t42\tParis\tFrance\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:463"
+  },
+  {
+   "test": "test_error_malformed_range_multiple_dashes",
+   "argv": [
+    "-f",
+    "1-2-3"
+   ],
+   "stdin": "a\tb\tc\n",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:476"
+  },
+  {
+   "test": "test_error_lone_dash",
+   "argv": [
+    "-f",
+    "-"
+   ],
+   "stdin": "a\tb\tc\n",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:490"
+  },
+  {
+   "test": "test_unicode_characters_in_fields",
+   "argv": [
+    "-L",
+    "-d",
+    "\t",
+    "-f",
+    "1,3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "name\tspecial\n日本\t한글\némoji\t✨\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:505"
+  },
+  {
+   "test": "test_overlapping_ranges_produce_duplicates",
+   "argv": [
+    "-L",
+    "-d",
+    "\t",
+    "-f",
+    "1-2,2-3,3-4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Name\tAge\tCity\tCity\tCountry\nAlice\t28\tNew York\tNew York\tUSA\nBob\t35\tLondon\tLondon\tUK\nCarol\t42\tParis\tParis\tFrance\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:518"
+  },
+  {
+   "test": "test_adjacent_ranges_no_gap",
+   "argv": [
+    "-L",
+    "-d",
+    "\t",
+    "-f",
+    "1-2,3-4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Name\tAge\tCity\tCountry\nAlice\t28\tNew York\tUSA\nBob\t35\tLondon\tUK\nCarol\t42\tParis\tFrance\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:532"
+  },
+  {
+   "test": "test_pipe_as_delimiter",
+   "argv": [
+    "-L",
+    "-d",
+    "|",
+    "-f",
+    "1,3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a\tc\n1\t3\n4\t6\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:545"
+  },
+  {
+   "test": "test_multi_character_output_delimiter",
+   "argv": [
+    "-L",
+    "-d",
+    "\t",
+    "-D",
+    " | ",
+    "-f",
+    "1,2,3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Name | Age | City\nAlice | 28 | New York\nBob | 35 | London\nCarol | 42 | Paris\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:558"
+  },
+  {
+   "test": "test_field_after_open_range_duplicates",
+   "argv": [
+    "-L",
+    "-d",
+    "\t",
+    "-f",
+    "1,2-,4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Name\tAge\tCity\tCountry\tCountry\nAlice\t28\tNew York\tUSA\tUSA\nBob\t35\tLondon\tUK\tUK\nCarol\t42\tParis\tFrance\tFrance\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:571"
+  },
+  {
+   "test": "test_out_of_range_field_first_in_spec",
+   "argv": [
+    "-L",
+    "-d",
+    "\t",
+    "-f",
+    "10,1,5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Name\nAlice\nBob\nCarol\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:584"
+  },
+  {
+   "test": "test_open_start_range_then_single_field_dedup",
+   "argv": [
+    "-L",
+    "-d",
+    "\t",
+    "-f",
+    "-3,2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Name\tAge\tCity\nAlice\t28\tNew York\nBob\t35\tLondon\nCarol\t42\tParis\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:598"
+  },
+  {
+   "test": "test_same_field_multiple_times_partial_dedup",
+   "argv": [
+    "-L",
+    "-d",
+    "\t",
+    "-f",
+    "2,2,2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Age\tAge\n28\t28\n35\t35\n42\t42\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:611"
+  },
+  {
+   "test": "test_crlf_line_endings_preserved",
+   "argv": [
+    "-L",
+    "-d",
+    "\t",
+    "--crlf",
+    "-f",
+    "1,3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:624"
+  },
+  {
+   "test": "test_no_field_spec_defaults_to_all",
+   "argv": [],
+   "stdin": "Name\tAge\tCity\tCountry\nAlice\t28\tNew York\tUSA\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_basic.py:641"
+  },
+  {
+   "test": "test_exclude_single_line",
+   "argv": [
+    "-e",
+    "2"
+   ],
+   "stdin": "a\tb\tc\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a\tc\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_exclude.py:227"
+  },
+  {
+   "test": "test_exclude_empty_input",
+   "argv": [
+    "-e",
+    "2"
+   ],
+   "stdin": "\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_exclude.py:236"
+  },
+  {
+   "test": "test_exclude_from_stdin",
+   "argv": [
+    "-e",
+    "2,4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "col1\tcol3\tcol5\nA\tC\tE\n1\t3\t5\nx\tz\tv\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_fields_exclude.py:326"
+  },
+  {
+   "test": "test_output_to_stdout_with_dash",
+   "argv": [
+    "-f",
+    "1,2",
+    "-o",
+    "-"
+   ],
+   "stdin": "a\tb\tc\n1\t2\t3",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a\tb\n1\t2\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gap_fill.py:15"
+  },
+  {
+   "test": "test_file_creation_error_nonexistent_dir",
+   "argv": [
+    "-f",
+    "1,2",
+    "-o",
+    "/nonexistent_dir/output.txt"
+   ],
+   "stdin": "a\tb\tc\n1\t2\t3",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Failed to open /nonexistent_dir/output.txt for writing",
+    "No such file or directory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_gap_fill.py:25"
+  },
+  {
+   "test": "test_stdin_compressed_with_header_fields_warning",
+   "argv": [
+    "-z",
+    "-F",
+    "a"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "selections based on header fields is not currently supported on stdin compressed data"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_gap_fill.py:73"
+  },
+  {
+   "test": "test_invalid_field_zero",
+   "argv": [
+    "-f",
+    "0"
+   ],
+   "stdin": "a\tb\tc\n1\t2\t3",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Fields and positions are numbered from 1: 0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_gap_fill.py:93"
+  },
+  {
+   "test": "test_invalid_field_order_high_before_low",
+   "argv": [
+    "-f",
+    "5-2"
+   ],
+   "stdin": "a\tb\tc\n1\t2\t3",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "High end of range less than low end of range: 5-2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_gap_fill.py:104"
+  },
+  {
+   "test": "test_failed_parse_non_numeric_field",
+   "argv": [
+    "-f",
+    "abc"
+   ],
+   "stdin": "a\tb\tc\n1\t2\t3",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Failed to parse field: abc"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_gap_fill.py:115"
+  },
+  {
+   "test": "test_no_headers_matched_with_F_flag",
+   "argv": [
+    "-F",
+    "nonexistent"
+   ],
+   "stdin": "a\tb\tc\n1\t2\t3",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "No headers matched"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_gap_fill.py:126"
+  },
+  {
+   "test": "test_header_not_found_partial_match",
+   "argv": [
+    "-F",
+    "a",
+    "-F",
+    "nonexistent"
+   ],
+   "stdin": "a\tb\tc\n1\t2\t3",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Header not found: nonexistent"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_gap_fill.py:137"
+  },
+  {
+   "test": "test_crlf_line_terminator",
+   "argv": [
+    "-f",
+    "1,3",
+    "--crlf"
+   ],
+   "stdin": "a\tb\tc\r\n1\t2\t3\r\n4\t5\t6\r\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "a\tc\r\n1\t3\r\n4\t6\r\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gap_fill.py:148"
+  },
+  {
+   "test": "test_use_input_delim_flag",
+   "argv": [
+    "-f",
+    "1,2",
+    "-d",
+    ",",
+    "-L",
+    "-I"
+   ],
+   "stdin": "a,b,c\n1,2,3\n4,5,6\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "a,b\n1,2\n4,5\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gap_fill.py:160"
+  },
+  {
+   "test": "test_exclude_with_F_flag",
+   "argv": [
+    "-F",
+    "a",
+    "-F",
+    "b",
+    "-F",
+    "c",
+    "-e",
+    "2"
+   ],
+   "stdin": "a\tb\tc\td\n1\t2\t3\t4",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "a\tc\n1\t3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gap_fill.py:183"
+  },
+  {
+   "test": "test_exclude_header_flag",
+   "argv": [
+    "-E",
+    "badfield"
+   ],
+   "stdin": "name\tage\tbadfield\tvalue\nAlice\t30\tx\t100\nBob\t25\ty\t200",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name",
+    "age",
+    "value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_gap_fill.py:194"
+  },
+  {
+   "test": "test_empty_fields_no_output",
+   "argv": [
+    "-f",
+    "1",
+    "-e",
+    "1"
+   ],
+   "stdin": "a\tb\tc\n1\t2\t3",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gap_fill.py:226"
+  },
+  {
+   "test": "test_header_regex_mode_with_r_flag",
+   "argv": [
+    "-F",
+    "^s.*",
+    "-r"
+   ],
+   "stdin": "name\tage\tscore\tvalue\nAlice\t30\t95\t100\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "score\n95\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gap_fill.py:239"
+  },
+  {
+   "test": "test_stdin_via_dash_in_file_list",
+   "argv": [
+    "-f",
+    "1,2",
+    "-"
+   ],
+   "stdin": "a\tb\tc\n1\t2\t3\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "a\tb\n1\t2\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gap_fill.py:291"
+  },
+  {
+   "test": "test_field_range_with_open_end",
+   "argv": [
+    "-f",
+    "3-"
+   ],
+   "stdin": "a\tb\tc\td\te\tf\n1\t2\t3\t4\t5\t6\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "c\td\te\tf\n3\t4\t5\t6\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gap_fill.py:300"
+  },
+  {
+   "test": "test_field_range_with_open_start",
+   "argv": [
+    "-f",
+    "-3"
+   ],
+   "stdin": "a\tb\tc\td\te\tf\n1\t2\t3\t4\t5\t6\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "a\tb\tc\n1\t2\t3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gap_fill.py:310"
+  },
+  {
+   "test": "test_exclude_overlapping_ranges",
+   "argv": [
+    "-e",
+    "2-4,3-5"
+   ],
+   "stdin": "a\tb\tc\td\te\tf\tg\th\n1\t2\t3\t4\t5\t6\t7\t8\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "a\tf\tg\th\n1\t6\t7\t8\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gap_fill.py:341"
+  },
+  {
+   "test": "test_field_and_exclude_interaction",
+   "argv": [
+    "-f",
+    "1-4",
+    "-e",
+    "2-3"
+   ],
+   "stdin": "a\tb\tc\td\te\n1\t2\t3\t4\t5\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "a\td\n1\t4\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gap_fill.py:353"
+  },
+  {
+   "test": "test_empty_line_handling",
+   "argv": [
+    "-f",
+    "1,2"
+   ],
+   "stdin": "a\tb\tc\n\n1\t2\t3\n\n4\t5\t6\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "a\tb\n\n1\t2\n\n4\t5\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gap_fill.py:385"
+  },
+  {
+   "test": "test_single_field_selection",
+   "argv": [
+    "-f",
+    "2"
+   ],
+   "stdin": "a\tb\tc\n1\t2\t3\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "b\n2\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gap_fill.py:410"
+  },
+  {
+   "test": "test_custom_output_delimiter",
+   "argv": [
+    "-f",
+    "1,2,3",
+    "-D",
+    " | "
+   ],
+   "stdin": "a\tb\tc\n1\t2\t3\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "a | b | c\n1 | 2 | 3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gap_fill.py:421"
+  },
+  {
+   "test": "test_regex_delimiter_complex",
+   "argv": [
+    "-f",
+    "1,3",
+    "-d",
+    "\\s+"
+   ],
+   "stdin": "a  b   c    d\n1  2   3    4\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "a\tc\n1\t3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gap_fill.py:432"
+  },
+  {
+   "test": "test_regex_delimiter_with_special_chars",
+   "argv": [
+    "-f",
+    "1,2",
+    "-d",
+    "[|-]"
+   ],
+   "stdin": "a|b-c|d\n1|2-3|4\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "a\tb\n1\t2\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gap_fill.py:444"
+  },
+  {
+   "test": "test_literal_delimiter_with_regex_chars",
+   "argv": [
+    "-f",
+    "1,2",
+    "-d",
+    ".*",
+    "-L"
+   ],
+   "stdin": "a.*b.*c\n1.*2.*3\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "a\tb\n1\t2\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gap_fill.py:456"
+  },
+  {
+   "test": "test_unicode_data",
+   "argv": [
+    "-f",
+    "1,3"
+   ],
+   "stdin": "名前\t年齢\t都市\n太郎\t30\t東京\n花子\t25\t大阪\n",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "名前\t都市\n太郎\t東京\n花子\t大阪\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gap_fill.py:525"
+  },
+  {
+   "test": "test_stdin_with_headers",
+   "argv": [
+    "-d",
+    ",",
+    "-F",
+    "name",
+    "-F",
+    "city"
+   ],
+   "stdin": "name,age,city\nAlice,30,NYC\nBob,25,LA\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "name\tcity\nAlice\tNYC\nBob\tLA\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_headers.py:421"
+  },
+  {
+   "test": "test_include_and_exclude_fields",
+   "argv": [
+    "-L",
+    "-d",
+    ",",
+    "-f",
+    "1-8",
+    "-e",
+    "3,5,7"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "id\tname\tcity\tsalary\tstatus\n1\tAlice\tNYC\t50000\tActive\n2\tBob\tLA\t60000\tActive\n3\tCharlie\tChicago\t70000\tInactive\n4\tDiana\tBoston\t55000\tActive\n5\tEve\tSeattle\t65000\tActive\n6\tFrank\tAustin\t58000\tActive\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:15"
+  },
+  {
+   "test": "test_multiple_ranges_with_ordering",
+   "argv": [
+    "-L",
+    "-d",
+    ",",
+    "-f",
+    "8-,1-3,5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "status\tid\tname\tage\tcountry\nActive\t1\tAlice\t25\tUSA\nActive\t2\tBob\t30\tUSA\nInactive\t3\tCharlie\t35\tUSA\nActive\t4\tDiana\t28\tUSA\nActive\t5\tEve\t32\tUSA\nActive\t6\tFrank\t29\tUSA\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:29"
+  },
+  {
+   "test": "test_header_and_index_selection_together",
+   "argv": [
+    "-L",
+    "-d",
+    ",",
+    "-F",
+    "name",
+    "-f",
+    "2,4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "name\tcity\nAlice\tNYC\nBob\tLA\nCharlie\tChicago\nDiana\tBoston\nEve\tSeattle\nFrank\tAustin\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:42"
+  },
+  {
+   "test": "test_exclude_header_and_field_selection",
+   "argv": [
+    "-L",
+    "-d",
+    ",",
+    "-E",
+    "age",
+    "-f",
+    "1-5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "id\tname\tcity\tcountry\n1\tAlice\tNYC\tUSA\n2\tBob\tLA\tUSA\n3\tCharlie\tChicago\tUSA\n4\tDiana\tBoston\tUSA\n5\tEve\tSeattle\tUSA\n6\tFrank\tAustin\tUSA\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:55"
+  },
+  {
+   "test": "test_regex_delimiter_with_complex_range",
+   "argv": [
+    "-d",
+    "\\s+",
+    "-f",
+    "1,3-"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "name\tcity\tsalary\nAlice\tNYC\t50000\nBob\tLA\t60000\nCharlie\tChicago\t70000\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:68"
+  },
+  {
+   "test": "test_literal_delimiter_with_exclude",
+   "argv": [
+    "-L",
+    "-d",
+    ",",
+    "-e",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "id\tage\tcity\tcountry\tsalary\tdepartment\tstatus\n1\t25\tNYC\tUSA\t50000\tEngineering\tActive\n2\t30\tLA\tUSA\t60000\tSales\tActive\n3\t35\tChicago\tUSA\t70000\tEngineering\tInactive\n4\t28\tBoston\tUSA\t55000\tHR\tActive\n5\t32\tSeattle\tUSA\t65000\tSales\tActive\n6\t29\tAustin\tUSA\t58000\tEngineering\tActive\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:81"
+  },
+  {
+   "test": "test_output_delimiter_different_from_input",
+   "argv": [
+    "-L",
+    "-d",
+    ",",
+    "-D",
+    "|",
+    "-f",
+    "1-4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "id|name|age|city\n1|Alice|25|NYC\n2|Bob|30|LA\n3|Charlie|35|Chicago\n4|Diana|28|Boston\n5|Eve|32|Seattle\n6|Frank|29|Austin\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:94"
+  },
+  {
+   "test": "test_header_matching_with_regex_delimiter",
+   "argv": [
+    "-d",
+    "\\s+",
+    "-F",
+    "name"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "name\nAlice\nBob\nCharlie\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:177"
+  },
+  {
+   "test": "test_header_matching_with_literal_delimiter",
+   "argv": [
+    "-L",
+    "-d",
+    ",",
+    "-F",
+    "name"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "name\nAlice\nBob\nCharlie\nDiana\nEve\nFrank\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:190"
+  },
+  {
+   "test": "test_regex_header_matching",
+   "argv": [
+    "-L",
+    "-d",
+    ",",
+    "-r",
+    "-F",
+    "na.*"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "name\nAlice\nBob\nCharlie\nDiana\nEve\nFrank\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:203"
+  },
+  {
+   "test": "test_crlf_with_field_selection",
+   "argv": [
+    "--crlf",
+    "-L",
+    "-d",
+    ",",
+    "-f",
+    "1,3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:231"
+  },
+  {
+   "test": "test_crlf_with_headers",
+   "argv": [
+    "--crlf",
+    "-L",
+    "-d",
+    ",",
+    "-F",
+    "name"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:248"
+  },
+  {
+   "test": "test_ordering_with_overlaps_and_duplicates",
+   "argv": [
+    "-L",
+    "-d",
+    ",",
+    "-f",
+    "5,1-3,2,8"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "country\tid\tname\tage\tstatus\nUSA\t1\tAlice\t25\tActive\nUSA\t2\tBob\t30\tActive\nUSA\t3\tCharlie\t35\tInactive\nUSA\t4\tDiana\t28\tActive\nUSA\t5\tEve\t32\tActive\nUSA\t6\tFrank\t29\tActive\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:265"
+  },
+  {
+   "test": "test_exclusion_preserves_field_order",
+   "argv": [
+    "-L",
+    "-d",
+    ",",
+    "-f",
+    "1-10",
+    "-e",
+    "3,7"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "id\tname\tcity\tcountry\tsalary\tstatus\n1\tAlice\tNYC\tUSA\t50000\tActive\n2\tBob\tLA\tUSA\t60000\tActive\n3\tCharlie\tChicago\tUSA\t70000\tInactive\n4\tDiana\tBoston\tUSA\t55000\tActive\n5\tEve\tSeattle\tUSA\t65000\tActive\n6\tFrank\tAustin\tUSA\t58000\tActive\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:278"
+  },
+  {
+   "test": "test_no_mmap_with_field_selection",
+   "argv": [
+    "--no-mmap",
+    "-L",
+    "-d",
+    ",",
+    "-f",
+    "1,3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "id\tage\n1\t25\n2\t30\n3\t35\n4\t28\n5\t32\n6\t29\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:291"
+  },
+  {
+   "test": "test_invalid_range_with_valid_flags_error",
+   "argv": [
+    "-L",
+    "-d",
+    ",",
+    "-f",
+    "1-x"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:304"
+  },
+  {
+   "test": "test_bad_regex_delimiter_error",
+   "argv": [
+    "-d",
+    "[",
+    "-f",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:324"
+  },
+  {
+   "test": "test_complex_ordering_with_large_field_count",
+   "argv": [
+    "-L",
+    "-d",
+    ",",
+    "-f",
+    "10-,3-5,1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "value8\tvalue9\tvalue10\tvalue1\tvalue2\tvalue3\tid\na8\ta9\ta10\ta1\ta2\ta3\t1\nb8\tb9\tb10\tb1\tb2\tb3\t2\nc8\tc9\tc10\tc1\tc2\tc3\t3\nd8\td9\td10\td1\td2\td3\t4\ne8\te9\te10\te1\te2\te3\t5\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:362"
+  },
+  {
+   "test": "test_regex_header_selection_with_field_exclude",
+   "argv": [
+    "-L",
+    "-d",
+    ",",
+    "-r",
+    "-F",
+    "value[5-9]",
+    "-e",
+    "7,9"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "value6\tvalue8\tvalue9\na6\ta8\ta9\nb6\tb8\tb9\nc6\tc8\tc9\nd6\td8\td9\ne6\te8\te9\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:375"
+  },
+  {
+   "test": "test_multiple_header_field_selections",
+   "argv": [
+    "-L",
+    "-d",
+    ",",
+    "-D",
+    "::",
+    "-F",
+    "name",
+    "-F",
+    "city"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "name::city\nAlice::NYC\nBob::LA\nCharlie::Chicago\nDiana::Boston\nEve::Seattle\nFrank::Austin\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:402"
+  },
+  {
+   "test": "test_regex_header_include_and_exclude",
+   "argv": [
+    "-L",
+    "-d",
+    ",",
+    "-r",
+    "-F",
+    "^(id|name|status)$",
+    "-E",
+    "department"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "id\tname\tstatus\n1\tAlice\tActive\n2\tBob\tActive\n3\tCharlie\tInactive\n4\tDiana\tActive\n5\tEve\tActive\n6\tFrank\tActive\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:415"
+  },
+  {
+   "test": "test_stdin_field_selection",
+   "argv": [
+    "-L",
+    "-d",
+    ",",
+    "-f",
+    "1,3"
+   ],
+   "stdin": "x,y,z\n1,2,3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "x\tz\n1\t3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:429"
+  },
+  {
+   "test": "test_use_input_delimiter_as_output",
+   "argv": [
+    "-L",
+    "-d",
+    ",",
+    "-I",
+    "-f",
+    "1,3,5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "id,age,country\n1,25,USA\n2,30,USA\n3,35,USA\n4,28,USA\n5,32,USA\n6,29,USA\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:442"
+  },
+  {
+   "test": "test_field_deduplication_with_multiple_overlaps",
+   "argv": [
+    "-L",
+    "-d",
+    ",",
+    "-f",
+    "1-5,3-7,2,6"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "id\tname\tage\tcity\tcountry\tsalary\tdepartment\n1\tAlice\t25\tNYC\tUSA\t50000\tEngineering\n2\tBob\t30\tLA\tUSA\t60000\tSales\n3\tCharlie\t35\tChicago\tUSA\t70000\tEngineering\n4\tDiana\t28\tBoston\tUSA\t55000\tHR\n5\tEve\t32\tSeattle\tUSA\t65000\tSales\n6\tFrank\t29\tAustin\tUSA\t58000\tEngineering\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:455"
+  },
+  {
+   "test": "test_stdin_input",
+   "argv": [
+    "-d",
+    ",",
+    "-f",
+    "1,3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "name\tcity\nAlice\tNYC\nBob\tLA\nCharlie\tChicago\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_io.py:22"
+  },
+  {
+   "test": "test_stdin_with_explicit_dash",
+   "argv": [
+    "-",
+    "-d",
+    ",",
+    "-f",
+    "1,3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "name\tcity\nAlice\tNYC\nBob\tLA\nCharlie\tChicago\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_io.py:288"
+  },
+  {
+   "test": "test_empty_stdin",
+   "argv": [
+    "-f",
+    "1"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_io.py:365"
+  },
+  {
+   "test": "test_stdin_large_input_streaming",
+   "argv": [
+    "-L",
+    "-d",
+    "\t",
+    "-f",
+    "1,3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_realistic.py:359"
+  },
+  {
+   "test": "test_stdin_with_header_selection",
+   "argv": [
+    "-L",
+    "-d",
+    "\t",
+    "-F",
+    "name",
+    "-F",
+    "city"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_realistic.py:1046"
+  },
+  {
+   "test": "test_basic_field_selection",
+   "argv": [
+    "-f",
+    "1,3"
+   ],
+   "stdin": "col1\tcol2\tcol3\n1\t2\t3\n4\t5\t6\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_seed.py:28"
+  },
+  {
+   "test": "test_stdin_default_delimiter_whitespace_regex",
+   "argv": [
+    "-f",
+    "2,1"
+   ],
+   "stdin": "a   b\tc\n1  2\t3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "b\ta\n2\t1\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_hck_behavior.py:51"
+  },
+  {
+   "test": "test_literal_delimiter_single_char_and_ranges",
+   "argv": [
+    "-L",
+    "-d",
+    ",",
+    "-f",
+    "1-2,4-"
+   ],
+   "stdin": "a,b,c,d,e\n1,2,3,4,5\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a\tb\td\te\n1\t2\t4\t5\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_hck_behavior.py:59"
+  },
+  {
+   "test": "test_literal_delimiter_multi_char",
+   "argv": [
+    "-L",
+    "-d",
+    "$;$",
+    "-f",
+    "3,4"
+   ],
+   "stdin": "this$;$is$;$a$;$test\na$;$b$;$3$;$four\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a\ttest\n3\tfour\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_hck_behavior.py:67"
+  },
+  {
+   "test": "test_regex_delimiter_multi_char",
+   "argv": [
+    "-d",
+    "\\d{3}[-_]+",
+    "-f",
+    "3,4"
+   ],
+   "stdin": "this123__is456--a789-test\na129_-b849-_3109_-four\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a\ttest\n3\tfour\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_hck_behavior.py:75"
+  },
+  {
+   "test": "test_output_delimiter_custom",
+   "argv": [
+    "-L",
+    "-d",
+    ",",
+    "-D",
+    "___",
+    "-f",
+    "2,1"
+   ],
+   "stdin": "a,b,c\n1,2,3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "b___a\n2___1\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_hck_behavior.py:83"
+  },
+  {
+   "test": "test_use_input_delim_sets_output_delim_when_literal_and_no_D",
+   "argv": [
+    "-L",
+    "-d",
+    ",",
+    "-I",
+    "-f",
+    "2,3"
+   ],
+   "stdin": "a,b,c\n1,2,3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "b,c\n2,3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_hck_behavior.py:91"
+  },
+  {
+   "test": "test_reordering_values_written_only_once",
+   "argv": [
+    "-L",
+    "-d",
+    ",",
+    "-f",
+    "4-,1,5-8"
+   ],
+   "stdin": "a,b,c,d,e\n1,2,3,4,5\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "d\te\ta\n4\t5\t1\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_hck_behavior.py:99"
+  },
+  {
+   "test": "test_exclude_takes_precedence_over_fields",
+   "argv": [
+    "-L",
+    "-d",
+    ",",
+    "-f",
+    "1-",
+    "-e",
+    "2,4-"
+   ],
+   "stdin": "a,b,c,d,e\n1,2,3,4,5\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a\tc\n1\t3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_hck_behavior.py:107"
+  },
+  {
+   "test": "test_header_field_literal_selection_order",
+   "argv": [
+    "-L",
+    "-d",
+    ",",
+    "-F",
+    "b",
+    "-F",
+    "a"
+   ],
+   "stdin": "a,b,c,d,e\n1,2,3,4,5\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "b\ta\n2\t1\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_hck_behavior.py:115"
+  },
+  {
+   "test": "test_header_field_regex_selection_order",
+   "argv": [
+    "-r",
+    "-F",
+    "^ST.*",
+    "-F",
+    "^USER$"
+   ],
+   "stdin": "USER\tPID\tSTAT\tSTART\nroot\t1\tSs\tJun21\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "STAT\tSTART\tUSER\nSs\tJun21\troot\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_hck_behavior.py:123"
+  },
+  {
+   "test": "test_mix_by_index_and_by_header_merge_order_example_from_readme",
+   "argv": [
+    "-L",
+    "-d",
+    ",",
+    "-D",
+    ":",
+    "-f",
+    "3",
+    "-F",
+    "b",
+    "-F",
+    "a"
+   ],
+   "stdin": "a,b,c,d,e\n1,2,3,4,5\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "b:c:a\n2:3:1\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_hck_behavior.py:131"
+  },
+  {
+   "test": "test_exclude_header_literal",
+   "argv": [
+    "-L",
+    "-d",
+    ",",
+    "-E",
+    "badfield",
+    "-f",
+    "1-"
+   ],
+   "stdin": "a,badfield,c\n1,x,3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a\tc\n1\t3\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_hck_behavior.py:139"
+  },
+  {
+   "test": "test_exclude_header_regex",
+   "argv": [
+    "-r",
+    "-E",
+    "CPU",
+    "-E",
+    "^ST.*"
+   ],
+   "stdin": "USER\tPID\t%CPU\tSTAT\tTIME\nroot\t1\t0.0\tSs\t0:27\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "USER\tPID\tTIME\nroot\t1\t0:27\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_hck_behavior.py:147"
+  },
+  {
+   "test": "test_crlf_support_flag",
+   "argv": [
+    "-L",
+    "-d",
+    ",",
+    "-f",
+    "3"
+   ],
+   "stdin": "a,b,c\r\n1,2,3\r\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_hck_behavior.py:206"
+  },
+  {
+   "test": "test_unicode_roundtrip",
+   "argv": [
+    "-L",
+    "-d",
+    ",",
+    "-f",
+    "3,1"
+   ],
+   "stdin": "α,β,🍣\n1,2,3\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "🍣\tα\n3\t1\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_hck_behavior.py:229"
+  },
+  {
+   "test": "test_missing_value_for_output_errors_rc_2",
+   "argv": [
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a value is required for '--output <OUTPUT>'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:39"
+  },
+  {
+   "test": "test_missing_value_for_fields_errors_rc_2",
+   "argv": [
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a value is required for '--fields <FIELDS>'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:60"
+  },
+  {
+   "test": "test_fields_cannot_be_repeated_rc_2",
+   "argv": [
+    "-f",
+    "1",
+    "-f",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cannot be used multiple times"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:82"
+  },
+  {
+   "test": "test_invalid_fields_value_is_runtime_error_rc_1",
+   "argv": [
+    "-f",
+    "abc"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Failed to parse field"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:88"
+  },
+  {
+   "test": "test_missing_value_for_delimiter_errors_rc_2",
+   "argv": [
+    "-d"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a value is required for '--delimiter <DELIMITER>'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:95"
+  },
+  {
+   "test": "test_negative_number_is_not_accepted_as_value_without_double_dash",
+   "argv": [
+    "-t",
+    "-1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument '-1'",
+    "tip: to pass '-1' as a value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:101"
+  },
+  {
+   "test": "test_integer_option_rejects_non_integer_rc_2",
+   "argv": [
+    "-t",
+    "notint"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid value 'notint'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:108"
+  },
+  {
+   "test": "test_integer_option_rejects_overflow_rc_2",
+   "argv": [
+    "-t",
+    "999999999999999999999"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "number too large"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:114"
+  },
+  {
+   "test": "test_integer_option_accepts_zero_rc_0",
+   "argv": [
+    "-t",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:120"
+  },
+  {
+   "test": "test_double_dash_treats_following_as_positional_and_not_flags",
+   "argv": [
+    "--",
+    "--no-such-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "No such file or directory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:125"
+  },
+  {
+   "test": "test_delim_is_literal_flag_exists_and_accepts_following_args",
+   "argv": [
+    "-L",
+    "-d",
+    ",",
+    "-f1"
+   ],
+   "stdin": "a b\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "a b\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:139"
+  }
+ ]
+}

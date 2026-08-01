@@ -1,0 +1,3315 @@
+[
+ {
+  "name": "test::test_help_flag::0",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_flag::1",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_command::2",
+  "argv": [
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_command::3",
+  "argv": [
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_license_command::4",
+  "argv": [
+   "license"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_command::5",
+  "argv": [
+   "invalidcommand"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag::6",
+  "argv": [
+   "--invalid-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_for_migrate::7",
+  "argv": [
+   "migrate",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_for_schema::8",
+  "argv": [
+   "schema",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_for_completion::9",
+  "argv": [
+   "completion",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_bash::10",
+  "argv": [
+   "completion",
+   "bash"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_bash_help::11",
+  "argv": [
+   "completion",
+   "bash",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_bash_no_descriptions::12",
+  "argv": [
+   "completion",
+   "bash",
+   "--no-descriptions"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_zsh::13",
+  "argv": [
+   "completion",
+   "zsh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_zsh_help::14",
+  "argv": [
+   "completion",
+   "zsh",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_fish::15",
+  "argv": [
+   "completion",
+   "fish"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_fish_help::16",
+  "argv": [
+   "completion",
+   "fish",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_powershell::17",
+  "argv": [
+   "completion",
+   "powershell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_powershell_help::18",
+  "argv": [
+   "completion",
+   "powershell",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_inspect_with_schema_flag::19",
+  "argv": [
+   "schema",
+   "inspect",
+   "--schema",
+   "main"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_inspect_with_exclude_pattern::20",
+  "argv": [
+   "schema",
+   "inspect",
+   "--exclude",
+   "atlas_*"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_apply_with_tx_mode::21",
+  "argv": [
+   "migrate",
+   "hash"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_hash_with_atlas_format::22",
+  "argv": [
+   "migrate",
+   "hash",
+   "--dir-format=atlas"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_fmt_writes_changes::23",
+  "argv": [
+   "schema",
+   "fmt",
+   "schema.hcl"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.hcl": "table \"test\" {schema=schema.main}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_new_with_atlas_format::24",
+  "argv": [
+   "migrate",
+   "new",
+   "test_migration",
+   "--dir-format=atlas"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_inspect_new_db::25",
+  "argv": [
+   "schema",
+   "inspect"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_apply_missing_url::26",
+  "argv": [
+   "migrate",
+   "apply"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_apply_invalid_url::27",
+  "argv": [
+   "migrate",
+   "apply",
+   "--url=invalid://bad"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_status_missing_url::28",
+  "argv": [
+   "migrate",
+   "status"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_set_missing_url::29",
+  "argv": [
+   "migrate",
+   "set",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_diff_missing_required_flags::30",
+  "argv": [
+   "migrate",
+   "diff",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_apply_missing_url::31",
+  "argv": [
+   "schema",
+   "apply"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_clean_missing_url::32",
+  "argv": [
+   "schema",
+   "clean"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_diff_missing_required_flags::33",
+  "argv": [
+   "schema",
+   "diff"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_lint_missing_dev_url::34",
+  "argv": [
+   "migrate",
+   "lint"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_import_missing_flags::35",
+  "argv": [
+   "migrate",
+   "import"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_config_file::36",
+  "argv": [
+   "--config=/nonexistent/config.hcl",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_env::37",
+  "argv": [
+   "--env=nonexistent",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_apply_with_dev_url_help::38",
+  "argv": [
+   "schema",
+   "apply",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_diff_multiple_schemas::39",
+  "argv": [
+   "schema",
+   "diff",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_lint_with_format::40",
+  "argv": [
+   "migrate",
+   "lint",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_import_from_to_flags::41",
+  "argv": [
+   "migrate",
+   "import",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_clean_auto_approve_flag::42",
+  "argv": [
+   "schema",
+   "clean",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_diff_edit_flag::43",
+  "argv": [
+   "migrate",
+   "diff",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_new_generates_timestamp::44",
+  "argv": [
+   "migrate",
+   "new",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_fmt_multiple_files::45",
+  "argv": [
+   "schema",
+   "fmt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_flag_before_command::46",
+  "argv": [
+   "-c",
+   "file://atlas.hcl",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_command_accepts_config_flag::47",
+  "argv": [
+   "schema",
+   "-c",
+   "file://test.hcl",
+   "fmt",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_command_accepts_env_flag::48",
+  "argv": [
+   "migrate",
+   "--env",
+   "dev",
+   "hash",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_apply_dry_run_without_url::49",
+  "argv": [
+   "migrate",
+   "apply",
+   "--dry-run"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_apply_help_shows_flags::50",
+  "argv": [
+   "migrate",
+   "apply",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_new_dir_format_flag::51",
+  "argv": [
+   "migrate",
+   "new",
+   "test",
+   "--dir-format=atlas"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_inspect_format_flag::52",
+  "argv": [
+   "schema",
+   "inspect",
+   "--format={{.}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_diff_exclude_flag::53",
+  "argv": [
+   "schema",
+   "diff",
+   "--exclude",
+   "*.tmp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_diff_include_flag::54",
+  "argv": [
+   "schema",
+   "diff",
+   "--include",
+   "users.*"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_lint_latest_flag::55",
+  "argv": [
+   "migrate",
+   "lint",
+   "--latest",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_lint_git_base_flag::56",
+  "argv": [
+   "migrate",
+   "lint",
+   "--git-base",
+   "main"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_status_format_flag::57",
+  "argv": [
+   "migrate",
+   "status",
+   "--format={{.}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_set_help::58",
+  "argv": [
+   "migrate",
+   "set",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_status_help::59",
+  "argv": [
+   "migrate",
+   "status",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_inspect_help::60",
+  "argv": [
+   "schema",
+   "inspect",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_apply_with_nonexistent_dir::61",
+  "argv": [
+   "migrate",
+   "apply",
+   "--url=sqlite://file?mode=memory",
+   "--dir=file:///nonexistent/migrations"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_new_with_edit_flag::62",
+  "argv": [
+   "migrate",
+   "new",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_hash_help::63",
+  "argv": [
+   "migrate",
+   "hash",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_hash_nonexistent_directory::64",
+  "argv": [
+   "migrate",
+   "hash",
+   "--dir=file:///nonexistent/path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_new_creates_file::65",
+  "argv": [
+   "migrate",
+   "new",
+   "test_migration"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_new_with_custom_name::66",
+  "argv": [
+   "migrate",
+   "new",
+   "add_users_table"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_new_creates_timestamped_file::67",
+  "argv": [
+   "migrate",
+   "new",
+   "timestamped"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_new_output_verification::68",
+  "argv": [
+   "migrate",
+   "new",
+   "verified"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_validate_help::69",
+  "argv": [
+   "migrate",
+   "validate",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_validate_missing_sum_file::70",
+  "argv": [
+   "migrate",
+   "validate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_help_variations::71",
+  "argv": [
+   "migrate",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_help_variations::72",
+  "argv": [
+   "schema",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_with_help_flag::73",
+  "argv": [
+   "version",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_license_with_help_flag::74",
+  "argv": [
+   "license",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_hash_with_help_flag::75",
+  "argv": [
+   "migrate",
+   "hash",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_fmt_with_help_flag::76",
+  "argv": [
+   "schema",
+   "fmt",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_new_without_name::77",
+  "argv": [
+   "migrate",
+   "new"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_fmt_nonexistent_path::78",
+  "argv": [
+   "schema",
+   "fmt",
+   "/path/that/does/not/exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_fmt_with_multiple_paths::79",
+  "argv": [
+   "schema",
+   "fmt",
+   "schema1.hcl",
+   "schema2.hcl"
+  ],
+  "stdin": null,
+  "files": {
+   "schema1.hcl": "table \"t1\" {schema=schema.public}",
+   "schema2.hcl": "table \"t2\" {schema=schema.public}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_fmt_help::80",
+  "argv": [
+   "schema",
+   "fmt",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_fmt_formats_hcl_file::81",
+  "argv": [
+   "schema",
+   "fmt",
+   "schema.hcl"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.hcl": "\ntable \"users\" {\nschema=schema.public\ncolumn \"id\" {type=int}\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_fmt_already_formatted::82",
+  "argv": [
+   "schema",
+   "fmt",
+   "schema.hcl"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.hcl": "table \"users\" {\n  schema = schema.public\n  column \"id\" {\n    type = int\n  }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_fmt_nonexistent_file::83",
+  "argv": [
+   "schema",
+   "fmt",
+   "/nonexistent/file.hcl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_subcommand_for_migrate::84",
+  "argv": [
+   "help",
+   "migrate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_subcommand_for_schema::85",
+  "argv": [
+   "help",
+   "schema"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_subcommand_for_completion::86",
+  "argv": [
+   "help",
+   "completion"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_subcommand_migrate_apply::87",
+  "argv": [
+   "help",
+   "migrate",
+   "apply"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_new_sequential_names::88",
+  "argv": [
+   "migrate",
+   "new",
+   "first"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_url_format::89",
+  "argv": [
+   "migrate",
+   "apply",
+   "--url=notaurl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sqlite_memory_url_format::90",
+  "argv": [
+   "migrate",
+   "status",
+   "--url=sqlite://file?mode=memory"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migration_workflow_basic::91",
+  "argv": [
+   "migrate",
+   "new",
+   "create_users"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_flag_nonexistent_file_errors::92",
+  "argv": [
+   "migrate",
+   "status",
+   "--config",
+   "--env",
+   "dev"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "ATLAS_NO_UPDATE_NOTIFIER": "1"
+  }
+ },
+ {
+  "name": "test::test_cli_dir_flag_overrides_config_migration_dir::93",
+  "argv": [
+   "migrate",
+   "status",
+   "--config",
+   "--env",
+   "dev",
+   "--dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "ATLAS_NO_UPDATE_NOTIFIER": "1"
+  }
+ },
+ {
+  "name": "test::test_invalid_command::94",
+  "argv": [
+   "invalid_command_xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_for_specific_command::95",
+  "argv": [
+   "help",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag::96",
+  "argv": [
+   "--unknown-flag-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_config_flag_with_command::97",
+  "argv": [
+   "version",
+   "--config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_flag_with_migrate::98",
+  "argv": [
+   "migrate",
+   "--env",
+   "test",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_var_flag_with_schema::99",
+  "argv": [
+   "schema",
+   "--var",
+   "test=value",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_var_flags_with_migrate::100",
+  "argv": [
+   "migrate",
+   "--var",
+   "key1=value1",
+   "--var",
+   "key2=value2",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_migration_name::101",
+  "argv": [
+   "migrate",
+   "new",
+   "",
+   "--dir",
+   "file://migrations"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migration_name_with_spaces::102",
+  "argv": [
+   "migrate",
+   "new",
+   "add user table",
+   "--dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_migration_name::103",
+  "argv": [
+   "migrate",
+   "new",
+   "--dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_hcl_content::104",
+  "argv": [
+   "schema",
+   "fmt",
+   "unicode.hcl"
+  ],
+  "stdin": null,
+  "files": {
+   "unicode.hcl": "table \"users\" {\n  schema = schema.test\n  column \"name\" {\n    type = varchar(100)\n    comment = \"用户名称\"\n  }\n}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_consecutive_slashes_in_path::105",
+  "argv": [
+   "migrate",
+   "hash",
+   "--dir",
+   "file:///tmp//test///path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_path_handling::106",
+  "argv": [
+   "migrate",
+   "hash",
+   "--dir",
+   "file://./nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_hcl_file::107",
+  "argv": [
+   "schema",
+   "fmt",
+   "large.hcl"
+  ],
+  "stdin": null,
+  "files": {
+   "large.hcl": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_hcl_file::108",
+  "argv": [
+   "schema",
+   "fmt",
+   "empty.hcl"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.hcl": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_file_as_hcl::109",
+  "argv": [
+   "schema",
+   "fmt",
+   "binary.hcl"
+  ],
+  "stdin": null,
+  "files": {
+   "binary.hcl": "\u0000\u0001\u0002\u0003\u0004"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_readonly_directory::110",
+  "argv": [
+   "migrate",
+   "new",
+   "test",
+   "--dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_url_format::111",
+  "argv": [
+   "schema",
+   "inspect",
+   "--url",
+   "invalid://url"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_inspect_with_bad_url::112",
+  "argv": [
+   "schema",
+   "inspect",
+   "--url",
+   "not-a-url"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_apply_with_bad_url::113",
+  "argv": [
+   "migrate",
+   "apply",
+   "--url",
+   "bad://url"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_diff_missing_from_flag::114",
+  "argv": [
+   "schema",
+   "diff",
+   "--to",
+   "file://schema.hcl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_diff_missing_to_flag::115",
+  "argv": [
+   "schema",
+   "diff",
+   "--from",
+   "file://schema.hcl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_subcommand_for_schema::116",
+  "argv": [
+   "schema",
+   "invalid_subcommand_xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_subcommand_for_migrate::117",
+  "argv": [
+   "migrate",
+   "invalid_subcommand_xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_invalid_shell::118",
+  "argv": [
+   "completion",
+   "invalid_shell_xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_status_with_nonexistent_dir::119",
+  "argv": [
+   "migrate",
+   "status",
+   "--url",
+   "sqlite://file.db",
+   "--dir",
+   "file:///nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_apply_missing_to_flag::120",
+  "argv": [
+   "schema",
+   "apply",
+   "--url",
+   "sqlite://file.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dry_run_with_invalid_to::121",
+  "argv": [
+   "schema",
+   "apply",
+   "--url",
+   "sqlite://file.db",
+   "--to",
+   "file:///nonexistent/file.hcl",
+   "--dry-run"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_license_help_short::122",
+  "argv": [
+   "license",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_diff_missing_flags::123",
+  "argv": [
+   "migrate",
+   "diff",
+   "test_migration"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_hash_creates_sum_file::124",
+  "argv": [
+   "migrate",
+   "hash",
+   "--dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_hash_nonexistent_directory::125",
+  "argv": [
+   "migrate",
+   "hash",
+   "--dir",
+   "file:///nonexistent/path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_new_creates_file::126",
+  "argv": [
+   "migrate",
+   "new",
+   "create_users",
+   "--dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_new_with_custom_name::127",
+  "argv": [
+   "migrate",
+   "new",
+   "add_email_column",
+   "--dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_new_creates_empty_file::128",
+  "argv": [
+   "migrate",
+   "new",
+   "test_migration",
+   "--dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_new_incremental_numbering::129",
+  "argv": [
+   "migrate",
+   "new",
+   "first",
+   "--dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_validate_missing_sum_file::130",
+  "argv": [
+   "migrate",
+   "validate",
+   "--dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_validate_nonexistent_directory::131",
+  "argv": [
+   "migrate",
+   "validate",
+   "--dir",
+   "file:///nonexistent/dir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_fmt_no_files::132",
+  "argv": [
+   "schema",
+   "fmt",
+   "/nonexistent/path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_fmt_valid_hcl::133",
+  "argv": [
+   "schema",
+   "fmt",
+   "schema.hcl"
+  ],
+  "stdin": null,
+  "files": {
+   "schema.hcl": "table \"users\" {\n    schema=schema.public\n    column \"id\"{\n    type=int\n    }\n    column \"name\" {type=varchar(100)}\n    }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_help_short::134",
+  "argv": [
+   "version",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_fmt_formats_file_in_place_and_reports_filename::135",
+  "argv": [
+   "schema",
+   "fmt",
+   "bad.hcl"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.hcl": "table \"users\"{column \"id\"{type=int null=false}}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_top_level_subcommand_errors_message::136",
+  "argv": [
+   "nonexistent_subcommand"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_nested_subcommand_shows_parent_help_instead_of_unknown_command::137",
+  "argv": [
+   "migrate",
+   "nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subcommand_specific_flags_not_accepted_globally::138",
+  "argv": [
+   "--url",
+   "mysql://example"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_on_subcommand_errors::139",
+  "argv": [
+   "migrate",
+   "apply",
+   "--definitely-not-a-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_errors::140",
+  "argv": [
+   "schema",
+   "apply",
+   "--nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_repeat_last_wins_for_env::141",
+  "argv": [
+   "schema",
+   "apply",
+   "--env",
+   "first",
+   "--env",
+   "second"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_treats_following_as_positional_not_flags::142",
+  "argv": [
+   "schema",
+   "apply",
+   "--url",
+   "sqlite://file.db",
+   "--to",
+   "file://schema.sql",
+   "--dev-url",
+   "sqlite://dev?mode=memory",
+   "--dry-run",
+   "--",
+   "--not-a-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_apply_migrations::143",
+  "argv": [
+   "SELECT name FROM sqlite_master WHERE type='table' AND name='users'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_before_double_dash_works_and_exits_zero::144",
+  "argv": [
+   "--help",
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_errors_and_mentions_unknown_flag::145",
+  "argv": [
+   "--help",
+   "--no-such-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aws_rds_token_invalid_profile::146",
+  "argv": [
+   "/workspace/executable",
+   "schema",
+   "inspect",
+   "--env",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_datasources_in_config::147",
+  "argv": [
+   "/workspace/executable",
+   "schema",
+   "inspect",
+   "--env",
+   "mysql"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sql_query_boolean_args::148",
+  "argv": [
+   "CREATE TABLE flags (id INTEGER PRIMARY KEY, active INTEGER)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ent_with_schema_parameter::149",
+  "argv": [
+   "/workspace/executable",
+   "migrate",
+   "hash"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migration_with_multiple_statements::150",
+  "argv": [
+   "SELECT name FROM sqlite_master WHERE type='index' AND name='idx_posts_user'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_apply_to_dirty_database_without_flag_errors::151",
+  "argv": [
+   "CREATE TABLE existing_table (id INTEGER PRIMARY KEY)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_apply_to_dirty_database_with_allow_dirty_succeeds::152",
+  "argv": [
+   "CREATE TABLE existing_table (id INTEGER PRIMARY KEY, data TEXT)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migration_with_data_insertion::153",
+  "argv": [
+   "SELECT name FROM users ORDER BY name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_database_state_after_partial_failure::154",
+  "argv": [
+   "SELECT version, error, applied, total FROM atlas_schema_revisions ORDER BY version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_baseline_and_allow_dirty_mutually_exclusive::155",
+  "argv": [
+   "CREATE TABLE existing (id INTEGER)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migration_files_with_comments_and_blank_lines::156",
+  "argv": [
+   "SELECT name FROM sqlite_master WHERE type='table' AND name='products'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reapply_after_fixing_failed_migration::157",
+  "argv": [
+   "PRAGMA table_info(users)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exec_order_linear_skip_mode::158",
+  "argv": [
+   "INSERT INTO atlas_schema_revisions (version, description, type, applied, total, executed_at, execution_time, error, error_stmt, hash, operator_version) VALUES ('20240101000003', 'create_posts', 1, 1, 1, datetime('now'), 1000, '', '', '', '')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tx_mode_file_rolls_back_on_error::159",
+  "argv": [
+   "SELECT id, balance FROM accounts ORDER BY id"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tx_mode_all_rolls_back_everything_on_error::160",
+  "argv": [
+   "SELECT name FROM sqlite_master WHERE type='table' AND name='accounts'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_baseline_version_marks_version_applied_without_executing::161",
+  "argv": [
+   "SELECT version FROM atlas_schema_revisions"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tx_mode_file_with_successful_migration::162",
+  "argv": [
+   "SELECT version FROM atlas_schema_revisions ORDER BY version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sqlite_foreign_keys_pragma_handling::163",
+  "argv": [
+   "PRAGMA foreign_keys"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migration_with_foreign_key_constraints::164",
+  "argv": [
+   "PRAGMA foreign_key_list(posts)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migration_rollback_on_error_in_file_tx_mode::165",
+  "argv": [
+   "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'atlas%' ORDER BY name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_revision_table_structure::166",
+  "argv": [
+   "PRAGMA table_info(atlas_schema_revisions)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_write_and_delete_revision_protection::167",
+  "argv": [
+   "SELECT COUNT(*) FROM atlas_schema_revisions WHERE version = '.atlas_cloud_identifier'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migration_with_semicolons_in_strings::168",
+  "argv": [
+   "SELECT key, value FROM config ORDER BY key"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_baseline_version_skips_earlier_migrations::169",
+  "argv": [
+   "SELECT name FROM sqlite_master WHERE type='table' AND name IN ('first', 'second')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_verify_history_table_contents::170",
+  "argv": [
+   "SELECT name FROM sqlite_master WHERE type='table' AND name='atlas_schema_revisions'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_after_manual_revision_deletion::171",
+  "argv": [
+   "DELETE FROM atlas_schema_revisions WHERE version = '20240101000001'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_idempotent_same_version::172",
+  "argv": [
+   "SELECT COUNT(*) FROM atlas_schema_revisions"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lint_git_base_detects_new_migrations_since_base::173",
+  "argv": [
+   "git",
+   "init",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_apply_create_index::174",
+  "argv": [
+   "SELECT name, tbl_name FROM sqlite_master WHERE type='index' AND name='idx_email'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_apply_create_foreign_key::175",
+  "argv": [
+   "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_apply_multiple_tables_in_correct_order::176",
+  "argv": [
+   "PRAGMA foreign_keys = ON"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_apply_unique_constraints::177",
+  "argv": [
+   "INSERT INTO users (id, email, username) VALUES (1, 'alice@example.com', 'alice')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_apply_composite_primary_key::178",
+  "argv": [
+   "INSERT INTO user_roles (user_id, role_id, granted_at) VALUES (1, 10, 1234567890)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_apply_drop_index::179",
+  "argv": [
+   "SELECT name FROM sqlite_master WHERE type='index' AND name='idx_email'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_apply_column_with_default_values::180",
+  "argv": [
+   "INSERT INTO products (id, name) VALUES (1, 'Widget')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_apply_data_preservation_on_column_add::181",
+  "argv": [
+   "INSERT INTO users (id, name) VALUES (1, 'Alice')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_apply_data_preservation_on_column_drop::182",
+  "argv": [
+   "INSERT INTO users (id, name) VALUES (10, 'Alice')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_clean_realm_level_no_schema_param::183",
+  "argv": [
+   "\n        CREATE TABLE users (\n            id INTEGER PRIMARY KEY,\n            name TEXT NOT NULL\n        )\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_clean_schema_level_with_schema_param::184",
+  "argv": [
+   "\n        CREATE TABLE products (\n            id INTEGER PRIMARY KEY,\n            name TEXT NOT NULL,\n            price REAL\n        )\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_apply_error_handling_in_transaction_mode::185",
+  "argv": [
+   "SELECT name FROM sqlite_master WHERE type='table'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_clean_realm_diff_error_handling::186",
+  "argv": [
+   "CREATE TABLE test (id INTEGER PRIMARY KEY)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inspect_single_table_with_indexes::187",
+  "argv": [
+   "\n        CREATE TABLE users (\n            id INTEGER PRIMARY KEY,\n            name TEXT NOT NULL,\n            email TEXT UNIQUE,\n            age INTEGER,\n            created_at DATETIME DEFAULT CURRENT_TIMESTAMP\n        )\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inspect_various_data_types::188",
+  "argv": [
+   "\n        CREATE TABLE data_types_test (\n            id INTEGER PRIMARY KEY,\n            text_col TEXT,\n            int_col INTEGER,\n            real_col REAL,\n            blob_col BLOB,\n            null_col TEXT,\n            bool_col BOOLEAN,\n            date_col DATE,\n            time_col TIME,\n            datetime_col DATETIME,\n            varchar_col VARCHAR(255),\n            char_col CHAR(10),\n            decimal_col DECIMAL(10,2)\n        )\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inspect_exclude_single_table::189",
+  "argv": [
+   "CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inspect_autoincrement_and_defaults::190",
+  "argv": [
+   "\n        CREATE TABLE orders (\n            id INTEGER PRIMARY KEY AUTOINCREMENT,\n            customer_name TEXT NOT NULL,\n            order_date DATE DEFAULT (date('now')),\n            total REAL CHECK(total > 0),\n            status TEXT DEFAULT 'pending'\n        )\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inspect_composite_primary_key::191",
+  "argv": [
+   "\n        CREATE TABLE user_roles (\n            user_id INTEGER,\n            role_id INTEGER,\n            assigned_at DATETIME,\n            PRIMARY KEY (user_id, role_id)\n        )\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inspect_unique_constraints::192",
+  "argv": [
+   "\n        CREATE TABLE accounts (\n            id INTEGER PRIMARY KEY,\n            username TEXT UNIQUE,\n            email TEXT UNIQUE\n        )\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inspect_multiple_indexes_on_same_table::193",
+  "argv": [
+   "\n        CREATE TABLE articles (\n            id INTEGER PRIMARY KEY,\n            title TEXT,\n            author TEXT,\n            published_date DATE,\n            category TEXT\n        )\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inspect_composite_index::194",
+  "argv": [
+   "\n        CREATE TABLE events (\n            id INTEGER PRIMARY KEY,\n            user_id INTEGER,\n            event_type TEXT,\n            timestamp DATETIME\n        )\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inspect_null_and_not_null_columns::195",
+  "argv": [
+   "\n        CREATE TABLE contacts (\n            id INTEGER PRIMARY KEY,\n            required_field TEXT NOT NULL,\n            optional_field TEXT,\n            also_required INTEGER NOT NULL\n        )\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inspect_special_table_names::196",
+  "argv": [
+   "CREATE TABLE \"user-data\" (id INTEGER PRIMARY KEY)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inspect_reserved_keywords_as_identifiers::197",
+  "argv": [
+   "CREATE TABLE \"select\" (id INTEGER PRIMARY KEY, \"where\" TEXT, \"order\" INTEGER)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inspect_no_primary_key::198",
+  "argv": [
+   "CREATE TABLE logs (timestamp DATETIME, message TEXT, level TEXT)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inspect_complex_check_constraints::199",
+  "argv": [
+   "\n        CREATE TABLE products (\n            id INTEGER PRIMARY KEY,\n            price REAL CHECK(price > 0 AND price < 10000),\n            discount REAL CHECK(discount >= 0 AND discount <= 1),\n            quantity INTEGER CHECK(quantity >= 0)\n        )\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inspect_empty_string_default::200",
+  "argv": [
+   "\n        CREATE TABLE settings (\n            id INTEGER PRIMARY KEY,\n            key TEXT NOT NULL,\n            value TEXT DEFAULT ''\n        )\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inspect_numeric_default_values::201",
+  "argv": [
+   "\n        CREATE TABLE config (\n            id INTEGER PRIMARY KEY,\n            timeout INTEGER DEFAULT 30,\n            threshold REAL DEFAULT 0.75,\n            max_retries INTEGER DEFAULT 3\n        )\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inspect_blob_type_column::202",
+  "argv": [
+   "\n        CREATE TABLE files (\n            id INTEGER PRIMARY KEY,\n            filename TEXT NOT NULL,\n            content BLOB NOT NULL,\n            size INTEGER\n        )\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inspect_multiple_exclude_patterns::203",
+  "argv": [
+   "CREATE TABLE users (id INTEGER PRIMARY KEY)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inspect_relative_path_url::204",
+  "argv": [
+   "CREATE TABLE items (id INTEGER PRIMARY KEY, value TEXT)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inspect_table_ordering::205",
+  "argv": [
+   "CREATE TABLE zebra (id INTEGER PRIMARY KEY)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inspect_all_column_attributes_present::206",
+  "argv": [
+   "\n        CREATE TABLE full_spec (\n            id INTEGER PRIMARY KEY,\n            required TEXT NOT NULL,\n            optional TEXT,\n            with_default INTEGER DEFAULT 42\n        )\n    "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_getenv_in_config_file::207",
+  "argv": [
+   "schema",
+   "inspect",
+   "--config",
+   "--env",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "ATLAS_TEST_VAR": "test_value"
+  }
+ },
+ {
+  "name": "test::test_default_config_file_location::208",
+  "argv": [
+   "schema",
+   "inspect",
+   "--config",
+   "--env",
+   "dev"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_config_file_via_flag::209",
+  "argv": [
+   "schema",
+   "inspect",
+   "--config",
+   "--env",
+   "custom"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_config_file::210",
+  "argv": [
+   "schema",
+   "inspect",
+   "--config",
+   "file:///tmp/nonexistent_12345.hcl",
+   "--env",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_malformed_config_file::211",
+  "argv": [
+   "schema",
+   "inspect",
+   "--config",
+   "--env",
+   "bad"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_undefined_env_in_config::212",
+  "argv": [
+   "schema",
+   "inspect",
+   "--config",
+   "--env",
+   "nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_variables_override::213",
+  "argv": [
+   "schema",
+   "inspect",
+   "--config",
+   "--env",
+   "test",
+   "--var",
+   "db_name=custom.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_locals::214",
+  "argv": [
+   "schema",
+   "inspect",
+   "--config",
+   "--env",
+   "local"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_url_scheme_required::215",
+  "argv": [
+   "schema",
+   "inspect",
+   "--config",
+   "atlas.hcl",
+   "--env",
+   "test"
+  ],
+  "stdin": null,
+  "files": {
+   "atlas.hcl": "\nenv \"test\" {\n  url = \"sqlite://test.db\"\n  dev = \"sqlite://dev?mode=memory\"\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_var_flags::216",
+  "argv": [
+   "schema",
+   "inspect",
+   "--config",
+   "--env",
+   "test",
+   "--var",
+   "var1=value1",
+   "--var",
+   "var2=value2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_top_level_subcommand::217",
+  "argv": [
+   "nonexistent_command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_nested_schema_subcommand_shows_help::218",
+  "argv": [
+   "schema",
+   "nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_typo_in_subcommand::219",
+  "argv": [
+   "migrat"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reversed_nested_subcommand::220",
+  "argv": [
+   "apply",
+   "migrate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_no_nested_subcommand::221",
+  "argv": [
+   "migrate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_no_nested_subcommand::222",
+  "argv": [
+   "schema"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_config_flag_before_nested_subcommand::223",
+  "argv": [
+   "migrate",
+   "--config",
+   "file://test.hcl",
+   "status"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_env_flag_before_nested_subcommand::224",
+  "argv": [
+   "migrate",
+   "--env",
+   "dev",
+   "status"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_config_flag_before_nested_subcommand::225",
+  "argv": [
+   "schema",
+   "--config",
+   "file://test.hcl",
+   "inspect"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subcommand_specific_flag_not_global::226",
+  "argv": [
+   "--url",
+   "sqlite://test.db",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_string_subcommand::227",
+  "argv": [
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_help_flags::228",
+  "argv": [
+   "--help",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_with_invalid_subcommand::229",
+  "argv": [
+   "nonexistent",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_case_sensitivity_of_subcommands::230",
+  "argv": [
+   "VERSION"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_help::231",
+  "argv": [
+   "--",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_top_level_subcommands::232",
+  "argv": [
+   "version",
+   "license"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_subcommand_depth::233",
+  "argv": [
+   "migrate",
+   "apply",
+   "status"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_before_subcommand::234",
+  "argv": [
+   "--help",
+   "migrate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_command_uses_stderr::235",
+  "argv": [
+   "unknowncommand"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_uses_stderr::236",
+  "argv": [
+   "--invalid-flag-that-does-not-exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_command_nonzero_exit::237",
+  "argv": [
+   "notacommand"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_nonzero_exit::238",
+  "argv": [
+   "--notaflag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_shows_help_without_shell::239",
+  "argv": [
+   "completion"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_var_flag_available_to_migrate::240",
+  "argv": [
+   "migrate",
+   "--var",
+   "key=value",
+   "status"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_var_flag_available_to_schema::241",
+  "argv": [
+   "schema",
+   "--var",
+   "key=value",
+   "inspect"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_flag_not_on_version::242",
+  "argv": [
+   "version",
+   "--url",
+   "sqlite://test.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_flag_on_migrate_apply::243",
+  "argv": [
+   "migrate",
+   "apply",
+   "--url",
+   "sqlite://test.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_flag_on_schema_inspect::244",
+  "argv": [
+   "schema",
+   "inspect",
+   "--url",
+   "sqlite://test.db"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_numeric_subcommand::245",
+  "argv": [
+   "123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_char_subcommand::246",
+  "argv": [
+   "@command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_whitespace_in_subcommand::247",
+  "argv": [
+   "migrate apply"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_migrate_status_reports_current_and_next::248",
+  "argv": [
+   "migrate",
+   "status",
+   "--url",
+   "sqlite://file?mode=memory&_fk=1",
+   "--dir",
+   "--format",
+   "{{ json . }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_invalid_shell::249",
+  "argv": [
+   "completion",
+   "invalid_shell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_command_exit_nonzero::250",
+  "argv": [
+   "invalid_command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fmt_creates_no_extra_files::251",
+  "argv": [
+   "schema",
+   "fmt",
+   "test.hcl"
+  ],
+  "stdin": null,
+  "files": {
+   "test.hcl": "table \"t\" { column \"id\" { type = int } }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fmt_modifies_file_in_place::252",
+  "argv": [
+   "schema",
+   "fmt",
+   "test.hcl"
+  ],
+  "stdin": null,
+  "files": {
+   "test.hcl": "table   \"t\"   { column \"id\" { type = int } }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_for_nested_subcommand::253",
+  "argv": [
+   "help",
+   "schema",
+   "fmt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_help_command::254",
+  "argv": [
+   "help",
+   "nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_migrate_new_name_with_spaces::255",
+  "argv": [
+   "migrate",
+   "new",
+   "create users table"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_fmt_single_file::256",
+  "argv": [
+   "schema",
+   "fmt",
+   "test.hcl"
+  ],
+  "stdin": null,
+  "files": {
+   "test.hcl": "schema   \"test\"   {\n  charset =    \"utf8mb4\"\n}\ntable   \"users\"   {\n  schema = schema.test\n  column   \"id\"   {\n    type = int\n  }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_fmt_multiple_files::257",
+  "argv": [
+   "schema",
+   "fmt",
+   "a.hcl",
+   "b.hcl"
+  ],
+  "stdin": null,
+  "files": {
+   "a.hcl": "table   \"a\"   { column \"id\" { type = int } }",
+   "b.hcl": "table   \"b\"   { column \"id\" { type = int } }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_fmt_already_formatted::258",
+  "argv": [
+   "schema",
+   "fmt",
+   "test.hcl"
+  ],
+  "stdin": null,
+  "files": {
+   "test.hcl": "schema \"test\" {\n  charset = \"utf8mb4\"\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_fmt_with_syntax_error::259",
+  "argv": [
+   "schema",
+   "fmt",
+   "invalid.hcl"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.hcl": "table {{{ invalid syntax"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

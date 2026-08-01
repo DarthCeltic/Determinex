@@ -1,0 +1,1563 @@
+[
+ {
+  "name": "test::test_json_format_basic::0",
+  "argv": [
+   "--json"
+  ],
+  "stdin": "{\"a\":1,\"b\":2}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stream_json_format::1",
+  "argv": [
+   "--stream",
+   "--json"
+  ],
+  "stdin": "{\"a\":1}\n{\"b\":2}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stream_basic_multiline::2",
+  "argv": [
+   "--stream",
+   "-m"
+  ],
+  "stdin": "{\"a\":1}\n{\"b\":2}\n{\"c\":3}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_values_extraction::3",
+  "argv": [
+   "--values"
+  ],
+  "stdin": "json = {};\njson.a = \"hello\";\njson.b = 42;\njson.c = true;\njson.d = null;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_json_format::4",
+  "argv": [
+   "--json"
+  ],
+  "stdin": "{\"nested\":{\"deep\":{\"value\":\"test\"}}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_json_statement_array_length::5",
+  "argv": [
+   "--ungron"
+  ],
+  "stdin": "[[\"a\"], 1, \"extra\"]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_json_statement_type_assertion::6",
+  "argv": [
+   "--ungron"
+  ],
+  "stdin": "[\"string_not_array\", 123]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_values_with_array_indices::7",
+  "argv": [
+   "--values"
+  ],
+  "stdin": "json = [];\njson[0] = \"first\";\njson[1] = \"second\";\njson[2] = 123;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_arrays_and_objects_json_format::8",
+  "argv": [
+   "--json"
+  ],
+  "stdin": "{\"empty_arr\":[],\"empty_obj\":{},\"nested\":{\"also_empty\":[]}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_numeric_keys_in_json_format::9",
+  "argv": [
+   "--json"
+  ],
+  "stdin": "{\"123\":\"val1\",\"456\":\"val2\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_quoted_key_in_ungron::10",
+  "argv": [
+   "--ungron"
+  ],
+  "stdin": "json[\"invalid\\xff\"] = 1;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_numeric_key_in_ungron::11",
+  "argv": [
+   "--ungron"
+  ],
+  "stdin": "json[99999999999999999999] = 1;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stream_with_monochrome_flag::12",
+  "argv": [
+   "--stream",
+   "-m"
+  ],
+  "stdin": "{\"a\":1}\n{\"b\":2}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_nested_json_format::13",
+  "argv": [
+   "--json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_values_extraction_with_escaped_strings::14",
+  "argv": [
+   "--values"
+  ],
+  "stdin": "json.a = \"hello\\tworld\";",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stream_mode_with_empty_lines::15",
+  "argv": [
+   "--stream",
+   "-m"
+  ],
+  "stdin": "{\"a\":1}\n\n{\"b\":2}\n{\"c\":3}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_data_types::16",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "{\"string\":\"hello\",\"number\":42,\"float\":3.14,\"bool\":true,\"null_val\":null}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_escaping_unicode_emoji::17",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "{\"unicode\":\"こんにちは\",\"emoji\":\"🎉\",\"special\":\"quote\\\"slash\\\\tab\\tnewline\\n\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_number_formats_negative_zero_scientific::18",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "{\"neg\":-42,\"zero\":0,\"scientific\":1.23e10,\"neg_scientific\":-5.6e-7}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_structures_empty_containers::19",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "{\"empty_obj\":{},\"empty_arr\":[],\"nested\":{\"inner\":{\"deep\":\"value\"}}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arrays_simple_and_nested::20",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "{\"arr\":[1,2,3],\"nested_arr\":[[1,2],[3,4]]}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_keys_requiring_bracket_notation::21",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "{\"special-key\":\"val1\",\"123\":\"val2\",\"has space\":\"val3\",\"has.dot\":\"val4\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_of_objects::22",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "[{\"name\":\"a\"},{\"name\":\"b\"},{\"name\":\"c\"}]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_sort_flag_preserves_insertion_order::23",
+  "argv": [
+   "-m",
+   "--no-sort"
+  ],
+  "stdin": "{\"z\":1,\"a\":2,\"m\":3}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_json_syntax_error::24",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "{invalid json}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_input_error::25",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_truncated_json_error::26",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "{\"a\":1,",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read_from_file::27",
+  "argv": [
+   "-m",
+   "test.json"
+  ],
+  "stdin": null,
+  "files": {
+   "test.json": "{\"from\":\"file\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file_error::28",
+  "argv": [
+   "-m",
+   "/nonexistent/file.json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deep_nesting_six_levels::29",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "{\"a\":{\"b\":{\"c\":{\"d\":{\"e\":{\"f\":\"deep\"}}}}}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_array_100_elements::30",
+  "argv": [
+   "-m"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_nesting_objects_in_arrays_and_vice_versa::31",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "{\"obj_in_arr\":[{\"a\":1},{\"b\":2}],\"arr_in_obj\":{\"x\":[1,2,3]}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_boolean_values_true_and_false::32",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "{\"true_val\":true,\"false_val\":false}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_javascript_reserved_word_keys::33",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "{\"class\":\"a\",\"function\":\"b\",\"var\":\"c\",\"return\":\"d\",\"if\":\"e\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_identifier_rules_underscores_unicode_numbers::34",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "{\"_under_scores\":\"val\",\"ಠ_ಠ\":\"face\",\"123start\":\"num\",\"is-quoted\":\"dash\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_string_key::35",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "{\"\":\"empty\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_top_level_string::36",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "\"just a string\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_top_level_number::37",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "42",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_top_level_boolean::38",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "true",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_top_level_null::39",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_index_numeric_sorting::40",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "[10,2,100,20,3]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_explicit_dash_argument::41",
+  "argv": [
+   "-m",
+   "-"
+  ],
+  "stdin": "{\"stdin\":true}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_monochrome_flag_suppresses_ansi_codes::42",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "{\"test\":\"value\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colorize_flag_produces_ansi_codes::43",
+  "argv": [
+   "-c"
+  ],
+  "stdin": "{\"test\":\"value\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stream_mode_treats_each_line_as_separate_json::44",
+  "argv": [
+   "-m",
+   "-s"
+  ],
+  "stdin": "{\"line\":1}\n{\"line\":2}\n{\"line\":3}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stream_mode_with_no_sort::45",
+  "argv": [
+   "-m",
+   "-s",
+   "--no-sort"
+  ],
+  "stdin": "{\"z\":1,\"a\":2}\n{\"m\":3}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stream_mode_error_on_invalid_line::46",
+  "argv": [
+   "-m",
+   "-s"
+  ],
+  "stdin": "{\"good\":1}\n{bad json}\n{\"good\":2}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_values_mode_extracts_only_values::47",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "{\"name\":\"test\",\"age\":30,\"active\":true}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_values_mode_with_array::48",
+  "argv": [
+   "-v"
+  ],
+  "stdin": "json[0] = \"a\";\njson[1] = \"b\";\njson[2] = \"c\";",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_mode_output_format::49",
+  "argv": [
+   "-m",
+   "-j"
+  ],
+  "stdin": "{\"a\":1,\"b\":2}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_mode_with_nested_structures::50",
+  "argv": [
+   "-m",
+   "-j"
+  ],
+  "stdin": "{\"x\":{\"y\":[1,2]}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::51",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stream_mode_with_json_output::52",
+  "argv": [
+   "-m",
+   "-s",
+   "-j"
+  ],
+  "stdin": "{\"a\":1}\n{\"b\":2}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_invocations_are_stateless::53",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "{\"test\":\"stateless\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_float_precision_preservation::54",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "{\"precise\":3.141592653589793,\"small\":0.0000000001,\"large\":999999999999.999999}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_top_level_object_and_array::55",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "{}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_mode_output_format_and_ungron::56",
+  "argv": [
+   "-j",
+   "-m"
+  ],
+  "stdin": "{\"a\":1,\"b\":2}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_monochrome_flags::57",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "{\"test\": \"value\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_values_mode_extracts_from_gron_statements::58",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "{\"name\":\"Alice\",\"age\":30,\"active\":true}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_vs_file_vs_explicit_dash::59",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "{\"source\":\"test\",\"value\":42}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colorize_monochrome_flag_precedence::60",
+  "argv": [
+   "-c"
+  ],
+  "stdin": "{\"test\": 1}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gron_ungron_with_json_mode_roundtrip::61",
+  "argv": [
+   "-j",
+   "-m"
+  ],
+  "stdin": "{\"users\":[{\"name\":\"Alice\",\"age\":30},{\"name\":\"Bob\",\"age\":25}],\"total\":2}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stream_mode_multiple_objects_per_file::62",
+  "argv": [
+   "-s",
+   "-m"
+  ],
+  "stdin": "{\"a\":1}\n{\"b\":2}\n{\"c\":3}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_values_mode_on_regular_gron_output::63",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "{\"name\":\"Test\",\"count\":42,\"active\":true}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ungron_conflicting_type_assignments_last_wins::64",
+  "argv": [
+   "-u",
+   "-m"
+  ],
+  "stdin": "json = {};\njson.test = 1;\njson.test = {};\njson.test.sub = 2;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ungron_sparse_array_with_gap::65",
+  "argv": [
+   "-u",
+   "-m"
+  ],
+  "stdin": "json = [];\njson[5] = \"value\";",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ungron_negative_array_index_error::66",
+  "argv": [
+   "-u",
+   "-m"
+  ],
+  "stdin": "json = [];\njson[-1] = \"negative\";",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ungron_empty_string_key::67",
+  "argv": [
+   "-u",
+   "-m"
+  ],
+  "stdin": "json = {};\njson[\"\"] = \"empty key value\";",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ungron_silently_skips_invalid_statements::68",
+  "argv": [
+   "-u",
+   "-m"
+  ],
+  "stdin": "json = {};\njson.a = 1;\nthis is not a valid statement\njson.b = 2;\nalso invalid = malformed\njson.c = 3;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stream_and_ungron_flags_incompatible::69",
+  "argv": [
+   "-s",
+   "-u",
+   "-m"
+  ],
+  "stdin": "{\"a\":1}\n{\"b\":2}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gron_output_statement_order_deterministic::70",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "{\"z\":{\"m\":1,\"a\":2},\"a\":{\"z\":3,\"a\":4}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gron_ungron_preserves_unicode_in_keys::71",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "{\"键\":\"中文\",\"🔑\":\"emoji\",\"Ключ\":\"кириллица\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_values_mode_with_nested_structures::72",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "{\"obj\":{\"a\":1},\"arr\":[2,3],\"val\":\"text\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_sort_with_complex_structure::73",
+  "argv": [
+   "-m"
+  ],
+  "stdin": "{\"z\":1,\"m\":2,\"a\":3}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_values_mode_extracts_only_values::74",
+  "argv": [
+   "-v",
+   "-m"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_mode_output_format::75",
+  "argv": [
+   "-j",
+   "-m"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_mode_with_stream::76",
+  "argv": [
+   "-s",
+   "-j",
+   "-m"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ungron_with_json_mode::77",
+  "argv": [
+   "-u",
+   "-j",
+   "-m"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_mode_empty_object::78",
+  "argv": [
+   "-j",
+   "-m"
+  ],
+  "stdin": "{}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_mode_empty_array::79",
+  "argv": [
+   "-j",
+   "-m"
+  ],
+  "stdin": "[]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_mode_unsorted_output::80",
+  "argv": [
+   "-j",
+   "--no-sort",
+   "-m"
+  ],
+  "stdin": "{\"z\":1,\"a\":2,\"m\":3}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_values_mode_invalid_statement_error::81",
+  "argv": [
+   "-v",
+   "-m"
+  ],
+  "stdin": "\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_mode_invalid_json_error::82",
+  "argv": [
+   "-j",
+   "-m"
+  ],
+  "stdin": "not valid json",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_mode_preserves_unicode::83",
+  "argv": [
+   "-j",
+   "-m"
+  ],
+  "stdin": "{\"text\":\"Hello 世界\",\"emoji\":\"🎉🎊\",\"arabic\":\"مرحبا\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_mode_deeply_nested_structures::84",
+  "argv": [
+   "-j",
+   "-m"
+  ],
+  "stdin": "{\"a\":{\"b\":{\"c\":{\"d\":\"deep\"}}}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_values_mode_numeric_edge_cases::85",
+  "argv": [
+   "-v",
+   "-m"
+  ],
+  "stdin": "json.zero = 0;\njson.negative = -123.456;\njson.scientific = 1e10;\njson.large = 999999999999;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_values_mode_extracts_from_stream_gron::86",
+  "argv": [
+   "-s",
+   "-m"
+  ],
+  "stdin": "{\"a\":1}\n{\"b\":2}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_mode_empty_string_value::87",
+  "argv": [
+   "-j",
+   "-m"
+  ],
+  "stdin": "{\"empty\":\"\",\"nonempty\":\"x\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_values_mode_empty_string_extraction::88",
+  "argv": [
+   "-v",
+   "-m"
+  ],
+  "stdin": "json.empty = \"\";",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_mode_boolean_false_not_omitted::89",
+  "argv": [
+   "-j",
+   "-m"
+  ],
+  "stdin": "{\"a\":true,\"b\":false,\"c\":null}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_values_mode_only_scalars_no_containers::90",
+  "argv": [
+   "-v",
+   "-m"
+  ],
+  "stdin": "json = {};\njson.arr = [];\njson.obj = {};\njson.val = 123;",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_mode_special_keys_with_dots_brackets::91",
+  "argv": [
+   "-j",
+   "-m"
+  ],
+  "stdin": "{\"key.with.dots\":\"val1\",\"key[with]brackets\":\"val2\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_mode_with_null_values::92",
+  "argv": [
+   "-j",
+   "-m"
+  ],
+  "stdin": "{\"a\":null,\"b\":{\"c\":null},\"d\":[null,null]}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_values_mode_with_null_values::93",
+  "argv": [
+   "-v",
+   "-m"
+  ],
+  "stdin": "json.a = null;\njson.b = \"null\";",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_mode_array_with_mixed_types::94",
+  "argv": [
+   "-j",
+   "-m"
+  ],
+  "stdin": "[1, \"two\", true, null, {\"five\":5}]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag::95",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stream_basic_two_objects::96",
+  "argv": [
+   "-s",
+   "-m"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stream_single_line::97",
+  "argv": [
+   "-s",
+   "-m"
+  ],
+  "stdin": "{\"single\":true}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stream_empty_line_fails::98",
+  "argv": [
+   "-s",
+   "-m"
+  ],
+  "stdin": "{\"a\":1}\n\n{\"b\":2}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stream_invalid_json_line_fails::99",
+  "argv": [
+   "-s",
+   "-m"
+  ],
+  "stdin": "{\"a\":1}\n{\"bad json}\n{\"c\":3}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stream_arrays_as_lines::100",
+  "argv": [
+   "-s",
+   "-m"
+  ],
+  "stdin": "[1,2,3]\n[4,5,6]\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stream_scalar_numbers::101",
+  "argv": [
+   "-s",
+   "-m"
+  ],
+  "stdin": "1\n2\n3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stream_scalar_strings::102",
+  "argv": [
+   "-s",
+   "-m"
+  ],
+  "stdin": "\"string1\"\n\"string2\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stream_with_no_sort_flag::103",
+  "argv": [
+   "-s",
+   "-m",
+   "--no-sort"
+  ],
+  "stdin": "{\"z\":1,\"a\":2}\n{\"y\":3,\"b\":4}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stream_with_json_mode::104",
+  "argv": [
+   "-s",
+   "-j",
+   "-m"
+  ],
+  "stdin": "{\"a\":1}\n{\"b\":2}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stream_mixed_types_per_line::105",
+  "argv": [
+   "-s",
+   "-m"
+  ],
+  "stdin": "{\"type\":\"object\"}\n[1,2,3]\n\"string\"\n123\ntrue\nnull\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stream_empty_input::106",
+  "argv": [
+   "-s",
+   "-m"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stream_whitespace_only_line_fails::107",
+  "argv": [
+   "-s",
+   "-m"
+  ],
+  "stdin": "{\"a\":1}\n   \n{\"b\":2}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stream_long_flag_works::108",
+  "argv": [
+   "--stream",
+   "-m"
+  ],
+  "stdin": "{\"a\":1}\n{\"b\":2}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stream_nested_objects::109",
+  "argv": [
+   "-s",
+   "-m"
+  ],
+  "stdin": "{\"user\":{\"name\":\"alice\",\"age\":30}}\n{\"user\":{\"name\":\"bob\",\"age\":25}}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stream_special_values::110",
+  "argv": [
+   "-s",
+   "-m"
+  ],
+  "stdin": "{\"num\":9999999999999}\n{\"str\":\"hello\\nworld\"}\n{\"unicode\":\"café ☕\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stream_nested_arrays::111",
+  "argv": [
+   "-s",
+   "-m"
+  ],
+  "stdin": "[1,2,[3,4]]\n[5,6,[7,8]]\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stream_objects_with_arrays::112",
+  "argv": [
+   "-s",
+   "-m"
+  ],
+  "stdin": "{\"users\":[{\"name\":\"alice\"},{\"name\":\"bob\"}]}\n{\"users\":[{\"name\":\"charlie\"}]}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stream_arrays_with_nulls::113",
+  "argv": [
+   "-s",
+   "-m"
+  ],
+  "stdin": "[true,false,null]\n[1,2,null,4]\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stream_line_with_trailing_tab::114",
+  "argv": [
+   "-s",
+   "-m"
+  ],
+  "stdin": "{\"a\":1}\t\n{\"b\":2}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stream_tab_only_line_fails::115",
+  "argv": [
+   "-s",
+   "-m"
+  ],
+  "stdin": "{\"a\":1}\n\t\n{\"b\":2}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stream_empty_object_and_array::116",
+  "argv": [
+   "-s",
+   "-m"
+  ],
+  "stdin": "{}\n[]\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stream_float_values::117",
+  "argv": [
+   "-s",
+   "-m"
+  ],
+  "stdin": "{\"pi\":3.14159}\n{\"e\":2.71828}\n{\"tiny\":0.0001}\n{\"sci\":1.23e-10}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ungron_simple_object::118",
+  "argv": [
+   "--ungron"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ungron_short_flag::119",
+  "argv": [
+   "-u"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ungron_error_type_mismatch_object_to_array::120",
+  "argv": [
+   "--ungron"
+  ],
+  "stdin": "json.foo = {};\njson.foo = [];\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ungron_error_type_mismatch_array_to_object::121",
+  "argv": [
+   "--ungron"
+  ],
+  "stdin": "json.arr = [];\njson.arr = {};\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ungron_error_missing_semicolon::122",
+  "argv": [
+   "--ungron"
+  ],
+  "stdin": "json = {};\njson.name = \"test\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ungron_error_malformed_value::123",
+  "argv": [
+   "--ungron"
+  ],
+  "stdin": "json = {};\njson.likes = [;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ungron_error_empty_input::124",
+  "argv": [
+   "--ungron"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ungron_error_whitespace_only::125",
+  "argv": [
+   "--ungron"
+  ],
+  "stdin": "   \n\n  \t\n  ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ungron_scalar_override::126",
+  "argv": [
+   "--ungron"
+  ],
+  "stdin": "json = {};\njson.val = 42;\njson.val = \"string\";\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ungron_error_invalid_identifier::127",
+  "argv": [
+   "--ungron"
+  ],
+  "stdin": "json.123invalid = \"test\";\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ungron_error_invalid_bracket_content::128",
+  "argv": [
+   "--ungron"
+  ],
+  "stdin": "json[abc] = \"test\";\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ungron_object_merge_preserves_all_keys::129",
+  "argv": [
+   "--ungron"
+  ],
+  "stdin": "json = {};\njson.a = {};\njson.a.b = 1;\njson.a = {};\njson.a.c = 2;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ungron_array_merge_extends_correctly::130",
+  "argv": [
+   "--ungron"
+  ],
+  "stdin": "json = {};\njson.arr = [];\njson.arr[0] = 1;\njson.arr[1] = 2;\njson.arr = [];\njson.arr[2] = 3;\njson.arr[3] = 4;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ungron_deep_nested_merge::131",
+  "argv": [
+   "--ungron"
+  ],
+  "stdin": "json = {};\njson.a = {};\njson.a.b = {};\njson.a.b.c = 1;\njson.a = {};\njson.a.b = {};\njson.a.b.d = 2;\njson.a = {};\njson.a.e = 3;\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fetch_nonexistent_domain::132",
+  "argv": [
+   "http://nonexistent.domain.invalid.test/test.json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fetch_connection_refused::133",
+  "argv": [
+   "http://127.0.0.1:19999/test.json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_url_protocol_treated_as_file::134",
+  "argv": [
+   "htp://invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

@@ -1,0 +1,764 @@
+[
+ {
+  "name": "fuzz0",
+  "argv": [],
+  "stdin": "{\"a\":\"key.dot\",\"a.b\":{\"a.b\":12000000000.0,\"a b\":42},\"b\":[{\"\":-7},{\"a.b\":\"with space\",\"b\":\"x\"},{\"a b\":\"\"},{}]}",
+  "files": {},
+  "serve": {}
+ },
+ {
+  "name": "test::test_no_flags_shows_all_non_main_modules::0",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_update_flag_shows_only_modules_with_updates::1",
+  "argv": [
+   "-update"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_direct_flag_shows_only_direct_dependencies::2",
+  "argv": [
+   "-direct"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_update_and_direct_flags_combined::3",
+  "argv": [
+   "-update",
+   "-direct"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_style_format::4",
+  "argv": [
+   "-style",
+   "markdown"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_style_explicit::5",
+  "argv": [
+   "-style",
+   "default"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_style_falls_back_to_default::6",
+  "argv": [
+   "-style",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ci_flag_exit_code_1_when_outdated_deps_found::7",
+  "argv": [
+   "-ci"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ci_flag_with_update_filter_exit_code::8",
+  "argv": [
+   "-ci",
+   "-update"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ci_flag_with_direct_and_update_filter_exit_code::9",
+  "argv": [
+   "-ci",
+   "-update",
+   "-direct"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ci_flag_when_filters_produce_empty_result_exit_code_0::10",
+  "argv": [
+   "-ci",
+   "-direct"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_with_update_filter::11",
+  "argv": [
+   "-style",
+   "markdown",
+   "-update"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_with_direct_filter::12",
+  "argv": [
+   "-style",
+   "markdown",
+   "-direct"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_update_flag_filters_modules_without_updates::13",
+  "argv": [
+   "--update"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_direct_flag_filters_indirect_modules::14",
+  "argv": [
+   "--direct"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ci_flag_exits_nonzero_when_outdated_found::15",
+  "argv": [
+   "--ci"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_markdown_style_output_format::16",
+  "argv": [
+   "--style",
+   "markdown"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_update_and_direct_flags::17",
+  "argv": [
+   "--update",
+   "--direct"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_nonexistent_style_fallback::18",
+  "argv": [
+   "-style",
+   "foo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_ci_flag_exits_zero_indirect_only_with_direct_filter::19",
+  "argv": [
+   "-direct",
+   "-ci"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_exists::20",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::21",
+  "argv": [
+   "--invalid-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_real_world_with_update_filter::22",
+  "argv": [
+   "-update"
+  ],
+  "stdin": "{\"Path\":\"github.com/example/main\",\"Main\":true,\"Version\":\"v1.0.0\"}\n{\"Path\":\"github.com/BurntSushi/toml\",\"Version\":\"v0.3.0\",\"Update\":{\"Version\":\"v0.4.0\"},\"Indirect\":false}\n{\"Path\":\"github.com/pkg/errors\",\"Version\":\"v0.8.0\",\"Indirect\":false}\n{\"Path\":\"github.com/stretchr/testify\",\"Version\":\"v1.3.0\",\"Update\":{\"Version\":\"v1.7.0\"},\"Indirect\":true}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_real_world_with_direct_filter::23",
+  "argv": [
+   "-direct"
+  ],
+  "stdin": "{\"Path\":\"github.com/example/main\",\"Main\":true,\"Version\":\"v1.0.0\"}\n{\"Path\":\"github.com/BurntSushi/toml\",\"Version\":\"v0.3.0\",\"Update\":{\"Version\":\"v0.4.0\"},\"Indirect\":false}\n{\"Path\":\"github.com/pkg/errors\",\"Version\":\"v0.8.0\",\"Indirect\":false}\n{\"Path\":\"github.com/stretchr/testify\",\"Version\":\"v1.3.0\",\"Update\":{\"Version\":\"v1.7.0\"},\"Indirect\":true}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_real_world_with_both_filters::24",
+  "argv": [
+   "-update",
+   "-direct"
+  ],
+  "stdin": "{\"Path\":\"github.com/example/main\",\"Main\":true,\"Version\":\"v1.0.0\"}\n{\"Path\":\"github.com/BurntSushi/toml\",\"Version\":\"v0.3.0\",\"Update\":{\"Version\":\"v0.4.0\"},\"Indirect\":false}\n{\"Path\":\"github.com/pkg/errors\",\"Version\":\"v0.8.0\",\"Indirect\":false}\n{\"Path\":\"github.com/stretchr/testify\",\"Version\":\"v1.3.0\",\"Update\":{\"Version\":\"v1.7.0\"},\"Indirect\":true}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ci_mode_realistic::25",
+  "argv": [
+   "-ci"
+  ],
+  "stdin": "{\"Path\":\"github.com/example/main\",\"Main\":true}\n{\"Path\":\"github.com/up-to-date\",\"Version\":\"v1.0.0\",\"Indirect\":false}\n{\"Path\":\"github.com/outdated\",\"Version\":\"v1.0.0\",\"Update\":{\"Version\":\"v2.0.0\"},\"Indirect\":false}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_flags_combined::26",
+  "argv": [
+   "-update",
+   "-direct",
+   "-ci",
+   "-style",
+   "markdown"
+  ],
+  "stdin": "{\"Path\":\"github.com/dep\",\"Version\":\"v1.0.0\",\"Indirect\":false,\"Update\":{\"Version\":\"v2.0.0\"}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_combination_no_results::27",
+  "argv": [
+   "-update",
+   "-direct"
+  ],
+  "stdin": "{\"Path\":\"github.com/dep\",\"Version\":\"v1.0.0\",\"Indirect\":true}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_update_flag_filters_no_updates::28",
+  "argv": [
+   "-update"
+  ],
+  "stdin": "{\"Path\":\"github.com/no-update\",\"Version\":\"v1.0.0\"}\n{\"Path\":\"github.com/has-update\",\"Version\":\"v1.0.0\",\"Update\":{\"Version\":\"v2.0.0\"}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_update_flag_no_modules_with_updates::29",
+  "argv": [
+   "-update"
+  ],
+  "stdin": "{\"Path\":\"github.com/dep1\",\"Version\":\"v1.0.0\"}\n{\"Path\":\"github.com/dep2\",\"Version\":\"v2.0.0\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_direct_flag_filters_indirect::30",
+  "argv": [
+   "-direct"
+  ],
+  "stdin": "{\"Path\":\"github.com/direct\",\"Version\":\"v1.0.0\",\"Indirect\":false}\n{\"Path\":\"github.com/indirect\",\"Version\":\"v2.0.0\",\"Indirect\":true}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_direct_flag_default_is_direct::31",
+  "argv": [
+   "-direct"
+  ],
+  "stdin": "{\"Path\":\"github.com/dep\",\"Version\":\"v1.0.0\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_update_and_direct_combined::32",
+  "argv": [
+   "-update",
+   "-direct"
+  ],
+  "stdin": "{\"Path\":\"github.com/direct-updated\",\"Version\":\"v1.0.0\",\"Indirect\":false,\"Update\":{\"Version\":\"v2.0.0\"}}\n{\"Path\":\"github.com/direct-not-updated\",\"Version\":\"v1.0.0\",\"Indirect\":false}\n{\"Path\":\"github.com/indirect-updated\",\"Version\":\"v1.0.0\",\"Indirect\":true,\"Update\":{\"Version\":\"v2.0.0\"}}\n{\"Path\":\"github.com/indirect-not-updated\",\"Version\":\"v1.0.0\",\"Indirect\":true}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ci_flag_with_outdated::33",
+  "argv": [
+   "-ci"
+  ],
+  "stdin": "{\"Path\":\"github.com/dep\",\"Version\":\"v1.0.0\",\"Update\":{\"Version\":\"v2.0.0\"}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ci_flag_without_outdated::34",
+  "argv": [
+   "-ci"
+  ],
+  "stdin": "{\"Path\":\"github.com/dep\",\"Version\":\"v1.0.0\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ci_flag_with_empty_result::35",
+  "argv": [
+   "-ci",
+   "-direct"
+  ],
+  "stdin": "{\"Path\":\"github.com/dep\",\"Version\":\"v1.0.0\",\"Indirect\":true,\"Update\":{\"Version\":\"v2.0.0\"}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ci_with_direct_outdated_direct::36",
+  "argv": [
+   "-ci",
+   "-direct"
+  ],
+  "stdin": "{\"Path\":\"github.com/dep\",\"Version\":\"v1.0.0\",\"Indirect\":false,\"Update\":{\"Version\":\"v2.0.0\"}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_style_default::37",
+  "argv": [
+   "-style",
+   "default"
+  ],
+  "stdin": "{\"Path\":\"github.com/dep\",\"Version\":\"v1.0.0\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_style_markdown::38",
+  "argv": [
+   "-style",
+   "markdown"
+  ],
+  "stdin": "{\"Path\":\"github.com/dep\",\"Version\":\"v1.0.0\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_style_invalid_defaults_to_default::39",
+  "argv": [
+   "-style",
+   "invalid"
+  ],
+  "stdin": "{\"Path\":\"github.com/dep\",\"Version\":\"v1.0.0\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_style_falls_back_to_default::40",
+  "argv": [
+   "-style",
+   "not-a-style"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_prints_usage_and_flag_error::41",
+  "argv": [
+   "-unknown"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_when_update_filter_removes_all_rows_output_is_empty_and_ci_exit_0::42",
+  "argv": [
+   "-update",
+   "-ci"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_input::43",
+  "argv": [
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_module_with_update::44",
+  "argv": [
+   "{\n\t\"Path\": \"github.com/example/test\",\n\t\"Version\": \"v1.0.0\",\n\t\"Time\": \"2020-01-01T00:00:00Z\",\n\t\"Update\": {\n\t\t\"Path\": \"github.com/example/test\",\n\t\t\"Version\": \"v1.1.0\",\n\t\t\"Time\": \"2020-06-01T00:00:00Z\"\n\t},\n\t\"Indirect\": false\n}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_module_without_update::45",
+  "argv": [
+   "{\n\t\"Path\": \"github.com/example/current\",\n\t\"Version\": \"v2.0.0\",\n\t\"Time\": \"2021-01-01T00:00:00Z\",\n\t\"Indirect\": false\n}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_only_main_module::46",
+  "argv": [
+   "{\n\t\"Path\": \"github.com/myproject/main\",\n\t\"Version\": \"v0.1.0\",\n\t\"Time\": \"2021-01-01T00:00:00Z\",\n\t\"Main\": true\n}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_flags::47",
+  "argv": [
+   "-update",
+   "-direct",
+   "-ci"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_direct_column_false::48",
+  "argv": [
+   "{\n\t\"Path\": \"github.com/indirect/dep\",\n\t\"Version\": \"v1.5.0\",\n\t\"Time\": \"2020-03-01T00:00:00Z\",\n\t\"Indirect\": true\n}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_long_module_name::49",
+  "argv": [
+   "{\n\t\"Path\": \"github.com/very/long/module/name/that/goes/on/and/on/to/test/formatting\",\n\t\"Version\": \"v1.0.0\",\n\t\"Time\": \"2020-01-01T00:00:00Z\",\n\t\"Indirect\": false\n}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_with_timestamp::50",
+  "argv": [
+   "{\n\t\"Path\": \"github.com/example/timestamped\",\n\t\"Version\": \"v0.0.0-20180101120000-abc123def456\",\n\t\"Time\": \"2018-01-01T12:00:00Z\",\n\t\"Update\": {\n\t\t\"Path\": \"github.com/example/timestamped\",\n\t\t\"Version\": \"v0.0.0-20200101120000-def456abc123\",\n\t\t\"Time\": \"2020-01-01T12:00:00Z\"\n\t},\n\t\"Indirect\": false\n}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_with_incompatible::51",
+  "argv": [
+   "{\n\t\"Path\": \"github.com/example/incompatible\",\n\t\"Version\": \"v1.0.0\",\n\t\"Time\": \"2018-01-01T00:00:00Z\",\n\t\"Update\": {\n\t\t\"Path\": \"github.com/example/incompatible\",\n\t\t\"Version\": \"v2.0.0+incompatible\",\n\t\t\"Time\": \"2020-01-01T00:00:00Z\"\n\t},\n\t\"Indirect\": false\n}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_module_without_indirect_field::52",
+  "argv": [
+   "{\n\t\"Path\": \"github.com/example/nofield\",\n\t\"Version\": \"v1.0.0\",\n\t\"Time\": \"2020-01-01T00:00:00Z\"\n}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_json::53",
+  "argv": [
+   "{ invalid json }"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_partial_json_objects::54",
+  "argv": [
+   "{\n\t\"Path\": \"github.com/example/test\",\n\t\"Version\": \"v1.0.0\",\n\t\"Time\": \"2020-01-01T00:00:00Z\",\n\t\"Indirect\": false\n}\n{ incomplete\n{\n\t\"Path\": \"github.com/example/another\",\n\t\"Version\": \"v2.0.0\",\n\t\"Time\": \"2021-01-01T00:00:00Z\",\n\t\"Indirect\": false\n}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_module_path::55",
+  "argv": [
+   "{\n\t\"Path\": \"github.com/example/test-日本語\",\n\t\"Version\": \"v1.0.0\",\n\t\"Time\": \"2020-01-01T00:00:00Z\",\n\t\"Indirect\": false\n}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_timestamp_detection::56",
+  "argv": [
+   "{\n\t\"Path\": \"github.com/example/badtime\",\n\t\"Version\": \"v2.0.0\",\n\t\"Time\": \"2021-01-01T00:00:00Z\",\n\t\"Update\": {\n\t\t\"Path\": \"github.com/example/badtime\",\n\t\t\"Version\": \"v2.1.0\",\n\t\t\"Time\": \"2020-01-01T00:00:00Z\"\n\t},\n\t\"Indirect\": false\n}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_table_structure::57",
+  "argv": [
+   "{\n\t\"Path\": \"github.com/example/test\",\n\t\"Version\": \"v1.0.0\",\n\t\"Time\": \"2020-01-01T00:00:00Z\",\n\t\"Indirect\": false\n}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_ignores_other_valid_flags_and_still_shows_help::58",
+  "argv": [
+   "--style=markdown",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_shows_error_and_usage::59",
+  "argv": [
+   "--bogus",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_stops_flag_parsing_so_help_not_triggered::60",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_ends_flag_parsing_and_allows_flag_like_positionals::61",
+  "argv": [
+   "-style=default",
+   "--",
+   "-ci",
+   "--direct"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trailing_positional_arguments_are_accepted::62",
+  "argv": [
+   "-style=default",
+   "extra",
+   "args"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_last_value_wins_for_repeated_value_flag::63",
+  "argv": [
+   "-style=default",
+   "-style=markdown"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repeated_boolean_flag_with_explicit_values_is_accepted::64",
+  "argv": [
+   "-ci=false",
+   "-ci=true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

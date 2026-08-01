@@ -1,0 +1,3246 @@
+[
+ {
+  "name": "test::test_help_flag_short::0",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_long::1",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_short::2",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_long::3",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_all_mode_short_flag::4",
+  "argv": [
+   "-l"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_all_mode_long_flag::5",
+  "argv": [
+   "--list-all"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_to_theme_mode_requires_input::6",
+  "argv": [
+   "--to-theme",
+   "nonexistent_file.conf"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_to_theme_mode_with_valid_config::7",
+  "argv": [
+   "--to-theme"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_apply_theme_mode_without_config::8",
+  "argv": [
+   "solarized"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_short::9",
+  "argv": [
+   "-z"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_long::10",
+  "argv": [
+   "--nonexistent-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_format::11",
+  "argv": [
+   "---invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_overrides_other_flags::12",
+  "argv": [
+   "--help",
+   "--list-all"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_overrides_other_flags::13",
+  "argv": [
+   "--version",
+   "--list-all"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_all_with_theme_argument::14",
+  "argv": [
+   "--list-all",
+   "solarized"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_flag_requires_value::15",
+  "argv": [
+   "--output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_flag_short::16",
+  "argv": [
+   "solarized",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_flag_long::17",
+  "argv": [
+   "solarized",
+   "--output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_save_flag_short::18",
+  "argv": [
+   "-s",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_save_flag_long::19",
+  "argv": [
+   "--save",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_flag_short::20",
+  "argv": [
+   "-c",
+   "nonexistent.conf",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_flag_long::21",
+  "argv": [
+   "--config",
+   "nonexistent.conf",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_flag_with_nonexistent_file::22",
+  "argv": [
+   "--config",
+   "nonexistent_file_xyz.conf",
+   "solarized"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_flag_with_valid_file::23",
+  "argv": [
+   "--config",
+   "solarized",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reload_flag_short::24",
+  "argv": [
+   "-r",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reload_flag_long::25",
+  "argv": [
+   "--reload",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_file_path::26",
+  "argv": [
+   "--config",
+   "test_theme.yaml",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "test_theme.yaml": "\ncolors:\n  background: '#000000'\n  text: '#FFFFFF'\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_theme_error::27",
+  "argv": [
+   "--config",
+   "nonexistent_theme_xyz_123",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_flag_short::28",
+  "argv": [
+   "solarized",
+   "-c",
+   "eval/fixtures/sample-config",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_flag_long::29",
+  "argv": [
+   "solarized",
+   "--config",
+   "eval/fixtures/sample-config",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_flag_nonexistent_file::30",
+  "argv": [
+   "solarized",
+   "-c",
+   "/nonexistent/config/file",
+   "-o",
+   "/tmp/output.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_builtin_theme_gruvbox::31",
+  "argv": [
+   "gruvbox",
+   "-c",
+   "eval/fixtures/sample-config",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_theme_file::32",
+  "argv": [
+   "eval/fixtures/custom-theme.yaml",
+   "-c",
+   "eval/fixtures/sample-config",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_not_found::33",
+  "argv": [
+   "nonexistent-theme-xyz",
+   "-c",
+   "eval/fixtures/sample-config",
+   "-o",
+   "/tmp/output.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reload_without_wayland_display::34",
+  "argv": [
+   "solarized",
+   "-c",
+   "eval/fixtures/sample-config",
+   "-o",
+   "--reload"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_flag_long::35",
+  "argv": [
+   "solarized",
+   "-c",
+   "eval/fixtures/sample-config",
+   "--output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_save_flag_modifies_input::36",
+  "argv": [
+   "solarized",
+   "-c",
+   "--save"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_output_flag_prints_to_stdout::37",
+  "argv": [
+   "solarized",
+   "-c",
+   "eval/fixtures/sample-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_malformed_theme_file::38",
+  "argv": [
+   "eval/fixtures/malformed-theme.yaml",
+   "-c",
+   "eval/fixtures/sample-config",
+   "-o",
+   "/tmp/output.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::39",
+  "argv": [
+   "--invalid-flag-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_validation_failure::40",
+  "argv": [
+   "solarized",
+   "-c",
+   "eval/fixtures/sample-config",
+   "-o",
+   "/tmp/output.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_to_theme_flag::41",
+  "argv": [
+   "--to-theme",
+   "eval/fixtures/sample-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_to_theme_with_explicit_config::42",
+  "argv": [
+   "--to-theme",
+   "-c",
+   "eval/fixtures/sample-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_takes_precedence_over_version::43",
+  "argv": [
+   "--help",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_with_invalid_args_still_shows_help::44",
+  "argv": [
+   "invalid-arg",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_builtin_theme_application::45",
+  "argv": [
+   "-c",
+   "config"
+  ],
+  "stdin": null,
+  "files": {
+   "config": "\nfont pango:Mono 8\nbindsym Return exec terminal\n\nbar {\n  colors {\n    separator #ffffff\n    background #000000\n    statusline #ffffff\n  }\n}\nclient.focused #ffffff #ffffff #000000\nclient.unfocused #000000 #000000 #ffffff\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_config_not_found_error::46",
+  "argv": [
+   "default"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_flag_overrides_default::47",
+  "argv": [
+   "default",
+   "-c",
+   "custom"
+  ],
+  "stdin": null,
+  "files": {
+   "custom": "\nfont pango:Custom 12\nclient.focused #ffffff #ffffff #000000\nbar {\n  colors {\n    separator #ffffff\n  }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_to_theme_from_config_file::48",
+  "argv": [
+   "--to-theme",
+   "config"
+  ],
+  "stdin": null,
+  "files": {
+   "config": "\nfont pango:Mono 8\n\nbar {\n  colors {\n    separator #dc322f\n    background #002b36\n    statusline #268bd2\n    focused_workspace #fdf6e3 #859900\n    active_workspace #fdf6e3 #6c71c4\n    inactive_workspace #586e75 #93a1a1\n    urgent_workspace #d33682 #d33682\n  }\n}\nclient.focused #859900 #859900 #fdf6e3\nclient.focused_inactive #073642 #073642 #eee8d5\nclient.unfocused #073642 #073642 #93a1a1\nclient.urgent #d33682 #d33682 #fdf6e3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_to_theme_short_flag::49",
+  "argv": [
+   "-t",
+   "config"
+  ],
+  "stdin": null,
+  "files": {
+   "config": "\nfont pango:Mono 8\nclient.focused #ffffff #ffffff #000000\nbar {\n  colors {\n    separator #ffffff\n  }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_to_theme_with_config_flag::50",
+  "argv": [
+   "-t",
+   "",
+   "-c",
+   "config"
+  ],
+  "stdin": null,
+  "files": {
+   "config": "\nfont pango:Mono 8\nclient.focused #ffffff #ffffff #000000\nbar {\n  colors {\n    separator #ffffff\n  }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_to_theme_output_has_colors::51",
+  "argv": [
+   "--to-theme",
+   "config"
+  ],
+  "stdin": null,
+  "files": {
+   "config": "\nclient.focused #123456 #789abc #def012\nclient.unfocused #111111 #222222 #333333\nbar {\n  colors {\n    separator #aabbcc\n    background #ddeeff\n  }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_config_file::52",
+  "argv": [
+   "default",
+   "-c",
+   "config"
+  ],
+  "stdin": null,
+  "files": {
+   "config": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_only_comments::53",
+  "argv": [
+   "default",
+   "-c",
+   "config"
+  ],
+  "stdin": null,
+  "files": {
+   "config": "\n# This is a comment\n# Another comment\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_bar_no_colors_section::54",
+  "argv": [
+   "default",
+   "-c",
+   "config"
+  ],
+  "stdin": null,
+  "files": {
+   "config": "\nfont pango:Mono 8\nbar {\n  status_command i3status\n  position top\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_with_uppercase_colors::55",
+  "argv": [
+   "default",
+   "-c",
+   "config"
+  ],
+  "stdin": null,
+  "files": {
+   "config": "\nfont pango:Mono 8\nclient.focused #AABBCC #DDEEFF #112233\nbar {\n  colors {\n    separator #FFFFFF\n  }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_with_mixed_case_colors::56",
+  "argv": [
+   "default",
+   "-c",
+   "config"
+  ],
+  "stdin": null,
+  "files": {
+   "config": "\nclient.focused #AaBbCc #dDeEfF #112233\nbar {\n  colors {\n    separator #FfFfFf\n  }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_tabs_and_spaces::57",
+  "argv": [
+   "default",
+   "-c",
+   "config"
+  ],
+  "stdin": null,
+  "files": {
+   "config": "\nfont pango:Mono 8\n\tbar {\n\t  colors {\n    \tseparator #ffffff\n\t  }\n\t}\nclient.focused #ffffff #ffffff #000000\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_config::58",
+  "argv": [
+   "default",
+   "-c",
+   "config"
+  ],
+  "stdin": null,
+  "files": {
+   "config": "\nfont pango:Mono 8\nset $mod Mod4\n\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_multiline_statements::59",
+  "argv": [
+   "default",
+   "-c",
+   "config"
+  ],
+  "stdin": null,
+  "files": {
+   "config": "\nfont pango:Mono 8\n\nbindsym $mod+Return exec \\\n    i3-sensible-terminal\n\nbar {\n  colors {\n    separator #ffffff\n  }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_config_resource::60",
+  "argv": [
+   "default",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_preserves_child_border::61",
+  "argv": [
+   "default",
+   "-c",
+   "config"
+  ],
+  "stdin": null,
+  "files": {
+   "config": "\nfont pango:Mono 8\nclient.focused #ffffff #ffffff #000000 #ff0000\nbar {\n  colors {\n    separator #ffffff\n  }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_to_stdout_is_complete::62",
+  "argv": [
+   "default",
+   "-c",
+   "config"
+  ],
+  "stdin": null,
+  "files": {
+   "config": "\nfont pango:Mono 8\nset $mod Mod4\nbindsym $mod+Return exec terminal\n\nbar {\n  colors {\n    separator #ffffff\n  }\n}\nclient.focused #ffffff #ffffff #000000\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_theme_name::63",
+  "argv": [
+   "nonexistent-theme-xyz",
+   "-c",
+   "config"
+  ],
+  "stdin": null,
+  "files": {
+   "config": "\nfont pango:Mono 8\nbar {\n  colors {\n    separator #ffffff\n  }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_theme_file::64",
+  "argv": [
+   "/nonexistent/theme.yaml",
+   "-c",
+   "config"
+  ],
+  "stdin": null,
+  "files": {
+   "config": "\nfont pango:Mono 8\nbar {\n  colors {\n    separator #ffffff\n  }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_config_file::65",
+  "argv": [
+   "default",
+   "-c",
+   "/nonexistent/config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_config_syntax::66",
+  "argv": [
+   "default",
+   "-c",
+   "config"
+  ],
+  "stdin": null,
+  "files": {
+   "config": "\nthis is not valid i3 config syntax\nrandom garbage {{{{ ))))\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_malformed_theme_yaml::67",
+  "argv": [
+   "theme.yaml",
+   "-c",
+   "config"
+  ],
+  "stdin": null,
+  "files": {
+   "theme.yaml": "\nthis is not valid yaml syntax\n  indentation: wrong\n[bracket: mismatch\n",
+   "config": "\nfont pango:Mono 8\nbar {\n  colors {\n    separator #ffffff\n  }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_without_required_flag::68",
+  "argv": [
+   "-o",
+   "/tmp/output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_to_theme_invalid_config::69",
+  "argv": [
+   "--to-theme",
+   "config"
+  ],
+  "stdin": null,
+  "files": {
+   "config": "\nthis is not valid i3 config\ngarbage {{{{ ))))\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_validation_error_provides_message::70",
+  "argv": [
+   "default",
+   "-c",
+   "config"
+  ],
+  "stdin": null,
+  "files": {
+   "config": "\nthis is not valid i3 config\ngarbage {{{{ ))))\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reload_flag_without_i3msg::71",
+  "argv": [
+   "default",
+   "-c",
+   "config",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {
+   "config": "\nfont pango:Mono 8\nbar {\n  colors {\n    separator #ffffff\n  }\n}\nclient.focused #ffffff #ffffff #000000\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reload_flag_with_output_file::72",
+  "argv": [
+   "default",
+   "-c",
+   "config",
+   "-o",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {
+   "config": "\nfont pango:Mono 8\nbar {\n  colors {\n    separator #ffffff\n  }\n}\nclient.focused #ffffff #ffffff #000000\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_apply_builtin_theme_to_stdout::73",
+  "argv": [
+   "default",
+   "-c",
+   "config"
+  ],
+  "stdin": null,
+  "files": {
+   "config": "\n# test config\nfont pango:Fira Mono 8\n\nbar {\n  colors {\n    separator #ffffff\n    background #000000\n    statusline #ffffff\n  }\n}\nclient.focused #ffffff #ffffff #000000\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_apply_builtin_theme_to_file::74",
+  "argv": [
+   "default",
+   "-c",
+   "config",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {
+   "config": "\nfont pango:Fira Mono 8\nbar {\n  colors {\n    separator #ffffff\n  }\n}\nclient.focused #ffffff #ffffff #000000\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_apply_custom_theme_file::75",
+  "argv": [
+   "-c",
+   "config"
+  ],
+  "stdin": null,
+  "files": {
+   "config": "\nfont pango:Fira Mono 8\nbar {\n  colors {\n    separator #ffffff\n  }\n}\nclient.focused #ffffff #ffffff #000000\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_apply_theme_with_minimal_config::76",
+  "argv": [
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_apply_theme_preserves_non_color_config::77",
+  "argv": [
+   "default",
+   "-c",
+   "config"
+  ],
+  "stdin": null,
+  "files": {
+   "config": "\n# My custom i3 config\nfont pango:DejaVu Sans Mono 10\nset $mod Mod4\n\nbindsym $mod+Return exec i3-sensible-terminal\nbindsym $mod+Shift+q kill\n\nbar {\n  status_command i3status\n  position top\n  colors {\n    separator #ffffff\n  }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_apply_theme_to_multiple_bars::78",
+  "argv": [
+   "default",
+   "-c",
+   "config"
+  ],
+  "stdin": null,
+  "files": {
+   "config": "\nfont pango:Mono 8\n\nbar {\n  id bar-1\n  colors {\n    separator #ffffff\n  }\n}\n\nbar {\n  id bar-2\n  colors {\n    separator #000000\n  }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_save_flag::79",
+  "argv": [
+   "default",
+   "-c",
+   "config",
+   "-s"
+  ],
+  "stdin": null,
+  "files": {
+   "config": "\nfont pango:Mono 8\nbar {\n  colors {\n    separator #ffffff\n  }\n}\nclient.focused #ffffff #ffffff #000000\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_to_theme_with_c_flag::80",
+  "argv": [
+   "-c",
+   "--to-theme"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_to_theme_config_discovery_order::81",
+  "argv": [
+   "/workspace/executable",
+   "--to-theme"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_to_theme_validates_config_first::82",
+  "argv": [
+   "/workspace/executable",
+   "--to-theme",
+   "invalid.config"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.config": "this is not valid i3 config syntax!!!\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_nonexistent_path_error::83",
+  "argv": [
+   "-c",
+   "/nonexistent/path/config",
+   "slate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_relative_path::84",
+  "argv": [
+   "/workspace/executable",
+   "slate",
+   "-c",
+   "my-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_flag_creates_file::85",
+  "argv": [
+   "slate",
+   "-c",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_flag_overwrites_existing::86",
+  "argv": [
+   "slate",
+   "-c",
+   "-o",
+   "config-output"
+  ],
+  "stdin": null,
+  "files": {
+   "config-output": "old content that should be replaced\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_save_flag_modifies_in_place::87",
+  "argv": [
+   "slate",
+   "-c",
+   "-s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reload_flag_calls_i3_msg::88",
+  "argv": [
+   "slate",
+   "-c",
+   "-o",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reload_requires_output_flag::89",
+  "argv": [
+   "slate",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_bar_blocks::90",
+  "argv": [
+   "slate",
+   "-c",
+   "multi-bar.conf"
+  ],
+  "stdin": null,
+  "files": {
+   "multi-bar.conf": "\nfont pango:Fira Mono 8\nbar {\n  colors {\n    separator #dc322f\n    background #002b36\n  }\n}\nbar {\n  colors {\n    separator #859900\n    background #073642\n  }\n}\nclient.focused #859900 #859900 #fdf6e3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_to_theme_with_invalid_syntax_colors::91",
+  "argv": [
+   "--to-theme",
+   "invalid.conf"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.conf": "\nfont pango:Fira Mono 8\nclient.focused incomplete color line\nbar {\n  colors {\n    background #002b36\n  }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_names_are_case_sensitive::92",
+  "argv": [
+   "Slate",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_to_theme_preserves_color_case_from_config::93",
+  "argv": [
+   "--to-theme",
+   "mixed.conf"
+  ],
+  "stdin": null,
+  "files": {
+   "mixed.conf": "\nfont pango:Fira Mono 8\nclient.focused #AbCdEf #123456 #FEDCBA\nbar {\n  colors {\n    background #aaBBcc\n  }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_from_filesystem::94",
+  "argv": [
+   "custom.yaml",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {
+   "custom.yaml": "\n---\nmeta:\n  description: Custom test theme\ncolors:\n  red: \"#FF0000\"\n  blue: \"#0000FF\"\nwindow_colors:\n  focused:\n    border: red\n    background: red\n    text: blue\nbar_colors:\n  background: blue\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duplicate_config_flag_error::95",
+  "argv": [
+   "-c",
+   "/tmp/config1",
+   "-c",
+   "/tmp/config2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duplicate_output_flag_error::96",
+  "argv": [
+   "-o",
+   "/tmp/out1",
+   "-o",
+   "/tmp/out2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duplicate_to_theme_flag_error::97",
+  "argv": [
+   "-t",
+   "/tmp/theme1",
+   "-t",
+   "/tmp/theme2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duplicate_to_theme_long_flag_error::98",
+  "argv": [
+   "--to-theme",
+   "/tmp/theme1",
+   "--to-theme",
+   "/tmp/theme2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_then_help_version_wins::99",
+  "argv": [
+   "--version",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_all_then_version_version_wins::100",
+  "argv": [
+   "--list-all",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_with_theme_arg_version_wins::101",
+  "argv": [
+   "--version",
+   "slate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_with_theme_arg_help_wins::102",
+  "argv": [
+   "--help",
+   "slate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_string_theme_name::103",
+  "argv": [
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_theme_name_cafe::104",
+  "argv": [
+   "café"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_theme_name_japanese::105",
+  "argv": [
+   "日本語"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_whitespace_only_theme_name::106",
+  "argv": [
+   "   "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_config_path_panics::107",
+  "argv": [
+   "-c",
+   "café",
+   "slate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_string_config_path_panics::108",
+  "argv": [
+   "-c",
+   "",
+   "slate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_whitespace_only_config_path_panics::109",
+  "argv": [
+   "-c",
+   "   ",
+   "slate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_only_no_theme_exits_1::110",
+  "argv": [
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_boolean_flags_accepted::111",
+  "argv": [
+   "-r",
+   "-s",
+   "-l"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_config_path_near_path_max_panics::112",
+  "argv": [
+   "-c",
+   "slate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_circuit_ignores_invalid_theme::113",
+  "argv": [
+   "--help",
+   "nonexistent_theme_xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_short_circuit_ignores_invalid_flags::114",
+  "argv": [
+   "--version",
+   "--invalid-flag-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_all_short_circuit_ignores_theme_arg::115",
+  "argv": [
+   "--list-all",
+   "nonexistent_theme_xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_arg_with_equals_sign::116",
+  "argv": [
+   "theme=value"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_arg_with_dashes::117",
+  "argv": [
+   "flat-gray"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_flag_without_value_error::118",
+  "argv": [
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_to_theme_flag_with_default_value::119",
+  "argv": [
+   "-t"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_all_with_help_reversed_help_also_wins::120",
+  "argv": [
+   "--list-all",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_save_flag_without_output_or_config::121",
+  "argv": [
+   "-s",
+   "slate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reload_flag_without_output_or_config::122",
+  "argv": [
+   "-r",
+   "slate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_theme_from_filesystem::123",
+  "argv": [
+   "nonexistent_theme_file.yaml",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_file_not_found::124",
+  "argv": [
+   "slate",
+   "-c",
+   "/nonexistent/path/to/config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_theme_with_flags_shows_error::125",
+  "argv": [
+   "-o",
+   "/tmp/test.config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_directory_does_not_exist::126",
+  "argv": [
+   "slate",
+   "-c",
+   "-o",
+   "/nonexistent/dir/output.config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_no_system_config_found_no_flag::127",
+  "argv": [
+   "slate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_missing_required_fields::128",
+  "argv": [
+   "incomplete.yaml",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {
+   "incomplete.yaml": "\nmeta:\n  description: \"Incomplete theme\"\n# Missing colors, window_colors, bar_colors\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_theme_file::129",
+  "argv": [
+   "empty_theme.yaml",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {
+   "empty_theme.yaml": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_with_only_comments::130",
+  "argv": [
+   "comments_only.yaml",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {
+   "comments_only.yaml": "\n# This is a comment\n# Another comment\n# No actual content\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_config_path::131",
+  "argv": [
+   "slate",
+   "-c",
+   "test_rel_config.i3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_all_with_theme_argument_ignores_theme::132",
+  "argv": [
+   "--list-all",
+   "slate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_to_theme_with_explicit_empty_value::133",
+  "argv": [
+   "--to-theme",
+   "",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_to_dev_null::134",
+  "argv": [
+   "slate",
+   "-c",
+   "-o",
+   "/dev/null"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_simultaneous_to_theme_and_theme_arg::135",
+  "argv": [
+   "--to-theme",
+   "slate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_without_theme_shows_usage_hint::136",
+  "argv": [
+   "--save"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reload_with_wayland_display_uses_swaymsg::137",
+  "argv": [
+   "--reload",
+   "--config",
+   "config",
+   "--save",
+   "slate"
+  ],
+  "stdin": null,
+  "files": {
+   "config": "# test config\nfont pango:monospace 8\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_with_partial_bar_colors::138",
+  "argv": [
+   "--config",
+   "config",
+   "--output",
+   "partial_bar.yaml"
+  ],
+  "stdin": null,
+  "files": {
+   "config": "# test config\nfont pango:monospace 8\n\nbar {\n    status_command i3status\n    colors {\n        focused_workspace  #000000 #000000 #000000\n        inactive_workspace #111111 #111111 #111111\n    }\n}\n",
+   "partial_bar.yaml": "---\nmeta:\n  description: Theme with partial bar colors\ncolors:\n  red: \"#FF0000\"\n  blue: \"#0000FF\"\n  white: \"#FFFFFF\"\nwindow_colors:\n  focused:\n    border: red\n    background: blue\n    text: white\nbar_colors:\n  focused_workspace:\n    border: red\n    background: blue\n    text: white\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_with_incomplete_bar_workspace_colors::139",
+  "argv": [
+   "--config",
+   "config",
+   "--output",
+   "incomplete_bar.yaml"
+  ],
+  "stdin": null,
+  "files": {
+   "config": "# test config\nfont pango:monospace 8\n\nbar {\n    status_command i3status\n    colors {\n        focused_workspace  #000000 #000000 #000000\n    }\n}\n",
+   "incomplete_bar.yaml": "---\nmeta:\n  description: Theme with incomplete bar colors\ncolors:\n  red: \"#FF0000\"\n  blue: \"#0000FF\"\n  white: \"#FFFFFF\"\nwindow_colors:\n  focused:\n    border: red\n    background: blue\n    text: white\nbar_colors:\n  focused_workspace:\n    border: red\n    background: blue\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_to_theme_with_all_bar_workspace_types::140",
+  "argv": [
+   "--to-theme",
+   "config"
+  ],
+  "stdin": null,
+  "files": {
+   "config": "# test config\nfont pango:monospace 8\n\nbar {\n    colors {\n        focused_workspace  #4C7899 #285577 #FFFFFF\n        active_workspace   #333333 #5F676A #FFFFFF\n        inactive_workspace #888888 #222222 #888888\n        urgent_workspace   #2F343A #900000 #FFFFFF\n    }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_with_child_border_in_window_colors::141",
+  "argv": [
+   "--config",
+   "config",
+   "--output",
+   "with_child_border.yaml"
+  ],
+  "stdin": null,
+  "files": {
+   "config": "# test config\nfont pango:monospace 8\n",
+   "with_child_border.yaml": "---\nmeta:\n  description: Theme with child_border\ncolors:\n  red: \"#FF0000\"\n  blue: \"#0000FF\"\n  white: \"#FFFFFF\"\n  green: \"#00FF00\"\n  yellow: \"#FFFF00\"\nwindow_colors:\n  focused:\n    border: red\n    background: blue\n    text: white\n    indicator: green\n    child_border: yellow\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_flag_writes_file_correctly::142",
+  "argv": [
+   "-c",
+   "-o",
+   "/tmp/test_output.conf",
+   "slate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdout_vs_file_output_identical::143",
+  "argv": [
+   "-c",
+   "gruvbox"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_switching_light_to_dark::144",
+  "argv": [
+   "-c",
+   "solarized"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_to_theme_with_c_flag::145",
+  "argv": [
+   "--to-theme",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_in_different_orders::146",
+  "argv": [
+   "slate",
+   "-c",
+   "-o",
+   "/tmp/test_reordered.conf"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_save_in_place_with_s_flag::147",
+  "argv": [
+   "-c",
+   "/tmp/test_save_in_place.conf",
+   "-s",
+   "slate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_application_to_commented_colors_config::148",
+  "argv": [
+   "-c",
+   "/tmp/commented_config.conf",
+   "slate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reload_flag_with_save::149",
+  "argv": [
+   "-c",
+   "/tmp/test_reload.conf",
+   "-s",
+   "-r",
+   "slate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mix_of_present_and_missing_bar_colors::150",
+  "argv": [
+   "-c",
+   "/tmp/mixed_bars.conf",
+   "slate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_config_gets_all_colors_injected::151",
+  "argv": [
+   "-c",
+   "/tmp/empty_colors.conf",
+   "slate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_unicode_content::152",
+  "argv": [
+   "-c",
+   "/tmp/unicode_config.conf",
+   "slate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_directory_creation::153",
+  "argv": [
+   "-c",
+   "-o",
+   "/tmp/nonexistent_integration_test/deeply/nested/path/output.conf",
+   "slate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extremely_large_config_10k_lines::154",
+  "argv": [
+   "--config",
+   "slate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_flags_config_output_theme::155",
+  "argv": [
+   "--config",
+   "--output",
+   "slate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_save_flag_overwrites_input_file::156",
+  "argv": [
+   "--config",
+   "config_to_save.txt",
+   "--save",
+   "slate"
+  ],
+  "stdin": null,
+  "files": {
+   "config_to_save.txt": "client.focused #859900 #859900 #fdf6e3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rapid_sequential_applications::157",
+  "argv": [
+   "--config",
+   "rapid_test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "rapid_test.txt": "client.focused #000000 #000000 #ffffff\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_with_special_characters_in_path::158",
+  "argv": [
+   "--config",
+   "config [test] (file).txt",
+   "slate"
+  ],
+  "stdin": null,
+  "files": {
+   "config [test] (file).txt": "client.focused #000000 #000000 #ffffff\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_adds_missing_bar_color_fields::159",
+  "argv": [
+   "--config",
+   "bar_3fields.txt",
+   "slate"
+  ],
+  "stdin": null,
+  "files": {
+   "bar_3fields.txt": "bar {\n  colors {\n    focused_workspace #fdf6e3 #859900\n    inactive_workspace #586e75 #93a1a1\n  }\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reload_flag_invokes_i3_msg::160",
+  "argv": [
+   "--config",
+   "reload_test.txt",
+   "--reload",
+   "slate"
+  ],
+  "stdin": null,
+  "files": {
+   "reload_test.txt": "client.focused #000000 #000000 #ffffff\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_theme_name::161",
+  "argv": [
+   "--config",
+   "nonexistent_theme_xyz_123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_nesting_of_bar_blocks::162",
+  "argv": [
+   "--config",
+   "nested_structure.txt",
+   "slate"
+  ],
+  "stdin": null,
+  "files": {
+   "nested_structure.txt": "\n# Level 1 comment\nbar {\n  # Level 2 comment\n  colors {\n    # Level 3 comment\n    separator #ff0000\n    # Another level 3 comment\n    background #00ff00\n    # Yet another comment\n    statusline #0000ff\n  }\n  # Back to level 2\n  position top\n}\n# Back to level 1\nclient.focused #ffffff #ffffff #000000\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_apply_archlinux_theme::163",
+  "argv": [
+   "-c",
+   "archlinux"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_theme_file_reports_error::164",
+  "argv": [
+   "-c",
+   "nonexistent_theme"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_to_file::165",
+  "argv": [
+   "-c",
+   "-o",
+   "slate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ubuntu_theme_distinctive_colors::166",
+  "argv": [
+   "-c",
+   "ubuntu"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_purple_theme_colors::167",
+  "argv": [
+   "-c",
+   "purple"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flat_gray_theme_minimalist_colors::168",
+  "argv": [
+   "-c",
+   "flat-gray"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_save_flag_overwrites_input_file::169",
+  "argv": [
+   "-c",
+   "--save",
+   "slate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_args_is_validation_error_about_missing_theme::170",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_all_succeeds_and_ignores_extra_positional_after_double_dash::171",
+  "argv": [
+   "--list-all",
+   "--",
+   "--nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_success_exit_code::172",
+  "argv": [
+   "solarized",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_theme_error::173",
+  "argv": [
+   "nonexistent-theme-xyz",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_workspace_color_format::174",
+  "argv": [
+   "purple",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gruvbox_vs_solarized::175",
+  "argv": [
+   "gruvbox",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_long_flag::176",
+  "argv": [
+   "solarized",
+   "--config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_config_file::177",
+  "argv": [
+   "solarized",
+   "-c",
+   "/nonexistent/config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_with_hyphens::178",
+  "argv": [
+   "flat-gray",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_with_numbers::179",
+  "argv": [
+   "base16-tomorrow",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_only_comments::180",
+  "argv": [
+   "solarized",
+   "-c",
+   "config"
+  ],
+  "stdin": null,
+  "files": {
+   "config": "# This is a comment\n# Another comment\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_to_stderr::181",
+  "argv": [
+   "nonexistent-theme",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_file_permissions::182",
+  "argv": [
+   "solarized",
+   "-c",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_custom_theme_file::183",
+  "argv": [
+   "/nonexistent/theme.yaml",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_long_flag::184",
+  "argv": [
+   "solarized",
+   "-c",
+   "--output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_file_overwrite::185",
+  "argv": [
+   "purple",
+   "-c",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_save_flag_modifies_input_file::186",
+  "argv": [
+   "purple",
+   "-c",
+   "--save"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_save_short_flag::187",
+  "argv": [
+   "solarized",
+   "-c",
+   "-s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reload_flag::188",
+  "argv": [
+   "solarized",
+   "-c",
+   "--reload",
+   "--save"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_minimal_config_parity::189",
+  "argv": [
+   "test-resources/test-theme.yaml",
+   "-c",
+   "test-resources/minimal-config",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_config_parity::190",
+  "argv": [
+   "test-resources/test-theme.yaml",
+   "-c",
+   "test-resources/missing-config",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_non_existent_theme::191",
+  "argv": [
+   "non-existent-theme",
+   "-c",
+   "test-resources/default-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_non_existent_config::192",
+  "argv": [
+   "solarized",
+   "-c",
+   "non-existent-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_theme_file::193",
+  "argv": [
+   "-c",
+   "test-resources/default-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_apply_external_theme::194",
+  "argv": [
+   "test-resources/test-theme.yaml",
+   "-c",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_config_file::195",
+  "argv": [
+   "alphare",
+   "-c",
+   "/nonexistent/config/file.conf",
+   "-o",
+   "/dev/null"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdout_output::196",
+  "argv": [
+   "alphare"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_bar_block_adds_colors_block_and_preserves_comments::197",
+  "argv": [
+   "-c",
+   "config",
+   "theme.yaml"
+  ],
+  "stdin": null,
+  "files": {
+   "config": "bar {\n  verbose true\n  # @bar_comment@\n  colors {\n  }\n}\n",
+   "theme.yaml": "meta:\n  description: test\ncolors:\n  base03: \"#002b36\"\n  base02: \"#073642\"\n  base01: \"#586e75\"\n  base1: \"#93a1a1\"\n  base2: \"#eee8d5\"\n  base3: \"#fdf6e3\"\n  blue: \"#268bd2\"\n  green: \"#859900\"\n  magenta: \"#d33682\"\n  red: \"#dc322f\"\n  violet: \"#6c71c4\"\nwindow_colors:\n  focused:\n    border: green\n    background: green\n    text: base3\n    indicator: green\n  focused_inactive:\n    border: base02\n    background: base02\n    text: base2\n    indicator: violet\n  unfocused:\n    border: base02\n    background: base02\n    text: base1\n    indicator: base01\n  urgent:\n    border: magenta\n    background: magenta\n    text: base3\n    indicator: red\nbar_colors:\n  separator: red\n  background: base03\n  statusline: blue\n  active_workspace:\n    border: base3\n    background: violet\n    text: base3\n  inactive_workspace:\n    border: base01\n    background: base1\n    text: base03\n  focused_workspace:\n    border: base3\n    background: green\n    text: base3\n  urgent_workspace:\n    border: magenta\n    background: magenta\n    text: base3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_config_with_comments_ignores_commented_bar_blocks::198",
+  "argv": [
+   "-c",
+   "config",
+   "theme.yaml"
+  ],
+  "stdin": null,
+  "files": {
+   "config": "#bar {}\n#bar {\n#stuff\n#}\n",
+   "theme.yaml": "meta:\n  description: test\ncolors:\n  red: \"#dc322f\"\n  base3: \"#ffffff\"\nwindow_colors:\n  focused:\n    border: red\n    background: red\n    text: base3\n    indicator: red\nbar_colors:\n  separator: red\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_search_prefers_dot_i3_over_dot_config::199",
+  "argv": [
+   "--to-theme",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cli_config_flag_overrides_default_search::200",
+  "argv": [
+   "--to-theme",
+   "",
+   "--config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_builtin_theme_archlinux_loads::201",
+  "argv": [
+   "archlinux",
+   "-c",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_theme_from_file::202",
+  "argv": [
+   "-c",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_theme_error::203",
+  "argv": [
+   "nonexistent-theme-12345"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_config_with_config_flag::204",
+  "argv": [
+   "--config",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_config_file::205",
+  "argv": [
+   "-c",
+   "/nonexistent/config/file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_to_file_with_output_flag::206",
+  "argv": [
+   "--config",
+   "--output"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_save_flag_overwrites_input::207",
+  "argv": [
+   "-c",
+   "-s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_save_flag_long::208",
+  "argv": [
+   "-c",
+   "--save"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reload_flag_creates_output_first::209",
+  "argv": [
+   "-c",
+   "-o",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reload_flag_without_output_file::210",
+  "argv": [
+   "-c",
+   "--reload"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_output_options::211",
+  "argv": [
+   "-c",
+   "-o",
+   "-s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_theme_missing_optional_fields::212",
+  "argv": [
+   "flat-gray",
+   "-c",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_exits_nonzero_and_mentions_error::213",
+  "argv": [
+   "--definitely-not-a-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_alone::214",
+  "argv": [
+   "--"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_flag_with_equals_separator::215",
+  "argv": [
+   "--output=/tmp/test.out",
+   "--config=test-resources/minimal-config",
+   "solarized"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_flag_with_space_separator::216",
+  "argv": [
+   "--output",
+   "/tmp/test.out",
+   "--config",
+   "test-resources/minimal-config",
+   "solarized"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_short_flag_with_space::217",
+  "argv": [
+   "-o",
+   "/tmp/test.out",
+   "-c",
+   "test-resources/minimal-config",
+   "solarized"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_with_empty_string::218",
+  "argv": [
+   "--output="
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_long_flag_missing_value::219",
+  "argv": [
+   "--config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_flag_with_equals_separator::220",
+  "argv": [
+   "--config=test-resources/minimal-config",
+   "--output=/tmp/test.out",
+   "solarized"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_flag_with_space_separator::221",
+  "argv": [
+   "--config",
+   "test-resources/minimal-config",
+   "--output",
+   "/tmp/test.out",
+   "solarized"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_short_flag_with_space::222",
+  "argv": [
+   "-c",
+   "test-resources/minimal-config",
+   "-o",
+   "/tmp/test.out",
+   "solarized"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_with_empty_string::223",
+  "argv": [
+   "--config="
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_to_theme_with_valid_file::224",
+  "argv": [
+   "--to-theme",
+   "test-resources/minimal-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_to_theme_with_output::225",
+  "argv": [
+   "-t",
+   "test-resources/minimal-config",
+   "-o",
+   "/tmp/theme.yaml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_to_theme_with_empty_string::226",
+  "argv": [
+   "-t",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reload_long_flag_alone::227",
+  "argv": [
+   "--reload"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_save_short_flag_alone::228",
+  "argv": [
+   "-s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_theme_alone::229",
+  "argv": [
+   "nonexistent-theme-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_too_many_positional_args::230",
+  "argv": [
+   "solarized",
+   "extra-arg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_with_theme::231",
+  "argv": [
+   "--",
+   "solarized"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_with_flag_like_arg::232",
+  "argv": [
+   "--",
+   "--list-all"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_after_theme::233",
+  "argv": [
+   "solarized",
+   "--config",
+   "test-resources/minimal-config",
+   "--output",
+   "/tmp/test.out"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_interleaved_with_theme::234",
+  "argv": [
+   "--config",
+   "test-resources/minimal-config",
+   "solarized",
+   "--output",
+   "/tmp/test.out"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_and_list_combined::235",
+  "argv": [
+   "-Vl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_and_version_combined::236",
+  "argv": [
+   "-lV"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_list_and_reload_combined::237",
+  "argv": [
+   "-lr"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reload_and_save_combined::238",
+  "argv": [
+   "-rs"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_without_theme::239",
+  "argv": [
+   "--output",
+   "/tmp/test.out",
+   "--config",
+   "test-resources/minimal-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_without_theme::240",
+  "argv": [
+   "--config",
+   "test-resources/minimal-config"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_with_theme::241",
+  "argv": [
+   "--version",
+   "solarized"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_whitespace_theme_name::242",
+  "argv": [
+   " "
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_path_config::243",
+  "argv": [
+   "--config",
+   "/nonexistent/path/config",
+   "--output",
+   "/tmp/test.out",
+   "solarized"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_output_flags::244",
+  "argv": [
+   "--output",
+   "/tmp/first.out",
+   "--output",
+   "/tmp/second.out",
+   "--config",
+   "test-resources/minimal-config",
+   "solarized"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_config_flags::245",
+  "argv": [
+   "--config",
+   "test-resources/minimal-config",
+   "--config",
+   "test-resources/default-config",
+   "--output",
+   "/tmp/test.out",
+   "solarized"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_and_long_flags_mixed::246",
+  "argv": [
+   "-c",
+   "test-resources/minimal-config",
+   "--output",
+   "/tmp/test.out",
+   "solarized"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_equals_and_space_separators_mixed::247",
+  "argv": [
+   "--config=test-resources/minimal-config",
+   "--output",
+   "/tmp/test.out",
+   "solarized"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

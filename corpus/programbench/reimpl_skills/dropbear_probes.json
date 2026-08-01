@@ -1,0 +1,2316 @@
+[
+ {
+  "name": "test::test_read_pty::0",
+  "argv": [
+   "tmpf=`mktemp`; echo $tmpf; cat > $tmpf"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_netcat::1",
+  "argv": [
+   "-B"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_connection_refused_error_message::2",
+  "argv": [
+   "./dbclient",
+   "-y",
+   "-p",
+   "19999",
+   "127.0.0.1",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_hostname_resolution::3",
+  "argv": [
+   "./dbclient",
+   "-y",
+   "-p",
+   "22",
+   "this-hostname-does-not-exist-999.invalid",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_bind_address_error::4",
+  "argv": [
+   "./dbclient",
+   "-y",
+   "-b",
+   "192.168.255.255",
+   "-p",
+   "19999",
+   "127.0.0.1",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_bind_address_dns_failure::5",
+  "argv": [
+   "./dbclient",
+   "-y",
+   "-b",
+   "invalid-bind-address-999.invalid",
+   "-p",
+   "19999",
+   "127.0.0.1",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_ip_address_format::6",
+  "argv": [
+   "./dbclient",
+   "-y",
+   "-p",
+   "22",
+   "999.999.999.999",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_connect_to_ipv6_localhost::7",
+  "argv": [
+   "./dbclient",
+   "-y",
+   "-p",
+   "19998",
+   "::1",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_ipv4_mapped_connection::8",
+  "argv": [
+   "./dbclient",
+   "-y",
+   "-p",
+   "19997",
+   "::ffff:127.0.0.1",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_listen_empty_address_all_interfaces::9",
+  "argv": [
+   "./dbclient",
+   "-y",
+   "-p",
+   "12351",
+   "127.0.0.1",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_simultaneous_connections::10",
+  "argv": [
+   "./dbclient",
+   "-y",
+   "-p",
+   "12352",
+   "127.0.0.1",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_bind_to_localhost_explicit::11",
+  "argv": [
+   "./dbclient",
+   "-y",
+   "-b",
+   "127.0.0.1",
+   "-p",
+   "19996",
+   "127.0.0.1",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_listen_ipv6_explicit::12",
+  "argv": [
+   "./dbclient",
+   "-y",
+   "-p",
+   "12353",
+   "::1",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_address_invalid_port_string::13",
+  "argv": [
+   "./dbclient",
+   "-y",
+   "-b",
+   "127.0.0.1:99999",
+   "-p",
+   "22",
+   "127.0.0.1",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_unassignable_address_explicit::14",
+  "argv": [
+   "./dbclient",
+   "-y",
+   "-b",
+   "192.168.253.253",
+   "-p",
+   "22",
+   "127.0.0.1",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_connect_immediate_eperm::15",
+  "argv": [
+   "./dbclient",
+   "-y",
+   "-p",
+   "1",
+   "127.0.0.1",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_client_connection_to_ipv4_only_server::16",
+  "argv": [
+   "./dbclient",
+   "-y",
+   "-p",
+   "12403",
+   "127.0.0.1",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bind_address_with_service_name::17",
+  "argv": [
+   "./dbclient",
+   "-y",
+   "-b",
+   "127.0.0.1:ssh",
+   "-p",
+   "19999",
+   "127.0.0.1",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_listen_backlog_full_scenario::18",
+  "argv": [
+   "./dbclient",
+   "-y",
+   "-p",
+   "12404",
+   "127.0.0.1",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_connection_timeout_with_keepalive::19",
+  "argv": [
+   "./dbclient",
+   "-y",
+   "-K",
+   "5",
+   "-p",
+   "19987",
+   "127.0.0.1",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_server_listen_all_interfaces_wildcard::20",
+  "argv": [
+   "./dbclient",
+   "-y",
+   "-p",
+   "12405",
+   "127.0.0.1",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_address_format_multiple_colons::21",
+  "argv": [
+   "./dbclient",
+   "-y",
+   "-p",
+   "22",
+   "127.0.0.1:22:22",
+   "echo",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inetd_mode_flag::22",
+  "argv": [
+   "-i",
+   "-r"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_foreground_and_inetd_mode_compatible::23",
+  "argv": [
+   "-i",
+   "-F",
+   "-r"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pty_allocation_with_t_flag::24",
+  "argv": [
+   "-t",
+   "tty; echo EXITCODE:$?"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pty_ssh_tty_environment_variable::25",
+  "argv": [
+   "-t",
+   "echo SSH_TTY=${SSH_TTY}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pty_window_size_basic::26",
+  "argv": [
+   "-t",
+   "stty size; echo OK"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pty_ownership_correct_user::27",
+  "argv": [
+   "-t",
+   "tty=$(tty); stat -c '%a %U %G' $tty; test -r $tty && test -w $tty && echo RW_OK"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pty_permissions_read_write::28",
+  "argv": [
+   "-t",
+   "tty=$(tty); stat -c '%a' $tty"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_pty_sessions_sequential::29",
+  "argv": [
+   "-t"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pty_echo_mode_interactive::30",
+  "argv": [
+   "-t",
+   "stty -a | grep -o 'echo\\|icanon'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pty_release_cleanup::31",
+  "argv": [
+   "-t",
+   "tty"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pty_signal_handling::32",
+  "argv": [
+   "-t",
+   "sleep 100 & PID=$!; kill $PID; echo KILLED"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pty_line_discipline_settings::33",
+  "argv": [
+   "-t",
+   "stty -a | grep -E 'icanon|icrnl|onlcr'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pty_binary_data_passthrough::34",
+  "argv": [
+   "-t",
+   "printf '\\x00\\x01\\x7F\\x80\\xFF' | od -An -tx1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pty_term_environment_variable::35",
+  "argv": [
+   "-t",
+   "echo TERM=$TERM"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pty_background_process_handling::36",
+  "argv": [
+   "-t",
+   "sleep 30 & echo IMMEDIATE"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pty_special_characters_in_output::37",
+  "argv": [
+   "-t",
+   "printf 'A\\tB\\nC\\rD'; echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pty_exit_status_propagation::38",
+  "argv": [
+   "-t",
+   "echo BEFORE; false"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pty_control_characters_in_command::39",
+  "argv": [
+   "-t",
+   "printf 'CTRL:\\x01\\x02\\x03:END\\n'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pty_shell_prompt_available::40",
+  "argv": [
+   "-t",
+   "echo SHELL_STARTED; exit 0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pty_newline_handling::41",
+  "argv": [
+   "-t",
+   "printf 'Line1\\nLine2\\nLine3\\n' | od -An -tx1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pty_empty_output_command::42",
+  "argv": [
+   "-t",
+   "true; echo MARKER"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pty_stderr_and_stdout::43",
+  "argv": [
+   "-t",
+   "echo STDOUT; echo STDERR >&2; echo DONE"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pty_session_without_shell::44",
+  "argv": [
+   "-t",
+   "/bin/echo Direct execution"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pty_long_running_output::45",
+  "argv": [
+   "-t",
+   "for i in 1 2 3; do echo LINE_$i; sleep 0.1; done"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version::46",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::47",
+  "argv": [
+   "--invalid-flag-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ssh_tty_environment_variable_set_correctly::48",
+  "argv": [
+   "-t",
+   "echo SSH_TTY=$SSH_TTY"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pty_window_size_stty_query::49",
+  "argv": [
+   "-t",
+   "stty size"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pty_isatty_check_with_pty_allocated::50",
+  "argv": [
+   "-t",
+   "python3 -c 'import sys; print(sys.stdin.isatty(), sys.stdout.isatty(), sys.stderr.isatty())'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pty_test_command_builtin_with_pty::51",
+  "argv": [
+   "-t",
+   "test -t 0 && test -t 1 && test -t 2 && echo ALL_ARE_TTY"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pty_raw_mode_character_echo::52",
+  "argv": [
+   "-t",
+   "stty -a | grep -o echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pty_environment_variables_complete_set::53",
+  "argv": [
+   "-t",
+   "env | grep -E '(SSH_TTY|TERM)' | sort"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pty_control_characters_handling::54",
+  "argv": [
+   "-t",
+   "printf 'line1\\nline2\\nline3'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pty_exit_status_propagation::55",
+  "argv": [
+   "-t",
+   "exit 0; echo this_should_never_appear_after_exit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pty_long_running_command_output::56",
+  "argv": [
+   "-t",
+   "for i in $(seq 1 100); do echo LINE_$i; done"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pty_binary_transparency::57",
+  "argv": [
+   "-t",
+   "printf '\\x41\\x42\\x43\\x20\\x44\\x45\\x46'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pty_command_with_redirected_stderr::58",
+  "argv": [
+   "-t",
+   "echo STDOUT; echo STDERR >&2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pty_shell_job_control::59",
+  "argv": [
+   "-t",
+   "ps -o pid,pgid,tty | head -2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_netcat::60",
+  "argv": [
+   "-B",
+   "localhost:3344"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_help_shows_usage::61",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_with_invalid_option::62",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_hostkey_file::63",
+  "argv": [
+   "-r",
+   "-p",
+   "12345"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_banner_file_option::64",
+  "argv": [
+   "-b",
+   "banner.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "banner.txt": "Welcome to Test Server\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_port_zero::65",
+  "argv": [
+   "-F",
+   "-r",
+   "-p",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_port_too_large::66",
+  "argv": [
+   "-F",
+   "-r",
+   "-p",
+   "70000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_port_non_numeric::67",
+  "argv": [
+   "-F",
+   "-r",
+   "-p",
+   "abc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_receive_window_buffer_option::68",
+  "argv": [
+   "-F",
+   "-r",
+   "-p",
+   "12345",
+   "-W",
+   "32768"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_receive_window_buffer_invalid::69",
+  "argv": [
+   "-F",
+   "-r",
+   "-p",
+   "12345",
+   "-W",
+   "abc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keepalive_option::70",
+  "argv": [
+   "-F",
+   "-r",
+   "-p",
+   "12345",
+   "-K",
+   "30"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keepalive_zero_disables::71",
+  "argv": [
+   "-F",
+   "-r",
+   "-p",
+   "12345",
+   "-K",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_idle_timeout_option::72",
+  "argv": [
+   "-F",
+   "-r",
+   "-p",
+   "12345",
+   "-I",
+   "300"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_qos_flag::73",
+  "argv": [
+   "-F",
+   "-r",
+   "-p",
+   "12345",
+   "-z"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_root_login_flag::74",
+  "argv": [
+   "-F",
+   "-r",
+   "-p",
+   "12345",
+   "-w"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_password_logins_flag::75",
+  "argv": [
+   "-F",
+   "-r",
+   "-p",
+   "12345",
+   "-s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_root_password_flag::76",
+  "argv": [
+   "-F",
+   "-r",
+   "-p",
+   "12345",
+   "-g"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_allow_blank_password_flag::77",
+  "argv": [
+   "-F",
+   "-r",
+   "-p",
+   "12345",
+   "-B"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_two_factor_auth_flag::78",
+  "argv": [
+   "-F",
+   "-r",
+   "-p",
+   "12345",
+   "-t"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_auth_tries_option::79",
+  "argv": [
+   "-F",
+   "-r",
+   "-p",
+   "12345",
+   "-T",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_auth_tries_invalid::80",
+  "argv": [
+   "-F",
+   "-r",
+   "-p",
+   "12345",
+   "-T",
+   "abc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_local_port_forwarding::81",
+  "argv": [
+   "-F",
+   "-r",
+   "-p",
+   "12345",
+   "-j"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_remote_port_forwarding::82",
+  "argv": [
+   "-F",
+   "-r",
+   "-p",
+   "12345",
+   "-k"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_allow_forwarded_ports_from_any_host::83",
+  "argv": [
+   "-F",
+   "-r",
+   "-p",
+   "12345",
+   "-a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_forced_command_option::84",
+  "argv": [
+   "-F",
+   "-r",
+   "-p",
+   "12345",
+   "-c",
+   "/bin/echo test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_motd_disabled_flag::85",
+  "argv": [
+   "-F",
+   "-r",
+   "-p",
+   "12345",
+   "-m"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pass_environment_flag::86",
+  "argv": [
+   "-F",
+   "-r",
+   "-p",
+   "12345",
+   "-e"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_restrict_group_option::87",
+  "argv": [
+   "-F",
+   "-r",
+   "-p",
+   "12345",
+   "-G",
+   "testgroup"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_authorized_keys_directory_option::88",
+  "argv": [
+   "-F",
+   "-r",
+   "-p",
+   "12345",
+   "-D",
+   "/tmp/authkeys"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_create_hostkeys_as_required_flag::89",
+  "argv": [
+   "-F",
+   "-p",
+   "-R"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interface_binding_option::90",
+  "argv": [
+   "-F",
+   "-r",
+   "-p",
+   "12345",
+   "-l",
+   "lo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inetd_mode_flag::91",
+  "argv": [
+   "-i",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combination_of_flags::92",
+  "argv": [
+   "-F",
+   "-r",
+   "-p",
+   "12345",
+   "-w",
+   "-s",
+   "-m",
+   "-z",
+   "-j",
+   "-k"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_short_flags_with_value_consumption::93",
+  "argv": [
+   "-FG"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_passthrough_flag_parses::94",
+  "argv": [
+   "-e",
+   "-p",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_motd_disable_flag_parses::95",
+  "argv": [
+   "-m",
+   "-p",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_option_handling::96",
+  "argv": [
+   "--invalid-option-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_flags_together::97",
+  "argv": [
+   "-V",
+   "-F"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_did_you_mean_suggestions::98",
+  "argv": [
+   "nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_common_server_flags_exist::99",
+  "argv": [
+   "-p",
+   "12345",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_subcommand_help::100",
+  "argv": [
+   "add",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_option_shows_usage::101",
+  "argv": [
+   "--invalid-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_port_option_format::102",
+  "argv": [
+   "-p",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_port_option_out_of_range::103",
+  "argv": [
+   "-p",
+   "99999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_port_options::104",
+  "argv": [
+   "-p",
+   "-p"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_window_size_option::105",
+  "argv": [
+   "-W",
+   "8192",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_window_size_invalid::106",
+  "argv": [
+   "-W",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keepalive_option::107",
+  "argv": [
+   "-K",
+   "60",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keepalive_zero::108",
+  "argv": [
+   "-K",
+   "0",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_idle_timeout_option::109",
+  "argv": [
+   "-I",
+   "300",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_idle_timeout_zero::110",
+  "argv": [
+   "-I",
+   "0",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_auth_tries_option::111",
+  "argv": [
+   "-T",
+   "5",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_auth_tries_invalid::112",
+  "argv": [
+   "-T",
+   "-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_foreground_flag::113",
+  "argv": [
+   "-F",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inetd_mode_flag::114",
+  "argv": [
+   "-i"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_root_login_flag::115",
+  "argv": [
+   "-w",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_password_login_flag::116",
+  "argv": [
+   "-s",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_password_for_root_flag::117",
+  "argv": [
+   "-g",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_blank_password_flag::118",
+  "argv": [
+   "-B",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_two_factor_auth_flag::119",
+  "argv": [
+   "-t",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_local_forwarding_flag::120",
+  "argv": [
+   "-j",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_remote_forwarding_flag::121",
+  "argv": [
+   "-k",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_allow_forwarding_any_host_flag::122",
+  "argv": [
+   "-a",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_motd_flag::123",
+  "argv": [
+   "-m",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_qos_flag::124",
+  "argv": [
+   "-z",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pass_environment_flag::125",
+  "argv": [
+   "-e",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_forced_command_option::126",
+  "argv": [
+   "-c",
+   "echo test",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_authorized_keys_directory_option::127",
+  "argv": [
+   "-D",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_banner_file_option::128",
+  "argv": [
+   "-b",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_banner_file::129",
+  "argv": [
+   "-b",
+   "/nonexistent/banner.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hostkey_option::130",
+  "argv": [
+   "-r",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_hostkey_file::131",
+  "argv": [
+   "-r",
+   "/nonexistent/key.key",
+   "-F",
+   "-p"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_autogenerate_keys_flag::132",
+  "argv": [
+   "-R",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pid_file_option::133",
+  "argv": [
+   "-P",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_listen_interface_option::134",
+  "argv": [
+   "-l",
+   "lo",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_options::135",
+  "argv": [
+   "-F",
+   "-w",
+   "-s",
+   "-j",
+   "-k",
+   "-m",
+   "-z",
+   "-K",
+   "0",
+   "-I",
+   "0",
+   "-T",
+   "5",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_port_already_in_use::136",
+  "argv": [
+   "-F",
+   "-R",
+   "-p"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unreadable_hostkey::137",
+  "argv": [
+   "-r",
+   "-F",
+   "-p"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_hostkey_format::138",
+  "argv": [
+   "-F",
+   "-r",
+   "-p"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_required_keys_without_r_flag::139",
+  "argv": [
+   "-F",
+   "-p"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_options_s_and_t::140",
+  "argv": [
+   "-s",
+   "-t",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_port_number::141",
+  "argv": [
+   "-p",
+   "-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_port_number::142",
+  "argv": [
+   "-F",
+   "-R",
+   "-p",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_large_port_number::143",
+  "argv": [
+   "-p",
+   "70000"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_window_size::144",
+  "argv": [
+   "-W",
+   "99999999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_keepalive::145",
+  "argv": [
+   "-K",
+   "-5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_idle_timeout::146",
+  "argv": [
+   "-I",
+   "-10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_non_numeric_auth_tries::147",
+  "argv": [
+   "-T",
+   "abc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_forced_command::148",
+  "argv": [
+   "-c",
+   "",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_command_line::149",
+  "argv": [
+   "-c",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pid_file_in_readonly_directory::150",
+  "argv": [
+   "-P",
+   "/proc/dropbear.pid",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ipv6_address_format::151",
+  "argv": [
+   "-p",
+   "[::1]:2222",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_address_colon_port_format::152",
+  "argv": [
+   "-p",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_interface_name::153",
+  "argv": [
+   "-l",
+   "nonexistent999",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_combination::154",
+  "argv": [
+   "-Z"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_separator::155",
+  "argv": [
+   "--",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_various_error_messages::156",
+  "argv": [
+   "-p",
+   "abc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_usage_output_structure::157",
+  "argv": [
+   "--invalid"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_handling::158",
+  "argv": [
+   "-V"
+  ],
+  "stdin": "test input\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_numeric_option_boundaries::159",
+  "argv": [
+   "-p",
+   "1",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_option_order_variations::160",
+  "argv": [
+   "-V",
+   "-F",
+   "-w"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repeated_boolean_flags::161",
+  "argv": [
+   "-w",
+   "-w",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_option_argument::162",
+  "argv": [
+   "-p"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_authorized_keys_dir_invalid::163",
+  "argv": [
+   "-D",
+   "/nonexistent/directory",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interface_name_formats::164",
+  "argv": [
+   "-l",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exit_code_on_error::165",
+  "argv": [
+   "-p",
+   "invalid_port"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_max_auth_tries_boundary::166",
+  "argv": [
+   "-T",
+   "1",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_window_size_values::167",
+  "argv": [
+   "-W",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_timeout_values::168",
+  "argv": [
+   "-K",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_auth_tries_values::169",
+  "argv": [
+   "-T",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_with_temp_files::170",
+  "argv": [
+   "-b",
+   "banner.txt",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {
+   "banner.txt": "Welcome\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_g_flag_group_restriction::171",
+  "argv": [
+   "-G",
+   "root",
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_takes_precedence_over_help::172",
+  "argv": [
+   "-V",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

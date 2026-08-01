@@ -1,0 +1,3991 @@
+[
+ {
+  "name": "test::test_help_includes_usage_and_examples::0",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dump_file_without_query_outputs_json_rows::1",
+  "argv": [
+   "testdata/join/users.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_argument_outputs_json_in_stable_format_for_known_input::2",
+  "argv": [
+   "testdata/join/users.csv",
+   "select name from {} order by id limit 3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pretty_flag_outputs_ascii_table_and_row_count::3",
+  "argv": [
+   "--pretty",
+   "testdata/join/users.csv",
+   "select name from {} order by id limit 3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_requires_source_type_and_produces_json::4",
+  "argv": [
+   "-s",
+   "csv",
+   "select name from {} order by id"
+  ],
+  "stdin": "id,name\n1,Alice\n2,Bob\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_input_file_is_error_and_mentions_path_on_stderr::5",
+  "argv": [
+   "does_not_exist.csv",
+   "select 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_sql_goes_to_stderr_and_exit_1::6",
+  "argv": [
+   "testdata/join/users.csv",
+   "select does_not_exist from {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_from_file_flag_f_reads_sql_file::7",
+  "argv": [
+   "testdata/join/users.csv",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_f_without_argument_prints_message_to_stderr_and_exit_1::8",
+  "argv": [
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_source_flag_s_csv::9",
+  "argv": [
+   "-s",
+   "csv",
+   "select count(*) from {}"
+  ],
+  "stdin": "id,name\n1,A\n2,B\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::10",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_argument_treated_as_file_not_subcommand::11",
+  "argv": [
+   "nonexistent_file_xyz123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_short::12",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_short::13",
+  "argv": [
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_precedence_over_unknown_flag::14",
+  "argv": [
+   "--help",
+   "--definitely-not-a-real-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_after_double_dash_still_shows_help::15",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_matching::16",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT * FROM {} WHERE name REGEXP '^M'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_case_insensitive::17",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT * FROM {} WHERE name REGEXP '[mt]'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_with_filter::18",
+  "argv": [
+   "testdata/join/ages.json",
+   "SELECT COUNT(*) as count FROM {} WHERE age > 50"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_aggregates::19",
+  "argv": [
+   "testdata/join/ages.json",
+   "SELECT MIN(age) as min, MAX(age) as max, AVG(age) as avg FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trim_function::20",
+  "argv": [
+   "trim.csv",
+   "SELECT TRIM(text) as trimmed FROM {}"
+  ],
+  "stdin": null,
+  "files": {
+   "trim.csv": "text\n  hello  \n  world  "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_abs_function::21",
+  "argv": [
+   "nums.csv",
+   "SELECT ABS(CAST(num AS INTEGER)) as absolute FROM {}"
+  ],
+  "stdin": null,
+  "files": {
+   "nums.csv": "num\n-5\n10\n-3"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_comparison::22",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT * FROM {} WHERE name IS NOT NULL"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_and_or_operators::23",
+  "argv": [
+   "testdata/join/ages.json",
+   "SELECT * FROM {} WHERE age > 30 AND age < 60"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_not_operator::24",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT * FROM {} WHERE NOT (id = '1')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_glob_operator::25",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT * FROM {} WHERE name GLOB 'M*'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_numeric_operations::26",
+  "argv": [
+   "testdata/join/ages.json",
+   "SELECT age, age + 10 as plus, age - 5 as minus, age * 2 as times, age / 2 as div FROM {} LIMIT 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_modulo_operation::27",
+  "argv": [
+   "testdata/join/ages.json",
+   "SELECT age, age % 10 as mod10 FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ifnull_function::28",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT IFNULL(name, 'default') as name FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nullif_function::29",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT NULLIF(id, '1') as result FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_datetime_functions::30",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT date('now') as today FROM {} LIMIT 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_random_function::31",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT RANDOM() as rand FROM {} LIMIT 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hex_function::32",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT HEX(name) as hex FROM {} LIMIT 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_typeof_function::33",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT TYPEOF(id) as type FROM {} LIMIT 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_alias_in_where::34",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT name as user_name FROM {} WHERE name = 'Ted'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_where_conditions::35",
+  "argv": [
+   "testdata/join/ages.json",
+   "SELECT * FROM {} WHERE age > 30 AND age < 90 AND id > 0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_subquery::36",
+  "argv": [
+   "testdata/join/ages.json",
+   "SELECT * FROM {} WHERE age IN (SELECT age FROM {} WHERE age > 50)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exists_operator::37",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT * FROM {} WHERE EXISTS (SELECT 1)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_simple_select_query::38",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT * FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_where_clause::39",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT * FROM {} WHERE id = '1'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_limit_clause::40",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT * FROM {} LIMIT 2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_aggregation::41",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT COUNT(*) as count FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_order_by::42",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT * FROM {} ORDER BY name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_distinct::43",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT DISTINCT name FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_files_join::44",
+  "argv": [
+   "testdata/join/users.csv",
+   "testdata/join/ages.json",
+   "SELECT {0}.name, {1}.age FROM {0} JOIN {1} ON {0}.id = {1}.id"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_reference_with_numbers::45",
+  "argv": [
+   "testdata/join/users.csv",
+   "testdata/join/ages.json",
+   "SELECT * FROM {0} LIMIT 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_file_type_error::46",
+  "argv": [
+   "test.unknown"
+  ],
+  "stdin": null,
+  "files": {
+   "test.unknown": "some data"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_file_error::47",
+  "argv": [
+   "nonexistent_file.csv",
+   "SELECT * FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_sql_syntax::48",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELEKT * FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cache_flag_long::49",
+  "argv": [
+   "--cache",
+   "testdata/join/users.csv",
+   "SELECT * FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cache_flag_short::50",
+  "argv": [
+   "-C",
+   "testdata/join/users.csv",
+   "SELECT * FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cache_file_dump_flag_long::51",
+  "argv": [
+   "--cache-file",
+   "testdata/join/users.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cache_file_dump_flag_short::52",
+  "argv": [
+   "-D",
+   "testdata/join/users.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_convert_numbers_flag_long::53",
+  "argv": [
+   "--convert-numbers",
+   "testdata/convert.csv",
+   "SELECT * FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_convert_numbers_flag_short::54",
+  "argv": [
+   "-n",
+   "testdata/convert.csv",
+   "SELECT * FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_convert_numbers_env_variable::55",
+  "argv": [
+   "testdata/convert.csv",
+   "SELECT * FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_convert_numbers_default::56",
+  "argv": [
+   "testdata/csv/numberconvert.csv",
+   "SELECT * FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_flag::57",
+  "argv": [
+   "--verbose",
+   "testdata/join/users.csv",
+   "SELECT * FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_sqlite_writer_flag::58",
+  "argv": [
+   "--no-sqlite-writer",
+   "testdata/join/users.csv",
+   "SELECT * FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_window_function_row_number::59",
+  "argv": [
+   "testdata/join/ages.json",
+   "SELECT id, age, ROW_NUMBER() OVER (ORDER BY age) as row_num FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_window_function_rank::60",
+  "argv": [
+   "testdata/join/ages.json",
+   "SELECT age, RANK() OVER (ORDER BY age DESC) as rank FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cte_with_clause::61",
+  "argv": [
+   "testdata/join/ages.json",
+   "WITH older AS (SELECT * FROM {} WHERE age > 50) SELECT * FROM older"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_ctes::62",
+  "argv": [
+   "testdata/join/users.csv",
+   "WITH \n                    first AS (SELECT * FROM {} WHERE id = '1'),\n                    second AS (SELECT * FROM {} WHERE id = '2')\n                    SELECT * FROM first UNION ALL SELECT * FROM second"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_recursive_cte::63",
+  "argv": [
+   "testdata/join/users.csv",
+   "WITH RECURSIVE cnt(x) AS (\n                     SELECT 1\n                     UNION ALL\n                     SELECT x+1 FROM cnt WHERE x < 5\n                 )\n                 SELECT x FROM cnt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_except_operator::64",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT name FROM {} EXCEPT SELECT name FROM {} WHERE id = '1'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_intersect_operator::65",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT name FROM {} INTERSECT SELECT name FROM {} WHERE id IN ('1', '2')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_union_all::66",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT name FROM {} UNION ALL SELECT name FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_extract::67",
+  "argv": [
+   "testdata/nested/nested.json",
+   "SELECT name FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_arithmetic::68",
+  "argv": [
+   "testdata/join/ages.json",
+   "SELECT age, (age * 2 + 10) / 3 - 5 as complex FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_functions_combination::69",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT UPPER(SUBSTR(name, 1, 1)) || LOWER(SUBSTR(name, 2)) as formatted FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_case_expressions::70",
+  "argv": [
+   "testdata/join/ages.json",
+   "SELECT age,\n                    CASE \n                        WHEN age > 80 THEN \n                            CASE WHEN age > 85 THEN 'very old' ELSE 'old' END\n                        ELSE 'younger'\n                    END as category\n                    FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_in_case::71",
+  "argv": [
+   "testdata/join/ages.json",
+   "SELECT \n                    CASE WHEN MAX(age) > 80 THEN 'has seniors' ELSE 'no seniors' END as result\n                    FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_correlated_subquery::72",
+  "argv": [
+   "testdata/join/ages.json",
+   "SELECT age, \n                    (SELECT COUNT(*) FROM {} t2 WHERE t2.age <= t1.age) as rank\n                    FROM {} t1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scalar_subquery::73",
+  "argv": [
+   "testdata/join/ages.json",
+   "SELECT age, (SELECT MAX(age) FROM {}) as max_age FROM {} LIMIT 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_joins_complex::74",
+  "argv": [
+   "t1.csv",
+   "t2.csv",
+   "t3.csv",
+   "SELECT {0}.id, {0}.val, {1}.val as val2, {2}.val as val3\n                        FROM {0}\n                        LEFT JOIN {1} ON {0}.id = {1}.id\n                        LEFT JOIN {2} ON {0}.id = {2}.id\n                        WHERE {0}.id > 0\n                        ORDER BY {0}.id"
+  ],
+  "stdin": null,
+  "files": {
+   "t1.csv": "id,val\n1,a\n2,b\n3,c",
+   "t2.csv": "id,val\n1,x\n2,y",
+   "t3.csv": "id,val\n2,m\n3,n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_group_by_multiple_columns::75",
+  "argv": [
+   "multi.csv",
+   "SELECT cat, subcat, SUM(CAST(val AS INTEGER)) as total FROM {} GROUP BY cat, subcat"
+  ],
+  "stdin": null,
+  "files": {
+   "multi.csv": "cat,subcat,val\nA,1,10\nA,1,20\nA,2,30\nB,1,40"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_having_with_aggregate::76",
+  "argv": [
+   "groups.csv",
+   "SELECT \"group\", SUM(CAST(value AS INTEGER)) as total FROM {} GROUP BY \"group\" HAVING total > 15"
+  ],
+  "stdin": null,
+  "files": {
+   "groups.csv": "group,value\nA,10\nA,20\nB,5\nB,3\nC,100"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_order_by_computed_column::77",
+  "argv": [
+   "testdata/join/ages.json",
+   "SELECT age, age * 2 as doubled FROM {} ORDER BY doubled DESC"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_csv_file::78",
+  "argv": [
+   "empty.csv",
+   "SELECT * FROM {}"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.csv": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_header_only::79",
+  "argv": [
+   "header.csv",
+   "SELECT * FROM {}"
+  ],
+  "stdin": null,
+  "files": {
+   "header.csv": "a,b,c"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_with_empty_values::80",
+  "argv": [
+   "empty_vals.csv",
+   "SELECT * FROM {}"
+  ],
+  "stdin": null,
+  "files": {
+   "empty_vals.csv": "a,b,c\n1,,3\n,2,\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_content::81",
+  "argv": [
+   "unicode.csv",
+   "SELECT * FROM {}"
+  ],
+  "stdin": null,
+  "files": {
+   "unicode.csv": "name,value\n日本語,123\nΕλληνικά,456\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_data::82",
+  "argv": [
+   "special.csv",
+   "SELECT * FROM {}"
+  ],
+  "stdin": null,
+  "files": {
+   "special.csv": "name,value\ntest-comma,1\ntest-quote,2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_number_of_rows::83",
+  "argv": [
+   "SELECT COUNT(*) as count FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_with_zero_results::84",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT * FROM {} WHERE id = '999999'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_whitespace_in_column_names::85",
+  "argv": [
+   "spaces.csv",
+   "SELECT \"first name\" FROM {}"
+  ],
+  "stdin": null,
+  "files": {
+   "spaces.csv": "first name,last name\nJohn,Doe\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_case_sensitivity::86",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT NAME, ID FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reserved_sql_keywords_as_columns::87",
+  "argv": [
+   "reserved.csv",
+   "SELECT \"select\", \"from\", \"where\" FROM {}"
+  ],
+  "stdin": null,
+  "files": {
+   "reserved.csv": "select,from,where\n1,2,3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_numeric_column_names::88",
+  "argv": [
+   "numeric.csv",
+   "SELECT * FROM {}"
+  ],
+  "stdin": null,
+  "files": {
+   "numeric.csv": "1,2,3\na,b,c\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duplicate_column_names::89",
+  "argv": [
+   "dupe.csv",
+   "SELECT * FROM {}"
+  ],
+  "stdin": null,
+  "files": {
+   "dupe.csv": "a,a,b\n1,2,3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_newlines_in_quoted_fields::90",
+  "argv": [
+   "newlines.csv",
+   "SELECT * FROM {}"
+  ],
+  "stdin": null,
+  "files": {
+   "newlines.csv": "text,value\n\"line1\nline2\",1\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_type_columns::91",
+  "argv": [
+   "mixed.csv",
+   "SELECT * FROM {}"
+  ],
+  "stdin": null,
+  "files": {
+   "mixed.csv": "value\n123\nabc\n45.6\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_division_by_zero::92",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT id, 1 / 0 as division FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_cast::93",
+  "argv": [
+   "text.csv",
+   "SELECT CAST(value AS INTEGER) FROM {}"
+  ],
+  "stdin": null,
+  "files": {
+   "text.csv": "value\nabc\ndef"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_not_found::94",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT * FROM {5}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_column_not_found::95",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT nonexistent_column FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_syntax_error_unclosed_quote::96",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT * FROM {} WHERE name = 'unclosed"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_syntax_error_missing_from::97",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT * WHERE id = '1'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ambiguous_column::98",
+  "argv": [
+   "testdata/join/users.csv",
+   "testdata/join/ages.json",
+   "SELECT id FROM {0} JOIN {1} ON {0}.id = {1}.id"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_query_string::99",
+  "argv": [
+   "testdata/join/users.csv",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_circular_reference::100",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT * FROM {} WHERE id IN (SELECT id FROM {})"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_group_by_without_aggregate::101",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT name FROM {} GROUP BY name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_having_without_group_by::102",
+  "argv": [
+   "testdata/join/ages.json",
+   "SELECT age FROM {} HAVING age > 50"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_limit_zero::103",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT * FROM {} LIMIT 0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_limit::104",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT * FROM {} LIMIT -1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_offset_without_limit::105",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT * FROM {} OFFSET 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_order_by_nonexistent_column::106",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT name FROM {} ORDER BY nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duplicate_table_reference::107",
+  "argv": [
+   "testdata/join/users.csv",
+   "testdata/join/users.csv",
+   "SELECT {0}.name, {1}.id FROM {0}, {1}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_join_condition::108",
+  "argv": [
+   "testdata/join/users.csv",
+   "testdata/join/ages.json",
+   "SELECT * FROM {0} JOIN {1} ON invalid_condition"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_file::109",
+  "argv": [
+   "-s",
+   "csv",
+   "testdata/join/users.csv",
+   "SELECT * FROM {0}, {1}"
+  ],
+  "stdin": "x\n1",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_large_result_set::110",
+  "argv": [
+   "SELECT * FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_bom::111",
+  "argv": [
+   "bom.csv",
+   "SELECT * FROM {}"
+  ],
+  "stdin": null,
+  "files": {
+   "bom.csv": "﻿name,value\ntest,123\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tsv_format::112",
+  "argv": [
+   "testdata/userdata.tsv",
+   "SELECT COUNT(*) as count FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_format::113",
+  "argv": [
+   "testdata/join/ages.json",
+   "SELECT * FROM {} ORDER BY id"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_jsonl_format::114",
+  "argv": [
+   "testdata/userdata.jsonl",
+   "SELECT COUNT(*) as count FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parquet_format::115",
+  "argv": [
+   "testdata/userdata.parquet",
+   "SELECT COUNT(*) as count FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parquet_with_limit::116",
+  "argv": [
+   "testdata/userdata.parquet",
+   "SELECT * FROM {} LIMIT 5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xlsx_format::117",
+  "argv": [
+   "testdata/userdata.xlsx",
+   "SELECT COUNT(*) as count FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ods_format::118",
+  "argv": [
+   "testdata/userdata.ods",
+   "SELECT COUNT(*) as count FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yaml_format::119",
+  "argv": [
+   "testdata/yaml/userdata.yaml",
+   "SELECT COUNT(*) as count FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_avro_format::120",
+  "argv": [
+   "testdata/avro/test_data.avro",
+   "SELECT * FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_orc_format::121",
+  "argv": [
+   "testdata/orc/test_data.orc",
+   "SELECT * FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_logfmt_format::122",
+  "argv": [
+   "testdata/logfmt/log.logfmt",
+   "SELECT * FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_without_query::123",
+  "argv": [
+   "testdata/join/ages.json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_malformed_json_error::124",
+  "argv": [
+   "testdata/bad/not_an_array.json",
+   "SELECT * FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_object_access::125",
+  "argv": [
+   "testdata/nested/nested.json",
+   "SELECT name, \"location.city\" as city FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deeply_nested_object::126",
+  "argv": [
+   "testdata/nested/nested.json",
+   "SELECT name, \"location.address.number\" as num FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_extraction_syntax::127",
+  "argv": [
+   "testdata/path/path.json",
+   "SELECT * FROM {0, 'data.data'}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_extraction_alternative::128",
+  "argv": [
+   "testdata/path/path.json",
+   "SELECT * FROM {0, 'data.data2'}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_excel_sheets::129",
+  "argv": [
+   "testdata/excel/multiple-sheets.xlsx",
+   "SELECT * FROM {0, 'Sheet1'}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_with_aggregation::130",
+  "argv": [
+   "testdata/nested/nested.json",
+   "SELECT COUNT(*) as count, \"location.city\" as city FROM {} GROUP BY city"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_null_handling::131",
+  "argv": [
+   "testdata/nested/nested.json",
+   "SELECT * FROM {} WHERE name IS NOT NULL"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_compact_json::132",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT * FROM {} LIMIT 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pretty_flag_long::133",
+  "argv": [
+   "--pretty",
+   "testdata/join/users.csv",
+   "SELECT * FROM {} LIMIT 2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pretty_flag_short::134",
+  "argv": [
+   "-p",
+   "testdata/join/users.csv",
+   "SELECT * FROM {} LIMIT 2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pretty_flag_no_query::135",
+  "argv": [
+   "-p",
+   "testdata/join/users.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_result_output::136",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT * FROM {} WHERE id = '999'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_values_in_output::137",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT id, NULL as null_col FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_numeric_output_format::138",
+  "argv": [
+   "testdata/join/ages.json",
+   "SELECT age, age * 2 as doubled FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_output_format::139",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT name, 'test,\"quote' as special FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_column_ordering::140",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT name, id FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regression_36::141",
+  "argv": [
+   "testdata/regr/36.json",
+   "SELECT * FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regression_67::142",
+  "argv": [
+   "testdata/regr/67.jsonl",
+   "SELECT * FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regression_74::143",
+  "argv": [
+   "testdata/regr/74.csv",
+   "SELECT * FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_logs_csv::144",
+  "argv": [
+   "testdata/basic_logs.csv",
+   "SELECT * FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_taxi_truncated::145",
+  "argv": [
+   "testdata/taxi_trunc.csv",
+   "SELECT COUNT(*) as count FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_userdata_count::146",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT COUNT(*) as count FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_userdata_with_where::147",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT \" Name \" FROM {} WHERE State = 'Nebraska' LIMIT 10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_userdata_group_by_country::148",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT State, COUNT(*) as count FROM {} GROUP BY State ORDER BY count DESC LIMIT 5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_convert_csv_basic::149",
+  "argv": [
+   "testdata/convert.csv",
+   "SELECT COUNT(*) as count FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_numberconvert_with_conversion::150",
+  "argv": [
+   "-n",
+   "testdata/csv/numberconvert.csv",
+   "SELECT * FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_flag_long::151",
+  "argv": [
+   "--schema",
+   "testdata/join/users.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_flag_short::152",
+  "argv": [
+   "-c",
+   "testdata/join/users.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_with_pretty::153",
+  "argv": [
+   "-c",
+   "-p",
+   "testdata/join/users.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_different_formats::154",
+  "argv": [
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_from_file_flag_long::155",
+  "argv": [
+   "testdata/userdata.csv",
+   "--file",
+   "testdata/sql/simple.sql"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_from_file_flag_short::156",
+  "argv": [
+   "testdata/userdata.csv",
+   "-f",
+   "testdata/sql/simple.sql"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_file_missing_error::157",
+  "argv": [
+   "testdata/join/users.csv",
+   "-f",
+   "nonexistent.sql"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_file_empty_error::158",
+  "argv": [
+   "testdata/join/users.csv",
+   "-f",
+   "empty.sql"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.sql": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_file_complex_query::159",
+  "argv": [
+   "testdata/join/users.csv",
+   "-f",
+   "complex.sql"
+  ],
+  "stdin": null,
+  "files": {
+   "complex.sql": "\n            SELECT \n                name,\n                id,\n                id || '-' || name as combined\n            FROM {}\n            WHERE id > '1'\n            ORDER BY name\n        "
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_flag_csv::160",
+  "argv": [
+   "-s",
+   "csv",
+   "SELECT * FROM {}"
+  ],
+  "stdin": "id,name\n1,Alice\n2,Bob",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_flag_json::161",
+  "argv": [
+   "-s",
+   "json",
+   "SELECT * FROM {}"
+  ],
+  "stdin": "[{\"id\": 1, \"name\": \"Alice\"}, {\"id\": 2, \"name\": \"Bob\"}]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_flag_long::162",
+  "argv": [
+   "--stdin",
+   "csv",
+   "SELECT * FROM {}"
+  ],
+  "stdin": "id,name\n1,Test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_missing_type_error::163",
+  "argv": [
+   "-s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_query::164",
+  "argv": [
+   "-s",
+   "csv",
+   "SELECT SUM(a) as total FROM {}"
+  ],
+  "stdin": "a,b\n1,2\n3,4",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_no_query_dump::165",
+  "argv": [
+   "-s",
+   "csv"
+  ],
+  "stdin": "x,y\n1,2",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_group_by_with_aggregates::166",
+  "argv": [
+   "testdata/join/ages.json",
+   "SELECT COUNT(*) as count, AVG(age) as avg_age, MIN(age) as min_age, MAX(age) as max_age FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sum_aggregation::167",
+  "argv": [
+   "testdata/join/ages.json",
+   "SELECT SUM(age) as total FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_having_clause::168",
+  "argv": [
+   "testdata/join/ages.json",
+   "SELECT age, COUNT(*) as count FROM {} GROUP BY age HAVING count > 0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_order_by_desc::169",
+  "argv": [
+   "testdata/join/ages.json",
+   "SELECT * FROM {} ORDER BY age DESC"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_limit_with_offset::170",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT * FROM {} ORDER BY id LIMIT 1 OFFSET 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_concatenation::171",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT name || ' (' || id || ')' as labeled FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_like_pattern_matching::172",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT * FROM {} WHERE name LIKE 'M%'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_in_operator::173",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT * FROM {} WHERE id IN ('1', '3')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_between_operator::174",
+  "argv": [
+   "testdata/join/ages.json",
+   "SELECT * FROM {} WHERE age BETWEEN 40 AND 90"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_case_expression::175",
+  "argv": [
+   "testdata/join/ages.json",
+   "SELECT id, age,\n                    CASE \n                        WHEN age >= 60 THEN 'senior'\n                        WHEN age >= 30 THEN 'adult'\n                        ELSE 'young'\n                    END as category\n                    FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subquery::176",
+  "argv": [
+   "testdata/join/ages.json",
+   "SELECT * FROM {} WHERE age > (SELECT AVG(age) FROM {})"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_union::177",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT name FROM {} WHERE id = '1' UNION SELECT name FROM {} WHERE id = '2'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_left_join::178",
+  "argv": [
+   "testdata/join/users.csv",
+   "testdata/join/ages.json",
+   "SELECT {0}.name, {1}.age FROM {0} LEFT JOIN {1} ON {0}.id = {1}.id"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inner_join::179",
+  "argv": [
+   "testdata/join/users.csv",
+   "testdata/join/ages.json",
+   "SELECT {0}.name, {1}.age FROM {0} INNER JOIN {1} ON {0}.id = {1}.id"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cross_join::180",
+  "argv": [
+   "a.csv",
+   "b.csv",
+   "SELECT {0}.x, {1}.y FROM {0} CROSS JOIN {1}"
+  ],
+  "stdin": null,
+  "files": {
+   "a.csv": "x\n1\n2",
+   "b.csv": "y\nA\nB"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_table_join::181",
+  "argv": [
+   "t1.csv",
+   "t2.csv",
+   "t3.csv",
+   "SELECT {0}.id, {0}.val1, {1}.val2, {2}.val3 \n                        FROM {0} \n                        JOIN {1} ON {0}.id = {1}.id \n                        JOIN {2} ON {0}.id = {2}.id"
+  ],
+  "stdin": null,
+  "files": {
+   "t1.csv": "id,val1\n1,a\n2,b",
+   "t2.csv": "id,val2\n1,x\n2,y",
+   "t3.csv": "id,val3\n1,m\n2,n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coalesce_function::182",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT COALESCE(NULL, name) as result FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_length_function::183",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT name, LENGTH(name) as len FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_upper_lower_functions::184",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT UPPER(name) as upper, LOWER(name) as lower FROM {} LIMIT 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_substr_function::185",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT name, SUBSTR(name, 1, 3) as short FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_replace_function::186",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT REPLACE(name, 'a', 'X') as modified FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cast_function::187",
+  "argv": [
+   "testdata/join/users.csv",
+   "SELECT CAST(id AS INTEGER) as id_int FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_round_function::188",
+  "argv": [
+   "testdata/join/ages.json",
+   "SELECT ROUND(age / 10.0) * 10 as decade FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_input_files::189",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_mimetype_in_stdin_flag::190",
+  "argv": [
+   "-s",
+   "unknownformat"
+  ],
+  "stdin": "some data\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_missing_files::191",
+  "argv": [
+   "missing1.csv",
+   "missing2.csv",
+   "SELECT * FROM {0}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_with_empty_fields::192",
+  "argv": [
+   "empty_fields.csv",
+   "SELECT * FROM {}"
+  ],
+  "stdin": null,
+  "files": {
+   "empty_fields.csv": "a,b,c\n1,,3\n,2,\n4,5,6\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_csv_query::193",
+  "argv": [
+   "test.csv",
+   "SELECT * FROM {}"
+  ],
+  "stdin": null,
+  "files": {
+   "test.csv": "id,name\n1,Alice\n2,Bob\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_csv_basic::194",
+  "argv": [
+   "-s",
+   "csv",
+   "SELECT * FROM {}"
+  ],
+  "stdin": "id,name,age\n1,Alice,30\n2,Bob,25\n3,Charlie,35",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_csv_with_where_clause::195",
+  "argv": [
+   "-s",
+   "csv",
+   "SELECT name, age FROM {} WHERE age > 25"
+  ],
+  "stdin": "id,name,age\n1,Alice,30\n2,Bob,25\n3,Charlie,35",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_json_array::196",
+  "argv": [
+   "-s",
+   "json",
+   "SELECT * FROM {} WHERE price > 15"
+  ],
+  "stdin": "[\n  {\"id\": 1, \"product\": \"Widget\", \"price\": 19.99},\n  {\"id\": 2, \"product\": \"Gadget\", \"price\": 29.99},\n  {\"id\": 3, \"product\": \"Doohickey\", \"price\": 9.99}\n]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_jsonl_with_aggregation::197",
+  "argv": [
+   "-s",
+   "jsonl",
+   "SELECT status, SUM(count) as total FROM {} GROUP BY status"
+  ],
+  "stdin": "{\"id\": 1, \"status\": \"active\", \"count\": 100}\n{\"id\": 2, \"status\": \"inactive\", \"count\": 50}\n{\"id\": 3, \"status\": \"active\", \"count\": 200}\n{\"id\": 4, \"status\": \"pending\", \"count\": 75}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_long_flag::198",
+  "argv": [
+   "--stdin",
+   "csv",
+   "SELECT * FROM {} LIMIT 2"
+  ],
+  "stdin": "id,name,age\n1,Alice,30\n2,Bob,25",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_missing_format_specification::199",
+  "argv": [
+   "-s"
+  ],
+  "stdin": "some,data",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_empty_data::200",
+  "argv": [
+   "-s",
+   "csv"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_combined_with_file_join::201",
+  "argv": [
+   "-s",
+   "csv",
+   "orders.csv",
+   "SELECT {1}.order_id, {0}.product_name, {0}.price, {1}.quantity, {0}.price * {1}.quantity as total FROM {0} JOIN {1} ON {0}.product_id = {1}.product_id"
+  ],
+  "stdin": "product_id,product_name,price\n101,Widget,19.99\n102,Gadget,29.99\n103,Doohickey,9.99",
+  "files": {
+   "orders.csv": "order_id,product_id,quantity\n1,101,2\n2,102,1\n3,103,5"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_large_dataset_aggregation::202",
+  "argv": [
+   "-s",
+   "csv",
+   "SELECT category, COUNT(*) as count, AVG(value) as avg_value FROM {} GROUP BY category ORDER BY category"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_file_basic::203",
+  "argv": [
+   "data.csv",
+   "-f",
+   "query.sql"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "id,name,age\n1,Alice,30\n2,Bob,25\n3,Charlie,35",
+   "query.sql": "SELECT name, age \nFROM {} \nWHERE age >= 30 \nORDER BY age DESC"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_file_multiline_complex::204",
+  "argv": [
+   "data.csv",
+   "-f",
+   "complex.sql"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "id,name,age\n1,Alice,30\n2,Bob,25\n3,Charlie,35",
+   "complex.sql": "SELECT \n  name,\n  age,\n  CASE \n    WHEN age < 30 THEN 'young'\n    WHEN age < 35 THEN 'middle'\n    ELSE 'senior'\n  END as age_group\nFROM {}\nORDER BY age"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_file_missing::205",
+  "argv": [
+   "data.csv",
+   "-f",
+   "/tmp/nonexistent_query_12345.sql"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "id,value\n1,100"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_file_empty::206",
+  "argv": [
+   "data.csv",
+   "-f",
+   "empty.sql"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "id,value\n1,100",
+   "empty.sql": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_file_with_stdin::207",
+  "argv": [
+   "-s",
+   "csv",
+   "-f",
+   "query.sql"
+  ],
+  "stdin": "id,name,age\n1,Alice,30\n2,Bob,25\n3,Charlie,35",
+  "files": {
+   "query.sql": "SELECT \n  name,\n  age,\n  CASE \n    WHEN age < 30 THEN 'Generation Z'\n    WHEN age < 40 THEN 'Millennial'\n    ELSE 'Generation X'\n  END as generation,\n  age * 12 as months_old\nFROM {}\nWHERE age >= 25\nORDER BY age ASC"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_file_with_multiple_data_files::208",
+  "argv": [
+   "users.csv",
+   "scores.csv",
+   "-f",
+   "join_query.sql"
+  ],
+  "stdin": null,
+  "files": {
+   "users.csv": "user_id,username\n1,alice\n2,bob\n3,charlie",
+   "scores.csv": "user_id,score\n1,95\n2,87\n3,92",
+   "join_query.sql": "SELECT \n  {0}.username, \n  {1}.score \nFROM {0} \nJOIN {1} ON {0}.user_id = {1}.user_id \nWHERE {1}.score > 90\nORDER BY {1}.score DESC"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_order_by::209",
+  "argv": [
+   "-s",
+   "csv",
+   "SELECT * FROM {} ORDER BY score DESC"
+  ],
+  "stdin": "id,name,score\n3,Charlie,85\n1,Alice,95\n2,Bob,90",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_csv_with_special_characters::210",
+  "argv": [
+   "-s",
+   "csv",
+   "SELECT * FROM {}"
+  ],
+  "stdin": "id,name,description\n1,\"Alice, Smith\",\"A person named Alice\"\n2,\"Bob \"\"The Builder\"\"\",\"Bob's nickname\"\n3,Charlie,\"Simple description\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_file_with_comments_and_whitespace::211",
+  "argv": [
+   "data.csv",
+   "-f",
+   "query_with_whitespace.sql"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "id,value\n1,100\n2,200\n3,300",
+   "query_with_whitespace.sql": "\n\nSELECT id, value\nFROM {}\nWHERE value > 100\n\n\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_limit_and_offset::212",
+  "argv": [
+   "-s",
+   "csv",
+   "SELECT * FROM {} LIMIT 2 OFFSET 2"
+  ],
+  "stdin": "id,name\n1,Alice\n2,Bob\n3,Charlie\n4,David\n5,Eve",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_csv_with_header_only::213",
+  "argv": [
+   "-s",
+   "csv",
+   "SELECT * FROM {}"
+  ],
+  "stdin": "id,name,age",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_file_long_flag::214",
+  "argv": [
+   "data.csv",
+   "--file",
+   "query.sql"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "id,value\n1,100\n2,200",
+   "query.sql": "SELECT * FROM {} WHERE value > 100"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_json_with_nested_objects::215",
+  "argv": [
+   "-s",
+   "json",
+   "SELECT * FROM {} WHERE active = 1"
+  ],
+  "stdin": "[\n  {\"id\": 1, \"user\": {\"name\": \"Alice\", \"age\": 30}, \"active\": true},\n  {\"id\": 2, \"user\": {\"name\": \"Bob\", \"age\": 25}, \"active\": false},\n  {\"id\": 3, \"user\": {\"name\": \"Charlie\", \"age\": 35}, \"active\": true}\n]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_jsonl_single_line::216",
+  "argv": [
+   "-s",
+   "jsonl",
+   "SELECT * FROM {}"
+  ],
+  "stdin": "{\"id\": 1, \"name\": \"Alice\", \"value\": 42}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_combined_with_multiple_files::217",
+  "argv": [
+   "-s",
+   "csv",
+   "products.csv",
+   "inventory.csv",
+   "SELECT {0}.category_name, {1}.product_name, {1}.price, {2}.quantity FROM {0} JOIN {1} ON {0}.category_id = {1}.category_id JOIN {2} ON {1}.product_id = {2}.product_id"
+  ],
+  "stdin": "category_id,category_name\n1,Electronics\n2,Books\n3,Clothing",
+  "files": {
+   "products.csv": "product_id,product_name,category_id,price\n101,Laptop,1,999.99\n102,Novel,2,14.99\n103,T-Shirt,3,19.99",
+   "inventory.csv": "product_id,quantity\n101,5\n102,20\n103,50"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_file_with_select_star::218",
+  "argv": [
+   "data.csv",
+   "-f",
+   "select_all.sql"
+  ],
+  "stdin": null,
+  "files": {
+   "data.csv": "id,name,age,city\n1,Alice,30,NYC\n2,Bob,25,LA",
+   "select_all.sql": "SELECT * FROM {}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_aggregate_functions::219",
+  "argv": [
+   "-s",
+   "csv",
+   "SELECT COUNT(*) as count, SUM(value) as sum, AVG(value) as avg, MIN(value) as min, MAX(value) as max FROM {}"
+  ],
+  "stdin": "id,value\n1,100\n2,200\n3,300\n4,400\n5,500",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_excel_multiple_sheets::220",
+  "argv": [
+   "testdata/excel/multiple-sheets.xlsx"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_specification::221",
+  "argv": [
+   "testdata/path/path.json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_sqlite_writer_flag::222",
+  "argv": [
+   "--no-sqlite-writer",
+   "testdata/userdata.csv",
+   "SELECT COUNT(*) as total FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_sqlite_writer_env::223",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT COUNT(*) as total FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "DSQ_NO_SQLITE_WRITER": "true"
+  }
+ },
+ {
+  "name": "test::test_string_functions::224",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT UPPER(State) as upper_state FROM {} LIMIT 3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_length_function::225",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT LENGTH(State) as len FROM {} LIMIT 5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_substr_function::226",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT SUBSTR(State, 1, 3) as prefix FROM {} LIMIT 5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_case_expression::227",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT CASE WHEN State = 'California' THEN 'CA' ELSE 'Other' END as region FROM {} LIMIT 5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coalesce_function::228",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT COALESCE(State, 'Unknown') as state FROM {} LIMIT 5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_in_operator::229",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT State FROM {} WHERE State IN ('California', 'Texas', 'Florida') LIMIT 10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_like_operator::230",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT State FROM {} WHERE State LIKE 'New%' LIMIT 5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_between_operator::231",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT State FROM {} WHERE LENGTH(State) BETWEEN 5 AND 8 LIMIT 5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_having_clause::232",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT State, COUNT(*) as count FROM {} GROUP BY State HAVING count > 1 LIMIT 5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_table_references::233",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT a.State FROM {} a LIMIT 5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_csv_file_no_query::234",
+  "argv": [
+   "testdata/userdata.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_json_file_no_query::235",
+  "argv": [
+   "testdata/userdata.json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_jsonl_file_no_query::236",
+  "argv": [
+   "testdata/userdata.jsonl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_flag::237",
+  "argv": [
+   "--verbose",
+   "testdata/userdata.csv",
+   "SELECT COUNT(*) as count FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cache_flag_short::238",
+  "argv": [
+   "-C",
+   "testdata/userdata.csv",
+   "SELECT COUNT(*) as total FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cache_flag_long::239",
+  "argv": [
+   "--cache",
+   "testdata/userdata.csv",
+   "SELECT COUNT(*) as total FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cache_file_flag_short::240",
+  "argv": [
+   "-D",
+   "testdata/userdata.csv",
+   "SELECT COUNT(*) as total FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cache_file_flag_long::241",
+  "argv": [
+   "--cache-file",
+   "testdata/userdata.csv",
+   "SELECT COUNT(*) as total FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_with_only_headers::242",
+  "argv": [
+   "headers.csv",
+   "SELECT * FROM {}"
+  ],
+  "stdin": null,
+  "files": {
+   "headers.csv": "col1,col2,col3\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_with_single_object::243",
+  "argv": [
+   "single.json",
+   "SELECT * FROM {}"
+  ],
+  "stdin": null,
+  "files": {
+   "single.json": "[{\"id\": 1, \"name\": \"test\"}]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_with_special_characters::244",
+  "argv": [
+   "special.csv",
+   "SELECT * FROM {}"
+  ],
+  "stdin": null,
+  "files": {
+   "special.csv": "name,value\n\"Test,Name\",\"Value\nWith\nNewlines\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_with_quotes::245",
+  "argv": [
+   "quoted.csv",
+   "SELECT * FROM {}"
+  ],
+  "stdin": null,
+  "files": {
+   "quoted.csv": "name,desc\n\"Alice\",\"She said \"\"hello\"\"\"\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_query::246",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT State, COUNT(*) as count FROM {} WHERE State IS NOT NULL GROUP BY State ORDER BY count DESC LIMIT 10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_aggregations::247",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT COUNT(*) as cnt, COUNT(DISTINCT State) as states, MIN(State) as min_state, MAX(State) as max_state FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_union_query::248",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT State FROM {} UNION SELECT State FROM {} LIMIT 5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_select::249",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT State FROM {} WHERE State IN (SELECT State FROM {} LIMIT 10) LIMIT 5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cross_join::250",
+  "argv": [
+   "testdata/join/users.csv",
+   "testdata/join/ages.json",
+   "SELECT {0}.name, {1}.age FROM {0} CROSS JOIN {1} LIMIT 5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_handling::251",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT State, CASE WHEN State IS NULL THEN 'Unknown' ELSE State END as state_clean FROM {} LIMIT 5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cast_operations::252",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT CAST(1 as TEXT) as text_val, CAST('123' as INTEGER) as int_val FROM {} LIMIT 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_functions::253",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT datetime('now') as current_time, date('now') as current_date FROM {} LIMIT 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_math_functions::254",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT ABS(-5) as abs_val, ROUND(3.14159, 2) as rounded FROM {} LIMIT 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_concatenation::255",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT State || ', USA' as full_location FROM {} LIMIT 3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_sql_syntax::256",
+  "argv": [
+   "testdata/userdata.csv",
+   "INVALID SQL SYNTAX HERE"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_column_name::257",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT nonexistent_column FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_division_by_zero::258",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT 1/0 as result FROM {} LIMIT 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ambiguous_column_reference::259",
+  "argv": [
+   "testdata/join/users.csv",
+   "testdata/join/ages.json",
+   "SELECT id FROM {0} JOIN {1}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_table_reference::260",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT * FROM {5}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_malformed_where_clause::261",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT * FROM {} WHERE"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_truly_invalid_join_syntax::262",
+  "argv": [
+   "testdata/join/users.csv",
+   "testdata/join/ages.json",
+   "SELECT * FROM {0} JOOOOOIN {1}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tsv_file_basic_query::263",
+  "argv": [
+   "testdata/userdata.tsv",
+   "SELECT COUNT(*) as total FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_file_basic_query::264",
+  "argv": [
+   "testdata/userdata.json",
+   "SELECT COUNT(*) as total FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_jsonl_file_basic_query::265",
+  "argv": [
+   "testdata/userdata.jsonl",
+   "SELECT COUNT(*) as total FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parquet_file_basic_query::266",
+  "argv": [
+   "testdata/userdata.parquet",
+   "SELECT COUNT(*) as total FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_excel_file_basic_query::267",
+  "argv": [
+   "testdata/userdata.xlsx",
+   "SELECT COUNT(*) as total FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ods_file_basic_query::268",
+  "argv": [
+   "testdata/userdata.ods",
+   "SELECT COUNT(*) as total FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yaml_file_basic_query::269",
+  "argv": [
+   "testdata/yaml/userdata.yaml",
+   "SELECT COUNT(*) as total FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_avro_file_basic_query::270",
+  "argv": [
+   "testdata/avro/test_data.avro",
+   "SELECT COUNT(*) as total FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_orc_file_basic_query::271",
+  "argv": [
+   "testdata/orc/test_data.orc",
+   "SELECT COUNT(*) as total FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_logfmt_file_basic_query::272",
+  "argv": [
+   "testdata/logfmt/log.logfmt",
+   "SELECT COUNT(*) as total FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_file_extension::273",
+  "argv": [
+   "testdata/unknown",
+   "SELECT * FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file::274",
+  "argv": [
+   "testdata/does_not_exist.csv",
+   "SELECT * FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interactive_flag_short::275",
+  "argv": [
+   "-i",
+   "testdata/userdata.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interactive_flag_long::276",
+  "argv": [
+   "--interactive",
+   "testdata/userdata.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_number_conversion_long_flag::277",
+  "argv": [
+   "--convert-numbers",
+   "testdata/csv/numberconvert.csv",
+   "SELECT * FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_number_conversion_with_query::278",
+  "argv": [
+   "-n",
+   "testdata/csv/numberconvert.csv",
+   "SELECT * FROM {} LIMIT 3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_number_conversion_ordering::279",
+  "argv": [
+   "testdata/convert.csv",
+   "SELECT * FROM {} ORDER BY test LIMIT 5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_compact_json::280",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT State FROM {} LIMIT 3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pretty_print_flag::281",
+  "argv": [
+   "-p",
+   "testdata/userdata.csv",
+   "SELECT State FROM {} LIMIT 3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pretty_print_without_query::282",
+  "argv": [
+   "-p",
+   "testdata/userdata.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_flag_json::283",
+  "argv": [
+   "-c",
+   "testdata/userdata.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_schema_flag_pretty::284",
+  "argv": [
+   "-p",
+   "-c",
+   "testdata/userdata.csv"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_column_order::285",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT State, Email FROM {} LIMIT 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_all::286",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT * FROM {} LIMIT 5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_where_clause::287",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT * FROM {} WHERE State = 'California' LIMIT 10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_group_by::288",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT State, COUNT(*) as count FROM {} GROUP BY State LIMIT 5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_limit_clause::289",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT * FROM {} LIMIT 3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_placeholder_with_index::290",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT COUNT(*) as total FROM {0}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_table_alias::291",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT u.State, COUNT(*) as count FROM {} u GROUP BY u.State LIMIT 5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_function::292",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT State FROM {} WHERE State REGEXP 'Cali.*' LIMIT 5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_avg_aggregation::293",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT AVG(LENGTH(State)) as avg_len FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sum_aggregation::294",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT SUM(LENGTH(State)) as total_len FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_min_max_aggregation::295",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT MIN(State) as min_state, MAX(State) as max_state FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_distinct_keyword::296",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT DISTINCT State FROM {} LIMIT 10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_value_extraction::297",
+  "argv": [
+   "testdata/nested/nested.json",
+   "SELECT * FROM {}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_result_set::298",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT * FROM {} WHERE 1=0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_values::299",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT NULL as null_col, State FROM {} LIMIT 3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_string_values::300",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT '' as empty_col, State FROM {} LIMIT 3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_data::301",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT Email FROM {} LIMIT 5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_text_fields::302",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT \"  Description\" FROM {} LIMIT 5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_sql_file::303",
+  "argv": [
+   "testdata/userdata.csv",
+   "-f",
+   "testdata/sql/empty.sql"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sql_file_not_specified::304",
+  "argv": [
+   "testdata/userdata.csv",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sql_file_nonexistent::305",
+  "argv": [
+   "testdata/userdata.csv",
+   "-f",
+   "testdata/sql/nonexistent.sql"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sql_file_with_complex_query::306",
+  "argv": [
+   "testdata/userdata.csv",
+   "-f",
+   "query.sql"
+  ],
+  "stdin": null,
+  "files": {
+   "query.sql": "SELECT State, COUNT(*) as count FROM {} GROUP BY State ORDER BY count DESC LIMIT 5"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_csv::307",
+  "argv": [
+   "-s",
+   "csv",
+   "SELECT * FROM {}"
+  ],
+  "stdin": "name,age\nAlice,30\nBob,25\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_json::308",
+  "argv": [
+   "-s",
+   "json",
+   "SELECT * FROM {}"
+  ],
+  "stdin": "[{\"name\": \"Alice\", \"age\": 30}, {\"name\": \"Bob\", \"age\": 25}]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_jsonl::309",
+  "argv": [
+   "-s",
+   "jsonl",
+   "SELECT * FROM {}"
+  ],
+  "stdin": "{\"name\": \"Alice\", \"age\": 30}\n{\"name\": \"Bob\", \"age\": 25}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_query::310",
+  "argv": [
+   "-s",
+   "csv",
+   "SELECT name FROM {} WHERE score > 90"
+  ],
+  "stdin": "name,score\nAlice,95\nBob,87\nCharlie,92\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_no_query::311",
+  "argv": [
+   "-s",
+   "csv"
+  ],
+  "stdin": "name,value\ntest,123\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_tsv::312",
+  "argv": [
+   "-s",
+   "tsv",
+   "SELECT * FROM {}"
+  ],
+  "stdin": "name\tage\nAlice\t30\nBob\t25\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_parsing_functions::313",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT URL_HOST('http://example.com/path') as host FROM {} LIMIT 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_path_function::314",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT URL_PATH('http://example.com/path/to/page') as path FROM {} LIMIT 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_scheme_function::315",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT URL_SCHEME('https://example.com') as scheme FROM {} LIMIT 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_url_functions_on_data::316",
+  "argv": [
+   "testdata/userdata.csv",
+   "SELECT URL_SCHEME(\"Profile Photo\") as scheme FROM {} WHERE \"Profile Photo\" LIKE 'http%' LIMIT 5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_is_treated_as_filename_and_errors_unknown_mimetype::317",
+  "argv": [
+   "--nonexistent-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_requires_mimetype::318",
+  "argv": [
+   "--stdin"
+  ],
+  "stdin": "id,name\n1,A\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

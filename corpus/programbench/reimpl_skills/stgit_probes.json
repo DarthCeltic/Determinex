@@ -1,0 +1,5152 @@
+[
+ {
+  "name": "test::test_color_always_emits_ansi::0",
+  "argv": [
+   "init"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_C_options_resolve_relative_paths::1",
+  "argv": [
+   "-C",
+   "-C",
+   "repo",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_running_outside_git_repo_errors::2",
+  "argv": [
+   "series"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_mentions_usage_and_commands::3",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_and_subcommand_version_match::4",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_gitconfig_stgit_alias_is_respected::5",
+  "argv": [
+   "foo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_local_gitconfig_alias_overrides_global_alias::6",
+  "argv": [
+   "git",
+   "config",
+   "stgit.alias.foo",
+   "branch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xdg_config_home_template_preferred_over_home_template::7",
+  "argv": [
+   "new",
+   "p1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_help_flag::8",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_subcommand::9",
+  "argv": [
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_specific_command::10",
+  "argv": [
+   "help",
+   "init"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_subcommand::11",
+  "argv": [
+   "invalidcommand"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_flag_values::12",
+  "argv": [
+   "--color",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_change_directory_flag::13",
+  "argv": [
+   "-C",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_C_flags::14",
+  "argv": [
+   "-C",
+   "-C",
+   ".",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_list_commands::15",
+  "argv": [
+   "completion",
+   "list",
+   "commands"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_list_aliases::16",
+  "argv": [
+   "completion",
+   "list",
+   "aliases"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_bash::17",
+  "argv": [
+   "completion",
+   "bash"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_fish::18",
+  "argv": [
+   "completion",
+   "fish"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_zsh::19",
+  "argv": [
+   "completion",
+   "zsh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_subcommand::20",
+  "argv": [
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_uncommit_basic::21",
+  "argv": [
+   "git",
+   "add",
+   "f1.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_list_patches_options::22",
+  "argv": [
+   "completion",
+   "list",
+   "patches-all"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_list_commands_and_aliases::23",
+  "argv": [
+   "completion",
+   "list",
+   "all"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_help::24",
+  "argv": [
+   "edit",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_new_without_init::25",
+  "argv": [
+   "git",
+   "add",
+   "file1.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_uninitialized_stack::26",
+  "argv": [
+   "new",
+   "-m",
+   "Test",
+   "p1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_color_value::27",
+  "argv": [
+   "--color",
+   "invalid",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_float_help::28",
+  "argv": [
+   "float",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sink_help::29",
+  "argv": [
+   "sink",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_on_branch::30",
+  "argv": [
+   "git",
+   "checkout",
+   "-b",
+   "testbranch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_shells::31",
+  "argv": [
+   "completion"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_man_help::32",
+  "argv": [
+   "completion",
+   "man",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repair_help::33",
+  "argv": [
+   "repair",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rebase_help::34",
+  "argv": [
+   "rebase",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pull_help::35",
+  "argv": [
+   "pull",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_branch_list_help::36",
+  "argv": [
+   "branch",
+   "--list",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_branch_create_help::37",
+  "argv": [
+   "branch",
+   "--create",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_squash_help::38",
+  "argv": [
+   "squash",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sync_help::39",
+  "argv": [
+   "sync",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rename_help::40",
+  "argv": [
+   "rename",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_undo_help::41",
+  "argv": [
+   "undo",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_uncommit_help::42",
+  "argv": [
+   "uncommit",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_next_help::43",
+  "argv": [
+   "next",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prev_help::44",
+  "argv": [
+   "prev",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_top_help::45",
+  "argv": [
+   "top",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_patches_help::46",
+  "argv": [
+   "patches",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_goto_help::47",
+  "argv": [
+   "goto",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hide_help::48",
+  "argv": [
+   "hide",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unhide_help::49",
+  "argv": [
+   "unhide",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_help::50",
+  "argv": [
+   "export",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_help::51",
+  "argv": [
+   "import",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_spill_help::52",
+  "argv": [
+   "spill",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clean_help::53",
+  "argv": [
+   "clean",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_branch_clone_help::54",
+  "argv": [
+   "branch",
+   "--clone",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_branch_rename_help::55",
+  "argv": [
+   "branch",
+   "--rename",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_branch_describe_help::56",
+  "argv": [
+   "branch",
+   "--describe",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_branch_protect_help::57",
+  "argv": [
+   "branch",
+   "--protect",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_branch_unprotect_help::58",
+  "argv": [
+   "branch",
+   "--unprotect",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_branch_cleanup_help::59",
+  "argv": [
+   "branch",
+   "--cleanup",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_branch_delete_help::60",
+  "argv": [
+   "branch",
+   "--delete",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_refresh_help_with_all_flags::61",
+  "argv": [
+   "refresh",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fold_help::62",
+  "argv": [
+   "fold",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_help::63",
+  "argv": [
+   "diff",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_help::64",
+  "argv": [
+   "show",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_help::65",
+  "argv": [
+   "log",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_id_help::66",
+  "argv": [
+   "id",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_name_help::67",
+  "argv": [
+   "name",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_files_help::68",
+  "argv": [
+   "files",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pick_help::69",
+  "argv": [
+   "pick",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reset_help::70",
+  "argv": [
+   "reset",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_redo_help::71",
+  "argv": [
+   "redo",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_series_help::72",
+  "argv": [
+   "series",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commit_help::73",
+  "argv": [
+   "commit",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_help::74",
+  "argv": [
+   "delete",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_new_help::75",
+  "argv": [
+   "new",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_push_help::76",
+  "argv": [
+   "push",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pop_help::77",
+  "argv": [
+   "pop",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_init_help::78",
+  "argv": [
+   "init",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_with_man::79",
+  "argv": [
+   "completion",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repair_no_stgit_stack::80",
+  "argv": [
+   "repair"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_argument_count_for_init::81",
+  "argv": [
+   "init",
+   "arg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_new_from_subdir::82",
+  "argv": [
+   "new",
+   "sub-patch",
+   "-m",
+   "created from subdir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_on_empty::83",
+  "argv": [
+   "status"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_after_refresh::84",
+  "argv": [
+   "new",
+   "-m",
+   "first patch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_of_specific_file::85",
+  "argv": [
+   "new",
+   "-m",
+   "p"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_id_on_uninitialized_repo::86",
+  "argv": [
+   "id"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_too_many_arguments::87",
+  "argv": [
+   "new",
+   "-m",
+   "patch-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_on_invalid_command::88",
+  "argv": [
+   "help",
+   "invalidcmd"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_on_ambiguous_command::89",
+  "argv": [
+   "pu"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_version::90",
+  "argv": [
+   "version",
+   "--short"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_on_uninitialized_stack::91",
+  "argv": [
+   "show"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_applied_unapplied::92",
+  "argv": [
+   "show",
+   "--applied",
+   "--unapplied"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_arg_with_applied::93",
+  "argv": [
+   "show",
+   "--applied",
+   "patch-aaa"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_patch_name::94",
+  "argv": [
+   "show",
+   "bad-patch-name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_patch::95",
+  "argv": [
+   "show",
+   "patch-bbb"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_show_on_empty_patch::96",
+  "argv": [
+   "pop",
+   "-a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_stat::97",
+  "argv": [
+   "show",
+   "--stat",
+   "patch-aaa",
+   "patch-ddd"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_patches_for_file::98",
+  "argv": [
+   "patches",
+   "a.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_patches_shared_file::99",
+  "argv": [
+   "patches",
+   "b.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_patches_unique_file::100",
+  "argv": [
+   "patches",
+   "c.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_bare_and_stat::101",
+  "argv": [
+   "files",
+   "--bare",
+   "--stat"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_too_many_arguments::102",
+  "argv": [
+   "files",
+   "patch-a-b",
+   "patch-b-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_patch_name::103",
+  "argv": [
+   "files",
+   "bad-patch-name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_patch_args::104",
+  "argv": [
+   "files"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bare_file_names::105",
+  "argv": [
+   "files",
+   "--bare",
+   "patch-a-b"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stat_output::106",
+  "argv": [
+   "files",
+   "--stat",
+   "patch-b-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_patch::107",
+  "argv": [
+   "new",
+   "-m",
+   "empty-patch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_moved_file::108",
+  "argv": [
+   "new",
+   "-m",
+   "patch-a-d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_all_and_short::109",
+  "argv": [
+   "series",
+   "--all",
+   "--short"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_all_and_applied::110",
+  "argv": [
+   "series",
+   "--all",
+   "--applied"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_series_count::111",
+  "argv": [
+   "series",
+   "--count"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_applied_series::112",
+  "argv": [
+   "series",
+   "--applied"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unapplied_series::113",
+  "argv": [
+   "series",
+   "--unapplied"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_noprefix_series::114",
+  "argv": [
+   "series",
+   "--noprefix",
+   "--applied"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_series_description::115",
+  "argv": [
+   "series",
+   "--description"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_series_empty::116",
+  "argv": [
+   "series",
+   "--empty"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_series_applied_count::117",
+  "argv": [
+   "series",
+   "--applied",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_series_unapplied_count::118",
+  "argv": [
+   "series",
+   "--unapplied",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_on_uninitialized_branch::119",
+  "argv": [
+   "log"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_after_patches::120",
+  "argv": [
+   "uncommit",
+   "-n",
+   "4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_invalid_opts_with_clear::121",
+  "argv": [
+   "log",
+   "--diff",
+   "--clear"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_invalid_args_with_clear::122",
+  "argv": [
+   "uncommit",
+   "-n",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_alias_setup::123",
+  "argv": [
+   "test-alias"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_alias::124",
+  "argv": [
+   "nonexistent-alias-command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_series_single_applied::125",
+  "argv": [
+   "series",
+   "p1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_series_single_unapplied::126",
+  "argv": [
+   "series",
+   "p4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_series_range::127",
+  "argv": [
+   "series",
+   "p1..p4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_series_nonexistent_patch::128",
+  "argv": [
+   "series",
+   "nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_series_with_color_config::129",
+  "argv": [
+   "new",
+   "p0",
+   "-m",
+   "p0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_auto_name_from_message::130",
+  "argv": [
+   "new",
+   "-m",
+   "hello world"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explicit_name_overrides_message::131",
+  "argv": [
+   "new",
+   "myname",
+   "-m",
+   "some message"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_names::132",
+  "argv": [
+   "new",
+   "-m",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_locator_by_name::133",
+  "argv": [
+   "new",
+   "mypatch",
+   "-m",
+   "my patch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_locator_by_offset::134",
+  "argv": [
+   "top"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_create_branch::135",
+  "argv": [
+   "branch",
+   "--create",
+   "newbranch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_switch_branch::136",
+  "argv": [
+   "branch",
+   "--create",
+   "br1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_too_many_args_to_create::137",
+  "argv": [
+   "branch",
+   "--create",
+   "aname",
+   "acommit",
+   "anextra"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_attempt_switching_to_current_branch::138",
+  "argv": [
+   "branch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_branch_list::139",
+  "argv": [
+   "branch",
+   "--create",
+   "listbranch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_args_to_list::140",
+  "argv": [
+   "branch",
+   "--list",
+   "extra"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_create_branch_with_worktree_changes::141",
+  "argv": [
+   "new",
+   "-m",
+   "p0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_branch_no_subcommand_extra_args::142",
+  "argv": [
+   "branch",
+   "foo",
+   "bar"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_create_stgit_branch::143",
+  "argv": [
+   "branch",
+   "-c",
+   "foo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clone_preserves_patches::144",
+  "argv": [
+   "branch",
+   "--clone",
+   "clone2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_too_many_arguments::145",
+  "argv": [
+   "new",
+   "foo",
+   "extra_arg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_create_named_patch::146",
+  "argv": [
+   "new",
+   "foo",
+   "-m",
+   "foobar"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_patch_name_space::147",
+  "argv": [
+   "new",
+   "bad name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_patch_name_carat::148",
+  "argv": [
+   "new",
+   "bad^name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_patch_name_empty::149",
+  "argv": [
+   "new",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_create_patch_without_name::150",
+  "argv": [
+   "new",
+   "-m",
+   "yo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duplicate_name::151",
+  "argv": [
+   "new",
+   "foo",
+   "-m",
+   "first foo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_patch_with_slash_in_name::152",
+  "argv": [
+   "new",
+   "bar/foo",
+   "-m",
+   "patch bar/foo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_new_after_init::153",
+  "argv": [
+   "new",
+   "mypatch",
+   "-m",
+   "my message"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_operations_with_packed_refs::154",
+  "argv": [
+   "series",
+   "--applied",
+   "--noprefix"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_branch::155",
+  "argv": [
+   "branch",
+   "--create",
+   "to-delete"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_current_branch_fails::156",
+  "argv": [
+   "branch",
+   "--delete"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_nonexistent_branch::157",
+  "argv": [
+   "branch",
+   "--delete",
+   "no-such-branch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_branch_cleanup::158",
+  "argv": [
+   "new",
+   "-m",
+   "e0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_branch_description::159",
+  "argv": [
+   "branch",
+   "--describe",
+   "My branch description"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_branch_description_for_specific_branch::160",
+  "argv": [
+   "branch",
+   "--create",
+   "desc-test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_switch_to_nonexistent_branch::161",
+  "argv": [
+   "branch",
+   "nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prev_next_top_all_applied::162",
+  "argv": [
+   "next"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pop_three_patches::163",
+  "argv": [
+   "pop",
+   "-n3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_push_already_applied::164",
+  "argv": [
+   "push",
+   "p0..p2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_push_nonexistent_patch::165",
+  "argv": [
+   "push",
+   "p99999"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_prev_invalid_args::166",
+  "argv": [
+   "prev",
+   "bogus_arg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_next_invalid_args::167",
+  "argv": [
+   "next",
+   "bogus_arg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_top_invalid_args::168",
+  "argv": [
+   "top",
+   "bogus_arg"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_uncommit_on_uninitialized_stack::169",
+  "argv": [
+   "uncommit",
+   "-n2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_create_and_commit_patches::170",
+  "argv": [
+   "new",
+   "foo",
+   "-m",
+   "Foo Patch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_to_and_number::171",
+  "argv": [
+   "uncommit",
+   "--to",
+   "HEAD^",
+   "--number",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_to_with_patch_args::172",
+  "argv": [
+   "uncommit",
+   "--to",
+   "HEAD^",
+   "p0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_negative_number::173",
+  "argv": [
+   "uncommit",
+   "--number",
+   "-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_uncommit_with_names::174",
+  "argv": [
+   "new",
+   "foo",
+   "-m",
+   "Foo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_uncommit_number::175",
+  "argv": [
+   "uncommit",
+   "--number=2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_uncommit_one_by_one::176",
+  "argv": [
+   "uncommit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commit_on_uninitialized_branch::177",
+  "argv": [
+   "commit",
+   "--all"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commit_middle_patch::178",
+  "argv": [
+   "new",
+   "-m",
+   "p1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_float_on_uninitialized::179",
+  "argv": [
+   "float",
+   "foo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_float_p1_to_top::180",
+  "argv": [
+   "float",
+   "p1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_float_multiple::181",
+  "argv": [
+   "float",
+   "p2",
+   "p3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_float_noop::182",
+  "argv": [
+   "float"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_float_unapplied::183",
+  "argv": [
+   "float",
+   "p7",
+   "p6"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_float_with_series_file::184",
+  "argv": [
+   "float",
+   "--series"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_float_with_bogus_name::185",
+  "argv": [
+   "float",
+   "--series=-"
+  ],
+  "stdin": "p1\np2\nBOGUS\np3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sink_top_to_bottom::186",
+  "argv": [
+   "sink",
+   "-t",
+   "p0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sink_specific_patch::187",
+  "argv": [
+   "sink",
+   "p3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sink_no_args::188",
+  "argv": [
+   "sink"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_on_uninitialized::189",
+  "argv": [
+   "delete",
+   ".."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_arguments::190",
+  "argv": [
+   "delete",
+   "--top",
+   "foo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_top_with_none_applied::191",
+  "argv": [
+   "pop"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_patches_specified::192",
+  "argv": [
+   "delete"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_nonexisting_patch::193",
+  "argv": [
+   "delete",
+   "bar"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_topmost_patch::194",
+  "argv": [
+   "delete",
+   "foo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_top_option::195",
+  "argv": [
+   "delete",
+   "--top"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_nonexistent_in_batch::196",
+  "argv": [
+   "delete",
+   "p7",
+   "p8",
+   "p2",
+   "p0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_goto_uninitialized::197",
+  "argv": [
+   "goto",
+   "foo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_goto_invalid_args::198",
+  "argv": [
+   "goto"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_goto_patch::199",
+  "argv": [
+   "goto",
+   "p3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_goto_back_and_forth::200",
+  "argv": [
+   "goto",
+   "p2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rebase_basic::201",
+  "argv": [
+   "branch",
+   "--create",
+   "rebased"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_no_stgit_data::202",
+  "argv": [
+   "diff"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_stat_with_local_changes::203",
+  "argv": [
+   "diff",
+   "--stat"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_after_refresh::204",
+  "argv": [
+   "new",
+   "foo",
+   "-m",
+   "foo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_revs_parent_child::205",
+  "argv": [
+   "diff",
+   "-r",
+   "foo..bar"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_invalid_rev::206",
+  "argv": [
+   "new",
+   "-m",
+   "foo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_invalid_too_many_dots::207",
+  "argv": [
+   "diff",
+   "-r",
+   "foo..bar..baz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clean_uninitialized::208",
+  "argv": [
+   "clean"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_too_many_arguments::209",
+  "argv": [
+   "clean",
+   "p0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clean_empty_patches::210",
+  "argv": [
+   "new",
+   "e0",
+   "-m",
+   "e0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_too_few_arguments::211",
+  "argv": [
+   "squash",
+   "p0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_attempt_duplicate_name::212",
+  "argv": [
+   "squash",
+   "-n",
+   "p3",
+   "--",
+   "p0",
+   "p1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_attempt_invalid_name::213",
+  "argv": [
+   "squash",
+   "-n",
+   "invalid..name",
+   "--",
+   "p0",
+   "p1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_squash_patches::214",
+  "argv": [
+   "squash",
+   "--message=squashed",
+   "--name=q0",
+   "p0",
+   "p1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_squash_at_top::215",
+  "argv": [
+   "squash",
+   "--name=q0",
+   "--message=sq",
+   "p4",
+   "p5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_squash_three_in_middle::216",
+  "argv": [
+   "squash",
+   "--message=middle",
+   "--name=mid",
+   "p1",
+   "p2",
+   "p3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_refresh_on_uninitialized::217",
+  "argv": [
+   "refresh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_refresh_middle_patch::218",
+  "argv": [
+   "refresh",
+   "-p",
+   "p2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_refresh_bottom_patch::219",
+  "argv": [
+   "refresh",
+   "-p",
+   "p1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_refresh_index::220",
+  "argv": [
+   "new",
+   "p4",
+   "-m",
+   "refresh_index"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_index_with_path::221",
+  "argv": [
+   "new",
+   "px",
+   "-m",
+   "px"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_refresh_message::222",
+  "argv": [
+   "new",
+   "p0",
+   "-m",
+   "original message"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_refresh_author::223",
+  "argv": [
+   "new",
+   "p0",
+   "-m",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_goto_from_subdir::224",
+  "argv": [
+   "goto",
+   "p1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rename_without_stack::225",
+  "argv": [
+   "rename",
+   "foo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rename_with_two_args::226",
+  "argv": [
+   "new",
+   "-m",
+   "foo",
+   "foo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rename_invalid_name_space::227",
+  "argv": [
+   "new",
+   "-m",
+   "bar",
+   "bar"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_undo_on_empty_stack::228",
+  "argv": [
+   "undo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pick_commit::229",
+  "argv": [
+   "git",
+   "branch",
+   "otherbranch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_c_option_syntax::230",
+  "argv": [
+   "git",
+   "init"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_file_content::231",
+  "argv": [
+   "git",
+   "add",
+   "unicode.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stg_with_binary_file::232",
+  "argv": [
+   "git",
+   "add",
+   "binary.bin"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stg_with_symlink::233",
+  "argv": [
+   "git",
+   "add",
+   "link.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_uncommit_creates_patch::234",
+  "argv": [
+   "git",
+   "add",
+   "newfile.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fold_from_stdin::235",
+  "argv": [
+   "fold"
+  ],
+  "stdin": "--- a/file1.txt\n+++ b/file1.txt\n@@ -1 +1,2 @@\n file1\n+from stdin\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_set_branch_description::236",
+  "argv": [
+   "git",
+   "config",
+   "branch.new-branch.description"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rename_branch::237",
+  "argv": [
+   "git",
+   "config",
+   "branch.renamed-branch.description"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clone_branch::238",
+  "argv": [
+   "git",
+   "config",
+   "branch.cloned-branch.description"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_create_branch_from_parent_branch::239",
+  "argv": [
+   "git",
+   "config",
+   "branch.child-branch.stgit.parentbranch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_create_branch_from_committish::240",
+  "argv": [
+   "git",
+   "rev-parse",
+   "HEAD"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_description_clears_description::241",
+  "argv": [
+   "git",
+   "config",
+   "branch.master.description"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_branch_operations_workflow::242",
+  "argv": [
+   "git",
+   "config",
+   "branch.feature-renamed.description"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_branch_short_flag_variants::243",
+  "argv": [
+   "git",
+   "config",
+   "branch.renamed-with-r.description"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_spill_with_pathspec::244",
+  "argv": [
+   "git",
+   "add",
+   "file1.txt",
+   "file2.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sync_single_patch_with_branch::245",
+  "argv": [
+   "git",
+   "add",
+   "file.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_spill_empty_patch::246",
+  "argv": [
+   "git",
+   "status",
+   "--porcelain"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_spill_multiple_pathspecs::247",
+  "argv": [
+   "git",
+   "add",
+   "file1.txt",
+   "file2.txt",
+   "file3.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_email_send_patch_directory::248",
+  "argv": [
+   "git",
+   "add",
+   "file2.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_patches_specific_file::249",
+  "argv": [
+   "git",
+   "add",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_reject_option::250",
+  "argv": [
+   "git",
+   "add",
+   "conflict.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_default_directory::251",
+  "argv": [
+   "git",
+   "branch",
+   "--show-current"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_from_stdin::252",
+  "argv": [
+   "import"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_binary_file_handling::253",
+  "argv": [
+   "git",
+   "add",
+   "binary.dat"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_new_patch_with_paths::254",
+  "argv": [
+   "git",
+   "add",
+   "f1.txt",
+   "f2.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_refresh_with_update::255",
+  "argv": [
+   "git",
+   "add",
+   "new.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pull_fetch_rebase_policy::256",
+  "argv": [
+   "git",
+   "config",
+   "branch.master.stgit.pull-policy",
+   "fetch-rebase"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pull_rebase_policy_with_parentbranch::257",
+  "argv": [
+   "git",
+   "config",
+   "branch.master.stgit.pull-policy",
+   "rebase"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pull_custom_pullcmd_configuration::258",
+  "argv": [
+   "git",
+   "config",
+   "stgit.pullcmd",
+   "git pull -v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pull_keepoptimized_triggers_repack::259",
+  "argv": [
+   "git",
+   "config",
+   "stgit.keepoptimized",
+   "true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rebase_to_current_base_already_based::260",
+  "argv": [
+   "git",
+   "rev-parse",
+   "HEAD~1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rebase_to_diverged_branch::261",
+  "argv": [
+   "git",
+   "checkout",
+   "-b",
+   "feature"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rebase_nopush_leaves_patches_unapplied::262",
+  "argv": [
+   "git",
+   "add",
+   "newbase.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repair_with_merge_commit_warns_unreachable_patches::263",
+  "argv": [
+   "git",
+   "checkout",
+   "-b",
+   "side",
+   "HEAD~2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rebase_protected_branch::264",
+  "argv": [
+   "git",
+   "add",
+   "other.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rebase_exec_success::265",
+  "argv": [
+   "git",
+   "add",
+   "p1.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rebase_committer_date_is_author_date::266",
+  "argv": [
+   "git",
+   "log",
+   "-1",
+   "--format=%at,%ct"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repair_patchify_linear_commits::267",
+  "argv": [
+   "git",
+   "add",
+   "git1.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rebase_to_detached_head_state::268",
+  "argv": [
+   "git",
+   "add",
+   "detached.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_spill_directory_pathspec::269",
+  "argv": [
+   "git",
+   "add",
+   "-A"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_spill_renamed_file::270",
+  "argv": [
+   "git",
+   "add",
+   "oldname.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_spill_mixed_operations_with_pathspecs::271",
+  "argv": [
+   "git",
+   "add",
+   "old.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_option_before_command_ok_parse_even_if_runtime_fails::272",
+  "argv": [
+   "-C",
+   ".",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_C_options_acceptance::273",
+  "argv": [
+   "-C",
+   ".",
+   "-C",
+   "..",
+   "version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_error::274",
+  "argv": [
+   "definitely-not-a-subcommand"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_separator_double_dash_makes_next_token_a_positional_subcommand::275",
+  "argv": [
+   "--",
+   "-not-a-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_command_required_when_only_options_given::276",
+  "argv": [
+   "--color=auto"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_options_after_subcommand_are_rejected_for_global_options::277",
+  "argv": [
+   "init",
+   "-C",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_long_option_equal_form_supported_for_subcommand::278",
+  "argv": [
+   "init",
+   "--branch=main"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_and_long_option_forms_equivalent_error_for_missing_value::279",
+  "argv": [
+   "init",
+   "-b"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_series_count_option::280",
+  "argv": [
+   "new",
+   "-m",
+   "P1",
+   "p1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_files_bare_option::281",
+  "argv": [
+   "git",
+   "add",
+   "bare.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_new_patch_with_author_options::282",
+  "argv": [
+   "new",
+   "-m",
+   "Authored patch",
+   "--authname",
+   "Custom Author",
+   "--authemail",
+   "custom@example.com",
+   "auth-patch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_new_patch_with_signoff::283",
+  "argv": [
+   "new",
+   "-m",
+   "Signed patch",
+   "--signoff",
+   "signed-patch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_refresh_with_index::284",
+  "argv": [
+   "new",
+   "-m",
+   "Index patch",
+   "idx"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_refresh_with_submodules::285",
+  "argv": [
+   "new",
+   "-m",
+   "Submodule patch",
+   "sub"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clean_with_applied_option::286",
+  "argv": [
+   "new",
+   "-m",
+   "Empty1",
+   "e1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hide_with_branch_option::287",
+  "argv": [
+   "new",
+   "-m",
+   "To hide",
+   "h1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commit_with_number::288",
+  "argv": [
+   "commit",
+   "-n",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_branch_list_all::289",
+  "argv": [
+   "branch",
+   "--create",
+   "test1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_invalid_shell::290",
+  "argv": [
+   "completion",
+   "invalid-shell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rebase_command::291",
+  "argv": [
+   "new",
+   "-m",
+   "Test patch",
+   "p1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pull_command_without_remote::292",
+  "argv": [
+   "pull"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sync_command::293",
+  "argv": [
+   "new",
+   "-m",
+   "Patch 1",
+   "p1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_email_help::294",
+  "argv": [
+   "email",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_series_with_description::295",
+  "argv": [
+   "new",
+   "-m",
+   "Test patch description",
+   "p1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_with_options::296",
+  "argv": [
+   "new",
+   "-m",
+   "Show test",
+   "--refresh",
+   "p1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_with_range::297",
+  "argv": [
+   "new",
+   "-m",
+   "P1",
+   "--refresh",
+   "p1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_files_with_stat::298",
+  "argv": [
+   "new",
+   "-m",
+   "Files test",
+   "--refresh",
+   "p1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_add_alias::299",
+  "argv": [
+   "add",
+   "newfile.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rm_alias::300",
+  "argv": [
+   "git",
+   "add",
+   "to-remove.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_resolved_alias::301",
+  "argv": [
+   "resolved",
+   "resolved.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_auto_new_0::302",
+  "argv": [
+   "new",
+   "-m",
+   "test",
+   "patch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_subcommand::303",
+  "argv": [
+   "nonexistent-command"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_option_auto::304",
+  "argv": [
+   "--color",
+   "auto",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_option_always::305",
+  "argv": [
+   "--color",
+   "always",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_option_never::306",
+  "argv": [
+   "--color",
+   "never",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_color_option_ansi::307",
+  "argv": [
+   "--color",
+   "ansi",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_for_subcommand_new::308",
+  "argv": [
+   "help",
+   "new"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_branch_create::309",
+  "argv": [
+   "branch",
+   "--create",
+   "new-branch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_branch_switch::310",
+  "argv": [
+   "branch",
+   "--create",
+   "test-branch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_branch_rename::311",
+  "argv": [
+   "branch",
+   "--create",
+   "old-name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_branch_cleanup::312",
+  "argv": [
+   "branch",
+   "--cleanup"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_branch_describe::313",
+  "argv": [
+   "branch",
+   "--describe",
+   "Test description"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_branch_protect::314",
+  "argv": [
+   "branch",
+   "--protect"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_series_hidden::315",
+  "argv": [
+   "new",
+   "-m",
+   "H",
+   "h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_series_reverse::316",
+  "argv": [
+   "new",
+   "-m",
+   "R",
+   "r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_full::317",
+  "argv": [
+   "new",
+   "-m",
+   "L",
+   "l"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_no_patch::318",
+  "argv": [
+   "show",
+   "--no-patch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_branch_merge::319",
+  "argv": [
+   "git",
+   "checkout",
+   "-b",
+   "b1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_list_commands_and_aliases::320",
+  "argv": [
+   "completion",
+   "list",
+   "commands-and-aliases"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_undo_multiple_times::321",
+  "argv": [
+   "new",
+   "-m",
+   "U1",
+   "u1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_redo_multiple_times::322",
+  "argv": [
+   "new",
+   "-m",
+   "R1",
+   "r1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_refresh_patch_only_whitespace::323",
+  "argv": [
+   "new",
+   "-m",
+   "WS",
+   "ws"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_spill_multiple_times::324",
+  "argv": [
+   "git",
+   "add",
+   "sp1.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clean_empty_and_hidden::325",
+  "argv": [
+   "new",
+   "-m",
+   "CEH",
+   "ceh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repair_after_git_reset::326",
+  "argv": [
+   "new",
+   "-m",
+   "REP",
+   "rep"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_squash_with_file_mode_changes::327",
+  "argv": [
+   "git",
+   "add",
+   "sm1.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_all_fields::328",
+  "argv": [
+   "new",
+   "-m",
+   "Edit all",
+   "ea"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pick_with_all_options::329",
+  "argv": [
+   "git",
+   "add",
+   "pick-all.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_with_author_override::330",
+  "argv": [
+   "import",
+   "--author",
+   "Override <override@test.com>",
+   "-m",
+   "auth.patch"
+  ],
+  "stdin": null,
+  "files": {
+   "auth.patch": "From: Original <original@test.com>\nSubject: Patch\n\ndiff --git a/auth.txt b/auth.txt\nnew file mode 100644\nindex 0000000..123\n--- /dev/null\n+++ b/auth.txt\n@@ -0,0 +1 @@\n+auth\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_new_with_committer_date_is_author_date::331",
+  "argv": [
+   "new",
+   "-m",
+   "Test",
+   "--committer-date-is-author-date",
+   "cdate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_refresh_with_no_submodules::332",
+  "argv": [
+   "new",
+   "-m",
+   "Test",
+   "nosub"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_multiple_patches::333",
+  "argv": [
+   "new",
+   "-m",
+   "D1",
+   "d1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_push_with_merged_option::334",
+  "argv": [
+   "new",
+   "-m",
+   "PM",
+   "pm"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_goto_with_conflict_option::335",
+  "argv": [
+   "new",
+   "-m",
+   "G1",
+   "g1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_float_with_noapply::336",
+  "argv": [
+   "new",
+   "-m",
+   "F1",
+   "f1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_series_with_offsets_option::337",
+  "argv": [
+   "new",
+   "-m",
+   "O1",
+   "o1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clean_with_unapplied_option::338",
+  "argv": [
+   "new",
+   "-m",
+   "CU",
+   "cu"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_squash_save_template::339",
+  "argv": [
+   "git",
+   "add",
+   "sq1.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pick_with_fold_option::340",
+  "argv": [
+   "git",
+   "add",
+   "pick-fold.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pick_with_update_option::341",
+  "argv": [
+   "git",
+   "add",
+   "pick-upd.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fold_with_reject_option::342",
+  "argv": [
+   "new",
+   "-m",
+   "Fold base",
+   "foldbase"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_with_ignore_option::343",
+  "argv": [
+   "import",
+   "--ignore",
+   "-m",
+   "import-ign.patch"
+  ],
+  "stdin": null,
+  "files": {
+   "import-ign.patch": "Invalid patch content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_with_stdout::344",
+  "argv": [
+   "git",
+   "add",
+   "exp-out.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_range::345",
+  "argv": [
+   "git",
+   "add",
+   "dr1.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_top_shows_current_patch::346",
+  "argv": [
+   "new",
+   "-m",
+   "msg1",
+   "patch1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rename_changes_patch_name::347",
+  "argv": [
+   "new",
+   "-m",
+   "msg1",
+   "oldname"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_clean_removes_empty_patches::348",
+  "argv": [
+   "new",
+   "-m",
+   "patch1",
+   "p1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_spill_removes_changes_from_patch::349",
+  "argv": [
+   "new",
+   "-m",
+   "test",
+   "patch1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_patch_message::350",
+  "argv": [
+   "new",
+   "-m",
+   "original message",
+   "patch1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_displays_patch_content::351",
+  "argv": [
+   "new",
+   "-m",
+   "test patch",
+   "patch1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_name_shows_patch_name_from_revision::352",
+  "argv": [
+   "new",
+   "-m",
+   "test",
+   "mypatch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_with_number_option::353",
+  "argv": [
+   "log",
+   "-n",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pop_number_of_patches::354",
+  "argv": [
+   "pop",
+   "-n",
+   "2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_push_all_applies_all_patches::355",
+  "argv": [
+   "pop",
+   "--all"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_branch_list_shows_branches::356",
+  "argv": [
+   "branch",
+   "--list"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_branch_delete_removes_branch::357",
+  "argv": [
+   "branch",
+   "--create",
+   "tobedeleted"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rebase_command_basic::358",
+  "argv": [
+   "new",
+   "-m",
+   "patch",
+   "p1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pick_command_basic::359",
+  "argv": [
+   "git",
+   "checkout",
+   "-b",
+   "otherbranch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_command_basic::360",
+  "argv": [
+   "import",
+   "test.patch"
+  ],
+  "stdin": null,
+  "files": {
+   "test.patch": "From: Test User <test@example.com>\nSubject: Test patch\n\n---\n newfile.txt | 1 +\n 1 file changed, 1 insertion(+)\n create mode 100644 newfile.txt\n\ndiff --git a/newfile.txt b/newfile.txt\nnew file mode 100644\nindex 0000000..ce01362\n--- /dev/null\n+++ b/newfile.txt\n@@ -0,0 +1 @@\n+hello\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_man::361",
+  "argv": [
+   "completion",
+   "man"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_branch_rename::362",
+  "argv": [
+   "branch",
+   "--create",
+   "oldbranch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_branch_cleanup::363",
+  "argv": [
+   "new",
+   "-m",
+   "p1",
+   "p1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_series_description::364",
+  "argv": [
+   "new",
+   "-m",
+   "Test message",
+   "p1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_series_empty::365",
+  "argv": [
+   "new",
+   "-m",
+   "empty",
+   "p1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_stat::366",
+  "argv": [
+   "new",
+   "-m",
+   "test",
+   "p1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_refresh_with_exclude::367",
+  "argv": [
+   "new",
+   "-m",
+   "Test",
+   "ex"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_edit_set_tree::368",
+  "argv": [
+   "git",
+   "add",
+   "tree.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_diff::369",
+  "argv": [
+   "new",
+   "-m",
+   "Test",
+   "log-diff"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_number::370",
+  "argv": [
+   "log",
+   "-n",
+   "3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_patches_diff::371",
+  "argv": [
+   "git",
+   "add",
+   "patches-diff.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_numbered::372",
+  "argv": [
+   "git",
+   "add",
+   "export-num.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_name_option::373",
+  "argv": [
+   "import",
+   "--name",
+   "imported",
+   "-m",
+   "import.patch"
+  ],
+  "stdin": null,
+  "files": {
+   "import.patch": "diff --git a/import.txt b/import.txt\nnew file mode 100644\nindex 0000000..190a180\n--- /dev/null\n+++ b/import.txt\n@@ -0,0 +1 @@\n+123\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_stripname::374",
+  "argv": [
+   "import",
+   "--stripname",
+   "-m",
+   "0001-test.patch"
+  ],
+  "stdin": null,
+  "files": {
+   "0001-test.patch": "From: Test <test@test.com>\nSubject: Test patch\n\ndiff --git a/imp2.txt b/imp2.txt\nnew file mode 100644\nindex 0000000..abc\n--- /dev/null\n+++ b/imp2.txt\n@@ -0,0 +1 @@\n+abc\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_commit_all_option::375",
+  "argv": [
+   "git",
+   "add",
+   "ca1.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sink_nopush_option::376",
+  "argv": [
+   "new",
+   "-m",
+   "S1",
+   "s1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hide_multiple_patches::377",
+  "argv": [
+   "new",
+   "-m",
+   "H1",
+   "h1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_patch_names::378",
+  "argv": [
+   "new",
+   "-m"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_patch_content::379",
+  "argv": [
+   "new",
+   "-m",
+   "large",
+   "large"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_many_small_files::380",
+  "argv": [
+   "new",
+   "-m",
+   "many files",
+   "manyfiles"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_file_handling::381",
+  "argv": [
+   "new",
+   "-m",
+   "binary",
+   "binary"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_filenames::382",
+  "argv": [
+   "new",
+   "-m",
+   "special",
+   "special"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_directory_structure::383",
+  "argv": [
+   "new",
+   "-m",
+   "nested",
+   "nested"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_patch_with_long_description::384",
+  "argv": [
+   "new",
+   "-m",
+   "longdesc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_import_cycle_with_unicode::385",
+  "argv": [
+   "new",
+   "-m",
+   "Unicode patch",
+   "unicode"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_datetime_handling::386",
+  "argv": [
+   "new",
+   "-m",
+   "--authdate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_email_format_output::387",
+  "argv": [
+   "new",
+   "-m",
+   "Email test\n\nLong description here",
+   "email"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_in_log::388",
+  "argv": [
+   "log",
+   "--full"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_with_various_formats::389",
+  "argv": [
+   "new",
+   "-m",
+   "Test",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_output_parsing::390",
+  "argv": [
+   "new",
+   "-m",
+   "diff test",
+   "difftest"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_patch_series::391",
+  "argv": [
+   "hide",
+   "p5",
+   "p6",
+   "p7"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_new_patch_with_invalid_name::392",
+  "argv": [
+   "new",
+   "-m",
+   "Test",
+   "invalid/name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_delete_nonexistent_patch::393",
+  "argv": [
+   "delete",
+   "nonexistent-patch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rename_to_existing_name::394",
+  "argv": [
+   "new",
+   "-m",
+   "First",
+   "p1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_series_with_all_hidden::395",
+  "argv": [
+   "new",
+   "-m",
+   "Hidden",
+   "h1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_redo_without_undo::396",
+  "argv": [
+   "redo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_show_patch_by_name::397",
+  "argv": [
+   "git",
+   "add",
+   "show.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_patches_nonexistent_file::398",
+  "argv": [
+   "patches",
+   "nonexistent.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_diff_with_stat::399",
+  "argv": [
+   "git",
+   "add",
+   "diffstat.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

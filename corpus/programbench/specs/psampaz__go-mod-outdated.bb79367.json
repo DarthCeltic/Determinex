@@ -1,0 +1,1757 @@
+{
+ "slug": "psampaz__go-mod-outdated.bb79367",
+ "language": "",
+ "n_branches": 9,
+ "n_tests_total": 300,
+ "n_examples": 100,
+ "n_with_exact_stdout": 13,
+ "n_with_rc": 61,
+ "n_skipped": 181,
+ "examples": [
+  {
+   "test": "test_invalid_style_falls_back_to_default",
+   "argv": [
+    "-style",
+    "invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_core.py:76"
+  },
+  {
+   "test": "test_only_indirect_modules_with_direct_flag_produces_empty_output",
+   "argv": [
+    "-direct"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_core.py:100"
+  },
+  {
+   "test": "test_all_modules_up_to_date_with_update_flag_produces_empty_output",
+   "argv": [
+    "-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_core.py:133"
+  },
+  {
+   "test": "test_invalid_timestamps_detected",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/example/valid",
+    "| true             |",
+    "github.com/example/invalid",
+    "| false            |"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_core.py:158"
+  },
+  {
+   "test": "test_ci_flag_exit_code_1_when_outdated_deps_found",
+   "argv": [
+    "-ci"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_core.py:183"
+  },
+  {
+   "test": "test_ci_flag_exit_code_0_when_all_up_to_date",
+   "argv": [
+    "-ci"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/example/module1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_core.py:196"
+  },
+  {
+   "test": "test_ci_flag_with_update_filter_exit_code",
+   "argv": [
+    "-ci",
+    "-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_core.py:209"
+  },
+  {
+   "test": "test_ci_flag_with_direct_and_update_filter_exit_code",
+   "argv": [
+    "-ci",
+    "-update",
+    "-direct"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_core.py:220"
+  },
+  {
+   "test": "test_ci_flag_when_filters_produce_empty_result_exit_code_0",
+   "argv": [
+    "-ci",
+    "-direct"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_core.py:231"
+  },
+  {
+   "test": "test_empty_input_no_output",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_core.py:331"
+  },
+  {
+   "test": "test_invalid_json_produces_error_message",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_core.py:363"
+  },
+  {
+   "test": "test_malformed_json_object",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid character 'i' looking for beginning of value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_core.py:376"
+  },
+  {
+   "test": "test_update_flag_filters_modules_without_updates",
+   "argv": [
+    "--update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:392"
+  },
+  {
+   "test": "test_direct_flag_filters_indirect_modules",
+   "argv": [
+    "--direct"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:406"
+  },
+  {
+   "test": "test_ci_flag_exits_nonzero_when_outdated_found",
+   "argv": [
+    "--ci"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/test/module",
+    "| v1.0.0  | v1.1.0      |"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:420"
+  },
+  {
+   "test": "test_ci_flag_exits_zero_when_no_outdated_modules",
+   "argv": [
+    "--ci"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:432"
+  },
+  {
+   "test": "test_markdown_style_output_format",
+   "argv": [
+    "--style",
+    "markdown"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:443"
+  },
+  {
+   "test": "test_combined_update_and_direct_flags",
+   "argv": [
+    "--update",
+    "--direct"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:493"
+  },
+  {
+   "test": "test_run_explicit_default_style",
+   "argv": [
+    "-style",
+    "default"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:26"
+  },
+  {
+   "test": "test_run_nonexistent_style_fallback",
+   "argv": [
+    "-style",
+    "foo"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:38"
+  },
+  {
+   "test": "test_run_markdown_style",
+   "argv": [
+    "-style",
+    "markdown"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:50"
+  },
+  {
+   "test": "test_run_no_updates_with_update_flag",
+   "argv": [
+    "-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:62"
+  },
+  {
+   "test": "test_run_with_malformed_json",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected EOF"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:73"
+  },
+  {
+   "test": "test_run_ci_flag_exits_nonzero_with_updates",
+   "argv": [
+    "-ci"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/BurntSushi/toml",
+    "v0.0.0-20170626110600-a368813c5e64",
+    "v0.3.1",
+    "github.com/PuerkitoBio/purell",
+    "v1.1.1",
+    "MODULE",
+    "VERSION",
+    "NEW VERSION"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:86"
+  },
+  {
+   "test": "test_run_ci_flag_exits_zero_indirect_only_with_direct_filter",
+   "argv": [
+    "-direct",
+    "-ci"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:107"
+  },
+  {
+   "test": "test_filter_no_flags",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/BurntSushi/locker",
+    "github.com/BurntSushi/toml",
+    "github.com/PuerkitoBio/purell",
+    "github.com/PuerkitoBio/urlesc",
+    "github.com/muesli/smartcrop",
+    "github.com/markbates/inflect"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:126"
+  },
+  {
+   "test": "test_filter_update_flag",
+   "argv": [
+    "-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/BurntSushi/toml",
+    "github.com/PuerkitoBio/purell",
+    "github.com/muesli/smartcrop",
+    "github.com/markbates/inflect"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:146"
+  },
+  {
+   "test": "test_filter_direct_flag",
+   "argv": [
+    "-direct"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/BurntSushi/locker",
+    "github.com/BurntSushi/toml",
+    "github.com/PuerkitoBio/purell",
+    "github.com/muesli/smartcrop",
+    "github.com/markbates/inflect"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:164"
+  },
+  {
+   "test": "test_filter_update_and_direct_flags",
+   "argv": [
+    "-update",
+    "-direct"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/BurntSushi/toml",
+    "github.com/PuerkitoBio/purell",
+    "github.com/muesli/smartcrop",
+    "github.com/markbates/inflect"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:181"
+  },
+  {
+   "test": "test_new_version_no_update",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/test/pkg"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:418"
+  },
+  {
+   "test": "test_has_update_without_replace",
+   "argv": [
+    "-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/test/pkg"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:442"
+  },
+  {
+   "test": "test_has_no_update_without_replace",
+   "argv": [
+    "-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:461"
+  },
+  {
+   "test": "test_missing_update_timestamp_causes_crash",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "panic: runtime error: invalid memory address or nil pointer dereference",
+    "InvalidTimestamp",
+    "/workspace/internal/mod/mod.go:39"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_replace_timestamps.py:390"
+  },
+  {
+   "test": "test_basic_json_parsing",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/example/test",
+    "v1.0.0",
+    "v1.1.0",
+    "+",
+    "|"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_seed.py:18"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage of",
+    "-ci",
+    "-direct",
+    "-update",
+    "-style",
+    "Non-zero exit code when at least one outdated dependency was found"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:5"
+  },
+  {
+   "test": "test_invalid_flag",
+   "argv": [
+    "--invalid-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "flag provided but not defined",
+    "Usage of"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:18"
+  },
+  {
+   "test": "test_real_world_with_update_filter",
+   "argv": [
+    "-update"
+   ],
+   "stdin": "{\"Path\":\"github.com/example/main\",\"Main\":true,\"Version\":\"v1.0.0\"}\n{\"Path\":\"github.com/BurntSushi/toml\",\"Version\":\"v0.3.0\",\"Update\":{\"Version\":\"v0.4.0\"},\"Indirect\":false}\n{\"Path\":\"github.com/pkg/errors\",\"Version\":\"v0.8.0\",\"Indirect\":false}\n{\"Path\":\"github.com/stretchr/testify\",\"Version\":\"v1.3.0\",\"Update\":{\"Version\":\"v1.7.0\"},\"Indirect\":true}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/BurntSushi/toml",
+    "github.com/stretchr/testify"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_scenarios.py:21"
+  },
+  {
+   "test": "test_real_world_with_direct_filter",
+   "argv": [
+    "-direct"
+   ],
+   "stdin": "{\"Path\":\"github.com/example/main\",\"Main\":true,\"Version\":\"v1.0.0\"}\n{\"Path\":\"github.com/BurntSushi/toml\",\"Version\":\"v0.3.0\",\"Update\":{\"Version\":\"v0.4.0\"},\"Indirect\":false}\n{\"Path\":\"github.com/pkg/errors\",\"Version\":\"v0.8.0\",\"Indirect\":false}\n{\"Path\":\"github.com/stretchr/testify\",\"Version\":\"v1.3.0\",\"Update\":{\"Version\":\"v1.7.0\"},\"Indirect\":true}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/BurntSushi/toml",
+    "github.com/pkg/errors"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_scenarios.py:33"
+  },
+  {
+   "test": "test_real_world_with_both_filters",
+   "argv": [
+    "-update",
+    "-direct"
+   ],
+   "stdin": "{\"Path\":\"github.com/example/main\",\"Main\":true,\"Version\":\"v1.0.0\"}\n{\"Path\":\"github.com/BurntSushi/toml\",\"Version\":\"v0.3.0\",\"Update\":{\"Version\":\"v0.4.0\"},\"Indirect\":false}\n{\"Path\":\"github.com/pkg/errors\",\"Version\":\"v0.8.0\",\"Indirect\":false}\n{\"Path\":\"github.com/stretchr/testify\",\"Version\":\"v1.3.0\",\"Update\":{\"Version\":\"v1.7.0\"},\"Indirect\":true}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/BurntSushi/toml"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_scenarios.py:45"
+  },
+  {
+   "test": "test_ci_mode_realistic",
+   "argv": [
+    "-ci"
+   ],
+   "stdin": "{\"Path\":\"github.com/example/main\",\"Main\":true}\n{\"Path\":\"github.com/up-to-date\",\"Version\":\"v1.0.0\",\"Indirect\":false}\n{\"Path\":\"github.com/outdated\",\"Version\":\"v1.0.0\",\"Update\":{\"Version\":\"v2.0.0\"},\"Indirect\":false}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/outdated",
+    "v2.0.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_complex_scenarios.py:104"
+  },
+  {
+   "test": "test_all_flags_combined",
+   "argv": [
+    "-update",
+    "-direct",
+    "-ci",
+    "-style",
+    "markdown"
+   ],
+   "stdin": "{\"Path\":\"github.com/dep\",\"Version\":\"v1.0.0\",\"Indirect\":false,\"Update\":{\"Version\":\"v2.0.0\"}}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/dep",
+    "v2.0.0",
+    "|"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:66"
+  },
+  {
+   "test": "test_filter_combination_no_results",
+   "argv": [
+    "-update",
+    "-direct"
+   ],
+   "stdin": "{\"Path\":\"github.com/dep\",\"Version\":\"v1.0.0\",\"Indirect\":true}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:122"
+  },
+  {
+   "test": "test_update_flag_filters_no_updates",
+   "argv": [
+    "-update"
+   ],
+   "stdin": "{\"Path\":\"github.com/no-update\",\"Version\":\"v1.0.0\"}\n{\"Path\":\"github.com/has-update\",\"Version\":\"v1.0.0\",\"Update\":{\"Version\":\"v2.0.0\"}}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/has-update",
+    "v2.0.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:5"
+  },
+  {
+   "test": "test_update_flag_no_modules_with_updates",
+   "argv": [
+    "-update"
+   ],
+   "stdin": "{\"Path\":\"github.com/dep1\",\"Version\":\"v1.0.0\"}\n{\"Path\":\"github.com/dep2\",\"Version\":\"v2.0.0\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:15"
+  },
+  {
+   "test": "test_direct_flag_filters_indirect",
+   "argv": [
+    "-direct"
+   ],
+   "stdin": "{\"Path\":\"github.com/direct\",\"Version\":\"v1.0.0\",\"Indirect\":false}\n{\"Path\":\"github.com/indirect\",\"Version\":\"v2.0.0\",\"Indirect\":true}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/direct"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:23"
+  },
+  {
+   "test": "test_direct_flag_default_is_direct",
+   "argv": [
+    "-direct"
+   ],
+   "stdin": "{\"Path\":\"github.com/dep\",\"Version\":\"v1.0.0\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/dep",
+    "true"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:32"
+  },
+  {
+   "test": "test_update_and_direct_combined",
+   "argv": [
+    "-update",
+    "-direct"
+   ],
+   "stdin": "{\"Path\":\"github.com/direct-updated\",\"Version\":\"v1.0.0\",\"Indirect\":false,\"Update\":{\"Version\":\"v2.0.0\"}}\n{\"Path\":\"github.com/direct-not-updated\",\"Version\":\"v1.0.0\",\"Indirect\":false}\n{\"Path\":\"github.com/indirect-updated\",\"Version\":\"v1.0.0\",\"Indirect\":true,\"Update\":{\"Version\":\"v2.0.0\"}}\n{\"Path\":\"github.com/indirect-not-updated\",\"Version\":\"v1.0.0\",\"Indirect\":true}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/direct-updated"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:40"
+  },
+  {
+   "test": "test_ci_flag_with_outdated",
+   "argv": [
+    "-ci"
+   ],
+   "stdin": "{\"Path\":\"github.com/dep\",\"Version\":\"v1.0.0\",\"Update\":{\"Version\":\"v2.0.0\"}}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/dep",
+    "v2.0.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:53"
+  },
+  {
+   "test": "test_ci_flag_without_outdated",
+   "argv": [
+    "-ci"
+   ],
+   "stdin": "{\"Path\":\"github.com/dep\",\"Version\":\"v1.0.0\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/dep"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:61"
+  },
+  {
+   "test": "test_ci_flag_with_empty_result",
+   "argv": [
+    "-ci",
+    "-direct"
+   ],
+   "stdin": "{\"Path\":\"github.com/dep\",\"Version\":\"v1.0.0\",\"Indirect\":true,\"Update\":{\"Version\":\"v2.0.0\"}}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:68"
+  },
+  {
+   "test": "test_ci_with_direct_outdated_direct",
+   "argv": [
+    "-ci",
+    "-direct"
+   ],
+   "stdin": "{\"Path\":\"github.com/dep\",\"Version\":\"v1.0.0\",\"Indirect\":false,\"Update\":{\"Version\":\"v2.0.0\"}}",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/dep"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:75"
+  },
+  {
+   "test": "test_style_default",
+   "argv": [
+    "-style",
+    "default"
+   ],
+   "stdin": "{\"Path\":\"github.com/dep\",\"Version\":\"v1.0.0\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "+",
+    "-",
+    "|",
+    "github.com/dep"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:89"
+  },
+  {
+   "test": "test_style_markdown",
+   "argv": [
+    "-style",
+    "markdown"
+   ],
+   "stdin": "{\"Path\":\"github.com/dep\",\"Version\":\"v1.0.0\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "|",
+    "github.com/dep"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:99"
+  },
+  {
+   "test": "test_style_invalid_defaults_to_default",
+   "argv": [
+    "-style",
+    "invalid"
+   ],
+   "stdin": "{\"Path\":\"github.com/dep\",\"Version\":\"v1.0.0\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "+",
+    "github.com/dep"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags.py:111"
+  },
+  {
+   "test": "test_markdown_table_format",
+   "argv": [
+    "-style",
+    "markdown"
+   ],
+   "stdin": "{\"Path\":\"github.com/dep\",\"Version\":\"v1.0.0\"}",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "|",
+    "MODULE",
+    "|",
+    "-",
+    "github.com/dep"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_output_format.py:73"
+  },
+  {
+   "test": "test_valid_timestamp_true",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "| example.com/modA |",
+    "true"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_executable_behavior.py:140"
+  },
+  {
+   "test": "test_invalid_timestamp_false",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com/modC",
+    "false"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_executable_behavior.py:148"
+  },
+  {
+   "test": "test_unknown_flag_prints_usage_and_flag_error",
+   "argv": [
+    "-unknown"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "flag provided but not defined: -unknown",
+    "Usage of"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_executable_behavior.py:157"
+  },
+  {
+   "test": "test_ci_exit_code_outdated_present",
+   "argv": [
+    "-ci"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com/modA"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_executable_behavior.py:181"
+  },
+  {
+   "test": "test_ci_with_filters",
+   "argv": [
+    "-ci",
+    "-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com/modA"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_executable_behavior.py:194"
+  },
+  {
+   "test": "test_unicode_input_is_preserved",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "example.com/µnicode/路径",
+    "v1.0.0-β"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_executable_behavior.py:203"
+  },
+  {
+   "test": "test_help_prints_usage_to_stderr_and_exit_0",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage of",
+    "-update",
+    "-direct",
+    "-ci",
+    "-style"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:29"
+  },
+  {
+   "test": "test_markdown_style_has_pipe_separated_header_and_no_plus_borders",
+   "argv": [
+    "-style",
+    "markdown"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "MODULE"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:96"
+  },
+  {
+   "test": "test_ci_flag_exit_0_when_no_updates_present",
+   "argv": [
+    "-ci"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:120"
+  },
+  {
+   "test": "test_when_update_filter_removes_all_rows_output_is_empty_and_ci_exit_0",
+   "argv": [
+    "-update",
+    "-ci"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_io_behavior.py:125"
+  },
+  {
+   "test": "test_ext_run_exit_with_non_zero_when_ci_and_outdated_found",
+   "argv": [
+    "-ci"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "MODULE"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized.py:122"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage of",
+    "-ci",
+    "-direct",
+    "-style",
+    "-update"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_go_mod_outdated.py:127"
+  },
+  {
+   "test": "test_single_module_with_update",
+   "argv": [
+    "{\n\t\"Path\": \"github.com/example/test\",\n\t\"Version\": \"v1.0.0\",\n\t\"Time\": \"2020-01-01T00:00:00Z\",\n\t\"Update\": {\n\t\t\"Path\": \"github.com/example/test\",\n\t\t\"Version\": \"v1.1.0\",\n\t\t\"Time\": \"2020-06-01T00:00:00Z\"\n\t},\n\t\"Indirect\": false\n}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/example/test",
+    "v1.0.0",
+    "v1.1.0",
+    "true"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_go_mod_outdated.py:145"
+  },
+  {
+   "test": "test_single_module_without_update",
+   "argv": [
+    "{\n\t\"Path\": \"github.com/example/current\",\n\t\"Version\": \"v2.0.0\",\n\t\"Time\": \"2021-01-01T00:00:00Z\",\n\t\"Indirect\": false\n}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/example/current",
+    "v2.0.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_go_mod_outdated.py:154"
+  },
+  {
+   "test": "test_direct_flag_filters_indirect",
+   "argv": [
+    "-direct"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/example/test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_go_mod_outdated.py:181"
+  },
+  {
+   "test": "test_update_flag_filters_current",
+   "argv": [
+    "-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/example/test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_go_mod_outdated.py:201"
+  },
+  {
+   "test": "test_ci_flag_exit_code_with_updates",
+   "argv": [
+    "-ci"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/example/test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_go_mod_outdated.py:221"
+  },
+  {
+   "test": "test_ci_flag_exit_code_without_updates",
+   "argv": [
+    "-ci"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/example/current"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_go_mod_outdated.py:227"
+  },
+  {
+   "test": "test_style_default",
+   "argv": [
+    "-style",
+    "default"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "+",
+    "|"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_go_mod_outdated.py:242"
+  },
+  {
+   "test": "test_style_markdown",
+   "argv": [
+    "-style",
+    "markdown"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "|",
+    "---"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_go_mod_outdated.py:249"
+  },
+  {
+   "test": "test_style_invalid",
+   "argv": [
+    "-style",
+    "invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "+"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_go_mod_outdated.py:258"
+  },
+  {
+   "test": "test_update_and_direct",
+   "argv": [
+    "-update",
+    "-direct"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/example/test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_go_mod_outdated.py:268"
+  },
+  {
+   "test": "test_update_and_ci",
+   "argv": [
+    "-update",
+    "-ci"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/example/test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_go_mod_outdated.py:277"
+  },
+  {
+   "test": "test_direct_and_ci",
+   "argv": [
+    "-direct",
+    "-ci"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/example/test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_go_mod_outdated.py:283"
+  },
+  {
+   "test": "test_all_flags",
+   "argv": [
+    "-update",
+    "-direct",
+    "-ci"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/example/test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_go_mod_outdated.py:291"
+  },
+  {
+   "test": "test_markdown_with_filters",
+   "argv": [
+    "-style",
+    "markdown",
+    "-update"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "|",
+    "---",
+    "github.com/example/test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_go_mod_outdated.py:299"
+  },
+  {
+   "test": "test_table_has_all_columns",
+   "argv": [
+    "{\n\t\"Path\": \"github.com/example/test\",\n\t\"Version\": \"v1.0.0\",\n\t\"Time\": \"2020-01-01T00:00:00Z\",\n\t\"Update\": {\n\t\t\"Path\": \"github.com/example/test\",\n\t\t\"Version\": \"v1.1.0\",\n\t\t\"Time\": \"2020-06-01T00:00:00Z\"\n\t},\n\t\"Indirect\": false\n}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "MODULE",
+    "VERSION",
+    "NEW VERSION",
+    "DIRECT",
+    "VALID TIMESTAMPS"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_go_mod_outdated.py:313"
+  },
+  {
+   "test": "test_direct_column_true",
+   "argv": [
+    "{\n\t\"Path\": \"github.com/example/test\",\n\t\"Version\": \"v1.0.0\",\n\t\"Time\": \"2020-01-01T00:00:00Z\",\n\t\"Update\": {\n\t\t\"Path\": \"github.com/example/test\",\n\t\t\"Version\": \"v1.1.0\",\n\t\t\"Time\": \"2020-06-01T00:00:00Z\"\n\t},\n\t\"Indirect\": false\n}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "true"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_go_mod_outdated.py:323"
+  },
+  {
+   "test": "test_direct_column_false",
+   "argv": [
+    "{\n\t\"Path\": \"github.com/indirect/dep\",\n\t\"Version\": \"v1.5.0\",\n\t\"Time\": \"2020-03-01T00:00:00Z\",\n\t\"Indirect\": true\n}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "false"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_go_mod_outdated.py:334"
+  },
+  {
+   "test": "test_valid_timestamps_column",
+   "argv": [
+    "{\n\t\"Path\": \"github.com/example/test\",\n\t\"Version\": \"v1.0.0\",\n\t\"Time\": \"2020-01-01T00:00:00Z\",\n\t\"Update\": {\n\t\t\"Path\": \"github.com/example/test\",\n\t\t\"Version\": \"v1.1.0\",\n\t\t\"Time\": \"2020-06-01T00:00:00Z\"\n\t},\n\t\"Indirect\": false\n}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "VALID TIMESTAMPS",
+    "true"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_go_mod_outdated.py:344"
+  },
+  {
+   "test": "test_long_module_name",
+   "argv": [
+    "{\n\t\"Path\": \"github.com/very/long/module/name/that/goes/on/and/on/to/test/formatting\",\n\t\"Version\": \"v1.0.0\",\n\t\"Time\": \"2020-01-01T00:00:00Z\",\n\t\"Indirect\": false\n}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/very/long/module/name"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_go_mod_outdated.py:376"
+  },
+  {
+   "test": "test_version_with_timestamp",
+   "argv": [
+    "{\n\t\"Path\": \"github.com/example/timestamped\",\n\t\"Version\": \"v0.0.0-20180101120000-abc123def456\",\n\t\"Time\": \"2018-01-01T12:00:00Z\",\n\t\"Update\": {\n\t\t\"Path\": \"github.com/example/timestamped\",\n\t\t\"Version\": \"v0.0.0-20200101120000-def456abc123\",\n\t\t\"Time\": \"2020-01-01T12:00:00Z\"\n\t},\n\t\"Indirect\": false\n}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "v0.0.0-20180101120000-abc123def456",
+    "v0.0.0-20200101120000-def456abc123"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_go_mod_outdated.py:388"
+  },
+  {
+   "test": "test_version_with_incompatible",
+   "argv": [
+    "{\n\t\"Path\": \"github.com/example/incompatible\",\n\t\"Version\": \"v1.0.0\",\n\t\"Time\": \"2018-01-01T00:00:00Z\",\n\t\"Update\": {\n\t\t\"Path\": \"github.com/example/incompatible\",\n\t\t\"Version\": \"v2.0.0+incompatible\",\n\t\t\"Time\": \"2020-01-01T00:00:00Z\"\n\t},\n\t\"Indirect\": false\n}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "v2.0.0+incompatible"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_go_mod_outdated.py:406"
+  },
+  {
+   "test": "test_module_without_indirect_field",
+   "argv": [
+    "{\n\t\"Path\": \"github.com/example/nofield\",\n\t\"Version\": \"v1.0.0\",\n\t\"Time\": \"2020-01-01T00:00:00Z\"\n}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/example/nofield",
+    "true"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_go_mod_outdated.py:423"
+  },
+  {
+   "test": "test_invalid_timestamp_detection",
+   "argv": [
+    "{\n\t\"Path\": \"github.com/example/badtime\",\n\t\"Version\": \"v2.0.0\",\n\t\"Time\": \"2021-01-01T00:00:00Z\",\n\t\"Update\": {\n\t\t\"Path\": \"github.com/example/badtime\",\n\t\t\"Version\": \"v2.1.0\",\n\t\t\"Time\": \"2020-01-01T00:00:00Z\"\n\t},\n\t\"Indirect\": false\n}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com/example/badtime",
+    "false"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_go_mod_outdated.py:501"
+  },
+  {
+   "test": "test_default_table_structure",
+   "argv": [
+    "{\n\t\"Path\": \"github.com/example/test\",\n\t\"Version\": \"v1.0.0\",\n\t\"Time\": \"2020-01-01T00:00:00Z\",\n\t\"Indirect\": false\n}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-",
+    "|"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_go_mod_outdated.py:519"
+  },
+  {
+   "test": "test_markdown_table_structure",
+   "argv": [
+    "-style",
+    "markdown"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "---"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_go_mod_outdated.py:544"
+  },
+  {
+   "test": "test_short_help_matches_long_help",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:95"
+  },
+  {
+   "test": "test_help_ignores_other_valid_flags_and_still_shows_help",
+   "argv": [
+    "--style=markdown",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:103"
+  },
+  {
+   "test": "test_unknown_flag_shows_error_and_usage",
+   "argv": [
+    "--bogus",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "flag provided but not defined"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:109"
+  },
+  {
+   "test": "test_double_dash_stops_flag_parsing_so_help_not_triggered",
+   "argv": [
+    "--",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:116"
+  },
+  {
+   "test": "test_double_dash_ends_flag_parsing_and_allows_flag_like_positionals",
+   "argv": [
+    "-style=default",
+    "--",
+    "-ci",
+    "--direct"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:132"
+  },
+  {
+   "test": "test_trailing_positional_arguments_are_accepted",
+   "argv": [
+    "-style=default",
+    "extra",
+    "args"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:138"
+  },
+  {
+   "test": "test_last_value_wins_for_repeated_value_flag",
+   "argv": [
+    "-style=default",
+    "-style=markdown"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:143"
+  },
+  {
+   "test": "test_repeated_boolean_flag_with_explicit_values_is_accepted",
+   "argv": [
+    "-ci=false",
+    "-ci=true"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:148"
+  }
+ ]
+}

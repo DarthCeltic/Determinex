@@ -1,0 +1,5025 @@
+{
+ "slug": "abishekvashok__cmatrix.5c082c6",
+ "language": "",
+ "n_branches": 14,
+ "n_tests_total": 577,
+ "n_examples": 272,
+ "n_with_exact_stdout": 1,
+ "n_with_rc": 234,
+ "n_skipped": 243,
+ "examples": [
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix",
+    "-a",
+    "Asynchronous scroll",
+    "-b",
+    "Bold characters",
+    "-C",
+    "color"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:15"
+  },
+  {
+   "test": "test_help_long_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix",
+    "-V",
+    "version"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_cmatrix.py:27"
+  },
+  {
+   "test": "test_version_flag_short",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version",
+    "Email:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:35"
+  },
+  {
+   "test": "test_version_flag_long_shows_help",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix",
+    "-V"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:44"
+  },
+  {
+   "test": "test_color_green",
+   "argv": [
+    "-C",
+    "green",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:56"
+  },
+  {
+   "test": "test_color_red",
+   "argv": [
+    "-C",
+    "red",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:62"
+  },
+  {
+   "test": "test_color_blue",
+   "argv": [
+    "-C",
+    "blue",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:68"
+  },
+  {
+   "test": "test_color_white",
+   "argv": [
+    "-C",
+    "white",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:74"
+  },
+  {
+   "test": "test_color_yellow",
+   "argv": [
+    "-C",
+    "yellow",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:80"
+  },
+  {
+   "test": "test_color_cyan",
+   "argv": [
+    "-C",
+    "cyan",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:86"
+  },
+  {
+   "test": "test_color_magenta",
+   "argv": [
+    "-C",
+    "magenta",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:92"
+  },
+  {
+   "test": "test_color_black",
+   "argv": [
+    "-C",
+    "black",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:98"
+  },
+  {
+   "test": "test_color_case_insensitive",
+   "argv": [
+    "-C",
+    "RED",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix",
+    "Usage: cmatrix",
+    "Usage: cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:104"
+  },
+  {
+   "test": "test_color_invalid_shows_error_message",
+   "argv": [
+    "-C",
+    "purple"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Invalid color",
+    "Valid colors are",
+    "green",
+    "red",
+    "blue",
+    "white"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:116"
+  },
+  {
+   "test": "test_update_delay_0",
+   "argv": [
+    "-u",
+    "0",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:132"
+  },
+  {
+   "test": "test_update_delay_4_default",
+   "argv": [
+    "-u",
+    "4",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:138"
+  },
+  {
+   "test": "test_update_delay_9",
+   "argv": [
+    "-u",
+    "9",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:144"
+  },
+  {
+   "test": "test_update_delay_10",
+   "argv": [
+    "-u",
+    "10",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:150"
+  },
+  {
+   "test": "test_bold_flag_b",
+   "argv": [
+    "-b",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix",
+    "Bold characters"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:160"
+  },
+  {
+   "test": "test_bold_flag_B",
+   "argv": [
+    "-B",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix",
+    "All bold"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:167"
+  },
+  {
+   "test": "test_no_bold_flag_n",
+   "argv": [
+    "-n",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix",
+    "No bold"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:174"
+  },
+  {
+   "test": "test_asynchronous_flag",
+   "argv": [
+    "-a",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix",
+    "Asynchronous"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:185"
+  },
+  {
+   "test": "test_old_style_flag",
+   "argv": [
+    "-o",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix",
+    "old-style"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:192"
+  },
+  {
+   "test": "test_screensaver_flag",
+   "argv": [
+    "-s",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix",
+    "Screensaver"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:199"
+  },
+  {
+   "test": "test_lock_flag",
+   "argv": [
+    "-L",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:206"
+  },
+  {
+   "test": "test_japanese_flag",
+   "argv": [
+    "-c",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:217"
+  },
+  {
+   "test": "test_lambda_flag",
+   "argv": [
+    "-m",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix",
+    "lambda"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_cmatrix.py:224"
+  },
+  {
+   "test": "test_changing_characters_flag",
+   "argv": [
+    "-k",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix",
+    "change"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_cmatrix.py:231"
+  },
+  {
+   "test": "test_linux_mode_flag",
+   "argv": [
+    "-l",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:242"
+  },
+  {
+   "test": "test_force_linux_flag",
+   "argv": [
+    "-f",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:249"
+  },
+  {
+   "test": "test_x_window_flag",
+   "argv": [
+    "-x",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:256"
+  },
+  {
+   "test": "test_rainbow_flag",
+   "argv": [
+    "-r",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix",
+    "rainbow"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_cmatrix.py:267"
+  },
+  {
+   "test": "test_message_simple",
+   "argv": [
+    "-M",
+    "Hello",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:278"
+  },
+  {
+   "test": "test_message_with_spaces",
+   "argv": [
+    "-M",
+    "Hello World",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:284"
+  },
+  {
+   "test": "test_message_empty",
+   "argv": [
+    "-M",
+    "",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:290"
+  },
+  {
+   "test": "test_tty_option_with_help",
+   "argv": [
+    "-t",
+    "/dev/null",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:300"
+  },
+  {
+   "test": "test_bold_and_async",
+   "argv": [
+    "-b",
+    "-a",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix",
+    "Bold",
+    "Asynchronous"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:310"
+  },
+  {
+   "test": "test_color_and_update_delay",
+   "argv": [
+    "-C",
+    "red",
+    "-u",
+    "2",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:318"
+  },
+  {
+   "test": "test_movie_like_combination",
+   "argv": [
+    "-l",
+    "-b",
+    "-a",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:324"
+  },
+  {
+   "test": "test_screensaver_like_combination",
+   "argv": [
+    "-o",
+    "-l",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:330"
+  },
+  {
+   "test": "test_all_flags_at_once",
+   "argv": [
+    "-a",
+    "-b",
+    "-o",
+    "-s",
+    "-x",
+    "-r",
+    "-m",
+    "-k",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:336"
+  },
+  {
+   "test": "test_invalid_flag_shows_help",
+   "argv": [
+    "-z"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:346"
+  },
+  {
+   "test": "test_color_missing_argument_shows_help",
+   "argv": [
+    "-C"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:352"
+  },
+  {
+   "test": "test_update_missing_argument_shows_help",
+   "argv": [
+    "-u"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:358"
+  },
+  {
+   "test": "test_message_missing_argument_shows_help",
+   "argv": [
+    "-M"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:364"
+  },
+  {
+   "test": "test_tty_missing_argument_shows_help",
+   "argv": [
+    "-t"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:370"
+  },
+  {
+   "test": "test_help_contains_all_flags",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-a",
+    "-b",
+    "-B",
+    "-c",
+    "-f",
+    "-l",
+    "-L",
+    "-o",
+    "-h",
+    "-n",
+    "-s",
+    "-x",
+    "-V",
+    "-M",
+    "-u",
+    "-C",
+    "-r",
+    "-m",
+    "-k",
+    "-t"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:380"
+  },
+  {
+   "test": "test_help_describes_colors",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-C",
+    "color"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_cmatrix.py:408"
+  },
+  {
+   "test": "test_help_describes_delay_range",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-u",
+    "delay"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_cmatrix.py:416"
+  },
+  {
+   "test": "test_default_execution",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_execution.py:58"
+  },
+  {
+   "test": "test_screensaver_mode",
+   "argv": [
+    "-s"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_execution.py:68"
+  },
+  {
+   "test": "test_async_mode",
+   "argv": [
+    "-a"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_execution.py:75"
+  },
+  {
+   "test": "test_old_style_scrolling",
+   "argv": [
+    "-o"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_execution.py:82"
+  },
+  {
+   "test": "test_bold_mode",
+   "argv": [
+    "-b"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_execution.py:89"
+  },
+  {
+   "test": "test_all_bold_mode",
+   "argv": [
+    "-B"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_execution.py:96"
+  },
+  {
+   "test": "test_no_bold_mode",
+   "argv": [
+    "-n"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_execution.py:103"
+  },
+  {
+   "test": "test_rainbow_mode",
+   "argv": [
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_execution.py:110"
+  },
+  {
+   "test": "test_lambda_mode",
+   "argv": [
+    "-m"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_execution.py:117"
+  },
+  {
+   "test": "test_changing_chars_mode",
+   "argv": [
+    "-k"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_execution.py:124"
+  },
+  {
+   "test": "test_with_color_red",
+   "argv": [
+    "-C",
+    "red"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_execution.py:131"
+  },
+  {
+   "test": "test_with_color_blue",
+   "argv": [
+    "-C",
+    "blue"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_execution.py:138"
+  },
+  {
+   "test": "test_with_color_yellow",
+   "argv": [
+    "-C",
+    "yellow"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_execution.py:145"
+  },
+  {
+   "test": "test_update_delay_0",
+   "argv": [
+    "-u",
+    "0"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_execution.py:152"
+  },
+  {
+   "test": "test_update_delay_9",
+   "argv": [
+    "-u",
+    "9"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_execution.py:159"
+  },
+  {
+   "test": "test_combined_flags",
+   "argv": [
+    "-a",
+    "-b",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_execution.py:166"
+  },
+  {
+   "test": "test_movie_like_mode",
+   "argv": [
+    "-l",
+    "-b",
+    "-a"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_execution.py:173"
+  },
+  {
+   "test": "test_x_window_mode",
+   "argv": [
+    "-x"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_execution.py:181"
+  },
+  {
+   "test": "test_force_linux_term",
+   "argv": [
+    "-f"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_execution.py:188"
+  },
+  {
+   "test": "test_classic_japanese_chars",
+   "argv": [
+    "-c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_execution.py:195"
+  },
+  {
+   "test": "test_message_display",
+   "argv": [
+    "-M",
+    "TEST MESSAGE"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_execution.py:427"
+  },
+  {
+   "test": "test_lock_mode_with_default_message",
+   "argv": [
+    "-L"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_execution.py:435"
+  },
+  {
+   "test": "test_lock_mode_with_custom_message",
+   "argv": [
+    "-L",
+    "-M",
+    "CUSTOM LOCK"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_execution.py:443"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version",
+    "2.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_environment.py:48"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "-a"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_environment.py:55"
+  },
+  {
+   "test": "test_term_variable_with_xterm",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM": "xterm"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_environment.py:66"
+  },
+  {
+   "test": "test_force_flag_overrides_xterm",
+   "argv": [
+    "-f",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM": "xterm"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_environment.py:115"
+  },
+  {
+   "test": "test_color_flag_explicit",
+   "argv": [
+    "-V",
+    "-C",
+    "red"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_environment.py:139"
+  },
+  {
+   "test": "test_update_speed_flag_explicit",
+   "argv": [
+    "-V",
+    "-u",
+    "2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_environment.py:145"
+  },
+  {
+   "test": "test_multiple_flags_with_term",
+   "argv": [
+    "-V",
+    "-u",
+    "5",
+    "-C",
+    "blue"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM": "xterm"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_environment.py:150"
+  },
+  {
+   "test": "test_no_home_config_file_created",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_environment.py:161"
+  },
+  {
+   "test": "test_help_consistent_across_environments",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_environment.py:230"
+  },
+  {
+   "test": "test_valid_colors",
+   "argv": [
+    "-V",
+    "-C"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_environment.py:288"
+  },
+  {
+   "test": "test_valid_update_speeds",
+   "argv": [
+    "-V",
+    "-u"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_environment.py:305"
+  },
+  {
+   "test": "test_message_flag_with_simple_text",
+   "argv": [
+    "-V",
+    "-M",
+    "Hello World"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_environment.py:327"
+  },
+  {
+   "test": "test_message_flag_with_special_chars",
+   "argv": [
+    "-V",
+    "-M",
+    "Test!@#$%"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_environment.py:332"
+  },
+  {
+   "test": "test_message_flag_with_empty_string",
+   "argv": [
+    "-V",
+    "-M",
+    ""
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_environment.py:337"
+  },
+  {
+   "test": "test_complex_flag_combination",
+   "argv": [
+    "-V",
+    "-a",
+    "-b",
+    "-u",
+    "5",
+    "-C",
+    "red"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_environment.py:362"
+  },
+  {
+   "test": "test_duplicate_flags",
+   "argv": [
+    "-V",
+    "-C",
+    "red",
+    "-C",
+    "blue"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_environment.py:431"
+  },
+  {
+   "test": "test_contradictory_bold_flags",
+   "argv": [
+    "-V",
+    "-b",
+    "-B",
+    "-n"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_environment.py:436"
+  },
+  {
+   "test": "test_default_version_includes_timestamp",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version 2.0",
+    "compiled",
+    "Email:",
+    "Web:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_environment.py:463"
+  },
+  {
+   "test": "test_help_includes_all_flags",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-a",
+    "-b",
+    "-C",
+    "-u",
+    "-V",
+    "-s",
+    "-M"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_environment.py:473"
+  },
+  {
+   "test": "test_force_flag_precedence",
+   "argv": [
+    "-V",
+    "-f"
+   ],
+   "stdin": null,
+   "env": {
+    "TERM": "xterm"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_environment.py:499"
+  },
+  {
+   "test": "test_help_long_flag_matches_short",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix_cli.py:42"
+  },
+  {
+   "test": "test_version_output_structure",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Email: ",
+    "Web: ",
+    "https://github.com/abishekvashok/cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix_cli.py:55"
+  },
+  {
+   "test": "test_invalid_color_error_message_exact",
+   "argv": [
+    "-C",
+    "notacolor"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": " Invalid color selection\n Valid colors are green, red, blue, white, yellow, cyan, magenta and black.\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix_cli.py:71"
+  },
+  {
+   "test": "test_non_tty_default_errors_opening_terminal",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error opening terminal: unknown."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix_cli.py:87"
+  },
+  {
+   "test": "test_help_contains_usage_line",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:57"
+  },
+  {
+   "test": "test_help_contains_executable_name",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "cmatrix"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_output.py:62"
+  },
+  {
+   "test": "test_asynchronous_flag_documented",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-a:",
+    "Asynchronous scroll"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:86"
+  },
+  {
+   "test": "test_bold_flag_documented",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-b:",
+    "Bold characters on"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:92"
+  },
+  {
+   "test": "test_all_bold_flag_documented",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-B:",
+    "All bold characters"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:98"
+  },
+  {
+   "test": "test_japanese_flag_documented",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-c:",
+    "Japanese characters"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:104"
+  },
+  {
+   "test": "test_force_linux_flag_documented",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-f:",
+    "Force the linux"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:110"
+  },
+  {
+   "test": "test_linux_mode_flag_documented",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-l:",
+    "Linux mode"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:116"
+  },
+  {
+   "test": "test_lock_mode_flag_documented",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-L:",
+    "Lock mode"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:122"
+  },
+  {
+   "test": "test_old_style_scrolling_flag_documented",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-o:",
+    "old-style scrolling"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:128"
+  },
+  {
+   "test": "test_help_flag_documented",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-h:",
+    "Print usage"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:134"
+  },
+  {
+   "test": "test_no_bold_flag_documented",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-n:",
+    "No bold characters"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:140"
+  },
+  {
+   "test": "test_screensaver_flag_documented",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-s:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:146"
+  },
+  {
+   "test": "test_x_window_flag_documented",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-x:",
+    "X window mode"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:152"
+  },
+  {
+   "test": "test_version_flag_documented",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-V:",
+    "version"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_output.py:158"
+  },
+  {
+   "test": "test_message_flag_documented",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-M",
+    "message"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_output.py:164"
+  },
+  {
+   "test": "test_update_delay_flag_documented",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-u",
+    "delay"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_output.py:170"
+  },
+  {
+   "test": "test_color_flag_documented",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-C",
+    "color"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_output.py:176"
+  },
+  {
+   "test": "test_rainbow_flag_documented",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-r:",
+    "rainbow"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_output.py:182"
+  },
+  {
+   "test": "test_lambda_flag_documented",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-m:",
+    "lambda"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_output.py:188"
+  },
+  {
+   "test": "test_character_change_flag_documented",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-k:",
+    "Characters change"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:194"
+  },
+  {
+   "test": "test_tty_flag_documented",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-t",
+    "tty"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_output.py:200"
+  },
+  {
+   "test": "test_usage_line_format",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:229"
+  },
+  {
+   "test": "test_invalid_long_flag_shows_help",
+   "argv": [
+    "--invalid-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:248"
+  },
+  {
+   "test": "test_invalid_short_flag_shows_help",
+   "argv": [
+    "-z"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:253"
+  },
+  {
+   "test": "test_invalid_flag_exits_zero",
+   "argv": [
+    "-z"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:258"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix",
+    "-a: Asynchronous scroll",
+    "-V: Print version information and exit"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:20"
+  },
+  {
+   "test": "test_help_flag_question_mark",
+   "argv": [
+    "-?"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:28"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version",
+    "Email:",
+    "Web:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:34"
+  },
+  {
+   "test": "test_version_output_contains_expected_fields",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version 2.0",
+    "abishekvashok@gmail.com",
+    "https://github.com/abishekvashok/cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:48"
+  },
+  {
+   "test": "test_invalid_flag_shows_help",
+   "argv": [
+    "--invalid-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:60"
+  },
+  {
+   "test": "test_invalid_color_error_message",
+   "argv": [
+    "-C",
+    "invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Invalid color selection",
+    "Valid colors are"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:76"
+  },
+  {
+   "test": "test_delay_without_value_shows_help",
+   "argv": [
+    "-u"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:121"
+  },
+  {
+   "test": "test_invalid_flag_exits_zero",
+   "argv": [
+    "--invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:271"
+  },
+  {
+   "test": "test_help_to_stdout",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:280"
+  },
+  {
+   "test": "test_version_to_stdout",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:286"
+  },
+  {
+   "test": "test_error_message_output",
+   "argv": [
+    "-C",
+    "invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Invalid color selection"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:292"
+  },
+  {
+   "test": "test_multiple_help_flags",
+   "argv": [
+    "-h",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:302"
+  },
+  {
+   "test": "test_help_after_other_flags",
+   "argv": [
+    "-a",
+    "-b",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:308"
+  },
+  {
+   "test": "test_version_after_other_flags",
+   "argv": [
+    "-a",
+    "-b",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmatrix.py:314"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "./executable",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_version.py:6"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "./executable",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_version.py:22"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "./executable",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_version.py:38"
+  },
+  {
+   "test": "test_help_contains_usage",
+   "argv": [
+    "./executable",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_version.py:54"
+  },
+  {
+   "test": "test_version_contains_version_info",
+   "argv": [
+    "./executable",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version",
+    "Email:",
+    "Web:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_version.py:67"
+  },
+  {
+   "test": "test_help_flag_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "cmatrix",
+    "-a",
+    "Asynchronous scroll",
+    "-V",
+    "Print version",
+    "-C",
+    "color"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:6"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version",
+    "2.0",
+    "Email:",
+    "abishekvashok@gmail.com",
+    "Web:",
+    "github.com"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:30"
+  },
+  {
+   "test": "test_bold_characters_flag",
+   "argv": [
+    "-b",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_character_styling.py:5"
+  },
+  {
+   "test": "test_all_bold_characters_flag",
+   "argv": [
+    "-B",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_character_styling.py:11"
+  },
+  {
+   "test": "test_no_bold_characters_flag",
+   "argv": [
+    "-n",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_character_styling.py:17"
+  },
+  {
+   "test": "test_japanese_characters_flag",
+   "argv": [
+    "-c",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_character_styling.py:23"
+  },
+  {
+   "test": "test_lambda_mode_flag",
+   "argv": [
+    "-m",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_character_styling.py:29"
+  },
+  {
+   "test": "test_changing_characters_flag",
+   "argv": [
+    "-k",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_character_styling.py:35"
+  },
+  {
+   "test": "test_bold_help_description",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-b"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_character_styling.py:41"
+  },
+  {
+   "test": "test_all_bold_help_description",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-B",
+    "bold"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_character_styling.py:48"
+  },
+  {
+   "test": "test_no_bold_help_description",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-n",
+    "bold"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_character_styling.py:55"
+  },
+  {
+   "test": "test_japanese_help_description",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-c"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_character_styling.py:62"
+  },
+  {
+   "test": "test_lambda_help_description",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-m",
+    "lambda"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_character_styling.py:69"
+  },
+  {
+   "test": "test_changing_chars_help_description",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-k",
+    "change"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_character_styling.py:76"
+  },
+  {
+   "test": "test_bold_overrides",
+   "argv": [
+    "-B",
+    "-n",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_character_styling.py:83"
+  },
+  {
+   "test": "test_all_bold_overrides_bold",
+   "argv": [
+    "-b",
+    "-B",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_character_styling.py:89"
+  },
+  {
+   "test": "test_multiple_character_modes",
+   "argv": [
+    "-m",
+    "-k",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_character_styling.py:95"
+  },
+  {
+   "test": "test_japanese_with_lambda",
+   "argv": [
+    "-c",
+    "-m",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_character_styling.py:101"
+  },
+  {
+   "test": "test_help_with_valid_colors",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "color"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_color_options.py:12"
+  },
+  {
+   "test": "test_color_option_accepted",
+   "argv": [
+    "-C",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_color_options.py:21"
+  },
+  {
+   "test": "test_rainbow_mode_flag",
+   "argv": [
+    "-r",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_color_options.py:30"
+  },
+  {
+   "test": "test_color_flag_case_sensitive",
+   "argv": [
+    "-C",
+    "green",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_color_options.py:36"
+  },
+  {
+   "test": "test_multiple_color_flags",
+   "argv": [
+    "-C",
+    "red",
+    "-C",
+    "blue",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_color_options.py:43"
+  },
+  {
+   "test": "test_rainbow_with_color",
+   "argv": [
+    "-r",
+    "-C",
+    "red",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_color_options.py:49"
+  },
+  {
+   "test": "test_async_mode_flag",
+   "argv": [
+    "-a",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_modes.py:5"
+  },
+  {
+   "test": "test_old_style_scrolling_flag",
+   "argv": [
+    "-o",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_modes.py:11"
+  },
+  {
+   "test": "test_screensaver_mode_flag",
+   "argv": [
+    "-s",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_modes.py:17"
+  },
+  {
+   "test": "test_lock_mode_flag",
+   "argv": [
+    "-L",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_modes.py:23"
+  },
+  {
+   "test": "test_async_help_description",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-a"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_modes.py:29"
+  },
+  {
+   "test": "test_old_style_help_description",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-o",
+    "old"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_display_modes.py:36"
+  },
+  {
+   "test": "test_screensaver_help_description",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-s"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_modes.py:43"
+  },
+  {
+   "test": "test_lock_mode_help_description",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-L"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_modes.py:50"
+  },
+  {
+   "test": "test_combined_async_old_style",
+   "argv": [
+    "-a",
+    "-o",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_modes.py:57"
+  },
+  {
+   "test": "test_movie_like_combination",
+   "argv": [
+    "-l",
+    "-b",
+    "-a",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_modes.py:63"
+  },
+  {
+   "test": "test_screensaver_like_combination",
+   "argv": [
+    "-o",
+    "-l",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_display_modes.py:69"
+  },
+  {
+   "test": "test_very_large_update_delay",
+   "argv": [
+    "-u",
+    "999999",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:5"
+  },
+  {
+   "test": "test_update_delay_with_leading_zeros",
+   "argv": [
+    "-u",
+    "007",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:11"
+  },
+  {
+   "test": "test_message_with_unicode_emoji",
+   "argv": [
+    "-M",
+    "Test 🔒 Lock",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:17"
+  },
+  {
+   "test": "test_message_with_tabs",
+   "argv": [
+    "-M",
+    "Line1\tTabbed\tText",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:24"
+  },
+  {
+   "test": "test_message_very_long",
+   "argv": [
+    "-M",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:30"
+  },
+  {
+   "test": "test_color_mixed_case",
+   "argv": [
+    "-C",
+    "ReD",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:37"
+  },
+  {
+   "test": "test_color_uppercase",
+   "argv": [
+    "-C",
+    "GREEN",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:43"
+  },
+  {
+   "test": "test_all_flags_together",
+   "argv": [
+    "-a",
+    "-b",
+    "-c",
+    "-f",
+    "-l",
+    "-o",
+    "-s",
+    "-x",
+    "-r",
+    "-m",
+    "-k",
+    "-u",
+    "5",
+    "-C",
+    "red",
+    "-M",
+    "Test",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:56"
+  },
+  {
+   "test": "test_flags_in_different_order",
+   "argv": [
+    "-V",
+    "-C",
+    "blue",
+    "-u",
+    "3",
+    "-a"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:63"
+  },
+  {
+   "test": "test_help_with_other_flags",
+   "argv": [
+    "-C",
+    "red",
+    "-u",
+    "5",
+    "-h",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:69"
+  },
+  {
+   "test": "test_version_before_help",
+   "argv": [
+    "-V",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:75"
+  },
+  {
+   "test": "test_help_before_version",
+   "argv": [
+    "-h",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:82"
+  },
+  {
+   "test": "test_duplicate_flags",
+   "argv": [
+    "-a",
+    "-a",
+    "-a",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:89"
+  },
+  {
+   "test": "test_color_flag_no_rainbow",
+   "argv": [
+    "-C",
+    "cyan",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:95"
+  },
+  {
+   "test": "test_lock_mode_with_custom_message",
+   "argv": [
+    "-M",
+    "Custom Lock",
+    "-L",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:101"
+  },
+  {
+   "test": "test_update_delay_float",
+   "argv": [
+    "-u",
+    "3.5",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:72"
+  },
+  {
+   "test": "test_update_delay_with_letters",
+   "argv": [
+    "-u",
+    "abc",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:79"
+  },
+  {
+   "test": "test_conflicting_flags_order",
+   "argv": [
+    "-n",
+    "-B",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:123"
+  },
+  {
+   "test": "test_all_display_flags",
+   "argv": [
+    "-a",
+    "-o",
+    "-s",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:5"
+  },
+  {
+   "test": "test_all_character_flags",
+   "argv": [
+    "-b",
+    "-c",
+    "-m",
+    "-k",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:11"
+  },
+  {
+   "test": "test_color_with_rainbow",
+   "argv": [
+    "-C",
+    "red",
+    "-r",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:17"
+  },
+  {
+   "test": "test_all_terminal_modes",
+   "argv": [
+    "-l",
+    "-f",
+    "-x",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:23"
+  },
+  {
+   "test": "test_complex_combination_1",
+   "argv": [
+    "-l",
+    "-b",
+    "-a",
+    "-u",
+    "2",
+    "-C",
+    "green",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:29"
+  },
+  {
+   "test": "test_complex_combination_2",
+   "argv": [
+    "-o",
+    "-l",
+    "-s",
+    "-r",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:35"
+  },
+  {
+   "test": "test_everything_combined",
+   "argv": [
+    "-a",
+    "-b",
+    "-o",
+    "-s",
+    "-r",
+    "-k",
+    "-u",
+    "5",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:41"
+  },
+  {
+   "test": "test_conflicting_bold_flags",
+   "argv": [
+    "-b",
+    "-B",
+    "-n",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:47"
+  },
+  {
+   "test": "test_message_with_complex_flags",
+   "argv": [
+    "-M",
+    "Test",
+    "-L",
+    "-a",
+    "-C",
+    "blue",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:53"
+  },
+  {
+   "test": "test_help_overrides_other_flags",
+   "argv": [
+    "-a",
+    "-b",
+    "-c",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:59"
+  },
+  {
+   "test": "test_version_overrides_other_flags",
+   "argv": [
+    "-a",
+    "-b",
+    "-c",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:66"
+  },
+  {
+   "test": "test_multiple_speeds",
+   "argv": [
+    "-u",
+    "1",
+    "-u",
+    "5",
+    "-u",
+    "9",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:72"
+  },
+  {
+   "test": "test_multiple_colors",
+   "argv": [
+    "-C",
+    "red",
+    "-C",
+    "blue",
+    "-C",
+    "green",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:78"
+  },
+  {
+   "test": "test_japanese_with_lambda_and_changing",
+   "argv": [
+    "-c",
+    "-m",
+    "-k",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:84"
+  },
+  {
+   "test": "test_message_flag_with_text",
+   "argv": [
+    "-M",
+    "Hello World",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_message_display.py:5"
+  },
+  {
+   "test": "test_message_flag_empty",
+   "argv": [
+    "-M",
+    "",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_message_display.py:11"
+  },
+  {
+   "test": "test_message_flag_special_chars",
+   "argv": [
+    "-M",
+    "Test!@#$%^&*()",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_message_display.py:24"
+  },
+  {
+   "test": "test_message_help_description",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-M",
+    "message"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_message_display.py:36"
+  },
+  {
+   "test": "test_message_with_lock_mode",
+   "argv": [
+    "-L",
+    "-M",
+    "Custom Message",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_message_display.py:43"
+  },
+  {
+   "test": "test_message_with_quotes",
+   "argv": [
+    "-M",
+    "Message with \"quotes\"",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_message_display.py:55"
+  },
+  {
+   "test": "test_message_with_newlines",
+   "argv": [
+    "-M",
+    "Line1\nLine2",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_message_display.py:61"
+  },
+  {
+   "test": "test_update_delay_valid_values",
+   "argv": [
+    "-u",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_speed_control.py:6"
+  },
+  {
+   "test": "test_update_delay_range_in_help",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-u",
+    "0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_speed_control.py:21"
+  },
+  {
+   "test": "test_update_delay_zero",
+   "argv": [
+    "-u",
+    "0",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_speed_control.py:30"
+  },
+  {
+   "test": "test_update_delay_max",
+   "argv": [
+    "-u",
+    "10",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_speed_control.py:36"
+  },
+  {
+   "test": "test_update_delay_negative",
+   "argv": [
+    "-u",
+    "-1",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_speed_control.py:42"
+  },
+  {
+   "test": "test_update_delay_too_large",
+   "argv": [
+    "-u",
+    "100",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_speed_control.py:50"
+  },
+  {
+   "test": "test_linux_mode_flag",
+   "argv": [
+    "-l",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_terminal_modes.py:5"
+  },
+  {
+   "test": "test_x_window_mode_flag",
+   "argv": [
+    "-x",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_terminal_modes.py:17"
+  },
+  {
+   "test": "test_linux_mode_help",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-l"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_terminal_modes.py:29"
+  },
+  {
+   "test": "test_force_linux_help",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-f",
+    "linux"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_terminal_modes.py:36"
+  },
+  {
+   "test": "test_x_window_help",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-x"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_terminal_modes.py:43"
+  },
+  {
+   "test": "test_tty_help",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-t",
+    "tty"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_terminal_modes.py:50"
+  },
+  {
+   "test": "test_linux_with_x_window",
+   "argv": [
+    "-l",
+    "-x",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_terminal_modes.py:57"
+  },
+  {
+   "test": "test_force_with_linux_mode",
+   "argv": [
+    "-f",
+    "-l",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_terminal_modes.py:63"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "./executable",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-a"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tui_cmatrix.py:95"
+  },
+  {
+   "test": "test_combined_short_flags",
+   "argv": [
+    "-abc",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:81"
+  },
+  {
+   "test": "test_combined_short_flags_multiple",
+   "argv": [
+    "-abn",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:89"
+  },
+  {
+   "test": "test_flag_ordering",
+   "argv": [
+    "-a",
+    "-b",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:95"
+  },
+  {
+   "test": "test_bold_flag",
+   "argv": [
+    "-b",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:108"
+  },
+  {
+   "test": "test_all_bold_flag",
+   "argv": [
+    "-B",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:113"
+  },
+  {
+   "test": "test_no_bold_flag",
+   "argv": [
+    "-n",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:118"
+  },
+  {
+   "test": "test_bold_and_all_bold",
+   "argv": [
+    "-b",
+    "-B",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:123"
+  },
+  {
+   "test": "test_all_bold_and_no_bold",
+   "argv": [
+    "-B",
+    "-n",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:128"
+  },
+  {
+   "test": "test_bold_and_no_bold",
+   "argv": [
+    "-b",
+    "-n",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:133"
+  },
+  {
+   "test": "test_invalid_colors",
+   "argv": [
+    "-C"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Invalid color selection"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:184"
+  },
+  {
+   "test": "test_color_flag_without_value",
+   "argv": [
+    "-C"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:191"
+  },
+  {
+   "test": "test_update_flag_without_value",
+   "argv": [
+    "-u"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:222"
+  },
+  {
+   "test": "test_update_flag_space_separated",
+   "argv": [
+    "-u",
+    "5",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:244"
+  },
+  {
+   "test": "test_update_flag_no_space",
+   "argv": [
+    "-u5",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:251"
+  },
+  {
+   "test": "test_message_flag_simple",
+   "argv": [
+    "-M",
+    "Hello",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:262"
+  },
+  {
+   "test": "test_message_flag_special_chars",
+   "argv": [
+    "-M",
+    "Test!@#$%",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:283"
+  },
+  {
+   "test": "test_message_flag_without_value",
+   "argv": [
+    "-M"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:290"
+  },
+  {
+   "test": "test_tty_flag_with_value",
+   "argv": [
+    "-t",
+    "/dev/tty1",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:301"
+  },
+  {
+   "test": "test_tty_flag_without_value",
+   "argv": [
+    "-t"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:308"
+  },
+  {
+   "test": "test_positional_after_flags",
+   "argv": [
+    "-V",
+    "extra"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:359"
+  },
+  {
+   "test": "test_multiple_valid_flags",
+   "argv": [
+    "-a",
+    "-b",
+    "-s",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:371"
+  },
+  {
+   "test": "test_flags_with_values_and_boolean",
+   "argv": [
+    "-a",
+    "-C",
+    "red",
+    "-u",
+    "5",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:378"
+  },
+  {
+   "test": "test_all_boolean_flags_together",
+   "argv": [
+    "-a",
+    "-b",
+    "-c",
+    "-f",
+    "-l",
+    "-o",
+    "-s",
+    "-x",
+    "-r",
+    "-m",
+    "-k",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:385"
+  },
+  {
+   "test": "test_lock_and_message_flags",
+   "argv": [
+    "-L",
+    "-M",
+    "Custom",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:394"
+  },
+  {
+   "test": "test_message_then_lock",
+   "argv": [
+    "-M",
+    "First",
+    "-L",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:401"
+  },
+  {
+   "test": "test_repeat_boolean_flag",
+   "argv": [
+    "-a",
+    "-a",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:412"
+  },
+  {
+   "test": "test_repeat_update_flag",
+   "argv": [
+    "-u",
+    "3",
+    "-u",
+    "7",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:427"
+  },
+  {
+   "test": "test_equals_in_message",
+   "argv": [
+    "-M",
+    "key=value",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:465"
+  },
+  {
+   "test": "test_unicode_in_message",
+   "argv": [
+    "-M",
+    "Hello 世界 🌍",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:488"
+  },
+  {
+   "test": "test_invalid_color_exit_code",
+   "argv": [
+    "-C",
+    "invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:518"
+  },
+  {
+   "test": "test_unknown_flag_exit_code",
+   "argv": [
+    "-Z"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:524"
+  },
+  {
+   "test": "test_color_before_version",
+   "argv": [
+    "-C",
+    "red",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:533"
+  },
+  {
+   "test": "test_version_before_color",
+   "argv": [
+    "-V",
+    "-C",
+    "red"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:540"
+  },
+  {
+   "test": "test_interleaved_flags",
+   "argv": [
+    "-u",
+    "5",
+    "-a",
+    "-C",
+    "blue",
+    "-b",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:547"
+  },
+  {
+   "test": "test_partial_color_names",
+   "argv": [
+    "-C",
+    "gre",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Invalid color"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:566"
+  },
+  {
+   "test": "test_color_substring",
+   "argv": [
+    "-C",
+    "reen",
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Invalid color"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argument_parsing.py:572"
+  },
+  {
+   "test": "test_unknown_flag_shows_usage",
+   "argv": [
+    "--bogus"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:143"
+  },
+  {
+   "test": "test_help_takes_precedence_over_unknown_flag",
+   "argv": [
+    "--help",
+    "--bogus"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:150"
+  },
+  {
+   "test": "test_help_exits_0_and_prints_usage",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix",
+    "-h: Print usage and exit"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_version.py:4"
+  },
+  {
+   "test": "test_version_exits_0_and_prints_version_header",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version",
+    "Web:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_version.py:13"
+  },
+  {
+   "test": "test_unknown_long_flag_prints_usage_and_exits_0",
+   "argv": [
+    "--definitely-not-a-real-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: cmatrix"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_invalid_args.py:4"
+  },
+  {
+   "test": "test_combined_short_flags_supported_and_version_exits_zero",
+   "argv": [
+    "-abnV"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CMatrix version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args_parsing.py:38"
+  }
+ ]
+}

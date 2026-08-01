@@ -1,0 +1,5104 @@
+[
+ {
+  "name": "test::test_cidr_subnets_insufficient_address_space::0",
+  "argv": [
+   "--experimental",
+   "-i",
+   "{{ net.CIDRSubnets 25 \"192.168.1.0/24\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cidr_host_negative_from_end::1",
+  "argv": [
+   "--experimental",
+   "-i",
+   "{{ net.CIDRHost -1 \"192.168.1.0/24\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cidr_host_negative_offset_calculations::2",
+  "argv": [
+   "--experimental",
+   "-i",
+   "{{ net.CIDRHost -2 \"192.168.1.0/24\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cidr_host_negative_wraparound_full_range::3",
+  "argv": [
+   "--experimental",
+   "-i",
+   "{{ net.CIDRHost -256 \"192.168.1.0/24\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cidr_host_exceeds_maximum::4",
+  "argv": [
+   "--experimental",
+   "-i",
+   "{{ net.CIDRHost 256 \"192.168.1.0/24\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cidr_host_ipv6_large_offset::5",
+  "argv": [
+   "--experimental",
+   "-i",
+   "{{ net.CIDRHost 256 \"2001:db8::/32\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cidr_host_ipv6_negative_full_range::6",
+  "argv": [
+   "--experimental",
+   "-i",
+   "{{ net.CIDRHost -1 \"2001:db8::/64\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cidr_subnet_sizes_basic_sequential::7",
+  "argv": [
+   "--experimental",
+   "-i",
+   "{{ net.CIDRSubnetSizes 4 4 \"10.0.0.0/16\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cidr_subnet_sizes_mixed_sizes::8",
+  "argv": [
+   "--experimental",
+   "-i",
+   "{{ net.CIDRSubnetSizes 2 4 2 \"10.0.0.0/22\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cidr_subnet_sizes_zero_newbits_error::9",
+  "argv": [
+   "--experimental",
+   "-i",
+   "{{ net.CIDRSubnetSizes 0 \"10.0.0.0/16\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cidr_subnet_sizes_too_many_bits_error::10",
+  "argv": [
+   "--experimental",
+   "-i",
+   "{{ net.CIDRSubnetSizes 33 \"10.0.0.0/16\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cidr_subnet_sizes_exceed_address_length_ipv4::11",
+  "argv": [
+   "--experimental",
+   "-i",
+   "{{ net.CIDRSubnetSizes 20 \"10.0.0.0/16\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cidr_subnet_sizes_exhaust_address_space::12",
+  "argv": [
+   "--experimental",
+   "-i",
+   "{{ net.CIDRSubnetSizes 1 1 1 1 1 1 1 1 1 1 \"192.168.1.0/28\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cidr_subnets_ipv6_subdivision::13",
+  "argv": [
+   "--experimental",
+   "-i",
+   "{{ $subnets := net.CIDRSubnets 2 \"2001:db8::/32\" }}{{ index $subnets 0 }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cidr_subnets_count_verification::14",
+  "argv": [
+   "--experimental",
+   "-i",
+   "{{ $subnets := net.CIDRSubnets 1 \"10.0.0.0/8\" }}{{ len $subnets }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cidr_subnets_all_addresses_covered::15",
+  "argv": [
+   "--experimental",
+   "-i",
+   "{{ $subnets := net.CIDRSubnets 4 \"10.0.0.0/16\" }}{{ range $subnets }}{{ .String }} {{ end }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cidr_netmask_class_a::16",
+  "argv": [
+   "--experimental",
+   "-i",
+   "{{ net.CIDRNetmask \"10.0.0.0/8\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cidr_netmask_non_octet_boundary::17",
+  "argv": [
+   "--experimental",
+   "-i",
+   "{{ net.CIDRNetmask \"10.0.0.0/12\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cidr_netmask_single_bit_boundary::18",
+  "argv": [
+   "--experimental",
+   "-i",
+   "{{ net.CIDRNetmask \"192.168.1.128/25\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cidr_netmask_ipv6_formatting::19",
+  "argv": [
+   "--experimental",
+   "-i",
+   "{{ net.CIDRNetmask \"2001:db8::/32\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cidr_host_boundary_zero::20",
+  "argv": [
+   "--experimental",
+   "-i",
+   "{{ net.CIDRHost 0 \"192.168.1.0/24\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cidr_host_boundary_last_valid::21",
+  "argv": [
+   "--experimental",
+   "-i",
+   "{{ net.CIDRHost 255 \"192.168.1.0/24\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cidr_subnets_large_subdivision_count::22",
+  "argv": [
+   "--experimental",
+   "-i",
+   "{{ $subnets := net.CIDRSubnets 8 \"10.0.0.0/16\" }}{{ len $subnets }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cidr_subnet_sizes_at_ipv4_boundary::23",
+  "argv": [
+   "--experimental",
+   "-i",
+   "{{ net.CIDRSubnetSizes 1 1 1 \"255.255.255.252/30\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cidr_netmask_all_bits_ipv4::24",
+  "argv": [
+   "--experimental",
+   "-i",
+   "{{ net.CIDRNetmask \"192.168.1.1/32\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cidr_netmask_zero_prefix_ipv4::25",
+  "argv": [
+   "--experimental",
+   "-i",
+   "{{ net.CIDRNetmask \"0.0.0.0/0\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cidr_host_ipv6_zero::26",
+  "argv": [
+   "--experimental",
+   "-i",
+   "{{ net.CIDRHost 0 \"2001:db8::/64\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cidr_subnet_sizes_ipv6_basic::27",
+  "argv": [
+   "--experimental",
+   "-i",
+   "{{ net.CIDRSubnetSizes 4 4 \"2001:db8::/32\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cidr_subnet_sizes_single_host_subdivision::28",
+  "argv": [
+   "--experimental",
+   "-i",
+   "{{ net.CIDRSubnetSizes 2 \"10.0.0.0/30\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cidr_host_small_subnet::29",
+  "argv": [
+   "--experimental",
+   "-i",
+   "{{ net.CIDRHost 1 \"10.0.0.0/30\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cidr_netmask_ipv6_full_prefix::30",
+  "argv": [
+   "--experimental",
+   "-i",
+   "{{ net.CIDRNetmask \"2001:db8::1/128\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cidr_netmask_ipv6_zero_prefix::31",
+  "argv": [
+   "--experimental",
+   "-i",
+   "{{ net.CIDRNetmask \"::/0\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cidr_subnets_minimal_one_bit_split::32",
+  "argv": [
+   "--experimental",
+   "-i",
+   "{{ $subnets := net.CIDRSubnets 1 \"192.168.1.0/31\" }}{{ range $subnets }}{{ .String }} {{ end }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cidr_host_negative_small_subnet::33",
+  "argv": [
+   "--experimental",
+   "-i",
+   "{{ net.CIDRHost -1 \"10.0.0.0/30\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tobool_with_integer_values::34",
+  "argv": [
+   "-i",
+   "{{ conv.ToBool 1 }},{{ conv.ToBool 0 }},{{ conv.ToBool 2 }},{{ conv.ToBool -1 }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tobool_with_float_values::35",
+  "argv": [
+   "-i",
+   "{{ conv.ToBool 1.0 }},{{ conv.ToBool 0.0 }},{{ conv.ToBool 2.0 }},{{ conv.ToBool 0.5 }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tobool_with_string_float::36",
+  "argv": [
+   "-i",
+   "{{ conv.ToBool \"1.0\" }},{{ conv.ToBool \"2.0\" }},{{ conv.ToBool \"0.5\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tobools_multiple_types::37",
+  "argv": [
+   "-i",
+   "{{ conv.ToBools 1 0 2 1.0 \"yes\" \"no\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tobools_empty_input::38",
+  "argv": [
+   "-i",
+   "{{ conv.ToBools }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_join_with_non_array_input::39",
+  "argv": [
+   "-i",
+   "{{ conv.Join 42 \",\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_join_with_empty_separator::40",
+  "argv": [
+   "-i",
+   "{{ $list := coll.Slice \"a\" \"b\" \"c\" }}{{ conv.Join $list \"\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_has_in_map_with_missing_key::41",
+  "argv": [
+   "-i",
+   "{{ $m := dict \"a\" 1 \"b\" 2 }}{{ coll.Has $m \"c\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_has_in_slice_with_present_value::42",
+  "argv": [
+   "-i",
+   "{{ $s := coll.Slice \"a\" \"b\" \"c\" }}{{ coll.Has $s \"b\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_has_in_slice_with_missing_value::43",
+  "argv": [
+   "-i",
+   "{{ $s := coll.Slice \"a\" \"b\" \"c\" }}{{ coll.Has $s \"d\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tostrings_with_mixed_types::44",
+  "argv": [
+   "-i",
+   "{{ conv.ToStrings 42 true 3.14 \"text\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tostrings_empty_input::45",
+  "argv": [
+   "-i",
+   "{{ conv.ToStrings }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toint64s_with_mixed_numeric_types::46",
+  "argv": [
+   "-i",
+   "{{ conv.ToInt64s 1 \"2\" 3.5 }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toint64s_with_invalid_string::47",
+  "argv": [
+   "-i",
+   "{{ conv.ToInt64s 1 \"not_a_number\" 3.5 }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toint64s_empty_input::48",
+  "argv": [
+   "-i",
+   "{{ conv.ToInt64s }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toints_with_mixed_numeric_types::49",
+  "argv": [
+   "-i",
+   "{{ conv.ToInts 1 \"2\" 3.5 }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toints_with_invalid_string::50",
+  "argv": [
+   "-i",
+   "{{ conv.ToInts 1 \"not_a_number\" 3.5 }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toints_empty_input::51",
+  "argv": [
+   "-i",
+   "{{ conv.ToInts }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tofloat64s_with_mixed_types::52",
+  "argv": [
+   "-i",
+   "{{ conv.ToFloat64s 1 \"2.5\" 3.14 }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tofloat64s_with_invalid_string::53",
+  "argv": [
+   "-i",
+   "{{ conv.ToFloat64s 1 \"not_a_number\" 3.14 }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tofloat64s_empty_input::54",
+  "argv": [
+   "-i",
+   "{{ conv.ToFloat64s }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toint64_with_boolean_values::55",
+  "argv": [
+   "-i",
+   "{{ conv.ToInt64 true }},{{ conv.ToInt64 false }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toint64_with_comma_separated_string::56",
+  "argv": [
+   "-i",
+   "{{ conv.ToInt64 \"1,234,567\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toint64_with_hex_string::57",
+  "argv": [
+   "-i",
+   "{{ conv.ToInt64 \"0x1F\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toint64_with_octal_string::58",
+  "argv": [
+   "-i",
+   "{{ conv.ToInt64 \"077\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toint64_with_float_string::59",
+  "argv": [
+   "-i",
+   "{{ conv.ToInt64 \"12.5\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toint64_with_invalid_type::60",
+  "argv": [
+   "-i",
+   "{{ $map := dict \"a\" 1 }}{{ conv.ToInt64 $map }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tofloat64_with_boolean_values::61",
+  "argv": [
+   "-i",
+   "{{ conv.ToFloat64 true }},{{ conv.ToFloat64 false }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tofloat64_with_comma_separated_string::62",
+  "argv": [
+   "-i",
+   "{{ conv.ToFloat64 \"1,234.5\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tofloat64_with_octal_string::63",
+  "argv": [
+   "-i",
+   "{{ conv.ToFloat64 \"077\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tofloat64_with_hex_string::64",
+  "argv": [
+   "-i",
+   "{{ conv.ToFloat64 \"0xFF\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tofloat64_with_invalid_type::65",
+  "argv": [
+   "-i",
+   "{{ $map := dict \"a\" 1 }}{{ conv.ToFloat64 $map }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tostring_with_byte_slice::66",
+  "argv": [
+   "-i",
+   "{{ $bytes := base64.DecodeBytes \"SGVsbG8=\" }}{{ conv.ToString $bytes }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tostring_with_nil::67",
+  "argv": [
+   "-i",
+   "{{ conv.ToString nil }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_join_with_integer_array::68",
+  "argv": [
+   "-i",
+   "{{ $list := coll.Slice 1 2 3 }}{{ conv.Join $list \",\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_join_with_empty_array::69",
+  "argv": [
+   "-i",
+   "{{ $list := coll.Slice }}{{ conv.Join $list \",\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_join_with_mixed_types_array::70",
+  "argv": [
+   "-i",
+   "{{ $list := coll.Slice 1 true \"text\" 3.14 }}{{ conv.Join $list \",\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tostring_with_map::71",
+  "argv": [
+   "-i",
+   "{{ $dict := dict \"a\" 1 }}{{ conv.ToString $dict }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_has_in_map_with_string_key::72",
+  "argv": [
+   "-i",
+   "{{ $m := dict \"x\" 1 \"y\" 2 }}{{ coll.Has $m \"x\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_has_in_array_with_multiple_elements::73",
+  "argv": [
+   "-i",
+   "{{ $s := coll.Slice \"x\" \"y\" \"z\" }}{{ coll.Has $s \"y\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_has_in_empty_array::74",
+  "argv": [
+   "-i",
+   "{{ $s := coll.Slice }}{{ coll.Has $s \"a\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toint_with_max_int64::75",
+  "argv": [
+   "-i",
+   "{{ conv.ToInt \"9223372036854775807\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toint64_with_uint32_value::76",
+  "argv": [
+   "-i",
+   "{{ conv.ToInt64 4294967295 }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tofloat64_with_uint_value::77",
+  "argv": [
+   "-i",
+   "{{ conv.ToFloat64 42 }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toint64_with_max_uint64_overflow::78",
+  "argv": [
+   "-i",
+   "{{ conv.ToInt64 \"18446744073709551615\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tobool_with_negative_integer::79",
+  "argv": [
+   "-i",
+   "{{ conv.ToBool -1 }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tobool_with_large_integer::80",
+  "argv": [
+   "-i",
+   "{{ conv.ToBool 100 }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toint64_with_negative_float_string::81",
+  "argv": [
+   "-i",
+   "{{ conv.ToInt64 \"-12.7\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tofloat64_with_negative_octal::82",
+  "argv": [
+   "-i",
+   "{{ conv.ToFloat64 \"-077\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toint64_with_comma_and_decimal::83",
+  "argv": [
+   "-i",
+   "{{ conv.ToInt64 \"1,234.56\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tofloat64_with_negative_hex::84",
+  "argv": [
+   "-i",
+   "{{ conv.ToFloat64 \"-0xFF\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toint64_with_scientific_notation::85",
+  "argv": [
+   "-i",
+   "{{ conv.ToInt64 \"1.23e5\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tofloat64_with_scientific_notation_and_comma::86",
+  "argv": [
+   "-i",
+   "{{ conv.ToFloat64 \"1,234e2\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_join_with_single_element::87",
+  "argv": [
+   "-i",
+   "{{ $list := coll.Slice \"only\" }}{{ conv.Join $list \",\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tostrings_with_nil_in_array::88",
+  "argv": [
+   "-i",
+   "{{ conv.ToStrings \"a\" nil \"c\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tobools_with_string_variations::89",
+  "argv": [
+   "-i",
+   "{{ conv.ToBools \"TRUE\" \"True\" \"YES\" \"Yes\" \"T\" \"t\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tobool_with_map_default_case::90",
+  "argv": [
+   "-i",
+   "{{ conv.ToBool (coll.Dict \"key\" \"value\") }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_join_with_non_array_input_error::91",
+  "argv": [
+   "-i",
+   "{{ conv.Join \"not-an-array\" \",\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toint64_with_invalid_type_error::92",
+  "argv": [
+   "-i",
+   "{{ conv.ToInt64 (coll.Dict \"key\" \"val\") }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tofloat64_with_invalid_type_error::93",
+  "argv": [
+   "-i",
+   "{{ conv.ToFloat64 (coll.Dict \"key\" \"val\") }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toint64s_error_propagation::94",
+  "argv": [
+   "-i",
+   "{{ conv.ToInt64s \"123\" \"invalid\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toints_error_propagation::95",
+  "argv": [
+   "-i",
+   "{{ conv.ToInts \"123\" \"invalid\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tofloat64s_error_propagation::96",
+  "argv": [
+   "-i",
+   "{{ conv.ToFloat64s \"1.23\" \"invalid\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_join_with_string_slice::97",
+  "argv": [
+   "-i",
+   "{{ $arr := coll.Slice \"a\" \"b\" \"c\" }}{{ conv.Join $arr \",\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_join_with_typed_slice::98",
+  "argv": [
+   "-i",
+   "{{ $arr := coll.Slice 1 2 3 }}{{ conv.Join $arr \"-\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tostring_with_byte_slice::99",
+  "argv": [
+   "-i",
+   "{{ conv.ToString (base64.Decode \"aGVsbG8=\") }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toint64_with_bool_true::100",
+  "argv": [
+   "-i",
+   "{{ conv.ToInt64 true }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toint64_with_bool_false::101",
+  "argv": [
+   "-i",
+   "{{ conv.ToInt64 false }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tofloat64_with_bool_true::102",
+  "argv": [
+   "-i",
+   "{{ conv.ToFloat64 true }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tofloat64_with_bool_false::103",
+  "argv": [
+   "-i",
+   "{{ conv.ToFloat64 false }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tofloat64_with_string_containing_comma::104",
+  "argv": [
+   "-i",
+   "{{ conv.ToFloat64 \"1,234.56\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toint64_with_float_string_strips_commas::105",
+  "argv": [
+   "-i",
+   "{{ conv.ToInt64 \"1,234.99\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tofloat64_with_octal_string::106",
+  "argv": [
+   "-i",
+   "{{ conv.ToFloat64 \"0755\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_join_with_empty_array::107",
+  "argv": [
+   "-i",
+   "{{ $arr := coll.Slice }}{{ conv.Join $arr \",\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tostring_with_slice_of_ints::108",
+  "argv": [
+   "-i",
+   "{{ conv.ToString (coll.Slice 1 2 3) }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toint64_with_uint64_in_range::109",
+  "argv": [
+   "-i",
+   "{{ conv.ToInt64 42 }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tostrings_with_mixed_types::110",
+  "argv": [
+   "-i",
+   "{{ conv.ToStrings \"hello\" 42 true nil }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parseint_with_valid_string::111",
+  "argv": [
+   "-i",
+   "{{ conv.ParseInt \"123\" 10 64 }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parseint_with_hex_string::112",
+  "argv": [
+   "-i",
+   "{{ conv.ParseInt \"FF\" 16 64 }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parseint_with_invalid_string_error::113",
+  "argv": [
+   "-i",
+   "{{ conv.ParseInt \"invalid\" 10 64 }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parsefloat_with_valid_string::114",
+  "argv": [
+   "-i",
+   "{{ conv.ParseFloat \"123.456\" 64 }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parsefloat_with_invalid_string_error::115",
+  "argv": [
+   "-i",
+   "{{ conv.ParseFloat \"invalid\" 64 }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parseuint_with_valid_string::116",
+  "argv": [
+   "-i",
+   "{{ conv.ParseUint \"123\" 10 64 }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parseuint_with_invalid_string_error::117",
+  "argv": [
+   "-i",
+   "{{ conv.ParseUint \"invalid\" 10 64 }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_atoi_with_valid_string::118",
+  "argv": [
+   "-i",
+   "{{ conv.Atoi \"456\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_atoi_with_invalid_string_error::119",
+  "argv": [
+   "-i",
+   "{{ conv.Atoi \"invalid\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_urlparse_with_valid_url::120",
+  "argv": [
+   "-i",
+   "{{ $u := urlParse \"http://example.com/path?query=1\" }}{{ $u.Host }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_with_nil_value::121",
+  "argv": [
+   "-i",
+   "{{ default \"fallback\" nil }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_with_empty_string::122",
+  "argv": [
+   "-i",
+   "{{ default \"fallback\" \"\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_with_zero::123",
+  "argv": [
+   "-i",
+   "{{ default \"fallback\" 0 }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_with_false::124",
+  "argv": [
+   "-i",
+   "{{ default \"fallback\" false }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_envfs_invalid_path_parent_directory::125",
+  "argv": [
+   "-d",
+   "e=env:///../invalid",
+   "-i",
+   "{{ datasource \"e\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TEST_VAR": "test_value"
+  }
+ },
+ {
+  "name": "test::test_envfs_invalid_path_absolute::126",
+  "argv": [
+   "-d",
+   "e=env:////absolute/path",
+   "-i",
+   "{{ datasource \"e\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_envfs_empty_variable_value::127",
+  "argv": [
+   "-d",
+   "e=env:///EMPTY_VAR",
+   "-i",
+   "value=[{{ datasource \"e\" }}]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "EMPTY_VAR": ""
+  }
+ },
+ {
+  "name": "test::test_envfs_special_characters_in_value::128",
+  "argv": [
+   "-d",
+   "e=env:///SPECIAL_CHARS",
+   "-i",
+   "{{ datasource \"e\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "SPECIAL_CHARS": "Hello\\nWorld\\t\"quoted\""
+  }
+ },
+ {
+  "name": "test::test_envfs_very_long_value::129",
+  "argv": [
+   "-d",
+   "e=env:///LONG_VAR",
+   "-i",
+   "{{ len (datasource \"e\") }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_envfs_multiline_value::130",
+  "argv": [
+   "-d",
+   "e=env:///MULTILINE",
+   "-i",
+   "{{ datasource \"e\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "MULTILINE": "line1\nline2\nline3"
+  }
+ },
+ {
+  "name": "test::test_envfs_file_suffix_whitespace_trimming::131",
+  "argv": [
+   "-d",
+   "e=env:///MY_SECRET",
+   "-i",
+   "[{{ datasource \"e\" }}]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_envfs_direct_var_wins_over_file::132",
+  "argv": [
+   "-d",
+   "e=env:///MY_VAR",
+   "-i",
+   "{{ datasource \"e\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "MY_VAR": "direct value"
+  }
+ },
+ {
+  "name": "test::test_envfs_file_suffix_nonexistent_file::133",
+  "argv": [
+   "-d",
+   "e=env:///MY_SECRET",
+   "-i",
+   "{{ datasource \"e\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "MY_SECRET_FILE": "/nonexistent/path/to/file"
+  }
+ },
+ {
+  "name": "test::test_envfs_file_suffix_binary_content::134",
+  "argv": [
+   "-d",
+   "e=env:///BIN",
+   "-i",
+   "{{ datasource \"e\" | base64.Encode }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_envfs_variable_with_underscores::135",
+  "argv": [
+   "-d",
+   "e=env:///MY_VAR_WITH_UNDERSCORES",
+   "-i",
+   "{{ datasource \"e\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "MY_VAR_WITH_UNDERSCORES": "underscored"
+  }
+ },
+ {
+  "name": "test::test_envfs_json_complex_structure::136",
+  "argv": [
+   "-d",
+   "e=env:///MYAPP_CONFIG?type=application/json",
+   "-i",
+   "{{ (datasource \"e\").host }}:{{ (datasource \"e\").port }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_envfs_yaml_parsing_with_type_hint::137",
+  "argv": [
+   "-d",
+   "e=env:///YAML_DATA?type=application/yaml",
+   "-i",
+   "{{ (datasource \"e\").name }}-{{ (datasource \"e\").value }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_envfs_toml_parsing_with_type_hint::138",
+  "argv": [
+   "-d",
+   "e=env:///TOML_DATA?type=application/toml",
+   "-i",
+   "{{ (datasource \"e\").title }}-{{ (datasource \"e\").server.host }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_envfs_csv_parsing_with_type_hint::139",
+  "argv": [
+   "-d",
+   "e=env:///CSV_DATA?type=text/csv",
+   "-i",
+   "{{ index (index (datasource \"e\") 1) 0 }}-{{ index (index (datasource \"e\") 1) 1 }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_envfs_json_parsing_with_type_hint::140",
+  "argv": [
+   "-d",
+   "j=env:///JSON_DATA?type=application/json",
+   "-i",
+   "{{ (datasource \"j\").name }} {{ (datasource \"j\").value }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "JSON_DATA": "{\"name\":\"test\",\"value\":123}"
+  }
+ },
+ {
+  "name": "test::test_stdinfs_simple_text_read::141",
+  "argv": [
+   "-d",
+   "s=stdin:///",
+   "-i",
+   "{{ datasource \"s\" }}"
+  ],
+  "stdin": "data from stdin\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdinfs_json_parsing_with_type_hint::142",
+  "argv": [
+   "-d",
+   "j=stdin:///?type=application/json",
+   "-i",
+   "{{ (datasource \"j\").key }}-{{ (datasource \"j\").num }}"
+  ],
+  "stdin": "{\"key\":\"value\",\"num\":42}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reader_caching_behavior::143",
+  "argv": [
+   "-d",
+   "e=env:///COUNTER_VAL",
+   "-i",
+   "{{ datasource \"e\" }}-{{ datasource \"e\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "COUNTER_VAL": "first"
+  }
+ },
+ {
+  "name": "test::test_envfs_missing_variable_error::144",
+  "argv": [
+   "-d",
+   "e=env:///NONEXISTENT_VAR",
+   "-i",
+   "{{ datasource \"e\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reader_custom_type_param::145",
+  "argv": [
+   "-d",
+   "j=env:///JSON_VAR?format=application/json",
+   "-i",
+   "{{ (datasource \"j\").x }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "GOMPLATE_TYPE_PARAM": "format",
+   "JSON_VAR": "{\"x\":99}"
+  }
+ },
+ {
+  "name": "test::test_reader_undefined_datasource_error::146",
+  "argv": [
+   "-i",
+   "{{ datasource \"undefined_alias\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_envfs_file_suffix_whitespace_trimming::147",
+  "argv": [
+   "-d",
+   "e=env:///MY",
+   "-i",
+   "{{ datasource \"e\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdinfs_large_content_buffering::148",
+  "argv": [
+   "-d",
+   "s=stdin:///",
+   "-i",
+   "{{ datasource \"s\" | len }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdinfs_multiple_read_caching::149",
+  "argv": [
+   "-d",
+   "s=stdin:///",
+   "-i",
+   "{{ datasource \"s\" }}-{{ datasource \"s\" }}"
+  ],
+  "stdin": "test data\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdinfs_empty_input::150",
+  "argv": [
+   "-d",
+   "s=stdin:///",
+   "-i",
+   "{{ datasource \"s\" | len }}"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_context_envfs_datasource::151",
+  "argv": [
+   "-c",
+   "ctx=env:///CTX_VAR",
+   "-i",
+   "{{ .ctx }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "CTX_VAR": "context value"
+  }
+ },
+ {
+  "name": "test::test_context_stdin_datasource::152",
+  "argv": [
+   "-c",
+   "s=stdin:///",
+   "-i",
+   "{{ .s }}"
+  ],
+  "stdin": "stdin context\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_wdfs_relative_path_resolution::153",
+  "argv": [
+   "-d",
+   "r=./rel.txt",
+   "-i",
+   "{{ datasource \"r\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mergefs_single_datasource_error::154",
+  "argv": [
+   "-d",
+   "m=merge:///just_one",
+   "-i",
+   "{{ datasource \"m\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reader_invalid_url_parsing_error::155",
+  "argv": [
+   "-i",
+   "{{ datasource \"http://[invalid\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mergefs_nonexistent_file_error::156",
+  "argv": [
+   "-d",
+   "m=merge:///nonexistent1|nonexistent2",
+   "-i",
+   "{{ datasource \"m\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reader_file_not_found_error::157",
+  "argv": [
+   "-d",
+   "f=file:///nonexistent/path.json",
+   "-i",
+   "{{ datasource \"f\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reader_relative_file_paths::158",
+  "argv": [
+   "-d",
+   "j=subdir/data.json?type=application/json",
+   "-i",
+   "{{ (datasource \"j\").relative }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdinfs_invalid_path_parent_traversal::159",
+  "argv": [
+   "-d",
+   "s=stdin:///../invalid",
+   "-i",
+   "{{ datasource \"s\" }}"
+  ],
+  "stdin": "test data",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdinfs_invalid_path_dot_slash::160",
+  "argv": [
+   "-d",
+   "s=stdin:///./file",
+   "-i",
+   "{{ datasource \"s\" }}"
+  ],
+  "stdin": "test data",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdinfs_binary_data_handling::161",
+  "argv": [
+   "-d",
+   "s=stdin:///",
+   "-i",
+   "{{ datasource \"s\" | len }}"
+  ],
+  "stdin": "\u0000\u0001\u0002� binary data",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdinfs_yaml_type_detection::162",
+  "argv": [
+   "-d",
+   "y=stdin:///?type=application/yaml",
+   "-i",
+   "{{ (datasource \"y\").name }} is {{ (datasource \"y\").age }}"
+  ],
+  "stdin": "name: Test User\nage: 30\nactive: true\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdinfs_csv_type_detection::163",
+  "argv": [
+   "-d",
+   "c=stdin:///?type=text/csv",
+   "-i",
+   "{{ index (index (datasource \"c\") 1) 0 }}"
+  ],
+  "stdin": "name,age,city\nAlice,25,NYC\nBob,30,LA\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdinfs_toml_type_detection::164",
+  "argv": [
+   "-d",
+   "t=stdin:///?type=application/toml",
+   "-i",
+   "{{ (datasource \"t\").server.host }}:{{ (datasource \"t\").server.port }}"
+  ],
+  "stdin": "[server]\nhost = \"localhost\"\nport = 8080\n\n[database]\nname = \"testdb\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdinfs_subdir_path_allowed::165",
+  "argv": [
+   "-d",
+   "s=stdin:///subdir/file.txt",
+   "-i",
+   "{{ datasource \"s\" }}"
+  ],
+  "stdin": "data\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdinfs_unicode_multibyte_characters::166",
+  "argv": [
+   "-d",
+   "s=stdin:///",
+   "-i",
+   "{{ datasource \"s\" }}"
+  ],
+  "stdin": "Hello 世界 🌍 Привет\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdinfs_whitespace_only_input::167",
+  "argv": [
+   "-d",
+   "s=stdin:///",
+   "-i",
+   "len={{ datasource \"s\" | len }}"
+  ],
+  "stdin": "   \t\n   \n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdinfs_multiline_with_newlines::168",
+  "argv": [
+   "-d",
+   "s=stdin:///",
+   "-i",
+   "{{ datasource \"s\" | len }}"
+  ],
+  "stdin": "line1\nline2\nline3\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdinfs_dot_path_valid::169",
+  "argv": [
+   "-d",
+   "s=stdin:///.",
+   "-i",
+   "{{ datasource \"s\" }}"
+  ],
+  "stdin": "root data\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdinfs_triple_read_caching_consistency::170",
+  "argv": [
+   "-d",
+   "s=stdin:///",
+   "-i",
+   "{{ datasource \"s\" }},{{ datasource \"s\" }},{{ datasource \"s\" }}"
+  ],
+  "stdin": "cached\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdinfs_json_with_nested_arrays::171",
+  "argv": [
+   "-d",
+   "j=stdin:///?type=application/json",
+   "-i",
+   "{{ index (index (datasource \"j\").users 0).tags 0 }}"
+  ],
+  "stdin": "{\"users\":[{\"name\":\"Alice\",\"tags\":[\"admin\",\"user\"]},{\"name\":\"Bob\",\"tags\":[\"user\"]}]}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdinfs_json_array_at_root::172",
+  "argv": [
+   "-d",
+   "j=stdin:///?type=application/json",
+   "-i",
+   "{{ (index (datasource \"j\") 0).name }}"
+  ],
+  "stdin": "[{\"id\":1,\"name\":\"first\"},{\"id\":2,\"name\":\"second\"}]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdinfs_yaml_with_anchors_and_aliases::173",
+  "argv": [
+   "-d",
+   "y=stdin:///?type=application/yaml",
+   "-i",
+   "{{ (datasource \"y\").service1.timeout }}-{{ (datasource \"y\").service2.retries }}"
+  ],
+  "stdin": "defaults: &defaults\n  timeout: 30\n  retries: 3\n\nservice1:\n  <<: *defaults\n  name: api\n\nservice2:\n  <<: *defaults\n  name: worker\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdinfs_malformed_json_error::174",
+  "argv": [
+   "-d",
+   "j=stdin:///?type=application/json",
+   "-i",
+   "{{ datasource \"j\" }}"
+  ],
+  "stdin": "{invalid json",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdinfs_carriage_return_preservation::175",
+  "argv": [
+   "-d",
+   "s=stdin:///",
+   "-i",
+   "{{ datasource \"s\" | len }}"
+  ],
+  "stdin": "line1\r\nline2\r\nline3\r\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdinfs_json_with_null_values::176",
+  "argv": [
+   "-d",
+   "j=stdin:///?type=application/json",
+   "-i",
+   "{{ $d := datasource \"j\" }}{{ $d.key }}|{{ index $d.arr 1 }}"
+  ],
+  "stdin": "{\"key\":null,\"arr\":[1,null,3]}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_path_simple_filename::177",
+  "argv": [
+   "-d",
+   "rel=data.txt",
+   "-i",
+   "{{ datasource \"rel\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_path_dot_slash_prefix::178",
+  "argv": [
+   "-d",
+   "rel=./data.txt",
+   "-i",
+   "{{ datasource \"rel\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_path_subdirectory::179",
+  "argv": [
+   "-d",
+   "sub=subdir/nested.txt",
+   "-i",
+   "{{ datasource \"sub\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_path_parent_directory::180",
+  "argv": [
+   "-d",
+   "par=../parent.txt",
+   "-i",
+   "{{ datasource \"par\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dot_path_current_directory::181",
+  "argv": [
+   "-d",
+   "d=.",
+   "-i",
+   "{{ datasource \"d\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_write_function_relative_path::182",
+  "argv": [
+   "-i",
+   "{{ file.Write \"write_test.txt\" \"written content\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_write_subdirectory_path::183",
+  "argv": [
+   "-i",
+   "{{ file.Write \"subdir/write_sub.txt\" \"sub content\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_path_returns_empty::184",
+  "argv": [
+   "-d",
+   "d=",
+   "-i",
+   "{{ datasource \"d\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_templates_with_includes::185",
+  "argv": [
+   "-f",
+   "main.tmpl",
+   "-t",
+   "include.tmpl"
+  ],
+  "stdin": null,
+  "files": {
+   "main.tmpl": "{{ template \"inc\" . }}",
+   "include.tmpl": "{{ define \"inc\" }}Included Content{{ end }}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file_error::186",
+  "argv": [
+   "-d",
+   "d=/nonexistent/file.txt",
+   "-i",
+   "{{ datasource \"d\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stat_nonexistent_file_error::187",
+  "argv": [
+   "-i",
+   "{{ file.Stat \"/nonexistent_stat_test.txt\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_write_to_nonexistent_directory_creates_parents::188",
+  "argv": [
+   "-i",
+   "{{ file.Write \"deep/nested/dir/file.txt\" \"nested content\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_relative_path_resolution::189",
+  "argv": [
+   "-d",
+   "d=../../../target.txt",
+   "-i",
+   "{{ datasource \"d\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_overwrite_existing_file::190",
+  "argv": [
+   "-f",
+   "template.txt",
+   "-o",
+   "output.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "template.txt": "{{ \"new content\" }}",
+   "output.txt": "old content\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base64_encode_simple_string::191",
+  "argv": [
+   "-i",
+   "{{ \"hello world\" | base64.Encode }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base64_encode_empty_string::192",
+  "argv": [
+   "-i",
+   "{{ \"\" | base64.Encode }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base64_decode_simple_string::193",
+  "argv": [
+   "-i",
+   "{{ \"aGVsbG8gd29ybGQ=\" | base64.Decode }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base64_decode_empty_string::194",
+  "argv": [
+   "-i",
+   "{{ \"\" | base64.Decode }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base64_decode_url_safe_encoding_fallback::195",
+  "argv": [
+   "-i",
+   "{{ \"c3ViamVjdDogaW1wb3J0YW5jZSA-Pj4=\" | base64.Decode }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base64_decode_invalid_input_error::196",
+  "argv": [
+   "-i",
+   "{{ \"not valid base64!!!\" | base64.Decode }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base64_decode_bytes_returns_byte_array::197",
+  "argv": [
+   "-i",
+   "{{ \"aGVsbG8=\" | base64.DecodeBytes | len }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base64_roundtrip_binary_data::198",
+  "argv": [
+   "-i",
+   "{{ \"\\x00\\x01\\x02\\xFF\\xFE\" | base64.Encode | base64.Decode }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base64_encode_special_characters::199",
+  "argv": [
+   "-i",
+   "{{ \"test?>!\" | base64.Encode }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base64_decode_standard_vs_url_safe_different_chars::200",
+  "argv": [
+   "-i",
+   "{{ \"Pj4/\" | base64.Decode }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base64_encode_newlines_and_whitespace::201",
+  "argv": [
+   "-i",
+   "{{ \"line1\\nline2\\r\\nline3\\t\" | base64.Encode }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base64_decode_padding_variants::202",
+  "argv": [
+   "-i",
+   "{{ \"aGVsbG8h\" | base64.Decode }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base64_decode_with_whitespace_in_input::203",
+  "argv": [
+   "-i",
+   "{{ \"aGVs bG8=\" | base64.Decode }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_getenv_basic::204",
+  "argv": [
+   "-i",
+   "{{ env.Getenv \"MYVAR\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "MYVAR": "test_value"
+  }
+ },
+ {
+  "name": "test::test_env_getenv_with_default::205",
+  "argv": [
+   "-i",
+   "{{ env.Getenv \"NONEXISTENT\" \"default_val\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_getenv_empty_vs_unset::206",
+  "argv": [
+   "-i",
+   "{{ env.Getenv \"EMPTYVAR\" \"default\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "EMPTYVAR": ""
+  }
+ },
+ {
+  "name": "test::test_env_expandenv_multiple_vars::207",
+  "argv": [
+   "-i",
+   "{{ env.ExpandEnv \"VAR1=$VAR1 and VAR2=$VAR2\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "VAR1": "hello",
+   "VAR2": "world"
+  }
+ },
+ {
+  "name": "test::test_env_expandenv_missing_variable::208",
+  "argv": [
+   "-i",
+   "{{ env.ExpandEnv \"prefix=$UNSET:suffix\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_expandenv_special_chars::209",
+  "argv": [
+   "-i",
+   "{{ env.ExpandEnv \"value=$SPECIAL\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "SPECIAL": "with\"quotes'and\\backslash"
+  }
+ },
+ {
+  "name": "test::test_conv_atoi_basic::210",
+  "argv": [
+   "-i",
+   "{{ conv.Atoi \"123\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conv_atoi_error_handling::211",
+  "argv": [
+   "-i",
+   "{{ conv.Atoi \"not_a_number\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conv_parseint_octal::212",
+  "argv": [
+   "-i",
+   "{{ conv.ParseInt \"777\" 8 64 }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conv_parseint_binary::213",
+  "argv": [
+   "-i",
+   "{{ conv.ParseInt \"1010\" 2 64 }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conv_parsefloat_basic::214",
+  "argv": [
+   "-i",
+   "{{ conv.ParseFloat \"3.14159\" 64 }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conv_parsefloat_scientific::215",
+  "argv": [
+   "-i",
+   "{{ conv.ParseFloat \"1.23e5\" 64 }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conv_toint64_string_to_int::216",
+  "argv": [
+   "-i",
+   "{{ conv.ToInt64 \"9223372036854775807\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conv_tofloat64_string_to_float::217",
+  "argv": [
+   "-i",
+   "{{ conv.ToFloat64 \"123.456789012345\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conv_tostring_various_types::218",
+  "argv": [
+   "-i",
+   "{{ conv.ToString 42 }},{{ conv.ToString true }},{{ conv.ToString 3.14 }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conv_join_slice_with_separator::219",
+  "argv": [
+   "-i",
+   "{{ $list := coll.Slice \"apple\" \"banana\" \"cherry\" }}{{ conv.Join $list \", \" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conv_default_with_empty_string::220",
+  "argv": [
+   "-i",
+   "{{ $v := \"\" }}{{ default \"fallback\" $v }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conv_default_with_nonempty_string::221",
+  "argv": [
+   "-i",
+   "{{ $v := \"actual\" }}{{ default \"fallback\" $v }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conv_default_with_zero::222",
+  "argv": [
+   "-i",
+   "{{ $v := 0 }}{{ default \"fallback\" $v }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_find_first_match::223",
+  "argv": [
+   "-i",
+   "{{ regexp.Find \"[0-9]+\" \"abc123def456\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_findall_all_matches::224",
+  "argv": [
+   "-i",
+   "{{ regexp.FindAll \"[0-9]+\" \"abc123def456\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_findall_with_limit::225",
+  "argv": [
+   "-i",
+   "{{ regexp.FindAll \"[0-9]+\" 1 \"abc123def456ghi789\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_match_true::226",
+  "argv": [
+   "-i",
+   "{{ regexp.Match \"^[a-z]+$\" \"hello\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_match_false::227",
+  "argv": [
+   "-i",
+   "{{ regexp.Match \"^[a-z]+$\" \"Hello\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_replace_all_matches::228",
+  "argv": [
+   "-i",
+   "{{ regexp.Replace \"[0-9]+\" \"NUM\" \"abc123def456\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_replace_with_capture_groups::229",
+  "argv": [
+   "-i",
+   "{{ regexp.Replace \"([a-z]+)\" \"$1$1\" \"hello\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_replaceliteral_escapes_replacement::230",
+  "argv": [
+   "-i",
+   "{{ regexp.ReplaceLiteral \"\\\\d+\" \"$1\" \"test123\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_split_basic::231",
+  "argv": [
+   "-i",
+   "{{ regexp.Split \",\" \"a,b,c,d\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_split_with_limit::232",
+  "argv": [
+   "-i",
+   "{{ regexp.Split \",\" 2 \"a,b,c,d\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_quotemeta_escapes_special_chars::233",
+  "argv": [
+   "-i",
+   "{{ regexp.QuoteMeta \"hello.world*\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_invalid_pattern_error::234",
+  "argv": [
+   "-i",
+   "{{ regexp.Match \"[\" \"test\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_hasenv_true::235",
+  "argv": [
+   "-i",
+   "{{ env.HasEnv \"TESTVAR\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TESTVAR": "value"
+  }
+ },
+ {
+  "name": "test::test_env_hasenv_false::236",
+  "argv": [
+   "-i",
+   "{{ env.HasEnv \"NONEXISTENT\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_dot_env_map_access::237",
+  "argv": [
+   "-i",
+   "{{ .Env.TESTVAR }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TESTVAR": "value123"
+  }
+ },
+ {
+  "name": "test::test_env_dot_env_missing_key_error::238",
+  "argv": [
+   "-i",
+   "{{ .Env.NONEXISTENT }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_tojson_dict::239",
+  "argv": [
+   "-i",
+   "{{ $data := dict \"name\" \"Alice\" \"age\" 30 }}{{ toJSON $data }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_tojson_nested_structure::240",
+  "argv": [
+   "-i",
+   "{{ $data := dict \"users\" (coll.Slice \"alice\" \"bob\") \"count\" 2 }}{{ toJSON $data }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_toyaml_dict::241",
+  "argv": [
+   "-i",
+   "{{ $data := dict \"name\" \"Alice\" \"age\" 30 }}{{ toYAML $data }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_toyaml_nested_list::242",
+  "argv": [
+   "-i",
+   "{{ $data := dict \"users\" (coll.Slice \"alice\" \"bob\") }}{{ toYAML $data }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_totoml_basic::243",
+  "argv": [
+   "-i",
+   "{{ $data := dict \"name\" \"Alice\" \"age\" 30 \"active\" true }}{{ toTOML $data }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_tocsv_rows::244",
+  "argv": [
+   "-i",
+   "{{ $rows := coll.Slice (coll.Slice \"name\" \"age\") (coll.Slice \"Alice\" \"30\") (coll.Slice \"Bob\" \"25\") }}{{ toCSV $rows }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conv_parseuint_basic::245",
+  "argv": [
+   "-i",
+   "{{ conv.ParseUint \"255\" 10 8 }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conv_toint_truncates_float::246",
+  "argv": [
+   "-i",
+   "{{ conv.ToInt 42.7 }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conv_tobool_only_one_is_true::247",
+  "argv": [
+   "-i",
+   "{{ conv.ToBool 2 }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_find_no_match_empty_string::248",
+  "argv": [
+   "-i",
+   "{{ regexp.Find \"nomatch\" \"hello world\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_findall_no_matches_empty_slice::249",
+  "argv": [
+   "-i",
+   "{{ regexp.FindAll \"nomatch\" \"hello world\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_split_no_separator_single_element::250",
+  "argv": [
+   "-i",
+   "{{ regexp.Split \",\" \"noseparator\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conv_join_empty_slice::251",
+  "argv": [
+   "-i",
+   "{{ $empty := coll.Slice }}{{ conv.Join $empty \",\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_expandenv_nested_vars::252",
+  "argv": [
+   "-i",
+   "{{ env.ExpandEnv \"path=$HOME/bin\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "HOME": "/root"
+  }
+ },
+ {
+  "name": "test::test_regexp_replace_no_matches_unchanged::253",
+  "argv": [
+   "-i",
+   "{{ regexp.Replace \"[0-9]+\" \"NUM\" \"nodigits\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_tojson_special_chars::254",
+  "argv": [
+   "-i",
+   "{{ $d := dict \"text\" \"line1\\nline2\\\"quoted\\\"\" }}{{ toJSON $d }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conv_parseint_auto_base_hex::255",
+  "argv": [
+   "-i",
+   "{{ conv.ParseInt \"0xFF\" 0 64 }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conv_parseint_auto_base_octal::256",
+  "argv": [
+   "-i",
+   "{{ conv.ParseInt \"077\" 0 64 }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_tojsonpretty_indent::257",
+  "argv": [
+   "-i",
+   "{{ toJSONPretty \"  \" (dict \"a\" 1 \"b\" 2) }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_replace_multiple_capture_groups::258",
+  "argv": [
+   "-i",
+   "{{ regexp.Replace \"([A-Z][a-z]+) ([A-Z][a-z]+)\" \"$2, $1\" \"John Smith\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_expandenv_multiple_refs_same_var::259",
+  "argv": [
+   "-i",
+   "{{ env.ExpandEnv \"$USER and $USER again\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "USER": "alice"
+  }
+ },
+ {
+  "name": "test::test_regexp_findall_zero_limit_all_matches::260",
+  "argv": [
+   "-i",
+   "{{ regexp.FindAll \"[0-9]+\" -1 \"a1b2c3\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_split_limit_zero_no_split::261",
+  "argv": [
+   "-i",
+   "{{ regexp.Split \",\" 0 \"a,b,c\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gcp_meta_unavailable_with_default::262",
+  "argv": [
+   "-i",
+   "{{ gcp.Meta \"id\" \"no-instance\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "GCP_TIMEOUT": "100"
+  }
+ },
+ {
+  "name": "test::test_gcp_meta_unavailable_no_default::263",
+  "argv": [
+   "-i",
+   "{{ gcp.Meta \"zone\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "GCP_TIMEOUT": "100"
+  }
+ },
+ {
+  "name": "test::test_gcp_meta_short_timeout::264",
+  "argv": [
+   "-i",
+   "{{ gcp.Meta \"hostname\" \"fallback-host\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "GCP_TIMEOUT": "50"
+  }
+ },
+ {
+  "name": "test::test_gcp_meta_multiple_calls_caching::265",
+  "argv": [
+   "-i",
+   "{{ $id := gcp.Meta \"id\" \"default-id\" }}{{ $zone := gcp.Meta \"zone\" \"default-zone\" }}{{ $id }},{{ $zone }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "GCP_TIMEOUT": "100"
+  }
+ },
+ {
+  "name": "test::test_gcp_invalid_timeout_panics::266",
+  "argv": [
+   "-i",
+   "{{ gcp.Meta \"id\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "GCP_TIMEOUT": "invalid"
+  }
+ },
+ {
+  "name": "test::test_gcp_custom_endpoint::267",
+  "argv": [
+   "-i",
+   "{{ gcp.Meta \"name\" \"custom-default\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "GCP_TIMEOUT": "100",
+   "GCP_META_ENDPOINT": "http://custom.endpoint"
+  }
+ },
+ {
+  "name": "test::test_gcp_default_timeout_500ms::268",
+  "argv": [
+   "-i",
+   "{{ gcp.Meta \"project-id\" \"proj-default\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gcp_meta_zero_timeout_value::269",
+  "argv": [
+   "-i",
+   "{{ gcp.Meta \"id\" \"zero-timeout-default\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "GCP_TIMEOUT": "0"
+  }
+ },
+ {
+  "name": "test::test_gcp_meta_very_large_timeout::270",
+  "argv": [
+   "-i",
+   "{{ gcp.Meta \"name\" \"large-timeout-default\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "GCP_TIMEOUT": "10000"
+  }
+ },
+ {
+  "name": "test::test_gcp_meta_empty_key::271",
+  "argv": [
+   "-i",
+   "{{ gcp.Meta \"\" \"empty-key-default\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "GCP_TIMEOUT": "100"
+  }
+ },
+ {
+  "name": "test::test_gcp_meta_key_with_special_chars::272",
+  "argv": [
+   "-i",
+   "{{ gcp.Meta \"attributes/user-data\" \"special-default\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "GCP_TIMEOUT": "100"
+  }
+ },
+ {
+  "name": "test::test_gcp_meta_no_default_empty_result::273",
+  "argv": [
+   "-i",
+   "[{{ gcp.Meta \"nonexistent\" }}]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "GCP_TIMEOUT": "100"
+  }
+ },
+ {
+  "name": "test::test_gcp_meta_whitespace_in_default::274",
+  "argv": [
+   "-i",
+   "{{ gcp.Meta \"id\" \"  spaced default  \" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "GCP_TIMEOUT": "100"
+  }
+ },
+ {
+  "name": "test::test_gcp_meta_same_key_multiple_times::275",
+  "argv": [
+   "-i",
+   "{{ $first := gcp.Meta \"hostname\" \"fallback1\" }}{{ $second := gcp.Meta \"hostname\" \"fallback2\" }}First:{{ $first }},Second:{{ $second }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "GCP_TIMEOUT": "100"
+  }
+ },
+ {
+  "name": "test::test_gcp_meta_concurrent_different_keys::276",
+  "argv": [
+   "-i",
+   "{{ range $key := coll.Slice \"id\" \"name\" \"zone\" \"hostname\" \"machine-type\" }}{{ gcp.Meta $key \"default\" }}\n{{ end }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "GCP_TIMEOUT": "100"
+  }
+ },
+ {
+  "name": "test::test_gcp_meta_empty_string_default::277",
+  "argv": [
+   "-i",
+   "[{{ gcp.Meta \"id\" \"\" }}]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "GCP_TIMEOUT": "100"
+  }
+ },
+ {
+  "name": "test::test_gcp_meta_unicode_in_key::278",
+  "argv": [
+   "-i",
+   "{{ gcp.Meta \"测试-key-🔑\" \"unicode-default\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "GCP_TIMEOUT": "100"
+  }
+ },
+ {
+  "name": "test::test_gcp_meta_numeric_only_default::279",
+  "argv": [
+   "-i",
+   "{{ gcp.Meta \"id\" \"12345\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "GCP_TIMEOUT": "100"
+  }
+ },
+ {
+  "name": "test::test_gcp_meta_json_like_default::280",
+  "argv": [
+   "-i",
+   "{{ gcp.Meta \"id\" \"{\\\"key\\\":\\\"value\\\"}\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "GCP_TIMEOUT": "100"
+  }
+ },
+ {
+  "name": "test::test_base64_encode::281",
+  "argv": [
+   "-i",
+   "{{ \"foo\" | base64.Encode }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base64_decode::282",
+  "argv": [
+   "-i",
+   "{{ \"Zm9v\" | base64.Decode }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_reports_version::283",
+  "argv": [
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_takes_stdin_with_file_flag::284",
+  "argv": [
+   "--file",
+   "-"
+  ],
+  "stdin": "hello world",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_writes_to_stdout_with_out_flag::285",
+  "argv": [
+   "--out",
+   "-"
+  ],
+  "stdin": "hello world",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_ignores_stdin_with_in_flag::286",
+  "argv": [
+   "--in",
+   "hi"
+  ],
+  "stdin": "hello world",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_flag_rules_in_and_file::287",
+  "argv": [
+   "-f",
+   "-",
+   "-i",
+   "HELLO WORLD"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_flag_rules_output_dir_alone::288",
+  "argv": [
+   "--output-dir",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_flag_rules_in_and_inputdir::289",
+  "argv": [
+   "--input-dir",
+   ".",
+   "--in",
+   "param"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_flag_rules_file_and_inputdir::290",
+  "argv": [
+   "--input-dir",
+   ".",
+   "--file",
+   "input.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_flag_rules_out_and_outputdir::291",
+  "argv": [
+   "--output-dir",
+   ".",
+   "--out",
+   "param"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_flag_rules_out_and_outputmap::292",
+  "argv": [
+   "--output-map",
+   ".",
+   "--out",
+   "param"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_delims_changed_through_opts::293",
+  "argv": [
+   "--left-delim",
+   "«",
+   "--right-delim",
+   "»",
+   "-i",
+   "«.Env.FOO»"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "FOO": "foo"
+  }
+ },
+ {
+  "name": "test::test_basic_delims_changed_through_env_vars::294",
+  "argv": [
+   "-i",
+   "«.Env.FOO»"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "FOO": "foo",
+   "GOMPLATE_LEFT_DELIM": "«",
+   "GOMPLATE_RIGHT_DELIM": "»"
+  }
+ },
+ {
+  "name": "test::test_basic_unknown_arg_errors::295",
+  "argv": [
+   "--unknown-argument"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_post_run_exec_pipe::296",
+  "argv": [
+   "-i",
+   "{{print \"hello world\"}}",
+   "--exec-pipe",
+   "--",
+   "tr",
+   "a-z",
+   "A-Z"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coll_sort::297",
+  "argv": [
+   "-i",
+   "{{ $s := coll.Sort \"num\" (jsonArray \"[{\\\"num\\\":20},{\\\"num\\\":1},{\\\"num\\\":3},{\\\"num\\\":-5}]\") }}{{ $s | toJSON }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coll_pick::298",
+  "argv": [
+   "-i",
+   "{{ $d := dict \"foo\" 1 \"bar\" 2 \"baz\" 3 }}{{ $p := coll.Pick \"foo\" \"baz\" $d }}{{ $p | toJSON }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coll_omit::299",
+  "argv": [
+   "-i",
+   "{{ $d := dict \"foo\" 1 \"bar\" 2 \"baz\" 3 }}{{ $o := coll.Omit \"bar\" $d }}{{ $o | toJSON }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coll_jq::300",
+  "argv": [
+   "--experimental",
+   "-i",
+   "{{ coll.JQ \".foo.bar\" (json `{\"foo\":{\"bar\":\"baz\"}}`) }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coll_set::301",
+  "argv": [
+   "-i",
+   "{{ $dict := dict \"foo\" 1 }}{{ coll.Set \"bar\" 2 $dict }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coll_unset::302",
+  "argv": [
+   "-i",
+   "{{ $dict := dict \"foo\" 1 \"bar\" 2 }}{{ coll.Unset \"bar\" $dict }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_envvars_non_existent::303",
+  "argv": [
+   "-i",
+   "{{ .Env.FOO }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_envvars_hasenv::304",
+  "argv": [
+   "-i",
+   "{{ env.HasEnv \"FOO\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_crypto_rsa_crypt::305",
+  "argv": [
+   "-i",
+   "{{ $key := crypto.RSAGenerateKey 2048 }}{{ $key | crypto.RSADerivePublicKey | len }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strings_indent::306",
+  "argv": [
+   "-i",
+   "{{ \"foo\\nbar\" | strings.Indent 2 }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strings_repeat::307",
+  "argv": [
+   "-i",
+   "{{ strings.Repeat 2 \"na\" }}ba"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strings_slug::308",
+  "argv": [
+   "-i",
+   "{{ \"Hellö, Wôrld! Free @ last...\" | strings.Slug }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strings_case_funcs::309",
+  "argv": [
+   "-i",
+   "{{ strings.ToLower \"HELLO\" }}\n{{ strings.ToUpper \"hello\" }}\n{{ strings.Title \"is there anybody out there?\" }}\n{{ strings.Title \"foo,bar᳇ǆaz\"}}\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strings_word_wrap::310",
+  "argv": [
+   "-i",
+   "{{ \"hello world foo bar\" | strings.WordWrap 10 }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_time::311",
+  "argv": [
+   "-i",
+   "{{ (time.Parse \"Mon Jan 02 15:04:05 MST 2006\" \"Fri Feb 13 23:31:30 UTC 2009\").Format \"2006-01-02 15 -0700\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_replace::312",
+  "argv": [
+   "-i",
+   "{{ \"1.2.3-59\" | regexp.Replace \"-([0-9]*)\" \".$1\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_quotemeta::313",
+  "argv": [
+   "-i",
+   "{{ regexp.QuoteMeta `foo{(\\` }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_typeconv_funcs::314",
+  "argv": [
+   "-i",
+   "{{ has (\"foo:\\n bar:\\n  baz: qux\" | yaml).foo.bar \"baz\"}}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_typeconv_json::315",
+  "argv": [
+   "-i",
+   "{{ \"foo:\\n bar:\\n  baz: qux\" | yaml | toJSON }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_typeconv_join::316",
+  "argv": [
+   "-i",
+   "{{ $a := \"[1, 2, 3]\" | jsonArray }}{{ join $a \"-\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_typeconv_csv::317",
+  "argv": [
+   "-i",
+   "{{ $c := \"lang,keywords\\nC,32\\nGo,25\" | csv -}}{{ index (index $c 0) 1 }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_typeconv_toml::318",
+  "argv": [
+   "-i",
+   "{{ $t := \"# comment\\nfoo = \\\"bar\\\"\\n\\n[baz]\\nqux = \\\"quux\\\"\" | toml }}{{ $t.baz.qux }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_typeconv_dict::319",
+  "argv": [
+   "-i",
+   "{{ $d := dict true false \"foo\" \"bar\" }}{{ data.ToJSON $d }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_net_lookup_ip::320",
+  "argv": [
+   "-i",
+   "{{ $ips := net.LookupIP \"localhost\" }}{{ len $ips }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_net_cidr_host::321",
+  "argv": [
+   "--experimental",
+   "-i",
+   "{{ \"10.12.127.0/20\" | net.CIDRHost 16 }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_net_cidr_netmask::322",
+  "argv": [
+   "--experimental",
+   "-i",
+   "{{ \"10.12.127.0/20\" | net.CIDRNetmask }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_net_cidr_subnets::323",
+  "argv": [
+   "--experimental",
+   "-i",
+   "{{ index (\"10.0.0.0/16\" | net.CIDRSubnets 2) 1 }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_net_cidr_subnet_sizes::324",
+  "argv": [
+   "--experimental",
+   "-i",
+   "{{ index (\"10.0.0.0/16\" | net.CIDRSubnetSizes 2 4 8) 2 }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tmpl_inline::325",
+  "argv": [
+   "-i",
+   "\n\t\t{{- $nums := dict \"first\" 5 \"second\" 10 }}\n\t\t{{- tpl \"{{ add .first .second }}\" $nums }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tmpl_exec::326",
+  "argv": [
+   "-i",
+   "{{ tmpl.Exec \"Nope\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tmpl_path::327",
+  "argv": [
+   "-f",
+   "a/pathtest.tpl",
+   "-t",
+   "nested=a/a.tpl"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_fail::328",
+  "argv": [
+   "-i",
+   "{{ fail }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_required::329",
+  "argv": [
+   "-i",
+   "{{ test.Required \"value must be set\" \"has_value\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "FOO": "bar"
+  }
+ },
+ {
+  "name": "test::test_missing_key_default::330",
+  "argv": [
+   "--missing-key=default",
+   "-i",
+   "{{ .Env.NONEXISTENT_VAR }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_key_zero::331",
+  "argv": [
+   "--missing-key=zero",
+   "-i",
+   "{{ .Env.NONEXISTENT_VAR }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_key_fallback::332",
+  "argv": [
+   "--missing-key=error",
+   "-i",
+   "{{ env.Getenv \"NONEXISTENT_VAR\" \"fallback\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_key_not_specified::333",
+  "argv": [
+   "-i",
+   "{{ .name | default \"Alex\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_key_error::334",
+  "argv": [
+   "-i",
+   "{{ .name | default \"Alex\" }}",
+   "--missing-key",
+   "error"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_flag_overrides_config::335",
+  "argv": [
+   "-i",
+   "hello from the cli"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_exec_pipe_overrides_config_file::336",
+  "argv": [
+   "-i",
+   "hi",
+   "--exec-pipe",
+   "--",
+   "tr",
+   "[a-z]",
+   "[A-Z]"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_skip_config_file::337",
+  "argv": [
+   "--config",
+   "stdin",
+   "-i",
+   "direct input"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_datasources_file::338",
+  "argv": [
+   "-d",
+   "config=config.json",
+   "-i",
+   "{{ (ds \"config\").foo.bar }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sockaddr::339",
+  "argv": [
+   "-i",
+   "{{ (sockaddr.GetAllInterfaces)[0].SockAddr.Address }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_docs_examples_data_examples::340",
+  "argv": [
+   "-i",
+   "{{ $data := `[\"c\", \"a\", \"b\"]` | jsonArray | coll.Sort }}{{ join $data \",\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_datasources_env::341",
+  "argv": [
+   "-d",
+   "foo=env:FOO",
+   "-i",
+   "{{ ds \"foo\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "HELLO_WORLD": "hello world",
+   "HELLO_UNIVERSE": "hello universe",
+   "FOO": "bar",
+   "foo": "baz"
+  }
+ },
+ {
+  "name": "test::test_config_flag_overrides_all_delim::342",
+  "argv": [
+   "--left-delim={{"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "GOMPLATE_LEFT_DELIM": "<<"
+  }
+ },
+ {
+  "name": "test::test_inputdir_cwd::343",
+  "argv": [
+   "--input-dir",
+   ".",
+   "--output-map",
+   "{{ .in }}.out",
+   "-d",
+   "../config.yml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_envvars_nonexistent::344",
+  "argv": [
+   "--missing-key=default",
+   "-i",
+   "{{ .Env.NONEXISTENT_VAR_12345 }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_envvars_hasenv::345",
+  "argv": [
+   "-i",
+   "{{ env.HasEnv \"NONEXISTENT_VAR_12345\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_datasources_file_relative_path::346",
+  "argv": [
+   "-d",
+   "data=./data.json",
+   "-i",
+   "{{ (ds \"data\").value }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_config_flag_overrides_config::347",
+  "argv": [
+   "-i",
+   "from flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_net_cidr_host::348",
+  "argv": [
+   "-i",
+   "{{ net.CIDRHost \"10.0.0.0/24\" 5 }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_net_cidr_subnet_sizes::349",
+  "argv": [
+   "-i",
+   "{{ range net.CIDRSubnetSizes \"10.0.0.0/20\" 4 4 8 }}{{ . }} {{ end }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_quote_meta::350",
+  "argv": [
+   "-i",
+   "{{ regexp.QuoteMeta \"a.b*c?\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_fail::351",
+  "argv": [
+   "-i",
+   "{{ test.Fail \"deliberate failure\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_flag_rules::352",
+  "argv": [
+   "-i",
+   "test",
+   "-f",
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coll_jq::353",
+  "argv": [
+   "-i",
+   "{{ $data := `{\"foo\":{\"bar\":\"baz\"}}` | json }}{{ coll.JQ \".foo.bar\" $data }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coll_jsonpath::354",
+  "argv": [
+   "-i",
+   "{{ $data := `{\"store\":{\"book\":[{\"title\":\"Book1\"},{\"title\":\"Book2\"}]}}` | json }}{{ coll.JSONPath \"$..title\" $data | toJSON }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_typeconv_yaml_working::355",
+  "argv": [
+   "-i",
+   "{{ $y := \"name: John\\nage: 30\" | yaml }}{{ $y.name }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_datasources_git_http_public_repo::356",
+  "argv": [
+   "-c",
+   "short=git+https://github.com/git-fixtures/basic//json/short.json",
+   "-i",
+   "{{ .short.glossary.title }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cue_int_type::357",
+  "argv": [
+   "-i",
+   "{{ \"42\" | cue }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cue_float_type::358",
+  "argv": [
+   "-i",
+   "{{ \"3.14\" | cue }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cue_bool_type::359",
+  "argv": [
+   "-i",
+   "{{ \"true\" | cue }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cue_null_type::360",
+  "argv": [
+   "-i",
+   "{{ \"null\" | cue }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cue_string_type::361",
+  "argv": [
+   "-i",
+   "{{ `\"hello world\"` | cue }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cue_list_type::362",
+  "argv": [
+   "-i",
+   "{{ `[1, 2, 3]` | cue | toJSON }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cue_struct_type::363",
+  "argv": [
+   "-i",
+   "{{ `{name: \"test\", value: 42}` | cue | toJSON }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cue_bytes_type::364",
+  "argv": [
+   "-i",
+   "{{ `'aGVsbG8='` | cue }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cue_invalid_syntax_error::365",
+  "argv": [
+   "-i",
+   "{{ \"{invalid\" | cue }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tocue_map_conversion::366",
+  "argv": [
+   "-i",
+   "{{ dict \"name\" \"test\" \"value\" 42 | toCUE }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csvbyrow_custom_delimiter::367",
+  "argv": [
+   "-i",
+   "{{ $c := \"name;age;city\\nAlice;30;NYC\\nBob;25;LA\" | csvByRow \";\" -}}{{ range $c }}{{ .name }},{{ .age }},{{ .city }}{{ printf \"\\n\" }}{{ end }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csvbyrow_explicit_headers::368",
+  "argv": [
+   "-i",
+   "{{ $c := \"Alice,30,NYC\\nBob,25,LA\" | csvByRow \",\" \"name,age,city\" -}}{{ $c | toJSON }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csvbyrow_first_line_headers::369",
+  "argv": [
+   "-i",
+   "{{ \"Alice,30,NYC\\nBob,25,LA\" | csvByRow | toJSON }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csvbycolumn_basic::370",
+  "argv": [
+   "-i",
+   "{{ \"name,age,city\\nAlice,30,NYC\\nBob,25,LA\" | csvByColumn | toJSON }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csvbycolumn_custom_delimiter::371",
+  "argv": [
+   "-i",
+   "{{ \"Alice;30;NYC\\nBob;25;LA\" | csvByColumn \";\" \"name;age;city\" | toJSON }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tocsv_basic::372",
+  "argv": [
+   "-i",
+   "{{ coll.Slice (coll.Slice \"a\" \"b\") (coll.Slice \"c\" \"d\") | toCSV }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tocsv_custom_delimiter::373",
+  "argv": [
+   "-i",
+   "{{ coll.Slice (coll.Slice \"a\" \"b\") (coll.Slice \"c\" \"d\") | toCSV \";\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tojson_basic::374",
+  "argv": [
+   "-i",
+   "{{ dict \"name\" \"test\" \"value\" 42 \"nested\" (dict \"a\" 1 \"b\" 2) | toJSON }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tojsonpretty_indentation::375",
+  "argv": [
+   "-i",
+   "{{ dict \"name\" \"test\" \"value\" 42 | toJSONPretty \"  \" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toyaml_basic::376",
+  "argv": [
+   "-i",
+   "{{ dict \"name\" \"test\" \"value\" 42 \"list\" (coll.Slice 1 2 3) | toYAML }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_totoml_basic::377",
+  "argv": [
+   "-i",
+   "{{ dict \"name\" \"test\" \"value\" 42 | toTOML }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tocsv_error_1d_array::378",
+  "argv": [
+   "-i",
+   "{{ coll.Slice \"not\" \"2d\" | toCSV }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tocsv_error_bad_delimiter_type::379",
+  "argv": [
+   "-i",
+   "{{ toCSV 123 (coll.Slice (coll.Slice \"a\" \"b\")) }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_getenv_with_file_suffix::380",
+  "argv": [
+   "-i",
+   "{{ env.Getenv \"MY_VAR\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_env_getenv_with_default::381",
+  "argv": [
+   "-i",
+   "{{ env.Getenv \"NONEXISTENT_VAR\" \"default_value\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_jsonarray_parsing::382",
+  "argv": [
+   "-i",
+   "{{ $arr := jsonArray \"[1, 2, 3]\" }}{{ $arr | toJSON }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csv_with_empty_fields::383",
+  "argv": [
+   "-i",
+   "{{ \"name,age,city\\nAlice,,NYC\\n,25,LA\" | csvByRow | toJSON }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toyaml_with_unicode::384",
+  "argv": [
+   "-i",
+   "{{ dict \"message\" \"Hello 世界 🌍\" | toYAML }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cue_with_constraints::385",
+  "argv": [
+   "-i",
+   "{{ `{x: int & >5 & <10, x: 7}` | cue | toJSON }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cue_with_default_values::386",
+  "argv": [
+   "-i",
+   "{{ `x: *42 | int` | cue | toJSON }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_find_invalid_pattern_missing_bracket::387",
+  "argv": [
+   "-i",
+   "{{ regexp.Find \"[\" \"test\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_find_invalid_pattern_repetition_operator::388",
+  "argv": [
+   "-i",
+   "{{ regexp.Find \"*\" \"test\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_find_invalid_pattern_named_capture::389",
+  "argv": [
+   "-i",
+   "{{ regexp.Find \"(?P<invalid\" \"test\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_findall_invalid_pattern_missing_bracket::390",
+  "argv": [
+   "-i",
+   "{{ regexp.FindAll \"[\" \"test\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_findall_invalid_pattern_unclosed_paren::391",
+  "argv": [
+   "-i",
+   "{{ regexp.FindAll \"(\" \"test\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_findall_invalid_pattern_named_capture::392",
+  "argv": [
+   "-i",
+   "{{ regexp.FindAll \"(?P<invalid\" \"test\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_replace_invalid_pattern_missing_bracket::393",
+  "argv": [
+   "-i",
+   "{{ regexp.Replace \"[\" \"X\" \"test\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_replace_invalid_pattern_empty_named_capture::394",
+  "argv": [
+   "-i",
+   "{{ regexp.Replace \"(?P<>test)\" \"X\" \"test\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_replace_invalid_pattern_named_capture::395",
+  "argv": [
+   "-i",
+   "{{ regexp.Replace \"(?P<invalid\" \"X\" \"test\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_replaceliteral_invalid_pattern_missing_bracket::396",
+  "argv": [
+   "-i",
+   "{{ regexp.ReplaceLiteral \"[\" \"X\" \"test\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_replaceliteral_invalid_pattern_repetition::397",
+  "argv": [
+   "-i",
+   "{{ regexp.ReplaceLiteral \"(+\" \"X\" \"test\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_replaceliteral_invalid_pattern_named_capture::398",
+  "argv": [
+   "-i",
+   "{{ regexp.ReplaceLiteral \"(?P<invalid\" \"X\" \"test\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regexp_split_invalid_pattern_missing_bracket::399",
+  "argv": [
+   "-i",
+   "{{ regexp.Split \"[\" \"test\" }}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

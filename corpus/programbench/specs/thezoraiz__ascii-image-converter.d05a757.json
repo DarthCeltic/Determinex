@@ -1,0 +1,317 @@
+{
+ "slug": "thezoraiz__ascii-image-converter.d05a757",
+ "language": "",
+ "n_branches": 9,
+ "n_tests_total": 417,
+ "n_examples": 18,
+ "n_with_exact_stdout": 3,
+ "n_with_rc": 17,
+ "n_skipped": 397,
+ "examples": [
+  {
+   "test": "test_short_help_matches_long_help",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:55"
+  },
+  {
+   "test": "test_help_unknown_flag_error_has_expected_streams_and_usage",
+   "argv": [
+    "--help",
+    "--bogus"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unknown flag",
+    "Usage:",
+    "Flags:"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_usage.py:148"
+  },
+  {
+   "test": "test_help_with_double_dash_treats_help_as_operand_not_flag",
+   "argv": [
+    "--",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unable to open file"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_usage.py:157"
+  },
+  {
+   "test": "test_formats_flag_outputs_supported_formats_list_and_exits_zero",
+   "argv": [
+    "--formats"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Supported input formats"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:163"
+  },
+  {
+   "test": "test_piped_stdin_dash_path_matches_file_input",
+   "argv": [
+    "-",
+    "-d",
+    "2,1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_conversion_basic.py:58"
+  },
+  {
+   "test": "test_no_args_errors_and_mentions_help_flag",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error:",
+    "Use the -h flag"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:8"
+  },
+  {
+   "test": "test_nonexistent_file_errors",
+   "argv": [
+    "/tmp/does-not-exist-xyz.png"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unable to open file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:16"
+  },
+  {
+   "test": "test_formats_exact_output_matches_snapshot",
+   "argv": [
+    "--formats"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_formats.py:27"
+  },
+  {
+   "test": "test_small_solid_image_ascii_dimensions_and_newlines",
+   "argv": [
+    "-d",
+    "4,4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_ascii_output.py:4"
+  },
+  {
+   "test": "test_nonexistent_file_prints_error_to_stdout_and_exit_0",
+   "argv": [
+    "does_not_exist.png"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors_and_streams.py:11"
+  },
+  {
+   "test": "test_version_flag_outputs_version_and_exits_0",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_version.py:4"
+  },
+  {
+   "test": "test_help_contains_usage_and_exits_0",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "ascii-image-converter"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_version.py:12"
+  },
+  {
+   "test": "test_save_txt_creates_file_and_only_save_suppresses_ascii_art",
+   "argv": [
+    "-d",
+    "4,4",
+    "--save-txt",
+    "--only-save"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_save_txt.py:4"
+  },
+  {
+   "test": "test_piped_input_invalid_data",
+   "argv": [
+    "-"
+   ],
+   "stdin": "not an image\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error: can't decode piped input",
+    "image: unknown format"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:231"
+  },
+  {
+   "test": "test_gif_from_piped_stdin",
+   "argv": [
+    "-",
+    "-W",
+    "20",
+    "--only-save",
+    "--save-gif"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_gif.py:567"
+  },
+  {
+   "test": "test_stdin_with_dash_argument",
+   "argv": [
+    "-",
+    "-W",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "::::::::::\n::::::::::\n::::::::::\n::::::::::\n::::::::::\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_sources.py:71"
+  },
+  {
+   "test": "test_stdin_with_invalid_data_error",
+   "argv": [
+    "-",
+    "-W",
+    "10"
+   ],
+   "stdin": "invalid data",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Error: can't decode piped input: image: unknown format\n\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_sources.py:90"
+  },
+  {
+   "test": "test_bmp_format_stdin",
+   "argv": [
+    "-",
+    "-W",
+    "10"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "%%%%%%%%%%\n%%%%%%%%%%\n%%%%%%%%%%\n%%%%%%%%%%\n%%%%%%%%%%\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_input_sources.py:221"
+  }
+ ]
+}

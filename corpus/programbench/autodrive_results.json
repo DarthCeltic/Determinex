@@ -1,0 +1,213 @@
+{
+  "runs": {
+    "ariga__atlas.6d81150": {
+      "slug": "ariga__atlas.6d81150",
+      "attempts": [
+        {
+          "attempt": 1,
+          "counts": {
+            "total": 3476,
+            "passed": 3476,
+            "failed": 0,
+            "not_run": 0,
+            "skipped": 0,
+            "rc127": 0
+          },
+          "verdict": "clean-lock",
+          "secs": 285,
+          "pin": {
+            "ok": true,
+            "tool": "ariga__atlas.6d81150",
+            "passed": 3476,
+            "total": 3476
+          }
+        }
+      ],
+      "verdict": "LOCKED",
+      "ts": "2026-06-29T06:34:16"
+    },
+    "noborus__ov.b96c2ba": {
+      "slug": "noborus__ov.b96c2ba",
+      "attempts": [
+        {
+          "attempt": 0,
+          "corpus": {
+            "engine": "native-reimpl-loop",
+            "source_shape": {
+              "class": "upstream-source-prohibited",
+              "source_files": 69,
+              "sample": [
+                "main.go",
+                "conftest.py",
+                "biomap/biomap.go",
+                "oviewer/render.go",
+                "oviewer/search.go",
+                "oviewer/mouse.go",
+                "oviewer/input_vertical_header.go",
+                "oviewer/input_delimiter.go"
+              ]
+            },
+            "spec": {
+              "path": "/root/Determinex/corpus/programbench/specs/noborus__ov.b96c2ba.json",
+              "language": "",
+              "n_tests_total": 2410,
+              "n_examples": 835,
+              "n_with_exact_stdout": 16,
+              "coverage": 0.346
+            },
+            "reimpl_skill": null,
+            "prescription": [
+              "STOP: current override is upstream-source-prohibited; do not eval/autofix/pin it.",
+              "Run reimpl path: determinex_io_extractor/spec -> determinex_local_oracle -> determinex_reimpl_drive noborus__ov.b96c2ba --lang <native-lang> --models local/<available> --iters N; promote only a few-file source-only candidate.",
+              "class[go_x_toolchain]: export GOTOOLCHAIN=go1.24.1 (GOTOOLCHAIN=auto is NOT enough - honors stale go.mo",
+              "class[collection_cap]: replace `if len(items) > N: del items[N:]` with `pass  # no cap` in compile.sh c",
+              "class[prebuilt_binary_bundled]: Remove ELF from tarball: extract, rm ./toolname, repack. Also remove fallback co"
+            ]
+          },
+          "corpus_route": {
+            "slug": "noborus__ov.b96c2ba",
+            "engine": "native-reimpl-loop",
+            "verdict": "needs-native-reimpl",
+            "official_eval_allowed": false,
+            "autofix_allowed": false,
+            "local_oracle_required": true,
+            "reason": "current override is an upstream-source tree; Addendum H allows only native reimpl",
+            "stages": [
+              {
+                "name": "extract-spec",
+                "command": [
+                  "python3",
+                  "scripts/pb_bulk_spec.py",
+                  "--only",
+                  "noborus__ov.b96c2ba"
+                ],
+                "reason": "turn the official tests into an exact I/O contract"
+              },
+              {
+                "name": "write-native-reimpl",
+                "command": [
+                  "python3",
+                  "scripts/determinex_reimpl_drive.py",
+                  "noborus__ov.b96c2ba",
+                  "--lang",
+                  "<native-lang>",
+                  "--no-official"
+                ],
+                "reason": "write a few-file native reimplementation, not an upstream build"
+              },
+              {
+                "name": "local-oracle",
+                "command": [
+                  "python3",
+                  "scripts/determinex_local_oracle.py",
+                  "<candidate>",
+                  "--spec",
+                  "/root/Determinex/corpus/programbench/specs/noborus__ov.b96c2ba.json"
+                ],
+                "reason": "iterate locally until the candidate is green"
+              },
+              {
+                "name": "official-eval-after-local-green",
+                "command": [
+                  "python3",
+                  "scripts/pb_eval_unified.py",
+                  "noborus__ov.b96c2ba"
+                ],
+                "reason": "spend official eval only after local oracle passes"
+              }
+            ],
+            "oracle_result": null
+          }
+        }
+      ],
+      "verdict": "needs-native-reimpl",
+      "ts": "2026-06-30T02:53:32"
+    },
+    "wfxr__csview.8ac4de0": {
+      "slug": "wfxr__csview.8ac4de0",
+      "attempts": [
+        {
+          "attempt": 0,
+          "corpus": {
+            "engine": "reimpl-skill-oracle",
+            "source_shape": {
+              "class": "reimpl-candidate",
+              "source_files": 2,
+              "sample": [
+                "csview_reimpl.rs",
+                "main.py"
+              ]
+            },
+            "spec": {
+              "path": "/root/Determinex/corpus/programbench/specs/wfxr__csview.8ac4de0.json",
+              "language": "",
+              "n_tests_total": 316,
+              "n_examples": 117,
+              "n_with_exact_stdout": 37,
+              "coverage": 0.37
+            },
+            "reimpl_skill": {
+              "path": "/root/Determinex/corpus/programbench/reimpl_skills/csview.json",
+              "updated": "2026-06-28 03:30",
+              "best_official": 135,
+              "best_official_total": 335,
+              "last_local": "39/163 genuine, score 0.207",
+              "hard_behaviors": [
+                "combo--disable-pager,--style=ascii",
+                "combo--no-headers,--disable-pager",
+                "combo--number,--disable-pager",
+                "combo--number,--tsv",
+                "combo--tsv,--disable-pager",
+                "explore_0",
+                "explore_1",
+                "explore_10",
+                "explore_11",
+                "explore_12",
+                "explore_13",
+                "explore_14",
+                "explore_15",
+                "explore_16",
+                "explore_17",
+                "explore_18",
+                "explore_19",
+                "explore_2",
+                "explore_20",
+                "explore_21"
+              ],
+              "probe_count": 97
+            },
+            "prescription": [
+              "Use reimpl skill /root/Determinex/corpus/programbench/reimpl_skills/csview.json with 97 saved probes; run determinex_local_oracle before official eval.",
+              "adjudicator: 2x drop-privileges (must be local-oracle gated before re-eval)"
+            ]
+          },
+          "corpus_route": {
+            "slug": "wfxr__csview.8ac4de0",
+            "engine": "reimpl-skill-oracle",
+            "verdict": "needs-local-oracle",
+            "official_eval_allowed": false,
+            "autofix_allowed": false,
+            "local_oracle_required": true,
+            "reason": "corpus has a spec/skill; local oracle must pass before another official eval",
+            "stages": [
+              {
+                "name": "local-oracle",
+                "command": [
+                  "python3",
+                  "scripts/determinex_local_oracle.py",
+                  "<candidate>",
+                  "--spec",
+                  "/root/Determinex/corpus/programbench/specs/wfxr__csview.8ac4de0.json"
+                ],
+                "reason": "validate the candidate against the harvested corpus spec before official eval"
+              }
+            ],
+            "oracle_result": null
+          }
+        }
+      ],
+      "verdict": "needs-local-oracle-tail",
+      "ts": "2026-06-30T02:53:33"
+    }
+  }
+}

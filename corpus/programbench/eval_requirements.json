@@ -1,0 +1,73 @@
+{
+  "_doc": "Per-tool declarative eval-requirements manifest (operator-granted 2026-06-03). The universal, least-privilege, industry-standard env layer: each tool declares the caps + backing services its eval needs; scripts/run_pb_eval.sh provisions EXACTLY that (per-tool caps via --cap-add, ephemeral service sidecars on a private docker network with connection env injected) and tears it down after. Only tools listed here get extra privileges. This same mechanism is the IDE's real-project env-provisioning layer. caps: linux capabilities to --cap-add. services: ephemeral sidecar containers; expose_env maps a var to the sidecar's network alias so the tool's tests reach it. privileged: last-resort full --privileged (avoid; document why).",
+  "_schema": "tool -> { caps?: [str], services?: [{name,image,env?,ready_cmd?,expose_env?}], privileged?: bool, note?: str }",
+  "tools": {
+    "pingu": {
+      "caps": [
+        "NET_RAW"
+      ],
+      "note": "ICMP ping (raw socket)"
+    },
+    "dropbear": {
+      "caps": [
+        "NET_BIND_SERVICE"
+      ],
+      "note": "SSH server binds privileged port 22"
+    },
+    "bore": {
+      "caps": [
+        "NET_BIND_SERVICE"
+      ],
+      "note": "tunnel binds low ports"
+    },
+    "masscan": {
+      "caps": [
+        "NET_RAW",
+        "NET_ADMIN"
+      ],
+      "note": "raw packet port scanner; if still blocked, escalate to privileged with justification"
+    },
+    "skeema": {
+      "services": [
+        {
+          "name": "mysql",
+          "image": "mysql:8.0",
+          "env": {
+            "MYSQL_ALLOW_EMPTY_PASSWORD": "1",
+            "MYSQL_ROOT_HOST": "%"
+          },
+          "ready_cmd": "mysqladmin ping --silent",
+          "expose_env": {
+            "MYSQL_HOST": "alias",
+            "MYSQL_PORT": "3306",
+            "MYSQL_USER": "root",
+            "MYSQL_PASSWORD": ""
+          }
+        }
+      ],
+      "note": "MySQL schema diff/apply; tests need a live MySQL"
+    },
+    "atlas": {
+      "services": [
+        {
+          "name": "mysql",
+          "image": "mysql:8.0",
+          "env": {
+            "MYSQL_ALLOW_EMPTY_PASSWORD": "1",
+            "MYSQL_ROOT_HOST": "%"
+          },
+          "ready_cmd": "mysqladmin ping --silent",
+          "expose_env": {
+            "MYSQL_HOST": "alias",
+            "MYSQL_PORT": "3306"
+          }
+        }
+      ],
+      "note": "DB migration tool; verify whether tests use mysql or postgres and adjust"
+    }
+  },
+  "_verify": {
+    "duckdb": "embedded DB; tests may exercise mysql/postgres SCANNER extensions \u2014 confirm whether a sidecar is actually needed before adding",
+    "php-src": "huge test suite; some ext tests want mysql \u2014 likely rabbit-hole + selective service; confirm scope before provisioning"
+  }
+}

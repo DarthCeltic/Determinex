@@ -1,0 +1,2775 @@
+{
+ "slug": "zk-org__zk.10d93d5",
+ "language": "",
+ "n_branches": 10,
+ "n_tests_total": 1051,
+ "n_examples": 146,
+ "n_with_exact_stdout": 9,
+ "n_with_rc": 119,
+ "n_skipped": 854,
+ "examples": [
+  {
+   "test": "test_no_subcommand_shows_main_help_and_exit_zero",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: zk <command>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:85"
+  },
+  {
+   "test": "test_unknown_subcommand_is_rejected_with_nonzero_exit",
+   "argv": [
+    "nonexistent_subcommand"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:93"
+  },
+  {
+   "test": "test_global_flag_before_subcommand_is_accepted",
+   "argv": [
+    "--no-input",
+    "list",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:120"
+  },
+  {
+   "test": "test_global_flag_after_subcommand_is_accepted",
+   "argv": [
+    "list",
+    "--no-input",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:127"
+  },
+  {
+   "test": "test_nested_subcommand_help_for_tag_list",
+   "argv": [
+    "tag",
+    "list",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: zk tag list"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:133"
+  },
+  {
+   "test": "test_tag_without_subcommand_shows_tag_help",
+   "argv": [
+    "tag",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: zk tag <command>",
+    "Commands:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:140"
+  },
+  {
+   "test": "test_help_mentions_commands_and_exit_0",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: zk",
+    "Commands:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_version.py:4"
+  },
+  {
+   "test": "test_version_prints_to_stdout_exit_0",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_version.py:12"
+  },
+  {
+   "test": "test_init_without_no_input_prompts_and_fails_with_eof",
+   "argv": [
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "zk: error: EOF",
+    "Do you prefer [[WikiLinks]]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_init_io_and_exit_codes.py:7"
+  },
+  {
+   "test": "test_init_with_no_input_creates_skeleton_and_reports_fts5_error",
+   "argv": [
+    "--no-input",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "no such module: fts5"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_init_io_and_exit_codes.py:22"
+  },
+  {
+   "test": "test_unknown_command_exit_nonzero_and_stderr_message",
+   "argv": [
+    "definitely-not-a-command"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_invalid_usage.py:4"
+  },
+  {
+   "test": "test_help_takes_precedence_over_other_flags",
+   "argv": [
+    "--help",
+    "--no-input"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:116"
+  },
+  {
+   "test": "test_double_dash_separator_makes_help_be_treated_as_argument_error",
+   "argv": [
+    "--",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument --help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:123"
+  },
+  {
+   "test": "test_init_help_has_arguments_section",
+   "argv": [
+    "init",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Arguments:",
+    "[<directory>]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_subcommands.py:39"
+  },
+  {
+   "test": "test_unknown_subcommand_with_help_is_error_and_mentions_unexpected_argument",
+   "argv": [
+    "nosuchcmd",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument nosuchcmd"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_subcommands.py:59"
+  },
+  {
+   "test": "test_help_works",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_smoke.py:13"
+  },
+  {
+   "test": "test_global_bool_flag_does_not_accept_equals_syntax_and_falls_back_to_usage",
+   "argv": [
+    "--no-input=1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: zk <command>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:59"
+  },
+  {
+   "test": "test_double_dash_stops_flag_parsing_unknown_flag_after_is_positional",
+   "argv": [
+    "list",
+    "--",
+    "--bogus"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:151"
+  },
+  {
+   "test": "test_value_starting_with_dash_needs_equals_or_quotes_for_value_flags",
+   "argv": [
+    "list",
+    "--limit",
+    "-1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:159"
+  },
+  {
+   "test": "test_graph_accepts_multiple_positionals_after_required_flags",
+   "argv": [
+    "graph",
+    "--format=json",
+    "a",
+    "b",
+    "c"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:186"
+  },
+  {
+   "test": "test_list_created_date_filter",
+   "argv": [
+    "list",
+    "--created-after",
+    "2020-01-01",
+    "--format",
+    "json",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:8"
+  },
+  {
+   "test": "test_list_modified_date_filter",
+   "argv": [
+    "list",
+    "--modified-before",
+    "2030-01-01",
+    "--format",
+    "json",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:19"
+  },
+  {
+   "test": "test_list_recursive_links",
+   "argv": [
+    "list",
+    "--linked-by",
+    "note1",
+    "--recursive",
+    "--format",
+    "json",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:30"
+  },
+  {
+   "test": "test_list_max_distance",
+   "argv": [
+    "list",
+    "--linked-by",
+    "note1",
+    "--max-distance",
+    "2",
+    "--format",
+    "json",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:41"
+  },
+  {
+   "test": "test_list_related_notes",
+   "argv": [
+    "list",
+    "--related",
+    "note1",
+    "--format",
+    "json",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:52"
+  },
+  {
+   "test": "test_list_mention_filter",
+   "argv": [
+    "list",
+    "--mention",
+    "note1",
+    "--format",
+    "json",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:63"
+  },
+  {
+   "test": "test_list_mentioned_by_filter",
+   "argv": [
+    "list",
+    "--mentioned-by",
+    "note1",
+    "--format",
+    "json",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:79"
+  },
+  {
+   "test": "test_list_no_link_to",
+   "argv": [
+    "list",
+    "--no-link-to",
+    "note1",
+    "--format",
+    "json",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:95"
+  },
+  {
+   "test": "test_list_no_linked_by",
+   "argv": [
+    "list",
+    "--no-linked-by",
+    "note1",
+    "--format",
+    "json",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:106"
+  },
+  {
+   "test": "test_list_exclude_path",
+   "argv": [
+    "list",
+    "--exclude",
+    "orphan",
+    "--format",
+    "json",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:117"
+  },
+  {
+   "test": "test_list_format_short",
+   "argv": [
+    "list",
+    "--format",
+    "short",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:128"
+  },
+  {
+   "test": "test_list_format_long",
+   "argv": [
+    "list",
+    "--format",
+    "long",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:138"
+  },
+  {
+   "test": "test_list_format_full",
+   "argv": [
+    "list",
+    "--format",
+    "full",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:148"
+  },
+  {
+   "test": "test_list_delimiter0",
+   "argv": [
+    "list",
+    "--delimiter0",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:158"
+  },
+  {
+   "test": "test_multiple_tags_filter",
+   "argv": [
+    "list",
+    "--tag",
+    "test",
+    "--tag",
+    "sample",
+    "--format",
+    "json",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:183"
+  },
+  {
+   "test": "test_tag_list_format_full",
+   "argv": [
+    "tag",
+    "list",
+    "--format",
+    "full",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:194"
+  },
+  {
+   "test": "test_tag_list_format_name",
+   "argv": [
+    "tag",
+    "list",
+    "--format",
+    "name",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:204"
+  },
+  {
+   "test": "test_tag_list_delimiter0",
+   "argv": [
+    "tag",
+    "list",
+    "--delimiter0",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:214"
+  },
+  {
+   "test": "test_tag_list_no_pager",
+   "argv": [
+    "tag",
+    "list",
+    "--no-pager",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:223"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: zk <command>",
+    "NOTEBOOK",
+    "NOTES"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:18"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "zk",
+    "zk"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:27"
+  },
+  {
+   "test": "test_custom_template",
+   "argv": [
+    "new",
+    "--title",
+    "Custom",
+    "--template",
+    "custom.md",
+    "--print-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Custom Template",
+    "Custom"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_configuration.py:8"
+  },
+  {
+   "test": "test_list_missing_backlink",
+   "argv": [
+    "list",
+    "--missing-backlink",
+    "--format",
+    "json",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_configuration.py:37"
+  },
+  {
+   "test": "test_notebook_with_subdirectories",
+   "argv": [
+    "new",
+    "projects/work",
+    "--title",
+    "Work Note",
+    "--print-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_configuration.py:48"
+  },
+  {
+   "test": "test_list_multiple_match_terms",
+   "argv": [
+    "list",
+    "--match",
+    "note",
+    "--match",
+    "test",
+    "--format",
+    "json",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_configuration.py:64"
+  },
+  {
+   "test": "test_list_sort_by_created",
+   "argv": [
+    "list",
+    "--sort",
+    "created",
+    "--format",
+    "json",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_configuration.py:75"
+  },
+  {
+   "test": "test_list_sort_by_modified",
+   "argv": [
+    "list",
+    "--sort",
+    "modified",
+    "--format",
+    "json",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_configuration.py:86"
+  },
+  {
+   "test": "test_list_sort_by_path",
+   "argv": [
+    "list",
+    "--sort",
+    "path",
+    "--format",
+    "json",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_configuration.py:97"
+  },
+  {
+   "test": "test_list_sort_by_word_count",
+   "argv": [
+    "list",
+    "--sort",
+    "word-count",
+    "--format",
+    "json",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_configuration.py:108"
+  },
+  {
+   "test": "test_graph_with_multiple_filters",
+   "argv": [
+    "graph",
+    "--format",
+    "json",
+    "--tag",
+    "test",
+    "--limit",
+    "5",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_configuration.py:119"
+  },
+  {
+   "test": "test_graph_with_sort",
+   "argv": [
+    "graph",
+    "--format",
+    "json",
+    "--sort",
+    "title",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_configuration.py:130"
+  },
+  {
+   "test": "test_graph_with_match",
+   "argv": [
+    "graph",
+    "--format",
+    "json",
+    "--match",
+    "Note",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_configuration.py:141"
+  },
+  {
+   "test": "test_edit_help",
+   "argv": [
+    "edit",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: zk edit",
+    "Edit notes matching",
+    "--force"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edit_command.py:6"
+  },
+  {
+   "test": "test_missing_required_format_for_graph",
+   "argv": [
+    "init",
+    "--no-input"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:43"
+  },
+  {
+   "test": "test_no_input_flag",
+   "argv": [
+    "init",
+    "--no-input"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Initialized"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_global_flags.py:37"
+  },
+  {
+   "test": "test_graph_help",
+   "argv": [
+    "graph",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: zk graph",
+    "Produce a graph",
+    "--format"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_graph_command.py:6"
+  },
+  {
+   "test": "test_graph_json_format",
+   "argv": [
+    "graph",
+    "--format",
+    "json",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_graph_command.py:15"
+  },
+  {
+   "test": "test_graph_with_filters",
+   "argv": [
+    "graph",
+    "--format",
+    "json",
+    "--tag",
+    "test",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_graph_command.py:31"
+  },
+  {
+   "test": "test_graph_quiet",
+   "argv": [
+    "graph",
+    "--format",
+    "json",
+    "--quiet",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_graph_command.py:41"
+  },
+  {
+   "test": "test_graph_with_limit",
+   "argv": [
+    "graph",
+    "--format",
+    "json",
+    "--limit",
+    "2",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_graph_command.py:52"
+  },
+  {
+   "test": "test_index_help",
+   "argv": [
+    "index",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: zk index",
+    "Index the notes"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_index_command.py:7"
+  },
+  {
+   "test": "test_index_basic",
+   "argv": [
+    "index"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_index_command.py:18"
+  },
+  {
+   "test": "test_index_force",
+   "argv": [
+    "index",
+    "--force"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_index_command.py:32"
+  },
+  {
+   "test": "test_index_verbose",
+   "argv": [
+    "index",
+    "--verbose"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_index_command.py:46"
+  },
+  {
+   "test": "test_index_quiet",
+   "argv": [
+    "index",
+    "--quiet"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_index_command.py:58"
+  },
+  {
+   "test": "test_init_help",
+   "argv": [
+    "init",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: zk init",
+    "Create a new notebook",
+    "directory"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_init_command.py:8"
+  },
+  {
+   "test": "test_list_help",
+   "argv": [
+    "list",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: zk list",
+    "List notes matching",
+    "--format",
+    "--match",
+    "--tag"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_list_command.py:6"
+  },
+  {
+   "test": "test_list_basic",
+   "argv": [
+    "list",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_list_command.py:17"
+  },
+  {
+   "test": "test_list_format_json",
+   "argv": [
+    "list",
+    "--format",
+    "json",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_list_command.py:30"
+  },
+  {
+   "test": "test_list_format_jsonl",
+   "argv": [
+    "list",
+    "--format",
+    "jsonl",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_list_command.py:48"
+  },
+  {
+   "test": "test_list_quiet",
+   "argv": [
+    "list",
+    "--quiet",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_list_command.py:64"
+  },
+  {
+   "test": "test_list_limit",
+   "argv": [
+    "list",
+    "--limit",
+    "2",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_list_command.py:75"
+  },
+  {
+   "test": "test_list_match",
+   "argv": [
+    "list",
+    "--match",
+    "test",
+    "--format",
+    "json",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_list_command.py:84"
+  },
+  {
+   "test": "test_list_tag",
+   "argv": [
+    "list",
+    "--tag",
+    "test",
+    "--format",
+    "json",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_list_command.py:96"
+  },
+  {
+   "test": "test_list_orphan",
+   "argv": [
+    "list",
+    "--orphan",
+    "--format",
+    "json",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_list_command.py:107"
+  },
+  {
+   "test": "test_list_tagless",
+   "argv": [
+    "list",
+    "--tagless",
+    "--format",
+    "json",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_list_command.py:119"
+  },
+  {
+   "test": "test_list_link_to",
+   "argv": [
+    "list",
+    "--link-to",
+    "note2",
+    "--format",
+    "json",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_list_command.py:131"
+  },
+  {
+   "test": "test_list_linked_by",
+   "argv": [
+    "list",
+    "--linked-by",
+    "note1",
+    "--format",
+    "json",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_list_command.py:143"
+  },
+  {
+   "test": "test_list_sort",
+   "argv": [
+    "list",
+    "--sort",
+    "title",
+    "--format",
+    "json",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_list_command.py:155"
+  },
+  {
+   "test": "test_list_delimiter",
+   "argv": [
+    "list",
+    "--delimiter",
+    ",",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_list_command.py:166"
+  },
+  {
+   "test": "test_list_header_footer",
+   "argv": [
+    "list",
+    "--header",
+    "START",
+    "--footer",
+    "END",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "START",
+    "END"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_list_command.py:178"
+  },
+  {
+   "test": "test_list_with_path",
+   "argv": [
+    "list",
+    "note1.md",
+    "--format",
+    "json",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_list_command.py:189"
+  },
+  {
+   "test": "test_list_match_strategy_exact",
+   "argv": [
+    "list",
+    "--match",
+    "First Note",
+    "--match-strategy",
+    "exact",
+    "--format",
+    "json",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_list_command.py:201"
+  },
+  {
+   "test": "test_list_match_strategy_re",
+   "argv": [
+    "list",
+    "--match",
+    ".*Note",
+    "--match-strategy",
+    "re",
+    "--format",
+    "json",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_list_command.py:213"
+  },
+  {
+   "test": "test_list_no_pager",
+   "argv": [
+    "list",
+    "--no-pager",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_list_command.py:225"
+  },
+  {
+   "test": "test_new_help",
+   "argv": [
+    "new",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: zk new",
+    "Create a new note",
+    "--title",
+    "--interactive",
+    "--print-path",
+    "--dry-run"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_new_command.py:7"
+  },
+  {
+   "test": "test_new_with_title_print_path",
+   "argv": [
+    "new",
+    "--title",
+    "Test Note",
+    "--print-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Test Note"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_new_command.py:19"
+  },
+  {
+   "test": "test_new_dry_run",
+   "argv": [
+    "new",
+    "--title",
+    "Dry Run Note",
+    "--dry-run"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Dry Run Note"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_new_command.py:37"
+  },
+  {
+   "test": "test_new_with_interactive_input",
+   "argv": [
+    "new",
+    "--title",
+    "Interactive",
+    "--interactive",
+    "--print-path"
+   ],
+   "stdin": "# Interactive Note\n\nThis was typed interactively.",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Interactive"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_new_command.py:51"
+  },
+  {
+   "test": "test_new_with_custom_id",
+   "argv": [
+    "new",
+    "--title",
+    "Custom ID Note",
+    "--id",
+    "custom123",
+    "--print-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_new_command.py:66"
+  },
+  {
+   "test": "test_new_with_date",
+   "argv": [
+    "new",
+    "--title",
+    "Dated Note",
+    "--date",
+    "2023-01-15",
+    "--print-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Dated Note"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_new_command.py:81"
+  },
+  {
+   "test": "test_new_with_extra_variables",
+   "argv": [
+    "new",
+    "--title",
+    "Extra Vars",
+    "--extra",
+    "author=TestUser",
+    "--print-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_new_command.py:97"
+  },
+  {
+   "test": "test_new_in_subdirectory",
+   "argv": [
+    "new",
+    "subdir",
+    "--title",
+    "Subdir Note",
+    "--print-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_new_command.py:108"
+  },
+  {
+   "test": "test_tag_help",
+   "argv": [
+    "tag",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: zk tag",
+    "Manage the note tags"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tag_command.py:6"
+  },
+  {
+   "test": "test_tag_list_help",
+   "argv": [
+    "tag",
+    "list",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: zk tag list",
+    "List all the note tags",
+    "--format",
+    "--sort"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tag_command.py:14"
+  },
+  {
+   "test": "test_tag_list_basic",
+   "argv": [
+    "tag",
+    "list",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tag_command.py:24"
+  },
+  {
+   "test": "test_tag_list_json",
+   "argv": [
+    "tag",
+    "list",
+    "--format",
+    "json",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tag_command.py:37"
+  },
+  {
+   "test": "test_tag_list_jsonl",
+   "argv": [
+    "tag",
+    "list",
+    "--format",
+    "jsonl",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tag_command.py:52"
+  },
+  {
+   "test": "test_tag_list_quiet",
+   "argv": [
+    "tag",
+    "list",
+    "--quiet",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tag_command.py:66"
+  },
+  {
+   "test": "test_tag_list_sort",
+   "argv": [
+    "tag",
+    "list",
+    "--sort",
+    "name",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tag_command.py:77"
+  },
+  {
+   "test": "test_tag_list_delimiter",
+   "argv": [
+    "tag",
+    "list",
+    "--delimiter",
+    ",",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tag_command.py:86"
+  },
+  {
+   "test": "test_tag_list_header_footer",
+   "argv": [
+    "tag",
+    "list",
+    "--header",
+    "TAGS:",
+    "--footer",
+    "END",
+    "--notebook-dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "TAGS:",
+    "END"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tag_command.py:98"
+  },
+  {
+   "test": "test_config_discovery_uses_xdg_config_home_when_present_and_valid",
+   "argv": [
+    "list",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env_handling.py:23"
+  },
+  {
+   "test": "test_database_locked_timeout_handling",
+   "argv": [
+    "BEGIN EXCLUSIVE"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_database_errors.py:164"
+  },
+  {
+   "test": "test_malformed_metadata_json_warning_not_crash",
+   "argv": [
+    "UPDATE notes SET metadata = '{invalid json [[[' WHERE path = 'test.md'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "warning:",
+    "cannot parse note metadata from JSON"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_database_errors.py:215"
+  },
+  {
+   "test": "test_transaction_rollback_preserves_consistency",
+   "argv": [
+    "SELECT COUNT(*) FROM notes"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Indexed 2 notes in 0s\n  + 2 added\n  ~ 0 modified\n  - 0 removed\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_database_errors.py:297"
+  },
+  {
+   "test": "test_collection_tag_association_persists",
+   "argv": [
+    "SELECT name FROM collections WHERE kind = 'tag' ORDER BY name"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_database_errors.py:335"
+  },
+  {
+   "test": "test_collection_cascade_delete_on_note_removal",
+   "argv": [
+    "\n        SELECT COUNT(*) FROM notes_collections nc\n        WHERE nc.note_id NOT IN (SELECT id FROM notes)\n    "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Indexed 0 note in 0s\n  + 0 added\n  ~ 0 modified\n  - 1 removed\n",
+   "expect_stderr": null,
+   "expect_in": [
+    "uniquetag789"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_database_errors.py:383"
+  },
+  {
+   "test": "test_link_target_null_on_target_deletion",
+   "argv": [
+    "\n        SELECT COUNT(*) FROM links\n        WHERE target_id IS NULL AND href LIKE '%target%'\n    "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Indexed 1 note in 0s\n  + 0 added\n  ~ 0 modified\n  - 1 removed\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_database_errors.py:426"
+  },
+  {
+   "test": "test_database_schema_version_correct",
+   "argv": [
+    "PRAGMA user_version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_database_errors.py:524"
+  },
+  {
+   "test": "test_checksum_detects_content_changes",
+   "argv": [
+    "SELECT checksum, modified FROM notes WHERE path = 'test.md'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Indexed 1 note in 0s\n  + 0 added\n  ~ 1 modified\n  - 0 removed\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_database_errors.py:548"
+  },
+  {
+   "test": "test_word_count_accurate_calculation",
+   "argv": [
+    "SELECT word_count FROM notes WHERE path = 'test.md'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_database_errors.py:630"
+  },
+  {
+   "test": "test_filename_indexed_for_search",
+   "argv": [
+    "SELECT filename FROM notes WHERE path LIKE '%readme.md' ORDER BY path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Indexed 2 notes in 0s\n  + 2 added\n  ~ 0 modified\n  - 0 removed\n",
+   "expect_stderr": null,
+   "expect_in": [
+    "dir1/readme.md",
+    "dir2/nested/readme.md"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_database_errors.py:661"
+  },
+  {
+   "test": "test_metadata_table_key_value_storage",
+   "argv": [
+    "SELECT name FROM sqlite_master WHERE type='table' AND name='metadata'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_database_errors.py:746"
+  },
+  {
+   "test": "test_init_verifies_database_schema",
+   "argv": [
+    "SELECT name FROM sqlite_master WHERE type='table'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "notes",
+    "collections"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_init.py:315"
+  },
+  {
+   "test": "test_init_index_creates_database",
+   "argv": [
+    "SELECT name FROM sqlite_master WHERE type='table'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Initialized a notebook in",
+    "notes"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_init_wizard.py:25"
+  },
+  {
+   "test": "test_init_creates_all_required_database_tables",
+   "argv": [
+    "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "notes",
+    "collections",
+    "links",
+    "notes_fts"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_init_wizard.py:430"
+  },
+  {
+   "test": "test_lsp_initialize_protocol",
+   "argv": [
+    "lsp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "jsonrpc",
+    "id",
+    "result",
+    "capabilities",
+    "serverInfo",
+    "textDocumentSync",
+    "completionProvider",
+    "hoverProvider",
+    "definitionProvider",
+    "documentLinkProvider",
+    "executeCommandProvider",
+    "triggerCharacters",
+    "resolveProvider",
+    "commands",
+    "name",
+    "version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lsp.py:112"
+  },
+  {
+   "test": "test_lsp_malformed_json_error_handling",
+   "argv": [
+    "lsp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "jsonrpc2: protocol error",
+    "invalid character 'j' looking for beginning of value"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lsp.py:221"
+  },
+  {
+   "test": "test_lsp_initialize_with_client_capabilities",
+   "argv": [
+    "lsp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "result",
+    "capabilities",
+    "completionProvider",
+    "triggerCharacters"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lsp.py:287"
+  },
+  {
+   "test": "test_lsp_initialize_with_process_id",
+   "argv": [
+    "lsp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "result"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lsp.py:337"
+  },
+  {
+   "test": "test_lsp_capability_text_document_sync",
+   "argv": [
+    "lsp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "openClose",
+    "change",
+    "save"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lsp.py:401"
+  },
+  {
+   "test": "test_lsp_capability_document_link_provider",
+   "argv": [
+    "lsp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "documentLinkProvider",
+    "resolveProvider"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lsp.py:435"
+  },
+  {
+   "test": "test_lsp_unrecognized_method",
+   "argv": [
+    "lsp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lsp.py:576"
+  },
+  {
+   "test": "test_lsp_initialize_with_root_uri",
+   "argv": [
+    "lsp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "result",
+    "capabilities",
+    "serverInfo"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lsp.py:677"
+  },
+  {
+   "test": "test_lsp_capability_references_provider",
+   "argv": [
+    "lsp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "referencesProvider"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lsp.py:764"
+  },
+  {
+   "test": "test_lsp_capability_code_action_provider",
+   "argv": [
+    "lsp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "codeActionProvider"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lsp.py:789"
+  },
+  {
+   "test": "test_lsp_execute_command_index_missing_notebook_arg",
+   "argv": [
+    "lsp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error",
+    "code",
+    "message"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lsp.py:1655"
+  },
+  {
+   "test": "test_lsp_execute_command_commands_advertised_in_capabilities",
+   "argv": [
+    "lsp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "result",
+    "executeCommandProvider",
+    "commands",
+    "zk.index",
+    "zk.new",
+    "zk.list",
+    "zk.tag.list"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lsp.py:1728"
+  },
+  {
+   "test": "test_lsp_completion_item_resolve",
+   "argv": [
+    "lsp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "result",
+    "result"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lsp.py:3911"
+  },
+  {
+   "test": "test_lsp_completion_tag_with_partial_name",
+   "argv": [
+    "lsp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "result",
+    "example",
+    "detail",
+    "note"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lsp.py:4196"
+  },
+  {
+   "test": "test_lsp_completion_multiple_documents_open",
+   "argv": [
+    "lsp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "result",
+    "Test Note 2",
+    "result",
+    "Test Note 1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lsp.py:4394"
+  },
+  {
+   "test": "test_lsp_completion_markdown_link_after_bracket_paren_trigger",
+   "argv": [
+    "lsp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "result",
+    "textEdit"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lsp.py:4505"
+  },
+  {
+   "test": "test_lsp_completion_returns_correct_kinds",
+   "argv": [
+    "lsp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "result",
+    "kind"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lsp.py:4642"
+  },
+  {
+   "test": "test_lsp_completion_includes_filter_text",
+   "argv": [
+    "lsp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "result",
+    "filterText",
+    ".md"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lsp.py:4712"
+  },
+  {
+   "test": "test_lsp_initialize_with_trace_verbose",
+   "argv": [
+    "lsp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "result",
+    "capabilities",
+    "textDocumentSync"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lsp.py:4786"
+  },
+  {
+   "test": "test_lsp_initialize_vscode_client",
+   "argv": [
+    "lsp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "result",
+    "capabilities",
+    "completionProvider",
+    "textDocumentSync"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lsp.py:4814"
+  },
+  {
+   "test": "test_lsp_completion_item_resolve_with_file_data",
+   "argv": [
+    "lsp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "result",
+    "documentation",
+    "Documented Note",
+    "Full content here"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_lsp.py:4972"
+  },
+  {
+   "test": "test_interactive_content_from_stdin",
+   "argv": [
+    "new",
+    "--title",
+    "With Content",
+    "--interactive",
+    "--print-path",
+    "--no-input"
+   ],
+   "stdin": "This is custom content\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_new.py:108"
+  },
+  {
+   "test": "test_unicode_in_title_and_content",
+   "argv": [
+    "new",
+    "--title",
+    "日本語タイトル with émojis 🎉",
+    "--interactive",
+    "--print-path",
+    "--no-input"
+   ],
+   "stdin": "Ñoño piñata café 世界",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_new.py:351"
+  },
+  {
+   "test": "test_multiline_interactive_content",
+   "argv": [
+    "new",
+    "--title",
+    "Multiline",
+    "--interactive",
+    "--print-path",
+    "--no-input"
+   ],
+   "stdin": "First paragraph here.\n\nSecond paragraph with blank line above.\n\nThird paragraph with special chars: $VAR, `code`, *emphasis*.\n\nFinal paragraph.",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "First paragraph here.",
+    "Second paragraph with blank line above.",
+    "Third paragraph with special chars: $VAR, `code`, *emphasis*.",
+    "Final paragraph."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_new.py:388"
+  },
+  {
+   "test": "test_empty_interactive_content",
+   "argv": [
+    "new",
+    "--title",
+    "Empty Content",
+    "--interactive",
+    "--print-path",
+    "--no-input"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_new.py:581"
+  },
+  {
+   "test": "test_whitespace_only_interactive_content",
+   "argv": [
+    "new",
+    "--title",
+    "Whitespace",
+    "--interactive",
+    "--print-path",
+    "--no-input"
+   ],
+   "stdin": "   \n\n\t\n   ",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "# Whitespace"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_new.py:596"
+  },
+  {
+   "test": "test_dry_run_with_interactive_content",
+   "argv": [
+    "new",
+    "--title",
+    "Dry Interactive",
+    "--interactive",
+    "--dry-run",
+    "--no-input"
+   ],
+   "stdin": "Interactive dry run content\n",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "/dry-interactive.md",
+    "# Dry Interactive",
+    "Interactive dry run content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_new.py:614"
+  },
+  {
+   "test": "test_content_variable_in_template",
+   "argv": [
+    "new",
+    "--title",
+    "Content",
+    "--template",
+    "content-test.md",
+    "--dry-run",
+    "--no-input"
+   ],
+   "stdin": "Custom body text",
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "# Content\n\n\n\nFooter text\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_templates.py:262"
+  },
+  {
+   "test": "test_stdin_not_tty_when_input_redirected",
+   "argv": [
+    "edit",
+    "bulk"
+   ],
+   "stdin": "",
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "zk: error: too many notes to be opened in the editor, aborting…"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_term.py:174"
+  }
+ ]
+}

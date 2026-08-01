@@ -1,0 +1,26 @@
+Latent Space Communication via K-V Cache Alignment
+Lucio M. Dery, Zohar Yahav, Henry Prior, Qixuan Feng, Jiajun Shen, Arthur Szlam
+DeepMind / Google
+arXiv: 2601.06123
+Submitted: January 4, 2026
+
+Abstract:
+We propose training lightweight adapter modules that translate a model's internal
+key-value cache states into a shared intermediate representation, enabling multiple
+language models to share internal states without passing text tokens. The adapters
+are optimized per model pair. Experiments use the Gemma-2 model family. Results
+show that soft prompts and learned capabilities transfer across model instances
+without modifying pre-trained weights.
+
+Key contributions:
+- Trained adapter modules for KV cache alignment between model instances
+- Shared intermediate representation space for KV states
+- Multi-model collaboration improving downstream performance
+- Demonstrated on same-family Gemma-2 models
+
+Relationship to Determinex:
+This work validates the general direction of latent-space inter-model communication
+as an alternative to text-based agent coordination. Determinex's Phase 3 Latent RAG
+(Section 13.2 of WHITE_PAPER.md) operates in this same space but adds cross-architecture
+re-projection via the Rosetta Stone for models with different embedding dimensionalities.
+Determinex's Layer 2 (Rosetta Stone) operates at input embeddings, not KV states.

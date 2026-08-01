@@ -1,0 +1,4511 @@
+[
+ {
+  "name": "test::test_fx_theme_invalid::0",
+  "argv": [
+   "eval/fixtures/simple.json"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "FX_THEME": "invalid_theme"
+  }
+ },
+ {
+  "name": "test::test_cli_flag_with_env_var::1",
+  "argv": [
+   "--raw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "FX_THEME": "2"
+  }
+ },
+ {
+  "name": "test::test_help_flag::2",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::3",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_themes_flag::4",
+  "argv": [
+   "--themes"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_json_lines_slurp::5",
+  "argv": [
+   "--slurp",
+   "x => x.length"
+  ],
+  "stdin": "1\n2\n3\n4\n5",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yaml_list::6",
+  "argv": [
+   "--yaml",
+   "x => x.length"
+  ],
+  "stdin": "- item1\n- item2\n- item3",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yaml_nested_structure::7",
+  "argv": [
+   "--yaml",
+   ".root.child.value"
+  ],
+  "stdin": "root:\n  child:\n    value: 42",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toml_array::8",
+  "argv": [
+   "--toml",
+   ".items"
+  ],
+  "stdin": "items = [1, 2, 3, 4, 5]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toml_nested_tables::9",
+  "argv": [
+   "--toml",
+   ".server.port"
+  ],
+  "stdin": "[server]\nhost = 'localhost'\nport = 8080",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strict_mode_with_valid_json::10",
+  "argv": [
+   "--strict",
+   "."
+  ],
+  "stdin": "{\"valid\":\"json\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_inline_with_nested_objects::11",
+  "argv": [
+   "--no-inline",
+   "."
+  ],
+  "stdin": "{\"a\":{\"b\":{\"c\":1}}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_object_entries::12",
+  "argv": [
+   "x => Object.entries(x)"
+  ],
+  "stdin": "{\"a\":1,\"b\":2}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_includes::13",
+  "argv": [
+   "x => x.includes(3)"
+  ],
+  "stdin": "[1,2,3,4,5]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_indexOf::14",
+  "argv": [
+   "x => x.indexOf(3)"
+  ],
+  "stdin": "[1,2,3,4,5]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_toLowerCase::15",
+  "argv": [
+   "x => x.toLowerCase()"
+  ],
+  "stdin": "\"HELLO\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_toUpperCase::16",
+  "argv": [
+   "x => x.toUpperCase()"
+  ],
+  "stdin": "\"hello\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_math_max::17",
+  "argv": [
+   "x => Math.max(...x)"
+  ],
+  "stdin": "[1,5,3,9,2]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_math_min::18",
+  "argv": [
+   "x => Math.min(...x)"
+  ],
+  "stdin": "[1,5,3,9,2]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_math_abs::19",
+  "argv": [
+   "x => Math.abs(x)"
+  ],
+  "stdin": "-42",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_math_floor::20",
+  "argv": [
+   "x => Math.floor(x)"
+  ],
+  "stdin": "3.7",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_typeof_operator::21",
+  "argv": [
+   "x => typeof x"
+  ],
+  "stdin": "\"string\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_isArray::22",
+  "argv": [
+   "x => Array.isArray(x)"
+  ],
+  "stdin": "[1,2,3]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ternary_operator_nested::23",
+  "argv": [
+   "x => x < 10 ? 'small' : x < 100 ? 'medium' : 'large'"
+  ],
+  "stdin": "50",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_logical_and::24",
+  "argv": [
+   "x => x.a && x.b"
+  ],
+  "stdin": "{\"a\":true,\"b\":false}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_logical_or::25",
+  "argv": [
+   "x => x.a || x.b"
+  ],
+  "stdin": "{\"a\":false,\"b\":true}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_length::26",
+  "argv": [
+   "x => x.length"
+  ],
+  "stdin": "[1,2,3,4,5]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_object_keys::27",
+  "argv": [
+   "x => Object.keys(x)"
+  ],
+  "stdin": "{\"a\":1,\"b\":2,\"c\":3}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_object_values::28",
+  "argv": [
+   "x => Object.values(x)"
+  ],
+  "stdin": "{\"a\":1,\"b\":2,\"c\":3}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_map::29",
+  "argv": [
+   "x => x.map(n => n * n)"
+  ],
+  "stdin": "[1,2,3,4,5]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_filter::30",
+  "argv": [
+   "x => x.filter(n => n % 2 === 0)"
+  ],
+  "stdin": "[1,2,3,4,5,6]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_reduce::31",
+  "argv": [
+   "x => x.reduce((sum, n) => sum + n, 0)"
+  ],
+  "stdin": "[1,2,3,4,5]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_find::32",
+  "argv": [
+   "x => x.find(n => n > 3)"
+  ],
+  "stdin": "[1,2,3,4,5]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_some::33",
+  "argv": [
+   "x => x.some(n => n > 10)"
+  ],
+  "stdin": "[1,2,3,4,5]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_every::34",
+  "argv": [
+   "x => x.every(n => n > 0)"
+  ],
+  "stdin": "[1,2,3,4,5]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_operations::35",
+  "argv": [
+   "x => x.toUpperCase()"
+  ],
+  "stdin": "\"hello world\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_split::36",
+  "argv": [
+   "x => x.split(\",\")"
+  ],
+  "stdin": "\"apple,banana,cherry\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conditional_expression::37",
+  "argv": [
+   "x => x > 10 ? 'big' : 'small'"
+  ],
+  "stdin": "15",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_transformation::38",
+  "argv": [
+   "x => x.map(p => ({name: p.name, grade: p.score >= 90 ? 'A' : 'B'}))"
+  ],
+  "stdin": "[{\"name\":\"Alice\",\"score\":85},{\"name\":\"Bob\",\"score\":92}]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_sort::39",
+  "argv": [
+   "x => x.sort()"
+  ],
+  "stdin": "[3,1,4,1,5,9,2,6]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_reverse::40",
+  "argv": [
+   "x => x.reverse()"
+  ],
+  "stdin": "[1,2,3,4,5]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_slice::41",
+  "argv": [
+   "x => x.slice(1, 3)"
+  ],
+  "stdin": "[1,2,3,4,5]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_concat::42",
+  "argv": [
+   "x => x.concat([4, 5])"
+  ],
+  "stdin": "[1,2,3]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_join::43",
+  "argv": [
+   "x => x.join(\", \")"
+  ],
+  "stdin": "[\"apple\",\"banana\",\"cherry\"]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_array_flattening::44",
+  "argv": [
+   "x => x.flat()"
+  ],
+  "stdin": "[[1,2],[3,4],[5,6]]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_math_operations::45",
+  "argv": [
+   "x => Math.sqrt(x)"
+  ],
+  "stdin": "16",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_stringify::46",
+  "argv": [
+   "x => JSON.stringify(x)"
+  ],
+  "stdin": "{\"a\":1}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_template_literals::47",
+  "argv": [
+   "x => `Hello, ${x.name}!`"
+  ],
+  "stdin": "{\"name\":\"World\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_destructuring::48",
+  "argv": [
+   "x => {const {name, age} = x; return name;}"
+  ],
+  "stdin": "{\"name\":\"Alice\",\"age\":30}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_spread_operator::49",
+  "argv": [
+   "x => [...x, 4, 5]"
+  ],
+  "stdin": "[1,2,3]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_object_spread::50",
+  "argv": [
+   "x => ({...x, new: \"value\"})"
+  ],
+  "stdin": "{\"existing\":\"data\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arrow_function_implicit_return::51",
+  "argv": [
+   "x => x * 2"
+  ],
+  "stdin": "21",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_arrow_function_explicit_return::52",
+  "argv": [
+   "x => { return x * 2; }"
+  ],
+  "stdin": "21",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_statements::53",
+  "argv": [
+   "x => { const y = x * 2; return y + 1; }"
+  ],
+  "stdin": "20",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_short::54",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_short::55",
+  "argv": [
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag_v_uppercase::56",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comp_bash::57",
+  "argv": [
+   "--comp",
+   "bash"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comp_zsh::58",
+  "argv": [
+   "--comp",
+   "zsh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comp_fish::59",
+  "argv": [
+   "--comp",
+   "fish"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_map_filter::60",
+  "argv": [
+   "x => x.map(obj => obj.values.filter(v => v > 3))"
+  ],
+  "stdin": "[{\"values\":[1,2,3]},{\"values\":[4,5,6]}]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reduce_with_object_accumulator::61",
+  "argv": [
+   "x => x.reduce((acc, item) => ({...acc, [item.key]: item.value}), {})"
+  ],
+  "stdin": "[{\"key\":\"a\",\"value\":1},{\"key\":\"b\",\"value\":2}]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_group_by_operation::62",
+  "argv": [
+   "x => x.reduce((acc, item) => ({...acc, [item.type]: [...(acc[item.type] || []), item.val]}), {})"
+  ],
+  "stdin": "[{\"type\":\"a\",\"val\":1},{\"type\":\"b\",\"val\":2},{\"type\":\"a\",\"val\":3}]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flatten_nested_arrays::63",
+  "argv": [
+   "x => x.flat(2)"
+  ],
+  "stdin": "[[[1,2]],[[3,4]]]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unique_values_from_nested::64",
+  "argv": [
+   "x => uniq(x.flatMap(obj => obj.tags))"
+  ],
+  "stdin": "[{\"tags\":[\"a\",\"b\"]},{\"tags\":[\"b\",\"c\"]},{\"tags\":[\"a\",\"c\"]}]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sorting_by_nested_property::65",
+  "argv": [
+   "x => sortBy(item => item.user.name)(x)"
+  ],
+  "stdin": "[{\"user\":{\"name\":\"charlie\"}},{\"user\":{\"name\":\"alice\"}},{\"user\":{\"name\":\"bob\"}}]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conditional_transformation::66",
+  "argv": [
+   "x => x.map(item => ({...item, grade: item.score >= 90 ? 'A' : item.score >= 80 ? 'B' : 'C'}))"
+  ],
+  "stdin": "[{\"score\":85},{\"score\":92},{\"score\":78}]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_property_extraction::67",
+  "argv": [
+   "x => x.users.map(u => u.profile.name)"
+  ],
+  "stdin": "{\"users\":[{\"profile\":{\"name\":\"Alice\"}},{\"profile\":{\"name\":\"Bob\"}}]}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregation_operations::68",
+  "argv": [
+   "x => x.reduce((sum, item) => sum + item.value, 0)"
+  ],
+  "stdin": "[{\"value\":10},{\"value\":20},{\"value\":30}]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_find_and_modify::69",
+  "argv": [
+   "x => x.map(item => item.id === 2 ? {...item, name: 'modified'} : item)"
+  ],
+  "stdin": "[{\"id\":1,\"name\":\"a\"},{\"id\":2,\"name\":\"b\"}]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_object_transformation::70",
+  "argv": [
+   "x => ({fullName: x.firstName + ' ' + x.lastName, age: x.age})"
+  ],
+  "stdin": "{\"firstName\":\"John\",\"lastName\":\"Doe\",\"age\":30}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_partition::71",
+  "argv": [
+   "x => x.reduce((acc, n) => (n % 2 === 0 ? acc[0].push(n) : acc[1].push(n), acc), [[],[]])"
+  ],
+  "stdin": "[1,2,3,4,5,6,7,8,9,10]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_values::72",
+  "argv": [
+   "x => ({name: x.name, age: x.age || 18})"
+  ],
+  "stdin": "{\"name\":\"Alice\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_manipulation_chain::73",
+  "argv": [
+   "x => x.trim().toUpperCase().split(\" \")"
+  ],
+  "stdin": "\"  hello world  \"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_number_formatting::74",
+  "argv": [
+   "x => x.toFixed(2)"
+  ],
+  "stdin": "3.14159",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_chunking::75",
+  "argv": [
+   "x => x.reduce((acc, n, i) => (i % 3 === 0 ? acc.push([n]) : acc[acc.length-1].push(n), acc), [])"
+  ],
+  "stdin": "[1,2,3,4,5,6,7,8,9]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deep_clone_modification::76",
+  "argv": [
+   "x => ({...x, a: {...x.a, b: x.a.b * 2}})"
+  ],
+  "stdin": "{\"a\":{\"b\":1}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_deduplication_by_property::77",
+  "argv": [
+   "x => uniq(x.map(item => item.id))"
+  ],
+  "stdin": "[{\"id\":1,\"name\":\"a\"},{\"id\":2,\"name\":\"b\"},{\"id\":1,\"name\":\"c\"}]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conditional_filtering::78",
+  "argv": [
+   "x => x.filter(item => item.age > 26 && item.active)"
+  ],
+  "stdin": "[{\"age\":25,\"active\":true},{\"age\":30,\"active\":false},{\"age\":35,\"active\":true}]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multi_level_sort::79",
+  "argv": [
+   "x => x.sort((p1, p2) => p1.a - p2.a || p1.b - p2.b)"
+  ],
+  "stdin": "[{\"a\":1,\"b\":3},{\"a\":2,\"b\":1},{\"a\":1,\"b\":2}]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_json_unclosed_brace::80",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"key\":",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_json_trailing_comma::81",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"key\":\"value\",}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_json_single_quotes::82",
+  "argv": [
+   "."
+  ],
+  "stdin": "{'key':'value'}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_field_access::83",
+  "argv": [
+   ".nonexistent"
+  ],
+  "stdin": "{\"key\":\"value\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_array_index::84",
+  "argv": [
+   ".[10]"
+  ],
+  "stdin": "[1,2,3]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_javascript_syntax::85",
+  "argv": [
+   "x => x +"
+  ],
+  "stdin": "{\"value\":1}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file::86",
+  "argv": [
+   "/nonexistent/file.json",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_stdin::87",
+  "argv": [
+   "."
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strict_mode_invalid_json::88",
+  "argv": [
+   "--strict",
+   "."
+  ],
+  "stdin": "{\"unclosed\":",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yaml_invalid_syntax::89",
+  "argv": [
+   "--yaml",
+   "."
+  ],
+  "stdin": "key:\n  - invalid\n  nested:",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toml_invalid_syntax::90",
+  "argv": [
+   "--toml",
+   "."
+  ],
+  "stdin": "[section\nkey = value",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_large_json::91",
+  "argv": [
+   "x => x.length"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deeply_nested_json::92",
+  "argv": [
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_keys::93",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"key with spaces\":\"value\",\"key-with-dashes\":\"value2\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_as_input::94",
+  "argv": [
+   "."
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_boolean_as_input::95",
+  "argv": [
+   "."
+  ],
+  "stdin": "true",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_number_as_input::96",
+  "argv": [
+   "."
+  ],
+  "stdin": "42",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_as_input::97",
+  "argv": [
+   "."
+  ],
+  "stdin": "\"hello\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_json_objects_without_slurp::98",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"a\":1}\n{\"a\":2}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_permission_denied_file::99",
+  "argv": [
+   "restricted.json",
+   "."
+  ],
+  "stdin": null,
+  "files": {
+   "restricted.json": "{\"key\":\"value\"}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_directory_as_input::100",
+  "argv": [
+   "/tmp",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_file_as_input::101",
+  "argv": [
+   "binary.bin",
+   "."
+  ],
+  "stdin": null,
+  "files": {
+   "binary.bin": "\u0000\u0001\u0002��"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yaml_and_raw_conflict::102",
+  "argv": [
+   "--yaml",
+   "--raw",
+   "."
+  ],
+  "stdin": "data",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toml_and_raw_conflict::103",
+  "argv": [
+   "--toml",
+   "--raw",
+   "."
+  ],
+  "stdin": "data",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yaml_and_toml_conflict::104",
+  "argv": [
+   "--yaml",
+   "--toml",
+   "."
+  ],
+  "stdin": "data",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_flag_r::105",
+  "argv": [
+   "-r",
+   "."
+  ],
+  "stdin": "test data",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_flag_s::106",
+  "argv": [
+   "-s",
+   "."
+  ],
+  "stdin": "1\n2\n3",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_flags_rs::107",
+  "argv": [
+   "-rs",
+   "."
+  ],
+  "stdin": "line1\nline2",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_flags_sr::108",
+  "argv": [
+   "-sr",
+   "."
+  ],
+  "stdin": "line1\nline2",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strict_mode_flag::109",
+  "argv": [
+   "--strict",
+   "."
+  ],
+  "stdin": "{\"key\":\"value\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_inline_flag::110",
+  "argv": [
+   "--no-inline",
+   "."
+  ],
+  "stdin": "{\"key\":\"value\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_values_without_slurp::111",
+  "argv": [
+   "."
+  ],
+  "stdin": "1\n2\n3",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_mode_with_expression::112",
+  "argv": [
+   "--raw",
+   "x => x.toUpperCase()"
+  ],
+  "stdin": "hello",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slurp_with_expression::113",
+  "argv": [
+   "--slurp",
+   "x => x.length"
+  ],
+  "stdin": "1\n2\n3\n4",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yaml_with_expression::114",
+  "argv": [
+   "--yaml",
+   "x => x.count * 2"
+  ],
+  "stdin": "count: 21",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toml_with_expression::115",
+  "argv": [
+   "--toml",
+   "x => x.value * 3"
+  ],
+  "stdin": "value = 14",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strict_mode_with_invalid_json::116",
+  "argv": [
+   "--strict",
+   "."
+  ],
+  "stdin": "{\"invalid\":",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_args_list::117",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"key\":\"value\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_expression_with_flags::118",
+  "argv": [
+   "--slurp",
+   "x => x.filter(n => n > 2).map(n => n * 2)"
+  ],
+  "stdin": "1\n2\n3\n4",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yaml_array_with_slurp::119",
+  "argv": [
+   "--yaml",
+   "--slurp",
+   "."
+  ],
+  "stdin": "- 1\n- 2\n- 3",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_slurp_multiline::120",
+  "argv": [
+   "--raw",
+   "--slurp",
+   "x => x.length"
+  ],
+  "stdin": "a\nb\nc\nd",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flag_position_independence::121",
+  "argv": [
+   "--yaml",
+   "."
+  ],
+  "stdin": "key: value",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yaml_input_simple::122",
+  "argv": [
+   "--yaml",
+   "."
+  ],
+  "stdin": "\nhello: world\ncount: 42\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yaml_input_nested::123",
+  "argv": [
+   "--yaml",
+   ".person.name"
+  ],
+  "stdin": "\nperson:\n  name: John\n  age: 30\n  active: true\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yaml_input_array::124",
+  "argv": [
+   "--yaml",
+   ".items[1]"
+  ],
+  "stdin": "\nitems:\n  - apple\n  - banana\n  - cherry\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toml_input_simple::125",
+  "argv": [
+   "--toml",
+   "."
+  ],
+  "stdin": "\n[database]\nserver = \"192.168.1.1\"\nport = 5432\nenabled = true\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toml_input_field_access::126",
+  "argv": [
+   "--toml",
+   ".section.key"
+  ],
+  "stdin": "\n[section]\nkey = \"value\"\nnumber = 100\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_input_simple::127",
+  "argv": [
+   "--raw",
+   "."
+  ],
+  "stdin": "hello world",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_input_multiline::128",
+  "argv": [
+   "--raw",
+   "."
+  ],
+  "stdin": "line1\nline2\nline3",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slurp_single_object::129",
+  "argv": [
+   "--slurp",
+   "."
+  ],
+  "stdin": "{\"a\":1}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slurp_multiple_objects::130",
+  "argv": [
+   "--slurp",
+   "."
+  ],
+  "stdin": "{\"a\":1}\n{\"a\":2}\n{\"a\":3}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slurp_with_query::131",
+  "argv": [
+   "--slurp",
+   "x => x.map(obj => obj.value)"
+  ],
+  "stdin": "{\"value\":10}\n{\"value\":20}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slurp_short_flag::132",
+  "argv": [
+   "-s",
+   "."
+  ],
+  "stdin": "{\"a\":1}\n{\"a\":2}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_short_flag::133",
+  "argv": [
+   "-r",
+   "."
+  ],
+  "stdin": "raw text",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_query::134",
+  "argv": [
+   ".name"
+  ],
+  "stdin": "{\"name\":\"Alice\",\"age\":30}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yaml_with_stdin::135",
+  "argv": [
+   "--yaml",
+   "."
+  ],
+  "stdin": "key: value\ncount: 5",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_inline_flag::136",
+  "argv": [
+   "--no-inline",
+   "."
+  ],
+  "stdin": "{\"a\":1,\"b\":2}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_format_flags_yaml_toml::137",
+  "argv": [
+   "--yaml",
+   "--toml",
+   "."
+  ],
+  "stdin": "key = value",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_with_slurp::138",
+  "argv": [
+   "--raw",
+   "--slurp",
+   "."
+  ],
+  "stdin": "line1\nline2\nline3",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_array_input::139",
+  "argv": [
+   "."
+  ],
+  "stdin": "[1,2,3,4,5]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_string_input::140",
+  "argv": [
+   "."
+  ],
+  "stdin": "\"just a string\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_string_value::141",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"key\":\"\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_with_quotes::142",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"text\":\"He said \\\"hello\\\"\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_with_backslashes::143",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"path\":\"C:\\\\Users\\\\test\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_with_newlines::144",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"text\":\"line1\\nline2\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_with_tabs::145",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"text\":\"col1\\tcol2\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_zero::146",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"value\":-0}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_small_number::147",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"value\":0.000001}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_large_exponent::148",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"value\":1e20}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_exponent::149",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"value\":1e-5}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_properties::150",
+  "argv": [
+   ".key50"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deeply_nested_arrays::151",
+  "argv": [
+   ".[0][0][0][0]"
+  ],
+  "stdin": "[[[[1]]]]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_with_nulls::152",
+  "argv": [
+   "."
+  ],
+  "stdin": "[null,1,null,2,null]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_with_booleans::153",
+  "argv": [
+   "."
+  ],
+  "stdin": "[true,false,true,false]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_object_with_numeric_keys::154",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"0\":\"zero\",\"1\":\"one\",\"2\":\"two\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_whitespace_variations::155",
+  "argv": [
+   "."
+  ],
+  "stdin": "  {  \"key\"  :  \"value\"  }  ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_newlines_in_json::156",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\n\"key\":\n\"value\"\n}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tabs_in_json::157",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\t\"key\":\t\"value\"\t}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_number_types::158",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"int\":42,\"float\":3.14,\"exp\":1e10,\"neg\":-5}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_unicode_characters::159",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"emoji\":\"😀\",\"chinese\":\"中文\",\"arabic\":\"العربية\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_control_characters_escaped::160",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"text\":\"hello\\u0000world\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_surrogate_pairs::161",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"emoji\":\"\\uD83D\\uDE00\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_array_types::162",
+  "argv": [
+   "x => x.length"
+  ],
+  "stdin": "[1,\"string\",true,null,{\"obj\":\"val\"},[1,2]]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_nested_structures::163",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"empty_obj\":{},\"empty_arr\":[],\"nested\":{\"also_empty\":[]}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_on_empty_object::164",
+  "argv": [
+   "x => Object.keys(x).length"
+  ],
+  "stdin": "{}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_on_empty_array::165",
+  "argv": [
+   "x => x.length"
+  ],
+  "stdin": "[]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_access_undefined_nested_property::166",
+  "argv": [
+   ".a.b.c.d.e"
+  ],
+  "stdin": "{}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_leading_whitespace::167",
+  "argv": [
+   "."
+  ],
+  "stdin": "   \n\t  {\"key\":\"value\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_trailing_whitespace::168",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"key\":\"value\"}   \n\t  ",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_identity_query::169",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"hello\":\"world\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_field_access::170",
+  "argv": [
+   ".hello"
+  ],
+  "stdin": "{\"hello\":\"world\",\"count\":42}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_field_access::171",
+  "argv": [
+   ".author.name"
+  ],
+  "stdin": "{\"author\":{\"name\":\"John\",\"email\":\"john@example.com\"}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_number_field_access::172",
+  "argv": [
+   ".count"
+  ],
+  "stdin": "{\"count\":42}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_access_by_index::173",
+  "argv": [
+   ".[0]"
+  ],
+  "stdin": "[\"first\",\"second\",\"third\"]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_field_access::174",
+  "argv": [
+   ".tags"
+  ],
+  "stdin": "{\"tags\":[\"a\",\"b\",\"c\"]}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_javascript_expression_simple::175",
+  "argv": [
+   "x => x.count"
+  ],
+  "stdin": "{\"count\":42}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_javascript_expression_math::176",
+  "argv": [
+   "x => x.count * 2"
+  ],
+  "stdin": "{\"count\":21}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_javascript_expression_string_concat::177",
+  "argv": [
+   "x => x.greeting + \" world\""
+  ],
+  "stdin": "{\"greeting\":\"hello\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_boolean_value_extraction::178",
+  "argv": [
+   ".active"
+  ],
+  "stdin": "{\"active\":true}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_value_extraction::179",
+  "argv": [
+   ".value"
+  ],
+  "stdin": "{\"value\":null}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_complex_nested_structure::180",
+  "argv": [
+   ".users[0].name"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_as_raw_output::181",
+  "argv": [
+   "."
+  ],
+  "stdin": "\"Hello, world!\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_map_operation::182",
+  "argv": [
+   "x => x.map(n => n * 2)"
+  ],
+  "stdin": "[1, 2, 3, 4]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_filter_operation::183",
+  "argv": [
+   "x => x.filter(n => n > 2)"
+  ],
+  "stdin": "[1, 2, 3, 4, 5]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_object::184",
+  "argv": [
+   "."
+  ],
+  "stdin": "{}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_array::185",
+  "argv": [
+   "."
+  ],
+  "stdin": "[]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_characters::186",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"emoji\":\"🚀\",\"text\":\"你好\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_numbers::187",
+  "argv": [
+   ".value"
+  ],
+  "stdin": "{\"value\":9007199254740991}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_escaped_strings::188",
+  "argv": [
+   ".text"
+  ],
+  "stdin": "{\"text\":\"line1\\nline2\\ttab\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_number_with_leading_zero::189",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"value\":+42}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_number_with_plus_sign::190",
+  "argv": [
+   "."
+  ],
+  "stdin": "[+1, +2, +3]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hexadecimal_number::191",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"value\":0xFF}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_octal_number::192",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"value\":0o17}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_number_with_underscore::193",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"value\":1_000_000}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_infinity_value::194",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"value\":Infinity}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_infinity::195",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"value\":-Infinity}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nan_value::196",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"value\":NaN}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_line_comment::197",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"key\":\"value\"} // comment",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multi_line_comment::198",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"key\":\"value\" /* comment */}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unquoted_key::199",
+  "argv": [
+   "."
+  ],
+  "stdin": "{key:\"value\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_with_unescaped_newline::200",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"text\":\"line1\nline2\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_with_control_chars::201",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"text\":\"hello\\bworld\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_with_form_feed::202",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"text\":\"page1\\fpage2\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_with_carriage_return::203",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"text\":\"line1\\rline2\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_with_unicode_escape::204",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"text\":\"\\u0048\\u0065\\u006c\\u006c\\u006f\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_with_short_unicode_escape::205",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"text\":\"\\u004\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_with_invalid_escape::206",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"text\":\"\\x\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unterminated_string::207",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"text\":\"unterminated",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unterminated_array::208",
+  "argv": [
+   "."
+  ],
+  "stdin": "[1, 2, 3",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unterminated_object::209",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"key\":\"value\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_colon_in_object::210",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"key\" \"value\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_comma_in_array::211",
+  "argv": [
+   "."
+  ],
+  "stdin": "[1 2 3]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_comma_in_object::212",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"a\":1 \"b\":2}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extra_comma_in_array::213",
+  "argv": [
+   "."
+  ],
+  "stdin": "[1, 2, 3,]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extra_comma_in_object::214",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"a\":1, \"b\":2,}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duplicate_keys::215",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"key\":1, \"key\":2}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_number_leading_zeros::216",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"value\":007}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_number_no_fractional_part::217",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"value\":42.}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_number_no_integer_part::218",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"value\":.5}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_number_exponent_no_digits::219",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"value\":1e}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_large_object::220",
+  "argv": [
+   "x => Object.keys(x).length"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_1::221",
+  "argv": [
+   ".x"
+  ],
+  "stdin": "{\"x\":1}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_2::222",
+  "argv": [
+   ".a.b"
+  ],
+  "stdin": "{\"a\":{\"b\":2}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_3::223",
+  "argv": [
+   ".[0]"
+  ],
+  "stdin": "[3,4,5]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_4::224",
+  "argv": [
+   ".[1]"
+  ],
+  "stdin": "[3,4,5]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_5::225",
+  "argv": [
+   ".[2]"
+  ],
+  "stdin": "[3,4,5]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_1::226",
+  "argv": [
+   "x => x + 1"
+  ],
+  "stdin": "5",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_2::227",
+  "argv": [
+   "x => x - 1"
+  ],
+  "stdin": "5",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_3::228",
+  "argv": [
+   "x => x * 2"
+  ],
+  "stdin": "5",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_4::229",
+  "argv": [
+   "x => x / 2"
+  ],
+  "stdin": "10",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_expr_5::230",
+  "argv": [
+   "x => x % 3"
+  ],
+  "stdin": "10",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bool_1::231",
+  "argv": [
+   "x => x > 5"
+  ],
+  "stdin": "10",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bool_2::232",
+  "argv": [
+   "x => x < 5"
+  ],
+  "stdin": "10",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bool_3::233",
+  "argv": [
+   "x => x >= 10"
+  ],
+  "stdin": "10",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bool_4::234",
+  "argv": [
+   "x => x <= 10"
+  ],
+  "stdin": "10",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bool_5::235",
+  "argv": [
+   "x => x === 10"
+  ],
+  "stdin": "10",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bool_6::236",
+  "argv": [
+   "x => x !== 10"
+  ],
+  "stdin": "10",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_op_1::237",
+  "argv": [
+   "x => x.push(4)"
+  ],
+  "stdin": "[1,2,3]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_op_2::238",
+  "argv": [
+   "x => x.pop()"
+  ],
+  "stdin": "[1,2,3]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_op_3::239",
+  "argv": [
+   "x => x.shift()"
+  ],
+  "stdin": "[1,2,3]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_op_4::240",
+  "argv": [
+   "x => x.unshift(0)"
+  ],
+  "stdin": "[1,2,3]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_op_1::241",
+  "argv": [
+   "x => x + \" world\""
+  ],
+  "stdin": "\"hello\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_op_2::242",
+  "argv": [
+   "x => x.repeat(3)"
+  ],
+  "stdin": "\"ab\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_op_3::243",
+  "argv": [
+   "x => x.padStart(10, \"0\")"
+  ],
+  "stdin": "\"123\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_op_4::244",
+  "argv": [
+   "x => x.padEnd(10, \"0\")"
+  ],
+  "stdin": "\"123\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_string_op_5::245",
+  "argv": [
+   "x => x.slice(0, 3)"
+  ],
+  "stdin": "\"hello\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_obj_op_1::246",
+  "argv": [
+   "x => x.hasOwnProperty('a')"
+  ],
+  "stdin": "{\"a\":1}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_obj_op_2::247",
+  "argv": [
+   "x => Object.assign({}, x, {b:2})"
+  ],
+  "stdin": "{\"a\":1}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_check_1::248",
+  "argv": [
+   "x => x === null"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_check_2::249",
+  "argv": [
+   "x => x !== null"
+  ],
+  "stdin": "null",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_undefined_1::250",
+  "argv": [
+   "x => x.missing === undefined"
+  ],
+  "stdin": "{}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_check_1::251",
+  "argv": [
+   "x => typeof x === 'number'"
+  ],
+  "stdin": "42",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_check_2::252",
+  "argv": [
+   "x => typeof x === 'string'"
+  ],
+  "stdin": "\"hello\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_check_3::253",
+  "argv": [
+   "x => typeof x === 'boolean'"
+  ],
+  "stdin": "true",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_check_4::254",
+  "argv": [
+   "x => typeof x === 'object'"
+  ],
+  "stdin": "{}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_methods_1::255",
+  "argv": [
+   "x => x.at(0)"
+  ],
+  "stdin": "[1,2,3]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_methods_2::256",
+  "argv": [
+   "x => x.at(-1)"
+  ],
+  "stdin": "[1,2,3]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_number_methods_1::257",
+  "argv": [
+   "x => x.toString()"
+  ],
+  "stdin": "42",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_number_methods_2::258",
+  "argv": [
+   "x => x.toExponential()"
+  ],
+  "stdin": "1000",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_ops_1::259",
+  "argv": [
+   "x => JSON.stringify(x, null, 2)"
+  ],
+  "stdin": "{\"a\":1}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_ops_2::260",
+  "argv": [
+   "x => JSON.parse('{\"x\":1}')"
+  ],
+  "stdin": "{}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regex_1::261",
+  "argv": [
+   "x => x.test(\"hello\")"
+  ],
+  "stdin": "\"/hello/\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_1::262",
+  "argv": [
+   "x => new Date().getFullYear() > 2020"
+  ],
+  "stdin": "{}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slurp_1::263",
+  "argv": [
+   "--slurp",
+   "."
+  ],
+  "stdin": "1",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slurp_2::264",
+  "argv": [
+   "--slurp",
+   "."
+  ],
+  "stdin": "1\n2",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slurp_3::265",
+  "argv": [
+   "--slurp",
+   "."
+  ],
+  "stdin": "1\n2\n3",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_1::266",
+  "argv": [
+   "--raw",
+   "."
+  ],
+  "stdin": "hello",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_2::267",
+  "argv": [
+   "--raw",
+   "."
+  ],
+  "stdin": "line1\nline2",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yaml_1::268",
+  "argv": [
+   "--yaml",
+   "."
+  ],
+  "stdin": "x: 1",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yaml_2::269",
+  "argv": [
+   "--yaml",
+   "."
+  ],
+  "stdin": "a: 1\nb: 2",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toml_1::270",
+  "argv": [
+   "--toml",
+   "."
+  ],
+  "stdin": "x = 1",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toml_2::271",
+  "argv": [
+   "--toml",
+   "."
+  ],
+  "stdin": "a = 1\nb = 2",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_game_of_life_mode::272",
+  "argv": [
+   "--game-of-life"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_skip_keyword_usage::273",
+  "argv": [
+   "x => x % 2 != 0 ? skip : x"
+  ],
+  "stdin": "1",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_skip_in_array_processing::274",
+  "argv": [
+   "--slurp",
+   "x => x.map(n => n % 2 === 0 ? n : skip)"
+  ],
+  "stdin": "1\n2\n3\n4",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pretty_print_formatting::275",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"a\":1,\"b\":{\"c\":2}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compact_input_pretty_output::276",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"key1\":\"value1\",\"key2\":\"value2\",\"key3\":{\"nested\":\"data\"}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_escape_sequences::277",
+  "argv": [
+   ".emoji"
+  ],
+  "stdin": "{\"emoji\":\"\\ud83d\\ude80\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_escape_sequences_in_keys::278",
+  "argv": [
+   "x => x"
+  ],
+  "stdin": "{\"\\ud83d\\ude80\":\"rocket\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_string_value::279",
+  "argv": [
+   ".long"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_floating_point_numbers::280",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"pi\":3.14159,\"e\":2.71828}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scientific_notation::281",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"big\":1.23e10,\"small\":4.56e-5}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_numbers::282",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"neg\":-42,\"negfloat\":-3.14}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_values::283",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"zero\":0,\"zerofloat\":0.0}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_of_mixed_types::284",
+  "argv": [
+   "."
+  ],
+  "stdin": "[1,\"string\",true,null,{\"obj\":\"val\"},[1,2]]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_top_level_values_slurp::285",
+  "argv": [
+   "--slurp",
+   "."
+  ],
+  "stdin": "true\nfalse\nnull\n42\n\"string\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pipe_through_multiple_queries::286",
+  "argv": [
+   ".data",
+   ".value"
+  ],
+  "stdin": "{\"data\":{\"value\":42}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_key::287",
+  "argv": [
+   "x => x[\"\"]"
+  ],
+  "stdin": "{\"\":\"empty key value\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_numeric_string_keys::288",
+  "argv": [
+   "x => x[\"123\"]"
+  ],
+  "stdin": "{\"123\":\"numeric key\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_float_values::289",
+  "argv": [
+   "x => x / 0"
+  ],
+  "stdin": "1",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_len_array::290",
+  "argv": [
+   "x => len(x)"
+  ],
+  "stdin": "[1,2,3,4,5]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_len_string::291",
+  "argv": [
+   "x => len(\"hello\")"
+  ],
+  "stdin": "{}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_len_object::292",
+  "argv": [
+   "x => len(x)"
+  ],
+  "stdin": "{\"a\":1,\"b\":2,\"c\":3}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_uniq_array::293",
+  "argv": [
+   "x => uniq(x)"
+  ],
+  "stdin": "[1,2,2,3,3,3,4]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_array::294",
+  "argv": [
+   "x => sort(x)"
+  ],
+  "stdin": "[3,1,4,1,5,9,2,6]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_function::295",
+  "argv": [
+   "x => filter(n => n > 2)(x)"
+  ],
+  "stdin": "[1,2,3,4,5]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_map_function::296",
+  "argv": [
+   "x => map(n => n * 2)(x)"
+  ],
+  "stdin": "[1,2,3,4,5]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sortBy_function::297",
+  "argv": [
+   "x => sortBy(item => item.age)(x)"
+  ],
+  "stdin": "[{\"name\":\"Alice\",\"age\":30},{\"name\":\"Bob\",\"age\":25}]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sortKeys_function::298",
+  "argv": [
+   "x => sortKeys(x)"
+  ],
+  "stdin": "{\"z\":1,\"a\":2,\"m\":3}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_apply_function::299",
+  "argv": [
+   "x => apply(n => n * 2, 21)"
+  ],
+  "stdin": "{}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_apply_non_function::300",
+  "argv": [
+   "x => apply(42)"
+  ],
+  "stdin": "{}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_walk_function::301",
+  "argv": [
+   "x => walk((v, k) => typeof v === 'number' ? v * 2 : v)(x)"
+  ],
+  "stdin": "{\"a\":1,\"b\":{\"c\":2}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_console_log::302",
+  "argv": [
+   "x => { console.log('test'); return x; }"
+  ],
+  "stdin": "42",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_skip_symbol::303",
+  "argv": [
+   "x => x % 2 === 0 ? x : skip"
+  ],
+  "stdin": "2",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_skip_in_filter_context::304",
+  "argv": [
+   "--slurp",
+   "x => x.map(n => n > 2 ? n : skip)"
+  ],
+  "stdin": "1\n2\n3\n4",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_select_function::305",
+  "argv": [
+   "x => x.filter(item => item.active)"
+  ],
+  "stdin": "[{\"active\":true,\"name\":\"a\"},{\"active\":false,\"name\":\"b\"}]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_chain_stdlib_functions::306",
+  "argv": [
+   "x => sort(uniq(x))"
+  ],
+  "stdin": "[3,1,2,1,3,4,2]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_map_with_filter::307",
+  "argv": [
+   "x => filter(n => n > 5)(map(n => n * 2)(x))"
+  ],
+  "stdin": "[1,2,3,4,5]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_walk::308",
+  "argv": [
+   "x => walk((v, k) => typeof v === 'number' ? v + 10 : v)(x)"
+  ],
+  "stdin": "{\"a\":{\"b\":{\"c\":1}}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sortBy_string_property::309",
+  "argv": [
+   "x => sortBy(item => item.name)(x)"
+  ],
+  "stdin": "[{\"name\":\"charlie\"},{\"name\":\"alice\"},{\"name\":\"bob\"}]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_len_empty_array::310",
+  "argv": [
+   "x => len(x)"
+  ],
+  "stdin": "[]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_len_empty_object::311",
+  "argv": [
+   "x => len(x)"
+  ],
+  "stdin": "{}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_uniq_with_strings::312",
+  "argv": [
+   "x => uniq(x)"
+  ],
+  "stdin": "[\"a\",\"b\",\"a\",\"c\",\"b\"]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sort_strings::313",
+  "argv": [
+   "x => sort(x)"
+  ],
+  "stdin": "[\"zebra\",\"apple\",\"mango\",\"banana\"]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_with_index::314",
+  "argv": [
+   "x => filter((v, i) => i % 2 === 0)(x)"
+  ],
+  "stdin": "[\"a\",\"b\",\"c\",\"d\",\"e\"]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_map_with_index::315",
+  "argv": [
+   "x => map((v, i) => ({value: v, index: i}))(x)"
+  ],
+  "stdin": "[10,20,30]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_precedence_over_version_flag::316",
+  "argv": [
+   "--help",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_precedence_over_invalid_flag::317",
+  "argv": [
+   "--badflag",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_after_double_dash_is_still_help::318",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_short_flags_rs::319",
+  "argv": [
+   "./executable",
+   "-rs"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_short_flags_sr::320",
+  "argv": [
+   "./executable",
+   "-sr"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rs_combined::321",
+  "argv": [
+   "-rs"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sr_combined::322",
+  "argv": [
+   "-sr"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yaml_flag::323",
+  "argv": [
+   "--yaml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toml_flag::324",
+  "argv": [
+   "--toml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strict_flag::325",
+  "argv": [
+   "--strict"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_inline_flag::326",
+  "argv": [
+   "--no-inline"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yaml_and_raw_conflict::327",
+  "argv": [
+   "--yaml",
+   "--raw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toml_and_raw_conflict::328",
+  "argv": [
+   "--toml",
+   "--raw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yaml_and_toml_conflict::329",
+  "argv": [
+   "--yaml",
+   "--toml"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yaml_r_conflict::330",
+  "argv": [
+   "--yaml",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toml_r_conflict::331",
+  "argv": [
+   "--toml",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_before_slurp::332",
+  "argv": [
+   "--raw",
+   "--slurp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slurp_before_raw::333",
+  "argv": [
+   "--slurp",
+   "--raw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comp_with_invalid_shell::334",
+  "argv": [
+   "--comp",
+   "unknown_shell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comp_without_shell_type::335",
+  "argv": [
+   "--comp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strict_and_no_inline::336",
+  "argv": [
+   "--strict",
+   "--no-inline"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slurp_and_strict::337",
+  "argv": [
+   "--slurp",
+   "--strict"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_slurp_strict::338",
+  "argv": [
+   "--raw",
+   "--slurp",
+   "--strict"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_stdin_with_version::339",
+  "argv": [
+   "--version"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_stdin_with_raw::340",
+  "argv": [
+   "--raw"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_json_with_special_chars::341",
+  "argv": [
+   "--version"
+  ],
+  "stdin": "{\"test\": \"value with \\\"quotes\\\" and \\nnewlines\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_raw_with_special_chars::342",
+  "argv": [
+   "--raw"
+  ],
+  "stdin": "text with 'quotes' and \"double quotes\" and \n newlines",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repeated_raw_flag::343",
+  "argv": [
+   "--raw",
+   "--raw"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repeated_slurp_flag::344",
+  "argv": [
+   "--slurp",
+   "--slurp"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_repeated_strict_flag::345",
+  "argv": [
+   "--strict",
+   "--strict"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comp_with_equals::346",
+  "argv": [
+   "--comp=bash"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_r_equals_long_raw::347",
+  "argv": [
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_s_equals_long_slurp::348",
+  "argv": [
+   "-s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_ignores_extra_args::349",
+  "argv": [
+   "--version",
+   "extra",
+   "args"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rs_separate_vs_combined::350",
+  "argv": [
+   "-r",
+   "-s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sr_separate_vs_combined::351",
+  "argv": [
+   "-s",
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_exact_snapshot::352",
+  "argv": [
+   "--help"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comp_bash_exact_first_line::353",
+  "argv": [
+   "--comp",
+   "bash"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comp_unknown_shell_prints_message_and_exits_zero::354",
+  "argv": [
+   "--comp",
+   "definitely-not-a-shell"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_themes_contains_export_blocks::355",
+  "argv": [
+   "--themes"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_nested_field_from_stdin::356",
+  "argv": [
+   ".b.c"
+  ],
+  "stdin": "{\"a\":1,\"b\":{\"c\":2}}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_over_ndjson_outputs_one_per_line::357",
+  "argv": [
+   ".a"
+  ],
+  "stdin": "{\"a\":1}\n{\"a\":2}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slurp_ndjson_into_array_exact_format::358",
+  "argv": [
+   "-s"
+  ],
+  "stdin": "{\"a\":1}\n{\"a\":2}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_slurp_with_query_writes_undefined_to_stderr::359",
+  "argv": [
+   "-s",
+   ".a"
+  ],
+  "stdin": "{\"a\":1}\n{\"a\":2}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yaml_parsing_with_query::360",
+  "argv": [
+   "--yaml",
+   "--no-inline",
+   ".a"
+  ],
+  "stdin": "a: 1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_toml_parsing_with_query::361",
+  "argv": [
+   "--toml",
+   "--no-inline",
+   ".a"
+  ],
+  "stdin": "a = 1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_query_has_caret_and_nonzero_exit::362",
+  "argv": [
+   "-s",
+   ".[] | .a"
+  ],
+  "stdin": "{\"a\":1}\n{\"a\":2}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_input_and_query::363",
+  "argv": [
+   ".ключ"
+  ],
+  "stdin": "{\"ключ\":\"знач\"}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_stdin_with_query_outputs_nothing::364",
+  "argv": [
+   ".a"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_query_requires_tty_and_panics_in_ci::365",
+  "argv": [],
+  "stdin": "{\"a\":1}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_save_without_filepath_error::366",
+  "argv": [
+   "save(this)"
+  ],
+  "stdin": "{\"name\":\"test\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exit_with_custom_code::367",
+  "argv": [
+   "exit(5)"
+  ],
+  "stdin": "{\"value\": 42}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base64_encode::368",
+  "argv": [
+   "toBase64(x)"
+  ],
+  "stdin": "\"hello\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base64_decode::369",
+  "argv": [
+   "fromBase64(x)"
+  ],
+  "stdin": "\"aGVsbG8=\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base64_decode_invalid::370",
+  "argv": [
+   "fromBase64(x)"
+  ],
+  "stdin": "\"invalid@base64!\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yaml_parse::371",
+  "argv": [
+   "YAML.parse(x)"
+  ],
+  "stdin": "\"key: value\\nnested:\\n  item: 123\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yaml_parse_invalid::372",
+  "argv": [
+   "YAML.parse(x)"
+  ],
+  "stdin": "\"key: [unclosed\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yaml_stringify::373",
+  "argv": [
+   "YAML.stringify(x)"
+  ],
+  "stdin": "{\"key\": \"value\", \"nested\": {\"item\": 123}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quote_special_characters::374",
+  "argv": [
+   "{result: x.text}"
+  ],
+  "stdin": "{\"text\": \"line1\\nline2\\ttab\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inline_number_array::375",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"items\": [1, 2, 3, 4, 5]}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inline_single_element_array::376",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"single\": [42]}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inline_single_string_short::377",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"single\": [\"a short string\"]}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_inline_long_string::378",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"single\": [\"a very long string that is definitely more than eighty characters long and should not be inlined\"]}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inline_empty_object::379",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"empty\": {}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_array_of_simple_objects::380",
+  "argv": [
+   "."
+  ],
+  "stdin": "[{\"x\": 1, \"y\": 2}, {\"x\": 3, \"y\": 4}]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_number_arrays::381",
+  "argv": [
+   "."
+  ],
+  "stdin": "[[1, 2], [3, 4], [5, 6]]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base64_roundtrip_special_chars::382",
+  "argv": [
+   "fromBase64(toBase64(x))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exit_code_zero::383",
+  "argv": [
+   "exit(0)"
+  ],
+  "stdin": "{\"value\": 42}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yaml_empty_object::384",
+  "argv": [
+   "YAML.stringify(x)"
+  ],
+  "stdin": "{}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base64_empty_string::385",
+  "argv": [
+   "toBase64(x)"
+  ],
+  "stdin": "\"\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base64_unicode::386",
+  "argv": [
+   "toBase64(x)"
+  ],
+  "stdin": "\"Hello 世界 🚀\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yaml_nested_structures::387",
+  "argv": [
+   "YAML.stringify(x)"
+  ],
+  "stdin": "{\"a\": {\"b\": {\"c\": 123}}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yaml_arrays::388",
+  "argv": [
+   "YAML.stringify(x)"
+  ],
+  "stdin": "{\"items\": [1, 2, 3]}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inline_object_with_long_keys::389",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"outer\": {\"verylongkeyname\": \"value\"}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inline_object_with_long_string_values::390",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"outer\": {\"key\": \"this is a very long string value that exceeds limits\"}}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yaml_roundtrip::391",
+  "argv": [
+   "YAML.stringify(YAML.parse(x))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base64_binary_data::392",
+  "argv": [
+   "fromBase64(toBase64(x))"
+  ],
+  "stdin": "\"hello\\u0000world\"",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quote_backslash::393",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"path\": \"C:\\\\Users\\\\test\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quote_double_quote::394",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"text\": \"He said \\\"hello\\\"\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quote_control_chars::395",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"text\": \"line1\\nline2\\rline3\\tline4\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quote_backspace_formfeed::396",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"text\": \"hello\\bworld\\ftest\"}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inline_null_bool_number_array::397",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"mixed\": [null, true, false, 42, 3.14]}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_inline_mixed_types::398",
+  "argv": [
+   "."
+  ],
+  "stdin": "{\"arr\": [1, \"str\", {\"nested\": true}]}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_yaml_parse_nested::399",
+  "argv": [
+   "YAML.parse(x)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

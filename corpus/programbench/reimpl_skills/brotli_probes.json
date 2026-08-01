@@ -1,0 +1,3220 @@
+[
+ {
+  "name": "test::test_dictionary_nonexistent_file::0",
+  "argv": [
+   "-c",
+   "-D",
+   "/nonexistent/dict.txt"
+  ],
+  "stdin": "test data",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comment_compress_decompress_matching::1",
+  "argv": [
+   "-c",
+   "-C",
+   "SGVsbG8="
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comment_invalid_base64_chars::2",
+  "argv": [
+   "-c",
+   "-C",
+   "S.GVsbG8="
+  ],
+  "stdin": "test data",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comment_too_much_padding::3",
+  "argv": [
+   "-c",
+   "-C",
+   "SGVsbG8==="
+  ],
+  "stdin": "test data",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comment_padding_in_middle::4",
+  "argv": [
+   "-c",
+   "-C",
+   "SGVsbG=8"
+  ],
+  "stdin": "test data",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comment_whitespace_ignored::5",
+  "argv": [
+   "-c",
+   "-C",
+   "S\tG\rV\ns bG8="
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comment_no_padding::6",
+  "argv": [
+   "-c",
+   "-C",
+   "SGVsbG8"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concatenated_streams_without_flag::7",
+  "argv": [
+   "-dc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concatenated_streams_with_K_flag::8",
+  "argv": [
+   "-dc",
+   "-K"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concatenated_streams_long_form::9",
+  "argv": [
+   "-dc",
+   "--concatenated"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concatenated_reject_in_compression_mode::10",
+  "argv": [
+   "-c",
+   "-K"
+  ],
+  "stdin": "test data",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concatenated_and_comment_mutually_exclusive::11",
+  "argv": [
+   "-dc",
+   "-K",
+   "-C",
+   "SGVsbG8="
+  ],
+  "stdin": "test data",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comment_set_twice::12",
+  "argv": [
+   "-c",
+   "-C",
+   "SGVsbG8=",
+   "-C",
+   "SGVsbG8="
+  ],
+  "stdin": "test data",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concatenated_set_twice::13",
+  "argv": [
+   "-dc",
+   "-K",
+   "-K"
+  ],
+  "stdin": "test data",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concatenated_triple_stream::14",
+  "argv": [
+   "-dcK"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comment_with_quality_settings::15",
+  "argv": [
+   "-dc",
+   "-C",
+   "SGVsbG8="
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concatenated_with_quality_settings::16",
+  "argv": [
+   "-c",
+   "-q",
+   "0"
+  ],
+  "stdin": "Quality test stream 1",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comment_empty_input::17",
+  "argv": [
+   "-c",
+   "-C",
+   "SGVsbG8="
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concatenated_empty_streams::18",
+  "argv": [
+   "-c"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duplicate_quality_option::19",
+  "argv": [
+   "-q",
+   "5",
+   "-q",
+   "6"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duplicate_stdout_option::20",
+  "argv": [
+   "-c",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duplicate_decompress_command::21",
+  "argv": [
+   "-d",
+   "-d"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duplicate_force_option::22",
+  "argv": [
+   "-f",
+   "-f"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duplicate_keep_option::23",
+  "argv": [
+   "-k",
+   "-k"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duplicate_no_copy_stat_option::24",
+  "argv": [
+   "-n",
+   "-n"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duplicate_squash_option::25",
+  "argv": [
+   "-s",
+   "-s"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duplicate_verbose_option::26",
+  "argv": [
+   "-v",
+   "-v"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duplicate_concatenated_option::27",
+  "argv": [
+   "-K",
+   "-K"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duplicate_decompress_long_option::28",
+  "argv": [
+   "--decompress",
+   "--decompress"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_base64_comment::29",
+  "argv": [
+   "-C",
+   "invalid!@#"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base64_padding_then_characters::30",
+  "argv": [
+   "-C",
+   "SGVs=bG8="
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lgwin_too_small::31",
+  "argv": [
+   "-w",
+   "5"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lgwin_non_numeric::32",
+  "argv": [
+   "-w",
+   "abc"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lgwin_duplicate::33",
+  "argv": [
+   "-w",
+   "10",
+   "-w",
+   "15"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quality_non_numeric::34",
+  "argv": [
+   "-q",
+   "abc"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdout_with_output_file::35",
+  "argv": [
+   "--stdout",
+   "--output=file.br"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_parameter::36",
+  "argv": [
+   "--unknown=value"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_squash_with_stdout::37",
+  "argv": [
+   "--squash",
+   "--stdout"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_suffix_with_path_separator::38",
+  "argv": [
+   "--suffix=/etc/passwd"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concatenated_in_compress_mode::39",
+  "argv": [
+   "-K"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_equals_missing_in_long_option::40",
+  "argv": [
+   "--quality"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_equals_with_empty_value::41",
+  "argv": [
+   "--quality="
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dictionary_duplicate::42",
+  "argv": [
+   "-D",
+   "dict1.bin",
+   "-D",
+   "dict2.bin"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_suffix_duplicate::43",
+  "argv": [
+   "-S",
+   ".brotli",
+   "-S",
+   ".br"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comment_duplicate::44",
+  "argv": [
+   "-C",
+   "SGVsbG8=",
+   "-C",
+   "V29ybGQ="
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rm_then_keep_conflict::45",
+  "argv": [
+   "-j",
+   "-k"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concatenated_with_comment_in_decompress::46",
+  "argv": [
+   "-d",
+   "-K",
+   "-C",
+   "SGVsbG8="
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_window_valid::47",
+  "argv": [
+   "--large_window=15",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_window_too_small::48",
+  "argv": [
+   "--large_window=5",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_window_non_numeric::49",
+  "argv": [
+   "--large_window=abc",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_best_duplicate::50",
+  "argv": [
+   "--best",
+   "--best"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_force_duplicate_long::51",
+  "argv": [
+   "--force",
+   "--force"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keep_duplicate_long::52",
+  "argv": [
+   "--keep",
+   "--keep"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rm_duplicate_long::53",
+  "argv": [
+   "--rm",
+   "--rm"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_copy_stat_duplicate_long::54",
+  "argv": [
+   "--no-copy-stat",
+   "--no-copy-stat"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_squash_duplicate_long::55",
+  "argv": [
+   "--squash",
+   "--squash"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdout_duplicate_long::56",
+  "argv": [
+   "--stdout",
+   "--stdout"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_duplicate::57",
+  "argv": [
+   "--test",
+   "--test"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_duplicate_long::58",
+  "argv": [
+   "--verbose",
+   "--verbose"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_brcat_alias_rejects_decompress_flag::59",
+  "argv": [
+   "./brcat",
+   "-d"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unbrotli_alias_rejects_decompress_flag::60",
+  "argv": [
+   "./unbrotli",
+   "-d"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_dictionary_file::61",
+  "argv": [
+   "-D",
+   "/nonexistent/dict.bin"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base64_comment_with_plus_char::62",
+  "argv": [
+   "-C",
+   "+/8="
+  ],
+  "stdin": "test data\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_base64_comment_with_slash_char::63",
+  "argv": [
+   "-C",
+   "////"
+  ],
+  "stdin": "test data\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_output_megabyte_range::64",
+  "argv": [
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concatenated_streams_with_verbose::65",
+  "argv": [],
+  "stdin": "First stream\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_file_output_with_suffix::66",
+  "argv": [
+   "-d"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decompress_file_output_strips_suffix::67",
+  "argv": [],
+  "stdin": "test decompression data\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decompress_concatenated_without_flag::68",
+  "argv": [],
+  "stdin": "stream1\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comment_verification_mismatch_verbose::69",
+  "argv": [
+   "-C",
+   "dGVzdA=="
+  ],
+  "stdin": "data\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_truncated_brotli_stream_verbose::70",
+  "argv": [],
+  "stdin": "test data for truncation\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quality_level_zero::71",
+  "argv": [
+   "-q",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quality_level_maximum::72",
+  "argv": [
+   "-q",
+   "11"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lgwin_minimum_valid::73",
+  "argv": [
+   "-w",
+   "10"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lgwin_maximum_standard::74",
+  "argv": [
+   "-w",
+   "24"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_explicit_dash::75",
+  "argv": [
+   "-"
+  ],
+  "stdin": "stdin test data\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_separator::76",
+  "argv": [
+   "--"
+  ],
+  "stdin": "test after double dash\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_long_form_comment_option::77",
+  "argv": [
+   "--comment=dGVzdA=="
+  ],
+  "stdin": "test with long form comment\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_compression_decompression_roundtrip::78",
+  "argv": [
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quality_levels_affect_compression_size::79",
+  "argv": [
+   "-d",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shorthand_quality_notation::80",
+  "argv": [
+   "-5",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_window_size_auto_select::81",
+  "argv": [
+   "-q",
+   "5",
+   "-w",
+   "0",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_quality_value_rejected::82",
+  "argv": [
+   "-q",
+   "12",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_window_size_below_minimum::83",
+  "argv": [
+   "-w",
+   "9",
+   "-c"
+  ],
+  "stdin": "test data",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_window_size_above_maximum::84",
+  "argv": [
+   "-w",
+   "25",
+   "-c"
+  ],
+  "stdin": "test data",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_data_roundtrip::85",
+  "argv": [
+   "-q",
+   "5",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quality_and_window_combined::86",
+  "argv": [
+   "-q",
+   "11",
+   "-w",
+   "16",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_quality_fastest_mode::87",
+  "argv": [
+   "-q",
+   "0",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_byte_input::88",
+  "argv": [
+   "-c"
+  ],
+  "stdin": "X",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_newline_only_input::89",
+  "argv": [
+   "-c"
+  ],
+  "stdin": "\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_window_boundary_values::90",
+  "argv": [
+   "--large_window=10",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concatenated_streams_with_K_flag::91",
+  "argv": [
+   "-d",
+   "-K"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_integrity_check_valid_file::92",
+  "argv": [
+   "-t"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quality_0_minimal_window_tiny_input::93",
+  "argv": [
+   "-q",
+   "0",
+   "-w",
+   "10",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quality_0_max_window_highly_repetitive::94",
+  "argv": [
+   "-q",
+   "0",
+   "-w",
+   "24",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quality_11_minimal_window_highly_repetitive::95",
+  "argv": [
+   "-q",
+   "11",
+   "-w",
+   "10",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quality_11_all_zeros_optimal_compression::96",
+  "argv": [
+   "-q",
+   "11",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quality_0_large_window_mode::97",
+  "argv": [
+   "-q",
+   "0",
+   "--large_window=25",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quality_11_large_window_extremes::98",
+  "argv": [
+   "-q",
+   "11",
+   "--large_window=25",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quality_1_fast_two_pass_mode::99",
+  "argv": [
+   "-q",
+   "1",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quality_2_first_non_fast_mode::100",
+  "argv": [
+   "-q",
+   "2",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quality_4_block_splitting_transition::101",
+  "argv": [
+   "-q",
+   "3",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quality_10_zopflification_mode::102",
+  "argv": [
+   "-q",
+   "9",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_window_quality_11_incompressible_data::103",
+  "argv": [
+   "-q",
+   "11",
+   "--large_window=30",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_input_quality_extremes::104",
+  "argv": [
+   "-q",
+   "0",
+   "-c"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quality_11_max_window_all_zeros::105",
+  "argv": [
+   "-q",
+   "11",
+   "-w",
+   "24",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dictionary_not_found::106",
+  "argv": [
+   "-D",
+   "/nonexistent/dict.bin",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decompress_garbage_data::107",
+  "argv": [
+   "-dc"
+  ],
+  "stdin": "This is not compressed data at all!",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decompress_truncated_data::108",
+  "argv": [
+   "-c"
+  ],
+  "stdin": "test data to compress",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_concatenated_with_compress::109",
+  "argv": [
+   "-K",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_test_with_output::110",
+  "argv": [
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_suffix_with_path_separator::111",
+  "argv": [
+   "-S",
+   "/bad/suffix",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concatenated_with_comment_conflict::112",
+  "argv": [
+   "-K",
+   "-d",
+   "-C",
+   "YWJj"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_squash_with_stdout_conflict::113",
+  "argv": [
+   "-s",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_string_argument::114",
+  "argv": [
+   ""
+  ],
+  "stdin": "test input",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dash_as_stdin_with_file_error::115",
+  "argv": [
+   "-",
+   "/nonexistent/file.txt"
+  ],
+  "stdin": "from stdin",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comment_mismatch_on_decompress::116",
+  "argv": [
+   "-C",
+   "dGVzdA==",
+   "-c"
+  ],
+  "stdin": "test data",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comment_verification_on_decompress::117",
+  "argv": [
+   "-C",
+   "bXlkYXRh",
+   "-c"
+  ],
+  "stdin": "important data",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_stdout_compress::118",
+  "argv": [
+   "-c"
+  ],
+  "stdin": "This is test data for stdin/stdout compression test.",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_stdout_decompress::119",
+  "argv": [
+   "-c"
+  ],
+  "stdin": "Data for decompression test via stdin/stdout.",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pipe_chain_compress_decompress::120",
+  "argv": [
+   "-c"
+  ],
+  "stdin": "Test data for pipe chain: compression and decompression.",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_decompress_removes_br_suffix::121",
+  "argv": [
+   "-c"
+  ],
+  "stdin": "Content to compress and decompress.",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_suffix_decompress::122",
+  "argv": [
+   "-c"
+  ],
+  "stdin": "Data for custom suffix decompression.",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dash_means_stdin::123",
+  "argv": [
+   "-",
+   "-c"
+  ],
+  "stdin": "Data from stdin via dash argument.",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decompress_with_rm_flag::124",
+  "argv": [
+   "-c"
+  ],
+  "stdin": "Data to compress then decompress with rm.",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_force_overwrite_on_decompress::125",
+  "argv": [
+   "-c"
+  ],
+  "stdin": "New data for force overwrite test.",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decompress_from_stdout_flag::126",
+  "argv": [
+   "-c"
+  ],
+  "stdin": "Data for stdout decompression test.",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_no_args::127",
+  "argv": [
+   "-c"
+  ],
+  "stdin": "Data from stdin with no explicit file argument.",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_stdout_with_quality_flag::128",
+  "argv": [
+   "-1",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_file_with_decompress::129",
+  "argv": [
+   "-c"
+  ],
+  "stdin": "Data for decompress with custom output.",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decompress_missing_suffix::130",
+  "argv": [
+   "-c"
+  ],
+  "stdin": "Data for suffix mismatch test.",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decompress_stdin_to_file::131",
+  "argv": [
+   "-c"
+  ],
+  "stdin": "Data from stdin to file decompression.",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_dash_arguments::132",
+  "argv": [
+   "-",
+   "-",
+   "-c"
+  ],
+  "stdin": "Single stdin input.",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_with_multiple_quality_flags::133",
+  "argv": [
+   "-1",
+   "-9",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_explicit_dash_and_stdout::134",
+  "argv": [
+   "-c",
+   "-"
+  ],
+  "stdin": "Explicit dash with stdout.",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compression_quality_bounds::135",
+  "argv": [
+   "-q",
+   "0",
+   "-c"
+  ],
+  "stdin": "Quality bounds test data.",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_window_size_parameter::136",
+  "argv": [
+   "-w",
+   "10",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_window_size_auto_select::137",
+  "argv": [
+   "-w",
+   "0",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_best_compression_flag::138",
+  "argv": [
+   "-Z",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decompress_to_same_dir_as_input::139",
+  "argv": [
+   "-c"
+  ],
+  "stdin": "Data in subdirectory.",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_best_flag_duplicate_error::140",
+  "argv": [
+   "--best",
+   "--best",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_force_flag_duplicate_error::141",
+  "argv": [
+   "--force",
+   "--force",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_suffix_flag_duplicate_error::142",
+  "argv": [
+   "--suffix=.foo",
+   "--suffix=.bar",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lgwin_duplicate_error::143",
+  "argv": [
+   "--lgwin=16",
+   "--lgwin=18",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lgwin_and_large_window_conflict::144",
+  "argv": [
+   "--lgwin=16",
+   "--large_window=20",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lgwin_invalid_format_error::145",
+  "argv": [
+   "--lgwin=abc",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quality_invalid_format_error::146",
+  "argv": [
+   "--quality=xyz",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decompress_command_duplicate_error::147",
+  "argv": [
+   "--decompress",
+   "--decompress",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_flag_duplicate_error::148",
+  "argv": [
+   "--verbose",
+   "--verbose",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parameter_missing_equals_error::149",
+  "argv": [
+   "--quality",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_long_parameter_name_error::150",
+  "argv": [
+   "--invalid-param=123",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_c_flag_duplicate_error::151",
+  "argv": [
+   "-cc"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_d_flag_duplicate_error::152",
+  "argv": [
+   "-dd"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_f_flag_duplicate_error::153",
+  "argv": [
+   "-ff"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_t_flag_duplicate_error::154",
+  "argv": [
+   "-tt"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_v_flag_duplicate_error::155",
+  "argv": [
+   "-vvc"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_n_flag_duplicate_error::156",
+  "argv": [
+   "-nn"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_s_flag_duplicate_error::157",
+  "argv": [
+   "-ss"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_K_flag_duplicate_error::158",
+  "argv": [
+   "-KK"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_Z_flag_duplicate_error::159",
+  "argv": [
+   "-ZZ"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_short_flag_error::160",
+  "argv": [
+   "-x"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_q_missing_parameter_error::161",
+  "argv": [
+   "-q"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_q_embedded_parameter_error::162",
+  "argv": [
+   "-qx"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_q_duplicate_error::163",
+  "argv": [
+   "-q",
+   "5",
+   "-q",
+   "6",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_w_duplicate_error::164",
+  "argv": [
+   "-w",
+   "16",
+   "-w",
+   "18",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_S_duplicate_error::165",
+  "argv": [
+   "-S",
+   ".foo",
+   "-S",
+   ".bar",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdout_and_output_conflict::166",
+  "argv": [
+   "-c",
+   "--output=/tmp/out"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_executable_exists::167",
+  "argv": [
+   "./executable",
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_basic_compress_decompress::168",
+  "argv": [
+   "./executable",
+   "-c"
+  ],
+  "stdin": "Hello, World! This is a test of brotli compression.",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_output::169",
+  "argv": [
+   "./executable",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_goes_to_stderr::170",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_long_goes_to_stderr::171",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_short::172",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_long::173",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_option_long_format_help_to_stdout::174",
+  "argv": [
+   "--invalid-option"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_option_short_format::175",
+  "argv": [
+   "-X"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_file_creates_valid_br::176",
+  "argv": [
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "Hello brotli!"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_keeps_source_by_default::177",
+  "argv": [
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "Hello brotli source keep!"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_file_with_keep_flag::178",
+  "argv": [
+   "-k",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "Content to keep"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decompress_creates_original_name::179",
+  "argv": [
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "Content for decompression"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decompress_nonexistent_file::180",
+  "argv": [
+   "-d",
+   "/nonexistent_path/file.br"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_roundtrip_file::181",
+  "argv": [
+   "original.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "original.txt": "This is the original file content for round-trip testing!"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_file_flag_short::182",
+  "argv": [
+   "-o",
+   "input.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "input.txt": "test output file"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_file_flag_long_equals::183",
+  "argv": [
+   "input.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "input.txt": "test output file long"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_with_multiple_files_fails::184",
+  "argv": [
+   "-o",
+   "a.txt",
+   "b.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "a.txt": "file a",
+   "b.txt": "file b"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decompress_to_output_file::185",
+  "argv": [
+   "-d",
+   "-o"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quality_invalid_negative::186",
+  "argv": [
+   "--quality=-1",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quality_duplicate_flag_error::187",
+  "argv": [
+   "-q",
+   "5",
+   "-q",
+   "5",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quality_and_best_flag_conflict::188",
+  "argv": [
+   "-Z",
+   "-q",
+   "5",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lgwin_invalid_too_small::189",
+  "argv": [
+   "-w",
+   "5",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lgwin_invalid_too_large::190",
+  "argv": [
+   "-w",
+   "25",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lgwin_duplicate_error::191",
+  "argv": [
+   "-w",
+   "12",
+   "-w",
+   "12",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lgwin_and_large_window_conflict::192",
+  "argv": [
+   "--lgwin=12",
+   "--large_window=20",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_fails_if_output_exists::193",
+  "argv": [
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "original content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_force_overwrite::194",
+  "argv": [
+   "-f",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "new content to overwrite with"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decompress_force_overwrite::195",
+  "argv": [
+   "-d",
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_force_flag_long_roundtrip::196",
+  "argv": [
+   "--force",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "force long flag test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_force_flag_duplicate_error::197",
+  "argv": [
+   "-f",
+   "-f",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_rm_removes_source_and_valid_output::198",
+  "argv": [
+   "-j",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "remove source after compress"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_rm_long_flag::199",
+  "argv": [
+   "--rm",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "remove source long flag"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decompress_rm_removes_source::200",
+  "argv": [
+   "-d",
+   "-j"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rm_flag_duplicate_error::201",
+  "argv": [
+   "-j",
+   "-j",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keep_and_rm_conflict::202",
+  "argv": [
+   "-j",
+   "-k",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_squash_large_compressible_data_keeps_output::203",
+  "argv": [
+   "-s"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_squash_long_flag::204",
+  "argv": [
+   "--squash"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_squash_duplicate_error::205",
+  "argv": [
+   "-s",
+   "-s",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_squash_removes_output_if_larger::206",
+  "argv": [
+   "-s",
+   "tiny.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "tiny.txt": "x"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_copy_stat_short::207",
+  "argv": [
+   "-n",
+   "-o",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "no copy stat test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_copy_stat_long::208",
+  "argv": [
+   "--no-copy-stat",
+   "-o",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "no copy stat long test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_copy_stat_duplicate_error::209",
+  "argv": [
+   "-n",
+   "-n",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_integrity_corrupt_file::210",
+  "argv": [
+   "-t",
+   "corrupt.br"
+  ],
+  "stdin": null,
+  "files": {
+   "corrupt.br": "this is not valid brotli data at all!!"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_integrity_long_flag::211",
+  "argv": [
+   "--test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_with_stdout_flag_is_invalid::212",
+  "argv": [
+   "-t",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_test_decompress_conflict::213",
+  "argv": [
+   "-d",
+   "-t",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_suffix_compress::214",
+  "argv": [
+   "-S",
+   ".brotli",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "custom suffix test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_suffix_long_flag::215",
+  "argv": [
+   "--suffix=.brotli",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "custom suffix long flag"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_suffix_decompress::216",
+  "argv": [
+   "-d",
+   "-S",
+   ".brotli"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_suffix_with_backslash_fails::217",
+  "argv": [
+   "-S",
+   "bad\\suffix",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_suffix_duplicate_error::218",
+  "argv": [
+   "-S",
+   ".a",
+   "-S",
+   ".b",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_suffix_is_br::219",
+  "argv": [
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "default suffix test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concatenated_flag_K_allows_multi_stream::220",
+  "argv": [
+   "-d",
+   "-K",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concatenated_long_flag::221",
+  "argv": [
+   "-d",
+   "--concatenated",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concatenated_duplicate_error::222",
+  "argv": [
+   "-K",
+   "-K",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decompress_with_matching_comment::223",
+  "argv": [
+   "-d",
+   "-C",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decompress_with_mismatched_comment_fails::224",
+  "argv": [
+   "-d",
+   "-C",
+   "V3JvbmcK",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comment_too_much_padding::225",
+  "argv": [
+   "-C",
+   "SGVsbG8===",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comment_padding_in_middle_fails::226",
+  "argv": [
+   "-C",
+   "SGVsbG=8",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comment_invalid_chars::227",
+  "argv": [
+   "-C",
+   "S.GVsbG8=",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comment_duplicate_error::228",
+  "argv": [
+   "-C",
+   "-C",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comment_length_mismatch_fails::229",
+  "argv": [
+   "-t",
+   "-C",
+   "SGVs"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comment_test_integrity_with_matching::230",
+  "argv": [
+   "-t",
+   "-C"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_comment_test_integrity_with_mismatch::231",
+  "argv": [
+   "-t",
+   "-C",
+   "V3JvbmcK"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_with_dictionary_roundtrip::232",
+  "argv": [
+   "-D",
+   "dict.txt",
+   "-d",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {
+   "dict.txt": "the quick brown fox jumps over the lazy dog"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_roundtrip_with_dictionary::233",
+  "argv": [
+   "-D",
+   "dict.txt",
+   "-d",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {
+   "dict.txt": "common prefix text used in dictionary"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dictionary_file_output::234",
+  "argv": [
+   "-D",
+   "dict.bin",
+   "input.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "dict.bin": "dictionary content for testing",
+   "input.txt": "dictionary content test data"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dictionary_nonexistent_fails::235",
+  "argv": [
+   "-D",
+   "/nonexistent/dict.txt",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dictionary_duplicate_error::236",
+  "argv": [
+   "-D",
+   "d.txt",
+   "-D",
+   "d.txt",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {
+   "d.txt": "dict"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coalesced_9kf::237",
+  "argv": [
+   "-9kf",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "coalesced options test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coalesced_dKc::238",
+  "argv": [
+   "-dKc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_coalesced_Zfk::239",
+  "argv": [
+   "-Zfk",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "ZFk coalesced test content for testing"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_treats_args_as_files::240",
+  "argv": [
+   "--",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "double dash test content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_with_options_before::241",
+  "argv": [
+   "-k",
+   "--",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "double dash with options before"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_files_roundtrip::242",
+  "argv": [
+   "first.txt",
+   "second.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "first.txt": "first file roundtrip",
+   "second.txt": "second file roundtrip"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_input_file::243",
+  "argv": [
+   "/path/does/not/exist.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_corrupt_brotli_data::244",
+  "argv": [
+   "-d",
+   "-c"
+  ],
+  "stdin": "this is not valid brotli data at all!!",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_decompress_duplicate_flag_error::245",
+  "argv": [
+   "-d",
+   "-d",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_quality_string::246",
+  "argv": [
+   "--quality=abc",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lgwin_too_small_but_nonzero::247",
+  "argv": [
+   "--lgwin=5",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_duplicate_error::248",
+  "argv": [
+   "-v",
+   "-v",
+   "-c"
+  ],
+  "stdin": "test",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_compress_reports_sizes::249",
+  "argv": [
+   "-v",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "verbose mode test content that is long enough"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_decompress_reports_sizes::250",
+  "argv": [
+   "-d",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_long_flag::251",
+  "argv": [
+   "--verbose",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "verbose long flag test content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_non_verbose_no_stderr_output::252",
+  "argv": [
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "silent compression test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_shows_file_path::253",
+  "argv": [
+   "-v",
+   "verbose_path_test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "verbose_path_test.txt": "verbose path test content long enough"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compress_empty_file::254",
+  "argv": [
+   "empty.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.txt": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_extension_implies_compress::255",
+  "argv": [
+   "noext"
+  ],
+  "stdin": null,
+  "files": {
+   "noext": "content without extension"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_test_mode::256",
+  "argv": [
+   "-t",
+   "-v"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

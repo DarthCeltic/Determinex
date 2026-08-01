@@ -1,0 +1,2897 @@
+[
+ {
+  "name": "test::test_parfile_driver::0",
+  "argv": [
+   "--driver",
+   "parfile",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "Test content for parfile driver"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_workers_option::1",
+  "argv": [
+   "--workers",
+   "2",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_workers_auto_detect::2",
+  "argv": [
+   "--workers",
+   "0",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_block_size_option::3",
+  "argv": [
+   "--block-size",
+   "4KB"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_block_size_megabytes::4",
+  "argv": [
+   "--block-size",
+   "1MB",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reflink_auto::5",
+  "argv": [
+   "--reflink",
+   "auto",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "Reflink test content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reflink_never::6",
+  "argv": [
+   "--reflink",
+   "never",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "Content for reflink never test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fsync_option::7",
+  "argv": [
+   "--fsync",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "Content to sync"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_progress_flag::8",
+  "argv": [
+   "--no-progress"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_flag::9",
+  "argv": [
+   "-v",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_verbose_flags::10",
+  "argv": [
+   "-vvv",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_target_directory_option::11",
+  "argv": [
+   "--target-directory",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_target_directory_flag::12",
+  "argv": [
+   "-r",
+   "-T"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_with_special_permission_combinations::13",
+  "argv": [
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "perms"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_file_larger_than_block_size::14",
+  "argv": [
+   "--block-size",
+   "64KB"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_workers_with_many_files::15",
+  "argv": [
+   "-r",
+   "--workers",
+   "8"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parblock_with_zero_workers::16",
+  "argv": [
+   "--driver",
+   "parblock",
+   "--workers",
+   "0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_worker::17",
+  "argv": [
+   "-r",
+   "--workers",
+   "1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_directory_with_mixed_content_types::18",
+  "argv": [
+   "-r"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_copy_preserves_hardlink_count::19",
+  "argv": [
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "hardlink"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_with_path_traversal_components::20",
+  "argv": [
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "path test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_with_current_directory_reference::21",
+  "argv": [
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "current dir"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backup_with_no_clobber_incompatible::22",
+  "argv": [
+   "--no-clobber",
+   "--backup",
+   "numbered",
+   "source.txt",
+   "dest.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "new",
+   "dest.txt": "old"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_backup_option::23",
+  "argv": [
+   "source.txt",
+   "dest.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "new",
+   "dest.txt": "old"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backup_none::24",
+  "argv": [
+   "--backup",
+   "none",
+   "source.txt",
+   "dest.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "new content",
+   "dest.txt": "old content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backup_numbered::25",
+  "argv": [
+   "--backup",
+   "numbered",
+   "source.txt",
+   "dest.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "new content",
+   "dest.txt": "old content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backup_numbered_increments::26",
+  "argv": [
+   "--backup",
+   "numbered",
+   "source.txt",
+   "dest.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "version 2",
+   "dest.txt": "version 0"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backup_auto_without_existing::27",
+  "argv": [
+   "--backup",
+   "auto",
+   "source.txt",
+   "dest.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "new",
+   "dest.txt": "old"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backup_off_alias::28",
+  "argv": [
+   "--backup",
+   "off",
+   "source.txt",
+   "dest.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "new",
+   "dest.txt": "old"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag::29",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_flag::30",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_flag::31",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_short_flag::32",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_argument::33",
+  "argv": [
+   "/tmp/nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::34",
+  "argv": [
+   "--invalid-flag-that-does-not-exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parblock_with_sparse_like_content::35",
+  "argv": [
+   "--driver",
+   "parblock",
+   "--block-size",
+   "16KB"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parblock_very_small_block_size::36",
+  "argv": [
+   "--driver",
+   "parblock",
+   "--block-size",
+   "512"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parblock_nested_directory::37",
+  "argv": [
+   "-r",
+   "--driver",
+   "parblock"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_permissions_with_no_perms_and_directory::38",
+  "argv": [
+   "-r",
+   "--no-perms"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_timestamps_with_no_timestamps_directory::39",
+  "argv": [
+   "-r",
+   "--no-timestamps"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fsync_with_directory::40",
+  "argv": [
+   "-r",
+   "--fsync"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_all_options::41",
+  "argv": [
+   "-r",
+   "-v",
+   "--no-progress",
+   "--no-perms",
+   "--no-timestamps",
+   "--workers",
+   "2",
+   "--block-size",
+   "8KB",
+   "--driver",
+   "parfile",
+   "--fsync",
+   "--reflink",
+   "never"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backup_with_directory_copy::42",
+  "argv": [
+   "-r",
+   "--backup",
+   "numbered"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_symlink_with_parblock::43",
+  "argv": [
+   "--driver",
+   "parblock"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dereference_with_parblock::44",
+  "argv": [
+   "-L",
+   "--driver",
+   "parblock"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_clobber_with_backup::45",
+  "argv": [
+   "-n",
+   "--backup",
+   "numbered",
+   "source.txt",
+   "dest.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "new",
+   "dest.txt": "old"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reflink_with_parblock::46",
+  "argv": [
+   "--driver",
+   "parblock",
+   "--reflink",
+   "auto",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "reflink with parblock"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_workers_zero_uses_cpu_count::47",
+  "argv": [
+   "-w",
+   "0",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "test content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parblock_driver_single_file::48",
+  "argv": [
+   "--driver",
+   "parblock",
+   "--block-size",
+   "1KB"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parblock_with_directory::49",
+  "argv": [
+   "-r",
+   "--driver",
+   "parblock",
+   "--block-size",
+   "512"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reflink_auto_with_file::50",
+  "argv": [
+   "--reflink",
+   "auto",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "reflink test content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reflink_never_with_file::51",
+  "argv": [
+   "--reflink",
+   "never",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "full copy test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backup_off_mode::52",
+  "argv": [
+   "--backup",
+   "off",
+   "source.txt",
+   "dest.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "new content",
+   "dest.txt": "existing content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_verbose_levels::53",
+  "argv": [
+   "-v",
+   "-v",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "verbose test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_triple_verbose::54",
+  "argv": [
+   "-v",
+   "-v",
+   "-v",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "very verbose test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fsync_with_file::55",
+  "argv": [
+   "--fsync",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "fsync test content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_with_all_metadata_flags::56",
+  "argv": [
+   "--no-perms",
+   "--no-timestamps",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "metadata test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_block_size_with_unit_suffix::57",
+  "argv": [
+   "--block-size",
+   "10KB"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_preserves_executable_bit::58",
+  "argv": [
+   "script.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "script.sh": "#!/bin/bash\necho test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_multiple_files_with_workers::59",
+  "argv": [
+   "-w",
+   "2",
+   "file1.txt",
+   "file2.txt",
+   "file3.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.txt": "content1",
+   "file2.txt": "content2",
+   "file3.txt": "content3"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dereference_with_directory::60",
+  "argv": [
+   "-r",
+   "-L"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_target_directory_with_flag::61",
+  "argv": [
+   "--target-directory",
+   "file1.txt",
+   "file2.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.txt": "content1",
+   "file2.txt": "content2"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_target_directory_with_file_to_file::62",
+  "argv": [
+   "-T",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "source content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gitignore_with_nested_structure::63",
+  "argv": [
+   "-r",
+   "--gitignore"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_glob_with_pattern_in_same_dir::64",
+  "argv": [
+   "-g"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_with_all_flags_combined::65",
+  "argv": [
+   "-v",
+   "-v",
+   "--no-progress",
+   "--no-perms",
+   "--no-timestamps",
+   "--fsync",
+   "-w",
+   "2",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "combined flags test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backup_auto_without_existing_backup::66",
+  "argv": [
+   "--backup",
+   "auto",
+   "source.txt",
+   "dest.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "new content",
+   "dest.txt": "old content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_file_with_newlines_only::67",
+  "argv": [
+   "newlines.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "newlines.txt": "\n\n\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_file_with_unicode::68",
+  "argv": [
+   "unicode.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "unicode.txt": "Hello 世界 🌍 Привет مرحبا"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_with_unicode_filename::69",
+  "argv": [
+   "文件.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "文件.txt": "content in unicode-named file"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parfile_driver_explicit::70",
+  "argv": [
+   "--driver",
+   "parfile",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "parfile driver test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_block_size::71",
+  "argv": [
+   "--block-size",
+   "1GB",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "large block size test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_with_reflink_and_fsync::72",
+  "argv": [
+   "--reflink",
+   "auto",
+   "--fsync",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "reflink + fsync test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_with_no_progress::73",
+  "argv": [
+   "-v",
+   "--no-progress",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "verbose no progress"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_readonly_file::74",
+  "argv": [
+   "readonly.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "readonly.txt": "readonly content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_recursive_directory_copy_long_flag::75",
+  "argv": [
+   "--recursive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_directory_name_with_slash::76",
+  "argv": [
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filename_with_spaces::77",
+  "argv": [
+   "file with spaces.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file with spaces.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filename_with_special_chars::78",
+  "argv": [
+   "file-with_special.chars[123].txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file-with_special.chars[123].txt": "special"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hidden_file_copy::79",
+  "argv": [
+   ".hidden"
+  ],
+  "stdin": null,
+  "files": {
+   ".hidden": "hidden content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filename_with_newline_encoding::80",
+  "argv": [
+   "mixed_newlines.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "mixed_newlines.txt": "Line 1\nLine 2\r\nLine 3\rLine 4\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_to_same_directory::81",
+  "argv": [
+   "original.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "original.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_overwrite_with_different_size::82",
+  "argv": [
+   "source.txt",
+   "dest.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "short",
+   "dest.txt": "this is a much longer content that will be overwritten"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_with_all_flags_combined::83",
+  "argv": [
+   "-r",
+   "-v",
+   "--no-progress",
+   "--workers",
+   "2",
+   "--block-size",
+   "4KB"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_files_to_non_directory::84",
+  "argv": [
+   "file1.txt",
+   "file2.txt",
+   "dest.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.txt": "content 1",
+   "file2.txt": "content 2",
+   "dest.txt": "existing"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_directory_as_destination_for_file_without_recursive::85",
+  "argv": [
+   "dest.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "dest.txt": "existing content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_same_source_and_destination::86",
+  "argv": [
+   "file.txt",
+   "file.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_clobber_with_existing_file::87",
+  "argv": [
+   "--no-clobber",
+   "source.txt",
+   "dest.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "new content",
+   "dest.txt": "old content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_clobber_short_flag::88",
+  "argv": [
+   "-n",
+   "source.txt",
+   "dest.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "new",
+   "dest.txt": "old"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_force_and_no_clobber_conflict::89",
+  "argv": [
+   "--force",
+   "--no-clobber",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_workers_value::90",
+  "argv": [
+   "--workers",
+   "-1",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "content to copy"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_simple_file_copy::91",
+  "argv": [
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "Hello, World! This is test content.\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_copy_to_directory::92",
+  "argv": [
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "Test content for directory copy.\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_files_to_directory::93",
+  "argv": [
+   "file1.txt",
+   "file2.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.txt": "Content of first file.\n",
+   "file2.txt": "Content of second file.\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_overwrite_existing_file::94",
+  "argv": [
+   "source.txt",
+   "dest.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "New content",
+   "dest.txt": "Old content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_empty_file::95",
+  "argv": [
+   "empty.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.txt": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_file_with_unicode_name::96",
+  "argv": [
+   "файл_测试_🎉.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "файл_测试_🎉.txt": "Unicode filename test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_preserves_content_exactly::97",
+  "argv": [
+   "exact.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "exact.txt": "Line 1\nLine 2\r\nLine 3\u0000\u0001\u0002�"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_with_no_progress_and_large_block::98",
+  "argv": [
+   "--no-progress",
+   "--block-size",
+   "1GB",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "no progress large block"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parfile_driver_with_small_blocks::99",
+  "argv": [
+   "--driver",
+   "parfile",
+   "--block-size",
+   "5KB"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reflink_always_with_regular_file::100",
+  "argv": [
+   "--reflink",
+   "always",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "reflink always test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backup_numbered_multiple_iterations::101",
+  "argv": [
+   "--backup",
+   "numbered",
+   "source.txt",
+   "dest.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "v3",
+   "dest.txt": "old"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_with_fsync_and_reflink::102",
+  "argv": [
+   "--fsync",
+   "--reflink",
+   "auto",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "fsync reflink combo"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_with_all_no_flags::103",
+  "argv": [
+   "--no-perms",
+   "--no-timestamps",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "new"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_workers_with_directory_copy::104",
+  "argv": [
+   "-r",
+   "-w",
+   "8"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_large_block_size_with_small_file::105",
+  "argv": [
+   "--block-size",
+   "10GB",
+   "small.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "small.txt": "tiny"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_file_with_all_options::106",
+  "argv": [
+   "-v",
+   "-v",
+   "--no-progress",
+   "--no-perms",
+   "--no-timestamps",
+   "--fsync",
+   "-w",
+   "4",
+   "--block-size",
+   "1MB",
+   "--driver",
+   "parfile",
+   "--reflink",
+   "auto",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "all options test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_binary_with_various_block_sizes::107",
+  "argv": [
+   "--block-size"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_glob_mixed_with_regular_paths::108",
+  "argv": [
+   "-g",
+   "specific.dat"
+  ],
+  "stdin": null,
+  "files": {
+   "specific.dat": "specific"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_5mb_file_parfile::109",
+  "argv": [
+   "--driver",
+   "parfile"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_5mb_file_parblock::110",
+  "argv": [
+   "--driver",
+   "parblock",
+   "--block-size",
+   "512KB"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_directory_with_mixed_large_files::111",
+  "argv": [
+   "-r",
+   "--workers",
+   "4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parblock_with_many_small_blocks::112",
+  "argv": [
+   "--driver",
+   "parblock",
+   "--block-size",
+   "4KB"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parfile_with_many_workers::113",
+  "argv": [
+   "-r",
+   "--driver",
+   "parfile",
+   "--workers",
+   "16"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_very_large_file_with_tiny_blocks::114",
+  "argv": [
+   "--block-size",
+   "4KB",
+   "-w",
+   "8"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parfile_with_multiple_small_blocks::115",
+  "argv": [
+   "-r",
+   "--driver",
+   "parfile",
+   "-w",
+   "16",
+   "--block-size",
+   "1KB"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_with_extreme_parallelism::116",
+  "argv": [
+   "-r",
+   "-w",
+   "64"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_with_ownership_flag_non_root::117",
+  "argv": [
+   "-o",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "ownership test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_operations_in_sequence::118",
+  "argv": [
+   "src1.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "src1.txt": "content1"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_file_then_overwrite::119",
+  "argv": [
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "version2"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_with_target_directory_multiple_sources::120",
+  "argv": [
+   "--target-directory"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backup_with_special_char_filename::121",
+  "argv": [
+   "--backup",
+   "numbered",
+   "source[1].txt",
+   "dest[1].txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source[1].txt": "new",
+   "dest[1].txt": "old"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_reflink_mode::122",
+  "argv": [
+   "--reflink",
+   "invalid",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_backup_mode::123",
+  "argv": [
+   "--backup",
+   "invalid",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_driver::124",
+  "argv": [
+   "--driver",
+   "invalid",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_block_size::125",
+  "argv": [
+   "--block-size",
+   "invalid",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_block_size::126",
+  "argv": [
+   "--block-size",
+   "-1",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_target_directory_with_single_source::127",
+  "argv": [
+   "--target-directory",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "single source"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_target_directory_with_multiple_sources::128",
+  "argv": [
+   "--target-directory",
+   "file1.txt",
+   "file2.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.txt": "file 1",
+   "file2.txt": "file 2"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_target_directory_with_files::129",
+  "argv": [
+   "-T",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "no target dir"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_options::130",
+  "argv": [
+   "-n",
+   "-f",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "conflict"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ownership_flag_non_root::131",
+  "argv": [
+   "-o",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ownership_long_flag::132",
+  "argv": [
+   "--ownership",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "ownership test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_with_all_metadata_flags::133",
+  "argv": [
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "all metadata"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_disable_all_metadata::134",
+  "argv": [
+   "--no-perms",
+   "--no-timestamps",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "no metadata"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_shows_more_output::135",
+  "argv": [
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "verbose test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_verbosity_levels::136",
+  "argv": [
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "verbosity levels"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_workers_with_small_file::137",
+  "argv": [
+   "--workers",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "worker test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_driver_and_block_size::138",
+  "argv": [
+   "--driver",
+   "--block-size",
+   "32KB"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reflink_modes::139",
+  "argv": [
+   "--reflink",
+   "always",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "Reflink modes test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parblock_driver_large_file::140",
+  "argv": [
+   "--driver",
+   "parblock",
+   "--block-size",
+   "1MB"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parblock_with_different_block_sizes::141",
+  "argv": [
+   "--driver",
+   "parblock",
+   "--block-size",
+   "64KB"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parblock_with_workers::142",
+  "argv": [
+   "--driver",
+   "parblock",
+   "--workers",
+   "4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_permissions_preserved_by_default::143",
+  "argv": [
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "content for permissions test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_perms_flag::144",
+  "argv": [
+   "--no-perms",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "content for no-perms test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_timestamps_preserved_by_default::145",
+  "argv": [
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "timestamp test content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_timestamps_flag::146",
+  "argv": [
+   "--no-timestamps",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "no-timestamp test content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_readonly_file_copy::147",
+  "argv": [
+   "readonly.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "readonly.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_executable_file_copy::148",
+  "argv": [
+   "script.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "script.sh": "#!/bin/bash\necho 'test'"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reflink_always_may_fail_on_unsupported::149",
+  "argv": [
+   "--reflink",
+   "always",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "reflink test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backup_with_existing_numbered_backups::150",
+  "argv": [
+   "--backup",
+   "numbered",
+   "source.txt",
+   "dest.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "version 1",
+   "dest.txt": "version 0"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backup_preserves_original_content::151",
+  "argv": [
+   "--backup",
+   "numbered",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "New content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_fsync_ensures_data_written::152",
+  "argv": [
+   "--fsync",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "content to sync to disk"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_force_flag_allows_overwrite::153",
+  "argv": [
+   "--force",
+   "source.txt",
+   "dest.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "new",
+   "dest.txt": "old"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_backups_increment_correctly::154",
+  "argv": [
+   "--backup",
+   "numbered",
+   "source.txt",
+   "dest.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "v3",
+   "dest.txt": "v0"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_with_very_small_block_size::155",
+  "argv": [
+   "--block-size",
+   "512"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_file_exactly_one_block::156",
+  "argv": [
+   "--block-size",
+   "1KB"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_with_max_workers::157",
+  "argv": [
+   "-w",
+   "32",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "max workers test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_with_single_worker::158",
+  "argv": [
+   "-w",
+   "1",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "single worker test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_directory_with_many_workers::159",
+  "argv": [
+   "-r",
+   "-w",
+   "16"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backup_mode_none_explicit::160",
+  "argv": [
+   "--backup",
+   "none",
+   "source.txt",
+   "dest.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "new",
+   "dest.txt": "old"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reflink_with_no_clobber::161",
+  "argv": [
+   "--reflink",
+   "auto",
+   "-n",
+   "source.txt",
+   "dest.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "source",
+   "dest.txt": "existing"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_with_no_perms_and_no_timestamps::162",
+  "argv": [
+   "--no-perms",
+   "--no-timestamps",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "test content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_with_all_options_combined::163",
+  "argv": [
+   "-v",
+   "--no-progress",
+   "--fsync",
+   "-w",
+   "4",
+   "--block-size",
+   "10KB",
+   "--reflink",
+   "auto",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "all options"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_file_with_spaces_in_name::164",
+  "argv": [
+   "file with spaces.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file with spaces.txt": "spaces in name"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_file_with_special_chars_in_name::165",
+  "argv": [
+   "file[brackets].txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file[brackets].txt": "brackets"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_hidden_file::166",
+  "argv": [
+   ".hidden"
+  ],
+  "stdin": null,
+  "files": {
+   ".hidden": "hidden file content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_sources_to_directory::167",
+  "argv": [
+   "src1.txt",
+   "src2.txt",
+   "src3.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "src1.txt": "content1",
+   "src2.txt": "content2",
+   "src3.txt": "content3"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_file_ending_with_newline::168",
+  "argv": [
+   "with_newline.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "with_newline.txt": "line1\nline2\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_file_without_newline::169",
+  "argv": [
+   "no_newline.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "no_newline.txt": "line1\nline2"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parblock_with_workers_and_blocksize::170",
+  "argv": [
+   "--driver",
+   "parblock",
+   "-w",
+   "4",
+   "--block-size",
+   "2KB"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_verbose_shows_more_output::171",
+  "argv": [
+   "--no-progress",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "verbose output test"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_file_with_extended_attributes::172",
+  "argv": [
+   "xattr.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "xattr.txt": "file with xattrs"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parblock_with_large_file_small_blocks::173",
+  "argv": [
+   "--driver",
+   "parblock",
+   "--block-size",
+   "256KB",
+   "-w",
+   "4"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_copy_device_file_simulation::174",
+  "argv": [
+   "regular.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "regular.txt": "regular file"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_no_newline::175",
+  "argv": [
+   "no_newline.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "no_newline.txt": "This file has no newline at the end"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_only_newlines::176",
+  "argv": [
+   "newlines.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "newlines.txt": "\n\n\n\n\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dereference_symlink_flag::177",
+  "argv": [
+   "-L"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dereference_long_flag::178",
+  "argv": [
+   "--dereference"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_acl_single_user_entry_preserved::179",
+  "argv": [
+   "setfacl",
+   "-m",
+   "u:daemon:r",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "acl content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_acl_multiple_user_and_group_entries::180",
+  "argv": [
+   "setfacl",
+   "-m",
+   "u:daemon:r,u:mail:rw,g:users:rx",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "multi acl content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_acl_with_mask_entry_preserved::181",
+  "argv": [
+   "setfacl",
+   "-m",
+   "u:daemon:rwx",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "acl mask content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_acl_not_copied_with_no_perms_flag::182",
+  "argv": [
+   "setfacl",
+   "-m",
+   "u:daemon:r",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "acl no perms"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_xattr_and_acl_both_preserved_together::183",
+  "argv": [
+   "setfacl",
+   "-m",
+   "u:daemon:r",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "xattr and acl content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_acl_with_effective_rights_comment::184",
+  "argv": [
+   "setfacl",
+   "-m",
+   "u:daemon:rwx,m:r",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "acl effective rights"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_acl_overwrite_preserves_dest_basic_permissions::185",
+  "argv": [
+   "setfacl",
+   "-m",
+   "u:daemon:r",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "source with acl"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_acl_named_group_multiple_entries::186",
+  "argv": [
+   "setfacl",
+   "-m",
+   "g:daemon:r,g:mail:rw,g:users:x",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "multi group acl"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_acl_combination_with_ownership_flag::187",
+  "argv": [
+   "setfacl",
+   "-m",
+   "u:daemon:r",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "acl with ownership"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_acl_read_only_file_acl_preserved::188",
+  "argv": [
+   "setfacl",
+   "-m",
+   "u:daemon:r",
+   "source.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "source.txt": "readonly with acl"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ownership_copy_failure_warning::189",
+  "argv": [
+   "useradd",
+   "-m",
+   "testuser"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_args_errors::190",
+  "argv": [],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_treats_following_as_positional_not_flag::191",
+  "argv": [
+   "--",
+   "--unknown"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_workers_negative_is_not_accepted_as_value::192",
+  "argv": [
+   "--workers",
+   "-1",
+   "a",
+   "b"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_workers_rejects_non_integer::193",
+  "argv": [
+   "--workers",
+   "abc",
+   "a",
+   "b"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_block_size_rejects_garbage::194",
+  "argv": [
+   "--block-size",
+   "abc",
+   "a",
+   "b"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_driver_rejects_unknown_value::195",
+  "argv": [
+   "--driver",
+   "nope",
+   "a",
+   "b"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_reflink_rejects_unknown_value::196",
+  "argv": [
+   "--reflink",
+   "nope",
+   "a",
+   "b"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_backup_rejects_unknown_value::197",
+  "argv": [
+   "--backup",
+   "nope",
+   "a",
+   "b"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_force_and_no_clobber_are_mutually_exclusive_program_validation::198",
+  "argv": [
+   "-f",
+   "-n",
+   "a",
+   "b"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_too_many_positionals_error_for_multi_source_non_dir_dest::199",
+  "argv": [
+   "a",
+   "b",
+   "c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_clobber_errors_and_does_not_overwrite::200",
+  "argv": [
+   "--no-progress",
+   "--no-clobber",
+   "src.txt",
+   "dst.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "src.txt": "new",
+   "dst.txt": "old"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_force_and_no_clobber_is_error::201",
+  "argv": [
+   "--no-progress",
+   "--force",
+   "--no-clobber",
+   "src.txt",
+   "dst.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "src.txt": "x",
+   "dst.txt": "y"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

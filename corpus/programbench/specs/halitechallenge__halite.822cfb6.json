@@ -1,0 +1,2552 @@
+{
+ "slug": "halitechallenge__halite.822cfb6",
+ "language": "",
+ "n_branches": 12,
+ "n_tests_total": 366,
+ "n_examples": 125,
+ "n_with_exact_stdout": 0,
+ "n_with_rc": 118,
+ "n_skipped": 220,
+ "examples": [
+  {
+   "test": "test_starter_package_game",
+   "argv": [
+    "g++",
+    "MyBot.cpp",
+    "-std=c++11",
+    "-o",
+    "MyBot"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:45"
+  },
+  {
+   "test": "test_java_starter_package_build",
+   "argv": [
+    "javac",
+    "MyBot.java"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_harvest.py:199"
+  },
+  {
+   "test": "test_help_flag_displays_usage",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:",
+    "dimensions",
+    "seed",
+    "nplayers",
+    "quiet",
+    "Halite Game Environment"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_halite.py:37"
+  },
+  {
+   "test": "test_h_flag_displays_usage",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:",
+    "dimensions"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_halite.py:48"
+  },
+  {
+   "test": "test_version_flag_displays_version",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "version",
+    "1.2"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_halite.py:55"
+  },
+  {
+   "test": "test_single_bot_execution",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "1000",
+    "-q",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1 "
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_halite.py:65"
+  },
+  {
+   "test": "test_two_bot_game",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "1000",
+    "-q",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_halite.py:80"
+  },
+  {
+   "test": "test_invalid_bot_command_creates_error_log",
+   "argv": [
+    "-d",
+    "10 10",
+    "-q",
+    "-r",
+    "/nonexistent/bot"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_halite.py:100"
+  },
+  {
+   "test": "test_custom_dimensions",
+   "argv": [
+    "-d",
+    "15 20",
+    "-s",
+    "1000",
+    "-q",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_halite.py:120"
+  },
+  {
+   "test": "test_custom_seed",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "12345",
+    "-q",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_halite.py:138"
+  },
+  {
+   "test": "test_single_player_mode_with_nplayers",
+   "argv": [
+    "-d",
+    "10 10",
+    "-n",
+    "2",
+    "-s",
+    "1000",
+    "-q",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_halite.py:164"
+  },
+  {
+   "test": "test_normal_mode_output_format",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "1000",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "simple_bot.py"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_halite.py:235"
+  },
+  {
+   "test": "test_default_replay_generation",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "1000",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_halite.py:256"
+  },
+  {
+   "test": "test_custom_replay_directory",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "1000",
+    "-q",
+    "-i"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_halite.py:273"
+  },
+  {
+   "test": "test_player_statistics_in_normal_mode",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "1000",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_halite.py:311"
+  },
+  {
+   "test": "test_override_mode_with_odd_arguments",
+   "argv": [
+    "-d",
+    "10 10",
+    "-o",
+    "-q",
+    "-r",
+    "bot1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "override"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_halite.py:378"
+  },
+  {
+   "test": "test_minimum_map_size",
+   "argv": [
+    "-d",
+    "5 5",
+    "-s",
+    "1000",
+    "-q",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_halite.py:409"
+  },
+  {
+   "test": "test_medium_map_size",
+   "argv": [
+    "-d",
+    "25 25",
+    "-s",
+    "1000",
+    "-q",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_halite.py:427"
+  },
+  {
+   "test": "test_six_player_game",
+   "argv": [
+    "-d",
+    "30 30",
+    "-s",
+    "1000",
+    "-q",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_halite.py:444"
+  },
+  {
+   "test": "test_rectangular_map",
+   "argv": [
+    "-d",
+    "10 20",
+    "-s",
+    "1000",
+    "-q",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_halite.py:467"
+  },
+  {
+   "test": "test_same_seed_reproducibility",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "54321",
+    "-q",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_halite.py:484"
+  },
+  {
+   "test": "test_different_seed_variability",
+   "argv": [
+    "-d",
+    "20 20",
+    "-s",
+    "1111",
+    "-q",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_halite.py:517"
+  },
+  {
+   "test": "test_all_flags_together",
+   "argv": [
+    "-d",
+    "15 15",
+    "-s",
+    "7777",
+    "-n",
+    "2",
+    "-q",
+    "-i"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_halite.py:571"
+  },
+  {
+   "test": "test_timeout_mode_flag",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "1000",
+    "-t",
+    "-q",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_halite.py:638"
+  },
+  {
+   "test": "test_three_player_game",
+   "argv": [
+    "-d",
+    "20 20",
+    "-s",
+    "2000",
+    "-q",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_halite.py:657"
+  },
+  {
+   "test": "test_four_player_game",
+   "argv": [
+    "-d",
+    "25 25",
+    "-s",
+    "3000",
+    "-q",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_halite.py:676"
+  },
+  {
+   "test": "test_five_player_game",
+   "argv": [
+    "-d",
+    "30 30",
+    "-s",
+    "4000",
+    "-q",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_halite.py:697"
+  },
+  {
+   "test": "test_single_player_n3_mode",
+   "argv": [
+    "-d",
+    "15 15",
+    "-n",
+    "3",
+    "-s",
+    "5000",
+    "-q",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_halite.py:719"
+  },
+  {
+   "test": "test_single_player_n4_mode",
+   "argv": [
+    "-d",
+    "20 20",
+    "-n",
+    "4",
+    "-s",
+    "6000",
+    "-q",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_halite.py:736"
+  },
+  {
+   "test": "test_single_player_n5_mode",
+   "argv": [
+    "-d",
+    "25 25",
+    "-n",
+    "5",
+    "-s",
+    "7000",
+    "-q",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_halite.py:753"
+  },
+  {
+   "test": "test_single_player_n6_mode",
+   "argv": [
+    "-d",
+    "30 30",
+    "-n",
+    "6",
+    "-s",
+    "8000",
+    "-q",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_halite.py:770"
+  },
+  {
+   "test": "test_zero_dimension_uses_default",
+   "argv": [
+    "-d",
+    "0 0",
+    "-s",
+    "9000",
+    "-q",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_halite.py:787"
+  },
+  {
+   "test": "test_override_requires_even_pairs_min_4",
+   "argv": [
+    "--override",
+    "echo bot"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Invalid number of player parameters"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args.py:120"
+  },
+  {
+   "test": "test_override_rejects_odd_count",
+   "argv": [
+    "-o",
+    "echo bot",
+    "name1",
+    "echo bot2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Invalid number of player parameters"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args.py:127"
+  },
+  {
+   "test": "test_multiple_bots_with_nplayers_is_error",
+   "argv": [
+    "-n",
+    "2",
+    "echo bot1",
+    "echo bot2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Only single-player mode enables specified n-player maps"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args.py:133"
+  },
+  {
+   "test": "test_double_dash_stops_flag_parsing",
+   "argv": [
+    "--",
+    "--nonexistent-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--nonexistent-flag"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args.py:141"
+  },
+  {
+   "test": "test_missing_bot_args_exits_nonzero_and_prints_message",
+   "argv": [
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Please provide the launch command string",
+    "--help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_error_handling.py:4"
+  },
+  {
+   "test": "test_version_prints_and_exits_zero",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "version:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_version.py:4"
+  },
+  {
+   "test": "test_help_prints_usage_and_exits_zero",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE",
+    "Halite Game Environment"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_version.py:11"
+  },
+  {
+   "test": "test_help_flag_works",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:",
+    "./executable"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:44"
+  },
+  {
+   "test": "test_version_flag_works",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:51"
+  },
+  {
+   "test": "test_common_subcommand_names_not_recognized",
+   "argv": [
+    "--noreplay"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:80"
+  },
+  {
+   "test": "test_help_string_only_one_is_present",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:98"
+  },
+  {
+   "test": "test_all_flags_are_global",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:114"
+  },
+  {
+   "test": "test_flag_order_doesnt_matter_no_subcommand_boundary",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:130"
+  },
+  {
+   "test": "test_invalid_flag_produces_game_execution",
+   "argv": [
+    "--noreplay",
+    "--nonexistent-flag-xyz"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:161"
+  },
+  {
+   "test": "test_short_and_long_flag_variants",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:",
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:176"
+  },
+  {
+   "test": "test_multiple_args_treated_as_bot_commands",
+   "argv": [
+    "--noreplay",
+    "bot1",
+    "bot2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:216"
+  },
+  {
+   "test": "test_combined_flags_quiet_noreplay",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "42",
+    "-q",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "10 10"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:7"
+  },
+  {
+   "test": "test_combined_flags_quiet_timeout_ignore",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "42",
+    "-q",
+    "-t"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "10 10"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:14"
+  },
+  {
+   "test": "test_very_small_map",
+   "argv": [
+    "-d",
+    "5 5",
+    "-s",
+    "42",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".hlt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:20"
+  },
+  {
+   "test": "test_asymmetric_map_wide",
+   "argv": [
+    "-d",
+    "30 10",
+    "-s",
+    "42",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".hlt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:28"
+  },
+  {
+   "test": "test_asymmetric_map_tall",
+   "argv": [
+    "-d",
+    "10 30",
+    "-s",
+    "42",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".hlt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:35"
+  },
+  {
+   "test": "test_seed_value_one",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "1",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-1.hlt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:42"
+  },
+  {
+   "test": "test_seed_value_max_int",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "2147483647",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2147483647"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:48"
+  },
+  {
+   "test": "test_replay_json_structure",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "42",
+    "-i",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "width",
+    "height"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:54"
+  },
+  {
+   "test": "test_replay_contains_seed_info",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "12345",
+    "-i",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "12345"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:72"
+  },
+  {
+   "test": "test_multiple_sequential_games",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:83"
+  },
+  {
+   "test": "test_bot_with_different_names",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "42"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CustomNameBot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:90"
+  },
+  {
+   "test": "test_dimensions_with_nplayer_1",
+   "argv": [
+    "-d",
+    "20 20",
+    "-s",
+    "42",
+    "-n",
+    "1",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".hlt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:115"
+  },
+  {
+   "test": "test_two_bot_game_same_seed",
+   "argv": [
+    "-d",
+    "15 15",
+    "-s",
+    "999",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-999.hlt",
+    "-999.hlt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:122"
+  },
+  {
+   "test": "test_normal_mode_shows_seed",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "54321"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:132"
+  },
+  {
+   "test": "test_multiple_flags_combined",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "42",
+    "-i",
+    "-n",
+    "2",
+    "-q",
+    "-t"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".hlt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:140"
+  },
+  {
+   "test": "test_three_bot_ranking",
+   "argv": [
+    "-d",
+    "20 20",
+    "-s",
+    "42",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:150"
+  },
+  {
+   "test": "test_quiet_output_structure_complete",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "42",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".hlt",
+    "42"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:162"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:",
+    "Halite Game Environment"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:13"
+  },
+  {
+   "test": "test_help_long_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:",
+    "Halite Game Environment",
+    "dimensions",
+    "seed",
+    "quiet",
+    "nplayers",
+    "replaydirectory",
+    "noreplay",
+    "timeout",
+    "override"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:24"
+  },
+  {
+   "test": "test_help_describes_dimensions",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dimensions",
+    "map"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:64"
+  },
+  {
+   "test": "test_version_format",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.2"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:72"
+  },
+  {
+   "test": "test_single_bot_game",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "42",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "10 10"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_bot_launch.py:7"
+  },
+  {
+   "test": "test_multiple_bots_game",
+   "argv": [
+    "-d",
+    "15 15",
+    "-s",
+    "100",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".hlt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_bot_launch.py:40"
+  },
+  {
+   "test": "test_bot_name_received",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "42"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SimpleBot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_bot_launch.py:53"
+  },
+  {
+   "test": "test_invalid_bot_command_graceful",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "42",
+    "/nonexistent/bot/command"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_bot_launch.py:63"
+  },
+  {
+   "test": "test_bot_command_with_spaces",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "42",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "10 10",
+    ".hlt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_bot_launch.py:72"
+  },
+  {
+   "test": "test_normal_mode_output_format",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "42"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "python3",
+    "10 10",
+    "Turn"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_bot_launch.py:81"
+  },
+  {
+   "test": "test_quiet_mode_output_format",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "42",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "10 10",
+    ".hlt",
+    "42"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_bot_launch.py:95"
+  },
+  {
+   "test": "test_max_players_six_bots",
+   "argv": [
+    "-d",
+    "35 35",
+    "-s",
+    "42",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".hlt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_bot_launch.py:118"
+  },
+  {
+   "test": "test_bot_names_in_results",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "42"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SimpleBot",
+    "rank",
+    "Player"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_bot_launch.py:135"
+  },
+  {
+   "test": "test_custom_dimensions",
+   "argv": [
+    "-d",
+    "20 15",
+    "-s",
+    "42",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_map_config.py:6"
+  },
+  {
+   "test": "test_custom_dimensions_square",
+   "argv": [
+    "-d",
+    "25 25",
+    "-s",
+    "42",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "25"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_map_config.py:14"
+  },
+  {
+   "test": "test_custom_seed_reproducible",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "1000",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-1000.hlt",
+    "-1000.hlt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_map_config.py:22"
+  },
+  {
+   "test": "test_different_seeds_different_games",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "100",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-100.hlt",
+    "-200.hlt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_map_config.py:32"
+  },
+  {
+   "test": "test_default_dimensions_when_not_specified",
+   "argv": [
+    "-s",
+    "42",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_map_config.py:42"
+  },
+  {
+   "test": "test_nplayers_single_player_mode",
+   "argv": [
+    "-d",
+    "20 20",
+    "-s",
+    "42",
+    "-n",
+    "2",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".hlt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_map_config.py:57"
+  },
+  {
+   "test": "test_nplayers_single_count",
+   "argv": [
+    "-d",
+    "30 30",
+    "-s",
+    "42",
+    "-n",
+    "3",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".hlt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_map_config.py:66"
+  },
+  {
+   "test": "test_nplayers_with_multiple_bots_fails",
+   "argv": [
+    "-d",
+    "20 20",
+    "-s",
+    "42",
+    "-n",
+    "3"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_map_config.py:74"
+  },
+  {
+   "test": "test_invalid_nplayers_zero",
+   "argv": [
+    "-d",
+    "20 20",
+    "-s",
+    "42",
+    "-n",
+    "0",
+    "echo test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_map_config.py:82"
+  },
+  {
+   "test": "test_invalid_nplayers_too_high",
+   "argv": [
+    "-d",
+    "20 20",
+    "-s",
+    "42",
+    "-n",
+    "7"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_map_config.py:88"
+  },
+  {
+   "test": "test_dimensions_long_flag",
+   "argv": [
+    "--dimensions",
+    "18 18",
+    "-s",
+    "42",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "18"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_map_config.py:96"
+  },
+  {
+   "test": "test_seed_long_flag",
+   "argv": [
+    "-d",
+    "10 10",
+    "--seed",
+    "999",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-999.hlt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_map_config.py:104"
+  },
+  {
+   "test": "test_nplayers_long_flag",
+   "argv": [
+    "-d",
+    "30 30",
+    "-s",
+    "42",
+    "--nplayers",
+    "3",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".hlt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_map_config.py:110"
+  },
+  {
+   "test": "test_large_map_dimensions",
+   "argv": [
+    "-d",
+    "50 50",
+    "-s",
+    "42",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".hlt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_map_config.py:118"
+  },
+  {
+   "test": "test_override_mode_basic",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "42",
+    "-o",
+    "-q",
+    "CustomName1",
+    "CustomName2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "10 10"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_override_edge_cases.py:5"
+  },
+  {
+   "test": "test_override_mode_long_flag",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "42",
+    "--override",
+    "-q",
+    "Name1",
+    "Name2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "10 10"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_override_edge_cases.py:14"
+  },
+  {
+   "test": "test_override_mode_odd_arguments_fails",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "42",
+    "-o",
+    "Name1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_override_edge_cases.py:21"
+  },
+  {
+   "test": "test_override_mode_too_few_arguments",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "42",
+    "-o",
+    "cmd1",
+    "name1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_override_edge_cases.py:30"
+  },
+  {
+   "test": "test_large_seed_value",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "999999999",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "999999999"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_override_edge_cases.py:47"
+  },
+  {
+   "test": "test_rectangular_map",
+   "argv": [
+    "-d",
+    "20 10",
+    "-s",
+    "42",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "20 10"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_override_edge_cases.py:59"
+  },
+  {
+   "test": "test_rectangular_map_tall",
+   "argv": [
+    "-d",
+    "10 20",
+    "-s",
+    "42",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "10 20"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_override_edge_cases.py:65"
+  },
+  {
+   "test": "test_four_players",
+   "argv": [
+    "-d",
+    "25 25",
+    "-s",
+    "42",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_override_edge_cases.py:81"
+  },
+  {
+   "test": "test_five_players",
+   "argv": [
+    "-d",
+    "30 30",
+    "-s",
+    "42",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_override_edge_cases.py:91"
+  },
+  {
+   "test": "test_dimensions_with_spaces",
+   "argv": [
+    "-d",
+    "15 15",
+    "-s",
+    "42",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "15 15"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_override_edge_cases.py:101"
+  },
+  {
+   "test": "test_seed_zero",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "0",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".hlt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_override_edge_cases.py:107"
+  },
+  {
+   "test": "test_bot_command_echoed",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "42"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "python3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_override_edge_cases.py:119"
+  },
+  {
+   "test": "test_initialization_messages",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "42"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_override_edge_cases.py:127"
+  },
+  {
+   "test": "test_turn_progression_display",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "42"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Turn 1",
+    "Turn"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_override_edge_cases.py:135"
+  },
+  {
+   "test": "test_final_statistics_displayed",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "42"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "frame"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_override_edge_cases.py:147"
+  },
+  {
+   "test": "test_replay_file_generated",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "42",
+    "-i",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "42.hlt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_replay_output.py:8"
+  },
+  {
+   "test": "test_replay_file_content_valid_json",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "42",
+    "-i",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_replay_output.py:20"
+  },
+  {
+   "test": "test_noreplay_flag",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "42",
+    "-r",
+    "-i",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_replay_output.py:35"
+  },
+  {
+   "test": "test_noreplay_long_flag",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "42",
+    "--noreplay",
+    "-i",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_replay_output.py:45"
+  },
+  {
+   "test": "test_replay_directory_long_flag",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "42",
+    "--replaydirectory",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_replay_output.py:64"
+  },
+  {
+   "test": "test_replay_filename_contains_seed",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "12345",
+    "-i",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_replay_output.py:73"
+  },
+  {
+   "test": "test_quiet_mode_output_replay_filename",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "42",
+    "-i",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".hlt",
+    "42"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_replay_output.py:84"
+  },
+  {
+   "test": "test_normal_mode_verbose_output",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "42"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Turn",
+    "Player",
+    "rank"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_replay_output.py:117"
+  },
+  {
+   "test": "test_replay_with_multiple_bots",
+   "argv": [
+    "-d",
+    "15 15",
+    "-s",
+    "100",
+    "-i",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_replay_output.py:131"
+  },
+  {
+   "test": "test_timeout_ignore_flag",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "42",
+    "-t",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "10 10"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_timeouts_errors.py:6"
+  },
+  {
+   "test": "test_timeout_ignore_long_flag",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "42",
+    "--timeout",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "10 10"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_timeouts_errors.py:13"
+  },
+  {
+   "test": "test_invalid_bot_command_graceful",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "42",
+    "this_command_does_not_exist"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "this_command_does_not_exist"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_timeouts_errors.py:44"
+  },
+  {
+   "test": "test_empty_bot_command_error",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "42"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_timeouts_errors.py:54"
+  },
+  {
+   "test": "test_multiple_bots_one_invalid_graceful",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "42",
+    "/invalid/bot"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SimpleBot"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_timeouts_errors.py:60"
+  },
+  {
+   "test": "test_two_bots_ranking",
+   "argv": [
+    "-d",
+    "15 15",
+    "-s",
+    "42",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_timeouts_errors.py:91"
+  },
+  {
+   "test": "test_player_stats_in_normal_mode",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "42"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Player #1",
+    "rank",
+    "frame"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_timeouts_errors.py:108"
+  },
+  {
+   "test": "test_bot_name_display",
+   "argv": [
+    "-d",
+    "10 10",
+    "-s",
+    "42"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "SimpleBot",
+    "Player"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_timeouts_errors.py:120"
+  },
+  {
+   "test": "test_help_precedence_with_other_flags",
+   "argv": [
+    "--help",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "USAGE:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:129"
+  }
+ ]
+}

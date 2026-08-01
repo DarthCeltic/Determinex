@@ -1,0 +1,4765 @@
+[
+ {
+  "name": "test::test_stdin_execution_basic::0",
+  "argv": [
+   "--lang",
+   "bash",
+   "-"
+  ],
+  "stdin": "echo 'Line1'\nx=42\necho $x\necho 'Done'\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_pipes::1",
+  "argv": [
+   "--lang",
+   "bash",
+   "-"
+  ],
+  "stdin": "echo 'hello world' | tr 'a-z' 'A-Z'\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_no_trailing_newline::2",
+  "argv": [
+   "--lang",
+   "bash",
+   "-"
+  ],
+  "stdin": "echo hello",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_multi_statement_no_final_newline::3",
+  "argv": [
+   "--lang",
+   "bash",
+   "-"
+  ],
+  "stdin": "x=1\ny=2\necho $x $y",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_mode_basic::4",
+  "argv": [
+   "--lang",
+   "bash",
+   "-"
+  ],
+  "stdin": "echo 'from stdin'\nx=10\necho $x",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_mode_with_command_not_found::5",
+  "argv": [
+   "--lang",
+   "bash",
+   "-"
+  ],
+  "stdin": "echo 'before error'\nnonexistent_command_xyz\necho 'after error'",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_c_stdin_input_mode::6",
+  "argv": [
+   "-l",
+   "c"
+  ],
+  "stdin": "#include <stdio.h>\nint main() { printf(\"From stdin\\n\"); return 0; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_dash_argument::7",
+  "argv": [
+   "python",
+   "-"
+  ],
+  "stdin": "print(\"stdin dash\")",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_implicit_with_language::8",
+  "argv": [
+   "python"
+  ],
+  "stdin": "print(\"stdin implicit\")",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_stdin_executes_without_error::9",
+  "argv": [
+   "python"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_dash_with_flag::10",
+  "argv": [
+   "python",
+   "-f",
+   "-"
+  ],
+  "stdin": "print(\"dash via flag\")",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cpp_stdin_input::11",
+  "argv": [
+   "-l",
+   "cpp"
+  ],
+  "stdin": "#include <iostream>\nint main() {\n    std::cout << \"Simple stdin test\" << std::endl;\n    return 0;\n}",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_python_detection::12",
+  "argv": [],
+  "stdin": "import sys; print('stdin python')",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_bash_detection::13",
+  "argv": [],
+  "stdin": "export X=5; echo $X",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_no_detect_defaults_python::14",
+  "argv": [
+   "--no-detect"
+  ],
+  "stdin": "export X=5; echo $X",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_inline_bash_read_command::15",
+  "argv": [
+   "-c",
+   "read -p \"Enter: \" VAR; echo $VAR"
+  ],
+  "stdin": "test input",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_read_command_signature::16",
+  "argv": [
+   "-c",
+   "read VAR\necho $VAR"
+  ],
+  "stdin": "input\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_multiple_signature_types_combined::17",
+  "argv": [
+   "-c",
+   "export A=1\nread B\necho $A $B"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_read_command_detection::18",
+  "argv": [
+   "-c",
+   "read var\necho $var"
+  ],
+  "stdin": "test input\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extremely_long_stdin_input::19",
+  "argv": [
+   "python"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_null_byte_in_stdin::20",
+  "argv": [
+   "python",
+   "-c",
+   "import sys; data = sys.stdin.read(); print(len(data))"
+  ],
+  "stdin": "before\u0000after",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_kotlin_stdin_with_imports_and_loop::21",
+  "argv": [
+   "kotlin",
+   "-"
+  ],
+  "stdin": "import kotlin.system.measureTimeMillis\nval N = 1000\nvar sum = 0L\nval t = measureTimeMillis { for (i in 1..N) sum += i }\nprintln(\"[Kotlin] Sum: $sum | Time: ${t} ms\")\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_short_code_flag_reads_stdin::22",
+  "argv": [
+   "py",
+   "-c",
+   "import sys, json; data = json.load(sys.stdin); print(f\"{data['name']} is {data['age']} years old\")"
+  ],
+  "stdin": "{\"name\":\"Ada\",\"age\":32}\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_stdin_execution::23",
+  "argv": [
+   "bash",
+   "-"
+  ],
+  "stdin": "echo stdin-bash\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_javascript_stdin_execution::24",
+  "argv": [
+   "javascript",
+   "-"
+  ],
+  "stdin": "console.log('stdin-js')\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ruby_stdin_execution::25",
+  "argv": [
+   "ruby",
+   "-"
+  ],
+  "stdin": "puts 'stdin-ruby'\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_groovy_stdin_execution::26",
+  "argv": [
+   "groovy",
+   "-"
+  ],
+  "stdin": "println 'stdin-groovy'\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_groovy_stdin_trailing_expression_prints::27",
+  "argv": [
+   "groovy",
+   "-"
+  ],
+  "stdin": "21 * 2\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_typescript_stdin_execution::28",
+  "argv": [
+   "typescript",
+   "-"
+  ],
+  "stdin": "console.log('stdin-ts')\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rust_stdin_execution::29",
+  "argv": [
+   "rust",
+   "-"
+  ],
+  "stdin": "fn main() { println!(\"stdin-rust\"); }\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_go_stdin_execution::30",
+  "argv": [
+   "go",
+   "-"
+  ],
+  "stdin": "package main\nimport \"fmt\"\nfunc main() { fmt.Println(\"stdin-go\") }\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_csharp_stdin_execution::31",
+  "argv": [
+   "csharp",
+   "-"
+  ],
+  "stdin": "System.Console.WriteLine(\"stdin-csharp\");\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_stdin_execution::32",
+  "argv": [
+   "python",
+   "-"
+  ],
+  "stdin": "print('stdin-python')\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lua_stdin_execution::33",
+  "argv": [
+   "lua",
+   "-"
+  ],
+  "stdin": "print('stdin-lua')\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_c_stdin_execution::34",
+  "argv": [
+   "c",
+   "-"
+  ],
+  "stdin": "#include <stdio.h>\nint main() { printf(\"stdin-c\\n\"); return 0; }\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cpp_stdin_execution::35",
+  "argv": [
+   "cpp",
+   "-"
+  ],
+  "stdin": "#include <iostream>\nint main() { std::cout << \"stdin-cpp\" << std::endl; return 0; }\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_java_stdin_execution::36",
+  "argv": [
+   "java",
+   "-"
+  ],
+  "stdin": "public class Main { public static void main(String[] args) { System.out.println(\"stdin-java\"); } }\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_php_stdin_execution::37",
+  "argv": [
+   "php",
+   "-"
+  ],
+  "stdin": "<?php echo 'stdin-php\\n';\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_kotlin_stdin_execution::38",
+  "argv": [
+   "kotlin",
+   "-"
+  ],
+  "stdin": "fun main() { println(\"stdin-kotlin\") }\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dart_stdin_execution::39",
+  "argv": [
+   "dart",
+   "-"
+  ],
+  "stdin": "void main() { print('stdin-dart'); }\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_r_stdin_execution::40",
+  "argv": [
+   "r",
+   "-"
+  ],
+  "stdin": "cat('stdin-r\\n')\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_crystal_stdin_execution::41",
+  "argv": [
+   "crystal",
+   "-"
+  ],
+  "stdin": "puts \"stdin-crystal\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zig_stdin_execution::42",
+  "argv": [
+   "zig",
+   "-"
+  ],
+  "stdin": "const std = @import(\"std\");\npub fn main() !void { const stdout = std.io.getStdOut().writer(); try stdout.print(\"stdin-zig\\n\", .{}); }\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nim_stdin_execution::43",
+  "argv": [
+   "nim",
+   "-"
+  ],
+  "stdin": "echo \"stdin-nim\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_execution::44",
+  "argv": [
+   "python",
+   "-"
+  ],
+  "stdin": "print('Hello from stdin')",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_basic_print::45",
+  "argv": [
+   "python",
+   "-"
+  ],
+  "stdin": "print('via stdin')",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_multiline_computation::46",
+  "argv": [
+   "python",
+   "-"
+  ],
+  "stdin": "x = 1 + 2; y = x * 3; print(y)",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_multiple_prints::47",
+  "argv": [
+   "python",
+   "-"
+  ],
+  "stdin": "print('line1')\nprint('line2')\nprint('line3')",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_runtime_error_exit_code::48",
+  "argv": [
+   "python",
+   "-"
+  ],
+  "stdin": "undefined_var",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_custom_exit_code::49",
+  "argv": [
+   "python",
+   "-"
+  ],
+  "stdin": "import sys; sys.exit(77)",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_from_import_error_stdin::50",
+  "argv": [
+   "python",
+   "-"
+  ],
+  "stdin": "from nonexistent_package import something",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zerodiv_stdin::51",
+  "argv": [
+   "python",
+   "-"
+  ],
+  "stdin": "1/0",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_indexerror_stdin::52",
+  "argv": [
+   "python",
+   "-"
+  ],
+  "stdin": "[][0]",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_keyerror_stdin::53",
+  "argv": [
+   "python",
+   "-"
+  ],
+  "stdin": "{}['key']",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_inline_python_execution::54",
+  "argv": [
+   "--lang",
+   "python",
+   "--code",
+   "print('hello from inline')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_help_flag_prints_usage::55",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_version_flag_prints_version::56",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_python_file_execution_via_positional_path::57",
+  "argv": [
+   "script.py"
+  ],
+  "stdin": null,
+  "files": {
+   "script.py": "print('from-file')\nprint(21*2)\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ext_no_detect_still_allows_default_engine_for_code::58",
+  "argv": [
+   "--no-detect",
+   "--code",
+   "print('hi')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_code_runs_and_writes_to_stdout::59",
+  "argv": [
+   "--lang",
+   "python",
+   "--code",
+   "print('hi')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_is_passed_through_to_language_process::60",
+  "argv": [
+   "--lang",
+   "python",
+   "--code",
+   "import sys; data=sys.stdin.read(); print('IN:'+data)"
+  ],
+  "stdin": "abc",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_code_error_propagates_nonzero_and_stderr_contains_traceback::61",
+  "argv": [
+   "--lang",
+   "python",
+   "--code",
+   "1/0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_execution_by_flag_f::62",
+  "argv": [
+   "--lang",
+   "python",
+   "--file",
+   "hello.py"
+  ],
+  "stdin": null,
+  "files": {
+   "hello.py": "print('file_hi')\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_not_found_exit_code_and_error_message::63",
+  "argv": [
+   "--lang",
+   "python",
+   "--file",
+   "/no/such/file.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_code_and_file_are_mutually_exclusive_exact_error::64",
+  "argv": [
+   "--lang",
+   "python",
+   "--code",
+   "print('x')",
+   "--file",
+   "some.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_has_error_and_nonzero_exit::65",
+  "argv": [
+   "--definitely-not-a-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exit_code_is_propagated::66",
+  "argv": [
+   "--lang",
+   "python",
+   "--code",
+   "import sys; sys.exit(3)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_is_forwarded::67",
+  "argv": [
+   "--lang",
+   "python",
+   "--code",
+   "import sys; sys.stdout.write(sys.stdin.read())"
+  ],
+  "stdin": "hello\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_run_from_file_flag::68",
+  "argv": [
+   "--file",
+   "t.py",
+   "--lang",
+   "python"
+  ],
+  "stdin": null,
+  "files": {
+   "t.py": "print('file-run')\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_positional_file_language_detection::69",
+  "argv": [
+   "t.py"
+  ],
+  "stdin": null,
+  "files": {
+   "t.py": "print('file-run')\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_but_bounded_output_not_truncated::70",
+  "argv": [
+   "--lang",
+   "python",
+   "--code",
+   "for i in range(2000): print(i)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_color_env_disables_ansi_escape_sequences_in_error_output::71",
+  "argv": [
+   "--lang",
+   "python",
+   "--code",
+   "print('"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "TERM": "xterm-256color"
+  }
+ },
+ {
+  "name": "test::test_bash_simple_echo::72",
+  "argv": [
+   "-l",
+   "bash",
+   "-c",
+   "echo 'hello'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_variable_assignment::73",
+  "argv": [
+   "-l",
+   "bash",
+   "-c",
+   "X=5; echo $X"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_arithmetic::74",
+  "argv": [
+   "-l",
+   "bash",
+   "-c",
+   "echo $((5 + 3))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_if_statement::75",
+  "argv": [
+   "-l",
+   "bash",
+   "-c",
+   "if [ 5 -gt 3 ]; then echo 'yes'; fi"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_for_loop::76",
+  "argv": [
+   "-l",
+   "bash",
+   "-c",
+   "for i in 1 2 3; do echo $i; done"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_while_loop::77",
+  "argv": [
+   "-l",
+   "bash",
+   "-c",
+   "i=0; while [ $i -lt 3 ]; do echo $i; i=$((i+1)); done"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_array::78",
+  "argv": [
+   "-l",
+   "bash",
+   "-c",
+   "arr=(a b c); echo ${arr[0]} ${arr[1]} ${arr[2]}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_function::79",
+  "argv": [
+   "-l",
+   "bash",
+   "-c",
+   "greet() {\n    echo \"Hello, $1\"\n}\ngreet World"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_command_substitution::80",
+  "argv": [
+   "-l",
+   "bash",
+   "-c",
+   "echo $(echo nested)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_pipe_operations::81",
+  "argv": [
+   "-l",
+   "bash",
+   "-c",
+   "echo 'hello world' | cut -d' ' -f1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_case_statement::82",
+  "argv": [
+   "-l",
+   "bash",
+   "-c",
+   "case \"apple\" in\n    apple) echo \"fruit\" ;;\n    car) echo \"vehicle\" ;;\nesac"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_string_operations::83",
+  "argv": [
+   "-l",
+   "bash",
+   "-c",
+   "STR='hello'; echo ${#STR}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_substring::84",
+  "argv": [
+   "-l",
+   "bash",
+   "-c",
+   "STR='hello world'; echo ${STR:0:5}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_string_replacement::85",
+  "argv": [
+   "-l",
+   "bash",
+   "-c",
+   "STR='hello world'; echo ${STR/world/universe}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_file_test::86",
+  "argv": [
+   "-l",
+   "bash",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_env_variable::87",
+  "argv": [
+   "-l",
+   "bash",
+   "-c",
+   "echo $HOME"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {
+   "HOME": "/test/home"
+  }
+ },
+ {
+  "name": "test::test_bash_exit_status::88",
+  "argv": [
+   "-l",
+   "bash",
+   "-c",
+   "false; echo $?"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_multiline_script::89",
+  "argv": [
+   "-l",
+   "bash",
+   "-c",
+   "#!/bin/bash\nVAR1=10\nVAR2=20\nRESULT=$((VAR1 + VAR2))\necho \"Result: $RESULT\"\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_quoted_strings::90",
+  "argv": [
+   "-l",
+   "bash",
+   "-c",
+   "echo 'single quotes' \"double quotes\""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_special_characters::91",
+  "argv": [
+   "-l",
+   "bash",
+   "-c",
+   "echo '!@#$%^&*()'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_short_flag::92",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_flag::93",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::94",
+  "argv": [
+   "--invalid-flag-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_c_simple_printf::95",
+  "argv": [
+   "-l",
+   "c",
+   "-c",
+   "#include <stdio.h>\nint main() { printf(\"hello\\n\"); return 0; }"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_c_with_variables::96",
+  "argv": [
+   "-l",
+   "c",
+   "-c",
+   "#include <stdio.h>\nint main() {\n    int x = 10;\n    int y = 20;\n    printf(\"%d\\n\", x + y);\n    return 0;\n}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_c_without_main::97",
+  "argv": [
+   "-l",
+   "c",
+   "-c",
+   "printf(\"no main\\n\");"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_c_with_function::98",
+  "argv": [
+   "-l",
+   "c",
+   "-c",
+   "#include <stdio.h>\nvoid greet(const char* name) {\n    printf(\"Hello, %s!\\n\", name);\n}\nint main() {\n    greet(\"World\");\n    return 0;\n}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_c_with_array::99",
+  "argv": [
+   "-l",
+   "c",
+   "-c",
+   "#include <stdio.h>\nint main() {\n    int nums[] = {1, 2, 3, 4, 5};\n    int len = sizeof(nums) / sizeof(nums[0]);\n    printf(\"Length: %d\\n\", len);\n    return 0;\n}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_c_file_execution::100",
+  "argv": [
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "#include <stdio.h>\nint main() {\n    printf(\"From file\\n\");\n    return 0;\n}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_c_stdin::101",
+  "argv": [
+   "c"
+  ],
+  "stdin": "#include <stdio.h>\nint main() { printf(\"From stdin\\n\"); return 0; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_c_for_loop::102",
+  "argv": [
+   "-l",
+   "c",
+   "-c",
+   "#include <stdio.h>\nint main() {\n    for (int i = 0; i < 3; i++) {\n        printf(\"Number: %d\\n\", i);\n    }\n    return 0;\n}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_c_multiple_includes::103",
+  "argv": [
+   "-l",
+   "c",
+   "-c",
+   "#include <stdio.h>\n#include <string.h>\nint main() {\n    char str[] = \"hello\";\n    printf(\"Length: %lu\\n\", strlen(str));\n    return 0;\n}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rust_inline_with_main::104",
+  "argv": [
+   "-l",
+   "rust",
+   "-c",
+   "fn main() { println!(\"rust inline\"); }"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rust_inline_without_main::105",
+  "argv": [
+   "-l",
+   "rust",
+   "-c",
+   "println!(\"rust no main\");"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_go_inline_with_main::106",
+  "argv": [
+   "-l",
+   "go",
+   "-c",
+   "package main\nimport \"fmt\"\nfunc main() { fmt.Println(\"go inline\") }"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_go_inline_without_main::107",
+  "argv": [
+   "-l",
+   "go",
+   "-c",
+   "fmt.Println(\"go no main\")"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_c_inline_with_main::108",
+  "argv": [
+   "-l",
+   "c",
+   "-c",
+   "#include <stdio.h>\nint main() { printf(\"c inline\\n\"); return 0; }"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_c_inline_without_main::109",
+  "argv": [
+   "-l",
+   "c",
+   "-c",
+   "printf(\"c no main\\n\");"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cpp_inline_with_main::110",
+  "argv": [
+   "-l",
+   "cpp",
+   "-c",
+   "#include <iostream>\nint main() { std::cout << \"cpp inline\" << std::endl; return 0; }"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cpp_inline_without_main::111",
+  "argv": [
+   "-l",
+   "cpp",
+   "-c",
+   "std::cout << \"cpp no main\" << std::endl;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rust_file_with_main::112",
+  "argv": [
+   "test.rs"
+  ],
+  "stdin": null,
+  "files": {
+   "test.rs": "fn main() { println!(\"rust file\"); }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_go_file_with_main::113",
+  "argv": [
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\nimport \"fmt\"\nfunc main() { fmt.Println(\"go file\") }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_c_file_with_main::114",
+  "argv": [
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "#include <stdio.h>\nint main() { printf(\"c file\\n\"); return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rust_with_variables::115",
+  "argv": [
+   "-l",
+   "rust",
+   "-c",
+   "fn main() {\n    let x = 10;\n    let y = 20;\n    println!(\"{}\", x + y);\n}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_go_with_variables::116",
+  "argv": [
+   "-l",
+   "go",
+   "-c",
+   "package main\nimport \"fmt\"\nfunc main() {\n    x := 10\n    y := 20\n    fmt.Println(x + y)\n}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cpp_with_vectors::117",
+  "argv": [
+   "-l",
+   "cpp",
+   "-c",
+   "#include <iostream>\n#include <vector>\nint main() {\n    std::vector<int> v = {1, 2, 3, 4, 5};\n    for(int i : v) {\n        std::cout << i << \" \";\n    }\n    std::cout << std::endl;\n    return 0;\n}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cpp_simple_cout::118",
+  "argv": [
+   "-l",
+   "cpp",
+   "-c",
+   "#include <iostream>\nint main() { std::cout << \"hello\" << std::endl; return 0; }"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cpp_with_variables::119",
+  "argv": [
+   "-l",
+   "cpp",
+   "-c",
+   "#include <iostream>\nint main() {\n    int x = 10;\n    int y = 20;\n    std::cout << (x + y) << std::endl;\n    return 0;\n}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cpp_without_main::120",
+  "argv": [
+   "-l",
+   "cpp",
+   "-c",
+   "std::cout << \"no main\" << std::endl;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cpp_with_function::121",
+  "argv": [
+   "-l",
+   "cpp",
+   "-c",
+   "#include <iostream>\n#include <string>\nvoid greet(const std::string& name) {\n    std::cout << \"Hello, \" << name << \"!\" << std::endl;\n}\nint main() {\n    greet(\"World\");\n    return 0;\n}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cpp_with_vector::122",
+  "argv": [
+   "-l",
+   "cpp",
+   "-c",
+   "#include <iostream>\n#include <vector>\nint main() {\n    std::vector<int> nums = {1, 2, 3, 4, 5};\n    std::cout << \"Length: \" << nums.size() << std::endl;\n    return 0;\n}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cpp_file_execution::123",
+  "argv": [
+   "test.cpp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cpp": "#include <iostream>\nint main() {\n    std::cout << \"From file\" << std::endl;\n    return 0;\n}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cpp_stdin::124",
+  "argv": [
+   "cpp"
+  ],
+  "stdin": "#include <iostream>\nint main() { std::cout << \"From stdin\" << std::endl; return 0; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cpp_for_loop::125",
+  "argv": [
+   "-l",
+   "cpp",
+   "-c",
+   "#include <iostream>\nint main() {\n    for (int i = 0; i < 3; i++) {\n        std::cout << \"Number: \" << i << std::endl;\n    }\n    return 0;\n}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cpp_string_operations::126",
+  "argv": [
+   "-l",
+   "cpp",
+   "-c",
+   "#include <iostream>\n#include <string>\nint main() {\n    std::string str = \"hello\";\n    std::cout << \"Length: \" << str.length() << std::endl;\n    return 0;\n}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cpp_auto_keyword::127",
+  "argv": [
+   "-l",
+   "cpp",
+   "-c",
+   "#include <iostream>\nint main() {\n    auto x = 42;\n    auto y = 3.14;\n    std::cout << x << \" \" << y << std::endl;\n    return 0;\n}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_detect_bash_by_shebang_in_file::128",
+  "argv": [
+   "script.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "script.sh": "#!/bin/bash\necho 'test'"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_detect_py_extension_priority::129",
+  "argv": [
+   "test.py"
+  ],
+  "stdin": null,
+  "files": {
+   "test.py": "print('python file')"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_detect_sh_extension_priority::130",
+  "argv": [
+   "test.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sh": "echo 'bash file'"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_detect_rs_extension::131",
+  "argv": [
+   "test.rs"
+  ],
+  "stdin": null,
+  "files": {
+   "test.rs": "fn main() { println!(\"rust\"); }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_detect_go_extension::132",
+  "argv": [
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\nimport \"fmt\"\nfunc main() { fmt.Println(\"go\") }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_detect_c_extension::133",
+  "argv": [
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "#include <stdio.h>\nint main() { printf(\"c\\n\"); return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_detect_cpp_extension::134",
+  "argv": [
+   "test.cpp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cpp": "#include <iostream>\nint main() { std::cout << \"cpp\" << std::endl; return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explicit_override_detection::135",
+  "argv": [
+   "--lang",
+   "python",
+   "test.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sh": "print('python in bash file')"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explicit_override_detection_reverse::136",
+  "argv": [
+   "--lang",
+   "bash",
+   "test.py"
+  ],
+  "stdin": null,
+  "files": {
+   "test.py": "echo 'bash in python file'"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_specific_syntax_detection::137",
+  "argv": [
+   "-l",
+   "bash"
+  ],
+  "stdin": "VAR=value; echo $VAR",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_specific_syntax_detection::138",
+  "argv": [
+   "-l",
+   "python"
+  ],
+  "stdin": "x = [i**2 for i in range(3)]; print(x)",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_code_line::139",
+  "argv": [
+   "-l",
+   "python",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_deeply_nested_code::140",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "for i in range(3):\n    for j in range(3):\n        for k in range(3):\n            print(f'{i}-{j}-{k}')\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_code::141",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "print('Special: !@#$%^&*()_+-=[]{}|;:,.<>?')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_escaped_characters::142",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "print('Line1\\nLine2\\tTabbed')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_string_output::143",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "print('')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_special_variables::144",
+  "argv": [
+   "-l",
+   "bash",
+   "-c",
+   "echo PID:$$"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_triple_quoted_string::145",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "print(\"\"\"\nThis is a\nmultiline string\nwith multiple lines\n\"\"\")"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_raw_string::146",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "print(r'C:\\\\Users\\\\test\\\\path')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_f_string::147",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "x=10; y=20; print(f'Sum: {x+y}')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_backticks::148",
+  "argv": [
+   "-l",
+   "bash",
+   "-c",
+   "echo `echo nested`"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_code_with_nullbytes::149",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "print('before\\x00after')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_imports::150",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "import sys\nimport os\nimport math\nimport json\nprint('All imports successful')\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_here_document::151",
+  "argv": [
+   "-l",
+   "bash",
+   "-c",
+   "cat << 'EOF'\nThis is a\nhere document\ntest\nEOF"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_list_operations::152",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "nums = [1, 2, 3, 4, 5]; print(f'Sum: {sum(nums)}'); print(f'Max: {max(nums)}'); print(f'Min: {min(nums)}')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_dict_operations::153",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "data = {'a': 1, 'b': 2, 'c': 3}; print(f'Keys: {list(data.keys())}'); print(f'Values: {list(data.values())}')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_pipe::154",
+  "argv": [
+   "-l",
+   "bash",
+   "-c",
+   "echo 'test' | grep test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_exception_handling::155",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "try:\n    x = 1 / 0\nexcept ZeroDivisionError:\n    print('Caught division by zero')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_language::156",
+  "argv": [
+   "-l",
+   "invalidlang",
+   "-c",
+   "test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_syntax_error_python::157",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "print('unclosed"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_runtime_error_python::158",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "1/0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_undefined_variable_python::159",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "print(undefined_var)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_not_found::160",
+  "argv": [
+   "--file",
+   "/nonexistent/file.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_code_and_file_conflict::161",
+  "argv": [
+   "--code",
+   "print('test')",
+   "--file",
+   "test.py"
+  ],
+  "stdin": null,
+  "files": {
+   "test.py": "print('test')"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag_combination::162",
+  "argv": [
+   "--version",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_error_python::163",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "import nonexistent_module"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_type_error_python::164",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "len(5)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compilation_error_rust::165",
+  "argv": [
+   "-l",
+   "rust",
+   "-c",
+   "fn main() { let x: i32 = \"string\"; }"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compilation_error_c::166",
+  "argv": [
+   "-l",
+   "c",
+   "-c",
+   "int main() { return \"string\"; }"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_compilation_error_go::167",
+  "argv": [
+   "-l",
+   "go",
+   "-c",
+   "package main; func main() { var x int = \"string\" }"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_utf8_in_code::168",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "print('valid unicode 你好')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_syntax_error::169",
+  "argv": [
+   "-l",
+   "bash",
+   "-c",
+   "if true then"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_command_not_found::170",
+  "argv": [
+   "-l",
+   "bash",
+   "-c",
+   "nonexistent_command_xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_indentation_error::171",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "def test():\nprint('bad indent')\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_attribute_error::172",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "x = 5; x.nonexistent_method()"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rust_borrow_error::173",
+  "argv": [
+   "-l",
+   "rust",
+   "-c",
+   "fn main() {\n    let x = String::from(\"hello\");\n    let y = x;\n    println!(\"{}\", x);\n}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_inline_short::174",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "print(1)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_no_output_statement::175",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "x = 1 + 1; y = x * 2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_only_whitespace_output::176",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "print(' '); print('\\t'); print('\\n')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_empty_echo::177",
+  "argv": [
+   "-l",
+   "bash",
+   "-c",
+   "echo"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_multiple_commands_semicolon::178",
+  "argv": [
+   "-l",
+   "bash",
+   "-c",
+   "echo 'a'; echo 'b'; echo 'c'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_multiple_commands_newline::179",
+  "argv": [
+   "-l",
+   "bash",
+   "-c",
+   "echo 'a'\necho 'b'\necho 'c'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_file_without_extension::180",
+  "argv": [
+   "-l",
+   "python",
+   "myscript"
+  ],
+  "stdin": null,
+  "files": {
+   "myscript": "#!/usr/bin/env python3\nprint('no extension')"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_file_without_extension::181",
+  "argv": [
+   "-l",
+   "bash",
+   "myscript"
+  ],
+  "stdin": null,
+  "files": {
+   "myscript": "#!/bin/bash\necho 'no extension'"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_very_short_file::182",
+  "argv": [
+   "test.py"
+  ],
+  "stdin": null,
+  "files": {
+   "test.py": "1"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_expression_only::183",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "5 + 3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_true_command::184",
+  "argv": [
+   "-l",
+   "bash",
+   "-c",
+   "true"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_false_command::185",
+  "argv": [
+   "-l",
+   "bash",
+   "-c",
+   "false"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_sys_exit_0::186",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "import sys; sys.exit(0)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_multiple_statements_single_line::187",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "a=1; b=2; c=a+b; print(c)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rust_minimal::188",
+  "argv": [
+   "-l",
+   "rust",
+   "-c",
+   "println!(\"test\");"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_go_minimal::189",
+  "argv": [
+   "-l",
+   "go",
+   "-c",
+   "fmt.Println(\"test\")"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_c_minimal::190",
+  "argv": [
+   "-l",
+   "c",
+   "-c",
+   "printf(\"test\\n\");"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cpp_minimal::191",
+  "argv": [
+   "-l",
+   "cpp",
+   "-c",
+   "std::cout << \"test\" << std::endl;"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_file_with_spaces_in_name::192",
+  "argv": [
+   "my script.py"
+  ],
+  "stdin": null,
+  "files": {
+   "my script.py": "print('spaces')"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_shebang_python2_style::193",
+  "argv": [
+   "test"
+  ],
+  "stdin": null,
+  "files": {
+   "test": "#!/usr/bin/env python3\nprint('test')"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_shebang_sh_with_extension::194",
+  "argv": [
+   "test.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sh": "#!/bin/bash\necho 'sh'"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_file_execution::195",
+  "argv": [
+   "--file",
+   "test.py"
+  ],
+  "stdin": null,
+  "files": {
+   "test.py": "print('hello from file')"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_file_short_flag::196",
+  "argv": [
+   "-f",
+   "test.py"
+  ],
+  "stdin": null,
+  "files": {
+   "test.py": "print('short flag test')"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_file_execution::197",
+  "argv": [
+   "--file",
+   "test.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sh": "#!/bin/bash\necho 'bash file test'"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_explicit_lang::198",
+  "argv": [
+   "--lang",
+   "python",
+   "--file",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "print('explicit lang')"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_positional_file_path::199",
+  "argv": [
+   "test.py"
+  ],
+  "stdin": null,
+  "files": {
+   "test.py": "print('positional file')"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_shebang::200",
+  "argv": [
+   "test.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sh": "#!/bin/bash\necho 'shebang test'"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_multiline_python::201",
+  "argv": [
+   "test.py"
+  ],
+  "stdin": null,
+  "files": {
+   "test.py": "def greet(name):\n    return f\"Hello, {name}!\"\n\nprint(greet(\"World\"))\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_imports::202",
+  "argv": [
+   "test.py"
+  ],
+  "stdin": null,
+  "files": {
+   "test.py": "import sys\nimport os\nprint(f\"Python {sys.version_info.major}.{sys.version_info.minor}\")\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file_error::203",
+  "argv": [
+   "--file",
+   "/nonexistent/path/to/file.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_example_python_counter::204",
+  "argv": [
+   "examples/python/counter.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_example_rust_hello::205",
+  "argv": [
+   "examples/rust/hello.rs"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_unicode::206",
+  "argv": [
+   "test.py"
+  ],
+  "stdin": null,
+  "files": {
+   "test.py": "print('Unicode: 你好 🎉')"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_comments::207",
+  "argv": [
+   "test.py"
+  ],
+  "stdin": null,
+  "files": {
+   "test.py": "# This is a comment\n# Another comment\nprint('test')  # inline comment\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_file_with_args::208",
+  "argv": [
+   "test.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sh": "#!/bin/bash\necho Args: $@"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_file_with_classes::209",
+  "argv": [
+   "test.py"
+  ],
+  "stdin": null,
+  "files": {
+   "test.py": "class Calculator:\n    def add(self, a, b):\n        return a + b\n\ncalc = Calculator()\nprint(calc.add(5, 3))\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lang_before_code::210",
+  "argv": [
+   "--lang",
+   "python",
+   "--code",
+   "print('test')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_code_before_lang::211",
+  "argv": [
+   "--code",
+   "print('test')",
+   "--lang",
+   "python"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_flags_together::212",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "print('test')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_long_short_flags::213",
+  "argv": [
+   "--lang",
+   "python",
+   "-c",
+   "print('test')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_positional_lang_with_code_flag::214",
+  "argv": [
+   "python",
+   "--code",
+   "print('test')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_positional_lang_with_c_flag::215",
+  "argv": [
+   "python",
+   "-c",
+   "print('test')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_flag_variations::216",
+  "argv": [
+   "--file",
+   "test.py"
+  ],
+  "stdin": null,
+  "files": {
+   "test.py": "print('file test')"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lang_with_file::217",
+  "argv": [
+   "--lang",
+   "python",
+   "--file",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "print('lang with file')"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_before_lang::218",
+  "argv": [
+   "--file",
+   "test.txt",
+   "--lang",
+   "python"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "print('file before lang')"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_all_aliases::219",
+  "argv": [
+   "-l",
+   "-c",
+   "print('works')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_all_aliases::220",
+  "argv": [
+   "-l",
+   "-c",
+   "echo 'works'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_equals_syntax_lang::221",
+  "argv": [
+   "--lang=python",
+   "-c",
+   "print('equals syntax')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_equals_syntax_code::222",
+  "argv": [
+   "-l",
+   "python",
+   "--code=print('equals')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_equals_syntax_both::223",
+  "argv": [
+   "--lang=python",
+   "--code=print('both')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_positional_file_no_extension::224",
+  "argv": [
+   "scriptfile"
+  ],
+  "stdin": null,
+  "files": {
+   "scriptfile": "#!/usr/bin/env python3\nprint('no ext')"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_go_simple_println::225",
+  "argv": [
+   "-l",
+   "go",
+   "-c",
+   "fmt.Println(\"hello\")"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_go_with_variables::226",
+  "argv": [
+   "-l",
+   "go",
+   "-c",
+   "x := 10; y := 20; fmt.Println(x + y)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_go_with_full_main::227",
+  "argv": [
+   "-l",
+   "go",
+   "-c",
+   "package main\nimport \"fmt\"\nfunc main() {\n    fmt.Println(\"Full program\")\n}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_go_with_function::228",
+  "argv": [
+   "-l",
+   "go",
+   "-c",
+   "package main\nimport \"fmt\"\nfunc greet(name string) {\n    fmt.Printf(\"Hello, %s!\\n\", name)\n}\nfunc main() {\n    greet(\"World\")\n}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_go_with_slice::229",
+  "argv": [
+   "-l",
+   "go",
+   "-c",
+   "package main\nimport \"fmt\"\nfunc main() {\n    nums := []int{1, 2, 3, 4, 5}\n    fmt.Println(\"Length:\", len(nums))\n}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_go_file_execution::230",
+  "argv": [
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\nimport \"fmt\"\nfunc main() {\n    fmt.Println(\"From file\")\n}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_go_stdin::231",
+  "argv": [
+   "go"
+  ],
+  "stdin": "package main\nimport \"fmt\"\nfunc main() { fmt.Println(\"From stdin\") }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_go_for_loop::232",
+  "argv": [
+   "-l",
+   "go",
+   "-c",
+   "package main\nimport \"fmt\"\nfunc main() {\n    for i := 0; i < 3; i++ {\n        fmt.Printf(\"Number: %d\\n\", i)\n    }\n}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_inline_code_long_flag::233",
+  "argv": [
+   "--lang",
+   "python",
+   "--code",
+   "print('hello python')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_inline_code_short_flags::234",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "print('hello python')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_inline_code::235",
+  "argv": [
+   "-l",
+   "bash",
+   "-c",
+   "echo 'test bash'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_javascript_inline_code::236",
+  "argv": [
+   "-l",
+   "javascript",
+   "-c",
+   "console.log('test js')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ruby_inline_code::237",
+  "argv": [
+   "-l",
+   "ruby",
+   "-c",
+   "puts 'test ruby'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_multiline_code::238",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "\nx = 10\ny = 20\nprint(x + y)\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_with_imports::239",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "import sys; print(sys.version_info.major)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_with_variables::240",
+  "argv": [
+   "-l",
+   "bash",
+   "-c",
+   "X=hello; Y=world; echo $X $Y"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_javascript_with_multiple_statements::241",
+  "argv": [
+   "-l",
+   "javascript",
+   "-c",
+   "let x = 5; let y = 10; console.log(x * y);"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_code_with_unicode::242",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "print('Hello 世界 🌍')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_code_with_quotes::243",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "print(\"It's a test\")"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_code_error::244",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_code_with_syntax_error::245",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "print('unclosed string"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_positional_language_and_code::246",
+  "argv": [
+   "python",
+   "print('positional test')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_language_alias_py::247",
+  "argv": [
+   "-l",
+   "py",
+   "-c",
+   "print('py alias')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_language_alias_js::248",
+  "argv": [
+   "-l",
+   "js",
+   "-c",
+   "console.log('js alias')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_language_alias_rb::249",
+  "argv": [
+   "-l",
+   "rb",
+   "-c",
+   "puts 'rb alias'"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_multiline::250",
+  "argv": [
+   "-l",
+   "bash",
+   "-c",
+   "\nfor i in 1 2 3; do\n    echo \"Number: $i\"\ndone\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_list_comprehension::251",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "print([x*x for x in range(5)])"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_command_substitution::252",
+  "argv": [
+   "-l",
+   "bash",
+   "-c",
+   "echo Today is $(date +%A)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_aliases::253",
+  "argv": [
+   "-l",
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_detect_from_python_extension::254",
+  "argv": [
+   "test.py"
+  ],
+  "stdin": null,
+  "files": {
+   "test.py": "print('detected py')"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_detect_from_sh_extension::255",
+  "argv": [
+   "test.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sh": "echo 'detected sh'"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_detect_from_rs_extension::256",
+  "argv": [
+   "test.rs"
+  ],
+  "stdin": null,
+  "files": {
+   "test.rs": "fn main() { println!(\"detected rs\"); }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_detect_from_go_extension::257",
+  "argv": [
+   "test.go"
+  ],
+  "stdin": null,
+  "files": {
+   "test.go": "package main\nimport \"fmt\"\nfunc main() { fmt.Println(\"detected go\") }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_detect_from_shebang_python::258",
+  "argv": [
+   "test"
+  ],
+  "stdin": null,
+  "files": {
+   "test": "#!/usr/bin/env python3\nprint('shebang python')"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_detect_from_shebang_bash_with_extension::259",
+  "argv": [
+   "test.sh"
+  ],
+  "stdin": null,
+  "files": {
+   "test.sh": "#!/bin/bash\necho 'shebang bash'"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explicit_lang_overrides_detection::260",
+  "argv": [
+   "--lang",
+   "bash",
+   "--file",
+   "test.py"
+  ],
+  "stdin": null,
+  "files": {
+   "test.py": "echo 'override'"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_detect_from_c_extension::261",
+  "argv": [
+   "test.c"
+  ],
+  "stdin": null,
+  "files": {
+   "test.c": "#include <stdio.h>\nint main() { printf(\"detected c\\n\"); return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_detect_from_cpp_extension::262",
+  "argv": [
+   "test.cpp"
+  ],
+  "stdin": null,
+  "files": {
+   "test.cpp": "#include <iostream>\nint main() { std::cout << \"detected cpp\" << std::endl; return 0; }"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdout_only::263",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "print('stdout test')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stderr_only::264",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "import sys; sys.stderr.write('stderr test\\n')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_stdout_stderr::265",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "import sys\nprint('to stdout')\nsys.stderr.write('to stderr\\n')\nprint('more stdout')\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exit_code_success::266",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "print('success')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exit_code_error::267",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "import sys; sys.exit(1)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_exit_code_specific::268",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "import sys; sys.exit(42)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_exit_codes::269",
+  "argv": [
+   "-l",
+   "bash",
+   "-c",
+   "exit 0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_output::270",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "for i in range(1000): print(f'Line {i}')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_output::271",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "x = 1 + 1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_no_output::272",
+  "argv": [
+   "-l",
+   "bash",
+   "-c",
+   "X=5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_output::273",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "print('Hello 世界 🌍 مرحبا')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiline_output::274",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "print('Line 1')\nprint('Line 2')\nprint('Line 3')\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_stderr::275",
+  "argv": [
+   "-l",
+   "bash",
+   "-c",
+   "echo 'error message' >&2"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_output::276",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "import sys; sys.stdout.buffer.write(b'\\x00\\x01\\x02\\x03')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_list_comprehension::277",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "print([x**2 for x in range(5)])"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_dict_comprehension::278",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "print({x: x**2 for x in range(5)})"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_lambda::279",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "f = lambda x: x*2; print(f(5))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_map::280",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "print(list(map(lambda x: x*2, [1, 2, 3])))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_filter::281",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "print(list(filter(lambda x: x%2==0, [1,2,3,4,5])))"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_classes::282",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "class Dog:\n    def __init__(self, name):\n        self.name = name\n    def bark(self):\n        return f'{self.name} says woof!'\n\ndog = Dog('Rex')\nprint(dog.bark())\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_decorators::283",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "def uppercase(func):\n    def wrapper():\n        result = func()\n        return result.upper()\n    return wrapper\n\n@uppercase\ndef greet():\n    return 'hello'\n\nprint(greet())\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_generator::284",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "def gen():\n    for i in range(3):\n        yield i\n\nprint(list(gen()))\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_set_operations::285",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "a = {1, 2, 3, 4}\nb = {3, 4, 5, 6}\nprint(f'Union: {a | b}')\nprint(f'Intersection: {a & b}')\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_string_formatting::286",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "name = 'World'\n# Old style\nprint('Hello, %s!' % name)\n# New style\nprint('Hello, {}!'.format(name))\n# F-string\nprint(f'Hello, {name}!')\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_unpacking::287",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "a, b, *rest = [1, 2, 3, 4, 5]\nprint(f'a={a}, b={b}, rest={rest}')\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_walrus_operator::288",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "if (n := 10) > 5:\n    print(f'n={n}')\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_json::289",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "import json\ndata = {'name': 'John', 'age': 30}\njson_str = json.dumps(data)\nparsed = json.loads(json_str)\nprint(parsed['name'])\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_pathlib::290",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "from pathlib import Path\np = Path('/tmp/test.txt')\nprint(f'Name: {p.name}')\nprint(f'Suffix: {p.suffix}')\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_enumerate::291",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "for i, val in enumerate(['a', 'b', 'c']):\n    print(f'{i}: {val}')\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_zip::292",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "names = ['Alice', 'Bob', 'Charlie']\nages = [25, 30, 35]\nfor name, age in zip(names, ages):\n    print(f'{name}: {age}')\n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rust_simple_println::293",
+  "argv": [
+   "-l",
+   "rust",
+   "-c",
+   "println!(\"hello\");"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rust_with_let_binding::294",
+  "argv": [
+   "-l",
+   "rust",
+   "-c",
+   "let x = 5; println!(\"{}\", x);"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rust_with_function::295",
+  "argv": [
+   "-l",
+   "rust",
+   "-c",
+   "fn greet(name: &str) { println!(\"Hello, {}!\", name); }\nfn main() { greet(\"World\"); }"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rust_with_vector::296",
+  "argv": [
+   "-l",
+   "rust",
+   "-c",
+   "fn main() {\n    let v = vec![1, 2, 3, 4, 5];\n    println!(\"Length: {}\", v.len());\n}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rust_file_execution::297",
+  "argv": [
+   "test.rs"
+  ],
+  "stdin": null,
+  "files": {
+   "test.rs": "fn main() {\n    println!(\"From file\");\n}"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rust_stdin::298",
+  "argv": [
+   "rust"
+  ],
+  "stdin": "fn main() { println!(\"From stdin\"); }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rust_multiline::299",
+  "argv": [
+   "-l",
+   "rust",
+   "-c",
+   "fn main() {\n    for i in 0..3 {\n        println!(\"Number: {}\", i);\n    }\n}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rust_string_operations::300",
+  "argv": [
+   "-l",
+   "rust",
+   "-c",
+   "fn main() {\n    let s = String::from(\"hello\");\n    println!(\"{}\", s.to_uppercase());\n}"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_stdin_basic::301",
+  "argv": [
+   "python"
+  ],
+  "stdin": "print('stdin test')",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_python_stdin_with_lang_flag::302",
+  "argv": [
+   "--lang",
+   "python"
+  ],
+  "stdin": "print('explicit stdin')",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_stdin::303",
+  "argv": [
+   "bash"
+  ],
+  "stdin": "echo 'bash stdin'",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_multiline::304",
+  "argv": [
+   "python"
+  ],
+  "stdin": "x = 10\ny = 20\nprint(x + y)\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_imports::305",
+  "argv": [
+   "python"
+  ],
+  "stdin": "import math\nprint(math.pi)\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_unicode::306",
+  "argv": [
+   "python"
+  ],
+  "stdin": "print('Unicode: 你好')",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_syntax_error::307",
+  "argv": [
+   "python"
+  ],
+  "stdin": "print('unclosed",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_runtime_error::308",
+  "argv": [
+   "python"
+  ],
+  "stdin": "raise ValueError('test error')",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bash_stdin_multiline::309",
+  "argv": [
+   "bash"
+  ],
+  "stdin": "echo \"Line 1\"\necho \"Line 2\"\necho \"Line 3\"\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_loops::310",
+  "argv": [
+   "python"
+  ],
+  "stdin": "for i in range(5):\n    print(i * 2)\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rust_stdin::311",
+  "argv": [
+   "rust"
+  ],
+  "stdin": "fn main() { println!(\"rust stdin\"); }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_go_stdin::312",
+  "argv": [
+   "go"
+  ],
+  "stdin": "package main\nimport \"fmt\"\nfunc main() { fmt.Println(\"go stdin\") }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_c_stdin::313",
+  "argv": [
+   "c"
+  ],
+  "stdin": "#include <stdio.h>\nint main() { printf(\"c stdin\\n\"); return 0; }",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_is_treated_as_code_and_fails_like_python_nameerror::314",
+  "argv": [
+   "definitely_not_a_real_subcommand_123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_flag_after_args_is_treated_as_code_token_and_causes_syntax_error::315",
+  "argv": [
+   "1",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_flag_exit_code_and_message::316",
+  "argv": [
+   "--no-such-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lang_accepts_equals_form_and_runs::317",
+  "argv": [
+   "--lang=python",
+   "--code",
+   "print('eq')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_code_accepts_equals_form_and_runs::318",
+  "argv": [
+   "--lang",
+   "python",
+   "--code=print('eq2')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_lang_joined_value_form_runs::319",
+  "argv": [
+   "-lpython",
+   "-c",
+   "print('joined')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_and_long_equivalents_produce_same_output::320",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "print('x')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_language_is_validation_error::321",
+  "argv": [
+   "--lang",
+   "notalang",
+   "--code",
+   "print('x')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_positional_after_code_is_rejected::322",
+  "argv": [
+   "--lang",
+   "python",
+   "--code",
+   "print('ok')",
+   "extra"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_with_no_following_args_is_ok_with_code::323",
+  "argv": [
+   "--lang",
+   "python",
+   "--code",
+   "print('dash')",
+   "--"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_followed_by_values_is_still_rejected_with_code::324",
+  "argv": [
+   "--lang",
+   "python",
+   "--code",
+   "print('dash')",
+   "--",
+   "-n",
+   "5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_flags_after_positional_are_treated_as_unexpected_argument::325",
+  "argv": [
+   "--lang",
+   "python",
+   "--unknown"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_takes_precedence_over_unknown_flag::326",
+  "argv": [
+   "--help",
+   "--definitely-unknown"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_after_double_dash_is_not_treated_as_help::327",
+  "argv": [
+   "--",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_execute_inline_code_flag::328",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "print('hello')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_execute_inline_code_long_flag::329",
+  "argv": [
+   "--code",
+   "print('world')",
+   "-l",
+   "python"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_execute_with_language_spec::330",
+  "argv": [
+   "python",
+   "print(42)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_execute_with_lang_flag::331",
+  "argv": [
+   "-l",
+   "python",
+   "-c",
+   "print(99)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_execute_from_stdin::332",
+  "argv": [
+   "-l",
+   "python"
+  ],
+  "stdin": "print('from stdin')",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_execute_stdin_with_dash::333",
+  "argv": [
+   "python",
+   "-"
+  ],
+  "stdin": "print('dash stdin')",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_execute_from_file::334",
+  "argv": [
+   "-l",
+   "python",
+   "-f",
+   "test_script.py"
+  ],
+  "stdin": null,
+  "files": {
+   "test_script.py": "print('from file')\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_execute_file_by_path::335",
+  "argv": [
+   "direct_path.py"
+  ],
+  "stdin": null,
+  "files": {
+   "direct_path.py": "print('direct path')\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_code_and_file_flags_conflict::336",
+  "argv": [
+   "-c",
+   "print('code')",
+   "-f",
+   "conflict.py"
+  ],
+  "stdin": null,
+  "files": {
+   "conflict.py": "print('file')\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lang_flag_after_code::337",
+  "argv": [
+   "-c",
+   "print('test2')",
+   "-l",
+   "python"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_detect_flag::338",
+  "argv": [
+   "--no-detect",
+   "-l",
+   "python",
+   "-c",
+   "print('no detect')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_flag_with_lang_flag::339",
+  "argv": [
+   "-l",
+   "python",
+   "-f",
+   "flagcombo.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "flagcombo.txt": "print('combo')\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_code_flag_with_language::340",
+  "argv": [
+   "python",
+   "-c",
+   "print('flag code')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_flag_with_trailing_args_error::341",
+  "argv": [
+   "-f",
+   "trailing.py",
+   "extra_arg"
+  ],
+  "stdin": null,
+  "files": {
+   "trailing.py": "print('test')\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_positional_file_detection::342",
+  "argv": [
+   "positional.py"
+  ],
+  "stdin": null,
+  "files": {
+   "positional.py": "print('positional file')\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_language_token_recognized::343",
+  "argv": [
+   "python",
+   "print('lang token')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_explicit_lang_flag_precedence::344",
+  "argv": [
+   "-l",
+   "python",
+   "print('explicit')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lang_flag_with_file::345",
+  "argv": [
+   "-l",
+   "python",
+   "-f",
+   "lang_file.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "lang_file.txt": "print('lang with file')\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lang_with_stdin::346",
+  "argv": [
+   "python",
+   "-"
+  ],
+  "stdin": "print('lang stdin')",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_code_flag_without_argument::347",
+  "argv": [
+   "-c"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_flag_without_argument::348",
+  "argv": [
+   "-f"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file::349",
+  "argv": [
+   "-f",
+   "nonexistent_file_99999.py"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lang_flag_without_argument::350",
+  "argv": [
+   "-l"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_mode_priority::351",
+  "argv": [
+   "--version",
+   "-c",
+   "print('test')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_explicit_language::352",
+  "argv": [
+   "-l",
+   "python"
+  ],
+  "stdin": "print('stdin with lang')",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_input_sources_priority::353",
+  "argv": [
+   "-c",
+   "print('code')",
+   "-f",
+   "priority.py"
+  ],
+  "stdin": null,
+  "files": {
+   "priority.py": "print('file')\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_language_and_no_detect::354",
+  "argv": [
+   "--no-detect",
+   "-l",
+   "python",
+   "-f",
+   "no_detect.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "no_detect.txt": "print('no detect file')\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_language_then_code::355",
+  "argv": [
+   "python",
+   "print('positional')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiword_code_as_positional::356",
+  "argv": [
+   "python",
+   "print('multi",
+   "word')"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_path_detection::357",
+  "argv": [
+   "detection.py"
+  ],
+  "stdin": null,
+  "files": {
+   "detection.py": "print('detected')\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

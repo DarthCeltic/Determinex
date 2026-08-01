@@ -1,0 +1,6297 @@
+[
+ {
+  "name": "test::test_version_output_detailed::0",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_no_instances::1",
+  "argv": [
+   "--status"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gc_with_valid_data::2",
+  "argv": [
+   "-D",
+   "test/data",
+   "-g"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_ical_default::3",
+  "argv": [
+   "-D",
+   "test/data",
+   "-x",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_ical_explicit::4",
+  "argv": [
+   "-D",
+   "test/data",
+   "-x",
+   "ical",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_pcal::5",
+  "argv": [
+   "-D",
+   "test/data",
+   "-x",
+   "pcal",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_basic::6",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_with_from_date::7",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--from",
+   "01/01/2000",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_with_to_date::8",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--to",
+   "12/31/2050",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_with_days::9",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--days",
+   "30",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_with_from_and_to::10",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--from",
+   "01/01/2000",
+   "--to",
+   "12/31/2050",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_grep_basic::11",
+  "argv": [
+   "-D",
+   "test/data",
+   "-G",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_grep_with_search_pattern::12",
+  "argv": [
+   "-D",
+   "test/data",
+   "-G",
+   "--filter-pattern",
+   "Meeting",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_type_cal::13",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-type",
+   "cal",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_type_todo::14",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-type",
+   "todo",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_type_event::15",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-type",
+   "event",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_type_apt::16",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-type",
+   "apt",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_type_recur::17",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-type",
+   "recur",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_type_recur_event::18",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-type",
+   "recur-event",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_type_recur_apt::19",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-type",
+   "recur-apt",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_pattern::20",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-pattern",
+   ".*",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_limit_results::21",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--limit",
+   "5",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_search_pattern::22",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--search",
+   "test",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_datefmt_1::23",
+  "argv": [
+   "-D",
+   "test/data",
+   "--input-datefmt",
+   "1",
+   "-d",
+   "01/20/1917",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_datefmt_2::24",
+  "argv": [
+   "-D",
+   "test/data",
+   "--input-datefmt",
+   "2",
+   "-d",
+   "20/01/1917",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_datefmt_3::25",
+  "argv": [
+   "-D",
+   "test/data",
+   "--input-datefmt",
+   "3",
+   "-d",
+   "1917/01/20",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_datefmt_4::26",
+  "argv": [
+   "-D",
+   "test/data",
+   "--input-datefmt",
+   "4",
+   "-d",
+   "1917-01-20",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_datefmt::27",
+  "argv": [
+   "-D",
+   "test/data",
+   "--output-datefmt",
+   "%Y/%m/%d",
+   "-d",
+   "01/20/1917",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_apt_custom::28",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--format-apt",
+   "%m\\n",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_event_custom::29",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--format-event",
+   "Event: %m\\n",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_todo_custom::30",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-type",
+   "todo",
+   "--format-todo",
+   "TODO[%p]: %m\\n",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_apt_with_time_specifiers::31",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--format-apt",
+   "%S -> %E: %m\\n",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_apt_with_duration::32",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--format-apt",
+   "%d seconds: %m\\n",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_raw::33",
+  "argv": [
+   "-D",
+   "test/data",
+   "-G",
+   "--format-apt",
+   "%(raw)",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_hash::34",
+  "argv": [
+   "-D",
+   "test/data",
+   "-G",
+   "--format-apt",
+   "%(hash)",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_with_uid::35",
+  "argv": [
+   "-D",
+   "test/data",
+   "-x",
+   "--export-uid",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dump_imported::36",
+  "argv": [
+   "-D",
+   "-i",
+   "test.ics",
+   "--dump-imported",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {
+   "test.ics": "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:test\nBEGIN:VEVENT\nDTSTART:20241225T100000\nDTEND:20241225T110000\nSUMMARY:Test Event\nEND:VEVENT\nEND:VCALENDAR\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_ical_basic::37",
+  "argv": [
+   "-D",
+   "-i",
+   "test.ics",
+   "-q",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {
+   "test.ics": "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:test\nBEGIN:VEVENT\nDTSTART:20241225T100000\nSUMMARY:Import Test\nEND:VEVENT\nEND:VCALENDAR\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_with_quiet::38",
+  "argv": [
+   "-D",
+   "-i",
+   "test.ics",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {
+   "test.ics": "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:test\nBEGIN:VTODO\nSUMMARY:Task\nEND:VTODO\nEND:VCALENDAR\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_day_shortcut::39",
+  "argv": [
+   "-D",
+   "test/data",
+   "-d",
+   "01/20/1917",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_day_with_number::40",
+  "argv": [
+   "-D",
+   "test/data",
+   "-d",
+   "7",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_appointment_shortcut::41",
+  "argv": [
+   "-D",
+   "test/data",
+   "-a",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_range_shortcut::42",
+  "argv": [
+   "-D",
+   "test/data",
+   "-r",
+   "5",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_range_without_number::43",
+  "argv": [
+   "-D",
+   "test/data",
+   "-r",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_startday_shortcut::44",
+  "argv": [
+   "-D",
+   "test/data",
+   "-s",
+   "01/20/1917",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_todo_shortcut::45",
+  "argv": [
+   "-D",
+   "test/data",
+   "-t",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_todo_with_priority::46",
+  "argv": [
+   "-D",
+   "test/data",
+   "-t",
+   "1",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_next_appointment::47",
+  "argv": [
+   "-D",
+   "test/data",
+   "-n",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_search_with_appointment::48",
+  "argv": [
+   "-D",
+   "test/data",
+   "-a",
+   "-S",
+   ".*",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_search_with_day::49",
+  "argv": [
+   "-D",
+   "test/data",
+   "-d",
+   "01/20/1917",
+   "-S",
+   "Outfit",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_confdir_option::50",
+  "argv": [
+   "-C",
+   "-D",
+   "test/data",
+   "-d",
+   "01/20/1917",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_calendar_file_option::51",
+  "argv": [
+   "-c",
+   "test/data/apts",
+   "-d",
+   "01/20/1917",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_start_from::52",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-start-from",
+   "01/01/1917",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_start_to::53",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-start-to",
+   "12/31/1917",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_start_after::54",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-start-after",
+   "01/01/1917",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_start_before::55",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-start-before",
+   "12/31/1920",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_start_range::56",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-start-range",
+   "01/01/1917,12/31/1917",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_end_from::57",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-end-from",
+   "01/01/1917",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_end_to::58",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-end-to",
+   "12/31/1920",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_end_after::59",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-end-after",
+   "01/01/1917",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_end_before::60",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-end-before",
+   "12/31/1920",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_end_range::61",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-end-range",
+   "01/01/1917,12/31/1917",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_priority::62",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-type",
+   "todo",
+   "--filter-priority",
+   "1",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_completed::63",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-type",
+   "todo",
+   "--filter-completed",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_uncompleted::64",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-type",
+   "todo",
+   "--filter-uncompleted",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_filters_combined::65",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-type",
+   "apt",
+   "--filter-start-from",
+   "01/01/1917",
+   "--filter-start-to",
+   "12/31/1917",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_recur_apt::66",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--format-recur-apt",
+   "%m\\n",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_recur_event::67",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--format-recur-event",
+   "%m\\n",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extended_format_start::68",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--format-apt",
+   "%(start:%H:%M) %m\\n",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extended_format_end::69",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--format-apt",
+   "%(end:%H:%M) %m\\n",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extended_format_duration::70",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--format-apt",
+   "%(duration:%H:%M) %m\\n",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shorthand_date_today::71",
+  "argv": [
+   "-D",
+   "test/data",
+   "-d",
+   "today",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shorthand_date_tomorrow::72",
+  "argv": [
+   "-D",
+   "test/data",
+   "-d",
+   "tomorrow",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shorthand_date_yesterday::73",
+  "argv": [
+   "-D",
+   "test/data",
+   "-d",
+   "yesterday",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shorthand_date_weekday::74",
+  "argv": [
+   "-D",
+   "test/data",
+   "-d",
+   "monday",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_days_range::75",
+  "argv": [
+   "-D",
+   "test/data",
+   "-d",
+   "-7",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_negative_days::76",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--days",
+   "-7",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_from_and_days_combined::77",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--from",
+   "01/01/1917",
+   "--days",
+   "30",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_type_filters::78",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-type",
+   "event,apt",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_pattern_case_sensitive::79",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-pattern",
+   "Outfit",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_hash_with_prefix::80",
+  "argv": [
+   "-D",
+   "test/data",
+   "-G",
+   "--format-apt",
+   "%(hash)",
+   "--limit",
+   "1",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_invert::81",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-pattern",
+   "XYZ_NONEXISTENT",
+   "--filter-invert",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_purge_operation::82",
+  "argv": [
+   "-D",
+   "test/data",
+   "-P",
+   "--filter-start-before",
+   "01/01/1900",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_F_deprecated::83",
+  "argv": [
+   "-D",
+   "test/data",
+   "-F",
+   "--filter-type",
+   "apt",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ical_import_from_file::84",
+  "argv": [
+   "-D",
+   "test/data",
+   "-i",
+   "test/data/ical-001.ical",
+   "-q",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_note_specifier::85",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--format-apt",
+   "%n\\n",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_note_content_specifier::86",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--format-apt",
+   "%N\\n",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ical_001_import::87",
+  "argv": [
+   "-D",
+   "-i",
+   "test/data/ical-001.ical"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ical_002_import::88",
+  "argv": [
+   "-D",
+   "-i",
+   "test/data/ical-002.ical"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ical_003_import::89",
+  "argv": [
+   "-D",
+   "-i",
+   "test/data/ical-003.ical"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ical_004_import::90",
+  "argv": [
+   "-D",
+   "-i",
+   "test/data/ical-004.ical"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ical_005_import::91",
+  "argv": [
+   "-D",
+   "-i",
+   "test/data/ical-005.ical"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ical_006_import::92",
+  "argv": [
+   "-D",
+   "-i",
+   "test/data/ical-006.ical"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ical_007_import::93",
+  "argv": [
+   "-D",
+   "-i",
+   "test/data/ical-007.ical"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ical_008_import::94",
+  "argv": [
+   "-D",
+   "-i",
+   "test/data/ical-008.ical"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ical_009_import::95",
+  "argv": [
+   "-D",
+   "-i",
+   "test/data/ical-009.ical"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ical_010_import::96",
+  "argv": [
+   "-D",
+   "-i",
+   "test/data/ical-010.ical"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ical_011_import::97",
+  "argv": [
+   "-D",
+   "-i",
+   "test/data/ical-011.ical"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ical_012_import::98",
+  "argv": [
+   "-D",
+   "-i",
+   "test/data/ical-012.ical"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ical_013_import::99",
+  "argv": [
+   "-D",
+   "-i",
+   "test/data/ical-013.ical"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_main_apts_file::100",
+  "argv": [
+   "-c",
+   "test/data/apts",
+   "-Q",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_apts_export::101",
+  "argv": [
+   "-c",
+   "test/data/apts-export",
+   "-x",
+   "ical",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_apts_recur::102",
+  "argv": [
+   "-c",
+   "test/data/apts-recur",
+   "-Q",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_apts_filter_001::103",
+  "argv": [
+   "-c",
+   "test/data/apts-filter-001",
+   "-Q",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_apts_dst::104",
+  "argv": [
+   "-c",
+   "test/data/apts-dst",
+   "-Q",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_todo_export::105",
+  "argv": [
+   "-D",
+   "-x",
+   "ical",
+   "--filter-type",
+   "todo",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_event_files::106",
+  "argv": [
+   "-c",
+   "-Q",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_bug_002::107",
+  "argv": [
+   "-c",
+   "test/data/apts-bug-002",
+   "-Q",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_regress_001::108",
+  "argv": [
+   "-c",
+   "test/data/apts-regress-001",
+   "-Q",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_y2k38_001::109",
+  "argv": [
+   "-c",
+   "test/data/apts-y2k38-001",
+   "-Q",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conf_file::110",
+  "argv": [
+   "-C",
+   "test/data",
+   "-D",
+   "test/data",
+   "-Q",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_rfc5545_apts::111",
+  "argv": [
+   "-c",
+   "test/data/rfc5545",
+   "-Q",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_with_all_filter_types::112",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-type",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_grep_with_all_formats::113",
+  "argv": [
+   "-D",
+   "test/data",
+   "-G",
+   "--format-apt",
+   "--limit",
+   "5",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_limit_values::114",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "-l",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_search_patterns::115",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--search",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_patterns::116",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-pattern",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_short_commands::117",
+  "argv": [
+   "-D",
+   "test/data",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_date_shortcuts::118",
+  "argv": [
+   "-D",
+   "test/data",
+   "-d",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_formats::119",
+  "argv": [
+   "-D",
+   "test/data",
+   "--output-datefmt",
+   "-Q",
+   "--days",
+   "1",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_and_output_formats_combined::120",
+  "argv": [
+   "-D",
+   "test/data",
+   "--input-datefmt",
+   "--output-datefmt",
+   "-Q",
+   "--days",
+   "1",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_with_uid::121",
+  "argv": [
+   "-D",
+   "test/data",
+   "-x",
+   "ical",
+   "--export-uid",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_purge_with_grep_preview::122",
+  "argv": [
+   "-D",
+   "test/data",
+   "-G",
+   "--filter-start-before",
+   "01/01/1900",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_invert_with_patterns::123",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-pattern",
+   "NONEXISTENT_PATTERN",
+   "--filter-invert",
+   "--limit",
+   "10",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_appointment_list_long_form::124",
+  "argv": [
+   "-D",
+   "test/data",
+   "--appointment",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_day_with_date::125",
+  "argv": [
+   "-D",
+   "test/data",
+   "-d",
+   "01/01/2025",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_day_with_number::126",
+  "argv": [
+   "-D",
+   "test/data",
+   "-d",
+   "3",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_day_invalid_date_format::127",
+  "argv": [
+   "-D",
+   "test/data",
+   "-d",
+   "2024-01-01",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_next_appointment_long_form::128",
+  "argv": [
+   "-D",
+   "test/data",
+   "--next",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_range_with_number::129",
+  "argv": [
+   "-D",
+   "test/data",
+   "-r7",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_startday_default::130",
+  "argv": [
+   "-D",
+   "test/data",
+   "-s",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_startday_with_date::131",
+  "argv": [
+   "-D",
+   "test/data",
+   "-s01/01/2025",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_appointments_with_real_data::132",
+  "argv": [
+   "-D",
+   "-d",
+   "01/15/2025",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_todo_in_appointment_view::133",
+  "argv": [
+   "-D",
+   "-a",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_day_invalid_date_format_fixed::134",
+  "argv": [
+   "-D",
+   "-d",
+   "2024-01-01",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_with_datetime::135",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-start-after",
+   "2000-01-01 10:00",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_end_with_datetime::136",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-end-before",
+   "2100-12-31 23:59",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_query_modes::137",
+  "argv": [
+   "-D",
+   "test/data",
+   "-a",
+   "-t",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_days_without_query::138",
+  "argv": [
+   "-D",
+   "test/data",
+   "--days",
+   "7",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_from_without_query::139",
+  "argv": [
+   "-D",
+   "test/data",
+   "--from",
+   "2023-01-01",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_to_without_query::140",
+  "argv": [
+   "-D",
+   "test/data",
+   "--to",
+   "2023-12-31",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_apt_without_query::141",
+  "argv": [
+   "-D",
+   "test/data",
+   "--format-apt",
+   "%(msg)",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_limit_without_query::142",
+  "argv": [
+   "-D",
+   "test/data",
+   "-l",
+   "10",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_search_without_query::143",
+  "argv": [
+   "-D",
+   "test/data",
+   "-S",
+   "test",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_day_range::144",
+  "argv": [
+   "-D",
+   "test/data",
+   "-d",
+   "-14",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_day_range::145",
+  "argv": [
+   "-D",
+   "test/data",
+   "-r1000",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_range_with_large_number::146",
+  "argv": [
+   "-D",
+   "test/data",
+   "-r5000",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_priority::147",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-priority",
+   "0",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_priority_out_of_range_high::148",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-priority",
+   "10",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_limit::149",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "-l",
+   "abc",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_days::150",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--days",
+   "abc",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_long_form::151",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dump_imported_flag::152",
+  "argv": [
+   "-D",
+   "-i",
+   "test.ics",
+   "--dump-imported"
+  ],
+  "stdin": null,
+  "files": {
+   "test.ics": "BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART:20231201T100000\nDTEND:20231201T110000\nSUMMARY:Dump Test\nEND:VEVENT\nEND:VCALENDAR\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_purge_without_filter::153",
+  "argv": [
+   "-D",
+   "-P"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_both_datadir_and_calendar::154",
+  "argv": [
+   "-D",
+   "test/data",
+   "-c",
+   "test/data/apts",
+   "-a",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_confdir_without_datadir::155",
+  "argv": [
+   "-C",
+   "-D",
+   "-a",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_datefmt_iso::156",
+  "argv": [
+   "-D",
+   "test/data",
+   "-a",
+   "--output-datefmt",
+   "%Y-%m-%d",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_datefmt_us::157",
+  "argv": [
+   "-D",
+   "test/data",
+   "-a",
+   "--output-datefmt",
+   "%m/%d/%Y",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_export::158",
+  "argv": [
+   "-D",
+   "test/data",
+   "-x",
+   "-q",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_import::159",
+  "argv": [
+   "-D",
+   "-i",
+   "test.ics",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {
+   "test.ics": "BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART:20231201T100000\nDTEND:20231201T110000\nSUMMARY:Quiet\nEND:VEVENT\nEND:VCALENDAR\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_pcal_produces_pcal_format::160",
+  "argv": [
+   "-D",
+   "test/data",
+   "--export=pcal",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_appointments_specific_date::161",
+  "argv": [
+   "-D",
+   "test/data",
+   "-d",
+   "1902-01-01",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_with_filter_type_cal::162",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-type",
+   "cal",
+   "--days",
+   "7",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_grep_with_search_pattern::163",
+  "argv": [
+   "-D",
+   "test/data",
+   "-G",
+   "-S",
+   "event",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_purge_with_dry_run_effect::164",
+  "argv": [
+   "-D",
+   "test/data",
+   "-P",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_option_apt_custom::165",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-type",
+   "apt",
+   "--format-apt",
+   "%m\n",
+   "--days",
+   "365",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_option_event_custom::166",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-type",
+   "event",
+   "--format-event",
+   "%m\n",
+   "--days",
+   "365",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_option_todo_custom::167",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-type",
+   "todo",
+   "--format-todo",
+   "[%p] %m\n",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_limit_option_restricts_output::168",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--days",
+   "365",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_datefmt_option::169",
+  "argv": [
+   "-D",
+   "test/data",
+   "--input-datefmt",
+   "1",
+   "-d",
+   "01/01/1902",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_datefmt_option::170",
+  "argv": [
+   "-D",
+   "test/data",
+   "--output-datefmt",
+   "1",
+   "-d",
+   "1902-01-01",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_mode_suppresses_messages::171",
+  "argv": [
+   "-D",
+   "-i",
+   "test.ics",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {
+   "test.ics": "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:Test\nBEGIN:VEVENT\nDTSTART:20000101T120000\nDTEND:20000101T130000\nSUMMARY:Test Event\nEND:VEVENT\nEND:VCALENDAR"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_ical_basic_structure::172",
+  "argv": [
+   "-D",
+   "-i",
+   "test.ics"
+  ],
+  "stdin": null,
+  "files": {
+   "test.ics": "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:Test\nBEGIN:VEVENT\nDTSTART:20000101T120000\nDTEND:20000101T130000\nSUMMARY:Test Event\nEND:VEVENT\nEND:VCALENDAR"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dump_imported_shows_imported_items::173",
+  "argv": [
+   "-D",
+   "-i",
+   "test.ics",
+   "--dump-imported",
+   "--format-apt",
+   "%m\n"
+  ],
+  "stdin": null,
+  "files": {
+   "test.ics": "BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART:20000101T120000\nSUMMARY:Dump Test\nEND:VEVENT\nEND:VCALENDAR"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_status_no_running_instance::174",
+  "argv": [
+   "-D",
+   "--status"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_gc_garbage_collection::175",
+  "argv": [
+   "-D",
+   "-g"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_read_only_mode_prevents_writes::176",
+  "argv": [
+   "-D",
+   "-Q",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_confdir_option::177",
+  "argv": [
+   "-C",
+   "-D",
+   "-Q",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_calendar_file_option::178",
+  "argv": [
+   "-c",
+   "mycal",
+   "-Q",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {
+   "mycal": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_start_after::179",
+  "argv": [
+   "-D",
+   "test/data",
+   "-G",
+   "--filter-start-after",
+   "2000-01-01",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_start_before::180",
+  "argv": [
+   "-D",
+   "test/data",
+   "-G",
+   "--filter-start-before",
+   "1950-01-01",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_priority::181",
+  "argv": [
+   "-D",
+   "test/data",
+   "-G",
+   "--filter-type",
+   "todo",
+   "--filter-priority",
+   "1",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_completed::182",
+  "argv": [
+   "-D",
+   "test/data",
+   "-G",
+   "--filter-type",
+   "todo",
+   "--filter-completed",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_uncompleted::183",
+  "argv": [
+   "-D",
+   "test/data",
+   "-G",
+   "--filter-type",
+   "todo",
+   "--filter-uncompleted",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_hash::184",
+  "argv": [
+   "-D",
+   "test/data",
+   "-G",
+   "--filter-type",
+   "event",
+   "--format-event",
+   "%(hash)\n",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_raw::185",
+  "argv": [
+   "-D",
+   "test/data",
+   "-G",
+   "--filter-type",
+   "event",
+   "--format-event",
+   "%(raw)\n",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_from_to_date_range::186",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--from",
+   "1902-01-01",
+   "--to",
+   "1902-01-31",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_days_option_positive::187",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--days",
+   "7",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_startday_shortcut::188",
+  "argv": [
+   "-D",
+   "test/data",
+   "-s",
+   "1902-01-01",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_option_shows_error::189",
+  "argv": [
+   "--invalid-option-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_required_argument::190",
+  "argv": [
+   "-D"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_date_format::191",
+  "argv": [
+   "-D",
+   "test/data",
+   "-d",
+   "invalid-date",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_options::192",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "-G",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_data_directory::193",
+  "argv": [
+   "-D",
+   "/nonexistent/directory/xyz",
+   "-Q",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_search_with_regex::194",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--search",
+   "event",
+   "--days",
+   "365",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_filter_types::195",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-type",
+   "apt,event",
+   "--days",
+   "365",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_export_import_cycle::196",
+  "argv": [
+   "-D",
+   "-x",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_purge_maintains_data_integrity::197",
+  "argv": [
+   "-D",
+   "-G",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_range_filters_work::198",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "01/01/1916",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_search_patterns_varied::199",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--search",
+   "--limit",
+   "10",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_limit_and_search_combination::200",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--search",
+   ".",
+   "--limit",
+   "5",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_priority_filtering_all_levels::201",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-type",
+   "todo",
+   "--filter-priority",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_invert_changes_results::202",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-type",
+   "apt",
+   "--limit",
+   "10",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_ical_files_import::203",
+  "argv": [
+   "-D",
+   "-i",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_pcal_has_content::204",
+  "argv": [
+   "-D",
+   "test/data",
+   "-xpcal",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dump_imported_shows_items::205",
+  "argv": [
+   "-D",
+   "-i",
+   "test/data/ical-003.ical",
+   "--dump-imported"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_with_all_date_options_together::206",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--from",
+   "01/01/1915",
+   "--to",
+   "12/31/1920",
+   "--days",
+   "365",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_format_all_types::207",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--format-apt",
+   "A:%(msg)",
+   "--format-event",
+   "E:%(msg)",
+   "--format-recur-apt",
+   "RA:%(msg)",
+   "--format-recur-event",
+   "RE:%(msg)",
+   "--format-todo",
+   "T:%(msg)",
+   "--limit",
+   "50",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_pattern_with_regex::208",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-pattern",
+   "--limit",
+   "10",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_hash_with_real_hash::209",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--format-apt",
+   "%(hash)",
+   "--limit",
+   "1",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_config_directory_usage::210",
+  "argv": [
+   "-C",
+   "-D",
+   "test/data",
+   "-a",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_calendar_file_path::211",
+  "argv": [
+   "-D",
+   "-c",
+   "my_events",
+   "-d",
+   "01/15/1917",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {
+   "my_events": "01/15/1917 @ 10:00 -> 01/15/1917 @ 11:00 |Custom\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_flag_with_import_export::212",
+  "argv": [
+   "-D",
+   "-i",
+   "test/data/ical-001.ical",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_arguments_produce_errors::213",
+  "argv": [
+   "--invalid-option-does-not-exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_datefmt_option_1::214",
+  "argv": [
+   "-D",
+   "--input-datefmt",
+   "1",
+   "-d",
+   "12/25/2024",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_datefmt_option_2::215",
+  "argv": [
+   "-D",
+   "--input-datefmt",
+   "2",
+   "-d",
+   "25/12/2024",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_datefmt_option_3::216",
+  "argv": [
+   "-D",
+   "--input-datefmt",
+   "3",
+   "-d",
+   "2024/12/25",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_datefmt_option_4::217",
+  "argv": [
+   "-D",
+   "--input-datefmt",
+   "4",
+   "-d",
+   "2024-12-25",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_output_datefmt_custom_format::218",
+  "argv": [
+   "-D",
+   "--input-datefmt",
+   "4",
+   "--output-datefmt",
+   "%Y/%m/%d",
+   "-d",
+   "2024-12-25",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_limit_query_results::219",
+  "argv": [
+   "-D",
+   "-t",
+   "--limit",
+   "2",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_search_regex_in_query::220",
+  "argv": [
+   "-D",
+   "--input-datefmt",
+   "4",
+   "-Q",
+   "--search",
+   "Meeting",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_type_event_only::221",
+  "argv": [
+   "-D",
+   "--input-datefmt",
+   "4",
+   "-Q",
+   "--filter-type",
+   "event",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_type_apt_only::222",
+  "argv": [
+   "-D",
+   "--input-datefmt",
+   "4",
+   "-Q",
+   "--filter-type",
+   "apt",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_type_todo_only::223",
+  "argv": [
+   "-D",
+   "-Q",
+   "--filter-type",
+   "todo",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_type_cal_shorthand::224",
+  "argv": [
+   "-D",
+   "-Q",
+   "--filter-type",
+   "cal",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_pattern_regex::225",
+  "argv": [
+   "-D",
+   "--input-datefmt",
+   "4",
+   "-Q",
+   "--filter-pattern",
+   "Alice",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_hash_prefix::226",
+  "argv": [
+   "-D",
+   "-G",
+   "--format-apt",
+   "%(hash)",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_priority_specific::227",
+  "argv": [
+   "-D",
+   "-t",
+   "--filter-priority",
+   "1",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_completed_todos::228",
+  "argv": [
+   "-D",
+   "-Q",
+   "--filter-type",
+   "todo",
+   "--filter-completed",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_uncompleted_todos::229",
+  "argv": [
+   "-D",
+   "-Q",
+   "--filter-type",
+   "todo",
+   "--filter-uncompleted",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_start_from_date::230",
+  "argv": [
+   "-D",
+   "--input-datefmt",
+   "4",
+   "-Q",
+   "--filter-start-from",
+   "2024-12-25",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_start_to_date::231",
+  "argv": [
+   "-D",
+   "--input-datefmt",
+   "4",
+   "-Q",
+   "--filter-start-to",
+   "2024-12-25",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_start_after_date::232",
+  "argv": [
+   "-D",
+   "--input-datefmt",
+   "4",
+   "-Q",
+   "--filter-start-after",
+   "2024-12-25",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_start_before_date::233",
+  "argv": [
+   "-D",
+   "--input-datefmt",
+   "4",
+   "-Q",
+   "--filter-start-before",
+   "2024-12-25",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_start_range::234",
+  "argv": [
+   "-D",
+   "--input-datefmt",
+   "4",
+   "-Q",
+   "--filter-start-range",
+   "2024-12-20,2024-12-25",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_apt_custom::235",
+  "argv": [
+   "-D",
+   "--input-datefmt",
+   "4",
+   "-Q",
+   "--format-apt",
+   "APT: %m\\n",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_event_custom::236",
+  "argv": [
+   "-D",
+   "--input-datefmt",
+   "4",
+   "-Q",
+   "--format-event",
+   "EVENT: %m\\n",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_todo_custom::237",
+  "argv": [
+   "-D",
+   "-Q",
+   "--filter-type",
+   "todo",
+   "--format-todo",
+   "TODO(%p): %m\\n",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_raw_specifier::238",
+  "argv": [
+   "-D",
+   "-G",
+   "--format-event",
+   "%(raw)",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_hash_specifier::239",
+  "argv": [
+   "-D",
+   "-G",
+   "--format-event",
+   "%(hash)",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dump_imported_option::240",
+  "argv": [
+   "-D",
+   "-i",
+   "import.ics",
+   "--dump-imported",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {
+   "import.ics": "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:test\nBEGIN:VEVENT\nDTSTART:20241225T100000\nDTEND:20241225T110000\nSUMMARY:Imported Event\nEND:VEVENT\nEND:VCALENDAR\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_uid_option::241",
+  "argv": [
+   "-D",
+   "-x",
+   "--export-uid",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_quiet_flag_suppresses_output::242",
+  "argv": [
+   "-D",
+   "-i",
+   "test.ics",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {
+   "test.ics": "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:test\nBEGIN:VEVENT\nDTSTART:20241225T100000\nSUMMARY:Test\nEND:VEVENT\nEND:VCALENDAR\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shorthand_date_today::243",
+  "argv": [
+   "-D",
+   "-d",
+   "today",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shorthand_date_tomorrow::244",
+  "argv": [
+   "-D",
+   "-d",
+   "tomorrow",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shorthand_date_yesterday::245",
+  "argv": [
+   "-D",
+   "-d",
+   "yesterday",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_shorthand_date_weekday::246",
+  "argv": [
+   "-D",
+   "-d",
+   "monday",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_days_range::247",
+  "argv": [
+   "-D",
+   "-d",
+   "-3",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_from_with_days::248",
+  "argv": [
+   "-D",
+   "--input-datefmt",
+   "4",
+   "-Q",
+   "--from",
+   "2024-12-20",
+   "--days",
+   "10",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_pcal_format::249",
+  "argv": [
+   "-D",
+   "-x",
+   "pcal",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_grep_with_format_option::250",
+  "argv": [
+   "-D",
+   "-G",
+   "--format-event",
+   "%m\\n",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_purge_with_filter::251",
+  "argv": [
+   "-D",
+   "--input-datefmt",
+   "4",
+   "-G",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_filter_types::252",
+  "argv": [
+   "-D",
+   "-Q",
+   "--filter-type",
+   "event,apt",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_type_recur::253",
+  "argv": [
+   "-D",
+   "--input-datefmt",
+   "4",
+   "-Q",
+   "--filter-type",
+   "recur",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_recur_event_format::254",
+  "argv": [
+   "-D",
+   "--input-datefmt",
+   "4",
+   "-Q",
+   "--format-recur-event",
+   "RECUR: %m\\n",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_recur_apt_format::255",
+  "argv": [
+   "-D",
+   "--input-datefmt",
+   "4",
+   "-Q",
+   "--format-recur-apt",
+   "RECUR-APT: %S-%E %m\\n",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extended_format_duration::256",
+  "argv": [
+   "-D",
+   "--input-datefmt",
+   "4",
+   "-Q",
+   "--format-apt",
+   "Duration: %(duration:%H:%M) - %m\\n",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extended_format_start_time::257",
+  "argv": [
+   "-D",
+   "--input-datefmt",
+   "4",
+   "-Q",
+   "--format-apt",
+   "Start: %(start:%H:%M) - %m\\n",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extended_format_end_time::258",
+  "argv": [
+   "-D",
+   "--input-datefmt",
+   "4",
+   "-Q",
+   "--format-apt",
+   "End: %(end:%H:%M) - %m\\n",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_appointment_with_note::259",
+  "argv": [
+   "-D",
+   "--input-datefmt",
+   "4",
+   "-Q",
+   "--format-apt",
+   "%m\\nNote: %N\\n",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_todo_with_note::260",
+  "argv": [
+   "-D",
+   "-Q",
+   "--filter-type",
+   "todo",
+   "--format-todo",
+   "%m\\nNote: %N\\n",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_confdir_and_datadir::261",
+  "argv": [
+   "-C",
+   "-D",
+   "-d",
+   "today",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_calendar_file_option::262",
+  "argv": [
+   "-c",
+   "mycalendar.txt",
+   "--input-datefmt",
+   "4",
+   "-d",
+   "2024-12-25",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {
+   "mycalendar.txt": "[1]\n2024-12-25 [Custom Event]\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_from_stdin::263",
+  "argv": [
+   "-D",
+   "-i",
+   "-",
+   "--read-only"
+  ],
+  "stdin": "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:test\nBEGIN:VEVENT\nDTSTART:20241225T100000\nSUMMARY:Stdin Event\nEND:VEVENT\nEND:VCALENDAR\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_various_priority_levels::264",
+  "argv": [
+   "-D",
+   "-t",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_priority_completed_todos::265",
+  "argv": [
+   "-D",
+   "-t",
+   "0",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_specific_priority_filter::266",
+  "argv": [
+   "-D",
+   "-t",
+   "2",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_range_with_negative_number::267",
+  "argv": [
+   "-D",
+   "-r",
+   "-5",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_startday_with_specific_date::268",
+  "argv": [
+   "-D",
+   "--input-datefmt",
+   "4",
+   "-s",
+   "2024-12-25",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_startday_without_date::269",
+  "argv": [
+   "-D",
+   "-s",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_appointment_with_search::270",
+  "argv": [
+   "-D",
+   "test/data",
+   "-a",
+   "-S",
+   "Outfit",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_invert_flag::271",
+  "argv": [
+   "-D",
+   "--input-datefmt",
+   "4",
+   "-Q",
+   "--filter-pattern",
+   "Remove",
+   "--filter-invert",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_malformed_ical_import::272",
+  "argv": [
+   "-D",
+   "-i",
+   "bad.ics",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.ics": "BEGIN:VCALENDAR\nVERSION:2.0\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_with_all_date_ranges::273",
+  "argv": [
+   "-D",
+   "--input-datefmt",
+   "4",
+   "-Q",
+   "--from",
+   "2024-12-01",
+   "--to",
+   "2024-12-31",
+   "--filter-type",
+   "event",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_short_help::274",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_with_specific_date::275",
+  "argv": [
+   "-D",
+   "test/data",
+   "-d",
+   "2023-12-01",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_range_appointments::276",
+  "argv": [
+   "-D",
+   "test/data",
+   "-r3",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_startday::277",
+  "argv": [
+   "-D",
+   "test/data",
+   "-s",
+   "2023-12-01",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_full_form::278",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--from",
+   "2023-01-01",
+   "--to",
+   "2023-12-31",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_pattern::279",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-pattern",
+   "test",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_start_after::280",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-start-after",
+   "2023-01-01",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_start_before::281",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-start-before",
+   "2025-12-31",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_end_after::282",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-end-after",
+   "2023-01-01",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_end_before::283",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-end-before",
+   "2025-12-31",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_apt::284",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-type",
+   "apt",
+   "--format-apt",
+   "%(start) %(msg)",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_recur_apt::285",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-type",
+   "recur-apt",
+   "--format-recur-apt",
+   "%(msg)",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_event::286",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-type",
+   "event",
+   "--format-event",
+   "%(msg)",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_recur_event::287",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-type",
+   "recur-event",
+   "--format-recur-event",
+   "%(msg)",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_todo::288",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-type",
+   "todo",
+   "--format-todo",
+   "%(priority) %(msg)",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_ical_explicit::289",
+  "argv": [
+   "-D",
+   "test/data",
+   "-xical",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_ical_basic::290",
+  "argv": [
+   "-D",
+   "-i",
+   "test.ics"
+  ],
+  "stdin": null,
+  "files": {
+   "test.ics": "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Test//Test//EN\nBEGIN:VEVENT\nDTSTART:20231201T100000\nDTEND:20231201T110000\nSUMMARY:Test Event\nEND:VEVENT\nEND:VCALENDAR\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_with_dump::291",
+  "argv": [
+   "-D",
+   "-i",
+   "test.ics",
+   "--dump-imported"
+  ],
+  "stdin": null,
+  "files": {
+   "test.ics": "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Test//Test//EN\nBEGIN:VEVENT\nDTSTART:20231201T100000\nDTEND:20231201T110000\nSUMMARY:Dumped Event\nEND:VEVENT\nEND:VCALENDAR\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_quiet::292",
+  "argv": [
+   "-D",
+   "-i",
+   "test.ics",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {
+   "test.ics": "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Test//Test//EN\nBEGIN:VEVENT\nDTSTART:20231201T100000\nDTEND:20231201T110000\nSUMMARY:Quiet Event\nEND:VEVENT\nEND:VCALENDAR\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_grep_with_filter::293",
+  "argv": [
+   "-D",
+   "test/data",
+   "-G",
+   "--filter-type",
+   "event",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_input_datefmt::294",
+  "argv": [
+   "-D",
+   "test/data",
+   "-d",
+   "12/01/2023",
+   "--input-datefmt",
+   "%m/%d/%Y",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_search_regexp::295",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "-S",
+   ".*",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_limit_results::296",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "-l",
+   "5",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_nonexistent_file::297",
+  "argv": [
+   "-i",
+   "/nonexistent/file.ics"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_data_directory::298",
+  "argv": [
+   "-D",
+   "/nonexistent/directory/path",
+   "-a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_query_options::299",
+  "argv": [
+   "-D",
+   "test/data",
+   "-a",
+   "-n",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_with_invalid_priority::300",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-priority",
+   "99",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_recurring_event_simple::301",
+  "argv": [
+   "-D",
+   "-r7",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_io_save_and_load::302",
+  "argv": [
+   "-D",
+   "-i",
+   "test.ics"
+  ],
+  "stdin": null,
+  "files": {
+   "test.ics": "BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART:20231201T120000\nDTEND:20231201T130000\nSUMMARY:IO Test Event\nEND:VEVENT\nEND:VCALENDAR\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_calendar_file_option::303",
+  "argv": [
+   "-c",
+   "mycal",
+   "-a",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {
+   "mycal": "[1] Test Event\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_appointment_date_range::304",
+  "argv": [
+   "-D",
+   "test/data",
+   "-d",
+   "2",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_with_from_and_to_dates::305",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--from",
+   "01/01/1917",
+   "--to",
+   "02/01/1917",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_grep_operation::306",
+  "argv": [
+   "-D",
+   "test/data",
+   "-G",
+   "Hannah",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_grep_case_sensitive::307",
+  "argv": [
+   "-D",
+   "test/data",
+   "-G",
+   "hannah",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_ical_file::308",
+  "argv": [
+   "-D",
+   "-i",
+   "test/data/ical-001.ical",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_with_quiet_flag::309",
+  "argv": [
+   "-D",
+   "-i",
+   "test/data/ical-001.ical",
+   "-q",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_purge_operation::310",
+  "argv": [
+   "-D",
+   "-P",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_todo_with_priority_filter::311",
+  "argv": [
+   "-D",
+   "test/data",
+   "-t1",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_startday_query::312",
+  "argv": [
+   "-D",
+   "test/data",
+   "-s01/01/2020",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_options::313",
+  "argv": [
+   "-a",
+   "-n"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_custom_calendar_file::314",
+  "argv": [
+   "-D",
+   "-c",
+   "my_calendar",
+   "-a",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {
+   "my_calendar": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_search_option::315",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--search",
+   "Hannah",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_apt_custom::316",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--format-apt",
+   "%(start)%",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dump_imported::317",
+  "argv": [
+   "-D",
+   "-i",
+   "test/data/ical-001.ical",
+   "--dump-imported",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ical_import_rfc5545::318",
+  "argv": [
+   "-D",
+   "-i",
+   "test/data/rfc5545.ical",
+   "-q"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_range_syntax::319",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-start-range",
+   "01/01/1915",
+   "12/31/1920",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_all_specifiers::320",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--format-apt",
+   "--limit",
+   "5",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_limit_various_values::321",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--limit",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_query_with_all_date_options::322",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--from",
+   "01/01/1915",
+   "--to",
+   "12/31/1915",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_grep_with_filters::323",
+  "argv": [
+   "-D",
+   "test/data",
+   "-G",
+   "--filter-type",
+   "todo",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_purge_with_filters::324",
+  "argv": [
+   "-D",
+   "-P",
+   "--filter-type",
+   "apt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_export_with_filters::325",
+  "argv": [
+   "-D",
+   "test/data",
+   "-x",
+   "--filter-type",
+   "apt",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dump_imported_with_format::326",
+  "argv": [
+   "-D",
+   "-i",
+   "test/data/ical-001.ical",
+   "--dump-imported",
+   "--format-apt",
+   "%(msg)"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_day_query_various_formats::327",
+  "argv": [
+   "-D",
+   "test/data",
+   "-d",
+   "01/15/1917",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_calendar_file_option::328",
+  "argv": [
+   "-D",
+   "-c",
+   "my_calendar",
+   "-d",
+   "01/15/1917",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {
+   "my_calendar": "01/15/1917 @ 10:00 -> 01/15/1917 @ 11:00 |Custom Event\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_recurrence_patterns::329",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-type",
+   "recur",
+   "--format-recur-apt",
+   "%(msg)",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_type_filters::330",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-type",
+   "apt",
+   "--limit",
+   "5",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hash_filtering::331",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-type",
+   "apt",
+   "--limit",
+   "1",
+   "--format-apt",
+   "%(hash) %(msg)",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_edge_cases::332",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--from",
+   "01/01/1900",
+   "--to",
+   "12/31/1905",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_query_results::333",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--from",
+   "01/01/2200",
+   "--to",
+   "12/31/2200",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_notes_with_items::334",
+  "argv": [
+   "-D",
+   "-Q",
+   "--format-apt",
+   "%(msg) - %(note)",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_with_newlines::335",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--format-apt",
+   "%(msg)\\n---",
+   "--limit",
+   "3",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pcal_export_with_filter::336",
+  "argv": [
+   "-D",
+   "test/data",
+   "--export=pcal",
+   "--filter-type",
+   "event",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_pcal_export_date_range::337",
+  "argv": [
+   "-D",
+   "test/data",
+   "--export=pcal",
+   "--from",
+   "01/01/1902",
+   "--to",
+   "12/31/1902",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_notes_in_appointments::338",
+  "argv": [
+   "-D",
+   "-Q",
+   "--from",
+   "01/01/2000",
+   "--days",
+   "1",
+   "--format-apt",
+   "%m\\n%N\\n",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_note_file_listing::339",
+  "argv": [
+   "-D",
+   "-Q",
+   "--from",
+   "01/01/2000",
+   "--days",
+   "1",
+   "--format-apt",
+   "%n\\n",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_format_iso::340",
+  "argv": [
+   "-D",
+   "test/data",
+   "--input-datefmt",
+   "4",
+   "-d",
+   "1902-01-01",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_date_format_european::341",
+  "argv": [
+   "-D",
+   "test/data",
+   "--input-datefmt",
+   "2",
+   "-d",
+   "01/01/1902",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_recurring_appointment_query::342",
+  "argv": [
+   "-D",
+   "-Q",
+   "--from",
+   "01/01/2000",
+   "--days",
+   "7",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_type_multiple::343",
+  "argv": [
+   "-D",
+   "test/data",
+   "-G",
+   "--filter-type",
+   "apt,event",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_type_recur_event::344",
+  "argv": [
+   "-D",
+   "test/data",
+   "-G",
+   "--filter-type",
+   "recur-event",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_type_recur_apt::345",
+  "argv": [
+   "-D",
+   "test/data",
+   "-G",
+   "--filter-type",
+   "recur-apt",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_filter_type_recur::346",
+  "argv": [
+   "-D",
+   "test/data",
+   "-G",
+   "--filter-type",
+   "recur",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_duration_seconds::347",
+  "argv": [
+   "-D",
+   "-Q",
+   "--from",
+   "01/01/2000",
+   "--days",
+   "1",
+   "--format-apt",
+   "%(duration)\\n",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_start_epoch::348",
+  "argv": [
+   "-D",
+   "-Q",
+   "--from",
+   "01/01/2000",
+   "--days",
+   "1",
+   "--format-apt",
+   "%(start:epoch)\\n",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_end_epoch::349",
+  "argv": [
+   "-D",
+   "-Q",
+   "--from",
+   "01/01/2000",
+   "--days",
+   "1",
+   "--format-apt",
+   "%(end:epoch)\\n",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_start_custom_strftime::350",
+  "argv": [
+   "-D",
+   "-Q",
+   "--from",
+   "01/01/2000",
+   "--days",
+   "1",
+   "--format-apt",
+   "%(start:%Y-%m-%d %H:%M)\\n",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_grep_raw_format::351",
+  "argv": [
+   "-D",
+   "test/data",
+   "-G",
+   "--filter-type",
+   "event",
+   "--format-event",
+   "%(raw)\\n",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_grep_hash_format::352",
+  "argv": [
+   "-D",
+   "test/data",
+   "-G",
+   "--filter-type",
+   "event",
+   "--format-event",
+   "%(hash)\\n",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_purge_with_filter_type::353",
+  "argv": [
+   "-D",
+   "-P",
+   "--filter-type",
+   "event"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_purge_with_date_filter::354",
+  "argv": [
+   "-D",
+   "-P",
+   "--filter-start-from",
+   "01/01/1950"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_ical_with_vtodo::355",
+  "argv": [
+   "-D",
+   "-i",
+   "todo.ics"
+  ],
+  "stdin": null,
+  "files": {
+   "todo.ics": "BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VTODO\nSUMMARY:Todo Item\nPRIORITY:1\nEND:VTODO\nEND:VCALENDAR"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_ical_with_recurrence::356",
+  "argv": [
+   "-D",
+   "-i",
+   "recur.ics"
+  ],
+  "stdin": null,
+  "files": {
+   "recur.ics": "BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART:20000101T100000\nDTEND:20000101T110000\nSUMMARY:Recurring Event\nRRULE:FREQ=DAILY;COUNT=10\nEND:VEVENT\nEND:VCALENDAR"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_ical_with_alarm::357",
+  "argv": [
+   "-D",
+   "-i",
+   "alarm.ics"
+  ],
+  "stdin": null,
+  "files": {
+   "alarm.ics": "BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART:20500101T120000\nDTEND:20500101T130000\nSUMMARY:Event with Alarm\nBEGIN:VALARM\nTRIGGER:-PT15M\nACTION:DISPLAY\nDESCRIPTION:Reminder\nEND:VALARM\nEND:VEVENT\nEND:VCALENDAR"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_ical_with_description::358",
+  "argv": [
+   "-D",
+   "-i",
+   "desc.ics"
+  ],
+  "stdin": null,
+  "files": {
+   "desc.ics": "BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART:20500101T120000\nDTEND:20500101T130000\nSUMMARY:Event with Description\nDESCRIPTION:This is a longer description of the event.\nEND:VEVENT\nEND:VCALENDAR"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_limit_zero::359",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--days",
+   "365",
+   "--limit",
+   "0",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_limit_one::360",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--days",
+   "365",
+   "--limit",
+   "1",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_limit_large::361",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--days",
+   "365",
+   "--limit",
+   "1000",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_appointment_format_start_time::362",
+  "argv": [
+   "-D",
+   "-Q",
+   "--from",
+   "01/01/2000",
+   "--days",
+   "1",
+   "--format-apt",
+   "%S %m\\n",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_appointment_format_end_time::363",
+  "argv": [
+   "-D",
+   "-Q",
+   "--from",
+   "01/01/2000",
+   "--days",
+   "1",
+   "--format-apt",
+   "%E %m\\n",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_appointment_format_duration_basic::364",
+  "argv": [
+   "-D",
+   "-Q",
+   "--from",
+   "01/01/2000",
+   "--days",
+   "1",
+   "--format-apt",
+   "%d\\n",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_todo_format_priority::365",
+  "argv": [
+   "-D",
+   "-t",
+   "--format-todo",
+   "[%p] %m\\n",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_todo_filter_multiple_priorities::366",
+  "argv": [
+   "-D",
+   "-G",
+   "--filter-type",
+   "todo",
+   "--filter-priority",
+   "1,2",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_calendar_file::367",
+  "argv": [
+   "-c",
+   "empty.txt",
+   "-Q",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.txt": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_calendar_file_with_only_whitespace::368",
+  "argv": [
+   "-c",
+   "whitespace.txt",
+   "-Q",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {
+   "whitespace.txt": "  \n\n  \n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_description::369",
+  "argv": [
+   "-D",
+   "-Q",
+   "--from",
+   "01/01/2000",
+   "--days",
+   "1",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_date_format::370",
+  "argv": [
+   "-D",
+   "test/data",
+   "-d",
+   "not-a-date",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_calendar_file::371",
+  "argv": [
+   "-c",
+   "/nonexistent/path/file",
+   "-Q",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_import_nonexistent_file::372",
+  "argv": [
+   "-D",
+   "test/data",
+   "-i",
+   "/nonexistent/file.ics",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_export_format::373",
+  "argv": [
+   "-D",
+   "test/data",
+   "-x",
+   "invalid_format",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_input_datefmt::374",
+  "argv": [
+   "-D",
+   "test/data",
+   "--input-datefmt",
+   "9",
+   "-Q",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_from_to_days::375",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--from",
+   "01/01/2000",
+   "--to",
+   "12/31/2000",
+   "--days",
+   "30",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_priority::376",
+  "argv": [
+   "-D",
+   "test/data",
+   "-t",
+   "10",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_limit::377",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "-l",
+   "-5",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_huge_limit::378",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "-l",
+   "99999999",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_filter_date::379",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--filter-start-from",
+   "invalid-date",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_malformed_ical::380",
+  "argv": [
+   "-D",
+   "-i",
+   "bad.ics",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {
+   "bad.ics": "This is not valid iCal data"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_binary_file_as_ical::381",
+  "argv": [
+   "-D",
+   "-i",
+   "binary.ics",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {
+   "binary.ics": "\u0000\u0001\u0002\u0003\u0004\u0005"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_long_description::382",
+  "argv": [
+   "-D",
+   "-i",
+   "--dump-imported",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_in_description::383",
+  "argv": [
+   "-D",
+   "-i",
+   "unicode.ics",
+   "--dump-imported",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {
+   "unicode.ics": "BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART:20241225T100000\nSUMMARY:Test émojis 🎄 and spëcial çhars\nEND:VEVENT\nEND:VCALENDAR\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_description::384",
+  "argv": [
+   "-D",
+   "-i",
+   "special.ics",
+   "--dump-imported",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {
+   "special.ics": "BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART:20241225T100000\nSUMMARY:Test & < > \" ' characters\nEND:VEVENT\nEND:VCALENDAR\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_summary::385",
+  "argv": [
+   "-D",
+   "-i",
+   "empty.ics",
+   "--dump-imported",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.ics": "BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART:20241225T100000\nSUMMARY:\nEND:VEVENT\nEND:VCALENDAR\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_summary::386",
+  "argv": [
+   "-D",
+   "-i",
+   "no_summary.ics",
+   "--dump-imported",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {
+   "no_summary.ics": "BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART:20241225T100000\nDTEND:20241225T110000\nEND:VEVENT\nEND:VCALENDAR\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_dtstart::387",
+  "argv": [
+   "-D",
+   "-i",
+   "bad_dtstart.ics",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {
+   "bad_dtstart.ics": "BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART:invalid\nSUMMARY:Test\nEND:VEVENT\nEND:VCALENDAR\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_dtend_before_dtstart::388",
+  "argv": [
+   "-D",
+   "-i",
+   "bad_order.ics",
+   "--dump-imported",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {
+   "bad_order.ics": "BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART:20241225T110000\nDTEND:20241225T100000\nSUMMARY:Test\nEND:VEVENT\nEND:VCALENDAR\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_vcalendars::389",
+  "argv": [
+   "-D",
+   "-i",
+   "multiple.ics",
+   "--dump-imported",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {
+   "multiple.ics": "BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART:20241225T100000\nSUMMARY:Event 1\nEND:VEVENT\nEND:VCALENDAR\nBEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART:20241226T100000\nSUMMARY:Event 2\nEND:VEVENT\nEND:VCALENDAR\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nested_components::390",
+  "argv": [
+   "-D",
+   "-i",
+   "nested.ics",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {
+   "nested.ics": "BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART:20241225T100000\nSUMMARY:Outer\nBEGIN:VEVENT\nDTSTART:20241225T110000\nSUMMARY:Inner\nEND:VEVENT\nEND:VEVENT\nEND:VCALENDAR\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_rrule::391",
+  "argv": [
+   "-D",
+   "-i",
+   "bad_rrule.ics",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {
+   "bad_rrule.ics": "BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART:20241225T100000\nRRULE:INVALID_RULE\nSUMMARY:Test\nEND:VEVENT\nEND:VCALENDAR\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_duration_dtend::392",
+  "argv": [
+   "-D",
+   "-i",
+   "conflict.ics",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {
+   "conflict.ics": "BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART:20241225T100000\nDTEND:20241225T110000\nDURATION:PT2H\nSUMMARY:Test\nEND:VEVENT\nEND:VCALENDAR\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_duration_format::393",
+  "argv": [
+   "-D",
+   "-i",
+   "bad_duration.ics",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {
+   "bad_duration.ics": "BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART:20241225T100000\nDURATION:invalid\nSUMMARY:Test\nEND:VEVENT\nEND:VCALENDAR\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_far_future_date::394",
+  "argv": [
+   "-D",
+   "test/data",
+   "-d",
+   "12/31/2099",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_far_past_date::395",
+  "argv": [
+   "-D",
+   "test/data",
+   "-d",
+   "01/01/1902",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_leap_year_date::396",
+  "argv": [
+   "-D",
+   "test/data",
+   "-d",
+   "02/29/2024",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_leap_year::397",
+  "argv": [
+   "-D",
+   "test/data",
+   "-d",
+   "02/29/2023",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_days::398",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--days",
+   "0",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_large_days::399",
+  "argv": [
+   "-D",
+   "test/data",
+   "-Q",
+   "--days",
+   "36500",
+   "--read-only"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

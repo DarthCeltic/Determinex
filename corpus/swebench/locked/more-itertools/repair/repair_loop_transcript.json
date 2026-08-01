@@ -1,0 +1,29 @@
+{
+  "schema": "determinex-repair-loop-transcript-v1",
+  "tool": "more-itertools",
+  "family": "python",
+  "pinned_commit": "64be96c",
+  "repair_type": "seeded_defect (behavioral) - verifier is the project's OWN test suite in a python:3.12 image (toolchain via provider; Docker-OPTIONAL)",
+  "toolchain": "python:3.12",
+  "oracle": "the real more-itertools/more-itertools repo's own tests: python -m pytest tests/test_more.py -q -k chunked",
+  "defect": {
+    "file": "more_itertools/more.py",
+    "seed": "    iterator = iter(partial(take, n, iter(iterable)), []) ->     iterator = iter(partial(take, n + 1, iter(iterable)), [])"
+  },
+  "detect": {
+    "baseline": "22 passed, 560 deselected in 0.37s",
+    "after_seed": "test suite FAILED (exit 1)",
+    "oracle_caught": true,
+    "failure_signature": "seeded defect made the project's own test suite exit non-zero"
+  },
+  "repair": {
+    "fix": "git checkout (restore upstream source)"
+  },
+  "reverify": {
+    "after": "22 passed, 560 deselected in 0.26s",
+    "passed": 22,
+    "failures": 0
+  },
+  "repair_loop_status": "passed",
+  "proves": "closed-loop repair on a real external python project (more-itertools): its OWN test suite detects the injected defect -> fix -> re-verify (22 passed, 560 deselected in 0.26s). Reproducible."
+}

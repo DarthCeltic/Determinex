@@ -1,0 +1,2613 @@
+[
+ {
+  "name": "test::test_double_dash_treats_later_args_as_positionals::0",
+  "argv": [
+   "--nonexistent-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_input_is_treated_as_path_not_subcommand::1",
+  "argv": [
+   "notasubcommand"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_positional_inputs_allow_paths_starting_with_dash_via_double_dash::2",
+  "argv": [
+   "-weird"
+  ],
+  "stdin": null,
+  "files": {
+   "-weird": "x"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_single_file_outputs_one_line_and_exit0::3",
+  "argv": [
+   "aggregate",
+   "a.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_missing_file_sets_exit1_and_mentions_io_error::4",
+  "argv": [
+   "aggregate",
+   "missing.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_stats_goes_to_stderr::5",
+  "argv": [
+   "aggregate",
+   "--stats",
+   "a.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_format_bytes_changes_unit_and_number::6",
+  "argv": [
+   "--format=bytes",
+   "aggregate",
+   "b.bin"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subcommand_does_not_accept_global_flags_after_it::7",
+  "argv": [
+   "aggregate",
+   "--format=bytes",
+   "b.bin"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_ordering_with_no_sort_preserves_cli_order::8",
+  "argv": [
+   "aggregate",
+   "--no-sort",
+   "b.txt",
+   "a.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_mentions_usage_and_commands::9",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_prints_dua_prefix::10",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aliases_work_for_interactive_and_aggregate::11",
+  "argv": [
+   "i",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_errors_and_mentions_unknown::12",
+  "argv": [
+   "this_subcommand_does_not_exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_subcommand_defaults_to_aggregate_like_usage::13",
+  "argv": [
+   "aggregate",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_flags_work_before_subcommand::14",
+  "argv": [
+   "--format",
+   "bytes",
+   "aggregate",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_flags_work_after_subcommand::15",
+  "argv": [
+   "aggregate",
+   "--help",
+   "--format",
+   "bytes"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subcommand_specific_flag_rejected_globally::16",
+  "argv": [
+   "--stats"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_requires_shell_argument::17",
+  "argv": [
+   "completions"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_no_input_uses_cwd_entries::18",
+  "argv": [
+   "aggregate",
+   "--no-sort",
+   "--no-total"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_no_sort_preserves_input_order::19",
+  "argv": [
+   "aggregate",
+   "--no-sort",
+   "--no-total",
+   "b.bin",
+   "a.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_default_sorting_is_ascending_by_size::20",
+  "argv": [
+   "aggregate",
+   "--no-total",
+   "a.txt",
+   "b.bin"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_stats_prints_to_stderr::21",
+  "argv": [
+   "aggregate",
+   "--no-sort",
+   "--no-total",
+   "--stats"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_nonexistent_path_errors::22",
+  "argv": [
+   "aggregate",
+   "does-not-exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_handles_empty_directory::23",
+  "argv": [
+   "aggregate",
+   "--no-total",
+   "emptydir"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_help_lists_shells::24",
+  "argv": [
+   "completions",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_invalid_shell_errors::25",
+  "argv": [
+   "completions",
+   "nosuchshell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interactive_help_content::26",
+  "argv": [
+   "interactive",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_basic_functionality::27",
+  "argv": [
+   "aggregate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_generates_output::28",
+  "argv": [
+   "completions",
+   "bash"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_subcommand::29",
+  "argv": [
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_flag_before_subcommand::30",
+  "argv": [
+   "--format",
+   "bytes",
+   "aggregate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_flag_format_metric::31",
+  "argv": [
+   "--format",
+   "metric",
+   "aggregate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_flag_threads::32",
+  "argv": [
+   "--threads",
+   "1",
+   "aggregate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_stats_flag::33",
+  "argv": [
+   "aggregate",
+   "--stats"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_no_sort_flag::34",
+  "argv": [
+   "aggregate",
+   "--no-sort"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_no_total_flag::35",
+  "argv": [
+   "aggregate",
+   "--no-total"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subcommand_flag_not_global::36",
+  "argv": [
+   "--stats",
+   "aggregate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_flag_after_subcommand_fails::37",
+  "argv": [
+   "aggregate",
+   "--format",
+   "bytes"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::38",
+  "argv": [
+   "--invalid-nonexistent-flag"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_path_treated_as_input::39",
+  "argv": [
+   "nonexistent_file_xyz_123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_for_nonexistent_subcommand::40",
+  "argv": [
+   "help",
+   "nonexistent_subcommand"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_invalid_shell::41",
+  "argv": [
+   "completions",
+   "invalid_shell_xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_separator::42",
+  "argv": [
+   "aggregate",
+   "--",
+   "--test"
+  ],
+  "stdin": null,
+  "files": {
+   "--test": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_flag::43",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_short_flag::44",
+  "argv": [
+   "-V"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_subcommand_help_short_flag::45",
+  "argv": [
+   "aggregate",
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_subcommand_with_subcommand::46",
+  "argv": [
+   "help",
+   "aggregate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_error_propagation::47",
+  "argv": [
+   "aggregate",
+   "/proc/sys/kernel/random/boot_id",
+   "/dev/null"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_cross_filesystem_empty_path_list::48",
+  "argv": [
+   "--stay-on-filesystem"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_apparent_size_vs_disk_usage_computation::49",
+  "argv": [
+   "--apparent-size",
+   "aggregate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_roots_with_total::50",
+  "argv": [
+   "aggregate",
+   "file1.txt",
+   "file2.txt",
+   "file3.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.txt": "content1",
+   "file2.txt": "content2",
+   "file3.txt": "content3"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_sorted_output_by_size::51",
+  "argv": [
+   "aggregate",
+   "small.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "small.txt": "x"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_sort_option::52",
+  "argv": [
+   "aggregate",
+   "--no-sort",
+   "file1.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.txt": "x"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_no_total_option::53",
+  "argv": [
+   "aggregate",
+   "--no-total",
+   "file1.txt",
+   "file2.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.txt": "content1",
+   "file2.txt": "content2"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_walk_options_thread_default::54",
+  "argv": [
+   "aggregate",
+   "file.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_walk_options_explicit_threads::55",
+  "argv": [
+   "--threads",
+   "1",
+   "aggregate",
+   "file.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_hard_links_flag::56",
+  "argv": [
+   "--count-hard-links",
+   "aggregate",
+   "file.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_display_all_variants::57",
+  "argv": [
+   "--format",
+   "aggregate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_dirs_with_actual_ignored_content::58",
+  "argv": [
+   "--ignore-dirs",
+   "aggregate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_alias::59",
+  "argv": [
+   "a",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_single_file::60",
+  "argv": [
+   "aggregate",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "Hello World!"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_multiple_paths::61",
+  "argv": [
+   "aggregate",
+   "file1.txt",
+   "file2.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.txt": "aaa",
+   "file2.txt": "bbbbb"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_no_total_flag::62",
+  "argv": [
+   "aggregate",
+   "--no-total",
+   "file1.txt",
+   "file2.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.txt": "aaa",
+   "file2.txt": "bbb"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_stats_flag::63",
+  "argv": [
+   "aggregate",
+   "--stats",
+   "file1.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.txt": "test content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_nonexistent_path::64",
+  "argv": [
+   "aggregate",
+   "/nonexistent/path/xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_mixed_valid_invalid_paths::65",
+  "argv": [
+   "aggregate",
+   "valid.txt",
+   "/nonexistent/xyz"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_flag::66",
+  "argv": [
+   "--invalid-flag-xyz"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_zsh::67",
+  "argv": [
+   "completions",
+   "zsh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_fish::68",
+  "argv": [
+   "completions",
+   "fish"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_elvish::69",
+  "argv": [
+   "completions",
+   "elvish"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_powershell::70",
+  "argv": [
+   "completions",
+   "powershell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_invalid_shell::71",
+  "argv": [
+   "completions",
+   "invalid_shell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_file_no_subcommand::72",
+  "argv": [
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "content here"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_paths_no_subcommand::73",
+  "argv": [
+   "file1.txt",
+   "file2.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.txt": "aaa",
+   "file2.txt": "bbb"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_colored_output::74",
+  "argv": [
+   "file.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_file::75",
+  "argv": [
+   "aggregate",
+   "empty.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.txt": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_spaces_in_name::76",
+  "argv": [
+   "aggregate",
+   "file with spaces.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file with spaces.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_special_characters::77",
+  "argv": [
+   "aggregate",
+   "file-_.$@.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file-_.$@.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_filename::78",
+  "argv": [
+   "aggregate",
+   "测试文件.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "测试文件.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_relative_path::79",
+  "argv": [
+   "aggregate",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mixed_files_and_directories::80",
+  "argv": [
+   "aggregate",
+   "file1.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.txt": "aaa"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_duplicate_paths::81",
+  "argv": [
+   "aggregate",
+   "file.txt",
+   "file.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file::82",
+  "argv": [
+   "aggregate",
+   "/nonexistent/file/path"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_directory::83",
+  "argv": [
+   "aggregate",
+   "/nonexistent/directory/"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_string_path::84",
+  "argv": [
+   "aggregate",
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_utf8_in_path::85",
+  "argv": [
+   "aggregate",
+   "/tmp/test"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_nonexistent_paths::86",
+  "argv": [
+   "aggregate",
+   "/nonexistent1",
+   "/nonexistent2",
+   "/nonexistent3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_mix_existent_nonexistent_multiple_paths::87",
+  "argv": [
+   "aggregate",
+   "exists.txt",
+   "/nonexistent/path"
+  ],
+  "stdin": null,
+  "files": {
+   "exists.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_conflicting_flags::88",
+  "argv": [
+   "--format",
+   "bytes",
+   "--format",
+   "metric"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_thread_count::89",
+  "argv": [
+   "--threads",
+   "-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_threads_non_numeric::90",
+  "argv": [
+   "--threads",
+   "abc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_on_device_file::91",
+  "argv": [
+   "aggregate",
+   "/dev/null"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_on_proc_file::92",
+  "argv": [
+   "aggregate",
+   "/proc/self/stat"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_special_characters_in_path::93",
+  "argv": [
+   "aggregate",
+   "file$#@.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file$#@.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_deleted_during_traversal::94",
+  "argv": [
+   "aggregate",
+   "/tmp/definitely_nonexistent_file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_hard_links::95",
+  "argv": [
+   "--count-hard-links",
+   "aggregate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_device_files::96",
+  "argv": [
+   "--stay-on-filesystem",
+   "aggregate",
+   "/dev"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_proc_sys_traversal::97",
+  "argv": [
+   "aggregate",
+   "/proc"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_thread_count_edge_cases::98",
+  "argv": [
+   "--threads",
+   "aggregate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_extreme_file_count::99",
+  "argv": [
+   "--threads",
+   "4",
+   "aggregate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_and_threads::100",
+  "argv": [
+   "--format",
+   "bytes",
+   "--threads",
+   "2",
+   "aggregate",
+   "file.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_and_apparent_size::101",
+  "argv": [
+   "--format",
+   "metric",
+   "--apparent-size",
+   "aggregate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_size_related_flags::102",
+  "argv": [
+   "--format",
+   "bytes",
+   "-A",
+   "-l",
+   "aggregate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_with_stats_and_no_sort::103",
+  "argv": [
+   "aggregate",
+   "--stats",
+   "--no-sort",
+   "b.txt",
+   "a.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "b.txt": "bbb",
+   "a.txt": "aaa"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_with_all_flags::104",
+  "argv": [
+   "aggregate",
+   "--stats",
+   "--no-sort",
+   "--no-total",
+   "file.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_threads_with_stay_on_filesystem::105",
+  "argv": [
+   "-t",
+   "1",
+   "-x",
+   "aggregate",
+   "file.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_dirs_with_format::106",
+  "argv": [
+   "-i",
+   "/tmp",
+   "-f",
+   "bytes",
+   "aggregate",
+   "file.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_ignore_dirs::107",
+  "argv": [
+   "-i",
+   "/tmp",
+   "-i",
+   "/var",
+   "aggregate",
+   "file.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_bytes_with_stats::108",
+  "argv": [
+   "--format",
+   "bytes",
+   "aggregate",
+   "--stats"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_binary::109",
+  "argv": [
+   "--format",
+   "binary",
+   "aggregate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_gb::110",
+  "argv": [
+   "--format",
+   "gb",
+   "aggregate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_gib::111",
+  "argv": [
+   "--format",
+   "gib",
+   "aggregate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_mb::112",
+  "argv": [
+   "--format",
+   "mb",
+   "aggregate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_mib::113",
+  "argv": [
+   "--format",
+   "mib",
+   "aggregate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_short_flag::114",
+  "argv": [
+   "-f",
+   "bytes",
+   "aggregate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_format::115",
+  "argv": [
+   "--format",
+   "invalid_format"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_threads_short_flag::116",
+  "argv": [
+   "-t",
+   "2",
+   "aggregate",
+   "file.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_threads_zero_uses_all_cpus::117",
+  "argv": [
+   "--threads",
+   "0",
+   "aggregate",
+   "file.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_apparent_size_short_flag::118",
+  "argv": [
+   "-A",
+   "aggregate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_hard_links_short_flag::119",
+  "argv": [
+   "-l",
+   "aggregate",
+   "file.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stay_on_filesystem_flag::120",
+  "argv": [
+   "--stay-on-filesystem",
+   "aggregate",
+   "file.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stay_on_filesystem_short_flag::121",
+  "argv": [
+   "-x",
+   "aggregate",
+   "file.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_dirs_short_flag::122",
+  "argv": [
+   "-i",
+   "/nonexistent",
+   "aggregate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_file_flag::123",
+  "argv": [
+   "--log-file",
+   "aggregate",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_parent_directory::124",
+  "argv": [
+   "aggregate",
+   ".."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_byte_file::125",
+  "argv": [
+   "aggregate",
+   "empty.bin"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.bin": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_multiple_times_same_path::126",
+  "argv": [
+   "aggregate",
+   "file.txt",
+   "file.txt",
+   "file.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_multiple_directories::127",
+  "argv": [
+   "--ignore-dirs",
+   "--ignore-dirs",
+   "aggregate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stay_on_filesystem_flag::128",
+  "argv": [
+   "--stay-on-filesystem",
+   "aggregate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interactive_without_tty::129",
+  "argv": [
+   "interactive"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interactive_alias_without_tty::130",
+  "argv": [
+   "i"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interactive_with_path_no_tty::131",
+  "argv": [
+   "interactive",
+   "file.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interactive_no_entry_check_flag_no_tty::132",
+  "argv": [
+   "interactive",
+   "--no-entry-check",
+   "file.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interactive_short_flag_no_entry_check::133",
+  "argv": [
+   "i",
+   "-e",
+   "file.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_walk_options_with_all_flags::134",
+  "argv": [
+   "--threads",
+   "1",
+   "--apparent-size",
+   "--count-hard-links",
+   "--stay-on-filesystem",
+   "--ignore-dirs",
+   "/tmp/nonexistent",
+   "aggregate",
+   "--stats",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_path_nonexistent_multiple::135",
+  "argv": [
+   "aggregate",
+   "exists.txt",
+   "/nonexistent1",
+   "/nonexistent2"
+  ],
+  "stdin": null,
+  "files": {
+   "exists.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_walk_result_error_counting::136",
+  "argv": [
+   "aggregate",
+   "valid.txt",
+   "/definitely/does/not/exist",
+   "/another/nonexistent"
+  ],
+  "stdin": null,
+  "files": {
+   "valid.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_total_line_formatting::137",
+  "argv": [
+   "aggregate",
+   "file1.txt",
+   "file2.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.txt": "aaa",
+   "file2.txt": "bbb"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stats_output_format::138",
+  "argv": [
+   "aggregate",
+   "--stats",
+   "file.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_path_display_in_output::139",
+  "argv": [
+   "aggregate",
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_apparent_size_vs_disk_usage::140",
+  "argv": [
+   "aggregate",
+   "tiny.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "tiny.txt": "x"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_ignore_dirs_proc::141",
+  "argv": [
+   "aggregate",
+   "/proc/self"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_default_ignore_dirs_dev::142",
+  "argv": [
+   "aggregate",
+   "/dev"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_thread_count_variations::143",
+  "argv": [
+   "--threads",
+   "aggregate",
+   "file.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stay_on_filesystem_with_multiple_paths::144",
+  "argv": [
+   "--stay-on-filesystem",
+   "aggregate",
+   "file1.txt",
+   "file2.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.txt": "aaa",
+   "file2.txt": "bbb"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_flag_applied::145",
+  "argv": [
+   "--format",
+   "metric",
+   "aggregate",
+   "file.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combination_all_global_flags::146",
+  "argv": [
+   "--threads",
+   "2",
+   "--format",
+   "bytes",
+   "--apparent-size",
+   "--count-hard-links",
+   "aggregate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_with_many_threads::147",
+  "argv": [
+   "--threads",
+   "16",
+   "aggregate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_paths_with_various_options::148",
+  "argv": [
+   "--apparent-size",
+   "--format",
+   "metric",
+   "--threads",
+   "2",
+   "aggregate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_file_with_complex_operations::149",
+  "argv": [
+   "--log-file",
+   "--threads",
+   "4",
+   "--format",
+   "metric",
+   "aggregate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combination_of_all_flags::150",
+  "argv": [
+   "--apparent-size",
+   "--format",
+   "metric",
+   "--threads",
+   "2",
+   "aggregate",
+   "--stats"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_during_file_size_computation::151",
+  "argv": [
+   "aggregate",
+   "file1.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.txt": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_paths_with_errors::152",
+  "argv": [
+   "aggregate",
+   "file1.txt",
+   "file2.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "file1.txt": "content1",
+   "file2.txt": "content2"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_io_error_plural_formatting::153",
+  "argv": [
+   "aggregate",
+   "/proc/nonexistent",
+   "/dev/nonexistent",
+   "/sys/nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_with_format_variations::154",
+  "argv": [
+   "-f",
+   "a"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_threads_with_various_values::155",
+  "argv": [
+   "-t"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_apparent_size_vs_disk_usage::156",
+  "argv": [
+   "-A"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_hard_links_behavior::157",
+  "argv": [
+   "-l"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stay_on_filesystem_behavior::158",
+  "argv": [
+   "-x"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_dirs_behavior::159",
+  "argv": [
+   "-i"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_error_messages_for_all_missing_paths::160",
+  "argv": [
+   "/nonexistent1",
+   "/nonexistent2",
+   "/nonexistent3"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_global_flags::161",
+  "argv": [
+   "-t",
+   "1",
+   "-f",
+   "bytes",
+   "-A",
+   "-l",
+   "aggregate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_for_nonexistent_subcommand::162",
+  "argv": [
+   "help",
+   "nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completions_invalid_shell::163",
+  "argv": [
+   "completions",
+   "invalid-shell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_null_bytes::164",
+  "argv": [
+   "nulls.bin"
+  ],
+  "stdin": null,
+  "files": {
+   "nulls.bin": "content\u0000with\u0000nulls"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_current_directory_dot::165",
+  "argv": [
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_parent_directory_dotdot::166",
+  "argv": [
+   ".."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_root_directory::167",
+  "argv": [
+   "--threads",
+   "1",
+   "/dev/null"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_file_creation::168",
+  "argv": [
+   "--log-file"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_file_invalid_path::169",
+  "argv": [
+   "--log-file",
+   "/invalid/path/that/does/not/exist/test.log",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_threads_negative::170",
+  "argv": [
+   "--threads",
+   "-1",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_concurrent_access_with_multiple_threads::171",
+  "argv": [
+   "--threads",
+   "16"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_edge_cases_very_small_file::172",
+  "argv": [
+   "-f",
+   "tiny.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "tiny.txt": "x"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_aggregate_with_all_flags_combined::173",
+  "argv": [
+   "-t",
+   "2",
+   "-f",
+   "bytes",
+   "-A",
+   "-l",
+   "-x",
+   "aggregate",
+   "--stats",
+   "--no-sort"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_format_specifications::174",
+  "argv": [
+   "-f",
+   "binary",
+   "-f",
+   "bytes"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_with_no_extension::175",
+  "argv": [
+   "noextension"
+  ],
+  "stdin": null,
+  "files": {
+   "noextension": "content"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_format_invalid::176",
+  "argv": [
+   "--format",
+   "invalid-format",
+   "aggregate",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_threads_short_flag::177",
+  "argv": [
+   "-t",
+   "2",
+   "aggregate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_threads_zero_uses_default::178",
+  "argv": [
+   "--threads",
+   "0",
+   "aggregate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_threads_invalid_value::179",
+  "argv": [
+   "--threads",
+   "abc",
+   "aggregate",
+   "."
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_count_hard_links_short_flag::180",
+  "argv": [
+   "-l",
+   "aggregate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stay_on_filesystem_short_flag::181",
+  "argv": [
+   "-x",
+   "aggregate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_dirs_flag::182",
+  "argv": [
+   "--ignore-dirs",
+   "/proc",
+   "aggregate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_dirs_short_flag::183",
+  "argv": [
+   "-i",
+   "/tmp",
+   "aggregate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_ignore_multiple_dirs::184",
+  "argv": [
+   "-i",
+   "/proc",
+   "-i",
+   "/dev",
+   "aggregate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_log_file_flag::185",
+  "argv": [
+   "--log-file",
+   "aggregate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_flags::186",
+  "argv": [
+   "-t",
+   "1",
+   "-A",
+   "-f",
+   "bytes",
+   "aggregate"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file::187",
+  "argv": [
+   "/nonexistent/file/xyz123"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interactive_no_entry_check_flag::188",
+  "argv": [
+   "interactive",
+   "--no-entry-check"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interactive_short_flag::189",
+  "argv": [
+   "interactive",
+   "-e"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interactive_mode_launches_in_tmux::190",
+  "argv": [
+   "tmux",
+   "kill-session",
+   "-t",
+   "dua_test_launch"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interactive_mode_quit::191",
+  "argv": [
+   "tmux",
+   "kill-session",
+   "-t",
+   "dua_test_quit"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interactive_mode_navigation::192",
+  "argv": [
+   "tmux",
+   "kill-session",
+   "-t",
+   "dua_test_nav"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interactive_mode_help::193",
+  "argv": [
+   "tmux",
+   "kill-session",
+   "-t",
+   "dua_test_help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_interactive_mode_no_entry_check_flag::194",
+  "argv": [
+   "tmux",
+   "kill-session",
+   "-t",
+   "dua_test_no_entry"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

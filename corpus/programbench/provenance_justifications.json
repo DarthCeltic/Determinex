@@ -1,0 +1,20 @@
+{
+  "schema": "determinex-pb-provenance-justifications-v1",
+  "note": "Each entry = a tool+signature the anti-gaming guard flagged that is AUDITED LEGITIMATE (genuine domain vocabulary or vendored upstream code), NOT test-gaming. yj was NOT justified -- it genuinely gamed (branched on a literal test name) and was DEMOTED.",
+  "justified": {
+    "brotli":   ["branch-on-test-name", "reads-test-identity"],
+    "grex":     ["branch-on-test-name"],
+    "jq":       ["branch-on-test-name"],
+    "crowbook": ["reads-test-identity"],
+    "clog-cli": ["branch-on-test-name"],
+    "nomino":   ["branch-on-test-name"]
+  },
+  "reasons": {
+    "brotli": "real --test integrity-check feature (params->test_integrity) + js cli --test flag; not test-name sniffing",
+    "grex": "grex GENERATES regex FROM 'test_cases' input -- 'test_cases' is its core domain vocabulary, not a pytest test",
+    "jq": "jv_dtoa.c is David Gay's dtoa float code; 'test_scale' is a real numeric variable (vendored math)",
+    "crowbook": "match is in vendored highlight.js (PostgreSQL keyword list), not crowbook logic",
+    "clog-cli": "'from_latest_tag' is a real changelog flag; regex over-matched the '_tag' token",
+    "nomino": "'test_mode' is nomino's real dry-run flag, not branching on a pytest test name"
+  }
+}

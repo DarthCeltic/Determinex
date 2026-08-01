@@ -1,0 +1,9370 @@
+{
+ "slug": "ariga__atlas.6d81150",
+ "language": "",
+ "n_branches": 16,
+ "n_tests_total": 1585,
+ "n_examples": 488,
+ "n_with_exact_stdout": 27,
+ "n_with_rc": 380,
+ "n_skipped": 937,
+ "examples": [
+  {
+   "test": "test_help_exact",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_atlas_cli.py:29"
+  },
+  {
+   "test": "test_version_output",
+   "argv": [
+    "version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_atlas_cli.py:52"
+  },
+  {
+   "test": "test_license_output",
+   "argv": [
+    "license"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_atlas_cli.py:66"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Manage your database schema as code",
+    "Usage:",
+    "Available Commands:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:15"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Manage your database schema as code",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:23"
+  },
+  {
+   "test": "test_help_command",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Manage your database schema as code",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:30"
+  },
+  {
+   "test": "test_version_command",
+   "argv": [
+    "version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "atlas",
+    "version"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic.py:37"
+  },
+  {
+   "test": "test_license_command",
+   "argv": [
+    "license"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "LICENSE",
+    "Apache",
+    "github.com/ariga/atlas"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic.py:54"
+  },
+  {
+   "test": "test_help_for_migrate",
+   "argv": [
+    "migrate",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "migrate",
+    "apply",
+    "diff",
+    "hash",
+    "lint",
+    "new",
+    "status",
+    "validate"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic.py:74"
+  },
+  {
+   "test": "test_help_for_schema",
+   "argv": [
+    "schema",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "schema",
+    "apply",
+    "clean",
+    "diff",
+    "fmt",
+    "inspect"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic.py:87"
+  },
+  {
+   "test": "test_help_for_completion",
+   "argv": [
+    "completion",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "completion",
+    "bash",
+    "zsh",
+    "fish",
+    "powershell"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic.py:98"
+  },
+  {
+   "test": "test_completion_bash",
+   "argv": [
+    "completion",
+    "bash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bash completion",
+    "__atlas"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_completion.py:4"
+  },
+  {
+   "test": "test_completion_bash_help",
+   "argv": [
+    "completion",
+    "bash",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bash",
+    "completion",
+    "source"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_completion.py:12"
+  },
+  {
+   "test": "test_completion_bash_no_descriptions",
+   "argv": [
+    "completion",
+    "bash",
+    "--no-descriptions"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bash completion"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_completion.py:20"
+  },
+  {
+   "test": "test_completion_zsh",
+   "argv": [
+    "completion",
+    "zsh"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_completion.py:27"
+  },
+  {
+   "test": "test_completion_zsh_help",
+   "argv": [
+    "completion",
+    "zsh",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "zsh",
+    "completion"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_completion.py:34"
+  },
+  {
+   "test": "test_completion_fish",
+   "argv": [
+    "completion",
+    "fish"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_completion.py:41"
+  },
+  {
+   "test": "test_completion_fish_help",
+   "argv": [
+    "completion",
+    "fish",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "fish",
+    "completion"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_completion.py:48"
+  },
+  {
+   "test": "test_completion_powershell",
+   "argv": [
+    "completion",
+    "powershell"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_completion.py:55"
+  },
+  {
+   "test": "test_completion_powershell_help",
+   "argv": [
+    "completion",
+    "powershell",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "powershell",
+    "completion"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_completion.py:62"
+  },
+  {
+   "test": "test_schema_inspect_with_schema_flag",
+   "argv": [
+    "schema",
+    "inspect",
+    "--schema",
+    "main"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "schema"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost.py:5"
+  },
+  {
+   "test": "test_schema_inspect_with_exclude_pattern",
+   "argv": [
+    "schema",
+    "inspect",
+    "--exclude",
+    "atlas_*"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "schema"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost.py:13"
+  },
+  {
+   "test": "test_migrate_apply_with_tx_mode",
+   "argv": [
+    "migrate",
+    "hash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost.py:20"
+  },
+  {
+   "test": "test_schema_fmt_writes_changes",
+   "argv": [
+    "schema",
+    "fmt",
+    "schema.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test"
+   ],
+   "files": {
+    "schema.hcl": "table \"test\" {schema=schema.main}"
+   },
+   "ci": false,
+   "source": "test_coverage_boost.py:78"
+  },
+  {
+   "test": "test_migrate_new_with_atlas_format",
+   "argv": [
+    "migrate",
+    "new",
+    "test_migration",
+    "--dir-format=atlas"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost.py:90"
+  },
+  {
+   "test": "test_migrate_apply_multiple_migrations",
+   "argv": [
+    "migrate",
+    "hash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "migrat"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_coverage_boost.py:103"
+  },
+  {
+   "test": "test_schema_inspect_new_db",
+   "argv": [
+    "schema",
+    "inspect"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "schema",
+    "main"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost.py:139"
+  },
+  {
+   "test": "test_migrate_apply_invalid_url",
+   "argv": [
+    "migrate",
+    "apply",
+    "--url=invalid://bad"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_error_cases.py:10"
+  },
+  {
+   "test": "test_migrate_set_missing_url",
+   "argv": [
+    "migrate",
+    "set",
+    "1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_error_cases.py:22"
+  },
+  {
+   "test": "test_migrate_diff_missing_required_flags",
+   "argv": [
+    "migrate",
+    "diff",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_error_cases.py:28"
+  },
+  {
+   "test": "test_schema_diff_missing_required_flags",
+   "argv": [
+    "schema",
+    "diff"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_error_cases.py:46"
+  },
+  {
+   "test": "test_migrate_lint_missing_dev_url",
+   "argv": [
+    "migrate",
+    "lint"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_error_cases.py:58"
+  },
+  {
+   "test": "test_migrate_import_missing_flags",
+   "argv": [
+    "migrate",
+    "import"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_error_cases.py:64"
+  },
+  {
+   "test": "test_schema_apply_with_dev_url_help",
+   "argv": [
+    "schema",
+    "apply",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--dev-url",
+    "dev database"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_exhaustive_flags.py:38"
+  },
+  {
+   "test": "test_schema_diff_multiple_schemas",
+   "argv": [
+    "schema",
+    "diff",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_exhaustive_flags.py:45"
+  },
+  {
+   "test": "test_migrate_lint_with_format",
+   "argv": [
+    "migrate",
+    "lint",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--format"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_exhaustive_flags.py:51"
+  },
+  {
+   "test": "test_migrate_import_from_to_flags",
+   "argv": [
+    "migrate",
+    "import",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--from",
+    "--to"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_exhaustive_flags.py:58"
+  },
+  {
+   "test": "test_schema_clean_auto_approve_flag",
+   "argv": [
+    "schema",
+    "clean",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--auto-approve"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_exhaustive_flags.py:65"
+  },
+  {
+   "test": "test_migrate_diff_edit_flag",
+   "argv": [
+    "migrate",
+    "diff",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--edit"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_exhaustive_flags.py:72"
+  },
+  {
+   "test": "test_migrate_new_generates_timestamp",
+   "argv": [
+    "migrate",
+    "new",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_exhaustive_flags.py:78"
+  },
+  {
+   "test": "test_schema_fmt_multiple_files",
+   "argv": [
+    "schema",
+    "fmt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_exhaustive_flags.py:92"
+  },
+  {
+   "test": "test_schema_command_accepts_config_flag",
+   "argv": [
+    "schema",
+    "-c",
+    "file://test.hcl",
+    "fmt",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags_and_options.py:18"
+  },
+  {
+   "test": "test_migrate_command_accepts_env_flag",
+   "argv": [
+    "migrate",
+    "--env",
+    "dev",
+    "hash",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags_and_options.py:24"
+  },
+  {
+   "test": "test_migrate_apply_dry_run_without_url",
+   "argv": [
+    "migrate",
+    "apply",
+    "--dry-run"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_flags_and_options.py:30"
+  },
+  {
+   "test": "test_migrate_apply_help_shows_flags",
+   "argv": [
+    "migrate",
+    "apply",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--dry-run",
+    "--baseline",
+    "--tx-mode",
+    "--allow-dirty",
+    "--lock-timeout"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags_and_options.py:36"
+  },
+  {
+   "test": "test_schema_apply_help_shows_flags",
+   "argv": [
+    "schema",
+    "apply",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--dry-run",
+    "--auto-approve",
+    "--dev-url",
+    "--schema"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flags_and_options.py:46"
+  },
+  {
+   "test": "test_migrate_new_dir_format_flag",
+   "argv": [
+    "migrate",
+    "new",
+    "test",
+    "--dir-format=atlas"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags_and_options.py:55"
+  },
+  {
+   "test": "test_migrate_hash_dir_format_flag",
+   "argv": [
+    "migrate",
+    "hash",
+    "--dir-format=atlas"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flags_and_options.py:69"
+  },
+  {
+   "test": "test_schema_inspect_format_flag",
+   "argv": [
+    "schema",
+    "inspect",
+    "--format={{.}}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_flags_and_options.py:83"
+  },
+  {
+   "test": "test_schema_diff_exclude_flag",
+   "argv": [
+    "schema",
+    "diff",
+    "--exclude",
+    "*.tmp"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_flags_and_options.py:89"
+  },
+  {
+   "test": "test_schema_diff_include_flag",
+   "argv": [
+    "schema",
+    "diff",
+    "--include",
+    "users.*"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_flags_and_options.py:95"
+  },
+  {
+   "test": "test_migrate_lint_latest_flag",
+   "argv": [
+    "migrate",
+    "lint",
+    "--latest",
+    "5"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_flags_and_options.py:101"
+  },
+  {
+   "test": "test_migrate_lint_git_base_flag",
+   "argv": [
+    "migrate",
+    "lint",
+    "--git-base",
+    "main"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_flags_and_options.py:107"
+  },
+  {
+   "test": "test_migrate_status_format_flag",
+   "argv": [
+    "migrate",
+    "status",
+    "--format={{.}}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_flags_and_options.py:113"
+  },
+  {
+   "test": "test_migrate_apply_help",
+   "argv": [
+    "migrate",
+    "apply",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "migrate apply",
+    "--url",
+    "--dir",
+    "--dry-run",
+    "--baseline"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_commands.py:4"
+  },
+  {
+   "test": "test_migrate_diff_help",
+   "argv": [
+    "migrate",
+    "diff",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "migrate diff",
+    "--to",
+    "--dev-url",
+    "--dir"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_commands.py:14"
+  },
+  {
+   "test": "test_migrate_import_help",
+   "argv": [
+    "migrate",
+    "import",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "migrate import",
+    "--from",
+    "--to",
+    "liquibase"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_commands.py:23"
+  },
+  {
+   "test": "test_migrate_lint_help",
+   "argv": [
+    "migrate",
+    "lint",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "migrate lint",
+    "--dev-url",
+    "--latest",
+    "--git-base"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_commands.py:32"
+  },
+  {
+   "test": "test_migrate_set_help",
+   "argv": [
+    "migrate",
+    "set",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "migrate set",
+    "--url",
+    "revision"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_commands.py:41"
+  },
+  {
+   "test": "test_migrate_status_help",
+   "argv": [
+    "migrate",
+    "status",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "migrate status",
+    "--url",
+    "--dir"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_commands.py:49"
+  },
+  {
+   "test": "test_schema_apply_help",
+   "argv": [
+    "schema",
+    "apply",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "schema apply",
+    "--url",
+    "--to",
+    "--dry-run",
+    "--auto-approve"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_commands.py:57"
+  },
+  {
+   "test": "test_schema_clean_help",
+   "argv": [
+    "schema",
+    "clean",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "schema clean",
+    "--url",
+    "--dry-run",
+    "--auto-approve"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_commands.py:67"
+  },
+  {
+   "test": "test_schema_diff_help",
+   "argv": [
+    "schema",
+    "diff",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "schema diff",
+    "--from",
+    "--to",
+    "--dev-url"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_commands.py:76"
+  },
+  {
+   "test": "test_schema_inspect_help",
+   "argv": [
+    "schema",
+    "inspect",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "schema inspect",
+    "--url",
+    "--schema",
+    "--format"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_commands.py:85"
+  },
+  {
+   "test": "test_completion_help_subcommands",
+   "argv": [
+    "completion",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "completion"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_commands.py:94"
+  },
+  {
+   "test": "test_migrate_apply_amount_argument_help",
+   "argv": [
+    "migrate",
+    "apply",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_edge_cases.py:5"
+  },
+  {
+   "test": "test_migrate_apply_with_nonexistent_dir",
+   "argv": [
+    "migrate",
+    "apply",
+    "--url=sqlite://file?mode=memory",
+    "--dir=file:///nonexistent/migrations"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_migrate_edge_cases.py:11"
+  },
+  {
+   "test": "test_migrate_import_help_shows_liquibase",
+   "argv": [
+    "migrate",
+    "import",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_edge_cases.py:48"
+  },
+  {
+   "test": "test_migrate_diff_with_qualifier_flag",
+   "argv": [
+    "migrate",
+    "diff",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--qualifier"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_edge_cases.py:54"
+  },
+  {
+   "test": "test_migrate_new_with_edit_flag",
+   "argv": [
+    "migrate",
+    "new",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--edit"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_edge_cases.py:66"
+  },
+  {
+   "test": "test_migrate_apply_baseline_flag_in_help",
+   "argv": [
+    "migrate",
+    "apply",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--baseline",
+    "baseline"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_migrate_edge_cases.py:72"
+  },
+  {
+   "test": "test_migrate_apply_tx_mode_options",
+   "argv": [
+    "migrate",
+    "apply",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--tx-mode"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_edge_cases.py:79"
+  },
+  {
+   "test": "test_migrate_apply_exec_order_options",
+   "argv": [
+    "migrate",
+    "apply",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--exec-order",
+    "linear"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_edge_cases.py:86"
+  },
+  {
+   "test": "test_migrate_apply_allow_dirty_flag",
+   "argv": [
+    "migrate",
+    "apply",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--allow-dirty"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_edge_cases.py:93"
+  },
+  {
+   "test": "test_migrate_set_revisions_schema_flag",
+   "argv": [
+    "migrate",
+    "set",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--revisions-schema"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_edge_cases.py:99"
+  },
+  {
+   "test": "test_migrate_hash_help",
+   "argv": [
+    "migrate",
+    "hash",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "migrate hash",
+    "integrity",
+    "atlas.sum"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_migrate_hash.py:5"
+  },
+  {
+   "test": "test_migrate_hash_creates_sum_file",
+   "argv": [
+    "migrate",
+    "hash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "20230101000000_initial.sql"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_hash.py:13"
+  },
+  {
+   "test": "test_migrate_hash_with_multiple_files",
+   "argv": [
+    "migrate",
+    "hash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "20230101000000_initial.sql",
+    "20230102000000_add_posts.sql"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_hash.py:33"
+  },
+  {
+   "test": "test_migrate_new_help",
+   "argv": [
+    "migrate",
+    "new",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "migrate new",
+    "migration",
+    "--dir"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_migrate_new.py:6"
+  },
+  {
+   "test": "test_migrate_new_creates_file",
+   "argv": [
+    "migrate",
+    "new",
+    "test_migration"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_new.py:14"
+  },
+  {
+   "test": "test_migrate_new_with_custom_name",
+   "argv": [
+    "migrate",
+    "new",
+    "add_users_table"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_new.py:29"
+  },
+  {
+   "test": "test_migrate_new_creates_timestamped_file",
+   "argv": [
+    "migrate",
+    "new",
+    "timestamped"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_new.py:60"
+  },
+  {
+   "test": "test_migrate_new_output_verification",
+   "argv": [
+    "migrate",
+    "new",
+    "verified"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "h1:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_new.py:76"
+  },
+  {
+   "test": "test_migrate_validate_help",
+   "argv": [
+    "migrate",
+    "validate",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "migrate validate",
+    "integrity",
+    "atlas.sum",
+    "--dev-url"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_migrate_validate.py:5"
+  },
+  {
+   "test": "test_migrate_help_variations",
+   "argv": [
+    "migrate",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "migrate",
+    "migrate"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_more_commands.py:5"
+  },
+  {
+   "test": "test_schema_help_variations",
+   "argv": [
+    "schema",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "schema",
+    "schema"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_more_commands.py:15"
+  },
+  {
+   "test": "test_help_for_all_migrate_subcommands",
+   "argv": [
+    "migrate",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": true,
+   "source": "test_more_commands.py:25"
+  },
+  {
+   "test": "test_help_for_all_schema_subcommands",
+   "argv": [
+    "schema",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": true,
+   "source": "test_more_commands.py:34"
+  },
+  {
+   "test": "test_version_with_help_flag",
+   "argv": [
+    "version",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "version",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_more_commands.py:42"
+  },
+  {
+   "test": "test_license_with_help_flag",
+   "argv": [
+    "license",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "license"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_more_commands.py:49"
+  },
+  {
+   "test": "test_completion_with_help_flag",
+   "argv": [
+    "completion",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "completion",
+    "bash"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_more_commands.py:55"
+  },
+  {
+   "test": "test_migrate_hash_with_help_flag",
+   "argv": [
+    "migrate",
+    "hash",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hash",
+    "integrity"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_more_commands.py:62"
+  },
+  {
+   "test": "test_schema_fmt_with_help_flag",
+   "argv": [
+    "schema",
+    "fmt",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "fmt",
+    "format"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_more_commands.py:69"
+  },
+  {
+   "test": "test_migrate_hash_creates_sum_with_content",
+   "argv": [
+    "migrate",
+    "hash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "h1:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_commands.py:87"
+  },
+  {
+   "test": "test_schema_apply_to_flag",
+   "argv": [
+    "schema",
+    "apply",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--to"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_commands.py:5"
+  },
+  {
+   "test": "test_schema_apply_exclude_flag",
+   "argv": [
+    "schema",
+    "apply",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--exclude"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_commands.py:11"
+  },
+  {
+   "test": "test_schema_apply_include_flag",
+   "argv": [
+    "schema",
+    "apply",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--include"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_commands.py:17"
+  },
+  {
+   "test": "test_schema_apply_tx_mode_flag",
+   "argv": [
+    "schema",
+    "apply",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--tx-mode"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_commands.py:23"
+  },
+  {
+   "test": "test_schema_apply_plan_flag",
+   "argv": [
+    "schema",
+    "apply",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--plan"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_commands.py:29"
+  },
+  {
+   "test": "test_schema_apply_edit_flag",
+   "argv": [
+    "schema",
+    "apply",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--edit"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_commands.py:35"
+  },
+  {
+   "test": "test_schema_apply_lock_timeout_flag",
+   "argv": [
+    "schema",
+    "apply",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--lock-timeout"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_commands.py:41"
+  },
+  {
+   "test": "test_schema_inspect_dev_url_flag",
+   "argv": [
+    "schema",
+    "inspect",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--dev-url"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_commands.py:53"
+  },
+  {
+   "test": "test_schema_inspect_exclude_flag",
+   "argv": [
+    "schema",
+    "inspect",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--exclude"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_commands.py:59"
+  },
+  {
+   "test": "test_schema_clean_format_flag",
+   "argv": [
+    "schema",
+    "clean",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--format"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_commands.py:65"
+  },
+  {
+   "test": "test_schema_inspect_examples",
+   "argv": [
+    "schema",
+    "inspect",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_commands.py:71"
+  },
+  {
+   "test": "test_schema_apply_examples",
+   "argv": [
+    "schema",
+    "apply",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_commands.py:83"
+  },
+  {
+   "test": "test_schema_fmt_with_multiple_paths",
+   "argv": [
+    "schema",
+    "fmt",
+    "schema1.hcl",
+    "schema2.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "schema1.hcl": "table \"t1\" {schema=schema.public}",
+    "schema2.hcl": "table \"t2\" {schema=schema.public}"
+   },
+   "ci": false,
+   "source": "test_schema_commands.py:89"
+  },
+  {
+   "test": "test_schema_fmt_help",
+   "argv": [
+    "schema",
+    "fmt",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "fmt",
+    "format",
+    ".hcl"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_schema_fmt.py:5"
+  },
+  {
+   "test": "test_schema_fmt_formats_hcl_file",
+   "argv": [
+    "schema",
+    "fmt",
+    "schema.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "schema.hcl": "\ntable \"users\" {\nschema=schema.public\ncolumn \"id\" {type=int}\n}\n"
+   },
+   "ci": false,
+   "source": "test_schema_fmt.py:13"
+  },
+  {
+   "test": "test_help_subcommand_for_migrate",
+   "argv": [
+    "help",
+    "migrate"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "migrate",
+    "Available Commands"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_special_cases.py:7"
+  },
+  {
+   "test": "test_help_subcommand_for_schema",
+   "argv": [
+    "help",
+    "schema"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "schema",
+    "Available Commands"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_special_cases.py:14"
+  },
+  {
+   "test": "test_help_subcommand_for_completion",
+   "argv": [
+    "help",
+    "completion"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "completion"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_special_cases.py:21"
+  },
+  {
+   "test": "test_help_subcommand_migrate_apply",
+   "argv": [
+    "help",
+    "migrate",
+    "apply"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "migrate apply",
+    "--url"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_special_cases.py:27"
+  },
+  {
+   "test": "test_migrate_hash_updates_existing_sum",
+   "argv": [
+    "migrate",
+    "hash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "20230101000000_first.sql",
+    "20230102000000_second.sql"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_cases.py:34"
+  },
+  {
+   "test": "test_migrate_new_sequential_names",
+   "argv": [
+    "migrate",
+    "new",
+    "first"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_special_cases.py:59"
+  },
+  {
+   "test": "test_license_command_output_format",
+   "argv": [
+    "license"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "LICENSE",
+    "Apache"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_special_cases.py:114"
+  },
+  {
+   "test": "test_schema_inspect_sqlite_empty",
+   "argv": [
+    "schema",
+    "inspect"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "schema"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite_integration.py:7"
+  },
+  {
+   "test": "test_schema_inspect_with_data",
+   "argv": [
+    "migrate",
+    "hash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "table"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_sqlite_integration.py:57"
+  },
+  {
+   "test": "test_schema_inspect_output_format",
+   "argv": [
+    "schema",
+    "inspect"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "schema",
+    "{"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite_integration.py:92"
+  },
+  {
+   "test": "test_invalid_url_format",
+   "argv": [
+    "migrate",
+    "apply",
+    "--url=notaurl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_url_formats.py:4"
+  },
+  {
+   "test": "test_mysql_url_format_in_help",
+   "argv": [
+    "schema",
+    "inspect",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "mysql://"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_url_formats.py:18"
+  },
+  {
+   "test": "test_postgres_url_format_in_help",
+   "argv": [
+    "schema",
+    "inspect",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "postgres://"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_url_formats.py:24"
+  },
+  {
+   "test": "test_file_url_format_in_help",
+   "argv": [
+    "migrate",
+    "new",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file://"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_url_formats.py:30"
+  },
+  {
+   "test": "test_docker_url_format_in_help",
+   "argv": [
+    "migrate",
+    "diff",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "docker://"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_url_formats.py:36"
+  },
+  {
+   "test": "test_migration_workflow_basic",
+   "argv": [
+    "migrate",
+    "new",
+    "create_users"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_workflows.py:5"
+  },
+  {
+   "test": "test_multiple_new_migrations",
+   "argv": [
+    "migrate",
+    "new"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_workflows.py:81"
+  },
+  {
+   "test": "test_default_migrations_dir_missing_errors",
+   "argv": [
+    "migrate",
+    "status"
+   ],
+   "stdin": null,
+   "env": {
+    "ATLAS_NO_UPDATE_NOTIFIER": "1"
+   },
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "migrations"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env_handling.py:22"
+  },
+  {
+   "test": "test_malformed_config_file_reports_parse_error",
+   "argv": [
+    "migrate",
+    "status",
+    "--config",
+    "--env",
+    "dev"
+   ],
+   "stdin": null,
+   "env": {
+    "ATLAS_NO_UPDATE_NOTIFIER": "1"
+   },
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env_handling.py:48"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Manage your database schema as code",
+    "Usage:",
+    "Available Commands:",
+    "completion",
+    "license",
+    "version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:15"
+  },
+  {
+   "test": "test_help_flag_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Manage your database schema as code",
+    "Usage:",
+    "Available Commands:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:26"
+  },
+  {
+   "test": "test_help_for_specific_command",
+   "argv": [
+    "help",
+    "version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "version",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:47"
+  },
+  {
+   "test": "test_completion_help",
+   "argv": [
+    "completion",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Generate the autocompletion script",
+    "Usage:",
+    "bash",
+    "fish",
+    "zsh",
+    "powershell"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_completion.py:4"
+  },
+  {
+   "test": "test_completion_bash",
+   "argv": [
+    "completion",
+    "bash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_completion.py:15"
+  },
+  {
+   "test": "test_completion_bash_help",
+   "argv": [
+    "completion",
+    "bash",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Generate the autocompletion script for the bash shell",
+    "Usage:",
+    "atlas completion bash",
+    "--no-descriptions"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_completion.py:26"
+  },
+  {
+   "test": "test_completion_bash_no_descriptions",
+   "argv": [
+    "completion",
+    "bash",
+    "--no-descriptions"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_completion.py:35"
+  },
+  {
+   "test": "test_completion_zsh",
+   "argv": [
+    "completion",
+    "zsh"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "#"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_completion.py:43"
+  },
+  {
+   "test": "test_completion_zsh_help",
+   "argv": [
+    "completion",
+    "zsh",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Generate the autocompletion script for the zsh shell",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_completion.py:51"
+  },
+  {
+   "test": "test_completion_fish_help",
+   "argv": [
+    "completion",
+    "fish",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Generate the autocompletion script for the fish shell",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_completion.py:66"
+  },
+  {
+   "test": "test_completion_powershell_help",
+   "argv": [
+    "completion",
+    "powershell",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Generate the autocompletion script for powershell",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_completion.py:81"
+  },
+  {
+   "test": "test_env_flag_with_migrate",
+   "argv": [
+    "migrate",
+    "--env",
+    "test",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "migrate"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_config_and_env.py:14"
+  },
+  {
+   "test": "test_var_flag_with_schema",
+   "argv": [
+    "schema",
+    "--var",
+    "test=value",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "schema"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_config_and_env.py:21"
+  },
+  {
+   "test": "test_multiple_var_flags_with_migrate",
+   "argv": [
+    "migrate",
+    "--var",
+    "key1=value1",
+    "--var",
+    "key2=value2",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "migrate"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_config_and_env.py:27"
+  },
+  {
+   "test": "test_config_flag_shown_in_help",
+   "argv": [
+    "schema",
+    "inspect",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--config"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_and_env.py:33"
+  },
+  {
+   "test": "test_env_flag_shown_in_help",
+   "argv": [
+    "migrate",
+    "apply",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--env"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_and_env.py:39"
+  },
+  {
+   "test": "test_var_flag_shown_in_help",
+   "argv": [
+    "schema",
+    "apply",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--var"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_and_env.py:45"
+  },
+  {
+   "test": "test_unicode_in_hcl_content",
+   "argv": [
+    "schema",
+    "fmt",
+    "unicode.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "users"
+   ],
+   "files": {
+    "unicode.hcl": "table \"users\" {\n  schema = schema.test\n  column \"name\" {\n    type = varchar(100)\n    comment = \"用户名称\"\n  }\n}"
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:44"
+  },
+  {
+   "test": "test_concurrent_help_requests",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "atlas"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_edge_cases.py:101"
+  },
+  {
+   "test": "test_large_hcl_file",
+   "argv": [
+    "schema",
+    "fmt",
+    "large.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "large.hcl": ""
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:108"
+  },
+  {
+   "test": "test_empty_hcl_file",
+   "argv": [
+    "schema",
+    "fmt",
+    "empty.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "empty.hcl": ""
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:128"
+  },
+  {
+   "test": "test_invalid_subcommand_for_schema",
+   "argv": [
+    "schema",
+    "invalid_subcommand_xyz"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "schema"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_error_conditions.py:35"
+  },
+  {
+   "test": "test_invalid_subcommand_for_migrate",
+   "argv": [
+    "migrate",
+    "invalid_subcommand_xyz"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "migrate"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_error_conditions.py:42"
+  },
+  {
+   "test": "test_completion_invalid_shell",
+   "argv": [
+    "completion",
+    "invalid_shell_xyz"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "completion"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_error_conditions.py:49"
+  },
+  {
+   "test": "test_schema_apply_with_dry_run",
+   "argv": [
+    "schema",
+    "apply",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--dry-run"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:17"
+  },
+  {
+   "test": "test_schema_apply_with_auto_approve",
+   "argv": [
+    "schema",
+    "apply",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--auto-approve",
+    "without prompting"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_flag_combinations.py:24"
+  },
+  {
+   "test": "test_migrate_apply_with_tx_mode",
+   "argv": [
+    "migrate",
+    "apply",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--tx-mode",
+    "transaction"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_flag_combinations.py:31"
+  },
+  {
+   "test": "test_migrate_apply_with_baseline",
+   "argv": [
+    "migrate",
+    "apply",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--baseline",
+    "version"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_flag_combinations.py:38"
+  },
+  {
+   "test": "test_migrate_diff_with_schema_flag",
+   "argv": [
+    "migrate",
+    "diff",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:52"
+  },
+  {
+   "test": "test_format_flag_available",
+   "argv": [
+    "schema",
+    "inspect",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--format"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:58"
+  },
+  {
+   "test": "test_lock_timeout_flag",
+   "argv": [
+    "migrate",
+    "apply",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--lock-timeout"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_flag_combinations.py:65"
+  },
+  {
+   "test": "test_dir_format_flag",
+   "argv": [
+    "migrate",
+    "hash",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--dir-format",
+    "format"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_flag_combinations.py:78"
+  },
+  {
+   "test": "test_license_help",
+   "argv": [
+    "license",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Display license information",
+    "Usage:",
+    "atlas license"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_license.py:12"
+  },
+  {
+   "test": "test_license_help_short",
+   "argv": [
+    "license",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Display license information",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_license.py:20"
+  },
+  {
+   "test": "test_license_content",
+   "argv": [
+    "license"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2.0",
+    "https://",
+    "LICENSE"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_license.py:27"
+  },
+  {
+   "test": "test_migrate_help",
+   "argv": [
+    "migrate",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "atlas migrate",
+    "apply",
+    "diff",
+    "hash",
+    "import",
+    "lint",
+    "new",
+    "set",
+    "status",
+    "validate"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_migrate_commands.py:4"
+  },
+  {
+   "test": "test_migrate_apply_help",
+   "argv": [
+    "migrate",
+    "apply",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "atlas migrate apply",
+    "--url",
+    "--dir",
+    "--dry-run",
+    "--baseline",
+    "--tx-mode",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_migrate_commands.py:19"
+  },
+  {
+   "test": "test_migrate_diff_help",
+   "argv": [
+    "migrate",
+    "diff",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "atlas migrate diff",
+    "--to",
+    "--dev-url",
+    "--dir",
+    "Usage:",
+    "migration file"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_migrate_commands.py:37"
+  },
+  {
+   "test": "test_migrate_new_help",
+   "argv": [
+    "migrate",
+    "new",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "atlas migrate new",
+    "--dir",
+    "creates a new migration",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_migrate_commands.py:55"
+  },
+  {
+   "test": "test_migrate_hash_help",
+   "argv": [
+    "migrate",
+    "hash",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "atlas migrate hash",
+    "--dir",
+    "integrity hash",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_migrate_commands.py:64"
+  },
+  {
+   "test": "test_migrate_status_help",
+   "argv": [
+    "migrate",
+    "status",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "atlas migrate status",
+    "--url",
+    "--dir",
+    "Usage:",
+    "current status"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_migrate_commands.py:73"
+  },
+  {
+   "test": "test_migrate_validate_help",
+   "argv": [
+    "migrate",
+    "validate",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "atlas migrate validate",
+    "--dir",
+    "--dev-url",
+    "integrity hash",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_migrate_commands.py:89"
+  },
+  {
+   "test": "test_migrate_set_help",
+   "argv": [
+    "migrate",
+    "set",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "atlas migrate set",
+    "--url",
+    "revision table",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_migrate_commands.py:99"
+  },
+  {
+   "test": "test_migrate_lint_help",
+   "argv": [
+    "migrate",
+    "lint",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "atlas migrate lint",
+    "--dir",
+    "--latest",
+    "--git-base",
+    "analysis",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_migrate_commands.py:114"
+  },
+  {
+   "test": "test_migrate_import_help",
+   "argv": [
+    "migrate",
+    "import",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "atlas migrate import",
+    "--from",
+    "--to",
+    "Usage:",
+    "migration directory"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_migrate_commands.py:125"
+  },
+  {
+   "test": "test_migrate_hash_creates_sum_file",
+   "argv": [
+    "migrate",
+    "hash",
+    "--dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "001_init.sql"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_hash.py:5"
+  },
+  {
+   "test": "test_migrate_hash_with_multiple_files",
+   "argv": [
+    "migrate",
+    "hash",
+    "--dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "001_init.sql",
+    "002_add_email.sql"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_hash.py:25"
+  },
+  {
+   "test": "test_migrate_hash_updates_existing_sum",
+   "argv": [
+    "migrate",
+    "hash",
+    "--dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "002_new.sql"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_hash.py:43"
+  },
+  {
+   "test": "test_migrate_new_creates_file",
+   "argv": [
+    "migrate",
+    "new",
+    "create_users",
+    "--dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "create_users"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_new.py:6"
+  },
+  {
+   "test": "test_migrate_new_with_custom_name",
+   "argv": [
+    "migrate",
+    "new",
+    "add_email_column",
+    "--dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_new.py:23"
+  },
+  {
+   "test": "test_migrate_new_creates_empty_file",
+   "argv": [
+    "migrate",
+    "new",
+    "test_migration",
+    "--dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_new.py:35"
+  },
+  {
+   "test": "test_migrate_new_incremental_numbering",
+   "argv": [
+    "migrate",
+    "new",
+    "first",
+    "--dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_new.py:50"
+  },
+  {
+   "test": "test_migrate_validate_with_valid_migrations",
+   "argv": [
+    "migrate",
+    "hash",
+    "--dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_validate.py:5"
+  },
+  {
+   "test": "test_schema_help",
+   "argv": [
+    "schema",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "atlas schema",
+    "apply",
+    "clean",
+    "diff",
+    "fmt",
+    "inspect"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_schema_commands.py:5"
+  },
+  {
+   "test": "test_schema_inspect_help",
+   "argv": [
+    "schema",
+    "inspect",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "atlas schema inspect",
+    "--url",
+    "--schema",
+    "--format",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_schema_commands.py:16"
+  },
+  {
+   "test": "test_schema_diff_help",
+   "argv": [
+    "schema",
+    "diff",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "atlas schema diff",
+    "--from",
+    "--to",
+    "Usage:",
+    "calculates the difference"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_schema_commands.py:32"
+  },
+  {
+   "test": "test_schema_apply_help",
+   "argv": [
+    "schema",
+    "apply",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "atlas schema apply",
+    "--url",
+    "--to",
+    "--dry-run",
+    "--auto-approve",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_schema_commands.py:48"
+  },
+  {
+   "test": "test_schema_clean_help",
+   "argv": [
+    "schema",
+    "clean",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "atlas schema clean",
+    "--url",
+    "--dry-run",
+    "--auto-approve",
+    "drops all objects"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_schema_commands.py:65"
+  },
+  {
+   "test": "test_schema_fmt_help",
+   "argv": [
+    "schema",
+    "fmt",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "atlas schema fmt",
+    "formats",
+    ".hcl",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_schema_commands.py:81"
+  },
+  {
+   "test": "test_schema_fmt_valid_hcl",
+   "argv": [
+    "schema",
+    "fmt",
+    "schema.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "schema.public"
+   ],
+   "files": {
+    "schema.hcl": "table \"users\" {\n    schema=schema.public\n    column \"id\"{\n    type=int\n    }\n    column \"name\" {type=varchar(100)}\n    }"
+   },
+   "ci": false,
+   "source": "test_schema_fmt.py:5"
+  },
+  {
+   "test": "test_schema_fmt_current_directory_with_no_hcl",
+   "argv": [
+    "schema",
+    "fmt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_fmt.py:64"
+  },
+  {
+   "test": "test_sqlite_url_format",
+   "argv": [
+    "schema",
+    "inspect",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "sqlite://"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_url_formats.py:4"
+  },
+  {
+   "test": "test_dev_url_examples",
+   "argv": [
+    "schema",
+    "diff",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--dev-url"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_url_formats.py:41"
+  },
+  {
+   "test": "test_dir_url_format",
+   "argv": [
+    "migrate",
+    "hash",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--dir"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_url_formats.py:48"
+  },
+  {
+   "test": "test_version_help",
+   "argv": [
+    "version",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Prints this Atlas CLI version information",
+    "Usage:",
+    "atlas version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_version.py:14"
+  },
+  {
+   "test": "test_version_help_short",
+   "argv": [
+    "version",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Prints this Atlas CLI version information",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_version.py:22"
+  },
+  {
+   "test": "test_version_output_format",
+   "argv": [
+    "version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "github.com",
+    "atlas"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_version.py:29"
+  },
+  {
+   "test": "test_help_flag_outputs_usage_and_exit_0",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Available Commands:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_and_version.py:4"
+  },
+  {
+   "test": "test_version_outputs_expected_lines_and_exit_0",
+   "argv": [
+    "version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "atlas",
+    "unofficial version",
+    "releases/latest"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_and_version.py:13"
+  },
+  {
+   "test": "test_schema_fmt_formats_file_in_place_and_reports_filename",
+   "argv": [
+    "schema",
+    "fmt",
+    "bad.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "bad.hcl": "table \"users\"{column \"id\"{type=int null=false}}\n"
+   },
+   "ci": false,
+   "source": "test_schema_fmt.py:6"
+  },
+  {
+   "test": "test_schema_fmt_nonexistent_path_errors_to_stderr_and_exit_1",
+   "argv": [
+    "schema",
+    "fmt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Error: stat",
+    "no such file or directory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_fmt.py:66"
+  },
+  {
+   "test": "test_help_short_flag_exits_zero",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:56"
+  },
+  {
+   "test": "test_help_command_exits_zero",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:61"
+  },
+  {
+   "test": "test_help_contains_description",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Manage your database schema as code"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:104"
+  },
+  {
+   "test": "test_help_has_usage_section",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:109"
+  },
+  {
+   "test": "test_help_has_available_commands_section",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Available Commands:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:114"
+  },
+  {
+   "test": "test_help_has_flags_section",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Flags:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:119"
+  },
+  {
+   "test": "test_help_usage_line",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "atlas [command]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:124"
+  },
+  {
+   "test": "test_help_documents_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-h, --help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:144"
+  },
+  {
+   "test": "test_help_has_more_info_footer",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Use \"atlas [command] --help\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:149"
+  },
+  {
+   "test": "test_migrate_help_variations",
+   "argv": [
+    "../executable"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "migrate"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_output.py:168"
+  },
+  {
+   "test": "test_migrate_help_contains_description",
+   "argv": [
+    "migrate",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "migration management"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:174"
+  },
+  {
+   "test": "test_migrate_help_has_usage",
+   "argv": [
+    "migrate",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "atlas migrate [command]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:179"
+  },
+  {
+   "test": "test_schema_help_variations",
+   "argv": [
+    "../executable"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "schema"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_output.py:225"
+  },
+  {
+   "test": "test_schema_help_has_usage",
+   "argv": [
+    "schema",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "atlas schema [command]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:236"
+  },
+  {
+   "test": "test_completion_help_has_usage",
+   "argv": [
+    "completion",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "atlas completion [command]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:278"
+  },
+  {
+   "test": "test_license_help_has_usage",
+   "argv": [
+    "license",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "atlas license"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:308"
+  },
+  {
+   "test": "test_license_help_contains_description",
+   "argv": [
+    "license",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "license"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_output.py:314"
+  },
+  {
+   "test": "test_migrate_apply_help_has_usage",
+   "argv": [
+    "migrate",
+    "apply",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "atlas migrate apply"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:332"
+  },
+  {
+   "test": "test_migrate_apply_help_has_examples",
+   "argv": [
+    "migrate",
+    "apply",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Examples:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:338"
+  },
+  {
+   "test": "test_schema_apply_help_has_usage",
+   "argv": [
+    "schema",
+    "apply",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "atlas schema apply"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:368"
+  },
+  {
+   "test": "test_schema_apply_help_has_examples",
+   "argv": [
+    "schema",
+    "apply",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Examples:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:374"
+  },
+  {
+   "test": "test_migrate_diff_help_has_usage",
+   "argv": [
+    "migrate",
+    "diff",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "atlas migrate diff"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:559"
+  },
+  {
+   "test": "test_schema_inspect_help_has_usage",
+   "argv": [
+    "schema",
+    "inspect",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "atlas schema inspect"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:570"
+  },
+  {
+   "test": "test_migrate_subcommand_help_works",
+   "argv": [
+    "../executable"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:583"
+  },
+  {
+   "test": "test_help_with_invalid_flag",
+   "argv": [
+    "--help",
+    "--invalid-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:604"
+  },
+  {
+   "test": "test_unknown_top_level_subcommand_errors_message",
+   "argv": [
+    "nonexistent_subcommand"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unknown command"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:113"
+  },
+  {
+   "test": "test_unknown_nested_subcommand_shows_parent_help_instead_of_unknown_command",
+   "argv": [
+    "migrate",
+    "nonexistent"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "atlas migrate",
+    "Available Commands:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:119"
+  },
+  {
+   "test": "test_group_command_flags_include_config_env_var",
+   "argv": [
+    "migrate"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--config",
+    "--env",
+    "--var"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:127"
+  },
+  {
+   "test": "test_subcommand_help_includes_global_flags_section_when_applicable",
+   "argv": [
+    "migrate",
+    "apply"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Global Flags:",
+    "--config",
+    "--env",
+    "--var"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:134"
+  },
+  {
+   "test": "test_subcommand_specific_flags_not_accepted_globally",
+   "argv": [
+    "--url",
+    "mysql://example"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unknown flag"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:142"
+  },
+  {
+   "test": "test_unknown_flag_on_subcommand_errors",
+   "argv": [
+    "migrate",
+    "apply",
+    "--definitely-not-a-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unknown flag"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:148"
+  },
+  {
+   "test": "test_completion_group_has_nested_subcommands",
+   "argv": [
+    "completion"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bash",
+    "zsh",
+    "fish",
+    "powershell"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:154"
+  },
+  {
+   "test": "test_nested_subcommand_help_routing",
+   "argv": [
+    "completion",
+    "bash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Generate the autocompletion script for the bash shell.",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:161"
+  },
+  {
+   "test": "test_help_command_routes_to_topic_help",
+   "argv": [
+    "help",
+    "migrate"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "atlas migrate",
+    "Available Commands:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommands.py:167"
+  },
+  {
+   "test": "test_missing_required_url",
+   "argv": [
+    "schema",
+    "inspect"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "url"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argument_parsing.py:54"
+  },
+  {
+   "test": "test_missing_required_url",
+   "argv": [
+    "schema",
+    "apply"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "url"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argument_parsing.py:108"
+  },
+  {
+   "test": "test_dry_run_boolean_flag",
+   "argv": [
+    "schema",
+    "apply",
+    "--dry-run"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "url"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argument_parsing.py:123"
+  },
+  {
+   "test": "test_auto_approve_boolean_flag",
+   "argv": [
+    "schema",
+    "apply",
+    "--auto-approve"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "url"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argument_parsing.py:132"
+  },
+  {
+   "test": "test_edit_boolean_flag",
+   "argv": [
+    "schema",
+    "apply",
+    "--edit"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "url"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argument_parsing.py:168"
+  },
+  {
+   "test": "test_missing_required_from_and_to",
+   "argv": [
+    "schema",
+    "diff"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "from",
+    "to"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argument_parsing.py:180"
+  },
+  {
+   "test": "test_missing_to_flag",
+   "argv": [
+    "schema",
+    "diff",
+    "--from",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "to"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argument_parsing.py:189"
+  },
+  {
+   "test": "test_missing_from_flag",
+   "argv": [
+    "schema",
+    "diff",
+    "--to",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "from"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argument_parsing.py:197"
+  },
+  {
+   "test": "test_positional_invalid_integer",
+   "argv": [
+    "migrate",
+    "apply",
+    "invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argument_parsing.py:334"
+  },
+  {
+   "test": "test_latest_invalid_uint",
+   "argv": [
+    "migrate",
+    "lint",
+    "--latest",
+    "invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argument_parsing.py:422"
+  },
+  {
+   "test": "test_latest_negative_uint",
+   "argv": [
+    "migrate",
+    "lint",
+    "--latest",
+    "-1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argument_parsing.py:429"
+  },
+  {
+   "test": "test_subcommand_without_parent",
+   "argv": [
+    "inspect"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unknown command"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argument_parsing.py:794"
+  },
+  {
+   "test": "test_unknown_flag_errors",
+   "argv": [
+    "schema",
+    "apply",
+    "--nonexistent"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unknown flag: --nonexistent"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args_parsing.py:26"
+  },
+  {
+   "test": "test_required_flag_url_missing",
+   "argv": [
+    "schema",
+    "apply"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "required flag(s) \"url\" not set"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args_parsing.py:40"
+  },
+  {
+   "test": "test_schema_apply_requires_to_or_file_when_url_set",
+   "argv": [
+    "schema",
+    "apply",
+    "--url",
+    "sqlite://file.db"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "one of flag(s) \"file\" or \"to\" is required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args_parsing.py:45"
+  },
+  {
+   "test": "test_flag_repeat_last_wins_for_env",
+   "argv": [
+    "schema",
+    "apply",
+    "--env",
+    "first",
+    "--env",
+    "second"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "atlas.hcl"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args_parsing.py:92"
+  },
+  {
+   "test": "test_double_dash_treats_following_as_positional_not_flags",
+   "argv": [
+    "schema",
+    "apply",
+    "--url",
+    "sqlite://file.db",
+    "--to",
+    "file://schema.sql",
+    "--dev-url",
+    "sqlite://dev?mode=memory",
+    "--dry-run",
+    "--",
+    "--not-a-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "stat schema.sql"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_args_parsing.py:101"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Manage your database schema as code",
+    "Available Commands:",
+    "completion",
+    "migrate",
+    "schema",
+    "version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_commands.py:26"
+  },
+  {
+   "test": "test_help_command",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Manage your database schema as code"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_commands.py:37"
+  },
+  {
+   "test": "test_no_args",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Manage your database schema as code"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_commands.py:43"
+  },
+  {
+   "test": "test_version_help",
+   "argv": [
+    "version",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Prints this Atlas CLI version information"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_commands.py:60"
+  },
+  {
+   "test": "test_license_help",
+   "argv": [
+    "license",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Display license information"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_commands.py:76"
+  },
+  {
+   "test": "test_completion_help",
+   "argv": [
+    "completion",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "autocompletion script"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_commands.py:101"
+  },
+  {
+   "test": "test_var_flag_on_schema_command",
+   "argv": [
+    "schema",
+    "--var",
+    "test=value",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:39"
+  },
+  {
+   "test": "test_inspect_sqlite_memory_db",
+   "argv": [
+    "schema",
+    "inspect",
+    "--url",
+    "sqlite://"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "schema"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:215"
+  },
+  {
+   "test": "test_version_help_exact",
+   "argv": [
+    "version",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Prints this Atlas CLI version information.",
+    "Usage:",
+    "atlas version [flags]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_exact_output.py:24"
+  },
+  {
+   "test": "test_version_output_format",
+   "argv": [
+    "version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "atlas"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_exact_output.py:62"
+  },
+  {
+   "test": "test_migrate_help",
+   "argv": [
+    "migrate",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "migrate",
+    "apply",
+    "diff",
+    "hash",
+    "lint",
+    "new",
+    "set",
+    "status",
+    "validate"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_commands.py:27"
+  },
+  {
+   "test": "test_new_help",
+   "argv": [
+    "migrate",
+    "new",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "new",
+    "--dir"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_commands.py:45"
+  },
+  {
+   "test": "test_diff_help",
+   "argv": [
+    "migrate",
+    "diff",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "diff",
+    "--dev-url",
+    "--to"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_commands.py:76"
+  },
+  {
+   "test": "test_apply_help",
+   "argv": [
+    "migrate",
+    "apply",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "apply",
+    "--url",
+    "--dir",
+    "--dry-run"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_commands.py:93"
+  },
+  {
+   "test": "test_status_help",
+   "argv": [
+    "migrate",
+    "status",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "status",
+    "--url"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_commands.py:111"
+  },
+  {
+   "test": "test_validate_help",
+   "argv": [
+    "migrate",
+    "validate",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "validate",
+    "--dir"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_commands.py:127"
+  },
+  {
+   "test": "test_hash_help",
+   "argv": [
+    "migrate",
+    "hash",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hash",
+    "--dir"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_commands.py:152"
+  },
+  {
+   "test": "test_set_help",
+   "argv": [
+    "migrate",
+    "set",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "set",
+    "--url"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_commands.py:168"
+  },
+  {
+   "test": "test_lint_help",
+   "argv": [
+    "migrate",
+    "lint",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "lint",
+    "--dir"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_commands.py:184"
+  },
+  {
+   "test": "test_inspect_help",
+   "argv": [
+    "schema",
+    "inspect",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "inspect",
+    "--url"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_commands.py:42"
+  },
+  {
+   "test": "test_diff_help",
+   "argv": [
+    "schema",
+    "diff",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "diff",
+    "--from",
+    "--to"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_commands.py:64"
+  },
+  {
+   "test": "test_apply_help",
+   "argv": [
+    "schema",
+    "apply",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "apply",
+    "--url",
+    "--to",
+    "--dry-run"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_commands.py:91"
+  },
+  {
+   "test": "test_clean_help",
+   "argv": [
+    "schema",
+    "clean",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "clean",
+    "--url",
+    "--auto-approve"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_commands.py:114"
+  },
+  {
+   "test": "test_fmt_help",
+   "argv": [
+    "schema",
+    "fmt",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "fmt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_commands.py:131"
+  },
+  {
+   "test": "test_apply_migrations",
+   "argv": [
+    "SELECT name FROM sqlite_master WHERE type='table' AND name='users'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sqlite_integration.py:176"
+  },
+  {
+   "test": "test_help_before_double_dash_works_and_exits_zero",
+   "argv": [
+    "--help",
+    "--",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_edge_cases.py:23"
+  },
+  {
+   "test": "test_unknown_flag_errors_and_mentions_unknown_flag",
+   "argv": [
+    "--help",
+    "--no-such-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unknown flag: --no-such-flag"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_edge_cases.py:30"
+  },
+  {
+   "test": "test_help_ends_with_more_info_line_and_trailing_newline",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Use \"atlas [command] --help\" for more information about a command."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:88"
+  },
+  {
+   "test": "test_aws_rds_token_invalid_profile",
+   "argv": [
+    "/workspace/executable",
+    "schema",
+    "inspect",
+    "--env",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "data.aws_rds_token.token",
+    "loading aws config: failed to get shared config profile, nonexistent_profile"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_aws_gcp_datasources.py:15"
+  },
+  {
+   "test": "test_aws_rds_token_with_valid_config",
+   "argv": [
+    "/workspace/executable",
+    "schema",
+    "inspect",
+    "--env",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dial tcp: lookup user:mydb.example.com:3306: no such host"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_aws_gcp_datasources.py:46"
+  },
+  {
+   "test": "test_gcp_cloudsql_token_no_credentials",
+   "argv": [
+    "/workspace/executable",
+    "schema",
+    "inspect",
+    "--env",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "data.gcp_cloudsql_token.token",
+    "finding default credentials: google: could not find default credentials"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_aws_gcp_datasources.py:102"
+  },
+  {
+   "test": "test_multiple_datasources_in_config",
+   "argv": [
+    "/workspace/executable",
+    "schema",
+    "inspect",
+    "--env",
+    "mysql"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dial tcp: lookup user:mysql.example.com:3306: no such host",
+    "data.gcp_cloudsql_token.pg_token",
+    "finding default credentials: google: could not find default credentials"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_aws_gcp_datasources.py:138"
+  },
+  {
+   "test": "test_state_file_persistence_across_commands",
+   "argv": [
+    "version"
+   ],
+   "stdin": null,
+   "env": {
+    "ATLAS_NO_UPGRADE_SUGGESTIONS": "1"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "v1.us"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cmdstate.py:288"
+  },
+  {
+   "test": "test_load_simple_config_file",
+   "argv": [
+    "schema",
+    "inspect",
+    "--env",
+    "dev",
+    "--config",
+    "file://simple.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "schema \"main\" {\n}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:46"
+  },
+  {
+   "test": "test_nonexistent_environment_error",
+   "argv": [
+    "schema",
+    "inspect",
+    "--env",
+    "nonexistent",
+    "--config",
+    "file://simple.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "env \"nonexistent\" not defined in config file"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:60"
+  },
+  {
+   "test": "test_invalid_hcl_syntax_error",
+   "argv": [
+    "schema",
+    "inspect",
+    "--env",
+    "dev",
+    "--config",
+    "file://invalid.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid.hcl:3,9-4,1: Invalid expression",
+    "Expected the start of an expression"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:88"
+  },
+  {
+   "test": "test_variable_substitution_with_default",
+   "argv": [
+    "schema",
+    "inspect",
+    "--env",
+    "dev",
+    "--config",
+    "file://with_vars.hcl",
+    "--var",
+    "dev_db=mydev.db"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "schema \"main\" {\n}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:103"
+  },
+  {
+   "test": "test_getenv_function_in_config",
+   "argv": [
+    "schema",
+    "inspect",
+    "--env",
+    "dev",
+    "--config",
+    "file://with_getenv.hcl"
+   ],
+   "stdin": null,
+   "env": {
+    "DB_NAME": "from_env.db"
+   },
+   "expect_rc": 0,
+   "expect_stdout": "schema \"main\" {\n}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:118"
+  },
+  {
+   "test": "test_config_with_migration_dir",
+   "argv": [
+    "migrate",
+    "status",
+    "--env",
+    "dev",
+    "--config",
+    "file://with_migration.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Migration Status: OK\n  -- Current Version: No migration applied yet\n  -- Next Version:    Already at latest version\n  -- Executed Files:  0\n  -- Pending Files:   0\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:132"
+  },
+  {
+   "test": "test_default_config_file_discovery",
+   "argv": [
+    "schema",
+    "inspect",
+    "--env",
+    "dev"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "schema \"main\" {\n}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:146"
+  },
+  {
+   "test": "test_invalid_var_flag_format",
+   "argv": [
+    "schema",
+    "inspect",
+    "--env",
+    "dev",
+    "--config",
+    "file://simple.hcl",
+    "--var",
+    "invalid_format"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "variables must be format as key=value",
+    "\"invalid_format\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:173"
+  },
+  {
+   "test": "test_multiple_var_flags_with_defaults",
+   "argv": [
+    "schema",
+    "inspect",
+    "--env",
+    "dev",
+    "--config",
+    "file://multi_vars.hcl",
+    "--var",
+    "db_name=test.db",
+    "--var",
+    "dev_db=mydev.db"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "schema \"main\" {\n}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:186"
+  },
+  {
+   "test": "test_multiple_environments_in_config",
+   "argv": [
+    "schema",
+    "inspect",
+    "--env",
+    "staging",
+    "--config",
+    "file://multi_env.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "schema \"main\" {\n}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:202"
+  },
+  {
+   "test": "test_locals_block_variable_reuse",
+   "argv": [
+    "schema",
+    "inspect",
+    "--env",
+    "dev",
+    "--config",
+    "file://with_locals.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "schema \"main\" {\n}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:222"
+  },
+  {
+   "test": "test_schema_src_attribute",
+   "argv": [
+    "schema",
+    "apply",
+    "--env",
+    "dev",
+    "--config",
+    "file://schema_src.hcl",
+    "--dry-run"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "-- Planned Changes:\n-- Create \"users\" table\nCREATE TABLE `users` (\n  `id` integer NOT NULL,\n  `name` text NOT NULL,\n  PRIMARY KEY (`id`)\n);\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:236"
+  },
+  {
+   "test": "test_diff_block_skip_policies",
+   "argv": [
+    "schema",
+    "apply",
+    "--env",
+    "dev",
+    "--config",
+    "file://with_diff_block.hcl",
+    "--dry-run"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "-- Planned Changes:\n-- Create \"users\" table\nCREATE TABLE `users` (\n  `id` integer NOT NULL,\n  `name` text NOT NULL,\n  PRIMARY KEY (`id`)\n);\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:251"
+  },
+  {
+   "test": "test_exclude_patterns_in_env",
+   "argv": [
+    "schema",
+    "inspect",
+    "--env",
+    "dev",
+    "--config",
+    "file://with_exclude.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "schema \"main\" {\n}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:266"
+  },
+  {
+   "test": "test_multiple_schema_sources",
+   "argv": [
+    "schema",
+    "apply",
+    "--env",
+    "dev",
+    "--config",
+    "file://multi_schema_src.hcl",
+    "--dry-run"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "-- Planned Changes:\n-- Create \"users\" table\nCREATE TABLE `users` (\n  `id` integer NOT NULL,\n  `name` text NOT NULL,\n  PRIMARY KEY (`id`)\n);\n-- Create \"posts\" table\nCREATE TABLE `posts` (\n  `id` integer NOT NULL,\n  `title` text NOT NULL,\n  `user_id` integer NOT NULL,\n  PRIMARY KEY (`id`)\n);\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:278"
+  },
+  {
+   "test": "test_schemas_list_attribute",
+   "argv": [
+    "schema",
+    "inspect",
+    "--env",
+    "dev",
+    "--config",
+    "file://with_schemas_list.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "schema \"main\" {\n}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:293"
+  },
+  {
+   "test": "test_atlas_env_reference",
+   "argv": [
+    "schema",
+    "inspect",
+    "--env",
+    "dev",
+    "--config",
+    "file://atlas_env_ref.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "schema \"main\" {\n}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:335"
+  },
+  {
+   "test": "test_variable_list_accumulation",
+   "argv": [
+    "schema",
+    "inspect",
+    "--env",
+    "dev",
+    "--config",
+    "file://var_list_accumulation.hcl",
+    "--var",
+    "schemas=main",
+    "--var",
+    "schemas=aux"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "schema \"main\" {\n}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config.py:357"
+  },
+  {
+   "test": "test_sql_query_boolean_args",
+   "argv": [
+    "CREATE TABLE flags (id INTEGER PRIMARY KEY, active INTEGER)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_datasources.py:279"
+  },
+  {
+   "test": "test_ent_with_schema_parameter",
+   "argv": [
+    "/workspace/executable",
+    "migrate",
+    "hash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "migrating version 20240101",
+    "  -- 1 migration\n"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_ent_orm_coverage.py:239"
+  },
+  {
+   "test": "test_migration_with_multiple_statements",
+   "argv": [
+    "SELECT name FROM sqlite_master WHERE type='index' AND name='idx_posts_user'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1 migration",
+    "3 sql statements",
+    "CREATE TABLE users",
+    "CREATE TABLE posts",
+    "CREATE INDEX idx_posts_user",
+    "users",
+    "posts"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_apply.py:415"
+  },
+  {
+   "test": "test_apply_to_dirty_database_without_flag_errors",
+   "argv": [
+    "CREATE TABLE existing_table (id INTEGER PRIMARY KEY)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "connected database is not clean",
+    "baseline version or allow-dirty is required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_apply.py:456"
+  },
+  {
+   "test": "test_apply_to_dirty_database_with_allow_dirty_succeeds",
+   "argv": [
+    "CREATE TABLE existing_table (id INTEGER PRIMARY KEY, data TEXT)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Migrating to version 20220318104616",
+    "3 migrations in total"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_apply.py:491"
+  },
+  {
+   "test": "test_migration_with_data_insertion",
+   "argv": [
+    "SELECT name FROM users ORDER BY name"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Migrating to version 20220318104615",
+    "2 migrations in total",
+    "2 migrations",
+    "3 sql statements"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_apply.py:607"
+  },
+  {
+   "test": "test_baseline_and_allow_dirty_mutually_exclusive",
+   "argv": [
+    "CREATE TABLE existing (id INTEGER)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "baseline and allow-dirty are mutually exclusive"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_apply.py:815"
+  },
+  {
+   "test": "test_migration_files_with_comments_and_blank_lines",
+   "argv": [
+    "SELECT name FROM sqlite_master WHERE type='table' AND name='products'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_apply.py:883"
+  },
+  {
+   "test": "test_reapply_after_fixing_failed_migration",
+   "argv": [
+    "PRAGMA table_info(users)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Migrating to version 20220318104615 from 20220318104614",
+    "1 migrations in total",
+    "status"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_apply.py:991"
+  },
+  {
+   "test": "test_allow_dirty_flag_permits_existing_tables",
+   "argv": [
+    "CREATE TABLE existing_table (id INTEGER PRIMARY KEY)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error: sql/migrate: connected database is not clean: found multiple tables: 2. baseline version or allow-dirty is required",
+    "3 migrations",
+    "existing_table",
+    "users",
+    "posts"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_flags.py:542"
+  },
+  {
+   "test": "test_exec_order_linear_skip_mode",
+   "argv": [
+    "INSERT INTO atlas_schema_revisions (version, description, type, applied, total, executed_at, execution_time, error, error_stmt, hash, operator_version) VALUES ('20240101000003', 'create_posts', 1, 1, 1, datetime('now'), 1000, '', '', '', '')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_gaps.py:22"
+  },
+  {
+   "test": "test_tx_mode_file_rolls_back_on_error",
+   "argv": [
+    "SELECT id, balance FROM accounts ORDER BY id"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error: sql/migrate: executing statement \"INSERT INTO accounts (id, balance) VALUES (1, 400);\" from version \"20240101000002\": UNIQUE constraint failed: accounts.id"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_gaps.py:118"
+  },
+  {
+   "test": "test_tx_mode_all_rolls_back_everything_on_error",
+   "argv": [
+    "SELECT name FROM sqlite_master WHERE type='table' AND name='accounts'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error: sql/migrate: executing statement \"INSERT INTO accounts (id, balance) VALUES (1, 400);\" from version \"20240101000002\": UNIQUE constraint failed: accounts.id"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_gaps.py:198"
+  },
+  {
+   "test": "test_baseline_version_marks_version_applied_without_executing",
+   "argv": [
+    "SELECT version FROM atlas_schema_revisions"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "no such table: users",
+    "20240101000001"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_gaps.py:236"
+  },
+  {
+   "test": "test_dry_run_mode_does_not_apply_migrations",
+   "argv": [
+    "SELECT version FROM atlas_schema_revisions"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_gaps.py:349"
+  },
+  {
+   "test": "test_tx_mode_file_with_successful_migration",
+   "argv": [
+    "SELECT version FROM atlas_schema_revisions ORDER BY version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Migrating to version 20240101000003 (3 migrations in total)",
+    "-- 3 migrations"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_gaps.py:407"
+  },
+  {
+   "test": "test_baseline_with_higher_version_skips_earlier_migrations",
+   "argv": [
+    "SELECT version FROM atlas_schema_revisions ORDER BY version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "posts"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_gaps.py:473"
+  },
+  {
+   "test": "test_sqlite_foreign_keys_pragma_handling",
+   "argv": [
+    "PRAGMA foreign_keys"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_internals.py:26"
+  },
+  {
+   "test": "test_dir_url_with_missing_scheme_error",
+   "argv": [
+    "migrate",
+    "hash",
+    "--dir",
+    "migrations"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "missing scheme for dir url. Did you mean \"file://migrations\"?"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_internals.py:136"
+  },
+  {
+   "test": "test_dir_url_with_unsupported_scheme",
+   "argv": [
+    "migrate",
+    "hash",
+    "--dir",
+    "http://example.com/migrations"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unsupported driver \"http\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_internals.py:152"
+  },
+  {
+   "test": "test_empty_default_directory_name",
+   "argv": [
+    "migrate",
+    "new",
+    "--dir",
+    "file://",
+    "initial"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "h1:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_internals.py:191"
+  },
+  {
+   "test": "test_mem_directory_scheme",
+   "argv": [
+    "migrate",
+    "hash",
+    "--dir",
+    "mem://test_migrations"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_internals.py:233"
+  },
+  {
+   "test": "test_migration_with_foreign_key_constraints",
+   "argv": [
+    "PRAGMA foreign_key_list(posts)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_internals.py:258"
+  },
+  {
+   "test": "test_migration_rollback_on_error_in_file_tx_mode",
+   "argv": [
+    "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'atlas%' ORDER BY name"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_internals.py:301"
+  },
+  {
+   "test": "test_revision_table_structure",
+   "argv": [
+    "PRAGMA table_info(atlas_schema_revisions)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_internals.py:351"
+  },
+  {
+   "test": "test_write_and_delete_revision_protection",
+   "argv": [
+    "SELECT COUNT(*) FROM atlas_schema_revisions WHERE version = '.atlas_cloud_identifier'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_internals.py:482"
+  },
+  {
+   "test": "test_migration_with_semicolons_in_strings",
+   "argv": [
+    "SELECT key, value FROM config ORDER BY key"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_internals.py:582"
+  },
+  {
+   "test": "test_baseline_version_skips_earlier_migrations",
+   "argv": [
+    "SELECT name FROM sqlite_master WHERE type='table' AND name IN ('first', 'second')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_internals.py:743"
+  },
+  {
+   "test": "test_migrate_new_requires_file_scheme",
+   "argv": [
+    "migrate",
+    "new",
+    "--dir",
+    "migrations",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "missing scheme for dir url. Did you mean \"file://migrations\"?",
+    "missing scheme for dir url"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_new.py:705"
+  },
+  {
+   "test": "test_set_verify_history_table_contents",
+   "argv": [
+    "SELECT name FROM sqlite_master WHERE type='table' AND name='atlas_schema_revisions'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_status.py:293"
+  },
+  {
+   "test": "test_status_after_manual_revision_deletion",
+   "argv": [
+    "DELETE FROM atlas_schema_revisions WHERE version = '20240101000001'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Current Version: 20240101000002"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_status.py:379"
+  },
+  {
+   "test": "test_set_idempotent_same_version",
+   "argv": [
+    "SELECT COUNT(*) FROM atlas_schema_revisions"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_status.py:676"
+  },
+  {
+   "test": "test_set_revision_table_schema_integrity",
+   "argv": [
+    "PRAGMA table_info(atlas_schema_revisions)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "version",
+    "description",
+    "type",
+    "executed_at"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_status.py:740"
+  },
+  {
+   "test": "test_lint_git_base_detects_new_migrations_since_base",
+   "argv": [
+    "git",
+    "init",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "20240101000002",
+    "20240101000003",
+    "Analyzing changes from version 20240101000001 to 20240101000003",
+    "2 migrations in total",
+    "Dropping table \"users\"",
+    "1 version ok, 1 with errors",
+    "1 diagnostic"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_validate.py:699"
+  },
+  {
+   "test": "test_lint_git_base_invalid_branch_name_error",
+   "argv": [
+    "git",
+    "init",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error: git diff: exit status"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_validate.py:754"
+  },
+  {
+   "test": "test_lint_git_base_clean_migrations_no_output",
+   "argv": [
+    "git",
+    "init",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_validate.py:808"
+  },
+  {
+   "test": "test_lint_git_base_all_migrations_new_from_empty_base",
+   "argv": [
+    "git",
+    "init",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "20240101000001",
+    "20240101000002",
+    "2 migrations in total"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_validate.py:1178"
+  },
+  {
+   "test": "test_lint_git_base_with_multiple_new_migrations_in_sequence",
+   "argv": [
+    "git",
+    "init",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "analyzing version 20240101000002",
+    "analyzing version 20240101000003",
+    "analyzing version 20240101000004",
+    "3 versions ok"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_validate.py:1351"
+  },
+  {
+   "test": "test_version_command_output_format",
+   "argv": [
+    "version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "atlas unofficial version - development\nhttps://github.com/ariga/atlas/releases/latest\nTo download an official version, visit: https://atlasgo.io/getting-started#installation\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_misc_features.py:230"
+  },
+  {
+   "test": "test_multiple_schema_commands_share_same_state",
+   "argv": [
+    "schema",
+    "inspect",
+    "--url",
+    "sqlite://file?mode=memory&_fk=1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "This Atlas edition lacks support",
+    "local-community.json"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_misc_features.py:405"
+  },
+  {
+   "test": "test_error_suggestion_appears_on_command_failure",
+   "argv": [
+    "schema",
+    "inspect",
+    "--url",
+    "invalid-url"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "last_suggested"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_misc_features.py:482"
+  },
+  {
+   "test": "test_env_url_dev_attribute",
+   "argv": [
+    "schema",
+    "inspect",
+    "--env",
+    "dev",
+    "--config",
+    "file://env_url_basic.hcl",
+    "--dev-url",
+    "env://dev"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "schema \"main\" {\n}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_project_gaps.py:121"
+  },
+  {
+   "test": "test_env_url_schema_src_from_block",
+   "argv": [
+    "schema",
+    "inspect",
+    "--env",
+    "dev",
+    "--config",
+    "file://env_url_schema_src.hcl",
+    "--url",
+    "sqlite://test.db",
+    "--schema",
+    "env://schema.src"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "schema \"main\" {\n}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_project_gaps.py:193"
+  },
+  {
+   "test": "test_sources_string_type",
+   "argv": [
+    "schema",
+    "inspect",
+    "--env",
+    "dev",
+    "--config",
+    "file://sources_string.hcl",
+    "--url",
+    "sqlite://test.db"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "schema \"main\" {\n}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_project_gaps.py:228"
+  },
+  {
+   "test": "test_sources_list_type",
+   "argv": [
+    "schema",
+    "inspect",
+    "--env",
+    "dev",
+    "--config",
+    "file://sources_list.hcl",
+    "--url",
+    "sqlite://test.db"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "schema \"main\" {\n}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_project_gaps.py:245"
+  },
+  {
+   "test": "test_env_url_empty_host",
+   "argv": [
+    "schema",
+    "inspect",
+    "--env",
+    "dev",
+    "--config",
+    "file://env_url_basic.hcl",
+    "--url",
+    "env://"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid env:// variable \"env://\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_project_gaps.py:262"
+  },
+  {
+   "test": "test_dynamic_env_name",
+   "argv": [
+    "schema",
+    "inspect",
+    "--env",
+    "dev",
+    "--config",
+    "file://env_dynamic_name.hcl",
+    "--url",
+    "sqlite://test.db"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "schema \"main\" {\n}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_project_gaps.py:279"
+  },
+  {
+   "test": "test_lint_extend_git_config",
+   "argv": [
+    "schema",
+    "inspect",
+    "--env",
+    "prod",
+    "--config",
+    "file://lint_extend.hcl",
+    "--url",
+    "sqlite://test.db"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "schema \"main\" {\n}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_project_gaps.py:296"
+  },
+  {
+   "test": "test_diff_extend_skip_changes",
+   "argv": [
+    "schema",
+    "inspect",
+    "--env",
+    "dev",
+    "--config",
+    "file://diff_extend.hcl",
+    "--url",
+    "sqlite://test.db"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "schema \"main\" {\n}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_project_gaps.py:314"
+  },
+  {
+   "test": "test_env_url_src_string_type",
+   "argv": [
+    "schema",
+    "inspect",
+    "--env",
+    "dev",
+    "--config",
+    "file://sources_string.hcl",
+    "--url",
+    "sqlite://test.db",
+    "--dev-url",
+    "env://url"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "schema \"main\" {\n}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_project_gaps.py:368"
+  },
+  {
+   "test": "test_lint_review_mode_warning",
+   "argv": [
+    "schema",
+    "inspect",
+    "--env",
+    "dev",
+    "--config",
+    "file://lint_review_modes.hcl",
+    "--url",
+    "sqlite://test.db"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "schema \"main\" {\n}\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_project_gaps.py:402"
+  },
+  {
+   "test": "test_apply_create_table_auto_approve",
+   "argv": [
+    "SELECT name FROM sqlite_master WHERE type='table' AND name='users'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "id",
+    "name"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_apply.py:36"
+  },
+  {
+   "test": "test_apply_add_column",
+   "argv": [
+    "PRAGMA table_info(users)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "email"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_apply.py:78"
+  },
+  {
+   "test": "test_apply_drop_column",
+   "argv": [
+    "PRAGMA table_info(users)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_apply.py:121"
+  },
+  {
+   "test": "test_apply_create_index",
+   "argv": [
+    "SELECT name, tbl_name FROM sqlite_master WHERE type='index' AND name='idx_email'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_apply.py:161"
+  },
+  {
+   "test": "test_apply_create_foreign_key",
+   "argv": [
+    "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "users",
+    "posts"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_apply.py:194"
+  },
+  {
+   "test": "test_apply_multiple_tables_in_correct_order",
+   "argv": [
+    "PRAGMA foreign_keys = ON"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_apply.py:300"
+  },
+  {
+   "test": "test_apply_unique_constraints",
+   "argv": [
+    "INSERT INTO users (id, email, username) VALUES (1, 'alice@example.com', 'alice')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "UNIQUE constraint failed"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_apply.py:358"
+  },
+  {
+   "test": "test_apply_composite_primary_key",
+   "argv": [
+    "INSERT INTO user_roles (user_id, role_id, granted_at) VALUES (1, 10, 1234567890)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "UNIQUE constraint failed: user_roles.user_id, user_roles.role_id"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_apply.py:399"
+  },
+  {
+   "test": "test_apply_drop_index",
+   "argv": [
+    "SELECT name FROM sqlite_master WHERE type='index' AND name='idx_email'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_apply.py:444"
+  },
+  {
+   "test": "test_apply_column_with_default_values",
+   "argv": [
+    "INSERT INTO products (id, name) VALUES (1, 'Widget')"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_apply.py:486"
+  },
+  {
+   "test": "test_apply_with_tx_mode_none",
+   "argv": [
+    "SELECT name FROM sqlite_master WHERE type='table' AND name='users'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CREATE TABLE `users`",
+    "PRIMARY KEY (`id`)"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_apply.py:619"
+  },
+  {
+   "test": "test_apply_with_exclude_flag",
+   "argv": [
+    "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "users"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_apply.py:676"
+  },
+  {
+   "test": "test_clean_nonexistent_database",
+   "argv": [
+    "schema",
+    "clean",
+    "-u",
+    "sqlite:///nonexistent/path/db.db",
+    "--auto-approve"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error: sqlite: querying schemas",
+    "unable to open database file: no such file or directory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_diff.py:363"
+  },
+  {
+   "test": "test_apply_missing_url_flag",
+   "argv": [
+    "schema",
+    "apply",
+    "--to",
+    "file://schema.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "required flag(s) \"url\" not set"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_errors.py:9"
+  },
+  {
+   "test": "test_apply_missing_to_flag",
+   "argv": [
+    "schema",
+    "apply",
+    "-u",
+    "sqlite://test.db"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "one of flag(s) \"file\" or \"to\" is required"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_errors.py:17"
+  },
+  {
+   "test": "test_apply_invalid_tx_mode",
+   "argv": [
+    "schema",
+    "apply",
+    "-u",
+    "sqlite://test.db",
+    "--to",
+    "file://schema.hcl",
+    "--tx-mode",
+    "invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unknown tx-mode \"invalid\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_errors.py:25"
+  },
+  {
+   "test": "test_apply_invalid_database_driver",
+   "argv": [
+    "schema",
+    "apply",
+    "-u",
+    "invalid://url",
+    "--to",
+    "file:///tmp/test.hcl",
+    "--auto-approve"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unknown driver \"invalid\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_errors.py:36"
+  },
+  {
+   "test": "test_apply_malformed_database_url",
+   "argv": [
+    "schema",
+    "apply",
+    "-u",
+    "sqlite:",
+    "--to",
+    "file:///tmp/test.hcl",
+    "--auto-approve"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "missing scheme. See: https://atlasgo.io/url"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_errors.py:47"
+  },
+  {
+   "test": "test_inspect_missing_url_flag",
+   "argv": [
+    "schema",
+    "inspect"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "required flag(s) \"url\" not set"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_errors.py:58"
+  },
+  {
+   "test": "test_diff_missing_required_flags",
+   "argv": [
+    "schema",
+    "diff"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "required flag(s) \"from\", \"to\" not set"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_errors.py:66"
+  },
+  {
+   "test": "test_clean_missing_url_flag",
+   "argv": [
+    "schema",
+    "clean"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "required flag(s) \"url\" not set"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_errors.py:74"
+  },
+  {
+   "test": "test_fmt_nonexistent_directory",
+   "argv": [
+    "schema",
+    "fmt",
+    "/tmp/nonexistent_dir_12345"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "no such file or directory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_errors.py:82"
+  },
+  {
+   "test": "test_inspect_invalid_port_number",
+   "argv": [
+    "schema",
+    "inspect",
+    "-u",
+    "mysql://localhost:99999/db"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "dial tcp: address 99999: invalid port"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_errors.py:90"
+  },
+  {
+   "test": "test_inspect_invalid_format_template_field",
+   "argv": [
+    "schema",
+    "inspect",
+    "-u",
+    "sqlite:///tmp/test.db",
+    "--format",
+    "{{ .InvalidField }}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "can't evaluate field InvalidField"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_errors.py:98"
+  },
+  {
+   "test": "test_inspect_malformed_format_template_syntax",
+   "argv": [
+    "schema",
+    "inspect",
+    "-u",
+    "sqlite:///tmp/test.db",
+    "--format",
+    "{{ .URL"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unclosed action"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_errors.py:109"
+  },
+  {
+   "test": "test_fmt_single_file_formats_correctly",
+   "argv": [
+    "schema",
+    "fmt",
+    "unformatted.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "unformatted.hcl": "schema \"main\" {\n    name = \"main\"\n}\ntable \"users\" {\n    schema = schema.main\n    column \"id\" { type = int }\n}"
+   },
+   "ci": false,
+   "source": "test_schema_errors.py:161"
+  },
+  {
+   "test": "test_idempotent_formatting",
+   "argv": [
+    "schema",
+    "fmt",
+    "test.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "test.hcl": "table \"users\" {schema=schema.public}"
+   },
+   "ci": false,
+   "source": "test_schema_fmt.py:99"
+  },
+  {
+   "test": "test_format_multiple_files_via_args",
+   "argv": [
+    "schema",
+    "fmt",
+    "file1.hcl",
+    "file2.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "file1.hcl": "table \"a\" {schema=schema.public}",
+    "file2.hcl": "table \"b\" {schema=schema.public}"
+   },
+   "ci": false,
+   "source": "test_schema_fmt.py:121"
+  },
+  {
+   "test": "test_complex_nested_structures_formatting",
+   "argv": [
+    "schema",
+    "fmt",
+    "complex.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "schema \"public\" { comment = \"public schema\" }",
+    "table \"users\"",
+    "  schema = schema.public",
+    "  column \"id\" { type = int null = false }",
+    "  column \"tags\" { type = list(varchar(50)) }",
+    "  primary_key { columns = [column.id] }",
+    "  index \"idx_tags\" { columns = [column.tags] }"
+   ],
+   "files": {
+    "complex.hcl": "schema \"public\" {comment=\"public schema\"}\ntable \"users\" {\nschema=schema.public\ncolumn \"id\" {type=int null=false}\ncolumn \"tags\" {type=list(varchar(50))}\nprimary_key {columns=[column.id]}\nindex \"idx_tags\" {columns=[column.tags]}\n}"
+   },
+   "ci": false,
+   "source": "test_schema_fmt.py:172"
+  },
+  {
+   "test": "test_multiple_tables_with_relationships",
+   "argv": [
+    "schema",
+    "fmt",
+    "relationships.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "table \"users\"",
+    "table \"posts\"",
+    "foreign_key \"fk_user\"",
+    "ref_columns = [table.users.column.id]"
+   ],
+   "files": {
+    "relationships.hcl": "table \"users\" {schema=schema.public\ncolumn \"id\" {type=int}\n}\ntable \"posts\" {schema=schema.public\ncolumn \"id\" {type=int}\ncolumn \"user_id\" {type=int}\nforeign_key \"fk_user\" {columns=[column.user_id] ref_columns=[table.users.column.id]}\n}"
+   },
+   "ci": false,
+   "source": "test_schema_fmt.py:200"
+  },
+  {
+   "test": "test_whitespace_only_file",
+   "argv": [
+    "schema",
+    "fmt",
+    "whitespace.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "whitespace.hcl": "   \n\t\n  \n"
+   },
+   "ci": false,
+   "source": "test_schema_fmt.py:223"
+  },
+  {
+   "test": "test_file_with_trailing_newlines_preserved",
+   "argv": [
+    "schema",
+    "fmt",
+    "newlines.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "newlines.hcl": "table \"test\" {schema=schema.public}\n"
+   },
+   "ci": false,
+   "source": "test_schema_fmt.py:238"
+  },
+  {
+   "test": "test_unicode_content_in_strings",
+   "argv": [
+    "schema",
+    "fmt",
+    "unicode.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "用户",
+    "émojis",
+    "🚀"
+   ],
+   "files": {
+    "unicode.hcl": "table \"用户\" {schema=schema.public comment=\"用户表 with émojis 🚀\"}"
+   },
+   "ci": false,
+   "source": "test_schema_fmt.py:252"
+  },
+  {
+   "test": "test_mixed_quote_styles_normalized",
+   "argv": [
+    "schema",
+    "fmt",
+    "quotes.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "column"
+   ],
+   "files": {
+    "quotes.hcl": "table \"users\" {schema=schema.public\ncolumn 'id' {type=int}\ncolumn \"name\" {type=varchar(50)}\n}"
+   },
+   "ci": false,
+   "source": "test_schema_fmt.py:285"
+  },
+  {
+   "test": "test_permission_preserved_after_formatting",
+   "argv": [
+    "schema",
+    "fmt",
+    "perms.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "perms.hcl": "table \"test\" {schema=schema.public}"
+   },
+   "ci": false,
+   "source": "test_schema_fmt.py:323"
+  },
+  {
+   "test": "test_read_only_file_formatting",
+   "argv": [
+    "schema",
+    "fmt",
+    "readonly.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "schema = schema.public"
+   ],
+   "files": {
+    "readonly.hcl": "table \"test\" {schema=schema.public}"
+   },
+   "ci": false,
+   "source": "test_schema_fmt.py:388"
+  },
+  {
+   "test": "test_non_hcl_extension_file_ignored_by_path",
+   "argv": [
+    "schema",
+    "fmt",
+    "schema.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "schema.txt": "table \"test\" {schema=schema.public}"
+   },
+   "ci": false,
+   "source": "test_schema_fmt.py:429"
+  },
+  {
+   "test": "test_attribute_spacing_normalization",
+   "argv": [
+    "schema",
+    "fmt",
+    "spacing.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "schema = schema.public",
+    "type = int",
+    "type = varchar(50)",
+    "type = text"
+   ],
+   "files": {
+    "spacing.hcl": "table \"test\" {\nschema   =   schema.public\ncolumn \"a\" {type=int}\ncolumn \"b\" {type =varchar(50)}\ncolumn \"c\" { type= text }\n}"
+   },
+   "ci": false,
+   "source": "test_schema_fmt.py:485"
+  },
+  {
+   "test": "test_block_label_formatting",
+   "argv": [
+    "schema",
+    "fmt",
+    "labels.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "table \"no_space\"",
+    "table \"extra_spaces\""
+   ],
+   "files": {
+    "labels.hcl": "table\"no_space\"{schema=schema.public}\ntable  \"extra_spaces\"  {schema=schema.public}"
+   },
+   "ci": false,
+   "source": "test_schema_fmt.py:507"
+  },
+  {
+   "test": "test_file_with_bom_utf8",
+   "argv": [
+    "schema",
+    "fmt",
+    "bom.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "schema = schema.public"
+   ],
+   "files": {
+    "bom.hcl": "﻿table \"test\" {schema=schema.public}"
+   },
+   "ci": false,
+   "source": "test_schema_fmt.py:559"
+  },
+  {
+   "test": "test_format_with_heredoc_strings",
+   "argv": [
+    "schema",
+    "fmt",
+    "heredoc.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<<-EOT",
+    "This is a multi-line",
+    "string with indentation",
+    "EOT"
+   ],
+   "files": {
+    "heredoc.hcl": "table \"test\" {\nschema=schema.public\ncolumn \"description\" {\ntype=text\ndefault=<<-EOT\n  This is a multi-line\n  string with indentation\nEOT\n}\n}"
+   },
+   "ci": false,
+   "source": "test_schema_fmt.py:576"
+  },
+  {
+   "test": "test_file_ending_without_newline_formatting",
+   "argv": [
+    "schema",
+    "fmt",
+    "no_newline.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "no_newline.hcl": "table \"test\" {schema=schema.public}"
+   },
+   "ci": false,
+   "source": "test_schema_fmt.py:602"
+  },
+  {
+   "test": "test_consecutive_empty_lines_preserved",
+   "argv": [
+    "schema",
+    "fmt",
+    "blanks.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\n\n\n\n",
+    "table \"a\"",
+    "table \"b\""
+   ],
+   "files": {
+    "blanks.hcl": "table \"a\" {\n  schema = schema.public\n}\n\n\n\ntable \"b\" {\n  schema = schema.public\n}"
+   },
+   "ci": false,
+   "source": "test_schema_fmt.py:617"
+  },
+  {
+   "test": "test_special_characters_in_filename",
+   "argv": [
+    "schema",
+    "fmt",
+    "my schema (v2).hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "my schema (v2).hcl"
+   ],
+   "files": {
+    "my schema (v2).hcl": "table \"test\" {schema=schema.public}"
+   },
+   "ci": false,
+   "source": "test_schema_fmt.py:641"
+  },
+  {
+   "test": "test_format_preserves_block_order",
+   "argv": [
+    "schema",
+    "fmt",
+    "order.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "order.hcl": "table \"zebra\" {schema=schema.public}\ntable \"apple\" {schema=schema.public}\ntable \"middle\" {schema=schema.public}"
+   },
+   "ci": false,
+   "source": "test_schema_fmt.py:653"
+  },
+  {
+   "test": "test_inline_vs_multiline_block_formatting",
+   "argv": [
+    "schema",
+    "fmt",
+    "blocks.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "blocks.hcl": "table \"single\" {schema=schema.public}\ntable \"multi\" {\n  schema = schema.public\n  comment = \"has comment\"\n}"
+   },
+   "ci": false,
+   "source": "test_schema_fmt.py:672"
+  },
+  {
+   "test": "test_error_on_directory_that_is_a_file",
+   "argv": [
+    "schema",
+    "fmt",
+    "file.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "file.hcl": "table \"test\" {schema=schema.public}"
+   },
+   "ci": false,
+   "source": "test_schema_fmt.py:728"
+  },
+  {
+   "test": "test_schema_clean_realm_level_no_schema_param",
+   "argv": [
+    "\n        CREATE TABLE users (\n            id INTEGER PRIMARY KEY,\n            name TEXT NOT NULL\n        )\n    "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "users",
+    "posts"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_gaps.py:11"
+  },
+  {
+   "test": "test_schema_clean_schema_level_with_schema_param",
+   "argv": [
+    "\n        CREATE TABLE products (\n            id INTEGER PRIMARY KEY,\n            name TEXT NOT NULL,\n            price REAL\n        )\n    "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "products"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_gaps.py:60"
+  },
+  {
+   "test": "test_apply_with_txmode_file",
+   "argv": [
+    "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "accounts",
+    "transactions"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_gaps.py:126"
+  },
+  {
+   "test": "test_schema_clean_realm_diff_error_handling",
+   "argv": [
+    "CREATE TABLE test (id INTEGER PRIMARY KEY)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_gaps.py:572"
+  },
+  {
+   "test": "test_apply_with_exclude_patterns",
+   "argv": [
+    "SELECT name FROM sqlite_master WHERE type='table'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "users"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_gaps.py:608"
+  },
+  {
+   "test": "test_schema_clean_with_format_flag_unsupported_community_edition",
+   "argv": [
+    "CREATE TABLE test (id INTEGER PRIMARY KEY)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "is not supported by the community version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_gaps.py:746"
+  },
+  {
+   "test": "test_apply_txmode_none_no_transaction",
+   "argv": [
+    "SELECT name FROM sqlite_master WHERE type='table'"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "CREATE TABLE `events`",
+    "`id` integer NOT NULL",
+    "events"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_gaps.py:791"
+  },
+  {
+   "test": "test_inspect_single_table_with_indexes",
+   "argv": [
+    "\n        CREATE TABLE users (\n            id INTEGER PRIMARY KEY,\n            name TEXT NOT NULL,\n            email TEXT UNIQUE,\n            age INTEGER,\n            created_at DATETIME DEFAULT CURRENT_TIMESTAMP\n        )\n    "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_inspect.py:23"
+  },
+  {
+   "test": "test_inspect_various_data_types",
+   "argv": [
+    "\n        CREATE TABLE data_types_test (\n            id INTEGER PRIMARY KEY,\n            text_col TEXT,\n            int_col INTEGER,\n            real_col REAL,\n            blob_col BLOB,\n            null_col TEXT,\n            bool_col BOOLEAN,\n            date_col DATE,\n            time_col TIME,\n            datetime_col DATETIME,\n            varchar_col VARCHAR(255),\n            char_col CHAR(10),\n            decimal_col DECIMAL(10,2)\n        )\n    "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_inspect.py:110"
+  },
+  {
+   "test": "test_inspect_missing_url_flag",
+   "argv": [
+    "schema",
+    "inspect"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Error: required flag(s) \"url\" not set"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_inspect.py:144"
+  },
+  {
+   "test": "test_inspect_invalid_database_driver",
+   "argv": [
+    "schema",
+    "inspect",
+    "-u",
+    "invalid://url"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "sql/sqlclient: unknown driver \"invalid\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_inspect.py:154"
+  },
+  {
+   "test": "test_inspect_exclude_single_table",
+   "argv": [
+    "CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_inspect.py:164"
+  },
+  {
+   "test": "test_inspect_autoincrement_and_defaults",
+   "argv": [
+    "\n        CREATE TABLE orders (\n            id INTEGER PRIMARY KEY AUTOINCREMENT,\n            customer_name TEXT NOT NULL,\n            order_date DATE DEFAULT (date('now')),\n            total REAL CHECK(total > 0),\n            status TEXT DEFAULT 'pending'\n        )\n    "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_inspect.py:200"
+  },
+  {
+   "test": "test_inspect_composite_primary_key",
+   "argv": [
+    "\n        CREATE TABLE user_roles (\n            user_id INTEGER,\n            role_id INTEGER,\n            assigned_at DATETIME,\n            PRIMARY KEY (user_id, role_id)\n        )\n    "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "table \"user_roles\"",
+    "primary_key {",
+    "columns = [column.user_id, column.role_id]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_inspect.py:225"
+  },
+  {
+   "test": "test_inspect_unique_constraints",
+   "argv": [
+    "\n        CREATE TABLE accounts (\n            id INTEGER PRIMARY KEY,\n            username TEXT UNIQUE,\n            email TEXT UNIQUE\n        )\n    "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unique  = true"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_inspect.py:253"
+  },
+  {
+   "test": "test_inspect_multiple_indexes_on_same_table",
+   "argv": [
+    "\n        CREATE TABLE articles (\n            id INTEGER PRIMARY KEY,\n            title TEXT,\n            author TEXT,\n            published_date DATE,\n            category TEXT\n        )\n    "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "index \"idx_author\"",
+    "index \"idx_date\"",
+    "index \"idx_category\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_inspect.py:279"
+  },
+  {
+   "test": "test_inspect_composite_index",
+   "argv": [
+    "\n        CREATE TABLE events (\n            id INTEGER PRIMARY KEY,\n            user_id INTEGER,\n            event_type TEXT,\n            timestamp DATETIME\n        )\n    "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "index \"idx_user_time\"",
+    "columns = [column.user_id, column.timestamp]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_inspect.py:314"
+  },
+  {
+   "test": "test_inspect_null_and_not_null_columns",
+   "argv": [
+    "\n        CREATE TABLE contacts (\n            id INTEGER PRIMARY KEY,\n            required_field TEXT NOT NULL,\n            optional_field TEXT,\n            also_required INTEGER NOT NULL\n        )\n    "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_inspect.py:341"
+  },
+  {
+   "test": "test_inspect_special_table_names",
+   "argv": [
+    "CREATE TABLE \"user-data\" (id INTEGER PRIMARY KEY)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_inspect.py:379"
+  },
+  {
+   "test": "test_inspect_reserved_keywords_as_identifiers",
+   "argv": [
+    "CREATE TABLE \"select\" (id INTEGER PRIMARY KEY, \"where\" TEXT, \"order\" INTEGER)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_inspect.py:397"
+  },
+  {
+   "test": "test_inspect_no_primary_key",
+   "argv": [
+    "CREATE TABLE logs (timestamp DATETIME, message TEXT, level TEXT)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "table \"logs\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_inspect.py:487"
+  },
+  {
+   "test": "test_inspect_complex_check_constraints",
+   "argv": [
+    "\n        CREATE TABLE products (\n            id INTEGER PRIMARY KEY,\n            price REAL CHECK(price > 0 AND price < 10000),\n            discount REAL CHECK(discount >= 0 AND discount <= 1),\n            quantity INTEGER CHECK(quantity >= 0)\n        )\n    "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "expr = "
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_inspect.py:519"
+  },
+  {
+   "test": "test_inspect_empty_string_default",
+   "argv": [
+    "\n        CREATE TABLE settings (\n            id INTEGER PRIMARY KEY,\n            key TEXT NOT NULL,\n            value TEXT DEFAULT ''\n        )\n    "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "default = \"\""
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_inspect.py:546"
+  },
+  {
+   "test": "test_inspect_numeric_default_values",
+   "argv": [
+    "\n        CREATE TABLE config (\n            id INTEGER PRIMARY KEY,\n            timeout INTEGER DEFAULT 30,\n            threshold REAL DEFAULT 0.75,\n            max_retries INTEGER DEFAULT 3\n        )\n    "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "default = 30",
+    "default = 3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_inspect.py:570"
+  },
+  {
+   "test": "test_inspect_blob_type_column",
+   "argv": [
+    "\n        CREATE TABLE files (\n            id INTEGER PRIMARY KEY,\n            filename TEXT NOT NULL,\n            content BLOB NOT NULL,\n            size INTEGER\n        )\n    "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_inspect.py:599"
+  },
+  {
+   "test": "test_inspect_multiple_exclude_patterns",
+   "argv": [
+    "CREATE TABLE users (id INTEGER PRIMARY KEY)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_inspect.py:622"
+  },
+  {
+   "test": "test_inspect_relative_path_url",
+   "argv": [
+    "CREATE TABLE items (id INTEGER PRIMARY KEY, value TEXT)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_inspect.py:713"
+  },
+  {
+   "test": "test_inspect_table_ordering",
+   "argv": [
+    "CREATE TABLE zebra (id INTEGER PRIMARY KEY)"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_inspect.py:736"
+  },
+  {
+   "test": "test_inspect_all_column_attributes_present",
+   "argv": [
+    "\n        CREATE TABLE full_spec (\n            id INTEGER PRIMARY KEY,\n            required TEXT NOT NULL,\n            optional TEXT,\n            with_default INTEGER DEFAULT 42\n        )\n    "
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_inspect.py:758"
+  },
+  {
+   "test": "test_help",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "atlas",
+    "Available Commands"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_smoke.py:13"
+  },
+  {
+   "test": "test_getenv_in_config_file",
+   "argv": [
+    "schema",
+    "inspect",
+    "--config",
+    "--env",
+    "test"
+   ],
+   "stdin": null,
+   "env": {
+    "ATLAS_TEST_VAR": "test_value"
+   },
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:105"
+  },
+  {
+   "test": "test_default_config_file_location",
+   "argv": [
+    "schema",
+    "inspect",
+    "--config",
+    "--env",
+    "dev"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:155"
+  },
+  {
+   "test": "test_custom_config_file_via_flag",
+   "argv": [
+    "schema",
+    "inspect",
+    "--config",
+    "--env",
+    "custom"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:173"
+  },
+  {
+   "test": "test_config_with_variables_override",
+   "argv": [
+    "schema",
+    "inspect",
+    "--config",
+    "--env",
+    "test",
+    "--var",
+    "db_name=custom.db"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:303"
+  },
+  {
+   "test": "test_config_with_locals",
+   "argv": [
+    "schema",
+    "inspect",
+    "--config",
+    "--env",
+    "local"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:328"
+  },
+  {
+   "test": "test_help_without_config",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "schema"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_config_env.py:477"
+  },
+  {
+   "test": "test_multiple_var_flags",
+   "argv": [
+    "schema",
+    "inspect",
+    "--config",
+    "--env",
+    "test",
+    "--var",
+    "var1=value1",
+    "--var",
+    "var2=value2"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:543"
+  },
+  {
+   "test": "test_completion_nested_subcommands_help",
+   "argv": [
+    "completion",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:103"
+  },
+  {
+   "test": "test_main_help_output",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Available Commands:",
+    "migrate",
+    "schema"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:113"
+  },
+  {
+   "test": "test_migrate_help_shows_nested_commands",
+   "argv": [
+    "migrate",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Available Commands:",
+    "apply",
+    "status",
+    "diff"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:129"
+  },
+  {
+   "test": "test_schema_help_shows_nested_commands",
+   "argv": [
+    "schema",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Available Commands:",
+    "apply",
+    "inspect",
+    "diff"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:138"
+  },
+  {
+   "test": "test_nested_subcommand_help_shows_specific_flags",
+   "argv": [
+    "migrate",
+    "apply",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--dir"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:147"
+  },
+  {
+   "test": "test_unknown_nested_migrate_subcommand_shows_help",
+   "argv": [
+    "migrate",
+    "nonexistent"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Available Commands:",
+    "migrate"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:165"
+  },
+  {
+   "test": "test_unknown_nested_schema_subcommand_shows_help",
+   "argv": [
+    "schema",
+    "nonexistent"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Available Commands:",
+    "schema"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:173"
+  },
+  {
+   "test": "test_migrate_no_nested_subcommand",
+   "argv": [
+    "migrate"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Available Commands:",
+    "apply"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:202"
+  },
+  {
+   "test": "test_schema_no_nested_subcommand",
+   "argv": [
+    "schema"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Available Commands:",
+    "inspect"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:209"
+  },
+  {
+   "test": "test_help_subcommand_shows_help",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:267"
+  },
+  {
+   "test": "test_help_with_subcommand_name",
+   "argv": [
+    "help",
+    "migrate"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "migrate"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:273"
+  },
+  {
+   "test": "test_multiple_help_flags",
+   "argv": [
+    "--help",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:318"
+  },
+  {
+   "test": "test_help_alias_with_question_mark",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:367"
+  },
+  {
+   "test": "test_help_before_subcommand",
+   "argv": [
+    "--help",
+    "migrate"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:381"
+  },
+  {
+   "test": "test_help_after_subcommand",
+   "argv": [
+    "migrate",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "migrate"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:389"
+  },
+  {
+   "test": "test_migrate_help_consistent_across_invocations",
+   "argv": [
+    "migrate",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "migrate",
+    "migrate",
+    "migrate"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:442"
+  },
+  {
+   "test": "test_schema_help_consistent_across_invocations",
+   "argv": [
+    "schema",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "schema",
+    "schema",
+    "schema"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:456"
+  },
+  {
+   "test": "test_completion_shows_help_without_shell",
+   "argv": [
+    "completion"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Available Commands:",
+    "bash"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:526"
+  },
+  {
+   "test": "test_completion_shell_generates_output",
+   "argv": [
+    "completion"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:534"
+  },
+  {
+   "test": "test_help_with_no_args",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Available Commands:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:544"
+  },
+  {
+   "test": "test_help_with_migrate",
+   "argv": [
+    "help",
+    "migrate"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "migrate",
+    "apply"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:550"
+  },
+  {
+   "test": "test_help_with_schema",
+   "argv": [
+    "help",
+    "schema"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "schema",
+    "inspect"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:557"
+  },
+  {
+   "test": "test_help_with_nested_subcommand",
+   "argv": [
+    "help",
+    "migrate",
+    "apply"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:564"
+  },
+  {
+   "test": "test_flags_before_and_after_subcommand",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "migrate"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_subcommand_dispatch.py:629"
+  },
+  {
+   "test": "test_ext_migrate_status_reports_current_and_next",
+   "argv": [
+    "migrate",
+    "status",
+    "--url",
+    "sqlite://file?mode=memory&_fk=1",
+    "--dir",
+    "--format",
+    "{{ json . }}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_status.py:23"
+  },
+  {
+   "test": "test_completion_shells",
+   "argv": [
+    "completion"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bash",
+    "zsh",
+    "fish"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_completion.py:6"
+  },
+  {
+   "test": "test_completion_help",
+   "argv": [
+    "completion",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "completion",
+    "bash",
+    "zsh"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_completion.py:20"
+  },
+  {
+   "test": "test_completion_bash_help",
+   "argv": [
+    "completion",
+    "bash",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bash"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_completion.py:29"
+  },
+  {
+   "test": "test_fmt_modifies_file_in_place",
+   "argv": [
+    "schema",
+    "fmt",
+    "test.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "table",
+    "column"
+   ],
+   "files": {
+    "test.hcl": "table   \"t\"   { column \"id\" { type = int } }"
+   },
+   "ci": false,
+   "source": "test_file_operations.py:18"
+  },
+  {
+   "test": "test_schema_help",
+   "argv": [
+    "schema",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "schema",
+    "Available Commands"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_commands.py:5"
+  },
+  {
+   "test": "test_migrate_help",
+   "argv": [
+    "migrate",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "migrate",
+    "Available Commands"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_commands.py:13"
+  },
+  {
+   "test": "test_help_for_subcommand",
+   "argv": [
+    "help",
+    "version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "version"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_commands.py:21"
+  },
+  {
+   "test": "test_help_for_nested_subcommand",
+   "argv": [
+    "help",
+    "schema",
+    "fmt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "fmt"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_commands.py:28"
+  },
+  {
+   "test": "test_migrate_hash_help",
+   "argv": [
+    "migrate",
+    "hash",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "hash"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_migrate_hash.py:6"
+  },
+  {
+   "test": "test_migrate_hash_basic",
+   "argv": [
+    "migrate",
+    "new",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "h1:",
+    "test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_hash.py:13"
+  },
+  {
+   "test": "test_migrate_hash_after_manual_edit",
+   "argv": [
+    "migrate",
+    "new",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "h1:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_hash.py:30"
+  },
+  {
+   "test": "test_migrate_hash_custom_dir",
+   "argv": [
+    "migrate",
+    "new",
+    "test",
+    "--dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_hash.py:58"
+  },
+  {
+   "test": "test_migrate_new_help",
+   "argv": [
+    "migrate",
+    "new",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "new"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_migrate_new.py:6"
+  },
+  {
+   "test": "test_migrate_new_basic",
+   "argv": [
+    "migrate",
+    "new",
+    "create_users"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "create_users"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_new.py:13"
+  },
+  {
+   "test": "test_migrate_new_multiple_migrations",
+   "argv": [
+    "migrate",
+    "new",
+    "create_users"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "create_users",
+    "create_posts"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_new.py:33"
+  },
+  {
+   "test": "test_migrate_new_custom_dir",
+   "argv": [
+    "migrate",
+    "new",
+    "create_users",
+    "--dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_new.py:53"
+  },
+  {
+   "test": "test_migrate_new_name_with_spaces",
+   "argv": [
+    "migrate",
+    "new",
+    "create users table"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "users"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_migrate_new.py:63"
+  },
+  {
+   "test": "test_migrate_validate_help",
+   "argv": [
+    "migrate",
+    "validate",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "validate"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_migrate_validate.py:6"
+  },
+  {
+   "test": "test_migrate_validate_after_manual_edit",
+   "argv": [
+    "migrate",
+    "new",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_migrate_validate.py:23"
+  },
+  {
+   "test": "test_successful_fmt_outputs_filenames",
+   "argv": [
+    "schema",
+    "fmt",
+    "test.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test.hcl"
+   ],
+   "files": {
+    "test.hcl": "table   \"t\"   { column \"id\" { type = int } }"
+   },
+   "ci": false,
+   "source": "test_output_streams.py:51"
+  },
+  {
+   "test": "test_schema_fmt_single_file",
+   "argv": [
+    "schema",
+    "fmt",
+    "test.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test.hcl",
+    "schema \"test\"",
+    "table \"users\""
+   ],
+   "files": {
+    "test.hcl": "schema   \"test\"   {\n  charset =    \"utf8mb4\"\n}\ntable   \"users\"   {\n  schema = schema.test\n  column   \"id\"   {\n    type = int\n  }\n}\n"
+   },
+   "ci": false,
+   "source": "test_schema_fmt.py:13"
+  },
+  {
+   "test": "test_schema_fmt_multiple_files",
+   "argv": [
+    "schema",
+    "fmt",
+    "a.hcl",
+    "b.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a.hcl",
+    "b.hcl",
+    "table \"a\"",
+    "table \"b\""
+   ],
+   "files": {
+    "a.hcl": "table   \"a\"   { column \"id\" { type = int } }",
+    "b.hcl": "table   \"b\"   { column \"id\" { type = int } }"
+   },
+   "ci": false,
+   "source": "test_schema_fmt.py:39"
+  },
+  {
+   "test": "test_schema_fmt_nonexistent_file",
+   "argv": [
+    "schema",
+    "fmt",
+    "/nonexistent/file.hcl"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_schema_fmt.py:82"
+  },
+  {
+   "test": "test_version_with_help_flag",
+   "argv": [
+    "version",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "version"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_version.py:12"
+  },
+  {
+   "test": "test_help_command",
+   "argv": [
+    "help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "atlas",
+    "Available Commands"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_version.py:19"
+  },
+  {
+   "test": "test_invalid_command",
+   "argv": [
+    "invalid_command_xyz"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_version.py:43"
+  },
+  {
+   "test": "test_license_command",
+   "argv": [
+    "license"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Apache"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_version.py:49"
+  }
+ ]
+}

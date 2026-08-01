@@ -1,0 +1,1292 @@
+[
+ {
+  "name": "test::test_horizontal_scale_2x::0",
+  "argv": [
+   "-H",
+   "2.0"
+  ],
+  "stdin": "aaaa\nbbbb\ncccc\ndddd",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vertical_scale_half::1",
+  "argv": [
+   "-V",
+   "0.5"
+  ],
+  "stdin": "aaaa\nbbbb\ncccc\ndddd\neeee\nffff\ngggg\nhhhh",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_padding_option::2",
+  "argv": [
+   "--padding",
+   "10"
+  ],
+  "stdin": "ab",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_horizontal_and_vertical_scale::3",
+  "argv": [
+   "-H",
+   "0.5",
+   "-V",
+   "2.0"
+  ],
+  "stdin": "aaaa\nbbbb\ncccc\ndddd\neeee\nffff\ngggg\nhhhh",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_horizontal_scale_very_small::4",
+  "argv": [
+   "-H",
+   "0.1"
+  ],
+  "stdin": "aaaaaaaaaa\nbbbbbbbbbb",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_all_options_combined::5",
+  "argv": [
+   "-H",
+   "5.0",
+   "-V",
+   "5.0",
+   "--padding",
+   "20"
+  ],
+  "stdin": "x",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_tall_file_with_vertical_scaling::6",
+  "argv": [
+   "-V",
+   "0.25"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_horizontal_scale_zero::7",
+  "argv": [
+   "-H",
+   "0.0"
+  ],
+  "stdin": "abc\ndef",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_utf8_encoding::8",
+  "argv": [
+   "--encoding",
+   "utf8"
+  ],
+  "stdin": "hello\nworld",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_horizontal_scale_fractional::9",
+  "argv": [
+   "-H",
+   "1.5"
+  ],
+  "stdin": "aaaa\nbbbb",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vertical_scale_fractional::10",
+  "argv": [
+   "-V",
+   "1.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_padding_with_empty_output::11",
+  "argv": [
+   "--padding",
+   "15"
+  ],
+  "stdin": "",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_stdin_with_padding::12",
+  "argv": [
+   "--padding",
+   "15"
+  ],
+  "stdin": "test\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_line_count::13",
+  "argv": [
+   "--padding",
+   "15"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_horizontal_scale_0_001_produces_empty::14",
+  "argv": [
+   "-H",
+   "0.001"
+  ],
+  "stdin": "test\nline\n",
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vertical_scale_3_0_with_longer_input::15",
+  "argv": [
+   "-V",
+   "3.0"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_baseline_main_help_normalized::16",
+  "argv": [
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_baseline_completion_help_normalized::17",
+  "argv": [
+   "completion",
+   "--help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_version_exact_stdout::18",
+  "argv": [
+   "--version"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_bash_contains_expected_function_name::19",
+  "argv": [
+   "completion",
+   "bash"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_shell_value_has_exit_2_and_clap_error_text::20",
+  "argv": [
+   "completion",
+   "nope"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_file_errors_with_exit_1::21",
+  "argv": [
+   "does-not-exist.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_encoding_value_exit_2_and_suggests_help::22",
+  "argv": [
+   "--encoding",
+   "nope",
+   "anything.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vertical_scale_output_matches_observed_behavior::23",
+  "argv": [
+   "one.txt",
+   "-V",
+   "0.5"
+  ],
+  "stdin": null,
+  "files": {
+   "one.txt": "a\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_input_matches_stdin_for_same_content::24",
+  "argv": [
+   "main.rs"
+  ],
+  "stdin": null,
+  "files": {
+   "main.rs": "fn main() {\n    println!(\"hi\");\n}\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_nonexistent_file_error_to_stderr_exit1::25",
+  "argv": [
+   "definitely-not-a-real-file-12345.rs"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_horizontal_scale_changes_output::26",
+  "argv": [
+   "--horizontal-scale",
+   "1.0",
+   "examples/simple.rs"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encoding_flag_accepts_utf8_lossy_and_utf8::27",
+  "argv": [
+   "--encoding",
+   "utf8-lossy",
+   "examples/simple.rs"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_short_flag::28",
+  "argv": [
+   "-h"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_zsh::29",
+  "argv": [
+   "completion",
+   "zsh"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_fish::30",
+  "argv": [
+   "completion",
+   "fish"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_powershell::31",
+  "argv": [
+   "completion",
+   "powershell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_elvish::32",
+  "argv": [
+   "completion",
+   "elvish"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_invalid_shell::33",
+  "argv": [
+   "completion",
+   "invalid-shell"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_command::34",
+  "argv": [
+   "help"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_help_command::35",
+  "argv": [
+   "help",
+   "completion"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_scale_combination_edge_cases::36",
+  "argv": [
+   "test.txt",
+   "-H",
+   "2.0",
+   "-V",
+   "2.0"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "hello\nworld\ntest\nfile"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encoding_with_bom::37",
+  "argv": [
+   "bom.txt",
+   "--encoding",
+   "utf8-lossy"
+  ],
+  "stdin": null,
+  "files": {
+   "bom.txt": "﻿hello\nworld\ntest\nfile"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lines_with_only_braces::38",
+  "argv": [
+   "braces.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "braces.txt": "{\n}\n[\n]"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lines_ending_at_different_columns::39",
+  "argv": [
+   "varied.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "varied.txt": "a\nab\nabc\nabcd"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encoding_default::40",
+  "argv": [
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "hello\nworld\ntest\nfile"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encoding_utf8_lossy_explicit::41",
+  "argv": [
+   "test.txt",
+   "--encoding",
+   "utf8-lossy"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "hello\nworld\ntest\nfile"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encoding_utf8_explicit::42",
+  "argv": [
+   "test.txt",
+   "--encoding",
+   "utf8"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "hello\nworld\ntest\nfile"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encoding_utf8_lossy_with_invalid_bytes::43",
+  "argv": [
+   "invalid.txt",
+   "--encoding",
+   "utf8-lossy"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.txt": "hello\n��\nworld\ntest"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encoding_utf8_with_invalid_bytes::44",
+  "argv": [
+   "invalid.txt",
+   "--encoding",
+   "utf8"
+  ],
+  "stdin": null,
+  "files": {
+   "invalid.txt": "hello\n��\nworld\ntest"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encoding_case_insensitive_upper::45",
+  "argv": [
+   "test.txt",
+   "--encoding",
+   "UTF8-LOSSY"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "hello\nworld\ntest\nfile"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encoding_case_insensitive_mixed::46",
+  "argv": [
+   "test.txt",
+   "--encoding",
+   "Utf8"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "hello\nworld\ntest\nfile"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_encoding_utf8_with_unicode::47",
+  "argv": [
+   "unicode.txt",
+   "--encoding",
+   "utf8"
+  ],
+  "stdin": null,
+  "files": {
+   "unicode.txt": "hello 世界\némoji 🎉\ntest\nfile"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_horizontal_scale::48",
+  "argv": [
+   "test.txt",
+   "-H",
+   "invalid"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "test\nline\ndata\nhere"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_vertical_scale::49",
+  "argv": [
+   "test.txt",
+   "-V",
+   "not-a-number"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "test\nline\ndata\nhere"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_padding::50",
+  "argv": [
+   "test.txt",
+   "--padding",
+   "abc"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "test\nline\ndata\nhere"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_encoding::51",
+  "argv": [
+   "test.txt",
+   "--encoding",
+   "invalid-encoding"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "test\nline\ndata\nhere"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_missing_file::52",
+  "argv": [
+   "/this/file/does/not/exist.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_invalid_subcommand::53",
+  "argv": [
+   "invalid-subcommand"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_help_for_nonexistent_subcommand::54",
+  "argv": [
+   "help",
+   "nonexistent"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_negative_scale_as_flag_error::55",
+  "argv": [
+   "test.txt",
+   "-H",
+   "-1.0"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "a\nb\nc\nd"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_very_small_scale_values::56",
+  "argv": [
+   "test.txt",
+   "-H",
+   "0.001",
+   "-V",
+   "0.001"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "hello world\ntest\nfile\ndata"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_filename_string::57",
+  "argv": [
+   ""
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_multiple_files_not_supported::58",
+  "argv": [
+   "file1.txt",
+   "file2.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_input::59",
+  "argv": [
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "hello\nworld\nfoo\nbar"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_file_not_found::60",
+  "argv": [
+   "/nonexistent/file/path.txt"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_empty_file::61",
+  "argv": [
+   "empty.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "empty.txt": ""
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_line_file::62",
+  "argv": [
+   "single.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "single.txt": "single line"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_whitespace_only_lines::63",
+  "argv": [
+   "whitespace.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "whitespace.txt": "   \n\t\n  \n\n"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lines_with_varying_indentation::64",
+  "argv": [
+   "indent.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "indent.txt": "no indent\n  two spaces\n    four spaces\n\ttab indent"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unicode_content::65",
+  "argv": [
+   "unicode.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "unicode.txt": "hello 世界\némoji 🎉\ngreek αβγ\n中文"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lossy_with_latin1_bytes::66",
+  "argv": [
+   "latin1.bin",
+   "--encoding",
+   "utf8-lossy"
+  ],
+  "stdin": null,
+  "files": {
+   "latin1.bin": "hello\n���\n world\ntest"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lossy_with_null_bytes::67",
+  "argv": [
+   "nulls.bin",
+   "--encoding",
+   "utf8-lossy"
+  ],
+  "stdin": null,
+  "files": {
+   "nulls.bin": "hello\u0000world\ntest\u0000line\nmore\u0000data\nfinal"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lossy_with_mixed_valid_invalid_utf8::68",
+  "argv": [
+   "mixed.bin",
+   "--encoding",
+   "utf8-lossy"
+  ],
+  "stdin": null,
+  "files": {
+   "mixed.bin": "valid utf8: 中文\ninvalid: ��\nmore valid\nlast line"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lossy_with_truncated_utf8::69",
+  "argv": [
+   "truncated.bin",
+   "--encoding",
+   "utf8-lossy"
+  ],
+  "stdin": null,
+  "files": {
+   "truncated.bin": "hello\n�\nworld\ntest"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_strict_utf8_with_valid_content::70",
+  "argv": [
+   "valid_utf8.txt",
+   "--encoding",
+   "utf8"
+  ],
+  "stdin": null,
+  "files": {
+   "valid_utf8.txt": "Hello 世界\nTest 测试\nMore text\nFinal line"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lossy_with_continuation_bytes::71",
+  "argv": [
+   "continuation.bin",
+   "--encoding",
+   "utf8-lossy"
+  ],
+  "stdin": null,
+  "files": {
+   "continuation.bin": "line1\n���\nline3\nline4"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_lossy_with_overlong_sequences::72",
+  "argv": [
+   "overlong.bin",
+   "--encoding",
+   "utf8-lossy"
+  ],
+  "stdin": null,
+  "files": {
+   "overlong.bin": "hello\n��\nworld\ntest"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_padding_value_10::73",
+  "argv": [
+   "test.txt",
+   "--padding",
+   "10"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "ab\ncd\nef\ngh"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_padding_value_20::74",
+  "argv": [
+   "test.txt",
+   "--padding",
+   "20"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "a\nb\nc\nd"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_padding_value_0::75",
+  "argv": [
+   "test.txt",
+   "--padding",
+   "0"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "hello\nworld\ntest\nfile"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_padding_larger_than_content::76",
+  "argv": [
+   "test.txt",
+   "--padding",
+   "50"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "x\ny\nz\nw"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_padding_with_scaling::77",
+  "argv": [
+   "test.txt",
+   "--padding",
+   "15",
+   "-H",
+   "0.5"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "hello\nworld\ntest\nfile"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_horizontal_scale_half::78",
+  "argv": [
+   "test.txt",
+   "-H",
+   "0.5"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "hello world\ntest line 2\nthird line\nfourth line"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_horizontal_scale_double::79",
+  "argv": [
+   "test.txt",
+   "-H",
+   "2.0"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "hi\nyo\nab\ncd"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_horizontal_scale_long_flag::80",
+  "argv": [
+   "test.txt",
+   "--horizontal-scale",
+   "1.5"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "a\nb\nc\nd"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vertical_scale_default::81",
+  "argv": [
+   "test.txt"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "line1\nline2\nline3\nline4\nline5\nline6\nline7\nline8"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vertical_scale_half::82",
+  "argv": [
+   "-V",
+   "0.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vertical_scale_double::83",
+  "argv": [
+   "test.txt",
+   "-V",
+   "2.0"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "a\nb\nc\nd"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vertical_scale_long_flag::84",
+  "argv": [
+   "test.txt",
+   "--vertical-scale",
+   "0.8"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "1\n2\n3\n4"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_combined_scaling::85",
+  "argv": [
+   "-H",
+   "0.5",
+   "-V",
+   "0.5"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_scale_horizontal::86",
+  "argv": [
+   "test.txt",
+   "-H",
+   "0"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "hello\nworld\ntest\nfile"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_zero_scale_vertical::87",
+  "argv": [
+   "test.txt",
+   "-V",
+   "0"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "hello\nworld\ntest\nfile"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_scale_horizontal::88",
+  "argv": [
+   "test.txt",
+   "-H",
+   "10.0"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "a\nb\nc\nd"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_large_scale_vertical::89",
+  "argv": [
+   "test.txt",
+   "-V",
+   "10.0"
+  ],
+  "stdin": null,
+  "files": {
+   "test.txt": "a\nb\nc\nd"
+  },
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_unknown_subcommand_error_and_exit_code::90",
+  "argv": [
+   "this_subcommand_does_not_exist"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_global_flag_rejected_when_after_subcommand::91",
+  "argv": [
+   "completion",
+   "bash",
+   "--encoding",
+   "utf8"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_completion_requires_shell_argument::92",
+  "argv": [
+   "completion"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_single_dash_is_treated_as_file_and_fails_with_os_error::93",
+  "argv": [
+   "-"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_double_dash_makes_following_token_positional_and_fails_opening_that_filename::94",
+  "argv": [
+   "--",
+   "--horizontal-scale"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_padding_rejects_negative_when_provided_via_equals::95",
+  "argv": [
+   "--padding=-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ },
+ {
+  "name": "test::test_vertical_scale_accepts_negative_when_provided_via_equals::96",
+  "argv": [
+   "--vertical-scale=-1"
+  ],
+  "stdin": null,
+  "files": {},
+  "serve": {},
+  "bin_files": {},
+  "env": {}
+ }
+]

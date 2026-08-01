@@ -1,0 +1,29 @@
+{
+  "schema": "determinex-repair-loop-transcript-v1",
+  "tool": "hyperfine",
+  "family": "rust",
+  "pinned_commit": "f12f3d9",
+  "repair_type": "seeded_defect (behavioral) - verifier is the project's OWN test suite in a rust:latest image (toolchain via provider; Docker-OPTIONAL)",
+  "toolchain": "rust:latest",
+  "oracle": "the real sharkdp/hyperfine repo's own tests: cargo test 2>&1",
+  "defect": {
+    "file": "src/outlier_detection.rs",
+    "seed": "pub const OUTLIER_THRESHOLD: f64 = 1.4826 * 10.0; -> pub const OUTLIER_THRESHOLD: f64 = 99.9 * 10.0;"
+  },
+  "detect": {
+    "baseline": "test result: ok. 39 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.16s",
+    "after_seed": "test suite FAILED (exit 101)",
+    "oracle_caught": true,
+    "failure_signature": "seeded defect made the project's own test suite exit non-zero"
+  },
+  "repair": {
+    "fix": "git checkout (restore upstream source)"
+  },
+  "reverify": {
+    "after": "test result: ok. 39 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.16s",
+    "passed": 39,
+    "failures": 0
+  },
+  "repair_loop_status": "passed",
+  "proves": "closed-loop repair on a real external rust project (hyperfine): its OWN test suite detects the injected defect -> fix -> re-verify (test result: ok. 39 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.16s). Reproducible."
+}

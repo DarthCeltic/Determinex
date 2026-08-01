@@ -1,0 +1,3484 @@
+{
+ "slug": "nikoladucak__caps-log.2cf2d1e",
+ "language": "",
+ "n_branches": 12,
+ "n_tests_total": 1219,
+ "n_examples": 167,
+ "n_with_exact_stdout": 3,
+ "n_with_rc": 146,
+ "n_skipped": 879,
+ "examples": [
+  {
+   "test": "test_encryption_marker_file_content",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "testpass123"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto"
+   ],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:33"
+  },
+  {
+   "test": "test_decrypt_validates_password",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "correctpass"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto",
+    "Applying crypto",
+    "Test content"
+   ],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:61"
+  },
+  {
+   "test": "test_decrypt_multiple_year_dirs",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "pass"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto"
+   ],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_additional_coverage.py:136"
+  },
+  {
+   "test": "test_help_message_complete",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--help",
+    "--config",
+    "--log-dir-path",
+    "--log-name-format",
+    "--sunday-start",
+    "--first-line-section",
+    "--password",
+    "--encrypt",
+    "--decrypt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage_boost.py:227"
+  },
+  {
+   "test": "test_encryption_with_multiple_file_formats",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "testpass"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto"
+   ],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_additional_coverage_boost.py:241"
+  },
+  {
+   "test": "test_decryption_with_multiple_years",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "pass123"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto"
+   ],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_additional_coverage_boost.py:272"
+  },
+  {
+   "test": "test_help_flag_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Captain's Log",
+    "Allowed options:",
+    "--help",
+    "--config",
+    "--log-dir-path",
+    "--log-name-format",
+    "--sunday-start",
+    "--first-line-section",
+    "--password",
+    "--encrypt",
+    "--decrypt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:7"
+  },
+  {
+   "test": "test_help_flag_long",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Captain's Log",
+    "Allowed options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:28"
+  },
+  {
+   "test": "test_help_shows_version",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Version:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:42"
+  },
+  {
+   "test": "test_help_shows_default_config_path",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    ".caps-log/config.ini"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:55"
+  },
+  {
+   "test": "test_unrecognized_option",
+   "argv": [
+    "--nonexistent-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:66"
+  },
+  {
+   "test": "test_invalid_option_format",
+   "argv": [
+    "---triple-dash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:72"
+  },
+  {
+   "test": "test_help_describes_encrypt_option",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--encrypt",
+    "password"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:87"
+  },
+  {
+   "test": "test_help_describes_decrypt_option",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--decrypt",
+    "decrypt"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:100"
+  },
+  {
+   "test": "test_help_describes_log_dir_path",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--log-dir-path",
+    "path",
+    "log"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:112"
+  },
+  {
+   "test": "test_help_describes_log_name_format",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--log-name-format",
+    "format"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:125"
+  },
+  {
+   "test": "test_help_describes_sunday_start",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--sunday-start"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:137"
+  },
+  {
+   "test": "test_help_describes_first_line_section",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--first-line-section"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:149"
+  },
+  {
+   "test": "test_help_describes_config_option",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--config",
+    "config"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:161"
+  },
+  {
+   "test": "test_help_describes_password_option",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--password",
+    "password"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:173"
+  },
+  {
+   "test": "test_help_displays_version_commit",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_behavior.py:7"
+  },
+  {
+   "test": "test_config_with_log_filename_format",
+   "argv": [
+    "--config",
+    "--encrypt",
+    "--password",
+    "pass"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_behavior.py:21"
+  },
+  {
+   "test": "test_encryption_with_very_long_password",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path",
+    "--encrypt",
+    "--password"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto"
+   ],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_comprehensive_behavior.py:104"
+  },
+  {
+   "test": "test_multiple_encryption_cycles",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "pass"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto",
+    "Applying crypto"
+   ],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_comprehensive_behavior.py:163"
+  },
+  {
+   "test": "test_encryption_output_message",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "pass"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\n"
+   ],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_comprehensive_behavior.py:451"
+  },
+  {
+   "test": "test_decryption_output_message",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "pass"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_comprehensive_behavior.py:467"
+  },
+  {
+   "test": "test_config_rgb_with_spaces",
+   "argv": [
+    "--config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "202"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_edge_cases.py:7"
+  },
+  {
+   "test": "test_config_ansi256_edge_values",
+   "argv": [
+    "--config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2026"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_edge_cases.py:85"
+  },
+  {
+   "test": "test_config_all_style_flags",
+   "argv": [
+    "--config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[1m",
+    "\u001b[4m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_edge_cases.py:250"
+  },
+  {
+   "test": "test_config_invalid_hex_no_hash",
+   "argv": [
+    "--config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_config_error_paths.py:59"
+  },
+  {
+   "test": "test_missing_config_file_error",
+   "argv": [
+    "--config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_config_file.py:29"
+  },
+  {
+   "test": "test_config_with_theme_options",
+   "argv": [
+    "--config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[1m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_file.py:179"
+  },
+  {
+   "test": "test_config_with_underlined_style",
+   "argv": [
+    "--config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "\u001b[4m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_parsing.py:273"
+  },
+  {
+   "test": "test_help_shows_all_options",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--help",
+    "--config",
+    "--log-dir-path",
+    "--log-name-format",
+    "--sunday-start",
+    "--first-line-section",
+    "--password",
+    "--encrypt",
+    "--decrypt",
+    "Captain's Log"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost.py:8"
+  },
+  {
+   "test": "test_encrypt_with_short_password",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "a"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto"
+   ],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_coverage_boost.py:71"
+  },
+  {
+   "test": "test_encrypt_with_special_chars_in_password",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "p@ssw0rd!#$%^&*()"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto",
+    "Applying crypto"
+   ],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_coverage_boost.py:104"
+  },
+  {
+   "test": "test_decrypt_with_wrong_password",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "correct"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto"
+   ],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_coverage_boost.py:126"
+  },
+  {
+   "test": "test_decrypt_scratchpad_files",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "pass123"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto",
+    "Scratch 1"
+   ],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_coverage_boost.py:479"
+  },
+  {
+   "test": "test_log_with_complex_tag_formats",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Sections",
+    "Tags"
+   ],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_coverage_target_50pct.py:338"
+  },
+  {
+   "test": "test_decryption_with_scratchpad_files",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "testpass"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto",
+    "Log content",
+    "Scratchpad content"
+   ],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_coverage_target_50pct.py:404"
+  },
+  {
+   "test": "test_sunday_start_with_log_entries",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path",
+    "--sunday-start"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2026"
+   ],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_coverage_target_50pct.py:522"
+  },
+  {
+   "test": "test_log_with_only_tags_no_sections",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Tags"
+   ],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_coverage_target_50pct.py:574"
+  },
+  {
+   "test": "test_log_with_only_sections_no_tags",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Sections"
+   ],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_coverage_target_50pct.py:599"
+  },
+  {
+   "test": "test_multiple_config_theme_combinations",
+   "argv": [
+    "--config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2026",
+    "\u001b[1m"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_target_50pct.py:648"
+  },
+  {
+   "test": "test_encryption_roundtrip_multiple_times",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "pass123"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto",
+    "Applying crypto",
+    "Applying crypto",
+    "Applying crypto"
+   ],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_coverage_target_50pct.py:790"
+  },
+  {
+   "test": "test_decrypt_large_file",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "pass123"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto",
+    "# Work",
+    "* project"
+   ],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_crypto_intensive.py:30"
+  },
+  {
+   "test": "test_encrypt_many_files",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "multipass"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto"
+   ],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_crypto_intensive.py:58"
+  },
+  {
+   "test": "test_encrypt_multiple_years_comprehensive",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "yearpass"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto"
+   ],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_crypto_intensive.py:167"
+  },
+  {
+   "test": "test_decrypt_multiple_years_comprehensive",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "multiyr"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto"
+   ],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_crypto_intensive.py:194"
+  },
+  {
+   "test": "test_encrypt_with_long_password",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path",
+    "--encrypt",
+    "--password"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto",
+    "Secret data"
+   ],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_crypto_intensive.py:223"
+  },
+  {
+   "test": "test_encrypt_with_special_char_password",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "p@ss!w0rd#$%"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto",
+    "Data"
+   ],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_crypto_intensive.py:247"
+  },
+  {
+   "test": "test_encryption_and_decryption_with_scratchpad",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "pass123"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto",
+    "Applying crypto",
+    "Test log entry"
+   ],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_deep_coverage_push.py:119"
+  },
+  {
+   "test": "test_empty_password",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    ""
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:21"
+  },
+  {
+   "test": "test_special_characters_in_log_content",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "日本語",
+    "🎉"
+   ],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:34"
+  },
+  {
+   "test": "test_encrypt_decrypt_roundtrip_preserves_unicode",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "testpass123"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_edge_cases.py:58"
+  },
+  {
+   "test": "test_encrypt_requires_password",
+   "argv": [
+    "--log-dir-path",
+    "--encrypt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_encryption.py:7"
+  },
+  {
+   "test": "test_decrypt_requires_password",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path",
+    "--decrypt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_encryption.py:16"
+  },
+  {
+   "test": "test_encrypt_twice_fails",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "testpass123"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_encryption.py:88"
+  },
+  {
+   "test": "test_decrypt_non_encrypted_fails",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path",
+    "--decrypt",
+    "--password",
+    "testpass123"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_encryption.py:111"
+  },
+  {
+   "test": "test_wrong_password_decrypt",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "correct_password"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_encryption.py:233"
+  },
+  {
+   "test": "test_encryption_with_custom_filename_format",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path",
+    "--log-name-format",
+    "log_%Y_%m_%d.txt",
+    "--encrypt",
+    "--password",
+    "testpass123"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_encryption.py:308"
+  },
+  {
+   "test": "test_encrypt_decrypt_cycle_comprehensive",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "comprehensive_pass"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto",
+    "Applying crypto"
+   ],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_final_coverage_sprint.py:8"
+  },
+  {
+   "test": "test_encryption_with_long_content",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "longpass"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto",
+    "Section 0",
+    "Section 49",
+    "tag-25-10"
+   ],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_final_coverage_sprint.py:61"
+  },
+  {
+   "test": "test_help_contains_version_info",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--help",
+    "--encrypt",
+    "--decrypt",
+    "password"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_final_coverage_sprint.py:103"
+  },
+  {
+   "test": "test_encrypt_single_file_multiple_times",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "pass1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_final_coverage_sprint.py:114"
+  },
+  {
+   "test": "test_encrypt_with_existing_marker_file",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "pass1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto"
+   ],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_massive_coverage_push.py:156"
+  },
+  {
+   "test": "test_help_output_format",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--help",
+    "--config",
+    "--encrypt",
+    "--decrypt",
+    "--password",
+    "--log-dir-path",
+    "--log-name-format",
+    "--sunday-start",
+    "--first-line-section"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_error_paths.py:7"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_more_error_paths.py:28"
+  },
+  {
+   "test": "test_encrypt_with_wrong_password_for_decryption",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "correctpass"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto",
+    "Applying crypto"
+   ],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_more_error_paths.py:70"
+  },
+  {
+   "test": "test_log_dir_path_not_exist",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_more_error_paths.py:188"
+  },
+  {
+   "test": "test_decryption_round_trip_multiple_years",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "mypassword"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto",
+    "Applying crypto"
+   ],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_more_error_paths.py:242"
+  },
+  {
+   "test": "test_encryption_with_special_chars_in_password",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "p@ss!w0rd#$%^&*()"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto",
+    "Applying crypto"
+   ],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_more_error_paths.py:305"
+  },
+  {
+   "test": "test_config_with_password_in_file",
+   "argv": [
+    "--config",
+    "--encrypt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto",
+    "Applying crypto"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_error_paths.py:400"
+  },
+  {
+   "test": "test_command_line_password_overrides_config",
+   "argv": [
+    "--config",
+    "--encrypt",
+    "--password",
+    "cmdlinepass"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto",
+    "Applying crypto"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_more_error_paths.py:425"
+  },
+  {
+   "test": "test_multiple_encrypt_decrypt_cycles",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path",
+    "--encrypt",
+    "--password"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_more_scenarios.py:7"
+  },
+  {
+   "test": "test_encryption_with_non_matching_files",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "testpass"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_more_scenarios.py:35"
+  },
+  {
+   "test": "test_encryption_error_recovery",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "testpass"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_more_scenarios.py:93"
+  },
+  {
+   "test": "test_log_with_special_section_formats",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Section"
+   ],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_more_scenarios.py:289"
+  },
+  {
+   "test": "test_custom_scratchpad_folder_name",
+   "argv": [
+    "--config",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "testpass"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_more_scenarios.py:320"
+  },
+  {
+   "test": "test_tui_displays_calendar",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2026"
+   ],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_tui_basic.py:29"
+  },
+  {
+   "test": "test_tui_first_line_section_flag",
+   "argv": [
+    "--config",
+    "config.ini",
+    "--log-dir-path",
+    "--first-line-section"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Sections"
+   ],
+   "files": {
+    "config.ini": ""
+   },
+   "ci": false,
+   "source": "test_tui_basic.py:249"
+  },
+  {
+   "test": "test_config_with_git_disabled",
+   "argv": [
+    "--config",
+    "--encrypt",
+    "--password",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_paths.py:32"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Captain's Log",
+    "caps-log",
+    "Version:",
+    "Allowed options:",
+    "--help",
+    "--config",
+    "--log-dir-path",
+    "--encrypt",
+    "--decrypt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:5"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Captain's Log",
+    "Allowed options:",
+    "--help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:19"
+  },
+  {
+   "test": "test_unrecognized_option",
+   "argv": [
+    "--nonexistent-option"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error",
+    "unrecognised option"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:27"
+  },
+  {
+   "test": "test_no_args_missing_config",
+   "argv": [
+    "--config",
+    "/nonexistent/path/config.ini"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:34"
+  },
+  {
+   "test": "test_help_message_format",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--config",
+    "--log-dir-path",
+    "--log-name-format",
+    "--sunday-start",
+    "--first-line-section",
+    "--password",
+    "--encrypt",
+    "--decrypt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:41"
+  },
+  {
+   "test": "test_invalid_flag_combination",
+   "argv": [
+    "--invalid-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:56"
+  },
+  {
+   "test": "test_config_empty_values",
+   "argv": [
+    "--config",
+    "--encrypt",
+    "--password",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_additional.py:6"
+  },
+  {
+   "test": "test_config_flag_with_nonexistent_file",
+   "argv": [
+    "--config",
+    "/tmp/nonexistent_config_12345.ini"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_configuration.py:6"
+  },
+  {
+   "test": "test_log_dir_path_flag",
+   "argv": [
+    "--config",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_configuration.py:24"
+  },
+  {
+   "test": "test_log_name_format_flag",
+   "argv": [
+    "--config",
+    "--log-dir-path",
+    "--log-name-format",
+    "%Y_%m_%d.md",
+    "--encrypt",
+    "--password",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_configuration.py:33"
+  },
+  {
+   "test": "test_sunday_start_flag",
+   "argv": [
+    "--config",
+    "--sunday-start",
+    "--encrypt",
+    "--password",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_configuration.py:45"
+  },
+  {
+   "test": "test_first_line_section_flag",
+   "argv": [
+    "--config",
+    "--first-line-section",
+    "--encrypt",
+    "--password",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_configuration.py:54"
+  },
+  {
+   "test": "test_password_flag",
+   "argv": [
+    "--config",
+    "--log-dir-path",
+    "--password",
+    "mypassword",
+    "--encrypt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_configuration.py:63"
+  },
+  {
+   "test": "test_multiple_flags_combination",
+   "argv": [
+    "--config",
+    "--log-dir-path",
+    "--log-name-format",
+    "d%y_%m_%d.md",
+    "--password",
+    "testpass",
+    "--encrypt",
+    "--sunday-start",
+    "--first-line-section"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_configuration.py:74"
+  },
+  {
+   "test": "test_config_file_with_multiple_settings",
+   "argv": [
+    "--config",
+    "--encrypt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_configuration.py:104"
+  },
+  {
+   "test": "test_help_with_config_specified",
+   "argv": [
+    "--config",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Allowed options",
+    "--help",
+    "--config"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost_config.py:6"
+  },
+  {
+   "test": "test_encrypt_with_all_ansi16_colors_in_config",
+   "argv": [
+    "--config",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Allowed options",
+    "--config",
+    "--encrypt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost_config.py:16"
+  },
+  {
+   "test": "test_config_rgba_color_format",
+   "argv": [
+    "--config",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--help",
+    "--config"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost_config.py:160"
+  },
+  {
+   "test": "test_config_hex_color_formats",
+   "argv": [
+    "--config",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Allowed options"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost_config.py:182"
+  },
+  {
+   "test": "test_config_ansi256_various_ranges",
+   "argv": [
+    "--config",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost_config.py:206"
+  },
+  {
+   "test": "test_config_markdown_theme",
+   "argv": [
+    "--config",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--help",
+    "--encrypt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost_config.py:246"
+  },
+  {
+   "test": "test_config_boolean_variations",
+   "argv": [
+    "--config",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Allowed options",
+    "--sunday-start"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost_config.py:286"
+  },
+  {
+   "test": "test_empty_config_file",
+   "argv": [
+    "--config",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Allowed options",
+    "--help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost_errors.py:6"
+  },
+  {
+   "test": "test_config_with_only_comments",
+   "argv": [
+    "--config",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--config"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost_errors.py:15"
+  },
+  {
+   "test": "test_decrypt_empty_directory",
+   "argv": [
+    "--config",
+    "--log-dir-path",
+    "--decrypt",
+    "--password",
+    "test123"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_coverage_boost_errors.py:83"
+  },
+  {
+   "test": "test_password_with_spaces",
+   "argv": [
+    "--config",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "my pass word"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost_errors.py:92"
+  },
+  {
+   "test": "test_encrypt_twice_different_password",
+   "argv": [
+    "--config",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "pass1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto",
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_coverage_boost_errors.py:110"
+  },
+  {
+   "test": "test_decrypt_non_encrypted_fails",
+   "argv": [
+    "--config",
+    "--log-dir-path",
+    "--decrypt",
+    "--password",
+    "anypass"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_coverage_boost_errors.py:128"
+  },
+  {
+   "test": "test_help_overrides_other_flags",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Allowed options",
+    "--help"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost_errors.py:143"
+  },
+  {
+   "test": "test_multiple_encrypt_operations",
+   "argv": [
+    "--config",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "pass1"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto",
+    "Applying crypto",
+    "Applying crypto"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost_errors.py:151"
+  },
+  {
+   "test": "test_read_encrypted_log_with_password",
+   "argv": [
+    "--config",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "mysecret123"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost_logs.py:14"
+  },
+  {
+   "test": "test_encrypted_log_wrong_password_error",
+   "argv": [
+    "--config",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "correct_pass"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost_logs.py:38"
+  },
+  {
+   "test": "test_password_for_non_encrypted_repo_error",
+   "argv": [
+    "--config",
+    "--log-dir-path",
+    "--password",
+    "unnecessary_pass"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_coverage_boost_logs.py:57"
+  },
+  {
+   "test": "test_missing_password_for_encrypted_repo",
+   "argv": [
+    "--config",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "mypass"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto",
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_coverage_boost_logs.py:72"
+  },
+  {
+   "test": "test_decrypt_restores_original_content",
+   "argv": [
+    "--config",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "testpass123"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto",
+    "Applying crypto"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost_logs.py:92"
+  },
+  {
+   "test": "test_encrypt_decrypt_with_special_chars_password",
+   "argv": [
+    "--config",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "p@ssw0rd!#$%^&*()"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto",
+    "Applying crypto"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost_logs.py:120"
+  },
+  {
+   "test": "test_encrypt_multiple_files_same_operation",
+   "argv": [
+    "--config",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "multipass"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost_logs.py:145"
+  },
+  {
+   "test": "test_decrypt_multiple_files",
+   "argv": [
+    "--config",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "pass123"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost_logs.py:169"
+  },
+  {
+   "test": "test_encrypt_with_subdirectories",
+   "argv": [
+    "--config",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "yearspass"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost_logs.py:197"
+  },
+  {
+   "test": "test_password_with_spaces",
+   "argv": [
+    "--config",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "my pass word"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto",
+    "Applying crypto"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost_logs.py:213"
+  },
+  {
+   "test": "test_encrypt_with_binary_like_content",
+   "argv": [
+    "--config",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "bintest"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost_logs.py:238"
+  },
+  {
+   "test": "test_config_with_basic_color_names",
+   "argv": [
+    "--config",
+    "--encrypt",
+    "--password",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_coverage_boost_targeted.py:7"
+  },
+  {
+   "test": "test_help_output_contains_all_flags",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--help",
+    "--config",
+    "--log-dir-path",
+    "--log-name-format",
+    "--sunday-start",
+    "--first-line-section",
+    "--password",
+    "--encrypt",
+    "--decrypt",
+    "Version:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:7"
+  },
+  {
+   "test": "test_encryption_marker_file_content_valid",
+   "argv": [
+    "--config",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:123"
+  },
+  {
+   "test": "test_encryption_respects_custom_log_format",
+   "argv": [
+    "--config",
+    "--log-dir-path",
+    "--log-name-format",
+    "d%y_%m_%d.md",
+    "--encrypt",
+    "--password",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:255"
+  },
+  {
+   "test": "test_combined_flags_log_dir_and_format",
+   "argv": [
+    "--config",
+    "--log-dir-path",
+    "--log-name-format",
+    "d%y_%m_%d.md",
+    "--encrypt",
+    "--password",
+    "secretpass"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:273"
+  },
+  {
+   "test": "test_password_flag_takes_precedence",
+   "argv": [
+    "--config",
+    "--encrypt",
+    "--password",
+    "correctpass"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:285"
+  },
+  {
+   "test": "test_encrypt_without_password_fails",
+   "argv": [
+    "--config",
+    "--log-dir-path",
+    "--encrypt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_encryption.py:13"
+  },
+  {
+   "test": "test_decrypt_without_password_fails",
+   "argv": [
+    "--config",
+    "--log-dir-path",
+    "--decrypt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_encryption.py:22"
+  },
+  {
+   "test": "test_encrypt_creates_marker_file",
+   "argv": [
+    "--config",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "testpass"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encryption.py:30"
+  },
+  {
+   "test": "test_decrypt_removes_marker_file",
+   "argv": [
+    "--config",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "testpass"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto",
+    "Applying crypto"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encryption.py:48"
+  },
+  {
+   "test": "test_encrypt_twice_fails",
+   "argv": [
+    "--config",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "testpass"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto",
+    "error",
+    "already"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_encryption.py:67"
+  },
+  {
+   "test": "test_decrypt_unencrypted_fails",
+   "argv": [
+    "--config",
+    "--log-dir-path",
+    "--decrypt",
+    "--password",
+    "testpass"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error",
+    "already"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_encryption.py:83"
+  },
+  {
+   "test": "test_encrypt_ignores_wrong_format_files",
+   "argv": [
+    "--config",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "testpass"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "README content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encryption.py:133"
+  },
+  {
+   "test": "test_encrypt_with_custom_filename_format",
+   "argv": [
+    "--config",
+    "--log-dir-path",
+    "--log-name-format",
+    "log_%y_%m_%d.txt",
+    "--encrypt",
+    "--password",
+    "testpass"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encryption.py:153"
+  },
+  {
+   "test": "test_decrypt_with_custom_filename_format",
+   "argv": [
+    "--config",
+    "--log-dir-path",
+    "--log-name-format",
+    "log_%y_%m_%d.txt",
+    "--encrypt",
+    "--password",
+    "testpass"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto",
+    "Custom format log",
+    "Some content"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encryption.py:172"
+  },
+  {
+   "test": "test_decrypt_with_wrong_password_no_validation",
+   "argv": [
+    "--config",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "correct"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encryption_errors.py:6"
+  },
+  {
+   "test": "test_encrypt_very_long_password",
+   "argv": [
+    "--config",
+    "--log-dir-path",
+    "--encrypt",
+    "--password"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_encryption_errors.py:105"
+  },
+  {
+   "test": "test_encrypt_password_with_special_chars",
+   "argv": [
+    "--config",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "p@ssw0rd!#$%^&*()"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_encryption_errors.py:119"
+  },
+  {
+   "test": "test_encrypt_actually_changes_content",
+   "argv": [
+    "--config",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "mypass"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encryption_roundtrip.py:37"
+  },
+  {
+   "test": "test_encrypt_multiple_files_preserves_all",
+   "argv": [
+    "--config",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "pass123"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto",
+    "Applying crypto"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encryption_roundtrip.py:52"
+  },
+  {
+   "test": "test_encrypt_binary_content",
+   "argv": [
+    "--config",
+    "--log-dir-path",
+    "--encrypt",
+    "--password",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Applying crypto",
+    "Applying crypto"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encryption_roundtrip.py:95"
+  },
+  {
+   "test": "test_scratchpad_with_encrypted_repo",
+   "argv": [
+    "--config",
+    "--encrypt",
+    "--password",
+    "testpass"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_scratchpad_operations.py:125"
+  },
+  {
+   "test": "test_help_takes_precedence_over_other_flags",
+   "argv": [
+    "--help",
+    "--encrypt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Allowed options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_output.py:112"
+  },
+  {
+   "test": "test_invalid_flag_with_help_prints_error_and_nonzero",
+   "argv": [
+    "--badflag",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unrecognised option"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_help_output.py:119"
+  },
+  {
+   "test": "test_help_has_no_subcommand_listing",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "allowed options"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:18"
+  },
+  {
+   "test": "test_help_to_stdout_exit0",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Allowed options"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_encrypt_decrypt_io.py:21"
+  },
+  {
+   "test": "test_encrypt_requires_password_exit1_and_stderr",
+   "argv": [
+    "--encrypt",
+    "--config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "password"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_encrypt_decrypt_io.py:28"
+  },
+  {
+   "test": "test_encrypt_creates_marker_file_and_prints_banner",
+   "argv": [
+    "--encrypt",
+    "--password",
+    "secret",
+    "--config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Applying crypto...\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_encrypt_decrypt_io.py:37"
+  },
+  {
+   "test": "test_encrypt_then_decrypt_roundtrip_restores_file_bytes",
+   "argv": [
+    "--encrypt",
+    "--password",
+    "secret",
+    "--config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_encrypt_decrypt_io.py:53"
+  },
+  {
+   "test": "test_decrypt_with_wrong_password_still_exit0_but_corrupts_plaintext",
+   "argv": [
+    "--decrypt",
+    "--password",
+    "wrong",
+    "--config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "Applying crypto...\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_encrypt_decrypt_io.py:71"
+  },
+  {
+   "test": "test_git_custom_branch_name",
+   "argv": [
+    "git",
+    "checkout",
+    "-b",
+    "main"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "There are 0 log entries for year 2026"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_git_integration.py:291"
+  },
+  {
+   "test": "test_commit_and_push_on_quit",
+   "argv": [
+    "git",
+    "log",
+    "--oneline"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "caps-log auto push"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_git_operations.py:85"
+  },
+  {
+   "test": "test_no_commit_when_no_changes",
+   "argv": [
+    "git",
+    "rev-list",
+    "--count",
+    "HEAD"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_git_operations.py:136"
+  },
+  {
+   "test": "test_pull_on_startup_fetches_remote_changes",
+   "argv": [
+    "git",
+    "config",
+    "user.email",
+    "test@example.com"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Remote log entry"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_git_operations.py:173"
+  },
+  {
+   "test": "test_commit_message_format",
+   "argv": [
+    "git",
+    "log",
+    "-1",
+    "--pretty=%s"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_git_operations.py:231"
+  },
+  {
+   "test": "test_git_signature_from_repo_config",
+   "argv": [
+    "git",
+    "config",
+    "user.name",
+    "Caps Log Tester"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_git_operations.py:315"
+  },
+  {
+   "test": "test_push_reaches_remote_repository",
+   "argv": [
+    "git",
+    "log",
+    "--oneline"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "caps-log auto push",
+    "Test push to remote"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_git_operations.py:357"
+  },
+  {
+   "test": "test_handles_deleted_files",
+   "argv": [
+    "git",
+    "add",
+    "2026-01-15.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "2026-01-15.md": "# Test log to be deleted\n"
+   },
+   "ci": false,
+   "source": "test_git_operations.py:404"
+  },
+  {
+   "test": "test_untracked_files_are_staged",
+   "argv": [
+    "git",
+    "log",
+    "-1",
+    "--name-only",
+    "--pretty=format:"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "logs/2026-01-20.md"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_git_operations.py:451"
+  },
+  {
+   "test": "test_modified_and_untracked_files_together",
+   "argv": [
+    "git",
+    "add",
+    "2026-01-10.md"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "logs/2026-01-10.md",
+    "logs/2026-01-11.md"
+   ],
+   "files": {
+    "2026-01-10.md": "# Modified content\n"
+   },
+   "ci": false,
+   "source": "test_git_operations.py:485"
+  },
+  {
+   "test": "test_subdirectories_in_log_dir",
+   "argv": [
+    "git",
+    "ls-tree",
+    "-r",
+    "--name-only",
+    "HEAD",
+    "logs/"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "logs/archive/2025/2025-12-31.md"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_git_operations.py:579"
+  },
+  {
+   "test": "test_pull_fast_forward_merge",
+   "argv": [
+    "git",
+    "init"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_git_operations.py:857"
+  },
+  {
+   "test": "test_large_commit_with_many_files",
+   "argv": [
+    "git",
+    "diff-tree",
+    "--no-commit-id",
+    "--name-only",
+    "-r",
+    "HEAD"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_git_operations.py:946"
+  },
+  {
+   "test": "test_file_deletion_tracked_in_commit",
+   "argv": [
+    "git",
+    "add",
+    "."
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "logs/2026-01-21.md"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_git_operations.py:987"
+  }
+ ]
+}

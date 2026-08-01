@@ -1,0 +1,2379 @@
+{
+ "slug": "yaa110__nomino.f892499",
+ "language": "",
+ "n_branches": 7,
+ "n_tests_total": 324,
+ "n_examples": 120,
+ "n_with_exact_stdout": 3,
+ "n_with_rc": 111,
+ "n_skipped": 197,
+ "examples": [
+  {
+   "test": "test_empty_args_requires_mode",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "one of 'regex', 'sort', 'map' or 'SOURCE'",
+    "usage:"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_argparse_validation.py:35"
+  },
+  {
+   "test": "test_unknown_flag_is_rejected_with_suggestion",
+   "argv": [
+    "--nonexistent-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument '--nonexistent-flag'",
+    "a similar argument exists"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:43"
+  },
+  {
+   "test": "test_missing_value_for_dir_errors",
+   "argv": [
+    "--dir"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a value is required for '--dir <PATH>'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:52"
+  },
+  {
+   "test": "test_missing_value_for_regex_errors",
+   "argv": [
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a value is required for '--regex <PATTERN>'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:69"
+  },
+  {
+   "test": "test_sort_enum_validation_rejects_unknown_value",
+   "argv": [
+    "--sort",
+    "foo"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid value 'foo'",
+    "possible values"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:76"
+  },
+  {
+   "test": "test_depth_type_validation_non_integer",
+   "argv": [
+    "--depth",
+    "foo",
+    "-r",
+    "a",
+    "{1}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid value 'foo' for '--depth <DEPTH>'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:85"
+  },
+  {
+   "test": "test_depth_negative_is_not_accepted_and_is_not_parsed_as_value",
+   "argv": [
+    "--depth",
+    "-1",
+    "-r",
+    "a",
+    "{1}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument '-1'",
+    "to pass '-1' as a value, use '-- -1'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:92"
+  },
+  {
+   "test": "test_depth_negative_rejected_in_equals_form",
+   "argv": [
+    "--depth=-1",
+    "-r",
+    "a",
+    "{1}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "invalid value '-1' for '--depth <DEPTH>'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:101"
+  },
+  {
+   "test": "test_positional_source_only_is_not_enough",
+   "argv": [
+    "a"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "one of 'regex', 'sort', 'map' or 'SOURCE'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:108"
+  },
+  {
+   "test": "test_source_and_output_positionals_work_in_source_mode",
+   "argv": [
+    "-t",
+    "a",
+    "{1}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:116"
+  },
+  {
+   "test": "test_too_many_positionals_with_sort_is_rejected",
+   "argv": [
+    "-t",
+    "-s",
+    "asc",
+    "{1}",
+    "extra"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "optional SOURCE must be used without setting regex, map or sort flags"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:125"
+  },
+  {
+   "test": "test_output_only_without_mode_is_rejected",
+   "argv": [
+    "-t",
+    "{1}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "one of 'regex', 'sort', 'map' or 'SOURCE'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:133"
+  },
+  {
+   "test": "test_interleaved_flag_after_positionals_is_accepted",
+   "argv": [
+    "-t",
+    "-s",
+    "asc",
+    "{1}",
+    "-q"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:141"
+  },
+  {
+   "test": "test_double_dash_treats_dash_args_as_positionals",
+   "argv": [
+    "-t",
+    "--",
+    "--weird",
+    "{1}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:149"
+  },
+  {
+   "test": "test_help_to_stdout_exit0",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Batch rename utility",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_nomino_io.py:16"
+  },
+  {
+   "test": "test_requires_mode_error_to_stderr_exit1",
+   "argv": [
+    "-t",
+    "{:2}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "error:",
+    "one of 'regex', 'sort', 'map' or 'SOURCE'"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_nomino_io.py:25"
+  },
+  {
+   "test": "test_sort_testmode_prints_table_and_no_fs_changes",
+   "argv": [
+    "-t",
+    "-s",
+    "asc",
+    "{:2}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "| a.txt | 01.txt |",
+    "| b.txt | 02.txt |"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_nomino_io.py:38"
+  },
+  {
+   "test": "test_sort_without_testmode_renames_files",
+   "argv": [
+    "-s",
+    "asc",
+    "{:2}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_nomino_io.py:54"
+  },
+  {
+   "test": "test_no_extension_flag_drops_extension_in_output_column",
+   "argv": [
+    "-t",
+    "-s",
+    "asc",
+    "-E",
+    "{:2}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "| a.txt | 01     |",
+    "| b.txt | 02     |"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_nomino_io.py:65"
+  },
+  {
+   "test": "test_quiet_flag_suppresses_stdout",
+   "argv": [
+    "-t",
+    "-s",
+    "asc",
+    "-q",
+    "{:2}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_nomino_io.py:76"
+  },
+  {
+   "test": "test_generate_writes_json_map_file_and_stdout_table",
+   "argv": [
+    "-t",
+    "-s",
+    "asc",
+    "-g",
+    "{:2}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_nomino_io.py:86"
+  },
+  {
+   "test": "test_map_file_drives_table_output_in_testmode",
+   "argv": [
+    "-t",
+    "-m",
+    "m.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "| x.txt | y.txt"
+   ],
+   "files": {
+    "m.json": "{\"x.txt\":\"y.txt\"}"
+   },
+   "ci": false,
+   "source": "test_nomino_io.py:101"
+  },
+  {
+   "test": "test_missing_map_file_errors_to_stderr_exit1",
+   "argv": [
+    "-t",
+    "-m",
+    "missing.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "error:",
+    "No such file or directory"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_nomino_io.py:113"
+  },
+  {
+   "test": "test_mkdir_flag_creates_parent_directories",
+   "argv": [
+    "-s",
+    "asc",
+    "-k",
+    "subdir/{:2}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_nomino_io.py:143"
+  },
+  {
+   "test": "test_collision_prepends_underscore_unless_overwrite_flag",
+   "argv": [
+    "-t",
+    "-m",
+    "m.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "| same.txt | _target.txt |",
+    "| same.txt | target.txt |"
+   ],
+   "files": {
+    "m.json": "{\"same.txt\":\"target.txt\"}"
+   },
+   "ci": false,
+   "source": "test_nomino_io.py:152"
+  },
+  {
+   "test": "test_help_short_exit_code_zero",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:34"
+  },
+  {
+   "test": "test_help_long_exit_code_zero",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:39"
+  },
+  {
+   "test": "test_help_contains_usage_and_options_sections",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "usage:",
+    "options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:55"
+  },
+  {
+   "test": "test_usage_synopsis_is_stable",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable [OPTIONS] [[SOURCE] OUTPUT]..."
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:67"
+  },
+  {
+   "test": "test_help_documents_positional_argument_description",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "OUTPUT is the pattern",
+    "SOURCE is the optional regex pattern"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:77"
+  },
+  {
+   "test": "test_help_mentions_output_placeholder_format",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "OUTPUT pattern accepts placeholders",
+    "{G:P}"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:83"
+  },
+  {
+   "test": "test_help_lists_sort_possible_values_in_long_help",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Possible values:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:113"
+  },
+  {
+   "test": "test_help_has_aliases_for_map_and_test_in_long_help",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "[aliases: --from-file]",
+    "[aliases: --dry-run]"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:120"
+  },
+  {
+   "test": "test_help_precedence_over_invalid_flag",
+   "argv": [
+    "--help",
+    "--definitely-not-a-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_usage.py:134"
+  },
+  {
+   "test": "test_invalid_regex_unclosed_bracket",
+   "argv": [
+    "[a-",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:14"
+  },
+  {
+   "test": "test_invalid_regex_unclosed_group",
+   "argv": [
+    "(?P<name",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:23"
+  },
+  {
+   "test": "test_invalid_regex_unclosed_paren",
+   "argv": [
+    "(",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:32"
+  },
+  {
+   "test": "test_missing_directory",
+   "argv": [
+    "-d",
+    "/nonexistent/directory",
+    "file(\\d+)",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:81"
+  },
+  {
+   "test": "test_map_file_not_found",
+   "argv": [
+    "--map",
+    "/nonexistent/map.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:108"
+  },
+  {
+   "test": "test_no_source_option_provided",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:127"
+  },
+  {
+   "test": "test_invalid_sort_order",
+   "argv": [
+    "--sort",
+    "invalid"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:167"
+  },
+  {
+   "test": "test_regex_with_map_conflicting_sources",
+   "argv": [
+    "--map",
+    "map.json",
+    "pattern",
+    "output"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "map.json": "{}"
+   },
+   "ci": false,
+   "source": "test_errors.py:196"
+  },
+  {
+   "test": "test_regex_invalid_repetition_operator",
+   "argv": [
+    "*",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:207"
+  },
+  {
+   "test": "test_regex_empty_group_name",
+   "argv": [
+    "(?P<>test)",
+    "test"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_errors.py:216"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "./executable",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_smoke.py:19"
+  },
+  {
+   "test": "test_version_flag",
+   "argv": [
+    "./executable",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_smoke.py:43"
+  },
+  {
+   "test": "test_ext_default",
+   "argv": [
+    "-E",
+    "-d",
+    "-r",
+    ".*E(\\d+).*",
+    "{:2}.mkv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_rs_compat.py:41"
+  },
+  {
+   "test": "test_ext_default_not_overwrite",
+   "argv": [
+    "-E",
+    "-d",
+    "-r",
+    ".*E(\\d+).*",
+    "1.mkv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_rs_compat.py:65"
+  },
+  {
+   "test": "test_ext_default_overwrite",
+   "argv": [
+    "-E",
+    "-d",
+    "-w",
+    "-r",
+    ".*E(\\d+).*",
+    "1.mkv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_rs_compat.py:86"
+  },
+  {
+   "test": "test_ext_default_subdir",
+   "argv": [
+    "-E",
+    "-d",
+    "-k"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_rs_compat.py:106"
+  },
+  {
+   "test": "test_ext_default_subdir_depth",
+   "argv": [
+    "-E",
+    "--depth",
+    "2",
+    "-d",
+    "-k"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_rs_compat.py:133"
+  },
+  {
+   "test": "test_ext_default_subdir_max_depth",
+   "argv": [
+    "-E",
+    "--depth",
+    "3",
+    "--max-depth",
+    "2",
+    "-d",
+    "-k"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_rs_compat.py:160"
+  },
+  {
+   "test": "test_ext_default_subdir_overwrite",
+   "argv": [
+    "-E",
+    "-d",
+    "-k",
+    "-w"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_rs_compat.py:224"
+  },
+  {
+   "test": "test_ext_map_and_undo",
+   "argv": [
+    "-E",
+    "-d",
+    "-m",
+    "map.json",
+    "-g",
+    "undo.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_rs_compat.py:250"
+  },
+  {
+   "test": "test_ext_named_regex_mode",
+   "argv": [
+    "-E",
+    "-d",
+    "-r",
+    ".*E(?<episode>\\d+).*",
+    "{episode:2}.mkv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_rs_compat.py:315"
+  },
+  {
+   "test": "test_ext_regex_subdir",
+   "argv": [
+    "-E",
+    "-d",
+    "-k",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_rs_compat.py:377"
+  },
+  {
+   "test": "test_ext_regex_subdir_depth",
+   "argv": [
+    "-E",
+    "--depth",
+    "2",
+    "-d",
+    "-k",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_rs_compat.py:403"
+  },
+  {
+   "test": "test_ext_regex_subdir_max_depth",
+   "argv": [
+    "-E",
+    "--depth",
+    "3",
+    "--max-depth",
+    "2",
+    "-d",
+    "-k",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_rs_compat.py:429"
+  },
+  {
+   "test": "test_ext_regex_subdir_overwrite",
+   "argv": [
+    "-E",
+    "-d",
+    "-k",
+    "-w",
+    "-r"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_rs_compat.py:493"
+  },
+  {
+   "test": "test_ext_sort_asc",
+   "argv": [
+    "-E",
+    "-d",
+    "-s",
+    "asc",
+    "{:3}.mkv"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_rs_compat.py:519"
+  },
+  {
+   "test": "test_help_flag_long",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--regex",
+    "--sort",
+    "--map",
+    "--test",
+    "--version",
+    "Print help (see a summary with '-h')"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:29"
+  },
+  {
+   "test": "test_help_flag_short",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "--regex",
+    "--sort",
+    "Print help (see more with '--help')"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:43"
+  },
+  {
+   "test": "test_version_flag_long",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "nomino"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:53"
+  },
+  {
+   "test": "test_version_flag_short",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "nomino"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:62"
+  },
+  {
+   "test": "test_help_mentions_placeholder_format",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "placeholder"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation.py:70"
+  },
+  {
+   "test": "test_same_input_output_name",
+   "argv": [
+    "-d",
+    "-r",
+    "(file)\\.txt",
+    "{1}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:109"
+  },
+  {
+   "test": "test_regex_with_no_capture_groups",
+   "argv": [
+    "-d",
+    "-r",
+    "file\\d+\\.txt",
+    "renamed_{}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:127"
+  },
+  {
+   "test": "test_output_to_subdirectory_without_mkdir",
+   "argv": [
+    "-d",
+    "-r",
+    "file",
+    "subdir/newfile"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_edge_cases.py:141"
+  },
+  {
+   "test": "test_file_without_extension",
+   "argv": [
+    "-d",
+    "-s",
+    "asc",
+    "file_{}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:157"
+  },
+  {
+   "test": "test_binary_file_content",
+   "argv": [
+    "-d",
+    "-s",
+    "asc",
+    "renamed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:172"
+  },
+  {
+   "test": "test_filename_with_newlines",
+   "argv": [
+    "-d",
+    "-s",
+    "asc",
+    "clean_{}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "clean_1.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:220"
+  },
+  {
+   "test": "test_overwrite_mode",
+   "argv": [
+    "-w",
+    "-m",
+    "-d"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "renamed.txt",
+    "file1.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_handling.py:39"
+  },
+  {
+   "test": "test_no_overwrite_default",
+   "argv": [
+    "-s",
+    "asc",
+    "-d",
+    "same"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "same.txt",
+    "same.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_handling.py:60"
+  },
+  {
+   "test": "test_mkdir_flag",
+   "argv": [
+    "-k",
+    "-m",
+    "-d"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file.txt",
+    "renamed.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_handling.py:79"
+  },
+  {
+   "test": "test_mkdir_without_flag_fails",
+   "argv": [
+    "-m",
+    "-d"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_file_handling.py:99"
+  },
+  {
+   "test": "test_generate_map_file",
+   "argv": [
+    "-s",
+    "asc",
+    "-d",
+    "-g",
+    "file_{}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_file_handling.py:116"
+  },
+  {
+   "test": "test_generate_map_with_quiet",
+   "argv": [
+    "-q",
+    "-g",
+    "-s",
+    "asc",
+    "-d",
+    "y{}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_file_handling.py:138"
+  },
+  {
+   "test": "test_directory_flag",
+   "argv": [
+    "-d",
+    "-s",
+    "asc",
+    "renamed_{}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "renamed_1.txt",
+    "renamed_2.txt",
+    "file1.txt",
+    "renamed_1.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_handling.py:158"
+  },
+  {
+   "test": "test_special_characters_in_filename",
+   "argv": [
+    "-s",
+    "asc",
+    "-d",
+    "clean_{}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "clean_1.txt",
+    "clean_2.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_handling.py:177"
+  },
+  {
+   "test": "test_unicode_filename",
+   "argv": [
+    "-s",
+    "asc",
+    "-d",
+    "file_{}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file_1.txt",
+    "file_2.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_handling.py:194"
+  },
+  {
+   "test": "test_dot_files",
+   "argv": [
+    "-s",
+    "asc",
+    "-d",
+    "file_{}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_file_handling.py:210"
+  },
+  {
+   "test": "test_very_long_filename",
+   "argv": [
+    "-s",
+    "asc",
+    "-d",
+    "short"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "short.txt",
+    "short"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_handling.py:225"
+  },
+  {
+   "test": "test_preserve_file_content",
+   "argv": [
+    "-s",
+    "asc",
+    "-d",
+    "renamed"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_file_handling.py:241"
+  },
+  {
+   "test": "test_multiple_collisions",
+   "argv": [
+    "-s",
+    "asc",
+    "-d",
+    "collision"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "collision.txt",
+    "collision"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_file_handling.py:254"
+  },
+  {
+   "test": "test_map_basic",
+   "argv": [
+    "-m",
+    "-d"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "new1.txt",
+    "new2.txt",
+    "new3.txt",
+    "old1.txt",
+    "new1.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_map_mode.py:39"
+  },
+  {
+   "test": "test_map_from_file_alias",
+   "argv": [
+    "--from-file",
+    "-d"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "b.txt",
+    "a.txt",
+    "b.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_map_mode.py:67"
+  },
+  {
+   "test": "test_map_with_missing_source_files",
+   "argv": [
+    "-m",
+    "-d"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "error",
+    "renamed.txt",
+    "renamed.txt"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_map_mode.py:99"
+  },
+  {
+   "test": "test_map_test_mode",
+   "argv": [
+    "-t",
+    "-m",
+    "-d"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "old.txt",
+    "old.txt",
+    "new.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_map_mode.py:126"
+  },
+  {
+   "test": "test_map_quiet_mode",
+   "argv": [
+    "-q",
+    "-m",
+    "-d"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "b.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_map_mode.py:147"
+  },
+  {
+   "test": "test_map_inverted_format",
+   "argv": [
+    "-m",
+    "-d",
+    "-g"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "target.txt",
+    "target.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_map_mode.py:165"
+  },
+  {
+   "test": "test_map_empty",
+   "argv": [
+    "-m",
+    "empty.json",
+    "-d"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file.txt"
+   ],
+   "files": {
+    "empty.json": "{}"
+   },
+   "ci": false,
+   "source": "test_map_mode.py:187"
+  },
+  {
+   "test": "test_map_with_subdirectories",
+   "argv": [
+    "-m",
+    "-d"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file.txt",
+    "renamed.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_map_mode.py:204"
+  },
+  {
+   "test": "test_regex_basic_capture_group",
+   "argv": [
+    "-d",
+    "-r",
+    "file_(\\d+)\\.txt",
+    "renamed_{}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "renamed_01.txt",
+    "renamed_02.txt",
+    "renamed_03.txt",
+    "file_01.txt",
+    "renamed_01.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_mode.py:38"
+  },
+  {
+   "test": "test_regex_with_padding",
+   "argv": [
+    "-d",
+    "-r",
+    "ep(\\d+)\\.mkv",
+    "episode_{:3}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "episode_001.mkv",
+    "episode_002.mkv",
+    "episode_010.mkv",
+    "ep1.mkv",
+    "episode_001.mkv"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_mode.py:60"
+  },
+  {
+   "test": "test_regex_named_capture_groups",
+   "argv": [
+    "-d",
+    "-r",
+    "S(?<season>\\d+)E(?<episode>\\d+)\\.mkv",
+    "Season{season}_Episode{episode}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Season01_Episode05.mkv",
+    "Season02_Episode03.mkv",
+    "S01E05.mkv",
+    "Season01_Episode05.mkv"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_mode.py:79"
+  },
+  {
+   "test": "test_regex_named_with_padding",
+   "argv": [
+    "-d",
+    "-r",
+    "item(?<num>\\d+)\\.txt",
+    "file{num:4}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file0001.txt",
+    "file0009.txt",
+    "item1.txt",
+    "file0001.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_mode.py:98"
+  },
+  {
+   "test": "test_regex_no_match",
+   "argv": [
+    "-d",
+    "-r",
+    "xyz(\\d+)",
+    "out{}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "abc.txt",
+    "def.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_mode.py:114"
+  },
+  {
+   "test": "test_regex_preserve_extension",
+   "argv": [
+    "-d",
+    "-r",
+    "movie_(\\d+)",
+    "film_{}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "film_1.mkv",
+    "film_2.avi",
+    ".mkv",
+    ".avi"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_mode.py:131"
+  },
+  {
+   "test": "test_regex_no_extension_flag",
+   "argv": [
+    "-E",
+    "-d",
+    "-r",
+    "movie_(\\d+)",
+    "film_{}.mp4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "film_1.mp4",
+    "film_2.mp4",
+    "film_1.mp4",
+    "film_2.mp4"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_mode.py:149"
+  },
+  {
+   "test": "test_regex_test_mode",
+   "argv": [
+    "-t",
+    "-d",
+    "-r",
+    "test(\\d+)",
+    "out{}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "test1.txt",
+    "test2.txt",
+    "test1.txt",
+    "out1.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_mode.py:165"
+  },
+  {
+   "test": "test_regex_dry_run_alias",
+   "argv": [
+    "--dry-run",
+    "-d",
+    "-r",
+    "file(\\d+)",
+    "new{}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file1.txt",
+    "file1.txt",
+    "new1.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_mode.py:185"
+  },
+  {
+   "test": "test_regex_quiet_mode",
+   "argv": [
+    "-q",
+    "-d",
+    "-r",
+    "a(\\d+)",
+    "b{}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "b1.txt",
+    "b2.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_mode.py:202"
+  },
+  {
+   "test": "test_regex_multiple_capture_groups",
+   "argv": [
+    "-d",
+    "-r",
+    "S(\\d+)E(\\d+)_(\\d+)p\\.mkv",
+    "Season{1}_Ep{2}_{3}p"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Season01_Ep05_720p.mkv",
+    "Season02_Ep10_1080p.mkv",
+    "S01E05_720p.mkv",
+    "Season01_Ep05_720p.mkv"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_mode.py:228"
+  },
+  {
+   "test": "test_regex_with_full_filename_placeholder",
+   "argv": [
+    "-d",
+    "-r",
+    "(movie)",
+    "backup_{0}_old"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "movie.mkv",
+    "backup_"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_regex_mode.py:247"
+  },
+  {
+   "test": "test_sort_ascending",
+   "argv": [
+    "-s",
+    "asc",
+    "-d",
+    "file_{}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file_1.txt",
+    "file_2.txt",
+    "file_3.txt",
+    "a.txt",
+    "file_1.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sort_mode.py:38"
+  },
+  {
+   "test": "test_sort_descending",
+   "argv": [
+    "-s",
+    "desc",
+    "-d",
+    "file_{}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file_1.txt",
+    "file_2.txt",
+    "file_3.txt",
+    "c.txt",
+    "file_1.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sort_mode.py:58"
+  },
+  {
+   "test": "test_sort_with_padding",
+   "argv": [
+    "-s",
+    "asc",
+    "-d",
+    "{:3}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "001.txt",
+    "002.txt",
+    "012.txt",
+    "001.txt",
+    "012.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sort_mode.py:78"
+  },
+  {
+   "test": "test_sort_preserve_extension",
+   "argv": [
+    "-s",
+    "asc",
+    "-d",
+    "video_{}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "video_1.mkv",
+    "video_2.avi",
+    "video_3.mp4",
+    ".mkv",
+    ".avi",
+    ".mp4"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sort_mode.py:96"
+  },
+  {
+   "test": "test_sort_no_extension",
+   "argv": [
+    "-E",
+    "-s",
+    "asc",
+    "-d",
+    "video_{}.mp4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "video_1.mp4",
+    "video_2.mp4",
+    "video_1.mp4",
+    "video_2.mp4"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sort_mode.py:117"
+  },
+  {
+   "test": "test_sort_test_mode",
+   "argv": [
+    "-t",
+    "-s",
+    "asc",
+    "-d",
+    "sorted_{}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "a.txt",
+    "b.txt",
+    "c.txt",
+    "a.txt",
+    "sorted_1.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sort_mode.py:142"
+  },
+  {
+   "test": "test_sort_quiet_mode",
+   "argv": [
+    "-q",
+    "-s",
+    "asc",
+    "-d",
+    "f{}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "f1.txt",
+    "f2.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sort_mode.py:164"
+  },
+  {
+   "test": "test_sort_empty_directory",
+   "argv": [
+    "-s",
+    "asc",
+    "-d",
+    "{}.txt"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_sort_mode.py:181"
+  },
+  {
+   "test": "test_sort_natural_ordering",
+   "argv": [
+    "-s",
+    "asc",
+    "-d",
+    "sorted_{:2}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "sorted_01.txt",
+    "sorted_02.txt",
+    "sorted_03.txt",
+    "sorted_04.txt",
+    "file1.txt",
+    "file2.txt",
+    "file10.txt",
+    "file20.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_sort_mode.py:189"
+  },
+  {
+   "test": "test_source_argument_basic",
+   "argv": [
+    "-d",
+    "test(\\d+)",
+    "file_{}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "file_1.txt",
+    "file_2.txt",
+    "test1.txt",
+    "file_1.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_source_argument_mode.py:38"
+  },
+  {
+   "test": "test_source_argument_with_padding",
+   "argv": [
+    "-d",
+    "ep(\\d+)",
+    "episode_{:3}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "episode_001.mkv",
+    "episode_005.mkv",
+    "episode_012.mkv",
+    "ep1.mkv",
+    "episode_001.mkv"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_source_argument_mode.py:55"
+  },
+  {
+   "test": "test_source_argument_preserve_extension",
+   "argv": [
+    "-d",
+    "movie(\\d+)",
+    "film_{}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "film_1.mkv",
+    "film_2.avi",
+    ".mkv",
+    ".avi"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_source_argument_mode.py:116"
+  },
+  {
+   "test": "test_source_argument_no_extension",
+   "argv": [
+    "-E",
+    "-d",
+    "video(\\d+)",
+    "movie_{}.mp4"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "movie_1.mp4",
+    "movie_1.mp4"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_source_argument_mode.py:133"
+  },
+  {
+   "test": "test_source_argument_named_groups",
+   "argv": [
+    "-d",
+    "S(?<s>\\d+)E(?<e>\\d+)",
+    "Season{s}_Episode{e}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Season01_Episode05.mkv",
+    "Season02_Episode10.mkv",
+    "S01E05",
+    "Season01_Episode05"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_source_argument_mode.py:146"
+  },
+  {
+   "test": "test_source_argument_test_mode",
+   "argv": [
+    "-t",
+    "-d",
+    "old(\\d+)",
+    "new_{}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "old1.txt",
+    "old2.txt",
+    "old1.txt",
+    "new_1.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_source_argument_mode.py:165"
+  },
+  {
+   "test": "test_source_argument_quiet_mode",
+   "argv": [
+    "-q",
+    "-d",
+    "a(\\d+)",
+    "b_{}"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "b_1.txt"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_source_argument_mode.py:185"
+  }
+ ]
+}

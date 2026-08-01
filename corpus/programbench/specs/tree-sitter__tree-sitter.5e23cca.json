@@ -1,0 +1,1938 @@
+{
+ "slug": "tree-sitter__tree-sitter.5e23cca",
+ "language": "",
+ "n_branches": 11,
+ "n_tests_total": 1592,
+ "n_examples": 104,
+ "n_with_exact_stdout": 3,
+ "n_with_rc": 85,
+ "n_skipped": 1442,
+ "examples": [
+  {
+   "test": "test_parse_with_debug_graph",
+   "argv": [
+    "generate",
+    "--js-runtime",
+    "native"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:6"
+  },
+  {
+   "test": "test_playground_with_quiet",
+   "argv": [
+    "playground",
+    "--quiet",
+    "--export"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_additional_coverage.py:292"
+  },
+  {
+   "test": "test_help_flag_shows_commands",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "generate",
+    "build",
+    "parse",
+    "test",
+    "query",
+    "highlight",
+    "tags",
+    "fuzz",
+    "init"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation_improved.py:14"
+  },
+  {
+   "test": "test_version_output_format",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree-sitter"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_basic_invocation_improved.py:29"
+  },
+  {
+   "test": "test_build_help",
+   "argv": [
+    "build",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Compile a parser",
+    "--wasm",
+    "--output",
+    "--debug",
+    "--verbose",
+    "--reuse-allocator"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_build.py:6"
+  },
+  {
+   "test": "test_complete_help",
+   "argv": [
+    "complete",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--shell",
+    "bash",
+    "zsh",
+    "fish"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_complete.py:5"
+  },
+  {
+   "test": "test_complete_bash",
+   "argv": [
+    "complete",
+    "--shell",
+    "bash"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_complete.py:22"
+  },
+  {
+   "test": "test_complete_zsh",
+   "argv": [
+    "complete",
+    "--shell",
+    "zsh"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_complete.py:30"
+  },
+  {
+   "test": "test_complete_fish",
+   "argv": [
+    "complete",
+    "--shell",
+    "fish"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_complete.py:38"
+  },
+  {
+   "test": "test_complete_powershell",
+   "argv": [
+    "complete",
+    "--shell",
+    "power-shell"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_complete.py:46"
+  },
+  {
+   "test": "test_complete_elvish",
+   "argv": [
+    "complete",
+    "--shell",
+    "elvish"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_complete.py:54"
+  },
+  {
+   "test": "test_complete_nushell",
+   "argv": [
+    "complete",
+    "--shell",
+    "nushell"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_complete.py:62"
+  },
+  {
+   "test": "test_full_grammar_lifecycle",
+   "argv": [
+    "generate",
+    "--grammar-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "<"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_comprehensive_workflow.py:7"
+  },
+  {
+   "test": "test_dump_languages_help",
+   "argv": [
+    "dump-languages",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--config-path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_dump_languages.py:7"
+  },
+  {
+   "test": "test_dump_languages_basic",
+   "argv": [
+    "dump-languages"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dump_languages.py:14"
+  },
+  {
+   "test": "test_dump_languages_with_config",
+   "argv": [
+    "dump-languages",
+    "--config-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_dump_languages.py:30"
+  },
+  {
+   "test": "test_main_cli_version_formats",
+   "argv": [
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_final_coverage_push.py:6"
+  },
+  {
+   "test": "test_main_cli_help_formats",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_final_coverage_push.py:18"
+  },
+  {
+   "test": "test_fuzz_help_displays_all_options",
+   "argv": [
+    "fuzz",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Fuzz a parser",
+    "--skip",
+    "--subdir",
+    "--grammar-path",
+    "--lib-path",
+    "--edits",
+    "--iterations",
+    "--include",
+    "--exclude",
+    "--log-graphs",
+    "--log",
+    "--rebuild"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_fuzz_comprehensive.py:6"
+  },
+  {
+   "test": "test_fuzz_short_help",
+   "argv": [
+    "fuzz",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Fuzz a parser",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_fuzz_comprehensive.py:123"
+  },
+  {
+   "test": "test_fuzz_help_complete",
+   "argv": [
+    "fuzz",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--skip",
+    "--subdir",
+    "--grammar-path",
+    "--edits",
+    "--iterations",
+    "--log",
+    "--log-graphs"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_fuzz_improved.py:13"
+  },
+  {
+   "test": "test_generate_help",
+   "argv": [
+    "generate",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Generate a parser",
+    "--abi",
+    "--log",
+    "--no-parser",
+    "--output",
+    "--js-runtime"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_generate.py:7"
+  },
+  {
+   "test": "test_highlight_help_complete",
+   "argv": [
+    "highlight",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--html",
+    "--css-classes",
+    "--check",
+    "--captures-path",
+    "--query-paths"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_highlight_improved.py:13"
+  },
+  {
+   "test": "test_init_help",
+   "argv": [
+    "init",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--update",
+    "--grammar-path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_init.py:6"
+  },
+  {
+   "test": "test_init_config_creates_tree_sitter_json",
+   "argv": [
+    "init-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "grammars"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_init_comprehensive.py:6"
+  },
+  {
+   "test": "test_init_config_help",
+   "argv": [
+    "init-config",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_init_config.py:7"
+  },
+  {
+   "test": "test_init_config_content_validation",
+   "argv": [
+    "init-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "parser-directories"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_init_config.py:28"
+  },
+  {
+   "test": "test_init_help",
+   "argv": [
+    "init",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Initialize a grammar repository",
+    "--update",
+    "--grammar-path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_init_fixed.py:6"
+  },
+  {
+   "test": "test_full_workflow_generate_build_parse",
+   "argv": [
+    "generate",
+    "--js-runtime",
+    "native"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:41"
+  },
+  {
+   "test": "test_generate_with_node_types",
+   "argv": [
+    "generate",
+    "--js-runtime",
+    "native"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "type"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:80"
+  },
+  {
+   "test": "test_generate_with_log_flag",
+   "argv": [
+    "generate",
+    "--log",
+    "--js-runtime",
+    "native"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:96"
+  },
+  {
+   "test": "test_generate_abi_versions",
+   "argv": [
+    "generate",
+    "--abi",
+    "14",
+    "--js-runtime",
+    "native"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:107"
+  },
+  {
+   "test": "test_main_version_flag",
+   "argv": [
+    "-V"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree-sitter"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_main_cli_paths.py:6"
+  },
+  {
+   "test": "test_main_help_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_main_cli_paths.py:14"
+  },
+  {
+   "test": "test_command_aliases",
+   "argv": [
+    "gen",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_main_cli_paths.py:21"
+  },
+  {
+   "test": "test_parse_alias",
+   "argv": [
+    "p",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_main_cli_paths.py:34"
+  },
+  {
+   "test": "test_init_alias",
+   "argv": [
+    "i",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_main_cli_paths.py:41"
+  },
+  {
+   "test": "test_playground_help_shows_options",
+   "argv": [
+    "playground",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--quiet",
+    "--grammar-path",
+    "--export"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_playground_improved.py:8"
+  },
+  {
+   "test": "test_query_help_complete",
+   "argv": [
+    "query",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--captures",
+    "--byte-range",
+    "--row-range",
+    "--containing-byte-range",
+    "--containing-row-range",
+    "--test"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_query_improved.py:13"
+  },
+  {
+   "test": "test_tags_help_complete",
+   "argv": [
+    "tags",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--scope",
+    "--time",
+    "--quiet",
+    "--paths",
+    "--grammar-path",
+    "--config-path",
+    "--test-number",
+    "--rebuild"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tags_comprehensive.py:6"
+  },
+  {
+   "test": "test_tags_short_help",
+   "argv": [
+    "tags",
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tags_comprehensive.py:158"
+  },
+  {
+   "test": "test_tags_help_shows_options",
+   "argv": [
+    "tags",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--scope",
+    "--time",
+    "--quiet",
+    "--paths",
+    "--grammar-path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_tags_improved.py:13"
+  },
+  {
+   "test": "test_test_help_complete",
+   "argv": [
+    "test",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--include",
+    "--exclude",
+    "--file-name",
+    "--update",
+    "--debug",
+    "--debug-graph"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_test_improved.py:14"
+  },
+  {
+   "test": "test_version_command_help",
+   "argv": [
+    "version",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--bump",
+    "--grammar-path"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_version_command.py:6"
+  },
+  {
+   "test": "test_version_display_current_from_tree_sitter_json",
+   "argv": [
+    "version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.0.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_version_comprehensive.py:53"
+  },
+  {
+   "test": "test_version_bump_patch_updates_files",
+   "argv": [
+    "version",
+    "--bump",
+    "patch"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "version = \"1.0.1\"",
+    "version = \"1.0.1\"",
+    "VERSION := 1.0.1"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_version_comprehensive.py:66"
+  },
+  {
+   "test": "test_version_bump_minor_resets_patch",
+   "argv": [
+    "version",
+    "--bump",
+    "minor"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.1.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_version_comprehensive.py:95"
+  },
+  {
+   "test": "test_version_updates_cargo_lock_if_present",
+   "argv": [
+    "version",
+    "--bump",
+    "patch"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_version_comprehensive.py:236"
+  },
+  {
+   "test": "test_version_help_shows_bump_options",
+   "argv": [
+    "version",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--bump",
+    "major",
+    "minor",
+    "patch"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_version_comprehensive.py:276"
+  },
+  {
+   "test": "test_version_bump_patch",
+   "argv": [
+    "version",
+    "--bump",
+    "patch",
+    "--grammar-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.2.4"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_version_enhanced.py:26"
+  },
+  {
+   "test": "test_version_bump_minor",
+   "argv": [
+    "version",
+    "--bump",
+    "minor",
+    "--grammar-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.3.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_version_enhanced.py:45"
+  },
+  {
+   "test": "test_version_bump_major",
+   "argv": [
+    "version",
+    "--bump",
+    "major",
+    "--grammar-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2.0.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_version_enhanced.py:63"
+  },
+  {
+   "test": "test_version_display_current",
+   "argv": [
+    "version",
+    "--grammar-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "3.4.5"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_version_enhanced.py:81"
+  },
+  {
+   "test": "test_version_help_complete",
+   "argv": [
+    "version",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "version",
+    "--grammar-path"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_version_improved.py:7"
+  },
+  {
+   "test": "test_highlight_stdin_no_language",
+   "argv": [
+    "highlight"
+   ],
+   "stdin": "test input\n",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "\n",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_highlight.py:266"
+  },
+  {
+   "test": "test_tags_scope_with_stdin",
+   "argv": [
+    "tags",
+    "--scope",
+    "source.unknownlang"
+   ],
+   "stdin": "test content",
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_tags.py:213"
+  },
+  {
+   "test": "test_main_help_contains_usage_and_commands_and_options_headers",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Commands:",
+    "Options:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:28"
+  },
+  {
+   "test": "test_main_help_documents_help_and_version_flags",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "-h, --help",
+    "-V, --version"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:61"
+  },
+  {
+   "test": "test_help_takes_precedence_over_unknown_flag",
+   "argv": [
+    "--help",
+    "--definitely-not-a-real-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable <COMMAND>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_main.py:74"
+  },
+  {
+   "test": "test_init_help_exit_code_zero_and_stdout_only",
+   "argv": [
+    "init",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_help_subcommands.py:6"
+  },
+  {
+   "test": "test_generate_help_usage_and_arguments_section",
+   "argv": [
+    "generate",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable generate",
+    "Arguments:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_subcommands.py:30"
+  },
+  {
+   "test": "test_subcommand_help_takes_precedence_over_unknown_flag",
+   "argv": [
+    "generate",
+    "--help",
+    "--definitely-not-a-real-flag"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Generate a parser"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_help_subcommands.py:59"
+  },
+  {
+   "test": "test_help_to_stdout_exit0",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage:",
+    "Commands:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_io.py:12"
+  },
+  {
+   "test": "test_parse_nonexistent_path_errors_to_stderr_exit1",
+   "argv": [
+    "parse",
+    "/no/such/file"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 1,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [
+    "Error:",
+    "No files were found"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_io.py:31"
+  },
+  {
+   "test": "test_dump_languages_with_default_config_prints_nothing_exit0",
+   "argv": [
+    "init-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": "",
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_io.py:40"
+  },
+  {
+   "test": "test_init_config_creates_config_file_and_message",
+   "argv": [
+    "init-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Saved initial configuration",
+    "parser-directories"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_cli_io.py:56"
+  },
+  {
+   "test": "test_no_config_emits_warning_about_parser_directories",
+   "argv": [
+    "dump-languages"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "not configured any parser directories",
+    "init-config"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:55"
+  },
+  {
+   "test": "test_cli_config_path_overrides_other_locations_and_bad_json_errors",
+   "argv": [
+    "dump-languages",
+    "--config-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "bad json config"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_config_env.py:109"
+  },
+  {
+   "test": "test_multiple_grammars_in_config",
+   "argv": [
+    "version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.0.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:120"
+  },
+  {
+   "test": "test_version_all_bump_types",
+   "argv": [
+    "version",
+    "--bump",
+    "patch"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:141"
+  },
+  {
+   "test": "test_complete_all_shells_detailed",
+   "argv": [
+    "complete",
+    "--shell"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_advanced_features.py:268"
+  },
+  {
+   "test": "test_help_flag",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree-sitter",
+    "Usage:",
+    "Commands:",
+    "generate",
+    "parse"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:15"
+  },
+  {
+   "test": "test_help_short_flag",
+   "argv": [
+    "-h"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tree-sitter",
+    "Usage:",
+    "Commands:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_basic_invocation.py:26"
+  },
+  {
+   "test": "test_build_help",
+   "argv": [
+    "build",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Compile a parser",
+    "--wasm",
+    "--output",
+    "--debug"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_build.py:6"
+  },
+  {
+   "test": "test_fuzz_help",
+   "argv": [
+    "fuzz",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "fuzz"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_coverage_boosters.py:188"
+  },
+  {
+   "test": "test_init_config_output_location",
+   "argv": [
+    "init-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_edge_cases.py:167"
+  },
+  {
+   "test": "test_full_generate_build_parse_cycle",
+   "argv": [
+    "generate",
+    "--js-runtime=native"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_full_parsing.py:7"
+  },
+  {
+   "test": "test_generate_help",
+   "argv": [
+    "generate",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Generate a parser",
+    "--log",
+    "--abi",
+    "--output"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_generate.py:7"
+  },
+  {
+   "test": "test_generate_with_simple_grammar",
+   "argv": [
+    "generate",
+    "--js-runtime=native"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "name"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_generate.py:27"
+  },
+  {
+   "test": "test_init_config_help",
+   "argv": [
+    "init-config",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Generate a default config file",
+    "Usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_init_config.py:7"
+  },
+  {
+   "test": "test_init_config_creates_file",
+   "argv": [
+    "init-config"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "config"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_init_config.py:15"
+  },
+  {
+   "test": "test_version_workflow",
+   "argv": [
+    "version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "0.1.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_integration.py:36"
+  },
+  {
+   "test": "test_dump_languages_empty_config",
+   "argv": [
+    "dump-languages",
+    "--config-path",
+    "config.json"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {
+    "config.json": "{}"
+   },
+   "ci": false,
+   "source": "test_more_coverage.py:68"
+  },
+  {
+   "test": "test_fuzz_help",
+   "argv": [
+    "fuzz",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Fuzz a parser"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_other_commands.py:8"
+  },
+  {
+   "test": "test_query_help",
+   "argv": [
+    "query",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Search files using a syntax tree query",
+    "--captures",
+    "--byte-range"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_other_commands.py:18"
+  },
+  {
+   "test": "test_highlight_help",
+   "argv": [
+    "highlight",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Highlight a file",
+    "--html",
+    "--check"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_other_commands.py:65"
+  },
+  {
+   "test": "test_tags_help",
+   "argv": [
+    "tags",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Generate a list of tags",
+    "--scope"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_other_commands.py:107"
+  },
+  {
+   "test": "test_playground_help",
+   "argv": [
+    "playground",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--quiet",
+    "--export"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_other_commands.py:136"
+  },
+  {
+   "test": "test_dump_languages_help",
+   "argv": [
+    "dump-languages",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_other_commands.py:158"
+  },
+  {
+   "test": "test_complete_help",
+   "argv": [
+    "complete",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "--shell"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_other_commands.py:187"
+  },
+  {
+   "test": "test_parse_help",
+   "argv": [
+    "parse",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Parse files",
+    "--debug",
+    "--xml",
+    "--stat"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_parse.py:5"
+  },
+  {
+   "test": "test_test_help",
+   "argv": [
+    "test",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "tests",
+    "--include",
+    "--exclude"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_test_command.py:6"
+  },
+  {
+   "test": "test_version_help",
+   "argv": [
+    "version",
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "version",
+    "--bump"
+   ],
+   "files": {},
+   "ci": true,
+   "source": "test_version.py:21"
+  },
+  {
+   "test": "test_version_display_with_config",
+   "argv": [
+    "version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.2.3"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_version.py:39"
+  },
+  {
+   "test": "test_version_bump_patch",
+   "argv": [
+    "version",
+    "--bump",
+    "patch"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.2.4"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_version.py:52"
+  },
+  {
+   "test": "test_version_bump_minor",
+   "argv": [
+    "version",
+    "--bump",
+    "minor"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "1.3.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_version.py:73"
+  },
+  {
+   "test": "test_version_bump_major",
+   "argv": [
+    "version",
+    "--bump",
+    "major"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2.0.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_version.py:91"
+  },
+  {
+   "test": "test_version_grammar_path_flag",
+   "argv": [
+    "version",
+    "--grammar-path"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "2.0.0"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_version.py:130"
+  },
+  {
+   "test": "test_unknown_subcommand_error_message",
+   "argv": [
+    "nonexistent_subcommand"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unrecognized subcommand",
+    "usage:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:94"
+  },
+  {
+   "test": "test_global_version_flag_before_command_routes_to_version_display",
+   "argv": [
+    "--version",
+    "parse"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:110"
+  },
+  {
+   "test": "test_version_flag_after_command_is_rejected_for_non_version_commands",
+   "argv": [
+    "parse",
+    "--version"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "unexpected argument"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:120"
+  },
+  {
+   "test": "test_help_flag_before_command_shows_main_help_even_with_extra_arg",
+   "argv": [
+    "--help",
+    "parse"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": null,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "commands:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_subcommand_dispatch.py:128"
+  },
+  {
+   "test": "test_subcommand_required_error",
+   "argv": [],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 2,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Usage: executable <COMMAND>"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_argparse_validation.py:54"
+  },
+  {
+   "test": "test_ext_executable_help",
+   "argv": [
+    "--help"
+   ],
+   "stdin": null,
+   "env": {},
+   "expect_rc": 0,
+   "expect_stdout": null,
+   "expect_stderr": null,
+   "expect_in": [
+    "Commands:"
+   ],
+   "files": {},
+   "ci": false,
+   "source": "test_externalized_internal_suite.py:115"
+  }
+ ]
+}

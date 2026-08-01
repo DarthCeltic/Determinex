@@ -1,0 +1,29 @@
+{
+  "schema": "determinex-repair-loop-transcript-v1",
+  "tool": "toolz",
+  "family": "python",
+  "pinned_commit": "568c2b8",
+  "repair_type": "seeded_defect (behavioral) - verifier is the project's OWN test suite in a python:3.12 image (toolchain via provider; Docker-OPTIONAL)",
+  "toolchain": "python:3.12",
+  "oracle": "the real pytoolz/toolz repo's own tests: python -m pytest toolz/tests/test_itertoolz.py -q",
+  "defect": {
+    "file": "toolz/itertoolz.py",
+    "seed": "return seq[n] -> return seq[n + 1]"
+  },
+  "detect": {
+    "baseline": "50 passed in 0.22s",
+    "after_seed": "test suite FAILED (exit 1)",
+    "oracle_caught": true,
+    "failure_signature": "seeded defect made the project's own test suite exit non-zero"
+  },
+  "repair": {
+    "fix": "git checkout (restore upstream source)"
+  },
+  "reverify": {
+    "after": "50 passed in 0.07s",
+    "passed": 50,
+    "failures": 0
+  },
+  "repair_loop_status": "passed",
+  "proves": "closed-loop repair on a real external python project (toolz): its OWN test suite detects the injected defect -> fix -> re-verify (50 passed in 0.07s). Reproducible."
+}

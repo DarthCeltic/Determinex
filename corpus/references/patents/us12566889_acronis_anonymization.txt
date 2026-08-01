@@ -1,0 +1,22 @@
+US Patent 12,566,889 B2
+Title: Large Language Model-Agnostic Data Anonymization
+Inventors: Katya Fisher, Serg Bell, Lucas Puvis de Chavannes, Irina Krotova
+Assignee: Acronis International GmbH
+Filed: April 2, 2024 | Granted: March 3, 2026
+
+Abstract:
+A system and method for LLM-agnostic data anonymization. User documents are
+intercepted at upload, parsed for confidential information, and obfuscated before
+transmission to an LLM API. After the LLM returns a response, the obfuscated
+identifiers are deobfuscated before presentation to the user. Confidential information
+detection uses machine-learning classifiers or context-based search against predefined
+word lists. Obfuscation methods include encryption, replacement lists, and
+hashing-and-replacement dictionaries. Claims are document/PII oriented.
+
+Relationship to Determinex Project Cloak:
+Both systems intercept content before LLM transmission and restore the LLM response.
+Project Cloak specifically addresses source code (not documents/PII), operates at
+the AST identifier level, preserves compilability, generates a semantic key locally,
+and uses a deterministic bidirectional SymbolMap for code patch restoration.
+The Acronis patent does not disclose AST-level parsing, compilability invariants,
+semantic key generation, code-patch output type, or compile-gate integration.

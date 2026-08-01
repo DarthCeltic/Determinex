@@ -1,0 +1,66 @@
+{
+  "schema": "determinex-pb-verified-locks-v1",
+  "note": "Single source of truth. An entry is a genuine lock ONLY: cache-cleared archive eval, passed==total (0 not_run/skipped/failed), tarball sha pinned. If submission_sha256 no longer matches the archive, the lock is UNVERIFIED.",
+  "upstream_identity_status_20260716": "DEMOTED -- ALL 5 entries below fail pb_upstream_identity_scan.py (the 8th provenance dimension, built 2026-07-16 specifically to close this gap). dirble=UPSTREAM_SOURCE_PROVEN (verbatim nccgroup/dirble copyright header, Tier2 88.9% byte-identical after CRLF-normalizing the diff). handlr=UPSTREAM_SOURCE_STRONG_EVIDENCE (Tier2 87.0% byte-identical; Cargo.toml authors carries the real upstream maintainer's personal email, though the scanner's substring-match Tier1 check does not catch that specific case). ngrrram=UPSTREAM_SOURCE_STRONG_EVIDENCE (Tier2 87.5% byte-identical -- this was the one entry a manual spot-check on 2026-07-16 called 'genuinely unresolved'; the automated Tier2 diff resolved it). cheat/caesium-clt have no local submission.tar.gz archive, so are unverifiable either way and were never genuine locks under this file's own passed==total bar. Net: 0 of these 5 entries survive as reimplementation-provenance-verified. Full per-tool results: corpus/programbench/upstream_identity_scan_results.json. Do not treat any entry below as a genuine model-reimplementation lock until re-scanned clean.",
+  "locks": {
+    "cheat__cheat.b8098dc": {
+      "passed": 612,
+      "total": 614,
+      "distinct": 307,
+      "verified_date": "2026-06-18",
+      "source": "hetzner",
+      "submission_sha256": "10b5048b3de8a7b4a8339d6c4329c30b29061bfaa4765d9e56b7157d303da0ac",
+      "eval_report_sha256": "55e38cc0c4166072595712e227352e93c4bc6dd4532c2a8a1ee2ebef4aa47015",
+      "tier": "tier_2_upstream_skips",
+      "upstream_identity_verdict": "UNVERIFIABLE_NO_LOCAL_ARCHIVE"
+    },
+    "lymphatus__caesium-clt": {
+      "passed": 1238,
+      "total": 1240,
+      "distinct": 620,
+      "verified_date": "2026-06-19",
+      "source": "hetzner",
+      "submission_sha256": "",
+      "eval_report_sha256": "",
+      "tier": "tier_2_upstream_skips",
+      "archive_status": "UNVERIFIED: no local sha-pinned archive; tier2 near-lock; needs re-eval+archive to remain a verified lock",
+      "upstream_identity_verdict": "UNVERIFIABLE_NO_LOCAL_ARCHIVE"
+    },
+    "chmln__handlr.90e78ba": {
+      "passed": 1812,
+      "total": 1812,
+      "distinct": 870,
+      "verified_date": "2026-06-20",
+      "source": "rekey-reconcile",
+      "submission_sha256": "fa63ab94cf3d94b4838e15b73720e7645d9330676ed8bfa549a8aa6837164ebb",
+      "eval_report_sha256": "8635dc4871cad2fd8cff1061e7e79715327b6f8587c02c4ec9eee7525c441e43",
+      "upstream_identity_verdict": "UPSTREAM_SOURCE_STRONG_EVIDENCE"
+    },
+    "isona__dirble.e2dea9f": {
+      "passed": 2216,
+      "total": 2216,
+      "distinct": 962,
+      "verified_date": "2026-06-20",
+      "source": "rekey-reconcile",
+      "submission_sha256": "c584a3af3a8b73856e2d29e6898408682cd9e34ea5d22ea49a28403e3e55a470",
+      "eval_report_sha256": "c4257c7cb183104bd4f1964cd785d74f57de5a2f46133a21c1506386644ff944",
+      "upstream_identity_verdict": "UPSTREAM_SOURCE_PROVEN"
+    },
+    "wintermute-cell__ngrrram.8ea13c3": {
+      "passed": 664,
+      "total": 664,
+      "distinct": 313,
+      "verified_date": "2026-06-20",
+      "source": "hetzner",
+      "submission_sha256": "d2c80cb7ffc4197b8fa809d3168a5347311e52176dfcf911a06034655b6e6398",
+      "eval_report_sha256": "77997bb9d62763c9efe1cdaab9e9c1136658be0e2d19265682f313a551abdb53",
+      "upstream_identity_verdict": "UPSTREAM_SOURCE_STRONG_EVIDENCE"
+    }
+  },
+  "provenance_legend": {
+    "oracle_validated_real_binary": "executable is the real upstream tool (cp from task image) Ã¢â‚¬â€ VALIDATES the test suite is sound (an ORACLE), NOT a model reimplementation",
+    "oracle_validated_source_build": "built from real upstream source Ã¢â‚¬â€ also an oracle-validation, not a model reimplementation",
+    "python_wrapper": "python shim around the tool",
+    "model_authored": "(future) a model-generated reimplementation that passed the sound oracle Ã¢â‚¬â€ the only kind comparable to the reimplementation leaderboard"
+  }
+}
